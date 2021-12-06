@@ -248,6 +248,12 @@ extension IoT {
         public var description: String { return self.rawValue }
     }
 
+    public enum DeviceDefenderIndexingMode: String, CustomStringConvertible, Codable {
+        case off = "OFF"
+        case violations = "VIOLATIONS"
+        public var description: String { return self.rawValue }
+    }
+
     public enum DimensionType: String, CustomStringConvertible, Codable {
         case topicFilter = "TOPIC_FILTER"
         public var description: String { return self.rawValue }
@@ -408,6 +414,12 @@ extension IoT {
         case active = "ACTIVE"
         case expired = "EXPIRED"
         case pendingBuild = "PENDING_BUILD"
+        public var description: String { return self.rawValue }
+    }
+
+    public enum NamedShadowIndexingMode: String, CustomStringConvertible, Codable {
+        case off = "OFF"
+        case on = "ON"
         public var description: String { return self.rawValue }
     }
 
@@ -825,6 +837,7 @@ extension IoT {
         /// The ARN of the billing group.
         public let billingGroupArn: String?
         /// The name of the billing group.
+        /// 		        This call is asynchronous. It might take several seconds for the detachment to propagate.
         public let billingGroupName: String?
         /// The ARN of the thing to be added to the billing group.
         public let thingArn: String?
@@ -3174,6 +3187,8 @@ extension IoT {
         public let description: String?
         /// The job document. Required if you don't specify a value for documentSource.
         public let document: String?
+        /// Parameters of a managed template that you can specify to create the job document.
+        public let documentParameters: [String: String]?
         /// An S3 link to the job document. Required if you don't specify a value for document.  If the job document resides in an S3 bucket, you must use a placeholder link when specifying the document. The placeholder link is of the following form:  ${aws:iot:s3-presigned-url:https://s3.amazonaws.com/bucket/key}  where bucket is your bucket name and key is the object in the bucket to which you are linking.
         public let documentSource: String?
         /// Allows you to create a staged rollout of the job.
@@ -3195,10 +3210,11 @@ extension IoT {
         /// Specifies the amount of time each device has to finish its execution of the job. The timer  is started when the job execution status is set to IN_PROGRESS. If the job  execution status is not set to another terminal state before the time expires, it will be  automatically set to TIMED_OUT.
         public let timeoutConfig: TimeoutConfig?
 
-        public init(abortConfig: AbortConfig? = nil, description: String? = nil, document: String? = nil, documentSource: String? = nil, jobExecutionsRolloutConfig: JobExecutionsRolloutConfig? = nil, jobId: String, jobTemplateArn: String? = nil, namespaceId: String? = nil, presignedUrlConfig: PresignedUrlConfig? = nil, tags: [Tag]? = nil, targets: [String], targetSelection: TargetSelection? = nil, timeoutConfig: TimeoutConfig? = nil) {
+        public init(abortConfig: AbortConfig? = nil, description: String? = nil, document: String? = nil, documentParameters: [String: String]? = nil, documentSource: String? = nil, jobExecutionsRolloutConfig: JobExecutionsRolloutConfig? = nil, jobId: String, jobTemplateArn: String? = nil, namespaceId: String? = nil, presignedUrlConfig: PresignedUrlConfig? = nil, tags: [Tag]? = nil, targets: [String], targetSelection: TargetSelection? = nil, timeoutConfig: TimeoutConfig? = nil) {
             self.abortConfig = abortConfig
             self.description = description
             self.document = document
+            self.documentParameters = documentParameters
             self.documentSource = documentSource
             self.jobExecutionsRolloutConfig = jobExecutionsRolloutConfig
             self.jobId = jobId
@@ -3216,6 +3232,14 @@ extension IoT {
             try self.validate(self.description, name: "description", parent: name, max: 2028)
             try self.validate(self.description, name: "description", parent: name, pattern: "^[^\\p{C}]+$")
             try self.validate(self.document, name: "document", parent: name, max: 32768)
+            try self.documentParameters?.forEach {
+                try validate($0.key, name: "documentParameters.key", parent: name, max: 128)
+                try validate($0.key, name: "documentParameters.key", parent: name, min: 1)
+                try validate($0.key, name: "documentParameters.key", parent: name, pattern: "^[a-zA-Z0-9_-]+$")
+                try validate($0.value, name: "documentParameters[\"\($0.key)\"]", parent: name, max: 512)
+                try validate($0.value, name: "documentParameters[\"\($0.key)\"]", parent: name, min: 1)
+                try validate($0.value, name: "documentParameters[\"\($0.key)\"]", parent: name, pattern: "^[^\\p{C}]+$")
+            }
             try self.validate(self.documentSource, name: "documentSource", parent: name, max: 1350)
             try self.validate(self.documentSource, name: "documentSource", parent: name, min: 1)
             try self.jobExecutionsRolloutConfig?.validate(name: "\(name).jobExecutionsRolloutConfig")
@@ -3242,6 +3266,7 @@ extension IoT {
             case abortConfig
             case description
             case document
+            case documentParameters
             case documentSource
             case jobExecutionsRolloutConfig
             case jobTemplateArn
@@ -4070,7 +4095,7 @@ extension IoT {
         public let description: String?
         /// The files to stream.
         public let files: [StreamFile]
-        /// An IAM role that allows the IoT service principal assumes to access your S3 files.
+        /// An IAM role that allows the IoT service principal to access your S3 files.
         public let roleArn: String
         /// The stream ID.
         public let streamId: String
@@ -6014,7 +6039,7 @@ extension IoT {
         public let indexName: String?
         /// The index status.
         public let indexStatus: IndexStatus?
-        /// Contains a value that specifies the type of indexing performed. Valid values are:   REGISTRY – Your thing index contains only registry data.   REGISTRY_AND_SHADOW - Your thing index contains registry data and shadow data.   REGISTRY_AND_CONNECTIVITY_STATUS - Your thing index contains registry data and thing connectivity status data.   REGISTRY_AND_SHADOW_AND_CONNECTIVITY_STATUS - Your thing index contains registry data, shadow data, and thing connectivity status data.
+        /// Contains a value that specifies the type of indexing performed. Valid values are:   REGISTRY – Your thing index contains only registry data.   REGISTRY_AND_SHADOW - Your thing index contains registry data and shadow data.   REGISTRY_AND_CONNECTIVITY_STATUS - Your thing index contains registry data and thing connectivity status data.   REGISTRY_AND_SHADOW_AND_CONNECTIVITY_STATUS - Your thing index contains registry data, shadow data, and thing connectivity status data.   MULTI_INDEXING_MODE - Your thing index contains multiple data sources. For more information, see  GetIndexingConfiguration.
         public let schema: String?
 
         public init(indexName: String? = nil, indexStatus: IndexStatus? = nil, schema: String? = nil) {
@@ -6176,6 +6201,68 @@ extension IoT {
             case jobTemplateId
             case presignedUrlConfig
             case timeoutConfig
+        }
+    }
+
+    public struct DescribeManagedJobTemplateRequest: AWSEncodableShape {
+        public static var _encoding = [
+            AWSMemberEncoding(label: "templateName", location: .uri("templateName")),
+            AWSMemberEncoding(label: "templateVersion", location: .querystring("templateVersion"))
+        ]
+
+        /// The unique name of a managed job template, which is required.
+        public let templateName: String
+        /// An optional parameter to specify version of a managed template. If not specified, the  pre-defined default version is returned.
+        public let templateVersion: String?
+
+        public init(templateName: String, templateVersion: String? = nil) {
+            self.templateName = templateName
+            self.templateVersion = templateVersion
+        }
+
+        public func validate(name: String) throws {
+            try self.validate(self.templateName, name: "templateName", parent: name, max: 64)
+            try self.validate(self.templateName, name: "templateName", parent: name, min: 1)
+            try self.validate(self.templateVersion, name: "templateVersion", parent: name, pattern: "^[1-9]+.[0-9]+$")
+        }
+
+        private enum CodingKeys: CodingKey {}
+    }
+
+    public struct DescribeManagedJobTemplateResponse: AWSDecodableShape {
+        /// The unique description of a managed template.
+        public let description: String?
+        /// The document schema for a managed job template.
+        public let document: String?
+        /// A map of key-value pairs that you can use as guidance to specify the inputs for creating  a job from a managed template.
+        public let documentParameters: [DocumentParameter]?
+        /// A list of environments that are supported with the managed job template.
+        public let environments: [String]?
+        /// The unique Amazon Resource Name (ARN) of the managed template.
+        public let templateArn: String?
+        /// The unique name of a managed template, such as AWS-Reboot.
+        public let templateName: String?
+        /// The version for a managed template.
+        public let templateVersion: String?
+
+        public init(description: String? = nil, document: String? = nil, documentParameters: [DocumentParameter]? = nil, environments: [String]? = nil, templateArn: String? = nil, templateName: String? = nil, templateVersion: String? = nil) {
+            self.description = description
+            self.document = document
+            self.documentParameters = documentParameters
+            self.environments = environments
+            self.templateArn = templateArn
+            self.templateName = templateName
+            self.templateVersion = templateVersion
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case description
+            case document
+            case documentParameters
+            case environments
+            case templateArn
+            case templateName
+            case templateVersion
         }
     }
 
@@ -7136,6 +7223,35 @@ extension IoT {
         private enum CodingKeys: CodingKey {}
     }
 
+    public struct DocumentParameter: AWSDecodableShape {
+        /// Description of the map field containing the patterns that need to be replaced in a  managed template job document schema.
+        public let description: String?
+        /// An example illustrating a pattern that need to be replaced in a managed template  job document schema.
+        public let example: String?
+        /// Key of the map field containing the patterns that need to be replaced in a managed template job document schema.
+        public let key: String?
+        /// Specifies whether a pattern that needs to be replaced in a managed template job document  schema is optional or required.
+        public let optional: Bool?
+        /// A regular expression of the patterns that need to be replaced in a managed template  job document schema.
+        public let regex: String?
+
+        public init(description: String? = nil, example: String? = nil, key: String? = nil, optional: Bool? = nil, regex: String? = nil) {
+            self.description = description
+            self.example = example
+            self.key = key
+            self.optional = optional
+            self.regex = regex
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case description
+            case example
+            case key
+            case optional
+            case regex
+        }
+    }
+
     public struct DomainConfigurationSummary: AWSDecodableShape {
         /// The ARN of the domain configuration.
         public let domainConfigurationArn: String?
@@ -7368,7 +7484,7 @@ extension IoT {
             try self.validate(self.baseRatePerMinute, name: "baseRatePerMinute", parent: name, max: 1000)
             try self.validate(self.baseRatePerMinute, name: "baseRatePerMinute", parent: name, min: 1)
             try self.validate(self.incrementFactor, name: "incrementFactor", parent: name, max: 5.0)
-            try self.validate(self.incrementFactor, name: "incrementFactor", parent: name, min: 1.0)
+            try self.validate(self.incrementFactor, name: "incrementFactor", parent: name, min: 1.1)
             try self.rateIncreaseCriteria.validate(name: "\(name).rateIncreaseCriteria")
         }
 
@@ -7553,7 +7669,7 @@ extension IoT {
     public struct GetBucketsAggregationResponse: AWSDecodableShape {
         /// The main part of the response with a list of buckets. Each bucket contains a keyValue and a count.  keyValue: The aggregation field value counted for the particular bucket.  count: The number of documents that have that value.
         public let buckets: [Bucket]?
-        /// The total number of documents that fit the query string criteria and contain a value for the Aggregation field targeted in the request.
+        /// The total number of things that fit the query string criteria.
         public let totalCount: Int?
 
         public init(buckets: [Bucket]? = nil, totalCount: Int? = nil) {
@@ -8360,6 +8476,8 @@ extension IoT {
         public let createdAt: Date?
         /// A short text description of the job.
         public let description: String?
+        /// A key-value map that pairs the patterns that need to be replaced in a managed  template job document schema. You can use the description of each key as a guidance  to specify the inputs during runtime when creating a job.
+        public let documentParameters: [String: String]?
         /// Will be true if the job was canceled with the optional force parameter set to  true.
         public let forceCanceled: Bool?
         /// An ARN identifying the job with format "arn:aws:iot:region:account:job/jobId".
@@ -8389,12 +8507,13 @@ extension IoT {
         /// Specifies the amount of time each device has to finish its execution of the job.  A timer  is started when the job execution status is set to IN_PROGRESS. If the job  execution status is not set to another terminal state before the timer expires, it will be automatically set to TIMED_OUT.
         public let timeoutConfig: TimeoutConfig?
 
-        public init(abortConfig: AbortConfig? = nil, comment: String? = nil, completedAt: Date? = nil, createdAt: Date? = nil, description: String? = nil, forceCanceled: Bool? = nil, jobArn: String? = nil, jobExecutionsRolloutConfig: JobExecutionsRolloutConfig? = nil, jobId: String? = nil, jobProcessDetails: JobProcessDetails? = nil, jobTemplateArn: String? = nil, lastUpdatedAt: Date? = nil, namespaceId: String? = nil, presignedUrlConfig: PresignedUrlConfig? = nil, reasonCode: String? = nil, status: JobStatus? = nil, targets: [String]? = nil, targetSelection: TargetSelection? = nil, timeoutConfig: TimeoutConfig? = nil) {
+        public init(abortConfig: AbortConfig? = nil, comment: String? = nil, completedAt: Date? = nil, createdAt: Date? = nil, description: String? = nil, documentParameters: [String: String]? = nil, forceCanceled: Bool? = nil, jobArn: String? = nil, jobExecutionsRolloutConfig: JobExecutionsRolloutConfig? = nil, jobId: String? = nil, jobProcessDetails: JobProcessDetails? = nil, jobTemplateArn: String? = nil, lastUpdatedAt: Date? = nil, namespaceId: String? = nil, presignedUrlConfig: PresignedUrlConfig? = nil, reasonCode: String? = nil, status: JobStatus? = nil, targets: [String]? = nil, targetSelection: TargetSelection? = nil, timeoutConfig: TimeoutConfig? = nil) {
             self.abortConfig = abortConfig
             self.comment = comment
             self.completedAt = completedAt
             self.createdAt = createdAt
             self.description = description
+            self.documentParameters = documentParameters
             self.forceCanceled = forceCanceled
             self.jobArn = jobArn
             self.jobExecutionsRolloutConfig = jobExecutionsRolloutConfig
@@ -8417,6 +8536,7 @@ extension IoT {
             case completedAt
             case createdAt
             case description
+            case documentParameters
             case forceCanceled
             case jobArn
             case jobExecutionsRolloutConfig
@@ -9989,6 +10109,53 @@ extension IoT {
 
         private enum CodingKeys: String, CodingKey {
             case jobs
+            case nextToken
+        }
+    }
+
+    public struct ListManagedJobTemplatesRequest: AWSEncodableShape {
+        public static var _encoding = [
+            AWSMemberEncoding(label: "maxResults", location: .querystring("maxResults")),
+            AWSMemberEncoding(label: "nextToken", location: .querystring("nextToken")),
+            AWSMemberEncoding(label: "templateName", location: .querystring("templateName"))
+        ]
+
+        /// Maximum number of entries that can be returned.
+        public let maxResults: Int?
+        /// The token to retrieve the next set of results.
+        public let nextToken: String?
+        /// An optional parameter for template name. If specified, only the versions of the managed job templates that have the specified template name will be returned.
+        public let templateName: String?
+
+        public init(maxResults: Int? = nil, nextToken: String? = nil, templateName: String? = nil) {
+            self.maxResults = maxResults
+            self.nextToken = nextToken
+            self.templateName = templateName
+        }
+
+        public func validate(name: String) throws {
+            try self.validate(self.maxResults, name: "maxResults", parent: name, max: 250)
+            try self.validate(self.maxResults, name: "maxResults", parent: name, min: 1)
+            try self.validate(self.templateName, name: "templateName", parent: name, max: 64)
+            try self.validate(self.templateName, name: "templateName", parent: name, min: 1)
+        }
+
+        private enum CodingKeys: CodingKey {}
+    }
+
+    public struct ListManagedJobTemplatesResponse: AWSDecodableShape {
+        /// A list of managed job templates that are returned.
+        public let managedJobTemplates: [ManagedJobTemplateSummary]?
+        /// The token to retrieve the next set of results.
+        public let nextToken: String?
+
+        public init(managedJobTemplates: [ManagedJobTemplateSummary]? = nil, nextToken: String? = nil) {
+            self.managedJobTemplates = managedJobTemplates
+            self.nextToken = nextToken
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case managedJobTemplates
             case nextToken
         }
     }
@@ -11582,6 +11749,35 @@ extension IoT {
 
         private enum CodingKeys: String, CodingKey {
             case confidenceLevel
+        }
+    }
+
+    public struct ManagedJobTemplateSummary: AWSDecodableShape {
+        /// The description for a managed template.
+        public let description: String?
+        /// A list of environments that are supported with the managed job template.
+        public let environments: [String]?
+        /// The Amazon Resource Name (ARN) for a managed template.
+        public let templateArn: String?
+        /// The unique Name for a managed template.
+        public let templateName: String?
+        /// The version for a managed template.
+        public let templateVersion: String?
+
+        public init(description: String? = nil, environments: [String]? = nil, templateArn: String? = nil, templateName: String? = nil, templateVersion: String? = nil) {
+            self.description = description
+            self.environments = environments
+            self.templateArn = templateArn
+            self.templateName = templateName
+            self.templateVersion = templateVersion
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case description
+            case environments
+            case templateArn
+            case templateName
+            case templateVersion
         }
     }
 
@@ -13520,7 +13716,7 @@ extension IoT {
     public struct Statistics: AWSDecodableShape {
         /// The average of the aggregated field values.
         public let average: Double?
-        /// The count of things that match the query.
+        /// The count of things that match the query string criteria and contain a valid aggregation field value.
         public let count: Int?
         /// The maximum aggregated field value.
         public let maximum: Double?
@@ -14053,7 +14249,9 @@ extension IoT {
         public let attributes: [String: String]?
         /// Indicates whether the thing is connected to the Amazon Web Services IoT Core service.
         public let connectivity: ThingConnectivity?
-        /// The shadow.
+        /// Contains Device Defender data. For more information about Device Defender, see Device Defender.
+        public let deviceDefender: String?
+        /// The unnamed shadow and named shadow. For more information about shadows, see IoT Device Shadow service.
         public let shadow: String?
         /// Thing group names.
         public let thingGroupNames: [String]?
@@ -14064,9 +14262,10 @@ extension IoT {
         /// The thing type name.
         public let thingTypeName: String?
 
-        public init(attributes: [String: String]? = nil, connectivity: ThingConnectivity? = nil, shadow: String? = nil, thingGroupNames: [String]? = nil, thingId: String? = nil, thingName: String? = nil, thingTypeName: String? = nil) {
+        public init(attributes: [String: String]? = nil, connectivity: ThingConnectivity? = nil, deviceDefender: String? = nil, shadow: String? = nil, thingGroupNames: [String]? = nil, thingId: String? = nil, thingName: String? = nil, thingTypeName: String? = nil) {
             self.attributes = attributes
             self.connectivity = connectivity
+            self.deviceDefender = deviceDefender
             self.shadow = shadow
             self.thingGroupNames = thingGroupNames
             self.thingId = thingId
@@ -14077,6 +14276,7 @@ extension IoT {
         private enum CodingKeys: String, CodingKey {
             case attributes
             case connectivity
+            case deviceDefender
             case shadow
             case thingGroupNames
             case thingId
@@ -14182,23 +14382,31 @@ extension IoT {
     public struct ThingIndexingConfiguration: AWSEncodableShape & AWSDecodableShape {
         /// Contains custom field names and their data type.
         public let customFields: [Field]?
+        /// Device Defender indexing mode. Valid values are:   VIOLATIONS – Your thing index contains Device Defender violations. To enable Device Defender indexing, deviceDefenderIndexingMode must not be set to OFF.   OFF - Device Defender indexing is disabled.   For more information about Device Defender violations, see Device Defender Detect.
+        public let deviceDefenderIndexingMode: DeviceDefenderIndexingMode?
         /// Contains fields that are indexed and whose types are already known by the Fleet Indexing service.
         public let managedFields: [Field]?
+        /// Named shadow indexing mode. Valid values are:   ON – Your thing index contains named shadow. To enable thing named shadow indexing, namedShadowIndexingMode must not be set to OFF.   OFF - Named shadow indexing is disabled.   For more information about Shadows, see IoT Device Shadow service.
+        public let namedShadowIndexingMode: NamedShadowIndexingMode?
         /// Thing connectivity indexing mode. Valid values are:    STATUS – Your thing index contains connectivity status. To enable thing connectivity indexing, thingIndexMode must not be set to OFF.   OFF - Thing connectivity status indexing is disabled.
         public let thingConnectivityIndexingMode: ThingConnectivityIndexingMode?
         /// Thing indexing mode. Valid values are:   REGISTRY – Your thing index contains registry data only.   REGISTRY_AND_SHADOW - Your thing index contains registry and shadow data.   OFF - Thing indexing is disabled.
         public let thingIndexingMode: ThingIndexingMode
 
-        public init(customFields: [Field]? = nil, managedFields: [Field]? = nil, thingConnectivityIndexingMode: ThingConnectivityIndexingMode? = nil, thingIndexingMode: ThingIndexingMode) {
+        public init(customFields: [Field]? = nil, deviceDefenderIndexingMode: DeviceDefenderIndexingMode? = nil, managedFields: [Field]? = nil, namedShadowIndexingMode: NamedShadowIndexingMode? = nil, thingConnectivityIndexingMode: ThingConnectivityIndexingMode? = nil, thingIndexingMode: ThingIndexingMode) {
             self.customFields = customFields
+            self.deviceDefenderIndexingMode = deviceDefenderIndexingMode
             self.managedFields = managedFields
+            self.namedShadowIndexingMode = namedShadowIndexingMode
             self.thingConnectivityIndexingMode = thingConnectivityIndexingMode
             self.thingIndexingMode = thingIndexingMode
         }
 
         private enum CodingKeys: String, CodingKey {
             case customFields
+            case deviceDefenderIndexingMode
             case managedFields
+            case namedShadowIndexingMode
             case thingConnectivityIndexingMode
             case thingIndexingMode
         }

@@ -34,6 +34,7 @@ public struct KinesisErrorType: AWSErrorType {
         case provisionedThroughputExceededException = "ProvisionedThroughputExceededException"
         case resourceInUseException = "ResourceInUseException"
         case resourceNotFoundException = "ResourceNotFoundException"
+        case validationException = "ValidationException"
     }
 
     private let error: Code
@@ -66,22 +67,24 @@ public struct KinesisErrorType: AWSErrorType {
     public static var kmsAccessDeniedException: Self { .init(.kmsAccessDeniedException) }
     /// The request was rejected because the specified customer master key (CMK) isn't enabled.
     public static var kmsDisabledException: Self { .init(.kmsDisabledException) }
-    /// The request was rejected because the state of the specified resource isn't valid for this request. For more information, see How Key State Affects Use of a Customer Master Key in the AWS Key Management Service Developer Guide.
+    /// The request was rejected because the state of the specified resource isn't valid for this request. For more information, see How Key State Affects Use of a Customer Master Key in the Amazon Web Services Key Management Service Developer Guide.
     public static var kmsInvalidStateException: Self { .init(.kmsInvalidStateException) }
     /// The request was rejected because the specified entity or resource can't be found.
     public static var kmsNotFoundException: Self { .init(.kmsNotFoundException) }
-    /// The AWS access key ID needs a subscription for the service.
+    /// The Amazon Web Services access key ID needs a subscription for the service.
     public static var kmsOptInRequired: Self { .init(.kmsOptInRequired) }
-    /// The request was denied due to request throttling. For more information about throttling, see Limits in the AWS Key Management Service Developer Guide.
+    /// The request was denied due to request throttling. For more information about throttling, see Limits in the Amazon Web Services Key Management Service Developer Guide.
     public static var kmsThrottlingException: Self { .init(.kmsThrottlingException) }
     /// The requested resource exceeds the maximum number allowed, or the number of concurrent stream requests exceeds the maximum number allowed.
     public static var limitExceededException: Self { .init(.limitExceededException) }
-    /// The request rate for the stream is too high, or the requested data is too large for the available throughput. Reduce the frequency or size of your requests. For more information, see Streams Limits in the Amazon Kinesis Data Streams Developer Guide, and Error Retries and Exponential Backoff in AWS in the AWS General Reference.
+    /// The request rate for the stream is too high, or the requested data is too large for the available throughput. Reduce the frequency or size of your requests. For more information, see Streams Limits in the Amazon Kinesis Data Streams Developer Guide, and Error Retries and Exponential Backoff in Amazon Web Services in the Amazon Web Services General Reference.
     public static var provisionedThroughputExceededException: Self { .init(.provisionedThroughputExceededException) }
     /// The resource is not available for this operation. For successful operation, the resource must be in the ACTIVE state.
     public static var resourceInUseException: Self { .init(.resourceInUseException) }
     /// The requested resource could not be found. The stream might not be specified correctly.
     public static var resourceNotFoundException: Self { .init(.resourceNotFoundException) }
+    ///
+    public static var validationException: Self { .init(.validationException) }
 }
 
 extension KinesisErrorType: Equatable {

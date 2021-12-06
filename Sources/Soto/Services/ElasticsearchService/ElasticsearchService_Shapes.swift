@@ -1693,6 +1693,23 @@ extension ElasticsearchService {
         }
     }
 
+    public struct DryRunResults: AWSDecodableShape {
+        ///  Specifies the deployment mechanism through which the update shall be applied on the domain. Possible responses are Blue/Green (The update will require a blue/green deployment.) DynamicUpdate (The update can be applied in-place without a Blue/Green deployment required.) Undetermined (The domain is undergoing an update which needs to complete before the deployment type can be predicted.) None (The configuration change matches the current configuration and will not result in any update.)
+        public let deploymentType: String?
+        /// Contains an optional message associated with the DryRunResults.
+        public let message: String?
+
+        public init(deploymentType: String? = nil, message: String? = nil) {
+            self.deploymentType = deploymentType
+            self.message = message
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case deploymentType = "DeploymentType"
+            case message = "Message"
+        }
+    }
+
     public struct Duration: AWSEncodableShape & AWSDecodableShape {
         /// Specifies the unit of a maintenance schedule duration. Valid value is HOURS. See the Developer Guide for more information.
         public let unit: TimeUnit?
@@ -3342,6 +3359,8 @@ extension ElasticsearchService {
         public let domainEndpointOptions: DomainEndpointOptions?
         /// The name of the Elasticsearch domain that you are updating.
         public let domainName: String
+        ///  This flag, when set to True, specifies whether the UpdateElasticsearchDomain request should return the results of validation checks without actually applying the change. This flag, when set to True, specifies the deployment mechanism through which the update shall be applied on the domain. This will not actually perform the Update.
+        public let dryRun: Bool?
         /// Specify the type and size of the EBS volume that you want to use.
         public let ebsOptions: EBSOptions?
         /// The type and number of instances to instantiate for the domain cluster.
@@ -3357,7 +3376,7 @@ extension ElasticsearchService {
         /// Options to specify the subnets and security groups for VPC endpoint. For more information, see Creating a VPC in VPC Endpoints for Amazon Elasticsearch Service Domains
         public let vpcOptions: VPCOptions?
 
-        public init(accessPolicies: String? = nil, advancedOptions: [String: String]? = nil, advancedSecurityOptions: AdvancedSecurityOptionsInput? = nil, autoTuneOptions: AutoTuneOptions? = nil, cognitoOptions: CognitoOptions? = nil, domainEndpointOptions: DomainEndpointOptions? = nil, domainName: String, ebsOptions: EBSOptions? = nil, elasticsearchClusterConfig: ElasticsearchClusterConfig? = nil, encryptionAtRestOptions: EncryptionAtRestOptions? = nil, logPublishingOptions: [LogType: LogPublishingOption]? = nil, nodeToNodeEncryptionOptions: NodeToNodeEncryptionOptions? = nil, snapshotOptions: SnapshotOptions? = nil, vpcOptions: VPCOptions? = nil) {
+        public init(accessPolicies: String? = nil, advancedOptions: [String: String]? = nil, advancedSecurityOptions: AdvancedSecurityOptionsInput? = nil, autoTuneOptions: AutoTuneOptions? = nil, cognitoOptions: CognitoOptions? = nil, domainEndpointOptions: DomainEndpointOptions? = nil, domainName: String, dryRun: Bool? = nil, ebsOptions: EBSOptions? = nil, elasticsearchClusterConfig: ElasticsearchClusterConfig? = nil, encryptionAtRestOptions: EncryptionAtRestOptions? = nil, logPublishingOptions: [LogType: LogPublishingOption]? = nil, nodeToNodeEncryptionOptions: NodeToNodeEncryptionOptions? = nil, snapshotOptions: SnapshotOptions? = nil, vpcOptions: VPCOptions? = nil) {
             self.accessPolicies = accessPolicies
             self.advancedOptions = advancedOptions
             self.advancedSecurityOptions = advancedSecurityOptions
@@ -3365,6 +3384,7 @@ extension ElasticsearchService {
             self.cognitoOptions = cognitoOptions
             self.domainEndpointOptions = domainEndpointOptions
             self.domainName = domainName
+            self.dryRun = dryRun
             self.ebsOptions = ebsOptions
             self.elasticsearchClusterConfig = elasticsearchClusterConfig
             self.encryptionAtRestOptions = encryptionAtRestOptions
@@ -3392,6 +3412,7 @@ extension ElasticsearchService {
             case autoTuneOptions = "AutoTuneOptions"
             case cognitoOptions = "CognitoOptions"
             case domainEndpointOptions = "DomainEndpointOptions"
+            case dryRun = "DryRun"
             case ebsOptions = "EBSOptions"
             case elasticsearchClusterConfig = "ElasticsearchClusterConfig"
             case encryptionAtRestOptions = "EncryptionAtRestOptions"
@@ -3405,13 +3426,17 @@ extension ElasticsearchService {
     public struct UpdateElasticsearchDomainConfigResponse: AWSDecodableShape {
         /// The status of the updated Elasticsearch domain.
         public let domainConfig: ElasticsearchDomainConfig
+        /// Contains result of DryRun.
+        public let dryRunResults: DryRunResults?
 
-        public init(domainConfig: ElasticsearchDomainConfig) {
+        public init(domainConfig: ElasticsearchDomainConfig, dryRunResults: DryRunResults? = nil) {
             self.domainConfig = domainConfig
+            self.dryRunResults = dryRunResults
         }
 
         private enum CodingKeys: String, CodingKey {
             case domainConfig = "DomainConfig"
+            case dryRunResults = "DryRunResults"
         }
     }
 

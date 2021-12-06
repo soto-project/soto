@@ -22,6 +22,7 @@ public struct NetworkManagerErrorType: AWSErrorType {
     enum Code: String {
         case accessDeniedException = "AccessDeniedException"
         case conflictException = "ConflictException"
+        case coreNetworkPolicyException = "CoreNetworkPolicyException"
         case internalServerException = "InternalServerException"
         case resourceNotFoundException = "ResourceNotFoundException"
         case serviceQuotaExceededException = "ServiceQuotaExceededException"
@@ -51,6 +52,8 @@ public struct NetworkManagerErrorType: AWSErrorType {
     public static var accessDeniedException: Self { .init(.accessDeniedException) }
     /// There was a conflict processing the request. Updating or deleting the resource can cause an inconsistent state.
     public static var conflictException: Self { .init(.conflictException) }
+    /// Describes a core network policy exception.
+    public static var coreNetworkPolicyException: Self { .init(.coreNetworkPolicyException) }
     /// The request has failed due to an internal error.
     public static var internalServerException: Self { .init(.internalServerException) }
     /// The specified resource could not be found.

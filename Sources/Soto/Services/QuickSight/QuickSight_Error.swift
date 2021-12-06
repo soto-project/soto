@@ -101,8 +101,8 @@ public struct QuickSightErrorType: AWSErrorType {
     public static var throttlingException: Self { .init(.throttlingException) }
     /// This error indicates that you are calling an embedding operation in Amazon QuickSight
     /// 			without the required pricing plan on your Amazon Web Services account. Before you can use embedding
-    /// 			for anonymous users, a Amazon QuickSight administrator needs to add capacity pricing to Amazon QuickSight. You
-    /// 		    can do this on the Manage Amazon QuickSight page.  After capacity pricing is added, you can use the  GetDashboardEmbedUrl API operation with the  --identity-type ANONYMOUS option.
+    /// 			for anonymous users, a QuickSight administrator needs to add capacity pricing to Amazon QuickSight. You
+    /// 		    can do this on the Manage Amazon QuickSight page.  After capacity pricing is added, you can use the   GetDashboardEmbedUrl API operation with the  --identity-type ANONYMOUS option.
     public static var unsupportedPricingPlanException: Self { .init(.unsupportedPricingPlanException) }
     /// This error indicates that you are calling an operation on an Amazon QuickSight
     /// 			subscription where the edition doesn't include support for that operation. Amazon

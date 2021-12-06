@@ -28,7 +28,7 @@ extension QuickSight {
         return try await self.client.execute(operation: "CancelIngestion", path: "/accounts/{AwsAccountId}/data-sets/{DataSetId}/ingestions/{IngestionId}", httpMethod: .DELETE, serviceConfig: self.config, input: input, logger: logger, on: eventLoop)
     }
 
-    /// Creates Amazon QuickSight customizations the current Amazon Web Services Region. Currently, you can add a custom default theme by using the CreateAccountCustomization or UpdateAccountCustomization API operation. To further customize Amazon QuickSight by removing Amazon QuickSight sample assets and videos for all new users, see Customizing Amazon QuickSight in the Amazon QuickSight User Guide.  You can create customizations for your Amazon Web Services account or, if you specify a namespace, for a Amazon QuickSight namespace instead. Customizations that apply to a namespace always override customizations that apply to an Amazon Web Services account. To find out which customizations apply, use the DescribeAccountCustomization API operation. Before you use the CreateAccountCustomization API operation to add a theme as the namespace default, make sure that you first share the theme with the namespace. If you don't share it with the namespace, the theme isn't visible to your users even if you make it the default theme. To check if the theme is shared, view the current permissions by using the  DescribeThemePermissions API operation. To share the theme, grant permissions by using the  UpdateThemePermissions API operation.
+    /// Creates Amazon QuickSight customizations the current Amazon Web Services Region. Currently, you can add a custom default theme by using the CreateAccountCustomization or UpdateAccountCustomization API operation. To further customize Amazon QuickSight by removing Amazon QuickSight sample assets and videos for all new users, see Customizing Amazon QuickSight in the Amazon QuickSight User Guide.  You can create customizations for your Amazon Web Services account or, if you specify a namespace, for a QuickSight namespace instead. Customizations that apply to a namespace always override customizations that apply to an Amazon Web Services account. To find out which customizations apply, use the DescribeAccountCustomization API operation. Before you use the CreateAccountCustomization API operation to add a theme as the namespace default, make sure that you first share the theme with the namespace. If you don't share it with the namespace, the theme isn't visible to your users even if you make it the default theme. To check if the theme is shared, view the current permissions by using the  DescribeThemePermissions  API operation. To share the theme, grant permissions by using the  UpdateThemePermissions  API operation.
     public func createAccountCustomization(_ input: CreateAccountCustomizationRequest, logger: Logger = AWSClient.loggingDisabled, on eventLoop: EventLoop? = nil) async throws -> CreateAccountCustomizationResponse {
         return try await self.client.execute(operation: "CreateAccountCustomization", path: "/accounts/{AwsAccountId}/customizations", httpMethod: .POST, serviceConfig: self.config, input: input, logger: logger, on: eventLoop)
     }
@@ -38,7 +38,7 @@ extension QuickSight {
         return try await self.client.execute(operation: "CreateAnalysis", path: "/accounts/{AwsAccountId}/analyses/{AnalysisId}", httpMethod: .POST, serviceConfig: self.config, input: input, logger: logger, on: eventLoop)
     }
 
-    /// Creates a dashboard from a template. To first create a template, see the  CreateTemplate API operation. A dashboard is an entity in Amazon QuickSight that identifies Amazon QuickSight reports, created from analyses. You can share Amazon QuickSight dashboards. With the right permissions, you can create scheduled email reports from them. If you have the correct permissions, you can create a dashboard from a template that exists in a different Amazon Web Services account.
+    /// Creates a dashboard from a template. To first create a template, see the   CreateTemplate  API operation. A dashboard is an entity in Amazon QuickSight that identifies Amazon QuickSight reports, created from analyses. You can share Amazon QuickSight dashboards. With the right permissions, you can create scheduled email reports from them. If you have the correct permissions, you can create a dashboard from a template that exists in a different Amazon Web Services account.
     public func createDashboard(_ input: CreateDashboardRequest, logger: Logger = AWSClient.loggingDisabled, on eventLoop: EventLoop? = nil) async throws -> CreateDashboardResponse {
         return try await self.client.execute(operation: "CreateDashboard", path: "/accounts/{AwsAccountId}/dashboards/{DashboardId}", httpMethod: .POST, serviceConfig: self.config, input: input, logger: logger, on: eventLoop)
     }
@@ -76,7 +76,7 @@ extension QuickSight {
         return try await self.client.execute(operation: "CreateGroupMembership", path: "/accounts/{AwsAccountId}/namespaces/{Namespace}/groups/{GroupName}/members/{MemberName}", httpMethod: .PUT, serviceConfig: self.config, input: input, logger: logger, on: eventLoop)
     }
 
-    /// Creates an assignment with one specified IAMpolicy, identified by its Amazon Resource Name
+    /// Creates an assignment with one specified IAM policy, identified by its Amazon Resource Name
     /// 			(ARN). This policy assignment is attached to the specified groups or users of Amazon QuickSight.
     /// 			Assignment names are unique per Amazon Web Services account. To avoid overwriting rules in other namespaces,
     /// 			use assignment names that are unique.
@@ -174,7 +174,7 @@ extension QuickSight {
         return try await self.client.execute(operation: "DeleteGroupMembership", path: "/accounts/{AwsAccountId}/namespaces/{Namespace}/groups/{GroupName}/members/{MemberName}", httpMethod: .DELETE, serviceConfig: self.config, input: input, logger: logger, on: eventLoop)
     }
 
-    /// Deletes an existing IAMpolicy assignment.
+    /// Deletes an existing IAM policy assignment.
     public func deleteIAMPolicyAssignment(_ input: DeleteIAMPolicyAssignmentRequest, logger: Logger = AWSClient.loggingDisabled, on eventLoop: EventLoop? = nil) async throws -> DeleteIAMPolicyAssignmentResponse {
         return try await self.client.execute(operation: "DeleteIAMPolicyAssignment", path: "/accounts/{AwsAccountId}/namespace/{Namespace}/iam-policy-assignments/{AssignmentName}", httpMethod: .DELETE, serviceConfig: self.config, input: input, logger: logger, on: eventLoop)
     }
@@ -219,7 +219,7 @@ extension QuickSight {
         return try await self.client.execute(operation: "DeleteUserByPrincipalId", path: "/accounts/{AwsAccountId}/namespaces/{Namespace}/user-principals/{PrincipalId}", httpMethod: .DELETE, serviceConfig: self.config, input: input, logger: logger, on: eventLoop)
     }
 
-    /// Describes the customizations associated with the provided Amazon Web Services account and Amazon Amazon QuickSight namespace in an Amazon Web Services Region. The Amazon QuickSight console evaluates which customizations to apply by running this API operation with the Resolved flag included.  To determine what customizations display when you run this command, it can help to visualize the relationship of the entities involved.     Amazon Web Services account - The Amazon Web Services account exists at the top of the hierarchy. It has the potential to use all of the Amazon Web Services Regions and AWS Services. When you subscribe to Amazon QuickSight, you choose one Amazon Web Services Region to use as your home Region. That's where your free SPICE capacity is located. You can use Amazon QuickSight in any supported Amazon Web Services Region.     Amazon Web Services Region - In each Amazon Web Services Region where you sign in to Amazon QuickSight at least once, Amazon QuickSight acts as a separate instance of the same service. If you have a user directory, it resides in us-east-1, which is the US East (N. Virginia). Generally speaking, these users have access to Amazon QuickSight in any Amazon Web Services Region, unless they are constrained to a namespace.  To run the command in a different Amazon Web Services Region, you change your Region settings. If you're using the AWS CLI, you can use one of the following options:   Use command line options.    Use named profiles.    Run aws configure to change your default Amazon Web Services Region. Use Enter to key the same settings for your keys. For more information, see Configuring the AWS CLI.      Namespace - A Amazon QuickSight namespace is a partition that contains users and assets (data sources, datasets, dashboards, and so on). To access assets that are in a specific namespace, users and groups must also be part of the same namespace. People who share a namespace are completely isolated from users and assets in other namespaces, even if they are in the same Amazon Web Services account and Amazon Web Services Region.    Applied customizations -  Within an Amazon Web Services Region, a set of Amazon QuickSight customizations can apply to an Amazon Web Services account or to a namespace. Settings that you apply to a namespace override settings that you apply to an Amazon Web Services account. All settings are isolated to a single Amazon Web Services Region. To apply them in other Amazon Web Services Regions, run the CreateAccountCustomization command in each Amazon Web Services Region where you want to apply the same customizations.
+    /// Describes the customizations associated with the provided Amazon Web Services account and Amazon Amazon QuickSight namespace in an Amazon Web Services Region. The Amazon QuickSight console evaluates which customizations to apply by running this API operation with the Resolved flag included.  To determine what customizations display when you run this command, it can help to visualize the relationship of the entities involved.     Amazon Web Services account - The Amazon Web Services account exists at the top of the hierarchy. It has the potential to use all of the Amazon Web Services Regions and Amazon Web Services Services. When you subscribe to Amazon QuickSight, you choose one Amazon Web Services Region to use as your home Region. That's where your free SPICE capacity is located. You can use Amazon QuickSight in any supported Amazon Web Services Region.     Amazon Web Services Region - In each Amazon Web Services Region where you sign in to Amazon QuickSight at least once, Amazon QuickSight acts as a separate instance of the same service. If you have a user directory, it resides in us-east-1, which is the US East (N. Virginia). Generally speaking, these users have access to Amazon QuickSight in any Amazon Web Services Region, unless they are constrained to a namespace.  To run the command in a different Amazon Web Services Region, you change your Region settings. If you're using the CLI, you can use one of the following options:   Use command line options.    Use named profiles.    Run aws configure to change your default Amazon Web Services Region. Use Enter to key the same settings for your keys. For more information, see Configuring the CLI.      Namespace - A QuickSight namespace is a partition that contains users and assets (data sources, datasets, dashboards, and so on). To access assets that are in a specific namespace, users and groups must also be part of the same namespace. People who share a namespace are completely isolated from users and assets in other namespaces, even if they are in the same Amazon Web Services account and Amazon Web Services Region.    Applied customizations -  Within an Amazon Web Services Region, a set of Amazon QuickSight customizations can apply to an Amazon Web Services account or to a namespace. Settings that you apply to a namespace override settings that you apply to an Amazon Web Services account. All settings are isolated to a single Amazon Web Services Region. To apply them in other Amazon Web Services Regions, run the CreateAccountCustomization command in each Amazon Web Services Region where you want to apply the same customizations.
     public func describeAccountCustomization(_ input: DescribeAccountCustomizationRequest, logger: Logger = AWSClient.loggingDisabled, on eventLoop: EventLoop? = nil) async throws -> DescribeAccountCustomizationResponse {
         return try await self.client.execute(operation: "DescribeAccountCustomization", path: "/accounts/{AwsAccountId}/customizations", httpMethod: .GET, serviceConfig: self.config, input: input, logger: logger, on: eventLoop)
     }
@@ -290,7 +290,7 @@ extension QuickSight {
         return try await self.client.execute(operation: "DescribeGroup", path: "/accounts/{AwsAccountId}/namespaces/{Namespace}/groups/{GroupName}", httpMethod: .GET, serviceConfig: self.config, input: input, logger: logger, on: eventLoop)
     }
 
-    /// Describes an existing IAMpolicy assignment, as specified by the assignment name.
+    /// Describes an existing IAM policy assignment, as specified by the assignment name.
     public func describeIAMPolicyAssignment(_ input: DescribeIAMPolicyAssignmentRequest, logger: Logger = AWSClient.loggingDisabled, on eventLoop: EventLoop? = nil) async throws -> DescribeIAMPolicyAssignmentResponse {
         return try await self.client.execute(operation: "DescribeIAMPolicyAssignment", path: "/accounts/{AwsAccountId}/namespaces/{Namespace}/iam-policy-assignments/{AssignmentName}", httpMethod: .GET, serviceConfig: self.config, input: input, logger: logger, on: eventLoop)
     }
@@ -300,7 +300,7 @@ extension QuickSight {
         return try await self.client.execute(operation: "DescribeIngestion", path: "/accounts/{AwsAccountId}/data-sets/{DataSetId}/ingestions/{IngestionId}", httpMethod: .GET, serviceConfig: self.config, input: input, logger: logger, on: eventLoop)
     }
 
-    /// Provides a summary and status of IP Rules.
+    /// Provides a summary and status of IP rules.
     public func describeIpRestriction(_ input: DescribeIpRestrictionRequest, logger: Logger = AWSClient.loggingDisabled, on eventLoop: EventLoop? = nil) async throws -> DescribeIpRestrictionResponse {
         return try await self.client.execute(operation: "DescribeIpRestriction", path: "/accounts/{AwsAccountId}/ip-restriction", httpMethod: .GET, serviceConfig: self.config, input: input, logger: logger, on: eventLoop)
     }
@@ -360,7 +360,7 @@ extension QuickSight {
         return try await self.client.execute(operation: "GetDashboardEmbedUrl", path: "/accounts/{AwsAccountId}/dashboards/{DashboardId}/embed-url", httpMethod: .GET, serviceConfig: self.config, input: input, logger: logger, on: eventLoop)
     }
 
-    /// Generates a session URL and authorization code that you can use to embed the Amazon Amazon QuickSight console in your web server code. Use GetSessionEmbedUrl where you want to provide an authoring portal that allows users to create data sources, datasets, analyses, and dashboards. The users who access an embedded Amazon QuickSight console need belong to the author or admin security cohort. If you want to restrict permissions to some of these features, add a custom permissions profile to the user with the  UpdateUser API operation. Use  RegisterUser API operation to add a new user with a custom permission profile attached. For more information, see the following sections in the Amazon QuickSight User Guide:    Embedding Analytics     Customizing Access to the Amazon QuickSight Console
+    /// Generates a session URL and authorization code that you can use to embed the Amazon Amazon QuickSight console in your web server code. Use GetSessionEmbedUrl where you want to provide an authoring portal that allows users to create data sources, datasets, analyses, and dashboards. The users who access an embedded Amazon QuickSight console need belong to the author or admin security cohort. If you want to restrict permissions to some of these features, add a custom permissions profile to the user with the  UpdateUser API operation. Use  RegisterUser  API operation to add a new user with a custom permission profile attached. For more information, see the following sections in the Amazon QuickSight User Guide:    Embedding Analytics     Customizing Access to the Amazon QuickSight Console
     public func getSessionEmbedUrl(_ input: GetSessionEmbedUrlRequest, logger: Logger = AWSClient.loggingDisabled, on eventLoop: EventLoop? = nil) async throws -> GetSessionEmbedUrlResponse {
         return try await self.client.execute(operation: "GetSessionEmbedUrl", path: "/accounts/{AwsAccountId}/session-embed-url", httpMethod: .GET, serviceConfig: self.config, input: input, logger: logger, on: eventLoop)
     }
@@ -411,12 +411,12 @@ extension QuickSight {
         return try await self.client.execute(operation: "ListGroups", path: "/accounts/{AwsAccountId}/namespaces/{Namespace}/groups", httpMethod: .GET, serviceConfig: self.config, input: input, logger: logger, on: eventLoop)
     }
 
-    /// Lists IAMpolicy assignments in the current Amazon QuickSight account.
+    /// Lists IAM policy assignments in the current Amazon QuickSight account.
     public func listIAMPolicyAssignments(_ input: ListIAMPolicyAssignmentsRequest, logger: Logger = AWSClient.loggingDisabled, on eventLoop: EventLoop? = nil) async throws -> ListIAMPolicyAssignmentsResponse {
         return try await self.client.execute(operation: "ListIAMPolicyAssignments", path: "/accounts/{AwsAccountId}/namespaces/{Namespace}/iam-policy-assignments", httpMethod: .GET, serviceConfig: self.config, input: input, logger: logger, on: eventLoop)
     }
 
-    /// Lists all the IAMpolicy assignments, including the Amazon Resource Names (ARNs) for the IAM
+    /// Lists all the IAM policy assignments, including the Amazon Resource Names (ARNs) for the IAM
     /// 			policies assigned to the specified user and group or groups that the user belongs
     /// 			to.
     public func listIAMPolicyAssignmentsForUser(_ input: ListIAMPolicyAssignmentsForUserRequest, logger: Logger = AWSClient.loggingDisabled, on eventLoop: EventLoop? = nil) async throws -> ListIAMPolicyAssignmentsForUserResponse {
@@ -478,8 +478,7 @@ extension QuickSight {
         return try await self.client.execute(operation: "ListUsers", path: "/accounts/{AwsAccountId}/namespaces/{Namespace}/users", httpMethod: .GET, serviceConfig: self.config, input: input, logger: logger, on: eventLoop)
     }
 
-    /// Creates an Amazon QuickSight user, whose identity is associated with the AWS Identity
-    /// 			and Access Management (IAM) identity or role specified in the request.
+    /// Creates an Amazon QuickSight user, whose identity is associated with the Identity and Access Management (IAM) identity or role specified in the request.
     public func registerUser(_ input: RegisterUserRequest, logger: Logger = AWSClient.loggingDisabled, on eventLoop: EventLoop? = nil) async throws -> RegisterUserResponse {
         return try await self.client.execute(operation: "RegisterUser", path: "/accounts/{AwsAccountId}/namespaces/{Namespace}/users", httpMethod: .POST, serviceConfig: self.config, input: input, logger: logger, on: eventLoop)
     }
@@ -514,11 +513,16 @@ extension QuickSight {
     /// 			replaces the previous value for that tag.
     /// 		       You can associate as many as 50 tags with a resource. Amazon QuickSight supports tagging on data
     /// 			set, data source, dashboard, and template.
-    /// 		       Tagging for Amazon QuickSight works in a similar way to tagging for other AWS services, except for
+    /// 		       Tagging for Amazon QuickSight works in a similar way to tagging for other Amazon Web Services services, except for
     /// 			the following:
-    /// 		         You can't use tags to track AWS costs for Amazon QuickSight. This restriction is because Amazon QuickSight
-    /// 					costs are based on users and SPICE capacity, which aren't taggable
-    /// 					resources.   Amazon QuickSight doesn't currently support the Tag Editor for Resource Groups.
+    ///
+    /// 				           You can't use tags to track costs for Amazon QuickSight. This isn't
+    /// 				possible because you can't tag the resources that Amazon QuickSight costs are based
+    /// 				on, for example Amazon QuickSight storage capacity (SPICE), number of users, type
+    /// 				of users, and usage metrics.
+    ///
+    /// 				           Amazon QuickSight doesn't currently support the tag editor for Resource Groups.
+    ///
     public func tagResource(_ input: TagResourceRequest, logger: Logger = AWSClient.loggingDisabled, on eventLoop: EventLoop? = nil) async throws -> TagResourceResponse {
         return try await self.client.execute(operation: "TagResource", path: "/resources/{ResourceArn}/tags", httpMethod: .POST, serviceConfig: self.config, input: input, logger: logger, on: eventLoop)
     }
@@ -548,7 +552,7 @@ extension QuickSight {
         return try await self.client.execute(operation: "UpdateAnalysisPermissions", path: "/accounts/{AwsAccountId}/analyses/{AnalysisId}/permissions", httpMethod: .PUT, serviceConfig: self.config, input: input, logger: logger, on: eventLoop)
     }
 
-    /// Updates a dashboard in an Amazon Web Services account.  Updating a Dashboard creates a new dashboard version but does not immediately publish the new version.  You can update the published version of a dashboard by using the UpdateDashboardPublishedVersion API operation.
+    /// Updates a dashboard in an Amazon Web Services account.  Updating a Dashboard creates a new dashboard version but does not immediately publish the new version.  You can update the published version of a dashboard by using the  UpdateDashboardPublishedVersion API operation.
     public func updateDashboard(_ input: UpdateDashboardRequest, logger: Logger = AWSClient.loggingDisabled, on eventLoop: EventLoop? = nil) async throws -> UpdateDashboardResponse {
         return try await self.client.execute(operation: "UpdateDashboard", path: "/accounts/{AwsAccountId}/dashboards/{DashboardId}", httpMethod: .PUT, serviceConfig: self.config, input: input, logger: logger, on: eventLoop)
     }
@@ -599,7 +603,7 @@ extension QuickSight {
         return try await self.client.execute(operation: "UpdateGroup", path: "/accounts/{AwsAccountId}/namespaces/{Namespace}/groups/{GroupName}", httpMethod: .PUT, serviceConfig: self.config, input: input, logger: logger, on: eventLoop)
     }
 
-    /// Updates an existing IAMpolicy assignment. This operation updates only the optional
+    /// Updates an existing IAM policy assignment. This operation updates only the optional
     /// 			parameter or parameters that are specified in the request.
     /// 		    This overwrites all of the users included in Identities.
     ///
@@ -607,7 +611,7 @@ extension QuickSight {
         return try await self.client.execute(operation: "UpdateIAMPolicyAssignment", path: "/accounts/{AwsAccountId}/namespaces/{Namespace}/iam-policy-assignments/{AssignmentName}", httpMethod: .PUT, serviceConfig: self.config, input: input, logger: logger, on: eventLoop)
     }
 
-    /// Updates content and status of IP Rules.
+    /// Updates the content and status of IP rules. To use this operation, you need to provide the entire map of rules. You can use the DescribeIpRestriction operation to get the current rule map.
     public func updateIpRestriction(_ input: UpdateIpRestrictionRequest, logger: Logger = AWSClient.loggingDisabled, on eventLoop: EventLoop? = nil) async throws -> UpdateIpRestrictionResponse {
         return try await self.client.execute(operation: "UpdateIpRestriction", path: "/accounts/{AwsAccountId}/ip-restriction", httpMethod: .POST, serviceConfig: self.config, input: input, logger: logger, on: eventLoop)
     }

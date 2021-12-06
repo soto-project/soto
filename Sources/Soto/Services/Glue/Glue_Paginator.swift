@@ -1803,8 +1803,10 @@ extension Glue.GetPartitionsRequest: AWSPaginateToken {
             expression: self.expression,
             maxResults: self.maxResults,
             nextToken: token,
+            queryAsOfTime: self.queryAsOfTime,
             segment: self.segment,
-            tableName: self.tableName
+            tableName: self.tableName,
+            transactionId: self.transactionId
         )
     }
 }
@@ -1846,7 +1848,9 @@ extension Glue.GetTablesRequest: AWSPaginateToken {
             databaseName: self.databaseName,
             expression: self.expression,
             maxResults: self.maxResults,
-            nextToken: token
+            nextToken: token,
+            queryAsOfTime: self.queryAsOfTime,
+            transactionId: self.transactionId
         )
     }
 }

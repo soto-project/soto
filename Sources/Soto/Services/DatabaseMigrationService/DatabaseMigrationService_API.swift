@@ -225,7 +225,7 @@ public struct DatabaseMigrationService: AWSService {
         return self.client.execute(operation: "DescribeReplicationSubnetGroups", path: "/", httpMethod: .POST, serviceConfig: self.config, input: input, logger: logger, on: eventLoop)
     }
 
-    /// Returns the task assessment results from the Amazon S3 bucket that DMS creates in your Amazon Web Services account. This action always returns the latest results. For more information about DMS task assessments, see Creating a task assessment report in the Database Migration Service User Guide.
+    /// Returns the task assessment results from the Amazon S3 bucket that DMS creates in your Amazon Web Services account.  This action always returns the latest results. For more information about DMS task assessments, see   Creating a task assessment report in the Database Migration Service User Guide.
     public func describeReplicationTaskAssessmentResults(_ input: DescribeReplicationTaskAssessmentResultsMessage, logger: Logger = AWSClient.loggingDisabled, on eventLoop: EventLoop? = nil) -> EventLoopFuture<DescribeReplicationTaskAssessmentResultsResponse> {
         return self.client.execute(operation: "DescribeReplicationTaskAssessmentResults", path: "/", httpMethod: .POST, serviceConfig: self.config, input: input, logger: logger, on: eventLoop)
     }
@@ -322,7 +322,7 @@ public struct DatabaseMigrationService: AWSService {
         return self.client.execute(operation: "StartReplicationTask", path: "/", httpMethod: .POST, serviceConfig: self.config, input: input, logger: logger, on: eventLoop)
     }
 
-    ///  Starts the replication task assessment for unsupported data types in the source database.
+    ///  Starts the replication task assessment for unsupported data types in the source database.  You can only use this operation for a task if the following conditions are true:   The task must be in the stopped state.   The task must have successful connections to the source and target.   If either of these conditions are not met, an InvalidResourceStateFault error will result.  For information about DMS task assessments, see  Creating a task assessment report in the Database Migration Service User Guide.
     public func startReplicationTaskAssessment(_ input: StartReplicationTaskAssessmentMessage, logger: Logger = AWSClient.loggingDisabled, on eventLoop: EventLoop? = nil) -> EventLoopFuture<StartReplicationTaskAssessmentResponse> {
         return self.client.execute(operation: "StartReplicationTaskAssessment", path: "/", httpMethod: .POST, serviceConfig: self.config, input: input, logger: logger, on: eventLoop)
     }

@@ -118,6 +118,7 @@ extension QuickSight {
         case aurora = "AURORA"
         case auroraPostgresql = "AURORA_POSTGRESQL"
         case awsIotAnalytics = "AWS_IOT_ANALYTICS"
+        case exasol = "EXASOL"
         case github = "GITHUB"
         case jira = "JIRA"
         case mariadb = "MARIADB"
@@ -389,6 +390,7 @@ extension QuickSight {
     public enum DataSourceParameters: AWSEncodableShape & AWSDecodableShape {
         /// The parameters for OpenSearch.
         case amazonElasticsearchParameters(AmazonElasticsearchParameters)
+        /// The parameters for OpenSearch.
         case amazonOpenSearchParameters(AmazonOpenSearchParameters)
         /// The parameters for Amazon Athena.
         case athenaParameters(AthenaParameters)
@@ -398,6 +400,8 @@ extension QuickSight {
         case auroraPostgreSqlParameters(AuroraPostgreSqlParameters)
         /// The parameters for IoT Analytics.
         case awsIotAnalyticsParameters(AwsIotAnalyticsParameters)
+        /// The parameters for Exasol.
+        case exasolParameters(ExasolParameters)
         /// The parameters for Jira.
         case jiraParameters(JiraParameters)
         /// The parameters for MariaDB.
@@ -457,6 +461,9 @@ extension QuickSight {
             case .awsIotAnalyticsParameters:
                 let value = try container.decode(AwsIotAnalyticsParameters.self, forKey: .awsIotAnalyticsParameters)
                 self = .awsIotAnalyticsParameters(value)
+            case .exasolParameters:
+                let value = try container.decode(ExasolParameters.self, forKey: .exasolParameters)
+                self = .exasolParameters(value)
             case .jiraParameters:
                 let value = try container.decode(JiraParameters.self, forKey: .jiraParameters)
                 self = .jiraParameters(value)
@@ -520,6 +527,8 @@ extension QuickSight {
                 try container.encode(value, forKey: .auroraPostgreSqlParameters)
             case .awsIotAnalyticsParameters(let value):
                 try container.encode(value, forKey: .awsIotAnalyticsParameters)
+            case .exasolParameters(let value):
+                try container.encode(value, forKey: .exasolParameters)
             case .jiraParameters(let value):
                 try container.encode(value, forKey: .jiraParameters)
             case .mariaDbParameters(let value):
@@ -567,6 +576,8 @@ extension QuickSight {
                 try value.validate(name: "\(name).auroraPostgreSqlParameters")
             case .awsIotAnalyticsParameters(let value):
                 try value.validate(name: "\(name).awsIotAnalyticsParameters")
+            case .exasolParameters(let value):
+                try value.validate(name: "\(name).exasolParameters")
             case .jiraParameters(let value):
                 try value.validate(name: "\(name).jiraParameters")
             case .mariaDbParameters(let value):
@@ -607,6 +618,7 @@ extension QuickSight {
             case auroraParameters = "AuroraParameters"
             case auroraPostgreSqlParameters = "AuroraPostgreSqlParameters"
             case awsIotAnalyticsParameters = "AwsIotAnalyticsParameters"
+            case exasolParameters = "ExasolParameters"
             case jiraParameters = "JiraParameters"
             case mariaDbParameters = "MariaDbParameters"
             case mySqlParameters = "MySqlParameters"
@@ -787,14 +799,18 @@ extension QuickSight {
     // MARK: Shapes
 
     public struct AccountCustomization: AWSEncodableShape & AWSDecodableShape {
+        /// The default email customization template.
+        public let defaultEmailCustomizationTemplate: String?
         /// The default theme for this Amazon QuickSight subscription.
         public let defaultTheme: String?
 
-        public init(defaultTheme: String? = nil) {
+        public init(defaultEmailCustomizationTemplate: String? = nil, defaultTheme: String? = nil) {
+            self.defaultEmailCustomizationTemplate = defaultEmailCustomizationTemplate
             self.defaultTheme = defaultTheme
         }
 
         private enum CodingKeys: String, CodingKey {
+            case defaultEmailCustomizationTemplate = "DefaultEmailCustomizationTemplate"
             case defaultTheme = "DefaultTheme"
         }
     }
@@ -825,7 +841,7 @@ extension QuickSight {
     }
 
     public struct ActiveIAMPolicyAssignment: AWSDecodableShape {
-        /// A name for the IAMpolicy assignment.
+        /// A name for the IAM policy assignment.
         public let assignmentName: String?
         /// The Amazon Resource Name (ARN) of the resource.
         public let policyArn: String?
@@ -873,6 +889,7 @@ extension QuickSight {
     }
 
     public struct AmazonOpenSearchParameters: AWSEncodableShape & AWSDecodableShape {
+        /// The OpenSearch domain.
         public let domain: String
 
         public init(domain: String) {
@@ -1070,7 +1087,7 @@ extension QuickSight {
     }
 
     public struct AnonymousUserEmbeddingExperienceConfiguration: AWSEncodableShape {
-        /// The type of embedding experience. In this case, an Amazon QuickSight dashboard.
+        /// The type of embedding experience. In this case, Amazon QuickSight dashboards.
         public let dashboard: AnonymousUserDashboardEmbeddingConfiguration?
 
         public init(dashboard: AnonymousUserDashboardEmbeddingConfiguration? = nil) {
@@ -1448,7 +1465,7 @@ extension QuickSight {
             AWSMemberEncoding(label: "namespace", location: .querystring("namespace"))
         ]
 
-        /// The Amazon QuickSight customizations you're adding in the current Amazon Web Services Region. You can add these to an Amazon Web Services account and a Amazon QuickSight namespace.  For example, you can add a default theme by setting AccountCustomization to the midnight theme: "AccountCustomization": { "DefaultTheme": "arn:aws:quicksight::aws:theme/MIDNIGHT" }. Or, you can add a custom theme by specifying "AccountCustomization": { "DefaultTheme": "arn:aws:quicksight:us-west-2:111122223333:theme/bdb844d0-0fe9-4d9d-b520-0fe602d93639" }.
+        /// The Amazon QuickSight customizations you're adding in the current Amazon Web Services Region. You can add these to an Amazon Web Services account and a QuickSight namespace.  For example, you can add a default theme by setting AccountCustomization to the midnight theme: "AccountCustomization": { "DefaultTheme": "arn:aws:quicksight::aws:theme/MIDNIGHT" }. Or, you can add a custom theme by specifying "AccountCustomization": { "DefaultTheme": "arn:aws:quicksight:us-west-2:111122223333:theme/bdb844d0-0fe9-4d9d-b520-0fe602d93639" }.
         public let accountCustomization: AccountCustomization
         /// The ID for the Amazon Web Services account that you want to customize Amazon QuickSight for.
         public let awsAccountId: String
@@ -1649,7 +1666,7 @@ extension QuickSight {
 
         /// The ID of the Amazon Web Services account where you want to create the dashboard.
         public let awsAccountId: String
-        /// The ID for the dashboard, also added to the IAMpolicy.
+        /// The ID for the dashboard, also added to the IAM policy.
         public let dashboardId: String
         /// Options for publishing the dashboard when you create it:    AvailabilityStatus for AdHocFilteringOption - This status can be either ENABLED or DISABLED. When this is set to DISABLED, Amazon QuickSight disables the left filter pane on the published dashboard, which can be used for ad hoc (one-time) filtering. This option is ENABLED by default.     AvailabilityStatus for ExportToCSVOption - This status can be either ENABLED or DISABLED. The visual option to export data to .CSV format isn't enabled when this is set to DISABLED. This option is ENABLED by default.     VisibilityState for SheetControlsOption - This visibility state can be either COLLAPSED or EXPANDED. This option is COLLAPSED by default.
         public let dashboardPublishOptions: DashboardPublishOptions?
@@ -1657,10 +1674,10 @@ extension QuickSight {
         public let name: String
         /// The parameters for the creation of the dashboard, which you want to use to override the default settings. A dashboard can have any type of parameters, and some parameters might accept multiple values.
         public let parameters: Parameters?
-        /// A structure that contains the permissions of the dashboard. You can use this structure for granting permissions by providing a list of IAMaction information for each principal ARN.
+        /// A structure that contains the permissions of the dashboard. You can use this structure for granting permissions by providing a list of IAM action information for each principal ARN.
         ///  To specify no permissions, omit the permissions list.
         public let permissions: [ResourcePermission]?
-        /// The entity that you are using as a source when you create the dashboard. In SourceEntity, you specify the type of object you're using as source. You can only create a dashboard from a template, so you use a SourceTemplate entity. If you need to create a dashboard from an analysis, first convert the analysis to a template by using the CreateTemplate API operation. For SourceTemplate, specify the Amazon Resource Name (ARN) of the source template. The SourceTemplateARN can contain any Amazon Web Services account and any Amazon QuickSight-supported Amazon Web Services Region.  Use the DataSetReferences entity within SourceTemplate to list the replacement datasets for the placeholders listed in the original. The schema in each dataset must match its placeholder.
+        /// The entity that you are using as a source when you create the dashboard. In SourceEntity, you specify the type of object you're using as source. You can only create a dashboard from a template, so you use a SourceTemplate entity. If you need to create a dashboard from an analysis, first convert the analysis to a template by using the  CreateTemplate  API operation. For SourceTemplate, specify the Amazon Resource Name (ARN) of the source template. The SourceTemplateARN can contain any Amazon Web Services account and any Amazon QuickSight-supported Amazon Web Services Region.  Use the DataSetReferences entity within SourceTemplate to list the replacement datasets for the placeholders listed in the original. The schema in each dataset must match its placeholder.
         public let sourceEntity: DashboardSourceEntity
         /// Contains a map of the key-value pairs for the resource tag or tags assigned to the dashboard.
         public let tags: [Tag]?
@@ -2028,9 +2045,9 @@ extension QuickSight {
             AWSMemberEncoding(label: "memberType", location: .uri("MemberType"))
         ]
 
-        /// The AWS Account ID.
+        /// The ID for the Amazon Web Services account that contains the folder.
         public let awsAccountId: String
-        /// The folder ID.
+        /// The ID of the folder.
         public let folderId: String
         /// The ID of the asset (the dashboard, analysis, or dataset).
         public let memberId: String
@@ -2062,9 +2079,9 @@ extension QuickSight {
     public struct CreateFolderMembershipResponse: AWSDecodableShape {
         /// Information about the member in the folder.
         public let folderMember: FolderMember?
-        /// The request ID.
+        /// The Amazon Web Services request ID for this operation.
         public let requestId: String?
-        /// The status of the folder membership. If succeeded, the status is SC_OK (200).
+        /// The HTTP status of the request.
         public let status: Int?
 
         public init(folderMember: FolderMember? = nil, requestId: String? = nil, status: Int? = nil) {
@@ -2086,19 +2103,17 @@ extension QuickSight {
             AWSMemberEncoding(label: "folderId", location: .uri("FolderId"))
         ]
 
-        /// The AWS Account ID.
+        /// The ID for the Amazon Web Services account where you want to create the folder.
         public let awsAccountId: String
-        /// The folder ID.
+        /// The ID of the folder.
         public let folderId: String
         /// The type of folder. By default, folderType is SHARED.
         public let folderType: FolderType?
         /// The name of the folder.
         public let name: String?
-        /// The Amazon Resource Name (ARN) for the parent folder.
-        /// 	         ParentFolderArn can be null. An empty parentFolderArn creates a root-level folder.
+        /// The Amazon Resource Name (ARN) for the parent folder.  ParentFolderArn can be null. An empty parentFolderArn creates a root-level folder.
         public let parentFolderArn: String?
-        /// A structure that describes the principals and the resource-level permissions of a folder.
-        /// 	        To specify no permissions, omit Permissions.
+        /// A structure that describes the principals and the resource-level permissions of a folder. To specify no permissions, omit Permissions.
         public let permissions: [ResourcePermission]?
         /// Tags for the folder.
         public let tags: [Tag]?
@@ -2154,7 +2169,7 @@ extension QuickSight {
         public let folderId: String?
         /// The request ID for the newly created folder.
         public let requestId: String?
-        /// The status of the newly created folder. If succeeded, the status is SC_OK (200).
+        /// The HTTP status of the request.
         public let status: Int?
 
         public init(arn: String? = nil, folderId: String? = nil, requestId: String? = nil, status: Int? = nil) {
@@ -2317,14 +2332,14 @@ extension QuickSight {
         /// 					source.    DISABLED - This assignment isn't used when creating the data source.    DRAFT - This assignment is an unfinished draft and isn't used when creating the
         /// 					data source.
         public let assignmentStatus: AssignmentStatus
-        /// The ID of the Amazon Web Services account where you want to assign an IAMpolicy to Amazon QuickSight users or
+        /// The ID of the Amazon Web Services account where you want to assign an IAM policy to Amazon QuickSight users or
         /// 			groups.
         public let awsAccountId: String
         /// The Amazon QuickSight users, groups, or both that you want to assign the policy to.
         public let identities: [String: [String]]?
         /// The namespace that contains the assignment.
         public let namespace: String
-        /// The ARN for the IAMpolicy to apply to the Amazon QuickSight users and groups
+        /// The ARN for the IAM policy to apply to the Amazon QuickSight users and groups
         /// 			specified in this assignment.
         public let policyArn: String?
 
@@ -2369,9 +2384,9 @@ extension QuickSight {
         /// 				source.    DISABLED - This assignment isn't used when creating the data source.    DRAFT - This assignment is an unfinished draft and isn't used when creating the
         /// 				data source.
         public let assignmentStatus: AssignmentStatus?
-        /// The Amazon QuickSight users, groups, or both that the IAMpolicy is assigned to.
+        /// The Amazon QuickSight users, groups, or both that the IAM policy is assigned to.
         public let identities: [String: [String]]?
-        /// The ARN for the IAMpolicy that is applied to the Amazon QuickSight users and groups specified in this assignment.
+        /// The ARN for the IAM policy that is applied to the Amazon QuickSight users and groups specified in this assignment.
         public let policyArn: String?
         /// The Amazon Web Services request ID for this operation.
         public let requestId: String?
@@ -2813,7 +2828,7 @@ extension QuickSight {
         /// The ID of the theme that a custom theme will inherit from. All themes inherit from one of
         /// 			the starting themes defined by Amazon QuickSight. For a list of the starting themes, use
         /// 				ListThemes or choose Themes from
-        /// 			within a Amazon QuickSight analysis.
+        /// 			within an analysis.
         public let baseThemeId: String
         /// The theme configuration, which contains the theme display properties.
         public let configuration: ThemeConfiguration
@@ -3528,7 +3543,7 @@ extension QuickSight {
     public struct DataSourceCredentials: AWSEncodableShape {
         /// The Amazon Resource Name (ARN) of a data source that has the credential pair that you want to use. When CopySourceArn is not null, the credential pair from the data source in the ARN is used as the credentials for the DataSourceCredentials structure.
         public let copySourceArn: String?
-        /// Credential pair. For more information, see CredentialPair.
+        /// Credential pair. For more information, see  CredentialPair .
         public let credentialPair: CredentialPair?
 
         public init(copySourceArn: String? = nil, credentialPair: CredentialPair? = nil) {
@@ -3903,7 +3918,7 @@ extension QuickSight {
             AWSMemberEncoding(label: "memberType", location: .uri("MemberType"))
         ]
 
-        /// The AWS Account ID.
+        /// The ID for the Amazon Web Services account that contains the folder.
         public let awsAccountId: String
         /// The Folder ID.
         public let folderId: String
@@ -3935,9 +3950,9 @@ extension QuickSight {
     }
 
     public struct DeleteFolderMembershipResponse: AWSDecodableShape {
-        /// The request ID.
+        /// The Amazon Web Services request ID for this operation.
         public let requestId: String?
-        /// The status of deleting the asset. If succeeded, the status is SC_OK (200).
+        /// The HTTP status of the request.
         public let status: Int?
 
         public init(requestId: String? = nil, status: Int? = nil) {
@@ -3957,9 +3972,9 @@ extension QuickSight {
             AWSMemberEncoding(label: "folderId", location: .uri("FolderId"))
         ]
 
-        /// The AWS Account ID for the folder.
+        /// The ID for the Amazon Web Services account that contains the folder.
         public let awsAccountId: String
-        /// The folder ID.
+        /// The ID of the folder.
         public let folderId: String
 
         public init(awsAccountId: String, folderId: String) {
@@ -3986,11 +4001,11 @@ extension QuickSight {
 
         /// The Amazon Resource Name of the deleted folder.
         public let arn: String?
-        /// The folder ID.
+        /// The ID of the folder.
         public let folderId: String?
-        /// The request ID.
+        /// The Amazon Web Services request ID for this operation.
         public let requestId: String?
-        /// The status of deleting the folder. If succeeded, the status is SC_OK (200).
+        /// The HTTP status of the request.
         public let status: Int?
 
         public init(arn: String? = nil, folderId: String? = nil, requestId: String? = nil, status: Int? = nil) {
@@ -4134,7 +4149,7 @@ extension QuickSight {
 
         /// The name of the assignment.
         public let assignmentName: String
-        /// The Amazon Web Services account ID where you want to delete the IAMpolicy assignment.
+        /// The Amazon Web Services account ID where you want to delete the IAM policy assignment.
         public let awsAccountId: String
         /// The namespace that contains the assignment.
         public let namespace: String
@@ -4700,7 +4715,7 @@ extension QuickSight {
             AWSMemberEncoding(label: "status", location: .statusCode)
         ]
 
-        /// The Amazon QuickSight settings for this Amazon Web Services account. This information includes the edition of Amazon Amazon QuickSight that you subscribed to (Standard or Enterprise) and the notification email for the Amazon QuickSight subscription. In the Amazon QuickSight console, the Amazon QuickSight subscription is sometimes referred to as a Amazon QuickSight "account" even though it's technically not an account by itself. Instead, it's a subscription to the Amazon QuickSight service for your Amazon Web Services account. The edition that you subscribe to applies to Amazon QuickSight in every Amazon Web Services Region where you use it.
+        /// The Amazon QuickSight settings for this Amazon Web Services account. This information includes the edition of Amazon Amazon QuickSight that you subscribed to (Standard or Enterprise) and the notification email for the Amazon QuickSight subscription. In the QuickSight console, the Amazon QuickSight subscription is sometimes referred to as a QuickSight "account" even though it's technically not an account by itself. Instead, it's a subscription to the Amazon QuickSight service for your Amazon Web Services account. The edition that you subscribe to applies to Amazon QuickSight in every Amazon Web Services Region where you use it.
         public let accountSettings: AccountSettings?
         /// The Amazon Web Services request ID for this operation.
         public let requestId: String?
@@ -4842,7 +4857,7 @@ extension QuickSight {
 
         /// The ID of the Amazon Web Services account that contains the dashboard that you're describing permissions for.
         public let awsAccountId: String
-        /// The ID for the dashboard, also added to the IAMpolicy.
+        /// The ID for the dashboard, also added to the IAM policy.
         public let dashboardId: String
 
         public init(awsAccountId: String, dashboardId: String) {
@@ -4871,6 +4886,8 @@ extension QuickSight {
         public let dashboardArn: String?
         /// The ID for the dashboard.
         public let dashboardId: String?
+        /// A structure that contains the configuration of a shareable link that grants access to the dashboard. Your users can use the link to view and interact with the dashboard, if the dashboard has been shared with them. For more information about sharing dashboards, see Sharing Dashboards.
+        public let linkSharingConfiguration: LinkSharingConfiguration?
         /// A structure that contains the permissions for the dashboard.
         public let permissions: [ResourcePermission]?
         /// The Amazon Web Services request ID for this operation.
@@ -4878,9 +4895,10 @@ extension QuickSight {
         /// The HTTP status of the request.
         public let status: Int?
 
-        public init(dashboardArn: String? = nil, dashboardId: String? = nil, permissions: [ResourcePermission]? = nil, requestId: String? = nil, status: Int? = nil) {
+        public init(dashboardArn: String? = nil, dashboardId: String? = nil, linkSharingConfiguration: LinkSharingConfiguration? = nil, permissions: [ResourcePermission]? = nil, requestId: String? = nil, status: Int? = nil) {
             self.dashboardArn = dashboardArn
             self.dashboardId = dashboardId
+            self.linkSharingConfiguration = linkSharingConfiguration
             self.permissions = permissions
             self.requestId = requestId
             self.status = status
@@ -4889,6 +4907,7 @@ extension QuickSight {
         private enum CodingKeys: String, CodingKey {
             case dashboardArn = "DashboardArn"
             case dashboardId = "DashboardId"
+            case linkSharingConfiguration = "LinkSharingConfiguration"
             case permissions = "Permissions"
             case requestId = "RequestId"
             case status = "Status"
@@ -5182,9 +5201,9 @@ extension QuickSight {
             AWSMemberEncoding(label: "folderId", location: .uri("FolderId"))
         ]
 
-        /// The AWS Account ID.
+        /// The ID for the Amazon Web Services account that contains the folder.
         public let awsAccountId: String
-        /// The folder ID.
+        /// The ID of the folder.
         public let folderId: String
 
         public init(awsAccountId: String, folderId: String) {
@@ -5211,13 +5230,13 @@ extension QuickSight {
 
         /// The Amazon Resource Name (ARN) for the folder.
         public let arn: String?
-        /// The folder ID.
+        /// The ID of the folder.
         public let folderId: String?
         /// Information about the permissions on the folder.
         public let permissions: [ResourcePermission]?
-        /// The request ID.
+        /// The Amazon Web Services request ID for this operation.
         public let requestId: String?
-        /// The status. If succeeded, the status is SC_OK.
+        /// The HTTP status of the request.
         public let status: Int?
 
         public init(arn: String? = nil, folderId: String? = nil, permissions: [ResourcePermission]? = nil, requestId: String? = nil, status: Int? = nil) {
@@ -5243,9 +5262,9 @@ extension QuickSight {
             AWSMemberEncoding(label: "folderId", location: .uri("FolderId"))
         ]
 
-        /// The AWS account ID.
+        /// The ID for the Amazon Web Services account that contains the folder.
         public let awsAccountId: String
-        /// The folder ID.
+        /// The ID of the folder.
         public let folderId: String
 
         public init(awsAccountId: String, folderId: String) {
@@ -5271,9 +5290,9 @@ extension QuickSight {
             AWSMemberEncoding(label: "folderId", location: .uri("FolderId"))
         ]
 
-        /// The AWS account ID.
+        /// The ID for the Amazon Web Services account that contains the folder.
         public let awsAccountId: String
-        /// The folder ID.
+        /// The ID of the folder.
         public let folderId: String
 
         public init(awsAccountId: String, folderId: String) {
@@ -5298,15 +5317,15 @@ extension QuickSight {
             AWSMemberEncoding(label: "status", location: .statusCode)
         ]
 
-        /// The Amazon Resource Name (ARN).
+        /// The Amazon Resource Name (ARN) of the folder.
         public let arn: String?
-        /// The folder ID.
+        /// The ID of the folder.
         public let folderId: String?
-        /// Information about the permissions on the dashboard.
+        /// Information about the permissions for the folder.
         public let permissions: [ResourcePermission]?
-        /// The request ID.
+        /// The Amazon Web Services request ID for this operation.
         public let requestId: String?
-        /// The status. If succeeded, the status is SC_OK
+        /// The HTTP status of the request.
         public let status: Int?
 
         public init(arn: String? = nil, folderId: String? = nil, permissions: [ResourcePermission]? = nil, requestId: String? = nil, status: Int? = nil) {
@@ -5333,9 +5352,9 @@ extension QuickSight {
 
         /// Information about the folder.
         public let folder: Folder?
-        /// The request ID.
+        /// The Amazon Web Services request ID for this operation.
         public let requestId: String?
-        /// The status. If succeeded, the status is SC_OK (200).
+        /// The HTTP status of the request.
         public let status: Int?
 
         public init(folder: Folder? = nil, requestId: String? = nil, status: Int? = nil) {
@@ -5448,7 +5467,7 @@ extension QuickSight {
             AWSMemberEncoding(label: "status", location: .statusCode)
         ]
 
-        /// Information describing the IAMpolicy assignment.
+        /// Information describing the IAM policy assignment.
         public let iamPolicyAssignment: IAMPolicyAssignment?
         /// The Amazon Web Services request ID for this operation.
         public let requestId: String?
@@ -5530,7 +5549,7 @@ extension QuickSight {
             AWSMemberEncoding(label: "awsAccountId", location: .uri("AwsAccountId"))
         ]
 
-        /// Your AWS account ID.
+        /// The ID of the Amazon Web Services account that contains the IP rules.
         public let awsAccountId: String
 
         public init(awsAccountId: String) {
@@ -5551,15 +5570,15 @@ extension QuickSight {
             AWSMemberEncoding(label: "status", location: .statusCode)
         ]
 
-        /// Your AWS account ID.
+        /// The ID of the Amazon Web Services account that contains the IP rules.
         public let awsAccountId: String?
-        /// Whether or not IP rules are enabled.
+        /// A value that specifies whether IP rules are turned on.
         public let enabled: Bool?
-        /// Describes the IP rules with CIDR range and description.
+        /// A map that describes the IP rules with CIDR range and description.
         public let ipRestrictionRuleMap: [String: String]?
-        /// The ID of the describe request.
+        /// The Amazon Web Services request ID for this operation.
         public let requestId: String?
-        /// The status of a set of IP restrictions. A successful request returns a 200 status code.
+        /// The HTTP status of the request.
         public let status: Int?
 
         public init(awsAccountId: String? = nil, enabled: Bool? = nil, ipRestrictionRuleMap: [String: String]? = nil, requestId: String? = nil, status: Int? = nil) {
@@ -6090,6 +6109,30 @@ extension QuickSight {
         }
     }
 
+    public struct ExasolParameters: AWSEncodableShape & AWSDecodableShape {
+        /// The hostname or IP address of the Exasol data source.
+        public let host: String
+        /// The port for the Exasol data source.
+        public let port: Int
+
+        public init(host: String, port: Int) {
+            self.host = host
+            self.port = port
+        }
+
+        public func validate(name: String) throws {
+            try self.validate(self.host, name: "host", parent: name, max: 256)
+            try self.validate(self.host, name: "host", parent: name, min: 1)
+            try self.validate(self.port, name: "port", parent: name, max: 65535)
+            try self.validate(self.port, name: "port", parent: name, min: 1)
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case host = "Host"
+            case port = "Port"
+        }
+    }
+
     public struct ExportToCSVOption: AWSEncodableShape {
         /// Availability status.
         public let availabilityStatus: DashboardBehavior?
@@ -6144,15 +6187,15 @@ extension QuickSight {
     }
 
     public struct Folder: AWSDecodableShape {
-        /// The folder Amazon Resource Name (ARN).
+        /// The Amazon Resource Name (ARN) for the folder.
         public let arn: String?
         /// The time that the folder was created.
         public let createdTime: Date?
-        /// The folder ID.
+        /// The ID of the folder.
         public let folderId: String?
-        /// An array of ancestor folder ARN strings.
+        /// An array of ancestor ARN strings for the folder.
         public let folderPath: [String]?
-        /// The type of the folder.
+        /// The type of folder it is.
         public let folderType: FolderType?
         /// The time that the folder was last updated.
         public let lastUpdatedTime: Date?
@@ -6181,9 +6224,9 @@ extension QuickSight {
     }
 
     public struct FolderMember: AWSDecodableShape {
-        /// The ID of the asset.
+        /// The ID of an asset in the folder.
         public let memberId: String?
-        /// The type of the asset.
+        /// The type of asset that it is.
         public let memberType: MemberType?
 
         public init(memberId: String? = nil, memberType: MemberType? = nil) {
@@ -6198,9 +6241,9 @@ extension QuickSight {
     }
 
     public struct FolderSearchFilter: AWSEncodableShape {
-        /// The name of the value that you want to use as a filter. For example, "Name": "PARENT_FOLDER_ARN".
+        /// The name of a value that you want to use in the filter. For example, "Name": "PARENT_FOLDER_ARN".
         public let name: FolderFilterAttribute?
-        /// The comparison operator that you want to use as a filter. For example, "Operator": "StringEquals".
+        /// The comparison operator that you want to use in the filter. For example, "Operator": "StringEquals".
         public let `operator`: FilterOperator?
         /// The value of the named item (in this example, PARENT_FOLDER_ARN), that you want to use as a filter. For example, "Value": "arn:aws:quicksight:us-east-1:1:folder/folderId".
         public let value: String?
@@ -6219,11 +6262,11 @@ extension QuickSight {
     }
 
     public struct FolderSummary: AWSDecodableShape {
-        /// The Amazon Resource Name (ARN).
+        /// The Amazon Resource Name (ARN) of the folder.
         public let arn: String?
         /// The time that the folder was created.
         public let createdTime: Date?
-        /// The folder ID.
+        /// The ID of the folder.
         public let folderId: String?
         /// The type of folder.
         public let folderType: FolderType?
@@ -6335,7 +6378,7 @@ extension QuickSight {
 
         /// The ID for the Amazon Web Services account that contains the dashboard that you're embedding.
         public let awsAccountId: String
-        /// The experience you are embedding. For registered users, you can embed Amazon QuickSight dashboards, the entire Amazon QuickSight console, or the Amazon QuickSight Q search bar.
+        /// The experience you are embedding. For registered users, you can embed Amazon QuickSight dashboards or the entire Amazon QuickSight console.
         public let experienceConfiguration: RegisteredUserEmbeddingExperienceConfiguration
         /// How many minutes the session is valid. The session lifetime must be in [15-600] minutes range.
         public let sessionLifetimeInMinutes: Int64?
@@ -6370,7 +6413,7 @@ extension QuickSight {
             AWSMemberEncoding(label: "status", location: .statusCode)
         ]
 
-        /// The embed URL for the Amazon QuickSight dashboard, console, or Q search bar.
+        /// The embed URL for the Amazon QuickSight dashboard or console.
         public let embedUrl: String
         /// The Amazon Web Services request ID for this operation.
         public let requestId: String
@@ -6436,7 +6479,7 @@ extension QuickSight {
             AWSMemberEncoding(label: "userArn", location: .querystring("user-arn"))
         ]
 
-        /// A list of one or more dashboard IDs that you want to add to a session that includes anonymous users. The IdentityType parameter must be set to ANONYMOUS for this to work, because other identity types authenticate as Amazon QuickSight or IAMusers. For example, if you set "--dashboard-id dash_id1 --dashboard-id dash_id2 dash_id3 identity-type ANONYMOUS", the session can access all three dashboards.
+        /// A list of one or more dashboard IDs that you want to add to a session that includes anonymous users. The IdentityType parameter must be set to ANONYMOUS for this to work, because other identity types authenticate as Amazon QuickSight or IAM users. For example, if you set "--dashboard-id dash_id1 --dashboard-id dash_id2 dash_id3 identity-type ANONYMOUS", the session can access all three dashboards.
         public let additionalDashboardIds: [String]?
         /// The ID for the Amazon Web Services account that contains the dashboard that you're embedding.
         public let awsAccountId: String
@@ -6464,9 +6507,9 @@ extension QuickSight {
         ///
         /// 				           Invited nonfederated users
         ///
-        /// 				           IAMusers and IAMrole-based sessions authenticated through Federated Single Sign-On using
-        /// 					SAML, OpenID Connect, or IAMfederation.
-        /// 			           Omit this parameter for users in the third group – IAMusers and IAM role-based sessions.
+        /// 				           IAM users and IAM role-based sessions authenticated through Federated Single Sign-On using
+        /// 					SAML, OpenID Connect, or IAM federation.
+        /// 			           Omit this parameter for users in the third group – IAM users and IAM role-based sessions.
         public let userArn: String?
 
         public init(additionalDashboardIds: [String]? = nil, awsAccountId: String, dashboardId: String, identityType: EmbeddingIdentityType, namespace: String? = nil, resetDisabled: Bool? = nil, sessionLifetimeInMinutes: Int64? = nil, statePersistenceEnabled: Bool? = nil, undoRedoDisabled: Bool? = nil, userArn: String? = nil) {
@@ -6673,7 +6716,7 @@ extension QuickSight {
         public let awsAccountId: String?
         /// Identities.
         public let identities: [String: [String]]?
-        /// The Amazon Resource Name (ARN) for the IAMpolicy.
+        /// The Amazon Resource Name (ARN) for the IAM policy.
         public let policyArn: String?
 
         public init(assignmentId: String? = nil, assignmentName: String? = nil, assignmentStatus: AssignmentStatus? = nil, awsAccountId: String? = nil, identities: [String: [String]]? = nil, policyArn: String? = nil) {
@@ -6878,6 +6921,19 @@ extension QuickSight {
 
         private enum CodingKeys: String, CodingKey {
             case uniqueKey = "UniqueKey"
+        }
+    }
+
+    public struct LinkSharingConfiguration: AWSDecodableShape {
+        /// A structure that contains the permissions of a shareable link.
+        public let permissions: [ResourcePermission]?
+
+        public init(permissions: [ResourcePermission]? = nil) {
+            self.permissions = permissions
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case permissions = "Permissions"
         }
     }
 
@@ -7196,9 +7252,9 @@ extension QuickSight {
             AWSMemberEncoding(label: "nextToken", location: .querystring("next-token"))
         ]
 
-        /// The AWS account ID.
+        /// The ID for the Amazon Web Services account that contains the folder.
         public let awsAccountId: String
-        /// The folder ID.
+        /// The ID of the folder.
         public let folderId: String
         /// The maximum number of results to be returned per request.
         public let maxResults: Int?
@@ -7235,9 +7291,9 @@ extension QuickSight {
         public let folderMemberList: [MemberIdArnPair]?
         /// The token for the next set of results, or null if there are no more results.
         public let nextToken: String?
-        /// The request ID.
+        /// The Amazon Web Services request ID for this operation.
         public let requestId: String?
-        /// The status. If succeeded, the status is SC_OK
+        /// The HTTP status of the request.
         public let status: Int?
 
         public init(folderMemberList: [MemberIdArnPair]? = nil, nextToken: String? = nil, requestId: String? = nil, status: Int? = nil) {
@@ -7262,7 +7318,7 @@ extension QuickSight {
             AWSMemberEncoding(label: "nextToken", location: .querystring("next-token"))
         ]
 
-        /// The AWS account ID.
+        /// The ID for the Amazon Web Services account that contains the folder.
         public let awsAccountId: String
         /// The maximum number of results to be returned per request.
         public let maxResults: Int?
@@ -7291,13 +7347,13 @@ extension QuickSight {
             AWSMemberEncoding(label: "status", location: .statusCode)
         ]
 
-        /// A structure that contains all of the folders in your AWS account. This structure provides basic information about the folders.
+        /// A structure that contains all of the folders in the Amazon Web Services account. This structure provides basic information about the folders.
         public let folderSummaryList: [FolderSummary]?
         /// The token for the next set of results, or null if there are no more results.
         public let nextToken: String?
-        /// The request ID.
+        /// The Amazon Web Services request ID for this operation.
         public let requestId: String?
-        /// The status. If succeeded, the status is SC_OK
+        /// The HTTP status of the request.
         public let status: Int?
 
         public init(folderSummaryList: [FolderSummary]? = nil, nextToken: String? = nil, requestId: String? = nil, status: Int? = nil) {
@@ -7537,7 +7593,7 @@ extension QuickSight {
 
         /// The status of the assignments.
         public let assignmentStatus: AssignmentStatus?
-        /// The ID of the Amazon Web Services account that contains these IAMpolicy assignments.
+        /// The ID of the Amazon Web Services account that contains these IAM policy assignments.
         public let awsAccountId: String
         /// The maximum number of results to be returned per request.
         public let maxResults: Int?
@@ -7574,7 +7630,7 @@ extension QuickSight {
             AWSMemberEncoding(label: "status", location: .statusCode)
         ]
 
-        /// Information describing the IAMpolicy assignments.
+        /// Information describing the IAM policy assignments.
         public let iamPolicyAssignments: [IAMPolicyAssignmentSummary]?
         /// The token for the next set of results, or null if there are no more results.
         public let nextToken: String?
@@ -8779,7 +8835,7 @@ extension QuickSight {
         public let awsAccountId: String
         /// The URL of the custom OpenID Connect (OIDC) provider that provides identity to let a user federate into Amazon QuickSight with an associated Identity and Access Management(IAM) role. This parameter should only be used when ExternalLoginFederationProviderType parameter is set to CUSTOM_OIDC.
         public let customFederationProviderUrl: String?
-        /// (Enterprise edition only) The name of the custom permissions profile that you want to assign to this user. Customized permissions allows you to control a user's access by restricting access the following operations:   Create and update data sources   Create and update datasets   Create and update email reports   Subscribe to email reports   To add custom permissions to an existing user, use  UpdateUser instead. A set of custom permissions includes any combination of these restrictions. Currently, you need to create the profile names for custom permission sets by using the Amazon QuickSight console. Then, you use the RegisterUser API operation to assign the named set of permissions to a Amazon QuickSight user.  Amazon QuickSight custom permissions are applied through IAMpolicies. Therefore, they override the permissions typically granted by assigning Amazon QuickSight users to one of the default security cohorts in Amazon QuickSight (admin, author, reader). This feature is available only to Amazon QuickSight Enterprise edition subscriptions.
+        /// (Enterprise edition only) The name of the custom permissions profile that you want to assign to this user. Customized permissions allows you to control a user's access by restricting access the following operations:   Create and update data sources   Create and update datasets   Create and update email reports   Subscribe to email reports   To add custom permissions to an existing user, use  UpdateUser instead. A set of custom permissions includes any combination of these restrictions. Currently, you need to create the profile names for custom permission sets by using the Amazon QuickSight console. Then, you use the RegisterUser API operation to assign the named set of permissions to a QuickSight user.  Amazon QuickSight custom permissions are applied through IAM policies. Therefore, they override the permissions typically granted by assigning Amazon QuickSight users to one of the default security cohorts in Amazon QuickSight (admin, author, reader). This feature is available only to Amazon QuickSight Enterprise edition subscriptions.
         public let customPermissionsName: String?
         /// The email address of the user that you want to register.
         public let email: String
@@ -8787,12 +8843,12 @@ extension QuickSight {
         public let externalLoginFederationProviderType: String?
         /// The identity ID for a user in the external login provider.
         public let externalLoginId: String?
-        /// The ARN of the IAMuser or role that you are registering with Amazon QuickSight.
+        /// The ARN of the IAM user or role that you are registering with Amazon QuickSight.
         public let iamArn: String?
         /// Amazon QuickSight supports several ways of managing the identity of users. This
         /// 			parameter accepts two values:
         ///
-        /// 				            IAM: A user whose identity maps to an existing IAMuser or role.
+        /// 				            IAM: A user whose identity maps to an existing IAM user or role.
         ///
         ///
         /// 				            QUICKSIGHT: A user whose identity is owned and managed internally by
@@ -8802,10 +8858,10 @@ extension QuickSight {
         /// The namespace. Currently, you should set this to default.
         public let namespace: String
         /// You need to use this parameter only when you register one or more users using an assumed
-        /// 			IAMrole. You don't need to provide the session name for other scenarios, for example when
-        /// 			you are registering an IAMuser or an Amazon QuickSight user. You can register multiple
-        /// 			users using the same IAMrole if each user has a different session name. For more
-        /// 			information on assuming IAMroles, see  assume-role in the AWS CLI Reference.
+        /// 			IAM role. You don't need to provide the session name for other scenarios, for example when
+        /// 			you are registering an IAM user or an Amazon QuickSight user. You can register multiple
+        /// 			users using the same IAM role if each user has a different session name. For more
+        /// 			information on assuming IAM roles, see  assume-role in the CLI Reference.
         public let sessionName: String?
         /// The Amazon QuickSight user name that you want to create for the user you are
         /// 			registering.
@@ -8928,7 +8984,7 @@ extension QuickSight {
         public let dashboard: RegisteredUserDashboardEmbeddingConfiguration?
         /// The configuration details for embedding the Q search bar. For more information about embedding the Q search bar, see Embedding Overview.
         public let qSearchBar: RegisteredUserQSearchBarEmbeddingConfiguration?
-        /// The configuration details for providing an Amazon QuickSight console embedding experience. This can be used along with custom permissions to restrict access to certain features. For more information, see Customizing Access to the Amazon QuickSight Console in the Amazon QuickSight User Guide. Use GenerateEmbedUrlForRegisteredUser where you want to provide an authoring portal that allows users to create data sources, datasets, analyses, and dashboards. The users who accesses an embedded Amazon QuickSight console needs to belong to the author or admin security cohort. If you want to restrict permissions to some of these features, add a custom permissions profile to the user with the  UpdateUser API operation. Use  RegisterUser API operation to add a new user with a custom permission profile attached. For more information, see the following sections in the Amazon QuickSight User Guide:    Embedding the Full Functionality of the Amazon QuickSight Console for Authenticated Users     Customizing Access to the Amazon QuickSight Console    For more information about the high-level steps for embedding and for an interactive demo of the ways you can customize embedding, visit the Amazon QuickSight Developer Portal.
+        /// The configuration details for providing each Amazon QuickSight console embedding experience. This can be used along with custom permissions to restrict access to certain features. For more information, see Customizing Access to the Amazon QuickSight Console in the Amazon QuickSight User Guide. Use  GenerateEmbedUrlForRegisteredUser  where you want to provide an authoring portal that allows users to create data sources, datasets, analyses, and dashboards. The users who accesses an embedded Amazon QuickSight console needs to belong to the author or admin security cohort. If you want to restrict permissions to some of these features, add a custom permissions profile to the user with the  UpdateUser API operation. Use the  RegisterUser API operation to add a new user with a custom permission profile attached. For more information, see the following sections in the Amazon QuickSight User Guide:    Embedding the Full Functionality of the Amazon QuickSight Console for Authenticated Users     Customizing Access to the Amazon QuickSight Console    For more information about the high-level steps for embedding and for an interactive demo of the ways you can customize embedding, visit the Amazon QuickSight Developer Portal.
         public let quickSightConsole: RegisteredUserQuickSightConsoleEmbeddingConfiguration?
 
         public init(dashboard: RegisteredUserDashboardEmbeddingConfiguration? = nil, qSearchBar: RegisteredUserQSearchBarEmbeddingConfiguration? = nil, quickSightConsole: RegisteredUserQuickSightConsoleEmbeddingConfiguration? = nil) {
@@ -9053,9 +9109,9 @@ extension QuickSight {
     }
 
     public struct ResourcePermission: AWSEncodableShape & AWSDecodableShape {
-        /// The IAMaction to grant or revoke permissions on.
+        /// The IAM action to grant or revoke permissions on.
         public let actions: [String]
-        /// The Amazon Resource Name (ARN) of the principal. This can be one of the following:   The ARN of an Amazon QuickSight user or group associated with a data source or dataset. (This is common.)   The ARN of an Amazon QuickSight user, group, or namespace associated with an analysis, dashboard, template, or theme. (This is common.)   The ARN of an Amazon Web Services account root: This is an IAMARN rather than a Amazon QuickSight ARN. Use this option only to share resources (templates) across Amazon Web Services accounts. (This is less common.)
+        /// The Amazon Resource Name (ARN) of the principal. This can be one of the following:   The ARN of an Amazon QuickSight user or group associated with a data source or dataset. (This is common.)   The ARN of an Amazon QuickSight user, group, or namespace associated with an analysis, dashboard, template, or theme. (This is common.)   The ARN of an Amazon Web Services account root: This is an IAM ARN rather than a QuickSight ARN. Use this option only to share resources (templates) across Amazon Web Services accounts. (This is less common.)
         public let principal: String
 
         public init(actions: [String], principal: String) {
@@ -9432,7 +9488,7 @@ extension QuickSight {
             AWSMemberEncoding(label: "awsAccountId", location: .uri("AwsAccountId"))
         ]
 
-        /// The AWS account ID.
+        /// The ID for the Amazon Web Services account that contains the folder.
         public let awsAccountId: String
         /// The filters to apply to the search. Currently, you can search only by the parent folder ARN. For example, "Filters": [ { "Name": "PARENT_FOLDER_ARN", "Operator": "StringEquals", "Value": "arn:aws:quicksight:us-east-1:1:folder/folderId" } ].
         public let filters: [FolderSearchFilter]
@@ -9469,13 +9525,13 @@ extension QuickSight {
             AWSMemberEncoding(label: "status", location: .statusCode)
         ]
 
-        /// A structure that contains all of the folders in your AWS account. This structure provides basic information about the folders.
+        /// A structure that contains all of the folders in the Amazon Web Services account. This structure provides basic information about the folders.
         public let folderSummaryList: [FolderSummary]?
         /// The token for the next set of results, or null if there are no more results.
         public let nextToken: String?
-        /// The request ID.
+        /// The Amazon Web Services request ID for this operation.
         public let requestId: String?
-        /// The status. If succeeded, the status is SC_OK.
+        /// The HTTP status of the request.
         public let status: Int?
 
         public init(folderSummaryList: [FolderSummary]? = nil, nextToken: String? = nil, requestId: String? = nil, status: Int? = nil) {
@@ -10776,15 +10832,21 @@ extension QuickSight {
         public let awsAccountId: String
         /// The ID for the dashboard.
         public let dashboardId: String
+        /// Grants link permissions to all users in a defined namespace.
+        public let grantLinkPermissions: [ResourcePermission]?
         /// The permissions that you want to grant on this resource.
         public let grantPermissions: [ResourcePermission]?
+        /// Revokes link permissions from all users in a defined namespace.
+        public let revokeLinkPermissions: [ResourcePermission]?
         /// The permissions that you want to revoke from this resource.
         public let revokePermissions: [ResourcePermission]?
 
-        public init(awsAccountId: String, dashboardId: String, grantPermissions: [ResourcePermission]? = nil, revokePermissions: [ResourcePermission]? = nil) {
+        public init(awsAccountId: String, dashboardId: String, grantLinkPermissions: [ResourcePermission]? = nil, grantPermissions: [ResourcePermission]? = nil, revokeLinkPermissions: [ResourcePermission]? = nil, revokePermissions: [ResourcePermission]? = nil) {
             self.awsAccountId = awsAccountId
             self.dashboardId = dashboardId
+            self.grantLinkPermissions = grantLinkPermissions
             self.grantPermissions = grantPermissions
+            self.revokeLinkPermissions = revokeLinkPermissions
             self.revokePermissions = revokePermissions
         }
 
@@ -10795,10 +10857,18 @@ extension QuickSight {
             try self.validate(self.dashboardId, name: "dashboardId", parent: name, max: 2048)
             try self.validate(self.dashboardId, name: "dashboardId", parent: name, min: 1)
             try self.validate(self.dashboardId, name: "dashboardId", parent: name, pattern: "^[\\w\\-]+$")
+            try self.grantLinkPermissions?.forEach {
+                try $0.validate(name: "\(name).grantLinkPermissions[]")
+            }
+            try self.validate(self.grantLinkPermissions, name: "grantLinkPermissions", parent: name, max: 2)
             try self.grantPermissions?.forEach {
                 try $0.validate(name: "\(name).grantPermissions[]")
             }
             try self.validate(self.grantPermissions, name: "grantPermissions", parent: name, max: 100)
+            try self.revokeLinkPermissions?.forEach {
+                try $0.validate(name: "\(name).revokeLinkPermissions[]")
+            }
+            try self.validate(self.revokeLinkPermissions, name: "revokeLinkPermissions", parent: name, max: 2)
             try self.revokePermissions?.forEach {
                 try $0.validate(name: "\(name).revokePermissions[]")
             }
@@ -10806,7 +10876,9 @@ extension QuickSight {
         }
 
         private enum CodingKeys: String, CodingKey {
+            case grantLinkPermissions = "GrantLinkPermissions"
             case grantPermissions = "GrantPermissions"
+            case revokeLinkPermissions = "RevokeLinkPermissions"
             case revokePermissions = "RevokePermissions"
         }
     }
@@ -10820,6 +10892,8 @@ extension QuickSight {
         public let dashboardArn: String?
         /// The ID for the dashboard.
         public let dashboardId: String?
+        /// Updates the permissions of a shared link to an Amazon QuickSight dashboard.
+        public let linkSharingConfiguration: LinkSharingConfiguration?
         /// Information about the permissions on the dashboard.
         public let permissions: [ResourcePermission]?
         /// The Amazon Web Services request ID for this operation.
@@ -10827,9 +10901,10 @@ extension QuickSight {
         /// The HTTP status of the request.
         public let status: Int?
 
-        public init(dashboardArn: String? = nil, dashboardId: String? = nil, permissions: [ResourcePermission]? = nil, requestId: String? = nil, status: Int? = nil) {
+        public init(dashboardArn: String? = nil, dashboardId: String? = nil, linkSharingConfiguration: LinkSharingConfiguration? = nil, permissions: [ResourcePermission]? = nil, requestId: String? = nil, status: Int? = nil) {
             self.dashboardArn = dashboardArn
             self.dashboardId = dashboardId
+            self.linkSharingConfiguration = linkSharingConfiguration
             self.permissions = permissions
             self.requestId = requestId
             self.status = status
@@ -10838,6 +10913,7 @@ extension QuickSight {
         private enum CodingKeys: String, CodingKey {
             case dashboardArn = "DashboardArn"
             case dashboardId = "DashboardId"
+            case linkSharingConfiguration = "LinkSharingConfiguration"
             case permissions = "Permissions"
             case requestId = "RequestId"
             case status = "Status"
@@ -10922,7 +10998,7 @@ extension QuickSight {
         public let name: String
         /// A structure that contains the parameters of the dashboard. These are parameter overrides for a dashboard. A dashboard can have any type of parameters, and some parameters might accept multiple values.
         public let parameters: Parameters?
-        /// The entity that you are using as a source when you update the dashboard. In SourceEntity, you specify the type of object you're using as source. You can only update a dashboard from a template, so you use a SourceTemplate entity. If you need to update a dashboard from an analysis, first convert the analysis to a template by using the CreateTemplate API operation. For SourceTemplate, specify the Amazon Resource Name (ARN) of the source template. The SourceTemplate ARN can contain any Amazon Web Services account and any Amazon QuickSight-supported Amazon Web Services Region.  Use the DataSetReferences entity within SourceTemplate to list the replacement datasets for the placeholders listed in the original. The schema in each dataset must match its placeholder.
+        /// The entity that you are using as a source when you update the dashboard. In SourceEntity, you specify the type of object you're using as source. You can only update a dashboard from a template, so you use a SourceTemplate entity. If you need to update a dashboard from an analysis, first convert the analysis to a template by using the  CreateTemplate API operation. For SourceTemplate, specify the Amazon Resource Name (ARN) of the source template. The SourceTemplate ARN can contain any Amazon Web Services account and any Amazon QuickSight-supported Amazon Web Services Region.  Use the DataSetReferences entity within SourceTemplate to list the replacement datasets for the placeholders listed in the original. The schema in each dataset must match its placeholder.
         public let sourceEntity: DashboardSourceEntity
         /// The Amazon Resource Name (ARN) of the theme that is being used for this dashboard. If you add a value for this field, it overrides the value that was originally associated with the entity. The theme ARN must exist in the same Amazon Web Services account where you create the dashboard.
         public let themeArn: String?
@@ -11376,9 +11452,9 @@ extension QuickSight {
             AWSMemberEncoding(label: "folderId", location: .uri("FolderId"))
         ]
 
-        /// The AWS account ID.
+        /// The ID for the Amazon Web Services account that contains the folder to update.
         public let awsAccountId: String
-        /// The folder ID.
+        /// The ID of the folder.
         public let folderId: String
         /// The permissions that you want to grant on a resource.
         public let grantPermissions: [ResourcePermission]?
@@ -11418,15 +11494,15 @@ extension QuickSight {
     }
 
     public struct UpdateFolderPermissionsResponse: AWSDecodableShape {
-        /// The Amazon Resource Name (ARN).
+        /// The Amazon Resource Name (ARN) of the folder.
         public let arn: String?
-        /// The folder ID.
+        /// The ID of the folder.
         public let folderId: String?
-        /// Information about the permissions on the dashboard.
+        /// Information about the permissions for the folder.
         public let permissions: [ResourcePermission]?
-        /// The request ID.
+        /// The Amazon Web Services request ID for this operation.
         public let requestId: String?
-        /// The status. If succeeded, the status is SC_OK.
+        /// The HTTP status of the request.
         public let status: Int?
 
         public init(arn: String? = nil, folderId: String? = nil, permissions: [ResourcePermission]? = nil, requestId: String? = nil, status: Int? = nil) {
@@ -11452,9 +11528,9 @@ extension QuickSight {
             AWSMemberEncoding(label: "folderId", location: .uri("FolderId"))
         ]
 
-        /// The AWS account ID.
+        /// The ID for the Amazon Web Services account that contains the folder to update.
         public let awsAccountId: String
-        /// The folder ID.
+        /// The ID of the folder.
         public let folderId: String
         /// The name of the folder.
         public let name: String
@@ -11486,13 +11562,13 @@ extension QuickSight {
             AWSMemberEncoding(label: "status", location: .statusCode)
         ]
 
-        /// The Amazon Resource Name (ARN).
+        /// The Amazon Resource Name (ARN) of the folder.
         public let arn: String?
-        /// The folder ID.
+        /// The ID of the folder.
         public let folderId: String?
-        /// The request ID.
+        /// The Amazon Web Services request ID for this operation.
         public let requestId: String?
-        /// The status. If succeeded, the status is SC_OK.
+        /// The HTTP status of the request.
         public let status: Int?
 
         public init(arn: String? = nil, folderId: String? = nil, requestId: String? = nil, status: Int? = nil) {
@@ -11590,13 +11666,13 @@ extension QuickSight {
         /// 				source.    DISABLED - This assignment isn't used when creating the data source.    DRAFT - This assignment is an unfinished draft and isn't used when creating the
         /// 				data source.
         public let assignmentStatus: AssignmentStatus?
-        /// The ID of the Amazon Web Services account that contains the IAMpolicy assignment.
+        /// The ID of the Amazon Web Services account that contains the IAM policy assignment.
         public let awsAccountId: String
         /// The Amazon QuickSight users, groups, or both that you want to assign the policy to.
         public let identities: [String: [String]]?
         /// The namespace of the assignment.
         public let namespace: String
-        /// The ARN for the IAMpolicy to apply to the Amazon QuickSight users and groups
+        /// The ARN for the IAM policy to apply to the Amazon QuickSight users and groups
         /// 			specified in this assignment.
         public let policyArn: String?
 
@@ -11640,9 +11716,9 @@ extension QuickSight {
         /// 				source.    DISABLED - This assignment isn't used when creating the data source.    DRAFT - This assignment is an unfinished draft and isn't used when creating the
         /// 				data source.
         public let assignmentStatus: AssignmentStatus?
-        /// The Amazon QuickSight users, groups, or both that the IAMpolicy is assigned to.
+        /// The Amazon QuickSight users, groups, or both that the IAM policy is assigned to.
         public let identities: [String: [String]]?
-        /// The ARN for the IAMpolicy applied to the Amazon QuickSight users and groups specified in this
+        /// The ARN for the IAM policy applied to the Amazon QuickSight users and groups specified in this
         /// 			assignment.
         public let policyArn: String?
         /// The Amazon Web Services request ID for this operation.
@@ -11676,11 +11752,11 @@ extension QuickSight {
             AWSMemberEncoding(label: "awsAccountId", location: .uri("AwsAccountId"))
         ]
 
-        /// Your AWS account ID.
+        /// The ID of the Amazon Web Services account that contains the IP rules.
         public let awsAccountId: String
-        /// Whether or not IP rules are enabled.
+        /// A value that specifies whether IP rules are turned on.
         public let enabled: Bool?
-        /// Describes updated IP rules.
+        /// A map that describes the updated IP rules with CIDR ranges and descriptions.
         public let ipRestrictionRuleMap: [String: String]?
 
         public init(awsAccountId: String, enabled: Bool? = nil, ipRestrictionRuleMap: [String: String]? = nil) {
@@ -11710,11 +11786,11 @@ extension QuickSight {
             AWSMemberEncoding(label: "status", location: .statusCode)
         ]
 
-        /// Your AWS account ID.
+        /// The ID of the Amazon Web Services account that contains the IP rules.
         public let awsAccountId: String?
-        /// The ID of the update request.
+        /// The Amazon Web Services request ID for this operation.
         public let requestId: String?
-        /// The status of the updated IP rules. A successful request returns a 200 code.
+        /// The HTTP status of the request.
         public let status: Int?
 
         public init(awsAccountId: String? = nil, requestId: String? = nil, status: Int? = nil) {
@@ -12221,11 +12297,11 @@ extension QuickSight {
         public let awsAccountId: String
         /// The URL of the custom OpenID Connect (OIDC) provider that provides identity to let a user federate into Amazon QuickSight with an associated Identity and Access Management(IAM) role. This parameter should only be used when ExternalLoginFederationProviderType parameter is set to CUSTOM_OIDC.
         public let customFederationProviderUrl: String?
-        /// (Enterprise edition only) The name of the custom permissions profile that you want to assign to this user. Customized permissions allows you to control a user's access by restricting access the following operations:   Create and update data sources   Create and update datasets   Create and update email reports   Subscribe to email reports   A set of custom permissions includes any combination of these restrictions. Currently, you need to create the profile names for custom permission sets by using the Amazon QuickSight console. Then, you use the RegisterUser API operation to assign the named set of permissions to a Amazon QuickSight user.  Amazon QuickSight custom permissions are applied through IAMpolicies. Therefore, they override the permissions typically granted by assigning Amazon QuickSight users to one of the default security cohorts in Amazon QuickSight (admin, author, reader). This feature is available only to Amazon QuickSight Enterprise edition subscriptions.
+        /// (Enterprise edition only) The name of the custom permissions profile that you want to assign to this user. Customized permissions allows you to control a user's access by restricting access the following operations:   Create and update data sources   Create and update datasets   Create and update email reports   Subscribe to email reports   A set of custom permissions includes any combination of these restrictions. Currently, you need to create the profile names for custom permission sets by using the Amazon QuickSight console. Then, you use the RegisterUser API operation to assign the named set of permissions to a QuickSight user.  Amazon QuickSight custom permissions are applied through IAM policies. Therefore, they override the permissions typically granted by assigning Amazon QuickSight users to one of the default security cohorts in Amazon QuickSight (admin, author, reader). This feature is available only to Amazon QuickSight Enterprise edition subscriptions.
         public let customPermissionsName: String?
         /// The email address of the user that you want to update.
         public let email: String
-        /// The type of supported external login provider that provides identity to let a user federate into Amazon QuickSight with an associated Identity and Access Management(IAM) role. The type of supported external login provider can be one of the following.    COGNITO: Amazon Cognito. The provider URL is cognito-identity.amazonaws.com. When choosing the COGNITO provider type, don’t use the "CustomFederationProviderUrl" parameter which is only needed when the external provider is custom.    CUSTOM_OIDC: Custom OpenID Connect (OIDC) provider. When choosing CUSTOM_OIDC type, use the CustomFederationProviderUrl parameter to provide the custom OIDC provider URL.    NONE: This clears all the previously saved external login information for a user. Use  DescribeUser API to check the external login information.
+        /// The type of supported external login provider that provides identity to let a user federate into Amazon QuickSight with an associated Identity and Access Management(IAM) role. The type of supported external login provider can be one of the following.    COGNITO: Amazon Cognito. The provider URL is cognito-identity.amazonaws.com. When choosing the COGNITO provider type, don’t use the "CustomFederationProviderUrl" parameter which is only needed when the external provider is custom.    CUSTOM_OIDC: Custom OpenID Connect (OIDC) provider. When choosing CUSTOM_OIDC type, use the CustomFederationProviderUrl parameter to provide the custom OIDC provider URL.    NONE: This clears all the previously saved external login information for a user. Use the  DescribeUser  API operation to check the external login information.
         public let externalLoginFederationProviderType: String?
         /// The identity ID for a user in the external login provider.
         public let externalLoginId: String?
@@ -12356,7 +12432,7 @@ extension QuickSight {
         public let customPermissionsName: String?
         /// The user's email address.
         public let email: String?
-        /// The type of supported external login provider that provides identity to let the user federate into Amazon QuickSight with an associated IAMrole. The type can be one of the following.    COGNITO: Amazon Cognito. The provider URL is cognito-identity.amazonaws.com.    CUSTOM_OIDC: Custom OpenID Connect (OIDC) provider.
+        /// The type of supported external login provider that provides identity to let the user federate into Amazon QuickSight with an associated IAM role. The type can be one of the following.    COGNITO: Amazon Cognito. The provider URL is cognito-identity.amazonaws.com.    CUSTOM_OIDC: Custom OpenID Connect (OIDC) provider.
         public let externalLoginFederationProviderType: String?
         /// The URL of the external login provider.
         public let externalLoginFederationProviderUrl: String?
@@ -12368,7 +12444,7 @@ extension QuickSight {
         public let principalId: String?
         /// The Amazon QuickSight role for the user. The user role can be one of the following:.    READER: A user who has read-only access to dashboards.    AUTHOR: A user who can create data sources, datasets, analyses, and dashboards.    ADMIN: A user who is an author, who can also manage Amazon Amazon QuickSight settings.    RESTRICTED_READER: This role isn't currently available for use.    RESTRICTED_AUTHOR: This role isn't currently available for use.
         public let role: UserRole?
-        /// The user's user name.
+        /// The user's user name. In the output, the value for UserName is N/A when the value for IdentityType is IAM and the corresponding IAM user is deleted.
         public let userName: String?
 
         public init(active: Bool? = nil, arn: String? = nil, customPermissionsName: String? = nil, email: String? = nil, externalLoginFederationProviderType: String? = nil, externalLoginFederationProviderUrl: String? = nil, externalLoginId: String? = nil, identityType: IdentityType? = nil, principalId: String? = nil, role: UserRole? = nil, userName: String? = nil) {

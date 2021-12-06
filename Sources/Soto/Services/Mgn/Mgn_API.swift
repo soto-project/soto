@@ -88,6 +88,11 @@ public struct Mgn: AWSService {
         return self.client.execute(operation: "DeleteSourceServer", path: "/DeleteSourceServer", httpMethod: .POST, serviceConfig: self.config, input: input, logger: logger, on: eventLoop)
     }
 
+    /// Deletes a single vCenter client by ID.
+    @discardableResult public func deleteVcenterClient(_ input: DeleteVcenterClientRequest, logger: Logger = AWSClient.loggingDisabled, on eventLoop: EventLoop? = nil) -> EventLoopFuture<Void> {
+        return self.client.execute(operation: "DeleteVcenterClient", path: "/DeleteVcenterClient", httpMethod: .POST, serviceConfig: self.config, input: input, logger: logger, on: eventLoop)
+    }
+
     /// Retrieves detailed Job log with paging.
     public func describeJobLogItems(_ input: DescribeJobLogItemsRequest, logger: Logger = AWSClient.loggingDisabled, on eventLoop: EventLoop? = nil) -> EventLoopFuture<DescribeJobLogItemsResponse> {
         return self.client.execute(operation: "DescribeJobLogItems", path: "/DescribeJobLogItems", httpMethod: .POST, serviceConfig: self.config, input: input, logger: logger, on: eventLoop)
@@ -106,6 +111,11 @@ public struct Mgn: AWSService {
     /// Retrieves all SourceServers or multiple SourceServers by ID.
     public func describeSourceServers(_ input: DescribeSourceServersRequest, logger: Logger = AWSClient.loggingDisabled, on eventLoop: EventLoop? = nil) -> EventLoopFuture<DescribeSourceServersResponse> {
         return self.client.execute(operation: "DescribeSourceServers", path: "/DescribeSourceServers", httpMethod: .POST, serviceConfig: self.config, input: input, logger: logger, on: eventLoop)
+    }
+
+    /// Lists all vCenter clients.
+    public func describeVcenterClients(_ input: DescribeVcenterClientsRequest, logger: Logger = AWSClient.loggingDisabled, on eventLoop: EventLoop? = nil) -> EventLoopFuture<DescribeVcenterClientsResponse> {
+        return self.client.execute(operation: "DescribeVcenterClients", path: "/DescribeVcenterClients", httpMethod: .GET, serviceConfig: self.config, input: input, logger: logger, on: eventLoop)
     }
 
     /// Disconnects specific Source Servers from Application Migration Service. Data replication is stopped immediately. All AWS resources created by Application Migration Service for enabling the replication of these source servers will be terminated / deleted within 90 minutes. Launched Test or Cutover instances will NOT be terminated. If the agent on the source server has not been prevented from communciating with the Application Migration Service service, then it will receive a command to uninstall itself (within approximately 10 minutes). The following properties of the SourceServer will be changed immediately: dataReplicationInfo.dataReplicationState will be set to DISCONNECTED; The totalStorageBytes property for each of dataReplicationInfo.replicatedDisks will be set to zero; dataReplicationInfo.lagDuration and dataReplicationInfo.lagDurationwill be nullified.
@@ -153,6 +163,11 @@ public struct Mgn: AWSService {
         return self.client.execute(operation: "StartCutover", path: "/StartCutover", httpMethod: .POST, serviceConfig: self.config, input: input, logger: logger, on: eventLoop)
     }
 
+    /// Starts replication on source server by ID.
+    public func startReplication(_ input: StartReplicationRequest, logger: Logger = AWSClient.loggingDisabled, on eventLoop: EventLoop? = nil) -> EventLoopFuture<SourceServer> {
+        return self.client.execute(operation: "StartReplication", path: "/StartReplication", httpMethod: .POST, serviceConfig: self.config, input: input, logger: logger, on: eventLoop)
+    }
+
     /// Lauches a Test Instance for specific Source Servers. This command starts a LAUNCH job whose initiatedBy property is StartTest and changes the SourceServer.lifeCycle.state property to TESTING.
     public func startTest(_ input: StartTestRequest, logger: Logger = AWSClient.loggingDisabled, on eventLoop: EventLoop? = nil) -> EventLoopFuture<StartTestResponse> {
         return self.client.execute(operation: "StartTest", path: "/StartTest", httpMethod: .POST, serviceConfig: self.config, input: input, logger: logger, on: eventLoop)
@@ -186,6 +201,11 @@ public struct Mgn: AWSService {
     /// Updates multiple ReplicationConfigurationTemplates by ID.
     public func updateReplicationConfigurationTemplate(_ input: UpdateReplicationConfigurationTemplateRequest, logger: Logger = AWSClient.loggingDisabled, on eventLoop: EventLoop? = nil) -> EventLoopFuture<ReplicationConfigurationTemplate> {
         return self.client.execute(operation: "UpdateReplicationConfigurationTemplate", path: "/UpdateReplicationConfigurationTemplate", httpMethod: .POST, serviceConfig: self.config, input: input, logger: logger, on: eventLoop)
+    }
+
+    /// Updates source server Replication Type by ID.
+    public func updateSourceServerReplicationType(_ input: UpdateSourceServerReplicationTypeRequest, logger: Logger = AWSClient.loggingDisabled, on eventLoop: EventLoop? = nil) -> EventLoopFuture<SourceServer> {
+        return self.client.execute(operation: "UpdateSourceServerReplicationType", path: "/UpdateSourceServerReplicationType", httpMethod: .POST, serviceConfig: self.config, input: input, logger: logger, on: eventLoop)
     }
 }
 

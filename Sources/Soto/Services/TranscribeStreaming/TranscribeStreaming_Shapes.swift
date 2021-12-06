@@ -261,7 +261,7 @@ extension TranscribeStreaming {
     }
 
     public struct Entity: AWSDecodableShape {
-        /// The category of of information identified in this entity; for example, PII.
+        /// The category of information identified in this entity; for example, PII.
         public let category: String?
         /// A value between zero and one that Amazon Transcribe assigns to PII identified in the source audio. Larger values indicate a higher confidence in PII identification.
         public let confidence: Double?
@@ -306,13 +306,13 @@ extension TranscribeStreaming {
     }
 
     public struct Item: AWSDecodableShape {
-        /// A value between 0 and 1 for an item that is a confidence score that Amazon Transcribe assigns to each word or phrase that it transcribes.
+        /// A value between zero and one for an item that is a confidence score that Amazon Transcribe assigns to each word or phrase that it transcribes.
         public let confidence: Double?
         /// The word or punctuation that was recognized in the input audio.
         public let content: String?
         /// The offset from the beginning of the audio stream to the end of the audio that resulted in the item.
         public let endTime: Double?
-        /// If speaker identification is enabled, shows the speakers identified in the real-time stream.
+        /// If speaker identification is enabled, shows the speakers identified in the media stream.
         public let speaker: String?
         /// If partial result stabilization has been enabled, indicates whether the word or phrase in the item is stable. If Stable is true, the result is stable.
         public let stable: Bool?
@@ -320,7 +320,7 @@ extension TranscribeStreaming {
         public let startTime: Double?
         /// The type of the item. PRONUNCIATION indicates that the item is a word that was recognized in the input audio. PUNCTUATION indicates that the item was interpreted as a pause in the input audio.
         public let type: ItemType?
-        /// Indicates whether a word in the item matches a word in the vocabulary filter you've chosen for your real-time stream. If true then a word in the item matches your vocabulary filter.
+        /// Indicates whether a word in the item matches a word in the vocabulary filter you've chosen for your media stream. If true then a word in the item matches your vocabulary filter.
         public let vocabularyFilterMatch: Bool?
 
         public init(confidence: Double? = nil, content: String? = nil, endTime: Double? = nil, speaker: String? = nil, stable: Bool? = nil, startTime: Double? = nil, type: ItemType? = nil, vocabularyFilterMatch: Bool? = nil) {
@@ -343,6 +343,23 @@ extension TranscribeStreaming {
             case startTime = "StartTime"
             case type = "Type"
             case vocabularyFilterMatch = "VocabularyFilterMatch"
+        }
+    }
+
+    public struct LanguageWithScore: AWSDecodableShape {
+        /// The language code of the language identified by Amazon Transcribe.
+        public let languageCode: LanguageCode?
+        /// The confidence score for the associated language code. Confidence scores are values between zero and one; larger values indicate a higher confidence in the identified language.
+        public let score: Double?
+
+        public init(languageCode: LanguageCode? = nil, score: Double? = nil) {
+            self.languageCode = languageCode
+            self.score = score
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case languageCode = "LanguageCode"
+            case score = "Score"
         }
     }
 
@@ -509,16 +526,22 @@ extension TranscribeStreaming {
         public let endTime: Double?
         /// Amazon Transcribe divides the incoming audio stream into segments at natural points in the audio. Transcription results are returned based on these segments.  The IsPartial field is true to indicate that Amazon Transcribe has additional transcription data to send, false to indicate that this is the last transcription result for the segment.
         public let isPartial: Bool?
+        /// The language code of the identified language in your media stream.
+        public let languageCode: LanguageCode?
+        /// The language code of the dominant language identified in your media.
+        public let languageIdentification: [LanguageWithScore]?
         /// A unique identifier for the result.
         public let resultId: String?
         /// The offset in seconds from the beginning of the audio stream to the beginning of the result.
         public let startTime: Double?
 
-        public init(alternatives: [Alternative]? = nil, channelId: String? = nil, endTime: Double? = nil, isPartial: Bool? = nil, resultId: String? = nil, startTime: Double? = nil) {
+        public init(alternatives: [Alternative]? = nil, channelId: String? = nil, endTime: Double? = nil, isPartial: Bool? = nil, languageCode: LanguageCode? = nil, languageIdentification: [LanguageWithScore]? = nil, resultId: String? = nil, startTime: Double? = nil) {
             self.alternatives = alternatives
             self.channelId = channelId
             self.endTime = endTime
             self.isPartial = isPartial
+            self.languageCode = languageCode
+            self.languageIdentification = languageIdentification
             self.resultId = resultId
             self.startTime = startTime
         }
@@ -528,6 +551,8 @@ extension TranscribeStreaming {
             case channelId = "ChannelId"
             case endTime = "EndTime"
             case isPartial = "IsPartial"
+            case languageCode = "LanguageCode"
+            case languageIdentification = "LanguageIdentification"
             case resultId = "ResultId"
             case startTime = "StartTime"
         }
@@ -707,13 +732,16 @@ extension TranscribeStreaming {
             AWSMemberEncoding(label: "contentRedactionType", location: .header("x-amzn-transcribe-content-redaction-type")),
             AWSMemberEncoding(label: "enableChannelIdentification", location: .header("x-amzn-transcribe-enable-channel-identification")),
             AWSMemberEncoding(label: "enablePartialResultsStabilization", location: .header("x-amzn-transcribe-enable-partial-results-stabilization")),
+            AWSMemberEncoding(label: "identifyLanguage", location: .header("x-amzn-transcribe-identify-language")),
             AWSMemberEncoding(label: "languageCode", location: .header("x-amzn-transcribe-language-code")),
             AWSMemberEncoding(label: "languageModelName", location: .header("x-amzn-transcribe-language-model-name")),
+            AWSMemberEncoding(label: "languageOptions", location: .header("x-amzn-transcribe-language-options")),
             AWSMemberEncoding(label: "mediaEncoding", location: .header("x-amzn-transcribe-media-encoding")),
             AWSMemberEncoding(label: "mediaSampleRateHertz", location: .header("x-amzn-transcribe-sample-rate")),
             AWSMemberEncoding(label: "numberOfChannels", location: .header("x-amzn-transcribe-number-of-channels")),
             AWSMemberEncoding(label: "partialResultsStability", location: .header("x-amzn-transcribe-partial-results-stability")),
             AWSMemberEncoding(label: "piiEntityTypes", location: .header("x-amzn-transcribe-pii-entity-types")),
+            AWSMemberEncoding(label: "preferredLanguage", location: .header("x-amzn-transcribe-preferred-language")),
             AWSMemberEncoding(label: "sessionId", location: .header("x-amzn-transcribe-session-id")),
             AWSMemberEncoding(label: "showSpeakerLabel", location: .header("x-amzn-transcribe-show-speaker-label")),
             AWSMemberEncoding(label: "vocabularyFilterMethod", location: .header("x-amzn-transcribe-vocabulary-filter-method")),
@@ -723,52 +751,61 @@ extension TranscribeStreaming {
 
         /// PCM-encoded stream of audio blobs. The audio stream is encoded as an HTTP/2 data frame.
         public let audioStream: AudioStream
-        /// Set this field to PII to identify personally identifiable information (PII) in the transcription output. Content identification is performed only upon complete transcription of the audio segments.  You can’t set both ContentIdentificationType and ContentRedactionType in the same request. If you set both, your request returns a BadRequestException.
+        /// Set this field to PII to identify personally identifiable information (PII) in the transcription output. Content identification is performed only upon complete transcription of the audio segments.  You can’t set both ContentIdentificationType and ContentRedactionType in the same request. If you set both, your request  returns a BadRequestException.
         public let contentIdentificationType: ContentIdentificationType?
         /// Set this field to PII to redact personally identifiable information (PII) in the transcription output. Content redaction is performed only upon complete transcription of the audio segments.  You can’t set both ContentRedactionType and ContentIdentificationType in the same request. If you set both, your request returns a BadRequestException.
         public let contentRedactionType: ContentRedactionType?
-        /// When true, instructs Amazon Transcribe to process each audio channel separately and then merge the transcription output of each channel into a single transcription. Amazon Transcribe also produces a transcription of each item. An item includes the start time, end time, and any alternative transcriptions. You can't set both ShowSpeakerLabel and EnableChannelIdentification in the same request. If you set both, your request returns a BadRequestException.
+        /// When true, instructs Amazon Transcribe to process each audio channel separately, then merges the transcription output of each channel into a single transcription. Amazon Transcribe also produces a transcription of each item. An item includes the start time, end time, and any alternative transcriptions. You can't set both ShowSpeakerLabel and EnableChannelIdentification in the same request. If you set both, your request returns a BadRequestException.
         public let enableChannelIdentification: Bool?
         /// When true, instructs Amazon Transcribe to present transcription results that have the partial results stabilized. Normally, any word or phrase from one partial result can change in a subsequent partial result. With partial results stabilization enabled, only the last few words of one partial result can change in another partial result.
         public let enablePartialResultsStabilization: Bool?
-        /// Indicates the source language used in the input audio stream.
-        public let languageCode: LanguageCode
+        /// Optional. Set this value to true to enable language identification for  your media stream.
+        public let identifyLanguage: Bool?
+        /// The language code of the input audio stream.
+        public let languageCode: LanguageCode?
         /// The name of the language model you want to use.
         public let languageModelName: String?
+        /// An object containing a list of languages that might be present in your audio. You must provide two or more language codes to help Amazon Transcribe identify the correct  language of your media stream with the highest possible accuracy. You can only select one variant per language; for example, you can't include both en-US and en-UK in the same request. You can only use this parameter if you've set IdentifyLanguage to truein your request.
+        public let languageOptions: String?
         /// The encoding used for the input audio.
         public let mediaEncoding: MediaEncoding
-        /// The sample rate, in Hertz, of the input audio. We suggest that you use 8,000 Hz for low quality audio and 16,000 Hz for high quality audio.
+        /// The sample rate, in Hertz (Hz), of the input audio. We suggest that you use 8,000 Hz  for low quality audio and 16,000 Hz or higher for high quality audio.
         public let mediaSampleRateHertz: Int
         /// The number of channels that are in your audio stream.
         public let numberOfChannels: Int?
         /// You can use this field to set the stability level of the transcription results. A higher stability level means that the transcription results are less likely to change. Higher stability levels can come with lower overall transcription accuracy.
         public let partialResultsStability: PartialResultsStability?
-        /// List the PII entity types you want to identify or redact. In order to specify entity types, you must have  either ContentIdentificationType or ContentRedactionType enabled.      PiiEntityTypes is an optional parameter with a default value of ALL.
+        /// List the PII entity types you want to identify or redact. In order to specify entity types, you must have either ContentIdentificationType or ContentRedactionType enabled.  PIIEntityTypes must be comma-separated; the available values are: BANK_ACCOUNT_NUMBER, BANK_ROUTING, CREDIT_DEBIT_NUMBER, CREDIT_DEBIT_CVV,  CREDIT_DEBIT_EXPIRY, PIN, EMAIL,  ADDRESS, NAME, PHONE,  SSN, and ALL.  PiiEntityTypes is an optional parameter with a default value of ALL.
         public let piiEntityTypes: String?
+        /// Optional. From the subset of languages codes you provided for  LanguageOptions, you can select one preferred language for your  transcription. You can only use this parameter if you've set IdentifyLanguage to truein your request.
+        public let preferredLanguage: LanguageCode?
         /// A identifier for the transcription session. Use this parameter when you want to retry a session. If you don't provide a session ID, Amazon Transcribe will generate one for you and return it in the response.
         public let sessionId: String?
-        /// When true, enables speaker identification in your real-time stream.
+        /// When true, enables speaker identification in your media stream.
         public let showSpeakerLabel: Bool?
-        /// The manner in which you use your vocabulary filter to filter words in your transcript. Remove removes filtered words from your transcription results. Mask masks filtered words with a *** in your transcription results. Tag keeps the filtered words in your transcription results and tags them. The tag appears as VocabularyFilterMatch equal to True
+        /// The manner in which you use your vocabulary filter to filter words in your transcript. Remove removes filtered words from your transcription results. Mask masks filtered words with a *** in your transcription results. Tag keeps the filtered words in your transcription results and tags  them. The tag appears as VocabularyFilterMatch equal to  True.
         public let vocabularyFilterMethod: VocabularyFilterMethod?
         /// The name of the vocabulary filter you've created that is unique to your account. Provide the name in this field to successfully use it in a stream.
         public let vocabularyFilterName: String?
         /// The name of the vocabulary to use when processing the transcription job.
         public let vocabularyName: String?
 
-        public init(audioStream: AudioStream, contentIdentificationType: ContentIdentificationType? = nil, contentRedactionType: ContentRedactionType? = nil, enableChannelIdentification: Bool? = nil, enablePartialResultsStabilization: Bool? = nil, languageCode: LanguageCode, languageModelName: String? = nil, mediaEncoding: MediaEncoding, mediaSampleRateHertz: Int, numberOfChannels: Int? = nil, partialResultsStability: PartialResultsStability? = nil, piiEntityTypes: String? = nil, sessionId: String? = nil, showSpeakerLabel: Bool? = nil, vocabularyFilterMethod: VocabularyFilterMethod? = nil, vocabularyFilterName: String? = nil, vocabularyName: String? = nil) {
+        public init(audioStream: AudioStream, contentIdentificationType: ContentIdentificationType? = nil, contentRedactionType: ContentRedactionType? = nil, enableChannelIdentification: Bool? = nil, enablePartialResultsStabilization: Bool? = nil, identifyLanguage: Bool? = nil, languageCode: LanguageCode? = nil, languageModelName: String? = nil, languageOptions: String? = nil, mediaEncoding: MediaEncoding, mediaSampleRateHertz: Int, numberOfChannels: Int? = nil, partialResultsStability: PartialResultsStability? = nil, piiEntityTypes: String? = nil, preferredLanguage: LanguageCode? = nil, sessionId: String? = nil, showSpeakerLabel: Bool? = nil, vocabularyFilterMethod: VocabularyFilterMethod? = nil, vocabularyFilterName: String? = nil, vocabularyName: String? = nil) {
             self.audioStream = audioStream
             self.contentIdentificationType = contentIdentificationType
             self.contentRedactionType = contentRedactionType
             self.enableChannelIdentification = enableChannelIdentification
             self.enablePartialResultsStabilization = enablePartialResultsStabilization
+            self.identifyLanguage = identifyLanguage
             self.languageCode = languageCode
             self.languageModelName = languageModelName
+            self.languageOptions = languageOptions
             self.mediaEncoding = mediaEncoding
             self.mediaSampleRateHertz = mediaSampleRateHertz
             self.numberOfChannels = numberOfChannels
             self.partialResultsStability = partialResultsStability
             self.piiEntityTypes = piiEntityTypes
+            self.preferredLanguage = preferredLanguage
             self.sessionId = sessionId
             self.showSpeakerLabel = showSpeakerLabel
             self.vocabularyFilterMethod = vocabularyFilterMethod
@@ -780,6 +817,9 @@ extension TranscribeStreaming {
             try self.validate(self.languageModelName, name: "languageModelName", parent: name, max: 200)
             try self.validate(self.languageModelName, name: "languageModelName", parent: name, min: 1)
             try self.validate(self.languageModelName, name: "languageModelName", parent: name, pattern: "^[0-9a-zA-Z._-]+$")
+            try self.validate(self.languageOptions, name: "languageOptions", parent: name, max: 200)
+            try self.validate(self.languageOptions, name: "languageOptions", parent: name, min: 1)
+            try self.validate(self.languageOptions, name: "languageOptions", parent: name, pattern: "^[a-zA-Z-,]+$")
             try self.validate(self.mediaSampleRateHertz, name: "mediaSampleRateHertz", parent: name, max: 48000)
             try self.validate(self.mediaSampleRateHertz, name: "mediaSampleRateHertz", parent: name, min: 8000)
             try self.validate(self.numberOfChannels, name: "numberOfChannels", parent: name, min: 2)
@@ -810,13 +850,16 @@ extension TranscribeStreaming {
             AWSMemberEncoding(label: "contentRedactionType", location: .header("x-amzn-transcribe-content-redaction-type")),
             AWSMemberEncoding(label: "enableChannelIdentification", location: .header("x-amzn-transcribe-enable-channel-identification")),
             AWSMemberEncoding(label: "enablePartialResultsStabilization", location: .header("x-amzn-transcribe-enable-partial-results-stabilization")),
+            AWSMemberEncoding(label: "identifyLanguage", location: .header("x-amzn-transcribe-identify-language")),
             AWSMemberEncoding(label: "languageCode", location: .header("x-amzn-transcribe-language-code")),
             AWSMemberEncoding(label: "languageModelName", location: .header("x-amzn-transcribe-language-model-name")),
+            AWSMemberEncoding(label: "languageOptions", location: .header("x-amzn-transcribe-language-options")),
             AWSMemberEncoding(label: "mediaEncoding", location: .header("x-amzn-transcribe-media-encoding")),
             AWSMemberEncoding(label: "mediaSampleRateHertz", location: .header("x-amzn-transcribe-sample-rate")),
             AWSMemberEncoding(label: "numberOfChannels", location: .header("x-amzn-transcribe-number-of-channels")),
             AWSMemberEncoding(label: "partialResultsStability", location: .header("x-amzn-transcribe-partial-results-stability")),
             AWSMemberEncoding(label: "piiEntityTypes", location: .header("x-amzn-transcribe-pii-entity-types")),
+            AWSMemberEncoding(label: "preferredLanguage", location: .header("x-amzn-transcribe-preferred-language")),
             AWSMemberEncoding(label: "requestId", location: .header("x-amzn-request-id")),
             AWSMemberEncoding(label: "sessionId", location: .header("x-amzn-transcribe-session-id")),
             AWSMemberEncoding(label: "showSpeakerLabel", location: .header("x-amzn-transcribe-show-speaker-label")),
@@ -834,12 +877,17 @@ extension TranscribeStreaming {
         public let enableChannelIdentification: Bool?
         /// Shows whether partial results stabilization has been enabled in the stream.
         public let enablePartialResultsStabilization: Bool?
-        /// The language code for the input audio stream.
+        /// The language code of the language identified in your media stream.
+        public let identifyLanguage: Bool?
+        /// The language code of the input audio stream.
         public let languageCode: LanguageCode?
+        /// The name of the language model used in your media stream.
         public let languageModelName: String?
+        /// The language codes used in the identification of your media stream's predominant  language.
+        public let languageOptions: String?
         /// The encoding used for the input audio stream.
         public let mediaEncoding: MediaEncoding?
-        /// The sample rate for the input audio stream. Use 8,000 Hz for low quality audio and 16,000 Hz for high quality audio.
+        /// The sample rate, in Hertz (Hz), for the input audio stream. Use 8,000 Hz for low quality  audio and 16,000 Hz or higher for high quality audio.
         public let mediaSampleRateHertz: Int?
         /// The number of channels identified in the stream.
         public let numberOfChannels: Int?
@@ -847,6 +895,8 @@ extension TranscribeStreaming {
         public let partialResultsStability: PartialResultsStability?
         /// Lists the PII entity types you specified in your request.
         public let piiEntityTypes: String?
+        /// The preferred language you specified in your request.
+        public let preferredLanguage: LanguageCode?
         /// An identifier for the streaming transcription.
         public let requestId: String?
         /// An identifier for a specific transcription session.
@@ -855,25 +905,28 @@ extension TranscribeStreaming {
         public let showSpeakerLabel: Bool?
         /// Represents the stream of transcription events from Amazon Transcribe to your application.
         public let transcriptResultStream: TranscriptResultStream?
-        /// The vocabulary filtering method used in the real-time stream.
+        /// The vocabulary filtering method used in the media stream.
         public let vocabularyFilterMethod: VocabularyFilterMethod?
-        /// The name of the vocabulary filter used in your real-time stream.
+        /// The name of the vocabulary filter used in your media stream.
         public let vocabularyFilterName: String?
         /// The name of the vocabulary used when processing the stream.
         public let vocabularyName: String?
 
-        public init(contentIdentificationType: ContentIdentificationType? = nil, contentRedactionType: ContentRedactionType? = nil, enableChannelIdentification: Bool? = nil, enablePartialResultsStabilization: Bool? = nil, languageCode: LanguageCode? = nil, languageModelName: String? = nil, mediaEncoding: MediaEncoding? = nil, mediaSampleRateHertz: Int? = nil, numberOfChannels: Int? = nil, partialResultsStability: PartialResultsStability? = nil, piiEntityTypes: String? = nil, requestId: String? = nil, sessionId: String? = nil, showSpeakerLabel: Bool? = nil, transcriptResultStream: TranscriptResultStream? = nil, vocabularyFilterMethod: VocabularyFilterMethod? = nil, vocabularyFilterName: String? = nil, vocabularyName: String? = nil) {
+        public init(contentIdentificationType: ContentIdentificationType? = nil, contentRedactionType: ContentRedactionType? = nil, enableChannelIdentification: Bool? = nil, enablePartialResultsStabilization: Bool? = nil, identifyLanguage: Bool? = nil, languageCode: LanguageCode? = nil, languageModelName: String? = nil, languageOptions: String? = nil, mediaEncoding: MediaEncoding? = nil, mediaSampleRateHertz: Int? = nil, numberOfChannels: Int? = nil, partialResultsStability: PartialResultsStability? = nil, piiEntityTypes: String? = nil, preferredLanguage: LanguageCode? = nil, requestId: String? = nil, sessionId: String? = nil, showSpeakerLabel: Bool? = nil, transcriptResultStream: TranscriptResultStream? = nil, vocabularyFilterMethod: VocabularyFilterMethod? = nil, vocabularyFilterName: String? = nil, vocabularyName: String? = nil) {
             self.contentIdentificationType = contentIdentificationType
             self.contentRedactionType = contentRedactionType
             self.enableChannelIdentification = enableChannelIdentification
             self.enablePartialResultsStabilization = enablePartialResultsStabilization
+            self.identifyLanguage = identifyLanguage
             self.languageCode = languageCode
             self.languageModelName = languageModelName
+            self.languageOptions = languageOptions
             self.mediaEncoding = mediaEncoding
             self.mediaSampleRateHertz = mediaSampleRateHertz
             self.numberOfChannels = numberOfChannels
             self.partialResultsStability = partialResultsStability
             self.piiEntityTypes = piiEntityTypes
+            self.preferredLanguage = preferredLanguage
             self.requestId = requestId
             self.sessionId = sessionId
             self.showSpeakerLabel = showSpeakerLabel
@@ -888,13 +941,16 @@ extension TranscribeStreaming {
             case contentRedactionType = "x-amzn-transcribe-content-redaction-type"
             case enableChannelIdentification = "x-amzn-transcribe-enable-channel-identification"
             case enablePartialResultsStabilization = "x-amzn-transcribe-enable-partial-results-stabilization"
+            case identifyLanguage = "x-amzn-transcribe-identify-language"
             case languageCode = "x-amzn-transcribe-language-code"
             case languageModelName = "x-amzn-transcribe-language-model-name"
+            case languageOptions = "x-amzn-transcribe-language-options"
             case mediaEncoding = "x-amzn-transcribe-media-encoding"
             case mediaSampleRateHertz = "x-amzn-transcribe-sample-rate"
             case numberOfChannels = "x-amzn-transcribe-number-of-channels"
             case partialResultsStability = "x-amzn-transcribe-partial-results-stability"
             case piiEntityTypes = "x-amzn-transcribe-pii-entity-types"
+            case preferredLanguage = "x-amzn-transcribe-preferred-language"
             case requestId = "x-amzn-request-id"
             case sessionId = "x-amzn-transcribe-session-id"
             case showSpeakerLabel = "x-amzn-transcribe-show-speaker-label"

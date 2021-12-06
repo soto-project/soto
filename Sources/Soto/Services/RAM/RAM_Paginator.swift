@@ -20,7 +20,7 @@ import SotoCore
 // MARK: Paginators
 
 extension RAM {
-    ///  Gets the policies for the specified resources that you own and have shared.
+    ///  Retrieves the resource policies for the specified resources that you own and have shared.
     ///
     /// Provide paginated results to closure `onPage` for it to combine them into one result.
     /// This works in a similar manner to `Array.reduce<Result>(_:_:) -> Result`.
@@ -73,7 +73,7 @@ extension RAM {
         )
     }
 
-    ///  Gets the resources or principals for the resource shares that you own.
+    ///  Retrieves the resource and principal associations for resource shares that you own.
     ///
     /// Provide paginated results to closure `onPage` for it to combine them into one result.
     /// This works in a similar manner to `Array.reduce<Result>(_:_:) -> Result`.
@@ -126,7 +126,7 @@ extension RAM {
         )
     }
 
-    ///  Gets the invitations that you have received for resource shares.
+    ///  Retrieves details about invitations that you have received for resource shares.
     ///
     /// Provide paginated results to closure `onPage` for it to combine them into one result.
     /// This works in a similar manner to `Array.reduce<Result>(_:_:) -> Result`.
@@ -179,7 +179,7 @@ extension RAM {
         )
     }
 
-    ///  Gets the resource shares that you own or the resource shares that are shared with you.
+    ///  Retrieves details about the resource shares that you own or that are shared with you.
     ///
     /// Provide paginated results to closure `onPage` for it to combine them into one result.
     /// This works in a similar manner to `Array.reduce<Result>(_:_:) -> Result`.
@@ -232,7 +232,7 @@ extension RAM {
         )
     }
 
-    ///  Lists the resources in a resource share that is shared with you but that the invitation is still pending for.
+    ///  Lists the resources in a resource share that is shared with you but for which the invitation is still PENDING. That means that you haven't accepted or rejected the invitation and the invitation hasn't expired.
     ///
     /// Provide paginated results to closure `onPage` for it to combine them into one result.
     /// This works in a similar manner to `Array.reduce<Result>(_:_:) -> Result`.
@@ -285,7 +285,7 @@ extension RAM {
         )
     }
 
-    ///  Lists the RAM permissions.
+    ///  Retrieves a list of available RAM permissions that you can use for the supported resource types.
     ///
     /// Provide paginated results to closure `onPage` for it to combine them into one result.
     /// This works in a similar manner to `Array.reduce<Result>(_:_:) -> Result`.
@@ -338,7 +338,7 @@ extension RAM {
         )
     }
 
-    ///  Lists the principals that you have shared resources with or that have shared resources with you.
+    ///  Lists the principals that you are sharing resources with or that are sharing resources with you.
     ///
     /// Provide paginated results to closure `onPage` for it to combine them into one result.
     /// This works in a similar manner to `Array.reduce<Result>(_:_:) -> Result`.
@@ -444,7 +444,7 @@ extension RAM {
         )
     }
 
-    ///  Lists the shareable resource types supported by RAM.
+    ///  Lists the resource types that can be shared by RAM.
     ///
     /// Provide paginated results to closure `onPage` for it to combine them into one result.
     /// This works in a similar manner to `Array.reduce<Result>(_:_:) -> Result`.
@@ -607,6 +607,7 @@ extension RAM.ListPendingInvitationResourcesRequest: AWSPaginateToken {
         return .init(
             maxResults: self.maxResults,
             nextToken: token,
+            resourceRegionScope: self.resourceRegionScope,
             resourceShareInvitationArn: self.resourceShareInvitationArn
         )
     }
@@ -650,7 +651,8 @@ extension RAM.ListResourceTypesRequest: AWSPaginateToken {
     public func usingPaginationToken(_ token: String) -> RAM.ListResourceTypesRequest {
         return .init(
             maxResults: self.maxResults,
-            nextToken: token
+            nextToken: token,
+            resourceRegionScope: self.resourceRegionScope
         )
     }
 }
@@ -663,6 +665,7 @@ extension RAM.ListResourcesRequest: AWSPaginateToken {
             principal: self.principal,
             resourceArns: self.resourceArns,
             resourceOwner: self.resourceOwner,
+            resourceRegionScope: self.resourceRegionScope,
             resourceShareArns: self.resourceShareArns,
             resourceType: self.resourceType
         )

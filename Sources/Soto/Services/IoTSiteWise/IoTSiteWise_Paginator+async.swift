@@ -67,7 +67,7 @@ extension IoTSiteWise {
         )
     }
 
-    ///  Get interpolated values for an asset property for a specified time interval, during a period of time. If your time series is missing data points during the specified time interval,  you can use interpolation to estimate the missing data. For example, you can use this operation to return the interpolated temperature values for a wind turbine every 24 hours over a duration of 7 days. To identify an asset property, you must specify one of the following:   The assetId and propertyId of an asset property.   A propertyAlias, which is a data stream alias (for example, /company/windfarm/3/turbine/7/temperature). To define an asset property's alias, see UpdateAssetProperty.
+    ///  Get interpolated values for an asset property for a specified time interval, during a period of time. If your time series is missing data points during the specified time interval, you can use interpolation to estimate the missing data. For example, you can use this operation to return the interpolated temperature values for a wind turbine every 24 hours over a duration of 7 days. To identify an asset property, you must specify one of the following:   The assetId and propertyId of an asset property.   A propertyAlias, which is a data stream alias (for example, /company/windfarm/3/turbine/7/temperature). To define an asset property's alias, see UpdateAssetProperty.
     /// Return PaginatorSequence for operation.
     ///
     /// - Parameters:
@@ -304,6 +304,28 @@ extension IoTSiteWise {
             command: listProjects,
             inputKey: \ListProjectsRequest.nextToken,
             outputKey: \ListProjectsResponse.nextToken,
+            logger: logger,
+            on: eventLoop
+        )
+    }
+
+    ///  Retrieves a paginated list of time series (data streams).
+    /// Return PaginatorSequence for operation.
+    ///
+    /// - Parameters:
+    ///   - input: Input for request
+    ///   - logger: Logger used flot logging
+    ///   - eventLoop: EventLoop to run this process on
+    public func listTimeSeriesPaginator(
+        _ input: ListTimeSeriesRequest,
+        logger: Logger = AWSClient.loggingDisabled,
+        on eventLoop: EventLoop? = nil
+    ) -> AWSClient.PaginatorSequence<ListTimeSeriesRequest, ListTimeSeriesResponse> {
+        return .init(
+            input: input,
+            command: listTimeSeries,
+            inputKey: \ListTimeSeriesRequest.nextToken,
+            outputKey: \ListTimeSeriesResponse.nextToken,
             logger: logger,
             on: eventLoop
         )

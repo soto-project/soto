@@ -36,9 +36,11 @@ public struct GlueErrorType: AWSErrorType {
         case illegalWorkflowStateException = "IllegalWorkflowStateException"
         case internalServiceException = "InternalServiceException"
         case invalidInputException = "InvalidInputException"
+        case invalidStateException = "InvalidStateException"
         case mlTransformNotReadyException = "MLTransformNotReadyException"
         case noScheduleException = "NoScheduleException"
         case operationTimeoutException = "OperationTimeoutException"
+        case resourceNotReadyException = "ResourceNotReadyException"
         case resourceNumberLimitExceededException = "ResourceNumberLimitExceededException"
         case schedulerNotRunningException = "SchedulerNotRunningException"
         case schedulerRunningException = "SchedulerRunningException"
@@ -96,12 +98,16 @@ public struct GlueErrorType: AWSErrorType {
     public static var internalServiceException: Self { .init(.internalServiceException) }
     /// The input provided was not valid.
     public static var invalidInputException: Self { .init(.invalidInputException) }
+    /// An error that indicates your data is in an invalid state.
+    public static var invalidStateException: Self { .init(.invalidStateException) }
     /// The machine learning transform is not ready to run.
     public static var mlTransformNotReadyException: Self { .init(.mlTransformNotReadyException) }
     /// There is no applicable schedule.
     public static var noScheduleException: Self { .init(.noScheduleException) }
     /// The operation timed out.
     public static var operationTimeoutException: Self { .init(.operationTimeoutException) }
+    /// A resource was not ready for a transaction.
+    public static var resourceNotReadyException: Self { .init(.resourceNotReadyException) }
     /// A resource numerical limit was exceeded.
     public static var resourceNumberLimitExceededException: Self { .init(.resourceNumberLimitExceededException) }
     /// The specified scheduler is not running.

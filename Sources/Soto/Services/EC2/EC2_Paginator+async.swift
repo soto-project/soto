@@ -629,7 +629,7 @@ extension EC2 {
         )
     }
 
-    ///  Describes the status of the specified instances or all of your instances. By default, only running instances are described, unless you specifically indicate to return the status of all instances. Instance status includes the following components:    Status checks - Amazon EC2 performs status checks on running EC2 instances to identify hardware and software issues. For more information, see Status checks for your instances and Troubleshooting instances with failed status checks in the Amazon EC2 User Guide.    Scheduled events - Amazon EC2 can schedule events (such as reboot, stop, or terminate) for your instances related to hardware issues, software updates, or system maintenance. For more information, see Scheduled events for your instances in the Amazon EC2 User Guide.    Instance state - You can manage your instances from the moment you launch them through their termination. For more information, see Instance lifecycle in the Amazon EC2 User Guide.
+    ///  Describes the status of the specified instances or all of your instances. By default, only running instances are described, unless you specifically indicate to return the status of all instances. Instance status includes the following components:    Status checks - Amazon EC2 performs status checks on running EC2 instances to identify hardware and software issues. For more information, see Status checks for your instances and Troubleshoot instances with failed status checks in the Amazon EC2 User Guide.    Scheduled events - Amazon EC2 can schedule events (such as reboot, stop, or terminate) for your instances related to hardware issues, software updates, or system maintenance. For more information, see Scheduled events for your instances in the Amazon EC2 User Guide.    Instance state - You can manage your instances from the moment you launch them through their termination. For more information, see Instance lifecycle in the Amazon EC2 User Guide.
     /// Return PaginatorSequence for operation.
     ///
     /// - Parameters:
@@ -734,6 +734,72 @@ extension EC2 {
             command: describeInternetGateways,
             inputKey: \DescribeInternetGatewaysRequest.nextToken,
             outputKey: \DescribeInternetGatewaysResult.nextToken,
+            logger: logger,
+            on: eventLoop
+        )
+    }
+
+    ///  Get information about your IPAM pools.
+    /// Return PaginatorSequence for operation.
+    ///
+    /// - Parameters:
+    ///   - input: Input for request
+    ///   - logger: Logger used flot logging
+    ///   - eventLoop: EventLoop to run this process on
+    public func describeIpamPoolsPaginator(
+        _ input: DescribeIpamPoolsRequest,
+        logger: Logger = AWSClient.loggingDisabled,
+        on eventLoop: EventLoop? = nil
+    ) -> AWSClient.PaginatorSequence<DescribeIpamPoolsRequest, DescribeIpamPoolsResult> {
+        return .init(
+            input: input,
+            command: describeIpamPools,
+            inputKey: \DescribeIpamPoolsRequest.nextToken,
+            outputKey: \DescribeIpamPoolsResult.nextToken,
+            logger: logger,
+            on: eventLoop
+        )
+    }
+
+    ///  Get information about your IPAM scopes.
+    /// Return PaginatorSequence for operation.
+    ///
+    /// - Parameters:
+    ///   - input: Input for request
+    ///   - logger: Logger used flot logging
+    ///   - eventLoop: EventLoop to run this process on
+    public func describeIpamScopesPaginator(
+        _ input: DescribeIpamScopesRequest,
+        logger: Logger = AWSClient.loggingDisabled,
+        on eventLoop: EventLoop? = nil
+    ) -> AWSClient.PaginatorSequence<DescribeIpamScopesRequest, DescribeIpamScopesResult> {
+        return .init(
+            input: input,
+            command: describeIpamScopes,
+            inputKey: \DescribeIpamScopesRequest.nextToken,
+            outputKey: \DescribeIpamScopesResult.nextToken,
+            logger: logger,
+            on: eventLoop
+        )
+    }
+
+    ///  Get information about your IPAM pools. For more information, see What is IPAM? in the Amazon VPC IPAM User Guide.
+    /// Return PaginatorSequence for operation.
+    ///
+    /// - Parameters:
+    ///   - input: Input for request
+    ///   - logger: Logger used flot logging
+    ///   - eventLoop: EventLoop to run this process on
+    public func describeIpamsPaginator(
+        _ input: DescribeIpamsRequest,
+        logger: Logger = AWSClient.loggingDisabled,
+        on eventLoop: EventLoop? = nil
+    ) -> AWSClient.PaginatorSequence<DescribeIpamsRequest, DescribeIpamsResult> {
+        return .init(
+            input: input,
+            command: describeIpams,
+            inputKey: \DescribeIpamsRequest.nextToken,
+            outputKey: \DescribeIpamsResult.nextToken,
             logger: logger,
             on: eventLoop
         )
@@ -1022,6 +1088,50 @@ extension EC2 {
             command: describeNetworkAcls,
             inputKey: \DescribeNetworkAclsRequest.nextToken,
             outputKey: \DescribeNetworkAclsResult.nextToken,
+            logger: logger,
+            on: eventLoop
+        )
+    }
+
+    ///  Describes the specified Network Access Scope analyses.
+    /// Return PaginatorSequence for operation.
+    ///
+    /// - Parameters:
+    ///   - input: Input for request
+    ///   - logger: Logger used flot logging
+    ///   - eventLoop: EventLoop to run this process on
+    public func describeNetworkInsightsAccessScopeAnalysesPaginator(
+        _ input: DescribeNetworkInsightsAccessScopeAnalysesRequest,
+        logger: Logger = AWSClient.loggingDisabled,
+        on eventLoop: EventLoop? = nil
+    ) -> AWSClient.PaginatorSequence<DescribeNetworkInsightsAccessScopeAnalysesRequest, DescribeNetworkInsightsAccessScopeAnalysesResult> {
+        return .init(
+            input: input,
+            command: describeNetworkInsightsAccessScopeAnalyses,
+            inputKey: \DescribeNetworkInsightsAccessScopeAnalysesRequest.nextToken,
+            outputKey: \DescribeNetworkInsightsAccessScopeAnalysesResult.nextToken,
+            logger: logger,
+            on: eventLoop
+        )
+    }
+
+    ///  Describes the specified Network Access Scopes.
+    /// Return PaginatorSequence for operation.
+    ///
+    /// - Parameters:
+    ///   - input: Input for request
+    ///   - logger: Logger used flot logging
+    ///   - eventLoop: EventLoop to run this process on
+    public func describeNetworkInsightsAccessScopesPaginator(
+        _ input: DescribeNetworkInsightsAccessScopesRequest,
+        logger: Logger = AWSClient.loggingDisabled,
+        on eventLoop: EventLoop? = nil
+    ) -> AWSClient.PaginatorSequence<DescribeNetworkInsightsAccessScopesRequest, DescribeNetworkInsightsAccessScopesResult> {
+        return .init(
+            input: input,
+            command: describeNetworkInsightsAccessScopes,
+            inputKey: \DescribeNetworkInsightsAccessScopesRequest.nextToken,
+            outputKey: \DescribeNetworkInsightsAccessScopesResult.nextToken,
             logger: logger,
             on: eventLoop
         )
@@ -1360,6 +1470,28 @@ extension EC2 {
             command: describeSecurityGroups,
             inputKey: \DescribeSecurityGroupsRequest.nextToken,
             outputKey: \DescribeSecurityGroupsResult.nextToken,
+            logger: logger,
+            on: eventLoop
+        )
+    }
+
+    ///  Describes the storage tier status of one or more Amazon EBS snapshots.
+    /// Return PaginatorSequence for operation.
+    ///
+    /// - Parameters:
+    ///   - input: Input for request
+    ///   - logger: Logger used flot logging
+    ///   - eventLoop: EventLoop to run this process on
+    public func describeSnapshotTierStatusPaginator(
+        _ input: DescribeSnapshotTierStatusRequest,
+        logger: Logger = AWSClient.loggingDisabled,
+        on eventLoop: EventLoop? = nil
+    ) -> AWSClient.PaginatorSequence<DescribeSnapshotTierStatusRequest, DescribeSnapshotTierStatusResult> {
+        return .init(
+            input: input,
+            command: describeSnapshotTierStatus,
+            inputKey: \DescribeSnapshotTierStatusRequest.nextToken,
+            outputKey: \DescribeSnapshotTierStatusResult.nextToken,
             logger: logger,
             on: eventLoop
         )
@@ -2114,6 +2246,94 @@ extension EC2 {
         )
     }
 
+    ///  Retrieve historical information about a CIDR within an IPAM scope. For more information, see View the history of IP addresses in the Amazon VPC IPAM User Guide.
+    /// Return PaginatorSequence for operation.
+    ///
+    /// - Parameters:
+    ///   - input: Input for request
+    ///   - logger: Logger used flot logging
+    ///   - eventLoop: EventLoop to run this process on
+    public func getIpamAddressHistoryPaginator(
+        _ input: GetIpamAddressHistoryRequest,
+        logger: Logger = AWSClient.loggingDisabled,
+        on eventLoop: EventLoop? = nil
+    ) -> AWSClient.PaginatorSequence<GetIpamAddressHistoryRequest, GetIpamAddressHistoryResult> {
+        return .init(
+            input: input,
+            command: getIpamAddressHistory,
+            inputKey: \GetIpamAddressHistoryRequest.nextToken,
+            outputKey: \GetIpamAddressHistoryResult.nextToken,
+            logger: logger,
+            on: eventLoop
+        )
+    }
+
+    ///  Get a list of all the CIDR allocations in an IPAM pool.
+    /// Return PaginatorSequence for operation.
+    ///
+    /// - Parameters:
+    ///   - input: Input for request
+    ///   - logger: Logger used flot logging
+    ///   - eventLoop: EventLoop to run this process on
+    public func getIpamPoolAllocationsPaginator(
+        _ input: GetIpamPoolAllocationsRequest,
+        logger: Logger = AWSClient.loggingDisabled,
+        on eventLoop: EventLoop? = nil
+    ) -> AWSClient.PaginatorSequence<GetIpamPoolAllocationsRequest, GetIpamPoolAllocationsResult> {
+        return .init(
+            input: input,
+            command: getIpamPoolAllocations,
+            inputKey: \GetIpamPoolAllocationsRequest.nextToken,
+            outputKey: \GetIpamPoolAllocationsResult.nextToken,
+            logger: logger,
+            on: eventLoop
+        )
+    }
+
+    ///  Get the CIDRs provisioned to an IPAM pool.
+    /// Return PaginatorSequence for operation.
+    ///
+    /// - Parameters:
+    ///   - input: Input for request
+    ///   - logger: Logger used flot logging
+    ///   - eventLoop: EventLoop to run this process on
+    public func getIpamPoolCidrsPaginator(
+        _ input: GetIpamPoolCidrsRequest,
+        logger: Logger = AWSClient.loggingDisabled,
+        on eventLoop: EventLoop? = nil
+    ) -> AWSClient.PaginatorSequence<GetIpamPoolCidrsRequest, GetIpamPoolCidrsResult> {
+        return .init(
+            input: input,
+            command: getIpamPoolCidrs,
+            inputKey: \GetIpamPoolCidrsRequest.nextToken,
+            outputKey: \GetIpamPoolCidrsResult.nextToken,
+            logger: logger,
+            on: eventLoop
+        )
+    }
+
+    ///  Get information about the resources in a scope.
+    /// Return PaginatorSequence for operation.
+    ///
+    /// - Parameters:
+    ///   - input: Input for request
+    ///   - logger: Logger used flot logging
+    ///   - eventLoop: EventLoop to run this process on
+    public func getIpamResourceCidrsPaginator(
+        _ input: GetIpamResourceCidrsRequest,
+        logger: Logger = AWSClient.loggingDisabled,
+        on eventLoop: EventLoop? = nil
+    ) -> AWSClient.PaginatorSequence<GetIpamResourceCidrsRequest, GetIpamResourceCidrsResult> {
+        return .init(
+            input: input,
+            command: getIpamResourceCidrs,
+            inputKey: \GetIpamResourceCidrsRequest.nextToken,
+            outputKey: \GetIpamResourceCidrsResult.nextToken,
+            logger: logger,
+            on: eventLoop
+        )
+    }
+
     ///  Gets information about the resources that are associated with the specified managed prefix list.
     /// Return PaginatorSequence for operation.
     ///
@@ -2307,6 +2527,28 @@ extension EC2 {
             command: getVpnConnectionDeviceTypes,
             inputKey: \GetVpnConnectionDeviceTypesRequest.nextToken,
             outputKey: \GetVpnConnectionDeviceTypesResult.nextToken,
+            logger: logger,
+            on: eventLoop
+        )
+    }
+
+    ///  Lists one or more snapshots that are currently in the Recycle Bin.
+    /// Return PaginatorSequence for operation.
+    ///
+    /// - Parameters:
+    ///   - input: Input for request
+    ///   - logger: Logger used flot logging
+    ///   - eventLoop: EventLoop to run this process on
+    public func listSnapshotsInRecycleBinPaginator(
+        _ input: ListSnapshotsInRecycleBinRequest,
+        logger: Logger = AWSClient.loggingDisabled,
+        on eventLoop: EventLoop? = nil
+    ) -> AWSClient.PaginatorSequence<ListSnapshotsInRecycleBinRequest, ListSnapshotsInRecycleBinResult> {
+        return .init(
+            input: input,
+            command: listSnapshotsInRecycleBin,
+            inputKey: \ListSnapshotsInRecycleBinRequest.nextToken,
+            outputKey: \ListSnapshotsInRecycleBinResult.nextToken,
             logger: logger,
             on: eventLoop
         )

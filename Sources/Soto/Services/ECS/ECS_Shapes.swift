@@ -1227,8 +1227,12 @@ extension ECS {
         /// 				memoryReservation, then that value is subtracted from the available
         /// 			memory resources for the container instance where the container is placed. Otherwise,
         /// 			the value of memory is used.
-        /// 		       The Docker daemon reserves a minimum of 4 MiB of memory for a container. Therefore, we
-        /// 			recommend that you specify fewer than 4 MiB of memory for your containers.
+        /// 		       The Docker 20.10.0 or later daemon reserves a minimum of 6 MiB of
+        /// 			memory for a container, so you should not specify fewer than 6 MiB of
+        /// 			memory for your containers.
+        /// 		       The Docker 19.03.13-ce or earlier daemon reserves a minimum of 4 MiB
+        /// 			of memory for a container, so you should not specify fewer than 4 MiB of
+        /// 			memory for your containers.
         public let memory: Int?
         /// The soft limit (in MiB) of memory to reserve for the container. When system memory is
         /// 			under heavy contention, Docker attempts to keep the container memory to this soft limit.
@@ -5655,6 +5659,8 @@ extension ECS {
 
     public struct RuntimePlatform: AWSEncodableShape & AWSDecodableShape {
         /// The CPU architecture.
+        /// 		       You can run your Linux tasks on an ARM-based platform by setting the value  to ARM64. This option is avaiable
+        /// 			for tasks that run on Linuc Amazon EC2 instance or Linux containers on Fargate.
         public let cpuArchitecture: CPUArchitecture?
         /// The operating system.
         public let operatingSystemFamily: OSFamily?

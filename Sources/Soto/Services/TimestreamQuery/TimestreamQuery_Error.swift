@@ -25,6 +25,8 @@ public struct TimestreamQueryErrorType: AWSErrorType {
         case internalServerException = "InternalServerException"
         case invalidEndpointException = "InvalidEndpointException"
         case queryExecutionException = "QueryExecutionException"
+        case resourceNotFoundException = "ResourceNotFoundException"
+        case serviceQuotaExceededException = "ServiceQuotaExceededException"
         case throttlingException = "ThrottlingException"
         case validationException = "ValidationException"
     }
@@ -53,10 +55,14 @@ public struct TimestreamQueryErrorType: AWSErrorType {
     public static var conflictException: Self { .init(.conflictException) }
     ///  Timestream was unable to fully process this request because of an internal server error.
     public static var internalServerException: Self { .init(.internalServerException) }
-    /// The requested endpoint was invalid.
+    /// The requested endpoint was not valid.
     public static var invalidEndpointException: Self { .init(.invalidEndpointException) }
     ///  Timestream was unable to run the query successfully.
     public static var queryExecutionException: Self { .init(.queryExecutionException) }
+    /// The requested resource could not be found.
+    public static var resourceNotFoundException: Self { .init(.resourceNotFoundException) }
+    /// You have exceeded the service quota.
+    public static var serviceQuotaExceededException: Self { .init(.serviceQuotaExceededException) }
     /// The request was denied due to request throttling.
     public static var throttlingException: Self { .init(.throttlingException) }
     ///  Invalid or malformed request.

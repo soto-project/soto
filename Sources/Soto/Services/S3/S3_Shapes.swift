@@ -113,6 +113,12 @@ extension S3 {
     }
 
     public enum Event: String, CustomStringConvertible, Codable {
+        case s3Intelligenttiering = "s3:IntelligentTiering"
+        case s3LifecycleexpirationAll = "s3:LifecycleExpiration:*"
+        case s3LifecycleexpirationDelete = "s3:LifecycleExpiration:Delete"
+        case s3LifecycleexpirationDeletemarkercreated = "s3:LifecycleExpiration:DeleteMarkerCreated"
+        case s3Lifecycletransition = "s3:LifecycleTransition"
+        case s3ObjectaclPut = "s3:ObjectAcl:Put"
         case s3ObjectcreatedAll = "s3:ObjectCreated:*"
         case s3ObjectcreatedCompletemultipartupload = "s3:ObjectCreated:CompleteMultipartUpload"
         case s3ObjectcreatedCopy = "s3:ObjectCreated:Copy"
@@ -123,7 +129,11 @@ extension S3 {
         case s3ObjectremovedDeletemarkercreated = "s3:ObjectRemoved:DeleteMarkerCreated"
         case s3ObjectrestoreAll = "s3:ObjectRestore:*"
         case s3ObjectrestoreCompleted = "s3:ObjectRestore:Completed"
+        case s3ObjectrestoreDelete = "s3:ObjectRestore:Delete"
         case s3ObjectrestorePost = "s3:ObjectRestore:Post"
+        case s3ObjecttaggingAll = "s3:ObjectTagging:*"
+        case s3ObjecttaggingDelete = "s3:ObjectTagging:Delete"
+        case s3ObjecttaggingPut = "s3:ObjectTagging:Put"
         case s3Reducedredundancylostobject = "s3:ReducedRedundancyLostObject"
         case s3ReplicationAll = "s3:Replication:*"
         case s3ReplicationOperationfailedreplication = "s3:Replication:OperationFailedReplication"
@@ -275,6 +285,7 @@ extension S3 {
     }
 
     public enum ObjectOwnership: String, CustomStringConvertible, Codable {
+        case bucketOwnerEnforced = "BucketOwnerEnforced"
         case bucketOwnerPreferred = "BucketOwnerPreferred"
         case objectWriter = "ObjectWriter"
         public var description: String { return self.rawValue }
@@ -283,6 +294,7 @@ extension S3 {
     public enum ObjectStorageClass: String, CustomStringConvertible, Codable {
         case deepArchive = "DEEP_ARCHIVE"
         case glacier = "GLACIER"
+        case glacierIr = "GLACIER_IR"
         case intelligentTiering = "INTELLIGENT_TIERING"
         case onezoneIa = "ONEZONE_IA"
         case outposts = "OUTPOSTS"
@@ -385,6 +397,7 @@ extension S3 {
     public enum StorageClass: String, CustomStringConvertible, Codable {
         case deepArchive = "DEEP_ARCHIVE"
         case glacier = "GLACIER"
+        case glacierIr = "GLACIER_IR"
         case intelligentTiering = "INTELLIGENT_TIERING"
         case onezoneIa = "ONEZONE_IA"
         case outposts = "OUTPOSTS"
@@ -415,6 +428,7 @@ extension S3 {
     public enum TransitionStorageClass: String, CustomStringConvertible, Codable {
         case deepArchive = "DEEP_ARCHIVE"
         case glacier = "GLACIER"
+        case glacierIr = "GLACIER_IR"
         case intelligentTiering = "INTELLIGENT_TIERING"
         case onezoneIa = "ONEZONE_IA"
         case standardIa = "STANDARD_IA"
@@ -490,6 +504,10 @@ extension S3 {
 
     public enum LifecycleRuleFilter: AWSEncodableShape & AWSDecodableShape {
         case and(LifecycleRuleAndOperator)
+        /// Minimum object size to which the rule applies.
+        case objectSizeGreaterThan(Int64)
+        /// Maximum object size to which the rule applies.
+        case objectSizeLessThan(Int64)
         /// Prefix identifying one or more objects to which the rule applies.  Replacement must be made for object keys containing special characters (such as carriage returns) when using  XML requests. For more information, see  XML related object key constraints.
         case prefix(String)
         /// This tag must exist in the object's tag set in order for the rule to apply.
@@ -508,6 +526,12 @@ extension S3 {
             case .and:
                 let value = try container.decode(LifecycleRuleAndOperator.self, forKey: .and)
                 self = .and(value)
+            case .objectSizeGreaterThan:
+                let value = try container.decode(Int64.self, forKey: .objectSizeGreaterThan)
+                self = .objectSizeGreaterThan(value)
+            case .objectSizeLessThan:
+                let value = try container.decode(Int64.self, forKey: .objectSizeLessThan)
+                self = .objectSizeLessThan(value)
             case .prefix:
                 let value = try container.decode(String.self, forKey: .prefix)
                 self = .prefix(value)
@@ -522,6 +546,10 @@ extension S3 {
             switch self {
             case .and(let value):
                 try container.encode(value, forKey: .and)
+            case .objectSizeGreaterThan(let value):
+                try container.encode(value, forKey: .objectSizeGreaterThan)
+            case .objectSizeLessThan(let value):
+                try container.encode(value, forKey: .objectSizeLessThan)
             case .prefix(let value):
                 try container.encode(value, forKey: .prefix)
             case .tag(let value):
@@ -542,6 +570,8 @@ extension S3 {
 
         private enum CodingKeys: String, CodingKey {
             case and = "And"
+            case objectSizeGreaterThan = "ObjectSizeGreaterThan"
+            case objectSizeLessThan = "ObjectSizeLessThan"
             case prefix = "Prefix"
             case tag = "Tag"
         }
@@ -1194,7 +1224,7 @@ extension S3 {
     }
 
     public struct CompletedMultipartUpload: AWSEncodableShape {
-        /// Array of CompletedPart data types.
+        /// Array of CompletedPart data types. If you do not supply a valid Part with your request, the service sends back an HTTP 400 response.
         public let parts: [CompletedPart]?
 
         public init(parts: [CompletedPart]? = nil) {
@@ -1567,7 +1597,8 @@ extension S3 {
             AWSMemberEncoding(label: "grantReadACP", location: .header("x-amz-grant-read-acp")),
             AWSMemberEncoding(label: "grantWrite", location: .header("x-amz-grant-write")),
             AWSMemberEncoding(label: "grantWriteACP", location: .header("x-amz-grant-write-acp")),
-            AWSMemberEncoding(label: "objectLockEnabledForBucket", location: .header("x-amz-bucket-object-lock-enabled"))
+            AWSMemberEncoding(label: "objectLockEnabledForBucket", location: .header("x-amz-bucket-object-lock-enabled")),
+            AWSMemberEncoding(label: "objectOwnership", location: .header("x-amz-object-ownership"))
         ]
 
         /// The canned ACL to apply to the bucket.
@@ -1588,8 +1619,9 @@ extension S3 {
         public let grantWriteACP: String?
         /// Specifies whether you want S3 Object Lock to be enabled for the new bucket.
         public let objectLockEnabledForBucket: Bool?
+        public let objectOwnership: ObjectOwnership?
 
-        public init(acl: BucketCannedACL? = nil, bucket: String, createBucketConfiguration: CreateBucketConfiguration? = nil, grantFullControl: String? = nil, grantRead: String? = nil, grantReadACP: String? = nil, grantWrite: String? = nil, grantWriteACP: String? = nil, objectLockEnabledForBucket: Bool? = nil) {
+        public init(acl: BucketCannedACL? = nil, bucket: String, createBucketConfiguration: CreateBucketConfiguration? = nil, grantFullControl: String? = nil, grantRead: String? = nil, grantReadACP: String? = nil, grantWrite: String? = nil, grantWriteACP: String? = nil, objectLockEnabledForBucket: Bool? = nil, objectOwnership: ObjectOwnership? = nil) {
             self.acl = acl
             self.bucket = bucket
             self.createBucketConfiguration = createBucketConfiguration
@@ -1599,6 +1631,7 @@ extension S3 {
             self.grantWrite = grantWrite
             self.grantWriteACP = grantWriteACP
             self.objectLockEnabledForBucket = objectLockEnabledForBucket
+            self.objectOwnership = objectOwnership
         }
 
         private enum CodingKeys: String, CodingKey {
@@ -2497,6 +2530,10 @@ extension S3 {
         }
     }
 
+    public struct EventBridgeConfiguration: AWSEncodableShape & AWSDecodableShape {
+        public init() {}
+    }
+
     public struct ExistingObjectReplication: AWSEncodableShape & AWSDecodableShape {
         public let status: ExistingObjectReplicationStatus
 
@@ -2951,7 +2988,7 @@ extension S3 {
             AWSMemberEncoding(label: "ownershipControls", location: .body("OwnershipControls"))
         ]
 
-        /// The OwnershipControls (BucketOwnerPreferred or ObjectWriter) currently in effect for this Amazon S3 bucket.
+        /// The OwnershipControls (BucketOwnerEnforced, BucketOwnerPreferred, or ObjectWriter) currently in effect for this Amazon S3 bucket.
         public let ownershipControls: OwnershipControls?
 
         public init(ownershipControls: OwnershipControls? = nil) {
@@ -4582,12 +4619,18 @@ extension S3 {
     }
 
     public struct LifecycleRuleAndOperator: AWSEncodableShape & AWSDecodableShape {
+        /// Minimum object size to which the rule applies.
+        public let objectSizeGreaterThan: Int64?
+        /// Maximum object size to which the rule applies.
+        public let objectSizeLessThan: Int64?
         /// Prefix identifying one or more objects to which the rule applies.
         public let prefix: String?
         /// All of these tags must exist in the object's tag set in order for the rule to apply.
         public let tags: [Tag]?
 
-        public init(prefix: String? = nil, tags: [Tag]? = nil) {
+        public init(objectSizeGreaterThan: Int64? = nil, objectSizeLessThan: Int64? = nil, prefix: String? = nil, tags: [Tag]? = nil) {
+            self.objectSizeGreaterThan = objectSizeGreaterThan
+            self.objectSizeLessThan = objectSizeLessThan
             self.prefix = prefix
             self.tags = tags
         }
@@ -4599,6 +4642,8 @@ extension S3 {
         }
 
         private enum CodingKeys: String, CodingKey {
+            case objectSizeGreaterThan = "ObjectSizeGreaterThan"
+            case objectSizeLessThan = "ObjectSizeLessThan"
             case prefix = "Prefix"
             case tags = "Tag"
         }
@@ -5346,7 +5391,7 @@ extension S3 {
 
         /// Specifies the bucket where you want Amazon S3 to store server access logs. You can have your logs delivered to any bucket that you own, including the same bucket that is being logged. You can also configure multiple buckets to deliver their logs to the same target bucket. In this case, you should choose a different TargetPrefix for each source bucket so that the delivered log files can be distinguished by key.
         public let targetBucket: String
-        /// Container for granting information.
+        /// Container for granting information. Buckets that use the bucket owner enforced setting for Object Ownership don't support target grants. For more information, see Permissions for server access log delivery in the Amazon S3 User Guide.
         @OptionalCustomCoding<ArrayCoder<_TargetGrantsEncoding, TargetGrant>>
         public var targetGrants: [TargetGrant]?
         /// A prefix for all log object keys. If you store log files from multiple Amazon S3 buckets in a single bucket, you can use a prefix to distinguish which log files came from which bucket.
@@ -5481,36 +5526,46 @@ extension S3 {
     }
 
     public struct NoncurrentVersionExpiration: AWSEncodableShape & AWSDecodableShape {
+        /// Specifies how many noncurrent versions Amazon S3 will retain. If there are this many more recent noncurrent versions, Amazon S3 will take the associated action. For more information about noncurrent versions, see Lifecycle configuration elements in the Amazon S3 User Guide.
+        public let newerNoncurrentVersions: Int?
         /// Specifies the number of days an object is noncurrent before Amazon S3 can perform the associated action. For information about the noncurrent days calculations, see How Amazon S3 Calculates When an Object Became Noncurrent in the Amazon S3 User Guide.
         public let noncurrentDays: Int?
 
-        public init(noncurrentDays: Int? = nil) {
+        public init(newerNoncurrentVersions: Int? = nil, noncurrentDays: Int? = nil) {
+            self.newerNoncurrentVersions = newerNoncurrentVersions
             self.noncurrentDays = noncurrentDays
         }
 
         private enum CodingKeys: String, CodingKey {
+            case newerNoncurrentVersions = "NewerNoncurrentVersions"
             case noncurrentDays = "NoncurrentDays"
         }
     }
 
     public struct NoncurrentVersionTransition: AWSEncodableShape & AWSDecodableShape {
+        /// Specifies how many noncurrent versions Amazon S3 will retain. If there are this many more recent noncurrent versions, Amazon S3 will take the associated action. For more information about noncurrent versions, see Lifecycle configuration elements in the Amazon S3 User Guide.
+        public let newerNoncurrentVersions: Int?
         /// Specifies the number of days an object is noncurrent before Amazon S3 can perform the associated action. For information about the noncurrent days calculations, see How Amazon S3 Calculates How Long an Object Has Been Noncurrent in the Amazon S3 User Guide.
         public let noncurrentDays: Int?
         /// The class of storage used to store the object.
         public let storageClass: TransitionStorageClass?
 
-        public init(noncurrentDays: Int? = nil, storageClass: TransitionStorageClass? = nil) {
+        public init(newerNoncurrentVersions: Int? = nil, noncurrentDays: Int? = nil, storageClass: TransitionStorageClass? = nil) {
+            self.newerNoncurrentVersions = newerNoncurrentVersions
             self.noncurrentDays = noncurrentDays
             self.storageClass = storageClass
         }
 
         private enum CodingKeys: String, CodingKey {
+            case newerNoncurrentVersions = "NewerNoncurrentVersions"
             case noncurrentDays = "NoncurrentDays"
             case storageClass = "StorageClass"
         }
     }
 
     public struct NotificationConfiguration: AWSEncodableShape & AWSDecodableShape {
+        /// Enables delivery of events to Amazon EventBridge.
+        public let eventBridgeConfiguration: EventBridgeConfiguration?
         /// Describes the Lambda functions to invoke and the events for which to invoke them.
         public let lambdaFunctionConfigurations: [LambdaFunctionConfiguration]?
         /// The Amazon Simple Queue Service queues to publish messages to and the events for which to publish messages.
@@ -5518,13 +5573,15 @@ extension S3 {
         /// The topic to which notifications are sent and the events for which notifications are generated.
         public let topicConfigurations: [TopicConfiguration]?
 
-        public init(lambdaFunctionConfigurations: [LambdaFunctionConfiguration]? = nil, queueConfigurations: [QueueConfiguration]? = nil, topicConfigurations: [TopicConfiguration]? = nil) {
+        public init(eventBridgeConfiguration: EventBridgeConfiguration? = nil, lambdaFunctionConfigurations: [LambdaFunctionConfiguration]? = nil, queueConfigurations: [QueueConfiguration]? = nil, topicConfigurations: [TopicConfiguration]? = nil) {
+            self.eventBridgeConfiguration = eventBridgeConfiguration
             self.lambdaFunctionConfigurations = lambdaFunctionConfigurations
             self.queueConfigurations = queueConfigurations
             self.topicConfigurations = topicConfigurations
         }
 
         private enum CodingKeys: String, CodingKey {
+            case eventBridgeConfiguration = "EventBridgeConfiguration"
             case lambdaFunctionConfigurations = "CloudFunctionConfiguration"
             case queueConfigurations = "QueueConfiguration"
             case topicConfigurations = "TopicConfiguration"
@@ -6224,7 +6281,8 @@ extension S3 {
         public static var _encoding = [
             AWSMemberEncoding(label: "bucket", location: .uri("Bucket")),
             AWSMemberEncoding(label: "expectedBucketOwner", location: .header("x-amz-expected-bucket-owner")),
-            AWSMemberEncoding(label: "notificationConfiguration", location: .body("NotificationConfiguration"))
+            AWSMemberEncoding(label: "notificationConfiguration", location: .body("NotificationConfiguration")),
+            AWSMemberEncoding(label: "skipDestinationValidation", location: .header("x-amz-skip-destination-validation"))
         ]
 
         /// The name of the bucket.
@@ -6232,11 +6290,14 @@ extension S3 {
         /// The account ID of the expected bucket owner. If the bucket is owned by a different account, the request will fail with an HTTP 403 (Access Denied) error.
         public let expectedBucketOwner: String?
         public let notificationConfiguration: NotificationConfiguration
+        /// Skips validation of Amazon SQS, Amazon SNS, and Lambda destinations. True or false value.
+        public let skipDestinationValidation: Bool?
 
-        public init(bucket: String, expectedBucketOwner: String? = nil, notificationConfiguration: NotificationConfiguration) {
+        public init(bucket: String, expectedBucketOwner: String? = nil, notificationConfiguration: NotificationConfiguration, skipDestinationValidation: Bool? = nil) {
             self.bucket = bucket
             self.expectedBucketOwner = expectedBucketOwner
             self.notificationConfiguration = notificationConfiguration
+            self.skipDestinationValidation = skipDestinationValidation
         }
 
         private enum CodingKeys: String, CodingKey {
@@ -6261,7 +6322,7 @@ extension S3 {
         public let contentMD5: String?
         /// The account ID of the expected bucket owner. If the bucket is owned by a different account, the request will fail with an HTTP 403 (Access Denied) error.
         public let expectedBucketOwner: String?
-        /// The OwnershipControls (BucketOwnerPreferred or ObjectWriter) that you want to apply to this Amazon S3 bucket.
+        /// The OwnershipControls (BucketOwnerEnforced, BucketOwnerPreferred, or ObjectWriter) that you want to apply to this Amazon S3 bucket.
         public let ownershipControls: OwnershipControls
 
         public init(bucket: String, contentMD5: String? = nil, expectedBucketOwner: String? = nil, ownershipControls: OwnershipControls) {

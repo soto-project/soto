@@ -77,7 +77,7 @@ extension DevOpsGuru {
 
     ///   Returns the number of open proactive insights, open reactive insights, and the Mean Time to Recover (MTTR)
     ///  			for all closed insights in resource collections in your account. You specify the type of
-    ///  			Amazon Web Services resources collection. The one type of Amazon Web Services resource collection supported is Amazon Web Services CloudFormation stacks. DevOps Guru can be configured to analyze  	only the Amazon Web Services resources that are defined in the stacks. You can specify up to 500 Amazon Web Services CloudFormation stacks.
+    ///  			Amazon Web Services resources collection. The two types of Amazon Web Services resource collections supported are Amazon Web Services CloudFormation stacks and  Amazon Web Services resources that contain the same Amazon Web Services tag. DevOps Guru can be configured to analyze  	the Amazon Web Services resources that are defined in the stacks or that are tagged using the same tag key. You can specify up to 500 Amazon Web Services CloudFormation stacks.
     ///
     /// Provide paginated results to closure `onPage` for it to combine them into one result.
     /// This works in a similar manner to `Array.reduce<Result>(_:_:) -> Result`.
@@ -188,7 +188,7 @@ extension DevOpsGuru {
     }
 
     ///   Returns lists Amazon Web Services resources that are of the specified resource collection type.
-    ///  			The one type of Amazon Web Services resource collection supported is Amazon Web Services CloudFormation stacks. DevOps Guru can be configured to analyze  	only the Amazon Web Services resources that are defined in the stacks. You can specify up to 500 Amazon Web Services CloudFormation stacks.
+    ///  			The two types of Amazon Web Services resource collections supported are Amazon Web Services CloudFormation stacks and  Amazon Web Services resources that contain the same Amazon Web Services tag. DevOps Guru can be configured to analyze  	the Amazon Web Services resources that are defined in the stacks or that are tagged using the same tag key. You can specify up to 500 Amazon Web Services CloudFormation stacks.
     ///
     /// Provide paginated results to closure `onPage` for it to combine them into one result.
     /// This works in a similar manner to `Array.reduce<Result>(_:_:) -> Result`.
@@ -628,12 +628,12 @@ extension DevOpsGuru {
 
     ///   Returns a list of insights in your organization. You can specify which insights are
     ///  			returned by their start time, one or more statuses (ONGOING,
-    ///  				CLOSED, and CLOSED), one or more severities
-    ///  				(LOW, MEDIUM, and HIGH), and type
-    ///  				(REACTIVE or PROACTIVE).
+    ///  			CLOSED, and CLOSED), one or more severities
+    ///  			(LOW, MEDIUM, and HIGH), and type
+    ///  			(REACTIVE or PROACTIVE).
     ///  		        Use the Filters parameter to specify status and severity search
     ///  			parameters. Use the Type parameter to specify REACTIVE or
-    ///  				PROACTIVE in your search.
+    ///  			PROACTIVE in your search.
     ///
     /// Provide paginated results to closure `onPage` for it to combine them into one result.
     /// This works in a similar manner to `Array.reduce<Result>(_:_:) -> Result`.

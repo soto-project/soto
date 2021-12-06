@@ -146,6 +146,12 @@ extension IoTWireless {
         public var description: String { return self.rawValue }
     }
 
+    public enum WirelessDeviceFrameInfo: String, CustomStringConvertible, Codable {
+        case disabled = "DISABLED"
+        case enabled = "ENABLED"
+        public var description: String { return self.rawValue }
+    }
+
     public enum WirelessDeviceIdType: String, CustomStringConvertible, Codable {
         case devEui = "DevEui"
         case sidewalkManufacturingSn = "SidewalkManufacturingSn"
@@ -1771,6 +1777,46 @@ extension IoTWireless {
 
         private enum CodingKeys: String, CodingKey {
             case loRaWAN = "LoRaWAN"
+        }
+    }
+
+    public struct GetNetworkAnalyzerConfigurationRequest: AWSEncodableShape {
+        public static var _encoding = [
+            AWSMemberEncoding(label: "configurationName", location: .uri("ConfigurationName"))
+        ]
+
+        public let configurationName: String
+
+        public init(configurationName: String) {
+            self.configurationName = configurationName
+        }
+
+        public func validate(name: String) throws {
+            try self.validate(self.configurationName, name: "configurationName", parent: name, max: 1024)
+            try self.validate(self.configurationName, name: "configurationName", parent: name, min: 1)
+            try self.validate(self.configurationName, name: "configurationName", parent: name, pattern: "^NetworkAnalyzerConfig_Default$")
+        }
+
+        private enum CodingKeys: CodingKey {}
+    }
+
+    public struct GetNetworkAnalyzerConfigurationResponse: AWSDecodableShape {
+        public let traceContent: TraceContent?
+        /// List of WirelessDevices in the NetworkAnalyzerConfiguration.
+        public let wirelessDevices: [String]?
+        /// List of WirelessGateways in the NetworkAnalyzerConfiguration.
+        public let wirelessGateways: [String]?
+
+        public init(traceContent: TraceContent? = nil, wirelessDevices: [String]? = nil, wirelessGateways: [String]? = nil) {
+            self.traceContent = traceContent
+            self.wirelessDevices = wirelessDevices
+            self.wirelessGateways = wirelessGateways
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case traceContent = "TraceContent"
+            case wirelessDevices = "WirelessDevices"
+            case wirelessGateways = "WirelessGateways"
         }
     }
 
@@ -4191,6 +4237,21 @@ extension IoTWireless {
         }
     }
 
+    public struct TraceContent: AWSEncodableShape & AWSDecodableShape {
+        public let logLevel: LogLevel?
+        public let wirelessDeviceFrameInfo: WirelessDeviceFrameInfo?
+
+        public init(logLevel: LogLevel? = nil, wirelessDeviceFrameInfo: WirelessDeviceFrameInfo? = nil) {
+            self.logLevel = logLevel
+            self.wirelessDeviceFrameInfo = wirelessDeviceFrameInfo
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case logLevel = "LogLevel"
+            case wirelessDeviceFrameInfo = "WirelessDeviceFrameInfo"
+        }
+    }
+
     public struct UntagResourceRequest: AWSEncodableShape {
         public static var _encoding = [
             AWSMemberEncoding(label: "resourceArn", location: .querystring("resourceArn")),
@@ -4366,6 +4427,64 @@ extension IoTWireless {
     }
 
     public struct UpdateMulticastGroupResponse: AWSDecodableShape {
+        public init() {}
+    }
+
+    public struct UpdateNetworkAnalyzerConfigurationRequest: AWSEncodableShape {
+        public static var _encoding = [
+            AWSMemberEncoding(label: "configurationName", location: .uri("ConfigurationName"))
+        ]
+
+        public let configurationName: String
+        public let traceContent: TraceContent?
+        /// WirelessDevices to add into NetworkAnalyzerConfiguration.
+        public let wirelessDevicesToAdd: [String]?
+        /// WirelessDevices to remove from NetworkAnalyzerConfiguration.
+        public let wirelessDevicesToRemove: [String]?
+        /// WirelessGateways to add into NetworkAnalyzerConfiguration.
+        public let wirelessGatewaysToAdd: [String]?
+        /// WirelessGateways to remove from NetworkAnalyzerConfiguration.
+        public let wirelessGatewaysToRemove: [String]?
+
+        public init(configurationName: String, traceContent: TraceContent? = nil, wirelessDevicesToAdd: [String]? = nil, wirelessDevicesToRemove: [String]? = nil, wirelessGatewaysToAdd: [String]? = nil, wirelessGatewaysToRemove: [String]? = nil) {
+            self.configurationName = configurationName
+            self.traceContent = traceContent
+            self.wirelessDevicesToAdd = wirelessDevicesToAdd
+            self.wirelessDevicesToRemove = wirelessDevicesToRemove
+            self.wirelessGatewaysToAdd = wirelessGatewaysToAdd
+            self.wirelessGatewaysToRemove = wirelessGatewaysToRemove
+        }
+
+        public func validate(name: String) throws {
+            try self.validate(self.configurationName, name: "configurationName", parent: name, max: 1024)
+            try self.validate(self.configurationName, name: "configurationName", parent: name, min: 1)
+            try self.validate(self.configurationName, name: "configurationName", parent: name, pattern: "^NetworkAnalyzerConfig_Default$")
+            try self.wirelessDevicesToAdd?.forEach {
+                try validate($0, name: "wirelessDevicesToAdd[]", parent: name, max: 256)
+            }
+            try self.validate(self.wirelessDevicesToAdd, name: "wirelessDevicesToAdd", parent: name, max: 250)
+            try self.wirelessDevicesToRemove?.forEach {
+                try validate($0, name: "wirelessDevicesToRemove[]", parent: name, max: 256)
+            }
+            try self.validate(self.wirelessDevicesToRemove, name: "wirelessDevicesToRemove", parent: name, max: 250)
+            try self.wirelessGatewaysToAdd?.forEach {
+                try validate($0, name: "wirelessGatewaysToAdd[]", parent: name, max: 256)
+            }
+            try self.wirelessGatewaysToRemove?.forEach {
+                try validate($0, name: "wirelessGatewaysToRemove[]", parent: name, max: 256)
+            }
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case traceContent = "TraceContent"
+            case wirelessDevicesToAdd = "WirelessDevicesToAdd"
+            case wirelessDevicesToRemove = "WirelessDevicesToRemove"
+            case wirelessGatewaysToAdd = "WirelessGatewaysToAdd"
+            case wirelessGatewaysToRemove = "WirelessGatewaysToRemove"
+        }
+    }
+
+    public struct UpdateNetworkAnalyzerConfigurationResponse: AWSDecodableShape {
         public init() {}
     }
 

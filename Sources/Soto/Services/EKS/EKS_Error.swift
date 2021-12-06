@@ -29,6 +29,7 @@ public struct EKSErrorType: AWSErrorType {
         case resourceInUseException = "ResourceInUseException"
         case resourceLimitExceededException = "ResourceLimitExceededException"
         case resourceNotFoundException = "ResourceNotFoundException"
+        case resourcePropagationDelayException = "ResourcePropagationDelayException"
         case serverException = "ServerException"
         case serviceUnavailableException = "ServiceUnavailableException"
         case unsupportedAvailabilityZoneException = "UnsupportedAvailabilityZoneException"
@@ -70,6 +71,8 @@ public struct EKSErrorType: AWSErrorType {
     public static var resourceLimitExceededException: Self { .init(.resourceLimitExceededException) }
     /// The specified resource could not be found. You can view your available clusters with ListClusters. You can view your available managed node groups with ListNodegroups. Amazon EKS clusters and node groups are Region-specific.
     public static var resourceNotFoundException: Self { .init(.resourceNotFoundException) }
+    /// Required resources (such as Service Linked Roles) were created and are still propagating. Retry later.
+    public static var resourcePropagationDelayException: Self { .init(.resourcePropagationDelayException) }
     /// These errors are usually caused by a server-side issue.
     public static var serverException: Self { .init(.serverException) }
     /// The service is unavailable. Back off and retry the operation.

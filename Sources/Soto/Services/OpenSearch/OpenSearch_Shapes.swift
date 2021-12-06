@@ -2032,6 +2032,23 @@ extension OpenSearch {
         }
     }
 
+    public struct DryRunResults: AWSDecodableShape {
+        ///  Specifies the way in which Amazon OpenSearch Service applies the update. Possible responses are Blue/Green (the update requires a blue/green deployment), DynamicUpdate (no blue/green required), Undetermined (the domain is undergoing an update and can't predict the deployment type; try again after the update is complete), and None (the request doesn't include any configuration changes).
+        public let deploymentType: String?
+        /// Contains an optional message associated with the DryRunResults.
+        public let message: String?
+
+        public init(deploymentType: String? = nil, message: String? = nil) {
+            self.deploymentType = deploymentType
+            self.message = message
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case deploymentType = "DeploymentType"
+            case message = "Message"
+        }
+    }
+
     public struct Duration: AWSEncodableShape & AWSDecodableShape {
         /// The unit of a maintenance schedule duration. Valid value is HOURS. See  Auto-Tune for Amazon OpenSearch Service for more information.
         public let unit: TimeUnit?
@@ -3501,6 +3518,8 @@ extension OpenSearch {
         public let domainEndpointOptions: DomainEndpointOptions?
         /// The name of the domain you're updating.
         public let domainName: String
+        /// This flag, when set to True, specifies whether the UpdateDomain request should return the results of validation checks (DryRunResults) without actually applying the change.
+        public let dryRun: Bool?
         /// Specify the type and size of the EBS volume to use.
         public let ebsOptions: EBSOptions?
         /// Specifies encryption of data at rest options.
@@ -3514,7 +3533,7 @@ extension OpenSearch {
         /// Options to specify the subnets and security groups for the VPC endpoint. For more information, see Launching your Amazon OpenSearch Service domains using a VPC .
         public let vpcOptions: VPCOptions?
 
-        public init(accessPolicies: String? = nil, advancedOptions: [String: String]? = nil, advancedSecurityOptions: AdvancedSecurityOptionsInput? = nil, autoTuneOptions: AutoTuneOptions? = nil, clusterConfig: ClusterConfig? = nil, cognitoOptions: CognitoOptions? = nil, domainEndpointOptions: DomainEndpointOptions? = nil, domainName: String, ebsOptions: EBSOptions? = nil, encryptionAtRestOptions: EncryptionAtRestOptions? = nil, logPublishingOptions: [LogType: LogPublishingOption]? = nil, nodeToNodeEncryptionOptions: NodeToNodeEncryptionOptions? = nil, snapshotOptions: SnapshotOptions? = nil, vpcOptions: VPCOptions? = nil) {
+        public init(accessPolicies: String? = nil, advancedOptions: [String: String]? = nil, advancedSecurityOptions: AdvancedSecurityOptionsInput? = nil, autoTuneOptions: AutoTuneOptions? = nil, clusterConfig: ClusterConfig? = nil, cognitoOptions: CognitoOptions? = nil, domainEndpointOptions: DomainEndpointOptions? = nil, domainName: String, dryRun: Bool? = nil, ebsOptions: EBSOptions? = nil, encryptionAtRestOptions: EncryptionAtRestOptions? = nil, logPublishingOptions: [LogType: LogPublishingOption]? = nil, nodeToNodeEncryptionOptions: NodeToNodeEncryptionOptions? = nil, snapshotOptions: SnapshotOptions? = nil, vpcOptions: VPCOptions? = nil) {
             self.accessPolicies = accessPolicies
             self.advancedOptions = advancedOptions
             self.advancedSecurityOptions = advancedSecurityOptions
@@ -3523,6 +3542,7 @@ extension OpenSearch {
             self.cognitoOptions = cognitoOptions
             self.domainEndpointOptions = domainEndpointOptions
             self.domainName = domainName
+            self.dryRun = dryRun
             self.ebsOptions = ebsOptions
             self.encryptionAtRestOptions = encryptionAtRestOptions
             self.logPublishingOptions = logPublishingOptions
@@ -3555,6 +3575,7 @@ extension OpenSearch {
             case clusterConfig = "ClusterConfig"
             case cognitoOptions = "CognitoOptions"
             case domainEndpointOptions = "DomainEndpointOptions"
+            case dryRun = "DryRun"
             case ebsOptions = "EBSOptions"
             case encryptionAtRestOptions = "EncryptionAtRestOptions"
             case logPublishingOptions = "LogPublishingOptions"
@@ -3567,13 +3588,17 @@ extension OpenSearch {
     public struct UpdateDomainConfigResponse: AWSDecodableShape {
         /// The status of the updated domain.
         public let domainConfig: DomainConfig
+        /// Contains result of DryRun.
+        public let dryRunResults: DryRunResults?
 
-        public init(domainConfig: DomainConfig) {
+        public init(domainConfig: DomainConfig, dryRunResults: DryRunResults? = nil) {
             self.domainConfig = domainConfig
+            self.dryRunResults = dryRunResults
         }
 
         private enum CodingKeys: String, CodingKey {
             case domainConfig = "DomainConfig"
+            case dryRunResults = "DryRunResults"
         }
     }
 

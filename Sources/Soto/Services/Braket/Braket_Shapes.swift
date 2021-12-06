@@ -27,6 +27,12 @@ extension Braket {
         public var description: String { return self.rawValue }
     }
 
+    public enum CompressionType: String, CustomStringConvertible, Codable {
+        case gzip = "GZIP"
+        case none = "NONE"
+        public var description: String { return self.rawValue }
+    }
+
     public enum DeviceStatus: String, CustomStringConvertible, Codable {
         case offline = "OFFLINE"
         case online = "ONLINE"
@@ -37,6 +43,74 @@ extension Braket {
     public enum DeviceType: String, CustomStringConvertible, Codable {
         case qpu = "QPU"
         case simulator = "SIMULATOR"
+        public var description: String { return self.rawValue }
+    }
+
+    public enum InstanceType: String, CustomStringConvertible, Codable {
+        case mlC42Xlarge = "ml.c4.2xlarge"
+        case mlC44Xlarge = "ml.c4.4xlarge"
+        case mlC48Xlarge = "ml.c4.8xlarge"
+        case mlC4Xlarge = "ml.c4.xlarge"
+        case mlC518Xlarge = "ml.c5.18xlarge"
+        case mlC52Xlarge = "ml.c5.2xlarge"
+        case mlC54Xlarge = "ml.c5.4xlarge"
+        case mlC59Xlarge = "ml.c5.9xlarge"
+        case mlC5Xlarge = "ml.c5.xlarge"
+        case mlC5N18Xlarge = "ml.c5n.18xlarge"
+        case mlC5N2Xlarge = "ml.c5n.2xlarge"
+        case mlC5N4Xlarge = "ml.c5n.4xlarge"
+        case mlC5N9Xlarge = "ml.c5n.9xlarge"
+        case mlC5NXlarge = "ml.c5n.xlarge"
+        case mlG4Dn12Xlarge = "ml.g4dn.12xlarge"
+        case mlG4Dn16Xlarge = "ml.g4dn.16xlarge"
+        case mlG4Dn2Xlarge = "ml.g4dn.2xlarge"
+        case mlG4Dn4Xlarge = "ml.g4dn.4xlarge"
+        case mlG4Dn8Xlarge = "ml.g4dn.8xlarge"
+        case mlG4DnXlarge = "ml.g4dn.xlarge"
+        case mlM410Xlarge = "ml.m4.10xlarge"
+        case mlM416Xlarge = "ml.m4.16xlarge"
+        case mlM42Xlarge = "ml.m4.2xlarge"
+        case mlM44Xlarge = "ml.m4.4xlarge"
+        case mlM4Xlarge = "ml.m4.xlarge"
+        case mlM512Xlarge = "ml.m5.12xlarge"
+        case mlM524Xlarge = "ml.m5.24xlarge"
+        case mlM52Xlarge = "ml.m5.2xlarge"
+        case mlM54Xlarge = "ml.m5.4xlarge"
+        case mlM5Large = "ml.m5.large"
+        case mlM5Xlarge = "ml.m5.xlarge"
+        case mlP216Xlarge = "ml.p2.16xlarge"
+        case mlP28Xlarge = "ml.p2.8xlarge"
+        case mlP2Xlarge = "ml.p2.xlarge"
+        case mlP316Xlarge = "ml.p3.16xlarge"
+        case mlP32Xlarge = "ml.p3.2xlarge"
+        case mlP38Xlarge = "ml.p3.8xlarge"
+        case mlP3Dn24Xlarge = "ml.p3dn.24xlarge"
+        case mlP4D24Xlarge = "ml.p4d.24xlarge"
+        public var description: String { return self.rawValue }
+    }
+
+    public enum JobEventType: String, CustomStringConvertible, Codable {
+        case cancelled = "CANCELLED"
+        case completed = "COMPLETED"
+        case deprioritizedDueToInactivity = "DEPRIORITIZED_DUE_TO_INACTIVITY"
+        case downloadingData = "DOWNLOADING_DATA"
+        case failed = "FAILED"
+        case maxRuntimeExceeded = "MAX_RUNTIME_EXCEEDED"
+        case queuedForExecution = "QUEUED_FOR_EXECUTION"
+        case running = "RUNNING"
+        case startingInstance = "STARTING_INSTANCE"
+        case uploadingResults = "UPLOADING_RESULTS"
+        case waitingForPriority = "WAITING_FOR_PRIORITY"
+        public var description: String { return self.rawValue }
+    }
+
+    public enum JobPrimaryStatus: String, CustomStringConvertible, Codable {
+        case cancelled = "CANCELLED"
+        case cancelling = "CANCELLING"
+        case completed = "COMPLETED"
+        case failed = "FAILED"
+        case queued = "QUEUED"
+        case running = "RUNNING"
         public var description: String { return self.rawValue }
     }
 
@@ -51,6 +125,17 @@ extension Braket {
         public var description: String { return self.rawValue }
     }
 
+    public enum SearchJobsFilterOperator: String, CustomStringConvertible, Codable {
+        case between = "BETWEEN"
+        case contains = "CONTAINS"
+        case equal = "EQUAL"
+        case gt = "GT"
+        case gte = "GTE"
+        case lt = "LT"
+        case lte = "LTE"
+        public var description: String { return self.rawValue }
+    }
+
     public enum SearchQuantumTasksFilterOperator: String, CustomStringConvertible, Codable {
         case between = "BETWEEN"
         case equal = "EQUAL"
@@ -62,6 +147,64 @@ extension Braket {
     }
 
     // MARK: Shapes
+
+    public struct AlgorithmSpecification: AWSEncodableShape & AWSDecodableShape {
+        /// The container image used to create an Amazon Braket job.
+        public let containerImage: ContainerImage?
+        /// Configures the paths to the Python scripts used for entry and training.
+        public let scriptModeConfig: ScriptModeConfig?
+
+        public init(containerImage: ContainerImage? = nil, scriptModeConfig: ScriptModeConfig? = nil) {
+            self.containerImage = containerImage
+            self.scriptModeConfig = scriptModeConfig
+        }
+
+        public func validate(name: String) throws {
+            try self.containerImage?.validate(name: "\(name).containerImage")
+            try self.scriptModeConfig?.validate(name: "\(name).scriptModeConfig")
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case containerImage
+            case scriptModeConfig
+        }
+    }
+
+    public struct CancelJobRequest: AWSEncodableShape {
+        public static var _encoding = [
+            AWSMemberEncoding(label: "jobArn", location: .uri("jobArn"))
+        ]
+
+        /// The ARN of the Amazon Braket job to cancel.
+        public let jobArn: String
+
+        public init(jobArn: String) {
+            self.jobArn = jobArn
+        }
+
+        public func validate(name: String) throws {
+            try self.validate(self.jobArn, name: "jobArn", parent: name, pattern: "^arn:aws[a-z\\-]*:braket:[a-z0-9\\-]*:[0-9]{12}:job/.*$")
+        }
+
+        private enum CodingKeys: CodingKey {}
+    }
+
+    public struct CancelJobResponse: AWSDecodableShape {
+        /// The status of the job cancellation request.
+        public let cancellationStatus: CancellationStatus
+        /// The ARN of the Amazon Braket job.
+        public let jobArn: String
+
+        public init(cancellationStatus: CancellationStatus, jobArn: String) {
+            self.cancellationStatus = cancellationStatus
+            self.jobArn = jobArn
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case cancellationStatus
+            case jobArn
+        }
+    }
 
     public struct CancelQuantumTaskRequest: AWSEncodableShape {
         public static var _encoding = [
@@ -107,6 +250,113 @@ extension Braket {
         }
     }
 
+    public struct ContainerImage: AWSEncodableShape & AWSDecodableShape {
+        /// The URI locating the container image.
+        public let uri: String
+
+        public init(uri: String) {
+            self.uri = uri
+        }
+
+        public func validate(name: String) throws {
+            try self.validate(self.uri, name: "uri", parent: name, max: 255)
+            try self.validate(self.uri, name: "uri", parent: name, min: 1)
+            try self.validate(self.uri, name: "uri", parent: name, pattern: "\\d{10,14}\\.dkr\\.ecr.[a-z0-9-]+\\.amazonaws\\.com\\/.+(@sha256)?:.+")
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case uri
+        }
+    }
+
+    public struct CreateJobRequest: AWSEncodableShape {
+        /// Definition of the Amazon Braket job to be created. Specifies the container image the job uses and information about the Python scripts used for entry and training.
+        public let algorithmSpecification: AlgorithmSpecification
+        /// Information about the output locations for job checkpoint data.
+        public let checkpointConfig: JobCheckpointConfig?
+        /// A unique token that guarantees that the call to this API is idempotent.
+        public let clientToken: String
+        /// The quantum processing unit (QPU) or simulator used to create an Amazon Braket job.
+        public let deviceConfig: DeviceConfig
+        /// Algorithm-specific parameters used by an Amazon Braket job that influence the quality of the training job. The values are set with a string of JSON key:value pairs, where the key is the name of the hyperparameter and the value is the value of th hyperparameter.
+        public let hyperParameters: [String: String]?
+        /// A list of parameters that specify the name and type of input data and where it is located.
+        public let inputDataConfig: [InputFileConfig]?
+        /// Configuration of the resource instances to use while running the hybrid job on Amazon Braket.
+        public let instanceConfig: InstanceConfig
+        /// The name of the Amazon Braket job.
+        public let jobName: String
+        /// The path to the S3 location where you want to store job artifacts and the encryption key used to store them.
+        public let outputDataConfig: JobOutputDataConfig
+        /// The Amazon Resource Name (ARN) of an IAM role that Amazon Braket can assume to perform tasks on behalf of a user. It can access user resources, run an Amazon Braket job container on behalf of user, and output resources to the users' s3 buckets.
+        public let roleArn: String
+        ///  The user-defined criteria that specifies when a job stops running.
+        public let stoppingCondition: JobStoppingCondition?
+        /// A tag object that consists of a key and an optional value, used to manage metadata for Amazon Braket resources.
+        public let tags: [String: String]?
+
+        public init(algorithmSpecification: AlgorithmSpecification, checkpointConfig: JobCheckpointConfig? = nil, clientToken: String = CreateJobRequest.idempotencyToken(), deviceConfig: DeviceConfig, hyperParameters: [String: String]? = nil, inputDataConfig: [InputFileConfig]? = nil, instanceConfig: InstanceConfig, jobName: String, outputDataConfig: JobOutputDataConfig, roleArn: String, stoppingCondition: JobStoppingCondition? = nil, tags: [String: String]? = nil) {
+            self.algorithmSpecification = algorithmSpecification
+            self.checkpointConfig = checkpointConfig
+            self.clientToken = clientToken
+            self.deviceConfig = deviceConfig
+            self.hyperParameters = hyperParameters
+            self.inputDataConfig = inputDataConfig
+            self.instanceConfig = instanceConfig
+            self.jobName = jobName
+            self.outputDataConfig = outputDataConfig
+            self.roleArn = roleArn
+            self.stoppingCondition = stoppingCondition
+            self.tags = tags
+        }
+
+        public func validate(name: String) throws {
+            try self.algorithmSpecification.validate(name: "\(name).algorithmSpecification")
+            try self.checkpointConfig?.validate(name: "\(name).checkpointConfig")
+            try self.validate(self.clientToken, name: "clientToken", parent: name, max: 64)
+            try self.validate(self.clientToken, name: "clientToken", parent: name, min: 1)
+            try self.deviceConfig.validate(name: "\(name).deviceConfig")
+            try self.hyperParameters?.forEach {
+                try validate($0.key, name: "hyperParameters.key", parent: name, max: 256)
+                try validate($0.key, name: "hyperParameters.key", parent: name, min: 1)
+            }
+            try self.validate(self.hyperParameters, name: "hyperParameters", parent: name, max: 100)
+            try self.inputDataConfig?.forEach {
+                try $0.validate(name: "\(name).inputDataConfig[]")
+            }
+            try self.outputDataConfig.validate(name: "\(name).outputDataConfig")
+            try self.validate(self.roleArn, name: "roleArn", parent: name, pattern: "^arn:aws[a-z\\-]*:iam::\\d{12}:role/?[a-zA-Z_0-9+=,.@\\-_/]+$")
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case algorithmSpecification
+            case checkpointConfig
+            case clientToken
+            case deviceConfig
+            case hyperParameters
+            case inputDataConfig
+            case instanceConfig
+            case jobName
+            case outputDataConfig
+            case roleArn
+            case stoppingCondition
+            case tags
+        }
+    }
+
+    public struct CreateJobResponse: AWSDecodableShape {
+        /// The ARN of the Amazon Braket job created.
+        public let jobArn: String
+
+        public init(jobArn: String) {
+            self.jobArn = jobArn
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case jobArn
+        }
+    }
+
     public struct CreateQuantumTaskRequest: AWSEncodableShape {
         /// The action associated with the task.
         public let action: String
@@ -116,6 +366,8 @@ extension Braket {
         public let deviceArn: String
         /// The parameters for the device to run the task on.
         public let deviceParameters: String?
+        /// The token for an Amazon Braket job that associates it with the quantum task.
+        public let jobToken: String?
         /// The S3 bucket to store task result files in.
         public let outputS3Bucket: String
         /// The key prefix for the location in the S3 bucket to store task results in.
@@ -125,11 +377,12 @@ extension Braket {
         /// Tags to be added to the quantum task you're creating.
         public let tags: [String: String]?
 
-        public init(action: String, clientToken: String = CreateQuantumTaskRequest.idempotencyToken(), deviceArn: String, deviceParameters: String? = nil, outputS3Bucket: String, outputS3KeyPrefix: String, shots: Int64, tags: [String: String]? = nil) {
+        public init(action: String, clientToken: String = CreateQuantumTaskRequest.idempotencyToken(), deviceArn: String, deviceParameters: String? = nil, jobToken: String? = nil, outputS3Bucket: String, outputS3KeyPrefix: String, shots: Int64, tags: [String: String]? = nil) {
             self.action = action
             self.clientToken = clientToken
             self.deviceArn = deviceArn
             self.deviceParameters = deviceParameters
+            self.jobToken = jobToken
             self.outputS3Bucket = outputS3Bucket
             self.outputS3KeyPrefix = outputS3KeyPrefix
             self.shots = shots
@@ -141,6 +394,8 @@ extension Braket {
             try self.validate(self.clientToken, name: "clientToken", parent: name, min: 1)
             try self.validate(self.deviceArn, name: "deviceArn", parent: name, max: 256)
             try self.validate(self.deviceArn, name: "deviceArn", parent: name, min: 1)
+            try self.validate(self.jobToken, name: "jobToken", parent: name, max: 128)
+            try self.validate(self.jobToken, name: "jobToken", parent: name, min: 1)
         }
 
         private enum CodingKeys: String, CodingKey {
@@ -148,6 +403,7 @@ extension Braket {
             case clientToken
             case deviceArn
             case deviceParameters
+            case jobToken
             case outputS3Bucket
             case outputS3KeyPrefix
             case shots
@@ -165,6 +421,41 @@ extension Braket {
 
         private enum CodingKeys: String, CodingKey {
             case quantumTaskArn
+        }
+    }
+
+    public struct DataSource: AWSEncodableShape & AWSDecodableShape {
+        /// Information about the data stored in Amazon S3 used by the Amazon Braket job.
+        public let s3DataSource: S3DataSource
+
+        public init(s3DataSource: S3DataSource) {
+            self.s3DataSource = s3DataSource
+        }
+
+        public func validate(name: String) throws {
+            try self.s3DataSource.validate(name: "\(name).s3DataSource")
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case s3DataSource
+        }
+    }
+
+    public struct DeviceConfig: AWSEncodableShape & AWSDecodableShape {
+        /// The primary quantum processing unit (QPU) or simulator used to create and run an Amazon Braket job.
+        public let device: String
+
+        public init(device: String) {
+            self.device = device
+        }
+
+        public func validate(name: String) throws {
+            try self.validate(self.device, name: "device", parent: name, max: 256)
+            try self.validate(self.device, name: "device", parent: name, min: 1)
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case device
         }
     }
 
@@ -250,6 +541,110 @@ extension Braket {
         }
     }
 
+    public struct GetJobRequest: AWSEncodableShape {
+        public static var _encoding = [
+            AWSMemberEncoding(label: "jobArn", location: .uri("jobArn"))
+        ]
+
+        /// The ARN of the job to retrieve.
+        public let jobArn: String
+
+        public init(jobArn: String) {
+            self.jobArn = jobArn
+        }
+
+        public func validate(name: String) throws {
+            try self.validate(self.jobArn, name: "jobArn", parent: name, pattern: "^arn:aws[a-z\\-]*:braket:[a-z0-9\\-]*:[0-9]{12}:job/.*$")
+        }
+
+        private enum CodingKeys: CodingKey {}
+    }
+
+    public struct GetJobResponse: AWSDecodableShape {
+        /// Definition of the Amazon Braket job created. Specifies the container image the job uses, information about the Python scripts used for entry and training, and the user-defined metrics used to evaluation the job.
+        public let algorithmSpecification: AlgorithmSpecification
+        /// The billable time the Amazon Braket job used to complete.
+        public let billableDuration: Int?
+        /// Information about the output locations for job checkpoint data.
+        public let checkpointConfig: JobCheckpointConfig?
+        /// The date and time that the Amazon Braket job was created.
+        public let createdAt: Date
+        /// The quantum processing unit (QPU) or simulator used to run the Amazon Braket job.
+        public let deviceConfig: DeviceConfig?
+        /// The date and time that the Amazon Braket job ended.
+        public let endedAt: Date?
+        /// Details about the type and time events occurred related to the Amazon Braket job.
+        public let events: [JobEventDetails]?
+        /// A description of the reason why an Amazon Braket job failed, if it failed.
+        public let failureReason: String?
+        /// Algorithm-specific parameters used by an Amazon Braket job that influence the quality of the traiing job. The values are set with a string of JSON key:value pairs, where the key is the name of the hyperparameter and the value is the value of th hyperparameter.
+        public let hyperParameters: [String: String]?
+        /// A list of parameters that specify the name and type of input data and where it is located.
+        public let inputDataConfig: [InputFileConfig]?
+        /// The resource instances to use while running the hybrid job on Amazon Braket.
+        public let instanceConfig: InstanceConfig
+        /// The ARN of the Amazon Braket job.
+        public let jobArn: String
+        /// The name of the Amazon Braket job.
+        public let jobName: String
+        /// The path to the S3 location where job artifacts are stored and the encryption key used to store them there.
+        public let outputDataConfig: JobOutputDataConfig
+        /// The Amazon Resource Name (ARN) of an IAM role that Amazon Braket can assume to perform tasks on behalf of a user. It can access user resources, run an Amazon Braket job container on behalf of user, and output resources to the s3 buckets of a user.
+        public let roleArn: String
+        /// The date and time that the Amazon Braket job was started.
+        public let startedAt: Date?
+        /// The status of the Amazon Braket job.
+        public let status: JobPrimaryStatus
+        /// The user-defined criteria that specifies when to stop a job running.
+        public let stoppingCondition: JobStoppingCondition?
+        /// A tag object that consists of a key and an optional value, used to manage metadata for Amazon Braket resources.
+        public let tags: [String: String]?
+
+        public init(algorithmSpecification: AlgorithmSpecification, billableDuration: Int? = nil, checkpointConfig: JobCheckpointConfig? = nil, createdAt: Date, deviceConfig: DeviceConfig? = nil, endedAt: Date? = nil, events: [JobEventDetails]? = nil, failureReason: String? = nil, hyperParameters: [String: String]? = nil, inputDataConfig: [InputFileConfig]? = nil, instanceConfig: InstanceConfig, jobArn: String, jobName: String, outputDataConfig: JobOutputDataConfig, roleArn: String, startedAt: Date? = nil, status: JobPrimaryStatus, stoppingCondition: JobStoppingCondition? = nil, tags: [String: String]? = nil) {
+            self.algorithmSpecification = algorithmSpecification
+            self.billableDuration = billableDuration
+            self.checkpointConfig = checkpointConfig
+            self.createdAt = createdAt
+            self.deviceConfig = deviceConfig
+            self.endedAt = endedAt
+            self.events = events
+            self.failureReason = failureReason
+            self.hyperParameters = hyperParameters
+            self.inputDataConfig = inputDataConfig
+            self.instanceConfig = instanceConfig
+            self.jobArn = jobArn
+            self.jobName = jobName
+            self.outputDataConfig = outputDataConfig
+            self.roleArn = roleArn
+            self.startedAt = startedAt
+            self.status = status
+            self.stoppingCondition = stoppingCondition
+            self.tags = tags
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case algorithmSpecification
+            case billableDuration
+            case checkpointConfig
+            case createdAt
+            case deviceConfig
+            case endedAt
+            case events
+            case failureReason
+            case hyperParameters
+            case inputDataConfig
+            case instanceConfig
+            case jobArn
+            case jobName
+            case outputDataConfig
+            case roleArn
+            case startedAt
+            case status
+            case stoppingCondition
+            case tags
+        }
+    }
+
     public struct GetQuantumTaskRequest: AWSEncodableShape {
         public static var _encoding = [
             AWSMemberEncoding(label: "quantumTaskArn", location: .uri("quantumTaskArn"))
@@ -281,6 +676,8 @@ extension Braket {
         public let endedAt: Date?
         /// The reason that a task failed.
         public let failureReason: String?
+        /// The ARN of the Amazon Braket job associated with the quantum task.
+        public let jobArn: String?
         /// The S3 bucket where task results are stored.
         public let outputS3Bucket: String
         /// The folder in the S3 bucket where task results are stored.
@@ -294,12 +691,13 @@ extension Braket {
         /// The tags that belong to this task.
         public let tags: [String: String]?
 
-        public init(createdAt: Date, deviceArn: String, deviceParameters: String, endedAt: Date? = nil, failureReason: String? = nil, outputS3Bucket: String, outputS3Directory: String, quantumTaskArn: String, shots: Int64, status: QuantumTaskStatus, tags: [String: String]? = nil) {
+        public init(createdAt: Date, deviceArn: String, deviceParameters: String, endedAt: Date? = nil, failureReason: String? = nil, jobArn: String? = nil, outputS3Bucket: String, outputS3Directory: String, quantumTaskArn: String, shots: Int64, status: QuantumTaskStatus, tags: [String: String]? = nil) {
             self.createdAt = createdAt
             self.deviceArn = deviceArn
             self.deviceParameters = deviceParameters
             self.endedAt = endedAt
             self.failureReason = failureReason
+            self.jobArn = jobArn
             self.outputS3Bucket = outputS3Bucket
             self.outputS3Directory = outputS3Directory
             self.quantumTaskArn = quantumTaskArn
@@ -314,10 +712,180 @@ extension Braket {
             case deviceParameters
             case endedAt
             case failureReason
+            case jobArn
             case outputS3Bucket
             case outputS3Directory
             case quantumTaskArn
             case shots
+            case status
+            case tags
+        }
+    }
+
+    public struct InputFileConfig: AWSEncodableShape & AWSDecodableShape {
+        /// A named input source that an Amazon Braket job can consume.
+        public let channelName: String
+        /// The MIME type of the data.
+        public let contentType: String?
+        /// The location of the channel data.
+        public let dataSource: DataSource
+
+        public init(channelName: String, contentType: String? = nil, dataSource: DataSource) {
+            self.channelName = channelName
+            self.contentType = contentType
+            self.dataSource = dataSource
+        }
+
+        public func validate(name: String) throws {
+            try self.validate(self.channelName, name: "channelName", parent: name, max: 64)
+            try self.validate(self.channelName, name: "channelName", parent: name, min: 1)
+            try self.validate(self.contentType, name: "contentType", parent: name, max: 256)
+            try self.validate(self.contentType, name: "contentType", parent: name, min: 1)
+            try self.dataSource.validate(name: "\(name).dataSource")
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case channelName
+            case contentType
+            case dataSource
+        }
+    }
+
+    public struct InstanceConfig: AWSEncodableShape & AWSDecodableShape {
+        /// Configures the type resource instances to use while running an Amazon Braket hybrid job.
+        public let instanceType: InstanceType
+        /// The size of the storage volume, in GB, that user wants to provision.
+        public let volumeSizeInGb: Int
+
+        public init(instanceType: InstanceType, volumeSizeInGb: Int) {
+            self.instanceType = instanceType
+            self.volumeSizeInGb = volumeSizeInGb
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case instanceType
+            case volumeSizeInGb
+        }
+    }
+
+    public struct JobCheckpointConfig: AWSEncodableShape & AWSDecodableShape {
+        /// (Optional) The local directory where checkpoints are written. The default directory is /opt/braket/checkpoints/.
+        public let localPath: String?
+        /// Identifies the S3 path where you want Amazon Braket to store checkpoints. For example, s3://bucket-name/key-name-prefix.
+        public let s3Uri: String
+
+        public init(localPath: String? = nil, s3Uri: String) {
+            self.localPath = localPath
+            self.s3Uri = s3Uri
+        }
+
+        public func validate(name: String) throws {
+            try self.validate(self.localPath, name: "localPath", parent: name, max: 4096)
+            try self.validate(self.localPath, name: "localPath", parent: name, min: 1)
+            try self.validate(self.s3Uri, name: "s3Uri", parent: name, max: 1024)
+            try self.validate(self.s3Uri, name: "s3Uri", parent: name, pattern: "^(https|s3)://([^/]+)/?(.*)$")
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case localPath
+            case s3Uri
+        }
+    }
+
+    public struct JobEventDetails: AWSDecodableShape {
+        /// The type of event that occurred related to the Amazon Braket job.
+        public let eventType: JobEventType?
+        /// A message describing the event that occurred related to the Amazon Braket job.
+        public let message: String?
+        /// TThe type of event that occurred related to the Amazon Braket job.
+        public let timeOfEvent: Date?
+
+        public init(eventType: JobEventType? = nil, message: String? = nil, timeOfEvent: Date? = nil) {
+            self.eventType = eventType
+            self.message = message
+            self.timeOfEvent = timeOfEvent
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case eventType
+            case message
+            case timeOfEvent
+        }
+    }
+
+    public struct JobOutputDataConfig: AWSEncodableShape & AWSDecodableShape {
+        /// The AWS Key Management Service (AWS KMS) key that Amazon Braket uses to encrypt the job training artifacts at rest using Amazon S3 server-side encryption.
+        public let kmsKeyId: String?
+        /// Identifies the S3 path where you want Amazon Braket to store the job training artifacts. For example, s3://bucket-name/key-name-prefix.
+        public let s3Path: String
+
+        public init(kmsKeyId: String? = nil, s3Path: String) {
+            self.kmsKeyId = kmsKeyId
+            self.s3Path = s3Path
+        }
+
+        public func validate(name: String) throws {
+            try self.validate(self.kmsKeyId, name: "kmsKeyId", parent: name, max: 2048)
+            try self.validate(self.kmsKeyId, name: "kmsKeyId", parent: name, min: 1)
+            try self.validate(self.s3Path, name: "s3Path", parent: name, max: 1024)
+            try self.validate(self.s3Path, name: "s3Path", parent: name, pattern: "^(https|s3)://([^/]+)/?(.*)$")
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case kmsKeyId
+            case s3Path
+        }
+    }
+
+    public struct JobStoppingCondition: AWSEncodableShape & AWSDecodableShape {
+        /// The maximum length of time, in seconds, that an Amazon Braket job can run.
+        public let maxRuntimeInSeconds: Int?
+
+        public init(maxRuntimeInSeconds: Int? = nil) {
+            self.maxRuntimeInSeconds = maxRuntimeInSeconds
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case maxRuntimeInSeconds
+        }
+    }
+
+    public struct JobSummary: AWSDecodableShape {
+        /// The date and time that the Amazon Braket job was created.
+        public let createdAt: Date
+        /// Provides summary information about the primary device used by an Amazon Braket job.
+        public let device: String
+        /// The date and time that the Amazon Braket job ended.
+        public let endedAt: Date?
+        /// The ARN of the Amazon Braket job.
+        public let jobArn: String
+        /// The name of the Amazon Braket job.
+        public let jobName: String
+        /// The date and time that the Amazon Braket job was started.
+        public let startedAt: Date?
+        /// The status of the Amazon Braket job.
+        public let status: JobPrimaryStatus
+        /// A tag object that consists of a key and an optional value, used to manage metadata for Amazon Braket resources.
+        public let tags: [String: String]?
+
+        public init(createdAt: Date, device: String, endedAt: Date? = nil, jobArn: String, jobName: String, startedAt: Date? = nil, status: JobPrimaryStatus, tags: [String: String]? = nil) {
+            self.createdAt = createdAt
+            self.device = device
+            self.endedAt = endedAt
+            self.jobArn = jobArn
+            self.jobName = jobName
+            self.startedAt = startedAt
+            self.status = status
+            self.tags = tags
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case createdAt
+            case device
+            case endedAt
+            case jobArn
+            case jobName
+            case startedAt
             case status
             case tags
         }
@@ -396,6 +964,50 @@ extension Braket {
         }
     }
 
+    public struct S3DataSource: AWSEncodableShape & AWSDecodableShape {
+        /// Depending on the value specified for the S3DataType, identifies either a key name prefix or a manifest that locates the S3 data source.
+        public let s3Uri: String
+
+        public init(s3Uri: String) {
+            self.s3Uri = s3Uri
+        }
+
+        public func validate(name: String) throws {
+            try self.validate(self.s3Uri, name: "s3Uri", parent: name, max: 1024)
+            try self.validate(self.s3Uri, name: "s3Uri", parent: name, pattern: "^(https|s3)://([^/]+)/?(.*)$")
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case s3Uri
+        }
+    }
+
+    public struct ScriptModeConfig: AWSEncodableShape & AWSDecodableShape {
+        /// The type of compression used by the Python scripts for an Amazon Braket job.
+        public let compressionType: CompressionType?
+        /// The path to the Python script that serves as the entry point for an Amazon Braket job.
+        public let entryPoint: String
+        /// The URI that specifies the S3 path to the Python script module that contains the training script used by an Amazon Braket job.
+        public let s3Uri: String
+
+        public init(compressionType: CompressionType? = nil, entryPoint: String, s3Uri: String) {
+            self.compressionType = compressionType
+            self.entryPoint = entryPoint
+            self.s3Uri = s3Uri
+        }
+
+        public func validate(name: String) throws {
+            try self.validate(self.s3Uri, name: "s3Uri", parent: name, max: 1024)
+            try self.validate(self.s3Uri, name: "s3Uri", parent: name, pattern: "^(https|s3)://([^/]+)/?(.*)$")
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case compressionType
+            case entryPoint
+            case s3Uri
+        }
+    }
+
     public struct SearchDevicesFilter: AWSEncodableShape {
         /// The name to use to filter results.
         public let name: String
@@ -460,6 +1072,80 @@ extension Braket {
 
         private enum CodingKeys: String, CodingKey {
             case devices
+            case nextToken
+        }
+    }
+
+    public struct SearchJobsFilter: AWSEncodableShape {
+        /// The name to use for the jobs filter.
+        public let name: String
+        /// An operator to use for the jobs filter.
+        public let `operator`: SearchJobsFilterOperator
+        /// The values to use for the jobs filter.
+        public let values: [String]
+
+        public init(name: String, operator: SearchJobsFilterOperator, values: [String]) {
+            self.name = name
+            self.`operator` = `operator`
+            self.values = values
+        }
+
+        public func validate(name: String) throws {
+            try self.validate(self.name, name: "name", parent: name, max: 64)
+            try self.validate(self.name, name: "name", parent: name, min: 1)
+            try self.values.forEach {
+                try validate($0, name: "values[]", parent: name, max: 256)
+                try validate($0, name: "values[]", parent: name, min: 1)
+            }
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case name
+            case `operator`
+            case values
+        }
+    }
+
+    public struct SearchJobsRequest: AWSEncodableShape {
+        /// The filter values to use when searching for a job.
+        public let filters: [SearchJobsFilter]
+        /// The maximum number of results to return in the response.
+        public let maxResults: Int?
+        /// A token used for pagination of results returned in the response. Use the token returned from the previous request to continue results where the previous request ended.
+        public let nextToken: String?
+
+        public init(filters: [SearchJobsFilter], maxResults: Int? = nil, nextToken: String? = nil) {
+            self.filters = filters
+            self.maxResults = maxResults
+            self.nextToken = nextToken
+        }
+
+        public func validate(name: String) throws {
+            try self.filters.forEach {
+                try $0.validate(name: "\(name).filters[]")
+            }
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case filters
+            case maxResults
+            case nextToken
+        }
+    }
+
+    public struct SearchJobsResponse: AWSDecodableShape {
+        /// An array of JobSummary objects for devices that match the specified filter values.
+        public let jobs: [JobSummary]
+        /// A token used for pagination of results, or null if there are no additional results. Use the token value in a subsequent request to continue results where the previous request ended.
+        public let nextToken: String?
+
+        public init(jobs: [JobSummary], nextToken: String? = nil) {
+            self.jobs = jobs
+            self.nextToken = nextToken
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case jobs
             case nextToken
         }
     }

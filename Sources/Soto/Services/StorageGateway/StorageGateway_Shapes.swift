@@ -63,6 +63,7 @@ extension StorageGateway {
         case hyperV = "HYPER-V"
         case kvm = "KVM"
         case other = "OTHER"
+        case snowball = "SNOWBALL"
         case vmware = "VMWARE"
         public var description: String { return self.rawValue }
     }
@@ -119,7 +120,7 @@ extension StorageGateway {
         /// A value that indicates the time zone you want to set for the gateway. The time zone is of the format "GMT-hr:mm" or "GMT+hr:mm". For example, GMT-4:00 indicates the time is 4 hours behind GMT. GMT+2:00 indicates the time is 2 hours ahead of GMT. The time zone is used, for example, for scheduling snapshots and your gateway's maintenance schedule.
         public let gatewayTimezone: String
         /// A value that defines the type of gateway to activate. The type specified is critical to all later functions of the gateway and cannot be changed after activation. The default value is CACHED.
-        ///  Valid Values: STORED | CACHED | VTL | FILE_S3 | FILE_FSX_SMB|
+        ///  Valid Values: STORED | CACHED | VTL | VTL_SNOW | FILE_S3 | FILE_FSX_SMB
         public let gatewayType: String?
         /// The value that indicates the type of medium changer to use for tape gateway. This field is optional.
         ///  Valid Values: STK-L700 | AWS-Gateway-VTL | IBM-03584L32-0402
@@ -2315,8 +2316,10 @@ extension StorageGateway {
         public let gatewayTimezone: String?
         /// The type of the gateway.
         public let gatewayType: String?
-        /// The type of hypervisor environment used by the host.
+        /// The type of hardware or software platform on which the gateway is running.
         public let hostEnvironment: HostEnvironment?
+        /// A unique identifier for the specific instance of the host platform running the gateway. This value is only available for certain host environments, and its format depends on the host environment type.
+        public let hostEnvironmentId: String?
         /// The date on which the last software update was applied to the gateway. If the gateway has never been updated, this field does not return a value in the response.
         public let lastSoftwareUpdate: String?
         /// The date on which an update to the gateway is available. This date is in the time zone of the gateway. If the gateway is not available for an update this field is not returned in the response.
@@ -2330,7 +2333,7 @@ extension StorageGateway {
         /// The configuration settings for the virtual private cloud (VPC) endpoint for your gateway.
         public let vpcEndpoint: String?
 
-        public init(cloudWatchLogGroupARN: String? = nil, deprecationDate: String? = nil, ec2InstanceId: String? = nil, ec2InstanceRegion: String? = nil, endpointType: String? = nil, gatewayARN: String? = nil, gatewayCapacity: GatewayCapacity? = nil, gatewayId: String? = nil, gatewayName: String? = nil, gatewayNetworkInterfaces: [NetworkInterface]? = nil, gatewayState: String? = nil, gatewayTimezone: String? = nil, gatewayType: String? = nil, hostEnvironment: HostEnvironment? = nil, lastSoftwareUpdate: String? = nil, nextUpdateAvailabilityDate: String? = nil, softwareUpdatesEndDate: String? = nil, supportedGatewayCapacities: [GatewayCapacity]? = nil, tags: [Tag]? = nil, vpcEndpoint: String? = nil) {
+        public init(cloudWatchLogGroupARN: String? = nil, deprecationDate: String? = nil, ec2InstanceId: String? = nil, ec2InstanceRegion: String? = nil, endpointType: String? = nil, gatewayARN: String? = nil, gatewayCapacity: GatewayCapacity? = nil, gatewayId: String? = nil, gatewayName: String? = nil, gatewayNetworkInterfaces: [NetworkInterface]? = nil, gatewayState: String? = nil, gatewayTimezone: String? = nil, gatewayType: String? = nil, hostEnvironment: HostEnvironment? = nil, hostEnvironmentId: String? = nil, lastSoftwareUpdate: String? = nil, nextUpdateAvailabilityDate: String? = nil, softwareUpdatesEndDate: String? = nil, supportedGatewayCapacities: [GatewayCapacity]? = nil, tags: [Tag]? = nil, vpcEndpoint: String? = nil) {
             self.cloudWatchLogGroupARN = cloudWatchLogGroupARN
             self.deprecationDate = deprecationDate
             self.ec2InstanceId = ec2InstanceId
@@ -2345,6 +2348,7 @@ extension StorageGateway {
             self.gatewayTimezone = gatewayTimezone
             self.gatewayType = gatewayType
             self.hostEnvironment = hostEnvironment
+            self.hostEnvironmentId = hostEnvironmentId
             self.lastSoftwareUpdate = lastSoftwareUpdate
             self.nextUpdateAvailabilityDate = nextUpdateAvailabilityDate
             self.softwareUpdatesEndDate = softwareUpdatesEndDate
@@ -2368,6 +2372,7 @@ extension StorageGateway {
             case gatewayTimezone = "GatewayTimezone"
             case gatewayType = "GatewayType"
             case hostEnvironment = "HostEnvironment"
+            case hostEnvironmentId = "HostEnvironmentId"
             case lastSoftwareUpdate = "LastSoftwareUpdate"
             case nextUpdateAvailabilityDate = "NextUpdateAvailabilityDate"
             case softwareUpdatesEndDate = "SoftwareUpdatesEndDate"
@@ -3238,8 +3243,12 @@ extension StorageGateway {
         public let gatewayOperationalState: String?
         /// The type of the gateway.
         public let gatewayType: String?
+        /// The type of hardware or software platform on which the gateway is running.
+        public let hostEnvironment: HostEnvironment?
+        /// A unique identifier for the specific instance of the host platform running the gateway. This value is only available for certain host environments, and its format depends on the host environment type.
+        public let hostEnvironmentId: String?
 
-        public init(ec2InstanceId: String? = nil, ec2InstanceRegion: String? = nil, gatewayARN: String? = nil, gatewayId: String? = nil, gatewayName: String? = nil, gatewayOperationalState: String? = nil, gatewayType: String? = nil) {
+        public init(ec2InstanceId: String? = nil, ec2InstanceRegion: String? = nil, gatewayARN: String? = nil, gatewayId: String? = nil, gatewayName: String? = nil, gatewayOperationalState: String? = nil, gatewayType: String? = nil, hostEnvironment: HostEnvironment? = nil, hostEnvironmentId: String? = nil) {
             self.ec2InstanceId = ec2InstanceId
             self.ec2InstanceRegion = ec2InstanceRegion
             self.gatewayARN = gatewayARN
@@ -3247,6 +3256,8 @@ extension StorageGateway {
             self.gatewayName = gatewayName
             self.gatewayOperationalState = gatewayOperationalState
             self.gatewayType = gatewayType
+            self.hostEnvironment = hostEnvironment
+            self.hostEnvironmentId = hostEnvironmentId
         }
 
         private enum CodingKeys: String, CodingKey {
@@ -3257,6 +3268,8 @@ extension StorageGateway {
             case gatewayName = "GatewayName"
             case gatewayOperationalState = "GatewayOperationalState"
             case gatewayType = "GatewayType"
+            case hostEnvironment = "HostEnvironment"
+            case hostEnvironmentId = "HostEnvironmentId"
         }
     }
 

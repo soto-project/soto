@@ -4398,6 +4398,8 @@ extension DatabaseMigrationService {
         public let datePartitionEnabled: Bool?
         /// Identifies the sequence of the date format to use during folder partitioning. The default value is  YYYYMMDD. Use this parameter when DatePartitionedEnabled is set to true.
         public let datePartitionSequence: DatePartitionSequenceValue?
+        /// When creating an S3 target endpoint, set DatePartitionTimezone to convert the current UTC time into a specified time zone. The conversion occurs when a date partition folder is created and a CDC filename is generated. The time zone format is Area/Location. Use this parameter when DatePartitionedEnabled is set to true, as shown in the following example.  s3-settings='{"DatePartitionEnabled": true, "DatePartitionSequence": "YYYYMMDDHH", "DatePartitionDelimiter": "SLASH", "DatePartitionTimezone":"Asia/Seoul", "BucketName": "dms-nattarat-test"}'
+        public let datePartitionTimezone: String?
         /// The maximum size of an encoded dictionary page of a column. If the dictionary page exceeds this, this column is stored using an encoding type of PLAIN. This parameter defaults to 1024 * 1024 bytes (1 MiB), the maximum size of a dictionary page before it reverts to PLAIN encoding. This size is used for .parquet file format only.
         public let dictPageSizeLimit: Int?
         /// A value that enables statistics for Parquet pages and row groups. Choose true to enable statistics, false to disable. Statistics include NULL, DISTINCT, MAX, and MIN values. This parameter defaults to true. This value is used for .parquet file format only.
@@ -4436,7 +4438,7 @@ extension DatabaseMigrationService {
         /// When set to true, this parameter uses the task start time as the timestamp column value instead of  the time data is written to target. For full load, when useTaskStartTimeForFullLoadTimestamp is set to true, each row of the timestamp column contains the task start time. For CDC loads,  each row of the timestamp column contains the transaction commit time.  When useTaskStartTimeForFullLoadTimestamp is set to false, the full load timestamp  in the timestamp column increments with the time data arrives at the target.
         public let useTaskStartTimeForFullLoadTimestamp: Bool?
 
-        public init(addColumnName: Bool? = nil, bucketFolder: String? = nil, bucketName: String? = nil, cannedAclForObjects: CannedAclForObjectsValue? = nil, cdcInsertsAndUpdates: Bool? = nil, cdcInsertsOnly: Bool? = nil, cdcMaxBatchInterval: Int? = nil, cdcMinFileSize: Int? = nil, cdcPath: String? = nil, compressionType: CompressionTypeValue? = nil, csvDelimiter: String? = nil, csvNoSupValue: String? = nil, csvNullValue: String? = nil, csvRowDelimiter: String? = nil, dataFormat: DataFormatValue? = nil, dataPageSize: Int? = nil, datePartitionDelimiter: DatePartitionDelimiterValue? = nil, datePartitionEnabled: Bool? = nil, datePartitionSequence: DatePartitionSequenceValue? = nil, dictPageSizeLimit: Int? = nil, enableStatistics: Bool? = nil, encodingType: EncodingTypeValue? = nil, encryptionMode: EncryptionModeValue? = nil, externalTableDefinition: String? = nil, ignoreHeaderRows: Int? = nil, includeOpForFullLoad: Bool? = nil, maxFileSize: Int? = nil, parquetTimestampInMillisecond: Bool? = nil, parquetVersion: ParquetVersionValue? = nil, preserveTransactions: Bool? = nil, rfc4180: Bool? = nil, rowGroupLength: Int? = nil, serverSideEncryptionKmsKeyId: String? = nil, serviceAccessRoleArn: String? = nil, timestampColumnName: String? = nil, useCsvNoSupValue: Bool? = nil, useTaskStartTimeForFullLoadTimestamp: Bool? = nil) {
+        public init(addColumnName: Bool? = nil, bucketFolder: String? = nil, bucketName: String? = nil, cannedAclForObjects: CannedAclForObjectsValue? = nil, cdcInsertsAndUpdates: Bool? = nil, cdcInsertsOnly: Bool? = nil, cdcMaxBatchInterval: Int? = nil, cdcMinFileSize: Int? = nil, cdcPath: String? = nil, compressionType: CompressionTypeValue? = nil, csvDelimiter: String? = nil, csvNoSupValue: String? = nil, csvNullValue: String? = nil, csvRowDelimiter: String? = nil, dataFormat: DataFormatValue? = nil, dataPageSize: Int? = nil, datePartitionDelimiter: DatePartitionDelimiterValue? = nil, datePartitionEnabled: Bool? = nil, datePartitionSequence: DatePartitionSequenceValue? = nil, datePartitionTimezone: String? = nil, dictPageSizeLimit: Int? = nil, enableStatistics: Bool? = nil, encodingType: EncodingTypeValue? = nil, encryptionMode: EncryptionModeValue? = nil, externalTableDefinition: String? = nil, ignoreHeaderRows: Int? = nil, includeOpForFullLoad: Bool? = nil, maxFileSize: Int? = nil, parquetTimestampInMillisecond: Bool? = nil, parquetVersion: ParquetVersionValue? = nil, preserveTransactions: Bool? = nil, rfc4180: Bool? = nil, rowGroupLength: Int? = nil, serverSideEncryptionKmsKeyId: String? = nil, serviceAccessRoleArn: String? = nil, timestampColumnName: String? = nil, useCsvNoSupValue: Bool? = nil, useTaskStartTimeForFullLoadTimestamp: Bool? = nil) {
             self.addColumnName = addColumnName
             self.bucketFolder = bucketFolder
             self.bucketName = bucketName
@@ -4456,6 +4458,7 @@ extension DatabaseMigrationService {
             self.datePartitionDelimiter = datePartitionDelimiter
             self.datePartitionEnabled = datePartitionEnabled
             self.datePartitionSequence = datePartitionSequence
+            self.datePartitionTimezone = datePartitionTimezone
             self.dictPageSizeLimit = dictPageSizeLimit
             self.enableStatistics = enableStatistics
             self.encodingType = encodingType
@@ -4496,6 +4499,7 @@ extension DatabaseMigrationService {
             case datePartitionDelimiter = "DatePartitionDelimiter"
             case datePartitionEnabled = "DatePartitionEnabled"
             case datePartitionSequence = "DatePartitionSequence"
+            case datePartitionTimezone = "DatePartitionTimezone"
             case dictPageSizeLimit = "DictPageSizeLimit"
             case enableStatistics = "EnableStatistics"
             case encodingType = "EncodingType"

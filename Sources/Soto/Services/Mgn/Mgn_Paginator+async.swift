@@ -110,6 +110,28 @@ extension Mgn {
             on: eventLoop
         )
     }
+
+    ///  Lists all vCenter clients.
+    /// Return PaginatorSequence for operation.
+    ///
+    /// - Parameters:
+    ///   - input: Input for request
+    ///   - logger: Logger used flot logging
+    ///   - eventLoop: EventLoop to run this process on
+    public func describeVcenterClientsPaginator(
+        _ input: DescribeVcenterClientsRequest,
+        logger: Logger = AWSClient.loggingDisabled,
+        on eventLoop: EventLoop? = nil
+    ) -> AWSClient.PaginatorSequence<DescribeVcenterClientsRequest, DescribeVcenterClientsResponse> {
+        return .init(
+            input: input,
+            command: describeVcenterClients,
+            inputKey: \DescribeVcenterClientsRequest.nextToken,
+            outputKey: \DescribeVcenterClientsResponse.nextToken,
+            logger: logger,
+            on: eventLoop
+        )
+    }
 }
 
 #endif // compiler(>=5.5) && canImport(_Concurrency)

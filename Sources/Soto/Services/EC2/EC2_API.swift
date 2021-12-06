@@ -109,6 +109,11 @@ public struct EC2: AWSService {
         return self.client.execute(operation: "AllocateHosts", path: "/", httpMethod: .POST, serviceConfig: self.config, input: input, logger: logger, on: eventLoop)
     }
 
+    /// Allocate a CIDR from an IPAM pool. In IPAM, an allocation is a CIDR assignment from an IPAM pool to another resource or IPAM pool. For more information, see Allocate CIDRs in the Amazon VPC IPAM User Guide.
+    public func allocateIpamPoolCidr(_ input: AllocateIpamPoolCidrRequest, logger: Logger = AWSClient.loggingDisabled, on eventLoop: EventLoop? = nil) -> EventLoopFuture<AllocateIpamPoolCidrResult> {
+        return self.client.execute(operation: "AllocateIpamPoolCidr", path: "/", httpMethod: .POST, serviceConfig: self.config, input: input, logger: logger, on: eventLoop)
+    }
+
     /// Applies a security group to the association between the target network and the Client VPN endpoint. This action replaces the existing
     /// 			security groups with the specified security groups.
     public func applySecurityGroupsToClientVpnTargetNetwork(_ input: ApplySecurityGroupsToClientVpnTargetNetworkRequest, logger: Logger = AWSClient.loggingDisabled, on eventLoop: EventLoop? = nil) -> EventLoopFuture<ApplySecurityGroupsToClientVpnTargetNetworkResult> {
@@ -240,7 +245,7 @@ public struct EC2: AWSService {
         return self.client.execute(operation: "AuthorizeClientVpnIngress", path: "/", httpMethod: .POST, serviceConfig: self.config, input: input, logger: logger, on: eventLoop)
     }
 
-    /// [VPC only] Adds the specified outbound (egress) rules to a security group for use with a VPC. An outbound rule permits instances to send traffic to the specified IPv4 or IPv6 CIDR address  ranges, or to the instances that are associated with the specified destination security groups. You specify a protocol for each rule (for example, TCP).  For the TCP and UDP protocols, you must also specify the destination port or port range.  For the ICMP protocol, you must also specify the ICMP type and code.  You can use -1 for the type or code to mean all types or all codes. Rule changes are propagated to affected instances as quickly as possible. However, a small delay might occur. For information about VPC security group quotas, see Amazon VPC quotas.
+    /// [VPC only] Adds the specified outbound (egress) rules to a security group for use with a VPC. An outbound rule permits instances to send traffic to the specified IPv4 or IPv6 CIDR address  ranges, or to the instances that are associated with the specified source security groups. You specify a protocol for each rule (for example, TCP).  For the TCP and UDP protocols, you must also specify the destination port or port range.  For the ICMP protocol, you must also specify the ICMP type and code.  You can use -1 for the type or code to mean all types or all codes. Rule changes are propagated to affected instances as quickly as possible. However, a small delay might occur. For information about VPC security group quotas, see Amazon VPC quotas.
     public func authorizeSecurityGroupEgress(_ input: AuthorizeSecurityGroupEgressRequest, logger: Logger = AWSClient.loggingDisabled, on eventLoop: EventLoop? = nil) -> EventLoopFuture<AuthorizeSecurityGroupEgressResult> {
         return self.client.execute(operation: "AuthorizeSecurityGroupEgress", path: "/", httpMethod: .POST, serviceConfig: self.config, input: input, logger: logger, on: eventLoop)
     }
@@ -466,6 +471,21 @@ public struct EC2: AWSService {
         return self.client.execute(operation: "CreateInternetGateway", path: "/", httpMethod: .POST, serviceConfig: self.config, input: input, logger: logger, on: eventLoop)
     }
 
+    /// Create an IPAM. Amazon VCP IP Address Manager (IPAM) is a VPC feature that you can use to automate your IP address management workflows including assigning, tracking, troubleshooting, and auditing IP addresses across Amazon Web Services Regions and accounts throughout your Amazon Web Services Organization. For more information, see Create an IPAM in the Amazon VPC IPAM User Guide.
+    public func createIpam(_ input: CreateIpamRequest, logger: Logger = AWSClient.loggingDisabled, on eventLoop: EventLoop? = nil) -> EventLoopFuture<CreateIpamResult> {
+        return self.client.execute(operation: "CreateIpam", path: "/", httpMethod: .POST, serviceConfig: self.config, input: input, logger: logger, on: eventLoop)
+    }
+
+    /// Create an IP address pool for Amazon VPC IP Address Manager (IPAM). In IPAM, a pool is a collection of contiguous IP addresses CIDRs. Pools enable you to organize your IP addresses according to your routing and security needs. For example, if you have separate routing and security needs for development and production applications, you can create a pool for each. For more information, see Create a top-level pool in the Amazon VPC IPAM User Guide.
+    public func createIpamPool(_ input: CreateIpamPoolRequest, logger: Logger = AWSClient.loggingDisabled, on eventLoop: EventLoop? = nil) -> EventLoopFuture<CreateIpamPoolResult> {
+        return self.client.execute(operation: "CreateIpamPool", path: "/", httpMethod: .POST, serviceConfig: self.config, input: input, logger: logger, on: eventLoop)
+    }
+
+    /// Create an IPAM scope. In IPAM, a scope is the highest-level container within IPAM. An IPAM contains two default scopes. Each scope represents the IP space for a single network. The private scope is intended for all private IP address space. The public scope is intended for all public IP address space. Scopes enable you to reuse IP addresses across multiple unconnected networks without causing IP address overlap or conflict. For more information, see Add a scope in the Amazon VPC IPAM User Guide.
+    public func createIpamScope(_ input: CreateIpamScopeRequest, logger: Logger = AWSClient.loggingDisabled, on eventLoop: EventLoop? = nil) -> EventLoopFuture<CreateIpamScopeResult> {
+        return self.client.execute(operation: "CreateIpamScope", path: "/", httpMethod: .POST, serviceConfig: self.config, input: input, logger: logger, on: eventLoop)
+    }
+
     /// Creates an ED25519 or 2048-bit RSA key pair with the specified name. Amazon EC2 stores the public key and displays the private key for you to save to a file. The private key is returned as an unencrypted PEM encoded PKCS#1 private key. If a key with the specified name already exists, Amazon EC2 returns an error.
     /// 		       The key pair returned to you is available only in the Amazon Web Services Region in which you create it. If you prefer, you can create your own key pair using a third-party tool and upload it to any Region using ImportKeyPair. You can have up to 5,000 key pairs per Amazon Web Services Region. For more information, see Amazon EC2 key pairs in the Amazon Elastic Compute Cloud User Guide.
     public func createKeyPair(_ input: CreateKeyPairRequest, logger: Logger = AWSClient.loggingDisabled, on eventLoop: EventLoop? = nil) -> EventLoopFuture<KeyPair> {
@@ -520,6 +540,11 @@ public struct EC2: AWSService {
         return self.client.execute(operation: "CreateNetworkAclEntry", path: "/", httpMethod: .POST, serviceConfig: self.config, input: input, logger: logger, on: eventLoop)
     }
 
+    /// Creates a Network Access Scope. Amazon Web Services Network Access Analyzer enables cloud networking and cloud operations teams  to verify that their networks on Amazon Web Services conform to their network security and governance  objectives. For more information, see the Amazon Web Services Network Access Analyzer Guide.
+    public func createNetworkInsightsAccessScope(_ input: CreateNetworkInsightsAccessScopeRequest, logger: Logger = AWSClient.loggingDisabled, on eventLoop: EventLoop? = nil) -> EventLoopFuture<CreateNetworkInsightsAccessScopeResult> {
+        return self.client.execute(operation: "CreateNetworkInsightsAccessScope", path: "/", httpMethod: .POST, serviceConfig: self.config, input: input, logger: logger, on: eventLoop)
+    }
+
     /// Creates a path to analyze for reachability. Reachability Analyzer enables you to analyze and debug network reachability between two resources in your virtual private cloud (VPC). For more information, see  What is Reachability Analyzer.
     public func createNetworkInsightsPath(_ input: CreateNetworkInsightsPathRequest, logger: Logger = AWSClient.loggingDisabled, on eventLoop: EventLoop? = nil) -> EventLoopFuture<CreateNetworkInsightsPathResult> {
         return self.client.execute(operation: "CreateNetworkInsightsPath", path: "/", httpMethod: .POST, serviceConfig: self.config, input: input, logger: logger, on: eventLoop)
@@ -539,6 +564,11 @@ public struct EC2: AWSService {
     /// Creates a placement group in which to launch instances. The strategy of the placement group determines how the instances are organized within the group.  A cluster placement group is a logical grouping of instances within a single Availability Zone that benefit from low network latency, high network throughput. A spread placement group places instances on distinct hardware. A partition placement group places groups of instances in different partitions, where instances in one partition do not share the same hardware with instances in another partition. For more information, see Placement groups in the Amazon EC2 User Guide.
     public func createPlacementGroup(_ input: CreatePlacementGroupRequest, logger: Logger = AWSClient.loggingDisabled, on eventLoop: EventLoop? = nil) -> EventLoopFuture<CreatePlacementGroupResult> {
         return self.client.execute(operation: "CreatePlacementGroup", path: "/", httpMethod: .POST, serviceConfig: self.config, input: input, logger: logger, on: eventLoop)
+    }
+
+    /// Creates a public IPv4 address pool. A public IPv4 pool is an EC2 IP address pool required for the public IPv4 CIDRs that you own and bring to Amazon Web Services to manage with IPAM. IPv6 addresses you bring to Amazon Web Services, however, use IPAM pools only. To monitor the status of pool creation, use DescribePublicIpv4Pools.
+    public func createPublicIpv4Pool(_ input: CreatePublicIpv4PoolRequest, logger: Logger = AWSClient.loggingDisabled, on eventLoop: EventLoop? = nil) -> EventLoopFuture<CreatePublicIpv4PoolResult> {
+        return self.client.execute(operation: "CreatePublicIpv4Pool", path: "/", httpMethod: .POST, serviceConfig: self.config, input: input, logger: logger, on: eventLoop)
     }
 
     /// Creates a root volume replacement task for an Amazon EC2 instance. The root volume  can either be restored to its initial launch state, or it can be restored using a  specific snapshot.  For more information, see Replace a root volume in the Amazon Elastic Compute Cloud User Guide.
@@ -808,6 +838,21 @@ public struct EC2: AWSService {
         return self.client.execute(operation: "DeleteInternetGateway", path: "/", httpMethod: .POST, serviceConfig: self.config, input: input, logger: logger, on: eventLoop)
     }
 
+    /// Delete an IPAM. Deleting an IPAM removes all monitored data associated with the IPAM including the historical data for CIDRs.  You cannot delete an IPAM if there are CIDRs provisioned to pools or if there are allocations in the pools within the IPAM. To deprovision pool  CIDRs, see DeprovisionIpamPoolCidr. To release allocations, see ReleaseIpamPoolAllocation.   For more information, see Delete an IPAM in the Amazon VPC IPAM User Guide.
+    public func deleteIpam(_ input: DeleteIpamRequest, logger: Logger = AWSClient.loggingDisabled, on eventLoop: EventLoop? = nil) -> EventLoopFuture<DeleteIpamResult> {
+        return self.client.execute(operation: "DeleteIpam", path: "/", httpMethod: .POST, serviceConfig: self.config, input: input, logger: logger, on: eventLoop)
+    }
+
+    /// Delete an IPAM pool.  You cannot delete an IPAM pool if there are allocations in it or CIDRs provisioned to it. To release  allocations, see ReleaseIpamPoolAllocation. To deprovision pool  CIDRs, see DeprovisionIpamPoolCidr.  For more information, see Delete a pool in the Amazon VPC IPAM User Guide.
+    public func deleteIpamPool(_ input: DeleteIpamPoolRequest, logger: Logger = AWSClient.loggingDisabled, on eventLoop: EventLoop? = nil) -> EventLoopFuture<DeleteIpamPoolResult> {
+        return self.client.execute(operation: "DeleteIpamPool", path: "/", httpMethod: .POST, serviceConfig: self.config, input: input, logger: logger, on: eventLoop)
+    }
+
+    /// Delete the scope for an IPAM. You cannot delete the default scopes. For more information, see Delete a scope in the Amazon VPC IPAM User Guide.
+    public func deleteIpamScope(_ input: DeleteIpamScopeRequest, logger: Logger = AWSClient.loggingDisabled, on eventLoop: EventLoop? = nil) -> EventLoopFuture<DeleteIpamScopeResult> {
+        return self.client.execute(operation: "DeleteIpamScope", path: "/", httpMethod: .POST, serviceConfig: self.config, input: input, logger: logger, on: eventLoop)
+    }
+
     /// Deletes the specified key pair, by removing the public key from Amazon EC2.
     @discardableResult public func deleteKeyPair(_ input: DeleteKeyPairRequest, logger: Logger = AWSClient.loggingDisabled, on eventLoop: EventLoop? = nil) -> EventLoopFuture<Void> {
         return self.client.execute(operation: "DeleteKeyPair", path: "/", httpMethod: .POST, serviceConfig: self.config, input: input, logger: logger, on: eventLoop)
@@ -853,6 +898,16 @@ public struct EC2: AWSService {
         return self.client.execute(operation: "DeleteNetworkAclEntry", path: "/", httpMethod: .POST, serviceConfig: self.config, input: input, logger: logger, on: eventLoop)
     }
 
+    /// Deletes the specified Network Access Scope.
+    public func deleteNetworkInsightsAccessScope(_ input: DeleteNetworkInsightsAccessScopeRequest, logger: Logger = AWSClient.loggingDisabled, on eventLoop: EventLoop? = nil) -> EventLoopFuture<DeleteNetworkInsightsAccessScopeResult> {
+        return self.client.execute(operation: "DeleteNetworkInsightsAccessScope", path: "/", httpMethod: .POST, serviceConfig: self.config, input: input, logger: logger, on: eventLoop)
+    }
+
+    /// Deletes the specified Network Access Scope analysis.
+    public func deleteNetworkInsightsAccessScopeAnalysis(_ input: DeleteNetworkInsightsAccessScopeAnalysisRequest, logger: Logger = AWSClient.loggingDisabled, on eventLoop: EventLoop? = nil) -> EventLoopFuture<DeleteNetworkInsightsAccessScopeAnalysisResult> {
+        return self.client.execute(operation: "DeleteNetworkInsightsAccessScopeAnalysis", path: "/", httpMethod: .POST, serviceConfig: self.config, input: input, logger: logger, on: eventLoop)
+    }
+
     /// Deletes the specified network insights analysis.
     public func deleteNetworkInsightsAnalysis(_ input: DeleteNetworkInsightsAnalysisRequest, logger: Logger = AWSClient.loggingDisabled, on eventLoop: EventLoop? = nil) -> EventLoopFuture<DeleteNetworkInsightsAnalysisResult> {
         return self.client.execute(operation: "DeleteNetworkInsightsAnalysis", path: "/", httpMethod: .POST, serviceConfig: self.config, input: input, logger: logger, on: eventLoop)
@@ -879,6 +934,11 @@ public struct EC2: AWSService {
     /// Deletes the specified placement group. You must terminate all instances in the placement group before you can delete the placement group. For more information, see Placement groups in the Amazon EC2 User Guide.
     @discardableResult public func deletePlacementGroup(_ input: DeletePlacementGroupRequest, logger: Logger = AWSClient.loggingDisabled, on eventLoop: EventLoop? = nil) -> EventLoopFuture<Void> {
         return self.client.execute(operation: "DeletePlacementGroup", path: "/", httpMethod: .POST, serviceConfig: self.config, input: input, logger: logger, on: eventLoop)
+    }
+
+    /// Delete a public IPv4 pool. A public IPv4 pool is an EC2 IP address pool required for the public IPv4 CIDRs that you own and bring to Amazon Web Services to manage with IPAM. IPv6 addresses you bring to Amazon Web Services, however, use IPAM pools only.
+    public func deletePublicIpv4Pool(_ input: DeletePublicIpv4PoolRequest, logger: Logger = AWSClient.loggingDisabled, on eventLoop: EventLoop? = nil) -> EventLoopFuture<DeletePublicIpv4PoolResult> {
+        return self.client.execute(operation: "DeletePublicIpv4Pool", path: "/", httpMethod: .POST, serviceConfig: self.config, input: input, logger: logger, on: eventLoop)
     }
 
     /// Deletes the queued purchases for the specified Reserved Instances.
@@ -1042,6 +1102,16 @@ public struct EC2: AWSService {
     /// Releases the specified address range that you provisioned for use with your Amazon Web Services resources through bring your own IP addresses (BYOIP) and deletes the corresponding address pool. Before you can release an address range, you must stop advertising it using WithdrawByoipCidr and you must not have any IP addresses allocated from its address range.
     public func deprovisionByoipCidr(_ input: DeprovisionByoipCidrRequest, logger: Logger = AWSClient.loggingDisabled, on eventLoop: EventLoop? = nil) -> EventLoopFuture<DeprovisionByoipCidrResult> {
         return self.client.execute(operation: "DeprovisionByoipCidr", path: "/", httpMethod: .POST, serviceConfig: self.config, input: input, logger: logger, on: eventLoop)
+    }
+
+    /// Deprovision a CIDR provisioned from an IPAM pool. If you deprovision a CIDR from a pool that has a source pool, the CIDR is recycled back into the source pool. For more information, see Deprovision pool CIDRs in the Amazon VPC IPAM User Guide.
+    public func deprovisionIpamPoolCidr(_ input: DeprovisionIpamPoolCidrRequest, logger: Logger = AWSClient.loggingDisabled, on eventLoop: EventLoop? = nil) -> EventLoopFuture<DeprovisionIpamPoolCidrResult> {
+        return self.client.execute(operation: "DeprovisionIpamPoolCidr", path: "/", httpMethod: .POST, serviceConfig: self.config, input: input, logger: logger, on: eventLoop)
+    }
+
+    /// Deprovision a CIDR from a public IPv4 pool.
+    public func deprovisionPublicIpv4PoolCidr(_ input: DeprovisionPublicIpv4PoolCidrRequest, logger: Logger = AWSClient.loggingDisabled, on eventLoop: EventLoop? = nil) -> EventLoopFuture<DeprovisionPublicIpv4PoolCidrResult> {
+        return self.client.execute(operation: "DeprovisionPublicIpv4PoolCidr", path: "/", httpMethod: .POST, serviceConfig: self.config, input: input, logger: logger, on: eventLoop)
     }
 
     /// Deregisters the specified AMI. After you deregister an AMI, it can't be used to launch
@@ -1309,7 +1379,7 @@ public struct EC2: AWSService {
         return self.client.execute(operation: "DescribeInstanceEventWindows", path: "/", httpMethod: .POST, serviceConfig: self.config, input: input, logger: logger, on: eventLoop)
     }
 
-    /// Describes the status of the specified instances or all of your instances. By default, only running instances are described, unless you specifically indicate to return the status of all instances. Instance status includes the following components:    Status checks - Amazon EC2 performs status checks on running EC2 instances to identify hardware and software issues. For more information, see Status checks for your instances and Troubleshooting instances with failed status checks in the Amazon EC2 User Guide.    Scheduled events - Amazon EC2 can schedule events (such as reboot, stop, or terminate) for your instances related to hardware issues, software updates, or system maintenance. For more information, see Scheduled events for your instances in the Amazon EC2 User Guide.    Instance state - You can manage your instances from the moment you launch them through their termination. For more information, see Instance lifecycle in the Amazon EC2 User Guide.
+    /// Describes the status of the specified instances or all of your instances. By default, only running instances are described, unless you specifically indicate to return the status of all instances. Instance status includes the following components:    Status checks - Amazon EC2 performs status checks on running EC2 instances to identify hardware and software issues. For more information, see Status checks for your instances and Troubleshoot instances with failed status checks in the Amazon EC2 User Guide.    Scheduled events - Amazon EC2 can schedule events (such as reboot, stop, or terminate) for your instances related to hardware issues, software updates, or system maintenance. For more information, see Scheduled events for your instances in the Amazon EC2 User Guide.    Instance state - You can manage your instances from the moment you launch them through their termination. For more information, see Instance lifecycle in the Amazon EC2 User Guide.
     public func describeInstanceStatus(_ input: DescribeInstanceStatusRequest, logger: Logger = AWSClient.loggingDisabled, on eventLoop: EventLoop? = nil) -> EventLoopFuture<DescribeInstanceStatusResult> {
         return self.client.execute(operation: "DescribeInstanceStatus", path: "/", httpMethod: .POST, serviceConfig: self.config, input: input, logger: logger, on: eventLoop)
     }
@@ -1332,6 +1402,21 @@ public struct EC2: AWSService {
     /// Describes one or more of your internet gateways.
     public func describeInternetGateways(_ input: DescribeInternetGatewaysRequest, logger: Logger = AWSClient.loggingDisabled, on eventLoop: EventLoop? = nil) -> EventLoopFuture<DescribeInternetGatewaysResult> {
         return self.client.execute(operation: "DescribeInternetGateways", path: "/", httpMethod: .POST, serviceConfig: self.config, input: input, logger: logger, on: eventLoop)
+    }
+
+    /// Get information about your IPAM pools.
+    public func describeIpamPools(_ input: DescribeIpamPoolsRequest, logger: Logger = AWSClient.loggingDisabled, on eventLoop: EventLoop? = nil) -> EventLoopFuture<DescribeIpamPoolsResult> {
+        return self.client.execute(operation: "DescribeIpamPools", path: "/", httpMethod: .POST, serviceConfig: self.config, input: input, logger: logger, on: eventLoop)
+    }
+
+    /// Get information about your IPAM scopes.
+    public func describeIpamScopes(_ input: DescribeIpamScopesRequest, logger: Logger = AWSClient.loggingDisabled, on eventLoop: EventLoop? = nil) -> EventLoopFuture<DescribeIpamScopesResult> {
+        return self.client.execute(operation: "DescribeIpamScopes", path: "/", httpMethod: .POST, serviceConfig: self.config, input: input, logger: logger, on: eventLoop)
+    }
+
+    /// Get information about your IPAM pools. For more information, see What is IPAM? in the Amazon VPC IPAM User Guide.
+    public func describeIpams(_ input: DescribeIpamsRequest, logger: Logger = AWSClient.loggingDisabled, on eventLoop: EventLoop? = nil) -> EventLoopFuture<DescribeIpamsResult> {
+        return self.client.execute(operation: "DescribeIpams", path: "/", httpMethod: .POST, serviceConfig: self.config, input: input, logger: logger, on: eventLoop)
     }
 
     /// Describes your IPv6 address pools.
@@ -1405,6 +1490,16 @@ public struct EC2: AWSService {
     /// 				Amazon Virtual Private Cloud User Guide.
     public func describeNetworkAcls(_ input: DescribeNetworkAclsRequest, logger: Logger = AWSClient.loggingDisabled, on eventLoop: EventLoop? = nil) -> EventLoopFuture<DescribeNetworkAclsResult> {
         return self.client.execute(operation: "DescribeNetworkAcls", path: "/", httpMethod: .POST, serviceConfig: self.config, input: input, logger: logger, on: eventLoop)
+    }
+
+    /// Describes the specified Network Access Scope analyses.
+    public func describeNetworkInsightsAccessScopeAnalyses(_ input: DescribeNetworkInsightsAccessScopeAnalysesRequest, logger: Logger = AWSClient.loggingDisabled, on eventLoop: EventLoop? = nil) -> EventLoopFuture<DescribeNetworkInsightsAccessScopeAnalysesResult> {
+        return self.client.execute(operation: "DescribeNetworkInsightsAccessScopeAnalyses", path: "/", httpMethod: .POST, serviceConfig: self.config, input: input, logger: logger, on: eventLoop)
+    }
+
+    /// Describes the specified Network Access Scopes.
+    public func describeNetworkInsightsAccessScopes(_ input: DescribeNetworkInsightsAccessScopesRequest, logger: Logger = AWSClient.loggingDisabled, on eventLoop: EventLoop? = nil) -> EventLoopFuture<DescribeNetworkInsightsAccessScopesResult> {
+        return self.client.execute(operation: "DescribeNetworkInsightsAccessScopes", path: "/", httpMethod: .POST, serviceConfig: self.config, input: input, logger: logger, on: eventLoop)
     }
 
     /// Describes one or more of your network insights analyses.
@@ -1527,6 +1622,11 @@ public struct EC2: AWSService {
     /// Describes the specified attribute of the specified snapshot. You can specify only one attribute at a time. For more information about EBS snapshots, see Amazon EBS snapshots in the Amazon Elastic Compute Cloud User Guide.
     public func describeSnapshotAttribute(_ input: DescribeSnapshotAttributeRequest, logger: Logger = AWSClient.loggingDisabled, on eventLoop: EventLoop? = nil) -> EventLoopFuture<DescribeSnapshotAttributeResult> {
         return self.client.execute(operation: "DescribeSnapshotAttribute", path: "/", httpMethod: .POST, serviceConfig: self.config, input: input, logger: logger, on: eventLoop)
+    }
+
+    /// Describes the storage tier status of one or more Amazon EBS snapshots.
+    public func describeSnapshotTierStatus(_ input: DescribeSnapshotTierStatusRequest, logger: Logger = AWSClient.loggingDisabled, on eventLoop: EventLoop? = nil) -> EventLoopFuture<DescribeSnapshotTierStatusResult> {
+        return self.client.execute(operation: "DescribeSnapshotTierStatus", path: "/", httpMethod: .POST, serviceConfig: self.config, input: input, logger: logger, on: eventLoop)
     }
 
     /// Describes the specified EBS snapshots available to you or all of the EBS snapshots available to you. The snapshots available to you include public snapshots, private snapshots that you own, and private snapshots owned by other Amazon Web Services accounts for which you have explicit create volume permissions. The create volume permissions fall into the following categories:    public: The owner of the snapshot granted create volume permissions for the snapshot to the all group. All Amazon Web Services accounts have create volume permissions for these snapshots.    explicit: The owner of the snapshot granted create volume permissions to a specific Amazon Web Services account.    implicit: An Amazon Web Services account has implicit create volume permissions for all snapshots it owns.   The list of snapshots returned can be filtered by specifying snapshot IDs, snapshot owners, or Amazon Web Services accounts with create volume permissions. If no options are specified,  Amazon EC2 returns all snapshots for which you have create volume permissions. If you specify one or more snapshot IDs, only snapshots that have the specified IDs are returned. If you specify an invalid snapshot ID, an error is returned. If you specify a snapshot ID for which you do not have access, it is not included in the returned results. If you specify one or more snapshot owners using the OwnerIds option, only snapshots from the specified owners and for which you have access are returned. The results can include the Amazon Web Services account IDs of the specified owners, amazon for snapshots owned by Amazon, or self for snapshots that you own. If you specify a list of restorable users, only snapshots with create snapshot permissions for those users are returned. You can specify Amazon Web Services account IDs (if you own the snapshots), self for snapshots for which you own or have explicit permissions, or all for public snapshots. If you are describing a long list of snapshots, we recommend that you paginate the output to make the list more manageable. The MaxResults parameter sets the maximum number of results returned in a single page. If the list of results exceeds your MaxResults value, then that number of results is returned along with a NextToken value that can be passed to a subsequent DescribeSnapshots request to retrieve the remaining results. To get the state of fast snapshot restores for a snapshot, use DescribeFastSnapshotRestores. For more information about EBS snapshots, see Amazon EBS snapshots in the Amazon Elastic Compute Cloud User Guide.
@@ -1772,6 +1872,11 @@ public struct EC2: AWSService {
         return self.client.execute(operation: "DisableImageDeprecation", path: "/", httpMethod: .POST, serviceConfig: self.config, input: input, logger: logger, on: eventLoop)
     }
 
+    /// Disable the IPAM account. For more information, see Enable integration with Organizations in the Amazon VPC IPAM User Guide.
+    public func disableIpamOrganizationAdminAccount(_ input: DisableIpamOrganizationAdminAccountRequest, logger: Logger = AWSClient.loggingDisabled, on eventLoop: EventLoop? = nil) -> EventLoopFuture<DisableIpamOrganizationAdminAccountResult> {
+        return self.client.execute(operation: "DisableIpamOrganizationAdminAccount", path: "/", httpMethod: .POST, serviceConfig: self.config, input: input, logger: logger, on: eventLoop)
+    }
+
     /// Disables access to the EC2 serial console of all instances for your account. By default,
     /// 			access to the EC2 serial console is disabled for your account. For more information, see
     /// 				Manage account access to the EC2 serial console in the Amazon EC2
@@ -1894,6 +1999,11 @@ public struct EC2: AWSService {
     /// Enables deprecation of the specified AMI at the specified date and time. For more information, see Deprecate an AMI in the Amazon Elastic Compute Cloud User Guide.
     public func enableImageDeprecation(_ input: EnableImageDeprecationRequest, logger: Logger = AWSClient.loggingDisabled, on eventLoop: EventLoop? = nil) -> EventLoopFuture<EnableImageDeprecationResult> {
         return self.client.execute(operation: "EnableImageDeprecation", path: "/", httpMethod: .POST, serviceConfig: self.config, input: input, logger: logger, on: eventLoop)
+    }
+
+    /// Enable an Organizations member account as the IPAM admin account. You cannot select the Organizations management account as the IPAM admin account. For more information, see Enable integration with Organizations in the Amazon VPC IPAM User Guide.
+    public func enableIpamOrganizationAdminAccount(_ input: EnableIpamOrganizationAdminAccountRequest, logger: Logger = AWSClient.loggingDisabled, on eventLoop: EventLoop? = nil) -> EventLoopFuture<EnableIpamOrganizationAdminAccountResult> {
+        return self.client.execute(operation: "EnableIpamOrganizationAdminAccount", path: "/", httpMethod: .POST, serviceConfig: self.config, input: input, logger: logger, on: eventLoop)
     }
 
     /// Enables access to the EC2 serial console of all instances for your account. By default,
@@ -2031,6 +2141,26 @@ public struct EC2: AWSService {
         return self.client.execute(operation: "GetInstanceTypesFromInstanceRequirements", path: "/", httpMethod: .POST, serviceConfig: self.config, input: input, logger: logger, on: eventLoop)
     }
 
+    /// Retrieve historical information about a CIDR within an IPAM scope. For more information, see View the history of IP addresses in the Amazon VPC IPAM User Guide.
+    public func getIpamAddressHistory(_ input: GetIpamAddressHistoryRequest, logger: Logger = AWSClient.loggingDisabled, on eventLoop: EventLoop? = nil) -> EventLoopFuture<GetIpamAddressHistoryResult> {
+        return self.client.execute(operation: "GetIpamAddressHistory", path: "/", httpMethod: .POST, serviceConfig: self.config, input: input, logger: logger, on: eventLoop)
+    }
+
+    /// Get a list of all the CIDR allocations in an IPAM pool.
+    public func getIpamPoolAllocations(_ input: GetIpamPoolAllocationsRequest, logger: Logger = AWSClient.loggingDisabled, on eventLoop: EventLoop? = nil) -> EventLoopFuture<GetIpamPoolAllocationsResult> {
+        return self.client.execute(operation: "GetIpamPoolAllocations", path: "/", httpMethod: .POST, serviceConfig: self.config, input: input, logger: logger, on: eventLoop)
+    }
+
+    /// Get the CIDRs provisioned to an IPAM pool.
+    public func getIpamPoolCidrs(_ input: GetIpamPoolCidrsRequest, logger: Logger = AWSClient.loggingDisabled, on eventLoop: EventLoop? = nil) -> EventLoopFuture<GetIpamPoolCidrsResult> {
+        return self.client.execute(operation: "GetIpamPoolCidrs", path: "/", httpMethod: .POST, serviceConfig: self.config, input: input, logger: logger, on: eventLoop)
+    }
+
+    /// Get information about the resources in a scope.
+    public func getIpamResourceCidrs(_ input: GetIpamResourceCidrsRequest, logger: Logger = AWSClient.loggingDisabled, on eventLoop: EventLoop? = nil) -> EventLoopFuture<GetIpamResourceCidrsResult> {
+        return self.client.execute(operation: "GetIpamResourceCidrs", path: "/", httpMethod: .POST, serviceConfig: self.config, input: input, logger: logger, on: eventLoop)
+    }
+
     /// Retrieves the configuration data of the specified instance. You can use this data to create a launch template.  This action calls on other describe actions to get instance information. Depending on your instance configuration, you may need to allow the following actions in your IAM policy: DescribeSpotInstanceRequests, DescribeInstanceCreditSpecifications, DescribeVolumes, DescribeInstanceAttribute, and DescribeElasticGpus. Or, you can allow  describe* depending on your instance requirements.
     public func getLaunchTemplateData(_ input: GetLaunchTemplateDataRequest, logger: Logger = AWSClient.loggingDisabled, on eventLoop: EventLoop? = nil) -> EventLoopFuture<GetLaunchTemplateDataResult> {
         return self.client.execute(operation: "GetLaunchTemplateData", path: "/", httpMethod: .POST, serviceConfig: self.config, input: input, logger: logger, on: eventLoop)
@@ -2044,6 +2174,16 @@ public struct EC2: AWSService {
     /// Gets information about the entries for a specified managed prefix list.
     public func getManagedPrefixListEntries(_ input: GetManagedPrefixListEntriesRequest, logger: Logger = AWSClient.loggingDisabled, on eventLoop: EventLoop? = nil) -> EventLoopFuture<GetManagedPrefixListEntriesResult> {
         return self.client.execute(operation: "GetManagedPrefixListEntries", path: "/", httpMethod: .POST, serviceConfig: self.config, input: input, logger: logger, on: eventLoop)
+    }
+
+    /// Gets the findings for the specified Network Access Scope analysis.
+    public func getNetworkInsightsAccessScopeAnalysisFindings(_ input: GetNetworkInsightsAccessScopeAnalysisFindingsRequest, logger: Logger = AWSClient.loggingDisabled, on eventLoop: EventLoop? = nil) -> EventLoopFuture<GetNetworkInsightsAccessScopeAnalysisFindingsResult> {
+        return self.client.execute(operation: "GetNetworkInsightsAccessScopeAnalysisFindings", path: "/", httpMethod: .POST, serviceConfig: self.config, input: input, logger: logger, on: eventLoop)
+    }
+
+    /// Gets the content for the specified Network Access Scope.
+    public func getNetworkInsightsAccessScopeContent(_ input: GetNetworkInsightsAccessScopeContentRequest, logger: Logger = AWSClient.loggingDisabled, on eventLoop: EventLoop? = nil) -> EventLoopFuture<GetNetworkInsightsAccessScopeContentResult> {
+        return self.client.execute(operation: "GetNetworkInsightsAccessScopeContent", path: "/", httpMethod: .POST, serviceConfig: self.config, input: input, logger: logger, on: eventLoop)
     }
 
     /// Retrieves the encrypted administrator password for a running Windows instance. The Windows password is generated at boot by the EC2Config service or EC2Launch scripts (Windows Server 2016 and later). This usually only happens the first time an instance is launched. For more information, see EC2Config and EC2Launch in the Amazon EC2 User Guide. For the EC2Config service, the password is not generated for rebundled AMIs unless Ec2SetPassword is enabled before bundling. The password is encrypted using the key pair that you specified when you launched the instance. You must provide the corresponding key pair file. When you launch an instance, password generation and encryption may take a few minutes. If you try to retrieve the password before it's available, the output returns an empty string. We recommend that you wait up to 15 minutes after launching an instance before trying to retrieve the generated password.
@@ -2141,6 +2281,11 @@ public struct EC2: AWSService {
         return self.client.execute(operation: "ImportVolume", path: "/", httpMethod: .POST, serviceConfig: self.config, input: input, logger: logger, on: eventLoop)
     }
 
+    /// Lists one or more snapshots that are currently in the Recycle Bin.
+    public func listSnapshotsInRecycleBin(_ input: ListSnapshotsInRecycleBinRequest, logger: Logger = AWSClient.loggingDisabled, on eventLoop: EventLoop? = nil) -> EventLoopFuture<ListSnapshotsInRecycleBinResult> {
+        return self.client.execute(operation: "ListSnapshotsInRecycleBin", path: "/", httpMethod: .POST, serviceConfig: self.config, input: input, logger: logger, on: eventLoop)
+    }
+
     /// Modifies an attribute of the specified Elastic IP address. For requirements, see Using reverse DNS for email applications.
     public func modifyAddressAttribute(_ input: ModifyAddressAttributeRequest, logger: Logger = AWSClient.loggingDisabled, on eventLoop: EventLoop? = nil) -> EventLoopFuture<ModifyAddressAttributeResult> {
         return self.client.execute(operation: "ModifyAddressAttribute", path: "/", httpMethod: .POST, serviceConfig: self.config, input: input, logger: logger, on: eventLoop)
@@ -2214,7 +2359,7 @@ public struct EC2: AWSService {
         return self.client.execute(operation: "ModifyImageAttribute", path: "/", httpMethod: .POST, serviceConfig: self.config, input: input, logger: logger, on: eventLoop)
     }
 
-    /// Modifies the specified attribute of the specified instance. You can specify only one attribute at a time.  Note: Using this action to change the security groups associated with an elastic network interface (ENI) attached to an instance in a VPC can result in an error if the instance has more than one ENI. To change the security groups associated with an ENI attached to an instance that has multiple ENIs, we recommend that you use the ModifyNetworkInterfaceAttribute action. To modify some attributes, the instance must be stopped. For more information, see Modifying attributes of a stopped instance in the Amazon EC2 User Guide.
+    /// Modifies the specified attribute of the specified instance. You can specify only one attribute at a time.  Note: Using this action to change the security groups associated with an elastic network interface (ENI) attached to an instance in a VPC can result in an error if the instance has more than one ENI. To change the security groups associated with an ENI attached to an instance that has multiple ENIs, we recommend that you use the ModifyNetworkInterfaceAttribute action. To modify some attributes, the instance must be stopped. For more information, see Modify a stopped instance in the Amazon EC2 User Guide.
     @discardableResult public func modifyInstanceAttribute(_ input: ModifyInstanceAttributeRequest, logger: Logger = AWSClient.loggingDisabled, on eventLoop: EventLoop? = nil) -> EventLoopFuture<Void> {
         return self.client.execute(operation: "ModifyInstanceAttribute", path: "/", httpMethod: .POST, serviceConfig: self.config, input: input, logger: logger, on: eventLoop)
     }
@@ -2251,6 +2396,26 @@ public struct EC2: AWSService {
         return self.client.execute(operation: "ModifyInstancePlacement", path: "/", httpMethod: .POST, serviceConfig: self.config, input: input, logger: logger, on: eventLoop)
     }
 
+    /// Modify the configurations of an IPAM.
+    public func modifyIpam(_ input: ModifyIpamRequest, logger: Logger = AWSClient.loggingDisabled, on eventLoop: EventLoop? = nil) -> EventLoopFuture<ModifyIpamResult> {
+        return self.client.execute(operation: "ModifyIpam", path: "/", httpMethod: .POST, serviceConfig: self.config, input: input, logger: logger, on: eventLoop)
+    }
+
+    /// Modify the configurations of an IPAM pool. For more information, see Modify a pool in the Amazon VPC IPAM User Guide.
+    public func modifyIpamPool(_ input: ModifyIpamPoolRequest, logger: Logger = AWSClient.loggingDisabled, on eventLoop: EventLoop? = nil) -> EventLoopFuture<ModifyIpamPoolResult> {
+        return self.client.execute(operation: "ModifyIpamPool", path: "/", httpMethod: .POST, serviceConfig: self.config, input: input, logger: logger, on: eventLoop)
+    }
+
+    /// Modify a resource CIDR. You can use this action to transfer resource CIDRs between scopes and ignore resource CIDRs that you do not want to manage. If set to false, the resource will not be tracked for overlap, it cannot be auto-imported into a pool, and it will be removed from any pool it has an allocation in. For more information, see Move resource CIDRs between scopes and Change the monitoring state of resource CIDRs in the Amazon VPC IPAM User Guide.
+    public func modifyIpamResourceCidr(_ input: ModifyIpamResourceCidrRequest, logger: Logger = AWSClient.loggingDisabled, on eventLoop: EventLoop? = nil) -> EventLoopFuture<ModifyIpamResourceCidrResult> {
+        return self.client.execute(operation: "ModifyIpamResourceCidr", path: "/", httpMethod: .POST, serviceConfig: self.config, input: input, logger: logger, on: eventLoop)
+    }
+
+    /// Modify an IPAM scope.
+    public func modifyIpamScope(_ input: ModifyIpamScopeRequest, logger: Logger = AWSClient.loggingDisabled, on eventLoop: EventLoop? = nil) -> EventLoopFuture<ModifyIpamScopeResult> {
+        return self.client.execute(operation: "ModifyIpamScope", path: "/", httpMethod: .POST, serviceConfig: self.config, input: input, logger: logger, on: eventLoop)
+    }
+
     /// Modifies a launch template. You can specify which version of the launch template to set as the default version. When launching an instance, the default version applies when a launch template version is not specified.
     public func modifyLaunchTemplate(_ input: ModifyLaunchTemplateRequest, logger: Logger = AWSClient.loggingDisabled, on eventLoop: EventLoop? = nil) -> EventLoopFuture<ModifyLaunchTemplateResult> {
         return self.client.execute(operation: "ModifyLaunchTemplate", path: "/", httpMethod: .POST, serviceConfig: self.config, input: input, logger: logger, on: eventLoop)
@@ -2264,6 +2429,11 @@ public struct EC2: AWSService {
     /// Modifies the specified network interface attribute. You can specify only one attribute at a time. You can use this action to attach and detach security groups from an existing EC2 instance.
     @discardableResult public func modifyNetworkInterfaceAttribute(_ input: ModifyNetworkInterfaceAttributeRequest, logger: Logger = AWSClient.loggingDisabled, on eventLoop: EventLoop? = nil) -> EventLoopFuture<Void> {
         return self.client.execute(operation: "ModifyNetworkInterfaceAttribute", path: "/", httpMethod: .POST, serviceConfig: self.config, input: input, logger: logger, on: eventLoop)
+    }
+
+    /// Modifies the options for instance hostnames for the specified instance.
+    public func modifyPrivateDnsNameOptions(_ input: ModifyPrivateDnsNameOptionsRequest, logger: Logger = AWSClient.loggingDisabled, on eventLoop: EventLoop? = nil) -> EventLoopFuture<ModifyPrivateDnsNameOptionsResult> {
+        return self.client.execute(operation: "ModifyPrivateDnsNameOptions", path: "/", httpMethod: .POST, serviceConfig: self.config, input: input, logger: logger, on: eventLoop)
     }
 
     /// Modifies the Availability Zone, instance count, instance type, or network platform (EC2-Classic or EC2-VPC) of your Reserved Instances. The Reserved Instances to be modified must be identical, except for Availability Zone, network platform, and instance type.
@@ -2283,12 +2453,23 @@ public struct EC2: AWSService {
         return self.client.execute(operation: "ModifySnapshotAttribute", path: "/", httpMethod: .POST, serviceConfig: self.config, input: input, logger: logger, on: eventLoop)
     }
 
+    /// Archives an Amazon EBS snapshot. When you archive a snapshot, it is converted to a full  snapshot that includes all of the blocks of data that were written to the volume at the  time the snapshot was created, and moved from the standard tier to the archive  tier. For more information, see Archive Amazon EBS snapshots  in the Amazon Elastic Compute Cloud User Guide.
+    public func modifySnapshotTier(_ input: ModifySnapshotTierRequest, logger: Logger = AWSClient.loggingDisabled, on eventLoop: EventLoop? = nil) -> EventLoopFuture<ModifySnapshotTierResult> {
+        return self.client.execute(operation: "ModifySnapshotTier", path: "/", httpMethod: .POST, serviceConfig: self.config, input: input, logger: logger, on: eventLoop)
+    }
+
     /// Modifies the specified Spot Fleet request. You can only modify a Spot Fleet request of type maintain. While the Spot Fleet request is being modified, it is in the modifying state. To scale up your Spot Fleet, increase its target capacity. The Spot Fleet launches the additional Spot Instances according to the allocation strategy for the Spot Fleet request. If the allocation strategy is lowestPrice, the Spot Fleet launches instances using the Spot Instance pool with the lowest price. If the allocation strategy is diversified, the Spot Fleet distributes the instances across the Spot Instance pools. If the allocation strategy is capacityOptimized, Spot Fleet launches instances from Spot Instance pools with optimal capacity for the number of instances that are launching. To scale down your Spot Fleet, decrease its target capacity. First, the Spot Fleet cancels any open requests that exceed the new target capacity. You can request that the Spot Fleet terminate Spot Instances until the size of the fleet no longer exceeds the new target capacity. If the allocation strategy is lowestPrice, the Spot Fleet terminates the instances with the highest price per unit. If the allocation strategy is capacityOptimized, the Spot Fleet terminates the instances in the Spot Instance pools that have the least available Spot Instance capacity. If the allocation strategy is diversified, the Spot Fleet terminates instances across the Spot Instance pools. Alternatively, you can request that the Spot Fleet keep the fleet at its current size, but not replace any Spot Instances that are interrupted or that you terminate manually. If you are finished with your Spot Fleet for now, but will use it again later, you can set the target capacity to 0.
     public func modifySpotFleetRequest(_ input: ModifySpotFleetRequestRequest, logger: Logger = AWSClient.loggingDisabled, on eventLoop: EventLoop? = nil) -> EventLoopFuture<ModifySpotFleetRequestResponse> {
         return self.client.execute(operation: "ModifySpotFleetRequest", path: "/", httpMethod: .POST, serviceConfig: self.config, input: input, logger: logger, on: eventLoop)
     }
 
     /// Modifies a subnet attribute. You can only modify one attribute at a time.
+    ///
+    /// 	        Use this action to modify subnets on Amazon Web Services Outposts.   To modify a subnet on an Outpost rack, set both MapCustomerOwnedIpOnLaunch and CustomerOwnedIpv4Pool. These two parameters act as a single attribute.   To modify a subnet on an Outpost server, set either EnableLniAtDeviceIndex or DisableLniAtDeviceIndex.
+    ///
+    /// 	        For more information about Amazon Web Services Outposts, see the following:
+    ///
+    /// 	           Outpost servers     Outpost racks
     @discardableResult public func modifySubnetAttribute(_ input: ModifySubnetAttributeRequest, logger: Logger = AWSClient.loggingDisabled, on eventLoop: EventLoop? = nil) -> EventLoopFuture<Void> {
         return self.client.execute(operation: "ModifySubnetAttribute", path: "/", httpMethod: .POST, serviceConfig: self.config, input: input, logger: logger, on: eventLoop)
     }
@@ -2396,7 +2577,7 @@ public struct EC2: AWSService {
         return self.client.execute(operation: "ModifyVpnTunnelOptions", path: "/", httpMethod: .POST, serviceConfig: self.config, input: input, logger: logger, on: eventLoop)
     }
 
-    /// Enables detailed monitoring for a running instance. Otherwise, basic monitoring is enabled. For more information, see Monitoring your instances and volumes in the Amazon EC2 User Guide. To disable detailed monitoring, see .
+    /// Enables detailed monitoring for a running instance. Otherwise, basic monitoring is enabled. For more information, see Monitor your instances using  CloudWatch in the Amazon EC2 User Guide. To disable detailed monitoring, see .
     public func monitorInstances(_ input: MonitorInstancesRequest, logger: Logger = AWSClient.loggingDisabled, on eventLoop: EventLoop? = nil) -> EventLoopFuture<MonitorInstancesResult> {
         return self.client.execute(operation: "MonitorInstances", path: "/", httpMethod: .POST, serviceConfig: self.config, input: input, logger: logger, on: eventLoop)
     }
@@ -2406,9 +2587,24 @@ public struct EC2: AWSService {
         return self.client.execute(operation: "MoveAddressToVpc", path: "/", httpMethod: .POST, serviceConfig: self.config, input: input, logger: logger, on: eventLoop)
     }
 
+    /// Move an BYOIP IPv4 CIDR to IPAM from a public IPv4 pool.
+    public func moveByoipCidrToIpam(_ input: MoveByoipCidrToIpamRequest, logger: Logger = AWSClient.loggingDisabled, on eventLoop: EventLoop? = nil) -> EventLoopFuture<MoveByoipCidrToIpamResult> {
+        return self.client.execute(operation: "MoveByoipCidrToIpam", path: "/", httpMethod: .POST, serviceConfig: self.config, input: input, logger: logger, on: eventLoop)
+    }
+
     /// Provisions an IPv4 or IPv6 address range for use with your Amazon Web Services resources through bring your own IP  addresses (BYOIP) and creates a corresponding address pool. After the address range is provisioned, it is ready to be advertised using AdvertiseByoipCidr. Amazon Web Services verifies that you own the address range and are authorized to advertise it.  You must ensure that the address range is registered to you and that you created an  RPKI ROA to authorize Amazon ASNs 16509 and 14618 to advertise the address range.  For more information, see Bring your own IP addresses (BYOIP) in the Amazon Elastic Compute Cloud User Guide. Provisioning an address range is an asynchronous operation, so the call returns immediately, but the address range is not ready to use until its status changes from pending-provision to provisioned. To monitor the status of an address range, use DescribeByoipCidrs.  To allocate an Elastic IP address from your IPv4 address pool, use AllocateAddress  with either the specific address from the address pool or the ID of the address pool.
     public func provisionByoipCidr(_ input: ProvisionByoipCidrRequest, logger: Logger = AWSClient.loggingDisabled, on eventLoop: EventLoop? = nil) -> EventLoopFuture<ProvisionByoipCidrResult> {
         return self.client.execute(operation: "ProvisionByoipCidr", path: "/", httpMethod: .POST, serviceConfig: self.config, input: input, logger: logger, on: eventLoop)
+    }
+
+    /// Provision a CIDR to an IPAM pool. You can use thsi action to provision new CIDRs to a top-level pool or to transfer a CIDR from a top-level pool to a pool within it. For more information, see Provision CIDRs to pools in the Amazon VPC IPAM User Guide.
+    public func provisionIpamPoolCidr(_ input: ProvisionIpamPoolCidrRequest, logger: Logger = AWSClient.loggingDisabled, on eventLoop: EventLoop? = nil) -> EventLoopFuture<ProvisionIpamPoolCidrResult> {
+        return self.client.execute(operation: "ProvisionIpamPoolCidr", path: "/", httpMethod: .POST, serviceConfig: self.config, input: input, logger: logger, on: eventLoop)
+    }
+
+    /// Provision a CIDR to a public IPv4 pool. For more information about IPAM, see What is IPAM? in the Amazon VPC IPAM User Guide.
+    public func provisionPublicIpv4PoolCidr(_ input: ProvisionPublicIpv4PoolCidrRequest, logger: Logger = AWSClient.loggingDisabled, on eventLoop: EventLoop? = nil) -> EventLoopFuture<ProvisionPublicIpv4PoolCidrResult> {
+        return self.client.execute(operation: "ProvisionPublicIpv4PoolCidr", path: "/", httpMethod: .POST, serviceConfig: self.config, input: input, logger: logger, on: eventLoop)
     }
 
     /// Purchase a reservation with configurations that match those of your Dedicated Host. You must have active Dedicated Hosts in your account before you purchase a reservation. This action results in the specified reservation being purchased and charged to your account.
@@ -2429,7 +2625,7 @@ public struct EC2: AWSService {
         return self.client.execute(operation: "PurchaseScheduledInstances", path: "/", httpMethod: .POST, serviceConfig: self.config, input: input, logger: logger, on: eventLoop)
     }
 
-    /// Requests a reboot of the specified instances. This operation is asynchronous; it only queues a request to reboot the specified instances. The operation succeeds if the instances are valid and belong to you. Requests to reboot terminated instances are ignored. If an instance does not cleanly shut down within a few minutes, Amazon EC2 performs a hard reboot. For more information about troubleshooting, see Getting console output and rebooting instances in the Amazon EC2 User Guide.
+    /// Requests a reboot of the specified instances. This operation is asynchronous; it only queues a request to reboot the specified instances. The operation succeeds if the instances are valid and belong to you. Requests to reboot terminated instances are ignored. If an instance does not cleanly shut down within a few minutes, Amazon EC2 performs a hard reboot. For more information about troubleshooting, see Troubleshoot an unreachable  instance in the Amazon EC2 User Guide.
     @discardableResult public func rebootInstances(_ input: RebootInstancesRequest, logger: Logger = AWSClient.loggingDisabled, on eventLoop: EventLoop? = nil) -> EventLoopFuture<Void> {
         return self.client.execute(operation: "RebootInstances", path: "/", httpMethod: .POST, serviceConfig: self.config, input: input, logger: logger, on: eventLoop)
     }
@@ -2495,6 +2691,11 @@ public struct EC2: AWSService {
     /// When you no longer want to use an On-Demand Dedicated Host it can be released. On-Demand billing is stopped and the host goes into released state. The host ID of Dedicated Hosts that have been released can no longer be specified in another request, for example, to modify the host. You must stop or terminate all instances on a host before it can be released. When Dedicated Hosts are released, it may take some time for them to stop counting toward your limit and you may receive capacity errors when trying to allocate new Dedicated Hosts. Wait a few minutes and then try again. Released hosts still appear in a DescribeHosts response.
     public func releaseHosts(_ input: ReleaseHostsRequest, logger: Logger = AWSClient.loggingDisabled, on eventLoop: EventLoop? = nil) -> EventLoopFuture<ReleaseHostsResult> {
         return self.client.execute(operation: "ReleaseHosts", path: "/", httpMethod: .POST, serviceConfig: self.config, input: input, logger: logger, on: eventLoop)
+    }
+
+    /// Release an allocation within an IPAM pool. You can only use this action to release manual allocations. To remove an allocation for a resource without deleting the resource, set its monitored state to false using ModifyIpamResourceCidr. For more information, see Release an allocation in the Amazon VPC IPAM User Guide.
+    public func releaseIpamPoolAllocation(_ input: ReleaseIpamPoolAllocationRequest, logger: Logger = AWSClient.loggingDisabled, on eventLoop: EventLoop? = nil) -> EventLoopFuture<ReleaseIpamPoolAllocationResult> {
+        return self.client.execute(operation: "ReleaseIpamPoolAllocation", path: "/", httpMethod: .POST, serviceConfig: self.config, input: input, logger: logger, on: eventLoop)
     }
 
     /// Replaces an IAM instance profile for the specified running instance. You can use this action to change the IAM instance profile that's associated with an instance without having to disassociate the existing IAM instance profile first. Use DescribeIamInstanceProfileAssociations to get the association ID.
@@ -2592,6 +2793,16 @@ public struct EC2: AWSService {
         return self.client.execute(operation: "RestoreManagedPrefixListVersion", path: "/", httpMethod: .POST, serviceConfig: self.config, input: input, logger: logger, on: eventLoop)
     }
 
+    /// Restores a snapshot from the Recycle Bin. For more information, see Restore  snapshots from the Recycle Bin in the Amazon Elastic Compute Cloud User Guide.
+    public func restoreSnapshotFromRecycleBin(_ input: RestoreSnapshotFromRecycleBinRequest, logger: Logger = AWSClient.loggingDisabled, on eventLoop: EventLoop? = nil) -> EventLoopFuture<RestoreSnapshotFromRecycleBinResult> {
+        return self.client.execute(operation: "RestoreSnapshotFromRecycleBin", path: "/", httpMethod: .POST, serviceConfig: self.config, input: input, logger: logger, on: eventLoop)
+    }
+
+    /// Restores an archived Amazon EBS snapshot for use temporarily or permanently, or modifies the restore  period or restore type for a snapshot that was previously temporarily restored.   For more information see  Restore an archived snapshot and  modify the restore period or restore type for a temporarily restored snapshot in the Amazon Elastic Compute Cloud User Guide.
+    public func restoreSnapshotTier(_ input: RestoreSnapshotTierRequest, logger: Logger = AWSClient.loggingDisabled, on eventLoop: EventLoop? = nil) -> EventLoopFuture<RestoreSnapshotTierResult> {
+        return self.client.execute(operation: "RestoreSnapshotTier", path: "/", httpMethod: .POST, serviceConfig: self.config, input: input, logger: logger, on: eventLoop)
+    }
+
     /// Removes an ingress authorization rule from a Client VPN endpoint.
     public func revokeClientVpnIngress(_ input: RevokeClientVpnIngressRequest, logger: Logger = AWSClient.loggingDisabled, on eventLoop: EventLoop? = nil) -> EventLoopFuture<RevokeClientVpnIngressResult> {
         return self.client.execute(operation: "RevokeClientVpnIngress", path: "/", httpMethod: .POST, serviceConfig: self.config, input: input, logger: logger, on: eventLoop)
@@ -2651,14 +2862,19 @@ public struct EC2: AWSService {
     /// 			system is configured to perform the required diagnostic tasks.
     ///
     /// 		       For more information about configuring your operating system to generate a crash dump
-    /// 			when a kernel panic or stop error occurs, see Send a diagnostic interrupt (Linux instances) or Send a Diagnostic Interrupt (Windows instances).
+    /// 			when a kernel panic or stop error occurs, see Send a diagnostic interrupt (for advanced users) (Linux instances) or Send a diagnostic interrupt (for advanced users) (Windows instances).
     @discardableResult public func sendDiagnosticInterrupt(_ input: SendDiagnosticInterruptRequest, logger: Logger = AWSClient.loggingDisabled, on eventLoop: EventLoop? = nil) -> EventLoopFuture<Void> {
         return self.client.execute(operation: "SendDiagnosticInterrupt", path: "/", httpMethod: .POST, serviceConfig: self.config, input: input, logger: logger, on: eventLoop)
     }
 
-    /// Starts an Amazon EBS-backed instance that you've previously stopped. Instances that use Amazon EBS volumes as their root devices can be quickly stopped and started. When an instance is stopped, the compute resources are released and you are not billed for instance usage. However, your root partition Amazon EBS volume remains and continues to persist your data, and you are charged for Amazon EBS volume usage. You can restart your instance at any time. Every time you start your instance, Amazon EC2 charges a one-minute minimum for instance usage, and thereafter charges per second for instance usage. Before stopping an instance, make sure it is in a state from which it can be restarted. Stopping an instance does not preserve data stored in RAM. Performing this operation on an instance that uses an instance store as its root device returns an error.  If you attempt to start a T3 instance with host tenancy and the unlimted  CPU credit option, the request fails. The unlimited CPU credit option is not  supported on Dedicated Hosts. Before you start the instance, either change its CPU credit  option to standard, or change its tenancy to default or dedicated.  For more information, see Stopping instances in the Amazon EC2 User Guide.
+    /// Starts an Amazon EBS-backed instance that you've previously stopped. Instances that use Amazon EBS volumes as their root devices can be quickly stopped and started. When an instance is stopped, the compute resources are released and you are not billed for instance usage. However, your root partition Amazon EBS volume remains and continues to persist your data, and you are charged for Amazon EBS volume usage. You can restart your instance at any time. Every time you start your instance, Amazon EC2 charges a one-minute minimum for instance usage, and thereafter charges per second for instance usage. Before stopping an instance, make sure it is in a state from which it can be restarted. Stopping an instance does not preserve data stored in RAM. Performing this operation on an instance that uses an instance store as its root device returns an error.  If you attempt to start a T3 instance with host tenancy and the unlimted  CPU credit option, the request fails. The unlimited CPU credit option is not  supported on Dedicated Hosts. Before you start the instance, either change its CPU credit  option to standard, or change its tenancy to default or dedicated.  For more information, see Stop and start your instance in the Amazon EC2 User Guide.
     public func startInstances(_ input: StartInstancesRequest, logger: Logger = AWSClient.loggingDisabled, on eventLoop: EventLoop? = nil) -> EventLoopFuture<StartInstancesResult> {
         return self.client.execute(operation: "StartInstances", path: "/", httpMethod: .POST, serviceConfig: self.config, input: input, logger: logger, on: eventLoop)
+    }
+
+    /// Starts analyzing the specified Network Access Scope.
+    public func startNetworkInsightsAccessScopeAnalysis(_ input: StartNetworkInsightsAccessScopeAnalysisRequest, logger: Logger = AWSClient.loggingDisabled, on eventLoop: EventLoop? = nil) -> EventLoopFuture<StartNetworkInsightsAccessScopeAnalysisResult> {
+        return self.client.execute(operation: "StartNetworkInsightsAccessScopeAnalysis", path: "/", httpMethod: .POST, serviceConfig: self.config, input: input, logger: logger, on: eventLoop)
     }
 
     /// Starts analyzing the specified path. If the path is reachable, the operation returns the shortest feasible path.
@@ -2671,7 +2887,7 @@ public struct EC2: AWSService {
         return self.client.execute(operation: "StartVpcEndpointServicePrivateDnsVerification", path: "/", httpMethod: .POST, serviceConfig: self.config, input: input, logger: logger, on: eventLoop)
     }
 
-    /// Stops an Amazon EBS-backed instance. You can use the Stop action to hibernate an instance if the instance is enabled for hibernation and it meets the hibernation prerequisites. For more information, see Hibernate your instance in the Amazon EC2 User Guide. We don't charge usage for a stopped instance, or data transfer fees; however, your root partition Amazon EBS volume remains and continues to persist your data, and you are charged for Amazon EBS volume usage. Every time you start your instance, Amazon EC2 charges a one-minute minimum for instance usage, and thereafter charges per second for instance usage. You can't stop or hibernate instance store-backed instances. You can't use the Stop action to hibernate Spot Instances, but you can specify that Amazon EC2 should hibernate Spot Instances when they are interrupted. For more information, see Hibernating interrupted Spot Instances in the Amazon EC2 User Guide. When you stop or hibernate an instance, we shut it down. You can restart your instance at any time. Before stopping or hibernating an instance, make sure it is in a state from which it can be restarted. Stopping an instance does not preserve data stored in RAM, but hibernating an instance does preserve data stored in RAM. If an instance cannot hibernate successfully, a normal shutdown occurs. Stopping and hibernating an instance is different to rebooting or terminating it. For example, when you stop or hibernate an instance, the root device and any other devices attached to the instance persist. When you terminate an instance, the root device and any other devices attached during the instance launch are automatically deleted. For more information about the differences between rebooting, stopping, hibernating, and terminating instances, see Instance lifecycle in the Amazon EC2 User Guide. When you stop an instance, we attempt to shut it down forcibly after a short while. If your instance appears stuck in the stopping state after a period of time, there may be an issue with the underlying host computer. For more information, see Troubleshooting stopping your instance in the Amazon EC2 User Guide.
+    /// Stops an Amazon EBS-backed instance. You can use the Stop action to hibernate an instance if the instance is enabled for hibernation and it meets the hibernation prerequisites. For more information, see Hibernate your instance in the Amazon EC2 User Guide. We don't charge usage for a stopped instance, or data transfer fees; however, your root partition Amazon EBS volume remains and continues to persist your data, and you are charged for Amazon EBS volume usage. Every time you start your instance, Amazon EC2 charges a one-minute minimum for instance usage, and thereafter charges per second for instance usage. You can't stop or hibernate instance store-backed instances. You can't use the Stop action to hibernate Spot Instances, but you can specify that Amazon EC2 should hibernate Spot Instances when they are interrupted. For more information, see Hibernating interrupted Spot Instances in the Amazon EC2 User Guide. When you stop or hibernate an instance, we shut it down. You can restart your instance at any time. Before stopping or hibernating an instance, make sure it is in a state from which it can be restarted. Stopping an instance does not preserve data stored in RAM, but hibernating an instance does preserve data stored in RAM. If an instance cannot hibernate successfully, a normal shutdown occurs. Stopping and hibernating an instance is different to rebooting or terminating it. For example, when you stop or hibernate an instance, the root device and any other devices attached to the instance persist. When you terminate an instance, the root device and any other devices attached during the instance launch are automatically deleted. For more information about the differences between rebooting, stopping, hibernating, and terminating instances, see Instance lifecycle in the Amazon EC2 User Guide. When you stop an instance, we attempt to shut it down forcibly after a short while. If your instance appears stuck in the stopping state after a period of time, there may be an issue with the underlying host computer. For more information, see Troubleshoot stopping your instance in the Amazon EC2 User Guide.
     public func stopInstances(_ input: StopInstancesRequest, logger: Logger = AWSClient.loggingDisabled, on eventLoop: EventLoop? = nil) -> EventLoopFuture<StopInstancesResult> {
         return self.client.execute(operation: "StopInstances", path: "/", httpMethod: .POST, serviceConfig: self.config, input: input, logger: logger, on: eventLoop)
     }

@@ -23,7 +23,7 @@ import SotoCore
 
 @available(macOS 12.0, iOS 15.0, watchOS 8.0, tvOS 15.0, *)
 extension IoTDeviceAdvisor {
-    ///  Lists the Device Advisor test suites you have created.
+    ///  Lists the Device Advisor test suites you have created. Requires permission to access the ListSuiteDefinitions action.
     /// Return PaginatorSequence for operation.
     ///
     /// - Parameters:
@@ -45,7 +45,7 @@ extension IoTDeviceAdvisor {
         )
     }
 
-    ///  Lists the runs of the specified Device Advisor test suite. You can list all runs of the test suite, or the runs of a specific version of the test suite.
+    ///  Lists runs of the specified Device Advisor test suite. You can list all runs of the test suite, or the runs of a specific version of the test suite. Requires permission to access the ListSuiteRuns action.
     /// Return PaginatorSequence for operation.
     ///
     /// - Parameters:

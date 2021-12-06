@@ -172,6 +172,14 @@ extension AccessAnalyzer {
         public var description: String { return self.rawValue }
     }
 
+    public enum ValidatePolicyResourceType: String, CustomStringConvertible, Codable {
+        case awsS3Accesspoint = "AWS::S3::AccessPoint"
+        case awsS3Bucket = "AWS::S3::Bucket"
+        case awsS3Multiregionaccesspoint = "AWS::S3::MultiRegionAccessPoint"
+        case awsS3ObjectlambdaAccesspoint = "AWS::S3ObjectLambda::AccessPoint"
+        public var description: String { return self.rawValue }
+    }
+
     public enum AclGrantee: AWSEncodableShape & AWSDecodableShape {
         /// The value specified is the canonical user ID of an Amazon Web Services account.
         case id(String)
@@ -2136,7 +2144,7 @@ extension AccessAnalyzer {
     }
 
     public struct SecretsManagerSecretConfiguration: AWSEncodableShape & AWSDecodableShape {
-        /// The proposed ARN, key ID, or alias of the KMS customer master key (CMK).
+        /// The proposed ARN, key ID, or alias of the KMS key.
         public let kmsKeyId: String?
         /// The proposed resource policy defining who can access or manage the secret.
         public let secretPolicy: String?
@@ -2502,19 +2510,23 @@ extension AccessAnalyzer {
         public let policyDocument: String
         /// The type of policy to validate. Identity policies grant permissions to IAM principals. Identity policies include managed and inline policies for IAM roles, users, and groups. They also include service-control policies (SCPs) that are attached to an Amazon Web Services organization, organizational unit (OU), or an account. Resource policies grant permissions on Amazon Web Services resources. Resource policies include trust policies for IAM roles and bucket policies for Amazon S3 buckets. You can provide a generic input such as identity policy or resource policy or a specific input such as managed policy or Amazon S3 bucket policy.
         public let policyType: PolicyType
+        /// The type of resource to attach to your resource policy. Specify a value for the policy validation resource type only if the policy type is RESOURCE_POLICY. For example, to validate a resource policy to attach to an Amazon S3 bucket, you can choose AWS::S3::Bucket for the policy validation resource type. For resource types not supported as valid values, IAM Access Analyzer runs policy checks that apply to all resource policies. For example, to validate a resource policy to attach to a KMS key, do not specify a value for the policy validation resource type and IAM Access Analyzer will run policy checks that apply to all resource policies.
+        public let validatePolicyResourceType: ValidatePolicyResourceType?
 
-        public init(locale: Locale? = nil, maxResults: Int? = nil, nextToken: String? = nil, policyDocument: String, policyType: PolicyType) {
+        public init(locale: Locale? = nil, maxResults: Int? = nil, nextToken: String? = nil, policyDocument: String, policyType: PolicyType, validatePolicyResourceType: ValidatePolicyResourceType? = nil) {
             self.locale = locale
             self.maxResults = maxResults
             self.nextToken = nextToken
             self.policyDocument = policyDocument
             self.policyType = policyType
+            self.validatePolicyResourceType = validatePolicyResourceType
         }
 
         private enum CodingKeys: String, CodingKey {
             case locale
             case policyDocument
             case policyType
+            case validatePolicyResourceType
         }
     }
 

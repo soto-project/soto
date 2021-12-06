@@ -73,6 +73,59 @@ extension Personalize {
         )
     }
 
+    ///  Gets a list of the batch segment jobs that have been performed off of a solution version that you specify.
+    ///
+    /// Provide paginated results to closure `onPage` for it to combine them into one result.
+    /// This works in a similar manner to `Array.reduce<Result>(_:_:) -> Result`.
+    ///
+    /// Parameters:
+    ///   - input: Input for request
+    ///   - initialValue: The value to use as the initial accumulating value. `initialValue` is passed to `onPage` the first time it is called.
+    ///   - logger: Logger used flot logging
+    ///   - eventLoop: EventLoop to run this process on
+    ///   - onPage: closure called with each paginated response. It combines an accumulating result with the contents of response. This combined result is then returned
+    ///         along with a boolean indicating if the paginate operation should continue.
+    public func listBatchSegmentJobsPaginator<Result>(
+        _ input: ListBatchSegmentJobsRequest,
+        _ initialValue: Result,
+        logger: Logger = AWSClient.loggingDisabled,
+        on eventLoop: EventLoop? = nil,
+        onPage: @escaping (Result, ListBatchSegmentJobsResponse, EventLoop) -> EventLoopFuture<(Bool, Result)>
+    ) -> EventLoopFuture<Result> {
+        return client.paginate(
+            input: input,
+            initialValue: initialValue,
+            command: listBatchSegmentJobs,
+            inputKey: \ListBatchSegmentJobsRequest.nextToken,
+            outputKey: \ListBatchSegmentJobsResponse.nextToken,
+            on: eventLoop,
+            onPage: onPage
+        )
+    }
+
+    /// Provide paginated results to closure `onPage`.
+    ///
+    /// - Parameters:
+    ///   - input: Input for request
+    ///   - logger: Logger used flot logging
+    ///   - eventLoop: EventLoop to run this process on
+    ///   - onPage: closure called with each block of entries. Returns boolean indicating whether we should continue.
+    public func listBatchSegmentJobsPaginator(
+        _ input: ListBatchSegmentJobsRequest,
+        logger: Logger = AWSClient.loggingDisabled,
+        on eventLoop: EventLoop? = nil,
+        onPage: @escaping (ListBatchSegmentJobsResponse, EventLoop) -> EventLoopFuture<Bool>
+    ) -> EventLoopFuture<Void> {
+        return client.paginate(
+            input: input,
+            command: listBatchSegmentJobs,
+            inputKey: \ListBatchSegmentJobsRequest.nextToken,
+            outputKey: \ListBatchSegmentJobsResponse.nextToken,
+            on: eventLoop,
+            onPage: onPage
+        )
+    }
+
     ///  Returns a list of campaigns that use the given solution. When a solution is not specified, all the campaigns associated with the account are listed. The response provides the properties for each campaign, including the Amazon Resource Name (ARN). For more information on campaigns, see CreateCampaign.
     ///
     /// Provide paginated results to closure `onPage` for it to combine them into one result.
@@ -497,6 +550,59 @@ extension Personalize {
         )
     }
 
+    ///  Returns a list of recommenders in a given Domain dataset group. When a Domain dataset group is not specified, all the recommenders associated with the account are listed. The response provides the properties for each recommender, including the Amazon Resource Name (ARN). For more information on recommenders, see CreateRecommender.
+    ///
+    /// Provide paginated results to closure `onPage` for it to combine them into one result.
+    /// This works in a similar manner to `Array.reduce<Result>(_:_:) -> Result`.
+    ///
+    /// Parameters:
+    ///   - input: Input for request
+    ///   - initialValue: The value to use as the initial accumulating value. `initialValue` is passed to `onPage` the first time it is called.
+    ///   - logger: Logger used flot logging
+    ///   - eventLoop: EventLoop to run this process on
+    ///   - onPage: closure called with each paginated response. It combines an accumulating result with the contents of response. This combined result is then returned
+    ///         along with a boolean indicating if the paginate operation should continue.
+    public func listRecommendersPaginator<Result>(
+        _ input: ListRecommendersRequest,
+        _ initialValue: Result,
+        logger: Logger = AWSClient.loggingDisabled,
+        on eventLoop: EventLoop? = nil,
+        onPage: @escaping (Result, ListRecommendersResponse, EventLoop) -> EventLoopFuture<(Bool, Result)>
+    ) -> EventLoopFuture<Result> {
+        return client.paginate(
+            input: input,
+            initialValue: initialValue,
+            command: listRecommenders,
+            inputKey: \ListRecommendersRequest.nextToken,
+            outputKey: \ListRecommendersResponse.nextToken,
+            on: eventLoop,
+            onPage: onPage
+        )
+    }
+
+    /// Provide paginated results to closure `onPage`.
+    ///
+    /// - Parameters:
+    ///   - input: Input for request
+    ///   - logger: Logger used flot logging
+    ///   - eventLoop: EventLoop to run this process on
+    ///   - onPage: closure called with each block of entries. Returns boolean indicating whether we should continue.
+    public func listRecommendersPaginator(
+        _ input: ListRecommendersRequest,
+        logger: Logger = AWSClient.loggingDisabled,
+        on eventLoop: EventLoop? = nil,
+        onPage: @escaping (ListRecommendersResponse, EventLoop) -> EventLoopFuture<Bool>
+    ) -> EventLoopFuture<Void> {
+        return client.paginate(
+            input: input,
+            command: listRecommenders,
+            inputKey: \ListRecommendersRequest.nextToken,
+            outputKey: \ListRecommendersResponse.nextToken,
+            on: eventLoop,
+            onPage: onPage
+        )
+    }
+
     ///  Returns the list of schemas associated with the account. The response provides the properties for each schema, including the Amazon Resource Name (ARN). For more information on schemas, see CreateSchema.
     ///
     /// Provide paginated results to closure `onPage` for it to combine them into one result.
@@ -667,6 +773,16 @@ extension Personalize.ListBatchInferenceJobsRequest: AWSPaginateToken {
     }
 }
 
+extension Personalize.ListBatchSegmentJobsRequest: AWSPaginateToken {
+    public func usingPaginationToken(_ token: String) -> Personalize.ListBatchSegmentJobsRequest {
+        return .init(
+            maxResults: self.maxResults,
+            nextToken: token,
+            solutionVersionArn: self.solutionVersionArn
+        )
+    }
+}
+
 extension Personalize.ListCampaignsRequest: AWSPaginateToken {
     public func usingPaginationToken(_ token: String) -> Personalize.ListCampaignsRequest {
         return .init(
@@ -739,9 +855,20 @@ extension Personalize.ListFiltersRequest: AWSPaginateToken {
 extension Personalize.ListRecipesRequest: AWSPaginateToken {
     public func usingPaginationToken(_ token: String) -> Personalize.ListRecipesRequest {
         return .init(
+            domain: self.domain,
             maxResults: self.maxResults,
             nextToken: token,
             recipeProvider: self.recipeProvider
+        )
+    }
+}
+
+extension Personalize.ListRecommendersRequest: AWSPaginateToken {
+    public func usingPaginationToken(_ token: String) -> Personalize.ListRecommendersRequest {
+        return .init(
+            datasetGroupArn: self.datasetGroupArn,
+            maxResults: self.maxResults,
+            nextToken: token
         )
     }
 }

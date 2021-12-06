@@ -21,6 +21,12 @@ import SotoCore
 extension Shield {
     // MARK: Enums
 
+    public enum ApplicationLayerAutomaticResponseStatus: String, CustomStringConvertible, Codable {
+        case disabled = "DISABLED"
+        case enabled = "ENABLED"
+        public var description: String { return self.rawValue }
+    }
+
     public enum AttackLayer: String, CustomStringConvertible, Codable {
         case application = "APPLICATION"
         case network = "NETWORK"
@@ -98,6 +104,22 @@ extension Shield {
 
     // MARK: Shapes
 
+    public struct ApplicationLayerAutomaticResponseConfiguration: AWSDecodableShape {
+        public let action: ResponseAction
+        /// Indicates whether automatic application layer DDoS mitigation is enabled for the protection.
+        public let status: ApplicationLayerAutomaticResponseStatus
+
+        public init(action: ResponseAction, status: ApplicationLayerAutomaticResponseStatus) {
+            self.action = action
+            self.status = status
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case action = "Action"
+            case status = "Status"
+        }
+    }
+
     public struct AssociateDRTLogBucketRequest: AWSEncodableShape {
         /// The Amazon S3 bucket that contains the logs that you want to share.
         public let logBucket: String
@@ -161,7 +183,7 @@ extension Shield {
             try self.validate(self.healthCheckArn, name: "healthCheckArn", parent: name, min: 1)
             try self.validate(self.healthCheckArn, name: "healthCheckArn", parent: name, pattern: "^arn:aws:route53:::healthcheck/\\S{36}$")
             try self.validate(self.protectionId, name: "protectionId", parent: name, max: 36)
-            try self.validate(self.protectionId, name: "protectionId", parent: name, min: 1)
+            try self.validate(self.protectionId, name: "protectionId", parent: name, min: 36)
             try self.validate(self.protectionId, name: "protectionId", parent: name, pattern: "^[a-zA-Z0-9\\\\-]*$")
         }
 
@@ -204,15 +226,15 @@ extension Shield {
         public let attackCounters: [SummarizedCounter]?
         /// The unique identifier (ID) of the attack.
         public let attackId: String?
-        /// The array of objects that provide details of the Shield event.  For infrastructure   layer events (L3 and L4 events) after January 25, 2021, you can view metrics for top contributors in Amazon CloudWatch metrics.  For more information, see Shield metrics and alarms  in the WAF Developer Guide.
+        /// The array of objects that provide details of the Shield event.  For infrastructure   layer events (L3 and L4 events), you can view metrics for top contributors in Amazon CloudWatch metrics.  For more information, see Shield metrics and alarms  in the WAF Developer Guide.
         public let attackProperties: [AttackProperty]?
-        /// The time the attack ended, in Unix time in seconds. For more information see timestamp.
+        /// The time the attack ended, in Unix time in seconds.
         public let endTime: Date?
         /// List of mitigation actions taken for the attack.
         public let mitigations: [Mitigation]?
         /// The ARN (Amazon Resource Name) of the resource that was attacked.
         public let resourceArn: String?
-        /// The time the attack started, in Unix time in seconds. For more information see timestamp.
+        /// The time the attack started, in Unix time in seconds.
         public let startTime: Date?
         /// If applicable, additional detail about the resource being attacked, for example, IP address or URL.
         public let subResources: [SubResourceSummary]?
@@ -241,11 +263,11 @@ extension Shield {
     }
 
     public struct AttackProperty: AWSDecodableShape {
-        /// The type of Shield event that was observed. NETWORK indicates layer 3 and layer 4 events and APPLICATION indicates layer 7 events. For infrastructure   layer events (L3 and L4 events) after January 25, 2021, you can view metrics for top contributors in Amazon CloudWatch metrics.  For more information, see Shield metrics and alarms  in the WAF Developer Guide.
+        /// The type of Shield event that was observed. NETWORK indicates layer 3 and layer 4 events and APPLICATION indicates layer 7 events. For infrastructure   layer events (L3 and L4 events), you can view metrics for top contributors in Amazon CloudWatch metrics.  For more information, see Shield metrics and alarms  in the WAF Developer Guide.
         public let attackLayer: AttackLayer?
         /// Defines the Shield event property information that is provided. The WORDPRESS_PINGBACK_REFLECTOR and WORDPRESS_PINGBACK_SOURCE values are valid only for WordPress reflective pingback events.
         public let attackPropertyIdentifier: AttackPropertyIdentifier?
-        /// Contributor objects for the top five contributors to a Shield event.
+        /// Contributor objects for the top five contributors to a Shield event. A contributor is a source of traffic that Shield Advanced identifies as responsible for some or all of an event.
         public let topContributors: [Contributor]?
         /// The total contributions made to this Shield event by all contributors.
         public let total: Int64?
@@ -291,11 +313,11 @@ extension Shield {
         public let attackId: String?
         /// The list of attacks for a specified time period.
         public let attackVectors: [AttackVectorDescription]?
-        /// The end time of the attack, in Unix time in seconds. For more information see timestamp.
+        /// The end time of the attack, in Unix time in seconds.
         public let endTime: Date?
         /// The ARN (Amazon Resource Name) of the resource that was attacked.
         public let resourceArn: String?
-        /// The start time of the attack, in Unix time in seconds. For more information see timestamp.
+        /// The start time of the attack, in Unix time in seconds.
         public let startTime: Date?
 
         public init(attackId: String? = nil, attackVectors: [AttackVectorDescription]? = nil, endTime: Date? = nil, resourceArn: String? = nil, startTime: Date? = nil) {
@@ -363,8 +385,12 @@ extension Shield {
         }
     }
 
+    public struct BlockAction: AWSEncodableShape & AWSDecodableShape {
+        public init() {}
+    }
+
     public struct Contributor: AWSDecodableShape {
-        /// The name of the contributor. This is dependent on the AttackPropertyIdentifier. For example, if the AttackPropertyIdentifier is SOURCE_COUNTRY, the Name could be United States.
+        /// The name of the contributor. The type of name that you'll find here depends on the AttackPropertyIdentifier setting in the AttackProperty where this contributor is defined. For example, if the AttackPropertyIdentifier is SOURCE_COUNTRY, the Name could be United States.
         public let name: String?
         /// The contribution of this contributor expressed in Protection units. For example 10,000.
         public let value: Int64?
@@ -378,6 +404,10 @@ extension Shield {
             case name = "Name"
             case value = "Value"
         }
+    }
+
+    public struct CountAction: AWSEncodableShape & AWSDecodableShape {
+        public init() {}
     }
 
     public struct CreateProtectionGroupRequest: AWSEncodableShape {
@@ -436,7 +466,7 @@ extension Shield {
     public struct CreateProtectionRequest: AWSEncodableShape {
         /// Friendly name for the Protection you are creating.
         public let name: String
-        /// The ARN (Amazon Resource Name) of the resource to be protected. The ARN should be in one of the following formats:   For an Application Load Balancer: arn:aws:elasticloadbalancing:region:account-id:loadbalancer/app/load-balancer-name/load-balancer-id     For an Elastic Load Balancer (Classic Load Balancer): arn:aws:elasticloadbalancing:region:account-id:loadbalancer/load-balancer-name     For an Amazon CloudFront distribution: arn:aws:cloudfront::account-id:distribution/distribution-id     For an Global Accelerator accelerator: arn:aws:globalaccelerator::account-id:accelerator/accelerator-id     For Amazon Route 53: arn:aws:route53:::hostedzone/hosted-zone-id     For an Elastic IP address: arn:aws:ec2:region:account-id:eip-allocation/allocation-id
+        /// The ARN (Amazon Resource Name) of the resource to be protected. The ARN should be in one of the following formats:   For an Application Load Balancer: arn:aws:elasticloadbalancing:region:account-id:loadbalancer/app/load-balancer-name/load-balancer-id     For an Elastic Load Balancer (Classic Load Balancer): arn:aws:elasticloadbalancing:region:account-id:loadbalancer/load-balancer-name     For an Amazon CloudFront distribution: arn:aws:cloudfront::account-id:distribution/distribution-id     For an Global Accelerator accelerator: arn:aws:globalaccelerator::account-id:accelerator/accelerator-id     For Amazon Route 53: arn:aws:route53:::hostedzone/hosted-zone-id     For an Elastic IP address: arn:aws:ec2:region:account-id:eip-allocation/allocation-id
         public let resourceArn: String
         /// One or more tag key-value pairs for the Protection object that is created.
         public let tags: [Tag]?
@@ -521,7 +551,7 @@ extension Shield {
 
         public func validate(name: String) throws {
             try self.validate(self.protectionId, name: "protectionId", parent: name, max: 36)
-            try self.validate(self.protectionId, name: "protectionId", parent: name, min: 1)
+            try self.validate(self.protectionId, name: "protectionId", parent: name, min: 36)
             try self.validate(self.protectionId, name: "protectionId", parent: name, pattern: "^[a-zA-Z0-9\\\\-]*$")
         }
 
@@ -543,7 +573,7 @@ extension Shield {
     }
 
     public struct DescribeAttackRequest: AWSEncodableShape {
-        /// The unique identifier (ID) for the attack that to be described.
+        /// The unique identifier (ID) for the attack.
         public let attackId: String
 
         public init(attackId: String) {
@@ -677,7 +707,7 @@ extension Shield {
 
         public func validate(name: String) throws {
             try self.validate(self.protectionId, name: "protectionId", parent: name, max: 36)
-            try self.validate(self.protectionId, name: "protectionId", parent: name, min: 1)
+            try self.validate(self.protectionId, name: "protectionId", parent: name, min: 36)
             try self.validate(self.protectionId, name: "protectionId", parent: name, pattern: "^[a-zA-Z0-9\\\\-]*$")
             try self.validate(self.resourceArn, name: "resourceArn", parent: name, max: 2048)
             try self.validate(self.resourceArn, name: "resourceArn", parent: name, min: 1)
@@ -718,6 +748,29 @@ extension Shield {
         private enum CodingKeys: String, CodingKey {
             case subscription = "Subscription"
         }
+    }
+
+    public struct DisableApplicationLayerAutomaticResponseRequest: AWSEncodableShape {
+        /// The ARN (Amazon Resource Name) of the resource.
+        public let resourceArn: String
+
+        public init(resourceArn: String) {
+            self.resourceArn = resourceArn
+        }
+
+        public func validate(name: String) throws {
+            try self.validate(self.resourceArn, name: "resourceArn", parent: name, max: 2048)
+            try self.validate(self.resourceArn, name: "resourceArn", parent: name, min: 1)
+            try self.validate(self.resourceArn, name: "resourceArn", parent: name, pattern: "^arn:aws")
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case resourceArn = "ResourceArn"
+        }
+    }
+
+    public struct DisableApplicationLayerAutomaticResponseResponse: AWSDecodableShape {
+        public init() {}
     }
 
     public struct DisableProactiveEngagementRequest: AWSEncodableShape {
@@ -775,7 +828,7 @@ extension Shield {
             try self.validate(self.healthCheckArn, name: "healthCheckArn", parent: name, min: 1)
             try self.validate(self.healthCheckArn, name: "healthCheckArn", parent: name, pattern: "^arn:aws:route53:::healthcheck/\\S{36}$")
             try self.validate(self.protectionId, name: "protectionId", parent: name, max: 36)
-            try self.validate(self.protectionId, name: "protectionId", parent: name, min: 1)
+            try self.validate(self.protectionId, name: "protectionId", parent: name, min: 36)
             try self.validate(self.protectionId, name: "protectionId", parent: name, pattern: "^[a-zA-Z0-9\\\\-]*$")
         }
 
@@ -822,6 +875,33 @@ extension Shield {
         }
     }
 
+    public struct EnableApplicationLayerAutomaticResponseRequest: AWSEncodableShape {
+        /// Specifies the action setting that Shield Advanced should use in the WAF rules that it creates on behalf of the  protected resource in response to DDoS attacks. You specify this as part of the configuration for the automatic application layer DDoS mitigation feature,  when you enable or update automatic mitigation. Shield Advanced creates the WAF rules in a Shield Advanced-managed rule group, inside the web ACL that you have associated with the resource.
+        public let action: ResponseAction
+        /// The ARN (Amazon Resource Name) of the resource.
+        public let resourceArn: String
+
+        public init(action: ResponseAction, resourceArn: String) {
+            self.action = action
+            self.resourceArn = resourceArn
+        }
+
+        public func validate(name: String) throws {
+            try self.validate(self.resourceArn, name: "resourceArn", parent: name, max: 2048)
+            try self.validate(self.resourceArn, name: "resourceArn", parent: name, min: 1)
+            try self.validate(self.resourceArn, name: "resourceArn", parent: name, pattern: "^arn:aws")
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case action = "Action"
+            case resourceArn = "ResourceArn"
+        }
+    }
+
+    public struct EnableApplicationLayerAutomaticResponseResponse: AWSDecodableShape {
+        public init() {}
+    }
+
     public struct EnableProactiveEngagementRequest: AWSEncodableShape {
         public init() {}
     }
@@ -865,15 +945,15 @@ extension Shield {
     }
 
     public struct ListAttacksRequest: AWSEncodableShape {
-        /// The end of the time period for the attacks. This is a timestamp type. The sample request above indicates a number type because the default used by WAF is Unix time in seconds. However any valid timestamp format  is allowed.
+        /// The end of the time period for the attacks. This is a timestamp type. The request syntax listing for this call indicates a number type, but you can provide the time in any valid timestamp format setting.
         public let endTime: TimeRange?
-        /// The maximum number of AttackSummary objects to return. If you leave this blank,  Shield Advanced returns the first 20 results. This is a maximum value. Shield Advanced might return the results in smaller batches. That is, the number of objects returned could be less than MaxResults, even if there are still more objects yet to return. If there are more objects to return, Shield Advanced returns a value in NextToken that you can use in your next request, to get the next batch of objects.
+        /// The greatest number of objects that you want Shield Advanced to return to the list request. Shield Advanced might return fewer objects than you indicate in this setting, even if more objects are available. If there are more objects remaining, Shield Advanced will always also return a NextToken value  in the response.  The default setting is 20.
         public let maxResults: Int?
-        /// The ListAttacksRequest.NextMarker value from a previous call to ListAttacksRequest. Pass null if this is the first call.
+        /// When you request a list of objects from Shield Advanced, if the response does not include all of the remaining available objects,  Shield Advanced includes a NextToken value in the response. You can retrieve the next batch of objects by requesting the list again and  providing the token that was returned by the prior call in your request.  You can indicate the maximum number of objects that you want Shield Advanced to return for a single call with the MaxResults setting. Shield Advanced will not return more than MaxResults objects, but may return fewer, even if more objects are still available.  Whenever more objects remain that Shield Advanced has not yet returned to you, the response will include a NextToken value.  On your first call to a list operation, leave this setting empty.
         public let nextToken: String?
-        /// The ARN (Amazon Resource Name) of the resource that was attacked. If this is left blank, all applicable resources for this account will be included.
+        /// The ARNs (Amazon Resource Names) of the resources that were attacked. If you leave this  blank, all applicable resources for this account will be included.
         public let resourceArns: [String]?
-        /// The start of the time period for the attacks. This is a timestamp type. The sample request above indicates a number type because the default used by WAF is Unix time in seconds. However any valid timestamp format  is allowed.
+        /// The start of the time period for the attacks. This is a timestamp type. The request syntax listing for this call indicates a number type, but you can provide the time in any valid timestamp format setting.
         public let startTime: TimeRange?
 
         public init(endTime: TimeRange? = nil, maxResults: Int? = nil, nextToken: String? = nil, resourceArns: [String]? = nil, startTime: TimeRange? = nil) {
@@ -909,7 +989,7 @@ extension Shield {
     public struct ListAttacksResponse: AWSDecodableShape {
         /// The attack information for the specified time range.
         public let attackSummaries: [AttackSummary]?
-        /// The token returned by a previous call to indicate that there is more data available. If not null, more results are available. Pass this value for the NextMarker parameter in a subsequent call to ListAttacks to retrieve the next set of items. Shield Advanced might return the list of AttackSummary objects in batches smaller than the number specified by MaxResults. If there are more attack summary objects to return, Shield Advanced will always also return a NextToken.
+        /// When you request a list of objects from Shield Advanced, if the response does not include all of the remaining available objects,  Shield Advanced includes a NextToken value in the response. You can retrieve the next batch of objects by requesting the list again and  providing the token that was returned by the prior call in your request.  You can indicate the maximum number of objects that you want Shield Advanced to return for a single call with the MaxResults setting. Shield Advanced will not return more than MaxResults objects, but may return fewer, even if more objects are still available.  Whenever more objects remain that Shield Advanced has not yet returned to you, the response will include a NextToken value.
         public let nextToken: String?
 
         public init(attackSummaries: [AttackSummary]? = nil, nextToken: String? = nil) {
@@ -924,9 +1004,9 @@ extension Shield {
     }
 
     public struct ListProtectionGroupsRequest: AWSEncodableShape {
-        /// The maximum number of ProtectionGroup objects to return. If you leave this blank,  Shield Advanced returns the first 20 results. This is a maximum value. Shield Advanced might return the results in smaller batches. That is, the number of objects returned could be less than MaxResults, even if there are still more objects yet to return. If there are more objects to return, Shield Advanced returns a value in NextToken that you can use in your next request, to get the next batch of objects.
+        /// The greatest number of objects that you want Shield Advanced to return to the list request. Shield Advanced might return fewer objects than you indicate in this setting, even if more objects are available. If there are more objects remaining, Shield Advanced will always also return a NextToken value  in the response.  The default setting is 20.
         public let maxResults: Int?
-        /// The next token value from a previous call to ListProtectionGroups. Pass null if this is the first call.
+        /// When you request a list of objects from Shield Advanced, if the response does not include all of the remaining available objects,  Shield Advanced includes a NextToken value in the response. You can retrieve the next batch of objects by requesting the list again and  providing the token that was returned by the prior call in your request.  You can indicate the maximum number of objects that you want Shield Advanced to return for a single call with the MaxResults setting. Shield Advanced will not return more than MaxResults objects, but may return fewer, even if more objects are still available.  Whenever more objects remain that Shield Advanced has not yet returned to you, the response will include a NextToken value.  On your first call to a list operation, leave this setting empty.
         public let nextToken: String?
 
         public init(maxResults: Int? = nil, nextToken: String? = nil) {
@@ -949,7 +1029,7 @@ extension Shield {
     }
 
     public struct ListProtectionGroupsResponse: AWSDecodableShape {
-        /// If you specify a value for MaxResults and you have more protection groups than the value of MaxResults, Shield Advanced returns this token that you can use in your next request, to get the next batch of objects.
+        /// When you request a list of objects from Shield Advanced, if the response does not include all of the remaining available objects,  Shield Advanced includes a NextToken value in the response. You can retrieve the next batch of objects by requesting the list again and  providing the token that was returned by the prior call in your request.  You can indicate the maximum number of objects that you want Shield Advanced to return for a single call with the MaxResults setting. Shield Advanced will not return more than MaxResults objects, but may return fewer, even if more objects are still available.  Whenever more objects remain that Shield Advanced has not yet returned to you, the response will include a NextToken value.
         public let nextToken: String?
         public let protectionGroups: [ProtectionGroup]
 
@@ -965,9 +1045,9 @@ extension Shield {
     }
 
     public struct ListProtectionsRequest: AWSEncodableShape {
-        /// The maximum number of Protection objects to return. If you leave this blank,  Shield Advanced returns the first 20 results. This is a maximum value. Shield Advanced might return the results in smaller batches. That is, the number of objects returned could be less than MaxResults, even if there are still more objects yet to return. If there are more objects to return, Shield Advanced returns a value in NextToken that you can use in your next request, to get the next batch of objects.
+        /// The greatest number of objects that you want Shield Advanced to return to the list request. Shield Advanced might return fewer objects than you indicate in this setting, even if more objects are available. If there are more objects remaining, Shield Advanced will always also return a NextToken value  in the response.  The default setting is 20.
         public let maxResults: Int?
-        /// The ListProtectionsRequest.NextToken value from a previous call to ListProtections. Pass null if this is the first call.
+        /// When you request a list of objects from Shield Advanced, if the response does not include all of the remaining available objects,  Shield Advanced includes a NextToken value in the response. You can retrieve the next batch of objects by requesting the list again and  providing the token that was returned by the prior call in your request.  You can indicate the maximum number of objects that you want Shield Advanced to return for a single call with the MaxResults setting. Shield Advanced will not return more than MaxResults objects, but may return fewer, even if more objects are still available.  Whenever more objects remain that Shield Advanced has not yet returned to you, the response will include a NextToken value.  On your first call to a list operation, leave this setting empty.
         public let nextToken: String?
 
         public init(maxResults: Int? = nil, nextToken: String? = nil) {
@@ -990,7 +1070,7 @@ extension Shield {
     }
 
     public struct ListProtectionsResponse: AWSDecodableShape {
-        /// If you specify a value for MaxResults and you have more Protections than the value of MaxResults, Shield Advanced returns a NextToken value in the response that allows you to list another group of Protections. For the second and subsequent ListProtections requests, specify the value of NextToken from the previous response to get information about another batch of Protections. Shield Advanced might return the list of Protection objects in batches smaller than the number specified by MaxResults. If there are more Protection objects to return, Shield Advanced will always also return a NextToken.
+        /// When you request a list of objects from Shield Advanced, if the response does not include all of the remaining available objects,  Shield Advanced includes a NextToken value in the response. You can retrieve the next batch of objects by requesting the list again and  providing the token that was returned by the prior call in your request.  You can indicate the maximum number of objects that you want Shield Advanced to return for a single call with the MaxResults setting. Shield Advanced will not return more than MaxResults objects, but may return fewer, even if more objects are still available.  Whenever more objects remain that Shield Advanced has not yet returned to you, the response will include a NextToken value.
         public let nextToken: String?
         /// The array of enabled Protection objects.
         public let protections: [Protection]?
@@ -1007,9 +1087,9 @@ extension Shield {
     }
 
     public struct ListResourcesInProtectionGroupRequest: AWSEncodableShape {
-        /// The maximum number of resource ARN objects to return. If you leave this blank,  Shield Advanced returns the first 20 results. This is a maximum value. Shield Advanced might return the results in smaller batches. That is, the number of objects returned could be less than MaxResults, even if there are still more objects yet to return. If there are more objects to return, Shield Advanced returns a value in NextToken that you can use in your next request, to get the next batch of objects.
+        /// The greatest number of objects that you want Shield Advanced to return to the list request. Shield Advanced might return fewer objects than you indicate in this setting, even if more objects are available. If there are more objects remaining, Shield Advanced will always also return a NextToken value  in the response.  The default setting is 20.
         public let maxResults: Int?
-        /// The next token value from a previous call to ListResourcesInProtectionGroup. Pass null if this is the first call.
+        /// When you request a list of objects from Shield Advanced, if the response does not include all of the remaining available objects,  Shield Advanced includes a NextToken value in the response. You can retrieve the next batch of objects by requesting the list again and  providing the token that was returned by the prior call in your request.  You can indicate the maximum number of objects that you want Shield Advanced to return for a single call with the MaxResults setting. Shield Advanced will not return more than MaxResults objects, but may return fewer, even if more objects are still available.  Whenever more objects remain that Shield Advanced has not yet returned to you, the response will include a NextToken value.  On your first call to a list operation, leave this setting empty.
         public let nextToken: String?
         /// The name of the protection group. You use this to identify the protection group in lists and to manage the protection group, for example to update, delete, or describe it.
         public let protectionGroupId: String
@@ -1039,7 +1119,7 @@ extension Shield {
     }
 
     public struct ListResourcesInProtectionGroupResponse: AWSDecodableShape {
-        /// If you specify a value for MaxResults and you have more resources in the protection group than the value of MaxResults, Shield Advanced returns this token that you can use in your next request, to get the next batch of objects.
+        /// When you request a list of objects from Shield Advanced, if the response does not include all of the remaining available objects,  Shield Advanced includes a NextToken value in the response. You can retrieve the next batch of objects by requesting the list again and  providing the token that was returned by the prior call in your request.  You can indicate the maximum number of objects that you want Shield Advanced to return for a single call with the MaxResults setting. Shield Advanced will not return more than MaxResults objects, but may return fewer, even if more objects are still available.  Whenever more objects remain that Shield Advanced has not yet returned to you, the response will include a NextToken value.
         public let nextToken: String?
         /// The Amazon Resource Names (ARNs) of the resources that are included in the protection group.
         public let resourceArns: [String]
@@ -1101,7 +1181,9 @@ extension Shield {
     }
 
     public struct Protection: AWSDecodableShape {
-        /// The unique identifier (ID) for the Route 53 health check that's associated with the protection.
+        /// The automatic application layer DDoS mitigation settings for the protection.  This configuration determines whether Shield Advanced automatically  manages rules in the web ACL in order to respond to application layer events that Shield Advanced determines to be DDoS attacks.
+        public let applicationLayerAutomaticResponseConfiguration: ApplicationLayerAutomaticResponseConfiguration?
+        /// The unique identifier (ID) for the Route 53 health check that's associated with the protection.
         public let healthCheckIds: [String]?
         /// The unique identifier (ID) of the protection.
         public let id: String?
@@ -1112,7 +1194,8 @@ extension Shield {
         /// The ARN (Amazon Resource Name) of the Amazon Web Services resource that is protected.
         public let resourceArn: String?
 
-        public init(healthCheckIds: [String]? = nil, id: String? = nil, name: String? = nil, protectionArn: String? = nil, resourceArn: String? = nil) {
+        public init(applicationLayerAutomaticResponseConfiguration: ApplicationLayerAutomaticResponseConfiguration? = nil, healthCheckIds: [String]? = nil, id: String? = nil, name: String? = nil, protectionArn: String? = nil, resourceArn: String? = nil) {
+            self.applicationLayerAutomaticResponseConfiguration = applicationLayerAutomaticResponseConfiguration
             self.healthCheckIds = healthCheckIds
             self.id = id
             self.name = name
@@ -1121,6 +1204,7 @@ extension Shield {
         }
 
         private enum CodingKeys: String, CodingKey {
+            case applicationLayerAutomaticResponseConfiguration = "ApplicationLayerAutomaticResponseConfiguration"
             case healthCheckIds = "HealthCheckIds"
             case id = "Id"
             case name = "Name"
@@ -1218,6 +1302,23 @@ extension Shield {
         }
     }
 
+    public struct ResponseAction: AWSEncodableShape & AWSDecodableShape {
+        /// Specifies that Shield Advanced should configure its WAF rules with the WAF Block action.  You must specify exactly one action, either Block or Count.
+        public let block: BlockAction?
+        /// Specifies that Shield Advanced should configure its WAF rules with the WAF Count action.  You must specify exactly one action, either Block or Count.
+        public let count: CountAction?
+
+        public init(block: BlockAction? = nil, count: CountAction? = nil) {
+            self.block = block
+            self.count = count
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case block = "Block"
+            case count = "Count"
+        }
+    }
+
     public struct SubResourceSummary: AWSDecodableShape {
         /// The list of attack types and associated counters.
         public let attackVectors: [SummarizedAttackVector]?
@@ -1252,7 +1353,7 @@ extension Shield {
         public let limits: [Limit]?
         /// If ENABLED, the Shield Response Team (SRT) will use email and phone to notify contacts about escalations to the SRT and to initiate proactive customer support. If PENDING, you have requested proactive engagement and the request is pending. The status changes to ENABLED when your request is fully processed. If DISABLED, the SRT will not proactively notify contacts about escalations or to initiate proactive customer support.
         public let proactiveEngagementStatus: ProactiveEngagementStatus?
-        /// The start time of the subscription, in Unix time in seconds. For more information see timestamp.
+        /// The start time of the subscription, in Unix time in seconds.
         public let startTime: Date?
         /// The ARN (Amazon Resource Name) of the subscription.
         public let subscriptionArn: String?
@@ -1406,9 +1507,9 @@ extension Shield {
     }
 
     public struct TimeRange: AWSEncodableShape & AWSDecodableShape {
-        /// The start time, in Unix time in seconds. For more information see timestamp.
+        /// The start time, in Unix time in seconds.
         public let fromInclusive: Date?
-        /// The end time, in Unix time in seconds. For more information see timestamp.
+        /// The end time, in Unix time in seconds.
         public let toExclusive: Date?
 
         public init(fromInclusive: Date? = nil, toExclusive: Date? = nil) {
@@ -1451,6 +1552,33 @@ extension Shield {
     }
 
     public struct UntagResourceResponse: AWSDecodableShape {
+        public init() {}
+    }
+
+    public struct UpdateApplicationLayerAutomaticResponseRequest: AWSEncodableShape {
+        /// Specifies the action setting that Shield Advanced should use in the WAF rules that it creates on behalf of the  protected resource in response to DDoS attacks. You specify this as part of the configuration for the automatic application layer DDoS mitigation feature,  when you enable or update automatic mitigation. Shield Advanced creates the WAF rules in a Shield Advanced-managed rule group, inside the web ACL that you have associated with the resource.
+        public let action: ResponseAction
+        /// The ARN (Amazon Resource Name) of the resource.
+        public let resourceArn: String
+
+        public init(action: ResponseAction, resourceArn: String) {
+            self.action = action
+            self.resourceArn = resourceArn
+        }
+
+        public func validate(name: String) throws {
+            try self.validate(self.resourceArn, name: "resourceArn", parent: name, max: 2048)
+            try self.validate(self.resourceArn, name: "resourceArn", parent: name, min: 1)
+            try self.validate(self.resourceArn, name: "resourceArn", parent: name, pattern: "^arn:aws")
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case action = "Action"
+            case resourceArn = "ResourceArn"
+        }
+    }
+
+    public struct UpdateApplicationLayerAutomaticResponseResponse: AWSDecodableShape {
         public init() {}
     }
 

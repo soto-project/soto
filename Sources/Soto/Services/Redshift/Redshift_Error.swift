@@ -105,6 +105,7 @@ public struct RedshiftErrorType: AWSErrorType {
         case partnerNotFoundFault = "PartnerNotFound"
         case reservedNodeAlreadyExistsFault = "ReservedNodeAlreadyExists"
         case reservedNodeAlreadyMigratedFault = "ReservedNodeAlreadyMigrated"
+        case reservedNodeExchangeNotFoundFault = "ReservedNodeExchangeNotFond"
         case reservedNodeNotFoundFault = "ReservedNodeNotFound"
         case reservedNodeOfferingNotFoundFault = "ReservedNodeOfferingNotFound"
         case reservedNodeQuotaExceededFault = "ReservedNodeQuotaExceeded"
@@ -353,6 +354,8 @@ public struct RedshiftErrorType: AWSErrorType {
     public static var reservedNodeAlreadyExistsFault: Self { .init(.reservedNodeAlreadyExistsFault) }
     /// Indicates that the reserved node has already been exchanged.
     public static var reservedNodeAlreadyMigratedFault: Self { .init(.reservedNodeAlreadyMigratedFault) }
+    /// The reserved-node exchange status wasn't found.
+    public static var reservedNodeExchangeNotFoundFault: Self { .init(.reservedNodeExchangeNotFoundFault) }
     /// The specified reserved compute node not found.
     public static var reservedNodeNotFoundFault: Self { .init(.reservedNodeNotFoundFault) }
     /// Specified offering does not exist.

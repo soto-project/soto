@@ -661,11 +661,14 @@ extension Glue {
         public let databaseName: String
         /// A list of the table to delete.
         public let tablesToDelete: [String]
+        /// The transaction ID at which to delete the table contents.
+        public let transactionId: String?
 
-        public init(catalogId: String? = nil, databaseName: String, tablesToDelete: [String]) {
+        public init(catalogId: String? = nil, databaseName: String, tablesToDelete: [String], transactionId: String? = nil) {
             self.catalogId = catalogId
             self.databaseName = databaseName
             self.tablesToDelete = tablesToDelete
+            self.transactionId = transactionId
         }
 
         public func validate(name: String) throws {
@@ -681,12 +684,16 @@ extension Glue {
                 try validate($0, name: "tablesToDelete[]", parent: name, pattern: "^[\\u0020-\\uD7FF\\uE000-\\uFFFD\\uD800\\uDC00-\\uDBFF\\uDFFF\\t]*$")
             }
             try self.validate(self.tablesToDelete, name: "tablesToDelete", parent: name, max: 100)
+            try self.validate(self.transactionId, name: "transactionId", parent: name, max: 255)
+            try self.validate(self.transactionId, name: "transactionId", parent: name, min: 1)
+            try self.validate(self.transactionId, name: "transactionId", parent: name, pattern: "^[\\p{L}\\p{N}\\p{P}]*$")
         }
 
         private enum CodingKeys: String, CodingKey {
             case catalogId = "CatalogId"
             case databaseName = "DatabaseName"
             case tablesToDelete = "TablesToDelete"
+            case transactionId = "TransactionId"
         }
     }
 
@@ -3457,12 +3464,15 @@ extension Glue {
         public let partitionIndexes: [PartitionIndex]?
         /// The TableInput object that defines the metadata table to create in the catalog.
         public let tableInput: TableInput
+        /// The ID of the transaction.
+        public let transactionId: String?
 
-        public init(catalogId: String? = nil, databaseName: String, partitionIndexes: [PartitionIndex]? = nil, tableInput: TableInput) {
+        public init(catalogId: String? = nil, databaseName: String, partitionIndexes: [PartitionIndex]? = nil, tableInput: TableInput, transactionId: String? = nil) {
             self.catalogId = catalogId
             self.databaseName = databaseName
             self.partitionIndexes = partitionIndexes
             self.tableInput = tableInput
+            self.transactionId = transactionId
         }
 
         public func validate(name: String) throws {
@@ -3477,6 +3487,9 @@ extension Glue {
             }
             try self.validate(self.partitionIndexes, name: "partitionIndexes", parent: name, max: 3)
             try self.tableInput.validate(name: "\(name).tableInput")
+            try self.validate(self.transactionId, name: "transactionId", parent: name, max: 255)
+            try self.validate(self.transactionId, name: "transactionId", parent: name, min: 1)
+            try self.validate(self.transactionId, name: "transactionId", parent: name, pattern: "^[\\p{L}\\p{N}\\p{P}]*$")
         }
 
         private enum CodingKeys: String, CodingKey {
@@ -3484,6 +3497,7 @@ extension Glue {
             case databaseName = "DatabaseName"
             case partitionIndexes = "PartitionIndexes"
             case tableInput = "TableInput"
+            case transactionId = "TransactionId"
         }
     }
 
@@ -4559,11 +4573,14 @@ extension Glue {
         public let databaseName: String
         /// The name of the table to be deleted. For Hive compatibility, this name is entirely lowercase.
         public let name: String
+        /// The transaction ID at which to delete the table contents.
+        public let transactionId: String?
 
-        public init(catalogId: String? = nil, databaseName: String, name: String) {
+        public init(catalogId: String? = nil, databaseName: String, name: String, transactionId: String? = nil) {
             self.catalogId = catalogId
             self.databaseName = databaseName
             self.name = name
+            self.transactionId = transactionId
         }
 
         public func validate(name: String) throws {
@@ -4576,12 +4593,16 @@ extension Glue {
             try self.validate(self.name, name: "name", parent: name, max: 255)
             try self.validate(self.name, name: "name", parent: name, min: 1)
             try self.validate(self.name, name: "name", parent: name, pattern: "^[\\u0020-\\uD7FF\\uE000-\\uFFFD\\uD800\\uDC00-\\uDBFF\\uDFFF\\t]*$")
+            try self.validate(self.transactionId, name: "transactionId", parent: name, max: 255)
+            try self.validate(self.transactionId, name: "transactionId", parent: name, min: 1)
+            try self.validate(self.transactionId, name: "transactionId", parent: name, pattern: "^[\\p{L}\\p{N}\\p{P}]*$")
         }
 
         private enum CodingKeys: String, CodingKey {
             case catalogId = "CatalogId"
             case databaseName = "DatabaseName"
             case name = "Name"
+            case transactionId = "TransactionId"
         }
     }
 
@@ -6647,20 +6668,26 @@ extension Glue {
         public let maxResults: Int?
         /// A continuation token, if this is not the first call to retrieve these partitions.
         public let nextToken: String?
+        /// The time as of when to read the partition contents. If not set, the most recent transaction commit time will be used. Cannot be specified along with TransactionId.
+        public let queryAsOfTime: Date?
         /// The segment of the table's partitions to scan in this request.
         public let segment: Segment?
         /// The name of the partitions' table.
         public let tableName: String
+        /// The transaction ID at which to read the partition contents.
+        public let transactionId: String?
 
-        public init(catalogId: String? = nil, databaseName: String, excludeColumnSchema: Bool? = nil, expression: String? = nil, maxResults: Int? = nil, nextToken: String? = nil, segment: Segment? = nil, tableName: String) {
+        public init(catalogId: String? = nil, databaseName: String, excludeColumnSchema: Bool? = nil, expression: String? = nil, maxResults: Int? = nil, nextToken: String? = nil, queryAsOfTime: Date? = nil, segment: Segment? = nil, tableName: String, transactionId: String? = nil) {
             self.catalogId = catalogId
             self.databaseName = databaseName
             self.excludeColumnSchema = excludeColumnSchema
             self.expression = expression
             self.maxResults = maxResults
             self.nextToken = nextToken
+            self.queryAsOfTime = queryAsOfTime
             self.segment = segment
             self.tableName = tableName
+            self.transactionId = transactionId
         }
 
         public func validate(name: String) throws {
@@ -6678,6 +6705,9 @@ extension Glue {
             try self.validate(self.tableName, name: "tableName", parent: name, max: 255)
             try self.validate(self.tableName, name: "tableName", parent: name, min: 1)
             try self.validate(self.tableName, name: "tableName", parent: name, pattern: "^[\\u0020-\\uD7FF\\uE000-\\uFFFD\\uD800\\uDC00-\\uDBFF\\uDFFF\\t]*$")
+            try self.validate(self.transactionId, name: "transactionId", parent: name, max: 255)
+            try self.validate(self.transactionId, name: "transactionId", parent: name, min: 1)
+            try self.validate(self.transactionId, name: "transactionId", parent: name, pattern: "^[\\p{L}\\p{N}\\p{P}]*$")
         }
 
         private enum CodingKeys: String, CodingKey {
@@ -6687,8 +6717,10 @@ extension Glue {
             case expression = "Expression"
             case maxResults = "MaxResults"
             case nextToken = "NextToken"
+            case queryAsOfTime = "QueryAsOfTime"
             case segment = "Segment"
             case tableName = "TableName"
+            case transactionId = "TransactionId"
         }
     }
 
@@ -7229,11 +7261,17 @@ extension Glue {
         public let databaseName: String
         /// The name of the table for which to retrieve the definition. For Hive compatibility, this name is entirely lowercase.
         public let name: String
+        /// The time as of when to read the table contents. If not set, the most recent transaction commit time will be used. Cannot be specified along with TransactionId.
+        public let queryAsOfTime: Date?
+        /// The transaction ID at which to read the table contents.
+        public let transactionId: String?
 
-        public init(catalogId: String? = nil, databaseName: String, name: String) {
+        public init(catalogId: String? = nil, databaseName: String, name: String, queryAsOfTime: Date? = nil, transactionId: String? = nil) {
             self.catalogId = catalogId
             self.databaseName = databaseName
             self.name = name
+            self.queryAsOfTime = queryAsOfTime
+            self.transactionId = transactionId
         }
 
         public func validate(name: String) throws {
@@ -7246,12 +7284,17 @@ extension Glue {
             try self.validate(self.name, name: "name", parent: name, max: 255)
             try self.validate(self.name, name: "name", parent: name, min: 1)
             try self.validate(self.name, name: "name", parent: name, pattern: "^[\\u0020-\\uD7FF\\uE000-\\uFFFD\\uD800\\uDC00-\\uDBFF\\uDFFF\\t]*$")
+            try self.validate(self.transactionId, name: "transactionId", parent: name, max: 255)
+            try self.validate(self.transactionId, name: "transactionId", parent: name, min: 1)
+            try self.validate(self.transactionId, name: "transactionId", parent: name, pattern: "^[\\p{L}\\p{N}\\p{P}]*$")
         }
 
         private enum CodingKeys: String, CodingKey {
             case catalogId = "CatalogId"
             case databaseName = "DatabaseName"
             case name = "Name"
+            case queryAsOfTime = "QueryAsOfTime"
+            case transactionId = "TransactionId"
         }
     }
 
@@ -7392,13 +7435,19 @@ extension Glue {
         public let maxResults: Int?
         /// A continuation token, included if this is a continuation call.
         public let nextToken: String?
+        /// The time as of when to read the table contents. If not set, the most recent transaction commit time will be used. Cannot be specified along with TransactionId.
+        public let queryAsOfTime: Date?
+        /// The transaction ID at which to read the table contents.
+        public let transactionId: String?
 
-        public init(catalogId: String? = nil, databaseName: String, expression: String? = nil, maxResults: Int? = nil, nextToken: String? = nil) {
+        public init(catalogId: String? = nil, databaseName: String, expression: String? = nil, maxResults: Int? = nil, nextToken: String? = nil, queryAsOfTime: Date? = nil, transactionId: String? = nil) {
             self.catalogId = catalogId
             self.databaseName = databaseName
             self.expression = expression
             self.maxResults = maxResults
             self.nextToken = nextToken
+            self.queryAsOfTime = queryAsOfTime
+            self.transactionId = transactionId
         }
 
         public func validate(name: String) throws {
@@ -7412,6 +7461,9 @@ extension Glue {
             try self.validate(self.expression, name: "expression", parent: name, pattern: "^[\\u0020-\\uD7FF\\uE000-\\uFFFD\\uD800\\uDC00-\\uDBFF\\uDFFF\\t]*$")
             try self.validate(self.maxResults, name: "maxResults", parent: name, max: 100)
             try self.validate(self.maxResults, name: "maxResults", parent: name, min: 1)
+            try self.validate(self.transactionId, name: "transactionId", parent: name, max: 255)
+            try self.validate(self.transactionId, name: "transactionId", parent: name, min: 1)
+            try self.validate(self.transactionId, name: "transactionId", parent: name, pattern: "^[\\p{L}\\p{N}\\p{P}]*$")
         }
 
         private enum CodingKeys: String, CodingKey {
@@ -7420,6 +7472,8 @@ extension Glue {
             case expression = "Expression"
             case maxResults = "MaxResults"
             case nextToken = "NextToken"
+            case queryAsOfTime = "QueryAsOfTime"
+            case transactionId = "TransactionId"
         }
     }
 
@@ -12930,12 +12984,15 @@ extension Glue {
         public let skipArchive: Bool?
         /// An updated TableInput object to define the metadata table in the catalog.
         public let tableInput: TableInput
+        /// The transaction ID at which to update the table contents.
+        public let transactionId: String?
 
-        public init(catalogId: String? = nil, databaseName: String, skipArchive: Bool? = nil, tableInput: TableInput) {
+        public init(catalogId: String? = nil, databaseName: String, skipArchive: Bool? = nil, tableInput: TableInput, transactionId: String? = nil) {
             self.catalogId = catalogId
             self.databaseName = databaseName
             self.skipArchive = skipArchive
             self.tableInput = tableInput
+            self.transactionId = transactionId
         }
 
         public func validate(name: String) throws {
@@ -12946,6 +13003,9 @@ extension Glue {
             try self.validate(self.databaseName, name: "databaseName", parent: name, min: 1)
             try self.validate(self.databaseName, name: "databaseName", parent: name, pattern: "^[\\u0020-\\uD7FF\\uE000-\\uFFFD\\uD800\\uDC00-\\uDBFF\\uDFFF\\t]*$")
             try self.tableInput.validate(name: "\(name).tableInput")
+            try self.validate(self.transactionId, name: "transactionId", parent: name, max: 255)
+            try self.validate(self.transactionId, name: "transactionId", parent: name, min: 1)
+            try self.validate(self.transactionId, name: "transactionId", parent: name, pattern: "^[\\p{L}\\p{N}\\p{P}]*$")
         }
 
         private enum CodingKeys: String, CodingKey {
@@ -12953,6 +13013,7 @@ extension Glue {
             case databaseName = "DatabaseName"
             case skipArchive = "SkipArchive"
             case tableInput = "TableInput"
+            case transactionId = "TransactionId"
         }
     }
 

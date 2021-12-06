@@ -21,6 +21,12 @@ import SotoCore
 extension ChimeSDKMeetings {
     // MARK: Enums
 
+    public enum MeetingFeatureStatus: String, CustomStringConvertible, Codable {
+        case available = "AVAILABLE"
+        case unavailable = "UNAVAILABLE"
+        public var description: String { return self.rawValue }
+    }
+
     public enum TranscribeContentIdentificationType: String, CustomStringConvertible, Codable {
         case pii = "PII"
         public var description: String { return self.rawValue }
@@ -134,6 +140,19 @@ extension ChimeSDKMeetings {
             case attendeeId = "AttendeeId"
             case externalUserId = "ExternalUserId"
             case joinToken = "JoinToken"
+        }
+    }
+
+    public struct AudioFeatures: AWSEncodableShape & AWSDecodableShape {
+        /// Makes echo reduction available to clients who connect to the meeting.
+        public let echoReduction: MeetingFeatureStatus?
+
+        public init(echoReduction: MeetingFeatureStatus? = nil) {
+            self.echoReduction = echoReduction
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case echoReduction = "EchoReduction"
         }
     }
 
@@ -268,15 +287,18 @@ extension ChimeSDKMeetings {
         public let externalMeetingId: String
         /// The Region in which to create the meeting.   Available values:  af-south-1 ,  ap-northeast-1 ,  ap-northeast-2 ,  ap-south-1 ,  ap-southeast-1 ,  ap-southeast-2 ,  ca-central-1 ,  eu-central-1 ,  eu-north-1 ,  eu-south-1 ,  eu-west-1 ,  eu-west-2 ,  eu-west-3 ,  sa-east-1 ,  us-east-1 ,  us-east-2 ,  us-west-1 ,  us-west-2 .
         public let mediaRegion: String
+        /// Lists the audio and video features enabled for a meeting, such as echo reduction.
+        public let meetingFeatures: MeetingFeaturesConfiguration?
         /// Reserved.
         public let meetingHostId: String?
         /// The configuration for resource targets to receive notifications when meeting and attendee events occur.
         public let notificationsConfiguration: NotificationsConfiguration?
 
-        public init(clientRequestToken: String = CreateMeetingRequest.idempotencyToken(), externalMeetingId: String, mediaRegion: String, meetingHostId: String? = nil, notificationsConfiguration: NotificationsConfiguration? = nil) {
+        public init(clientRequestToken: String = CreateMeetingRequest.idempotencyToken(), externalMeetingId: String, mediaRegion: String, meetingFeatures: MeetingFeaturesConfiguration? = nil, meetingHostId: String? = nil, notificationsConfiguration: NotificationsConfiguration? = nil) {
             self.clientRequestToken = clientRequestToken
             self.externalMeetingId = externalMeetingId
             self.mediaRegion = mediaRegion
+            self.meetingFeatures = meetingFeatures
             self.meetingHostId = meetingHostId
             self.notificationsConfiguration = notificationsConfiguration
         }
@@ -298,6 +320,7 @@ extension ChimeSDKMeetings {
             case clientRequestToken = "ClientRequestToken"
             case externalMeetingId = "ExternalMeetingId"
             case mediaRegion = "MediaRegion"
+            case meetingFeatures = "MeetingFeatures"
             case meetingHostId = "MeetingHostId"
             case notificationsConfiguration = "NotificationsConfiguration"
         }
@@ -325,16 +348,19 @@ extension ChimeSDKMeetings {
         public let externalMeetingId: String
         /// The Region in which to create the meeting.
         public let mediaRegion: String
+        /// Lists the audio and video features enabled for a meeting, such as echo reduction.
+        public let meetingFeatures: MeetingFeaturesConfiguration?
         /// Reserved.
         public let meetingHostId: String?
         /// The configuration for resource targets to receive notifications when meeting and attendee events occur.
         public let notificationsConfiguration: NotificationsConfiguration?
 
-        public init(attendees: [CreateAttendeeRequestItem], clientRequestToken: String = CreateMeetingWithAttendeesRequest.idempotencyToken(), externalMeetingId: String, mediaRegion: String, meetingHostId: String? = nil, notificationsConfiguration: NotificationsConfiguration? = nil) {
+        public init(attendees: [CreateAttendeeRequestItem], clientRequestToken: String = CreateMeetingWithAttendeesRequest.idempotencyToken(), externalMeetingId: String, mediaRegion: String, meetingFeatures: MeetingFeaturesConfiguration? = nil, meetingHostId: String? = nil, notificationsConfiguration: NotificationsConfiguration? = nil) {
             self.attendees = attendees
             self.clientRequestToken = clientRequestToken
             self.externalMeetingId = externalMeetingId
             self.mediaRegion = mediaRegion
+            self.meetingFeatures = meetingFeatures
             self.meetingHostId = meetingHostId
             self.notificationsConfiguration = notificationsConfiguration
         }
@@ -362,6 +388,7 @@ extension ChimeSDKMeetings {
             case clientRequestToken = "ClientRequestToken"
             case externalMeetingId = "ExternalMeetingId"
             case mediaRegion = "MediaRegion"
+            case meetingFeatures = "MeetingFeatures"
             case meetingHostId = "MeetingHostId"
             case notificationsConfiguration = "NotificationsConfiguration"
         }
@@ -469,9 +496,9 @@ extension ChimeSDKMeetings {
     }
 
     public struct EngineTranscribeSettings: AWSEncodableShape {
-        /// Set this field to PII to identify personal health information in the transcription output.
+        /// Set this field to PII to identify personally identifiable information in the transcription output.
         public let contentIdentificationType: TranscribeContentIdentificationType?
-        /// Set this field to PII to redact personally identifiable information in the transcription output. Content redaction is performed only upon complete transcription of the audio segments.  You can’t set both ContentRedactionType and ContentIdentificationType in the same request. If you set both, your request returns a BadRequestException.
+        /// Set this field to PII to redact personally identifiable information in the transcription output. Content redaction is performed only upon complete transcription of the audio segments.  You can’t set ContentRedactionType and ContentIdentificationType in the same request. If you set both, your request returns a BadRequestException.
         public let contentRedactionType: TranscribeContentRedactionType?
         /// Generates partial transcription results that are less likely to change as meeting attendees speak. It does so by only allowing the last few words from the partial results to change.
         public let enablePartialResultsStabilization: Bool?
@@ -481,7 +508,7 @@ extension ChimeSDKMeetings {
         public let languageModelName: String?
         /// The stabity level of a partial results transcription. Determines how stable you want the transcription results to be. A higher level means the transcription results are less likely to change.
         public let partialResultsStability: TranscribePartialResultsStability?
-        /// Lists the PII entity types you want to identify or redact. To specify entity types, you must enable ContentIdentificationType or ContentRedactionType.   PIIEntityTypes must be comma-separated. The available values are:  BANK_ACCOUNT_NUMBER, BANK_ROUTING, CREDIT_DEBIT_NUMBER, CREDIT_DEBIT_CVV, CREDIT_DEBIT_EXPIRY, PIN, EMAIL,  ADDRESS, NAME, PHONE, SSN, and ALL.   PiiEntityTypes is an optional parameter with a default value of ALL.
+        /// Lists the PII entity types you want to identify or redact. To specify entity types, you must enable ContentIdentificationType or ContentRedactionType.  PIIEntityTypes must be comma-separated. The available values are:  BANK_ACCOUNT_NUMBER, BANK_ROUTING, CREDIT_DEBIT_NUMBER, CREDIT_DEBIT_CVV, CREDIT_DEBIT_EXPIRY, PIN, EMAIL,  ADDRESS, NAME, PHONE, SSN, and ALL.   PiiEntityTypes is an optional parameter with a default value of ALL.
         public let piiEntityTypes: String?
         /// The AWS Region passed to Amazon Transcribe. If you don't specify a Region, Amazon Chime uses the meeting's Region.
         public let region: TranscribeRegion?
@@ -696,15 +723,18 @@ extension ChimeSDKMeetings {
         public let mediaPlacement: MediaPlacement?
         /// The Region in which you create the meeting. Available values: af-south-1, ap-northeast-1,  ap-northeast-2, ap-south-1, ap-southeast-1, ap-southeast-2, ca-central-1,  eu-central-1, eu-north-1, eu-south-1, eu-west-1, eu-west-2, eu-west-3, sa-east-1, us-east-1, us-east-2, us-west-1, us-west-2.
         public let mediaRegion: String?
+        /// The features available to a meeting, such as Amazon Voice Focus.
+        public let meetingFeatures: MeetingFeaturesConfiguration?
         /// Reserved.
         public let meetingHostId: String?
         /// The Amazon Chime SDK meeting ID.
         public let meetingId: String?
 
-        public init(externalMeetingId: String? = nil, mediaPlacement: MediaPlacement? = nil, mediaRegion: String? = nil, meetingHostId: String? = nil, meetingId: String? = nil) {
+        public init(externalMeetingId: String? = nil, mediaPlacement: MediaPlacement? = nil, mediaRegion: String? = nil, meetingFeatures: MeetingFeaturesConfiguration? = nil, meetingHostId: String? = nil, meetingId: String? = nil) {
             self.externalMeetingId = externalMeetingId
             self.mediaPlacement = mediaPlacement
             self.mediaRegion = mediaRegion
+            self.meetingFeatures = meetingFeatures
             self.meetingHostId = meetingHostId
             self.meetingId = meetingId
         }
@@ -713,8 +743,22 @@ extension ChimeSDKMeetings {
             case externalMeetingId = "ExternalMeetingId"
             case mediaPlacement = "MediaPlacement"
             case mediaRegion = "MediaRegion"
+            case meetingFeatures = "MeetingFeatures"
             case meetingHostId = "MeetingHostId"
             case meetingId = "MeetingId"
+        }
+    }
+
+    public struct MeetingFeaturesConfiguration: AWSEncodableShape & AWSDecodableShape {
+        /// The configuration settings for the audio features available to a meeting.
+        public let audio: AudioFeatures?
+
+        public init(audio: AudioFeatures? = nil) {
+            self.audio = audio
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case audio = "Audio"
         }
     }
 

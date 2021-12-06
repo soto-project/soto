@@ -23,7 +23,7 @@ import SotoCore
 
 @available(macOS 12.0, iOS 15.0, watchOS 8.0, tvOS 15.0, *)
 extension TimestreamWrite {
-    ///  Returns a list of your Timestream databases.   Service quotas apply. For more information, see Access Management in the Timestream Developer Guide.
+    ///  Returns a list of your Timestream databases.   Service quotas apply. See  code sample for details.
     /// Return PaginatorSequence for operation.
     ///
     /// - Parameters:
@@ -45,7 +45,7 @@ extension TimestreamWrite {
         )
     }
 
-    ///  A list of tables, along with the name, status and retention properties of each table.
+    ///  A list of tables, along with the name, status and retention properties of each table. See  code sample for details.
     /// Return PaginatorSequence for operation.
     ///
     /// - Parameters:

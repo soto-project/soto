@@ -243,7 +243,7 @@ extension EKS {
         public let serviceAccountRoleArn: String?
         /// The status of the add-on.
         public let status: AddonStatus?
-        /// The metadata that you apply to the add-on to assist with categorization and organization. Each tag consists of a key and an optional value, both of which you define. Add-on tags do not propagate to any other resources associated with the cluster.
+        /// The metadata that you apply to the add-on to assist with categorization and organization. Each tag consists of a key and an optional value. You define both. Add-on tags do not propagate to any other resources associated with the cluster.
         public let tags: [String: String]?
 
         public init(addonArn: String? = nil, addonName: String? = nil, addonVersion: String? = nil, clusterName: String? = nil, createdAt: Date? = nil, health: AddonHealth? = nil, modifiedAt: Date? = nil, serviceAccountRoleArn: String? = nil, status: AddonStatus? = nil, tags: [String: String]? = nil) {
@@ -400,7 +400,7 @@ extension EKS {
         public let clusterName: String
         /// An object that represents an OpenID Connect (OIDC) identity provider configuration.
         public let oidc: OidcIdentityProviderConfigRequest
-        /// The metadata to apply to the configuration to assist with categorization and organization. Each tag consists of a key and an optional value, both of which you define.
+        /// The metadata to apply to the configuration to assist with categorization and organization. Each tag consists of a key and an optional value. You define both.
         public let tags: [String: String]?
 
         public init(clientRequestToken: String? = AssociateIdentityProviderConfigRequest.idempotencyToken(), clusterName: String, oidc: OidcIdentityProviderConfigRequest, tags: [String: String]? = nil) {
@@ -501,7 +501,7 @@ extension EKS {
         public let roleArn: String?
         /// The current status of the cluster.
         public let status: ClusterStatus?
-        /// The metadata that you apply to the cluster to assist with categorization and organization. Each tag consists of a key and an optional value, both of which you define. Cluster tags do not propagate to any other resources associated with the cluster.
+        /// The metadata that you apply to the cluster to assist with categorization and organization. Each tag consists of a key and an optional value. You define both. Cluster tags do not propagate to any other resources associated with the cluster.
         public let tags: [String: String]?
         /// The Kubernetes server version for the cluster.
         public let version: String?
@@ -631,7 +631,7 @@ extension EKS {
         public let resolveConflicts: ResolveConflicts?
         /// The Amazon Resource Name (ARN) of an existing IAM role to bind to the add-on's service account. The role must be assigned the IAM permissions required by the add-on. If you don't specify an existing IAM role, then the add-on uses the permissions assigned to the node IAM role. For more information, see Amazon EKS node IAM role in the Amazon EKS User Guide.  To specify an existing IAM role, you must have an IAM OpenID Connect (OIDC) provider created for your cluster. For more information, see Enabling IAM roles for service accounts on your cluster in the Amazon EKS User Guide.
         public let serviceAccountRoleArn: String?
-        /// The metadata to apply to the cluster to assist with categorization and organization. Each tag consists of a key and an optional value, both of which you define.
+        /// The metadata to apply to the cluster to assist with categorization and organization. Each tag consists of a key and an optional value. You define both.
         public let tags: [String: String]?
 
         public init(addonName: String, addonVersion: String? = nil, clientRequestToken: String? = CreateAddonRequest.idempotencyToken(), clusterName: String, resolveConflicts: ResolveConflicts? = nil, serviceAccountRoleArn: String? = nil, tags: [String: String]? = nil) {
@@ -692,11 +692,11 @@ extension EKS {
         public let logging: Logging?
         /// The unique name to give to your cluster.
         public let name: String
-        /// The VPC configuration used by the cluster control plane. Amazon EKS VPC resources have specific requirements to work properly with Kubernetes. For more information, see Cluster VPC Considerations and Cluster Security Group Considerations in the Amazon EKS User Guide. You must specify at least two subnets. You can specify up to five security groups, but we recommend that you use a dedicated security group for your cluster control plane.
+        /// The VPC configuration that's used by the cluster control plane. Amazon EKS VPC resources have specific requirements to work properly with Kubernetes. For more information, see Cluster VPC Considerations and Cluster Security Group Considerations in the Amazon EKS User Guide. You must specify at least two subnets. You can specify up to five security groups. However, we recommend that you use a dedicated security group for your cluster control plane.
         public let resourcesVpcConfig: VpcConfigRequest
         /// The Amazon Resource Name (ARN) of the IAM role that provides permissions for the Kubernetes control plane to make calls to Amazon Web Services API operations on your behalf. For more information, see Amazon EKS Service IAM Role in the  Amazon EKS User Guide .
         public let roleArn: String
-        /// The metadata to apply to the cluster to assist with categorization and organization. Each tag consists of a key and an optional value, both of which you define.
+        /// The metadata to apply to the cluster to assist with categorization and organization. Each tag consists of a key and an optional value. You define both.
         public let tags: [String: String]?
         /// The desired Kubernetes version for your cluster. If you don't specify a value here, the latest version available in Amazon EKS is used.
         public let version: String?
@@ -770,7 +770,7 @@ extension EKS {
         public let selectors: [FargateProfileSelector]?
         /// The IDs of subnets to launch your pods into. At this time, pods running on Fargate are not assigned public IP addresses, so only private subnets (with no direct route to an Internet Gateway) are accepted for this parameter.
         public let subnets: [String]?
-        /// The metadata to apply to the Fargate profile to assist with categorization and organization. Each tag consists of a key and an optional value, both of which you define. Fargate profile tags do not propagate to any other resources associated with the Fargate profile, such as the pods that are scheduled with it.
+        /// The metadata to apply to the Fargate profile to assist with categorization and organization. Each tag consists of a key and an optional value. You define both. Fargate profile tags do not propagate to any other resources associated with the Fargate profile, such as the pods that are scheduled with it.
         public let tags: [String: String]?
 
         public init(clientRequestToken: String? = CreateFargateProfileRequest.idempotencyToken(), clusterName: String, fargateProfileName: String, podExecutionRoleArn: String, selectors: [FargateProfileSelector]? = nil, subnets: [String]? = nil, tags: [String: String]? = nil) {
@@ -849,7 +849,7 @@ extension EKS {
         public let scalingConfig: NodegroupScalingConfig?
         /// The subnets to use for the Auto Scaling group that is created for your node group. If you specify launchTemplate, then don't specify   SubnetId in your launch template, or the node group  deployment will fail. For more information about using launch templates with Amazon EKS, see Launch template support in the Amazon EKS User Guide.
         public let subnets: [String]
-        /// The metadata to apply to the node group to assist with categorization and organization. Each tag consists of a key and an optional value, both of which you define. Node group tags do not propagate to any other resources associated with the node group, such as the Amazon EC2 instances or subnets.
+        /// The metadata to apply to the node group to assist with categorization and organization. Each tag consists of a key and an optional value. You define both. Node group tags do not propagate to any other resources associated with the node group, such as the Amazon EC2 instances or subnets.
         public let tags: [String: String]?
         /// The Kubernetes taints to be applied to the nodes in the node group.
         public let taints: [Taint]?
@@ -1436,7 +1436,7 @@ extension EKS {
         public let status: FargateProfileStatus?
         /// The IDs of subnets to launch pods into.
         public let subnets: [String]?
-        /// The metadata applied to the Fargate profile to assist with categorization and organization. Each tag consists of a key and an optional value, both of which you define. Fargate profile tags do not propagate to any other resources associated with the Fargate profile, such as the pods that are scheduled with it.
+        /// The metadata applied to the Fargate profile to assist with categorization and organization. Each tag consists of a key and an optional value. You define both. Fargate profile tags do not propagate to any other resources associated with the Fargate profile, such as the pods that are scheduled with it.
         public let tags: [String: String]?
 
         public init(clusterName: String? = nil, createdAt: Date? = nil, fargateProfileArn: String? = nil, fargateProfileName: String? = nil, podExecutionRoleArn: String? = nil, selectors: [FargateProfileSelector]? = nil, status: FargateProfileStatus? = nil, subnets: [String]? = nil, tags: [String: String]? = nil) {
@@ -1647,7 +1647,7 @@ extension EKS {
             AWSMemberEncoding(label: "nextToken", location: .querystring("nextToken"))
         ]
 
-        /// Indicates whether connected clusters are included in the returned list. Default value is 'ALL'.
+        /// Indicates whether external clusters are included in the returned list. Use 'all' to return connected clusters, or blank to return only Amazon EKS clusters. 'all' must be in lowercase otherwise an error occurs.
         public let include: [String]?
         /// The maximum number of cluster results returned by ListClusters in paginated output. When you use this parameter, ListClusters returns only maxResults results in a single page along with a nextToken response element. You can see the remaining results of the initial request by sending another ListClusters request with the returned nextToken value. This value can be between 1 and 100. If you don't use this parameter, ListClusters returns up to 100 results and a nextToken value if applicable.
         public let maxResults: Int?
@@ -1970,7 +1970,7 @@ extension EKS {
         public let status: NodegroupStatus?
         /// The subnets that were specified for the Auto Scaling group that is associated with your node group.
         public let subnets: [String]?
-        /// The metadata applied to the node group to assist with categorization and organization. Each tag consists of a key and an optional value, both of which you define. Node group tags do not propagate to any other resources associated with the node group, such as the Amazon EC2 instances or subnets.
+        /// The metadata applied to the node group to assist with categorization and organization. Each tag consists of a key and an optional value. You define both. Node group tags do not propagate to any other resources associated with the node group, such as the Amazon EC2 instances or subnets.
         public let tags: [String: String]?
         /// The Kubernetes taints to be applied to the nodes in the node group when they are created. Effect is one of No_Schedule, Prefer_No_Schedule, or No_Execute. Kubernetes taints can be used together with tolerations to control how workloads are scheduled to your nodes.
         public let taints: [Taint]?
@@ -2144,7 +2144,7 @@ extension EKS {
         public let requiredClaims: [String: String]?
         /// The status of the OIDC identity provider.
         public let status: ConfigStatus?
-        /// The metadata to apply to the provider configuration to assist with categorization and organization. Each tag consists of a key and an optional value, both of which you defined.
+        /// The metadata to apply to the provider configuration to assist with categorization and organization. Each tag consists of a key and an optional value. You define both.
         public let tags: [String: String]?
         /// The JSON Web token (JWT) claim that is used as the username.
         public let usernameClaim: String?
