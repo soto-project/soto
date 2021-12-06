@@ -391,14 +391,14 @@ extension KinesisVideo {
 
     public struct GetDataEndpointInput: AWSEncodableShape {
         /// The name of the API action for which to get an endpoint.
-        public let aPIName: APIName
+        public let apiName: APIName
         /// The Amazon Resource Name (ARN) of the stream that you want to get the endpoint for. You must specify either this parameter or a StreamName in the request.
         public let streamARN: String?
         /// The name of the stream that you want to get the endpoint for. You must specify either this parameter or a StreamARN in the request.
         public let streamName: String?
 
-        public init(aPIName: APIName, streamARN: String? = nil, streamName: String? = nil) {
-            self.aPIName = aPIName
+        public init(apiName: APIName, streamARN: String? = nil, streamName: String? = nil) {
+            self.apiName = apiName
             self.streamARN = streamARN
             self.streamName = streamName
         }
@@ -413,7 +413,7 @@ extension KinesisVideo {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case aPIName = "APIName"
+            case apiName = "APIName"
             case streamARN = "StreamARN"
             case streamName = "StreamName"
         }

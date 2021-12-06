@@ -61,7 +61,7 @@ extension CostExplorer {
     }
 
     public enum CostCategoryRuleVersion: String, CustomStringConvertible, Codable {
-        case costcategoryexpressionV1 = "CostCategoryExpression.v1"
+        case costCategoryExpressionV1 = "CostCategoryExpression.v1"
         public var description: String { return self.rawValue }
     }
 
@@ -1341,7 +1341,7 @@ extension CostExplorer {
         ///  The field that contains a list of disk (local storage) metrics that are associated with the current instance.
         public let diskResourceUtilization: DiskResourceUtilization?
         /// The EBS field that contains a list of EBS metrics that are associated with the current instance.
-        public let eBSResourceUtilization: EBSResourceUtilization?
+        public let ebsResourceUtilization: EBSResourceUtilization?
         ///  The maximum observed or expected CPU utilization of the instance.
         public let maxCpuUtilizationPercentage: String?
         ///  The maximum observed or expected memory utilization of the instance.
@@ -1351,9 +1351,9 @@ extension CostExplorer {
         ///  The network field that contains a list of network metrics that are associated with the current instance.
         public let networkResourceUtilization: NetworkResourceUtilization?
 
-        public init(diskResourceUtilization: DiskResourceUtilization? = nil, eBSResourceUtilization: EBSResourceUtilization? = nil, maxCpuUtilizationPercentage: String? = nil, maxMemoryUtilizationPercentage: String? = nil, maxStorageUtilizationPercentage: String? = nil, networkResourceUtilization: NetworkResourceUtilization? = nil) {
+        public init(diskResourceUtilization: DiskResourceUtilization? = nil, ebsResourceUtilization: EBSResourceUtilization? = nil, maxCpuUtilizationPercentage: String? = nil, maxMemoryUtilizationPercentage: String? = nil, maxStorageUtilizationPercentage: String? = nil, networkResourceUtilization: NetworkResourceUtilization? = nil) {
             self.diskResourceUtilization = diskResourceUtilization
-            self.eBSResourceUtilization = eBSResourceUtilization
+            self.ebsResourceUtilization = ebsResourceUtilization
             self.maxCpuUtilizationPercentage = maxCpuUtilizationPercentage
             self.maxMemoryUtilizationPercentage = maxMemoryUtilizationPercentage
             self.maxStorageUtilizationPercentage = maxStorageUtilizationPercentage
@@ -1362,7 +1362,7 @@ extension CostExplorer {
 
         private enum CodingKeys: String, CodingKey {
             case diskResourceUtilization = "DiskResourceUtilization"
-            case eBSResourceUtilization = "EBSResourceUtilization"
+            case ebsResourceUtilization = "EBSResourceUtilization"
             case maxCpuUtilizationPercentage = "MaxCpuUtilizationPercentage"
             case maxMemoryUtilizationPercentage = "MaxMemoryUtilizationPercentage"
             case maxStorageUtilizationPercentage = "MaxStorageUtilizationPercentage"
@@ -2848,29 +2848,29 @@ extension CostExplorer {
 
     public struct InstanceDetails: AWSDecodableShape {
         /// The Amazon EC2 instances that Amazon Web Services recommends that you purchase.
-        public let eC2InstanceDetails: EC2InstanceDetails?
+        public let ec2InstanceDetails: EC2InstanceDetails?
         /// The ElastiCache instances that Amazon Web Services recommends that you purchase.
         public let elastiCacheInstanceDetails: ElastiCacheInstanceDetails?
         /// The Amazon ES instances that Amazon Web Services recommends that you purchase.
-        public let eSInstanceDetails: ESInstanceDetails?
+        public let esInstanceDetails: ESInstanceDetails?
         /// The Amazon RDS instances that Amazon Web Services recommends that you purchase.
-        public let rDSInstanceDetails: RDSInstanceDetails?
+        public let rdsInstanceDetails: RDSInstanceDetails?
         /// The Amazon Redshift instances that Amazon Web Services recommends that you purchase.
         public let redshiftInstanceDetails: RedshiftInstanceDetails?
 
-        public init(eC2InstanceDetails: EC2InstanceDetails? = nil, elastiCacheInstanceDetails: ElastiCacheInstanceDetails? = nil, eSInstanceDetails: ESInstanceDetails? = nil, rDSInstanceDetails: RDSInstanceDetails? = nil, redshiftInstanceDetails: RedshiftInstanceDetails? = nil) {
-            self.eC2InstanceDetails = eC2InstanceDetails
+        public init(ec2InstanceDetails: EC2InstanceDetails? = nil, elastiCacheInstanceDetails: ElastiCacheInstanceDetails? = nil, esInstanceDetails: ESInstanceDetails? = nil, rdsInstanceDetails: RDSInstanceDetails? = nil, redshiftInstanceDetails: RedshiftInstanceDetails? = nil) {
+            self.ec2InstanceDetails = ec2InstanceDetails
             self.elastiCacheInstanceDetails = elastiCacheInstanceDetails
-            self.eSInstanceDetails = eSInstanceDetails
-            self.rDSInstanceDetails = rDSInstanceDetails
+            self.esInstanceDetails = esInstanceDetails
+            self.rdsInstanceDetails = rdsInstanceDetails
             self.redshiftInstanceDetails = redshiftInstanceDetails
         }
 
         private enum CodingKeys: String, CodingKey {
-            case eC2InstanceDetails = "EC2InstanceDetails"
+            case ec2InstanceDetails = "EC2InstanceDetails"
             case elastiCacheInstanceDetails = "ElastiCacheInstanceDetails"
-            case eSInstanceDetails = "ESInstanceDetails"
-            case rDSInstanceDetails = "RDSInstanceDetails"
+            case esInstanceDetails = "ESInstanceDetails"
+            case rdsInstanceDetails = "RDSInstanceDetails"
             case redshiftInstanceDetails = "RedshiftInstanceDetails"
         }
     }
@@ -3103,7 +3103,7 @@ extension CostExplorer {
         /// The realized savings because of purchasing and using a reservation.
         public let realizedSavings: String?
         /// The cost of unused hours for your reservation.
-        public let rICostForUnusedHours: String?
+        public let riCostForUnusedHours: String?
         /// The total number of reservation hours that you used.
         public let totalActualHours: String?
         /// The total number of Amazon EC2 reservation hours that you used. It's converted to normalized units. Normalized units are available only for Amazon EC2 usage after November 11, 2017.
@@ -3123,7 +3123,7 @@ extension CostExplorer {
         /// The percentage of Amazon EC2 reservation time that you used. It's converted to normalized units. Normalized units are available only for Amazon EC2 usage after November 11, 2017.
         public let utilizationPercentageInUnits: String?
 
-        public init(amortizedRecurringFee: String? = nil, amortizedUpfrontFee: String? = nil, netRISavings: String? = nil, onDemandCostOfRIHoursUsed: String? = nil, purchasedHours: String? = nil, purchasedUnits: String? = nil, realizedSavings: String? = nil, rICostForUnusedHours: String? = nil, totalActualHours: String? = nil, totalActualUnits: String? = nil, totalAmortizedFee: String? = nil, totalPotentialRISavings: String? = nil, unrealizedSavings: String? = nil, unusedHours: String? = nil, unusedUnits: String? = nil, utilizationPercentage: String? = nil, utilizationPercentageInUnits: String? = nil) {
+        public init(amortizedRecurringFee: String? = nil, amortizedUpfrontFee: String? = nil, netRISavings: String? = nil, onDemandCostOfRIHoursUsed: String? = nil, purchasedHours: String? = nil, purchasedUnits: String? = nil, realizedSavings: String? = nil, riCostForUnusedHours: String? = nil, totalActualHours: String? = nil, totalActualUnits: String? = nil, totalAmortizedFee: String? = nil, totalPotentialRISavings: String? = nil, unrealizedSavings: String? = nil, unusedHours: String? = nil, unusedUnits: String? = nil, utilizationPercentage: String? = nil, utilizationPercentageInUnits: String? = nil) {
             self.amortizedRecurringFee = amortizedRecurringFee
             self.amortizedUpfrontFee = amortizedUpfrontFee
             self.netRISavings = netRISavings
@@ -3131,7 +3131,7 @@ extension CostExplorer {
             self.purchasedHours = purchasedHours
             self.purchasedUnits = purchasedUnits
             self.realizedSavings = realizedSavings
-            self.rICostForUnusedHours = rICostForUnusedHours
+            self.riCostForUnusedHours = riCostForUnusedHours
             self.totalActualHours = totalActualHours
             self.totalActualUnits = totalActualUnits
             self.totalAmortizedFee = totalAmortizedFee
@@ -3151,7 +3151,7 @@ extension CostExplorer {
             case purchasedHours = "PurchasedHours"
             case purchasedUnits = "PurchasedUnits"
             case realizedSavings = "RealizedSavings"
-            case rICostForUnusedHours = "RICostForUnusedHours"
+            case riCostForUnusedHours = "RICostForUnusedHours"
             case totalActualHours = "TotalActualHours"
             case totalActualUnits = "TotalActualUnits"
             case totalAmortizedFee = "TotalAmortizedFee"
@@ -3368,27 +3368,27 @@ extension CostExplorer {
 
     public struct ResourceDetails: AWSDecodableShape {
         /// Details on the Amazon EC2 resource.
-        public let eC2ResourceDetails: EC2ResourceDetails?
+        public let ec2ResourceDetails: EC2ResourceDetails?
 
-        public init(eC2ResourceDetails: EC2ResourceDetails? = nil) {
-            self.eC2ResourceDetails = eC2ResourceDetails
+        public init(ec2ResourceDetails: EC2ResourceDetails? = nil) {
+            self.ec2ResourceDetails = ec2ResourceDetails
         }
 
         private enum CodingKeys: String, CodingKey {
-            case eC2ResourceDetails = "EC2ResourceDetails"
+            case ec2ResourceDetails = "EC2ResourceDetails"
         }
     }
 
     public struct ResourceUtilization: AWSDecodableShape {
         /// The utilization of current Amazon EC2 instance.
-        public let eC2ResourceUtilization: EC2ResourceUtilization?
+        public let ec2ResourceUtilization: EC2ResourceUtilization?
 
-        public init(eC2ResourceUtilization: EC2ResourceUtilization? = nil) {
-            self.eC2ResourceUtilization = eC2ResourceUtilization
+        public init(ec2ResourceUtilization: EC2ResourceUtilization? = nil) {
+            self.ec2ResourceUtilization = ec2ResourceUtilization
         }
 
         private enum CodingKeys: String, CodingKey {
-            case eC2ResourceUtilization = "EC2ResourceUtilization"
+            case ec2ResourceUtilization = "EC2ResourceUtilization"
         }
     }
 
@@ -3931,14 +3931,14 @@ extension CostExplorer {
 
     public struct ServiceSpecification: AWSEncodableShape & AWSDecodableShape {
         /// The Amazon EC2 hardware specifications that you want Amazon Web Services to provide recommendations for.
-        public let eC2Specification: EC2Specification?
+        public let ec2Specification: EC2Specification?
 
-        public init(eC2Specification: EC2Specification? = nil) {
-            self.eC2Specification = eC2Specification
+        public init(ec2Specification: EC2Specification? = nil) {
+            self.ec2Specification = ec2Specification
         }
 
         private enum CodingKeys: String, CodingKey {
-            case eC2Specification = "EC2Specification"
+            case ec2Specification = "EC2Specification"
         }
     }
 

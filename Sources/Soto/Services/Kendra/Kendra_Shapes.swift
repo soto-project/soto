@@ -155,8 +155,8 @@ extension Kendra {
     }
 
     public enum ErrorCode: String, CustomStringConvertible, Codable {
-        case internalerror = "InternalError"
-        case invalidrequest = "InvalidRequest"
+        case internalError = "InternalError"
+        case invalidRequest = "InvalidRequest"
         public var description: String { return self.rawValue }
     }
 

@@ -22,44 +22,44 @@ extension SES {
     // MARK: Enums
 
     public enum BehaviorOnMXFailure: String, CustomStringConvertible, Codable {
-        case rejectmessage = "RejectMessage"
-        case usedefaultvalue = "UseDefaultValue"
+        case rejectMessage = "RejectMessage"
+        case useDefaultValue = "UseDefaultValue"
         public var description: String { return self.rawValue }
     }
 
     public enum BounceType: String, CustomStringConvertible, Codable {
-        case contentrejected = "ContentRejected"
-        case doesnotexist = "DoesNotExist"
-        case exceededquota = "ExceededQuota"
-        case messagetoolarge = "MessageTooLarge"
-        case temporaryfailure = "TemporaryFailure"
+        case contentRejected = "ContentRejected"
+        case doesNotExist = "DoesNotExist"
+        case exceededQuota = "ExceededQuota"
+        case messageTooLarge = "MessageTooLarge"
+        case temporaryFailure = "TemporaryFailure"
         case undefined = "Undefined"
         public var description: String { return self.rawValue }
     }
 
     public enum BulkEmailStatus: String, CustomStringConvertible, Codable {
-        case accountdailyquotaexceeded = "AccountDailyQuotaExceeded"
-        case accountsendingpaused = "AccountSendingPaused"
-        case accountsuspended = "AccountSuspended"
-        case accountthrottled = "AccountThrottled"
-        case configurationsetdoesnotexist = "ConfigurationSetDoesNotExist"
-        case configurationsetsendingpaused = "ConfigurationSetSendingPaused"
+        case accountDailyQuotaExceeded = "AccountDailyQuotaExceeded"
+        case accountSendingPaused = "AccountSendingPaused"
+        case accountSuspended = "AccountSuspended"
+        case accountThrottled = "AccountThrottled"
+        case configurationSetDoesNotExist = "ConfigurationSetDoesNotExist"
+        case configurationSetSendingPaused = "ConfigurationSetSendingPaused"
         case failed = "Failed"
-        case invalidparametervalue = "InvalidParameterValue"
-        case invalidsendingpoolname = "InvalidSendingPoolName"
-        case mailfromdomainnotverified = "MailFromDomainNotVerified"
-        case messagerejected = "MessageRejected"
+        case invalidParameterValue = "InvalidParameterValue"
+        case invalidSendingPoolName = "InvalidSendingPoolName"
+        case mailFromDomainNotVerified = "MailFromDomainNotVerified"
+        case messageRejected = "MessageRejected"
         case success = "Success"
-        case templatedoesnotexist = "TemplateDoesNotExist"
-        case transientfailure = "TransientFailure"
+        case templateDoesNotExist = "TemplateDoesNotExist"
+        case transientFailure = "TransientFailure"
         public var description: String { return self.rawValue }
     }
 
     public enum ConfigurationSetAttribute: String, CustomStringConvertible, Codable {
-        case deliveryoptions = "deliveryOptions"
-        case eventdestinations = "eventDestinations"
-        case reputationoptions = "reputationOptions"
-        case trackingoptions = "trackingOptions"
+        case deliveryOptions
+        case eventDestinations
+        case reputationOptions
+        case trackingOptions
         public var description: String { return self.rawValue }
     }
 
@@ -67,14 +67,14 @@ extension SES {
         case failed = "Failed"
         case pending = "Pending"
         case success = "Success"
-        case temporaryfailure = "TemporaryFailure"
+        case temporaryFailure = "TemporaryFailure"
         public var description: String { return self.rawValue }
     }
 
     public enum DimensionValueSource: String, CustomStringConvertible, Codable {
-        case emailheader = "emailHeader"
-        case linktag = "linkTag"
-        case messagetag = "messageTag"
+        case emailHeader
+        case linkTag
+        case messageTag
         public var description: String { return self.rawValue }
     }
 
@@ -94,20 +94,20 @@ extension SES {
         case delivery
         case open
         case reject
-        case renderingfailure = "renderingFailure"
+        case renderingFailure
         case send
         public var description: String { return self.rawValue }
     }
 
     public enum IdentityType: String, CustomStringConvertible, Codable {
         case domain = "Domain"
-        case emailaddress = "EmailAddress"
+        case emailAddress = "EmailAddress"
         public var description: String { return self.rawValue }
     }
 
     public enum InvocationType: String, CustomStringConvertible, Codable {
         case event = "Event"
-        case requestresponse = "RequestResponse"
+        case requestResponse = "RequestResponse"
         public var description: String { return self.rawValue }
     }
 
@@ -131,7 +131,7 @@ extension SES {
     }
 
     public enum StopScope: String, CustomStringConvertible, Codable {
-        case ruleset = "RuleSet"
+        case ruleSet = "RuleSet"
         public var description: String { return self.rawValue }
     }
 
@@ -143,10 +143,10 @@ extension SES {
 
     public enum VerificationStatus: String, CustomStringConvertible, Codable {
         case failed = "Failed"
-        case notstarted = "NotStarted"
+        case notStarted = "NotStarted"
         case pending = "Pending"
         case success = "Success"
-        case temporaryfailure = "TemporaryFailure"
+        case temporaryFailure = "TemporaryFailure"
         public var description: String { return self.rawValue }
     }
 
@@ -944,15 +944,15 @@ extension SES {
         /// The name of the event destination. The name must:   This value can only contain ASCII letters (a-z, A-Z), numbers (0-9), underscores (_), or dashes (-).   Contain less than 64 characters.
         public let name: String
         /// An object that contains the topic ARN associated with an Amazon Simple Notification Service (Amazon SNS) event destination.
-        public let sNSDestination: SNSDestination?
+        public let snsDestination: SNSDestination?
 
-        public init(cloudWatchDestination: CloudWatchDestination? = nil, enabled: Bool? = nil, kinesisFirehoseDestination: KinesisFirehoseDestination? = nil, matchingEventTypes: [EventType], name: String, sNSDestination: SNSDestination? = nil) {
+        public init(cloudWatchDestination: CloudWatchDestination? = nil, enabled: Bool? = nil, kinesisFirehoseDestination: KinesisFirehoseDestination? = nil, matchingEventTypes: [EventType], name: String, snsDestination: SNSDestination? = nil) {
             self.cloudWatchDestination = cloudWatchDestination
             self.enabled = enabled
             self.kinesisFirehoseDestination = kinesisFirehoseDestination
             self.matchingEventTypes = matchingEventTypes
             self.name = name
-            self.sNSDestination = sNSDestination
+            self.snsDestination = snsDestination
         }
 
         private enum CodingKeys: String, CodingKey {
@@ -961,7 +961,7 @@ extension SES {
             case kinesisFirehoseDestination = "KinesisFirehoseDestination"
             case matchingEventTypes = "MatchingEventTypes"
             case name = "Name"
-            case sNSDestination = "SNSDestination"
+            case snsDestination = "SNSDestination"
         }
     }
 
@@ -1353,16 +1353,16 @@ extension SES {
         /// The ARN of the Amazon Kinesis Firehose stream that email sending events should be published to.
         public let deliveryStreamARN: String
         /// The ARN of the IAM role under which Amazon SES publishes email sending events to the Amazon Kinesis Firehose stream.
-        public let iAMRoleARN: String
+        public let iamRoleARN: String
 
-        public init(deliveryStreamARN: String, iAMRoleARN: String) {
+        public init(deliveryStreamARN: String, iamRoleARN: String) {
             self.deliveryStreamARN = deliveryStreamARN
-            self.iAMRoleARN = iAMRoleARN
+            self.iamRoleARN = iamRoleARN
         }
 
         private enum CodingKeys: String, CodingKey {
             case deliveryStreamARN = "DeliveryStreamARN"
-            case iAMRoleARN = "IAMRoleARN"
+            case iamRoleARN = "IAMRoleARN"
         }
     }
 
@@ -1757,18 +1757,18 @@ extension SES {
         /// Saves the received message to an Amazon Simple Storage Service (Amazon S3) bucket and, optionally, publishes a notification to Amazon SNS.
         public let s3Action: S3Action?
         /// Publishes the email content within a notification to Amazon SNS.
-        public let sNSAction: SNSAction?
+        public let snsAction: SNSAction?
         /// Terminates the evaluation of the receipt rule set and optionally publishes a notification to Amazon SNS.
         public let stopAction: StopAction?
         /// Calls Amazon WorkMail and, optionally, publishes a notification to Amazon Amazon SNS.
         public let workmailAction: WorkmailAction?
 
-        public init(addHeaderAction: AddHeaderAction? = nil, bounceAction: BounceAction? = nil, lambdaAction: LambdaAction? = nil, s3Action: S3Action? = nil, sNSAction: SNSAction? = nil, stopAction: StopAction? = nil, workmailAction: WorkmailAction? = nil) {
+        public init(addHeaderAction: AddHeaderAction? = nil, bounceAction: BounceAction? = nil, lambdaAction: LambdaAction? = nil, s3Action: S3Action? = nil, snsAction: SNSAction? = nil, stopAction: StopAction? = nil, workmailAction: WorkmailAction? = nil) {
             self.addHeaderAction = addHeaderAction
             self.bounceAction = bounceAction
             self.lambdaAction = lambdaAction
             self.s3Action = s3Action
-            self.sNSAction = sNSAction
+            self.snsAction = snsAction
             self.stopAction = stopAction
             self.workmailAction = workmailAction
         }
@@ -1778,7 +1778,7 @@ extension SES {
             case bounceAction = "BounceAction"
             case lambdaAction = "LambdaAction"
             case s3Action = "S3Action"
-            case sNSAction = "SNSAction"
+            case snsAction = "SNSAction"
             case stopAction = "StopAction"
             case workmailAction = "WorkmailAction"
         }

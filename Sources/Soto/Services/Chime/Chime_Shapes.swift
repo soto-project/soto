@@ -28,16 +28,16 @@ extension Chime {
     }
 
     public enum AccountType: String, CustomStringConvertible, Codable {
-        case enterprisedirectory = "EnterpriseDirectory"
-        case enterpriselwa = "EnterpriseLWA"
-        case enterpriseoidc = "EnterpriseOIDC"
+        case enterpriseDirectory = "EnterpriseDirectory"
+        case enterpriseLWA = "EnterpriseLWA"
+        case enterpriseOIDC = "EnterpriseOIDC"
         case team = "Team"
         public var description: String { return self.rawValue }
     }
 
     public enum AppInstanceDataType: String, CustomStringConvertible, Codable {
         case channel = "Channel"
-        case channelmessage = "ChannelMessage"
+        case channelMessage = "ChannelMessage"
         public var description: String { return self.rawValue }
     }
 
@@ -48,21 +48,21 @@ extension Chime {
     }
 
     public enum AudioMuxType: String, CustomStringConvertible, Codable {
-        case audioonly = "AudioOnly"
-        case audiowithactivespeakervideo = "AudioWithActiveSpeakerVideo"
+        case audioOnly = "AudioOnly"
+        case audioWithActiveSpeakerVideo = "AudioWithActiveSpeakerVideo"
         public var description: String { return self.rawValue }
     }
 
     public enum BotType: String, CustomStringConvertible, Codable {
-        case chatbot = "ChatBot"
+        case chatBot = "ChatBot"
         public var description: String { return self.rawValue }
     }
 
     public enum CallingNameStatus: String, CustomStringConvertible, Codable {
         case unassigned = "Unassigned"
-        case updatefailed = "UpdateFailed"
-        case updateinprogress = "UpdateInProgress"
-        case updatesucceeded = "UpdateSucceeded"
+        case updateFailed = "UpdateFailed"
+        case updateInProgress = "UpdateInProgress"
+        case updateSucceeded = "UpdateSucceeded"
         public var description: String { return self.rawValue }
     }
 
@@ -103,38 +103,38 @@ extension Chime {
     }
 
     public enum ContentMuxType: String, CustomStringConvertible, Codable {
-        case contentonly = "ContentOnly"
+        case contentOnly = "ContentOnly"
         public var description: String { return self.rawValue }
     }
 
     public enum EmailStatus: String, CustomStringConvertible, Codable {
         case failed = "Failed"
-        case notsent = "NotSent"
+        case notSent = "NotSent"
         case sent = "Sent"
         public var description: String { return self.rawValue }
     }
 
     public enum ErrorCode: String, CustomStringConvertible, Codable {
-        case accessdenied = "AccessDenied"
-        case badrequest = "BadRequest"
+        case accessDenied = "AccessDenied"
+        case badRequest = "BadRequest"
         case conflict = "Conflict"
         case forbidden = "Forbidden"
-        case notfound = "NotFound"
-        case phonenumberassociationsexist = "PhoneNumberAssociationsExist"
-        case preconditionfailed = "PreconditionFailed"
-        case resourcelimitexceeded = "ResourceLimitExceeded"
-        case servicefailure = "ServiceFailure"
-        case serviceunavailable = "ServiceUnavailable"
+        case notFound = "NotFound"
+        case phoneNumberAssociationsExist = "PhoneNumberAssociationsExist"
+        case preconditionFailed = "PreconditionFailed"
+        case resourceLimitExceeded = "ResourceLimitExceeded"
+        case serviceFailure = "ServiceFailure"
+        case serviceUnavailable = "ServiceUnavailable"
         case throttled = "Throttled"
         case throttling = "Throttling"
         case unauthorized = "Unauthorized"
         case unprocessable = "Unprocessable"
-        case voiceconnectorgroupassociationsexist = "VoiceConnectorGroupAssociationsExist"
+        case voiceConnectorGroupAssociationsExist = "VoiceConnectorGroupAssociationsExist"
         public var description: String { return self.rawValue }
     }
 
     public enum GeoMatchLevel: String, CustomStringConvertible, Codable {
-        case areacode = "AreaCode"
+        case areaCode = "AreaCode"
         case country = "Country"
         public var description: String { return self.rawValue }
     }
@@ -150,23 +150,23 @@ extension Chime {
         case basic = "Basic"
         case plus = "Plus"
         case pro = "Pro"
-        case protrial = "ProTrial"
+        case proTrial = "ProTrial"
         public var description: String { return self.rawValue }
     }
 
     public enum MediaPipelineSinkType: String, CustomStringConvertible, Codable {
-        case s3bucket = "S3Bucket"
+        case s3Bucket = "S3Bucket"
         public var description: String { return self.rawValue }
     }
 
     public enum MediaPipelineSourceType: String, CustomStringConvertible, Codable {
-        case chimesdkmeeting = "ChimeSdkMeeting"
+        case chimeSdkMeeting = "ChimeSdkMeeting"
         public var description: String { return self.rawValue }
     }
 
     public enum MediaPipelineStatus: String, CustomStringConvertible, Codable {
         case failed = "Failed"
-        case inprogress = "InProgress"
+        case inProgress = "InProgress"
         case initializing = "Initializing"
         case stopped = "Stopped"
         case stopping = "Stopping"
@@ -181,15 +181,15 @@ extension Chime {
     }
 
     public enum NotificationTarget: String, CustomStringConvertible, Codable {
-        case eventbridge = "EventBridge"
+        case eventBridge = "EventBridge"
         case sns = "SNS"
         case sqs = "SQS"
         public var description: String { return self.rawValue }
     }
 
     public enum NumberSelectionBehavior: String, CustomStringConvertible, Codable {
-        case avoidsticky = "AvoidSticky"
-        case prefersticky = "PreferSticky"
+        case avoidSticky = "AvoidSticky"
+        case preferSticky = "PreferSticky"
         public var description: String { return self.rawValue }
     }
 
@@ -207,11 +207,11 @@ extension Chime {
     }
 
     public enum PhoneNumberAssociationName: String, CustomStringConvertible, Codable {
-        case accountid = "AccountId"
-        case sipruleid = "SipRuleId"
-        case userid = "UserId"
-        case voiceconnectorgroupid = "VoiceConnectorGroupId"
-        case voiceconnectorid = "VoiceConnectorId"
+        case accountId = "AccountId"
+        case sipRuleId = "SipRuleId"
+        case userId = "UserId"
+        case voiceConnectorGroupId = "VoiceConnectorGroupId"
+        case voiceConnectorId = "VoiceConnectorId"
         public var description: String { return self.rawValue }
     }
 
@@ -224,33 +224,33 @@ extension Chime {
     }
 
     public enum PhoneNumberProductType: String, CustomStringConvertible, Codable {
-        case businesscalling = "BusinessCalling"
-        case sipmediaapplicationdialin = "SipMediaApplicationDialIn"
-        case voiceconnector = "VoiceConnector"
+        case businessCalling = "BusinessCalling"
+        case sipMediaApplicationDialIn = "SipMediaApplicationDialIn"
+        case voiceConnector = "VoiceConnector"
         public var description: String { return self.rawValue }
     }
 
     public enum PhoneNumberStatus: String, CustomStringConvertible, Codable {
-        case acquirefailed = "AcquireFailed"
-        case acquireinprogress = "AcquireInProgress"
+        case acquireFailed = "AcquireFailed"
+        case acquireInProgress = "AcquireInProgress"
         case assigned = "Assigned"
-        case deletefailed = "DeleteFailed"
-        case deleteinprogress = "DeleteInProgress"
-        case releasefailed = "ReleaseFailed"
-        case releaseinprogress = "ReleaseInProgress"
+        case deleteFailed = "DeleteFailed"
+        case deleteInProgress = "DeleteInProgress"
+        case releaseFailed = "ReleaseFailed"
+        case releaseInProgress = "ReleaseInProgress"
         case unassigned = "Unassigned"
         public var description: String { return self.rawValue }
     }
 
     public enum PhoneNumberType: String, CustomStringConvertible, Codable {
         case local = "Local"
-        case tollfree = "TollFree"
+        case tollFree = "TollFree"
         public var description: String { return self.rawValue }
     }
 
     public enum ProxySessionStatus: String, CustomStringConvertible, Codable {
         case closed = "Closed"
-        case inprogress = "InProgress"
+        case inProgress = "InProgress"
         case open = "Open"
         public var description: String { return self.rawValue }
     }
@@ -269,8 +269,8 @@ extension Chime {
     }
 
     public enum SipRuleTriggerType: String, CustomStringConvertible, Codable {
-        case requesturihostname = "RequestUriHostname"
-        case tophonenumber = "ToPhoneNumber"
+        case requestUriHostname = "RequestUriHostname"
+        case toPhoneNumber = "ToPhoneNumber"
         public var description: String { return self.rawValue }
     }
 
@@ -291,18 +291,18 @@ extension Chime {
     }
 
     public enum TranscribeLanguageCode: String, CustomStringConvertible, Codable {
-        case deDe = "de-DE"
-        case enAu = "en-AU"
-        case enGb = "en-GB"
-        case enUs = "en-US"
-        case esUs = "es-US"
-        case frCa = "fr-CA"
-        case frFr = "fr-FR"
-        case itIt = "it-IT"
-        case jaJp = "ja-JP"
-        case koKr = "ko-KR"
-        case ptBr = "pt-BR"
-        case zhCn = "zh-CN"
+        case deDE = "de-DE"
+        case enAU = "en-AU"
+        case enGB = "en-GB"
+        case enUS = "en-US"
+        case esUS = "es-US"
+        case frCA = "fr-CA"
+        case frFR = "fr-FR"
+        case itIT = "it-IT"
+        case jaJP = "ja-JP"
+        case koKR = "ko-KR"
+        case ptBR = "pt-BR"
+        case zhCN = "zh-CN"
         public var description: String { return self.rawValue }
     }
 
@@ -312,7 +312,7 @@ extension Chime {
     }
 
     public enum TranscribeMedicalLanguageCode: String, CustomStringConvertible, Codable {
-        case enUs = "en-US"
+        case enUS = "en-US"
         public var description: String { return self.rawValue }
     }
 
@@ -374,13 +374,13 @@ extension Chime {
     }
 
     public enum UserType: String, CustomStringConvertible, Codable {
-        case privateuser = "PrivateUser"
-        case shareddevice = "SharedDevice"
+        case privateUser = "PrivateUser"
+        case sharedDevice = "SharedDevice"
         public var description: String { return self.rawValue }
     }
 
     public enum VideoMuxType: String, CustomStringConvertible, Codable {
-        case videoonly = "VideoOnly"
+        case videoOnly = "VideoOnly"
         public var description: String { return self.rawValue }
     }
 

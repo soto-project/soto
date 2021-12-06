@@ -1585,20 +1585,20 @@ extension Glue {
         /// A classifier for JSON content.
         public let jsonClassifier: JsonClassifier?
         /// A classifier for XML content.
-        public let xMLClassifier: XMLClassifier?
+        public let xmlClassifier: XMLClassifier?
 
-        public init(csvClassifier: CsvClassifier? = nil, grokClassifier: GrokClassifier? = nil, jsonClassifier: JsonClassifier? = nil, xMLClassifier: XMLClassifier? = nil) {
+        public init(csvClassifier: CsvClassifier? = nil, grokClassifier: GrokClassifier? = nil, jsonClassifier: JsonClassifier? = nil, xmlClassifier: XMLClassifier? = nil) {
             self.csvClassifier = csvClassifier
             self.grokClassifier = grokClassifier
             self.jsonClassifier = jsonClassifier
-            self.xMLClassifier = xMLClassifier
+            self.xmlClassifier = xmlClassifier
         }
 
         private enum CodingKeys: String, CodingKey {
             case csvClassifier = "CsvClassifier"
             case grokClassifier = "GrokClassifier"
             case jsonClassifier = "JsonClassifier"
-            case xMLClassifier = "XMLClassifier"
+            case xmlClassifier = "XMLClassifier"
         }
     }
 
@@ -2352,27 +2352,27 @@ extension Glue {
         /// A JsonClassifier object specifying the classifier to create.
         public let jsonClassifier: CreateJsonClassifierRequest?
         /// An XMLClassifier object specifying the classifier to create.
-        public let xMLClassifier: CreateXMLClassifierRequest?
+        public let xmlClassifier: CreateXMLClassifierRequest?
 
-        public init(csvClassifier: CreateCsvClassifierRequest? = nil, grokClassifier: CreateGrokClassifierRequest? = nil, jsonClassifier: CreateJsonClassifierRequest? = nil, xMLClassifier: CreateXMLClassifierRequest? = nil) {
+        public init(csvClassifier: CreateCsvClassifierRequest? = nil, grokClassifier: CreateGrokClassifierRequest? = nil, jsonClassifier: CreateJsonClassifierRequest? = nil, xmlClassifier: CreateXMLClassifierRequest? = nil) {
             self.csvClassifier = csvClassifier
             self.grokClassifier = grokClassifier
             self.jsonClassifier = jsonClassifier
-            self.xMLClassifier = xMLClassifier
+            self.xmlClassifier = xmlClassifier
         }
 
         public func validate(name: String) throws {
             try self.csvClassifier?.validate(name: "\(name).csvClassifier")
             try self.grokClassifier?.validate(name: "\(name).grokClassifier")
             try self.jsonClassifier?.validate(name: "\(name).jsonClassifier")
-            try self.xMLClassifier?.validate(name: "\(name).xMLClassifier")
+            try self.xmlClassifier?.validate(name: "\(name).xmlClassifier")
         }
 
         private enum CodingKeys: String, CodingKey {
             case csvClassifier = "CsvClassifier"
             case grokClassifier = "GrokClassifier"
             case jsonClassifier = "JsonClassifier"
-            case xMLClassifier = "XMLClassifier"
+            case xmlClassifier = "XMLClassifier"
         }
     }
 
@@ -12165,27 +12165,27 @@ extension Glue {
         /// A JsonClassifier object with updated fields.
         public let jsonClassifier: UpdateJsonClassifierRequest?
         /// An XMLClassifier object with updated fields.
-        public let xMLClassifier: UpdateXMLClassifierRequest?
+        public let xmlClassifier: UpdateXMLClassifierRequest?
 
-        public init(csvClassifier: UpdateCsvClassifierRequest? = nil, grokClassifier: UpdateGrokClassifierRequest? = nil, jsonClassifier: UpdateJsonClassifierRequest? = nil, xMLClassifier: UpdateXMLClassifierRequest? = nil) {
+        public init(csvClassifier: UpdateCsvClassifierRequest? = nil, grokClassifier: UpdateGrokClassifierRequest? = nil, jsonClassifier: UpdateJsonClassifierRequest? = nil, xmlClassifier: UpdateXMLClassifierRequest? = nil) {
             self.csvClassifier = csvClassifier
             self.grokClassifier = grokClassifier
             self.jsonClassifier = jsonClassifier
-            self.xMLClassifier = xMLClassifier
+            self.xmlClassifier = xmlClassifier
         }
 
         public func validate(name: String) throws {
             try self.csvClassifier?.validate(name: "\(name).csvClassifier")
             try self.grokClassifier?.validate(name: "\(name).grokClassifier")
             try self.jsonClassifier?.validate(name: "\(name).jsonClassifier")
-            try self.xMLClassifier?.validate(name: "\(name).xMLClassifier")
+            try self.xmlClassifier?.validate(name: "\(name).xmlClassifier")
         }
 
         private enum CodingKeys: String, CodingKey {
             case csvClassifier = "CsvClassifier"
             case grokClassifier = "GrokClassifier"
             case jsonClassifier = "JsonClassifier"
-            case xMLClassifier = "XMLClassifier"
+            case xmlClassifier = "XMLClassifier"
         }
     }
 

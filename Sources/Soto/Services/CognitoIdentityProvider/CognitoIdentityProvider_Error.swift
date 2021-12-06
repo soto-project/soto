@@ -38,7 +38,7 @@ public struct CognitoIdentityProviderErrorType: AWSErrorType {
         case invalidSmsRoleTrustRelationshipException = "InvalidSmsRoleTrustRelationshipException"
         case invalidUserPoolConfigurationException = "InvalidUserPoolConfigurationException"
         case limitExceededException = "LimitExceededException"
-        case mFAMethodNotFoundException = "MFAMethodNotFoundException"
+        case mfaMethodNotFoundException = "MFAMethodNotFoundException"
         case notAuthorizedException = "NotAuthorizedException"
         case passwordResetRequiredException = "PasswordResetRequiredException"
         case preconditionNotMetException = "PreconditionNotMetException"
@@ -117,7 +117,7 @@ public struct CognitoIdentityProviderErrorType: AWSErrorType {
     /// This exception is thrown when a user exceeds the limit for a requested Amazon Web Services resource.
     public static var limitExceededException: Self { .init(.limitExceededException) }
     /// This exception is thrown when Amazon Cognito cannot find a multi-factor authentication (MFA) method.
-    public static var mFAMethodNotFoundException: Self { .init(.mFAMethodNotFoundException) }
+    public static var mfaMethodNotFoundException: Self { .init(.mfaMethodNotFoundException) }
     /// This exception is thrown when a user is not authorized.
     public static var notAuthorizedException: Self { .init(.notAuthorizedException) }
     /// This exception is thrown when a password reset is required.

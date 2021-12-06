@@ -22,9 +22,9 @@ extension S3Control {
     // MARK: Enums
 
     public enum AsyncOperationName: String, CustomStringConvertible, Codable {
-        case createmultiregionaccesspoint = "CreateMultiRegionAccessPoint"
-        case deletemultiregionaccesspoint = "DeleteMultiRegionAccessPoint"
-        case putmultiregionaccesspointpolicy = "PutMultiRegionAccessPointPolicy"
+        case createMultiRegionAccessPoint = "CreateMultiRegionAccessPoint"
+        case deleteMultiRegionAccessPoint = "DeleteMultiRegionAccessPoint"
+        case putMultiRegionAccessPointPolicy = "PutMultiRegionAccessPointPolicy"
         public var description: String { return self.rawValue }
     }
 
@@ -73,24 +73,24 @@ extension S3Control {
         case bucket = "Bucket"
         case ignore = "Ignore"
         case key = "Key"
-        case versionid = "VersionId"
+        case versionId = "VersionId"
         public var description: String { return self.rawValue }
     }
 
     public enum JobManifestFormat: String, CustomStringConvertible, Codable {
-        case s3batchoperationsCsv20180820 = "S3BatchOperations_CSV_20180820"
-        case s3inventoryreportCsv20161130 = "S3InventoryReport_CSV_20161130"
+        case s3BatchOperationsCSV20180820 = "S3BatchOperations_CSV_20180820"
+        case s3InventoryReportCSV20161130 = "S3InventoryReport_CSV_20161130"
         public var description: String { return self.rawValue }
     }
 
     public enum JobReportFormat: String, CustomStringConvertible, Codable {
-        case reportCsv20180820 = "Report_CSV_20180820"
+        case reportCSV20180820 = "Report_CSV_20180820"
         public var description: String { return self.rawValue }
     }
 
     public enum JobReportScope: String, CustomStringConvertible, Codable {
-        case alltasks = "AllTasks"
-        case failedtasksonly = "FailedTasksOnly"
+        case allTasks = "AllTasks"
+        case failedTasksOnly = "FailedTasksOnly"
         public var description: String { return self.rawValue }
     }
 
@@ -128,25 +128,25 @@ extension S3Control {
     }
 
     public enum ObjectLambdaAllowedFeature: String, CustomStringConvertible, Codable {
-        case getobjectPartnumber = "GetObject-PartNumber"
-        case getobjectRange = "GetObject-Range"
+        case getObjectPartnumber = "GetObject-PartNumber"
+        case getObjectRange = "GetObject-Range"
         public var description: String { return self.rawValue }
     }
 
     public enum ObjectLambdaTransformationConfigurationAction: String, CustomStringConvertible, Codable {
-        case getobject = "GetObject"
+        case getObject = "GetObject"
         public var description: String { return self.rawValue }
     }
 
     public enum OperationName: String, CustomStringConvertible, Codable {
-        case lambdainvoke = "LambdaInvoke"
-        case s3deleteobjecttagging = "S3DeleteObjectTagging"
-        case s3initiaterestoreobject = "S3InitiateRestoreObject"
-        case s3putobjectacl = "S3PutObjectAcl"
-        case s3putobjectcopy = "S3PutObjectCopy"
-        case s3putobjectlegalhold = "S3PutObjectLegalHold"
-        case s3putobjectretention = "S3PutObjectRetention"
-        case s3putobjecttagging = "S3PutObjectTagging"
+        case lambdaInvoke = "LambdaInvoke"
+        case s3DeleteObjectTagging = "S3DeleteObjectTagging"
+        case s3InitiateRestoreObject = "S3InitiateRestoreObject"
+        case s3PutObjectAcl = "S3PutObjectAcl"
+        case s3PutObjectCopy = "S3PutObjectCopy"
+        case s3PutObjectLegalHold = "S3PutObjectLegalHold"
+        case s3PutObjectRetention = "S3PutObjectRetention"
+        case s3PutObjectTagging = "S3PutObjectTagging"
         public var description: String { return self.rawValue }
     }
 
@@ -179,7 +179,7 @@ extension S3Control {
     }
 
     public enum S3GranteeTypeIdentifier: String, CustomStringConvertible, Codable {
-        case emailaddress = "emailAddress"
+        case emailAddress
         case id
         case uri
         public var description: String { return self.rawValue }
@@ -3878,7 +3878,7 @@ extension S3Control {
         /// Specifies an optional metadata property for website redirects, x-amz-website-redirect-location. Allows webpage redirects if the object is accessed through a website endpoint.
         public let redirectLocation: String?
         public let requesterPays: Bool?
-        public let sSEAwsKmsKeyId: String?
+        public let sseAwsKmsKeyId: String?
         public let storageClass: S3StorageClass?
         /// Specifies the folder prefix into which you would like the objects to be copied. For example, to copy objects into a folder named "Folder1" in the destination bucket, set the TargetKeyPrefix to "Folder1/".
         public let targetKeyPrefix: String?
@@ -3886,7 +3886,7 @@ extension S3Control {
         public let targetResource: String?
         public let unModifiedSinceConstraint: Date?
 
-        public init(accessControlGrants: [S3Grant]? = nil, bucketKeyEnabled: Bool? = nil, cannedAccessControlList: S3CannedAccessControlList? = nil, metadataDirective: S3MetadataDirective? = nil, modifiedSinceConstraint: Date? = nil, newObjectMetadata: S3ObjectMetadata? = nil, newObjectTagging: [S3Tag]? = nil, objectLockLegalHoldStatus: S3ObjectLockLegalHoldStatus? = nil, objectLockMode: S3ObjectLockMode? = nil, objectLockRetainUntilDate: Date? = nil, redirectLocation: String? = nil, requesterPays: Bool? = nil, sSEAwsKmsKeyId: String? = nil, storageClass: S3StorageClass? = nil, targetKeyPrefix: String? = nil, targetResource: String? = nil, unModifiedSinceConstraint: Date? = nil) {
+        public init(accessControlGrants: [S3Grant]? = nil, bucketKeyEnabled: Bool? = nil, cannedAccessControlList: S3CannedAccessControlList? = nil, metadataDirective: S3MetadataDirective? = nil, modifiedSinceConstraint: Date? = nil, newObjectMetadata: S3ObjectMetadata? = nil, newObjectTagging: [S3Tag]? = nil, objectLockLegalHoldStatus: S3ObjectLockLegalHoldStatus? = nil, objectLockMode: S3ObjectLockMode? = nil, objectLockRetainUntilDate: Date? = nil, redirectLocation: String? = nil, requesterPays: Bool? = nil, sseAwsKmsKeyId: String? = nil, storageClass: S3StorageClass? = nil, targetKeyPrefix: String? = nil, targetResource: String? = nil, unModifiedSinceConstraint: Date? = nil) {
             self.accessControlGrants = accessControlGrants
             self.bucketKeyEnabled = bucketKeyEnabled
             self.cannedAccessControlList = cannedAccessControlList
@@ -3899,7 +3899,7 @@ extension S3Control {
             self.objectLockRetainUntilDate = objectLockRetainUntilDate
             self.redirectLocation = redirectLocation
             self.requesterPays = requesterPays
-            self.sSEAwsKmsKeyId = sSEAwsKmsKeyId
+            self.sseAwsKmsKeyId = sseAwsKmsKeyId
             self.storageClass = storageClass
             self.targetKeyPrefix = targetKeyPrefix
             self.targetResource = targetResource
@@ -3916,8 +3916,8 @@ extension S3Control {
             }
             try self.validate(self.redirectLocation, name: "redirectLocation", parent: name, max: 2048)
             try self.validate(self.redirectLocation, name: "redirectLocation", parent: name, min: 1)
-            try self.validate(self.sSEAwsKmsKeyId, name: "sSEAwsKmsKeyId", parent: name, max: 2000)
-            try self.validate(self.sSEAwsKmsKeyId, name: "sSEAwsKmsKeyId", parent: name, min: 1)
+            try self.validate(self.sseAwsKmsKeyId, name: "sseAwsKmsKeyId", parent: name, max: 2000)
+            try self.validate(self.sseAwsKmsKeyId, name: "sseAwsKmsKeyId", parent: name, min: 1)
             try self.validate(self.targetKeyPrefix, name: "targetKeyPrefix", parent: name, max: 1024)
             try self.validate(self.targetKeyPrefix, name: "targetKeyPrefix", parent: name, min: 1)
             try self.validate(self.targetResource, name: "targetResource", parent: name, max: 128)
@@ -3938,7 +3938,7 @@ extension S3Control {
             case objectLockRetainUntilDate = "ObjectLockRetainUntilDate"
             case redirectLocation = "RedirectLocation"
             case requesterPays = "RequesterPays"
-            case sSEAwsKmsKeyId = "SSEAwsKmsKeyId"
+            case sseAwsKmsKeyId = "SSEAwsKmsKeyId"
             case storageClass = "StorageClass"
             case targetKeyPrefix = "TargetKeyPrefix"
             case targetResource = "TargetResource"
@@ -4038,11 +4038,11 @@ extension S3Control {
         public let contentType: String?
         public let httpExpiresDate: Date?
         public let requesterCharged: Bool?
-        public let sSEAlgorithm: S3SSEAlgorithm?
+        public let sseAlgorithm: S3SSEAlgorithm?
         @OptionalCustomCoding<StandardDictionaryCoder>
         public var userMetadata: [String: String]?
 
-        public init(cacheControl: String? = nil, contentDisposition: String? = nil, contentEncoding: String? = nil, contentLanguage: String? = nil, contentLength: Int64? = nil, contentMD5: String? = nil, contentType: String? = nil, httpExpiresDate: Date? = nil, requesterCharged: Bool? = nil, sSEAlgorithm: S3SSEAlgorithm? = nil, userMetadata: [String: String]? = nil) {
+        public init(cacheControl: String? = nil, contentDisposition: String? = nil, contentEncoding: String? = nil, contentLanguage: String? = nil, contentLength: Int64? = nil, contentMD5: String? = nil, contentType: String? = nil, httpExpiresDate: Date? = nil, requesterCharged: Bool? = nil, sseAlgorithm: S3SSEAlgorithm? = nil, userMetadata: [String: String]? = nil) {
             self.cacheControl = cacheControl
             self.contentDisposition = contentDisposition
             self.contentEncoding = contentEncoding
@@ -4052,7 +4052,7 @@ extension S3Control {
             self.contentType = contentType
             self.httpExpiresDate = httpExpiresDate
             self.requesterCharged = requesterCharged
-            self.sSEAlgorithm = sSEAlgorithm
+            self.sseAlgorithm = sseAlgorithm
             self.userMetadata = userMetadata
         }
 
@@ -4088,7 +4088,7 @@ extension S3Control {
             case contentType = "ContentType"
             case httpExpiresDate = "HttpExpiresDate"
             case requesterCharged = "RequesterCharged"
-            case sSEAlgorithm = "SSEAlgorithm"
+            case sseAlgorithm = "SSEAlgorithm"
             case userMetadata = "UserMetadata"
         }
     }

@@ -21,7 +21,7 @@ import SotoCore
 public struct CloudFormationErrorType: AWSErrorType {
     enum Code: String {
         case alreadyExistsException = "AlreadyExistsException"
-        case cFNRegistryException = "CFNRegistryException"
+        case cfnRegistryException = "CFNRegistryException"
         case changeSetNotFoundException = "ChangeSetNotFound"
         case createdButModifiedException = "CreatedButModifiedException"
         case insufficientCapabilitiesException = "InsufficientCapabilitiesException"
@@ -65,7 +65,7 @@ public struct CloudFormationErrorType: AWSErrorType {
     /// The resource with the name requested already exists.
     public static var alreadyExistsException: Self { .init(.alreadyExistsException) }
     /// An error occurred during a CloudFormation registry operation.
-    public static var cFNRegistryException: Self { .init(.cFNRegistryException) }
+    public static var cfnRegistryException: Self { .init(.cfnRegistryException) }
     /// The specified change set name or ID doesn't exit. To view valid change sets for a stack, use the ListChangeSets action.
     public static var changeSetNotFoundException: Self { .init(.changeSetNotFoundException) }
     /// The specified resource exists, but has been changed.

@@ -45,9 +45,9 @@ extension S3 {
             ifUnmodifiedSince: input.ifUnmodifiedSince,
             key: input.key,
             requestPayer: input.requestPayer,
-            sSECustomerAlgorithm: input.sSECustomerAlgorithm,
-            sSECustomerKey: input.sSECustomerKey,
-            sSECustomerKeyMD5: input.sSECustomerKeyMD5,
+            sseCustomerAlgorithm: input.sseCustomerAlgorithm,
+            sseCustomerKey: input.sseCustomerKey,
+            sseCustomerKeyMD5: input.sseCustomerKeyMD5,
             versionId: input.versionId
         )
         let object = try await headObject(headRequest, logger: logger, on: eventLoop)
@@ -62,9 +62,9 @@ extension S3 {
                 bucket: input.bucket,
                 key: input.key,
                 range: range,
-                sSECustomerAlgorithm: input.sSECustomerAlgorithm,
-                sSECustomerKey: input.sSECustomerKey,
-                sSECustomerKeyMD5: input.sSECustomerKeyMD5,
+                sseCustomerAlgorithm: input.sseCustomerAlgorithm,
+                sseCustomerKey: input.sseCustomerKey,
+                sseCustomerKeyMD5: input.sseCustomerKeyMD5,
                 versionId: input.versionId
             )
             return Task {
@@ -528,7 +528,7 @@ extension S3 {
         let objectSize = head.contentLength ?? 0
 
         // initialize multipart upload
-        let request: CreateMultipartUploadRequest = .init(acl: input.acl, bucket: input.bucket, cacheControl: input.cacheControl, contentDisposition: input.contentDisposition, contentEncoding: input.contentEncoding, contentLanguage: input.contentLanguage, contentType: input.contentType, expectedBucketOwner: input.expectedBucketOwner, expires: input.expires, grantFullControl: input.grantFullControl, grantRead: input.grantRead, grantReadACP: input.grantReadACP, grantWriteACP: input.grantWriteACP, key: input.key, metadata: input.metadata, objectLockLegalHoldStatus: input.objectLockLegalHoldStatus, objectLockMode: input.objectLockMode, objectLockRetainUntilDate: input.objectLockRetainUntilDate, requestPayer: input.requestPayer, serverSideEncryption: input.serverSideEncryption, sSECustomerAlgorithm: input.sSECustomerAlgorithm, sSECustomerKey: input.sSECustomerKey, sSECustomerKeyMD5: input.sSECustomerKeyMD5, sSEKMSEncryptionContext: input.sSEKMSEncryptionContext, sSEKMSKeyId: input.sSEKMSKeyId, storageClass: input.storageClass, tagging: input.tagging, websiteRedirectLocation: input.websiteRedirectLocation)
+        let request: CreateMultipartUploadRequest = .init(acl: input.acl, bucket: input.bucket, cacheControl: input.cacheControl, contentDisposition: input.contentDisposition, contentEncoding: input.contentEncoding, contentLanguage: input.contentLanguage, contentType: input.contentType, expectedBucketOwner: input.expectedBucketOwner, expires: input.expires, grantFullControl: input.grantFullControl, grantRead: input.grantRead, grantReadACP: input.grantReadACP, grantWriteACP: input.grantWriteACP, key: input.key, metadata: input.metadata, objectLockLegalHoldStatus: input.objectLockLegalHoldStatus, objectLockMode: input.objectLockMode, objectLockRetainUntilDate: input.objectLockRetainUntilDate, requestPayer: input.requestPayer, serverSideEncryption: input.serverSideEncryption, sseCustomerAlgorithm: input.sseCustomerAlgorithm, sseCustomerKey: input.sseCustomerKey, sseCustomerKeyMD5: input.sseCustomerKeyMD5, ssekmsEncryptionContext: input.ssekmsEncryptionContext, ssekmsKeyId: input.ssekmsKeyId, storageClass: input.storageClass, tagging: input.tagging, websiteRedirectLocation: input.websiteRedirectLocation)
         let uploadResponse = try await createMultipartUpload(request, logger: logger, on: eventLoop)
         guard let uploadId = uploadResponse.uploadId else {
             throw S3ErrorType.multipart.noUploadId
@@ -547,7 +547,7 @@ extension S3 {
                 } else {
                     copyRange = "bytes=\((part - 1) * partSize)-\((part - 1) * partSize + finalPartSize - 1)"
                 }
-                return .init(bucket: input.bucket, copySource: input.copySource, copySourceRange: copyRange, copySourceSSECustomerAlgorithm: input.copySourceSSECustomerAlgorithm, copySourceSSECustomerKey: input.copySourceSSECustomerKey, copySourceSSECustomerKeyMD5: input.copySourceSSECustomerKeyMD5, expectedBucketOwner: input.expectedBucketOwner, expectedSourceBucketOwner: input.expectedSourceBucketOwner, key: input.key, partNumber: part, requestPayer: input.requestPayer, sSECustomerAlgorithm: input.sSECustomerAlgorithm, sSECustomerKey: input.sSECustomerKey, sSECustomerKeyMD5: input.sSECustomerKeyMD5, uploadId: uploadId)
+                return .init(bucket: input.bucket, copySource: input.copySource, copySourceRange: copyRange, copySourceSSECustomerAlgorithm: input.copySourceSSECustomerAlgorithm, copySourceSSECustomerKey: input.copySourceSSECustomerKey, copySourceSSECustomerKeyMD5: input.copySourceSSECustomerKeyMD5, expectedBucketOwner: input.expectedBucketOwner, expectedSourceBucketOwner: input.expectedSourceBucketOwner, key: input.key, partNumber: part, requestPayer: input.requestPayer, sseCustomerAlgorithm: input.sseCustomerAlgorithm, sseCustomerKey: input.sseCustomerKey, sseCustomerKeyMD5: input.sseCustomerKeyMD5, uploadId: uploadId)
             }
             // send upload part copy requests to AWS
             let parts: [S3.CompletedPart] = try await uploadPartRequests.concurrentMap {
@@ -646,9 +646,9 @@ extension S3 {
                     key: input.key,
                     partNumber: partNumber,
                     requestPayer: input.requestPayer,
-                    sSECustomerAlgorithm: input.sSECustomerAlgorithm,
-                    sSECustomerKey: input.sSECustomerKey,
-                    sSECustomerKeyMD5: input.sSECustomerKeyMD5,
+                    sseCustomerAlgorithm: input.sseCustomerAlgorithm,
+                    sseCustomerKey: input.sseCustomerKey,
+                    sseCustomerKeyMD5: input.sseCustomerKeyMD5,
                     uploadId: uploadId
                 )
                 // request upload future

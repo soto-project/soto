@@ -737,9 +737,9 @@ extension GlobalAccelerator {
         /// The list of port ranges to support for connections from clients to your accelerator.
         public let portRanges: [PortRange]
         /// The protocol for connections from clients to your accelerator.
-        public let `protocol`: Protocol
+        public let `protocol`: `Protocol`
 
-        public init(acceleratorArn: String, clientAffinity: ClientAffinity? = nil, idempotencyToken: String = CreateListenerRequest.idempotencyToken(), portRanges: [PortRange], protocol: Protocol) {
+        public init(acceleratorArn: String, clientAffinity: ClientAffinity? = nil, idempotencyToken: String = CreateListenerRequest.idempotencyToken(), portRanges: [PortRange], protocol: `Protocol`) {
             self.acceleratorArn = acceleratorArn
             self.clientAffinity = clientAffinity
             self.idempotencyToken = idempotencyToken
@@ -895,11 +895,11 @@ extension GlobalAccelerator {
         /// The first port, inclusive, in the range of ports for the endpoint group that is associated with a custom routing accelerator.
         public let fromPort: Int?
         /// The protocol for the endpoint group that is associated with a custom routing accelerator. The protocol can be either TCP or UDP.
-        public let protocols: [Protocol]?
+        public let protocols: [`Protocol`]?
         /// The last port, inclusive, in the range of ports for the endpoint group that is associated with a custom routing accelerator.
         public let toPort: Int?
 
-        public init(fromPort: Int? = nil, protocols: [Protocol]? = nil, toPort: Int? = nil) {
+        public init(fromPort: Int? = nil, protocols: [`Protocol`]? = nil, toPort: Int? = nil) {
             self.fromPort = fromPort
             self.protocols = protocols
             self.toPort = toPort
@@ -2072,9 +2072,9 @@ extension GlobalAccelerator {
         /// The list of port ranges for the connections from clients to the accelerator.
         public let portRanges: [PortRange]?
         /// The protocol for the connections from clients to the accelerator.
-        public let `protocol`: Protocol?
+        public let `protocol`: `Protocol`?
 
-        public init(clientAffinity: ClientAffinity? = nil, listenerArn: String? = nil, portRanges: [PortRange]? = nil, protocol: Protocol? = nil) {
+        public init(clientAffinity: ClientAffinity? = nil, listenerArn: String? = nil, portRanges: [PortRange]? = nil, protocol: `Protocol`? = nil) {
             self.clientAffinity = clientAffinity
             self.listenerArn = listenerArn
             self.portRanges = portRanges
@@ -2688,9 +2688,9 @@ extension GlobalAccelerator {
         /// The updated list of port ranges for the connections from clients to the accelerator.
         public let portRanges: [PortRange]?
         /// The updated protocol for the connections from clients to the accelerator.
-        public let `protocol`: Protocol?
+        public let `protocol`: `Protocol`?
 
-        public init(clientAffinity: ClientAffinity? = nil, listenerArn: String, portRanges: [PortRange]? = nil, protocol: Protocol? = nil) {
+        public init(clientAffinity: ClientAffinity? = nil, listenerArn: String, portRanges: [PortRange]? = nil, protocol: `Protocol`? = nil) {
             self.clientAffinity = clientAffinity
             self.listenerArn = listenerArn
             self.portRanges = portRanges

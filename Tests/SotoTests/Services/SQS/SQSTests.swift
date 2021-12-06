@@ -99,10 +99,10 @@ class SQSTests: XCTestCase {
     func testGetQueueAttributes() {
         let name = TestEnvironment.generateResourceName()
         let response = self.testQueue(name: name) { queueUrl in
-            let request = SQS.GetQueueAttributesRequest(attributeNames: [.queuearn], queueUrl: queueUrl)
+            let request = SQS.GetQueueAttributesRequest(attributeNames: [.all], queueUrl: queueUrl)
             return Self.sqs.getQueueAttributes(request)
                 .map { response in
-                    XCTAssertNotNil(response.attributes?[.queuearn])
+                    XCTAssertNotNil(response.attributes?[.queueArn])
                 }
         }
         XCTAssertNoThrow(try response.wait())
@@ -128,7 +128,7 @@ class SQSTests: XCTestCase {
     func testError() {
         // get wrong error with LocalStack
         guard !TestEnvironment.isUsingLocalstack else { return }
-        let response = Self.sqs.addPermission(.init(actions: [], aWSAccountIds: [], label: "label", queueUrl: "http://aws-not-a-queue"))
+        let response = Self.sqs.addPermission(.init(actions: [], awsAccountIds: [], label: "label", queueUrl: "http://aws-not-a-queue"))
         XCTAssertThrowsError(try response.wait()) { error in
             switch error {
             case let error as SQSErrorType where error == .queueDoesNotExist:

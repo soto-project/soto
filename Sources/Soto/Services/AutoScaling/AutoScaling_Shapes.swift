@@ -90,7 +90,7 @@ extension AutoScaling {
         case cancelled = "Cancelled"
         case cancelling = "Cancelling"
         case failed = "Failed"
-        case inprogress = "InProgress"
+        case inProgress = "InProgress"
         case pending = "Pending"
         case successful = "Successful"
         public var description: String { return self.rawValue }
@@ -99,8 +99,8 @@ extension AutoScaling {
     public enum LifecycleState: String, CustomStringConvertible, Codable {
         case detached = "Detached"
         case detaching = "Detaching"
-        case enteringstandby = "EnteringStandby"
-        case inservice = "InService"
+        case enteringStandby = "EnteringStandby"
+        case inService = "InService"
         case pending = "Pending"
         case pendingProceed = "Pending:Proceed"
         case pendingWait = "Pending:Wait"
@@ -139,52 +139,52 @@ extension AutoScaling {
         case average = "Average"
         case maximum = "Maximum"
         case minimum = "Minimum"
-        case samplecount = "SampleCount"
+        case sampleCount = "SampleCount"
         case sum = "Sum"
         public var description: String { return self.rawValue }
     }
 
     public enum MetricType: String, CustomStringConvertible, Codable {
-        case albrequestcountpertarget = "ALBRequestCountPerTarget"
-        case asgaveragecpuutilization = "ASGAverageCPUUtilization"
-        case asgaveragenetworkin = "ASGAverageNetworkIn"
-        case asgaveragenetworkout = "ASGAverageNetworkOut"
+        case albRequestCountPerTarget = "ALBRequestCountPerTarget"
+        case asgAverageCPUUtilization = "ASGAverageCPUUtilization"
+        case asgAverageNetworkIn = "ASGAverageNetworkIn"
+        case asgAverageNetworkOut = "ASGAverageNetworkOut"
         public var description: String { return self.rawValue }
     }
 
     public enum PredefinedLoadMetricType: String, CustomStringConvertible, Codable {
-        case albtargetgrouprequestcount = "ALBTargetGroupRequestCount"
-        case asgtotalcpuutilization = "ASGTotalCPUUtilization"
-        case asgtotalnetworkin = "ASGTotalNetworkIn"
-        case asgtotalnetworkout = "ASGTotalNetworkOut"
+        case albTargetGroupRequestCount = "ALBTargetGroupRequestCount"
+        case asgTotalCPUUtilization = "ASGTotalCPUUtilization"
+        case asgTotalNetworkIn = "ASGTotalNetworkIn"
+        case asgTotalNetworkOut = "ASGTotalNetworkOut"
         public var description: String { return self.rawValue }
     }
 
     public enum PredefinedMetricPairType: String, CustomStringConvertible, Codable {
-        case albrequestcount = "ALBRequestCount"
-        case asgcpuutilization = "ASGCPUUtilization"
-        case asgnetworkin = "ASGNetworkIn"
-        case asgnetworkout = "ASGNetworkOut"
+        case albRequestCount = "ALBRequestCount"
+        case asgcpuUtilization = "ASGCPUUtilization"
+        case asgNetworkIn = "ASGNetworkIn"
+        case asgNetworkOut = "ASGNetworkOut"
         public var description: String { return self.rawValue }
     }
 
     public enum PredefinedScalingMetricType: String, CustomStringConvertible, Codable {
-        case albrequestcountpertarget = "ALBRequestCountPerTarget"
-        case asgaveragecpuutilization = "ASGAverageCPUUtilization"
-        case asgaveragenetworkin = "ASGAverageNetworkIn"
-        case asgaveragenetworkout = "ASGAverageNetworkOut"
+        case albRequestCountPerTarget = "ALBRequestCountPerTarget"
+        case asgAverageCPUUtilization = "ASGAverageCPUUtilization"
+        case asgAverageNetworkIn = "ASGAverageNetworkIn"
+        case asgAverageNetworkOut = "ASGAverageNetworkOut"
         public var description: String { return self.rawValue }
     }
 
     public enum PredictiveScalingMaxCapacityBreachBehavior: String, CustomStringConvertible, Codable {
-        case honormaxcapacity = "HonorMaxCapacity"
-        case increasemaxcapacity = "IncreaseMaxCapacity"
+        case honorMaxCapacity = "HonorMaxCapacity"
+        case increaseMaxCapacity = "IncreaseMaxCapacity"
         public var description: String { return self.rawValue }
     }
 
     public enum PredictiveScalingMode: String, CustomStringConvertible, Codable {
-        case forecastandscale = "ForecastAndScale"
-        case forecastonly = "ForecastOnly"
+        case forecastAndScale = "ForecastAndScale"
+        case forecastOnly = "ForecastOnly"
         public var description: String { return self.rawValue }
     }
 
@@ -196,16 +196,16 @@ extension AutoScaling {
     public enum ScalingActivityStatusCode: String, CustomStringConvertible, Codable {
         case cancelled = "Cancelled"
         case failed = "Failed"
-        case inprogress = "InProgress"
-        case midlifecycleaction = "MidLifecycleAction"
-        case pendingspotbidplacement = "PendingSpotBidPlacement"
-        case preinservice = "PreInService"
+        case inProgress = "InProgress"
+        case midLifecycleAction = "MidLifecycleAction"
+        case pendingSpotBidPlacement = "PendingSpotBidPlacement"
+        case preInService = "PreInService"
         case successful = "Successful"
-        case waitingforelbconnectiondraining = "WaitingForELBConnectionDraining"
-        case waitingforinstanceid = "WaitingForInstanceId"
-        case waitingforinstancewarmup = "WaitingForInstanceWarmup"
-        case waitingforspotinstanceid = "WaitingForSpotInstanceId"
-        case waitingforspotinstancerequestid = "WaitingForSpotInstanceRequestId"
+        case waitingForELBConnectionDraining = "WaitingForELBConnectionDraining"
+        case waitingForInstanceId = "WaitingForInstanceId"
+        case waitingForInstanceWarmup = "WaitingForInstanceWarmup"
+        case waitingForSpotInstanceId = "WaitingForSpotInstanceId"
+        case waitingForSpotInstanceRequestId = "WaitingForSpotInstanceRequestId"
         public var description: String { return self.rawValue }
     }
 
@@ -216,7 +216,7 @@ extension AutoScaling {
     }
 
     public enum WarmPoolStatus: String, CustomStringConvertible, Codable {
-        case pendingdelete = "PendingDelete"
+        case pendingDelete = "PendingDelete"
         public var description: String { return self.rawValue }
     }
 
@@ -547,13 +547,13 @@ extension AutoScaling {
         @OptionalCustomCoding<StandardArrayCoder>
         public var terminationPolicies: [String]?
         /// One or more subnet IDs, if applicable, separated by commas.
-        public let vPCZoneIdentifier: String?
+        public let vpcZoneIdentifier: String?
         /// The warm pool for the group.
         public let warmPoolConfiguration: WarmPoolConfiguration?
         /// The current size of the warm pool.
         public let warmPoolSize: Int?
 
-        public init(autoScalingGroupARN: String? = nil, autoScalingGroupName: String, availabilityZones: [String], capacityRebalance: Bool? = nil, context: String? = nil, createdTime: Date, defaultCooldown: Int, desiredCapacity: Int, desiredCapacityType: String? = nil, enabledMetrics: [EnabledMetric]? = nil, healthCheckGracePeriod: Int? = nil, healthCheckType: String, instances: [Instance]? = nil, launchConfigurationName: String? = nil, launchTemplate: LaunchTemplateSpecification? = nil, loadBalancerNames: [String]? = nil, maxInstanceLifetime: Int? = nil, maxSize: Int, minSize: Int, mixedInstancesPolicy: MixedInstancesPolicy? = nil, newInstancesProtectedFromScaleIn: Bool? = nil, placementGroup: String? = nil, predictedCapacity: Int? = nil, serviceLinkedRoleARN: String? = nil, status: String? = nil, suspendedProcesses: [SuspendedProcess]? = nil, tags: [TagDescription]? = nil, targetGroupARNs: [String]? = nil, terminationPolicies: [String]? = nil, vPCZoneIdentifier: String? = nil, warmPoolConfiguration: WarmPoolConfiguration? = nil, warmPoolSize: Int? = nil) {
+        public init(autoScalingGroupARN: String? = nil, autoScalingGroupName: String, availabilityZones: [String], capacityRebalance: Bool? = nil, context: String? = nil, createdTime: Date, defaultCooldown: Int, desiredCapacity: Int, desiredCapacityType: String? = nil, enabledMetrics: [EnabledMetric]? = nil, healthCheckGracePeriod: Int? = nil, healthCheckType: String, instances: [Instance]? = nil, launchConfigurationName: String? = nil, launchTemplate: LaunchTemplateSpecification? = nil, loadBalancerNames: [String]? = nil, maxInstanceLifetime: Int? = nil, maxSize: Int, minSize: Int, mixedInstancesPolicy: MixedInstancesPolicy? = nil, newInstancesProtectedFromScaleIn: Bool? = nil, placementGroup: String? = nil, predictedCapacity: Int? = nil, serviceLinkedRoleARN: String? = nil, status: String? = nil, suspendedProcesses: [SuspendedProcess]? = nil, tags: [TagDescription]? = nil, targetGroupARNs: [String]? = nil, terminationPolicies: [String]? = nil, vpcZoneIdentifier: String? = nil, warmPoolConfiguration: WarmPoolConfiguration? = nil, warmPoolSize: Int? = nil) {
             self.autoScalingGroupARN = autoScalingGroupARN
             self.autoScalingGroupName = autoScalingGroupName
             self.availabilityZones = availabilityZones
@@ -583,7 +583,7 @@ extension AutoScaling {
             self.tags = tags
             self.targetGroupARNs = targetGroupARNs
             self.terminationPolicies = terminationPolicies
-            self.vPCZoneIdentifier = vPCZoneIdentifier
+            self.vpcZoneIdentifier = vpcZoneIdentifier
             self.warmPoolConfiguration = warmPoolConfiguration
             self.warmPoolSize = warmPoolSize
         }
@@ -618,7 +618,7 @@ extension AutoScaling {
             case tags = "Tags"
             case targetGroupARNs = "TargetGroupARNs"
             case terminationPolicies = "TerminationPolicies"
-            case vPCZoneIdentifier = "VPCZoneIdentifier"
+            case vpcZoneIdentifier = "VPCZoneIdentifier"
             case warmPoolConfiguration = "WarmPoolConfiguration"
             case warmPoolSize = "WarmPoolSize"
         }
@@ -1043,9 +1043,9 @@ extension AutoScaling {
         @OptionalCustomCoding<StandardArrayCoder>
         public var terminationPolicies: [String]?
         /// A comma-separated list of subnet IDs for a virtual private cloud (VPC) where instances in the Auto Scaling group can be created. If you specify VPCZoneIdentifier with AvailabilityZones, the subnets that you specify for this parameter must reside in those Availability Zones. Conditional: If your account supports EC2-Classic and VPC, this parameter is required to launch instances into a VPC.
-        public let vPCZoneIdentifier: String?
+        public let vpcZoneIdentifier: String?
 
-        public init(autoScalingGroupName: String, availabilityZones: [String]? = nil, capacityRebalance: Bool? = nil, context: String? = nil, defaultCooldown: Int? = nil, desiredCapacity: Int? = nil, desiredCapacityType: String? = nil, healthCheckGracePeriod: Int? = nil, healthCheckType: String? = nil, instanceId: String? = nil, launchConfigurationName: String? = nil, launchTemplate: LaunchTemplateSpecification? = nil, lifecycleHookSpecificationList: [LifecycleHookSpecification]? = nil, loadBalancerNames: [String]? = nil, maxInstanceLifetime: Int? = nil, maxSize: Int, minSize: Int, mixedInstancesPolicy: MixedInstancesPolicy? = nil, newInstancesProtectedFromScaleIn: Bool? = nil, placementGroup: String? = nil, serviceLinkedRoleARN: String? = nil, tags: [Tag]? = nil, targetGroupARNs: [String]? = nil, terminationPolicies: [String]? = nil, vPCZoneIdentifier: String? = nil) {
+        public init(autoScalingGroupName: String, availabilityZones: [String]? = nil, capacityRebalance: Bool? = nil, context: String? = nil, defaultCooldown: Int? = nil, desiredCapacity: Int? = nil, desiredCapacityType: String? = nil, healthCheckGracePeriod: Int? = nil, healthCheckType: String? = nil, instanceId: String? = nil, launchConfigurationName: String? = nil, launchTemplate: LaunchTemplateSpecification? = nil, lifecycleHookSpecificationList: [LifecycleHookSpecification]? = nil, loadBalancerNames: [String]? = nil, maxInstanceLifetime: Int? = nil, maxSize: Int, minSize: Int, mixedInstancesPolicy: MixedInstancesPolicy? = nil, newInstancesProtectedFromScaleIn: Bool? = nil, placementGroup: String? = nil, serviceLinkedRoleARN: String? = nil, tags: [Tag]? = nil, targetGroupARNs: [String]? = nil, terminationPolicies: [String]? = nil, vpcZoneIdentifier: String? = nil) {
             self.autoScalingGroupName = autoScalingGroupName
             self.availabilityZones = availabilityZones
             self.capacityRebalance = capacityRebalance
@@ -1070,7 +1070,7 @@ extension AutoScaling {
             self.tags = tags
             self.targetGroupARNs = targetGroupARNs
             self.terminationPolicies = terminationPolicies
-            self.vPCZoneIdentifier = vPCZoneIdentifier
+            self.vpcZoneIdentifier = vpcZoneIdentifier
         }
 
         public func validate(name: String) throws {
@@ -1123,9 +1123,9 @@ extension AutoScaling {
                 try validate($0, name: "terminationPolicies[]", parent: name, min: 1)
                 try validate($0, name: "terminationPolicies[]", parent: name, pattern: "^[\\u0020-\\uD7FF\\uE000-\\uFFFD\\uD800\\uDC00-\\uDBFF\\uDFFF\\r\\n\\t]*$")
             }
-            try self.validate(self.vPCZoneIdentifier, name: "vPCZoneIdentifier", parent: name, max: 2047)
-            try self.validate(self.vPCZoneIdentifier, name: "vPCZoneIdentifier", parent: name, min: 1)
-            try self.validate(self.vPCZoneIdentifier, name: "vPCZoneIdentifier", parent: name, pattern: "^[\\u0020-\\uD7FF\\uE000-\\uFFFD\\uD800\\uDC00-\\uDBFF\\uDFFF\\r\\n\\t]*$")
+            try self.validate(self.vpcZoneIdentifier, name: "vpcZoneIdentifier", parent: name, max: 2047)
+            try self.validate(self.vpcZoneIdentifier, name: "vpcZoneIdentifier", parent: name, min: 1)
+            try self.validate(self.vpcZoneIdentifier, name: "vpcZoneIdentifier", parent: name, pattern: "^[\\u0020-\\uD7FF\\uE000-\\uFFFD\\uD800\\uDC00-\\uDBFF\\uDFFF\\r\\n\\t]*$")
         }
 
         private enum CodingKeys: String, CodingKey {
@@ -1153,7 +1153,7 @@ extension AutoScaling {
             case tags = "Tags"
             case targetGroupARNs = "TargetGroupARNs"
             case terminationPolicies = "TerminationPolicies"
-            case vPCZoneIdentifier = "VPCZoneIdentifier"
+            case vpcZoneIdentifier = "VPCZoneIdentifier"
         }
     }
 
@@ -4711,9 +4711,9 @@ extension AutoScaling {
         @OptionalCustomCoding<StandardArrayCoder>
         public var terminationPolicies: [String]?
         /// A comma-separated list of subnet IDs for a virtual private cloud (VPC). If you specify VPCZoneIdentifier with AvailabilityZones, the subnets that you specify for this parameter must reside in those Availability Zones.
-        public let vPCZoneIdentifier: String?
+        public let vpcZoneIdentifier: String?
 
-        public init(autoScalingGroupName: String, availabilityZones: [String]? = nil, capacityRebalance: Bool? = nil, context: String? = nil, defaultCooldown: Int? = nil, desiredCapacity: Int? = nil, desiredCapacityType: String? = nil, healthCheckGracePeriod: Int? = nil, healthCheckType: String? = nil, launchConfigurationName: String? = nil, launchTemplate: LaunchTemplateSpecification? = nil, maxInstanceLifetime: Int? = nil, maxSize: Int? = nil, minSize: Int? = nil, mixedInstancesPolicy: MixedInstancesPolicy? = nil, newInstancesProtectedFromScaleIn: Bool? = nil, placementGroup: String? = nil, serviceLinkedRoleARN: String? = nil, terminationPolicies: [String]? = nil, vPCZoneIdentifier: String? = nil) {
+        public init(autoScalingGroupName: String, availabilityZones: [String]? = nil, capacityRebalance: Bool? = nil, context: String? = nil, defaultCooldown: Int? = nil, desiredCapacity: Int? = nil, desiredCapacityType: String? = nil, healthCheckGracePeriod: Int? = nil, healthCheckType: String? = nil, launchConfigurationName: String? = nil, launchTemplate: LaunchTemplateSpecification? = nil, maxInstanceLifetime: Int? = nil, maxSize: Int? = nil, minSize: Int? = nil, mixedInstancesPolicy: MixedInstancesPolicy? = nil, newInstancesProtectedFromScaleIn: Bool? = nil, placementGroup: String? = nil, serviceLinkedRoleARN: String? = nil, terminationPolicies: [String]? = nil, vpcZoneIdentifier: String? = nil) {
             self.autoScalingGroupName = autoScalingGroupName
             self.availabilityZones = availabilityZones
             self.capacityRebalance = capacityRebalance
@@ -4733,7 +4733,7 @@ extension AutoScaling {
             self.placementGroup = placementGroup
             self.serviceLinkedRoleARN = serviceLinkedRoleARN
             self.terminationPolicies = terminationPolicies
-            self.vPCZoneIdentifier = vPCZoneIdentifier
+            self.vpcZoneIdentifier = vpcZoneIdentifier
         }
 
         public func validate(name: String) throws {
@@ -4767,9 +4767,9 @@ extension AutoScaling {
                 try validate($0, name: "terminationPolicies[]", parent: name, min: 1)
                 try validate($0, name: "terminationPolicies[]", parent: name, pattern: "^[\\u0020-\\uD7FF\\uE000-\\uFFFD\\uD800\\uDC00-\\uDBFF\\uDFFF\\r\\n\\t]*$")
             }
-            try self.validate(self.vPCZoneIdentifier, name: "vPCZoneIdentifier", parent: name, max: 2047)
-            try self.validate(self.vPCZoneIdentifier, name: "vPCZoneIdentifier", parent: name, min: 1)
-            try self.validate(self.vPCZoneIdentifier, name: "vPCZoneIdentifier", parent: name, pattern: "^[\\u0020-\\uD7FF\\uE000-\\uFFFD\\uD800\\uDC00-\\uDBFF\\uDFFF\\r\\n\\t]*$")
+            try self.validate(self.vpcZoneIdentifier, name: "vpcZoneIdentifier", parent: name, max: 2047)
+            try self.validate(self.vpcZoneIdentifier, name: "vpcZoneIdentifier", parent: name, min: 1)
+            try self.validate(self.vpcZoneIdentifier, name: "vpcZoneIdentifier", parent: name, pattern: "^[\\u0020-\\uD7FF\\uE000-\\uFFFD\\uD800\\uDC00-\\uDBFF\\uDFFF\\r\\n\\t]*$")
         }
 
         private enum CodingKeys: String, CodingKey {
@@ -4792,7 +4792,7 @@ extension AutoScaling {
             case placementGroup = "PlacementGroup"
             case serviceLinkedRoleARN = "ServiceLinkedRoleARN"
             case terminationPolicies = "TerminationPolicies"
-            case vPCZoneIdentifier = "VPCZoneIdentifier"
+            case vpcZoneIdentifier = "VPCZoneIdentifier"
         }
     }
 

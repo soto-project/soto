@@ -95,18 +95,18 @@ extension AccessAnalyzer {
     }
 
     public enum KmsGrantOperation: String, CustomStringConvertible, Codable {
-        case creategrant = "CreateGrant"
+        case createGrant = "CreateGrant"
         case decrypt = "Decrypt"
-        case describekey = "DescribeKey"
+        case describeKey = "DescribeKey"
         case encrypt = "Encrypt"
-        case generatedatakey = "GenerateDataKey"
-        case generatedatakeypair = "GenerateDataKeyPair"
-        case generatedatakeypairwithoutplaintext = "GenerateDataKeyPairWithoutPlaintext"
-        case generatedatakeywithoutplaintext = "GenerateDataKeyWithoutPlaintext"
-        case getpublickey = "GetPublicKey"
-        case reencryptfrom = "ReEncryptFrom"
-        case reencryptto = "ReEncryptTo"
-        case retiregrant = "RetireGrant"
+        case generateDataKey = "GenerateDataKey"
+        case generateDataKeyPair = "GenerateDataKeyPair"
+        case generateDataKeyPairWithoutPlaintext = "GenerateDataKeyPairWithoutPlaintext"
+        case generateDataKeyWithoutPlaintext = "GenerateDataKeyWithoutPlaintext"
+        case getPublicKey = "GetPublicKey"
+        case reEncryptFrom = "ReEncryptFrom"
+        case reEncryptTo = "ReEncryptTo"
+        case retireGrant = "RetireGrant"
         case sign = "Sign"
         case verify = "Verify"
         public var description: String { return self.rawValue }
@@ -148,12 +148,12 @@ extension AccessAnalyzer {
     }
 
     public enum ResourceType: String, CustomStringConvertible, Codable {
-        case awsIamRole = "AWS::IAM::Role"
-        case awsKmsKey = "AWS::KMS::Key"
+        case awsIAMRole = "AWS::IAM::Role"
+        case awsKMSKey = "AWS::KMS::Key"
         case awsLambdaFunction = "AWS::Lambda::Function"
         case awsLambdaLayerversion = "AWS::Lambda::LayerVersion"
         case awsS3Bucket = "AWS::S3::Bucket"
-        case awsSqsQueue = "AWS::SQS::Queue"
+        case awsSQSQueue = "AWS::SQS::Queue"
         case awsSecretsmanagerSecret = "AWS::SecretsManager::Secret"
         public var description: String { return self.rawValue }
     }

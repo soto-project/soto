@@ -43,13 +43,13 @@ extension ECR {
     }
 
     public enum ImageFailureCode: String, CustomStringConvertible, Codable {
-        case imagenotfound = "ImageNotFound"
-        case imagereferencedbymanifestlist = "ImageReferencedByManifestList"
-        case imagetagdoesnotmatchdigest = "ImageTagDoesNotMatchDigest"
-        case invalidimagedigest = "InvalidImageDigest"
-        case invalidimagetag = "InvalidImageTag"
-        case kmserror = "KmsError"
-        case missingdigestandtag = "MissingDigestAndTag"
+        case imageNotFound = "ImageNotFound"
+        case imageReferencedByManifestList = "ImageReferencedByManifestList"
+        case imageTagDoesNotMatchDigest = "ImageTagDoesNotMatchDigest"
+        case invalidImageDigest = "InvalidImageDigest"
+        case invalidImageTag = "InvalidImageTag"
+        case kmsError = "KmsError"
+        case missingDigestAndTag = "MissingDigestAndTag"
         public var description: String { return self.rawValue }
     }
 
@@ -66,8 +66,8 @@ extension ECR {
     }
 
     public enum LayerFailureCode: String, CustomStringConvertible, Codable {
-        case invalidlayerdigest = "InvalidLayerDigest"
-        case missinglayerdigest = "MissingLayerDigest"
+        case invalidLayerDigest = "InvalidLayerDigest"
+        case missingLayerDigest = "MissingLayerDigest"
         public var description: String { return self.rawValue }
     }
 

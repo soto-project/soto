@@ -171,7 +171,7 @@ extension Pinpoint {
         public var description: String { return self.rawValue }
     }
 
-    public enum `Operator`: String, CustomStringConvertible, Codable {
+    public enum Operator: String, CustomStringConvertible, Codable {
         case all = "ALL"
         case any = "ANY"
         public var description: String { return self.rawValue }
@@ -486,7 +486,7 @@ extension Pinpoint {
         /// The action to occur if the recipient taps the push notification. Valid values are: OPEN_APP - Your app opens or it becomes the foreground app if it was sent to the background. This is the default action. DEEP_LINK - Your app opens and displays a designated user interface in the app. This setting uses the deep-linking features of the iOS platform. URL - The default mobile browser on the recipient's device opens and loads the web page at a URL that you specify.
         public let action: Action?
         /// The type of push notification to send. Valid values are: alert - For a standard notification that's displayed on recipients' devices and prompts a recipient to interact with the notification. background - For a silent notification that delivers content in the background and isn't displayed on recipients' devices. complication - For a notification that contains update information for an app’s complication timeline. fileprovider - For a notification that signals changes to a File Provider extension. mdm - For a notification that tells managed devices to contact the MDM server. voip - For a notification that provides information about an incoming VoIP call. Amazon Pinpoint specifies this value in the apns-push-type request header when it sends the notification message to APNs. If you don't specify a value for this property, Amazon Pinpoint sets the value to alert or background automatically, based on the value that you specify for the SilentPush or RawContent property of the message. For more information about the apns-push-type request header, see Sending Notification Requests to APNs on the Apple Developer website.
-        public let aPNSPushType: String?
+        public let apnsPushType: String?
         /// The key that indicates whether and how to modify the badge of your app's icon when the recipient receives the push notification. If this key isn't included in the dictionary, the badge doesn't change. To remove the badge, set this value to 0.
         public let badge: Int?
         /// The body of the notification message.
@@ -520,9 +520,9 @@ extension Pinpoint {
         /// The URL to open in the recipient's default mobile browser, if a recipient taps the push notification and the value of the Action property is URL.
         public let url: String?
 
-        public init(action: Action? = nil, aPNSPushType: String? = nil, badge: Int? = nil, body: String? = nil, category: String? = nil, collapseId: String? = nil, data: [String: String]? = nil, mediaUrl: String? = nil, preferredAuthenticationMethod: String? = nil, priority: String? = nil, rawContent: String? = nil, silentPush: Bool? = nil, sound: String? = nil, substitutions: [String: [String]]? = nil, threadId: String? = nil, timeToLive: Int? = nil, title: String? = nil, url: String? = nil) {
+        public init(action: Action? = nil, apnsPushType: String? = nil, badge: Int? = nil, body: String? = nil, category: String? = nil, collapseId: String? = nil, data: [String: String]? = nil, mediaUrl: String? = nil, preferredAuthenticationMethod: String? = nil, priority: String? = nil, rawContent: String? = nil, silentPush: Bool? = nil, sound: String? = nil, substitutions: [String: [String]]? = nil, threadId: String? = nil, timeToLive: Int? = nil, title: String? = nil, url: String? = nil) {
             self.action = action
-            self.aPNSPushType = aPNSPushType
+            self.apnsPushType = apnsPushType
             self.badge = badge
             self.body = body
             self.category = category
@@ -543,7 +543,7 @@ extension Pinpoint {
 
         private enum CodingKeys: String, CodingKey {
             case action = "Action"
-            case aPNSPushType = "APNSPushType"
+            case apnsPushType = "APNSPushType"
             case badge = "Badge"
             case body = "Body"
             case category = "Category"
@@ -2309,23 +2309,23 @@ extension Pinpoint {
 
     public struct CreateSmsTemplateRequest: AWSEncodableShape & AWSShapeWithPayload {
         /// The key for the payload
-        public static let _payloadPath: String = "sMSTemplateRequest"
+        public static let _payloadPath: String = "smsTemplateRequest"
         public static var _encoding = [
-            AWSMemberEncoding(label: "sMSTemplateRequest", location: .body("SMSTemplateRequest")),
+            AWSMemberEncoding(label: "smsTemplateRequest", location: .body("SMSTemplateRequest")),
             AWSMemberEncoding(label: "templateName", location: .uri("TemplateName"))
         ]
 
-        public let sMSTemplateRequest: SMSTemplateRequest
+        public let smsTemplateRequest: SMSTemplateRequest
         /// The name of the message template. A template name must start with an alphanumeric character and can contain a maximum of 128 characters. The characters can be alphanumeric characters, underscores (_), or hyphens (-). Template names are case sensitive.
         public let templateName: String
 
-        public init(sMSTemplateRequest: SMSTemplateRequest, templateName: String) {
-            self.sMSTemplateRequest = sMSTemplateRequest
+        public init(smsTemplateRequest: SMSTemplateRequest, templateName: String) {
+            self.smsTemplateRequest = smsTemplateRequest
             self.templateName = templateName
         }
 
         private enum CodingKeys: String, CodingKey {
-            case sMSTemplateRequest = "SMSTemplateRequest"
+            case smsTemplateRequest = "SMSTemplateRequest"
         }
     }
 
@@ -2591,19 +2591,19 @@ extension Pinpoint {
 
     public struct DeleteAdmChannelResponse: AWSDecodableShape & AWSShapeWithPayload {
         /// The key for the payload
-        public static let _payloadPath: String = "aDMChannelResponse"
+        public static let _payloadPath: String = "admChannelResponse"
         public static var _encoding = [
-            AWSMemberEncoding(label: "aDMChannelResponse", location: .body("ADMChannelResponse"))
+            AWSMemberEncoding(label: "admChannelResponse", location: .body("ADMChannelResponse"))
         ]
 
-        public let aDMChannelResponse: ADMChannelResponse
+        public let admChannelResponse: ADMChannelResponse
 
-        public init(aDMChannelResponse: ADMChannelResponse) {
-            self.aDMChannelResponse = aDMChannelResponse
+        public init(admChannelResponse: ADMChannelResponse) {
+            self.admChannelResponse = admChannelResponse
         }
 
         private enum CodingKeys: String, CodingKey {
-            case aDMChannelResponse = "ADMChannelResponse"
+            case admChannelResponse = "ADMChannelResponse"
         }
     }
 
@@ -2624,19 +2624,19 @@ extension Pinpoint {
 
     public struct DeleteApnsChannelResponse: AWSDecodableShape & AWSShapeWithPayload {
         /// The key for the payload
-        public static let _payloadPath: String = "aPNSChannelResponse"
+        public static let _payloadPath: String = "apnsChannelResponse"
         public static var _encoding = [
-            AWSMemberEncoding(label: "aPNSChannelResponse", location: .body("APNSChannelResponse"))
+            AWSMemberEncoding(label: "apnsChannelResponse", location: .body("APNSChannelResponse"))
         ]
 
-        public let aPNSChannelResponse: APNSChannelResponse
+        public let apnsChannelResponse: APNSChannelResponse
 
-        public init(aPNSChannelResponse: APNSChannelResponse) {
-            self.aPNSChannelResponse = aPNSChannelResponse
+        public init(apnsChannelResponse: APNSChannelResponse) {
+            self.apnsChannelResponse = apnsChannelResponse
         }
 
         private enum CodingKeys: String, CodingKey {
-            case aPNSChannelResponse = "APNSChannelResponse"
+            case apnsChannelResponse = "APNSChannelResponse"
         }
     }
 
@@ -2657,19 +2657,19 @@ extension Pinpoint {
 
     public struct DeleteApnsSandboxChannelResponse: AWSDecodableShape & AWSShapeWithPayload {
         /// The key for the payload
-        public static let _payloadPath: String = "aPNSSandboxChannelResponse"
+        public static let _payloadPath: String = "apnsSandboxChannelResponse"
         public static var _encoding = [
-            AWSMemberEncoding(label: "aPNSSandboxChannelResponse", location: .body("APNSSandboxChannelResponse"))
+            AWSMemberEncoding(label: "apnsSandboxChannelResponse", location: .body("APNSSandboxChannelResponse"))
         ]
 
-        public let aPNSSandboxChannelResponse: APNSSandboxChannelResponse
+        public let apnsSandboxChannelResponse: APNSSandboxChannelResponse
 
-        public init(aPNSSandboxChannelResponse: APNSSandboxChannelResponse) {
-            self.aPNSSandboxChannelResponse = aPNSSandboxChannelResponse
+        public init(apnsSandboxChannelResponse: APNSSandboxChannelResponse) {
+            self.apnsSandboxChannelResponse = apnsSandboxChannelResponse
         }
 
         private enum CodingKeys: String, CodingKey {
-            case aPNSSandboxChannelResponse = "APNSSandboxChannelResponse"
+            case apnsSandboxChannelResponse = "APNSSandboxChannelResponse"
         }
     }
 
@@ -2690,19 +2690,19 @@ extension Pinpoint {
 
     public struct DeleteApnsVoipChannelResponse: AWSDecodableShape & AWSShapeWithPayload {
         /// The key for the payload
-        public static let _payloadPath: String = "aPNSVoipChannelResponse"
+        public static let _payloadPath: String = "apnsVoipChannelResponse"
         public static var _encoding = [
-            AWSMemberEncoding(label: "aPNSVoipChannelResponse", location: .body("APNSVoipChannelResponse"))
+            AWSMemberEncoding(label: "apnsVoipChannelResponse", location: .body("APNSVoipChannelResponse"))
         ]
 
-        public let aPNSVoipChannelResponse: APNSVoipChannelResponse
+        public let apnsVoipChannelResponse: APNSVoipChannelResponse
 
-        public init(aPNSVoipChannelResponse: APNSVoipChannelResponse) {
-            self.aPNSVoipChannelResponse = aPNSVoipChannelResponse
+        public init(apnsVoipChannelResponse: APNSVoipChannelResponse) {
+            self.apnsVoipChannelResponse = apnsVoipChannelResponse
         }
 
         private enum CodingKeys: String, CodingKey {
-            case aPNSVoipChannelResponse = "APNSVoipChannelResponse"
+            case apnsVoipChannelResponse = "APNSVoipChannelResponse"
         }
     }
 
@@ -2723,19 +2723,19 @@ extension Pinpoint {
 
     public struct DeleteApnsVoipSandboxChannelResponse: AWSDecodableShape & AWSShapeWithPayload {
         /// The key for the payload
-        public static let _payloadPath: String = "aPNSVoipSandboxChannelResponse"
+        public static let _payloadPath: String = "apnsVoipSandboxChannelResponse"
         public static var _encoding = [
-            AWSMemberEncoding(label: "aPNSVoipSandboxChannelResponse", location: .body("APNSVoipSandboxChannelResponse"))
+            AWSMemberEncoding(label: "apnsVoipSandboxChannelResponse", location: .body("APNSVoipSandboxChannelResponse"))
         ]
 
-        public let aPNSVoipSandboxChannelResponse: APNSVoipSandboxChannelResponse
+        public let apnsVoipSandboxChannelResponse: APNSVoipSandboxChannelResponse
 
-        public init(aPNSVoipSandboxChannelResponse: APNSVoipSandboxChannelResponse) {
-            self.aPNSVoipSandboxChannelResponse = aPNSVoipSandboxChannelResponse
+        public init(apnsVoipSandboxChannelResponse: APNSVoipSandboxChannelResponse) {
+            self.apnsVoipSandboxChannelResponse = apnsVoipSandboxChannelResponse
         }
 
         private enum CodingKeys: String, CodingKey {
-            case aPNSVoipSandboxChannelResponse = "APNSVoipSandboxChannelResponse"
+            case apnsVoipSandboxChannelResponse = "APNSVoipSandboxChannelResponse"
         }
     }
 
@@ -2999,19 +2999,19 @@ extension Pinpoint {
 
     public struct DeleteGcmChannelResponse: AWSDecodableShape & AWSShapeWithPayload {
         /// The key for the payload
-        public static let _payloadPath: String = "gCMChannelResponse"
+        public static let _payloadPath: String = "gcmChannelResponse"
         public static var _encoding = [
-            AWSMemberEncoding(label: "gCMChannelResponse", location: .body("GCMChannelResponse"))
+            AWSMemberEncoding(label: "gcmChannelResponse", location: .body("GCMChannelResponse"))
         ]
 
-        public let gCMChannelResponse: GCMChannelResponse
+        public let gcmChannelResponse: GCMChannelResponse
 
-        public init(gCMChannelResponse: GCMChannelResponse) {
-            self.gCMChannelResponse = gCMChannelResponse
+        public init(gcmChannelResponse: GCMChannelResponse) {
+            self.gcmChannelResponse = gcmChannelResponse
         }
 
         private enum CodingKeys: String, CodingKey {
-            case gCMChannelResponse = "GCMChannelResponse"
+            case gcmChannelResponse = "GCMChannelResponse"
         }
     }
 
@@ -3213,19 +3213,19 @@ extension Pinpoint {
 
     public struct DeleteSmsChannelResponse: AWSDecodableShape & AWSShapeWithPayload {
         /// The key for the payload
-        public static let _payloadPath: String = "sMSChannelResponse"
+        public static let _payloadPath: String = "smsChannelResponse"
         public static var _encoding = [
-            AWSMemberEncoding(label: "sMSChannelResponse", location: .body("SMSChannelResponse"))
+            AWSMemberEncoding(label: "smsChannelResponse", location: .body("SMSChannelResponse"))
         ]
 
-        public let sMSChannelResponse: SMSChannelResponse
+        public let smsChannelResponse: SMSChannelResponse
 
-        public init(sMSChannelResponse: SMSChannelResponse) {
-            self.sMSChannelResponse = sMSChannelResponse
+        public init(smsChannelResponse: SMSChannelResponse) {
+            self.smsChannelResponse = smsChannelResponse
         }
 
         private enum CodingKeys: String, CodingKey {
-            case sMSChannelResponse = "SMSChannelResponse"
+            case smsChannelResponse = "SMSChannelResponse"
         }
     }
 
@@ -3375,9 +3375,9 @@ extension Pinpoint {
 
     public struct DirectMessageConfiguration: AWSEncodableShape {
         /// The default push notification message for the ADM (Amazon Device Messaging) channel. This message overrides the default push notification message (DefaultPushNotificationMessage).
-        public let aDMMessage: ADMMessage?
+        public let admMessage: ADMMessage?
         /// The default push notification message for the APNs (Apple Push Notification service) channel. This message overrides the default push notification message (DefaultPushNotificationMessage).
-        public let aPNSMessage: APNSMessage?
+        public let apnsMessage: APNSMessage?
         /// The default push notification message for the Baidu (Baidu Cloud Push) channel. This message overrides the default push notification message (DefaultPushNotificationMessage).
         public let baiduMessage: BaiduMessage?
         /// The default message for all channels.
@@ -3387,33 +3387,33 @@ extension Pinpoint {
         /// The default message for the email channel. This message overrides the default message (DefaultMessage).
         public let emailMessage: EmailMessage?
         /// The default push notification message for the GCM channel, which is used to send notifications through the Firebase Cloud Messaging (FCM), formerly Google Cloud Messaging (GCM), service. This message overrides the default push notification message (DefaultPushNotificationMessage).
-        public let gCMMessage: GCMMessage?
+        public let gcmMessage: GCMMessage?
         /// The default message for the SMS channel. This message overrides the default message (DefaultMessage).
-        public let sMSMessage: SMSMessage?
+        public let smsMessage: SMSMessage?
         /// The default message for the voice channel. This message overrides the default message (DefaultMessage).
         public let voiceMessage: VoiceMessage?
 
-        public init(aDMMessage: ADMMessage? = nil, aPNSMessage: APNSMessage? = nil, baiduMessage: BaiduMessage? = nil, defaultMessage: DefaultMessage? = nil, defaultPushNotificationMessage: DefaultPushNotificationMessage? = nil, emailMessage: EmailMessage? = nil, gCMMessage: GCMMessage? = nil, sMSMessage: SMSMessage? = nil, voiceMessage: VoiceMessage? = nil) {
-            self.aDMMessage = aDMMessage
-            self.aPNSMessage = aPNSMessage
+        public init(admMessage: ADMMessage? = nil, apnsMessage: APNSMessage? = nil, baiduMessage: BaiduMessage? = nil, defaultMessage: DefaultMessage? = nil, defaultPushNotificationMessage: DefaultPushNotificationMessage? = nil, emailMessage: EmailMessage? = nil, gcmMessage: GCMMessage? = nil, smsMessage: SMSMessage? = nil, voiceMessage: VoiceMessage? = nil) {
+            self.admMessage = admMessage
+            self.apnsMessage = apnsMessage
             self.baiduMessage = baiduMessage
             self.defaultMessage = defaultMessage
             self.defaultPushNotificationMessage = defaultPushNotificationMessage
             self.emailMessage = emailMessage
-            self.gCMMessage = gCMMessage
-            self.sMSMessage = sMSMessage
+            self.gcmMessage = gcmMessage
+            self.smsMessage = smsMessage
             self.voiceMessage = voiceMessage
         }
 
         private enum CodingKeys: String, CodingKey {
-            case aDMMessage = "ADMMessage"
-            case aPNSMessage = "APNSMessage"
+            case admMessage = "ADMMessage"
+            case apnsMessage = "APNSMessage"
             case baiduMessage = "BaiduMessage"
             case defaultMessage = "DefaultMessage"
             case defaultPushNotificationMessage = "DefaultPushNotificationMessage"
             case emailMessage = "EmailMessage"
-            case gCMMessage = "GCMMessage"
-            case sMSMessage = "SMSMessage"
+            case gcmMessage = "GCMMessage"
+            case smsMessage = "SMSMessage"
             case voiceMessage = "VoiceMessage"
         }
     }
@@ -4589,19 +4589,19 @@ extension Pinpoint {
 
     public struct GetAdmChannelResponse: AWSDecodableShape & AWSShapeWithPayload {
         /// The key for the payload
-        public static let _payloadPath: String = "aDMChannelResponse"
+        public static let _payloadPath: String = "admChannelResponse"
         public static var _encoding = [
-            AWSMemberEncoding(label: "aDMChannelResponse", location: .body("ADMChannelResponse"))
+            AWSMemberEncoding(label: "admChannelResponse", location: .body("ADMChannelResponse"))
         ]
 
-        public let aDMChannelResponse: ADMChannelResponse
+        public let admChannelResponse: ADMChannelResponse
 
-        public init(aDMChannelResponse: ADMChannelResponse) {
-            self.aDMChannelResponse = aDMChannelResponse
+        public init(admChannelResponse: ADMChannelResponse) {
+            self.admChannelResponse = admChannelResponse
         }
 
         private enum CodingKeys: String, CodingKey {
-            case aDMChannelResponse = "ADMChannelResponse"
+            case admChannelResponse = "ADMChannelResponse"
         }
     }
 
@@ -4622,19 +4622,19 @@ extension Pinpoint {
 
     public struct GetApnsChannelResponse: AWSDecodableShape & AWSShapeWithPayload {
         /// The key for the payload
-        public static let _payloadPath: String = "aPNSChannelResponse"
+        public static let _payloadPath: String = "apnsChannelResponse"
         public static var _encoding = [
-            AWSMemberEncoding(label: "aPNSChannelResponse", location: .body("APNSChannelResponse"))
+            AWSMemberEncoding(label: "apnsChannelResponse", location: .body("APNSChannelResponse"))
         ]
 
-        public let aPNSChannelResponse: APNSChannelResponse
+        public let apnsChannelResponse: APNSChannelResponse
 
-        public init(aPNSChannelResponse: APNSChannelResponse) {
-            self.aPNSChannelResponse = aPNSChannelResponse
+        public init(apnsChannelResponse: APNSChannelResponse) {
+            self.apnsChannelResponse = apnsChannelResponse
         }
 
         private enum CodingKeys: String, CodingKey {
-            case aPNSChannelResponse = "APNSChannelResponse"
+            case apnsChannelResponse = "APNSChannelResponse"
         }
     }
 
@@ -4655,19 +4655,19 @@ extension Pinpoint {
 
     public struct GetApnsSandboxChannelResponse: AWSDecodableShape & AWSShapeWithPayload {
         /// The key for the payload
-        public static let _payloadPath: String = "aPNSSandboxChannelResponse"
+        public static let _payloadPath: String = "apnsSandboxChannelResponse"
         public static var _encoding = [
-            AWSMemberEncoding(label: "aPNSSandboxChannelResponse", location: .body("APNSSandboxChannelResponse"))
+            AWSMemberEncoding(label: "apnsSandboxChannelResponse", location: .body("APNSSandboxChannelResponse"))
         ]
 
-        public let aPNSSandboxChannelResponse: APNSSandboxChannelResponse
+        public let apnsSandboxChannelResponse: APNSSandboxChannelResponse
 
-        public init(aPNSSandboxChannelResponse: APNSSandboxChannelResponse) {
-            self.aPNSSandboxChannelResponse = aPNSSandboxChannelResponse
+        public init(apnsSandboxChannelResponse: APNSSandboxChannelResponse) {
+            self.apnsSandboxChannelResponse = apnsSandboxChannelResponse
         }
 
         private enum CodingKeys: String, CodingKey {
-            case aPNSSandboxChannelResponse = "APNSSandboxChannelResponse"
+            case apnsSandboxChannelResponse = "APNSSandboxChannelResponse"
         }
     }
 
@@ -4688,19 +4688,19 @@ extension Pinpoint {
 
     public struct GetApnsVoipChannelResponse: AWSDecodableShape & AWSShapeWithPayload {
         /// The key for the payload
-        public static let _payloadPath: String = "aPNSVoipChannelResponse"
+        public static let _payloadPath: String = "apnsVoipChannelResponse"
         public static var _encoding = [
-            AWSMemberEncoding(label: "aPNSVoipChannelResponse", location: .body("APNSVoipChannelResponse"))
+            AWSMemberEncoding(label: "apnsVoipChannelResponse", location: .body("APNSVoipChannelResponse"))
         ]
 
-        public let aPNSVoipChannelResponse: APNSVoipChannelResponse
+        public let apnsVoipChannelResponse: APNSVoipChannelResponse
 
-        public init(aPNSVoipChannelResponse: APNSVoipChannelResponse) {
-            self.aPNSVoipChannelResponse = aPNSVoipChannelResponse
+        public init(apnsVoipChannelResponse: APNSVoipChannelResponse) {
+            self.apnsVoipChannelResponse = apnsVoipChannelResponse
         }
 
         private enum CodingKeys: String, CodingKey {
-            case aPNSVoipChannelResponse = "APNSVoipChannelResponse"
+            case apnsVoipChannelResponse = "APNSVoipChannelResponse"
         }
     }
 
@@ -4721,19 +4721,19 @@ extension Pinpoint {
 
     public struct GetApnsVoipSandboxChannelResponse: AWSDecodableShape & AWSShapeWithPayload {
         /// The key for the payload
-        public static let _payloadPath: String = "aPNSVoipSandboxChannelResponse"
+        public static let _payloadPath: String = "apnsVoipSandboxChannelResponse"
         public static var _encoding = [
-            AWSMemberEncoding(label: "aPNSVoipSandboxChannelResponse", location: .body("APNSVoipSandboxChannelResponse"))
+            AWSMemberEncoding(label: "apnsVoipSandboxChannelResponse", location: .body("APNSVoipSandboxChannelResponse"))
         ]
 
-        public let aPNSVoipSandboxChannelResponse: APNSVoipSandboxChannelResponse
+        public let apnsVoipSandboxChannelResponse: APNSVoipSandboxChannelResponse
 
-        public init(aPNSVoipSandboxChannelResponse: APNSVoipSandboxChannelResponse) {
-            self.aPNSVoipSandboxChannelResponse = aPNSVoipSandboxChannelResponse
+        public init(apnsVoipSandboxChannelResponse: APNSVoipSandboxChannelResponse) {
+            self.apnsVoipSandboxChannelResponse = apnsVoipSandboxChannelResponse
         }
 
         private enum CodingKeys: String, CodingKey {
-            case aPNSVoipSandboxChannelResponse = "APNSVoipSandboxChannelResponse"
+            case apnsVoipSandboxChannelResponse = "APNSVoipSandboxChannelResponse"
         }
     }
 
@@ -5464,19 +5464,19 @@ extension Pinpoint {
 
     public struct GetGcmChannelResponse: AWSDecodableShape & AWSShapeWithPayload {
         /// The key for the payload
-        public static let _payloadPath: String = "gCMChannelResponse"
+        public static let _payloadPath: String = "gcmChannelResponse"
         public static var _encoding = [
-            AWSMemberEncoding(label: "gCMChannelResponse", location: .body("GCMChannelResponse"))
+            AWSMemberEncoding(label: "gcmChannelResponse", location: .body("GCMChannelResponse"))
         ]
 
-        public let gCMChannelResponse: GCMChannelResponse
+        public let gcmChannelResponse: GCMChannelResponse
 
-        public init(gCMChannelResponse: GCMChannelResponse) {
-            self.gCMChannelResponse = gCMChannelResponse
+        public init(gcmChannelResponse: GCMChannelResponse) {
+            self.gcmChannelResponse = gcmChannelResponse
         }
 
         private enum CodingKeys: String, CodingKey {
-            case gCMChannelResponse = "GCMChannelResponse"
+            case gcmChannelResponse = "GCMChannelResponse"
         }
     }
 
@@ -6200,19 +6200,19 @@ extension Pinpoint {
 
     public struct GetSmsChannelResponse: AWSDecodableShape & AWSShapeWithPayload {
         /// The key for the payload
-        public static let _payloadPath: String = "sMSChannelResponse"
+        public static let _payloadPath: String = "smsChannelResponse"
         public static var _encoding = [
-            AWSMemberEncoding(label: "sMSChannelResponse", location: .body("SMSChannelResponse"))
+            AWSMemberEncoding(label: "smsChannelResponse", location: .body("SMSChannelResponse"))
         ]
 
-        public let sMSChannelResponse: SMSChannelResponse
+        public let smsChannelResponse: SMSChannelResponse
 
-        public init(sMSChannelResponse: SMSChannelResponse) {
-            self.sMSChannelResponse = sMSChannelResponse
+        public init(smsChannelResponse: SMSChannelResponse) {
+            self.smsChannelResponse = smsChannelResponse
         }
 
         private enum CodingKeys: String, CodingKey {
-            case sMSChannelResponse = "SMSChannelResponse"
+            case smsChannelResponse = "SMSChannelResponse"
         }
     }
 
@@ -6237,19 +6237,19 @@ extension Pinpoint {
 
     public struct GetSmsTemplateResponse: AWSDecodableShape & AWSShapeWithPayload {
         /// The key for the payload
-        public static let _payloadPath: String = "sMSTemplateResponse"
+        public static let _payloadPath: String = "smsTemplateResponse"
         public static var _encoding = [
-            AWSMemberEncoding(label: "sMSTemplateResponse", location: .body("SMSTemplateResponse"))
+            AWSMemberEncoding(label: "smsTemplateResponse", location: .body("SMSTemplateResponse"))
         ]
 
-        public let sMSTemplateResponse: SMSTemplateResponse
+        public let smsTemplateResponse: SMSTemplateResponse
 
-        public init(sMSTemplateResponse: SMSTemplateResponse) {
-            self.sMSTemplateResponse = sMSTemplateResponse
+        public init(smsTemplateResponse: SMSTemplateResponse) {
+            self.smsTemplateResponse = smsTemplateResponse
         }
 
         private enum CodingKeys: String, CodingKey {
-            case sMSTemplateResponse = "SMSTemplateResponse"
+            case smsTemplateResponse = "SMSTemplateResponse"
         }
     }
 
@@ -7430,9 +7430,9 @@ extension Pinpoint {
 
     public struct MessageConfiguration: AWSEncodableShape & AWSDecodableShape {
         /// The message that the campaign sends through the ADM (Amazon Device Messaging) channel. If specified, this message overrides the default message.
-        public let aDMMessage: Message?
+        public let admMessage: Message?
         /// The message that the campaign sends through the APNs (Apple Push Notification service) channel. If specified, this message overrides the default message.
-        public let aPNSMessage: Message?
+        public let apnsMessage: Message?
         /// The message that the campaign sends through the Baidu (Baidu Cloud Push) channel. If specified, this message overrides the default message.
         public let baiduMessage: Message?
         /// The message that the campaign sends through a custom channel, as specified by the delivery configuration (CustomDeliveryConfiguration) settings for the campaign. If specified, this message overrides the default message.
@@ -7442,34 +7442,34 @@ extension Pinpoint {
         /// The message that the campaign sends through the email channel. If specified, this message overrides the default message.
         public let emailMessage: CampaignEmailMessage?
         /// The message that the campaign sends through the GCM channel, which enables Amazon Pinpoint to send push notifications through the Firebase Cloud Messaging (FCM), formerly Google Cloud Messaging (GCM), service. If specified, this message overrides the default message.
-        public let gCMMessage: Message?
+        public let gcmMessage: Message?
         /// The in-app message configuration.
         public let inAppMessage: CampaignInAppMessage?
         /// The message that the campaign sends through the SMS channel. If specified, this message overrides the default message.
-        public let sMSMessage: CampaignSmsMessage?
+        public let smsMessage: CampaignSmsMessage?
 
-        public init(aDMMessage: Message? = nil, aPNSMessage: Message? = nil, baiduMessage: Message? = nil, customMessage: CampaignCustomMessage? = nil, defaultMessage: Message? = nil, emailMessage: CampaignEmailMessage? = nil, gCMMessage: Message? = nil, inAppMessage: CampaignInAppMessage? = nil, sMSMessage: CampaignSmsMessage? = nil) {
-            self.aDMMessage = aDMMessage
-            self.aPNSMessage = aPNSMessage
+        public init(admMessage: Message? = nil, apnsMessage: Message? = nil, baiduMessage: Message? = nil, customMessage: CampaignCustomMessage? = nil, defaultMessage: Message? = nil, emailMessage: CampaignEmailMessage? = nil, gcmMessage: Message? = nil, inAppMessage: CampaignInAppMessage? = nil, smsMessage: CampaignSmsMessage? = nil) {
+            self.admMessage = admMessage
+            self.apnsMessage = apnsMessage
             self.baiduMessage = baiduMessage
             self.customMessage = customMessage
             self.defaultMessage = defaultMessage
             self.emailMessage = emailMessage
-            self.gCMMessage = gCMMessage
+            self.gcmMessage = gcmMessage
             self.inAppMessage = inAppMessage
-            self.sMSMessage = sMSMessage
+            self.smsMessage = smsMessage
         }
 
         private enum CodingKeys: String, CodingKey {
-            case aDMMessage = "ADMMessage"
-            case aPNSMessage = "APNSMessage"
+            case admMessage = "ADMMessage"
+            case apnsMessage = "APNSMessage"
             case baiduMessage = "BaiduMessage"
             case customMessage = "CustomMessage"
             case defaultMessage = "DefaultMessage"
             case emailMessage = "EmailMessage"
-            case gCMMessage = "GCMMessage"
+            case gcmMessage = "GCMMessage"
             case inAppMessage = "InAppMessage"
-            case sMSMessage = "SMSMessage"
+            case smsMessage = "SMSMessage"
         }
     }
 
@@ -8684,16 +8684,16 @@ extension Pinpoint {
         /// The country or region code, in ISO 3166-1 alpha-2 format, for the segment.
         public let country: SetDimension?
         /// The GPS location and range for the segment.
-        public let gPSPoint: GPSPointDimension?
+        public let gpsPoint: GPSPointDimension?
 
-        public init(country: SetDimension? = nil, gPSPoint: GPSPointDimension? = nil) {
+        public init(country: SetDimension? = nil, gpsPoint: GPSPointDimension? = nil) {
             self.country = country
-            self.gPSPoint = gPSPoint
+            self.gpsPoint = gpsPoint
         }
 
         private enum CodingKeys: String, CodingKey {
             case country = "Country"
-            case gPSPoint = "GPSPoint"
+            case gpsPoint = "GPSPoint"
         }
     }
 
@@ -9110,21 +9110,21 @@ extension Pinpoint {
         /// The push notification template to use for the message.
         public let pushTemplate: Template?
         /// The SMS template to use for the message.
-        public let sMSTemplate: Template?
+        public let smsTemplate: Template?
         /// The voice template to use for the message. This object isn't supported for campaigns.
         public let voiceTemplate: Template?
 
-        public init(emailTemplate: Template? = nil, pushTemplate: Template? = nil, sMSTemplate: Template? = nil, voiceTemplate: Template? = nil) {
+        public init(emailTemplate: Template? = nil, pushTemplate: Template? = nil, smsTemplate: Template? = nil, voiceTemplate: Template? = nil) {
             self.emailTemplate = emailTemplate
             self.pushTemplate = pushTemplate
-            self.sMSTemplate = sMSTemplate
+            self.smsTemplate = smsTemplate
             self.voiceTemplate = voiceTemplate
         }
 
         private enum CodingKeys: String, CodingKey {
             case emailTemplate = "EmailTemplate"
             case pushTemplate = "PushTemplate"
-            case sMSTemplate = "SMSTemplate"
+            case smsTemplate = "SMSTemplate"
             case voiceTemplate = "VoiceTemplate"
         }
     }
@@ -9340,201 +9340,201 @@ extension Pinpoint {
 
     public struct UpdateAdmChannelRequest: AWSEncodableShape & AWSShapeWithPayload {
         /// The key for the payload
-        public static let _payloadPath: String = "aDMChannelRequest"
+        public static let _payloadPath: String = "admChannelRequest"
         public static var _encoding = [
-            AWSMemberEncoding(label: "aDMChannelRequest", location: .body("ADMChannelRequest")),
+            AWSMemberEncoding(label: "admChannelRequest", location: .body("ADMChannelRequest")),
             AWSMemberEncoding(label: "applicationId", location: .uri("ApplicationId"))
         ]
 
-        public let aDMChannelRequest: ADMChannelRequest
+        public let admChannelRequest: ADMChannelRequest
         /// The unique identifier for the application. This identifier is displayed as the Project ID on the Amazon Pinpoint console.
         public let applicationId: String
 
-        public init(aDMChannelRequest: ADMChannelRequest, applicationId: String) {
-            self.aDMChannelRequest = aDMChannelRequest
+        public init(admChannelRequest: ADMChannelRequest, applicationId: String) {
+            self.admChannelRequest = admChannelRequest
             self.applicationId = applicationId
         }
 
         private enum CodingKeys: String, CodingKey {
-            case aDMChannelRequest = "ADMChannelRequest"
+            case admChannelRequest = "ADMChannelRequest"
         }
     }
 
     public struct UpdateAdmChannelResponse: AWSDecodableShape & AWSShapeWithPayload {
         /// The key for the payload
-        public static let _payloadPath: String = "aDMChannelResponse"
+        public static let _payloadPath: String = "admChannelResponse"
         public static var _encoding = [
-            AWSMemberEncoding(label: "aDMChannelResponse", location: .body("ADMChannelResponse"))
+            AWSMemberEncoding(label: "admChannelResponse", location: .body("ADMChannelResponse"))
         ]
 
-        public let aDMChannelResponse: ADMChannelResponse
+        public let admChannelResponse: ADMChannelResponse
 
-        public init(aDMChannelResponse: ADMChannelResponse) {
-            self.aDMChannelResponse = aDMChannelResponse
+        public init(admChannelResponse: ADMChannelResponse) {
+            self.admChannelResponse = admChannelResponse
         }
 
         private enum CodingKeys: String, CodingKey {
-            case aDMChannelResponse = "ADMChannelResponse"
+            case admChannelResponse = "ADMChannelResponse"
         }
     }
 
     public struct UpdateApnsChannelRequest: AWSEncodableShape & AWSShapeWithPayload {
         /// The key for the payload
-        public static let _payloadPath: String = "aPNSChannelRequest"
+        public static let _payloadPath: String = "apnsChannelRequest"
         public static var _encoding = [
-            AWSMemberEncoding(label: "aPNSChannelRequest", location: .body("APNSChannelRequest")),
+            AWSMemberEncoding(label: "apnsChannelRequest", location: .body("APNSChannelRequest")),
             AWSMemberEncoding(label: "applicationId", location: .uri("ApplicationId"))
         ]
 
-        public let aPNSChannelRequest: APNSChannelRequest
+        public let apnsChannelRequest: APNSChannelRequest
         /// The unique identifier for the application. This identifier is displayed as the Project ID on the Amazon Pinpoint console.
         public let applicationId: String
 
-        public init(aPNSChannelRequest: APNSChannelRequest, applicationId: String) {
-            self.aPNSChannelRequest = aPNSChannelRequest
+        public init(apnsChannelRequest: APNSChannelRequest, applicationId: String) {
+            self.apnsChannelRequest = apnsChannelRequest
             self.applicationId = applicationId
         }
 
         private enum CodingKeys: String, CodingKey {
-            case aPNSChannelRequest = "APNSChannelRequest"
+            case apnsChannelRequest = "APNSChannelRequest"
         }
     }
 
     public struct UpdateApnsChannelResponse: AWSDecodableShape & AWSShapeWithPayload {
         /// The key for the payload
-        public static let _payloadPath: String = "aPNSChannelResponse"
+        public static let _payloadPath: String = "apnsChannelResponse"
         public static var _encoding = [
-            AWSMemberEncoding(label: "aPNSChannelResponse", location: .body("APNSChannelResponse"))
+            AWSMemberEncoding(label: "apnsChannelResponse", location: .body("APNSChannelResponse"))
         ]
 
-        public let aPNSChannelResponse: APNSChannelResponse
+        public let apnsChannelResponse: APNSChannelResponse
 
-        public init(aPNSChannelResponse: APNSChannelResponse) {
-            self.aPNSChannelResponse = aPNSChannelResponse
+        public init(apnsChannelResponse: APNSChannelResponse) {
+            self.apnsChannelResponse = apnsChannelResponse
         }
 
         private enum CodingKeys: String, CodingKey {
-            case aPNSChannelResponse = "APNSChannelResponse"
+            case apnsChannelResponse = "APNSChannelResponse"
         }
     }
 
     public struct UpdateApnsSandboxChannelRequest: AWSEncodableShape & AWSShapeWithPayload {
         /// The key for the payload
-        public static let _payloadPath: String = "aPNSSandboxChannelRequest"
+        public static let _payloadPath: String = "apnsSandboxChannelRequest"
         public static var _encoding = [
-            AWSMemberEncoding(label: "aPNSSandboxChannelRequest", location: .body("APNSSandboxChannelRequest")),
+            AWSMemberEncoding(label: "apnsSandboxChannelRequest", location: .body("APNSSandboxChannelRequest")),
             AWSMemberEncoding(label: "applicationId", location: .uri("ApplicationId"))
         ]
 
-        public let aPNSSandboxChannelRequest: APNSSandboxChannelRequest
+        public let apnsSandboxChannelRequest: APNSSandboxChannelRequest
         /// The unique identifier for the application. This identifier is displayed as the Project ID on the Amazon Pinpoint console.
         public let applicationId: String
 
-        public init(aPNSSandboxChannelRequest: APNSSandboxChannelRequest, applicationId: String) {
-            self.aPNSSandboxChannelRequest = aPNSSandboxChannelRequest
+        public init(apnsSandboxChannelRequest: APNSSandboxChannelRequest, applicationId: String) {
+            self.apnsSandboxChannelRequest = apnsSandboxChannelRequest
             self.applicationId = applicationId
         }
 
         private enum CodingKeys: String, CodingKey {
-            case aPNSSandboxChannelRequest = "APNSSandboxChannelRequest"
+            case apnsSandboxChannelRequest = "APNSSandboxChannelRequest"
         }
     }
 
     public struct UpdateApnsSandboxChannelResponse: AWSDecodableShape & AWSShapeWithPayload {
         /// The key for the payload
-        public static let _payloadPath: String = "aPNSSandboxChannelResponse"
+        public static let _payloadPath: String = "apnsSandboxChannelResponse"
         public static var _encoding = [
-            AWSMemberEncoding(label: "aPNSSandboxChannelResponse", location: .body("APNSSandboxChannelResponse"))
+            AWSMemberEncoding(label: "apnsSandboxChannelResponse", location: .body("APNSSandboxChannelResponse"))
         ]
 
-        public let aPNSSandboxChannelResponse: APNSSandboxChannelResponse
+        public let apnsSandboxChannelResponse: APNSSandboxChannelResponse
 
-        public init(aPNSSandboxChannelResponse: APNSSandboxChannelResponse) {
-            self.aPNSSandboxChannelResponse = aPNSSandboxChannelResponse
+        public init(apnsSandboxChannelResponse: APNSSandboxChannelResponse) {
+            self.apnsSandboxChannelResponse = apnsSandboxChannelResponse
         }
 
         private enum CodingKeys: String, CodingKey {
-            case aPNSSandboxChannelResponse = "APNSSandboxChannelResponse"
+            case apnsSandboxChannelResponse = "APNSSandboxChannelResponse"
         }
     }
 
     public struct UpdateApnsVoipChannelRequest: AWSEncodableShape & AWSShapeWithPayload {
         /// The key for the payload
-        public static let _payloadPath: String = "aPNSVoipChannelRequest"
+        public static let _payloadPath: String = "apnsVoipChannelRequest"
         public static var _encoding = [
-            AWSMemberEncoding(label: "aPNSVoipChannelRequest", location: .body("APNSVoipChannelRequest")),
+            AWSMemberEncoding(label: "apnsVoipChannelRequest", location: .body("APNSVoipChannelRequest")),
             AWSMemberEncoding(label: "applicationId", location: .uri("ApplicationId"))
         ]
 
-        public let aPNSVoipChannelRequest: APNSVoipChannelRequest
+        public let apnsVoipChannelRequest: APNSVoipChannelRequest
         /// The unique identifier for the application. This identifier is displayed as the Project ID on the Amazon Pinpoint console.
         public let applicationId: String
 
-        public init(aPNSVoipChannelRequest: APNSVoipChannelRequest, applicationId: String) {
-            self.aPNSVoipChannelRequest = aPNSVoipChannelRequest
+        public init(apnsVoipChannelRequest: APNSVoipChannelRequest, applicationId: String) {
+            self.apnsVoipChannelRequest = apnsVoipChannelRequest
             self.applicationId = applicationId
         }
 
         private enum CodingKeys: String, CodingKey {
-            case aPNSVoipChannelRequest = "APNSVoipChannelRequest"
+            case apnsVoipChannelRequest = "APNSVoipChannelRequest"
         }
     }
 
     public struct UpdateApnsVoipChannelResponse: AWSDecodableShape & AWSShapeWithPayload {
         /// The key for the payload
-        public static let _payloadPath: String = "aPNSVoipChannelResponse"
+        public static let _payloadPath: String = "apnsVoipChannelResponse"
         public static var _encoding = [
-            AWSMemberEncoding(label: "aPNSVoipChannelResponse", location: .body("APNSVoipChannelResponse"))
+            AWSMemberEncoding(label: "apnsVoipChannelResponse", location: .body("APNSVoipChannelResponse"))
         ]
 
-        public let aPNSVoipChannelResponse: APNSVoipChannelResponse
+        public let apnsVoipChannelResponse: APNSVoipChannelResponse
 
-        public init(aPNSVoipChannelResponse: APNSVoipChannelResponse) {
-            self.aPNSVoipChannelResponse = aPNSVoipChannelResponse
+        public init(apnsVoipChannelResponse: APNSVoipChannelResponse) {
+            self.apnsVoipChannelResponse = apnsVoipChannelResponse
         }
 
         private enum CodingKeys: String, CodingKey {
-            case aPNSVoipChannelResponse = "APNSVoipChannelResponse"
+            case apnsVoipChannelResponse = "APNSVoipChannelResponse"
         }
     }
 
     public struct UpdateApnsVoipSandboxChannelRequest: AWSEncodableShape & AWSShapeWithPayload {
         /// The key for the payload
-        public static let _payloadPath: String = "aPNSVoipSandboxChannelRequest"
+        public static let _payloadPath: String = "apnsVoipSandboxChannelRequest"
         public static var _encoding = [
-            AWSMemberEncoding(label: "aPNSVoipSandboxChannelRequest", location: .body("APNSVoipSandboxChannelRequest")),
+            AWSMemberEncoding(label: "apnsVoipSandboxChannelRequest", location: .body("APNSVoipSandboxChannelRequest")),
             AWSMemberEncoding(label: "applicationId", location: .uri("ApplicationId"))
         ]
 
-        public let aPNSVoipSandboxChannelRequest: APNSVoipSandboxChannelRequest
+        public let apnsVoipSandboxChannelRequest: APNSVoipSandboxChannelRequest
         /// The unique identifier for the application. This identifier is displayed as the Project ID on the Amazon Pinpoint console.
         public let applicationId: String
 
-        public init(aPNSVoipSandboxChannelRequest: APNSVoipSandboxChannelRequest, applicationId: String) {
-            self.aPNSVoipSandboxChannelRequest = aPNSVoipSandboxChannelRequest
+        public init(apnsVoipSandboxChannelRequest: APNSVoipSandboxChannelRequest, applicationId: String) {
+            self.apnsVoipSandboxChannelRequest = apnsVoipSandboxChannelRequest
             self.applicationId = applicationId
         }
 
         private enum CodingKeys: String, CodingKey {
-            case aPNSVoipSandboxChannelRequest = "APNSVoipSandboxChannelRequest"
+            case apnsVoipSandboxChannelRequest = "APNSVoipSandboxChannelRequest"
         }
     }
 
     public struct UpdateApnsVoipSandboxChannelResponse: AWSDecodableShape & AWSShapeWithPayload {
         /// The key for the payload
-        public static let _payloadPath: String = "aPNSVoipSandboxChannelResponse"
+        public static let _payloadPath: String = "apnsVoipSandboxChannelResponse"
         public static var _encoding = [
-            AWSMemberEncoding(label: "aPNSVoipSandboxChannelResponse", location: .body("APNSVoipSandboxChannelResponse"))
+            AWSMemberEncoding(label: "apnsVoipSandboxChannelResponse", location: .body("APNSVoipSandboxChannelResponse"))
         ]
 
-        public let aPNSVoipSandboxChannelResponse: APNSVoipSandboxChannelResponse
+        public let apnsVoipSandboxChannelResponse: APNSVoipSandboxChannelResponse
 
-        public init(aPNSVoipSandboxChannelResponse: APNSVoipSandboxChannelResponse) {
-            self.aPNSVoipSandboxChannelResponse = aPNSVoipSandboxChannelResponse
+        public init(apnsVoipSandboxChannelResponse: APNSVoipSandboxChannelResponse) {
+            self.apnsVoipSandboxChannelResponse = apnsVoipSandboxChannelResponse
         }
 
         private enum CodingKeys: String, CodingKey {
-            case aPNSVoipSandboxChannelResponse = "APNSVoipSandboxChannelResponse"
+            case apnsVoipSandboxChannelResponse = "APNSVoipSandboxChannelResponse"
         }
     }
 
@@ -9849,41 +9849,41 @@ extension Pinpoint {
 
     public struct UpdateGcmChannelRequest: AWSEncodableShape & AWSShapeWithPayload {
         /// The key for the payload
-        public static let _payloadPath: String = "gCMChannelRequest"
+        public static let _payloadPath: String = "gcmChannelRequest"
         public static var _encoding = [
             AWSMemberEncoding(label: "applicationId", location: .uri("ApplicationId")),
-            AWSMemberEncoding(label: "gCMChannelRequest", location: .body("GCMChannelRequest"))
+            AWSMemberEncoding(label: "gcmChannelRequest", location: .body("GCMChannelRequest"))
         ]
 
         /// The unique identifier for the application. This identifier is displayed as the Project ID on the Amazon Pinpoint console.
         public let applicationId: String
-        public let gCMChannelRequest: GCMChannelRequest
+        public let gcmChannelRequest: GCMChannelRequest
 
-        public init(applicationId: String, gCMChannelRequest: GCMChannelRequest) {
+        public init(applicationId: String, gcmChannelRequest: GCMChannelRequest) {
             self.applicationId = applicationId
-            self.gCMChannelRequest = gCMChannelRequest
+            self.gcmChannelRequest = gcmChannelRequest
         }
 
         private enum CodingKeys: String, CodingKey {
-            case gCMChannelRequest = "GCMChannelRequest"
+            case gcmChannelRequest = "GCMChannelRequest"
         }
     }
 
     public struct UpdateGcmChannelResponse: AWSDecodableShape & AWSShapeWithPayload {
         /// The key for the payload
-        public static let _payloadPath: String = "gCMChannelResponse"
+        public static let _payloadPath: String = "gcmChannelResponse"
         public static var _encoding = [
-            AWSMemberEncoding(label: "gCMChannelResponse", location: .body("GCMChannelResponse"))
+            AWSMemberEncoding(label: "gcmChannelResponse", location: .body("GCMChannelResponse"))
         ]
 
-        public let gCMChannelResponse: GCMChannelResponse
+        public let gcmChannelResponse: GCMChannelResponse
 
-        public init(gCMChannelResponse: GCMChannelResponse) {
-            self.gCMChannelResponse = gCMChannelResponse
+        public init(gcmChannelResponse: GCMChannelResponse) {
+            self.gcmChannelResponse = gcmChannelResponse
         }
 
         private enum CodingKeys: String, CodingKey {
-            case gCMChannelResponse = "GCMChannelResponse"
+            case gcmChannelResponse = "GCMChannelResponse"
         }
     }
 
@@ -10202,71 +10202,71 @@ extension Pinpoint {
 
     public struct UpdateSmsChannelRequest: AWSEncodableShape & AWSShapeWithPayload {
         /// The key for the payload
-        public static let _payloadPath: String = "sMSChannelRequest"
+        public static let _payloadPath: String = "smsChannelRequest"
         public static var _encoding = [
             AWSMemberEncoding(label: "applicationId", location: .uri("ApplicationId")),
-            AWSMemberEncoding(label: "sMSChannelRequest", location: .body("SMSChannelRequest"))
+            AWSMemberEncoding(label: "smsChannelRequest", location: .body("SMSChannelRequest"))
         ]
 
         /// The unique identifier for the application. This identifier is displayed as the Project ID on the Amazon Pinpoint console.
         public let applicationId: String
-        public let sMSChannelRequest: SMSChannelRequest
+        public let smsChannelRequest: SMSChannelRequest
 
-        public init(applicationId: String, sMSChannelRequest: SMSChannelRequest) {
+        public init(applicationId: String, smsChannelRequest: SMSChannelRequest) {
             self.applicationId = applicationId
-            self.sMSChannelRequest = sMSChannelRequest
+            self.smsChannelRequest = smsChannelRequest
         }
 
         private enum CodingKeys: String, CodingKey {
-            case sMSChannelRequest = "SMSChannelRequest"
+            case smsChannelRequest = "SMSChannelRequest"
         }
     }
 
     public struct UpdateSmsChannelResponse: AWSDecodableShape & AWSShapeWithPayload {
         /// The key for the payload
-        public static let _payloadPath: String = "sMSChannelResponse"
+        public static let _payloadPath: String = "smsChannelResponse"
         public static var _encoding = [
-            AWSMemberEncoding(label: "sMSChannelResponse", location: .body("SMSChannelResponse"))
+            AWSMemberEncoding(label: "smsChannelResponse", location: .body("SMSChannelResponse"))
         ]
 
-        public let sMSChannelResponse: SMSChannelResponse
+        public let smsChannelResponse: SMSChannelResponse
 
-        public init(sMSChannelResponse: SMSChannelResponse) {
-            self.sMSChannelResponse = sMSChannelResponse
+        public init(smsChannelResponse: SMSChannelResponse) {
+            self.smsChannelResponse = smsChannelResponse
         }
 
         private enum CodingKeys: String, CodingKey {
-            case sMSChannelResponse = "SMSChannelResponse"
+            case smsChannelResponse = "SMSChannelResponse"
         }
     }
 
     public struct UpdateSmsTemplateRequest: AWSEncodableShape & AWSShapeWithPayload {
         /// The key for the payload
-        public static let _payloadPath: String = "sMSTemplateRequest"
+        public static let _payloadPath: String = "smsTemplateRequest"
         public static var _encoding = [
             AWSMemberEncoding(label: "createNewVersion", location: .querystring("create-new-version")),
-            AWSMemberEncoding(label: "sMSTemplateRequest", location: .body("SMSTemplateRequest")),
+            AWSMemberEncoding(label: "smsTemplateRequest", location: .body("SMSTemplateRequest")),
             AWSMemberEncoding(label: "templateName", location: .uri("TemplateName")),
             AWSMemberEncoding(label: "version", location: .querystring("version"))
         ]
 
         /// Specifies whether to save the updates as a new version of the message template. Valid values are: true, save the updates as a new version; and, false, save the updates to (overwrite) the latest existing version of the template. If you don't specify a value for this parameter, Amazon Pinpoint saves the updates to (overwrites) the latest existing version of the template. If you specify a value of true for this parameter, don't specify a value for the version parameter. Otherwise, an error will occur.
         public let createNewVersion: Bool?
-        public let sMSTemplateRequest: SMSTemplateRequest
+        public let smsTemplateRequest: SMSTemplateRequest
         /// The name of the message template. A template name must start with an alphanumeric character and can contain a maximum of 128 characters. The characters can be alphanumeric characters, underscores (_), or hyphens (-). Template names are case sensitive.
         public let templateName: String
         /// The unique identifier for the version of the message template to update, retrieve information about, or delete. To retrieve identifiers and other information for all the versions of a template, use the Template Versions resource. If specified, this value must match the identifier for an existing template version. If specified for an update operation, this value must match the identifier for the latest existing version of the template. This restriction helps ensure that race conditions don't occur. If you don't specify a value for this parameter, Amazon Pinpoint does the following: For a get operation, retrieves information about the active version of the template. For an update operation, saves the updates to (overwrites) the latest existing version of the template, if the create-new-version parameter isn't used or is set to false. For a delete operation, deletes the template, including all versions of the template.
         public let version: String?
 
-        public init(createNewVersion: Bool? = nil, sMSTemplateRequest: SMSTemplateRequest, templateName: String, version: String? = nil) {
+        public init(createNewVersion: Bool? = nil, smsTemplateRequest: SMSTemplateRequest, templateName: String, version: String? = nil) {
             self.createNewVersion = createNewVersion
-            self.sMSTemplateRequest = sMSTemplateRequest
+            self.smsTemplateRequest = smsTemplateRequest
             self.templateName = templateName
             self.version = version
         }
 
         private enum CodingKeys: String, CodingKey {
-            case sMSTemplateRequest = "SMSTemplateRequest"
+            case smsTemplateRequest = "SMSTemplateRequest"
         }
     }
 

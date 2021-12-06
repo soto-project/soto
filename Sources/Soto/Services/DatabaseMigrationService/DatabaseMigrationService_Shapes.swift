@@ -437,7 +437,7 @@ extension DatabaseMigrationService {
         /// Settings in JSON format for the source GCP MySQL endpoint.
         public let gcpMySQLSettings: GcpMySQLSettings?
         /// Settings in JSON format for the source IBM Db2 LUW endpoint. For information about other available settings, see Extra connection attributes when using Db2 LUW as a source for DMS in the Database Migration Service User Guide.
-        public let iBMDb2Settings: IBMDb2Settings?
+        public let ibmDb2Settings: IBMDb2Settings?
         /// Settings in JSON format for the target Apache Kafka endpoint. For more information about the available settings, see Using object mapping to migrate data to a Kafka topic in the Database Migration Service User Guide.
         public let kafkaSettings: KafkaSettings?
         /// Settings in JSON format for the target endpoint for Amazon Kinesis Data Streams. For more information about the available settings, see Using object mapping to migrate data to a Kinesis data stream in the Database Migration Service User Guide.
@@ -480,7 +480,7 @@ extension DatabaseMigrationService {
         /// The user name to be used to log in to the endpoint database.
         public let username: String?
 
-        public init(certificateArn: String? = nil, databaseName: String? = nil, dmsTransferSettings: DmsTransferSettings? = nil, docDbSettings: DocDbSettings? = nil, dynamoDbSettings: DynamoDbSettings? = nil, elasticsearchSettings: ElasticsearchSettings? = nil, endpointIdentifier: String, endpointType: ReplicationEndpointTypeValue, engineName: String, externalTableDefinition: String? = nil, extraConnectionAttributes: String? = nil, gcpMySQLSettings: GcpMySQLSettings? = nil, iBMDb2Settings: IBMDb2Settings? = nil, kafkaSettings: KafkaSettings? = nil, kinesisSettings: KinesisSettings? = nil, kmsKeyId: String? = nil, microsoftSQLServerSettings: MicrosoftSQLServerSettings? = nil, mongoDbSettings: MongoDbSettings? = nil, mySQLSettings: MySQLSettings? = nil, neptuneSettings: NeptuneSettings? = nil, oracleSettings: OracleSettings? = nil, password: String? = nil, port: Int? = nil, postgreSQLSettings: PostgreSQLSettings? = nil, redisSettings: RedisSettings? = nil, redshiftSettings: RedshiftSettings? = nil, resourceIdentifier: String? = nil, s3Settings: S3Settings? = nil, serverName: String? = nil, serviceAccessRoleArn: String? = nil, sslMode: DmsSslModeValue? = nil, sybaseSettings: SybaseSettings? = nil, tags: [Tag]? = nil, username: String? = nil) {
+        public init(certificateArn: String? = nil, databaseName: String? = nil, dmsTransferSettings: DmsTransferSettings? = nil, docDbSettings: DocDbSettings? = nil, dynamoDbSettings: DynamoDbSettings? = nil, elasticsearchSettings: ElasticsearchSettings? = nil, endpointIdentifier: String, endpointType: ReplicationEndpointTypeValue, engineName: String, externalTableDefinition: String? = nil, extraConnectionAttributes: String? = nil, gcpMySQLSettings: GcpMySQLSettings? = nil, ibmDb2Settings: IBMDb2Settings? = nil, kafkaSettings: KafkaSettings? = nil, kinesisSettings: KinesisSettings? = nil, kmsKeyId: String? = nil, microsoftSQLServerSettings: MicrosoftSQLServerSettings? = nil, mongoDbSettings: MongoDbSettings? = nil, mySQLSettings: MySQLSettings? = nil, neptuneSettings: NeptuneSettings? = nil, oracleSettings: OracleSettings? = nil, password: String? = nil, port: Int? = nil, postgreSQLSettings: PostgreSQLSettings? = nil, redisSettings: RedisSettings? = nil, redshiftSettings: RedshiftSettings? = nil, resourceIdentifier: String? = nil, s3Settings: S3Settings? = nil, serverName: String? = nil, serviceAccessRoleArn: String? = nil, sslMode: DmsSslModeValue? = nil, sybaseSettings: SybaseSettings? = nil, tags: [Tag]? = nil, username: String? = nil) {
             self.certificateArn = certificateArn
             self.databaseName = databaseName
             self.dmsTransferSettings = dmsTransferSettings
@@ -493,7 +493,7 @@ extension DatabaseMigrationService {
             self.externalTableDefinition = externalTableDefinition
             self.extraConnectionAttributes = extraConnectionAttributes
             self.gcpMySQLSettings = gcpMySQLSettings
-            self.iBMDb2Settings = iBMDb2Settings
+            self.ibmDb2Settings = ibmDb2Settings
             self.kafkaSettings = kafkaSettings
             self.kinesisSettings = kinesisSettings
             self.kmsKeyId = kmsKeyId
@@ -530,7 +530,7 @@ extension DatabaseMigrationService {
             case externalTableDefinition = "ExternalTableDefinition"
             case extraConnectionAttributes = "ExtraConnectionAttributes"
             case gcpMySQLSettings = "GcpMySQLSettings"
-            case iBMDb2Settings = "IBMDb2Settings"
+            case ibmDb2Settings = "IBMDb2Settings"
             case kafkaSettings = "KafkaSettings"
             case kinesisSettings = "KinesisSettings"
             case kmsKeyId = "KmsKeyId"
@@ -2016,7 +2016,7 @@ extension DatabaseMigrationService {
         /// Settings in JSON format for the source GCP MySQL endpoint.
         public let gcpMySQLSettings: GcpMySQLSettings?
         /// The settings for the IBM Db2 LUW source endpoint. For more information, see the IBMDb2Settings structure.
-        public let iBMDb2Settings: IBMDb2Settings?
+        public let ibmDb2Settings: IBMDb2Settings?
         /// The settings for the Apache Kafka target endpoint. For more information, see the KafkaSettings structure.
         public let kafkaSettings: KafkaSettings?
         /// The settings for the Amazon Kinesis target endpoint. For more information, see the KinesisSettings structure.
@@ -2056,7 +2056,7 @@ extension DatabaseMigrationService {
         /// The user name used to connect to the endpoint.
         public let username: String?
 
-        public init(certificateArn: String? = nil, databaseName: String? = nil, dmsTransferSettings: DmsTransferSettings? = nil, docDbSettings: DocDbSettings? = nil, dynamoDbSettings: DynamoDbSettings? = nil, elasticsearchSettings: ElasticsearchSettings? = nil, endpointArn: String? = nil, endpointIdentifier: String? = nil, endpointType: ReplicationEndpointTypeValue? = nil, engineDisplayName: String? = nil, engineName: String? = nil, externalId: String? = nil, externalTableDefinition: String? = nil, extraConnectionAttributes: String? = nil, gcpMySQLSettings: GcpMySQLSettings? = nil, iBMDb2Settings: IBMDb2Settings? = nil, kafkaSettings: KafkaSettings? = nil, kinesisSettings: KinesisSettings? = nil, kmsKeyId: String? = nil, microsoftSQLServerSettings: MicrosoftSQLServerSettings? = nil, mongoDbSettings: MongoDbSettings? = nil, mySQLSettings: MySQLSettings? = nil, neptuneSettings: NeptuneSettings? = nil, oracleSettings: OracleSettings? = nil, port: Int? = nil, postgreSQLSettings: PostgreSQLSettings? = nil, redisSettings: RedisSettings? = nil, redshiftSettings: RedshiftSettings? = nil, s3Settings: S3Settings? = nil, serverName: String? = nil, serviceAccessRoleArn: String? = nil, sslMode: DmsSslModeValue? = nil, status: String? = nil, sybaseSettings: SybaseSettings? = nil, username: String? = nil) {
+        public init(certificateArn: String? = nil, databaseName: String? = nil, dmsTransferSettings: DmsTransferSettings? = nil, docDbSettings: DocDbSettings? = nil, dynamoDbSettings: DynamoDbSettings? = nil, elasticsearchSettings: ElasticsearchSettings? = nil, endpointArn: String? = nil, endpointIdentifier: String? = nil, endpointType: ReplicationEndpointTypeValue? = nil, engineDisplayName: String? = nil, engineName: String? = nil, externalId: String? = nil, externalTableDefinition: String? = nil, extraConnectionAttributes: String? = nil, gcpMySQLSettings: GcpMySQLSettings? = nil, ibmDb2Settings: IBMDb2Settings? = nil, kafkaSettings: KafkaSettings? = nil, kinesisSettings: KinesisSettings? = nil, kmsKeyId: String? = nil, microsoftSQLServerSettings: MicrosoftSQLServerSettings? = nil, mongoDbSettings: MongoDbSettings? = nil, mySQLSettings: MySQLSettings? = nil, neptuneSettings: NeptuneSettings? = nil, oracleSettings: OracleSettings? = nil, port: Int? = nil, postgreSQLSettings: PostgreSQLSettings? = nil, redisSettings: RedisSettings? = nil, redshiftSettings: RedshiftSettings? = nil, s3Settings: S3Settings? = nil, serverName: String? = nil, serviceAccessRoleArn: String? = nil, sslMode: DmsSslModeValue? = nil, status: String? = nil, sybaseSettings: SybaseSettings? = nil, username: String? = nil) {
             self.certificateArn = certificateArn
             self.databaseName = databaseName
             self.dmsTransferSettings = dmsTransferSettings
@@ -2072,7 +2072,7 @@ extension DatabaseMigrationService {
             self.externalTableDefinition = externalTableDefinition
             self.extraConnectionAttributes = extraConnectionAttributes
             self.gcpMySQLSettings = gcpMySQLSettings
-            self.iBMDb2Settings = iBMDb2Settings
+            self.ibmDb2Settings = ibmDb2Settings
             self.kafkaSettings = kafkaSettings
             self.kinesisSettings = kinesisSettings
             self.kmsKeyId = kmsKeyId
@@ -2110,7 +2110,7 @@ extension DatabaseMigrationService {
             case externalTableDefinition = "ExternalTableDefinition"
             case extraConnectionAttributes = "ExtraConnectionAttributes"
             case gcpMySQLSettings = "GcpMySQLSettings"
-            case iBMDb2Settings = "IBMDb2Settings"
+            case ibmDb2Settings = "IBMDb2Settings"
             case kafkaSettings = "KafkaSettings"
             case kinesisSettings = "KinesisSettings"
             case kmsKeyId = "KmsKeyId"
@@ -2692,7 +2692,7 @@ extension DatabaseMigrationService {
         /// Settings in JSON format for the source GCP MySQL endpoint.
         public let gcpMySQLSettings: GcpMySQLSettings?
         /// Settings in JSON format for the source IBM Db2 LUW endpoint. For information about other available settings, see Extra connection attributes when using Db2 LUW as a source for DMS in the Database Migration Service User Guide.
-        public let iBMDb2Settings: IBMDb2Settings?
+        public let ibmDb2Settings: IBMDb2Settings?
         /// Settings in JSON format for the target Apache Kafka endpoint. For more information about the available settings, see Using object mapping to migrate data to a Kafka topic in the Database Migration Service User Guide.
         public let kafkaSettings: KafkaSettings?
         /// Settings in JSON format for the target endpoint for Amazon Kinesis Data Streams. For more information about the available settings, see Using object mapping to migrate data to a Kinesis data stream in the Database Migration Service User Guide.
@@ -2729,7 +2729,7 @@ extension DatabaseMigrationService {
         /// The user name to be used to login to the endpoint database.
         public let username: String?
 
-        public init(certificateArn: String? = nil, databaseName: String? = nil, dmsTransferSettings: DmsTransferSettings? = nil, docDbSettings: DocDbSettings? = nil, dynamoDbSettings: DynamoDbSettings? = nil, elasticsearchSettings: ElasticsearchSettings? = nil, endpointArn: String, endpointIdentifier: String? = nil, endpointType: ReplicationEndpointTypeValue? = nil, engineName: String? = nil, exactSettings: Bool? = nil, externalTableDefinition: String? = nil, extraConnectionAttributes: String? = nil, gcpMySQLSettings: GcpMySQLSettings? = nil, iBMDb2Settings: IBMDb2Settings? = nil, kafkaSettings: KafkaSettings? = nil, kinesisSettings: KinesisSettings? = nil, microsoftSQLServerSettings: MicrosoftSQLServerSettings? = nil, mongoDbSettings: MongoDbSettings? = nil, mySQLSettings: MySQLSettings? = nil, neptuneSettings: NeptuneSettings? = nil, oracleSettings: OracleSettings? = nil, password: String? = nil, port: Int? = nil, postgreSQLSettings: PostgreSQLSettings? = nil, redisSettings: RedisSettings? = nil, redshiftSettings: RedshiftSettings? = nil, s3Settings: S3Settings? = nil, serverName: String? = nil, serviceAccessRoleArn: String? = nil, sslMode: DmsSslModeValue? = nil, sybaseSettings: SybaseSettings? = nil, username: String? = nil) {
+        public init(certificateArn: String? = nil, databaseName: String? = nil, dmsTransferSettings: DmsTransferSettings? = nil, docDbSettings: DocDbSettings? = nil, dynamoDbSettings: DynamoDbSettings? = nil, elasticsearchSettings: ElasticsearchSettings? = nil, endpointArn: String, endpointIdentifier: String? = nil, endpointType: ReplicationEndpointTypeValue? = nil, engineName: String? = nil, exactSettings: Bool? = nil, externalTableDefinition: String? = nil, extraConnectionAttributes: String? = nil, gcpMySQLSettings: GcpMySQLSettings? = nil, ibmDb2Settings: IBMDb2Settings? = nil, kafkaSettings: KafkaSettings? = nil, kinesisSettings: KinesisSettings? = nil, microsoftSQLServerSettings: MicrosoftSQLServerSettings? = nil, mongoDbSettings: MongoDbSettings? = nil, mySQLSettings: MySQLSettings? = nil, neptuneSettings: NeptuneSettings? = nil, oracleSettings: OracleSettings? = nil, password: String? = nil, port: Int? = nil, postgreSQLSettings: PostgreSQLSettings? = nil, redisSettings: RedisSettings? = nil, redshiftSettings: RedshiftSettings? = nil, s3Settings: S3Settings? = nil, serverName: String? = nil, serviceAccessRoleArn: String? = nil, sslMode: DmsSslModeValue? = nil, sybaseSettings: SybaseSettings? = nil, username: String? = nil) {
             self.certificateArn = certificateArn
             self.databaseName = databaseName
             self.dmsTransferSettings = dmsTransferSettings
@@ -2744,7 +2744,7 @@ extension DatabaseMigrationService {
             self.externalTableDefinition = externalTableDefinition
             self.extraConnectionAttributes = extraConnectionAttributes
             self.gcpMySQLSettings = gcpMySQLSettings
-            self.iBMDb2Settings = iBMDb2Settings
+            self.ibmDb2Settings = ibmDb2Settings
             self.kafkaSettings = kafkaSettings
             self.kinesisSettings = kinesisSettings
             self.microsoftSQLServerSettings = microsoftSQLServerSettings
@@ -2780,7 +2780,7 @@ extension DatabaseMigrationService {
             case externalTableDefinition = "ExternalTableDefinition"
             case extraConnectionAttributes = "ExtraConnectionAttributes"
             case gcpMySQLSettings = "GcpMySQLSettings"
-            case iBMDb2Settings = "IBMDb2Settings"
+            case ibmDb2Settings = "IBMDb2Settings"
             case kafkaSettings = "KafkaSettings"
             case kinesisSettings = "KinesisSettings"
             case microsoftSQLServerSettings = "MicrosoftSQLServerSettings"

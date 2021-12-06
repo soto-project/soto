@@ -22,26 +22,26 @@ public struct DocDBErrorType: AWSErrorType {
     enum Code: String {
         case authorizationNotFoundFault = "AuthorizationNotFound"
         case certificateNotFoundFault = "CertificateNotFound"
-        case dBClusterAlreadyExistsFault = "DBClusterAlreadyExistsFault"
-        case dBClusterNotFoundFault = "DBClusterNotFoundFault"
-        case dBClusterParameterGroupNotFoundFault = "DBClusterParameterGroupNotFound"
-        case dBClusterQuotaExceededFault = "DBClusterQuotaExceededFault"
-        case dBClusterSnapshotAlreadyExistsFault = "DBClusterSnapshotAlreadyExistsFault"
-        case dBClusterSnapshotNotFoundFault = "DBClusterSnapshotNotFoundFault"
-        case dBInstanceAlreadyExistsFault = "DBInstanceAlreadyExists"
-        case dBInstanceNotFoundFault = "DBInstanceNotFound"
-        case dBParameterGroupAlreadyExistsFault = "DBParameterGroupAlreadyExists"
-        case dBParameterGroupNotFoundFault = "DBParameterGroupNotFound"
-        case dBParameterGroupQuotaExceededFault = "DBParameterGroupQuotaExceeded"
-        case dBSecurityGroupNotFoundFault = "DBSecurityGroupNotFound"
-        case dBSnapshotAlreadyExistsFault = "DBSnapshotAlreadyExists"
-        case dBSnapshotNotFoundFault = "DBSnapshotNotFound"
-        case dBSubnetGroupAlreadyExistsFault = "DBSubnetGroupAlreadyExists"
-        case dBSubnetGroupDoesNotCoverEnoughAZs = "DBSubnetGroupDoesNotCoverEnoughAZs"
-        case dBSubnetGroupNotFoundFault = "DBSubnetGroupNotFoundFault"
-        case dBSubnetGroupQuotaExceededFault = "DBSubnetGroupQuotaExceeded"
-        case dBSubnetQuotaExceededFault = "DBSubnetQuotaExceededFault"
-        case dBUpgradeDependencyFailureFault = "DBUpgradeDependencyFailure"
+        case dbClusterAlreadyExistsFault = "DBClusterAlreadyExistsFault"
+        case dbClusterNotFoundFault = "DBClusterNotFoundFault"
+        case dbClusterParameterGroupNotFoundFault = "DBClusterParameterGroupNotFound"
+        case dbClusterQuotaExceededFault = "DBClusterQuotaExceededFault"
+        case dbClusterSnapshotAlreadyExistsFault = "DBClusterSnapshotAlreadyExistsFault"
+        case dbClusterSnapshotNotFoundFault = "DBClusterSnapshotNotFoundFault"
+        case dbInstanceAlreadyExistsFault = "DBInstanceAlreadyExists"
+        case dbInstanceNotFoundFault = "DBInstanceNotFound"
+        case dbParameterGroupAlreadyExistsFault = "DBParameterGroupAlreadyExists"
+        case dbParameterGroupNotFoundFault = "DBParameterGroupNotFound"
+        case dbParameterGroupQuotaExceededFault = "DBParameterGroupQuotaExceeded"
+        case dbSecurityGroupNotFoundFault = "DBSecurityGroupNotFound"
+        case dbSnapshotAlreadyExistsFault = "DBSnapshotAlreadyExists"
+        case dbSnapshotNotFoundFault = "DBSnapshotNotFound"
+        case dbSubnetGroupAlreadyExistsFault = "DBSubnetGroupAlreadyExists"
+        case dbSubnetGroupDoesNotCoverEnoughAZs = "DBSubnetGroupDoesNotCoverEnoughAZs"
+        case dbSubnetGroupNotFoundFault = "DBSubnetGroupNotFoundFault"
+        case dbSubnetGroupQuotaExceededFault = "DBSubnetGroupQuotaExceeded"
+        case dbSubnetQuotaExceededFault = "DBSubnetQuotaExceededFault"
+        case dbUpgradeDependencyFailureFault = "DBUpgradeDependencyFailure"
         case eventSubscriptionQuotaExceededFault = "EventSubscriptionQuotaExceeded"
         case globalClusterAlreadyExistsFault = "GlobalClusterAlreadyExistsFault"
         case globalClusterNotFoundFault = "GlobalClusterNotFoundFault"
@@ -63,13 +63,13 @@ public struct DocDBErrorType: AWSErrorType {
         case invalidRestoreFault = "InvalidRestoreFault"
         case invalidSubnet = "InvalidSubnet"
         case invalidVPCNetworkStateFault = "InvalidVPCNetworkStateFault"
-        case kMSKeyNotAccessibleFault = "KMSKeyNotAccessibleFault"
+        case kmsKeyNotAccessibleFault = "KMSKeyNotAccessibleFault"
         case resourceNotFoundFault = "ResourceNotFoundFault"
-        case sNSInvalidTopicFault = "SNSInvalidTopic"
-        case sNSNoAuthorizationFault = "SNSNoAuthorization"
-        case sNSTopicArnNotFoundFault = "SNSTopicArnNotFound"
         case sharedSnapshotQuotaExceededFault = "SharedSnapshotQuotaExceeded"
         case snapshotQuotaExceededFault = "SnapshotQuotaExceeded"
+        case snsInvalidTopicFault = "SNSInvalidTopic"
+        case snsNoAuthorizationFault = "SNSNoAuthorization"
+        case snsTopicArnNotFoundFault = "SNSTopicArnNotFound"
         case sourceNotFoundFault = "SourceNotFound"
         case storageQuotaExceededFault = "StorageQuotaExceeded"
         case storageTypeNotSupportedFault = "StorageTypeNotSupported"
@@ -102,45 +102,45 @@ public struct DocDBErrorType: AWSErrorType {
     ///  CertificateIdentifier doesn't refer to an existing certificate.
     public static var certificateNotFoundFault: Self { .init(.certificateNotFoundFault) }
     /// You already have a cluster with the given identifier.
-    public static var dBClusterAlreadyExistsFault: Self { .init(.dBClusterAlreadyExistsFault) }
+    public static var dbClusterAlreadyExistsFault: Self { .init(.dbClusterAlreadyExistsFault) }
     ///  DBClusterIdentifier doesn't refer to an existing cluster.
-    public static var dBClusterNotFoundFault: Self { .init(.dBClusterNotFoundFault) }
+    public static var dbClusterNotFoundFault: Self { .init(.dbClusterNotFoundFault) }
     ///  DBClusterParameterGroupName doesn't refer to an existing cluster parameter group.
-    public static var dBClusterParameterGroupNotFoundFault: Self { .init(.dBClusterParameterGroupNotFoundFault) }
+    public static var dbClusterParameterGroupNotFoundFault: Self { .init(.dbClusterParameterGroupNotFoundFault) }
     /// The cluster can't be created because you have reached the maximum allowed quota of clusters.
-    public static var dBClusterQuotaExceededFault: Self { .init(.dBClusterQuotaExceededFault) }
+    public static var dbClusterQuotaExceededFault: Self { .init(.dbClusterQuotaExceededFault) }
     /// You already have a cluster snapshot with the given identifier.
-    public static var dBClusterSnapshotAlreadyExistsFault: Self { .init(.dBClusterSnapshotAlreadyExistsFault) }
+    public static var dbClusterSnapshotAlreadyExistsFault: Self { .init(.dbClusterSnapshotAlreadyExistsFault) }
     ///  DBClusterSnapshotIdentifier doesn't refer to an existing cluster snapshot.
-    public static var dBClusterSnapshotNotFoundFault: Self { .init(.dBClusterSnapshotNotFoundFault) }
+    public static var dbClusterSnapshotNotFoundFault: Self { .init(.dbClusterSnapshotNotFoundFault) }
     /// You already have a instance with the given identifier.
-    public static var dBInstanceAlreadyExistsFault: Self { .init(.dBInstanceAlreadyExistsFault) }
+    public static var dbInstanceAlreadyExistsFault: Self { .init(.dbInstanceAlreadyExistsFault) }
     ///  DBInstanceIdentifier doesn't refer to an existing instance.
-    public static var dBInstanceNotFoundFault: Self { .init(.dBInstanceNotFoundFault) }
+    public static var dbInstanceNotFoundFault: Self { .init(.dbInstanceNotFoundFault) }
     /// A parameter group with the same name already exists.
-    public static var dBParameterGroupAlreadyExistsFault: Self { .init(.dBParameterGroupAlreadyExistsFault) }
+    public static var dbParameterGroupAlreadyExistsFault: Self { .init(.dbParameterGroupAlreadyExistsFault) }
     ///  DBParameterGroupName doesn't refer to an existing parameter group.
-    public static var dBParameterGroupNotFoundFault: Self { .init(.dBParameterGroupNotFoundFault) }
+    public static var dbParameterGroupNotFoundFault: Self { .init(.dbParameterGroupNotFoundFault) }
     /// This request would cause you to exceed the allowed number of parameter groups.
-    public static var dBParameterGroupQuotaExceededFault: Self { .init(.dBParameterGroupQuotaExceededFault) }
+    public static var dbParameterGroupQuotaExceededFault: Self { .init(.dbParameterGroupQuotaExceededFault) }
     ///  DBSecurityGroupName doesn't refer to an existing security group.
-    public static var dBSecurityGroupNotFoundFault: Self { .init(.dBSecurityGroupNotFoundFault) }
+    public static var dbSecurityGroupNotFoundFault: Self { .init(.dbSecurityGroupNotFoundFault) }
     ///  DBSnapshotIdentifier is already being used by an existing snapshot.
-    public static var dBSnapshotAlreadyExistsFault: Self { .init(.dBSnapshotAlreadyExistsFault) }
+    public static var dbSnapshotAlreadyExistsFault: Self { .init(.dbSnapshotAlreadyExistsFault) }
     ///  DBSnapshotIdentifier doesn't refer to an existing snapshot.
-    public static var dBSnapshotNotFoundFault: Self { .init(.dBSnapshotNotFoundFault) }
+    public static var dbSnapshotNotFoundFault: Self { .init(.dbSnapshotNotFoundFault) }
     ///  DBSubnetGroupName is already being used by an existing subnet group.
-    public static var dBSubnetGroupAlreadyExistsFault: Self { .init(.dBSubnetGroupAlreadyExistsFault) }
+    public static var dbSubnetGroupAlreadyExistsFault: Self { .init(.dbSubnetGroupAlreadyExistsFault) }
     /// Subnets in the subnet group should cover at least two Availability Zones unless there is only one Availability Zone.
-    public static var dBSubnetGroupDoesNotCoverEnoughAZs: Self { .init(.dBSubnetGroupDoesNotCoverEnoughAZs) }
+    public static var dbSubnetGroupDoesNotCoverEnoughAZs: Self { .init(.dbSubnetGroupDoesNotCoverEnoughAZs) }
     ///  DBSubnetGroupName doesn't refer to an existing subnet group.
-    public static var dBSubnetGroupNotFoundFault: Self { .init(.dBSubnetGroupNotFoundFault) }
+    public static var dbSubnetGroupNotFoundFault: Self { .init(.dbSubnetGroupNotFoundFault) }
     /// The request would cause you to exceed the allowed number of subnet groups.
-    public static var dBSubnetGroupQuotaExceededFault: Self { .init(.dBSubnetGroupQuotaExceededFault) }
+    public static var dbSubnetGroupQuotaExceededFault: Self { .init(.dbSubnetGroupQuotaExceededFault) }
     /// The request would cause you to exceed the allowed number of subnets in a subnet group.
-    public static var dBSubnetQuotaExceededFault: Self { .init(.dBSubnetQuotaExceededFault) }
+    public static var dbSubnetQuotaExceededFault: Self { .init(.dbSubnetQuotaExceededFault) }
     /// The upgrade failed because a resource that the depends on can't be modified.
-    public static var dBUpgradeDependencyFailureFault: Self { .init(.dBUpgradeDependencyFailureFault) }
+    public static var dbUpgradeDependencyFailureFault: Self { .init(.dbUpgradeDependencyFailureFault) }
     /// You have reached the maximum number of event subscriptions.
     public static var eventSubscriptionQuotaExceededFault: Self { .init(.eventSubscriptionQuotaExceededFault) }
     /// The GlobalClusterIdentifier already exists. Choose a new global cluster identifier (unique name) to create a new global cluster.
@@ -184,19 +184,19 @@ public struct DocDBErrorType: AWSErrorType {
     /// The subnet group doesn't cover all Availability Zones after it is created because of changes that were made.
     public static var invalidVPCNetworkStateFault: Self { .init(.invalidVPCNetworkStateFault) }
     /// An error occurred when accessing an KMS key.
-    public static var kMSKeyNotAccessibleFault: Self { .init(.kMSKeyNotAccessibleFault) }
+    public static var kmsKeyNotAccessibleFault: Self { .init(.kmsKeyNotAccessibleFault) }
     /// The specified resource ID was not found.
     public static var resourceNotFoundFault: Self { .init(.resourceNotFoundFault) }
-    /// Amazon SNS has responded that there is a problem with the specified topic.
-    public static var sNSInvalidTopicFault: Self { .init(.sNSInvalidTopicFault) }
-    /// You do not have permission to publish to the SNS topic Amazon Resource Name (ARN).
-    public static var sNSNoAuthorizationFault: Self { .init(.sNSNoAuthorizationFault) }
-    /// The SNS topic Amazon Resource Name (ARN) does not exist.
-    public static var sNSTopicArnNotFoundFault: Self { .init(.sNSTopicArnNotFoundFault) }
     /// You have exceeded the maximum number of accounts that you can share a manual DB snapshot with.
     public static var sharedSnapshotQuotaExceededFault: Self { .init(.sharedSnapshotQuotaExceededFault) }
     /// The request would cause you to exceed the allowed number of snapshots.
     public static var snapshotQuotaExceededFault: Self { .init(.snapshotQuotaExceededFault) }
+    /// Amazon SNS has responded that there is a problem with the specified topic.
+    public static var snsInvalidTopicFault: Self { .init(.snsInvalidTopicFault) }
+    /// You do not have permission to publish to the SNS topic Amazon Resource Name (ARN).
+    public static var snsNoAuthorizationFault: Self { .init(.snsNoAuthorizationFault) }
+    /// The SNS topic Amazon Resource Name (ARN) does not exist.
+    public static var snsTopicArnNotFoundFault: Self { .init(.snsTopicArnNotFoundFault) }
     /// The requested source could not be found.
     public static var sourceNotFoundFault: Self { .init(.sourceNotFoundFault) }
     /// The request would cause you to exceed the allowed amount of storage available across all instances.

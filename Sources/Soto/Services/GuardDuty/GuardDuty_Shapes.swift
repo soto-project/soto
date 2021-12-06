@@ -972,22 +972,22 @@ extension GuardDuty {
         /// An object that contains information on the status of CloudTrail as a data source.
         public let cloudTrail: CloudTrailConfigurationResult
         /// An object that contains information on the status of DNS logs as a data source.
-        public let dNSLogs: DNSLogsConfigurationResult
+        public let dnsLogs: DNSLogsConfigurationResult
         /// An object that contains information on the status of VPC flow logs as a data source.
         public let flowLogs: FlowLogsConfigurationResult
         /// An object that contains information on the status of S3 Data event logs as a data source.
         public let s3Logs: S3LogsConfigurationResult
 
-        public init(cloudTrail: CloudTrailConfigurationResult, dNSLogs: DNSLogsConfigurationResult, flowLogs: FlowLogsConfigurationResult, s3Logs: S3LogsConfigurationResult) {
+        public init(cloudTrail: CloudTrailConfigurationResult, dnsLogs: DNSLogsConfigurationResult, flowLogs: FlowLogsConfigurationResult, s3Logs: S3LogsConfigurationResult) {
             self.cloudTrail = cloudTrail
-            self.dNSLogs = dNSLogs
+            self.dnsLogs = dnsLogs
             self.flowLogs = flowLogs
             self.s3Logs = s3Logs
         }
 
         private enum CodingKeys: String, CodingKey {
             case cloudTrail
-            case dNSLogs = "dnsLogs"
+            case dnsLogs
             case flowLogs
             case s3Logs
         }

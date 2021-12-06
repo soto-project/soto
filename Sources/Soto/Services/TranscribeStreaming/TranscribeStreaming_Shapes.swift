@@ -38,18 +38,18 @@ extension TranscribeStreaming {
     }
 
     public enum LanguageCode: String, CustomStringConvertible, Codable {
-        case deDe = "de-DE"
-        case enAu = "en-AU"
-        case enGb = "en-GB"
-        case enUs = "en-US"
-        case esUs = "es-US"
-        case frCa = "fr-CA"
-        case frFr = "fr-FR"
-        case itIt = "it-IT"
-        case jaJp = "ja-JP"
-        case koKr = "ko-KR"
-        case ptBr = "pt-BR"
-        case zhCn = "zh-CN"
+        case deDE = "de-DE"
+        case enAU = "en-AU"
+        case enGB = "en-GB"
+        case enUS = "en-US"
+        case esUS = "es-US"
+        case frCA = "fr-CA"
+        case frFR = "fr-FR"
+        case itIT = "it-IT"
+        case jaJP = "ja-JP"
+        case koKR = "ko-KR"
+        case ptBR = "pt-BR"
+        case zhCN = "zh-CN"
         public var description: String { return self.rawValue }
     }
 

@@ -93,18 +93,18 @@ extension KMS {
     }
 
     public enum GrantOperation: String, CustomStringConvertible, Codable {
-        case creategrant = "CreateGrant"
+        case createGrant = "CreateGrant"
         case decrypt = "Decrypt"
-        case describekey = "DescribeKey"
+        case describeKey = "DescribeKey"
         case encrypt = "Encrypt"
-        case generatedatakey = "GenerateDataKey"
-        case generatedatakeypair = "GenerateDataKeyPair"
-        case generatedatakeypairwithoutplaintext = "GenerateDataKeyPairWithoutPlaintext"
-        case generatedatakeywithoutplaintext = "GenerateDataKeyWithoutPlaintext"
-        case getpublickey = "GetPublicKey"
-        case reencryptfrom = "ReEncryptFrom"
-        case reencryptto = "ReEncryptTo"
-        case retiregrant = "RetireGrant"
+        case generateDataKey = "GenerateDataKey"
+        case generateDataKeyPair = "GenerateDataKeyPair"
+        case generateDataKeyPairWithoutPlaintext = "GenerateDataKeyPairWithoutPlaintext"
+        case generateDataKeyWithoutPlaintext = "GenerateDataKeyWithoutPlaintext"
+        case getPublicKey = "GetPublicKey"
+        case reEncryptFrom = "ReEncryptFrom"
+        case reEncryptTo = "ReEncryptTo"
+        case retireGrant = "RetireGrant"
         case sign = "Sign"
         case verify = "Verify"
         public var description: String { return self.rawValue }
@@ -132,9 +132,9 @@ extension KMS {
         case creating = "Creating"
         case disabled = "Disabled"
         case enabled = "Enabled"
-        case pendingdeletion = "PendingDeletion"
-        case pendingimport = "PendingImport"
-        case pendingreplicadeletion = "PendingReplicaDeletion"
+        case pendingDeletion = "PendingDeletion"
+        case pendingImport = "PendingImport"
+        case pendingReplicaDeletion = "PendingReplicaDeletion"
         case unavailable = "Unavailable"
         case updating = "Updating"
         public var description: String { return self.rawValue }
@@ -1520,7 +1520,7 @@ extension KMS {
         /// The Amazon Resource Name (ARN) of the KMS key. For examples, see Key Management Service (KMS) in the Example ARNs section of the Amazon Web Services General Reference.
         public let arn: String?
         /// The twelve-digit account ID of the Amazon Web Services account that owns the KMS key.
-        public let aWSAccountId: String?
+        public let awsAccountId: String?
         /// The cluster ID of the CloudHSM cluster that contains the key material for the KMS key. When you create a KMS key in a custom key store, KMS creates the key material for the KMS key in the associated CloudHSM cluster. This value is present only when the KMS key is created in a custom key store.
         public let cloudHsmClusterId: String?
         /// The date and time when the KMS key was created.
@@ -1562,9 +1562,9 @@ extension KMS {
         /// The time at which the imported key material expires. When the key material expires, KMS deletes the key material and the KMS key becomes unusable. This value is present only for KMS keys whose Origin is EXTERNAL and whose ExpirationModel is KEY_MATERIAL_EXPIRES, otherwise this value is omitted.
         public let validTo: Date?
 
-        public init(arn: String? = nil, aWSAccountId: String? = nil, cloudHsmClusterId: String? = nil, creationDate: Date? = nil, customKeyStoreId: String? = nil, deletionDate: Date? = nil, description: String? = nil, enabled: Bool? = nil, encryptionAlgorithms: [EncryptionAlgorithmSpec]? = nil, expirationModel: ExpirationModelType? = nil, keyId: String, keyManager: KeyManagerType? = nil, keySpec: KeySpec? = nil, keyState: KeyState? = nil, keyUsage: KeyUsageType? = nil, multiRegion: Bool? = nil, multiRegionConfiguration: MultiRegionConfiguration? = nil, origin: OriginType? = nil, pendingDeletionWindowInDays: Int? = nil, signingAlgorithms: [SigningAlgorithmSpec]? = nil, validTo: Date? = nil) {
+        public init(arn: String? = nil, awsAccountId: String? = nil, cloudHsmClusterId: String? = nil, creationDate: Date? = nil, customKeyStoreId: String? = nil, deletionDate: Date? = nil, description: String? = nil, enabled: Bool? = nil, encryptionAlgorithms: [EncryptionAlgorithmSpec]? = nil, expirationModel: ExpirationModelType? = nil, keyId: String, keyManager: KeyManagerType? = nil, keySpec: KeySpec? = nil, keyState: KeyState? = nil, keyUsage: KeyUsageType? = nil, multiRegion: Bool? = nil, multiRegionConfiguration: MultiRegionConfiguration? = nil, origin: OriginType? = nil, pendingDeletionWindowInDays: Int? = nil, signingAlgorithms: [SigningAlgorithmSpec]? = nil, validTo: Date? = nil) {
             self.arn = arn
-            self.aWSAccountId = aWSAccountId
+            self.awsAccountId = awsAccountId
             self.cloudHsmClusterId = cloudHsmClusterId
             self.creationDate = creationDate
             self.customerMasterKeySpec = nil
@@ -1588,9 +1588,9 @@ extension KMS {
         }
 
         @available(*, deprecated, message: "Members customerMasterKeySpec have been deprecated")
-        public init(arn: String? = nil, aWSAccountId: String? = nil, cloudHsmClusterId: String? = nil, creationDate: Date? = nil, customerMasterKeySpec: CustomerMasterKeySpec? = nil, customKeyStoreId: String? = nil, deletionDate: Date? = nil, description: String? = nil, enabled: Bool? = nil, encryptionAlgorithms: [EncryptionAlgorithmSpec]? = nil, expirationModel: ExpirationModelType? = nil, keyId: String, keyManager: KeyManagerType? = nil, keySpec: KeySpec? = nil, keyState: KeyState? = nil, keyUsage: KeyUsageType? = nil, multiRegion: Bool? = nil, multiRegionConfiguration: MultiRegionConfiguration? = nil, origin: OriginType? = nil, pendingDeletionWindowInDays: Int? = nil, signingAlgorithms: [SigningAlgorithmSpec]? = nil, validTo: Date? = nil) {
+        public init(arn: String? = nil, awsAccountId: String? = nil, cloudHsmClusterId: String? = nil, creationDate: Date? = nil, customerMasterKeySpec: CustomerMasterKeySpec? = nil, customKeyStoreId: String? = nil, deletionDate: Date? = nil, description: String? = nil, enabled: Bool? = nil, encryptionAlgorithms: [EncryptionAlgorithmSpec]? = nil, expirationModel: ExpirationModelType? = nil, keyId: String, keyManager: KeyManagerType? = nil, keySpec: KeySpec? = nil, keyState: KeyState? = nil, keyUsage: KeyUsageType? = nil, multiRegion: Bool? = nil, multiRegionConfiguration: MultiRegionConfiguration? = nil, origin: OriginType? = nil, pendingDeletionWindowInDays: Int? = nil, signingAlgorithms: [SigningAlgorithmSpec]? = nil, validTo: Date? = nil) {
             self.arn = arn
-            self.aWSAccountId = aWSAccountId
+            self.awsAccountId = awsAccountId
             self.cloudHsmClusterId = cloudHsmClusterId
             self.creationDate = creationDate
             self.customerMasterKeySpec = customerMasterKeySpec
@@ -1615,7 +1615,7 @@ extension KMS {
 
         private enum CodingKeys: String, CodingKey {
             case arn = "Arn"
-            case aWSAccountId = "AWSAccountId"
+            case awsAccountId = "AWSAccountId"
             case cloudHsmClusterId = "CloudHsmClusterId"
             case creationDate = "CreationDate"
             case customerMasterKeySpec = "CustomerMasterKeySpec"

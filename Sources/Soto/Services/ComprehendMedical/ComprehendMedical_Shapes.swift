@@ -277,7 +277,7 @@ extension ComprehendMedical {
         /// The current status of the detection job. If the status is FAILED, the Message field shows the reason for the failure.
         public let jobStatus: JobStatus?
         /// The AWS Key Management Service key, if any, used to encrypt the output files.
-        public let kMSKey: String?
+        public let kmsKey: String?
         /// The language code of the input documents.
         public let languageCode: LanguageCode?
         /// The path to the file that describes the results of a batch job.
@@ -291,7 +291,7 @@ extension ComprehendMedical {
         /// The time that the detection job was submitted for processing.
         public let submitTime: Date?
 
-        public init(dataAccessRoleArn: String? = nil, endTime: Date? = nil, expirationTime: Date? = nil, inputDataConfig: InputDataConfig? = nil, jobId: String? = nil, jobName: String? = nil, jobStatus: JobStatus? = nil, kMSKey: String? = nil, languageCode: LanguageCode? = nil, manifestFilePath: String? = nil, message: String? = nil, modelVersion: String? = nil, outputDataConfig: OutputDataConfig? = nil, submitTime: Date? = nil) {
+        public init(dataAccessRoleArn: String? = nil, endTime: Date? = nil, expirationTime: Date? = nil, inputDataConfig: InputDataConfig? = nil, jobId: String? = nil, jobName: String? = nil, jobStatus: JobStatus? = nil, kmsKey: String? = nil, languageCode: LanguageCode? = nil, manifestFilePath: String? = nil, message: String? = nil, modelVersion: String? = nil, outputDataConfig: OutputDataConfig? = nil, submitTime: Date? = nil) {
             self.dataAccessRoleArn = dataAccessRoleArn
             self.endTime = endTime
             self.expirationTime = expirationTime
@@ -299,7 +299,7 @@ extension ComprehendMedical {
             self.jobId = jobId
             self.jobName = jobName
             self.jobStatus = jobStatus
-            self.kMSKey = kMSKey
+            self.kmsKey = kmsKey
             self.languageCode = languageCode
             self.manifestFilePath = manifestFilePath
             self.message = message
@@ -316,7 +316,7 @@ extension ComprehendMedical {
             case jobId = "JobId"
             case jobName = "JobName"
             case jobStatus = "JobStatus"
-            case kMSKey = "KMSKey"
+            case kmsKey = "KMSKey"
             case languageCode = "LanguageCode"
             case manifestFilePath = "ManifestFilePath"
             case message = "Message"
@@ -704,7 +704,7 @@ extension ComprehendMedical {
         /// The 0-based character offset in the input text that shows where the entity ends. The offset returns the UTF-8 code point in the string.
         public let endOffset: Int?
         /// The ICD-10-CM concepts that the entity could refer to, along with a score indicating the likelihood of the match.
-        public let iCD10CMConcepts: [ICD10CMConcept]?
+        public let icd10cmConcepts: [ICD10CMConcept]?
         /// The numeric identifier for the entity. This is a monotonically increasing id unique within this response rather than a global unique identifier.
         public let id: Int?
         /// The level of confidence that Amazon Comprehend Medical has in the accuracy of the detection.
@@ -716,12 +716,12 @@ extension ComprehendMedical {
         /// Describes the specific type of entity with category of entities. InferICD10CM detects entities of the type DX_NAME and TIME_EXPRESSION.
         public let type: ICD10CMEntityType?
 
-        public init(attributes: [ICD10CMAttribute]? = nil, beginOffset: Int? = nil, category: ICD10CMEntityCategory? = nil, endOffset: Int? = nil, iCD10CMConcepts: [ICD10CMConcept]? = nil, id: Int? = nil, score: Float? = nil, text: String? = nil, traits: [ICD10CMTrait]? = nil, type: ICD10CMEntityType? = nil) {
+        public init(attributes: [ICD10CMAttribute]? = nil, beginOffset: Int? = nil, category: ICD10CMEntityCategory? = nil, endOffset: Int? = nil, icd10cmConcepts: [ICD10CMConcept]? = nil, id: Int? = nil, score: Float? = nil, text: String? = nil, traits: [ICD10CMTrait]? = nil, type: ICD10CMEntityType? = nil) {
             self.attributes = attributes
             self.beginOffset = beginOffset
             self.category = category
             self.endOffset = endOffset
-            self.iCD10CMConcepts = iCD10CMConcepts
+            self.icd10cmConcepts = icd10cmConcepts
             self.id = id
             self.score = score
             self.text = text
@@ -734,7 +734,7 @@ extension ComprehendMedical {
             case beginOffset = "BeginOffset"
             case category = "Category"
             case endOffset = "EndOffset"
-            case iCD10CMConcepts = "ICD10CMConcepts"
+            case icd10cmConcepts = "ICD10CMConcepts"
             case id = "Id"
             case score = "Score"
             case text = "Text"
@@ -1206,18 +1206,18 @@ extension ComprehendMedical {
         /// The identifier of the job.
         public let jobName: String?
         /// An AWS Key Management Service key to encrypt your output files. If you do not specify a key, the files are written in plain text.
-        public let kMSKey: String?
+        public let kmsKey: String?
         /// The language of the input documents. All documents must be in the same language.
         public let languageCode: LanguageCode
         /// Specifies where to send the output files.
         public let outputDataConfig: OutputDataConfig
 
-        public init(clientRequestToken: String? = StartEntitiesDetectionV2JobRequest.idempotencyToken(), dataAccessRoleArn: String, inputDataConfig: InputDataConfig, jobName: String? = nil, kMSKey: String? = nil, languageCode: LanguageCode, outputDataConfig: OutputDataConfig) {
+        public init(clientRequestToken: String? = StartEntitiesDetectionV2JobRequest.idempotencyToken(), dataAccessRoleArn: String, inputDataConfig: InputDataConfig, jobName: String? = nil, kmsKey: String? = nil, languageCode: LanguageCode, outputDataConfig: OutputDataConfig) {
             self.clientRequestToken = clientRequestToken
             self.dataAccessRoleArn = dataAccessRoleArn
             self.inputDataConfig = inputDataConfig
             self.jobName = jobName
-            self.kMSKey = kMSKey
+            self.kmsKey = kmsKey
             self.languageCode = languageCode
             self.outputDataConfig = outputDataConfig
         }
@@ -1233,9 +1233,9 @@ extension ComprehendMedical {
             try self.validate(self.jobName, name: "jobName", parent: name, max: 256)
             try self.validate(self.jobName, name: "jobName", parent: name, min: 1)
             try self.validate(self.jobName, name: "jobName", parent: name, pattern: "^([\\p{L}\\p{Z}\\p{N}_.:/=+\\-%@]*)$")
-            try self.validate(self.kMSKey, name: "kMSKey", parent: name, max: 2048)
-            try self.validate(self.kMSKey, name: "kMSKey", parent: name, min: 1)
-            try self.validate(self.kMSKey, name: "kMSKey", parent: name, pattern: ".*")
+            try self.validate(self.kmsKey, name: "kmsKey", parent: name, max: 2048)
+            try self.validate(self.kmsKey, name: "kmsKey", parent: name, min: 1)
+            try self.validate(self.kmsKey, name: "kmsKey", parent: name, pattern: ".*")
             try self.outputDataConfig.validate(name: "\(name).outputDataConfig")
         }
 
@@ -1244,7 +1244,7 @@ extension ComprehendMedical {
             case dataAccessRoleArn = "DataAccessRoleArn"
             case inputDataConfig = "InputDataConfig"
             case jobName = "JobName"
-            case kMSKey = "KMSKey"
+            case kmsKey = "KMSKey"
             case languageCode = "LanguageCode"
             case outputDataConfig = "OutputDataConfig"
         }
@@ -1273,18 +1273,18 @@ extension ComprehendMedical {
         /// The identifier of the job.
         public let jobName: String?
         /// An AWS Key Management Service key to encrypt your output files. If you do not specify a key, the files are written in plain text.
-        public let kMSKey: String?
+        public let kmsKey: String?
         /// The language of the input documents. All documents must be in the same language.
         public let languageCode: LanguageCode
         /// Specifies where to send the output files.
         public let outputDataConfig: OutputDataConfig
 
-        public init(clientRequestToken: String? = StartICD10CMInferenceJobRequest.idempotencyToken(), dataAccessRoleArn: String, inputDataConfig: InputDataConfig, jobName: String? = nil, kMSKey: String? = nil, languageCode: LanguageCode, outputDataConfig: OutputDataConfig) {
+        public init(clientRequestToken: String? = StartICD10CMInferenceJobRequest.idempotencyToken(), dataAccessRoleArn: String, inputDataConfig: InputDataConfig, jobName: String? = nil, kmsKey: String? = nil, languageCode: LanguageCode, outputDataConfig: OutputDataConfig) {
             self.clientRequestToken = clientRequestToken
             self.dataAccessRoleArn = dataAccessRoleArn
             self.inputDataConfig = inputDataConfig
             self.jobName = jobName
-            self.kMSKey = kMSKey
+            self.kmsKey = kmsKey
             self.languageCode = languageCode
             self.outputDataConfig = outputDataConfig
         }
@@ -1300,9 +1300,9 @@ extension ComprehendMedical {
             try self.validate(self.jobName, name: "jobName", parent: name, max: 256)
             try self.validate(self.jobName, name: "jobName", parent: name, min: 1)
             try self.validate(self.jobName, name: "jobName", parent: name, pattern: "^([\\p{L}\\p{Z}\\p{N}_.:/=+\\-%@]*)$")
-            try self.validate(self.kMSKey, name: "kMSKey", parent: name, max: 2048)
-            try self.validate(self.kMSKey, name: "kMSKey", parent: name, min: 1)
-            try self.validate(self.kMSKey, name: "kMSKey", parent: name, pattern: ".*")
+            try self.validate(self.kmsKey, name: "kmsKey", parent: name, max: 2048)
+            try self.validate(self.kmsKey, name: "kmsKey", parent: name, min: 1)
+            try self.validate(self.kmsKey, name: "kmsKey", parent: name, pattern: ".*")
             try self.outputDataConfig.validate(name: "\(name).outputDataConfig")
         }
 
@@ -1311,7 +1311,7 @@ extension ComprehendMedical {
             case dataAccessRoleArn = "DataAccessRoleArn"
             case inputDataConfig = "InputDataConfig"
             case jobName = "JobName"
-            case kMSKey = "KMSKey"
+            case kmsKey = "KMSKey"
             case languageCode = "LanguageCode"
             case outputDataConfig = "OutputDataConfig"
         }
@@ -1340,18 +1340,18 @@ extension ComprehendMedical {
         /// The identifier of the job.
         public let jobName: String?
         /// An AWS Key Management Service key to encrypt your output files. If you do not specify a key, the files are written in plain text.
-        public let kMSKey: String?
+        public let kmsKey: String?
         /// The language of the input documents. All documents must be in the same language.
         public let languageCode: LanguageCode
         /// Specifies where to send the output files.
         public let outputDataConfig: OutputDataConfig
 
-        public init(clientRequestToken: String? = StartPHIDetectionJobRequest.idempotencyToken(), dataAccessRoleArn: String, inputDataConfig: InputDataConfig, jobName: String? = nil, kMSKey: String? = nil, languageCode: LanguageCode, outputDataConfig: OutputDataConfig) {
+        public init(clientRequestToken: String? = StartPHIDetectionJobRequest.idempotencyToken(), dataAccessRoleArn: String, inputDataConfig: InputDataConfig, jobName: String? = nil, kmsKey: String? = nil, languageCode: LanguageCode, outputDataConfig: OutputDataConfig) {
             self.clientRequestToken = clientRequestToken
             self.dataAccessRoleArn = dataAccessRoleArn
             self.inputDataConfig = inputDataConfig
             self.jobName = jobName
-            self.kMSKey = kMSKey
+            self.kmsKey = kmsKey
             self.languageCode = languageCode
             self.outputDataConfig = outputDataConfig
         }
@@ -1367,9 +1367,9 @@ extension ComprehendMedical {
             try self.validate(self.jobName, name: "jobName", parent: name, max: 256)
             try self.validate(self.jobName, name: "jobName", parent: name, min: 1)
             try self.validate(self.jobName, name: "jobName", parent: name, pattern: "^([\\p{L}\\p{Z}\\p{N}_.:/=+\\-%@]*)$")
-            try self.validate(self.kMSKey, name: "kMSKey", parent: name, max: 2048)
-            try self.validate(self.kMSKey, name: "kMSKey", parent: name, min: 1)
-            try self.validate(self.kMSKey, name: "kMSKey", parent: name, pattern: ".*")
+            try self.validate(self.kmsKey, name: "kmsKey", parent: name, max: 2048)
+            try self.validate(self.kmsKey, name: "kmsKey", parent: name, min: 1)
+            try self.validate(self.kmsKey, name: "kmsKey", parent: name, pattern: ".*")
             try self.outputDataConfig.validate(name: "\(name).outputDataConfig")
         }
 
@@ -1378,7 +1378,7 @@ extension ComprehendMedical {
             case dataAccessRoleArn = "DataAccessRoleArn"
             case inputDataConfig = "InputDataConfig"
             case jobName = "JobName"
-            case kMSKey = "KMSKey"
+            case kmsKey = "KMSKey"
             case languageCode = "LanguageCode"
             case outputDataConfig = "OutputDataConfig"
         }
@@ -1407,18 +1407,18 @@ extension ComprehendMedical {
         /// The identifier of the job.
         public let jobName: String?
         /// An AWS Key Management Service key to encrypt your output files. If you do not specify a key, the files are written in plain text.
-        public let kMSKey: String?
+        public let kmsKey: String?
         /// The language of the input documents. All documents must be in the same language.
         public let languageCode: LanguageCode
         /// Specifies where to send the output files.
         public let outputDataConfig: OutputDataConfig
 
-        public init(clientRequestToken: String? = StartRxNormInferenceJobRequest.idempotencyToken(), dataAccessRoleArn: String, inputDataConfig: InputDataConfig, jobName: String? = nil, kMSKey: String? = nil, languageCode: LanguageCode, outputDataConfig: OutputDataConfig) {
+        public init(clientRequestToken: String? = StartRxNormInferenceJobRequest.idempotencyToken(), dataAccessRoleArn: String, inputDataConfig: InputDataConfig, jobName: String? = nil, kmsKey: String? = nil, languageCode: LanguageCode, outputDataConfig: OutputDataConfig) {
             self.clientRequestToken = clientRequestToken
             self.dataAccessRoleArn = dataAccessRoleArn
             self.inputDataConfig = inputDataConfig
             self.jobName = jobName
-            self.kMSKey = kMSKey
+            self.kmsKey = kmsKey
             self.languageCode = languageCode
             self.outputDataConfig = outputDataConfig
         }
@@ -1434,9 +1434,9 @@ extension ComprehendMedical {
             try self.validate(self.jobName, name: "jobName", parent: name, max: 256)
             try self.validate(self.jobName, name: "jobName", parent: name, min: 1)
             try self.validate(self.jobName, name: "jobName", parent: name, pattern: "^([\\p{L}\\p{Z}\\p{N}_.:/=+\\-%@]*)$")
-            try self.validate(self.kMSKey, name: "kMSKey", parent: name, max: 2048)
-            try self.validate(self.kMSKey, name: "kMSKey", parent: name, min: 1)
-            try self.validate(self.kMSKey, name: "kMSKey", parent: name, pattern: ".*")
+            try self.validate(self.kmsKey, name: "kmsKey", parent: name, max: 2048)
+            try self.validate(self.kmsKey, name: "kmsKey", parent: name, min: 1)
+            try self.validate(self.kmsKey, name: "kmsKey", parent: name, pattern: ".*")
             try self.outputDataConfig.validate(name: "\(name).outputDataConfig")
         }
 
@@ -1445,7 +1445,7 @@ extension ComprehendMedical {
             case dataAccessRoleArn = "DataAccessRoleArn"
             case inputDataConfig = "InputDataConfig"
             case jobName = "JobName"
-            case kMSKey = "KMSKey"
+            case kmsKey = "KMSKey"
             case languageCode = "LanguageCode"
             case outputDataConfig = "OutputDataConfig"
         }

@@ -20,10 +20,10 @@ import SotoCore
 /// Error enum for MemoryDB
 public struct MemoryDBErrorType: AWSErrorType {
     enum Code: String {
-        case aCLAlreadyExistsFault = "ACLAlreadyExistsFault"
-        case aCLNotFoundFault = "ACLNotFoundFault"
-        case aCLQuotaExceededFault = "ACLQuotaExceededFault"
-        case aPICallRateForCustomerExceededFault = "APICallRateForCustomerExceededFault"
+        case aclAlreadyExistsFault = "ACLAlreadyExistsFault"
+        case aclNotFoundFault = "ACLNotFoundFault"
+        case aclQuotaExceededFault = "ACLQuotaExceededFault"
+        case apiCallRateForCustomerExceededFault = "APICallRateForCustomerExceededFault"
         case clusterAlreadyExistsFault = "ClusterAlreadyExistsFault"
         case clusterNotFoundFault = "ClusterNotFoundFault"
         case clusterQuotaForCustomerExceededFault = "ClusterQuotaForCustomerExceededFault"
@@ -89,10 +89,10 @@ public struct MemoryDBErrorType: AWSErrorType {
     /// return error code string
     public var errorCode: String { self.error.rawValue }
 
-    public static var aCLAlreadyExistsFault: Self { .init(.aCLAlreadyExistsFault) }
-    public static var aCLNotFoundFault: Self { .init(.aCLNotFoundFault) }
-    public static var aCLQuotaExceededFault: Self { .init(.aCLQuotaExceededFault) }
-    public static var aPICallRateForCustomerExceededFault: Self { .init(.aPICallRateForCustomerExceededFault) }
+    public static var aclAlreadyExistsFault: Self { .init(.aclAlreadyExistsFault) }
+    public static var aclNotFoundFault: Self { .init(.aclNotFoundFault) }
+    public static var aclQuotaExceededFault: Self { .init(.aclQuotaExceededFault) }
+    public static var apiCallRateForCustomerExceededFault: Self { .init(.apiCallRateForCustomerExceededFault) }
     public static var clusterAlreadyExistsFault: Self { .init(.clusterAlreadyExistsFault) }
     public static var clusterNotFoundFault: Self { .init(.clusterNotFoundFault) }
     public static var clusterQuotaForCustomerExceededFault: Self { .init(.clusterQuotaForCustomerExceededFault) }

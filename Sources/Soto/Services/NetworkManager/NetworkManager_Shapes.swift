@@ -439,7 +439,7 @@ extension NetworkManager {
         ]
 
         /// The Amazon Web Services location of the device, if applicable. For an on-premises device, you can omit this parameter.
-        public let aWSLocation: AWSLocation?
+        public let awsLocation: AWSLocation?
         /// A description of the device. Constraints: Maximum length of 256 characters.
         public let description: String?
         /// The ID of the global network.
@@ -459,8 +459,8 @@ extension NetworkManager {
         /// The vendor of the device. Constraints: Maximum length of 128 characters.
         public let vendor: String?
 
-        public init(aWSLocation: AWSLocation? = nil, description: String? = nil, globalNetworkId: String, location: Location? = nil, model: String? = nil, serialNumber: String? = nil, siteId: String? = nil, tags: [Tag]? = nil, type: String? = nil, vendor: String? = nil) {
-            self.aWSLocation = aWSLocation
+        public init(awsLocation: AWSLocation? = nil, description: String? = nil, globalNetworkId: String, location: Location? = nil, model: String? = nil, serialNumber: String? = nil, siteId: String? = nil, tags: [Tag]? = nil, type: String? = nil, vendor: String? = nil) {
+            self.awsLocation = awsLocation
             self.description = description
             self.globalNetworkId = globalNetworkId
             self.location = location
@@ -473,7 +473,7 @@ extension NetworkManager {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case aWSLocation = "AWSLocation"
+            case awsLocation = "AWSLocation"
             case description = "Description"
             case location = "Location"
             case model = "Model"
@@ -886,7 +886,7 @@ extension NetworkManager {
 
     public struct Device: AWSDecodableShape {
         /// The Amazon Web Services location of the device.
-        public let aWSLocation: AWSLocation?
+        public let awsLocation: AWSLocation?
         /// The date and time that the site was created.
         public let createdAt: Date?
         /// The description of the device.
@@ -914,8 +914,8 @@ extension NetworkManager {
         /// The device vendor.
         public let vendor: String?
 
-        public init(aWSLocation: AWSLocation? = nil, createdAt: Date? = nil, description: String? = nil, deviceArn: String? = nil, deviceId: String? = nil, globalNetworkId: String? = nil, location: Location? = nil, model: String? = nil, serialNumber: String? = nil, siteId: String? = nil, state: DeviceState? = nil, tags: [Tag]? = nil, type: String? = nil, vendor: String? = nil) {
-            self.aWSLocation = aWSLocation
+        public init(awsLocation: AWSLocation? = nil, createdAt: Date? = nil, description: String? = nil, deviceArn: String? = nil, deviceId: String? = nil, globalNetworkId: String? = nil, location: Location? = nil, model: String? = nil, serialNumber: String? = nil, siteId: String? = nil, state: DeviceState? = nil, tags: [Tag]? = nil, type: String? = nil, vendor: String? = nil) {
+            self.awsLocation = awsLocation
             self.createdAt = createdAt
             self.description = description
             self.deviceArn = deviceArn
@@ -932,7 +932,7 @@ extension NetworkManager {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case aWSLocation = "AWSLocation"
+            case awsLocation = "AWSLocation"
             case createdAt = "CreatedAt"
             case description = "Description"
             case deviceArn = "DeviceArn"
@@ -2661,7 +2661,7 @@ extension NetworkManager {
         ]
 
         /// The Amazon Web Services location of the device, if applicable. For an on-premises device, you can omit this parameter.
-        public let aWSLocation: AWSLocation?
+        public let awsLocation: AWSLocation?
         /// A description of the device. Constraints: Maximum length of 256 characters.
         public let description: String?
         /// The ID of the device.
@@ -2680,8 +2680,8 @@ extension NetworkManager {
         /// The vendor of the device. Constraints: Maximum length of 128 characters.
         public let vendor: String?
 
-        public init(aWSLocation: AWSLocation? = nil, description: String? = nil, deviceId: String, globalNetworkId: String, location: Location? = nil, model: String? = nil, serialNumber: String? = nil, siteId: String? = nil, type: String? = nil, vendor: String? = nil) {
-            self.aWSLocation = aWSLocation
+        public init(awsLocation: AWSLocation? = nil, description: String? = nil, deviceId: String, globalNetworkId: String, location: Location? = nil, model: String? = nil, serialNumber: String? = nil, siteId: String? = nil, type: String? = nil, vendor: String? = nil) {
+            self.awsLocation = awsLocation
             self.description = description
             self.deviceId = deviceId
             self.globalNetworkId = globalNetworkId
@@ -2694,7 +2694,7 @@ extension NetworkManager {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case aWSLocation = "AWSLocation"
+            case awsLocation = "AWSLocation"
             case description = "Description"
             case location = "Location"
             case model = "Model"

@@ -356,14 +356,14 @@ extension ElasticLoadBalancing {
 
     public struct CreateAccessPointOutput: AWSDecodableShape {
         /// The DNS name of the load balancer.
-        public let dNSName: String?
+        public let dnsName: String?
 
-        public init(dNSName: String? = nil) {
-            self.dNSName = dNSName
+        public init(dnsName: String? = nil) {
+            self.dnsName = dnsName
         }
 
         private enum CodingKeys: String, CodingKey {
-            case dNSName = "DNSName"
+            case dnsName = "DNSName"
         }
     }
 
@@ -970,14 +970,14 @@ extension ElasticLoadBalancing {
         /// The load balancer transport protocol to use for routing: HTTP, HTTPS, TCP, or SSL.
         public let `protocol`: String
         /// The Amazon Resource Name (ARN) of the server certificate.
-        public let sSLCertificateId: String?
+        public let sslCertificateId: String?
 
-        public init(instancePort: Int, instanceProtocol: String? = nil, loadBalancerPort: Int, protocol: String, sSLCertificateId: String? = nil) {
+        public init(instancePort: Int, instanceProtocol: String? = nil, loadBalancerPort: Int, protocol: String, sslCertificateId: String? = nil) {
             self.instancePort = instancePort
             self.instanceProtocol = instanceProtocol
             self.loadBalancerPort = loadBalancerPort
             self.`protocol` = `protocol`
-            self.sSLCertificateId = sSLCertificateId
+            self.sslCertificateId = sslCertificateId
         }
 
         public func validate(name: String) throws {
@@ -990,7 +990,7 @@ extension ElasticLoadBalancing {
             case instanceProtocol = "InstanceProtocol"
             case loadBalancerPort = "LoadBalancerPort"
             case `protocol` = "Protocol"
-            case sSLCertificateId = "SSLCertificateId"
+            case sslCertificateId = "SSLCertificateId"
         }
     }
 
@@ -1064,7 +1064,7 @@ extension ElasticLoadBalancing {
         /// The date and time the load balancer was created.
         public let createdTime: Date?
         /// The DNS name of the load balancer.
-        public let dNSName: String?
+        public let dnsName: String?
         /// Information about the health checks conducted on the load balancer.
         public let healthCheck: HealthCheck?
         /// The IDs of the instances for the load balancer.
@@ -1088,15 +1088,15 @@ extension ElasticLoadBalancing {
         @OptionalCustomCoding<StandardArrayCoder>
         public var subnets: [String]?
         /// The ID of the VPC for the load balancer.
-        public let vPCId: String?
+        public let vpcId: String?
 
-        public init(availabilityZones: [String]? = nil, backendServerDescriptions: [BackendServerDescription]? = nil, canonicalHostedZoneName: String? = nil, canonicalHostedZoneNameID: String? = nil, createdTime: Date? = nil, dNSName: String? = nil, healthCheck: HealthCheck? = nil, instances: [Instance]? = nil, listenerDescriptions: [ListenerDescription]? = nil, loadBalancerName: String? = nil, policies: Policies? = nil, scheme: String? = nil, securityGroups: [String]? = nil, sourceSecurityGroup: SourceSecurityGroup? = nil, subnets: [String]? = nil, vPCId: String? = nil) {
+        public init(availabilityZones: [String]? = nil, backendServerDescriptions: [BackendServerDescription]? = nil, canonicalHostedZoneName: String? = nil, canonicalHostedZoneNameID: String? = nil, createdTime: Date? = nil, dnsName: String? = nil, healthCheck: HealthCheck? = nil, instances: [Instance]? = nil, listenerDescriptions: [ListenerDescription]? = nil, loadBalancerName: String? = nil, policies: Policies? = nil, scheme: String? = nil, securityGroups: [String]? = nil, sourceSecurityGroup: SourceSecurityGroup? = nil, subnets: [String]? = nil, vpcId: String? = nil) {
             self.availabilityZones = availabilityZones
             self.backendServerDescriptions = backendServerDescriptions
             self.canonicalHostedZoneName = canonicalHostedZoneName
             self.canonicalHostedZoneNameID = canonicalHostedZoneNameID
             self.createdTime = createdTime
-            self.dNSName = dNSName
+            self.dnsName = dnsName
             self.healthCheck = healthCheck
             self.instances = instances
             self.listenerDescriptions = listenerDescriptions
@@ -1106,7 +1106,7 @@ extension ElasticLoadBalancing {
             self.securityGroups = securityGroups
             self.sourceSecurityGroup = sourceSecurityGroup
             self.subnets = subnets
-            self.vPCId = vPCId
+            self.vpcId = vpcId
         }
 
         private enum CodingKeys: String, CodingKey {
@@ -1115,7 +1115,7 @@ extension ElasticLoadBalancing {
             case canonicalHostedZoneName = "CanonicalHostedZoneName"
             case canonicalHostedZoneNameID = "CanonicalHostedZoneNameID"
             case createdTime = "CreatedTime"
-            case dNSName = "DNSName"
+            case dnsName = "DNSName"
             case healthCheck = "HealthCheck"
             case instances = "Instances"
             case listenerDescriptions = "ListenerDescriptions"
@@ -1125,7 +1125,7 @@ extension ElasticLoadBalancing {
             case securityGroups = "SecurityGroups"
             case sourceSecurityGroup = "SourceSecurityGroup"
             case subnets = "Subnets"
-            case vPCId = "VPCId"
+            case vpcId = "VPCId"
         }
     }
 
@@ -1173,20 +1173,20 @@ extension ElasticLoadBalancing {
         public var appCookieStickinessPolicies: [AppCookieStickinessPolicy]?
         /// The stickiness policies created using CreateLBCookieStickinessPolicy.
         @OptionalCustomCoding<StandardArrayCoder>
-        public var lBCookieStickinessPolicies: [LBCookieStickinessPolicy]?
+        public var lbCookieStickinessPolicies: [LBCookieStickinessPolicy]?
         /// The policies other than the stickiness policies.
         @OptionalCustomCoding<StandardArrayCoder>
         public var otherPolicies: [String]?
 
-        public init(appCookieStickinessPolicies: [AppCookieStickinessPolicy]? = nil, lBCookieStickinessPolicies: [LBCookieStickinessPolicy]? = nil, otherPolicies: [String]? = nil) {
+        public init(appCookieStickinessPolicies: [AppCookieStickinessPolicy]? = nil, lbCookieStickinessPolicies: [LBCookieStickinessPolicy]? = nil, otherPolicies: [String]? = nil) {
             self.appCookieStickinessPolicies = appCookieStickinessPolicies
-            self.lBCookieStickinessPolicies = lBCookieStickinessPolicies
+            self.lbCookieStickinessPolicies = lbCookieStickinessPolicies
             self.otherPolicies = otherPolicies
         }
 
         private enum CodingKeys: String, CodingKey {
             case appCookieStickinessPolicies = "AppCookieStickinessPolicies"
-            case lBCookieStickinessPolicies = "LBCookieStickinessPolicies"
+            case lbCookieStickinessPolicies = "LBCookieStickinessPolicies"
             case otherPolicies = "OtherPolicies"
         }
     }
@@ -1398,18 +1398,18 @@ extension ElasticLoadBalancing {
         /// The port that uses the specified SSL certificate.
         public let loadBalancerPort: Int
         /// The Amazon Resource Name (ARN) of the SSL certificate.
-        public let sSLCertificateId: String
+        public let sslCertificateId: String
 
-        public init(loadBalancerName: String, loadBalancerPort: Int, sSLCertificateId: String) {
+        public init(loadBalancerName: String, loadBalancerPort: Int, sslCertificateId: String) {
             self.loadBalancerName = loadBalancerName
             self.loadBalancerPort = loadBalancerPort
-            self.sSLCertificateId = sSLCertificateId
+            self.sslCertificateId = sslCertificateId
         }
 
         private enum CodingKeys: String, CodingKey {
             case loadBalancerName = "LoadBalancerName"
             case loadBalancerPort = "LoadBalancerPort"
-            case sSLCertificateId = "SSLCertificateId"
+            case sslCertificateId = "SSLCertificateId"
         }
     }
 

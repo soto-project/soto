@@ -36,10 +36,10 @@ extension LexRuntimeV2 {
 
     public enum DialogActionType: String, CustomStringConvertible, Codable {
         case close = "Close"
-        case confirmintent = "ConfirmIntent"
+        case confirmIntent = "ConfirmIntent"
         case delegate = "Delegate"
-        case elicitintent = "ElicitIntent"
-        case elicitslot = "ElicitSlot"
+        case elicitIntent = "ElicitIntent"
+        case elicitSlot = "ElicitSlot"
         case none = "None"
         public var description: String { return self.rawValue }
     }
@@ -54,17 +54,17 @@ extension LexRuntimeV2 {
     public enum IntentState: String, CustomStringConvertible, Codable {
         case failed = "Failed"
         case fulfilled = "Fulfilled"
-        case fulfillmentinprogress = "FulfillmentInProgress"
-        case inprogress = "InProgress"
-        case readyforfulfillment = "ReadyForFulfillment"
+        case fulfillmentInProgress = "FulfillmentInProgress"
+        case inProgress = "InProgress"
+        case readyForFulfillment = "ReadyForFulfillment"
         case waiting = "Waiting"
         public var description: String { return self.rawValue }
     }
 
     public enum MessageContentType: String, CustomStringConvertible, Codable {
-        case custompayload = "CustomPayload"
-        case imageresponsecard = "ImageResponseCard"
-        case plaintext = "PlainText"
+        case customPayload = "CustomPayload"
+        case imageResponseCard = "ImageResponseCard"
+        case plainText = "PlainText"
         case ssml = "SSML"
         public var description: String { return self.rawValue }
     }
@@ -92,8 +92,8 @@ extension LexRuntimeV2 {
 
     public enum StyleType: String, CustomStringConvertible, Codable {
         case `default` = "Default"
-        case spellbyletter = "SpellByLetter"
-        case spellbyword = "SpellByWord"
+        case spellByLetter = "SpellByLetter"
+        case spellByWord = "SpellByWord"
         public var description: String { return self.rawValue }
     }
 
@@ -105,7 +105,7 @@ extension LexRuntimeV2 {
         /// Event sent from the client application to indicate to Amazon Lex V2 that the conversation is over.
         case disconnectionEvent(DisconnectionEvent)
         /// DTMF information sent to Amazon Lex V2 by your application. Amazon Lex V2 accumulates the DMTF information from when the user sends the first character and ends   when there's a pause longer that the value configured for the end timeout.   when there's a digit that is the configured end character.   when Amazon Lex V2 accumulates characters equal to the maximum DTMF character configuration.
-        case dTMFInputEvent(DTMFInputEvent)
+        case dtmfInputEvent(DTMFInputEvent)
         /// Event sent from the client application to Amazon Lex V2 to indicate that it has finished playing audio and that Amazon Lex V2 should start listening for user input.
         case playbackCompletionEvent(PlaybackCompletionEvent)
         /// Text sent from your client application to Amazon Lex V2. Each TextInputEvent is processed individually.
@@ -120,8 +120,8 @@ extension LexRuntimeV2 {
                 try container.encode(value, forKey: .configurationEvent)
             case .disconnectionEvent(let value):
                 try container.encode(value, forKey: .disconnectionEvent)
-            case .dTMFInputEvent(let value):
-                try container.encode(value, forKey: .dTMFInputEvent)
+            case .dtmfInputEvent(let value):
+                try container.encode(value, forKey: .dtmfInputEvent)
             case .playbackCompletionEvent(let value):
                 try container.encode(value, forKey: .playbackCompletionEvent)
             case .textInputEvent(let value):
@@ -137,8 +137,8 @@ extension LexRuntimeV2 {
                 try value.validate(name: "\(name).configurationEvent")
             case .disconnectionEvent(let value):
                 try value.validate(name: "\(name).disconnectionEvent")
-            case .dTMFInputEvent(let value):
-                try value.validate(name: "\(name).dTMFInputEvent")
+            case .dtmfInputEvent(let value):
+                try value.validate(name: "\(name).dtmfInputEvent")
             case .playbackCompletionEvent(let value):
                 try value.validate(name: "\(name).playbackCompletionEvent")
             case .textInputEvent(let value):
@@ -150,7 +150,7 @@ extension LexRuntimeV2 {
             case audioInputEvent = "AudioInputEvent"
             case configurationEvent = "ConfigurationEvent"
             case disconnectionEvent = "DisconnectionEvent"
-            case dTMFInputEvent = "DTMFInputEvent"
+            case dtmfInputEvent = "DTMFInputEvent"
             case playbackCompletionEvent = "PlaybackCompletionEvent"
             case textInputEvent = "TextInputEvent"
         }

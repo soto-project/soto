@@ -51,11 +51,11 @@ extension IoTEventsData {
     }
 
     public enum ErrorCode: String, CustomStringConvertible, Codable {
-        case internalfailureexception = "InternalFailureException"
-        case invalidrequestexception = "InvalidRequestException"
-        case resourcenotfoundexception = "ResourceNotFoundException"
-        case serviceunavailableexception = "ServiceUnavailableException"
-        case throttlingexception = "ThrottlingException"
+        case internalFailureException = "InternalFailureException"
+        case invalidRequestException = "InvalidRequestException"
+        case resourceNotFoundException = "ResourceNotFoundException"
+        case serviceUnavailableException = "ServiceUnavailableException"
+        case throttlingException = "ThrottlingException"
         public var description: String { return self.rawValue }
     }
 

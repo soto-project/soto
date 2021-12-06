@@ -20,8 +20,8 @@ import SotoCore
 /// Error enum for ElasticLoadBalancingV2
 public struct ElasticLoadBalancingV2ErrorType: AWSErrorType {
     enum Code: String {
-        case aLPNPolicyNotSupportedException = "ALPNPolicyNotFound"
         case allocationIdNotFoundException = "AllocationIdNotFound"
+        case alpnPolicyNotSupportedException = "ALPNPolicyNotFound"
         case availabilityZoneNotSupportedException = "AvailabilityZoneNotSupported"
         case certificateNotFoundException = "CertificateNotFound"
         case duplicateListenerException = "DuplicateListener"
@@ -42,7 +42,7 @@ public struct ElasticLoadBalancingV2ErrorType: AWSErrorType {
         case priorityInUseException = "PriorityInUse"
         case resourceInUseException = "ResourceInUse"
         case ruleNotFoundException = "RuleNotFound"
-        case sSLPolicyNotFoundException = "SSLPolicyNotFound"
+        case sslPolicyNotFoundException = "SSLPolicyNotFound"
         case subnetNotFoundException = "SubnetNotFound"
         case targetGroupAssociationLimitException = "TargetGroupAssociationLimit"
         case targetGroupNotFoundException = "TargetGroupNotFound"
@@ -77,10 +77,10 @@ public struct ElasticLoadBalancingV2ErrorType: AWSErrorType {
     /// return error code string
     public var errorCode: String { self.error.rawValue }
 
-    /// The specified ALPN policy is not supported.
-    public static var aLPNPolicyNotSupportedException: Self { .init(.aLPNPolicyNotSupportedException) }
     /// The specified allocation ID does not exist.
     public static var allocationIdNotFoundException: Self { .init(.allocationIdNotFoundException) }
+    /// The specified ALPN policy is not supported.
+    public static var alpnPolicyNotSupportedException: Self { .init(.alpnPolicyNotSupportedException) }
     /// The specified Availability Zone is not supported.
     public static var availabilityZoneNotSupportedException: Self { .init(.availabilityZoneNotSupportedException) }
     /// The specified certificate does not exist.
@@ -122,7 +122,7 @@ public struct ElasticLoadBalancingV2ErrorType: AWSErrorType {
     /// The specified rule does not exist.
     public static var ruleNotFoundException: Self { .init(.ruleNotFoundException) }
     /// The specified SSL policy does not exist.
-    public static var sSLPolicyNotFoundException: Self { .init(.sSLPolicyNotFoundException) }
+    public static var sslPolicyNotFoundException: Self { .init(.sslPolicyNotFoundException) }
     /// The specified subnet does not exist.
     public static var subnetNotFoundException: Self { .init(.subnetNotFoundException) }
     /// You've reached the limit on the number of load balancers per target group.

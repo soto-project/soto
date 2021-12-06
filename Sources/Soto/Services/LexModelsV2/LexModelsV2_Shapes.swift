@@ -33,8 +33,8 @@ extension LexModelsV2 {
     }
 
     public enum AggregatedUtterancesSortAttribute: String, CustomStringConvertible, Codable {
-        case hitcount = "HitCount"
-        case missedcount = "MissedCount"
+        case hitCount = "HitCount"
+        case missedCount = "MissedCount"
         public var description: String { return self.rawValue }
     }
 
@@ -47,7 +47,7 @@ extension LexModelsV2 {
     }
 
     public enum BotFilterName: String, CustomStringConvertible, Codable {
-        case botname = "BotName"
+        case botName = "BotName"
         public var description: String { return self.rawValue }
     }
 
@@ -58,7 +58,7 @@ extension LexModelsV2 {
     }
 
     public enum BotLocaleFilterName: String, CustomStringConvertible, Codable {
-        case botlocalename = "BotLocaleName"
+        case botLocaleName = "BotLocaleName"
         public var description: String { return self.rawValue }
     }
 
@@ -69,7 +69,7 @@ extension LexModelsV2 {
     }
 
     public enum BotLocaleSortAttribute: String, CustomStringConvertible, Codable {
-        case botlocalename = "BotLocaleName"
+        case botLocaleName = "BotLocaleName"
         public var description: String { return self.rawValue }
     }
 
@@ -80,13 +80,13 @@ extension LexModelsV2 {
         case deleting = "Deleting"
         case failed = "Failed"
         case importing = "Importing"
-        case notbuilt = "NotBuilt"
-        case readyexpresstesting = "ReadyExpressTesting"
+        case notBuilt = "NotBuilt"
+        case readyExpressTesting = "ReadyExpressTesting"
         public var description: String { return self.rawValue }
     }
 
     public enum BotSortAttribute: String, CustomStringConvertible, Codable {
-        case botname = "BotName"
+        case botName = "BotName"
         public var description: String { return self.rawValue }
     }
 
@@ -102,17 +102,17 @@ extension LexModelsV2 {
     }
 
     public enum BotVersionSortAttribute: String, CustomStringConvertible, Codable {
-        case botversion = "BotVersion"
+        case botVersion = "BotVersion"
         public var description: String { return self.rawValue }
     }
 
     public enum BuiltInIntentSortAttribute: String, CustomStringConvertible, Codable {
-        case intentsignature = "IntentSignature"
+        case intentSignature = "IntentSignature"
         public var description: String { return self.rawValue }
     }
 
     public enum BuiltInSlotTypeSortAttribute: String, CustomStringConvertible, Codable {
-        case slottypesignature = "SlotTypeSignature"
+        case slotTypeSignature = "SlotTypeSignature"
         public var description: String { return self.rawValue }
     }
 
@@ -123,7 +123,7 @@ extension LexModelsV2 {
     }
 
     public enum ExportFilterName: String, CustomStringConvertible, Codable {
-        case exportresourcetype = "ExportResourceType"
+        case exportResourceType = "ExportResourceType"
         public var description: String { return self.rawValue }
     }
 
@@ -134,7 +134,7 @@ extension LexModelsV2 {
     }
 
     public enum ExportSortAttribute: String, CustomStringConvertible, Codable {
-        case lastupdateddatetime = "LastUpdatedDateTime"
+        case lastUpdatedDateTime = "LastUpdatedDateTime"
         public var description: String { return self.rawValue }
     }
 
@@ -142,17 +142,17 @@ extension LexModelsV2 {
         case completed = "Completed"
         case deleting = "Deleting"
         case failed = "Failed"
-        case inprogress = "InProgress"
+        case inProgress = "InProgress"
         public var description: String { return self.rawValue }
     }
 
     public enum ImportExportFileFormat: String, CustomStringConvertible, Codable {
-        case lexjson = "LexJson"
+        case lexJson = "LexJson"
         public var description: String { return self.rawValue }
     }
 
     public enum ImportFilterName: String, CustomStringConvertible, Codable {
-        case importresourcetype = "ImportResourceType"
+        case importResourceType = "ImportResourceType"
         public var description: String { return self.rawValue }
     }
 
@@ -163,7 +163,7 @@ extension LexModelsV2 {
     }
 
     public enum ImportSortAttribute: String, CustomStringConvertible, Codable {
-        case lastupdateddatetime = "LastUpdatedDateTime"
+        case lastUpdatedDateTime = "LastUpdatedDateTime"
         public var description: String { return self.rawValue }
     }
 
@@ -171,12 +171,12 @@ extension LexModelsV2 {
         case completed = "Completed"
         case deleting = "Deleting"
         case failed = "Failed"
-        case inprogress = "InProgress"
+        case inProgress = "InProgress"
         public var description: String { return self.rawValue }
     }
 
     public enum IntentFilterName: String, CustomStringConvertible, Codable {
-        case intentname = "IntentName"
+        case intentName = "IntentName"
         public var description: String { return self.rawValue }
     }
 
@@ -187,19 +187,19 @@ extension LexModelsV2 {
     }
 
     public enum IntentSortAttribute: String, CustomStringConvertible, Codable {
-        case intentname = "IntentName"
-        case lastupdateddatetime = "LastUpdatedDateTime"
+        case intentName = "IntentName"
+        case lastUpdatedDateTime = "LastUpdatedDateTime"
         public var description: String { return self.rawValue }
     }
 
     public enum MergeStrategy: String, CustomStringConvertible, Codable {
-        case failonconflict = "FailOnConflict"
+        case failOnConflict = "FailOnConflict"
         case overwrite = "Overwrite"
         public var description: String { return self.rawValue }
     }
 
     public enum ObfuscationSettingType: String, CustomStringConvertible, Codable {
-        case defaultobfuscation = "DefaultObfuscation"
+        case defaultObfuscation = "DefaultObfuscation"
         case none = "None"
         public var description: String { return self.rawValue }
     }
@@ -211,7 +211,7 @@ extension LexModelsV2 {
     }
 
     public enum SlotFilterName: String, CustomStringConvertible, Codable {
-        case slotname = "SlotName"
+        case slotName = "SlotName"
         public var description: String { return self.rawValue }
     }
 
@@ -222,13 +222,13 @@ extension LexModelsV2 {
     }
 
     public enum SlotSortAttribute: String, CustomStringConvertible, Codable {
-        case lastupdateddatetime = "LastUpdatedDateTime"
-        case slotname = "SlotName"
+        case lastUpdatedDateTime = "LastUpdatedDateTime"
+        case slotName = "SlotName"
         public var description: String { return self.rawValue }
     }
 
     public enum SlotTypeFilterName: String, CustomStringConvertible, Codable {
-        case slottypename = "SlotTypeName"
+        case slotTypeName = "SlotTypeName"
         public var description: String { return self.rawValue }
     }
 
@@ -239,14 +239,14 @@ extension LexModelsV2 {
     }
 
     public enum SlotTypeSortAttribute: String, CustomStringConvertible, Codable {
-        case lastupdateddatetime = "LastUpdatedDateTime"
-        case slottypename = "SlotTypeName"
+        case lastUpdatedDateTime = "LastUpdatedDateTime"
+        case slotTypeName = "SlotTypeName"
         public var description: String { return self.rawValue }
     }
 
     public enum SlotValueResolutionStrategy: String, CustomStringConvertible, Codable {
-        case originalvalue = "OriginalValue"
-        case topresolution = "TopResolution"
+        case originalValue = "OriginalValue"
+        case topResolution = "TopResolution"
         public var description: String { return self.rawValue }
     }
 

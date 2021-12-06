@@ -162,7 +162,7 @@ extension QuickSight {
     }
 
     public enum FilterOperator: String, CustomStringConvertible, Codable {
-        case stringequals = "StringEquals"
+        case stringEquals = "StringEquals"
         public var description: String { return self.rawValue }
     }
 
@@ -5449,20 +5449,20 @@ extension QuickSight {
         ]
 
         /// Information describing the IAMpolicy assignment.
-        public let iAMPolicyAssignment: IAMPolicyAssignment?
+        public let iamPolicyAssignment: IAMPolicyAssignment?
         /// The Amazon Web Services request ID for this operation.
         public let requestId: String?
         /// The HTTP status of the request.
         public let status: Int?
 
-        public init(iAMPolicyAssignment: IAMPolicyAssignment? = nil, requestId: String? = nil, status: Int? = nil) {
-            self.iAMPolicyAssignment = iAMPolicyAssignment
+        public init(iamPolicyAssignment: IAMPolicyAssignment? = nil, requestId: String? = nil, status: Int? = nil) {
+            self.iamPolicyAssignment = iamPolicyAssignment
             self.requestId = requestId
             self.status = status
         }
 
         private enum CodingKeys: String, CodingKey {
-            case iAMPolicyAssignment = "IAMPolicyAssignment"
+            case iamPolicyAssignment = "IAMPolicyAssignment"
             case requestId = "RequestId"
             case status = "Status"
         }
@@ -7575,7 +7575,7 @@ extension QuickSight {
         ]
 
         /// Information describing the IAMpolicy assignments.
-        public let iAMPolicyAssignments: [IAMPolicyAssignmentSummary]?
+        public let iamPolicyAssignments: [IAMPolicyAssignmentSummary]?
         /// The token for the next set of results, or null if there are no more results.
         public let nextToken: String?
         /// The Amazon Web Services request ID for this operation.
@@ -7583,15 +7583,15 @@ extension QuickSight {
         /// The HTTP status of the request.
         public let status: Int?
 
-        public init(iAMPolicyAssignments: [IAMPolicyAssignmentSummary]? = nil, nextToken: String? = nil, requestId: String? = nil, status: Int? = nil) {
-            self.iAMPolicyAssignments = iAMPolicyAssignments
+        public init(iamPolicyAssignments: [IAMPolicyAssignmentSummary]? = nil, nextToken: String? = nil, requestId: String? = nil, status: Int? = nil) {
+            self.iamPolicyAssignments = iamPolicyAssignments
             self.nextToken = nextToken
             self.requestId = requestId
             self.status = status
         }
 
         private enum CodingKeys: String, CodingKey {
-            case iAMPolicyAssignments = "IAMPolicyAssignments"
+            case iamPolicyAssignments = "IAMPolicyAssignments"
             case nextToken = "NextToken"
             case requestId = "RequestId"
             case status = "Status"
@@ -10128,23 +10128,23 @@ extension QuickSight {
         /// Display options related to sheets.
         public let sheet: SheetStyle?
         /// Color properties that apply to the UI and to charts, excluding the colors that apply to data.
-        public let uIColorPalette: UIColorPalette?
+        public let uiColorPalette: UIColorPalette?
 
-        public init(dataColorPalette: DataColorPalette? = nil, sheet: SheetStyle? = nil, uIColorPalette: UIColorPalette? = nil) {
+        public init(dataColorPalette: DataColorPalette? = nil, sheet: SheetStyle? = nil, uiColorPalette: UIColorPalette? = nil) {
             self.dataColorPalette = dataColorPalette
             self.sheet = sheet
-            self.uIColorPalette = uIColorPalette
+            self.uiColorPalette = uiColorPalette
         }
 
         public func validate(name: String) throws {
             try self.dataColorPalette?.validate(name: "\(name).dataColorPalette")
-            try self.uIColorPalette?.validate(name: "\(name).uIColorPalette")
+            try self.uiColorPalette?.validate(name: "\(name).uiColorPalette")
         }
 
         private enum CodingKeys: String, CodingKey {
             case dataColorPalette = "DataColorPalette"
             case sheet = "Sheet"
-            case uIColorPalette = "UIColorPalette"
+            case uiColorPalette = "UIColorPalette"
         }
     }
 

@@ -22,22 +22,22 @@ extension CognitoIdentity {
     // MARK: Enums
 
     public enum AmbiguousRoleResolutionType: String, CustomStringConvertible, Codable {
-        case authenticatedrole = "AuthenticatedRole"
+        case authenticatedRole = "AuthenticatedRole"
         case deny = "Deny"
         public var description: String { return self.rawValue }
     }
 
     public enum ErrorCode: String, CustomStringConvertible, Codable {
-        case accessdenied = "AccessDenied"
-        case internalservererror = "InternalServerError"
+        case accessDenied = "AccessDenied"
+        case internalServerError = "InternalServerError"
         public var description: String { return self.rawValue }
     }
 
     public enum MappingRuleMatchType: String, CustomStringConvertible, Codable {
         case contains = "Contains"
         case equals = "Equals"
-        case notequal = "NotEqual"
-        case startswith = "StartsWith"
+        case notEqual = "NotEqual"
+        case startsWith = "StartsWith"
         public var description: String { return self.rawValue }
     }
 

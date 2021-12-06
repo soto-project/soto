@@ -40,8 +40,8 @@ extension StorageGateway {
     }
 
     public enum CaseSensitivity: String, CustomStringConvertible, Codable {
-        case casesensitive = "CaseSensitive"
-        case clientspecified = "ClientSpecified"
+        case caseSensitive = "CaseSensitive"
+        case clientSpecified = "ClientSpecified"
         public var description: String { return self.rawValue }
     }
 
@@ -92,9 +92,9 @@ extension StorageGateway {
     }
 
     public enum SMBSecurityStrategy: String, CustomStringConvertible, Codable {
-        case clientspecified = "ClientSpecified"
-        case mandatoryencryption = "MandatoryEncryption"
-        case mandatorysigning = "MandatorySigning"
+        case clientSpecified = "ClientSpecified"
+        case mandatoryEncryption = "MandatoryEncryption"
+        case mandatorySigning = "MandatorySigning"
         public var description: String { return self.rawValue }
     }
 
@@ -649,7 +649,7 @@ extension StorageGateway {
     public struct CachediSCSIVolume: AWSDecodableShape {
         /// The date the volume was created. Volumes created prior to March 28, 2017 don’t have this timestamp.
         public let createdDate: Date?
-        public let kMSKey: String?
+        public let kmsKey: String?
         /// If the cached volume was created from a snapshot, this field contains the snapshot ID used, e.g., snap-78e22663. Otherwise, this field is not included.
         public let sourceSnapshotId: String?
         /// The name of the iSCSI target used by an initiator to connect to a volume and used as a suffix for the target ARN. For example, specifying TargetName as myvolume results in the target ARN of arn:aws:storagegateway:us-east-2:111122223333:gateway/sgw-12A3456B/target/iqn.1997-05.com.amazon:myvolume. The target name must be unique across all volumes on a gateway.
@@ -675,9 +675,9 @@ extension StorageGateway {
         ///   This value is not available for volumes created prior to May 13, 2015, until you store data on the volume.
         public let volumeUsedInBytes: Int64?
 
-        public init(createdDate: Date? = nil, kMSKey: String? = nil, sourceSnapshotId: String? = nil, targetName: String? = nil, volumeARN: String? = nil, volumeAttachmentStatus: String? = nil, volumeId: String? = nil, volumeiSCSIAttributes: VolumeiSCSIAttributes? = nil, volumeProgress: Double? = nil, volumeSizeInBytes: Int64? = nil, volumeStatus: String? = nil, volumeType: String? = nil, volumeUsedInBytes: Int64? = nil) {
+        public init(createdDate: Date? = nil, kmsKey: String? = nil, sourceSnapshotId: String? = nil, targetName: String? = nil, volumeARN: String? = nil, volumeAttachmentStatus: String? = nil, volumeId: String? = nil, volumeiSCSIAttributes: VolumeiSCSIAttributes? = nil, volumeProgress: Double? = nil, volumeSizeInBytes: Int64? = nil, volumeStatus: String? = nil, volumeType: String? = nil, volumeUsedInBytes: Int64? = nil) {
             self.createdDate = createdDate
-            self.kMSKey = kMSKey
+            self.kmsKey = kmsKey
             self.sourceSnapshotId = sourceSnapshotId
             self.targetName = targetName
             self.volumeARN = volumeARN
@@ -693,7 +693,7 @@ extension StorageGateway {
 
         private enum CodingKeys: String, CodingKey {
             case createdDate = "CreatedDate"
-            case kMSKey = "KMSKey"
+            case kmsKey = "KMSKey"
             case sourceSnapshotId = "SourceSnapshotId"
             case targetName = "TargetName"
             case volumeARN = "VolumeARN"
@@ -814,9 +814,9 @@ extension StorageGateway {
         public let gatewayARN: String
         /// Set to true to use Amazon S3 server-side encryption with your own KMS key, or false to use a key managed by Amazon S3. Optional.
         ///  Valid Values: true | false
-        public let kMSEncrypted: Bool?
+        public let kmsEncrypted: Bool?
         /// The Amazon Resource Name (ARN) of a symmetric customer master key (CMK) used for Amazon S3 server-side encryption. Storage Gateway does not support asymmetric CMKs. This value can only be set when KMSEncrypted is true. Optional.
-        public let kMSKey: String?
+        public let kmsKey: String?
         /// The network interface of the gateway on which to expose the iSCSI target. Only IPv4 addresses are accepted. Use DescribeGatewayInformation to get a list of the network interfaces available on a gateway.
         ///  Valid Values: A valid IP address.
         public let networkInterfaceId: String
@@ -833,11 +833,11 @@ extension StorageGateway {
         /// The size of the volume in bytes.
         public let volumeSizeInBytes: Int64
 
-        public init(clientToken: String, gatewayARN: String, kMSEncrypted: Bool? = nil, kMSKey: String? = nil, networkInterfaceId: String, snapshotId: String? = nil, sourceVolumeARN: String? = nil, tags: [Tag]? = nil, targetName: String, volumeSizeInBytes: Int64) {
+        public init(clientToken: String, gatewayARN: String, kmsEncrypted: Bool? = nil, kmsKey: String? = nil, networkInterfaceId: String, snapshotId: String? = nil, sourceVolumeARN: String? = nil, tags: [Tag]? = nil, targetName: String, volumeSizeInBytes: Int64) {
             self.clientToken = clientToken
             self.gatewayARN = gatewayARN
-            self.kMSEncrypted = kMSEncrypted
-            self.kMSKey = kMSKey
+            self.kmsEncrypted = kmsEncrypted
+            self.kmsKey = kmsKey
             self.networkInterfaceId = networkInterfaceId
             self.snapshotId = snapshotId
             self.sourceVolumeARN = sourceVolumeARN
@@ -851,9 +851,9 @@ extension StorageGateway {
             try self.validate(self.clientToken, name: "clientToken", parent: name, min: 5)
             try self.validate(self.gatewayARN, name: "gatewayARN", parent: name, max: 500)
             try self.validate(self.gatewayARN, name: "gatewayARN", parent: name, min: 50)
-            try self.validate(self.kMSKey, name: "kMSKey", parent: name, max: 2048)
-            try self.validate(self.kMSKey, name: "kMSKey", parent: name, min: 7)
-            try self.validate(self.kMSKey, name: "kMSKey", parent: name, pattern: "^(^arn:(aws|aws-cn|aws-us-gov):kms:([a-zA-Z0-9-]+):([0-9]+):(key|alias)/(\\S+)$)|(^alias/(\\S+)$)$")
+            try self.validate(self.kmsKey, name: "kmsKey", parent: name, max: 2048)
+            try self.validate(self.kmsKey, name: "kmsKey", parent: name, min: 7)
+            try self.validate(self.kmsKey, name: "kmsKey", parent: name, pattern: "^(^arn:(aws|aws-cn|aws-us-gov):kms:([a-zA-Z0-9-]+):([0-9]+):(key|alias)/(\\S+)$)|(^alias/(\\S+)$)$")
             try self.validate(self.networkInterfaceId, name: "networkInterfaceId", parent: name, pattern: "^\\A(25[0-5]|2[0-4]\\d|[0-1]?\\d?\\d)(\\.(25[0-5]|2[0-4]\\d|[0-1]?\\d?\\d)){3}\\z$")
             try self.validate(self.snapshotId, name: "snapshotId", parent: name, pattern: "^\\Asnap-([0-9A-Fa-f]{8}|[0-9A-Fa-f]{17})\\z$")
             try self.validate(self.sourceVolumeARN, name: "sourceVolumeARN", parent: name, max: 500)
@@ -869,8 +869,8 @@ extension StorageGateway {
         private enum CodingKeys: String, CodingKey {
             case clientToken = "ClientToken"
             case gatewayARN = "GatewayARN"
-            case kMSEncrypted = "KMSEncrypted"
-            case kMSKey = "KMSKey"
+            case kmsEncrypted = "KMSEncrypted"
+            case kmsKey = "KMSKey"
             case networkInterfaceId = "NetworkInterfaceId"
             case snapshotId = "SnapshotId"
             case sourceVolumeARN = "SourceVolumeARN"
@@ -921,9 +921,9 @@ extension StorageGateway {
         public let guessMIMETypeEnabled: Bool?
         /// Set to true to use Amazon S3 server-side encryption with your own KMS key, or false to use a key managed by Amazon S3. Optional.
         ///  Valid Values: true | false
-        public let kMSEncrypted: Bool?
+        public let kmsEncrypted: Bool?
         /// The Amazon Resource Name (ARN) of a symmetric customer master key (CMK) used for Amazon S3 server-side encryption. Storage Gateway does not support asymmetric CMKs. This value can only be set when KMSEncrypted is true. Optional.
-        public let kMSKey: String?
+        public let kmsKey: String?
         /// A custom ARN for the backend storage used for storing data for file shares. It includes a resource ARN with an optional prefix concatenation. The prefix must end with a forward slash (/).  You can specify LocationARN as a bucket ARN, access point ARN or access point alias, as shown in the following examples.
         ///  Bucket ARN:  arn:aws:s3:::my-bucket/prefix/
         ///  Access point ARN:  arn:aws:s3:region:account-id:accesspoint/access-point-name/prefix/
@@ -931,7 +931,7 @@ extension StorageGateway {
         ///  Access point alias:  test-ap-ab123cdef4gehijklmn5opqrstuvuse1a-s3alias
         public let locationARN: String
         /// File share default values. Optional.
-        public let nFSFileShareDefaults: NFSFileShareDefaults?
+        public let nfsFileShareDefaults: NFSFileShareDefaults?
         /// The notification policy of the file share. SettlingTimeInSeconds controls the number of seconds to wait after the last point in time a client wrote to a file before generating an ObjectUploaded notification. Because clients can make many small writes to files, it's best to set this parameter for as long as possible to avoid generating multiple notifications for the same file in a small time period.
         ///    SettlingTimeInSeconds has no effect on the timing of the object uploading to Amazon S3, only the timing of the notification.
         ///  The following example sets NotificationPolicy on with SettlingTimeInSeconds set to 60.
@@ -958,9 +958,9 @@ extension StorageGateway {
         ///   Valid characters for key and value are letters, spaces, and numbers representable in UTF-8 format, and the following special characters: + - = . _ : / @. The maximum length of a tag's key is 128 characters, and the maximum length for a tag's value is 256.
         public let tags: [Tag]?
         /// Specifies the DNS name for the VPC endpoint that the NFS file share uses to connect to Amazon S3.  This parameter is required for NFS file shares that connect to Amazon S3 through a VPC endpoint, a VPC access point, or an access point alias that points to a VPC access point.
-        public let vPCEndpointDNSName: String?
+        public let vpcEndpointDNSName: String?
 
-        public init(auditDestinationARN: String? = nil, bucketRegion: String? = nil, cacheAttributes: CacheAttributes? = nil, clientList: [String]? = nil, clientToken: String, defaultStorageClass: String? = nil, fileShareName: String? = nil, gatewayARN: String, guessMIMETypeEnabled: Bool? = nil, kMSEncrypted: Bool? = nil, kMSKey: String? = nil, locationARN: String, nFSFileShareDefaults: NFSFileShareDefaults? = nil, notificationPolicy: String? = nil, objectACL: ObjectACL? = nil, readOnly: Bool? = nil, requesterPays: Bool? = nil, role: String, squash: String? = nil, tags: [Tag]? = nil, vPCEndpointDNSName: String? = nil) {
+        public init(auditDestinationARN: String? = nil, bucketRegion: String? = nil, cacheAttributes: CacheAttributes? = nil, clientList: [String]? = nil, clientToken: String, defaultStorageClass: String? = nil, fileShareName: String? = nil, gatewayARN: String, guessMIMETypeEnabled: Bool? = nil, kmsEncrypted: Bool? = nil, kmsKey: String? = nil, locationARN: String, nfsFileShareDefaults: NFSFileShareDefaults? = nil, notificationPolicy: String? = nil, objectACL: ObjectACL? = nil, readOnly: Bool? = nil, requesterPays: Bool? = nil, role: String, squash: String? = nil, tags: [Tag]? = nil, vpcEndpointDNSName: String? = nil) {
             self.auditDestinationARN = auditDestinationARN
             self.bucketRegion = bucketRegion
             self.cacheAttributes = cacheAttributes
@@ -970,10 +970,10 @@ extension StorageGateway {
             self.fileShareName = fileShareName
             self.gatewayARN = gatewayARN
             self.guessMIMETypeEnabled = guessMIMETypeEnabled
-            self.kMSEncrypted = kMSEncrypted
-            self.kMSKey = kMSKey
+            self.kmsEncrypted = kmsEncrypted
+            self.kmsKey = kmsKey
             self.locationARN = locationARN
-            self.nFSFileShareDefaults = nFSFileShareDefaults
+            self.nfsFileShareDefaults = nfsFileShareDefaults
             self.notificationPolicy = notificationPolicy
             self.objectACL = objectACL
             self.readOnly = readOnly
@@ -981,7 +981,7 @@ extension StorageGateway {
             self.role = role
             self.squash = squash
             self.tags = tags
-            self.vPCEndpointDNSName = vPCEndpointDNSName
+            self.vpcEndpointDNSName = vpcEndpointDNSName
         }
 
         public func validate(name: String) throws {
@@ -1001,12 +1001,12 @@ extension StorageGateway {
             try self.validate(self.fileShareName, name: "fileShareName", parent: name, min: 1)
             try self.validate(self.gatewayARN, name: "gatewayARN", parent: name, max: 500)
             try self.validate(self.gatewayARN, name: "gatewayARN", parent: name, min: 50)
-            try self.validate(self.kMSKey, name: "kMSKey", parent: name, max: 2048)
-            try self.validate(self.kMSKey, name: "kMSKey", parent: name, min: 7)
-            try self.validate(self.kMSKey, name: "kMSKey", parent: name, pattern: "^(^arn:(aws|aws-cn|aws-us-gov):kms:([a-zA-Z0-9-]+):([0-9]+):(key|alias)/(\\S+)$)|(^alias/(\\S+)$)$")
+            try self.validate(self.kmsKey, name: "kmsKey", parent: name, max: 2048)
+            try self.validate(self.kmsKey, name: "kmsKey", parent: name, min: 7)
+            try self.validate(self.kmsKey, name: "kmsKey", parent: name, pattern: "^(^arn:(aws|aws-cn|aws-us-gov):kms:([a-zA-Z0-9-]+):([0-9]+):(key|alias)/(\\S+)$)|(^alias/(\\S+)$)$")
             try self.validate(self.locationARN, name: "locationARN", parent: name, max: 1400)
             try self.validate(self.locationARN, name: "locationARN", parent: name, min: 16)
-            try self.nFSFileShareDefaults?.validate(name: "\(name).nFSFileShareDefaults")
+            try self.nfsFileShareDefaults?.validate(name: "\(name).nfsFileShareDefaults")
             try self.validate(self.notificationPolicy, name: "notificationPolicy", parent: name, max: 100)
             try self.validate(self.notificationPolicy, name: "notificationPolicy", parent: name, min: 2)
             try self.validate(self.notificationPolicy, name: "notificationPolicy", parent: name, pattern: "^\\{[\\w\\s:\\{\\}\\[\\]\"]*}$")
@@ -1018,9 +1018,9 @@ extension StorageGateway {
             try self.tags?.forEach {
                 try $0.validate(name: "\(name).tags[]")
             }
-            try self.validate(self.vPCEndpointDNSName, name: "vPCEndpointDNSName", parent: name, max: 255)
-            try self.validate(self.vPCEndpointDNSName, name: "vPCEndpointDNSName", parent: name, min: 1)
-            try self.validate(self.vPCEndpointDNSName, name: "vPCEndpointDNSName", parent: name, pattern: "^(([a-zA-Z0-9\\-]*[a-zA-Z0-9])\\.)*([A-Za-z0-9\\-]*[A-Za-z0-9])$")
+            try self.validate(self.vpcEndpointDNSName, name: "vpcEndpointDNSName", parent: name, max: 255)
+            try self.validate(self.vpcEndpointDNSName, name: "vpcEndpointDNSName", parent: name, min: 1)
+            try self.validate(self.vpcEndpointDNSName, name: "vpcEndpointDNSName", parent: name, pattern: "^(([a-zA-Z0-9\\-]*[a-zA-Z0-9])\\.)*([A-Za-z0-9\\-]*[A-Za-z0-9])$")
         }
 
         private enum CodingKeys: String, CodingKey {
@@ -1033,10 +1033,10 @@ extension StorageGateway {
             case fileShareName = "FileShareName"
             case gatewayARN = "GatewayARN"
             case guessMIMETypeEnabled = "GuessMIMETypeEnabled"
-            case kMSEncrypted = "KMSEncrypted"
-            case kMSKey = "KMSKey"
+            case kmsEncrypted = "KMSEncrypted"
+            case kmsKey = "KMSKey"
             case locationARN = "LocationARN"
-            case nFSFileShareDefaults = "NFSFileShareDefaults"
+            case nfsFileShareDefaults = "NFSFileShareDefaults"
             case notificationPolicy = "NotificationPolicy"
             case objectACL = "ObjectACL"
             case readOnly = "ReadOnly"
@@ -1044,7 +1044,7 @@ extension StorageGateway {
             case role = "Role"
             case squash = "Squash"
             case tags = "Tags"
-            case vPCEndpointDNSName = "VPCEndpointDNSName"
+            case vpcEndpointDNSName = "VPCEndpointDNSName"
         }
     }
 
@@ -1095,9 +1095,9 @@ extension StorageGateway {
         public let invalidUserList: [String]?
         /// Set to true to use Amazon S3 server-side encryption with your own KMS key, or false to use a key managed by Amazon S3. Optional.
         ///  Valid Values: true | false
-        public let kMSEncrypted: Bool?
+        public let kmsEncrypted: Bool?
         /// The Amazon Resource Name (ARN) of a symmetric customer master key (CMK) used for Amazon S3 server-side encryption. Storage Gateway does not support asymmetric CMKs. This value can only be set when KMSEncrypted is true. Optional.
-        public let kMSKey: String?
+        public let kmsKey: String?
         /// A custom ARN for the backend storage used for storing data for file shares. It includes a resource ARN with an optional prefix concatenation. The prefix must end with a forward slash (/).  You can specify LocationARN as a bucket ARN, access point ARN or access point alias, as shown in the following examples.
         ///  Bucket ARN:  arn:aws:s3:::my-bucket/prefix/
         ///  Access point ARN:  arn:aws:s3:region:account-id:accesspoint/access-point-name/prefix/
@@ -1128,16 +1128,16 @@ extension StorageGateway {
         ///
         ///  For more information, see Using Microsoft Windows ACLs to control access to an SMB file share in the Storage Gateway User Guide.
         ///  Valid Values: true | false
-        public let sMBACLEnabled: Bool?
+        public let smbaclEnabled: Bool?
         /// A list of up to 50 tags that can be assigned to the NFS file share. Each tag is a key-value pair.
         ///   Valid characters for key and value are letters, spaces, and numbers representable in UTF-8 format, and the following special characters: + - = . _ : / @. The maximum length of a tag's key is 128 characters, and the maximum length for a tag's value is 256.
         public let tags: [Tag]?
         /// A list of users or groups in the Active Directory that are allowed to access the file share. A group must be prefixed with the @ character. Acceptable formats include: DOMAIN\User1, user1, @group1, and @DOMAIN\group1. Can only be set if Authentication is set to ActiveDirectory.
         public let validUserList: [String]?
         /// Specifies the DNS name for the VPC endpoint that the SMB file share uses to connect to Amazon S3.  This parameter is required for SMB file shares that connect to Amazon S3 through a VPC endpoint, a VPC access point, or an access point alias that points to a VPC access point.
-        public let vPCEndpointDNSName: String?
+        public let vpcEndpointDNSName: String?
 
-        public init(accessBasedEnumeration: Bool? = nil, adminUserList: [String]? = nil, auditDestinationARN: String? = nil, authentication: String? = nil, bucketRegion: String? = nil, cacheAttributes: CacheAttributes? = nil, caseSensitivity: CaseSensitivity? = nil, clientToken: String, defaultStorageClass: String? = nil, fileShareName: String? = nil, gatewayARN: String, guessMIMETypeEnabled: Bool? = nil, invalidUserList: [String]? = nil, kMSEncrypted: Bool? = nil, kMSKey: String? = nil, locationARN: String, notificationPolicy: String? = nil, objectACL: ObjectACL? = nil, oplocksEnabled: Bool? = nil, readOnly: Bool? = nil, requesterPays: Bool? = nil, role: String, sMBACLEnabled: Bool? = nil, tags: [Tag]? = nil, validUserList: [String]? = nil, vPCEndpointDNSName: String? = nil) {
+        public init(accessBasedEnumeration: Bool? = nil, adminUserList: [String]? = nil, auditDestinationARN: String? = nil, authentication: String? = nil, bucketRegion: String? = nil, cacheAttributes: CacheAttributes? = nil, caseSensitivity: CaseSensitivity? = nil, clientToken: String, defaultStorageClass: String? = nil, fileShareName: String? = nil, gatewayARN: String, guessMIMETypeEnabled: Bool? = nil, invalidUserList: [String]? = nil, kmsEncrypted: Bool? = nil, kmsKey: String? = nil, locationARN: String, notificationPolicy: String? = nil, objectACL: ObjectACL? = nil, oplocksEnabled: Bool? = nil, readOnly: Bool? = nil, requesterPays: Bool? = nil, role: String, smbaclEnabled: Bool? = nil, tags: [Tag]? = nil, validUserList: [String]? = nil, vpcEndpointDNSName: String? = nil) {
             self.accessBasedEnumeration = accessBasedEnumeration
             self.adminUserList = adminUserList
             self.auditDestinationARN = auditDestinationARN
@@ -1151,8 +1151,8 @@ extension StorageGateway {
             self.gatewayARN = gatewayARN
             self.guessMIMETypeEnabled = guessMIMETypeEnabled
             self.invalidUserList = invalidUserList
-            self.kMSEncrypted = kMSEncrypted
-            self.kMSKey = kMSKey
+            self.kmsEncrypted = kmsEncrypted
+            self.kmsKey = kmsKey
             self.locationARN = locationARN
             self.notificationPolicy = notificationPolicy
             self.objectACL = objectACL
@@ -1160,10 +1160,10 @@ extension StorageGateway {
             self.readOnly = readOnly
             self.requesterPays = requesterPays
             self.role = role
-            self.sMBACLEnabled = sMBACLEnabled
+            self.smbaclEnabled = smbaclEnabled
             self.tags = tags
             self.validUserList = validUserList
-            self.vPCEndpointDNSName = vPCEndpointDNSName
+            self.vpcEndpointDNSName = vpcEndpointDNSName
         }
 
         public func validate(name: String) throws {
@@ -1190,9 +1190,9 @@ extension StorageGateway {
                 try validate($0, name: "invalidUserList[]", parent: name, min: 1)
             }
             try self.validate(self.invalidUserList, name: "invalidUserList", parent: name, max: 100)
-            try self.validate(self.kMSKey, name: "kMSKey", parent: name, max: 2048)
-            try self.validate(self.kMSKey, name: "kMSKey", parent: name, min: 7)
-            try self.validate(self.kMSKey, name: "kMSKey", parent: name, pattern: "^(^arn:(aws|aws-cn|aws-us-gov):kms:([a-zA-Z0-9-]+):([0-9]+):(key|alias)/(\\S+)$)|(^alias/(\\S+)$)$")
+            try self.validate(self.kmsKey, name: "kmsKey", parent: name, max: 2048)
+            try self.validate(self.kmsKey, name: "kmsKey", parent: name, min: 7)
+            try self.validate(self.kmsKey, name: "kmsKey", parent: name, pattern: "^(^arn:(aws|aws-cn|aws-us-gov):kms:([a-zA-Z0-9-]+):([0-9]+):(key|alias)/(\\S+)$)|(^alias/(\\S+)$)$")
             try self.validate(self.locationARN, name: "locationARN", parent: name, max: 1400)
             try self.validate(self.locationARN, name: "locationARN", parent: name, min: 16)
             try self.validate(self.notificationPolicy, name: "notificationPolicy", parent: name, max: 100)
@@ -1209,9 +1209,9 @@ extension StorageGateway {
                 try validate($0, name: "validUserList[]", parent: name, min: 1)
             }
             try self.validate(self.validUserList, name: "validUserList", parent: name, max: 100)
-            try self.validate(self.vPCEndpointDNSName, name: "vPCEndpointDNSName", parent: name, max: 255)
-            try self.validate(self.vPCEndpointDNSName, name: "vPCEndpointDNSName", parent: name, min: 1)
-            try self.validate(self.vPCEndpointDNSName, name: "vPCEndpointDNSName", parent: name, pattern: "^(([a-zA-Z0-9\\-]*[a-zA-Z0-9])\\.)*([A-Za-z0-9\\-]*[A-Za-z0-9])$")
+            try self.validate(self.vpcEndpointDNSName, name: "vpcEndpointDNSName", parent: name, max: 255)
+            try self.validate(self.vpcEndpointDNSName, name: "vpcEndpointDNSName", parent: name, min: 1)
+            try self.validate(self.vpcEndpointDNSName, name: "vpcEndpointDNSName", parent: name, pattern: "^(([a-zA-Z0-9\\-]*[a-zA-Z0-9])\\.)*([A-Za-z0-9\\-]*[A-Za-z0-9])$")
         }
 
         private enum CodingKeys: String, CodingKey {
@@ -1228,8 +1228,8 @@ extension StorageGateway {
             case gatewayARN = "GatewayARN"
             case guessMIMETypeEnabled = "GuessMIMETypeEnabled"
             case invalidUserList = "InvalidUserList"
-            case kMSEncrypted = "KMSEncrypted"
-            case kMSKey = "KMSKey"
+            case kmsEncrypted = "KMSEncrypted"
+            case kmsKey = "KMSKey"
             case locationARN = "LocationARN"
             case notificationPolicy = "NotificationPolicy"
             case objectACL = "ObjectACL"
@@ -1237,10 +1237,10 @@ extension StorageGateway {
             case readOnly = "ReadOnly"
             case requesterPays = "RequesterPays"
             case role = "Role"
-            case sMBACLEnabled = "SMBACLEnabled"
+            case smbaclEnabled = "SMBACLEnabled"
             case tags = "Tags"
             case validUserList = "ValidUserList"
-            case vPCEndpointDNSName = "VPCEndpointDNSName"
+            case vpcEndpointDNSName = "VPCEndpointDNSName"
         }
     }
 
@@ -1365,9 +1365,9 @@ extension StorageGateway {
         public let gatewayARN: String
         /// Set to true to use Amazon S3 server-side encryption with your own KMS key, or false to use a key managed by Amazon S3. Optional.
         ///  Valid Values: true | false
-        public let kMSEncrypted: Bool?
+        public let kmsEncrypted: Bool?
         /// The Amazon Resource Name (ARN) of a symmetric customer master key (CMK) used for Amazon S3 server-side encryption. Storage Gateway does not support asymmetric CMKs. This value can only be set when KMSEncrypted is true. Optional.
-        public let kMSKey: String?
+        public let kmsKey: String?
         /// The network interface of the gateway on which to expose the iSCSI target. Only IPv4 addresses are accepted. Use DescribeGatewayInformation to get a list of the network interfaces available on a gateway.
         ///  Valid Values: A valid IP address.
         public let networkInterfaceId: String
@@ -1383,11 +1383,11 @@ extension StorageGateway {
         ///  If you don't specify a value, Storage Gateway uses the value that was previously used for this volume as the new target name.
         public let targetName: String
 
-        public init(diskId: String, gatewayARN: String, kMSEncrypted: Bool? = nil, kMSKey: String? = nil, networkInterfaceId: String, preserveExistingData: Bool, snapshotId: String? = nil, tags: [Tag]? = nil, targetName: String) {
+        public init(diskId: String, gatewayARN: String, kmsEncrypted: Bool? = nil, kmsKey: String? = nil, networkInterfaceId: String, preserveExistingData: Bool, snapshotId: String? = nil, tags: [Tag]? = nil, targetName: String) {
             self.diskId = diskId
             self.gatewayARN = gatewayARN
-            self.kMSEncrypted = kMSEncrypted
-            self.kMSKey = kMSKey
+            self.kmsEncrypted = kmsEncrypted
+            self.kmsKey = kmsKey
             self.networkInterfaceId = networkInterfaceId
             self.preserveExistingData = preserveExistingData
             self.snapshotId = snapshotId
@@ -1400,9 +1400,9 @@ extension StorageGateway {
             try self.validate(self.diskId, name: "diskId", parent: name, min: 1)
             try self.validate(self.gatewayARN, name: "gatewayARN", parent: name, max: 500)
             try self.validate(self.gatewayARN, name: "gatewayARN", parent: name, min: 50)
-            try self.validate(self.kMSKey, name: "kMSKey", parent: name, max: 2048)
-            try self.validate(self.kMSKey, name: "kMSKey", parent: name, min: 7)
-            try self.validate(self.kMSKey, name: "kMSKey", parent: name, pattern: "^(^arn:(aws|aws-cn|aws-us-gov):kms:([a-zA-Z0-9-]+):([0-9]+):(key|alias)/(\\S+)$)|(^alias/(\\S+)$)$")
+            try self.validate(self.kmsKey, name: "kmsKey", parent: name, max: 2048)
+            try self.validate(self.kmsKey, name: "kmsKey", parent: name, min: 7)
+            try self.validate(self.kmsKey, name: "kmsKey", parent: name, pattern: "^(^arn:(aws|aws-cn|aws-us-gov):kms:([a-zA-Z0-9-]+):([0-9]+):(key|alias)/(\\S+)$)|(^alias/(\\S+)$)$")
             try self.validate(self.networkInterfaceId, name: "networkInterfaceId", parent: name, pattern: "^\\A(25[0-5]|2[0-4]\\d|[0-1]?\\d?\\d)(\\.(25[0-5]|2[0-4]\\d|[0-1]?\\d?\\d)){3}\\z$")
             try self.validate(self.snapshotId, name: "snapshotId", parent: name, pattern: "^\\Asnap-([0-9A-Fa-f]{8}|[0-9A-Fa-f]{17})\\z$")
             try self.tags?.forEach {
@@ -1416,8 +1416,8 @@ extension StorageGateway {
         private enum CodingKeys: String, CodingKey {
             case diskId = "DiskId"
             case gatewayARN = "GatewayARN"
-            case kMSEncrypted = "KMSEncrypted"
-            case kMSKey = "KMSKey"
+            case kmsEncrypted = "KMSEncrypted"
+            case kmsKey = "KMSKey"
             case networkInterfaceId = "NetworkInterfaceId"
             case preserveExistingData = "PreserveExistingData"
             case snapshotId = "SnapshotId"
@@ -1506,9 +1506,9 @@ extension StorageGateway {
         public let gatewayARN: String
         /// Set to true to use Amazon S3 server-side encryption with your own KMS key, or false to use a key managed by Amazon S3. Optional.
         ///  Valid Values: true | false
-        public let kMSEncrypted: Bool?
+        public let kmsEncrypted: Bool?
         /// The Amazon Resource Name (ARN) of a symmetric customer master key (CMK) used for Amazon S3 server-side encryption. Storage Gateway does not support asymmetric CMKs. This value can only be set when KMSEncrypted is true. Optional.
-        public let kMSKey: String?
+        public let kmsKey: String?
         /// The ID of the pool that you want to add your tape to for archiving. The tape in this pool is archived in the S3 storage class that is associated with the pool. When you use your backup application to eject the tape, the tape is archived directly into the storage class (S3 Glacier or S3 Deep Archive) that corresponds to the pool.
         ///  Valid Values: GLACIER | DEEP_ARCHIVE
         public let poolId: String?
@@ -1524,10 +1524,10 @@ extension StorageGateway {
         /// Set to TRUE if the tape you are creating is to be configured as a write-once-read-many (WORM) tape.
         public let worm: Bool?
 
-        public init(gatewayARN: String, kMSEncrypted: Bool? = nil, kMSKey: String? = nil, poolId: String? = nil, tags: [Tag]? = nil, tapeBarcode: String, tapeSizeInBytes: Int64, worm: Bool? = nil) {
+        public init(gatewayARN: String, kmsEncrypted: Bool? = nil, kmsKey: String? = nil, poolId: String? = nil, tags: [Tag]? = nil, tapeBarcode: String, tapeSizeInBytes: Int64, worm: Bool? = nil) {
             self.gatewayARN = gatewayARN
-            self.kMSEncrypted = kMSEncrypted
-            self.kMSKey = kMSKey
+            self.kmsEncrypted = kmsEncrypted
+            self.kmsKey = kmsKey
             self.poolId = poolId
             self.tags = tags
             self.tapeBarcode = tapeBarcode
@@ -1538,9 +1538,9 @@ extension StorageGateway {
         public func validate(name: String) throws {
             try self.validate(self.gatewayARN, name: "gatewayARN", parent: name, max: 500)
             try self.validate(self.gatewayARN, name: "gatewayARN", parent: name, min: 50)
-            try self.validate(self.kMSKey, name: "kMSKey", parent: name, max: 2048)
-            try self.validate(self.kMSKey, name: "kMSKey", parent: name, min: 7)
-            try self.validate(self.kMSKey, name: "kMSKey", parent: name, pattern: "^(^arn:(aws|aws-cn|aws-us-gov):kms:([a-zA-Z0-9-]+):([0-9]+):(key|alias)/(\\S+)$)|(^alias/(\\S+)$)$")
+            try self.validate(self.kmsKey, name: "kmsKey", parent: name, max: 2048)
+            try self.validate(self.kmsKey, name: "kmsKey", parent: name, min: 7)
+            try self.validate(self.kmsKey, name: "kmsKey", parent: name, pattern: "^(^arn:(aws|aws-cn|aws-us-gov):kms:([a-zA-Z0-9-]+):([0-9]+):(key|alias)/(\\S+)$)|(^alias/(\\S+)$)$")
             try self.validate(self.poolId, name: "poolId", parent: name, max: 100)
             try self.validate(self.poolId, name: "poolId", parent: name, min: 1)
             try self.tags?.forEach {
@@ -1553,8 +1553,8 @@ extension StorageGateway {
 
         private enum CodingKeys: String, CodingKey {
             case gatewayARN = "GatewayARN"
-            case kMSEncrypted = "KMSEncrypted"
-            case kMSKey = "KMSKey"
+            case kmsEncrypted = "KMSEncrypted"
+            case kmsKey = "KMSKey"
             case poolId = "PoolId"
             case tags = "Tags"
             case tapeBarcode = "TapeBarcode"
@@ -1584,9 +1584,9 @@ extension StorageGateway {
         public let gatewayARN: String
         /// Set to true to use Amazon S3 server-side encryption with your own KMS key, or false to use a key managed by Amazon S3. Optional.
         ///  Valid Values: true | false
-        public let kMSEncrypted: Bool?
+        public let kmsEncrypted: Bool?
         /// The Amazon Resource Name (ARN) of a symmetric customer master key (CMK) used for Amazon S3 server-side encryption. Storage Gateway does not support asymmetric CMKs. This value can only be set when KMSEncrypted is true. Optional.
-        public let kMSKey: String?
+        public let kmsKey: String?
         /// The number of virtual tapes that you want to create.
         public let numTapesToCreate: Int
         /// The ID of the pool that you want to add your tape to for archiving. The tape in this pool is archived in the S3 storage class that is associated with the pool. When you use your backup application to eject the tape, the tape is archived directly into the storage class (S3 Glacier or S3 Glacier Deep Archive) that corresponds to the pool.
@@ -1604,11 +1604,11 @@ extension StorageGateway {
         /// Set to TRUE if the tape you are creating is to be configured as a write-once-read-many (WORM) tape.
         public let worm: Bool?
 
-        public init(clientToken: String, gatewayARN: String, kMSEncrypted: Bool? = nil, kMSKey: String? = nil, numTapesToCreate: Int, poolId: String? = nil, tags: [Tag]? = nil, tapeBarcodePrefix: String, tapeSizeInBytes: Int64, worm: Bool? = nil) {
+        public init(clientToken: String, gatewayARN: String, kmsEncrypted: Bool? = nil, kmsKey: String? = nil, numTapesToCreate: Int, poolId: String? = nil, tags: [Tag]? = nil, tapeBarcodePrefix: String, tapeSizeInBytes: Int64, worm: Bool? = nil) {
             self.clientToken = clientToken
             self.gatewayARN = gatewayARN
-            self.kMSEncrypted = kMSEncrypted
-            self.kMSKey = kMSKey
+            self.kmsEncrypted = kmsEncrypted
+            self.kmsKey = kmsKey
             self.numTapesToCreate = numTapesToCreate
             self.poolId = poolId
             self.tags = tags
@@ -1622,9 +1622,9 @@ extension StorageGateway {
             try self.validate(self.clientToken, name: "clientToken", parent: name, min: 5)
             try self.validate(self.gatewayARN, name: "gatewayARN", parent: name, max: 500)
             try self.validate(self.gatewayARN, name: "gatewayARN", parent: name, min: 50)
-            try self.validate(self.kMSKey, name: "kMSKey", parent: name, max: 2048)
-            try self.validate(self.kMSKey, name: "kMSKey", parent: name, min: 7)
-            try self.validate(self.kMSKey, name: "kMSKey", parent: name, pattern: "^(^arn:(aws|aws-cn|aws-us-gov):kms:([a-zA-Z0-9-]+):([0-9]+):(key|alias)/(\\S+)$)|(^alias/(\\S+)$)$")
+            try self.validate(self.kmsKey, name: "kmsKey", parent: name, max: 2048)
+            try self.validate(self.kmsKey, name: "kmsKey", parent: name, min: 7)
+            try self.validate(self.kmsKey, name: "kmsKey", parent: name, pattern: "^(^arn:(aws|aws-cn|aws-us-gov):kms:([a-zA-Z0-9-]+):([0-9]+):(key|alias)/(\\S+)$)|(^alias/(\\S+)$)$")
             try self.validate(self.numTapesToCreate, name: "numTapesToCreate", parent: name, max: 10)
             try self.validate(self.numTapesToCreate, name: "numTapesToCreate", parent: name, min: 1)
             try self.validate(self.poolId, name: "poolId", parent: name, max: 100)
@@ -1640,8 +1640,8 @@ extension StorageGateway {
         private enum CodingKeys: String, CodingKey {
             case clientToken = "ClientToken"
             case gatewayARN = "GatewayARN"
-            case kMSEncrypted = "KMSEncrypted"
-            case kMSKey = "KMSKey"
+            case kmsEncrypted = "KMSEncrypted"
+            case kmsKey = "KMSKey"
             case numTapesToCreate = "NumTapesToCreate"
             case poolId = "PoolId"
             case tags = "Tags"
@@ -2328,9 +2328,9 @@ extension StorageGateway {
         /// A list of up to 50 tags assigned to the gateway, sorted alphabetically by key name. Each tag is a key-value pair. For a gateway with more than 10 tags assigned, you can view all tags using the ListTagsForResource API operation.
         public let tags: [Tag]?
         /// The configuration settings for the virtual private cloud (VPC) endpoint for your gateway.
-        public let vPCEndpoint: String?
+        public let vpcEndpoint: String?
 
-        public init(cloudWatchLogGroupARN: String? = nil, deprecationDate: String? = nil, ec2InstanceId: String? = nil, ec2InstanceRegion: String? = nil, endpointType: String? = nil, gatewayARN: String? = nil, gatewayCapacity: GatewayCapacity? = nil, gatewayId: String? = nil, gatewayName: String? = nil, gatewayNetworkInterfaces: [NetworkInterface]? = nil, gatewayState: String? = nil, gatewayTimezone: String? = nil, gatewayType: String? = nil, hostEnvironment: HostEnvironment? = nil, lastSoftwareUpdate: String? = nil, nextUpdateAvailabilityDate: String? = nil, softwareUpdatesEndDate: String? = nil, supportedGatewayCapacities: [GatewayCapacity]? = nil, tags: [Tag]? = nil, vPCEndpoint: String? = nil) {
+        public init(cloudWatchLogGroupARN: String? = nil, deprecationDate: String? = nil, ec2InstanceId: String? = nil, ec2InstanceRegion: String? = nil, endpointType: String? = nil, gatewayARN: String? = nil, gatewayCapacity: GatewayCapacity? = nil, gatewayId: String? = nil, gatewayName: String? = nil, gatewayNetworkInterfaces: [NetworkInterface]? = nil, gatewayState: String? = nil, gatewayTimezone: String? = nil, gatewayType: String? = nil, hostEnvironment: HostEnvironment? = nil, lastSoftwareUpdate: String? = nil, nextUpdateAvailabilityDate: String? = nil, softwareUpdatesEndDate: String? = nil, supportedGatewayCapacities: [GatewayCapacity]? = nil, tags: [Tag]? = nil, vpcEndpoint: String? = nil) {
             self.cloudWatchLogGroupARN = cloudWatchLogGroupARN
             self.deprecationDate = deprecationDate
             self.ec2InstanceId = ec2InstanceId
@@ -2350,7 +2350,7 @@ extension StorageGateway {
             self.softwareUpdatesEndDate = softwareUpdatesEndDate
             self.supportedGatewayCapacities = supportedGatewayCapacities
             self.tags = tags
-            self.vPCEndpoint = vPCEndpoint
+            self.vpcEndpoint = vpcEndpoint
         }
 
         private enum CodingKeys: String, CodingKey {
@@ -2373,7 +2373,7 @@ extension StorageGateway {
             case softwareUpdatesEndDate = "SoftwareUpdatesEndDate"
             case supportedGatewayCapacities = "SupportedGatewayCapacities"
             case tags = "Tags"
-            case vPCEndpoint = "VPCEndpoint"
+            case vpcEndpoint = "VPCEndpoint"
         }
     }
 
@@ -2450,14 +2450,14 @@ extension StorageGateway {
 
     public struct DescribeNFSFileSharesOutput: AWSDecodableShape {
         /// An array containing a description for each requested file share.
-        public let nFSFileShareInfoList: [NFSFileShareInfo]?
+        public let nfsFileShareInfoList: [NFSFileShareInfo]?
 
-        public init(nFSFileShareInfoList: [NFSFileShareInfo]? = nil) {
-            self.nFSFileShareInfoList = nFSFileShareInfoList
+        public init(nfsFileShareInfoList: [NFSFileShareInfo]? = nil) {
+            self.nfsFileShareInfoList = nfsFileShareInfoList
         }
 
         private enum CodingKeys: String, CodingKey {
-            case nFSFileShareInfoList = "NFSFileShareInfoList"
+            case nfsFileShareInfoList = "NFSFileShareInfoList"
         }
     }
 
@@ -2485,14 +2485,14 @@ extension StorageGateway {
 
     public struct DescribeSMBFileSharesOutput: AWSDecodableShape {
         /// An array containing a description for each requested file share.
-        public let sMBFileShareInfoList: [SMBFileShareInfo]?
+        public let smbFileShareInfoList: [SMBFileShareInfo]?
 
-        public init(sMBFileShareInfoList: [SMBFileShareInfo]? = nil) {
-            self.sMBFileShareInfoList = sMBFileShareInfoList
+        public init(smbFileShareInfoList: [SMBFileShareInfo]? = nil) {
+            self.smbFileShareInfoList = smbFileShareInfoList
         }
 
         private enum CodingKeys: String, CodingKey {
-            case sMBFileShareInfoList = "SMBFileShareInfoList"
+            case smbFileShareInfoList = "SMBFileShareInfoList"
         }
     }
 
@@ -2524,21 +2524,21 @@ extension StorageGateway {
         public let gatewayARN: String?
         /// This value is true if a password for the guest user smbguest is set, otherwise false. Only supported for S3 File Gateways.
         ///  Valid Values: true | false
-        public let sMBGuestPasswordSet: Bool?
+        public let smbGuestPasswordSet: Bool?
         /// A list of Active Directory users and groups that have special permissions for SMB file shares on the gateway.
-        public let sMBLocalGroups: SMBLocalGroups?
+        public let smbLocalGroups: SMBLocalGroups?
         /// The type of security strategy that was specified for file gateway.
         ///     ClientSpecified: If you use this option, requests are established based on what is negotiated by the client. This option is recommended when you want to maximize compatibility across different clients in your environment. Only supported for S3 File Gateways.    MandatorySigning: If you use this option, file gateway only allows connections from SMBv2 or SMBv3 clients that have signing enabled. This option works with SMB clients on Microsoft Windows Vista, Windows Server 2008 or newer.    MandatoryEncryption: If you use this option, file gateway only allows connections from SMBv3 clients that have encryption enabled. This option is highly recommended for environments that handle sensitive data. This option works with SMB clients on Microsoft Windows 8, Windows Server 2012 or newer.
-        public let sMBSecurityStrategy: SMBSecurityStrategy?
+        public let smbSecurityStrategy: SMBSecurityStrategy?
 
-        public init(activeDirectoryStatus: ActiveDirectoryStatus? = nil, domainName: String? = nil, fileSharesVisible: Bool? = nil, gatewayARN: String? = nil, sMBGuestPasswordSet: Bool? = nil, sMBLocalGroups: SMBLocalGroups? = nil, sMBSecurityStrategy: SMBSecurityStrategy? = nil) {
+        public init(activeDirectoryStatus: ActiveDirectoryStatus? = nil, domainName: String? = nil, fileSharesVisible: Bool? = nil, gatewayARN: String? = nil, smbGuestPasswordSet: Bool? = nil, smbLocalGroups: SMBLocalGroups? = nil, smbSecurityStrategy: SMBSecurityStrategy? = nil) {
             self.activeDirectoryStatus = activeDirectoryStatus
             self.domainName = domainName
             self.fileSharesVisible = fileSharesVisible
             self.gatewayARN = gatewayARN
-            self.sMBGuestPasswordSet = sMBGuestPasswordSet
-            self.sMBLocalGroups = sMBLocalGroups
-            self.sMBSecurityStrategy = sMBSecurityStrategy
+            self.smbGuestPasswordSet = smbGuestPasswordSet
+            self.smbLocalGroups = smbLocalGroups
+            self.smbSecurityStrategy = smbSecurityStrategy
         }
 
         private enum CodingKeys: String, CodingKey {
@@ -2546,9 +2546,9 @@ extension StorageGateway {
             case domainName = "DomainName"
             case fileSharesVisible = "FileSharesVisible"
             case gatewayARN = "GatewayARN"
-            case sMBGuestPasswordSet = "SMBGuestPasswordSet"
-            case sMBLocalGroups = "SMBLocalGroups"
-            case sMBSecurityStrategy = "SMBSecurityStrategy"
+            case smbGuestPasswordSet = "SMBGuestPasswordSet"
+            case smbLocalGroups = "SMBLocalGroups"
+            case smbSecurityStrategy = "SMBSecurityStrategy"
         }
     }
 
@@ -2841,13 +2841,13 @@ extension StorageGateway {
         public let marker: String?
         /// An array of strings, where each string represents the Amazon Resource Name (ARN) of a VTL device.
         ///   All of the specified VTL devices must be from the same gateway. If no VTL devices are specified, the result will contain all devices on the specified gateway.
-        public let vTLDeviceARNs: [String]?
+        public let vtlDeviceARNs: [String]?
 
-        public init(gatewayARN: String, limit: Int? = nil, marker: String? = nil, vTLDeviceARNs: [String]? = nil) {
+        public init(gatewayARN: String, limit: Int? = nil, marker: String? = nil, vtlDeviceARNs: [String]? = nil) {
             self.gatewayARN = gatewayARN
             self.limit = limit
             self.marker = marker
-            self.vTLDeviceARNs = vTLDeviceARNs
+            self.vtlDeviceARNs = vtlDeviceARNs
         }
 
         public func validate(name: String) throws {
@@ -2856,9 +2856,9 @@ extension StorageGateway {
             try self.validate(self.limit, name: "limit", parent: name, min: 1)
             try self.validate(self.marker, name: "marker", parent: name, max: 1000)
             try self.validate(self.marker, name: "marker", parent: name, min: 1)
-            try self.vTLDeviceARNs?.forEach {
-                try validate($0, name: "vTLDeviceARNs[]", parent: name, max: 500)
-                try validate($0, name: "vTLDeviceARNs[]", parent: name, min: 50)
+            try self.vtlDeviceARNs?.forEach {
+                try validate($0, name: "vtlDeviceARNs[]", parent: name, max: 500)
+                try validate($0, name: "vtlDeviceARNs[]", parent: name, min: 50)
             }
         }
 
@@ -2866,7 +2866,7 @@ extension StorageGateway {
             case gatewayARN = "GatewayARN"
             case limit = "Limit"
             case marker = "Marker"
-            case vTLDeviceARNs = "VTLDeviceARNs"
+            case vtlDeviceARNs = "VTLDeviceARNs"
         }
     }
 
@@ -2875,18 +2875,18 @@ extension StorageGateway {
         /// An opaque string that indicates the position at which the VTL devices that were fetched for description ended. Use the marker in your next request to fetch the next set of VTL devices in the list. If there are no more VTL devices to describe, this field does not appear in the response.
         public let marker: String?
         /// An array of VTL device objects composed of the Amazon Resource Name (ARN) of the VTL devices.
-        public let vTLDevices: [VTLDevice]?
+        public let vtlDevices: [VTLDevice]?
 
-        public init(gatewayARN: String? = nil, marker: String? = nil, vTLDevices: [VTLDevice]? = nil) {
+        public init(gatewayARN: String? = nil, marker: String? = nil, vtlDevices: [VTLDevice]? = nil) {
             self.gatewayARN = gatewayARN
             self.marker = marker
-            self.vTLDevices = vTLDevices
+            self.vtlDevices = vtlDevices
         }
 
         private enum CodingKeys: String, CodingKey {
             case gatewayARN = "GatewayARN"
             case marker = "Marker"
-            case vTLDevices = "VTLDevices"
+            case vtlDevices = "VTLDevices"
         }
     }
 
@@ -3859,10 +3859,10 @@ extension StorageGateway {
         public let guessMIMETypeEnabled: Bool?
         /// Set to true to use Amazon S3 server-side encryption with your own KMS key, or false to use a key managed by Amazon S3. Optional.
         ///  Valid Values: true | false
-        public let kMSEncrypted: Bool?
-        public let kMSKey: String?
+        public let kmsEncrypted: Bool?
+        public let kmsKey: String?
         public let locationARN: String?
-        public let nFSFileShareDefaults: NFSFileShareDefaults?
+        public let nfsFileShareDefaults: NFSFileShareDefaults?
         /// The notification policy of the file share. SettlingTimeInSeconds controls the number of seconds to wait after the last point in time a client wrote to a file before generating an ObjectUploaded notification. Because clients can make many small writes to files, it's best to set this parameter for as long as possible to avoid generating multiple notifications for the same file in a small time period.
         ///    SettlingTimeInSeconds has no effect on the timing of the object uploading to Amazon S3, only the timing of the notification.
         ///  The following example sets NotificationPolicy on with SettlingTimeInSeconds set to 60.
@@ -3884,9 +3884,9 @@ extension StorageGateway {
         /// A list of up to 50 tags assigned to the NFS file share, sorted alphabetically by key name. Each tag is a key-value pair. For a gateway with more than 10 tags assigned, you can view all tags using the ListTagsForResource API operation.
         public let tags: [Tag]?
         /// Specifies the DNS name for the VPC endpoint that the NFS file share uses to connect to Amazon S3.  This parameter is required for NFS file shares that connect to Amazon S3 through a VPC endpoint, a VPC access point, or an access point alias that points to a VPC access point.
-        public let vPCEndpointDNSName: String?
+        public let vpcEndpointDNSName: String?
 
-        public init(auditDestinationARN: String? = nil, bucketRegion: String? = nil, cacheAttributes: CacheAttributes? = nil, clientList: [String]? = nil, defaultStorageClass: String? = nil, fileShareARN: String? = nil, fileShareId: String? = nil, fileShareName: String? = nil, fileShareStatus: String? = nil, gatewayARN: String? = nil, guessMIMETypeEnabled: Bool? = nil, kMSEncrypted: Bool? = nil, kMSKey: String? = nil, locationARN: String? = nil, nFSFileShareDefaults: NFSFileShareDefaults? = nil, notificationPolicy: String? = nil, objectACL: ObjectACL? = nil, path: String? = nil, readOnly: Bool? = nil, requesterPays: Bool? = nil, role: String? = nil, squash: String? = nil, tags: [Tag]? = nil, vPCEndpointDNSName: String? = nil) {
+        public init(auditDestinationARN: String? = nil, bucketRegion: String? = nil, cacheAttributes: CacheAttributes? = nil, clientList: [String]? = nil, defaultStorageClass: String? = nil, fileShareARN: String? = nil, fileShareId: String? = nil, fileShareName: String? = nil, fileShareStatus: String? = nil, gatewayARN: String? = nil, guessMIMETypeEnabled: Bool? = nil, kmsEncrypted: Bool? = nil, kmsKey: String? = nil, locationARN: String? = nil, nfsFileShareDefaults: NFSFileShareDefaults? = nil, notificationPolicy: String? = nil, objectACL: ObjectACL? = nil, path: String? = nil, readOnly: Bool? = nil, requesterPays: Bool? = nil, role: String? = nil, squash: String? = nil, tags: [Tag]? = nil, vpcEndpointDNSName: String? = nil) {
             self.auditDestinationARN = auditDestinationARN
             self.bucketRegion = bucketRegion
             self.cacheAttributes = cacheAttributes
@@ -3898,10 +3898,10 @@ extension StorageGateway {
             self.fileShareStatus = fileShareStatus
             self.gatewayARN = gatewayARN
             self.guessMIMETypeEnabled = guessMIMETypeEnabled
-            self.kMSEncrypted = kMSEncrypted
-            self.kMSKey = kMSKey
+            self.kmsEncrypted = kmsEncrypted
+            self.kmsKey = kmsKey
             self.locationARN = locationARN
-            self.nFSFileShareDefaults = nFSFileShareDefaults
+            self.nfsFileShareDefaults = nfsFileShareDefaults
             self.notificationPolicy = notificationPolicy
             self.objectACL = objectACL
             self.path = path
@@ -3910,7 +3910,7 @@ extension StorageGateway {
             self.role = role
             self.squash = squash
             self.tags = tags
-            self.vPCEndpointDNSName = vPCEndpointDNSName
+            self.vpcEndpointDNSName = vpcEndpointDNSName
         }
 
         private enum CodingKeys: String, CodingKey {
@@ -3925,10 +3925,10 @@ extension StorageGateway {
             case fileShareStatus = "FileShareStatus"
             case gatewayARN = "GatewayARN"
             case guessMIMETypeEnabled = "GuessMIMETypeEnabled"
-            case kMSEncrypted = "KMSEncrypted"
-            case kMSKey = "KMSKey"
+            case kmsEncrypted = "KMSEncrypted"
+            case kmsKey = "KMSKey"
             case locationARN = "LocationARN"
-            case nFSFileShareDefaults = "NFSFileShareDefaults"
+            case nfsFileShareDefaults = "NFSFileShareDefaults"
             case notificationPolicy = "NotificationPolicy"
             case objectACL = "ObjectACL"
             case path = "Path"
@@ -3937,7 +3937,7 @@ extension StorageGateway {
             case role = "Role"
             case squash = "Squash"
             case tags = "Tags"
-            case vPCEndpointDNSName = "VPCEndpointDNSName"
+            case vpcEndpointDNSName = "VPCEndpointDNSName"
         }
     }
 
@@ -4252,8 +4252,8 @@ extension StorageGateway {
         public let invalidUserList: [String]?
         /// Set to true to use Amazon S3 server-side encryption with your own KMS key, or false to use a key managed by Amazon S3. Optional.
         ///  Valid Values: true | false
-        public let kMSEncrypted: Bool?
-        public let kMSKey: String?
+        public let kmsEncrypted: Bool?
+        public let kmsKey: String?
         public let locationARN: String?
         /// The notification policy of the file share. SettlingTimeInSeconds controls the number of seconds to wait after the last point in time a client wrote to a file before generating an ObjectUploaded notification. Because clients can make many small writes to files, it's best to set this parameter for as long as possible to avoid generating multiple notifications for the same file in a small time period.
         ///    SettlingTimeInSeconds has no effect on the timing of the object uploading to Amazon S3, only the timing of the notification.
@@ -4278,15 +4278,15 @@ extension StorageGateway {
         /// If this value is set to true, it indicates that access control list (ACL) is enabled on the SMB file share. If it is set to false, it indicates that file and directory permissions are mapped to the POSIX permission.
         ///
         ///  For more information, see Using Microsoft Windows ACLs to control access to an SMB file share in the Storage Gateway User Guide.
-        public let sMBACLEnabled: Bool?
+        public let smbaclEnabled: Bool?
         /// A list of up to 50 tags assigned to the SMB file share, sorted alphabetically by key name. Each tag is a key-value pair. For a gateway with more than 10 tags assigned, you can view all tags using the ListTagsForResource API operation.
         public let tags: [Tag]?
         /// A list of users or groups in the Active Directory that are allowed to access the file share. A group must be prefixed with the @ character. Acceptable formats include: DOMAIN\User1, user1, @group1, and @DOMAIN\group1. Can only be set if Authentication is set to ActiveDirectory.
         public let validUserList: [String]?
         /// Specifies the DNS name for the VPC endpoint that the SMB file share uses to connect to Amazon S3.  This parameter is required for SMB file shares that connect to Amazon S3 through a VPC endpoint, a VPC access point, or an access point alias that points to a VPC access point.
-        public let vPCEndpointDNSName: String?
+        public let vpcEndpointDNSName: String?
 
-        public init(accessBasedEnumeration: Bool? = nil, adminUserList: [String]? = nil, auditDestinationARN: String? = nil, authentication: String? = nil, bucketRegion: String? = nil, cacheAttributes: CacheAttributes? = nil, caseSensitivity: CaseSensitivity? = nil, defaultStorageClass: String? = nil, fileShareARN: String? = nil, fileShareId: String? = nil, fileShareName: String? = nil, fileShareStatus: String? = nil, gatewayARN: String? = nil, guessMIMETypeEnabled: Bool? = nil, invalidUserList: [String]? = nil, kMSEncrypted: Bool? = nil, kMSKey: String? = nil, locationARN: String? = nil, notificationPolicy: String? = nil, objectACL: ObjectACL? = nil, oplocksEnabled: Bool? = nil, path: String? = nil, readOnly: Bool? = nil, requesterPays: Bool? = nil, role: String? = nil, sMBACLEnabled: Bool? = nil, tags: [Tag]? = nil, validUserList: [String]? = nil, vPCEndpointDNSName: String? = nil) {
+        public init(accessBasedEnumeration: Bool? = nil, adminUserList: [String]? = nil, auditDestinationARN: String? = nil, authentication: String? = nil, bucketRegion: String? = nil, cacheAttributes: CacheAttributes? = nil, caseSensitivity: CaseSensitivity? = nil, defaultStorageClass: String? = nil, fileShareARN: String? = nil, fileShareId: String? = nil, fileShareName: String? = nil, fileShareStatus: String? = nil, gatewayARN: String? = nil, guessMIMETypeEnabled: Bool? = nil, invalidUserList: [String]? = nil, kmsEncrypted: Bool? = nil, kmsKey: String? = nil, locationARN: String? = nil, notificationPolicy: String? = nil, objectACL: ObjectACL? = nil, oplocksEnabled: Bool? = nil, path: String? = nil, readOnly: Bool? = nil, requesterPays: Bool? = nil, role: String? = nil, smbaclEnabled: Bool? = nil, tags: [Tag]? = nil, validUserList: [String]? = nil, vpcEndpointDNSName: String? = nil) {
             self.accessBasedEnumeration = accessBasedEnumeration
             self.adminUserList = adminUserList
             self.auditDestinationARN = auditDestinationARN
@@ -4302,8 +4302,8 @@ extension StorageGateway {
             self.gatewayARN = gatewayARN
             self.guessMIMETypeEnabled = guessMIMETypeEnabled
             self.invalidUserList = invalidUserList
-            self.kMSEncrypted = kMSEncrypted
-            self.kMSKey = kMSKey
+            self.kmsEncrypted = kmsEncrypted
+            self.kmsKey = kmsKey
             self.locationARN = locationARN
             self.notificationPolicy = notificationPolicy
             self.objectACL = objectACL
@@ -4312,10 +4312,10 @@ extension StorageGateway {
             self.readOnly = readOnly
             self.requesterPays = requesterPays
             self.role = role
-            self.sMBACLEnabled = sMBACLEnabled
+            self.smbaclEnabled = smbaclEnabled
             self.tags = tags
             self.validUserList = validUserList
-            self.vPCEndpointDNSName = vPCEndpointDNSName
+            self.vpcEndpointDNSName = vpcEndpointDNSName
         }
 
         private enum CodingKeys: String, CodingKey {
@@ -4334,8 +4334,8 @@ extension StorageGateway {
             case gatewayARN = "GatewayARN"
             case guessMIMETypeEnabled = "GuessMIMETypeEnabled"
             case invalidUserList = "InvalidUserList"
-            case kMSEncrypted = "KMSEncrypted"
-            case kMSKey = "KMSKey"
+            case kmsEncrypted = "KMSEncrypted"
+            case kmsKey = "KMSKey"
             case locationARN = "LocationARN"
             case notificationPolicy = "NotificationPolicy"
             case objectACL = "ObjectACL"
@@ -4344,10 +4344,10 @@ extension StorageGateway {
             case readOnly = "ReadOnly"
             case requesterPays = "RequesterPays"
             case role = "Role"
-            case sMBACLEnabled = "SMBACLEnabled"
+            case smbaclEnabled = "SMBACLEnabled"
             case tags = "Tags"
             case validUserList = "ValidUserList"
-            case vPCEndpointDNSName = "VPCEndpointDNSName"
+            case vpcEndpointDNSName = "VPCEndpointDNSName"
         }
     }
 
@@ -4535,7 +4535,7 @@ extension StorageGateway {
     public struct StorediSCSIVolume: AWSDecodableShape {
         /// The date the volume was created. Volumes created prior to March 28, 2017 don’t have this timestamp.
         public let createdDate: Date?
-        public let kMSKey: String?
+        public let kmsKey: String?
         /// Indicates if when the stored volume was created, existing data on the underlying local disk was preserved.
         ///  Valid Values: true | false
         public let preservedExistingData: Bool?
@@ -4566,9 +4566,9 @@ extension StorageGateway {
         ///   This value is not available for volumes created prior to May 13, 2015, until you store data on the volume.
         public let volumeUsedInBytes: Int64?
 
-        public init(createdDate: Date? = nil, kMSKey: String? = nil, preservedExistingData: Bool? = nil, sourceSnapshotId: String? = nil, targetName: String? = nil, volumeARN: String? = nil, volumeAttachmentStatus: String? = nil, volumeDiskId: String? = nil, volumeId: String? = nil, volumeiSCSIAttributes: VolumeiSCSIAttributes? = nil, volumeProgress: Double? = nil, volumeSizeInBytes: Int64? = nil, volumeStatus: String? = nil, volumeType: String? = nil, volumeUsedInBytes: Int64? = nil) {
+        public init(createdDate: Date? = nil, kmsKey: String? = nil, preservedExistingData: Bool? = nil, sourceSnapshotId: String? = nil, targetName: String? = nil, volumeARN: String? = nil, volumeAttachmentStatus: String? = nil, volumeDiskId: String? = nil, volumeId: String? = nil, volumeiSCSIAttributes: VolumeiSCSIAttributes? = nil, volumeProgress: Double? = nil, volumeSizeInBytes: Int64? = nil, volumeStatus: String? = nil, volumeType: String? = nil, volumeUsedInBytes: Int64? = nil) {
             self.createdDate = createdDate
-            self.kMSKey = kMSKey
+            self.kmsKey = kmsKey
             self.preservedExistingData = preservedExistingData
             self.sourceSnapshotId = sourceSnapshotId
             self.targetName = targetName
@@ -4586,7 +4586,7 @@ extension StorageGateway {
 
         private enum CodingKeys: String, CodingKey {
             case createdDate = "CreatedDate"
-            case kMSKey = "KMSKey"
+            case kmsKey = "KMSKey"
             case preservedExistingData = "PreservedExistingData"
             case sourceSnapshotId = "SourceSnapshotId"
             case targetName = "TargetName"
@@ -4628,7 +4628,7 @@ extension StorageGateway {
     }
 
     public struct Tape: AWSDecodableShape {
-        public let kMSKey: String?
+        public let kmsKey: String?
         /// The date that the tape enters a custom tape pool.
         public let poolEntryDate: Date?
         /// The ID of the pool that contains tapes that will be archived. The tapes in this pool are archived in the S3 storage class that is associated with the pool. When you use your backup application to eject the tape, the tape is archived directly into the storage class (S3 Glacier or S3 Glacier Deep Archive) that corresponds to the pool.
@@ -4653,12 +4653,12 @@ extension StorageGateway {
         ///   This value is not available for tapes created prior to May 13, 2015.
         public let tapeUsedInBytes: Int64?
         /// The virtual tape library (VTL) device that the virtual tape is associated with.
-        public let vTLDevice: String?
+        public let vtlDevice: String?
         /// If the tape is archived as write-once-read-many (WORM), this value is true.
         public let worm: Bool?
 
-        public init(kMSKey: String? = nil, poolEntryDate: Date? = nil, poolId: String? = nil, progress: Double? = nil, retentionStartDate: Date? = nil, tapeARN: String? = nil, tapeBarcode: String? = nil, tapeCreatedDate: Date? = nil, tapeSizeInBytes: Int64? = nil, tapeStatus: String? = nil, tapeUsedInBytes: Int64? = nil, vTLDevice: String? = nil, worm: Bool? = nil) {
-            self.kMSKey = kMSKey
+        public init(kmsKey: String? = nil, poolEntryDate: Date? = nil, poolId: String? = nil, progress: Double? = nil, retentionStartDate: Date? = nil, tapeARN: String? = nil, tapeBarcode: String? = nil, tapeCreatedDate: Date? = nil, tapeSizeInBytes: Int64? = nil, tapeStatus: String? = nil, tapeUsedInBytes: Int64? = nil, vtlDevice: String? = nil, worm: Bool? = nil) {
+            self.kmsKey = kmsKey
             self.poolEntryDate = poolEntryDate
             self.poolId = poolId
             self.progress = progress
@@ -4669,12 +4669,12 @@ extension StorageGateway {
             self.tapeSizeInBytes = tapeSizeInBytes
             self.tapeStatus = tapeStatus
             self.tapeUsedInBytes = tapeUsedInBytes
-            self.vTLDevice = vTLDevice
+            self.vtlDevice = vtlDevice
             self.worm = worm
         }
 
         private enum CodingKeys: String, CodingKey {
-            case kMSKey = "KMSKey"
+            case kmsKey = "KMSKey"
             case poolEntryDate = "PoolEntryDate"
             case poolId = "PoolId"
             case progress = "Progress"
@@ -4685,7 +4685,7 @@ extension StorageGateway {
             case tapeSizeInBytes = "TapeSizeInBytes"
             case tapeStatus = "TapeStatus"
             case tapeUsedInBytes = "TapeUsedInBytes"
-            case vTLDevice = "VTLDevice"
+            case vtlDevice = "VTLDevice"
             case worm = "Worm"
         }
     }
@@ -4694,7 +4694,7 @@ extension StorageGateway {
         /// The time that the archiving of the virtual tape was completed.
         ///  The default timestamp format is in the ISO8601 extended YYYY-MM-DD'T'HH:MM:SS'Z' format.
         public let completionTime: Date?
-        public let kMSKey: String?
+        public let kmsKey: String?
         /// The time that the tape entered the custom tape pool.
         ///  The default timestamp format is in the ISO8601 extended YYYY-MM-DD'T'HH:MM:SS'Z' format.
         public let poolEntryDate: Date?
@@ -4722,9 +4722,9 @@ extension StorageGateway {
         /// Set to true if the archived tape is stored as write-once-read-many (WORM).
         public let worm: Bool?
 
-        public init(completionTime: Date? = nil, kMSKey: String? = nil, poolEntryDate: Date? = nil, poolId: String? = nil, retentionStartDate: Date? = nil, retrievedTo: String? = nil, tapeARN: String? = nil, tapeBarcode: String? = nil, tapeCreatedDate: Date? = nil, tapeSizeInBytes: Int64? = nil, tapeStatus: String? = nil, tapeUsedInBytes: Int64? = nil, worm: Bool? = nil) {
+        public init(completionTime: Date? = nil, kmsKey: String? = nil, poolEntryDate: Date? = nil, poolId: String? = nil, retentionStartDate: Date? = nil, retrievedTo: String? = nil, tapeARN: String? = nil, tapeBarcode: String? = nil, tapeCreatedDate: Date? = nil, tapeSizeInBytes: Int64? = nil, tapeStatus: String? = nil, tapeUsedInBytes: Int64? = nil, worm: Bool? = nil) {
             self.completionTime = completionTime
-            self.kMSKey = kMSKey
+            self.kmsKey = kmsKey
             self.poolEntryDate = poolEntryDate
             self.poolId = poolId
             self.retentionStartDate = retentionStartDate
@@ -4740,7 +4740,7 @@ extension StorageGateway {
 
         private enum CodingKeys: String, CodingKey {
             case completionTime = "CompletionTime"
-            case kMSKey = "KMSKey"
+            case kmsKey = "KMSKey"
             case poolEntryDate = "PoolEntryDate"
             case poolId = "PoolId"
             case retentionStartDate = "RetentionStartDate"
@@ -5204,11 +5204,11 @@ extension StorageGateway {
         public let guessMIMETypeEnabled: Bool?
         /// Set to true to use Amazon S3 server-side encryption with your own KMS key, or false to use a key managed by Amazon S3. Optional.
         ///  Valid Values: true | false
-        public let kMSEncrypted: Bool?
+        public let kmsEncrypted: Bool?
         /// The Amazon Resource Name (ARN) of a symmetric customer master key (CMK) used for Amazon S3 server-side encryption. Storage Gateway does not support asymmetric CMKs. This value can only be set when KMSEncrypted is true. Optional.
-        public let kMSKey: String?
+        public let kmsKey: String?
         /// The default values for the file share. Optional.
-        public let nFSFileShareDefaults: NFSFileShareDefaults?
+        public let nfsFileShareDefaults: NFSFileShareDefaults?
         /// The notification policy of the file share. SettlingTimeInSeconds controls the number of seconds to wait after the last point in time a client wrote to a file before generating an ObjectUploaded notification. Because clients can make many small writes to files, it's best to set this parameter for as long as possible to avoid generating multiple notifications for the same file in a small time period.
         ///    SettlingTimeInSeconds has no effect on the timing of the object uploading to Amazon S3, only the timing of the notification.
         ///  The following example sets NotificationPolicy on with SettlingTimeInSeconds set to 60.
@@ -5230,7 +5230,7 @@ extension StorageGateway {
         ///     RootSquash: Only root is mapped to anonymous user.    NoSquash: No one is mapped to anonymous user.    AllSquash: Everyone is mapped to anonymous user.
         public let squash: String?
 
-        public init(auditDestinationARN: String? = nil, cacheAttributes: CacheAttributes? = nil, clientList: [String]? = nil, defaultStorageClass: String? = nil, fileShareARN: String, fileShareName: String? = nil, guessMIMETypeEnabled: Bool? = nil, kMSEncrypted: Bool? = nil, kMSKey: String? = nil, nFSFileShareDefaults: NFSFileShareDefaults? = nil, notificationPolicy: String? = nil, objectACL: ObjectACL? = nil, readOnly: Bool? = nil, requesterPays: Bool? = nil, squash: String? = nil) {
+        public init(auditDestinationARN: String? = nil, cacheAttributes: CacheAttributes? = nil, clientList: [String]? = nil, defaultStorageClass: String? = nil, fileShareARN: String, fileShareName: String? = nil, guessMIMETypeEnabled: Bool? = nil, kmsEncrypted: Bool? = nil, kmsKey: String? = nil, nfsFileShareDefaults: NFSFileShareDefaults? = nil, notificationPolicy: String? = nil, objectACL: ObjectACL? = nil, readOnly: Bool? = nil, requesterPays: Bool? = nil, squash: String? = nil) {
             self.auditDestinationARN = auditDestinationARN
             self.cacheAttributes = cacheAttributes
             self.clientList = clientList
@@ -5238,9 +5238,9 @@ extension StorageGateway {
             self.fileShareARN = fileShareARN
             self.fileShareName = fileShareName
             self.guessMIMETypeEnabled = guessMIMETypeEnabled
-            self.kMSEncrypted = kMSEncrypted
-            self.kMSKey = kMSKey
-            self.nFSFileShareDefaults = nFSFileShareDefaults
+            self.kmsEncrypted = kmsEncrypted
+            self.kmsKey = kmsKey
+            self.nfsFileShareDefaults = nfsFileShareDefaults
             self.notificationPolicy = notificationPolicy
             self.objectACL = objectACL
             self.readOnly = readOnly
@@ -5261,10 +5261,10 @@ extension StorageGateway {
             try self.validate(self.fileShareARN, name: "fileShareARN", parent: name, min: 50)
             try self.validate(self.fileShareName, name: "fileShareName", parent: name, max: 255)
             try self.validate(self.fileShareName, name: "fileShareName", parent: name, min: 1)
-            try self.validate(self.kMSKey, name: "kMSKey", parent: name, max: 2048)
-            try self.validate(self.kMSKey, name: "kMSKey", parent: name, min: 7)
-            try self.validate(self.kMSKey, name: "kMSKey", parent: name, pattern: "^(^arn:(aws|aws-cn|aws-us-gov):kms:([a-zA-Z0-9-]+):([0-9]+):(key|alias)/(\\S+)$)|(^alias/(\\S+)$)$")
-            try self.nFSFileShareDefaults?.validate(name: "\(name).nFSFileShareDefaults")
+            try self.validate(self.kmsKey, name: "kmsKey", parent: name, max: 2048)
+            try self.validate(self.kmsKey, name: "kmsKey", parent: name, min: 7)
+            try self.validate(self.kmsKey, name: "kmsKey", parent: name, pattern: "^(^arn:(aws|aws-cn|aws-us-gov):kms:([a-zA-Z0-9-]+):([0-9]+):(key|alias)/(\\S+)$)|(^alias/(\\S+)$)$")
+            try self.nfsFileShareDefaults?.validate(name: "\(name).nfsFileShareDefaults")
             try self.validate(self.notificationPolicy, name: "notificationPolicy", parent: name, max: 100)
             try self.validate(self.notificationPolicy, name: "notificationPolicy", parent: name, min: 2)
             try self.validate(self.notificationPolicy, name: "notificationPolicy", parent: name, pattern: "^\\{[\\w\\s:\\{\\}\\[\\]\"]*}$")
@@ -5280,9 +5280,9 @@ extension StorageGateway {
             case fileShareARN = "FileShareARN"
             case fileShareName = "FileShareName"
             case guessMIMETypeEnabled = "GuessMIMETypeEnabled"
-            case kMSEncrypted = "KMSEncrypted"
-            case kMSKey = "KMSKey"
-            case nFSFileShareDefaults = "NFSFileShareDefaults"
+            case kmsEncrypted = "KMSEncrypted"
+            case kmsKey = "KMSKey"
+            case nfsFileShareDefaults = "NFSFileShareDefaults"
             case notificationPolicy = "NotificationPolicy"
             case objectACL = "ObjectACL"
             case readOnly = "ReadOnly"
@@ -5330,9 +5330,9 @@ extension StorageGateway {
         public let invalidUserList: [String]?
         /// Set to true to use Amazon S3 server-side encryption with your own KMS key, or false to use a key managed by Amazon S3. Optional.
         ///  Valid Values: true | false
-        public let kMSEncrypted: Bool?
+        public let kmsEncrypted: Bool?
         /// The Amazon Resource Name (ARN) of a symmetric customer master key (CMK) used for Amazon S3 server-side encryption. Storage Gateway does not support asymmetric CMKs. This value can only be set when KMSEncrypted is true. Optional.
-        public let kMSKey: String?
+        public let kmsKey: String?
         /// The notification policy of the file share. SettlingTimeInSeconds controls the number of seconds to wait after the last point in time a client wrote to a file before generating an ObjectUploaded notification. Because clients can make many small writes to files, it's best to set this parameter for as long as possible to avoid generating multiple notifications for the same file in a small time period.
         ///    SettlingTimeInSeconds has no effect on the timing of the object uploading to Amazon S3, only the timing of the notification.
         ///  The following example sets NotificationPolicy on with SettlingTimeInSeconds set to 60.
@@ -5355,11 +5355,11 @@ extension StorageGateway {
         ///
         ///  For more information, see Using Microsoft Windows ACLs to control access to an SMB file share in the Storage Gateway User Guide.
         ///  Valid Values: true | false
-        public let sMBACLEnabled: Bool?
+        public let smbaclEnabled: Bool?
         /// A list of users or groups in the Active Directory that are allowed to access the file share. A group must be prefixed with the @ character. Acceptable formats include: DOMAIN\User1, user1, @group1, and @DOMAIN\group1. Can only be set if Authentication is set to ActiveDirectory.
         public let validUserList: [String]?
 
-        public init(accessBasedEnumeration: Bool? = nil, adminUserList: [String]? = nil, auditDestinationARN: String? = nil, cacheAttributes: CacheAttributes? = nil, caseSensitivity: CaseSensitivity? = nil, defaultStorageClass: String? = nil, fileShareARN: String, fileShareName: String? = nil, guessMIMETypeEnabled: Bool? = nil, invalidUserList: [String]? = nil, kMSEncrypted: Bool? = nil, kMSKey: String? = nil, notificationPolicy: String? = nil, objectACL: ObjectACL? = nil, oplocksEnabled: Bool? = nil, readOnly: Bool? = nil, requesterPays: Bool? = nil, sMBACLEnabled: Bool? = nil, validUserList: [String]? = nil) {
+        public init(accessBasedEnumeration: Bool? = nil, adminUserList: [String]? = nil, auditDestinationARN: String? = nil, cacheAttributes: CacheAttributes? = nil, caseSensitivity: CaseSensitivity? = nil, defaultStorageClass: String? = nil, fileShareARN: String, fileShareName: String? = nil, guessMIMETypeEnabled: Bool? = nil, invalidUserList: [String]? = nil, kmsEncrypted: Bool? = nil, kmsKey: String? = nil, notificationPolicy: String? = nil, objectACL: ObjectACL? = nil, oplocksEnabled: Bool? = nil, readOnly: Bool? = nil, requesterPays: Bool? = nil, smbaclEnabled: Bool? = nil, validUserList: [String]? = nil) {
             self.accessBasedEnumeration = accessBasedEnumeration
             self.adminUserList = adminUserList
             self.auditDestinationARN = auditDestinationARN
@@ -5370,14 +5370,14 @@ extension StorageGateway {
             self.fileShareName = fileShareName
             self.guessMIMETypeEnabled = guessMIMETypeEnabled
             self.invalidUserList = invalidUserList
-            self.kMSEncrypted = kMSEncrypted
-            self.kMSKey = kMSKey
+            self.kmsEncrypted = kmsEncrypted
+            self.kmsKey = kmsKey
             self.notificationPolicy = notificationPolicy
             self.objectACL = objectACL
             self.oplocksEnabled = oplocksEnabled
             self.readOnly = readOnly
             self.requesterPays = requesterPays
-            self.sMBACLEnabled = sMBACLEnabled
+            self.smbaclEnabled = smbaclEnabled
             self.validUserList = validUserList
         }
 
@@ -5399,9 +5399,9 @@ extension StorageGateway {
                 try validate($0, name: "invalidUserList[]", parent: name, min: 1)
             }
             try self.validate(self.invalidUserList, name: "invalidUserList", parent: name, max: 100)
-            try self.validate(self.kMSKey, name: "kMSKey", parent: name, max: 2048)
-            try self.validate(self.kMSKey, name: "kMSKey", parent: name, min: 7)
-            try self.validate(self.kMSKey, name: "kMSKey", parent: name, pattern: "^(^arn:(aws|aws-cn|aws-us-gov):kms:([a-zA-Z0-9-]+):([0-9]+):(key|alias)/(\\S+)$)|(^alias/(\\S+)$)$")
+            try self.validate(self.kmsKey, name: "kmsKey", parent: name, max: 2048)
+            try self.validate(self.kmsKey, name: "kmsKey", parent: name, min: 7)
+            try self.validate(self.kmsKey, name: "kmsKey", parent: name, pattern: "^(^arn:(aws|aws-cn|aws-us-gov):kms:([a-zA-Z0-9-]+):([0-9]+):(key|alias)/(\\S+)$)|(^alias/(\\S+)$)$")
             try self.validate(self.notificationPolicy, name: "notificationPolicy", parent: name, max: 100)
             try self.validate(self.notificationPolicy, name: "notificationPolicy", parent: name, min: 2)
             try self.validate(self.notificationPolicy, name: "notificationPolicy", parent: name, pattern: "^\\{[\\w\\s:\\{\\}\\[\\]\"]*}$")
@@ -5423,14 +5423,14 @@ extension StorageGateway {
             case fileShareName = "FileShareName"
             case guessMIMETypeEnabled = "GuessMIMETypeEnabled"
             case invalidUserList = "InvalidUserList"
-            case kMSEncrypted = "KMSEncrypted"
-            case kMSKey = "KMSKey"
+            case kmsEncrypted = "KMSEncrypted"
+            case kmsKey = "KMSKey"
             case notificationPolicy = "NotificationPolicy"
             case objectACL = "ObjectACL"
             case oplocksEnabled = "OplocksEnabled"
             case readOnly = "ReadOnly"
             case requesterPays = "RequesterPays"
-            case sMBACLEnabled = "SMBACLEnabled"
+            case smbaclEnabled = "SMBACLEnabled"
             case validUserList = "ValidUserList"
         }
     }
@@ -5484,22 +5484,22 @@ extension StorageGateway {
     public struct UpdateSMBLocalGroupsInput: AWSEncodableShape {
         public let gatewayARN: String
         /// A list of Active Directory users and groups that you want to grant special permissions for SMB file shares on the gateway.
-        public let sMBLocalGroups: SMBLocalGroups
+        public let smbLocalGroups: SMBLocalGroups
 
-        public init(gatewayARN: String, sMBLocalGroups: SMBLocalGroups) {
+        public init(gatewayARN: String, smbLocalGroups: SMBLocalGroups) {
             self.gatewayARN = gatewayARN
-            self.sMBLocalGroups = sMBLocalGroups
+            self.smbLocalGroups = smbLocalGroups
         }
 
         public func validate(name: String) throws {
             try self.validate(self.gatewayARN, name: "gatewayARN", parent: name, max: 500)
             try self.validate(self.gatewayARN, name: "gatewayARN", parent: name, min: 50)
-            try self.sMBLocalGroups.validate(name: "\(name).sMBLocalGroups")
+            try self.smbLocalGroups.validate(name: "\(name).smbLocalGroups")
         }
 
         private enum CodingKeys: String, CodingKey {
             case gatewayARN = "GatewayARN"
-            case sMBLocalGroups = "SMBLocalGroups"
+            case smbLocalGroups = "SMBLocalGroups"
         }
     }
 
@@ -5521,11 +5521,11 @@ extension StorageGateway {
         ///  ClientSpecified: if you use this option, requests are established based on what is negotiated by the client. This option is recommended when you want to maximize compatibility across different clients in your environment. Supported only in S3 File Gateway.
         ///  MandatorySigning: if you use this option, file gateway only allows connections from SMBv2 or SMBv3 clients that have signing enabled. This option works with SMB clients on Microsoft Windows Vista, Windows Server 2008 or newer.
         ///  MandatoryEncryption: if you use this option, file gateway only allows connections from SMBv3 clients that have encryption enabled. This option is highly recommended for environments that handle sensitive data. This option works with SMB clients on Microsoft Windows 8, Windows Server 2012 or newer.
-        public let sMBSecurityStrategy: SMBSecurityStrategy
+        public let smbSecurityStrategy: SMBSecurityStrategy
 
-        public init(gatewayARN: String, sMBSecurityStrategy: SMBSecurityStrategy) {
+        public init(gatewayARN: String, smbSecurityStrategy: SMBSecurityStrategy) {
             self.gatewayARN = gatewayARN
-            self.sMBSecurityStrategy = sMBSecurityStrategy
+            self.smbSecurityStrategy = smbSecurityStrategy
         }
 
         public func validate(name: String) throws {
@@ -5535,7 +5535,7 @@ extension StorageGateway {
 
         private enum CodingKeys: String, CodingKey {
             case gatewayARN = "GatewayARN"
-            case sMBSecurityStrategy = "SMBSecurityStrategy"
+            case smbSecurityStrategy = "SMBSecurityStrategy"
         }
     }
 
@@ -5613,36 +5613,36 @@ extension StorageGateway {
         ///  Valid Values: STK-L700 | AWS-Gateway-VTL | IBM-03584L32-0402
         public let deviceType: String
         /// The Amazon Resource Name (ARN) of the medium changer you want to select.
-        public let vTLDeviceARN: String
+        public let vtlDeviceARN: String
 
-        public init(deviceType: String, vTLDeviceARN: String) {
+        public init(deviceType: String, vtlDeviceARN: String) {
             self.deviceType = deviceType
-            self.vTLDeviceARN = vTLDeviceARN
+            self.vtlDeviceARN = vtlDeviceARN
         }
 
         public func validate(name: String) throws {
             try self.validate(self.deviceType, name: "deviceType", parent: name, max: 50)
             try self.validate(self.deviceType, name: "deviceType", parent: name, min: 2)
-            try self.validate(self.vTLDeviceARN, name: "vTLDeviceARN", parent: name, max: 500)
-            try self.validate(self.vTLDeviceARN, name: "vTLDeviceARN", parent: name, min: 50)
+            try self.validate(self.vtlDeviceARN, name: "vtlDeviceARN", parent: name, max: 500)
+            try self.validate(self.vtlDeviceARN, name: "vtlDeviceARN", parent: name, min: 50)
         }
 
         private enum CodingKeys: String, CodingKey {
             case deviceType = "DeviceType"
-            case vTLDeviceARN = "VTLDeviceARN"
+            case vtlDeviceARN = "VTLDeviceARN"
         }
     }
 
     public struct UpdateVTLDeviceTypeOutput: AWSDecodableShape {
         /// The Amazon Resource Name (ARN) of the medium changer you have selected.
-        public let vTLDeviceARN: String?
+        public let vtlDeviceARN: String?
 
-        public init(vTLDeviceARN: String? = nil) {
-            self.vTLDeviceARN = vTLDeviceARN
+        public init(vtlDeviceARN: String? = nil) {
+            self.vtlDeviceARN = vtlDeviceARN
         }
 
         private enum CodingKeys: String, CodingKey {
-            case vTLDeviceARN = "VTLDeviceARN"
+            case vtlDeviceARN = "VTLDeviceARN"
         }
     }
 
@@ -5650,28 +5650,28 @@ extension StorageGateway {
         /// A list of iSCSI information about a VTL device.
         public let deviceiSCSIAttributes: DeviceiSCSIAttributes?
         /// Specifies the unique Amazon Resource Name (ARN) of the device (tape drive or media changer).
-        public let vTLDeviceARN: String?
+        public let vtlDeviceARN: String?
         /// Specifies the model number of device that the VTL device emulates.
-        public let vTLDeviceProductIdentifier: String?
+        public let vtlDeviceProductIdentifier: String?
         /// Specifies the type of device that the VTL device emulates.
-        public let vTLDeviceType: String?
+        public let vtlDeviceType: String?
         /// Specifies the vendor of the device that the VTL device object emulates.
-        public let vTLDeviceVendor: String?
+        public let vtlDeviceVendor: String?
 
-        public init(deviceiSCSIAttributes: DeviceiSCSIAttributes? = nil, vTLDeviceARN: String? = nil, vTLDeviceProductIdentifier: String? = nil, vTLDeviceType: String? = nil, vTLDeviceVendor: String? = nil) {
+        public init(deviceiSCSIAttributes: DeviceiSCSIAttributes? = nil, vtlDeviceARN: String? = nil, vtlDeviceProductIdentifier: String? = nil, vtlDeviceType: String? = nil, vtlDeviceVendor: String? = nil) {
             self.deviceiSCSIAttributes = deviceiSCSIAttributes
-            self.vTLDeviceARN = vTLDeviceARN
-            self.vTLDeviceProductIdentifier = vTLDeviceProductIdentifier
-            self.vTLDeviceType = vTLDeviceType
-            self.vTLDeviceVendor = vTLDeviceVendor
+            self.vtlDeviceARN = vtlDeviceARN
+            self.vtlDeviceProductIdentifier = vtlDeviceProductIdentifier
+            self.vtlDeviceType = vtlDeviceType
+            self.vtlDeviceVendor = vtlDeviceVendor
         }
 
         private enum CodingKeys: String, CodingKey {
             case deviceiSCSIAttributes = "DeviceiSCSIAttributes"
-            case vTLDeviceARN = "VTLDeviceARN"
-            case vTLDeviceProductIdentifier = "VTLDeviceProductIdentifier"
-            case vTLDeviceType = "VTLDeviceType"
-            case vTLDeviceVendor = "VTLDeviceVendor"
+            case vtlDeviceARN = "VTLDeviceARN"
+            case vtlDeviceProductIdentifier = "VTLDeviceProductIdentifier"
+            case vtlDeviceType = "VTLDeviceType"
+            case vtlDeviceVendor = "VTLDeviceVendor"
         }
     }
 

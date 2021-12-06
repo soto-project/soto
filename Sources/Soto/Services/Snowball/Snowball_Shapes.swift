@@ -22,10 +22,10 @@ extension Snowball {
     // MARK: Enums
 
     public enum ClusterState: String, CustomStringConvertible, Codable {
-        case awaitingquorum = "AwaitingQuorum"
+        case awaitingQuorum = "AwaitingQuorum"
         case cancelled = "Cancelled"
         case complete = "Complete"
-        case inuse = "InUse"
+        case inUse = "InUse"
         case pending = "Pending"
         public var description: String { return self.rawValue }
     }
@@ -39,17 +39,17 @@ extension Snowball {
     public enum JobState: String, CustomStringConvertible, Codable {
         case cancelled = "Cancelled"
         case complete = "Complete"
-        case inprogress = "InProgress"
-        case intransittoaws = "InTransitToAWS"
-        case intransittocustomer = "InTransitToCustomer"
+        case inProgress = "InProgress"
+        case inTransitToAWS = "InTransitToAWS"
+        case inTransitToCustomer = "InTransitToCustomer"
         case listing = "Listing"
         case new = "New"
         case pending = "Pending"
-        case preparingappliance = "PreparingAppliance"
-        case preparingshipment = "PreparingShipment"
-        case withaws = "WithAWS"
-        case withawssortingfacility = "WithAWSSortingFacility"
-        case withcustomer = "WithCustomer"
+        case preparingAppliance = "PreparingAppliance"
+        case preparingShipment = "PreparingShipment"
+        case withAWS = "WithAWS"
+        case withAWSSortingFacility = "WithAWSSortingFacility"
+        case withCustomer = "WithCustomer"
         public var description: String { return self.rawValue }
     }
 
@@ -61,8 +61,8 @@ extension Snowball {
     }
 
     public enum LongTermPricingType: String, CustomStringConvertible, Codable {
-        case oneyear = "OneYear"
-        case threeyear = "ThreeYear"
+        case oneYear = "OneYear"
+        case threeYear = "ThreeYear"
         public var description: String { return self.rawValue }
     }
 
@@ -80,9 +80,9 @@ extension Snowball {
 
     public enum ShippingLabelStatus: String, CustomStringConvertible, Codable {
         case failed = "Failed"
-        case inprogress = "InProgress"
+        case inProgress = "InProgress"
         case succeeded = "Succeeded"
-        case timedout = "TimedOut"
+        case timedOut = "TimedOut"
         public var description: String { return self.rawValue }
     }
 
@@ -95,7 +95,7 @@ extension Snowball {
     }
 
     public enum SnowballCapacity: String, CustomStringConvertible, Codable {
-        case nopreference = "NoPreference"
+        case noPreference = "NoPreference"
         case t100 = "T100"
         case t14 = "T14"
         case t42 = "T42"
@@ -1635,18 +1635,18 @@ extension Snowball {
 
     public struct OnDeviceServiceConfiguration: AWSEncodableShape & AWSDecodableShape {
         /// Represents the NFS service on a Snow Family device.
-        public let nFSOnDeviceService: NFSOnDeviceServiceConfiguration?
+        public let nfsOnDeviceService: NFSOnDeviceServiceConfiguration?
 
-        public init(nFSOnDeviceService: NFSOnDeviceServiceConfiguration? = nil) {
-            self.nFSOnDeviceService = nFSOnDeviceService
+        public init(nfsOnDeviceService: NFSOnDeviceServiceConfiguration? = nil) {
+            self.nfsOnDeviceService = nfsOnDeviceService
         }
 
         public func validate(name: String) throws {
-            try self.nFSOnDeviceService?.validate(name: "\(name).nFSOnDeviceService")
+            try self.nfsOnDeviceService?.validate(name: "\(name).nfsOnDeviceService")
         }
 
         private enum CodingKeys: String, CodingKey {
-            case nFSOnDeviceService = "NFSOnDeviceService"
+            case nfsOnDeviceService = "NFSOnDeviceService"
         }
     }
 

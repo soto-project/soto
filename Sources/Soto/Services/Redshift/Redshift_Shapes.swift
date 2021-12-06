@@ -80,10 +80,10 @@ extension Redshift {
     }
 
     public enum NodeConfigurationOptionsFilterName: String, CustomStringConvertible, Codable {
-        case estimateddiskutilizationpercent = "EstimatedDiskUtilizationPercent"
+        case estimatedDiskUtilizationPercent = "EstimatedDiskUtilizationPercent"
         case mode = "Mode"
-        case nodetype = "NodeType"
-        case numberofnodes = "NumberOfNodes"
+        case nodeType = "NodeType"
+        case numberOfNodes = "NumberOfNodes"
         public var description: String { return self.rawValue }
     }
 
@@ -106,9 +106,9 @@ extension Redshift {
 
     public enum PartnerIntegrationStatus: String, CustomStringConvertible, Codable {
         case active = "Active"
-        case connectionfailure = "ConnectionFailure"
+        case connectionFailure = "ConnectionFailure"
         case inactive = "Inactive"
-        case runtimefailure = "RuntimeFailure"
+        case runtimeFailure = "RuntimeFailure"
         public var description: String { return self.rawValue }
     }
 
@@ -138,9 +138,9 @@ extension Redshift {
     }
 
     public enum ScheduledActionTypeValues: String, CustomStringConvertible, Codable {
-        case pausecluster = "PauseCluster"
-        case resizecluster = "ResizeCluster"
-        case resumecluster = "ResumeCluster"
+        case pauseCluster = "PauseCluster"
+        case resizeCluster = "ResizeCluster"
+        case resumeCluster = "ResumeCluster"
         public var description: String { return self.rawValue }
     }
 
@@ -369,29 +369,29 @@ extension Redshift {
         /// The name of the security group to which the ingress rule is added.
         public let clusterSecurityGroupName: String
         /// The EC2 security group to be added the Amazon Redshift security group.
-        public let eC2SecurityGroupName: String?
+        public let ec2SecurityGroupName: String?
         /// The Amazon Web Services account number of the owner of the security group specified by the EC2SecurityGroupName parameter. The Amazon Web Services Access Key ID is not an acceptable value.  Example: 111122223333
-        public let eC2SecurityGroupOwnerId: String?
+        public let ec2SecurityGroupOwnerId: String?
 
-        public init(cidrip: String? = nil, clusterSecurityGroupName: String, eC2SecurityGroupName: String? = nil, eC2SecurityGroupOwnerId: String? = nil) {
+        public init(cidrip: String? = nil, clusterSecurityGroupName: String, ec2SecurityGroupName: String? = nil, ec2SecurityGroupOwnerId: String? = nil) {
             self.cidrip = cidrip
             self.clusterSecurityGroupName = clusterSecurityGroupName
-            self.eC2SecurityGroupName = eC2SecurityGroupName
-            self.eC2SecurityGroupOwnerId = eC2SecurityGroupOwnerId
+            self.ec2SecurityGroupName = ec2SecurityGroupName
+            self.ec2SecurityGroupOwnerId = ec2SecurityGroupOwnerId
         }
 
         public func validate(name: String) throws {
             try self.validate(self.cidrip, name: "cidrip", parent: name, max: 2_147_483_647)
             try self.validate(self.clusterSecurityGroupName, name: "clusterSecurityGroupName", parent: name, max: 2_147_483_647)
-            try self.validate(self.eC2SecurityGroupName, name: "eC2SecurityGroupName", parent: name, max: 2_147_483_647)
-            try self.validate(self.eC2SecurityGroupOwnerId, name: "eC2SecurityGroupOwnerId", parent: name, max: 2_147_483_647)
+            try self.validate(self.ec2SecurityGroupName, name: "ec2SecurityGroupName", parent: name, max: 2_147_483_647)
+            try self.validate(self.ec2SecurityGroupOwnerId, name: "ec2SecurityGroupOwnerId", parent: name, max: 2_147_483_647)
         }
 
         private enum CodingKeys: String, CodingKey {
             case cidrip = "CIDRIP"
             case clusterSecurityGroupName = "ClusterSecurityGroupName"
-            case eC2SecurityGroupName = "EC2SecurityGroupName"
-            case eC2SecurityGroupOwnerId = "EC2SecurityGroupOwnerId"
+            case ec2SecurityGroupName = "EC2SecurityGroupName"
+            case ec2SecurityGroupOwnerId = "EC2SecurityGroupOwnerId"
         }
     }
 
@@ -681,7 +681,7 @@ extension Redshift {
         public let clusterVersion: String?
         public let dataTransferProgress: DataTransferProgress?
         /// The name of the initial database that was created when the cluster was created. This same name is returned for the life of the cluster. If an initial database was not specified, a database named devdev was created by default.
-        public let dBName: String?
+        public let dbName: String?
         /// The Amazon Resource Name (ARN) for the IAM role set as default for the cluster.
         public let defaultIamRoleArn: String?
         /// Describes a group of DeferredMaintenanceWindow objects.
@@ -750,7 +750,7 @@ extension Redshift {
         @OptionalCustomCoding<ArrayCoder<_VpcSecurityGroupsEncoding, VpcSecurityGroupMembership>>
         public var vpcSecurityGroups: [VpcSecurityGroupMembership]?
 
-        public init(allowVersionUpgrade: Bool? = nil, aquaConfiguration: AquaConfiguration? = nil, automatedSnapshotRetentionPeriod: Int? = nil, availabilityZone: String? = nil, availabilityZoneRelocationStatus: String? = nil, clusterAvailabilityStatus: String? = nil, clusterCreateTime: Date? = nil, clusterIdentifier: String? = nil, clusterNamespaceArn: String? = nil, clusterNodes: [ClusterNode]? = nil, clusterParameterGroups: [ClusterParameterGroupStatus]? = nil, clusterPublicKey: String? = nil, clusterRevisionNumber: String? = nil, clusterSecurityGroups: [ClusterSecurityGroupMembership]? = nil, clusterSnapshotCopyStatus: ClusterSnapshotCopyStatus? = nil, clusterStatus: String? = nil, clusterSubnetGroupName: String? = nil, clusterVersion: String? = nil, dataTransferProgress: DataTransferProgress? = nil, dBName: String? = nil, defaultIamRoleArn: String? = nil, deferredMaintenanceWindows: [DeferredMaintenanceWindow]? = nil, elasticIpStatus: ElasticIpStatus? = nil, elasticResizeNumberOfNodeOptions: String? = nil, encrypted: Bool? = nil, endpoint: Endpoint? = nil, enhancedVpcRouting: Bool? = nil, expectedNextSnapshotScheduleTime: Date? = nil, expectedNextSnapshotScheduleTimeStatus: String? = nil, hsmStatus: HsmStatus? = nil, iamRoles: [ClusterIamRole]? = nil, kmsKeyId: String? = nil, maintenanceTrackName: String? = nil, manualSnapshotRetentionPeriod: Int? = nil, masterUsername: String? = nil, modifyStatus: String? = nil, nextMaintenanceWindowStartTime: Date? = nil, nodeType: String? = nil, numberOfNodes: Int? = nil, pendingActions: [String]? = nil, pendingModifiedValues: PendingModifiedValues? = nil, preferredMaintenanceWindow: String? = nil, publiclyAccessible: Bool? = nil, resizeInfo: ResizeInfo? = nil, restoreStatus: RestoreStatus? = nil, snapshotScheduleIdentifier: String? = nil, snapshotScheduleState: ScheduleState? = nil, tags: [Tag]? = nil, totalStorageCapacityInMegaBytes: Int64? = nil, vpcId: String? = nil, vpcSecurityGroups: [VpcSecurityGroupMembership]? = nil) {
+        public init(allowVersionUpgrade: Bool? = nil, aquaConfiguration: AquaConfiguration? = nil, automatedSnapshotRetentionPeriod: Int? = nil, availabilityZone: String? = nil, availabilityZoneRelocationStatus: String? = nil, clusterAvailabilityStatus: String? = nil, clusterCreateTime: Date? = nil, clusterIdentifier: String? = nil, clusterNamespaceArn: String? = nil, clusterNodes: [ClusterNode]? = nil, clusterParameterGroups: [ClusterParameterGroupStatus]? = nil, clusterPublicKey: String? = nil, clusterRevisionNumber: String? = nil, clusterSecurityGroups: [ClusterSecurityGroupMembership]? = nil, clusterSnapshotCopyStatus: ClusterSnapshotCopyStatus? = nil, clusterStatus: String? = nil, clusterSubnetGroupName: String? = nil, clusterVersion: String? = nil, dataTransferProgress: DataTransferProgress? = nil, dbName: String? = nil, defaultIamRoleArn: String? = nil, deferredMaintenanceWindows: [DeferredMaintenanceWindow]? = nil, elasticIpStatus: ElasticIpStatus? = nil, elasticResizeNumberOfNodeOptions: String? = nil, encrypted: Bool? = nil, endpoint: Endpoint? = nil, enhancedVpcRouting: Bool? = nil, expectedNextSnapshotScheduleTime: Date? = nil, expectedNextSnapshotScheduleTimeStatus: String? = nil, hsmStatus: HsmStatus? = nil, iamRoles: [ClusterIamRole]? = nil, kmsKeyId: String? = nil, maintenanceTrackName: String? = nil, manualSnapshotRetentionPeriod: Int? = nil, masterUsername: String? = nil, modifyStatus: String? = nil, nextMaintenanceWindowStartTime: Date? = nil, nodeType: String? = nil, numberOfNodes: Int? = nil, pendingActions: [String]? = nil, pendingModifiedValues: PendingModifiedValues? = nil, preferredMaintenanceWindow: String? = nil, publiclyAccessible: Bool? = nil, resizeInfo: ResizeInfo? = nil, restoreStatus: RestoreStatus? = nil, snapshotScheduleIdentifier: String? = nil, snapshotScheduleState: ScheduleState? = nil, tags: [Tag]? = nil, totalStorageCapacityInMegaBytes: Int64? = nil, vpcId: String? = nil, vpcSecurityGroups: [VpcSecurityGroupMembership]? = nil) {
             self.allowVersionUpgrade = allowVersionUpgrade
             self.aquaConfiguration = aquaConfiguration
             self.automatedSnapshotRetentionPeriod = automatedSnapshotRetentionPeriod
@@ -770,7 +770,7 @@ extension Redshift {
             self.clusterSubnetGroupName = clusterSubnetGroupName
             self.clusterVersion = clusterVersion
             self.dataTransferProgress = dataTransferProgress
-            self.dBName = dBName
+            self.dbName = dbName
             self.defaultIamRoleArn = defaultIamRoleArn
             self.deferredMaintenanceWindows = deferredMaintenanceWindows
             self.elasticIpStatus = elasticIpStatus
@@ -824,7 +824,7 @@ extension Redshift {
             case clusterSubnetGroupName = "ClusterSubnetGroupName"
             case clusterVersion = "ClusterVersion"
             case dataTransferProgress = "DataTransferProgress"
-            case dBName = "DBName"
+            case dbName = "DBName"
             case defaultIamRoleArn = "DefaultIamRoleArn"
             case deferredMaintenanceWindows = "DeferredMaintenanceWindows"
             case elasticIpStatus = "ElasticIpStatus"
@@ -1123,27 +1123,27 @@ extension Redshift {
         public let description: String?
         /// A list of EC2 security groups that are permitted to access clusters associated with this cluster security group.
         @OptionalCustomCoding<ArrayCoder<_EC2SecurityGroupsEncoding, EC2SecurityGroup>>
-        public var eC2SecurityGroups: [EC2SecurityGroup]?
+        public var ec2SecurityGroups: [EC2SecurityGroup]?
         /// A list of IP ranges (CIDR blocks) that are permitted to access clusters associated with this cluster security group.
         @OptionalCustomCoding<ArrayCoder<_IPRangesEncoding, IPRange>>
-        public var iPRanges: [IPRange]?
+        public var ipRanges: [IPRange]?
         /// The list of tags for the cluster security group.
         @OptionalCustomCoding<ArrayCoder<_TagsEncoding, Tag>>
         public var tags: [Tag]?
 
-        public init(clusterSecurityGroupName: String? = nil, description: String? = nil, eC2SecurityGroups: [EC2SecurityGroup]? = nil, iPRanges: [IPRange]? = nil, tags: [Tag]? = nil) {
+        public init(clusterSecurityGroupName: String? = nil, description: String? = nil, ec2SecurityGroups: [EC2SecurityGroup]? = nil, ipRanges: [IPRange]? = nil, tags: [Tag]? = nil) {
             self.clusterSecurityGroupName = clusterSecurityGroupName
             self.description = description
-            self.eC2SecurityGroups = eC2SecurityGroups
-            self.iPRanges = iPRanges
+            self.ec2SecurityGroups = ec2SecurityGroups
+            self.ipRanges = ipRanges
             self.tags = tags
         }
 
         private enum CodingKeys: String, CodingKey {
             case clusterSecurityGroupName = "ClusterSecurityGroupName"
             case description = "Description"
-            case eC2SecurityGroups = "EC2SecurityGroups"
-            case iPRanges = "IPRanges"
+            case ec2SecurityGroups = "EC2SecurityGroups"
+            case ipRanges = "IPRanges"
             case tags = "Tags"
         }
     }
@@ -1445,7 +1445,7 @@ extension Redshift {
         /// The version of the Amazon Redshift engine software that you want to deploy on the cluster. The version selected runs on all the nodes in the cluster. Constraints: Only version 1.0 is currently available. Example: 1.0
         public let clusterVersion: String?
         /// The name of the first database to be created when the cluster is created. To create additional databases after the cluster is created, connect to the cluster with a SQL client and use SQL commands to create a database. For more information, go to Create a Database in the Amazon Redshift Database Developer Guide.  Default: dev  Constraints:   Must contain 1 to 64 alphanumeric characters.   Must contain only lowercase letters.   Cannot be a word that is reserved by the service. A list of reserved words can be found in Reserved Words in the Amazon Redshift Database Developer Guide.
-        public let dBName: String?
+        public let dbName: String?
         /// The Amazon Resource Name (ARN) for the IAM role that was set as default for the cluster when the cluster was created.
         public let defaultIamRoleArn: String?
         /// The Elastic IP (EIP) address for the cluster. Constraints: The cluster must be provisioned in EC2-VPC and publicly-accessible through an Internet gateway. For more information about provisioning clusters in EC2-VPC, go to Supported Platforms to Launch Your Cluster in the Amazon Redshift Cluster Management Guide.
@@ -1491,7 +1491,7 @@ extension Redshift {
         @OptionalCustomCoding<ArrayCoder<_VpcSecurityGroupIdsEncoding, String>>
         public var vpcSecurityGroupIds: [String]?
 
-        public init(additionalInfo: String? = nil, allowVersionUpgrade: Bool? = nil, aquaConfigurationStatus: AquaConfigurationStatus? = nil, automatedSnapshotRetentionPeriod: Int? = nil, availabilityZone: String? = nil, availabilityZoneRelocation: Bool? = nil, clusterIdentifier: String, clusterParameterGroupName: String? = nil, clusterSecurityGroups: [String]? = nil, clusterSubnetGroupName: String? = nil, clusterType: String? = nil, clusterVersion: String? = nil, dBName: String? = nil, defaultIamRoleArn: String? = nil, elasticIp: String? = nil, encrypted: Bool? = nil, enhancedVpcRouting: Bool? = nil, hsmClientCertificateIdentifier: String? = nil, hsmConfigurationIdentifier: String? = nil, iamRoles: [String]? = nil, kmsKeyId: String? = nil, maintenanceTrackName: String? = nil, manualSnapshotRetentionPeriod: Int? = nil, masterUsername: String, masterUserPassword: String, nodeType: String, numberOfNodes: Int? = nil, port: Int? = nil, preferredMaintenanceWindow: String? = nil, publiclyAccessible: Bool? = nil, snapshotScheduleIdentifier: String? = nil, tags: [Tag]? = nil, vpcSecurityGroupIds: [String]? = nil) {
+        public init(additionalInfo: String? = nil, allowVersionUpgrade: Bool? = nil, aquaConfigurationStatus: AquaConfigurationStatus? = nil, automatedSnapshotRetentionPeriod: Int? = nil, availabilityZone: String? = nil, availabilityZoneRelocation: Bool? = nil, clusterIdentifier: String, clusterParameterGroupName: String? = nil, clusterSecurityGroups: [String]? = nil, clusterSubnetGroupName: String? = nil, clusterType: String? = nil, clusterVersion: String? = nil, dbName: String? = nil, defaultIamRoleArn: String? = nil, elasticIp: String? = nil, encrypted: Bool? = nil, enhancedVpcRouting: Bool? = nil, hsmClientCertificateIdentifier: String? = nil, hsmConfigurationIdentifier: String? = nil, iamRoles: [String]? = nil, kmsKeyId: String? = nil, maintenanceTrackName: String? = nil, manualSnapshotRetentionPeriod: Int? = nil, masterUsername: String, masterUserPassword: String, nodeType: String, numberOfNodes: Int? = nil, port: Int? = nil, preferredMaintenanceWindow: String? = nil, publiclyAccessible: Bool? = nil, snapshotScheduleIdentifier: String? = nil, tags: [Tag]? = nil, vpcSecurityGroupIds: [String]? = nil) {
             self.additionalInfo = additionalInfo
             self.allowVersionUpgrade = allowVersionUpgrade
             self.aquaConfigurationStatus = aquaConfigurationStatus
@@ -1504,7 +1504,7 @@ extension Redshift {
             self.clusterSubnetGroupName = clusterSubnetGroupName
             self.clusterType = clusterType
             self.clusterVersion = clusterVersion
-            self.dBName = dBName
+            self.dbName = dbName
             self.defaultIamRoleArn = defaultIamRoleArn
             self.elasticIp = elasticIp
             self.encrypted = encrypted
@@ -1538,7 +1538,7 @@ extension Redshift {
             try self.validate(self.clusterSubnetGroupName, name: "clusterSubnetGroupName", parent: name, max: 2_147_483_647)
             try self.validate(self.clusterType, name: "clusterType", parent: name, max: 2_147_483_647)
             try self.validate(self.clusterVersion, name: "clusterVersion", parent: name, max: 2_147_483_647)
-            try self.validate(self.dBName, name: "dBName", parent: name, max: 2_147_483_647)
+            try self.validate(self.dbName, name: "dbName", parent: name, max: 2_147_483_647)
             try self.validate(self.defaultIamRoleArn, name: "defaultIamRoleArn", parent: name, max: 2_147_483_647)
             try self.validate(self.elasticIp, name: "elasticIp", parent: name, max: 2_147_483_647)
             try self.validate(self.hsmClientCertificateIdentifier, name: "hsmClientCertificateIdentifier", parent: name, max: 2_147_483_647)
@@ -1574,7 +1574,7 @@ extension Redshift {
             case clusterSubnetGroupName = "ClusterSubnetGroupName"
             case clusterType = "ClusterType"
             case clusterVersion = "ClusterVersion"
-            case dBName = "DBName"
+            case dbName = "DBName"
             case defaultIamRoleArn = "DefaultIamRoleArn"
             case elasticIp = "ElasticIp"
             case encrypted = "Encrypted"
@@ -4201,25 +4201,25 @@ extension Redshift {
         public struct _TagsEncoding: ArrayCoderProperties { public static let member = "Tag" }
 
         /// The name of the EC2 Security Group.
-        public let eC2SecurityGroupName: String?
+        public let ec2SecurityGroupName: String?
         /// The Amazon Web Services account ID of the owner of the EC2 security group specified in the EC2SecurityGroupName field.
-        public let eC2SecurityGroupOwnerId: String?
+        public let ec2SecurityGroupOwnerId: String?
         /// The status of the EC2 security group.
         public let status: String?
         /// The list of tags for the EC2 security group.
         @OptionalCustomCoding<ArrayCoder<_TagsEncoding, Tag>>
         public var tags: [Tag]?
 
-        public init(eC2SecurityGroupName: String? = nil, eC2SecurityGroupOwnerId: String? = nil, status: String? = nil, tags: [Tag]? = nil) {
-            self.eC2SecurityGroupName = eC2SecurityGroupName
-            self.eC2SecurityGroupOwnerId = eC2SecurityGroupOwnerId
+        public init(ec2SecurityGroupName: String? = nil, ec2SecurityGroupOwnerId: String? = nil, status: String? = nil, tags: [Tag]? = nil) {
+            self.ec2SecurityGroupName = ec2SecurityGroupName
+            self.ec2SecurityGroupOwnerId = ec2SecurityGroupOwnerId
             self.status = status
             self.tags = tags
         }
 
         private enum CodingKeys: String, CodingKey {
-            case eC2SecurityGroupName = "EC2SecurityGroupName"
-            case eC2SecurityGroupOwnerId = "EC2SecurityGroupOwnerId"
+            case ec2SecurityGroupName = "EC2SecurityGroupName"
+            case ec2SecurityGroupOwnerId = "EC2SecurityGroupOwnerId"
             case status = "Status"
             case tags = "Tags"
         }
@@ -6826,29 +6826,29 @@ extension Redshift {
         /// The name of the security Group from which to revoke the ingress rule.
         public let clusterSecurityGroupName: String
         /// The name of the EC2 Security Group whose access is to be revoked. If EC2SecurityGroupName is specified, EC2SecurityGroupOwnerId must also be provided and CIDRIP cannot be provided.
-        public let eC2SecurityGroupName: String?
+        public let ec2SecurityGroupName: String?
         /// The Amazon Web Services account number of the owner of the security group specified in the EC2SecurityGroupName parameter. The Amazon Web Services access key ID is not an acceptable value. If EC2SecurityGroupOwnerId is specified, EC2SecurityGroupName must also be provided. and CIDRIP cannot be provided.  Example: 111122223333
-        public let eC2SecurityGroupOwnerId: String?
+        public let ec2SecurityGroupOwnerId: String?
 
-        public init(cidrip: String? = nil, clusterSecurityGroupName: String, eC2SecurityGroupName: String? = nil, eC2SecurityGroupOwnerId: String? = nil) {
+        public init(cidrip: String? = nil, clusterSecurityGroupName: String, ec2SecurityGroupName: String? = nil, ec2SecurityGroupOwnerId: String? = nil) {
             self.cidrip = cidrip
             self.clusterSecurityGroupName = clusterSecurityGroupName
-            self.eC2SecurityGroupName = eC2SecurityGroupName
-            self.eC2SecurityGroupOwnerId = eC2SecurityGroupOwnerId
+            self.ec2SecurityGroupName = ec2SecurityGroupName
+            self.ec2SecurityGroupOwnerId = ec2SecurityGroupOwnerId
         }
 
         public func validate(name: String) throws {
             try self.validate(self.cidrip, name: "cidrip", parent: name, max: 2_147_483_647)
             try self.validate(self.clusterSecurityGroupName, name: "clusterSecurityGroupName", parent: name, max: 2_147_483_647)
-            try self.validate(self.eC2SecurityGroupName, name: "eC2SecurityGroupName", parent: name, max: 2_147_483_647)
-            try self.validate(self.eC2SecurityGroupOwnerId, name: "eC2SecurityGroupOwnerId", parent: name, max: 2_147_483_647)
+            try self.validate(self.ec2SecurityGroupName, name: "ec2SecurityGroupName", parent: name, max: 2_147_483_647)
+            try self.validate(self.ec2SecurityGroupOwnerId, name: "ec2SecurityGroupOwnerId", parent: name, max: 2_147_483_647)
         }
 
         private enum CodingKeys: String, CodingKey {
             case cidrip = "CIDRIP"
             case clusterSecurityGroupName = "ClusterSecurityGroupName"
-            case eC2SecurityGroupName = "EC2SecurityGroupName"
-            case eC2SecurityGroupOwnerId = "EC2SecurityGroupOwnerId"
+            case ec2SecurityGroupName = "EC2SecurityGroupName"
+            case ec2SecurityGroupOwnerId = "EC2SecurityGroupOwnerId"
         }
     }
 
@@ -7115,7 +7115,7 @@ extension Redshift {
         /// The number of megabytes per second being transferred to the snapshot backup. Returns 0 for a completed backup.
         public let currentBackupRateInMegaBytesPerSecond: Double?
         /// The name of the database that was created when the cluster was created.
-        public let dBName: String?
+        public let dbName: String?
         /// The amount of time an in-progress snapshot backup has been running, or the amount of time it took a completed backup to finish.
         public let elapsedTimeInSeconds: Int64?
         /// If true, the data in the snapshot is encrypted at rest.
@@ -7170,7 +7170,7 @@ extension Redshift {
         /// The VPC identifier of the cluster if the snapshot is from a cluster in a VPC. Otherwise, this field is not in the output.
         public let vpcId: String?
 
-        public init(accountsWithRestoreAccess: [AccountWithRestoreAccess]? = nil, actualIncrementalBackupSizeInMegaBytes: Double? = nil, availabilityZone: String? = nil, backupProgressInMegaBytes: Double? = nil, clusterCreateTime: Date? = nil, clusterIdentifier: String? = nil, clusterVersion: String? = nil, currentBackupRateInMegaBytesPerSecond: Double? = nil, dBName: String? = nil, elapsedTimeInSeconds: Int64? = nil, encrypted: Bool? = nil, encryptedWithHSM: Bool? = nil, engineFullVersion: String? = nil, enhancedVpcRouting: Bool? = nil, estimatedSecondsToCompletion: Int64? = nil, kmsKeyId: String? = nil, maintenanceTrackName: String? = nil, manualSnapshotRemainingDays: Int? = nil, manualSnapshotRetentionPeriod: Int? = nil, masterUsername: String? = nil, nodeType: String? = nil, numberOfNodes: Int? = nil, ownerAccount: String? = nil, port: Int? = nil, restorableNodeTypes: [String]? = nil, snapshotCreateTime: Date? = nil, snapshotIdentifier: String? = nil, snapshotRetentionStartTime: Date? = nil, snapshotType: String? = nil, sourceRegion: String? = nil, status: String? = nil, tags: [Tag]? = nil, totalBackupSizeInMegaBytes: Double? = nil, vpcId: String? = nil) {
+        public init(accountsWithRestoreAccess: [AccountWithRestoreAccess]? = nil, actualIncrementalBackupSizeInMegaBytes: Double? = nil, availabilityZone: String? = nil, backupProgressInMegaBytes: Double? = nil, clusterCreateTime: Date? = nil, clusterIdentifier: String? = nil, clusterVersion: String? = nil, currentBackupRateInMegaBytesPerSecond: Double? = nil, dbName: String? = nil, elapsedTimeInSeconds: Int64? = nil, encrypted: Bool? = nil, encryptedWithHSM: Bool? = nil, engineFullVersion: String? = nil, enhancedVpcRouting: Bool? = nil, estimatedSecondsToCompletion: Int64? = nil, kmsKeyId: String? = nil, maintenanceTrackName: String? = nil, manualSnapshotRemainingDays: Int? = nil, manualSnapshotRetentionPeriod: Int? = nil, masterUsername: String? = nil, nodeType: String? = nil, numberOfNodes: Int? = nil, ownerAccount: String? = nil, port: Int? = nil, restorableNodeTypes: [String]? = nil, snapshotCreateTime: Date? = nil, snapshotIdentifier: String? = nil, snapshotRetentionStartTime: Date? = nil, snapshotType: String? = nil, sourceRegion: String? = nil, status: String? = nil, tags: [Tag]? = nil, totalBackupSizeInMegaBytes: Double? = nil, vpcId: String? = nil) {
             self.accountsWithRestoreAccess = accountsWithRestoreAccess
             self.actualIncrementalBackupSizeInMegaBytes = actualIncrementalBackupSizeInMegaBytes
             self.availabilityZone = availabilityZone
@@ -7179,7 +7179,7 @@ extension Redshift {
             self.clusterIdentifier = clusterIdentifier
             self.clusterVersion = clusterVersion
             self.currentBackupRateInMegaBytesPerSecond = currentBackupRateInMegaBytesPerSecond
-            self.dBName = dBName
+            self.dbName = dbName
             self.elapsedTimeInSeconds = elapsedTimeInSeconds
             self.encrypted = encrypted
             self.encryptedWithHSM = encryptedWithHSM
@@ -7216,7 +7216,7 @@ extension Redshift {
             case clusterIdentifier = "ClusterIdentifier"
             case clusterVersion = "ClusterVersion"
             case currentBackupRateInMegaBytesPerSecond = "CurrentBackupRateInMegaBytesPerSecond"
-            case dBName = "DBName"
+            case dbName = "DBName"
             case elapsedTimeInSeconds = "ElapsedTimeInSeconds"
             case encrypted = "Encrypted"
             case encryptedWithHSM = "EncryptedWithHSM"

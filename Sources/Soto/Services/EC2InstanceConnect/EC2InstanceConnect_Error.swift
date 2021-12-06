@@ -21,8 +21,8 @@ import SotoCore
 public struct EC2InstanceConnectErrorType: AWSErrorType {
     enum Code: String {
         case authException = "AuthException"
-        case eC2InstanceNotFoundException = "EC2InstanceNotFoundException"
-        case eC2InstanceTypeInvalidException = "EC2InstanceTypeInvalidException"
+        case ec2InstanceNotFoundException = "EC2InstanceNotFoundException"
+        case ec2InstanceTypeInvalidException = "EC2InstanceTypeInvalidException"
         case invalidArgsException = "InvalidArgsException"
         case serialConsoleAccessDisabledException = "SerialConsoleAccessDisabledException"
         case serialConsoleSessionLimitExceededException = "SerialConsoleSessionLimitExceededException"
@@ -52,9 +52,9 @@ public struct EC2InstanceConnectErrorType: AWSErrorType {
     /// Either your AWS credentials are not valid or you do not have access to the EC2 instance.
     public static var authException: Self { .init(.authException) }
     /// The specified instance was not found.
-    public static var eC2InstanceNotFoundException: Self { .init(.eC2InstanceNotFoundException) }
+    public static var ec2InstanceNotFoundException: Self { .init(.ec2InstanceNotFoundException) }
     /// The instance type is not supported for connecting via the serial console. Only Nitro instance types are currently supported.
-    public static var eC2InstanceTypeInvalidException: Self { .init(.eC2InstanceTypeInvalidException) }
+    public static var ec2InstanceTypeInvalidException: Self { .init(.ec2InstanceTypeInvalidException) }
     /// One of the parameters is not valid.
     public static var invalidArgsException: Self { .init(.invalidArgsException) }
     /// Your account is not authorized to use the EC2 Serial Console. To authorize your account, run the EnableSerialConsoleAccess API. For more information, see EnableSerialConsoleAccess in the Amazon EC2 API Reference.

@@ -22,44 +22,44 @@ extension SQS {
     // MARK: Enums
 
     public enum MessageSystemAttributeName: String, CustomStringConvertible, Codable {
-        case awstraceheader = "AWSTraceHeader"
-        case approximatefirstreceivetimestamp = "ApproximateFirstReceiveTimestamp"
-        case approximatereceivecount = "ApproximateReceiveCount"
-        case messagededuplicationid = "MessageDeduplicationId"
-        case messagegroupid = "MessageGroupId"
-        case senderid = "SenderId"
-        case senttimestamp = "SentTimestamp"
-        case sequencenumber = "SequenceNumber"
+        case awsTraceHeader = "AWSTraceHeader"
+        case approximateFirstReceiveTimestamp = "ApproximateFirstReceiveTimestamp"
+        case approximateReceiveCount = "ApproximateReceiveCount"
+        case messageDeduplicationId = "MessageDeduplicationId"
+        case messageGroupId = "MessageGroupId"
+        case senderId = "SenderId"
+        case sentTimestamp = "SentTimestamp"
+        case sequenceNumber = "SequenceNumber"
         public var description: String { return self.rawValue }
     }
 
     public enum MessageSystemAttributeNameForSends: String, CustomStringConvertible, Codable {
-        case awstraceheader = "AWSTraceHeader"
+        case awsTraceHeader = "AWSTraceHeader"
         public var description: String { return self.rawValue }
     }
 
     public enum QueueAttributeName: String, CustomStringConvertible, Codable {
         case all = "All"
-        case approximatenumberofmessages = "ApproximateNumberOfMessages"
-        case approximatenumberofmessagesdelayed = "ApproximateNumberOfMessagesDelayed"
-        case approximatenumberofmessagesnotvisible = "ApproximateNumberOfMessagesNotVisible"
-        case contentbaseddeduplication = "ContentBasedDeduplication"
-        case createdtimestamp = "CreatedTimestamp"
-        case deduplicationscope = "DeduplicationScope"
-        case delayseconds = "DelaySeconds"
-        case fifoqueue = "FifoQueue"
-        case fifothroughputlimit = "FifoThroughputLimit"
-        case kmsdatakeyreuseperiodseconds = "KmsDataKeyReusePeriodSeconds"
-        case kmsmasterkeyid = "KmsMasterKeyId"
-        case lastmodifiedtimestamp = "LastModifiedTimestamp"
-        case maximummessagesize = "MaximumMessageSize"
-        case messageretentionperiod = "MessageRetentionPeriod"
+        case approximateNumberOfMessages = "ApproximateNumberOfMessages"
+        case approximateNumberOfMessagesDelayed = "ApproximateNumberOfMessagesDelayed"
+        case approximateNumberOfMessagesNotVisible = "ApproximateNumberOfMessagesNotVisible"
+        case contentBasedDeduplication = "ContentBasedDeduplication"
+        case createdTimestamp = "CreatedTimestamp"
+        case deduplicationScope = "DeduplicationScope"
+        case delaySeconds = "DelaySeconds"
+        case fifoQueue = "FifoQueue"
+        case fifoThroughputLimit = "FifoThroughputLimit"
+        case kmsDataKeyReusePeriodSeconds = "KmsDataKeyReusePeriodSeconds"
+        case kmsMasterKeyId = "KmsMasterKeyId"
+        case lastModifiedTimestamp = "LastModifiedTimestamp"
+        case maximumMessageSize = "MaximumMessageSize"
+        case messageRetentionPeriod = "MessageRetentionPeriod"
         case policy = "Policy"
-        case queuearn = "QueueArn"
-        case receivemessagewaittimeseconds = "ReceiveMessageWaitTimeSeconds"
-        case redriveallowpolicy = "RedriveAllowPolicy"
-        case redrivepolicy = "RedrivePolicy"
-        case visibilitytimeout = "VisibilityTimeout"
+        case queueArn = "QueueArn"
+        case receiveMessageWaitTimeSeconds = "ReceiveMessageWaitTimeSeconds"
+        case redriveAllowPolicy = "RedriveAllowPolicy"
+        case redrivePolicy = "RedrivePolicy"
+        case visibilityTimeout = "VisibilityTimeout"
         public var description: String { return self.rawValue }
     }
 
@@ -69,22 +69,22 @@ extension SQS {
         /// The action the client wants to allow for the specified principal. Valid values: the name of any action or *. For more information about these actions, see Overview of Managing Access Permissions to Your Amazon Simple Queue Service Resource  in the Amazon SQS Developer Guide. Specifying SendMessage, DeleteMessage, or ChangeMessageVisibility for ActionName.n also grants permissions for the corresponding batch versions of those actions: SendMessageBatch, DeleteMessageBatch, and ChangeMessageVisibilityBatch.
         public let actions: [String]
         /// The account numbers of the principals who are to receive permission. For information about locating the account identification, see Your Amazon Web Services Identifiers in the Amazon SQS Developer Guide.
-        public let aWSAccountIds: [String]
+        public let awsAccountIds: [String]
         /// The unique identification of the permission you're setting (for example, AliceSendMessage). Maximum 80 characters. Allowed characters include alphanumeric characters, hyphens (-), and underscores (_).
         public let label: String
         /// The URL of the Amazon SQS queue to which permissions are added. Queue URLs and names are case-sensitive.
         public let queueUrl: String
 
-        public init(actions: [String], aWSAccountIds: [String], label: String, queueUrl: String) {
+        public init(actions: [String], awsAccountIds: [String], label: String, queueUrl: String) {
             self.actions = actions
-            self.aWSAccountIds = aWSAccountIds
+            self.awsAccountIds = awsAccountIds
             self.label = label
             self.queueUrl = queueUrl
         }
 
         private enum CodingKeys: String, CodingKey {
             case actions = "ActionName"
-            case aWSAccountIds = "AWSAccountId"
+            case awsAccountIds = "AWSAccountId"
             case label = "Label"
             case queueUrl = "QueueUrl"
         }
@@ -525,9 +525,9 @@ extension SQS {
         /// The message's contents (not URL-encoded).
         public let body: String?
         /// An MD5 digest of the non-URL-encoded message body string.
-        public let mD5OfBody: String?
+        public let md5OfBody: String?
         /// An MD5 digest of the non-URL-encoded message attribute string. You can use this attribute to verify that Amazon SQS received the message correctly. Amazon SQS URL-decodes the message before creating the MD5 digest. For information about MD5, see RFC1321.
-        public let mD5OfMessageAttributes: String?
+        public let md5OfMessageAttributes: String?
         /// Each message attribute consists of a Name, Type,
         /// and Value. For more information, see
         /// Amazon SQS
@@ -539,11 +539,11 @@ extension SQS {
         /// An identifier associated with the act of receiving the message. A new receipt handle is returned every time you receive a message. When deleting a message, you provide the last received receipt handle to delete the message.
         public let receiptHandle: String?
 
-        public init(attributes: [MessageSystemAttributeName: String]? = nil, body: String? = nil, mD5OfBody: String? = nil, mD5OfMessageAttributes: String? = nil, messageAttributes: [String: MessageAttributeValue]? = nil, messageId: String? = nil, receiptHandle: String? = nil) {
+        public init(attributes: [MessageSystemAttributeName: String]? = nil, body: String? = nil, md5OfBody: String? = nil, md5OfMessageAttributes: String? = nil, messageAttributes: [String: MessageAttributeValue]? = nil, messageId: String? = nil, receiptHandle: String? = nil) {
             self.attributes = attributes
             self.body = body
-            self.mD5OfBody = mD5OfBody
-            self.mD5OfMessageAttributes = mD5OfMessageAttributes
+            self.md5OfBody = md5OfBody
+            self.md5OfMessageAttributes = md5OfMessageAttributes
             self.messageAttributes = messageAttributes
             self.messageId = messageId
             self.receiptHandle = receiptHandle
@@ -552,8 +552,8 @@ extension SQS {
         private enum CodingKeys: String, CodingKey {
             case attributes = "Attribute"
             case body = "Body"
-            case mD5OfBody = "MD5OfBody"
-            case mD5OfMessageAttributes = "MD5OfMessageAttributes"
+            case md5OfBody = "MD5OfBody"
+            case md5OfMessageAttributes = "MD5OfMessageAttributes"
             case messageAttributes = "MessageAttribute"
             case messageId = "MessageId"
             case receiptHandle = "ReceiptHandle"
@@ -781,31 +781,31 @@ extension SQS {
         /// An identifier for the message in this batch.
         public let id: String
         /// An MD5 digest of the non-URL-encoded message attribute string. You can use this attribute to verify that Amazon SQS received the message correctly. Amazon SQS URL-decodes the message before creating the MD5 digest. For information about MD5, see RFC1321.
-        public let mD5OfMessageAttributes: String?
+        public let md5OfMessageAttributes: String?
         /// An MD5 digest of the non-URL-encoded message body string. You can use this attribute to verify that Amazon SQS received the message correctly. Amazon SQS URL-decodes the message before creating the MD5 digest. For information about MD5, see RFC1321.
-        public let mD5OfMessageBody: String
+        public let md5OfMessageBody: String
         /// An MD5 digest of the non-URL-encoded message system attribute string. You can use this
         /// attribute to verify that Amazon SQS received the message correctly. Amazon SQS URL-decodes the message before creating the MD5 digest. For information about MD5, see RFC1321.
-        public let mD5OfMessageSystemAttributes: String?
+        public let md5OfMessageSystemAttributes: String?
         /// An identifier for the message.
         public let messageId: String
         /// This parameter applies only to FIFO (first-in-first-out) queues. The large, non-consecutive number that Amazon SQS assigns to each message. The length of SequenceNumber is 128 bits. As SequenceNumber continues to increase for a particular MessageGroupId.
         public let sequenceNumber: String?
 
-        public init(id: String, mD5OfMessageAttributes: String? = nil, mD5OfMessageBody: String, mD5OfMessageSystemAttributes: String? = nil, messageId: String, sequenceNumber: String? = nil) {
+        public init(id: String, md5OfMessageAttributes: String? = nil, md5OfMessageBody: String, md5OfMessageSystemAttributes: String? = nil, messageId: String, sequenceNumber: String? = nil) {
             self.id = id
-            self.mD5OfMessageAttributes = mD5OfMessageAttributes
-            self.mD5OfMessageBody = mD5OfMessageBody
-            self.mD5OfMessageSystemAttributes = mD5OfMessageSystemAttributes
+            self.md5OfMessageAttributes = md5OfMessageAttributes
+            self.md5OfMessageBody = md5OfMessageBody
+            self.md5OfMessageSystemAttributes = md5OfMessageSystemAttributes
             self.messageId = messageId
             self.sequenceNumber = sequenceNumber
         }
 
         private enum CodingKeys: String, CodingKey {
             case id = "Id"
-            case mD5OfMessageAttributes = "MD5OfMessageAttributes"
-            case mD5OfMessageBody = "MD5OfMessageBody"
-            case mD5OfMessageSystemAttributes = "MD5OfMessageSystemAttributes"
+            case md5OfMessageAttributes = "MD5OfMessageAttributes"
+            case md5OfMessageBody = "MD5OfMessageBody"
+            case md5OfMessageSystemAttributes = "MD5OfMessageSystemAttributes"
             case messageId = "MessageId"
             case sequenceNumber = "SequenceNumber"
         }
@@ -859,29 +859,29 @@ extension SQS {
 
     public struct SendMessageResult: AWSDecodableShape {
         /// An MD5 digest of the non-URL-encoded message attribute string. You can use this attribute to verify that Amazon SQS received the message correctly. Amazon SQS URL-decodes the message before creating the MD5 digest. For information about MD5, see RFC1321.
-        public let mD5OfMessageAttributes: String?
+        public let md5OfMessageAttributes: String?
         /// An MD5 digest of the non-URL-encoded message body string. You can use this attribute to verify that Amazon SQS received the message correctly. Amazon SQS URL-decodes the message before creating the MD5 digest. For information about MD5, see RFC1321.
-        public let mD5OfMessageBody: String?
+        public let md5OfMessageBody: String?
         /// An MD5 digest of the non-URL-encoded message system attribute string. You can use this
         /// attribute to verify that Amazon SQS received the message correctly. Amazon SQS URL-decodes the message before creating the MD5 digest.
-        public let mD5OfMessageSystemAttributes: String?
+        public let md5OfMessageSystemAttributes: String?
         /// An attribute containing the MessageId of the message sent to the queue. For more information, see Queue and Message Identifiers in the Amazon SQS Developer Guide.
         public let messageId: String?
         /// This parameter applies only to FIFO (first-in-first-out) queues. The large, non-consecutive number that Amazon SQS assigns to each message. The length of SequenceNumber is 128 bits. SequenceNumber continues to increase for a particular MessageGroupId.
         public let sequenceNumber: String?
 
-        public init(mD5OfMessageAttributes: String? = nil, mD5OfMessageBody: String? = nil, mD5OfMessageSystemAttributes: String? = nil, messageId: String? = nil, sequenceNumber: String? = nil) {
-            self.mD5OfMessageAttributes = mD5OfMessageAttributes
-            self.mD5OfMessageBody = mD5OfMessageBody
-            self.mD5OfMessageSystemAttributes = mD5OfMessageSystemAttributes
+        public init(md5OfMessageAttributes: String? = nil, md5OfMessageBody: String? = nil, md5OfMessageSystemAttributes: String? = nil, messageId: String? = nil, sequenceNumber: String? = nil) {
+            self.md5OfMessageAttributes = md5OfMessageAttributes
+            self.md5OfMessageBody = md5OfMessageBody
+            self.md5OfMessageSystemAttributes = md5OfMessageSystemAttributes
             self.messageId = messageId
             self.sequenceNumber = sequenceNumber
         }
 
         private enum CodingKeys: String, CodingKey {
-            case mD5OfMessageAttributes = "MD5OfMessageAttributes"
-            case mD5OfMessageBody = "MD5OfMessageBody"
-            case mD5OfMessageSystemAttributes = "MD5OfMessageSystemAttributes"
+            case md5OfMessageAttributes = "MD5OfMessageAttributes"
+            case md5OfMessageBody = "MD5OfMessageBody"
+            case md5OfMessageSystemAttributes = "MD5OfMessageSystemAttributes"
             case messageId = "MessageId"
             case sequenceNumber = "SequenceNumber"
         }

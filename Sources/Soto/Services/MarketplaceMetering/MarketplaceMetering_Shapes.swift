@@ -22,8 +22,8 @@ extension MarketplaceMetering {
     // MARK: Enums
 
     public enum UsageRecordResultStatus: String, CustomStringConvertible, Codable {
-        case customernotsubscribed = "CustomerNotSubscribed"
-        case duplicaterecord = "DuplicateRecord"
+        case customerNotSubscribed = "CustomerNotSubscribed"
+        case duplicateRecord = "DuplicateRecord"
         case success = "Success"
         public var description: String { return self.rawValue }
     }

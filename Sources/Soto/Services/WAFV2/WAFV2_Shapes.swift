@@ -688,7 +688,7 @@ extension WAFV2 {
         /// A description of the IP set that helps with identification.
         public let description: String?
         /// The version of the IP addresses, either IPV4 or IPV6.
-        public let iPAddressVersion: IPAddressVersion
+        public let ipAddressVersion: IPAddressVersion
         /// The name of the IP set. You cannot change the name of an IPSet after you create it.
         public let name: String
         /// Specifies whether this is for an Amazon CloudFront distribution or for a regional application. A regional application can be an Application Load Balancer (ALB), an Amazon API Gateway REST API, or an AppSync GraphQL API.   To work with CloudFront, you must also specify the Region US East (N. Virginia) as follows:    CLI - Specify the Region when you use the CloudFront scope: --scope=CLOUDFRONT --region=us-east-1.    API and SDKs - For all calls, use the Region endpoint us-east-1.
@@ -696,10 +696,10 @@ extension WAFV2 {
         /// An array of key:value pairs to associate with the resource.
         public let tags: [Tag]?
 
-        public init(addresses: [String], description: String? = nil, iPAddressVersion: IPAddressVersion, name: String, scope: Scope, tags: [Tag]? = nil) {
+        public init(addresses: [String], description: String? = nil, ipAddressVersion: IPAddressVersion, name: String, scope: Scope, tags: [Tag]? = nil) {
             self.addresses = addresses
             self.description = description
-            self.iPAddressVersion = iPAddressVersion
+            self.ipAddressVersion = ipAddressVersion
             self.name = name
             self.scope = scope
             self.tags = tags
@@ -726,7 +726,7 @@ extension WAFV2 {
         private enum CodingKeys: String, CodingKey {
             case addresses = "Addresses"
             case description = "Description"
-            case iPAddressVersion = "IPAddressVersion"
+            case ipAddressVersion = "IPAddressVersion"
             case name = "Name"
             case scope = "Scope"
             case tags = "Tags"
@@ -1654,17 +1654,17 @@ extension WAFV2 {
     }
 
     public struct GetIPSetResponse: AWSDecodableShape {
-        public let iPSet: IPSet?
+        public let ipSet: IPSet?
         /// A token used for optimistic locking. WAF returns a token to your get and list requests, to mark the state of the entity at the time of the request. To make changes to the entity associated with the token, you provide the token to operations like update and delete. WAF uses the token to ensure that no changes have been made to the entity since you last retrieved it. If a change has been made, the update fails with a WAFOptimisticLockException. If this happens, perform another get, and use the new token returned by that operation.
         public let lockToken: String?
 
-        public init(iPSet: IPSet? = nil, lockToken: String? = nil) {
-            self.iPSet = iPSet
+        public init(ipSet: IPSet? = nil, lockToken: String? = nil) {
+            self.ipSet = ipSet
             self.lockToken = lockToken
         }
 
         private enum CodingKeys: String, CodingKey {
-            case iPSet = "IPSet"
+            case ipSet = "IPSet"
             case lockToken = "LockToken"
         }
     }
@@ -2106,17 +2106,17 @@ extension WAFV2 {
         /// A complex type that contains the name and value for each header in the sampled web request.
         public let headers: [HTTPHeader]?
         /// The HTTP version specified in the sampled web request, for example, HTTP/1.1.
-        public let hTTPVersion: String?
+        public let httpVersion: String?
         /// The HTTP method specified in the sampled web request.
         public let method: String?
         /// The URI path of the request, which identifies the resource, for example, /images/daily-ad.jpg.
         public let uri: String?
 
-        public init(clientIP: String? = nil, country: String? = nil, headers: [HTTPHeader]? = nil, hTTPVersion: String? = nil, method: String? = nil, uri: String? = nil) {
+        public init(clientIP: String? = nil, country: String? = nil, headers: [HTTPHeader]? = nil, httpVersion: String? = nil, method: String? = nil, uri: String? = nil) {
             self.clientIP = clientIP
             self.country = country
             self.headers = headers
-            self.hTTPVersion = hTTPVersion
+            self.httpVersion = httpVersion
             self.method = method
             self.uri = uri
         }
@@ -2125,7 +2125,7 @@ extension WAFV2 {
             case clientIP = "ClientIP"
             case country = "Country"
             case headers = "Headers"
-            case hTTPVersion = "HTTPVersion"
+            case httpVersion = "HTTPVersion"
             case method = "Method"
             case uri = "URI"
         }
@@ -2141,16 +2141,16 @@ extension WAFV2 {
         /// A unique identifier for the set. This ID is returned in the responses to create and list commands. You provide it to operations like update and delete.
         public let id: String
         /// The version of the IP addresses, either IPV4 or IPV6.
-        public let iPAddressVersion: IPAddressVersion
+        public let ipAddressVersion: IPAddressVersion
         /// The name of the IP set. You cannot change the name of an IPSet after you create it.
         public let name: String
 
-        public init(addresses: [String], arn: String, description: String? = nil, id: String, iPAddressVersion: IPAddressVersion, name: String) {
+        public init(addresses: [String], arn: String, description: String? = nil, id: String, ipAddressVersion: IPAddressVersion, name: String) {
             self.addresses = addresses
             self.arn = arn
             self.description = description
             self.id = id
-            self.iPAddressVersion = iPAddressVersion
+            self.ipAddressVersion = ipAddressVersion
             self.name = name
         }
 
@@ -2159,7 +2159,7 @@ extension WAFV2 {
             case arn = "ARN"
             case description = "Description"
             case id = "Id"
-            case iPAddressVersion = "IPAddressVersion"
+            case ipAddressVersion = "IPAddressVersion"
             case name = "Name"
         }
     }
@@ -2195,23 +2195,23 @@ extension WAFV2 {
         /// The Amazon Resource Name (ARN) of the IPSet that this statement references.
         public let arn: String
         /// The configuration for inspecting IP addresses in an HTTP header that you specify, instead of using the IP address that's reported by the web request origin. Commonly, this is the X-Forwarded-For (XFF) header, but you can specify any header name.    If the specified header isn't present in the request, WAF doesn't apply the rule to the web request at all.
-        public let iPSetForwardedIPConfig: IPSetForwardedIPConfig?
+        public let ipSetForwardedIPConfig: IPSetForwardedIPConfig?
 
-        public init(arn: String, iPSetForwardedIPConfig: IPSetForwardedIPConfig? = nil) {
+        public init(arn: String, ipSetForwardedIPConfig: IPSetForwardedIPConfig? = nil) {
             self.arn = arn
-            self.iPSetForwardedIPConfig = iPSetForwardedIPConfig
+            self.ipSetForwardedIPConfig = ipSetForwardedIPConfig
         }
 
         public func validate(name: String) throws {
             try self.validate(self.arn, name: "arn", parent: name, max: 2048)
             try self.validate(self.arn, name: "arn", parent: name, min: 20)
             try self.validate(self.arn, name: "arn", parent: name, pattern: "\\S")
-            try self.iPSetForwardedIPConfig?.validate(name: "\(name).iPSetForwardedIPConfig")
+            try self.ipSetForwardedIPConfig?.validate(name: "\(name).ipSetForwardedIPConfig")
         }
 
         private enum CodingKeys: String, CodingKey {
             case arn = "ARN"
-            case iPSetForwardedIPConfig = "IPSetForwardedIPConfig"
+            case ipSetForwardedIPConfig = "IPSetForwardedIPConfig"
         }
     }
 
@@ -2523,17 +2523,17 @@ extension WAFV2 {
 
     public struct ListIPSetsResponse: AWSDecodableShape {
         /// Array of IPSets. This may not be the full list of IPSets that you have defined. See the Limit specification for this request.
-        public let iPSets: [IPSetSummary]?
+        public let ipSets: [IPSetSummary]?
         /// When you request a list of objects with a Limit setting, if the number of objects that are still available for retrieval exceeds the limit, WAF returns a NextMarker  value in the response. To retrieve the next batch of objects, provide the marker from the prior call in your next request.
         public let nextMarker: String?
 
-        public init(iPSets: [IPSetSummary]? = nil, nextMarker: String? = nil) {
-            self.iPSets = iPSets
+        public init(ipSets: [IPSetSummary]? = nil, nextMarker: String? = nil) {
+            self.ipSets = ipSets
             self.nextMarker = nextMarker
         }
 
         private enum CodingKeys: String, CodingKey {
-            case iPSets = "IPSets"
+            case ipSets = "IPSets"
             case nextMarker = "NextMarker"
         }
     }
@@ -3338,16 +3338,16 @@ extension WAFV2 {
         /// The IP addresses that are currently blocked.
         public let addresses: [String]?
         /// The version of the IP addresses, either IPV4 or IPV6.
-        public let iPAddressVersion: IPAddressVersion?
+        public let ipAddressVersion: IPAddressVersion?
 
-        public init(addresses: [String]? = nil, iPAddressVersion: IPAddressVersion? = nil) {
+        public init(addresses: [String]? = nil, ipAddressVersion: IPAddressVersion? = nil) {
             self.addresses = addresses
-            self.iPAddressVersion = iPAddressVersion
+            self.ipAddressVersion = ipAddressVersion
         }
 
         private enum CodingKeys: String, CodingKey {
             case addresses = "Addresses"
-            case iPAddressVersion = "IPAddressVersion"
+            case ipAddressVersion = "IPAddressVersion"
         }
     }
 
@@ -3858,7 +3858,7 @@ extension WAFV2 {
         /// A rule statement used to identify web requests based on country of origin.
         public let geoMatchStatement: GeoMatchStatement?
         /// A rule statement used to detect web requests coming from particular IP addresses or address ranges. To use this, create an IPSet that specifies the addresses you want to detect, then use the ARN of that set in this statement. To create an IP set, see CreateIPSet.  Each IP set rule statement references an IP set. You create and maintain the set independent of your rules. This allows you to use the single set in multiple rules. When you update the referenced set, WAF automatically updates all rules that reference it.
-        public let iPSetReferenceStatement: IPSetReferenceStatement?
+        public let ipSetReferenceStatement: IPSetReferenceStatement?
         /// A rule statement that defines a string match search against labels that have been added to the web request by rules that have already run in the web ACL.  The label match statement provides the label or namespace string to search for. The label string can represent a part or all of the fully qualified label name that had been added to the web request. Fully qualified labels have a prefix, optional namespaces, and label name. The prefix identifies the rule group or web ACL context of the rule that added the label.  If you do not provide the fully qualified name in your label match string, WAF performs the search for labels that were added in the same context as the label match statement.
         public let labelMatchStatement: LabelMatchStatement?
         /// A rule statement used to run the rules that are defined in a managed rule group. To use this, provide the vendor name and the name of the rule group in this statement. You can retrieve the required names by calling ListAvailableManagedRuleGroups. You cannot nest a ManagedRuleGroupStatement, for example for use inside a NotStatement or OrStatement. It can only be referenced as a top-level statement within a rule.
@@ -3882,11 +3882,11 @@ extension WAFV2 {
         /// A rule statement that defines a cross-site scripting (XSS) match search for WAF to apply to web requests.  XSS attacks are those where the attacker uses vulnerabilities in a benign website as a vehicle to inject malicious  client-site scripts into other legitimate web browsers.   The XSS match statement provides the location in requests that you want WAF to search and text transformations  to use on the search area before WAF searches for character sequences that are likely to be malicious strings.
         public let xssMatchStatement: XssMatchStatement?
 
-        public init(andStatement: AndStatement? = nil, byteMatchStatement: ByteMatchStatement? = nil, geoMatchStatement: GeoMatchStatement? = nil, iPSetReferenceStatement: IPSetReferenceStatement? = nil, labelMatchStatement: LabelMatchStatement? = nil, managedRuleGroupStatement: ManagedRuleGroupStatement? = nil, notStatement: NotStatement? = nil, orStatement: OrStatement? = nil, rateBasedStatement: RateBasedStatement? = nil, regexMatchStatement: RegexMatchStatement? = nil, regexPatternSetReferenceStatement: RegexPatternSetReferenceStatement? = nil, ruleGroupReferenceStatement: RuleGroupReferenceStatement? = nil, sizeConstraintStatement: SizeConstraintStatement? = nil, sqliMatchStatement: SqliMatchStatement? = nil, xssMatchStatement: XssMatchStatement? = nil) {
+        public init(andStatement: AndStatement? = nil, byteMatchStatement: ByteMatchStatement? = nil, geoMatchStatement: GeoMatchStatement? = nil, ipSetReferenceStatement: IPSetReferenceStatement? = nil, labelMatchStatement: LabelMatchStatement? = nil, managedRuleGroupStatement: ManagedRuleGroupStatement? = nil, notStatement: NotStatement? = nil, orStatement: OrStatement? = nil, rateBasedStatement: RateBasedStatement? = nil, regexMatchStatement: RegexMatchStatement? = nil, regexPatternSetReferenceStatement: RegexPatternSetReferenceStatement? = nil, ruleGroupReferenceStatement: RuleGroupReferenceStatement? = nil, sizeConstraintStatement: SizeConstraintStatement? = nil, sqliMatchStatement: SqliMatchStatement? = nil, xssMatchStatement: XssMatchStatement? = nil) {
             self.andStatement = andStatement
             self.byteMatchStatement = byteMatchStatement
             self.geoMatchStatement = geoMatchStatement
-            self.iPSetReferenceStatement = iPSetReferenceStatement
+            self.ipSetReferenceStatement = ipSetReferenceStatement
             self.labelMatchStatement = labelMatchStatement
             self.managedRuleGroupStatement = managedRuleGroupStatement
             self.notStatement = notStatement
@@ -3904,7 +3904,7 @@ extension WAFV2 {
             try self.andStatement?.validate(name: "\(name).andStatement")
             try self.byteMatchStatement?.validate(name: "\(name).byteMatchStatement")
             try self.geoMatchStatement?.validate(name: "\(name).geoMatchStatement")
-            try self.iPSetReferenceStatement?.validate(name: "\(name).iPSetReferenceStatement")
+            try self.ipSetReferenceStatement?.validate(name: "\(name).ipSetReferenceStatement")
             try self.labelMatchStatement?.validate(name: "\(name).labelMatchStatement")
             try self.managedRuleGroupStatement?.validate(name: "\(name).managedRuleGroupStatement")
             try self.notStatement?.validate(name: "\(name).notStatement")
@@ -3922,7 +3922,7 @@ extension WAFV2 {
             case andStatement = "AndStatement"
             case byteMatchStatement = "ByteMatchStatement"
             case geoMatchStatement = "GeoMatchStatement"
-            case iPSetReferenceStatement = "IPSetReferenceStatement"
+            case ipSetReferenceStatement = "IPSetReferenceStatement"
             case labelMatchStatement = "LabelMatchStatement"
             case managedRuleGroupStatement = "ManagedRuleGroupStatement"
             case notStatement = "NotStatement"

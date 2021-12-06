@@ -2126,20 +2126,20 @@ extension Backup {
         /// The name of a logical container where backups are stored. Backup vaults are identified by names that are unique to the account used to create them and the Region where they are created. They consist of lowercase letters, numbers, and hyphens.
         public let backupVaultName: String?
         /// An ARN that uniquely identifies an Amazon Simple Notification Service (Amazon SNS) topic; for example, arn:aws:sns:us-west-2:111122223333:MyTopic.
-        public let sNSTopicArn: String?
+        public let snsTopicArn: String?
 
-        public init(backupVaultArn: String? = nil, backupVaultEvents: [BackupVaultEvent]? = nil, backupVaultName: String? = nil, sNSTopicArn: String? = nil) {
+        public init(backupVaultArn: String? = nil, backupVaultEvents: [BackupVaultEvent]? = nil, backupVaultName: String? = nil, snsTopicArn: String? = nil) {
             self.backupVaultArn = backupVaultArn
             self.backupVaultEvents = backupVaultEvents
             self.backupVaultName = backupVaultName
-            self.sNSTopicArn = sNSTopicArn
+            self.snsTopicArn = snsTopicArn
         }
 
         private enum CodingKeys: String, CodingKey {
             case backupVaultArn = "BackupVaultArn"
             case backupVaultEvents = "BackupVaultEvents"
             case backupVaultName = "BackupVaultName"
-            case sNSTopicArn = "SNSTopicArn"
+            case snsTopicArn = "SNSTopicArn"
         }
     }
 
@@ -3062,12 +3062,12 @@ extension Backup {
         /// The name of a logical container where backups are stored. Backup vaults are identified by names that are unique to the account used to create them and the Amazon Web Services Region where they are created. They consist of lowercase letters, numbers, and hyphens.
         public let backupVaultName: String
         /// The Amazon Resource Name (ARN) that specifies the topic for a backup vault’s events; for example, arn:aws:sns:us-west-2:111122223333:MyVaultTopic.
-        public let sNSTopicArn: String
+        public let snsTopicArn: String
 
-        public init(backupVaultEvents: [BackupVaultEvent], backupVaultName: String, sNSTopicArn: String) {
+        public init(backupVaultEvents: [BackupVaultEvent], backupVaultName: String, snsTopicArn: String) {
             self.backupVaultEvents = backupVaultEvents
             self.backupVaultName = backupVaultName
-            self.sNSTopicArn = sNSTopicArn
+            self.snsTopicArn = snsTopicArn
         }
 
         public func validate(name: String) throws {
@@ -3076,7 +3076,7 @@ extension Backup {
 
         private enum CodingKeys: String, CodingKey {
             case backupVaultEvents = "BackupVaultEvents"
-            case sNSTopicArn = "SNSTopicArn"
+            case snsTopicArn = "SNSTopicArn"
         }
     }
 

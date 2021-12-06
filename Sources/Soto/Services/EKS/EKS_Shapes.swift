@@ -24,7 +24,7 @@ extension EKS {
     public enum AMITypes: String, CustomStringConvertible, Codable {
         case al2Arm64 = "AL2_ARM_64"
         case al2X8664 = "AL2_x86_64"
-        case al2X8664Gpu = "AL2_x86_64_GPU"
+        case al2X8664GPU = "AL2_x86_64_GPU"
         case bottlerocketArm64 = "BOTTLEROCKET_ARM_64"
         case bottlerocketX8664 = "BOTTLEROCKET_x86_64"
         case custom = "CUSTOM"
@@ -32,14 +32,14 @@ extension EKS {
     }
 
     public enum AddonIssueCode: String, CustomStringConvertible, Codable {
-        case accessdenied = "AccessDenied"
-        case admissionrequestdenied = "AdmissionRequestDenied"
-        case clusterunreachable = "ClusterUnreachable"
-        case configurationconflict = "ConfigurationConflict"
-        case insufficientnumberofreplicas = "InsufficientNumberOfReplicas"
-        case internalfailure = "InternalFailure"
-        case k8sresourcenotfound = "K8sResourceNotFound"
-        case unsupportedaddonmodification = "UnsupportedAddonModification"
+        case accessDenied = "AccessDenied"
+        case admissionRequestDenied = "AdmissionRequestDenied"
+        case clusterUnreachable = "ClusterUnreachable"
+        case configurationConflict = "ConfigurationConflict"
+        case insufficientNumberOfReplicas = "InsufficientNumberOfReplicas"
+        case internalFailure = "InternalFailure"
+        case k8sResourceNotFound = "K8sResourceNotFound"
+        case unsupportedAddonModification = "UnsupportedAddonModification"
         public var description: String { return self.rawValue }
     }
 
@@ -84,23 +84,23 @@ extension EKS {
     }
 
     public enum ErrorCode: String, CustomStringConvertible, Codable {
-        case accessdenied = "AccessDenied"
-        case admissionrequestdenied = "AdmissionRequestDenied"
-        case clusterunreachable = "ClusterUnreachable"
-        case configurationconflict = "ConfigurationConflict"
-        case enilimitreached = "EniLimitReached"
-        case insufficientfreeaddresses = "InsufficientFreeAddresses"
-        case insufficientnumberofreplicas = "InsufficientNumberOfReplicas"
-        case ipnotavailable = "IpNotAvailable"
-        case k8sresourcenotfound = "K8sResourceNotFound"
-        case nodecreationfailure = "NodeCreationFailure"
-        case operationnotpermitted = "OperationNotPermitted"
-        case podevictionfailure = "PodEvictionFailure"
-        case securitygroupnotfound = "SecurityGroupNotFound"
-        case subnetnotfound = "SubnetNotFound"
+        case accessDenied = "AccessDenied"
+        case admissionRequestDenied = "AdmissionRequestDenied"
+        case clusterUnreachable = "ClusterUnreachable"
+        case configurationConflict = "ConfigurationConflict"
+        case eniLimitReached = "EniLimitReached"
+        case insufficientFreeAddresses = "InsufficientFreeAddresses"
+        case insufficientNumberOfReplicas = "InsufficientNumberOfReplicas"
+        case ipNotAvailable = "IpNotAvailable"
+        case k8sResourceNotFound = "K8sResourceNotFound"
+        case nodeCreationFailure = "NodeCreationFailure"
+        case operationNotPermitted = "OperationNotPermitted"
+        case podEvictionFailure = "PodEvictionFailure"
+        case securityGroupNotFound = "SecurityGroupNotFound"
+        case subnetNotFound = "SubnetNotFound"
         case unknown = "Unknown"
-        case unsupportedaddonmodification = "UnsupportedAddonModification"
-        case vpcidnotfound = "VpcIdNotFound"
+        case unsupportedAddonModification = "UnsupportedAddonModification"
+        case vpcIdNotFound = "VpcIdNotFound"
         public var description: String { return self.rawValue }
     }
 
@@ -117,30 +117,30 @@ extension EKS {
         case api
         case audit
         case authenticator
-        case controllermanager = "controllerManager"
+        case controllerManager
         case scheduler
         public var description: String { return self.rawValue }
     }
 
     public enum NodegroupIssueCode: String, CustomStringConvertible, Codable {
-        case accessdenied = "AccessDenied"
-        case asginstancelaunchfailures = "AsgInstanceLaunchFailures"
-        case autoscalinggroupinvalidconfiguration = "AutoScalingGroupInvalidConfiguration"
-        case autoscalinggroupnotfound = "AutoScalingGroupNotFound"
-        case clusterunreachable = "ClusterUnreachable"
-        case ec2launchtemplatenotfound = "Ec2LaunchTemplateNotFound"
-        case ec2launchtemplateversionmismatch = "Ec2LaunchTemplateVersionMismatch"
-        case ec2securitygroupdeletionfailure = "Ec2SecurityGroupDeletionFailure"
-        case ec2securitygroupnotfound = "Ec2SecurityGroupNotFound"
-        case ec2subnetinvalidconfiguration = "Ec2SubnetInvalidConfiguration"
-        case ec2subnetnotfound = "Ec2SubnetNotFound"
-        case iaminstanceprofilenotfound = "IamInstanceProfileNotFound"
-        case iamlimitexceeded = "IamLimitExceeded"
-        case iamnoderolenotfound = "IamNodeRoleNotFound"
-        case instancelimitexceeded = "InstanceLimitExceeded"
-        case insufficientfreeaddresses = "InsufficientFreeAddresses"
-        case internalfailure = "InternalFailure"
-        case nodecreationfailure = "NodeCreationFailure"
+        case accessDenied = "AccessDenied"
+        case asgInstanceLaunchFailures = "AsgInstanceLaunchFailures"
+        case autoScalingGroupInvalidConfiguration = "AutoScalingGroupInvalidConfiguration"
+        case autoScalingGroupNotFound = "AutoScalingGroupNotFound"
+        case clusterUnreachable = "ClusterUnreachable"
+        case ec2LaunchTemplateNotFound = "Ec2LaunchTemplateNotFound"
+        case ec2LaunchTemplateVersionMismatch = "Ec2LaunchTemplateVersionMismatch"
+        case ec2SecurityGroupDeletionFailure = "Ec2SecurityGroupDeletionFailure"
+        case ec2SecurityGroupNotFound = "Ec2SecurityGroupNotFound"
+        case ec2SubnetInvalidConfiguration = "Ec2SubnetInvalidConfiguration"
+        case ec2SubnetNotFound = "Ec2SubnetNotFound"
+        case iamInstanceProfileNotFound = "IamInstanceProfileNotFound"
+        case iamLimitExceeded = "IamLimitExceeded"
+        case iamNodeRoleNotFound = "IamNodeRoleNotFound"
+        case instanceLimitExceeded = "InstanceLimitExceeded"
+        case insufficientFreeAddresses = "InsufficientFreeAddresses"
+        case internalFailure = "InternalFailure"
+        case nodeCreationFailure = "NodeCreationFailure"
         public var description: String { return self.rawValue }
     }
 
@@ -169,28 +169,28 @@ extension EKS {
     }
 
     public enum UpdateParamType: String, CustomStringConvertible, Codable {
-        case addonversion = "AddonVersion"
-        case clusterlogging = "ClusterLogging"
-        case desiredsize = "DesiredSize"
-        case encryptionconfig = "EncryptionConfig"
-        case endpointprivateaccess = "EndpointPrivateAccess"
-        case endpointpublicaccess = "EndpointPublicAccess"
-        case identityproviderconfig = "IdentityProviderConfig"
-        case labelstoadd = "LabelsToAdd"
-        case labelstoremove = "LabelsToRemove"
-        case launchtemplatename = "LaunchTemplateName"
-        case launchtemplateversion = "LaunchTemplateVersion"
-        case maxsize = "MaxSize"
-        case maxunavailable = "MaxUnavailable"
-        case maxunavailablepercentage = "MaxUnavailablePercentage"
-        case minsize = "MinSize"
-        case platformversion = "PlatformVersion"
-        case publicaccesscidrs = "PublicAccessCidrs"
-        case releaseversion = "ReleaseVersion"
-        case resolveconflicts = "ResolveConflicts"
-        case serviceaccountrolearn = "ServiceAccountRoleArn"
-        case taintstoadd = "TaintsToAdd"
-        case taintstoremove = "TaintsToRemove"
+        case addonVersion = "AddonVersion"
+        case clusterLogging = "ClusterLogging"
+        case desiredSize = "DesiredSize"
+        case encryptionConfig = "EncryptionConfig"
+        case endpointPrivateAccess = "EndpointPrivateAccess"
+        case endpointPublicAccess = "EndpointPublicAccess"
+        case identityProviderConfig = "IdentityProviderConfig"
+        case labelsToAdd = "LabelsToAdd"
+        case labelsToRemove = "LabelsToRemove"
+        case launchTemplateName = "LaunchTemplateName"
+        case launchTemplateVersion = "LaunchTemplateVersion"
+        case maxSize = "MaxSize"
+        case maxUnavailable = "MaxUnavailable"
+        case maxUnavailablePercentage = "MaxUnavailablePercentage"
+        case minSize = "MinSize"
+        case platformVersion = "PlatformVersion"
+        case publicAccessCidrs = "PublicAccessCidrs"
+        case releaseVersion = "ReleaseVersion"
+        case resolveConflicts = "ResolveConflicts"
+        case serviceAccountRoleArn = "ServiceAccountRoleArn"
+        case taintsToAdd = "TaintsToAdd"
+        case taintsToRemove = "TaintsToRemove"
         case version = "Version"
         public var description: String { return self.rawValue }
     }
@@ -198,20 +198,20 @@ extension EKS {
     public enum UpdateStatus: String, CustomStringConvertible, Codable {
         case cancelled = "Cancelled"
         case failed = "Failed"
-        case inprogress = "InProgress"
+        case inProgress = "InProgress"
         case successful = "Successful"
         public var description: String { return self.rawValue }
     }
 
     public enum UpdateType: String, CustomStringConvertible, Codable {
-        case addonupdate = "AddonUpdate"
-        case associateencryptionconfig = "AssociateEncryptionConfig"
-        case associateidentityproviderconfig = "AssociateIdentityProviderConfig"
-        case configupdate = "ConfigUpdate"
-        case disassociateidentityproviderconfig = "DisassociateIdentityProviderConfig"
-        case endpointaccessupdate = "EndpointAccessUpdate"
-        case loggingupdate = "LoggingUpdate"
-        case versionupdate = "VersionUpdate"
+        case addonUpdate = "AddonUpdate"
+        case associateEncryptionConfig = "AssociateEncryptionConfig"
+        case associateIdentityProviderConfig = "AssociateIdentityProviderConfig"
+        case configUpdate = "ConfigUpdate"
+        case disassociateIdentityProviderConfig = "DisassociateIdentityProviderConfig"
+        case endpointAccessUpdate = "EndpointAccessUpdate"
+        case loggingUpdate = "LoggingUpdate"
+        case versionUpdate = "VersionUpdate"
         public var description: String { return self.rawValue }
     }
 

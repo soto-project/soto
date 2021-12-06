@@ -27,27 +27,27 @@ extension CloudTrail {
     }
 
     public enum InsightType: String, CustomStringConvertible, Codable {
-        case apicallrateinsight = "ApiCallRateInsight"
-        case apierrorrateinsight = "ApiErrorRateInsight"
+        case apiCallRateInsight = "ApiCallRateInsight"
+        case apiErrorRateInsight = "ApiErrorRateInsight"
         public var description: String { return self.rawValue }
     }
 
     public enum LookupAttributeKey: String, CustomStringConvertible, Codable {
-        case accesskeyid = "AccessKeyId"
-        case eventid = "EventId"
-        case eventname = "EventName"
-        case eventsource = "EventSource"
-        case readonly = "ReadOnly"
-        case resourcename = "ResourceName"
-        case resourcetype = "ResourceType"
+        case accessKeyId = "AccessKeyId"
+        case eventId = "EventId"
+        case eventName = "EventName"
+        case eventSource = "EventSource"
+        case readOnly = "ReadOnly"
+        case resourceName = "ResourceName"
+        case resourceType = "ResourceType"
         case username = "Username"
         public var description: String { return self.rawValue }
     }
 
     public enum ReadWriteType: String, CustomStringConvertible, Codable {
         case all = "All"
-        case readonly = "ReadOnly"
-        case writeonly = "WriteOnly"
+        case readOnly = "ReadOnly"
+        case writeOnly = "WriteOnly"
         public var description: String { return self.rawValue }
     }
 

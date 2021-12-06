@@ -20,7 +20,7 @@ import SotoCore
 /// Error enum for ElastiCache
 public struct ElastiCacheErrorType: AWSErrorType {
     enum Code: String {
-        case aPICallRateForCustomerExceededFault = "APICallRateForCustomerExceeded"
+        case apiCallRateForCustomerExceededFault = "APICallRateForCustomerExceeded"
         case authorizationAlreadyExistsFault = "AuthorizationAlreadyExists"
         case authorizationNotFoundFault = "AuthorizationNotFound"
         case cacheClusterAlreadyExistsFault = "CacheClusterAlreadyExists"
@@ -108,7 +108,7 @@ public struct ElastiCacheErrorType: AWSErrorType {
     public var errorCode: String { self.error.rawValue }
 
     /// The customer has exceeded the allowed rate of API calls.
-    public static var aPICallRateForCustomerExceededFault: Self { .init(.aPICallRateForCustomerExceededFault) }
+    public static var apiCallRateForCustomerExceededFault: Self { .init(.apiCallRateForCustomerExceededFault) }
     /// The specified Amazon EC2 security group is already authorized for the specified cache security group.
     public static var authorizationAlreadyExistsFault: Self { .init(.authorizationAlreadyExistsFault) }
     /// The specified Amazon EC2 security group is not authorized for the specified cache security group.

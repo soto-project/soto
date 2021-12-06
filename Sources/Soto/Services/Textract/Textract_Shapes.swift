@@ -33,8 +33,8 @@ extension Textract {
     }
 
     public enum ContentClassifier: String, CustomStringConvertible, Codable {
-        case freeofadultcontent = "FreeOfAdultContent"
-        case freeofpersonallyidentifiableinformation = "FreeOfPersonallyIdentifiableInformation"
+        case freeOfAdultContent = "FreeOfAdultContent"
+        case freeOfPersonallyIdentifiableInformation = "FreeOfPersonallyIdentifiableInformation"
         public var description: String { return self.rawValue }
     }
 
@@ -745,25 +745,25 @@ extension Textract {
         /// The Amazon Resource Name (ARN) of an IAM role that gives Amazon Textract publishing permissions to the Amazon SNS topic.
         public let roleArn: String
         /// The Amazon SNS topic that Amazon Textract posts the completion status to.
-        public let sNSTopicArn: String
+        public let snsTopicArn: String
 
-        public init(roleArn: String, sNSTopicArn: String) {
+        public init(roleArn: String, snsTopicArn: String) {
             self.roleArn = roleArn
-            self.sNSTopicArn = sNSTopicArn
+            self.snsTopicArn = snsTopicArn
         }
 
         public func validate(name: String) throws {
             try self.validate(self.roleArn, name: "roleArn", parent: name, max: 2048)
             try self.validate(self.roleArn, name: "roleArn", parent: name, min: 20)
             try self.validate(self.roleArn, name: "roleArn", parent: name, pattern: "^arn:([a-z\\d-]+):iam::\\d{12}:role/?[a-zA-Z_0-9+=,.@\\-_/]+$")
-            try self.validate(self.sNSTopicArn, name: "sNSTopicArn", parent: name, max: 1024)
-            try self.validate(self.sNSTopicArn, name: "sNSTopicArn", parent: name, min: 20)
-            try self.validate(self.sNSTopicArn, name: "sNSTopicArn", parent: name, pattern: "^(^arn:([a-z\\d-]+):sns:[a-zA-Z\\d-]{1,20}:\\w{12}:.+$)$")
+            try self.validate(self.snsTopicArn, name: "snsTopicArn", parent: name, max: 1024)
+            try self.validate(self.snsTopicArn, name: "snsTopicArn", parent: name, min: 20)
+            try self.validate(self.snsTopicArn, name: "snsTopicArn", parent: name, pattern: "^(^arn:([a-z\\d-]+):sns:[a-zA-Z\\d-]{1,20}:\\w{12}:.+$)$")
         }
 
         private enum CodingKeys: String, CodingKey {
             case roleArn = "RoleArn"
-            case sNSTopicArn = "SNSTopicArn"
+            case snsTopicArn = "SNSTopicArn"
         }
     }
 
@@ -870,18 +870,18 @@ extension Textract {
         /// An identifier that you specify that's included in the completion notification published to the Amazon SNS topic. For example, you can use JobTag to identify the type of document that the completion notification corresponds to (such as a tax form or a receipt).
         public let jobTag: String?
         /// The KMS key used to encrypt the inference results. This can be  in either Key ID or Key Alias format. When a KMS key is provided, the  KMS key will be used for server-side encryption of the objects in the  customer bucket. When this parameter is not enabled, the result will  be encrypted server side,using SSE-S3.
-        public let kMSKeyId: String?
+        public let kmsKeyId: String?
         /// The Amazon SNS topic ARN that you want Amazon Textract to publish the completion status of the operation to.
         public let notificationChannel: NotificationChannel?
         /// Sets if the output will go to a customer defined bucket. By default, Amazon Textract will save the results internally to be accessed by the GetDocumentAnalysis operation.
         public let outputConfig: OutputConfig?
 
-        public init(clientRequestToken: String? = nil, documentLocation: DocumentLocation, featureTypes: [FeatureType], jobTag: String? = nil, kMSKeyId: String? = nil, notificationChannel: NotificationChannel? = nil, outputConfig: OutputConfig? = nil) {
+        public init(clientRequestToken: String? = nil, documentLocation: DocumentLocation, featureTypes: [FeatureType], jobTag: String? = nil, kmsKeyId: String? = nil, notificationChannel: NotificationChannel? = nil, outputConfig: OutputConfig? = nil) {
             self.clientRequestToken = clientRequestToken
             self.documentLocation = documentLocation
             self.featureTypes = featureTypes
             self.jobTag = jobTag
-            self.kMSKeyId = kMSKeyId
+            self.kmsKeyId = kmsKeyId
             self.notificationChannel = notificationChannel
             self.outputConfig = outputConfig
         }
@@ -894,9 +894,9 @@ extension Textract {
             try self.validate(self.jobTag, name: "jobTag", parent: name, max: 64)
             try self.validate(self.jobTag, name: "jobTag", parent: name, min: 1)
             try self.validate(self.jobTag, name: "jobTag", parent: name, pattern: "^[a-zA-Z0-9_.\\-:]+$")
-            try self.validate(self.kMSKeyId, name: "kMSKeyId", parent: name, max: 2048)
-            try self.validate(self.kMSKeyId, name: "kMSKeyId", parent: name, min: 1)
-            try self.validate(self.kMSKeyId, name: "kMSKeyId", parent: name, pattern: "^[A-Za-z0-9][A-Za-z0-9:_/+=,@.-]{0,2048}$")
+            try self.validate(self.kmsKeyId, name: "kmsKeyId", parent: name, max: 2048)
+            try self.validate(self.kmsKeyId, name: "kmsKeyId", parent: name, min: 1)
+            try self.validate(self.kmsKeyId, name: "kmsKeyId", parent: name, pattern: "^[A-Za-z0-9][A-Za-z0-9:_/+=,@.-]{0,2048}$")
             try self.notificationChannel?.validate(name: "\(name).notificationChannel")
             try self.outputConfig?.validate(name: "\(name).outputConfig")
         }
@@ -906,7 +906,7 @@ extension Textract {
             case documentLocation = "DocumentLocation"
             case featureTypes = "FeatureTypes"
             case jobTag = "JobTag"
-            case kMSKeyId = "KMSKeyId"
+            case kmsKeyId = "KMSKeyId"
             case notificationChannel = "NotificationChannel"
             case outputConfig = "OutputConfig"
         }
@@ -933,17 +933,17 @@ extension Textract {
         /// An identifier that you specify that's included in the completion notification published to the Amazon SNS topic. For example, you can use JobTag to identify the type of document that the completion notification corresponds to (such as a tax form or a receipt).
         public let jobTag: String?
         /// The KMS key used to encrypt the inference results. This can be  in either Key ID or Key Alias format. When a KMS key is provided, the  KMS key will be used for server-side encryption of the objects in the  customer bucket. When this parameter is not enabled, the result will  be encrypted server side,using SSE-S3.
-        public let kMSKeyId: String?
+        public let kmsKeyId: String?
         /// The Amazon SNS topic ARN that you want Amazon Textract to publish the completion status of the operation to.
         public let notificationChannel: NotificationChannel?
         /// Sets if the output will go to a customer defined bucket. By default Amazon Textract will save the results internally to be accessed with the GetDocumentTextDetection operation.
         public let outputConfig: OutputConfig?
 
-        public init(clientRequestToken: String? = nil, documentLocation: DocumentLocation, jobTag: String? = nil, kMSKeyId: String? = nil, notificationChannel: NotificationChannel? = nil, outputConfig: OutputConfig? = nil) {
+        public init(clientRequestToken: String? = nil, documentLocation: DocumentLocation, jobTag: String? = nil, kmsKeyId: String? = nil, notificationChannel: NotificationChannel? = nil, outputConfig: OutputConfig? = nil) {
             self.clientRequestToken = clientRequestToken
             self.documentLocation = documentLocation
             self.jobTag = jobTag
-            self.kMSKeyId = kMSKeyId
+            self.kmsKeyId = kmsKeyId
             self.notificationChannel = notificationChannel
             self.outputConfig = outputConfig
         }
@@ -956,9 +956,9 @@ extension Textract {
             try self.validate(self.jobTag, name: "jobTag", parent: name, max: 64)
             try self.validate(self.jobTag, name: "jobTag", parent: name, min: 1)
             try self.validate(self.jobTag, name: "jobTag", parent: name, pattern: "^[a-zA-Z0-9_.\\-:]+$")
-            try self.validate(self.kMSKeyId, name: "kMSKeyId", parent: name, max: 2048)
-            try self.validate(self.kMSKeyId, name: "kMSKeyId", parent: name, min: 1)
-            try self.validate(self.kMSKeyId, name: "kMSKeyId", parent: name, pattern: "^[A-Za-z0-9][A-Za-z0-9:_/+=,@.-]{0,2048}$")
+            try self.validate(self.kmsKeyId, name: "kmsKeyId", parent: name, max: 2048)
+            try self.validate(self.kmsKeyId, name: "kmsKeyId", parent: name, min: 1)
+            try self.validate(self.kmsKeyId, name: "kmsKeyId", parent: name, pattern: "^[A-Za-z0-9][A-Za-z0-9:_/+=,@.-]{0,2048}$")
             try self.notificationChannel?.validate(name: "\(name).notificationChannel")
             try self.outputConfig?.validate(name: "\(name).outputConfig")
         }
@@ -967,7 +967,7 @@ extension Textract {
             case clientRequestToken = "ClientRequestToken"
             case documentLocation = "DocumentLocation"
             case jobTag = "JobTag"
-            case kMSKeyId = "KMSKeyId"
+            case kmsKeyId = "KMSKeyId"
             case notificationChannel = "NotificationChannel"
             case outputConfig = "OutputConfig"
         }
@@ -994,17 +994,17 @@ extension Textract {
         /// An identifier you specify that's included in the completion notification published to the Amazon SNS topic. For example, you can use JobTag to identify the type of document that the completion notification corresponds to (such as a tax form or a receipt).
         public let jobTag: String?
         /// The KMS key used to encrypt the inference results. This can be  in either Key ID or Key Alias format. When a KMS key is provided, the  KMS key will be used for server-side encryption of the objects in the  customer bucket. When this parameter is not enabled, the result will  be encrypted server side,using SSE-S3.
-        public let kMSKeyId: String?
+        public let kmsKeyId: String?
         /// The Amazon SNS topic ARN that you want Amazon Textract to publish the completion status of the operation to.
         public let notificationChannel: NotificationChannel?
         /// Sets if the output will go to a customer defined bucket. By default, Amazon Textract will save the results internally to be accessed by the GetExpenseAnalysis operation.
         public let outputConfig: OutputConfig?
 
-        public init(clientRequestToken: String? = nil, documentLocation: DocumentLocation, jobTag: String? = nil, kMSKeyId: String? = nil, notificationChannel: NotificationChannel? = nil, outputConfig: OutputConfig? = nil) {
+        public init(clientRequestToken: String? = nil, documentLocation: DocumentLocation, jobTag: String? = nil, kmsKeyId: String? = nil, notificationChannel: NotificationChannel? = nil, outputConfig: OutputConfig? = nil) {
             self.clientRequestToken = clientRequestToken
             self.documentLocation = documentLocation
             self.jobTag = jobTag
-            self.kMSKeyId = kMSKeyId
+            self.kmsKeyId = kmsKeyId
             self.notificationChannel = notificationChannel
             self.outputConfig = outputConfig
         }
@@ -1017,9 +1017,9 @@ extension Textract {
             try self.validate(self.jobTag, name: "jobTag", parent: name, max: 64)
             try self.validate(self.jobTag, name: "jobTag", parent: name, min: 1)
             try self.validate(self.jobTag, name: "jobTag", parent: name, pattern: "^[a-zA-Z0-9_.\\-:]+$")
-            try self.validate(self.kMSKeyId, name: "kMSKeyId", parent: name, max: 2048)
-            try self.validate(self.kMSKeyId, name: "kMSKeyId", parent: name, min: 1)
-            try self.validate(self.kMSKeyId, name: "kMSKeyId", parent: name, pattern: "^[A-Za-z0-9][A-Za-z0-9:_/+=,@.-]{0,2048}$")
+            try self.validate(self.kmsKeyId, name: "kmsKeyId", parent: name, max: 2048)
+            try self.validate(self.kmsKeyId, name: "kmsKeyId", parent: name, min: 1)
+            try self.validate(self.kmsKeyId, name: "kmsKeyId", parent: name, pattern: "^[A-Za-z0-9][A-Za-z0-9:_/+=,@.-]{0,2048}$")
             try self.notificationChannel?.validate(name: "\(name).notificationChannel")
             try self.outputConfig?.validate(name: "\(name).outputConfig")
         }
@@ -1028,7 +1028,7 @@ extension Textract {
             case clientRequestToken = "ClientRequestToken"
             case documentLocation = "DocumentLocation"
             case jobTag = "JobTag"
-            case kMSKeyId = "KMSKeyId"
+            case kmsKeyId = "KMSKeyId"
             case notificationChannel = "NotificationChannel"
             case outputConfig = "OutputConfig"
         }

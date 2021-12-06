@@ -29,17 +29,17 @@ extension IAM {
 
     public enum ContextKeyTypeEnum: String, CustomStringConvertible, Codable {
         case binary
-        case binarylist = "binaryList"
+        case binaryList
         case boolean
-        case booleanlist = "booleanList"
+        case booleanList
         case date
-        case datelist = "dateList"
+        case dateList
         case ip
-        case iplist = "ipList"
+        case ipList
         case numeric
-        case numericlist = "numericList"
+        case numericList
         case string
-        case stringlist = "stringList"
+        case stringList
         public var description: String { return self.rawValue }
     }
 
@@ -52,23 +52,23 @@ extension IAM {
     }
 
     public enum EntityType: String, CustomStringConvertible, Codable {
-        case awsmanagedpolicy = "AWSManagedPolicy"
+        case awsManagedPolicy = "AWSManagedPolicy"
         case group = "Group"
-        case localmanagedpolicy = "LocalManagedPolicy"
+        case localManagedPolicy = "LocalManagedPolicy"
         case role = "Role"
         case user = "User"
         public var description: String { return self.rawValue }
     }
 
     public enum PermissionsBoundaryAttachmentType: String, CustomStringConvertible, Codable {
-        case permissionsboundarypolicy = "PermissionsBoundaryPolicy"
+        case permissionsBoundaryPolicy = "PermissionsBoundaryPolicy"
         public var description: String { return self.rawValue }
     }
 
     public enum PolicyEvaluationDecisionType: String, CustomStringConvertible, Codable {
         case allowed
-        case explicitdeny = "explicitDeny"
-        case implicitdeny = "implicitDeny"
+        case explicitDeny
+        case implicitDeny
         public var description: String { return self.rawValue }
     }
 
@@ -85,8 +85,8 @@ extension IAM {
     }
 
     public enum PolicyUsageType: String, CustomStringConvertible, Codable {
-        case permissionsboundary = "PermissionsBoundary"
-        case permissionspolicy = "PermissionsPolicy"
+        case permissionsBoundary = "PermissionsBoundary"
+        case permissionsPolicy = "PermissionsPolicy"
         public var description: String { return self.rawValue }
     }
 
@@ -116,8 +116,8 @@ extension IAM {
     }
 
     public enum GlobalEndpointTokenVersion: String, CustomStringConvertible, Codable {
-        case v1token = "v1Token"
-        case v2token = "v2Token"
+        case v1Token
+        case v2Token
         public var description: String { return self.rawValue }
     }
 
@@ -163,32 +163,32 @@ extension IAM {
     }
 
     public enum SummaryKeyType: String, CustomStringConvertible, Codable {
-        case accesskeysperuserquota = "AccessKeysPerUserQuota"
-        case accountaccesskeyspresent = "AccountAccessKeysPresent"
-        case accountmfaenabled = "AccountMFAEnabled"
-        case accountsigningcertificatespresent = "AccountSigningCertificatesPresent"
-        case attachedpoliciespergroupquota = "AttachedPoliciesPerGroupQuota"
-        case attachedpoliciesperrolequota = "AttachedPoliciesPerRoleQuota"
-        case attachedpoliciesperuserquota = "AttachedPoliciesPerUserQuota"
-        case globalendpointtokenversion = "GlobalEndpointTokenVersion"
-        case grouppolicysizequota = "GroupPolicySizeQuota"
+        case accessKeysPerUserQuota = "AccessKeysPerUserQuota"
+        case accountAccessKeysPresent = "AccountAccessKeysPresent"
+        case accountMFAEnabled = "AccountMFAEnabled"
+        case accountSigningCertificatesPresent = "AccountSigningCertificatesPresent"
+        case attachedPoliciesPerGroupQuota = "AttachedPoliciesPerGroupQuota"
+        case attachedPoliciesPerRoleQuota = "AttachedPoliciesPerRoleQuota"
+        case attachedPoliciesPerUserQuota = "AttachedPoliciesPerUserQuota"
+        case globalEndpointTokenVersion = "GlobalEndpointTokenVersion"
+        case groupPolicySizeQuota = "GroupPolicySizeQuota"
         case groups = "Groups"
-        case groupsperuserquota = "GroupsPerUserQuota"
-        case groupsquota = "GroupsQuota"
-        case mfadevices = "MFADevices"
-        case mfadevicesinuse = "MFADevicesInUse"
+        case groupsPerUserQuota = "GroupsPerUserQuota"
+        case groupsQuota = "GroupsQuota"
+        case mfaDevices = "MFADevices"
+        case mfaDevicesInUse = "MFADevicesInUse"
         case policies = "Policies"
-        case policiesquota = "PoliciesQuota"
-        case policysizequota = "PolicySizeQuota"
-        case policyversionsinuse = "PolicyVersionsInUse"
-        case policyversionsinusequota = "PolicyVersionsInUseQuota"
-        case servercertificates = "ServerCertificates"
-        case servercertificatesquota = "ServerCertificatesQuota"
-        case signingcertificatesperuserquota = "SigningCertificatesPerUserQuota"
-        case userpolicysizequota = "UserPolicySizeQuota"
+        case policiesQuota = "PoliciesQuota"
+        case policySizeQuota = "PolicySizeQuota"
+        case policyVersionsInUse = "PolicyVersionsInUse"
+        case policyVersionsInUseQuota = "PolicyVersionsInUseQuota"
+        case serverCertificates = "ServerCertificates"
+        case serverCertificatesQuota = "ServerCertificatesQuota"
+        case signingCertificatesPerUserQuota = "SigningCertificatesPerUserQuota"
+        case userPolicySizeQuota = "UserPolicySizeQuota"
         case users = "Users"
-        case usersquota = "UsersQuota"
-        case versionsperpolicyquota = "VersionsPerPolicyQuota"
+        case usersQuota = "UsersQuota"
+        case versionsPerPolicyQuota = "VersionsPerPolicyQuota"
         public var description: String { return self.rawValue }
     }
 
@@ -963,14 +963,14 @@ extension IAM {
         /// The name of the provider to create. This parameter allows (through its regex pattern) a string of characters consisting of upper and lowercase alphanumeric  characters with no spaces. You can also include any of the following characters: _+=,.@-
         public let name: String
         /// An XML document generated by an identity provider (IdP) that supports SAML 2.0. The document includes the issuer's name, expiration information, and keys that can be used to validate the SAML authentication response (assertions) that are received from the IdP. You must generate the metadata document using the identity management software that is used as your organization's IdP. For more information, see About SAML 2.0-based federation in the IAM User Guide
-        public let sAMLMetadataDocument: String
+        public let samlMetadataDocument: String
         /// A list of tags that you want to attach to the new IAM SAML provider. Each tag consists of a key name and an associated value. For more information about tagging, see Tagging IAM resources in the IAM User Guide.  If any one of the tags is invalid or if you exceed the allowed maximum number of tags, then the entire request  fails and the resource is not created.
         @OptionalCustomCoding<StandardArrayCoder>
         public var tags: [Tag]?
 
-        public init(name: String, sAMLMetadataDocument: String, tags: [Tag]? = nil) {
+        public init(name: String, samlMetadataDocument: String, tags: [Tag]? = nil) {
             self.name = name
-            self.sAMLMetadataDocument = sAMLMetadataDocument
+            self.samlMetadataDocument = samlMetadataDocument
             self.tags = tags
         }
 
@@ -978,8 +978,8 @@ extension IAM {
             try self.validate(self.name, name: "name", parent: name, max: 128)
             try self.validate(self.name, name: "name", parent: name, min: 1)
             try self.validate(self.name, name: "name", parent: name, pattern: "^[\\w._-]+$")
-            try self.validate(self.sAMLMetadataDocument, name: "sAMLMetadataDocument", parent: name, max: 10_000_000)
-            try self.validate(self.sAMLMetadataDocument, name: "sAMLMetadataDocument", parent: name, min: 1000)
+            try self.validate(self.samlMetadataDocument, name: "samlMetadataDocument", parent: name, max: 10_000_000)
+            try self.validate(self.samlMetadataDocument, name: "samlMetadataDocument", parent: name, min: 1000)
             try self.tags?.forEach {
                 try $0.validate(name: "\(name).tags[]")
             }
@@ -988,47 +988,47 @@ extension IAM {
 
         private enum CodingKeys: String, CodingKey {
             case name = "Name"
-            case sAMLMetadataDocument = "SAMLMetadataDocument"
+            case samlMetadataDocument = "SAMLMetadataDocument"
             case tags = "Tags"
         }
     }
 
     public struct CreateSAMLProviderResponse: AWSDecodableShape {
         /// The Amazon Resource Name (ARN) of the new SAML provider resource in IAM.
-        public let sAMLProviderArn: String?
+        public let samlProviderArn: String?
         /// A list of tags that are attached to the new IAM SAML provider. The returned list of tags is sorted by tag key. For more information about tagging, see Tagging IAM resources in the IAM User Guide.
         @OptionalCustomCoding<StandardArrayCoder>
         public var tags: [Tag]?
 
-        public init(sAMLProviderArn: String? = nil, tags: [Tag]? = nil) {
-            self.sAMLProviderArn = sAMLProviderArn
+        public init(samlProviderArn: String? = nil, tags: [Tag]? = nil) {
+            self.samlProviderArn = samlProviderArn
             self.tags = tags
         }
 
         private enum CodingKeys: String, CodingKey {
-            case sAMLProviderArn = "SAMLProviderArn"
+            case samlProviderArn = "SAMLProviderArn"
             case tags = "Tags"
         }
     }
 
     public struct CreateServiceLinkedRoleRequest: AWSEncodableShape {
         /// The service principal for the Amazon Web Services service to which this role is attached. You use a string similar to a URL but without the http:// in front. For example: elasticbeanstalk.amazonaws.com.  Service principals are unique and case-sensitive. To find the exact service principal for your service-linked role, see Amazon Web Services services that work with IAM in the IAM User Guide. Look for the services that have Yes in the Service-Linked Role column. Choose the Yes link to view the service-linked role documentation for that service.
-        public let aWSServiceName: String
+        public let awsServiceName: String
         ///  A string that you provide, which is combined with the service-provided prefix to form the complete role name. If you make multiple requests for the same service, then you must supply a different CustomSuffix for each request. Otherwise the request fails with a duplicate role name error. For example, you could add -1 or -debug to the suffix. Some services do not support the CustomSuffix parameter. If you provide an optional suffix and the operation fails, try the operation again without the suffix.
         public let customSuffix: String?
         /// The description of the role.
         public let description: String?
 
-        public init(aWSServiceName: String, customSuffix: String? = nil, description: String? = nil) {
-            self.aWSServiceName = aWSServiceName
+        public init(awsServiceName: String, customSuffix: String? = nil, description: String? = nil) {
+            self.awsServiceName = awsServiceName
             self.customSuffix = customSuffix
             self.description = description
         }
 
         public func validate(name: String) throws {
-            try self.validate(self.aWSServiceName, name: "aWSServiceName", parent: name, max: 128)
-            try self.validate(self.aWSServiceName, name: "aWSServiceName", parent: name, min: 1)
-            try self.validate(self.aWSServiceName, name: "aWSServiceName", parent: name, pattern: "^[\\w+=,.@-]+$")
+            try self.validate(self.awsServiceName, name: "awsServiceName", parent: name, max: 128)
+            try self.validate(self.awsServiceName, name: "awsServiceName", parent: name, min: 1)
+            try self.validate(self.awsServiceName, name: "awsServiceName", parent: name, pattern: "^[\\w+=,.@-]+$")
             try self.validate(self.customSuffix, name: "customSuffix", parent: name, max: 64)
             try self.validate(self.customSuffix, name: "customSuffix", parent: name, min: 1)
             try self.validate(self.customSuffix, name: "customSuffix", parent: name, pattern: "^[\\w+=,.@-]+$")
@@ -1037,7 +1037,7 @@ extension IAM {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case aWSServiceName = "AWSServiceName"
+            case awsServiceName = "AWSServiceName"
             case customSuffix = "CustomSuffix"
             case description = "Description"
         }
@@ -1472,44 +1472,44 @@ extension IAM {
 
     public struct DeleteSAMLProviderRequest: AWSEncodableShape {
         /// The Amazon Resource Name (ARN) of the SAML provider to delete.
-        public let sAMLProviderArn: String
+        public let samlProviderArn: String
 
-        public init(sAMLProviderArn: String) {
-            self.sAMLProviderArn = sAMLProviderArn
+        public init(samlProviderArn: String) {
+            self.samlProviderArn = samlProviderArn
         }
 
         public func validate(name: String) throws {
-            try self.validate(self.sAMLProviderArn, name: "sAMLProviderArn", parent: name, max: 2048)
-            try self.validate(self.sAMLProviderArn, name: "sAMLProviderArn", parent: name, min: 20)
+            try self.validate(self.samlProviderArn, name: "samlProviderArn", parent: name, max: 2048)
+            try self.validate(self.samlProviderArn, name: "samlProviderArn", parent: name, min: 20)
         }
 
         private enum CodingKeys: String, CodingKey {
-            case sAMLProviderArn = "SAMLProviderArn"
+            case samlProviderArn = "SAMLProviderArn"
         }
     }
 
     public struct DeleteSSHPublicKeyRequest: AWSEncodableShape {
         /// The unique identifier for the SSH public key. This parameter allows (through its regex pattern) a string of characters that can  consist of any upper or lowercased letter or digit.
-        public let sSHPublicKeyId: String
+        public let sshPublicKeyId: String
         /// The name of the IAM user associated with the SSH public key. This parameter allows (through its regex pattern) a string of characters consisting of upper and lowercase alphanumeric  characters with no spaces. You can also include any of the following characters: _+=,.@-
         public let userName: String
 
-        public init(sSHPublicKeyId: String, userName: String) {
-            self.sSHPublicKeyId = sSHPublicKeyId
+        public init(sshPublicKeyId: String, userName: String) {
+            self.sshPublicKeyId = sshPublicKeyId
             self.userName = userName
         }
 
         public func validate(name: String) throws {
-            try self.validate(self.sSHPublicKeyId, name: "sSHPublicKeyId", parent: name, max: 128)
-            try self.validate(self.sSHPublicKeyId, name: "sSHPublicKeyId", parent: name, min: 20)
-            try self.validate(self.sSHPublicKeyId, name: "sSHPublicKeyId", parent: name, pattern: "^[\\w]+$")
+            try self.validate(self.sshPublicKeyId, name: "sshPublicKeyId", parent: name, max: 128)
+            try self.validate(self.sshPublicKeyId, name: "sshPublicKeyId", parent: name, min: 20)
+            try self.validate(self.sshPublicKeyId, name: "sshPublicKeyId", parent: name, pattern: "^[\\w]+$")
             try self.validate(self.userName, name: "userName", parent: name, max: 64)
             try self.validate(self.userName, name: "userName", parent: name, min: 1)
             try self.validate(self.userName, name: "userName", parent: name, pattern: "^[\\w+=,.@-]+$")
         }
 
         private enum CodingKeys: String, CodingKey {
-            case sSHPublicKeyId = "SSHPublicKeyId"
+            case sshPublicKeyId = "SSHPublicKeyId"
             case userName = "UserName"
         }
     }
@@ -2696,19 +2696,19 @@ extension IAM {
 
     public struct GetSAMLProviderRequest: AWSEncodableShape {
         /// The Amazon Resource Name (ARN) of the SAML provider resource object in IAM to get information about. For more information about ARNs, see Amazon Resource Names (ARNs) in the Amazon Web Services General Reference.
-        public let sAMLProviderArn: String
+        public let samlProviderArn: String
 
-        public init(sAMLProviderArn: String) {
-            self.sAMLProviderArn = sAMLProviderArn
+        public init(samlProviderArn: String) {
+            self.samlProviderArn = samlProviderArn
         }
 
         public func validate(name: String) throws {
-            try self.validate(self.sAMLProviderArn, name: "sAMLProviderArn", parent: name, max: 2048)
-            try self.validate(self.sAMLProviderArn, name: "sAMLProviderArn", parent: name, min: 20)
+            try self.validate(self.samlProviderArn, name: "samlProviderArn", parent: name, max: 2048)
+            try self.validate(self.samlProviderArn, name: "samlProviderArn", parent: name, min: 20)
         }
 
         private enum CodingKeys: String, CodingKey {
-            case sAMLProviderArn = "SAMLProviderArn"
+            case samlProviderArn = "SAMLProviderArn"
         }
     }
 
@@ -2716,23 +2716,23 @@ extension IAM {
         /// The date and time when the SAML provider was created.
         public let createDate: Date?
         /// The XML metadata document that includes information about an identity provider.
-        public let sAMLMetadataDocument: String?
+        public let samlMetadataDocument: String?
         /// A list of tags that are attached to the specified IAM SAML provider. The returned list of tags is sorted by tag key. For more information about tagging, see Tagging IAM resources in the IAM User Guide.
         @OptionalCustomCoding<StandardArrayCoder>
         public var tags: [Tag]?
         /// The expiration date and time for the SAML provider.
         public let validUntil: Date?
 
-        public init(createDate: Date? = nil, sAMLMetadataDocument: String? = nil, tags: [Tag]? = nil, validUntil: Date? = nil) {
+        public init(createDate: Date? = nil, samlMetadataDocument: String? = nil, tags: [Tag]? = nil, validUntil: Date? = nil) {
             self.createDate = createDate
-            self.sAMLMetadataDocument = sAMLMetadataDocument
+            self.samlMetadataDocument = samlMetadataDocument
             self.tags = tags
             self.validUntil = validUntil
         }
 
         private enum CodingKeys: String, CodingKey {
             case createDate = "CreateDate"
-            case sAMLMetadataDocument = "SAMLMetadataDocument"
+            case samlMetadataDocument = "SAMLMetadataDocument"
             case tags = "Tags"
             case validUntil = "ValidUntil"
         }
@@ -2742,20 +2742,20 @@ extension IAM {
         /// Specifies the public key encoding format to use in the response. To retrieve the public key in ssh-rsa format, use SSH. To retrieve the public key in PEM format, use PEM.
         public let encoding: EncodingType
         /// The unique identifier for the SSH public key. This parameter allows (through its regex pattern) a string of characters that can  consist of any upper or lowercased letter or digit.
-        public let sSHPublicKeyId: String
+        public let sshPublicKeyId: String
         /// The name of the IAM user associated with the SSH public key. This parameter allows (through its regex pattern) a string of characters consisting of upper and lowercase alphanumeric  characters with no spaces. You can also include any of the following characters: _+=,.@-
         public let userName: String
 
-        public init(encoding: EncodingType, sSHPublicKeyId: String, userName: String) {
+        public init(encoding: EncodingType, sshPublicKeyId: String, userName: String) {
             self.encoding = encoding
-            self.sSHPublicKeyId = sSHPublicKeyId
+            self.sshPublicKeyId = sshPublicKeyId
             self.userName = userName
         }
 
         public func validate(name: String) throws {
-            try self.validate(self.sSHPublicKeyId, name: "sSHPublicKeyId", parent: name, max: 128)
-            try self.validate(self.sSHPublicKeyId, name: "sSHPublicKeyId", parent: name, min: 20)
-            try self.validate(self.sSHPublicKeyId, name: "sSHPublicKeyId", parent: name, pattern: "^[\\w]+$")
+            try self.validate(self.sshPublicKeyId, name: "sshPublicKeyId", parent: name, max: 128)
+            try self.validate(self.sshPublicKeyId, name: "sshPublicKeyId", parent: name, min: 20)
+            try self.validate(self.sshPublicKeyId, name: "sshPublicKeyId", parent: name, pattern: "^[\\w]+$")
             try self.validate(self.userName, name: "userName", parent: name, max: 64)
             try self.validate(self.userName, name: "userName", parent: name, min: 1)
             try self.validate(self.userName, name: "userName", parent: name, pattern: "^[\\w+=,.@-]+$")
@@ -2763,21 +2763,21 @@ extension IAM {
 
         private enum CodingKeys: String, CodingKey {
             case encoding = "Encoding"
-            case sSHPublicKeyId = "SSHPublicKeyId"
+            case sshPublicKeyId = "SSHPublicKeyId"
             case userName = "UserName"
         }
     }
 
     public struct GetSSHPublicKeyResponse: AWSDecodableShape {
         /// A structure containing details about the SSH public key.
-        public let sSHPublicKey: SSHPublicKey?
+        public let sshPublicKey: SSHPublicKey?
 
-        public init(sSHPublicKey: SSHPublicKey? = nil) {
-            self.sSHPublicKey = sSHPublicKey
+        public init(sshPublicKey: SSHPublicKey? = nil) {
+            self.sshPublicKey = sshPublicKey
         }
 
         private enum CodingKeys: String, CodingKey {
-            case sSHPublicKey = "SSHPublicKey"
+            case sshPublicKey = "SSHPublicKey"
         }
     }
 
@@ -3962,18 +3962,18 @@ extension IAM {
         public let marker: String?
         /// A list of MFA devices.
         @CustomCoding<StandardArrayCoder>
-        public var mFADevices: [MFADevice]
+        public var mfaDevices: [MFADevice]
 
-        public init(isTruncated: Bool? = nil, marker: String? = nil, mFADevices: [MFADevice]) {
+        public init(isTruncated: Bool? = nil, marker: String? = nil, mfaDevices: [MFADevice]) {
             self.isTruncated = isTruncated
             self.marker = marker
-            self.mFADevices = mFADevices
+            self.mfaDevices = mfaDevices
         }
 
         private enum CodingKeys: String, CodingKey {
             case isTruncated = "IsTruncated"
             case marker = "Marker"
-            case mFADevices = "MFADevices"
+            case mfaDevices = "MFADevices"
         }
     }
 
@@ -4465,12 +4465,12 @@ extension IAM {
         /// Use this only when paginating results to indicate the  maximum number of items you want in the response. If additional items exist beyond the maximum  you specify, the IsTruncated response element is true. If you do not include this parameter, the number of items defaults to 100. Note that IAM might return fewer results, even when there are more results available. In that case, the IsTruncated response element returns true, and Marker  contains a value to include in the subsequent call that tells the service where to continue  from.
         public let maxItems: Int?
         /// The ARN of the Security Assertion Markup Language (SAML) identity provider whose tags you want to see. This parameter allows (through its regex pattern) a string of characters consisting of upper and lowercase alphanumeric  characters with no spaces. You can also include any of the following characters: _+=,.@-
-        public let sAMLProviderArn: String
+        public let samlProviderArn: String
 
-        public init(marker: String? = nil, maxItems: Int? = nil, sAMLProviderArn: String) {
+        public init(marker: String? = nil, maxItems: Int? = nil, samlProviderArn: String) {
             self.marker = marker
             self.maxItems = maxItems
-            self.sAMLProviderArn = sAMLProviderArn
+            self.samlProviderArn = samlProviderArn
         }
 
         public func validate(name: String) throws {
@@ -4479,14 +4479,14 @@ extension IAM {
             try self.validate(self.marker, name: "marker", parent: name, pattern: "^[\\u0020-\\u00FF]+$")
             try self.validate(self.maxItems, name: "maxItems", parent: name, max: 1000)
             try self.validate(self.maxItems, name: "maxItems", parent: name, min: 1)
-            try self.validate(self.sAMLProviderArn, name: "sAMLProviderArn", parent: name, max: 2048)
-            try self.validate(self.sAMLProviderArn, name: "sAMLProviderArn", parent: name, min: 20)
+            try self.validate(self.samlProviderArn, name: "samlProviderArn", parent: name, max: 2048)
+            try self.validate(self.samlProviderArn, name: "samlProviderArn", parent: name, min: 20)
         }
 
         private enum CodingKeys: String, CodingKey {
             case marker = "Marker"
             case maxItems = "MaxItems"
-            case sAMLProviderArn = "SAMLProviderArn"
+            case samlProviderArn = "SAMLProviderArn"
         }
     }
 
@@ -4519,14 +4519,14 @@ extension IAM {
     public struct ListSAMLProvidersResponse: AWSDecodableShape {
         /// The list of SAML provider resource objects defined in IAM for this Amazon Web Services account.
         @OptionalCustomCoding<StandardArrayCoder>
-        public var sAMLProviderList: [SAMLProviderListEntry]?
+        public var samlProviderList: [SAMLProviderListEntry]?
 
-        public init(sAMLProviderList: [SAMLProviderListEntry]? = nil) {
-            self.sAMLProviderList = sAMLProviderList
+        public init(samlProviderList: [SAMLProviderListEntry]? = nil) {
+            self.samlProviderList = samlProviderList
         }
 
         private enum CodingKeys: String, CodingKey {
-            case sAMLProviderList = "SAMLProviderList"
+            case samlProviderList = "SAMLProviderList"
         }
     }
 
@@ -4569,18 +4569,18 @@ extension IAM {
         public let marker: String?
         /// A list of the SSH public keys assigned to IAM user.
         @OptionalCustomCoding<StandardArrayCoder>
-        public var sSHPublicKeys: [SSHPublicKeyMetadata]?
+        public var sshPublicKeys: [SSHPublicKeyMetadata]?
 
-        public init(isTruncated: Bool? = nil, marker: String? = nil, sSHPublicKeys: [SSHPublicKeyMetadata]? = nil) {
+        public init(isTruncated: Bool? = nil, marker: String? = nil, sshPublicKeys: [SSHPublicKeyMetadata]? = nil) {
             self.isTruncated = isTruncated
             self.marker = marker
-            self.sSHPublicKeys = sSHPublicKeys
+            self.sshPublicKeys = sshPublicKeys
         }
 
         private enum CodingKeys: String, CodingKey {
             case isTruncated = "IsTruncated"
             case marker = "Marker"
-            case sSHPublicKeys = "SSHPublicKeys"
+            case sshPublicKeys = "SSHPublicKeys"
         }
     }
 
@@ -5894,9 +5894,9 @@ extension IAM {
         /// The MD5 message digest of the SSH public key.
         public let fingerprint: String
         /// The SSH public key.
-        public let sSHPublicKeyBody: String
+        public let sshPublicKeyBody: String
         /// The unique identifier for the SSH public key.
-        public let sSHPublicKeyId: String
+        public let sshPublicKeyId: String
         /// The status of the SSH public key. Active means that the key can be used for authentication with an CodeCommit repository. Inactive means that the key cannot be used.
         public let status: StatusType
         /// The date and time, in ISO 8601 date-time format, when the SSH public key was uploaded.
@@ -5904,10 +5904,10 @@ extension IAM {
         /// The name of the IAM user associated with the SSH public key.
         public let userName: String
 
-        public init(fingerprint: String, sSHPublicKeyBody: String, sSHPublicKeyId: String, status: StatusType, uploadDate: Date? = nil, userName: String) {
+        public init(fingerprint: String, sshPublicKeyBody: String, sshPublicKeyId: String, status: StatusType, uploadDate: Date? = nil, userName: String) {
             self.fingerprint = fingerprint
-            self.sSHPublicKeyBody = sSHPublicKeyBody
-            self.sSHPublicKeyId = sSHPublicKeyId
+            self.sshPublicKeyBody = sshPublicKeyBody
+            self.sshPublicKeyId = sshPublicKeyId
             self.status = status
             self.uploadDate = uploadDate
             self.userName = userName
@@ -5915,8 +5915,8 @@ extension IAM {
 
         private enum CodingKeys: String, CodingKey {
             case fingerprint = "Fingerprint"
-            case sSHPublicKeyBody = "SSHPublicKeyBody"
-            case sSHPublicKeyId = "SSHPublicKeyId"
+            case sshPublicKeyBody = "SSHPublicKeyBody"
+            case sshPublicKeyId = "SSHPublicKeyId"
             case status = "Status"
             case uploadDate = "UploadDate"
             case userName = "UserName"
@@ -5925,7 +5925,7 @@ extension IAM {
 
     public struct SSHPublicKeyMetadata: AWSDecodableShape {
         /// The unique identifier for the SSH public key.
-        public let sSHPublicKeyId: String
+        public let sshPublicKeyId: String
         /// The status of the SSH public key. Active means that the key can be used for authentication with an CodeCommit repository. Inactive means that the key cannot be used.
         public let status: StatusType
         /// The date and time, in ISO 8601 date-time format, when the SSH public key was uploaded.
@@ -5933,15 +5933,15 @@ extension IAM {
         /// The name of the IAM user associated with the SSH public key.
         public let userName: String
 
-        public init(sSHPublicKeyId: String, status: StatusType, uploadDate: Date, userName: String) {
-            self.sSHPublicKeyId = sSHPublicKeyId
+        public init(sshPublicKeyId: String, status: StatusType, uploadDate: Date, userName: String) {
+            self.sshPublicKeyId = sshPublicKeyId
             self.status = status
             self.uploadDate = uploadDate
             self.userName = userName
         }
 
         private enum CodingKeys: String, CodingKey {
-            case sSHPublicKeyId = "SSHPublicKeyId"
+            case sshPublicKeyId = "SSHPublicKeyId"
             case status = "Status"
             case uploadDate = "UploadDate"
             case userName = "UserName"
@@ -6590,19 +6590,19 @@ extension IAM {
 
     public struct TagSAMLProviderRequest: AWSEncodableShape {
         /// The ARN of the SAML identity provider in IAM to which you want to add tags. This parameter allows (through its regex pattern) a string of characters consisting of upper and lowercase alphanumeric  characters with no spaces. You can also include any of the following characters: _+=,.@-
-        public let sAMLProviderArn: String
+        public let samlProviderArn: String
         /// The list of tags that you want to attach to the SAML identity provider in IAM. Each tag consists of a key name and an associated value.
         @CustomCoding<StandardArrayCoder>
         public var tags: [Tag]
 
-        public init(sAMLProviderArn: String, tags: [Tag]) {
-            self.sAMLProviderArn = sAMLProviderArn
+        public init(samlProviderArn: String, tags: [Tag]) {
+            self.samlProviderArn = samlProviderArn
             self.tags = tags
         }
 
         public func validate(name: String) throws {
-            try self.validate(self.sAMLProviderArn, name: "sAMLProviderArn", parent: name, max: 2048)
-            try self.validate(self.sAMLProviderArn, name: "sAMLProviderArn", parent: name, min: 20)
+            try self.validate(self.samlProviderArn, name: "samlProviderArn", parent: name, max: 2048)
+            try self.validate(self.samlProviderArn, name: "samlProviderArn", parent: name, min: 20)
             try self.tags.forEach {
                 try $0.validate(name: "\(name).tags[]")
             }
@@ -6610,7 +6610,7 @@ extension IAM {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case sAMLProviderArn = "SAMLProviderArn"
+            case samlProviderArn = "SAMLProviderArn"
             case tags = "Tags"
         }
     }
@@ -6845,19 +6845,19 @@ extension IAM {
 
     public struct UntagSAMLProviderRequest: AWSEncodableShape {
         /// The ARN of the SAML identity provider in IAM from which you want to remove tags. This parameter allows (through its regex pattern) a string of characters consisting of upper and lowercase alphanumeric  characters with no spaces. You can also include any of the following characters: _+=,.@-
-        public let sAMLProviderArn: String
+        public let samlProviderArn: String
         /// A list of key names as a simple array of strings. The tags with matching keys are removed from the specified SAML identity provider.
         @CustomCoding<StandardArrayCoder>
         public var tagKeys: [String]
 
-        public init(sAMLProviderArn: String, tagKeys: [String]) {
-            self.sAMLProviderArn = sAMLProviderArn
+        public init(samlProviderArn: String, tagKeys: [String]) {
+            self.samlProviderArn = samlProviderArn
             self.tagKeys = tagKeys
         }
 
         public func validate(name: String) throws {
-            try self.validate(self.sAMLProviderArn, name: "sAMLProviderArn", parent: name, max: 2048)
-            try self.validate(self.sAMLProviderArn, name: "sAMLProviderArn", parent: name, min: 20)
+            try self.validate(self.samlProviderArn, name: "samlProviderArn", parent: name, max: 2048)
+            try self.validate(self.samlProviderArn, name: "samlProviderArn", parent: name, min: 20)
             try self.tagKeys.forEach {
                 try validate($0, name: "tagKeys[]", parent: name, max: 128)
                 try validate($0, name: "tagKeys[]", parent: name, min: 1)
@@ -6867,7 +6867,7 @@ extension IAM {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case sAMLProviderArn = "SAMLProviderArn"
+            case samlProviderArn = "SAMLProviderArn"
             case tagKeys = "TagKeys"
         }
     }
@@ -7207,66 +7207,66 @@ extension IAM {
 
     public struct UpdateSAMLProviderRequest: AWSEncodableShape {
         /// An XML document generated by an identity provider (IdP) that supports SAML 2.0. The document includes the issuer's name, expiration information, and keys that can be used to validate the SAML authentication response (assertions) that are received from the IdP. You must generate the metadata document using the identity management software that is used as your organization's IdP.
-        public let sAMLMetadataDocument: String
+        public let samlMetadataDocument: String
         /// The Amazon Resource Name (ARN) of the SAML provider to update. For more information about ARNs, see Amazon Resource Names (ARNs) in the Amazon Web Services General Reference.
-        public let sAMLProviderArn: String
+        public let samlProviderArn: String
 
-        public init(sAMLMetadataDocument: String, sAMLProviderArn: String) {
-            self.sAMLMetadataDocument = sAMLMetadataDocument
-            self.sAMLProviderArn = sAMLProviderArn
+        public init(samlMetadataDocument: String, samlProviderArn: String) {
+            self.samlMetadataDocument = samlMetadataDocument
+            self.samlProviderArn = samlProviderArn
         }
 
         public func validate(name: String) throws {
-            try self.validate(self.sAMLMetadataDocument, name: "sAMLMetadataDocument", parent: name, max: 10_000_000)
-            try self.validate(self.sAMLMetadataDocument, name: "sAMLMetadataDocument", parent: name, min: 1000)
-            try self.validate(self.sAMLProviderArn, name: "sAMLProviderArn", parent: name, max: 2048)
-            try self.validate(self.sAMLProviderArn, name: "sAMLProviderArn", parent: name, min: 20)
+            try self.validate(self.samlMetadataDocument, name: "samlMetadataDocument", parent: name, max: 10_000_000)
+            try self.validate(self.samlMetadataDocument, name: "samlMetadataDocument", parent: name, min: 1000)
+            try self.validate(self.samlProviderArn, name: "samlProviderArn", parent: name, max: 2048)
+            try self.validate(self.samlProviderArn, name: "samlProviderArn", parent: name, min: 20)
         }
 
         private enum CodingKeys: String, CodingKey {
-            case sAMLMetadataDocument = "SAMLMetadataDocument"
-            case sAMLProviderArn = "SAMLProviderArn"
+            case samlMetadataDocument = "SAMLMetadataDocument"
+            case samlProviderArn = "SAMLProviderArn"
         }
     }
 
     public struct UpdateSAMLProviderResponse: AWSDecodableShape {
         /// The Amazon Resource Name (ARN) of the SAML provider that was updated.
-        public let sAMLProviderArn: String?
+        public let samlProviderArn: String?
 
-        public init(sAMLProviderArn: String? = nil) {
-            self.sAMLProviderArn = sAMLProviderArn
+        public init(samlProviderArn: String? = nil) {
+            self.samlProviderArn = samlProviderArn
         }
 
         private enum CodingKeys: String, CodingKey {
-            case sAMLProviderArn = "SAMLProviderArn"
+            case samlProviderArn = "SAMLProviderArn"
         }
     }
 
     public struct UpdateSSHPublicKeyRequest: AWSEncodableShape {
         /// The unique identifier for the SSH public key. This parameter allows (through its regex pattern) a string of characters that can  consist of any upper or lowercased letter or digit.
-        public let sSHPublicKeyId: String
+        public let sshPublicKeyId: String
         /// The status to assign to the SSH public key. Active means that the key can be used for authentication with an CodeCommit repository. Inactive means that the key cannot be used.
         public let status: StatusType
         /// The name of the IAM user associated with the SSH public key. This parameter allows (through its regex pattern) a string of characters consisting of upper and lowercase alphanumeric  characters with no spaces. You can also include any of the following characters: _+=,.@-
         public let userName: String
 
-        public init(sSHPublicKeyId: String, status: StatusType, userName: String) {
-            self.sSHPublicKeyId = sSHPublicKeyId
+        public init(sshPublicKeyId: String, status: StatusType, userName: String) {
+            self.sshPublicKeyId = sshPublicKeyId
             self.status = status
             self.userName = userName
         }
 
         public func validate(name: String) throws {
-            try self.validate(self.sSHPublicKeyId, name: "sSHPublicKeyId", parent: name, max: 128)
-            try self.validate(self.sSHPublicKeyId, name: "sSHPublicKeyId", parent: name, min: 20)
-            try self.validate(self.sSHPublicKeyId, name: "sSHPublicKeyId", parent: name, pattern: "^[\\w]+$")
+            try self.validate(self.sshPublicKeyId, name: "sshPublicKeyId", parent: name, max: 128)
+            try self.validate(self.sshPublicKeyId, name: "sshPublicKeyId", parent: name, min: 20)
+            try self.validate(self.sshPublicKeyId, name: "sshPublicKeyId", parent: name, pattern: "^[\\w]+$")
             try self.validate(self.userName, name: "userName", parent: name, max: 64)
             try self.validate(self.userName, name: "userName", parent: name, min: 1)
             try self.validate(self.userName, name: "userName", parent: name, pattern: "^[\\w+=,.@-]+$")
         }
 
         private enum CodingKeys: String, CodingKey {
-            case sSHPublicKeyId = "SSHPublicKeyId"
+            case sshPublicKeyId = "SSHPublicKeyId"
             case status = "Status"
             case userName = "UserName"
         }
@@ -7400,40 +7400,40 @@ extension IAM {
 
     public struct UploadSSHPublicKeyRequest: AWSEncodableShape {
         /// The SSH public key. The public key must be encoded in ssh-rsa format or PEM format. The minimum bit-length of the public key is 2048 bits. For example, you can generate a 2048-bit key, and the resulting PEM file is 1679 bytes long. The regex pattern  used to validate this parameter is a string of characters consisting of the following:   Any printable ASCII  character ranging from the space character (\u0020) through the end of the ASCII character range   The printable characters in the Basic Latin and  Latin-1 Supplement character set  (through \u00FF)   The special characters tab (\u0009), line feed (\u000A), and  carriage return (\u000D)
-        public let sSHPublicKeyBody: String
+        public let sshPublicKeyBody: String
         /// The name of the IAM user to associate the SSH public key with. This parameter allows (through its regex pattern) a string of characters consisting of upper and lowercase alphanumeric  characters with no spaces. You can also include any of the following characters: _+=,.@-
         public let userName: String
 
-        public init(sSHPublicKeyBody: String, userName: String) {
-            self.sSHPublicKeyBody = sSHPublicKeyBody
+        public init(sshPublicKeyBody: String, userName: String) {
+            self.sshPublicKeyBody = sshPublicKeyBody
             self.userName = userName
         }
 
         public func validate(name: String) throws {
-            try self.validate(self.sSHPublicKeyBody, name: "sSHPublicKeyBody", parent: name, max: 16384)
-            try self.validate(self.sSHPublicKeyBody, name: "sSHPublicKeyBody", parent: name, min: 1)
-            try self.validate(self.sSHPublicKeyBody, name: "sSHPublicKeyBody", parent: name, pattern: "^[\\u0009\\u000A\\u000D\\u0020-\\u00FF]+$")
+            try self.validate(self.sshPublicKeyBody, name: "sshPublicKeyBody", parent: name, max: 16384)
+            try self.validate(self.sshPublicKeyBody, name: "sshPublicKeyBody", parent: name, min: 1)
+            try self.validate(self.sshPublicKeyBody, name: "sshPublicKeyBody", parent: name, pattern: "^[\\u0009\\u000A\\u000D\\u0020-\\u00FF]+$")
             try self.validate(self.userName, name: "userName", parent: name, max: 64)
             try self.validate(self.userName, name: "userName", parent: name, min: 1)
             try self.validate(self.userName, name: "userName", parent: name, pattern: "^[\\w+=,.@-]+$")
         }
 
         private enum CodingKeys: String, CodingKey {
-            case sSHPublicKeyBody = "SSHPublicKeyBody"
+            case sshPublicKeyBody = "SSHPublicKeyBody"
             case userName = "UserName"
         }
     }
 
     public struct UploadSSHPublicKeyResponse: AWSDecodableShape {
         /// Contains information about the SSH public key.
-        public let sSHPublicKey: SSHPublicKey?
+        public let sshPublicKey: SSHPublicKey?
 
-        public init(sSHPublicKey: SSHPublicKey? = nil) {
-            self.sSHPublicKey = sSHPublicKey
+        public init(sshPublicKey: SSHPublicKey? = nil) {
+            self.sshPublicKey = sshPublicKey
         }
 
         private enum CodingKeys: String, CodingKey {
-            case sSHPublicKey = "SSHPublicKey"
+            case sshPublicKey = "SSHPublicKey"
         }
     }
 
@@ -7650,7 +7650,7 @@ extension IAM {
         /// The date and time on which the virtual MFA device was enabled.
         public let enableDate: Date?
         ///  A QR code PNG image that encodes otpauth://totp/$virtualMFADeviceName@$AccountName?secret=$Base32String where $virtualMFADeviceName is one of the create call arguments. AccountName is the user name if set (otherwise, the account ID otherwise), and Base32String is the seed in base32 format. The Base32String value is base64-encoded.
-        public let qRCodePNG: Data?
+        public let qrCodePNG: Data?
         /// The serial number associated with VirtualMFADevice.
         public let serialNumber: String
         /// A list of tags that are attached to the virtual MFA device. For more information about tagging, see Tagging IAM resources in the IAM User Guide.
@@ -7659,10 +7659,10 @@ extension IAM {
         /// The IAM user associated with this virtual MFA device.
         public let user: User?
 
-        public init(base32StringSeed: Data? = nil, enableDate: Date? = nil, qRCodePNG: Data? = nil, serialNumber: String, tags: [Tag]? = nil, user: User? = nil) {
+        public init(base32StringSeed: Data? = nil, enableDate: Date? = nil, qrCodePNG: Data? = nil, serialNumber: String, tags: [Tag]? = nil, user: User? = nil) {
             self.base32StringSeed = base32StringSeed
             self.enableDate = enableDate
-            self.qRCodePNG = qRCodePNG
+            self.qrCodePNG = qrCodePNG
             self.serialNumber = serialNumber
             self.tags = tags
             self.user = user
@@ -7671,7 +7671,7 @@ extension IAM {
         private enum CodingKeys: String, CodingKey {
             case base32StringSeed = "Base32StringSeed"
             case enableDate = "EnableDate"
-            case qRCodePNG = "QRCodePNG"
+            case qrCodePNG = "QRCodePNG"
             case serialNumber = "SerialNumber"
             case tags = "Tags"
             case user = "User"

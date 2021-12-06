@@ -37,8 +37,8 @@ extension LexModelBuildingService {
     }
 
     public enum ContentType: String, CustomStringConvertible, Codable {
-        case custompayload = "CustomPayload"
-        case plaintext = "PlainText"
+        case customPayload = "CustomPayload"
+        case plainText = "PlainText"
         case ssml = "SSML"
         public var description: String { return self.rawValue }
     }
@@ -63,8 +63,8 @@ extension LexModelBuildingService {
     }
 
     public enum FulfillmentActivityType: String, CustomStringConvertible, Codable {
-        case codehook = "CodeHook"
-        case returnintent = "ReturnIntent"
+        case codeHook = "CodeHook"
+        case returnIntent = "ReturnIntent"
         public var description: String { return self.rawValue }
     }
 
@@ -76,19 +76,19 @@ extension LexModelBuildingService {
     }
 
     public enum Locale: String, CustomStringConvertible, Codable {
-        case deDe = "de-DE"
-        case enAu = "en-AU"
-        case enGb = "en-GB"
-        case enIn = "en-IN"
-        case enUs = "en-US"
+        case deDE = "de-DE"
+        case enAU = "en-AU"
+        case enGB = "en-GB"
+        case enIN = "en-IN"
+        case enUS = "en-US"
         case es419 = "es-419"
-        case esEs = "es-ES"
-        case esUs = "es-US"
-        case frCa = "fr-CA"
-        case frFr = "fr-FR"
-        case itIt = "it-IT"
-        case jaJp = "ja-JP"
-        case koKr = "ko-KR"
+        case esES = "es-ES"
+        case esUS = "es-US"
+        case frCA = "fr-CA"
+        case frFR = "fr-FR"
+        case itIT = "it-IT"
+        case jaJP = "ja-JP"
+        case koKR = "ko-KR"
         public var description: String { return self.rawValue }
     }
 

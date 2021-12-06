@@ -37,8 +37,8 @@ extension ElasticBeanstalk {
     }
 
     public enum ActionType: String, CustomStringConvertible, Codable {
-        case instancerefresh = "InstanceRefresh"
-        case platformupdate = "PlatformUpdate"
+        case instanceRefresh = "InstanceRefresh"
+        case platformUpdate = "PlatformUpdate"
         case unknown = "Unknown"
         public var description: String { return self.rawValue }
     }
@@ -82,12 +82,12 @@ extension ElasticBeanstalk {
 
     public enum EnvironmentHealthAttribute: String, CustomStringConvertible, Codable {
         case all = "All"
-        case applicationmetrics = "ApplicationMetrics"
+        case applicationMetrics = "ApplicationMetrics"
         case causes = "Causes"
         case color = "Color"
-        case healthstatus = "HealthStatus"
-        case instanceshealth = "InstancesHealth"
-        case refreshedat = "RefreshedAt"
+        case healthStatus = "HealthStatus"
+        case instancesHealth = "InstancesHealth"
+        case refreshedAt = "RefreshedAt"
         case status = "Status"
         public var description: String { return self.rawValue }
     }
@@ -95,7 +95,7 @@ extension ElasticBeanstalk {
     public enum EnvironmentHealthStatus: String, CustomStringConvertible, Codable {
         case degraded = "Degraded"
         case info = "Info"
-        case nodata = "NoData"
+        case noData = "NoData"
         case ok = "Ok"
         case pending = "Pending"
         case severe = "Severe"
@@ -114,8 +114,8 @@ extension ElasticBeanstalk {
     public enum EnvironmentStatus: String, CustomStringConvertible, Codable {
         case aborting = "Aborting"
         case launching = "Launching"
-        case linkingfrom = "LinkingFrom"
-        case linkingto = "LinkingTo"
+        case linkingFrom = "LinkingFrom"
+        case linkingTo = "LinkingTo"
         case ready = "Ready"
         case terminated = "Terminated"
         case terminating = "Terminating"
@@ -134,27 +134,27 @@ extension ElasticBeanstalk {
     }
 
     public enum FailureType: String, CustomStringConvertible, Codable {
-        case cancellationfailed = "CancellationFailed"
-        case internalfailure = "InternalFailure"
-        case invalidenvironmentstate = "InvalidEnvironmentState"
-        case permissionserror = "PermissionsError"
-        case rollbackfailed = "RollbackFailed"
-        case rollbacksuccessful = "RollbackSuccessful"
-        case updatecancelled = "UpdateCancelled"
+        case cancellationFailed = "CancellationFailed"
+        case internalFailure = "InternalFailure"
+        case invalidEnvironmentState = "InvalidEnvironmentState"
+        case permissionsError = "PermissionsError"
+        case rollbackFailed = "RollbackFailed"
+        case rollbackSuccessful = "RollbackSuccessful"
+        case updateCancelled = "UpdateCancelled"
         public var description: String { return self.rawValue }
     }
 
     public enum InstancesHealthAttribute: String, CustomStringConvertible, Codable {
         case all = "All"
-        case applicationmetrics = "ApplicationMetrics"
-        case availabilityzone = "AvailabilityZone"
+        case applicationMetrics = "ApplicationMetrics"
+        case availabilityZone = "AvailabilityZone"
         case causes = "Causes"
         case color = "Color"
         case deployment = "Deployment"
-        case healthstatus = "HealthStatus"
-        case instancetype = "InstanceType"
-        case launchedat = "LaunchedAt"
-        case refreshedat = "RefreshedAt"
+        case healthStatus = "HealthStatus"
+        case instanceType = "InstanceType"
+        case launchedAt = "LaunchedAt"
+        case refreshedAt = "RefreshedAt"
         case system = "System"
         public var description: String { return self.rawValue }
     }
@@ -169,7 +169,7 @@ extension ElasticBeanstalk {
     }
 
     public enum SourceRepository: String, CustomStringConvertible, Codable {
-        case codecommit = "CodeCommit"
+        case codeCommit = "CodeCommit"
         case s3 = "S3"
         public var description: String { return self.rawValue }
     }
@@ -572,7 +572,7 @@ extension ElasticBeanstalk {
         /// Percentage of time that the CPU has spent in the Idle state over the last 10 seconds.
         public let idle: Double?
         /// Available on Linux environments only. Percentage of time that the CPU has spent in the I/O Wait state over the last 10 seconds.
-        public let iOWait: Double?
+        public let ioWait: Double?
         /// Available on Linux environments only. Percentage of time that the CPU has spent in the IRQ state over the last 10 seconds.
         public let irq: Double?
         /// Available on Linux environments only. Percentage of time that the CPU has spent in the Nice state over the last 10 seconds.
@@ -586,9 +586,9 @@ extension ElasticBeanstalk {
         /// Percentage of time that the CPU has spent in the User state over the last 10 seconds.
         public let user: Double?
 
-        public init(idle: Double? = nil, iOWait: Double? = nil, irq: Double? = nil, nice: Double? = nil, privileged: Double? = nil, softIRQ: Double? = nil, system: Double? = nil, user: Double? = nil) {
+        public init(idle: Double? = nil, ioWait: Double? = nil, irq: Double? = nil, nice: Double? = nil, privileged: Double? = nil, softIRQ: Double? = nil, system: Double? = nil, user: Double? = nil) {
             self.idle = idle
-            self.iOWait = iOWait
+            self.ioWait = ioWait
             self.irq = irq
             self.nice = nice
             self.privileged = privileged
@@ -599,7 +599,7 @@ extension ElasticBeanstalk {
 
         private enum CodingKeys: String, CodingKey {
             case idle = "Idle"
-            case iOWait = "IOWait"
+            case ioWait = "IOWait"
             case irq = "IRQ"
             case nice = "Nice"
             case privileged = "Privileged"
@@ -611,19 +611,19 @@ extension ElasticBeanstalk {
 
     public struct CheckDNSAvailabilityMessage: AWSEncodableShape {
         /// The prefix used when this CNAME is reserved.
-        public let cNAMEPrefix: String
+        public let cnamePrefix: String
 
-        public init(cNAMEPrefix: String) {
-            self.cNAMEPrefix = cNAMEPrefix
+        public init(cnamePrefix: String) {
+            self.cnamePrefix = cnamePrefix
         }
 
         public func validate(name: String) throws {
-            try self.validate(self.cNAMEPrefix, name: "cNAMEPrefix", parent: name, max: 63)
-            try self.validate(self.cNAMEPrefix, name: "cNAMEPrefix", parent: name, min: 4)
+            try self.validate(self.cnamePrefix, name: "cnamePrefix", parent: name, max: 63)
+            try self.validate(self.cnamePrefix, name: "cnamePrefix", parent: name, min: 4)
         }
 
         private enum CodingKeys: String, CodingKey {
-            case cNAMEPrefix = "CNAMEPrefix"
+            case cnamePrefix = "CNAMEPrefix"
         }
     }
 
@@ -1022,7 +1022,7 @@ extension ElasticBeanstalk {
         /// The name of the application that is associated with this environment.
         public let applicationName: String
         /// If specified, the environment attempts to use this value as the prefix for the CNAME in your Elastic Beanstalk environment URL. If not specified, the CNAME is generated automatically by appending a random alphanumeric string to the environment name.
-        public let cNAMEPrefix: String?
+        public let cnamePrefix: String?
         /// Your description for this environment.
         public let description: String?
         /// A unique name for the environment. Constraint: Must be from 4 to 40 characters in length. The name can contain only letters, numbers, and hyphens. It can't start or end with a hyphen. This name must be unique within a region in your account. If the specified name already exists in the region, Elastic Beanstalk returns an InvalidParameterValue error.  If you don't specify the CNAMEPrefix parameter, the environment name becomes part of the CNAME, and therefore part of the visible URL for your application.
@@ -1051,9 +1051,9 @@ extension ElasticBeanstalk {
         /// The name of the application version to deploy. Default: If not specified, Elastic Beanstalk attempts to deploy the sample application.
         public let versionLabel: String?
 
-        public init(applicationName: String, cNAMEPrefix: String? = nil, description: String? = nil, environmentName: String? = nil, groupName: String? = nil, operationsRole: String? = nil, optionSettings: [ConfigurationOptionSetting]? = nil, optionsToRemove: [OptionSpecification]? = nil, platformArn: String? = nil, solutionStackName: String? = nil, tags: [Tag]? = nil, templateName: String? = nil, tier: EnvironmentTier? = nil, versionLabel: String? = nil) {
+        public init(applicationName: String, cnamePrefix: String? = nil, description: String? = nil, environmentName: String? = nil, groupName: String? = nil, operationsRole: String? = nil, optionSettings: [ConfigurationOptionSetting]? = nil, optionsToRemove: [OptionSpecification]? = nil, platformArn: String? = nil, solutionStackName: String? = nil, tags: [Tag]? = nil, templateName: String? = nil, tier: EnvironmentTier? = nil, versionLabel: String? = nil) {
             self.applicationName = applicationName
-            self.cNAMEPrefix = cNAMEPrefix
+            self.cnamePrefix = cnamePrefix
             self.description = description
             self.environmentName = environmentName
             self.groupName = groupName
@@ -1071,8 +1071,8 @@ extension ElasticBeanstalk {
         public func validate(name: String) throws {
             try self.validate(self.applicationName, name: "applicationName", parent: name, max: 100)
             try self.validate(self.applicationName, name: "applicationName", parent: name, min: 1)
-            try self.validate(self.cNAMEPrefix, name: "cNAMEPrefix", parent: name, max: 63)
-            try self.validate(self.cNAMEPrefix, name: "cNAMEPrefix", parent: name, min: 4)
+            try self.validate(self.cnamePrefix, name: "cnamePrefix", parent: name, max: 63)
+            try self.validate(self.cnamePrefix, name: "cnamePrefix", parent: name, min: 4)
             try self.validate(self.description, name: "description", parent: name, max: 200)
             try self.validate(self.environmentName, name: "environmentName", parent: name, max: 40)
             try self.validate(self.environmentName, name: "environmentName", parent: name, min: 4)
@@ -1097,7 +1097,7 @@ extension ElasticBeanstalk {
 
         private enum CodingKeys: String, CodingKey {
             case applicationName = "ApplicationName"
-            case cNAMEPrefix = "CNAMEPrefix"
+            case cnamePrefix = "CNAMEPrefix"
             case description = "Description"
             case environmentName = "EnvironmentName"
             case groupName = "GroupName"
@@ -3329,18 +3329,18 @@ extension ElasticBeanstalk {
 
     public struct SystemStatus: AWSDecodableShape {
         /// CPU utilization metrics for the instance.
-        public let cPUUtilization: CPUUtilization?
+        public let cpuUtilization: CPUUtilization?
         /// Load average in the last 1-minute, 5-minute, and 15-minute periods.  For more information, see Operating System Metrics.
         @OptionalCustomCoding<StandardArrayCoder>
         public var loadAverage: [Double]?
 
-        public init(cPUUtilization: CPUUtilization? = nil, loadAverage: [Double]? = nil) {
-            self.cPUUtilization = cPUUtilization
+        public init(cpuUtilization: CPUUtilization? = nil, loadAverage: [Double]? = nil) {
+            self.cpuUtilization = cpuUtilization
             self.loadAverage = loadAverage
         }
 
         private enum CodingKeys: String, CodingKey {
-            case cPUUtilization = "CPUUtilization"
+            case cpuUtilization = "CPUUtilization"
             case loadAverage = "LoadAverage"
         }
     }

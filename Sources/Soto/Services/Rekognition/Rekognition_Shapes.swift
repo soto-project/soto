@@ -42,8 +42,8 @@ extension Rekognition {
     }
 
     public enum ContentClassifier: String, CustomStringConvertible, Codable {
-        case freeofadultcontent = "FreeOfAdultContent"
-        case freeofpersonallyidentifiableinformation = "FreeOfPersonallyIdentifiableInformation"
+        case freeOfAdultContent = "FreeOfAdultContent"
+        case freeOfPersonallyIdentifiableInformation = "FreeOfPersonallyIdentifiableInformation"
         public var description: String { return self.rawValue }
     }
 
@@ -121,36 +121,36 @@ extension Rekognition {
     }
 
     public enum LandmarkType: String, CustomStringConvertible, Codable {
-        case chinbottom = "chinBottom"
-        case eyeleft = "eyeLeft"
-        case eyeright = "eyeRight"
-        case lefteyebrowleft = "leftEyeBrowLeft"
-        case lefteyebrowright = "leftEyeBrowRight"
-        case lefteyebrowup = "leftEyeBrowUp"
-        case lefteyedown = "leftEyeDown"
-        case lefteyeleft = "leftEyeLeft"
-        case lefteyeright = "leftEyeRight"
-        case lefteyeup = "leftEyeUp"
-        case leftpupil = "leftPupil"
-        case midjawlineleft = "midJawlineLeft"
-        case midjawlineright = "midJawlineRight"
-        case mouthdown = "mouthDown"
-        case mouthleft = "mouthLeft"
-        case mouthright = "mouthRight"
-        case mouthup = "mouthUp"
+        case chinBottom
+        case eyeLeft
+        case eyeRight
+        case leftEyeBrowLeft
+        case leftEyeBrowRight
+        case leftEyeBrowUp
+        case leftEyeDown
+        case leftEyeLeft
+        case leftEyeRight
+        case leftEyeUp
+        case leftPupil
+        case midJawlineLeft
+        case midJawlineRight
+        case mouthDown
+        case mouthLeft
+        case mouthRight
+        case mouthUp
         case nose
-        case noseleft = "noseLeft"
-        case noseright = "noseRight"
-        case righteyebrowleft = "rightEyeBrowLeft"
-        case righteyebrowright = "rightEyeBrowRight"
-        case righteyebrowup = "rightEyeBrowUp"
-        case righteyedown = "rightEyeDown"
-        case righteyeleft = "rightEyeLeft"
-        case righteyeright = "rightEyeRight"
-        case righteyeup = "rightEyeUp"
-        case rightpupil = "rightPupil"
-        case upperjawlineleft = "upperJawlineLeft"
-        case upperjawlineright = "upperJawlineRight"
+        case noseLeft
+        case noseRight
+        case rightEyeBrowLeft
+        case rightEyeBrowRight
+        case rightEyeBrowUp
+        case rightEyeDown
+        case rightEyeLeft
+        case rightEyeRight
+        case rightEyeUp
+        case rightPupil
+        case upperJawlineLeft
+        case upperJawlineRight
         public var description: String { return self.rawValue }
     }
 
@@ -231,13 +231,13 @@ extension Rekognition {
     }
 
     public enum TechnicalCueType: String, CustomStringConvertible, Codable {
-        case blackframes = "BlackFrames"
-        case colorbars = "ColorBars"
+        case blackFrames = "BlackFrames"
+        case colorBars = "ColorBars"
         case content = "Content"
-        case endcredits = "EndCredits"
-        case openingcredits = "OpeningCredits"
+        case endCredits = "EndCredits"
+        case openingCredits = "OpeningCredits"
         case slate = "Slate"
-        case studiologo = "StudioLogo"
+        case studioLogo = "StudioLogo"
         public var description: String { return self.rawValue }
     }
 
@@ -3390,21 +3390,21 @@ extension Rekognition {
         /// The ARN of an IAM role that gives Amazon Rekognition publishing permissions to the Amazon SNS topic.
         public let roleArn: String
         /// The Amazon SNS topic to which Amazon Rekognition to posts the completion status.
-        public let sNSTopicArn: String
+        public let snsTopicArn: String
 
-        public init(roleArn: String, sNSTopicArn: String) {
+        public init(roleArn: String, snsTopicArn: String) {
             self.roleArn = roleArn
-            self.sNSTopicArn = sNSTopicArn
+            self.snsTopicArn = snsTopicArn
         }
 
         public func validate(name: String) throws {
             try self.validate(self.roleArn, name: "roleArn", parent: name, pattern: "^arn:aws:iam::\\d{12}:role/?[a-zA-Z_0-9+=,.@\\-_/]+$")
-            try self.validate(self.sNSTopicArn, name: "sNSTopicArn", parent: name, pattern: "^(^arn:aws:sns:.*:\\w{12}:.+$)$")
+            try self.validate(self.snsTopicArn, name: "snsTopicArn", parent: name, pattern: "^(^arn:aws:sns:.*:\\w{12}:.+$)$")
         }
 
         private enum CodingKeys: String, CodingKey {
             case roleArn = "RoleArn"
-            case sNSTopicArn = "SNSTopicArn"
+            case snsTopicArn = "SNSTopicArn"
         }
     }
 

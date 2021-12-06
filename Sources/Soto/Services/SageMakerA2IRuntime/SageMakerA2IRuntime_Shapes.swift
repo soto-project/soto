@@ -22,15 +22,15 @@ extension SageMakerA2IRuntime {
     // MARK: Enums
 
     public enum ContentClassifier: String, CustomStringConvertible, Codable {
-        case freeofadultcontent = "FreeOfAdultContent"
-        case freeofpersonallyidentifiableinformation = "FreeOfPersonallyIdentifiableInformation"
+        case freeOfAdultContent = "FreeOfAdultContent"
+        case freeOfPersonallyIdentifiableInformation = "FreeOfPersonallyIdentifiableInformation"
         public var description: String { return self.rawValue }
     }
 
     public enum HumanLoopStatus: String, CustomStringConvertible, Codable {
         case completed = "Completed"
         case failed = "Failed"
-        case inprogress = "InProgress"
+        case inProgress = "InProgress"
         case stopped = "Stopped"
         case stopping = "Stopping"
         public var description: String { return self.rawValue }

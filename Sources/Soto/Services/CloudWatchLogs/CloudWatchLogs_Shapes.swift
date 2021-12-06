@@ -22,7 +22,7 @@ extension CloudWatchLogs {
     // MARK: Enums
 
     public enum Distribution: String, CustomStringConvertible, Codable {
-        case bylogstream = "ByLogStream"
+        case byLogStream = "ByLogStream"
         case random = "Random"
         public var description: String { return self.rawValue }
     }
@@ -38,8 +38,8 @@ extension CloudWatchLogs {
     }
 
     public enum OrderBy: String, CustomStringConvertible, Codable {
-        case lasteventtime = "LastEventTime"
-        case logstreamname = "LogStreamName"
+        case lastEventTime = "LastEventTime"
+        case logStreamName = "LogStreamName"
         public var description: String { return self.rawValue }
     }
 

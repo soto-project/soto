@@ -364,12 +364,12 @@ extension Route53Resolver {
         /// 			ListResolverRules.
         public let resolverRuleId: String
         /// The ID of the VPC that you want to associate the Resolver rule with.
-        public let vPCId: String
+        public let vpcId: String
 
-        public init(name: String? = nil, resolverRuleId: String, vPCId: String) {
+        public init(name: String? = nil, resolverRuleId: String, vpcId: String) {
             self.name = name
             self.resolverRuleId = resolverRuleId
-            self.vPCId = vPCId
+            self.vpcId = vpcId
         }
 
         public func validate(name: String) throws {
@@ -377,14 +377,14 @@ extension Route53Resolver {
             try self.validate(self.name, name: "name", parent: name, pattern: "^(?!^[0-9]+$)([a-zA-Z0-9\\-_' ']+)$")
             try self.validate(self.resolverRuleId, name: "resolverRuleId", parent: name, max: 64)
             try self.validate(self.resolverRuleId, name: "resolverRuleId", parent: name, min: 1)
-            try self.validate(self.vPCId, name: "vPCId", parent: name, max: 64)
-            try self.validate(self.vPCId, name: "vPCId", parent: name, min: 1)
+            try self.validate(self.vpcId, name: "vpcId", parent: name, max: 64)
+            try self.validate(self.vpcId, name: "vpcId", parent: name, min: 1)
         }
 
         private enum CodingKeys: String, CodingKey {
             case name = "Name"
             case resolverRuleId = "ResolverRuleId"
-            case vPCId = "VPCId"
+            case vpcId = "VPCId"
         }
     }
 
@@ -1099,23 +1099,23 @@ extension Route53Resolver {
         /// The ID of the Resolver rule that you want to disassociate from the specified VPC.
         public let resolverRuleId: String
         /// The ID of the VPC that you want to disassociate the Resolver rule from.
-        public let vPCId: String
+        public let vpcId: String
 
-        public init(resolverRuleId: String, vPCId: String) {
+        public init(resolverRuleId: String, vpcId: String) {
             self.resolverRuleId = resolverRuleId
-            self.vPCId = vPCId
+            self.vpcId = vpcId
         }
 
         public func validate(name: String) throws {
             try self.validate(self.resolverRuleId, name: "resolverRuleId", parent: name, max: 64)
             try self.validate(self.resolverRuleId, name: "resolverRuleId", parent: name, min: 1)
-            try self.validate(self.vPCId, name: "vPCId", parent: name, max: 64)
-            try self.validate(self.vPCId, name: "vPCId", parent: name, min: 1)
+            try self.validate(self.vpcId, name: "vpcId", parent: name, max: 64)
+            try self.validate(self.vpcId, name: "vpcId", parent: name, min: 1)
         }
 
         private enum CodingKeys: String, CodingKey {
             case resolverRuleId = "ResolverRuleId"
-            case vPCId = "VPCId"
+            case vpcId = "VPCId"
         }
     }
 
@@ -3445,15 +3445,15 @@ extension Route53Resolver {
         /// A detailed description of the status of the association between a Resolver rule and a VPC.
         public let statusMessage: String?
         /// The ID of the VPC that you associated the Resolver rule with.
-        public let vPCId: String?
+        public let vpcId: String?
 
-        public init(id: String? = nil, name: String? = nil, resolverRuleId: String? = nil, status: ResolverRuleAssociationStatus? = nil, statusMessage: String? = nil, vPCId: String? = nil) {
+        public init(id: String? = nil, name: String? = nil, resolverRuleId: String? = nil, status: ResolverRuleAssociationStatus? = nil, statusMessage: String? = nil, vpcId: String? = nil) {
             self.id = id
             self.name = name
             self.resolverRuleId = resolverRuleId
             self.status = status
             self.statusMessage = statusMessage
-            self.vPCId = vPCId
+            self.vpcId = vpcId
         }
 
         private enum CodingKeys: String, CodingKey {
@@ -3462,7 +3462,7 @@ extension Route53Resolver {
             case resolverRuleId = "ResolverRuleId"
             case status = "Status"
             case statusMessage = "StatusMessage"
-            case vPCId = "VPCId"
+            case vpcId = "VPCId"
         }
     }
 

@@ -32,8 +32,8 @@ extension EFS {
     }
 
     public enum PerformanceMode: String, CustomStringConvertible, Codable {
-        case generalpurpose = "generalPurpose"
-        case maxio = "maxIO"
+        case generalPurpose
+        case maxIO
         public var description: String { return self.rawValue }
     }
 

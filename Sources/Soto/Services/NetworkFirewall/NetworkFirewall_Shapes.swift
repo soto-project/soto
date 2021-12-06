@@ -49,8 +49,8 @@ extension NetworkFirewall {
     }
 
     public enum LogDestinationType: String, CustomStringConvertible, Codable {
-        case cloudwatchlogs = "CloudWatchLogs"
-        case kinesisdatafirehose = "KinesisDataFirehose"
+        case cloudWatchLogs = "CloudWatchLogs"
+        case kinesisDataFirehose = "KinesisDataFirehose"
         case s3 = "S3"
         public var description: String { return self.rawValue }
     }
@@ -1535,15 +1535,15 @@ extension NetworkFirewall {
         /// The source IP addresses and address ranges to inspect for, in CIDR notation. If not specified, this matches with any source address.
         public let sources: [Address]?
         /// The TCP flags and masks to inspect for. If not specified, this matches with any settings. This setting is only used for protocol 6 (TCP).
-        public let tCPFlags: [TCPFlagField]?
+        public let tcpFlags: [TCPFlagField]?
 
-        public init(destinationPorts: [PortRange]? = nil, destinations: [Address]? = nil, protocols: [Int]? = nil, sourcePorts: [PortRange]? = nil, sources: [Address]? = nil, tCPFlags: [TCPFlagField]? = nil) {
+        public init(destinationPorts: [PortRange]? = nil, destinations: [Address]? = nil, protocols: [Int]? = nil, sourcePorts: [PortRange]? = nil, sources: [Address]? = nil, tcpFlags: [TCPFlagField]? = nil) {
             self.destinationPorts = destinationPorts
             self.destinations = destinations
             self.protocols = protocols
             self.sourcePorts = sourcePorts
             self.sources = sources
-            self.tCPFlags = tCPFlags
+            self.tcpFlags = tcpFlags
         }
 
         public func validate(name: String) throws {
@@ -1571,7 +1571,7 @@ extension NetworkFirewall {
             case protocols = "Protocols"
             case sourcePorts = "SourcePorts"
             case sources = "Sources"
-            case tCPFlags = "TCPFlags"
+            case tcpFlags = "TCPFlags"
         }
     }
 
@@ -1828,21 +1828,21 @@ extension NetworkFirewall {
 
     public struct RuleVariables: AWSEncodableShape & AWSDecodableShape {
         /// A list of IP addresses and address ranges, in CIDR notation.
-        public let iPSets: [String: IPSet]?
+        public let ipSets: [String: IPSet]?
         /// A list of port ranges.
         public let portSets: [String: PortSet]?
 
-        public init(iPSets: [String: IPSet]? = nil, portSets: [String: PortSet]? = nil) {
-            self.iPSets = iPSets
+        public init(ipSets: [String: IPSet]? = nil, portSets: [String: PortSet]? = nil) {
+            self.ipSets = ipSets
             self.portSets = portSets
         }
 
         public func validate(name: String) throws {
-            try self.iPSets?.forEach {
-                try validate($0.key, name: "iPSets.key", parent: name, max: 32)
-                try validate($0.key, name: "iPSets.key", parent: name, min: 1)
-                try validate($0.key, name: "iPSets.key", parent: name, pattern: "^[A-Za-z][A-Za-z0-9_]*$")
-                try $0.value.validate(name: "\(name).iPSets[\"\($0.key)\"]")
+            try self.ipSets?.forEach {
+                try validate($0.key, name: "ipSets.key", parent: name, max: 32)
+                try validate($0.key, name: "ipSets.key", parent: name, min: 1)
+                try validate($0.key, name: "ipSets.key", parent: name, pattern: "^[A-Za-z][A-Za-z0-9_]*$")
+                try $0.value.validate(name: "\(name).ipSets[\"\($0.key)\"]")
             }
             try self.portSets?.forEach {
                 try validate($0.key, name: "portSets.key", parent: name, max: 32)
@@ -1853,7 +1853,7 @@ extension NetworkFirewall {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case iPSets = "IPSets"
+            case ipSets = "IPSets"
             case portSets = "PortSets"
         }
     }

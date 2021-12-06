@@ -22,12 +22,12 @@ public struct CloudFrontErrorType: AWSErrorType {
     enum Code: String {
         case accessDenied = "AccessDenied"
         case batchTooLarge = "BatchTooLarge"
-        case cNAMEAlreadyExists = "CNAMEAlreadyExists"
         case cachePolicyAlreadyExists = "CachePolicyAlreadyExists"
         case cachePolicyInUse = "CachePolicyInUse"
         case cannotChangeImmutablePublicKeyFields = "CannotChangeImmutablePublicKeyFields"
         case cloudFrontOriginAccessIdentityAlreadyExists = "CloudFrontOriginAccessIdentityAlreadyExists"
         case cloudFrontOriginAccessIdentityInUse = "CloudFrontOriginAccessIdentityInUse"
+        case cnameAlreadyExists = "CNAMEAlreadyExists"
         case distributionAlreadyExists = "DistributionAlreadyExists"
         case distributionNotDisabled = "DistributionNotDisabled"
         case fieldLevelEncryptionConfigAlreadyExists = "FieldLevelEncryptionConfigAlreadyExists"
@@ -171,8 +171,6 @@ public struct CloudFrontErrorType: AWSErrorType {
     public static var accessDenied: Self { .init(.accessDenied) }
     /// Invalidation batch specified is too large.
     public static var batchTooLarge: Self { .init(.batchTooLarge) }
-    /// The CNAME specified is already defined for CloudFront.
-    public static var cNAMEAlreadyExists: Self { .init(.cNAMEAlreadyExists) }
     /// A cache policy with this name already exists. You must provide a unique name. To
     /// 			modify an existing cache policy, use UpdateCachePolicy.
     public static var cachePolicyAlreadyExists: Self { .init(.cachePolicyAlreadyExists) }
@@ -187,6 +185,8 @@ public struct CloudFrontErrorType: AWSErrorType {
     public static var cloudFrontOriginAccessIdentityAlreadyExists: Self { .init(.cloudFrontOriginAccessIdentityAlreadyExists) }
     /// The Origin Access Identity specified is already in use.
     public static var cloudFrontOriginAccessIdentityInUse: Self { .init(.cloudFrontOriginAccessIdentityInUse) }
+    /// The CNAME specified is already defined for CloudFront.
+    public static var cnameAlreadyExists: Self { .init(.cnameAlreadyExists) }
     /// The caller reference you attempted to create the distribution with is associated with another distribution.
     public static var distributionAlreadyExists: Self { .init(.distributionAlreadyExists) }
     /// The specified CloudFront distribution is not disabled. You must disable

@@ -55,9 +55,9 @@ extension OpenSearch {
     }
 
     public enum DescribePackagesFilterName: String, CustomStringConvertible, Codable {
-        case packageid = "PackageID"
-        case packagename = "PackageName"
-        case packagestatus = "PackageStatus"
+        case packageID = "PackageID"
+        case packageName = "PackageName"
+        case packageStatus = "PackageStatus"
         public var description: String { return self.rawValue }
     }
 
@@ -72,7 +72,7 @@ extension OpenSearch {
 
     public enum EngineType: String, CustomStringConvertible, Codable {
         case elasticsearch = "Elasticsearch"
-        case opensearch = "OpenSearch"
+        case openSearch = "OpenSearch"
         public var description: String { return self.rawValue }
     }
 
@@ -205,7 +205,7 @@ extension OpenSearch {
     public enum OptionState: String, CustomStringConvertible, Codable {
         case active = "Active"
         case processing = "Processing"
-        case requiresindexdocuments = "RequiresIndexDocuments"
+        case requiresIndexDocuments = "RequiresIndexDocuments"
         public var description: String { return self.rawValue }
     }
 
@@ -267,8 +267,8 @@ extension OpenSearch {
     }
 
     public enum TLSSecurityPolicy: String, CustomStringConvertible, Codable {
-        case policyMinTls10201907 = "Policy-Min-TLS-1-0-2019-07"
-        case policyMinTls12201907 = "Policy-Min-TLS-1-2-2019-07"
+        case policyMinTLS10201907 = "Policy-Min-TLS-1-0-2019-07"
+        case policyMinTLS12201907 = "Policy-Min-TLS-1-2-2019-07"
         public var description: String { return self.rawValue }
     }
 
@@ -448,18 +448,18 @@ extension OpenSearch {
         /// True if the internal user database is enabled.
         public let internalUserDatabaseEnabled: Bool?
         /// Describes the SAML application configured for a domain.
-        public let sAMLOptions: SAMLOptionsOutput?
+        public let samlOptions: SAMLOptionsOutput?
 
-        public init(enabled: Bool? = nil, internalUserDatabaseEnabled: Bool? = nil, sAMLOptions: SAMLOptionsOutput? = nil) {
+        public init(enabled: Bool? = nil, internalUserDatabaseEnabled: Bool? = nil, samlOptions: SAMLOptionsOutput? = nil) {
             self.enabled = enabled
             self.internalUserDatabaseEnabled = internalUserDatabaseEnabled
-            self.sAMLOptions = sAMLOptions
+            self.samlOptions = samlOptions
         }
 
         private enum CodingKeys: String, CodingKey {
             case enabled = "Enabled"
             case internalUserDatabaseEnabled = "InternalUserDatabaseEnabled"
-            case sAMLOptions = "SAMLOptions"
+            case samlOptions = "SAMLOptions"
         }
     }
 
@@ -471,25 +471,25 @@ extension OpenSearch {
         /// Credentials for the master user: username and password, ARN, or both.
         public let masterUserOptions: MasterUserOptions?
         /// The SAML application configuration for the domain.
-        public let sAMLOptions: SAMLOptionsInput?
+        public let samlOptions: SAMLOptionsInput?
 
-        public init(enabled: Bool? = nil, internalUserDatabaseEnabled: Bool? = nil, masterUserOptions: MasterUserOptions? = nil, sAMLOptions: SAMLOptionsInput? = nil) {
+        public init(enabled: Bool? = nil, internalUserDatabaseEnabled: Bool? = nil, masterUserOptions: MasterUserOptions? = nil, samlOptions: SAMLOptionsInput? = nil) {
             self.enabled = enabled
             self.internalUserDatabaseEnabled = internalUserDatabaseEnabled
             self.masterUserOptions = masterUserOptions
-            self.sAMLOptions = sAMLOptions
+            self.samlOptions = samlOptions
         }
 
         public func validate(name: String) throws {
             try self.masterUserOptions?.validate(name: "\(name).masterUserOptions")
-            try self.sAMLOptions?.validate(name: "\(name).sAMLOptions")
+            try self.samlOptions?.validate(name: "\(name).samlOptions")
         }
 
         private enum CodingKeys: String, CodingKey {
             case enabled = "Enabled"
             case internalUserDatabaseEnabled = "InternalUserDatabaseEnabled"
             case masterUserOptions = "MasterUserOptions"
-            case sAMLOptions = "SAMLOptions"
+            case samlOptions = "SAMLOptions"
         }
     }
 
@@ -924,7 +924,7 @@ extension OpenSearch {
         /// The name of the Amazon OpenSearch Service domain you're creating. Domain names are unique across the domains owned by an account within an AWS region. Domain names must start with a lowercase letter and can contain the following characters: a-z (lowercase), 0-9, and - (hyphen).
         public let domainName: String
         /// Options to enable, disable, and specify the type and size of EBS storage volumes.
-        public let eBSOptions: EBSOptions?
+        public let ebsOptions: EBSOptions?
         /// Options for encryption of data at rest.
         public let encryptionAtRestOptions: EncryptionAtRestOptions?
         /// String of format Elasticsearch_X.Y or OpenSearch_X.Y to specify the engine version for the Amazon OpenSearch Service domain. For example, "OpenSearch_1.0" or "Elasticsearch_7.9". For more information, see Creating and managing Amazon OpenSearch Service domains .
@@ -938,9 +938,9 @@ extension OpenSearch {
         /// A list of Tag added during domain creation.
         public let tagList: [Tag]?
         /// Options to specify the subnets and security groups for a VPC endpoint. For more information, see Launching your Amazon OpenSearch Service domains using a VPC .
-        public let vPCOptions: VPCOptions?
+        public let vpcOptions: VPCOptions?
 
-        public init(accessPolicies: String? = nil, advancedOptions: [String: String]? = nil, advancedSecurityOptions: AdvancedSecurityOptionsInput? = nil, autoTuneOptions: AutoTuneOptionsInput? = nil, clusterConfig: ClusterConfig? = nil, cognitoOptions: CognitoOptions? = nil, domainEndpointOptions: DomainEndpointOptions? = nil, domainName: String, eBSOptions: EBSOptions? = nil, encryptionAtRestOptions: EncryptionAtRestOptions? = nil, engineVersion: String? = nil, logPublishingOptions: [LogType: LogPublishingOption]? = nil, nodeToNodeEncryptionOptions: NodeToNodeEncryptionOptions? = nil, snapshotOptions: SnapshotOptions? = nil, tagList: [Tag]? = nil, vPCOptions: VPCOptions? = nil) {
+        public init(accessPolicies: String? = nil, advancedOptions: [String: String]? = nil, advancedSecurityOptions: AdvancedSecurityOptionsInput? = nil, autoTuneOptions: AutoTuneOptionsInput? = nil, clusterConfig: ClusterConfig? = nil, cognitoOptions: CognitoOptions? = nil, domainEndpointOptions: DomainEndpointOptions? = nil, domainName: String, ebsOptions: EBSOptions? = nil, encryptionAtRestOptions: EncryptionAtRestOptions? = nil, engineVersion: String? = nil, logPublishingOptions: [LogType: LogPublishingOption]? = nil, nodeToNodeEncryptionOptions: NodeToNodeEncryptionOptions? = nil, snapshotOptions: SnapshotOptions? = nil, tagList: [Tag]? = nil, vpcOptions: VPCOptions? = nil) {
             self.accessPolicies = accessPolicies
             self.advancedOptions = advancedOptions
             self.advancedSecurityOptions = advancedSecurityOptions
@@ -949,14 +949,14 @@ extension OpenSearch {
             self.cognitoOptions = cognitoOptions
             self.domainEndpointOptions = domainEndpointOptions
             self.domainName = domainName
-            self.eBSOptions = eBSOptions
+            self.ebsOptions = ebsOptions
             self.encryptionAtRestOptions = encryptionAtRestOptions
             self.engineVersion = engineVersion
             self.logPublishingOptions = logPublishingOptions
             self.nodeToNodeEncryptionOptions = nodeToNodeEncryptionOptions
             self.snapshotOptions = snapshotOptions
             self.tagList = tagList
-            self.vPCOptions = vPCOptions
+            self.vpcOptions = vpcOptions
         }
 
         public func validate(name: String) throws {
@@ -990,14 +990,14 @@ extension OpenSearch {
             case cognitoOptions = "CognitoOptions"
             case domainEndpointOptions = "DomainEndpointOptions"
             case domainName = "DomainName"
-            case eBSOptions = "EBSOptions"
+            case ebsOptions = "EBSOptions"
             case encryptionAtRestOptions = "EncryptionAtRestOptions"
             case engineVersion = "EngineVersion"
             case logPublishingOptions = "LogPublishingOptions"
             case nodeToNodeEncryptionOptions = "NodeToNodeEncryptionOptions"
             case snapshotOptions = "SnapshotOptions"
             case tagList = "TagList"
-            case vPCOptions = "VPCOptions"
+            case vpcOptions = "VPCOptions"
         }
     }
 
@@ -1747,7 +1747,7 @@ extension OpenSearch {
         /// The DomainEndpointOptions for the domain.
         public let domainEndpointOptions: DomainEndpointOptionsStatus?
         /// The EBSOptions for the domain.
-        public let eBSOptions: EBSOptionsStatus?
+        public let ebsOptions: EBSOptionsStatus?
         /// The EncryptionAtRestOptions for the domain.
         public let encryptionAtRestOptions: EncryptionAtRestOptionsStatus?
         /// String of format Elasticsearch_X.Y or OpenSearch_X.Y to specify the engine version for the OpenSearch or Elasticsearch domain.
@@ -1759,9 +1759,9 @@ extension OpenSearch {
         /// The SnapshotOptions for the domain.
         public let snapshotOptions: SnapshotOptionsStatus?
         /// The VPCOptions for the specified domain. For more information, see  Launching your Amazon OpenSearch Service domains using a VPC.
-        public let vPCOptions: VPCDerivedInfoStatus?
+        public let vpcOptions: VPCDerivedInfoStatus?
 
-        public init(accessPolicies: AccessPoliciesStatus? = nil, advancedOptions: AdvancedOptionsStatus? = nil, advancedSecurityOptions: AdvancedSecurityOptionsStatus? = nil, autoTuneOptions: AutoTuneOptionsStatus? = nil, clusterConfig: ClusterConfigStatus? = nil, cognitoOptions: CognitoOptionsStatus? = nil, domainEndpointOptions: DomainEndpointOptionsStatus? = nil, eBSOptions: EBSOptionsStatus? = nil, encryptionAtRestOptions: EncryptionAtRestOptionsStatus? = nil, engineVersion: VersionStatus? = nil, logPublishingOptions: LogPublishingOptionsStatus? = nil, nodeToNodeEncryptionOptions: NodeToNodeEncryptionOptionsStatus? = nil, snapshotOptions: SnapshotOptionsStatus? = nil, vPCOptions: VPCDerivedInfoStatus? = nil) {
+        public init(accessPolicies: AccessPoliciesStatus? = nil, advancedOptions: AdvancedOptionsStatus? = nil, advancedSecurityOptions: AdvancedSecurityOptionsStatus? = nil, autoTuneOptions: AutoTuneOptionsStatus? = nil, clusterConfig: ClusterConfigStatus? = nil, cognitoOptions: CognitoOptionsStatus? = nil, domainEndpointOptions: DomainEndpointOptionsStatus? = nil, ebsOptions: EBSOptionsStatus? = nil, encryptionAtRestOptions: EncryptionAtRestOptionsStatus? = nil, engineVersion: VersionStatus? = nil, logPublishingOptions: LogPublishingOptionsStatus? = nil, nodeToNodeEncryptionOptions: NodeToNodeEncryptionOptionsStatus? = nil, snapshotOptions: SnapshotOptionsStatus? = nil, vpcOptions: VPCDerivedInfoStatus? = nil) {
             self.accessPolicies = accessPolicies
             self.advancedOptions = advancedOptions
             self.advancedSecurityOptions = advancedSecurityOptions
@@ -1769,13 +1769,13 @@ extension OpenSearch {
             self.clusterConfig = clusterConfig
             self.cognitoOptions = cognitoOptions
             self.domainEndpointOptions = domainEndpointOptions
-            self.eBSOptions = eBSOptions
+            self.ebsOptions = ebsOptions
             self.encryptionAtRestOptions = encryptionAtRestOptions
             self.engineVersion = engineVersion
             self.logPublishingOptions = logPublishingOptions
             self.nodeToNodeEncryptionOptions = nodeToNodeEncryptionOptions
             self.snapshotOptions = snapshotOptions
-            self.vPCOptions = vPCOptions
+            self.vpcOptions = vpcOptions
         }
 
         private enum CodingKeys: String, CodingKey {
@@ -1786,13 +1786,13 @@ extension OpenSearch {
             case clusterConfig = "ClusterConfig"
             case cognitoOptions = "CognitoOptions"
             case domainEndpointOptions = "DomainEndpointOptions"
-            case eBSOptions = "EBSOptions"
+            case ebsOptions = "EBSOptions"
             case encryptionAtRestOptions = "EncryptionAtRestOptions"
             case engineVersion = "EngineVersion"
             case logPublishingOptions = "LogPublishingOptions"
             case nodeToNodeEncryptionOptions = "NodeToNodeEncryptionOptions"
             case snapshotOptions = "SnapshotOptions"
-            case vPCOptions = "VPCOptions"
+            case vpcOptions = "VPCOptions"
         }
     }
 
@@ -1806,14 +1806,14 @@ extension OpenSearch {
         /// Whether only HTTPS endpoint should be enabled for the domain.
         public let enforceHTTPS: Bool?
         /// Specify the TLS security policy to apply to the HTTPS endpoint of the domain.  Can be one of the following values:   Policy-Min-TLS-1-0-2019-07: TLS security policy which supports TLSv1.0 and higher.   Policy-Min-TLS-1-2-2019-07: TLS security policy which supports only TLSv1.2
-        public let tLSSecurityPolicy: TLSSecurityPolicy?
+        public let tlsSecurityPolicy: TLSSecurityPolicy?
 
-        public init(customEndpoint: String? = nil, customEndpointCertificateArn: String? = nil, customEndpointEnabled: Bool? = nil, enforceHTTPS: Bool? = nil, tLSSecurityPolicy: TLSSecurityPolicy? = nil) {
+        public init(customEndpoint: String? = nil, customEndpointCertificateArn: String? = nil, customEndpointEnabled: Bool? = nil, enforceHTTPS: Bool? = nil, tlsSecurityPolicy: TLSSecurityPolicy? = nil) {
             self.customEndpoint = customEndpoint
             self.customEndpointCertificateArn = customEndpointCertificateArn
             self.customEndpointEnabled = customEndpointEnabled
             self.enforceHTTPS = enforceHTTPS
-            self.tLSSecurityPolicy = tLSSecurityPolicy
+            self.tlsSecurityPolicy = tlsSecurityPolicy
         }
 
         public func validate(name: String) throws {
@@ -1830,7 +1830,7 @@ extension OpenSearch {
             case customEndpointCertificateArn = "CustomEndpointCertificateArn"
             case customEndpointEnabled = "CustomEndpointEnabled"
             case enforceHTTPS = "EnforceHTTPS"
-            case tLSSecurityPolicy = "TLSSecurityPolicy"
+            case tlsSecurityPolicy = "TLSSecurityPolicy"
         }
     }
 
@@ -1869,18 +1869,18 @@ extension OpenSearch {
     }
 
     public struct DomainInformationContainer: AWSEncodableShape & AWSDecodableShape {
-        public let aWSDomainInformation: AWSDomainInformation?
+        public let awsDomainInformation: AWSDomainInformation?
 
-        public init(aWSDomainInformation: AWSDomainInformation? = nil) {
-            self.aWSDomainInformation = aWSDomainInformation
+        public init(awsDomainInformation: AWSDomainInformation? = nil) {
+            self.awsDomainInformation = awsDomainInformation
         }
 
         public func validate(name: String) throws {
-            try self.aWSDomainInformation?.validate(name: "\(name).aWSDomainInformation")
+            try self.awsDomainInformation?.validate(name: "\(name).awsDomainInformation")
         }
 
         private enum CodingKeys: String, CodingKey {
-            case aWSDomainInformation = "AWSDomainInformation"
+            case awsDomainInformation = "AWSDomainInformation"
         }
     }
 
@@ -1954,7 +1954,7 @@ extension OpenSearch {
         /// The name of a domain. Domain names are unique across the domains owned by an account within an AWS region. Domain names start with a letter or number and can contain the following characters: a-z (lowercase), 0-9, and - (hyphen).
         public let domainName: String
         /// The EBSOptions for the specified domain.
-        public let eBSOptions: EBSOptions?
+        public let ebsOptions: EBSOptions?
         /// The status of the EncryptionAtRestOptions.
         public let encryptionAtRestOptions: EncryptionAtRestOptions?
         /// The domain endpoint that you use to submit index and search requests.
@@ -1975,9 +1975,9 @@ extension OpenSearch {
         /// The status of a domain version upgrade. True if Amazon OpenSearch Service is undergoing a version upgrade. False if the configuration is active.
         public let upgradeProcessing: Bool?
         /// The VPCOptions for the specified domain. For more information, see  Launching your Amazon OpenSearch Service domains using a VPC.
-        public let vPCOptions: VPCDerivedInfo?
+        public let vpcOptions: VPCDerivedInfo?
 
-        public init(accessPolicies: String? = nil, advancedOptions: [String: String]? = nil, advancedSecurityOptions: AdvancedSecurityOptions? = nil, arn: String, autoTuneOptions: AutoTuneOptionsOutput? = nil, clusterConfig: ClusterConfig, cognitoOptions: CognitoOptions? = nil, created: Bool? = nil, deleted: Bool? = nil, domainEndpointOptions: DomainEndpointOptions? = nil, domainId: String, domainName: String, eBSOptions: EBSOptions? = nil, encryptionAtRestOptions: EncryptionAtRestOptions? = nil, endpoint: String? = nil, endpoints: [String: String]? = nil, engineVersion: String? = nil, logPublishingOptions: [LogType: LogPublishingOption]? = nil, nodeToNodeEncryptionOptions: NodeToNodeEncryptionOptions? = nil, processing: Bool? = nil, serviceSoftwareOptions: ServiceSoftwareOptions? = nil, snapshotOptions: SnapshotOptions? = nil, upgradeProcessing: Bool? = nil, vPCOptions: VPCDerivedInfo? = nil) {
+        public init(accessPolicies: String? = nil, advancedOptions: [String: String]? = nil, advancedSecurityOptions: AdvancedSecurityOptions? = nil, arn: String, autoTuneOptions: AutoTuneOptionsOutput? = nil, clusterConfig: ClusterConfig, cognitoOptions: CognitoOptions? = nil, created: Bool? = nil, deleted: Bool? = nil, domainEndpointOptions: DomainEndpointOptions? = nil, domainId: String, domainName: String, ebsOptions: EBSOptions? = nil, encryptionAtRestOptions: EncryptionAtRestOptions? = nil, endpoint: String? = nil, endpoints: [String: String]? = nil, engineVersion: String? = nil, logPublishingOptions: [LogType: LogPublishingOption]? = nil, nodeToNodeEncryptionOptions: NodeToNodeEncryptionOptions? = nil, processing: Bool? = nil, serviceSoftwareOptions: ServiceSoftwareOptions? = nil, snapshotOptions: SnapshotOptions? = nil, upgradeProcessing: Bool? = nil, vpcOptions: VPCDerivedInfo? = nil) {
             self.accessPolicies = accessPolicies
             self.advancedOptions = advancedOptions
             self.advancedSecurityOptions = advancedSecurityOptions
@@ -1990,7 +1990,7 @@ extension OpenSearch {
             self.domainEndpointOptions = domainEndpointOptions
             self.domainId = domainId
             self.domainName = domainName
-            self.eBSOptions = eBSOptions
+            self.ebsOptions = ebsOptions
             self.encryptionAtRestOptions = encryptionAtRestOptions
             self.endpoint = endpoint
             self.endpoints = endpoints
@@ -2001,7 +2001,7 @@ extension OpenSearch {
             self.serviceSoftwareOptions = serviceSoftwareOptions
             self.snapshotOptions = snapshotOptions
             self.upgradeProcessing = upgradeProcessing
-            self.vPCOptions = vPCOptions
+            self.vpcOptions = vpcOptions
         }
 
         private enum CodingKeys: String, CodingKey {
@@ -2017,7 +2017,7 @@ extension OpenSearch {
             case domainEndpointOptions = "DomainEndpointOptions"
             case domainId = "DomainId"
             case domainName = "DomainName"
-            case eBSOptions = "EBSOptions"
+            case ebsOptions = "EBSOptions"
             case encryptionAtRestOptions = "EncryptionAtRestOptions"
             case endpoint = "Endpoint"
             case endpoints = "Endpoints"
@@ -2028,7 +2028,7 @@ extension OpenSearch {
             case serviceSoftwareOptions = "ServiceSoftwareOptions"
             case snapshotOptions = "SnapshotOptions"
             case upgradeProcessing = "UpgradeProcessing"
-            case vPCOptions = "VPCOptions"
+            case vpcOptions = "VPCOptions"
         }
     }
 
@@ -2056,7 +2056,7 @@ extension OpenSearch {
 
     public struct EBSOptions: AWSEncodableShape & AWSDecodableShape {
         /// Whether EBS-based storage is enabled.
-        public let eBSEnabled: Bool?
+        public let ebsEnabled: Bool?
         /// The IOPD for a Provisioned IOPS EBS volume (SSD).
         public let iops: Int?
         /// Integer to specify the size of an EBS volume.
@@ -2064,15 +2064,15 @@ extension OpenSearch {
         /// The volume type for EBS-based storage.
         public let volumeType: VolumeType?
 
-        public init(eBSEnabled: Bool? = nil, iops: Int? = nil, volumeSize: Int? = nil, volumeType: VolumeType? = nil) {
-            self.eBSEnabled = eBSEnabled
+        public init(ebsEnabled: Bool? = nil, iops: Int? = nil, volumeSize: Int? = nil, volumeType: VolumeType? = nil) {
+            self.ebsEnabled = ebsEnabled
             self.iops = iops
             self.volumeSize = volumeSize
             self.volumeType = volumeType
         }
 
         private enum CodingKeys: String, CodingKey {
-            case eBSEnabled = "EBSEnabled"
+            case ebsEnabled = "EBSEnabled"
             case iops = "Iops"
             case volumeSize = "VolumeSize"
             case volumeType = "VolumeType"
@@ -3502,7 +3502,7 @@ extension OpenSearch {
         /// The name of the domain you're updating.
         public let domainName: String
         /// Specify the type and size of the EBS volume to use.
-        public let eBSOptions: EBSOptions?
+        public let ebsOptions: EBSOptions?
         /// Specifies encryption of data at rest options.
         public let encryptionAtRestOptions: EncryptionAtRestOptions?
         /// Map of LogType and LogPublishingOption, each containing options to publish a given type of OpenSearch log.
@@ -3512,9 +3512,9 @@ extension OpenSearch {
         /// Option to set the time, in UTC format, for the daily automated snapshot. Default value is 0 hours.
         public let snapshotOptions: SnapshotOptions?
         /// Options to specify the subnets and security groups for the VPC endpoint. For more information, see Launching your Amazon OpenSearch Service domains using a VPC .
-        public let vPCOptions: VPCOptions?
+        public let vpcOptions: VPCOptions?
 
-        public init(accessPolicies: String? = nil, advancedOptions: [String: String]? = nil, advancedSecurityOptions: AdvancedSecurityOptionsInput? = nil, autoTuneOptions: AutoTuneOptions? = nil, clusterConfig: ClusterConfig? = nil, cognitoOptions: CognitoOptions? = nil, domainEndpointOptions: DomainEndpointOptions? = nil, domainName: String, eBSOptions: EBSOptions? = nil, encryptionAtRestOptions: EncryptionAtRestOptions? = nil, logPublishingOptions: [LogType: LogPublishingOption]? = nil, nodeToNodeEncryptionOptions: NodeToNodeEncryptionOptions? = nil, snapshotOptions: SnapshotOptions? = nil, vPCOptions: VPCOptions? = nil) {
+        public init(accessPolicies: String? = nil, advancedOptions: [String: String]? = nil, advancedSecurityOptions: AdvancedSecurityOptionsInput? = nil, autoTuneOptions: AutoTuneOptions? = nil, clusterConfig: ClusterConfig? = nil, cognitoOptions: CognitoOptions? = nil, domainEndpointOptions: DomainEndpointOptions? = nil, domainName: String, ebsOptions: EBSOptions? = nil, encryptionAtRestOptions: EncryptionAtRestOptions? = nil, logPublishingOptions: [LogType: LogPublishingOption]? = nil, nodeToNodeEncryptionOptions: NodeToNodeEncryptionOptions? = nil, snapshotOptions: SnapshotOptions? = nil, vpcOptions: VPCOptions? = nil) {
             self.accessPolicies = accessPolicies
             self.advancedOptions = advancedOptions
             self.advancedSecurityOptions = advancedSecurityOptions
@@ -3523,12 +3523,12 @@ extension OpenSearch {
             self.cognitoOptions = cognitoOptions
             self.domainEndpointOptions = domainEndpointOptions
             self.domainName = domainName
-            self.eBSOptions = eBSOptions
+            self.ebsOptions = ebsOptions
             self.encryptionAtRestOptions = encryptionAtRestOptions
             self.logPublishingOptions = logPublishingOptions
             self.nodeToNodeEncryptionOptions = nodeToNodeEncryptionOptions
             self.snapshotOptions = snapshotOptions
-            self.vPCOptions = vPCOptions
+            self.vpcOptions = vpcOptions
         }
 
         public func validate(name: String) throws {
@@ -3555,12 +3555,12 @@ extension OpenSearch {
             case clusterConfig = "ClusterConfig"
             case cognitoOptions = "CognitoOptions"
             case domainEndpointOptions = "DomainEndpointOptions"
-            case eBSOptions = "EBSOptions"
+            case ebsOptions = "EBSOptions"
             case encryptionAtRestOptions = "EncryptionAtRestOptions"
             case logPublishingOptions = "LogPublishingOptions"
             case nodeToNodeEncryptionOptions = "NodeToNodeEncryptionOptions"
             case snapshotOptions = "SnapshotOptions"
-            case vPCOptions = "VPCOptions"
+            case vpcOptions = "VPCOptions"
         }
     }
 
@@ -3736,20 +3736,20 @@ extension OpenSearch {
         /// The subnets for the VPC endpoint.
         public let subnetIds: [String]?
         /// The VPC ID for the domain. Exists only if the domain was created with VPCOptions.
-        public let vPCId: String?
+        public let vpcId: String?
 
-        public init(availabilityZones: [String]? = nil, securityGroupIds: [String]? = nil, subnetIds: [String]? = nil, vPCId: String? = nil) {
+        public init(availabilityZones: [String]? = nil, securityGroupIds: [String]? = nil, subnetIds: [String]? = nil, vpcId: String? = nil) {
             self.availabilityZones = availabilityZones
             self.securityGroupIds = securityGroupIds
             self.subnetIds = subnetIds
-            self.vPCId = vPCId
+            self.vpcId = vpcId
         }
 
         private enum CodingKeys: String, CodingKey {
             case availabilityZones = "AvailabilityZones"
             case securityGroupIds = "SecurityGroupIds"
             case subnetIds = "SubnetIds"
-            case vPCId = "VPCId"
+            case vpcId = "VPCId"
         }
     }
 

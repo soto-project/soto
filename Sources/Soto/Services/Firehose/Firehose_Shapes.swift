@@ -22,17 +22,17 @@ extension Firehose {
     // MARK: Enums
 
     public enum AmazonopensearchserviceIndexRotationPeriod: String, CustomStringConvertible, Codable {
-        case norotation = "NoRotation"
-        case oneday = "OneDay"
-        case onehour = "OneHour"
-        case onemonth = "OneMonth"
-        case oneweek = "OneWeek"
+        case noRotation = "NoRotation"
+        case oneDay = "OneDay"
+        case oneHour = "OneHour"
+        case oneMonth = "OneMonth"
+        case oneWeek = "OneWeek"
         public var description: String { return self.rawValue }
     }
 
     public enum AmazonopensearchserviceS3BackupMode: String, CustomStringConvertible, Codable {
-        case alldocuments = "AllDocuments"
-        case faileddocumentsonly = "FailedDocumentsOnly"
+        case allDocuments = "AllDocuments"
+        case failedDocumentsOnly = "FailedDocumentsOnly"
         public var description: String { return self.rawValue }
     }
 
@@ -90,23 +90,23 @@ extension Firehose {
     }
 
     public enum DeliveryStreamType: String, CustomStringConvertible, Codable {
-        case directput = "DirectPut"
-        case kinesisstreamassource = "KinesisStreamAsSource"
+        case directPut = "DirectPut"
+        case kinesisStreamAsSource = "KinesisStreamAsSource"
         public var description: String { return self.rawValue }
     }
 
     public enum ElasticsearchIndexRotationPeriod: String, CustomStringConvertible, Codable {
-        case norotation = "NoRotation"
-        case oneday = "OneDay"
-        case onehour = "OneHour"
-        case onemonth = "OneMonth"
-        case oneweek = "OneWeek"
+        case noRotation = "NoRotation"
+        case oneDay = "OneDay"
+        case oneHour = "OneHour"
+        case oneMonth = "OneMonth"
+        case oneWeek = "OneWeek"
         public var description: String { return self.rawValue }
     }
 
     public enum ElasticsearchS3BackupMode: String, CustomStringConvertible, Codable {
-        case alldocuments = "AllDocuments"
-        case faileddocumentsonly = "FailedDocumentsOnly"
+        case allDocuments = "AllDocuments"
+        case failedDocumentsOnly = "FailedDocumentsOnly"
         public var description: String { return self.rawValue }
     }
 
@@ -117,8 +117,8 @@ extension Firehose {
     }
 
     public enum HttpEndpointS3BackupMode: String, CustomStringConvertible, Codable {
-        case alldata = "AllData"
-        case faileddataonly = "FailedDataOnly"
+        case allData = "AllData"
+        case failedDataOnly = "FailedDataOnly"
         public var description: String { return self.rawValue }
     }
 
@@ -129,7 +129,7 @@ extension Firehose {
     }
 
     public enum NoEncryptionConfig: String, CustomStringConvertible, Codable {
-        case noencryption = "NoEncryption"
+        case noEncryption = "NoEncryption"
         public var description: String { return self.rawValue }
     }
 
@@ -160,23 +160,23 @@ extension Firehose {
     }
 
     public enum ProcessorParameterName: String, CustomStringConvertible, Codable {
-        case bufferintervalinseconds = "BufferIntervalInSeconds"
-        case buffersizeinmbs = "BufferSizeInMBs"
+        case bufferIntervalInSeconds = "BufferIntervalInSeconds"
+        case bufferSizeInMBs = "BufferSizeInMBs"
         case delimiter = "Delimiter"
-        case jsonparsingengine = "JsonParsingEngine"
-        case lambdaarn = "LambdaArn"
-        case metadataextractionquery = "MetadataExtractionQuery"
-        case numberofretries = "NumberOfRetries"
-        case rolearn = "RoleArn"
-        case subrecordtype = "SubRecordType"
+        case jsonParsingEngine = "JsonParsingEngine"
+        case lambdaArn = "LambdaArn"
+        case metadataExtractionQuery = "MetadataExtractionQuery"
+        case numberOfRetries = "NumberOfRetries"
+        case roleArn = "RoleArn"
+        case subRecordType = "SubRecordType"
         public var description: String { return self.rawValue }
     }
 
     public enum ProcessorType: String, CustomStringConvertible, Codable {
-        case appenddelimitertorecord = "AppendDelimiterToRecord"
+        case appendDelimiterToRecord = "AppendDelimiterToRecord"
         case lambda = "Lambda"
-        case metadataextraction = "MetadataExtraction"
-        case recorddeaggregation = "RecordDeAggregation"
+        case metadataExtraction = "MetadataExtraction"
+        case recordDeAggregation = "RecordDeAggregation"
         public var description: String { return self.rawValue }
     }
 
@@ -193,8 +193,8 @@ extension Firehose {
     }
 
     public enum SplunkS3BackupMode: String, CustomStringConvertible, Codable {
-        case allevents = "AllEvents"
-        case failedeventsonly = "FailedEventsOnly"
+        case allEvents = "AllEvents"
+        case failedEventsOnly = "FailedEventsOnly"
         public var description: String { return self.rawValue }
     }
 
@@ -1171,21 +1171,21 @@ extension Firehose {
 
     public struct EncryptionConfiguration: AWSEncodableShape & AWSDecodableShape {
         /// The encryption key.
-        public let kMSEncryptionConfig: KMSEncryptionConfig?
+        public let kmsEncryptionConfig: KMSEncryptionConfig?
         /// Specifically override existing encryption information to ensure that no encryption is used.
         public let noEncryptionConfig: NoEncryptionConfig?
 
-        public init(kMSEncryptionConfig: KMSEncryptionConfig? = nil, noEncryptionConfig: NoEncryptionConfig? = nil) {
-            self.kMSEncryptionConfig = kMSEncryptionConfig
+        public init(kmsEncryptionConfig: KMSEncryptionConfig? = nil, noEncryptionConfig: NoEncryptionConfig? = nil) {
+            self.kmsEncryptionConfig = kmsEncryptionConfig
             self.noEncryptionConfig = noEncryptionConfig
         }
 
         public func validate(name: String) throws {
-            try self.kMSEncryptionConfig?.validate(name: "\(name).kMSEncryptionConfig")
+            try self.kmsEncryptionConfig?.validate(name: "\(name).kmsEncryptionConfig")
         }
 
         private enum CodingKeys: String, CodingKey {
-            case kMSEncryptionConfig = "KMSEncryptionConfig"
+            case kmsEncryptionConfig = "KMSEncryptionConfig"
             case noEncryptionConfig = "NoEncryptionConfig"
         }
     }
@@ -1762,20 +1762,20 @@ extension Firehose {
 
     public struct KMSEncryptionConfig: AWSEncodableShape & AWSDecodableShape {
         /// The Amazon Resource Name (ARN) of the encryption key. Must belong to the same AWS Region as the destination Amazon S3 bucket. For more information, see Amazon Resource Names (ARNs) and AWS Service Namespaces.
-        public let aWSKMSKeyARN: String
+        public let awskmsKeyARN: String
 
-        public init(aWSKMSKeyARN: String) {
-            self.aWSKMSKeyARN = aWSKMSKeyARN
+        public init(awskmsKeyARN: String) {
+            self.awskmsKeyARN = awskmsKeyARN
         }
 
         public func validate(name: String) throws {
-            try self.validate(self.aWSKMSKeyARN, name: "aWSKMSKeyARN", parent: name, max: 512)
-            try self.validate(self.aWSKMSKeyARN, name: "aWSKMSKeyARN", parent: name, min: 1)
-            try self.validate(self.aWSKMSKeyARN, name: "aWSKMSKeyARN", parent: name, pattern: "^arn:")
+            try self.validate(self.awskmsKeyARN, name: "awskmsKeyARN", parent: name, max: 512)
+            try self.validate(self.awskmsKeyARN, name: "awskmsKeyARN", parent: name, min: 1)
+            try self.validate(self.awskmsKeyARN, name: "awskmsKeyARN", parent: name, pattern: "^arn:")
         }
 
         private enum CodingKeys: String, CodingKey {
-            case aWSKMSKeyARN = "AWSKMSKeyARN"
+            case awskmsKeyARN = "AWSKMSKeyARN"
         }
     }
 
@@ -2753,13 +2753,13 @@ extension Firehose {
         /// The Amazon CloudWatch logging options for your delivery stream.
         public let cloudWatchLoggingOptions: CloudWatchLoggingOptions?
         /// The amount of time that Kinesis Data Firehose waits to receive an acknowledgment from Splunk after it sends it data. At the end of the timeout period, Kinesis Data Firehose either tries to send the data again or considers it an error, based on your retry settings.
-        public let hECAcknowledgmentTimeoutInSeconds: Int?
+        public let hecAcknowledgmentTimeoutInSeconds: Int?
         /// The HTTP Event Collector (HEC) endpoint to which Kinesis Data Firehose sends your data.
-        public let hECEndpoint: String
+        public let hecEndpoint: String
         /// This type can be either "Raw" or "Event."
-        public let hECEndpointType: HECEndpointType
+        public let hecEndpointType: HECEndpointType
         /// This is a GUID that you obtain from your Splunk cluster when you create a new HEC endpoint.
-        public let hECToken: String
+        public let hecToken: String
         /// The data processing configuration.
         public let processingConfiguration: ProcessingConfiguration?
         /// The retry behavior in case Kinesis Data Firehose is unable to deliver data to Splunk, or if it doesn't receive an acknowledgment of receipt from Splunk.
@@ -2769,12 +2769,12 @@ extension Firehose {
         /// The configuration for the backup Amazon S3 location.
         public let s3Configuration: S3DestinationConfiguration
 
-        public init(cloudWatchLoggingOptions: CloudWatchLoggingOptions? = nil, hECAcknowledgmentTimeoutInSeconds: Int? = nil, hECEndpoint: String, hECEndpointType: HECEndpointType, hECToken: String, processingConfiguration: ProcessingConfiguration? = nil, retryOptions: SplunkRetryOptions? = nil, s3BackupMode: SplunkS3BackupMode? = nil, s3Configuration: S3DestinationConfiguration) {
+        public init(cloudWatchLoggingOptions: CloudWatchLoggingOptions? = nil, hecAcknowledgmentTimeoutInSeconds: Int? = nil, hecEndpoint: String, hecEndpointType: HECEndpointType, hecToken: String, processingConfiguration: ProcessingConfiguration? = nil, retryOptions: SplunkRetryOptions? = nil, s3BackupMode: SplunkS3BackupMode? = nil, s3Configuration: S3DestinationConfiguration) {
             self.cloudWatchLoggingOptions = cloudWatchLoggingOptions
-            self.hECAcknowledgmentTimeoutInSeconds = hECAcknowledgmentTimeoutInSeconds
-            self.hECEndpoint = hECEndpoint
-            self.hECEndpointType = hECEndpointType
-            self.hECToken = hECToken
+            self.hecAcknowledgmentTimeoutInSeconds = hecAcknowledgmentTimeoutInSeconds
+            self.hecEndpoint = hecEndpoint
+            self.hecEndpointType = hecEndpointType
+            self.hecToken = hecToken
             self.processingConfiguration = processingConfiguration
             self.retryOptions = retryOptions
             self.s3BackupMode = s3BackupMode
@@ -2783,12 +2783,12 @@ extension Firehose {
 
         public func validate(name: String) throws {
             try self.cloudWatchLoggingOptions?.validate(name: "\(name).cloudWatchLoggingOptions")
-            try self.validate(self.hECAcknowledgmentTimeoutInSeconds, name: "hECAcknowledgmentTimeoutInSeconds", parent: name, max: 600)
-            try self.validate(self.hECAcknowledgmentTimeoutInSeconds, name: "hECAcknowledgmentTimeoutInSeconds", parent: name, min: 180)
-            try self.validate(self.hECEndpoint, name: "hECEndpoint", parent: name, max: 2048)
-            try self.validate(self.hECEndpoint, name: "hECEndpoint", parent: name, pattern: ".*")
-            try self.validate(self.hECToken, name: "hECToken", parent: name, max: 2048)
-            try self.validate(self.hECToken, name: "hECToken", parent: name, pattern: ".*")
+            try self.validate(self.hecAcknowledgmentTimeoutInSeconds, name: "hecAcknowledgmentTimeoutInSeconds", parent: name, max: 600)
+            try self.validate(self.hecAcknowledgmentTimeoutInSeconds, name: "hecAcknowledgmentTimeoutInSeconds", parent: name, min: 180)
+            try self.validate(self.hecEndpoint, name: "hecEndpoint", parent: name, max: 2048)
+            try self.validate(self.hecEndpoint, name: "hecEndpoint", parent: name, pattern: ".*")
+            try self.validate(self.hecToken, name: "hecToken", parent: name, max: 2048)
+            try self.validate(self.hecToken, name: "hecToken", parent: name, pattern: ".*")
             try self.processingConfiguration?.validate(name: "\(name).processingConfiguration")
             try self.retryOptions?.validate(name: "\(name).retryOptions")
             try self.s3Configuration.validate(name: "\(name).s3Configuration")
@@ -2796,10 +2796,10 @@ extension Firehose {
 
         private enum CodingKeys: String, CodingKey {
             case cloudWatchLoggingOptions = "CloudWatchLoggingOptions"
-            case hECAcknowledgmentTimeoutInSeconds = "HECAcknowledgmentTimeoutInSeconds"
-            case hECEndpoint = "HECEndpoint"
-            case hECEndpointType = "HECEndpointType"
-            case hECToken = "HECToken"
+            case hecAcknowledgmentTimeoutInSeconds = "HECAcknowledgmentTimeoutInSeconds"
+            case hecEndpoint = "HECEndpoint"
+            case hecEndpointType = "HECEndpointType"
+            case hecToken = "HECToken"
             case processingConfiguration = "ProcessingConfiguration"
             case retryOptions = "RetryOptions"
             case s3BackupMode = "S3BackupMode"
@@ -2811,13 +2811,13 @@ extension Firehose {
         /// The Amazon CloudWatch logging options for your delivery stream.
         public let cloudWatchLoggingOptions: CloudWatchLoggingOptions?
         /// The amount of time that Kinesis Data Firehose waits to receive an acknowledgment from Splunk after it sends it data. At the end of the timeout period, Kinesis Data Firehose either tries to send the data again or considers it an error, based on your retry settings.
-        public let hECAcknowledgmentTimeoutInSeconds: Int?
+        public let hecAcknowledgmentTimeoutInSeconds: Int?
         /// The HTTP Event Collector (HEC) endpoint to which Kinesis Data Firehose sends your data.
-        public let hECEndpoint: String?
+        public let hecEndpoint: String?
         /// This type can be either "Raw" or "Event."
-        public let hECEndpointType: HECEndpointType?
+        public let hecEndpointType: HECEndpointType?
         /// A GUID you obtain from your Splunk cluster when you create a new HEC endpoint.
-        public let hECToken: String?
+        public let hecToken: String?
         /// The data processing configuration.
         public let processingConfiguration: ProcessingConfiguration?
         /// The retry behavior in case Kinesis Data Firehose is unable to deliver data to Splunk or if it doesn't receive an acknowledgment of receipt from Splunk.
@@ -2827,12 +2827,12 @@ extension Firehose {
         /// The Amazon S3 destination.>
         public let s3DestinationDescription: S3DestinationDescription?
 
-        public init(cloudWatchLoggingOptions: CloudWatchLoggingOptions? = nil, hECAcknowledgmentTimeoutInSeconds: Int? = nil, hECEndpoint: String? = nil, hECEndpointType: HECEndpointType? = nil, hECToken: String? = nil, processingConfiguration: ProcessingConfiguration? = nil, retryOptions: SplunkRetryOptions? = nil, s3BackupMode: SplunkS3BackupMode? = nil, s3DestinationDescription: S3DestinationDescription? = nil) {
+        public init(cloudWatchLoggingOptions: CloudWatchLoggingOptions? = nil, hecAcknowledgmentTimeoutInSeconds: Int? = nil, hecEndpoint: String? = nil, hecEndpointType: HECEndpointType? = nil, hecToken: String? = nil, processingConfiguration: ProcessingConfiguration? = nil, retryOptions: SplunkRetryOptions? = nil, s3BackupMode: SplunkS3BackupMode? = nil, s3DestinationDescription: S3DestinationDescription? = nil) {
             self.cloudWatchLoggingOptions = cloudWatchLoggingOptions
-            self.hECAcknowledgmentTimeoutInSeconds = hECAcknowledgmentTimeoutInSeconds
-            self.hECEndpoint = hECEndpoint
-            self.hECEndpointType = hECEndpointType
-            self.hECToken = hECToken
+            self.hecAcknowledgmentTimeoutInSeconds = hecAcknowledgmentTimeoutInSeconds
+            self.hecEndpoint = hecEndpoint
+            self.hecEndpointType = hecEndpointType
+            self.hecToken = hecToken
             self.processingConfiguration = processingConfiguration
             self.retryOptions = retryOptions
             self.s3BackupMode = s3BackupMode
@@ -2841,10 +2841,10 @@ extension Firehose {
 
         private enum CodingKeys: String, CodingKey {
             case cloudWatchLoggingOptions = "CloudWatchLoggingOptions"
-            case hECAcknowledgmentTimeoutInSeconds = "HECAcknowledgmentTimeoutInSeconds"
-            case hECEndpoint = "HECEndpoint"
-            case hECEndpointType = "HECEndpointType"
-            case hECToken = "HECToken"
+            case hecAcknowledgmentTimeoutInSeconds = "HECAcknowledgmentTimeoutInSeconds"
+            case hecEndpoint = "HECEndpoint"
+            case hecEndpointType = "HECEndpointType"
+            case hecToken = "HECToken"
             case processingConfiguration = "ProcessingConfiguration"
             case retryOptions = "RetryOptions"
             case s3BackupMode = "S3BackupMode"
@@ -2856,13 +2856,13 @@ extension Firehose {
         /// The Amazon CloudWatch logging options for your delivery stream.
         public let cloudWatchLoggingOptions: CloudWatchLoggingOptions?
         /// The amount of time that Kinesis Data Firehose waits to receive an acknowledgment from Splunk after it sends data. At the end of the timeout period, Kinesis Data Firehose either tries to send the data again or considers it an error, based on your retry settings.
-        public let hECAcknowledgmentTimeoutInSeconds: Int?
+        public let hecAcknowledgmentTimeoutInSeconds: Int?
         /// The HTTP Event Collector (HEC) endpoint to which Kinesis Data Firehose sends your data.
-        public let hECEndpoint: String?
+        public let hecEndpoint: String?
         /// This type can be either "Raw" or "Event."
-        public let hECEndpointType: HECEndpointType?
+        public let hecEndpointType: HECEndpointType?
         /// A GUID that you obtain from your Splunk cluster when you create a new HEC endpoint.
-        public let hECToken: String?
+        public let hecToken: String?
         /// The data processing configuration.
         public let processingConfiguration: ProcessingConfiguration?
         /// The retry behavior in case Kinesis Data Firehose is unable to deliver data to Splunk or if it doesn't receive an acknowledgment of receipt from Splunk.
@@ -2872,12 +2872,12 @@ extension Firehose {
         /// Your update to the configuration of the backup Amazon S3 location.
         public let s3Update: S3DestinationUpdate?
 
-        public init(cloudWatchLoggingOptions: CloudWatchLoggingOptions? = nil, hECAcknowledgmentTimeoutInSeconds: Int? = nil, hECEndpoint: String? = nil, hECEndpointType: HECEndpointType? = nil, hECToken: String? = nil, processingConfiguration: ProcessingConfiguration? = nil, retryOptions: SplunkRetryOptions? = nil, s3BackupMode: SplunkS3BackupMode? = nil, s3Update: S3DestinationUpdate? = nil) {
+        public init(cloudWatchLoggingOptions: CloudWatchLoggingOptions? = nil, hecAcknowledgmentTimeoutInSeconds: Int? = nil, hecEndpoint: String? = nil, hecEndpointType: HECEndpointType? = nil, hecToken: String? = nil, processingConfiguration: ProcessingConfiguration? = nil, retryOptions: SplunkRetryOptions? = nil, s3BackupMode: SplunkS3BackupMode? = nil, s3Update: S3DestinationUpdate? = nil) {
             self.cloudWatchLoggingOptions = cloudWatchLoggingOptions
-            self.hECAcknowledgmentTimeoutInSeconds = hECAcknowledgmentTimeoutInSeconds
-            self.hECEndpoint = hECEndpoint
-            self.hECEndpointType = hECEndpointType
-            self.hECToken = hECToken
+            self.hecAcknowledgmentTimeoutInSeconds = hecAcknowledgmentTimeoutInSeconds
+            self.hecEndpoint = hecEndpoint
+            self.hecEndpointType = hecEndpointType
+            self.hecToken = hecToken
             self.processingConfiguration = processingConfiguration
             self.retryOptions = retryOptions
             self.s3BackupMode = s3BackupMode
@@ -2886,12 +2886,12 @@ extension Firehose {
 
         public func validate(name: String) throws {
             try self.cloudWatchLoggingOptions?.validate(name: "\(name).cloudWatchLoggingOptions")
-            try self.validate(self.hECAcknowledgmentTimeoutInSeconds, name: "hECAcknowledgmentTimeoutInSeconds", parent: name, max: 600)
-            try self.validate(self.hECAcknowledgmentTimeoutInSeconds, name: "hECAcknowledgmentTimeoutInSeconds", parent: name, min: 180)
-            try self.validate(self.hECEndpoint, name: "hECEndpoint", parent: name, max: 2048)
-            try self.validate(self.hECEndpoint, name: "hECEndpoint", parent: name, pattern: ".*")
-            try self.validate(self.hECToken, name: "hECToken", parent: name, max: 2048)
-            try self.validate(self.hECToken, name: "hECToken", parent: name, pattern: ".*")
+            try self.validate(self.hecAcknowledgmentTimeoutInSeconds, name: "hecAcknowledgmentTimeoutInSeconds", parent: name, max: 600)
+            try self.validate(self.hecAcknowledgmentTimeoutInSeconds, name: "hecAcknowledgmentTimeoutInSeconds", parent: name, min: 180)
+            try self.validate(self.hecEndpoint, name: "hecEndpoint", parent: name, max: 2048)
+            try self.validate(self.hecEndpoint, name: "hecEndpoint", parent: name, pattern: ".*")
+            try self.validate(self.hecToken, name: "hecToken", parent: name, max: 2048)
+            try self.validate(self.hecToken, name: "hecToken", parent: name, pattern: ".*")
             try self.processingConfiguration?.validate(name: "\(name).processingConfiguration")
             try self.retryOptions?.validate(name: "\(name).retryOptions")
             try self.s3Update?.validate(name: "\(name).s3Update")
@@ -2899,10 +2899,10 @@ extension Firehose {
 
         private enum CodingKeys: String, CodingKey {
             case cloudWatchLoggingOptions = "CloudWatchLoggingOptions"
-            case hECAcknowledgmentTimeoutInSeconds = "HECAcknowledgmentTimeoutInSeconds"
-            case hECEndpoint = "HECEndpoint"
-            case hECEndpointType = "HECEndpointType"
-            case hECToken = "HECToken"
+            case hecAcknowledgmentTimeoutInSeconds = "HECAcknowledgmentTimeoutInSeconds"
+            case hecEndpoint = "HECEndpoint"
+            case hecEndpointType = "HECEndpointType"
+            case hecToken = "HECToken"
             case processingConfiguration = "ProcessingConfiguration"
             case retryOptions = "RetryOptions"
             case s3BackupMode = "S3BackupMode"

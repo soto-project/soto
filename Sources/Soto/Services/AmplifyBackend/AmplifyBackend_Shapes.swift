@@ -508,17 +508,17 @@ extension AmplifyBackend {
 
     public struct CreateBackendAuthMFAConfig: AWSEncodableShape & AWSDecodableShape {
         /// Describes whether MFA should be [ON, OFF, or OPTIONAL] for authentication in your Amplify project.
-        public let mFAMode: MFAMode
+        public let mfaMode: MFAMode
         /// Describes the configuration settings and methods for your Amplify app users to use MFA.
         public let settings: Settings?
 
-        public init(mFAMode: MFAMode, settings: Settings? = nil) {
-            self.mFAMode = mFAMode
+        public init(mfaMode: MFAMode, settings: Settings? = nil) {
+            self.mfaMode = mfaMode
             self.settings = settings
         }
 
         private enum CodingKeys: String, CodingKey {
-            case mFAMode = "MFAMode"
+            case mfaMode = "MFAMode"
             case settings
         }
     }
@@ -2121,17 +2121,17 @@ extension AmplifyBackend {
 
     public struct UpdateBackendAuthMFAConfig: AWSEncodableShape {
         /// The MFA mode for the backend of your Amplify project.
-        public let mFAMode: MFAMode?
+        public let mfaMode: MFAMode?
         /// The settings of your MFA configuration for the backend of your Amplify project.
         public let settings: Settings?
 
-        public init(mFAMode: MFAMode? = nil, settings: Settings? = nil) {
-            self.mFAMode = mFAMode
+        public init(mfaMode: MFAMode? = nil, settings: Settings? = nil) {
+            self.mfaMode = mfaMode
             self.settings = settings
         }
 
         private enum CodingKeys: String, CodingKey {
-            case mFAMode = "MFAMode"
+            case mfaMode = "MFAMode"
             case settings
         }
     }

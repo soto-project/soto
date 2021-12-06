@@ -45,7 +45,7 @@ extension CognitoIdentityProvider {
 
     public enum AttributeDataType: String, CustomStringConvertible, Codable {
         case boolean = "Boolean"
-        case datetime = "DateTime"
+        case dateTime = "DateTime"
         case number = "Number"
         case string = "String"
         public var description: String { return self.rawValue }
@@ -151,9 +151,9 @@ extension CognitoIdentityProvider {
     }
 
     public enum EventType: String, CustomStringConvertible, Codable {
-        case forgotpassword = "ForgotPassword"
-        case signin = "SignIn"
-        case signup = "SignUp"
+        case forgotPassword = "ForgotPassword"
+        case signIn = "SignIn"
+        case signUp = "SignUp"
         public var description: String { return self.rawValue }
     }
 
@@ -178,10 +178,10 @@ extension CognitoIdentityProvider {
     public enum IdentityProviderTypeType: String, CustomStringConvertible, Codable {
         case facebook = "Facebook"
         case google = "Google"
-        case loginwithamazon = "LoginWithAmazon"
+        case loginWithAmazon = "LoginWithAmazon"
         case oidc = "OIDC"
         case saml = "SAML"
-        case signinwithapple = "SignInWithApple"
+        case signInWithApple = "SignInWithApple"
         public var description: String { return self.rawValue }
     }
 
@@ -212,9 +212,9 @@ extension CognitoIdentityProvider {
     }
 
     public enum RiskDecisionType: String, CustomStringConvertible, Codable {
-        case accounttakeover = "AccountTakeover"
+        case accountTakeover = "AccountTakeover"
         case block = "Block"
-        case norisk = "NoRisk"
+        case noRisk = "NoRisk"
         public var description: String { return self.rawValue }
     }
 
@@ -243,7 +243,7 @@ extension CognitoIdentityProvider {
         case created = "Created"
         case expired = "Expired"
         case failed = "Failed"
-        case inprogress = "InProgress"
+        case inProgress = "InProgress"
         case pending = "Pending"
         case stopped = "Stopped"
         case stopping = "Stopping"
@@ -831,7 +831,7 @@ extension CognitoIdentityProvider {
         /// Indicates that the status is enabled.
         public let enabled: Bool?
         ///  This response parameter is no longer supported. It provides information only about SMS MFA configurations. It doesn't provide information about TOTP software token MFA configurations. To look up information about either type of MFA configuration, use UserMFASettingList instead.
-        public let mFAOptions: [MFAOptionType]?
+        public let mfaOptions: [MFAOptionType]?
         /// The user's preferred MFA setting.
         public let preferredMfaSetting: String?
         /// An array of name-value pairs representing user attributes.
@@ -847,9 +847,9 @@ extension CognitoIdentityProvider {
         /// The user status. Can be one of the following:   UNCONFIRMED - User has been created but not confirmed.   CONFIRMED - User has been confirmed.   ARCHIVED - User is no longer active.   COMPROMISED - User is disabled due to a potential security threat.   UNKNOWN - User status is not known.   RESET_REQUIRED - User is confirmed, but the user must request a code and reset his or her password before he or she can sign in.   FORCE_CHANGE_PASSWORD - The user is confirmed and the user can sign in using a temporary password, but on first sign-in, the user must change his or her password to a new value before doing anything else.
         public let userStatus: UserStatusType?
 
-        public init(enabled: Bool? = nil, mFAOptions: [MFAOptionType]? = nil, preferredMfaSetting: String? = nil, userAttributes: [AttributeType]? = nil, userCreateDate: Date? = nil, userLastModifiedDate: Date? = nil, userMFASettingList: [String]? = nil, username: String, userStatus: UserStatusType? = nil) {
+        public init(enabled: Bool? = nil, mfaOptions: [MFAOptionType]? = nil, preferredMfaSetting: String? = nil, userAttributes: [AttributeType]? = nil, userCreateDate: Date? = nil, userLastModifiedDate: Date? = nil, userMFASettingList: [String]? = nil, username: String, userStatus: UserStatusType? = nil) {
             self.enabled = enabled
-            self.mFAOptions = mFAOptions
+            self.mfaOptions = mfaOptions
             self.preferredMfaSetting = preferredMfaSetting
             self.userAttributes = userAttributes
             self.userCreateDate = userCreateDate
@@ -861,7 +861,7 @@ extension CognitoIdentityProvider {
 
         private enum CodingKeys: String, CodingKey {
             case enabled = "Enabled"
-            case mFAOptions = "MFAOptions"
+            case mfaOptions = "MFAOptions"
             case preferredMfaSetting = "PreferredMfaSetting"
             case userAttributes = "UserAttributes"
             case userCreateDate = "UserCreateDate"
@@ -1284,7 +1284,7 @@ extension CognitoIdentityProvider {
 
     public struct AdminSetUserMFAPreferenceRequest: AWSEncodableShape {
         /// The SMS text message MFA settings.
-        public let sMSMfaSettings: SMSMfaSettingsType?
+        public let smsMfaSettings: SMSMfaSettingsType?
         /// The time-based one-time password software token MFA settings.
         public let softwareTokenMfaSettings: SoftwareTokenMfaSettingsType?
         /// The user pool username or alias.
@@ -1292,8 +1292,8 @@ extension CognitoIdentityProvider {
         /// The user pool ID.
         public let userPoolId: String
 
-        public init(sMSMfaSettings: SMSMfaSettingsType? = nil, softwareTokenMfaSettings: SoftwareTokenMfaSettingsType? = nil, username: String, userPoolId: String) {
-            self.sMSMfaSettings = sMSMfaSettings
+        public init(smsMfaSettings: SMSMfaSettingsType? = nil, softwareTokenMfaSettings: SoftwareTokenMfaSettingsType? = nil, username: String, userPoolId: String) {
+            self.smsMfaSettings = smsMfaSettings
             self.softwareTokenMfaSettings = softwareTokenMfaSettings
             self.username = username
             self.userPoolId = userPoolId
@@ -1309,7 +1309,7 @@ extension CognitoIdentityProvider {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case sMSMfaSettings = "SMSMfaSettings"
+            case smsMfaSettings = "SMSMfaSettings"
             case softwareTokenMfaSettings = "SoftwareTokenMfaSettings"
             case username = "Username"
             case userPoolId = "UserPoolId"
@@ -1363,21 +1363,21 @@ extension CognitoIdentityProvider {
 
     public struct AdminSetUserSettingsRequest: AWSEncodableShape {
         /// You can use this parameter only to set an SMS configuration that uses SMS for delivery.
-        public let mFAOptions: [MFAOptionType]
+        public let mfaOptions: [MFAOptionType]
         /// The user name of the user that you are setting options for.
         public let username: String
         /// The ID of the user pool that contains the user that you are setting options for.
         public let userPoolId: String
 
-        public init(mFAOptions: [MFAOptionType], username: String, userPoolId: String) {
-            self.mFAOptions = mFAOptions
+        public init(mfaOptions: [MFAOptionType], username: String, userPoolId: String) {
+            self.mfaOptions = mfaOptions
             self.username = username
             self.userPoolId = userPoolId
         }
 
         public func validate(name: String) throws {
-            try self.mFAOptions.forEach {
-                try $0.validate(name: "\(name).mFAOptions[]")
+            try self.mfaOptions.forEach {
+                try $0.validate(name: "\(name).mfaOptions[]")
             }
             try self.validate(self.username, name: "username", parent: name, max: 128)
             try self.validate(self.username, name: "username", parent: name, min: 1)
@@ -1388,7 +1388,7 @@ extension CognitoIdentityProvider {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case mFAOptions = "MFAOptions"
+            case mfaOptions = "MFAOptions"
             case username = "Username"
             case userPoolId = "UserPoolId"
         }
@@ -3191,7 +3191,7 @@ extension CognitoIdentityProvider {
 
     public struct DomainDescriptionType: AWSDecodableShape {
         /// The account ID for the user pool owner.
-        public let aWSAccountId: String?
+        public let awsAccountId: String?
         /// The ARN of the CloudFront distribution.
         public let cloudFrontDistribution: String?
         /// The configuration for a custom domain that hosts the sign-up and sign-in webpages for your application.
@@ -3207,8 +3207,8 @@ extension CognitoIdentityProvider {
         /// The app version.
         public let version: String?
 
-        public init(aWSAccountId: String? = nil, cloudFrontDistribution: String? = nil, customDomainConfig: CustomDomainConfigType? = nil, domain: String? = nil, s3Bucket: String? = nil, status: DomainStatusType? = nil, userPoolId: String? = nil, version: String? = nil) {
-            self.aWSAccountId = aWSAccountId
+        public init(awsAccountId: String? = nil, cloudFrontDistribution: String? = nil, customDomainConfig: CustomDomainConfigType? = nil, domain: String? = nil, s3Bucket: String? = nil, status: DomainStatusType? = nil, userPoolId: String? = nil, version: String? = nil) {
+            self.awsAccountId = awsAccountId
             self.cloudFrontDistribution = cloudFrontDistribution
             self.customDomainConfig = customDomainConfig
             self.domain = domain
@@ -3219,7 +3219,7 @@ extension CognitoIdentityProvider {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case aWSAccountId = "AWSAccountId"
+            case awsAccountId = "AWSAccountId"
             case cloudFrontDistribution = "CloudFrontDistribution"
             case customDomainConfig = "CustomDomainConfig"
             case domain = "Domain"
@@ -3443,17 +3443,17 @@ extension CognitoIdentityProvider {
 
     public struct GetCSVHeaderResponse: AWSDecodableShape {
         /// The header information for the .csv file for the user import job.
-        public let cSVHeader: [String]?
+        public let csvHeader: [String]?
         /// The user pool ID for the user pool that the users are to be imported into.
         public let userPoolId: String?
 
-        public init(cSVHeader: [String]? = nil, userPoolId: String? = nil) {
-            self.cSVHeader = cSVHeader
+        public init(csvHeader: [String]? = nil, userPoolId: String? = nil) {
+            self.csvHeader = csvHeader
             self.userPoolId = userPoolId
         }
 
         private enum CodingKeys: String, CodingKey {
-            case cSVHeader = "CSVHeader"
+            case csvHeader = "CSVHeader"
             case userPoolId = "UserPoolId"
         }
     }
@@ -3633,14 +3633,14 @@ extension CognitoIdentityProvider {
 
     public struct GetUICustomizationResponse: AWSDecodableShape {
         /// The UI customization information.
-        public let uICustomization: UICustomizationType
+        public let uiCustomization: UICustomizationType
 
-        public init(uICustomization: UICustomizationType) {
-            self.uICustomization = uICustomization
+        public init(uiCustomization: UICustomizationType) {
+            self.uiCustomization = uiCustomization
         }
 
         private enum CodingKeys: String, CodingKey {
-            case uICustomization = "UICustomization"
+            case uiCustomization = "UICustomization"
         }
     }
 
@@ -3744,7 +3744,7 @@ extension CognitoIdentityProvider {
 
     public struct GetUserResponse: AWSDecodableShape {
         ///  This response parameter is no longer supported. It provides information only about SMS MFA configurations. It doesn't provide information about TOTP software token MFA configurations. To look up information about either type of MFA configuration, use UserMFASettingList instead.
-        public let mFAOptions: [MFAOptionType]?
+        public let mfaOptions: [MFAOptionType]?
         /// The user's preferred MFA setting.
         public let preferredMfaSetting: String?
         /// An array of name-value pairs representing user attributes. For custom attributes, you must prepend the custom: prefix to the attribute name.
@@ -3754,8 +3754,8 @@ extension CognitoIdentityProvider {
         /// The user name of the user you wish to retrieve from the get user request.
         public let username: String
 
-        public init(mFAOptions: [MFAOptionType]? = nil, preferredMfaSetting: String? = nil, userAttributes: [AttributeType], userMFASettingList: [String]? = nil, username: String) {
-            self.mFAOptions = mFAOptions
+        public init(mfaOptions: [MFAOptionType]? = nil, preferredMfaSetting: String? = nil, userAttributes: [AttributeType], userMFASettingList: [String]? = nil, username: String) {
+            self.mfaOptions = mfaOptions
             self.preferredMfaSetting = preferredMfaSetting
             self.userAttributes = userAttributes
             self.userMFASettingList = userMFASettingList
@@ -3763,7 +3763,7 @@ extension CognitoIdentityProvider {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case mFAOptions = "MFAOptions"
+            case mfaOptions = "MFAOptions"
             case preferredMfaSetting = "PreferredMfaSetting"
             case userAttributes = "UserAttributes"
             case userMFASettingList = "UserMFASettingList"
@@ -3963,7 +3963,7 @@ extension CognitoIdentityProvider {
         /// Defines the authentication challenge.
         public let defineAuthChallenge: String?
         /// The Amazon Resource Name of Key Management Service Customer master keys . Amazon Cognito uses the key to encrypt codes and temporary passwords sent to CustomEmailSender and CustomSMSSender.
-        public let kMSKeyID: String?
+        public let kmsKeyID: String?
         /// A post-authentication Lambda trigger.
         public let postAuthentication: String?
         /// A post-confirmation Lambda trigger.
@@ -3979,13 +3979,13 @@ extension CognitoIdentityProvider {
         /// Verifies the authentication challenge response.
         public let verifyAuthChallengeResponse: String?
 
-        public init(createAuthChallenge: String? = nil, customEmailSender: CustomEmailLambdaVersionConfigType? = nil, customMessage: String? = nil, customSMSSender: CustomSMSLambdaVersionConfigType? = nil, defineAuthChallenge: String? = nil, kMSKeyID: String? = nil, postAuthentication: String? = nil, postConfirmation: String? = nil, preAuthentication: String? = nil, preSignUp: String? = nil, preTokenGeneration: String? = nil, userMigration: String? = nil, verifyAuthChallengeResponse: String? = nil) {
+        public init(createAuthChallenge: String? = nil, customEmailSender: CustomEmailLambdaVersionConfigType? = nil, customMessage: String? = nil, customSMSSender: CustomSMSLambdaVersionConfigType? = nil, defineAuthChallenge: String? = nil, kmsKeyID: String? = nil, postAuthentication: String? = nil, postConfirmation: String? = nil, preAuthentication: String? = nil, preSignUp: String? = nil, preTokenGeneration: String? = nil, userMigration: String? = nil, verifyAuthChallengeResponse: String? = nil) {
             self.createAuthChallenge = createAuthChallenge
             self.customEmailSender = customEmailSender
             self.customMessage = customMessage
             self.customSMSSender = customSMSSender
             self.defineAuthChallenge = defineAuthChallenge
-            self.kMSKeyID = kMSKeyID
+            self.kmsKeyID = kmsKeyID
             self.postAuthentication = postAuthentication
             self.postConfirmation = postConfirmation
             self.preAuthentication = preAuthentication
@@ -4007,9 +4007,9 @@ extension CognitoIdentityProvider {
             try self.validate(self.defineAuthChallenge, name: "defineAuthChallenge", parent: name, max: 2048)
             try self.validate(self.defineAuthChallenge, name: "defineAuthChallenge", parent: name, min: 20)
             try self.validate(self.defineAuthChallenge, name: "defineAuthChallenge", parent: name, pattern: "^arn:[\\w+=/,.@-]+:[\\w+=/,.@-]+:([\\w+=/,.@-]*)?:[0-9]+:[\\w+=/,.@-]+(:[\\w+=/,.@-]+)?(:[\\w+=/,.@-]+)?$")
-            try self.validate(self.kMSKeyID, name: "kMSKeyID", parent: name, max: 2048)
-            try self.validate(self.kMSKeyID, name: "kMSKeyID", parent: name, min: 20)
-            try self.validate(self.kMSKeyID, name: "kMSKeyID", parent: name, pattern: "^arn:[\\w+=/,.@-]+:[\\w+=/,.@-]+:([\\w+=/,.@-]*)?:[0-9]+:[\\w+=/,.@-]+(:[\\w+=/,.@-]+)?(:[\\w+=/,.@-]+)?$")
+            try self.validate(self.kmsKeyID, name: "kmsKeyID", parent: name, max: 2048)
+            try self.validate(self.kmsKeyID, name: "kmsKeyID", parent: name, min: 20)
+            try self.validate(self.kmsKeyID, name: "kmsKeyID", parent: name, pattern: "^arn:[\\w+=/,.@-]+:[\\w+=/,.@-]+:([\\w+=/,.@-]*)?:[0-9]+:[\\w+=/,.@-]+(:[\\w+=/,.@-]+)?(:[\\w+=/,.@-]+)?$")
             try self.validate(self.postAuthentication, name: "postAuthentication", parent: name, max: 2048)
             try self.validate(self.postAuthentication, name: "postAuthentication", parent: name, min: 20)
             try self.validate(self.postAuthentication, name: "postAuthentication", parent: name, pattern: "^arn:[\\w+=/,.@-]+:[\\w+=/,.@-]+:([\\w+=/,.@-]*)?:[0-9]+:[\\w+=/,.@-]+(:[\\w+=/,.@-]+)?(:[\\w+=/,.@-]+)?$")
@@ -4039,7 +4039,7 @@ extension CognitoIdentityProvider {
             case customMessage = "CustomMessage"
             case customSMSSender = "CustomSMSSender"
             case defineAuthChallenge = "DefineAuthChallenge"
-            case kMSKeyID = "KMSKeyID"
+            case kmsKeyID = "KMSKeyID"
             case postAuthentication = "PostAuthentication"
             case postConfirmation = "PostConfirmation"
             case preAuthentication = "PreAuthentication"
@@ -4555,12 +4555,12 @@ extension CognitoIdentityProvider {
         /// The subject line for email messages. EmailSubject is allowed only if EmailSendingAccount is DEVELOPER.
         public let emailSubject: String?
         /// The message template for SMS messages.
-        public let sMSMessage: String?
+        public let smsMessage: String?
 
-        public init(emailMessage: String? = nil, emailSubject: String? = nil, sMSMessage: String? = nil) {
+        public init(emailMessage: String? = nil, emailSubject: String? = nil, smsMessage: String? = nil) {
             self.emailMessage = emailMessage
             self.emailSubject = emailSubject
-            self.sMSMessage = sMSMessage
+            self.smsMessage = smsMessage
         }
 
         public func validate(name: String) throws {
@@ -4570,15 +4570,15 @@ extension CognitoIdentityProvider {
             try self.validate(self.emailSubject, name: "emailSubject", parent: name, max: 140)
             try self.validate(self.emailSubject, name: "emailSubject", parent: name, min: 1)
             try self.validate(self.emailSubject, name: "emailSubject", parent: name, pattern: "^[\\p{L}\\p{M}\\p{S}\\p{N}\\p{P}\\s]+$")
-            try self.validate(self.sMSMessage, name: "sMSMessage", parent: name, max: 140)
-            try self.validate(self.sMSMessage, name: "sMSMessage", parent: name, min: 6)
-            try self.validate(self.sMSMessage, name: "sMSMessage", parent: name, pattern: "\\{####\\}")
+            try self.validate(self.smsMessage, name: "smsMessage", parent: name, max: 140)
+            try self.validate(self.smsMessage, name: "smsMessage", parent: name, min: 6)
+            try self.validate(self.smsMessage, name: "smsMessage", parent: name, pattern: "\\{####\\}")
         }
 
         private enum CodingKeys: String, CodingKey {
             case emailMessage = "EmailMessage"
             case emailSubject = "EmailSubject"
-            case sMSMessage = "SMSMessage"
+            case smsMessage = "SMSMessage"
         }
     }
 
@@ -5222,14 +5222,14 @@ extension CognitoIdentityProvider {
 
     public struct SetUICustomizationResponse: AWSDecodableShape {
         /// The UI customization information.
-        public let uICustomization: UICustomizationType
+        public let uiCustomization: UICustomizationType
 
-        public init(uICustomization: UICustomizationType) {
-            self.uICustomization = uICustomization
+        public init(uiCustomization: UICustomizationType) {
+            self.uiCustomization = uiCustomization
         }
 
         private enum CodingKeys: String, CodingKey {
-            case uICustomization = "UICustomization"
+            case uiCustomization = "UICustomization"
         }
     }
 
@@ -5237,13 +5237,13 @@ extension CognitoIdentityProvider {
         /// The access token for the user.
         public let accessToken: String
         /// The SMS text message multi-factor authentication (MFA) settings.
-        public let sMSMfaSettings: SMSMfaSettingsType?
+        public let smsMfaSettings: SMSMfaSettingsType?
         /// The time-based one-time password software token MFA settings.
         public let softwareTokenMfaSettings: SoftwareTokenMfaSettingsType?
 
-        public init(accessToken: String, sMSMfaSettings: SMSMfaSettingsType? = nil, softwareTokenMfaSettings: SoftwareTokenMfaSettingsType? = nil) {
+        public init(accessToken: String, smsMfaSettings: SMSMfaSettingsType? = nil, softwareTokenMfaSettings: SoftwareTokenMfaSettingsType? = nil) {
             self.accessToken = accessToken
-            self.sMSMfaSettings = sMSMfaSettings
+            self.smsMfaSettings = smsMfaSettings
             self.softwareTokenMfaSettings = softwareTokenMfaSettings
         }
 
@@ -5253,7 +5253,7 @@ extension CognitoIdentityProvider {
 
         private enum CodingKeys: String, CodingKey {
             case accessToken = "AccessToken"
-            case sMSMfaSettings = "SMSMfaSettings"
+            case smsMfaSettings = "SMSMfaSettings"
             case softwareTokenMfaSettings = "SoftwareTokenMfaSettings"
         }
     }
@@ -5319,23 +5319,23 @@ extension CognitoIdentityProvider {
         /// The access token for the set user settings request.
         public let accessToken: String
         /// You can use this parameter only to set an SMS configuration that uses SMS for delivery.
-        public let mFAOptions: [MFAOptionType]
+        public let mfaOptions: [MFAOptionType]
 
-        public init(accessToken: String, mFAOptions: [MFAOptionType]) {
+        public init(accessToken: String, mfaOptions: [MFAOptionType]) {
             self.accessToken = accessToken
-            self.mFAOptions = mFAOptions
+            self.mfaOptions = mfaOptions
         }
 
         public func validate(name: String) throws {
             try self.validate(self.accessToken, name: "accessToken", parent: name, pattern: "^[A-Za-z0-9-_=.]+$")
-            try self.mFAOptions.forEach {
-                try $0.validate(name: "\(name).mFAOptions[]")
+            try self.mfaOptions.forEach {
+                try $0.validate(name: "\(name).mfaOptions[]")
             }
         }
 
         private enum CodingKeys: String, CodingKey {
             case accessToken = "AccessToken"
-            case mFAOptions = "MFAOptions"
+            case mfaOptions = "MFAOptions"
         }
     }
 
@@ -5663,7 +5663,7 @@ extension CognitoIdentityProvider {
         /// The CSS values in the UI customization.
         public let css: String?
         /// The CSS version number.
-        public let cSSVersion: String?
+        public let cssVersion: String?
         /// The logo image for the UI customization.
         public let imageUrl: String?
         /// The last-modified date for the UI customization.
@@ -5671,11 +5671,11 @@ extension CognitoIdentityProvider {
         /// The user pool ID for the user pool.
         public let userPoolId: String?
 
-        public init(clientId: String? = nil, creationDate: Date? = nil, css: String? = nil, cSSVersion: String? = nil, imageUrl: String? = nil, lastModifiedDate: Date? = nil, userPoolId: String? = nil) {
+        public init(clientId: String? = nil, creationDate: Date? = nil, css: String? = nil, cssVersion: String? = nil, imageUrl: String? = nil, lastModifiedDate: Date? = nil, userPoolId: String? = nil) {
             self.clientId = clientId
             self.creationDate = creationDate
             self.css = css
-            self.cSSVersion = cSSVersion
+            self.cssVersion = cssVersion
             self.imageUrl = imageUrl
             self.lastModifiedDate = lastModifiedDate
             self.userPoolId = userPoolId
@@ -5685,7 +5685,7 @@ extension CognitoIdentityProvider {
             case clientId = "ClientId"
             case creationDate = "CreationDate"
             case css = "CSS"
-            case cSSVersion = "CSSVersion"
+            case cssVersion = "CSSVersion"
             case imageUrl = "ImageUrl"
             case lastModifiedDate = "LastModifiedDate"
             case userPoolId = "UserPoolId"
@@ -6722,7 +6722,7 @@ extension CognitoIdentityProvider {
         /// Specifies whether the user is enabled.
         public let enabled: Bool?
         /// The MFA options for the user.
-        public let mFAOptions: [MFAOptionType]?
+        public let mfaOptions: [MFAOptionType]?
         /// The creation date of the user.
         public let userCreateDate: Date?
         /// The last modified date of the user.
@@ -6732,10 +6732,10 @@ extension CognitoIdentityProvider {
         /// The user status. Can be one of the following:   UNCONFIRMED - User has been created but not confirmed.   CONFIRMED - User has been confirmed.   ARCHIVED - User is no longer active.   COMPROMISED - User is disabled due to a potential security threat.   UNKNOWN - User status is not known.   RESET_REQUIRED - User is confirmed, but the user must request a code and reset his or her password before he or she can sign in.   FORCE_CHANGE_PASSWORD - The user is confirmed and the user can sign in using a temporary password, but on first sign-in, the user must change his or her password to a new value before doing anything else.
         public let userStatus: UserStatusType?
 
-        public init(attributes: [AttributeType]? = nil, enabled: Bool? = nil, mFAOptions: [MFAOptionType]? = nil, userCreateDate: Date? = nil, userLastModifiedDate: Date? = nil, username: String? = nil, userStatus: UserStatusType? = nil) {
+        public init(attributes: [AttributeType]? = nil, enabled: Bool? = nil, mfaOptions: [MFAOptionType]? = nil, userCreateDate: Date? = nil, userLastModifiedDate: Date? = nil, username: String? = nil, userStatus: UserStatusType? = nil) {
             self.attributes = attributes
             self.enabled = enabled
-            self.mFAOptions = mFAOptions
+            self.mfaOptions = mfaOptions
             self.userCreateDate = userCreateDate
             self.userLastModifiedDate = userLastModifiedDate
             self.username = username
@@ -6745,7 +6745,7 @@ extension CognitoIdentityProvider {
         private enum CodingKeys: String, CodingKey {
             case attributes = "Attributes"
             case enabled = "Enabled"
-            case mFAOptions = "MFAOptions"
+            case mfaOptions = "MFAOptions"
             case userCreateDate = "UserCreateDate"
             case userLastModifiedDate = "UserLastModifiedDate"
             case username = "Username"

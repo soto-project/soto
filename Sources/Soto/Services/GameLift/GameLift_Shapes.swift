@@ -54,10 +54,10 @@ extension GameLift {
     }
 
     public enum ComparisonOperatorType: String, CustomStringConvertible, Codable {
-        case greaterthanorequaltothreshold = "GreaterThanOrEqualToThreshold"
-        case greaterthanthreshold = "GreaterThanThreshold"
-        case lessthanorequaltothreshold = "LessThanOrEqualToThreshold"
-        case lessthanthreshold = "LessThanThreshold"
+        case greaterThanOrEqualToThreshold = "GreaterThanOrEqualToThreshold"
+        case greaterThanThreshold = "GreaterThanThreshold"
+        case lessThanOrEqualToThreshold = "LessThanOrEqualToThreshold"
+        case lessThanThreshold = "LessThanThreshold"
         public var description: String { return self.rawValue }
     }
 
@@ -412,17 +412,17 @@ extension GameLift {
     }
 
     public enum MetricName: String, CustomStringConvertible, Codable {
-        case activatinggamesessions = "ActivatingGameSessions"
-        case activegamesessions = "ActiveGameSessions"
-        case activeinstances = "ActiveInstances"
-        case availablegamesessions = "AvailableGameSessions"
-        case availableplayersessions = "AvailablePlayerSessions"
-        case currentplayersessions = "CurrentPlayerSessions"
-        case idleinstances = "IdleInstances"
-        case percentavailablegamesessions = "PercentAvailableGameSessions"
-        case percentidleinstances = "PercentIdleInstances"
-        case queuedepth = "QueueDepth"
-        case waittime = "WaitTime"
+        case activatingGameSessions = "ActivatingGameSessions"
+        case activeGameSessions = "ActiveGameSessions"
+        case activeInstances = "ActiveInstances"
+        case availableGameSessions = "AvailableGameSessions"
+        case availablePlayerSessions = "AvailablePlayerSessions"
+        case currentPlayerSessions = "CurrentPlayerSessions"
+        case idleInstances = "IdleInstances"
+        case percentAvailableGameSessions = "PercentAvailableGameSessions"
+        case percentIdleInstances = "PercentIdleInstances"
+        case queueDepth = "QueueDepth"
+        case waitTime = "WaitTime"
         public var description: String { return self.rawValue }
     }
 
@@ -448,8 +448,8 @@ extension GameLift {
     }
 
     public enum PolicyType: String, CustomStringConvertible, Codable {
-        case rulebased = "RuleBased"
-        case targetbased = "TargetBased"
+        case ruleBased = "RuleBased"
+        case targetBased = "TargetBased"
         public var description: String { return self.rawValue }
     }
 
@@ -462,8 +462,8 @@ extension GameLift {
     }
 
     public enum ProtectionPolicy: String, CustomStringConvertible, Codable {
-        case fullprotection = "FullProtection"
-        case noprotection = "NoProtection"
+        case fullProtection = "FullProtection"
+        case noProtection = "NoProtection"
         public var description: String { return self.rawValue }
     }
 
@@ -474,9 +474,9 @@ extension GameLift {
     }
 
     public enum ScalingAdjustmentType: String, CustomStringConvertible, Codable {
-        case changeincapacity = "ChangeInCapacity"
-        case exactcapacity = "ExactCapacity"
-        case percentchangeincapacity = "PercentChangeInCapacity"
+        case changeInCapacity = "ChangeInCapacity"
+        case exactCapacity = "ExactCapacity"
+        case percentChangeInCapacity = "PercentChangeInCapacity"
         public var description: String { return self.rawValue }
     }
 
@@ -850,9 +850,9 @@ extension GameLift {
         /// A human-readable description of the fleet.
         public let description: String?
         /// The allowed IP address ranges and port settings that allow inbound traffic to access game sessions on this fleet. If the fleet is hosting a custom game build, this property must be set before players can connect to game sessions. For Realtime Servers fleets, GameLift automatically sets TCP and UDP ranges.
-        public let eC2InboundPermissions: [IpPermission]?
+        public let ec2InboundPermissions: [IpPermission]?
         /// The GameLift-supported EC2 instance type to use for all fleet instances. Instance type determines the computing resources that will be used to host your game servers, including CPU, memory, storage, and networking capacity. See Amazon EC2 Instance Types for detailed descriptions of EC2 instance types.
-        public let eC2InstanceType: EC2InstanceType
+        public let ec2InstanceType: EC2InstanceType
         /// Indicates whether to use On-Demand or Spot instances for this fleet. By default, this property is set to ON_DEMAND. Learn more about when to use  On-Demand versus Spot Instances. This property cannot be changed after the fleet is created.
         public let fleetType: FleetType?
         /// A unique identifier for an AWS IAM role that manages access to your AWS services.  With an instance role ARN set, any application that runs on an instance in this fleet can assume the role,  including install scripts, server processes, and daemons (background processes). Create a role or look up a role's  ARN by using the IAM dashboard in the AWS Management Console. Learn more about using on-box credentials for your game servers at   Access external resources from a game server.  This property cannot be changed after the fleet is created.
@@ -884,12 +884,12 @@ extension GameLift {
         /// A list of labels to assign to the new fleet resource. Tags are developer-defined key-value pairs. Tagging AWS resources are useful for resource management, access management and cost allocation. For more information, see  Tagging AWS Resources in the AWS General Reference. Once the fleet is created, you can use TagResource, UntagResource, and ListTagsForResource to add, remove, and view tags. The maximum tag limit may be lower than stated. See the AWS General Reference for actual tagging limits.
         public let tags: [Tag]?
 
-        public init(buildId: String? = nil, certificateConfiguration: CertificateConfiguration? = nil, description: String? = nil, eC2InboundPermissions: [IpPermission]? = nil, eC2InstanceType: EC2InstanceType, fleetType: FleetType? = nil, instanceRoleArn: String? = nil, locations: [LocationConfiguration]? = nil, logPaths: [String]? = nil, metricGroups: [String]? = nil, name: String, newGameSessionProtectionPolicy: ProtectionPolicy? = nil, peerVpcAwsAccountId: String? = nil, peerVpcId: String? = nil, resourceCreationLimitPolicy: ResourceCreationLimitPolicy? = nil, runtimeConfiguration: RuntimeConfiguration? = nil, scriptId: String? = nil, serverLaunchParameters: String? = nil, serverLaunchPath: String? = nil, tags: [Tag]? = nil) {
+        public init(buildId: String? = nil, certificateConfiguration: CertificateConfiguration? = nil, description: String? = nil, ec2InboundPermissions: [IpPermission]? = nil, ec2InstanceType: EC2InstanceType, fleetType: FleetType? = nil, instanceRoleArn: String? = nil, locations: [LocationConfiguration]? = nil, logPaths: [String]? = nil, metricGroups: [String]? = nil, name: String, newGameSessionProtectionPolicy: ProtectionPolicy? = nil, peerVpcAwsAccountId: String? = nil, peerVpcId: String? = nil, resourceCreationLimitPolicy: ResourceCreationLimitPolicy? = nil, runtimeConfiguration: RuntimeConfiguration? = nil, scriptId: String? = nil, serverLaunchParameters: String? = nil, serverLaunchPath: String? = nil, tags: [Tag]? = nil) {
             self.buildId = buildId
             self.certificateConfiguration = certificateConfiguration
             self.description = description
-            self.eC2InboundPermissions = eC2InboundPermissions
-            self.eC2InstanceType = eC2InstanceType
+            self.ec2InboundPermissions = ec2InboundPermissions
+            self.ec2InstanceType = ec2InstanceType
             self.fleetType = fleetType
             self.instanceRoleArn = instanceRoleArn
             self.locations = locations
@@ -911,10 +911,10 @@ extension GameLift {
             try self.validate(self.buildId, name: "buildId", parent: name, pattern: "^build-\\S+|^arn:.*:build\\/build-\\S+$")
             try self.validate(self.description, name: "description", parent: name, max: 1024)
             try self.validate(self.description, name: "description", parent: name, min: 1)
-            try self.eC2InboundPermissions?.forEach {
-                try $0.validate(name: "\(name).eC2InboundPermissions[]")
+            try self.ec2InboundPermissions?.forEach {
+                try $0.validate(name: "\(name).ec2InboundPermissions[]")
             }
-            try self.validate(self.eC2InboundPermissions, name: "eC2InboundPermissions", parent: name, max: 50)
+            try self.validate(self.ec2InboundPermissions, name: "ec2InboundPermissions", parent: name, max: 50)
             try self.validate(self.instanceRoleArn, name: "instanceRoleArn", parent: name, min: 1)
             try self.locations?.forEach {
                 try $0.validate(name: "\(name).locations[]")
@@ -955,8 +955,8 @@ extension GameLift {
             case buildId = "BuildId"
             case certificateConfiguration = "CertificateConfiguration"
             case description = "Description"
-            case eC2InboundPermissions = "EC2InboundPermissions"
-            case eC2InstanceType = "EC2InstanceType"
+            case ec2InboundPermissions = "EC2InboundPermissions"
+            case ec2InstanceType = "EC2InstanceType"
             case fleetType = "FleetType"
             case instanceRoleArn = "InstanceRoleArn"
             case locations = "Locations"
@@ -2071,12 +2071,12 @@ extension GameLift {
 
     public struct DescribeEC2InstanceLimitsInput: AWSEncodableShape {
         /// Name of an EC2 instance type that is supported in GameLift. A fleet instance type determines the computing resources of each instance in the fleet, including CPU, memory, storage, and networking capacity. Do not specify a value for this parameter to retrieve limits for all instance types.
-        public let eC2InstanceType: EC2InstanceType?
+        public let ec2InstanceType: EC2InstanceType?
         /// The name of a remote location to request instance limits for, in the form of an AWS Region code such as us-west-2.
         public let location: String?
 
-        public init(eC2InstanceType: EC2InstanceType? = nil, location: String? = nil) {
-            self.eC2InstanceType = eC2InstanceType
+        public init(ec2InstanceType: EC2InstanceType? = nil, location: String? = nil) {
+            self.ec2InstanceType = ec2InstanceType
             self.location = location
         }
 
@@ -2087,21 +2087,21 @@ extension GameLift {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case eC2InstanceType = "EC2InstanceType"
+            case ec2InstanceType = "EC2InstanceType"
             case location = "Location"
         }
     }
 
     public struct DescribeEC2InstanceLimitsOutput: AWSDecodableShape {
         /// The maximum number of instances for the specified instance type.
-        public let eC2InstanceLimits: [EC2InstanceLimit]?
+        public let ec2InstanceLimits: [EC2InstanceLimit]?
 
-        public init(eC2InstanceLimits: [EC2InstanceLimit]? = nil) {
-            self.eC2InstanceLimits = eC2InstanceLimits
+        public init(ec2InstanceLimits: [EC2InstanceLimit]? = nil) {
+            self.ec2InstanceLimits = ec2InstanceLimits
         }
 
         private enum CodingKeys: String, CodingKey {
-            case eC2InstanceLimits = "EC2InstanceLimits"
+            case ec2InstanceLimits = "EC2InstanceLimits"
         }
     }
 
@@ -3333,22 +3333,22 @@ extension GameLift {
         /// The number of instances for the specified type and location that are currently being used by the AWS account.
         public let currentInstances: Int?
         /// The name of an EC2 instance type. See Amazon EC2 Instance Types for detailed descriptions.
-        public let eC2InstanceType: EC2InstanceType?
+        public let ec2InstanceType: EC2InstanceType?
         /// The number of instances that is allowed for the specified instance type and location.
         public let instanceLimit: Int?
         /// An AWS Region code, such as us-west-2.
         public let location: String?
 
-        public init(currentInstances: Int? = nil, eC2InstanceType: EC2InstanceType? = nil, instanceLimit: Int? = nil, location: String? = nil) {
+        public init(currentInstances: Int? = nil, ec2InstanceType: EC2InstanceType? = nil, instanceLimit: Int? = nil, location: String? = nil) {
             self.currentInstances = currentInstances
-            self.eC2InstanceType = eC2InstanceType
+            self.ec2InstanceType = ec2InstanceType
             self.instanceLimit = instanceLimit
             self.location = location
         }
 
         private enum CodingKeys: String, CodingKey {
             case currentInstances = "CurrentInstances"
-            case eC2InstanceType = "EC2InstanceType"
+            case ec2InstanceType = "EC2InstanceType"
             case instanceLimit = "InstanceLimit"
             case location = "Location"
         }

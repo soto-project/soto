@@ -31,10 +31,10 @@ extension Resiliencehub {
     }
 
     public enum AppComplianceStatusType: String, CustomStringConvertible, Codable {
-        case changesdetected = "ChangesDetected"
-        case notassessed = "NotAssessed"
-        case policybreached = "PolicyBreached"
-        case policymet = "PolicyMet"
+        case changesDetected = "ChangesDetected"
+        case notAssessed = "NotAssessed"
+        case policyBreached = "PolicyBreached"
+        case policyMet = "PolicyMet"
         public var description: String { return self.rawValue }
     }
 
@@ -52,24 +52,24 @@ extension Resiliencehub {
 
     public enum AssessmentStatus: String, CustomStringConvertible, Codable {
         case failed = "Failed"
-        case inprogress = "InProgress"
+        case inProgress = "InProgress"
         case pending = "Pending"
         case success = "Success"
         public var description: String { return self.rawValue }
     }
 
     public enum ComplianceStatus: String, CustomStringConvertible, Codable {
-        case policybreached = "PolicyBreached"
-        case policymet = "PolicyMet"
+        case policyBreached = "PolicyBreached"
+        case policyMet = "PolicyMet"
         public var description: String { return self.rawValue }
     }
 
     public enum ConfigRecommendationOptimizationType: String, CustomStringConvertible, Codable {
-        case bestazrecovery = "BestAZRecovery"
-        case bestattainable = "BestAttainable"
-        case leastchange = "LeastChange"
-        case leastcost = "LeastCost"
-        case leasterrors = "LeastErrors"
+        case bestAZRecovery = "BestAZRecovery"
+        case bestAttainable = "BestAttainable"
+        case leastChange = "LeastChange"
+        case leastCost = "LeastCost"
+        case leastErrors = "LeastErrors"
         public var description: String { return self.rawValue }
     }
 
@@ -82,9 +82,9 @@ extension Resiliencehub {
     }
 
     public enum DataLocationConstraint: String, CustomStringConvertible, Codable {
-        case anylocation = "AnyLocation"
-        case samecontinent = "SameContinent"
-        case samecountry = "SameCountry"
+        case anyLocation = "AnyLocation"
+        case sameContinent = "SameContinent"
+        case sameCountry = "SameCountry"
         public var description: String { return self.rawValue }
     }
 
@@ -105,11 +105,11 @@ extension Resiliencehub {
     }
 
     public enum HaArchitecture: String, CustomStringConvertible, Codable {
-        case backupandrestore = "BackupAndRestore"
-        case multisite = "MultiSite"
-        case norecoveryplan = "NoRecoveryPlan"
-        case pilotlight = "PilotLight"
-        case warmstandby = "WarmStandby"
+        case backupAndRestore = "BackupAndRestore"
+        case multiSite = "MultiSite"
+        case noRecoveryPlan = "NoRecoveryPlan"
+        case pilotLight = "PilotLight"
+        case warmStandby = "WarmStandby"
         public var description: String { return self.rawValue }
     }
 
@@ -120,15 +120,15 @@ extension Resiliencehub {
     }
 
     public enum RecommendationComplianceStatus: String, CustomStringConvertible, Codable {
-        case breachedcanmeet = "BreachedCanMeet"
-        case breachedunattainable = "BreachedUnattainable"
-        case metcanimprove = "MetCanImprove"
+        case breachedCanMeet = "BreachedCanMeet"
+        case breachedUnattainable = "BreachedUnattainable"
+        case metCanImprove = "MetCanImprove"
         public var description: String { return self.rawValue }
     }
 
     public enum RecommendationTemplateStatus: String, CustomStringConvertible, Codable {
         case failed = "Failed"
-        case inprogress = "InProgress"
+        case inProgress = "InProgress"
         case pending = "Pending"
         case success = "Success"
         public var description: String { return self.rawValue }
@@ -142,33 +142,33 @@ extension Resiliencehub {
     }
 
     public enum ResiliencyPolicyTier: String, CustomStringConvertible, Codable {
-        case coreservices = "CoreServices"
+        case coreServices = "CoreServices"
         case critical = "Critical"
         case important = "Important"
-        case missioncritical = "MissionCritical"
-        case noncritical = "NonCritical"
+        case missionCritical = "MissionCritical"
+        case nonCritical = "NonCritical"
         public var description: String { return self.rawValue }
     }
 
     public enum ResourceImportStatusType: String, CustomStringConvertible, Codable {
         case failed = "Failed"
-        case inprogress = "InProgress"
+        case inProgress = "InProgress"
         case pending = "Pending"
         case success = "Success"
         public var description: String { return self.rawValue }
     }
 
     public enum ResourceMappingType: String, CustomStringConvertible, Codable {
-        case appregistryapp = "AppRegistryApp"
-        case cfnstack = "CfnStack"
+        case appRegistryApp = "AppRegistryApp"
+        case cfnStack = "CfnStack"
         case resource = "Resource"
-        case resourcegroup = "ResourceGroup"
+        case resourceGroup = "ResourceGroup"
         public var description: String { return self.rawValue }
     }
 
     public enum ResourceResolutionStatusType: String, CustomStringConvertible, Codable {
         case failed = "Failed"
-        case inprogress = "InProgress"
+        case inProgress = "InProgress"
         case pending = "Pending"
         case success = "Success"
         public var description: String { return self.rawValue }
@@ -180,8 +180,8 @@ extension Resiliencehub {
     }
 
     public enum TemplateFormat: String, CustomStringConvertible, Codable {
-        case cfnjson = "CfnJson"
-        case cfnyaml = "CfnYaml"
+        case cfnJson = "CfnJson"
+        case cfnYaml = "CfnYaml"
         public var description: String { return self.rawValue }
     }
 

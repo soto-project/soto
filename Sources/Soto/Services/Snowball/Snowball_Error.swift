@@ -28,7 +28,7 @@ public struct SnowballErrorType: AWSErrorType {
         case invalidJobStateException = "InvalidJobStateException"
         case invalidNextTokenException = "InvalidNextTokenException"
         case invalidResourceException = "InvalidResourceException"
-        case kMSRequestFailedException = "KMSRequestFailedException"
+        case kmsRequestFailedException = "KMSRequestFailedException"
         case returnShippingLabelAlreadyExistsException = "ReturnShippingLabelAlreadyExistsException"
         case unsupportedAddressException = "UnsupportedAddressException"
     }
@@ -68,7 +68,7 @@ public struct SnowballErrorType: AWSErrorType {
     /// The specified resource can't be found. Check the information you provided in your last request, and try again.
     public static var invalidResourceException: Self { .init(.invalidResourceException) }
     /// The provided AWS Key Management Service key lacks the permissions to perform the specified CreateJob or UpdateJob action.
-    public static var kMSRequestFailedException: Self { .init(.kMSRequestFailedException) }
+    public static var kmsRequestFailedException: Self { .init(.kmsRequestFailedException) }
     /// You get this exception if you call CreateReturnShippingLabel and a valid return shipping label already exists. In this case, use DescribeReturnShippingLabel to get the url.
     public static var returnShippingLabelAlreadyExistsException: Self { .init(.returnShippingLabelAlreadyExistsException) }
     /// The address is either outside the serviceable area for your region, or an error occurred. Check the address with your region's carrier and try again. If the issue persists, contact AWS Support.

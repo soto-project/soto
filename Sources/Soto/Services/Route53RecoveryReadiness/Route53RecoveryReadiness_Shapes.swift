@@ -1349,16 +1349,16 @@ extension Route53RecoveryReadiness {
     }
 
     public struct TargetResource: AWSEncodableShape & AWSDecodableShape {
-        public let nLBResource: NLBResource?
+        public let nlbResource: NLBResource?
         public let r53Resource: R53ResourceRecord?
 
-        public init(nLBResource: NLBResource? = nil, r53Resource: R53ResourceRecord? = nil) {
-            self.nLBResource = nLBResource
+        public init(nlbResource: NLBResource? = nil, r53Resource: R53ResourceRecord? = nil) {
+            self.nlbResource = nlbResource
             self.r53Resource = r53Resource
         }
 
         private enum CodingKeys: String, CodingKey {
-            case nLBResource
+            case nlbResource = "nLBResource"
             case r53Resource
         }
     }

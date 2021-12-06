@@ -724,7 +724,7 @@ extension DocDB.DescribeCertificatesMessage: AWSPaginateToken {
 extension DocDB.DescribeDBClusterParameterGroupsMessage: AWSPaginateToken {
     public func usingPaginationToken(_ token: String) -> DocDB.DescribeDBClusterParameterGroupsMessage {
         return .init(
-            dBClusterParameterGroupName: self.dBClusterParameterGroupName,
+            dbClusterParameterGroupName: self.dbClusterParameterGroupName,
             filters: self.filters,
             marker: token,
             maxRecords: self.maxRecords
@@ -735,7 +735,7 @@ extension DocDB.DescribeDBClusterParameterGroupsMessage: AWSPaginateToken {
 extension DocDB.DescribeDBClusterParametersMessage: AWSPaginateToken {
     public func usingPaginationToken(_ token: String) -> DocDB.DescribeDBClusterParametersMessage {
         return .init(
-            dBClusterParameterGroupName: self.dBClusterParameterGroupName,
+            dbClusterParameterGroupName: self.dbClusterParameterGroupName,
             filters: self.filters,
             marker: token,
             maxRecords: self.maxRecords,
@@ -747,8 +747,8 @@ extension DocDB.DescribeDBClusterParametersMessage: AWSPaginateToken {
 extension DocDB.DescribeDBClusterSnapshotsMessage: AWSPaginateToken {
     public func usingPaginationToken(_ token: String) -> DocDB.DescribeDBClusterSnapshotsMessage {
         return .init(
-            dBClusterIdentifier: self.dBClusterIdentifier,
-            dBClusterSnapshotIdentifier: self.dBClusterSnapshotIdentifier,
+            dbClusterIdentifier: self.dbClusterIdentifier,
+            dbClusterSnapshotIdentifier: self.dbClusterSnapshotIdentifier,
             filters: self.filters,
             includePublic: self.includePublic,
             includeShared: self.includeShared,
@@ -762,7 +762,7 @@ extension DocDB.DescribeDBClusterSnapshotsMessage: AWSPaginateToken {
 extension DocDB.DescribeDBClustersMessage: AWSPaginateToken {
     public func usingPaginationToken(_ token: String) -> DocDB.DescribeDBClustersMessage {
         return .init(
-            dBClusterIdentifier: self.dBClusterIdentifier,
+            dbClusterIdentifier: self.dbClusterIdentifier,
             filters: self.filters,
             marker: token,
             maxRecords: self.maxRecords
@@ -773,7 +773,7 @@ extension DocDB.DescribeDBClustersMessage: AWSPaginateToken {
 extension DocDB.DescribeDBEngineVersionsMessage: AWSPaginateToken {
     public func usingPaginationToken(_ token: String) -> DocDB.DescribeDBEngineVersionsMessage {
         return .init(
-            dBParameterGroupFamily: self.dBParameterGroupFamily,
+            dbParameterGroupFamily: self.dbParameterGroupFamily,
             defaultOnly: self.defaultOnly,
             engine: self.engine,
             engineVersion: self.engineVersion,
@@ -789,7 +789,7 @@ extension DocDB.DescribeDBEngineVersionsMessage: AWSPaginateToken {
 extension DocDB.DescribeDBInstancesMessage: AWSPaginateToken {
     public func usingPaginationToken(_ token: String) -> DocDB.DescribeDBInstancesMessage {
         return .init(
-            dBInstanceIdentifier: self.dBInstanceIdentifier,
+            dbInstanceIdentifier: self.dbInstanceIdentifier,
             filters: self.filters,
             marker: token,
             maxRecords: self.maxRecords
@@ -800,7 +800,7 @@ extension DocDB.DescribeDBInstancesMessage: AWSPaginateToken {
 extension DocDB.DescribeDBSubnetGroupsMessage: AWSPaginateToken {
     public func usingPaginationToken(_ token: String) -> DocDB.DescribeDBSubnetGroupsMessage {
         return .init(
-            dBSubnetGroupName: self.dBSubnetGroupName,
+            dbSubnetGroupName: self.dbSubnetGroupName,
             filters: self.filters,
             marker: token,
             maxRecords: self.maxRecords
@@ -849,7 +849,7 @@ extension DocDB.DescribeGlobalClustersMessage: AWSPaginateToken {
 extension DocDB.DescribeOrderableDBInstanceOptionsMessage: AWSPaginateToken {
     public func usingPaginationToken(_ token: String) -> DocDB.DescribeOrderableDBInstanceOptionsMessage {
         return .init(
-            dBInstanceClass: self.dBInstanceClass,
+            dbInstanceClass: self.dbInstanceClass,
             engine: self.engine,
             engineVersion: self.engineVersion,
             filters: self.filters,

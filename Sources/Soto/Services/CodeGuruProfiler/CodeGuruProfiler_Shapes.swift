@@ -23,21 +23,21 @@ extension CodeGuruProfiler {
 
     public enum ActionGroup: String, CustomStringConvertible, Codable {
         /// Permission group type for Agent APIs - ConfigureAgent, PostAgentProfile
-        case agentpermissions = "agentPermissions"
+        case agentPermissions
         public var description: String { return self.rawValue }
     }
 
     public enum AgentParameterField: String, CustomStringConvertible, Codable {
         /// Maximum stack depth to be captured by the CodeGuru Profiler.
-        case maxstackdepth = "MaxStackDepth"
+        case maxStackDepth = "MaxStackDepth"
         /// Percentage of memory to be used by CodeGuru profiler. Minimum of 30MB is required for the agent.
-        case memoryusagelimitpercent = "MemoryUsageLimitPercent"
+        case memoryUsageLimitPercent = "MemoryUsageLimitPercent"
         /// Minimum time in milliseconds between sending reports.
-        case minimumtimeforreportinginmilliseconds = "MinimumTimeForReportingInMilliseconds"
+        case minimumTimeForReportingInMilliseconds = "MinimumTimeForReportingInMilliseconds"
         /// Reporting interval in milliseconds used to report profiles.
-        case reportingintervalinmilliseconds = "ReportingIntervalInMilliseconds"
+        case reportingIntervalInMilliseconds = "ReportingIntervalInMilliseconds"
         /// Sampling interval in milliseconds used to sample profiles.
-        case samplingintervalinmilliseconds = "SamplingIntervalInMilliseconds"
+        case samplingIntervalInMilliseconds = "SamplingIntervalInMilliseconds"
         public var description: String { return self.rawValue }
     }
 
@@ -53,7 +53,7 @@ extension CodeGuruProfiler {
 
     public enum ComputePlatform: String, CustomStringConvertible, Codable {
         /// Compute platform meant to used for AWS Lambda.
-        case awslambda = "AWSLambda"
+        case awsLambda = "AWSLambda"
         /// Compute platform meant to used for all usecases (like EC2, Fargate, physical servers etc.) but AWS Lambda.
         case `default` = "Default"
         public var description: String { return self.rawValue }
@@ -61,7 +61,7 @@ extension CodeGuruProfiler {
 
     public enum EventPublisher: String, CustomStringConvertible, Codable {
         /// Notifications for Anomaly Detection
-        case anomalydetection = "AnomalyDetection"
+        case anomalyDetection = "AnomalyDetection"
         public var description: String { return self.rawValue }
     }
 
@@ -75,37 +75,37 @@ extension CodeGuruProfiler {
 
     public enum MetadataField: String, CustomStringConvertible, Codable {
         /// Unique identifier for the agent instance.
-        case agentid = "AgentId"
+        case agentId = "AgentId"
         /// AWS requestId of the Lambda invocation.
-        case awsrequestid = "AwsRequestId"
+        case awsRequestId = "AwsRequestId"
         /// Compute platform on which agent is running.
-        case computeplatform = "ComputePlatform"
+        case computePlatform = "ComputePlatform"
         /// Execution environment on which Lambda function is running.
-        case executionenvironment = "ExecutionEnvironment"
+        case executionEnvironment = "ExecutionEnvironment"
         /// Function ARN that's used to invoke the Lambda function.
-        case lambdafunctionarn = "LambdaFunctionArn"
+        case lambdaFunctionArn = "LambdaFunctionArn"
         /// Memory allocated for the Lambda function.
-        case lambdamemorylimitinmb = "LambdaMemoryLimitInMB"
+        case lambdaMemoryLimitInMB = "LambdaMemoryLimitInMB"
         /// Time in milliseconds for the previous Lambda invocation.
-        case lambdapreviousexecutiontimeinmilliseconds = "LambdaPreviousExecutionTimeInMilliseconds"
+        case lambdaPreviousExecutionTimeInMilliseconds = "LambdaPreviousExecutionTimeInMilliseconds"
         /// Time in milliseconds left before the execution times out.
-        case lambdaremainingtimeinmilliseconds = "LambdaRemainingTimeInMilliseconds"
+        case lambdaRemainingTimeInMilliseconds = "LambdaRemainingTimeInMilliseconds"
         /// Time in milliseconds between two invocations of the Lambda function.
-        case lambdatimegapbetweeninvokesinmilliseconds = "LambdaTimeGapBetweenInvokesInMilliseconds"
+        case lambdaTimeGapBetweenInvokesInMilliseconds = "LambdaTimeGapBetweenInvokesInMilliseconds"
         public var description: String { return self.rawValue }
     }
 
     public enum MetricType: String, CustomStringConvertible, Codable {
         /// Metric value aggregated for all instances of a frame name in a profile relative to the root frame.
-        case aggregatedrelativetotaltime = "AggregatedRelativeTotalTime"
+        case aggregatedRelativeTotalTime = "AggregatedRelativeTotalTime"
         public var description: String { return self.rawValue }
     }
 
     public enum OrderBy: String, CustomStringConvertible, Codable {
         /// Order by timestamp in ascending order.
-        case timestampascending = "TimestampAscending"
+        case timestampAscending = "TimestampAscending"
         /// Order by timestamp in descending order.
-        case timestampdescending = "TimestampDescending"
+        case timestampDescending = "TimestampDescending"
         public var description: String { return self.rawValue }
     }
 

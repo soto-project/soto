@@ -74,7 +74,7 @@ extension ECS {
     }
 
     public enum ClusterSettingName: String, CustomStringConvertible, Codable {
-        case containerinsights = "containerInsights"
+        case containerInsights
         public var description: String { return self.rawValue }
     }
 
@@ -219,7 +219,7 @@ extension ECS {
     }
 
     public enum ManagedAgentName: String, CustomStringConvertible, Codable {
-        case executecommandagent = "ExecuteCommandAgent"
+        case executeCommandAgent = "ExecuteCommandAgent"
         public var description: String { return self.rawValue }
     }
 
@@ -262,8 +262,8 @@ extension ECS {
     }
 
     public enum PlacementConstraintType: String, CustomStringConvertible, Codable {
-        case distinctinstance = "distinctInstance"
-        case memberof = "memberOf"
+        case distinctInstance
+        case memberOf
         public var description: String { return self.rawValue }
     }
 
@@ -293,7 +293,7 @@ extension ECS {
 
     public enum ResourceType: String, CustomStringConvertible, Codable {
         case gpu = "GPU"
-        case inferenceaccelerator = "InferenceAccelerator"
+        case inferenceAccelerator = "InferenceAccelerator"
         public var description: String { return self.rawValue }
     }
 
@@ -320,11 +320,11 @@ extension ECS {
     }
 
     public enum SettingName: String, CustomStringConvertible, Codable {
-        case awsvpctrunking = "awsvpcTrunking"
-        case containerinsights = "containerInsights"
-        case containerinstancelongarnformat = "containerInstanceLongArnFormat"
-        case servicelongarnformat = "serviceLongArnFormat"
-        case tasklongarnformat = "taskLongArnFormat"
+        case awsvpcTrunking
+        case containerInsights
+        case containerInstanceLongArnFormat
+        case serviceLongArnFormat
+        case taskLongArnFormat
         public var description: String { return self.rawValue }
     }
 
@@ -358,7 +358,7 @@ extension ECS {
     }
 
     public enum TaskDefinitionPlacementConstraintType: String, CustomStringConvertible, Codable {
-        case memberof = "memberOf"
+        case memberOf
         public var description: String { return self.rawValue }
     }
 
@@ -379,9 +379,9 @@ extension ECS {
     }
 
     public enum TaskStopCode: String, CustomStringConvertible, Codable {
-        case essentialcontainerexited = "EssentialContainerExited"
-        case taskfailedtostart = "TaskFailedToStart"
-        case userinitiated = "UserInitiated"
+        case essentialContainerExited = "EssentialContainerExited"
+        case taskFailedToStart = "TaskFailedToStart"
+        case userInitiated = "UserInitiated"
         public var description: String { return self.rawValue }
     }
 

@@ -22,32 +22,32 @@ public struct NeptuneErrorType: AWSErrorType {
     enum Code: String {
         case authorizationNotFoundFault = "AuthorizationNotFound"
         case certificateNotFoundFault = "CertificateNotFound"
-        case dBClusterAlreadyExistsFault = "DBClusterAlreadyExistsFault"
-        case dBClusterEndpointAlreadyExistsFault = "DBClusterEndpointAlreadyExistsFault"
-        case dBClusterEndpointNotFoundFault = "DBClusterEndpointNotFoundFault"
-        case dBClusterEndpointQuotaExceededFault = "DBClusterEndpointQuotaExceededFault"
-        case dBClusterNotFoundFault = "DBClusterNotFoundFault"
-        case dBClusterParameterGroupNotFoundFault = "DBClusterParameterGroupNotFound"
-        case dBClusterQuotaExceededFault = "DBClusterQuotaExceededFault"
-        case dBClusterRoleAlreadyExistsFault = "DBClusterRoleAlreadyExists"
-        case dBClusterRoleNotFoundFault = "DBClusterRoleNotFound"
-        case dBClusterRoleQuotaExceededFault = "DBClusterRoleQuotaExceeded"
-        case dBClusterSnapshotAlreadyExistsFault = "DBClusterSnapshotAlreadyExistsFault"
-        case dBClusterSnapshotNotFoundFault = "DBClusterSnapshotNotFoundFault"
-        case dBInstanceAlreadyExistsFault = "DBInstanceAlreadyExists"
-        case dBInstanceNotFoundFault = "DBInstanceNotFound"
-        case dBParameterGroupAlreadyExistsFault = "DBParameterGroupAlreadyExists"
-        case dBParameterGroupNotFoundFault = "DBParameterGroupNotFound"
-        case dBParameterGroupQuotaExceededFault = "DBParameterGroupQuotaExceeded"
-        case dBSecurityGroupNotFoundFault = "DBSecurityGroupNotFound"
-        case dBSnapshotAlreadyExistsFault = "DBSnapshotAlreadyExists"
-        case dBSnapshotNotFoundFault = "DBSnapshotNotFound"
-        case dBSubnetGroupAlreadyExistsFault = "DBSubnetGroupAlreadyExists"
-        case dBSubnetGroupDoesNotCoverEnoughAZs = "DBSubnetGroupDoesNotCoverEnoughAZs"
-        case dBSubnetGroupNotFoundFault = "DBSubnetGroupNotFoundFault"
-        case dBSubnetGroupQuotaExceededFault = "DBSubnetGroupQuotaExceeded"
-        case dBSubnetQuotaExceededFault = "DBSubnetQuotaExceededFault"
-        case dBUpgradeDependencyFailureFault = "DBUpgradeDependencyFailure"
+        case dbClusterAlreadyExistsFault = "DBClusterAlreadyExistsFault"
+        case dbClusterEndpointAlreadyExistsFault = "DBClusterEndpointAlreadyExistsFault"
+        case dbClusterEndpointNotFoundFault = "DBClusterEndpointNotFoundFault"
+        case dbClusterEndpointQuotaExceededFault = "DBClusterEndpointQuotaExceededFault"
+        case dbClusterNotFoundFault = "DBClusterNotFoundFault"
+        case dbClusterParameterGroupNotFoundFault = "DBClusterParameterGroupNotFound"
+        case dbClusterQuotaExceededFault = "DBClusterQuotaExceededFault"
+        case dbClusterRoleAlreadyExistsFault = "DBClusterRoleAlreadyExists"
+        case dbClusterRoleNotFoundFault = "DBClusterRoleNotFound"
+        case dbClusterRoleQuotaExceededFault = "DBClusterRoleQuotaExceeded"
+        case dbClusterSnapshotAlreadyExistsFault = "DBClusterSnapshotAlreadyExistsFault"
+        case dbClusterSnapshotNotFoundFault = "DBClusterSnapshotNotFoundFault"
+        case dbInstanceAlreadyExistsFault = "DBInstanceAlreadyExists"
+        case dbInstanceNotFoundFault = "DBInstanceNotFound"
+        case dbParameterGroupAlreadyExistsFault = "DBParameterGroupAlreadyExists"
+        case dbParameterGroupNotFoundFault = "DBParameterGroupNotFound"
+        case dbParameterGroupQuotaExceededFault = "DBParameterGroupQuotaExceeded"
+        case dbSecurityGroupNotFoundFault = "DBSecurityGroupNotFound"
+        case dbSnapshotAlreadyExistsFault = "DBSnapshotAlreadyExists"
+        case dbSnapshotNotFoundFault = "DBSnapshotNotFound"
+        case dbSubnetGroupAlreadyExistsFault = "DBSubnetGroupAlreadyExists"
+        case dbSubnetGroupDoesNotCoverEnoughAZs = "DBSubnetGroupDoesNotCoverEnoughAZs"
+        case dbSubnetGroupNotFoundFault = "DBSubnetGroupNotFoundFault"
+        case dbSubnetGroupQuotaExceededFault = "DBSubnetGroupQuotaExceeded"
+        case dbSubnetQuotaExceededFault = "DBSubnetQuotaExceededFault"
+        case dbUpgradeDependencyFailureFault = "DBUpgradeDependencyFailure"
         case domainNotFoundFault = "DomainNotFoundFault"
         case eventSubscriptionQuotaExceededFault = "EventSubscriptionQuotaExceeded"
         case instanceQuotaExceededFault = "InstanceQuotaExceeded"
@@ -67,15 +67,15 @@ public struct NeptuneErrorType: AWSErrorType {
         case invalidRestoreFault = "InvalidRestoreFault"
         case invalidSubnet = "InvalidSubnet"
         case invalidVPCNetworkStateFault = "InvalidVPCNetworkStateFault"
-        case kMSKeyNotAccessibleFault = "KMSKeyNotAccessibleFault"
+        case kmsKeyNotAccessibleFault = "KMSKeyNotAccessibleFault"
         case optionGroupNotFoundFault = "OptionGroupNotFoundFault"
         case provisionedIopsNotAvailableInAZFault = "ProvisionedIopsNotAvailableInAZFault"
         case resourceNotFoundFault = "ResourceNotFoundFault"
-        case sNSInvalidTopicFault = "SNSInvalidTopic"
-        case sNSNoAuthorizationFault = "SNSNoAuthorization"
-        case sNSTopicArnNotFoundFault = "SNSTopicArnNotFound"
         case sharedSnapshotQuotaExceededFault = "SharedSnapshotQuotaExceeded"
         case snapshotQuotaExceededFault = "SnapshotQuotaExceeded"
+        case snsInvalidTopicFault = "SNSInvalidTopic"
+        case snsNoAuthorizationFault = "SNSNoAuthorization"
+        case snsTopicArnNotFoundFault = "SNSTopicArnNotFound"
         case sourceNotFoundFault = "SourceNotFound"
         case storageQuotaExceededFault = "StorageQuotaExceeded"
         case storageTypeNotSupportedFault = "StorageTypeNotSupported"
@@ -108,57 +108,57 @@ public struct NeptuneErrorType: AWSErrorType {
     ///  CertificateIdentifier does not refer to an existing certificate.
     public static var certificateNotFoundFault: Self { .init(.certificateNotFoundFault) }
     /// User already has a DB cluster with the given identifier.
-    public static var dBClusterAlreadyExistsFault: Self { .init(.dBClusterAlreadyExistsFault) }
+    public static var dbClusterAlreadyExistsFault: Self { .init(.dbClusterAlreadyExistsFault) }
     /// The specified custom endpoint cannot be created because it already exists.
-    public static var dBClusterEndpointAlreadyExistsFault: Self { .init(.dBClusterEndpointAlreadyExistsFault) }
+    public static var dbClusterEndpointAlreadyExistsFault: Self { .init(.dbClusterEndpointAlreadyExistsFault) }
     /// The specified custom endpoint doesn't exist.
-    public static var dBClusterEndpointNotFoundFault: Self { .init(.dBClusterEndpointNotFoundFault) }
+    public static var dbClusterEndpointNotFoundFault: Self { .init(.dbClusterEndpointNotFoundFault) }
     /// The cluster already has the maximum number of custom endpoints.
-    public static var dBClusterEndpointQuotaExceededFault: Self { .init(.dBClusterEndpointQuotaExceededFault) }
+    public static var dbClusterEndpointQuotaExceededFault: Self { .init(.dbClusterEndpointQuotaExceededFault) }
     ///  DBClusterIdentifier does not refer to an existing DB cluster.
-    public static var dBClusterNotFoundFault: Self { .init(.dBClusterNotFoundFault) }
+    public static var dbClusterNotFoundFault: Self { .init(.dbClusterNotFoundFault) }
     ///  DBClusterParameterGroupName does not refer to an existing DB Cluster parameter group.
-    public static var dBClusterParameterGroupNotFoundFault: Self { .init(.dBClusterParameterGroupNotFoundFault) }
+    public static var dbClusterParameterGroupNotFoundFault: Self { .init(.dbClusterParameterGroupNotFoundFault) }
     /// User attempted to create a new DB cluster and the user has already reached the maximum allowed DB cluster quota.
-    public static var dBClusterQuotaExceededFault: Self { .init(.dBClusterQuotaExceededFault) }
+    public static var dbClusterQuotaExceededFault: Self { .init(.dbClusterQuotaExceededFault) }
     /// The specified IAM role Amazon Resource Name (ARN) is already associated with the specified DB cluster.
-    public static var dBClusterRoleAlreadyExistsFault: Self { .init(.dBClusterRoleAlreadyExistsFault) }
+    public static var dbClusterRoleAlreadyExistsFault: Self { .init(.dbClusterRoleAlreadyExistsFault) }
     /// The specified IAM role Amazon Resource Name (ARN) is not associated with the specified DB cluster.
-    public static var dBClusterRoleNotFoundFault: Self { .init(.dBClusterRoleNotFoundFault) }
+    public static var dbClusterRoleNotFoundFault: Self { .init(.dbClusterRoleNotFoundFault) }
     /// You have exceeded the maximum number of IAM roles that can be associated with the specified DB cluster.
-    public static var dBClusterRoleQuotaExceededFault: Self { .init(.dBClusterRoleQuotaExceededFault) }
+    public static var dbClusterRoleQuotaExceededFault: Self { .init(.dbClusterRoleQuotaExceededFault) }
     /// User already has a DB cluster snapshot with the given identifier.
-    public static var dBClusterSnapshotAlreadyExistsFault: Self { .init(.dBClusterSnapshotAlreadyExistsFault) }
+    public static var dbClusterSnapshotAlreadyExistsFault: Self { .init(.dbClusterSnapshotAlreadyExistsFault) }
     ///  DBClusterSnapshotIdentifier does not refer to an existing DB cluster snapshot.
-    public static var dBClusterSnapshotNotFoundFault: Self { .init(.dBClusterSnapshotNotFoundFault) }
+    public static var dbClusterSnapshotNotFoundFault: Self { .init(.dbClusterSnapshotNotFoundFault) }
     /// User already has a DB instance with the given identifier.
-    public static var dBInstanceAlreadyExistsFault: Self { .init(.dBInstanceAlreadyExistsFault) }
+    public static var dbInstanceAlreadyExistsFault: Self { .init(.dbInstanceAlreadyExistsFault) }
     ///  DBInstanceIdentifier does not refer to an existing DB instance.
-    public static var dBInstanceNotFoundFault: Self { .init(.dBInstanceNotFoundFault) }
+    public static var dbInstanceNotFoundFault: Self { .init(.dbInstanceNotFoundFault) }
     /// A DB parameter group with the same name exists.
-    public static var dBParameterGroupAlreadyExistsFault: Self { .init(.dBParameterGroupAlreadyExistsFault) }
+    public static var dbParameterGroupAlreadyExistsFault: Self { .init(.dbParameterGroupAlreadyExistsFault) }
     ///  DBParameterGroupName does not refer to an existing DB parameter group.
-    public static var dBParameterGroupNotFoundFault: Self { .init(.dBParameterGroupNotFoundFault) }
+    public static var dbParameterGroupNotFoundFault: Self { .init(.dbParameterGroupNotFoundFault) }
     /// Request would result in user exceeding the allowed number of DB parameter groups.
-    public static var dBParameterGroupQuotaExceededFault: Self { .init(.dBParameterGroupQuotaExceededFault) }
+    public static var dbParameterGroupQuotaExceededFault: Self { .init(.dbParameterGroupQuotaExceededFault) }
     ///  DBSecurityGroupName does not refer to an existing DB security group.
-    public static var dBSecurityGroupNotFoundFault: Self { .init(.dBSecurityGroupNotFoundFault) }
+    public static var dbSecurityGroupNotFoundFault: Self { .init(.dbSecurityGroupNotFoundFault) }
     ///  DBSnapshotIdentifier is already used by an existing snapshot.
-    public static var dBSnapshotAlreadyExistsFault: Self { .init(.dBSnapshotAlreadyExistsFault) }
+    public static var dbSnapshotAlreadyExistsFault: Self { .init(.dbSnapshotAlreadyExistsFault) }
     ///  DBSnapshotIdentifier does not refer to an existing DB snapshot.
-    public static var dBSnapshotNotFoundFault: Self { .init(.dBSnapshotNotFoundFault) }
+    public static var dbSnapshotNotFoundFault: Self { .init(.dbSnapshotNotFoundFault) }
     ///  DBSubnetGroupName is already used by an existing DB subnet group.
-    public static var dBSubnetGroupAlreadyExistsFault: Self { .init(.dBSubnetGroupAlreadyExistsFault) }
+    public static var dbSubnetGroupAlreadyExistsFault: Self { .init(.dbSubnetGroupAlreadyExistsFault) }
     /// Subnets in the DB subnet group should cover at least two Availability Zones unless there is only one Availability Zone.
-    public static var dBSubnetGroupDoesNotCoverEnoughAZs: Self { .init(.dBSubnetGroupDoesNotCoverEnoughAZs) }
+    public static var dbSubnetGroupDoesNotCoverEnoughAZs: Self { .init(.dbSubnetGroupDoesNotCoverEnoughAZs) }
     ///  DBSubnetGroupName does not refer to an existing DB subnet group.
-    public static var dBSubnetGroupNotFoundFault: Self { .init(.dBSubnetGroupNotFoundFault) }
+    public static var dbSubnetGroupNotFoundFault: Self { .init(.dbSubnetGroupNotFoundFault) }
     /// Request would result in user exceeding the allowed number of DB subnet groups.
-    public static var dBSubnetGroupQuotaExceededFault: Self { .init(.dBSubnetGroupQuotaExceededFault) }
+    public static var dbSubnetGroupQuotaExceededFault: Self { .init(.dbSubnetGroupQuotaExceededFault) }
     /// Request would result in user exceeding the allowed number of subnets in a DB subnet groups.
-    public static var dBSubnetQuotaExceededFault: Self { .init(.dBSubnetQuotaExceededFault) }
+    public static var dbSubnetQuotaExceededFault: Self { .init(.dbSubnetQuotaExceededFault) }
     /// The DB upgrade failed because a resource the DB depends on could not be modified.
-    public static var dBUpgradeDependencyFailureFault: Self { .init(.dBUpgradeDependencyFailureFault) }
+    public static var dbUpgradeDependencyFailureFault: Self { .init(.dbUpgradeDependencyFailureFault) }
     ///  Domain does not refer to an existing Active Directory Domain.
     public static var domainNotFoundFault: Self { .init(.domainNotFoundFault) }
     /// You have exceeded the number of events you can subscribe to.
@@ -198,23 +198,23 @@ public struct NeptuneErrorType: AWSErrorType {
     /// DB subnet group does not cover all Availability Zones after it is created because users' change.
     public static var invalidVPCNetworkStateFault: Self { .init(.invalidVPCNetworkStateFault) }
     /// Error accessing KMS key.
-    public static var kMSKeyNotAccessibleFault: Self { .init(.kMSKeyNotAccessibleFault) }
+    public static var kmsKeyNotAccessibleFault: Self { .init(.kmsKeyNotAccessibleFault) }
     /// The designated option group could not be found.
     public static var optionGroupNotFoundFault: Self { .init(.optionGroupNotFoundFault) }
     /// Provisioned IOPS not available in the specified Availability Zone.
     public static var provisionedIopsNotAvailableInAZFault: Self { .init(.provisionedIopsNotAvailableInAZFault) }
     /// The specified resource ID was not found.
     public static var resourceNotFoundFault: Self { .init(.resourceNotFoundFault) }
-    /// The SNS topic is invalid.
-    public static var sNSInvalidTopicFault: Self { .init(.sNSInvalidTopicFault) }
-    /// There is no SNS authorization.
-    public static var sNSNoAuthorizationFault: Self { .init(.sNSNoAuthorizationFault) }
-    /// The ARN of the SNS topic could not be found.
-    public static var sNSTopicArnNotFoundFault: Self { .init(.sNSTopicArnNotFoundFault) }
     /// You have exceeded the maximum number of accounts that you can share a manual DB snapshot with.
     public static var sharedSnapshotQuotaExceededFault: Self { .init(.sharedSnapshotQuotaExceededFault) }
     /// Request would result in user exceeding the allowed number of DB snapshots.
     public static var snapshotQuotaExceededFault: Self { .init(.snapshotQuotaExceededFault) }
+    /// The SNS topic is invalid.
+    public static var snsInvalidTopicFault: Self { .init(.snsInvalidTopicFault) }
+    /// There is no SNS authorization.
+    public static var snsNoAuthorizationFault: Self { .init(.snsNoAuthorizationFault) }
+    /// The ARN of the SNS topic could not be found.
+    public static var snsTopicArnNotFoundFault: Self { .init(.snsTopicArnNotFoundFault) }
     /// The source could not be found.
     public static var sourceNotFoundFault: Self { .init(.sourceNotFoundFault) }
     /// Request would result in user exceeding the allowed amount of storage available across all DB instances.

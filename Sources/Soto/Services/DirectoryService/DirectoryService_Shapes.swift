@@ -22,18 +22,18 @@ extension DirectoryService {
     // MARK: Enums
 
     public enum CertificateState: String, CustomStringConvertible, Codable {
-        case deregisterfailed = "DeregisterFailed"
+        case deregisterFailed = "DeregisterFailed"
         case deregistered = "Deregistered"
         case deregistering = "Deregistering"
-        case registerfailed = "RegisterFailed"
+        case registerFailed = "RegisterFailed"
         case registered = "Registered"
         case registering = "Registering"
         public var description: String { return self.rawValue }
     }
 
     public enum CertificateType: String, CustomStringConvertible, Codable {
-        case clientcertauth = "ClientCertAuth"
-        case clientldaps = "ClientLDAPS"
+        case clientCertAuth = "ClientCertAuth"
+        case clientLDAPS = "ClientLDAPS"
         public var description: String { return self.rawValue }
     }
 
@@ -44,7 +44,7 @@ extension DirectoryService {
     }
 
     public enum ClientAuthenticationType: String, CustomStringConvertible, Codable {
-        case smartcard = "SmartCard"
+        case smartCard = "SmartCard"
         public var description: String { return self.rawValue }
     }
 
@@ -70,16 +70,16 @@ extension DirectoryService {
         case impaired = "Impaired"
         case inoperable = "Inoperable"
         case requested = "Requested"
-        case restorefailed = "RestoreFailed"
+        case restoreFailed = "RestoreFailed"
         case restoring = "Restoring"
         public var description: String { return self.rawValue }
     }
 
     public enum DirectoryType: String, CustomStringConvertible, Codable {
-        case adconnector = "ADConnector"
-        case microsoftad = "MicrosoftAD"
-        case sharedmicrosoftad = "SharedMicrosoftAD"
-        case simplead = "SimpleAD"
+        case adConnector = "ADConnector"
+        case microsoftAD = "MicrosoftAD"
+        case sharedMicrosoftAD = "SharedMicrosoftAD"
+        case simpleAD = "SimpleAD"
         public var description: String { return self.rawValue }
     }
 
@@ -95,10 +95,10 @@ extension DirectoryService {
     }
 
     public enum IpRouteStatusMsg: String, CustomStringConvertible, Codable {
-        case addfailed = "AddFailed"
+        case addFailed = "AddFailed"
         case added = "Added"
         case adding = "Adding"
-        case removefailed = "RemoveFailed"
+        case removeFailed = "RemoveFailed"
         case removed = "Removed"
         case removing = "Removing"
         public var description: String { return self.rawValue }
@@ -106,7 +106,7 @@ extension DirectoryService {
 
     public enum LDAPSStatus: String, CustomStringConvertible, Codable {
         case disabled = "Disabled"
-        case enablefailed = "EnableFailed"
+        case enableFailed = "EnableFailed"
         case enabled = "Enabled"
         case enabling = "Enabling"
         public var description: String { return self.rawValue }
@@ -144,15 +144,15 @@ extension DirectoryService {
     }
 
     public enum SchemaExtensionStatus: String, CustomStringConvertible, Codable {
-        case cancelinprogress = "CancelInProgress"
+        case cancelInProgress = "CancelInProgress"
         case cancelled = "Cancelled"
         case completed = "Completed"
-        case creatingsnapshot = "CreatingSnapshot"
+        case creatingSnapshot = "CreatingSnapshot"
         case failed = "Failed"
         case initializing = "Initializing"
         case replicating = "Replicating"
-        case rollbackinprogress = "RollbackInProgress"
-        case updatingschema = "UpdatingSchema"
+        case rollbackInProgress = "RollbackInProgress"
+        case updatingSchema = "UpdatingSchema"
         public var description: String { return self.rawValue }
     }
 
@@ -171,11 +171,11 @@ extension DirectoryService {
     public enum ShareStatus: String, CustomStringConvertible, Codable {
         case deleted = "Deleted"
         case deleting = "Deleting"
-        case pendingacceptance = "PendingAcceptance"
-        case rejectfailed = "RejectFailed"
+        case pendingAcceptance = "PendingAcceptance"
+        case rejectFailed = "RejectFailed"
         case rejected = "Rejected"
         case rejecting = "Rejecting"
-        case sharefailed = "ShareFailed"
+        case shareFailed = "ShareFailed"
         case shared = "Shared"
         case sharing = "Sharing"
         public var description: String { return self.rawValue }
@@ -220,11 +220,11 @@ extension DirectoryService {
         case deleted = "Deleted"
         case deleting = "Deleting"
         case failed = "Failed"
-        case updatefailed = "UpdateFailed"
+        case updateFailed = "UpdateFailed"
         case updated = "Updated"
         case updating = "Updating"
         case verified = "Verified"
-        case verifyfailed = "VerifyFailed"
+        case verifyFailed = "VerifyFailed"
         case verifying = "Verifying"
         public var description: String { return self.rawValue }
     }
@@ -305,25 +305,25 @@ extension DirectoryService {
         public let directoryId: String
         /// The name of the Region where you want to add domain controllers for replication. For example, us-east-1.
         public let regionName: String
-        public let vPCSettings: DirectoryVpcSettings
+        public let vpcSettings: DirectoryVpcSettings
 
-        public init(directoryId: String, regionName: String, vPCSettings: DirectoryVpcSettings) {
+        public init(directoryId: String, regionName: String, vpcSettings: DirectoryVpcSettings) {
             self.directoryId = directoryId
             self.regionName = regionName
-            self.vPCSettings = vPCSettings
+            self.vpcSettings = vpcSettings
         }
 
         public func validate(name: String) throws {
             try self.validate(self.directoryId, name: "directoryId", parent: name, pattern: "^d-[0-9a-f]{10}$")
             try self.validate(self.regionName, name: "regionName", parent: name, max: 32)
             try self.validate(self.regionName, name: "regionName", parent: name, min: 8)
-            try self.vPCSettings.validate(name: "\(name).vPCSettings")
+            try self.vpcSettings.validate(name: "\(name).vpcSettings")
         }
 
         private enum CodingKeys: String, CodingKey {
             case directoryId = "DirectoryId"
             case regionName = "RegionName"
-            case vPCSettings = "VPCSettings"
+            case vpcSettings = "VPCSettings"
         }
     }
 
@@ -499,20 +499,20 @@ extension DirectoryService {
 
     public struct ClientCertAuthSettings: AWSEncodableShape & AWSDecodableShape {
         /// Specifies the URL of the default OCSP server used to check for revocation status. A secondary value to any OCSP address found in the AIA extension of the user certificate.
-        public let oCSPUrl: String?
+        public let ocspUrl: String?
 
-        public init(oCSPUrl: String? = nil) {
-            self.oCSPUrl = oCSPUrl
+        public init(ocspUrl: String? = nil) {
+            self.ocspUrl = ocspUrl
         }
 
         public func validate(name: String) throws {
-            try self.validate(self.oCSPUrl, name: "oCSPUrl", parent: name, max: 1024)
-            try self.validate(self.oCSPUrl, name: "oCSPUrl", parent: name, min: 1)
-            try self.validate(self.oCSPUrl, name: "oCSPUrl", parent: name, pattern: "^(https?|ftp|file|ldaps?)://[-a-zA-Z0-9+&@#/%?=~_|!:,.;()]*[-a-zA-Z0-9+&@#/%=~_|()]$")
+            try self.validate(self.ocspUrl, name: "ocspUrl", parent: name, max: 1024)
+            try self.validate(self.ocspUrl, name: "ocspUrl", parent: name, min: 1)
+            try self.validate(self.ocspUrl, name: "ocspUrl", parent: name, pattern: "^(https?|ftp|file|ldaps?)://[-a-zA-Z0-9+&@#/%?=~_|!:,.;()]*[-a-zA-Z0-9+&@#/%=~_|()]$")
         }
 
         private enum CodingKeys: String, CodingKey {
-            case oCSPUrl = "OCSPUrl"
+            case ocspUrl = "OCSPUrl"
         }
     }
 
@@ -1482,17 +1482,17 @@ extension DirectoryService {
 
     public struct DescribeLDAPSSettingsResult: AWSDecodableShape {
         /// Information about LDAP security for the specified directory, including status of enablement, state last updated date time, and the reason for the state.
-        public let lDAPSSettingsInfo: [LDAPSSettingInfo]?
+        public let ldapsSettingsInfo: [LDAPSSettingInfo]?
         /// The next token used to retrieve the LDAPS settings if the number of setting types exceeds page limit and there is another page.
         public let nextToken: String?
 
-        public init(lDAPSSettingsInfo: [LDAPSSettingInfo]? = nil, nextToken: String? = nil) {
-            self.lDAPSSettingsInfo = lDAPSSettingsInfo
+        public init(ldapsSettingsInfo: [LDAPSSettingInfo]? = nil, nextToken: String? = nil) {
+            self.ldapsSettingsInfo = ldapsSettingsInfo
             self.nextToken = nextToken
         }
 
         private enum CodingKeys: String, CodingKey {
-            case lDAPSSettingsInfo = "LDAPSSettingsInfo"
+            case ldapsSettingsInfo = "LDAPSSettingsInfo"
             case nextToken = "NextToken"
         }
     }
@@ -2362,20 +2362,20 @@ extension DirectoryService {
         /// The date and time when the LDAPS settings were last updated.
         public let lastUpdatedDateTime: Date?
         /// The state of the LDAPS settings.
-        public let lDAPSStatus: LDAPSStatus?
+        public let ldapsStatus: LDAPSStatus?
         /// Describes a state change for LDAPS.
-        public let lDAPSStatusReason: String?
+        public let ldapsStatusReason: String?
 
-        public init(lastUpdatedDateTime: Date? = nil, lDAPSStatus: LDAPSStatus? = nil, lDAPSStatusReason: String? = nil) {
+        public init(lastUpdatedDateTime: Date? = nil, ldapsStatus: LDAPSStatus? = nil, ldapsStatusReason: String? = nil) {
             self.lastUpdatedDateTime = lastUpdatedDateTime
-            self.lDAPSStatus = lDAPSStatus
-            self.lDAPSStatusReason = lDAPSStatusReason
+            self.ldapsStatus = ldapsStatus
+            self.ldapsStatusReason = ldapsStatusReason
         }
 
         private enum CodingKeys: String, CodingKey {
             case lastUpdatedDateTime = "LastUpdatedDateTime"
-            case lDAPSStatus = "LDAPSStatus"
-            case lDAPSStatusReason = "LDAPSStatusReason"
+            case ldapsStatus = "LDAPSStatus"
+            case ldapsStatusReason = "LDAPSStatusReason"
         }
     }
 

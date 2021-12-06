@@ -329,13 +329,13 @@ extension WAFRegional {
     }
 
     public enum PredicateType: String, CustomStringConvertible, Codable {
-        case bytematch = "ByteMatch"
-        case geomatch = "GeoMatch"
-        case ipmatch = "IPMatch"
-        case regexmatch = "RegexMatch"
-        case sizeconstraint = "SizeConstraint"
-        case sqlinjectionmatch = "SqlInjectionMatch"
-        case xssmatch = "XssMatch"
+        case byteMatch = "ByteMatch"
+        case geoMatch = "GeoMatch"
+        case ipMatch = "IPMatch"
+        case regexMatch = "RegexMatch"
+        case sizeConstraint = "SizeConstraint"
+        case sqlInjectionMatch = "SqlInjectionMatch"
+        case xssMatch = "XssMatch"
         public var description: String { return self.rawValue }
     }
 
@@ -744,16 +744,16 @@ extension WAFRegional {
         /// 			to query the status of the request. For more information, see GetChangeTokenStatus.
         public let changeToken: String?
         /// The IPSet returned in the CreateIPSet response.
-        public let iPSet: IPSet?
+        public let ipSet: IPSet?
 
-        public init(changeToken: String? = nil, iPSet: IPSet? = nil) {
+        public init(changeToken: String? = nil, ipSet: IPSet? = nil) {
             self.changeToken = changeToken
-            self.iPSet = iPSet
+            self.ipSet = ipSet
         }
 
         private enum CodingKeys: String, CodingKey {
             case changeToken = "ChangeToken"
-            case iPSet = "IPSet"
+            case ipSet = "IPSet"
         }
     }
 
@@ -1359,25 +1359,25 @@ extension WAFRegional {
         public let changeToken: String
         /// The IPSetId of the IPSet that you want to delete. IPSetId is returned by CreateIPSet and by
         /// 			ListIPSets.
-        public let iPSetId: String
+        public let ipSetId: String
 
-        public init(changeToken: String, iPSetId: String) {
+        public init(changeToken: String, ipSetId: String) {
             self.changeToken = changeToken
-            self.iPSetId = iPSetId
+            self.ipSetId = ipSetId
         }
 
         public func validate(name: String) throws {
             try self.validate(self.changeToken, name: "changeToken", parent: name, max: 128)
             try self.validate(self.changeToken, name: "changeToken", parent: name, min: 1)
             try self.validate(self.changeToken, name: "changeToken", parent: name, pattern: ".*\\S.*")
-            try self.validate(self.iPSetId, name: "iPSetId", parent: name, max: 128)
-            try self.validate(self.iPSetId, name: "iPSetId", parent: name, min: 1)
-            try self.validate(self.iPSetId, name: "iPSetId", parent: name, pattern: ".*\\S.*")
+            try self.validate(self.ipSetId, name: "ipSetId", parent: name, max: 128)
+            try self.validate(self.ipSetId, name: "ipSetId", parent: name, min: 1)
+            try self.validate(self.ipSetId, name: "ipSetId", parent: name, pattern: ".*\\S.*")
         }
 
         private enum CodingKeys: String, CodingKey {
             case changeToken = "ChangeToken"
-            case iPSetId = "IPSetId"
+            case ipSetId = "IPSetId"
         }
     }
 
@@ -2087,20 +2087,20 @@ extension WAFRegional {
     public struct GetIPSetRequest: AWSEncodableShape {
         /// The IPSetId of the IPSet that you want to get. IPSetId is returned by CreateIPSet and by
         /// 			ListIPSets.
-        public let iPSetId: String
+        public let ipSetId: String
 
-        public init(iPSetId: String) {
-            self.iPSetId = iPSetId
+        public init(ipSetId: String) {
+            self.ipSetId = ipSetId
         }
 
         public func validate(name: String) throws {
-            try self.validate(self.iPSetId, name: "iPSetId", parent: name, max: 128)
-            try self.validate(self.iPSetId, name: "iPSetId", parent: name, min: 1)
-            try self.validate(self.iPSetId, name: "iPSetId", parent: name, pattern: ".*\\S.*")
+            try self.validate(self.ipSetId, name: "ipSetId", parent: name, max: 128)
+            try self.validate(self.ipSetId, name: "ipSetId", parent: name, min: 1)
+            try self.validate(self.ipSetId, name: "ipSetId", parent: name, pattern: ".*\\S.*")
         }
 
         private enum CodingKeys: String, CodingKey {
-            case iPSetId = "IPSetId"
+            case ipSetId = "IPSetId"
         }
     }
 
@@ -2109,14 +2109,14 @@ extension WAFRegional {
         /// 			following topics:
         /// 		          IPSet: Contains IPSetDescriptors, IPSetId, and Name     IPSetDescriptors: Contains an array of IPSetDescriptor objects. Each IPSetDescriptor
         /// 				object contains Type and Value
-        public let iPSet: IPSet?
+        public let ipSet: IPSet?
 
-        public init(iPSet: IPSet? = nil) {
-            self.iPSet = iPSet
+        public init(ipSet: IPSet? = nil) {
+            self.ipSet = ipSet
         }
 
         private enum CodingKeys: String, CodingKey {
-            case iPSet = "IPSet"
+            case ipSet = "IPSet"
         }
     }
 
@@ -2668,18 +2668,18 @@ extension WAFRegional {
         /// A complex type that contains two values for each header in the sampled web request: the name of the header and the value of the header.
         public let headers: [HTTPHeader]?
         /// The HTTP version specified in the sampled web request, for example, HTTP/1.1.
-        public let hTTPVersion: String?
+        public let httpVersion: String?
         /// The HTTP method specified in the sampled web request. CloudFront supports the following methods: DELETE,
         /// 			GET, HEAD, OPTIONS, PATCH, POST, and PUT.
         public let method: String?
         /// The part of a web request that identifies the resource, for example, /images/daily-ad.jpg.
         public let uri: String?
 
-        public init(clientIP: String? = nil, country: String? = nil, headers: [HTTPHeader]? = nil, hTTPVersion: String? = nil, method: String? = nil, uri: String? = nil) {
+        public init(clientIP: String? = nil, country: String? = nil, headers: [HTTPHeader]? = nil, httpVersion: String? = nil, method: String? = nil, uri: String? = nil) {
             self.clientIP = clientIP
             self.country = country
             self.headers = headers
-            self.hTTPVersion = hTTPVersion
+            self.httpVersion = httpVersion
             self.method = method
             self.uri = uri
         }
@@ -2688,7 +2688,7 @@ extension WAFRegional {
             case clientIP = "ClientIP"
             case country = "Country"
             case headers = "Headers"
-            case hTTPVersion = "HTTPVersion"
+            case httpVersion = "HTTPVersion"
             case method = "Method"
             case uri = "URI"
         }
@@ -2697,25 +2697,25 @@ extension WAFRegional {
     public struct IPSet: AWSDecodableShape {
         /// The IP address type (IPV4 or IPV6) and the IP address range (in CIDR notation) that web requests originate from.
         /// 			If the WebACL is associated with a CloudFront distribution and the viewer did not use an HTTP proxy or a load balancer to send the request, this is the value of the c-ip field in the CloudFront access logs.
-        public let iPSetDescriptors: [IPSetDescriptor]
+        public let ipSetDescriptors: [IPSetDescriptor]
         /// The IPSetId for an IPSet. You use IPSetId to get information about an
         /// 			IPSet (see GetIPSet), update an IPSet (see UpdateIPSet),
         /// 			insert an IPSet into a Rule or delete one from a Rule (see UpdateRule), and
         /// 			delete an IPSet from AWS WAF (see DeleteIPSet).
         /// 		        IPSetId is returned by CreateIPSet and by ListIPSets.
-        public let iPSetId: String
+        public let ipSetId: String
         /// A friendly name or description of the IPSet. You can't change the name of an IPSet after you create it.
         public let name: String?
 
-        public init(iPSetDescriptors: [IPSetDescriptor], iPSetId: String, name: String? = nil) {
-            self.iPSetDescriptors = iPSetDescriptors
-            self.iPSetId = iPSetId
+        public init(ipSetDescriptors: [IPSetDescriptor], ipSetId: String, name: String? = nil) {
+            self.ipSetDescriptors = ipSetDescriptors
+            self.ipSetId = ipSetId
             self.name = name
         }
 
         private enum CodingKeys: String, CodingKey {
-            case iPSetDescriptors = "IPSetDescriptors"
-            case iPSetId = "IPSetId"
+            case ipSetDescriptors = "IPSetDescriptors"
+            case ipSetId = "IPSetId"
             case name = "Name"
         }
     }
@@ -2757,17 +2757,17 @@ extension WAFRegional {
     public struct IPSetSummary: AWSDecodableShape {
         /// The IPSetId for an IPSet. You can use IPSetId in a GetIPSet request to get detailed
         /// 			information about an IPSet.
-        public let iPSetId: String
+        public let ipSetId: String
         /// A friendly name or description of the IPSet. You can't change the name of an IPSet after you create it.
         public let name: String
 
-        public init(iPSetId: String, name: String) {
-            self.iPSetId = iPSetId
+        public init(ipSetId: String, name: String) {
+            self.ipSetId = ipSetId
             self.name = name
         }
 
         private enum CodingKeys: String, CodingKey {
-            case iPSetId = "IPSetId"
+            case ipSetId = "IPSetId"
             case name = "Name"
         }
     }
@@ -2776,20 +2776,20 @@ extension WAFRegional {
         /// Specifies whether to insert or delete an IP address with UpdateIPSet.
         public let action: ChangeAction
         /// The IP address type (IPV4 or IPV6) and the IP address range (in CIDR notation) that web requests originate from.
-        public let iPSetDescriptor: IPSetDescriptor
+        public let ipSetDescriptor: IPSetDescriptor
 
-        public init(action: ChangeAction, iPSetDescriptor: IPSetDescriptor) {
+        public init(action: ChangeAction, ipSetDescriptor: IPSetDescriptor) {
             self.action = action
-            self.iPSetDescriptor = iPSetDescriptor
+            self.ipSetDescriptor = ipSetDescriptor
         }
 
         public func validate(name: String) throws {
-            try self.iPSetDescriptor.validate(name: "\(name).iPSetDescriptor")
+            try self.ipSetDescriptor.validate(name: "\(name).ipSetDescriptor")
         }
 
         private enum CodingKeys: String, CodingKey {
             case action = "Action"
-            case iPSetDescriptor = "IPSetDescriptor"
+            case ipSetDescriptor = "IPSetDescriptor"
         }
     }
 
@@ -2971,17 +2971,17 @@ extension WAFRegional {
 
     public struct ListIPSetsResponse: AWSDecodableShape {
         /// An array of IPSetSummary objects.
-        public let iPSets: [IPSetSummary]?
+        public let ipSets: [IPSetSummary]?
         /// To list more IPSet objects, submit another ListIPSets request, and in the next request use the NextMarker response value as the NextMarker value.
         public let nextMarker: String?
 
-        public init(iPSets: [IPSetSummary]? = nil, nextMarker: String? = nil) {
-            self.iPSets = iPSets
+        public init(ipSets: [IPSetSummary]? = nil, nextMarker: String? = nil) {
+            self.ipSets = ipSets
             self.nextMarker = nextMarker
         }
 
         private enum CodingKeys: String, CodingKey {
-            case iPSets = "IPSets"
+            case ipSets = "IPSets"
             case nextMarker = "NextMarker"
         }
     }
@@ -4592,16 +4592,16 @@ extension WAFRegional {
         public let changeToken: String
         /// The IPSetId of the IPSet that you want to update. IPSetId is returned by CreateIPSet and by
         /// 			ListIPSets.
-        public let iPSetId: String
+        public let ipSetId: String
         /// An array of IPSetUpdate objects that you want to insert into or delete from an IPSet.
         /// 			For more information, see the applicable data types:
         /// 		          IPSetUpdate: Contains Action and IPSetDescriptor     IPSetDescriptor: Contains Type and Value
         /// 	        You can insert a maximum of 1000 addresses in a single request.
         public let updates: [IPSetUpdate]
 
-        public init(changeToken: String, iPSetId: String, updates: [IPSetUpdate]) {
+        public init(changeToken: String, ipSetId: String, updates: [IPSetUpdate]) {
             self.changeToken = changeToken
-            self.iPSetId = iPSetId
+            self.ipSetId = ipSetId
             self.updates = updates
         }
 
@@ -4609,9 +4609,9 @@ extension WAFRegional {
             try self.validate(self.changeToken, name: "changeToken", parent: name, max: 128)
             try self.validate(self.changeToken, name: "changeToken", parent: name, min: 1)
             try self.validate(self.changeToken, name: "changeToken", parent: name, pattern: ".*\\S.*")
-            try self.validate(self.iPSetId, name: "iPSetId", parent: name, max: 128)
-            try self.validate(self.iPSetId, name: "iPSetId", parent: name, min: 1)
-            try self.validate(self.iPSetId, name: "iPSetId", parent: name, pattern: ".*\\S.*")
+            try self.validate(self.ipSetId, name: "ipSetId", parent: name, max: 128)
+            try self.validate(self.ipSetId, name: "ipSetId", parent: name, min: 1)
+            try self.validate(self.ipSetId, name: "ipSetId", parent: name, pattern: ".*\\S.*")
             try self.updates.forEach {
                 try $0.validate(name: "\(name).updates[]")
             }
@@ -4620,7 +4620,7 @@ extension WAFRegional {
 
         private enum CodingKeys: String, CodingKey {
             case changeToken = "ChangeToken"
-            case iPSetId = "IPSetId"
+            case ipSetId = "IPSetId"
             case updates = "Updates"
         }
     }

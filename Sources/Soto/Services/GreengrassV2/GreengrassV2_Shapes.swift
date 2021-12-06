@@ -130,8 +130,8 @@ extension GreengrassV2 {
     }
 
     public enum LambdaIsolationMode: String, CustomStringConvertible, Codable {
-        case greengrasscontainer = "GreengrassContainer"
-        case nocontainer = "NoContainer"
+        case greengrassContainer = "GreengrassContainer"
+        case noContainer = "NoContainer"
         public var description: String { return self.rawValue }
     }
 

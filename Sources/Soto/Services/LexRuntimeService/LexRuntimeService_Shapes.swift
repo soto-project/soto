@@ -35,34 +35,34 @@ extension LexRuntimeService {
 
     public enum DialogActionType: String, CustomStringConvertible, Codable {
         case close = "Close"
-        case confirmintent = "ConfirmIntent"
+        case confirmIntent = "ConfirmIntent"
         case delegate = "Delegate"
-        case elicitintent = "ElicitIntent"
-        case elicitslot = "ElicitSlot"
+        case elicitIntent = "ElicitIntent"
+        case elicitSlot = "ElicitSlot"
         public var description: String { return self.rawValue }
     }
 
     public enum DialogState: String, CustomStringConvertible, Codable {
-        case confirmintent = "ConfirmIntent"
-        case elicitintent = "ElicitIntent"
-        case elicitslot = "ElicitSlot"
+        case confirmIntent = "ConfirmIntent"
+        case elicitIntent = "ElicitIntent"
+        case elicitSlot = "ElicitSlot"
         case failed = "Failed"
         case fulfilled = "Fulfilled"
-        case readyforfulfillment = "ReadyForFulfillment"
+        case readyForFulfillment = "ReadyForFulfillment"
         public var description: String { return self.rawValue }
     }
 
     public enum FulfillmentState: String, CustomStringConvertible, Codable {
         case failed = "Failed"
         case fulfilled = "Fulfilled"
-        case readyforfulfillment = "ReadyForFulfillment"
+        case readyForFulfillment = "ReadyForFulfillment"
         public var description: String { return self.rawValue }
     }
 
     public enum MessageFormatType: String, CustomStringConvertible, Codable {
         case composite = "Composite"
-        case custompayload = "CustomPayload"
-        case plaintext = "PlainText"
+        case customPayload = "CustomPayload"
+        case plainText = "PlainText"
         case ssml = "SSML"
         public var description: String { return self.rawValue }
     }

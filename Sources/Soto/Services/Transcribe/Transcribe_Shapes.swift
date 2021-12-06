@@ -22,17 +22,17 @@ extension Transcribe {
     // MARK: Enums
 
     public enum BaseModelName: String, CustomStringConvertible, Codable {
-        case narrowband = "NarrowBand"
-        case wideband = "WideBand"
+        case narrowBand = "NarrowBand"
+        case wideBand = "WideBand"
         public var description: String { return self.rawValue }
     }
 
     public enum CLMLanguageCode: String, CustomStringConvertible, Codable {
-        case enAu = "en-AU"
-        case enGb = "en-GB"
-        case enUs = "en-US"
-        case esUs = "es-US"
-        case hiIn = "hi-IN"
+        case enAU = "en-AU"
+        case enGB = "en-GB"
+        case enUS = "en-US"
+        case esUS = "es-US"
+        case hiIN = "hi-IN"
         public var description: String { return self.rawValue }
     }
 
@@ -45,46 +45,46 @@ extension Transcribe {
     }
 
     public enum LanguageCode: String, CustomStringConvertible, Codable {
-        case afZa = "af-ZA"
-        case arAe = "ar-AE"
-        case arSa = "ar-SA"
-        case cyGb = "cy-GB"
-        case daDk = "da-DK"
-        case deCh = "de-CH"
-        case deDe = "de-DE"
-        case enAb = "en-AB"
-        case enAu = "en-AU"
-        case enGb = "en-GB"
-        case enIe = "en-IE"
-        case enIn = "en-IN"
-        case enNz = "en-NZ"
-        case enUs = "en-US"
-        case enWl = "en-WL"
-        case enZa = "en-ZA"
-        case esEs = "es-ES"
-        case esUs = "es-US"
-        case faIr = "fa-IR"
-        case frCa = "fr-CA"
-        case frFr = "fr-FR"
-        case gaIe = "ga-IE"
-        case gdGb = "gd-GB"
-        case heIl = "he-IL"
-        case hiIn = "hi-IN"
-        case idId = "id-ID"
-        case itIt = "it-IT"
-        case jaJp = "ja-JP"
-        case koKr = "ko-KR"
-        case msMy = "ms-MY"
-        case nlNl = "nl-NL"
-        case ptBr = "pt-BR"
-        case ptPt = "pt-PT"
-        case ruRu = "ru-RU"
-        case taIn = "ta-IN"
-        case teIn = "te-IN"
-        case thTh = "th-TH"
-        case trTr = "tr-TR"
-        case zhCn = "zh-CN"
-        case zhTw = "zh-TW"
+        case afZA = "af-ZA"
+        case arAE = "ar-AE"
+        case arSA = "ar-SA"
+        case cyGB = "cy-GB"
+        case daDK = "da-DK"
+        case deCH = "de-CH"
+        case deDE = "de-DE"
+        case enAB = "en-AB"
+        case enAU = "en-AU"
+        case enGB = "en-GB"
+        case enIE = "en-IE"
+        case enIN = "en-IN"
+        case enNZ = "en-NZ"
+        case enUS = "en-US"
+        case enWL = "en-WL"
+        case enZA = "en-ZA"
+        case esES = "es-ES"
+        case esUS = "es-US"
+        case faIR = "fa-IR"
+        case frCA = "fr-CA"
+        case frFR = "fr-FR"
+        case gaIE = "ga-IE"
+        case gdGB = "gd-GB"
+        case heIL = "he-IL"
+        case hiIN = "hi-IN"
+        case idID = "id-ID"
+        case itIT = "it-IT"
+        case jaJP = "ja-JP"
+        case koKR = "ko-KR"
+        case msMY = "ms-MY"
+        case nlNL = "nl-NL"
+        case ptBR = "pt-BR"
+        case ptPT = "pt-PT"
+        case ruRU = "ru-RU"
+        case taIN = "ta-IN"
+        case teIN = "te-IN"
+        case thTH = "th-TH"
+        case trTR = "tr-TR"
+        case zhCN = "zh-CN"
+        case zhTW = "zh-TW"
         public var description: String { return self.rawValue }
     }
 
@@ -2465,7 +2465,7 @@ extension Transcribe {
         /// You can configure Amazon Transcribe Medical to label content in the transcription output. If you specify PHI,  Amazon Transcribe Medical labels the personal health information (PHI) that it identifies in the transcription output.
         public let contentIdentificationType: MedicalContentIdentificationType?
         /// A map of plain text, non-secret key:value pairs, known as encryption context pairs, that provide an added layer of security for your data.
-        public let kMSEncryptionContext: [String: String]?
+        public let kmsEncryptionContext: [String: String]?
         /// The language code for the language spoken in the input media file. US English (en-US) is the valid value for  medical transcription jobs. Any other value you enter for language code results in a  BadRequestException error.
         public let languageCode: LanguageCode
         public let media: Media
@@ -2490,9 +2490,9 @@ extension Transcribe {
         /// The type of speech in the input audio. CONVERSATION refers to conversations between two or more speakers, e.g., a conversations between doctors and patients. DICTATION refers to  single-speaker dictated speech, such as clinical notes.
         public let type: `Type`
 
-        public init(contentIdentificationType: MedicalContentIdentificationType? = nil, kMSEncryptionContext: [String: String]? = nil, languageCode: LanguageCode, media: Media, mediaFormat: MediaFormat? = nil, mediaSampleRateHertz: Int? = nil, medicalTranscriptionJobName: String, outputBucketName: String, outputEncryptionKMSKeyId: String? = nil, outputKey: String? = nil, settings: MedicalTranscriptionSetting? = nil, specialty: Specialty, tags: [Tag]? = nil, type: `Type`) {
+        public init(contentIdentificationType: MedicalContentIdentificationType? = nil, kmsEncryptionContext: [String: String]? = nil, languageCode: LanguageCode, media: Media, mediaFormat: MediaFormat? = nil, mediaSampleRateHertz: Int? = nil, medicalTranscriptionJobName: String, outputBucketName: String, outputEncryptionKMSKeyId: String? = nil, outputKey: String? = nil, settings: MedicalTranscriptionSetting? = nil, specialty: Specialty, tags: [Tag]? = nil, type: `Type`) {
             self.contentIdentificationType = contentIdentificationType
-            self.kMSEncryptionContext = kMSEncryptionContext
+            self.kmsEncryptionContext = kmsEncryptionContext
             self.languageCode = languageCode
             self.media = media
             self.mediaFormat = mediaFormat
@@ -2508,16 +2508,16 @@ extension Transcribe {
         }
 
         public func validate(name: String) throws {
-            try self.kMSEncryptionContext?.forEach {
-                try validate($0.key, name: "kMSEncryptionContext.key", parent: name, max: 2000)
-                try validate($0.key, name: "kMSEncryptionContext.key", parent: name, min: 1)
-                try validate($0.key, name: "kMSEncryptionContext.key", parent: name, pattern: "\\S")
-                try validate($0.value, name: "kMSEncryptionContext[\"\($0.key)\"]", parent: name, max: 2000)
-                try validate($0.value, name: "kMSEncryptionContext[\"\($0.key)\"]", parent: name, min: 1)
-                try validate($0.value, name: "kMSEncryptionContext[\"\($0.key)\"]", parent: name, pattern: "\\S")
+            try self.kmsEncryptionContext?.forEach {
+                try validate($0.key, name: "kmsEncryptionContext.key", parent: name, max: 2000)
+                try validate($0.key, name: "kmsEncryptionContext.key", parent: name, min: 1)
+                try validate($0.key, name: "kmsEncryptionContext.key", parent: name, pattern: "\\S")
+                try validate($0.value, name: "kmsEncryptionContext[\"\($0.key)\"]", parent: name, max: 2000)
+                try validate($0.value, name: "kmsEncryptionContext[\"\($0.key)\"]", parent: name, min: 1)
+                try validate($0.value, name: "kmsEncryptionContext[\"\($0.key)\"]", parent: name, pattern: "\\S")
             }
-            try self.validate(self.kMSEncryptionContext, name: "kMSEncryptionContext", parent: name, max: 10)
-            try self.validate(self.kMSEncryptionContext, name: "kMSEncryptionContext", parent: name, min: 1)
+            try self.validate(self.kmsEncryptionContext, name: "kmsEncryptionContext", parent: name, max: 10)
+            try self.validate(self.kmsEncryptionContext, name: "kmsEncryptionContext", parent: name, min: 1)
             try self.media.validate(name: "\(name).media")
             try self.validate(self.mediaSampleRateHertz, name: "mediaSampleRateHertz", parent: name, max: 48000)
             try self.validate(self.mediaSampleRateHertz, name: "mediaSampleRateHertz", parent: name, min: 8000)
@@ -2542,7 +2542,7 @@ extension Transcribe {
 
         private enum CodingKeys: String, CodingKey {
             case contentIdentificationType = "ContentIdentificationType"
-            case kMSEncryptionContext = "KMSEncryptionContext"
+            case kmsEncryptionContext = "KMSEncryptionContext"
             case languageCode = "LanguageCode"
             case media = "Media"
             case mediaFormat = "MediaFormat"
@@ -2582,7 +2582,7 @@ extension Transcribe {
         /// Provides information about how a transcription job is executed. Use this field to indicate that the job can be  queued for deferred execution if the concurrency limit is reached and there are no slots available to immediately run  the job.
         public let jobExecutionSettings: JobExecutionSettings?
         /// A map of plain text, non-secret key:value pairs, known as encryption context pairs, that provide an added layer of security for your data.
-        public let kMSEncryptionContext: [String: String]?
+        public let kmsEncryptionContext: [String: String]?
         /// The language code for the language used in the input media file. To transcribe speech in Modern Standard Arabic (ar-SA), your audio or video file must be encoded at a sample  rate of 16,000 Hz or higher.
         public let languageCode: LanguageCode?
         /// The language identification settings associated with your transcription job. These settings include VocabularyName, VocabularyFilterName, and  LanguageModelName.
@@ -2612,11 +2612,11 @@ extension Transcribe {
         /// The name of the job. You can't use the strings "." or ".." by themselves as the job name. The name must also be unique within an Amazon Web Services account. If you try to create a transcription job with the same name as a previous transcription job, you get a ConflictException error.
         public let transcriptionJobName: String
 
-        public init(contentRedaction: ContentRedaction? = nil, identifyLanguage: Bool? = nil, jobExecutionSettings: JobExecutionSettings? = nil, kMSEncryptionContext: [String: String]? = nil, languageCode: LanguageCode? = nil, languageIdSettings: [LanguageCode: LanguageIdSettings]? = nil, languageOptions: [LanguageCode]? = nil, media: Media, mediaFormat: MediaFormat? = nil, mediaSampleRateHertz: Int? = nil, modelSettings: ModelSettings? = nil, outputBucketName: String? = nil, outputEncryptionKMSKeyId: String? = nil, outputKey: String? = nil, settings: Settings? = nil, subtitles: Subtitles? = nil, tags: [Tag]? = nil, transcriptionJobName: String) {
+        public init(contentRedaction: ContentRedaction? = nil, identifyLanguage: Bool? = nil, jobExecutionSettings: JobExecutionSettings? = nil, kmsEncryptionContext: [String: String]? = nil, languageCode: LanguageCode? = nil, languageIdSettings: [LanguageCode: LanguageIdSettings]? = nil, languageOptions: [LanguageCode]? = nil, media: Media, mediaFormat: MediaFormat? = nil, mediaSampleRateHertz: Int? = nil, modelSettings: ModelSettings? = nil, outputBucketName: String? = nil, outputEncryptionKMSKeyId: String? = nil, outputKey: String? = nil, settings: Settings? = nil, subtitles: Subtitles? = nil, tags: [Tag]? = nil, transcriptionJobName: String) {
             self.contentRedaction = contentRedaction
             self.identifyLanguage = identifyLanguage
             self.jobExecutionSettings = jobExecutionSettings
-            self.kMSEncryptionContext = kMSEncryptionContext
+            self.kmsEncryptionContext = kmsEncryptionContext
             self.languageCode = languageCode
             self.languageIdSettings = languageIdSettings
             self.languageOptions = languageOptions
@@ -2635,16 +2635,16 @@ extension Transcribe {
 
         public func validate(name: String) throws {
             try self.jobExecutionSettings?.validate(name: "\(name).jobExecutionSettings")
-            try self.kMSEncryptionContext?.forEach {
-                try validate($0.key, name: "kMSEncryptionContext.key", parent: name, max: 2000)
-                try validate($0.key, name: "kMSEncryptionContext.key", parent: name, min: 1)
-                try validate($0.key, name: "kMSEncryptionContext.key", parent: name, pattern: "\\S")
-                try validate($0.value, name: "kMSEncryptionContext[\"\($0.key)\"]", parent: name, max: 2000)
-                try validate($0.value, name: "kMSEncryptionContext[\"\($0.key)\"]", parent: name, min: 1)
-                try validate($0.value, name: "kMSEncryptionContext[\"\($0.key)\"]", parent: name, pattern: "\\S")
+            try self.kmsEncryptionContext?.forEach {
+                try validate($0.key, name: "kmsEncryptionContext.key", parent: name, max: 2000)
+                try validate($0.key, name: "kmsEncryptionContext.key", parent: name, min: 1)
+                try validate($0.key, name: "kmsEncryptionContext.key", parent: name, pattern: "\\S")
+                try validate($0.value, name: "kmsEncryptionContext[\"\($0.key)\"]", parent: name, max: 2000)
+                try validate($0.value, name: "kmsEncryptionContext[\"\($0.key)\"]", parent: name, min: 1)
+                try validate($0.value, name: "kmsEncryptionContext[\"\($0.key)\"]", parent: name, pattern: "\\S")
             }
-            try self.validate(self.kMSEncryptionContext, name: "kMSEncryptionContext", parent: name, max: 10)
-            try self.validate(self.kMSEncryptionContext, name: "kMSEncryptionContext", parent: name, min: 1)
+            try self.validate(self.kmsEncryptionContext, name: "kmsEncryptionContext", parent: name, max: 10)
+            try self.validate(self.kmsEncryptionContext, name: "kmsEncryptionContext", parent: name, min: 1)
             try self.languageIdSettings?.forEach {
                 try $0.value.validate(name: "\(name).languageIdSettings[\"\($0.key)\"]")
             }
@@ -2678,7 +2678,7 @@ extension Transcribe {
             case contentRedaction = "ContentRedaction"
             case identifyLanguage = "IdentifyLanguage"
             case jobExecutionSettings = "JobExecutionSettings"
-            case kMSEncryptionContext = "KMSEncryptionContext"
+            case kmsEncryptionContext = "KMSEncryptionContext"
             case languageCode = "LanguageCode"
             case languageIdSettings = "LanguageIdSettings"
             case languageOptions = "LanguageOptions"

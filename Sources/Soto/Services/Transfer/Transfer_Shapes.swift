@@ -239,7 +239,7 @@ extension Transfer {
         ///  If Protocol includes either FTP or FTPS, then the EndpointType must be VPC and the IdentityProviderType must be AWS_DIRECTORY_SERVICE or API_GATEWAY.
         ///  If Protocol includes FTP, then AddressAllocationIds cannot be associated.
         ///  If Protocol is set only to SFTP, the EndpointType can be set to PUBLIC and the IdentityProviderType can be set to SERVICE_MANAGED.
-        public let protocols: [Protocol]?
+        public let protocols: [`Protocol`]?
         /// Specifies the name of the security policy that is attached to the server.
         public let securityPolicyName: String?
         /// Key-value pairs that can be used to group and search for servers.
@@ -247,7 +247,7 @@ extension Transfer {
         /// Specifies the workflow ID for the workflow to assign and the execution role used for executing the workflow.
         public let workflowDetails: WorkflowDetails?
 
-        public init(certificate: String? = nil, domain: Domain? = nil, endpointDetails: EndpointDetails? = nil, endpointType: EndpointType? = nil, hostKey: String? = nil, identityProviderDetails: IdentityProviderDetails? = nil, identityProviderType: IdentityProviderType? = nil, loggingRole: String? = nil, protocols: [Protocol]? = nil, securityPolicyName: String? = nil, tags: [Tag]? = nil, workflowDetails: WorkflowDetails? = nil) {
+        public init(certificate: String? = nil, domain: Domain? = nil, endpointDetails: EndpointDetails? = nil, endpointType: EndpointType? = nil, hostKey: String? = nil, identityProviderDetails: IdentityProviderDetails? = nil, identityProviderType: IdentityProviderType? = nil, loggingRole: String? = nil, protocols: [`Protocol`]? = nil, securityPolicyName: String? = nil, tags: [Tag]? = nil, workflowDetails: WorkflowDetails? = nil) {
             self.certificate = certificate
             self.domain = domain
             self.endpointDetails = endpointDetails
@@ -1002,7 +1002,7 @@ extension Transfer {
         public let protocolDetails: ProtocolDetails?
         /// Specifies the file transfer protocol or protocols over which your file transfer protocol client can connect to your server's endpoint. The available protocols are:
         ///     SFTP (Secure Shell (SSH) File Transfer Protocol): File transfer over SSH    FTPS (File Transfer Protocol Secure): File transfer with TLS encryption    FTP (File Transfer Protocol): Unencrypted file transfer
-        public let protocols: [Protocol]?
+        public let protocols: [`Protocol`]?
         /// Specifies the name of the security policy that is attached to the server.
         public let securityPolicyName: String?
         /// Specifies the unique system-assigned identifier for a server that you instantiate.
@@ -1017,7 +1017,7 @@ extension Transfer {
         /// Specifies the workflow ID for the workflow to assign and the execution role used for executing the workflow.
         public let workflowDetails: WorkflowDetails?
 
-        public init(arn: String, certificate: String? = nil, domain: Domain? = nil, endpointDetails: EndpointDetails? = nil, endpointType: EndpointType? = nil, hostKeyFingerprint: String? = nil, identityProviderDetails: IdentityProviderDetails? = nil, identityProviderType: IdentityProviderType? = nil, loggingRole: String? = nil, protocolDetails: ProtocolDetails? = nil, protocols: [Protocol]? = nil, securityPolicyName: String? = nil, serverId: String? = nil, state: State? = nil, tags: [Tag]? = nil, userCount: Int? = nil, workflowDetails: WorkflowDetails? = nil) {
+        public init(arn: String, certificate: String? = nil, domain: Domain? = nil, endpointDetails: EndpointDetails? = nil, endpointType: EndpointType? = nil, hostKeyFingerprint: String? = nil, identityProviderDetails: IdentityProviderDetails? = nil, identityProviderType: IdentityProviderType? = nil, loggingRole: String? = nil, protocolDetails: ProtocolDetails? = nil, protocols: [`Protocol`]? = nil, securityPolicyName: String? = nil, serverId: String? = nil, state: State? = nil, tags: [Tag]? = nil, userCount: Int? = nil, workflowDetails: WorkflowDetails? = nil) {
             self.arn = arn
             self.certificate = certificate
             self.domain = domain
@@ -2241,7 +2241,7 @@ extension Transfer {
         /// The type of file transfer protocol to be tested.
         ///  The available protocols are:
         ///    Secure Shell (SSH) File Transfer Protocol (SFTP)   File Transfer Protocol Secure (FTPS)   File Transfer Protocol (FTP)
-        public let serverProtocol: Protocol?
+        public let serverProtocol: `Protocol`?
         /// The source IP address of the user account to be tested.
         public let sourceIp: String?
         /// The name of the user account to be tested.
@@ -2249,7 +2249,7 @@ extension Transfer {
         /// The password of the user account to be tested.
         public let userPassword: String?
 
-        public init(serverId: String, serverProtocol: Protocol? = nil, sourceIp: String? = nil, userName: String, userPassword: String? = nil) {
+        public init(serverId: String, serverProtocol: `Protocol`? = nil, sourceIp: String? = nil, userName: String, userPassword: String? = nil) {
             self.serverId = serverId
             self.serverProtocol = serverProtocol
             self.sourceIp = sourceIp
@@ -2441,7 +2441,7 @@ extension Transfer {
         ///   If Protocol includes either FTP or FTPS, then the EndpointType must be VPC and the IdentityProviderType must be AWS_DIRECTORY_SERVICE or API_GATEWAY.
         ///  If Protocol includes FTP, then AddressAllocationIds cannot be associated.
         ///  If Protocol is set only to SFTP, the EndpointType can be set to PUBLIC and the IdentityProviderType can be set to SERVICE_MANAGED.
-        public let protocols: [Protocol]?
+        public let protocols: [`Protocol`]?
         /// Specifies the name of the security policy that is attached to the server.
         public let securityPolicyName: String?
         /// A system-assigned unique identifier for a server instance that the user account is assigned to.
@@ -2449,7 +2449,7 @@ extension Transfer {
         /// Specifies the workflow ID for the workflow to assign and the execution role used for executing the workflow.
         public let workflowDetails: WorkflowDetails?
 
-        public init(certificate: String? = nil, endpointDetails: EndpointDetails? = nil, endpointType: EndpointType? = nil, hostKey: String? = nil, identityProviderDetails: IdentityProviderDetails? = nil, loggingRole: String? = nil, protocolDetails: ProtocolDetails? = nil, protocols: [Protocol]? = nil, securityPolicyName: String? = nil, serverId: String, workflowDetails: WorkflowDetails? = nil) {
+        public init(certificate: String? = nil, endpointDetails: EndpointDetails? = nil, endpointType: EndpointType? = nil, hostKey: String? = nil, identityProviderDetails: IdentityProviderDetails? = nil, loggingRole: String? = nil, protocolDetails: ProtocolDetails? = nil, protocols: [`Protocol`]? = nil, securityPolicyName: String? = nil, serverId: String, workflowDetails: WorkflowDetails? = nil) {
             self.certificate = certificate
             self.endpointDetails = endpointDetails
             self.endpointType = endpointType

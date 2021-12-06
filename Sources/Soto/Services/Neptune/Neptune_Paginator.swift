@@ -821,8 +821,8 @@ extension Neptune {
 extension Neptune.DescribeDBClusterEndpointsMessage: AWSPaginateToken {
     public func usingPaginationToken(_ token: String) -> Neptune.DescribeDBClusterEndpointsMessage {
         return .init(
-            dBClusterEndpointIdentifier: self.dBClusterEndpointIdentifier,
-            dBClusterIdentifier: self.dBClusterIdentifier,
+            dbClusterEndpointIdentifier: self.dbClusterEndpointIdentifier,
+            dbClusterIdentifier: self.dbClusterIdentifier,
             filters: self.filters,
             marker: token,
             maxRecords: self.maxRecords
@@ -833,7 +833,7 @@ extension Neptune.DescribeDBClusterEndpointsMessage: AWSPaginateToken {
 extension Neptune.DescribeDBClusterParameterGroupsMessage: AWSPaginateToken {
     public func usingPaginationToken(_ token: String) -> Neptune.DescribeDBClusterParameterGroupsMessage {
         return .init(
-            dBClusterParameterGroupName: self.dBClusterParameterGroupName,
+            dbClusterParameterGroupName: self.dbClusterParameterGroupName,
             filters: self.filters,
             marker: token,
             maxRecords: self.maxRecords
@@ -844,7 +844,7 @@ extension Neptune.DescribeDBClusterParameterGroupsMessage: AWSPaginateToken {
 extension Neptune.DescribeDBClusterParametersMessage: AWSPaginateToken {
     public func usingPaginationToken(_ token: String) -> Neptune.DescribeDBClusterParametersMessage {
         return .init(
-            dBClusterParameterGroupName: self.dBClusterParameterGroupName,
+            dbClusterParameterGroupName: self.dbClusterParameterGroupName,
             filters: self.filters,
             marker: token,
             maxRecords: self.maxRecords,
@@ -856,8 +856,8 @@ extension Neptune.DescribeDBClusterParametersMessage: AWSPaginateToken {
 extension Neptune.DescribeDBClusterSnapshotsMessage: AWSPaginateToken {
     public func usingPaginationToken(_ token: String) -> Neptune.DescribeDBClusterSnapshotsMessage {
         return .init(
-            dBClusterIdentifier: self.dBClusterIdentifier,
-            dBClusterSnapshotIdentifier: self.dBClusterSnapshotIdentifier,
+            dbClusterIdentifier: self.dbClusterIdentifier,
+            dbClusterSnapshotIdentifier: self.dbClusterSnapshotIdentifier,
             filters: self.filters,
             includePublic: self.includePublic,
             includeShared: self.includeShared,
@@ -871,7 +871,7 @@ extension Neptune.DescribeDBClusterSnapshotsMessage: AWSPaginateToken {
 extension Neptune.DescribeDBClustersMessage: AWSPaginateToken {
     public func usingPaginationToken(_ token: String) -> Neptune.DescribeDBClustersMessage {
         return .init(
-            dBClusterIdentifier: self.dBClusterIdentifier,
+            dbClusterIdentifier: self.dbClusterIdentifier,
             filters: self.filters,
             marker: token,
             maxRecords: self.maxRecords
@@ -882,7 +882,7 @@ extension Neptune.DescribeDBClustersMessage: AWSPaginateToken {
 extension Neptune.DescribeDBEngineVersionsMessage: AWSPaginateToken {
     public func usingPaginationToken(_ token: String) -> Neptune.DescribeDBEngineVersionsMessage {
         return .init(
-            dBParameterGroupFamily: self.dBParameterGroupFamily,
+            dbParameterGroupFamily: self.dbParameterGroupFamily,
             defaultOnly: self.defaultOnly,
             engine: self.engine,
             engineVersion: self.engineVersion,
@@ -898,7 +898,7 @@ extension Neptune.DescribeDBEngineVersionsMessage: AWSPaginateToken {
 extension Neptune.DescribeDBInstancesMessage: AWSPaginateToken {
     public func usingPaginationToken(_ token: String) -> Neptune.DescribeDBInstancesMessage {
         return .init(
-            dBInstanceIdentifier: self.dBInstanceIdentifier,
+            dbInstanceIdentifier: self.dbInstanceIdentifier,
             filters: self.filters,
             marker: token,
             maxRecords: self.maxRecords
@@ -909,7 +909,7 @@ extension Neptune.DescribeDBInstancesMessage: AWSPaginateToken {
 extension Neptune.DescribeDBParameterGroupsMessage: AWSPaginateToken {
     public func usingPaginationToken(_ token: String) -> Neptune.DescribeDBParameterGroupsMessage {
         return .init(
-            dBParameterGroupName: self.dBParameterGroupName,
+            dbParameterGroupName: self.dbParameterGroupName,
             filters: self.filters,
             marker: token,
             maxRecords: self.maxRecords
@@ -920,7 +920,7 @@ extension Neptune.DescribeDBParameterGroupsMessage: AWSPaginateToken {
 extension Neptune.DescribeDBParametersMessage: AWSPaginateToken {
     public func usingPaginationToken(_ token: String) -> Neptune.DescribeDBParametersMessage {
         return .init(
-            dBParameterGroupName: self.dBParameterGroupName,
+            dbParameterGroupName: self.dbParameterGroupName,
             filters: self.filters,
             marker: token,
             maxRecords: self.maxRecords,
@@ -932,7 +932,7 @@ extension Neptune.DescribeDBParametersMessage: AWSPaginateToken {
 extension Neptune.DescribeDBSubnetGroupsMessage: AWSPaginateToken {
     public func usingPaginationToken(_ token: String) -> Neptune.DescribeDBSubnetGroupsMessage {
         return .init(
-            dBSubnetGroupName: self.dBSubnetGroupName,
+            dbSubnetGroupName: self.dbSubnetGroupName,
             filters: self.filters,
             marker: token,
             maxRecords: self.maxRecords
@@ -943,7 +943,7 @@ extension Neptune.DescribeDBSubnetGroupsMessage: AWSPaginateToken {
 extension Neptune.DescribeEngineDefaultParametersMessage: AWSPaginateToken {
     public func usingPaginationToken(_ token: String) -> Neptune.DescribeEngineDefaultParametersMessage {
         return .init(
-            dBParameterGroupFamily: self.dBParameterGroupFamily,
+            dbParameterGroupFamily: self.dbParameterGroupFamily,
             filters: self.filters,
             marker: token,
             maxRecords: self.maxRecords
@@ -981,7 +981,7 @@ extension Neptune.DescribeEventsMessage: AWSPaginateToken {
 extension Neptune.DescribeOrderableDBInstanceOptionsMessage: AWSPaginateToken {
     public func usingPaginationToken(_ token: String) -> Neptune.DescribeOrderableDBInstanceOptionsMessage {
         return .init(
-            dBInstanceClass: self.dBInstanceClass,
+            dbInstanceClass: self.dbInstanceClass,
             engine: self.engine,
             engineVersion: self.engineVersion,
             filters: self.filters,

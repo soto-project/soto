@@ -40,7 +40,7 @@ extension DataExchange {
 
     public enum JobErrorLimitName: String, CustomStringConvertible, Codable {
         case amazonRedshiftDatashareAssetsPerRevision = "Amazon Redshift datashare assets per revision"
-        case assetSizeInGb = "Asset size in GB"
+        case assetSizeInGB = "Asset size in GB"
         case assetsPerRevision = "Assets per revision"
         public var description: String { return self.rawValue }
     }
