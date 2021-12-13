@@ -67,6 +67,28 @@ extension ECR {
         )
     }
 
+    ///  Returns the pull through cache rules for a registry.
+    /// Return PaginatorSequence for operation.
+    ///
+    /// - Parameters:
+    ///   - input: Input for request
+    ///   - logger: Logger used flot logging
+    ///   - eventLoop: EventLoop to run this process on
+    public func describePullThroughCacheRulesPaginator(
+        _ input: DescribePullThroughCacheRulesRequest,
+        logger: Logger = AWSClient.loggingDisabled,
+        on eventLoop: EventLoop? = nil
+    ) -> AWSClient.PaginatorSequence<DescribePullThroughCacheRulesRequest, DescribePullThroughCacheRulesResponse> {
+        return .init(
+            input: input,
+            command: describePullThroughCacheRules,
+            inputKey: \DescribePullThroughCacheRulesRequest.nextToken,
+            outputKey: \DescribePullThroughCacheRulesResponse.nextToken,
+            logger: logger,
+            on: eventLoop
+        )
+    }
+
     ///  Describes image repositories in a registry.
     /// Return PaginatorSequence for operation.
     ///

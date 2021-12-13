@@ -126,7 +126,7 @@ extension RDS {
         )
     }
 
-    ///  Returns information about backtracks for a DB cluster. For more information on Amazon Aurora, see   What Is Amazon Aurora? in the Amazon Aurora User Guide.   This action only applies to Aurora MySQL DB clusters.
+    ///  Returns information about backtracks for a DB cluster. For more information on Amazon Aurora, see   What is Amazon Aurora? in the Amazon Aurora User Guide.   This action only applies to Aurora MySQL DB clusters.
     ///
     /// Provide paginated results to closure `onPage` for it to combine them into one result.
     /// This works in a similar manner to `Array.reduce<Result>(_:_:) -> Result`.
@@ -232,7 +232,7 @@ extension RDS {
         )
     }
 
-    ///   Returns a list of DBClusterParameterGroup descriptions. If a  DBClusterParameterGroupName parameter is specified, the list will contain only the description of the specified DB cluster parameter group.  For more information on Amazon Aurora, see    What Is Amazon Aurora? in the Amazon Aurora User Guide.   This action only applies to Aurora DB clusters.
+    ///   Returns a list of DBClusterParameterGroup descriptions. If a  DBClusterParameterGroupName parameter is specified, the list will contain only the description of the specified DB cluster parameter group.  For more information on Amazon Aurora, see    What is Amazon Aurora? in the Amazon Aurora User Guide.  For more information on Multi-AZ DB clusters, see   Multi-AZ deployments with two readable standby DB instances in the Amazon RDS User Guide.   The Multi-AZ DB clusters feature is in preview and is subject to change.
     ///
     /// Provide paginated results to closure `onPage` for it to combine them into one result.
     /// This works in a similar manner to `Array.reduce<Result>(_:_:) -> Result`.
@@ -285,7 +285,7 @@ extension RDS {
         )
     }
 
-    ///  Returns the detailed parameter list for a particular DB cluster parameter group. For more information on Amazon Aurora, see   What Is Amazon Aurora? in the Amazon Aurora User Guide.   This action only applies to Aurora DB clusters.
+    ///  Returns the detailed parameter list for a particular DB cluster parameter group. For more information on Amazon Aurora, see    What is Amazon Aurora? in the Amazon Aurora User Guide.  For more information on Multi-AZ DB clusters, see   Multi-AZ deployments with two readable standby DB instances in the Amazon RDS User Guide.   The Multi-AZ DB clusters feature is in preview and is subject to change.
     ///
     /// Provide paginated results to closure `onPage` for it to combine them into one result.
     /// This works in a similar manner to `Array.reduce<Result>(_:_:) -> Result`.
@@ -338,7 +338,7 @@ extension RDS {
         )
     }
 
-    ///  Returns information about DB cluster snapshots. This API action supports pagination. For more information on Amazon Aurora, see   What Is Amazon Aurora? in the Amazon Aurora User Guide.   This action only applies to Aurora DB clusters.
+    ///  Returns information about DB cluster snapshots. This API action supports pagination. For more information on Amazon Aurora DB clusters, see    What is Amazon Aurora? in the Amazon Aurora User Guide.  For more information on Multi-AZ DB clusters, see   Multi-AZ deployments with two readable standby DB instances in the Amazon RDS User Guide.   The Multi-AZ DB clusters feature is in preview and is subject to change.
     ///
     /// Provide paginated results to closure `onPage` for it to combine them into one result.
     /// This works in a similar manner to `Array.reduce<Result>(_:_:) -> Result`.
@@ -391,7 +391,7 @@ extension RDS {
         )
     }
 
-    ///  Returns information about provisioned Aurora DB clusters. This API supports pagination. For more information on Amazon Aurora, see   What Is Amazon Aurora? in the Amazon Aurora User Guide.            This operation can also return information for Amazon Neptune DB instances and Amazon DocumentDB instances.
+    ///  Returns information about Amazon Aurora DB clusters and Multi-AZ DB clusters. This API supports pagination. For more information on Amazon Aurora DB clusters, see    What is Amazon Aurora? in the Amazon Aurora User Guide.  For more information on Multi-AZ DB clusters, see   Multi-AZ deployments with two readable standby DB instances in the Amazon RDS User Guide.   The Multi-AZ DB clusters feature is in preview and is subject to change.  This operation can also return information for Amazon Neptune DB instances and Amazon DocumentDB instances.
     ///
     /// Provide paginated results to closure `onPage` for it to combine them into one result.
     /// This works in a similar manner to `Array.reduce<Result>(_:_:) -> Result`.
@@ -1346,7 +1346,7 @@ extension RDS {
         )
     }
 
-    ///   Returns information about Aurora global database clusters. This API supports pagination.   For more information on Amazon Aurora, see  What Is Amazon Aurora? in the Amazon Aurora User Guide.   This action only applies to Aurora DB clusters.
+    ///   Returns information about Aurora global database clusters. This API supports pagination.   For more information on Amazon Aurora, see  What is Amazon Aurora? in the Amazon Aurora User Guide.   This action only applies to Aurora DB clusters.
     ///
     /// Provide paginated results to closure `onPage` for it to combine them into one result.
     /// This works in a similar manner to `Array.reduce<Result>(_:_:) -> Result`.
@@ -1558,7 +1558,7 @@ extension RDS {
         )
     }
 
-    ///  Returns a list of orderable DB instance options for the specified engine.
+    ///  Returns a list of orderable DB instance options for the specified DB engine, DB engine version, and DB instance class.
     ///
     /// Provide paginated results to closure `onPage` for it to combine them into one result.
     /// This works in a similar manner to `Array.reduce<Result>(_:_:) -> Result`.

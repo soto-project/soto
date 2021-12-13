@@ -34,6 +34,12 @@ extension DevOpsGuru {
         public var description: String { return self.rawValue }
     }
 
+    public enum AnomalyType: String, CustomStringConvertible, Codable {
+        case causal = "CAUSAL"
+        case contextual = "CONTEXTUAL"
+        public var description: String { return self.rawValue }
+    }
+
     public enum CloudWatchMetricDataStatusCode: String, CustomStringConvertible, Codable {
         case complete = "Complete"
         case internalError = "InternalError"
@@ -139,6 +145,7 @@ extension DevOpsGuru {
     public enum ResourceCollectionType: String, CustomStringConvertible, Codable {
         case awsCloudFormation = "AWS_CLOUD_FORMATION"
         case awsService = "AWS_SERVICE"
+        case awsTags = "AWS_TAGS"
         public var description: String { return self.rawValue }
     }
 
@@ -265,17 +272,38 @@ extension DevOpsGuru {
         }
     }
 
-    public struct AnomalySourceDetails: AWSDecodableShape {
-        ///  An array of CloudWatchMetricsDetail object that contains information
-        /// 			about the analyzed metrics that displayed anomalous behavior.
-        public let cloudWatchMetrics: [CloudWatchMetricsDetail]?
+    public struct AnomalyResource: AWSDecodableShape {
+        /// The name of the Amazon Web Services resource.
+        public let name: String?
+        /// The type of the Amazon Web Services resource.
+        public let type: String?
 
-        public init(cloudWatchMetrics: [CloudWatchMetricsDetail]? = nil) {
+        public init(name: String? = nil, type: String? = nil) {
+            self.name = name
+            self.type = type
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case name = "Name"
+            case type = "Type"
+        }
+    }
+
+    public struct AnomalySourceDetails: AWSDecodableShape {
+        /// An array of CloudWatchMetricsDetail objects that contain information
+        /// 			about analyzed CloudWatch metrics that show anomalous behavior.
+        public let cloudWatchMetrics: [CloudWatchMetricsDetail]?
+        /// An array of PerformanceInsightsMetricsDetail objects that contain information 		about analyzed Performance Insights metrics that show anomalous behavior.
+        public let performanceInsightsMetrics: [PerformanceInsightsMetricsDetail]?
+
+        public init(cloudWatchMetrics: [CloudWatchMetricsDetail]? = nil, performanceInsightsMetrics: [PerformanceInsightsMetricsDetail]? = nil) {
             self.cloudWatchMetrics = cloudWatchMetrics
+            self.performanceInsightsMetrics = performanceInsightsMetrics
         }
 
         private enum CodingKeys: String, CodingKey {
             case cloudWatchMetrics = "CloudWatchMetrics"
+            case performanceInsightsMetrics = "PerformanceInsightsMetrics"
         }
     }
 
@@ -373,10 +401,10 @@ extension DevOpsGuru {
     }
 
     public struct CloudWatchMetricsDataSummary: AWSDecodableShape {
-        /// This is enum of the status showing whether the metric value pair list has Partial or
-        /// 			Complete data or there was an error.
+        /// This is an enum of the status showing whether the metric value pair list has partial or
+        /// 			complete data, or if there was an error.
         public let statusCode: CloudWatchMetricDataStatusCode?
-        /// This is a list of cloudwatch metric values at given timestamp.
+        /// This is a list of Amazon CloudWatch metric values at given timestamp.
         public let timestampMetricValuePairList: [TimestampMetricValuePair]?
 
         public init(statusCode: CloudWatchMetricDataStatusCode? = nil, timestampMetricValuePairList: [TimestampMetricValuePair]? = nil) {
@@ -451,17 +479,34 @@ extension DevOpsGuru {
         /// An object that specifies the CloudFormation stack that defines the Amazon Web Services resources
         /// 			used to create a monthly estimate for DevOps Guru.
         public let cloudFormation: CloudFormationCostEstimationResourceCollectionFilter?
+        /// The Amazon Web Services tags used to filter the resource collection that is used for  		a cost estimate. 	     Tags help you identify and organize your Amazon Web Services resources. Many Amazon Web Services services support 		tagging, so you can assign the same tag to resources from different services to indicate 		that the resources are related. For example, you can assign the same tag to an Amazon DynamoDB 		table resource that you assign to an Lambda function. For more information about 		using tags, see the Tagging 			best practices whitepaper.  	     Each Amazon Web Services tag has two parts.  	       			         A tag key (for example, CostCenter, 				Environment, Project, or Secret). Tag 				keys are case-sensitive. 		         			         An optional field known as a tag value (for example, 				111122223333, Production, or a team 				name). Omitting the tag value is the same as using an empty 				string. Like tag keys, tag values are 				case-sensitive. 		         	     Together these are known as key-value pairs.
+        /// 		          The string used for a key in a tag that you use to define your resource coverage must begin with the
+        /// 			prefix Devops-guru-. The tag key might be
+        /// 			Devops-guru-deployment-application or
+        /// 			Devops-guru-rds-application. While keys are case-sensitive, the
+        /// 			case of key characters don't matter to DevOps Guru. For example, DevOps Guru works with a
+        /// 			key named devops-guru-rds and a key named
+        /// 			DevOps-Guru-RDS. Possible key/value pairs in your
+        /// 			application might be Devops-Guru-production-application/RDS or
+        /// 			Devops-Guru-production-application/containers.
+        ///
+        public let tags: [TagCostEstimationResourceCollectionFilter]?
 
-        public init(cloudFormation: CloudFormationCostEstimationResourceCollectionFilter? = nil) {
+        public init(cloudFormation: CloudFormationCostEstimationResourceCollectionFilter? = nil, tags: [TagCostEstimationResourceCollectionFilter]? = nil) {
             self.cloudFormation = cloudFormation
+            self.tags = tags
         }
 
         public func validate(name: String) throws {
             try self.cloudFormation?.validate(name: "\(name).cloudFormation")
+            try self.tags?.forEach {
+                try $0.validate(name: "\(name).tags[]")
+            }
         }
 
         private enum CodingKeys: String, CodingKey {
             case cloudFormation = "CloudFormation"
+            case tags = "Tags"
         }
     }
 
@@ -582,16 +627,16 @@ extension DevOpsGuru {
             try self.validate(self.accountId, name: "accountId", parent: name, pattern: "^\\d{12}$")
             try self.validate(self.id, name: "id", parent: name, max: 100)
             try self.validate(self.id, name: "id", parent: name, min: 1)
-            try self.validate(self.id, name: "id", parent: name, pattern: "^[\\w-]*$")
+            try self.validate(self.id, name: "id", parent: name, pattern: "^[\\w~.-]*$")
         }
 
         private enum CodingKeys: CodingKey {}
     }
 
     public struct DescribeAnomalyResponse: AWSDecodableShape {
-        ///  A ReactiveAnomaly object that represents the requested anomaly.
-        public let proactiveAnomaly: ProactiveAnomaly?
         ///  A ProactiveAnomaly object that represents the requested anomaly.
+        public let proactiveAnomaly: ProactiveAnomaly?
+        ///  A ReactiveAnomaly object that represents the requested anomaly.
         public let reactiveAnomaly: ReactiveAnomaly?
 
         public init(proactiveAnomaly: ProactiveAnomaly? = nil, reactiveAnomaly: ReactiveAnomaly? = nil) {
@@ -814,7 +859,7 @@ extension DevOpsGuru {
         /// The ID of the organizational unit.
         public let organizationalUnitIds: [String]?
         ///  An Amazon Web Services resource collection type. This type specifies how analyzed Amazon Web Services resources
-        /// 			are defined. The one type of Amazon Web Services resource collection supported is Amazon Web Services CloudFormation stacks. DevOps Guru can be configured to analyze  	only the Amazon Web Services resources that are defined in the stacks. You can specify up to 500 Amazon Web Services CloudFormation stacks.
+        /// 			are defined. The two types of Amazon Web Services resource collections supported are Amazon Web Services CloudFormation stacks and  Amazon Web Services resources that contain the same Amazon Web Services tag. DevOps Guru can be configured to analyze  	the Amazon Web Services resources that are defined in the stacks or that are tagged using the same tag key. You can specify up to 500 Amazon Web Services CloudFormation stacks.
         public let organizationResourceCollectionType: OrganizationResourceCollectionType
 
         public init(accountIds: [String]? = nil, maxResults: Int? = nil, nextToken: String? = nil, organizationalUnitIds: [String]? = nil, organizationResourceCollectionType: OrganizationResourceCollectionType) {
@@ -857,7 +902,7 @@ extension DevOpsGuru {
         /// The name of the organization's account.
         public let account: [AccountHealth]?
         /// The returned CloudFormationHealthOverview object that contains an
-        /// 				InsightHealthOverview object with the requested system health
+        /// 			InsightHealthOverview object with the requested system health
         /// 			information.
         public let cloudFormation: [CloudFormationHealth]?
         /// The pagination token to use to retrieve  the next page of results for this operation. If there are no more pages, this value is null.
@@ -890,7 +935,7 @@ extension DevOpsGuru {
         /// The pagination token to use to retrieve  the next page of results for this operation. If this value is null, it retrieves the first page.
         public let nextToken: String?
         ///  An Amazon Web Services resource collection type. This type specifies how analyzed Amazon Web Services resources
-        /// 			are defined. The one type of Amazon Web Services resource collection supported is Amazon Web Services CloudFormation stacks. DevOps Guru can be configured to analyze  	only the Amazon Web Services resources that are defined in the stacks. You can specify up to 500 Amazon Web Services CloudFormation stacks.
+        /// 			are defined. The two types of Amazon Web Services resource collections supported are Amazon Web Services CloudFormation stacks and  Amazon Web Services resources that contain the same Amazon Web Services tag. DevOps Guru can be configured to analyze  	the Amazon Web Services resources that are defined in the stacks or that are tagged using the same tag key. You can specify up to 500 Amazon Web Services CloudFormation stacks.
         public let resourceCollectionType: ResourceCollectionType
 
         public init(nextToken: String? = nil, resourceCollectionType: ResourceCollectionType) {
@@ -911,23 +956,37 @@ extension DevOpsGuru {
         ///  The returned CloudFormationHealthOverview object that contains an
         /// 				InsightHealthOverview object with the requested system health
         /// 			information.
-        public let cloudFormation: [CloudFormationHealth]
+        public let cloudFormation: [CloudFormationHealth]?
         /// The pagination token to use to retrieve  the next page of results for this operation. If there are no more pages, this value is null.
         public let nextToken: String?
         /// An array of ServiceHealth objects that describes the health of the Amazon Web Services
         /// 			services associated with the resources in the collection.
         public let service: [ServiceHealth]?
+        /// The Amazon Web Services tags that are used by resources in the resource collection. 	     Tags help you identify and organize your Amazon Web Services resources. Many Amazon Web Services services support 		tagging, so you can assign the same tag to resources from different services to indicate 		that the resources are related. For example, you can assign the same tag to an Amazon DynamoDB 		table resource that you assign to an Lambda function. For more information about 		using tags, see the Tagging 			best practices whitepaper.  	     Each Amazon Web Services tag has two parts.  	       			         A tag key (for example, CostCenter, 				Environment, Project, or Secret). Tag 				keys are case-sensitive. 		         			         An optional field known as a tag value (for example, 				111122223333, Production, or a team 				name). Omitting the tag value is the same as using an empty 				string. Like tag keys, tag values are 				case-sensitive. 		         	     Together these are known as key-value pairs.
+        /// 		          The string used for a key in a tag that you use to define your resource coverage must begin with the
+        /// 			prefix Devops-guru-. The tag key might be
+        /// 			Devops-guru-deployment-application or
+        /// 			Devops-guru-rds-application. While keys are case-sensitive, the
+        /// 			case of key characters don't matter to DevOps Guru. For example, DevOps Guru works with a
+        /// 			key named devops-guru-rds and a key named
+        /// 			DevOps-Guru-RDS. Possible key/value pairs in your
+        /// 			application might be Devops-Guru-production-application/RDS or
+        /// 			Devops-Guru-production-application/containers.
+        ///
+        public let tags: [TagHealth]?
 
-        public init(cloudFormation: [CloudFormationHealth], nextToken: String? = nil, service: [ServiceHealth]? = nil) {
+        public init(cloudFormation: [CloudFormationHealth]? = nil, nextToken: String? = nil, service: [ServiceHealth]? = nil, tags: [TagHealth]? = nil) {
             self.cloudFormation = cloudFormation
             self.nextToken = nextToken
             self.service = service
+            self.tags = tags
         }
 
         private enum CodingKeys: String, CodingKey {
             case cloudFormation = "CloudFormation"
             case nextToken = "NextToken"
             case service = "Service"
+            case tags = "Tags"
         }
     }
 
@@ -1135,7 +1194,7 @@ extension DevOpsGuru {
         /// The pagination token to use to retrieve  the next page of results for this operation. If there are no more pages, this value is null.
         public let nextToken: String?
         ///  The requested list of Amazon Web Services resource collections.
-        /// 			The one type of Amazon Web Services resource collection supported is Amazon Web Services CloudFormation stacks. DevOps Guru can be configured to analyze  	only the Amazon Web Services resources that are defined in the stacks. You can specify up to 500 Amazon Web Services CloudFormation stacks.
+        /// 			The two types of Amazon Web Services resource collections supported are Amazon Web Services CloudFormation stacks and  Amazon Web Services resources that contain the same Amazon Web Services tag. DevOps Guru can be configured to analyze  	the Amazon Web Services resources that are defined in the stacks or that are tagged using the same tag key. You can specify up to 500 Amazon Web Services CloudFormation stacks.
         public let resourceCollection: ResourceCollectionFilter?
 
         public init(nextToken: String? = nil, resourceCollection: ResourceCollectionFilter? = nil) {
@@ -1740,6 +1799,162 @@ extension DevOpsGuru {
         }
     }
 
+    public struct PerformanceInsightsMetricDimensionGroup: AWSDecodableShape {
+        /// A list of specific dimensions from a dimension group. If this parameter is not present, 		then it signifies that all of the dimensions in the group were requested or are present in 		the response. 	     Valid values for elements in the Dimensions array are: 	 	       			          				           db.application.name - The name of the application that is connected to the database (only 				Aurora PostgreSQL and RDS PostgreSQL) 		         			          				           db.host.id - The host ID of the connected client (all engines) 		         			          				           db.host.name - The host name of the connected client (all engines) 		         			          				           db.name - The name of the database to which the client is connected (only Aurora PostgreSQL, Amazon RDS 				PostgreSQL, Aurora MySQL, Amazon RDS MySQL, and MariaDB) 		         			          				           db.session_type.name - The type of the current session (only Aurora PostgreSQL and RDS PostgreSQL) 		         			          				           db.sql.id - The SQL ID generated by Performance Insights (all engines) 		         			          				           db.sql.db_id - The SQL ID generated by the database (all engines) 		         			          				           db.sql.statement - The SQL text that is being executed (all engines) 		         			          				           db.sql.tokenized_id 			          		         			          				           db.sql_tokenized.id - The SQL digest ID generated by Performance Insights (all engines) 		         			          				           db.sql_tokenized.db_id - SQL digest ID generated by the database (all engines) 		         			          				           db.sql_tokenized.statement - The SQL digest text (all engines) 		         			          				           db.user.id - The ID of the user logged in to the database (all engines) 		         			          				           db.user.name - The name of the user logged in to the database (all engines) 		         			          				           db.wait_event.name - The event for which the backend is waiting (all engines) 		         			          				           db.wait_event.type - The type of event for which the backend is waiting (all engines) 		         			          				           db.wait_event_type.name - The name of the event type for which the backend is waiting (all 				engines)
+        public let dimensions: [String]?
+        /// The name of the dimension group. Its valid values are: 	 	       			          				           db - The name of the database to which the client is connected (only Aurora PostgreSQL, Amazon RDS PostgreSQL, 				Aurora MySQL, Amazon RDS MySQL, and MariaDB) 		         			          				           db.application - The name of the application that is connected to the database (only Aurora 				PostgreSQL and RDS PostgreSQL) 		         			          				           db.host - The host name of the connected client (all engines) 		         			          				           db.session_type - The type of the current session (only Aurora PostgreSQL and RDS PostgreSQL) 		         			          				           db.sql - The SQL that is currently executing (all engines) 		         			          				           db.sql_tokenized - The SQL digest (all engines) 		         			          				           db.wait_event - The event for which the database backend is waiting  (all engines) 		         			          				           db.wait_event_type - The type of event for which the database backend is waiting (all engines) 		         			          				           db.user - The user logged in to the database (all engines)
+        public let group: String?
+        /// The maximum number of items to fetch for this dimension group.
+        public let limit: Int?
+
+        public init(dimensions: [String]? = nil, group: String? = nil, limit: Int? = nil) {
+            self.dimensions = dimensions
+            self.group = group
+            self.limit = limit
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case dimensions = "Dimensions"
+            case group = "Group"
+            case limit = "Limit"
+        }
+    }
+
+    public struct PerformanceInsightsMetricQuery: AWSDecodableShape {
+        /// One or more filters to apply to a Performance Insights GetResourceMetrics API query. Restrictions: 	       			         Any number of filters by the same dimension, as specified in the GroupBy parameter. 		         			         A single filter for any other dimension in this dimension group.
+        public let filter: [String: String]?
+        /// The specification for how to aggregate the data points from a Performance Insights GetResourceMetrics API query. The  		Performance Insights query returns all of the dimensions within that group, 		unless you provide the names of specific dimensions within that group. You can also request 		that Performance Insights return a limited number of values for a dimension.
+        public let groupBy: PerformanceInsightsMetricDimensionGroup?
+        /// The name of the meteric used used when querying an Performance Insights GetResourceMetrics API for  	anomaly metrics. 	 	     Valid values for Metric are: 	 	       			          				           db.load.avg - a scaled representation of the number of active sessions 				for the database engine. 		         			          				           db.sampledload.avg - the raw number of active sessions for the 				database engine. 		         	     If the number of active sessions is less than an internal Performance Insights threshold, db.load.avg and db.sampledload.avg  		are the same value. If the number of active sessions is greater than the internal threshold, Performance Insights samples the active sessions, with db.load.avg  		showing the scaled values, db.sampledload.avg showing the raw values, and db.sampledload.avg less than db.load.avg.  		For most use cases, you can query db.load.avg only.
+        public let metric: String?
+
+        public init(filter: [String: String]? = nil, groupBy: PerformanceInsightsMetricDimensionGroup? = nil, metric: String? = nil) {
+            self.filter = filter
+            self.groupBy = groupBy
+            self.metric = metric
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case filter = "Filter"
+            case groupBy = "GroupBy"
+            case metric = "Metric"
+        }
+    }
+
+    public struct PerformanceInsightsMetricsDetail: AWSDecodableShape {
+        /// The name used for a specific Performance Insights metric.
+        public let metricDisplayName: String?
+        /// A single query to be processed for the metric. For more information, see  		 PerformanceInsightsMetricQuery .
+        public let metricQuery: PerformanceInsightsMetricQuery?
+        ///  	For more information, see  	 PerformanceInsightsReferenceData .
+        public let referenceData: [PerformanceInsightsReferenceData]?
+        /// The metric statistics during the anomalous period detected by DevOps Guru;
+        public let statsAtAnomaly: [PerformanceInsightsStat]?
+        /// Typical metric statistics that are not considered anomalous. When DevOps Guru analyzes
+        /// 			metrics, it compares them to StatsAtBaseline to help determine if they are
+        /// 			anomalous.
+        public let statsAtBaseline: [PerformanceInsightsStat]?
+        /// The unit of measure for a metric. For example, a session or a process.
+        public let unit: String?
+
+        public init(metricDisplayName: String? = nil, metricQuery: PerformanceInsightsMetricQuery? = nil, referenceData: [PerformanceInsightsReferenceData]? = nil, statsAtAnomaly: [PerformanceInsightsStat]? = nil, statsAtBaseline: [PerformanceInsightsStat]? = nil, unit: String? = nil) {
+            self.metricDisplayName = metricDisplayName
+            self.metricQuery = metricQuery
+            self.referenceData = referenceData
+            self.statsAtAnomaly = statsAtAnomaly
+            self.statsAtBaseline = statsAtBaseline
+            self.unit = unit
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case metricDisplayName = "MetricDisplayName"
+            case metricQuery = "MetricQuery"
+            case referenceData = "ReferenceData"
+            case statsAtAnomaly = "StatsAtAnomaly"
+            case statsAtBaseline = "StatsAtBaseline"
+            case unit = "Unit"
+        }
+    }
+
+    public struct PerformanceInsightsReferenceComparisonValues: AWSDecodableShape {
+        /// A metric that DevOps Guru compares to actual metric values. This reference metric is used  		to determine if an actual metric should be considered anomalous.
+        public let referenceMetric: PerformanceInsightsReferenceMetric?
+        /// A scalar value DevOps Guru for a metric that DevOps Guru compares to actual metric values. This reference value is used  to determine if an actual metric value should be considered anomalous.
+        public let referenceScalar: PerformanceInsightsReferenceScalar?
+
+        public init(referenceMetric: PerformanceInsightsReferenceMetric? = nil, referenceScalar: PerformanceInsightsReferenceScalar? = nil) {
+            self.referenceMetric = referenceMetric
+            self.referenceScalar = referenceScalar
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case referenceMetric = "ReferenceMetric"
+            case referenceScalar = "ReferenceScalar"
+        }
+    }
+
+    public struct PerformanceInsightsReferenceData: AWSDecodableShape {
+        /// The specific reference values used to evaluate the Performance Insights. For more information, see
+        /// 			 PerformanceInsightsReferenceComparisonValues .
+        ///
+        public let comparisonValues: PerformanceInsightsReferenceComparisonValues?
+        /// The name of the reference data.
+        public let name: String?
+
+        public init(comparisonValues: PerformanceInsightsReferenceComparisonValues? = nil, name: String? = nil) {
+            self.comparisonValues = comparisonValues
+            self.name = name
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case comparisonValues = "ComparisonValues"
+            case name = "Name"
+        }
+    }
+
+    public struct PerformanceInsightsReferenceMetric: AWSDecodableShape {
+        /// A query to be processed on the metric.
+        public let metricQuery: PerformanceInsightsMetricQuery?
+
+        public init(metricQuery: PerformanceInsightsMetricQuery? = nil) {
+            self.metricQuery = metricQuery
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case metricQuery = "MetricQuery"
+        }
+    }
+
+    public struct PerformanceInsightsReferenceScalar: AWSDecodableShape {
+        /// The reference value.
+        public let value: Double?
+
+        public init(value: Double? = nil) {
+            self.value = value
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case value = "Value"
+        }
+    }
+
+    public struct PerformanceInsightsStat: AWSDecodableShape {
+        /// The statistic type.
+        public let type: String?
+        /// The value of the statistic.
+        public let value: Double?
+
+        public init(type: String? = nil, value: Double? = nil) {
+            self.type = type
+            self.value = value
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case type = "Type"
+            case value = "Value"
+        }
+    }
+
     public struct PredictionTimeRange: AWSDecodableShape {
         ///  The time when the behavior in a proactive insight is expected to end.
         public let endTime: Date?
@@ -1759,7 +1974,7 @@ extension DevOpsGuru {
     }
 
     public struct ProactiveAnomaly: AWSDecodableShape {
-        /// 			A AnomalyReportedTimeRange object that specifies the time range between when the anomaly is opened and the time when it is closed.
+        /// 			An AnomalyReportedTimeRange object that specifies the time range between when the anomaly is opened and the time when it is closed.
         ///
         public let anomalyReportedTimeRange: AnomalyReportedTimeRange?
         public let anomalyTimeRange: AnomalyTimeRange?
@@ -1773,7 +1988,10 @@ extension DevOpsGuru {
         public let limit: Double?
         public let predictionTimeRange: PredictionTimeRange?
         public let resourceCollection: ResourceCollection?
-        ///  The severity of a proactive anomaly.
+        /// The severity of the anomaly. The severity of anomalies that generate
+        /// 	an insight determine that insight's severity. For more information, see
+        /// 	Understanding
+        /// 	insight severities in the Amazon DevOps Guru User Guide.
         public let severity: AnomalySeverity?
         ///  Details about the source of the analyzed operational data that triggered the anomaly.
         /// 			The one supported source is Amazon CloudWatch metrics.
@@ -1813,7 +2031,7 @@ extension DevOpsGuru {
     }
 
     public struct ProactiveAnomalySummary: AWSDecodableShape {
-        /// 			A AnomalyReportedTimeRange object that specifies the time range between when the anomaly is opened and the time when it is closed.
+        /// 			An AnomalyReportedTimeRange object that specifies the time range between when the anomaly is opened and the time when it is closed.
         ///
         public let anomalyReportedTimeRange: AnomalyReportedTimeRange?
         public let anomalyTimeRange: AnomalyTimeRange?
@@ -1827,7 +2045,10 @@ extension DevOpsGuru {
         public let limit: Double?
         public let predictionTimeRange: PredictionTimeRange?
         public let resourceCollection: ResourceCollection?
-        /// The severity of the anomaly.
+        /// The severity of the anomaly. The severity of anomalies that generate
+        /// 	an insight determine that insight's severity. For more information, see
+        /// 	Understanding
+        /// 	insight severities in the Amazon DevOps Guru User Guide.
         public let severity: AnomalySeverity?
         ///  Details about the source of the analyzed operational data that triggered the anomaly.
         /// 			The one supported source is Amazon CloudWatch metrics.
@@ -1874,7 +2095,9 @@ extension DevOpsGuru {
         public let name: String?
         public let predictionTimeRange: PredictionTimeRange?
         public let resourceCollection: ResourceCollection?
-        /// The severity of the proactive insight.
+        /// The severity of the insight. For more information, see
+        /// 	Understanding
+        /// 	insight severities in the Amazon DevOps Guru User Guide.
         public let severity: InsightSeverity?
         ///  The ID of the Amazon Web Services System Manager OpsItem created for this insight. You must enable
         /// 			the creation of OpstItems insights before they are created for each insight.
@@ -1906,6 +2129,9 @@ extension DevOpsGuru {
     }
 
     public struct ProactiveInsightSummary: AWSDecodableShape {
+        /// The Amazon Resource Names (ARNs)
+        /// 	of the Amazon Web Services resources that generated this insight.
+        public let associatedResourceArns: [String]?
         /// The ID of the proactive insight.
         public let id: String?
         public let insightTimeRange: InsightTimeRange?
@@ -1915,12 +2141,15 @@ extension DevOpsGuru {
         public let resourceCollection: ResourceCollection?
         /// A collection of the names of Amazon Web Services services.
         public let serviceCollection: ServiceCollection?
-        /// The severity of the proactive insight.
+        /// The severity of the insight. For more information, see
+        /// 	Understanding
+        /// 	insight severities in the Amazon DevOps Guru User Guide.
         public let severity: InsightSeverity?
         /// The status of the proactive insight.
         public let status: InsightStatus?
 
-        public init(id: String? = nil, insightTimeRange: InsightTimeRange? = nil, name: String? = nil, predictionTimeRange: PredictionTimeRange? = nil, resourceCollection: ResourceCollection? = nil, serviceCollection: ServiceCollection? = nil, severity: InsightSeverity? = nil, status: InsightStatus? = nil) {
+        public init(associatedResourceArns: [String]? = nil, id: String? = nil, insightTimeRange: InsightTimeRange? = nil, name: String? = nil, predictionTimeRange: PredictionTimeRange? = nil, resourceCollection: ResourceCollection? = nil, serviceCollection: ServiceCollection? = nil, severity: InsightSeverity? = nil, status: InsightStatus? = nil) {
+            self.associatedResourceArns = associatedResourceArns
             self.id = id
             self.insightTimeRange = insightTimeRange
             self.name = name
@@ -1932,6 +2161,7 @@ extension DevOpsGuru {
         }
 
         private enum CodingKeys: String, CodingKey {
+            case associatedResourceArns = "AssociatedResourceArns"
             case id = "Id"
             case insightTimeRange = "InsightTimeRange"
             case name = "Name"
@@ -1956,7 +2186,9 @@ extension DevOpsGuru {
         public let predictionTimeRange: PredictionTimeRange?
         public let resourceCollection: ResourceCollection?
         public let serviceCollection: ServiceCollection?
-        ///  An array of severity values used to search for insights.
+        ///  An array of severity values used to search for insights. For more information, see
+        /// 	Understanding
+        /// 	insight severities in the Amazon DevOps Guru User Guide.
         public let severity: InsightSeverity?
         ///  An array of status values used to search for insights.
         public let status: InsightStatus?
@@ -2010,86 +2242,146 @@ extension DevOpsGuru {
     }
 
     public struct ReactiveAnomaly: AWSDecodableShape {
-        /// 			A AnomalyReportedTimeRange object that specifies the time range between when the anomaly is opened and the time when it is closed.
+        /// 			An AnomalyReportedTimeRange object that specifies the time range between when the anomaly is opened and the time when it is closed.
         ///
         public let anomalyReportedTimeRange: AnomalyReportedTimeRange?
+        /// The Amazon Web Services resources in which anomalous behavior was detected by DevOps Guru.
+        public let anomalyResources: [AnomalyResource]?
         public let anomalyTimeRange: AnomalyTimeRange?
         ///  The ID of the insight that contains this anomaly. An insight is composed of related
         /// 			anomalies.
         public let associatedInsightId: String?
+        /// The ID of the causal anomaly that is associated with this  reactive anomaly. The ID of a `CAUSAL` anomaly is always `NULL`.
+        public let causalAnomalyId: String?
+        /// A description of the reactive anomaly.
+        public let description: String?
         /// The ID of the reactive anomaly.
         public let id: String?
+        /// The name of the reactive anomaly.
+        public let name: String?
         public let resourceCollection: ResourceCollection?
-        /// The severity of the anomaly.
+        /// The severity of the anomaly. The severity of anomalies that generate
+        /// 	an insight determine that insight's severity. For more information, see
+        /// 	Understanding
+        /// 	insight severities in the Amazon DevOps Guru User Guide.
         public let severity: AnomalySeverity?
         ///  Details about the source of the analyzed operational data that triggered the anomaly.
         /// 			The one supported source is Amazon CloudWatch metrics.
         public let sourceDetails: AnomalySourceDetails?
         ///  The status of the anomaly.
         public let status: AnomalyStatus?
+        /// The type of the reactive anomaly. It can be one of the following types.
+        ///
+        ///
+        /// 	   		            CAUSAL - the anomaly can cause a new insight.
+        ///
+        ///
+        /// 	   		            CONTEXTUAL - the anomaly contains additional information about an insight or its causal anomaly.
+        ///
+        public let type: AnomalyType?
 
-        public init(anomalyReportedTimeRange: AnomalyReportedTimeRange? = nil, anomalyTimeRange: AnomalyTimeRange? = nil, associatedInsightId: String? = nil, id: String? = nil, resourceCollection: ResourceCollection? = nil, severity: AnomalySeverity? = nil, sourceDetails: AnomalySourceDetails? = nil, status: AnomalyStatus? = nil) {
+        public init(anomalyReportedTimeRange: AnomalyReportedTimeRange? = nil, anomalyResources: [AnomalyResource]? = nil, anomalyTimeRange: AnomalyTimeRange? = nil, associatedInsightId: String? = nil, causalAnomalyId: String? = nil, description: String? = nil, id: String? = nil, name: String? = nil, resourceCollection: ResourceCollection? = nil, severity: AnomalySeverity? = nil, sourceDetails: AnomalySourceDetails? = nil, status: AnomalyStatus? = nil, type: AnomalyType? = nil) {
             self.anomalyReportedTimeRange = anomalyReportedTimeRange
+            self.anomalyResources = anomalyResources
             self.anomalyTimeRange = anomalyTimeRange
             self.associatedInsightId = associatedInsightId
+            self.causalAnomalyId = causalAnomalyId
+            self.description = description
             self.id = id
+            self.name = name
             self.resourceCollection = resourceCollection
             self.severity = severity
             self.sourceDetails = sourceDetails
             self.status = status
+            self.type = type
         }
 
         private enum CodingKeys: String, CodingKey {
             case anomalyReportedTimeRange = "AnomalyReportedTimeRange"
+            case anomalyResources = "AnomalyResources"
             case anomalyTimeRange = "AnomalyTimeRange"
             case associatedInsightId = "AssociatedInsightId"
+            case causalAnomalyId = "CausalAnomalyId"
+            case description = "Description"
             case id = "Id"
+            case name = "Name"
             case resourceCollection = "ResourceCollection"
             case severity = "Severity"
             case sourceDetails = "SourceDetails"
             case status = "Status"
+            case type = "Type"
         }
     }
 
     public struct ReactiveAnomalySummary: AWSDecodableShape {
-        /// 			A AnomalyReportedTimeRange object that specifies the time range between when the anomaly is opened and the time when it is closed.
+        /// 			An AnomalyReportedTimeRange object that specifies the time range between when the anomaly is opened and the time when it is closed.
         ///
         public let anomalyReportedTimeRange: AnomalyReportedTimeRange?
+        /// The Amazon Web Services resources in which anomalous behavior was detected by DevOps Guru.
+        public let anomalyResources: [AnomalyResource]?
         public let anomalyTimeRange: AnomalyTimeRange?
         ///  The ID of the insight that contains this anomaly. An insight is composed of related
         /// 			anomalies.
         public let associatedInsightId: String?
+        /// The ID of the causal anomaly that is associated with this  reactive anomaly. The ID of a `CAUSAL` anomaly is always `NULL`.
+        public let causalAnomalyId: String?
+        /// A description of the reactive anomaly.
+        public let description: String?
         ///  The ID of the reactive anomaly.
         public let id: String?
+        /// The name of the reactive anomaly.
+        public let name: String?
         public let resourceCollection: ResourceCollection?
-        ///  The severity of the reactive anomaly.
+        /// The severity of the anomaly. The severity of anomalies that generate
+        /// 	an insight determine that insight's severity. For more information, see
+        /// 	Understanding
+        /// 	insight severities in the Amazon DevOps Guru User Guide.
         public let severity: AnomalySeverity?
         ///  Details about the source of the analyzed operational data that triggered the anomaly.
         /// 			The one supported source is Amazon CloudWatch metrics.
         public let sourceDetails: AnomalySourceDetails?
         ///  The status of the reactive anomaly.
         public let status: AnomalyStatus?
+        /// The type of the reactive anomaly. It can be one of the following types.
+        ///
+        ///
+        /// 	   		            CAUSAL - the anomaly can cause a new insight.
+        ///
+        ///
+        /// 	   		            CONTEXTUAL - the anomaly contains additional information about an insight or its causal anomaly.
+        ///
+        public let type: AnomalyType?
 
-        public init(anomalyReportedTimeRange: AnomalyReportedTimeRange? = nil, anomalyTimeRange: AnomalyTimeRange? = nil, associatedInsightId: String? = nil, id: String? = nil, resourceCollection: ResourceCollection? = nil, severity: AnomalySeverity? = nil, sourceDetails: AnomalySourceDetails? = nil, status: AnomalyStatus? = nil) {
+        public init(anomalyReportedTimeRange: AnomalyReportedTimeRange? = nil, anomalyResources: [AnomalyResource]? = nil, anomalyTimeRange: AnomalyTimeRange? = nil, associatedInsightId: String? = nil, causalAnomalyId: String? = nil, description: String? = nil, id: String? = nil, name: String? = nil, resourceCollection: ResourceCollection? = nil, severity: AnomalySeverity? = nil, sourceDetails: AnomalySourceDetails? = nil, status: AnomalyStatus? = nil, type: AnomalyType? = nil) {
             self.anomalyReportedTimeRange = anomalyReportedTimeRange
+            self.anomalyResources = anomalyResources
             self.anomalyTimeRange = anomalyTimeRange
             self.associatedInsightId = associatedInsightId
+            self.causalAnomalyId = causalAnomalyId
+            self.description = description
             self.id = id
+            self.name = name
             self.resourceCollection = resourceCollection
             self.severity = severity
             self.sourceDetails = sourceDetails
             self.status = status
+            self.type = type
         }
 
         private enum CodingKeys: String, CodingKey {
             case anomalyReportedTimeRange = "AnomalyReportedTimeRange"
+            case anomalyResources = "AnomalyResources"
             case anomalyTimeRange = "AnomalyTimeRange"
             case associatedInsightId = "AssociatedInsightId"
+            case causalAnomalyId = "CausalAnomalyId"
+            case description = "Description"
             case id = "Id"
+            case name = "Name"
             case resourceCollection = "ResourceCollection"
             case severity = "Severity"
             case sourceDetails = "SourceDetails"
             case status = "Status"
+            case type = "Type"
         }
     }
 
@@ -2100,7 +2392,9 @@ extension DevOpsGuru {
         ///  The name of a reactive insight.
         public let name: String?
         public let resourceCollection: ResourceCollection?
-        ///  The severity of a reactive insight.
+        /// The severity of the insight. For more information, see
+        /// 	Understanding
+        /// 	insight severities in the Amazon DevOps Guru User Guide.
         public let severity: InsightSeverity?
         ///  The ID of the Amazon Web Services System Manager OpsItem created for this insight. You must enable
         /// 			the creation of OpstItems insights before they are created for each insight.
@@ -2130,6 +2424,9 @@ extension DevOpsGuru {
     }
 
     public struct ReactiveInsightSummary: AWSDecodableShape {
+        /// The Amazon Resource Names (ARNs)
+        /// 	of the Amazon Web Services resources that generated this insight.
+        public let associatedResourceArns: [String]?
         ///  The ID of a reactive summary.
         public let id: String?
         public let insightTimeRange: InsightTimeRange?
@@ -2138,12 +2435,15 @@ extension DevOpsGuru {
         public let resourceCollection: ResourceCollection?
         /// A collection of the names of Amazon Web Services services.
         public let serviceCollection: ServiceCollection?
-        ///  The severity of a reactive insight.
+        /// The severity of the insight. For more information, see
+        /// 	Understanding
+        /// 	insight severities in the Amazon DevOps Guru User Guide.
         public let severity: InsightSeverity?
         ///  The status of a reactive insight.
         public let status: InsightStatus?
 
-        public init(id: String? = nil, insightTimeRange: InsightTimeRange? = nil, name: String? = nil, resourceCollection: ResourceCollection? = nil, serviceCollection: ServiceCollection? = nil, severity: InsightSeverity? = nil, status: InsightStatus? = nil) {
+        public init(associatedResourceArns: [String]? = nil, id: String? = nil, insightTimeRange: InsightTimeRange? = nil, name: String? = nil, resourceCollection: ResourceCollection? = nil, serviceCollection: ServiceCollection? = nil, severity: InsightSeverity? = nil, status: InsightStatus? = nil) {
+            self.associatedResourceArns = associatedResourceArns
             self.id = id
             self.insightTimeRange = insightTimeRange
             self.name = name
@@ -2154,6 +2454,7 @@ extension DevOpsGuru {
         }
 
         private enum CodingKeys: String, CodingKey {
+            case associatedResourceArns = "AssociatedResourceArns"
             case id = "Id"
             case insightTimeRange = "InsightTimeRange"
             case name = "Name"
@@ -2176,7 +2477,9 @@ extension DevOpsGuru {
         public let organizationalUnitId: String?
         public let resourceCollection: ResourceCollection?
         public let serviceCollection: ServiceCollection?
-        ///  An array of severity values used to search for insights.
+        ///  An array of severity values used to search for insights. For more information, see
+        /// 	Understanding
+        /// 	insight severities in the Amazon DevOps Guru User Guide.
         public let severity: InsightSeverity?
         ///  An array of status values used to search for insights.
         public let status: InsightStatus?
@@ -2242,6 +2545,8 @@ extension DevOpsGuru {
     }
 
     public struct RecommendationRelatedAnomaly: AWSDecodableShape {
+        /// The ID of an anomaly that generated the insight with this recommendation.
+        public let anomalyId: String?
         ///  An array of objects that represent resources in which DevOps Guru detected anomalous
         /// 			behavior. Each object contains the name and type of the resource.
         public let resources: [RecommendationRelatedAnomalyResource]?
@@ -2249,12 +2554,14 @@ extension DevOpsGuru {
         /// 			For example, details in Amazon CloudWatch metrics.
         public let sourceDetails: [RecommendationRelatedAnomalySourceDetail]?
 
-        public init(resources: [RecommendationRelatedAnomalyResource]? = nil, sourceDetails: [RecommendationRelatedAnomalySourceDetail]? = nil) {
+        public init(anomalyId: String? = nil, resources: [RecommendationRelatedAnomalyResource]? = nil, sourceDetails: [RecommendationRelatedAnomalySourceDetail]? = nil) {
+            self.anomalyId = anomalyId
             self.resources = resources
             self.sourceDetails = sourceDetails
         }
 
         private enum CodingKeys: String, CodingKey {
+            case anomalyId = "AnomalyId"
             case resources = "Resources"
             case sourceDetails = "SourceDetails"
         }
@@ -2263,7 +2570,11 @@ extension DevOpsGuru {
     public struct RecommendationRelatedAnomalyResource: AWSDecodableShape {
         ///  The name of the resource.
         public let name: String?
-        ///  The type of the resource.
+        ///  The type of the resource. Resource types take the same form that is
+        /// 			used by Amazon Web Services CloudFormation resource type identifiers, service-provider::service-name::data-type-name.
+        /// 			For example, AWS::RDS::DBCluster. For more information, see
+        /// 			Amazon Web Services resource and
+        /// 				property types reference in the Amazon Web Services CloudFormation User Guide.
         public let type: String?
 
         public init(name: String? = nil, type: String? = nil) {
@@ -2375,17 +2686,34 @@ extension DevOpsGuru {
         ///  An array of the names of Amazon Web Services CloudFormation stacks. The stacks define Amazon Web Services resources that
         /// 			DevOps Guru analyzes. You can specify up to 500 Amazon Web Services CloudFormation stacks.
         public let cloudFormation: CloudFormationCollection?
+        /// The Amazon Web Services tags that are used by resources in the resource collection. 	     Tags help you identify and organize your Amazon Web Services resources. Many Amazon Web Services services support 		tagging, so you can assign the same tag to resources from different services to indicate 		that the resources are related. For example, you can assign the same tag to an Amazon DynamoDB 		table resource that you assign to an Lambda function. For more information about 		using tags, see the Tagging 			best practices whitepaper.  	     Each Amazon Web Services tag has two parts.  	       			         A tag key (for example, CostCenter, 				Environment, Project, or Secret). Tag 				keys are case-sensitive. 		         			         An optional field known as a tag value (for example, 				111122223333, Production, or a team 				name). Omitting the tag value is the same as using an empty 				string. Like tag keys, tag values are 				case-sensitive. 		         	     Together these are known as key-value pairs.
+        /// 		          The string used for a key in a tag that you use to define your resource coverage must begin with the
+        /// 			prefix Devops-guru-. The tag key might be
+        /// 			Devops-guru-deployment-application or
+        /// 			Devops-guru-rds-application. While keys are case-sensitive, the
+        /// 			case of key characters don't matter to DevOps Guru. For example, DevOps Guru works with a
+        /// 			key named devops-guru-rds and a key named
+        /// 			DevOps-Guru-RDS. Possible key/value pairs in your
+        /// 			application might be Devops-Guru-production-application/RDS or
+        /// 			Devops-Guru-production-application/containers.
+        ///
+        public let tags: [TagCollection]?
 
-        public init(cloudFormation: CloudFormationCollection? = nil) {
+        public init(cloudFormation: CloudFormationCollection? = nil, tags: [TagCollection]? = nil) {
             self.cloudFormation = cloudFormation
+            self.tags = tags
         }
 
         public func validate(name: String) throws {
             try self.cloudFormation?.validate(name: "\(name).cloudFormation")
+            try self.tags?.forEach {
+                try $0.validate(name: "\(name).tags[]")
+            }
         }
 
         private enum CodingKeys: String, CodingKey {
             case cloudFormation = "CloudFormation"
+            case tags = "Tags"
         }
     }
 
@@ -2395,13 +2723,27 @@ extension DevOpsGuru {
         /// 			information, see Stacks in the
         /// 				Amazon Web Services CloudFormation User Guide.
         public let cloudFormation: CloudFormationCollectionFilter?
+        /// The Amazon Web Services tags used to filter the resources in the resource collection. 	     Tags help you identify and organize your Amazon Web Services resources. Many Amazon Web Services services support 		tagging, so you can assign the same tag to resources from different services to indicate 		that the resources are related. For example, you can assign the same tag to an Amazon DynamoDB 		table resource that you assign to an Lambda function. For more information about 		using tags, see the Tagging 			best practices whitepaper.  	     Each Amazon Web Services tag has two parts.  	       			         A tag key (for example, CostCenter, 				Environment, Project, or Secret). Tag 				keys are case-sensitive. 		         			         An optional field known as a tag value (for example, 				111122223333, Production, or a team 				name). Omitting the tag value is the same as using an empty 				string. Like tag keys, tag values are 				case-sensitive. 		         	     Together these are known as key-value pairs.
+        /// 		          The string used for a key in a tag that you use to define your resource coverage must begin with the
+        /// 			prefix Devops-guru-. The tag key might be
+        /// 			Devops-guru-deployment-application or
+        /// 			Devops-guru-rds-application. While keys are case-sensitive, the
+        /// 			case of key characters don't matter to DevOps Guru. For example, DevOps Guru works with a
+        /// 			key named devops-guru-rds and a key named
+        /// 			DevOps-Guru-RDS. Possible key/value pairs in your
+        /// 			application might be Devops-Guru-production-application/RDS or
+        /// 			Devops-Guru-production-application/containers.
+        ///
+        public let tags: [TagCollectionFilter]?
 
-        public init(cloudFormation: CloudFormationCollectionFilter? = nil) {
+        public init(cloudFormation: CloudFormationCollectionFilter? = nil, tags: [TagCollectionFilter]? = nil) {
             self.cloudFormation = cloudFormation
+            self.tags = tags
         }
 
         private enum CodingKeys: String, CodingKey {
             case cloudFormation = "CloudFormation"
+            case tags = "Tags"
         }
     }
 
@@ -2540,7 +2882,7 @@ extension DevOpsGuru {
         public let nextToken: String?
         public let startTimeRange: StartTimeRange
         ///  The type of insights you are searching for (REACTIVE or
-        /// 				PROACTIVE).
+        /// 			PROACTIVE).
         public let type: InsightType
 
         public init(accountIds: [String], filters: SearchOrganizationInsightsFilters? = nil, maxResults: Int? = nil, nextToken: String? = nil, startTimeRange: StartTimeRange, type: InsightType) {
@@ -2766,6 +3108,146 @@ extension DevOpsGuru {
         }
     }
 
+    public struct TagCollection: AWSEncodableShape & AWSDecodableShape {
+        /// An Amazon Web Services tag key that is used to identify the Amazon Web Services resources that  	DevOps Guru analyzes. All Amazon Web Services resources in your account and Region tagged with this key make  up your DevOps Guru application and analysis boundary.
+        /// 		          The string used for a key in a tag that you use to define your resource coverage must begin with the
+        /// 			prefix Devops-guru-. The tag key might be
+        /// 			Devops-guru-deployment-application or
+        /// 			Devops-guru-rds-application. While keys are case-sensitive, the
+        /// 			case of key characters don't matter to DevOps Guru. For example, DevOps Guru works with a
+        /// 			key named devops-guru-rds and a key named
+        /// 			DevOps-Guru-RDS. Possible key/value pairs in your
+        /// 			application might be Devops-Guru-production-application/RDS or
+        /// 			Devops-Guru-production-application/containers.
+        ///
+        public let appBoundaryKey: String
+        /// The values in an Amazon Web Services tag collection. 	     The tag's value is an optional field used to associate a string with
+        /// 					the tag key (for example, 111122223333, Production, or a team 				name). The key and value are the tag's key pair.  				Omitting the tag value is the same as using an empty 				string. Like tag keys, tag values are 				case-sensitive. You can specify a maximum of 256 characters for a tag value.
+        public let tagValues: [String]
+
+        public init(appBoundaryKey: String, tagValues: [String]) {
+            self.appBoundaryKey = appBoundaryKey
+            self.tagValues = tagValues
+        }
+
+        public func validate(name: String) throws {
+            try self.validate(self.appBoundaryKey, name: "appBoundaryKey", parent: name, max: 128)
+            try self.validate(self.appBoundaryKey, name: "appBoundaryKey", parent: name, min: 1)
+            try self.validate(self.appBoundaryKey, name: "appBoundaryKey", parent: name, pattern: "^([\\p{L}\\p{Z}\\p{N}_.:/=+\\-@]*)$")
+            try self.tagValues.forEach {
+                try validate($0, name: "tagValues[]", parent: name, max: 256)
+                try validate($0, name: "tagValues[]", parent: name, pattern: "^([\\p{L}\\p{Z}\\p{N}_.:/=+\\-@]*|\\*)$")
+            }
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case appBoundaryKey = "AppBoundaryKey"
+            case tagValues = "TagValues"
+        }
+    }
+
+    public struct TagCollectionFilter: AWSDecodableShape {
+        /// An Amazon Web Services tag key that is used to identify the Amazon Web Services resources that  	DevOps Guru analyzes. All Amazon Web Services resources in your account and Region tagged with this key make  up your DevOps Guru application and analysis boundary.
+        /// 		          The string used for a key in a tag that you use to define your resource coverage must begin with the
+        /// 			prefix Devops-guru-. The tag key might be
+        /// 			Devops-guru-deployment-application or
+        /// 			Devops-guru-rds-application. While keys are case-sensitive, the
+        /// 			case of key characters don't matter to DevOps Guru. For example, DevOps Guru works with a
+        /// 			key named devops-guru-rds and a key named
+        /// 			DevOps-Guru-RDS. Possible key/value pairs in your
+        /// 			application might be Devops-Guru-production-application/RDS or
+        /// 			Devops-Guru-production-application/containers.
+        ///
+        public let appBoundaryKey: String
+        /// The values in an Amazon Web Services tag collection. 	     The tag's value is an optional field used to associate a string with
+        /// 					the tag key (for example, 111122223333, Production, or a team 				name). The key and value are the tag's key pair.  				Omitting the tag value is the same as using an empty 				string. Like tag keys, tag values are 				case-sensitive. You can specify a maximum of 256 characters for a tag value.
+        public let tagValues: [String]
+
+        public init(appBoundaryKey: String, tagValues: [String]) {
+            self.appBoundaryKey = appBoundaryKey
+            self.tagValues = tagValues
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case appBoundaryKey = "AppBoundaryKey"
+            case tagValues = "TagValues"
+        }
+    }
+
+    public struct TagCostEstimationResourceCollectionFilter: AWSEncodableShape & AWSDecodableShape {
+        /// An Amazon Web Services tag key that is used to identify the Amazon Web Services resources that  	DevOps Guru analyzes. All Amazon Web Services resources in your account and Region tagged with this key make  up your DevOps Guru application and analysis boundary.
+        /// 		          The string used for a key in a tag that you use to define your resource coverage must begin with the
+        /// 			prefix Devops-guru-. The tag key might be
+        /// 			Devops-guru-deployment-application or
+        /// 			Devops-guru-rds-application. While keys are case-sensitive, the
+        /// 			case of key characters don't matter to DevOps Guru. For example, DevOps Guru works with a
+        /// 			key named devops-guru-rds and a key named
+        /// 			DevOps-Guru-RDS. Possible key/value pairs in your
+        /// 			application might be Devops-Guru-production-application/RDS or
+        /// 			Devops-Guru-production-application/containers.
+        ///
+        public let appBoundaryKey: String
+        /// The values in an Amazon Web Services tag collection. 	     The tag's value is an optional field used to associate a string with
+        /// 					the tag key (for example, 111122223333, Production, or a team 				name). The key and value are the tag's key pair.  				Omitting the tag value is the same as using an empty 				string. Like tag keys, tag values are 				case-sensitive. You can specify a maximum of 256 characters for a tag value.
+        public let tagValues: [String]
+
+        public init(appBoundaryKey: String, tagValues: [String]) {
+            self.appBoundaryKey = appBoundaryKey
+            self.tagValues = tagValues
+        }
+
+        public func validate(name: String) throws {
+            try self.validate(self.appBoundaryKey, name: "appBoundaryKey", parent: name, max: 128)
+            try self.validate(self.appBoundaryKey, name: "appBoundaryKey", parent: name, min: 1)
+            try self.validate(self.appBoundaryKey, name: "appBoundaryKey", parent: name, pattern: "^([\\p{L}\\p{Z}\\p{N}_.:/=+\\-@]*)$")
+            try self.tagValues.forEach {
+                try validate($0, name: "tagValues[]", parent: name, max: 256)
+                try validate($0, name: "tagValues[]", parent: name, pattern: "^([\\p{L}\\p{Z}\\p{N}_.:/=+\\-@]*|\\*)$")
+            }
+            try self.validate(self.tagValues, name: "tagValues", parent: name, max: 1)
+            try self.validate(self.tagValues, name: "tagValues", parent: name, min: 1)
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case appBoundaryKey = "AppBoundaryKey"
+            case tagValues = "TagValues"
+        }
+    }
+
+    public struct TagHealth: AWSDecodableShape {
+        /// An Amazon Web Services tag key that is used to identify the Amazon Web Services resources that  	DevOps Guru analyzes. All Amazon Web Services resources in your account and Region tagged with this key make  up your DevOps Guru application and analysis boundary.
+        /// 		          The string used for a key in a tag that you use to define your resource coverage must begin with the
+        /// 			prefix Devops-guru-. The tag key might be
+        /// 			Devops-guru-deployment-application or
+        /// 			Devops-guru-rds-application. While keys are case-sensitive, the
+        /// 			case of key characters don't matter to DevOps Guru. For example, DevOps Guru works with a
+        /// 			key named devops-guru-rds and a key named
+        /// 			DevOps-Guru-RDS. Possible key/value pairs in your
+        /// 			application might be Devops-Guru-production-application/RDS or
+        /// 			Devops-Guru-production-application/containers.
+        ///
+        public let appBoundaryKey: String?
+        /// Information about the health of the Amazon Web Services resources in your account that are
+        /// 			specified by an Amazon Web Services tag, including the number of open proactive, open reactive
+        /// 			insights, and the Mean Time to Recover (MTTR) of closed insights.
+        public let insight: InsightHealth?
+        /// The value in an Amazon Web Services tag. 	     The tag's value is an optional field used to associate a string with
+        /// 					the tag key (for example, 111122223333, Production, or a team 				name). The key and value are the tag's key pair.  				Omitting the tag value is the same as using an empty 				string. Like tag keys, tag values are 				case-sensitive. You can specify a maximum of 256 characters for a tag value.
+        public let tagValue: String?
+
+        public init(appBoundaryKey: String? = nil, insight: InsightHealth? = nil, tagValue: String? = nil) {
+            self.appBoundaryKey = appBoundaryKey
+            self.insight = insight
+            self.tagValue = tagValue
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case appBoundaryKey = "AppBoundaryKey"
+            case insight = "Insight"
+            case tagValue = "TagValue"
+        }
+    }
+
     public struct TimestampMetricValuePair: AWSDecodableShape {
         /// Value of the anomalous metric data point at respective Timestamp.
         public let metricValue: Double?
@@ -2807,19 +3289,36 @@ extension DevOpsGuru {
     }
 
     public struct UpdateResourceCollectionFilter: AWSEncodableShape {
-        ///  An collection of Amazon Web Services CloudFormation stacks. You can specify up to 500 Amazon Web Services CloudFormation stacks.
+        ///  A collection of Amazon Web Services CloudFormation stacks. You can specify up to 500 Amazon Web Services CloudFormation stacks.
         public let cloudFormation: UpdateCloudFormationCollectionFilter?
+        /// The updated Amazon Web Services tags used to filter the resources in the resource collection. 	     Tags help you identify and organize your Amazon Web Services resources. Many Amazon Web Services services support 		tagging, so you can assign the same tag to resources from different services to indicate 		that the resources are related. For example, you can assign the same tag to an Amazon DynamoDB 		table resource that you assign to an Lambda function. For more information about 		using tags, see the Tagging 			best practices whitepaper.  	     Each Amazon Web Services tag has two parts.  	       			         A tag key (for example, CostCenter, 				Environment, Project, or Secret). Tag 				keys are case-sensitive. 		         			         An optional field known as a tag value (for example, 				111122223333, Production, or a team 				name). Omitting the tag value is the same as using an empty 				string. Like tag keys, tag values are 				case-sensitive. 		         	     Together these are known as key-value pairs.
+        /// 		          The string used for a key in a tag that you use to define your resource coverage must begin with the
+        /// 			prefix Devops-guru-. The tag key might be
+        /// 			Devops-guru-deployment-application or
+        /// 			Devops-guru-rds-application. While keys are case-sensitive, the
+        /// 			case of key characters don't matter to DevOps Guru. For example, DevOps Guru works with a
+        /// 			key named devops-guru-rds and a key named
+        /// 			DevOps-Guru-RDS. Possible key/value pairs in your
+        /// 			application might be Devops-Guru-production-application/RDS or
+        /// 			Devops-Guru-production-application/containers.
+        ///
+        public let tags: [UpdateTagCollectionFilter]?
 
-        public init(cloudFormation: UpdateCloudFormationCollectionFilter? = nil) {
+        public init(cloudFormation: UpdateCloudFormationCollectionFilter? = nil, tags: [UpdateTagCollectionFilter]? = nil) {
             self.cloudFormation = cloudFormation
+            self.tags = tags
         }
 
         public func validate(name: String) throws {
             try self.cloudFormation?.validate(name: "\(name).cloudFormation")
+            try self.tags?.forEach {
+                try $0.validate(name: "\(name).tags[]")
+            }
         }
 
         private enum CodingKeys: String, CodingKey {
             case cloudFormation = "CloudFormation"
+            case tags = "Tags"
         }
     }
 
@@ -2876,5 +3375,44 @@ extension DevOpsGuru {
 
     public struct UpdateServiceIntegrationResponse: AWSDecodableShape {
         public init() {}
+    }
+
+    public struct UpdateTagCollectionFilter: AWSEncodableShape {
+        /// An Amazon Web Services tag key that is used to identify the Amazon Web Services resources that  	DevOps Guru analyzes. All Amazon Web Services resources in your account and Region tagged with this key make  up your DevOps Guru application and analysis boundary.
+        /// 		          The string used for a key in a tag that you use to define your resource coverage must begin with the
+        /// 			prefix Devops-guru-. The tag key might be
+        /// 			Devops-guru-deployment-application or
+        /// 			Devops-guru-rds-application. While keys are case-sensitive, the
+        /// 			case of key characters don't matter to DevOps Guru. For example, DevOps Guru works with a
+        /// 			key named devops-guru-rds and a key named
+        /// 			DevOps-Guru-RDS. Possible key/value pairs in your
+        /// 			application might be Devops-Guru-production-application/RDS or
+        /// 			Devops-Guru-production-application/containers.
+        ///
+        public let appBoundaryKey: String
+        /// The values in an Amazon Web Services tag collection. 	     The tag's value is an optional field used to associate a string with
+        /// 					the tag key (for example, 111122223333, Production, or a team 				name). The key and value are the tag's key pair.  				Omitting the tag value is the same as using an empty 				string. Like tag keys, tag values are 				case-sensitive. You can specify a maximum of 256 characters for a tag value.
+        public let tagValues: [String]
+
+        public init(appBoundaryKey: String, tagValues: [String]) {
+            self.appBoundaryKey = appBoundaryKey
+            self.tagValues = tagValues
+        }
+
+        public func validate(name: String) throws {
+            try self.validate(self.appBoundaryKey, name: "appBoundaryKey", parent: name, max: 128)
+            try self.validate(self.appBoundaryKey, name: "appBoundaryKey", parent: name, min: 1)
+            try self.validate(self.appBoundaryKey, name: "appBoundaryKey", parent: name, pattern: "^([\\p{L}\\p{Z}\\p{N}_.:/=+\\-@]*)$")
+            try self.tagValues.forEach {
+                try validate($0, name: "tagValues[]", parent: name, max: 256)
+                try validate($0, name: "tagValues[]", parent: name, pattern: "^([\\p{L}\\p{Z}\\p{N}_.:/=+\\-@]*|\\*)$")
+            }
+            try self.validate(self.tagValues, name: "tagValues", parent: name, max: 100)
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case appBoundaryKey = "AppBoundaryKey"
+            case tagValues = "TagValues"
+        }
     }
 }

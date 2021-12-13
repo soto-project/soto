@@ -515,6 +515,11 @@ public struct Pinpoint: AWSService {
         return self.client.execute(operation: "SendMessages", path: "/v1/apps/{ApplicationId}/messages", httpMethod: .POST, serviceConfig: self.config, input: input, logger: logger, on: eventLoop)
     }
 
+    /// Send an OTP message
+    public func sendOTPMessage(_ input: SendOTPMessageRequest, logger: Logger = AWSClient.loggingDisabled, on eventLoop: EventLoop? = nil) -> EventLoopFuture<SendOTPMessageResponse> {
+        return self.client.execute(operation: "SendOTPMessage", path: "/v1/apps/{ApplicationId}/otp", httpMethod: .POST, serviceConfig: self.config, input: input, logger: logger, on: eventLoop)
+    }
+
     /// Creates and sends a message to a list of users.
     public func sendUsersMessages(_ input: SendUsersMessagesRequest, logger: Logger = AWSClient.loggingDisabled, on eventLoop: EventLoop? = nil) -> EventLoopFuture<SendUsersMessagesResponse> {
         return self.client.execute(operation: "SendUsersMessages", path: "/v1/apps/{ApplicationId}/users-messages", httpMethod: .POST, serviceConfig: self.config, input: input, logger: logger, on: eventLoop)
@@ -648,6 +653,11 @@ public struct Pinpoint: AWSService {
     /// Updates an existing message template for messages that are sent through the voice channel.
     public func updateVoiceTemplate(_ input: UpdateVoiceTemplateRequest, logger: Logger = AWSClient.loggingDisabled, on eventLoop: EventLoop? = nil) -> EventLoopFuture<UpdateVoiceTemplateResponse> {
         return self.client.execute(operation: "UpdateVoiceTemplate", path: "/v1/templates/{TemplateName}/voice", httpMethod: .PUT, serviceConfig: self.config, input: input, logger: logger, on: eventLoop)
+    }
+
+    /// Verify an OTP
+    public func verifyOTPMessage(_ input: VerifyOTPMessageRequest, logger: Logger = AWSClient.loggingDisabled, on eventLoop: EventLoop? = nil) -> EventLoopFuture<VerifyOTPMessageResponse> {
+        return self.client.execute(operation: "VerifyOTPMessage", path: "/v1/apps/{ApplicationId}/verify-otp", httpMethod: .POST, serviceConfig: self.config, input: input, logger: logger, on: eventLoop)
     }
 }
 

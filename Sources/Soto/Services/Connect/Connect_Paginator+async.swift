@@ -134,6 +134,28 @@ extension Connect {
         )
     }
 
+    ///  Provides information about the contact flow modules for the specified Amazon Connect instance.
+    /// Return PaginatorSequence for operation.
+    ///
+    /// - Parameters:
+    ///   - input: Input for request
+    ///   - logger: Logger used flot logging
+    ///   - eventLoop: EventLoop to run this process on
+    public func listContactFlowModulesPaginator(
+        _ input: ListContactFlowModulesRequest,
+        logger: Logger = AWSClient.loggingDisabled,
+        on eventLoop: EventLoop? = nil
+    ) -> AWSClient.PaginatorSequence<ListContactFlowModulesRequest, ListContactFlowModulesResponse> {
+        return .init(
+            input: input,
+            command: listContactFlowModules,
+            inputKey: \ListContactFlowModulesRequest.nextToken,
+            outputKey: \ListContactFlowModulesResponse.nextToken,
+            logger: logger,
+            on: eventLoop
+        )
+    }
+
     ///  Provides information about the contact flows for the specified Amazon Connect instance. You can also create and update contact flows using the Amazon Connect Flow language. For more information about contact flows, see Contact Flows in the Amazon Connect Administrator Guide.
     /// Return PaginatorSequence for operation.
     ///

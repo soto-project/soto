@@ -44,13 +44,13 @@ public struct IoTDeviceAdvisorErrorType: AWSErrorType {
     /// return error code string
     public var errorCode: String { self.error.rawValue }
 
-    /// Sends Conflict Exception.
+    /// Sends a Conflict Exception.
     public static var conflictException: Self { .init(.conflictException) }
-    /// Sends Internal Failure Exception.
+    /// Sends an Internal Failure exception.
     public static var internalServerException: Self { .init(.internalServerException) }
-    /// Sends Resource Not Found Exception.
+    /// Sends a Resource Not Found exception.
     public static var resourceNotFoundException: Self { .init(.resourceNotFoundException) }
-    /// Sends invalid request exception.
+    /// Sends a validation exception.
     public static var validationException: Self { .init(.validationException) }
 }
 

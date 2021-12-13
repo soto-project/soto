@@ -45,6 +45,12 @@ extension Kafka {
         public var description: String { return self.rawValue }
     }
 
+    public enum ClusterType: String, CustomStringConvertible, Codable {
+        case provisioned = "PROVISIONED"
+        case serverless = "SERVERLESS"
+        public var description: String { return self.rawValue }
+    }
+
     public enum ConfigurationState: String, CustomStringConvertible, Codable {
         case active = "ACTIVE"
         case deleteFailed = "DELETE_FAILED"
@@ -309,6 +315,60 @@ extension Kafka {
         private enum CodingKeys: String, CodingKey {
             case enabled
             case logGroup
+        }
+    }
+
+    public struct Cluster: AWSDecodableShape {
+        /// The Amazon Resource Name (ARN) that uniquely identifies a cluster operation.
+        public let activeOperationArn: String?
+        /// The Amazon Resource Name (ARN) that uniquely identifies the cluster.
+        public let clusterArn: String?
+        /// The name of the cluster.
+        public let clusterName: String?
+        /// Cluster Type.
+        public let clusterType: ClusterType?
+        /// The time when the cluster was created.
+        @OptionalCustomCoding<ISO8601DateCoder>
+        public var creationTime: Date?
+        /// The current version of the MSK cluster.
+        public let currentVersion: String?
+        /// Information about the provisioned cluster.
+        public let provisioned: Provisioned?
+        /// Information about the serverless cluster.
+        public let serverless: Serverless?
+        /// The state of the cluster. The possible states are ACTIVE, CREATING, DELETING, FAILED, HEALING, MAINTENANCE, REBOOTING_BROKER, and UPDATING.
+        public let state: ClusterState?
+        /// State Info for the Amazon MSK cluster.
+        public let stateInfo: StateInfo?
+        /// Tags attached to the cluster.
+        public let tags: [String: String]?
+
+        public init(activeOperationArn: String? = nil, clusterArn: String? = nil, clusterName: String? = nil, clusterType: ClusterType? = nil, creationTime: Date? = nil, currentVersion: String? = nil, provisioned: Provisioned? = nil, serverless: Serverless? = nil, state: ClusterState? = nil, stateInfo: StateInfo? = nil, tags: [String: String]? = nil) {
+            self.activeOperationArn = activeOperationArn
+            self.clusterArn = clusterArn
+            self.clusterName = clusterName
+            self.clusterType = clusterType
+            self.creationTime = creationTime
+            self.currentVersion = currentVersion
+            self.provisioned = provisioned
+            self.serverless = serverless
+            self.state = state
+            self.stateInfo = stateInfo
+            self.tags = tags
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case activeOperationArn
+            case clusterArn
+            case clusterName
+            case clusterType
+            case creationTime
+            case currentVersion
+            case provisioned
+            case serverless
+            case state
+            case stateInfo
+            case tags
         }
     }
 
@@ -667,6 +727,62 @@ extension Kafka {
         }
     }
 
+    public struct CreateClusterV2Request: AWSEncodableShape {
+        /// The name of the cluster.
+        public let clusterName: String
+        /// Information about the provisioned cluster.
+        public let provisioned: ProvisionedRequest?
+        /// Information about the serverless cluster.
+        public let serverless: ServerlessRequest?
+        /// A map of tags that you want the cluster to have.
+        public let tags: [String: String]?
+
+        public init(clusterName: String, provisioned: ProvisionedRequest? = nil, serverless: ServerlessRequest? = nil, tags: [String: String]? = nil) {
+            self.clusterName = clusterName
+            self.provisioned = provisioned
+            self.serverless = serverless
+            self.tags = tags
+        }
+
+        public func validate(name: String) throws {
+            try self.validate(self.clusterName, name: "clusterName", parent: name, max: 64)
+            try self.validate(self.clusterName, name: "clusterName", parent: name, min: 1)
+            try self.provisioned?.validate(name: "\(name).provisioned")
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case clusterName
+            case provisioned
+            case serverless
+            case tags
+        }
+    }
+
+    public struct CreateClusterV2Response: AWSDecodableShape {
+        /// The Amazon Resource Name (ARN) of the cluster.
+        public let clusterArn: String?
+        /// The name of the MSK cluster.
+        public let clusterName: String?
+        /// The type of the cluster. The possible states are PROVISIONED or SERVERLESS.
+        public let clusterType: ClusterType?
+        /// The state of the cluster. The possible states are ACTIVE, CREATING, DELETING, FAILED, HEALING, MAINTENANCE, REBOOTING_BROKER, and UPDATING.
+        public let state: ClusterState?
+
+        public init(clusterArn: String? = nil, clusterName: String? = nil, clusterType: ClusterType? = nil, state: ClusterState? = nil) {
+            self.clusterArn = clusterArn
+            self.clusterName = clusterName
+            self.clusterType = clusterType
+            self.state = state
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case clusterArn
+            case clusterName
+            case clusterType
+            case state
+        }
+    }
+
     public struct CreateConfigurationRequest: AWSEncodableShape {
         /// The description of the configuration.
         public let description: String?
@@ -838,6 +954,34 @@ extension Kafka {
         public let clusterInfo: ClusterInfo?
 
         public init(clusterInfo: ClusterInfo? = nil) {
+            self.clusterInfo = clusterInfo
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case clusterInfo
+        }
+    }
+
+    public struct DescribeClusterV2Request: AWSEncodableShape {
+        public static var _encoding = [
+            AWSMemberEncoding(label: "clusterArn", location: .uri("ClusterArn"))
+        ]
+
+        /// The Amazon Resource Name (ARN) that uniquely identifies the cluster.
+        public let clusterArn: String
+
+        public init(clusterArn: String) {
+            self.clusterArn = clusterArn
+        }
+
+        private enum CodingKeys: CodingKey {}
+    }
+
+    public struct DescribeClusterV2Response: AWSDecodableShape {
+        /// The cluster information.
+        public let clusterInfo: Cluster?
+
+        public init(clusterInfo: Cluster? = nil) {
             self.clusterInfo = clusterInfo
         }
 
@@ -1151,7 +1295,7 @@ extension Kafka {
         }
     }
 
-    public struct JmxExporterInfo: AWSEncodableShape {
+    public struct JmxExporterInfo: AWSEncodableShape & AWSDecodableShape {
         /// Indicates whether you want to turn on or turn off the JMX Exporter.
         public let enabledInBroker: Bool
 
@@ -1259,6 +1403,55 @@ extension Kafka {
         public let nextToken: String?
 
         public init(clusterInfoList: [ClusterInfo]? = nil, nextToken: String? = nil) {
+            self.clusterInfoList = clusterInfoList
+            self.nextToken = nextToken
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case clusterInfoList
+            case nextToken
+        }
+    }
+
+    public struct ListClustersV2Request: AWSEncodableShape {
+        public static var _encoding = [
+            AWSMemberEncoding(label: "clusterNameFilter", location: .querystring("clusterNameFilter")),
+            AWSMemberEncoding(label: "clusterTypeFilter", location: .querystring("clusterTypeFilter")),
+            AWSMemberEncoding(label: "maxResults", location: .querystring("maxResults")),
+            AWSMemberEncoding(label: "nextToken", location: .querystring("nextToken"))
+        ]
+
+        /// Specify a prefix of the names of the clusters that you want to list. The service lists all the clusters whose names start with this prefix.
+        public let clusterNameFilter: String?
+        /// Specify either PROVISIONED or SERVERLESS.
+        public let clusterTypeFilter: String?
+        /// The maximum number of results to return in the response. If there are more results, the response includes a NextToken parameter.
+        public let maxResults: Int?
+        /// The paginated results marker. When the result of the operation is truncated, the call returns NextToken in the response.  To get the next batch, provide this token in your next request.
+        public let nextToken: String?
+
+        public init(clusterNameFilter: String? = nil, clusterTypeFilter: String? = nil, maxResults: Int? = nil, nextToken: String? = nil) {
+            self.clusterNameFilter = clusterNameFilter
+            self.clusterTypeFilter = clusterTypeFilter
+            self.maxResults = maxResults
+            self.nextToken = nextToken
+        }
+
+        public func validate(name: String) throws {
+            try self.validate(self.maxResults, name: "maxResults", parent: name, max: 100)
+            try self.validate(self.maxResults, name: "maxResults", parent: name, min: 1)
+        }
+
+        private enum CodingKeys: CodingKey {}
+    }
+
+    public struct ListClustersV2Response: AWSDecodableShape {
+        /// Information on each of the MSK clusters in the response.
+        public let clusterInfoList: [Cluster]?
+        /// The paginated results marker. When the result of a ListClusters operation is truncated, the call returns NextToken in the response.  To get another batch of clusters, provide this token in your next request.
+        public let nextToken: String?
+
+        public init(clusterInfoList: [Cluster]? = nil, nextToken: String? = nil) {
             self.clusterInfoList = clusterInfoList
             self.nextToken = nextToken
         }
@@ -1590,7 +1783,7 @@ extension Kafka {
         }
     }
 
-    public struct NodeExporterInfo: AWSEncodableShape {
+    public struct NodeExporterInfo: AWSEncodableShape & AWSDecodableShape {
         /// Indicates whether you want to turn on or turn off the Node Exporter.
         public let enabledInBroker: Bool
 
@@ -1649,7 +1842,7 @@ extension Kafka {
         }
     }
 
-    public struct OpenMonitoringInfo: AWSEncodableShape {
+    public struct OpenMonitoringInfo: AWSEncodableShape & AWSDecodableShape {
         /// Prometheus settings.
         public let prometheus: PrometheusInfo
 
@@ -1679,7 +1872,7 @@ extension Kafka {
         }
     }
 
-    public struct PrometheusInfo: AWSEncodableShape {
+    public struct PrometheusInfo: AWSEncodableShape & AWSDecodableShape {
         /// Indicates whether you want to turn on or turn off the JMX Exporter.
         public let jmxExporter: JmxExporterInfo?
         /// Indicates whether you want to turn on or turn off the Node Exporter.
@@ -1693,6 +1886,108 @@ extension Kafka {
         private enum CodingKeys: String, CodingKey {
             case jmxExporter
             case nodeExporter
+        }
+    }
+
+    public struct Provisioned: AWSDecodableShape {
+        /// Information about the brokers.
+        public let brokerNodeGroupInfo: BrokerNodeGroupInfo
+        /// Includes all client authentication information.
+        public let clientAuthentication: ClientAuthentication?
+        /// Information about the Apache Kafka version deployed on the brokers.
+        public let currentBrokerSoftwareInfo: BrokerSoftwareInfo?
+        /// Includes all encryption-related information.
+        public let encryptionInfo: EncryptionInfo?
+        /// Specifies the level of monitoring for the MSK cluster. The possible values are DEFAULT, PER_BROKER, PER_TOPIC_PER_BROKER, and PER_TOPIC_PER_PARTITION.
+        public let enhancedMonitoring: EnhancedMonitoring?
+        /// Log delivery information for the cluster.
+        public let loggingInfo: LoggingInfo?
+        /// The number of broker nodes in the cluster.
+        public let numberOfBrokerNodes: Int
+        /// The settings for open monitoring.
+        public let openMonitoring: OpenMonitoringInfo?
+        /// The connection string to use to connect to the Apache ZooKeeper cluster.
+        public let zookeeperConnectString: String?
+        /// The connection string to use to connect to the Apache ZooKeeper cluster on a TLS port.
+        public let zookeeperConnectStringTls: String?
+
+        public init(brokerNodeGroupInfo: BrokerNodeGroupInfo, clientAuthentication: ClientAuthentication? = nil, currentBrokerSoftwareInfo: BrokerSoftwareInfo? = nil, encryptionInfo: EncryptionInfo? = nil, enhancedMonitoring: EnhancedMonitoring? = nil, loggingInfo: LoggingInfo? = nil, numberOfBrokerNodes: Int, openMonitoring: OpenMonitoringInfo? = nil, zookeeperConnectString: String? = nil, zookeeperConnectStringTls: String? = nil) {
+            self.brokerNodeGroupInfo = brokerNodeGroupInfo
+            self.clientAuthentication = clientAuthentication
+            self.currentBrokerSoftwareInfo = currentBrokerSoftwareInfo
+            self.encryptionInfo = encryptionInfo
+            self.enhancedMonitoring = enhancedMonitoring
+            self.loggingInfo = loggingInfo
+            self.numberOfBrokerNodes = numberOfBrokerNodes
+            self.openMonitoring = openMonitoring
+            self.zookeeperConnectString = zookeeperConnectString
+            self.zookeeperConnectStringTls = zookeeperConnectStringTls
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case brokerNodeGroupInfo
+            case clientAuthentication
+            case currentBrokerSoftwareInfo
+            case encryptionInfo
+            case enhancedMonitoring
+            case loggingInfo
+            case numberOfBrokerNodes
+            case openMonitoring
+            case zookeeperConnectString
+            case zookeeperConnectStringTls
+        }
+    }
+
+    public struct ProvisionedRequest: AWSEncodableShape {
+        /// Information about the brokers.
+        public let brokerNodeGroupInfo: BrokerNodeGroupInfo
+        /// Includes all client authentication information.
+        public let clientAuthentication: ClientAuthentication?
+        /// Represents the configuration that you want Amazon MSK to use for the brokers in a cluster.
+        public let configurationInfo: ConfigurationInfo?
+        /// Includes all encryption-related information.
+        public let encryptionInfo: EncryptionInfo?
+        /// Specifies the level of monitoring for the MSK cluster. The possible values are DEFAULT, PER_BROKER, PER_TOPIC_PER_BROKER, and PER_TOPIC_PER_PARTITION.
+        public let enhancedMonitoring: EnhancedMonitoring?
+        /// The Apache Kafka version that you want for the cluster.
+        public let kafkaVersion: String
+        /// Log delivery information for the cluster.
+        public let loggingInfo: LoggingInfo?
+        /// The number of broker nodes in the cluster.
+        public let numberOfBrokerNodes: Int
+        /// The settings for open monitoring.
+        public let openMonitoring: OpenMonitoringInfo?
+
+        public init(brokerNodeGroupInfo: BrokerNodeGroupInfo, clientAuthentication: ClientAuthentication? = nil, configurationInfo: ConfigurationInfo? = nil, encryptionInfo: EncryptionInfo? = nil, enhancedMonitoring: EnhancedMonitoring? = nil, kafkaVersion: String, loggingInfo: LoggingInfo? = nil, numberOfBrokerNodes: Int, openMonitoring: OpenMonitoringInfo? = nil) {
+            self.brokerNodeGroupInfo = brokerNodeGroupInfo
+            self.clientAuthentication = clientAuthentication
+            self.configurationInfo = configurationInfo
+            self.encryptionInfo = encryptionInfo
+            self.enhancedMonitoring = enhancedMonitoring
+            self.kafkaVersion = kafkaVersion
+            self.loggingInfo = loggingInfo
+            self.numberOfBrokerNodes = numberOfBrokerNodes
+            self.openMonitoring = openMonitoring
+        }
+
+        public func validate(name: String) throws {
+            try self.brokerNodeGroupInfo.validate(name: "\(name).brokerNodeGroupInfo")
+            try self.validate(self.kafkaVersion, name: "kafkaVersion", parent: name, max: 128)
+            try self.validate(self.kafkaVersion, name: "kafkaVersion", parent: name, min: 1)
+            try self.validate(self.numberOfBrokerNodes, name: "numberOfBrokerNodes", parent: name, max: 15)
+            try self.validate(self.numberOfBrokerNodes, name: "numberOfBrokerNodes", parent: name, min: 1)
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case brokerNodeGroupInfo
+            case clientAuthentication
+            case configurationInfo
+            case encryptionInfo
+            case enhancedMonitoring
+            case kafkaVersion
+            case loggingInfo
+            case numberOfBrokerNodes
+            case openMonitoring
         }
     }
 
@@ -1791,6 +2086,66 @@ extension Kafka {
 
         private enum CodingKeys: String, CodingKey {
             case enabled
+        }
+    }
+
+    public struct Serverless: AWSDecodableShape {
+        /// Includes all client authentication information.
+        public let clientAuthentication: ServerlessClientAuthentication?
+        /// The configuration of the Amazon VPCs for the cluster.
+        public let vpcConfigs: [VpcConfig]
+
+        public init(clientAuthentication: ServerlessClientAuthentication? = nil, vpcConfigs: [VpcConfig]) {
+            self.clientAuthentication = clientAuthentication
+            self.vpcConfigs = vpcConfigs
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case clientAuthentication
+            case vpcConfigs
+        }
+    }
+
+    public struct ServerlessClientAuthentication: AWSEncodableShape & AWSDecodableShape {
+        /// Details for ClientAuthentication using SASL.
+        public let sasl: ServerlessSasl?
+
+        public init(sasl: ServerlessSasl? = nil) {
+            self.sasl = sasl
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case sasl
+        }
+    }
+
+    public struct ServerlessRequest: AWSEncodableShape {
+        /// Includes all client authentication information.
+        public let clientAuthentication: ServerlessClientAuthentication?
+        /// The configuration of the Amazon VPCs for the cluster.
+        public let vpcConfigs: [VpcConfig]
+
+        public init(clientAuthentication: ServerlessClientAuthentication? = nil, vpcConfigs: [VpcConfig]) {
+            self.clientAuthentication = clientAuthentication
+            self.vpcConfigs = vpcConfigs
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case clientAuthentication
+            case vpcConfigs
+        }
+    }
+
+    public struct ServerlessSasl: AWSEncodableShape & AWSDecodableShape {
+        /// Indicates whether IAM access control is enabled.
+        public let iam: Iam?
+
+        public init(iam: Iam? = nil) {
+            self.iam = iam
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case iam
         }
     }
 
@@ -2302,6 +2657,23 @@ extension Kafka {
         private enum CodingKeys: String, CodingKey {
             case clusterArn
             case clusterOperationArn
+        }
+    }
+
+    public struct VpcConfig: AWSEncodableShape & AWSDecodableShape {
+        /// The IDs of the security groups associated with the cluster.
+        public let securityGroupIds: [String]?
+        /// The IDs of the subnets associated with the cluster.
+        public let subnetIds: [String]
+
+        public init(securityGroupIds: [String]? = nil, subnetIds: [String]) {
+            self.securityGroupIds = securityGroupIds
+            self.subnetIds = subnetIds
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case securityGroupIds
+            case subnetIds
         }
     }
 

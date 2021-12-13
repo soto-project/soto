@@ -164,7 +164,7 @@ public struct SSMErrorType: AWSErrorType {
 
     /// Error returned if an attempt is made to register a patch group with a patch baseline that is already registered with a different patch baseline.
     public static var alreadyExistsException: Self { .init(.alreadyExistsException) }
-    /// You must disassociate a document from all instances before you can delete it.
+    /// You must disassociate a document from all managed nodes before you can delete it.
     public static var associatedInstances: Self { .init(.associatedInstances) }
     /// The specified association already exists.
     public static var associationAlreadyExists: Self { .init(.associationAlreadyExists) }
@@ -206,7 +206,7 @@ public struct SSMErrorType: AWSErrorType {
     public static var duplicateDocumentContent: Self { .init(.duplicateDocumentContent) }
     /// The version name has already been used in this document. Specify a different version name, and then try again.
     public static var duplicateDocumentVersionName: Self { .init(.duplicateDocumentVersionName) }
-    /// You can't specify an instance ID in more than one association.
+    /// You can't specify a managed node ID in more than one association.
     public static var duplicateInstanceId: Self { .init(.duplicateInstanceId) }
     /// You attempted to register a LAMBDA or STEP_FUNCTIONS task in a region where the corresponding service isn't available.
     public static var featureNotAvailableException: Self { .init(.featureNotAvailableException) }
@@ -264,7 +264,7 @@ public struct SSMErrorType: AWSErrorType {
     public static var invalidFilterOption: Self { .init(.invalidFilterOption) }
     /// The filter value isn't valid. Verify the value and try again.
     public static var invalidFilterValue: Self { .init(.invalidFilterValue) }
-    /// The following problems can cause this exception:   You don't have permission to access the instance.   Amazon Web Services Systems Manager Agent(SSM Agent) isn't running. Verify that SSM Agent is running.   SSM Agent isn't registered with the SSM endpoint. Try reinstalling SSM Agent.   The instance isn't in valid state. Valid states are: Running, Pending, Stopped, and Stopping. Invalid states are: Shutting-down and Terminated.
+    /// The following problems can cause this exception:   You don't have permission to access the managed node.   Amazon Web Services Systems Manager Agent(SSM Agent) isn't running. Verify that SSM Agent is running.   SSM Agent isn't registered with the SSM endpoint. Try reinstalling SSM Agent.   The managed node isn't in valid state. Valid states are: Running, Pending, Stopped, and Stopping. Invalid states are: Shutting-down and Terminated.
     public static var invalidInstanceId: Self { .init(.invalidInstanceId) }
     /// The specified filter value isn't valid.
     public static var invalidInstanceInformationFilterValue: Self { .init(.invalidInstanceInformationFilterValue) }
@@ -300,7 +300,7 @@ public struct SSMErrorType: AWSErrorType {
     public static var invalidPolicyTypeException: Self { .init(.invalidPolicyTypeException) }
     /// The resource ID isn't valid. Verify that you entered the correct ID and try again.
     public static var invalidResourceId: Self { .init(.invalidResourceId) }
-    /// The resource type isn't valid. For example, if you are attempting to tag an instance, the instance must be a registered, managed instance.
+    /// The resource type isn't valid. For example, if you are attempting to tag an EC2 instance, the instance must be a registered managed node.
     public static var invalidResourceType: Self { .init(.invalidResourceType) }
     /// The specified inventory item result attribute isn't valid.
     public static var invalidResultAttributeException: Self { .init(.invalidResultAttributeException) }
@@ -314,7 +314,7 @@ public struct SSMErrorType: AWSErrorType {
     public static var invalidTypeNameException: Self { .init(.invalidTypeNameException) }
     /// The update isn't valid.
     public static var invalidUpdate: Self { .init(.invalidUpdate) }
-    /// The command ID and instance ID you specified didn't match any invocations. Verify the command ID and the instance ID and try again.
+    /// The command ID and managed node ID you specified didn't match any invocations. Verify the command ID and the managed node ID and try again.
     public static var invocationDoesNotExist: Self { .init(.invocationDoesNotExist) }
     /// The inventory item has invalid content.
     public static var itemContentMismatchException: Self { .init(.itemContentMismatchException) }
@@ -384,7 +384,7 @@ public struct SSMErrorType: AWSErrorType {
     public static var subTypeCountLimitExceededException: Self { .init(.subTypeCountLimitExceededException) }
     /// You specified the Safe option for the DeregisterTargetFromMaintenanceWindow operation, but the target is still referenced in a task.
     public static var targetInUseException: Self { .init(.targetInUseException) }
-    /// The specified target instance for the session isn't fully configured for use with Session Manager. For more information, see Getting started with Session Manager in the Amazon Web Services Systems Manager User Guide. This error is also returned if you attempt to start a session on an instance that is located in a different account or Region
+    /// The specified target managed node for the session isn't fully configured for use with Session Manager. For more information, see Getting started with Session Manager in the Amazon Web Services Systems Manager User Guide. This error is also returned if you attempt to start a session on a managed node that is located in a different account or Region
     public static var targetNotConnected: Self { .init(.targetNotConnected) }
     /// The Targets parameter includes too many tags. Remove one or more tags and try the command again.
     public static var tooManyTagsError: Self { .init(.tooManyTagsError) }
@@ -404,7 +404,7 @@ public struct SSMErrorType: AWSErrorType {
     public static var unsupportedOperatingSystem: Self { .init(.unsupportedOperatingSystem) }
     /// The parameter type isn't supported.
     public static var unsupportedParameterType: Self { .init(.unsupportedParameterType) }
-    /// The document doesn't support the platform type of the given instance ID(s). For example, you sent an document for a Windows instance to a Linux instance.
+    /// The document doesn't support the platform type of the given managed node ID(s). For example, you sent an document for a Windows managed node to a Linux node.
     public static var unsupportedPlatformType: Self { .init(.unsupportedPlatformType) }
 }
 

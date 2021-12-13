@@ -20,7 +20,7 @@ import SotoCore
 // MARK: Paginators
 
 extension IoTDeviceAdvisor {
-    ///  Lists the Device Advisor test suites you have created.
+    ///  Lists the Device Advisor test suites you have created. Requires permission to access the ListSuiteDefinitions action.
     ///
     /// Provide paginated results to closure `onPage` for it to combine them into one result.
     /// This works in a similar manner to `Array.reduce<Result>(_:_:) -> Result`.
@@ -73,7 +73,7 @@ extension IoTDeviceAdvisor {
         )
     }
 
-    ///  Lists the runs of the specified Device Advisor test suite. You can list all runs of the test suite, or the runs of a specific version of the test suite.
+    ///  Lists runs of the specified Device Advisor test suite. You can list all runs of the test suite, or the runs of a specific version of the test suite. Requires permission to access the ListSuiteRuns action.
     ///
     /// Provide paginated results to closure `onPage` for it to combine them into one result.
     /// This works in a similar manner to `Array.reduce<Result>(_:_:) -> Result`.

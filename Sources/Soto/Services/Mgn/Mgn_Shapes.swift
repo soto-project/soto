@@ -40,9 +40,11 @@ extension Mgn {
         case failedToLaunchReplicationServer = "FAILED_TO_LAUNCH_REPLICATION_SERVER"
         case failedToPairReplicationServerWithAgent = "FAILED_TO_PAIR_REPLICATION_SERVER_WITH_AGENT"
         case failedToStartDataTransfer = "FAILED_TO_START_DATA_TRANSFER"
+        case lastSnapshotJobFailed = "LAST_SNAPSHOT_JOB_FAILED"
         case notConverging = "NOT_CONVERGING"
         case snapshotsFailure = "SNAPSHOTS_FAILURE"
         case unstableNetwork = "UNSTABLE_NETWORK"
+        case unsupportedVmConfiguration = "UNSUPPORTED_VM_CONFIGURATION"
         public var description: String { return self.rawValue }
     }
 
@@ -78,7 +80,9 @@ extension Mgn {
         case initialSync = "INITIAL_SYNC"
         case initiating = "INITIATING"
         case paused = "PAUSED"
+        case pendingSnapshotShipping = "PENDING_SNAPSHOT_SHIPPING"
         case rescan = "RESCAN"
+        case shippingSnapshot = "SHIPPING_SNAPSHOT"
         case stalled = "STALLED"
         case stopped = "STOPPED"
         public var description: String { return self.rawValue }
@@ -152,6 +156,7 @@ extension Mgn {
         case cutover = "CUTOVER"
         case cuttingOver = "CUTTING_OVER"
         case disconnected = "DISCONNECTED"
+        case discovered = "DISCOVERED"
         case notReady = "NOT_READY"
         case readyForCutover = "READY_FOR_CUTOVER"
         case readyForTest = "READY_FOR_TEST"
@@ -185,6 +190,12 @@ extension Mgn {
         case sc1 = "SC1"
         case st1 = "ST1"
         case standard = "STANDARD"
+        public var description: String { return self.rawValue }
+    }
+
+    public enum ReplicationType: String, CustomStringConvertible, Codable {
+        case agentBased = "AGENT_BASED"
+        case snapshotShipping = "SNAPSHOT_SHIPPING"
         public var description: String { return self.rawValue }
     }
 
@@ -360,15 +371,18 @@ extension Mgn {
         public let etaDateTime: String?
         /// Request to query data replication lag durating.
         public let lagDuration: String?
+        /// Request to query data replication last snapshot time.
+        public let lastSnapshotDateTime: String?
         /// Request to query disks replicated.
         public let replicatedDisks: [DataReplicationInfoReplicatedDisk]?
 
-        public init(dataReplicationError: DataReplicationError? = nil, dataReplicationInitiation: DataReplicationInitiation? = nil, dataReplicationState: DataReplicationState? = nil, etaDateTime: String? = nil, lagDuration: String? = nil, replicatedDisks: [DataReplicationInfoReplicatedDisk]? = nil) {
+        public init(dataReplicationError: DataReplicationError? = nil, dataReplicationInitiation: DataReplicationInitiation? = nil, dataReplicationState: DataReplicationState? = nil, etaDateTime: String? = nil, lagDuration: String? = nil, lastSnapshotDateTime: String? = nil, replicatedDisks: [DataReplicationInfoReplicatedDisk]? = nil) {
             self.dataReplicationError = dataReplicationError
             self.dataReplicationInitiation = dataReplicationInitiation
             self.dataReplicationState = dataReplicationState
             self.etaDateTime = etaDateTime
             self.lagDuration = lagDuration
+            self.lastSnapshotDateTime = lastSnapshotDateTime
             self.replicatedDisks = replicatedDisks
         }
 
@@ -378,6 +392,7 @@ extension Mgn {
             case dataReplicationState
             case etaDateTime
             case lagDuration
+            case lastSnapshotDateTime
             case replicatedDisks
         }
     }
@@ -516,6 +531,25 @@ extension Mgn {
 
     public struct DeleteSourceServerResponse: AWSDecodableShape {
         public init() {}
+    }
+
+    public struct DeleteVcenterClientRequest: AWSEncodableShape {
+        /// ID of resource to be deleted.
+        public let vcenterClientID: String
+
+        public init(vcenterClientID: String) {
+            self.vcenterClientID = vcenterClientID
+        }
+
+        public func validate(name: String) throws {
+            try self.validate(self.vcenterClientID, name: "vcenterClientID", parent: name, max: 21)
+            try self.validate(self.vcenterClientID, name: "vcenterClientID", parent: name, min: 21)
+            try self.validate(self.vcenterClientID, name: "vcenterClientID", parent: name, pattern: "^vcc-[0-9a-zA-Z]{17}$")
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case vcenterClientID
+        }
     }
 
     public struct DescribeJobLogItemsRequest: AWSEncodableShape {
@@ -723,15 +757,23 @@ extension Mgn {
     public struct DescribeSourceServersRequestFilters: AWSEncodableShape {
         /// Request to filter Source Servers list by archived.
         public let isArchived: Bool?
+        /// Request to filter Source Servers list by life cycle states.
+        public let lifeCycleStates: [LifeCycleState]?
+        /// Request to filter Source Servers list by replication type.
+        public let replicationTypes: [ReplicationType]?
         /// Request to filter Source Servers list by Source Server ID.
         public let sourceServerIDs: [String]?
 
-        public init(isArchived: Bool? = nil, sourceServerIDs: [String]? = nil) {
+        public init(isArchived: Bool? = nil, lifeCycleStates: [LifeCycleState]? = nil, replicationTypes: [ReplicationType]? = nil, sourceServerIDs: [String]? = nil) {
             self.isArchived = isArchived
+            self.lifeCycleStates = lifeCycleStates
+            self.replicationTypes = replicationTypes
             self.sourceServerIDs = sourceServerIDs
         }
 
         public func validate(name: String) throws {
+            try self.validate(self.lifeCycleStates, name: "lifeCycleStates", parent: name, max: 10)
+            try self.validate(self.replicationTypes, name: "replicationTypes", parent: name, max: 2)
             try self.sourceServerIDs?.forEach {
                 try validate($0, name: "sourceServerIDs[]", parent: name, max: 19)
                 try validate($0, name: "sourceServerIDs[]", parent: name, min: 19)
@@ -742,6 +784,8 @@ extension Mgn {
 
         private enum CodingKeys: String, CodingKey {
             case isArchived
+            case lifeCycleStates
+            case replicationTypes
             case sourceServerIDs
         }
     }
@@ -753,6 +797,47 @@ extension Mgn {
         public let nextToken: String?
 
         public init(items: [SourceServer]? = nil, nextToken: String? = nil) {
+            self.items = items
+            self.nextToken = nextToken
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case items
+            case nextToken
+        }
+    }
+
+    public struct DescribeVcenterClientsRequest: AWSEncodableShape {
+        public static var _encoding = [
+            AWSMemberEncoding(label: "maxResults", location: .querystring("maxResults")),
+            AWSMemberEncoding(label: "nextToken", location: .querystring("nextToken"))
+        ]
+
+        /// Maximum results to be returned in DescribeVcenterClients.
+        public let maxResults: Int?
+        /// Next pagination token to be provided for DescribeVcenterClients.
+        public let nextToken: String?
+
+        public init(maxResults: Int? = nil, nextToken: String? = nil) {
+            self.maxResults = maxResults
+            self.nextToken = nextToken
+        }
+
+        public func validate(name: String) throws {
+            try self.validate(self.maxResults, name: "maxResults", parent: name, min: 1)
+            try self.validate(self.nextToken, name: "nextToken", parent: name, max: 2048)
+        }
+
+        private enum CodingKeys: CodingKey {}
+    }
+
+    public struct DescribeVcenterClientsResponse: AWSDecodableShape {
+        /// List of items returned by DescribeVcenterClients.
+        public let items: [VcenterClient]?
+        /// Next pagination token returned from DescribeVcenterClients.
+        public let nextToken: String?
+
+        public init(items: [VcenterClient]? = nil, nextToken: String? = nil) {
             self.items = items
             self.nextToken = nextToken
         }
@@ -863,13 +948,16 @@ extension Mgn {
         public let fqdn: String?
         /// Hostname identification hint.
         public let hostname: String?
+        /// vCenter VM path identification hint.
+        public let vmPath: String?
         /// vmWare UUID identification hint.
         public let vmWareUuid: String?
 
-        public init(awsInstanceID: String? = nil, fqdn: String? = nil, hostname: String? = nil, vmWareUuid: String? = nil) {
+        public init(awsInstanceID: String? = nil, fqdn: String? = nil, hostname: String? = nil, vmPath: String? = nil, vmWareUuid: String? = nil) {
             self.awsInstanceID = awsInstanceID
             self.fqdn = fqdn
             self.hostname = hostname
+            self.vmPath = vmPath
             self.vmWareUuid = vmWareUuid
         }
 
@@ -877,6 +965,7 @@ extension Mgn {
             case awsInstanceID
             case fqdn
             case hostname
+            case vmPath
             case vmWareUuid
         }
     }
@@ -1561,22 +1650,28 @@ extension Mgn {
         public let launchedInstance: LaunchedInstance?
         /// Source server lifecycle state.
         public let lifeCycle: LifeCycle?
+        /// Source server replication type.
+        public let replicationType: ReplicationType?
         /// Source server properties.
         public let sourceProperties: SourceProperties?
         /// Source server ID.
         public let sourceServerID: String?
         /// Source server Tags.
         public let tags: [String: String]?
+        /// Source server vCenter client id.
+        public let vcenterClientID: String?
 
-        public init(arn: String? = nil, dataReplicationInfo: DataReplicationInfo? = nil, isArchived: Bool? = nil, launchedInstance: LaunchedInstance? = nil, lifeCycle: LifeCycle? = nil, sourceProperties: SourceProperties? = nil, sourceServerID: String? = nil, tags: [String: String]? = nil) {
+        public init(arn: String? = nil, dataReplicationInfo: DataReplicationInfo? = nil, isArchived: Bool? = nil, launchedInstance: LaunchedInstance? = nil, lifeCycle: LifeCycle? = nil, replicationType: ReplicationType? = nil, sourceProperties: SourceProperties? = nil, sourceServerID: String? = nil, tags: [String: String]? = nil, vcenterClientID: String? = nil) {
             self.arn = arn
             self.dataReplicationInfo = dataReplicationInfo
             self.isArchived = isArchived
             self.launchedInstance = launchedInstance
             self.lifeCycle = lifeCycle
+            self.replicationType = replicationType
             self.sourceProperties = sourceProperties
             self.sourceServerID = sourceServerID
             self.tags = tags
+            self.vcenterClientID = vcenterClientID
         }
 
         private enum CodingKeys: String, CodingKey {
@@ -1585,9 +1680,11 @@ extension Mgn {
             case isArchived
             case launchedInstance
             case lifeCycle
+            case replicationType
             case sourceProperties
             case sourceServerID
             case tags
+            case vcenterClientID
         }
     }
 
@@ -1632,6 +1729,25 @@ extension Mgn {
 
         private enum CodingKeys: String, CodingKey {
             case job
+        }
+    }
+
+    public struct StartReplicationRequest: AWSEncodableShape {
+        /// ID of source server on which to start replication.
+        public let sourceServerID: String
+
+        public init(sourceServerID: String) {
+            self.sourceServerID = sourceServerID
+        }
+
+        public func validate(name: String) throws {
+            try self.validate(self.sourceServerID, name: "sourceServerID", parent: name, max: 19)
+            try self.validate(self.sourceServerID, name: "sourceServerID", parent: name, min: 19)
+            try self.validate(self.sourceServerID, name: "sourceServerID", parent: name, pattern: "^s-[0-9a-zA-Z]{17}$")
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case sourceServerID
         }
     }
 
@@ -2003,6 +2119,70 @@ extension Mgn {
             case stagingAreaSubnetId
             case stagingAreaTags
             case useDedicatedReplicationServer
+        }
+    }
+
+    public struct UpdateSourceServerReplicationTypeRequest: AWSEncodableShape {
+        /// Replication type to which to update source server.
+        public let replicationType: ReplicationType
+        /// ID of source server on which to update replication type.
+        public let sourceServerID: String
+
+        public init(replicationType: ReplicationType, sourceServerID: String) {
+            self.replicationType = replicationType
+            self.sourceServerID = sourceServerID
+        }
+
+        public func validate(name: String) throws {
+            try self.validate(self.sourceServerID, name: "sourceServerID", parent: name, max: 19)
+            try self.validate(self.sourceServerID, name: "sourceServerID", parent: name, min: 19)
+            try self.validate(self.sourceServerID, name: "sourceServerID", parent: name, pattern: "^s-[0-9a-zA-Z]{17}$")
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case replicationType
+            case sourceServerID
+        }
+    }
+
+    public struct VcenterClient: AWSDecodableShape {
+        /// Arn of vCenter client.
+        public let arn: String?
+        /// Datacenter name of vCenter client.
+        public let datacenterName: String?
+        /// Hostname of vCenter client .
+        public let hostname: String?
+        /// Last seen time of vCenter client.
+        public let lastSeenDatetime: String?
+        /// Tags for Source Server of vCenter client.
+        public let sourceServerTags: [String: String]?
+        /// Tags for vCenter client.
+        public let tags: [String: String]?
+        /// ID of vCenter client.
+        public let vcenterClientID: String?
+        /// Vcenter UUID of vCenter client.
+        public let vcenterUUID: String?
+
+        public init(arn: String? = nil, datacenterName: String? = nil, hostname: String? = nil, lastSeenDatetime: String? = nil, sourceServerTags: [String: String]? = nil, tags: [String: String]? = nil, vcenterClientID: String? = nil, vcenterUUID: String? = nil) {
+            self.arn = arn
+            self.datacenterName = datacenterName
+            self.hostname = hostname
+            self.lastSeenDatetime = lastSeenDatetime
+            self.sourceServerTags = sourceServerTags
+            self.tags = tags
+            self.vcenterClientID = vcenterClientID
+            self.vcenterUUID = vcenterUUID
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case arn
+            case datacenterName
+            case hostname
+            case lastSeenDatetime
+            case sourceServerTags
+            case tags
+            case vcenterClientID
+            case vcenterUUID
         }
     }
 }

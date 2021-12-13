@@ -199,7 +199,7 @@ extension Macie2 {
         )
     }
 
-    ///  Retrieves information about the delegated Amazon Macie administrator account for an Amazon Web Services organization.
+    ///  Retrieves information about the delegated Amazon Macie administrator account for an organization in Organizations.
     /// Return PaginatorSequence for operation.
     ///
     /// - Parameters:

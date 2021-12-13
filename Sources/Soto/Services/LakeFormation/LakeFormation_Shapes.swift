@@ -55,6 +55,13 @@ extension LakeFormation {
         public var description: String { return self.rawValue }
     }
 
+    public enum OptimizerType: String, CustomStringConvertible, Codable {
+        case all = "ALL"
+        case compaction = "COMPACTION"
+        case garbageCollection = "GARBAGE_COLLECTION"
+        public var description: String { return self.rawValue }
+    }
+
     public enum Permission: String, CustomStringConvertible, Codable {
         case all = "ALL"
         case alter = "ALTER"
@@ -74,6 +81,15 @@ extension LakeFormation {
         public var description: String { return self.rawValue }
     }
 
+    public enum QueryStateString: String, CustomStringConvertible, Codable {
+        case error = "ERROR"
+        case expired = "EXPIRED"
+        case finished = "FINISHED"
+        case pending = "PENDING"
+        case workunitsAvailable = "WORKUNITS_AVAILABLE"
+        public var description: String { return self.rawValue }
+    }
+
     public enum ResourceShareType: String, CustomStringConvertible, Codable {
         case all = "ALL"
         case foreign = "FOREIGN"
@@ -86,14 +102,37 @@ extension LakeFormation {
         public var description: String { return self.rawValue }
     }
 
+    public enum TransactionStatus: String, CustomStringConvertible, Codable {
+        case aborted = "ABORTED"
+        case active = "ACTIVE"
+        case committed = "COMMITTED"
+        case commitInProgress = "COMMIT_IN_PROGRESS"
+        public var description: String { return self.rawValue }
+    }
+
+    public enum TransactionStatusFilter: String, CustomStringConvertible, Codable {
+        case aborted = "ABORTED"
+        case active = "ACTIVE"
+        case all = "ALL"
+        case committed = "COMMITTED"
+        case completed = "COMPLETED"
+        public var description: String { return self.rawValue }
+    }
+
+    public enum TransactionType: String, CustomStringConvertible, Codable {
+        case readAndWrite = "READ_AND_WRITE"
+        case readOnly = "READ_ONLY"
+        public var description: String { return self.rawValue }
+    }
+
     // MARK: Shapes
 
     public struct AddLFTagsToResourceRequest: AWSEncodableShape {
-        /// The identifier for the Data Catalog. By default, the account ID. The Data Catalog is the persistent metadata store. It contains database definitions, table definitions, and other control information to manage your AWS Lake Formation environment.
+        /// The identifier for the Data Catalog. By default, the account ID. The Data Catalog is the persistent metadata store. It contains database definitions, table definitions, and other control information to manage your Lake Formation environment.
         public let catalogId: String?
-        /// The tags to attach to the resource.
+        /// The LF-tags to attach to the resource.
         public let lfTags: [LFTagPair]
-        /// The resource to which to attach a tag.
+        /// The database, table, or column resource to which to attach an LF-tag.
         public let resource: Resource
 
         public init(catalogId: String? = nil, lfTags: [LFTagPair], resource: Resource) {
@@ -105,7 +144,7 @@ extension LakeFormation {
         public func validate(name: String) throws {
             try self.validate(self.catalogId, name: "catalogId", parent: name, max: 255)
             try self.validate(self.catalogId, name: "catalogId", parent: name, min: 1)
-            try self.validate(self.catalogId, name: "catalogId", parent: name, pattern: "[\\u0020-\\uD7FF\\uE000-\\uFFFD\\uD800\\uDC00-\\uDBFF\\uDFFF\\t]*")
+            try self.validate(self.catalogId, name: "catalogId", parent: name, pattern: "^[\\u0020-\\uD7FF\\uE000-\\uFFFD\\uD800\\uDC00-\\uDBFF\\uDFFF\\t]*$")
             try self.lfTags.forEach {
                 try $0.validate(name: "\(name).lfTags[]")
             }
@@ -134,8 +173,52 @@ extension LakeFormation {
         }
     }
 
+    public struct AddObjectInput: AWSEncodableShape {
+        /// The Amazon S3 ETag of the object. Returned by GetTableObjects for validation and used to identify changes to the underlying data.
+        public let eTag: String
+        /// A list of partition values for the object. A value must be specified for each partition key associated with the table.
+        /// 	        The supported data types are integer, long, date(yyyy-MM-dd), timestamp(yyyy-MM-dd HH:mm:ssXXX or yyyy-MM-dd HH:mm:ss"), string and decimal.
+        public let partitionValues: [String]?
+        /// The size of the Amazon S3 object in bytes.
+        public let size: Int64
+        /// The Amazon S3 location of the object.
+        public let uri: String
+
+        public init(eTag: String, partitionValues: [String]? = nil, size: Int64, uri: String) {
+            self.eTag = eTag
+            self.partitionValues = partitionValues
+            self.size = size
+            self.uri = uri
+        }
+
+        public func validate(name: String) throws {
+            try self.validate(self.eTag, name: "eTag", parent: name, max: 255)
+            try self.validate(self.eTag, name: "eTag", parent: name, min: 1)
+            try self.validate(self.eTag, name: "eTag", parent: name, pattern: "^[\\p{L}\\p{N}\\p{P}]*$")
+            try self.partitionValues?.forEach {
+                try validate($0, name: "partitionValues[]", parent: name, max: 1024)
+            }
+            try self.validate(self.partitionValues, name: "partitionValues", parent: name, max: 100)
+            try self.validate(self.partitionValues, name: "partitionValues", parent: name, min: 1)
+            try self.validate(self.uri, name: "uri", parent: name, max: 1024)
+            try self.validate(self.uri, name: "uri", parent: name, min: 1)
+            try self.validate(self.uri, name: "uri", parent: name, pattern: "^[\\u0020-\\uD7FF\\uE000-\\uFFFD\\uD800\\uDC00-\\uDBFF\\uDFFF\\r\\n\\t]*$")
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case eTag = "ETag"
+            case partitionValues = "PartitionValues"
+            case size = "Size"
+            case uri = "Uri"
+        }
+    }
+
+    public struct AllRowsWildcard: AWSEncodableShape & AWSDecodableShape {
+        public init() {}
+    }
+
     public struct BatchGrantPermissionsRequest: AWSEncodableShape {
-        /// The identifier for the Data Catalog. By default, the account ID. The Data Catalog is the persistent metadata store. It contains database definitions, table definitions, and other control information to manage your AWS Lake Formation environment.
+        /// The identifier for the Data Catalog. By default, the account ID. The Data Catalog is the persistent metadata store. It contains database definitions, table definitions, and other control information to manage your Lake Formation environment.
         public let catalogId: String?
         /// A list of up to 20 entries for resource permissions to be granted by batch operation to the principal.
         public let entries: [BatchPermissionsRequestEntry]
@@ -148,7 +231,7 @@ extension LakeFormation {
         public func validate(name: String) throws {
             try self.validate(self.catalogId, name: "catalogId", parent: name, max: 255)
             try self.validate(self.catalogId, name: "catalogId", parent: name, min: 1)
-            try self.validate(self.catalogId, name: "catalogId", parent: name, pattern: "[\\u0020-\\uD7FF\\uE000-\\uFFFD\\uD800\\uDC00-\\uDBFF\\uDFFF\\t]*")
+            try self.validate(self.catalogId, name: "catalogId", parent: name, pattern: "^[\\u0020-\\uD7FF\\uE000-\\uFFFD\\uD800\\uDC00-\\uDBFF\\uDFFF\\t]*$")
             try self.entries.forEach {
                 try $0.validate(name: "\(name).entries[]")
             }
@@ -227,7 +310,7 @@ extension LakeFormation {
     }
 
     public struct BatchRevokePermissionsRequest: AWSEncodableShape {
-        /// The identifier for the Data Catalog. By default, the account ID. The Data Catalog is the persistent metadata store. It contains database definitions, table definitions, and other control information to manage your AWS Lake Formation environment.
+        /// The identifier for the Data Catalog. By default, the account ID. The Data Catalog is the persistent metadata store. It contains database definitions, table definitions, and other control information to manage your Lake Formation environment.
         public let catalogId: String?
         /// A list of up to 20 entries for resource permissions to be revoked by batch operation to the principal.
         public let entries: [BatchPermissionsRequestEntry]
@@ -240,7 +323,7 @@ extension LakeFormation {
         public func validate(name: String) throws {
             try self.validate(self.catalogId, name: "catalogId", parent: name, max: 255)
             try self.validate(self.catalogId, name: "catalogId", parent: name, min: 1)
-            try self.validate(self.catalogId, name: "catalogId", parent: name, pattern: "[\\u0020-\\uD7FF\\uE000-\\uFFFD\\uD800\\uDC00-\\uDBFF\\uDFFF\\t]*")
+            try self.validate(self.catalogId, name: "catalogId", parent: name, pattern: "^[\\u0020-\\uD7FF\\uE000-\\uFFFD\\uD800\\uDC00-\\uDBFF\\uDFFF\\t]*$")
             try self.entries.forEach {
                 try $0.validate(name: "\(name).entries[]")
             }
@@ -265,12 +348,35 @@ extension LakeFormation {
         }
     }
 
+    public struct CancelTransactionRequest: AWSEncodableShape {
+        /// The transaction to cancel.
+        public let transactionId: String
+
+        public init(transactionId: String) {
+            self.transactionId = transactionId
+        }
+
+        public func validate(name: String) throws {
+            try self.validate(self.transactionId, name: "transactionId", parent: name, max: 255)
+            try self.validate(self.transactionId, name: "transactionId", parent: name, min: 1)
+            try self.validate(self.transactionId, name: "transactionId", parent: name, pattern: "^[\\p{L}\\p{N}\\p{P}]*$")
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case transactionId = "TransactionId"
+        }
+    }
+
+    public struct CancelTransactionResponse: AWSDecodableShape {
+        public init() {}
+    }
+
     public struct CatalogResource: AWSEncodableShape & AWSDecodableShape {
         public init() {}
     }
 
     public struct ColumnLFTag: AWSDecodableShape {
-        /// The tags attached to a column resource.
+        /// The LF-tags attached to a column resource.
         public let lfTags: [LFTagPair]?
         /// The name of a column resource.
         public let name: String?
@@ -298,7 +404,7 @@ extension LakeFormation {
             try self.excludedColumnNames?.forEach {
                 try validate($0, name: "excludedColumnNames[]", parent: name, max: 255)
                 try validate($0, name: "excludedColumnNames[]", parent: name, min: 1)
-                try validate($0, name: "excludedColumnNames[]", parent: name, pattern: "[\\u0020-\\uD7FF\\uE000-\\uFFFD\\uD800\\uDC00-\\uDBFF\\uDFFF\\t]*")
+                try validate($0, name: "excludedColumnNames[]", parent: name, pattern: "^[\\u0020-\\uD7FF\\uE000-\\uFFFD\\uD800\\uDC00-\\uDBFF\\uDFFF\\t]*$")
             }
         }
 
@@ -307,10 +413,63 @@ extension LakeFormation {
         }
     }
 
+    public struct CommitTransactionRequest: AWSEncodableShape {
+        /// The transaction to commit.
+        public let transactionId: String
+
+        public init(transactionId: String) {
+            self.transactionId = transactionId
+        }
+
+        public func validate(name: String) throws {
+            try self.validate(self.transactionId, name: "transactionId", parent: name, max: 255)
+            try self.validate(self.transactionId, name: "transactionId", parent: name, min: 1)
+            try self.validate(self.transactionId, name: "transactionId", parent: name, pattern: "^[\\p{L}\\p{N}\\p{P}]*$")
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case transactionId = "TransactionId"
+        }
+    }
+
+    public struct CommitTransactionResponse: AWSDecodableShape {
+        /// The status of the transaction.
+        public let transactionStatus: TransactionStatus?
+
+        public init(transactionStatus: TransactionStatus? = nil) {
+            self.transactionStatus = transactionStatus
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case transactionStatus = "TransactionStatus"
+        }
+    }
+
+    public struct CreateDataCellsFilterRequest: AWSEncodableShape {
+        /// A DataCellsFilter structure containing information about the data cells filter.
+        public let tableData: DataCellsFilter
+
+        public init(tableData: DataCellsFilter) {
+            self.tableData = tableData
+        }
+
+        public func validate(name: String) throws {
+            try self.tableData.validate(name: "\(name).tableData")
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case tableData = "TableData"
+        }
+    }
+
+    public struct CreateDataCellsFilterResponse: AWSDecodableShape {
+        public init() {}
+    }
+
     public struct CreateLFTagRequest: AWSEncodableShape {
-        /// The identifier for the Data Catalog. By default, the account ID. The Data Catalog is the persistent metadata store. It contains database definitions, table definitions, and other control information to manage your AWS Lake Formation environment.
+        /// The identifier for the Data Catalog. By default, the account ID. The Data Catalog is the persistent metadata store. It contains database definitions, table definitions, and other control information to manage your Lake Formation environment.
         public let catalogId: String?
-        /// The key-name for the tag.
+        /// The key-name for the LF-tag.
         public let tagKey: String
         /// A list of possible values an attribute can take.
         public let tagValues: [String]
@@ -324,7 +483,7 @@ extension LakeFormation {
         public func validate(name: String) throws {
             try self.validate(self.catalogId, name: "catalogId", parent: name, max: 255)
             try self.validate(self.catalogId, name: "catalogId", parent: name, min: 1)
-            try self.validate(self.catalogId, name: "catalogId", parent: name, pattern: "[\\u0020-\\uD7FF\\uE000-\\uFFFD\\uD800\\uDC00-\\uDBFF\\uDFFF\\t]*")
+            try self.validate(self.catalogId, name: "catalogId", parent: name, pattern: "^[\\u0020-\\uD7FF\\uE000-\\uFFFD\\uD800\\uDC00-\\uDBFF\\uDFFF\\t]*$")
             try self.validate(self.tagKey, name: "tagKey", parent: name, max: 128)
             try self.validate(self.tagKey, name: "tagKey", parent: name, min: 1)
             try self.validate(self.tagKey, name: "tagKey", parent: name, pattern: "^([\\p{L}\\p{Z}\\p{N}_.:\\/=+\\-@%]*)$")
@@ -347,8 +506,107 @@ extension LakeFormation {
         public init() {}
     }
 
+    public struct DataCellsFilter: AWSEncodableShape & AWSDecodableShape {
+        /// A list of column names.
+        public let columnNames: [String]?
+        /// A wildcard with exclusions.
+        public let columnWildcard: ColumnWildcard?
+        /// A database in the Glue Data Catalog.
+        public let databaseName: String
+        /// The name given by the user to the data filter cell.
+        public let name: String
+        /// A PartiQL predicate.
+        public let rowFilter: RowFilter?
+        /// The ID of the catalog to which the table belongs.
+        public let tableCatalogId: String
+        /// A table in the database.
+        public let tableName: String
+
+        public init(columnNames: [String]? = nil, columnWildcard: ColumnWildcard? = nil, databaseName: String, name: String, rowFilter: RowFilter? = nil, tableCatalogId: String, tableName: String) {
+            self.columnNames = columnNames
+            self.columnWildcard = columnWildcard
+            self.databaseName = databaseName
+            self.name = name
+            self.rowFilter = rowFilter
+            self.tableCatalogId = tableCatalogId
+            self.tableName = tableName
+        }
+
+        public func validate(name: String) throws {
+            try self.columnNames?.forEach {
+                try validate($0, name: "columnNames[]", parent: name, max: 255)
+                try validate($0, name: "columnNames[]", parent: name, min: 1)
+                try validate($0, name: "columnNames[]", parent: name, pattern: "^[\\u0020-\\uD7FF\\uE000-\\uFFFD\\uD800\\uDC00-\\uDBFF\\uDFFF\\t]*$")
+            }
+            try self.columnWildcard?.validate(name: "\(name).columnWildcard")
+            try self.validate(self.databaseName, name: "databaseName", parent: name, max: 255)
+            try self.validate(self.databaseName, name: "databaseName", parent: name, min: 1)
+            try self.validate(self.databaseName, name: "databaseName", parent: name, pattern: "^[\\u0020-\\uD7FF\\uE000-\\uFFFD\\uD800\\uDC00-\\uDBFF\\uDFFF\\t]*$")
+            try self.validate(self.name, name: "name", parent: name, max: 255)
+            try self.validate(self.name, name: "name", parent: name, min: 1)
+            try self.validate(self.name, name: "name", parent: name, pattern: "^[\\u0020-\\uD7FF\\uE000-\\uFFFD\\uD800\\uDC00-\\uDBFF\\uDFFF\\t]*$")
+            try self.rowFilter?.validate(name: "\(name).rowFilter")
+            try self.validate(self.tableCatalogId, name: "tableCatalogId", parent: name, max: 255)
+            try self.validate(self.tableCatalogId, name: "tableCatalogId", parent: name, min: 1)
+            try self.validate(self.tableCatalogId, name: "tableCatalogId", parent: name, pattern: "^[\\u0020-\\uD7FF\\uE000-\\uFFFD\\uD800\\uDC00-\\uDBFF\\uDFFF\\t]*$")
+            try self.validate(self.tableName, name: "tableName", parent: name, max: 255)
+            try self.validate(self.tableName, name: "tableName", parent: name, min: 1)
+            try self.validate(self.tableName, name: "tableName", parent: name, pattern: "^[\\u0020-\\uD7FF\\uE000-\\uFFFD\\uD800\\uDC00-\\uDBFF\\uDFFF\\t]*$")
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case columnNames = "ColumnNames"
+            case columnWildcard = "ColumnWildcard"
+            case databaseName = "DatabaseName"
+            case name = "Name"
+            case rowFilter = "RowFilter"
+            case tableCatalogId = "TableCatalogId"
+            case tableName = "TableName"
+        }
+    }
+
+    public struct DataCellsFilterResource: AWSEncodableShape & AWSDecodableShape {
+        /// A database in the Glue Data Catalog.
+        public let databaseName: String?
+        /// The name of the data cells filter.
+        public let name: String?
+        /// The ID of the catalog to which the table belongs.
+        public let tableCatalogId: String?
+        /// The name of the table.
+        public let tableName: String?
+
+        public init(databaseName: String? = nil, name: String? = nil, tableCatalogId: String? = nil, tableName: String? = nil) {
+            self.databaseName = databaseName
+            self.name = name
+            self.tableCatalogId = tableCatalogId
+            self.tableName = tableName
+        }
+
+        public func validate(name: String) throws {
+            try self.validate(self.databaseName, name: "databaseName", parent: name, max: 255)
+            try self.validate(self.databaseName, name: "databaseName", parent: name, min: 1)
+            try self.validate(self.databaseName, name: "databaseName", parent: name, pattern: "^[\\u0020-\\uD7FF\\uE000-\\uFFFD\\uD800\\uDC00-\\uDBFF\\uDFFF\\t]*$")
+            try self.validate(self.name, name: "name", parent: name, max: 255)
+            try self.validate(self.name, name: "name", parent: name, min: 1)
+            try self.validate(self.name, name: "name", parent: name, pattern: "^[\\u0020-\\uD7FF\\uE000-\\uFFFD\\uD800\\uDC00-\\uDBFF\\uDFFF\\t]*$")
+            try self.validate(self.tableCatalogId, name: "tableCatalogId", parent: name, max: 255)
+            try self.validate(self.tableCatalogId, name: "tableCatalogId", parent: name, min: 1)
+            try self.validate(self.tableCatalogId, name: "tableCatalogId", parent: name, pattern: "^[\\u0020-\\uD7FF\\uE000-\\uFFFD\\uD800\\uDC00-\\uDBFF\\uDFFF\\t]*$")
+            try self.validate(self.tableName, name: "tableName", parent: name, max: 255)
+            try self.validate(self.tableName, name: "tableName", parent: name, min: 1)
+            try self.validate(self.tableName, name: "tableName", parent: name, pattern: "^[\\u0020-\\uD7FF\\uE000-\\uFFFD\\uD800\\uDC00-\\uDBFF\\uDFFF\\t]*$")
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case databaseName = "DatabaseName"
+            case name = "Name"
+            case tableCatalogId = "TableCatalogId"
+            case tableName = "TableName"
+        }
+    }
+
     public struct DataLakePrincipal: AWSEncodableShape & AWSDecodableShape {
-        /// An identifier for the AWS Lake Formation principal.
+        /// An identifier for the Lake Formation principal.
         public let dataLakePrincipalIdentifier: String?
 
         public init(dataLakePrincipalIdentifier: String? = nil) {
@@ -366,13 +624,20 @@ extension LakeFormation {
     }
 
     public struct DataLakeSettings: AWSEncodableShape & AWSDecodableShape {
-        /// A structure representing a list of up to three principal permissions entries for default create database permissions.
+        /// Specifies whether access control on newly created database is managed by Lake Formation permissions or exclusively by IAM permissions. You can override this default setting when you create a database.
+        /// 	  A null value indicates access control by Lake Formation permissions. A value that assigns ALL to IAM_ALLOWED_PRINCIPALS indicates access control by IAM permissions. This is referred to as the setting "Use only IAM access control," and is for backward compatibility with the Glue permission model implemented by IAM permissions.
+        ///
+        /// 	        The only permitted values are an empty array or an array that contains a single JSON object that grants ALL to IAM_ALLOWED_PRINCIPALS.
+        ///  For more information, see Changing the Default Security Settings for Your Data Lake.
         public let createDatabaseDefaultPermissions: [PrincipalPermissions]?
-        /// A structure representing a list of up to three principal permissions entries for default create table permissions.
+        /// Specifies whether access control on newly created table is managed by Lake Formation permissions or exclusively by IAM permissions.
+        /// 	  A null value indicates access control by Lake Formation permissions. A value that assigns ALL to IAM_ALLOWED_PRINCIPALS indicates access control by IAM permissions. This is referred to as the setting "Use only IAM access control," and is for backward compatibility with the Glue permission model implemented by IAM permissions.
+        ///
+        /// 	        The only permitted values are an empty array or an array that contains a single JSON object that grants ALL to IAM_ALLOWED_PRINCIPALS.  For more information, see Changing the Default Security Settings for Your Data Lake.
         public let createTableDefaultPermissions: [PrincipalPermissions]?
-        /// A list of AWS Lake Formation principals. Supported principals are IAM users or IAM roles.
+        /// A list of Lake Formation principals. Supported principals are IAM users or IAM roles.
         public let dataLakeAdmins: [DataLakePrincipal]?
-        /// A list of the resource-owning account IDs that the caller's account can use to share their user access details (user ARNs). The user ARNs can be logged in the resource owner's AWS CloudTrail log.
+        /// A list of the resource-owning account IDs that the caller's account can use to share their user access details (user ARNs). The user ARNs can be logged in the resource owner's CloudTrail log.
         ///
         /// 	        You may want to specify this property when you are in a high-trust boundary, such as the same team or company.
         public let trustedResourceOwners: [String]?
@@ -398,7 +663,7 @@ extension LakeFormation {
             try self.trustedResourceOwners?.forEach {
                 try validate($0, name: "trustedResourceOwners[]", parent: name, max: 255)
                 try validate($0, name: "trustedResourceOwners[]", parent: name, min: 1)
-                try validate($0, name: "trustedResourceOwners[]", parent: name, pattern: "[\\u0020-\\uD7FF\\uE000-\\uFFFD\\uD800\\uDC00-\\uDBFF\\uDFFF\\t]*")
+                try validate($0, name: "trustedResourceOwners[]", parent: name, pattern: "^[\\u0020-\\uD7FF\\uE000-\\uFFFD\\uD800\\uDC00-\\uDBFF\\uDFFF\\t]*$")
             }
         }
 
@@ -411,7 +676,7 @@ extension LakeFormation {
     }
 
     public struct DataLocationResource: AWSEncodableShape & AWSDecodableShape {
-        /// The identifier for the Data Catalog where the location is registered with AWS Lake Formation. By default, it is the account ID of the caller.
+        /// The identifier for the Data Catalog where the location is registered with Lake Formation. By default, it is the account ID of the caller.
         public let catalogId: String?
         /// The Amazon Resource Name (ARN) that uniquely identifies the data location resource.
         public let resourceArn: String
@@ -424,7 +689,7 @@ extension LakeFormation {
         public func validate(name: String) throws {
             try self.validate(self.catalogId, name: "catalogId", parent: name, max: 255)
             try self.validate(self.catalogId, name: "catalogId", parent: name, min: 1)
-            try self.validate(self.catalogId, name: "catalogId", parent: name, pattern: "[\\u0020-\\uD7FF\\uE000-\\uFFFD\\uD800\\uDC00-\\uDBFF\\uDFFF\\t]*")
+            try self.validate(self.catalogId, name: "catalogId", parent: name, pattern: "^[\\u0020-\\uD7FF\\uE000-\\uFFFD\\uD800\\uDC00-\\uDBFF\\uDFFF\\t]*$")
         }
 
         private enum CodingKeys: String, CodingKey {
@@ -447,10 +712,10 @@ extension LakeFormation {
         public func validate(name: String) throws {
             try self.validate(self.catalogId, name: "catalogId", parent: name, max: 255)
             try self.validate(self.catalogId, name: "catalogId", parent: name, min: 1)
-            try self.validate(self.catalogId, name: "catalogId", parent: name, pattern: "[\\u0020-\\uD7FF\\uE000-\\uFFFD\\uD800\\uDC00-\\uDBFF\\uDFFF\\t]*")
+            try self.validate(self.catalogId, name: "catalogId", parent: name, pattern: "^[\\u0020-\\uD7FF\\uE000-\\uFFFD\\uD800\\uDC00-\\uDBFF\\uDFFF\\t]*$")
             try self.validate(self.name, name: "name", parent: name, max: 255)
             try self.validate(self.name, name: "name", parent: name, min: 1)
-            try self.validate(self.name, name: "name", parent: name, pattern: "[\\u0020-\\uD7FF\\uE000-\\uFFFD\\uD800\\uDC00-\\uDBFF\\uDFFF\\t]*")
+            try self.validate(self.name, name: "name", parent: name, pattern: "^[\\u0020-\\uD7FF\\uE000-\\uFFFD\\uD800\\uDC00-\\uDBFF\\uDFFF\\t]*$")
         }
 
         private enum CodingKeys: String, CodingKey {
@@ -459,10 +724,54 @@ extension LakeFormation {
         }
     }
 
+    public struct DeleteDataCellsFilterRequest: AWSEncodableShape {
+        /// A database in the Glue Data Catalog.
+        public let databaseName: String?
+        /// The name given by the user to the data filter cell.
+        public let name: String?
+        /// The ID of the catalog to which the table belongs.
+        public let tableCatalogId: String?
+        /// A table in the database.
+        public let tableName: String?
+
+        public init(databaseName: String? = nil, name: String? = nil, tableCatalogId: String? = nil, tableName: String? = nil) {
+            self.databaseName = databaseName
+            self.name = name
+            self.tableCatalogId = tableCatalogId
+            self.tableName = tableName
+        }
+
+        public func validate(name: String) throws {
+            try self.validate(self.databaseName, name: "databaseName", parent: name, max: 255)
+            try self.validate(self.databaseName, name: "databaseName", parent: name, min: 1)
+            try self.validate(self.databaseName, name: "databaseName", parent: name, pattern: "^[\\u0020-\\uD7FF\\uE000-\\uFFFD\\uD800\\uDC00-\\uDBFF\\uDFFF\\t]*$")
+            try self.validate(self.name, name: "name", parent: name, max: 255)
+            try self.validate(self.name, name: "name", parent: name, min: 1)
+            try self.validate(self.name, name: "name", parent: name, pattern: "^[\\u0020-\\uD7FF\\uE000-\\uFFFD\\uD800\\uDC00-\\uDBFF\\uDFFF\\t]*$")
+            try self.validate(self.tableCatalogId, name: "tableCatalogId", parent: name, max: 255)
+            try self.validate(self.tableCatalogId, name: "tableCatalogId", parent: name, min: 1)
+            try self.validate(self.tableCatalogId, name: "tableCatalogId", parent: name, pattern: "^[\\u0020-\\uD7FF\\uE000-\\uFFFD\\uD800\\uDC00-\\uDBFF\\uDFFF\\t]*$")
+            try self.validate(self.tableName, name: "tableName", parent: name, max: 255)
+            try self.validate(self.tableName, name: "tableName", parent: name, min: 1)
+            try self.validate(self.tableName, name: "tableName", parent: name, pattern: "^[\\u0020-\\uD7FF\\uE000-\\uFFFD\\uD800\\uDC00-\\uDBFF\\uDFFF\\t]*$")
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case databaseName = "DatabaseName"
+            case name = "Name"
+            case tableCatalogId = "TableCatalogId"
+            case tableName = "TableName"
+        }
+    }
+
+    public struct DeleteDataCellsFilterResponse: AWSDecodableShape {
+        public init() {}
+    }
+
     public struct DeleteLFTagRequest: AWSEncodableShape {
-        /// The identifier for the Data Catalog. By default, the account ID. The Data Catalog is the persistent metadata store. It contains database definitions, table definitions, and other control information to manage your AWS Lake Formation environment.
+        /// The identifier for the Data Catalog. By default, the account ID. The Data Catalog is the persistent metadata store. It contains database definitions, table definitions, and other control information to manage your Lake Formation environment.
         public let catalogId: String?
-        /// The key-name for the tag to delete.
+        /// The key-name for the LF-tag to delete.
         public let tagKey: String
 
         public init(catalogId: String? = nil, tagKey: String) {
@@ -473,7 +782,7 @@ extension LakeFormation {
         public func validate(name: String) throws {
             try self.validate(self.catalogId, name: "catalogId", parent: name, max: 255)
             try self.validate(self.catalogId, name: "catalogId", parent: name, min: 1)
-            try self.validate(self.catalogId, name: "catalogId", parent: name, pattern: "[\\u0020-\\uD7FF\\uE000-\\uFFFD\\uD800\\uDC00-\\uDBFF\\uDFFF\\t]*")
+            try self.validate(self.catalogId, name: "catalogId", parent: name, pattern: "^[\\u0020-\\uD7FF\\uE000-\\uFFFD\\uD800\\uDC00-\\uDBFF\\uDFFF\\t]*$")
             try self.validate(self.tagKey, name: "tagKey", parent: name, max: 128)
             try self.validate(self.tagKey, name: "tagKey", parent: name, min: 1)
             try self.validate(self.tagKey, name: "tagKey", parent: name, pattern: "^([\\p{L}\\p{Z}\\p{N}_.:\\/=+\\-@%]*)$")
@@ -486,6 +795,94 @@ extension LakeFormation {
     }
 
     public struct DeleteLFTagResponse: AWSDecodableShape {
+        public init() {}
+    }
+
+    public struct DeleteObjectInput: AWSEncodableShape {
+        /// The Amazon S3 ETag of the object. Returned by GetTableObjects for validation and used to identify changes to the underlying data.
+        public let eTag: String?
+        /// A list of partition values for the object. A value must be specified for each partition key associated with the governed table.
+        public let partitionValues: [String]?
+        /// The Amazon S3 location of the object to delete.
+        public let uri: String
+
+        public init(eTag: String? = nil, partitionValues: [String]? = nil, uri: String) {
+            self.eTag = eTag
+            self.partitionValues = partitionValues
+            self.uri = uri
+        }
+
+        public func validate(name: String) throws {
+            try self.validate(self.eTag, name: "eTag", parent: name, max: 255)
+            try self.validate(self.eTag, name: "eTag", parent: name, min: 1)
+            try self.validate(self.eTag, name: "eTag", parent: name, pattern: "^[\\p{L}\\p{N}\\p{P}]*$")
+            try self.partitionValues?.forEach {
+                try validate($0, name: "partitionValues[]", parent: name, max: 1024)
+            }
+            try self.validate(self.partitionValues, name: "partitionValues", parent: name, max: 100)
+            try self.validate(self.partitionValues, name: "partitionValues", parent: name, min: 1)
+            try self.validate(self.uri, name: "uri", parent: name, max: 1024)
+            try self.validate(self.uri, name: "uri", parent: name, min: 1)
+            try self.validate(self.uri, name: "uri", parent: name, pattern: "^[\\u0020-\\uD7FF\\uE000-\\uFFFD\\uD800\\uDC00-\\uDBFF\\uDFFF\\r\\n\\t]*$")
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case eTag = "ETag"
+            case partitionValues = "PartitionValues"
+            case uri = "Uri"
+        }
+    }
+
+    public struct DeleteObjectsOnCancelRequest: AWSEncodableShape {
+        /// The Glue data catalog that contains the governed table. Defaults to the current account ID.
+        public let catalogId: String?
+        /// The database that contains the governed table.
+        public let databaseName: String
+        /// A list of VirtualObject structures, which indicates the Amazon S3 objects to be deleted if the transaction cancels.
+        public let objects: [VirtualObject]
+        /// The name of the governed table.
+        public let tableName: String
+        /// ID of the transaction that the writes occur in.
+        public let transactionId: String
+
+        public init(catalogId: String? = nil, databaseName: String, objects: [VirtualObject], tableName: String, transactionId: String) {
+            self.catalogId = catalogId
+            self.databaseName = databaseName
+            self.objects = objects
+            self.tableName = tableName
+            self.transactionId = transactionId
+        }
+
+        public func validate(name: String) throws {
+            try self.validate(self.catalogId, name: "catalogId", parent: name, max: 255)
+            try self.validate(self.catalogId, name: "catalogId", parent: name, min: 1)
+            try self.validate(self.catalogId, name: "catalogId", parent: name, pattern: "^[\\u0020-\\uD7FF\\uE000-\\uFFFD\\uD800\\uDC00-\\uDBFF\\uDFFF\\t]*$")
+            try self.validate(self.databaseName, name: "databaseName", parent: name, max: 255)
+            try self.validate(self.databaseName, name: "databaseName", parent: name, min: 1)
+            try self.validate(self.databaseName, name: "databaseName", parent: name, pattern: "^[\\u0020-\\uD7FF\\uE000-\\uFFFD\\uD800\\uDC00-\\uDBFF\\uDFFF\\t]*$")
+            try self.objects.forEach {
+                try $0.validate(name: "\(name).objects[]")
+            }
+            try self.validate(self.objects, name: "objects", parent: name, max: 100)
+            try self.validate(self.objects, name: "objects", parent: name, min: 1)
+            try self.validate(self.tableName, name: "tableName", parent: name, max: 255)
+            try self.validate(self.tableName, name: "tableName", parent: name, min: 1)
+            try self.validate(self.tableName, name: "tableName", parent: name, pattern: "^[\\u0020-\\uD7FF\\uE000-\\uFFFD\\uD800\\uDC00-\\uDBFF\\uDFFF\\t]*$")
+            try self.validate(self.transactionId, name: "transactionId", parent: name, max: 255)
+            try self.validate(self.transactionId, name: "transactionId", parent: name, min: 1)
+            try self.validate(self.transactionId, name: "transactionId", parent: name, pattern: "^[\\p{L}\\p{N}\\p{P}]*$")
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case catalogId = "CatalogId"
+            case databaseName = "DatabaseName"
+            case objects = "Objects"
+            case tableName = "TableName"
+            case transactionId = "TransactionId"
+        }
+    }
+
+    public struct DeleteObjectsOnCancelResponse: AWSDecodableShape {
         public init() {}
     }
 
@@ -520,7 +917,7 @@ extension LakeFormation {
     }
 
     public struct DescribeResourceResponse: AWSDecodableShape {
-        /// A structure containing information about an AWS Lake Formation resource.
+        /// A structure containing information about an Lake Formation resource.
         public let resourceInfo: ResourceInfo?
 
         public init(resourceInfo: ResourceInfo? = nil) {
@@ -532,8 +929,40 @@ extension LakeFormation {
         }
     }
 
+    public struct DescribeTransactionRequest: AWSEncodableShape {
+        /// The transaction for which to return status.
+        public let transactionId: String
+
+        public init(transactionId: String) {
+            self.transactionId = transactionId
+        }
+
+        public func validate(name: String) throws {
+            try self.validate(self.transactionId, name: "transactionId", parent: name, max: 255)
+            try self.validate(self.transactionId, name: "transactionId", parent: name, min: 1)
+            try self.validate(self.transactionId, name: "transactionId", parent: name, pattern: "^[\\p{L}\\p{N}\\p{P}]*$")
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case transactionId = "TransactionId"
+        }
+    }
+
+    public struct DescribeTransactionResponse: AWSDecodableShape {
+        /// Returns a TransactionDescription object containing information about the transaction.
+        public let transactionDescription: TransactionDescription?
+
+        public init(transactionDescription: TransactionDescription? = nil) {
+            self.transactionDescription = transactionDescription
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case transactionDescription = "TransactionDescription"
+        }
+    }
+
     public struct DetailsMap: AWSDecodableShape {
-        /// A resource share ARN for a catalog resource shared through AWS Resource Access Manager (AWS RAM).
+        /// A resource share ARN for a catalog resource shared through RAM.
         public let resourceShare: [String]?
 
         public init(resourceShare: [String]? = nil) {
@@ -562,6 +991,50 @@ extension LakeFormation {
         }
     }
 
+    public struct ExecutionStatistics: AWSDecodableShape {
+        /// The average time the request took to be executed.
+        public let averageExecutionTimeMillis: Int64?
+        /// The amount of data that was scanned in bytes.
+        public let dataScannedBytes: Int64?
+        /// The number of work units executed.
+        public let workUnitsExecutedCount: Int64?
+
+        public init(averageExecutionTimeMillis: Int64? = nil, dataScannedBytes: Int64? = nil, workUnitsExecutedCount: Int64? = nil) {
+            self.averageExecutionTimeMillis = averageExecutionTimeMillis
+            self.dataScannedBytes = dataScannedBytes
+            self.workUnitsExecutedCount = workUnitsExecutedCount
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case averageExecutionTimeMillis = "AverageExecutionTimeMillis"
+            case dataScannedBytes = "DataScannedBytes"
+            case workUnitsExecutedCount = "WorkUnitsExecutedCount"
+        }
+    }
+
+    public struct ExtendTransactionRequest: AWSEncodableShape {
+        /// The transaction to extend.
+        public let transactionId: String?
+
+        public init(transactionId: String? = nil) {
+            self.transactionId = transactionId
+        }
+
+        public func validate(name: String) throws {
+            try self.validate(self.transactionId, name: "transactionId", parent: name, max: 255)
+            try self.validate(self.transactionId, name: "transactionId", parent: name, min: 1)
+            try self.validate(self.transactionId, name: "transactionId", parent: name, pattern: "^[\\p{L}\\p{N}\\p{P}]*$")
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case transactionId = "TransactionId"
+        }
+    }
+
+    public struct ExtendTransactionResponse: AWSDecodableShape {
+        public init() {}
+    }
+
     public struct FilterCondition: AWSEncodableShape {
         /// The comparison operator used in the filter condition.
         public let comparisonOperator: ComparisonOperator?
@@ -584,7 +1057,7 @@ extension LakeFormation {
     }
 
     public struct GetDataLakeSettingsRequest: AWSEncodableShape {
-        /// The identifier for the Data Catalog. By default, the account ID. The Data Catalog is the persistent metadata store. It contains database definitions, table definitions, and other control information to manage your AWS Lake Formation environment.
+        /// The identifier for the Data Catalog. By default, the account ID. The Data Catalog is the persistent metadata store. It contains database definitions, table definitions, and other control information to manage your Lake Formation environment.
         public let catalogId: String?
 
         public init(catalogId: String? = nil) {
@@ -594,7 +1067,7 @@ extension LakeFormation {
         public func validate(name: String) throws {
             try self.validate(self.catalogId, name: "catalogId", parent: name, max: 255)
             try self.validate(self.catalogId, name: "catalogId", parent: name, min: 1)
-            try self.validate(self.catalogId, name: "catalogId", parent: name, pattern: "[\\u0020-\\uD7FF\\uE000-\\uFFFD\\uD800\\uDC00-\\uDBFF\\uDFFF\\t]*")
+            try self.validate(self.catalogId, name: "catalogId", parent: name, pattern: "^[\\u0020-\\uD7FF\\uE000-\\uFFFD\\uD800\\uDC00-\\uDBFF\\uDFFF\\t]*$")
         }
 
         private enum CodingKeys: String, CodingKey {
@@ -603,7 +1076,7 @@ extension LakeFormation {
     }
 
     public struct GetDataLakeSettingsResponse: AWSDecodableShape {
-        /// A structure representing a list of AWS Lake Formation principals designated as data lake administrators.
+        /// A structure representing a list of Lake Formation principals designated as data lake administrators.
         public let dataLakeSettings: DataLakeSettings?
 
         public init(dataLakeSettings: DataLakeSettings? = nil) {
@@ -616,7 +1089,7 @@ extension LakeFormation {
     }
 
     public struct GetEffectivePermissionsForPathRequest: AWSEncodableShape {
-        /// The identifier for the Data Catalog. By default, the account ID. The Data Catalog is the persistent metadata store. It contains database definitions, table definitions, and other control information to manage your AWS Lake Formation environment.
+        /// The identifier for the Data Catalog. By default, the account ID. The Data Catalog is the persistent metadata store. It contains database definitions, table definitions, and other control information to manage your Lake Formation environment.
         public let catalogId: String?
         /// The maximum number of results to return.
         public let maxResults: Int?
@@ -635,7 +1108,7 @@ extension LakeFormation {
         public func validate(name: String) throws {
             try self.validate(self.catalogId, name: "catalogId", parent: name, max: 255)
             try self.validate(self.catalogId, name: "catalogId", parent: name, min: 1)
-            try self.validate(self.catalogId, name: "catalogId", parent: name, pattern: "[\\u0020-\\uD7FF\\uE000-\\uFFFD\\uD800\\uDC00-\\uDBFF\\uDFFF\\t]*")
+            try self.validate(self.catalogId, name: "catalogId", parent: name, pattern: "^[\\u0020-\\uD7FF\\uE000-\\uFFFD\\uD800\\uDC00-\\uDBFF\\uDFFF\\t]*$")
             try self.validate(self.maxResults, name: "maxResults", parent: name, max: 1000)
             try self.validate(self.maxResults, name: "maxResults", parent: name, min: 1)
         }
@@ -666,9 +1139,9 @@ extension LakeFormation {
     }
 
     public struct GetLFTagRequest: AWSEncodableShape {
-        /// The identifier for the Data Catalog. By default, the account ID. The Data Catalog is the persistent metadata store. It contains database definitions, table definitions, and other control information to manage your AWS Lake Formation environment.
+        /// The identifier for the Data Catalog. By default, the account ID. The Data Catalog is the persistent metadata store. It contains database definitions, table definitions, and other control information to manage your Lake Formation environment.
         public let catalogId: String?
-        /// The key-name for the tag.
+        /// The key-name for the LF-tag.
         public let tagKey: String
 
         public init(catalogId: String? = nil, tagKey: String) {
@@ -679,7 +1152,7 @@ extension LakeFormation {
         public func validate(name: String) throws {
             try self.validate(self.catalogId, name: "catalogId", parent: name, max: 255)
             try self.validate(self.catalogId, name: "catalogId", parent: name, min: 1)
-            try self.validate(self.catalogId, name: "catalogId", parent: name, pattern: "[\\u0020-\\uD7FF\\uE000-\\uFFFD\\uD800\\uDC00-\\uDBFF\\uDFFF\\t]*")
+            try self.validate(self.catalogId, name: "catalogId", parent: name, pattern: "^[\\u0020-\\uD7FF\\uE000-\\uFFFD\\uD800\\uDC00-\\uDBFF\\uDFFF\\t]*$")
             try self.validate(self.tagKey, name: "tagKey", parent: name, max: 128)
             try self.validate(self.tagKey, name: "tagKey", parent: name, min: 1)
             try self.validate(self.tagKey, name: "tagKey", parent: name, pattern: "^([\\p{L}\\p{Z}\\p{N}_.:\\/=+\\-@%]*)$")
@@ -692,9 +1165,9 @@ extension LakeFormation {
     }
 
     public struct GetLFTagResponse: AWSDecodableShape {
-        /// The identifier for the Data Catalog. By default, the account ID. The Data Catalog is the persistent metadata store. It contains database definitions, table definitions, and other control information to manage your AWS Lake Formation environment.
+        /// The identifier for the Data Catalog. By default, the account ID. The Data Catalog is the persistent metadata store. It contains database definitions, table definitions, and other control information to manage your Lake Formation environment.
         public let catalogId: String?
-        /// The key-name for the tag.
+        /// The key-name for the LF-tag.
         public let tagKey: String?
         /// A list of possible values an attribute can take.
         public let tagValues: [String]?
@@ -712,12 +1185,89 @@ extension LakeFormation {
         }
     }
 
+    public struct GetQueryStateRequest: AWSEncodableShape {
+        /// The ID of the plan query operation.
+        public let queryId: String
+
+        public init(queryId: String) {
+            self.queryId = queryId
+        }
+
+        public func validate(name: String) throws {
+            try self.validate(self.queryId, name: "queryId", parent: name, max: 36)
+            try self.validate(self.queryId, name: "queryId", parent: name, min: 36)
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case queryId = "QueryId"
+        }
+    }
+
+    public struct GetQueryStateResponse: AWSDecodableShape {
+        /// An error message when the operation fails.
+        public let error: String?
+        /// The state of a query previously submitted. The possible states are:
+        ///
+        /// 	          PENDING: the query is pending.   WORKUNITS_AVAILABLE: some work units are ready for retrieval and execution.   FINISHED: the query planning finished successfully, and all work units are ready for retrieval and execution.   ERROR: an error occurred with the query, such as an invalid query ID or a backend error.
+        public let state: QueryStateString
+
+        public init(error: String? = nil, state: QueryStateString) {
+            self.error = error
+            self.state = state
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case error = "Error"
+            case state = "State"
+        }
+    }
+
+    public struct GetQueryStatisticsRequest: AWSEncodableShape {
+        /// The ID of the plan query operation.
+        public let queryId: String
+
+        public init(queryId: String) {
+            self.queryId = queryId
+        }
+
+        public func validate(name: String) throws {
+            try self.validate(self.queryId, name: "queryId", parent: name, max: 36)
+            try self.validate(self.queryId, name: "queryId", parent: name, min: 36)
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case queryId = "QueryId"
+        }
+    }
+
+    public struct GetQueryStatisticsResponse: AWSDecodableShape {
+        /// An ExecutionStatistics structure containing execution statistics.
+        public let executionStatistics: ExecutionStatistics?
+        /// A PlanningStatistics structure containing query planning statistics.
+        public let planningStatistics: PlanningStatistics?
+        /// The time that the query was submitted.
+        @OptionalCustomCoding<ISO8601DateCoder>
+        public var querySubmissionTime: Date?
+
+        public init(executionStatistics: ExecutionStatistics? = nil, planningStatistics: PlanningStatistics? = nil, querySubmissionTime: Date? = nil) {
+            self.executionStatistics = executionStatistics
+            self.planningStatistics = planningStatistics
+            self.querySubmissionTime = querySubmissionTime
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case executionStatistics = "ExecutionStatistics"
+            case planningStatistics = "PlanningStatistics"
+            case querySubmissionTime = "QuerySubmissionTime"
+        }
+    }
+
     public struct GetResourceLFTagsRequest: AWSEncodableShape {
-        /// The identifier for the Data Catalog. By default, the account ID. The Data Catalog is the persistent metadata store. It contains database definitions, table definitions, and other control information to manage your AWS Lake Formation environment.
+        /// The identifier for the Data Catalog. By default, the account ID. The Data Catalog is the persistent metadata store. It contains database definitions, table definitions, and other control information to manage your Lake Formation environment.
         public let catalogId: String?
-        /// The resource for which you want to return tags.
+        /// The database, table, or column resource for which you want to return LF-tags.
         public let resource: Resource
-        /// Indicates whether to show the assigned tags.
+        /// Indicates whether to show the assigned LF-tags.
         public let showAssignedLFTags: Bool?
 
         public init(catalogId: String? = nil, resource: Resource, showAssignedLFTags: Bool? = nil) {
@@ -729,7 +1279,7 @@ extension LakeFormation {
         public func validate(name: String) throws {
             try self.validate(self.catalogId, name: "catalogId", parent: name, max: 255)
             try self.validate(self.catalogId, name: "catalogId", parent: name, min: 1)
-            try self.validate(self.catalogId, name: "catalogId", parent: name, pattern: "[\\u0020-\\uD7FF\\uE000-\\uFFFD\\uD800\\uDC00-\\uDBFF\\uDFFF\\t]*")
+            try self.validate(self.catalogId, name: "catalogId", parent: name, pattern: "^[\\u0020-\\uD7FF\\uE000-\\uFFFD\\uD800\\uDC00-\\uDBFF\\uDFFF\\t]*$")
             try self.resource.validate(name: "\(name).resource")
         }
 
@@ -741,11 +1291,11 @@ extension LakeFormation {
     }
 
     public struct GetResourceLFTagsResponse: AWSDecodableShape {
-        /// A list of tags applied to a database resource.
+        /// A list of LF-tags applied to a database resource.
         public let lfTagOnDatabase: [LFTagPair]?
-        /// A list of tags applied to a column resource.
+        /// A list of LF-tags applied to a column resource.
         public let lfTagsOnColumns: [ColumnLFTag]?
-        /// A list of tags applied to a table resource.
+        /// A list of LF-tags applied to a table resource.
         public let lfTagsOnTable: [LFTagPair]?
 
         public init(lfTagOnDatabase: [LFTagPair]? = nil, lfTagsOnColumns: [ColumnLFTag]? = nil, lfTagsOnTable: [LFTagPair]? = nil) {
@@ -761,17 +1311,191 @@ extension LakeFormation {
         }
     }
 
-    public struct GrantPermissionsRequest: AWSEncodableShape {
-        /// The identifier for the Data Catalog. By default, the account ID. The Data Catalog is the persistent metadata store. It contains database definitions, table definitions, and other control information to manage your AWS Lake Formation environment.
+    public struct GetTableObjectsRequest: AWSEncodableShape {
+        /// The catalog containing the governed table. Defaults to the caller’s account.
         public let catalogId: String?
-        /// The permissions granted to the principal on the resource. AWS Lake Formation defines privileges to grant and revoke access to metadata in the Data Catalog and data organized in underlying data storage such as Amazon S3. AWS Lake Formation requires that each principal be authorized to perform a specific task on AWS Lake Formation resources.
+        /// The database containing the governed table.
+        public let databaseName: String
+        /// Specifies how many values to return in a page.
+        public let maxResults: Int?
+        /// A continuation token if this is not the first call to retrieve these objects.
+        public let nextToken: String?
+        /// A predicate to filter the objects returned based on the partition keys defined in the governed table.
+        /// 	          The comparison operators supported are: =, >, =,    The logical operators supported are: AND   The data types supported are integer, long, date(yyyy-MM-dd), timestamp(yyyy-MM-dd HH:mm:ssXXX or yyyy-MM-dd HH:mm:ss"), string and decimal.
+        public let partitionPredicate: String?
+        /// The time as of when to read the governed table contents. If not set, the most recent transaction commit time is used. Cannot be specified along with TransactionId.
+        public let queryAsOfTime: Date?
+        /// The governed table for which to retrieve objects.
+        public let tableName: String
+        /// The transaction ID at which to read the governed table contents. If this transaction has aborted, an error is returned. If not set, defaults to the most recent committed transaction. Cannot be specified along with QueryAsOfTime.
+        public let transactionId: String?
+
+        public init(catalogId: String? = nil, databaseName: String, maxResults: Int? = nil, nextToken: String? = nil, partitionPredicate: String? = nil, queryAsOfTime: Date? = nil, tableName: String, transactionId: String? = nil) {
+            self.catalogId = catalogId
+            self.databaseName = databaseName
+            self.maxResults = maxResults
+            self.nextToken = nextToken
+            self.partitionPredicate = partitionPredicate
+            self.queryAsOfTime = queryAsOfTime
+            self.tableName = tableName
+            self.transactionId = transactionId
+        }
+
+        public func validate(name: String) throws {
+            try self.validate(self.catalogId, name: "catalogId", parent: name, max: 255)
+            try self.validate(self.catalogId, name: "catalogId", parent: name, min: 1)
+            try self.validate(self.catalogId, name: "catalogId", parent: name, pattern: "^[\\u0020-\\uD7FF\\uE000-\\uFFFD\\uD800\\uDC00-\\uDBFF\\uDFFF\\t]*$")
+            try self.validate(self.databaseName, name: "databaseName", parent: name, max: 255)
+            try self.validate(self.databaseName, name: "databaseName", parent: name, min: 1)
+            try self.validate(self.databaseName, name: "databaseName", parent: name, pattern: "^[\\u0020-\\uD7FF\\uE000-\\uFFFD\\uD800\\uDC00-\\uDBFF\\uDFFF\\t]*$")
+            try self.validate(self.maxResults, name: "maxResults", parent: name, max: 1000)
+            try self.validate(self.maxResults, name: "maxResults", parent: name, min: 1)
+            try self.validate(self.nextToken, name: "nextToken", parent: name, max: 4096)
+            try self.validate(self.partitionPredicate, name: "partitionPredicate", parent: name, max: 2048)
+            try self.validate(self.partitionPredicate, name: "partitionPredicate", parent: name, pattern: "^[\\u0020-\\uD7FF\\uE000-\\uFFFD\\uD800\\uDC00-\\uDBFF\\uDFFF\\r\\n\\t]*$")
+            try self.validate(self.tableName, name: "tableName", parent: name, max: 255)
+            try self.validate(self.tableName, name: "tableName", parent: name, min: 1)
+            try self.validate(self.tableName, name: "tableName", parent: name, pattern: "^[\\u0020-\\uD7FF\\uE000-\\uFFFD\\uD800\\uDC00-\\uDBFF\\uDFFF\\t]*$")
+            try self.validate(self.transactionId, name: "transactionId", parent: name, max: 255)
+            try self.validate(self.transactionId, name: "transactionId", parent: name, min: 1)
+            try self.validate(self.transactionId, name: "transactionId", parent: name, pattern: "^[\\p{L}\\p{N}\\p{P}]*$")
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case catalogId = "CatalogId"
+            case databaseName = "DatabaseName"
+            case maxResults = "MaxResults"
+            case nextToken = "NextToken"
+            case partitionPredicate = "PartitionPredicate"
+            case queryAsOfTime = "QueryAsOfTime"
+            case tableName = "TableName"
+            case transactionId = "TransactionId"
+        }
+    }
+
+    public struct GetTableObjectsResponse: AWSDecodableShape {
+        /// A continuation token indicating whether additional data is available.
+        public let nextToken: String?
+        /// A list of objects organized by partition keys.
+        public let objects: [PartitionObjects]?
+
+        public init(nextToken: String? = nil, objects: [PartitionObjects]? = nil) {
+            self.nextToken = nextToken
+            self.objects = objects
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case nextToken = "NextToken"
+            case objects = "Objects"
+        }
+    }
+
+    public struct GetWorkUnitResultsRequest: AWSEncodableShape {
+        /// The ID of the plan query operation for which to get results.
+        public let queryId: String
+        /// The work unit ID for which to get results. Value generated by enumerating WorkUnitIdMin to WorkUnitIdMax (inclusive) from the WorkUnitRange in the output of GetWorkUnits.
+        public let workUnitId: Int64
+        /// A work token used to query the execution service. Token output from GetWorkUnits.
+        public let workUnitToken: String
+
+        public init(queryId: String, workUnitId: Int64, workUnitToken: String) {
+            self.queryId = queryId
+            self.workUnitId = workUnitId
+            self.workUnitToken = workUnitToken
+        }
+
+        public func validate(name: String) throws {
+            try self.validate(self.queryId, name: "queryId", parent: name, max: 36)
+            try self.validate(self.queryId, name: "queryId", parent: name, min: 36)
+            try self.validate(self.workUnitId, name: "workUnitId", parent: name, min: 0)
+            try self.validate(self.workUnitToken, name: "workUnitToken", parent: name, min: 1)
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case queryId = "QueryId"
+            case workUnitId = "WorkUnitId"
+            case workUnitToken = "WorkUnitToken"
+        }
+    }
+
+    public struct GetWorkUnitResultsResponse: AWSDecodableShape & AWSShapeWithPayload {
+        /// The key for the payload
+        public static let _payloadPath: String = "resultStream"
+        public static let _options: AWSShapeOptions = [.rawPayload, .allowStreaming]
+        public static var _encoding = [
+            AWSMemberEncoding(label: "resultStream", location: .body("ResultStream"))
+        ]
+
+        /// Rows returned from the GetWorkUnitResults operation as a stream of Apache Arrow v1.0 messages.
+        public let resultStream: AWSPayload?
+
+        public init(resultStream: AWSPayload? = nil) {
+            self.resultStream = resultStream
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case resultStream = "ResultStream"
+        }
+    }
+
+    public struct GetWorkUnitsRequest: AWSEncodableShape {
+        /// A continuation token, if this is a continuation call.
+        public let nextToken: String?
+        /// The size of each page to get in the Amazon Web Services service call. This does not affect the number of items returned in the command's output. Setting a smaller page size results in more calls to the Amazon Web Services service, retrieving fewer items in each call. This can help prevent the Amazon Web Services service calls from timing out.
+        public let pageSize: Int?
+        /// The ID of the plan query operation.
+        public let queryId: String
+
+        public init(nextToken: String? = nil, pageSize: Int? = nil, queryId: String) {
+            self.nextToken = nextToken
+            self.pageSize = pageSize
+            self.queryId = queryId
+        }
+
+        public func validate(name: String) throws {
+            try self.validate(self.queryId, name: "queryId", parent: name, max: 36)
+            try self.validate(self.queryId, name: "queryId", parent: name, min: 36)
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case nextToken = "NextToken"
+            case pageSize = "PageSize"
+            case queryId = "QueryId"
+        }
+    }
+
+    public struct GetWorkUnitsResponse: AWSDecodableShape {
+        /// A continuation token for paginating the returned list of tokens, returned if the current segment of the list is not the last.
+        public let nextToken: String?
+        /// The ID of the plan query operation.
+        public let queryId: String
+        /// A WorkUnitRangeList object that specifies the valid range of work unit IDs for querying the execution service.
+        public let workUnitRanges: [WorkUnitRange]
+
+        public init(nextToken: String? = nil, queryId: String, workUnitRanges: [WorkUnitRange]) {
+            self.nextToken = nextToken
+            self.queryId = queryId
+            self.workUnitRanges = workUnitRanges
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case nextToken = "NextToken"
+            case queryId = "QueryId"
+            case workUnitRanges = "WorkUnitRanges"
+        }
+    }
+
+    public struct GrantPermissionsRequest: AWSEncodableShape {
+        /// The identifier for the Data Catalog. By default, the account ID. The Data Catalog is the persistent metadata store. It contains database definitions, table definitions, and other control information to manage your Lake Formation environment.
+        public let catalogId: String?
+        /// The permissions granted to the principal on the resource. Lake Formation defines privileges to grant and revoke access to metadata in the Data Catalog and data organized in underlying data storage such as Amazon S3. Lake Formation requires that each principal be authorized to perform a specific task on Lake Formation resources.
         public let permissions: [Permission]
         /// Indicates a list of the granted permissions that the principal may pass to other users. These permissions may only be a subset of the permissions granted in the Privileges.
         public let permissionsWithGrantOption: [Permission]?
         /// The principal to be granted the permissions on the resource. Supported principals are IAM users or IAM roles, and they are defined by their principal type and their ARN.
         /// 	        Note that if you define a resource with a particular ARN, then later delete, and recreate a resource with that same ARN, the resource maintains the permissions already granted.
         public let principal: DataLakePrincipal
-        /// The resource to which permissions are to be granted. Resources in AWS Lake Formation are the Data Catalog, databases, and tables.
+        /// The resource to which permissions are to be granted. Resources in Lake Formation are the Data Catalog, databases, and tables.
         public let resource: Resource
 
         public init(catalogId: String? = nil, permissions: [Permission], permissionsWithGrantOption: [Permission]? = nil, principal: DataLakePrincipal, resource: Resource) {
@@ -785,7 +1509,7 @@ extension LakeFormation {
         public func validate(name: String) throws {
             try self.validate(self.catalogId, name: "catalogId", parent: name, max: 255)
             try self.validate(self.catalogId, name: "catalogId", parent: name, min: 1)
-            try self.validate(self.catalogId, name: "catalogId", parent: name, pattern: "[\\u0020-\\uD7FF\\uE000-\\uFFFD\\uD800\\uDC00-\\uDBFF\\uDFFF\\t]*")
+            try self.validate(self.catalogId, name: "catalogId", parent: name, pattern: "^[\\u0020-\\uD7FF\\uE000-\\uFFFD\\uD800\\uDC00-\\uDBFF\\uDFFF\\t]*$")
             try self.principal.validate(name: "\(name).principal")
             try self.resource.validate(name: "\(name).resource")
         }
@@ -804,7 +1528,7 @@ extension LakeFormation {
     }
 
     public struct LFTag: AWSEncodableShape & AWSDecodableShape {
-        /// The key-name for the tag.
+        /// The key-name for the LF-tag.
         public let tagKey: String
         /// A list of possible values an attribute can take.
         public let tagValues: [String]
@@ -833,9 +1557,9 @@ extension LakeFormation {
     }
 
     public struct LFTagError: AWSDecodableShape {
-        /// An error that occurred with the attachment or detachment of the tag.
+        /// An error that occurred with the attachment or detachment of the LF-tag.
         public let error: ErrorDetail?
-        /// The key-name of the tag.
+        /// The key-name of the LF-tag.
         public let lfTag: LFTagPair?
 
         public init(error: ErrorDetail? = nil, lfTag: LFTagPair? = nil) {
@@ -850,9 +1574,9 @@ extension LakeFormation {
     }
 
     public struct LFTagKeyResource: AWSEncodableShape & AWSDecodableShape {
-        /// The identifier for the Data Catalog. By default, the account ID. The Data Catalog is the persistent metadata store. It contains database definitions, table definitions, and other control information to manage your AWS Lake Formation environment.
+        /// The identifier for the Data Catalog. By default, the account ID. The Data Catalog is the persistent metadata store. It contains database definitions, table definitions, and other control information to manage your Lake Formation environment.
         public let catalogId: String?
-        /// The key-name for the tag.
+        /// The key-name for the LF-tag.
         public let tagKey: String
         /// A list of possible values an attribute can take.
         public let tagValues: [String]
@@ -866,10 +1590,10 @@ extension LakeFormation {
         public func validate(name: String) throws {
             try self.validate(self.catalogId, name: "catalogId", parent: name, max: 255)
             try self.validate(self.catalogId, name: "catalogId", parent: name, min: 1)
-            try self.validate(self.catalogId, name: "catalogId", parent: name, pattern: "[\\u0020-\\uD7FF\\uE000-\\uFFFD\\uD800\\uDC00-\\uDBFF\\uDFFF\\t]*")
+            try self.validate(self.catalogId, name: "catalogId", parent: name, pattern: "^[\\u0020-\\uD7FF\\uE000-\\uFFFD\\uD800\\uDC00-\\uDBFF\\uDFFF\\t]*$")
             try self.validate(self.tagKey, name: "tagKey", parent: name, max: 255)
             try self.validate(self.tagKey, name: "tagKey", parent: name, min: 1)
-            try self.validate(self.tagKey, name: "tagKey", parent: name, pattern: "[\\u0020-\\uD7FF\\uE000-\\uFFFD\\uD800\\uDC00-\\uDBFF\\uDFFF\\t]*")
+            try self.validate(self.tagKey, name: "tagKey", parent: name, pattern: "^[\\u0020-\\uD7FF\\uE000-\\uFFFD\\uD800\\uDC00-\\uDBFF\\uDFFF\\t]*$")
             try self.tagValues.forEach {
                 try validate($0, name: "tagValues[]", parent: name, max: 256)
                 try validate($0, name: "tagValues[]", parent: name, pattern: "^([\\p{L}\\p{Z}\\p{N}_.:\\*\\/=+\\-@%]*)$")
@@ -886,9 +1610,9 @@ extension LakeFormation {
     }
 
     public struct LFTagPair: AWSEncodableShape & AWSDecodableShape {
-        /// The identifier for the Data Catalog. By default, the account ID. The Data Catalog is the persistent metadata store. It contains database definitions, table definitions, and other control information to manage your AWS Lake Formation environment.
+        /// The identifier for the Data Catalog. By default, the account ID. The Data Catalog is the persistent metadata store. It contains database definitions, table definitions, and other control information to manage your Lake Formation environment.
         public let catalogId: String?
-        /// The key-name for the tag.
+        /// The key-name for the LF-tag.
         public let tagKey: String
         /// A list of possible values an attribute can take.
         public let tagValues: [String]
@@ -902,7 +1626,7 @@ extension LakeFormation {
         public func validate(name: String) throws {
             try self.validate(self.catalogId, name: "catalogId", parent: name, max: 255)
             try self.validate(self.catalogId, name: "catalogId", parent: name, min: 1)
-            try self.validate(self.catalogId, name: "catalogId", parent: name, pattern: "[\\u0020-\\uD7FF\\uE000-\\uFFFD\\uD800\\uDC00-\\uDBFF\\uDFFF\\t]*")
+            try self.validate(self.catalogId, name: "catalogId", parent: name, pattern: "^[\\u0020-\\uD7FF\\uE000-\\uFFFD\\uD800\\uDC00-\\uDBFF\\uDFFF\\t]*$")
             try self.validate(self.tagKey, name: "tagKey", parent: name, max: 128)
             try self.validate(self.tagKey, name: "tagKey", parent: name, min: 1)
             try self.validate(self.tagKey, name: "tagKey", parent: name, pattern: "^([\\p{L}\\p{Z}\\p{N}_.:\\/=+\\-@%]*)$")
@@ -922,11 +1646,11 @@ extension LakeFormation {
     }
 
     public struct LFTagPolicyResource: AWSEncodableShape & AWSDecodableShape {
-        /// The identifier for the Data Catalog. By default, the account ID. The Data Catalog is the persistent metadata store. It contains database definitions, table definitions, and other control information to manage your AWS Lake Formation environment.
+        /// The identifier for the Data Catalog. By default, the account ID. The Data Catalog is the persistent metadata store. It contains database definitions, table definitions, and other control information to manage your Lake Formation environment.
         public let catalogId: String?
-        /// A list of tag conditions that apply to the resource's tag policy.
+        /// A list of LF-tag conditions that apply to the resource's LF-tag policy.
         public let expression: [LFTag]
-        /// The resource type for which the tag policy applies.
+        /// The resource type for which the LF-tag policy applies.
         public let resourceType: ResourceType
 
         public init(catalogId: String? = nil, expression: [LFTag], resourceType: ResourceType) {
@@ -938,7 +1662,7 @@ extension LakeFormation {
         public func validate(name: String) throws {
             try self.validate(self.catalogId, name: "catalogId", parent: name, max: 255)
             try self.validate(self.catalogId, name: "catalogId", parent: name, min: 1)
-            try self.validate(self.catalogId, name: "catalogId", parent: name, pattern: "[\\u0020-\\uD7FF\\uE000-\\uFFFD\\uD800\\uDC00-\\uDBFF\\uDFFF\\t]*")
+            try self.validate(self.catalogId, name: "catalogId", parent: name, pattern: "^[\\u0020-\\uD7FF\\uE000-\\uFFFD\\uD800\\uDC00-\\uDBFF\\uDFFF\\t]*$")
             try self.expression.forEach {
                 try $0.validate(name: "\(name).expression[]")
             }
@@ -953,14 +1677,58 @@ extension LakeFormation {
         }
     }
 
+    public struct ListDataCellsFilterRequest: AWSEncodableShape {
+        /// The maximum size of the response.
+        public let maxResults: Int?
+        /// A continuation token, if this is a continuation call.
+        public let nextToken: String?
+        /// A table in the Glue Data Catalog.
+        public let table: TableResource?
+
+        public init(maxResults: Int? = nil, nextToken: String? = nil, table: TableResource? = nil) {
+            self.maxResults = maxResults
+            self.nextToken = nextToken
+            self.table = table
+        }
+
+        public func validate(name: String) throws {
+            try self.validate(self.maxResults, name: "maxResults", parent: name, max: 1000)
+            try self.validate(self.maxResults, name: "maxResults", parent: name, min: 1)
+            try self.table?.validate(name: "\(name).table")
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case maxResults = "MaxResults"
+            case nextToken = "NextToken"
+            case table = "Table"
+        }
+    }
+
+    public struct ListDataCellsFilterResponse: AWSDecodableShape {
+        /// A list of DataCellFilter structures.
+        public let dataCellsFilters: [DataCellsFilter]?
+        /// A continuation token, if not all requested data cell filters have been returned.
+        public let nextToken: String?
+
+        public init(dataCellsFilters: [DataCellsFilter]? = nil, nextToken: String? = nil) {
+            self.dataCellsFilters = dataCellsFilters
+            self.nextToken = nextToken
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case dataCellsFilters = "DataCellsFilters"
+            case nextToken = "NextToken"
+        }
+    }
+
     public struct ListLFTagsRequest: AWSEncodableShape {
-        /// The identifier for the Data Catalog. By default, the account ID. The Data Catalog is the persistent metadata store. It contains database definitions, table definitions, and other control information to manage your AWS Lake Formation environment.
+        /// The identifier for the Data Catalog. By default, the account ID. The Data Catalog is the persistent metadata store. It contains database definitions, table definitions, and other control information to manage your Lake Formation environment.
         public let catalogId: String?
         /// The maximum number of results to return.
         public let maxResults: Int?
         /// A continuation token, if this is not the first call to retrieve this list.
         public let nextToken: String?
-        /// If resource share type is ALL, returns both in-account tags and shared tags that the requester has permission to view. If resource share type is FOREIGN, returns all share tags that the requester can view. If no resource share type is passed, lists tags in the given catalog ID that the requester has permission to view.
+        /// If resource share type is ALL, returns both in-account LF-tags and shared LF-tags that the requester has permission to view. If resource share type is FOREIGN, returns all share LF-tags that the requester can view. If no resource share type is passed, lists LF-tags in the given catalog ID that the requester has permission to view.
         public let resourceShareType: ResourceShareType?
 
         public init(catalogId: String? = nil, maxResults: Int? = nil, nextToken: String? = nil, resourceShareType: ResourceShareType? = nil) {
@@ -973,7 +1741,7 @@ extension LakeFormation {
         public func validate(name: String) throws {
             try self.validate(self.catalogId, name: "catalogId", parent: name, max: 255)
             try self.validate(self.catalogId, name: "catalogId", parent: name, min: 1)
-            try self.validate(self.catalogId, name: "catalogId", parent: name, pattern: "[\\u0020-\\uD7FF\\uE000-\\uFFFD\\uD800\\uDC00-\\uDBFF\\uDFFF\\t]*")
+            try self.validate(self.catalogId, name: "catalogId", parent: name, pattern: "^[\\u0020-\\uD7FF\\uE000-\\uFFFD\\uD800\\uDC00-\\uDBFF\\uDFFF\\t]*$")
             try self.validate(self.maxResults, name: "maxResults", parent: name, max: 1000)
             try self.validate(self.maxResults, name: "maxResults", parent: name, min: 1)
         }
@@ -987,7 +1755,7 @@ extension LakeFormation {
     }
 
     public struct ListLFTagsResponse: AWSDecodableShape {
-        /// A list of tags that the requested has permission to view.
+        /// A list of LF-tags that the requested has permission to view.
         public let lfTags: [LFTagPair]?
         /// A continuation token, present if the current list segment is not the last.
         public let nextToken: String?
@@ -1004,8 +1772,10 @@ extension LakeFormation {
     }
 
     public struct ListPermissionsRequest: AWSEncodableShape {
-        /// The identifier for the Data Catalog. By default, the account ID. The Data Catalog is the persistent metadata store. It contains database definitions, table definitions, and other control information to manage your AWS Lake Formation environment.
+        /// The identifier for the Data Catalog. By default, the account ID. The Data Catalog is the persistent metadata store. It contains database definitions, table definitions, and other control information to manage your Lake Formation environment.
         public let catalogId: String?
+        /// Indicates that related permissions should be included in the results.
+        public let includeRelated: String?
         /// The maximum number of results to return.
         public let maxResults: Int?
         /// A continuation token, if this is not the first call to retrieve this list.
@@ -1017,8 +1787,9 @@ extension LakeFormation {
         /// Specifies a resource type to filter the permissions returned.
         public let resourceType: DataLakeResourceType?
 
-        public init(catalogId: String? = nil, maxResults: Int? = nil, nextToken: String? = nil, principal: DataLakePrincipal? = nil, resource: Resource? = nil, resourceType: DataLakeResourceType? = nil) {
+        public init(catalogId: String? = nil, includeRelated: String? = nil, maxResults: Int? = nil, nextToken: String? = nil, principal: DataLakePrincipal? = nil, resource: Resource? = nil, resourceType: DataLakeResourceType? = nil) {
             self.catalogId = catalogId
+            self.includeRelated = includeRelated
             self.maxResults = maxResults
             self.nextToken = nextToken
             self.principal = principal
@@ -1029,7 +1800,10 @@ extension LakeFormation {
         public func validate(name: String) throws {
             try self.validate(self.catalogId, name: "catalogId", parent: name, max: 255)
             try self.validate(self.catalogId, name: "catalogId", parent: name, min: 1)
-            try self.validate(self.catalogId, name: "catalogId", parent: name, pattern: "[\\u0020-\\uD7FF\\uE000-\\uFFFD\\uD800\\uDC00-\\uDBFF\\uDFFF\\t]*")
+            try self.validate(self.catalogId, name: "catalogId", parent: name, pattern: "^[\\u0020-\\uD7FF\\uE000-\\uFFFD\\uD800\\uDC00-\\uDBFF\\uDFFF\\t]*$")
+            try self.validate(self.includeRelated, name: "includeRelated", parent: name, max: 5)
+            try self.validate(self.includeRelated, name: "includeRelated", parent: name, min: 1)
+            try self.validate(self.includeRelated, name: "includeRelated", parent: name, pattern: "^[\\u0020-\\uD7FF\\uE000-\\uFFFD\\uD800\\uDC00-\\uDBFF\\uDFFF\\t]*$")
             try self.validate(self.maxResults, name: "maxResults", parent: name, max: 1000)
             try self.validate(self.maxResults, name: "maxResults", parent: name, min: 1)
             try self.principal?.validate(name: "\(name).principal")
@@ -1038,6 +1812,7 @@ extension LakeFormation {
 
         private enum CodingKeys: String, CodingKey {
             case catalogId = "CatalogId"
+            case includeRelated = "IncludeRelated"
             case maxResults = "MaxResults"
             case nextToken = "NextToken"
             case principal = "Principal"
@@ -1108,6 +1883,163 @@ extension LakeFormation {
         }
     }
 
+    public struct ListTableStorageOptimizersRequest: AWSEncodableShape {
+        /// The Catalog ID of the table.
+        public let catalogId: String?
+        /// Name of the database where the table is present.
+        public let databaseName: String
+        /// The number of storage optimizers to return on each call.
+        public let maxResults: Int?
+        /// A continuation token, if this is a continuation call.
+        public let nextToken: String?
+        /// The specific type of storage optimizers to list. The supported value is compaction.
+        public let storageOptimizerType: OptimizerType?
+        /// Name of the table.
+        public let tableName: String
+
+        public init(catalogId: String? = nil, databaseName: String, maxResults: Int? = nil, nextToken: String? = nil, storageOptimizerType: OptimizerType? = nil, tableName: String) {
+            self.catalogId = catalogId
+            self.databaseName = databaseName
+            self.maxResults = maxResults
+            self.nextToken = nextToken
+            self.storageOptimizerType = storageOptimizerType
+            self.tableName = tableName
+        }
+
+        public func validate(name: String) throws {
+            try self.validate(self.catalogId, name: "catalogId", parent: name, max: 255)
+            try self.validate(self.catalogId, name: "catalogId", parent: name, min: 1)
+            try self.validate(self.catalogId, name: "catalogId", parent: name, pattern: "^[\\u0020-\\uD7FF\\uE000-\\uFFFD\\uD800\\uDC00-\\uDBFF\\uDFFF\\t]*$")
+            try self.validate(self.databaseName, name: "databaseName", parent: name, max: 255)
+            try self.validate(self.databaseName, name: "databaseName", parent: name, min: 1)
+            try self.validate(self.databaseName, name: "databaseName", parent: name, pattern: "^[\\u0020-\\uD7FF\\uE000-\\uFFFD\\uD800\\uDC00-\\uDBFF\\uDFFF\\t]*$")
+            try self.validate(self.maxResults, name: "maxResults", parent: name, max: 1000)
+            try self.validate(self.maxResults, name: "maxResults", parent: name, min: 1)
+            try self.validate(self.tableName, name: "tableName", parent: name, max: 255)
+            try self.validate(self.tableName, name: "tableName", parent: name, min: 1)
+            try self.validate(self.tableName, name: "tableName", parent: name, pattern: "^[\\u0020-\\uD7FF\\uE000-\\uFFFD\\uD800\\uDC00-\\uDBFF\\uDFFF\\t]*$")
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case catalogId = "CatalogId"
+            case databaseName = "DatabaseName"
+            case maxResults = "MaxResults"
+            case nextToken = "NextToken"
+            case storageOptimizerType = "StorageOptimizerType"
+            case tableName = "TableName"
+        }
+    }
+
+    public struct ListTableStorageOptimizersResponse: AWSDecodableShape {
+        /// A continuation token for paginating the returned list of tokens, returned if the current segment of the list is not the last.
+        public let nextToken: String?
+        /// A list of the storage optimizers associated with a table.
+        public let storageOptimizerList: [StorageOptimizer]?
+
+        public init(nextToken: String? = nil, storageOptimizerList: [StorageOptimizer]? = nil) {
+            self.nextToken = nextToken
+            self.storageOptimizerList = storageOptimizerList
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case nextToken = "NextToken"
+            case storageOptimizerList = "StorageOptimizerList"
+        }
+    }
+
+    public struct ListTransactionsRequest: AWSEncodableShape {
+        /// The catalog for which to list transactions. Defaults to the account ID of the caller.
+        public let catalogId: String?
+        /// The maximum number of transactions to return in a single call.
+        public let maxResults: Int?
+        /// A continuation token if this is not the first call to retrieve transactions.
+        public let nextToken: String?
+        ///  A filter indicating the status of transactions to return. Options are ALL | COMPLETED | COMMITTED | ABORTED | ACTIVE. The default is ALL.
+        public let statusFilter: TransactionStatusFilter?
+
+        public init(catalogId: String? = nil, maxResults: Int? = nil, nextToken: String? = nil, statusFilter: TransactionStatusFilter? = nil) {
+            self.catalogId = catalogId
+            self.maxResults = maxResults
+            self.nextToken = nextToken
+            self.statusFilter = statusFilter
+        }
+
+        public func validate(name: String) throws {
+            try self.validate(self.catalogId, name: "catalogId", parent: name, max: 255)
+            try self.validate(self.catalogId, name: "catalogId", parent: name, min: 1)
+            try self.validate(self.catalogId, name: "catalogId", parent: name, pattern: "^[\\u0020-\\uD7FF\\uE000-\\uFFFD\\uD800\\uDC00-\\uDBFF\\uDFFF\\t]*$")
+            try self.validate(self.maxResults, name: "maxResults", parent: name, max: 1000)
+            try self.validate(self.maxResults, name: "maxResults", parent: name, min: 1)
+            try self.validate(self.nextToken, name: "nextToken", parent: name, max: 4096)
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case catalogId = "CatalogId"
+            case maxResults = "MaxResults"
+            case nextToken = "NextToken"
+            case statusFilter = "StatusFilter"
+        }
+    }
+
+    public struct ListTransactionsResponse: AWSDecodableShape {
+        /// A continuation token indicating whether additional data is available.
+        public let nextToken: String?
+        /// A list of transactions. The record for each transaction is a TransactionDescription object.
+        public let transactions: [TransactionDescription]?
+
+        public init(nextToken: String? = nil, transactions: [TransactionDescription]? = nil) {
+            self.nextToken = nextToken
+            self.transactions = transactions
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case nextToken = "NextToken"
+            case transactions = "Transactions"
+        }
+    }
+
+    public struct PartitionObjects: AWSDecodableShape {
+        /// A list of table objects
+        public let objects: [TableObject]?
+        /// A list of partition values.
+        public let partitionValues: [String]?
+
+        public init(objects: [TableObject]? = nil, partitionValues: [String]? = nil) {
+            self.objects = objects
+            self.partitionValues = partitionValues
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case objects = "Objects"
+            case partitionValues = "PartitionValues"
+        }
+    }
+
+    public struct PlanningStatistics: AWSDecodableShape {
+        /// An estimate of the data that was scanned in bytes.
+        public let estimatedDataToScanBytes: Int64?
+        /// The time that it took to process the request.
+        public let planningTimeMillis: Int64?
+        /// The time the request was in queue to be processed.
+        public let queueTimeMillis: Int64?
+        /// The number of work units generated.
+        public let workUnitsGeneratedCount: Int64?
+
+        public init(estimatedDataToScanBytes: Int64? = nil, planningTimeMillis: Int64? = nil, queueTimeMillis: Int64? = nil, workUnitsGeneratedCount: Int64? = nil) {
+            self.estimatedDataToScanBytes = estimatedDataToScanBytes
+            self.planningTimeMillis = planningTimeMillis
+            self.queueTimeMillis = queueTimeMillis
+            self.workUnitsGeneratedCount = workUnitsGeneratedCount
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case estimatedDataToScanBytes = "EstimatedDataToScanBytes"
+            case planningTimeMillis = "PlanningTimeMillis"
+            case queueTimeMillis = "QueueTimeMillis"
+            case workUnitsGeneratedCount = "WorkUnitsGeneratedCount"
+        }
+    }
+
     public struct PrincipalPermissions: AWSEncodableShape & AWSDecodableShape {
         /// The permissions that are granted to the principal.
         public let permissions: [Permission]?
@@ -1159,9 +2091,9 @@ extension LakeFormation {
     }
 
     public struct PutDataLakeSettingsRequest: AWSEncodableShape {
-        /// The identifier for the Data Catalog. By default, the account ID. The Data Catalog is the persistent metadata store. It contains database definitions, table definitions, and other control information to manage your AWS Lake Formation environment.
+        /// The identifier for the Data Catalog. By default, the account ID. The Data Catalog is the persistent metadata store. It contains database definitions, table definitions, and other control information to manage your Lake Formation environment.
         public let catalogId: String?
-        /// A structure representing a list of AWS Lake Formation principals designated as data lake administrators.
+        /// A structure representing a list of Lake Formation principals designated as data lake administrators.
         public let dataLakeSettings: DataLakeSettings
 
         public init(catalogId: String? = nil, dataLakeSettings: DataLakeSettings) {
@@ -1172,7 +2104,7 @@ extension LakeFormation {
         public func validate(name: String) throws {
             try self.validate(self.catalogId, name: "catalogId", parent: name, max: 255)
             try self.validate(self.catalogId, name: "catalogId", parent: name, min: 1)
-            try self.validate(self.catalogId, name: "catalogId", parent: name, pattern: "[\\u0020-\\uD7FF\\uE000-\\uFFFD\\uD800\\uDC00-\\uDBFF\\uDFFF\\t]*")
+            try self.validate(self.catalogId, name: "catalogId", parent: name, pattern: "^[\\u0020-\\uD7FF\\uE000-\\uFFFD\\uD800\\uDC00-\\uDBFF\\uDFFF\\t]*$")
             try self.dataLakeSettings.validate(name: "\(name).dataLakeSettings")
         }
 
@@ -1186,12 +2118,52 @@ extension LakeFormation {
         public init() {}
     }
 
+    public struct QueryPlanningContext: AWSEncodableShape {
+        /// The ID of the Data Catalog where the partition in question resides. If none is provided, the Amazon Web Services account ID is used by default.
+        public let catalogId: String?
+        /// The database containing the table.
+        public let databaseName: String
+        /// The time as of when to read the table contents. If not set, the most recent transaction commit time will be used. Cannot be specified along with TransactionId.
+        public let queryAsOfTime: Date?
+        /// A map consisting of key-value pairs.
+        public let queryParameters: [String: String]?
+        /// The transaction ID at which to read the table contents. If this transaction is not committed, the read will be treated as part of that transaction and will see its writes. If this transaction has aborted, an error will be returned. If not set, defaults to the most recent committed transaction. Cannot be specified along with QueryAsOfTime.
+        public let transactionId: String?
+
+        public init(catalogId: String? = nil, databaseName: String, queryAsOfTime: Date? = nil, queryParameters: [String: String]? = nil, transactionId: String? = nil) {
+            self.catalogId = catalogId
+            self.databaseName = databaseName
+            self.queryAsOfTime = queryAsOfTime
+            self.queryParameters = queryParameters
+            self.transactionId = transactionId
+        }
+
+        public func validate(name: String) throws {
+            try self.validate(self.catalogId, name: "catalogId", parent: name, max: 255)
+            try self.validate(self.catalogId, name: "catalogId", parent: name, min: 1)
+            try self.validate(self.catalogId, name: "catalogId", parent: name, pattern: "^[\\u0020-\\uD7FF\\uE000-\\uFFFD\\uD800\\uDC00-\\uDBFF\\uDFFF\\t]*$")
+            try self.validate(self.databaseName, name: "databaseName", parent: name, min: 1)
+            try self.validate(self.databaseName, name: "databaseName", parent: name, pattern: "^[\\u0020-\\uD7FF\\uE000-\\uFFFD\\uD800\\uDC00-\\uDBFF\\uDFFF\\t]*$")
+            try self.validate(self.transactionId, name: "transactionId", parent: name, max: 255)
+            try self.validate(self.transactionId, name: "transactionId", parent: name, min: 1)
+            try self.validate(self.transactionId, name: "transactionId", parent: name, pattern: "^[\\p{L}\\p{N}\\p{P}]*$")
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case catalogId = "CatalogId"
+            case databaseName = "DatabaseName"
+            case queryAsOfTime = "QueryAsOfTime"
+            case queryParameters = "QueryParameters"
+            case transactionId = "TransactionId"
+        }
+    }
+
     public struct RegisterResourceRequest: AWSEncodableShape {
         /// The Amazon Resource Name (ARN) of the resource that you want to register.
         public let resourceArn: String
         /// The identifier for the role that registers the resource.
         public let roleArn: String?
-        /// Designates an AWS Identity and Access Management (IAM) service-linked role by registering this role with the Data Catalog. A service-linked role is a unique type of IAM role that is linked directly to Lake Formation.  For more information, see Using Service-Linked Roles for Lake Formation.
+        /// Designates an Identity and Access Management (IAM) service-linked role by registering this role with the Data Catalog. A service-linked role is a unique type of IAM role that is linked directly to Lake Formation.  For more information, see Using Service-Linked Roles for Lake Formation.
         public let useServiceLinkedRole: Bool?
 
         public init(resourceArn: String, roleArn: String? = nil, useServiceLinkedRole: Bool? = nil) {
@@ -1201,7 +2173,7 @@ extension LakeFormation {
         }
 
         public func validate(name: String) throws {
-            try self.validate(self.roleArn, name: "roleArn", parent: name, pattern: "arn:aws:iam::[0-9]*:role/.*")
+            try self.validate(self.roleArn, name: "roleArn", parent: name, pattern: "^arn:aws:iam::[0-9]*:role/")
         }
 
         private enum CodingKeys: String, CodingKey {
@@ -1216,11 +2188,11 @@ extension LakeFormation {
     }
 
     public struct RemoveLFTagsFromResourceRequest: AWSEncodableShape {
-        /// The identifier for the Data Catalog. By default, the account ID. The Data Catalog is the persistent metadata store. It contains database definitions, table definitions, and other control information to manage your AWS Lake Formation environment.
+        /// The identifier for the Data Catalog. By default, the account ID. The Data Catalog is the persistent metadata store. It contains database definitions, table definitions, and other control information to manage your Lake Formation environment.
         public let catalogId: String?
-        /// The tags to be removed from the resource.
+        /// The LF-tags to be removed from the resource.
         public let lfTags: [LFTagPair]
-        /// The resource where you want to remove a tag.
+        /// The database, table, or column resource where you want to remove an LF-tag.
         public let resource: Resource
 
         public init(catalogId: String? = nil, lfTags: [LFTagPair], resource: Resource) {
@@ -1232,7 +2204,7 @@ extension LakeFormation {
         public func validate(name: String) throws {
             try self.validate(self.catalogId, name: "catalogId", parent: name, max: 255)
             try self.validate(self.catalogId, name: "catalogId", parent: name, min: 1)
-            try self.validate(self.catalogId, name: "catalogId", parent: name, pattern: "[\\u0020-\\uD7FF\\uE000-\\uFFFD\\uD800\\uDC00-\\uDBFF\\uDFFF\\t]*")
+            try self.validate(self.catalogId, name: "catalogId", parent: name, pattern: "^[\\u0020-\\uD7FF\\uE000-\\uFFFD\\uD800\\uDC00-\\uDBFF\\uDFFF\\t]*$")
             try self.lfTags.forEach {
                 try $0.validate(name: "\(name).lfTags[]")
             }
@@ -1262,24 +2234,27 @@ extension LakeFormation {
     }
 
     public struct Resource: AWSEncodableShape & AWSDecodableShape {
-        /// The identifier for the Data Catalog. By default, the account ID. The Data Catalog is the persistent metadata store. It contains database definitions, table definitions, and other control information to manage your AWS Lake Formation environment.
+        /// The identifier for the Data Catalog. By default, the account ID. The Data Catalog is the persistent metadata store. It contains database definitions, table definitions, and other control information to manage your Lake Formation environment.
         public let catalog: CatalogResource?
         /// The database for the resource. Unique to the Data Catalog. A database is a set of associated table definitions organized into a logical group. You can Grant and Revoke database permissions to a principal.
         public let database: DatabaseResource?
+        /// A data cell filter.
+        public let dataCellsFilter: DataCellsFilterResource?
         /// The location of an Amazon S3 path where permissions are granted or revoked.
         public let dataLocation: DataLocationResource?
-        /// The tag key and values attached to a resource.
+        /// The LF-tag key and values attached to a resource.
         public let lfTag: LFTagKeyResource?
-        /// A list of tag conditions that define a resource's tag policy.
+        /// A list of LF-tag conditions that define a resource's LF-tag policy.
         public let lfTagPolicy: LFTagPolicyResource?
         /// The table for the resource. A table is a metadata definition that represents your data. You can Grant and Revoke table privileges to a principal.
         public let table: TableResource?
         /// The table with columns for the resource. A principal with permissions to this resource can select metadata from the columns of a table in the Data Catalog and the underlying data in Amazon S3.
         public let tableWithColumns: TableWithColumnsResource?
 
-        public init(catalog: CatalogResource? = nil, database: DatabaseResource? = nil, dataLocation: DataLocationResource? = nil, lfTag: LFTagKeyResource? = nil, lfTagPolicy: LFTagPolicyResource? = nil, table: TableResource? = nil, tableWithColumns: TableWithColumnsResource? = nil) {
+        public init(catalog: CatalogResource? = nil, database: DatabaseResource? = nil, dataCellsFilter: DataCellsFilterResource? = nil, dataLocation: DataLocationResource? = nil, lfTag: LFTagKeyResource? = nil, lfTagPolicy: LFTagPolicyResource? = nil, table: TableResource? = nil, tableWithColumns: TableWithColumnsResource? = nil) {
             self.catalog = catalog
             self.database = database
+            self.dataCellsFilter = dataCellsFilter
             self.dataLocation = dataLocation
             self.lfTag = lfTag
             self.lfTagPolicy = lfTagPolicy
@@ -1289,6 +2264,7 @@ extension LakeFormation {
 
         public func validate(name: String) throws {
             try self.database?.validate(name: "\(name).database")
+            try self.dataCellsFilter?.validate(name: "\(name).dataCellsFilter")
             try self.dataLocation?.validate(name: "\(name).dataLocation")
             try self.lfTag?.validate(name: "\(name).lfTag")
             try self.lfTagPolicy?.validate(name: "\(name).lfTagPolicy")
@@ -1299,6 +2275,7 @@ extension LakeFormation {
         private enum CodingKeys: String, CodingKey {
             case catalog = "Catalog"
             case database = "Database"
+            case dataCellsFilter = "DataCellsFilter"
             case dataLocation = "DataLocation"
             case lfTag = "LFTag"
             case lfTagPolicy = "LFTagPolicy"
@@ -1329,7 +2306,7 @@ extension LakeFormation {
     }
 
     public struct RevokePermissionsRequest: AWSEncodableShape {
-        /// The identifier for the Data Catalog. By default, the account ID. The Data Catalog is the persistent metadata store. It contains database definitions, table definitions, and other control information to manage your AWS Lake Formation environment.
+        /// The identifier for the Data Catalog. By default, the account ID. The Data Catalog is the persistent metadata store. It contains database definitions, table definitions, and other control information to manage your Lake Formation environment.
         public let catalogId: String?
         /// The permissions revoked to the principal on the resource. For information about permissions, see Security and Access Control to Metadata and Data.
         public let permissions: [Permission]
@@ -1351,7 +2328,7 @@ extension LakeFormation {
         public func validate(name: String) throws {
             try self.validate(self.catalogId, name: "catalogId", parent: name, max: 255)
             try self.validate(self.catalogId, name: "catalogId", parent: name, min: 1)
-            try self.validate(self.catalogId, name: "catalogId", parent: name, pattern: "[\\u0020-\\uD7FF\\uE000-\\uFFFD\\uD800\\uDC00-\\uDBFF\\uDFFF\\t]*")
+            try self.validate(self.catalogId, name: "catalogId", parent: name, pattern: "^[\\u0020-\\uD7FF\\uE000-\\uFFFD\\uD800\\uDC00-\\uDBFF\\uDFFF\\t]*$")
             try self.principal.validate(name: "\(name).principal")
             try self.resource.validate(name: "\(name).resource")
         }
@@ -1369,8 +2346,30 @@ extension LakeFormation {
         public init() {}
     }
 
+    public struct RowFilter: AWSEncodableShape & AWSDecodableShape {
+        /// A wildcard for all rows.
+        public let allRowsWildcard: AllRowsWildcard?
+        /// A filter expression.
+        public let filterExpression: String?
+
+        public init(allRowsWildcard: AllRowsWildcard? = nil, filterExpression: String? = nil) {
+            self.allRowsWildcard = allRowsWildcard
+            self.filterExpression = filterExpression
+        }
+
+        public func validate(name: String) throws {
+            try self.validate(self.filterExpression, name: "filterExpression", parent: name, max: 2048)
+            try self.validate(self.filterExpression, name: "filterExpression", parent: name, pattern: "^[\\u0020-\\uD7FF\\uE000-\\uFFFD\\uD800\\uDC00-\\uDBFF\\uDFFF\\r\\n\\t]*$")
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case allRowsWildcard = "AllRowsWildcard"
+            case filterExpression = "FilterExpression"
+        }
+    }
+
     public struct SearchDatabasesByLFTagsRequest: AWSEncodableShape {
-        /// The identifier for the Data Catalog. By default, the account ID. The Data Catalog is the persistent metadata store. It contains database definitions, table definitions, and other control information to manage your AWS Lake Formation environment.
+        /// The identifier for the Data Catalog. By default, the account ID. The Data Catalog is the persistent metadata store. It contains database definitions, table definitions, and other control information to manage your Lake Formation environment.
         public let catalogId: String?
         /// A list of conditions (LFTag structures) to search for in database resources.
         public let expression: [LFTag]
@@ -1389,7 +2388,7 @@ extension LakeFormation {
         public func validate(name: String) throws {
             try self.validate(self.catalogId, name: "catalogId", parent: name, max: 255)
             try self.validate(self.catalogId, name: "catalogId", parent: name, min: 1)
-            try self.validate(self.catalogId, name: "catalogId", parent: name, pattern: "[\\u0020-\\uD7FF\\uE000-\\uFFFD\\uD800\\uDC00-\\uDBFF\\uDFFF\\t]*")
+            try self.validate(self.catalogId, name: "catalogId", parent: name, pattern: "^[\\u0020-\\uD7FF\\uE000-\\uFFFD\\uD800\\uDC00-\\uDBFF\\uDFFF\\t]*$")
             try self.expression.forEach {
                 try $0.validate(name: "\(name).expression[]")
             }
@@ -1408,7 +2407,7 @@ extension LakeFormation {
     }
 
     public struct SearchDatabasesByLFTagsResponse: AWSDecodableShape {
-        /// A list of databases that meet the tag conditions.
+        /// A list of databases that meet the LF-tag conditions.
         public let databaseList: [TaggedDatabase]?
         /// A continuation token, present if the current list segment is not the last.
         public let nextToken: String?
@@ -1425,7 +2424,7 @@ extension LakeFormation {
     }
 
     public struct SearchTablesByLFTagsRequest: AWSEncodableShape {
-        /// The identifier for the Data Catalog. By default, the account ID. The Data Catalog is the persistent metadata store. It contains database definitions, table definitions, and other control information to manage your AWS Lake Formation environment.
+        /// The identifier for the Data Catalog. By default, the account ID. The Data Catalog is the persistent metadata store. It contains database definitions, table definitions, and other control information to manage your Lake Formation environment.
         public let catalogId: String?
         /// A list of conditions (LFTag structures) to search for in table resources.
         public let expression: [LFTag]
@@ -1444,7 +2443,7 @@ extension LakeFormation {
         public func validate(name: String) throws {
             try self.validate(self.catalogId, name: "catalogId", parent: name, max: 255)
             try self.validate(self.catalogId, name: "catalogId", parent: name, min: 1)
-            try self.validate(self.catalogId, name: "catalogId", parent: name, pattern: "[\\u0020-\\uD7FF\\uE000-\\uFFFD\\uD800\\uDC00-\\uDBFF\\uDFFF\\t]*")
+            try self.validate(self.catalogId, name: "catalogId", parent: name, pattern: "^[\\u0020-\\uD7FF\\uE000-\\uFFFD\\uD800\\uDC00-\\uDBFF\\uDFFF\\t]*$")
             try self.expression.forEach {
                 try $0.validate(name: "\(name).expression[]")
             }
@@ -1465,7 +2464,7 @@ extension LakeFormation {
     public struct SearchTablesByLFTagsResponse: AWSDecodableShape {
         /// A continuation token, present if the current list segment is not the last.
         public let nextToken: String?
-        /// A list of tables that meet the tag conditions.
+        /// A list of tables that meet the LF-tag conditions.
         public let tableList: [TaggedTable]?
 
         public init(nextToken: String? = nil, tableList: [TaggedTable]? = nil) {
@@ -1476,6 +2475,120 @@ extension LakeFormation {
         private enum CodingKeys: String, CodingKey {
             case nextToken = "NextToken"
             case tableList = "TableList"
+        }
+    }
+
+    public struct StartQueryPlanningRequest: AWSEncodableShape {
+        /// A structure containing information about the query plan.
+        public let queryPlanningContext: QueryPlanningContext
+        /// A PartiQL query statement used as an input to the planner service.
+        public let queryString: String
+
+        public init(queryPlanningContext: QueryPlanningContext, queryString: String) {
+            self.queryPlanningContext = queryPlanningContext
+            self.queryString = queryString
+        }
+
+        public func validate(name: String) throws {
+            try self.queryPlanningContext.validate(name: "\(name).queryPlanningContext")
+            try self.validate(self.queryString, name: "queryString", parent: name, min: 1)
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case queryPlanningContext = "QueryPlanningContext"
+            case queryString = "QueryString"
+        }
+    }
+
+    public struct StartQueryPlanningResponse: AWSDecodableShape {
+        /// The ID of the plan query operation can be used to fetch the actual work unit descriptors that are produced as the result of the operation. The ID is also used to get the query state and as an input to the Execute operation.
+        public let queryId: String
+
+        public init(queryId: String) {
+            self.queryId = queryId
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case queryId = "QueryId"
+        }
+    }
+
+    public struct StartTransactionRequest: AWSEncodableShape {
+        /// Indicates whether this transaction should be read only or read and write. Writes made using a read-only transaction ID will be rejected. Read-only transactions do not need to be committed.
+        public let transactionType: TransactionType?
+
+        public init(transactionType: TransactionType? = nil) {
+            self.transactionType = transactionType
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case transactionType = "TransactionType"
+        }
+    }
+
+    public struct StartTransactionResponse: AWSDecodableShape {
+        /// An opaque identifier for the transaction.
+        public let transactionId: String?
+
+        public init(transactionId: String? = nil) {
+            self.transactionId = transactionId
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case transactionId = "TransactionId"
+        }
+    }
+
+    public struct StorageOptimizer: AWSDecodableShape {
+        /// A map of the storage optimizer configuration. Currently contains only one key-value pair: is_enabled indicates true or false for acceleration.
+        public let config: [String: String]?
+        /// A message that contains information about any error (if present).
+        ///
+        /// 	        When an acceleration result has an enabled status, the error message is empty.
+        /// 	        When an acceleration result has a disabled status, the message describes an error or simply indicates "disabled by the user".
+        public let errorMessage: String?
+        /// When an acceleration result has an enabled status, contains the details of the last job run.
+        public let lastRunDetails: String?
+        /// The specific type of storage optimizer. The supported value is compaction.
+        public let storageOptimizerType: OptimizerType?
+        /// A message that contains information about any warnings (if present).
+        public let warnings: String?
+
+        public init(config: [String: String]? = nil, errorMessage: String? = nil, lastRunDetails: String? = nil, storageOptimizerType: OptimizerType? = nil, warnings: String? = nil) {
+            self.config = config
+            self.errorMessage = errorMessage
+            self.lastRunDetails = lastRunDetails
+            self.storageOptimizerType = storageOptimizerType
+            self.warnings = warnings
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case config = "Config"
+            case errorMessage = "ErrorMessage"
+            case lastRunDetails = "LastRunDetails"
+            case storageOptimizerType = "StorageOptimizerType"
+            case warnings = "Warnings"
+        }
+    }
+
+    public struct TableObject: AWSDecodableShape {
+        /// The Amazon S3 ETag of the object. Returned by GetTableObjects for validation and used to identify changes to the underlying data.
+        public let eTag: String?
+        /// The size of the Amazon S3 object in bytes.
+        public let size: Int64?
+        /// The Amazon S3 location of the object.
+        public let uri: String?
+
+        public init(eTag: String? = nil, size: Int64? = nil, uri: String? = nil) {
+            self.eTag = eTag
+            self.size = size
+            self.uri = uri
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case eTag = "ETag"
+            case size = "Size"
+            case uri = "Uri"
         }
     }
 
@@ -1500,13 +2613,13 @@ extension LakeFormation {
         public func validate(name: String) throws {
             try self.validate(self.catalogId, name: "catalogId", parent: name, max: 255)
             try self.validate(self.catalogId, name: "catalogId", parent: name, min: 1)
-            try self.validate(self.catalogId, name: "catalogId", parent: name, pattern: "[\\u0020-\\uD7FF\\uE000-\\uFFFD\\uD800\\uDC00-\\uDBFF\\uDFFF\\t]*")
+            try self.validate(self.catalogId, name: "catalogId", parent: name, pattern: "^[\\u0020-\\uD7FF\\uE000-\\uFFFD\\uD800\\uDC00-\\uDBFF\\uDFFF\\t]*$")
             try self.validate(self.databaseName, name: "databaseName", parent: name, max: 255)
             try self.validate(self.databaseName, name: "databaseName", parent: name, min: 1)
-            try self.validate(self.databaseName, name: "databaseName", parent: name, pattern: "[\\u0020-\\uD7FF\\uE000-\\uFFFD\\uD800\\uDC00-\\uDBFF\\uDFFF\\t]*")
+            try self.validate(self.databaseName, name: "databaseName", parent: name, pattern: "^[\\u0020-\\uD7FF\\uE000-\\uFFFD\\uD800\\uDC00-\\uDBFF\\uDFFF\\t]*$")
             try self.validate(self.name, name: "name", parent: name, max: 255)
             try self.validate(self.name, name: "name", parent: name, min: 1)
-            try self.validate(self.name, name: "name", parent: name, pattern: "[\\u0020-\\uD7FF\\uE000-\\uFFFD\\uD800\\uDC00-\\uDBFF\\uDFFF\\t]*")
+            try self.validate(self.name, name: "name", parent: name, pattern: "^[\\u0020-\\uD7FF\\uE000-\\uFFFD\\uD800\\uDC00-\\uDBFF\\uDFFF\\t]*$")
         }
 
         private enum CodingKeys: String, CodingKey {
@@ -1544,19 +2657,19 @@ extension LakeFormation {
         public func validate(name: String) throws {
             try self.validate(self.catalogId, name: "catalogId", parent: name, max: 255)
             try self.validate(self.catalogId, name: "catalogId", parent: name, min: 1)
-            try self.validate(self.catalogId, name: "catalogId", parent: name, pattern: "[\\u0020-\\uD7FF\\uE000-\\uFFFD\\uD800\\uDC00-\\uDBFF\\uDFFF\\t]*")
+            try self.validate(self.catalogId, name: "catalogId", parent: name, pattern: "^[\\u0020-\\uD7FF\\uE000-\\uFFFD\\uD800\\uDC00-\\uDBFF\\uDFFF\\t]*$")
             try self.columnNames?.forEach {
                 try validate($0, name: "columnNames[]", parent: name, max: 255)
                 try validate($0, name: "columnNames[]", parent: name, min: 1)
-                try validate($0, name: "columnNames[]", parent: name, pattern: "[\\u0020-\\uD7FF\\uE000-\\uFFFD\\uD800\\uDC00-\\uDBFF\\uDFFF\\t]*")
+                try validate($0, name: "columnNames[]", parent: name, pattern: "^[\\u0020-\\uD7FF\\uE000-\\uFFFD\\uD800\\uDC00-\\uDBFF\\uDFFF\\t]*$")
             }
             try self.columnWildcard?.validate(name: "\(name).columnWildcard")
             try self.validate(self.databaseName, name: "databaseName", parent: name, max: 255)
             try self.validate(self.databaseName, name: "databaseName", parent: name, min: 1)
-            try self.validate(self.databaseName, name: "databaseName", parent: name, pattern: "[\\u0020-\\uD7FF\\uE000-\\uFFFD\\uD800\\uDC00-\\uDBFF\\uDFFF\\t]*")
+            try self.validate(self.databaseName, name: "databaseName", parent: name, pattern: "^[\\u0020-\\uD7FF\\uE000-\\uFFFD\\uD800\\uDC00-\\uDBFF\\uDFFF\\t]*$")
             try self.validate(self.name, name: "name", parent: name, max: 255)
             try self.validate(self.name, name: "name", parent: name, min: 1)
-            try self.validate(self.name, name: "name", parent: name, pattern: "[\\u0020-\\uD7FF\\uE000-\\uFFFD\\uD800\\uDC00-\\uDBFF\\uDFFF\\t]*")
+            try self.validate(self.name, name: "name", parent: name, pattern: "^[\\u0020-\\uD7FF\\uE000-\\uFFFD\\uD800\\uDC00-\\uDBFF\\uDFFF\\t]*$")
         }
 
         private enum CodingKeys: String, CodingKey {
@@ -1569,9 +2682,9 @@ extension LakeFormation {
     }
 
     public struct TaggedDatabase: AWSDecodableShape {
-        /// A database that has tags attached to it.
+        /// A database that has LF-tags attached to it.
         public let database: DatabaseResource?
-        /// A list of tags attached to the database.
+        /// A list of LF-tags attached to the database.
         public let lfTags: [LFTagPair]?
 
         public init(database: DatabaseResource? = nil, lfTags: [LFTagPair]? = nil) {
@@ -1586,13 +2699,13 @@ extension LakeFormation {
     }
 
     public struct TaggedTable: AWSDecodableShape {
-        /// A list of tags attached to the database where the table resides.
+        /// A list of LF-tags attached to the database where the table resides.
         public let lfTagOnDatabase: [LFTagPair]?
-        /// A list of tags attached to columns in the table.
+        /// A list of LF-tags attached to columns in the table.
         public let lfTagsOnColumns: [ColumnLFTag]?
-        /// A list of tags attached to the table.
+        /// A list of LF-tags attached to the table.
         public let lfTagsOnTable: [LFTagPair]?
-        /// A table that has tags attached to it.
+        /// A table that has LF-tags attached to it.
         public let table: TableResource?
 
         public init(lfTagOnDatabase: [LFTagPair]? = nil, lfTagsOnColumns: [ColumnLFTag]? = nil, lfTagsOnTable: [LFTagPair]? = nil, table: TableResource? = nil) {
@@ -1610,14 +2723,39 @@ extension LakeFormation {
         }
     }
 
+    public struct TransactionDescription: AWSDecodableShape {
+        /// The time when the transaction committed or aborted, if it is not currently active.
+        public let transactionEndTime: Date?
+        /// The ID of the transaction.
+        public let transactionId: String?
+        /// The time when the transaction started.
+        public let transactionStartTime: Date?
+        /// A status of ACTIVE, COMMITTED, or ABORTED.
+        public let transactionStatus: TransactionStatus?
+
+        public init(transactionEndTime: Date? = nil, transactionId: String? = nil, transactionStartTime: Date? = nil, transactionStatus: TransactionStatus? = nil) {
+            self.transactionEndTime = transactionEndTime
+            self.transactionId = transactionId
+            self.transactionStartTime = transactionStartTime
+            self.transactionStatus = transactionStatus
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case transactionEndTime = "TransactionEndTime"
+            case transactionId = "TransactionId"
+            case transactionStartTime = "TransactionStartTime"
+            case transactionStatus = "TransactionStatus"
+        }
+    }
+
     public struct UpdateLFTagRequest: AWSEncodableShape {
-        /// The identifier for the Data Catalog. By default, the account ID. The Data Catalog is the persistent metadata store. It contains database definitions, table definitions, and other control information to manage your AWS Lake Formation environment.
+        /// The identifier for the Data Catalog. By default, the account ID. The Data Catalog is the persistent metadata store. It contains database definitions, table definitions, and other control information to manage your Lake Formation environment.
         public let catalogId: String?
-        /// The key-name for the tag for which to add or delete values.
+        /// The key-name for the LF-tag for which to add or delete values.
         public let tagKey: String
-        /// A list of tag values to add from the tag.
+        /// A list of LF-tag values to add from the LF-tag.
         public let tagValuesToAdd: [String]?
-        /// A list of tag values to delete from the tag.
+        /// A list of LF-tag values to delete from the LF-tag.
         public let tagValuesToDelete: [String]?
 
         public init(catalogId: String? = nil, tagKey: String, tagValuesToAdd: [String]? = nil, tagValuesToDelete: [String]? = nil) {
@@ -1630,7 +2768,7 @@ extension LakeFormation {
         public func validate(name: String) throws {
             try self.validate(self.catalogId, name: "catalogId", parent: name, max: 255)
             try self.validate(self.catalogId, name: "catalogId", parent: name, min: 1)
-            try self.validate(self.catalogId, name: "catalogId", parent: name, pattern: "[\\u0020-\\uD7FF\\uE000-\\uFFFD\\uD800\\uDC00-\\uDBFF\\uDFFF\\t]*")
+            try self.validate(self.catalogId, name: "catalogId", parent: name, pattern: "^[\\u0020-\\uD7FF\\uE000-\\uFFFD\\uD800\\uDC00-\\uDBFF\\uDFFF\\t]*$")
             try self.validate(self.tagKey, name: "tagKey", parent: name, max: 128)
             try self.validate(self.tagKey, name: "tagKey", parent: name, min: 1)
             try self.validate(self.tagKey, name: "tagKey", parent: name, pattern: "^([\\p{L}\\p{Z}\\p{N}_.:\\/=+\\-@%]*)$")
@@ -1663,7 +2801,7 @@ extension LakeFormation {
     public struct UpdateResourceRequest: AWSEncodableShape {
         /// The resource ARN.
         public let resourceArn: String
-        /// The new role to use for the given resource registered in AWS Lake Formation.
+        /// The new role to use for the given resource registered in Lake Formation.
         public let roleArn: String
 
         public init(resourceArn: String, roleArn: String) {
@@ -1672,7 +2810,7 @@ extension LakeFormation {
         }
 
         public func validate(name: String) throws {
-            try self.validate(self.roleArn, name: "roleArn", parent: name, pattern: "arn:aws:iam::[0-9]*:role/.*")
+            try self.validate(self.roleArn, name: "roleArn", parent: name, pattern: "^arn:aws:iam::[0-9]*:role/")
         }
 
         private enum CodingKeys: String, CodingKey {
@@ -1683,5 +2821,177 @@ extension LakeFormation {
 
     public struct UpdateResourceResponse: AWSDecodableShape {
         public init() {}
+    }
+
+    public struct UpdateTableObjectsRequest: AWSEncodableShape {
+        /// The catalog containing the governed table to update. Defaults to the caller’s account ID.
+        public let catalogId: String?
+        /// The database containing the governed table to update.
+        public let databaseName: String
+        /// The governed table to update.
+        public let tableName: String
+        /// The transaction at which to do the write.
+        public let transactionId: String
+        /// A list of WriteOperation objects that define an object to add to or delete from the manifest for a governed table.
+        public let writeOperations: [WriteOperation]
+
+        public init(catalogId: String? = nil, databaseName: String, tableName: String, transactionId: String, writeOperations: [WriteOperation]) {
+            self.catalogId = catalogId
+            self.databaseName = databaseName
+            self.tableName = tableName
+            self.transactionId = transactionId
+            self.writeOperations = writeOperations
+        }
+
+        public func validate(name: String) throws {
+            try self.validate(self.catalogId, name: "catalogId", parent: name, max: 255)
+            try self.validate(self.catalogId, name: "catalogId", parent: name, min: 1)
+            try self.validate(self.catalogId, name: "catalogId", parent: name, pattern: "^[\\u0020-\\uD7FF\\uE000-\\uFFFD\\uD800\\uDC00-\\uDBFF\\uDFFF\\t]*$")
+            try self.validate(self.databaseName, name: "databaseName", parent: name, max: 255)
+            try self.validate(self.databaseName, name: "databaseName", parent: name, min: 1)
+            try self.validate(self.databaseName, name: "databaseName", parent: name, pattern: "^[\\u0020-\\uD7FF\\uE000-\\uFFFD\\uD800\\uDC00-\\uDBFF\\uDFFF\\t]*$")
+            try self.validate(self.tableName, name: "tableName", parent: name, max: 255)
+            try self.validate(self.tableName, name: "tableName", parent: name, min: 1)
+            try self.validate(self.tableName, name: "tableName", parent: name, pattern: "^[\\u0020-\\uD7FF\\uE000-\\uFFFD\\uD800\\uDC00-\\uDBFF\\uDFFF\\t]*$")
+            try self.validate(self.transactionId, name: "transactionId", parent: name, max: 255)
+            try self.validate(self.transactionId, name: "transactionId", parent: name, min: 1)
+            try self.validate(self.transactionId, name: "transactionId", parent: name, pattern: "^[\\p{L}\\p{N}\\p{P}]*$")
+            try self.writeOperations.forEach {
+                try $0.validate(name: "\(name).writeOperations[]")
+            }
+            try self.validate(self.writeOperations, name: "writeOperations", parent: name, max: 100)
+            try self.validate(self.writeOperations, name: "writeOperations", parent: name, min: 1)
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case catalogId = "CatalogId"
+            case databaseName = "DatabaseName"
+            case tableName = "TableName"
+            case transactionId = "TransactionId"
+            case writeOperations = "WriteOperations"
+        }
+    }
+
+    public struct UpdateTableObjectsResponse: AWSDecodableShape {
+        public init() {}
+    }
+
+    public struct UpdateTableStorageOptimizerRequest: AWSEncodableShape {
+        /// The Catalog ID of the table.
+        public let catalogId: String?
+        /// Name of the database where the table is present.
+        public let databaseName: String
+        /// Name of the table for which to enable the storage optimizer.
+        public let storageOptimizerConfig: [OptimizerType: [String: String]]
+        /// Name of the table for which to enable the storage optimizer.
+        public let tableName: String
+
+        public init(catalogId: String? = nil, databaseName: String, storageOptimizerConfig: [OptimizerType: [String: String]], tableName: String) {
+            self.catalogId = catalogId
+            self.databaseName = databaseName
+            self.storageOptimizerConfig = storageOptimizerConfig
+            self.tableName = tableName
+        }
+
+        public func validate(name: String) throws {
+            try self.validate(self.catalogId, name: "catalogId", parent: name, max: 255)
+            try self.validate(self.catalogId, name: "catalogId", parent: name, min: 1)
+            try self.validate(self.catalogId, name: "catalogId", parent: name, pattern: "^[\\u0020-\\uD7FF\\uE000-\\uFFFD\\uD800\\uDC00-\\uDBFF\\uDFFF\\t]*$")
+            try self.validate(self.databaseName, name: "databaseName", parent: name, max: 255)
+            try self.validate(self.databaseName, name: "databaseName", parent: name, min: 1)
+            try self.validate(self.databaseName, name: "databaseName", parent: name, pattern: "^[\\u0020-\\uD7FF\\uE000-\\uFFFD\\uD800\\uDC00-\\uDBFF\\uDFFF\\t]*$")
+            try self.validate(self.tableName, name: "tableName", parent: name, max: 255)
+            try self.validate(self.tableName, name: "tableName", parent: name, min: 1)
+            try self.validate(self.tableName, name: "tableName", parent: name, pattern: "^[\\u0020-\\uD7FF\\uE000-\\uFFFD\\uD800\\uDC00-\\uDBFF\\uDFFF\\t]*$")
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case catalogId = "CatalogId"
+            case databaseName = "DatabaseName"
+            case storageOptimizerConfig = "StorageOptimizerConfig"
+            case tableName = "TableName"
+        }
+    }
+
+    public struct UpdateTableStorageOptimizerResponse: AWSDecodableShape {
+        /// A response indicating the success of failure of the operation.
+        public let result: String?
+
+        public init(result: String? = nil) {
+            self.result = result
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case result = "Result"
+        }
+    }
+
+    public struct VirtualObject: AWSEncodableShape {
+        /// The ETag of the Amazon S3 object.
+        public let eTag: String?
+        /// The path to the Amazon S3 object. Must start with s3://
+        public let uri: String
+
+        public init(eTag: String? = nil, uri: String) {
+            self.eTag = eTag
+            self.uri = uri
+        }
+
+        public func validate(name: String) throws {
+            try self.validate(self.eTag, name: "eTag", parent: name, max: 255)
+            try self.validate(self.eTag, name: "eTag", parent: name, min: 1)
+            try self.validate(self.eTag, name: "eTag", parent: name, pattern: "^[\\p{L}\\p{N}\\p{P}]*$")
+            try self.validate(self.uri, name: "uri", parent: name, max: 1024)
+            try self.validate(self.uri, name: "uri", parent: name, min: 1)
+            try self.validate(self.uri, name: "uri", parent: name, pattern: "^[\\u0020-\\uD7FF\\uE000-\\uFFFD\\uD800\\uDC00-\\uDBFF\\uDFFF\\r\\n\\t]*$")
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case eTag = "ETag"
+            case uri = "Uri"
+        }
+    }
+
+    public struct WorkUnitRange: AWSDecodableShape {
+        /// Defines the maximum work unit ID in the range. The maximum value is inclusive.
+        public let workUnitIdMax: Int64
+        /// Defines the minimum work unit ID in the range.
+        public let workUnitIdMin: Int64
+        /// A work token used to query the execution service.
+        public let workUnitToken: String
+
+        public init(workUnitIdMax: Int64, workUnitIdMin: Int64, workUnitToken: String) {
+            self.workUnitIdMax = workUnitIdMax
+            self.workUnitIdMin = workUnitIdMin
+            self.workUnitToken = workUnitToken
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case workUnitIdMax = "WorkUnitIdMax"
+            case workUnitIdMin = "WorkUnitIdMin"
+            case workUnitToken = "WorkUnitToken"
+        }
+    }
+
+    public struct WriteOperation: AWSEncodableShape {
+        /// A new object to add to the governed table.
+        public let addObject: AddObjectInput?
+        /// An object to delete from the governed table.
+        public let deleteObject: DeleteObjectInput?
+
+        public init(addObject: AddObjectInput? = nil, deleteObject: DeleteObjectInput? = nil) {
+            self.addObject = addObject
+            self.deleteObject = deleteObject
+        }
+
+        public func validate(name: String) throws {
+            try self.addObject?.validate(name: "\(name).addObject")
+            try self.deleteObject?.validate(name: "\(name).deleteObject")
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case addObject = "AddObject"
+            case deleteObject = "DeleteObject"
+        }
     }
 }

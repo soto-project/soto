@@ -448,7 +448,7 @@ extension Macie2 {
     public struct AdminAccount: AWSDecodableShape {
         /// The Amazon Web Services account ID for the account.
         public let accountId: String?
-        /// The current status of the account as the delegated administrator of Amazon Macie for the organization.
+        /// The current status of the account as the delegated Amazon Macie administrator account for the organization.
         public let status: AdminStatus?
 
         public init(accountId: String? = nil, status: AdminStatus? = nil) {
@@ -1173,7 +1173,7 @@ extension Macie2 {
     public struct CreateCustomDataIdentifierRequest: AWSEncodableShape {
         /// A unique, case-sensitive token that you provide to ensure the idempotency of the request.
         public let clientToken: String?
-        /// A custom description of the custom data identifier. The description can contain as many as 512 characters. We strongly recommend that you avoid including any sensitive data in the description of a custom data identifier. Other users of your account might be able to see the identifier's description, depending on the actions that they're allowed to perform in Amazon Macie.
+        /// A custom description of the custom data identifier. The description can contain as many as 512 characters. We strongly recommend that you avoid including any sensitive data in the description of a custom data identifier. Other users of your account might be able to see this description, depending on the actions that they're allowed to perform in Amazon Macie.
         public let description: String?
         /// An array that lists specific character sequences (ignore words) to exclude from the results. If the text matched by the regular expression contains any string in this array, Amazon Macie ignores it. The array can contain as many as 10 ignore words. Each ignore word can contain 4-90 UTF-8 characters. Ignore words are case sensitive.
         public let ignoreWords: [String]?
@@ -1181,7 +1181,7 @@ extension Macie2 {
         public let keywords: [String]?
         /// The maximum number of characters that can exist between text that matches the regular expression and the character sequences specified by the keywords array. Amazon Macie includes or excludes a result based on the proximity of a keyword to text that matches the regular expression. The distance can be 1-300 characters. The default value is 50.
         public let maximumMatchDistance: Int?
-        /// A custom name for the custom data identifier. The name can contain as many as 128 characters. We strongly recommend that you avoid including any sensitive data in the name of a custom data identifier. Other users of your account might be able to see the identifier's name, depending on the actions that they're allowed to perform in Amazon Macie.
+        /// A custom name for the custom data identifier. The name can contain as many as 128 characters. We strongly recommend that you avoid including any sensitive data in the name of a custom data identifier. Other users of your account might be able to see this name, depending on the actions that they're allowed to perform in Amazon Macie.
         public let name: String?
         /// The regular expression (regex) that defines the pattern to match. The expression can contain as many as 512 characters.
         public let regex: String?
@@ -1233,11 +1233,11 @@ extension Macie2 {
         public let action: FindingsFilterAction
         /// A unique, case-sensitive token that you provide to ensure the idempotency of the request.
         public let clientToken: String?
-        /// A custom description of the filter. The description can contain as many as 512 characters. We strongly recommend that you avoid including any sensitive data in the description of a filter. Other users of your account might be able to see the filter's description, depending on the actions that they're allowed to perform in Amazon Macie.
+        /// A custom description of the filter. The description can contain as many as 512 characters. We strongly recommend that you avoid including any sensitive data in the description of a filter. Other users of your account might be able to see this description, depending on the actions that they're allowed to perform in Amazon Macie.
         public let description: String?
         /// The criteria to use to filter findings.
         public let findingCriteria: FindingCriteria
-        /// A custom name for the filter. The name must contain at least 3 characters and can contain as many as 64 characters. We strongly recommend that you avoid including any sensitive data in the name of a filter. Other users of your account might be able to see the filter's name, depending on the actions that they're allowed to perform in Amazon Macie.
+        /// A custom name for the filter. The name must contain at least 3 characters and can contain as many as 64 characters. We strongly recommend that you avoid including any sensitive data in the name of a filter. Other users of your account might be able to see this name, depending on the actions that they're allowed to perform in Amazon Macie.
         public let name: String
         /// The position of the filter in the list of saved filters on the Amazon Macie console. This value also determines the order in which the filter is applied to findings, relative to other filters that are also applied to the findings.
         public let position: Int?
@@ -1285,9 +1285,9 @@ extension Macie2 {
     public struct CreateInvitationsRequest: AWSEncodableShape {
         /// An array that lists Amazon Web Services account IDs, one for each account to send the invitation to.
         public let accountIds: [String]
-        /// Specifies whether to send an email notification to the root user of each account that the invitation will be sent to. This notification is in addition to an alert that the root user receives in Personal Health Dashboard. To send an email notification to the root user of each account, set this value to true.
+        /// Specifies whether to send the invitation as an email message. If this value is false, Amazon Macie sends the invitation (as an email message) to the email address that you specified for the recipient's account when you associated the account with your account. The default value is false.
         public let disableEmailNotification: Bool?
-        /// A custom message to include in the invitation. Amazon Macie adds this message to the standard content that it sends for an invitation.
+        /// Custom text to include in the email message that contains the invitation. The text can contain as many as 80 alphanumeric characters.
         public let message: String?
 
         public init(accountIds: [String], disableEmailNotification: Bool? = nil, message: String? = nil) {
@@ -1789,9 +1789,9 @@ extension Macie2 {
     }
 
     public struct DescribeOrganizationConfigurationResponse: AWSDecodableShape {
-        /// Specifies whether Amazon Macie is enabled automatically for accounts that are added to the Amazon Web Services organization.
+        /// Specifies whether Amazon Macie is enabled automatically for accounts that are added to the organization.
         public let autoEnable: Bool?
-        /// Specifies whether the maximum number of Amazon Macie member accounts are part of the Amazon Web Services organization.
+        /// Specifies whether the maximum number of Amazon Macie member accounts are part of the organization.
         public let maxAccountLimitReached: Bool?
 
         public init(autoEnable: Bool? = nil, maxAccountLimitReached: Bool? = nil) {
@@ -2140,7 +2140,7 @@ extension Macie2 {
     }
 
     public struct GetAdministratorAccountResponse: AWSDecodableShape {
-        /// The Amazon Web Services account ID for the administrator account. If the accounts are associated by a Macie membership invitation, this object also provides details about the invitation that was sent to establish the relationship between the accounts.
+        /// The Amazon Web Services account ID for the administrator account. If the accounts are associated by an Amazon Macie membership invitation, this object also provides details about the invitation that was sent to establish the relationship between the accounts.
         public let administrator: Invitation?
 
         public init(administrator: Invitation? = nil) {
@@ -2483,13 +2483,13 @@ extension Macie2 {
         /// The date and time, in UTC and extended ISO 8601 format, when the Amazon Macie account was created.
         @OptionalCustomCoding<ISO8601DateCoder>
         public var createdAt: Date?
-        /// The frequency with which Macie publishes updates to policy findings for the account. This includes publishing updates to Security Hub and Amazon EventBridge (formerly called Amazon CloudWatch Events).
+        /// The frequency with which Amazon Macie publishes updates to policy findings for the account. This includes publishing updates to Security Hub and Amazon EventBridge (formerly called Amazon CloudWatch Events).
         public let findingPublishingFrequency: FindingPublishingFrequency?
-        /// The Amazon Resource Name (ARN) of the service-linked role that allows Macie to monitor and analyze data in Amazon Web Services resources for the account.
+        /// The Amazon Resource Name (ARN) of the service-linked role that allows Amazon Macie to monitor and analyze data in Amazon Web Services resources for the account.
         public let serviceRole: String?
-        /// The current status of the Macie account. Possible values are: PAUSED, the account is enabled but all Macie activities are suspended (paused) for the account; and, ENABLED, the account is enabled and all Macie activities are enabled for the account.
+        /// The current status of the Amazon Macie account. Possible values are: PAUSED, the account is enabled but all Macie activities are suspended (paused) for the account; and, ENABLED, the account is enabled and all Macie activities are enabled for the account.
         public let status: MacieStatus?
-        /// The date and time, in UTC and extended ISO 8601 format, of the most recent change to the status of the Macie account.
+        /// The date and time, in UTC and extended ISO 8601 format, of the most recent change to the status of the Amazon Macie account.
         @OptionalCustomCoding<ISO8601DateCoder>
         public var updatedAt: Date?
 
@@ -2551,7 +2551,7 @@ extension Macie2 {
         public let arn: String?
         /// The email address for the account.
         public let email: String?
-        /// The date and time, in UTC and extended ISO 8601 format, when an Amazon Macie membership invitation was last sent to the account. This value is null if a Macie invitation hasn't been sent to the account.
+        /// The date and time, in UTC and extended ISO 8601 format, when an Amazon Macie membership invitation was last sent to the account. This value is null if an invitation hasn't been sent to the account.
         @OptionalCustomCoding<ISO8601DateCoder>
         public var invitedAt: Date?
         /// (Deprecated) The Amazon Web Services account ID for the administrator account. This property has been replaced by the administratorAccountId property and is retained only for backward compatibility.
@@ -2716,12 +2716,12 @@ extension Macie2 {
     public struct Invitation: AWSDecodableShape {
         /// The Amazon Web Services account ID for the account that sent the invitation.
         public let accountId: String?
-        /// The unique identifier for the invitation. Amazon Macie uses this identifier to validate the inviter account with the invitee account.
+        /// The unique identifier for the invitation.
         public let invitationId: String?
         /// The date and time, in UTC and extended ISO 8601 format, when the invitation was sent.
         @OptionalCustomCoding<ISO8601DateCoder>
         public var invitedAt: Date?
-        /// The status of the relationship between the account that sent the invitation (inviter account) and the account that received the invitation (invitee account).
+        /// The status of the relationship between the account that sent the invitation and the account that received the invitation.
         public let relationshipStatus: RelationshipStatus?
 
         public init(accountId: String? = nil, invitationId: String? = nil, invitedAt: Date? = nil, relationshipStatus: RelationshipStatus? = nil) {
@@ -3307,7 +3307,7 @@ extension Macie2 {
     }
 
     public struct ListMembersResponse: AWSDecodableShape {
-        /// An array of objects, one for each account that's associated with the administrator account and meets the criteria specified by the onlyAssociated request parameter.
+        /// An array of objects, one for each account that's associated with the administrator account and meets the criteria specified in the request.
         public let members: [Member]?
         /// The string to use in a subsequent request to get the next page of results in a paginated response. This value is null if there are no additional pages.
         public let nextToken: String?
@@ -3492,7 +3492,7 @@ extension Macie2 {
         public let arn: String?
         /// The email address for the account.
         public let email: String?
-        /// The date and time, in UTC and extended ISO 8601 format, when an Amazon Macie membership invitation was last sent to the account. This value is null if a Macie invitation hasn't been sent to the account.
+        /// The date and time, in UTC and extended ISO 8601 format, when an Amazon Macie membership invitation was last sent to the account. This value is null if an invitation hasn't been sent to the account.
         @OptionalCustomCoding<ISO8601DateCoder>
         public var invitedAt: Date?
         /// (Deprecated) The Amazon Web Services account ID for the administrator account. This property has been replaced by the administratorAccountId property and is retained only for backward compatibility.
@@ -4314,7 +4314,7 @@ extension Macie2 {
     public struct SeverityLevel: AWSEncodableShape & AWSDecodableShape {
         /// The minimum number of occurrences of text that must match the custom data identifier's detection criteria in order to produce a finding with the specified severity (severity).
         public let occurrencesThreshold: Int64
-        /// The severity to assign to a finding if the number of occurrences is greater than or equal to the specified threshold (occurrencesThreshold) and, if applicable, is less than the threshold for the next consecutive severity level for the custom data identifier.
+        /// The severity to assign to a finding: if the number of occurrences is greater than or equal to the specified threshold (occurrencesThreshold); and, if applicable, the number of occurrences is less than the threshold for the next consecutive severity level for the custom data identifier, moving from LOW to HIGH.
         public let severity: DataIdentifierSeverity
 
         public init(occurrencesThreshold: Int64, severity: DataIdentifierSeverity) {
@@ -4623,13 +4623,13 @@ extension Macie2 {
         public let action: FindingsFilterAction?
         /// A unique, case-sensitive token that you provide to ensure the idempotency of the request.
         public let clientToken: String?
-        /// A custom description of the filter. The description can contain as many as 512 characters. We strongly recommend that you avoid including any sensitive data in the description of a filter. Other users might be able to see the filter's description, depending on the actions that they're allowed to perform in Amazon Macie.
+        /// A custom description of the filter. The description can contain as many as 512 characters. We strongly recommend that you avoid including any sensitive data in the description of a filter. Other users might be able to see this description, depending on the actions that they're allowed to perform in Amazon Macie.
         public let description: String?
         /// The criteria to use to filter findings.
         public let findingCriteria: FindingCriteria?
         /// The unique identifier for the Amazon Macie resource or account that the request applies to.
         public let id: String
-        /// A custom name for the filter. The name must contain at least 3 characters and can contain as many as 64 characters. We strongly recommend that you avoid including any sensitive data in the name of a filter. Other users might be able to see the filter's name, depending on the actions that they're allowed to perform in Amazon Macie.
+        /// A custom name for the filter. The name must contain at least 3 characters and can contain as many as 64 characters. We strongly recommend that you avoid including any sensitive data in the name of a filter. Other users might be able to see this name, depending on the actions that they're allowed to perform in Amazon Macie.
         public let name: String?
         /// The position of the filter in the list of saved filters on the Amazon Macie console. This value also determines the order in which the filter is applied to findings, relative to other filters that are also applied to the findings.
         public let position: Int?
@@ -4717,7 +4717,7 @@ extension Macie2 {
     }
 
     public struct UpdateOrganizationConfigurationRequest: AWSEncodableShape {
-        /// Specifies whether to enable Amazon Macie automatically for each account, when the account is added to the Amazon Web Services organization.
+        /// Specifies whether to enable Amazon Macie automatically for an account when the account is added to the organization in Organizations.
         public let autoEnable: Bool
 
         public init(autoEnable: Bool) {

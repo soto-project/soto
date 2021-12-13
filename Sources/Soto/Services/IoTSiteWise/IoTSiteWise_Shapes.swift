@@ -106,6 +106,12 @@ extension IoTSiteWise {
         public var description: String { return self.rawValue }
     }
 
+    public enum DisassociatedDataStorageState: String, CustomStringConvertible, Codable {
+        case disabled = "DISABLED"
+        case enabled = "ENABLED"
+        public var description: String { return self.rawValue }
+    }
+
     public enum EncryptionType: String, CustomStringConvertible, Codable {
         case kmsBasedEncryption = "KMS_BASED_ENCRYPTION"
         case sitewiseDefaultEncryption = "SITEWISE_DEFAULT_ENCRYPTION"
@@ -139,6 +145,12 @@ extension IoTSiteWise {
     public enum ListAssetsFilter: String, CustomStringConvertible, Codable {
         case all = "ALL"
         case topLevel = "TOP_LEVEL"
+        public var description: String { return self.rawValue }
+    }
+
+    public enum ListTimeSeriesType: String, CustomStringConvertible, Codable {
+        case associated = "ASSOCIATED"
+        case disassociated = "DISASSOCIATED"
         public var description: String { return self.rawValue }
     }
 
@@ -882,6 +894,48 @@ extension IoTSiteWise {
         }
     }
 
+    public struct AssociateTimeSeriesToAssetPropertyRequest: AWSEncodableShape {
+        public static var _encoding = [
+            AWSMemberEncoding(label: "alias", location: .querystring("alias")),
+            AWSMemberEncoding(label: "assetId", location: .querystring("assetId")),
+            AWSMemberEncoding(label: "propertyId", location: .querystring("propertyId"))
+        ]
+
+        /// The alias that identifies the time series.
+        public let alias: String
+        /// The ID of the asset in which the asset property was created.
+        public let assetId: String
+        /// A unique case-sensitive identifier that you can provide to ensure the idempotency of the request. Don't reuse this client token if a new idempotent request is required.
+        public let clientToken: String?
+        /// The ID of the asset property.
+        public let propertyId: String
+
+        public init(alias: String, assetId: String, clientToken: String? = AssociateTimeSeriesToAssetPropertyRequest.idempotencyToken(), propertyId: String) {
+            self.alias = alias
+            self.assetId = assetId
+            self.clientToken = clientToken
+            self.propertyId = propertyId
+        }
+
+        public func validate(name: String) throws {
+            try self.validate(self.alias, name: "alias", parent: name, min: 1)
+            try self.validate(self.alias, name: "alias", parent: name, pattern: "^[^\\u0000-\\u001F\\u007F]+$")
+            try self.validate(self.assetId, name: "assetId", parent: name, max: 36)
+            try self.validate(self.assetId, name: "assetId", parent: name, min: 36)
+            try self.validate(self.assetId, name: "assetId", parent: name, pattern: "^[0-9a-f]{8}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{12}$")
+            try self.validate(self.clientToken, name: "clientToken", parent: name, max: 64)
+            try self.validate(self.clientToken, name: "clientToken", parent: name, min: 36)
+            try self.validate(self.clientToken, name: "clientToken", parent: name, pattern: "^\\S{36,64}$")
+            try self.validate(self.propertyId, name: "propertyId", parent: name, max: 36)
+            try self.validate(self.propertyId, name: "propertyId", parent: name, min: 36)
+            try self.validate(self.propertyId, name: "propertyId", parent: name, pattern: "^[0-9a-f]{8}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{12}$")
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case clientToken
+        }
+    }
+
     public struct AssociatedAssetsSummary: AWSDecodableShape {
         /// The ARN of the asset, which has the following format.  arn:${Partition}:iotsitewise:${Region}:${Account}:asset/${AssetId}
         public let arn: String
@@ -1517,7 +1571,7 @@ extension IoTSiteWise {
         public let clientToken: String?
         /// The email address that sends alarm notifications.  If you use the IoT Events managed Lambda function to manage your emails, you must verify the sender email address in Amazon SES.
         public let notificationSenderEmail: String?
-        /// The service to use to authenticate users to the portal. Choose from the following options:    SSO – The portal uses Amazon Web Services Single Sign On to authenticate users and manage user permissions. Before you can create a portal that uses Amazon Web Services SSO, you must enable Amazon Web Services SSO. For more information, see Enabling Amazon Web Services SSO in the IoT SiteWise User Guide. This option is only available in Amazon Web Services Regions other than the China Regions.    IAM – The portal uses Identity and Access Management to authenticate users and manage user permissions. This option is only available in the China Regions.   You can't change this value after you create a portal. Default: SSO
+        /// The service to use to authenticate users to the portal. Choose from the following options:    SSO – The portal uses Amazon Web Services Single Sign On to authenticate users and manage user permissions. Before you can create a portal that uses Amazon Web Services SSO, you must enable Amazon Web Services SSO. For more information, see Enabling Amazon Web Services SSO in the IoT SiteWise User Guide. This option is only available in Amazon Web Services Regions other than the China Regions.    IAM – The portal uses Identity and Access Management to authenticate users and manage user permissions.   You can't change this value after you create a portal. Default: SSO
         public let portalAuthMode: AuthMode?
         /// The Amazon Web Services administrator's contact email address.
         public let portalContactEmail: String
@@ -1981,6 +2035,48 @@ extension IoTSiteWise {
         public init() {}
     }
 
+    public struct DeleteTimeSeriesRequest: AWSEncodableShape {
+        public static var _encoding = [
+            AWSMemberEncoding(label: "alias", location: .querystring("alias")),
+            AWSMemberEncoding(label: "assetId", location: .querystring("assetId")),
+            AWSMemberEncoding(label: "propertyId", location: .querystring("propertyId"))
+        ]
+
+        /// The alias that identifies the time series.
+        public let alias: String?
+        /// The ID of the asset in which the asset property was created.
+        public let assetId: String?
+        /// A unique case-sensitive identifier that you can provide to ensure the idempotency of the request. Don't reuse this client token if a new idempotent request is required.
+        public let clientToken: String?
+        /// The ID of the asset property.
+        public let propertyId: String?
+
+        public init(alias: String? = nil, assetId: String? = nil, clientToken: String? = DeleteTimeSeriesRequest.idempotencyToken(), propertyId: String? = nil) {
+            self.alias = alias
+            self.assetId = assetId
+            self.clientToken = clientToken
+            self.propertyId = propertyId
+        }
+
+        public func validate(name: String) throws {
+            try self.validate(self.alias, name: "alias", parent: name, min: 1)
+            try self.validate(self.alias, name: "alias", parent: name, pattern: "^[^\\u0000-\\u001F\\u007F]+$")
+            try self.validate(self.assetId, name: "assetId", parent: name, max: 36)
+            try self.validate(self.assetId, name: "assetId", parent: name, min: 36)
+            try self.validate(self.assetId, name: "assetId", parent: name, pattern: "^[0-9a-f]{8}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{12}$")
+            try self.validate(self.clientToken, name: "clientToken", parent: name, max: 64)
+            try self.validate(self.clientToken, name: "clientToken", parent: name, min: 36)
+            try self.validate(self.clientToken, name: "clientToken", parent: name, pattern: "^\\S{36,64}$")
+            try self.validate(self.propertyId, name: "propertyId", parent: name, max: 36)
+            try self.validate(self.propertyId, name: "propertyId", parent: name, min: 36)
+            try self.validate(self.propertyId, name: "propertyId", parent: name, pattern: "^[0-9a-f]{8}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{12}$")
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case clientToken
+        }
+    }
+
     public struct DescribeAccessPolicyRequest: AWSEncodableShape {
         public static var _encoding = [
             AWSMemberEncoding(label: "accessPolicyId", location: .uri("accessPolicyId"))
@@ -2307,7 +2403,7 @@ extension IoTSiteWise {
         public let configurationStatus: ConfigurationStatus
         /// The type of encryption used for the encryption configuration.
         public let encryptionType: EncryptionType
-        /// The key ARN of the customer managed customer master key (CMK) used for KMS encryption if you use KMS_BASED_ENCRYPTION.
+        /// The key ARN of the customer managed key used for KMS encryption if you use KMS_BASED_ENCRYPTION.
         public let kmsKeyArn: String?
 
         public init(configurationStatus: ConfigurationStatus, encryptionType: EncryptionType, kmsKeyArn: String? = nil) {
@@ -2605,25 +2701,108 @@ extension IoTSiteWise {
 
     public struct DescribeStorageConfigurationResponse: AWSDecodableShape {
         public let configurationStatus: ConfigurationStatus
+        /// Contains the storage configuration for time series (data streams) that aren't associated with asset properties.  The disassociatedDataStorage can be one of the following values:    ENABLED – IoT SiteWise accepts time series that aren't associated with asset properties.  After the disassociatedDataStorage is enabled, you can't disable it.     DISABLED – IoT SiteWise doesn't accept time series (data streams) that aren't associated with asset properties.   For more information, see Data streams  in the IoT SiteWise User Guide.
+        public let disassociatedDataStorage: DisassociatedDataStorageState?
         /// The date the storage configuration was last updated, in Unix epoch time.
         public let lastUpdateDate: Date?
         /// Contains information about the storage destination.
         public let multiLayerStorage: MultiLayerStorage?
-        /// The type of storage that you specified for your data. The storage type can be one of the following values:    SITEWISE_DEFAULT_STORAGE – IoT SiteWise replicates your data into a service managed database.    MULTI_LAYER_STORAGE – IoT SiteWise replicates your data into a service managed database and saves a copy of your raw data and metadata in an Amazon S3 object that you specified.
+        /// How many days your data is kept in the hot tier. By default, your data is kept indefinitely in the hot tier.
+        public let retentionPeriod: RetentionPeriod?
+        /// The storage tier that you specified for your data.  The storageType parameter can be one of the following values:    SITEWISE_DEFAULT_STORAGE – IoT SiteWise saves your data into the hot tier.  The hot tier is a service-managed database.    MULTI_LAYER_STORAGE – IoT SiteWise saves your data in both the cold tier and the cold tier.  The cold tier is a customer-managed Amazon S3 bucket.
         public let storageType: StorageType
 
-        public init(configurationStatus: ConfigurationStatus, lastUpdateDate: Date? = nil, multiLayerStorage: MultiLayerStorage? = nil, storageType: StorageType) {
+        public init(configurationStatus: ConfigurationStatus, disassociatedDataStorage: DisassociatedDataStorageState? = nil, lastUpdateDate: Date? = nil, multiLayerStorage: MultiLayerStorage? = nil, retentionPeriod: RetentionPeriod? = nil, storageType: StorageType) {
             self.configurationStatus = configurationStatus
+            self.disassociatedDataStorage = disassociatedDataStorage
             self.lastUpdateDate = lastUpdateDate
             self.multiLayerStorage = multiLayerStorage
+            self.retentionPeriod = retentionPeriod
             self.storageType = storageType
         }
 
         private enum CodingKeys: String, CodingKey {
             case configurationStatus
+            case disassociatedDataStorage
             case lastUpdateDate
             case multiLayerStorage
+            case retentionPeriod
             case storageType
+        }
+    }
+
+    public struct DescribeTimeSeriesRequest: AWSEncodableShape {
+        public static var _encoding = [
+            AWSMemberEncoding(label: "alias", location: .querystring("alias")),
+            AWSMemberEncoding(label: "assetId", location: .querystring("assetId")),
+            AWSMemberEncoding(label: "propertyId", location: .querystring("propertyId"))
+        ]
+
+        /// The alias that identifies the time series.
+        public let alias: String?
+        /// The ID of the asset in which the asset property was created.
+        public let assetId: String?
+        /// The ID of the asset property.
+        public let propertyId: String?
+
+        public init(alias: String? = nil, assetId: String? = nil, propertyId: String? = nil) {
+            self.alias = alias
+            self.assetId = assetId
+            self.propertyId = propertyId
+        }
+
+        public func validate(name: String) throws {
+            try self.validate(self.alias, name: "alias", parent: name, min: 1)
+            try self.validate(self.alias, name: "alias", parent: name, pattern: "^[^\\u0000-\\u001F\\u007F]+$")
+            try self.validate(self.assetId, name: "assetId", parent: name, max: 36)
+            try self.validate(self.assetId, name: "assetId", parent: name, min: 36)
+            try self.validate(self.assetId, name: "assetId", parent: name, pattern: "^[0-9a-f]{8}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{12}$")
+            try self.validate(self.propertyId, name: "propertyId", parent: name, max: 36)
+            try self.validate(self.propertyId, name: "propertyId", parent: name, min: 36)
+            try self.validate(self.propertyId, name: "propertyId", parent: name, pattern: "^[0-9a-f]{8}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{12}$")
+        }
+
+        private enum CodingKeys: CodingKey {}
+    }
+
+    public struct DescribeTimeSeriesResponse: AWSDecodableShape {
+        /// The alias that identifies the time series.
+        public let alias: String?
+        /// The ID of the asset in which the asset property was created.
+        public let assetId: String?
+        /// The data type of the time series. If you specify STRUCT, you must also specify dataTypeSpec to identify the type of the structure for this time series.
+        public let dataType: PropertyDataType
+        /// The data type of the structure for this time series. This parameter is required for time series  that have the STRUCT data type. The options for this parameter depend on the type of the composite model  in which you created the asset property that is associated with your time series.  Use AWS/ALARM_STATE for alarm state in alarm composite models.
+        public let dataTypeSpec: String?
+        /// The ID of the asset property.
+        public let propertyId: String?
+        /// The date that the time series was created, in Unix epoch time.
+        public let timeSeriesCreationDate: Date
+        /// The ID of the time series.
+        public let timeSeriesId: String
+        /// The date that the time series was last updated, in Unix epoch time.
+        public let timeSeriesLastUpdateDate: Date
+
+        public init(alias: String? = nil, assetId: String? = nil, dataType: PropertyDataType, dataTypeSpec: String? = nil, propertyId: String? = nil, timeSeriesCreationDate: Date, timeSeriesId: String, timeSeriesLastUpdateDate: Date) {
+            self.alias = alias
+            self.assetId = assetId
+            self.dataType = dataType
+            self.dataTypeSpec = dataTypeSpec
+            self.propertyId = propertyId
+            self.timeSeriesCreationDate = timeSeriesCreationDate
+            self.timeSeriesId = timeSeriesId
+            self.timeSeriesLastUpdateDate = timeSeriesLastUpdateDate
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case alias
+            case assetId
+            case dataType
+            case dataTypeSpec
+            case propertyId
+            case timeSeriesCreationDate
+            case timeSeriesId
+            case timeSeriesLastUpdateDate
         }
     }
 
@@ -2684,6 +2863,48 @@ extension IoTSiteWise {
             case childAssetId
             case clientToken
             case hierarchyId
+        }
+    }
+
+    public struct DisassociateTimeSeriesFromAssetPropertyRequest: AWSEncodableShape {
+        public static var _encoding = [
+            AWSMemberEncoding(label: "alias", location: .querystring("alias")),
+            AWSMemberEncoding(label: "assetId", location: .querystring("assetId")),
+            AWSMemberEncoding(label: "propertyId", location: .querystring("propertyId"))
+        ]
+
+        /// The alias that identifies the time series.
+        public let alias: String
+        /// The ID of the asset in which the asset property was created.
+        public let assetId: String
+        /// A unique case-sensitive identifier that you can provide to ensure the idempotency of the request. Don't reuse this client token if a new idempotent request is required.
+        public let clientToken: String?
+        /// The ID of the asset property.
+        public let propertyId: String
+
+        public init(alias: String, assetId: String, clientToken: String? = DisassociateTimeSeriesFromAssetPropertyRequest.idempotencyToken(), propertyId: String) {
+            self.alias = alias
+            self.assetId = assetId
+            self.clientToken = clientToken
+            self.propertyId = propertyId
+        }
+
+        public func validate(name: String) throws {
+            try self.validate(self.alias, name: "alias", parent: name, min: 1)
+            try self.validate(self.alias, name: "alias", parent: name, pattern: "^[^\\u0000-\\u001F\\u007F]+$")
+            try self.validate(self.assetId, name: "assetId", parent: name, max: 36)
+            try self.validate(self.assetId, name: "assetId", parent: name, min: 36)
+            try self.validate(self.assetId, name: "assetId", parent: name, pattern: "^[0-9a-f]{8}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{12}$")
+            try self.validate(self.clientToken, name: "clientToken", parent: name, max: 64)
+            try self.validate(self.clientToken, name: "clientToken", parent: name, min: 36)
+            try self.validate(self.clientToken, name: "clientToken", parent: name, pattern: "^\\S{36,64}$")
+            try self.validate(self.propertyId, name: "propertyId", parent: name, max: 36)
+            try self.validate(self.propertyId, name: "propertyId", parent: name, min: 36)
+            try self.validate(self.propertyId, name: "propertyId", parent: name, pattern: "^[0-9a-f]{8}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{12}$")
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case clientToken
         }
     }
 
@@ -3067,7 +3288,7 @@ extension IoTSiteWise {
         public let endTimeOffsetInNanos: Int?
         /// The time interval in seconds over which to interpolate data. Each interval starts when the previous one ends.
         public let intervalInSeconds: Int64
-        /// The query interval for the window in seconds. IoT SiteWise computes each interpolated value by using data points  from the timestamp of each interval minus the window to the timestamp of each interval plus the window.  If not specified, the window is between the start time minus the interval and the end time plus the interval.     If you specify a value for the intervalWindowInSeconds parameter,  the type parameter must be LINEAR_INTERPOLATION.   If no data point is found during the specified query window,  IoT SiteWise won't return an interpolated value for the interval.  This indicates that there's a gap in the ingested data points.    For example, you can get the interpolated temperature values for a wind turbine  every 24 hours over a duration of 7 days. If the interpolation starts on July 1, 2021,  at 9 AM with a window of 2 hours, IoT SiteWise uses the data points from 7 AM (9 AM - 2 hours)  to 11 AM (9 AM + 2 hours) on July 2, 2021 to compute the first interpolated value,  uses the data points from 7 AM (9 AM - 2 hours) to 11 AM (9 AM + 2 hours) on July 3, 2021  to compute the second interpolated value, and so on.
+        /// The query interval for the window, in seconds. IoT SiteWise computes each interpolated value by using data points from the timestamp of each interval, minus the window to the timestamp of each interval plus the window. If not specified, the window ranges between the start time minus the interval and the end time plus the interval.    If you specify a value for the intervalWindowInSeconds parameter, the value for the type parameter must be LINEAR_INTERPOLATION.   If a data point isn't found during the specified query window, IoT SiteWise won't return an interpolated value for the interval. This indicates that there's a gap in the ingested data points.    For example, you can get the interpolated temperature values for a wind turbine every 24 hours over a duration of 7 days. If the interpolation starts on July 1, 2021, at 9 AM with a window of 2 hours, IoT SiteWise uses the data points from 7 AM (9 AM minus 2 hours) to 11 AM (9 AM plus 2 hours) on July 2, 2021 to compute the first interpolated value. Next, IoT SiteWise uses the data points from 7 AM (9 AM minus 2 hours) to 11 AM (9 AM plus 2 hours) on July 3, 2021 to compute the second interpolated value, and so on.
         public let intervalWindowInSeconds: Int64?
         /// The maximum number of results to return for each paginated request. If not specified, the default value is 10.
         public let maxResults: Int?
@@ -3083,7 +3304,7 @@ extension IoTSiteWise {
         public let startTimeInSeconds: Int64
         /// The nanosecond offset converted from startTimeInSeconds.
         public let startTimeOffsetInNanos: Int?
-        /// The interpolation type. Valid values: LINEAR_INTERPOLATION | LOCF_INTERPOLATION     LINEAR_INTERPOLATION – Estimates missing data using linear interpolation. For example, you can use this operation to return the interpolated temperature values for a wind turbine every 24 hours over a duration of 7 days.  If the interpolation starts on July 1, 2021, at 9 AM, IoT SiteWise returns the first interpolated value on July 2, 2021, at 9 AM, the second interpolated value  on July 3, 2021, at 9 AM, and so on.    LOCF_INTERPOLATION – Estimates missing data using last observation carried forward interpolation If no data point is found for an interval,  IoT SiteWise returns the last observed data point for the previous interval  and carries forward this interpolated value until a new data point is found. For example, you can get the state of an on-off valve every 24 hours over a duration of 7 days.  If the interpolation starts on July 1, 2021, at 9 AM, IoT SiteWise returns the last observed data point between July 1, 2021,  at 9 AM and July 2, 2021, at 9 AM as the first interpolated value.  If no data point is found after 9 AM on July 2, 2021, IoT SiteWise uses the same interpolated value for the rest of the days.
+        /// The interpolation type. Valid values: LINEAR_INTERPOLATION | LOCF_INTERPOLATION     LINEAR_INTERPOLATION – Estimates missing data using linear interpolation. For example, you can use this operation to return the interpolated temperature values for a wind turbine every 24 hours over a duration of 7 days. If the interpolation starts July 1, 2021, at 9 AM, IoT SiteWise returns the first interpolated value on July 2, 2021, at 9 AM, the second interpolated value on July 3, 2021, at 9 AM, and so on.    LOCF_INTERPOLATION – Estimates missing data using last observation carried forward interpolation If no data point is found for an interval, IoT SiteWise returns the last observed data point for the previous interval and carries forward this interpolated value until a new data point is found. For example, you can get the state of an on-off valve every 24 hours over a duration of 7 days. If the interpolation starts July 1, 2021, at 9 AM, IoT SiteWise returns the last observed data point between July 1, 2021, at 9 AM and July 2, 2021, at 9 AM as the first interpolated value. If a data point isn't found after 9 AM on July 2, 2021, IoT SiteWise uses the same interpolated value for the rest of the days.
         public let type: String
 
         public init(assetId: String? = nil, endTimeInSeconds: Int64, endTimeOffsetInNanos: Int? = nil, intervalInSeconds: Int64, intervalWindowInSeconds: Int64? = nil, maxResults: Int? = nil, nextToken: String? = nil, propertyAlias: String? = nil, propertyId: String? = nil, quality: Quality, startTimeInSeconds: Int64, startTimeOffsetInNanos: Int? = nil, type: String) {
@@ -3918,6 +4139,67 @@ extension IoTSiteWise {
         }
     }
 
+    public struct ListTimeSeriesRequest: AWSEncodableShape {
+        public static var _encoding = [
+            AWSMemberEncoding(label: "aliasPrefix", location: .querystring("aliasPrefix")),
+            AWSMemberEncoding(label: "assetId", location: .querystring("assetId")),
+            AWSMemberEncoding(label: "maxResults", location: .querystring("maxResults")),
+            AWSMemberEncoding(label: "nextToken", location: .querystring("nextToken")),
+            AWSMemberEncoding(label: "timeSeriesType", location: .querystring("timeSeriesType"))
+        ]
+
+        /// The alias prefix of the time series.
+        public let aliasPrefix: String?
+        /// The ID of the asset in which the asset property was created.
+        public let assetId: String?
+        /// The maximum number of results to return for each paginated request.
+        public let maxResults: Int?
+        /// The token to be used for the next set of paginated results.
+        public let nextToken: String?
+        /// The type of the time series. The time series type can be one of the following values:    ASSOCIATED – The time series is associated with an asset property.    DISASSOCIATED – The time series isn't associated with any asset property.
+        public let timeSeriesType: ListTimeSeriesType?
+
+        public init(aliasPrefix: String? = nil, assetId: String? = nil, maxResults: Int? = nil, nextToken: String? = nil, timeSeriesType: ListTimeSeriesType? = nil) {
+            self.aliasPrefix = aliasPrefix
+            self.assetId = assetId
+            self.maxResults = maxResults
+            self.nextToken = nextToken
+            self.timeSeriesType = timeSeriesType
+        }
+
+        public func validate(name: String) throws {
+            try self.validate(self.aliasPrefix, name: "aliasPrefix", parent: name, min: 1)
+            try self.validate(self.aliasPrefix, name: "aliasPrefix", parent: name, pattern: "^[^\\u0000-\\u001F\\u007F]+$")
+            try self.validate(self.assetId, name: "assetId", parent: name, max: 36)
+            try self.validate(self.assetId, name: "assetId", parent: name, min: 36)
+            try self.validate(self.assetId, name: "assetId", parent: name, pattern: "^[0-9a-f]{8}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{12}$")
+            try self.validate(self.maxResults, name: "maxResults", parent: name, max: 250)
+            try self.validate(self.maxResults, name: "maxResults", parent: name, min: 1)
+            try self.validate(self.nextToken, name: "nextToken", parent: name, max: 4096)
+            try self.validate(self.nextToken, name: "nextToken", parent: name, min: 1)
+            try self.validate(self.nextToken, name: "nextToken", parent: name, pattern: "^[A-Za-z0-9+/=]+$")
+        }
+
+        private enum CodingKeys: CodingKey {}
+    }
+
+    public struct ListTimeSeriesResponse: AWSDecodableShape {
+        /// The token for the next set of results, or null if there are no additional results.
+        public let nextToken: String?
+        /// One or more time series summaries to list.
+        public let timeSeriesSummaries: [TimeSeriesSummary]
+
+        public init(nextToken: String? = nil, timeSeriesSummaries: [TimeSeriesSummary]) {
+            self.nextToken = nextToken
+            self.timeSeriesSummaries = timeSeriesSummaries
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case nextToken
+            case timeSeriesSummaries = "TimeSeriesSummaries"
+        }
+    }
+
     public struct LoggingOptions: AWSEncodableShape & AWSDecodableShape {
         /// The IoT SiteWise logging verbosity level.
         public let level: LoggingLevel
@@ -4314,7 +4596,7 @@ extension IoTSiteWise {
     public struct PutDefaultEncryptionConfigurationRequest: AWSEncodableShape {
         /// The type of encryption used for the encryption configuration.
         public let encryptionType: EncryptionType
-        /// The Key ID of the customer managed customer master key (CMK) used for KMS encryption. This is required if you use KMS_BASED_ENCRYPTION.
+        /// The Key ID of the customer managed key used for KMS encryption. This is required if you use KMS_BASED_ENCRYPTION.
         public let kmsKeyId: String?
 
         public init(encryptionType: EncryptionType, kmsKeyId: String? = nil) {
@@ -4338,7 +4620,7 @@ extension IoTSiteWise {
         public let configurationStatus: ConfigurationStatus
         /// The type of encryption used for the encryption configuration.
         public let encryptionType: EncryptionType
-        /// The Key ARN of the KMS CMK used for KMS encryption if you use KMS_BASED_ENCRYPTION.
+        /// The Key ARN of the KMS key used for KMS encryption if you use KMS_BASED_ENCRYPTION.
         public let kmsKeyArn: String?
 
         public init(configurationStatus: ConfigurationStatus, encryptionType: EncryptionType, kmsKeyArn: String? = nil) {
@@ -4372,42 +4654,57 @@ extension IoTSiteWise {
     }
 
     public struct PutStorageConfigurationRequest: AWSEncodableShape {
+        /// Contains the storage configuration for time series (data streams) that aren't associated with asset properties.  The disassociatedDataStorage can be one of the following values:    ENABLED – IoT SiteWise accepts time series that aren't associated with asset properties.  After the disassociatedDataStorage is enabled, you can't disable it.     DISABLED – IoT SiteWise doesn't accept time series (data streams) that aren't associated with asset properties.   For more information, see Data streams  in the IoT SiteWise User Guide.
+        public let disassociatedDataStorage: DisassociatedDataStorageState?
         /// Identifies a storage destination. If you specified MULTI_LAYER_STORAGE for the storage type,  you must specify a MultiLayerStorage object.
         public let multiLayerStorage: MultiLayerStorage?
-        /// The type of storage that you specified for your data. The storage type can be one of the following values:    SITEWISE_DEFAULT_STORAGE – IoT SiteWise replicates your data into a service managed database.    MULTI_LAYER_STORAGE – IoT SiteWise replicates your data into a service managed database and saves a copy of your raw data and metadata in an Amazon S3 object that you specified.
+        public let retentionPeriod: RetentionPeriod?
+        /// The storage tier that you specified for your data.  The storageType parameter can be one of the following values:    SITEWISE_DEFAULT_STORAGE – IoT SiteWise saves your data into the hot tier.  The hot tier is a service-managed database.    MULTI_LAYER_STORAGE – IoT SiteWise saves your data in both the cold tier and the cold tier.  The cold tier is a customer-managed Amazon S3 bucket.
         public let storageType: StorageType
 
-        public init(multiLayerStorage: MultiLayerStorage? = nil, storageType: StorageType) {
+        public init(disassociatedDataStorage: DisassociatedDataStorageState? = nil, multiLayerStorage: MultiLayerStorage? = nil, retentionPeriod: RetentionPeriod? = nil, storageType: StorageType) {
+            self.disassociatedDataStorage = disassociatedDataStorage
             self.multiLayerStorage = multiLayerStorage
+            self.retentionPeriod = retentionPeriod
             self.storageType = storageType
         }
 
         public func validate(name: String) throws {
             try self.multiLayerStorage?.validate(name: "\(name).multiLayerStorage")
+            try self.retentionPeriod?.validate(name: "\(name).retentionPeriod")
         }
 
         private enum CodingKeys: String, CodingKey {
+            case disassociatedDataStorage
             case multiLayerStorage
+            case retentionPeriod
             case storageType
         }
     }
 
     public struct PutStorageConfigurationResponse: AWSDecodableShape {
         public let configurationStatus: ConfigurationStatus
+        /// Contains the storage configuration for time series (data streams) that aren't associated with asset properties.  The disassociatedDataStorage can be one of the following values:    ENABLED – IoT SiteWise accepts time series that aren't associated with asset properties.  After the disassociatedDataStorage is enabled, you can't disable it.     DISABLED – IoT SiteWise doesn't accept time series (data streams) that aren't associated with asset properties.   For more information, see Data streams  in the IoT SiteWise User Guide.
+        public let disassociatedDataStorage: DisassociatedDataStorageState?
         /// Contains information about the storage destination.
         public let multiLayerStorage: MultiLayerStorage?
-        /// The type of storage that you specified for your data. The storage type can be one of the following values:    SITEWISE_DEFAULT_STORAGE – IoT SiteWise replicates your data into a service managed database.    MULTI_LAYER_STORAGE – IoT SiteWise replicates your data into a service managed database and saves a copy of your raw data and metadata in an Amazon S3 object that you specified.
+        public let retentionPeriod: RetentionPeriod?
+        /// The storage tier that you specified for your data.  The storageType parameter can be one of the following values:    SITEWISE_DEFAULT_STORAGE – IoT SiteWise saves your data into the hot tier.  The hot tier is a service-managed database.    MULTI_LAYER_STORAGE – IoT SiteWise saves your data in both the cold tier and the cold tier.  The cold tier is a customer-managed Amazon S3 bucket.
         public let storageType: StorageType
 
-        public init(configurationStatus: ConfigurationStatus, multiLayerStorage: MultiLayerStorage? = nil, storageType: StorageType) {
+        public init(configurationStatus: ConfigurationStatus, disassociatedDataStorage: DisassociatedDataStorageState? = nil, multiLayerStorage: MultiLayerStorage? = nil, retentionPeriod: RetentionPeriod? = nil, storageType: StorageType) {
             self.configurationStatus = configurationStatus
+            self.disassociatedDataStorage = disassociatedDataStorage
             self.multiLayerStorage = multiLayerStorage
+            self.retentionPeriod = retentionPeriod
             self.storageType = storageType
         }
 
         private enum CodingKeys: String, CodingKey {
             case configurationStatus
+            case disassociatedDataStorage
             case multiLayerStorage
+            case retentionPeriod
             case storageType
         }
     }
@@ -4431,6 +4728,27 @@ extension IoTSiteWise {
         private enum CodingKeys: String, CodingKey {
             case portal
             case project
+        }
+    }
+
+    public struct RetentionPeriod: AWSEncodableShape & AWSDecodableShape {
+        /// The number of days that your data is kept.  If you specified a value for this parameter, the unlimited parameter must be false.
+        public let numberOfDays: Int?
+        /// If true, your data is kept indefinitely.  If configured to true, you must not specify a value for the numberOfDays parameter.
+        public let unlimited: Bool?
+
+        public init(numberOfDays: Int? = nil, unlimited: Bool? = nil) {
+            self.numberOfDays = numberOfDays
+            self.unlimited = unlimited
+        }
+
+        public func validate(name: String) throws {
+            try self.validate(self.numberOfDays, name: "numberOfDays", parent: name, min: 30)
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case numberOfDays
+            case unlimited
         }
     }
 
@@ -4494,6 +4812,47 @@ extension IoTSiteWise {
         }
     }
 
+    public struct TimeSeriesSummary: AWSDecodableShape {
+        /// The alias that identifies the time series.
+        public let alias: String?
+        /// The ID of the asset in which the asset property was created.
+        public let assetId: String?
+        /// The data type of the time series. If you specify STRUCT, you must also specify dataTypeSpec to identify the type of the structure for this time series.
+        public let dataType: PropertyDataType
+        /// The data type of the structure for this time series. This parameter is required for time series  that have the STRUCT data type. The options for this parameter depend on the type of the composite model  in which you created the asset property that is associated with your time series.  Use AWS/ALARM_STATE for alarm state in alarm composite models.
+        public let dataTypeSpec: String?
+        /// The ID of the asset property.
+        public let propertyId: String?
+        /// The date that the time series was created, in Unix epoch time.
+        public let timeSeriesCreationDate: Date
+        /// The ID of the time series.
+        public let timeSeriesId: String
+        /// The date that the time series was last updated, in Unix epoch time.
+        public let timeSeriesLastUpdateDate: Date
+
+        public init(alias: String? = nil, assetId: String? = nil, dataType: PropertyDataType, dataTypeSpec: String? = nil, propertyId: String? = nil, timeSeriesCreationDate: Date, timeSeriesId: String, timeSeriesLastUpdateDate: Date) {
+            self.alias = alias
+            self.assetId = assetId
+            self.dataType = dataType
+            self.dataTypeSpec = dataTypeSpec
+            self.propertyId = propertyId
+            self.timeSeriesCreationDate = timeSeriesCreationDate
+            self.timeSeriesId = timeSeriesId
+            self.timeSeriesLastUpdateDate = timeSeriesLastUpdateDate
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case alias
+            case assetId
+            case dataType
+            case dataTypeSpec
+            case propertyId
+            case timeSeriesCreationDate
+            case timeSeriesId
+            case timeSeriesLastUpdateDate
+        }
+    }
+
     public struct Transform: AWSEncodableShape & AWSDecodableShape {
         /// The mathematical expression that defines the transformation function. You can specify up to 10 variables per expression. You can specify up to 10 functions per expression.  For more information, see Quotas in the IoT SiteWise User Guide.
         public let expression: String
@@ -4542,7 +4901,7 @@ extension IoTSiteWise {
     public struct TumblingWindow: AWSEncodableShape & AWSDecodableShape {
         /// The time interval for the tumbling window. The interval time must be between 1 minute and 1 week. IoT SiteWise computes the 1w interval the end of Sunday at midnight each week (UTC), the 1d interval at the end of each day at midnight (UTC), the 1h interval at the end of each hour, and so on.  When IoT SiteWise aggregates data points for metric computations, the start of each interval is exclusive and the end of each interval is inclusive. IoT SiteWise places the computed data point at the end of the interval.
         public let interval: String
-        /// The offset for the tumbling window. The offset parameter accepts the following:   The offset time. For example, if you specify 18h for offset  and 1d for interval, IoT SiteWise aggregates data in one of the following ways:   If you create the metric before or at 6:00 PM (UTC),  you get the first aggregation result at 6 PM (UTC) on the day when you create the metric.   If you create the metric after 6:00 PM (UTC),  you get the first aggregation result at 6 PM (UTC) the next day.     The ISO 8601 format. For example, if you specify PT18H for offset  and 1d for interval, IoT SiteWise aggregates data in one of the following ways:   If you create the metric before or at 6:00 PM (UTC),  you get the first aggregation result at 6 PM (UTC) on the day when you create the metric.   If you create the metric after 6:00 PM (UTC),  you get the first aggregation result at 6 PM (UTC) the next day.     The 24-hour clock. For example, if you specify 00:03:00 for offset  and 5m for interval, and you create the metric at 2 PM (UTC),  you get the first aggregation result at 2:03 PM (UTC).  You get the second aggregation result at 2:08 PM (UTC).    The offset time zone. For example, if you specify 2021-07-23T18:00-08 for offset  and 1d for interval, IoT SiteWise aggregates data in one of the following ways:   If you create the metric before or at 6:00 PM (PST),  you get the first aggregation result at 6 PM (PST) on the day when you create the metric.   If you create the metric after 6:00 PM (PST),  you get the first aggregation result at 6 PM (PST) the next day.
+        /// The offset for the tumbling window. The offset parameter accepts the following:   The offset time. For example, if you specify 18h for offset and 1d for interval, IoT SiteWise aggregates data in one of the following ways:   If you create the metric before or at 6 PM (UTC), you get the first aggregation result at 6 PM (UTC) on the day when you create the metric.   If you create the metric after 6 PM (UTC), you get the first aggregation result at 6 PM (UTC) the next day.     The ISO 8601 format. For example, if you specify PT18H for offset and 1d for interval, IoT SiteWise aggregates data in one of the following ways:   If you create the metric before or at 6 PM (UTC), you get the first aggregation result at 6 PM (UTC) on the day when you create the metric.   If you create the metric after 6 PM (UTC), you get the first aggregation result at 6 PM (UTC) the next day.     The 24-hour clock. For example, if you specify 00:03:00 for offset, 5m for interval, and you create the metric at 2 PM (UTC), you get the first aggregation result at 2:03 PM (UTC). You get the second aggregation result at 2:08 PM (UTC).    The offset time zone. For example, if you specify 2021-07-23T18:00-08 for offset and 1d for interval, IoT SiteWise aggregates data in one of the following ways:   If you create the metric before or at 6 PM (PST), you get the first aggregation result at 6 PM (PST) on the day when you create the metric.   If you create the metric after 6 PM (PST), you get the first aggregation result at 6 PM (PST) the next day.
         public let offset: String?
 
         public init(interval: String, offset: String? = nil) {

@@ -89,6 +89,28 @@ extension LexModelsV2 {
         )
     }
 
+    ///  Get a list of bot recommendations that meet the specified criteria.
+    /// Return PaginatorSequence for operation.
+    ///
+    /// - Parameters:
+    ///   - input: Input for request
+    ///   - logger: Logger used flot logging
+    ///   - eventLoop: EventLoop to run this process on
+    public func listBotRecommendationsPaginator(
+        _ input: ListBotRecommendationsRequest,
+        logger: Logger = AWSClient.loggingDisabled,
+        on eventLoop: EventLoop? = nil
+    ) -> AWSClient.PaginatorSequence<ListBotRecommendationsRequest, ListBotRecommendationsResponse> {
+        return .init(
+            input: input,
+            command: listBotRecommendations,
+            inputKey: \ListBotRecommendationsRequest.nextToken,
+            outputKey: \ListBotRecommendationsResponse.nextToken,
+            logger: logger,
+            on: eventLoop
+        )
+    }
+
     ///  Gets information about all of the versions of a bot. The ListBotVersions operation returns a summary of each version of a bot. For example, if a bot has three numbered versions, the ListBotVersions operation returns for summaries, one for each numbered version and one for the DRAFT version. The ListBotVersions operation always returns at least one version, the DRAFT version.
     /// Return PaginatorSequence for operation.
     ///
@@ -238,6 +260,28 @@ extension LexModelsV2 {
             command: listIntents,
             inputKey: \ListIntentsRequest.nextToken,
             outputKey: \ListIntentsResponse.nextToken,
+            logger: logger,
+            on: eventLoop
+        )
+    }
+
+    ///  Gets a list of recommended intents provided by the bot recommendation that you can use in your bot.
+    /// Return PaginatorSequence for operation.
+    ///
+    /// - Parameters:
+    ///   - input: Input for request
+    ///   - logger: Logger used flot logging
+    ///   - eventLoop: EventLoop to run this process on
+    public func listRecommendedIntentsPaginator(
+        _ input: ListRecommendedIntentsRequest,
+        logger: Logger = AWSClient.loggingDisabled,
+        on eventLoop: EventLoop? = nil
+    ) -> AWSClient.PaginatorSequence<ListRecommendedIntentsRequest, ListRecommendedIntentsResponse> {
+        return .init(
+            input: input,
+            command: listRecommendedIntents,
+            inputKey: \ListRecommendedIntentsRequest.nextToken,
+            outputKey: \ListRecommendedIntentsResponse.nextToken,
             logger: logger,
             on: eventLoop
         )

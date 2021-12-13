@@ -126,6 +126,165 @@ extension Kendra {
         )
     }
 
+    ///  Lists specific permissions of users and groups with access to your  Amazon Kendra experience.
+    ///
+    /// Provide paginated results to closure `onPage` for it to combine them into one result.
+    /// This works in a similar manner to `Array.reduce<Result>(_:_:) -> Result`.
+    ///
+    /// Parameters:
+    ///   - input: Input for request
+    ///   - initialValue: The value to use as the initial accumulating value. `initialValue` is passed to `onPage` the first time it is called.
+    ///   - logger: Logger used flot logging
+    ///   - eventLoop: EventLoop to run this process on
+    ///   - onPage: closure called with each paginated response. It combines an accumulating result with the contents of response. This combined result is then returned
+    ///         along with a boolean indicating if the paginate operation should continue.
+    public func listEntityPersonasPaginator<Result>(
+        _ input: ListEntityPersonasRequest,
+        _ initialValue: Result,
+        logger: Logger = AWSClient.loggingDisabled,
+        on eventLoop: EventLoop? = nil,
+        onPage: @escaping (Result, ListEntityPersonasResponse, EventLoop) -> EventLoopFuture<(Bool, Result)>
+    ) -> EventLoopFuture<Result> {
+        return client.paginate(
+            input: input,
+            initialValue: initialValue,
+            command: listEntityPersonas,
+            inputKey: \ListEntityPersonasRequest.nextToken,
+            outputKey: \ListEntityPersonasResponse.nextToken,
+            on: eventLoop,
+            onPage: onPage
+        )
+    }
+
+    /// Provide paginated results to closure `onPage`.
+    ///
+    /// - Parameters:
+    ///   - input: Input for request
+    ///   - logger: Logger used flot logging
+    ///   - eventLoop: EventLoop to run this process on
+    ///   - onPage: closure called with each block of entries. Returns boolean indicating whether we should continue.
+    public func listEntityPersonasPaginator(
+        _ input: ListEntityPersonasRequest,
+        logger: Logger = AWSClient.loggingDisabled,
+        on eventLoop: EventLoop? = nil,
+        onPage: @escaping (ListEntityPersonasResponse, EventLoop) -> EventLoopFuture<Bool>
+    ) -> EventLoopFuture<Void> {
+        return client.paginate(
+            input: input,
+            command: listEntityPersonas,
+            inputKey: \ListEntityPersonasRequest.nextToken,
+            outputKey: \ListEntityPersonasResponse.nextToken,
+            on: eventLoop,
+            onPage: onPage
+        )
+    }
+
+    ///  Lists users or groups in your Amazon Web Services SSO identity source that are  granted access to your Amazon Kendra experience. You can create an Amazon Kendra experience  such as a search application. For more information on creating a search  application experience, see Building  a search experience with no code.
+    ///
+    /// Provide paginated results to closure `onPage` for it to combine them into one result.
+    /// This works in a similar manner to `Array.reduce<Result>(_:_:) -> Result`.
+    ///
+    /// Parameters:
+    ///   - input: Input for request
+    ///   - initialValue: The value to use as the initial accumulating value. `initialValue` is passed to `onPage` the first time it is called.
+    ///   - logger: Logger used flot logging
+    ///   - eventLoop: EventLoop to run this process on
+    ///   - onPage: closure called with each paginated response. It combines an accumulating result with the contents of response. This combined result is then returned
+    ///         along with a boolean indicating if the paginate operation should continue.
+    public func listExperienceEntitiesPaginator<Result>(
+        _ input: ListExperienceEntitiesRequest,
+        _ initialValue: Result,
+        logger: Logger = AWSClient.loggingDisabled,
+        on eventLoop: EventLoop? = nil,
+        onPage: @escaping (Result, ListExperienceEntitiesResponse, EventLoop) -> EventLoopFuture<(Bool, Result)>
+    ) -> EventLoopFuture<Result> {
+        return client.paginate(
+            input: input,
+            initialValue: initialValue,
+            command: listExperienceEntities,
+            inputKey: \ListExperienceEntitiesRequest.nextToken,
+            outputKey: \ListExperienceEntitiesResponse.nextToken,
+            on: eventLoop,
+            onPage: onPage
+        )
+    }
+
+    /// Provide paginated results to closure `onPage`.
+    ///
+    /// - Parameters:
+    ///   - input: Input for request
+    ///   - logger: Logger used flot logging
+    ///   - eventLoop: EventLoop to run this process on
+    ///   - onPage: closure called with each block of entries. Returns boolean indicating whether we should continue.
+    public func listExperienceEntitiesPaginator(
+        _ input: ListExperienceEntitiesRequest,
+        logger: Logger = AWSClient.loggingDisabled,
+        on eventLoop: EventLoop? = nil,
+        onPage: @escaping (ListExperienceEntitiesResponse, EventLoop) -> EventLoopFuture<Bool>
+    ) -> EventLoopFuture<Void> {
+        return client.paginate(
+            input: input,
+            command: listExperienceEntities,
+            inputKey: \ListExperienceEntitiesRequest.nextToken,
+            outputKey: \ListExperienceEntitiesResponse.nextToken,
+            on: eventLoop,
+            onPage: onPage
+        )
+    }
+
+    ///  Lists one or more Amazon Kendra experiences. You can create an Amazon Kendra experience such  as a search application. For more information on creating a search application  experience, see Building a  search experience with no code.
+    ///
+    /// Provide paginated results to closure `onPage` for it to combine them into one result.
+    /// This works in a similar manner to `Array.reduce<Result>(_:_:) -> Result`.
+    ///
+    /// Parameters:
+    ///   - input: Input for request
+    ///   - initialValue: The value to use as the initial accumulating value. `initialValue` is passed to `onPage` the first time it is called.
+    ///   - logger: Logger used flot logging
+    ///   - eventLoop: EventLoop to run this process on
+    ///   - onPage: closure called with each paginated response. It combines an accumulating result with the contents of response. This combined result is then returned
+    ///         along with a boolean indicating if the paginate operation should continue.
+    public func listExperiencesPaginator<Result>(
+        _ input: ListExperiencesRequest,
+        _ initialValue: Result,
+        logger: Logger = AWSClient.loggingDisabled,
+        on eventLoop: EventLoop? = nil,
+        onPage: @escaping (Result, ListExperiencesResponse, EventLoop) -> EventLoopFuture<(Bool, Result)>
+    ) -> EventLoopFuture<Result> {
+        return client.paginate(
+            input: input,
+            initialValue: initialValue,
+            command: listExperiences,
+            inputKey: \ListExperiencesRequest.nextToken,
+            outputKey: \ListExperiencesResponse.nextToken,
+            on: eventLoop,
+            onPage: onPage
+        )
+    }
+
+    /// Provide paginated results to closure `onPage`.
+    ///
+    /// - Parameters:
+    ///   - input: Input for request
+    ///   - logger: Logger used flot logging
+    ///   - eventLoop: EventLoop to run this process on
+    ///   - onPage: closure called with each block of entries. Returns boolean indicating whether we should continue.
+    public func listExperiencesPaginator(
+        _ input: ListExperiencesRequest,
+        logger: Logger = AWSClient.loggingDisabled,
+        on eventLoop: EventLoop? = nil,
+        onPage: @escaping (ListExperiencesResponse, EventLoop) -> EventLoopFuture<Bool>
+    ) -> EventLoopFuture<Void> {
+        return client.paginate(
+            input: input,
+            command: listExperiences,
+            inputKey: \ListExperiencesRequest.nextToken,
+            outputKey: \ListExperiencesResponse.nextToken,
+            on: eventLoop,
+            onPage: onPage
+        )
+    }
+
     ///  Lists the Amazon Kendra indexes that you have created.
     ///
     /// Provide paginated results to closure `onPage` for it to combine them into one result.
@@ -195,6 +354,37 @@ extension Kendra.ListDataSourceSyncJobsRequest: AWSPaginateToken {
 
 extension Kendra.ListDataSourcesRequest: AWSPaginateToken {
     public func usingPaginationToken(_ token: String) -> Kendra.ListDataSourcesRequest {
+        return .init(
+            indexId: self.indexId,
+            maxResults: self.maxResults,
+            nextToken: token
+        )
+    }
+}
+
+extension Kendra.ListEntityPersonasRequest: AWSPaginateToken {
+    public func usingPaginationToken(_ token: String) -> Kendra.ListEntityPersonasRequest {
+        return .init(
+            id: self.id,
+            indexId: self.indexId,
+            maxResults: self.maxResults,
+            nextToken: token
+        )
+    }
+}
+
+extension Kendra.ListExperienceEntitiesRequest: AWSPaginateToken {
+    public func usingPaginationToken(_ token: String) -> Kendra.ListExperienceEntitiesRequest {
+        return .init(
+            id: self.id,
+            indexId: self.indexId,
+            nextToken: token
+        )
+    }
+}
+
+extension Kendra.ListExperiencesRequest: AWSPaginateToken {
+    public func usingPaginationToken(_ token: String) -> Kendra.ListExperiencesRequest {
         return .init(
             indexId: self.indexId,
             maxResults: self.maxResults,

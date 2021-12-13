@@ -255,6 +255,12 @@ extension DynamoDB {
         public var description: String { return self.rawValue }
     }
 
+    public enum TableClass: String, CustomStringConvertible, Codable {
+        case standard = "STANDARD"
+        case standardInfrequentAccess = "STANDARD_INFREQUENT_ACCESS"
+        public var description: String { return self.rawValue }
+    }
+
     public enum TableStatus: String, CustomStringConvertible, Codable {
         case active = "ACTIVE"
         case archived = "ARCHIVED"
@@ -776,10 +782,12 @@ extension DynamoDB {
     }
 
     public struct BatchExecuteStatementInput: AWSEncodableShape {
+        public let returnConsumedCapacity: ReturnConsumedCapacity?
         /// The list of PartiQL statements representing the batch to run.
         public let statements: [BatchStatementRequest]
 
-        public init(statements: [BatchStatementRequest]) {
+        public init(returnConsumedCapacity: ReturnConsumedCapacity? = nil, statements: [BatchStatementRequest]) {
+            self.returnConsumedCapacity = returnConsumedCapacity
             self.statements = statements
         }
 
@@ -792,19 +800,24 @@ extension DynamoDB {
         }
 
         private enum CodingKeys: String, CodingKey {
+            case returnConsumedCapacity = "ReturnConsumedCapacity"
             case statements = "Statements"
         }
     }
 
     public struct BatchExecuteStatementOutput: AWSDecodableShape {
+        /// The capacity units consumed by the entire operation. The values of the list are ordered according to the ordering of the statements.
+        public let consumedCapacity: [ConsumedCapacity]?
         /// The response to each PartiQL statement in the batch.
         public let responses: [BatchStatementResponse]?
 
-        public init(responses: [BatchStatementResponse]? = nil) {
+        public init(consumedCapacity: [ConsumedCapacity]? = nil, responses: [BatchStatementResponse]? = nil) {
+            self.consumedCapacity = consumedCapacity
             self.responses = responses
         }
 
         private enum CodingKeys: String, CodingKey {
+            case consumedCapacity = "ConsumedCapacity"
             case responses = "Responses"
         }
     }
@@ -1299,12 +1312,15 @@ extension DynamoDB {
         public let provisionedThroughputOverride: ProvisionedThroughputOverride?
         /// The Region where the new replica will be created.
         public let regionName: String
+        /// Replica-specific table class. If not specified, uses the source table's table class.
+        public let tableClassOverride: TableClass?
 
-        public init(globalSecondaryIndexes: [ReplicaGlobalSecondaryIndex]? = nil, kmsMasterKeyId: String? = nil, provisionedThroughputOverride: ProvisionedThroughputOverride? = nil, regionName: String) {
+        public init(globalSecondaryIndexes: [ReplicaGlobalSecondaryIndex]? = nil, kmsMasterKeyId: String? = nil, provisionedThroughputOverride: ProvisionedThroughputOverride? = nil, regionName: String, tableClassOverride: TableClass? = nil) {
             self.globalSecondaryIndexes = globalSecondaryIndexes
             self.kmsMasterKeyId = kmsMasterKeyId
             self.provisionedThroughputOverride = provisionedThroughputOverride
             self.regionName = regionName
+            self.tableClassOverride = tableClassOverride
         }
 
         public func validate(name: String) throws {
@@ -1320,6 +1336,7 @@ extension DynamoDB {
             case kmsMasterKeyId = "KMSMasterKeyId"
             case provisionedThroughputOverride = "ProvisionedThroughputOverride"
             case regionName = "RegionName"
+            case tableClassOverride = "TableClassOverride"
         }
     }
 
@@ -1341,12 +1358,14 @@ extension DynamoDB {
         public let sseSpecification: SSESpecification?
         /// The settings for DynamoDB Streams on the table. These settings consist of:    StreamEnabled - Indicates whether DynamoDB Streams is to be enabled (true) or disabled (false).    StreamViewType - When an item in the table is modified, StreamViewType determines what information is written to the table's stream. Valid values for StreamViewType are:    KEYS_ONLY - Only the key attributes of the modified item are written to the stream.    NEW_IMAGE - The entire item, as it appears after it was modified, is written to the stream.    OLD_IMAGE - The entire item, as it appeared before it was modified, is written to the stream.    NEW_AND_OLD_IMAGES - Both the new and the old item images of the item are written to the stream.
         public let streamSpecification: StreamSpecification?
+        /// The table class of the new table. Valid values are STANDARD and STANDARD_INFREQUENT_ACCESS.
+        public let tableClass: TableClass?
         /// The name of the table to create.
         public let tableName: String
         /// A list of key-value pairs to label the table. For more information, see Tagging for DynamoDB.
         public let tags: [Tag]?
 
-        public init(attributeDefinitions: [AttributeDefinition], billingMode: BillingMode? = nil, globalSecondaryIndexes: [GlobalSecondaryIndex]? = nil, keySchema: [KeySchemaElement], localSecondaryIndexes: [LocalSecondaryIndex]? = nil, provisionedThroughput: ProvisionedThroughput? = nil, sseSpecification: SSESpecification? = nil, streamSpecification: StreamSpecification? = nil, tableName: String, tags: [Tag]? = nil) {
+        public init(attributeDefinitions: [AttributeDefinition], billingMode: BillingMode? = nil, globalSecondaryIndexes: [GlobalSecondaryIndex]? = nil, keySchema: [KeySchemaElement], localSecondaryIndexes: [LocalSecondaryIndex]? = nil, provisionedThroughput: ProvisionedThroughput? = nil, sseSpecification: SSESpecification? = nil, streamSpecification: StreamSpecification? = nil, tableClass: TableClass? = nil, tableName: String, tags: [Tag]? = nil) {
             self.attributeDefinitions = attributeDefinitions
             self.billingMode = billingMode
             self.globalSecondaryIndexes = globalSecondaryIndexes
@@ -1355,6 +1374,7 @@ extension DynamoDB {
             self.provisionedThroughput = provisionedThroughput
             self.sseSpecification = sseSpecification
             self.streamSpecification = streamSpecification
+            self.tableClass = tableClass
             self.tableName = tableName
             self.tags = tags
         }
@@ -1392,6 +1412,7 @@ extension DynamoDB {
             case provisionedThroughput = "ProvisionedThroughput"
             case sseSpecification = "SSESpecification"
             case streamSpecification = "StreamSpecification"
+            case tableClass = "TableClass"
             case tableName = "TableName"
             case tags = "Tags"
         }
@@ -2098,13 +2119,15 @@ extension DynamoDB {
         public let nextToken: String?
         /// The parameters for the PartiQL statement, if any.
         public let parameters: [AttributeValue]?
+        public let returnConsumedCapacity: ReturnConsumedCapacity?
         /// The PartiQL statement representing the operation to run.
         public let statement: String
 
-        public init(consistentRead: Bool? = nil, nextToken: String? = nil, parameters: [AttributeValue]? = nil, statement: String) {
+        public init(consistentRead: Bool? = nil, nextToken: String? = nil, parameters: [AttributeValue]? = nil, returnConsumedCapacity: ReturnConsumedCapacity? = nil, statement: String) {
             self.consistentRead = consistentRead
             self.nextToken = nextToken
             self.parameters = parameters
+            self.returnConsumedCapacity = returnConsumedCapacity
             self.statement = statement
         }
 
@@ -2123,22 +2146,26 @@ extension DynamoDB {
             case consistentRead = "ConsistentRead"
             case nextToken = "NextToken"
             case parameters = "Parameters"
+            case returnConsumedCapacity = "ReturnConsumedCapacity"
             case statement = "Statement"
         }
     }
 
     public struct ExecuteStatementOutput: AWSDecodableShape {
+        public let consumedCapacity: ConsumedCapacity?
         /// If a read operation was used, this property will contain the result of the read operation; a map of attribute names and their values. For the write operations this value will be empty.
         public let items: [[String: AttributeValue]]?
         /// If the response of a read request exceeds the response payload limit DynamoDB will set this value in the response. If set, you can use that this value in the subsequent request to get the remaining results.
         public let nextToken: String?
 
-        public init(items: [[String: AttributeValue]]? = nil, nextToken: String? = nil) {
+        public init(consumedCapacity: ConsumedCapacity? = nil, items: [[String: AttributeValue]]? = nil, nextToken: String? = nil) {
+            self.consumedCapacity = consumedCapacity
             self.items = items
             self.nextToken = nextToken
         }
 
         private enum CodingKeys: String, CodingKey {
+            case consumedCapacity = "ConsumedCapacity"
             case items = "Items"
             case nextToken = "NextToken"
         }
@@ -2147,11 +2174,14 @@ extension DynamoDB {
     public struct ExecuteTransactionInput: AWSEncodableShape {
         /// Set this value to get remaining results, if NextToken was returned in the statement response.
         public let clientRequestToken: String?
+        /// Determines the level of detail about either provisioned or on-demand throughput consumption that is returned in the response. For more information, see TransactGetItems and TransactWriteItems.
+        public let returnConsumedCapacity: ReturnConsumedCapacity?
         /// The list of PartiQL statements representing the transaction to run.
         public let transactStatements: [ParameterizedStatement]
 
-        public init(clientRequestToken: String? = ExecuteTransactionInput.idempotencyToken(), transactStatements: [ParameterizedStatement]) {
+        public init(clientRequestToken: String? = ExecuteTransactionInput.idempotencyToken(), returnConsumedCapacity: ReturnConsumedCapacity? = nil, transactStatements: [ParameterizedStatement]) {
             self.clientRequestToken = clientRequestToken
+            self.returnConsumedCapacity = returnConsumedCapacity
             self.transactStatements = transactStatements
         }
 
@@ -2167,19 +2197,24 @@ extension DynamoDB {
 
         private enum CodingKeys: String, CodingKey {
             case clientRequestToken = "ClientRequestToken"
+            case returnConsumedCapacity = "ReturnConsumedCapacity"
             case transactStatements = "TransactStatements"
         }
     }
 
     public struct ExecuteTransactionOutput: AWSDecodableShape {
+        /// The capacity units consumed by the entire operation. The values of the list are ordered according to the ordering of the statements.
+        public let consumedCapacity: [ConsumedCapacity]?
         /// The response to a PartiQL transaction.
         public let responses: [ItemResponse]?
 
-        public init(responses: [ItemResponse]? = nil) {
+        public init(consumedCapacity: [ConsumedCapacity]? = nil, responses: [ItemResponse]? = nil) {
+            self.consumedCapacity = consumedCapacity
             self.responses = responses
         }
 
         private enum CodingKeys: String, CodingKey {
+            case consumedCapacity = "ConsumedCapacity"
             case responses = "Responses"
         }
     }
@@ -3803,8 +3838,9 @@ extension DynamoDB {
         public let replicaStatusDescription: String?
         /// Specifies the progress of a Create, Update, or Delete action on the replica as a percentage.
         public let replicaStatusPercentProgress: String?
+        public let replicaTableClassSummary: TableClassSummary?
 
-        public init(globalSecondaryIndexes: [ReplicaGlobalSecondaryIndexDescription]? = nil, kmsMasterKeyId: String? = nil, provisionedThroughputOverride: ProvisionedThroughputOverride? = nil, regionName: String? = nil, replicaInaccessibleDateTime: Date? = nil, replicaStatus: ReplicaStatus? = nil, replicaStatusDescription: String? = nil, replicaStatusPercentProgress: String? = nil) {
+        public init(globalSecondaryIndexes: [ReplicaGlobalSecondaryIndexDescription]? = nil, kmsMasterKeyId: String? = nil, provisionedThroughputOverride: ProvisionedThroughputOverride? = nil, regionName: String? = nil, replicaInaccessibleDateTime: Date? = nil, replicaStatus: ReplicaStatus? = nil, replicaStatusDescription: String? = nil, replicaStatusPercentProgress: String? = nil, replicaTableClassSummary: TableClassSummary? = nil) {
             self.globalSecondaryIndexes = globalSecondaryIndexes
             self.kmsMasterKeyId = kmsMasterKeyId
             self.provisionedThroughputOverride = provisionedThroughputOverride
@@ -3813,6 +3849,7 @@ extension DynamoDB {
             self.replicaStatus = replicaStatus
             self.replicaStatusDescription = replicaStatusDescription
             self.replicaStatusPercentProgress = replicaStatusPercentProgress
+            self.replicaTableClassSummary = replicaTableClassSummary
         }
 
         private enum CodingKeys: String, CodingKey {
@@ -3824,6 +3861,7 @@ extension DynamoDB {
             case replicaStatus = "ReplicaStatus"
             case replicaStatusDescription = "ReplicaStatusDescription"
             case replicaStatusPercentProgress = "ReplicaStatusPercentProgress"
+            case replicaTableClassSummary = "ReplicaTableClassSummary"
         }
     }
 
@@ -3993,8 +4031,9 @@ extension DynamoDB {
         public let replicaProvisionedWriteCapacityUnits: Int64?
         /// The current state of the Region:    CREATING - The Region is being created.    UPDATING - The Region is being updated.    DELETING - The Region is being deleted.    ACTIVE - The Region is ready for use.
         public let replicaStatus: ReplicaStatus?
+        public let replicaTableClassSummary: TableClassSummary?
 
-        public init(regionName: String, replicaBillingModeSummary: BillingModeSummary? = nil, replicaGlobalSecondaryIndexSettings: [ReplicaGlobalSecondaryIndexSettingsDescription]? = nil, replicaProvisionedReadCapacityAutoScalingSettings: AutoScalingSettingsDescription? = nil, replicaProvisionedReadCapacityUnits: Int64? = nil, replicaProvisionedWriteCapacityAutoScalingSettings: AutoScalingSettingsDescription? = nil, replicaProvisionedWriteCapacityUnits: Int64? = nil, replicaStatus: ReplicaStatus? = nil) {
+        public init(regionName: String, replicaBillingModeSummary: BillingModeSummary? = nil, replicaGlobalSecondaryIndexSettings: [ReplicaGlobalSecondaryIndexSettingsDescription]? = nil, replicaProvisionedReadCapacityAutoScalingSettings: AutoScalingSettingsDescription? = nil, replicaProvisionedReadCapacityUnits: Int64? = nil, replicaProvisionedWriteCapacityAutoScalingSettings: AutoScalingSettingsDescription? = nil, replicaProvisionedWriteCapacityUnits: Int64? = nil, replicaStatus: ReplicaStatus? = nil, replicaTableClassSummary: TableClassSummary? = nil) {
             self.regionName = regionName
             self.replicaBillingModeSummary = replicaBillingModeSummary
             self.replicaGlobalSecondaryIndexSettings = replicaGlobalSecondaryIndexSettings
@@ -4003,6 +4042,7 @@ extension DynamoDB {
             self.replicaProvisionedWriteCapacityAutoScalingSettings = replicaProvisionedWriteCapacityAutoScalingSettings
             self.replicaProvisionedWriteCapacityUnits = replicaProvisionedWriteCapacityUnits
             self.replicaStatus = replicaStatus
+            self.replicaTableClassSummary = replicaTableClassSummary
         }
 
         private enum CodingKeys: String, CodingKey {
@@ -4014,6 +4054,7 @@ extension DynamoDB {
             case replicaProvisionedWriteCapacityAutoScalingSettings = "ReplicaProvisionedWriteCapacityAutoScalingSettings"
             case replicaProvisionedWriteCapacityUnits = "ReplicaProvisionedWriteCapacityUnits"
             case replicaStatus = "ReplicaStatus"
+            case replicaTableClassSummary = "ReplicaTableClassSummary"
         }
     }
 
@@ -4026,12 +4067,15 @@ extension DynamoDB {
         public let replicaProvisionedReadCapacityAutoScalingSettingsUpdate: AutoScalingSettingsUpdate?
         /// The maximum number of strongly consistent reads consumed per second before DynamoDB returns a ThrottlingException. For more information, see Specifying Read and Write Requirements in the Amazon DynamoDB Developer Guide.
         public let replicaProvisionedReadCapacityUnits: Int64?
+        /// Replica-specific table class. If not specified, uses the source table's table class.
+        public let replicaTableClass: TableClass?
 
-        public init(regionName: String, replicaGlobalSecondaryIndexSettingsUpdate: [ReplicaGlobalSecondaryIndexSettingsUpdate]? = nil, replicaProvisionedReadCapacityAutoScalingSettingsUpdate: AutoScalingSettingsUpdate? = nil, replicaProvisionedReadCapacityUnits: Int64? = nil) {
+        public init(regionName: String, replicaGlobalSecondaryIndexSettingsUpdate: [ReplicaGlobalSecondaryIndexSettingsUpdate]? = nil, replicaProvisionedReadCapacityAutoScalingSettingsUpdate: AutoScalingSettingsUpdate? = nil, replicaProvisionedReadCapacityUnits: Int64? = nil, replicaTableClass: TableClass? = nil) {
             self.regionName = regionName
             self.replicaGlobalSecondaryIndexSettingsUpdate = replicaGlobalSecondaryIndexSettingsUpdate
             self.replicaProvisionedReadCapacityAutoScalingSettingsUpdate = replicaProvisionedReadCapacityAutoScalingSettingsUpdate
             self.replicaProvisionedReadCapacityUnits = replicaProvisionedReadCapacityUnits
+            self.replicaTableClass = replicaTableClass
         }
 
         public func validate(name: String) throws {
@@ -4049,6 +4093,7 @@ extension DynamoDB {
             case replicaGlobalSecondaryIndexSettingsUpdate = "ReplicaGlobalSecondaryIndexSettingsUpdate"
             case replicaProvisionedReadCapacityAutoScalingSettingsUpdate = "ReplicaProvisionedReadCapacityAutoScalingSettingsUpdate"
             case replicaProvisionedReadCapacityUnits = "ReplicaProvisionedReadCapacityUnits"
+            case replicaTableClass = "ReplicaTableClass"
         }
     }
 
@@ -4554,6 +4599,23 @@ extension DynamoDB {
         }
     }
 
+    public struct TableClassSummary: AWSDecodableShape {
+        /// The date and time at which the table class was last updated.
+        public let lastUpdateDateTime: Date?
+        /// The table class of the specified table. Valid values are STANDARD and STANDARD_INFREQUENT_ACCESS.
+        public let tableClass: TableClass?
+
+        public init(lastUpdateDateTime: Date? = nil, tableClass: TableClass? = nil) {
+            self.lastUpdateDateTime = lastUpdateDateTime
+            self.tableClass = tableClass
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case lastUpdateDateTime = "LastUpdateDateTime"
+            case tableClass = "TableClass"
+        }
+    }
+
     public struct TableDescription: AWSDecodableShape {
         /// Contains information about the table archive.
         public let archivalSummary: ArchivalSummary?
@@ -4591,6 +4653,8 @@ extension DynamoDB {
         public let streamSpecification: StreamSpecification?
         /// The Amazon Resource Name (ARN) that uniquely identifies the table.
         public let tableArn: String?
+        /// Contains details of the table class.
+        public let tableClassSummary: TableClassSummary?
         /// Unique identifier for the table for which the backup was created.
         public let tableId: String?
         /// The name of the table.
@@ -4600,7 +4664,7 @@ extension DynamoDB {
         /// The current state of the table:    CREATING - The table is being created.    UPDATING - The table is being updated.    DELETING - The table is being deleted.    ACTIVE - The table is ready for use.    INACCESSIBLE_ENCRYPTION_CREDENTIALS - The KMS key used to encrypt the table in inaccessible. Table operations may fail due to failure to use the KMS key. DynamoDB will initiate the table archival process when a table's KMS key remains inaccessible for more than seven days.     ARCHIVING - The table is being archived. Operations are not allowed until archival is complete.     ARCHIVED - The table has been archived. See the ArchivalReason for more information.
         public let tableStatus: TableStatus?
 
-        public init(archivalSummary: ArchivalSummary? = nil, attributeDefinitions: [AttributeDefinition]? = nil, billingModeSummary: BillingModeSummary? = nil, creationDateTime: Date? = nil, globalSecondaryIndexes: [GlobalSecondaryIndexDescription]? = nil, globalTableVersion: String? = nil, itemCount: Int64? = nil, keySchema: [KeySchemaElement]? = nil, latestStreamArn: String? = nil, latestStreamLabel: String? = nil, localSecondaryIndexes: [LocalSecondaryIndexDescription]? = nil, provisionedThroughput: ProvisionedThroughputDescription? = nil, replicas: [ReplicaDescription]? = nil, restoreSummary: RestoreSummary? = nil, sseDescription: SSEDescription? = nil, streamSpecification: StreamSpecification? = nil, tableArn: String? = nil, tableId: String? = nil, tableName: String? = nil, tableSizeBytes: Int64? = nil, tableStatus: TableStatus? = nil) {
+        public init(archivalSummary: ArchivalSummary? = nil, attributeDefinitions: [AttributeDefinition]? = nil, billingModeSummary: BillingModeSummary? = nil, creationDateTime: Date? = nil, globalSecondaryIndexes: [GlobalSecondaryIndexDescription]? = nil, globalTableVersion: String? = nil, itemCount: Int64? = nil, keySchema: [KeySchemaElement]? = nil, latestStreamArn: String? = nil, latestStreamLabel: String? = nil, localSecondaryIndexes: [LocalSecondaryIndexDescription]? = nil, provisionedThroughput: ProvisionedThroughputDescription? = nil, replicas: [ReplicaDescription]? = nil, restoreSummary: RestoreSummary? = nil, sseDescription: SSEDescription? = nil, streamSpecification: StreamSpecification? = nil, tableArn: String? = nil, tableClassSummary: TableClassSummary? = nil, tableId: String? = nil, tableName: String? = nil, tableSizeBytes: Int64? = nil, tableStatus: TableStatus? = nil) {
             self.archivalSummary = archivalSummary
             self.attributeDefinitions = attributeDefinitions
             self.billingModeSummary = billingModeSummary
@@ -4618,6 +4682,7 @@ extension DynamoDB {
             self.sseDescription = sseDescription
             self.streamSpecification = streamSpecification
             self.tableArn = tableArn
+            self.tableClassSummary = tableClassSummary
             self.tableId = tableId
             self.tableName = tableName
             self.tableSizeBytes = tableSizeBytes
@@ -4642,6 +4707,7 @@ extension DynamoDB {
             case sseDescription = "SSEDescription"
             case streamSpecification = "StreamSpecification"
             case tableArn = "TableArn"
+            case tableClassSummary = "TableClassSummary"
             case tableId = "TableId"
             case tableName = "TableName"
             case tableSizeBytes = "TableSizeBytes"
@@ -5251,12 +5317,15 @@ extension DynamoDB {
         public let provisionedThroughputOverride: ProvisionedThroughputOverride?
         /// The Region where the replica exists.
         public let regionName: String
+        /// Replica-specific table class. If not specified, uses the source table's table class.
+        public let tableClassOverride: TableClass?
 
-        public init(globalSecondaryIndexes: [ReplicaGlobalSecondaryIndex]? = nil, kmsMasterKeyId: String? = nil, provisionedThroughputOverride: ProvisionedThroughputOverride? = nil, regionName: String) {
+        public init(globalSecondaryIndexes: [ReplicaGlobalSecondaryIndex]? = nil, kmsMasterKeyId: String? = nil, provisionedThroughputOverride: ProvisionedThroughputOverride? = nil, regionName: String, tableClassOverride: TableClass? = nil) {
             self.globalSecondaryIndexes = globalSecondaryIndexes
             self.kmsMasterKeyId = kmsMasterKeyId
             self.provisionedThroughputOverride = provisionedThroughputOverride
             self.regionName = regionName
+            self.tableClassOverride = tableClassOverride
         }
 
         public func validate(name: String) throws {
@@ -5272,6 +5341,7 @@ extension DynamoDB {
             case kmsMasterKeyId = "KMSMasterKeyId"
             case provisionedThroughputOverride = "ProvisionedThroughputOverride"
             case regionName = "RegionName"
+            case tableClassOverride = "TableClassOverride"
         }
     }
 
@@ -5290,10 +5360,12 @@ extension DynamoDB {
         public let sseSpecification: SSESpecification?
         /// Represents the DynamoDB Streams configuration for the table.  You receive a ResourceInUseException if you try to enable a stream on a table that already has a stream, or if you try to disable a stream on a table that doesn't have a stream.
         public let streamSpecification: StreamSpecification?
+        /// The table class of the table to be updated. Valid values are STANDARD and STANDARD_INFREQUENT_ACCESS.
+        public let tableClass: TableClass?
         /// The name of the table to be updated.
         public let tableName: String
 
-        public init(attributeDefinitions: [AttributeDefinition]? = nil, billingMode: BillingMode? = nil, globalSecondaryIndexUpdates: [GlobalSecondaryIndexUpdate]? = nil, provisionedThroughput: ProvisionedThroughput? = nil, replicaUpdates: [ReplicationGroupUpdate]? = nil, sseSpecification: SSESpecification? = nil, streamSpecification: StreamSpecification? = nil, tableName: String) {
+        public init(attributeDefinitions: [AttributeDefinition]? = nil, billingMode: BillingMode? = nil, globalSecondaryIndexUpdates: [GlobalSecondaryIndexUpdate]? = nil, provisionedThroughput: ProvisionedThroughput? = nil, replicaUpdates: [ReplicationGroupUpdate]? = nil, sseSpecification: SSESpecification? = nil, streamSpecification: StreamSpecification? = nil, tableClass: TableClass? = nil, tableName: String) {
             self.attributeDefinitions = attributeDefinitions
             self.billingMode = billingMode
             self.globalSecondaryIndexUpdates = globalSecondaryIndexUpdates
@@ -5301,6 +5373,7 @@ extension DynamoDB {
             self.replicaUpdates = replicaUpdates
             self.sseSpecification = sseSpecification
             self.streamSpecification = streamSpecification
+            self.tableClass = tableClass
             self.tableName = tableName
         }
 
@@ -5329,6 +5402,7 @@ extension DynamoDB {
             case replicaUpdates = "ReplicaUpdates"
             case sseSpecification = "SSESpecification"
             case streamSpecification = "StreamSpecification"
+            case tableClass = "TableClass"
             case tableName = "TableName"
         }
     }

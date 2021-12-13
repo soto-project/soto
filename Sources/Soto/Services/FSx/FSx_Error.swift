@@ -26,6 +26,7 @@ public struct FSxErrorType: AWSErrorType {
         case backupNotFound = "BackupNotFound"
         case backupRestoring = "BackupRestoring"
         case badRequest = "BadRequest"
+        case dataRepositoryAssociationNotFound = "DataRepositoryAssociationNotFound"
         case dataRepositoryTaskEnded = "DataRepositoryTaskEnded"
         case dataRepositoryTaskExecuting = "DataRepositoryTaskExecuting"
         case dataRepositoryTaskNotFound = "DataRepositoryTaskNotFound"
@@ -33,6 +34,7 @@ public struct FSxErrorType: AWSErrorType {
         case incompatibleParameterError = "IncompatibleParameterError"
         case incompatibleRegionForMultiAZ = "IncompatibleRegionForMultiAZ"
         case internalServerError = "InternalServerError"
+        case invalidDataRepositoryType = "InvalidDataRepositoryType"
         case invalidDestinationKmsKey = "InvalidDestinationKmsKey"
         case invalidExportPath = "InvalidExportPath"
         case invalidImportPath = "InvalidImportPath"
@@ -46,6 +48,7 @@ public struct FSxErrorType: AWSErrorType {
         case resourceDoesNotSupportTagging = "ResourceDoesNotSupportTagging"
         case resourceNotFound = "ResourceNotFound"
         case serviceLimitExceeded = "ServiceLimitExceeded"
+        case snapshotNotFound = "SnapshotNotFound"
         case sourceBackupUnavailable = "SourceBackupUnavailable"
         case storageVirtualMachineNotFound = "StorageVirtualMachineNotFound"
         case unsupportedOperation = "UnsupportedOperation"
@@ -82,6 +85,8 @@ public struct FSxErrorType: AWSErrorType {
     public static var backupRestoring: Self { .init(.backupRestoring) }
     /// A generic error indicating a failure with a client request.
     public static var badRequest: Self { .init(.badRequest) }
+    /// No data repository associations were found based upon the supplied parameters.
+    public static var dataRepositoryAssociationNotFound: Self { .init(.dataRepositoryAssociationNotFound) }
     /// The data repository task could not be canceled because the task has already ended.
     public static var dataRepositoryTaskEnded: Self { .init(.dataRepositoryTaskEnded) }
     /// An existing data repository task is currently executing on the file system.   Wait until the existing task has completed, then create the new task.
@@ -96,7 +101,9 @@ public struct FSxErrorType: AWSErrorType {
     public static var incompatibleRegionForMultiAZ: Self { .init(.incompatibleRegionForMultiAZ) }
     /// A generic error indicating a server-side failure.
     public static var internalServerError: Self { .init(.internalServerError) }
-    /// The Key Management Service (KMS) key of the destination backup is invalid.
+    /// You have filtered the response to a data repository type that is not supported.
+    public static var invalidDataRepositoryType: Self { .init(.invalidDataRepositoryType) }
+    /// The Key Management Service (KMS) key of the destination backup is not valid.
     public static var invalidDestinationKmsKey: Self { .init(.invalidDestinationKmsKey) }
     /// The path provided for data repository export isn't valid.
     public static var invalidExportPath: Self { .init(.invalidExportPath) }
@@ -106,9 +113,9 @@ public struct FSxErrorType: AWSErrorType {
     public static var invalidNetworkSettings: Self { .init(.invalidNetworkSettings) }
     /// An invalid value for PerUnitStorageThroughput was provided. Please create your file system again, using a valid value.
     public static var invalidPerUnitStorageThroughput: Self { .init(.invalidPerUnitStorageThroughput) }
-    /// The Region provided for Source Region is invalid or is in a different Amazon Web Services partition.
+    /// The Region provided for SourceRegion is not valid or is in a different Amazon Web Services partition.
     public static var invalidRegion: Self { .init(.invalidRegion) }
-    /// The Key Management Service (KMS) key of the source backup is invalid.
+    /// The Key Management Service (KMS) key of the source backup is not valid.
     public static var invalidSourceKmsKey: Self { .init(.invalidSourceKmsKey) }
     /// A file system configuration is required for this operation.
     public static var missingFileSystemConfiguration: Self { .init(.missingFileSystemConfiguration) }
@@ -122,7 +129,9 @@ public struct FSxErrorType: AWSErrorType {
     public static var resourceNotFound: Self { .init(.resourceNotFound) }
     /// An error indicating that a particular service limit was exceeded. You can increase some service limits by contacting Amazon Web Services Support.
     public static var serviceLimitExceeded: Self { .init(.serviceLimitExceeded) }
-    /// The request was rejected because the lifecycle status of the  source backup is not AVAILABLE.
+    /// No Amazon FSx snapshots were found based on the supplied parameters.
+    public static var snapshotNotFound: Self { .init(.snapshotNotFound) }
+    /// The request was rejected because the lifecycle status of the source backup isn't AVAILABLE.
     public static var sourceBackupUnavailable: Self { .init(.sourceBackupUnavailable) }
     /// No Amazon FSx for NetApp ONTAP SVMs were found based upon the supplied parameters.
     public static var storageVirtualMachineNotFound: Self { .init(.storageVirtualMachineNotFound) }

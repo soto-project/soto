@@ -502,7 +502,7 @@ extension AutoScaling {
         /// The metrics enabled for the group.
         @OptionalCustomCoding<StandardArrayCoder>
         public var enabledMetrics: [EnabledMetric]?
-        /// The amount of time, in seconds, that Amazon EC2 Auto Scaling waits before checking the health status of an EC2 instance that has come into service.
+        /// The amount of time, in seconds, that Amazon EC2 Auto Scaling waits before checking the health status of an EC2 instance that has come into service and marking it unhealthy due to a failed health check.
         public let healthCheckGracePeriod: Int?
         /// The service to use for the health checks. The valid values are EC2 and ELB. If you configure an Auto Scaling group to use ELB health checks, it considers the instance unhealthy if it fails either the EC2 status checks or the load balancer health checks.
         public let healthCheckType: String
@@ -922,7 +922,7 @@ extension AutoScaling {
     }
 
     public struct CapacityForecast: AWSDecodableShape {
-        /// The time stamps for the data points, in UTC format.
+        /// The timestamps for the data points, in UTC format.
         @CustomCoding<StandardArrayCoder>
         public var timestamps: [Date]
         /// The values of the data points.
@@ -1003,7 +1003,7 @@ extension AutoScaling {
         public let desiredCapacity: Int?
         /// The unit of measurement for the value specified for desired capacity. Amazon EC2 Auto Scaling supports DesiredCapacityType for attribute-based instance type selection only. For more information, see Creating an Auto Scaling group using attribute-based instance type selection in the Amazon EC2 Auto Scaling User Guide. By default, Amazon EC2 Auto Scaling specifies units, which translates into number of instances.  Valid values: units | vcpu | memory-mib
         public let desiredCapacityType: String?
-        /// The amount of time, in seconds, that Amazon EC2 Auto Scaling waits before checking the health status of an EC2 instance that has come into service. During this time, any health check failures for the instance are ignored. The default value is 0. For more information, see Health check grace period in the Amazon EC2 Auto Scaling User Guide. Conditional: Required if you are adding an ELB health check.
+        /// The amount of time, in seconds, that Amazon EC2 Auto Scaling waits before checking the health status of an EC2 instance that has come into service and marking it unhealthy due to a failed health check. The default value is 0. For more information, see Health check grace period in the Amazon EC2 Auto Scaling User Guide. Conditional: Required if you are adding an ELB health check.
         public let healthCheckGracePeriod: Int?
         /// The service to use for the health checks. The valid values are EC2 (default) and ELB. If you configure an Auto Scaling group to use load balancer (ELB) health checks, it considers the instance unhealthy if it fails either the EC2 status checks or the load balancer health checks. For more information, see Health checks for Auto Scaling instances in the Amazon EC2 Auto Scaling User Guide.
         public let healthCheckType: String?
@@ -1027,7 +1027,7 @@ extension AutoScaling {
         public let minSize: Int
         /// An embedded object that specifies a mixed instances policy.    For more information, see Auto Scaling groups with multiple instance types and purchase options in the Amazon EC2 Auto Scaling User Guide.
         public let mixedInstancesPolicy: MixedInstancesPolicy?
-        /// Indicates whether newly launched instances are protected from termination by Amazon EC2 Auto Scaling when scaling in. For more information about preventing instances from terminating on scale in, see Instance scale-in protection in the Amazon EC2 Auto Scaling User Guide.
+        /// Indicates whether newly launched instances are protected from termination by Amazon EC2 Auto Scaling when scaling in. For more information about preventing instances from terminating on scale in, see Using instance scale-in protection in the Amazon EC2 Auto Scaling User Guide.
         public let newInstancesProtectedFromScaleIn: Bool?
         /// The name of an existing placement group into which to launch your instances, if any. A placement group is a logical grouping of instances within a single Availability Zone. You cannot specify multiple Availability Zones and a placement group. For more information, see Placement Groups in the Amazon EC2 User Guide for Linux Instances.
         public let placementGroup: String?
@@ -1318,13 +1318,13 @@ extension AutoScaling {
         /// The dimensions of the metric. Conditional: If you published your metric with dimensions, you must specify the same dimensions in your scaling policy.
         @OptionalCustomCoding<StandardArrayCoder>
         public var dimensions: [MetricDimension]?
-        /// The name of the metric.
+        /// The name of the metric. To get the exact metric name, namespace, and dimensions, inspect the Metric object that is returned by a call to ListMetrics.
         public let metricName: String
         /// The namespace of the metric.
         public let namespace: String
         /// The statistic of the metric.
         public let statistic: MetricStatistic
-        /// The unit of the metric.
+        /// The unit of the metric. For a complete list of the units that CloudWatch supports, see the MetricDatum data type in the Amazon CloudWatch API Reference.
         public let unit: String?
 
         public init(dimensions: [MetricDimension]? = nil, metricName: String, namespace: String, statistic: MetricStatistic, unit: String? = nil) {
@@ -1400,7 +1400,7 @@ extension AutoScaling {
     public struct DeleteNotificationConfigurationType: AWSEncodableShape {
         /// The name of the Auto Scaling group.
         public let autoScalingGroupName: String
-        /// The Amazon Resource Name (ARN) of the Amazon Simple Notification Service (Amazon SNS) topic.
+        /// The Amazon Resource Name (ARN) of the Amazon SNS topic.
         public let topicARN: String
 
         public init(autoScalingGroupName: String, topicARN: String) {
@@ -3336,7 +3336,7 @@ extension AutoScaling {
     public struct LoadForecast: AWSDecodableShape {
         /// The metric specification for the load forecast.
         public let metricSpecification: PredictiveScalingMetricSpecification
-        /// The time stamps for the data points, in UTC format.
+        /// The timestamps for the data points, in UTC format.
         @CustomCoding<StandardArrayCoder>
         public var timestamps: [Date]
         /// The values of the data points.
@@ -3400,6 +3400,28 @@ extension AutoScaling {
         }
     }
 
+    public struct Metric: AWSEncodableShape & AWSDecodableShape {
+        /// The dimensions for the metric. For the list of available dimensions, see the Amazon Web Services documentation available from the table in Amazon Web Services services that publish CloudWatch metrics  in the Amazon CloudWatch User Guide.  Conditional: If you published your metric with dimensions, you must specify the same dimensions in your scaling policy.
+        @OptionalCustomCoding<StandardArrayCoder>
+        public var dimensions: [MetricDimension]?
+        /// The name of the metric.
+        public let metricName: String
+        /// The namespace of the metric. For more information, see the table in Amazon Web Services services that publish CloudWatch metrics  in the Amazon CloudWatch User Guide.
+        public let namespace: String
+
+        public init(dimensions: [MetricDimension]? = nil, metricName: String, namespace: String) {
+            self.dimensions = dimensions
+            self.metricName = metricName
+            self.namespace = namespace
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case dimensions = "Dimensions"
+            case metricName = "MetricName"
+            case namespace = "Namespace"
+        }
+    }
+
     public struct MetricCollectionType: AWSDecodableShape {
         /// One of the following metrics:    GroupMinSize     GroupMaxSize     GroupDesiredCapacity     GroupInServiceInstances     GroupPendingInstances     GroupStandbyInstances     GroupTerminatingInstances     GroupTotalInstances     GroupInServiceCapacity     GroupPendingCapacity     GroupStandbyCapacity     GroupTerminatingCapacity     GroupTotalCapacity     WarmPoolDesiredCapacity     WarmPoolWarmedCapacity     WarmPoolPendingCapacity     WarmPoolTerminatingCapacity     WarmPoolTotalCapacity     GroupAndWarmPoolDesiredCapacity     GroupAndWarmPoolTotalCapacity
         public let metric: String?
@@ -3410,6 +3432,47 @@ extension AutoScaling {
 
         private enum CodingKeys: String, CodingKey {
             case metric = "Metric"
+        }
+    }
+
+    public struct MetricDataQuery: AWSEncodableShape & AWSDecodableShape {
+        /// The math expression to perform on the returned data, if this object is performing a math expression. This expression can use the Id of the other metrics to refer to those metrics, and can also use the Id of other expressions to use the result of those expressions.  Conditional: Within each MetricDataQuery object, you must specify either Expression or MetricStat, but not both.
+        public let expression: String?
+        /// A short name that identifies the object's results in the response. This name must be unique among all MetricDataQuery objects specified for a single scaling policy. If you are performing math expressions on this set of data, this name represents that data and can serve as a variable in the mathematical expression. The valid characters are letters, numbers, and underscores. The first character must be a lowercase letter.
+        public let id: String
+        /// A human-readable label for this metric or expression. This is especially useful if this is a math expression, so that you know what the value represents.
+        public let label: String?
+        /// Information about the metric data to return. Conditional: Within each MetricDataQuery object, you must specify either Expression or MetricStat, but not both.
+        public let metricStat: MetricStat?
+        /// Indicates whether to return the timestamps and raw data values of this metric.  If you use any math expressions, specify true for this value for only the final math expression that the metric specification is based on. You must specify false for ReturnData for all the other metrics and expressions used in the metric specification. If you are only retrieving metrics and not performing any math expressions, do not specify anything for ReturnData. This sets it to its default (true).
+        public let returnData: Bool?
+
+        public init(expression: String? = nil, id: String, label: String? = nil, metricStat: MetricStat? = nil, returnData: Bool? = nil) {
+            self.expression = expression
+            self.id = id
+            self.label = label
+            self.metricStat = metricStat
+            self.returnData = returnData
+        }
+
+        public func validate(name: String) throws {
+            try self.validate(self.expression, name: "expression", parent: name, max: 1023)
+            try self.validate(self.expression, name: "expression", parent: name, min: 1)
+            try self.validate(self.expression, name: "expression", parent: name, pattern: "^[\\u0020-\\uD7FF\\uE000-\\uFFFD\\uD800\\uDC00-\\uDBFF\\uDFFF\\r\\n\\t]*$")
+            try self.validate(self.id, name: "id", parent: name, max: 255)
+            try self.validate(self.id, name: "id", parent: name, min: 1)
+            try self.validate(self.id, name: "id", parent: name, pattern: "^[\\u0020-\\uD7FF\\uE000-\\uFFFD\\uD800\\uDC00-\\uDBFF\\uDFFF\\r\\n\\t]*$")
+            try self.validate(self.label, name: "label", parent: name, max: 2047)
+            try self.validate(self.label, name: "label", parent: name, pattern: "^[\\u0020-\\uD7FF\\uE000-\\uFFFD\\uD800\\uDC00-\\uDBFF\\uDFFF\\r\\n\\t]*$")
+            try self.metricStat?.validate(name: "\(name).metricStat")
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case expression = "Expression"
+            case id = "Id"
+            case label = "Label"
+            case metricStat = "MetricStat"
+            case returnData = "ReturnData"
         }
     }
 
@@ -3440,6 +3503,33 @@ extension AutoScaling {
 
         private enum CodingKeys: String, CodingKey {
             case granularity = "Granularity"
+        }
+    }
+
+    public struct MetricStat: AWSEncodableShape & AWSDecodableShape {
+        /// The CloudWatch metric to return, including the metric name, namespace, and dimensions. To get the exact metric name, namespace, and dimensions, inspect the Metric object that is returned by a call to ListMetrics.
+        public let metric: Metric
+        /// The statistic to return. It can include any CloudWatch statistic or extended statistic. For a list of valid values, see the table in Statistics in the Amazon CloudWatch User Guide. The most commonly used metrics for predictive scaling are Average and Sum.
+        public let stat: String
+        /// The unit to use for the returned data points. For a complete list of the units that CloudWatch supports, see the MetricDatum data type in the Amazon CloudWatch API Reference.
+        public let unit: String?
+
+        public init(metric: Metric, stat: String, unit: String? = nil) {
+            self.metric = metric
+            self.stat = stat
+            self.unit = unit
+        }
+
+        public func validate(name: String) throws {
+            try self.validate(self.stat, name: "stat", parent: name, max: 100)
+            try self.validate(self.stat, name: "stat", parent: name, min: 1)
+            try self.validate(self.stat, name: "stat", parent: name, pattern: "^[\\u0020-\\uD7FF\\uE000-\\uFFFD\\uD800\\uDC00-\\uDBFF\\uDFFF\\r\\n\\t]*$")
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case metric = "Metric"
+            case stat = "Stat"
+            case unit = "Unit"
         }
     }
 
@@ -3492,7 +3582,7 @@ extension AutoScaling {
         public let autoScalingGroupName: String?
         /// One of the following event notification types:    autoscaling:EC2_INSTANCE_LAUNCH     autoscaling:EC2_INSTANCE_LAUNCH_ERROR     autoscaling:EC2_INSTANCE_TERMINATE     autoscaling:EC2_INSTANCE_TERMINATE_ERROR     autoscaling:TEST_NOTIFICATION
         public let notificationType: String?
-        /// The Amazon Resource Name (ARN) of the Amazon Simple Notification Service (Amazon SNS) topic.
+        /// The Amazon Resource Name (ARN) of the Amazon SNS topic.
         public let topicARN: String?
 
         public init(autoScalingGroupName: String? = nil, notificationType: String? = nil, topicARN: String? = nil) {
@@ -3606,17 +3696,86 @@ extension AutoScaling {
         }
     }
 
+    public struct PredictiveScalingCustomizedCapacityMetric: AWSEncodableShape & AWSDecodableShape {
+        /// One or more metric data queries to provide the data points for a capacity metric. Use multiple metric data queries only if you are performing a math expression on returned data.
+        @CustomCoding<StandardArrayCoder>
+        public var metricDataQueries: [MetricDataQuery]
+
+        public init(metricDataQueries: [MetricDataQuery]) {
+            self.metricDataQueries = metricDataQueries
+        }
+
+        public func validate(name: String) throws {
+            try self.metricDataQueries.forEach {
+                try $0.validate(name: "\(name).metricDataQueries[]")
+            }
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case metricDataQueries = "MetricDataQueries"
+        }
+    }
+
+    public struct PredictiveScalingCustomizedLoadMetric: AWSEncodableShape & AWSDecodableShape {
+        /// One or more metric data queries to provide the data points for a load metric. Use multiple metric data queries only if you are performing a math expression on returned data.
+        @CustomCoding<StandardArrayCoder>
+        public var metricDataQueries: [MetricDataQuery]
+
+        public init(metricDataQueries: [MetricDataQuery]) {
+            self.metricDataQueries = metricDataQueries
+        }
+
+        public func validate(name: String) throws {
+            try self.metricDataQueries.forEach {
+                try $0.validate(name: "\(name).metricDataQueries[]")
+            }
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case metricDataQueries = "MetricDataQueries"
+        }
+    }
+
+    public struct PredictiveScalingCustomizedScalingMetric: AWSEncodableShape & AWSDecodableShape {
+        /// One or more metric data queries to provide the data points for a scaling metric. Use multiple metric data queries only if you are performing a math expression on returned data.
+        @CustomCoding<StandardArrayCoder>
+        public var metricDataQueries: [MetricDataQuery]
+
+        public init(metricDataQueries: [MetricDataQuery]) {
+            self.metricDataQueries = metricDataQueries
+        }
+
+        public func validate(name: String) throws {
+            try self.metricDataQueries.forEach {
+                try $0.validate(name: "\(name).metricDataQueries[]")
+            }
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case metricDataQueries = "MetricDataQueries"
+        }
+    }
+
     public struct PredictiveScalingMetricSpecification: AWSEncodableShape & AWSDecodableShape {
-        /// The load metric specification.
+        /// The customized capacity metric specification.
+        public let customizedCapacityMetricSpecification: PredictiveScalingCustomizedCapacityMetric?
+        /// The customized load metric specification.
+        public let customizedLoadMetricSpecification: PredictiveScalingCustomizedLoadMetric?
+        /// The customized scaling metric specification.
+        public let customizedScalingMetricSpecification: PredictiveScalingCustomizedScalingMetric?
+        /// The predefined load metric specification.
         public let predefinedLoadMetricSpecification: PredictiveScalingPredefinedLoadMetric?
-        /// The metric pair specification from which Amazon EC2 Auto Scaling determines the appropriate scaling metric and load metric to use.
+        /// The predefined metric pair specification from which Amazon EC2 Auto Scaling determines the appropriate scaling metric and load metric to use.
         public let predefinedMetricPairSpecification: PredictiveScalingPredefinedMetricPair?
-        /// The scaling metric specification.
+        /// The predefined scaling metric specification.
         public let predefinedScalingMetricSpecification: PredictiveScalingPredefinedScalingMetric?
-        /// Specifies the target utilization.
+        /// Specifies the target utilization.  Some metrics are based on a count instead of a percentage, such as the request count for an Application Load Balancer or the number of messages in an SQS queue. If the scaling policy specifies one of these metrics, specify the target utilization as the optimal average request or message count per instance during any one-minute interval.
         public let targetValue: Double
 
-        public init(predefinedLoadMetricSpecification: PredictiveScalingPredefinedLoadMetric? = nil, predefinedMetricPairSpecification: PredictiveScalingPredefinedMetricPair? = nil, predefinedScalingMetricSpecification: PredictiveScalingPredefinedScalingMetric? = nil, targetValue: Double) {
+        public init(customizedCapacityMetricSpecification: PredictiveScalingCustomizedCapacityMetric? = nil, customizedLoadMetricSpecification: PredictiveScalingCustomizedLoadMetric? = nil, customizedScalingMetricSpecification: PredictiveScalingCustomizedScalingMetric? = nil, predefinedLoadMetricSpecification: PredictiveScalingPredefinedLoadMetric? = nil, predefinedMetricPairSpecification: PredictiveScalingPredefinedMetricPair? = nil, predefinedScalingMetricSpecification: PredictiveScalingPredefinedScalingMetric? = nil, targetValue: Double) {
+            self.customizedCapacityMetricSpecification = customizedCapacityMetricSpecification
+            self.customizedLoadMetricSpecification = customizedLoadMetricSpecification
+            self.customizedScalingMetricSpecification = customizedScalingMetricSpecification
             self.predefinedLoadMetricSpecification = predefinedLoadMetricSpecification
             self.predefinedMetricPairSpecification = predefinedMetricPairSpecification
             self.predefinedScalingMetricSpecification = predefinedScalingMetricSpecification
@@ -3624,12 +3783,18 @@ extension AutoScaling {
         }
 
         public func validate(name: String) throws {
+            try self.customizedCapacityMetricSpecification?.validate(name: "\(name).customizedCapacityMetricSpecification")
+            try self.customizedLoadMetricSpecification?.validate(name: "\(name).customizedLoadMetricSpecification")
+            try self.customizedScalingMetricSpecification?.validate(name: "\(name).customizedScalingMetricSpecification")
             try self.predefinedLoadMetricSpecification?.validate(name: "\(name).predefinedLoadMetricSpecification")
             try self.predefinedMetricPairSpecification?.validate(name: "\(name).predefinedMetricPairSpecification")
             try self.predefinedScalingMetricSpecification?.validate(name: "\(name).predefinedScalingMetricSpecification")
         }
 
         private enum CodingKeys: String, CodingKey {
+            case customizedCapacityMetricSpecification = "CustomizedCapacityMetricSpecification"
+            case customizedLoadMetricSpecification = "CustomizedLoadMetricSpecification"
+            case customizedScalingMetricSpecification = "CustomizedScalingMetricSpecification"
             case predefinedLoadMetricSpecification = "PredefinedLoadMetricSpecification"
             case predefinedMetricPairSpecification = "PredefinedMetricPairSpecification"
             case predefinedScalingMetricSpecification = "PredefinedScalingMetricSpecification"
@@ -3801,7 +3966,7 @@ extension AutoScaling {
         /// The type of event that causes the notification to be sent. To query the notification types supported by Amazon EC2 Auto Scaling, call the DescribeAutoScalingNotificationTypes API.
         @CustomCoding<StandardArrayCoder>
         public var notificationTypes: [String]
-        /// The Amazon Resource Name (ARN) of the Amazon Simple Notification Service (Amazon SNS) topic.
+        /// The Amazon Resource Name (ARN) of the Amazon SNS topic.
         public let topicARN: String
 
         public init(autoScalingGroupName: String, notificationTypes: [String], topicARN: String) {
@@ -3852,14 +4017,14 @@ extension AutoScaling {
         public let policyName: String
         /// One of the following policy types:     TargetTrackingScaling     StepScaling     SimpleScaling (default)    PredictiveScaling
         public let policyType: String?
-        /// A predictive scaling policy. Provides support for only predefined metrics. Predictive scaling works with CPU utilization, network in/out, and the Application Load Balancer request count. For more information, see PredictiveScalingConfiguration in the Amazon EC2 Auto Scaling API Reference. Required if the policy type is PredictiveScaling.
+        /// A predictive scaling policy. Provides support for predefined and custom metrics. Predefined metrics include CPU utilization, network in/out, and the Application Load Balancer request count. For more information, see PredictiveScalingConfiguration in the Amazon EC2 Auto Scaling API Reference. Required if the policy type is PredictiveScaling.
         public let predictiveScalingConfiguration: PredictiveScalingConfiguration?
         /// The amount by which to scale, based on the specified adjustment type. A positive value adds to the current capacity while a negative number removes from the current capacity. For exact capacity, you must specify a positive value. Required if the policy type is SimpleScaling. (Not used with any other policy type.)
         public let scalingAdjustment: Int?
         /// A set of adjustments that enable you to scale based on the size of the alarm breach. Required if the policy type is StepScaling. (Not used with any other policy type.)
         @OptionalCustomCoding<StandardArrayCoder>
         public var stepAdjustments: [StepAdjustment]?
-        /// A target tracking scaling policy. Provides support for predefined or customized metrics. The following predefined metrics are available:    ASGAverageCPUUtilization     ASGAverageNetworkIn     ASGAverageNetworkOut     ALBRequestCountPerTarget    If you specify ALBRequestCountPerTarget for the metric, you must specify the ResourceLabel parameter with the PredefinedMetricSpecification. For more information, see TargetTrackingConfiguration in the Amazon EC2 Auto Scaling API Reference. Required if the policy type is TargetTrackingScaling.
+        /// A target tracking scaling policy. Provides support for predefined or custom metrics. The following predefined metrics are available:    ASGAverageCPUUtilization     ASGAverageNetworkIn     ASGAverageNetworkOut     ALBRequestCountPerTarget    If you specify ALBRequestCountPerTarget for the metric, you must specify the ResourceLabel parameter with the PredefinedMetricSpecification. For more information, see TargetTrackingConfiguration in the Amazon EC2 Auto Scaling API Reference. Required if the policy type is TargetTrackingScaling.
         public let targetTrackingConfiguration: TargetTrackingConfiguration?
 
         public init(adjustmentType: String? = nil, autoScalingGroupName: String, cooldown: Int? = nil, enabled: Bool? = nil, estimatedInstanceWarmup: Int? = nil, metricAggregationType: String? = nil, minAdjustmentMagnitude: Int? = nil, minAdjustmentStep: Int? = nil, policyName: String, policyType: String? = nil, predictiveScalingConfiguration: PredictiveScalingConfiguration? = nil, scalingAdjustment: Int? = nil, stepAdjustments: [StepAdjustment]? = nil, targetTrackingConfiguration: TargetTrackingConfiguration? = nil) {
@@ -4685,7 +4850,7 @@ extension AutoScaling {
         public let desiredCapacity: Int?
         /// The unit of measurement for the value specified for desired capacity. Amazon EC2 Auto Scaling supports DesiredCapacityType for attribute-based instance type selection only. For more information, see Creating an Auto Scaling group using attribute-based instance type selection in the Amazon EC2 Auto Scaling User Guide. By default, Amazon EC2 Auto Scaling specifies units, which translates into number of instances. Valid values: units | vcpu | memory-mib
         public let desiredCapacityType: String?
-        /// The amount of time, in seconds, that Amazon EC2 Auto Scaling waits before checking the health status of an EC2 instance that has come into service. The default value is 0. For more information, see Health check grace period in the Amazon EC2 Auto Scaling User Guide. Conditional: Required if you are adding an ELB health check.
+        /// The amount of time, in seconds, that Amazon EC2 Auto Scaling waits before checking the health status of an EC2 instance that has come into service and marking it unhealthy due to a failed health check. The default value is 0. For more information, see Health check grace period in the Amazon EC2 Auto Scaling User Guide. Conditional: Required if you are adding an ELB health check.
         public let healthCheckGracePeriod: Int?
         /// The service to use for the health checks. The valid values are EC2 and ELB. If you configure an Auto Scaling group to use ELB health checks, it considers the instance unhealthy if it fails either the EC2 status checks or the load balancer health checks.
         public let healthCheckType: String?
@@ -4701,7 +4866,7 @@ extension AutoScaling {
         public let minSize: Int?
         /// An embedded object that specifies a mixed instances policy. For more information, see Auto Scaling groups with multiple instance types and purchase options in the Amazon EC2 Auto Scaling User Guide.
         public let mixedInstancesPolicy: MixedInstancesPolicy?
-        /// Indicates whether newly launched instances are protected from termination by Amazon EC2 Auto Scaling when scaling in. For more information about preventing instances from terminating on scale in, see Instance scale-in protection in the Amazon EC2 Auto Scaling User Guide.
+        /// Indicates whether newly launched instances are protected from termination by Amazon EC2 Auto Scaling when scaling in. For more information about preventing instances from terminating on scale in, see Using instance scale-in protection in the Amazon EC2 Auto Scaling User Guide.
         public let newInstancesProtectedFromScaleIn: Bool?
         /// The name of an existing placement group into which to launch your instances, if any. A placement group is a logical grouping of instances within a single Availability Zone. You cannot specify multiple Availability Zones and a placement group. For more information, see Placement Groups in the Amazon EC2 User Guide for Linux Instances.
         public let placementGroup: String?

@@ -1463,7 +1463,7 @@ extension EC2 {
         )
     }
 
-    ///  Describes the status of the specified instances or all of your instances. By default, only running instances are described, unless you specifically indicate to return the status of all instances. Instance status includes the following components:    Status checks - Amazon EC2 performs status checks on running EC2 instances to identify hardware and software issues. For more information, see Status checks for your instances and Troubleshooting instances with failed status checks in the Amazon EC2 User Guide.    Scheduled events - Amazon EC2 can schedule events (such as reboot, stop, or terminate) for your instances related to hardware issues, software updates, or system maintenance. For more information, see Scheduled events for your instances in the Amazon EC2 User Guide.    Instance state - You can manage your instances from the moment you launch them through their termination. For more information, see Instance lifecycle in the Amazon EC2 User Guide.
+    ///  Describes the status of the specified instances or all of your instances. By default, only running instances are described, unless you specifically indicate to return the status of all instances. Instance status includes the following components:    Status checks - Amazon EC2 performs status checks on running EC2 instances to identify hardware and software issues. For more information, see Status checks for your instances and Troubleshoot instances with failed status checks in the Amazon EC2 User Guide.    Scheduled events - Amazon EC2 can schedule events (such as reboot, stop, or terminate) for your instances related to hardware issues, software updates, or system maintenance. For more information, see Scheduled events for your instances in the Amazon EC2 User Guide.    Instance state - You can manage your instances from the moment you launch them through their termination. For more information, see Instance lifecycle in the Amazon EC2 User Guide.
     ///
     /// Provide paginated results to closure `onPage` for it to combine them into one result.
     /// This works in a similar manner to `Array.reduce<Result>(_:_:) -> Result`.
@@ -1723,6 +1723,165 @@ extension EC2 {
             command: describeInternetGateways,
             inputKey: \DescribeInternetGatewaysRequest.nextToken,
             outputKey: \DescribeInternetGatewaysResult.nextToken,
+            on: eventLoop,
+            onPage: onPage
+        )
+    }
+
+    ///  Get information about your IPAM pools.
+    ///
+    /// Provide paginated results to closure `onPage` for it to combine them into one result.
+    /// This works in a similar manner to `Array.reduce<Result>(_:_:) -> Result`.
+    ///
+    /// Parameters:
+    ///   - input: Input for request
+    ///   - initialValue: The value to use as the initial accumulating value. `initialValue` is passed to `onPage` the first time it is called.
+    ///   - logger: Logger used flot logging
+    ///   - eventLoop: EventLoop to run this process on
+    ///   - onPage: closure called with each paginated response. It combines an accumulating result with the contents of response. This combined result is then returned
+    ///         along with a boolean indicating if the paginate operation should continue.
+    public func describeIpamPoolsPaginator<Result>(
+        _ input: DescribeIpamPoolsRequest,
+        _ initialValue: Result,
+        logger: Logger = AWSClient.loggingDisabled,
+        on eventLoop: EventLoop? = nil,
+        onPage: @escaping (Result, DescribeIpamPoolsResult, EventLoop) -> EventLoopFuture<(Bool, Result)>
+    ) -> EventLoopFuture<Result> {
+        return client.paginate(
+            input: input,
+            initialValue: initialValue,
+            command: describeIpamPools,
+            inputKey: \DescribeIpamPoolsRequest.nextToken,
+            outputKey: \DescribeIpamPoolsResult.nextToken,
+            on: eventLoop,
+            onPage: onPage
+        )
+    }
+
+    /// Provide paginated results to closure `onPage`.
+    ///
+    /// - Parameters:
+    ///   - input: Input for request
+    ///   - logger: Logger used flot logging
+    ///   - eventLoop: EventLoop to run this process on
+    ///   - onPage: closure called with each block of entries. Returns boolean indicating whether we should continue.
+    public func describeIpamPoolsPaginator(
+        _ input: DescribeIpamPoolsRequest,
+        logger: Logger = AWSClient.loggingDisabled,
+        on eventLoop: EventLoop? = nil,
+        onPage: @escaping (DescribeIpamPoolsResult, EventLoop) -> EventLoopFuture<Bool>
+    ) -> EventLoopFuture<Void> {
+        return client.paginate(
+            input: input,
+            command: describeIpamPools,
+            inputKey: \DescribeIpamPoolsRequest.nextToken,
+            outputKey: \DescribeIpamPoolsResult.nextToken,
+            on: eventLoop,
+            onPage: onPage
+        )
+    }
+
+    ///  Get information about your IPAM scopes.
+    ///
+    /// Provide paginated results to closure `onPage` for it to combine them into one result.
+    /// This works in a similar manner to `Array.reduce<Result>(_:_:) -> Result`.
+    ///
+    /// Parameters:
+    ///   - input: Input for request
+    ///   - initialValue: The value to use as the initial accumulating value. `initialValue` is passed to `onPage` the first time it is called.
+    ///   - logger: Logger used flot logging
+    ///   - eventLoop: EventLoop to run this process on
+    ///   - onPage: closure called with each paginated response. It combines an accumulating result with the contents of response. This combined result is then returned
+    ///         along with a boolean indicating if the paginate operation should continue.
+    public func describeIpamScopesPaginator<Result>(
+        _ input: DescribeIpamScopesRequest,
+        _ initialValue: Result,
+        logger: Logger = AWSClient.loggingDisabled,
+        on eventLoop: EventLoop? = nil,
+        onPage: @escaping (Result, DescribeIpamScopesResult, EventLoop) -> EventLoopFuture<(Bool, Result)>
+    ) -> EventLoopFuture<Result> {
+        return client.paginate(
+            input: input,
+            initialValue: initialValue,
+            command: describeIpamScopes,
+            inputKey: \DescribeIpamScopesRequest.nextToken,
+            outputKey: \DescribeIpamScopesResult.nextToken,
+            on: eventLoop,
+            onPage: onPage
+        )
+    }
+
+    /// Provide paginated results to closure `onPage`.
+    ///
+    /// - Parameters:
+    ///   - input: Input for request
+    ///   - logger: Logger used flot logging
+    ///   - eventLoop: EventLoop to run this process on
+    ///   - onPage: closure called with each block of entries. Returns boolean indicating whether we should continue.
+    public func describeIpamScopesPaginator(
+        _ input: DescribeIpamScopesRequest,
+        logger: Logger = AWSClient.loggingDisabled,
+        on eventLoop: EventLoop? = nil,
+        onPage: @escaping (DescribeIpamScopesResult, EventLoop) -> EventLoopFuture<Bool>
+    ) -> EventLoopFuture<Void> {
+        return client.paginate(
+            input: input,
+            command: describeIpamScopes,
+            inputKey: \DescribeIpamScopesRequest.nextToken,
+            outputKey: \DescribeIpamScopesResult.nextToken,
+            on: eventLoop,
+            onPage: onPage
+        )
+    }
+
+    ///  Get information about your IPAM pools. For more information, see What is IPAM? in the Amazon VPC IPAM User Guide.
+    ///
+    /// Provide paginated results to closure `onPage` for it to combine them into one result.
+    /// This works in a similar manner to `Array.reduce<Result>(_:_:) -> Result`.
+    ///
+    /// Parameters:
+    ///   - input: Input for request
+    ///   - initialValue: The value to use as the initial accumulating value. `initialValue` is passed to `onPage` the first time it is called.
+    ///   - logger: Logger used flot logging
+    ///   - eventLoop: EventLoop to run this process on
+    ///   - onPage: closure called with each paginated response. It combines an accumulating result with the contents of response. This combined result is then returned
+    ///         along with a boolean indicating if the paginate operation should continue.
+    public func describeIpamsPaginator<Result>(
+        _ input: DescribeIpamsRequest,
+        _ initialValue: Result,
+        logger: Logger = AWSClient.loggingDisabled,
+        on eventLoop: EventLoop? = nil,
+        onPage: @escaping (Result, DescribeIpamsResult, EventLoop) -> EventLoopFuture<(Bool, Result)>
+    ) -> EventLoopFuture<Result> {
+        return client.paginate(
+            input: input,
+            initialValue: initialValue,
+            command: describeIpams,
+            inputKey: \DescribeIpamsRequest.nextToken,
+            outputKey: \DescribeIpamsResult.nextToken,
+            on: eventLoop,
+            onPage: onPage
+        )
+    }
+
+    /// Provide paginated results to closure `onPage`.
+    ///
+    /// - Parameters:
+    ///   - input: Input for request
+    ///   - logger: Logger used flot logging
+    ///   - eventLoop: EventLoop to run this process on
+    ///   - onPage: closure called with each block of entries. Returns boolean indicating whether we should continue.
+    public func describeIpamsPaginator(
+        _ input: DescribeIpamsRequest,
+        logger: Logger = AWSClient.loggingDisabled,
+        on eventLoop: EventLoop? = nil,
+        onPage: @escaping (DescribeIpamsResult, EventLoop) -> EventLoopFuture<Bool>
+    ) -> EventLoopFuture<Void> {
+        return client.paginate(
+            input: input,
+            command: describeIpams,
+            inputKey: \DescribeIpamsRequest.nextToken,
+            outputKey: \DescribeIpamsResult.nextToken,
             on: eventLoop,
             onPage: onPage
         )
@@ -2414,6 +2573,112 @@ extension EC2 {
             command: describeNetworkAcls,
             inputKey: \DescribeNetworkAclsRequest.nextToken,
             outputKey: \DescribeNetworkAclsResult.nextToken,
+            on: eventLoop,
+            onPage: onPage
+        )
+    }
+
+    ///  Describes the specified Network Access Scope analyses.
+    ///
+    /// Provide paginated results to closure `onPage` for it to combine them into one result.
+    /// This works in a similar manner to `Array.reduce<Result>(_:_:) -> Result`.
+    ///
+    /// Parameters:
+    ///   - input: Input for request
+    ///   - initialValue: The value to use as the initial accumulating value. `initialValue` is passed to `onPage` the first time it is called.
+    ///   - logger: Logger used flot logging
+    ///   - eventLoop: EventLoop to run this process on
+    ///   - onPage: closure called with each paginated response. It combines an accumulating result with the contents of response. This combined result is then returned
+    ///         along with a boolean indicating if the paginate operation should continue.
+    public func describeNetworkInsightsAccessScopeAnalysesPaginator<Result>(
+        _ input: DescribeNetworkInsightsAccessScopeAnalysesRequest,
+        _ initialValue: Result,
+        logger: Logger = AWSClient.loggingDisabled,
+        on eventLoop: EventLoop? = nil,
+        onPage: @escaping (Result, DescribeNetworkInsightsAccessScopeAnalysesResult, EventLoop) -> EventLoopFuture<(Bool, Result)>
+    ) -> EventLoopFuture<Result> {
+        return client.paginate(
+            input: input,
+            initialValue: initialValue,
+            command: describeNetworkInsightsAccessScopeAnalyses,
+            inputKey: \DescribeNetworkInsightsAccessScopeAnalysesRequest.nextToken,
+            outputKey: \DescribeNetworkInsightsAccessScopeAnalysesResult.nextToken,
+            on: eventLoop,
+            onPage: onPage
+        )
+    }
+
+    /// Provide paginated results to closure `onPage`.
+    ///
+    /// - Parameters:
+    ///   - input: Input for request
+    ///   - logger: Logger used flot logging
+    ///   - eventLoop: EventLoop to run this process on
+    ///   - onPage: closure called with each block of entries. Returns boolean indicating whether we should continue.
+    public func describeNetworkInsightsAccessScopeAnalysesPaginator(
+        _ input: DescribeNetworkInsightsAccessScopeAnalysesRequest,
+        logger: Logger = AWSClient.loggingDisabled,
+        on eventLoop: EventLoop? = nil,
+        onPage: @escaping (DescribeNetworkInsightsAccessScopeAnalysesResult, EventLoop) -> EventLoopFuture<Bool>
+    ) -> EventLoopFuture<Void> {
+        return client.paginate(
+            input: input,
+            command: describeNetworkInsightsAccessScopeAnalyses,
+            inputKey: \DescribeNetworkInsightsAccessScopeAnalysesRequest.nextToken,
+            outputKey: \DescribeNetworkInsightsAccessScopeAnalysesResult.nextToken,
+            on: eventLoop,
+            onPage: onPage
+        )
+    }
+
+    ///  Describes the specified Network Access Scopes.
+    ///
+    /// Provide paginated results to closure `onPage` for it to combine them into one result.
+    /// This works in a similar manner to `Array.reduce<Result>(_:_:) -> Result`.
+    ///
+    /// Parameters:
+    ///   - input: Input for request
+    ///   - initialValue: The value to use as the initial accumulating value. `initialValue` is passed to `onPage` the first time it is called.
+    ///   - logger: Logger used flot logging
+    ///   - eventLoop: EventLoop to run this process on
+    ///   - onPage: closure called with each paginated response. It combines an accumulating result with the contents of response. This combined result is then returned
+    ///         along with a boolean indicating if the paginate operation should continue.
+    public func describeNetworkInsightsAccessScopesPaginator<Result>(
+        _ input: DescribeNetworkInsightsAccessScopesRequest,
+        _ initialValue: Result,
+        logger: Logger = AWSClient.loggingDisabled,
+        on eventLoop: EventLoop? = nil,
+        onPage: @escaping (Result, DescribeNetworkInsightsAccessScopesResult, EventLoop) -> EventLoopFuture<(Bool, Result)>
+    ) -> EventLoopFuture<Result> {
+        return client.paginate(
+            input: input,
+            initialValue: initialValue,
+            command: describeNetworkInsightsAccessScopes,
+            inputKey: \DescribeNetworkInsightsAccessScopesRequest.nextToken,
+            outputKey: \DescribeNetworkInsightsAccessScopesResult.nextToken,
+            on: eventLoop,
+            onPage: onPage
+        )
+    }
+
+    /// Provide paginated results to closure `onPage`.
+    ///
+    /// - Parameters:
+    ///   - input: Input for request
+    ///   - logger: Logger used flot logging
+    ///   - eventLoop: EventLoop to run this process on
+    ///   - onPage: closure called with each block of entries. Returns boolean indicating whether we should continue.
+    public func describeNetworkInsightsAccessScopesPaginator(
+        _ input: DescribeNetworkInsightsAccessScopesRequest,
+        logger: Logger = AWSClient.loggingDisabled,
+        on eventLoop: EventLoop? = nil,
+        onPage: @escaping (DescribeNetworkInsightsAccessScopesResult, EventLoop) -> EventLoopFuture<Bool>
+    ) -> EventLoopFuture<Void> {
+        return client.paginate(
+            input: input,
+            command: describeNetworkInsightsAccessScopes,
+            inputKey: \DescribeNetworkInsightsAccessScopesRequest.nextToken,
+            outputKey: \DescribeNetworkInsightsAccessScopesResult.nextToken,
             on: eventLoop,
             onPage: onPage
         )
@@ -3217,6 +3482,59 @@ extension EC2 {
             command: describeSecurityGroups,
             inputKey: \DescribeSecurityGroupsRequest.nextToken,
             outputKey: \DescribeSecurityGroupsResult.nextToken,
+            on: eventLoop,
+            onPage: onPage
+        )
+    }
+
+    ///  Describes the storage tier status of one or more Amazon EBS snapshots.
+    ///
+    /// Provide paginated results to closure `onPage` for it to combine them into one result.
+    /// This works in a similar manner to `Array.reduce<Result>(_:_:) -> Result`.
+    ///
+    /// Parameters:
+    ///   - input: Input for request
+    ///   - initialValue: The value to use as the initial accumulating value. `initialValue` is passed to `onPage` the first time it is called.
+    ///   - logger: Logger used flot logging
+    ///   - eventLoop: EventLoop to run this process on
+    ///   - onPage: closure called with each paginated response. It combines an accumulating result with the contents of response. This combined result is then returned
+    ///         along with a boolean indicating if the paginate operation should continue.
+    public func describeSnapshotTierStatusPaginator<Result>(
+        _ input: DescribeSnapshotTierStatusRequest,
+        _ initialValue: Result,
+        logger: Logger = AWSClient.loggingDisabled,
+        on eventLoop: EventLoop? = nil,
+        onPage: @escaping (Result, DescribeSnapshotTierStatusResult, EventLoop) -> EventLoopFuture<(Bool, Result)>
+    ) -> EventLoopFuture<Result> {
+        return client.paginate(
+            input: input,
+            initialValue: initialValue,
+            command: describeSnapshotTierStatus,
+            inputKey: \DescribeSnapshotTierStatusRequest.nextToken,
+            outputKey: \DescribeSnapshotTierStatusResult.nextToken,
+            on: eventLoop,
+            onPage: onPage
+        )
+    }
+
+    /// Provide paginated results to closure `onPage`.
+    ///
+    /// - Parameters:
+    ///   - input: Input for request
+    ///   - logger: Logger used flot logging
+    ///   - eventLoop: EventLoop to run this process on
+    ///   - onPage: closure called with each block of entries. Returns boolean indicating whether we should continue.
+    public func describeSnapshotTierStatusPaginator(
+        _ input: DescribeSnapshotTierStatusRequest,
+        logger: Logger = AWSClient.loggingDisabled,
+        on eventLoop: EventLoop? = nil,
+        onPage: @escaping (DescribeSnapshotTierStatusResult, EventLoop) -> EventLoopFuture<Bool>
+    ) -> EventLoopFuture<Void> {
+        return client.paginate(
+            input: input,
+            command: describeSnapshotTierStatus,
+            inputKey: \DescribeSnapshotTierStatusRequest.nextToken,
+            outputKey: \DescribeSnapshotTierStatusResult.nextToken,
             on: eventLoop,
             onPage: onPage
         )
@@ -5025,6 +5343,218 @@ extension EC2 {
         )
     }
 
+    ///  Retrieve historical information about a CIDR within an IPAM scope. For more information, see View the history of IP addresses in the Amazon VPC IPAM User Guide.
+    ///
+    /// Provide paginated results to closure `onPage` for it to combine them into one result.
+    /// This works in a similar manner to `Array.reduce<Result>(_:_:) -> Result`.
+    ///
+    /// Parameters:
+    ///   - input: Input for request
+    ///   - initialValue: The value to use as the initial accumulating value. `initialValue` is passed to `onPage` the first time it is called.
+    ///   - logger: Logger used flot logging
+    ///   - eventLoop: EventLoop to run this process on
+    ///   - onPage: closure called with each paginated response. It combines an accumulating result with the contents of response. This combined result is then returned
+    ///         along with a boolean indicating if the paginate operation should continue.
+    public func getIpamAddressHistoryPaginator<Result>(
+        _ input: GetIpamAddressHistoryRequest,
+        _ initialValue: Result,
+        logger: Logger = AWSClient.loggingDisabled,
+        on eventLoop: EventLoop? = nil,
+        onPage: @escaping (Result, GetIpamAddressHistoryResult, EventLoop) -> EventLoopFuture<(Bool, Result)>
+    ) -> EventLoopFuture<Result> {
+        return client.paginate(
+            input: input,
+            initialValue: initialValue,
+            command: getIpamAddressHistory,
+            inputKey: \GetIpamAddressHistoryRequest.nextToken,
+            outputKey: \GetIpamAddressHistoryResult.nextToken,
+            on: eventLoop,
+            onPage: onPage
+        )
+    }
+
+    /// Provide paginated results to closure `onPage`.
+    ///
+    /// - Parameters:
+    ///   - input: Input for request
+    ///   - logger: Logger used flot logging
+    ///   - eventLoop: EventLoop to run this process on
+    ///   - onPage: closure called with each block of entries. Returns boolean indicating whether we should continue.
+    public func getIpamAddressHistoryPaginator(
+        _ input: GetIpamAddressHistoryRequest,
+        logger: Logger = AWSClient.loggingDisabled,
+        on eventLoop: EventLoop? = nil,
+        onPage: @escaping (GetIpamAddressHistoryResult, EventLoop) -> EventLoopFuture<Bool>
+    ) -> EventLoopFuture<Void> {
+        return client.paginate(
+            input: input,
+            command: getIpamAddressHistory,
+            inputKey: \GetIpamAddressHistoryRequest.nextToken,
+            outputKey: \GetIpamAddressHistoryResult.nextToken,
+            on: eventLoop,
+            onPage: onPage
+        )
+    }
+
+    ///  Get a list of all the CIDR allocations in an IPAM pool.
+    ///
+    /// Provide paginated results to closure `onPage` for it to combine them into one result.
+    /// This works in a similar manner to `Array.reduce<Result>(_:_:) -> Result`.
+    ///
+    /// Parameters:
+    ///   - input: Input for request
+    ///   - initialValue: The value to use as the initial accumulating value. `initialValue` is passed to `onPage` the first time it is called.
+    ///   - logger: Logger used flot logging
+    ///   - eventLoop: EventLoop to run this process on
+    ///   - onPage: closure called with each paginated response. It combines an accumulating result with the contents of response. This combined result is then returned
+    ///         along with a boolean indicating if the paginate operation should continue.
+    public func getIpamPoolAllocationsPaginator<Result>(
+        _ input: GetIpamPoolAllocationsRequest,
+        _ initialValue: Result,
+        logger: Logger = AWSClient.loggingDisabled,
+        on eventLoop: EventLoop? = nil,
+        onPage: @escaping (Result, GetIpamPoolAllocationsResult, EventLoop) -> EventLoopFuture<(Bool, Result)>
+    ) -> EventLoopFuture<Result> {
+        return client.paginate(
+            input: input,
+            initialValue: initialValue,
+            command: getIpamPoolAllocations,
+            inputKey: \GetIpamPoolAllocationsRequest.nextToken,
+            outputKey: \GetIpamPoolAllocationsResult.nextToken,
+            on: eventLoop,
+            onPage: onPage
+        )
+    }
+
+    /// Provide paginated results to closure `onPage`.
+    ///
+    /// - Parameters:
+    ///   - input: Input for request
+    ///   - logger: Logger used flot logging
+    ///   - eventLoop: EventLoop to run this process on
+    ///   - onPage: closure called with each block of entries. Returns boolean indicating whether we should continue.
+    public func getIpamPoolAllocationsPaginator(
+        _ input: GetIpamPoolAllocationsRequest,
+        logger: Logger = AWSClient.loggingDisabled,
+        on eventLoop: EventLoop? = nil,
+        onPage: @escaping (GetIpamPoolAllocationsResult, EventLoop) -> EventLoopFuture<Bool>
+    ) -> EventLoopFuture<Void> {
+        return client.paginate(
+            input: input,
+            command: getIpamPoolAllocations,
+            inputKey: \GetIpamPoolAllocationsRequest.nextToken,
+            outputKey: \GetIpamPoolAllocationsResult.nextToken,
+            on: eventLoop,
+            onPage: onPage
+        )
+    }
+
+    ///  Get the CIDRs provisioned to an IPAM pool.
+    ///
+    /// Provide paginated results to closure `onPage` for it to combine them into one result.
+    /// This works in a similar manner to `Array.reduce<Result>(_:_:) -> Result`.
+    ///
+    /// Parameters:
+    ///   - input: Input for request
+    ///   - initialValue: The value to use as the initial accumulating value. `initialValue` is passed to `onPage` the first time it is called.
+    ///   - logger: Logger used flot logging
+    ///   - eventLoop: EventLoop to run this process on
+    ///   - onPage: closure called with each paginated response. It combines an accumulating result with the contents of response. This combined result is then returned
+    ///         along with a boolean indicating if the paginate operation should continue.
+    public func getIpamPoolCidrsPaginator<Result>(
+        _ input: GetIpamPoolCidrsRequest,
+        _ initialValue: Result,
+        logger: Logger = AWSClient.loggingDisabled,
+        on eventLoop: EventLoop? = nil,
+        onPage: @escaping (Result, GetIpamPoolCidrsResult, EventLoop) -> EventLoopFuture<(Bool, Result)>
+    ) -> EventLoopFuture<Result> {
+        return client.paginate(
+            input: input,
+            initialValue: initialValue,
+            command: getIpamPoolCidrs,
+            inputKey: \GetIpamPoolCidrsRequest.nextToken,
+            outputKey: \GetIpamPoolCidrsResult.nextToken,
+            on: eventLoop,
+            onPage: onPage
+        )
+    }
+
+    /// Provide paginated results to closure `onPage`.
+    ///
+    /// - Parameters:
+    ///   - input: Input for request
+    ///   - logger: Logger used flot logging
+    ///   - eventLoop: EventLoop to run this process on
+    ///   - onPage: closure called with each block of entries. Returns boolean indicating whether we should continue.
+    public func getIpamPoolCidrsPaginator(
+        _ input: GetIpamPoolCidrsRequest,
+        logger: Logger = AWSClient.loggingDisabled,
+        on eventLoop: EventLoop? = nil,
+        onPage: @escaping (GetIpamPoolCidrsResult, EventLoop) -> EventLoopFuture<Bool>
+    ) -> EventLoopFuture<Void> {
+        return client.paginate(
+            input: input,
+            command: getIpamPoolCidrs,
+            inputKey: \GetIpamPoolCidrsRequest.nextToken,
+            outputKey: \GetIpamPoolCidrsResult.nextToken,
+            on: eventLoop,
+            onPage: onPage
+        )
+    }
+
+    ///  Get information about the resources in a scope.
+    ///
+    /// Provide paginated results to closure `onPage` for it to combine them into one result.
+    /// This works in a similar manner to `Array.reduce<Result>(_:_:) -> Result`.
+    ///
+    /// Parameters:
+    ///   - input: Input for request
+    ///   - initialValue: The value to use as the initial accumulating value. `initialValue` is passed to `onPage` the first time it is called.
+    ///   - logger: Logger used flot logging
+    ///   - eventLoop: EventLoop to run this process on
+    ///   - onPage: closure called with each paginated response. It combines an accumulating result with the contents of response. This combined result is then returned
+    ///         along with a boolean indicating if the paginate operation should continue.
+    public func getIpamResourceCidrsPaginator<Result>(
+        _ input: GetIpamResourceCidrsRequest,
+        _ initialValue: Result,
+        logger: Logger = AWSClient.loggingDisabled,
+        on eventLoop: EventLoop? = nil,
+        onPage: @escaping (Result, GetIpamResourceCidrsResult, EventLoop) -> EventLoopFuture<(Bool, Result)>
+    ) -> EventLoopFuture<Result> {
+        return client.paginate(
+            input: input,
+            initialValue: initialValue,
+            command: getIpamResourceCidrs,
+            inputKey: \GetIpamResourceCidrsRequest.nextToken,
+            outputKey: \GetIpamResourceCidrsResult.nextToken,
+            on: eventLoop,
+            onPage: onPage
+        )
+    }
+
+    /// Provide paginated results to closure `onPage`.
+    ///
+    /// - Parameters:
+    ///   - input: Input for request
+    ///   - logger: Logger used flot logging
+    ///   - eventLoop: EventLoop to run this process on
+    ///   - onPage: closure called with each block of entries. Returns boolean indicating whether we should continue.
+    public func getIpamResourceCidrsPaginator(
+        _ input: GetIpamResourceCidrsRequest,
+        logger: Logger = AWSClient.loggingDisabled,
+        on eventLoop: EventLoop? = nil,
+        onPage: @escaping (GetIpamResourceCidrsResult, EventLoop) -> EventLoopFuture<Bool>
+    ) -> EventLoopFuture<Void> {
+        return client.paginate(
+            input: input,
+            command: getIpamResourceCidrs,
+            inputKey: \GetIpamResourceCidrsRequest.nextToken,
+            outputKey: \GetIpamResourceCidrsResult.nextToken,
+            on: eventLoop,
+            onPage: onPage
+        )
+    }
+
     ///  Gets information about the resources that are associated with the specified managed prefix list.
     ///
     /// Provide paginated results to closure `onPage` for it to combine them into one result.
@@ -5497,6 +6027,59 @@ extension EC2 {
             command: getVpnConnectionDeviceTypes,
             inputKey: \GetVpnConnectionDeviceTypesRequest.nextToken,
             outputKey: \GetVpnConnectionDeviceTypesResult.nextToken,
+            on: eventLoop,
+            onPage: onPage
+        )
+    }
+
+    ///  Lists one or more snapshots that are currently in the Recycle Bin.
+    ///
+    /// Provide paginated results to closure `onPage` for it to combine them into one result.
+    /// This works in a similar manner to `Array.reduce<Result>(_:_:) -> Result`.
+    ///
+    /// Parameters:
+    ///   - input: Input for request
+    ///   - initialValue: The value to use as the initial accumulating value. `initialValue` is passed to `onPage` the first time it is called.
+    ///   - logger: Logger used flot logging
+    ///   - eventLoop: EventLoop to run this process on
+    ///   - onPage: closure called with each paginated response. It combines an accumulating result with the contents of response. This combined result is then returned
+    ///         along with a boolean indicating if the paginate operation should continue.
+    public func listSnapshotsInRecycleBinPaginator<Result>(
+        _ input: ListSnapshotsInRecycleBinRequest,
+        _ initialValue: Result,
+        logger: Logger = AWSClient.loggingDisabled,
+        on eventLoop: EventLoop? = nil,
+        onPage: @escaping (Result, ListSnapshotsInRecycleBinResult, EventLoop) -> EventLoopFuture<(Bool, Result)>
+    ) -> EventLoopFuture<Result> {
+        return client.paginate(
+            input: input,
+            initialValue: initialValue,
+            command: listSnapshotsInRecycleBin,
+            inputKey: \ListSnapshotsInRecycleBinRequest.nextToken,
+            outputKey: \ListSnapshotsInRecycleBinResult.nextToken,
+            on: eventLoop,
+            onPage: onPage
+        )
+    }
+
+    /// Provide paginated results to closure `onPage`.
+    ///
+    /// - Parameters:
+    ///   - input: Input for request
+    ///   - logger: Logger used flot logging
+    ///   - eventLoop: EventLoop to run this process on
+    ///   - onPage: closure called with each block of entries. Returns boolean indicating whether we should continue.
+    public func listSnapshotsInRecycleBinPaginator(
+        _ input: ListSnapshotsInRecycleBinRequest,
+        logger: Logger = AWSClient.loggingDisabled,
+        on eventLoop: EventLoop? = nil,
+        onPage: @escaping (ListSnapshotsInRecycleBinResult, EventLoop) -> EventLoopFuture<Bool>
+    ) -> EventLoopFuture<Void> {
+        return client.paginate(
+            input: input,
+            command: listSnapshotsInRecycleBin,
+            inputKey: \ListSnapshotsInRecycleBinRequest.nextToken,
+            outputKey: \ListSnapshotsInRecycleBinResult.nextToken,
             on: eventLoop,
             onPage: onPage
         )
@@ -5991,6 +6574,42 @@ extension EC2.DescribeInternetGatewaysRequest: AWSPaginateToken {
     }
 }
 
+extension EC2.DescribeIpamPoolsRequest: AWSPaginateToken {
+    public func usingPaginationToken(_ token: String) -> EC2.DescribeIpamPoolsRequest {
+        return .init(
+            dryRun: self.dryRun,
+            filters: self.filters,
+            ipamPoolIds: self.ipamPoolIds,
+            maxResults: self.maxResults,
+            nextToken: token
+        )
+    }
+}
+
+extension EC2.DescribeIpamScopesRequest: AWSPaginateToken {
+    public func usingPaginationToken(_ token: String) -> EC2.DescribeIpamScopesRequest {
+        return .init(
+            dryRun: self.dryRun,
+            filters: self.filters,
+            ipamScopeIds: self.ipamScopeIds,
+            maxResults: self.maxResults,
+            nextToken: token
+        )
+    }
+}
+
+extension EC2.DescribeIpamsRequest: AWSPaginateToken {
+    public func usingPaginationToken(_ token: String) -> EC2.DescribeIpamsRequest {
+        return .init(
+            dryRun: self.dryRun,
+            filters: self.filters,
+            ipamIds: self.ipamIds,
+            maxResults: self.maxResults,
+            nextToken: token
+        )
+    }
+}
+
 extension EC2.DescribeIpv6PoolsRequest: AWSPaginateToken {
     public func usingPaginationToken(_ token: String) -> EC2.DescribeIpv6PoolsRequest {
         return .init(
@@ -6147,6 +6766,33 @@ extension EC2.DescribeNetworkAclsRequest: AWSPaginateToken {
             filters: self.filters,
             maxResults: self.maxResults,
             networkAclIds: self.networkAclIds,
+            nextToken: token
+        )
+    }
+}
+
+extension EC2.DescribeNetworkInsightsAccessScopeAnalysesRequest: AWSPaginateToken {
+    public func usingPaginationToken(_ token: String) -> EC2.DescribeNetworkInsightsAccessScopeAnalysesRequest {
+        return .init(
+            analysisStartTimeBegin: self.analysisStartTimeBegin,
+            analysisStartTimeEnd: self.analysisStartTimeEnd,
+            dryRun: self.dryRun,
+            filters: self.filters,
+            maxResults: self.maxResults,
+            networkInsightsAccessScopeAnalysisIds: self.networkInsightsAccessScopeAnalysisIds,
+            networkInsightsAccessScopeId: self.networkInsightsAccessScopeId,
+            nextToken: token
+        )
+    }
+}
+
+extension EC2.DescribeNetworkInsightsAccessScopesRequest: AWSPaginateToken {
+    public func usingPaginationToken(_ token: String) -> EC2.DescribeNetworkInsightsAccessScopesRequest {
+        return .init(
+            dryRun: self.dryRun,
+            filters: self.filters,
+            maxResults: self.maxResults,
+            networkInsightsAccessScopeIds: self.networkInsightsAccessScopeIds,
             nextToken: token
         )
     }
@@ -6339,6 +6985,17 @@ extension EC2.DescribeSecurityGroupsRequest: AWSPaginateToken {
             filters: self.filters,
             groupIds: self.groupIds,
             groupNames: self.groupNames,
+            maxResults: self.maxResults,
+            nextToken: token
+        )
+    }
+}
+
+extension EC2.DescribeSnapshotTierStatusRequest: AWSPaginateToken {
+    public func usingPaginationToken(_ token: String) -> EC2.DescribeSnapshotTierStatusRequest {
+        return .init(
+            dryRun: self.dryRun,
+            filters: self.filters,
             maxResults: self.maxResults,
             nextToken: token
         )
@@ -6752,6 +7409,63 @@ extension EC2.GetInstanceTypesFromInstanceRequirementsRequest: AWSPaginateToken 
     }
 }
 
+extension EC2.GetIpamAddressHistoryRequest: AWSPaginateToken {
+    public func usingPaginationToken(_ token: String) -> EC2.GetIpamAddressHistoryRequest {
+        return .init(
+            cidr: self.cidr,
+            dryRun: self.dryRun,
+            endTime: self.endTime,
+            ipamScopeId: self.ipamScopeId,
+            maxResults: self.maxResults,
+            nextToken: token,
+            startTime: self.startTime,
+            vpcId: self.vpcId
+        )
+    }
+}
+
+extension EC2.GetIpamPoolAllocationsRequest: AWSPaginateToken {
+    public func usingPaginationToken(_ token: String) -> EC2.GetIpamPoolAllocationsRequest {
+        return .init(
+            dryRun: self.dryRun,
+            filters: self.filters,
+            ipamPoolAllocationId: self.ipamPoolAllocationId,
+            ipamPoolId: self.ipamPoolId,
+            maxResults: self.maxResults,
+            nextToken: token
+        )
+    }
+}
+
+extension EC2.GetIpamPoolCidrsRequest: AWSPaginateToken {
+    public func usingPaginationToken(_ token: String) -> EC2.GetIpamPoolCidrsRequest {
+        return .init(
+            dryRun: self.dryRun,
+            filters: self.filters,
+            ipamPoolId: self.ipamPoolId,
+            maxResults: self.maxResults,
+            nextToken: token
+        )
+    }
+}
+
+extension EC2.GetIpamResourceCidrsRequest: AWSPaginateToken {
+    public func usingPaginationToken(_ token: String) -> EC2.GetIpamResourceCidrsRequest {
+        return .init(
+            dryRun: self.dryRun,
+            filters: self.filters,
+            ipamPoolId: self.ipamPoolId,
+            ipamScopeId: self.ipamScopeId,
+            maxResults: self.maxResults,
+            nextToken: token,
+            resourceId: self.resourceId,
+            resourceOwner: self.resourceOwner,
+            resourceTag: self.resourceTag,
+            resourceType: self.resourceType
+        )
+    }
+}
+
 extension EC2.GetManagedPrefixListAssociationsRequest: AWSPaginateToken {
     public func usingPaginationToken(_ token: String) -> EC2.GetManagedPrefixListAssociationsRequest {
         return .init(
@@ -6857,6 +7571,17 @@ extension EC2.GetVpnConnectionDeviceTypesRequest: AWSPaginateToken {
             dryRun: self.dryRun,
             maxResults: self.maxResults,
             nextToken: token
+        )
+    }
+}
+
+extension EC2.ListSnapshotsInRecycleBinRequest: AWSPaginateToken {
+    public func usingPaginationToken(_ token: String) -> EC2.ListSnapshotsInRecycleBinRequest {
+        return .init(
+            dryRun: self.dryRun,
+            maxResults: self.maxResults,
+            nextToken: token,
+            snapshotIds: self.snapshotIds
         )
     }
 }

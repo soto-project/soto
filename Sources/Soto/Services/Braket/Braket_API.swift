@@ -63,9 +63,19 @@ public struct Braket: AWSService {
 
     // MARK: API Calls
 
+    /// Cancels an Amazon Braket job.
+    public func cancelJob(_ input: CancelJobRequest, logger: Logger = AWSClient.loggingDisabled, on eventLoop: EventLoop? = nil) -> EventLoopFuture<CancelJobResponse> {
+        return self.client.execute(operation: "CancelJob", path: "/job/{jobArn}/cancel", httpMethod: .PUT, serviceConfig: self.config, input: input, logger: logger, on: eventLoop)
+    }
+
     /// Cancels the specified task.
     public func cancelQuantumTask(_ input: CancelQuantumTaskRequest, logger: Logger = AWSClient.loggingDisabled, on eventLoop: EventLoop? = nil) -> EventLoopFuture<CancelQuantumTaskResponse> {
         return self.client.execute(operation: "CancelQuantumTask", path: "/quantum-task/{quantumTaskArn}/cancel", httpMethod: .PUT, serviceConfig: self.config, input: input, logger: logger, on: eventLoop)
+    }
+
+    /// Creates an Amazon Braket job.
+    public func createJob(_ input: CreateJobRequest, logger: Logger = AWSClient.loggingDisabled, on eventLoop: EventLoop? = nil) -> EventLoopFuture<CreateJobResponse> {
+        return self.client.execute(operation: "CreateJob", path: "/job", httpMethod: .POST, serviceConfig: self.config, input: input, logger: logger, on: eventLoop)
     }
 
     /// Creates a quantum task.
@@ -76,6 +86,11 @@ public struct Braket: AWSService {
     /// Retrieves the devices available in Amazon Braket.
     public func getDevice(_ input: GetDeviceRequest, logger: Logger = AWSClient.loggingDisabled, on eventLoop: EventLoop? = nil) -> EventLoopFuture<GetDeviceResponse> {
         return self.client.execute(operation: "GetDevice", path: "/device/{deviceArn}", httpMethod: .GET, serviceConfig: self.config, input: input, logger: logger, on: eventLoop)
+    }
+
+    /// Retrieves the specified Amazon Braket job.
+    public func getJob(_ input: GetJobRequest, logger: Logger = AWSClient.loggingDisabled, on eventLoop: EventLoop? = nil) -> EventLoopFuture<GetJobResponse> {
+        return self.client.execute(operation: "GetJob", path: "/job/{jobArn}", httpMethod: .GET, serviceConfig: self.config, input: input, logger: logger, on: eventLoop)
     }
 
     /// Retrieves the specified quantum task.
@@ -91,6 +106,11 @@ public struct Braket: AWSService {
     /// Searches for devices using the specified filters.
     public func searchDevices(_ input: SearchDevicesRequest, logger: Logger = AWSClient.loggingDisabled, on eventLoop: EventLoop? = nil) -> EventLoopFuture<SearchDevicesResponse> {
         return self.client.execute(operation: "SearchDevices", path: "/devices", httpMethod: .POST, serviceConfig: self.config, input: input, logger: logger, on: eventLoop)
+    }
+
+    /// Searches for Amazon Braket jobs that match the specified filter values.
+    public func searchJobs(_ input: SearchJobsRequest, logger: Logger = AWSClient.loggingDisabled, on eventLoop: EventLoop? = nil) -> EventLoopFuture<SearchJobsResponse> {
+        return self.client.execute(operation: "SearchJobs", path: "/jobs", httpMethod: .POST, serviceConfig: self.config, input: input, logger: logger, on: eventLoop)
     }
 
     /// Searches for tasks that match the specified filter values.

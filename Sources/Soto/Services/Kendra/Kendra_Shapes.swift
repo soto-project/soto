@@ -26,6 +26,21 @@ extension Kendra {
         public var description: String { return self.rawValue }
     }
 
+    public enum ConditionOperator: String, CustomStringConvertible, Codable {
+        case beginsWith = "BeginsWith"
+        case contains = "Contains"
+        case equals = "Equals"
+        case exists = "Exists"
+        case greaterThan = "GreaterThan"
+        case greaterThanOrEquals = "GreaterThanOrEquals"
+        case lessThan = "LessThan"
+        case lessThanOrEquals = "LessThanOrEquals"
+        case notContains = "NotContains"
+        case notEquals = "NotEquals"
+        case notExists = "NotExists"
+        public var description: String { return self.rawValue }
+    }
+
     public enum ConfluenceAttachmentFieldName: String, CustomStringConvertible, Codable {
         case author = "AUTHOR"
         case contentType = "CONTENT_TYPE"
@@ -154,9 +169,28 @@ extension Kendra {
         public var description: String { return self.rawValue }
     }
 
+    public enum EndpointType: String, CustomStringConvertible, Codable {
+        case home = "HOME"
+        public var description: String { return self.rawValue }
+    }
+
+    public enum EntityType: String, CustomStringConvertible, Codable {
+        case group = "GROUP"
+        case user = "USER"
+        public var description: String { return self.rawValue }
+    }
+
     public enum ErrorCode: String, CustomStringConvertible, Codable {
         case internalError = "InternalError"
         case invalidRequest = "InvalidRequest"
+        public var description: String { return self.rawValue }
+    }
+
+    public enum ExperienceStatus: String, CustomStringConvertible, Codable {
+        case active = "ACTIVE"
+        case creating = "CREATING"
+        case deleting = "DELETING"
+        case failed = "FAILED"
         public var description: String { return self.rawValue }
     }
 
@@ -198,9 +232,29 @@ extension Kendra {
         public var description: String { return self.rawValue }
     }
 
+    public enum Interval: String, CustomStringConvertible, Codable {
+        case oneMonthAgo = "ONE_MONTH_AGO"
+        case oneWeekAgo = "ONE_WEEK_AGO"
+        case thisMonth = "THIS_MONTH"
+        case thisWeek = "THIS_WEEK"
+        case twoMonthsAgo = "TWO_MONTHS_AGO"
+        case twoWeeksAgo = "TWO_WEEKS_AGO"
+        public var description: String { return self.rawValue }
+    }
+
     public enum KeyLocation: String, CustomStringConvertible, Codable {
         case secretManager = "SECRET_MANAGER"
         case url = "URL"
+        public var description: String { return self.rawValue }
+    }
+
+    public enum MetricType: String, CustomStringConvertible, Codable {
+        case aggQueryDocMetrics = "AGG_QUERY_DOC_METRICS"
+        case docsByClickCount = "DOCS_BY_CLICK_COUNT"
+        case queriesByCount = "QUERIES_BY_COUNT"
+        case queriesByZeroClickRate = "QUERIES_BY_ZERO_CLICK_RATE"
+        case queriesByZeroResultRate = "QUERIES_BY_ZERO_RESULT_RATE"
+        case trendQueryDocMetrics = "TREND_QUERY_DOC_METRICS"
         public var description: String { return self.rawValue }
     }
 
@@ -213,6 +267,12 @@ extension Kendra {
     public enum Order: String, CustomStringConvertible, Codable {
         case ascending = "ASCENDING"
         case descending = "DESCENDING"
+        public var description: String { return self.rawValue }
+    }
+
+    public enum Persona: String, CustomStringConvertible, Codable {
+        case owner = "OWNER"
+        case viewer = "VIEWER"
         public var description: String { return self.rawValue }
     }
 
@@ -442,6 +502,102 @@ extension Kendra {
         }
     }
 
+    public struct AssociateEntitiesToExperienceRequest: AWSEncodableShape {
+        /// Lists users or groups in your Amazon Web Services SSO identity source.
+        public let entityList: [EntityConfiguration]
+        /// The identifier of your Amazon Kendra experience.
+        public let id: String
+        /// The identifier of the index for your Amazon Kendra experience.
+        public let indexId: String
+
+        public init(entityList: [EntityConfiguration], id: String, indexId: String) {
+            self.entityList = entityList
+            self.id = id
+            self.indexId = indexId
+        }
+
+        public func validate(name: String) throws {
+            try self.entityList.forEach {
+                try $0.validate(name: "\(name).entityList[]")
+            }
+            try self.validate(self.entityList, name: "entityList", parent: name, max: 20)
+            try self.validate(self.entityList, name: "entityList", parent: name, min: 1)
+            try self.validate(self.id, name: "id", parent: name, max: 36)
+            try self.validate(self.id, name: "id", parent: name, min: 1)
+            try self.validate(self.id, name: "id", parent: name, pattern: "^[a-zA-Z0-9][a-zA-Z0-9_-]*$")
+            try self.validate(self.indexId, name: "indexId", parent: name, max: 36)
+            try self.validate(self.indexId, name: "indexId", parent: name, min: 36)
+            try self.validate(self.indexId, name: "indexId", parent: name, pattern: "^[a-zA-Z0-9][a-zA-Z0-9-]*$")
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case entityList = "EntityList"
+            case id = "Id"
+            case indexId = "IndexId"
+        }
+    }
+
+    public struct AssociateEntitiesToExperienceResponse: AWSDecodableShape {
+        /// Lists the users or groups in your Amazon Web Services SSO identity source that  failed to properly configure with your Amazon Kendra experience.
+        public let failedEntityList: [FailedEntity]?
+
+        public init(failedEntityList: [FailedEntity]? = nil) {
+            self.failedEntityList = failedEntityList
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case failedEntityList = "FailedEntityList"
+        }
+    }
+
+    public struct AssociatePersonasToEntitiesRequest: AWSEncodableShape {
+        /// The identifier of your Amazon Kendra experience.
+        public let id: String
+        /// The identifier of the index for your Amazon Kendra experience.
+        public let indexId: String
+        /// The personas that define the specific permissions of users or groups in  your Amazon Web Services SSO identity source. The available personas or access  roles are Owner and Viewer. For more information  on these personas, see Providing  access to your search page.
+        public let personas: [EntityPersonaConfiguration]
+
+        public init(id: String, indexId: String, personas: [EntityPersonaConfiguration]) {
+            self.id = id
+            self.indexId = indexId
+            self.personas = personas
+        }
+
+        public func validate(name: String) throws {
+            try self.validate(self.id, name: "id", parent: name, max: 36)
+            try self.validate(self.id, name: "id", parent: name, min: 1)
+            try self.validate(self.id, name: "id", parent: name, pattern: "^[a-zA-Z0-9][a-zA-Z0-9_-]*$")
+            try self.validate(self.indexId, name: "indexId", parent: name, max: 36)
+            try self.validate(self.indexId, name: "indexId", parent: name, min: 36)
+            try self.validate(self.indexId, name: "indexId", parent: name, pattern: "^[a-zA-Z0-9][a-zA-Z0-9-]*$")
+            try self.personas.forEach {
+                try $0.validate(name: "\(name).personas[]")
+            }
+            try self.validate(self.personas, name: "personas", parent: name, max: 25)
+            try self.validate(self.personas, name: "personas", parent: name, min: 1)
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case id = "Id"
+            case indexId = "IndexId"
+            case personas = "Personas"
+        }
+    }
+
+    public struct AssociatePersonasToEntitiesResponse: AWSDecodableShape {
+        /// Lists the users or groups in your Amazon Web Services SSO identity source that  failed to properly configure with your Amazon Kendra experience.
+        public let failedEntityList: [FailedEntity]?
+
+        public init(failedEntityList: [FailedEntity]? = nil) {
+            self.failedEntityList = failedEntityList
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case failedEntityList = "FailedEntityList"
+        }
+    }
+
     public class AttributeFilter: AWSEncodableShape {
         /// Performs a logical AND operation on all supplied filters.
         public let andAllFilters: [AttributeFilter]?
@@ -529,7 +685,7 @@ extension Kendra {
     }
 
     public struct BasicAuthenticationConfiguration: AWSEncodableShape & AWSDecodableShape {
-        /// Your secret ARN, which you can create in AWS Secrets Manager  You use a secret if basic authentication credentials are required to connect  to a website. The secret stores your credentials of user name and password.
+        /// Your secret ARN, which you can create in Secrets Manager  You use a secret if basic authentication credentials are required to connect  to a website. The secret stores your credentials of user name and password.
         public let credentials: String
         /// The name of the website host you want to connect to using  authentication credentials. For example, the host name of https://a.example.com/page1.html is  "a.example.com".
         public let host: String
@@ -694,6 +850,8 @@ extension Kendra {
     }
 
     public struct BatchPutDocumentRequest: AWSEncodableShape {
+        /// Configuration information for altering your document metadata and content during  the document ingestion process when you use the BatchPutDocument  operation. For more information on how to create, modify and delete document metadata,  or make other content alterations when you ingest documents into Amazon Kendra, see  Customizing  document metadata during the ingestion process.
+        public let customDocumentEnrichmentConfiguration: CustomDocumentEnrichmentConfiguration?
         /// One or more documents to add to the index. Documents can include custom attributes. For example,  'DataSourceId' and 'DataSourceSyncJobId' are custom  attributes that provide information on the synchronization  of documents running on a data source. Note,  'DataSourceSyncJobId' could be an optional custom attribute  as Amazon Kendra will use the ID of a running sync job. Documents have the following file size limits.   5 MB total size for inline documents   50 MB total size for files from an S3 bucket   5 MB extracted text for any file   For more information about file size and transaction per second quotas, see Quotas.
         public let documents: [Document]
         /// The identifier of the index to add the documents to. You need to create the index first using the CreateIndex operation.
@@ -701,13 +859,15 @@ extension Kendra {
         /// The Amazon Resource Name (ARN) of a role that is allowed to run the BatchPutDocument operation. For more information, see IAM Roles for Amazon Kendra.
         public let roleArn: String?
 
-        public init(documents: [Document], indexId: String, roleArn: String? = nil) {
+        public init(customDocumentEnrichmentConfiguration: CustomDocumentEnrichmentConfiguration? = nil, documents: [Document], indexId: String, roleArn: String? = nil) {
+            self.customDocumentEnrichmentConfiguration = customDocumentEnrichmentConfiguration
             self.documents = documents
             self.indexId = indexId
             self.roleArn = roleArn
         }
 
         public func validate(name: String) throws {
+            try self.customDocumentEnrichmentConfiguration?.validate(name: "\(name).customDocumentEnrichmentConfiguration")
             try self.documents.forEach {
                 try $0.validate(name: "\(name).documents[]")
             }
@@ -717,11 +877,11 @@ extension Kendra {
             try self.validate(self.indexId, name: "indexId", parent: name, min: 36)
             try self.validate(self.indexId, name: "indexId", parent: name, pattern: "^[a-zA-Z0-9][a-zA-Z0-9-]*$")
             try self.validate(self.roleArn, name: "roleArn", parent: name, max: 1284)
-            try self.validate(self.roleArn, name: "roleArn", parent: name, min: 1)
             try self.validate(self.roleArn, name: "roleArn", parent: name, pattern: "^arn:[a-z0-9-\\.]{1,63}:[a-z0-9-\\.]{0,63}:[a-z0-9-\\.]{0,63}:[a-z0-9-\\.]{0,63}:[^/].{0,1023}$")
         }
 
         private enum CodingKeys: String, CodingKey {
+            case customDocumentEnrichmentConfiguration = "CustomDocumentEnrichmentConfiguration"
             case documents = "Documents"
             case indexId = "IndexId"
             case roleArn = "RoleArn"
@@ -995,7 +1155,7 @@ extension Kendra {
         public let inclusionPatterns: [String]?
         /// Specifies configuration information for indexing Confluence pages.
         public let pageConfiguration: ConfluencePageConfiguration?
-        /// The Amazon Resource Name (ARN) of an Secrets Managersecret that contains the key/value pairs required to connect to your Confluence server. The secret must contain a JSON structure with the following keys:   username - The user name or email address of a user with administrative privileges for the Confluence server.   password - The password associated with the user logging in to the Confluence server.
+        /// The Amazon Resource Name (ARN) of an Secrets Manager secret that contains the key/value pairs required to connect to your Confluence server. The secret must contain a JSON structure with the following keys:   username - The user name or email address of a user with administrative privileges for the Confluence server.   password - The password associated with the user logging in to the Confluence server.
         public let secretArn: String
         /// The URL of your Confluence instance. Use the full URL of the server. For example, https://server.example.com:port/. You can also use an IP address, for example, https://192.168.1.113/.
         public let serverUrl: String
@@ -1232,11 +1392,51 @@ extension Kendra {
         }
     }
 
+    public struct ContentSourceConfiguration: AWSEncodableShape & AWSDecodableShape {
+        /// The identifier of the data sources you want to use for your Amazon Kendra experience.
+        public let dataSourceIds: [String]?
+        ///  TRUE to use documents you indexed directly using the BatchPutDocument operation.
+        public let directPutContent: Bool?
+        /// The identifier of the FAQs that you want to use for your Amazon Kendra experience.
+        public let faqIds: [String]?
+
+        public init(dataSourceIds: [String]? = nil, directPutContent: Bool? = nil, faqIds: [String]? = nil) {
+            self.dataSourceIds = dataSourceIds
+            self.directPutContent = directPutContent
+            self.faqIds = faqIds
+        }
+
+        public func validate(name: String) throws {
+            try self.dataSourceIds?.forEach {
+                try validate($0, name: "dataSourceIds[]", parent: name, max: 100)
+                try validate($0, name: "dataSourceIds[]", parent: name, min: 1)
+                try validate($0, name: "dataSourceIds[]", parent: name, pattern: "^[a-zA-Z0-9][a-zA-Z0-9_-]*$")
+            }
+            try self.validate(self.dataSourceIds, name: "dataSourceIds", parent: name, max: 100)
+            try self.validate(self.dataSourceIds, name: "dataSourceIds", parent: name, min: 1)
+            try self.faqIds?.forEach {
+                try validate($0, name: "faqIds[]", parent: name, max: 100)
+                try validate($0, name: "faqIds[]", parent: name, min: 1)
+                try validate($0, name: "faqIds[]", parent: name, pattern: "^[a-zA-Z0-9][a-zA-Z0-9_-]*$")
+            }
+            try self.validate(self.faqIds, name: "faqIds", parent: name, max: 100)
+            try self.validate(self.faqIds, name: "faqIds", parent: name, min: 1)
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case dataSourceIds = "DataSourceIds"
+            case directPutContent = "DirectPutContent"
+            case faqIds = "FaqIds"
+        }
+    }
+
     public struct CreateDataSourceRequest: AWSEncodableShape {
         /// A token that you provide to identify the request to create a data source. Multiple calls to the CreateDataSource operation with the same client token will create only one data source.
         public let clientToken: String?
         /// The connector configuration information that is required to access the repository. You can't specify the Configuration parameter when the Type parameter is set to CUSTOM. If you do, you receive a ValidationException exception. The Configuration parameter is required for all other data sources.
         public let configuration: DataSourceConfiguration?
+        /// Configuration information for altering document metadata and content during the document ingestion process when you create a data source. For more information on how to create, modify and delete document metadata, or make other content alterations when you ingest documents into Amazon Kendra, see  Customizing  document metadata during the ingestion process.
+        public let customDocumentEnrichmentConfiguration: CustomDocumentEnrichmentConfiguration?
         /// A description for the data source.
         public let description: String?
         /// The identifier of the index that should be associated with this data source.
@@ -1254,9 +1454,10 @@ extension Kendra {
         /// The type of repository that contains the data source.
         public let type: DataSourceType
 
-        public init(clientToken: String? = CreateDataSourceRequest.idempotencyToken(), configuration: DataSourceConfiguration? = nil, description: String? = nil, indexId: String, languageCode: String? = nil, name: String, roleArn: String? = nil, schedule: String? = nil, tags: [Tag]? = nil, type: DataSourceType) {
+        public init(clientToken: String? = CreateDataSourceRequest.idempotencyToken(), configuration: DataSourceConfiguration? = nil, customDocumentEnrichmentConfiguration: CustomDocumentEnrichmentConfiguration? = nil, description: String? = nil, indexId: String, languageCode: String? = nil, name: String, roleArn: String? = nil, schedule: String? = nil, tags: [Tag]? = nil, type: DataSourceType) {
             self.clientToken = clientToken
             self.configuration = configuration
+            self.customDocumentEnrichmentConfiguration = customDocumentEnrichmentConfiguration
             self.description = description
             self.indexId = indexId
             self.languageCode = languageCode
@@ -1271,6 +1472,7 @@ extension Kendra {
             try self.validate(self.clientToken, name: "clientToken", parent: name, max: 100)
             try self.validate(self.clientToken, name: "clientToken", parent: name, min: 1)
             try self.configuration?.validate(name: "\(name).configuration")
+            try self.customDocumentEnrichmentConfiguration?.validate(name: "\(name).customDocumentEnrichmentConfiguration")
             try self.validate(self.description, name: "description", parent: name, max: 1000)
             try self.validate(self.description, name: "description", parent: name, pattern: "^\\P{C}*$")
             try self.validate(self.indexId, name: "indexId", parent: name, max: 36)
@@ -1283,7 +1485,6 @@ extension Kendra {
             try self.validate(self.name, name: "name", parent: name, min: 1)
             try self.validate(self.name, name: "name", parent: name, pattern: "^[a-zA-Z0-9][a-zA-Z0-9_-]*$")
             try self.validate(self.roleArn, name: "roleArn", parent: name, max: 1284)
-            try self.validate(self.roleArn, name: "roleArn", parent: name, min: 1)
             try self.validate(self.roleArn, name: "roleArn", parent: name, pattern: "^arn:[a-z0-9-\\.]{1,63}:[a-z0-9-\\.]{0,63}:[a-z0-9-\\.]{0,63}:[a-z0-9-\\.]{0,63}:[^/].{0,1023}$")
             try self.tags?.forEach {
                 try $0.validate(name: "\(name).tags[]")
@@ -1294,6 +1495,7 @@ extension Kendra {
         private enum CodingKeys: String, CodingKey {
             case clientToken = "ClientToken"
             case configuration = "Configuration"
+            case customDocumentEnrichmentConfiguration = "CustomDocumentEnrichmentConfiguration"
             case description = "Description"
             case indexId = "IndexId"
             case languageCode = "LanguageCode"
@@ -1307,6 +1509,68 @@ extension Kendra {
 
     public struct CreateDataSourceResponse: AWSDecodableShape {
         /// A unique identifier for the data source.
+        public let id: String
+
+        public init(id: String) {
+            self.id = id
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case id = "Id"
+        }
+    }
+
+    public struct CreateExperienceRequest: AWSEncodableShape {
+        /// A token that you provide to identify the request to create your Amazon Kendra experience. Multiple calls to the CreateExperience operation with the same client  token creates only one Amazon Kendra experience.
+        public let clientToken: String?
+        /// Provides the configuration information for your Amazon Kendra experience. This includes ContentSourceConfiguration, which specifies the data source IDs  and/or FAQ IDs, and UserIdentityConfiguration, which specifies the  user or group information to grant access to your Amazon Kendra experience.
+        public let configuration: ExperienceConfiguration?
+        /// A description for your Amazon Kendra experience.
+        public let description: String?
+        /// The identifier of the index for your Amazon Kendra experience.
+        public let indexId: String
+        /// A name for your Amazon Kendra experience.
+        public let name: String
+        /// The Amazon Resource Name (ARN) of a role with permission to access Query operations, QuerySuggestions operations, SubmitFeedback operations, and Amazon Web Services SSO that stores your user and group information.  For more information, see IAM roles for Amazon Kendra.
+        public let roleArn: String?
+
+        public init(clientToken: String? = CreateExperienceRequest.idempotencyToken(), configuration: ExperienceConfiguration? = nil, description: String? = nil, indexId: String, name: String, roleArn: String? = nil) {
+            self.clientToken = clientToken
+            self.configuration = configuration
+            self.description = description
+            self.indexId = indexId
+            self.name = name
+            self.roleArn = roleArn
+        }
+
+        public func validate(name: String) throws {
+            try self.validate(self.clientToken, name: "clientToken", parent: name, max: 100)
+            try self.validate(self.clientToken, name: "clientToken", parent: name, min: 1)
+            try self.configuration?.validate(name: "\(name).configuration")
+            try self.validate(self.description, name: "description", parent: name, max: 1000)
+            try self.validate(self.description, name: "description", parent: name, pattern: "^\\P{C}*$")
+            try self.validate(self.indexId, name: "indexId", parent: name, max: 36)
+            try self.validate(self.indexId, name: "indexId", parent: name, min: 36)
+            try self.validate(self.indexId, name: "indexId", parent: name, pattern: "^[a-zA-Z0-9][a-zA-Z0-9-]*$")
+            try self.validate(self.name, name: "name", parent: name, max: 1000)
+            try self.validate(self.name, name: "name", parent: name, min: 1)
+            try self.validate(self.name, name: "name", parent: name, pattern: "^[a-zA-Z0-9][a-zA-Z0-9_-]*$")
+            try self.validate(self.roleArn, name: "roleArn", parent: name, max: 1284)
+            try self.validate(self.roleArn, name: "roleArn", parent: name, pattern: "^arn:[a-z0-9-\\.]{1,63}:[a-z0-9-\\.]{0,63}:[a-z0-9-\\.]{0,63}:[a-z0-9-\\.]{0,63}:[^/].{0,1023}$")
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case clientToken = "ClientToken"
+            case configuration = "Configuration"
+            case description = "Description"
+            case indexId = "IndexId"
+            case name = "Name"
+            case roleArn = "RoleArn"
+        }
+    }
+
+    public struct CreateExperienceResponse: AWSDecodableShape {
+        /// The identifier for your created Amazon Kendra experience.
         public let id: String
 
         public init(id: String) {
@@ -1365,7 +1629,6 @@ extension Kendra {
             try self.validate(self.name, name: "name", parent: name, min: 1)
             try self.validate(self.name, name: "name", parent: name, pattern: "^[a-zA-Z0-9][a-zA-Z0-9_-]*$")
             try self.validate(self.roleArn, name: "roleArn", parent: name, max: 1284)
-            try self.validate(self.roleArn, name: "roleArn", parent: name, min: 1)
             try self.validate(self.roleArn, name: "roleArn", parent: name, pattern: "^arn:[a-z0-9-\\.]{1,63}:[a-z0-9-\\.]{0,63}:[a-z0-9-\\.]{0,63}:[a-z0-9-\\.]{0,63}:[^/].{0,1023}$")
             try self.s3Path.validate(name: "\(name).s3Path")
             try self.tags?.forEach {
@@ -1417,7 +1680,7 @@ extension Kendra {
         public let tags: [Tag]?
         /// The user context policy.  ATTRIBUTE_FILTER  All indexed content is searchable and displayable for all users. If you want to filter search results on  user context, you can use the attribute filters of _user_id and _group_ids or you can provide user and group information in UserContext.   USER_TOKEN  Enables token-based user access control to filter  search results on user context. All documents with no  access control and all documents accessible to the user  will be searchable and displayable.
         public let userContextPolicy: UserContextPolicy?
-        /// Enables fetching access levels of groups and users from an AWS Single Sign-On  identity source. To configure this, see  UserGroupResolutionConfiguration.
+        /// Enables fetching access levels of groups and users from an Amazon Web Services Single Sign On  identity source. To configure this, see  UserGroupResolutionConfiguration.
         public let userGroupResolutionConfiguration: UserGroupResolutionConfiguration?
         /// The user token configuration.
         public let userTokenConfigurations: [UserTokenConfiguration]?
@@ -1444,7 +1707,6 @@ extension Kendra {
             try self.validate(self.name, name: "name", parent: name, min: 1)
             try self.validate(self.name, name: "name", parent: name, pattern: "^[a-zA-Z0-9][a-zA-Z0-9_-]*$")
             try self.validate(self.roleArn, name: "roleArn", parent: name, max: 1284)
-            try self.validate(self.roleArn, name: "roleArn", parent: name, min: 1)
             try self.validate(self.roleArn, name: "roleArn", parent: name, pattern: "^arn:[a-z0-9-\\.]{1,63}:[a-z0-9-\\.]{0,63}:[a-z0-9-\\.]{0,63}:[a-z0-9-\\.]{0,63}:[^/].{0,1023}$")
             try self.serverSideEncryptionConfiguration?.validate(name: "\(name).serverSideEncryptionConfiguration")
             try self.tags?.forEach {
@@ -1522,7 +1784,6 @@ extension Kendra {
             try self.validate(self.name, name: "name", parent: name, min: 1)
             try self.validate(self.name, name: "name", parent: name, pattern: "^[a-zA-Z0-9](-*[a-zA-Z0-9])*$")
             try self.validate(self.roleArn, name: "roleArn", parent: name, max: 1284)
-            try self.validate(self.roleArn, name: "roleArn", parent: name, min: 1)
             try self.validate(self.roleArn, name: "roleArn", parent: name, pattern: "^arn:[a-z0-9-\\.]{1,63}:[a-z0-9-\\.]{0,63}:[a-z0-9-\\.]{0,63}:[a-z0-9-\\.]{0,63}:[^/].{0,1023}$")
             try self.sourceS3Path.validate(name: "\(name).sourceS3Path")
             try self.tags?.forEach {
@@ -1564,7 +1825,7 @@ extension Kendra {
         public let indexId: String
         /// The name for the new thesaurus.
         public let name: String
-        /// An AWS Identity and Access Management (IAM) role that gives Amazon Kendra permissions  to access thesaurus file specified in SourceS3Path.
+        /// An IAM role that gives Amazon Kendra permissions  to access thesaurus file specified in SourceS3Path.
         public let roleArn: String
         /// The thesaurus file Amazon S3 source path.
         public let sourceS3Path: S3Path
@@ -1593,7 +1854,6 @@ extension Kendra {
             try self.validate(self.name, name: "name", parent: name, min: 1)
             try self.validate(self.name, name: "name", parent: name, pattern: "^[a-zA-Z0-9][a-zA-Z0-9_-]*$")
             try self.validate(self.roleArn, name: "roleArn", parent: name, max: 1284)
-            try self.validate(self.roleArn, name: "roleArn", parent: name, min: 1)
             try self.validate(self.roleArn, name: "roleArn", parent: name, pattern: "^arn:[a-z0-9-\\.]{1,63}:[a-z0-9-\\.]{0,63}:[a-z0-9-\\.]{0,63}:[a-z0-9-\\.]{0,63}:[^/].{0,1023}$")
             try self.sourceS3Path.validate(name: "\(name).sourceS3Path")
             try self.tags?.forEach {
@@ -1623,6 +1883,42 @@ extension Kendra {
 
         private enum CodingKeys: String, CodingKey {
             case id = "Id"
+        }
+    }
+
+    public struct CustomDocumentEnrichmentConfiguration: AWSEncodableShape & AWSDecodableShape {
+        /// Configuration information to alter document attributes or metadata fields and  content when ingesting documents into Amazon Kendra.
+        public let inlineConfigurations: [InlineCustomDocumentEnrichmentConfiguration]?
+        /// Configuration information for invoking a Lambda function in Lambda  on the structured documents with their metadata and text extracted. You can use a  Lambda function to apply advanced logic for creating, modifying, or deleting document metadata and content. For more information, see Advanced  data manipulation.
+        public let postExtractionHookConfiguration: HookConfiguration?
+        /// Configuration information for invoking a Lambda function in Lambda  on the original or raw documents before extracting their metadata and text. You can  use a Lambda function to apply advanced logic for creating, modifying, or deleting document metadata and content. For more information, see Advanced  data manipulation.
+        public let preExtractionHookConfiguration: HookConfiguration?
+        /// The Amazon Resource Name (ARN) of a role with permission to run  PreExtractionHookConfiguration and  PostExtractionHookConfiguration for altering document metadata  and content during the document ingestion process. For more information,  see IAM roles for Amazon Kendra.
+        public let roleArn: String?
+
+        public init(inlineConfigurations: [InlineCustomDocumentEnrichmentConfiguration]? = nil, postExtractionHookConfiguration: HookConfiguration? = nil, preExtractionHookConfiguration: HookConfiguration? = nil, roleArn: String? = nil) {
+            self.inlineConfigurations = inlineConfigurations
+            self.postExtractionHookConfiguration = postExtractionHookConfiguration
+            self.preExtractionHookConfiguration = preExtractionHookConfiguration
+            self.roleArn = roleArn
+        }
+
+        public func validate(name: String) throws {
+            try self.inlineConfigurations?.forEach {
+                try $0.validate(name: "\(name).inlineConfigurations[]")
+            }
+            try self.validate(self.inlineConfigurations, name: "inlineConfigurations", parent: name, max: 100)
+            try self.postExtractionHookConfiguration?.validate(name: "\(name).postExtractionHookConfiguration")
+            try self.preExtractionHookConfiguration?.validate(name: "\(name).preExtractionHookConfiguration")
+            try self.validate(self.roleArn, name: "roleArn", parent: name, max: 1284)
+            try self.validate(self.roleArn, name: "roleArn", parent: name, pattern: "^arn:[a-z0-9-\\.]{1,63}:[a-z0-9-\\.]{0,63}:[a-z0-9-\\.]{0,63}:[a-z0-9-\\.]{0,63}:[^/].{0,1023}$")
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case inlineConfigurations = "InlineConfigurations"
+            case postExtractionHookConfiguration = "PostExtractionHookConfiguration"
+            case preExtractionHookConfiguration = "PreExtractionHookConfiguration"
+            case roleArn = "RoleArn"
         }
     }
 
@@ -1978,6 +2274,36 @@ extension Kendra {
         }
     }
 
+    public struct DeleteExperienceRequest: AWSEncodableShape {
+        /// The identifier of your Amazon Kendra experience you want to delete.
+        public let id: String
+        /// The identifier of the index for your Amazon Kendra experience you want to delete.
+        public let indexId: String
+
+        public init(id: String, indexId: String) {
+            self.id = id
+            self.indexId = indexId
+        }
+
+        public func validate(name: String) throws {
+            try self.validate(self.id, name: "id", parent: name, max: 36)
+            try self.validate(self.id, name: "id", parent: name, min: 1)
+            try self.validate(self.id, name: "id", parent: name, pattern: "^[a-zA-Z0-9][a-zA-Z0-9_-]*$")
+            try self.validate(self.indexId, name: "indexId", parent: name, max: 36)
+            try self.validate(self.indexId, name: "indexId", parent: name, min: 36)
+            try self.validate(self.indexId, name: "indexId", parent: name, pattern: "^[a-zA-Z0-9][a-zA-Z0-9-]*$")
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case id = "Id"
+            case indexId = "IndexId"
+        }
+    }
+
+    public struct DeleteExperienceResponse: AWSDecodableShape {
+        public init() {}
+    }
+
     public struct DeleteFaqRequest: AWSEncodableShape {
         /// The identifier of the FAQ to remove.
         public let id: String
@@ -2145,6 +2471,8 @@ extension Kendra {
         public let configuration: DataSourceConfiguration?
         /// The Unix timestamp of when the data source was created.
         public let createdAt: Date?
+        /// Configuration information for altering document metadata and content during the document ingestion process when you describe a data source. For more information on how to create, modify and delete document metadata, or make other content alterations when you ingest documents into Amazon Kendra, see  Customizing  document metadata during the ingestion process.
+        public let customDocumentEnrichmentConfiguration: CustomDocumentEnrichmentConfiguration?
         /// The description of the data source.
         public let description: String?
         /// When the Status field value is FAILED, the ErrorMessage field contains a description of the error that caused the data source to fail.
@@ -2168,9 +2496,10 @@ extension Kendra {
         /// The Unix timestamp of when the data source was last updated.
         public let updatedAt: Date?
 
-        public init(configuration: DataSourceConfiguration? = nil, createdAt: Date? = nil, description: String? = nil, errorMessage: String? = nil, id: String? = nil, indexId: String? = nil, languageCode: String? = nil, name: String? = nil, roleArn: String? = nil, schedule: String? = nil, status: DataSourceStatus? = nil, type: DataSourceType? = nil, updatedAt: Date? = nil) {
+        public init(configuration: DataSourceConfiguration? = nil, createdAt: Date? = nil, customDocumentEnrichmentConfiguration: CustomDocumentEnrichmentConfiguration? = nil, description: String? = nil, errorMessage: String? = nil, id: String? = nil, indexId: String? = nil, languageCode: String? = nil, name: String? = nil, roleArn: String? = nil, schedule: String? = nil, status: DataSourceStatus? = nil, type: DataSourceType? = nil, updatedAt: Date? = nil) {
             self.configuration = configuration
             self.createdAt = createdAt
+            self.customDocumentEnrichmentConfiguration = customDocumentEnrichmentConfiguration
             self.description = description
             self.errorMessage = errorMessage
             self.id = id
@@ -2187,6 +2516,7 @@ extension Kendra {
         private enum CodingKeys: String, CodingKey {
             case configuration = "Configuration"
             case createdAt = "CreatedAt"
+            case customDocumentEnrichmentConfiguration = "CustomDocumentEnrichmentConfiguration"
             case description = "Description"
             case errorMessage = "ErrorMessage"
             case id = "Id"
@@ -2197,6 +2527,85 @@ extension Kendra {
             case schedule = "Schedule"
             case status = "Status"
             case type = "Type"
+            case updatedAt = "UpdatedAt"
+        }
+    }
+
+    public struct DescribeExperienceRequest: AWSEncodableShape {
+        /// The identifier of your Amazon Kendra experience you want to get information on.
+        public let id: String
+        /// The identifier of the index for your Amazon Kendra experience you want to get  information on.
+        public let indexId: String
+
+        public init(id: String, indexId: String) {
+            self.id = id
+            self.indexId = indexId
+        }
+
+        public func validate(name: String) throws {
+            try self.validate(self.id, name: "id", parent: name, max: 36)
+            try self.validate(self.id, name: "id", parent: name, min: 1)
+            try self.validate(self.id, name: "id", parent: name, pattern: "^[a-zA-Z0-9][a-zA-Z0-9_-]*$")
+            try self.validate(self.indexId, name: "indexId", parent: name, max: 36)
+            try self.validate(self.indexId, name: "indexId", parent: name, min: 36)
+            try self.validate(self.indexId, name: "indexId", parent: name, pattern: "^[a-zA-Z0-9][a-zA-Z0-9-]*$")
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case id = "Id"
+            case indexId = "IndexId"
+        }
+    }
+
+    public struct DescribeExperienceResponse: AWSDecodableShape {
+        /// Shows the configuration information for your Amazon Kendra experience. This includes ContentSourceConfiguration, which specifies the data source IDs  and/or FAQ IDs, and UserIdentityConfiguration, which specifies the  user or group information to grant access to your Amazon Kendra experience.
+        public let configuration: ExperienceConfiguration?
+        /// Shows the date-time your Amazon Kendra experience was created.
+        public let createdAt: Date?
+        /// Shows the description for your Amazon Kendra experience.
+        public let description: String?
+        /// Shows the endpoint URLs for your Amazon Kendra experiences. The URLs are unique and fully hosted by Amazon Web Services.
+        public let endpoints: [ExperienceEndpoint]?
+        /// The reason your Amazon Kendra experience could not properly process.
+        public let errorMessage: String?
+        /// Shows the identifier of your Amazon Kendra experience.
+        public let id: String?
+        /// Shows the identifier of the index for your Amazon Kendra experience.
+        public let indexId: String?
+        /// Shows the name of your Amazon Kendra experience.
+        public let name: String?
+        /// Shows the Amazon Resource Name (ARN) of a role with permission to access  Query operations, QuerySuggestions operations,  SubmitFeedback operations, and Amazon Web Services SSO that stores  your user and group information.
+        public let roleArn: String?
+        /// The current processing status of your Amazon Kendra experience. When the status  is ACTIVE, your Amazon Kendra experience is ready to use. When the  status is FAILED, the ErrorMessage field contains  the reason that this failed.
+        public let status: ExperienceStatus?
+        /// Shows the date-time your Amazon Kendra experience was last updated.
+        public let updatedAt: Date?
+
+        public init(configuration: ExperienceConfiguration? = nil, createdAt: Date? = nil, description: String? = nil, endpoints: [ExperienceEndpoint]? = nil, errorMessage: String? = nil, id: String? = nil, indexId: String? = nil, name: String? = nil, roleArn: String? = nil, status: ExperienceStatus? = nil, updatedAt: Date? = nil) {
+            self.configuration = configuration
+            self.createdAt = createdAt
+            self.description = description
+            self.endpoints = endpoints
+            self.errorMessage = errorMessage
+            self.id = id
+            self.indexId = indexId
+            self.name = name
+            self.roleArn = roleArn
+            self.status = status
+            self.updatedAt = updatedAt
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case configuration = "Configuration"
+            case createdAt = "CreatedAt"
+            case description = "Description"
+            case endpoints = "Endpoints"
+            case errorMessage = "ErrorMessage"
+            case id = "Id"
+            case indexId = "IndexId"
+            case name = "Name"
+            case roleArn = "RoleArn"
+            case status = "Status"
             case updatedAt = "UpdatedAt"
         }
     }
@@ -2331,7 +2740,7 @@ extension Kendra {
         public let updatedAt: Date?
         /// The user context policy for the Amazon Kendra index.
         public let userContextPolicy: UserContextPolicy?
-        /// Shows whether you have enabled the configuration for fetching access  levels of groups and users from an AWS Single Sign-On identity source.
+        /// Shows whether you have enabled the configuration for fetching access  levels of groups and users from an Amazon Web Services Single Sign On identity source.
         public let userGroupResolutionConfiguration: UserGroupResolutionConfiguration?
         /// The user token configuration for the Amazon Kendra index.
         public let userTokenConfigurations: [UserTokenConfiguration]?
@@ -2621,7 +3030,7 @@ extension Kendra {
         public let indexId: String?
         /// The thesaurus name.
         public let name: String?
-        /// An AWS Identity and Access Management (IAM) role that gives Amazon Kendra permissions  to access thesaurus file specified in SourceS3Path.
+        /// An IAM role that gives Amazon Kendra permissions  to access thesaurus file specified in SourceS3Path.
         public let roleArn: String?
         public let sourceS3Path: S3Path?
         /// The current status of the thesaurus. When the value is ACTIVE,  queries are able to use the thesaurus. If the Status field value  is FAILED, the ErrorMessage field provides more information.  If the status is ACTIVE_BUT_UPDATE_FAILED, it means that Amazon Kendra could not ingest the new thesaurus file. The old thesaurus file is still active.
@@ -2663,6 +3072,104 @@ extension Kendra {
             case synonymRuleCount = "SynonymRuleCount"
             case termCount = "TermCount"
             case updatedAt = "UpdatedAt"
+        }
+    }
+
+    public struct DisassociateEntitiesFromExperienceRequest: AWSEncodableShape {
+        /// Lists users or groups in your Amazon Web Services SSO identity source.
+        public let entityList: [EntityConfiguration]
+        /// The identifier of your Amazon Kendra experience.
+        public let id: String
+        /// The identifier of the index for your Amazon Kendra experience.
+        public let indexId: String
+
+        public init(entityList: [EntityConfiguration], id: String, indexId: String) {
+            self.entityList = entityList
+            self.id = id
+            self.indexId = indexId
+        }
+
+        public func validate(name: String) throws {
+            try self.entityList.forEach {
+                try $0.validate(name: "\(name).entityList[]")
+            }
+            try self.validate(self.entityList, name: "entityList", parent: name, max: 40)
+            try self.validate(self.entityList, name: "entityList", parent: name, min: 1)
+            try self.validate(self.id, name: "id", parent: name, max: 36)
+            try self.validate(self.id, name: "id", parent: name, min: 1)
+            try self.validate(self.id, name: "id", parent: name, pattern: "^[a-zA-Z0-9][a-zA-Z0-9_-]*$")
+            try self.validate(self.indexId, name: "indexId", parent: name, max: 36)
+            try self.validate(self.indexId, name: "indexId", parent: name, min: 36)
+            try self.validate(self.indexId, name: "indexId", parent: name, pattern: "^[a-zA-Z0-9][a-zA-Z0-9-]*$")
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case entityList = "EntityList"
+            case id = "Id"
+            case indexId = "IndexId"
+        }
+    }
+
+    public struct DisassociateEntitiesFromExperienceResponse: AWSDecodableShape {
+        /// Lists the users or groups in your Amazon Web Services SSO identity source that  failed to properly remove access to your Amazon Kendra experience.
+        public let failedEntityList: [FailedEntity]?
+
+        public init(failedEntityList: [FailedEntity]? = nil) {
+            self.failedEntityList = failedEntityList
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case failedEntityList = "FailedEntityList"
+        }
+    }
+
+    public struct DisassociatePersonasFromEntitiesRequest: AWSEncodableShape {
+        /// The identifiers of users or groups in your Amazon Web Services SSO identity  source. For example, user IDs could be user emails.
+        public let entityIds: [String]
+        /// The identifier of your Amazon Kendra experience.
+        public let id: String
+        /// The identifier of the index for your Amazon Kendra experience.
+        public let indexId: String
+
+        public init(entityIds: [String], id: String, indexId: String) {
+            self.entityIds = entityIds
+            self.id = id
+            self.indexId = indexId
+        }
+
+        public func validate(name: String) throws {
+            try self.entityIds.forEach {
+                try validate($0, name: "entityIds[]", parent: name, max: 47)
+                try validate($0, name: "entityIds[]", parent: name, min: 1)
+                try validate($0, name: "entityIds[]", parent: name, pattern: "^([0-9a-f]{10}-|)[A-Fa-f0-9]{8}-[A-Fa-f0-9]{4}-[A-Fa-f0-9]{4}-[A-Fa-f0-9]{4}-[A-Fa-f0-9]{12}$")
+            }
+            try self.validate(self.entityIds, name: "entityIds", parent: name, max: 25)
+            try self.validate(self.entityIds, name: "entityIds", parent: name, min: 1)
+            try self.validate(self.id, name: "id", parent: name, max: 36)
+            try self.validate(self.id, name: "id", parent: name, min: 1)
+            try self.validate(self.id, name: "id", parent: name, pattern: "^[a-zA-Z0-9][a-zA-Z0-9_-]*$")
+            try self.validate(self.indexId, name: "indexId", parent: name, max: 36)
+            try self.validate(self.indexId, name: "indexId", parent: name, min: 36)
+            try self.validate(self.indexId, name: "indexId", parent: name, pattern: "^[a-zA-Z0-9][a-zA-Z0-9-]*$")
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case entityIds = "EntityIds"
+            case id = "Id"
+            case indexId = "IndexId"
+        }
+    }
+
+    public struct DisassociatePersonasFromEntitiesResponse: AWSDecodableShape {
+        /// Lists the users or groups in your Amazon Web Services SSO identity source that  failed to properly remove access to your Amazon Kendra experience.
+        public let failedEntityList: [FailedEntity]?
+
+        public init(failedEntityList: [FailedEntity]? = nil) {
+            self.failedEntityList = failedEntityList
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case failedEntityList = "FailedEntityList"
         }
     }
 
@@ -2744,6 +3251,62 @@ extension Kendra {
         private enum CodingKeys: String, CodingKey {
             case key = "Key"
             case value = "Value"
+        }
+    }
+
+    public struct DocumentAttributeCondition: AWSEncodableShape & AWSDecodableShape {
+        /// The identifier of the document attribute used for the condition. For example, 'Source_URI' could be an identifier for the attribute or metadata  field that contains source URIs associated with the documents. Amazon Kendra currently does not support _document_body as an attribute  key used for the condition.
+        public let conditionDocumentAttributeKey: String
+        /// The value used by the operator. For example, you can specify the value 'financial' for strings in the 'Source_URI' field that partially match or contain this value.
+        public let conditionOnValue: DocumentAttributeValue?
+        /// The condition operator. For example, you can use 'Contains' to partially match a string.
+        public let `operator`: ConditionOperator
+
+        public init(conditionDocumentAttributeKey: String, conditionOnValue: DocumentAttributeValue? = nil, operator: ConditionOperator) {
+            self.conditionDocumentAttributeKey = conditionDocumentAttributeKey
+            self.conditionOnValue = conditionOnValue
+            self.`operator` = `operator`
+        }
+
+        public func validate(name: String) throws {
+            try self.validate(self.conditionDocumentAttributeKey, name: "conditionDocumentAttributeKey", parent: name, max: 200)
+            try self.validate(self.conditionDocumentAttributeKey, name: "conditionDocumentAttributeKey", parent: name, min: 1)
+            try self.validate(self.conditionDocumentAttributeKey, name: "conditionDocumentAttributeKey", parent: name, pattern: "^[a-zA-Z0-9_][a-zA-Z0-9_-]*$")
+            try self.conditionOnValue?.validate(name: "\(name).conditionOnValue")
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case conditionDocumentAttributeKey = "ConditionDocumentAttributeKey"
+            case conditionOnValue = "ConditionOnValue"
+            case `operator` = "Operator"
+        }
+    }
+
+    public struct DocumentAttributeTarget: AWSEncodableShape & AWSDecodableShape {
+        /// The identifier of the target document attribute or metadata field. For example, 'Department' could be an identifier for the target attribute or  metadata field that includes the department names associated with the documents.
+        public let targetDocumentAttributeKey: String?
+        /// The target value you want to create for the target attribute. For example, 'Finance' could be the target value for the target attribute key 'Department'.
+        public let targetDocumentAttributeValue: DocumentAttributeValue?
+        ///  TRUE to delete the existing target value for your specified target  attribute key. You cannot create a target value and set this to TRUE.  To create a target value (TargetDocumentAttributeValue), set this to  FALSE.
+        public let targetDocumentAttributeValueDeletion: Bool?
+
+        public init(targetDocumentAttributeKey: String? = nil, targetDocumentAttributeValue: DocumentAttributeValue? = nil, targetDocumentAttributeValueDeletion: Bool? = nil) {
+            self.targetDocumentAttributeKey = targetDocumentAttributeKey
+            self.targetDocumentAttributeValue = targetDocumentAttributeValue
+            self.targetDocumentAttributeValueDeletion = targetDocumentAttributeValueDeletion
+        }
+
+        public func validate(name: String) throws {
+            try self.validate(self.targetDocumentAttributeKey, name: "targetDocumentAttributeKey", parent: name, max: 200)
+            try self.validate(self.targetDocumentAttributeKey, name: "targetDocumentAttributeKey", parent: name, min: 1)
+            try self.validate(self.targetDocumentAttributeKey, name: "targetDocumentAttributeKey", parent: name, pattern: "^[a-zA-Z0-9_][a-zA-Z0-9_-]*$")
+            try self.targetDocumentAttributeValue?.validate(name: "\(name).targetDocumentAttributeValue")
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case targetDocumentAttributeKey = "TargetDocumentAttributeKey"
+            case targetDocumentAttributeValue = "TargetDocumentAttributeValue"
+            case targetDocumentAttributeValueDeletion = "TargetDocumentAttributeValueDeletion"
         }
     }
 
@@ -2894,6 +3457,170 @@ extension Kendra {
         }
     }
 
+    public struct EntityConfiguration: AWSEncodableShape {
+        /// The identifier of a user or group in your Amazon Web Services SSO identity  source. For example, a user ID could be an email.
+        public let entityId: String
+        /// Specifies whether you are configuring a User or a Group.
+        public let entityType: EntityType
+
+        public init(entityId: String, entityType: EntityType) {
+            self.entityId = entityId
+            self.entityType = entityType
+        }
+
+        public func validate(name: String) throws {
+            try self.validate(self.entityId, name: "entityId", parent: name, max: 47)
+            try self.validate(self.entityId, name: "entityId", parent: name, min: 1)
+            try self.validate(self.entityId, name: "entityId", parent: name, pattern: "^([0-9a-f]{10}-|)[A-Fa-f0-9]{8}-[A-Fa-f0-9]{4}-[A-Fa-f0-9]{4}-[A-Fa-f0-9]{4}-[A-Fa-f0-9]{12}$")
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case entityId = "EntityId"
+            case entityType = "EntityType"
+        }
+    }
+
+    public struct EntityDisplayData: AWSDecodableShape {
+        /// The first name of the user.
+        public let firstName: String?
+        /// The name of the group.
+        public let groupName: String?
+        /// The user name of the user.
+        public let identifiedUserName: String?
+        /// The last name of the user.
+        public let lastName: String?
+        /// The name of the user.
+        public let userName: String?
+
+        public init(firstName: String? = nil, groupName: String? = nil, identifiedUserName: String? = nil, lastName: String? = nil, userName: String? = nil) {
+            self.firstName = firstName
+            self.groupName = groupName
+            self.identifiedUserName = identifiedUserName
+            self.lastName = lastName
+            self.userName = userName
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case firstName = "FirstName"
+            case groupName = "GroupName"
+            case identifiedUserName = "IdentifiedUserName"
+            case lastName = "LastName"
+            case userName = "UserName"
+        }
+    }
+
+    public struct EntityPersonaConfiguration: AWSEncodableShape {
+        /// The identifier of a user or group in your Amazon Web Services SSO identity  source. For example, a user ID could be an email.
+        public let entityId: String
+        /// The persona that defines the specific permissions of the user or group  in your Amazon Web Services SSO identity source. The available personas or  access roles are Owner and Viewer. For more  information on these personas, see Providing  access to your search page.
+        public let persona: Persona
+
+        public init(entityId: String, persona: Persona) {
+            self.entityId = entityId
+            self.persona = persona
+        }
+
+        public func validate(name: String) throws {
+            try self.validate(self.entityId, name: "entityId", parent: name, max: 47)
+            try self.validate(self.entityId, name: "entityId", parent: name, min: 1)
+            try self.validate(self.entityId, name: "entityId", parent: name, pattern: "^([0-9a-f]{10}-|)[A-Fa-f0-9]{8}-[A-Fa-f0-9]{4}-[A-Fa-f0-9]{4}-[A-Fa-f0-9]{4}-[A-Fa-f0-9]{12}$")
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case entityId = "EntityId"
+            case persona = "Persona"
+        }
+    }
+
+    public struct ExperienceConfiguration: AWSEncodableShape & AWSDecodableShape {
+        /// The identifiers of your data sources and FAQs. Or, you can specify  that you want to use documents indexed via the BatchPutDocument  operation. This is the content you want to use for your Amazon Kendra experience.
+        public let contentSourceConfiguration: ContentSourceConfiguration?
+        /// The Amazon Web Services SSO field name that contains the identifiers of your users,  such as their emails.
+        public let userIdentityConfiguration: UserIdentityConfiguration?
+
+        public init(contentSourceConfiguration: ContentSourceConfiguration? = nil, userIdentityConfiguration: UserIdentityConfiguration? = nil) {
+            self.contentSourceConfiguration = contentSourceConfiguration
+            self.userIdentityConfiguration = userIdentityConfiguration
+        }
+
+        public func validate(name: String) throws {
+            try self.contentSourceConfiguration?.validate(name: "\(name).contentSourceConfiguration")
+            try self.userIdentityConfiguration?.validate(name: "\(name).userIdentityConfiguration")
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case contentSourceConfiguration = "ContentSourceConfiguration"
+            case userIdentityConfiguration = "UserIdentityConfiguration"
+        }
+    }
+
+    public struct ExperienceEndpoint: AWSDecodableShape {
+        /// The endpoint of your Amazon Kendra experience.
+        public let endpoint: String?
+        /// The type of endpoint for your Amazon Kendra experience. The type currently available  is HOME, which is a unique and fully hosted URL to the home page  of your Amazon Kendra experience.
+        public let endpointType: EndpointType?
+
+        public init(endpoint: String? = nil, endpointType: EndpointType? = nil) {
+            self.endpoint = endpoint
+            self.endpointType = endpointType
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case endpoint = "Endpoint"
+            case endpointType = "EndpointType"
+        }
+    }
+
+    public struct ExperienceEntitiesSummary: AWSDecodableShape {
+        /// Information about the user entity.
+        public let displayData: EntityDisplayData?
+        /// The identifier of a user or group in your Amazon Web Services SSO identity source.  For example, a user ID could be an email.
+        public let entityId: String?
+        /// Shows the type as User or Group.
+        public let entityType: EntityType?
+
+        public init(displayData: EntityDisplayData? = nil, entityId: String? = nil, entityType: EntityType? = nil) {
+            self.displayData = displayData
+            self.entityId = entityId
+            self.entityType = entityType
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case displayData = "DisplayData"
+            case entityId = "EntityId"
+            case entityType = "EntityType"
+        }
+    }
+
+    public struct ExperiencesSummary: AWSDecodableShape {
+        /// The date-time your Amazon Kendra experience was created.
+        public let createdAt: Date?
+        /// The endpoint URLs for your Amazon Kendra experiences. The URLs are unique  and fully hosted by Amazon Web Services.
+        public let endpoints: [ExperienceEndpoint]?
+        /// The identifier of your Amazon Kendra experience.
+        public let id: String?
+        /// The name of your Amazon Kendra experience.
+        public let name: String?
+        /// The processing status of your Amazon Kendra experience.
+        public let status: ExperienceStatus?
+
+        public init(createdAt: Date? = nil, endpoints: [ExperienceEndpoint]? = nil, id: String? = nil, name: String? = nil, status: ExperienceStatus? = nil) {
+            self.createdAt = createdAt
+            self.endpoints = endpoints
+            self.id = id
+            self.name = name
+            self.status = status
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case createdAt = "CreatedAt"
+            case endpoints = "Endpoints"
+            case id = "Id"
+            case name = "Name"
+            case status = "Status"
+        }
+    }
+
     public struct Facet: AWSEncodableShape {
         /// The unique key for the document attribute.
         public let documentAttributeKey: String?
@@ -2931,6 +3658,23 @@ extension Kendra {
             case documentAttributeKey = "DocumentAttributeKey"
             case documentAttributeValueCountPairs = "DocumentAttributeValueCountPairs"
             case documentAttributeValueType = "DocumentAttributeValueType"
+        }
+    }
+
+    public struct FailedEntity: AWSDecodableShape {
+        /// The identifier of the user or group in your Amazon Web Services SSO identity  source. For example, a user ID could be an email.
+        public let entityId: String?
+        /// The reason the user or group in your Amazon Web Services SSO identity source  failed to properly configure with your Amazon Kendra experience.
+        public let errorMessage: String?
+
+        public init(entityId: String? = nil, errorMessage: String? = nil) {
+            self.entityId = entityId
+            self.errorMessage = errorMessage
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case entityId = "EntityId"
+            case errorMessage = "ErrorMessage"
         }
     }
 
@@ -3026,6 +3770,68 @@ extension Kendra {
         private enum CodingKeys: String, CodingKey {
             case querySuggestionsId = "QuerySuggestionsId"
             case suggestions = "Suggestions"
+        }
+    }
+
+    public struct GetSnapshotsRequest: AWSEncodableShape {
+        /// The identifier of the index to get search metrics data.
+        public let indexId: String
+        /// The time interval or time window to get search metrics data.  The time interval uses the time zone of your index.  You can view data in the following time windows:    THIS_WEEK: The current week, starting on  the Sunday and ending on the day before the current date.    ONE_WEEK_AGO: The previous week, starting on  the Sunday and ending on the following Saturday.    TWO_WEEKS_AGO: The week before the previous week,  starting on the Sunday and ending on the following Saturday.    THIS_MONTH: The current month, starting on the  first day of the month and ending on the day before the current date.    ONE_MONTH_AGO: The previous month, starting on the  first day of the month and ending on the last day of the month.    TWO_MONTHS_AGO: The month before the previous month,  starting on the first day of the month and ending on last day of the month.
+        public let interval: Interval
+        /// The maximum number of returned data for the metric.
+        public let maxResults: Int?
+        /// The metric you want to retrieve. You can specify only one metric per call. For more information about the metrics you can view, see  Gaining  insights with search analytics.
+        public let metricType: MetricType
+        /// If the previous response was incomplete (because there is more data to retrieve), Amazon Kendra returns a pagination token in  the response. You can use this pagination token to retrieve the next set of search metrics data.
+        public let nextToken: String?
+
+        public init(indexId: String, interval: Interval, maxResults: Int? = nil, metricType: MetricType, nextToken: String? = nil) {
+            self.indexId = indexId
+            self.interval = interval
+            self.maxResults = maxResults
+            self.metricType = metricType
+            self.nextToken = nextToken
+        }
+
+        public func validate(name: String) throws {
+            try self.validate(self.indexId, name: "indexId", parent: name, max: 36)
+            try self.validate(self.indexId, name: "indexId", parent: name, min: 36)
+            try self.validate(self.indexId, name: "indexId", parent: name, pattern: "^[a-zA-Z0-9][a-zA-Z0-9-]*$")
+            try self.validate(self.nextToken, name: "nextToken", parent: name, max: 800)
+            try self.validate(self.nextToken, name: "nextToken", parent: name, min: 1)
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case indexId = "IndexId"
+            case interval = "Interval"
+            case maxResults = "MaxResults"
+            case metricType = "MetricType"
+            case nextToken = "NextToken"
+        }
+    }
+
+    public struct GetSnapshotsResponse: AWSDecodableShape {
+        /// If the response is truncated, Amazon Kendra returns this token, which you can use in a later request to retrieve the  next set of search metrics data.
+        public let nextToken: String?
+        /// The search metrics data. The data returned depends on the  metric type you requested.
+        public let snapshotsData: [[String]]?
+        /// The column headers for the search metrics data.
+        public let snapshotsDataHeader: [String]?
+        /// The date-time for the beginning and end of the time window  for the search metrics data.
+        public let snapShotTimeFilter: TimeRange?
+
+        public init(nextToken: String? = nil, snapshotsData: [[String]]? = nil, snapshotsDataHeader: [String]? = nil, snapShotTimeFilter: TimeRange? = nil) {
+            self.nextToken = nextToken
+            self.snapshotsData = snapshotsData
+            self.snapshotsDataHeader = snapshotsDataHeader
+            self.snapShotTimeFilter = snapShotTimeFilter
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case nextToken = "NextToken"
+            case snapshotsData = "SnapshotsData"
+            case snapshotsDataHeader = "SnapshotsDataHeader"
+            case snapShotTimeFilter = "SnapShotTimeFilter"
         }
     }
 
@@ -3230,6 +4036,37 @@ extension Kendra {
         }
     }
 
+    public struct HookConfiguration: AWSEncodableShape & AWSDecodableShape {
+        /// The condition used for when a Lambda function should be invoked. For example, you can specify a condition that if there are empty date-time values, then Amazon Kendra should invoke a function that inserts the current date-time.
+        public let invocationCondition: DocumentAttributeCondition?
+        /// The Amazon Resource Name (ARN) of a role with permission to run a Lambda function during ingestion. For more information, see IAM roles for Amazon Kendra.
+        public let lambdaArn: String
+        /// Stores the original, raw documents or the structured, parsed documents before and after altering them. For more information,  see Data  contracts for Lambda functions.
+        public let s3Bucket: String
+
+        public init(invocationCondition: DocumentAttributeCondition? = nil, lambdaArn: String, s3Bucket: String) {
+            self.invocationCondition = invocationCondition
+            self.lambdaArn = lambdaArn
+            self.s3Bucket = s3Bucket
+        }
+
+        public func validate(name: String) throws {
+            try self.invocationCondition?.validate(name: "\(name).invocationCondition")
+            try self.validate(self.lambdaArn, name: "lambdaArn", parent: name, max: 2048)
+            try self.validate(self.lambdaArn, name: "lambdaArn", parent: name, min: 1)
+            try self.validate(self.lambdaArn, name: "lambdaArn", parent: name, pattern: "^/arn:aws[a-zA-Z-]*:lambda:[a-z]+-[a-z]+-[0-9]:[0-9]{12}:function:[a-zA-Z0-9-_]+(\\/[0-9a-f]{8}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{12})?(:[a-zA-Z0-9-_]+)?/$")
+            try self.validate(self.s3Bucket, name: "s3Bucket", parent: name, max: 63)
+            try self.validate(self.s3Bucket, name: "s3Bucket", parent: name, min: 3)
+            try self.validate(self.s3Bucket, name: "s3Bucket", parent: name, pattern: "^[a-z0-9][\\.\\-a-z0-9]{1,61}[a-z0-9]$")
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case invocationCondition = "InvocationCondition"
+            case lambdaArn = "LambdaArn"
+            case s3Bucket = "S3Bucket"
+        }
+    }
+
     public struct IndexConfigurationSummary: AWSDecodableShape {
         /// The Unix timestamp when the index was created.
         public let createdAt: Date
@@ -3277,6 +4114,32 @@ extension Kendra {
         private enum CodingKeys: String, CodingKey {
             case faqStatistics = "FaqStatistics"
             case textDocumentStatistics = "TextDocumentStatistics"
+        }
+    }
+
+    public struct InlineCustomDocumentEnrichmentConfiguration: AWSEncodableShape & AWSDecodableShape {
+        /// Configuration of the condition used for the target document attribute or metadata field when ingesting documents into Amazon Kendra.
+        public let condition: DocumentAttributeCondition?
+        ///  TRUE to delete content if the condition used for the target  attribute is met.
+        public let documentContentDeletion: Bool?
+        /// Configuration of the target document attribute or metadata field when ingesting documents into Amazon Kendra. You can also include a value.
+        public let target: DocumentAttributeTarget?
+
+        public init(condition: DocumentAttributeCondition? = nil, documentContentDeletion: Bool? = nil, target: DocumentAttributeTarget? = nil) {
+            self.condition = condition
+            self.documentContentDeletion = documentContentDeletion
+            self.target = target
+        }
+
+        public func validate(name: String) throws {
+            try self.condition?.validate(name: "\(name).condition")
+            try self.target?.validate(name: "\(name).target")
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case condition = "Condition"
+            case documentContentDeletion = "DocumentContentDeletion"
+            case target = "Target"
         }
     }
 
@@ -3341,7 +4204,6 @@ extension Kendra {
             try self.validate(self.issuer, name: "issuer", parent: name, min: 1)
             try self.validate(self.issuer, name: "issuer", parent: name, pattern: "^\\P{C}*$")
             try self.validate(self.secretManagerArn, name: "secretManagerArn", parent: name, max: 1284)
-            try self.validate(self.secretManagerArn, name: "secretManagerArn", parent: name, min: 1)
             try self.validate(self.secretManagerArn, name: "secretManagerArn", parent: name, pattern: "^arn:[a-z0-9-\\.]{1,63}:[a-z0-9-\\.]{0,63}:[a-z0-9-\\.]{0,63}:[a-z0-9-\\.]{0,63}:[^/].{0,1023}$")
             try self.validate(self.url, name: "url", parent: name, max: 2048)
             try self.validate(self.url, name: "url", parent: name, min: 1)
@@ -3463,6 +4325,158 @@ extension Kendra {
         public let summaryItems: [DataSourceSummary]?
 
         public init(nextToken: String? = nil, summaryItems: [DataSourceSummary]? = nil) {
+            self.nextToken = nextToken
+            self.summaryItems = summaryItems
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case nextToken = "NextToken"
+            case summaryItems = "SummaryItems"
+        }
+    }
+
+    public struct ListEntityPersonasRequest: AWSEncodableShape {
+        /// The identifier of your Amazon Kendra experience.
+        public let id: String
+        /// The identifier of the index for your Amazon Kendra experience.
+        public let indexId: String
+        /// The maximum number of returned users or groups.
+        public let maxResults: Int?
+        /// If the previous response was incomplete (because there is more data to retrieve), Amazon Kendra returns a pagination token in the response. You can use this pagination  token to retrieve the next set of users or groups.
+        public let nextToken: String?
+
+        public init(id: String, indexId: String, maxResults: Int? = nil, nextToken: String? = nil) {
+            self.id = id
+            self.indexId = indexId
+            self.maxResults = maxResults
+            self.nextToken = nextToken
+        }
+
+        public func validate(name: String) throws {
+            try self.validate(self.id, name: "id", parent: name, max: 36)
+            try self.validate(self.id, name: "id", parent: name, min: 1)
+            try self.validate(self.id, name: "id", parent: name, pattern: "^[a-zA-Z0-9][a-zA-Z0-9_-]*$")
+            try self.validate(self.indexId, name: "indexId", parent: name, max: 36)
+            try self.validate(self.indexId, name: "indexId", parent: name, min: 36)
+            try self.validate(self.indexId, name: "indexId", parent: name, pattern: "^[a-zA-Z0-9][a-zA-Z0-9-]*$")
+            try self.validate(self.maxResults, name: "maxResults", parent: name, max: 100)
+            try self.validate(self.maxResults, name: "maxResults", parent: name, min: 1)
+            try self.validate(self.nextToken, name: "nextToken", parent: name, max: 800)
+            try self.validate(self.nextToken, name: "nextToken", parent: name, min: 1)
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case id = "Id"
+            case indexId = "IndexId"
+            case maxResults = "MaxResults"
+            case nextToken = "NextToken"
+        }
+    }
+
+    public struct ListEntityPersonasResponse: AWSDecodableShape {
+        /// If the response is truncated, Amazon Kendra returns this token, which you can use in  a later request to retrieve the next set of users or groups.
+        public let nextToken: String?
+        /// An array of summary information for one or more users or groups.
+        public let summaryItems: [PersonasSummary]?
+
+        public init(nextToken: String? = nil, summaryItems: [PersonasSummary]? = nil) {
+            self.nextToken = nextToken
+            self.summaryItems = summaryItems
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case nextToken = "NextToken"
+            case summaryItems = "SummaryItems"
+        }
+    }
+
+    public struct ListExperienceEntitiesRequest: AWSEncodableShape {
+        /// The identifier of your Amazon Kendra experience.
+        public let id: String
+        /// The identifier of the index for your Amazon Kendra experience.
+        public let indexId: String
+        /// If the previous response was incomplete (because there is more data to retrieve), Amazon Kendra returns a pagination token in the response. You can use this pagination  token to retrieve the next set of users or groups.
+        public let nextToken: String?
+
+        public init(id: String, indexId: String, nextToken: String? = nil) {
+            self.id = id
+            self.indexId = indexId
+            self.nextToken = nextToken
+        }
+
+        public func validate(name: String) throws {
+            try self.validate(self.id, name: "id", parent: name, max: 36)
+            try self.validate(self.id, name: "id", parent: name, min: 1)
+            try self.validate(self.id, name: "id", parent: name, pattern: "^[a-zA-Z0-9][a-zA-Z0-9_-]*$")
+            try self.validate(self.indexId, name: "indexId", parent: name, max: 36)
+            try self.validate(self.indexId, name: "indexId", parent: name, min: 36)
+            try self.validate(self.indexId, name: "indexId", parent: name, pattern: "^[a-zA-Z0-9][a-zA-Z0-9-]*$")
+            try self.validate(self.nextToken, name: "nextToken", parent: name, max: 800)
+            try self.validate(self.nextToken, name: "nextToken", parent: name, min: 1)
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case id = "Id"
+            case indexId = "IndexId"
+            case nextToken = "NextToken"
+        }
+    }
+
+    public struct ListExperienceEntitiesResponse: AWSDecodableShape {
+        /// If the response is truncated, Amazon Kendra returns this token, which you can use in  a later request to retrieve the next set of users or groups.
+        public let nextToken: String?
+        /// An array of summary information for one or more users or groups.
+        public let summaryItems: [ExperienceEntitiesSummary]?
+
+        public init(nextToken: String? = nil, summaryItems: [ExperienceEntitiesSummary]? = nil) {
+            self.nextToken = nextToken
+            self.summaryItems = summaryItems
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case nextToken = "NextToken"
+            case summaryItems = "SummaryItems"
+        }
+    }
+
+    public struct ListExperiencesRequest: AWSEncodableShape {
+        /// The identifier of the index for your Amazon Kendra experience.
+        public let indexId: String
+        /// The maximum number of returned Amazon Kendra experiences.
+        public let maxResults: Int?
+        /// If the previous response was incomplete (because there is more data to retrieve), Amazon Kendra returns a pagination token in the response. You can use this pagination token to retrieve the next set of Amazon Kendra experiences.
+        public let nextToken: String?
+
+        public init(indexId: String, maxResults: Int? = nil, nextToken: String? = nil) {
+            self.indexId = indexId
+            self.maxResults = maxResults
+            self.nextToken = nextToken
+        }
+
+        public func validate(name: String) throws {
+            try self.validate(self.indexId, name: "indexId", parent: name, max: 36)
+            try self.validate(self.indexId, name: "indexId", parent: name, min: 36)
+            try self.validate(self.indexId, name: "indexId", parent: name, pattern: "^[a-zA-Z0-9][a-zA-Z0-9-]*$")
+            try self.validate(self.maxResults, name: "maxResults", parent: name, max: 100)
+            try self.validate(self.maxResults, name: "maxResults", parent: name, min: 1)
+            try self.validate(self.nextToken, name: "nextToken", parent: name, max: 800)
+            try self.validate(self.nextToken, name: "nextToken", parent: name, min: 1)
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case indexId = "IndexId"
+            case maxResults = "MaxResults"
+            case nextToken = "NextToken"
+        }
+    }
+
+    public struct ListExperiencesResponse: AWSDecodableShape {
+        /// If the response is truncated, Amazon Kendra returns this token, which you can use  in a later request to retrieve the next set of Amazon Kendra experiences.
+        public let nextToken: String?
+        /// An array of summary information for one or more Amazon Kendra experiences.
+        public let summaryItems: [ExperiencesSummary]?
+
+        public init(nextToken: String? = nil, summaryItems: [ExperiencesSummary]? = nil) {
             self.nextToken = nextToken
             self.summaryItems = summaryItems
         }
@@ -3885,6 +4899,31 @@ extension Kendra {
         }
     }
 
+    public struct PersonasSummary: AWSDecodableShape {
+        /// The date-time the summary information was created.
+        public let createdAt: Date?
+        /// The identifier of a user or group in your Amazon Web Services SSO identity source.  For example, a user ID could be an email.
+        public let entityId: String?
+        /// The persona that defines the specific permissions of the user or group in  your Amazon Web Services SSO identity source. The available personas or access  roles are Owner and Viewer. For more information on  these personas, see Providing  access to your search page.
+        public let persona: Persona?
+        /// The date-time the summary information was last updated.
+        public let updatedAt: Date?
+
+        public init(createdAt: Date? = nil, entityId: String? = nil, persona: Persona? = nil, updatedAt: Date? = nil) {
+            self.createdAt = createdAt
+            self.entityId = entityId
+            self.persona = persona
+            self.updatedAt = updatedAt
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case createdAt = "CreatedAt"
+            case entityId = "EntityId"
+            case persona = "Persona"
+            case updatedAt = "UpdatedAt"
+        }
+    }
+
     public struct Principal: AWSEncodableShape {
         /// Whether to allow or deny access to the principal.
         public let access: ReadAccessType
@@ -3920,7 +4959,7 @@ extension Kendra {
     }
 
     public struct ProxyConfiguration: AWSEncodableShape & AWSDecodableShape {
-        /// Your secret ARN, which you can create in AWS Secrets Manager  The credentials are optional. You use a secret if web proxy credentials  are required to connect to a website host. Amazon Kendra currently support basic  authentication to connect to a web proxy server. The secret stores your  credentials.
+        /// Your secret ARN, which you can create in Secrets Manager  The credentials are optional. You use a secret if web proxy credentials  are required to connect to a website host. Amazon Kendra currently support basic  authentication to connect to a web proxy server. The secret stores your  credentials.
         public let credentials: String?
         /// The name of the website host you want to connect to  via a web proxy server. For example, the host name of https://a.example.com/page1.html  is "a.example.com".
         public let host: String
@@ -3988,7 +5027,6 @@ extension Kendra {
             try self.validate(self.orderingId, name: "orderingId", parent: name, max: 32_535_158_400_000)
             try self.validate(self.orderingId, name: "orderingId", parent: name, min: 0)
             try self.validate(self.roleArn, name: "roleArn", parent: name, max: 1284)
-            try self.validate(self.roleArn, name: "roleArn", parent: name, min: 1)
             try self.validate(self.roleArn, name: "roleArn", parent: name, pattern: "^arn:[a-z0-9-\\.]{1,63}:[a-z0-9-\\.]{0,63}:[a-z0-9-\\.]{0,63}:[a-z0-9-\\.]{0,63}:[^/].{0,1023}$")
         }
 
@@ -4712,7 +5750,7 @@ extension Kendra {
     }
 
     public struct ServiceNowConfiguration: AWSEncodableShape & AWSDecodableShape {
-        /// Determines the type of authentication used to connect to the ServiceNow instance. If you choose HTTP_BASIC, Amazon Kendra is authenticated using the user name and password provided in the AWS Secrets Manager secret in the SecretArn field. When you choose OAUTH2, Amazon Kendra is authenticated using the OAuth token and secret provided in the Secrets Manager secret, and the user name and password are used to determine which information Amazon Kendra has access to. When you use OAUTH2 authentication, you must generate a token and a client secret using the ServiceNow console. For more information, see Using a ServiceNow data source.
+        /// Determines the type of authentication used to connect to the ServiceNow instance. If you choose HTTP_BASIC, Amazon Kendra is authenticated using the user name and password provided in the  Secrets Manager secret in the SecretArn field. When you choose OAUTH2, Amazon Kendra is authenticated using the OAuth token and secret provided in the Secrets Manager secret, and the user name and password are used to determine which information Amazon Kendra has access to. When you use OAUTH2 authentication, you must generate a token and a client secret using the ServiceNow console. For more information, see Using a ServiceNow data source.
         public let authenticationType: ServiceNowAuthenticationType?
         /// The ServiceNow instance that the data source connects to. The host endpoint should look like the following: {instance}.service-now.com.
         public let hostUrl: String
@@ -4889,7 +5927,7 @@ extension Kendra {
         public let fieldMappings: [DataSourceToIndexFieldMapping]?
         /// A list of regular expression patterns. Documents that match the patterns are included in the index. Documents that don't match the patterns are excluded from the index. If a document matches both an inclusion pattern and an exclusion pattern, the document is not included in the index. The regex is applied to the display URL of the SharePoint document.
         public let inclusionPatterns: [String]?
-        /// The Amazon Resource Name (ARN) of credentials stored in  Secrets Manager. The credentials should be a user/password pair.  If you use SharePoint Server, you also need to provide the sever  domain name as part of the credentials. For more information, see Using a Microsoft SharePoint Data Source. For more information about Secrets Manager, see  What Is  Secrets Manager in the Secrets Manager user guide.
+        /// The Amazon Resource Name (ARN) of credentials stored in  Secrets Manager. The credentials should be a user/password pair.  If you use SharePoint Server, you also need to provide the sever  domain name as part of the credentials. For more information, see Using a Microsoft SharePoint Data Source. For more information about Secrets Manager see  What Is  Secrets Manager in the Secrets Manager user guide.
         public let secretArn: String
         /// The version of Microsoft SharePoint that you are using as a data source.
         public let sharePointVersion: SharePointVersion
@@ -5332,7 +6370,7 @@ extension Kendra {
         }
     }
 
-    public struct TimeRange: AWSEncodableShape {
+    public struct TimeRange: AWSEncodableShape & AWSDecodableShape {
         /// The UNIX datetime of the end of the time range.
         public let endTime: Date?
         /// The UNIX datetime of the beginning of the time range.
@@ -5381,7 +6419,10 @@ extension Kendra {
     }
 
     public struct UpdateDataSourceRequest: AWSEncodableShape {
+        /// Configuration information for an Amazon Kendra data source.
         public let configuration: DataSourceConfiguration?
+        /// Configuration information for altering document metadata and content during the document ingestion process when you update a data source. For more information on how to create, modify and delete document metadata, or make other content alterations when you ingest documents into Amazon Kendra, see  Customizing  document metadata during the ingestion process.
+        public let customDocumentEnrichmentConfiguration: CustomDocumentEnrichmentConfiguration?
         /// The new description for the data source.
         public let description: String?
         /// The unique identifier of the data source to update.
@@ -5397,8 +6438,9 @@ extension Kendra {
         /// The new update schedule for the data source.
         public let schedule: String?
 
-        public init(configuration: DataSourceConfiguration? = nil, description: String? = nil, id: String, indexId: String, languageCode: String? = nil, name: String? = nil, roleArn: String? = nil, schedule: String? = nil) {
+        public init(configuration: DataSourceConfiguration? = nil, customDocumentEnrichmentConfiguration: CustomDocumentEnrichmentConfiguration? = nil, description: String? = nil, id: String, indexId: String, languageCode: String? = nil, name: String? = nil, roleArn: String? = nil, schedule: String? = nil) {
             self.configuration = configuration
+            self.customDocumentEnrichmentConfiguration = customDocumentEnrichmentConfiguration
             self.description = description
             self.id = id
             self.indexId = indexId
@@ -5410,6 +6452,7 @@ extension Kendra {
 
         public func validate(name: String) throws {
             try self.configuration?.validate(name: "\(name).configuration")
+            try self.customDocumentEnrichmentConfiguration?.validate(name: "\(name).customDocumentEnrichmentConfiguration")
             try self.validate(self.description, name: "description", parent: name, max: 1000)
             try self.validate(self.description, name: "description", parent: name, pattern: "^\\P{C}*$")
             try self.validate(self.id, name: "id", parent: name, max: 100)
@@ -5425,7 +6468,59 @@ extension Kendra {
             try self.validate(self.name, name: "name", parent: name, min: 1)
             try self.validate(self.name, name: "name", parent: name, pattern: "^[a-zA-Z0-9][a-zA-Z0-9_-]*$")
             try self.validate(self.roleArn, name: "roleArn", parent: name, max: 1284)
-            try self.validate(self.roleArn, name: "roleArn", parent: name, min: 1)
+            try self.validate(self.roleArn, name: "roleArn", parent: name, pattern: "^arn:[a-z0-9-\\.]{1,63}:[a-z0-9-\\.]{0,63}:[a-z0-9-\\.]{0,63}:[a-z0-9-\\.]{0,63}:[^/].{0,1023}$")
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case configuration = "Configuration"
+            case customDocumentEnrichmentConfiguration = "CustomDocumentEnrichmentConfiguration"
+            case description = "Description"
+            case id = "Id"
+            case indexId = "IndexId"
+            case languageCode = "LanguageCode"
+            case name = "Name"
+            case roleArn = "RoleArn"
+            case schedule = "Schedule"
+        }
+    }
+
+    public struct UpdateExperienceRequest: AWSEncodableShape {
+        /// Provides the user configuration information. This includes the Amazon Web Services SSO field name that contains the identifiers of your users, such as their emails.
+        public let configuration: ExperienceConfiguration?
+        /// The description of your Amazon Kendra experience you want to update.
+        public let description: String?
+        /// The identifier of your Amazon Kendra experience you want to update.
+        public let id: String
+        /// The identifier of the index for your Amazon Kendra experience you want to update.
+        public let indexId: String
+        /// The name of your Amazon Kendra experience you want to update.
+        public let name: String?
+        /// The Amazon Resource Name (ARN) of a role with permission to access Query operations, QuerySuggestions operations, SubmitFeedback operations, and Amazon Web Services SSO that stores your user and group information.  For more information, see IAM roles for Amazon Kendra.
+        public let roleArn: String?
+
+        public init(configuration: ExperienceConfiguration? = nil, description: String? = nil, id: String, indexId: String, name: String? = nil, roleArn: String? = nil) {
+            self.configuration = configuration
+            self.description = description
+            self.id = id
+            self.indexId = indexId
+            self.name = name
+            self.roleArn = roleArn
+        }
+
+        public func validate(name: String) throws {
+            try self.configuration?.validate(name: "\(name).configuration")
+            try self.validate(self.description, name: "description", parent: name, max: 1000)
+            try self.validate(self.description, name: "description", parent: name, pattern: "^\\P{C}*$")
+            try self.validate(self.id, name: "id", parent: name, max: 36)
+            try self.validate(self.id, name: "id", parent: name, min: 1)
+            try self.validate(self.id, name: "id", parent: name, pattern: "^[a-zA-Z0-9][a-zA-Z0-9_-]*$")
+            try self.validate(self.indexId, name: "indexId", parent: name, max: 36)
+            try self.validate(self.indexId, name: "indexId", parent: name, min: 36)
+            try self.validate(self.indexId, name: "indexId", parent: name, pattern: "^[a-zA-Z0-9][a-zA-Z0-9-]*$")
+            try self.validate(self.name, name: "name", parent: name, max: 1000)
+            try self.validate(self.name, name: "name", parent: name, min: 1)
+            try self.validate(self.name, name: "name", parent: name, pattern: "^[a-zA-Z0-9][a-zA-Z0-9_-]*$")
+            try self.validate(self.roleArn, name: "roleArn", parent: name, max: 1284)
             try self.validate(self.roleArn, name: "roleArn", parent: name, pattern: "^arn:[a-z0-9-\\.]{1,63}:[a-z0-9-\\.]{0,63}:[a-z0-9-\\.]{0,63}:[a-z0-9-\\.]{0,63}:[^/].{0,1023}$")
         }
 
@@ -5434,10 +6529,8 @@ extension Kendra {
             case description = "Description"
             case id = "Id"
             case indexId = "IndexId"
-            case languageCode = "LanguageCode"
             case name = "Name"
             case roleArn = "RoleArn"
-            case schedule = "Schedule"
         }
     }
 
@@ -5456,7 +6549,7 @@ extension Kendra {
         public let roleArn: String?
         /// The user context policy.
         public let userContextPolicy: UserContextPolicy?
-        /// Enables fetching access levels of groups and users from an AWS Single Sign-On  identity source. To configure this, see  UserGroupResolutionConfiguration.
+        /// Enables fetching access levels of groups and users from an Amazon Web Services Single Sign On  identity source. To configure this, see  UserGroupResolutionConfiguration.
         public let userGroupResolutionConfiguration: UserGroupResolutionConfiguration?
         /// The user token configuration.
         public let userTokenConfigurations: [UserTokenConfiguration]?
@@ -5488,7 +6581,6 @@ extension Kendra {
             try self.validate(self.name, name: "name", parent: name, min: 1)
             try self.validate(self.name, name: "name", parent: name, pattern: "^[a-zA-Z0-9][a-zA-Z0-9_-]*$")
             try self.validate(self.roleArn, name: "roleArn", parent: name, max: 1284)
-            try self.validate(self.roleArn, name: "roleArn", parent: name, min: 1)
             try self.validate(self.roleArn, name: "roleArn", parent: name, pattern: "^arn:[a-z0-9-\\.]{1,63}:[a-z0-9-\\.]{0,63}:[a-z0-9-\\.]{0,63}:[a-z0-9-\\.]{0,63}:[^/].{0,1023}$")
             try self.userTokenConfigurations?.forEach {
                 try $0.validate(name: "\(name).userTokenConfigurations[]")
@@ -5545,7 +6637,6 @@ extension Kendra {
             try self.validate(self.name, name: "name", parent: name, min: 1)
             try self.validate(self.name, name: "name", parent: name, pattern: "^[a-zA-Z0-9](-*[a-zA-Z0-9])*$")
             try self.validate(self.roleArn, name: "roleArn", parent: name, max: 1284)
-            try self.validate(self.roleArn, name: "roleArn", parent: name, min: 1)
             try self.validate(self.roleArn, name: "roleArn", parent: name, pattern: "^arn:[a-z0-9-\\.]{1,63}:[a-z0-9-\\.]{0,63}:[a-z0-9-\\.]{0,63}:[a-z0-9-\\.]{0,63}:[^/].{0,1023}$")
             try self.sourceS3Path?.validate(name: "\(name).sourceS3Path")
         }
@@ -5638,7 +6729,6 @@ extension Kendra {
             try self.validate(self.name, name: "name", parent: name, min: 1)
             try self.validate(self.name, name: "name", parent: name, pattern: "^[a-zA-Z0-9][a-zA-Z0-9_-]*$")
             try self.validate(self.roleArn, name: "roleArn", parent: name, max: 1284)
-            try self.validate(self.roleArn, name: "roleArn", parent: name, min: 1)
             try self.validate(self.roleArn, name: "roleArn", parent: name, pattern: "^arn:[a-z0-9-\\.]{1,63}:[a-z0-9-\\.]{0,63}:[a-z0-9-\\.]{0,63}:[a-z0-9-\\.]{0,63}:[^/].{0,1023}$")
             try self.sourceS3Path?.validate(name: "\(name).sourceS3Path")
         }
@@ -5722,7 +6812,7 @@ extension Kendra {
     }
 
     public struct UserGroupResolutionConfiguration: AWSEncodableShape & AWSDecodableShape {
-        /// The identity store provider (mode) you want to use to fetch access levels of groups and users. AWS Single Sign-On is currently the only available mode. Your users and groups must exist in an AWS SSO identity source in order to use this mode.
+        /// The identity store provider (mode) you want to use to fetch access levels of groups and users. Amazon Web Services Single Sign On is currently the only available mode. Your users and groups must exist in an Amazon Web Services SSO identity source in order to use this mode.
         public let userGroupResolutionMode: UserGroupResolutionMode
 
         public init(userGroupResolutionMode: UserGroupResolutionMode) {
@@ -5731,6 +6821,25 @@ extension Kendra {
 
         private enum CodingKeys: String, CodingKey {
             case userGroupResolutionMode = "UserGroupResolutionMode"
+        }
+    }
+
+    public struct UserIdentityConfiguration: AWSEncodableShape & AWSDecodableShape {
+        /// The Amazon Web Services SSO field name that contains the identifiers of your users,  such as their emails. This is used for user context filtering  and for granting access to your Amazon Kendra experience. You must set up Amazon Web Services SSO  with Amazon Kendra. You must include your users and groups in your Access Control List when  you ingest documents into your index. For more information, see  Getting  started with an Amazon Web Services SSO identity source.
+        public let identityAttributeName: String?
+
+        public init(identityAttributeName: String? = nil) {
+            self.identityAttributeName = identityAttributeName
+        }
+
+        public func validate(name: String) throws {
+            try self.validate(self.identityAttributeName, name: "identityAttributeName", parent: name, max: 1000)
+            try self.validate(self.identityAttributeName, name: "identityAttributeName", parent: name, min: 1)
+            try self.validate(self.identityAttributeName, name: "identityAttributeName", parent: name, pattern: "^[a-zA-Z0-9][a-zA-Z0-9_-]*$")
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case identityAttributeName = "IdentityAttributeName"
         }
     }
 
@@ -5757,7 +6866,7 @@ extension Kendra {
     }
 
     public struct WebCrawlerConfiguration: AWSEncodableShape & AWSDecodableShape {
-        /// Provides configuration information required to connect to websites using  authentication. You can connect to websites using basic authentication of user name and password. You must provide the website host name and port number. For example, the host name  of https://a.example.com/page1.html is "a.example.com" and the port is 443, the  standard port for HTTPS. You use a secret in AWS Secrets Manager to store  your authentication credentials.
+        /// Provides configuration information required to connect to websites using  authentication. You can connect to websites using basic authentication of user name and password. You must provide the website host name and port number. For example, the host name  of https://a.example.com/page1.html is "a.example.com" and the port is 443, the  standard port for HTTPS. You use a secret in Secrets Manager to store  your authentication credentials.
         public let authenticationConfiguration: AuthenticationConfiguration?
         /// Specifies the number of levels in a website that you want to crawl. The first level begins from the website seed or starting point URL.  For example, if a website has 3 levels – index level (i.e. seed in this  example), sections level, and subsections level – and you are only  interested in crawling information up to the sections level (i.e.  levels 0-1), you can set your depth to 1. The default crawl depth is set to 2.
         public let crawlDepth: Int?
@@ -5767,13 +6876,13 @@ extension Kendra {
         public let maxLinksPerPage: Int?
         /// The maximum number of URLs crawled per website host per minute. A minimum of one URL is required. The default maximum number of URLs crawled per website host per minute is 300.
         public let maxUrlsPerMinuteCrawlRate: Int?
-        /// Provides configuration information required to connect to your internal  websites via a web proxy. You must provide the website host name and port number. For example, the  host name of https://a.example.com/page1.html is "a.example.com" and the  port is 443, the standard port for HTTPS. Web proxy credentials are optional and you can use them to connect to a  web proxy server that requires basic authentication. To store web proxy  credentials, you use a secret in AWS Secrets Manager.
+        /// Provides configuration information required to connect to your internal  websites via a web proxy. You must provide the website host name and port number. For example, the  host name of https://a.example.com/page1.html is "a.example.com" and the  port is 443, the standard port for HTTPS. Web proxy credentials are optional and you can use them to connect to a  web proxy server that requires basic authentication. To store web proxy  credentials, you use a secret in Secrets Manager.
         public let proxyConfiguration: ProxyConfiguration?
         /// The regular expression pattern to exclude certain URLs to crawl. If there is a regular expression pattern to include certain URLs that  conflicts with the exclude pattern, the exclude pattern takes precedence.
         public let urlExclusionPatterns: [String]?
         /// The regular expression pattern to include certain URLs to crawl. If there is a regular expression pattern to exclude certain URLs that  conflicts with the include pattern, the exclude pattern takes precedence.
         public let urlInclusionPatterns: [String]?
-        /// Specifies the seed or starting point URLs of the  websites or the sitemap URLs of the websites you want to crawl. You can include website subdomains. You can list up to 100 seed  URLs and up to three sitemap URLs. You can only crawl websites that use the secure communication protocol,  Hypertext Transfer Protocol Secure (HTTPS). If you receive an error when  crawling a website, it could be that the website is blocked from crawling.  When selecting websites to index, you must adhere to  the Amazon Acceptable Use Policy  and all other Amazon terms. Remember that you must only use the Amazon Kendra  web crawler to index your own webpages, or webpages that you have  authorization to index.
+        /// Specifies the seed or starting point URLs of the  websites or the sitemap URLs of the websites you want to crawl. You can include website subdomains. You can list up to 100 seed  URLs and up to three sitemap URLs. You can only crawl websites that use the secure communication protocol,  Hypertext Transfer Protocol Secure (HTTPS). If you receive an error when  crawling a website, it could be that the website is blocked from crawling.  When selecting websites to index, you must adhere to  the Amazon Acceptable Use Policy  and all other Amazon terms. Remember that you must only use Amazon Kendra  Web Crawler to index your own webpages, or webpages that you have  authorization to index.
         public let urls: Urls
 
         public init(authenticationConfiguration: AuthenticationConfiguration? = nil, crawlDepth: Int? = nil, maxContentSizePerPageInMegaBytes: Float? = nil, maxLinksPerPage: Int? = nil, maxUrlsPerMinuteCrawlRate: Int? = nil, proxyConfiguration: ProxyConfiguration? = nil, urlExclusionPatterns: [String]? = nil, urlInclusionPatterns: [String]? = nil, urls: Urls) {
@@ -5834,7 +6943,7 @@ extension Kendra {
         public let fieldMappings: [DataSourceToIndexFieldMapping]?
         /// A list of regular expression patterns to include certain files  in your Amazon WorkDocs site repository. Files that match the patterns  are included in the index. Files that don't match the patterns are  excluded from the index. If a file matches both an inclusion pattern  and an exclusion pattern, the exclusion pattern takes precedence and  the file isn’t included in the index.
         public let inclusionPatterns: [String]?
-        /// The identifier of the directory corresponding to your  Amazon WorkDocs site repository. You can find the organization ID in the  AWS Directory Service by going to  Active Directory, then  Directories. Your Amazon WorkDocs site directory has an  ID, which is the organization ID. You can also set up a new Amazon WorkDocs  directory in the AWS Directory Service console and enable a Amazon WorkDocs site  for the directory in the Amazon WorkDocs console.
+        /// The identifier of the directory corresponding to your  Amazon WorkDocs site repository. You can find the organization ID in the  Directory Service by going to  Active Directory, then  Directories. Your Amazon WorkDocs site directory has an  ID, which is the organization ID. You can also set up a new Amazon WorkDocs  directory in the Directory Service console and enable a Amazon WorkDocs site  for the directory in the Amazon WorkDocs console.
         public let organizationId: String
         ///  TRUE to use the change logs to update documents in your  index instead of scanning all documents. If you are syncing your Amazon WorkDocs data source with your index for the  first time, all documents are scanned. After your first sync, you can  use the change logs to update your documents in your index for  future syncs. The default is set to FALSE.
         public let useChangeLog: Bool?

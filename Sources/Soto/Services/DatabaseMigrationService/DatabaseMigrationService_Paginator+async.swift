@@ -309,7 +309,7 @@ extension DatabaseMigrationService {
         )
     }
 
-    ///  Returns the task assessment results from the Amazon S3 bucket that DMS creates in your Amazon Web Services account. This action always returns the latest results. For more information about DMS task assessments, see Creating a task assessment report in the Database Migration Service User Guide.
+    ///  Returns the task assessment results from the Amazon S3 bucket that DMS creates in your Amazon Web Services account.  This action always returns the latest results. For more information about DMS task assessments, see   Creating a task assessment report in the Database Migration Service User Guide.
     /// Return PaginatorSequence for operation.
     ///
     /// - Parameters:

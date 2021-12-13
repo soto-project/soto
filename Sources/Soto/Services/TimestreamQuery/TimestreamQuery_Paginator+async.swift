@@ -23,7 +23,51 @@ import SotoCore
 
 @available(macOS 12.0, iOS 15.0, watchOS 8.0, tvOS 15.0, *)
 extension TimestreamQuery {
-    ///   Query is a synchronous operation that enables you to execute a query. Query will timeout after 60 seconds. You must update the default timeout in the SDK to support a timeout of 60 seconds. The result set will be truncated to 1MB. Service quotas apply. For more information, see Quotas in the Timestream Developer Guide.
+    ///  Gets a list of all scheduled queries in the caller's Amazon account and Region. ListScheduledQueries is eventually consistent.
+    /// Return PaginatorSequence for operation.
+    ///
+    /// - Parameters:
+    ///   - input: Input for request
+    ///   - logger: Logger used flot logging
+    ///   - eventLoop: EventLoop to run this process on
+    public func listScheduledQueriesPaginator(
+        _ input: ListScheduledQueriesRequest,
+        logger: Logger = AWSClient.loggingDisabled,
+        on eventLoop: EventLoop? = nil
+    ) -> AWSClient.PaginatorSequence<ListScheduledQueriesRequest, ListScheduledQueriesResponse> {
+        return .init(
+            input: input,
+            command: listScheduledQueries,
+            inputKey: \ListScheduledQueriesRequest.nextToken,
+            outputKey: \ListScheduledQueriesResponse.nextToken,
+            logger: logger,
+            on: eventLoop
+        )
+    }
+
+    ///  List all tags on a Timestream query resource.
+    /// Return PaginatorSequence for operation.
+    ///
+    /// - Parameters:
+    ///   - input: Input for request
+    ///   - logger: Logger used flot logging
+    ///   - eventLoop: EventLoop to run this process on
+    public func listTagsForResourcePaginator(
+        _ input: ListTagsForResourceRequest,
+        logger: Logger = AWSClient.loggingDisabled,
+        on eventLoop: EventLoop? = nil
+    ) -> AWSClient.PaginatorSequence<ListTagsForResourceRequest, ListTagsForResourceResponse> {
+        return .init(
+            input: input,
+            command: listTagsForResource,
+            inputKey: \ListTagsForResourceRequest.nextToken,
+            outputKey: \ListTagsForResourceResponse.nextToken,
+            logger: logger,
+            on: eventLoop
+        )
+    }
+
+    ///   Query is a synchronous operation that enables you to run a query against your Amazon Timestream data. Query will time out after 60 seconds. You must update the default timeout in the SDK to support a timeout of 60 seconds. See the code sample for details.  Your query request will fail in the following cases:   If you submit a Query request with the same client token outside of the 5-minute idempotency window.    If you submit a Query request with the same client token, but change other parameters, within the 5-minute idempotency window.    If the size of the row (including the query metadata) exceeds 1 MB, then the query will fail with the following error message:   Query aborted as max page response size has been exceeded by the output result row    If the IAM principal of the query initiator and the result reader are not the same and/or the query initiator and the result reader do not have the same query string in the query requests, the query will fail with an Invalid pagination token error.
     /// Return PaginatorSequence for operation.
     ///
     /// - Parameters:

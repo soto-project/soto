@@ -53,10 +53,33 @@ extension WellArchitected {
         public var description: String { return self.rawValue }
     }
 
+    public enum ImportLensStatus: String, CustomStringConvertible, Codable {
+        case complete = "COMPLETE"
+        case error = "ERROR"
+        case inProgress = "IN_PROGRESS"
+        public var description: String { return self.rawValue }
+    }
+
     public enum LensStatus: String, CustomStringConvertible, Codable {
         case current = "CURRENT"
+        case deleted = "DELETED"
         case deprecated = "DEPRECATED"
         case notCurrent = "NOT_CURRENT"
+        case unshared = "UNSHARED"
+        public var description: String { return self.rawValue }
+    }
+
+    public enum LensStatusType: String, CustomStringConvertible, Codable {
+        case all = "ALL"
+        case draft = "DRAFT"
+        case published = "PUBLISHED"
+        public var description: String { return self.rawValue }
+    }
+
+    public enum LensType: String, CustomStringConvertible, Codable {
+        case awsOfficial = "AWS_OFFICIAL"
+        case customSelf = "CUSTOM_SELF"
+        case customShared = "CUSTOM_SHARED"
         public var description: String { return self.rawValue }
     }
 
@@ -84,6 +107,12 @@ extension WellArchitected {
     public enum ShareInvitationAction: String, CustomStringConvertible, Codable {
         case accept = "ACCEPT"
         case reject = "REJECT"
+        public var description: String { return self.rawValue }
+    }
+
+    public enum ShareResourceType: String, CustomStringConvertible, Codable {
+        case lens = "LENS"
+        case workload = "WORKLOAD"
         public var description: String { return self.rawValue }
     }
 
@@ -117,6 +146,8 @@ extension WellArchitected {
         /// A list of selected choices to a question in your workload.
         public let choiceAnswers: [ChoiceAnswer]?
         public let choices: [Choice]?
+        /// The helpful resource text to be displayed.
+        public let helpfulResourceDisplayText: String?
         public let helpfulResourceUrl: String?
         public let improvementPlanUrl: String?
         public let isApplicable: Bool?
@@ -130,9 +161,10 @@ extension WellArchitected {
         public let risk: Risk?
         public let selectedChoices: [String]?
 
-        public init(choiceAnswers: [ChoiceAnswer]? = nil, choices: [Choice]? = nil, helpfulResourceUrl: String? = nil, improvementPlanUrl: String? = nil, isApplicable: Bool? = nil, notes: String? = nil, pillarId: String? = nil, questionDescription: String? = nil, questionId: String? = nil, questionTitle: String? = nil, reason: AnswerReason? = nil, risk: Risk? = nil, selectedChoices: [String]? = nil) {
+        public init(choiceAnswers: [ChoiceAnswer]? = nil, choices: [Choice]? = nil, helpfulResourceDisplayText: String? = nil, helpfulResourceUrl: String? = nil, improvementPlanUrl: String? = nil, isApplicable: Bool? = nil, notes: String? = nil, pillarId: String? = nil, questionDescription: String? = nil, questionId: String? = nil, questionTitle: String? = nil, reason: AnswerReason? = nil, risk: Risk? = nil, selectedChoices: [String]? = nil) {
             self.choiceAnswers = choiceAnswers
             self.choices = choices
+            self.helpfulResourceDisplayText = helpfulResourceDisplayText
             self.helpfulResourceUrl = helpfulResourceUrl
             self.improvementPlanUrl = improvementPlanUrl
             self.isApplicable = isApplicable
@@ -149,6 +181,7 @@ extension WellArchitected {
         private enum CodingKeys: String, CodingKey {
             case choiceAnswers = "ChoiceAnswers"
             case choices = "Choices"
+            case helpfulResourceDisplayText = "HelpfulResourceDisplayText"
             case helpfulResourceUrl = "HelpfulResourceUrl"
             case improvementPlanUrl = "ImprovementPlanUrl"
             case isApplicable = "IsApplicable"
@@ -216,7 +249,7 @@ extension WellArchitected {
 
         public func validate(name: String) throws {
             try self.lensAliases.forEach {
-                try validate($0, name: "lensAliases[]", parent: name, max: 64)
+                try validate($0, name: "lensAliases[]", parent: name, max: 128)
                 try validate($0, name: "lensAliases[]", parent: name, min: 1)
             }
             try self.validate(self.lensAliases, name: "lensAliases", parent: name, min: 1)
@@ -231,17 +264,25 @@ extension WellArchitected {
     public struct Choice: AWSDecodableShape {
         public let choiceId: String?
         public let description: String?
+        /// The choice level helpful resource.
+        public let helpfulResource: ChoiceContent?
+        /// The choice level improvement plan.
+        public let improvementPlan: ChoiceContent?
         public let title: String?
 
-        public init(choiceId: String? = nil, description: String? = nil, title: String? = nil) {
+        public init(choiceId: String? = nil, description: String? = nil, helpfulResource: ChoiceContent? = nil, improvementPlan: ChoiceContent? = nil, title: String? = nil) {
             self.choiceId = choiceId
             self.description = description
+            self.helpfulResource = helpfulResource
+            self.improvementPlan = improvementPlan
             self.title = title
         }
 
         private enum CodingKeys: String, CodingKey {
             case choiceId = "ChoiceId"
             case description = "Description"
+            case helpfulResource = "HelpfulResource"
+            case improvementPlan = "ImprovementPlan"
             case title = "Title"
         }
     }
@@ -290,6 +331,42 @@ extension WellArchitected {
         }
     }
 
+    public struct ChoiceContent: AWSDecodableShape {
+        /// The display text for the choice content.
+        public let displayText: String?
+        /// The URL for the choice content.
+        public let url: String?
+
+        public init(displayText: String? = nil, url: String? = nil) {
+            self.displayText = displayText
+            self.url = url
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case displayText = "DisplayText"
+            case url = "Url"
+        }
+    }
+
+    public struct ChoiceImprovementPlan: AWSDecodableShape {
+        public let choiceId: String?
+        /// The display text for the improvement plan.
+        public let displayText: String?
+        public let improvementPlanUrl: String?
+
+        public init(choiceId: String? = nil, displayText: String? = nil, improvementPlanUrl: String? = nil) {
+            self.choiceId = choiceId
+            self.displayText = displayText
+            self.improvementPlanUrl = improvementPlanUrl
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case choiceId = "ChoiceId"
+            case displayText = "DisplayText"
+            case improvementPlanUrl = "ImprovementPlanUrl"
+        }
+    }
+
     public struct ChoiceUpdate: AWSEncodableShape {
         /// The notes associated with a choice.
         public let notes: String?
@@ -312,6 +389,96 @@ extension WellArchitected {
             case notes = "Notes"
             case reason = "Reason"
             case status = "Status"
+        }
+    }
+
+    public struct CreateLensShareInput: AWSEncodableShape {
+        public static var _encoding = [
+            AWSMemberEncoding(label: "lensAlias", location: .uri("LensAlias"))
+        ]
+
+        public let clientRequestToken: String
+        public let lensAlias: String
+        public let sharedWith: String
+
+        public init(clientRequestToken: String = CreateLensShareInput.idempotencyToken(), lensAlias: String, sharedWith: String) {
+            self.clientRequestToken = clientRequestToken
+            self.lensAlias = lensAlias
+            self.sharedWith = sharedWith
+        }
+
+        public func validate(name: String) throws {
+            try self.validate(self.lensAlias, name: "lensAlias", parent: name, max: 128)
+            try self.validate(self.lensAlias, name: "lensAlias", parent: name, min: 1)
+            try self.validate(self.sharedWith, name: "sharedWith", parent: name, max: 2048)
+            try self.validate(self.sharedWith, name: "sharedWith", parent: name, min: 12)
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case clientRequestToken = "ClientRequestToken"
+            case sharedWith = "SharedWith"
+        }
+    }
+
+    public struct CreateLensShareOutput: AWSDecodableShape {
+        public let shareId: String?
+
+        public init(shareId: String? = nil) {
+            self.shareId = shareId
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case shareId = "ShareId"
+        }
+    }
+
+    public struct CreateLensVersionInput: AWSEncodableShape {
+        public static var _encoding = [
+            AWSMemberEncoding(label: "lensAlias", location: .uri("LensAlias"))
+        ]
+
+        public let clientRequestToken: String
+        /// Set to true if this new major lens version.
+        public let isMajorVersion: Bool?
+        public let lensAlias: String
+        /// The version of the lens being created.
+        public let lensVersion: String
+
+        public init(clientRequestToken: String = CreateLensVersionInput.idempotencyToken(), isMajorVersion: Bool? = nil, lensAlias: String, lensVersion: String) {
+            self.clientRequestToken = clientRequestToken
+            self.isMajorVersion = isMajorVersion
+            self.lensAlias = lensAlias
+            self.lensVersion = lensVersion
+        }
+
+        public func validate(name: String) throws {
+            try self.validate(self.lensAlias, name: "lensAlias", parent: name, max: 128)
+            try self.validate(self.lensAlias, name: "lensAlias", parent: name, min: 1)
+            try self.validate(self.lensVersion, name: "lensVersion", parent: name, max: 32)
+            try self.validate(self.lensVersion, name: "lensVersion", parent: name, min: 1)
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case clientRequestToken = "ClientRequestToken"
+            case isMajorVersion = "IsMajorVersion"
+            case lensVersion = "LensVersion"
+        }
+    }
+
+    public struct CreateLensVersionOutput: AWSDecodableShape {
+        /// The ARN for the lens.
+        public let lensArn: String?
+        /// The version of the lens.
+        public let lensVersion: String?
+
+        public init(lensArn: String? = nil, lensVersion: String? = nil) {
+            self.lensArn = lensArn
+            self.lensVersion = lensVersion
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case lensArn = "LensArn"
+            case lensVersion = "LensVersion"
         }
     }
 
@@ -408,7 +575,7 @@ extension WellArchitected {
             try self.validate(self.industry, name: "industry", parent: name, max: 100)
             try self.validate(self.industryType, name: "industryType", parent: name, max: 100)
             try self.lenses.forEach {
-                try validate($0, name: "lenses[]", parent: name, max: 64)
+                try validate($0, name: "lenses[]", parent: name, max: 128)
                 try validate($0, name: "lenses[]", parent: name, min: 1)
             }
             try self.nonAwsRegions?.forEach {
@@ -513,6 +680,58 @@ extension WellArchitected {
         }
     }
 
+    public struct DeleteLensInput: AWSEncodableShape {
+        public static var _encoding = [
+            AWSMemberEncoding(label: "clientRequestToken", location: .querystring("ClientRequestToken")),
+            AWSMemberEncoding(label: "lensAlias", location: .uri("LensAlias")),
+            AWSMemberEncoding(label: "lensStatus", location: .querystring("LensStatus"))
+        ]
+
+        public let clientRequestToken: String
+        public let lensAlias: String
+        /// The status of the lens to be deleted.
+        public let lensStatus: LensStatusType
+
+        public init(clientRequestToken: String = DeleteLensInput.idempotencyToken(), lensAlias: String, lensStatus: LensStatusType) {
+            self.clientRequestToken = clientRequestToken
+            self.lensAlias = lensAlias
+            self.lensStatus = lensStatus
+        }
+
+        public func validate(name: String) throws {
+            try self.validate(self.lensAlias, name: "lensAlias", parent: name, max: 128)
+            try self.validate(self.lensAlias, name: "lensAlias", parent: name, min: 1)
+        }
+
+        private enum CodingKeys: CodingKey {}
+    }
+
+    public struct DeleteLensShareInput: AWSEncodableShape {
+        public static var _encoding = [
+            AWSMemberEncoding(label: "clientRequestToken", location: .querystring("ClientRequestToken")),
+            AWSMemberEncoding(label: "lensAlias", location: .uri("LensAlias")),
+            AWSMemberEncoding(label: "shareId", location: .uri("ShareId"))
+        ]
+
+        public let clientRequestToken: String
+        public let lensAlias: String
+        public let shareId: String
+
+        public init(clientRequestToken: String = DeleteLensShareInput.idempotencyToken(), lensAlias: String, shareId: String) {
+            self.clientRequestToken = clientRequestToken
+            self.lensAlias = lensAlias
+            self.shareId = shareId
+        }
+
+        public func validate(name: String) throws {
+            try self.validate(self.lensAlias, name: "lensAlias", parent: name, max: 128)
+            try self.validate(self.lensAlias, name: "lensAlias", parent: name, min: 1)
+            try self.validate(self.shareId, name: "shareId", parent: name, pattern: "^[0-9a-f]{32}$")
+        }
+
+        private enum CodingKeys: CodingKey {}
+    }
+
     public struct DeleteWorkloadInput: AWSEncodableShape {
         public static var _encoding = [
             AWSMemberEncoding(label: "clientRequestToken", location: .querystring("ClientRequestToken")),
@@ -574,7 +793,7 @@ extension WellArchitected {
 
         public func validate(name: String) throws {
             try self.lensAliases.forEach {
-                try validate($0, name: "lensAliases[]", parent: name, max: 64)
+                try validate($0, name: "lensAliases[]", parent: name, max: 128)
                 try validate($0, name: "lensAliases[]", parent: name, min: 1)
             }
             try self.validate(self.lensAliases, name: "lensAliases", parent: name, min: 1)
@@ -583,6 +802,44 @@ extension WellArchitected {
 
         private enum CodingKeys: String, CodingKey {
             case lensAliases = "LensAliases"
+        }
+    }
+
+    public struct ExportLensInput: AWSEncodableShape {
+        public static var _encoding = [
+            AWSMemberEncoding(label: "lensAlias", location: .uri("LensAlias")),
+            AWSMemberEncoding(label: "lensVersion", location: .querystring("LensVersion"))
+        ]
+
+        public let lensAlias: String
+        /// The lens version to be exported.
+        public let lensVersion: String?
+
+        public init(lensAlias: String, lensVersion: String? = nil) {
+            self.lensAlias = lensAlias
+            self.lensVersion = lensVersion
+        }
+
+        public func validate(name: String) throws {
+            try self.validate(self.lensAlias, name: "lensAlias", parent: name, max: 128)
+            try self.validate(self.lensAlias, name: "lensAlias", parent: name, min: 1)
+            try self.validate(self.lensVersion, name: "lensVersion", parent: name, max: 32)
+            try self.validate(self.lensVersion, name: "lensVersion", parent: name, min: 1)
+        }
+
+        private enum CodingKeys: CodingKey {}
+    }
+
+    public struct ExportLensOutput: AWSDecodableShape {
+        /// The JSON for the lens.
+        public let lensJSON: String?
+
+        public init(lensJSON: String? = nil) {
+            self.lensJSON = lensJSON
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case lensJSON = "LensJSON"
         }
     }
 
@@ -607,7 +864,7 @@ extension WellArchitected {
         }
 
         public func validate(name: String) throws {
-            try self.validate(self.lensAlias, name: "lensAlias", parent: name, max: 64)
+            try self.validate(self.lensAlias, name: "lensAlias", parent: name, max: 128)
             try self.validate(self.lensAlias, name: "lensAlias", parent: name, min: 1)
             try self.validate(self.milestoneNumber, name: "milestoneNumber", parent: name, max: 100)
             try self.validate(self.milestoneNumber, name: "milestoneNumber", parent: name, min: 1)
@@ -622,12 +879,15 @@ extension WellArchitected {
     public struct GetAnswerOutput: AWSDecodableShape {
         public let answer: Answer?
         public let lensAlias: String?
+        /// The ARN for the lens.
+        public let lensArn: String?
         public let milestoneNumber: Int?
         public let workloadId: String?
 
-        public init(answer: Answer? = nil, lensAlias: String? = nil, milestoneNumber: Int? = nil, workloadId: String? = nil) {
+        public init(answer: Answer? = nil, lensAlias: String? = nil, lensArn: String? = nil, milestoneNumber: Int? = nil, workloadId: String? = nil) {
             self.answer = answer
             self.lensAlias = lensAlias
+            self.lensArn = lensArn
             self.milestoneNumber = milestoneNumber
             self.workloadId = workloadId
         }
@@ -635,8 +895,47 @@ extension WellArchitected {
         private enum CodingKeys: String, CodingKey {
             case answer = "Answer"
             case lensAlias = "LensAlias"
+            case lensArn = "LensArn"
             case milestoneNumber = "MilestoneNumber"
             case workloadId = "WorkloadId"
+        }
+    }
+
+    public struct GetLensInput: AWSEncodableShape {
+        public static var _encoding = [
+            AWSMemberEncoding(label: "lensAlias", location: .uri("LensAlias")),
+            AWSMemberEncoding(label: "lensVersion", location: .querystring("LensVersion"))
+        ]
+
+        public let lensAlias: String
+        /// The lens version to be retrieved.
+        public let lensVersion: String?
+
+        public init(lensAlias: String, lensVersion: String? = nil) {
+            self.lensAlias = lensAlias
+            self.lensVersion = lensVersion
+        }
+
+        public func validate(name: String) throws {
+            try self.validate(self.lensAlias, name: "lensAlias", parent: name, max: 128)
+            try self.validate(self.lensAlias, name: "lensAlias", parent: name, min: 1)
+            try self.validate(self.lensVersion, name: "lensVersion", parent: name, max: 32)
+            try self.validate(self.lensVersion, name: "lensVersion", parent: name, min: 1)
+        }
+
+        private enum CodingKeys: CodingKey {}
+    }
+
+    public struct GetLensOutput: AWSDecodableShape {
+        /// A lens return object.
+        public let lens: Lens?
+
+        public init(lens: Lens? = nil) {
+            self.lens = lens
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case lens = "Lens"
         }
     }
 
@@ -658,7 +957,7 @@ extension WellArchitected {
         }
 
         public func validate(name: String) throws {
-            try self.validate(self.lensAlias, name: "lensAlias", parent: name, max: 64)
+            try self.validate(self.lensAlias, name: "lensAlias", parent: name, max: 128)
             try self.validate(self.lensAlias, name: "lensAlias", parent: name, min: 1)
             try self.validate(self.milestoneNumber, name: "milestoneNumber", parent: name, max: 100)
             try self.validate(self.milestoneNumber, name: "milestoneNumber", parent: name, min: 1)
@@ -704,7 +1003,7 @@ extension WellArchitected {
         }
 
         public func validate(name: String) throws {
-            try self.validate(self.lensAlias, name: "lensAlias", parent: name, max: 64)
+            try self.validate(self.lensAlias, name: "lensAlias", parent: name, max: 128)
             try self.validate(self.lensAlias, name: "lensAlias", parent: name, min: 1)
             try self.validate(self.milestoneNumber, name: "milestoneNumber", parent: name, max: 100)
             try self.validate(self.milestoneNumber, name: "milestoneNumber", parent: name, min: 1)
@@ -735,23 +1034,29 @@ extension WellArchitected {
     public struct GetLensVersionDifferenceInput: AWSEncodableShape {
         public static var _encoding = [
             AWSMemberEncoding(label: "baseLensVersion", location: .querystring("BaseLensVersion")),
-            AWSMemberEncoding(label: "lensAlias", location: .uri("LensAlias"))
+            AWSMemberEncoding(label: "lensAlias", location: .uri("LensAlias")),
+            AWSMemberEncoding(label: "targetLensVersion", location: .querystring("TargetLensVersion"))
         ]
 
         /// The base version of the lens.
-        public let baseLensVersion: String
+        public let baseLensVersion: String?
         public let lensAlias: String
+        /// The lens version to target a difference for.
+        public let targetLensVersion: String?
 
-        public init(baseLensVersion: String, lensAlias: String) {
+        public init(baseLensVersion: String? = nil, lensAlias: String, targetLensVersion: String? = nil) {
             self.baseLensVersion = baseLensVersion
             self.lensAlias = lensAlias
+            self.targetLensVersion = targetLensVersion
         }
 
         public func validate(name: String) throws {
-            try self.validate(self.baseLensVersion, name: "baseLensVersion", parent: name, max: 128)
+            try self.validate(self.baseLensVersion, name: "baseLensVersion", parent: name, max: 32)
             try self.validate(self.baseLensVersion, name: "baseLensVersion", parent: name, min: 1)
-            try self.validate(self.lensAlias, name: "lensAlias", parent: name, max: 64)
+            try self.validate(self.lensAlias, name: "lensAlias", parent: name, max: 128)
             try self.validate(self.lensAlias, name: "lensAlias", parent: name, min: 1)
+            try self.validate(self.targetLensVersion, name: "targetLensVersion", parent: name, max: 32)
+            try self.validate(self.targetLensVersion, name: "targetLensVersion", parent: name, min: 1)
         }
 
         private enum CodingKeys: CodingKey {}
@@ -763,12 +1068,18 @@ extension WellArchitected {
         /// The latest version of the lens.
         public let latestLensVersion: String?
         public let lensAlias: String?
+        /// The ARN for the lens.
+        public let lensArn: String?
+        /// The target lens version for the lens.
+        public let targetLensVersion: String?
         public let versionDifferences: VersionDifferences?
 
-        public init(baseLensVersion: String? = nil, latestLensVersion: String? = nil, lensAlias: String? = nil, versionDifferences: VersionDifferences? = nil) {
+        public init(baseLensVersion: String? = nil, latestLensVersion: String? = nil, lensAlias: String? = nil, lensArn: String? = nil, targetLensVersion: String? = nil, versionDifferences: VersionDifferences? = nil) {
             self.baseLensVersion = baseLensVersion
             self.latestLensVersion = latestLensVersion
             self.lensAlias = lensAlias
+            self.lensArn = lensArn
+            self.targetLensVersion = targetLensVersion
             self.versionDifferences = versionDifferences
         }
 
@@ -776,6 +1087,8 @@ extension WellArchitected {
             case baseLensVersion = "BaseLensVersion"
             case latestLensVersion = "LatestLensVersion"
             case lensAlias = "LensAlias"
+            case lensArn = "LensArn"
+            case targetLensVersion = "TargetLensVersion"
             case versionDifferences = "VersionDifferences"
         }
     }
@@ -848,14 +1161,71 @@ extension WellArchitected {
         }
     }
 
+    public struct ImportLensInput: AWSEncodableShape {
+        public let clientRequestToken: String
+        /// The JSON representation of a lens.
+        public let jsonString: String
+        public let lensAlias: String?
+        /// Tags to associate to a lens.
+        public let tags: [String: String]?
+
+        public init(clientRequestToken: String = ImportLensInput.idempotencyToken(), jsonString: String, lensAlias: String? = nil, tags: [String: String]? = nil) {
+            self.clientRequestToken = clientRequestToken
+            self.jsonString = jsonString
+            self.lensAlias = lensAlias
+            self.tags = tags
+        }
+
+        public func validate(name: String) throws {
+            try self.validate(self.jsonString, name: "jsonString", parent: name, max: 500_000)
+            try self.validate(self.jsonString, name: "jsonString", parent: name, min: 2)
+            try self.validate(self.lensAlias, name: "lensAlias", parent: name, max: 128)
+            try self.validate(self.lensAlias, name: "lensAlias", parent: name, min: 1)
+            try self.tags?.forEach {
+                try validate($0.key, name: "tags.key", parent: name, max: 128)
+                try validate($0.key, name: "tags.key", parent: name, min: 1)
+                try validate($0.value, name: "tags[\"\($0.key)\"]", parent: name, max: 256)
+            }
+            try self.validate(self.tags, name: "tags", parent: name, max: 50)
+            try self.validate(self.tags, name: "tags", parent: name, min: 1)
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case clientRequestToken = "ClientRequestToken"
+            case jsonString = "JSONString"
+            case lensAlias = "LensAlias"
+            case tags = "Tags"
+        }
+    }
+
+    public struct ImportLensOutput: AWSDecodableShape {
+        /// The ARN for the lens.
+        public let lensArn: String?
+        /// The status of the imported lens.
+        public let status: ImportLensStatus?
+
+        public init(lensArn: String? = nil, status: ImportLensStatus? = nil) {
+            self.lensArn = lensArn
+            self.status = status
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case lensArn = "LensArn"
+            case status = "Status"
+        }
+    }
+
     public struct ImprovementSummary: AWSDecodableShape {
+        /// The improvement plan details.
+        public let improvementPlans: [ChoiceImprovementPlan]?
         public let improvementPlanUrl: String?
         public let pillarId: String?
         public let questionId: String?
         public let questionTitle: String?
         public let risk: Risk?
 
-        public init(improvementPlanUrl: String? = nil, pillarId: String? = nil, questionId: String? = nil, questionTitle: String? = nil, risk: Risk? = nil) {
+        public init(improvementPlans: [ChoiceImprovementPlan]? = nil, improvementPlanUrl: String? = nil, pillarId: String? = nil, questionId: String? = nil, questionTitle: String? = nil, risk: Risk? = nil) {
+            self.improvementPlans = improvementPlans
             self.improvementPlanUrl = improvementPlanUrl
             self.pillarId = pillarId
             self.questionId = questionId
@@ -864,6 +1234,7 @@ extension WellArchitected {
         }
 
         private enum CodingKeys: String, CodingKey {
+            case improvementPlans = "ImprovementPlans"
             case improvementPlanUrl = "ImprovementPlanUrl"
             case pillarId = "PillarId"
             case questionId = "QuestionId"
@@ -872,8 +1243,41 @@ extension WellArchitected {
         }
     }
 
+    public struct Lens: AWSDecodableShape {
+        public let description: String?
+        /// The ARN of a lens.
+        public let lensArn: String?
+        /// The version of a lens.
+        public let lensVersion: String?
+        public let name: String?
+        /// The Amazon Web Services account ID that owns the lens.
+        public let owner: String?
+        /// The ID assigned to the share invitation.
+        public let shareInvitationId: String?
+
+        public init(description: String? = nil, lensArn: String? = nil, lensVersion: String? = nil, name: String? = nil, owner: String? = nil, shareInvitationId: String? = nil) {
+            self.description = description
+            self.lensArn = lensArn
+            self.lensVersion = lensVersion
+            self.name = name
+            self.owner = owner
+            self.shareInvitationId = shareInvitationId
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case description = "Description"
+            case lensArn = "LensArn"
+            case lensVersion = "LensVersion"
+            case name = "Name"
+            case owner = "Owner"
+            case shareInvitationId = "ShareInvitationId"
+        }
+    }
+
     public struct LensReview: AWSDecodableShape {
         public let lensAlias: String?
+        /// The ARN for the lens.
+        public let lensArn: String?
         public let lensName: String?
         /// The status of the lens.
         public let lensStatus: LensStatus?
@@ -885,8 +1289,9 @@ extension WellArchitected {
         public let riskCounts: [Risk: Int]?
         public let updatedAt: Date?
 
-        public init(lensAlias: String? = nil, lensName: String? = nil, lensStatus: LensStatus? = nil, lensVersion: String? = nil, nextToken: String? = nil, notes: String? = nil, pillarReviewSummaries: [PillarReviewSummary]? = nil, riskCounts: [Risk: Int]? = nil, updatedAt: Date? = nil) {
+        public init(lensAlias: String? = nil, lensArn: String? = nil, lensName: String? = nil, lensStatus: LensStatus? = nil, lensVersion: String? = nil, nextToken: String? = nil, notes: String? = nil, pillarReviewSummaries: [PillarReviewSummary]? = nil, riskCounts: [Risk: Int]? = nil, updatedAt: Date? = nil) {
             self.lensAlias = lensAlias
+            self.lensArn = lensArn
             self.lensName = lensName
             self.lensStatus = lensStatus
             self.lensVersion = lensVersion
@@ -899,6 +1304,7 @@ extension WellArchitected {
 
         private enum CodingKeys: String, CodingKey {
             case lensAlias = "LensAlias"
+            case lensArn = "LensArn"
             case lensName = "LensName"
             case lensStatus = "LensStatus"
             case lensVersion = "LensVersion"
@@ -913,20 +1319,26 @@ extension WellArchitected {
     public struct LensReviewReport: AWSDecodableShape {
         public let base64String: String?
         public let lensAlias: String?
+        /// The ARN for the lens.
+        public let lensArn: String?
 
-        public init(base64String: String? = nil, lensAlias: String? = nil) {
+        public init(base64String: String? = nil, lensAlias: String? = nil, lensArn: String? = nil) {
             self.base64String = base64String
             self.lensAlias = lensAlias
+            self.lensArn = lensArn
         }
 
         private enum CodingKeys: String, CodingKey {
             case base64String = "Base64String"
             case lensAlias = "LensAlias"
+            case lensArn = "LensArn"
         }
     }
 
     public struct LensReviewSummary: AWSDecodableShape {
         public let lensAlias: String?
+        /// The ARN for the lens.
+        public let lensArn: String?
         public let lensName: String?
         /// The status of the lens.
         public let lensStatus: LensStatus?
@@ -935,8 +1347,9 @@ extension WellArchitected {
         public let riskCounts: [Risk: Int]?
         public let updatedAt: Date?
 
-        public init(lensAlias: String? = nil, lensName: String? = nil, lensStatus: LensStatus? = nil, lensVersion: String? = nil, riskCounts: [Risk: Int]? = nil, updatedAt: Date? = nil) {
+        public init(lensAlias: String? = nil, lensArn: String? = nil, lensName: String? = nil, lensStatus: LensStatus? = nil, lensVersion: String? = nil, riskCounts: [Risk: Int]? = nil, updatedAt: Date? = nil) {
             self.lensAlias = lensAlias
+            self.lensArn = lensArn
             self.lensName = lensName
             self.lensStatus = lensStatus
             self.lensVersion = lensVersion
@@ -946,6 +1359,7 @@ extension WellArchitected {
 
         private enum CodingKeys: String, CodingKey {
             case lensAlias = "LensAlias"
+            case lensArn = "LensArn"
             case lensName = "LensName"
             case lensStatus = "LensStatus"
             case lensVersion = "LensVersion"
@@ -954,25 +1368,64 @@ extension WellArchitected {
         }
     }
 
-    public struct LensSummary: AWSDecodableShape {
-        public let description: String?
-        public let lensAlias: String?
-        public let lensName: String?
-        /// The version of the lens.
-        public let lensVersion: String?
+    public struct LensShareSummary: AWSDecodableShape {
+        public let sharedWith: String?
+        public let shareId: String?
+        public let status: ShareStatus?
 
-        public init(description: String? = nil, lensAlias: String? = nil, lensName: String? = nil, lensVersion: String? = nil) {
-            self.description = description
-            self.lensAlias = lensAlias
-            self.lensName = lensName
-            self.lensVersion = lensVersion
+        public init(sharedWith: String? = nil, shareId: String? = nil, status: ShareStatus? = nil) {
+            self.sharedWith = sharedWith
+            self.shareId = shareId
+            self.status = status
         }
 
         private enum CodingKeys: String, CodingKey {
+            case sharedWith = "SharedWith"
+            case shareId = "ShareId"
+            case status = "Status"
+        }
+    }
+
+    public struct LensSummary: AWSDecodableShape {
+        public let createdAt: Date?
+        public let description: String?
+        public let lensAlias: String?
+        /// The ARN of the lens.
+        public let lensArn: String?
+        public let lensName: String?
+        /// The status of the lens.
+        public let lensStatus: LensStatus?
+        /// The type of the lens.
+        public let lensType: LensType?
+        /// The version of the lens.
+        public let lensVersion: String?
+        public let owner: String?
+        public let updatedAt: Date?
+
+        public init(createdAt: Date? = nil, description: String? = nil, lensAlias: String? = nil, lensArn: String? = nil, lensName: String? = nil, lensStatus: LensStatus? = nil, lensType: LensType? = nil, lensVersion: String? = nil, owner: String? = nil, updatedAt: Date? = nil) {
+            self.createdAt = createdAt
+            self.description = description
+            self.lensAlias = lensAlias
+            self.lensArn = lensArn
+            self.lensName = lensName
+            self.lensStatus = lensStatus
+            self.lensType = lensType
+            self.lensVersion = lensVersion
+            self.owner = owner
+            self.updatedAt = updatedAt
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case createdAt = "CreatedAt"
             case description = "Description"
             case lensAlias = "LensAlias"
+            case lensArn = "LensArn"
             case lensName = "LensName"
+            case lensStatus = "LensStatus"
+            case lensType = "LensType"
             case lensVersion = "LensVersion"
+            case owner = "Owner"
+            case updatedAt = "UpdatedAt"
         }
     }
 
@@ -982,13 +1435,16 @@ extension WellArchitected {
         /// The latest version of the lens.
         public let latestLensVersion: String?
         public let lensAlias: String?
+        /// The ARN for the lens.
+        public let lensArn: String?
         public let workloadId: String?
         public let workloadName: String?
 
-        public init(currentLensVersion: String? = nil, latestLensVersion: String? = nil, lensAlias: String? = nil, workloadId: String? = nil, workloadName: String? = nil) {
+        public init(currentLensVersion: String? = nil, latestLensVersion: String? = nil, lensAlias: String? = nil, lensArn: String? = nil, workloadId: String? = nil, workloadName: String? = nil) {
             self.currentLensVersion = currentLensVersion
             self.latestLensVersion = latestLensVersion
             self.lensAlias = lensAlias
+            self.lensArn = lensArn
             self.workloadId = workloadId
             self.workloadName = workloadName
         }
@@ -997,6 +1453,7 @@ extension WellArchitected {
             case currentLensVersion = "CurrentLensVersion"
             case latestLensVersion = "LatestLensVersion"
             case lensAlias = "LensAlias"
+            case lensArn = "LensArn"
             case workloadId = "WorkloadId"
             case workloadName = "WorkloadName"
         }
@@ -1030,7 +1487,7 @@ extension WellArchitected {
         }
 
         public func validate(name: String) throws {
-            try self.validate(self.lensAlias, name: "lensAlias", parent: name, max: 64)
+            try self.validate(self.lensAlias, name: "lensAlias", parent: name, max: 128)
             try self.validate(self.lensAlias, name: "lensAlias", parent: name, min: 1)
             try self.validate(self.maxResults, name: "maxResults", parent: name, max: 50)
             try self.validate(self.maxResults, name: "maxResults", parent: name, min: 1)
@@ -1047,13 +1504,16 @@ extension WellArchitected {
     public struct ListAnswersOutput: AWSDecodableShape {
         public let answerSummaries: [AnswerSummary]?
         public let lensAlias: String?
+        /// The ARN for the lens.
+        public let lensArn: String?
         public let milestoneNumber: Int?
         public let nextToken: String?
         public let workloadId: String?
 
-        public init(answerSummaries: [AnswerSummary]? = nil, lensAlias: String? = nil, milestoneNumber: Int? = nil, nextToken: String? = nil, workloadId: String? = nil) {
+        public init(answerSummaries: [AnswerSummary]? = nil, lensAlias: String? = nil, lensArn: String? = nil, milestoneNumber: Int? = nil, nextToken: String? = nil, workloadId: String? = nil) {
             self.answerSummaries = answerSummaries
             self.lensAlias = lensAlias
+            self.lensArn = lensArn
             self.milestoneNumber = milestoneNumber
             self.nextToken = nextToken
             self.workloadId = workloadId
@@ -1062,6 +1522,7 @@ extension WellArchitected {
         private enum CodingKeys: String, CodingKey {
             case answerSummaries = "AnswerSummaries"
             case lensAlias = "LensAlias"
+            case lensArn = "LensArn"
             case milestoneNumber = "MilestoneNumber"
             case nextToken = "NextToken"
             case workloadId = "WorkloadId"
@@ -1096,7 +1557,7 @@ extension WellArchitected {
         }
 
         public func validate(name: String) throws {
-            try self.validate(self.lensAlias, name: "lensAlias", parent: name, max: 64)
+            try self.validate(self.lensAlias, name: "lensAlias", parent: name, max: 128)
             try self.validate(self.lensAlias, name: "lensAlias", parent: name, min: 1)
             try self.validate(self.maxResults, name: "maxResults", parent: name, max: 100)
             try self.validate(self.maxResults, name: "maxResults", parent: name, min: 1)
@@ -1113,13 +1574,16 @@ extension WellArchitected {
     public struct ListLensReviewImprovementsOutput: AWSDecodableShape {
         public let improvementSummaries: [ImprovementSummary]?
         public let lensAlias: String?
+        /// The ARN for the lens.
+        public let lensArn: String?
         public let milestoneNumber: Int?
         public let nextToken: String?
         public let workloadId: String?
 
-        public init(improvementSummaries: [ImprovementSummary]? = nil, lensAlias: String? = nil, milestoneNumber: Int? = nil, nextToken: String? = nil, workloadId: String? = nil) {
+        public init(improvementSummaries: [ImprovementSummary]? = nil, lensAlias: String? = nil, lensArn: String? = nil, milestoneNumber: Int? = nil, nextToken: String? = nil, workloadId: String? = nil) {
             self.improvementSummaries = improvementSummaries
             self.lensAlias = lensAlias
+            self.lensArn = lensArn
             self.milestoneNumber = milestoneNumber
             self.nextToken = nextToken
             self.workloadId = workloadId
@@ -1128,6 +1592,7 @@ extension WellArchitected {
         private enum CodingKeys: String, CodingKey {
             case improvementSummaries = "ImprovementSummaries"
             case lensAlias = "LensAlias"
+            case lensArn = "LensArn"
             case milestoneNumber = "MilestoneNumber"
             case nextToken = "NextToken"
             case workloadId = "WorkloadId"
@@ -1186,21 +1651,83 @@ extension WellArchitected {
         }
     }
 
+    public struct ListLensSharesInput: AWSEncodableShape {
+        public static var _encoding = [
+            AWSMemberEncoding(label: "lensAlias", location: .uri("LensAlias")),
+            AWSMemberEncoding(label: "maxResults", location: .querystring("MaxResults")),
+            AWSMemberEncoding(label: "nextToken", location: .querystring("NextToken")),
+            AWSMemberEncoding(label: "sharedWithPrefix", location: .querystring("SharedWithPrefix"))
+        ]
+
+        public let lensAlias: String
+        /// The maximum number of results to return for this request.
+        public let maxResults: Int?
+        public let nextToken: String?
+        /// The Amazon Web Services account ID or IAM role with which the lens is shared.
+        public let sharedWithPrefix: String?
+
+        public init(lensAlias: String, maxResults: Int? = nil, nextToken: String? = nil, sharedWithPrefix: String? = nil) {
+            self.lensAlias = lensAlias
+            self.maxResults = maxResults
+            self.nextToken = nextToken
+            self.sharedWithPrefix = sharedWithPrefix
+        }
+
+        public func validate(name: String) throws {
+            try self.validate(self.lensAlias, name: "lensAlias", parent: name, max: 128)
+            try self.validate(self.lensAlias, name: "lensAlias", parent: name, min: 1)
+            try self.validate(self.maxResults, name: "maxResults", parent: name, max: 50)
+            try self.validate(self.maxResults, name: "maxResults", parent: name, min: 1)
+            try self.validate(self.sharedWithPrefix, name: "sharedWithPrefix", parent: name, max: 100)
+        }
+
+        private enum CodingKeys: CodingKey {}
+    }
+
+    public struct ListLensSharesOutput: AWSDecodableShape {
+        /// A list of lens share summaries.
+        public let lensShareSummaries: [LensShareSummary]?
+        public let nextToken: String?
+
+        public init(lensShareSummaries: [LensShareSummary]? = nil, nextToken: String? = nil) {
+            self.lensShareSummaries = lensShareSummaries
+            self.nextToken = nextToken
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case lensShareSummaries = "LensShareSummaries"
+            case nextToken = "NextToken"
+        }
+    }
+
     public struct ListLensesInput: AWSEncodableShape {
         public static var _encoding = [
+            AWSMemberEncoding(label: "lensName", location: .querystring("LensName")),
+            AWSMemberEncoding(label: "lensStatus", location: .querystring("LensStatus")),
+            AWSMemberEncoding(label: "lensType", location: .querystring("LensType")),
             AWSMemberEncoding(label: "maxResults", location: .querystring("MaxResults")),
             AWSMemberEncoding(label: "nextToken", location: .querystring("NextToken"))
         ]
 
+        public let lensName: String?
+        /// The status of lenses to be returned.
+        public let lensStatus: LensStatusType?
+        /// The type of lenses to be returned.
+        public let lensType: LensType?
         public let maxResults: Int?
         public let nextToken: String?
 
-        public init(maxResults: Int? = nil, nextToken: String? = nil) {
+        public init(lensName: String? = nil, lensStatus: LensStatusType? = nil, lensType: LensType? = nil, maxResults: Int? = nil, nextToken: String? = nil) {
+            self.lensName = lensName
+            self.lensStatus = lensStatus
+            self.lensType = lensType
             self.maxResults = maxResults
             self.nextToken = nextToken
         }
 
         public func validate(name: String) throws {
+            try self.validate(self.lensName, name: "lensName", parent: name, max: 128)
+            try self.validate(self.lensName, name: "lensName", parent: name, min: 1)
             try self.validate(self.maxResults, name: "maxResults", parent: name, max: 50)
             try self.validate(self.maxResults, name: "maxResults", parent: name, min: 1)
         }
@@ -1311,23 +1838,32 @@ extension WellArchitected {
 
     public struct ListShareInvitationsInput: AWSEncodableShape {
         public static var _encoding = [
+            AWSMemberEncoding(label: "lensNamePrefix", location: .querystring("LensNamePrefix")),
             AWSMemberEncoding(label: "maxResults", location: .querystring("MaxResults")),
             AWSMemberEncoding(label: "nextToken", location: .querystring("NextToken")),
+            AWSMemberEncoding(label: "shareResourceType", location: .querystring("ShareResourceType")),
             AWSMemberEncoding(label: "workloadNamePrefix", location: .querystring("WorkloadNamePrefix"))
         ]
 
+        /// An optional string added to the beginning of each lens name returned in the results.
+        public let lensNamePrefix: String?
         /// The maximum number of results to return for this request.
         public let maxResults: Int?
         public let nextToken: String?
+        /// The type of share invitations to be returned.
+        public let shareResourceType: ShareResourceType?
         public let workloadNamePrefix: String?
 
-        public init(maxResults: Int? = nil, nextToken: String? = nil, workloadNamePrefix: String? = nil) {
+        public init(lensNamePrefix: String? = nil, maxResults: Int? = nil, nextToken: String? = nil, shareResourceType: ShareResourceType? = nil, workloadNamePrefix: String? = nil) {
+            self.lensNamePrefix = lensNamePrefix
             self.maxResults = maxResults
             self.nextToken = nextToken
+            self.shareResourceType = shareResourceType
             self.workloadNamePrefix = workloadNamePrefix
         }
 
         public func validate(name: String) throws {
+            try self.validate(self.lensNamePrefix, name: "lensNamePrefix", parent: name, max: 100)
             try self.validate(self.maxResults, name: "maxResults", parent: name, max: 50)
             try self.validate(self.maxResults, name: "maxResults", parent: name, min: 1)
             try self.validate(self.workloadNamePrefix, name: "workloadNamePrefix", parent: name, max: 100)
@@ -1390,7 +1926,7 @@ extension WellArchitected {
         /// The maximum number of results to return for this request.
         public let maxResults: Int?
         public let nextToken: String?
-        /// The AWS account ID or IAM role with which the workload is shared.
+        /// The Amazon Web Services account ID or IAM role with which the workload is shared.
         public let sharedWithPrefix: String?
         public let workloadId: String
 
@@ -1532,18 +2068,21 @@ extension WellArchitected {
         /// Indicates the type of change to the pillar.
         public let differenceStatus: DifferenceStatus?
         public let pillarId: String?
+        public let pillarName: String?
         /// List of question differences.
         public let questionDifferences: [QuestionDifference]?
 
-        public init(differenceStatus: DifferenceStatus? = nil, pillarId: String? = nil, questionDifferences: [QuestionDifference]? = nil) {
+        public init(differenceStatus: DifferenceStatus? = nil, pillarId: String? = nil, pillarName: String? = nil, questionDifferences: [QuestionDifference]? = nil) {
             self.differenceStatus = differenceStatus
             self.pillarId = pillarId
+            self.pillarName = pillarName
             self.questionDifferences = questionDifferences
         }
 
         private enum CodingKeys: String, CodingKey {
             case differenceStatus = "DifferenceStatus"
             case pillarId = "PillarId"
+            case pillarName = "PillarName"
             case questionDifferences = "QuestionDifferences"
         }
     }
@@ -1589,44 +2128,66 @@ extension WellArchitected {
     }
 
     public struct ShareInvitation: AWSDecodableShape {
+        public let lensAlias: String?
+        /// The ARN for the lens.
+        public let lensArn: String?
         /// The ID assigned to the share invitation.
         public let shareInvitationId: String?
+        /// The resource type of the share invitation.
+        public let shareResourceType: ShareResourceType?
         public let workloadId: String?
 
-        public init(shareInvitationId: String? = nil, workloadId: String? = nil) {
+        public init(lensAlias: String? = nil, lensArn: String? = nil, shareInvitationId: String? = nil, shareResourceType: ShareResourceType? = nil, workloadId: String? = nil) {
+            self.lensAlias = lensAlias
+            self.lensArn = lensArn
             self.shareInvitationId = shareInvitationId
+            self.shareResourceType = shareResourceType
             self.workloadId = workloadId
         }
 
         private enum CodingKeys: String, CodingKey {
+            case lensAlias = "LensAlias"
+            case lensArn = "LensArn"
             case shareInvitationId = "ShareInvitationId"
+            case shareResourceType = "ShareResourceType"
             case workloadId = "WorkloadId"
         }
     }
 
     public struct ShareInvitationSummary: AWSDecodableShape {
+        /// The ARN for the lens.
+        public let lensArn: String?
+        public let lensName: String?
         public let permissionType: PermissionType?
         public let sharedBy: String?
         public let sharedWith: String?
         /// The ID assigned to the share invitation.
         public let shareInvitationId: String?
+        /// The resource type of the share invitation.
+        public let shareResourceType: ShareResourceType?
         public let workloadId: String?
         public let workloadName: String?
 
-        public init(permissionType: PermissionType? = nil, sharedBy: String? = nil, sharedWith: String? = nil, shareInvitationId: String? = nil, workloadId: String? = nil, workloadName: String? = nil) {
+        public init(lensArn: String? = nil, lensName: String? = nil, permissionType: PermissionType? = nil, sharedBy: String? = nil, sharedWith: String? = nil, shareInvitationId: String? = nil, shareResourceType: ShareResourceType? = nil, workloadId: String? = nil, workloadName: String? = nil) {
+            self.lensArn = lensArn
+            self.lensName = lensName
             self.permissionType = permissionType
             self.sharedBy = sharedBy
             self.sharedWith = sharedWith
             self.shareInvitationId = shareInvitationId
+            self.shareResourceType = shareResourceType
             self.workloadId = workloadId
             self.workloadName = workloadName
         }
 
         private enum CodingKeys: String, CodingKey {
+            case lensArn = "LensArn"
+            case lensName = "LensName"
             case permissionType = "PermissionType"
             case sharedBy = "SharedBy"
             case sharedWith = "SharedWith"
             case shareInvitationId = "ShareInvitationId"
+            case shareResourceType = "ShareResourceType"
             case workloadId = "WorkloadId"
             case workloadName = "WorkloadName"
         }
@@ -1731,7 +2292,7 @@ extension WellArchitected {
                 try validate($0.key, name: "choiceUpdates.key", parent: name, min: 1)
                 try $0.value.validate(name: "\(name).choiceUpdates[\"\($0.key)\"]")
             }
-            try self.validate(self.lensAlias, name: "lensAlias", parent: name, max: 64)
+            try self.validate(self.lensAlias, name: "lensAlias", parent: name, max: 128)
             try self.validate(self.lensAlias, name: "lensAlias", parent: name, min: 1)
             try self.validate(self.notes, name: "notes", parent: name, max: 2084)
             try self.validate(self.questionId, name: "questionId", parent: name, max: 128)
@@ -1755,17 +2316,21 @@ extension WellArchitected {
     public struct UpdateAnswerOutput: AWSDecodableShape {
         public let answer: Answer?
         public let lensAlias: String?
+        /// The ARN for the lens.
+        public let lensArn: String?
         public let workloadId: String?
 
-        public init(answer: Answer? = nil, lensAlias: String? = nil, workloadId: String? = nil) {
+        public init(answer: Answer? = nil, lensAlias: String? = nil, lensArn: String? = nil, workloadId: String? = nil) {
             self.answer = answer
             self.lensAlias = lensAlias
+            self.lensArn = lensArn
             self.workloadId = workloadId
         }
 
         private enum CodingKeys: String, CodingKey {
             case answer = "Answer"
             case lensAlias = "LensAlias"
+            case lensArn = "LensArn"
             case workloadId = "WorkloadId"
         }
     }
@@ -1789,7 +2354,7 @@ extension WellArchitected {
         }
 
         public func validate(name: String) throws {
-            try self.validate(self.lensAlias, name: "lensAlias", parent: name, max: 64)
+            try self.validate(self.lensAlias, name: "lensAlias", parent: name, max: 128)
             try self.validate(self.lensAlias, name: "lensAlias", parent: name, min: 1)
             try self.validate(self.lensNotes, name: "lensNotes", parent: name, max: 2084)
             try self.pillarNotes?.forEach {
@@ -2018,7 +2583,7 @@ extension WellArchitected {
         }
 
         public func validate(name: String) throws {
-            try self.validate(self.lensAlias, name: "lensAlias", parent: name, max: 64)
+            try self.validate(self.lensAlias, name: "lensAlias", parent: name, max: 128)
             try self.validate(self.lensAlias, name: "lensAlias", parent: name, min: 1)
             try self.validate(self.milestoneName, name: "milestoneName", parent: name, max: 100)
             try self.validate(self.milestoneName, name: "milestoneName", parent: name, min: 3)

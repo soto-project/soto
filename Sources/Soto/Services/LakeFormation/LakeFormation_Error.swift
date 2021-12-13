@@ -24,11 +24,19 @@ public struct LakeFormationErrorType: AWSErrorType {
         case alreadyExistsException = "AlreadyExistsException"
         case concurrentModificationException = "ConcurrentModificationException"
         case entityNotFoundException = "EntityNotFoundException"
+        case expiredException = "ExpiredException"
         case glueEncryptionException = "GlueEncryptionException"
         case internalServiceException = "InternalServiceException"
         case invalidInputException = "InvalidInputException"
         case operationTimeoutException = "OperationTimeoutException"
+        case resourceNotReadyException = "ResourceNotReadyException"
         case resourceNumberLimitExceededException = "ResourceNumberLimitExceededException"
+        case statisticsNotReadyYetException = "StatisticsNotReadyYetException"
+        case throttledException = "ThrottledException"
+        case transactionCanceledException = "TransactionCanceledException"
+        case transactionCommitInProgressException = "TransactionCommitInProgressException"
+        case transactionCommittedException = "TransactionCommittedException"
+        case workUnitsNotReadyYetException = "WorkUnitsNotReadyYetException"
     }
 
     private let error: Code
@@ -57,6 +65,8 @@ public struct LakeFormationErrorType: AWSErrorType {
     public static var concurrentModificationException: Self { .init(.concurrentModificationException) }
     /// A specified entity does not exist
     public static var entityNotFoundException: Self { .init(.entityNotFoundException) }
+    /// Contains details about an error where the query request expired.
+    public static var expiredException: Self { .init(.expiredException) }
     /// An encryption operation failed.
     public static var glueEncryptionException: Self { .init(.glueEncryptionException) }
     /// An internal service error occurred.
@@ -65,8 +75,22 @@ public struct LakeFormationErrorType: AWSErrorType {
     public static var invalidInputException: Self { .init(.invalidInputException) }
     /// The operation timed out.
     public static var operationTimeoutException: Self { .init(.operationTimeoutException) }
+    /// Contains details about an error related to a resource which is not ready for a transaction.
+    public static var resourceNotReadyException: Self { .init(.resourceNotReadyException) }
     /// A resource numerical limit was exceeded.
     public static var resourceNumberLimitExceededException: Self { .init(.resourceNumberLimitExceededException) }
+    /// Contains details about an error related to statistics not being ready.
+    public static var statisticsNotReadyYetException: Self { .init(.statisticsNotReadyYetException) }
+    /// Contains details about an error where the query request was throttled.
+    public static var throttledException: Self { .init(.throttledException) }
+    /// Contains details about an error related to a transaction that was cancelled.
+    public static var transactionCanceledException: Self { .init(.transactionCanceledException) }
+    /// Contains details about an error related to a transaction commit that was in progress.
+    public static var transactionCommitInProgressException: Self { .init(.transactionCommitInProgressException) }
+    /// Contains details about an error where the specified transaction has already been committed and cannot be used for UpdateTableObjects.
+    public static var transactionCommittedException: Self { .init(.transactionCommittedException) }
+    /// Contains details about an error related to work units not being ready.
+    public static var workUnitsNotReadyYetException: Self { .init(.workUnitsNotReadyYetException) }
 }
 
 extension LakeFormationErrorType: Equatable {

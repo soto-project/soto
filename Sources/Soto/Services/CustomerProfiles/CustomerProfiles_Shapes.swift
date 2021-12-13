@@ -21,6 +21,12 @@ import SotoCore
 extension CustomerProfiles {
     // MARK: Enums
 
+    public enum ConflictResolvingModel: String, CustomStringConvertible, Codable {
+        case recency = "RECENCY"
+        case source = "SOURCE"
+        public var description: String { return self.rawValue }
+    }
+
     public enum DataPullMode: String, CustomStringConvertible, Codable {
         case complete = "Complete"
         case incremental = "Incremental"
@@ -40,6 +46,28 @@ extension CustomerProfiles {
         case female = "FEMALE"
         case male = "MALE"
         case unspecified = "UNSPECIFIED"
+        public var description: String { return self.rawValue }
+    }
+
+    public enum IdentityResolutionJobStatus: String, CustomStringConvertible, Codable {
+        case completed = "COMPLETED"
+        case failed = "FAILED"
+        case findMatching = "FIND_MATCHING"
+        case merging = "MERGING"
+        case partialSuccess = "PARTIAL_SUCCESS"
+        case pending = "PENDING"
+        case preprocessing = "PREPROCESSING"
+        public var description: String { return self.rawValue }
+    }
+
+    public enum JobScheduleDayOfTheWeek: String, CustomStringConvertible, Codable {
+        case friday = "FRIDAY"
+        case monday = "MONDAY"
+        case saturday = "SATURDAY"
+        case sunday = "SUNDAY"
+        case thursday = "THURSDAY"
+        case tuesday = "TUESDAY"
+        case wednesday = "WEDNESDAY"
         public var description: String { return self.rawValue }
     }
 
@@ -351,6 +379,54 @@ extension CustomerProfiles {
         }
     }
 
+    public struct AutoMerging: AWSEncodableShape & AWSDecodableShape {
+        /// How the auto-merging process should resolve conflicts between different profiles. For example, if Profile A and Profile B have the same FirstName and LastName (and that is the matching criteria), which EmailAddress should be used?
+        public let conflictResolution: ConflictResolution?
+        /// A list of matching attributes that represent matching criteria. If two profiles meet at least one of the requirements in the matching attributes list, they will be merged.
+        public let consolidation: Consolidation?
+        /// The flag that enables the auto-merging of duplicate profiles.
+        public let enabled: Bool
+
+        public init(conflictResolution: ConflictResolution? = nil, consolidation: Consolidation? = nil, enabled: Bool) {
+            self.conflictResolution = conflictResolution
+            self.consolidation = consolidation
+            self.enabled = enabled
+        }
+
+        public func validate(name: String) throws {
+            try self.conflictResolution?.validate(name: "\(name).conflictResolution")
+            try self.consolidation?.validate(name: "\(name).consolidation")
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case conflictResolution = "ConflictResolution"
+            case consolidation = "Consolidation"
+            case enabled = "Enabled"
+        }
+    }
+
+    public struct ConflictResolution: AWSEncodableShape & AWSDecodableShape {
+        /// How the auto-merging process should resolve conflicts between different profiles.    RECENCY: Uses the data that was most recently updated.    SOURCE: Uses the data from a specific source. For example, if a company has been aquired or two departments have merged, data from the specified source is used. If two duplicate profiles are from the same source, then RECENCY is used again.
+        public let conflictResolvingModel: ConflictResolvingModel
+        /// The ObjectType name that is used to resolve profile merging conflicts when choosing SOURCE as the ConflictResolvingModel.
+        public let sourceName: String?
+
+        public init(conflictResolvingModel: ConflictResolvingModel, sourceName: String? = nil) {
+            self.conflictResolvingModel = conflictResolvingModel
+            self.sourceName = sourceName
+        }
+
+        public func validate(name: String) throws {
+            try self.validate(self.sourceName, name: "sourceName", parent: name, max: 255)
+            try self.validate(self.sourceName, name: "sourceName", parent: name, min: 1)
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case conflictResolvingModel = "ConflictResolvingModel"
+            case sourceName = "SourceName"
+        }
+    }
+
     public struct ConnectorOperator: AWSEncodableShape {
         /// The operation to be performed on the provided Marketo source fields.
         public let marketo: MarketoConnectorOperator?
@@ -380,6 +456,28 @@ extension CustomerProfiles {
         }
     }
 
+    public struct Consolidation: AWSEncodableShape & AWSDecodableShape {
+        /// A list of matching criteria.
+        public let matchingAttributesList: [[String]]
+
+        public init(matchingAttributesList: [[String]]) {
+            self.matchingAttributesList = matchingAttributesList
+        }
+
+        public func validate(name: String) throws {
+            try self.matchingAttributesList.forEach {
+                try validate($0, name: "matchingAttributesList[]", parent: name, max: 20)
+                try validate($0, name: "matchingAttributesList[]", parent: name, min: 1)
+            }
+            try self.validate(self.matchingAttributesList, name: "matchingAttributesList", parent: name, max: 10)
+            try self.validate(self.matchingAttributesList, name: "matchingAttributesList", parent: name, min: 1)
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case matchingAttributesList = "MatchingAttributesList"
+        }
+    }
+
     public struct CreateDomainRequest: AWSEncodableShape {
         public static var _encoding = [
             AWSMemberEncoding(label: "domainName", location: .uri("DomainName"))
@@ -393,10 +491,12 @@ extension CustomerProfiles {
         public let defaultExpirationDays: Int
         /// The unique name of the domain.
         public let domainName: String
-        /// The process of matching duplicate profiles. If Matching = true, Amazon Connect Customer Profiles starts a weekly batch process every Saturday at 12AM UTC to detect duplicate profiles in your domains.
-        /// After that batch process completes, use the
+        /// The process of matching duplicate profiles. If Matching = true, Amazon Connect Customer Profiles starts a weekly
+        /// batch process called Identity Resolution Job. If you do not specify a date and time for Identity Resolution Job to run, by default it runs every
+        /// Saturday at 12AM UTC to detect duplicate profiles in your domains.  After the Identity Resolution Job completes, use the
         /// GetMatches
-        /// API to return and review the results.
+        /// API to return and review the results. Or, if you have configured ExportingConfig in the MatchingRequest, you can download the results from
+        /// S3.
         public let matching: MatchingRequest?
         /// The tags used to organize, track, or control access for this resource.
         public let tags: [String: String]?
@@ -418,6 +518,7 @@ extension CustomerProfiles {
             try self.validate(self.domainName, name: "domainName", parent: name, max: 64)
             try self.validate(self.domainName, name: "domainName", parent: name, min: 1)
             try self.validate(self.domainName, name: "domainName", parent: name, pattern: "^[a-zA-Z0-9_-]+$")
+            try self.matching?.validate(name: "\(name).matching")
             try self.tags?.forEach {
                 try validate($0.key, name: "tags.key", parent: name, max: 128)
                 try validate($0.key, name: "tags.key", parent: name, min: 1)
@@ -450,10 +551,12 @@ extension CustomerProfiles {
         public let domainName: String
         /// The timestamp of when the domain was most recently edited.
         public let lastUpdatedAt: Date
-        /// The process of matching duplicate profiles. If Matching = true, Amazon Connect Customer Profiles starts a weekly batch process every Saturday at 12AM UTC to detect duplicate profiles in your domains.
-        /// After that batch process completes, use the
+        /// The process of matching duplicate profiles. If Matching = true, Amazon Connect Customer Profiles starts a weekly
+        /// batch process called Identity Resolution Job. If you do not specify a date and time for Identity Resolution Job to run, by default it runs every
+        /// Saturday at 12AM UTC to detect duplicate profiles in your domains.  After the Identity Resolution Job completes, use the
         /// GetMatches
-        /// API to return and review the results.
+        /// API to return and review the results. Or, if you have configured ExportingConfig in the MatchingRequest, you can download the results from
+        /// S3.
         public let matching: MatchingResponse?
         /// The tags used to organize, track, or control access for this resource.
         public let tags: [String: String]?
@@ -927,6 +1030,36 @@ extension CustomerProfiles {
         }
     }
 
+    public struct ExportingConfig: AWSEncodableShape & AWSDecodableShape {
+        /// The S3 location where Identity Resolution Jobs write result files.
+        public let s3Exporting: S3ExportingConfig?
+
+        public init(s3Exporting: S3ExportingConfig? = nil) {
+            self.s3Exporting = s3Exporting
+        }
+
+        public func validate(name: String) throws {
+            try self.s3Exporting?.validate(name: "\(name).s3Exporting")
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case s3Exporting = "S3Exporting"
+        }
+    }
+
+    public struct ExportingLocation: AWSDecodableShape {
+        /// Information about the S3 location where Identity Resolution Jobs write result files.
+        public let s3Exporting: S3ExportingLocation?
+
+        public init(s3Exporting: S3ExportingLocation? = nil) {
+            self.s3Exporting = s3Exporting
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case s3Exporting = "S3Exporting"
+        }
+    }
+
     public struct FieldSourceProfileIds: AWSEncodableShape {
         /// A unique identifier for the account number field to be merged.
         public let accountNumber: String?
@@ -1096,6 +1229,63 @@ extension CustomerProfiles {
         }
     }
 
+    public struct GetAutoMergingPreviewRequest: AWSEncodableShape {
+        public static var _encoding = [
+            AWSMemberEncoding(label: "domainName", location: .uri("DomainName"))
+        ]
+
+        /// How the auto-merging process should resolve conflicts between different profiles.
+        public let conflictResolution: ConflictResolution
+        /// A list of matching attributes that represent matching criteria.
+        public let consolidation: Consolidation
+        /// The unique name of the domain.
+        public let domainName: String
+
+        public init(conflictResolution: ConflictResolution, consolidation: Consolidation, domainName: String) {
+            self.conflictResolution = conflictResolution
+            self.consolidation = consolidation
+            self.domainName = domainName
+        }
+
+        public func validate(name: String) throws {
+            try self.conflictResolution.validate(name: "\(name).conflictResolution")
+            try self.consolidation.validate(name: "\(name).consolidation")
+            try self.validate(self.domainName, name: "domainName", parent: name, max: 64)
+            try self.validate(self.domainName, name: "domainName", parent: name, min: 1)
+            try self.validate(self.domainName, name: "domainName", parent: name, pattern: "^[a-zA-Z0-9_-]+$")
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case conflictResolution = "ConflictResolution"
+            case consolidation = "Consolidation"
+        }
+    }
+
+    public struct GetAutoMergingPreviewResponse: AWSDecodableShape {
+        /// The unique name of the domain.
+        public let domainName: String
+        /// The number of match groups in the domain that have been reviewed in this preview dry run.
+        public let numberOfMatchesInSample: Int64?
+        /// The number of profiles found in this preview dry run.
+        public let numberOfProfilesInSample: Int64?
+        /// The number of profiles that would be merged if this wasn't a preview dry run.
+        public let numberOfProfilesWillBeMerged: Int64?
+
+        public init(domainName: String, numberOfMatchesInSample: Int64? = nil, numberOfProfilesInSample: Int64? = nil, numberOfProfilesWillBeMerged: Int64? = nil) {
+            self.domainName = domainName
+            self.numberOfMatchesInSample = numberOfMatchesInSample
+            self.numberOfProfilesInSample = numberOfProfilesInSample
+            self.numberOfProfilesWillBeMerged = numberOfProfilesWillBeMerged
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case domainName = "DomainName"
+            case numberOfMatchesInSample = "NumberOfMatchesInSample"
+            case numberOfProfilesInSample = "NumberOfProfilesInSample"
+            case numberOfProfilesWillBeMerged = "NumberOfProfilesWillBeMerged"
+        }
+    }
+
     public struct GetDomainRequest: AWSEncodableShape {
         public static var _encoding = [
             AWSMemberEncoding(label: "domainName", location: .uri("DomainName"))
@@ -1130,10 +1320,12 @@ extension CustomerProfiles {
         public let domainName: String
         /// The timestamp of when the domain was most recently edited.
         public let lastUpdatedAt: Date
-        /// The process of matching duplicate profiles. If Matching = true, Amazon Connect Customer Profiles starts a weekly batch process every Saturday at 12AM UTC to detect duplicate profiles in your domains.
-        /// After that batch process completes, use the
+        /// The process of matching duplicate profiles. If Matching = true, Amazon Connect Customer Profiles starts a weekly
+        /// batch process called Identity Resolution Job. If you do not specify a date and time for Identity Resolution Job to run, by default it runs every
+        /// Saturday at 12AM UTC to detect duplicate profiles in your domains.  After the Identity Resolution Job completes, use the
         /// GetMatches
-        /// API to return and review the results.
+        /// API to return and review the results. Or, if you have configured ExportingConfig in the MatchingRequest, you can download the results from
+        /// S3.
         public let matching: MatchingResponse?
         /// Usage-specific statistics about the domain.
         public let stats: DomainStats?
@@ -1162,6 +1354,85 @@ extension CustomerProfiles {
             case matching = "Matching"
             case stats = "Stats"
             case tags = "Tags"
+        }
+    }
+
+    public struct GetIdentityResolutionJobRequest: AWSEncodableShape {
+        public static var _encoding = [
+            AWSMemberEncoding(label: "domainName", location: .uri("DomainName")),
+            AWSMemberEncoding(label: "jobId", location: .uri("JobId"))
+        ]
+
+        /// The unique name of the domain.
+        public let domainName: String
+        /// The unique identifier of the Identity Resolution Job.
+        public let jobId: String
+
+        public init(domainName: String, jobId: String) {
+            self.domainName = domainName
+            self.jobId = jobId
+        }
+
+        public func validate(name: String) throws {
+            try self.validate(self.domainName, name: "domainName", parent: name, max: 64)
+            try self.validate(self.domainName, name: "domainName", parent: name, min: 1)
+            try self.validate(self.domainName, name: "domainName", parent: name, pattern: "^[a-zA-Z0-9_-]+$")
+            try self.validate(self.jobId, name: "jobId", parent: name, pattern: "^[a-f0-9]{32}$")
+        }
+
+        private enum CodingKeys: CodingKey {}
+    }
+
+    public struct GetIdentityResolutionJobResponse: AWSDecodableShape {
+        /// Configuration settings for how to perform the auto-merging of profiles.
+        public let autoMerging: AutoMerging?
+        /// The unique name of the domain.
+        public let domainName: String?
+        /// The S3 location where the Identity Resolution Job writes result files.
+        public let exportingLocation: ExportingLocation?
+        /// The timestamp of when the Identity Resolution Job was completed.
+        public let jobEndTime: Date?
+        /// The timestamp of when the Identity Resolution Job will expire.
+        public let jobExpirationTime: Date?
+        /// The unique identifier of the Identity Resolution Job.
+        public let jobId: String?
+        /// The timestamp of when the Identity Resolution Job was started or will be started.
+        public let jobStartTime: Date?
+        /// Statistics about the Identity Resolution Job.
+        public let jobStats: JobStats?
+        /// The timestamp of when the Identity Resolution Job was most recently edited.
+        public let lastUpdatedAt: Date?
+        /// The error messages that are generated when the Identity Resolution Job runs.
+        public let message: String?
+        /// The status of the Identity Resolution Job.    PENDING: The Identity Resolution Job is scheduled but has not started yet. If you turn off the Identity Resolution feature in your domain, jobs in the PENDING state are deleted.    PREPROCESSING: The Identity Resolution Job is loading your data.    FIND_MATCHING: The Identity Resolution Job is using the machine learning model to identify profiles that belong to the same matching group.    MERGING: The Identity Resolution Job is merging duplicate profiles.    COMPLETED: The Identity Resolution Job completed successfully.    PARTIAL_SUCCESS: There's a system error and not all of the data is merged. The Identity Resolution Job writes a message indicating the source of the problem.    FAILED: The Identity Resolution Job did not merge any data. It writes a message indicating the source of the problem.
+        public let status: IdentityResolutionJobStatus?
+
+        public init(autoMerging: AutoMerging? = nil, domainName: String? = nil, exportingLocation: ExportingLocation? = nil, jobEndTime: Date? = nil, jobExpirationTime: Date? = nil, jobId: String? = nil, jobStartTime: Date? = nil, jobStats: JobStats? = nil, lastUpdatedAt: Date? = nil, message: String? = nil, status: IdentityResolutionJobStatus? = nil) {
+            self.autoMerging = autoMerging
+            self.domainName = domainName
+            self.exportingLocation = exportingLocation
+            self.jobEndTime = jobEndTime
+            self.jobExpirationTime = jobExpirationTime
+            self.jobId = jobId
+            self.jobStartTime = jobStartTime
+            self.jobStats = jobStats
+            self.lastUpdatedAt = lastUpdatedAt
+            self.message = message
+            self.status = status
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case autoMerging = "AutoMerging"
+            case domainName = "DomainName"
+            case exportingLocation = "ExportingLocation"
+            case jobEndTime = "JobEndTime"
+            case jobExpirationTime = "JobExpirationTime"
+            case jobId = "JobId"
+            case jobStartTime = "JobStartTime"
+            case jobStats = "JobStats"
+            case lastUpdatedAt = "LastUpdatedAt"
+            case message = "Message"
+            case status = "Status"
         }
     }
 
@@ -1332,12 +1603,14 @@ extension CustomerProfiles {
         public let lastUpdatedAt: Date?
         /// The name of the profile object type.
         public let objectTypeName: String
+        /// The format of your sourceLastUpdatedTimestamp that was previously set up.
+        public let sourceLastUpdatedTimestampFormat: String?
         /// The tags used to organize, track, or control access for this resource.
         public let tags: [String: String]?
         /// A unique identifier for the object template.
         public let templateId: String?
 
-        public init(allowProfileCreation: Bool? = nil, createdAt: Date? = nil, description: String, encryptionKey: String? = nil, expirationDays: Int? = nil, fields: [String: ObjectTypeField]? = nil, keys: [String: [ObjectTypeKey]]? = nil, lastUpdatedAt: Date? = nil, objectTypeName: String, tags: [String: String]? = nil, templateId: String? = nil) {
+        public init(allowProfileCreation: Bool? = nil, createdAt: Date? = nil, description: String, encryptionKey: String? = nil, expirationDays: Int? = nil, fields: [String: ObjectTypeField]? = nil, keys: [String: [ObjectTypeKey]]? = nil, lastUpdatedAt: Date? = nil, objectTypeName: String, sourceLastUpdatedTimestampFormat: String? = nil, tags: [String: String]? = nil, templateId: String? = nil) {
             self.allowProfileCreation = allowProfileCreation
             self.createdAt = createdAt
             self.description = description
@@ -1347,6 +1620,7 @@ extension CustomerProfiles {
             self.keys = keys
             self.lastUpdatedAt = lastUpdatedAt
             self.objectTypeName = objectTypeName
+            self.sourceLastUpdatedTimestampFormat = sourceLastUpdatedTimestampFormat
             self.tags = tags
             self.templateId = templateId
         }
@@ -1361,6 +1635,7 @@ extension CustomerProfiles {
             case keys = "Keys"
             case lastUpdatedAt = "LastUpdatedAt"
             case objectTypeName = "ObjectTypeName"
+            case sourceLastUpdatedTimestampFormat = "SourceLastUpdatedTimestampFormat"
             case tags = "Tags"
             case templateId = "TemplateId"
         }
@@ -1394,6 +1669,8 @@ extension CustomerProfiles {
         public let fields: [String: ObjectTypeField]?
         /// A list of unique keys that can be used to map data to the profile.
         public let keys: [String: [ObjectTypeKey]]?
+        /// The format of your sourceLastUpdatedTimestamp that was previously set up.
+        public let sourceLastUpdatedTimestampFormat: String?
         /// The name of the source of the object template.
         public let sourceName: String?
         /// The source of the object template.
@@ -1401,10 +1678,11 @@ extension CustomerProfiles {
         /// A unique identifier for the object template.
         public let templateId: String?
 
-        public init(allowProfileCreation: Bool? = nil, fields: [String: ObjectTypeField]? = nil, keys: [String: [ObjectTypeKey]]? = nil, sourceName: String? = nil, sourceObject: String? = nil, templateId: String? = nil) {
+        public init(allowProfileCreation: Bool? = nil, fields: [String: ObjectTypeField]? = nil, keys: [String: [ObjectTypeKey]]? = nil, sourceLastUpdatedTimestampFormat: String? = nil, sourceName: String? = nil, sourceObject: String? = nil, templateId: String? = nil) {
             self.allowProfileCreation = allowProfileCreation
             self.fields = fields
             self.keys = keys
+            self.sourceLastUpdatedTimestampFormat = sourceLastUpdatedTimestampFormat
             self.sourceName = sourceName
             self.sourceObject = sourceObject
             self.templateId = templateId
@@ -1414,9 +1692,51 @@ extension CustomerProfiles {
             case allowProfileCreation = "AllowProfileCreation"
             case fields = "Fields"
             case keys = "Keys"
+            case sourceLastUpdatedTimestampFormat = "SourceLastUpdatedTimestampFormat"
             case sourceName = "SourceName"
             case sourceObject = "SourceObject"
             case templateId = "TemplateId"
+        }
+    }
+
+    public struct IdentityResolutionJob: AWSDecodableShape {
+        /// The unique name of the domain.
+        public let domainName: String?
+        /// The S3 location where the Identity Resolution Job writes result files.
+        public let exportingLocation: ExportingLocation?
+        /// The timestamp of when the job was completed.
+        public let jobEndTime: Date?
+        /// The unique identifier of the Identity Resolution Job.
+        public let jobId: String?
+        /// The timestamp of when the job was started or will be started.
+        public let jobStartTime: Date?
+        /// Statistics about an Identity Resolution Job.
+        public let jobStats: JobStats?
+        /// The error messages that are generated when the Identity Resolution Job runs.
+        public let message: String?
+        /// The status of the Identity Resolution Job.    PENDING: The Identity Resolution Job is scheduled but has not started yet. If you turn off the Identity Resolution feature in your domain, jobs in the PENDING state are deleted.    PREPROCESSING: The Identity Resolution Job is loading your data.    FIND_MATCHING: The Identity Resolution Job is using the machine learning model to identify profiles that belong to the same matching group.    MERGING: The Identity Resolution Job is merging duplicate profiles.    COMPLETED: The Identity Resolution Job completed successfully.    PARTIAL_SUCCESS: There's a system error and not all of the data is merged. The Identity Resolution Job writes a message indicating the source of the problem.    FAILED: The Identity Resolution Job did not merge any data. It writes a message indicating the source of the problem.
+        public let status: IdentityResolutionJobStatus?
+
+        public init(domainName: String? = nil, exportingLocation: ExportingLocation? = nil, jobEndTime: Date? = nil, jobId: String? = nil, jobStartTime: Date? = nil, jobStats: JobStats? = nil, message: String? = nil, status: IdentityResolutionJobStatus? = nil) {
+            self.domainName = domainName
+            self.exportingLocation = exportingLocation
+            self.jobEndTime = jobEndTime
+            self.jobId = jobId
+            self.jobStartTime = jobStartTime
+            self.jobStats = jobStats
+            self.message = message
+            self.status = status
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case domainName = "DomainName"
+            case exportingLocation = "ExportingLocation"
+            case jobEndTime = "JobEndTime"
+            case jobId = "JobId"
+            case jobStartTime = "JobStartTime"
+            case jobStats = "JobStats"
+            case message = "Message"
+            case status = "Status"
         }
     }
 
@@ -1435,6 +1755,50 @@ extension CustomerProfiles {
 
         private enum CodingKeys: String, CodingKey {
             case datetimeTypeFieldName = "DatetimeTypeFieldName"
+        }
+    }
+
+    public struct JobSchedule: AWSEncodableShape & AWSDecodableShape {
+        /// The day when the Identity Resolution Job should run every week.
+        public let dayOfTheWeek: JobScheduleDayOfTheWeek
+        /// The time when the Identity Resolution Job should run every week.
+        public let time: String
+
+        public init(dayOfTheWeek: JobScheduleDayOfTheWeek, time: String) {
+            self.dayOfTheWeek = dayOfTheWeek
+            self.time = time
+        }
+
+        public func validate(name: String) throws {
+            try self.validate(self.time, name: "time", parent: name, max: 5)
+            try self.validate(self.time, name: "time", parent: name, min: 3)
+            try self.validate(self.time, name: "time", parent: name, pattern: "^([0-9]|0[0-9]|1[0-9]|2[0-3]):[0-5][0-9]$")
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case dayOfTheWeek = "DayOfTheWeek"
+            case time = "Time"
+        }
+    }
+
+    public struct JobStats: AWSDecodableShape {
+        /// The number of matches found.
+        public let numberOfMatchesFound: Int64?
+        /// The number of merges completed.
+        public let numberOfMergesDone: Int64?
+        /// The number of profiles reviewed.
+        public let numberOfProfilesReviewed: Int64?
+
+        public init(numberOfMatchesFound: Int64? = nil, numberOfMergesDone: Int64? = nil, numberOfProfilesReviewed: Int64? = nil) {
+            self.numberOfMatchesFound = numberOfMatchesFound
+            self.numberOfMergesDone = numberOfMergesDone
+            self.numberOfProfilesReviewed = numberOfProfilesReviewed
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case numberOfMatchesFound = "NumberOfMatchesFound"
+            case numberOfMergesDone = "NumberOfMergesDone"
+            case numberOfProfilesReviewed = "NumberOfProfilesReviewed"
         }
     }
 
@@ -1552,6 +1916,57 @@ extension CustomerProfiles {
 
         private enum CodingKeys: String, CodingKey {
             case items = "Items"
+            case nextToken = "NextToken"
+        }
+    }
+
+    public struct ListIdentityResolutionJobsRequest: AWSEncodableShape {
+        public static var _encoding = [
+            AWSMemberEncoding(label: "domainName", location: .uri("DomainName")),
+            AWSMemberEncoding(label: "maxResults", location: .querystring("max-results")),
+            AWSMemberEncoding(label: "nextToken", location: .querystring("next-token"))
+        ]
+
+        /// The unique name of the domain.
+        public let domainName: String
+        /// The maximum number of results to return per page.
+        public let maxResults: Int?
+        /// The token for the next set of results. Use the value returned in the previous
+        /// response in the next request to retrieve the next set of results.
+        public let nextToken: String?
+
+        public init(domainName: String, maxResults: Int? = nil, nextToken: String? = nil) {
+            self.domainName = domainName
+            self.maxResults = maxResults
+            self.nextToken = nextToken
+        }
+
+        public func validate(name: String) throws {
+            try self.validate(self.domainName, name: "domainName", parent: name, max: 64)
+            try self.validate(self.domainName, name: "domainName", parent: name, min: 1)
+            try self.validate(self.domainName, name: "domainName", parent: name, pattern: "^[a-zA-Z0-9_-]+$")
+            try self.validate(self.maxResults, name: "maxResults", parent: name, max: 100)
+            try self.validate(self.maxResults, name: "maxResults", parent: name, min: 1)
+            try self.validate(self.nextToken, name: "nextToken", parent: name, max: 1024)
+            try self.validate(self.nextToken, name: "nextToken", parent: name, min: 1)
+        }
+
+        private enum CodingKeys: CodingKey {}
+    }
+
+    public struct ListIdentityResolutionJobsResponse: AWSDecodableShape {
+        /// A list of Identity Resolution Jobs.
+        public let identityResolutionJobsList: [IdentityResolutionJob]?
+        /// If there are additional results, this is the token for the next set of results.
+        public let nextToken: String?
+
+        public init(identityResolutionJobsList: [IdentityResolutionJob]? = nil, nextToken: String? = nil) {
+            self.identityResolutionJobsList = identityResolutionJobsList
+            self.nextToken = nextToken
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case identityResolutionJobsList = "IdentityResolutionJobsList"
             case nextToken = "NextToken"
         }
     }
@@ -1923,45 +2338,79 @@ extension CustomerProfiles {
     }
 
     public struct MatchItem: AWSDecodableShape {
+        /// A number between 0 and 1 that represents the confidence level of assigning profiles to a matching group. A score of 1 likely indicates an exact match.
+        public let confidenceScore: Double?
         /// The unique identifiers for this group of profiles that match.
         public let matchId: String?
         /// A list of identifiers for profiles that match.
         public let profileIds: [String]?
 
-        public init(matchId: String? = nil, profileIds: [String]? = nil) {
+        public init(confidenceScore: Double? = nil, matchId: String? = nil, profileIds: [String]? = nil) {
+            self.confidenceScore = confidenceScore
             self.matchId = matchId
             self.profileIds = profileIds
         }
 
         private enum CodingKeys: String, CodingKey {
+            case confidenceScore = "ConfidenceScore"
             case matchId = "MatchId"
             case profileIds = "ProfileIds"
         }
     }
 
     public struct MatchingRequest: AWSEncodableShape {
+        /// Configuration information about the auto-merging process.
+        public let autoMerging: AutoMerging?
         /// The flag that enables the matching process of duplicate profiles.
         public let enabled: Bool
+        /// Configuration information for exporting Identity Resolution results, for example, to an S3 bucket.
+        public let exportingConfig: ExportingConfig?
+        /// The day and time when do you want to start the Identity Resolution Job every week.
+        public let jobSchedule: JobSchedule?
 
-        public init(enabled: Bool) {
+        public init(autoMerging: AutoMerging? = nil, enabled: Bool, exportingConfig: ExportingConfig? = nil, jobSchedule: JobSchedule? = nil) {
+            self.autoMerging = autoMerging
             self.enabled = enabled
+            self.exportingConfig = exportingConfig
+            self.jobSchedule = jobSchedule
+        }
+
+        public func validate(name: String) throws {
+            try self.autoMerging?.validate(name: "\(name).autoMerging")
+            try self.exportingConfig?.validate(name: "\(name).exportingConfig")
+            try self.jobSchedule?.validate(name: "\(name).jobSchedule")
         }
 
         private enum CodingKeys: String, CodingKey {
+            case autoMerging = "AutoMerging"
             case enabled = "Enabled"
+            case exportingConfig = "ExportingConfig"
+            case jobSchedule = "JobSchedule"
         }
     }
 
     public struct MatchingResponse: AWSDecodableShape {
+        /// Configuration information about the auto-merging process.
+        public let autoMerging: AutoMerging?
         /// The flag that enables the matching process of duplicate profiles.
         public let enabled: Bool?
+        /// Configuration information for exporting Identity Resolution results, for example, to an S3 bucket.
+        public let exportingConfig: ExportingConfig?
+        /// The day and time when do you want to start the Identity Resolution Job every week.
+        public let jobSchedule: JobSchedule?
 
-        public init(enabled: Bool? = nil) {
+        public init(autoMerging: AutoMerging? = nil, enabled: Bool? = nil, exportingConfig: ExportingConfig? = nil, jobSchedule: JobSchedule? = nil) {
+            self.autoMerging = autoMerging
             self.enabled = enabled
+            self.exportingConfig = exportingConfig
+            self.jobSchedule = jobSchedule
         }
 
         private enum CodingKeys: String, CodingKey {
+            case autoMerging = "AutoMerging"
             case enabled = "Enabled"
+            case exportingConfig = "ExportingConfig"
+            case jobSchedule = "JobSchedule"
         }
     }
 
@@ -2351,12 +2800,14 @@ extension CustomerProfiles {
         public let keys: [String: [ObjectTypeKey]]?
         /// The name of the profile object type.
         public let objectTypeName: String
+        /// The format of your sourceLastUpdatedTimestamp that was previously set up.
+        public let sourceLastUpdatedTimestampFormat: String?
         /// The tags used to organize, track, or control access for this resource.
         public let tags: [String: String]?
         /// A unique identifier for the object template.
         public let templateId: String?
 
-        public init(allowProfileCreation: Bool? = nil, description: String, domainName: String, encryptionKey: String? = nil, expirationDays: Int? = nil, fields: [String: ObjectTypeField]? = nil, keys: [String: [ObjectTypeKey]]? = nil, objectTypeName: String, tags: [String: String]? = nil, templateId: String? = nil) {
+        public init(allowProfileCreation: Bool? = nil, description: String, domainName: String, encryptionKey: String? = nil, expirationDays: Int? = nil, fields: [String: ObjectTypeField]? = nil, keys: [String: [ObjectTypeKey]]? = nil, objectTypeName: String, sourceLastUpdatedTimestampFormat: String? = nil, tags: [String: String]? = nil, templateId: String? = nil) {
             self.allowProfileCreation = allowProfileCreation
             self.description = description
             self.domainName = domainName
@@ -2365,6 +2816,7 @@ extension CustomerProfiles {
             self.fields = fields
             self.keys = keys
             self.objectTypeName = objectTypeName
+            self.sourceLastUpdatedTimestampFormat = sourceLastUpdatedTimestampFormat
             self.tags = tags
             self.templateId = templateId
         }
@@ -2392,6 +2844,8 @@ extension CustomerProfiles {
             try self.validate(self.objectTypeName, name: "objectTypeName", parent: name, max: 255)
             try self.validate(self.objectTypeName, name: "objectTypeName", parent: name, min: 1)
             try self.validate(self.objectTypeName, name: "objectTypeName", parent: name, pattern: "^[a-zA-Z_][a-zA-Z_0-9-]*$")
+            try self.validate(self.sourceLastUpdatedTimestampFormat, name: "sourceLastUpdatedTimestampFormat", parent: name, max: 255)
+            try self.validate(self.sourceLastUpdatedTimestampFormat, name: "sourceLastUpdatedTimestampFormat", parent: name, min: 1)
             try self.tags?.forEach {
                 try validate($0.key, name: "tags.key", parent: name, max: 128)
                 try validate($0.key, name: "tags.key", parent: name, min: 1)
@@ -2412,6 +2866,7 @@ extension CustomerProfiles {
             case expirationDays = "ExpirationDays"
             case fields = "Fields"
             case keys = "Keys"
+            case sourceLastUpdatedTimestampFormat = "SourceLastUpdatedTimestampFormat"
             case tags = "Tags"
             case templateId = "TemplateId"
         }
@@ -2436,12 +2891,14 @@ extension CustomerProfiles {
         public let lastUpdatedAt: Date?
         /// The name of the profile object type.
         public let objectTypeName: String
+        /// The format of your sourceLastUpdatedTimestamp that was previously set up in fields that were parsed using SimpleDateFormat. If you have sourceLastUpdatedTimestamp in your field, you must set up sourceLastUpdatedTimestampFormat.
+        public let sourceLastUpdatedTimestampFormat: String?
         /// The tags used to organize, track, or control access for this resource.
         public let tags: [String: String]?
         /// A unique identifier for the object template.
         public let templateId: String?
 
-        public init(allowProfileCreation: Bool? = nil, createdAt: Date? = nil, description: String, encryptionKey: String? = nil, expirationDays: Int? = nil, fields: [String: ObjectTypeField]? = nil, keys: [String: [ObjectTypeKey]]? = nil, lastUpdatedAt: Date? = nil, objectTypeName: String, tags: [String: String]? = nil, templateId: String? = nil) {
+        public init(allowProfileCreation: Bool? = nil, createdAt: Date? = nil, description: String, encryptionKey: String? = nil, expirationDays: Int? = nil, fields: [String: ObjectTypeField]? = nil, keys: [String: [ObjectTypeKey]]? = nil, lastUpdatedAt: Date? = nil, objectTypeName: String, sourceLastUpdatedTimestampFormat: String? = nil, tags: [String: String]? = nil, templateId: String? = nil) {
             self.allowProfileCreation = allowProfileCreation
             self.createdAt = createdAt
             self.description = description
@@ -2451,6 +2908,7 @@ extension CustomerProfiles {
             self.keys = keys
             self.lastUpdatedAt = lastUpdatedAt
             self.objectTypeName = objectTypeName
+            self.sourceLastUpdatedTimestampFormat = sourceLastUpdatedTimestampFormat
             self.tags = tags
             self.templateId = templateId
         }
@@ -2465,8 +2923,52 @@ extension CustomerProfiles {
             case keys = "Keys"
             case lastUpdatedAt = "LastUpdatedAt"
             case objectTypeName = "ObjectTypeName"
+            case sourceLastUpdatedTimestampFormat = "SourceLastUpdatedTimestampFormat"
             case tags = "Tags"
             case templateId = "TemplateId"
+        }
+    }
+
+    public struct S3ExportingConfig: AWSEncodableShape & AWSDecodableShape {
+        /// The name of the S3 bucket where Identity Resolution Jobs write result files.
+        public let s3BucketName: String
+        /// The S3 key name of the location where Identity Resolution Jobs write result files.
+        public let s3KeyName: String?
+
+        public init(s3BucketName: String, s3KeyName: String? = nil) {
+            self.s3BucketName = s3BucketName
+            self.s3KeyName = s3KeyName
+        }
+
+        public func validate(name: String) throws {
+            try self.validate(self.s3BucketName, name: "s3BucketName", parent: name, max: 63)
+            try self.validate(self.s3BucketName, name: "s3BucketName", parent: name, min: 3)
+            try self.validate(self.s3BucketName, name: "s3BucketName", parent: name, pattern: "^[a-z0-9.-]+$")
+            try self.validate(self.s3KeyName, name: "s3KeyName", parent: name, max: 800)
+            try self.validate(self.s3KeyName, name: "s3KeyName", parent: name, min: 1)
+            try self.validate(self.s3KeyName, name: "s3KeyName", parent: name, pattern: ".*")
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case s3BucketName = "S3BucketName"
+            case s3KeyName = "S3KeyName"
+        }
+    }
+
+    public struct S3ExportingLocation: AWSDecodableShape {
+        /// The name of the S3 bucket name where Identity Resolution Jobs write result files.
+        public let s3BucketName: String?
+        /// The S3 key name of the location where Identity Resolution Jobs write result files.
+        public let s3KeyName: String?
+
+        public init(s3BucketName: String? = nil, s3KeyName: String? = nil) {
+            self.s3BucketName = s3BucketName
+            self.s3KeyName = s3KeyName
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case s3BucketName = "S3BucketName"
+            case s3KeyName = "S3KeyName"
         }
     }
 
@@ -2947,10 +3449,12 @@ extension CustomerProfiles {
         public let defaultExpirationDays: Int?
         /// The unique name of the domain.
         public let domainName: String
-        /// The process of matching duplicate profiles. If Matching = true, Amazon Connect Customer Profiles starts a weekly batch process every Saturday at 12AM UTC to detect duplicate profiles in your domains.
-        /// After that batch process completes, use the
+        /// The process of matching duplicate profiles. If Matching = true, Amazon Connect Customer Profiles starts a weekly
+        /// batch process called Identity Resolution Job. If you do not specify a date and time for Identity Resolution Job to run, by default it runs every
+        /// Saturday at 12AM UTC to detect duplicate profiles in your domains.  After the Identity Resolution Job completes, use the
         /// GetMatches
-        /// API to return and review the results.
+        /// API to return and review the results. Or, if you have configured ExportingConfig in the MatchingRequest, you can download the results from
+        /// S3.
         public let matching: MatchingRequest?
         /// The tags used to organize, track, or control access for this resource.
         public let tags: [String: String]?
@@ -2972,6 +3476,7 @@ extension CustomerProfiles {
             try self.validate(self.domainName, name: "domainName", parent: name, max: 64)
             try self.validate(self.domainName, name: "domainName", parent: name, min: 1)
             try self.validate(self.domainName, name: "domainName", parent: name, pattern: "^[a-zA-Z0-9_-]+$")
+            try self.matching?.validate(name: "\(name).matching")
             try self.tags?.forEach {
                 try validate($0.key, name: "tags.key", parent: name, max: 128)
                 try validate($0.key, name: "tags.key", parent: name, min: 1)
@@ -3004,10 +3509,12 @@ extension CustomerProfiles {
         public let domainName: String
         /// The timestamp of when the domain was most recently edited.
         public let lastUpdatedAt: Date
-        /// The process of matching duplicate profiles. If Matching = true, Amazon Connect Customer Profiles starts a weekly batch process every Saturday at 12AM UTC to detect duplicate profiles in your domains.
-        /// After that batch process completes, use the
+        /// The process of matching duplicate profiles. If Matching = true, Amazon Connect Customer Profiles starts a weekly
+        /// batch process called Identity Resolution Job. If you do not specify a date and time for Identity Resolution Job to run, by default it runs every
+        /// Saturday at 12AM UTC to detect duplicate profiles in your domains.  After the Identity Resolution Job completes, use the
         /// GetMatches
-        /// API to return and review the results.
+        /// API to return and review the results. Or, if you have configured ExportingConfig in the MatchingRequest, you can download the results from
+        /// S3.
         public let matching: MatchingResponse?
         /// The tags used to organize, track, or control access for this resource.
         public let tags: [String: String]?

@@ -20,7 +20,7 @@ import SotoCore
 // MARK: Paginators
 
 extension Proton {
-    ///  View a list of environment account connections. For more information, see Environment account connections in the AWS Proton Administrator guide.
+    ///  View a list of environment account connections. For more information, see Environment account connections in the Proton Administrator guide.
     ///
     /// Provide paginated results to closure `onPage` for it to combine them into one result.
     /// This works in a similar manner to `Array.reduce<Result>(_:_:) -> Result`.
@@ -68,6 +68,112 @@ extension Proton {
             command: listEnvironmentAccountConnections,
             inputKey: \ListEnvironmentAccountConnectionsInput.nextToken,
             outputKey: \ListEnvironmentAccountConnectionsOutput.nextToken,
+            on: eventLoop,
+            onPage: onPage
+        )
+    }
+
+    ///  List the infrastructure as code outputs for your environment.
+    ///
+    /// Provide paginated results to closure `onPage` for it to combine them into one result.
+    /// This works in a similar manner to `Array.reduce<Result>(_:_:) -> Result`.
+    ///
+    /// Parameters:
+    ///   - input: Input for request
+    ///   - initialValue: The value to use as the initial accumulating value. `initialValue` is passed to `onPage` the first time it is called.
+    ///   - logger: Logger used flot logging
+    ///   - eventLoop: EventLoop to run this process on
+    ///   - onPage: closure called with each paginated response. It combines an accumulating result with the contents of response. This combined result is then returned
+    ///         along with a boolean indicating if the paginate operation should continue.
+    public func listEnvironmentOutputsPaginator<Result>(
+        _ input: ListEnvironmentOutputsInput,
+        _ initialValue: Result,
+        logger: Logger = AWSClient.loggingDisabled,
+        on eventLoop: EventLoop? = nil,
+        onPage: @escaping (Result, ListEnvironmentOutputsOutput, EventLoop) -> EventLoopFuture<(Bool, Result)>
+    ) -> EventLoopFuture<Result> {
+        return client.paginate(
+            input: input,
+            initialValue: initialValue,
+            command: listEnvironmentOutputs,
+            inputKey: \ListEnvironmentOutputsInput.nextToken,
+            outputKey: \ListEnvironmentOutputsOutput.nextToken,
+            on: eventLoop,
+            onPage: onPage
+        )
+    }
+
+    /// Provide paginated results to closure `onPage`.
+    ///
+    /// - Parameters:
+    ///   - input: Input for request
+    ///   - logger: Logger used flot logging
+    ///   - eventLoop: EventLoop to run this process on
+    ///   - onPage: closure called with each block of entries. Returns boolean indicating whether we should continue.
+    public func listEnvironmentOutputsPaginator(
+        _ input: ListEnvironmentOutputsInput,
+        logger: Logger = AWSClient.loggingDisabled,
+        on eventLoop: EventLoop? = nil,
+        onPage: @escaping (ListEnvironmentOutputsOutput, EventLoop) -> EventLoopFuture<Bool>
+    ) -> EventLoopFuture<Void> {
+        return client.paginate(
+            input: input,
+            command: listEnvironmentOutputs,
+            inputKey: \ListEnvironmentOutputsInput.nextToken,
+            outputKey: \ListEnvironmentOutputsOutput.nextToken,
+            on: eventLoop,
+            onPage: onPage
+        )
+    }
+
+    ///  List the provisioned resources for your environment.
+    ///
+    /// Provide paginated results to closure `onPage` for it to combine them into one result.
+    /// This works in a similar manner to `Array.reduce<Result>(_:_:) -> Result`.
+    ///
+    /// Parameters:
+    ///   - input: Input for request
+    ///   - initialValue: The value to use as the initial accumulating value. `initialValue` is passed to `onPage` the first time it is called.
+    ///   - logger: Logger used flot logging
+    ///   - eventLoop: EventLoop to run this process on
+    ///   - onPage: closure called with each paginated response. It combines an accumulating result with the contents of response. This combined result is then returned
+    ///         along with a boolean indicating if the paginate operation should continue.
+    public func listEnvironmentProvisionedResourcesPaginator<Result>(
+        _ input: ListEnvironmentProvisionedResourcesInput,
+        _ initialValue: Result,
+        logger: Logger = AWSClient.loggingDisabled,
+        on eventLoop: EventLoop? = nil,
+        onPage: @escaping (Result, ListEnvironmentProvisionedResourcesOutput, EventLoop) -> EventLoopFuture<(Bool, Result)>
+    ) -> EventLoopFuture<Result> {
+        return client.paginate(
+            input: input,
+            initialValue: initialValue,
+            command: listEnvironmentProvisionedResources,
+            inputKey: \ListEnvironmentProvisionedResourcesInput.nextToken,
+            outputKey: \ListEnvironmentProvisionedResourcesOutput.nextToken,
+            on: eventLoop,
+            onPage: onPage
+        )
+    }
+
+    /// Provide paginated results to closure `onPage`.
+    ///
+    /// - Parameters:
+    ///   - input: Input for request
+    ///   - logger: Logger used flot logging
+    ///   - eventLoop: EventLoop to run this process on
+    ///   - onPage: closure called with each block of entries. Returns boolean indicating whether we should continue.
+    public func listEnvironmentProvisionedResourcesPaginator(
+        _ input: ListEnvironmentProvisionedResourcesInput,
+        logger: Logger = AWSClient.loggingDisabled,
+        on eventLoop: EventLoop? = nil,
+        onPage: @escaping (ListEnvironmentProvisionedResourcesOutput, EventLoop) -> EventLoopFuture<Bool>
+    ) -> EventLoopFuture<Void> {
+        return client.paginate(
+            input: input,
+            command: listEnvironmentProvisionedResources,
+            inputKey: \ListEnvironmentProvisionedResourcesInput.nextToken,
+            outputKey: \ListEnvironmentProvisionedResourcesOutput.nextToken,
             on: eventLoop,
             onPage: onPage
         )
@@ -232,6 +338,218 @@ extension Proton {
         )
     }
 
+    ///  List repositories with detail data.
+    ///
+    /// Provide paginated results to closure `onPage` for it to combine them into one result.
+    /// This works in a similar manner to `Array.reduce<Result>(_:_:) -> Result`.
+    ///
+    /// Parameters:
+    ///   - input: Input for request
+    ///   - initialValue: The value to use as the initial accumulating value. `initialValue` is passed to `onPage` the first time it is called.
+    ///   - logger: Logger used flot logging
+    ///   - eventLoop: EventLoop to run this process on
+    ///   - onPage: closure called with each paginated response. It combines an accumulating result with the contents of response. This combined result is then returned
+    ///         along with a boolean indicating if the paginate operation should continue.
+    public func listRepositoriesPaginator<Result>(
+        _ input: ListRepositoriesInput,
+        _ initialValue: Result,
+        logger: Logger = AWSClient.loggingDisabled,
+        on eventLoop: EventLoop? = nil,
+        onPage: @escaping (Result, ListRepositoriesOutput, EventLoop) -> EventLoopFuture<(Bool, Result)>
+    ) -> EventLoopFuture<Result> {
+        return client.paginate(
+            input: input,
+            initialValue: initialValue,
+            command: listRepositories,
+            inputKey: \ListRepositoriesInput.nextToken,
+            outputKey: \ListRepositoriesOutput.nextToken,
+            on: eventLoop,
+            onPage: onPage
+        )
+    }
+
+    /// Provide paginated results to closure `onPage`.
+    ///
+    /// - Parameters:
+    ///   - input: Input for request
+    ///   - logger: Logger used flot logging
+    ///   - eventLoop: EventLoop to run this process on
+    ///   - onPage: closure called with each block of entries. Returns boolean indicating whether we should continue.
+    public func listRepositoriesPaginator(
+        _ input: ListRepositoriesInput,
+        logger: Logger = AWSClient.loggingDisabled,
+        on eventLoop: EventLoop? = nil,
+        onPage: @escaping (ListRepositoriesOutput, EventLoop) -> EventLoopFuture<Bool>
+    ) -> EventLoopFuture<Void> {
+        return client.paginate(
+            input: input,
+            command: listRepositories,
+            inputKey: \ListRepositoriesInput.nextToken,
+            outputKey: \ListRepositoriesOutput.nextToken,
+            on: eventLoop,
+            onPage: onPage
+        )
+    }
+
+    ///  List repository sync definitions with detail data.
+    ///
+    /// Provide paginated results to closure `onPage` for it to combine them into one result.
+    /// This works in a similar manner to `Array.reduce<Result>(_:_:) -> Result`.
+    ///
+    /// Parameters:
+    ///   - input: Input for request
+    ///   - initialValue: The value to use as the initial accumulating value. `initialValue` is passed to `onPage` the first time it is called.
+    ///   - logger: Logger used flot logging
+    ///   - eventLoop: EventLoop to run this process on
+    ///   - onPage: closure called with each paginated response. It combines an accumulating result with the contents of response. This combined result is then returned
+    ///         along with a boolean indicating if the paginate operation should continue.
+    public func listRepositorySyncDefinitionsPaginator<Result>(
+        _ input: ListRepositorySyncDefinitionsInput,
+        _ initialValue: Result,
+        logger: Logger = AWSClient.loggingDisabled,
+        on eventLoop: EventLoop? = nil,
+        onPage: @escaping (Result, ListRepositorySyncDefinitionsOutput, EventLoop) -> EventLoopFuture<(Bool, Result)>
+    ) -> EventLoopFuture<Result> {
+        return client.paginate(
+            input: input,
+            initialValue: initialValue,
+            command: listRepositorySyncDefinitions,
+            inputKey: \ListRepositorySyncDefinitionsInput.nextToken,
+            outputKey: \ListRepositorySyncDefinitionsOutput.nextToken,
+            on: eventLoop,
+            onPage: onPage
+        )
+    }
+
+    /// Provide paginated results to closure `onPage`.
+    ///
+    /// - Parameters:
+    ///   - input: Input for request
+    ///   - logger: Logger used flot logging
+    ///   - eventLoop: EventLoop to run this process on
+    ///   - onPage: closure called with each block of entries. Returns boolean indicating whether we should continue.
+    public func listRepositorySyncDefinitionsPaginator(
+        _ input: ListRepositorySyncDefinitionsInput,
+        logger: Logger = AWSClient.loggingDisabled,
+        on eventLoop: EventLoop? = nil,
+        onPage: @escaping (ListRepositorySyncDefinitionsOutput, EventLoop) -> EventLoopFuture<Bool>
+    ) -> EventLoopFuture<Void> {
+        return client.paginate(
+            input: input,
+            command: listRepositorySyncDefinitions,
+            inputKey: \ListRepositorySyncDefinitionsInput.nextToken,
+            outputKey: \ListRepositorySyncDefinitionsOutput.nextToken,
+            on: eventLoop,
+            onPage: onPage
+        )
+    }
+
+    ///  View a list service instance infrastructure as code outputs with detail data.
+    ///
+    /// Provide paginated results to closure `onPage` for it to combine them into one result.
+    /// This works in a similar manner to `Array.reduce<Result>(_:_:) -> Result`.
+    ///
+    /// Parameters:
+    ///   - input: Input for request
+    ///   - initialValue: The value to use as the initial accumulating value. `initialValue` is passed to `onPage` the first time it is called.
+    ///   - logger: Logger used flot logging
+    ///   - eventLoop: EventLoop to run this process on
+    ///   - onPage: closure called with each paginated response. It combines an accumulating result with the contents of response. This combined result is then returned
+    ///         along with a boolean indicating if the paginate operation should continue.
+    public func listServiceInstanceOutputsPaginator<Result>(
+        _ input: ListServiceInstanceOutputsInput,
+        _ initialValue: Result,
+        logger: Logger = AWSClient.loggingDisabled,
+        on eventLoop: EventLoop? = nil,
+        onPage: @escaping (Result, ListServiceInstanceOutputsOutput, EventLoop) -> EventLoopFuture<(Bool, Result)>
+    ) -> EventLoopFuture<Result> {
+        return client.paginate(
+            input: input,
+            initialValue: initialValue,
+            command: listServiceInstanceOutputs,
+            inputKey: \ListServiceInstanceOutputsInput.nextToken,
+            outputKey: \ListServiceInstanceOutputsOutput.nextToken,
+            on: eventLoop,
+            onPage: onPage
+        )
+    }
+
+    /// Provide paginated results to closure `onPage`.
+    ///
+    /// - Parameters:
+    ///   - input: Input for request
+    ///   - logger: Logger used flot logging
+    ///   - eventLoop: EventLoop to run this process on
+    ///   - onPage: closure called with each block of entries. Returns boolean indicating whether we should continue.
+    public func listServiceInstanceOutputsPaginator(
+        _ input: ListServiceInstanceOutputsInput,
+        logger: Logger = AWSClient.loggingDisabled,
+        on eventLoop: EventLoop? = nil,
+        onPage: @escaping (ListServiceInstanceOutputsOutput, EventLoop) -> EventLoopFuture<Bool>
+    ) -> EventLoopFuture<Void> {
+        return client.paginate(
+            input: input,
+            command: listServiceInstanceOutputs,
+            inputKey: \ListServiceInstanceOutputsInput.nextToken,
+            outputKey: \ListServiceInstanceOutputsOutput.nextToken,
+            on: eventLoop,
+            onPage: onPage
+        )
+    }
+
+    ///  List provisioned resources for a service instance with details.
+    ///
+    /// Provide paginated results to closure `onPage` for it to combine them into one result.
+    /// This works in a similar manner to `Array.reduce<Result>(_:_:) -> Result`.
+    ///
+    /// Parameters:
+    ///   - input: Input for request
+    ///   - initialValue: The value to use as the initial accumulating value. `initialValue` is passed to `onPage` the first time it is called.
+    ///   - logger: Logger used flot logging
+    ///   - eventLoop: EventLoop to run this process on
+    ///   - onPage: closure called with each paginated response. It combines an accumulating result with the contents of response. This combined result is then returned
+    ///         along with a boolean indicating if the paginate operation should continue.
+    public func listServiceInstanceProvisionedResourcesPaginator<Result>(
+        _ input: ListServiceInstanceProvisionedResourcesInput,
+        _ initialValue: Result,
+        logger: Logger = AWSClient.loggingDisabled,
+        on eventLoop: EventLoop? = nil,
+        onPage: @escaping (Result, ListServiceInstanceProvisionedResourcesOutput, EventLoop) -> EventLoopFuture<(Bool, Result)>
+    ) -> EventLoopFuture<Result> {
+        return client.paginate(
+            input: input,
+            initialValue: initialValue,
+            command: listServiceInstanceProvisionedResources,
+            inputKey: \ListServiceInstanceProvisionedResourcesInput.nextToken,
+            outputKey: \ListServiceInstanceProvisionedResourcesOutput.nextToken,
+            on: eventLoop,
+            onPage: onPage
+        )
+    }
+
+    /// Provide paginated results to closure `onPage`.
+    ///
+    /// - Parameters:
+    ///   - input: Input for request
+    ///   - logger: Logger used flot logging
+    ///   - eventLoop: EventLoop to run this process on
+    ///   - onPage: closure called with each block of entries. Returns boolean indicating whether we should continue.
+    public func listServiceInstanceProvisionedResourcesPaginator(
+        _ input: ListServiceInstanceProvisionedResourcesInput,
+        logger: Logger = AWSClient.loggingDisabled,
+        on eventLoop: EventLoop? = nil,
+        onPage: @escaping (ListServiceInstanceProvisionedResourcesOutput, EventLoop) -> EventLoopFuture<Bool>
+    ) -> EventLoopFuture<Void> {
+        return client.paginate(
+            input: input,
+            command: listServiceInstanceProvisionedResources,
+            inputKey: \ListServiceInstanceProvisionedResourcesInput.nextToken,
+            outputKey: \ListServiceInstanceProvisionedResourcesOutput.nextToken,
+            on: eventLoop,
+            onPage: onPage
+        )
+    }
+
     ///  List service instances with summaries of detail data.
     ///
     /// Provide paginated results to closure `onPage` for it to combine them into one result.
@@ -280,6 +598,112 @@ extension Proton {
             command: listServiceInstances,
             inputKey: \ListServiceInstancesInput.nextToken,
             outputKey: \ListServiceInstancesOutput.nextToken,
+            on: eventLoop,
+            onPage: onPage
+        )
+    }
+
+    ///  View a list service pipeline infrastructure as code outputs with detail.
+    ///
+    /// Provide paginated results to closure `onPage` for it to combine them into one result.
+    /// This works in a similar manner to `Array.reduce<Result>(_:_:) -> Result`.
+    ///
+    /// Parameters:
+    ///   - input: Input for request
+    ///   - initialValue: The value to use as the initial accumulating value. `initialValue` is passed to `onPage` the first time it is called.
+    ///   - logger: Logger used flot logging
+    ///   - eventLoop: EventLoop to run this process on
+    ///   - onPage: closure called with each paginated response. It combines an accumulating result with the contents of response. This combined result is then returned
+    ///         along with a boolean indicating if the paginate operation should continue.
+    public func listServicePipelineOutputsPaginator<Result>(
+        _ input: ListServicePipelineOutputsInput,
+        _ initialValue: Result,
+        logger: Logger = AWSClient.loggingDisabled,
+        on eventLoop: EventLoop? = nil,
+        onPage: @escaping (Result, ListServicePipelineOutputsOutput, EventLoop) -> EventLoopFuture<(Bool, Result)>
+    ) -> EventLoopFuture<Result> {
+        return client.paginate(
+            input: input,
+            initialValue: initialValue,
+            command: listServicePipelineOutputs,
+            inputKey: \ListServicePipelineOutputsInput.nextToken,
+            outputKey: \ListServicePipelineOutputsOutput.nextToken,
+            on: eventLoop,
+            onPage: onPage
+        )
+    }
+
+    /// Provide paginated results to closure `onPage`.
+    ///
+    /// - Parameters:
+    ///   - input: Input for request
+    ///   - logger: Logger used flot logging
+    ///   - eventLoop: EventLoop to run this process on
+    ///   - onPage: closure called with each block of entries. Returns boolean indicating whether we should continue.
+    public func listServicePipelineOutputsPaginator(
+        _ input: ListServicePipelineOutputsInput,
+        logger: Logger = AWSClient.loggingDisabled,
+        on eventLoop: EventLoop? = nil,
+        onPage: @escaping (ListServicePipelineOutputsOutput, EventLoop) -> EventLoopFuture<Bool>
+    ) -> EventLoopFuture<Void> {
+        return client.paginate(
+            input: input,
+            command: listServicePipelineOutputs,
+            inputKey: \ListServicePipelineOutputsInput.nextToken,
+            outputKey: \ListServicePipelineOutputsOutput.nextToken,
+            on: eventLoop,
+            onPage: onPage
+        )
+    }
+
+    ///  List provisioned resources for a service and pipeline with details.
+    ///
+    /// Provide paginated results to closure `onPage` for it to combine them into one result.
+    /// This works in a similar manner to `Array.reduce<Result>(_:_:) -> Result`.
+    ///
+    /// Parameters:
+    ///   - input: Input for request
+    ///   - initialValue: The value to use as the initial accumulating value. `initialValue` is passed to `onPage` the first time it is called.
+    ///   - logger: Logger used flot logging
+    ///   - eventLoop: EventLoop to run this process on
+    ///   - onPage: closure called with each paginated response. It combines an accumulating result with the contents of response. This combined result is then returned
+    ///         along with a boolean indicating if the paginate operation should continue.
+    public func listServicePipelineProvisionedResourcesPaginator<Result>(
+        _ input: ListServicePipelineProvisionedResourcesInput,
+        _ initialValue: Result,
+        logger: Logger = AWSClient.loggingDisabled,
+        on eventLoop: EventLoop? = nil,
+        onPage: @escaping (Result, ListServicePipelineProvisionedResourcesOutput, EventLoop) -> EventLoopFuture<(Bool, Result)>
+    ) -> EventLoopFuture<Result> {
+        return client.paginate(
+            input: input,
+            initialValue: initialValue,
+            command: listServicePipelineProvisionedResources,
+            inputKey: \ListServicePipelineProvisionedResourcesInput.nextToken,
+            outputKey: \ListServicePipelineProvisionedResourcesOutput.nextToken,
+            on: eventLoop,
+            onPage: onPage
+        )
+    }
+
+    /// Provide paginated results to closure `onPage`.
+    ///
+    /// - Parameters:
+    ///   - input: Input for request
+    ///   - logger: Logger used flot logging
+    ///   - eventLoop: EventLoop to run this process on
+    ///   - onPage: closure called with each block of entries. Returns boolean indicating whether we should continue.
+    public func listServicePipelineProvisionedResourcesPaginator(
+        _ input: ListServicePipelineProvisionedResourcesInput,
+        logger: Logger = AWSClient.loggingDisabled,
+        on eventLoop: EventLoop? = nil,
+        onPage: @escaping (ListServicePipelineProvisionedResourcesOutput, EventLoop) -> EventLoopFuture<Bool>
+    ) -> EventLoopFuture<Void> {
+        return client.paginate(
+            input: input,
+            command: listServicePipelineProvisionedResources,
+            inputKey: \ListServicePipelineProvisionedResourcesInput.nextToken,
+            outputKey: \ListServicePipelineProvisionedResourcesOutput.nextToken,
             on: eventLoop,
             onPage: onPage
         )
@@ -444,7 +868,7 @@ extension Proton {
         )
     }
 
-    ///  List tags for a resource. For more information, see AWS Proton resources and tagging in the AWS Proton Administrator Guide or AWS Proton User Guide.
+    ///  List tags for a resource. For more information, see Proton resources and tagging in the Proton Administrator Guide or Proton User Guide.
     ///
     /// Provide paginated results to closure `onPage` for it to combine them into one result.
     /// This works in a similar manner to `Array.reduce<Result>(_:_:) -> Result`.
@@ -510,6 +934,24 @@ extension Proton.ListEnvironmentAccountConnectionsInput: AWSPaginateToken {
     }
 }
 
+extension Proton.ListEnvironmentOutputsInput: AWSPaginateToken {
+    public func usingPaginationToken(_ token: String) -> Proton.ListEnvironmentOutputsInput {
+        return .init(
+            environmentName: self.environmentName,
+            nextToken: token
+        )
+    }
+}
+
+extension Proton.ListEnvironmentProvisionedResourcesInput: AWSPaginateToken {
+    public func usingPaginationToken(_ token: String) -> Proton.ListEnvironmentProvisionedResourcesInput {
+        return .init(
+            environmentName: self.environmentName,
+            nextToken: token
+        )
+    }
+}
+
 extension Proton.ListEnvironmentTemplateVersionsInput: AWSPaginateToken {
     public func usingPaginationToken(_ token: String) -> Proton.ListEnvironmentTemplateVersionsInput {
         return .init(
@@ -540,10 +982,68 @@ extension Proton.ListEnvironmentsInput: AWSPaginateToken {
     }
 }
 
+extension Proton.ListRepositoriesInput: AWSPaginateToken {
+    public func usingPaginationToken(_ token: String) -> Proton.ListRepositoriesInput {
+        return .init(
+            maxResults: self.maxResults,
+            nextToken: token
+        )
+    }
+}
+
+extension Proton.ListRepositorySyncDefinitionsInput: AWSPaginateToken {
+    public func usingPaginationToken(_ token: String) -> Proton.ListRepositorySyncDefinitionsInput {
+        return .init(
+            nextToken: token,
+            repositoryName: self.repositoryName,
+            repositoryProvider: self.repositoryProvider,
+            syncType: self.syncType
+        )
+    }
+}
+
+extension Proton.ListServiceInstanceOutputsInput: AWSPaginateToken {
+    public func usingPaginationToken(_ token: String) -> Proton.ListServiceInstanceOutputsInput {
+        return .init(
+            nextToken: token,
+            serviceInstanceName: self.serviceInstanceName,
+            serviceName: self.serviceName
+        )
+    }
+}
+
+extension Proton.ListServiceInstanceProvisionedResourcesInput: AWSPaginateToken {
+    public func usingPaginationToken(_ token: String) -> Proton.ListServiceInstanceProvisionedResourcesInput {
+        return .init(
+            nextToken: token,
+            serviceInstanceName: self.serviceInstanceName,
+            serviceName: self.serviceName
+        )
+    }
+}
+
 extension Proton.ListServiceInstancesInput: AWSPaginateToken {
     public func usingPaginationToken(_ token: String) -> Proton.ListServiceInstancesInput {
         return .init(
             maxResults: self.maxResults,
+            nextToken: token,
+            serviceName: self.serviceName
+        )
+    }
+}
+
+extension Proton.ListServicePipelineOutputsInput: AWSPaginateToken {
+    public func usingPaginationToken(_ token: String) -> Proton.ListServicePipelineOutputsInput {
+        return .init(
+            nextToken: token,
+            serviceName: self.serviceName
+        )
+    }
+}
+
+extension Proton.ListServicePipelineProvisionedResourcesInput: AWSPaginateToken {
+    public func usingPaginationToken(_ token: String) -> Proton.ListServicePipelineProvisionedResourcesInput {
+        return .init(
             nextToken: token,
             serviceName: self.serviceName
         )

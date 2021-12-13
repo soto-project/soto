@@ -179,6 +179,59 @@ extension WellArchitected {
         )
     }
 
+    ///  List the lens shares associated with the lens.
+    ///
+    /// Provide paginated results to closure `onPage` for it to combine them into one result.
+    /// This works in a similar manner to `Array.reduce<Result>(_:_:) -> Result`.
+    ///
+    /// Parameters:
+    ///   - input: Input for request
+    ///   - initialValue: The value to use as the initial accumulating value. `initialValue` is passed to `onPage` the first time it is called.
+    ///   - logger: Logger used flot logging
+    ///   - eventLoop: EventLoop to run this process on
+    ///   - onPage: closure called with each paginated response. It combines an accumulating result with the contents of response. This combined result is then returned
+    ///         along with a boolean indicating if the paginate operation should continue.
+    public func listLensSharesPaginator<Result>(
+        _ input: ListLensSharesInput,
+        _ initialValue: Result,
+        logger: Logger = AWSClient.loggingDisabled,
+        on eventLoop: EventLoop? = nil,
+        onPage: @escaping (Result, ListLensSharesOutput, EventLoop) -> EventLoopFuture<(Bool, Result)>
+    ) -> EventLoopFuture<Result> {
+        return client.paginate(
+            input: input,
+            initialValue: initialValue,
+            command: listLensShares,
+            inputKey: \ListLensSharesInput.nextToken,
+            outputKey: \ListLensSharesOutput.nextToken,
+            on: eventLoop,
+            onPage: onPage
+        )
+    }
+
+    /// Provide paginated results to closure `onPage`.
+    ///
+    /// - Parameters:
+    ///   - input: Input for request
+    ///   - logger: Logger used flot logging
+    ///   - eventLoop: EventLoop to run this process on
+    ///   - onPage: closure called with each block of entries. Returns boolean indicating whether we should continue.
+    public func listLensSharesPaginator(
+        _ input: ListLensSharesInput,
+        logger: Logger = AWSClient.loggingDisabled,
+        on eventLoop: EventLoop? = nil,
+        onPage: @escaping (ListLensSharesOutput, EventLoop) -> EventLoopFuture<Bool>
+    ) -> EventLoopFuture<Void> {
+        return client.paginate(
+            input: input,
+            command: listLensShares,
+            inputKey: \ListLensSharesInput.nextToken,
+            outputKey: \ListLensSharesOutput.nextToken,
+            on: eventLoop,
+            onPage: onPage
+        )
+    }
+
     ///  List the available lenses.
     ///
     /// Provide paginated results to closure `onPage` for it to combine them into one result.
@@ -535,9 +588,23 @@ extension WellArchitected.ListLensReviewsInput: AWSPaginateToken {
     }
 }
 
+extension WellArchitected.ListLensSharesInput: AWSPaginateToken {
+    public func usingPaginationToken(_ token: String) -> WellArchitected.ListLensSharesInput {
+        return .init(
+            lensAlias: self.lensAlias,
+            maxResults: self.maxResults,
+            nextToken: token,
+            sharedWithPrefix: self.sharedWithPrefix
+        )
+    }
+}
+
 extension WellArchitected.ListLensesInput: AWSPaginateToken {
     public func usingPaginationToken(_ token: String) -> WellArchitected.ListLensesInput {
         return .init(
+            lensName: self.lensName,
+            lensStatus: self.lensStatus,
+            lensType: self.lensType,
             maxResults: self.maxResults,
             nextToken: token
         )
@@ -567,8 +634,10 @@ extension WellArchitected.ListNotificationsInput: AWSPaginateToken {
 extension WellArchitected.ListShareInvitationsInput: AWSPaginateToken {
     public func usingPaginationToken(_ token: String) -> WellArchitected.ListShareInvitationsInput {
         return .init(
+            lensNamePrefix: self.lensNamePrefix,
             maxResults: self.maxResults,
             nextToken: token,
+            shareResourceType: self.shareResourceType,
             workloadNamePrefix: self.workloadNamePrefix
         )
     }

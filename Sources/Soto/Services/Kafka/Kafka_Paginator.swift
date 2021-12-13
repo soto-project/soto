@@ -126,6 +126,59 @@ extension Kafka {
         )
     }
 
+    ///  Returns a list of all the MSK clusters in the current Region.
+    ///
+    /// Provide paginated results to closure `onPage` for it to combine them into one result.
+    /// This works in a similar manner to `Array.reduce<Result>(_:_:) -> Result`.
+    ///
+    /// Parameters:
+    ///   - input: Input for request
+    ///   - initialValue: The value to use as the initial accumulating value. `initialValue` is passed to `onPage` the first time it is called.
+    ///   - logger: Logger used flot logging
+    ///   - eventLoop: EventLoop to run this process on
+    ///   - onPage: closure called with each paginated response. It combines an accumulating result with the contents of response. This combined result is then returned
+    ///         along with a boolean indicating if the paginate operation should continue.
+    public func listClustersV2Paginator<Result>(
+        _ input: ListClustersV2Request,
+        _ initialValue: Result,
+        logger: Logger = AWSClient.loggingDisabled,
+        on eventLoop: EventLoop? = nil,
+        onPage: @escaping (Result, ListClustersV2Response, EventLoop) -> EventLoopFuture<(Bool, Result)>
+    ) -> EventLoopFuture<Result> {
+        return client.paginate(
+            input: input,
+            initialValue: initialValue,
+            command: listClustersV2,
+            inputKey: \ListClustersV2Request.nextToken,
+            outputKey: \ListClustersV2Response.nextToken,
+            on: eventLoop,
+            onPage: onPage
+        )
+    }
+
+    /// Provide paginated results to closure `onPage`.
+    ///
+    /// - Parameters:
+    ///   - input: Input for request
+    ///   - logger: Logger used flot logging
+    ///   - eventLoop: EventLoop to run this process on
+    ///   - onPage: closure called with each block of entries. Returns boolean indicating whether we should continue.
+    public func listClustersV2Paginator(
+        _ input: ListClustersV2Request,
+        logger: Logger = AWSClient.loggingDisabled,
+        on eventLoop: EventLoop? = nil,
+        onPage: @escaping (ListClustersV2Response, EventLoop) -> EventLoopFuture<Bool>
+    ) -> EventLoopFuture<Void> {
+        return client.paginate(
+            input: input,
+            command: listClustersV2,
+            inputKey: \ListClustersV2Request.nextToken,
+            outputKey: \ListClustersV2Response.nextToken,
+            on: eventLoop,
+            onPage: onPage
+        )
+    }
+
     ///  Returns a list of all the MSK configurations in this Region.
     ///
     /// Provide paginated results to closure `onPage` for it to combine them into one result.
@@ -406,6 +459,17 @@ extension Kafka.ListClustersRequest: AWSPaginateToken {
     public func usingPaginationToken(_ token: String) -> Kafka.ListClustersRequest {
         return .init(
             clusterNameFilter: self.clusterNameFilter,
+            maxResults: self.maxResults,
+            nextToken: token
+        )
+    }
+}
+
+extension Kafka.ListClustersV2Request: AWSPaginateToken {
+    public func usingPaginationToken(_ token: String) -> Kafka.ListClustersV2Request {
+        return .init(
+            clusterNameFilter: self.clusterNameFilter,
+            clusterTypeFilter: self.clusterTypeFilter,
             maxResults: self.maxResults,
             nextToken: token
         )

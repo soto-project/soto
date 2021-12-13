@@ -54,8 +54,54 @@ extension Proton {
         public var description: String { return self.rawValue }
     }
 
+    public enum ProvisionedResourceEngine: String, CustomStringConvertible, Codable {
+        case cloudformation = "CLOUDFORMATION"
+        case terraform = "TERRAFORM"
+        public var description: String { return self.rawValue }
+    }
+
     public enum Provisioning: String, CustomStringConvertible, Codable {
         case customerManaged = "CUSTOMER_MANAGED"
+        public var description: String { return self.rawValue }
+    }
+
+    public enum RepositoryProvider: String, CustomStringConvertible, Codable {
+        case bitbucket = "BITBUCKET"
+        case github = "GITHUB"
+        case githubEnterprise = "GITHUB_ENTERPRISE"
+        public var description: String { return self.rawValue }
+    }
+
+    public enum RepositorySyncStatus: String, CustomStringConvertible, Codable {
+        ///     The repository sync attempt has failed.
+        case failed = "FAILED"
+        ///    A repository sync attempt has been created and will begin soon.
+        case initiated = "INITIATED"
+        ///     A repository sync attempt has started and work is being done to reconcile the branch.
+        case inProgress = "IN_PROGRESS"
+        ///     The repository sync attempt didn't execute and was queued.
+        case queued = "QUEUED"
+        ///     The repository sync attempt has completed successfully.
+        case succeeded = "SUCCEEDED"
+        public var description: String { return self.rawValue }
+    }
+
+    public enum ResourceDeploymentStatus: String, CustomStringConvertible, Codable {
+        case failed = "FAILED"
+        case inProgress = "IN_PROGRESS"
+        case succeeded = "SUCCEEDED"
+        public var description: String { return self.rawValue }
+    }
+
+    public enum ResourceSyncStatus: String, CustomStringConvertible, Codable {
+        ///     Syncing has failed.
+        case failed = "FAILED"
+        ///    A sync attempt has been created and will begin soon.
+        case initiated = "INITIATED"
+        ///     Syncing has started and work is being done to reconcile state.
+        case inProgress = "IN_PROGRESS"
+        ///     Syncing has completed successfully.
+        case succeeded = "SUCCEEDED"
         public var description: String { return self.rawValue }
     }
 
@@ -74,6 +120,17 @@ extension Proton {
         case updateFailedCleanupFailed = "UPDATE_FAILED_CLEANUP_FAILED"
         case updateFailedCleanupInProgress = "UPDATE_FAILED_CLEANUP_IN_PROGRESS"
         case updateInProgress = "UPDATE_IN_PROGRESS"
+        public var description: String { return self.rawValue }
+    }
+
+    public enum SyncType: String, CustomStringConvertible, Codable {
+        case templateSync = "TEMPLATE_SYNC"
+        public var description: String { return self.rawValue }
+    }
+
+    public enum TemplateType: String, CustomStringConvertible, Codable {
+        case environment = "ENVIRONMENT"
+        case service = "SERVICE"
         public var description: String { return self.rawValue }
     }
 
@@ -105,7 +162,7 @@ extension Proton {
     }
 
     public struct AcceptEnvironmentAccountConnectionOutput: AWSDecodableShape {
-        /// The environment account connection data that's returned by AWS Proton.
+        /// The environment account connection data that's returned by Proton.
         public let environmentAccountConnection: EnvironmentAccountConnection
 
         public init(environmentAccountConnection: EnvironmentAccountConnection) {
@@ -118,14 +175,18 @@ extension Proton {
     }
 
     public struct AccountSettings: AWSDecodableShape {
-        /// The Amazon Resource Name (ARN) of the AWS Proton pipeline service role.
+        /// The repository that you provide with pull request provisioning.   Provisioning by pull request is currently in feature preview and is only usable with Terraform based Proton Templates. To learn more about Amazon Web Services Feature Preview terms, see section 2 on Beta and Previews.
+        public let pipelineProvisioningRepository: RepositoryBranch?
+        /// The Amazon Resource Name (ARN) of the Proton pipeline service role.
         public let pipelineServiceRoleArn: String?
 
-        public init(pipelineServiceRoleArn: String? = nil) {
+        public init(pipelineProvisioningRepository: RepositoryBranch? = nil, pipelineServiceRoleArn: String? = nil) {
+            self.pipelineProvisioningRepository = pipelineProvisioningRepository
             self.pipelineServiceRoleArn = pipelineServiceRoleArn
         }
 
         private enum CodingKeys: String, CodingKey {
+            case pipelineProvisioningRepository
             case pipelineServiceRoleArn
         }
     }
@@ -150,7 +211,7 @@ extension Proton {
     }
 
     public struct CancelEnvironmentDeploymentOutput: AWSDecodableShape {
-        /// The environment summary data that's returned by AWS Proton.
+        /// The environment summary data that's returned by Proton.
         public let environment: Environment
 
         public init(environment: Environment) {
@@ -189,7 +250,7 @@ extension Proton {
     }
 
     public struct CancelServiceInstanceDeploymentOutput: AWSDecodableShape {
-        /// The service instance summary data that's returned by AWS Proton.
+        /// The service instance summary data that's returned by Proton.
         public let serviceInstance: ServiceInstance
 
         public init(serviceInstance: ServiceInstance) {
@@ -221,7 +282,7 @@ extension Proton {
     }
 
     public struct CancelServicePipelineDeploymentOutput: AWSDecodableShape {
-        /// The service pipeline detail data that's returned by AWS Proton.
+        /// The service pipeline detail data that's returned by Proton.
         public let pipeline: ServicePipeline
 
         public init(pipeline: ServicePipeline) {
@@ -277,20 +338,23 @@ extension Proton {
     }
 
     public struct CreateEnvironmentAccountConnectionInput: AWSEncodableShape {
-        /// When included, if two identicial requests are made with the same client token, AWS Proton returns the environment account connection that the first request created.
+        /// When included, if two identical requests are made with the same client token, Proton returns the environment account connection that the first request created.
         public let clientToken: String?
-        /// The name of the AWS Proton environment that's created in the associated management account.
+        /// The name of the Proton environment that's created in the associated management account.
         public let environmentName: String
-        /// The ID of the management account that accepts or rejects the environment account connection. You create an manage the AWS Proton environment in this account. If the management account accepts the environment account connection, AWS Proton can use the associated IAM role to provision environment infrastructure resources in the associated environment account.
+        /// The ID of the management account that accepts or rejects the environment account connection. You create an manage the Proton environment in this account. If the management account accepts the environment account connection, Proton can use the associated IAM role to provision environment infrastructure resources in the associated environment account.
         public let managementAccountId: String
-        /// The Amazon Resource Name (ARN) of the IAM service role that's created in the environment account. AWS Proton uses this role to provision infrastructure resources in the associated environment account.
+        /// The Amazon Resource Name (ARN) of the IAM service role that's created in the environment account. Proton uses this role to provision infrastructure resources in the associated environment account.
         public let roleArn: String
+        /// Tags for your environment account connection. For more information, see Proton resources and tagging in the Proton Administrator Guide.
+        public let tags: [Tag]?
 
-        public init(clientToken: String? = CreateEnvironmentAccountConnectionInput.idempotencyToken(), environmentName: String, managementAccountId: String, roleArn: String) {
+        public init(clientToken: String? = CreateEnvironmentAccountConnectionInput.idempotencyToken(), environmentName: String, managementAccountId: String, roleArn: String, tags: [Tag]? = nil) {
             self.clientToken = clientToken
             self.environmentName = environmentName
             self.managementAccountId = managementAccountId
             self.roleArn = roleArn
+            self.tags = tags
         }
 
         public func validate(name: String) throws {
@@ -302,6 +366,10 @@ extension Proton {
             try self.validate(self.managementAccountId, name: "managementAccountId", parent: name, pattern: "^\\d{12}$")
             try self.validate(self.roleArn, name: "roleArn", parent: name, max: 200)
             try self.validate(self.roleArn, name: "roleArn", parent: name, min: 1)
+            try self.tags?.forEach {
+                try $0.validate(name: "\(name).tags[]")
+            }
+            try self.validate(self.tags, name: "tags", parent: name, max: 50)
         }
 
         private enum CodingKeys: String, CodingKey {
@@ -309,11 +377,12 @@ extension Proton {
             case environmentName
             case managementAccountId
             case roleArn
+            case tags
         }
     }
 
     public struct CreateEnvironmentAccountConnectionOutput: AWSDecodableShape {
-        /// The environment account connection detail data that's returned by AWS Proton.
+        /// The environment account connection detail data that's returned by Proton.
         public let environmentAccountConnection: EnvironmentAccountConnection
 
         public init(environmentAccountConnection: EnvironmentAccountConnection) {
@@ -328,28 +397,31 @@ extension Proton {
     public struct CreateEnvironmentInput: AWSEncodableShape {
         /// A description of the environment that's being created and deployed.
         public let description: String?
-        /// The ID of the environment account connection that you provide if you're provisioning your environment infrastructure resources to an environment account. You must include either the environmentAccountConnectionId or protonServiceRoleArn parameter and value. For more information, see Environment account connections in the AWS Proton Administrator guide.
+        /// The ID of the environment account connection that you provide if you're provisioning your environment infrastructure resources to an environment account. You must include either the environmentAccountConnectionId or protonServiceRoleArn parameter and value and omit the provisioningRepository parameter and values. For more information, see Environment account connections in the Proton Administrator guide.
         public let environmentAccountConnectionId: String?
         /// The name of the environment.
         public let name: String
-        /// The Amazon Resource Name (ARN) of the AWS Proton service role that allows AWS Proton to make calls to other services on your behalf. You must include either the environmentAccountConnectionId or protonServiceRoleArn parameter and value.
+        /// The Amazon Resource Name (ARN) of the Proton service role that allows Proton to make calls to other services on your behalf. You must include either the environmentAccountConnectionId or protonServiceRoleArn parameter and value and omit the provisioningRepository parameter when you use standard provisioning.
         public let protonServiceRoleArn: String?
-        /// A link to a YAML formatted spec file that provides inputs as defined in the environment template bundle schema file. For more information, see Environments in the AWS Proton Administrator Guide.
+        /// The repository that you provide with pull request provisioning. If you provide this parameter, you must omit the environmentAccountConnectionId and protonServiceRoleArn parameters.   Provisioning by pull request is currently in feature preview and is only usable with Terraform based Proton Templates. To learn more about Amazon Web Services Feature Preview terms, see section 2 on Beta and Previews.
+        public let provisioningRepository: RepositoryBranchInput?
+        /// A link to a YAML formatted spec file that provides inputs as defined in the environment template bundle schema file. For more information, see Environments in the Proton Administrator Guide.
         public let spec: String
-        /// Create tags for your environment. For more information, see AWS Proton resources and tagging in the AWS Proton Administrator Guide or AWS Proton User Guide.
+        /// Create tags for your environment. For more information, see Proton resources and tagging in the Proton Administrator Guide or Proton User Guide.
         public let tags: [Tag]?
-        /// The ID of the major version of the environment template.
+        /// The major version of the environment template.
         public let templateMajorVersion: String
-        /// The ID of the minor version of the environment template.
+        /// The minor version of the environment template.
         public let templateMinorVersion: String?
-        /// The name of the environment template. For more information, see Environment Templates in the AWS Proton Administrator Guide.
+        /// The name of the environment template. For more information, see Environment Templates in the Proton Administrator Guide.
         public let templateName: String
 
-        public init(description: String? = nil, environmentAccountConnectionId: String? = nil, name: String, protonServiceRoleArn: String? = nil, spec: String, tags: [Tag]? = nil, templateMajorVersion: String, templateMinorVersion: String? = nil, templateName: String) {
+        public init(description: String? = nil, environmentAccountConnectionId: String? = nil, name: String, protonServiceRoleArn: String? = nil, provisioningRepository: RepositoryBranchInput? = nil, spec: String, tags: [Tag]? = nil, templateMajorVersion: String, templateMinorVersion: String? = nil, templateName: String) {
             self.description = description
             self.environmentAccountConnectionId = environmentAccountConnectionId
             self.name = name
             self.protonServiceRoleArn = protonServiceRoleArn
+            self.provisioningRepository = provisioningRepository
             self.spec = spec
             self.tags = tags
             self.templateMajorVersion = templateMajorVersion
@@ -365,6 +437,7 @@ extension Proton {
             try self.validate(self.name, name: "name", parent: name, pattern: "^[0-9A-Za-z]+[0-9A-Za-z_\\-]*$")
             try self.validate(self.protonServiceRoleArn, name: "protonServiceRoleArn", parent: name, max: 200)
             try self.validate(self.protonServiceRoleArn, name: "protonServiceRoleArn", parent: name, min: 1)
+            try self.provisioningRepository?.validate(name: "\(name).provisioningRepository")
             try self.validate(self.spec, name: "spec", parent: name, max: 51200)
             try self.validate(self.spec, name: "spec", parent: name, min: 1)
             try self.tags?.forEach {
@@ -387,6 +460,7 @@ extension Proton {
             case environmentAccountConnectionId
             case name
             case protonServiceRoleArn
+            case provisioningRepository
             case spec
             case tags
             case templateMajorVersion
@@ -396,7 +470,7 @@ extension Proton {
     }
 
     public struct CreateEnvironmentOutput: AWSDecodableShape {
-        /// The environment detail data that's returned by AWS Proton.
+        /// The environment detail data that's returned by Proton.
         public let environment: Environment
 
         public init(environment: Environment) {
@@ -413,13 +487,13 @@ extension Proton {
         public let description: String?
         /// The environment template name as displayed in the developer interface.
         public let displayName: String?
-        /// A customer provided encryption key that AWS Proton uses to encrypt data.
+        /// A customer provided encryption key that Proton uses to encrypt data.
         public let encryptionKey: String?
         /// The name of the environment template.
         public let name: String
         /// When included, indicates that the environment template is for customer provisioned and managed infrastructure.
         public let provisioning: Provisioning?
-        /// Create tags for your environment template. For more information, see AWS Proton resources and tagging in the AWS Proton Administrator Guide or AWS Proton User Guide.
+        /// Create tags for your environment template. For more information, see Proton resources and tagging in the Proton Administrator Guide or Proton User Guide.
         public let tags: [Tag]?
 
         public init(description: String? = nil, displayName: String? = nil, encryptionKey: String? = nil, name: String, provisioning: Provisioning? = nil, tags: [Tag]? = nil) {
@@ -457,7 +531,7 @@ extension Proton {
     }
 
     public struct CreateEnvironmentTemplateOutput: AWSDecodableShape {
-        /// The environment template detail data that's returned by AWS Proton.
+        /// The environment template detail data that's returned by Proton.
         public let environmentTemplate: EnvironmentTemplate
 
         public init(environmentTemplate: EnvironmentTemplate) {
@@ -470,11 +544,11 @@ extension Proton {
     }
 
     public struct CreateEnvironmentTemplateVersionInput: AWSEncodableShape {
-        /// When included, if two identicial requests are made with the same client token, AWS Proton returns the environment template version that the first request created.
+        /// When included, if two identical requests are made with the same client token, Proton returns the environment template version that the first request created.
         public let clientToken: String?
         /// A description of the new version of an environment template.
         public let description: String?
-        /// To create a new minor version of the environment template, include a majorVersion. To create a new major and minor version of the environment template, exclude majorVersion.
+        /// To create a new minor version of the environment template, include a major Version. To create a new major and minor version of the environment template, exclude major Version.
         public let majorVersion: String?
         /// An object that includes the template bundle S3 bucket path and name for the new version of an template.
         public let source: TemplateVersionSourceInput
@@ -520,7 +594,7 @@ extension Proton {
     }
 
     public struct CreateEnvironmentTemplateVersionOutput: AWSDecodableShape {
-        /// The environment template detail data that's returned by AWS Proton.
+        /// The environment template detail data that's returned by Proton.
         public let environmentTemplateVersion: EnvironmentTemplateVersion
 
         public init(environmentTemplateVersion: EnvironmentTemplateVersion) {
@@ -532,24 +606,72 @@ extension Proton {
         }
     }
 
+    public struct CreateRepositoryInput: AWSEncodableShape {
+        /// The Amazon Resource Name (ARN) of your Amazon Web Services CodeStar connection. For more information, see Setting up for Proton in the Proton Administrator Guide.
+        public let connectionArn: String
+        /// The ARN of your customer Amazon Web Services Key Management Service (Amazon Web Services KMS) key.
+        public let encryptionKey: String?
+        /// The repository name, for example myrepos/myrepo.
+        public let name: String
+        /// The repository provider.
+        public let provider: RepositoryProvider
+
+        public init(connectionArn: String, encryptionKey: String? = nil, name: String, provider: RepositoryProvider) {
+            self.connectionArn = connectionArn
+            self.encryptionKey = encryptionKey
+            self.name = name
+            self.provider = provider
+        }
+
+        public func validate(name: String) throws {
+            try self.validate(self.connectionArn, name: "connectionArn", parent: name, max: 200)
+            try self.validate(self.connectionArn, name: "connectionArn", parent: name, min: 1)
+            try self.validate(self.encryptionKey, name: "encryptionKey", parent: name, max: 200)
+            try self.validate(self.encryptionKey, name: "encryptionKey", parent: name, min: 1)
+            try self.validate(self.name, name: "name", parent: name, max: 100)
+            try self.validate(self.name, name: "name", parent: name, min: 1)
+            try self.validate(self.name, name: "name", parent: name, pattern: "[A-Za-z0-9_.-].*/[A-Za-z0-9_.-].*")
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case connectionArn
+            case encryptionKey
+            case name
+            case provider
+        }
+    }
+
+    public struct CreateRepositoryOutput: AWSDecodableShape {
+        /// The repository detail data that's returned by Proton.
+        public let repository: Repository
+
+        public init(repository: Repository) {
+            self.repository = repository
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case repository
+        }
+    }
+
     public struct CreateServiceInput: AWSEncodableShape {
-        /// The name of the code repository branch that holds the code that's deployed in AWS Proton. Don't include this parameter if your service template doesn't include a service pipeline.
+        /// The name of the code repository branch that holds the code that's deployed in Proton. Don't include this parameter if your service template doesn't include a service pipeline.
         public let branchName: String?
-        /// A description of the AWS Proton service.
+        /// A description of the Proton service.
         public let description: String?
         /// The service name.
         public let name: String
-        /// The Amazon Resource Name (ARN) of the repository connection. For more information, see Set up repository connection in the AWS Proton Administrator Guide and Setting up with AWS Proton in the AWS Proton User Guide. Don't include this parameter if your service template doesn't include a service pipeline.
+        /// The Amazon Resource Name (ARN) of the repository connection. For more information, see Set up repository connection in the Proton Administrator Guide and Setting up with Proton in the Proton User Guide. Don't include this parameter if your service template doesn't include a service pipeline.
         public let repositoryConnectionArn: String?
         /// The ID of the code repository. Don't include this parameter if your service template doesn't include a service pipeline.
         public let repositoryId: String?
-        /// A link to a spec file that provides inputs as defined in the service template bundle schema file. The spec file is in YAML format. Don’t include pipeline inputs in the spec if your service template doesn’t include a service pipeline. For more information, see Create a service in the AWS Proton Administrator Guide and Create a service in the AWS Proton User Guide.
+        /// A link to a spec file that provides inputs as defined in the service template bundle schema file. The spec file is in YAML format. Don’t include pipeline inputs in the spec if your service template doesn’t include a service pipeline. For more information, see Create a service in the Proton Administrator Guide and Create a service in the Proton User Guide.
         public let spec: String
-        /// Create tags for your service. For more information, see AWS Proton resources and tagging in the AWS Proton Administrator Guide or AWS Proton User Guide.
+        /// Create tags for your service. For more information, see Proton resources and tagging in the Proton Administrator Guide or Proton User Guide.
         public let tags: [Tag]?
-        /// The ID of the major version of the service template that was used to create the service.
+        /// The major version of the service template that was used to create the service.
         public let templateMajorVersion: String
-        /// The ID of the minor version of the service template that was used to create the service.
+        /// The minor version of the service template that was used to create the service.
         public let templateMinorVersion: String?
         /// The name of the service template that's used to create the service.
         public let templateName: String
@@ -610,7 +732,7 @@ extension Proton {
     }
 
     public struct CreateServiceOutput: AWSDecodableShape {
-        /// The service detail data that's returned by AWS Proton.
+        /// The service detail data that's returned by Proton.
         public let service: Service
 
         public init(service: Service) {
@@ -631,9 +753,9 @@ extension Proton {
         public let encryptionKey: String?
         /// The name of the service template.
         public let name: String
-        /// AWS Proton includes a service pipeline for your service by default. When included, this parameter indicates that an AWS Proton service pipeline won't be included for your service. Once specified, this parameter can't be changed. For more information, see Service template bundles in the AWS Proton Administrator Guide.
+        /// Proton includes a service pipeline for your service by default. When included, this parameter indicates that an Proton service pipeline won't be included for your service. Once specified, this parameter can't be changed. For more information, see Service template bundles in the Proton Administrator Guide.
         public let pipelineProvisioning: Provisioning?
-        /// Create tags for your service template. For more information, see AWS Proton resources and tagging in the AWS Proton Administrator Guide or AWS Proton User Guide.
+        /// Create tags for your service template. For more information, see Proton resources and tagging in the Proton Administrator Guide or Proton User Guide.
         public let tags: [Tag]?
 
         public init(description: String? = nil, displayName: String? = nil, encryptionKey: String? = nil, name: String, pipelineProvisioning: Provisioning? = nil, tags: [Tag]? = nil) {
@@ -671,7 +793,7 @@ extension Proton {
     }
 
     public struct CreateServiceTemplateOutput: AWSDecodableShape {
-        /// The service template detail data that's returned by AWS Proton.
+        /// The service template detail data that's returned by Proton.
         public let serviceTemplate: ServiceTemplate
 
         public init(serviceTemplate: ServiceTemplate) {
@@ -684,13 +806,13 @@ extension Proton {
     }
 
     public struct CreateServiceTemplateVersionInput: AWSEncodableShape {
-        /// When included, if two identicial requests are made with the same client token, AWS Proton returns the service template version that the first request created.
+        /// When included, if two identical requests are made with the same client token, Proton returns the service template version that the first request created.
         public let clientToken: String?
         /// An array of compatible environment template objects for the new version of a service template.
         public let compatibleEnvironmentTemplates: [CompatibleEnvironmentTemplateInput]
         /// A description of the new version of a service template.
         public let description: String?
-        /// To create a new minor version of the service template, include a majorVersion. To create a new major and minor version of the service template, exclude majorVersion.
+        /// To create a new minor version of the service template, include a major Version. To create a new major and minor version of the service template, exclude major Version.
         public let majorVersion: String?
         /// An object that includes the template bundle S3 bucket path and name for the new version of a service template.
         public let source: TemplateVersionSourceInput
@@ -743,7 +865,7 @@ extension Proton {
     }
 
     public struct CreateServiceTemplateVersionOutput: AWSDecodableShape {
-        /// The service template version summary of detail data that's returned by AWS Proton.
+        /// The service template version summary of detail data that's returned by Proton.
         public let serviceTemplateVersion: ServiceTemplateVersion
 
         public init(serviceTemplateVersion: ServiceTemplateVersion) {
@@ -752,6 +874,65 @@ extension Proton {
 
         private enum CodingKeys: String, CodingKey {
             case serviceTemplateVersion
+        }
+    }
+
+    public struct CreateTemplateSyncConfigInput: AWSEncodableShape {
+        /// The branch of the registered repository for your template.
+        public let branch: String
+        /// The name of your repository, for example myrepos/myrepo.
+        public let repositoryName: String
+        /// The provider type for your repository.
+        public let repositoryProvider: RepositoryProvider
+        /// A repository subdirectory path to your template bundle directory. When included, Proton limits the template bundle search to this repository directory.
+        public let subdirectory: String?
+        /// The name of your registered template.
+        public let templateName: String
+        /// The type of the registered template.
+        public let templateType: TemplateType
+
+        public init(branch: String, repositoryName: String, repositoryProvider: RepositoryProvider, subdirectory: String? = nil, templateName: String, templateType: TemplateType) {
+            self.branch = branch
+            self.repositoryName = repositoryName
+            self.repositoryProvider = repositoryProvider
+            self.subdirectory = subdirectory
+            self.templateName = templateName
+            self.templateType = templateType
+        }
+
+        public func validate(name: String) throws {
+            try self.validate(self.branch, name: "branch", parent: name, max: 200)
+            try self.validate(self.branch, name: "branch", parent: name, min: 1)
+            try self.validate(self.repositoryName, name: "repositoryName", parent: name, max: 100)
+            try self.validate(self.repositoryName, name: "repositoryName", parent: name, min: 1)
+            try self.validate(self.repositoryName, name: "repositoryName", parent: name, pattern: "[A-Za-z0-9_.-].*/[A-Za-z0-9_.-].*")
+            try self.validate(self.subdirectory, name: "subdirectory", parent: name, max: 4096)
+            try self.validate(self.subdirectory, name: "subdirectory", parent: name, min: 1)
+            try self.validate(self.templateName, name: "templateName", parent: name, max: 100)
+            try self.validate(self.templateName, name: "templateName", parent: name, min: 1)
+            try self.validate(self.templateName, name: "templateName", parent: name, pattern: "^[0-9A-Za-z]+[0-9A-Za-z_\\-]*$")
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case branch
+            case repositoryName
+            case repositoryProvider
+            case subdirectory
+            case templateName
+            case templateType
+        }
+    }
+
+    public struct CreateTemplateSyncConfigOutput: AWSDecodableShape {
+        /// The template sync configuration detail data that's returned by Proton.
+        public let templateSyncConfig: TemplateSyncConfig?
+
+        public init(templateSyncConfig: TemplateSyncConfig? = nil) {
+            self.templateSyncConfig = templateSyncConfig
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case templateSyncConfig
         }
     }
 
@@ -773,7 +954,7 @@ extension Proton {
     }
 
     public struct DeleteEnvironmentAccountConnectionOutput: AWSDecodableShape {
-        /// The environment account connection detail data that's returned by AWS Proton.
+        /// The environment account connection detail data that's returned by Proton.
         public let environmentAccountConnection: EnvironmentAccountConnection?
 
         public init(environmentAccountConnection: EnvironmentAccountConnection? = nil) {
@@ -805,7 +986,7 @@ extension Proton {
     }
 
     public struct DeleteEnvironmentOutput: AWSDecodableShape {
-        /// The environment detail data that's returned by AWS Proton.
+        /// The environment detail data that's returned by Proton.
         public let environment: Environment?
 
         public init(environment: Environment? = nil) {
@@ -837,7 +1018,7 @@ extension Proton {
     }
 
     public struct DeleteEnvironmentTemplateOutput: AWSDecodableShape {
-        /// The environment template detail data that's returned by AWS Proton.
+        /// The environment template detail data that's returned by Proton.
         public let environmentTemplate: EnvironmentTemplate?
 
         public init(environmentTemplate: EnvironmentTemplate? = nil) {
@@ -883,7 +1064,7 @@ extension Proton {
     }
 
     public struct DeleteEnvironmentTemplateVersionOutput: AWSDecodableShape {
-        /// The environment template version detail data that's returned by AWS Proton.
+        /// The environment template version detail data that's returned by Proton.
         public let environmentTemplateVersion: EnvironmentTemplateVersion?
 
         public init(environmentTemplateVersion: EnvironmentTemplateVersion? = nil) {
@@ -892,6 +1073,42 @@ extension Proton {
 
         private enum CodingKeys: String, CodingKey {
             case environmentTemplateVersion
+        }
+    }
+
+    public struct DeleteRepositoryInput: AWSEncodableShape {
+        /// The name of the repository.
+        public let name: String
+        /// The repository provider.
+        public let provider: RepositoryProvider
+
+        public init(name: String, provider: RepositoryProvider) {
+            self.name = name
+            self.provider = provider
+        }
+
+        public func validate(name: String) throws {
+            try self.validate(self.name, name: "name", parent: name, max: 100)
+            try self.validate(self.name, name: "name", parent: name, min: 1)
+            try self.validate(self.name, name: "name", parent: name, pattern: "[A-Za-z0-9_.-].*/[A-Za-z0-9_.-].*")
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case name
+            case provider
+        }
+    }
+
+    public struct DeleteRepositoryOutput: AWSDecodableShape {
+        /// The repository detail data that's returned by Proton.
+        public let repository: Repository?
+
+        public init(repository: Repository? = nil) {
+            self.repository = repository
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case repository
         }
     }
 
@@ -915,7 +1132,7 @@ extension Proton {
     }
 
     public struct DeleteServiceOutput: AWSDecodableShape {
-        /// The service detail data that's returned by AWS Proton.
+        /// The service detail data that's returned by Proton.
         public let service: Service?
 
         public init(service: Service? = nil) {
@@ -947,7 +1164,7 @@ extension Proton {
     }
 
     public struct DeleteServiceTemplateOutput: AWSDecodableShape {
-        /// The service template detail data that's returned by AWS Proton.
+        /// The service template detail data that's returned by Proton.
         public let serviceTemplate: ServiceTemplate?
 
         public init(serviceTemplate: ServiceTemplate? = nil) {
@@ -993,7 +1210,7 @@ extension Proton {
     }
 
     public struct DeleteServiceTemplateVersionOutput: AWSDecodableShape {
-        /// The service template version detail data that's returned by AWS Proton.
+        /// The service template version detail data that's returned by Proton.
         public let serviceTemplateVersion: ServiceTemplateVersion?
 
         public init(serviceTemplateVersion: ServiceTemplateVersion? = nil) {
@@ -1002,6 +1219,42 @@ extension Proton {
 
         private enum CodingKeys: String, CodingKey {
             case serviceTemplateVersion
+        }
+    }
+
+    public struct DeleteTemplateSyncConfigInput: AWSEncodableShape {
+        /// The template name.
+        public let templateName: String
+        /// The template type.
+        public let templateType: TemplateType
+
+        public init(templateName: String, templateType: TemplateType) {
+            self.templateName = templateName
+            self.templateType = templateType
+        }
+
+        public func validate(name: String) throws {
+            try self.validate(self.templateName, name: "templateName", parent: name, max: 100)
+            try self.validate(self.templateName, name: "templateName", parent: name, min: 1)
+            try self.validate(self.templateName, name: "templateName", parent: name, pattern: "^[0-9A-Za-z]+[0-9A-Za-z_\\-]*$")
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case templateName
+            case templateType
+        }
+    }
+
+    public struct DeleteTemplateSyncConfigOutput: AWSDecodableShape {
+        /// The template sync configuration detail data that's returned by Proton.
+        public let templateSyncConfig: TemplateSyncConfig?
+
+        public init(templateSyncConfig: TemplateSyncConfig? = nil) {
+            self.templateSyncConfig = templateSyncConfig
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case templateSyncConfig
         }
     }
 
@@ -1026,10 +1279,12 @@ extension Proton {
         public let lastDeploymentSucceededAt: Date
         /// The name of the environment.
         public let name: String
-        /// The Amazon Resource Name (ARN) of the AWS Proton service role that allows AWS Proton to make calls to other services on your behalf.
+        /// The Amazon Resource Name (ARN) of the Proton service role that allows Proton to make calls to other services on your behalf.
         public let protonServiceRoleArn: String?
         /// When included, indicates that the environment template is for customer provisioned and managed infrastructure.
         public let provisioning: Provisioning?
+        /// The repository that you provide with pull request provisioning.   Provisioning by pull request is currently in feature preview and is only usable with Terraform based Proton Templates. To learn more about Amazon Web Services Feature Preview terms, see section 2 on Beta and Previews.
+        public let provisioningRepository: RepositoryBranch?
         /// The environment spec.
         public let spec: String?
         /// The ID of the major version of the environment template.
@@ -1039,7 +1294,7 @@ extension Proton {
         /// The Amazon Resource Name (ARN) of the environment template.
         public let templateName: String
 
-        public init(arn: String, createdAt: Date, deploymentStatus: DeploymentStatus, deploymentStatusMessage: String? = nil, description: String? = nil, environmentAccountConnectionId: String? = nil, environmentAccountId: String? = nil, lastDeploymentAttemptedAt: Date, lastDeploymentSucceededAt: Date, name: String, protonServiceRoleArn: String? = nil, provisioning: Provisioning? = nil, spec: String? = nil, templateMajorVersion: String, templateMinorVersion: String, templateName: String) {
+        public init(arn: String, createdAt: Date, deploymentStatus: DeploymentStatus, deploymentStatusMessage: String? = nil, description: String? = nil, environmentAccountConnectionId: String? = nil, environmentAccountId: String? = nil, lastDeploymentAttemptedAt: Date, lastDeploymentSucceededAt: Date, name: String, protonServiceRoleArn: String? = nil, provisioning: Provisioning? = nil, provisioningRepository: RepositoryBranch? = nil, spec: String? = nil, templateMajorVersion: String, templateMinorVersion: String, templateName: String) {
             self.arn = arn
             self.createdAt = createdAt
             self.deploymentStatus = deploymentStatus
@@ -1052,6 +1307,7 @@ extension Proton {
             self.name = name
             self.protonServiceRoleArn = protonServiceRoleArn
             self.provisioning = provisioning
+            self.provisioningRepository = provisioningRepository
             self.spec = spec
             self.templateMajorVersion = templateMajorVersion
             self.templateMinorVersion = templateMinorVersion
@@ -1071,6 +1327,7 @@ extension Proton {
             case name
             case protonServiceRoleArn
             case provisioning
+            case provisioningRepository
             case spec
             case templateMajorVersion
             case templateMinorVersion
@@ -1189,13 +1446,13 @@ extension Proton {
         public let lastDeploymentSucceededAt: Date
         /// The name of the environment.
         public let name: String
-        /// The Amazon Resource Name (ARN) of the AWS Proton service role that allows AWS Proton to make calls to other services on your behalf.
+        /// The Amazon Resource Name (ARN) of the Proton service role that allows Proton to make calls to other services on your behalf.
         public let protonServiceRoleArn: String?
         /// When included, indicates that the environment template is for customer provisioned and managed infrastructure.
         public let provisioning: Provisioning?
-        /// The ID of the major version of the environment template.
+        /// The major version of the environment template.
         public let templateMajorVersion: String
-        /// The ID of the minor version of the environment template.
+        /// The minor version of the environment template.
         public let templateMinorVersion: String
         /// The name of the environment template.
         public let templateName: String
@@ -1323,7 +1580,7 @@ extension Proton {
         public let name: String
         /// When included, indicates that the environment template is for customer provisioned and managed infrastructure.
         public let provisioning: Provisioning?
-        /// The ID of the recommended version of the environment template.
+        /// The recommended version of the environment template.
         public let recommendedVersion: String?
 
         public init(arn: String, createdAt: Date, description: String? = nil, displayName: String? = nil, lastModifiedAt: Date, name: String, provisioning: Provisioning? = nil, recommendedVersion: String? = nil) {
@@ -1358,11 +1615,11 @@ extension Proton {
         public let description: String?
         /// The time when the version of an environment template was last modified.
         public let lastModifiedAt: Date
-        /// The ID of the latest major version that's associated with the version of an environment template.
+        /// The latest major version that's associated with the version of an environment template.
         public let majorVersion: String
-        /// The ID of the minor version of an environment template.
+        /// The minor version of an environment template.
         public let minorVersion: String
-        /// The ID of the recommended minor version of the environment template.
+        /// The recommended minor version of the environment template.
         public let recommendedMinorVersion: String?
         /// The schema of the version of an environment template.
         public let schema: String?
@@ -1411,11 +1668,11 @@ extension Proton {
         public let description: String?
         /// The time when the version of an environment template was last modified.
         public let lastModifiedAt: Date
-        /// The ID of the latest major version that's associated with the version of an environment template.
+        /// The latest major version that's associated with the version of an environment template.
         public let majorVersion: String
-        /// The ID of the version of an environment template.
+        /// The version of an environment template.
         public let minorVersion: String
-        /// The ID of the recommended minor version of the environment template.
+        /// The recommended minor version of the environment template.
         public let recommendedMinorVersion: String?
         /// The status of the version of an environment template.
         public let status: TemplateVersionStatus
@@ -1456,7 +1713,7 @@ extension Proton {
     }
 
     public struct GetAccountSettingsOutput: AWSDecodableShape {
-        /// The AWS Proton pipeline service role detail data that's returned by AWS Proton.
+        /// The Proton pipeline service role detail data that's returned by Proton.
         public let accountSettings: AccountSettings?
 
         public init(accountSettings: AccountSettings? = nil) {
@@ -1486,7 +1743,7 @@ extension Proton {
     }
 
     public struct GetEnvironmentAccountConnectionOutput: AWSDecodableShape {
-        /// The environment account connection detail data that's returned by AWS Proton.
+        /// The environment account connection detail data that's returned by Proton.
         public let environmentAccountConnection: EnvironmentAccountConnection
 
         public init(environmentAccountConnection: EnvironmentAccountConnection) {
@@ -1518,7 +1775,7 @@ extension Proton {
     }
 
     public struct GetEnvironmentOutput: AWSDecodableShape {
-        /// The environment detail data that's returned by AWS Proton.
+        /// The environment detail data that's returned by Proton.
         public let environment: Environment
 
         public init(environment: Environment) {
@@ -1550,7 +1807,7 @@ extension Proton {
     }
 
     public struct GetEnvironmentTemplateOutput: AWSDecodableShape {
-        /// The environment template detail data that's returned by AWS Proton.
+        /// The environment template detail data that's returned by Proton.
         public let environmentTemplate: EnvironmentTemplate
 
         public init(environmentTemplate: EnvironmentTemplate) {
@@ -1563,7 +1820,7 @@ extension Proton {
     }
 
     public struct GetEnvironmentTemplateVersionInput: AWSEncodableShape {
-        /// To view environment template major version detail data, include majorVersion.
+        /// To view environment template major version detail data, include major Version.
         public let majorVersion: String
         /// To view environment template minor version detail data, include minorVersion.
         public let minorVersion: String
@@ -1596,7 +1853,7 @@ extension Proton {
     }
 
     public struct GetEnvironmentTemplateVersionOutput: AWSDecodableShape {
-        /// The environment template version detail data that's returned by AWS Proton.
+        /// The environment template version detail data that's returned by Proton.
         public let environmentTemplateVersion: EnvironmentTemplateVersion
 
         public init(environmentTemplateVersion: EnvironmentTemplateVersion) {
@@ -1605,6 +1862,88 @@ extension Proton {
 
         private enum CodingKeys: String, CodingKey {
             case environmentTemplateVersion
+        }
+    }
+
+    public struct GetRepositoryInput: AWSEncodableShape {
+        /// The repository name, for example myrepos/myrepo.
+        public let name: String
+        /// The repository provider.
+        public let provider: RepositoryProvider
+
+        public init(name: String, provider: RepositoryProvider) {
+            self.name = name
+            self.provider = provider
+        }
+
+        public func validate(name: String) throws {
+            try self.validate(self.name, name: "name", parent: name, max: 100)
+            try self.validate(self.name, name: "name", parent: name, min: 1)
+            try self.validate(self.name, name: "name", parent: name, pattern: "[A-Za-z0-9_.-].*/[A-Za-z0-9_.-].*")
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case name
+            case provider
+        }
+    }
+
+    public struct GetRepositoryOutput: AWSDecodableShape {
+        /// The repository detail data that's returned by Proton.
+        public let repository: Repository
+
+        public init(repository: Repository) {
+            self.repository = repository
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case repository
+        }
+    }
+
+    public struct GetRepositorySyncStatusInput: AWSEncodableShape {
+        /// The repository branch.
+        public let branch: String
+        /// The repository name.
+        public let repositoryName: String
+        /// The repository provider.
+        public let repositoryProvider: RepositoryProvider
+        /// The repository sync type.
+        public let syncType: SyncType
+
+        public init(branch: String, repositoryName: String, repositoryProvider: RepositoryProvider, syncType: SyncType) {
+            self.branch = branch
+            self.repositoryName = repositoryName
+            self.repositoryProvider = repositoryProvider
+            self.syncType = syncType
+        }
+
+        public func validate(name: String) throws {
+            try self.validate(self.branch, name: "branch", parent: name, max: 200)
+            try self.validate(self.branch, name: "branch", parent: name, min: 1)
+            try self.validate(self.repositoryName, name: "repositoryName", parent: name, max: 100)
+            try self.validate(self.repositoryName, name: "repositoryName", parent: name, min: 1)
+            try self.validate(self.repositoryName, name: "repositoryName", parent: name, pattern: "[A-Za-z0-9_.-].*/[A-Za-z0-9_.-].*")
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case branch
+            case repositoryName
+            case repositoryProvider
+            case syncType
+        }
+    }
+
+    public struct GetRepositorySyncStatusOutput: AWSDecodableShape {
+        /// The repository sync status detail data that's returned by Proton.
+        public let latestSync: RepositorySyncAttempt?
+
+        public init(latestSync: RepositorySyncAttempt? = nil) {
+            self.latestSync = latestSync
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case latestSync
         }
     }
 
@@ -1654,7 +1993,7 @@ extension Proton {
     }
 
     public struct GetServiceInstanceOutput: AWSDecodableShape {
-        /// The service instance detail data that's returned by AWS Proton.
+        /// The service instance detail data that's returned by Proton.
         public let serviceInstance: ServiceInstance
 
         public init(serviceInstance: ServiceInstance) {
@@ -1667,7 +2006,7 @@ extension Proton {
     }
 
     public struct GetServiceOutput: AWSDecodableShape {
-        /// The service detail data that's returned by AWS Proton.
+        /// The service detail data that's returned by Proton.
         public let service: Service?
 
         public init(service: Service? = nil) {
@@ -1699,7 +2038,7 @@ extension Proton {
     }
 
     public struct GetServiceTemplateOutput: AWSDecodableShape {
-        /// The service template detail data that's returned by AWS Proton.
+        /// The service template detail data that's returned by Proton.
         public let serviceTemplate: ServiceTemplate
 
         public init(serviceTemplate: ServiceTemplate) {
@@ -1712,7 +2051,7 @@ extension Proton {
     }
 
     public struct GetServiceTemplateVersionInput: AWSEncodableShape {
-        /// To view service template major version detail data, include majorVersion.
+        /// To view service template major version detail data, include major Version.
         public let majorVersion: String
         /// To view service template minor version detail data, include minorVersion.
         public let minorVersion: String
@@ -1745,7 +2084,7 @@ extension Proton {
     }
 
     public struct GetServiceTemplateVersionOutput: AWSDecodableShape {
-        /// The service template version detail data that's returned by AWS Proton.
+        /// The service template version detail data that's returned by Proton.
         public let serviceTemplateVersion: ServiceTemplateVersion
 
         public init(serviceTemplateVersion: ServiceTemplateVersion) {
@@ -1754,6 +2093,93 @@ extension Proton {
 
         private enum CodingKeys: String, CodingKey {
             case serviceTemplateVersion
+        }
+    }
+
+    public struct GetTemplateSyncConfigInput: AWSEncodableShape {
+        /// The template name.
+        public let templateName: String
+        /// The template type.
+        public let templateType: TemplateType
+
+        public init(templateName: String, templateType: TemplateType) {
+            self.templateName = templateName
+            self.templateType = templateType
+        }
+
+        public func validate(name: String) throws {
+            try self.validate(self.templateName, name: "templateName", parent: name, max: 100)
+            try self.validate(self.templateName, name: "templateName", parent: name, min: 1)
+            try self.validate(self.templateName, name: "templateName", parent: name, pattern: "^[0-9A-Za-z]+[0-9A-Za-z_\\-]*$")
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case templateName
+            case templateType
+        }
+    }
+
+    public struct GetTemplateSyncConfigOutput: AWSDecodableShape {
+        /// The template sync configuration detail data that's returned by Proton.
+        public let templateSyncConfig: TemplateSyncConfig?
+
+        public init(templateSyncConfig: TemplateSyncConfig? = nil) {
+            self.templateSyncConfig = templateSyncConfig
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case templateSyncConfig
+        }
+    }
+
+    public struct GetTemplateSyncStatusInput: AWSEncodableShape {
+        /// The template name.
+        public let templateName: String
+        /// The template type.
+        public let templateType: TemplateType
+        /// The template version.
+        public let templateVersion: String
+
+        public init(templateName: String, templateType: TemplateType, templateVersion: String) {
+            self.templateName = templateName
+            self.templateType = templateType
+            self.templateVersion = templateVersion
+        }
+
+        public func validate(name: String) throws {
+            try self.validate(self.templateName, name: "templateName", parent: name, max: 100)
+            try self.validate(self.templateName, name: "templateName", parent: name, min: 1)
+            try self.validate(self.templateName, name: "templateName", parent: name, pattern: "^[0-9A-Za-z]+[0-9A-Za-z_\\-]*$")
+            try self.validate(self.templateVersion, name: "templateVersion", parent: name, max: 20)
+            try self.validate(self.templateVersion, name: "templateVersion", parent: name, min: 1)
+            try self.validate(self.templateVersion, name: "templateVersion", parent: name, pattern: "^(0|([1-9]{1}\\d*))$")
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case templateName
+            case templateType
+            case templateVersion
+        }
+    }
+
+    public struct GetTemplateSyncStatusOutput: AWSDecodableShape {
+        /// The template sync desired state that's returned by Proton.
+        public let desiredState: Revision?
+        /// The details of the last successful sync that's returned by Proton.
+        public let latestSuccessfulSync: ResourceSyncAttempt?
+        /// The details of the last sync that's returned by Proton.
+        public let latestSync: ResourceSyncAttempt?
+
+        public init(desiredState: Revision? = nil, latestSuccessfulSync: ResourceSyncAttempt? = nil, latestSync: ResourceSyncAttempt? = nil) {
+            self.desiredState = desiredState
+            self.latestSuccessfulSync = latestSuccessfulSync
+            self.latestSync = latestSync
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case desiredState
+            case latestSuccessfulSync
+            case latestSync
         }
     }
 
@@ -1796,7 +2222,7 @@ extension Proton {
     }
 
     public struct ListEnvironmentAccountConnectionsOutput: AWSDecodableShape {
-        /// An array of environment account connections with details that's returned by AWS Proton.
+        /// An array of environment account connections with details that's returned by Proton.
         public let environmentAccountConnections: [EnvironmentAccountConnectionSummary]
         /// A token to indicate the location of the next environment account connection in the array of environment account connections, after the current requested list of environment account connections.
         public let nextToken: String?
@@ -1812,8 +2238,90 @@ extension Proton {
         }
     }
 
+    public struct ListEnvironmentOutputsInput: AWSEncodableShape {
+        /// The environment name.
+        public let environmentName: String
+        /// A token to indicate the location of the next environment output in the array of environment outputs, after the list of environment outputs that was previously requested.
+        public let nextToken: String?
+
+        public init(environmentName: String, nextToken: String? = nil) {
+            self.environmentName = environmentName
+            self.nextToken = nextToken
+        }
+
+        public func validate(name: String) throws {
+            try self.validate(self.environmentName, name: "environmentName", parent: name, max: 100)
+            try self.validate(self.environmentName, name: "environmentName", parent: name, min: 1)
+            try self.validate(self.environmentName, name: "environmentName", parent: name, pattern: "^[0-9A-Za-z]+[0-9A-Za-z_\\-]*$")
+            try self.validate(self.nextToken, name: "nextToken", parent: name, max: 0)
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case environmentName
+            case nextToken
+        }
+    }
+
+    public struct ListEnvironmentOutputsOutput: AWSDecodableShape {
+        /// A token to indicate the location of the next environment output in the array of environment outputs, after the current requested list of environment outputs.
+        public let nextToken: String?
+        /// An array of environment outputs with detail data.
+        public let outputs: [Output]
+
+        public init(nextToken: String? = nil, outputs: [Output]) {
+            self.nextToken = nextToken
+            self.outputs = outputs
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case nextToken
+            case outputs
+        }
+    }
+
+    public struct ListEnvironmentProvisionedResourcesInput: AWSEncodableShape {
+        /// The environment name.
+        public let environmentName: String
+        /// A token to indicate the location of the next environment provisioned resource in the array of environment provisioned resources, after the list of environment provisioned resources that was previously requested.
+        public let nextToken: String?
+
+        public init(environmentName: String, nextToken: String? = nil) {
+            self.environmentName = environmentName
+            self.nextToken = nextToken
+        }
+
+        public func validate(name: String) throws {
+            try self.validate(self.environmentName, name: "environmentName", parent: name, max: 100)
+            try self.validate(self.environmentName, name: "environmentName", parent: name, min: 1)
+            try self.validate(self.environmentName, name: "environmentName", parent: name, pattern: "^[0-9A-Za-z]+[0-9A-Za-z_\\-]*$")
+            try self.validate(self.nextToken, name: "nextToken", parent: name, max: 0)
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case environmentName
+            case nextToken
+        }
+    }
+
+    public struct ListEnvironmentProvisionedResourcesOutput: AWSDecodableShape {
+        /// A token to indicate the location of the next environment provisioned resource in the array of provisioned resources, after the current requested list of environment provisioned resources.
+        public let nextToken: String?
+        /// An array of environment provisioned resources.
+        public let provisionedResources: [ProvisionedResource]
+
+        public init(nextToken: String? = nil, provisionedResources: [ProvisionedResource]) {
+            self.nextToken = nextToken
+            self.provisionedResources = provisionedResources
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case nextToken
+            case provisionedResources
+        }
+    }
+
     public struct ListEnvironmentTemplateVersionsInput: AWSEncodableShape {
-        /// To view a list of minor of versions under a major version of an environment template, include majorVersion. To view a list of major versions of an environment template, exclude majorVersion.
+        /// To view a list of minor of versions under a major version of an environment template, include major Version. To view a list of major versions of an environment template, exclude major Version.
         public let majorVersion: String?
         /// The maximum number of major or minor versions of an environment template to list.
         public let maxResults: Int?
@@ -1953,6 +2461,191 @@ extension Proton {
         }
     }
 
+    public struct ListRepositoriesInput: AWSEncodableShape {
+        /// The maximum number of repositories to list.
+        public let maxResults: Int?
+        /// A token to indicate the location of the next repository in the array of repositories, after the list of repositories previously requested.
+        public let nextToken: String?
+
+        public init(maxResults: Int? = nil, nextToken: String? = nil) {
+            self.maxResults = maxResults
+            self.nextToken = nextToken
+        }
+
+        public func validate(name: String) throws {
+            try self.validate(self.maxResults, name: "maxResults", parent: name, max: 100)
+            try self.validate(self.maxResults, name: "maxResults", parent: name, min: 1)
+            try self.validate(self.nextToken, name: "nextToken", parent: name, pattern: "^[A-Za-z0-9+=/]+$")
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case maxResults
+            case nextToken
+        }
+    }
+
+    public struct ListRepositoriesOutput: AWSDecodableShape {
+        /// A token to indicate the location of the next repository in the array of repositories, after the current requested list of repositories.
+        public let nextToken: String?
+        /// An array of repositories.
+        public let repositories: [RepositorySummary]
+
+        public init(nextToken: String? = nil, repositories: [RepositorySummary]) {
+            self.nextToken = nextToken
+            self.repositories = repositories
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case nextToken
+            case repositories
+        }
+    }
+
+    public struct ListRepositorySyncDefinitionsInput: AWSEncodableShape {
+        /// A token to indicate the location of the next repository sync definition in the array of repository sync definitions, after the list of repository sync definitions previously requested.
+        public let nextToken: String?
+        /// The repository name.
+        public let repositoryName: String
+        /// The repository provider.
+        public let repositoryProvider: RepositoryProvider
+        /// The sync type. The only supported value is TEMPLATE_SYNC.
+        public let syncType: SyncType
+
+        public init(nextToken: String? = nil, repositoryName: String, repositoryProvider: RepositoryProvider, syncType: SyncType) {
+            self.nextToken = nextToken
+            self.repositoryName = repositoryName
+            self.repositoryProvider = repositoryProvider
+            self.syncType = syncType
+        }
+
+        public func validate(name: String) throws {
+            try self.validate(self.nextToken, name: "nextToken", parent: name, max: 0)
+            try self.validate(self.repositoryName, name: "repositoryName", parent: name, max: 100)
+            try self.validate(self.repositoryName, name: "repositoryName", parent: name, min: 1)
+            try self.validate(self.repositoryName, name: "repositoryName", parent: name, pattern: "[A-Za-z0-9_.-].*/[A-Za-z0-9_.-].*")
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case nextToken
+            case repositoryName
+            case repositoryProvider
+            case syncType
+        }
+    }
+
+    public struct ListRepositorySyncDefinitionsOutput: AWSDecodableShape {
+        /// A token to indicate the location of the next repository sync definition in the array of repository sync definitions, after the current requested list of repository sync definitions.
+        public let nextToken: String?
+        /// An array of repository sync definitions.
+        public let syncDefinitions: [RepositorySyncDefinition]
+
+        public init(nextToken: String? = nil, syncDefinitions: [RepositorySyncDefinition]) {
+            self.nextToken = nextToken
+            self.syncDefinitions = syncDefinitions
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case nextToken
+            case syncDefinitions
+        }
+    }
+
+    public struct ListServiceInstanceOutputsInput: AWSEncodableShape {
+        /// A token to indicate the location of the next output in the array of outputs, after the list of outputs that was previously requested.
+        public let nextToken: String?
+        /// The service instance name.
+        public let serviceInstanceName: String
+        /// The service name.
+        public let serviceName: String
+
+        public init(nextToken: String? = nil, serviceInstanceName: String, serviceName: String) {
+            self.nextToken = nextToken
+            self.serviceInstanceName = serviceInstanceName
+            self.serviceName = serviceName
+        }
+
+        public func validate(name: String) throws {
+            try self.validate(self.nextToken, name: "nextToken", parent: name, max: 0)
+            try self.validate(self.serviceInstanceName, name: "serviceInstanceName", parent: name, max: 100)
+            try self.validate(self.serviceInstanceName, name: "serviceInstanceName", parent: name, min: 1)
+            try self.validate(self.serviceInstanceName, name: "serviceInstanceName", parent: name, pattern: "^[0-9A-Za-z]+[0-9A-Za-z_\\-]*$")
+            try self.validate(self.serviceName, name: "serviceName", parent: name, max: 100)
+            try self.validate(self.serviceName, name: "serviceName", parent: name, min: 1)
+            try self.validate(self.serviceName, name: "serviceName", parent: name, pattern: "^[0-9A-Za-z]+[0-9A-Za-z_\\-]*$")
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case nextToken
+            case serviceInstanceName
+            case serviceName
+        }
+    }
+
+    public struct ListServiceInstanceOutputsOutput: AWSDecodableShape {
+        /// A token to indicate the location of the next output in the array of outputs, after the current requested list of outputs.
+        public let nextToken: String?
+        /// An array of service instance infrastructure as code outputs.
+        public let outputs: [Output]
+
+        public init(nextToken: String? = nil, outputs: [Output]) {
+            self.nextToken = nextToken
+            self.outputs = outputs
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case nextToken
+            case outputs
+        }
+    }
+
+    public struct ListServiceInstanceProvisionedResourcesInput: AWSEncodableShape {
+        /// A token to indicate the location of the next provisioned resource in the array of provisioned resources, after the list of provisioned resources that was previously requested.
+        public let nextToken: String?
+        /// The service instance name.
+        public let serviceInstanceName: String
+        /// The service name.
+        public let serviceName: String
+
+        public init(nextToken: String? = nil, serviceInstanceName: String, serviceName: String) {
+            self.nextToken = nextToken
+            self.serviceInstanceName = serviceInstanceName
+            self.serviceName = serviceName
+        }
+
+        public func validate(name: String) throws {
+            try self.validate(self.nextToken, name: "nextToken", parent: name, max: 0)
+            try self.validate(self.serviceInstanceName, name: "serviceInstanceName", parent: name, max: 100)
+            try self.validate(self.serviceInstanceName, name: "serviceInstanceName", parent: name, min: 1)
+            try self.validate(self.serviceInstanceName, name: "serviceInstanceName", parent: name, pattern: "^[0-9A-Za-z]+[0-9A-Za-z_\\-]*$")
+            try self.validate(self.serviceName, name: "serviceName", parent: name, max: 100)
+            try self.validate(self.serviceName, name: "serviceName", parent: name, min: 1)
+            try self.validate(self.serviceName, name: "serviceName", parent: name, pattern: "^[0-9A-Za-z]+[0-9A-Za-z_\\-]*$")
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case nextToken
+            case serviceInstanceName
+            case serviceName
+        }
+    }
+
+    public struct ListServiceInstanceProvisionedResourcesOutput: AWSDecodableShape {
+        /// A token to indicate the location of the next provisioned resource in the array of provisioned resources, after the current requested list of provisioned resources.
+        public let nextToken: String?
+        /// An array of provisioned resources for a service instance.
+        public let provisionedResources: [ProvisionedResource]
+
+        public init(nextToken: String? = nil, provisionedResources: [ProvisionedResource]) {
+            self.nextToken = nextToken
+            self.provisionedResources = provisionedResources
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case nextToken
+            case provisionedResources
+        }
+    }
+
     public struct ListServiceInstancesInput: AWSEncodableShape {
         /// The maximum number of service instances to list.
         public let maxResults: Int?
@@ -2000,8 +2693,90 @@ extension Proton {
         }
     }
 
+    public struct ListServicePipelineOutputsInput: AWSEncodableShape {
+        /// A token to indicate the location of the next output in the array of outputs, after the list of outputs that was previously requested.
+        public let nextToken: String?
+        /// The service name.
+        public let serviceName: String
+
+        public init(nextToken: String? = nil, serviceName: String) {
+            self.nextToken = nextToken
+            self.serviceName = serviceName
+        }
+
+        public func validate(name: String) throws {
+            try self.validate(self.nextToken, name: "nextToken", parent: name, max: 0)
+            try self.validate(self.serviceName, name: "serviceName", parent: name, max: 100)
+            try self.validate(self.serviceName, name: "serviceName", parent: name, min: 1)
+            try self.validate(self.serviceName, name: "serviceName", parent: name, pattern: "^[0-9A-Za-z]+[0-9A-Za-z_\\-]*$")
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case nextToken
+            case serviceName
+        }
+    }
+
+    public struct ListServicePipelineOutputsOutput: AWSDecodableShape {
+        /// A token to indicate the location of the next output in the array of outputs, after the current requested list of outputs.
+        public let nextToken: String?
+        /// An array of outputs.
+        public let outputs: [Output]
+
+        public init(nextToken: String? = nil, outputs: [Output]) {
+            self.nextToken = nextToken
+            self.outputs = outputs
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case nextToken
+            case outputs
+        }
+    }
+
+    public struct ListServicePipelineProvisionedResourcesInput: AWSEncodableShape {
+        /// A token to indicate the location of the next provisioned resource in the array of provisioned resources, after the list of provisioned resources that was previously requested.
+        public let nextToken: String?
+        /// The service name.
+        public let serviceName: String
+
+        public init(nextToken: String? = nil, serviceName: String) {
+            self.nextToken = nextToken
+            self.serviceName = serviceName
+        }
+
+        public func validate(name: String) throws {
+            try self.validate(self.nextToken, name: "nextToken", parent: name, max: 0)
+            try self.validate(self.serviceName, name: "serviceName", parent: name, max: 100)
+            try self.validate(self.serviceName, name: "serviceName", parent: name, min: 1)
+            try self.validate(self.serviceName, name: "serviceName", parent: name, pattern: "^[0-9A-Za-z]+[0-9A-Za-z_\\-]*$")
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case nextToken
+            case serviceName
+        }
+    }
+
+    public struct ListServicePipelineProvisionedResourcesOutput: AWSDecodableShape {
+        /// A token to indicate the location of the next provisioned resource in the array of provisioned resources, after the current requested list of provisioned resources.
+        public let nextToken: String?
+        /// An array of provisioned resources for a service and pipeline.
+        public let provisionedResources: [ProvisionedResource]
+
+        public init(nextToken: String? = nil, provisionedResources: [ProvisionedResource]) {
+            self.nextToken = nextToken
+            self.provisionedResources = provisionedResources
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case nextToken
+            case provisionedResources
+        }
+    }
+
     public struct ListServiceTemplateVersionsInput: AWSEncodableShape {
-        /// To view a list of minor of versions under a major version of a service template, include majorVersion. To view a list of major versions of a service template, exclude majorVersion.
+        /// To view a list of minor of versions under a major version of a service template, include major Version. To view a list of major versions of a service template, exclude major Version.
         public let majorVersion: String?
         /// The maximum number of major or minor versions of a service template to list.
         public let maxResults: Int?
@@ -2038,7 +2813,7 @@ extension Proton {
     }
 
     public struct ListServiceTemplateVersionsOutput: AWSDecodableShape {
-        /// A token to indicate the location of the next major or minor version in the array of major or minor versions of a service template, after the list of major or minor versions that was previously requested.
+        /// A token to indicate the location of the next major or minor version in the array of major or minor versions of a service template, after the current requested list of service major or minor versions.
         public let nextToken: String?
         /// An array of major or minor versions of a service template with detail data.
         public let templateVersions: [ServiceTemplateVersionSummary]
@@ -2181,6 +2956,93 @@ extension Proton {
         }
     }
 
+    public struct NotifyResourceDeploymentStatusChangeInput: AWSEncodableShape {
+        /// The deployment ID for your provisioned resource.
+        public let deploymentId: String?
+        /// The provisioned resource state change detail data that's returned by Proton.
+        public let outputs: [Output]?
+        /// The provisioned resource Amazon Resource Name (ARN).
+        public let resourceArn: String
+        /// The status of your provisioned resource.
+        public let status: ResourceDeploymentStatus
+        /// The deployment status message for your provisioned resource.
+        public let statusMessage: String?
+
+        public init(deploymentId: String? = nil, outputs: [Output]? = nil, resourceArn: String, status: ResourceDeploymentStatus, statusMessage: String? = nil) {
+            self.deploymentId = deploymentId
+            self.outputs = outputs
+            self.resourceArn = resourceArn
+            self.status = status
+            self.statusMessage = statusMessage
+        }
+
+        public func validate(name: String) throws {
+            try self.validate(self.deploymentId, name: "deploymentId", parent: name, pattern: "^[0-9a-f]{8}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{12}$")
+            try self.outputs?.forEach {
+                try $0.validate(name: "\(name).outputs[]")
+            }
+            try self.validate(self.resourceArn, name: "resourceArn", parent: name, max: 200)
+            try self.validate(self.resourceArn, name: "resourceArn", parent: name, min: 1)
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case deploymentId
+            case outputs
+            case resourceArn
+            case status
+            case statusMessage
+        }
+    }
+
+    public struct NotifyResourceDeploymentStatusChangeOutput: AWSDecodableShape {
+        public init() {}
+    }
+
+    public struct Output: AWSEncodableShape & AWSDecodableShape {
+        /// The output key.
+        public let key: String?
+        /// The output value.
+        public let valueString: String?
+
+        public init(key: String? = nil, valueString: String? = nil) {
+            self.key = key
+            self.valueString = valueString
+        }
+
+        public func validate(name: String) throws {
+            try self.validate(self.key, name: "key", parent: name, max: 1024)
+            try self.validate(self.key, name: "key", parent: name, min: 1)
+            try self.validate(self.valueString, name: "valueString", parent: name, max: 1024)
+            try self.validate(self.valueString, name: "valueString", parent: name, min: 1)
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case key
+            case valueString
+        }
+    }
+
+    public struct ProvisionedResource: AWSDecodableShape {
+        /// The provisioned resource identifier.
+        public let identifier: String?
+        /// The provisioned resource name.
+        public let name: String?
+        /// The resource provisioning engine.  Provisioning by pull request is currently in feature preview and is only usable with Terraform based Proton Templates. To learn more about Amazon Web Services Feature Preview terms, see section 2 on Beta and Previews.
+        public let provisioningEngine: ProvisionedResourceEngine?
+
+        public init(identifier: String? = nil, name: String? = nil, provisioningEngine: ProvisionedResourceEngine? = nil) {
+            self.identifier = identifier
+            self.name = name
+            self.provisioningEngine = provisioningEngine
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case identifier
+            case name
+            case provisioningEngine
+        }
+    }
+
     public struct RejectEnvironmentAccountConnectionInput: AWSEncodableShape {
         /// The ID of the environment account connection to reject.
         public let id: String
@@ -2199,7 +3061,7 @@ extension Proton {
     }
 
     public struct RejectEnvironmentAccountConnectionOutput: AWSDecodableShape {
-        /// The environment connection account detail data that's returned by AWS Proton.
+        /// The environment connection account detail data that's returned by Proton.
         public let environmentAccountConnection: EnvironmentAccountConnection
 
         public init(environmentAccountConnection: EnvironmentAccountConnection) {
@@ -2208,6 +3070,268 @@ extension Proton {
 
         private enum CodingKeys: String, CodingKey {
             case environmentAccountConnection
+        }
+    }
+
+    public struct Repository: AWSDecodableShape {
+        /// The repository Amazon Resource Name (ARN).
+        public let arn: String
+        /// The repository Amazon Web Services CodeStar connection that connects Proton to your repository.
+        public let connectionArn: String
+        /// Your customer Amazon Web Services KMS encryption key.
+        public let encryptionKey: String?
+        /// The repository name.
+        public let name: String
+        /// The repository provider.
+        public let provider: RepositoryProvider
+
+        public init(arn: String, connectionArn: String, encryptionKey: String? = nil, name: String, provider: RepositoryProvider) {
+            self.arn = arn
+            self.connectionArn = connectionArn
+            self.encryptionKey = encryptionKey
+            self.name = name
+            self.provider = provider
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case arn
+            case connectionArn
+            case encryptionKey
+            case name
+            case provider
+        }
+    }
+
+    public struct RepositoryBranch: AWSDecodableShape {
+        /// The Amazon Resource Name (ARN) of the repository branch.
+        public let arn: String
+        /// The repository branch.
+        public let branch: String
+        /// The repository name.
+        public let name: String
+        /// The repository provider.
+        public let provider: RepositoryProvider
+
+        public init(arn: String, branch: String, name: String, provider: RepositoryProvider) {
+            self.arn = arn
+            self.branch = branch
+            self.name = name
+            self.provider = provider
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case arn
+            case branch
+            case name
+            case provider
+        }
+    }
+
+    public struct RepositoryBranchInput: AWSEncodableShape {
+        /// The repository branch.
+        public let branch: String
+        /// The repository name.
+        public let name: String
+        /// The repository provider.
+        public let provider: RepositoryProvider
+
+        public init(branch: String, name: String, provider: RepositoryProvider) {
+            self.branch = branch
+            self.name = name
+            self.provider = provider
+        }
+
+        public func validate(name: String) throws {
+            try self.validate(self.branch, name: "branch", parent: name, max: 200)
+            try self.validate(self.branch, name: "branch", parent: name, min: 1)
+            try self.validate(self.name, name: "name", parent: name, max: 100)
+            try self.validate(self.name, name: "name", parent: name, min: 1)
+            try self.validate(self.name, name: "name", parent: name, pattern: "[A-Za-z0-9_.-].*/[A-Za-z0-9_.-].*")
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case branch
+            case name
+            case provider
+        }
+    }
+
+    public struct RepositorySummary: AWSDecodableShape {
+        /// The Amazon Resource Name (ARN) for a repository.
+        public let arn: String
+        /// The repository name.
+        public let name: String
+        /// The repository provider.
+        public let provider: RepositoryProvider
+
+        public init(arn: String, name: String, provider: RepositoryProvider) {
+            self.arn = arn
+            self.name = name
+            self.provider = provider
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case arn
+            case name
+            case provider
+        }
+    }
+
+    public struct RepositorySyncAttempt: AWSDecodableShape {
+        /// Detail data for sync attempt events.
+        public let events: [RepositorySyncEvent]
+        /// The time when the sync attempt started.
+        public let startedAt: Date
+        /// The sync attempt status.
+        public let status: RepositorySyncStatus
+
+        public init(events: [RepositorySyncEvent], startedAt: Date, status: RepositorySyncStatus) {
+            self.events = events
+            self.startedAt = startedAt
+            self.status = status
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case events
+            case startedAt
+            case status
+        }
+    }
+
+    public struct RepositorySyncDefinition: AWSDecodableShape {
+        /// The repository branch.
+        public let branch: String
+        /// The directory in the repository.
+        public let directory: String
+        /// The resource that is synced from.
+        public let parent: String
+        /// The resource that is synced to.
+        public let target: String
+
+        public init(branch: String, directory: String, parent: String, target: String) {
+            self.branch = branch
+            self.directory = directory
+            self.parent = parent
+            self.target = target
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case branch
+            case directory
+            case parent
+            case target
+        }
+    }
+
+    public struct RepositorySyncEvent: AWSDecodableShape {
+        /// Event detail for a repository sync attempt.
+        public let event: String
+        /// The external ID of the sync event.
+        public let externalId: String?
+        /// The time that the sync event occurred.
+        public let time: Date
+        /// The type of event.
+        public let type: String
+
+        public init(event: String, externalId: String? = nil, time: Date, type: String) {
+            self.event = event
+            self.externalId = externalId
+            self.time = time
+            self.type = type
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case event
+            case externalId
+            case time
+            case type
+        }
+    }
+
+    public struct ResourceSyncAttempt: AWSDecodableShape {
+        /// An array of events with detail data.
+        public let events: [ResourceSyncEvent]
+        /// Detail data for the initial repository commit, path and push.
+        public let initialRevision: Revision
+        /// The time when the sync attempt started.
+        public let startedAt: Date
+        /// The status of the sync attempt.
+        public let status: ResourceSyncStatus
+        /// The resource that is synced to.
+        public let target: String
+        /// Detail data for the target revision.
+        public let targetRevision: Revision
+
+        public init(events: [ResourceSyncEvent], initialRevision: Revision, startedAt: Date, status: ResourceSyncStatus, target: String, targetRevision: Revision) {
+            self.events = events
+            self.initialRevision = initialRevision
+            self.startedAt = startedAt
+            self.status = status
+            self.target = target
+            self.targetRevision = targetRevision
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case events
+            case initialRevision
+            case startedAt
+            case status
+            case target
+            case targetRevision
+        }
+    }
+
+    public struct ResourceSyncEvent: AWSDecodableShape {
+        /// A resource sync event.
+        public let event: String
+        /// The external ID for the event.
+        public let externalId: String?
+        /// The time when the event occurred.
+        public let time: Date
+        /// The type of event.
+        public let type: String
+
+        public init(event: String, externalId: String? = nil, time: Date, type: String) {
+            self.event = event
+            self.externalId = externalId
+            self.time = time
+            self.type = type
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case event
+            case externalId
+            case time
+            case type
+        }
+    }
+
+    public struct Revision: AWSDecodableShape {
+        /// The repository branch.
+        public let branch: String
+        /// The repository directory changed by a commit and push that activated the sync attempt.
+        public let directory: String
+        /// The repository name.
+        public let repositoryName: String
+        /// The repository provider.
+        public let repositoryProvider: RepositoryProvider
+        /// The secure hash algorithm (SHA) hash for the revision.
+        public let sha: String
+
+        public init(branch: String, directory: String, repositoryName: String, repositoryProvider: RepositoryProvider, sha: String) {
+            self.branch = branch
+            self.directory = directory
+            self.repositoryName = repositoryName
+            self.repositoryProvider = repositoryProvider
+            self.sha = sha
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case branch
+            case directory
+            case repositoryName
+            case repositoryProvider
+            case sha
         }
     }
 
@@ -2239,7 +3363,7 @@ extension Proton {
     public struct Service: AWSDecodableShape {
         /// The Amazon Resource Name (ARN) of the service.
         public let arn: String
-        /// The name of the code repository branch that holds the code that's deployed in AWS Proton.
+        /// The name of the code repository branch that holds the code that's deployed in Proton.
         public let branchName: String?
         /// The time when the service was created.
         public let createdAt: Date
@@ -2251,9 +3375,9 @@ extension Proton {
         public let name: String
         /// The service pipeline detail data.
         public let pipeline: ServicePipeline?
-        /// The Amazon Resource Name (ARN) of the repository connection. For more information, see Set up a repository connection in the AWS Proton Administrator Guide and Setting up with AWS Proton in the AWS Proton User Guide.
+        /// The Amazon Resource Name (ARN) of the repository connection. For more information, see Set up a repository connection in the Proton Administrator Guide and Setting up with Proton in the Proton User Guide.
         public let repositoryConnectionArn: String?
-        /// The ID of the code repository.
+        /// The ID of the source code repository.
         public let repositoryId: String?
         /// The formatted specification that defines the service.
         public let spec: String
@@ -2318,9 +3442,9 @@ extension Proton {
         public let serviceName: String
         /// The service spec that was used to create the service instance.
         public let spec: String?
-        /// The ID of the major version of the service template that was used to create the service instance.
+        /// The major version of the service template that was used to create the service instance.
         public let templateMajorVersion: String
-        /// The ID of the minor version of the service template that was used to create the service instance.
+        /// The minor version of the service template that was used to create the service instance.
         public let templateMinorVersion: String
         /// The name of the service template that was used to create the service instance.
         public let templateName: String
@@ -2377,9 +3501,9 @@ extension Proton {
         public let name: String
         /// The name of the service that the service instance belongs to.
         public let serviceName: String
-        /// The ID of the major version of a service template.
+        /// The service instance template major version.
         public let templateMajorVersion: String
-        /// The ID of the minor version of a service template.
+        /// The service instance template minor version.
         public let templateMinorVersion: String
         /// The name of the service template.
         public let templateName: String
@@ -2430,9 +3554,9 @@ extension Proton {
         public let lastDeploymentSucceededAt: Date
         /// The service spec that was used to create the service pipeline.
         public let spec: String?
-        /// The ID of the major version of the service template that was used to create the service pipeline.
+        /// The major version of the service template that was used to create the service pipeline.
         public let templateMajorVersion: String
-        /// The ID of the minor version of the service template that was used to create the service pipeline.
+        /// The minor version of the service template that was used to create the service pipeline.
         public let templateMinorVersion: String
         /// The name of the service template that was used to create the service pipeline.
         public let templateName: String
@@ -2522,7 +3646,7 @@ extension Proton {
         public let name: String
         /// If pipelineProvisioning is true, a service pipeline is included in the service template. Otherwise, a service pipeline isn't included in the service template.
         public let pipelineProvisioning: Provisioning?
-        /// The ID of the recommended version of the service template.
+        /// The recommended version of the service template.
         public let recommendedVersion: String?
 
         public init(arn: String, createdAt: Date, description: String? = nil, displayName: String? = nil, encryptionKey: String? = nil, lastModifiedAt: Date, name: String, pipelineProvisioning: Provisioning? = nil, recommendedVersion: String? = nil) {
@@ -2565,7 +3689,7 @@ extension Proton {
         public let name: String
         /// If pipelineProvisioning is true, a service pipeline is included in the service template, otherwise a service pipeline isn't included in the service template.
         public let pipelineProvisioning: Provisioning?
-        /// The ID of the recommended version of the service template.
+        /// The recommended version of the service template.
         public let recommendedVersion: String?
 
         public init(arn: String, createdAt: Date, description: String? = nil, displayName: String? = nil, lastModifiedAt: Date, name: String, pipelineProvisioning: Provisioning? = nil, recommendedVersion: String? = nil) {
@@ -2602,11 +3726,11 @@ extension Proton {
         public let description: String?
         /// The time when the version of a service template was last modified.
         public let lastModifiedAt: Date
-        /// The ID of the latest major version that's associated with the version of a service template.
+        /// The latest major version that's associated with the version of a service template.
         public let majorVersion: String
-        /// The ID of the minor version of a service template.
+        /// The minor version of a service template.
         public let minorVersion: String
-        /// The ID of the recommended minor version of the service template.
+        /// The recommended minor version of the service template.
         public let recommendedMinorVersion: String?
         /// The schema of the version of a service template.
         public let schema: String?
@@ -2657,11 +3781,11 @@ extension Proton {
         public let description: String?
         /// The time when the version of a service template was last modified.
         public let lastModifiedAt: Date
-        /// The ID of the latest major version that's associated with the version of a service template.
+        /// The latest major version that's associated with the version of a service template.
         public let majorVersion: String
-        /// The ID of the minor version of a service template.
+        /// The minor version of a service template.
         public let minorVersion: String
-        /// The ID of the recommended minor version of the service template.
+        /// The recommended minor version of the service template.
         public let recommendedMinorVersion: String?
         /// The service template minor version status.
         public let status: TemplateVersionStatus
@@ -2753,6 +3877,39 @@ extension Proton {
         public init() {}
     }
 
+    public struct TemplateSyncConfig: AWSDecodableShape {
+        /// The repository branch.
+        public let branch: String
+        /// The name of the repository, for example myrepos/myrepo.
+        public let repositoryName: String
+        /// The repository provider.
+        public let repositoryProvider: RepositoryProvider
+        /// A subdirectory path to your template bundle version.
+        public let subdirectory: String?
+        /// The template name.
+        public let templateName: String
+        /// The template type.
+        public let templateType: TemplateType
+
+        public init(branch: String, repositoryName: String, repositoryProvider: RepositoryProvider, subdirectory: String? = nil, templateName: String, templateType: TemplateType) {
+            self.branch = branch
+            self.repositoryName = repositoryName
+            self.repositoryProvider = repositoryProvider
+            self.subdirectory = subdirectory
+            self.templateName = templateName
+            self.templateType = templateType
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case branch
+            case repositoryName
+            case repositoryProvider
+            case subdirectory
+            case templateName
+            case templateType
+        }
+    }
+
     public struct UntagResourceInput: AWSEncodableShape {
         public static var _encoding = [
             AWSMemberEncoding(label: "resourceArn", location: .querystring("resourceArn"))
@@ -2788,25 +3945,30 @@ extension Proton {
     }
 
     public struct UpdateAccountSettingsInput: AWSEncodableShape {
-        /// The Amazon Resource Name (ARN) of the AWS Proton pipeline service role.
+        /// The repository that you provide with pull request provisioning.   Provisioning by pull request is currently in feature preview and is only usable with Terraform based Proton Templates. To learn more about Amazon Web Services Feature Preview terms, see section 2 on Beta and Previews.
+        public let pipelineProvisioningRepository: RepositoryBranchInput?
+        /// The Amazon Resource Name (ARN) of the Proton pipeline service role.  Provisioning by pull request is currently in feature preview and is only usable with Terraform based Proton Templates. To learn more about Amazon Web Services Feature Preview terms, see section 2 on Beta and Previews.
         public let pipelineServiceRoleArn: String?
 
-        public init(pipelineServiceRoleArn: String? = nil) {
+        public init(pipelineProvisioningRepository: RepositoryBranchInput? = nil, pipelineServiceRoleArn: String? = nil) {
+            self.pipelineProvisioningRepository = pipelineProvisioningRepository
             self.pipelineServiceRoleArn = pipelineServiceRoleArn
         }
 
         public func validate(name: String) throws {
-            try self.validate(self.pipelineServiceRoleArn, name: "pipelineServiceRoleArn", parent: name, max: 200)
-            try self.validate(self.pipelineServiceRoleArn, name: "pipelineServiceRoleArn", parent: name, min: 1)
+            try self.pipelineProvisioningRepository?.validate(name: "\(name).pipelineProvisioningRepository")
+            try self.validate(self.pipelineServiceRoleArn, name: "pipelineServiceRoleArn", parent: name, max: 2048)
+            try self.validate(self.pipelineServiceRoleArn, name: "pipelineServiceRoleArn", parent: name, pattern: "(^$)|(^arn:[a-zA-Z-]+:[a-zA-Z0-9-]+:[a-zA-Z0-9-]*:\\d*:[\\w+=\\/:,\\.@-]*)")
         }
 
         private enum CodingKeys: String, CodingKey {
+            case pipelineProvisioningRepository
             case pipelineServiceRoleArn
         }
     }
 
     public struct UpdateAccountSettingsOutput: AWSDecodableShape {
-        /// The AWS Proton pipeline service role detail data that's returned by AWS Proton.
+        /// The Proton pipeline service role repository detail data that's returned by Proton.
         public let accountSettings: AccountSettings
 
         public init(accountSettings: AccountSettings) {
@@ -2842,7 +4004,7 @@ extension Proton {
     }
 
     public struct UpdateEnvironmentAccountConnectionOutput: AWSDecodableShape {
-        /// The environment account connection detail data that's returned by AWS Proton.
+        /// The environment account connection detail data that's returned by Proton.
         public let environmentAccountConnection: EnvironmentAccountConnection
 
         public init(environmentAccountConnection: EnvironmentAccountConnection) {
@@ -2863,21 +4025,24 @@ extension Proton {
         public let environmentAccountConnectionId: String?
         /// The name of the environment to update.
         public let name: String
-        /// The Amazon Resource Name (ARN) of the AWS Proton service role that allows AWS Proton to make API calls to other services your behalf.
+        /// The Amazon Resource Name (ARN) of the Proton service role that allows Proton to make API calls to other services your behalf.
         public let protonServiceRoleArn: String?
+        /// The repository that you provide with pull request provisioning.   Provisioning by pull request is currently in feature preview and is only usable with Terraform based Proton Templates. To learn more about Amazon Web Services Feature Preview terms, see section 2 on Beta and Previews.
+        public let provisioningRepository: RepositoryBranchInput?
         /// The formatted specification that defines the update.
         public let spec: String?
-        /// The ID of the major version of the environment to update.
+        /// The major version of the environment to update.
         public let templateMajorVersion: String?
-        /// The ID of the minor version of the environment to update.
+        /// The minor version of the environment to update.
         public let templateMinorVersion: String?
 
-        public init(deploymentType: DeploymentUpdateType, description: String? = nil, environmentAccountConnectionId: String? = nil, name: String, protonServiceRoleArn: String? = nil, spec: String? = nil, templateMajorVersion: String? = nil, templateMinorVersion: String? = nil) {
+        public init(deploymentType: DeploymentUpdateType, description: String? = nil, environmentAccountConnectionId: String? = nil, name: String, protonServiceRoleArn: String? = nil, provisioningRepository: RepositoryBranchInput? = nil, spec: String? = nil, templateMajorVersion: String? = nil, templateMinorVersion: String? = nil) {
             self.deploymentType = deploymentType
             self.description = description
             self.environmentAccountConnectionId = environmentAccountConnectionId
             self.name = name
             self.protonServiceRoleArn = protonServiceRoleArn
+            self.provisioningRepository = provisioningRepository
             self.spec = spec
             self.templateMajorVersion = templateMajorVersion
             self.templateMinorVersion = templateMinorVersion
@@ -2891,6 +4056,7 @@ extension Proton {
             try self.validate(self.name, name: "name", parent: name, pattern: "^[0-9A-Za-z]+[0-9A-Za-z_\\-]*$")
             try self.validate(self.protonServiceRoleArn, name: "protonServiceRoleArn", parent: name, max: 200)
             try self.validate(self.protonServiceRoleArn, name: "protonServiceRoleArn", parent: name, min: 1)
+            try self.provisioningRepository?.validate(name: "\(name).provisioningRepository")
             try self.validate(self.spec, name: "spec", parent: name, max: 51200)
             try self.validate(self.spec, name: "spec", parent: name, min: 1)
             try self.validate(self.templateMajorVersion, name: "templateMajorVersion", parent: name, max: 20)
@@ -2907,6 +4073,7 @@ extension Proton {
             case environmentAccountConnectionId
             case name
             case protonServiceRoleArn
+            case provisioningRepository
             case spec
             case templateMajorVersion
             case templateMinorVersion
@@ -2914,7 +4081,7 @@ extension Proton {
     }
 
     public struct UpdateEnvironmentOutput: AWSDecodableShape {
-        /// The environment detail data that's returned by AWS Proton.
+        /// The environment detail data that's returned by Proton.
         public let environment: Environment
 
         public init(environment: Environment) {
@@ -2957,7 +4124,7 @@ extension Proton {
     }
 
     public struct UpdateEnvironmentTemplateOutput: AWSDecodableShape {
-        /// The environment template detail data that's returned by AWS Proton.
+        /// The environment template detail data that's returned by Proton.
         public let environmentTemplate: EnvironmentTemplate
 
         public init(environmentTemplate: EnvironmentTemplate) {
@@ -2972,7 +4139,7 @@ extension Proton {
     public struct UpdateEnvironmentTemplateVersionInput: AWSEncodableShape {
         /// A description of environment template version to update.
         public let description: String?
-        /// To update a major version of an environment template, include majorVersion.
+        /// To update a major version of an environment template, include major Version.
         public let majorVersion: String
         /// To update a minor version of an environment template, include minorVersion.
         public let minorVersion: String
@@ -3012,7 +4179,7 @@ extension Proton {
     }
 
     public struct UpdateEnvironmentTemplateVersionOutput: AWSDecodableShape {
-        /// The environment template version detail data that's returned by AWS Proton.
+        /// The environment template version detail data that's returned by Proton.
         public let environmentTemplateVersion: EnvironmentTemplateVersion
 
         public init(environmentTemplateVersion: EnvironmentTemplateVersion) {
@@ -3029,7 +4196,7 @@ extension Proton {
         public let description: String?
         /// The name of the service to edit.
         public let name: String
-        /// Lists the service instances to add and the existing service instances to remain. Omit the existing service instances to delete from the list. Don't include edits to the existing service instances or pipeline. For more information, see Edit a service in the AWS Proton Administrator Guide or the AWS Proton User Guide.
+        /// Lists the service instances to add and the existing service instances to remain. Omit the existing service instances to delete from the list. Don't include edits to the existing service instances or pipeline. For more information, see Edit a service in the Proton Administrator Guide or the Proton User Guide.
         public let spec: String?
 
         public init(description: String? = nil, name: String, spec: String? = nil) {
@@ -3105,7 +4272,7 @@ extension Proton {
     }
 
     public struct UpdateServiceInstanceOutput: AWSDecodableShape {
-        /// The service instance summary data returned by AWS Proton.
+        /// The service instance summary data returned by Proton.
         public let serviceInstance: ServiceInstance
 
         public init(serviceInstance: ServiceInstance) {
@@ -3118,7 +4285,7 @@ extension Proton {
     }
 
     public struct UpdateServiceOutput: AWSDecodableShape {
-        /// The service detail data that's returned by AWS Proton.
+        /// The service detail data that's returned by Proton.
         public let service: Service
 
         public init(service: Service) {
@@ -3174,7 +4341,7 @@ extension Proton {
     }
 
     public struct UpdateServicePipelineOutput: AWSDecodableShape {
-        /// The pipeline details returned by AWS Proton.
+        /// The pipeline details returned by Proton.
         public let pipeline: ServicePipeline
 
         public init(pipeline: ServicePipeline) {
@@ -3217,7 +4384,7 @@ extension Proton {
     }
 
     public struct UpdateServiceTemplateOutput: AWSDecodableShape {
-        /// The service template detail data that's returned by AWS Proton.
+        /// The service template detail data that's returned by Proton.
         public let serviceTemplate: ServiceTemplate
 
         public init(serviceTemplate: ServiceTemplate) {
@@ -3234,7 +4401,7 @@ extension Proton {
         public let compatibleEnvironmentTemplates: [CompatibleEnvironmentTemplateInput]?
         /// A description of a service template version to update.
         public let description: String?
-        /// To update a major version of a service template, include majorVersion.
+        /// To update a major version of a service template, include major Version.
         public let majorVersion: String
         /// To update a minor version of a service template, include minorVersion.
         public let minorVersion: String
@@ -3281,7 +4448,7 @@ extension Proton {
     }
 
     public struct UpdateServiceTemplateVersionOutput: AWSDecodableShape {
-        /// The service template version detail data that's returned by AWS Proton.
+        /// The service template version detail data that's returned by Proton.
         public let serviceTemplateVersion: ServiceTemplateVersion
 
         public init(serviceTemplateVersion: ServiceTemplateVersion) {
@@ -3290,6 +4457,65 @@ extension Proton {
 
         private enum CodingKeys: String, CodingKey {
             case serviceTemplateVersion
+        }
+    }
+
+    public struct UpdateTemplateSyncConfigInput: AWSEncodableShape {
+        /// The repository branch.
+        public let branch: String
+        /// The name of the repository, for example myrepos/myrepo.
+        public let repositoryName: String
+        /// The repository provider.
+        public let repositoryProvider: RepositoryProvider
+        /// A subdirectory path to your template bundle version. When included, limits the template bundle search to this repository directory.
+        public let subdirectory: String?
+        /// The synced template name.
+        public let templateName: String
+        /// The synced template type.
+        public let templateType: TemplateType
+
+        public init(branch: String, repositoryName: String, repositoryProvider: RepositoryProvider, subdirectory: String? = nil, templateName: String, templateType: TemplateType) {
+            self.branch = branch
+            self.repositoryName = repositoryName
+            self.repositoryProvider = repositoryProvider
+            self.subdirectory = subdirectory
+            self.templateName = templateName
+            self.templateType = templateType
+        }
+
+        public func validate(name: String) throws {
+            try self.validate(self.branch, name: "branch", parent: name, max: 200)
+            try self.validate(self.branch, name: "branch", parent: name, min: 1)
+            try self.validate(self.repositoryName, name: "repositoryName", parent: name, max: 100)
+            try self.validate(self.repositoryName, name: "repositoryName", parent: name, min: 1)
+            try self.validate(self.repositoryName, name: "repositoryName", parent: name, pattern: "[A-Za-z0-9_.-].*/[A-Za-z0-9_.-].*")
+            try self.validate(self.subdirectory, name: "subdirectory", parent: name, max: 4096)
+            try self.validate(self.subdirectory, name: "subdirectory", parent: name, min: 1)
+            try self.validate(self.templateName, name: "templateName", parent: name, max: 100)
+            try self.validate(self.templateName, name: "templateName", parent: name, min: 1)
+            try self.validate(self.templateName, name: "templateName", parent: name, pattern: "^[0-9A-Za-z]+[0-9A-Za-z_\\-]*$")
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case branch
+            case repositoryName
+            case repositoryProvider
+            case subdirectory
+            case templateName
+            case templateType
+        }
+    }
+
+    public struct UpdateTemplateSyncConfigOutput: AWSDecodableShape {
+        /// The template sync configuration detail data that's returned by Proton.
+        public let templateSyncConfig: TemplateSyncConfig?
+
+        public init(templateSyncConfig: TemplateSyncConfig? = nil) {
+            self.templateSyncConfig = templateSyncConfig
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case templateSyncConfig
         }
     }
 

@@ -990,7 +990,7 @@ extension CloudFormation {
         /// [Self-managed permissions] The names of one or more Amazon Web Services accounts that you want to create stack instances in the specified Region(s) for. You can specify Accounts or DeploymentTargets, but not both.
         @OptionalCustomCoding<StandardArrayCoder>
         public var accounts: [String]?
-        /// [Service-managed permissions] Specifies whether you are acting as an account administrator in the organization's management account or as a delegated administrator in a member account.  By default, SELF is specified. Use SELF for stack sets with self-managed permissions.   If you are signed in to the management account, specify SELF.   If you are signed in to a delegated administrator account, specify DELEGATED_ADMIN. Your Amazon Web Services account must be registered as a delegated administrator in the management account. For more information, see Register a delegated administrator in the CloudFormation User Guide.
+        /// [Service-managed permissions] Specifies whether you are acting as an account administrator in the organization's management account or as a delegated administrator in a member account. By default, SELF is specified. Use SELF for stack sets with self-managed permissions.   If you are signed in to the management account, specify SELF.   If you are signed in to a delegated administrator account, specify DELEGATED_ADMIN. Your Amazon Web Services account must be registered as a delegated administrator in the management account. For more information, see Register a delegated administrator in the CloudFormation User Guide.
         public let callAs: CallAs?
         /// [Service-managed permissions] The Organizations accounts for which to create stack instances in the specified Regions. You can specify Accounts or DeploymentTargets, but not both.
         public let deploymentTargets: DeploymentTargets?
@@ -2602,17 +2602,24 @@ extension CloudFormation {
         /// A unique, user defined, identifier for the stack set operation.
         public let operationId: String?
         public let operationPreferences: StackSetOperationPreferences?
-        /// The IDs of the stacks you are importing into a stack set. You import up to 10 stacks per stack set at a time.
-        @CustomCoding<StandardArrayCoder>
-        public var stackIds: [String]
+        /// The list of OU ID’s to which the stacks being imported has to be mapped as deployment target.
+        @OptionalCustomCoding<StandardArrayCoder>
+        public var organizationalUnitIds: [String]?
+        /// The IDs of the stacks you are importing into a stack set. You import up to 10 stacks per stack set at a time. Specify either StackIds or StackIdsUrl.
+        @OptionalCustomCoding<StandardArrayCoder>
+        public var stackIds: [String]?
+        /// The Amazon S3 URL which contains list of stack ids to be inputted. Specify either StackIds or StackIdsUrl.
+        public let stackIdsUrl: String?
         /// The name of the stack set. The name must be unique in the Region where you create your stack set.
         public let stackSetName: String
 
-        public init(callAs: CallAs? = nil, operationId: String? = ImportStacksToStackSetInput.idempotencyToken(), operationPreferences: StackSetOperationPreferences? = nil, stackIds: [String], stackSetName: String) {
+        public init(callAs: CallAs? = nil, operationId: String? = ImportStacksToStackSetInput.idempotencyToken(), operationPreferences: StackSetOperationPreferences? = nil, organizationalUnitIds: [String]? = nil, stackIds: [String]? = nil, stackIdsUrl: String? = nil, stackSetName: String) {
             self.callAs = callAs
             self.operationId = operationId
             self.operationPreferences = operationPreferences
+            self.organizationalUnitIds = organizationalUnitIds
             self.stackIds = stackIds
+            self.stackIdsUrl = stackIdsUrl
             self.stackSetName = stackSetName
         }
 
@@ -2621,6 +2628,12 @@ extension CloudFormation {
             try self.validate(self.operationId, name: "operationId", parent: name, min: 1)
             try self.validate(self.operationId, name: "operationId", parent: name, pattern: "^[a-zA-Z0-9][-a-zA-Z0-9]*$")
             try self.operationPreferences?.validate(name: "\(name).operationPreferences")
+            try self.organizationalUnitIds?.forEach {
+                try validate($0, name: "organizationalUnitIds[]", parent: name, pattern: "^(ou-[a-z0-9]{4,32}-[a-z0-9]{8,32}|r-[a-z0-9]{4,32})$")
+            }
+            try self.validate(self.stackIdsUrl, name: "stackIdsUrl", parent: name, max: 5120)
+            try self.validate(self.stackIdsUrl, name: "stackIdsUrl", parent: name, min: 1)
+            try self.validate(self.stackIdsUrl, name: "stackIdsUrl", parent: name, pattern: "^(s3://|http(s?)://).+$")
             try self.validate(self.stackSetName, name: "stackSetName", parent: name, pattern: "^[a-zA-Z][-a-zA-Z0-9]*(?::[a-zA-Z0-9]{8}-[a-zA-Z0-9]{4}-[a-zA-Z0-9]{4}-[a-zA-Z0-9]{4}-[a-zA-Z0-9]{12})?$")
         }
 
@@ -2628,7 +2641,9 @@ extension CloudFormation {
             case callAs = "CallAs"
             case operationId = "OperationId"
             case operationPreferences = "OperationPreferences"
+            case organizationalUnitIds = "OrganizationalUnitIds"
             case stackIds = "StackIds"
+            case stackIdsUrl = "StackIdsUrl"
             case stackSetName = "StackSetName"
         }
     }
@@ -3353,7 +3368,7 @@ extension CloudFormation {
         public let parameterKey: String?
         /// The input value associated with the parameter.
         public let parameterValue: String?
-        /// Read-only. The value that corresponds to a Systems Manager parameter key. This field is returned only for  SSM parameter types in the template.
+        /// Read-only. Read-only. The value that corresponds to a SSM parameter key. This field is returned only for  SSM parameter types in the template.
         public let resolvedValue: String?
         /// During a stack update, use the existing parameter value that the stack is using for a given parameter key. If you specify true, do not specify a parameter value.
         public let usePreviousValue: Bool?
@@ -3908,7 +3923,7 @@ extension CloudFormation {
     public struct RollbackTrigger: AWSEncodableShape & AWSDecodableShape {
         /// The Amazon Resource Name (ARN) of the rollback trigger. If a specified trigger is missing, the entire stack operation fails and is rolled back.
         public let arn: String
-        /// The resource type of the rollback trigger. Currently, AWS::CloudWatch::Alarm is the only supported resource type.
+        /// The resource type of the rollback trigger. Specify either AWS::CloudWatch::Alarm or AWS::CloudWatch::CompositeAlarm resource types.
         public let type: String
 
         public init(arn: String, type: String) {
@@ -5242,9 +5257,9 @@ extension CloudFormation {
     }
 
     public struct TypeFilters: AWSEncodableShape {
-        /// The category of extensions to return.    REGISTERED: Private extensions that have been registered for this account and region.    ACTIVATED: Public extensions that have been activated for this account and region.    THIRD-PARTY: Extensions available for use from publishers other than Amazon. This includes:   Private extensions registered in the account.   Public extensions from publishers other than Amazon, whether activated or not.      AWS-TYPES: Extensions available for use from Amazon.
+        /// The category of extensions to return.    REGISTERED: Private extensions that have been registered for this account and region.    ACTIVATED: Public extensions that have been activated for this account and region.    THIRD_PARTY: Extensions available for use from publishers other than Amazon. This includes:   Private extensions registered in the account.   Public extensions from publishers other than Amazon, whether activated or not.      AWS_TYPES: Extensions available for use from Amazon.
         public let category: Category?
-        /// The id of the publisher of the extension.  Extensions published by Amazon are not assigned a publisher ID. Use the AWS-TYPES category to specify a list of types published by Amazon.
+        /// The id of the publisher of the extension.  Extensions published by Amazon are not assigned a publisher ID. Use the AWS_TYPE category to specify a list of types published by Amazon.
         public let publisherId: String?
         /// A prefix to use as a filter for results.
         public let typeNamePrefix: String?

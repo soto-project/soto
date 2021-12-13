@@ -29,6 +29,7 @@ public struct IoTErrorType: AWSErrorType {
         case indexNotReadyException = "IndexNotReadyException"
         case internalException = "InternalException"
         case internalFailureException = "InternalFailureException"
+        case internalServerException = "InternalServerException"
         case invalidAggregationException = "InvalidAggregationException"
         case invalidQueryException = "InvalidQueryException"
         case invalidRequestException = "InvalidRequestException"
@@ -88,6 +89,8 @@ public struct IoTErrorType: AWSErrorType {
     public static var internalException: Self { .init(.internalException) }
     /// An unexpected error has occurred.
     public static var internalFailureException: Self { .init(.internalFailureException) }
+    /// Internal error from the service that indicates an unexpected error or that the service is unavailable.
+    public static var internalServerException: Self { .init(.internalServerException) }
     /// The aggregation is invalid.
     public static var invalidAggregationException: Self { .init(.invalidAggregationException) }
     /// The query is invalid.

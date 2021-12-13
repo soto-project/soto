@@ -77,6 +77,11 @@ extension Textract {
         public var description: String { return self.rawValue }
     }
 
+    public enum ValueType: String, CustomStringConvertible, Codable {
+        case date = "DATE"
+        public var description: String { return self.rawValue }
+    }
+
     // MARK: Shapes
 
     public struct AnalyzeDocumentRequest: AWSEncodableShape {
@@ -159,6 +164,68 @@ extension Textract {
         private enum CodingKeys: String, CodingKey {
             case documentMetadata = "DocumentMetadata"
             case expenseDocuments = "ExpenseDocuments"
+        }
+    }
+
+    public struct AnalyzeIDDetections: AWSDecodableShape {
+        /// The confidence score of the detected text.
+        public let confidence: Float?
+        /// Only returned for dates, returns the type of value detected and the date written in a more machine readable way.
+        public let normalizedValue: NormalizedValue?
+        /// Text of either the normalized field or value associated with it.
+        public let text: String
+
+        public init(confidence: Float? = nil, normalizedValue: NormalizedValue? = nil, text: String) {
+            self.confidence = confidence
+            self.normalizedValue = normalizedValue
+            self.text = text
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case confidence = "Confidence"
+            case normalizedValue = "NormalizedValue"
+            case text = "Text"
+        }
+    }
+
+    public struct AnalyzeIDRequest: AWSEncodableShape {
+        /// The document being passed to AnalyzeID.
+        public let documentPages: [Document]
+
+        public init(documentPages: [Document]) {
+            self.documentPages = documentPages
+        }
+
+        public func validate(name: String) throws {
+            try self.documentPages.forEach {
+                try $0.validate(name: "\(name).documentPages[]")
+            }
+            try self.validate(self.documentPages, name: "documentPages", parent: name, max: 2)
+            try self.validate(self.documentPages, name: "documentPages", parent: name, min: 1)
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case documentPages = "DocumentPages"
+        }
+    }
+
+    public struct AnalyzeIDResponse: AWSDecodableShape {
+        /// The version of the AnalyzeIdentity API being used to process documents.
+        public let analyzeIDModelVersion: String?
+        public let documentMetadata: DocumentMetadata?
+        /// The list of documents processed by AnalyzeID. Includes a number denoting their place in the list and the response structure for the document.
+        public let identityDocuments: [IdentityDocument]?
+
+        public init(analyzeIDModelVersion: String? = nil, documentMetadata: DocumentMetadata? = nil, identityDocuments: [IdentityDocument]? = nil) {
+            self.analyzeIDModelVersion = analyzeIDModelVersion
+            self.documentMetadata = documentMetadata
+            self.identityDocuments = identityDocuments
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case analyzeIDModelVersion = "AnalyzeIDModelVersion"
+            case documentMetadata = "DocumentMetadata"
+            case identityDocuments = "IdentityDocuments"
         }
     }
 
@@ -711,6 +778,38 @@ extension Textract {
         }
     }
 
+    public struct IdentityDocument: AWSDecodableShape {
+        /// Denotes the placement of a document in the IdentityDocument list. The first document is marked 1, the second 2 and so on.
+        public let documentIndex: Int?
+        /// The structure used to record information extracted from identity documents. Contains both normalized field and value of the extracted text.
+        public let identityDocumentFields: [IdentityDocumentField]?
+
+        public init(documentIndex: Int? = nil, identityDocumentFields: [IdentityDocumentField]? = nil) {
+            self.documentIndex = documentIndex
+            self.identityDocumentFields = identityDocumentFields
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case documentIndex = "DocumentIndex"
+            case identityDocumentFields = "IdentityDocumentFields"
+        }
+    }
+
+    public struct IdentityDocumentField: AWSDecodableShape {
+        public let type: AnalyzeIDDetections?
+        public let valueDetection: AnalyzeIDDetections?
+
+        public init(type: AnalyzeIDDetections? = nil, valueDetection: AnalyzeIDDetections? = nil) {
+            self.type = type
+            self.valueDetection = valueDetection
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case type = "Type"
+            case valueDetection = "ValueDetection"
+        }
+    }
+
     public struct LineItemFields: AWSDecodableShape {
         /// ExpenseFields used to show information from detected lines on a table.
         public let lineItemExpenseFields: [ExpenseField]?
@@ -738,6 +837,23 @@ extension Textract {
         private enum CodingKeys: String, CodingKey {
             case lineItemGroupIndex = "LineItemGroupIndex"
             case lineItems = "LineItems"
+        }
+    }
+
+    public struct NormalizedValue: AWSDecodableShape {
+        /// The value of the date, written as Year-Month-DayTHour:Minute:Second.
+        public let value: String?
+        /// The normalized type of the value detected. In this case, DATE.
+        public let valueType: ValueType?
+
+        public init(value: String? = nil, valueType: ValueType? = nil) {
+            self.value = value
+            self.valueType = valueType
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case value = "Value"
+            case valueType = "ValueType"
         }
     }
 

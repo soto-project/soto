@@ -60,6 +60,12 @@ extension ElastiCache {
         public var description: String { return self.rawValue }
     }
 
+    public enum DataTieringStatus: String, CustomStringConvertible, Codable {
+        case disabled
+        case enabled
+        public var description: String { return self.rawValue }
+    }
+
     public enum DestinationType: String, CustomStringConvertible, Codable {
         case cloudwatchLogs = "cloudwatch-logs"
         case kinesisFirehose = "kinesis-firehose"
@@ -344,7 +350,7 @@ extension ElastiCache {
         public let authTokenEnabled: Bool?
         /// The date the auth token was last modified
         public let authTokenLastModifiedDate: Date?
-        /// This parameter is currently disabled.
+        ///  If you are running Redis engine version 6.0 or later, set this parameter to yes if you want to opt-in to the next auto minor version upgrade campaign. This parameter is disabled for previous versions.
         public let autoMinorVersionUpgrade: Bool?
         /// The date and time when the cluster was created.
         public let cacheClusterCreateTime: Date?
@@ -360,8 +366,12 @@ extension ElastiCache {
         /// 			at lower cost when compared to their equivalent previous generation counterparts.
         /// 		         General purpose:
         /// 				             Current generation:
-        /// 					     						            M6g node types (available only for Redis engine version 5.0.6 onward and for Memcached engine version 1.5.16 onward).
-        /// 						               	 cache.m6g.large,
+        ///
+        ///
+        ///
+        ///
+        ///
+        /// 					                 M6g node types: (available only for Redis engine version 5.0.6 onward and for Memcached engine version 1.5.16 onward): 	cache.m6g.large,
         /// 							cache.m6g.xlarge,
         /// 							cache.m6g.2xlarge,
         /// 							cache.m6g.4xlarge,
@@ -375,7 +385,15 @@ extension ElastiCache {
         ///
         /// 						                For region availability, see Supported Node Types   					 					 					             M5 node types: 						              cache.m5.large, 						cache.m5.xlarge, 						cache.m5.2xlarge, 						cache.m5.4xlarge, 						cache.m5.12xlarge, 						cache.m5.24xlarge
         ///
-        /// 						                M4 node types: 						              cache.m4.large, 						cache.m4.xlarge, 						cache.m4.2xlarge, 						cache.m4.4xlarge, 						cache.m4.10xlarge  					             T3 node types:
+        /// 						                M4 node types: 						              cache.m4.large, 						cache.m4.xlarge, 						cache.m4.2xlarge, 						cache.m4.4xlarge, 						cache.m4.10xlarge
+        ///
+        /// 					                 T4g node types (available only for Redis engine version 5.0.6 onward and for Memcached engine version 1.5.16 onward):
+        /// 					        cache.t4g.micro,
+        /// 					        cache.t4g.small,
+        /// 					        cache.t4g.medium
+        ///
+        ///
+        /// 					                 T3 node types:
         /// 					                   cache.t3.micro,  						cache.t3.small, 						cache.t3.medium  								 						 				              T2 node types:
         /// 					                   cache.t2.micro,  						cache.t2.small, 						cache.t2.medium  						 						 						 						 						          Previous generation: (not recommended)
         /// 						                T1 node types:
@@ -392,9 +410,35 @@ extension ElastiCache {
         /// 						                Compute optimized:
         /// 				             Previous generation: (not recommended)
         /// 			                   C1 node types:
-        /// 			                     cache.c1.xlarge      Memory optimized:
+        /// 			                     cache.c1.xlarge      Memory optimized with data tiering:
+        /// 		               Current generation:
+        ///
+        /// 		                    R6gd node types (available only for Redis engine version 6.2 onward).
+        ///
+        ///
+        ///
+        ///
+        ///
+        ///
+        /// 		                      cache.r6gd.xlarge,
+        /// 		                    cache.r6gd.2xlarge,
+        /// 		                    cache.r6gd.4xlarge,
+        /// 		                    cache.r6gd.8xlarge,
+        /// 		                    cache.r6gd.12xlarge,
+        /// 		                    cache.r6gd.16xlarge
+        ///
+        ///
+        ///
+        ///
+        ///
+        ///
+        ///
+        ///
+        /// 		                    Memory optimized:
         /// 				             Current generation:
-        /// 											           R6g node types (available only for Redis engine version 5.0.6 onward and for Memcached engine version 1.5.16 onward).
+        ///
+        ///
+        /// 					                 R6g node types (available only for Redis engine version 5.0.6 onward and for Memcached engine version 1.5.16 onward).
         ///
         ///
         ///
@@ -558,7 +602,7 @@ extension ElastiCache {
         public let cacheEngineDescription: String?
         /// The description of the cache engine version.
         public let cacheEngineVersionDescription: String?
-        /// The name of the cache parameter group family associated with this cache engine. Valid values are:  memcached1.4 |  memcached1.5 |  memcached1.6 |  redis2.6 |  redis2.8 | redis3.2 | redis4.0 | redis5.0 |  redis6.x |
+        /// The name of the cache parameter group family associated with this cache engine. Valid values are:  memcached1.4 |  memcached1.5 |  memcached1.6 |  redis2.6 |  redis2.8 | redis3.2 | redis4.0 | redis5.0 |  redis6.0 |  redis6.2
         public let cacheParameterGroupFamily: String?
         /// The name of the cache engine.
         public let engine: String?
@@ -752,7 +796,7 @@ extension ElastiCache {
     public struct CacheParameterGroup: AWSDecodableShape {
         /// The ARN (Amazon Resource Name) of the cache parameter group.
         public let arn: String?
-        /// The name of the cache parameter group family that this cache parameter group is compatible with. Valid values are:  memcached1.4 |  memcached1.5 |  memcached1.6 |  redis2.6 |  redis2.8 | redis3.2 | redis4.0 | redis5.0 |  redis6.x |
+        /// The name of the cache parameter group family that this cache parameter group is compatible with. Valid values are:  memcached1.4 |  memcached1.5 |  memcached1.6 |  redis2.6 |  redis2.8 | redis3.2 | redis4.0 | redis5.0 |  redis6.0 |
         public let cacheParameterGroupFamily: String?
         /// The name of the cache parameter group.
         public let cacheParameterGroupName: String?
@@ -1115,7 +1159,7 @@ extension ElastiCache {
 
         ///  Reserved parameter.   The password used to access a password protected server. Password constraints:   Must be only printable ASCII characters.   Must be at least 16 characters and no more than 128 characters in length.   The only permitted printable special characters are !, &, #, $, ^, , and -. Other printable special characters cannot be used in the AUTH token.   For more information, see AUTH password at http://redis.io/commands/AUTH.
         public let authToken: String?
-        /// This parameter is currently disabled.
+        ///  If you are running Redis engine version 6.0 or later, set this parameter to yes if you want to opt-in to the next auto minor version upgrade campaign. This parameter is disabled for previous versions.
         public let autoMinorVersionUpgrade: Bool?
         /// Specifies whether the nodes in this Memcached cluster are created in a single Availability Zone or  created across multiple Availability Zones in the cluster's region. This parameter is only supported for Memcached clusters. If the AZMode and PreferredAvailabilityZones are not specified,  ElastiCache assumes single-az mode.
         public let azMode: AZMode?
@@ -1126,8 +1170,12 @@ extension ElastiCache {
         /// 			at lower cost when compared to their equivalent previous generation counterparts.
         /// 		         General purpose:
         /// 				             Current generation:
-        /// 					     						            M6g node types (available only for Redis engine version 5.0.6 onward and for Memcached engine version 1.5.16 onward).
-        /// 						               	 cache.m6g.large,
+        ///
+        ///
+        ///
+        /// 					                 M6g node types (available only for Redis engine version 5.0.6 onward and for Memcached engine version 1.5.16 onward):
+        ///
+        /// 					 	cache.m6g.large,
         /// 							cache.m6g.xlarge,
         /// 							cache.m6g.2xlarge,
         /// 							cache.m6g.4xlarge,
@@ -1141,7 +1189,15 @@ extension ElastiCache {
         ///
         /// 						                For region availability, see Supported Node Types   					 					 					             M5 node types: 						              cache.m5.large, 						cache.m5.xlarge, 						cache.m5.2xlarge, 						cache.m5.4xlarge, 						cache.m5.12xlarge, 						cache.m5.24xlarge
         ///
-        /// 						                M4 node types: 						              cache.m4.large, 						cache.m4.xlarge, 						cache.m4.2xlarge, 						cache.m4.4xlarge, 						cache.m4.10xlarge  					             T3 node types:
+        /// 						                M4 node types: 						              cache.m4.large, 						cache.m4.xlarge, 						cache.m4.2xlarge, 						cache.m4.4xlarge, 						cache.m4.10xlarge
+        /// 					                 T4g node types (available only for Redis engine version 5.0.6 onward and Memcached engine version 1.5.16 onward):
+        /// 					        cache.t4g.micro,
+        /// 					        cache.t4g.small,
+        /// 					        cache.t4g.medium
+        ///
+        ///
+        ///
+        /// 					                 T3 node types:
         /// 					                   cache.t3.micro,  						cache.t3.small, 						cache.t3.medium  								 						 				              T2 node types:
         /// 					                   cache.t2.micro,  						cache.t2.small, 						cache.t2.medium  						 						 						 						 						          Previous generation: (not recommended)
         /// 						                T1 node types:
@@ -1158,10 +1214,37 @@ extension ElastiCache {
         /// 						                Compute optimized:
         /// 				             Previous generation: (not recommended)
         /// 			                   C1 node types:
-        /// 			                     cache.c1.xlarge      Memory optimized:
-        /// 				             Current generation:
-        /// 											           R6g node types (available only for Redis engine version 5.0.6 onward and for Memcached engine version 1.5.16 onward).
+        /// 			                     cache.c1.xlarge      Memory optimized with data tiering:
+        /// 		               Current generation:
         ///
+        /// 		                    R6gd node types (available only for Redis engine version 6.2 onward).
+        ///
+        ///
+        ///
+        ///
+        ///
+        ///
+        /// 		                      cache.r6gd.xlarge,
+        /// 		                    cache.r6gd.2xlarge,
+        /// 		                    cache.r6gd.4xlarge,
+        /// 		                    cache.r6gd.8xlarge,
+        /// 		                    cache.r6gd.12xlarge,
+        /// 		                    cache.r6gd.16xlarge
+        ///
+        ///
+        ///
+        ///
+        ///
+        ///
+        ///
+        ///
+        /// 		                    Memory optimized:
+        /// 				             Current generation:
+        ///
+        ///
+        ///
+        ///
+        /// 											           R6g node types (available only for Redis engine version 5.0.6 onward and for Memcached engine version 1.5.16 onward).
         ///
         ///
         ///
@@ -1317,7 +1400,7 @@ extension ElastiCache {
     public struct CreateCacheParameterGroupMessage: AWSEncodableShape {
         public struct _TagsEncoding: ArrayCoderProperties { public static let member = "Tag" }
 
-        /// The name of the cache parameter group family that the cache parameter group can be used with. Valid values are:  memcached1.4 |  memcached1.5 |  memcached1.6 |  redis2.6 |  redis2.8 | redis3.2 | redis4.0 | redis5.0 |  redis6.x |
+        /// The name of the cache parameter group family that the cache parameter group can be used with. Valid values are:  memcached1.4 |  memcached1.5 |  memcached1.6 |  redis2.6 |  redis2.8 | redis3.2 | redis4.0 | redis5.0 |  redis6.0 |  redis6.2
         public let cacheParameterGroupFamily: String
         /// A user-specified name for the cache parameter group.
         public let cacheParameterGroupName: String
@@ -1480,15 +1563,20 @@ extension ElastiCache {
         public let authToken: String?
         /// Specifies whether a read-only replica is automatically promoted to read/write primary if the existing primary fails.   AutomaticFailoverEnabled must be enabled for Redis (cluster mode enabled) replication groups.  Default: false
         public let automaticFailoverEnabled: Bool?
-        /// This parameter is currently disabled.
+        ///  If you are running Redis engine version 6.0 or later, set this parameter to yes if you want to opt-in to the next auto minor version upgrade campaign. This parameter is disabled for previous versions.
         public let autoMinorVersionUpgrade: Bool?
         /// The compute and memory capacity of the nodes in the node group (shard).         The following node types are supported by ElastiCache.
         /// 				Generally speaking, the current generation types provide more memory and computational power
         /// 			at lower cost when compared to their equivalent previous generation counterparts.
         /// 		         General purpose:
         /// 				             Current generation:
-        /// 					     						            M6g node types (available only for Redis engine version 5.0.6 onward and for Memcached engine version 1.5.16 onward).
-        /// 						               	 cache.m6g.large,
+        ///
+        ///
+        ///
+        ///
+        ///
+        /// 					                 M6g node types (available only for Redis engine version 5.0.6 onward and for Memcached engine version 1.5.16 onward):
+        /// 						cache.m6g.large,
         /// 							cache.m6g.xlarge,
         /// 							cache.m6g.2xlarge,
         /// 							cache.m6g.4xlarge,
@@ -1502,7 +1590,14 @@ extension ElastiCache {
         ///
         /// 						                For region availability, see Supported Node Types   					 					 					             M5 node types: 						              cache.m5.large, 						cache.m5.xlarge, 						cache.m5.2xlarge, 						cache.m5.4xlarge, 						cache.m5.12xlarge, 						cache.m5.24xlarge
         ///
-        /// 						                M4 node types: 						              cache.m4.large, 						cache.m4.xlarge, 						cache.m4.2xlarge, 						cache.m4.4xlarge, 						cache.m4.10xlarge  					             T3 node types:
+        /// 						                M4 node types: 						              cache.m4.large, 						cache.m4.xlarge, 						cache.m4.2xlarge, 						cache.m4.4xlarge, 						cache.m4.10xlarge
+        ///
+        /// 					                 T4g node types (available only for Redis engine version 5.0.6 onward and Memcached engine version 1.5.16 onward):
+        /// 					        cache.t4g.micro,
+        /// 					        cache.t4g.small,
+        /// 					        cache.t4g.medium
+        ///
+        /// 					                 T3 node types:
         /// 					                   cache.t3.micro,  						cache.t3.small, 						cache.t3.medium  								 						 				              T2 node types:
         /// 					                   cache.t2.micro,  						cache.t2.small, 						cache.t2.medium  						 						 						 						 						          Previous generation: (not recommended)
         /// 						                T1 node types:
@@ -1519,9 +1614,37 @@ extension ElastiCache {
         /// 						                Compute optimized:
         /// 				             Previous generation: (not recommended)
         /// 			                   C1 node types:
-        /// 			                     cache.c1.xlarge      Memory optimized:
+        /// 			                     cache.c1.xlarge      Memory optimized with data tiering:
+        /// 		               Current generation:
+        ///
+        /// 		                    R6gd node types (available only for Redis engine version 6.2 onward).
+        ///
+        ///
+        ///
+        ///
+        ///
+        ///
+        /// 		                      cache.r6gd.xlarge,
+        /// 		                    cache.r6gd.2xlarge,
+        /// 		                    cache.r6gd.4xlarge,
+        /// 		                    cache.r6gd.8xlarge,
+        /// 		                    cache.r6gd.12xlarge,
+        /// 		                    cache.r6gd.16xlarge
+        ///
+        ///
+        ///
+        ///
+        ///
+        ///
+        ///
+        ///
+        /// 		                    Memory optimized:
         /// 				             Current generation:
-        /// 											           R6g node types (available only for Redis engine version 5.0.6 onward and for Memcached engine version 1.5.16 onward).
+        ///
+        ///
+        ///
+        ///
+        /// 					                 R6g node types (available only for Redis engine version 5.0.6 onward and for Memcached engine version 1.5.16 onward).
         ///
         ///
         ///
@@ -1557,6 +1680,8 @@ extension ElastiCache {
         public var cacheSecurityGroupNames: [String]?
         /// The name of the cache subnet group to be used for the replication group.  If you're going to launch your cluster in an Amazon VPC,  you need to create a subnet group before you start creating a cluster.  For more information, see Subnets and Subnet Groups.
         public let cacheSubnetGroupName: String?
+        /// Enables data tiering. Data tiering is only supported for replication groups using the r6gd node type. This parameter must be set to true when using r6gd nodes. For more information, see Data tiering.
+        public let dataTieringEnabled: Bool?
         /// The name of the cache engine to be used for the clusters in this replication group. Must be Redis.
         public let engine: String?
         /// The version number of the cache engine to be used for the clusters in this replication group.  To view the supported cache engine versions, use the DescribeCacheEngineVersions operation.
@@ -1616,7 +1741,7 @@ extension ElastiCache {
         @OptionalCustomCoding<StandardArrayCoder>
         public var userGroupIds: [String]?
 
-        public init(atRestEncryptionEnabled: Bool? = nil, authToken: String? = nil, automaticFailoverEnabled: Bool? = nil, autoMinorVersionUpgrade: Bool? = nil, cacheNodeType: String? = nil, cacheParameterGroupName: String? = nil, cacheSecurityGroupNames: [String]? = nil, cacheSubnetGroupName: String? = nil, engine: String? = nil, engineVersion: String? = nil, globalReplicationGroupId: String? = nil, kmsKeyId: String? = nil, logDeliveryConfigurations: [LogDeliveryConfigurationRequest]? = nil, multiAZEnabled: Bool? = nil, nodeGroupConfiguration: [NodeGroupConfiguration]? = nil, notificationTopicArn: String? = nil, numCacheClusters: Int? = nil, numNodeGroups: Int? = nil, port: Int? = nil, preferredCacheClusterAZs: [String]? = nil, preferredMaintenanceWindow: String? = nil, primaryClusterId: String? = nil, replicasPerNodeGroup: Int? = nil, replicationGroupDescription: String, replicationGroupId: String, securityGroupIds: [String]? = nil, snapshotArns: [String]? = nil, snapshotName: String? = nil, snapshotRetentionLimit: Int? = nil, snapshotWindow: String? = nil, tags: [Tag]? = nil, transitEncryptionEnabled: Bool? = nil, userGroupIds: [String]? = nil) {
+        public init(atRestEncryptionEnabled: Bool? = nil, authToken: String? = nil, automaticFailoverEnabled: Bool? = nil, autoMinorVersionUpgrade: Bool? = nil, cacheNodeType: String? = nil, cacheParameterGroupName: String? = nil, cacheSecurityGroupNames: [String]? = nil, cacheSubnetGroupName: String? = nil, dataTieringEnabled: Bool? = nil, engine: String? = nil, engineVersion: String? = nil, globalReplicationGroupId: String? = nil, kmsKeyId: String? = nil, logDeliveryConfigurations: [LogDeliveryConfigurationRequest]? = nil, multiAZEnabled: Bool? = nil, nodeGroupConfiguration: [NodeGroupConfiguration]? = nil, notificationTopicArn: String? = nil, numCacheClusters: Int? = nil, numNodeGroups: Int? = nil, port: Int? = nil, preferredCacheClusterAZs: [String]? = nil, preferredMaintenanceWindow: String? = nil, primaryClusterId: String? = nil, replicasPerNodeGroup: Int? = nil, replicationGroupDescription: String, replicationGroupId: String, securityGroupIds: [String]? = nil, snapshotArns: [String]? = nil, snapshotName: String? = nil, snapshotRetentionLimit: Int? = nil, snapshotWindow: String? = nil, tags: [Tag]? = nil, transitEncryptionEnabled: Bool? = nil, userGroupIds: [String]? = nil) {
             self.atRestEncryptionEnabled = atRestEncryptionEnabled
             self.authToken = authToken
             self.automaticFailoverEnabled = automaticFailoverEnabled
@@ -1625,6 +1750,7 @@ extension ElastiCache {
             self.cacheParameterGroupName = cacheParameterGroupName
             self.cacheSecurityGroupNames = cacheSecurityGroupNames
             self.cacheSubnetGroupName = cacheSubnetGroupName
+            self.dataTieringEnabled = dataTieringEnabled
             self.engine = engine
             self.engineVersion = engineVersion
             self.globalReplicationGroupId = globalReplicationGroupId
@@ -1672,6 +1798,7 @@ extension ElastiCache {
             case cacheParameterGroupName = "CacheParameterGroupName"
             case cacheSecurityGroupNames = "CacheSecurityGroupNames"
             case cacheSubnetGroupName = "CacheSubnetGroupName"
+            case dataTieringEnabled = "DataTieringEnabled"
             case engine = "Engine"
             case engineVersion = "EngineVersion"
             case globalReplicationGroupId = "GlobalReplicationGroupId"
@@ -2177,7 +2304,7 @@ extension ElastiCache {
     }
 
     public struct DescribeCacheEngineVersionsMessage: AWSEncodableShape {
-        /// The name of a specific cache parameter group family to return details for. Valid values are:  memcached1.4 |  memcached1.5 |  memcached1.6 |  redis2.6 |  redis2.8 | redis3.2 | redis4.0 | redis5.0 |  redis6.x |   Constraints:   Must be 1 to 255 alphanumeric characters   First character must be a letter   Cannot end with a hyphen or contain two consecutive hyphens
+        /// The name of a specific cache parameter group family to return details for. Valid values are:  memcached1.4 |  memcached1.5 |  memcached1.6 |  redis2.6 |  redis2.8 | redis3.2 | redis4.0 | redis5.0 |  redis6.x |  redis6.2  Constraints:   Must be 1 to 255 alphanumeric characters   First character must be a letter   Cannot end with a hyphen or contain two consecutive hyphens
         public let cacheParameterGroupFamily: String?
         /// If true, specifies that only the default version of the specified engine or engine and major version combination is to be returned.
         public let defaultOnly: Bool?
@@ -2301,7 +2428,7 @@ extension ElastiCache {
     }
 
     public struct DescribeEngineDefaultParametersMessage: AWSEncodableShape {
-        /// The name of the cache parameter group family. Valid values are:  memcached1.4 |  memcached1.5 |  memcached1.6 |  redis2.6 |  redis2.8 | redis3.2 | redis4.0 | redis5.0 |  redis6.x |
+        /// The name of the cache parameter group family. Valid values are:  memcached1.4 |  memcached1.5 |  memcached1.6 |  redis2.6 |  redis2.8 | redis3.2 | redis4.0 | redis5.0 |  redis6.x |  redis6.2
         public let cacheParameterGroupFamily: String
         /// An optional marker returned from a prior request. Use this marker for pagination of results from this operation. If this parameter is specified, the response includes only records beyond the marker, up to the value specified by MaxRecords.
         public let marker: String?
@@ -2444,8 +2571,14 @@ extension ElastiCache {
         /// 			at lower cost when compared to their equivalent previous generation counterparts.
         /// 		         General purpose:
         /// 				             Current generation:
-        /// 					     						            M6g node types (available only for Redis engine version 5.0.6 onward and for Memcached engine version 1.5.16 onward).
-        /// 						               	 cache.m6g.large,
+        ///
+        ///
+        ///
+        ///
+        ///
+        ///
+        /// 					                 M6g node types: (available only for Redis engine version 5.0.6 onward and for Memcached engine version 1.5.16 onward):
+        /// 					        cache.m6g.large,
         /// 							cache.m6g.xlarge,
         /// 							cache.m6g.2xlarge,
         /// 							cache.m6g.4xlarge,
@@ -2459,7 +2592,15 @@ extension ElastiCache {
         ///
         /// 						                For region availability, see Supported Node Types   					 					 					             M5 node types: 						              cache.m5.large, 						cache.m5.xlarge, 						cache.m5.2xlarge, 						cache.m5.4xlarge, 						cache.m5.12xlarge, 						cache.m5.24xlarge
         ///
-        /// 						                M4 node types: 						              cache.m4.large, 						cache.m4.xlarge, 						cache.m4.2xlarge, 						cache.m4.4xlarge, 						cache.m4.10xlarge  					             T3 node types:
+        /// 						                M4 node types: 						              cache.m4.large, 						cache.m4.xlarge, 						cache.m4.2xlarge, 						cache.m4.4xlarge, 						cache.m4.10xlarge
+        /// 					                 T4g node types (available only for Redis engine version 5.0.6 onward and for Memcached engine version 1.5.16 onward):
+        /// 					        cache.t4g.micro,
+        /// 					        cache.t4g.small,
+        /// 					        cache.t4g.medium
+        ///
+        ///
+        ///
+        /// 					                 T3 node types:
         /// 					                   cache.t3.micro,  						cache.t3.small, 						cache.t3.medium  								 						 				              T2 node types:
         /// 					                   cache.t2.micro,  						cache.t2.small, 						cache.t2.medium  						 						 						 						 						          Previous generation: (not recommended)
         /// 						                T1 node types:
@@ -2476,9 +2617,36 @@ extension ElastiCache {
         /// 						                Compute optimized:
         /// 				             Previous generation: (not recommended)
         /// 			                   C1 node types:
-        /// 			                     cache.c1.xlarge      Memory optimized:
+        /// 			                     cache.c1.xlarge      Memory optimized with data tiering:
+        /// 		               Current generation:
+        ///
+        /// 		                    R6gd node types (available only for Redis engine version 6.2 onward).
+        ///
+        ///
+        ///
+        ///
+        ///
+        ///
+        /// 		                      cache.r6gd.xlarge,
+        /// 		                    cache.r6gd.2xlarge,
+        /// 		                    cache.r6gd.4xlarge,
+        /// 		                    cache.r6gd.8xlarge,
+        /// 		                    cache.r6gd.12xlarge,
+        /// 		                    cache.r6gd.16xlarge
+        ///
+        ///
+        ///
+        ///
+        ///
+        ///
+        ///
+        ///
+        /// 		                    Memory optimized:
         /// 				             Current generation:
-        /// 											           R6g node types (available only for Redis engine version 5.0.6 onward and for Memcached engine version 1.5.16 onward).
+        ///
+        ///
+        ///
+        /// 					                 R6g node types (available only for Redis engine version 5.0.6 onward and for Memcached engine version 1.5.16 onward).
         ///
         ///
         ///
@@ -2553,8 +2721,13 @@ extension ElastiCache {
         /// 			at lower cost when compared to their equivalent previous generation counterparts.
         /// 		         General purpose:
         /// 				             Current generation:
-        /// 					     						            M6g node types (available only for Redis engine version 5.0.6 onward and for Memcached engine version 1.5.16 onward).
-        /// 						               	 cache.m6g.large,
+        ///
+        ///
+        ///
+        ///
+        ///
+        ///
+        /// 					                 M6g node types: (available only for Redis engine version 5.0.6 onward and for Memcached engine version 1.5.16 onward)	cache.m6g.large,
         /// 							cache.m6g.xlarge,
         /// 							cache.m6g.2xlarge,
         /// 							cache.m6g.4xlarge,
@@ -2568,7 +2741,15 @@ extension ElastiCache {
         ///
         /// 						                For region availability, see Supported Node Types   					 					 					             M5 node types: 						              cache.m5.large, 						cache.m5.xlarge, 						cache.m5.2xlarge, 						cache.m5.4xlarge, 						cache.m5.12xlarge, 						cache.m5.24xlarge
         ///
-        /// 						                M4 node types: 						              cache.m4.large, 						cache.m4.xlarge, 						cache.m4.2xlarge, 						cache.m4.4xlarge, 						cache.m4.10xlarge  					             T3 node types:
+        /// 						                M4 node types: 						              cache.m4.large, 						cache.m4.xlarge, 						cache.m4.2xlarge, 						cache.m4.4xlarge, 						cache.m4.10xlarge
+        /// 					                 T4g node types (available only for Redis engine version 5.0.6 onward and for Memcached engine version 1.5.16 onward):
+        /// 					        cache.t4g.micro,
+        /// 					        cache.t4g.small,
+        /// 					        cache.t4g.medium
+        ///
+        ///
+        ///
+        /// 					                 T3 node types:
         /// 					                   cache.t3.micro,  						cache.t3.small, 						cache.t3.medium  								 						 				              T2 node types:
         /// 					                   cache.t2.micro,  						cache.t2.small, 						cache.t2.medium  						 						 						 						 						          Previous generation: (not recommended)
         /// 						                T1 node types:
@@ -2585,9 +2766,35 @@ extension ElastiCache {
         /// 						                Compute optimized:
         /// 				             Previous generation: (not recommended)
         /// 			                   C1 node types:
-        /// 			                     cache.c1.xlarge      Memory optimized:
+        /// 			                     cache.c1.xlarge      Memory optimized with data tiering:
+        /// 		               Current generation:
+        ///
+        /// 		                    R6gd node types (available only for Redis engine version 6.2 onward).
+        ///
+        ///
+        ///
+        ///
+        ///
+        ///
+        /// 		                      cache.r6gd.xlarge,
+        /// 		                    cache.r6gd.2xlarge,
+        /// 		                    cache.r6gd.4xlarge,
+        /// 		                    cache.r6gd.8xlarge,
+        /// 		                    cache.r6gd.12xlarge,
+        /// 		                    cache.r6gd.16xlarge
+        ///
+        ///
+        ///
+        ///
+        ///
+        ///
+        ///
+        ///
+        /// 		                    Memory optimized:
         /// 				             Current generation:
-        /// 											           R6g node types (available only for Redis engine version 5.0.6 onward and for Memcached engine version 1.5.16 onward).
+        ///
+        ///
+        /// 					                 R6g node types (available only for Redis engine version 5.0.6 onward and for Memcached engine version 1.5.16 onward).
         ///
         ///
         ///
@@ -2988,7 +3195,7 @@ extension ElastiCache {
         /// A list of parameters specific to a particular cache node type. Each element in the list contains detailed information about one parameter.
         @OptionalCustomCoding<ArrayCoder<_CacheNodeTypeSpecificParametersEncoding, CacheNodeTypeSpecificParameter>>
         public var cacheNodeTypeSpecificParameters: [CacheNodeTypeSpecificParameter]?
-        /// Specifies the name of the cache parameter group family to which the engine default parameters apply. Valid values are:  memcached1.4 |  memcached1.5 |  memcached1.6 |  redis2.6 |  redis2.8 | redis3.2 | redis4.0 | redis5.0 |  redis6.x |
+        /// Specifies the name of the cache parameter group family to which the engine default parameters apply. Valid values are:  memcached1.4 |  memcached1.5 |  memcached1.6 |  redis2.6 |  redis2.8 | redis3.2 | redis4.0 | redis5.0 |  redis6.0 |  redis6.2
         public let cacheParameterGroupFamily: String?
         /// Provides an identifier to allow retrieval of paginated results.
         public let marker: String?
@@ -3456,7 +3663,7 @@ extension ElastiCache {
         public let authToken: String?
         /// Specifies the strategy to use to update the AUTH token. This parameter must be specified with the auth-token parameter. Possible values:   Rotate   Set    For more information, see Authenticating Users with Redis AUTH
         public let authTokenUpdateStrategy: AuthTokenUpdateStrategyType?
-        /// This parameter is currently disabled.
+        ///  If you are running Redis engine version 6.0 or later, set this parameter to yes if you want to opt-in to the next auto minor version upgrade campaign. This parameter is disabled for previous versions.
         public let autoMinorVersionUpgrade: Bool?
         /// Specifies whether the new nodes in this Memcached cluster are all created in a  single Availability Zone or created across multiple Availability Zones. Valid values: single-az | cross-az. This option is only supported for Memcached clusters.  You cannot specify single-az if the Memcached cluster already has cache nodes in different Availability Zones.             If cross-az is specified, existing Memcached nodes remain in their current Availability Zone.  Only newly created nodes are located in different Availability Zones.
         public let azMode: AZMode?
@@ -3674,7 +3881,7 @@ extension ElastiCache {
         public let authTokenUpdateStrategy: AuthTokenUpdateStrategyType?
         /// Determines whether a read replica is automatically promoted to read/write primary if the existing primary encounters a failure. Valid values: true | false
         public let automaticFailoverEnabled: Bool?
-        /// This parameter is currently disabled.
+        ///  If you are running Redis engine version 6.0 or later, set this parameter to yes if you want to opt-in to the next auto minor version upgrade campaign. This parameter is disabled for previous versions.
         public let autoMinorVersionUpgrade: Bool?
         /// A valid cache node type that you want to scale this replication group to.
         public let cacheNodeType: String?
@@ -4546,6 +4753,8 @@ extension ElastiCache {
         public let clusterEnabled: Bool?
         /// The configuration endpoint for this replication group.  Use the configuration endpoint to connect to this replication group.
         public let configurationEndpoint: Endpoint?
+        /// Enables data tiering. Data tiering is only supported for replication groups using the r6gd node type. This parameter must be set to true when using r6gd nodes. For more information, see Data tiering.
+        public let dataTiering: DataTieringStatus?
         /// The user supplied description of the replication group.
         public let description: String?
         /// The name of the Global datastore and role of this replication group in the Global datastore.
@@ -4586,7 +4795,7 @@ extension ElastiCache {
         @OptionalCustomCoding<StandardArrayCoder>
         public var userGroupIds: [String]?
 
-        public init(arn: String? = nil, atRestEncryptionEnabled: Bool? = nil, authTokenEnabled: Bool? = nil, authTokenLastModifiedDate: Date? = nil, automaticFailover: AutomaticFailoverStatus? = nil, cacheNodeType: String? = nil, clusterEnabled: Bool? = nil, configurationEndpoint: Endpoint? = nil, description: String? = nil, globalReplicationGroupInfo: GlobalReplicationGroupInfo? = nil, kmsKeyId: String? = nil, logDeliveryConfigurations: [LogDeliveryConfiguration]? = nil, memberClusters: [String]? = nil, memberClustersOutpostArns: [String]? = nil, multiAZ: MultiAZStatus? = nil, nodeGroups: [NodeGroup]? = nil, pendingModifiedValues: ReplicationGroupPendingModifiedValues? = nil, replicationGroupCreateTime: Date? = nil, replicationGroupId: String? = nil, snapshotRetentionLimit: Int? = nil, snapshottingClusterId: String? = nil, snapshotWindow: String? = nil, status: String? = nil, transitEncryptionEnabled: Bool? = nil, userGroupIds: [String]? = nil) {
+        public init(arn: String? = nil, atRestEncryptionEnabled: Bool? = nil, authTokenEnabled: Bool? = nil, authTokenLastModifiedDate: Date? = nil, automaticFailover: AutomaticFailoverStatus? = nil, cacheNodeType: String? = nil, clusterEnabled: Bool? = nil, configurationEndpoint: Endpoint? = nil, dataTiering: DataTieringStatus? = nil, description: String? = nil, globalReplicationGroupInfo: GlobalReplicationGroupInfo? = nil, kmsKeyId: String? = nil, logDeliveryConfigurations: [LogDeliveryConfiguration]? = nil, memberClusters: [String]? = nil, memberClustersOutpostArns: [String]? = nil, multiAZ: MultiAZStatus? = nil, nodeGroups: [NodeGroup]? = nil, pendingModifiedValues: ReplicationGroupPendingModifiedValues? = nil, replicationGroupCreateTime: Date? = nil, replicationGroupId: String? = nil, snapshotRetentionLimit: Int? = nil, snapshottingClusterId: String? = nil, snapshotWindow: String? = nil, status: String? = nil, transitEncryptionEnabled: Bool? = nil, userGroupIds: [String]? = nil) {
             self.arn = arn
             self.atRestEncryptionEnabled = atRestEncryptionEnabled
             self.authTokenEnabled = authTokenEnabled
@@ -4595,6 +4804,7 @@ extension ElastiCache {
             self.cacheNodeType = cacheNodeType
             self.clusterEnabled = clusterEnabled
             self.configurationEndpoint = configurationEndpoint
+            self.dataTiering = dataTiering
             self.description = description
             self.globalReplicationGroupInfo = globalReplicationGroupInfo
             self.kmsKeyId = kmsKeyId
@@ -4623,6 +4833,7 @@ extension ElastiCache {
             case cacheNodeType = "CacheNodeType"
             case clusterEnabled = "ClusterEnabled"
             case configurationEndpoint = "ConfigurationEndpoint"
+            case dataTiering = "DataTiering"
             case description = "Description"
             case globalReplicationGroupInfo = "GlobalReplicationGroupInfo"
             case kmsKeyId = "KmsKeyId"
@@ -4707,8 +4918,12 @@ extension ElastiCache {
         /// 			at lower cost when compared to their equivalent previous generation counterparts.
         /// 		         General purpose:
         /// 				             Current generation:
-        /// 					     						            M6g node types (available only for Redis engine version 5.0.6 onward and for Memcached engine version 1.5.16 onward).
-        /// 						               	 cache.m6g.large,
+        ///
+        ///
+        ///
+        ///
+        ///
+        /// 					                 M6g node types: (available only for Redis engine version 5.0.6 onward and for Memcached engine version 1.5.16 onward):	cache.m6g.large,
         /// 							cache.m6g.xlarge,
         /// 							cache.m6g.2xlarge,
         /// 							cache.m6g.4xlarge,
@@ -4722,7 +4937,13 @@ extension ElastiCache {
         ///
         /// 						                For region availability, see Supported Node Types   					 					 					             M5 node types: 						              cache.m5.large, 						cache.m5.xlarge, 						cache.m5.2xlarge, 						cache.m5.4xlarge, 						cache.m5.12xlarge, 						cache.m5.24xlarge
         ///
-        /// 						                M4 node types: 						              cache.m4.large, 						cache.m4.xlarge, 						cache.m4.2xlarge, 						cache.m4.4xlarge, 						cache.m4.10xlarge  					             T3 node types:
+        /// 						                M4 node types: 						              cache.m4.large, 						cache.m4.xlarge, 						cache.m4.2xlarge, 						cache.m4.4xlarge, 						cache.m4.10xlarge
+        ///
+        /// 					                 T4g node types (available only for Redis engine version 5.0.6 onward and Memcached engine version 1.5.16 onward):
+        /// 					        cache.t4g.micro,
+        /// 					        cache.t4g.small,
+        /// 					        cache.t4g.medium
+        /// 					                	            					             T3 node types:
         /// 					                   cache.t3.micro,  						cache.t3.small, 						cache.t3.medium  								 						 				              T2 node types:
         /// 					                   cache.t2.micro,  						cache.t2.small, 						cache.t2.medium  						 						 						 						 						          Previous generation: (not recommended)
         /// 						                T1 node types:
@@ -4739,10 +4960,35 @@ extension ElastiCache {
         /// 						                Compute optimized:
         /// 				             Previous generation: (not recommended)
         /// 			                   C1 node types:
-        /// 			                     cache.c1.xlarge      Memory optimized:
-        /// 				             Current generation:
-        /// 											           R6g node types (available only for Redis engine version 5.0.6 onward and for Memcached engine version 1.5.16 onward).
+        /// 			                     cache.c1.xlarge      Memory optimized with data tiering:
+        /// 		               Current generation:
         ///
+        /// 		                    R6gd node types (available only for Redis engine version 6.2 onward).
+        ///
+        ///
+        ///
+        ///
+        ///
+        ///
+        /// 		                      cache.r6gd.xlarge,
+        /// 		                    cache.r6gd.2xlarge,
+        /// 		                    cache.r6gd.4xlarge,
+        /// 		                    cache.r6gd.8xlarge,
+        /// 		                    cache.r6gd.12xlarge,
+        /// 		                    cache.r6gd.16xlarge
+        ///
+        ///
+        ///
+        ///
+        ///
+        ///
+        ///
+        ///
+        /// 		                    Memory optimized:
+        /// 				             Current generation:
+        ///
+        ///
+        /// 					                 R6g node types (available only for Redis engine version 5.0.6 onward and for Memcached engine version 1.5.16 onward).
         ///
         ///
         ///
@@ -4855,8 +5101,13 @@ extension ElastiCache {
         /// 			at lower cost when compared to their equivalent previous generation counterparts.
         /// 		         General purpose:
         /// 				             Current generation:
-        /// 					     						            M6g node types (available only for Redis engine version 5.0.6 onward and for Memcached engine version 1.5.16 onward).
-        /// 						               	 cache.m6g.large,
+        ///
+        ///
+        ///
+        ///
+        ///
+        ///
+        /// 					                 M6g node types: (available only for Redis engine version 5.0.6 onward and for Memcached engine version 1.5.16 onward): 	cache.m6g.large,
         /// 							cache.m6g.xlarge,
         /// 							cache.m6g.2xlarge,
         /// 							cache.m6g.4xlarge,
@@ -4870,7 +5121,14 @@ extension ElastiCache {
         ///
         /// 						                For region availability, see Supported Node Types   					 					 					             M5 node types: 						              cache.m5.large, 						cache.m5.xlarge, 						cache.m5.2xlarge, 						cache.m5.4xlarge, 						cache.m5.12xlarge, 						cache.m5.24xlarge
         ///
-        /// 						                M4 node types: 						              cache.m4.large, 						cache.m4.xlarge, 						cache.m4.2xlarge, 						cache.m4.4xlarge, 						cache.m4.10xlarge  					             T3 node types:
+        /// 						                M4 node types: 						              cache.m4.large, 						cache.m4.xlarge, 						cache.m4.2xlarge, 						cache.m4.4xlarge, 						cache.m4.10xlarge
+        /// 					                 T4g node types (available only for Redis engine version 5.0.6 onward and Memcached engine version 1.5.16 onward):
+        /// 					     cache.t4g.micro,
+        /// 					        cache.t4g.small,
+        /// 					        cache.t4g.medium
+        ///
+        ///
+        /// 					                 T3 node types:
         /// 					                   cache.t3.micro,  						cache.t3.small, 						cache.t3.medium  								 						 				              T2 node types:
         /// 					                   cache.t2.micro,  						cache.t2.small, 						cache.t2.medium  						 						 						 						 						          Previous generation: (not recommended)
         /// 						                T1 node types:
@@ -4887,9 +5145,36 @@ extension ElastiCache {
         /// 						                Compute optimized:
         /// 				             Previous generation: (not recommended)
         /// 			                   C1 node types:
-        /// 			                     cache.c1.xlarge      Memory optimized:
+        /// 			                     cache.c1.xlarge      Memory optimized with data tiering:
+        /// 		               Current generation:
+        ///
+        /// 		                    R6gd node types (available only for Redis engine version 6.2 onward).
+        ///
+        ///
+        ///
+        ///
+        ///
+        ///
+        /// 		                      cache.r6gd.xlarge,
+        /// 		                    cache.r6gd.2xlarge,
+        /// 		                    cache.r6gd.4xlarge,
+        /// 		                    cache.r6gd.8xlarge,
+        /// 		                    cache.r6gd.12xlarge,
+        /// 		                    cache.r6gd.16xlarge
+        ///
+        ///
+        ///
+        ///
+        ///
+        ///
+        ///
+        ///
+        /// 		                    Memory optimized:
         /// 				             Current generation:
-        /// 											           R6g node types (available only for Redis engine version 5.0.6 onward and for Memcached engine version 1.5.16 onward).
+        ///
+        ///
+        ///
+        /// 					                 R6g node types (available only for Redis engine version 5.0.6 onward and for Memcached engine version 1.5.16 onward).
         ///
         ///
         ///
@@ -5187,7 +5472,7 @@ extension ElastiCache {
         public let arn: String?
         /// Indicates the status of automatic failover for the source Redis replication group.
         public let automaticFailover: AutomaticFailoverStatus?
-        /// This parameter is currently disabled.
+        ///  If you are running Redis engine version 6.0 or later, set this parameter to yes if you want to opt-in to the next auto minor version upgrade campaign. This parameter is disabled for previous versions.
         public let autoMinorVersionUpgrade: Bool?
         /// The date and time when the source cluster was created.
         public let cacheClusterCreateTime: Date?
@@ -5198,8 +5483,13 @@ extension ElastiCache {
         /// 			at lower cost when compared to their equivalent previous generation counterparts.
         /// 		         General purpose:
         /// 				             Current generation:
-        /// 					     						            M6g node types (available only for Redis engine version 5.0.6 onward and for Memcached engine version 1.5.16 onward).
-        /// 						               	 cache.m6g.large,
+        ///
+        /// 					                 M6g node types (available only for Redis engine version 5.0.6 onward and for Memcached engine version 1.5.16 onward).
+        ///
+        ///
+        ///
+        ///
+        /// 					                	 cache.m6g.large,
         /// 							cache.m6g.xlarge,
         /// 							cache.m6g.2xlarge,
         /// 							cache.m6g.4xlarge,
@@ -5210,10 +5500,21 @@ extension ElastiCache {
         ///
         ///
         ///
-        ///
         /// 						                For region availability, see Supported Node Types   					 					 					             M5 node types: 						              cache.m5.large, 						cache.m5.xlarge, 						cache.m5.2xlarge, 						cache.m5.4xlarge, 						cache.m5.12xlarge, 						cache.m5.24xlarge
         ///
-        /// 						                M4 node types: 						              cache.m4.large, 						cache.m4.xlarge, 						cache.m4.2xlarge, 						cache.m4.4xlarge, 						cache.m4.10xlarge  					             T3 node types:
+        /// 						                M4 node types: 						              cache.m4.large, 						cache.m4.xlarge, 						cache.m4.2xlarge, 						cache.m4.4xlarge, 						cache.m4.10xlarge
+        /// 					                 T4g node types (available only for Redis engine version 5.0.6 onward and Memcached engine version 1.5.16 onward):
+        ///
+        ///
+        ///
+        /// 					                   cache.t4g.micro,
+        /// 					        cache.t4g.small,
+        /// 					        cache.t4g.medium
+        ///
+        ///
+        ///
+        ///
+        /// 					                 T3 node types:
         /// 					                   cache.t3.micro,  						cache.t3.small, 						cache.t3.medium  								 						 				              T2 node types:
         /// 					                   cache.t2.micro,  						cache.t2.small, 						cache.t2.medium  						 						 						 						 						          Previous generation: (not recommended)
         /// 						                T1 node types:
@@ -5230,24 +5531,58 @@ extension ElastiCache {
         /// 						                Compute optimized:
         /// 				             Previous generation: (not recommended)
         /// 			                   C1 node types:
-        /// 			                     cache.c1.xlarge      Memory optimized:
-        /// 				             Current generation:
-        /// 											           R6g node types (available only for Redis engine version 5.0.6 onward and for Memcached engine version 1.5.16 onward).
+        /// 			                     cache.c1.xlarge      Memory optimized with data tiering:
+        /// 		               Current generation:
+        ///
+        /// 		                    R6gd node types (available only for Redis engine version 6.2 onward).
         ///
         ///
         ///
         ///
         ///
-        /// 							                 cache.r6g.large,
-        /// 							cache.r6g.xlarge,
-        /// 							cache.r6g.2xlarge,
-        /// 							cache.r6g.4xlarge,
-        /// 							cache.r6g.8xlarge,
-        /// 							cache.r6g.12xlarge,
-        /// 							cache.r6g.16xlarge
+        ///
+        /// 		                      cache.r6gd.xlarge,
+        /// 		                    cache.r6gd.2xlarge,
+        /// 		                    cache.r6gd.4xlarge,
+        /// 		                    cache.r6gd.8xlarge,
+        /// 		                    cache.r6gd.12xlarge,
+        /// 		                    cache.r6gd.16xlarge
         ///
         ///
         ///
+        ///
+        ///
+        ///
+        ///
+        ///
+        /// 		                    Memory optimized:
+        ///
+        ///
+        /// 		              Current generation:
+        ///
+        ///
+        ///
+        ///
+        /// 		                     R6g node types (available only for Redis engine version 5.0.6 onward and for Memcached engine version 1.5.16 onward).
+        ///
+        ///
+        ///
+        ///
+        /// 		                        cache.r6g.large,
+        /// 		                        cache.r6g.xlarge,
+        /// 		                        cache.r6g.2xlarge,
+        /// 		                        cache.r6g.4xlarge,
+        /// 		                        cache.r6g.8xlarge,
+        /// 		                        cache.r6g.12xlarge,
+        /// 		                        cache.r6g.16xlarge
+        ///
+        ///
+        ///
+        ///
+        ///
+        ///
+        ///
+        /// 		                     For region availability, see Supported Node Types
         ///
         ///
         ///
@@ -5265,6 +5600,8 @@ extension ElastiCache {
         public let cacheParameterGroupName: String?
         /// The name of the cache subnet group associated with the source cluster.
         public let cacheSubnetGroupName: String?
+        /// Enables data tiering. Data tiering is only supported for replication groups using the r6gd node type. This parameter must be set to true when using r6gd nodes. For more information, see Data tiering.
+        public let dataTiering: DataTieringStatus?
         /// The name of the cache engine (memcached or  redis) used by the source cluster.
         public let engine: String?
         /// The version of the cache engine version that is used by the source cluster.
@@ -5305,7 +5642,7 @@ extension ElastiCache {
         /// The Amazon Virtual Private Cloud identifier (VPC ID) of the cache subnet group for the source cluster.
         public let vpcId: String?
 
-        public init(arn: String? = nil, automaticFailover: AutomaticFailoverStatus? = nil, autoMinorVersionUpgrade: Bool? = nil, cacheClusterCreateTime: Date? = nil, cacheClusterId: String? = nil, cacheNodeType: String? = nil, cacheParameterGroupName: String? = nil, cacheSubnetGroupName: String? = nil, engine: String? = nil, engineVersion: String? = nil, kmsKeyId: String? = nil, nodeSnapshots: [NodeSnapshot]? = nil, numCacheNodes: Int? = nil, numNodeGroups: Int? = nil, port: Int? = nil, preferredAvailabilityZone: String? = nil, preferredMaintenanceWindow: String? = nil, preferredOutpostArn: String? = nil, replicationGroupDescription: String? = nil, replicationGroupId: String? = nil, snapshotName: String? = nil, snapshotRetentionLimit: Int? = nil, snapshotSource: String? = nil, snapshotStatus: String? = nil, snapshotWindow: String? = nil, topicArn: String? = nil, vpcId: String? = nil) {
+        public init(arn: String? = nil, automaticFailover: AutomaticFailoverStatus? = nil, autoMinorVersionUpgrade: Bool? = nil, cacheClusterCreateTime: Date? = nil, cacheClusterId: String? = nil, cacheNodeType: String? = nil, cacheParameterGroupName: String? = nil, cacheSubnetGroupName: String? = nil, dataTiering: DataTieringStatus? = nil, engine: String? = nil, engineVersion: String? = nil, kmsKeyId: String? = nil, nodeSnapshots: [NodeSnapshot]? = nil, numCacheNodes: Int? = nil, numNodeGroups: Int? = nil, port: Int? = nil, preferredAvailabilityZone: String? = nil, preferredMaintenanceWindow: String? = nil, preferredOutpostArn: String? = nil, replicationGroupDescription: String? = nil, replicationGroupId: String? = nil, snapshotName: String? = nil, snapshotRetentionLimit: Int? = nil, snapshotSource: String? = nil, snapshotStatus: String? = nil, snapshotWindow: String? = nil, topicArn: String? = nil, vpcId: String? = nil) {
             self.arn = arn
             self.automaticFailover = automaticFailover
             self.autoMinorVersionUpgrade = autoMinorVersionUpgrade
@@ -5314,6 +5651,7 @@ extension ElastiCache {
             self.cacheNodeType = cacheNodeType
             self.cacheParameterGroupName = cacheParameterGroupName
             self.cacheSubnetGroupName = cacheSubnetGroupName
+            self.dataTiering = dataTiering
             self.engine = engine
             self.engineVersion = engineVersion
             self.kmsKeyId = kmsKeyId
@@ -5344,6 +5682,7 @@ extension ElastiCache {
             case cacheNodeType = "CacheNodeType"
             case cacheParameterGroupName = "CacheParameterGroupName"
             case cacheSubnetGroupName = "CacheSubnetGroupName"
+            case dataTiering = "DataTiering"
             case engine = "Engine"
             case engineVersion = "EngineVersion"
             case kmsKeyId = "KmsKeyId"
@@ -5677,6 +6016,8 @@ extension ElastiCache {
         public let authentication: Authentication?
         /// The current supported value is Redis.
         public let engine: String?
+        /// The minimum engine version required, which is Redis 6.0
+        public let minimumEngineVersion: String?
         /// Indicates the user status. Can be "active", "modifying" or "deleting".
         public let status: String?
         /// Returns a list of the user group IDs the user belongs to.
@@ -5687,11 +6028,12 @@ extension ElastiCache {
         /// The username of the user.
         public let userName: String?
 
-        public init(accessString: String? = nil, arn: String? = nil, authentication: Authentication? = nil, engine: String? = nil, status: String? = nil, userGroupIds: [String]? = nil, userId: String? = nil, userName: String? = nil) {
+        public init(accessString: String? = nil, arn: String? = nil, authentication: Authentication? = nil, engine: String? = nil, minimumEngineVersion: String? = nil, status: String? = nil, userGroupIds: [String]? = nil, userId: String? = nil, userName: String? = nil) {
             self.accessString = accessString
             self.arn = arn
             self.authentication = authentication
             self.engine = engine
+            self.minimumEngineVersion = minimumEngineVersion
             self.status = status
             self.userGroupIds = userGroupIds
             self.userId = userId
@@ -5703,6 +6045,7 @@ extension ElastiCache {
             case arn = "ARN"
             case authentication = "Authentication"
             case engine = "Engine"
+            case minimumEngineVersion = "MinimumEngineVersion"
             case status = "Status"
             case userGroupIds = "UserGroupIds"
             case userId = "UserId"
@@ -5715,6 +6058,8 @@ extension ElastiCache {
         public let arn: String?
         /// The current supported value is Redis.
         public let engine: String?
+        /// The minimum engine version required, which is Redis 6.0
+        public let minimumEngineVersion: String?
         /// A list of updates being applied to the user group.
         public let pendingChanges: UserGroupPendingChanges?
         /// A list of replication groups that the user group can access.
@@ -5728,9 +6073,10 @@ extension ElastiCache {
         @OptionalCustomCoding<StandardArrayCoder>
         public var userIds: [String]?
 
-        public init(arn: String? = nil, engine: String? = nil, pendingChanges: UserGroupPendingChanges? = nil, replicationGroups: [String]? = nil, status: String? = nil, userGroupId: String? = nil, userIds: [String]? = nil) {
+        public init(arn: String? = nil, engine: String? = nil, minimumEngineVersion: String? = nil, pendingChanges: UserGroupPendingChanges? = nil, replicationGroups: [String]? = nil, status: String? = nil, userGroupId: String? = nil, userIds: [String]? = nil) {
             self.arn = arn
             self.engine = engine
+            self.minimumEngineVersion = minimumEngineVersion
             self.pendingChanges = pendingChanges
             self.replicationGroups = replicationGroups
             self.status = status
@@ -5741,6 +6087,7 @@ extension ElastiCache {
         private enum CodingKeys: String, CodingKey {
             case arn = "ARN"
             case engine = "Engine"
+            case minimumEngineVersion = "MinimumEngineVersion"
             case pendingChanges = "PendingChanges"
             case replicationGroups = "ReplicationGroups"
             case status = "Status"

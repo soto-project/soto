@@ -171,7 +171,7 @@ extension Imagebuilder {
     public struct AmiDistributionConfiguration: AWSEncodableShape & AWSDecodableShape {
         /// The tags to apply to AMIs distributed to this Region.
         public let amiTags: [String: String]?
-        /// The description of the distribution configuration. Minimum and maximum length are in characters.
+        /// The description of the AMI distribution configuration. Minimum and maximum length are in characters.
         public let description: String?
         /// The KMS key identifier used to encrypt the distributed image.
         public let kmsKeyId: String?
@@ -388,8 +388,7 @@ extension Imagebuilder {
             try self.validate(self.name, name: "name", parent: name, min: 1)
             try self.validate(self.name, name: "name", parent: name, pattern: "^[^\\x00]+$")
             try self.value.forEach {
-                try validate($0, name: "value[]", parent: name, min: 1)
-                try validate($0, name: "value[]", parent: name, pattern: "^[^\\x00]+$")
+                try validate($0, name: "value[]", parent: name, pattern: "^[^\\x00]*$")
             }
         }
 
@@ -3196,17 +3195,35 @@ extension Imagebuilder {
     }
 
     public struct LaunchPermissionConfiguration: AWSEncodableShape & AWSDecodableShape {
+        /// The ARN for an Organizations organizational unit (OU) that you want to share your AMI with. For more
+        /// 			information about key concepts for Organizations, see Organizations terminology and concepts.
+        public let organizationalUnitArns: [String]?
+        /// The ARN for an Amazon Web Services Organization that you want to share your AMI with. For more information, see
+        /// 			What is Organizations?.
+        public let organizationArns: [String]?
         /// The name of the group.
         public let userGroups: [String]?
         /// The Amazon Web Services account ID.
         public let userIds: [String]?
 
-        public init(userGroups: [String]? = nil, userIds: [String]? = nil) {
+        public init(organizationalUnitArns: [String]? = nil, organizationArns: [String]? = nil, userGroups: [String]? = nil, userIds: [String]? = nil) {
+            self.organizationalUnitArns = organizationalUnitArns
+            self.organizationArns = organizationArns
             self.userGroups = userGroups
             self.userIds = userIds
         }
 
         public func validate(name: String) throws {
+            try self.organizationalUnitArns?.forEach {
+                try validate($0, name: "organizationalUnitArns[]", parent: name, pattern: "^arn:aws[^:]*:organizations::[0-9]{12}:ou/o-[a-z0-9]{10,32}/ou-[0-9a-z]{4,32}-[0-9a-z]{8,32}$")
+            }
+            try self.validate(self.organizationalUnitArns, name: "organizationalUnitArns", parent: name, max: 25)
+            try self.validate(self.organizationalUnitArns, name: "organizationalUnitArns", parent: name, min: 1)
+            try self.organizationArns?.forEach {
+                try validate($0, name: "organizationArns[]", parent: name, pattern: "^arn:aws[^:]*:organizations::[0-9]{12}:organization/o-[a-z0-9]{10,32}$")
+            }
+            try self.validate(self.organizationArns, name: "organizationArns", parent: name, max: 25)
+            try self.validate(self.organizationArns, name: "organizationArns", parent: name, min: 1)
             try self.userGroups?.forEach {
                 try validate($0, name: "userGroups[]", parent: name, max: 1024)
                 try validate($0, name: "userGroups[]", parent: name, min: 1)
@@ -3219,6 +3236,8 @@ extension Imagebuilder {
         }
 
         private enum CodingKeys: String, CodingKey {
+            case organizationalUnitArns
+            case organizationArns
             case userGroups
             case userIds
         }
