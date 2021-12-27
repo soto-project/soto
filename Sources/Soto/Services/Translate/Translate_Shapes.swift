@@ -63,6 +63,11 @@ extension Translate {
         public var description: String { return self.rawValue }
     }
 
+    public enum Profanity: String, CustomStringConvertible, Codable {
+        case mask = "MASK"
+        public var description: String { return self.rawValue }
+    }
+
     public enum TerminologyDataFormat: String, CustomStringConvertible, Codable {
         case csv = "CSV"
         case tmx = "TMX"
@@ -235,9 +240,9 @@ extension Translate {
     }
 
     public struct EncryptionKey: AWSEncodableShape & AWSDecodableShape {
-        /// The Amazon Resource Name (ARN) of the encryption key being used to encrypt the custom terminology.
+        /// The Amazon Resource Name (ARN) of the encryption key being used to encrypt this object.
         public let id: String
-        /// The type of encryption key used by Amazon Translate to encrypt custom terminologies.
+        /// The type of encryption key used by Amazon Translate to encrypt this object.
         public let type: EncryptionKeyType
 
         public init(id: String, type: EncryptionKeyType) {
@@ -279,7 +284,7 @@ extension Translate {
     public struct GetParallelDataResponse: AWSDecodableShape {
         /// The Amazon S3 location of a file that provides any errors or warnings that were produced by your input file. This file was created when Amazon Translate attempted to create a parallel data resource. The location is returned as a presigned URL to that has a 30 minute expiration.
         public let auxiliaryDataLocation: ParallelDataDataLocation?
-        /// The Amazon S3 location of the most recent parallel data input file that was successfully imported into Amazon Translate. The location is returned as a presigned URL that has a 30 minute expiration.  Amazon Translate doesn't scan parallel data input files for the risk of CSV injection attacks.  CSV injection occurs when a .csv or .tsv file is altered so that a record contains malicious code. The record begins with a special character, such as =, +, -, or @. When the file is opened in a spreadsheet program, the program might interpret the record as a formula and run the code within it. Before you download a parallel data input file from Amazon S3, ensure that you recognize the file and trust its creator.
+        /// The Amazon S3 location of the most recent parallel data input file that was successfully imported into Amazon Translate. The location is returned as a presigned URL that has a 30 minute expiration.  Amazon Translate doesn't scan all input files for the risk of CSV injection attacks.  CSV injection occurs when a .csv or .tsv file is altered so that a record contains malicious code. The record begins with a special character, such as =, +, -, or @. When the file is opened in a spreadsheet program, the program might interpret the record as a formula and run the code within it. Before you download an input file from Amazon S3, ensure that you recognize the file and trust its creator.
         public let dataLocation: ParallelDataDataLocation?
         /// The Amazon S3 location of a file that provides any errors or warnings that were produced by your input file. This file was created when Amazon Translate attempted to update a parallel data resource. The location is returned as a presigned URL to that has a 30 minute expiration.
         public let latestUpdateAttemptAuxiliaryDataLocation: ParallelDataDataLocation?
@@ -327,7 +332,7 @@ extension Translate {
     public struct GetTerminologyResponse: AWSDecodableShape {
         /// The Amazon S3 location of a file that provides any errors or warnings that were produced by your input file. This file was created when Amazon Translate attempted to create a terminology resource. The location is returned as a presigned URL to that has a 30 minute expiration.
         public let auxiliaryDataLocation: TerminologyDataLocation?
-        /// The data location of the custom terminology being retrieved. The custom terminology file is returned in a presigned url that has a 30 minute expiration.
+        /// The Amazon S3 location of the most recent custom terminology input file that was successfully imported into Amazon Translate. The location is returned as a presigned URL that has a 30 minute expiration.  Amazon Translate doesn't scan all input files for the risk of CSV injection attacks.  CSV injection occurs when a .csv or .tsv file is altered so that a record contains malicious code. The record begins with a special character, such as =, +, -, or @. When the file is opened in a spreadsheet program, the program might interpret the record as a formula and run the code within it. Before you download an input file from Amazon S3, ensure that you recognize the file and trust its creator.
         public let terminologyDataLocation: TerminologyDataLocation?
         /// The properties of the custom terminology being retrieved.
         public let terminologyProperties: TerminologyProperties?
@@ -619,7 +624,7 @@ extension Translate {
     }
 
     public struct ParallelDataDataLocation: AWSDecodableShape {
-        /// The Amazon S3 location of the parallel data input file. The location is returned as a presigned URL to that has a 30 minute expiration.  Amazon Translate doesn't scan parallel data input files for the risk of CSV injection attacks.  CSV injection occurs when a .csv or .tsv file is altered so that a record contains malicious code. The record begins with a special character, such as =, +, -, or @. When the file is opened in a spreadsheet program, the program might interpret the record as a formula and run the code within it. Before you download a parallel data input file from Amazon S3, ensure that you recognize the file and trust its creator.
+        /// The Amazon S3 location of the parallel data input file. The location is returned as a presigned URL to that has a 30 minute expiration.  Amazon Translate doesn't scan all input files for the risk of CSV injection attacks.  CSV injection occurs when a .csv or .tsv file is altered so that a record contains malicious code. The record begins with a special character, such as =, +, -, or @. When the file is opened in a spreadsheet program, the program might interpret the record as a formula and run the code within it. Before you download an input file from Amazon S3, ensure that you recognize the file and trust its creator.
         public let location: String
         /// Describes the repository that contains the parallel data input file.
         public let repositoryType: String
@@ -724,6 +729,8 @@ extension Translate {
         public let outputDataConfig: OutputDataConfig
         /// The name of a parallel data resource to add to the translation job. This resource consists of examples that show how you want segments of text to be translated. When you add parallel data to a translation job, you create an Active Custom Translation job.  This parameter accepts only one parallel data resource.  Active Custom Translation jobs are priced at a higher rate than other jobs that don't use parallel data. For more information, see Amazon Translate pricing.  For a list of available parallel data resources, use the ListParallelData operation. For more information, see customizing-translations-parallel-data.
         public let parallelDataNames: [String]?
+        /// Settings to configure your translation output, including the option to mask profane words and phrases.
+        public let settings: TranslationSettings?
         /// The language code of the input language. For a list of language codes, see what-is-languages. Amazon Translate does not automatically detect a source language during batch translation jobs.
         public let sourceLanguageCode: String
         /// The language code of the output language.
@@ -731,13 +738,14 @@ extension Translate {
         /// The name of a custom terminology resource to add to the translation job. This resource lists examples source terms and the desired translation for each term. This parameter accepts only one custom terminology resource. For a list of available custom terminology resources, use the ListTerminologies operation. For more information, see how-custom-terminology.
         public let terminologyNames: [String]?
 
-        public init(clientToken: String = StartTextTranslationJobRequest.idempotencyToken(), dataAccessRoleArn: String, inputDataConfig: InputDataConfig, jobName: String? = nil, outputDataConfig: OutputDataConfig, parallelDataNames: [String]? = nil, sourceLanguageCode: String, targetLanguageCodes: [String], terminologyNames: [String]? = nil) {
+        public init(clientToken: String = StartTextTranslationJobRequest.idempotencyToken(), dataAccessRoleArn: String, inputDataConfig: InputDataConfig, jobName: String? = nil, outputDataConfig: OutputDataConfig, parallelDataNames: [String]? = nil, settings: TranslationSettings? = nil, sourceLanguageCode: String, targetLanguageCodes: [String], terminologyNames: [String]? = nil) {
             self.clientToken = clientToken
             self.dataAccessRoleArn = dataAccessRoleArn
             self.inputDataConfig = inputDataConfig
             self.jobName = jobName
             self.outputDataConfig = outputDataConfig
             self.parallelDataNames = parallelDataNames
+            self.settings = settings
             self.sourceLanguageCode = sourceLanguageCode
             self.targetLanguageCodes = targetLanguageCodes
             self.terminologyNames = terminologyNames
@@ -782,6 +790,7 @@ extension Translate {
             case jobName = "JobName"
             case outputDataConfig = "OutputDataConfig"
             case parallelDataNames = "ParallelDataNames"
+            case settings = "Settings"
             case sourceLanguageCode = "SourceLanguageCode"
             case targetLanguageCodes = "TargetLanguageCodes"
             case terminologyNames = "TerminologyNames"
@@ -884,7 +893,7 @@ extension Translate {
     }
 
     public struct TerminologyDataLocation: AWSDecodableShape {
-        /// The location of the custom terminology data.
+        /// The Amazon S3 location of the most recent custom terminology input file that was successfully imported into Amazon Translate. The location is returned as a presigned URL that has a 30 minute expiration.  Amazon Translate doesn't scan all input files for the risk of CSV injection attacks.  CSV injection occurs when a .csv or .tsv file is altered so that a record contains malicious code. The record begins with a special character, such as =, +, -, or @. When the file is opened in a spreadsheet program, the program might interpret the record as a formula and run the code within it. Before you download an input file from Amazon S3, ensure that you recognize the file and trust its creator.
         public let location: String
         /// The repository type for the custom terminology data.
         public let repositoryType: String
@@ -1017,6 +1026,8 @@ extension Translate {
         public let outputDataConfig: OutputDataConfig?
         /// A list containing the names of the parallel data resources applied to the translation job.
         public let parallelDataNames: [String]?
+        /// Settings that configure the translation output.
+        public let settings: TranslationSettings?
         /// The language code of the language of the source text. The language must be a language supported by Amazon Translate.
         public let sourceLanguageCode: String?
         /// The time at which the translation job was submitted.
@@ -1026,7 +1037,7 @@ extension Translate {
         /// A list containing the names of the terminologies applied to a translation job. Only one terminology can be applied per StartTextTranslationJob request at this time.
         public let terminologyNames: [String]?
 
-        public init(dataAccessRoleArn: String? = nil, endTime: Date? = nil, inputDataConfig: InputDataConfig? = nil, jobDetails: JobDetails? = nil, jobId: String? = nil, jobName: String? = nil, jobStatus: JobStatus? = nil, message: String? = nil, outputDataConfig: OutputDataConfig? = nil, parallelDataNames: [String]? = nil, sourceLanguageCode: String? = nil, submittedTime: Date? = nil, targetLanguageCodes: [String]? = nil, terminologyNames: [String]? = nil) {
+        public init(dataAccessRoleArn: String? = nil, endTime: Date? = nil, inputDataConfig: InputDataConfig? = nil, jobDetails: JobDetails? = nil, jobId: String? = nil, jobName: String? = nil, jobStatus: JobStatus? = nil, message: String? = nil, outputDataConfig: OutputDataConfig? = nil, parallelDataNames: [String]? = nil, settings: TranslationSettings? = nil, sourceLanguageCode: String? = nil, submittedTime: Date? = nil, targetLanguageCodes: [String]? = nil, terminologyNames: [String]? = nil) {
             self.dataAccessRoleArn = dataAccessRoleArn
             self.endTime = endTime
             self.inputDataConfig = inputDataConfig
@@ -1037,6 +1048,7 @@ extension Translate {
             self.message = message
             self.outputDataConfig = outputDataConfig
             self.parallelDataNames = parallelDataNames
+            self.settings = settings
             self.sourceLanguageCode = sourceLanguageCode
             self.submittedTime = submittedTime
             self.targetLanguageCodes = targetLanguageCodes
@@ -1054,6 +1066,7 @@ extension Translate {
             case message = "Message"
             case outputDataConfig = "OutputDataConfig"
             case parallelDataNames = "ParallelDataNames"
+            case settings = "Settings"
             case sourceLanguageCode = "SourceLanguageCode"
             case submittedTime = "SubmittedTime"
             case targetLanguageCodes = "TargetLanguageCodes"
@@ -1062,6 +1075,8 @@ extension Translate {
     }
 
     public struct TranslateTextRequest: AWSEncodableShape {
+        /// Settings to configure your translation output, including the option to mask profane words and phrases.
+        public let settings: TranslationSettings?
         /// The language code for the language of the source text. The language must be a language supported by Amazon Translate. For a list of language codes, see what-is-languages. To have Amazon Translate determine the source language of your text, you can specify auto in the SourceLanguageCode field. If you specify auto, Amazon Translate will call Amazon Comprehend to determine the source language.
         public let sourceLanguageCode: String
         /// The language code requested for the language of the target text. The language must be a language supported by Amazon Translate.
@@ -1071,7 +1086,8 @@ extension Translate {
         /// The text to translate. The text string can be a maximum of 5,000 bytes long. Depending on your character set, this may be fewer than 5,000 characters.
         public let text: String
 
-        public init(sourceLanguageCode: String, targetLanguageCode: String, terminologyNames: [String]? = nil, text: String) {
+        public init(settings: TranslationSettings? = nil, sourceLanguageCode: String, targetLanguageCode: String, terminologyNames: [String]? = nil, text: String) {
+            self.settings = settings
             self.sourceLanguageCode = sourceLanguageCode
             self.targetLanguageCode = targetLanguageCode
             self.terminologyNames = terminologyNames
@@ -1094,6 +1110,7 @@ extension Translate {
         }
 
         private enum CodingKeys: String, CodingKey {
+            case settings = "Settings"
             case sourceLanguageCode = "SourceLanguageCode"
             case targetLanguageCode = "TargetLanguageCode"
             case terminologyNames = "TerminologyNames"
@@ -1102,6 +1119,8 @@ extension Translate {
     }
 
     public struct TranslateTextResponse: AWSDecodableShape {
+        /// Settings that configure the translation output.
+        public let appliedSettings: TranslationSettings?
         /// The names of the custom terminologies applied to the input text by Amazon Translate for the translated text response.
         public let appliedTerminologies: [AppliedTerminology]?
         /// The language code for the language of the source text.
@@ -1111,7 +1130,8 @@ extension Translate {
         /// The translated text.
         public let translatedText: String
 
-        public init(appliedTerminologies: [AppliedTerminology]? = nil, sourceLanguageCode: String, targetLanguageCode: String, translatedText: String) {
+        public init(appliedSettings: TranslationSettings? = nil, appliedTerminologies: [AppliedTerminology]? = nil, sourceLanguageCode: String, targetLanguageCode: String, translatedText: String) {
+            self.appliedSettings = appliedSettings
             self.appliedTerminologies = appliedTerminologies
             self.sourceLanguageCode = sourceLanguageCode
             self.targetLanguageCode = targetLanguageCode
@@ -1119,10 +1139,24 @@ extension Translate {
         }
 
         private enum CodingKeys: String, CodingKey {
+            case appliedSettings = "AppliedSettings"
             case appliedTerminologies = "AppliedTerminologies"
             case sourceLanguageCode = "SourceLanguageCode"
             case targetLanguageCode = "TargetLanguageCode"
             case translatedText = "TranslatedText"
+        }
+    }
+
+    public struct TranslationSettings: AWSEncodableShape & AWSDecodableShape {
+        /// Enable the profanity setting if you want Amazon Translate to mask profane words and phrases in your translation output. To mask profane words and phrases, Amazon Translate replaces them with the grawlix string “?$#@$“. This 5-character sequence is used for each profane word or phrase, regardless of the length or number of words. Amazon Translate does not detect profanity in all of its supported languages. For languages that support profanity detection, see Supported Languages and Language Codes in the Amazon Translate Developer Guide.
+        public let profanity: Profanity?
+
+        public init(profanity: Profanity? = nil) {
+            self.profanity = profanity
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case profanity = "Profanity"
         }
     }
 

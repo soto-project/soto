@@ -111,6 +111,22 @@ extension Redshift {
         public var description: String { return self.rawValue }
     }
 
+    public enum ReservedNodeExchangeActionType: String, CustomStringConvertible, Codable {
+        case resizeCluster = "resize-cluster"
+        case restoreCluster = "restore-cluster"
+        public var description: String { return self.rawValue }
+    }
+
+    public enum ReservedNodeExchangeStatusType: String, CustomStringConvertible, Codable {
+        case failed = "FAILED"
+        case inProgress = "IN_PROGRESS"
+        case pending = "PENDING"
+        case requested = "REQUESTED"
+        case retrying = "RETRYING"
+        case succeeded = "SUCCEEDED"
+        public var description: String { return self.rawValue }
+    }
+
     public enum ReservedNodeOfferingType: String, CustomStringConvertible, Codable {
         case regular = "Regular"
         case upgradable = "Upgradable"
@@ -407,7 +423,7 @@ extension Redshift {
     }
 
     public struct AuthorizeDataShareMessage: AWSEncodableShape {
-        /// The identifier of the data consumer that is authorized to access the datashare. This identifier is an Amazon Web Services account ID.
+        /// The identifier of the data consumer that is authorized to access the datashare. This identifier is an Amazon Web Services account ID or a keyword, such as ADX.
         public let consumerIdentifier: String
         /// The Amazon Resource Name (ARN) of the datashare that producers are to authorize sharing for.
         public let dataShareArn: String
@@ -730,6 +746,8 @@ extension Redshift {
         public let preferredMaintenanceWindow: String?
         /// A boolean value that, if true, indicates that the cluster can be accessed from a public network.
         public let publiclyAccessible: Bool?
+        /// The status of the reserved-node exchange request. Statuses include in-progress and requested.
+        public let reservedNodeExchangeStatus: ReservedNodeExchangeStatus?
         /// Returns the following:   AllowCancelResize: a boolean value indicating if the resize operation can be cancelled.   ResizeType: Returns ClassicResize
         public let resizeInfo: ResizeInfo?
         /// A value that describes the status of a cluster restore action. This parameter returns null if the cluster was not created by restoring a snapshot.
@@ -749,7 +767,7 @@ extension Redshift {
         @OptionalCustomCoding<ArrayCoder<_VpcSecurityGroupsEncoding, VpcSecurityGroupMembership>>
         public var vpcSecurityGroups: [VpcSecurityGroupMembership]?
 
-        public init(allowVersionUpgrade: Bool? = nil, aquaConfiguration: AquaConfiguration? = nil, automatedSnapshotRetentionPeriod: Int? = nil, availabilityZone: String? = nil, availabilityZoneRelocationStatus: String? = nil, clusterAvailabilityStatus: String? = nil, clusterCreateTime: Date? = nil, clusterIdentifier: String? = nil, clusterNamespaceArn: String? = nil, clusterNodes: [ClusterNode]? = nil, clusterParameterGroups: [ClusterParameterGroupStatus]? = nil, clusterPublicKey: String? = nil, clusterRevisionNumber: String? = nil, clusterSecurityGroups: [ClusterSecurityGroupMembership]? = nil, clusterSnapshotCopyStatus: ClusterSnapshotCopyStatus? = nil, clusterStatus: String? = nil, clusterSubnetGroupName: String? = nil, clusterVersion: String? = nil, dataTransferProgress: DataTransferProgress? = nil, dBName: String? = nil, defaultIamRoleArn: String? = nil, deferredMaintenanceWindows: [DeferredMaintenanceWindow]? = nil, elasticIpStatus: ElasticIpStatus? = nil, elasticResizeNumberOfNodeOptions: String? = nil, encrypted: Bool? = nil, endpoint: Endpoint? = nil, enhancedVpcRouting: Bool? = nil, expectedNextSnapshotScheduleTime: Date? = nil, expectedNextSnapshotScheduleTimeStatus: String? = nil, hsmStatus: HsmStatus? = nil, iamRoles: [ClusterIamRole]? = nil, kmsKeyId: String? = nil, maintenanceTrackName: String? = nil, manualSnapshotRetentionPeriod: Int? = nil, masterUsername: String? = nil, modifyStatus: String? = nil, nextMaintenanceWindowStartTime: Date? = nil, nodeType: String? = nil, numberOfNodes: Int? = nil, pendingActions: [String]? = nil, pendingModifiedValues: PendingModifiedValues? = nil, preferredMaintenanceWindow: String? = nil, publiclyAccessible: Bool? = nil, resizeInfo: ResizeInfo? = nil, restoreStatus: RestoreStatus? = nil, snapshotScheduleIdentifier: String? = nil, snapshotScheduleState: ScheduleState? = nil, tags: [Tag]? = nil, totalStorageCapacityInMegaBytes: Int64? = nil, vpcId: String? = nil, vpcSecurityGroups: [VpcSecurityGroupMembership]? = nil) {
+        public init(allowVersionUpgrade: Bool? = nil, aquaConfiguration: AquaConfiguration? = nil, automatedSnapshotRetentionPeriod: Int? = nil, availabilityZone: String? = nil, availabilityZoneRelocationStatus: String? = nil, clusterAvailabilityStatus: String? = nil, clusterCreateTime: Date? = nil, clusterIdentifier: String? = nil, clusterNamespaceArn: String? = nil, clusterNodes: [ClusterNode]? = nil, clusterParameterGroups: [ClusterParameterGroupStatus]? = nil, clusterPublicKey: String? = nil, clusterRevisionNumber: String? = nil, clusterSecurityGroups: [ClusterSecurityGroupMembership]? = nil, clusterSnapshotCopyStatus: ClusterSnapshotCopyStatus? = nil, clusterStatus: String? = nil, clusterSubnetGroupName: String? = nil, clusterVersion: String? = nil, dataTransferProgress: DataTransferProgress? = nil, dBName: String? = nil, defaultIamRoleArn: String? = nil, deferredMaintenanceWindows: [DeferredMaintenanceWindow]? = nil, elasticIpStatus: ElasticIpStatus? = nil, elasticResizeNumberOfNodeOptions: String? = nil, encrypted: Bool? = nil, endpoint: Endpoint? = nil, enhancedVpcRouting: Bool? = nil, expectedNextSnapshotScheduleTime: Date? = nil, expectedNextSnapshotScheduleTimeStatus: String? = nil, hsmStatus: HsmStatus? = nil, iamRoles: [ClusterIamRole]? = nil, kmsKeyId: String? = nil, maintenanceTrackName: String? = nil, manualSnapshotRetentionPeriod: Int? = nil, masterUsername: String? = nil, modifyStatus: String? = nil, nextMaintenanceWindowStartTime: Date? = nil, nodeType: String? = nil, numberOfNodes: Int? = nil, pendingActions: [String]? = nil, pendingModifiedValues: PendingModifiedValues? = nil, preferredMaintenanceWindow: String? = nil, publiclyAccessible: Bool? = nil, reservedNodeExchangeStatus: ReservedNodeExchangeStatus? = nil, resizeInfo: ResizeInfo? = nil, restoreStatus: RestoreStatus? = nil, snapshotScheduleIdentifier: String? = nil, snapshotScheduleState: ScheduleState? = nil, tags: [Tag]? = nil, totalStorageCapacityInMegaBytes: Int64? = nil, vpcId: String? = nil, vpcSecurityGroups: [VpcSecurityGroupMembership]? = nil) {
             self.allowVersionUpgrade = allowVersionUpgrade
             self.aquaConfiguration = aquaConfiguration
             self.automatedSnapshotRetentionPeriod = automatedSnapshotRetentionPeriod
@@ -793,6 +811,7 @@ extension Redshift {
             self.pendingModifiedValues = pendingModifiedValues
             self.preferredMaintenanceWindow = preferredMaintenanceWindow
             self.publiclyAccessible = publiclyAccessible
+            self.reservedNodeExchangeStatus = reservedNodeExchangeStatus
             self.resizeInfo = resizeInfo
             self.restoreStatus = restoreStatus
             self.snapshotScheduleIdentifier = snapshotScheduleIdentifier
@@ -847,6 +866,7 @@ extension Redshift {
             case pendingModifiedValues = "PendingModifiedValues"
             case preferredMaintenanceWindow = "PreferredMaintenanceWindow"
             case publiclyAccessible = "PubliclyAccessible"
+            case reservedNodeExchangeStatus = "ReservedNodeExchangeStatus"
             case resizeInfo = "ResizeInfo"
             case restoreStatus = "RestoreStatus"
             case snapshotScheduleIdentifier = "SnapshotScheduleIdentifier"
@@ -2258,13 +2278,16 @@ extension Redshift {
         /// A value that specifies when the datashare has an association between a producer and data consumers.
         @OptionalCustomCoding<StandardArrayCoder>
         public var dataShareAssociations: [DataShareAssociation]?
+        /// The identifier of a datashare to show its managing entity.
+        public let managedBy: String?
         /// The Amazon Resource Name (ARN) of the producer.
         public let producerArn: String?
 
-        public init(allowPubliclyAccessibleConsumers: Bool? = nil, dataShareArn: String? = nil, dataShareAssociations: [DataShareAssociation]? = nil, producerArn: String? = nil) {
+        public init(allowPubliclyAccessibleConsumers: Bool? = nil, dataShareArn: String? = nil, dataShareAssociations: [DataShareAssociation]? = nil, managedBy: String? = nil, producerArn: String? = nil) {
             self.allowPubliclyAccessibleConsumers = allowPubliclyAccessibleConsumers
             self.dataShareArn = dataShareArn
             self.dataShareAssociations = dataShareAssociations
+            self.managedBy = managedBy
             self.producerArn = producerArn
         }
 
@@ -2272,6 +2295,7 @@ extension Redshift {
             case allowPubliclyAccessibleConsumers = "AllowPubliclyAccessibleConsumers"
             case dataShareArn = "DataShareArn"
             case dataShareAssociations = "DataShareAssociations"
+            case managedBy = "ManagedBy"
             case producerArn = "ProducerArn"
         }
     }
@@ -2335,7 +2359,7 @@ extension Redshift {
     }
 
     public struct DeauthorizeDataShareMessage: AWSEncodableShape {
-        /// The identifier of the data consumer that is to have authorization removed from the datashare. This identifier is an Amazon Web Services account ID.
+        /// The identifier of the data consumer that is to have authorization removed from the datashare. This identifier is an Amazon Web Services account ID or a keyword, such as ADX.
         public let consumerIdentifier: String
         /// The Amazon Resource Name (ARN) of the datashare to remove authorization from.
         public let dataShareArn: String
@@ -3746,6 +3770,57 @@ extension Redshift {
         }
     }
 
+    public struct DescribeReservedNodeExchangeStatusInputMessage: AWSEncodableShape {
+        /// An optional pagination token provided by a previous DescribeReservedNodeExchangeStatus request. If this parameter is specified, the response includes only records beyond the marker, up to the value specified by the MaxRecords parameter. You can retrieve the next set of response records by providing the returned marker value in the Marker parameter and retrying the request.
+        public let marker: String?
+        /// The maximum number of response records to return in each call. If the number of remaining response records exceeds the specified MaxRecords value, a value is returned in a Marker field of the response. You can retrieve the next set of records by retrying the command with the returned marker value.
+        public let maxRecords: Int?
+        /// The identifier of the reserved-node exchange request.
+        public let reservedNodeExchangeRequestId: String?
+        /// The identifier of the source reserved node in a reserved-node exchange request.
+        public let reservedNodeId: String?
+
+        public init(marker: String? = nil, maxRecords: Int? = nil, reservedNodeExchangeRequestId: String? = nil, reservedNodeId: String? = nil) {
+            self.marker = marker
+            self.maxRecords = maxRecords
+            self.reservedNodeExchangeRequestId = reservedNodeExchangeRequestId
+            self.reservedNodeId = reservedNodeId
+        }
+
+        public func validate(name: String) throws {
+            try self.validate(self.marker, name: "marker", parent: name, max: 2_147_483_647)
+            try self.validate(self.reservedNodeExchangeRequestId, name: "reservedNodeExchangeRequestId", parent: name, max: 2_147_483_647)
+            try self.validate(self.reservedNodeId, name: "reservedNodeId", parent: name, max: 2_147_483_647)
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case marker = "Marker"
+            case maxRecords = "MaxRecords"
+            case reservedNodeExchangeRequestId = "ReservedNodeExchangeRequestId"
+            case reservedNodeId = "ReservedNodeId"
+        }
+    }
+
+    public struct DescribeReservedNodeExchangeStatusOutputMessage: AWSDecodableShape {
+        public struct _ReservedNodeExchangeStatusDetailsEncoding: ArrayCoderProperties { public static let member = "ReservedNodeExchangeStatus" }
+
+        /// A pagination token provided by a previous DescribeReservedNodeExchangeStatus request.
+        public let marker: String?
+        /// The details of the reserved-node exchange request, including the status, request time, source reserved-node identifier, and additional details.
+        @OptionalCustomCoding<ArrayCoder<_ReservedNodeExchangeStatusDetailsEncoding, ReservedNodeExchangeStatus>>
+        public var reservedNodeExchangeStatusDetails: [ReservedNodeExchangeStatus]?
+
+        public init(marker: String? = nil, reservedNodeExchangeStatusDetails: [ReservedNodeExchangeStatus]? = nil) {
+            self.marker = marker
+            self.reservedNodeExchangeStatusDetails = reservedNodeExchangeStatusDetails
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case marker = "Marker"
+            case reservedNodeExchangeStatusDetails = "ReservedNodeExchangeStatusDetails"
+        }
+    }
+
     public struct DescribeReservedNodeOfferingsMessage: AWSEncodableShape {
         /// An optional parameter that specifies the starting point to return a set of response records. When the results of a DescribeReservedNodeOfferings request exceed the value specified in MaxRecords, Amazon Web Services returns a value in the Marker field of the response. You can retrieve the next set of response records by providing the returned marker value in the Marker parameter and retrying the request.
         public let marker: String?
@@ -4713,6 +4788,61 @@ extension Redshift {
             case dbName = "DbName"
             case dbUser = "DbUser"
             case durationSeconds = "DurationSeconds"
+        }
+    }
+
+    public struct GetReservedNodeExchangeConfigurationOptionsInputMessage: AWSEncodableShape {
+        /// The action type of the reserved-node configuration. The action type can be an exchange initiated from either a snapshot or a resize.
+        public let actionType: ReservedNodeExchangeActionType
+        /// The identifier for the cluster that is the source for a reserved-node exchange.
+        public let clusterIdentifier: String?
+        /// An optional pagination token provided by a previous GetReservedNodeExchangeConfigurationOptions request. If this parameter is specified, the response includes only records beyond the marker, up to the value specified by the MaxRecords parameter. You can retrieve the next set of response records by providing the returned marker value in the Marker parameter and retrying the request.
+        public let marker: String?
+        /// The maximum number of response records to return in each call. If the number of remaining response records exceeds the specified MaxRecords value, a value is returned in a Marker field of the response. You can retrieve the next set of records by retrying the command with the returned marker value.
+        public let maxRecords: Int?
+        /// The identifier for the snapshot that is the source for the reserved-node exchange.
+        public let snapshotIdentifier: String?
+
+        public init(actionType: ReservedNodeExchangeActionType, clusterIdentifier: String? = nil, marker: String? = nil, maxRecords: Int? = nil, snapshotIdentifier: String? = nil) {
+            self.actionType = actionType
+            self.clusterIdentifier = clusterIdentifier
+            self.marker = marker
+            self.maxRecords = maxRecords
+            self.snapshotIdentifier = snapshotIdentifier
+        }
+
+        public func validate(name: String) throws {
+            try self.validate(self.clusterIdentifier, name: "clusterIdentifier", parent: name, max: 2_147_483_647)
+            try self.validate(self.marker, name: "marker", parent: name, max: 2_147_483_647)
+            try self.validate(self.snapshotIdentifier, name: "snapshotIdentifier", parent: name, max: 2_147_483_647)
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case actionType = "ActionType"
+            case clusterIdentifier = "ClusterIdentifier"
+            case marker = "Marker"
+            case maxRecords = "MaxRecords"
+            case snapshotIdentifier = "SnapshotIdentifier"
+        }
+    }
+
+    public struct GetReservedNodeExchangeConfigurationOptionsOutputMessage: AWSDecodableShape {
+        public struct _ReservedNodeConfigurationOptionListEncoding: ArrayCoderProperties { public static let member = "ReservedNodeConfigurationOption" }
+
+        /// A pagination token provided by a previous GetReservedNodeExchangeConfigurationOptions request.
+        public let marker: String?
+        /// the configuration options for the reserved-node exchange. These options include information about the source reserved node and target reserved node. Details include the node type, the price, the node count, and the offering type.
+        @OptionalCustomCoding<ArrayCoder<_ReservedNodeConfigurationOptionListEncoding, ReservedNodeConfigurationOption>>
+        public var reservedNodeConfigurationOptionList: [ReservedNodeConfigurationOption]?
+
+        public init(marker: String? = nil, reservedNodeConfigurationOptionList: [ReservedNodeConfigurationOption]? = nil) {
+            self.marker = marker
+            self.reservedNodeConfigurationOptionList = reservedNodeConfigurationOptionList
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case marker = "Marker"
+            case reservedNodeConfigurationOptionList = "ReservedNodeConfigurationOptionList"
         }
     }
 
@@ -6217,6 +6347,70 @@ extension Redshift {
         }
     }
 
+    public struct ReservedNodeConfigurationOption: AWSDecodableShape {
+        public let sourceReservedNode: ReservedNode?
+        /// The target reserved-node count.
+        public let targetReservedNodeCount: Int?
+        public let targetReservedNodeOffering: ReservedNodeOffering?
+
+        public init(sourceReservedNode: ReservedNode? = nil, targetReservedNodeCount: Int? = nil, targetReservedNodeOffering: ReservedNodeOffering? = nil) {
+            self.sourceReservedNode = sourceReservedNode
+            self.targetReservedNodeCount = targetReservedNodeCount
+            self.targetReservedNodeOffering = targetReservedNodeOffering
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case sourceReservedNode = "SourceReservedNode"
+            case targetReservedNodeCount = "TargetReservedNodeCount"
+            case targetReservedNodeOffering = "TargetReservedNodeOffering"
+        }
+    }
+
+    public struct ReservedNodeExchangeStatus: AWSDecodableShape {
+        /// A date and time that indicate when the reserved-node exchange was requested.
+        public let requestTime: Date?
+        /// The identifier of the reserved-node exchange request.
+        public let reservedNodeExchangeRequestId: String?
+        /// The source reserved-node count in the cluster.
+        public let sourceReservedNodeCount: Int?
+        /// The identifier of the source reserved node.
+        public let sourceReservedNodeId: String?
+        /// The source reserved-node type, for example ds2.xlarge.
+        public let sourceReservedNodeType: String?
+        /// The status of the reserved-node exchange request. Statuses include in-progress and requested.
+        public let status: ReservedNodeExchangeStatusType?
+        /// The count of target reserved nodes in the cluster.
+        public let targetReservedNodeCount: Int?
+        /// The identifier of the target reserved node offering.
+        public let targetReservedNodeOfferingId: String?
+        /// The node type of the target reserved node, for example ra3.4xlarge.
+        public let targetReservedNodeType: String?
+
+        public init(requestTime: Date? = nil, reservedNodeExchangeRequestId: String? = nil, sourceReservedNodeCount: Int? = nil, sourceReservedNodeId: String? = nil, sourceReservedNodeType: String? = nil, status: ReservedNodeExchangeStatusType? = nil, targetReservedNodeCount: Int? = nil, targetReservedNodeOfferingId: String? = nil, targetReservedNodeType: String? = nil) {
+            self.requestTime = requestTime
+            self.reservedNodeExchangeRequestId = reservedNodeExchangeRequestId
+            self.sourceReservedNodeCount = sourceReservedNodeCount
+            self.sourceReservedNodeId = sourceReservedNodeId
+            self.sourceReservedNodeType = sourceReservedNodeType
+            self.status = status
+            self.targetReservedNodeCount = targetReservedNodeCount
+            self.targetReservedNodeOfferingId = targetReservedNodeOfferingId
+            self.targetReservedNodeType = targetReservedNodeType
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case requestTime = "RequestTime"
+            case reservedNodeExchangeRequestId = "ReservedNodeExchangeRequestId"
+            case sourceReservedNodeCount = "SourceReservedNodeCount"
+            case sourceReservedNodeId = "SourceReservedNodeId"
+            case sourceReservedNodeType = "SourceReservedNodeType"
+            case status = "Status"
+            case targetReservedNodeCount = "TargetReservedNodeCount"
+            case targetReservedNodeOfferingId = "TargetReservedNodeOfferingId"
+            case targetReservedNodeType = "TargetReservedNodeType"
+        }
+    }
+
     public struct ReservedNodeOffering: AWSDecodableShape {
         public struct _RecurringChargesEncoding: ArrayCoderProperties { public static let member = "RecurringCharge" }
 
@@ -6346,19 +6540,27 @@ extension Redshift {
         public let nodeType: String?
         /// The new number of nodes for the cluster. If not specified, the cluster's current number of nodes is used.
         public let numberOfNodes: Int?
+        /// The identifier of the reserved node.
+        public let reservedNodeId: String?
+        /// The identifier of the target reserved node offering.
+        public let targetReservedNodeOfferingId: String?
 
-        public init(classic: Bool? = nil, clusterIdentifier: String, clusterType: String? = nil, nodeType: String? = nil, numberOfNodes: Int? = nil) {
+        public init(classic: Bool? = nil, clusterIdentifier: String, clusterType: String? = nil, nodeType: String? = nil, numberOfNodes: Int? = nil, reservedNodeId: String? = nil, targetReservedNodeOfferingId: String? = nil) {
             self.classic = classic
             self.clusterIdentifier = clusterIdentifier
             self.clusterType = clusterType
             self.nodeType = nodeType
             self.numberOfNodes = numberOfNodes
+            self.reservedNodeId = reservedNodeId
+            self.targetReservedNodeOfferingId = targetReservedNodeOfferingId
         }
 
         public func validate(name: String) throws {
             try self.validate(self.clusterIdentifier, name: "clusterIdentifier", parent: name, max: 2_147_483_647)
             try self.validate(self.clusterType, name: "clusterType", parent: name, max: 2_147_483_647)
             try self.validate(self.nodeType, name: "nodeType", parent: name, max: 2_147_483_647)
+            try self.validate(self.reservedNodeId, name: "reservedNodeId", parent: name, max: 2_147_483_647)
+            try self.validate(self.targetReservedNodeOfferingId, name: "targetReservedNodeOfferingId", parent: name, max: 2_147_483_647)
         }
 
         private enum CodingKeys: String, CodingKey {
@@ -6367,6 +6569,8 @@ extension Redshift {
             case clusterType = "ClusterType"
             case nodeType = "NodeType"
             case numberOfNodes = "NumberOfNodes"
+            case reservedNodeId = "ReservedNodeId"
+            case targetReservedNodeOfferingId = "TargetReservedNodeOfferingId"
         }
     }
 
@@ -6532,17 +6736,21 @@ extension Redshift {
         public let preferredMaintenanceWindow: String?
         /// If true, the cluster can be accessed from a public network.
         public let publiclyAccessible: Bool?
+        /// The identifier of the target reserved node offering.
+        public let reservedNodeId: String?
         /// The name of the cluster the source snapshot was created from. This parameter is required if your IAM user has a policy containing a snapshot resource element that specifies anything other than * for the cluster name.
         public let snapshotClusterIdentifier: String?
         /// The name of the snapshot from which to create the new cluster. This parameter isn't case sensitive. Example: my-snapshot-id
         public let snapshotIdentifier: String
         /// A unique identifier for the snapshot schedule.
         public let snapshotScheduleIdentifier: String?
+        /// The identifier of the target reserved node offering.
+        public let targetReservedNodeOfferingId: String?
         /// A list of Virtual Private Cloud (VPC) security groups to be associated with the cluster. Default: The default VPC security group is associated with the cluster. VPC security groups only apply to clusters in VPCs.
         @OptionalCustomCoding<ArrayCoder<_VpcSecurityGroupIdsEncoding, String>>
         public var vpcSecurityGroupIds: [String]?
 
-        public init(additionalInfo: String? = nil, allowVersionUpgrade: Bool? = nil, aquaConfigurationStatus: AquaConfigurationStatus? = nil, automatedSnapshotRetentionPeriod: Int? = nil, availabilityZone: String? = nil, availabilityZoneRelocation: Bool? = nil, clusterIdentifier: String, clusterParameterGroupName: String? = nil, clusterSecurityGroups: [String]? = nil, clusterSubnetGroupName: String? = nil, defaultIamRoleArn: String? = nil, elasticIp: String? = nil, enhancedVpcRouting: Bool? = nil, hsmClientCertificateIdentifier: String? = nil, hsmConfigurationIdentifier: String? = nil, iamRoles: [String]? = nil, kmsKeyId: String? = nil, maintenanceTrackName: String? = nil, manualSnapshotRetentionPeriod: Int? = nil, nodeType: String? = nil, numberOfNodes: Int? = nil, ownerAccount: String? = nil, port: Int? = nil, preferredMaintenanceWindow: String? = nil, publiclyAccessible: Bool? = nil, snapshotClusterIdentifier: String? = nil, snapshotIdentifier: String, snapshotScheduleIdentifier: String? = nil, vpcSecurityGroupIds: [String]? = nil) {
+        public init(additionalInfo: String? = nil, allowVersionUpgrade: Bool? = nil, aquaConfigurationStatus: AquaConfigurationStatus? = nil, automatedSnapshotRetentionPeriod: Int? = nil, availabilityZone: String? = nil, availabilityZoneRelocation: Bool? = nil, clusterIdentifier: String, clusterParameterGroupName: String? = nil, clusterSecurityGroups: [String]? = nil, clusterSubnetGroupName: String? = nil, defaultIamRoleArn: String? = nil, elasticIp: String? = nil, enhancedVpcRouting: Bool? = nil, hsmClientCertificateIdentifier: String? = nil, hsmConfigurationIdentifier: String? = nil, iamRoles: [String]? = nil, kmsKeyId: String? = nil, maintenanceTrackName: String? = nil, manualSnapshotRetentionPeriod: Int? = nil, nodeType: String? = nil, numberOfNodes: Int? = nil, ownerAccount: String? = nil, port: Int? = nil, preferredMaintenanceWindow: String? = nil, publiclyAccessible: Bool? = nil, reservedNodeId: String? = nil, snapshotClusterIdentifier: String? = nil, snapshotIdentifier: String, snapshotScheduleIdentifier: String? = nil, targetReservedNodeOfferingId: String? = nil, vpcSecurityGroupIds: [String]? = nil) {
             self.additionalInfo = additionalInfo
             self.allowVersionUpgrade = allowVersionUpgrade
             self.aquaConfigurationStatus = aquaConfigurationStatus
@@ -6568,9 +6776,11 @@ extension Redshift {
             self.port = port
             self.preferredMaintenanceWindow = preferredMaintenanceWindow
             self.publiclyAccessible = publiclyAccessible
+            self.reservedNodeId = reservedNodeId
             self.snapshotClusterIdentifier = snapshotClusterIdentifier
             self.snapshotIdentifier = snapshotIdentifier
             self.snapshotScheduleIdentifier = snapshotScheduleIdentifier
+            self.targetReservedNodeOfferingId = targetReservedNodeOfferingId
             self.vpcSecurityGroupIds = vpcSecurityGroupIds
         }
 
@@ -6595,9 +6805,11 @@ extension Redshift {
             try self.validate(self.nodeType, name: "nodeType", parent: name, max: 2_147_483_647)
             try self.validate(self.ownerAccount, name: "ownerAccount", parent: name, max: 2_147_483_647)
             try self.validate(self.preferredMaintenanceWindow, name: "preferredMaintenanceWindow", parent: name, max: 2_147_483_647)
+            try self.validate(self.reservedNodeId, name: "reservedNodeId", parent: name, max: 2_147_483_647)
             try self.validate(self.snapshotClusterIdentifier, name: "snapshotClusterIdentifier", parent: name, max: 2_147_483_647)
             try self.validate(self.snapshotIdentifier, name: "snapshotIdentifier", parent: name, max: 2_147_483_647)
             try self.validate(self.snapshotScheduleIdentifier, name: "snapshotScheduleIdentifier", parent: name, max: 2_147_483_647)
+            try self.validate(self.targetReservedNodeOfferingId, name: "targetReservedNodeOfferingId", parent: name, max: 2_147_483_647)
             try self.vpcSecurityGroupIds?.forEach {
                 try validate($0, name: "vpcSecurityGroupIds[]", parent: name, max: 2_147_483_647)
             }
@@ -6629,9 +6841,11 @@ extension Redshift {
             case port = "Port"
             case preferredMaintenanceWindow = "PreferredMaintenanceWindow"
             case publiclyAccessible = "PubliclyAccessible"
+            case reservedNodeId = "ReservedNodeId"
             case snapshotClusterIdentifier = "SnapshotClusterIdentifier"
             case snapshotIdentifier = "SnapshotIdentifier"
             case snapshotScheduleIdentifier = "SnapshotScheduleIdentifier"
+            case targetReservedNodeOfferingId = "TargetReservedNodeOfferingId"
             case vpcSecurityGroupIds = "VpcSecurityGroupIds"
         }
     }

@@ -21,6 +21,7 @@ public struct RedshiftDataAPIServiceErrorType: AWSErrorType {
     enum Code: String {
         case activeStatementsExceededException = "ActiveStatementsExceededException"
         case batchExecuteStatementException = "BatchExecuteStatementException"
+        case databaseConnectionException = "DatabaseConnectionException"
         case executeStatementException = "ExecuteStatementException"
         case internalServerException = "InternalServerException"
         case resourceNotFoundException = "ResourceNotFoundException"
@@ -49,6 +50,8 @@ public struct RedshiftDataAPIServiceErrorType: AWSErrorType {
     public static var activeStatementsExceededException: Self { .init(.activeStatementsExceededException) }
     /// An SQL statement encountered an environmental error while running.
     public static var batchExecuteStatementException: Self { .init(.batchExecuteStatementException) }
+    /// Connection to a database failed.
+    public static var databaseConnectionException: Self { .init(.databaseConnectionException) }
     /// The SQL statement encountered an environmental error while running.
     public static var executeStatementException: Self { .init(.executeStatementException) }
     /// The Amazon Redshift Data API operation failed due to invalid input.

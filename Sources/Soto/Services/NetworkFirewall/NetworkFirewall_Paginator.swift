@@ -255,7 +255,8 @@ extension NetworkFirewall.ListRuleGroupsRequest: AWSPaginateToken {
     public func usingPaginationToken(_ token: String) -> NetworkFirewall.ListRuleGroupsRequest {
         return .init(
             maxResults: self.maxResults,
-            nextToken: token
+            nextToken: token,
+            scope: self.scope
         )
     }
 }

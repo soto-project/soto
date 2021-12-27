@@ -162,6 +162,11 @@ public struct DataExchange: AWSService {
         return self.client.execute(operation: "ListTagsForResource", path: "/tags/{resource-arn}", httpMethod: .GET, serviceConfig: self.config, input: input, logger: logger, on: eventLoop)
     }
 
+    /// This operation invokes an API Gateway API asset. The request is proxied to the provider’s API Gateway API.
+    public func sendApiAsset(_ input: SendApiAssetRequest, logger: Logger = AWSClient.loggingDisabled, on eventLoop: EventLoop? = nil) -> EventLoopFuture<SendApiAssetResponse> {
+        return self.client.execute(operation: "SendApiAsset", path: "/v1", httpMethod: .POST, serviceConfig: self.config, input: input, hostPrefix: "api-fulfill.", logger: logger, on: eventLoop)
+    }
+
     /// This operation starts a job.
     public func startJob(_ input: StartJobRequest, logger: Logger = AWSClient.loggingDisabled, on eventLoop: EventLoop? = nil) -> EventLoopFuture<StartJobResponse> {
         return self.client.execute(operation: "StartJob", path: "/v1/jobs/{JobId}", httpMethod: .PATCH, serviceConfig: self.config, input: input, logger: logger, on: eventLoop)

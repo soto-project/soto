@@ -176,7 +176,7 @@ extension NimbleStudio {
         )
     }
 
-    ///  Get all users in a given studio membership.
+    ///  Get all users in a given studio membership.   ListStudioMembers only returns admin members.
     /// Return PaginatorSequence for operation.
     ///
     /// - Parameters:

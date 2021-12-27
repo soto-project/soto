@@ -44,6 +44,28 @@ extension Personalize {
         )
     }
 
+    ///  Gets a list of the batch segment jobs that have been performed off of a solution version that you specify.
+    /// Return PaginatorSequence for operation.
+    ///
+    /// - Parameters:
+    ///   - input: Input for request
+    ///   - logger: Logger used flot logging
+    ///   - eventLoop: EventLoop to run this process on
+    public func listBatchSegmentJobsPaginator(
+        _ input: ListBatchSegmentJobsRequest,
+        logger: Logger = AWSClient.loggingDisabled,
+        on eventLoop: EventLoop? = nil
+    ) -> AWSClient.PaginatorSequence<ListBatchSegmentJobsRequest, ListBatchSegmentJobsResponse> {
+        return .init(
+            input: input,
+            command: listBatchSegmentJobs,
+            inputKey: \ListBatchSegmentJobsRequest.nextToken,
+            outputKey: \ListBatchSegmentJobsResponse.nextToken,
+            logger: logger,
+            on: eventLoop
+        )
+    }
+
     ///  Returns a list of campaigns that use the given solution. When a solution is not specified, all the campaigns associated with the account are listed. The response provides the properties for each campaign, including the Amazon Resource Name (ARN). For more information on campaigns, see CreateCampaign.
     /// Return PaginatorSequence for operation.
     ///
@@ -215,6 +237,28 @@ extension Personalize {
             command: listRecipes,
             inputKey: \ListRecipesRequest.nextToken,
             outputKey: \ListRecipesResponse.nextToken,
+            logger: logger,
+            on: eventLoop
+        )
+    }
+
+    ///  Returns a list of recommenders in a given Domain dataset group. When a Domain dataset group is not specified, all the recommenders associated with the account are listed. The response provides the properties for each recommender, including the Amazon Resource Name (ARN). For more information on recommenders, see CreateRecommender.
+    /// Return PaginatorSequence for operation.
+    ///
+    /// - Parameters:
+    ///   - input: Input for request
+    ///   - logger: Logger used flot logging
+    ///   - eventLoop: EventLoop to run this process on
+    public func listRecommendersPaginator(
+        _ input: ListRecommendersRequest,
+        logger: Logger = AWSClient.loggingDisabled,
+        on eventLoop: EventLoop? = nil
+    ) -> AWSClient.PaginatorSequence<ListRecommendersRequest, ListRecommendersResponse> {
+        return .init(
+            input: input,
+            command: listRecommenders,
+            inputKey: \ListRecommendersRequest.nextToken,
+            outputKey: \ListRecommendersResponse.nextToken,
             logger: logger,
             on: eventLoop
         )

@@ -22,37 +22,37 @@ import SotoCore
 extension Proton {
     // MARK: Async API Calls
 
-    /// In a management account, an environment account connection request is accepted. When the environment account connection request is accepted, AWS Proton can use the associated IAM role to provision environment infrastructure resources in the associated environment account. For more information, see Environment account connections in the AWS Proton Administrator guide.
+    /// In a management account, an environment account connection request is accepted. When the environment account connection request is accepted, Proton can use the associated IAM role to provision environment infrastructure resources in the associated environment account. For more information, see Environment account connections in the Proton Administrator guide.
     public func acceptEnvironmentAccountConnection(_ input: AcceptEnvironmentAccountConnectionInput, logger: Logger = AWSClient.loggingDisabled, on eventLoop: EventLoop? = nil) async throws -> AcceptEnvironmentAccountConnectionOutput {
         return try await self.client.execute(operation: "AcceptEnvironmentAccountConnection", path: "/", httpMethod: .POST, serviceConfig: self.config, input: input, logger: logger, on: eventLoop)
     }
 
-    /// Attempts to cancel an environment deployment on an UpdateEnvironment action, if the deployment is IN_PROGRESS. For more information, see Update an environment in the AWS Proton Administrator guide. The following list includes potential cancellation scenarios.   If the cancellation attempt succeeds, the resulting deployment state is CANCELLED.   If the cancellation attempt fails, the resulting deployment state is FAILED.   If the current UpdateEnvironment action succeeds before the cancellation attempt starts, the resulting deployment state is SUCCEEDED and the cancellation attempt has no effect.
+    /// Attempts to cancel an environment deployment on an UpdateEnvironment action, if the deployment is IN_PROGRESS. For more information, see Update an environment in the Proton Administrator guide. The following list includes potential cancellation scenarios.   If the cancellation attempt succeeds, the resulting deployment state is CANCELLED.   If the cancellation attempt fails, the resulting deployment state is FAILED.   If the current UpdateEnvironment action succeeds before the cancellation attempt starts, the resulting deployment state is SUCCEEDED and the cancellation attempt has no effect.
     public func cancelEnvironmentDeployment(_ input: CancelEnvironmentDeploymentInput, logger: Logger = AWSClient.loggingDisabled, on eventLoop: EventLoop? = nil) async throws -> CancelEnvironmentDeploymentOutput {
         return try await self.client.execute(operation: "CancelEnvironmentDeployment", path: "/", httpMethod: .POST, serviceConfig: self.config, input: input, logger: logger, on: eventLoop)
     }
 
-    /// Attempts to cancel a service instance deployment on an UpdateServiceInstance action, if the deployment is IN_PROGRESS. For more information, see Update a service instance in the AWS Proton Administrator guide or the AWS Proton User guide. The following list includes potential cancellation scenarios.   If the cancellation attempt succeeds, the resulting deployment state is CANCELLED.   If the cancellation attempt fails, the resulting deployment state is FAILED.   If the current UpdateServiceInstance action succeeds before the cancellation attempt starts, the resulting deployment state is SUCCEEDED and the cancellation attempt has no effect.
+    /// Attempts to cancel a service instance deployment on an UpdateServiceInstance action, if the deployment is IN_PROGRESS. For more information, see Update a service instance in the Proton Administrator guide or the Proton User guide. The following list includes potential cancellation scenarios.   If the cancellation attempt succeeds, the resulting deployment state is CANCELLED.   If the cancellation attempt fails, the resulting deployment state is FAILED.   If the current UpdateServiceInstance action succeeds before the cancellation attempt starts, the resulting deployment state is SUCCEEDED and the cancellation attempt has no effect.
     public func cancelServiceInstanceDeployment(_ input: CancelServiceInstanceDeploymentInput, logger: Logger = AWSClient.loggingDisabled, on eventLoop: EventLoop? = nil) async throws -> CancelServiceInstanceDeploymentOutput {
         return try await self.client.execute(operation: "CancelServiceInstanceDeployment", path: "/", httpMethod: .POST, serviceConfig: self.config, input: input, logger: logger, on: eventLoop)
     }
 
-    /// Attempts to cancel a service pipeline deployment on an UpdateServicePipeline action, if the deployment is IN_PROGRESS. For more information, see Update a service pipeline in the AWS Proton Administrator guide or the AWS Proton User guide. The following list includes potential cancellation scenarios.   If the cancellation attempt succeeds, the resulting deployment state is CANCELLED.   If the cancellation attempt fails, the resulting deployment state is FAILED.   If the current UpdateServicePipeline action succeeds before the cancellation attempt starts, the resulting deployment state is SUCCEEDED and the cancellation attempt has no effect.
+    /// Attempts to cancel a service pipeline deployment on an UpdateServicePipeline action, if the deployment is IN_PROGRESS. For more information, see Update a service pipeline in the Proton Administrator guide or the Proton User guide. The following list includes potential cancellation scenarios.   If the cancellation attempt succeeds, the resulting deployment state is CANCELLED.   If the cancellation attempt fails, the resulting deployment state is FAILED.   If the current UpdateServicePipeline action succeeds before the cancellation attempt starts, the resulting deployment state is SUCCEEDED and the cancellation attempt has no effect.
     public func cancelServicePipelineDeployment(_ input: CancelServicePipelineDeploymentInput, logger: Logger = AWSClient.loggingDisabled, on eventLoop: EventLoop? = nil) async throws -> CancelServicePipelineDeploymentOutput {
         return try await self.client.execute(operation: "CancelServicePipelineDeployment", path: "/", httpMethod: .POST, serviceConfig: self.config, input: input, logger: logger, on: eventLoop)
     }
 
-    /// Deploy a new environment. An AWS Proton environment is created from an environment template that defines infrastructure and resources that can be shared across services. For more information, see the Environments in the AWS Proton Administrator Guide.
+    /// Deploy a new environment. An Proton environment is created from an environment template that defines infrastructure and resources that can be shared across services.  You can provision environments using the following methods:    Standard provisioning: Proton makes direct calls to provision your resources.   Pull request provisioning: Proton makes pull requests on your repository to provide compiled infrastructure as code (IaC) files that your IaC engine uses to provision resources.   For more information, see the Environments in the Proton Administrator Guide.
     public func createEnvironment(_ input: CreateEnvironmentInput, logger: Logger = AWSClient.loggingDisabled, on eventLoop: EventLoop? = nil) async throws -> CreateEnvironmentOutput {
         return try await self.client.execute(operation: "CreateEnvironment", path: "/", httpMethod: .POST, serviceConfig: self.config, input: input, logger: logger, on: eventLoop)
     }
 
-    /// Create an environment account connection in an environment account so that environment infrastructure resources can be provisioned in the environment account from a management account. An environment account connection is a secure bi-directional connection between a management account and an environment account that maintains authorization and permissions. For more information, see Environment account connections in the AWS Proton Administrator guide.
+    /// Create an environment account connection in an environment account so that environment infrastructure resources can be provisioned in the environment account from a management account. An environment account connection is a secure bi-directional connection between a management account and an environment account that maintains authorization and permissions. For more information, see Environment account connections in the Proton Administrator guide.
     public func createEnvironmentAccountConnection(_ input: CreateEnvironmentAccountConnectionInput, logger: Logger = AWSClient.loggingDisabled, on eventLoop: EventLoop? = nil) async throws -> CreateEnvironmentAccountConnectionOutput {
         return try await self.client.execute(operation: "CreateEnvironmentAccountConnection", path: "/", httpMethod: .POST, serviceConfig: self.config, input: input, logger: logger, on: eventLoop)
     }
 
-    /// Create an environment template for AWS Proton. For more information, see Environment Templates in the AWS Proton Administrator Guide. You can create an environment template in one of the two following ways:   Register and publish a standard environment template that instructs AWS Proton to deploy and manage environment infrastructure.   Register and publish a customer managed environment template that connects AWS Proton to your existing provisioned infrastructure that you manage. AWS Proton doesn't manage your existing provisioned infrastructure. To create an environment template for customer provisioned and managed infrastructure, include the provisioning parameter and set the value to CUSTOMER_MANAGED. For more information, see Register and publish an environment template in the AWS Proton Administrator Guide.
+    /// Create an environment template for Proton. For more information, see Environment Templates in the Proton Administrator Guide. You can create an environment template in one of the two following ways:   Register and publish a standard environment template that instructs Proton to deploy and manage environment infrastructure.   Register and publish a customer managed environment template that connects Proton to your existing provisioned infrastructure that you manage. Proton doesn't manage your existing provisioned infrastructure. To create an environment template for customer provisioned and managed infrastructure, include the provisioning parameter and set the value to CUSTOMER_MANAGED. For more information, see Register and publish an environment template in the Proton Administrator Guide.
     public func createEnvironmentTemplate(_ input: CreateEnvironmentTemplateInput, logger: Logger = AWSClient.loggingDisabled, on eventLoop: EventLoop? = nil) async throws -> CreateEnvironmentTemplateOutput {
         return try await self.client.execute(operation: "CreateEnvironmentTemplate", path: "/", httpMethod: .POST, serviceConfig: self.config, input: input, logger: logger, on: eventLoop)
     }
@@ -62,19 +62,29 @@ extension Proton {
         return try await self.client.execute(operation: "CreateEnvironmentTemplateVersion", path: "/", httpMethod: .POST, serviceConfig: self.config, input: input, logger: logger, on: eventLoop)
     }
 
-    /// Create an AWS Proton service. An AWS Proton service is an instantiation of a service template and often includes several service instances and pipeline. For more information, see Services in the AWS Proton Administrator Guide and Services in the AWS Proton User Guide.
+    /// Create and register a link to a repository that can be used with pull request provisioning or template sync configurations. For more information, see Template bundles and Template sync configurations in the Proton Administrator Guide.
+    public func createRepository(_ input: CreateRepositoryInput, logger: Logger = AWSClient.loggingDisabled, on eventLoop: EventLoop? = nil) async throws -> CreateRepositoryOutput {
+        return try await self.client.execute(operation: "CreateRepository", path: "/", httpMethod: .POST, serviceConfig: self.config, input: input, logger: logger, on: eventLoop)
+    }
+
+    /// Create an Proton service. An Proton service is an instantiation of a service template and often includes several service instances and pipeline. For more information, see Services in the Proton Administrator Guide and Services in the Proton User Guide.
     public func createService(_ input: CreateServiceInput, logger: Logger = AWSClient.loggingDisabled, on eventLoop: EventLoop? = nil) async throws -> CreateServiceOutput {
         return try await self.client.execute(operation: "CreateService", path: "/", httpMethod: .POST, serviceConfig: self.config, input: input, logger: logger, on: eventLoop)
     }
 
-    /// Create a service template. The administrator creates a service template to define standardized infrastructure and an optional CICD service pipeline. Developers, in turn, select the service template from AWS Proton. If the selected service template includes a service pipeline definition, they provide a link to their source code repository. AWS Proton then deploys and manages the infrastructure defined by the selected service template. For more information, see Service Templates in the AWS Proton Administrator Guide.
+    /// Create a service template. The administrator creates a service template to define standardized infrastructure and an optional CICD service pipeline. Developers, in turn, select the service template from Proton. If the selected service template includes a service pipeline definition, they provide a link to their source code repository. Proton then deploys and manages the infrastructure defined by the selected service template. For more information, see Service Templates in the Proton Administrator Guide.
     public func createServiceTemplate(_ input: CreateServiceTemplateInput, logger: Logger = AWSClient.loggingDisabled, on eventLoop: EventLoop? = nil) async throws -> CreateServiceTemplateOutput {
         return try await self.client.execute(operation: "CreateServiceTemplate", path: "/", httpMethod: .POST, serviceConfig: self.config, input: input, logger: logger, on: eventLoop)
     }
 
-    /// Create a new major or minor version of a service template. A major version of a service template is a version that isn't backwards compatible. A minor version of a service template is a version that's backwards compatible within its major version.
+    /// Create a new major or minor version of a service template. A major version of a service template is a version that isn't backward compatible. A minor version of a service template is a version that's backward compatible within its major version.
     public func createServiceTemplateVersion(_ input: CreateServiceTemplateVersionInput, logger: Logger = AWSClient.loggingDisabled, on eventLoop: EventLoop? = nil) async throws -> CreateServiceTemplateVersionOutput {
         return try await self.client.execute(operation: "CreateServiceTemplateVersion", path: "/", httpMethod: .POST, serviceConfig: self.config, input: input, logger: logger, on: eventLoop)
+    }
+
+    /// Set up a template for automated template version creation. When a commit is pushed to your registered repository, Proton checks for changes to your repository template bundles. If it detects a template bundle change, a new minor or major version of its template is created, if the version doesn’t already exist. For more information, see Template sync configurations in the Proton Administrator Guide.
+    public func createTemplateSyncConfig(_ input: CreateTemplateSyncConfigInput, logger: Logger = AWSClient.loggingDisabled, on eventLoop: EventLoop? = nil) async throws -> CreateTemplateSyncConfigOutput {
+        return try await self.client.execute(operation: "CreateTemplateSyncConfig", path: "/", httpMethod: .POST, serviceConfig: self.config, input: input, logger: logger, on: eventLoop)
     }
 
     /// Delete an environment.
@@ -82,7 +92,7 @@ extension Proton {
         return try await self.client.execute(operation: "DeleteEnvironment", path: "/", httpMethod: .POST, serviceConfig: self.config, input: input, logger: logger, on: eventLoop)
     }
 
-    /// In an environment account, delete an environment account connection. After you delete an environment account connection that’s in use by an AWS Proton environment, AWS Proton can’t manage the environment infrastructure resources until a new environment account connection is accepted for the environment account and associated environment. You're responsible for cleaning up provisioned resources that remain without an environment connection. For more information, see Environment account connections in the AWS Proton Administrator guide.
+    /// In an environment account, delete an environment account connection. After you delete an environment account connection that’s in use by an Proton environment, Proton can’t manage the environment infrastructure resources until a new environment account connection is accepted for the environment account and associated environment. You're responsible for cleaning up provisioned resources that remain without an environment connection. For more information, see Environment account connections in the Proton Administrator guide.
     public func deleteEnvironmentAccountConnection(_ input: DeleteEnvironmentAccountConnectionInput, logger: Logger = AWSClient.loggingDisabled, on eventLoop: EventLoop? = nil) async throws -> DeleteEnvironmentAccountConnectionOutput {
         return try await self.client.execute(operation: "DeleteEnvironmentAccountConnection", path: "/", httpMethod: .POST, serviceConfig: self.config, input: input, logger: logger, on: eventLoop)
     }
@@ -92,9 +102,14 @@ extension Proton {
         return try await self.client.execute(operation: "DeleteEnvironmentTemplate", path: "/", httpMethod: .POST, serviceConfig: self.config, input: input, logger: logger, on: eventLoop)
     }
 
-    /// If no other minor versions of an environment template exist, delete a major version of the environment template if it's not the Recommended version. Delete the Recommended version of the environment template if no other major versions or minor versions of the environment template exist. A major version of an environment template is a version that's not backwards compatible. Delete a minor version of an environment template if it isn't the Recommended version. Delete a Recommended minor version of the environment template if no other minor versions of the environment template exist. A minor version of an environment template is a version that's backwards compatible.
+    /// If no other minor versions of an environment template exist, delete a major version of the environment template if it's not the Recommended version. Delete the Recommended version of the environment template if no other major versions or minor versions of the environment template exist. A major version of an environment template is a version that's not backward compatible. Delete a minor version of an environment template if it isn't the Recommended version. Delete a Recommended minor version of the environment template if no other minor versions of the environment template exist. A minor version of an environment template is a version that's backward compatible.
     public func deleteEnvironmentTemplateVersion(_ input: DeleteEnvironmentTemplateVersionInput, logger: Logger = AWSClient.loggingDisabled, on eventLoop: EventLoop? = nil) async throws -> DeleteEnvironmentTemplateVersionOutput {
         return try await self.client.execute(operation: "DeleteEnvironmentTemplateVersion", path: "/", httpMethod: .POST, serviceConfig: self.config, input: input, logger: logger, on: eventLoop)
+    }
+
+    /// De-register and unlink your repository.
+    public func deleteRepository(_ input: DeleteRepositoryInput, logger: Logger = AWSClient.loggingDisabled, on eventLoop: EventLoop? = nil) async throws -> DeleteRepositoryOutput {
+        return try await self.client.execute(operation: "DeleteRepository", path: "/", httpMethod: .POST, serviceConfig: self.config, input: input, logger: logger, on: eventLoop)
     }
 
     /// Delete a service.
@@ -112,7 +127,12 @@ extension Proton {
         return try await self.client.execute(operation: "DeleteServiceTemplateVersion", path: "/", httpMethod: .POST, serviceConfig: self.config, input: input, logger: logger, on: eventLoop)
     }
 
-    /// Get detail data for the AWS Proton pipeline service role.
+    /// Delete a template sync configuration.
+    public func deleteTemplateSyncConfig(_ input: DeleteTemplateSyncConfigInput, logger: Logger = AWSClient.loggingDisabled, on eventLoop: EventLoop? = nil) async throws -> DeleteTemplateSyncConfigOutput {
+        return try await self.client.execute(operation: "DeleteTemplateSyncConfig", path: "/", httpMethod: .POST, serviceConfig: self.config, input: input, logger: logger, on: eventLoop)
+    }
+
+    /// Get detail data for the Proton pipeline service role.
     public func getAccountSettings(_ input: GetAccountSettingsInput, logger: Logger = AWSClient.loggingDisabled, on eventLoop: EventLoop? = nil) async throws -> GetAccountSettingsOutput {
         return try await self.client.execute(operation: "GetAccountSettings", path: "/", httpMethod: .POST, serviceConfig: self.config, input: input, logger: logger, on: eventLoop)
     }
@@ -122,7 +142,7 @@ extension Proton {
         return try await self.client.execute(operation: "GetEnvironment", path: "/", httpMethod: .POST, serviceConfig: self.config, input: input, logger: logger, on: eventLoop)
     }
 
-    /// In an environment account, view the detail data for an environment account connection. For more information, see Environment account connections in the AWS Proton Administrator guide.
+    /// In an environment account, view the detail data for an environment account connection. For more information, see Environment account connections in the Proton Administrator guide.
     public func getEnvironmentAccountConnection(_ input: GetEnvironmentAccountConnectionInput, logger: Logger = AWSClient.loggingDisabled, on eventLoop: EventLoop? = nil) async throws -> GetEnvironmentAccountConnectionOutput {
         return try await self.client.execute(operation: "GetEnvironmentAccountConnection", path: "/", httpMethod: .POST, serviceConfig: self.config, input: input, logger: logger, on: eventLoop)
     }
@@ -135,6 +155,16 @@ extension Proton {
     /// View detail data for a major or minor version of an environment template.
     public func getEnvironmentTemplateVersion(_ input: GetEnvironmentTemplateVersionInput, logger: Logger = AWSClient.loggingDisabled, on eventLoop: EventLoop? = nil) async throws -> GetEnvironmentTemplateVersionOutput {
         return try await self.client.execute(operation: "GetEnvironmentTemplateVersion", path: "/", httpMethod: .POST, serviceConfig: self.config, input: input, logger: logger, on: eventLoop)
+    }
+
+    /// Get detail data for a repository.
+    public func getRepository(_ input: GetRepositoryInput, logger: Logger = AWSClient.loggingDisabled, on eventLoop: EventLoop? = nil) async throws -> GetRepositoryOutput {
+        return try await self.client.execute(operation: "GetRepository", path: "/", httpMethod: .POST, serviceConfig: self.config, input: input, logger: logger, on: eventLoop)
+    }
+
+    /// Get the repository sync status.
+    public func getRepositorySyncStatus(_ input: GetRepositorySyncStatusInput, logger: Logger = AWSClient.loggingDisabled, on eventLoop: EventLoop? = nil) async throws -> GetRepositorySyncStatusOutput {
+        return try await self.client.execute(operation: "GetRepositorySyncStatus", path: "/", httpMethod: .POST, serviceConfig: self.config, input: input, logger: logger, on: eventLoop)
     }
 
     /// Get detail data for a service.
@@ -157,9 +187,29 @@ extension Proton {
         return try await self.client.execute(operation: "GetServiceTemplateVersion", path: "/", httpMethod: .POST, serviceConfig: self.config, input: input, logger: logger, on: eventLoop)
     }
 
-    /// View a list of environment account connections. For more information, see Environment account connections in the AWS Proton Administrator guide.
+    /// Get detail data for a template sync configuration.
+    public func getTemplateSyncConfig(_ input: GetTemplateSyncConfigInput, logger: Logger = AWSClient.loggingDisabled, on eventLoop: EventLoop? = nil) async throws -> GetTemplateSyncConfigOutput {
+        return try await self.client.execute(operation: "GetTemplateSyncConfig", path: "/", httpMethod: .POST, serviceConfig: self.config, input: input, logger: logger, on: eventLoop)
+    }
+
+    /// Get the status of a template sync.
+    public func getTemplateSyncStatus(_ input: GetTemplateSyncStatusInput, logger: Logger = AWSClient.loggingDisabled, on eventLoop: EventLoop? = nil) async throws -> GetTemplateSyncStatusOutput {
+        return try await self.client.execute(operation: "GetTemplateSyncStatus", path: "/", httpMethod: .POST, serviceConfig: self.config, input: input, logger: logger, on: eventLoop)
+    }
+
+    /// View a list of environment account connections. For more information, see Environment account connections in the Proton Administrator guide.
     public func listEnvironmentAccountConnections(_ input: ListEnvironmentAccountConnectionsInput, logger: Logger = AWSClient.loggingDisabled, on eventLoop: EventLoop? = nil) async throws -> ListEnvironmentAccountConnectionsOutput {
         return try await self.client.execute(operation: "ListEnvironmentAccountConnections", path: "/", httpMethod: .POST, serviceConfig: self.config, input: input, logger: logger, on: eventLoop)
+    }
+
+    /// List the infrastructure as code outputs for your environment.
+    public func listEnvironmentOutputs(_ input: ListEnvironmentOutputsInput, logger: Logger = AWSClient.loggingDisabled, on eventLoop: EventLoop? = nil) async throws -> ListEnvironmentOutputsOutput {
+        return try await self.client.execute(operation: "ListEnvironmentOutputs", path: "/", httpMethod: .POST, serviceConfig: self.config, input: input, logger: logger, on: eventLoop)
+    }
+
+    /// List the provisioned resources for your environment.
+    public func listEnvironmentProvisionedResources(_ input: ListEnvironmentProvisionedResourcesInput, logger: Logger = AWSClient.loggingDisabled, on eventLoop: EventLoop? = nil) async throws -> ListEnvironmentProvisionedResourcesOutput {
+        return try await self.client.execute(operation: "ListEnvironmentProvisionedResources", path: "/", httpMethod: .POST, serviceConfig: self.config, input: input, logger: logger, on: eventLoop)
     }
 
     /// List major or minor versions of an environment template with detail data.
@@ -177,9 +227,39 @@ extension Proton {
         return try await self.client.execute(operation: "ListEnvironments", path: "/", httpMethod: .POST, serviceConfig: self.config, input: input, logger: logger, on: eventLoop)
     }
 
+    /// List repositories with detail data.
+    public func listRepositories(_ input: ListRepositoriesInput, logger: Logger = AWSClient.loggingDisabled, on eventLoop: EventLoop? = nil) async throws -> ListRepositoriesOutput {
+        return try await self.client.execute(operation: "ListRepositories", path: "/", httpMethod: .POST, serviceConfig: self.config, input: input, logger: logger, on: eventLoop)
+    }
+
+    /// List repository sync definitions with detail data.
+    public func listRepositorySyncDefinitions(_ input: ListRepositorySyncDefinitionsInput, logger: Logger = AWSClient.loggingDisabled, on eventLoop: EventLoop? = nil) async throws -> ListRepositorySyncDefinitionsOutput {
+        return try await self.client.execute(operation: "ListRepositorySyncDefinitions", path: "/", httpMethod: .POST, serviceConfig: self.config, input: input, logger: logger, on: eventLoop)
+    }
+
+    /// View a list service instance infrastructure as code outputs with detail data.
+    public func listServiceInstanceOutputs(_ input: ListServiceInstanceOutputsInput, logger: Logger = AWSClient.loggingDisabled, on eventLoop: EventLoop? = nil) async throws -> ListServiceInstanceOutputsOutput {
+        return try await self.client.execute(operation: "ListServiceInstanceOutputs", path: "/", httpMethod: .POST, serviceConfig: self.config, input: input, logger: logger, on: eventLoop)
+    }
+
+    /// List provisioned resources for a service instance with details.
+    public func listServiceInstanceProvisionedResources(_ input: ListServiceInstanceProvisionedResourcesInput, logger: Logger = AWSClient.loggingDisabled, on eventLoop: EventLoop? = nil) async throws -> ListServiceInstanceProvisionedResourcesOutput {
+        return try await self.client.execute(operation: "ListServiceInstanceProvisionedResources", path: "/", httpMethod: .POST, serviceConfig: self.config, input: input, logger: logger, on: eventLoop)
+    }
+
     /// List service instances with summaries of detail data.
     public func listServiceInstances(_ input: ListServiceInstancesInput, logger: Logger = AWSClient.loggingDisabled, on eventLoop: EventLoop? = nil) async throws -> ListServiceInstancesOutput {
         return try await self.client.execute(operation: "ListServiceInstances", path: "/", httpMethod: .POST, serviceConfig: self.config, input: input, logger: logger, on: eventLoop)
+    }
+
+    /// View a list service pipeline infrastructure as code outputs with detail.
+    public func listServicePipelineOutputs(_ input: ListServicePipelineOutputsInput, logger: Logger = AWSClient.loggingDisabled, on eventLoop: EventLoop? = nil) async throws -> ListServicePipelineOutputsOutput {
+        return try await self.client.execute(operation: "ListServicePipelineOutputs", path: "/", httpMethod: .POST, serviceConfig: self.config, input: input, logger: logger, on: eventLoop)
+    }
+
+    /// List provisioned resources for a service and pipeline with details.
+    public func listServicePipelineProvisionedResources(_ input: ListServicePipelineProvisionedResourcesInput, logger: Logger = AWSClient.loggingDisabled, on eventLoop: EventLoop? = nil) async throws -> ListServicePipelineProvisionedResourcesOutput {
+        return try await self.client.execute(operation: "ListServicePipelineProvisionedResources", path: "/", httpMethod: .POST, serviceConfig: self.config, input: input, logger: logger, on: eventLoop)
     }
 
     /// List major or minor versions of a service template with detail data.
@@ -197,37 +277,42 @@ extension Proton {
         return try await self.client.execute(operation: "ListServices", path: "/", httpMethod: .POST, serviceConfig: self.config, input: input, logger: logger, on: eventLoop)
     }
 
-    /// List tags for a resource. For more information, see AWS Proton resources and tagging in the AWS Proton Administrator Guide or AWS Proton User Guide.
+    /// List tags for a resource. For more information, see Proton resources and tagging in the Proton Administrator Guide or Proton User Guide.
     public func listTagsForResource(_ input: ListTagsForResourceInput, logger: Logger = AWSClient.loggingDisabled, on eventLoop: EventLoop? = nil) async throws -> ListTagsForResourceOutput {
         return try await self.client.execute(operation: "ListTagsForResource", path: "/", httpMethod: .POST, serviceConfig: self.config, input: input, logger: logger, on: eventLoop)
     }
 
-    /// In a management account, reject an environment account connection from another environment account. After you reject an environment account connection request, you won’t be able to accept or use the rejected environment account connection. You can’t reject an environment account connection that is connected to an environment. For more information, see Environment account connections in the AWS Proton Administrator guide.
+    /// Notify Proton of status changes to a provisioned resource when you use pull request provisioning. For more information, see Template bundles.  Provisioning by pull request is currently in feature preview and is only usable with Terraform based Proton Templates. To learn more about Amazon Web Services Feature Preview terms, see section 2 on Beta and Previews.
+    public func notifyResourceDeploymentStatusChange(_ input: NotifyResourceDeploymentStatusChangeInput, logger: Logger = AWSClient.loggingDisabled, on eventLoop: EventLoop? = nil) async throws -> NotifyResourceDeploymentStatusChangeOutput {
+        return try await self.client.execute(operation: "NotifyResourceDeploymentStatusChange", path: "/", httpMethod: .POST, serviceConfig: self.config, input: input, logger: logger, on: eventLoop)
+    }
+
+    /// In a management account, reject an environment account connection from another environment account. After you reject an environment account connection request, you won’t be able to accept or use the rejected environment account connection. You can’t reject an environment account connection that is connected to an environment. For more information, see Environment account connections in the Proton Administrator guide.
     public func rejectEnvironmentAccountConnection(_ input: RejectEnvironmentAccountConnectionInput, logger: Logger = AWSClient.loggingDisabled, on eventLoop: EventLoop? = nil) async throws -> RejectEnvironmentAccountConnectionOutput {
         return try await self.client.execute(operation: "RejectEnvironmentAccountConnection", path: "/", httpMethod: .POST, serviceConfig: self.config, input: input, logger: logger, on: eventLoop)
     }
 
-    /// Tag a resource. For more information, see AWS Proton resources and tagging in the AWS Proton Administrator Guide or AWS Proton User Guide.
+    /// Tag a resource. For more information, see Proton resources and tagging in the Proton Administrator Guide or Proton User Guide.
     public func tagResource(_ input: TagResourceInput, logger: Logger = AWSClient.loggingDisabled, on eventLoop: EventLoop? = nil) async throws -> TagResourceOutput {
         return try await self.client.execute(operation: "TagResource", path: "/", httpMethod: .POST, serviceConfig: self.config, input: input, logger: logger, on: eventLoop)
     }
 
-    /// Remove a tag from a resource. For more information, see AWS Proton resources and tagging in the AWS Proton Administrator Guide or AWS Proton User Guide.
+    /// Remove a tag from a resource. For more information, see Proton resources and tagging in the Proton Administrator Guide or Proton User Guide.
     public func untagResource(_ input: UntagResourceInput, logger: Logger = AWSClient.loggingDisabled, on eventLoop: EventLoop? = nil) async throws -> UntagResourceOutput {
         return try await self.client.execute(operation: "UntagResource", path: "/", httpMethod: .POST, serviceConfig: self.config, input: input, logger: logger, on: eventLoop)
     }
 
-    /// Update the AWS Proton pipeline service account settings.
+    /// Update the Proton service pipeline role or repository settings.
     public func updateAccountSettings(_ input: UpdateAccountSettingsInput, logger: Logger = AWSClient.loggingDisabled, on eventLoop: EventLoop? = nil) async throws -> UpdateAccountSettingsOutput {
         return try await self.client.execute(operation: "UpdateAccountSettings", path: "/", httpMethod: .POST, serviceConfig: self.config, input: input, logger: logger, on: eventLoop)
     }
 
-    /// Update an environment. If the environment is associated with an environment account connection, don't update or include the protonServiceRoleArn parameter to update or connect to an environment account connection.  You can only update to a new environment account connection if it was created in the same environment account that the current environment account connection was created in and is associated with the current environment. If the environment isn't associated with an environment account connection, don't update or include the environmentAccountConnectionId parameter to update or connect to an environment account connection. You can update either the environmentAccountConnectionId or protonServiceRoleArn parameter and value. You can’t update both. There are four modes for updating an environment as described in the following. The deploymentType field defines the mode.     NONE  In this mode, a deployment doesn't occur. Only the requested metadata parameters are updated.     CURRENT_VERSION  In this mode, the environment is deployed and updated with the new spec that you provide. Only requested parameters are updated. Don’t include minor or major version parameters when you use this deployment-type.     MINOR_VERSION  In this mode, the environment is deployed and updated with the published, recommended (latest) minor version of the current major version in use, by default. You can also specify a different minor version of the current major version in use.     MAJOR_VERSION  In this mode, the environment is deployed and updated with the published, recommended (latest) major and minor version of the current template, by default. You can also specify a different major version that's higher than the major version in use and a minor version (optional).
+    /// Update an environment. If the environment is associated with an environment account connection, don't update or include the protonServiceRoleArn and provisioningRepository parameter to update or connect to an environment account connection. You can only update to a new environment account connection if it was created in the same environment account that the current environment account connection was created in and is associated with the current environment. If the environment isn't associated with an environment account connection, don't update or include the environmentAccountConnectionId parameter to update or connect to an environment account connection. You can update either the environmentAccountConnectionId or protonServiceRoleArn parameter and value. You can’t update both. If the environment was provisioned with pull request provisioning, include the provisioningRepository parameter and omit the protonServiceRoleArn and environmentAccountConnectionId parameters. If the environment wasn't provisioned with pull request provisioning, omit the provisioningRepository parameter. There are four modes for updating an environment as described in the following. The deploymentType field defines the mode.     NONE  In this mode, a deployment doesn't occur. Only the requested metadata parameters are updated.     CURRENT_VERSION  In this mode, the environment is deployed and updated with the new spec that you provide. Only requested parameters are updated. Don’t include minor or major version parameters when you use this deployment-type.     MINOR_VERSION  In this mode, the environment is deployed and updated with the published, recommended (latest) minor version of the current major version in use, by default. You can also specify a different minor version of the current major version in use.     MAJOR_VERSION  In this mode, the environment is deployed and updated with the published, recommended (latest) major and minor version of the current template, by default. You can also specify a different major version that's higher than the major version in use and a minor version (optional).
     public func updateEnvironment(_ input: UpdateEnvironmentInput, logger: Logger = AWSClient.loggingDisabled, on eventLoop: EventLoop? = nil) async throws -> UpdateEnvironmentOutput {
         return try await self.client.execute(operation: "UpdateEnvironment", path: "/", httpMethod: .POST, serviceConfig: self.config, input: input, logger: logger, on: eventLoop)
     }
 
-    /// In an environment account, update an environment account connection to use a new IAM role. For more information, see Environment account connections in the AWS Proton Administrator guide.
+    /// In an environment account, update an environment account connection to use a new IAM role. For more information, see Environment account connections in the Proton Administrator guide.
     public func updateEnvironmentAccountConnection(_ input: UpdateEnvironmentAccountConnectionInput, logger: Logger = AWSClient.loggingDisabled, on eventLoop: EventLoop? = nil) async throws -> UpdateEnvironmentAccountConnectionOutput {
         return try await self.client.execute(operation: "UpdateEnvironmentAccountConnection", path: "/", httpMethod: .POST, serviceConfig: self.config, input: input, logger: logger, on: eventLoop)
     }
@@ -265,6 +350,11 @@ extension Proton {
     /// Update a major or minor version of a service template.
     public func updateServiceTemplateVersion(_ input: UpdateServiceTemplateVersionInput, logger: Logger = AWSClient.loggingDisabled, on eventLoop: EventLoop? = nil) async throws -> UpdateServiceTemplateVersionOutput {
         return try await self.client.execute(operation: "UpdateServiceTemplateVersion", path: "/", httpMethod: .POST, serviceConfig: self.config, input: input, logger: logger, on: eventLoop)
+    }
+
+    /// Update template sync configuration parameters, except for the templateName and templateType.
+    public func updateTemplateSyncConfig(_ input: UpdateTemplateSyncConfigInput, logger: Logger = AWSClient.loggingDisabled, on eventLoop: EventLoop? = nil) async throws -> UpdateTemplateSyncConfigOutput {
+        return try await self.client.execute(operation: "UpdateTemplateSyncConfig", path: "/", httpMethod: .POST, serviceConfig: self.config, input: input, logger: logger, on: eventLoop)
     }
 }
 

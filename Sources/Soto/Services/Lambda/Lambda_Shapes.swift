@@ -26,12 +26,6 @@ extension Lambda {
         public var description: String { return self.rawValue }
     }
 
-    public enum AuthorizationType: String, CustomStringConvertible, Codable {
-        case awsIam = "AWS_IAM"
-        case none = "NONE"
-        public var description: String { return self.rawValue }
-    }
-
     public enum CodeSigningPolicy: String, CustomStringConvertible, Codable {
         case enforce = "Enforce"
         case warn = "Warn"
@@ -515,59 +509,6 @@ extension Lambda {
         }
     }
 
-    public struct Cors: AWSEncodableShape & AWSDecodableShape {
-        public let allowCredentials: Bool?
-        public let allowHeaders: [String]?
-        public let allowMethods: [String]?
-        public let allowOrigins: [String]?
-        public let exposeHeaders: [String]?
-        public let maxAge: Int?
-
-        public init(allowCredentials: Bool? = nil, allowHeaders: [String]? = nil, allowMethods: [String]? = nil, allowOrigins: [String]? = nil, exposeHeaders: [String]? = nil, maxAge: Int? = nil) {
-            self.allowCredentials = allowCredentials
-            self.allowHeaders = allowHeaders
-            self.allowMethods = allowMethods
-            self.allowOrigins = allowOrigins
-            self.exposeHeaders = exposeHeaders
-            self.maxAge = maxAge
-        }
-
-        public func validate(name: String) throws {
-            try self.allowHeaders?.forEach {
-                try validate($0, name: "allowHeaders[]", parent: name, max: 1024)
-                try validate($0, name: "allowHeaders[]", parent: name, pattern: ".*")
-            }
-            try self.validate(self.allowHeaders, name: "allowHeaders", parent: name, max: 100)
-            try self.allowMethods?.forEach {
-                try validate($0, name: "allowMethods[]", parent: name, max: 6)
-                try validate($0, name: "allowMethods[]", parent: name, pattern: ".*")
-            }
-            try self.validate(self.allowMethods, name: "allowMethods", parent: name, max: 6)
-            try self.allowOrigins?.forEach {
-                try validate($0, name: "allowOrigins[]", parent: name, max: 253)
-                try validate($0, name: "allowOrigins[]", parent: name, min: 1)
-                try validate($0, name: "allowOrigins[]", parent: name, pattern: ".*")
-            }
-            try self.validate(self.allowOrigins, name: "allowOrigins", parent: name, max: 100)
-            try self.exposeHeaders?.forEach {
-                try validate($0, name: "exposeHeaders[]", parent: name, max: 1024)
-                try validate($0, name: "exposeHeaders[]", parent: name, pattern: ".*")
-            }
-            try self.validate(self.exposeHeaders, name: "exposeHeaders", parent: name, max: 100)
-            try self.validate(self.maxAge, name: "maxAge", parent: name, max: 86400)
-            try self.validate(self.maxAge, name: "maxAge", parent: name, min: 0)
-        }
-
-        private enum CodingKeys: String, CodingKey {
-            case allowCredentials = "AllowCredentials"
-            case allowHeaders = "AllowHeaders"
-            case allowMethods = "AllowMethods"
-            case allowOrigins = "AllowOrigins"
-            case exposeHeaders = "ExposeHeaders"
-            case maxAge = "MaxAge"
-        }
-    }
-
     public struct CreateAliasRequest: AWSEncodableShape {
         public static var _encoding = [
             AWSMemberEncoding(label: "functionName", location: .uri(locationName: "FunctionName"))
@@ -656,7 +597,7 @@ extension Lambda {
     }
 
     public struct CreateEventSourceMappingRequest: AWSEncodableShape {
-        /// The maximum number of records in each batch that Lambda pulls from your stream or queue and sends to your function. Lambda passes all of the records in the batch to the function in a single call, up to the payload limit for synchronous invocation (6 MB).    Amazon Kinesis - Default 100. Max 10,000.    Amazon DynamoDB Streams - Default 100. Max 1,000.    Amazon Simple Queue Service - Default 10. For standard queues the max is 10,000. For FIFO queues the max is 10.    Amazon Managed Streaming for Apache Kafka - Default 100. Max 10,000.    Self-Managed Apache Kafka - Default 100. Max 10,000.
+        /// The maximum number of records in each batch that Lambda pulls from your stream or queue and sends to your function. Lambda passes all of the records in the batch to the function in a single call, up to the payload limit for synchronous invocation (6 MB).    Amazon Kinesis - Default 100. Max 10,000.    Amazon DynamoDB Streams - Default 100. Max 1,000.    Amazon Simple Queue Service - Default 10. For standard queues the max is 10,000. For FIFO queues the max is 10.    Amazon Managed Streaming for Apache Kafka - Default 100. Max 10,000.    Self-Managed Apache Kafka - Default 100. Max 10,000.    Amazon MQ (ActiveMQ and RabbitMQ) - Default 100. Max 10,000.
         public let batchSize: Int?
         /// (Streams only) If the function returns an error, split the batch in two and retry.
         public let bisectBatchOnFunctionError: Bool?
@@ -666,9 +607,11 @@ extension Lambda {
         public let enabled: Bool?
         /// The Amazon Resource Name (ARN) of the event source.    Amazon Kinesis - The ARN of the data stream or a stream consumer.    Amazon DynamoDB Streams - The ARN of the stream.    Amazon Simple Queue Service - The ARN of the queue.    Amazon Managed Streaming for Apache Kafka - The ARN of the cluster.
         public let eventSourceArn: String?
+        /// (Streams and Amazon SQS) An object that defines the filter criteria that determine whether Lambda should process an event. For more information, see Lambda event filtering.
+        public let filterCriteria: FilterCriteria?
         /// The name of the Lambda function.  Name formats     Function name - MyFunction.    Function ARN - arn:aws:lambda:us-west-2:123456789012:function:MyFunction.    Version or Alias ARN - arn:aws:lambda:us-west-2:123456789012:function:MyFunction:PROD.    Partial ARN - 123456789012:function:MyFunction.   The length constraint applies only to the full ARN. If you specify only the function name, it's limited to 64 characters in length.
         public let functionName: String
-        /// (Streams only) A list of current response type enums applied to the event source mapping.
+        /// (Streams and Amazon SQS) A list of current response type enums applied to the event source mapping.
         public let functionResponseTypes: [FunctionResponseType]?
         /// (Streams and Amazon SQS standard queues) The maximum amount of time, in seconds, that Lambda spends gathering records before invoking the function. Default: 0 Related setting: When you set BatchSize to a value greater than 10, you must set MaximumBatchingWindowInSeconds to at least 1.
         public let maximumBatchingWindowInSeconds: Int?
@@ -693,12 +636,13 @@ extension Lambda {
         /// (Streams only) The duration in seconds of a processing window. The range is between 1 second up to 900 seconds.
         public let tumblingWindowInSeconds: Int?
 
-        public init(batchSize: Int? = nil, bisectBatchOnFunctionError: Bool? = nil, destinationConfig: DestinationConfig? = nil, enabled: Bool? = nil, eventSourceArn: String? = nil, functionName: String, functionResponseTypes: [FunctionResponseType]? = nil, maximumBatchingWindowInSeconds: Int? = nil, maximumRecordAgeInSeconds: Int? = nil, maximumRetryAttempts: Int? = nil, parallelizationFactor: Int? = nil, queues: [String]? = nil, selfManagedEventSource: SelfManagedEventSource? = nil, sourceAccessConfigurations: [SourceAccessConfiguration]? = nil, startingPosition: EventSourcePosition? = nil, startingPositionTimestamp: Date? = nil, topics: [String]? = nil, tumblingWindowInSeconds: Int? = nil) {
+        public init(batchSize: Int? = nil, bisectBatchOnFunctionError: Bool? = nil, destinationConfig: DestinationConfig? = nil, enabled: Bool? = nil, eventSourceArn: String? = nil, filterCriteria: FilterCriteria? = nil, functionName: String, functionResponseTypes: [FunctionResponseType]? = nil, maximumBatchingWindowInSeconds: Int? = nil, maximumRecordAgeInSeconds: Int? = nil, maximumRetryAttempts: Int? = nil, parallelizationFactor: Int? = nil, queues: [String]? = nil, selfManagedEventSource: SelfManagedEventSource? = nil, sourceAccessConfigurations: [SourceAccessConfiguration]? = nil, startingPosition: EventSourcePosition? = nil, startingPositionTimestamp: Date? = nil, topics: [String]? = nil, tumblingWindowInSeconds: Int? = nil) {
             self.batchSize = batchSize
             self.bisectBatchOnFunctionError = bisectBatchOnFunctionError
             self.destinationConfig = destinationConfig
             self.enabled = enabled
             self.eventSourceArn = eventSourceArn
+            self.filterCriteria = filterCriteria
             self.functionName = functionName
             self.functionResponseTypes = functionResponseTypes
             self.maximumBatchingWindowInSeconds = maximumBatchingWindowInSeconds
@@ -719,6 +663,7 @@ extension Lambda {
             try self.validate(self.batchSize, name: "batchSize", parent: name, min: 1)
             try self.destinationConfig?.validate(name: "\(name).destinationConfig")
             try self.validate(self.eventSourceArn, name: "eventSourceArn", parent: name, pattern: "arn:(aws[a-zA-Z0-9-]*):([a-zA-Z0-9\\-])+:([a-z]{2}(-gov)?-[a-z]+-\\d{1})?:(\\d{12})?:(.*)")
+            try self.filterCriteria?.validate(name: "\(name).filterCriteria")
             try self.validate(self.functionName, name: "functionName", parent: name, max: 140)
             try self.validate(self.functionName, name: "functionName", parent: name, min: 1)
             try self.validate(self.functionName, name: "functionName", parent: name, pattern: "(arn:(aws[a-zA-Z-]*)?:lambda:)?([a-z]{2}(-gov)?-[a-z]+-\\d{1}:)?(\\d{12}:)?(function:)?([a-zA-Z0-9-_]+)(:(\\$LATEST|[a-zA-Z0-9-_]+))?")
@@ -762,6 +707,7 @@ extension Lambda {
             case destinationConfig = "DestinationConfig"
             case enabled = "Enabled"
             case eventSourceArn = "EventSourceArn"
+            case filterCriteria = "FilterCriteria"
             case functionName = "FunctionName"
             case functionResponseTypes = "FunctionResponseTypes"
             case maximumBatchingWindowInSeconds = "MaximumBatchingWindowInSeconds"
@@ -779,7 +725,7 @@ extension Lambda {
     }
 
     public struct CreateFunctionRequest: AWSEncodableShape {
-        /// The instruction set architecture that the function supports. Enter a string array with one of the valid values. The default value is x86_64.
+        /// The instruction set architecture that the function supports. Enter a string array with one of the valid values (arm64 or x86_64). The default value is x86_64.
         public let architectures: [Architecture]?
         /// The code for the function.
         public let code: FunctionCode
@@ -795,7 +741,7 @@ extension Lambda {
         public let fileSystemConfigs: [FileSystemConfig]?
         /// The name of the Lambda function.  Name formats     Function name - my-function.    Function ARN - arn:aws:lambda:us-west-2:123456789012:function:my-function.    Partial ARN - 123456789012:function:my-function.   The length constraint applies only to the full ARN. If you specify only the function name, it is limited to 64 characters in length.
         public let functionName: String
-        /// The name of the method within your code that Lambda calls to execute your function. The format includes the file name. It can also include namespaces and other qualifiers, depending on the runtime. For more information, see Programming Model.
+        /// The name of the method within your code that Lambda calls to execute your function. Handler is required if the deployment package is a .zip file archive. The format includes the file name. It can also include namespaces and other qualifiers, depending on the runtime. For more information, see Programming Model.
         public let handler: String?
         /// Container image configuration values that override the values in the container image Dockerfile.
         public let imageConfig: ImageConfig?
@@ -811,7 +757,7 @@ extension Lambda {
         public let publish: Bool?
         /// The Amazon Resource Name (ARN) of the function's execution role.
         public let role: String
-        /// The identifier of the function's runtime.
+        /// The identifier of the function's runtime. Runtime is required if the deployment package is a .zip file archive.
         public let runtime: Runtime?
         /// A list of tags to apply to the function.
         public let tags: [String: String]?
@@ -901,64 +847,6 @@ extension Lambda {
             case timeout = "Timeout"
             case tracingConfig = "TracingConfig"
             case vpcConfig = "VpcConfig"
-        }
-    }
-
-    public struct CreateFunctionUrlConfigRequest: AWSEncodableShape {
-        public static var _encoding = [
-            AWSMemberEncoding(label: "functionName", location: .uri(locationName: "FunctionName")),
-            AWSMemberEncoding(label: "qualifier", location: .querystring(locationName: "Qualifier"))
-        ]
-
-        public let authorizationType: AuthorizationType
-        public let cors: Cors?
-        public let functionName: String
-        public let qualifier: String?
-
-        public init(authorizationType: AuthorizationType, cors: Cors? = nil, functionName: String, qualifier: String? = nil) {
-            self.authorizationType = authorizationType
-            self.cors = cors
-            self.functionName = functionName
-            self.qualifier = qualifier
-        }
-
-        public func validate(name: String) throws {
-            try self.cors?.validate(name: "\(name).cors")
-            try self.validate(self.functionName, name: "functionName", parent: name, max: 140)
-            try self.validate(self.functionName, name: "functionName", parent: name, min: 1)
-            try self.validate(self.functionName, name: "functionName", parent: name, pattern: "(arn:(aws[a-zA-Z-]*)?:lambda:)?([a-z]{2}(-gov)?-[a-z]+-\\d{1}:)?(\\d{12}:)?(function:)?([a-zA-Z0-9-_]+)(:(\\$LATEST|[a-zA-Z0-9-_]+))?")
-            try self.validate(self.qualifier, name: "qualifier", parent: name, max: 128)
-            try self.validate(self.qualifier, name: "qualifier", parent: name, min: 1)
-            try self.validate(self.qualifier, name: "qualifier", parent: name, pattern: "(^\\$LATEST$)|((?!^[0-9]+$)([a-zA-Z0-9-_]+))")
-        }
-
-        private enum CodingKeys: String, CodingKey {
-            case authorizationType = "AuthorizationType"
-            case cors = "Cors"
-        }
-    }
-
-    public struct CreateFunctionUrlConfigResponse: AWSDecodableShape {
-        public let authorizationType: AuthorizationType
-        public let cors: Cors?
-        public let creationTime: String
-        public let functionArn: String
-        public let functionUrl: String
-
-        public init(authorizationType: AuthorizationType, cors: Cors? = nil, creationTime: String, functionArn: String, functionUrl: String) {
-            self.authorizationType = authorizationType
-            self.cors = cors
-            self.creationTime = creationTime
-            self.functionArn = functionArn
-            self.functionUrl = functionUrl
-        }
-
-        private enum CodingKeys: String, CodingKey {
-            case authorizationType = "AuthorizationType"
-            case cors = "Cors"
-            case creationTime = "CreationTime"
-            case functionArn = "FunctionArn"
-            case functionUrl = "FunctionUrl"
         }
     }
 
@@ -1144,32 +1032,6 @@ extension Lambda {
         private enum CodingKeys: CodingKey {}
     }
 
-    public struct DeleteFunctionUrlConfigRequest: AWSEncodableShape {
-        public static var _encoding = [
-            AWSMemberEncoding(label: "functionName", location: .uri(locationName: "FunctionName")),
-            AWSMemberEncoding(label: "qualifier", location: .querystring(locationName: "Qualifier"))
-        ]
-
-        public let functionName: String
-        public let qualifier: String?
-
-        public init(functionName: String, qualifier: String? = nil) {
-            self.functionName = functionName
-            self.qualifier = qualifier
-        }
-
-        public func validate(name: String) throws {
-            try self.validate(self.functionName, name: "functionName", parent: name, max: 140)
-            try self.validate(self.functionName, name: "functionName", parent: name, min: 1)
-            try self.validate(self.functionName, name: "functionName", parent: name, pattern: "(arn:(aws[a-zA-Z-]*)?:lambda:)?([a-z]{2}(-gov)?-[a-z]+-\\d{1}:)?(\\d{12}:)?(function:)?([a-zA-Z0-9-_]+)(:(\\$LATEST|[a-zA-Z0-9-_]+))?")
-            try self.validate(self.qualifier, name: "qualifier", parent: name, max: 128)
-            try self.validate(self.qualifier, name: "qualifier", parent: name, min: 1)
-            try self.validate(self.qualifier, name: "qualifier", parent: name, pattern: "(^\\$LATEST$)|((?!^[0-9]+$)([a-zA-Z0-9-_]+))")
-        }
-
-        private enum CodingKeys: CodingKey {}
-    }
-
     public struct DeleteLayerVersionRequest: AWSEncodableShape {
         public static var _encoding = [
             AWSMemberEncoding(label: "layerName", location: .uri(locationName: "LayerName")),
@@ -1307,6 +1169,8 @@ extension Lambda {
         public let destinationConfig: DestinationConfig?
         /// The Amazon Resource Name (ARN) of the event source.
         public let eventSourceArn: String?
+        /// (Streams and Amazon SQS) An object that defines the filter criteria that determine whether Lambda should process an event. For more information, see Lambda event filtering.
+        public let filterCriteria: FilterCriteria?
         /// The ARN of the Lambda function.
         public let functionArn: String?
         /// (Streams only) A list of current response type enums applied to the event source mapping.
@@ -1344,11 +1208,12 @@ extension Lambda {
         /// The identifier of the event source mapping.
         public let uuid: String?
 
-        public init(batchSize: Int? = nil, bisectBatchOnFunctionError: Bool? = nil, destinationConfig: DestinationConfig? = nil, eventSourceArn: String? = nil, functionArn: String? = nil, functionResponseTypes: [FunctionResponseType]? = nil, lastModified: Date? = nil, lastProcessingResult: String? = nil, maximumBatchingWindowInSeconds: Int? = nil, maximumRecordAgeInSeconds: Int? = nil, maximumRetryAttempts: Int? = nil, parallelizationFactor: Int? = nil, queues: [String]? = nil, selfManagedEventSource: SelfManagedEventSource? = nil, sourceAccessConfigurations: [SourceAccessConfiguration]? = nil, startingPosition: EventSourcePosition? = nil, startingPositionTimestamp: Date? = nil, state: String? = nil, stateTransitionReason: String? = nil, topics: [String]? = nil, tumblingWindowInSeconds: Int? = nil, uuid: String? = nil) {
+        public init(batchSize: Int? = nil, bisectBatchOnFunctionError: Bool? = nil, destinationConfig: DestinationConfig? = nil, eventSourceArn: String? = nil, filterCriteria: FilterCriteria? = nil, functionArn: String? = nil, functionResponseTypes: [FunctionResponseType]? = nil, lastModified: Date? = nil, lastProcessingResult: String? = nil, maximumBatchingWindowInSeconds: Int? = nil, maximumRecordAgeInSeconds: Int? = nil, maximumRetryAttempts: Int? = nil, parallelizationFactor: Int? = nil, queues: [String]? = nil, selfManagedEventSource: SelfManagedEventSource? = nil, sourceAccessConfigurations: [SourceAccessConfiguration]? = nil, startingPosition: EventSourcePosition? = nil, startingPositionTimestamp: Date? = nil, state: String? = nil, stateTransitionReason: String? = nil, topics: [String]? = nil, tumblingWindowInSeconds: Int? = nil, uuid: String? = nil) {
             self.batchSize = batchSize
             self.bisectBatchOnFunctionError = bisectBatchOnFunctionError
             self.destinationConfig = destinationConfig
             self.eventSourceArn = eventSourceArn
+            self.filterCriteria = filterCriteria
             self.functionArn = functionArn
             self.functionResponseTypes = functionResponseTypes
             self.lastModified = lastModified
@@ -1374,6 +1239,7 @@ extension Lambda {
             case bisectBatchOnFunctionError = "BisectBatchOnFunctionError"
             case destinationConfig = "DestinationConfig"
             case eventSourceArn = "EventSourceArn"
+            case filterCriteria = "FilterCriteria"
             case functionArn = "FunctionArn"
             case functionResponseTypes = "FunctionResponseTypes"
             case lastModified = "LastModified"
@@ -1416,6 +1282,44 @@ extension Lambda {
         private enum CodingKeys: String, CodingKey {
             case arn = "Arn"
             case localMountPath = "LocalMountPath"
+        }
+    }
+
+    public struct Filter: AWSEncodableShape & AWSDecodableShape {
+        ///  A filter pattern. For more information on the syntax of a filter pattern, see  Filter rule syntax.
+        public let pattern: String?
+
+        public init(pattern: String? = nil) {
+            self.pattern = pattern
+        }
+
+        public func validate(name: String) throws {
+            try self.validate(self.pattern, name: "pattern", parent: name, max: 4096)
+            try self.validate(self.pattern, name: "pattern", parent: name, min: 0)
+            try self.validate(self.pattern, name: "pattern", parent: name, pattern: ".*")
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case pattern = "Pattern"
+        }
+    }
+
+    public struct FilterCriteria: AWSEncodableShape & AWSDecodableShape {
+        ///  A list of filters.
+        public let filters: [Filter]?
+
+        public init(filters: [Filter]? = nil) {
+            self.filters = filters
+        }
+
+        public func validate(name: String) throws {
+            try self.filters?.forEach {
+                try $0.validate(name: "\(name).filters[]")
+            }
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case filters = "Filters"
         }
     }
 
@@ -1646,33 +1550,6 @@ extension Lambda {
             case lastModified = "LastModified"
             case maximumEventAgeInSeconds = "MaximumEventAgeInSeconds"
             case maximumRetryAttempts = "MaximumRetryAttempts"
-        }
-    }
-
-    public struct FunctionUrlConfig: AWSDecodableShape {
-        public let authorizationType: AuthorizationType
-        public let cors: Cors?
-        public let creationTime: String
-        public let functionArn: String
-        public let functionUrl: String
-        public let lastModifiedTime: String
-
-        public init(authorizationType: AuthorizationType, cors: Cors? = nil, creationTime: String, functionArn: String, functionUrl: String, lastModifiedTime: String) {
-            self.authorizationType = authorizationType
-            self.cors = cors
-            self.creationTime = creationTime
-            self.functionArn = functionArn
-            self.functionUrl = functionUrl
-            self.lastModifiedTime = lastModifiedTime
-        }
-
-        private enum CodingKeys: String, CodingKey {
-            case authorizationType = "AuthorizationType"
-            case cors = "Cors"
-            case creationTime = "CreationTime"
-            case functionArn = "FunctionArn"
-            case functionUrl = "FunctionUrl"
-            case lastModifiedTime = "LastModifiedTime"
         }
     }
 
@@ -1951,59 +1828,6 @@ extension Lambda {
             case concurrency = "Concurrency"
             case configuration = "Configuration"
             case tags = "Tags"
-        }
-    }
-
-    public struct GetFunctionUrlConfigRequest: AWSEncodableShape {
-        public static var _encoding = [
-            AWSMemberEncoding(label: "functionName", location: .uri(locationName: "FunctionName")),
-            AWSMemberEncoding(label: "qualifier", location: .querystring(locationName: "Qualifier"))
-        ]
-
-        public let functionName: String
-        public let qualifier: String?
-
-        public init(functionName: String, qualifier: String? = nil) {
-            self.functionName = functionName
-            self.qualifier = qualifier
-        }
-
-        public func validate(name: String) throws {
-            try self.validate(self.functionName, name: "functionName", parent: name, max: 140)
-            try self.validate(self.functionName, name: "functionName", parent: name, min: 1)
-            try self.validate(self.functionName, name: "functionName", parent: name, pattern: "(arn:(aws[a-zA-Z-]*)?:lambda:)?([a-z]{2}(-gov)?-[a-z]+-\\d{1}:)?(\\d{12}:)?(function:)?([a-zA-Z0-9-_]+)(:(\\$LATEST|[a-zA-Z0-9-_]+))?")
-            try self.validate(self.qualifier, name: "qualifier", parent: name, max: 128)
-            try self.validate(self.qualifier, name: "qualifier", parent: name, min: 1)
-            try self.validate(self.qualifier, name: "qualifier", parent: name, pattern: "(^\\$LATEST$)|((?!^[0-9]+$)([a-zA-Z0-9-_]+))")
-        }
-
-        private enum CodingKeys: CodingKey {}
-    }
-
-    public struct GetFunctionUrlConfigResponse: AWSDecodableShape {
-        public let authorizationType: AuthorizationType
-        public let cors: Cors?
-        public let creationTime: String
-        public let functionArn: String
-        public let functionUrl: String
-        public let lastModifiedTime: String
-
-        public init(authorizationType: AuthorizationType, cors: Cors? = nil, creationTime: String, functionArn: String, functionUrl: String, lastModifiedTime: String) {
-            self.authorizationType = authorizationType
-            self.cors = cors
-            self.creationTime = creationTime
-            self.functionArn = functionArn
-            self.functionUrl = functionUrl
-            self.lastModifiedTime = lastModifiedTime
-        }
-
-        private enum CodingKeys: String, CodingKey {
-            case authorizationType = "AuthorizationType"
-            case cors = "Cors"
-            case creationTime = "CreationTime"
-            case functionArn = "FunctionArn"
-            case functionUrl = "FunctionUrl"
-            case lastModifiedTime = "LastModifiedTime"
         }
     }
 
@@ -2328,7 +2152,7 @@ extension Lambda {
         public let invocationType: InvocationType?
         /// Set to Tail to include the execution log in the response. Applies to synchronously invoked functions only.
         public let logType: LogType?
-        /// The JSON that you want to provide to your Lambda function as input.
+        /// The JSON that you want to provide to your Lambda function as input. You can enter the JSON directly. For example, --payload '{ "key": "value" }'. You can also specify a file path. For example, --payload file://payload.json.
         public let payload: AWSPayload?
         /// Specify a version or alias to invoke a published version of the function.
         public let qualifier: String?
@@ -2779,49 +2603,6 @@ extension Lambda {
 
         private enum CodingKeys: String, CodingKey {
             case functionEventInvokeConfigs = "FunctionEventInvokeConfigs"
-            case nextMarker = "NextMarker"
-        }
-    }
-
-    public struct ListFunctionUrlConfigsRequest: AWSEncodableShape {
-        public static var _encoding = [
-            AWSMemberEncoding(label: "functionName", location: .uri(locationName: "FunctionName")),
-            AWSMemberEncoding(label: "marker", location: .querystring(locationName: "Marker")),
-            AWSMemberEncoding(label: "maxItems", location: .querystring(locationName: "MaxItems"))
-        ]
-
-        public let functionName: String
-        public let marker: String?
-        public let maxItems: Int?
-
-        public init(functionName: String, marker: String? = nil, maxItems: Int? = nil) {
-            self.functionName = functionName
-            self.marker = marker
-            self.maxItems = maxItems
-        }
-
-        public func validate(name: String) throws {
-            try self.validate(self.functionName, name: "functionName", parent: name, max: 140)
-            try self.validate(self.functionName, name: "functionName", parent: name, min: 1)
-            try self.validate(self.functionName, name: "functionName", parent: name, pattern: "(arn:(aws[a-zA-Z-]*)?:lambda:)?([a-z]{2}(-gov)?-[a-z]+-\\d{1}:)?(\\d{12}:)?(function:)?([a-zA-Z0-9-_]+)(:(\\$LATEST|[a-zA-Z0-9-_]+))?")
-            try self.validate(self.maxItems, name: "maxItems", parent: name, max: 50)
-            try self.validate(self.maxItems, name: "maxItems", parent: name, min: 1)
-        }
-
-        private enum CodingKeys: CodingKey {}
-    }
-
-    public struct ListFunctionUrlConfigsResponse: AWSDecodableShape {
-        public let functionUrlConfigs: [FunctionUrlConfig]
-        public let nextMarker: String?
-
-        public init(functionUrlConfigs: [FunctionUrlConfig], nextMarker: String? = nil) {
-            self.functionUrlConfigs = functionUrlConfigs
-            self.nextMarker = nextMarker
-        }
-
-        private enum CodingKeys: String, CodingKey {
-            case functionUrlConfigs = "FunctionUrlConfigs"
             case nextMarker = "NextMarker"
         }
     }
@@ -3640,7 +3421,7 @@ extension Lambda {
     }
 
     public struct SourceAccessConfiguration: AWSEncodableShape & AWSDecodableShape {
-        /// The type of authentication protocol, VPC components, or virtual host for your event source. For example: "Type":"SASL_SCRAM_512_AUTH".    BASIC_AUTH - (Amazon MQ) The Secrets Manager secret that stores your broker credentials.    BASIC_AUTH - (Self-managed Apache Kafka) The Secrets Manager ARN of your secret key used for SASL/PLAIN authentication of your Apache Kafka brokers.    VPC_SUBNET - The subnets associated with your VPC. Lambda connects to these subnets to fetch data from your self-managed Apache Kafka cluster.    VPC_SECURITY_GROUP - The VPC security group used to manage access to your self-managed Apache Kafka brokers.    SASL_SCRAM_256_AUTH - The Secrets Manager ARN of your secret key used for SASL SCRAM-256 authentication of your self-managed Apache Kafka brokers.    SASL_SCRAM_512_AUTH - The Secrets Manager ARN of your secret key used for SASL SCRAM-512 authentication of your self-managed Apache Kafka brokers.    VIRTUAL_HOST - (Amazon MQ) The name of the virtual host in your RabbitMQ broker. Lambda uses this RabbitMQ host as the event source.
+        /// The type of authentication protocol, VPC components, or virtual host for your event source. For example: "Type":"SASL_SCRAM_512_AUTH".    BASIC_AUTH - (Amazon MQ) The Secrets Manager secret that stores your broker credentials.    BASIC_AUTH - (Self-managed Apache Kafka) The Secrets Manager ARN of your secret key used for SASL/PLAIN authentication of your Apache Kafka brokers.    VPC_SUBNET - The subnets associated with your VPC. Lambda connects to these subnets to fetch data from your self-managed Apache Kafka cluster.    VPC_SECURITY_GROUP - The VPC security group used to manage access to your self-managed Apache Kafka brokers.    SASL_SCRAM_256_AUTH - The Secrets Manager ARN of your secret key used for SASL SCRAM-256 authentication of your self-managed Apache Kafka brokers.    SASL_SCRAM_512_AUTH - The Secrets Manager ARN of your secret key used for SASL SCRAM-512 authentication of your self-managed Apache Kafka brokers.    VIRTUAL_HOST - (Amazon MQ) The name of the virtual host in your RabbitMQ broker. Lambda uses this RabbitMQ host as the event source. This property cannot be specified in an UpdateEventSourceMapping API call.    CLIENT_CERTIFICATE_TLS_AUTH - (Amazon MSK, Self-managed Apache Kafka) The Secrets Manager ARN of your secret key containing the certificate chain (X.509 PEM), private key (PKCS#8 PEM), and private key password (optional) used for mutual TLS authentication of your MSK/Apache Kafka brokers.    SERVER_ROOT_CA_CERTIFICATE - (Self-managed Apache Kafka) The Secrets Manager ARN of your secret key containing the root CA certificate (X.509 PEM) used for TLS encryption of your Apache Kafka brokers.
         public let type: SourceAccessType?
         /// The value for your chosen configuration in Type. For example: "URI": "arn:aws:secretsmanager:us-east-1:01234567890:secret:MyBrokerSecretName".
         public let uri: String?
@@ -3840,7 +3621,7 @@ extension Lambda {
             AWSMemberEncoding(label: "uuid", location: .uri(locationName: "UUID"))
         ]
 
-        /// The maximum number of records in each batch that Lambda pulls from your stream or queue and sends to your function. Lambda passes all of the records in the batch to the function in a single call, up to the payload limit for synchronous invocation (6 MB).    Amazon Kinesis - Default 100. Max 10,000.    Amazon DynamoDB Streams - Default 100. Max 1,000.    Amazon Simple Queue Service - Default 10. For standard queues the max is 10,000. For FIFO queues the max is 10.    Amazon Managed Streaming for Apache Kafka - Default 100. Max 10,000.    Self-Managed Apache Kafka - Default 100. Max 10,000.
+        /// The maximum number of records in each batch that Lambda pulls from your stream or queue and sends to your function. Lambda passes all of the records in the batch to the function in a single call, up to the payload limit for synchronous invocation (6 MB).    Amazon Kinesis - Default 100. Max 10,000.    Amazon DynamoDB Streams - Default 100. Max 1,000.    Amazon Simple Queue Service - Default 10. For standard queues the max is 10,000. For FIFO queues the max is 10.    Amazon Managed Streaming for Apache Kafka - Default 100. Max 10,000.    Self-Managed Apache Kafka - Default 100. Max 10,000.    Amazon MQ (ActiveMQ and RabbitMQ) - Default 100. Max 10,000.
         public let batchSize: Int?
         /// (Streams only) If the function returns an error, split the batch in two and retry.
         public let bisectBatchOnFunctionError: Bool?
@@ -3848,9 +3629,11 @@ extension Lambda {
         public let destinationConfig: DestinationConfig?
         /// When true, the event source mapping is active. When false, Lambda pauses polling and invocation. Default: True
         public let enabled: Bool?
+        /// (Streams and Amazon SQS) An object that defines the filter criteria that determine whether Lambda should process an event. For more information, see Lambda event filtering.
+        public let filterCriteria: FilterCriteria?
         /// The name of the Lambda function.  Name formats     Function name - MyFunction.    Function ARN - arn:aws:lambda:us-west-2:123456789012:function:MyFunction.    Version or Alias ARN - arn:aws:lambda:us-west-2:123456789012:function:MyFunction:PROD.    Partial ARN - 123456789012:function:MyFunction.   The length constraint applies only to the full ARN. If you specify only the function name, it's limited to 64 characters in length.
         public let functionName: String?
-        /// (Streams only) A list of current response type enums applied to the event source mapping.
+        /// (Streams and Amazon SQS) A list of current response type enums applied to the event source mapping.
         public let functionResponseTypes: [FunctionResponseType]?
         /// (Streams and Amazon SQS standard queues) The maximum amount of time, in seconds, that Lambda spends gathering records before invoking the function. Default: 0 Related setting: When you set BatchSize to a value greater than 10, you must set MaximumBatchingWindowInSeconds to at least 1.
         public let maximumBatchingWindowInSeconds: Int?
@@ -3867,11 +3650,12 @@ extension Lambda {
         /// The identifier of the event source mapping.
         public let uuid: String
 
-        public init(batchSize: Int? = nil, bisectBatchOnFunctionError: Bool? = nil, destinationConfig: DestinationConfig? = nil, enabled: Bool? = nil, functionName: String? = nil, functionResponseTypes: [FunctionResponseType]? = nil, maximumBatchingWindowInSeconds: Int? = nil, maximumRecordAgeInSeconds: Int? = nil, maximumRetryAttempts: Int? = nil, parallelizationFactor: Int? = nil, sourceAccessConfigurations: [SourceAccessConfiguration]? = nil, tumblingWindowInSeconds: Int? = nil, uuid: String) {
+        public init(batchSize: Int? = nil, bisectBatchOnFunctionError: Bool? = nil, destinationConfig: DestinationConfig? = nil, enabled: Bool? = nil, filterCriteria: FilterCriteria? = nil, functionName: String? = nil, functionResponseTypes: [FunctionResponseType]? = nil, maximumBatchingWindowInSeconds: Int? = nil, maximumRecordAgeInSeconds: Int? = nil, maximumRetryAttempts: Int? = nil, parallelizationFactor: Int? = nil, sourceAccessConfigurations: [SourceAccessConfiguration]? = nil, tumblingWindowInSeconds: Int? = nil, uuid: String) {
             self.batchSize = batchSize
             self.bisectBatchOnFunctionError = bisectBatchOnFunctionError
             self.destinationConfig = destinationConfig
             self.enabled = enabled
+            self.filterCriteria = filterCriteria
             self.functionName = functionName
             self.functionResponseTypes = functionResponseTypes
             self.maximumBatchingWindowInSeconds = maximumBatchingWindowInSeconds
@@ -3887,6 +3671,7 @@ extension Lambda {
             try self.validate(self.batchSize, name: "batchSize", parent: name, max: 10000)
             try self.validate(self.batchSize, name: "batchSize", parent: name, min: 1)
             try self.destinationConfig?.validate(name: "\(name).destinationConfig")
+            try self.filterCriteria?.validate(name: "\(name).filterCriteria")
             try self.validate(self.functionName, name: "functionName", parent: name, max: 140)
             try self.validate(self.functionName, name: "functionName", parent: name, min: 1)
             try self.validate(self.functionName, name: "functionName", parent: name, pattern: "(arn:(aws[a-zA-Z-]*)?:lambda:)?([a-z]{2}(-gov)?-[a-z]+-\\d{1}:)?(\\d{12}:)?(function:)?([a-zA-Z0-9-_]+)(:(\\$LATEST|[a-zA-Z0-9-_]+))?")
@@ -3914,6 +3699,7 @@ extension Lambda {
             case bisectBatchOnFunctionError = "BisectBatchOnFunctionError"
             case destinationConfig = "DestinationConfig"
             case enabled = "Enabled"
+            case filterCriteria = "FilterCriteria"
             case functionName = "FunctionName"
             case functionResponseTypes = "FunctionResponseTypes"
             case maximumBatchingWindowInSeconds = "MaximumBatchingWindowInSeconds"
@@ -3930,7 +3716,7 @@ extension Lambda {
             AWSMemberEncoding(label: "functionName", location: .uri(locationName: "FunctionName"))
         ]
 
-        /// The instruction set architecture that the function supports. Enter a string array with one of the valid values. The default value is x86_64.
+        /// The instruction set architecture that the function supports. Enter a string array with one of the valid values (arm64 or x86_64). The default value is x86_64.
         public let architectures: [Architecture]?
         /// Set to true to validate the request parameters and access permissions without modifying the function code.
         public let dryRun: Bool?
@@ -4007,7 +3793,7 @@ extension Lambda {
         public let fileSystemConfigs: [FileSystemConfig]?
         /// The name of the Lambda function.  Name formats     Function name - my-function.    Function ARN - arn:aws:lambda:us-west-2:123456789012:function:my-function.    Partial ARN - 123456789012:function:my-function.   The length constraint applies only to the full ARN. If you specify only the function name, it is limited to 64 characters in length.
         public let functionName: String
-        /// The name of the method within your code that Lambda calls to execute your function. The format includes the file name. It can also include namespaces and other qualifiers, depending on the runtime. For more information, see Programming Model.
+        /// The name of the method within your code that Lambda calls to execute your function. Handler is required if the deployment package is a .zip file archive. The format includes the file name. It can also include namespaces and other qualifiers, depending on the runtime. For more information, see Programming Model.
         public let handler: String?
         ///  Container image configuration values that override the values in the container image Docker file.
         public let imageConfig: ImageConfig?
@@ -4021,7 +3807,7 @@ extension Lambda {
         public let revisionId: String?
         /// The Amazon Resource Name (ARN) of the function's execution role.
         public let role: String?
-        /// The identifier of the function's runtime.
+        /// The identifier of the function's runtime. Runtime is required if the deployment package is a .zip file archive.
         public let runtime: Runtime?
         /// The amount of time (in seconds) that Lambda allows a function to run before stopping it. The default is 3 seconds. The maximum allowed value is 900 seconds. For additional information, see Lambda execution environment.
         public let timeout: Int?
@@ -4139,67 +3925,6 @@ extension Lambda {
             case destinationConfig = "DestinationConfig"
             case maximumEventAgeInSeconds = "MaximumEventAgeInSeconds"
             case maximumRetryAttempts = "MaximumRetryAttempts"
-        }
-    }
-
-    public struct UpdateFunctionUrlConfigRequest: AWSEncodableShape {
-        public static var _encoding = [
-            AWSMemberEncoding(label: "functionName", location: .uri(locationName: "FunctionName")),
-            AWSMemberEncoding(label: "qualifier", location: .querystring(locationName: "Qualifier"))
-        ]
-
-        public let authorizationType: AuthorizationType?
-        public let cors: Cors?
-        public let functionName: String
-        public let qualifier: String?
-
-        public init(authorizationType: AuthorizationType? = nil, cors: Cors? = nil, functionName: String, qualifier: String? = nil) {
-            self.authorizationType = authorizationType
-            self.cors = cors
-            self.functionName = functionName
-            self.qualifier = qualifier
-        }
-
-        public func validate(name: String) throws {
-            try self.cors?.validate(name: "\(name).cors")
-            try self.validate(self.functionName, name: "functionName", parent: name, max: 140)
-            try self.validate(self.functionName, name: "functionName", parent: name, min: 1)
-            try self.validate(self.functionName, name: "functionName", parent: name, pattern: "(arn:(aws[a-zA-Z-]*)?:lambda:)?([a-z]{2}(-gov)?-[a-z]+-\\d{1}:)?(\\d{12}:)?(function:)?([a-zA-Z0-9-_]+)(:(\\$LATEST|[a-zA-Z0-9-_]+))?")
-            try self.validate(self.qualifier, name: "qualifier", parent: name, max: 128)
-            try self.validate(self.qualifier, name: "qualifier", parent: name, min: 1)
-            try self.validate(self.qualifier, name: "qualifier", parent: name, pattern: "(^\\$LATEST$)|((?!^[0-9]+$)([a-zA-Z0-9-_]+))")
-        }
-
-        private enum CodingKeys: String, CodingKey {
-            case authorizationType = "AuthorizationType"
-            case cors = "Cors"
-        }
-    }
-
-    public struct UpdateFunctionUrlConfigResponse: AWSDecodableShape {
-        public let authorizationType: AuthorizationType
-        public let cors: Cors?
-        public let creationTime: String
-        public let functionArn: String
-        public let functionUrl: String
-        public let lastModifiedTime: String
-
-        public init(authorizationType: AuthorizationType, cors: Cors? = nil, creationTime: String, functionArn: String, functionUrl: String, lastModifiedTime: String) {
-            self.authorizationType = authorizationType
-            self.cors = cors
-            self.creationTime = creationTime
-            self.functionArn = functionArn
-            self.functionUrl = functionUrl
-            self.lastModifiedTime = lastModifiedTime
-        }
-
-        private enum CodingKeys: String, CodingKey {
-            case authorizationType = "AuthorizationType"
-            case cors = "Cors"
-            case creationTime = "CreationTime"
-            case functionArn = "FunctionArn"
-            case functionUrl = "FunctionUrl"
-            case lastModifiedTime = "LastModifiedTime"
         }
     }
 

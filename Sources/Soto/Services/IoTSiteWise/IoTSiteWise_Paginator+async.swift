@@ -307,6 +307,28 @@ extension IoTSiteWise {
             on: eventLoop
         )
     }
+
+    ///  Retrieves a paginated list of time series (data streams).
+    /// Return PaginatorSequence for operation.
+    ///
+    /// - Parameters:
+    ///   - input: Input for request
+    ///   - logger: Logger used flot logging
+    ///   - eventLoop: EventLoop to run this process on
+    public func listTimeSeriesPaginator(
+        _ input: ListTimeSeriesRequest,
+        logger: Logger = AWSClient.loggingDisabled,
+        on eventLoop: EventLoop? = nil
+    ) -> AWSClient.PaginatorSequence<ListTimeSeriesRequest, ListTimeSeriesResponse> {
+        return .init(
+            input: input,
+            command: listTimeSeries,
+            inputKey: \ListTimeSeriesRequest.nextToken,
+            outputKey: \ListTimeSeriesResponse.nextToken,
+            logger: logger,
+            on: eventLoop
+        )
+    }
 }
 
 #endif // compiler(>=5.5) && canImport(_Concurrency)

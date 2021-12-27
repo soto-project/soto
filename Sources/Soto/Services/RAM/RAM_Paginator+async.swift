@@ -22,7 +22,7 @@ import SotoCore
 
 @available(macOS 12.0, iOS 15.0, watchOS 8.0, tvOS 15.0, *)
 extension RAM {
-    ///  Gets the policies for the specified resources that you own and have shared.
+    ///  Retrieves the resource policies for the specified resources that you own and have shared.
     /// Return PaginatorSequence for operation.
     ///
     /// - Parameters:
@@ -44,7 +44,7 @@ extension RAM {
         )
     }
 
-    ///  Gets the resources or principals for the resource shares that you own.
+    ///  Retrieves the resource and principal associations for resource shares that you own.
     /// Return PaginatorSequence for operation.
     ///
     /// - Parameters:
@@ -66,7 +66,7 @@ extension RAM {
         )
     }
 
-    ///  Gets the invitations that you have received for resource shares.
+    ///  Retrieves details about invitations that you have received for resource shares.
     /// Return PaginatorSequence for operation.
     ///
     /// - Parameters:
@@ -88,7 +88,7 @@ extension RAM {
         )
     }
 
-    ///  Gets the resource shares that you own or the resource shares that are shared with you.
+    ///  Retrieves details about the resource shares that you own or that are shared with you.
     /// Return PaginatorSequence for operation.
     ///
     /// - Parameters:
@@ -110,7 +110,7 @@ extension RAM {
         )
     }
 
-    ///  Lists the resources in a resource share that is shared with you but that the invitation is still pending for.
+    ///  Lists the resources in a resource share that is shared with you but for which the invitation is still PENDING. That means that you haven't accepted or rejected the invitation and the invitation hasn't expired.
     /// Return PaginatorSequence for operation.
     ///
     /// - Parameters:
@@ -132,7 +132,7 @@ extension RAM {
         )
     }
 
-    ///  Lists the RAM permissions.
+    ///  Retrieves a list of available RAM permissions that you can use for the supported resource types.
     /// Return PaginatorSequence for operation.
     ///
     /// - Parameters:
@@ -154,7 +154,7 @@ extension RAM {
         )
     }
 
-    ///  Lists the principals that you have shared resources with or that have shared resources with you.
+    ///  Lists the principals that you are sharing resources with or that are sharing resources with you.
     /// Return PaginatorSequence for operation.
     ///
     /// - Parameters:
@@ -198,7 +198,7 @@ extension RAM {
         )
     }
 
-    ///  Lists the shareable resource types supported by RAM.
+    ///  Lists the resource types that can be shared by RAM.
     /// Return PaginatorSequence for operation.
     ///
     /// - Parameters:

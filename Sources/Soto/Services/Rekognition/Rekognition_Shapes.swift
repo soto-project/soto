@@ -110,6 +110,8 @@ extension Rekognition {
     public enum KnownGenderType: String, CustomStringConvertible, Codable {
         case female = "Female"
         case male = "Male"
+        case nonbinary = "Nonbinary"
+        case unlisted = "Unlisted"
         public var description: String { return self.rawValue }
     }
 

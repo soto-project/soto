@@ -66,7 +66,7 @@ extension Route53RecoveryControlConfig {
         )
     }
 
-    ///  Returns an array of control panels for a cluster.
+    ///  Returns an array of control panels in an account or in a cluster.
     /// Return PaginatorSequence for operation.
     ///
     /// - Parameters:

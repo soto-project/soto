@@ -443,7 +443,7 @@ extension Macie2 {
         )
     }
 
-    ///  Retrieves information about the delegated Amazon Macie administrator account for an Amazon Web Services organization.
+    ///  Retrieves information about the delegated Amazon Macie administrator account for an organization in Organizations.
     ///
     /// Provide paginated results to closure `onPage` for it to combine them into one result.
     /// This works in a similar manner to `Array.reduce<Result>(_:_:) -> Result`.

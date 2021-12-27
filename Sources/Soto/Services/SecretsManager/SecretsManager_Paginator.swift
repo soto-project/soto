@@ -19,7 +19,7 @@ import SotoCore
 // MARK: Paginators
 
 extension SecretsManager {
-    ///  Lists all of the versions attached to the specified secret. The output does not include the SecretString or SecretBinary fields. By default, the list includes only versions that have at least one staging label in VersionStage attached.  Always check the NextToken response parameter when calling any of the List* operations. These operations can occasionally return an empty or shorter than expected list of results even when there more results become available. When this happens, the NextToken response parameter contains a value to pass to the next call to the same API to request the next part of the list.   Minimum permissions  To run this command, you must have the following permissions:   secretsmanager:ListSecretVersionIds    Related operations    To list the secrets in an account, use ListSecrets.
+    ///  Lists the versions for a secret.  To list the secrets in the account, use ListSecrets. To get the secret value from SecretString or SecretBinary, call GetSecretValue.  Minimum permissions  To run this command, you must have secretsmanager:ListSecretVersionIds permissions.
     ///
     /// Provide paginated results to closure `onPage` for it to combine them into one result.
     /// This works in a similar manner to `Array.reduce<Result>(_:_:) -> Result`.
@@ -72,7 +72,7 @@ extension SecretsManager {
         )
     }
 
-    ///  Lists all of the secrets that are stored by Secrets Manager in the Amazon Web Services account. To list the versions currently stored for a specific secret, use ListSecretVersionIds. The encrypted fields SecretString and SecretBinary are not included in the output. To get that information, call the GetSecretValue operation.  Always check the NextToken response parameter when calling any of the List* operations. These operations can occasionally return an empty or shorter than expected list of results even when there more results become available. When this happens, the NextToken response parameter contains a value to pass to the next call to the same API to request the next part of the list.   Minimum permissions  To run this command, you must have the following permissions:   secretsmanager:ListSecrets    Related operations    To list the versions attached to a secret, use ListSecretVersionIds.
+    ///  Lists the secrets that are stored by Secrets Manager in the Amazon Web Services account.  To list the versions of a secret, use ListSecretVersionIds. To get the secret value from SecretString or SecretBinary, call GetSecretValue. For information about finding secrets in the console, see Enhanced search capabilities for secrets in Secrets Manager.  Minimum permissions  To run this command, you must have secretsmanager:ListSecrets permissions.
     ///
     /// Provide paginated results to closure `onPage` for it to combine them into one result.
     /// This works in a similar manner to `Array.reduce<Result>(_:_:) -> Result`.

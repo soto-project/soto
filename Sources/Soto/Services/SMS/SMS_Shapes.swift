@@ -214,7 +214,7 @@ extension SMS {
         public let replicationStatus: AppReplicationStatus?
         /// A message related to the replication status of the application.
         public let replicationStatusMessage: String?
-        /// The name of the service role in the customer's account used by AWS SMS.
+        /// The name of the service role in the customer's account used by Server Migration Service.
         public let roleName: String?
         /// Status of the application.
         public let status: AppStatus?
@@ -372,7 +372,7 @@ extension SMS {
         public let description: String?
         /// The name of the new application.
         public let name: String?
-        /// The name of the service role in the customer's account to be used by AWS SMS.
+        /// The name of the service role in the customer's account to be used by Server Migration Service.
         public let roleName: String?
         /// The server groups to include in the application.
         public let serverGroups: [ServerGroup]?
@@ -432,7 +432,7 @@ extension SMS {
         public let licenseType: LicenseType?
         /// The maximum number of SMS-created AMIs to retain. The oldest is deleted after the maximum number is reached and a new AMI is created.
         public let numberOfRecentAmisToKeep: Int?
-        /// The name of the IAM role to be used by the AWS SMS.
+        /// The name of the IAM role to be used by the Server Migration Service.
         public let roleName: String?
         /// Indicates whether to run the replication job one time.
         public let runOnce: Bool?
@@ -634,9 +634,9 @@ extension SMS {
     }
 
     public struct GenerateTemplateRequest: AWSEncodableShape {
-        /// The ID of the application associated with the AWS CloudFormation template.
+        /// The ID of the application associated with the CloudFormation template.
         public let appId: String?
-        /// The format for generating the AWS CloudFormation template.
+        /// The format for generating the CloudFormation template.
         public let templateFormat: OutputFormat?
 
         public init(appId: String? = nil, templateFormat: OutputFormat? = nil) {
@@ -681,7 +681,7 @@ extension SMS {
         public let appId: String?
         /// Indicates whether the application is configured to launch automatically after replication is complete.
         public let autoLaunch: Bool?
-        /// The name of the service role in the customer's account that AWS CloudFormation uses to launch the application.
+        /// The name of the service role in the customer's account that CloudFormation uses to launch the application.
         public let roleName: String?
         /// The launch configurations for server groups in this application.
         public let serverGroupLaunchConfigurations: [ServerGroupLaunchConfiguration]?
@@ -986,7 +986,7 @@ extension SMS {
     }
 
     public struct ImportAppCatalogRequest: AWSEncodableShape {
-        /// The name of the service role. If you omit this parameter, we create a service-linked role for AWS Migration Hub in your account. Otherwise, the role that you provide must have the policy and trust policy described in the AWS Migration Hub User Guide.
+        /// The name of the service role. If you omit this parameter, we create a service-linked role for Migration Hub in your account. Otherwise, the role that you provide must have the policy and trust policy described in the Migration Hub User Guide.
         public let roleName: String?
 
         public init(roleName: String? = nil) {
@@ -1143,7 +1143,7 @@ extension SMS {
         public let appId: String?
         /// Indicates whether the application is configured to launch automatically after replication is complete.
         public let autoLaunch: Bool?
-        /// The name of service role in the customer's account that AWS CloudFormation uses to launch the application.
+        /// The name of service role in the customer's account that CloudFormation uses to launch the application.
         public let roleName: String?
         /// Information about the launch configurations for server groups in the application.
         public let serverGroupLaunchConfigurations: [ServerGroupLaunchConfiguration]?
@@ -1250,7 +1250,7 @@ extension SMS {
         public let replicationJobId: String?
         /// Information about the replication runs.
         public let replicationRunList: [ReplicationRun]?
-        /// The name of the IAM role to be used by AWS SMS.
+        /// The name of the IAM role to be used by Server Migration Service.
         public let roleName: String?
         /// Indicates whether to run the replication job one time.
         public let runOnce: Bool?
@@ -1416,7 +1416,7 @@ extension SMS {
     }
 
     public struct SSMValidationParameters: AWSEncodableShape & AWSDecodableShape {
-        /// The command to run the validation script
+        /// The command to run the validation script.
         public let command: String?
         /// The timeout interval, in seconds.
         public let executionTimeoutSeconds: Int?
@@ -1586,7 +1586,7 @@ extension SMS {
         public let iamInstanceProfileName: String?
         /// The instance type to use when launching the server.
         public let instanceType: String?
-        /// The logical ID of the server in the AWS CloudFormation template.
+        /// The logical ID of the server in the CloudFormation template.
         public let logicalId: String?
         /// The ID of the security group that applies to the launched server.
         public let securityGroup: String?
@@ -1879,7 +1879,7 @@ extension SMS {
         public let description: String?
         /// The new name of the application.
         public let name: String?
-        /// The name of the service role in the customer's account used by AWS SMS.
+        /// The name of the service role in the customer's account used by Server Migration Service.
         public let roleName: String?
         /// The server groups in the application to update.
         public let serverGroups: [ServerGroup]?
@@ -1943,7 +1943,7 @@ extension SMS {
         public let numberOfRecentAmisToKeep: Int?
         /// The ID of the replication job.
         public let replicationJobId: String
-        /// The name of the IAM role to be used by AWS SMS.
+        /// The name of the IAM role to be used by Server Migration Service.
         public let roleName: String?
 
         public init(description: String? = nil, encrypted: Bool? = nil, frequency: Int? = nil, kmsKeyId: String? = nil, licenseType: LicenseType? = nil, nextReplicationRunStartTime: Date? = nil, numberOfRecentAmisToKeep: Int? = nil, replicationJobId: String, roleName: String? = nil) {

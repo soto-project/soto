@@ -20,6 +20,68 @@ import SotoCore
 extension NetworkManager {
     // MARK: Enums
 
+    public enum AttachmentState: String, CustomStringConvertible, Codable {
+        case available = "AVAILABLE"
+        case creating = "CREATING"
+        case deleting = "DELETING"
+        case failed = "FAILED"
+        case pendingAttachmentAcceptance = "PENDING_ATTACHMENT_ACCEPTANCE"
+        case pendingNetworkUpdate = "PENDING_NETWORK_UPDATE"
+        case pendingTagAcceptance = "PENDING_TAG_ACCEPTANCE"
+        case rejected = "REJECTED"
+        case updating = "UPDATING"
+        public var description: String { return self.rawValue }
+    }
+
+    public enum AttachmentType: String, CustomStringConvertible, Codable {
+        case connect = "CONNECT"
+        case siteToSiteVpn = "SITE_TO_SITE_VPN"
+        case vpc = "VPC"
+        public var description: String { return self.rawValue }
+    }
+
+    public enum ChangeAction: String, CustomStringConvertible, Codable {
+        case add = "ADD"
+        case modify = "MODIFY"
+        case remove = "REMOVE"
+        public var description: String { return self.rawValue }
+    }
+
+    public enum ChangeSetState: String, CustomStringConvertible, Codable {
+        case executing = "EXECUTING"
+        case executionSucceeded = "EXECUTION_SUCCEEDED"
+        case failedGeneration = "FAILED_GENERATION"
+        case outOfDate = "OUT_OF_DATE"
+        case pendingGeneration = "PENDING_GENERATION"
+        case readyToExecute = "READY_TO_EXECUTE"
+        public var description: String { return self.rawValue }
+    }
+
+    public enum ChangeType: String, CustomStringConvertible, Codable {
+        case attachmentMapping = "ATTACHMENT_MAPPING"
+        case attachmentRoutePropagation = "ATTACHMENT_ROUTE_PROPAGATION"
+        case attachmentRouteStatic = "ATTACHMENT_ROUTE_STATIC"
+        case coreNetworkEdge = "CORE_NETWORK_EDGE"
+        case coreNetworkSegment = "CORE_NETWORK_SEGMENT"
+        public var description: String { return self.rawValue }
+    }
+
+    public enum ConnectPeerAssociationState: String, CustomStringConvertible, Codable {
+        case available = "AVAILABLE"
+        case deleted = "DELETED"
+        case deleting = "DELETING"
+        case pending = "PENDING"
+        public var description: String { return self.rawValue }
+    }
+
+    public enum ConnectPeerState: String, CustomStringConvertible, Codable {
+        case available = "AVAILABLE"
+        case creating = "CREATING"
+        case deleting = "DELETING"
+        case failed = "FAILED"
+        public var description: String { return self.rawValue }
+    }
+
     public enum ConnectionState: String, CustomStringConvertible, Codable {
         case available = "AVAILABLE"
         case deleting = "DELETING"
@@ -37,6 +99,20 @@ extension NetworkManager {
     public enum ConnectionType: String, CustomStringConvertible, Codable {
         case bgp = "BGP"
         case ipsec = "IPSEC"
+        public var description: String { return self.rawValue }
+    }
+
+    public enum CoreNetworkPolicyAlias: String, CustomStringConvertible, Codable {
+        case latest = "LATEST"
+        case live = "LIVE"
+        public var description: String { return self.rawValue }
+    }
+
+    public enum CoreNetworkState: String, CustomStringConvertible, Codable {
+        case available = "AVAILABLE"
+        case creating = "CREATING"
+        case deleting = "DELETING"
+        case updating = "UPDATING"
         public var description: String { return self.rawValue }
     }
 
@@ -115,6 +191,7 @@ extension NetworkManager {
     }
 
     public enum RouteTableType: String, CustomStringConvertible, Codable {
+        case coreNetworkSegment = "CORE_NETWORK_SEGMENT"
         case transitGatewayRouteTable = "TRANSIT_GATEWAY_ROUTE_TABLE"
         public var description: String { return self.rawValue }
     }
@@ -150,6 +227,11 @@ extension NetworkManager {
         public var description: String { return self.rawValue }
     }
 
+    public enum TunnelProtocol: String, CustomStringConvertible, Codable {
+        case gre = "GRE"
+        public var description: String { return self.rawValue }
+    }
+
     // MARK: Shapes
 
     public struct AWSLocation: AWSEncodableShape & AWSDecodableShape {
@@ -163,9 +245,104 @@ extension NetworkManager {
             self.zone = zone
         }
 
+        public func validate(name: String) throws {
+            try self.validate(self.subnetArn, name: "subnetArn", parent: name, max: 500)
+            try self.validate(self.subnetArn, name: "subnetArn", parent: name, min: 0)
+            try self.validate(self.subnetArn, name: "subnetArn", parent: name, pattern: "^arn:[^:]{1,63}:ec2:[^:]{0,63}:[^:]{0,63}:subnet\\/subnet-[0-9a-f]{8,17}$")
+            try self.validate(self.zone, name: "zone", parent: name, max: 256)
+            try self.validate(self.zone, name: "zone", parent: name, min: 0)
+        }
+
         private enum CodingKeys: String, CodingKey {
             case subnetArn = "SubnetArn"
             case zone = "Zone"
+        }
+    }
+
+    public struct AcceptAttachmentRequest: AWSEncodableShape {
+        public static var _encoding = [
+            AWSMemberEncoding(label: "attachmentId", location: .uri(locationName: "attachmentId"))
+        ]
+
+        /// The ID of the attachment.
+        public let attachmentId: String
+
+        public init(attachmentId: String) {
+            self.attachmentId = attachmentId
+        }
+
+        public func validate(name: String) throws {
+            try self.validate(self.attachmentId, name: "attachmentId", parent: name, max: 50)
+            try self.validate(self.attachmentId, name: "attachmentId", parent: name, min: 0)
+            try self.validate(self.attachmentId, name: "attachmentId", parent: name, pattern: "^attachment-([0-9a-f]{8,17})$")
+        }
+
+        private enum CodingKeys: CodingKey {}
+    }
+
+    public struct AcceptAttachmentResponse: AWSDecodableShape {
+        /// The response to the attachment request.
+        public let attachment: Attachment?
+
+        public init(attachment: Attachment? = nil) {
+            self.attachment = attachment
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case attachment = "Attachment"
+        }
+    }
+
+    public struct AssociateConnectPeerRequest: AWSEncodableShape {
+        public static var _encoding = [
+            AWSMemberEncoding(label: "globalNetworkId", location: .uri(locationName: "globalNetworkId"))
+        ]
+
+        /// The ID of the Connect peer.
+        public let connectPeerId: String
+        /// The ID of the device.
+        public let deviceId: String
+        /// The ID of your global network.
+        public let globalNetworkId: String
+        /// The ID of the link.
+        public let linkId: String?
+
+        public init(connectPeerId: String, deviceId: String, globalNetworkId: String, linkId: String? = nil) {
+            self.connectPeerId = connectPeerId
+            self.deviceId = deviceId
+            self.globalNetworkId = globalNetworkId
+            self.linkId = linkId
+        }
+
+        public func validate(name: String) throws {
+            try self.validate(self.connectPeerId, name: "connectPeerId", parent: name, max: 50)
+            try self.validate(self.connectPeerId, name: "connectPeerId", parent: name, min: 0)
+            try self.validate(self.connectPeerId, name: "connectPeerId", parent: name, pattern: "^connect-peer-([0-9a-f]{8,17})$")
+            try self.validate(self.deviceId, name: "deviceId", parent: name, max: 50)
+            try self.validate(self.deviceId, name: "deviceId", parent: name, min: 0)
+            try self.validate(self.globalNetworkId, name: "globalNetworkId", parent: name, max: 50)
+            try self.validate(self.globalNetworkId, name: "globalNetworkId", parent: name, min: 0)
+            try self.validate(self.linkId, name: "linkId", parent: name, max: 50)
+            try self.validate(self.linkId, name: "linkId", parent: name, min: 0)
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case connectPeerId = "ConnectPeerId"
+            case deviceId = "DeviceId"
+            case linkId = "LinkId"
+        }
+    }
+
+    public struct AssociateConnectPeerResponse: AWSDecodableShape {
+        /// The response to the Connect peer request.
+        public let connectPeerAssociation: ConnectPeerAssociation?
+
+        public init(connectPeerAssociation: ConnectPeerAssociation? = nil) {
+            self.connectPeerAssociation = connectPeerAssociation
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case connectPeerAssociation = "ConnectPeerAssociation"
         }
     }
 
@@ -188,6 +365,17 @@ extension NetworkManager {
             self.deviceId = deviceId
             self.globalNetworkId = globalNetworkId
             self.linkId = linkId
+        }
+
+        public func validate(name: String) throws {
+            try self.validate(self.customerGatewayArn, name: "customerGatewayArn", parent: name, max: 500)
+            try self.validate(self.customerGatewayArn, name: "customerGatewayArn", parent: name, min: 0)
+            try self.validate(self.deviceId, name: "deviceId", parent: name, max: 50)
+            try self.validate(self.deviceId, name: "deviceId", parent: name, min: 0)
+            try self.validate(self.globalNetworkId, name: "globalNetworkId", parent: name, max: 50)
+            try self.validate(self.globalNetworkId, name: "globalNetworkId", parent: name, min: 0)
+            try self.validate(self.linkId, name: "linkId", parent: name, max: 50)
+            try self.validate(self.linkId, name: "linkId", parent: name, min: 0)
         }
 
         private enum CodingKeys: String, CodingKey {
@@ -226,6 +414,15 @@ extension NetworkManager {
             self.deviceId = deviceId
             self.globalNetworkId = globalNetworkId
             self.linkId = linkId
+        }
+
+        public func validate(name: String) throws {
+            try self.validate(self.deviceId, name: "deviceId", parent: name, max: 50)
+            try self.validate(self.deviceId, name: "deviceId", parent: name, min: 0)
+            try self.validate(self.globalNetworkId, name: "globalNetworkId", parent: name, max: 50)
+            try self.validate(self.globalNetworkId, name: "globalNetworkId", parent: name, min: 0)
+            try self.validate(self.linkId, name: "linkId", parent: name, max: 50)
+            try self.validate(self.linkId, name: "linkId", parent: name, min: 0)
         }
 
         private enum CodingKeys: String, CodingKey {
@@ -268,6 +465,17 @@ extension NetworkManager {
             self.transitGatewayConnectPeerArn = transitGatewayConnectPeerArn
         }
 
+        public func validate(name: String) throws {
+            try self.validate(self.deviceId, name: "deviceId", parent: name, max: 50)
+            try self.validate(self.deviceId, name: "deviceId", parent: name, min: 0)
+            try self.validate(self.globalNetworkId, name: "globalNetworkId", parent: name, max: 50)
+            try self.validate(self.globalNetworkId, name: "globalNetworkId", parent: name, min: 0)
+            try self.validate(self.linkId, name: "linkId", parent: name, max: 50)
+            try self.validate(self.linkId, name: "linkId", parent: name, min: 0)
+            try self.validate(self.transitGatewayConnectPeerArn, name: "transitGatewayConnectPeerArn", parent: name, max: 500)
+            try self.validate(self.transitGatewayConnectPeerArn, name: "transitGatewayConnectPeerArn", parent: name, min: 0)
+        }
+
         private enum CodingKeys: String, CodingKey {
             case deviceId = "DeviceId"
             case linkId = "LinkId"
@@ -288,6 +496,71 @@ extension NetworkManager {
         }
     }
 
+    public struct Attachment: AWSDecodableShape {
+        /// The ID of the attachment.
+        public let attachmentId: String?
+        /// The policy rule number associated with the attachment.
+        public let attachmentPolicyRuleNumber: Int?
+        /// The type of attachment.
+        public let attachmentType: AttachmentType?
+        /// The ARN of a core network.
+        public let coreNetworkArn: String?
+        /// A core network ID.
+        public let coreNetworkId: String?
+        /// The timestamp when the attachment was created.
+        public let createdAt: Date?
+        /// The Region where the edge is located.
+        public let edgeLocation: String?
+        /// The ID of the attachment account owner.
+        public let ownerAccountId: String?
+        /// The attachment to move from one segment to another.
+        public let proposedSegmentChange: ProposedSegmentChange?
+        /// The attachment resource ARN.
+        public let resourceArn: String?
+        /// The name of the segment attachment.
+        public let segmentName: String?
+        /// The state of the attachment.
+        public let state: AttachmentState?
+        /// The tags associated with the attachment.
+        public let tags: [Tag]?
+        /// The timestamp when the attachment was last updated.
+        public let updatedAt: Date?
+
+        public init(attachmentId: String? = nil, attachmentPolicyRuleNumber: Int? = nil, attachmentType: AttachmentType? = nil, coreNetworkArn: String? = nil, coreNetworkId: String? = nil, createdAt: Date? = nil, edgeLocation: String? = nil, ownerAccountId: String? = nil, proposedSegmentChange: ProposedSegmentChange? = nil, resourceArn: String? = nil, segmentName: String? = nil, state: AttachmentState? = nil, tags: [Tag]? = nil, updatedAt: Date? = nil) {
+            self.attachmentId = attachmentId
+            self.attachmentPolicyRuleNumber = attachmentPolicyRuleNumber
+            self.attachmentType = attachmentType
+            self.coreNetworkArn = coreNetworkArn
+            self.coreNetworkId = coreNetworkId
+            self.createdAt = createdAt
+            self.edgeLocation = edgeLocation
+            self.ownerAccountId = ownerAccountId
+            self.proposedSegmentChange = proposedSegmentChange
+            self.resourceArn = resourceArn
+            self.segmentName = segmentName
+            self.state = state
+            self.tags = tags
+            self.updatedAt = updatedAt
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case attachmentId = "AttachmentId"
+            case attachmentPolicyRuleNumber = "AttachmentPolicyRuleNumber"
+            case attachmentType = "AttachmentType"
+            case coreNetworkArn = "CoreNetworkArn"
+            case coreNetworkId = "CoreNetworkId"
+            case createdAt = "CreatedAt"
+            case edgeLocation = "EdgeLocation"
+            case ownerAccountId = "OwnerAccountId"
+            case proposedSegmentChange = "ProposedSegmentChange"
+            case resourceArn = "ResourceArn"
+            case segmentName = "SegmentName"
+            case state = "State"
+            case tags = "Tags"
+            case updatedAt = "UpdatedAt"
+        }
+    }
+
     public struct Bandwidth: AWSEncodableShape & AWSDecodableShape {
         /// Download speed in Mbps.
         public let downloadSpeed: Int?
@@ -302,6 +575,214 @@ extension NetworkManager {
         private enum CodingKeys: String, CodingKey {
             case downloadSpeed = "DownloadSpeed"
             case uploadSpeed = "UploadSpeed"
+        }
+    }
+
+    public struct BgpOptions: AWSEncodableShape {
+        /// The Peer ASN of the BGP.
+        public let peerAsn: Int64?
+
+        public init(peerAsn: Int64? = nil) {
+            self.peerAsn = peerAsn
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case peerAsn = "PeerAsn"
+        }
+    }
+
+    public struct ConnectAttachment: AWSDecodableShape {
+        /// The attachment details.
+        public let attachment: Attachment?
+        /// Options for connecting an attachment.
+        public let options: ConnectAttachmentOptions?
+        /// The ID of the transport attachment.
+        public let transportAttachmentId: String?
+
+        public init(attachment: Attachment? = nil, options: ConnectAttachmentOptions? = nil, transportAttachmentId: String? = nil) {
+            self.attachment = attachment
+            self.options = options
+            self.transportAttachmentId = transportAttachmentId
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case attachment = "Attachment"
+            case options = "Options"
+            case transportAttachmentId = "TransportAttachmentId"
+        }
+    }
+
+    public struct ConnectAttachmentOptions: AWSEncodableShape & AWSDecodableShape {
+        /// The protocol used for the attachment connection.
+        public let `protocol`: TunnelProtocol?
+
+        public init(protocol: TunnelProtocol? = nil) {
+            self.`protocol` = `protocol`
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case `protocol` = "Protocol"
+        }
+    }
+
+    public struct ConnectPeer: AWSDecodableShape {
+        /// The configuration of the Connect peer.
+        public let configuration: ConnectPeerConfiguration?
+        /// The ID of the attachment to connect.
+        public let connectAttachmentId: String?
+        /// The ID of the Connect peer.
+        public let connectPeerId: String?
+        /// The ID of a core network.
+        public let coreNetworkId: String?
+        /// The timestamp when the Connect peer was created.
+        public let createdAt: Date?
+        /// The Connect peer Regions where edges are located.
+        public let edgeLocation: String?
+        /// The state of the Connect peer.
+        public let state: ConnectPeerState?
+        /// The tags associated with the Connect peer.
+        public let tags: [Tag]?
+
+        public init(configuration: ConnectPeerConfiguration? = nil, connectAttachmentId: String? = nil, connectPeerId: String? = nil, coreNetworkId: String? = nil, createdAt: Date? = nil, edgeLocation: String? = nil, state: ConnectPeerState? = nil, tags: [Tag]? = nil) {
+            self.configuration = configuration
+            self.connectAttachmentId = connectAttachmentId
+            self.connectPeerId = connectPeerId
+            self.coreNetworkId = coreNetworkId
+            self.createdAt = createdAt
+            self.edgeLocation = edgeLocation
+            self.state = state
+            self.tags = tags
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case configuration = "Configuration"
+            case connectAttachmentId = "ConnectAttachmentId"
+            case connectPeerId = "ConnectPeerId"
+            case coreNetworkId = "CoreNetworkId"
+            case createdAt = "CreatedAt"
+            case edgeLocation = "EdgeLocation"
+            case state = "State"
+            case tags = "Tags"
+        }
+    }
+
+    public struct ConnectPeerAssociation: AWSDecodableShape {
+        /// The ID of the Connect peer.
+        public let connectPeerId: String?
+        /// The ID of the device to connect to.
+        public let deviceId: String?
+        /// The ID of the global network.
+        public let globalNetworkId: String?
+        /// The ID of the link.
+        public let linkId: String?
+        /// The state of the Connect peer association.
+        public let state: ConnectPeerAssociationState?
+
+        public init(connectPeerId: String? = nil, deviceId: String? = nil, globalNetworkId: String? = nil, linkId: String? = nil, state: ConnectPeerAssociationState? = nil) {
+            self.connectPeerId = connectPeerId
+            self.deviceId = deviceId
+            self.globalNetworkId = globalNetworkId
+            self.linkId = linkId
+            self.state = state
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case connectPeerId = "ConnectPeerId"
+            case deviceId = "DeviceId"
+            case globalNetworkId = "GlobalNetworkId"
+            case linkId = "LinkId"
+            case state = "State"
+        }
+    }
+
+    public struct ConnectPeerBgpConfiguration: AWSDecodableShape {
+        /// The address of a core network.
+        public let coreNetworkAddress: String?
+        /// The ASN of the Coret Network.
+        public let coreNetworkAsn: Int64?
+        /// The address of a core network Connect peer.
+        public let peerAddress: String?
+        /// The ASN of the Connect peer.
+        public let peerAsn: Int64?
+
+        public init(coreNetworkAddress: String? = nil, coreNetworkAsn: Int64? = nil, peerAddress: String? = nil, peerAsn: Int64? = nil) {
+            self.coreNetworkAddress = coreNetworkAddress
+            self.coreNetworkAsn = coreNetworkAsn
+            self.peerAddress = peerAddress
+            self.peerAsn = peerAsn
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case coreNetworkAddress = "CoreNetworkAddress"
+            case coreNetworkAsn = "CoreNetworkAsn"
+            case peerAddress = "PeerAddress"
+            case peerAsn = "PeerAsn"
+        }
+    }
+
+    public struct ConnectPeerConfiguration: AWSDecodableShape {
+        /// The Connect peer BGP configurations.
+        public let bgpConfigurations: [ConnectPeerBgpConfiguration]?
+        /// The IP address of a core network.
+        public let coreNetworkAddress: String?
+        /// The inside IP addresses used for a Connect peer configuration.
+        public let insideCidrBlocks: [String]?
+        /// The IP address of the Connect peer.
+        public let peerAddress: String?
+        /// The protocol used for a Connect peer configuration.
+        public let `protocol`: TunnelProtocol?
+
+        public init(bgpConfigurations: [ConnectPeerBgpConfiguration]? = nil, coreNetworkAddress: String? = nil, insideCidrBlocks: [String]? = nil, peerAddress: String? = nil, protocol: TunnelProtocol? = nil) {
+            self.bgpConfigurations = bgpConfigurations
+            self.coreNetworkAddress = coreNetworkAddress
+            self.insideCidrBlocks = insideCidrBlocks
+            self.peerAddress = peerAddress
+            self.`protocol` = `protocol`
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case bgpConfigurations = "BgpConfigurations"
+            case coreNetworkAddress = "CoreNetworkAddress"
+            case insideCidrBlocks = "InsideCidrBlocks"
+            case peerAddress = "PeerAddress"
+            case `protocol` = "Protocol"
+        }
+    }
+
+    public struct ConnectPeerSummary: AWSDecodableShape {
+        /// The ID of a Connect peer attachment.
+        public let connectAttachmentId: String?
+        /// The ID of a Connect peer.
+        public let connectPeerId: String?
+        /// The state of a Connect peer.
+        public let connectPeerState: ConnectPeerState?
+        /// The ID of a core network.
+        public let coreNetworkId: String?
+        /// The timestamp when a Connect peer was created.
+        public let createdAt: Date?
+        /// The Region where the edge is located.
+        public let edgeLocation: String?
+        /// The tags associated with a Connect peer summary.
+        public let tags: [Tag]?
+
+        public init(connectAttachmentId: String? = nil, connectPeerId: String? = nil, connectPeerState: ConnectPeerState? = nil, coreNetworkId: String? = nil, createdAt: Date? = nil, edgeLocation: String? = nil, tags: [Tag]? = nil) {
+            self.connectAttachmentId = connectAttachmentId
+            self.connectPeerId = connectPeerId
+            self.connectPeerState = connectPeerState
+            self.coreNetworkId = coreNetworkId
+            self.createdAt = createdAt
+            self.edgeLocation = edgeLocation
+            self.tags = tags
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case connectAttachmentId = "ConnectAttachmentId"
+            case connectPeerId = "ConnectPeerId"
+            case connectPeerState = "ConnectPeerState"
+            case coreNetworkId = "CoreNetworkId"
+            case createdAt = "CreatedAt"
+            case edgeLocation = "EdgeLocation"
+            case tags = "Tags"
         }
     }
 
@@ -379,6 +860,447 @@ extension NetworkManager {
         }
     }
 
+    public struct CoreNetwork: AWSDecodableShape {
+        /// The ARN of a core network.
+        public let coreNetworkArn: String?
+        /// The ID of a core network.
+        public let coreNetworkId: String?
+        /// The timestamp when a core network was created.
+        public let createdAt: Date?
+        /// The description of a core network.
+        public let description: String?
+        /// The edges within a core network.
+        public let edges: [CoreNetworkEdge]?
+        /// The ID of the global network that your core network is a part of.
+        public let globalNetworkId: String?
+        /// The segments within a core network.
+        public let segments: [CoreNetworkSegment]?
+        /// The current state of a core network.
+        public let state: CoreNetworkState?
+        /// The tags associated with a core network.
+        public let tags: [Tag]?
+
+        public init(coreNetworkArn: String? = nil, coreNetworkId: String? = nil, createdAt: Date? = nil, description: String? = nil, edges: [CoreNetworkEdge]? = nil, globalNetworkId: String? = nil, segments: [CoreNetworkSegment]? = nil, state: CoreNetworkState? = nil, tags: [Tag]? = nil) {
+            self.coreNetworkArn = coreNetworkArn
+            self.coreNetworkId = coreNetworkId
+            self.createdAt = createdAt
+            self.description = description
+            self.edges = edges
+            self.globalNetworkId = globalNetworkId
+            self.segments = segments
+            self.state = state
+            self.tags = tags
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case coreNetworkArn = "CoreNetworkArn"
+            case coreNetworkId = "CoreNetworkId"
+            case createdAt = "CreatedAt"
+            case description = "Description"
+            case edges = "Edges"
+            case globalNetworkId = "GlobalNetworkId"
+            case segments = "Segments"
+            case state = "State"
+            case tags = "Tags"
+        }
+    }
+
+    public struct CoreNetworkChange: AWSDecodableShape {
+        /// The action to take for a core network.
+        public let action: ChangeAction?
+        /// The resource identifier.
+        public let identifier: String?
+        /// The new value for a core network
+        public let newValues: CoreNetworkChangeValues?
+        /// The previous values for a core network.
+        public let previousValues: CoreNetworkChangeValues?
+        /// The type of change.
+        public let type: ChangeType?
+
+        public init(action: ChangeAction? = nil, identifier: String? = nil, newValues: CoreNetworkChangeValues? = nil, previousValues: CoreNetworkChangeValues? = nil, type: ChangeType? = nil) {
+            self.action = action
+            self.identifier = identifier
+            self.newValues = newValues
+            self.previousValues = previousValues
+            self.type = type
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case action = "Action"
+            case identifier = "Identifier"
+            case newValues = "NewValues"
+            case previousValues = "PreviousValues"
+            case type = "Type"
+        }
+    }
+
+    public struct CoreNetworkChangeValues: AWSDecodableShape {
+        /// The ASN of a core network.
+        public let asn: Int64?
+        /// The IP addresses used for a core network.
+        public let cidr: String?
+        /// The ID of the destination.
+        public let destinationIdentifier: String?
+        /// The Regions where edges are located in a core network.
+        public let edgeLocations: [String]?
+        /// The inside IP addresses used for core network change values.
+        public let insideCidrBlocks: [String]?
+        /// The names of the segments in a core network.
+        public let segmentName: String?
+        /// The shared segments for a core network change value.
+        public let sharedSegments: [String]?
+
+        public init(asn: Int64? = nil, cidr: String? = nil, destinationIdentifier: String? = nil, edgeLocations: [String]? = nil, insideCidrBlocks: [String]? = nil, segmentName: String? = nil, sharedSegments: [String]? = nil) {
+            self.asn = asn
+            self.cidr = cidr
+            self.destinationIdentifier = destinationIdentifier
+            self.edgeLocations = edgeLocations
+            self.insideCidrBlocks = insideCidrBlocks
+            self.segmentName = segmentName
+            self.sharedSegments = sharedSegments
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case asn = "Asn"
+            case cidr = "Cidr"
+            case destinationIdentifier = "DestinationIdentifier"
+            case edgeLocations = "EdgeLocations"
+            case insideCidrBlocks = "InsideCidrBlocks"
+            case segmentName = "SegmentName"
+            case sharedSegments = "SharedSegments"
+        }
+    }
+
+    public struct CoreNetworkEdge: AWSDecodableShape {
+        /// The ASN of a core network edge.
+        public let asn: Int64?
+        /// The Region where a core network edge is located.
+        public let edgeLocation: String?
+        /// The inside IP addresses used for core network edges.
+        public let insideCidrBlocks: [String]?
+
+        public init(asn: Int64? = nil, edgeLocation: String? = nil, insideCidrBlocks: [String]? = nil) {
+            self.asn = asn
+            self.edgeLocation = edgeLocation
+            self.insideCidrBlocks = insideCidrBlocks
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case asn = "Asn"
+            case edgeLocation = "EdgeLocation"
+            case insideCidrBlocks = "InsideCidrBlocks"
+        }
+    }
+
+    public struct CoreNetworkPolicy: AWSDecodableShape {
+        /// Whether a core network policy is the current LIVE policy or the most recently submitted policy.
+        public let alias: CoreNetworkPolicyAlias?
+        /// The state of a core network policy.
+        public let changeSetState: ChangeSetState?
+        /// The ID of a core network.
+        public let coreNetworkId: String?
+        /// The timestamp when a core network policy was created.
+        public let createdAt: Date?
+        /// The description of a core network policy.
+        public let description: String?
+        /// Describes a core network policy.
+        public let policyDocument: String?
+        /// Describes any errors in a core network policy.
+        public let policyErrors: [CoreNetworkPolicyError]?
+        /// The ID of the policy version.
+        public let policyVersionId: Int?
+
+        public init(alias: CoreNetworkPolicyAlias? = nil, changeSetState: ChangeSetState? = nil, coreNetworkId: String? = nil, createdAt: Date? = nil, description: String? = nil, policyDocument: String? = nil, policyErrors: [CoreNetworkPolicyError]? = nil, policyVersionId: Int? = nil) {
+            self.alias = alias
+            self.changeSetState = changeSetState
+            self.coreNetworkId = coreNetworkId
+            self.createdAt = createdAt
+            self.description = description
+            self.policyDocument = policyDocument
+            self.policyErrors = policyErrors
+            self.policyVersionId = policyVersionId
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case alias = "Alias"
+            case changeSetState = "ChangeSetState"
+            case coreNetworkId = "CoreNetworkId"
+            case createdAt = "CreatedAt"
+            case description = "Description"
+            case policyDocument = "PolicyDocument"
+            case policyErrors = "PolicyErrors"
+            case policyVersionId = "PolicyVersionId"
+        }
+    }
+
+    public struct CoreNetworkPolicyError: AWSDecodableShape {
+        /// The error code associated with a core network policy error.
+        public let errorCode: String
+        /// The message associated with a core network policy error code.
+        public let message: String
+        /// The JSON path where the error was discovered in the policy document.
+        public let path: String?
+
+        public init(errorCode: String, message: String, path: String? = nil) {
+            self.errorCode = errorCode
+            self.message = message
+            self.path = path
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case errorCode = "ErrorCode"
+            case message = "Message"
+            case path = "Path"
+        }
+    }
+
+    public struct CoreNetworkPolicyVersion: AWSDecodableShape {
+        /// Whether a core network policy is the current policy or the most recently submitted policy.
+        public let alias: CoreNetworkPolicyAlias?
+        /// The status of the policy version change set.
+        public let changeSetState: ChangeSetState?
+        /// The ID of a core network.
+        public let coreNetworkId: String?
+        /// The timestamp when a core network policy version was created.
+        public let createdAt: Date?
+        /// The description of a core network policy version.
+        public let description: String?
+        /// The ID of the policy version.
+        public let policyVersionId: Int?
+
+        public init(alias: CoreNetworkPolicyAlias? = nil, changeSetState: ChangeSetState? = nil, coreNetworkId: String? = nil, createdAt: Date? = nil, description: String? = nil, policyVersionId: Int? = nil) {
+            self.alias = alias
+            self.changeSetState = changeSetState
+            self.coreNetworkId = coreNetworkId
+            self.createdAt = createdAt
+            self.description = description
+            self.policyVersionId = policyVersionId
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case alias = "Alias"
+            case changeSetState = "ChangeSetState"
+            case coreNetworkId = "CoreNetworkId"
+            case createdAt = "CreatedAt"
+            case description = "Description"
+            case policyVersionId = "PolicyVersionId"
+        }
+    }
+
+    public struct CoreNetworkSegment: AWSDecodableShape {
+        /// The Regions where the edges are located.
+        public let edgeLocations: [String]?
+        /// The name of a core network segment.
+        public let name: String?
+        /// The shared segments of a core network.
+        public let sharedSegments: [String]?
+
+        public init(edgeLocations: [String]? = nil, name: String? = nil, sharedSegments: [String]? = nil) {
+            self.edgeLocations = edgeLocations
+            self.name = name
+            self.sharedSegments = sharedSegments
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case edgeLocations = "EdgeLocations"
+            case name = "Name"
+            case sharedSegments = "SharedSegments"
+        }
+    }
+
+    public struct CoreNetworkSegmentEdgeIdentifier: AWSEncodableShape & AWSDecodableShape {
+        /// The ID of a core network.
+        public let coreNetworkId: String?
+        /// The Region where the segment edge is located.
+        public let edgeLocation: String?
+        /// The name of the segment edge.
+        public let segmentName: String?
+
+        public init(coreNetworkId: String? = nil, edgeLocation: String? = nil, segmentName: String? = nil) {
+            self.coreNetworkId = coreNetworkId
+            self.edgeLocation = edgeLocation
+            self.segmentName = segmentName
+        }
+
+        public func validate(name: String) throws {
+            try self.validate(self.coreNetworkId, name: "coreNetworkId", parent: name, max: 50)
+            try self.validate(self.coreNetworkId, name: "coreNetworkId", parent: name, min: 0)
+            try self.validate(self.coreNetworkId, name: "coreNetworkId", parent: name, pattern: "^core-network-([0-9a-f]{8,17})$")
+            try self.validate(self.edgeLocation, name: "edgeLocation", parent: name, max: 63)
+            try self.validate(self.edgeLocation, name: "edgeLocation", parent: name, min: 1)
+            try self.validate(self.segmentName, name: "segmentName", parent: name, max: 256)
+            try self.validate(self.segmentName, name: "segmentName", parent: name, min: 0)
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case coreNetworkId = "CoreNetworkId"
+            case edgeLocation = "EdgeLocation"
+            case segmentName = "SegmentName"
+        }
+    }
+
+    public struct CoreNetworkSummary: AWSDecodableShape {
+        /// a core network ARN.
+        public let coreNetworkArn: String?
+        /// The ID of a core network.
+        public let coreNetworkId: String?
+        /// The description of a core network.
+        public let description: String?
+        /// The global network ID.
+        public let globalNetworkId: String?
+        /// The ID of the account owner.
+        public let ownerAccountId: String?
+        /// The state of a core network.
+        public let state: CoreNetworkState?
+        /// The key-value tags associated with a core network summary.
+        public let tags: [Tag]?
+
+        public init(coreNetworkArn: String? = nil, coreNetworkId: String? = nil, description: String? = nil, globalNetworkId: String? = nil, ownerAccountId: String? = nil, state: CoreNetworkState? = nil, tags: [Tag]? = nil) {
+            self.coreNetworkArn = coreNetworkArn
+            self.coreNetworkId = coreNetworkId
+            self.description = description
+            self.globalNetworkId = globalNetworkId
+            self.ownerAccountId = ownerAccountId
+            self.state = state
+            self.tags = tags
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case coreNetworkArn = "CoreNetworkArn"
+            case coreNetworkId = "CoreNetworkId"
+            case description = "Description"
+            case globalNetworkId = "GlobalNetworkId"
+            case ownerAccountId = "OwnerAccountId"
+            case state = "State"
+            case tags = "Tags"
+        }
+    }
+
+    public struct CreateConnectAttachmentRequest: AWSEncodableShape {
+        /// The client token associated with the request.
+        public let clientToken: String?
+        /// The ID of a core network where you want to create the attachment.
+        public let coreNetworkId: String
+        /// The Region where the edge is located.
+        public let edgeLocation: String
+        /// Options for creating an attachment.
+        public let options: ConnectAttachmentOptions
+        /// The list of key-value tags associated with the request.
+        public let tags: [Tag]?
+        /// The ID of the attachment between the two connections.
+        public let transportAttachmentId: String
+
+        public init(clientToken: String? = CreateConnectAttachmentRequest.idempotencyToken(), coreNetworkId: String, edgeLocation: String, options: ConnectAttachmentOptions, tags: [Tag]? = nil, transportAttachmentId: String) {
+            self.clientToken = clientToken
+            self.coreNetworkId = coreNetworkId
+            self.edgeLocation = edgeLocation
+            self.options = options
+            self.tags = tags
+            self.transportAttachmentId = transportAttachmentId
+        }
+
+        public func validate(name: String) throws {
+            try self.validate(self.clientToken, name: "clientToken", parent: name, max: 256)
+            try self.validate(self.clientToken, name: "clientToken", parent: name, min: 0)
+            try self.validate(self.coreNetworkId, name: "coreNetworkId", parent: name, max: 50)
+            try self.validate(self.coreNetworkId, name: "coreNetworkId", parent: name, min: 0)
+            try self.validate(self.coreNetworkId, name: "coreNetworkId", parent: name, pattern: "^core-network-([0-9a-f]{8,17})$")
+            try self.validate(self.edgeLocation, name: "edgeLocation", parent: name, max: 63)
+            try self.validate(self.edgeLocation, name: "edgeLocation", parent: name, min: 1)
+            try self.validate(self.transportAttachmentId, name: "transportAttachmentId", parent: name, max: 50)
+            try self.validate(self.transportAttachmentId, name: "transportAttachmentId", parent: name, min: 0)
+            try self.validate(self.transportAttachmentId, name: "transportAttachmentId", parent: name, pattern: "^attachment-([0-9a-f]{8,17})$")
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case clientToken = "ClientToken"
+            case coreNetworkId = "CoreNetworkId"
+            case edgeLocation = "EdgeLocation"
+            case options = "Options"
+            case tags = "Tags"
+            case transportAttachmentId = "TransportAttachmentId"
+        }
+    }
+
+    public struct CreateConnectAttachmentResponse: AWSDecodableShape {
+        /// The response to a Connect attachment request.
+        public let connectAttachment: ConnectAttachment?
+
+        public init(connectAttachment: ConnectAttachment? = nil) {
+            self.connectAttachment = connectAttachment
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case connectAttachment = "ConnectAttachment"
+        }
+    }
+
+    public struct CreateConnectPeerRequest: AWSEncodableShape {
+        /// The Connect peer BGP options.
+        public let bgpOptions: BgpOptions?
+        /// The client token associated with the request.
+        public let clientToken: String?
+        /// The ID of the connection attachment.
+        public let connectAttachmentId: String
+        /// A Connect peer core network address.
+        public let coreNetworkAddress: String?
+        /// The inside IP addresses used for BGP peering.
+        public let insideCidrBlocks: [String]
+        /// The Connect peer address.
+        public let peerAddress: String
+        /// The tags associated with the peer request.
+        public let tags: [Tag]?
+
+        public init(bgpOptions: BgpOptions? = nil, clientToken: String? = CreateConnectPeerRequest.idempotencyToken(), connectAttachmentId: String, coreNetworkAddress: String? = nil, insideCidrBlocks: [String], peerAddress: String, tags: [Tag]? = nil) {
+            self.bgpOptions = bgpOptions
+            self.clientToken = clientToken
+            self.connectAttachmentId = connectAttachmentId
+            self.coreNetworkAddress = coreNetworkAddress
+            self.insideCidrBlocks = insideCidrBlocks
+            self.peerAddress = peerAddress
+            self.tags = tags
+        }
+
+        public func validate(name: String) throws {
+            try self.validate(self.clientToken, name: "clientToken", parent: name, max: 256)
+            try self.validate(self.clientToken, name: "clientToken", parent: name, min: 0)
+            try self.validate(self.connectAttachmentId, name: "connectAttachmentId", parent: name, max: 50)
+            try self.validate(self.connectAttachmentId, name: "connectAttachmentId", parent: name, min: 0)
+            try self.validate(self.connectAttachmentId, name: "connectAttachmentId", parent: name, pattern: "^attachment-([0-9a-f]{8,17})$")
+            try self.validate(self.coreNetworkAddress, name: "coreNetworkAddress", parent: name, max: 50)
+            try self.validate(self.coreNetworkAddress, name: "coreNetworkAddress", parent: name, min: 1)
+            try self.insideCidrBlocks.forEach {
+                try validate($0, name: "insideCidrBlocks[]", parent: name, max: 256)
+                try validate($0, name: "insideCidrBlocks[]", parent: name, min: 0)
+            }
+            try self.validate(self.peerAddress, name: "peerAddress", parent: name, max: 50)
+            try self.validate(self.peerAddress, name: "peerAddress", parent: name, min: 1)
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case bgpOptions = "BgpOptions"
+            case clientToken = "ClientToken"
+            case connectAttachmentId = "ConnectAttachmentId"
+            case coreNetworkAddress = "CoreNetworkAddress"
+            case insideCidrBlocks = "InsideCidrBlocks"
+            case peerAddress = "PeerAddress"
+            case tags = "Tags"
+        }
+    }
+
+    public struct CreateConnectPeerResponse: AWSDecodableShape {
+        /// The response to the request.
+        public let connectPeer: ConnectPeer?
+
+        public init(connectPeer: ConnectPeer? = nil) {
+            self.connectPeer = connectPeer
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case connectPeer = "ConnectPeer"
+        }
+    }
+
     public struct CreateConnectionRequest: AWSEncodableShape {
         public static var _encoding = [
             AWSMemberEncoding(label: "globalNetworkId", location: .uri(locationName: "globalNetworkId"))
@@ -409,6 +1331,21 @@ extension NetworkManager {
             self.tags = tags
         }
 
+        public func validate(name: String) throws {
+            try self.validate(self.connectedDeviceId, name: "connectedDeviceId", parent: name, max: 50)
+            try self.validate(self.connectedDeviceId, name: "connectedDeviceId", parent: name, min: 0)
+            try self.validate(self.connectedLinkId, name: "connectedLinkId", parent: name, max: 50)
+            try self.validate(self.connectedLinkId, name: "connectedLinkId", parent: name, min: 0)
+            try self.validate(self.description, name: "description", parent: name, max: 256)
+            try self.validate(self.description, name: "description", parent: name, min: 0)
+            try self.validate(self.deviceId, name: "deviceId", parent: name, max: 50)
+            try self.validate(self.deviceId, name: "deviceId", parent: name, min: 0)
+            try self.validate(self.globalNetworkId, name: "globalNetworkId", parent: name, max: 50)
+            try self.validate(self.globalNetworkId, name: "globalNetworkId", parent: name, min: 0)
+            try self.validate(self.linkId, name: "linkId", parent: name, max: 50)
+            try self.validate(self.linkId, name: "linkId", parent: name, min: 0)
+        }
+
         private enum CodingKeys: String, CodingKey {
             case connectedDeviceId = "ConnectedDeviceId"
             case connectedLinkId = "ConnectedLinkId"
@@ -429,6 +1366,57 @@ extension NetworkManager {
 
         private enum CodingKeys: String, CodingKey {
             case connection = "Connection"
+        }
+    }
+
+    public struct CreateCoreNetworkRequest: AWSEncodableShape {
+        /// The client token associated with a core network request.
+        public let clientToken: String?
+        /// The description of a core network.
+        public let description: String?
+        /// The ID of the global network that a core network will be a part of.
+        public let globalNetworkId: String
+        /// The policy document for creating a core network.
+        public let policyDocument: String?
+        /// Key-value tags associated with a core network request.
+        public let tags: [Tag]?
+
+        public init(clientToken: String? = CreateCoreNetworkRequest.idempotencyToken(), description: String? = nil, globalNetworkId: String, policyDocument: String? = nil, tags: [Tag]? = nil) {
+            self.clientToken = clientToken
+            self.description = description
+            self.globalNetworkId = globalNetworkId
+            self.policyDocument = policyDocument
+            self.tags = tags
+        }
+
+        public func validate(name: String) throws {
+            try self.validate(self.clientToken, name: "clientToken", parent: name, max: 256)
+            try self.validate(self.clientToken, name: "clientToken", parent: name, min: 0)
+            try self.validate(self.description, name: "description", parent: name, max: 256)
+            try self.validate(self.description, name: "description", parent: name, min: 0)
+            try self.validate(self.globalNetworkId, name: "globalNetworkId", parent: name, max: 50)
+            try self.validate(self.globalNetworkId, name: "globalNetworkId", parent: name, min: 0)
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case clientToken = "ClientToken"
+            case description = "Description"
+            case globalNetworkId = "GlobalNetworkId"
+            case policyDocument = "PolicyDocument"
+            case tags = "Tags"
+        }
+    }
+
+    public struct CreateCoreNetworkResponse: AWSDecodableShape {
+        /// Returns details about a core network.
+        public let coreNetwork: CoreNetwork?
+
+        public init(coreNetwork: CoreNetwork? = nil) {
+            self.coreNetwork = coreNetwork
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case coreNetwork = "CoreNetwork"
         }
     }
 
@@ -471,6 +1459,25 @@ extension NetworkManager {
             self.vendor = vendor
         }
 
+        public func validate(name: String) throws {
+            try self.aWSLocation?.validate(name: "\(name).aWSLocation")
+            try self.validate(self.description, name: "description", parent: name, max: 256)
+            try self.validate(self.description, name: "description", parent: name, min: 0)
+            try self.validate(self.globalNetworkId, name: "globalNetworkId", parent: name, max: 50)
+            try self.validate(self.globalNetworkId, name: "globalNetworkId", parent: name, min: 0)
+            try self.location?.validate(name: "\(name).location")
+            try self.validate(self.model, name: "model", parent: name, max: 256)
+            try self.validate(self.model, name: "model", parent: name, min: 0)
+            try self.validate(self.serialNumber, name: "serialNumber", parent: name, max: 256)
+            try self.validate(self.serialNumber, name: "serialNumber", parent: name, min: 0)
+            try self.validate(self.siteId, name: "siteId", parent: name, max: 50)
+            try self.validate(self.siteId, name: "siteId", parent: name, min: 0)
+            try self.validate(self.type, name: "type", parent: name, max: 256)
+            try self.validate(self.type, name: "type", parent: name, min: 0)
+            try self.validate(self.vendor, name: "vendor", parent: name, max: 256)
+            try self.validate(self.vendor, name: "vendor", parent: name, min: 0)
+        }
+
         private enum CodingKeys: String, CodingKey {
             case aWSLocation = "AWSLocation"
             case description = "Description"
@@ -506,6 +1513,11 @@ extension NetworkManager {
         public init(description: String? = nil, tags: [Tag]? = nil) {
             self.description = description
             self.tags = tags
+        }
+
+        public func validate(name: String) throws {
+            try self.validate(self.description, name: "description", parent: name, max: 256)
+            try self.validate(self.description, name: "description", parent: name, min: 0)
         }
 
         private enum CodingKeys: String, CodingKey {
@@ -557,6 +1569,19 @@ extension NetworkManager {
             self.type = type
         }
 
+        public func validate(name: String) throws {
+            try self.validate(self.description, name: "description", parent: name, max: 256)
+            try self.validate(self.description, name: "description", parent: name, min: 0)
+            try self.validate(self.globalNetworkId, name: "globalNetworkId", parent: name, max: 50)
+            try self.validate(self.globalNetworkId, name: "globalNetworkId", parent: name, min: 0)
+            try self.validate(self.provider, name: "provider", parent: name, max: 256)
+            try self.validate(self.provider, name: "provider", parent: name, min: 0)
+            try self.validate(self.siteId, name: "siteId", parent: name, max: 50)
+            try self.validate(self.siteId, name: "siteId", parent: name, min: 0)
+            try self.validate(self.type, name: "type", parent: name, max: 256)
+            try self.validate(self.type, name: "type", parent: name, min: 0)
+        }
+
         private enum CodingKeys: String, CodingKey {
             case bandwidth = "Bandwidth"
             case description = "Description"
@@ -601,6 +1626,14 @@ extension NetworkManager {
             self.tags = tags
         }
 
+        public func validate(name: String) throws {
+            try self.validate(self.description, name: "description", parent: name, max: 256)
+            try self.validate(self.description, name: "description", parent: name, min: 0)
+            try self.validate(self.globalNetworkId, name: "globalNetworkId", parent: name, max: 50)
+            try self.validate(self.globalNetworkId, name: "globalNetworkId", parent: name, min: 0)
+            try self.location?.validate(name: "\(name).location")
+        }
+
         private enum CodingKeys: String, CodingKey {
             case description = "Description"
             case location = "Location"
@@ -618,6 +1651,117 @@ extension NetworkManager {
 
         private enum CodingKeys: String, CodingKey {
             case site = "Site"
+        }
+    }
+
+    public struct CreateSiteToSiteVpnAttachmentRequest: AWSEncodableShape {
+        /// The client token associated with the request.
+        public let clientToken: String?
+        /// The ID of a core network where you're creating a site-to-site VPN attachment.
+        public let coreNetworkId: String
+        /// The tags associated with the request.
+        public let tags: [Tag]?
+        /// The ARN identifying the VPN attachment.
+        public let vpnConnectionArn: String
+
+        public init(clientToken: String? = CreateSiteToSiteVpnAttachmentRequest.idempotencyToken(), coreNetworkId: String, tags: [Tag]? = nil, vpnConnectionArn: String) {
+            self.clientToken = clientToken
+            self.coreNetworkId = coreNetworkId
+            self.tags = tags
+            self.vpnConnectionArn = vpnConnectionArn
+        }
+
+        public func validate(name: String) throws {
+            try self.validate(self.clientToken, name: "clientToken", parent: name, max: 256)
+            try self.validate(self.clientToken, name: "clientToken", parent: name, min: 0)
+            try self.validate(self.coreNetworkId, name: "coreNetworkId", parent: name, max: 50)
+            try self.validate(self.coreNetworkId, name: "coreNetworkId", parent: name, min: 0)
+            try self.validate(self.coreNetworkId, name: "coreNetworkId", parent: name, pattern: "^core-network-([0-9a-f]{8,17})$")
+            try self.validate(self.vpnConnectionArn, name: "vpnConnectionArn", parent: name, max: 500)
+            try self.validate(self.vpnConnectionArn, name: "vpnConnectionArn", parent: name, min: 0)
+            try self.validate(self.vpnConnectionArn, name: "vpnConnectionArn", parent: name, pattern: "^arn:[^:]{1,63}:ec2:[^:]{0,63}:[^:]{0,63}:vpn-connection\\/vpn-[0-9a-f]{8,17}$")
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case clientToken = "ClientToken"
+            case coreNetworkId = "CoreNetworkId"
+            case tags = "Tags"
+            case vpnConnectionArn = "VpnConnectionArn"
+        }
+    }
+
+    public struct CreateSiteToSiteVpnAttachmentResponse: AWSDecodableShape {
+        /// Details about a site-to-site VPN attachment.
+        public let siteToSiteVpnAttachment: SiteToSiteVpnAttachment?
+
+        public init(siteToSiteVpnAttachment: SiteToSiteVpnAttachment? = nil) {
+            self.siteToSiteVpnAttachment = siteToSiteVpnAttachment
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case siteToSiteVpnAttachment = "SiteToSiteVpnAttachment"
+        }
+    }
+
+    public struct CreateVpcAttachmentRequest: AWSEncodableShape {
+        /// The client token associated with the request.
+        public let clientToken: String?
+        /// The ID of a core network for the VPC attachment.
+        public let coreNetworkId: String
+        /// Options for the VPC attachment.
+        public let options: VpcOptions?
+        /// The subnet ARN of the VPC attachment.
+        public let subnetArns: [String]
+        /// The key-value tags associated with the request.
+        public let tags: [Tag]?
+        /// The ARN of the VPC.
+        public let vpcArn: String
+
+        public init(clientToken: String? = CreateVpcAttachmentRequest.idempotencyToken(), coreNetworkId: String, options: VpcOptions? = nil, subnetArns: [String], tags: [Tag]? = nil, vpcArn: String) {
+            self.clientToken = clientToken
+            self.coreNetworkId = coreNetworkId
+            self.options = options
+            self.subnetArns = subnetArns
+            self.tags = tags
+            self.vpcArn = vpcArn
+        }
+
+        public func validate(name: String) throws {
+            try self.validate(self.clientToken, name: "clientToken", parent: name, max: 256)
+            try self.validate(self.clientToken, name: "clientToken", parent: name, min: 0)
+            try self.validate(self.coreNetworkId, name: "coreNetworkId", parent: name, max: 50)
+            try self.validate(self.coreNetworkId, name: "coreNetworkId", parent: name, min: 0)
+            try self.validate(self.coreNetworkId, name: "coreNetworkId", parent: name, pattern: "^core-network-([0-9a-f]{8,17})$")
+            try self.subnetArns.forEach {
+                try validate($0, name: "subnetArns[]", parent: name, max: 500)
+                try validate($0, name: "subnetArns[]", parent: name, min: 0)
+                try validate($0, name: "subnetArns[]", parent: name, pattern: "^arn:[^:]{1,63}:ec2:[^:]{0,63}:[^:]{0,63}:subnet\\/subnet-[0-9a-f]{8,17}$")
+            }
+            try self.validate(self.vpcArn, name: "vpcArn", parent: name, max: 500)
+            try self.validate(self.vpcArn, name: "vpcArn", parent: name, min: 0)
+            try self.validate(self.vpcArn, name: "vpcArn", parent: name, pattern: "^arn:[^:]{1,63}:ec2:[^:]{0,63}:[^:]{0,63}:vpc\\/vpc-[0-9a-f]{8,17}$")
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case clientToken = "ClientToken"
+            case coreNetworkId = "CoreNetworkId"
+            case options = "Options"
+            case subnetArns = "SubnetArns"
+            case tags = "Tags"
+            case vpcArn = "VpcArn"
+        }
+    }
+
+    public struct CreateVpcAttachmentResponse: AWSDecodableShape {
+        /// Provides details about the VPC attachment.
+        public let vpcAttachment: VpcAttachment?
+
+        public init(vpcAttachment: VpcAttachment? = nil) {
+            self.vpcAttachment = vpcAttachment
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case vpcAttachment = "VpcAttachment"
         }
     }
 
@@ -650,6 +1794,74 @@ extension NetworkManager {
         }
     }
 
+    public struct DeleteAttachmentRequest: AWSEncodableShape {
+        public static var _encoding = [
+            AWSMemberEncoding(label: "attachmentId", location: .uri(locationName: "attachmentId"))
+        ]
+
+        /// The ID of the attachment to delete.
+        public let attachmentId: String
+
+        public init(attachmentId: String) {
+            self.attachmentId = attachmentId
+        }
+
+        public func validate(name: String) throws {
+            try self.validate(self.attachmentId, name: "attachmentId", parent: name, max: 50)
+            try self.validate(self.attachmentId, name: "attachmentId", parent: name, min: 0)
+            try self.validate(self.attachmentId, name: "attachmentId", parent: name, pattern: "^attachment-([0-9a-f]{8,17})$")
+        }
+
+        private enum CodingKeys: CodingKey {}
+    }
+
+    public struct DeleteAttachmentResponse: AWSDecodableShape {
+        /// Information about the deleted attachment.
+        public let attachment: Attachment?
+
+        public init(attachment: Attachment? = nil) {
+            self.attachment = attachment
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case attachment = "Attachment"
+        }
+    }
+
+    public struct DeleteConnectPeerRequest: AWSEncodableShape {
+        public static var _encoding = [
+            AWSMemberEncoding(label: "connectPeerId", location: .uri(locationName: "connectPeerId"))
+        ]
+
+        /// The ID of the deleted Connect peer.
+        public let connectPeerId: String
+
+        public init(connectPeerId: String) {
+            self.connectPeerId = connectPeerId
+        }
+
+        public func validate(name: String) throws {
+            try self.validate(self.connectPeerId, name: "connectPeerId", parent: name, max: 50)
+            try self.validate(self.connectPeerId, name: "connectPeerId", parent: name, min: 0)
+            try self.validate(self.connectPeerId, name: "connectPeerId", parent: name, pattern: "^connect-peer-([0-9a-f]{8,17})$")
+        }
+
+        private enum CodingKeys: CodingKey {}
+    }
+
+    public struct DeleteConnectPeerResponse: AWSDecodableShape {
+        /// Information about the deleted Connect peer.
+        public let connectPeer: ConnectPeer?
+
+        public init(connectPeer: ConnectPeer? = nil) {
+            self.connectPeer = connectPeer
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case connectPeer = "ConnectPeer"
+        }
+    }
+
     public struct DeleteConnectionRequest: AWSEncodableShape {
         public static var _encoding = [
             AWSMemberEncoding(label: "connectionId", location: .uri(locationName: "connectionId")),
@@ -664,6 +1876,13 @@ extension NetworkManager {
         public init(connectionId: String, globalNetworkId: String) {
             self.connectionId = connectionId
             self.globalNetworkId = globalNetworkId
+        }
+
+        public func validate(name: String) throws {
+            try self.validate(self.connectionId, name: "connectionId", parent: name, max: 50)
+            try self.validate(self.connectionId, name: "connectionId", parent: name, min: 0)
+            try self.validate(self.globalNetworkId, name: "globalNetworkId", parent: name, max: 50)
+            try self.validate(self.globalNetworkId, name: "globalNetworkId", parent: name, min: 0)
         }
 
         private enum CodingKeys: CodingKey {}
@@ -682,6 +1901,78 @@ extension NetworkManager {
         }
     }
 
+    public struct DeleteCoreNetworkPolicyVersionRequest: AWSEncodableShape {
+        public static var _encoding = [
+            AWSMemberEncoding(label: "coreNetworkId", location: .uri(locationName: "coreNetworkId")),
+            AWSMemberEncoding(label: "policyVersionId", location: .uri(locationName: "policyVersionId"))
+        ]
+
+        /// The ID of a core network for the deleted policy.
+        public let coreNetworkId: String
+        /// The version ID of the deleted policy.
+        public let policyVersionId: Int
+
+        public init(coreNetworkId: String, policyVersionId: Int) {
+            self.coreNetworkId = coreNetworkId
+            self.policyVersionId = policyVersionId
+        }
+
+        public func validate(name: String) throws {
+            try self.validate(self.coreNetworkId, name: "coreNetworkId", parent: name, max: 50)
+            try self.validate(self.coreNetworkId, name: "coreNetworkId", parent: name, min: 0)
+            try self.validate(self.coreNetworkId, name: "coreNetworkId", parent: name, pattern: "^core-network-([0-9a-f]{8,17})$")
+        }
+
+        private enum CodingKeys: CodingKey {}
+    }
+
+    public struct DeleteCoreNetworkPolicyVersionResponse: AWSDecodableShape {
+        /// Returns information about the deleted policy version.
+        public let coreNetworkPolicy: CoreNetworkPolicy?
+
+        public init(coreNetworkPolicy: CoreNetworkPolicy? = nil) {
+            self.coreNetworkPolicy = coreNetworkPolicy
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case coreNetworkPolicy = "CoreNetworkPolicy"
+        }
+    }
+
+    public struct DeleteCoreNetworkRequest: AWSEncodableShape {
+        public static var _encoding = [
+            AWSMemberEncoding(label: "coreNetworkId", location: .uri(locationName: "coreNetworkId"))
+        ]
+
+        /// The network ID of the deleted core network.
+        public let coreNetworkId: String
+
+        public init(coreNetworkId: String) {
+            self.coreNetworkId = coreNetworkId
+        }
+
+        public func validate(name: String) throws {
+            try self.validate(self.coreNetworkId, name: "coreNetworkId", parent: name, max: 50)
+            try self.validate(self.coreNetworkId, name: "coreNetworkId", parent: name, min: 0)
+            try self.validate(self.coreNetworkId, name: "coreNetworkId", parent: name, pattern: "^core-network-([0-9a-f]{8,17})$")
+        }
+
+        private enum CodingKeys: CodingKey {}
+    }
+
+    public struct DeleteCoreNetworkResponse: AWSDecodableShape {
+        /// Information about the deleted core network.
+        public let coreNetwork: CoreNetwork?
+
+        public init(coreNetwork: CoreNetwork? = nil) {
+            self.coreNetwork = coreNetwork
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case coreNetwork = "CoreNetwork"
+        }
+    }
+
     public struct DeleteDeviceRequest: AWSEncodableShape {
         public static var _encoding = [
             AWSMemberEncoding(label: "deviceId", location: .uri(locationName: "deviceId")),
@@ -696,6 +1987,13 @@ extension NetworkManager {
         public init(deviceId: String, globalNetworkId: String) {
             self.deviceId = deviceId
             self.globalNetworkId = globalNetworkId
+        }
+
+        public func validate(name: String) throws {
+            try self.validate(self.deviceId, name: "deviceId", parent: name, max: 50)
+            try self.validate(self.deviceId, name: "deviceId", parent: name, min: 0)
+            try self.validate(self.globalNetworkId, name: "globalNetworkId", parent: name, max: 50)
+            try self.validate(self.globalNetworkId, name: "globalNetworkId", parent: name, min: 0)
         }
 
         private enum CodingKeys: CodingKey {}
@@ -724,6 +2022,11 @@ extension NetworkManager {
 
         public init(globalNetworkId: String) {
             self.globalNetworkId = globalNetworkId
+        }
+
+        public func validate(name: String) throws {
+            try self.validate(self.globalNetworkId, name: "globalNetworkId", parent: name, max: 50)
+            try self.validate(self.globalNetworkId, name: "globalNetworkId", parent: name, min: 0)
         }
 
         private enum CodingKeys: CodingKey {}
@@ -758,6 +2061,13 @@ extension NetworkManager {
             self.linkId = linkId
         }
 
+        public func validate(name: String) throws {
+            try self.validate(self.globalNetworkId, name: "globalNetworkId", parent: name, max: 50)
+            try self.validate(self.globalNetworkId, name: "globalNetworkId", parent: name, min: 0)
+            try self.validate(self.linkId, name: "linkId", parent: name, max: 50)
+            try self.validate(self.linkId, name: "linkId", parent: name, min: 0)
+        }
+
         private enum CodingKeys: CodingKey {}
     }
 
@@ -774,6 +2084,30 @@ extension NetworkManager {
         }
     }
 
+    public struct DeleteResourcePolicyRequest: AWSEncodableShape {
+        public static var _encoding = [
+            AWSMemberEncoding(label: "resourceArn", location: .uri(locationName: "resourceArn"))
+        ]
+
+        /// The ARN of the policy to delete.
+        public let resourceArn: String
+
+        public init(resourceArn: String) {
+            self.resourceArn = resourceArn
+        }
+
+        public func validate(name: String) throws {
+            try self.validate(self.resourceArn, name: "resourceArn", parent: name, max: 1500)
+            try self.validate(self.resourceArn, name: "resourceArn", parent: name, min: 0)
+        }
+
+        private enum CodingKeys: CodingKey {}
+    }
+
+    public struct DeleteResourcePolicyResponse: AWSDecodableShape {
+        public init() {}
+    }
+
     public struct DeleteSiteRequest: AWSEncodableShape {
         public static var _encoding = [
             AWSMemberEncoding(label: "globalNetworkId", location: .uri(locationName: "globalNetworkId")),
@@ -788,6 +2122,13 @@ extension NetworkManager {
         public init(globalNetworkId: String, siteId: String) {
             self.globalNetworkId = globalNetworkId
             self.siteId = siteId
+        }
+
+        public func validate(name: String) throws {
+            try self.validate(self.globalNetworkId, name: "globalNetworkId", parent: name, max: 50)
+            try self.validate(self.globalNetworkId, name: "globalNetworkId", parent: name, min: 0)
+            try self.validate(self.siteId, name: "siteId", parent: name, max: 50)
+            try self.validate(self.siteId, name: "siteId", parent: name, min: 0)
         }
 
         private enum CodingKeys: CodingKey {}
@@ -820,6 +2161,13 @@ extension NetworkManager {
         public init(globalNetworkId: String, transitGatewayArn: String) {
             self.globalNetworkId = globalNetworkId
             self.transitGatewayArn = transitGatewayArn
+        }
+
+        public func validate(name: String) throws {
+            try self.validate(self.globalNetworkId, name: "globalNetworkId", parent: name, max: 50)
+            try self.validate(self.globalNetworkId, name: "globalNetworkId", parent: name, min: 0)
+            try self.validate(self.transitGatewayArn, name: "transitGatewayArn", parent: name, max: 500)
+            try self.validate(self.transitGatewayArn, name: "transitGatewayArn", parent: name, min: 0)
         }
 
         private enum CodingKeys: CodingKey {}
@@ -859,8 +2207,14 @@ extension NetworkManager {
         }
 
         public func validate(name: String) throws {
+            try self.globalNetworkIds?.forEach {
+                try validate($0, name: "globalNetworkIds[]", parent: name, max: 50)
+                try validate($0, name: "globalNetworkIds[]", parent: name, min: 0)
+            }
             try self.validate(self.maxResults, name: "maxResults", parent: name, max: 500)
             try self.validate(self.maxResults, name: "maxResults", parent: name, min: 1)
+            try self.validate(self.nextToken, name: "nextToken", parent: name, max: 2048)
+            try self.validate(self.nextToken, name: "nextToken", parent: name, min: 0)
         }
 
         private enum CodingKeys: CodingKey {}
@@ -948,6 +2302,46 @@ extension NetworkManager {
         }
     }
 
+    public struct DisassociateConnectPeerRequest: AWSEncodableShape {
+        public static var _encoding = [
+            AWSMemberEncoding(label: "connectPeerId", location: .uri(locationName: "connectPeerId")),
+            AWSMemberEncoding(label: "globalNetworkId", location: .uri(locationName: "globalNetworkId"))
+        ]
+
+        /// The ID of the Connect peer to disassociate from a device.
+        public let connectPeerId: String
+        /// The ID of the global network.
+        public let globalNetworkId: String
+
+        public init(connectPeerId: String, globalNetworkId: String) {
+            self.connectPeerId = connectPeerId
+            self.globalNetworkId = globalNetworkId
+        }
+
+        public func validate(name: String) throws {
+            try self.validate(self.connectPeerId, name: "connectPeerId", parent: name, max: 50)
+            try self.validate(self.connectPeerId, name: "connectPeerId", parent: name, min: 0)
+            try self.validate(self.connectPeerId, name: "connectPeerId", parent: name, pattern: "^connect-peer-([0-9a-f]{8,17})$")
+            try self.validate(self.globalNetworkId, name: "globalNetworkId", parent: name, max: 50)
+            try self.validate(self.globalNetworkId, name: "globalNetworkId", parent: name, min: 0)
+        }
+
+        private enum CodingKeys: CodingKey {}
+    }
+
+    public struct DisassociateConnectPeerResponse: AWSDecodableShape {
+        /// Describes the Connect peer association.
+        public let connectPeerAssociation: ConnectPeerAssociation?
+
+        public init(connectPeerAssociation: ConnectPeerAssociation? = nil) {
+            self.connectPeerAssociation = connectPeerAssociation
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case connectPeerAssociation = "ConnectPeerAssociation"
+        }
+    }
+
     public struct DisassociateCustomerGatewayRequest: AWSEncodableShape {
         public static var _encoding = [
             AWSMemberEncoding(label: "customerGatewayArn", location: .uri(locationName: "customerGatewayArn")),
@@ -962,6 +2356,13 @@ extension NetworkManager {
         public init(customerGatewayArn: String, globalNetworkId: String) {
             self.customerGatewayArn = customerGatewayArn
             self.globalNetworkId = globalNetworkId
+        }
+
+        public func validate(name: String) throws {
+            try self.validate(self.customerGatewayArn, name: "customerGatewayArn", parent: name, max: 500)
+            try self.validate(self.customerGatewayArn, name: "customerGatewayArn", parent: name, min: 0)
+            try self.validate(self.globalNetworkId, name: "globalNetworkId", parent: name, max: 50)
+            try self.validate(self.globalNetworkId, name: "globalNetworkId", parent: name, min: 0)
         }
 
         private enum CodingKeys: CodingKey {}
@@ -1000,6 +2401,15 @@ extension NetworkManager {
             self.linkId = linkId
         }
 
+        public func validate(name: String) throws {
+            try self.validate(self.deviceId, name: "deviceId", parent: name, max: 50)
+            try self.validate(self.deviceId, name: "deviceId", parent: name, min: 0)
+            try self.validate(self.globalNetworkId, name: "globalNetworkId", parent: name, max: 50)
+            try self.validate(self.globalNetworkId, name: "globalNetworkId", parent: name, min: 0)
+            try self.validate(self.linkId, name: "linkId", parent: name, max: 50)
+            try self.validate(self.linkId, name: "linkId", parent: name, min: 0)
+        }
+
         private enum CodingKeys: CodingKey {}
     }
 
@@ -1032,6 +2442,13 @@ extension NetworkManager {
             self.transitGatewayConnectPeerArn = transitGatewayConnectPeerArn
         }
 
+        public func validate(name: String) throws {
+            try self.validate(self.globalNetworkId, name: "globalNetworkId", parent: name, max: 50)
+            try self.validate(self.globalNetworkId, name: "globalNetworkId", parent: name, min: 0)
+            try self.validate(self.transitGatewayConnectPeerArn, name: "transitGatewayConnectPeerArn", parent: name, max: 500)
+            try self.validate(self.transitGatewayConnectPeerArn, name: "transitGatewayConnectPeerArn", parent: name, min: 0)
+        }
+
         private enum CodingKeys: CodingKey {}
     }
 
@@ -1045,6 +2462,161 @@ extension NetworkManager {
 
         private enum CodingKeys: String, CodingKey {
             case transitGatewayConnectPeerAssociation = "TransitGatewayConnectPeerAssociation"
+        }
+    }
+
+    public struct ExecuteCoreNetworkChangeSetRequest: AWSEncodableShape {
+        public static var _encoding = [
+            AWSMemberEncoding(label: "coreNetworkId", location: .uri(locationName: "coreNetworkId")),
+            AWSMemberEncoding(label: "policyVersionId", location: .uri(locationName: "policyVersionId"))
+        ]
+
+        /// The ID of a core network.
+        public let coreNetworkId: String
+        /// The ID of the policy version.
+        public let policyVersionId: Int
+
+        public init(coreNetworkId: String, policyVersionId: Int) {
+            self.coreNetworkId = coreNetworkId
+            self.policyVersionId = policyVersionId
+        }
+
+        public func validate(name: String) throws {
+            try self.validate(self.coreNetworkId, name: "coreNetworkId", parent: name, max: 50)
+            try self.validate(self.coreNetworkId, name: "coreNetworkId", parent: name, min: 0)
+            try self.validate(self.coreNetworkId, name: "coreNetworkId", parent: name, pattern: "^core-network-([0-9a-f]{8,17})$")
+        }
+
+        private enum CodingKeys: CodingKey {}
+    }
+
+    public struct ExecuteCoreNetworkChangeSetResponse: AWSDecodableShape {
+        public init() {}
+    }
+
+    public struct GetConnectAttachmentRequest: AWSEncodableShape {
+        public static var _encoding = [
+            AWSMemberEncoding(label: "attachmentId", location: .uri(locationName: "attachmentId"))
+        ]
+
+        /// The ID of the attachment.
+        public let attachmentId: String
+
+        public init(attachmentId: String) {
+            self.attachmentId = attachmentId
+        }
+
+        public func validate(name: String) throws {
+            try self.validate(self.attachmentId, name: "attachmentId", parent: name, max: 50)
+            try self.validate(self.attachmentId, name: "attachmentId", parent: name, min: 0)
+            try self.validate(self.attachmentId, name: "attachmentId", parent: name, pattern: "^attachment-([0-9a-f]{8,17})$")
+        }
+
+        private enum CodingKeys: CodingKey {}
+    }
+
+    public struct GetConnectAttachmentResponse: AWSDecodableShape {
+        /// Details about the Connect attachment.
+        public let connectAttachment: ConnectAttachment?
+
+        public init(connectAttachment: ConnectAttachment? = nil) {
+            self.connectAttachment = connectAttachment
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case connectAttachment = "ConnectAttachment"
+        }
+    }
+
+    public struct GetConnectPeerAssociationsRequest: AWSEncodableShape {
+        public static var _encoding = [
+            AWSMemberEncoding(label: "connectPeerIds", location: .querystring(locationName: "connectPeerIds")),
+            AWSMemberEncoding(label: "globalNetworkId", location: .uri(locationName: "globalNetworkId")),
+            AWSMemberEncoding(label: "maxResults", location: .querystring(locationName: "maxResults")),
+            AWSMemberEncoding(label: "nextToken", location: .querystring(locationName: "nextToken"))
+        ]
+
+        /// The IDs of the Connect peers.
+        public let connectPeerIds: [String]?
+        /// The ID of the global network.
+        public let globalNetworkId: String
+        /// The maximum number of results to return.
+        public let maxResults: Int?
+        /// The token for the next page of results.
+        public let nextToken: String?
+
+        public init(connectPeerIds: [String]? = nil, globalNetworkId: String, maxResults: Int? = nil, nextToken: String? = nil) {
+            self.connectPeerIds = connectPeerIds
+            self.globalNetworkId = globalNetworkId
+            self.maxResults = maxResults
+            self.nextToken = nextToken
+        }
+
+        public func validate(name: String) throws {
+            try self.connectPeerIds?.forEach {
+                try validate($0, name: "connectPeerIds[]", parent: name, max: 50)
+                try validate($0, name: "connectPeerIds[]", parent: name, min: 0)
+                try validate($0, name: "connectPeerIds[]", parent: name, pattern: "^connect-peer-([0-9a-f]{8,17})$")
+            }
+            try self.validate(self.globalNetworkId, name: "globalNetworkId", parent: name, max: 50)
+            try self.validate(self.globalNetworkId, name: "globalNetworkId", parent: name, min: 0)
+            try self.validate(self.maxResults, name: "maxResults", parent: name, max: 500)
+            try self.validate(self.maxResults, name: "maxResults", parent: name, min: 1)
+            try self.validate(self.nextToken, name: "nextToken", parent: name, max: 2048)
+            try self.validate(self.nextToken, name: "nextToken", parent: name, min: 0)
+        }
+
+        private enum CodingKeys: CodingKey {}
+    }
+
+    public struct GetConnectPeerAssociationsResponse: AWSDecodableShape {
+        /// Displays a list of Connect peer associations.
+        public let connectPeerAssociations: [ConnectPeerAssociation]?
+        /// The token for the next page of results.
+        public let nextToken: String?
+
+        public init(connectPeerAssociations: [ConnectPeerAssociation]? = nil, nextToken: String? = nil) {
+            self.connectPeerAssociations = connectPeerAssociations
+            self.nextToken = nextToken
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case connectPeerAssociations = "ConnectPeerAssociations"
+            case nextToken = "NextToken"
+        }
+    }
+
+    public struct GetConnectPeerRequest: AWSEncodableShape {
+        public static var _encoding = [
+            AWSMemberEncoding(label: "connectPeerId", location: .uri(locationName: "connectPeerId"))
+        ]
+
+        /// The ID of the Connect peer.
+        public let connectPeerId: String
+
+        public init(connectPeerId: String) {
+            self.connectPeerId = connectPeerId
+        }
+
+        public func validate(name: String) throws {
+            try self.validate(self.connectPeerId, name: "connectPeerId", parent: name, max: 50)
+            try self.validate(self.connectPeerId, name: "connectPeerId", parent: name, min: 0)
+            try self.validate(self.connectPeerId, name: "connectPeerId", parent: name, pattern: "^connect-peer-([0-9a-f]{8,17})$")
+        }
+
+        private enum CodingKeys: CodingKey {}
+    }
+
+    public struct GetConnectPeerResponse: AWSDecodableShape {
+        /// Returns information about a core network Connect peer.
+        public let connectPeer: ConnectPeer?
+
+        public init(connectPeer: ConnectPeer? = nil) {
+            self.connectPeer = connectPeer
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case connectPeer = "ConnectPeer"
         }
     }
 
@@ -1077,8 +2649,18 @@ extension NetworkManager {
         }
 
         public func validate(name: String) throws {
+            try self.connectionIds?.forEach {
+                try validate($0, name: "connectionIds[]", parent: name, max: 50)
+                try validate($0, name: "connectionIds[]", parent: name, min: 0)
+            }
+            try self.validate(self.deviceId, name: "deviceId", parent: name, max: 50)
+            try self.validate(self.deviceId, name: "deviceId", parent: name, min: 0)
+            try self.validate(self.globalNetworkId, name: "globalNetworkId", parent: name, max: 50)
+            try self.validate(self.globalNetworkId, name: "globalNetworkId", parent: name, min: 0)
             try self.validate(self.maxResults, name: "maxResults", parent: name, max: 500)
             try self.validate(self.maxResults, name: "maxResults", parent: name, min: 1)
+            try self.validate(self.nextToken, name: "nextToken", parent: name, max: 2048)
+            try self.validate(self.nextToken, name: "nextToken", parent: name, min: 0)
         }
 
         private enum CodingKeys: CodingKey {}
@@ -1098,6 +2680,136 @@ extension NetworkManager {
         private enum CodingKeys: String, CodingKey {
             case connections = "Connections"
             case nextToken = "NextToken"
+        }
+    }
+
+    public struct GetCoreNetworkChangeSetRequest: AWSEncodableShape {
+        public static var _encoding = [
+            AWSMemberEncoding(label: "coreNetworkId", location: .uri(locationName: "coreNetworkId")),
+            AWSMemberEncoding(label: "maxResults", location: .querystring(locationName: "maxResults")),
+            AWSMemberEncoding(label: "nextToken", location: .querystring(locationName: "nextToken")),
+            AWSMemberEncoding(label: "policyVersionId", location: .uri(locationName: "policyVersionId"))
+        ]
+
+        /// The ID of a core network.
+        public let coreNetworkId: String
+        /// The maximum number of results to return.
+        public let maxResults: Int?
+        /// The token for the next page of results.
+        public let nextToken: String?
+        /// The ID of the policy version.
+        public let policyVersionId: Int
+
+        public init(coreNetworkId: String, maxResults: Int? = nil, nextToken: String? = nil, policyVersionId: Int) {
+            self.coreNetworkId = coreNetworkId
+            self.maxResults = maxResults
+            self.nextToken = nextToken
+            self.policyVersionId = policyVersionId
+        }
+
+        public func validate(name: String) throws {
+            try self.validate(self.coreNetworkId, name: "coreNetworkId", parent: name, max: 50)
+            try self.validate(self.coreNetworkId, name: "coreNetworkId", parent: name, min: 0)
+            try self.validate(self.coreNetworkId, name: "coreNetworkId", parent: name, pattern: "^core-network-([0-9a-f]{8,17})$")
+            try self.validate(self.maxResults, name: "maxResults", parent: name, max: 500)
+            try self.validate(self.maxResults, name: "maxResults", parent: name, min: 1)
+            try self.validate(self.nextToken, name: "nextToken", parent: name, max: 2048)
+            try self.validate(self.nextToken, name: "nextToken", parent: name, min: 0)
+        }
+
+        private enum CodingKeys: CodingKey {}
+    }
+
+    public struct GetCoreNetworkChangeSetResponse: AWSDecodableShape {
+        /// Describes a core network changes.
+        public let coreNetworkChanges: [CoreNetworkChange]?
+        /// The token for the next page of results.
+        public let nextToken: String?
+
+        public init(coreNetworkChanges: [CoreNetworkChange]? = nil, nextToken: String? = nil) {
+            self.coreNetworkChanges = coreNetworkChanges
+            self.nextToken = nextToken
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case coreNetworkChanges = "CoreNetworkChanges"
+            case nextToken = "NextToken"
+        }
+    }
+
+    public struct GetCoreNetworkPolicyRequest: AWSEncodableShape {
+        public static var _encoding = [
+            AWSMemberEncoding(label: "alias", location: .querystring(locationName: "alias")),
+            AWSMemberEncoding(label: "coreNetworkId", location: .uri(locationName: "coreNetworkId")),
+            AWSMemberEncoding(label: "policyVersionId", location: .querystring(locationName: "policyVersionId"))
+        ]
+
+        /// The alias of a core network policy
+        public let alias: CoreNetworkPolicyAlias?
+        /// The ID of a core network.
+        public let coreNetworkId: String
+        /// The ID of a core network policy version.
+        public let policyVersionId: Int?
+
+        public init(alias: CoreNetworkPolicyAlias? = nil, coreNetworkId: String, policyVersionId: Int? = nil) {
+            self.alias = alias
+            self.coreNetworkId = coreNetworkId
+            self.policyVersionId = policyVersionId
+        }
+
+        public func validate(name: String) throws {
+            try self.validate(self.coreNetworkId, name: "coreNetworkId", parent: name, max: 50)
+            try self.validate(self.coreNetworkId, name: "coreNetworkId", parent: name, min: 0)
+            try self.validate(self.coreNetworkId, name: "coreNetworkId", parent: name, pattern: "^core-network-([0-9a-f]{8,17})$")
+        }
+
+        private enum CodingKeys: CodingKey {}
+    }
+
+    public struct GetCoreNetworkPolicyResponse: AWSDecodableShape {
+        /// The details about a core network policy.
+        public let coreNetworkPolicy: CoreNetworkPolicy?
+
+        public init(coreNetworkPolicy: CoreNetworkPolicy? = nil) {
+            self.coreNetworkPolicy = coreNetworkPolicy
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case coreNetworkPolicy = "CoreNetworkPolicy"
+        }
+    }
+
+    public struct GetCoreNetworkRequest: AWSEncodableShape {
+        public static var _encoding = [
+            AWSMemberEncoding(label: "coreNetworkId", location: .uri(locationName: "coreNetworkId"))
+        ]
+
+        /// The ID of a core network.
+        public let coreNetworkId: String
+
+        public init(coreNetworkId: String) {
+            self.coreNetworkId = coreNetworkId
+        }
+
+        public func validate(name: String) throws {
+            try self.validate(self.coreNetworkId, name: "coreNetworkId", parent: name, max: 50)
+            try self.validate(self.coreNetworkId, name: "coreNetworkId", parent: name, min: 0)
+            try self.validate(self.coreNetworkId, name: "coreNetworkId", parent: name, pattern: "^core-network-([0-9a-f]{8,17})$")
+        }
+
+        private enum CodingKeys: CodingKey {}
+    }
+
+    public struct GetCoreNetworkResponse: AWSDecodableShape {
+        /// Details about a core network.
+        public let coreNetwork: CoreNetwork?
+
+        public init(coreNetwork: CoreNetwork? = nil) {
+            self.coreNetwork = coreNetwork
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case coreNetwork = "CoreNetwork"
         }
     }
 
@@ -1126,8 +2838,16 @@ extension NetworkManager {
         }
 
         public func validate(name: String) throws {
+            try self.customerGatewayArns?.forEach {
+                try validate($0, name: "customerGatewayArns[]", parent: name, max: 500)
+                try validate($0, name: "customerGatewayArns[]", parent: name, min: 0)
+            }
+            try self.validate(self.globalNetworkId, name: "globalNetworkId", parent: name, max: 50)
+            try self.validate(self.globalNetworkId, name: "globalNetworkId", parent: name, min: 0)
             try self.validate(self.maxResults, name: "maxResults", parent: name, max: 500)
             try self.validate(self.maxResults, name: "maxResults", parent: name, min: 1)
+            try self.validate(self.nextToken, name: "nextToken", parent: name, max: 2048)
+            try self.validate(self.nextToken, name: "nextToken", parent: name, min: 0)
         }
 
         private enum CodingKeys: CodingKey {}
@@ -1179,8 +2899,18 @@ extension NetworkManager {
         }
 
         public func validate(name: String) throws {
+            try self.deviceIds?.forEach {
+                try validate($0, name: "deviceIds[]", parent: name, max: 50)
+                try validate($0, name: "deviceIds[]", parent: name, min: 0)
+            }
+            try self.validate(self.globalNetworkId, name: "globalNetworkId", parent: name, max: 50)
+            try self.validate(self.globalNetworkId, name: "globalNetworkId", parent: name, min: 0)
             try self.validate(self.maxResults, name: "maxResults", parent: name, max: 500)
             try self.validate(self.maxResults, name: "maxResults", parent: name, min: 1)
+            try self.validate(self.nextToken, name: "nextToken", parent: name, max: 2048)
+            try self.validate(self.nextToken, name: "nextToken", parent: name, min: 0)
+            try self.validate(self.siteId, name: "siteId", parent: name, max: 50)
+            try self.validate(self.siteId, name: "siteId", parent: name, min: 0)
         }
 
         private enum CodingKeys: CodingKey {}
@@ -1232,8 +2962,16 @@ extension NetworkManager {
         }
 
         public func validate(name: String) throws {
+            try self.validate(self.deviceId, name: "deviceId", parent: name, max: 50)
+            try self.validate(self.deviceId, name: "deviceId", parent: name, min: 0)
+            try self.validate(self.globalNetworkId, name: "globalNetworkId", parent: name, max: 50)
+            try self.validate(self.globalNetworkId, name: "globalNetworkId", parent: name, min: 0)
+            try self.validate(self.linkId, name: "linkId", parent: name, max: 50)
+            try self.validate(self.linkId, name: "linkId", parent: name, min: 0)
             try self.validate(self.maxResults, name: "maxResults", parent: name, max: 500)
             try self.validate(self.maxResults, name: "maxResults", parent: name, min: 1)
+            try self.validate(self.nextToken, name: "nextToken", parent: name, max: 2048)
+            try self.validate(self.nextToken, name: "nextToken", parent: name, min: 0)
         }
 
         private enum CodingKeys: CodingKey {}
@@ -1293,8 +3031,22 @@ extension NetworkManager {
         }
 
         public func validate(name: String) throws {
+            try self.validate(self.globalNetworkId, name: "globalNetworkId", parent: name, max: 50)
+            try self.validate(self.globalNetworkId, name: "globalNetworkId", parent: name, min: 0)
+            try self.linkIds?.forEach {
+                try validate($0, name: "linkIds[]", parent: name, max: 50)
+                try validate($0, name: "linkIds[]", parent: name, min: 0)
+            }
             try self.validate(self.maxResults, name: "maxResults", parent: name, max: 500)
             try self.validate(self.maxResults, name: "maxResults", parent: name, min: 1)
+            try self.validate(self.nextToken, name: "nextToken", parent: name, max: 2048)
+            try self.validate(self.nextToken, name: "nextToken", parent: name, min: 0)
+            try self.validate(self.provider, name: "provider", parent: name, max: 256)
+            try self.validate(self.provider, name: "provider", parent: name, min: 0)
+            try self.validate(self.siteId, name: "siteId", parent: name, max: 50)
+            try self.validate(self.siteId, name: "siteId", parent: name, min: 0)
+            try self.validate(self.type, name: "type", parent: name, max: 256)
+            try self.validate(self.type, name: "type", parent: name, min: 0)
         }
 
         private enum CodingKeys: CodingKey {}
@@ -1342,8 +3094,14 @@ extension NetworkManager {
         }
 
         public func validate(name: String) throws {
+            try self.validate(self.globalNetworkId, name: "globalNetworkId", parent: name, max: 50)
+            try self.validate(self.globalNetworkId, name: "globalNetworkId", parent: name, min: 0)
             try self.validate(self.maxResults, name: "maxResults", parent: name, max: 500)
             try self.validate(self.maxResults, name: "maxResults", parent: name, min: 1)
+            try self.validate(self.nextToken, name: "nextToken", parent: name, max: 2048)
+            try self.validate(self.nextToken, name: "nextToken", parent: name, min: 0)
+            try self.validate(self.resourceType, name: "resourceType", parent: name, max: 256)
+            try self.validate(self.resourceType, name: "resourceType", parent: name, min: 0)
         }
 
         private enum CodingKeys: CodingKey {}
@@ -1370,6 +3128,7 @@ extension NetworkManager {
         public static var _encoding = [
             AWSMemberEncoding(label: "accountId", location: .querystring(locationName: "accountId")),
             AWSMemberEncoding(label: "awsRegion", location: .querystring(locationName: "awsRegion")),
+            AWSMemberEncoding(label: "coreNetworkId", location: .querystring(locationName: "coreNetworkId")),
             AWSMemberEncoding(label: "globalNetworkId", location: .uri(locationName: "globalNetworkId")),
             AWSMemberEncoding(label: "maxResults", location: .querystring(locationName: "maxResults")),
             AWSMemberEncoding(label: "nextToken", location: .querystring(locationName: "nextToken")),
@@ -1382,6 +3141,8 @@ extension NetworkManager {
         public let accountId: String?
         /// The Amazon Web Services Region.
         public let awsRegion: String?
+        /// The ID of a core network.
+        public let coreNetworkId: String?
         /// The ID of the global network.
         public let globalNetworkId: String
         /// The maximum number of results to return.
@@ -1395,9 +3156,10 @@ extension NetworkManager {
         /// The resource type. The following are the supported resource types for Direct Connect:    dxcon     dx-gateway     dx-vif    The following are the supported resource types for Network Manager:    connection     device     link     site    The following are the supported resource types for Amazon VPC:    customer-gateway     transit-gateway     transit-gateway-attachment     transit-gateway-connect-peer     transit-gateway-route-table     vpn-connection
         public let resourceType: String?
 
-        public init(accountId: String? = nil, awsRegion: String? = nil, globalNetworkId: String, maxResults: Int? = nil, nextToken: String? = nil, registeredGatewayArn: String? = nil, resourceArn: String? = nil, resourceType: String? = nil) {
+        public init(accountId: String? = nil, awsRegion: String? = nil, coreNetworkId: String? = nil, globalNetworkId: String, maxResults: Int? = nil, nextToken: String? = nil, registeredGatewayArn: String? = nil, resourceArn: String? = nil, resourceType: String? = nil) {
             self.accountId = accountId
             self.awsRegion = awsRegion
+            self.coreNetworkId = coreNetworkId
             self.globalNetworkId = globalNetworkId
             self.maxResults = maxResults
             self.nextToken = nextToken
@@ -1407,8 +3169,25 @@ extension NetworkManager {
         }
 
         public func validate(name: String) throws {
+            try self.validate(self.accountId, name: "accountId", parent: name, max: 12)
+            try self.validate(self.accountId, name: "accountId", parent: name, min: 12)
+            try self.validate(self.awsRegion, name: "awsRegion", parent: name, max: 63)
+            try self.validate(self.awsRegion, name: "awsRegion", parent: name, min: 1)
+            try self.validate(self.coreNetworkId, name: "coreNetworkId", parent: name, max: 50)
+            try self.validate(self.coreNetworkId, name: "coreNetworkId", parent: name, min: 0)
+            try self.validate(self.coreNetworkId, name: "coreNetworkId", parent: name, pattern: "^core-network-([0-9a-f]{8,17})$")
+            try self.validate(self.globalNetworkId, name: "globalNetworkId", parent: name, max: 50)
+            try self.validate(self.globalNetworkId, name: "globalNetworkId", parent: name, min: 0)
             try self.validate(self.maxResults, name: "maxResults", parent: name, max: 500)
             try self.validate(self.maxResults, name: "maxResults", parent: name, min: 1)
+            try self.validate(self.nextToken, name: "nextToken", parent: name, max: 2048)
+            try self.validate(self.nextToken, name: "nextToken", parent: name, min: 0)
+            try self.validate(self.registeredGatewayArn, name: "registeredGatewayArn", parent: name, max: 1500)
+            try self.validate(self.registeredGatewayArn, name: "registeredGatewayArn", parent: name, min: 0)
+            try self.validate(self.resourceArn, name: "resourceArn", parent: name, max: 1500)
+            try self.validate(self.resourceArn, name: "resourceArn", parent: name, min: 0)
+            try self.validate(self.resourceType, name: "resourceType", parent: name, max: 256)
+            try self.validate(self.resourceType, name: "resourceType", parent: name, min: 0)
         }
 
         private enum CodingKeys: CodingKey {}
@@ -1435,6 +3214,7 @@ extension NetworkManager {
         public static var _encoding = [
             AWSMemberEncoding(label: "accountId", location: .querystring(locationName: "accountId")),
             AWSMemberEncoding(label: "awsRegion", location: .querystring(locationName: "awsRegion")),
+            AWSMemberEncoding(label: "coreNetworkId", location: .querystring(locationName: "coreNetworkId")),
             AWSMemberEncoding(label: "globalNetworkId", location: .uri(locationName: "globalNetworkId")),
             AWSMemberEncoding(label: "maxResults", location: .querystring(locationName: "maxResults")),
             AWSMemberEncoding(label: "nextToken", location: .querystring(locationName: "nextToken")),
@@ -1447,6 +3227,8 @@ extension NetworkManager {
         public let accountId: String?
         /// The Amazon Web Services Region.
         public let awsRegion: String?
+        /// The ID of a core network.
+        public let coreNetworkId: String?
         /// The ID of the global network.
         public let globalNetworkId: String
         /// The maximum number of results to return.
@@ -1460,9 +3242,10 @@ extension NetworkManager {
         /// The resource type. The following are the supported resource types for Direct Connect:    dxcon - The definition model is Connection.    dx-gateway - The definition model is DirectConnectGateway.    dx-vif - The definition model is VirtualInterface.   The following are the supported resource types for Network Manager:    connection - The definition model is Connection.    device - The definition model is Device.    link - The definition model is Link.    site - The definition model is Site.   The following are the supported resource types for Amazon VPC:    customer-gateway - The definition model is CustomerGateway.    transit-gateway - The definition model is TransitGateway.    transit-gateway-attachment - The definition model is TransitGatewayAttachment.    transit-gateway-connect-peer - The definition model is TransitGatewayConnectPeer.    transit-gateway-route-table - The definition model is TransitGatewayRouteTable.    vpn-connection - The definition model is VpnConnection.
         public let resourceType: String?
 
-        public init(accountId: String? = nil, awsRegion: String? = nil, globalNetworkId: String, maxResults: Int? = nil, nextToken: String? = nil, registeredGatewayArn: String? = nil, resourceArn: String? = nil, resourceType: String? = nil) {
+        public init(accountId: String? = nil, awsRegion: String? = nil, coreNetworkId: String? = nil, globalNetworkId: String, maxResults: Int? = nil, nextToken: String? = nil, registeredGatewayArn: String? = nil, resourceArn: String? = nil, resourceType: String? = nil) {
             self.accountId = accountId
             self.awsRegion = awsRegion
+            self.coreNetworkId = coreNetworkId
             self.globalNetworkId = globalNetworkId
             self.maxResults = maxResults
             self.nextToken = nextToken
@@ -1472,8 +3255,25 @@ extension NetworkManager {
         }
 
         public func validate(name: String) throws {
+            try self.validate(self.accountId, name: "accountId", parent: name, max: 12)
+            try self.validate(self.accountId, name: "accountId", parent: name, min: 12)
+            try self.validate(self.awsRegion, name: "awsRegion", parent: name, max: 63)
+            try self.validate(self.awsRegion, name: "awsRegion", parent: name, min: 1)
+            try self.validate(self.coreNetworkId, name: "coreNetworkId", parent: name, max: 50)
+            try self.validate(self.coreNetworkId, name: "coreNetworkId", parent: name, min: 0)
+            try self.validate(self.coreNetworkId, name: "coreNetworkId", parent: name, pattern: "^core-network-([0-9a-f]{8,17})$")
+            try self.validate(self.globalNetworkId, name: "globalNetworkId", parent: name, max: 50)
+            try self.validate(self.globalNetworkId, name: "globalNetworkId", parent: name, min: 0)
             try self.validate(self.maxResults, name: "maxResults", parent: name, max: 500)
             try self.validate(self.maxResults, name: "maxResults", parent: name, min: 1)
+            try self.validate(self.nextToken, name: "nextToken", parent: name, max: 2048)
+            try self.validate(self.nextToken, name: "nextToken", parent: name, min: 0)
+            try self.validate(self.registeredGatewayArn, name: "registeredGatewayArn", parent: name, max: 1500)
+            try self.validate(self.registeredGatewayArn, name: "registeredGatewayArn", parent: name, min: 0)
+            try self.validate(self.resourceArn, name: "resourceArn", parent: name, max: 1500)
+            try self.validate(self.resourceArn, name: "resourceArn", parent: name, min: 0)
+            try self.validate(self.resourceType, name: "resourceType", parent: name, max: 256)
+            try self.validate(self.resourceType, name: "resourceType", parent: name, min: 0)
         }
 
         private enum CodingKeys: CodingKey {}
@@ -1540,6 +3340,29 @@ extension NetworkManager {
                 try validate($0.key, name: "destinationFilters.key", parent: name, max: 128)
                 try validate($0.key, name: "destinationFilters.key", parent: name, pattern: "^[0-9a-zA-Z\\.-]*$")
             }
+            try self.exactCidrMatches?.forEach {
+                try validate($0, name: "exactCidrMatches[]", parent: name, max: 256)
+                try validate($0, name: "exactCidrMatches[]", parent: name, min: 0)
+            }
+            try self.validate(self.globalNetworkId, name: "globalNetworkId", parent: name, max: 50)
+            try self.validate(self.globalNetworkId, name: "globalNetworkId", parent: name, min: 0)
+            try self.longestPrefixMatches?.forEach {
+                try validate($0, name: "longestPrefixMatches[]", parent: name, max: 256)
+                try validate($0, name: "longestPrefixMatches[]", parent: name, min: 0)
+            }
+            try self.prefixListIds?.forEach {
+                try validate($0, name: "prefixListIds[]", parent: name, max: 256)
+                try validate($0, name: "prefixListIds[]", parent: name, min: 0)
+            }
+            try self.routeTableIdentifier.validate(name: "\(name).routeTableIdentifier")
+            try self.subnetOfMatches?.forEach {
+                try validate($0, name: "subnetOfMatches[]", parent: name, max: 256)
+                try validate($0, name: "subnetOfMatches[]", parent: name, min: 0)
+            }
+            try self.supernetOfMatches?.forEach {
+                try validate($0, name: "supernetOfMatches[]", parent: name, max: 256)
+                try validate($0, name: "supernetOfMatches[]", parent: name, min: 0)
+            }
         }
 
         private enum CodingKeys: String, CodingKey {
@@ -1556,6 +3379,8 @@ extension NetworkManager {
     }
 
     public struct GetNetworkRoutesResponse: AWSDecodableShape {
+        /// Describes a core network segment edge.
+        public let coreNetworkSegmentEdge: CoreNetworkSegmentEdgeIdentifier?
         /// The network routes.
         public let networkRoutes: [NetworkRoute]?
         /// The ARN of the route table.
@@ -1565,7 +3390,8 @@ extension NetworkManager {
         /// The route table type.
         public let routeTableType: RouteTableType?
 
-        public init(networkRoutes: [NetworkRoute]? = nil, routeTableArn: String? = nil, routeTableTimestamp: Date? = nil, routeTableType: RouteTableType? = nil) {
+        public init(coreNetworkSegmentEdge: CoreNetworkSegmentEdgeIdentifier? = nil, networkRoutes: [NetworkRoute]? = nil, routeTableArn: String? = nil, routeTableTimestamp: Date? = nil, routeTableType: RouteTableType? = nil) {
+            self.coreNetworkSegmentEdge = coreNetworkSegmentEdge
             self.networkRoutes = networkRoutes
             self.routeTableArn = routeTableArn
             self.routeTableTimestamp = routeTableTimestamp
@@ -1573,6 +3399,7 @@ extension NetworkManager {
         }
 
         private enum CodingKeys: String, CodingKey {
+            case coreNetworkSegmentEdge = "CoreNetworkSegmentEdge"
             case networkRoutes = "NetworkRoutes"
             case routeTableArn = "RouteTableArn"
             case routeTableTimestamp = "RouteTableTimestamp"
@@ -1584,6 +3411,7 @@ extension NetworkManager {
         public static var _encoding = [
             AWSMemberEncoding(label: "accountId", location: .querystring(locationName: "accountId")),
             AWSMemberEncoding(label: "awsRegion", location: .querystring(locationName: "awsRegion")),
+            AWSMemberEncoding(label: "coreNetworkId", location: .querystring(locationName: "coreNetworkId")),
             AWSMemberEncoding(label: "globalNetworkId", location: .uri(locationName: "globalNetworkId")),
             AWSMemberEncoding(label: "maxResults", location: .querystring(locationName: "maxResults")),
             AWSMemberEncoding(label: "nextToken", location: .querystring(locationName: "nextToken")),
@@ -1596,6 +3424,8 @@ extension NetworkManager {
         public let accountId: String?
         /// The Amazon Web Services Region.
         public let awsRegion: String?
+        /// The ID of a core network.
+        public let coreNetworkId: String?
         /// The ID of the global network.
         public let globalNetworkId: String
         /// The maximum number of results to return.
@@ -1609,9 +3439,10 @@ extension NetworkManager {
         /// The resource type. The following are the supported resource types for Direct Connect:    dxcon     dx-gateway     dx-vif    The following are the supported resource types for Network Manager:    connection     device     link     site    The following are the supported resource types for Amazon VPC:    customer-gateway     transit-gateway     transit-gateway-attachment     transit-gateway-connect-peer     transit-gateway-route-table     vpn-connection
         public let resourceType: String?
 
-        public init(accountId: String? = nil, awsRegion: String? = nil, globalNetworkId: String, maxResults: Int? = nil, nextToken: String? = nil, registeredGatewayArn: String? = nil, resourceArn: String? = nil, resourceType: String? = nil) {
+        public init(accountId: String? = nil, awsRegion: String? = nil, coreNetworkId: String? = nil, globalNetworkId: String, maxResults: Int? = nil, nextToken: String? = nil, registeredGatewayArn: String? = nil, resourceArn: String? = nil, resourceType: String? = nil) {
             self.accountId = accountId
             self.awsRegion = awsRegion
+            self.coreNetworkId = coreNetworkId
             self.globalNetworkId = globalNetworkId
             self.maxResults = maxResults
             self.nextToken = nextToken
@@ -1621,8 +3452,25 @@ extension NetworkManager {
         }
 
         public func validate(name: String) throws {
+            try self.validate(self.accountId, name: "accountId", parent: name, max: 12)
+            try self.validate(self.accountId, name: "accountId", parent: name, min: 12)
+            try self.validate(self.awsRegion, name: "awsRegion", parent: name, max: 63)
+            try self.validate(self.awsRegion, name: "awsRegion", parent: name, min: 1)
+            try self.validate(self.coreNetworkId, name: "coreNetworkId", parent: name, max: 50)
+            try self.validate(self.coreNetworkId, name: "coreNetworkId", parent: name, min: 0)
+            try self.validate(self.coreNetworkId, name: "coreNetworkId", parent: name, pattern: "^core-network-([0-9a-f]{8,17})$")
+            try self.validate(self.globalNetworkId, name: "globalNetworkId", parent: name, max: 50)
+            try self.validate(self.globalNetworkId, name: "globalNetworkId", parent: name, min: 0)
             try self.validate(self.maxResults, name: "maxResults", parent: name, max: 500)
             try self.validate(self.maxResults, name: "maxResults", parent: name, min: 1)
+            try self.validate(self.nextToken, name: "nextToken", parent: name, max: 2048)
+            try self.validate(self.nextToken, name: "nextToken", parent: name, min: 0)
+            try self.validate(self.registeredGatewayArn, name: "registeredGatewayArn", parent: name, max: 1500)
+            try self.validate(self.registeredGatewayArn, name: "registeredGatewayArn", parent: name, min: 0)
+            try self.validate(self.resourceArn, name: "resourceArn", parent: name, max: 1500)
+            try self.validate(self.resourceArn, name: "resourceArn", parent: name, min: 0)
+            try self.validate(self.resourceType, name: "resourceType", parent: name, max: 256)
+            try self.validate(self.resourceType, name: "resourceType", parent: name, min: 0)
         }
 
         private enum CodingKeys: CodingKey {}
@@ -1645,6 +3493,39 @@ extension NetworkManager {
         }
     }
 
+    public struct GetResourcePolicyRequest: AWSEncodableShape {
+        public static var _encoding = [
+            AWSMemberEncoding(label: "resourceArn", location: .uri(locationName: "resourceArn"))
+        ]
+
+        /// The ARN of the resource.
+        public let resourceArn: String
+
+        public init(resourceArn: String) {
+            self.resourceArn = resourceArn
+        }
+
+        public func validate(name: String) throws {
+            try self.validate(self.resourceArn, name: "resourceArn", parent: name, max: 1500)
+            try self.validate(self.resourceArn, name: "resourceArn", parent: name, min: 0)
+        }
+
+        private enum CodingKeys: CodingKey {}
+    }
+
+    public struct GetResourcePolicyResponse: AWSDecodableShape {
+        /// The resource policy document.
+        public let policyDocument: String?
+
+        public init(policyDocument: String? = nil) {
+            self.policyDocument = policyDocument
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case policyDocument = "PolicyDocument"
+        }
+    }
+
     public struct GetRouteAnalysisRequest: AWSEncodableShape {
         public static var _encoding = [
             AWSMemberEncoding(label: "globalNetworkId", location: .uri(locationName: "globalNetworkId")),
@@ -1661,6 +3542,13 @@ extension NetworkManager {
             self.routeAnalysisId = routeAnalysisId
         }
 
+        public func validate(name: String) throws {
+            try self.validate(self.globalNetworkId, name: "globalNetworkId", parent: name, max: 50)
+            try self.validate(self.globalNetworkId, name: "globalNetworkId", parent: name, min: 0)
+            try self.validate(self.routeAnalysisId, name: "routeAnalysisId", parent: name, max: 256)
+            try self.validate(self.routeAnalysisId, name: "routeAnalysisId", parent: name, min: 0)
+        }
+
         private enum CodingKeys: CodingKey {}
     }
 
@@ -1674,6 +3562,40 @@ extension NetworkManager {
 
         private enum CodingKeys: String, CodingKey {
             case routeAnalysis = "RouteAnalysis"
+        }
+    }
+
+    public struct GetSiteToSiteVpnAttachmentRequest: AWSEncodableShape {
+        public static var _encoding = [
+            AWSMemberEncoding(label: "attachmentId", location: .uri(locationName: "attachmentId"))
+        ]
+
+        /// The ID of the attachment.
+        public let attachmentId: String
+
+        public init(attachmentId: String) {
+            self.attachmentId = attachmentId
+        }
+
+        public func validate(name: String) throws {
+            try self.validate(self.attachmentId, name: "attachmentId", parent: name, max: 50)
+            try self.validate(self.attachmentId, name: "attachmentId", parent: name, min: 0)
+            try self.validate(self.attachmentId, name: "attachmentId", parent: name, pattern: "^attachment-([0-9a-f]{8,17})$")
+        }
+
+        private enum CodingKeys: CodingKey {}
+    }
+
+    public struct GetSiteToSiteVpnAttachmentResponse: AWSDecodableShape {
+        /// Describes the site-to-site attachment.
+        public let siteToSiteVpnAttachment: SiteToSiteVpnAttachment?
+
+        public init(siteToSiteVpnAttachment: SiteToSiteVpnAttachment? = nil) {
+            self.siteToSiteVpnAttachment = siteToSiteVpnAttachment
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case siteToSiteVpnAttachment = "SiteToSiteVpnAttachment"
         }
     }
 
@@ -1702,8 +3624,16 @@ extension NetworkManager {
         }
 
         public func validate(name: String) throws {
+            try self.validate(self.globalNetworkId, name: "globalNetworkId", parent: name, max: 50)
+            try self.validate(self.globalNetworkId, name: "globalNetworkId", parent: name, min: 0)
             try self.validate(self.maxResults, name: "maxResults", parent: name, max: 500)
             try self.validate(self.maxResults, name: "maxResults", parent: name, min: 1)
+            try self.validate(self.nextToken, name: "nextToken", parent: name, max: 2048)
+            try self.validate(self.nextToken, name: "nextToken", parent: name, min: 0)
+            try self.siteIds?.forEach {
+                try validate($0, name: "siteIds[]", parent: name, max: 50)
+                try validate($0, name: "siteIds[]", parent: name, min: 0)
+            }
         }
 
         private enum CodingKeys: CodingKey {}
@@ -1751,8 +3681,16 @@ extension NetworkManager {
         }
 
         public func validate(name: String) throws {
+            try self.validate(self.globalNetworkId, name: "globalNetworkId", parent: name, max: 50)
+            try self.validate(self.globalNetworkId, name: "globalNetworkId", parent: name, min: 0)
             try self.validate(self.maxResults, name: "maxResults", parent: name, max: 500)
             try self.validate(self.maxResults, name: "maxResults", parent: name, min: 1)
+            try self.validate(self.nextToken, name: "nextToken", parent: name, max: 2048)
+            try self.validate(self.nextToken, name: "nextToken", parent: name, min: 0)
+            try self.transitGatewayConnectPeerArns?.forEach {
+                try validate($0, name: "transitGatewayConnectPeerArns[]", parent: name, max: 500)
+                try validate($0, name: "transitGatewayConnectPeerArns[]", parent: name, min: 0)
+            }
         }
 
         private enum CodingKeys: CodingKey {}
@@ -1800,8 +3738,16 @@ extension NetworkManager {
         }
 
         public func validate(name: String) throws {
+            try self.validate(self.globalNetworkId, name: "globalNetworkId", parent: name, max: 50)
+            try self.validate(self.globalNetworkId, name: "globalNetworkId", parent: name, min: 0)
             try self.validate(self.maxResults, name: "maxResults", parent: name, max: 500)
             try self.validate(self.maxResults, name: "maxResults", parent: name, min: 1)
+            try self.validate(self.nextToken, name: "nextToken", parent: name, max: 2048)
+            try self.validate(self.nextToken, name: "nextToken", parent: name, min: 0)
+            try self.transitGatewayArns?.forEach {
+                try validate($0, name: "transitGatewayArns[]", parent: name, max: 500)
+                try validate($0, name: "transitGatewayArns[]", parent: name, min: 0)
+            }
         }
 
         private enum CodingKeys: CodingKey {}
@@ -1821,6 +3767,40 @@ extension NetworkManager {
         private enum CodingKeys: String, CodingKey {
             case nextToken = "NextToken"
             case transitGatewayRegistrations = "TransitGatewayRegistrations"
+        }
+    }
+
+    public struct GetVpcAttachmentRequest: AWSEncodableShape {
+        public static var _encoding = [
+            AWSMemberEncoding(label: "attachmentId", location: .uri(locationName: "attachmentId"))
+        ]
+
+        /// The ID of the attachment.
+        public let attachmentId: String
+
+        public init(attachmentId: String) {
+            self.attachmentId = attachmentId
+        }
+
+        public func validate(name: String) throws {
+            try self.validate(self.attachmentId, name: "attachmentId", parent: name, max: 50)
+            try self.validate(self.attachmentId, name: "attachmentId", parent: name, min: 0)
+            try self.validate(self.attachmentId, name: "attachmentId", parent: name, pattern: "^attachment-([0-9a-f]{8,17})$")
+        }
+
+        private enum CodingKeys: CodingKey {}
+    }
+
+    public struct GetVpcAttachmentResponse: AWSDecodableShape {
+        /// Returns details about a VPC attachment.
+        public let vpcAttachment: VpcAttachment?
+
+        public init(vpcAttachment: VpcAttachment? = nil) {
+            self.vpcAttachment = vpcAttachment
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case vpcAttachment = "VpcAttachment"
         }
     }
 
@@ -1935,6 +3915,220 @@ extension NetworkManager {
         }
     }
 
+    public struct ListAttachmentsRequest: AWSEncodableShape {
+        public static var _encoding = [
+            AWSMemberEncoding(label: "attachmentType", location: .querystring(locationName: "attachmentType")),
+            AWSMemberEncoding(label: "coreNetworkId", location: .querystring(locationName: "coreNetworkId")),
+            AWSMemberEncoding(label: "edgeLocation", location: .querystring(locationName: "edgeLocation")),
+            AWSMemberEncoding(label: "maxResults", location: .querystring(locationName: "maxResults")),
+            AWSMemberEncoding(label: "nextToken", location: .querystring(locationName: "nextToken")),
+            AWSMemberEncoding(label: "state", location: .querystring(locationName: "state"))
+        ]
+
+        /// The type of attachment.
+        public let attachmentType: AttachmentType?
+        /// The ID of a core network.
+        public let coreNetworkId: String?
+        /// The Region where the edge is located.
+        public let edgeLocation: String?
+        /// The maximum number of results to return.
+        public let maxResults: Int?
+        /// The token for the next page of results.
+        public let nextToken: String?
+        /// The state of the attachment.
+        public let state: AttachmentState?
+
+        public init(attachmentType: AttachmentType? = nil, coreNetworkId: String? = nil, edgeLocation: String? = nil, maxResults: Int? = nil, nextToken: String? = nil, state: AttachmentState? = nil) {
+            self.attachmentType = attachmentType
+            self.coreNetworkId = coreNetworkId
+            self.edgeLocation = edgeLocation
+            self.maxResults = maxResults
+            self.nextToken = nextToken
+            self.state = state
+        }
+
+        public func validate(name: String) throws {
+            try self.validate(self.coreNetworkId, name: "coreNetworkId", parent: name, max: 50)
+            try self.validate(self.coreNetworkId, name: "coreNetworkId", parent: name, min: 0)
+            try self.validate(self.coreNetworkId, name: "coreNetworkId", parent: name, pattern: "^core-network-([0-9a-f]{8,17})$")
+            try self.validate(self.edgeLocation, name: "edgeLocation", parent: name, max: 63)
+            try self.validate(self.edgeLocation, name: "edgeLocation", parent: name, min: 1)
+            try self.validate(self.maxResults, name: "maxResults", parent: name, max: 500)
+            try self.validate(self.maxResults, name: "maxResults", parent: name, min: 1)
+            try self.validate(self.nextToken, name: "nextToken", parent: name, max: 2048)
+            try self.validate(self.nextToken, name: "nextToken", parent: name, min: 0)
+        }
+
+        private enum CodingKeys: CodingKey {}
+    }
+
+    public struct ListAttachmentsResponse: AWSDecodableShape {
+        /// Describes the list of attachments.
+        public let attachments: [Attachment]?
+        /// The token for the next page of results.
+        public let nextToken: String?
+
+        public init(attachments: [Attachment]? = nil, nextToken: String? = nil) {
+            self.attachments = attachments
+            self.nextToken = nextToken
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case attachments = "Attachments"
+            case nextToken = "NextToken"
+        }
+    }
+
+    public struct ListConnectPeersRequest: AWSEncodableShape {
+        public static var _encoding = [
+            AWSMemberEncoding(label: "connectAttachmentId", location: .querystring(locationName: "connectAttachmentId")),
+            AWSMemberEncoding(label: "coreNetworkId", location: .querystring(locationName: "coreNetworkId")),
+            AWSMemberEncoding(label: "maxResults", location: .querystring(locationName: "maxResults")),
+            AWSMemberEncoding(label: "nextToken", location: .querystring(locationName: "nextToken"))
+        ]
+
+        /// The ID of the attachment.
+        public let connectAttachmentId: String?
+        /// The ID of a core network.
+        public let coreNetworkId: String?
+        /// The maximum number of results to return.
+        public let maxResults: Int?
+        /// The token for the next page of results.
+        public let nextToken: String?
+
+        public init(connectAttachmentId: String? = nil, coreNetworkId: String? = nil, maxResults: Int? = nil, nextToken: String? = nil) {
+            self.connectAttachmentId = connectAttachmentId
+            self.coreNetworkId = coreNetworkId
+            self.maxResults = maxResults
+            self.nextToken = nextToken
+        }
+
+        public func validate(name: String) throws {
+            try self.validate(self.connectAttachmentId, name: "connectAttachmentId", parent: name, max: 50)
+            try self.validate(self.connectAttachmentId, name: "connectAttachmentId", parent: name, min: 0)
+            try self.validate(self.connectAttachmentId, name: "connectAttachmentId", parent: name, pattern: "^attachment-([0-9a-f]{8,17})$")
+            try self.validate(self.coreNetworkId, name: "coreNetworkId", parent: name, max: 50)
+            try self.validate(self.coreNetworkId, name: "coreNetworkId", parent: name, min: 0)
+            try self.validate(self.coreNetworkId, name: "coreNetworkId", parent: name, pattern: "^core-network-([0-9a-f]{8,17})$")
+            try self.validate(self.maxResults, name: "maxResults", parent: name, max: 500)
+            try self.validate(self.maxResults, name: "maxResults", parent: name, min: 1)
+            try self.validate(self.nextToken, name: "nextToken", parent: name, max: 2048)
+            try self.validate(self.nextToken, name: "nextToken", parent: name, min: 0)
+        }
+
+        private enum CodingKeys: CodingKey {}
+    }
+
+    public struct ListConnectPeersResponse: AWSDecodableShape {
+        /// Describes the Connect peers.
+        public let connectPeers: [ConnectPeerSummary]?
+        /// The token for the next page of results.
+        public let nextToken: String?
+
+        public init(connectPeers: [ConnectPeerSummary]? = nil, nextToken: String? = nil) {
+            self.connectPeers = connectPeers
+            self.nextToken = nextToken
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case connectPeers = "ConnectPeers"
+            case nextToken = "NextToken"
+        }
+    }
+
+    public struct ListCoreNetworkPolicyVersionsRequest: AWSEncodableShape {
+        public static var _encoding = [
+            AWSMemberEncoding(label: "coreNetworkId", location: .uri(locationName: "coreNetworkId")),
+            AWSMemberEncoding(label: "maxResults", location: .querystring(locationName: "maxResults")),
+            AWSMemberEncoding(label: "nextToken", location: .querystring(locationName: "nextToken"))
+        ]
+
+        /// The ID of a core network.
+        public let coreNetworkId: String
+        /// The maximum number of results to return.
+        public let maxResults: Int?
+        /// The token for the next page of results.
+        public let nextToken: String?
+
+        public init(coreNetworkId: String, maxResults: Int? = nil, nextToken: String? = nil) {
+            self.coreNetworkId = coreNetworkId
+            self.maxResults = maxResults
+            self.nextToken = nextToken
+        }
+
+        public func validate(name: String) throws {
+            try self.validate(self.coreNetworkId, name: "coreNetworkId", parent: name, max: 50)
+            try self.validate(self.coreNetworkId, name: "coreNetworkId", parent: name, min: 0)
+            try self.validate(self.coreNetworkId, name: "coreNetworkId", parent: name, pattern: "^core-network-([0-9a-f]{8,17})$")
+            try self.validate(self.maxResults, name: "maxResults", parent: name, max: 500)
+            try self.validate(self.maxResults, name: "maxResults", parent: name, min: 1)
+            try self.validate(self.nextToken, name: "nextToken", parent: name, max: 2048)
+            try self.validate(self.nextToken, name: "nextToken", parent: name, min: 0)
+        }
+
+        private enum CodingKeys: CodingKey {}
+    }
+
+    public struct ListCoreNetworkPolicyVersionsResponse: AWSDecodableShape {
+        /// Describes core network policy versions.
+        public let coreNetworkPolicyVersions: [CoreNetworkPolicyVersion]?
+        /// The token for the next page of results.
+        public let nextToken: String?
+
+        public init(coreNetworkPolicyVersions: [CoreNetworkPolicyVersion]? = nil, nextToken: String? = nil) {
+            self.coreNetworkPolicyVersions = coreNetworkPolicyVersions
+            self.nextToken = nextToken
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case coreNetworkPolicyVersions = "CoreNetworkPolicyVersions"
+            case nextToken = "NextToken"
+        }
+    }
+
+    public struct ListCoreNetworksRequest: AWSEncodableShape {
+        public static var _encoding = [
+            AWSMemberEncoding(label: "maxResults", location: .querystring(locationName: "maxResults")),
+            AWSMemberEncoding(label: "nextToken", location: .querystring(locationName: "nextToken"))
+        ]
+
+        /// The maximum number of results to return.
+        public let maxResults: Int?
+        /// The token for the next page of results.
+        public let nextToken: String?
+
+        public init(maxResults: Int? = nil, nextToken: String? = nil) {
+            self.maxResults = maxResults
+            self.nextToken = nextToken
+        }
+
+        public func validate(name: String) throws {
+            try self.validate(self.maxResults, name: "maxResults", parent: name, max: 500)
+            try self.validate(self.maxResults, name: "maxResults", parent: name, min: 1)
+            try self.validate(self.nextToken, name: "nextToken", parent: name, max: 2048)
+            try self.validate(self.nextToken, name: "nextToken", parent: name, min: 0)
+        }
+
+        private enum CodingKeys: CodingKey {}
+    }
+
+    public struct ListCoreNetworksResponse: AWSDecodableShape {
+        /// Describes the list of core networks.
+        public let coreNetworks: [CoreNetworkSummary]?
+        /// The token for the next page of results.
+        public let nextToken: String?
+
+        public init(coreNetworks: [CoreNetworkSummary]? = nil, nextToken: String? = nil) {
+            self.coreNetworks = coreNetworks
+            self.nextToken = nextToken
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case coreNetworks = "CoreNetworks"
+            case nextToken = "NextToken"
+        }
+    }
+
     public struct ListTagsForResourceRequest: AWSEncodableShape {
         public static var _encoding = [
             AWSMemberEncoding(label: "resourceArn", location: .uri(locationName: "resourceArn"))
@@ -1945,6 +4139,11 @@ extension NetworkManager {
 
         public init(resourceArn: String) {
             self.resourceArn = resourceArn
+        }
+
+        public func validate(name: String) throws {
+            try self.validate(self.resourceArn, name: "resourceArn", parent: name, max: 1500)
+            try self.validate(self.resourceArn, name: "resourceArn", parent: name, min: 0)
         }
 
         private enum CodingKeys: CodingKey {}
@@ -1977,6 +4176,15 @@ extension NetworkManager {
             self.longitude = longitude
         }
 
+        public func validate(name: String) throws {
+            try self.validate(self.address, name: "address", parent: name, max: 256)
+            try self.validate(self.address, name: "address", parent: name, min: 0)
+            try self.validate(self.latitude, name: "latitude", parent: name, max: 256)
+            try self.validate(self.latitude, name: "latitude", parent: name, min: 0)
+            try self.validate(self.longitude, name: "longitude", parent: name, max: 256)
+            try self.validate(self.longitude, name: "longitude", parent: name, min: 0)
+        }
+
         private enum CodingKeys: String, CodingKey {
             case address = "Address"
             case latitude = "Latitude"
@@ -1989,6 +4197,8 @@ extension NetworkManager {
         public let accountId: String?
         /// The Amazon Web Services Region.
         public let awsRegion: String?
+        /// a core network ID.
+        public let coreNetworkId: String?
         /// Information about the resource, in JSON format. Network Manager gets this information by describing the resource using its Describe API call.
         public let definition: String?
         /// The time that the resource definition was retrieved.
@@ -2006,9 +4216,10 @@ extension NetworkManager {
         /// The tags.
         public let tags: [Tag]?
 
-        public init(accountId: String? = nil, awsRegion: String? = nil, definition: String? = nil, definitionTimestamp: Date? = nil, metadata: [String: String]? = nil, registeredGatewayArn: String? = nil, resourceArn: String? = nil, resourceId: String? = nil, resourceType: String? = nil, tags: [Tag]? = nil) {
+        public init(accountId: String? = nil, awsRegion: String? = nil, coreNetworkId: String? = nil, definition: String? = nil, definitionTimestamp: Date? = nil, metadata: [String: String]? = nil, registeredGatewayArn: String? = nil, resourceArn: String? = nil, resourceId: String? = nil, resourceType: String? = nil, tags: [Tag]? = nil) {
             self.accountId = accountId
             self.awsRegion = awsRegion
+            self.coreNetworkId = coreNetworkId
             self.definition = definition
             self.definitionTimestamp = definitionTimestamp
             self.metadata = metadata
@@ -2022,6 +4233,7 @@ extension NetworkManager {
         private enum CodingKeys: String, CodingKey {
             case accountId = "AccountId"
             case awsRegion = "AwsRegion"
+            case coreNetworkId = "CoreNetworkId"
             case definition = "Definition"
             case definitionTimestamp = "DefinitionTimestamp"
             case metadata = "Metadata"
@@ -2113,22 +4325,34 @@ extension NetworkManager {
     }
 
     public struct NetworkRouteDestination: AWSDecodableShape {
+        /// The ID of a core network attachment.
+        public let coreNetworkAttachmentId: String?
+        /// The edge location for the network destination.
+        public let edgeLocation: String?
         /// The ID of the resource.
         public let resourceId: String?
         /// The resource type.
         public let resourceType: String?
+        /// The name of the segment.
+        public let segmentName: String?
         /// The ID of the transit gateway attachment.
         public let transitGatewayAttachmentId: String?
 
-        public init(resourceId: String? = nil, resourceType: String? = nil, transitGatewayAttachmentId: String? = nil) {
+        public init(coreNetworkAttachmentId: String? = nil, edgeLocation: String? = nil, resourceId: String? = nil, resourceType: String? = nil, segmentName: String? = nil, transitGatewayAttachmentId: String? = nil) {
+            self.coreNetworkAttachmentId = coreNetworkAttachmentId
+            self.edgeLocation = edgeLocation
             self.resourceId = resourceId
             self.resourceType = resourceType
+            self.segmentName = segmentName
             self.transitGatewayAttachmentId = transitGatewayAttachmentId
         }
 
         private enum CodingKeys: String, CodingKey {
+            case coreNetworkAttachmentId = "CoreNetworkAttachmentId"
+            case edgeLocation = "EdgeLocation"
             case resourceId = "ResourceId"
             case resourceType = "ResourceType"
+            case segmentName = "SegmentName"
             case transitGatewayAttachmentId = "TransitGatewayAttachmentId"
         }
     }
@@ -2140,6 +4364,8 @@ extension NetworkManager {
         public let address: String?
         /// The Amazon Web Services Region.
         public let awsRegion: String?
+        /// The ID of a core network.
+        public let coreNetworkId: String?
         /// The connection health.
         public let health: ConnectionHealth?
         /// The ARN of the gateway.
@@ -2151,10 +4377,11 @@ extension NetworkManager {
         /// The resource type.
         public let resourceType: String?
 
-        public init(accountId: String? = nil, address: String? = nil, awsRegion: String? = nil, health: ConnectionHealth? = nil, registeredGatewayArn: String? = nil, resourceArn: String? = nil, resourceId: String? = nil, resourceType: String? = nil) {
+        public init(accountId: String? = nil, address: String? = nil, awsRegion: String? = nil, coreNetworkId: String? = nil, health: ConnectionHealth? = nil, registeredGatewayArn: String? = nil, resourceArn: String? = nil, resourceId: String? = nil, resourceType: String? = nil) {
             self.accountId = accountId
             self.address = address
             self.awsRegion = awsRegion
+            self.coreNetworkId = coreNetworkId
             self.health = health
             self.registeredGatewayArn = registeredGatewayArn
             self.resourceArn = resourceArn
@@ -2166,6 +4393,7 @@ extension NetworkManager {
             case accountId = "AccountId"
             case address = "Address"
             case awsRegion = "AwsRegion"
+            case coreNetworkId = "CoreNetworkId"
             case health = "Health"
             case registeredGatewayArn = "RegisteredGatewayArn"
             case resourceArn = "ResourceArn"
@@ -2195,6 +4423,111 @@ extension NetworkManager {
         }
     }
 
+    public struct ProposedSegmentChange: AWSDecodableShape {
+        /// The rule number in the policy document that applies to this change.
+        public let attachmentPolicyRuleNumber: Int?
+        /// The name of the segment to change.
+        public let segmentName: String?
+        /// The key-value tags that changed for the segment.
+        public let tags: [Tag]?
+
+        public init(attachmentPolicyRuleNumber: Int? = nil, segmentName: String? = nil, tags: [Tag]? = nil) {
+            self.attachmentPolicyRuleNumber = attachmentPolicyRuleNumber
+            self.segmentName = segmentName
+            self.tags = tags
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case attachmentPolicyRuleNumber = "AttachmentPolicyRuleNumber"
+            case segmentName = "SegmentName"
+            case tags = "Tags"
+        }
+    }
+
+    public struct PutCoreNetworkPolicyRequest: AWSEncodableShape {
+        public static var _encoding = [
+            AWSMemberEncoding(label: "coreNetworkId", location: .uri(locationName: "coreNetworkId"))
+        ]
+
+        /// The client token associated with the request.
+        public let clientToken: String?
+        /// The ID of a core network.
+        public let coreNetworkId: String
+        /// a core network policy description.
+        public let description: String?
+        /// The ID of a core network policy.
+        public let latestVersionId: Int?
+        /// The policy document.
+        public let policyDocument: String
+
+        public init(clientToken: String? = PutCoreNetworkPolicyRequest.idempotencyToken(), coreNetworkId: String, description: String? = nil, latestVersionId: Int? = nil, policyDocument: String) {
+            self.clientToken = clientToken
+            self.coreNetworkId = coreNetworkId
+            self.description = description
+            self.latestVersionId = latestVersionId
+            self.policyDocument = policyDocument
+        }
+
+        public func validate(name: String) throws {
+            try self.validate(self.clientToken, name: "clientToken", parent: name, max: 256)
+            try self.validate(self.clientToken, name: "clientToken", parent: name, min: 0)
+            try self.validate(self.coreNetworkId, name: "coreNetworkId", parent: name, max: 50)
+            try self.validate(self.coreNetworkId, name: "coreNetworkId", parent: name, min: 0)
+            try self.validate(self.coreNetworkId, name: "coreNetworkId", parent: name, pattern: "^core-network-([0-9a-f]{8,17})$")
+            try self.validate(self.description, name: "description", parent: name, max: 256)
+            try self.validate(self.description, name: "description", parent: name, min: 0)
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case clientToken = "ClientToken"
+            case description = "Description"
+            case latestVersionId = "LatestVersionId"
+            case policyDocument = "PolicyDocument"
+        }
+    }
+
+    public struct PutCoreNetworkPolicyResponse: AWSDecodableShape {
+        /// Describes the changed core network policy.
+        public let coreNetworkPolicy: CoreNetworkPolicy?
+
+        public init(coreNetworkPolicy: CoreNetworkPolicy? = nil) {
+            self.coreNetworkPolicy = coreNetworkPolicy
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case coreNetworkPolicy = "CoreNetworkPolicy"
+        }
+    }
+
+    public struct PutResourcePolicyRequest: AWSEncodableShape {
+        public static var _encoding = [
+            AWSMemberEncoding(label: "resourceArn", location: .uri(locationName: "resourceArn"))
+        ]
+
+        /// The JSON resource policy document.
+        public let policyDocument: String
+        /// The ARN of the resource policy.
+        public let resourceArn: String
+
+        public init(policyDocument: String, resourceArn: String) {
+            self.policyDocument = policyDocument
+            self.resourceArn = resourceArn
+        }
+
+        public func validate(name: String) throws {
+            try self.validate(self.resourceArn, name: "resourceArn", parent: name, max: 1500)
+            try self.validate(self.resourceArn, name: "resourceArn", parent: name, min: 0)
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case policyDocument = "PolicyDocument"
+        }
+    }
+
+    public struct PutResourcePolicyResponse: AWSDecodableShape {
+        public init() {}
+    }
+
     public struct RegisterTransitGatewayRequest: AWSEncodableShape {
         public static var _encoding = [
             AWSMemberEncoding(label: "globalNetworkId", location: .uri(locationName: "globalNetworkId"))
@@ -2208,6 +4541,13 @@ extension NetworkManager {
         public init(globalNetworkId: String, transitGatewayArn: String) {
             self.globalNetworkId = globalNetworkId
             self.transitGatewayArn = transitGatewayArn
+        }
+
+        public func validate(name: String) throws {
+            try self.validate(self.globalNetworkId, name: "globalNetworkId", parent: name, max: 50)
+            try self.validate(self.globalNetworkId, name: "globalNetworkId", parent: name, min: 0)
+            try self.validate(self.transitGatewayArn, name: "transitGatewayArn", parent: name, max: 500)
+            try self.validate(self.transitGatewayArn, name: "transitGatewayArn", parent: name, min: 0)
         }
 
         private enum CodingKeys: String, CodingKey {
@@ -2228,6 +4568,40 @@ extension NetworkManager {
         }
     }
 
+    public struct RejectAttachmentRequest: AWSEncodableShape {
+        public static var _encoding = [
+            AWSMemberEncoding(label: "attachmentId", location: .uri(locationName: "attachmentId"))
+        ]
+
+        /// The ID of the attachment.
+        public let attachmentId: String
+
+        public init(attachmentId: String) {
+            self.attachmentId = attachmentId
+        }
+
+        public func validate(name: String) throws {
+            try self.validate(self.attachmentId, name: "attachmentId", parent: name, max: 50)
+            try self.validate(self.attachmentId, name: "attachmentId", parent: name, min: 0)
+            try self.validate(self.attachmentId, name: "attachmentId", parent: name, pattern: "^attachment-([0-9a-f]{8,17})$")
+        }
+
+        private enum CodingKeys: CodingKey {}
+    }
+
+    public struct RejectAttachmentResponse: AWSDecodableShape {
+        /// Describes the rejected attachment request.
+        public let attachment: Attachment?
+
+        public init(attachment: Attachment? = nil) {
+            self.attachment = attachment
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case attachment = "Attachment"
+        }
+    }
+
     public struct Relationship: AWSDecodableShape {
         /// The ARN of the resource.
         public let from: String?
@@ -2242,6 +4616,44 @@ extension NetworkManager {
         private enum CodingKeys: String, CodingKey {
             case from = "From"
             case to = "To"
+        }
+    }
+
+    public struct RestoreCoreNetworkPolicyVersionRequest: AWSEncodableShape {
+        public static var _encoding = [
+            AWSMemberEncoding(label: "coreNetworkId", location: .uri(locationName: "coreNetworkId")),
+            AWSMemberEncoding(label: "policyVersionId", location: .uri(locationName: "policyVersionId"))
+        ]
+
+        /// The ID of a core network.
+        public let coreNetworkId: String
+        /// The ID of the policy version to restore.
+        public let policyVersionId: Int
+
+        public init(coreNetworkId: String, policyVersionId: Int) {
+            self.coreNetworkId = coreNetworkId
+            self.policyVersionId = policyVersionId
+        }
+
+        public func validate(name: String) throws {
+            try self.validate(self.coreNetworkId, name: "coreNetworkId", parent: name, max: 50)
+            try self.validate(self.coreNetworkId, name: "coreNetworkId", parent: name, min: 0)
+            try self.validate(self.coreNetworkId, name: "coreNetworkId", parent: name, pattern: "^core-network-([0-9a-f]{8,17})$")
+        }
+
+        private enum CodingKeys: CodingKey {}
+    }
+
+    public struct RestoreCoreNetworkPolicyVersionResponse: AWSDecodableShape {
+        /// Describes the restored core network policy.
+        public let coreNetworkPolicy: CoreNetworkPolicy?
+
+        public init(coreNetworkPolicy: CoreNetworkPolicy? = nil) {
+            self.coreNetworkPolicy = coreNetworkPolicy
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case coreNetworkPolicy = "CoreNetworkPolicy"
         }
     }
 
@@ -2351,6 +4763,13 @@ extension NetworkManager {
             self.transitGatewayAttachmentArn = transitGatewayAttachmentArn
         }
 
+        public func validate(name: String) throws {
+            try self.validate(self.ipAddress, name: "ipAddress", parent: name, max: 50)
+            try self.validate(self.ipAddress, name: "ipAddress", parent: name, min: 1)
+            try self.validate(self.transitGatewayAttachmentArn, name: "transitGatewayAttachmentArn", parent: name, max: 500)
+            try self.validate(self.transitGatewayAttachmentArn, name: "transitGatewayAttachmentArn", parent: name, min: 0)
+        }
+
         private enum CodingKeys: String, CodingKey {
             case ipAddress = "IpAddress"
             case transitGatewayAttachmentArn = "TransitGatewayAttachmentArn"
@@ -2375,14 +4794,24 @@ extension NetworkManager {
     }
 
     public struct RouteTableIdentifier: AWSEncodableShape {
+        /// The segment edge in a core network.
+        public let coreNetworkSegmentEdge: CoreNetworkSegmentEdgeIdentifier?
         /// The ARN of the transit gateway route table.
         public let transitGatewayRouteTableArn: String?
 
-        public init(transitGatewayRouteTableArn: String? = nil) {
+        public init(coreNetworkSegmentEdge: CoreNetworkSegmentEdgeIdentifier? = nil, transitGatewayRouteTableArn: String? = nil) {
+            self.coreNetworkSegmentEdge = coreNetworkSegmentEdge
             self.transitGatewayRouteTableArn = transitGatewayRouteTableArn
         }
 
+        public func validate(name: String) throws {
+            try self.coreNetworkSegmentEdge?.validate(name: "\(name).coreNetworkSegmentEdge")
+            try self.validate(self.transitGatewayRouteTableArn, name: "transitGatewayRouteTableArn", parent: name, max: 500)
+            try self.validate(self.transitGatewayRouteTableArn, name: "transitGatewayRouteTableArn", parent: name, min: 0)
+        }
+
         private enum CodingKeys: String, CodingKey {
+            case coreNetworkSegmentEdge = "CoreNetworkSegmentEdge"
             case transitGatewayRouteTableArn = "TransitGatewayRouteTableArn"
         }
     }
@@ -2428,6 +4857,23 @@ extension NetworkManager {
         }
     }
 
+    public struct SiteToSiteVpnAttachment: AWSDecodableShape {
+        /// Provides details about a site-to-site VPN attachment.
+        public let attachment: Attachment?
+        /// The ARN of the site-to-site VPN attachment.
+        public let vpnConnectionArn: String?
+
+        public init(attachment: Attachment? = nil, vpnConnectionArn: String? = nil) {
+            self.attachment = attachment
+            self.vpnConnectionArn = vpnConnectionArn
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case attachment = "Attachment"
+            case vpnConnectionArn = "VpnConnectionArn"
+        }
+    }
+
     public struct StartRouteAnalysisRequest: AWSEncodableShape {
         public static var _encoding = [
             AWSMemberEncoding(label: "globalNetworkId", location: .uri(locationName: "globalNetworkId"))
@@ -2450,6 +4896,13 @@ extension NetworkManager {
             self.includeReturnPath = includeReturnPath
             self.source = source
             self.useMiddleboxes = useMiddleboxes
+        }
+
+        public func validate(name: String) throws {
+            try self.destination.validate(name: "\(name).destination")
+            try self.validate(self.globalNetworkId, name: "globalNetworkId", parent: name, max: 50)
+            try self.validate(self.globalNetworkId, name: "globalNetworkId", parent: name, min: 0)
+            try self.source.validate(name: "\(name).source")
         }
 
         private enum CodingKeys: String, CodingKey {
@@ -2503,6 +4956,11 @@ extension NetworkManager {
         public init(resourceArn: String, tags: [Tag]) {
             self.resourceArn = resourceArn
             self.tags = tags
+        }
+
+        public func validate(name: String) throws {
+            try self.validate(self.resourceArn, name: "resourceArn", parent: name, max: 1500)
+            try self.validate(self.resourceArn, name: "resourceArn", parent: name, min: 0)
         }
 
         private enum CodingKeys: String, CodingKey {
@@ -2597,6 +5055,11 @@ extension NetworkManager {
             self.tagKeys = tagKeys
         }
 
+        public func validate(name: String) throws {
+            try self.validate(self.resourceArn, name: "resourceArn", parent: name, max: 1500)
+            try self.validate(self.resourceArn, name: "resourceArn", parent: name, min: 0)
+        }
+
         private enum CodingKeys: CodingKey {}
     }
 
@@ -2629,6 +5092,19 @@ extension NetworkManager {
             self.linkId = linkId
         }
 
+        public func validate(name: String) throws {
+            try self.validate(self.connectedLinkId, name: "connectedLinkId", parent: name, max: 50)
+            try self.validate(self.connectedLinkId, name: "connectedLinkId", parent: name, min: 0)
+            try self.validate(self.connectionId, name: "connectionId", parent: name, max: 50)
+            try self.validate(self.connectionId, name: "connectionId", parent: name, min: 0)
+            try self.validate(self.description, name: "description", parent: name, max: 256)
+            try self.validate(self.description, name: "description", parent: name, min: 0)
+            try self.validate(self.globalNetworkId, name: "globalNetworkId", parent: name, max: 50)
+            try self.validate(self.globalNetworkId, name: "globalNetworkId", parent: name, min: 0)
+            try self.validate(self.linkId, name: "linkId", parent: name, max: 50)
+            try self.validate(self.linkId, name: "linkId", parent: name, min: 0)
+        }
+
         private enum CodingKeys: String, CodingKey {
             case connectedLinkId = "ConnectedLinkId"
             case description = "Description"
@@ -2646,6 +5122,47 @@ extension NetworkManager {
 
         private enum CodingKeys: String, CodingKey {
             case connection = "Connection"
+        }
+    }
+
+    public struct UpdateCoreNetworkRequest: AWSEncodableShape {
+        public static var _encoding = [
+            AWSMemberEncoding(label: "coreNetworkId", location: .uri(locationName: "coreNetworkId"))
+        ]
+
+        /// The ID of a core network.
+        public let coreNetworkId: String
+        /// The description of the update.
+        public let description: String?
+
+        public init(coreNetworkId: String, description: String? = nil) {
+            self.coreNetworkId = coreNetworkId
+            self.description = description
+        }
+
+        public func validate(name: String) throws {
+            try self.validate(self.coreNetworkId, name: "coreNetworkId", parent: name, max: 50)
+            try self.validate(self.coreNetworkId, name: "coreNetworkId", parent: name, min: 0)
+            try self.validate(self.coreNetworkId, name: "coreNetworkId", parent: name, pattern: "^core-network-([0-9a-f]{8,17})$")
+            try self.validate(self.description, name: "description", parent: name, max: 256)
+            try self.validate(self.description, name: "description", parent: name, min: 0)
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case description = "Description"
+        }
+    }
+
+    public struct UpdateCoreNetworkResponse: AWSDecodableShape {
+        /// Returns information about a core network update.
+        public let coreNetwork: CoreNetwork?
+
+        public init(coreNetwork: CoreNetwork? = nil) {
+            self.coreNetwork = coreNetwork
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case coreNetwork = "CoreNetwork"
         }
     }
 
@@ -2688,6 +5205,27 @@ extension NetworkManager {
             self.vendor = vendor
         }
 
+        public func validate(name: String) throws {
+            try self.aWSLocation?.validate(name: "\(name).aWSLocation")
+            try self.validate(self.description, name: "description", parent: name, max: 256)
+            try self.validate(self.description, name: "description", parent: name, min: 0)
+            try self.validate(self.deviceId, name: "deviceId", parent: name, max: 50)
+            try self.validate(self.deviceId, name: "deviceId", parent: name, min: 0)
+            try self.validate(self.globalNetworkId, name: "globalNetworkId", parent: name, max: 50)
+            try self.validate(self.globalNetworkId, name: "globalNetworkId", parent: name, min: 0)
+            try self.location?.validate(name: "\(name).location")
+            try self.validate(self.model, name: "model", parent: name, max: 256)
+            try self.validate(self.model, name: "model", parent: name, min: 0)
+            try self.validate(self.serialNumber, name: "serialNumber", parent: name, max: 256)
+            try self.validate(self.serialNumber, name: "serialNumber", parent: name, min: 0)
+            try self.validate(self.siteId, name: "siteId", parent: name, max: 50)
+            try self.validate(self.siteId, name: "siteId", parent: name, min: 0)
+            try self.validate(self.type, name: "type", parent: name, max: 256)
+            try self.validate(self.type, name: "type", parent: name, min: 0)
+            try self.validate(self.vendor, name: "vendor", parent: name, max: 256)
+            try self.validate(self.vendor, name: "vendor", parent: name, min: 0)
+        }
+
         private enum CodingKeys: String, CodingKey {
             case aWSLocation = "AWSLocation"
             case description = "Description"
@@ -2726,6 +5264,13 @@ extension NetworkManager {
         public init(description: String? = nil, globalNetworkId: String) {
             self.description = description
             self.globalNetworkId = globalNetworkId
+        }
+
+        public func validate(name: String) throws {
+            try self.validate(self.description, name: "description", parent: name, max: 256)
+            try self.validate(self.description, name: "description", parent: name, min: 0)
+            try self.validate(self.globalNetworkId, name: "globalNetworkId", parent: name, max: 50)
+            try self.validate(self.globalNetworkId, name: "globalNetworkId", parent: name, min: 0)
         }
 
         private enum CodingKeys: String, CodingKey {
@@ -2774,6 +5319,19 @@ extension NetworkManager {
             self.type = type
         }
 
+        public func validate(name: String) throws {
+            try self.validate(self.description, name: "description", parent: name, max: 256)
+            try self.validate(self.description, name: "description", parent: name, min: 0)
+            try self.validate(self.globalNetworkId, name: "globalNetworkId", parent: name, max: 50)
+            try self.validate(self.globalNetworkId, name: "globalNetworkId", parent: name, min: 0)
+            try self.validate(self.linkId, name: "linkId", parent: name, max: 50)
+            try self.validate(self.linkId, name: "linkId", parent: name, min: 0)
+            try self.validate(self.provider, name: "provider", parent: name, max: 256)
+            try self.validate(self.provider, name: "provider", parent: name, min: 0)
+            try self.validate(self.type, name: "type", parent: name, max: 256)
+            try self.validate(self.type, name: "type", parent: name, min: 0)
+        }
+
         private enum CodingKeys: String, CodingKey {
             case bandwidth = "Bandwidth"
             case description = "Description"
@@ -2812,6 +5370,19 @@ extension NetworkManager {
             self.globalNetworkId = globalNetworkId
             self.metadata = metadata
             self.resourceArn = resourceArn
+        }
+
+        public func validate(name: String) throws {
+            try self.validate(self.globalNetworkId, name: "globalNetworkId", parent: name, max: 50)
+            try self.validate(self.globalNetworkId, name: "globalNetworkId", parent: name, min: 0)
+            try self.metadata.forEach {
+                try validate($0.key, name: "metadata.key", parent: name, max: 256)
+                try validate($0.key, name: "metadata.key", parent: name, min: 0)
+                try validate($0.value, name: "metadata[\"\($0.key)\"]", parent: name, max: 256)
+                try validate($0.value, name: "metadata[\"\($0.key)\"]", parent: name, min: 0)
+            }
+            try self.validate(self.resourceArn, name: "resourceArn", parent: name, max: 1500)
+            try self.validate(self.resourceArn, name: "resourceArn", parent: name, min: 0)
         }
 
         private enum CodingKeys: String, CodingKey {
@@ -2858,6 +5429,16 @@ extension NetworkManager {
             self.siteId = siteId
         }
 
+        public func validate(name: String) throws {
+            try self.validate(self.description, name: "description", parent: name, max: 256)
+            try self.validate(self.description, name: "description", parent: name, min: 0)
+            try self.validate(self.globalNetworkId, name: "globalNetworkId", parent: name, max: 50)
+            try self.validate(self.globalNetworkId, name: "globalNetworkId", parent: name, min: 0)
+            try self.location?.validate(name: "\(name).location")
+            try self.validate(self.siteId, name: "siteId", parent: name, max: 50)
+            try self.validate(self.siteId, name: "siteId", parent: name, min: 0)
+        }
+
         private enum CodingKeys: String, CodingKey {
             case description = "Description"
             case location = "Location"
@@ -2874,6 +5455,97 @@ extension NetworkManager {
 
         private enum CodingKeys: String, CodingKey {
             case site = "Site"
+        }
+    }
+
+    public struct UpdateVpcAttachmentRequest: AWSEncodableShape {
+        public static var _encoding = [
+            AWSMemberEncoding(label: "attachmentId", location: .uri(locationName: "attachmentId"))
+        ]
+
+        /// Adds a subnet ARN to the VPC attachment.
+        public let addSubnetArns: [String]?
+        /// The ID of the attachment.
+        public let attachmentId: String
+        /// Additional options for updating the VPC attachment.
+        public let options: VpcOptions?
+        /// Removes a subnet ARN from the attachment.
+        public let removeSubnetArns: [String]?
+
+        public init(addSubnetArns: [String]? = nil, attachmentId: String, options: VpcOptions? = nil, removeSubnetArns: [String]? = nil) {
+            self.addSubnetArns = addSubnetArns
+            self.attachmentId = attachmentId
+            self.options = options
+            self.removeSubnetArns = removeSubnetArns
+        }
+
+        public func validate(name: String) throws {
+            try self.addSubnetArns?.forEach {
+                try validate($0, name: "addSubnetArns[]", parent: name, max: 500)
+                try validate($0, name: "addSubnetArns[]", parent: name, min: 0)
+                try validate($0, name: "addSubnetArns[]", parent: name, pattern: "^arn:[^:]{1,63}:ec2:[^:]{0,63}:[^:]{0,63}:subnet\\/subnet-[0-9a-f]{8,17}$")
+            }
+            try self.validate(self.attachmentId, name: "attachmentId", parent: name, max: 50)
+            try self.validate(self.attachmentId, name: "attachmentId", parent: name, min: 0)
+            try self.validate(self.attachmentId, name: "attachmentId", parent: name, pattern: "^attachment-([0-9a-f]{8,17})$")
+            try self.removeSubnetArns?.forEach {
+                try validate($0, name: "removeSubnetArns[]", parent: name, max: 500)
+                try validate($0, name: "removeSubnetArns[]", parent: name, min: 0)
+                try validate($0, name: "removeSubnetArns[]", parent: name, pattern: "^arn:[^:]{1,63}:ec2:[^:]{0,63}:[^:]{0,63}:subnet\\/subnet-[0-9a-f]{8,17}$")
+            }
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case addSubnetArns = "AddSubnetArns"
+            case options = "Options"
+            case removeSubnetArns = "RemoveSubnetArns"
+        }
+    }
+
+    public struct UpdateVpcAttachmentResponse: AWSDecodableShape {
+        /// Describes the updated VPC attachment.
+        public let vpcAttachment: VpcAttachment?
+
+        public init(vpcAttachment: VpcAttachment? = nil) {
+            self.vpcAttachment = vpcAttachment
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case vpcAttachment = "VpcAttachment"
+        }
+    }
+
+    public struct VpcAttachment: AWSDecodableShape {
+        /// Provides details about the VPC attachment.
+        public let attachment: Attachment?
+        /// Provides details about the VPC attachment.
+        public let options: VpcOptions?
+        /// The subnet ARNs.
+        public let subnetArns: [String]?
+
+        public init(attachment: Attachment? = nil, options: VpcOptions? = nil, subnetArns: [String]? = nil) {
+            self.attachment = attachment
+            self.options = options
+            self.subnetArns = subnetArns
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case attachment = "Attachment"
+            case options = "Options"
+            case subnetArns = "SubnetArns"
+        }
+    }
+
+    public struct VpcOptions: AWSEncodableShape & AWSDecodableShape {
+        /// Indicates whether IPv6 is supported.
+        public let ipv6Support: Bool?
+
+        public init(ipv6Support: Bool? = nil) {
+            self.ipv6Support = ipv6Support
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case ipv6Support = "Ipv6Support"
         }
     }
 }

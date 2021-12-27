@@ -110,6 +110,28 @@ extension LookoutMetrics {
         )
     }
 
+    ///  Returns a list of measures that are potential causes or effects of an anomaly group.
+    /// Return PaginatorSequence for operation.
+    ///
+    /// - Parameters:
+    ///   - input: Input for request
+    ///   - logger: Logger used flot logging
+    ///   - eventLoop: EventLoop to run this process on
+    public func listAnomalyGroupRelatedMetricsPaginator(
+        _ input: ListAnomalyGroupRelatedMetricsRequest,
+        logger: Logger = AWSClient.loggingDisabled,
+        on eventLoop: EventLoop? = nil
+    ) -> AWSClient.PaginatorSequence<ListAnomalyGroupRelatedMetricsRequest, ListAnomalyGroupRelatedMetricsResponse> {
+        return .init(
+            input: input,
+            command: listAnomalyGroupRelatedMetrics,
+            inputKey: \ListAnomalyGroupRelatedMetricsRequest.nextToken,
+            outputKey: \ListAnomalyGroupRelatedMetricsResponse.nextToken,
+            logger: logger,
+            on: eventLoop
+        )
+    }
+
     ///  Returns a list of anomaly groups.
     /// Return PaginatorSequence for operation.
     ///

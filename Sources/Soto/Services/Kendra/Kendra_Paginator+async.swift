@@ -66,6 +66,72 @@ extension Kendra {
         )
     }
 
+    ///  Lists specific permissions of users and groups with access to your Amazon Kendra experience.
+    /// Return PaginatorSequence for operation.
+    ///
+    /// - Parameters:
+    ///   - input: Input for request
+    ///   - logger: Logger used flot logging
+    ///   - eventLoop: EventLoop to run this process on
+    public func listEntityPersonasPaginator(
+        _ input: ListEntityPersonasRequest,
+        logger: Logger = AWSClient.loggingDisabled,
+        on eventLoop: EventLoop? = nil
+    ) -> AWSClient.PaginatorSequence<ListEntityPersonasRequest, ListEntityPersonasResponse> {
+        return .init(
+            input: input,
+            command: listEntityPersonas,
+            inputKey: \ListEntityPersonasRequest.nextToken,
+            outputKey: \ListEntityPersonasResponse.nextToken,
+            logger: logger,
+            on: eventLoop
+        )
+    }
+
+    ///  Lists users or groups in your Amazon Web Services SSO identity source that are granted access to your Amazon Kendra experience. You can create an Amazon Kendra experience such as a search application. For more information on creating a search application experience, see Building a search experience with no code.
+    /// Return PaginatorSequence for operation.
+    ///
+    /// - Parameters:
+    ///   - input: Input for request
+    ///   - logger: Logger used flot logging
+    ///   - eventLoop: EventLoop to run this process on
+    public func listExperienceEntitiesPaginator(
+        _ input: ListExperienceEntitiesRequest,
+        logger: Logger = AWSClient.loggingDisabled,
+        on eventLoop: EventLoop? = nil
+    ) -> AWSClient.PaginatorSequence<ListExperienceEntitiesRequest, ListExperienceEntitiesResponse> {
+        return .init(
+            input: input,
+            command: listExperienceEntities,
+            inputKey: \ListExperienceEntitiesRequest.nextToken,
+            outputKey: \ListExperienceEntitiesResponse.nextToken,
+            logger: logger,
+            on: eventLoop
+        )
+    }
+
+    ///  Lists one or more Amazon Kendra experiences. You can create an Amazon Kendra experience such as a search application. For more information on creating a search application experience, see Building a search experience with no code.
+    /// Return PaginatorSequence for operation.
+    ///
+    /// - Parameters:
+    ///   - input: Input for request
+    ///   - logger: Logger used flot logging
+    ///   - eventLoop: EventLoop to run this process on
+    public func listExperiencesPaginator(
+        _ input: ListExperiencesRequest,
+        logger: Logger = AWSClient.loggingDisabled,
+        on eventLoop: EventLoop? = nil
+    ) -> AWSClient.PaginatorSequence<ListExperiencesRequest, ListExperiencesResponse> {
+        return .init(
+            input: input,
+            command: listExperiences,
+            inputKey: \ListExperiencesRequest.nextToken,
+            outputKey: \ListExperiencesResponse.nextToken,
+            logger: logger,
+            on: eventLoop
+        )
+    }
+
     ///  Lists the Amazon Kendra indexes that you have created.
     /// Return PaginatorSequence for operation.
     ///

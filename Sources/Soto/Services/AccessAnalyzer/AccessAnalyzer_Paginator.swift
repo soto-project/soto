@@ -526,7 +526,8 @@ extension AccessAnalyzer.ValidatePolicyRequest: AWSPaginateToken {
             maxResults: self.maxResults,
             nextToken: token,
             policyDocument: self.policyDocument,
-            policyType: self.policyType
+            policyType: self.policyType,
+            validatePolicyResourceType: self.validatePolicyResourceType
         )
     }
 }

@@ -26,6 +26,20 @@ extension ComputeOptimizer {
         public var description: String { return self.rawValue }
     }
 
+    public enum Currency: String, CustomStringConvertible, Codable {
+        case cny = "CNY"
+        case usd = "USD"
+        public var description: String { return self.rawValue }
+    }
+
+    public enum CurrentPerformanceRisk: String, CustomStringConvertible, Codable {
+        case high = "High"
+        case low = "Low"
+        case medium = "Medium"
+        case verylow = "VeryLow"
+        public var description: String { return self.rawValue }
+    }
+
     public enum EBSFilterName: String, CustomStringConvertible, Codable {
         case finding = "Finding"
         public var description: String { return self.rawValue }
@@ -45,6 +59,12 @@ extension ComputeOptimizer {
         public var description: String { return self.rawValue }
     }
 
+    public enum EnhancedInfrastructureMetrics: String, CustomStringConvertible, Codable {
+        case active = "Active"
+        case inactive = "Inactive"
+        public var description: String { return self.rawValue }
+    }
+
     public enum EnrollmentFilterName: String, CustomStringConvertible, Codable {
         case status = "Status"
         public var description: String { return self.rawValue }
@@ -61,10 +81,13 @@ extension ComputeOptimizer {
         case currentmemory = "CurrentMemory"
         case currentnetwork = "CurrentNetwork"
         case currentondemandprice = "CurrentOnDemandPrice"
+        case currentperformancerisk = "CurrentPerformanceRisk"
         case currentstandardoneyearnoupfrontreservedprice = "CurrentStandardOneYearNoUpfrontReservedPrice"
         case currentstandardthreeyearnoupfrontreservedprice = "CurrentStandardThreeYearNoUpfrontReservedPrice"
         case currentstorage = "CurrentStorage"
         case currentvcpus = "CurrentVCpus"
+        case effectiverecommendationpreferencescpuvendorarchitectures = "EffectiveRecommendationPreferencesCpuVendorArchitectures"
+        case effectiverecommendationpreferencesenhancedinfrastructuremetrics = "EffectiveRecommendationPreferencesEnhancedInfrastructureMetrics"
         case finding = "Finding"
         case lastrefreshtimestamp = "LastRefreshTimestamp"
         case lookbackperiodindays = "LookbackPeriodInDays"
@@ -72,12 +95,15 @@ extension ComputeOptimizer {
         case recommendationoptionsconfigurationinstancetype = "RecommendationOptionsConfigurationInstanceType"
         case recommendationoptionsconfigurationmaxsize = "RecommendationOptionsConfigurationMaxSize"
         case recommendationoptionsconfigurationminsize = "RecommendationOptionsConfigurationMinSize"
+        case recommendationoptionsestimatedmonthlysavingscurrency = "RecommendationOptionsEstimatedMonthlySavingsCurrency"
+        case recommendationoptionsestimatedmonthlysavingsvalue = "RecommendationOptionsEstimatedMonthlySavingsValue"
         case recommendationoptionsmemory = "RecommendationOptionsMemory"
         case recommendationoptionsnetwork = "RecommendationOptionsNetwork"
         case recommendationoptionsondemandprice = "RecommendationOptionsOnDemandPrice"
         case recommendationoptionsperformancerisk = "RecommendationOptionsPerformanceRisk"
         case recommendationoptionsprojectedutilizationmetricscpumaximum = "RecommendationOptionsProjectedUtilizationMetricsCpuMaximum"
         case recommendationoptionsprojectedutilizationmetricsmemorymaximum = "RecommendationOptionsProjectedUtilizationMetricsMemoryMaximum"
+        case recommendationoptionssavingsopportunitypercentage = "RecommendationOptionsSavingsOpportunityPercentage"
         case recommendationoptionsstandardoneyearnoupfrontreservedprice = "RecommendationOptionsStandardOneYearNoUpfrontReservedPrice"
         case recommendationoptionsstandardthreeyearnoupfrontreservedprice = "RecommendationOptionsStandardThreeYearNoUpfrontReservedPrice"
         case recommendationoptionsstorage = "RecommendationOptionsStorage"
@@ -105,16 +131,21 @@ extension ComputeOptimizer {
         case currentmemory = "CurrentMemory"
         case currentnetwork = "CurrentNetwork"
         case currentondemandprice = "CurrentOnDemandPrice"
+        case currentperformancerisk = "CurrentPerformanceRisk"
         case currentstandardoneyearnoupfrontreservedprice = "CurrentStandardOneYearNoUpfrontReservedPrice"
         case currentstandardthreeyearnoupfrontreservedprice = "CurrentStandardThreeYearNoUpfrontReservedPrice"
         case currentstorage = "CurrentStorage"
         case currentvcpus = "CurrentVCpus"
+        case effectiverecommendationpreferencescpuvendorarchitectures = "EffectiveRecommendationPreferencesCpuVendorArchitectures"
+        case effectiverecommendationpreferencesenhancedinfrastructuremetrics = "EffectiveRecommendationPreferencesEnhancedInfrastructureMetrics"
         case finding = "Finding"
         case findingreasoncodes = "FindingReasonCodes"
         case instancearn = "InstanceArn"
         case instancename = "InstanceName"
         case lastrefreshtimestamp = "LastRefreshTimestamp"
         case lookbackperiodindays = "LookbackPeriodInDays"
+        case recommendationoptionsestimatedmonthlysavingscurrency = "RecommendationOptionsEstimatedMonthlySavingsCurrency"
+        case recommendationoptionsestimatedmonthlysavingsvalue = "RecommendationOptionsEstimatedMonthlySavingsValue"
         case recommendationoptionsinstancetype = "RecommendationOptionsInstanceType"
         case recommendationoptionsmemory = "RecommendationOptionsMemory"
         case recommendationoptionsnetwork = "RecommendationOptionsNetwork"
@@ -123,6 +154,7 @@ extension ComputeOptimizer {
         case recommendationoptionsplatformdifferences = "RecommendationOptionsPlatformDifferences"
         case recommendationoptionsprojectedutilizationmetricscpumaximum = "RecommendationOptionsProjectedUtilizationMetricsCpuMaximum"
         case recommendationoptionsprojectedutilizationmetricsmemorymaximum = "RecommendationOptionsProjectedUtilizationMetricsMemoryMaximum"
+        case recommendationoptionssavingsopportunitypercentage = "RecommendationOptionsSavingsOpportunityPercentage"
         case recommendationoptionsstandardoneyearnoupfrontreservedprice = "RecommendationOptionsStandardOneYearNoUpfrontReservedPrice"
         case recommendationoptionsstandardthreeyearnoupfrontreservedprice = "RecommendationOptionsStandardThreeYearNoUpfrontReservedPrice"
         case recommendationoptionsstorage = "RecommendationOptionsStorage"
@@ -152,6 +184,7 @@ extension ComputeOptimizer {
         case currentconfigurationtimeout = "CurrentConfigurationTimeout"
         case currentcostaverage = "CurrentCostAverage"
         case currentcosttotal = "CurrentCostTotal"
+        case currentperformancerisk = "CurrentPerformanceRisk"
         case finding = "Finding"
         case findingreasoncodes = "FindingReasonCodes"
         case functionarn = "FunctionArn"
@@ -162,9 +195,12 @@ extension ComputeOptimizer {
         case recommendationoptionsconfigurationmemorysize = "RecommendationOptionsConfigurationMemorySize"
         case recommendationoptionscosthigh = "RecommendationOptionsCostHigh"
         case recommendationoptionscostlow = "RecommendationOptionsCostLow"
+        case recommendationoptionsestimatedmonthlysavingscurrency = "RecommendationOptionsEstimatedMonthlySavingsCurrency"
+        case recommendationoptionsestimatedmonthlysavingsvalue = "RecommendationOptionsEstimatedMonthlySavingsValue"
         case recommendationoptionsprojectedutilizationmetricsdurationexpected = "RecommendationOptionsProjectedUtilizationMetricsDurationExpected"
         case recommendationoptionsprojectedutilizationmetricsdurationlowerbound = "RecommendationOptionsProjectedUtilizationMetricsDurationLowerBound"
         case recommendationoptionsprojectedutilizationmetricsdurationupperbound = "RecommendationOptionsProjectedUtilizationMetricsDurationUpperBound"
+        case recommendationoptionssavingsopportunitypercentage = "RecommendationOptionsSavingsOpportunityPercentage"
         case utilizationmetricsdurationaverage = "UtilizationMetricsDurationAverage"
         case utilizationmetricsdurationmaximum = "UtilizationMetricsDurationMaximum"
         case utilizationmetricsmemoryaverage = "UtilizationMetricsMemoryAverage"
@@ -181,6 +217,7 @@ extension ComputeOptimizer {
         case currentconfigurationvolumesize = "CurrentConfigurationVolumeSize"
         case currentconfigurationvolumetype = "CurrentConfigurationVolumeType"
         case currentmonthlyprice = "CurrentMonthlyPrice"
+        case currentperformancerisk = "CurrentPerformanceRisk"
         case finding = "Finding"
         case lastrefreshtimestamp = "LastRefreshTimestamp"
         case lookbackperiodindays = "LookbackPeriodInDays"
@@ -190,8 +227,11 @@ extension ComputeOptimizer {
         case recommendationoptionsconfigurationvolumeburstthroughput = "RecommendationOptionsConfigurationVolumeBurstThroughput"
         case recommendationoptionsconfigurationvolumesize = "RecommendationOptionsConfigurationVolumeSize"
         case recommendationoptionsconfigurationvolumetype = "RecommendationOptionsConfigurationVolumeType"
+        case recommendationoptionsestimatedmonthlysavingscurrency = "RecommendationOptionsEstimatedMonthlySavingsCurrency"
+        case recommendationoptionsestimatedmonthlysavingsvalue = "RecommendationOptionsEstimatedMonthlySavingsValue"
         case recommendationoptionsmonthlyprice = "RecommendationOptionsMonthlyPrice"
         case recommendationoptionsperformancerisk = "RecommendationOptionsPerformanceRisk"
+        case recommendationoptionssavingsopportunitypercentage = "RecommendationOptionsSavingsOpportunityPercentage"
         case utilizationmetricsvolumereadbytespersecondmaximum = "UtilizationMetricsVolumeReadBytesPerSecondMaximum"
         case utilizationmetricsvolumereadopspersecondmaximum = "UtilizationMetricsVolumeReadOpsPerSecondMaximum"
         case utilizationmetricsvolumewritebytespersecondmaximum = "UtilizationMetricsVolumeWriteBytesPerSecondMaximum"
@@ -339,6 +379,11 @@ extension ComputeOptimizer {
         public var description: String { return self.rawValue }
     }
 
+    public enum RecommendationPreferenceName: String, CustomStringConvertible, Codable {
+        case enhancedinfrastructuremetrics = "EnhancedInfrastructureMetrics"
+        public var description: String { return self.rawValue }
+    }
+
     public enum RecommendationSourceType: String, CustomStringConvertible, Codable {
         case autoscalinggroup = "AutoScalingGroup"
         case ebsvolume = "EbsVolume"
@@ -352,6 +397,13 @@ extension ComputeOptimizer {
         case ebsvolume = "EbsVolume"
         case ec2instance = "Ec2Instance"
         case lambdafunction = "LambdaFunction"
+        public var description: String { return self.rawValue }
+    }
+
+    public enum ScopeName: String, CustomStringConvertible, Codable {
+        case accountid = "AccountId"
+        case organization = "Organization"
+        case resourcearn = "ResourceArn"
         public var description: String { return self.rawValue }
     }
 
@@ -424,9 +476,13 @@ extension ComputeOptimizer {
         public let autoScalingGroupName: String?
         /// An array of objects that describe the current configuration of the Auto Scaling group.
         public let currentConfiguration: AutoScalingGroupConfiguration?
+        /// The risk of the current Auto Scaling group not meeting the performance needs of its workloads. The higher the risk, the more likely the current Auto Scaling group configuration has insufficient capacity and cannot meet workload requirements.
+        public let currentPerformanceRisk: CurrentPerformanceRisk?
+        /// An object that describes the effective recommendation preferences for the Auto Scaling group.
+        public let effectiveRecommendationPreferences: EffectiveRecommendationPreferences?
         /// The finding classification of the Auto Scaling group. Findings for Auto Scaling groups include:     NotOptimized —An Auto Scaling group is considered not optimized when Compute Optimizer identifies a recommendation that can provide better performance for your workload.     Optimized —An Auto Scaling group is considered optimized when Compute Optimizer determines that the group is correctly provisioned to run your workload based on the chosen instance type. For optimized resources, Compute Optimizer might recommend a new generation instance type.
         public let finding: Finding?
-        /// The timestamp of when the Auto Scaling group recommendation was last refreshed.
+        /// The timestamp of when the Auto Scaling group recommendation was last generated.
         public let lastRefreshTimestamp: Date?
         /// The number of days for which utilization metrics were analyzed for the Auto Scaling group.
         public let lookBackPeriodInDays: Double?
@@ -435,11 +491,13 @@ extension ComputeOptimizer {
         /// An array of objects that describe the utilization metrics of the Auto Scaling group.
         public let utilizationMetrics: [UtilizationMetric]?
 
-        public init(accountId: String? = nil, autoScalingGroupArn: String? = nil, autoScalingGroupName: String? = nil, currentConfiguration: AutoScalingGroupConfiguration? = nil, finding: Finding? = nil, lastRefreshTimestamp: Date? = nil, lookBackPeriodInDays: Double? = nil, recommendationOptions: [AutoScalingGroupRecommendationOption]? = nil, utilizationMetrics: [UtilizationMetric]? = nil) {
+        public init(accountId: String? = nil, autoScalingGroupArn: String? = nil, autoScalingGroupName: String? = nil, currentConfiguration: AutoScalingGroupConfiguration? = nil, currentPerformanceRisk: CurrentPerformanceRisk? = nil, effectiveRecommendationPreferences: EffectiveRecommendationPreferences? = nil, finding: Finding? = nil, lastRefreshTimestamp: Date? = nil, lookBackPeriodInDays: Double? = nil, recommendationOptions: [AutoScalingGroupRecommendationOption]? = nil, utilizationMetrics: [UtilizationMetric]? = nil) {
             self.accountId = accountId
             self.autoScalingGroupArn = autoScalingGroupArn
             self.autoScalingGroupName = autoScalingGroupName
             self.currentConfiguration = currentConfiguration
+            self.currentPerformanceRisk = currentPerformanceRisk
+            self.effectiveRecommendationPreferences = effectiveRecommendationPreferences
             self.finding = finding
             self.lastRefreshTimestamp = lastRefreshTimestamp
             self.lookBackPeriodInDays = lookBackPeriodInDays
@@ -452,6 +510,8 @@ extension ComputeOptimizer {
             case autoScalingGroupArn
             case autoScalingGroupName
             case currentConfiguration
+            case currentPerformanceRisk
+            case effectiveRecommendationPreferences
             case finding
             case lastRefreshTimestamp
             case lookBackPeriodInDays
@@ -469,12 +529,15 @@ extension ComputeOptimizer {
         public let projectedUtilizationMetrics: [UtilizationMetric]?
         /// The rank of the Auto Scaling group recommendation option. The top recommendation option is ranked as 1.
         public let rank: Int?
+        /// An object that describes the savings opportunity for the Auto Scaling group recommendation option. Savings opportunity includes the estimated monthly savings amount and percentage.
+        public let savingsOpportunity: SavingsOpportunity?
 
-        public init(configuration: AutoScalingGroupConfiguration? = nil, performanceRisk: Double? = nil, projectedUtilizationMetrics: [UtilizationMetric]? = nil, rank: Int? = nil) {
+        public init(configuration: AutoScalingGroupConfiguration? = nil, performanceRisk: Double? = nil, projectedUtilizationMetrics: [UtilizationMetric]? = nil, rank: Int? = nil, savingsOpportunity: SavingsOpportunity? = nil) {
             self.configuration = configuration
             self.performanceRisk = performanceRisk
             self.projectedUtilizationMetrics = projectedUtilizationMetrics
             self.rank = rank
+            self.savingsOpportunity = savingsOpportunity
         }
 
         private enum CodingKeys: String, CodingKey {
@@ -482,7 +545,58 @@ extension ComputeOptimizer {
             case performanceRisk
             case projectedUtilizationMetrics
             case rank
+            case savingsOpportunity
         }
+    }
+
+    public struct CurrentPerformanceRiskRatings: AWSDecodableShape {
+        /// A count of the applicable resource types with a high performance risk rating.
+        public let high: Int64?
+        /// A count of the applicable resource types with a low performance risk rating.
+        public let low: Int64?
+        /// A count of the applicable resource types with a medium performance risk rating.
+        public let medium: Int64?
+        /// A count of the applicable resource types with a very low performance risk rating.
+        public let veryLow: Int64?
+
+        public init(high: Int64? = nil, low: Int64? = nil, medium: Int64? = nil, veryLow: Int64? = nil) {
+            self.high = high
+            self.low = low
+            self.medium = medium
+            self.veryLow = veryLow
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case high
+            case low
+            case medium
+            case veryLow
+        }
+    }
+
+    public struct DeleteRecommendationPreferencesRequest: AWSEncodableShape {
+        /// The name of the recommendation preference to delete. Enhanced infrastructure metrics (EnhancedInfrastructureMetrics) is the only feature that can be activated through preferences. Therefore, it is also the only recommendation preference that can be deleted.
+        public let recommendationPreferenceNames: [RecommendationPreferenceName]
+        /// The target resource type of the recommendation preference to delete. The Ec2Instance option encompasses standalone instances and instances that are part of Auto Scaling groups. The AutoScalingGroup option encompasses only instances that are part of an Auto Scaling group.
+        public let resourceType: ResourceType
+        /// An object that describes the scope of the recommendation preference to delete. You can delete recommendation preferences that are created at the organization level (for management accounts of an organization only), account level, and resource level. For more information, see Activating enhanced infrastructure metrics in the Compute Optimizer User Guide.
+        public let scope: Scope?
+
+        public init(recommendationPreferenceNames: [RecommendationPreferenceName], resourceType: ResourceType, scope: Scope? = nil) {
+            self.recommendationPreferenceNames = recommendationPreferenceNames
+            self.resourceType = resourceType
+            self.scope = scope
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case recommendationPreferenceNames
+            case resourceType
+            case scope
+        }
+    }
+
+    public struct DeleteRecommendationPreferencesResponse: AWSDecodableShape {
+        public init() {}
     }
 
     public struct DescribeRecommendationExportJobsRequest: AWSEncodableShape {
@@ -565,6 +679,23 @@ extension ComputeOptimizer {
         }
     }
 
+    public struct EffectiveRecommendationPreferences: AWSDecodableShape {
+        /// Describes the CPU vendor and architecture for an instance or Auto Scaling group recommendations. For example, when you specify AWS_ARM64 with:   A GetEC2InstanceRecommendations or GetAutoScalingGroupRecommendations request, Compute Optimizer returns recommendations that consist of Graviton2 instance types only.   A GetEC2RecommendationProjectedMetrics request, Compute Optimizer returns projected utilization metrics for Graviton2 instance type recommendations only.   A ExportEC2InstanceRecommendations or ExportAutoScalingGroupRecommendations request, Compute Optimizer exports recommendations that consist of Graviton2 instance types only.
+        public let cpuVendorArchitectures: [CpuVendorArchitecture]?
+        /// Describes the activation status of the enhanced infrastructure metrics preference. A status of Active confirms that the preference is applied in the latest recommendation refresh, and a status of Inactive confirms that it's not yet applied.
+        public let enhancedInfrastructureMetrics: EnhancedInfrastructureMetrics?
+
+        public init(cpuVendorArchitectures: [CpuVendorArchitecture]? = nil, enhancedInfrastructureMetrics: EnhancedInfrastructureMetrics? = nil) {
+            self.cpuVendorArchitectures = cpuVendorArchitectures
+            self.enhancedInfrastructureMetrics = enhancedInfrastructureMetrics
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case cpuVendorArchitectures
+            case enhancedInfrastructureMetrics
+        }
+    }
+
     public struct EnrollmentFilter: AWSEncodableShape {
         /// The name of the filter. Specify Status to return accounts with a specific enrollment status (for example, Active).
         public let name: EnrollmentFilterName?
@@ -579,6 +710,23 @@ extension ComputeOptimizer {
         private enum CodingKeys: String, CodingKey {
             case name
             case values
+        }
+    }
+
+    public struct EstimatedMonthlySavings: AWSDecodableShape {
+        /// The currency of the estimated monthly savings.
+        public let currency: Currency?
+        /// The value of the estimated monthly savings.
+        public let value: Double?
+
+        public init(currency: Currency? = nil, value: Double? = nil) {
+            self.currency = currency
+            self.value = value
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case currency
+            case value
         }
     }
 
@@ -710,7 +858,7 @@ extension ComputeOptimizer {
         public let includeMemberAccounts: Bool?
         /// An object to specify the preferences for the Amazon EC2 instance recommendations to export.
         public let recommendationPreferences: RecommendationPreferences?
-        /// An object to specify the destination Amazon Simple Storage Service (Amazon S3) bucket name and key prefix for the export job. You must create the destination Amazon S3 bucket for your recommendations export before you create the export job. Compute Optimizer does not create the S3 bucket for you. After you create the S3 bucket, ensure that it has the required permissions policy policy to allow Compute Optimizer to write the export file to it. If you plan to specify an object prefix when you create the export job, you must include the object prefix in the that you add to the S3 bucket. For more information, see Amazon S3 Bucket Policy for Compute Optimizer in the Compute Optimizer User Guide.
+        /// An object to specify the destination Amazon Simple Storage Service (Amazon S3) bucket name and key prefix for the export job. You must create the destination Amazon S3 bucket for your recommendations export before you create the export job. Compute Optimizer does not create the S3 bucket for you. After you create the S3 bucket, ensure that it has the required permissions policy to allow Compute Optimizer to write the export file to it. If you plan to specify an object prefix when you create the export job, you must include the object prefix in the policy that you add to the S3 bucket. For more information, see Amazon S3 Bucket Policy for Compute Optimizer in the Compute Optimizer User Guide.
         public let s3DestinationConfig: S3DestinationConfig
 
         public init(accountIds: [String]? = nil, fieldsToExport: [ExportableInstanceField]? = nil, fileFormat: FileFormat? = nil, filters: [Filter]? = nil, includeMemberAccounts: Bool? = nil, recommendationPreferences: RecommendationPreferences? = nil, s3DestinationConfig: S3DestinationConfig) {
@@ -1020,6 +1168,32 @@ extension ComputeOptimizer {
         }
     }
 
+    public struct GetEffectiveRecommendationPreferencesRequest: AWSEncodableShape {
+        /// The Amazon Resource Name (ARN) of the resource for which to confirm effective recommendation preferences. Only EC2 instance and Auto Scaling group ARNs are currently supported.
+        public let resourceArn: String
+
+        public init(resourceArn: String) {
+            self.resourceArn = resourceArn
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case resourceArn
+        }
+    }
+
+    public struct GetEffectiveRecommendationPreferencesResponse: AWSDecodableShape {
+        /// The status of the enhanced infrastructure metrics recommendation preference. Considers all applicable preferences that you might have set at the resource, account, and organization level. A status of Active confirms that the preference is applied in the latest recommendation refresh, and a status of Inactive confirms that it's not yet applied. To validate whether the preference is applied to your last generated set of recommendations, review the effectiveRecommendationPreferences value in the response of the GetAutoScalingGroupRecommendations and GetEC2InstanceRecommendations actions.
+        public let enhancedInfrastructureMetrics: EnhancedInfrastructureMetrics?
+
+        public init(enhancedInfrastructureMetrics: EnhancedInfrastructureMetrics? = nil) {
+            self.enhancedInfrastructureMetrics = enhancedInfrastructureMetrics
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case enhancedInfrastructureMetrics
+        }
+    }
+
     public struct GetEnrollmentStatusRequest: AWSEncodableShape {
         public init() {}
     }
@@ -1158,6 +1332,48 @@ extension ComputeOptimizer {
         }
     }
 
+    public struct GetRecommendationPreferencesRequest: AWSEncodableShape {
+        /// The maximum number of recommendation preferences to return with a single request. To retrieve the remaining results, make another request with the returned nextToken value.
+        public let maxResults: Int?
+        /// The token to advance to the next page of recommendation preferences.
+        public let nextToken: String?
+        /// The target resource type of the recommendation preference for which to return preferences. The Ec2Instance option encompasses standalone instances and instances that are part of Auto Scaling groups. The AutoScalingGroup option encompasses only instances that are part of an Auto Scaling group.
+        public let resourceType: ResourceType
+        /// An object that describes the scope of the recommendation preference to return. You can return recommendation preferences that are created at the organization level (for management accounts of an organization only), account level, and resource level. For more information, see Activating enhanced infrastructure metrics in the Compute Optimizer User Guide.
+        public let scope: Scope?
+
+        public init(maxResults: Int? = nil, nextToken: String? = nil, resourceType: ResourceType, scope: Scope? = nil) {
+            self.maxResults = maxResults
+            self.nextToken = nextToken
+            self.resourceType = resourceType
+            self.scope = scope
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case maxResults
+            case nextToken
+            case resourceType
+            case scope
+        }
+    }
+
+    public struct GetRecommendationPreferencesResponse: AWSDecodableShape {
+        /// The token to use to advance to the next page of recommendation preferences. This value is null when there are no more pages of recommendation preferences to return.
+        public let nextToken: String?
+        /// An array of objects that describe recommendation preferences.
+        public let recommendationPreferencesDetails: [RecommendationPreferencesDetail]?
+
+        public init(nextToken: String? = nil, recommendationPreferencesDetails: [RecommendationPreferencesDetail]? = nil) {
+            self.nextToken = nextToken
+            self.recommendationPreferencesDetails = recommendationPreferencesDetails
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case nextToken
+            case recommendationPreferencesDetails
+        }
+    }
+
     public struct GetRecommendationSummariesRequest: AWSEncodableShape {
         /// The ID of the Amazon Web Services account for which to return recommendation summaries. If your account is the management account of an organization, use this parameter to specify the member account for which you want to return recommendation summaries. Only one account ID can be specified per request.
         public let accountIds: [String]?
@@ -1201,6 +1417,10 @@ extension ComputeOptimizer {
         public let accountId: String?
         /// The instance type of the current instance.
         public let currentInstanceType: String?
+        /// The risk of the current instance not meeting the performance needs of its workloads. The higher the risk, the more likely the current Lambda function requires more memory.
+        public let currentPerformanceRisk: CurrentPerformanceRisk?
+        /// An object that describes the effective recommendation preferences for the instance.
+        public let effectiveRecommendationPreferences: EffectiveRecommendationPreferences?
         /// The finding classification of the instance. Findings for instances include:     Underprovisioned —An instance is considered under-provisioned when at least one specification of your instance, such as CPU, memory, or network, does not meet the performance requirements of your workload. Under-provisioned instances may lead to poor application performance.     Overprovisioned —An instance is considered over-provisioned when at least one specification of your instance, such as CPU, memory, or network, can be sized down while still meeting the performance requirements of your workload, and no specification is under-provisioned. Over-provisioned instances may lead to unnecessary infrastructure cost.     Optimized —An instance is considered optimized when all specifications of your instance, such as CPU, memory, and network, meet the performance requirements of your workload and is not over provisioned. For optimized resources, Compute Optimizer might recommend a new generation instance type.
         public let finding: Finding?
         /// The reason for the finding classification of the instance. Finding reason codes for instances include:     CPUOverprovisioned  — The instance’s CPU configuration can be sized down while still meeting the performance requirements of your workload. This is identified by analyzing the CPUUtilization metric of the current instance during the look-back period.     CPUUnderprovisioned  — The instance’s CPU configuration doesn't meet the performance requirements of your workload and there is an alternative instance type that provides better CPU performance. This is identified by analyzing the CPUUtilization metric of the current instance during the look-back period.     MemoryOverprovisioned  — The instance’s memory configuration can be sized down while still meeting the performance requirements of your workload. This is identified by analyzing the memory utilization metric of the current instance during the look-back period.     MemoryUnderprovisioned  — The instance’s memory configuration doesn't meet the performance requirements of your workload and there is an alternative instance type that provides better memory performance. This is identified by analyzing the memory utilization metric of the current instance during the look-back period.  Memory utilization is analyzed only for resources that have the unified CloudWatch agent installed on them. For more information, see Enabling memory utilization with the Amazon CloudWatch Agent in the Compute Optimizer User Guide. On Linux instances, Compute Optimizer analyses the mem_used_percent metric in the CWAgent namespace, or the legacy MemoryUtilization metric in the System/Linux namespace. On Windows instances, Compute Optimizer analyses the Memory % Committed Bytes In Use metric in the CWAgent namespace.      EBSThroughputOverprovisioned  — The instance’s EBS throughput configuration can be sized down while still meeting the performance requirements of your workload. This is identified by analyzing the VolumeReadOps and VolumeWriteOps metrics of EBS volumes attached to the current instance during the look-back period.     EBSThroughputUnderprovisioned  — The instance’s EBS throughput configuration doesn't meet the performance requirements of your workload and there is an alternative instance type that provides better EBS throughput performance. This is identified by analyzing the VolumeReadOps and VolumeWriteOps metrics of EBS volumes attached to the current instance during the look-back period.     EBSIOPSOverprovisioned  — The instance’s EBS IOPS configuration can be sized down while still meeting the performance requirements of your workload. This is identified by analyzing the VolumeReadBytes and VolumeWriteBytes metric of EBS volumes attached to the current instance during the look-back period.     EBSIOPSUnderprovisioned  — The instance’s EBS IOPS configuration doesn't meet the performance requirements of your workload and there is an alternative instance type that provides better EBS IOPS performance. This is identified by analyzing the VolumeReadBytes and VolumeWriteBytes metric of EBS volumes attached to the current instance during the look-back period.     NetworkBandwidthOverprovisioned  — The instance’s network bandwidth configuration can be sized down while still meeting the performance requirements of your workload. This is identified by analyzing the NetworkIn and NetworkOut metrics of the current instance during the look-back period.     NetworkBandwidthUnderprovisioned  — The instance’s network bandwidth configuration doesn't meet the performance requirements of your workload and there is an alternative instance type that provides better network bandwidth performance. This is identified by analyzing the NetworkIn and NetworkOut metrics of the current instance during the look-back period. This finding reason happens when the NetworkIn or NetworkOut performance of an instance is impacted.     NetworkPPSOverprovisioned  — The instance’s network PPS (packets per second) configuration can be sized down while still meeting the performance requirements of your workload. This is identified by analyzing the NetworkPacketsIn and NetworkPacketsIn metrics of the current instance during the look-back period.     NetworkPPSUnderprovisioned  — The instance’s network PPS (packets per second) configuration doesn't meet the performance requirements of your workload and there is an alternative instance type that provides better network PPS performance. This is identified by analyzing the NetworkPacketsIn and NetworkPacketsIn metrics of the current instance during the look-back period.     DiskIOPSOverprovisioned  — The instance’s disk IOPS configuration can be sized down while still meeting the performance requirements of your workload. This is identified by analyzing the DiskReadOps and DiskWriteOps metrics of the current instance during the look-back period.     DiskIOPSUnderprovisioned  — The instance’s disk IOPS configuration doesn't meet the performance requirements of your workload and there is an alternative instance type that provides better disk IOPS performance. This is identified by analyzing the DiskReadOps and DiskWriteOps metrics of the current instance during the look-back period.     DiskThroughputOverprovisioned  — The instance’s disk throughput configuration can be sized down while still meeting the performance requirements of your workload. This is identified by analyzing the DiskReadBytes and DiskWriteBytes metrics of the current instance during the look-back period.     DiskThroughputUnderprovisioned  — The instance’s disk throughput configuration doesn't meet the performance requirements of your workload and there is an alternative instance type that provides better disk throughput performance. This is identified by analyzing the DiskReadBytes and DiskWriteBytes metrics of the current instance during the look-back period.    For more information about instance metrics, see List the available CloudWatch metrics for your instances in the Amazon Elastic Compute Cloud User Guide. For more information about EBS volume metrics, see Amazon CloudWatch metrics for Amazon EBS in the Amazon Elastic Compute Cloud User Guide.
@@ -1209,7 +1429,7 @@ extension ComputeOptimizer {
         public let instanceArn: String?
         /// The name of the current instance.
         public let instanceName: String?
-        /// The timestamp of when the instance recommendation was last refreshed.
+        /// The timestamp of when the instance recommendation was last generated.
         public let lastRefreshTimestamp: Date?
         /// The number of days for which utilization metrics were analyzed for the instance.
         public let lookBackPeriodInDays: Double?
@@ -1220,9 +1440,11 @@ extension ComputeOptimizer {
         /// An array of objects that describe the utilization metrics of the instance.
         public let utilizationMetrics: [UtilizationMetric]?
 
-        public init(accountId: String? = nil, currentInstanceType: String? = nil, finding: Finding? = nil, findingReasonCodes: [InstanceRecommendationFindingReasonCode]? = nil, instanceArn: String? = nil, instanceName: String? = nil, lastRefreshTimestamp: Date? = nil, lookBackPeriodInDays: Double? = nil, recommendationOptions: [InstanceRecommendationOption]? = nil, recommendationSources: [RecommendationSource]? = nil, utilizationMetrics: [UtilizationMetric]? = nil) {
+        public init(accountId: String? = nil, currentInstanceType: String? = nil, currentPerformanceRisk: CurrentPerformanceRisk? = nil, effectiveRecommendationPreferences: EffectiveRecommendationPreferences? = nil, finding: Finding? = nil, findingReasonCodes: [InstanceRecommendationFindingReasonCode]? = nil, instanceArn: String? = nil, instanceName: String? = nil, lastRefreshTimestamp: Date? = nil, lookBackPeriodInDays: Double? = nil, recommendationOptions: [InstanceRecommendationOption]? = nil, recommendationSources: [RecommendationSource]? = nil, utilizationMetrics: [UtilizationMetric]? = nil) {
             self.accountId = accountId
             self.currentInstanceType = currentInstanceType
+            self.currentPerformanceRisk = currentPerformanceRisk
+            self.effectiveRecommendationPreferences = effectiveRecommendationPreferences
             self.finding = finding
             self.findingReasonCodes = findingReasonCodes
             self.instanceArn = instanceArn
@@ -1237,6 +1459,8 @@ extension ComputeOptimizer {
         private enum CodingKeys: String, CodingKey {
             case accountId
             case currentInstanceType
+            case currentPerformanceRisk
+            case effectiveRecommendationPreferences
             case finding
             case findingReasonCodes
             case instanceArn
@@ -1260,13 +1484,16 @@ extension ComputeOptimizer {
         public let projectedUtilizationMetrics: [UtilizationMetric]?
         /// The rank of the instance recommendation option. The top recommendation option is ranked as 1.
         public let rank: Int?
+        /// An object that describes the savings opportunity for the instance recommendation option. Savings opportunity includes the estimated monthly savings amount and percentage.
+        public let savingsOpportunity: SavingsOpportunity?
 
-        public init(instanceType: String? = nil, performanceRisk: Double? = nil, platformDifferences: [PlatformDifference]? = nil, projectedUtilizationMetrics: [UtilizationMetric]? = nil, rank: Int? = nil) {
+        public init(instanceType: String? = nil, performanceRisk: Double? = nil, platformDifferences: [PlatformDifference]? = nil, projectedUtilizationMetrics: [UtilizationMetric]? = nil, rank: Int? = nil, savingsOpportunity: SavingsOpportunity? = nil) {
             self.instanceType = instanceType
             self.performanceRisk = performanceRisk
             self.platformDifferences = platformDifferences
             self.projectedUtilizationMetrics = projectedUtilizationMetrics
             self.rank = rank
+            self.savingsOpportunity = savingsOpportunity
         }
 
         private enum CodingKeys: String, CodingKey {
@@ -1275,6 +1502,7 @@ extension ComputeOptimizer {
             case platformDifferences
             case projectedUtilizationMetrics
             case rank
+            case savingsOpportunity
         }
     }
 
@@ -1323,17 +1551,21 @@ extension ComputeOptimizer {
         public let projectedUtilizationMetrics: [LambdaFunctionMemoryProjectedMetric]?
         /// The rank of the function recommendation option. The top recommendation option is ranked as 1.
         public let rank: Int?
+        /// An object that describes the savings opportunity for the Lambda function recommendation option. Savings opportunity includes the estimated monthly savings amount and percentage.
+        public let savingsOpportunity: SavingsOpportunity?
 
-        public init(memorySize: Int? = nil, projectedUtilizationMetrics: [LambdaFunctionMemoryProjectedMetric]? = nil, rank: Int? = nil) {
+        public init(memorySize: Int? = nil, projectedUtilizationMetrics: [LambdaFunctionMemoryProjectedMetric]? = nil, rank: Int? = nil, savingsOpportunity: SavingsOpportunity? = nil) {
             self.memorySize = memorySize
             self.projectedUtilizationMetrics = projectedUtilizationMetrics
             self.rank = rank
+            self.savingsOpportunity = savingsOpportunity
         }
 
         private enum CodingKeys: String, CodingKey {
             case memorySize
             case projectedUtilizationMetrics
             case rank
+            case savingsOpportunity
         }
     }
 
@@ -1342,6 +1574,8 @@ extension ComputeOptimizer {
         public let accountId: String?
         /// The amount of memory, in MB, that's allocated to the current function.
         public let currentMemorySize: Int?
+        /// The risk of the current Lambda function not meeting the performance needs of its workloads. The higher the risk, the more likely the current Lambda function configuration is underperforming in its workload.
+        public let currentPerformanceRisk: CurrentPerformanceRisk?
         /// The finding classification of the function. Findings for functions include:     Optimized  — The function is correctly provisioned to run your workload based on its current configuration and its utilization history. This finding classification does not include finding reason codes.     NotOptimized  — The function is performing at a higher level (over-provisioned) or at a lower level (under-provisioned) than required for your workload because its current configuration is not optimal. Over-provisioned resources might lead to unnecessary infrastructure cost, and under-provisioned resources might lead to poor application performance. This finding classification can include the MemoryUnderprovisioned and MemoryUnderprovisioned finding reason codes.     Unavailable  — Compute Optimizer was unable to generate a recommendation for the function. This could be because the function has not accumulated sufficient metric data, or the function does not qualify for a recommendation. This finding classification can include the InsufficientData and Inconclusive finding reason codes.  Functions with a finding of unavailable are not returned unless you specify the filter parameter with a value of Unavailable in your GetLambdaFunctionRecommendations request.
         public let finding: LambdaFunctionRecommendationFinding?
         /// The reason for the finding classification of the function.  Functions that have a finding classification of Optimized don't have a finding reason code.  Finding reason codes for functions include:     MemoryOverprovisioned  — The function is over-provisioned when its memory configuration can be sized down while still meeting the performance requirements of your workload. An over-provisioned function might lead to unnecessary infrastructure cost. This finding reason code is part of the NotOptimized finding classification.     MemoryUnderprovisioned  — The function is under-provisioned when its memory configuration doesn't meet the performance requirements of the workload. An under-provisioned function might lead to poor application performance. This finding reason code is part of the NotOptimized finding classification.     InsufficientData  — The function does not have sufficient metric data for Compute Optimizer to generate a recommendation. For more information, see the Supported resources and requirements in the Compute Optimizer User Guide. This finding reason code is part of the Unavailable finding classification.     Inconclusive  — The function does not qualify for a recommendation because Compute Optimizer cannot generate a recommendation with a high degree of confidence. This finding reason code is part of the Unavailable finding classification.
@@ -1350,7 +1584,7 @@ extension ComputeOptimizer {
         public let functionArn: String?
         /// The version number of the current function.
         public let functionVersion: String?
-        /// The timestamp of when the function recommendation was last refreshed.
+        /// The timestamp of when the function recommendation was last generated.
         public let lastRefreshTimestamp: Date?
         /// The number of days for which utilization metrics were analyzed for the function.
         public let lookbackPeriodInDays: Double?
@@ -1361,9 +1595,10 @@ extension ComputeOptimizer {
         /// An array of objects that describe the utilization metrics of the function.
         public let utilizationMetrics: [LambdaFunctionUtilizationMetric]?
 
-        public init(accountId: String? = nil, currentMemorySize: Int? = nil, finding: LambdaFunctionRecommendationFinding? = nil, findingReasonCodes: [LambdaFunctionRecommendationFindingReasonCode]? = nil, functionArn: String? = nil, functionVersion: String? = nil, lastRefreshTimestamp: Date? = nil, lookbackPeriodInDays: Double? = nil, memorySizeRecommendationOptions: [LambdaFunctionMemoryRecommendationOption]? = nil, numberOfInvocations: Int64? = nil, utilizationMetrics: [LambdaFunctionUtilizationMetric]? = nil) {
+        public init(accountId: String? = nil, currentMemorySize: Int? = nil, currentPerformanceRisk: CurrentPerformanceRisk? = nil, finding: LambdaFunctionRecommendationFinding? = nil, findingReasonCodes: [LambdaFunctionRecommendationFindingReasonCode]? = nil, functionArn: String? = nil, functionVersion: String? = nil, lastRefreshTimestamp: Date? = nil, lookbackPeriodInDays: Double? = nil, memorySizeRecommendationOptions: [LambdaFunctionMemoryRecommendationOption]? = nil, numberOfInvocations: Int64? = nil, utilizationMetrics: [LambdaFunctionUtilizationMetric]? = nil) {
             self.accountId = accountId
             self.currentMemorySize = currentMemorySize
+            self.currentPerformanceRisk = currentPerformanceRisk
             self.finding = finding
             self.findingReasonCodes = findingReasonCodes
             self.functionArn = functionArn
@@ -1378,6 +1613,7 @@ extension ComputeOptimizer {
         private enum CodingKeys: String, CodingKey {
             case accountId
             case currentMemorySize
+            case currentPerformanceRisk
             case finding
             case findingReasonCodes
             case functionArn
@@ -1449,6 +1685,31 @@ extension ComputeOptimizer {
         }
     }
 
+    public struct PutRecommendationPreferencesRequest: AWSEncodableShape {
+        /// The status of the enhanced infrastructure metrics recommendation preference to create or update. A status of Active confirms that the preference is applied in the latest recommendation refresh, and a status of Inactive confirms that it's not yet applied.
+        public let enhancedInfrastructureMetrics: EnhancedInfrastructureMetrics?
+        /// The target resource type of the recommendation preference to create. The Ec2Instance option encompasses standalone instances and instances that are part of Auto Scaling groups. The AutoScalingGroup option encompasses only instances that are part of an Auto Scaling group.
+        public let resourceType: ResourceType
+        /// An object that describes the scope of the recommendation preference to create. You can create recommendation preferences at the organization level (for management accounts of an organization only), account level, and resource level. For more information, see Activating enhanced infrastructure metrics in the Compute Optimizer User Guide.  You cannot create recommendation preferences for Auto Scaling groups at the organization and account levels. You can create recommendation preferences for Auto Scaling groups only at the resource level by specifying a scope name of ResourceArn and a scope value of the Auto Scaling group Amazon Resource Name (ARN). This will configure the preference for all instances that are part of the specified the Auto Scaling group.
+        public let scope: Scope?
+
+        public init(enhancedInfrastructureMetrics: EnhancedInfrastructureMetrics? = nil, resourceType: ResourceType, scope: Scope? = nil) {
+            self.enhancedInfrastructureMetrics = enhancedInfrastructureMetrics
+            self.resourceType = resourceType
+            self.scope = scope
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case enhancedInfrastructureMetrics
+            case resourceType
+            case scope
+        }
+    }
+
+    public struct PutRecommendationPreferencesResponse: AWSDecodableShape {
+        public init() {}
+    }
+
     public struct ReasonCodeSummary: AWSDecodableShape {
         /// The name of the finding reason code.
         public let name: FindingReasonCode?
@@ -1516,6 +1777,27 @@ extension ComputeOptimizer {
         }
     }
 
+    public struct RecommendationPreferencesDetail: AWSDecodableShape {
+        /// The status of the enhanced infrastructure metrics recommendation preference. A status of Active confirms that the preference is applied in the latest recommendation refresh, and a status of Inactive confirms that it's not yet applied.
+        public let enhancedInfrastructureMetrics: EnhancedInfrastructureMetrics?
+        /// The target resource type of the recommendation preference to create. The Ec2Instance option encompasses standalone instances and instances that are part of Auto Scaling groups. The AutoScalingGroup option encompasses only instances that are part of an Auto Scaling group.
+        public let resourceType: ResourceType?
+        /// An object that describes the scope of the recommendation preference. Recommendation preferences can be created at the organization level (for management accounts of an organization only), account level, and resource level. For more information, see Activating enhanced infrastructure metrics in the Compute Optimizer User Guide.
+        public let scope: Scope?
+
+        public init(enhancedInfrastructureMetrics: EnhancedInfrastructureMetrics? = nil, resourceType: ResourceType? = nil, scope: Scope? = nil) {
+            self.enhancedInfrastructureMetrics = enhancedInfrastructureMetrics
+            self.resourceType = resourceType
+            self.scope = scope
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case enhancedInfrastructureMetrics
+            case resourceType
+            case scope
+        }
+    }
+
     public struct RecommendationSource: AWSDecodableShape {
         /// The Amazon Resource Name (ARN) of the recommendation source.
         public let recommendationSourceArn: String?
@@ -1536,20 +1818,28 @@ extension ComputeOptimizer {
     public struct RecommendationSummary: AWSDecodableShape {
         /// The Amazon Web Services account ID of the recommendation summary.
         public let accountId: String?
-        /// The resource type of the recommendation.
+        /// An object that describes the performance risk ratings for a given resource type.
+        public let currentPerformanceRiskRatings: CurrentPerformanceRiskRatings?
+        /// The resource type that the recommendation summary applies to.
         public let recommendationResourceType: RecommendationSourceType?
+        /// An object that describes the savings opportunity for a given resource type. Savings opportunity includes the estimated monthly savings amount and percentage.
+        public let savingsOpportunity: SavingsOpportunity?
         /// An array of objects that describe a recommendation summary.
         public let summaries: [Summary]?
 
-        public init(accountId: String? = nil, recommendationResourceType: RecommendationSourceType? = nil, summaries: [Summary]? = nil) {
+        public init(accountId: String? = nil, currentPerformanceRiskRatings: CurrentPerformanceRiskRatings? = nil, recommendationResourceType: RecommendationSourceType? = nil, savingsOpportunity: SavingsOpportunity? = nil, summaries: [Summary]? = nil) {
             self.accountId = accountId
+            self.currentPerformanceRiskRatings = currentPerformanceRiskRatings
             self.recommendationResourceType = recommendationResourceType
+            self.savingsOpportunity = savingsOpportunity
             self.summaries = summaries
         }
 
         private enum CodingKeys: String, CodingKey {
             case accountId
+            case currentPerformanceRiskRatings
             case recommendationResourceType
+            case savingsOpportunity
             case summaries
         }
     }
@@ -1610,6 +1900,40 @@ extension ComputeOptimizer {
         private enum CodingKeys: String, CodingKey {
             case bucket
             case keyPrefix
+        }
+    }
+
+    public struct SavingsOpportunity: AWSDecodableShape {
+        /// An object that describes the estimated monthly savings amount possible based on On-Demand instance pricing.
+        public let estimatedMonthlySavings: EstimatedMonthlySavings?
+        /// The estimated monthly savings possible as a percentage of monthly cost.
+        public let savingsOpportunityPercentage: Double?
+
+        public init(estimatedMonthlySavings: EstimatedMonthlySavings? = nil, savingsOpportunityPercentage: Double? = nil) {
+            self.estimatedMonthlySavings = estimatedMonthlySavings
+            self.savingsOpportunityPercentage = savingsOpportunityPercentage
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case estimatedMonthlySavings
+            case savingsOpportunityPercentage
+        }
+    }
+
+    public struct Scope: AWSEncodableShape & AWSDecodableShape {
+        /// The name of the scope. The following scopes are possible:    Organization - Specifies that the recommendation preference applies at the organization level, for all member accounts of an organization.    AccountId - Specifies that the recommendation preference applies at the account level, for all resources of a given resource type in an account.    ResourceArn - Specifies that the recommendation preference applies at the individual resource level.
+        public let name: ScopeName?
+        /// The value of the scope. If you specified the name of the scope as:    Organization - The value must be ALL_ACCOUNTS.    AccountId - The value must be a 12-digit Amazon Web Services account ID.    ResourceArn - The value must be the Amazon Resource Name (ARN) of an EC2 instance or an Auto Scaling group.   Only EC2 instance and Auto Scaling group ARNs are currently supported.
+        public let value: String?
+
+        public init(name: ScopeName? = nil, value: String? = nil) {
+            self.name = name
+            self.value = value
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case name
+            case value
         }
     }
 
@@ -1727,9 +2051,11 @@ extension ComputeOptimizer {
         public let accountId: String?
         /// An array of objects that describe the current configuration of the volume.
         public let currentConfiguration: VolumeConfiguration?
+        /// The risk of the current EBS volume not meeting the performance needs of its workloads. The higher the risk, the more likely the current EBS volume doesn't have sufficient capacity.
+        public let currentPerformanceRisk: CurrentPerformanceRisk?
         /// The finding classification of the volume. Findings for volumes include:     NotOptimized —A volume is considered not optimized when Compute Optimizer identifies a recommendation that can provide better performance for your workload.     Optimized —An volume is considered optimized when Compute Optimizer determines that the volume is correctly provisioned to run your workload based on the chosen volume type. For optimized resources, Compute Optimizer might recommend a new generation volume type.
         public let finding: EBSFinding?
-        /// The timestamp of when the volume recommendation was last refreshed.
+        /// The timestamp of when the volume recommendation was last generated.
         public let lastRefreshTimestamp: Date?
         /// The number of days for which utilization metrics were analyzed for the volume.
         public let lookBackPeriodInDays: Double?
@@ -1740,9 +2066,10 @@ extension ComputeOptimizer {
         /// An array of objects that describe the recommendation options for the volume.
         public let volumeRecommendationOptions: [VolumeRecommendationOption]?
 
-        public init(accountId: String? = nil, currentConfiguration: VolumeConfiguration? = nil, finding: EBSFinding? = nil, lastRefreshTimestamp: Date? = nil, lookBackPeriodInDays: Double? = nil, utilizationMetrics: [EBSUtilizationMetric]? = nil, volumeArn: String? = nil, volumeRecommendationOptions: [VolumeRecommendationOption]? = nil) {
+        public init(accountId: String? = nil, currentConfiguration: VolumeConfiguration? = nil, currentPerformanceRisk: CurrentPerformanceRisk? = nil, finding: EBSFinding? = nil, lastRefreshTimestamp: Date? = nil, lookBackPeriodInDays: Double? = nil, utilizationMetrics: [EBSUtilizationMetric]? = nil, volumeArn: String? = nil, volumeRecommendationOptions: [VolumeRecommendationOption]? = nil) {
             self.accountId = accountId
             self.currentConfiguration = currentConfiguration
+            self.currentPerformanceRisk = currentPerformanceRisk
             self.finding = finding
             self.lastRefreshTimestamp = lastRefreshTimestamp
             self.lookBackPeriodInDays = lookBackPeriodInDays
@@ -1754,6 +2081,7 @@ extension ComputeOptimizer {
         private enum CodingKeys: String, CodingKey {
             case accountId
             case currentConfiguration
+            case currentPerformanceRisk
             case finding
             case lastRefreshTimestamp
             case lookBackPeriodInDays
@@ -1770,17 +2098,21 @@ extension ComputeOptimizer {
         public let performanceRisk: Double?
         /// The rank of the volume recommendation option. The top recommendation option is ranked as 1.
         public let rank: Int?
+        /// An object that describes the savings opportunity for the EBS volume recommendation option. Savings opportunity includes the estimated monthly savings amount and percentage.
+        public let savingsOpportunity: SavingsOpportunity?
 
-        public init(configuration: VolumeConfiguration? = nil, performanceRisk: Double? = nil, rank: Int? = nil) {
+        public init(configuration: VolumeConfiguration? = nil, performanceRisk: Double? = nil, rank: Int? = nil, savingsOpportunity: SavingsOpportunity? = nil) {
             self.configuration = configuration
             self.performanceRisk = performanceRisk
             self.rank = rank
+            self.savingsOpportunity = savingsOpportunity
         }
 
         private enum CodingKeys: String, CodingKey {
             case configuration
             case performanceRisk
             case rank
+            case savingsOpportunity
         }
     }
 }

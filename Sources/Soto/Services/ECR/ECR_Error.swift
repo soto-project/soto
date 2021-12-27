@@ -37,6 +37,8 @@ public struct ECRErrorType: AWSErrorType {
         case lifecyclePolicyPreviewInProgressException = "LifecyclePolicyPreviewInProgressException"
         case lifecyclePolicyPreviewNotFoundException = "LifecyclePolicyPreviewNotFoundException"
         case limitExceededException = "LimitExceededException"
+        case pullThroughCacheRuleAlreadyExistsException = "PullThroughCacheRuleAlreadyExistsException"
+        case pullThroughCacheRuleNotFoundException = "PullThroughCacheRuleNotFoundException"
         case referencedImagesNotFoundException = "ReferencedImagesNotFoundException"
         case registryPolicyNotFoundException = "RegistryPolicyNotFoundException"
         case repositoryAlreadyExistsException = "RepositoryAlreadyExistsException"
@@ -47,6 +49,7 @@ public struct ECRErrorType: AWSErrorType {
         case serverException = "ServerException"
         case tooManyTagsException = "TooManyTagsException"
         case unsupportedImageTypeException = "UnsupportedImageTypeException"
+        case unsupportedUpstreamRegistryException = "UnsupportedUpstreamRegistryException"
         case uploadNotFoundException = "UploadNotFoundException"
         case validationException = "ValidationException"
     }
@@ -105,6 +108,10 @@ public struct ECRErrorType: AWSErrorType {
     public static var lifecyclePolicyPreviewNotFoundException: Self { .init(.lifecyclePolicyPreviewNotFoundException) }
     /// The operation did not succeed because it would have exceeded a service limit for your account. For more information, see Amazon ECR service quotas in the Amazon Elastic Container Registry User Guide.
     public static var limitExceededException: Self { .init(.limitExceededException) }
+    /// A pull through cache rule with these settings already exists for the private registry.
+    public static var pullThroughCacheRuleAlreadyExistsException: Self { .init(.pullThroughCacheRuleAlreadyExistsException) }
+    /// The pull through cache rule was not found. Specify a valid pull through cache rule and try again.
+    public static var pullThroughCacheRuleNotFoundException: Self { .init(.pullThroughCacheRuleNotFoundException) }
     /// The manifest list is referencing an image that does not exist.
     public static var referencedImagesNotFoundException: Self { .init(.referencedImagesNotFoundException) }
     /// The registry doesn't have an associated registry policy.
@@ -125,6 +132,8 @@ public struct ECRErrorType: AWSErrorType {
     public static var tooManyTagsException: Self { .init(.tooManyTagsException) }
     /// The image is of a type that cannot be scanned.
     public static var unsupportedImageTypeException: Self { .init(.unsupportedImageTypeException) }
+    /// The specified upstream registry isn't supported.
+    public static var unsupportedUpstreamRegistryException: Self { .init(.unsupportedUpstreamRegistryException) }
     /// The upload could not be found, or the specified upload ID is not valid for this repository.
     public static var uploadNotFoundException: Self { .init(.uploadNotFoundException) }
     /// There was an exception validating this request.

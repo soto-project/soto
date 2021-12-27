@@ -22,6 +22,7 @@ public struct KendraErrorType: AWSErrorType {
         case accessDeniedException = "AccessDeniedException"
         case conflictException = "ConflictException"
         case internalServerException = "InternalServerException"
+        case invalidRequestException = "InvalidRequestException"
         case resourceAlreadyExistException = "ResourceAlreadyExistException"
         case resourceInUseException = "ResourceInUseException"
         case resourceNotFoundException = "ResourceNotFoundException"
@@ -52,6 +53,8 @@ public struct KendraErrorType: AWSErrorType {
     public static var accessDeniedException: Self { .init(.accessDeniedException) }
     public static var conflictException: Self { .init(.conflictException) }
     public static var internalServerException: Self { .init(.internalServerException) }
+    /// The input to the request is not valid.
+    public static var invalidRequestException: Self { .init(.invalidRequestException) }
     public static var resourceAlreadyExistException: Self { .init(.resourceAlreadyExistException) }
     public static var resourceInUseException: Self { .init(.resourceInUseException) }
     public static var resourceNotFoundException: Self { .init(.resourceNotFoundException) }

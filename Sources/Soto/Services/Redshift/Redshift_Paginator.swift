@@ -496,6 +496,165 @@ extension Redshift {
         )
     }
 
+    ///  Shows the status of any inbound or outbound datashares available in the specified account.
+    ///
+    /// Provide paginated results to closure `onPage` for it to combine them into one result.
+    /// This works in a similar manner to `Array.reduce<Result>(_:_:) -> Result`.
+    ///
+    /// Parameters:
+    ///   - input: Input for request
+    ///   - initialValue: The value to use as the initial accumulating value. `initialValue` is passed to `onPage` the first time it is called.
+    ///   - logger: Logger used for logging output
+    ///   - eventLoop: EventLoop to run this process on
+    ///   - onPage: closure called with each paginated response. It combines an accumulating result with the contents of response. This combined result is then returned
+    ///         along with a boolean indicating if the paginate operation should continue.
+    public func describeDataSharesPaginator<Result>(
+        _ input: DescribeDataSharesMessage,
+        _ initialValue: Result,
+        logger: Logger = AWSClient.loggingDisabled,
+        on eventLoop: EventLoop? = nil,
+        onPage: @escaping (Result, DescribeDataSharesResult, EventLoop) -> EventLoopFuture<(Bool, Result)>
+    ) -> EventLoopFuture<Result> {
+        return client.paginate(
+            input: input,
+            initialValue: initialValue,
+            command: describeDataShares,
+            inputKey: \DescribeDataSharesMessage.marker,
+            outputKey: \DescribeDataSharesResult.marker,
+            on: eventLoop,
+            onPage: onPage
+        )
+    }
+
+    /// Provide paginated results to closure `onPage`.
+    ///
+    /// - Parameters:
+    ///   - input: Input for request
+    ///   - logger: Logger used for logging output
+    ///   - eventLoop: EventLoop to run this process on
+    ///   - onPage: closure called with each block of entries. Returns boolean indicating whether we should continue.
+    public func describeDataSharesPaginator(
+        _ input: DescribeDataSharesMessage,
+        logger: Logger = AWSClient.loggingDisabled,
+        on eventLoop: EventLoop? = nil,
+        onPage: @escaping (DescribeDataSharesResult, EventLoop) -> EventLoopFuture<Bool>
+    ) -> EventLoopFuture<Void> {
+        return client.paginate(
+            input: input,
+            command: describeDataShares,
+            inputKey: \DescribeDataSharesMessage.marker,
+            outputKey: \DescribeDataSharesResult.marker,
+            on: eventLoop,
+            onPage: onPage
+        )
+    }
+
+    ///  Returns a list of datashares where the account identifier being called is a consumer account identifier.
+    ///
+    /// Provide paginated results to closure `onPage` for it to combine them into one result.
+    /// This works in a similar manner to `Array.reduce<Result>(_:_:) -> Result`.
+    ///
+    /// Parameters:
+    ///   - input: Input for request
+    ///   - initialValue: The value to use as the initial accumulating value. `initialValue` is passed to `onPage` the first time it is called.
+    ///   - logger: Logger used for logging output
+    ///   - eventLoop: EventLoop to run this process on
+    ///   - onPage: closure called with each paginated response. It combines an accumulating result with the contents of response. This combined result is then returned
+    ///         along with a boolean indicating if the paginate operation should continue.
+    public func describeDataSharesForConsumerPaginator<Result>(
+        _ input: DescribeDataSharesForConsumerMessage,
+        _ initialValue: Result,
+        logger: Logger = AWSClient.loggingDisabled,
+        on eventLoop: EventLoop? = nil,
+        onPage: @escaping (Result, DescribeDataSharesForConsumerResult, EventLoop) -> EventLoopFuture<(Bool, Result)>
+    ) -> EventLoopFuture<Result> {
+        return client.paginate(
+            input: input,
+            initialValue: initialValue,
+            command: describeDataSharesForConsumer,
+            inputKey: \DescribeDataSharesForConsumerMessage.marker,
+            outputKey: \DescribeDataSharesForConsumerResult.marker,
+            on: eventLoop,
+            onPage: onPage
+        )
+    }
+
+    /// Provide paginated results to closure `onPage`.
+    ///
+    /// - Parameters:
+    ///   - input: Input for request
+    ///   - logger: Logger used for logging output
+    ///   - eventLoop: EventLoop to run this process on
+    ///   - onPage: closure called with each block of entries. Returns boolean indicating whether we should continue.
+    public func describeDataSharesForConsumerPaginator(
+        _ input: DescribeDataSharesForConsumerMessage,
+        logger: Logger = AWSClient.loggingDisabled,
+        on eventLoop: EventLoop? = nil,
+        onPage: @escaping (DescribeDataSharesForConsumerResult, EventLoop) -> EventLoopFuture<Bool>
+    ) -> EventLoopFuture<Void> {
+        return client.paginate(
+            input: input,
+            command: describeDataSharesForConsumer,
+            inputKey: \DescribeDataSharesForConsumerMessage.marker,
+            outputKey: \DescribeDataSharesForConsumerResult.marker,
+            on: eventLoop,
+            onPage: onPage
+        )
+    }
+
+    ///  Returns a list of datashares when the account identifier being called is a producer account identifier.
+    ///
+    /// Provide paginated results to closure `onPage` for it to combine them into one result.
+    /// This works in a similar manner to `Array.reduce<Result>(_:_:) -> Result`.
+    ///
+    /// Parameters:
+    ///   - input: Input for request
+    ///   - initialValue: The value to use as the initial accumulating value. `initialValue` is passed to `onPage` the first time it is called.
+    ///   - logger: Logger used for logging output
+    ///   - eventLoop: EventLoop to run this process on
+    ///   - onPage: closure called with each paginated response. It combines an accumulating result with the contents of response. This combined result is then returned
+    ///         along with a boolean indicating if the paginate operation should continue.
+    public func describeDataSharesForProducerPaginator<Result>(
+        _ input: DescribeDataSharesForProducerMessage,
+        _ initialValue: Result,
+        logger: Logger = AWSClient.loggingDisabled,
+        on eventLoop: EventLoop? = nil,
+        onPage: @escaping (Result, DescribeDataSharesForProducerResult, EventLoop) -> EventLoopFuture<(Bool, Result)>
+    ) -> EventLoopFuture<Result> {
+        return client.paginate(
+            input: input,
+            initialValue: initialValue,
+            command: describeDataSharesForProducer,
+            inputKey: \DescribeDataSharesForProducerMessage.marker,
+            outputKey: \DescribeDataSharesForProducerResult.marker,
+            on: eventLoop,
+            onPage: onPage
+        )
+    }
+
+    /// Provide paginated results to closure `onPage`.
+    ///
+    /// - Parameters:
+    ///   - input: Input for request
+    ///   - logger: Logger used for logging output
+    ///   - eventLoop: EventLoop to run this process on
+    ///   - onPage: closure called with each block of entries. Returns boolean indicating whether we should continue.
+    public func describeDataSharesForProducerPaginator(
+        _ input: DescribeDataSharesForProducerMessage,
+        logger: Logger = AWSClient.loggingDisabled,
+        on eventLoop: EventLoop? = nil,
+        onPage: @escaping (DescribeDataSharesForProducerResult, EventLoop) -> EventLoopFuture<Bool>
+    ) -> EventLoopFuture<Void> {
+        return client.paginate(
+            input: input,
+            command: describeDataSharesForProducer,
+            inputKey: \DescribeDataSharesForProducerMessage.marker,
+            outputKey: \DescribeDataSharesForProducerResult.marker,
+            on: eventLoop,
+            onPage: onPage
+        )
+    }
+
     ///  Returns a list of parameter settings for the specified parameter group family.  For more information about parameters and parameter groups, go to Amazon Redshift Parameter Groups in the Amazon Redshift Cluster Management Guide.
     ///
     /// Provide paginated results to closure `onPage` for it to combine them into one result.
@@ -973,6 +1132,59 @@ extension Redshift {
         )
     }
 
+    ///  Returns exchange status details and associated metadata for a reserved-node exchange. Statuses include such values as in progress and requested.
+    ///
+    /// Provide paginated results to closure `onPage` for it to combine them into one result.
+    /// This works in a similar manner to `Array.reduce<Result>(_:_:) -> Result`.
+    ///
+    /// Parameters:
+    ///   - input: Input for request
+    ///   - initialValue: The value to use as the initial accumulating value. `initialValue` is passed to `onPage` the first time it is called.
+    ///   - logger: Logger used for logging output
+    ///   - eventLoop: EventLoop to run this process on
+    ///   - onPage: closure called with each paginated response. It combines an accumulating result with the contents of response. This combined result is then returned
+    ///         along with a boolean indicating if the paginate operation should continue.
+    public func describeReservedNodeExchangeStatusPaginator<Result>(
+        _ input: DescribeReservedNodeExchangeStatusInputMessage,
+        _ initialValue: Result,
+        logger: Logger = AWSClient.loggingDisabled,
+        on eventLoop: EventLoop? = nil,
+        onPage: @escaping (Result, DescribeReservedNodeExchangeStatusOutputMessage, EventLoop) -> EventLoopFuture<(Bool, Result)>
+    ) -> EventLoopFuture<Result> {
+        return client.paginate(
+            input: input,
+            initialValue: initialValue,
+            command: describeReservedNodeExchangeStatus,
+            inputKey: \DescribeReservedNodeExchangeStatusInputMessage.marker,
+            outputKey: \DescribeReservedNodeExchangeStatusOutputMessage.marker,
+            on: eventLoop,
+            onPage: onPage
+        )
+    }
+
+    /// Provide paginated results to closure `onPage`.
+    ///
+    /// - Parameters:
+    ///   - input: Input for request
+    ///   - logger: Logger used for logging output
+    ///   - eventLoop: EventLoop to run this process on
+    ///   - onPage: closure called with each block of entries. Returns boolean indicating whether we should continue.
+    public func describeReservedNodeExchangeStatusPaginator(
+        _ input: DescribeReservedNodeExchangeStatusInputMessage,
+        logger: Logger = AWSClient.loggingDisabled,
+        on eventLoop: EventLoop? = nil,
+        onPage: @escaping (DescribeReservedNodeExchangeStatusOutputMessage, EventLoop) -> EventLoopFuture<Bool>
+    ) -> EventLoopFuture<Void> {
+        return client.paginate(
+            input: input,
+            command: describeReservedNodeExchangeStatus,
+            inputKey: \DescribeReservedNodeExchangeStatusInputMessage.marker,
+            outputKey: \DescribeReservedNodeExchangeStatusOutputMessage.marker,
+            on: eventLoop,
+            onPage: onPage
+        )
+    }
+
     ///  Returns a list of the available reserved node offerings by Amazon Redshift with their descriptions including the node type, the fixed and recurring costs of reserving the node and duration the node will be reserved for you. These descriptions help you determine which reserve node offering you want to purchase. You then use the unique offering ID in you call to PurchaseReservedNodeOffering to reserve one or more nodes for your Amazon Redshift cluster.   For more information about reserved node offerings, go to Purchasing Reserved Nodes in the Amazon Redshift Cluster Management Guide.
     ///
     /// Provide paginated results to closure `onPage` for it to combine them into one result.
@@ -1397,6 +1609,59 @@ extension Redshift {
         )
     }
 
+    ///  Gets the configuration options for the reserved-node exchange. These options include information about the source reserved node and target reserved node offering. Details include the node type, the price, the node count, and the offering type.
+    ///
+    /// Provide paginated results to closure `onPage` for it to combine them into one result.
+    /// This works in a similar manner to `Array.reduce<Result>(_:_:) -> Result`.
+    ///
+    /// Parameters:
+    ///   - input: Input for request
+    ///   - initialValue: The value to use as the initial accumulating value. `initialValue` is passed to `onPage` the first time it is called.
+    ///   - logger: Logger used for logging output
+    ///   - eventLoop: EventLoop to run this process on
+    ///   - onPage: closure called with each paginated response. It combines an accumulating result with the contents of response. This combined result is then returned
+    ///         along with a boolean indicating if the paginate operation should continue.
+    public func getReservedNodeExchangeConfigurationOptionsPaginator<Result>(
+        _ input: GetReservedNodeExchangeConfigurationOptionsInputMessage,
+        _ initialValue: Result,
+        logger: Logger = AWSClient.loggingDisabled,
+        on eventLoop: EventLoop? = nil,
+        onPage: @escaping (Result, GetReservedNodeExchangeConfigurationOptionsOutputMessage, EventLoop) -> EventLoopFuture<(Bool, Result)>
+    ) -> EventLoopFuture<Result> {
+        return client.paginate(
+            input: input,
+            initialValue: initialValue,
+            command: getReservedNodeExchangeConfigurationOptions,
+            inputKey: \GetReservedNodeExchangeConfigurationOptionsInputMessage.marker,
+            outputKey: \GetReservedNodeExchangeConfigurationOptionsOutputMessage.marker,
+            on: eventLoop,
+            onPage: onPage
+        )
+    }
+
+    /// Provide paginated results to closure `onPage`.
+    ///
+    /// - Parameters:
+    ///   - input: Input for request
+    ///   - logger: Logger used for logging output
+    ///   - eventLoop: EventLoop to run this process on
+    ///   - onPage: closure called with each block of entries. Returns boolean indicating whether we should continue.
+    public func getReservedNodeExchangeConfigurationOptionsPaginator(
+        _ input: GetReservedNodeExchangeConfigurationOptionsInputMessage,
+        logger: Logger = AWSClient.loggingDisabled,
+        on eventLoop: EventLoop? = nil,
+        onPage: @escaping (GetReservedNodeExchangeConfigurationOptionsOutputMessage, EventLoop) -> EventLoopFuture<Bool>
+    ) -> EventLoopFuture<Void> {
+        return client.paginate(
+            input: input,
+            command: getReservedNodeExchangeConfigurationOptions,
+            inputKey: \GetReservedNodeExchangeConfigurationOptionsInputMessage.marker,
+            outputKey: \GetReservedNodeExchangeConfigurationOptionsOutputMessage.marker,
+            on: eventLoop,
+            onPage: onPage
+        )
+    }
+
     ///  Returns an array of DC2 ReservedNodeOfferings that matches the payment type, term, and usage price of the given DC1 reserved node.
     ///
     /// Provide paginated results to closure `onPage` for it to combine them into one result.
@@ -1560,6 +1825,38 @@ extension Redshift.DescribeClustersMessage: AWSPaginateToken {
     }
 }
 
+extension Redshift.DescribeDataSharesMessage: AWSPaginateToken {
+    public func usingPaginationToken(_ token: String) -> Redshift.DescribeDataSharesMessage {
+        return .init(
+            dataShareArn: self.dataShareArn,
+            marker: token,
+            maxRecords: self.maxRecords
+        )
+    }
+}
+
+extension Redshift.DescribeDataSharesForConsumerMessage: AWSPaginateToken {
+    public func usingPaginationToken(_ token: String) -> Redshift.DescribeDataSharesForConsumerMessage {
+        return .init(
+            consumerArn: self.consumerArn,
+            marker: token,
+            maxRecords: self.maxRecords,
+            status: self.status
+        )
+    }
+}
+
+extension Redshift.DescribeDataSharesForProducerMessage: AWSPaginateToken {
+    public func usingPaginationToken(_ token: String) -> Redshift.DescribeDataSharesForProducerMessage {
+        return .init(
+            marker: token,
+            maxRecords: self.maxRecords,
+            producerArn: self.producerArn,
+            status: self.status
+        )
+    }
+}
+
 extension Redshift.DescribeDefaultClusterParametersMessage: AWSPaginateToken {
     public func usingPaginationToken(_ token: String) -> Redshift.DescribeDefaultClusterParametersMessage {
         return .init(
@@ -1670,6 +1967,17 @@ extension Redshift.DescribeOrderableClusterOptionsMessage: AWSPaginateToken {
     }
 }
 
+extension Redshift.DescribeReservedNodeExchangeStatusInputMessage: AWSPaginateToken {
+    public func usingPaginationToken(_ token: String) -> Redshift.DescribeReservedNodeExchangeStatusInputMessage {
+        return .init(
+            marker: token,
+            maxRecords: self.maxRecords,
+            reservedNodeExchangeRequestId: self.reservedNodeExchangeRequestId,
+            reservedNodeId: self.reservedNodeId
+        )
+    }
+}
+
 extension Redshift.DescribeReservedNodeOfferingsMessage: AWSPaginateToken {
     public func usingPaginationToken(_ token: String) -> Redshift.DescribeReservedNodeOfferingsMessage {
         return .init(
@@ -1764,6 +2072,18 @@ extension Redshift.DescribeUsageLimitsMessage: AWSPaginateToken {
             tagKeys: self.tagKeys,
             tagValues: self.tagValues,
             usageLimitId: self.usageLimitId
+        )
+    }
+}
+
+extension Redshift.GetReservedNodeExchangeConfigurationOptionsInputMessage: AWSPaginateToken {
+    public func usingPaginationToken(_ token: String) -> Redshift.GetReservedNodeExchangeConfigurationOptionsInputMessage {
+        return .init(
+            actionType: self.actionType,
+            clusterIdentifier: self.clusterIdentifier,
+            marker: token,
+            maxRecords: self.maxRecords,
+            snapshotIdentifier: self.snapshotIdentifier
         )
     }
 }

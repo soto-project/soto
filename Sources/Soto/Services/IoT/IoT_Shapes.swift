@@ -247,6 +247,12 @@ extension IoT {
         public var description: String { return self.rawValue }
     }
 
+    public enum DeviceDefenderIndexingMode: String, CustomStringConvertible, Codable {
+        case off = "OFF"
+        case violations = "VIOLATIONS"
+        public var description: String { return self.rawValue }
+    }
+
     public enum DimensionType: String, CustomStringConvertible, Codable {
         case topicFilter = "TOPIC_FILTER"
         public var description: String { return self.rawValue }
@@ -407,6 +413,12 @@ extension IoT {
         case active = "ACTIVE"
         case expired = "EXPIRED"
         case pendingBuild = "PENDING_BUILD"
+        public var description: String { return self.rawValue }
+    }
+
+    public enum NamedShadowIndexingMode: String, CustomStringConvertible, Codable {
+        case off = "OFF"
+        case on = "ON"
         public var description: String { return self.rawValue }
     }
 
@@ -756,7 +768,7 @@ extension IoT {
     public struct AddThingToBillingGroupRequest: AWSEncodableShape {
         /// The ARN of the billing group.
         public let billingGroupArn: String?
-        /// The name of the billing group.
+        /// The name of the billing group.  This call is asynchronous. It might take several seconds for the detachment to propagate.
         public let billingGroupName: String?
         /// The ARN of the thing to be added to the billing group.
         public let thingArn: String?
@@ -1487,6 +1499,7 @@ extension IoT {
         public func validate(name: String) throws {
             try self.resources.forEach {
                 try validate($0, name: "resources[]", parent: name, max: 2048)
+                try validate($0, name: "resources[]", parent: name, pattern: "[\\s\\S]*")
             }
         }
 
@@ -1557,6 +1570,8 @@ extension IoT {
         public let authorizerName: String?
         /// The UNIX timestamp of when the authorizer was created.
         public let creationDate: Date?
+        /// When true, the result from the authorizer’s Lambda function is cached for the time specified in refreshAfterInSeconds. The cached result is used while the device reuses the same HTTP connection.
+        public let enableCachingForHttp: Bool?
         /// The UNIX timestamp of when the authorizer was last updated.
         public let lastModifiedDate: Date?
         /// Specifies whether IoT validates the token signature in an authorization request.
@@ -1568,11 +1583,12 @@ extension IoT {
         /// The public keys used to validate the token signature returned by your custom authentication service.
         public let tokenSigningPublicKeys: [String: String]?
 
-        public init(authorizerArn: String? = nil, authorizerFunctionArn: String? = nil, authorizerName: String? = nil, creationDate: Date? = nil, lastModifiedDate: Date? = nil, signingDisabled: Bool? = nil, status: AuthorizerStatus? = nil, tokenKeyName: String? = nil, tokenSigningPublicKeys: [String: String]? = nil) {
+        public init(authorizerArn: String? = nil, authorizerFunctionArn: String? = nil, authorizerName: String? = nil, creationDate: Date? = nil, enableCachingForHttp: Bool? = nil, lastModifiedDate: Date? = nil, signingDisabled: Bool? = nil, status: AuthorizerStatus? = nil, tokenKeyName: String? = nil, tokenSigningPublicKeys: [String: String]? = nil) {
             self.authorizerArn = authorizerArn
             self.authorizerFunctionArn = authorizerFunctionArn
             self.authorizerName = authorizerName
             self.creationDate = creationDate
+            self.enableCachingForHttp = enableCachingForHttp
             self.lastModifiedDate = lastModifiedDate
             self.signingDisabled = signingDisabled
             self.status = status
@@ -1585,6 +1601,7 @@ extension IoT {
             case authorizerFunctionArn
             case authorizerName
             case creationDate
+            case enableCachingForHttp
             case lastModifiedDate
             case signingDisabled
             case status
@@ -2559,6 +2576,8 @@ extension IoT {
         public let authorizerFunctionArn: String
         /// The authorizer name.
         public let authorizerName: String
+        /// When true, the result from the authorizer’s Lambda function is cached for clients that use persistent HTTP connections. The results are cached for the time specified by the Lambda function in refreshAfterInSeconds. This value does not affect authorization of clients that use MQTT connections. The default value is false.
+        public let enableCachingForHttp: Bool?
         /// Specifies whether IoT validates the token signature in an authorization request.
         public let signingDisabled: Bool?
         /// The status of the create authorizer request.
@@ -2570,9 +2589,10 @@ extension IoT {
         /// The public keys used to verify the digital signature returned by your custom authentication service.
         public let tokenSigningPublicKeys: [String: String]?
 
-        public init(authorizerFunctionArn: String, authorizerName: String, signingDisabled: Bool? = nil, status: AuthorizerStatus? = nil, tags: [Tag]? = nil, tokenKeyName: String? = nil, tokenSigningPublicKeys: [String: String]? = nil) {
+        public init(authorizerFunctionArn: String, authorizerName: String, enableCachingForHttp: Bool? = nil, signingDisabled: Bool? = nil, status: AuthorizerStatus? = nil, tags: [Tag]? = nil, tokenKeyName: String? = nil, tokenSigningPublicKeys: [String: String]? = nil) {
             self.authorizerFunctionArn = authorizerFunctionArn
             self.authorizerName = authorizerName
+            self.enableCachingForHttp = enableCachingForHttp
             self.signingDisabled = signingDisabled
             self.status = status
             self.tags = tags
@@ -2582,6 +2602,7 @@ extension IoT {
 
         public func validate(name: String) throws {
             try self.validate(self.authorizerFunctionArn, name: "authorizerFunctionArn", parent: name, max: 2048)
+            try self.validate(self.authorizerFunctionArn, name: "authorizerFunctionArn", parent: name, pattern: "[\\s\\S]*")
             try self.validate(self.authorizerName, name: "authorizerName", parent: name, max: 128)
             try self.validate(self.authorizerName, name: "authorizerName", parent: name, min: 1)
             try self.validate(self.authorizerName, name: "authorizerName", parent: name, pattern: "[\\w=,@-]+")
@@ -2596,11 +2617,13 @@ extension IoT {
                 try validate($0.key, name: "tokenSigningPublicKeys.key", parent: name, min: 1)
                 try validate($0.key, name: "tokenSigningPublicKeys.key", parent: name, pattern: "[a-zA-Z0-9:_-]+")
                 try validate($0.value, name: "tokenSigningPublicKeys[\"\($0.key)\"]", parent: name, max: 5120)
+                try validate($0.value, name: "tokenSigningPublicKeys[\"\($0.key)\"]", parent: name, pattern: "[\\s\\S]*")
             }
         }
 
         private enum CodingKeys: String, CodingKey {
             case authorizerFunctionArn
+            case enableCachingForHttp
             case signingDisabled
             case status
             case tags
@@ -2697,7 +2720,9 @@ extension IoT {
         }
 
         public func validate(name: String) throws {
+            try self.validate(self.certificateSigningRequest, name: "certificateSigningRequest", parent: name, max: 4096)
             try self.validate(self.certificateSigningRequest, name: "certificateSigningRequest", parent: name, min: 1)
+            try self.validate(self.certificateSigningRequest, name: "certificateSigningRequest", parent: name, pattern: "[\\s\\S]*")
         }
 
         private enum CodingKeys: String, CodingKey {
@@ -2893,6 +2918,7 @@ extension IoT {
             try self.validate(self.domainConfigurationName, name: "domainConfigurationName", parent: name, pattern: "[\\w.-]+")
             try self.validate(self.domainName, name: "domainName", parent: name, max: 253)
             try self.validate(self.domainName, name: "domainName", parent: name, min: 1)
+            try self.validate(self.domainName, name: "domainName", parent: name, pattern: "[\\s\\S]*")
             try self.serverCertificateArns?.forEach {
                 try validate($0, name: "serverCertificateArns[]", parent: name, max: 2048)
                 try validate($0, name: "serverCertificateArns[]", parent: name, min: 1)
@@ -3117,6 +3143,8 @@ extension IoT {
         public let description: String?
         /// The job document. Required if you don't specify a value for documentSource.
         public let document: String?
+        /// Parameters of a managed template that you can specify to create the job document.
+        public let documentParameters: [String: String]?
         /// An S3 link to the job document. Required if you don't specify a value for document.  If the job document resides in an S3 bucket, you must use a placeholder link when specifying the document. The placeholder link is of the following form:  ${aws:iot:s3-presigned-url:https://s3.amazonaws.com/bucket/key}  where bucket is your bucket name and key is the object in the bucket to which you are linking.
         public let documentSource: String?
         /// Allows you to create a staged rollout of the job.
@@ -3138,10 +3166,11 @@ extension IoT {
         /// Specifies the amount of time each device has to finish its execution of the job. The timer is started when the job execution status is set to IN_PROGRESS. If the job execution status is not set to another terminal state before the time expires, it will be automatically set to TIMED_OUT.
         public let timeoutConfig: TimeoutConfig?
 
-        public init(abortConfig: AbortConfig? = nil, description: String? = nil, document: String? = nil, documentSource: String? = nil, jobExecutionsRolloutConfig: JobExecutionsRolloutConfig? = nil, jobId: String, jobTemplateArn: String? = nil, namespaceId: String? = nil, presignedUrlConfig: PresignedUrlConfig? = nil, tags: [Tag]? = nil, targets: [String], targetSelection: TargetSelection? = nil, timeoutConfig: TimeoutConfig? = nil) {
+        public init(abortConfig: AbortConfig? = nil, description: String? = nil, document: String? = nil, documentParameters: [String: String]? = nil, documentSource: String? = nil, jobExecutionsRolloutConfig: JobExecutionsRolloutConfig? = nil, jobId: String, jobTemplateArn: String? = nil, namespaceId: String? = nil, presignedUrlConfig: PresignedUrlConfig? = nil, tags: [Tag]? = nil, targets: [String], targetSelection: TargetSelection? = nil, timeoutConfig: TimeoutConfig? = nil) {
             self.abortConfig = abortConfig
             self.description = description
             self.document = document
+            self.documentParameters = documentParameters
             self.documentSource = documentSource
             self.jobExecutionsRolloutConfig = jobExecutionsRolloutConfig
             self.jobId = jobId
@@ -3159,6 +3188,14 @@ extension IoT {
             try self.validate(self.description, name: "description", parent: name, max: 2028)
             try self.validate(self.description, name: "description", parent: name, pattern: "[^\\p{C}]+")
             try self.validate(self.document, name: "document", parent: name, max: 32768)
+            try self.documentParameters?.forEach {
+                try validate($0.key, name: "documentParameters.key", parent: name, max: 128)
+                try validate($0.key, name: "documentParameters.key", parent: name, min: 1)
+                try validate($0.key, name: "documentParameters.key", parent: name, pattern: "[a-zA-Z0-9_-]+")
+                try validate($0.value, name: "documentParameters[\"\($0.key)\"]", parent: name, max: 512)
+                try validate($0.value, name: "documentParameters[\"\($0.key)\"]", parent: name, min: 1)
+                try validate($0.value, name: "documentParameters[\"\($0.key)\"]", parent: name, pattern: "[^\\p{C}]+")
+            }
             try self.validate(self.documentSource, name: "documentSource", parent: name, max: 1350)
             try self.validate(self.documentSource, name: "documentSource", parent: name, min: 1)
             try self.jobExecutionsRolloutConfig?.validate(name: "\(name).jobExecutionsRolloutConfig")
@@ -3185,6 +3222,7 @@ extension IoT {
             case abortConfig
             case description
             case document
+            case documentParameters
             case documentSource
             case jobExecutionsRolloutConfig
             case jobTemplateArn
@@ -3445,6 +3483,11 @@ extension IoT {
         }
 
         public func validate(name: String) throws {
+            try self.additionalParameters?.forEach {
+                try validate($0.value, name: "additionalParameters[\"\($0.key)\"]", parent: name, max: 4096)
+                try validate($0.value, name: "additionalParameters[\"\($0.key)\"]", parent: name, min: 0)
+                try validate($0.value, name: "additionalParameters[\"\($0.key)\"]", parent: name, pattern: "[\\s\\S]*")
+            }
             try self.awsJobAbortConfig?.validate(name: "\(name).awsJobAbortConfig")
             try self.awsJobExecutionsRolloutConfig?.validate(name: "\(name).awsJobExecutionsRolloutConfig")
             try self.validate(self.description, name: "description", parent: name, max: 2028)
@@ -3531,6 +3574,9 @@ extension IoT {
         }
 
         public func validate(name: String) throws {
+            try self.validate(self.policyDocument, name: "policyDocument", parent: name, max: 404_600)
+            try self.validate(self.policyDocument, name: "policyDocument", parent: name, min: 0)
+            try self.validate(self.policyDocument, name: "policyDocument", parent: name, pattern: "[\\s\\S]*")
             try self.validate(self.policyName, name: "policyName", parent: name, max: 128)
             try self.validate(self.policyName, name: "policyName", parent: name, min: 1)
             try self.validate(self.policyName, name: "policyName", parent: name, pattern: "[\\w+=,.@-]+")
@@ -3590,6 +3636,9 @@ extension IoT {
         }
 
         public func validate(name: String) throws {
+            try self.validate(self.policyDocument, name: "policyDocument", parent: name, max: 404_600)
+            try self.validate(self.policyDocument, name: "policyDocument", parent: name, min: 0)
+            try self.validate(self.policyDocument, name: "policyDocument", parent: name, pattern: "[\\s\\S]*")
             try self.validate(self.policyName, name: "policyName", parent: name, max: 128)
             try self.validate(self.policyName, name: "policyName", parent: name, min: 1)
             try self.validate(self.policyName, name: "policyName", parent: name, pattern: "[\\w+=,.@-]+")
@@ -3707,6 +3756,9 @@ extension IoT {
             try self.tags?.forEach {
                 try $0.validate(name: "\(name).tags[]")
             }
+            try self.validate(self.templateBody, name: "templateBody", parent: name, max: 10240)
+            try self.validate(self.templateBody, name: "templateBody", parent: name, min: 0)
+            try self.validate(self.templateBody, name: "templateBody", parent: name, pattern: "[\\s\\S]*")
             try self.validate(self.templateName, name: "templateName", parent: name, max: 36)
             try self.validate(self.templateName, name: "templateName", parent: name, min: 1)
             try self.validate(self.templateName, name: "templateName", parent: name, pattern: "^[0-9A-Za-z_-]+$")
@@ -3764,6 +3816,9 @@ extension IoT {
         }
 
         public func validate(name: String) throws {
+            try self.validate(self.templateBody, name: "templateBody", parent: name, max: 10240)
+            try self.validate(self.templateBody, name: "templateBody", parent: name, min: 0)
+            try self.validate(self.templateBody, name: "templateBody", parent: name, pattern: "[\\s\\S]*")
             try self.validate(self.templateName, name: "templateName", parent: name, max: 36)
             try self.validate(self.templateName, name: "templateName", parent: name, min: 1)
             try self.validate(self.templateName, name: "templateName", parent: name, pattern: "^[0-9A-Za-z_-]+$")
@@ -3999,7 +4054,7 @@ extension IoT {
         public let description: String?
         /// The files to stream.
         public let files: [StreamFile]
-        /// An IAM role that allows the IoT service principal assumes to access your S3 files.
+        /// An IAM role that allows the IoT service principal to access your S3 files.
         public let roleArn: String
         /// The stream ID.
         public let streamId: String
@@ -5777,6 +5832,7 @@ extension IoT {
 
         public func validate(name: String) throws {
             try self.validate(self.endpointType, name: "endpointType", parent: name, max: 128)
+            try self.validate(self.endpointType, name: "endpointType", parent: name, pattern: "[\\s\\S]*")
         }
 
         private enum CodingKeys: CodingKey {}
@@ -5928,7 +5984,7 @@ extension IoT {
         public let indexName: String?
         /// The index status.
         public let indexStatus: IndexStatus?
-        /// Contains a value that specifies the type of indexing performed. Valid values are:   REGISTRY – Your thing index contains only registry data.   REGISTRY_AND_SHADOW - Your thing index contains registry data and shadow data.   REGISTRY_AND_CONNECTIVITY_STATUS - Your thing index contains registry data and thing connectivity status data.   REGISTRY_AND_SHADOW_AND_CONNECTIVITY_STATUS - Your thing index contains registry data, shadow data, and thing connectivity status data.
+        /// Contains a value that specifies the type of indexing performed. Valid values are:   REGISTRY – Your thing index contains only registry data.   REGISTRY_AND_SHADOW - Your thing index contains registry data and shadow data.   REGISTRY_AND_CONNECTIVITY_STATUS - Your thing index contains registry data and thing connectivity status data.   REGISTRY_AND_SHADOW_AND_CONNECTIVITY_STATUS - Your thing index contains registry data, shadow data, and thing connectivity status data.   MULTI_INDEXING_MODE - Your thing index contains multiple data sources. For more information, see GetIndexingConfiguration.
         public let schema: String?
 
         public init(indexName: String? = nil, indexStatus: IndexStatus? = nil, schema: String? = nil) {
@@ -6090,6 +6146,68 @@ extension IoT {
             case jobTemplateId
             case presignedUrlConfig
             case timeoutConfig
+        }
+    }
+
+    public struct DescribeManagedJobTemplateRequest: AWSEncodableShape {
+        public static var _encoding = [
+            AWSMemberEncoding(label: "templateName", location: .uri(locationName: "templateName")),
+            AWSMemberEncoding(label: "templateVersion", location: .querystring(locationName: "templateVersion"))
+        ]
+
+        /// The unique name of a managed job template, which is required.
+        public let templateName: String
+        /// An optional parameter to specify version of a managed template. If not specified, the pre-defined default version is returned.
+        public let templateVersion: String?
+
+        public init(templateName: String, templateVersion: String? = nil) {
+            self.templateName = templateName
+            self.templateVersion = templateVersion
+        }
+
+        public func validate(name: String) throws {
+            try self.validate(self.templateName, name: "templateName", parent: name, max: 64)
+            try self.validate(self.templateName, name: "templateName", parent: name, min: 1)
+            try self.validate(self.templateVersion, name: "templateVersion", parent: name, pattern: "^[1-9]+.[0-9]+")
+        }
+
+        private enum CodingKeys: CodingKey {}
+    }
+
+    public struct DescribeManagedJobTemplateResponse: AWSDecodableShape {
+        /// The unique description of a managed template.
+        public let description: String?
+        /// The document schema for a managed job template.
+        public let document: String?
+        /// A map of key-value pairs that you can use as guidance to specify the inputs for creating a job from a managed template.
+        public let documentParameters: [DocumentParameter]?
+        /// A list of environments that are supported with the managed job template.
+        public let environments: [String]?
+        /// The unique Amazon Resource Name (ARN) of the managed template.
+        public let templateArn: String?
+        /// The unique name of a managed template, such as AWS-Reboot.
+        public let templateName: String?
+        /// The version for a managed template.
+        public let templateVersion: String?
+
+        public init(description: String? = nil, document: String? = nil, documentParameters: [DocumentParameter]? = nil, environments: [String]? = nil, templateArn: String? = nil, templateName: String? = nil, templateVersion: String? = nil) {
+            self.description = description
+            self.document = document
+            self.documentParameters = documentParameters
+            self.environments = environments
+            self.templateArn = templateArn
+            self.templateName = templateName
+            self.templateVersion = templateVersion
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case description
+            case document
+            case documentParameters
+            case environments
+            case templateArn
+            case templateName
+            case templateVersion
         }
     }
 
@@ -7019,6 +7137,35 @@ extension IoT {
         private enum CodingKeys: CodingKey {}
     }
 
+    public struct DocumentParameter: AWSDecodableShape {
+        /// Description of the map field containing the patterns that need to be replaced in a managed template job document schema.
+        public let description: String?
+        /// An example illustrating a pattern that need to be replaced in a managed template job document schema.
+        public let example: String?
+        /// Key of the map field containing the patterns that need to be replaced in a managed template job document schema.
+        public let key: String?
+        /// Specifies whether a pattern that needs to be replaced in a managed template job document schema is optional or required.
+        public let optional: Bool?
+        /// A regular expression of the patterns that need to be replaced in a managed template job document schema.
+        public let regex: String?
+
+        public init(description: String? = nil, example: String? = nil, key: String? = nil, optional: Bool? = nil, regex: String? = nil) {
+            self.description = description
+            self.example = example
+            self.key = key
+            self.optional = optional
+            self.regex = regex
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case description
+            case example
+            case key
+            case optional
+            case regex
+        }
+    }
+
     public struct DomainConfigurationSummary: AWSDecodableShape {
         /// The ARN of the domain configuration.
         public let domainConfigurationArn: String?
@@ -7436,7 +7583,7 @@ extension IoT {
     public struct GetBucketsAggregationResponse: AWSDecodableShape {
         /// The main part of the response with a list of buckets. Each bucket contains a keyValue and a count.  keyValue: The aggregation field value counted for the particular bucket.  count: The number of documents that have that value.
         public let buckets: [Bucket]?
-        /// The total number of documents that fit the query string criteria and contain a value for the Aggregation field targeted in the request.
+        /// The total number of things that fit the query string criteria.
         public let totalCount: Int?
 
         public init(buckets: [Bucket]? = nil, totalCount: Int? = nil) {
@@ -8084,11 +8231,14 @@ extension IoT {
             try self.headers?.forEach {
                 try validate($0.key, name: "headers.key", parent: name, max: 8192)
                 try validate($0.key, name: "headers.key", parent: name, min: 1)
+                try validate($0.key, name: "headers.key", parent: name, pattern: "[\\s\\S]*")
                 try validate($0.value, name: "headers[\"\($0.key)\"]", parent: name, max: 8192)
                 try validate($0.value, name: "headers[\"\($0.key)\"]", parent: name, min: 1)
+                try validate($0.value, name: "headers[\"\($0.key)\"]", parent: name, pattern: "[\\s\\S]*")
             }
             try self.validate(self.queryString, name: "queryString", parent: name, max: 4096)
             try self.validate(self.queryString, name: "queryString", parent: name, min: 1)
+            try self.validate(self.queryString, name: "queryString", parent: name, pattern: "[\\s\\S]*")
         }
 
         private enum CodingKeys: String, CodingKey {
@@ -8244,6 +8394,8 @@ extension IoT {
         public let createdAt: Date?
         /// A short text description of the job.
         public let description: String?
+        /// A key-value map that pairs the patterns that need to be replaced in a managed template job document schema. You can use the description of each key as a guidance to specify the inputs during runtime when creating a job.
+        public let documentParameters: [String: String]?
         /// Will be true if the job was canceled with the optional force parameter set to true.
         public let forceCanceled: Bool?
         /// An ARN identifying the job with format "arn:aws:iot:region:account:job/jobId".
@@ -8273,12 +8425,13 @@ extension IoT {
         /// Specifies the amount of time each device has to finish its execution of the job. A timer is started when the job execution status is set to IN_PROGRESS. If the job execution status is not set to another terminal state before the timer expires, it will be automatically set to TIMED_OUT.
         public let timeoutConfig: TimeoutConfig?
 
-        public init(abortConfig: AbortConfig? = nil, comment: String? = nil, completedAt: Date? = nil, createdAt: Date? = nil, description: String? = nil, forceCanceled: Bool? = nil, jobArn: String? = nil, jobExecutionsRolloutConfig: JobExecutionsRolloutConfig? = nil, jobId: String? = nil, jobProcessDetails: JobProcessDetails? = nil, jobTemplateArn: String? = nil, lastUpdatedAt: Date? = nil, namespaceId: String? = nil, presignedUrlConfig: PresignedUrlConfig? = nil, reasonCode: String? = nil, status: JobStatus? = nil, targets: [String]? = nil, targetSelection: TargetSelection? = nil, timeoutConfig: TimeoutConfig? = nil) {
+        public init(abortConfig: AbortConfig? = nil, comment: String? = nil, completedAt: Date? = nil, createdAt: Date? = nil, description: String? = nil, documentParameters: [String: String]? = nil, forceCanceled: Bool? = nil, jobArn: String? = nil, jobExecutionsRolloutConfig: JobExecutionsRolloutConfig? = nil, jobId: String? = nil, jobProcessDetails: JobProcessDetails? = nil, jobTemplateArn: String? = nil, lastUpdatedAt: Date? = nil, namespaceId: String? = nil, presignedUrlConfig: PresignedUrlConfig? = nil, reasonCode: String? = nil, status: JobStatus? = nil, targets: [String]? = nil, targetSelection: TargetSelection? = nil, timeoutConfig: TimeoutConfig? = nil) {
             self.abortConfig = abortConfig
             self.comment = comment
             self.completedAt = completedAt
             self.createdAt = createdAt
             self.description = description
+            self.documentParameters = documentParameters
             self.forceCanceled = forceCanceled
             self.jobArn = jobArn
             self.jobExecutionsRolloutConfig = jobExecutionsRolloutConfig
@@ -8301,6 +8454,7 @@ extension IoT {
             case completedAt
             case createdAt
             case description
+            case documentParameters
             case forceCanceled
             case jobArn
             case jobExecutionsRolloutConfig
@@ -9875,6 +10029,53 @@ extension IoT {
         }
     }
 
+    public struct ListManagedJobTemplatesRequest: AWSEncodableShape {
+        public static var _encoding = [
+            AWSMemberEncoding(label: "maxResults", location: .querystring(locationName: "maxResults")),
+            AWSMemberEncoding(label: "nextToken", location: .querystring(locationName: "nextToken")),
+            AWSMemberEncoding(label: "templateName", location: .querystring(locationName: "templateName"))
+        ]
+
+        /// Maximum number of entries that can be returned.
+        public let maxResults: Int?
+        /// The token to retrieve the next set of results.
+        public let nextToken: String?
+        /// An optional parameter for template name. If specified, only the versions of the managed job templates that have the specified template name will be returned.
+        public let templateName: String?
+
+        public init(maxResults: Int? = nil, nextToken: String? = nil, templateName: String? = nil) {
+            self.maxResults = maxResults
+            self.nextToken = nextToken
+            self.templateName = templateName
+        }
+
+        public func validate(name: String) throws {
+            try self.validate(self.maxResults, name: "maxResults", parent: name, max: 250)
+            try self.validate(self.maxResults, name: "maxResults", parent: name, min: 1)
+            try self.validate(self.templateName, name: "templateName", parent: name, max: 64)
+            try self.validate(self.templateName, name: "templateName", parent: name, min: 1)
+        }
+
+        private enum CodingKeys: CodingKey {}
+    }
+
+    public struct ListManagedJobTemplatesResponse: AWSDecodableShape {
+        /// A list of managed job templates that are returned.
+        public let managedJobTemplates: [ManagedJobTemplateSummary]?
+        /// The token to retrieve the next set of results.
+        public let nextToken: String?
+
+        public init(managedJobTemplates: [ManagedJobTemplateSummary]? = nil, nextToken: String? = nil) {
+            self.managedJobTemplates = managedJobTemplates
+            self.nextToken = nextToken
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case managedJobTemplates
+            case nextToken
+        }
+    }
+
     public struct ListMitigationActionsRequest: AWSEncodableShape {
         public static var _encoding = [
             AWSMemberEncoding(label: "actionType", location: .querystring(locationName: "actionType")),
@@ -11442,6 +11643,35 @@ extension IoT {
         }
     }
 
+    public struct ManagedJobTemplateSummary: AWSDecodableShape {
+        /// The description for a managed template.
+        public let description: String?
+        /// A list of environments that are supported with the managed job template.
+        public let environments: [String]?
+        /// The Amazon Resource Name (ARN) for a managed template.
+        public let templateArn: String?
+        /// The unique Name for a managed template.
+        public let templateName: String?
+        /// The version for a managed template.
+        public let templateVersion: String?
+
+        public init(description: String? = nil, environments: [String]? = nil, templateArn: String? = nil, templateName: String? = nil, templateVersion: String? = nil) {
+            self.description = description
+            self.environments = environments
+            self.templateArn = templateArn
+            self.templateName = templateName
+            self.templateVersion = templateVersion
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case description
+            case environments
+            case templateArn
+            case templateName
+            case templateVersion
+        }
+    }
+
     public struct MetricDimension: AWSEncodableShape & AWSDecodableShape {
         /// A unique identifier for the dimension.
         public let dimensionName: String
@@ -11634,10 +11864,12 @@ extension IoT {
         public func validate(name: String) throws {
             try self.validate(self.clientId, name: "clientId", parent: name, max: 65535)
             try self.validate(self.clientId, name: "clientId", parent: name, min: 1)
+            try self.validate(self.clientId, name: "clientId", parent: name, pattern: "[\\s\\S]*")
             try self.validate(self.password, name: "password", parent: name, max: 65535)
             try self.validate(self.password, name: "password", parent: name, min: 1)
             try self.validate(self.username, name: "username", parent: name, max: 65535)
             try self.validate(self.username, name: "username", parent: name, min: 1)
+            try self.validate(self.username, name: "username", parent: name, pattern: "[\\s\\S]*")
         }
 
         private enum CodingKeys: String, CodingKey {
@@ -11692,6 +11924,11 @@ extension IoT {
         }
 
         public func validate(name: String) throws {
+            try self.attributes?.forEach {
+                try validate($0.value, name: "attributes[\"\($0.key)\"]", parent: name, max: 4096)
+                try validate($0.value, name: "attributes[\"\($0.key)\"]", parent: name, min: 0)
+                try validate($0.value, name: "attributes[\"\($0.key)\"]", parent: name, pattern: "[\\s\\S]*")
+            }
             try self.codeSigning?.validate(name: "\(name).codeSigning")
             try self.fileLocation?.validate(name: "\(name).fileLocation")
             try self.validate(self.fileType, name: "fileType", parent: name, max: 255)
@@ -12205,12 +12442,14 @@ extension IoT {
         public func validate(name: String) throws {
             try self.validate(self.caCertificate, name: "caCertificate", parent: name, max: 65536)
             try self.validate(self.caCertificate, name: "caCertificate", parent: name, min: 1)
+            try self.validate(self.caCertificate, name: "caCertificate", parent: name, pattern: "[\\s\\S]*")
             try self.registrationConfig?.validate(name: "\(name).registrationConfig")
             try self.tags?.forEach {
                 try $0.validate(name: "\(name).tags[]")
             }
             try self.validate(self.verificationCertificate, name: "verificationCertificate", parent: name, max: 65536)
             try self.validate(self.verificationCertificate, name: "verificationCertificate", parent: name, min: 1)
+            try self.validate(self.verificationCertificate, name: "verificationCertificate", parent: name, pattern: "[\\s\\S]*")
         }
 
         private enum CodingKeys: String, CodingKey {
@@ -12255,8 +12494,10 @@ extension IoT {
         public func validate(name: String) throws {
             try self.validate(self.caCertificatePem, name: "caCertificatePem", parent: name, max: 65536)
             try self.validate(self.caCertificatePem, name: "caCertificatePem", parent: name, min: 1)
+            try self.validate(self.caCertificatePem, name: "caCertificatePem", parent: name, pattern: "[\\s\\S]*")
             try self.validate(self.certificatePem, name: "certificatePem", parent: name, max: 65536)
             try self.validate(self.certificatePem, name: "certificatePem", parent: name, min: 1)
+            try self.validate(self.certificatePem, name: "certificatePem", parent: name, pattern: "[\\s\\S]*")
         }
 
         private enum CodingKeys: String, CodingKey {
@@ -12297,6 +12538,7 @@ extension IoT {
         public func validate(name: String) throws {
             try self.validate(self.certificatePem, name: "certificatePem", parent: name, max: 65536)
             try self.validate(self.certificatePem, name: "certificatePem", parent: name, min: 1)
+            try self.validate(self.certificatePem, name: "certificatePem", parent: name, pattern: "[\\s\\S]*")
         }
 
         private enum CodingKeys: String, CodingKey {
@@ -12331,6 +12573,20 @@ extension IoT {
         public init(parameters: [String: String]? = nil, templateBody: String) {
             self.parameters = parameters
             self.templateBody = templateBody
+        }
+
+        public func validate(name: String) throws {
+            try self.parameters?.forEach {
+                try validate($0.key, name: "parameters.key", parent: name, max: 2048)
+                try validate($0.key, name: "parameters.key", parent: name, min: 0)
+                try validate($0.key, name: "parameters.key", parent: name, pattern: "[\\s\\S]*")
+                try validate($0.value, name: "parameters[\"\($0.key)\"]", parent: name, max: 4096)
+                try validate($0.value, name: "parameters[\"\($0.key)\"]", parent: name, min: 0)
+                try validate($0.value, name: "parameters[\"\($0.key)\"]", parent: name, pattern: "[\\s\\S]*")
+            }
+            try self.validate(self.templateBody, name: "templateBody", parent: name, max: 10240)
+            try self.validate(self.templateBody, name: "templateBody", parent: name, min: 0)
+            try self.validate(self.templateBody, name: "templateBody", parent: name, pattern: "[\\s\\S]*")
         }
 
         private enum CodingKeys: String, CodingKey {
@@ -12370,6 +12626,9 @@ extension IoT {
         public func validate(name: String) throws {
             try self.validate(self.roleArn, name: "roleArn", parent: name, max: 2048)
             try self.validate(self.roleArn, name: "roleArn", parent: name, min: 20)
+            try self.validate(self.templateBody, name: "templateBody", parent: name, max: 10240)
+            try self.validate(self.templateBody, name: "templateBody", parent: name, min: 0)
+            try self.validate(self.templateBody, name: "templateBody", parent: name, pattern: "[\\s\\S]*")
         }
 
         private enum CodingKeys: String, CodingKey {
@@ -12398,6 +12657,7 @@ extension IoT {
             try self.validate(self.certificateId, name: "certificateId", parent: name, min: 64)
             try self.validate(self.certificateId, name: "certificateId", parent: name, pattern: "(0x)?[a-fA-F0-9]+")
             try self.validate(self.rejectReason, name: "rejectReason", parent: name, max: 128)
+            try self.validate(self.rejectReason, name: "rejectReason", parent: name, pattern: "[\\s\\S]*")
         }
 
         private enum CodingKeys: String, CodingKey {
@@ -13317,6 +13577,9 @@ extension IoT {
             try self.validate(self.inputFileKey, name: "inputFileKey", parent: name, pattern: "[a-zA-Z0-9!_.*'()-\\/]+")
             try self.validate(self.roleArn, name: "roleArn", parent: name, max: 2048)
             try self.validate(self.roleArn, name: "roleArn", parent: name, min: 20)
+            try self.validate(self.templateBody, name: "templateBody", parent: name, max: 10240)
+            try self.validate(self.templateBody, name: "templateBody", parent: name, min: 0)
+            try self.validate(self.templateBody, name: "templateBody", parent: name, pattern: "[\\s\\S]*")
         }
 
         private enum CodingKeys: String, CodingKey {
@@ -13360,7 +13623,7 @@ extension IoT {
     public struct Statistics: AWSDecodableShape {
         /// The average of the aggregated field values.
         public let average: Double?
-        /// The count of things that match the query.
+        /// The count of things that match the query string criteria and contain a valid aggregation field value.
         public let count: Int?
         /// The maximum aggregated field value.
         public let maximum: Double?
@@ -13795,6 +14058,7 @@ extension IoT {
             try self.tlsContext?.validate(name: "\(name).tlsContext")
             try self.validate(self.token, name: "token", parent: name, max: 6144)
             try self.validate(self.token, name: "token", parent: name, min: 1)
+            try self.validate(self.token, name: "token", parent: name, pattern: "[\\s\\S]*")
             try self.validate(self.tokenSignature, name: "tokenSignature", parent: name, max: 2560)
             try self.validate(self.tokenSignature, name: "tokenSignature", parent: name, min: 1)
             try self.validate(self.tokenSignature, name: "tokenSignature", parent: name, pattern: "[A-Za-z0-9+/]+={0,2}")
@@ -13893,7 +14157,9 @@ extension IoT {
         public let attributes: [String: String]?
         /// Indicates whether the thing is connected to the Amazon Web Services IoT Core service.
         public let connectivity: ThingConnectivity?
-        /// The shadow.
+        /// Contains Device Defender data. For more information about Device Defender, see Device Defender.
+        public let deviceDefender: String?
+        /// The unnamed shadow and named shadow. For more information about shadows, see IoT Device Shadow service.
         public let shadow: String?
         /// Thing group names.
         public let thingGroupNames: [String]?
@@ -13904,9 +14170,10 @@ extension IoT {
         /// The thing type name.
         public let thingTypeName: String?
 
-        public init(attributes: [String: String]? = nil, connectivity: ThingConnectivity? = nil, shadow: String? = nil, thingGroupNames: [String]? = nil, thingId: String? = nil, thingName: String? = nil, thingTypeName: String? = nil) {
+        public init(attributes: [String: String]? = nil, connectivity: ThingConnectivity? = nil, deviceDefender: String? = nil, shadow: String? = nil, thingGroupNames: [String]? = nil, thingId: String? = nil, thingName: String? = nil, thingTypeName: String? = nil) {
             self.attributes = attributes
             self.connectivity = connectivity
+            self.deviceDefender = deviceDefender
             self.shadow = shadow
             self.thingGroupNames = thingGroupNames
             self.thingId = thingId
@@ -13917,6 +14184,7 @@ extension IoT {
         private enum CodingKeys: String, CodingKey {
             case attributes
             case connectivity
+            case deviceDefender
             case shadow
             case thingGroupNames
             case thingId
@@ -14022,23 +14290,31 @@ extension IoT {
     public struct ThingIndexingConfiguration: AWSEncodableShape & AWSDecodableShape {
         /// Contains custom field names and their data type.
         public let customFields: [Field]?
+        /// Device Defender indexing mode. Valid values are:   VIOLATIONS – Your thing index contains Device Defender violations. To enable Device Defender indexing, deviceDefenderIndexingMode must not be set to OFF.   OFF - Device Defender indexing is disabled.   For more information about Device Defender violations, see Device Defender Detect.
+        public let deviceDefenderIndexingMode: DeviceDefenderIndexingMode?
         /// Contains fields that are indexed and whose types are already known by the Fleet Indexing service.
         public let managedFields: [Field]?
+        /// Named shadow indexing mode. Valid values are:   ON – Your thing index contains named shadow. To enable thing named shadow indexing, namedShadowIndexingMode must not be set to OFF.   OFF - Named shadow indexing is disabled.   For more information about Shadows, see IoT Device Shadow service.
+        public let namedShadowIndexingMode: NamedShadowIndexingMode?
         /// Thing connectivity indexing mode. Valid values are:    STATUS – Your thing index contains connectivity status. To enable thing connectivity indexing, thingIndexMode must not be set to OFF.   OFF - Thing connectivity status indexing is disabled.
         public let thingConnectivityIndexingMode: ThingConnectivityIndexingMode?
         /// Thing indexing mode. Valid values are:   REGISTRY – Your thing index contains registry data only.   REGISTRY_AND_SHADOW - Your thing index contains registry and shadow data.   OFF - Thing indexing is disabled.
         public let thingIndexingMode: ThingIndexingMode
 
-        public init(customFields: [Field]? = nil, managedFields: [Field]? = nil, thingConnectivityIndexingMode: ThingConnectivityIndexingMode? = nil, thingIndexingMode: ThingIndexingMode) {
+        public init(customFields: [Field]? = nil, deviceDefenderIndexingMode: DeviceDefenderIndexingMode? = nil, managedFields: [Field]? = nil, namedShadowIndexingMode: NamedShadowIndexingMode? = nil, thingConnectivityIndexingMode: ThingConnectivityIndexingMode? = nil, thingIndexingMode: ThingIndexingMode) {
             self.customFields = customFields
+            self.deviceDefenderIndexingMode = deviceDefenderIndexingMode
             self.managedFields = managedFields
+            self.namedShadowIndexingMode = namedShadowIndexingMode
             self.thingConnectivityIndexingMode = thingConnectivityIndexingMode
             self.thingIndexingMode = thingIndexingMode
         }
 
         private enum CodingKeys: String, CodingKey {
             case customFields
+            case deviceDefenderIndexingMode
             case managedFields
+            case namedShadowIndexingMode
             case thingConnectivityIndexingMode
             case thingIndexingMode
         }
@@ -14208,6 +14484,7 @@ extension IoT {
         public func validate(name: String) throws {
             try self.validate(self.serverName, name: "serverName", parent: name, max: 253)
             try self.validate(self.serverName, name: "serverName", parent: name, min: 1)
+            try self.validate(self.serverName, name: "serverName", parent: name, pattern: "[\\s\\S]*")
         }
 
         private enum CodingKeys: String, CodingKey {
@@ -14449,6 +14726,7 @@ extension IoT {
             try self.validate(self.targetAwsAccount, name: "targetAwsAccount", parent: name, min: 12)
             try self.validate(self.targetAwsAccount, name: "targetAwsAccount", parent: name, pattern: "[0-9]+")
             try self.validate(self.transferMessage, name: "transferMessage", parent: name, max: 128)
+            try self.validate(self.transferMessage, name: "transferMessage", parent: name, pattern: "[\\s\\S]*")
         }
 
         private enum CodingKeys: String, CodingKey {
@@ -14606,6 +14884,8 @@ extension IoT {
         public let authorizerFunctionArn: String?
         /// The authorizer name.
         public let authorizerName: String
+        /// When true, the result from the authorizer’s Lambda function is cached for the time specified in refreshAfterInSeconds. The cached result is used while the device reuses the same HTTP connection.
+        public let enableCachingForHttp: Bool?
         /// The status of the update authorizer request.
         public let status: AuthorizerStatus?
         /// The key used to extract the token from the HTTP headers.
@@ -14613,9 +14893,10 @@ extension IoT {
         /// The public keys used to verify the token signature.
         public let tokenSigningPublicKeys: [String: String]?
 
-        public init(authorizerFunctionArn: String? = nil, authorizerName: String, status: AuthorizerStatus? = nil, tokenKeyName: String? = nil, tokenSigningPublicKeys: [String: String]? = nil) {
+        public init(authorizerFunctionArn: String? = nil, authorizerName: String, enableCachingForHttp: Bool? = nil, status: AuthorizerStatus? = nil, tokenKeyName: String? = nil, tokenSigningPublicKeys: [String: String]? = nil) {
             self.authorizerFunctionArn = authorizerFunctionArn
             self.authorizerName = authorizerName
+            self.enableCachingForHttp = enableCachingForHttp
             self.status = status
             self.tokenKeyName = tokenKeyName
             self.tokenSigningPublicKeys = tokenSigningPublicKeys
@@ -14623,6 +14904,7 @@ extension IoT {
 
         public func validate(name: String) throws {
             try self.validate(self.authorizerFunctionArn, name: "authorizerFunctionArn", parent: name, max: 2048)
+            try self.validate(self.authorizerFunctionArn, name: "authorizerFunctionArn", parent: name, pattern: "[\\s\\S]*")
             try self.validate(self.authorizerName, name: "authorizerName", parent: name, max: 128)
             try self.validate(self.authorizerName, name: "authorizerName", parent: name, min: 1)
             try self.validate(self.authorizerName, name: "authorizerName", parent: name, pattern: "[\\w=,@-]+")
@@ -14634,11 +14916,13 @@ extension IoT {
                 try validate($0.key, name: "tokenSigningPublicKeys.key", parent: name, min: 1)
                 try validate($0.key, name: "tokenSigningPublicKeys.key", parent: name, pattern: "[a-zA-Z0-9:_-]+")
                 try validate($0.value, name: "tokenSigningPublicKeys[\"\($0.key)\"]", parent: name, max: 5120)
+                try validate($0.value, name: "tokenSigningPublicKeys[\"\($0.key)\"]", parent: name, pattern: "[\\s\\S]*")
             }
         }
 
         private enum CodingKeys: String, CodingKey {
             case authorizerFunctionArn
+            case enableCachingForHttp
             case status
             case tokenKeyName
             case tokenSigningPublicKeys

@@ -95,7 +95,7 @@ extension PersonalizeRuntime {
 
     public struct GetRecommendationsRequest: AWSEncodableShape {
         /// The Amazon Resource Name (ARN) of the campaign to use for getting recommendations.
-        public let campaignArn: String
+        public let campaignArn: String?
         /// The contextual metadata to use when getting recommendations. Contextual metadata includes any interaction information that might be relevant when getting a user's recommendations, such as the user's current location or device type.
         public let context: [String: String]?
         /// The ARN of the filter to apply to the returned recommendations. For more information, see Filtering Recommendations. When using this parameter, be sure the filter resource is ACTIVE.
@@ -106,16 +106,19 @@ extension PersonalizeRuntime {
         public let itemId: String?
         /// The number of results to return. The default is 25. The maximum is 500.
         public let numResults: Int?
+        /// The Amazon Resource Name (ARN) of the recommender to use to get recommendations. Provide a recommender ARN if you created a Domain dataset group with a recommender for a domain use case.
+        public let recommenderArn: String?
         /// The user ID to provide recommendations for. Required for USER_PERSONALIZATION recipe type.
         public let userId: String?
 
-        public init(campaignArn: String, context: [String: String]? = nil, filterArn: String? = nil, filterValues: [String: String]? = nil, itemId: String? = nil, numResults: Int? = nil, userId: String? = nil) {
+        public init(campaignArn: String? = nil, context: [String: String]? = nil, filterArn: String? = nil, filterValues: [String: String]? = nil, itemId: String? = nil, numResults: Int? = nil, recommenderArn: String? = nil, userId: String? = nil) {
             self.campaignArn = campaignArn
             self.context = context
             self.filterArn = filterArn
             self.filterValues = filterValues
             self.itemId = itemId
             self.numResults = numResults
+            self.recommenderArn = recommenderArn
             self.userId = userId
         }
 
@@ -136,6 +139,8 @@ extension PersonalizeRuntime {
             }
             try self.validate(self.itemId, name: "itemId", parent: name, max: 256)
             try self.validate(self.numResults, name: "numResults", parent: name, min: 0)
+            try self.validate(self.recommenderArn, name: "recommenderArn", parent: name, max: 256)
+            try self.validate(self.recommenderArn, name: "recommenderArn", parent: name, pattern: "arn:([a-z\\d-]+):personalize:.*:.*:.+")
             try self.validate(self.userId, name: "userId", parent: name, max: 256)
         }
 
@@ -146,12 +151,13 @@ extension PersonalizeRuntime {
             case filterValues
             case itemId
             case numResults
+            case recommenderArn
             case userId
         }
     }
 
     public struct GetRecommendationsResponse: AWSDecodableShape {
-        /// A list of recommendations sorted in ascending order by prediction score. There can be a maximum of 500 items in the list.
+        /// A list of recommendations sorted in descending order by prediction score. There can be a maximum of 500 items in the list.
         public let itemList: [PredictedItem]?
         /// The ID of the recommendation.
         public let recommendationId: String?

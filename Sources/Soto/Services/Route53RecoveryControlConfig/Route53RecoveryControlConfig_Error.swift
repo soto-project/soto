@@ -46,19 +46,19 @@ public struct Route53RecoveryControlConfigErrorType: AWSErrorType {
     /// return error code string
     public var errorCode: String { self.error.rawValue }
 
-    /// 403 response - AccessDeniedException. You do not have sufficient access to perform this action.
+    /// 403 response - You do not have sufficient access to perform this action.
     public static var accessDeniedException: Self { .init(.accessDeniedException) }
-    /// 409 response - ConflictException.
+    /// 409 response - ConflictException. You might be using a predefined variable.
     public static var conflictException: Self { .init(.conflictException) }
     /// 500 response - InternalServiceError. Temporary service error. Retry the request.
     public static var internalServerException: Self { .init(.internalServerException) }
-    /// 404 response - The query string contains a syntax error or resource not found.
+    /// 404 response - MalformedQueryString. The query string contains a syntax error or resource not found..
     public static var resourceNotFoundException: Self { .init(.resourceNotFoundException) }
-    /// 402 response
+    /// 402 response - You attempted to create more resources than the service allows based on service quotas.
     public static var serviceQuotaExceededException: Self { .init(.serviceQuotaExceededException) }
-    /// 429 response - ThrottlingException.
+    /// 429 response - LimitExceededException or TooManyRequestsException.
     public static var throttlingException: Self { .init(.throttlingException) }
-    /// 400 response - Multiple causes. For example, you might have a malformed query string and input parameter might be out of range, or you used parameters together incorrectly.
+    /// 400 response - Multiple causes. For example, you might have a malformed query string and input parameter might be out of range, or you might have used parameters together incorrectly.
     public static var validationException: Self { .init(.validationException) }
 }
 

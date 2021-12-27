@@ -44,7 +44,29 @@ extension LookoutforVision {
         )
     }
 
-    ///  Lists the versions of a model in an Amazon Lookout for Vision project. This operation requires permissions to perform the lookoutvision:ListModels operation.
+    ///   Lists the model packaging jobs created for an Amazon Lookout for Vision project.  This operation requires permissions to perform the lookoutvision:ListModelPackagingJobs operation.  For more information, see Using your Amazon Lookout for Vision model on an edge device in the Amazon Lookout for Vision Developer Guide.
+    /// Return PaginatorSequence for operation.
+    ///
+    /// - Parameters:
+    ///   - input: Input for request
+    ///   - logger: Logger used flot logging
+    ///   - eventLoop: EventLoop to run this process on
+    public func listModelPackagingJobsPaginator(
+        _ input: ListModelPackagingJobsRequest,
+        logger: Logger = AWSClient.loggingDisabled,
+        on eventLoop: EventLoop? = nil
+    ) -> AWSClient.PaginatorSequence<ListModelPackagingJobsRequest, ListModelPackagingJobsResponse> {
+        return .init(
+            input: input,
+            command: listModelPackagingJobs,
+            inputKey: \ListModelPackagingJobsRequest.nextToken,
+            outputKey: \ListModelPackagingJobsResponse.nextToken,
+            logger: logger,
+            on: eventLoop
+        )
+    }
+
+    ///  Lists the versions of a model in an Amazon Lookout for Vision project. The ListModels operation is eventually consistent. Recent calls to CreateModel might take a while to appear in the response from ListProjects. This operation requires permissions to perform the lookoutvision:ListModels operation.
     /// Return PaginatorSequence for operation.
     ///
     /// - Parameters:
@@ -66,7 +88,7 @@ extension LookoutforVision {
         )
     }
 
-    ///  Lists the Amazon Lookout for Vision projects in your AWS account. This operation requires permissions to perform the lookoutvision:ListProjects operation.
+    ///  Lists the Amazon Lookout for Vision projects in your AWS account. The ListProjects operation is eventually consistent. Recent calls to CreateProject and DeleteProject might take a while to appear in the response from ListProjects. This operation requires permissions to perform the lookoutvision:ListProjects operation.
     /// Return PaginatorSequence for operation.
     ///
     /// - Parameters:

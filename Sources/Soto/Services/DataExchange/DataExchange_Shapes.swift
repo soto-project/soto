@@ -21,6 +21,7 @@ extension DataExchange {
     // MARK: Enums
 
     public enum AssetType: String, CustomStringConvertible, Codable {
+        case apiGatewayApi = "API_GATEWAY_API"
         case redshiftDataShare = "REDSHIFT_DATA_SHARE"
         case s3Snapshot = "S3_SNAPSHOT"
         public var description: String { return self.rawValue }
@@ -57,6 +58,11 @@ extension DataExchange {
         public var description: String { return self.rawValue }
     }
 
+    public enum ProtocolType: String, CustomStringConvertible, Codable {
+        case rest = "REST"
+        public var description: String { return self.rawValue }
+    }
+
     public enum ServerSideEncryptionTypes: String, CustomStringConvertible, Codable {
         case aes256 = "AES256"
         case awsKms = "aws:kms"
@@ -77,6 +83,7 @@ extension DataExchange {
         case exportAssetToSignedUrl = "EXPORT_ASSET_TO_SIGNED_URL"
         case exportAssetsToS3 = "EXPORT_ASSETS_TO_S3"
         case exportRevisionsToS3 = "EXPORT_REVISIONS_TO_S3"
+        case importAssetFromApiGatewayApi = "IMPORT_ASSET_FROM_API_GATEWAY_API"
         case importAssetFromSignedUrl = "IMPORT_ASSET_FROM_SIGNED_URL"
         case importAssetsFromRedshiftDataShares = "IMPORT_ASSETS_FROM_REDSHIFT_DATA_SHARES"
         case importAssetsFromS3 = "IMPORT_ASSETS_FROM_S3"
@@ -95,6 +102,52 @@ extension DataExchange {
 
         private enum CodingKeys: String, CodingKey {
             case exportRevisionToS3 = "ExportRevisionToS3"
+        }
+    }
+
+    public struct ApiGatewayApiAsset: AWSDecodableShape {
+        /// The API description of the API asset.
+        public let apiDescription: String?
+        /// The API endpoint of the API asset.
+        public let apiEndpoint: String?
+        /// The unique identifier of the API asset.
+        public let apiId: String?
+        /// The API key of the API asset.
+        public let apiKey: String?
+        /// The API name of the API asset.
+        public let apiName: String?
+        /// The download URL of the API specification of the API asset.
+        public let apiSpecificationDownloadUrl: String?
+        /// The date and time that the upload URL expires, in ISO 8601 format.
+        @OptionalCustomCoding<ISO8601DateCoder>
+        public var apiSpecificationDownloadUrlExpiresAt: Date?
+        /// The protocol type of the API asset.
+        public let protocolType: ProtocolType?
+        /// The stage of the API asset.
+        public let stage: String?
+
+        public init(apiDescription: String? = nil, apiEndpoint: String? = nil, apiId: String? = nil, apiKey: String? = nil, apiName: String? = nil, apiSpecificationDownloadUrl: String? = nil, apiSpecificationDownloadUrlExpiresAt: Date? = nil, protocolType: ProtocolType? = nil, stage: String? = nil) {
+            self.apiDescription = apiDescription
+            self.apiEndpoint = apiEndpoint
+            self.apiId = apiId
+            self.apiKey = apiKey
+            self.apiName = apiName
+            self.apiSpecificationDownloadUrl = apiSpecificationDownloadUrl
+            self.apiSpecificationDownloadUrlExpiresAt = apiSpecificationDownloadUrlExpiresAt
+            self.protocolType = protocolType
+            self.stage = stage
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case apiDescription = "ApiDescription"
+            case apiEndpoint = "ApiEndpoint"
+            case apiId = "ApiId"
+            case apiKey = "ApiKey"
+            case apiName = "ApiName"
+            case apiSpecificationDownloadUrl = "ApiSpecificationDownloadUrl"
+            case apiSpecificationDownloadUrlExpiresAt = "ApiSpecificationDownloadUrlExpiresAt"
+            case protocolType = "ProtocolType"
+            case stage = "Stage"
         }
     }
 
@@ -120,17 +173,21 @@ extension DataExchange {
     }
 
     public struct AssetDetails: AWSDecodableShape {
+        /// Information about the API Gateway API asset.
+        public let apiGatewayApiAsset: ApiGatewayApiAsset?
         /// The Amazon Redshift datashare that is the asset.
         public let redshiftDataShareAsset: RedshiftDataShareAsset?
         /// The S3 object that is the asset.
         public let s3SnapshotAsset: S3SnapshotAsset?
 
-        public init(redshiftDataShareAsset: RedshiftDataShareAsset? = nil, s3SnapshotAsset: S3SnapshotAsset? = nil) {
+        public init(apiGatewayApiAsset: ApiGatewayApiAsset? = nil, redshiftDataShareAsset: RedshiftDataShareAsset? = nil, s3SnapshotAsset: S3SnapshotAsset? = nil) {
+            self.apiGatewayApiAsset = apiGatewayApiAsset
             self.redshiftDataShareAsset = redshiftDataShareAsset
             self.s3SnapshotAsset = s3SnapshotAsset
         }
 
         private enum CodingKeys: String, CodingKey {
+            case apiGatewayApiAsset = "ApiGatewayApiAsset"
             case redshiftDataShareAsset = "RedshiftDataShareAsset"
             case s3SnapshotAsset = "S3SnapshotAsset"
         }
@@ -150,7 +207,7 @@ extension DataExchange {
         public let dataSetId: String
         /// The unique identifier for the asset.
         public let id: String
-        /// The name of the asset. When importing from Amazon S3, the S3 object key is used as the asset name. When exporting to Amazon S3, the asset name is used as default target S3 object key.
+        /// The name of the asset. When importing from Amazon S3, the S3 object key is used as the asset name. When exporting to Amazon S3, the asset name is used as default target S3 object key. When importing from Amazon API Gateway API, the API name is used as the asset name. When importing from Amazon Redshift, the datashare name is used as the asset name.
         public let name: String
         /// The unique identifier for the revision associated with this asset.
         public let revisionId: String
@@ -1100,6 +1157,111 @@ extension DataExchange {
         }
     }
 
+    public struct ImportAssetFromApiGatewayApiRequestDetails: AWSEncodableShape {
+        /// The API description. Markdown supported.
+        public let apiDescription: String?
+        /// The API Gateway API ID.
+        public let apiId: String
+        /// The API Gateway API key.
+        public let apiKey: String?
+        /// The API name.
+        public let apiName: String
+        /// The Base64-encoded MD5 hash of the OpenAPI 3.0 JSON API specification file. It is used to ensure the integrity of the file.
+        public let apiSpecificationMd5Hash: String
+        /// The data set ID.
+        public let dataSetId: String
+        /// The protocol type.
+        public let protocolType: ProtocolType
+        /// The revision ID.
+        public let revisionId: String
+        /// The API stage.
+        public let stage: String
+
+        public init(apiDescription: String? = nil, apiId: String, apiKey: String? = nil, apiName: String, apiSpecificationMd5Hash: String, dataSetId: String, protocolType: ProtocolType, revisionId: String, stage: String) {
+            self.apiDescription = apiDescription
+            self.apiId = apiId
+            self.apiKey = apiKey
+            self.apiName = apiName
+            self.apiSpecificationMd5Hash = apiSpecificationMd5Hash
+            self.dataSetId = dataSetId
+            self.protocolType = protocolType
+            self.revisionId = revisionId
+            self.stage = stage
+        }
+
+        public func validate(name: String) throws {
+            try self.validate(self.apiSpecificationMd5Hash, name: "apiSpecificationMd5Hash", parent: name, max: 24)
+            try self.validate(self.apiSpecificationMd5Hash, name: "apiSpecificationMd5Hash", parent: name, min: 24)
+            try self.validate(self.apiSpecificationMd5Hash, name: "apiSpecificationMd5Hash", parent: name, pattern: "^(?:[A-Za-z0-9+/]{4})*(?:[A-Za-z0-9+/]{2}==|[A-Za-z0-9+/]{3}=)?$")
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case apiDescription = "ApiDescription"
+            case apiId = "ApiId"
+            case apiKey = "ApiKey"
+            case apiName = "ApiName"
+            case apiSpecificationMd5Hash = "ApiSpecificationMd5Hash"
+            case dataSetId = "DataSetId"
+            case protocolType = "ProtocolType"
+            case revisionId = "RevisionId"
+            case stage = "Stage"
+        }
+    }
+
+    public struct ImportAssetFromApiGatewayApiResponseDetails: AWSDecodableShape {
+        /// The API description.
+        public let apiDescription: String?
+        /// The API ID.
+        public let apiId: String
+        /// The API key.
+        public let apiKey: String?
+        /// The API name.
+        public let apiName: String
+        /// The Base64-encoded Md5 hash for the API asset, used to ensure the integrity of the API at that location.
+        public let apiSpecificationMd5Hash: String
+        /// The upload URL of the API specification.
+        public let apiSpecificationUploadUrl: String
+        /// The date and time that the upload URL expires, in ISO 8601 format.
+        @CustomCoding<ISO8601DateCoder>
+        public var apiSpecificationUploadUrlExpiresAt: Date
+        /// The data set ID.
+        public let dataSetId: String
+        /// The protocol type.
+        public let protocolType: ProtocolType
+        /// The revision ID.
+        public let revisionId: String
+        /// The API stage.
+        public let stage: String
+
+        public init(apiDescription: String? = nil, apiId: String, apiKey: String? = nil, apiName: String, apiSpecificationMd5Hash: String, apiSpecificationUploadUrl: String, apiSpecificationUploadUrlExpiresAt: Date, dataSetId: String, protocolType: ProtocolType, revisionId: String, stage: String) {
+            self.apiDescription = apiDescription
+            self.apiId = apiId
+            self.apiKey = apiKey
+            self.apiName = apiName
+            self.apiSpecificationMd5Hash = apiSpecificationMd5Hash
+            self.apiSpecificationUploadUrl = apiSpecificationUploadUrl
+            self.apiSpecificationUploadUrlExpiresAt = apiSpecificationUploadUrlExpiresAt
+            self.dataSetId = dataSetId
+            self.protocolType = protocolType
+            self.revisionId = revisionId
+            self.stage = stage
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case apiDescription = "ApiDescription"
+            case apiId = "ApiId"
+            case apiKey = "ApiKey"
+            case apiName = "ApiName"
+            case apiSpecificationMd5Hash = "ApiSpecificationMd5Hash"
+            case apiSpecificationUploadUrl = "ApiSpecificationUploadUrl"
+            case apiSpecificationUploadUrlExpiresAt = "ApiSpecificationUploadUrlExpiresAt"
+            case dataSetId = "DataSetId"
+            case protocolType = "ProtocolType"
+            case revisionId = "RevisionId"
+            case stage = "Stage"
+        }
+    }
+
     public struct ImportAssetFromSignedUrlJobErrorDetails: AWSDecodableShape {
         /// Information about the job error.
         public let assetName: String
@@ -1620,6 +1782,8 @@ extension DataExchange {
         public let exportAssetToSignedUrl: ExportAssetToSignedUrlRequestDetails?
         /// Details about the export to Amazon S3 request.
         public let exportRevisionsToS3: ExportRevisionsToS3RequestDetails?
+        /// Information about the import asset from API Gateway API request.
+        public let importAssetFromApiGatewayApi: ImportAssetFromApiGatewayApiRequestDetails?
         /// Details about the import from signed URL request.
         public let importAssetFromSignedUrl: ImportAssetFromSignedUrlRequestDetails?
         /// Details from an import from Amazon Redshift datashare request.
@@ -1627,16 +1791,18 @@ extension DataExchange {
         /// Details about the import from Amazon S3 request.
         public let importAssetsFromS3: ImportAssetsFromS3RequestDetails?
 
-        public init(exportAssetsToS3: ExportAssetsToS3RequestDetails? = nil, exportAssetToSignedUrl: ExportAssetToSignedUrlRequestDetails? = nil, exportRevisionsToS3: ExportRevisionsToS3RequestDetails? = nil, importAssetFromSignedUrl: ImportAssetFromSignedUrlRequestDetails? = nil, importAssetsFromRedshiftDataShares: ImportAssetsFromRedshiftDataSharesRequestDetails? = nil, importAssetsFromS3: ImportAssetsFromS3RequestDetails? = nil) {
+        public init(exportAssetsToS3: ExportAssetsToS3RequestDetails? = nil, exportAssetToSignedUrl: ExportAssetToSignedUrlRequestDetails? = nil, exportRevisionsToS3: ExportRevisionsToS3RequestDetails? = nil, importAssetFromApiGatewayApi: ImportAssetFromApiGatewayApiRequestDetails? = nil, importAssetFromSignedUrl: ImportAssetFromSignedUrlRequestDetails? = nil, importAssetsFromRedshiftDataShares: ImportAssetsFromRedshiftDataSharesRequestDetails? = nil, importAssetsFromS3: ImportAssetsFromS3RequestDetails? = nil) {
             self.exportAssetsToS3 = exportAssetsToS3
             self.exportAssetToSignedUrl = exportAssetToSignedUrl
             self.exportRevisionsToS3 = exportRevisionsToS3
+            self.importAssetFromApiGatewayApi = importAssetFromApiGatewayApi
             self.importAssetFromSignedUrl = importAssetFromSignedUrl
             self.importAssetsFromRedshiftDataShares = importAssetsFromRedshiftDataShares
             self.importAssetsFromS3 = importAssetsFromS3
         }
 
         public func validate(name: String) throws {
+            try self.importAssetFromApiGatewayApi?.validate(name: "\(name).importAssetFromApiGatewayApi")
             try self.importAssetFromSignedUrl?.validate(name: "\(name).importAssetFromSignedUrl")
         }
 
@@ -1644,6 +1810,7 @@ extension DataExchange {
             case exportAssetsToS3 = "ExportAssetsToS3"
             case exportAssetToSignedUrl = "ExportAssetToSignedUrl"
             case exportRevisionsToS3 = "ExportRevisionsToS3"
+            case importAssetFromApiGatewayApi = "ImportAssetFromApiGatewayApi"
             case importAssetFromSignedUrl = "ImportAssetFromSignedUrl"
             case importAssetsFromRedshiftDataShares = "ImportAssetsFromRedshiftDataShares"
             case importAssetsFromS3 = "ImportAssetsFromS3"
@@ -1657,6 +1824,8 @@ extension DataExchange {
         public let exportAssetToSignedUrl: ExportAssetToSignedUrlResponseDetails?
         /// Details for the export revisions to Amazon S3 response.
         public let exportRevisionsToS3: ExportRevisionsToS3ResponseDetails?
+        /// The response details.
+        public let importAssetFromApiGatewayApi: ImportAssetFromApiGatewayApiResponseDetails?
         /// Details for the import from signed URL response.
         public let importAssetFromSignedUrl: ImportAssetFromSignedUrlResponseDetails?
         /// Details from an import from Amazon Redshift datashare response.
@@ -1664,10 +1833,11 @@ extension DataExchange {
         /// Details for the import from Amazon S3 response.
         public let importAssetsFromS3: ImportAssetsFromS3ResponseDetails?
 
-        public init(exportAssetsToS3: ExportAssetsToS3ResponseDetails? = nil, exportAssetToSignedUrl: ExportAssetToSignedUrlResponseDetails? = nil, exportRevisionsToS3: ExportRevisionsToS3ResponseDetails? = nil, importAssetFromSignedUrl: ImportAssetFromSignedUrlResponseDetails? = nil, importAssetsFromRedshiftDataShares: ImportAssetsFromRedshiftDataSharesResponseDetails? = nil, importAssetsFromS3: ImportAssetsFromS3ResponseDetails? = nil) {
+        public init(exportAssetsToS3: ExportAssetsToS3ResponseDetails? = nil, exportAssetToSignedUrl: ExportAssetToSignedUrlResponseDetails? = nil, exportRevisionsToS3: ExportRevisionsToS3ResponseDetails? = nil, importAssetFromApiGatewayApi: ImportAssetFromApiGatewayApiResponseDetails? = nil, importAssetFromSignedUrl: ImportAssetFromSignedUrlResponseDetails? = nil, importAssetsFromRedshiftDataShares: ImportAssetsFromRedshiftDataSharesResponseDetails? = nil, importAssetsFromS3: ImportAssetsFromS3ResponseDetails? = nil) {
             self.exportAssetsToS3 = exportAssetsToS3
             self.exportAssetToSignedUrl = exportAssetToSignedUrl
             self.exportRevisionsToS3 = exportRevisionsToS3
+            self.importAssetFromApiGatewayApi = importAssetFromApiGatewayApi
             self.importAssetFromSignedUrl = importAssetFromSignedUrl
             self.importAssetsFromRedshiftDataShares = importAssetsFromRedshiftDataShares
             self.importAssetsFromS3 = importAssetsFromS3
@@ -1677,6 +1847,7 @@ extension DataExchange {
             case exportAssetsToS3 = "ExportAssetsToS3"
             case exportAssetToSignedUrl = "ExportAssetToSignedUrl"
             case exportRevisionsToS3 = "ExportRevisionsToS3"
+            case importAssetFromApiGatewayApi = "ImportAssetFromApiGatewayApi"
             case importAssetFromSignedUrl = "ImportAssetFromSignedUrl"
             case importAssetsFromRedshiftDataShares = "ImportAssetsFromRedshiftDataShares"
             case importAssetsFromS3 = "ImportAssetsFromS3"
@@ -1773,6 +1944,69 @@ extension DataExchange {
         }
     }
 
+    public struct SendApiAssetRequest: AWSEncodableShape & AWSShapeWithPayload {
+        /// The key for the payload
+        public static let _payloadPath: String = "body"
+        public static var _encoding = [
+            AWSMemberEncoding(label: "assetId", location: .header(locationName: "x-amzn-dataexchange-asset-id")),
+            AWSMemberEncoding(label: "body", location: .body(locationName: "Body")),
+            AWSMemberEncoding(label: "dataSetId", location: .header(locationName: "x-amzn-dataexchange-data-set-id")),
+            AWSMemberEncoding(label: "method", location: .header(locationName: "x-amzn-dataexchange-http-method")),
+            AWSMemberEncoding(label: "path", location: .header(locationName: "x-amzn-dataexchange-path")),
+            AWSMemberEncoding(label: "queryStringParameters", location: .querystring(locationName: "QueryStringParameters")),
+            AWSMemberEncoding(label: "requestHeaders", location: .header(locationName: "x-amzn-dataexchange-header-")),
+            AWSMemberEncoding(label: "revisionId", location: .header(locationName: "x-amzn-dataexchange-revision-id"))
+        ]
+
+        public let assetId: String
+        public let body: String?
+        public let dataSetId: String
+        public let method: String?
+        public let path: String?
+        public let queryStringParameters: [String: String]?
+        public let requestHeaders: [String: String]?
+        public let revisionId: String
+
+        public init(assetId: String, body: String? = nil, dataSetId: String, method: String? = nil, path: String? = nil, queryStringParameters: [String: String]? = nil, requestHeaders: [String: String]? = nil, revisionId: String) {
+            self.assetId = assetId
+            self.body = body
+            self.dataSetId = dataSetId
+            self.method = method
+            self.path = path
+            self.queryStringParameters = queryStringParameters
+            self.requestHeaders = requestHeaders
+            self.revisionId = revisionId
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case body = "Body"
+        }
+    }
+
+    public struct SendApiAssetResponse: AWSDecodableShape & AWSShapeWithPayload {
+        /// The key for the payload
+        public static let _payloadPath: String = "body"
+        public static var _encoding = [
+            AWSMemberEncoding(label: "body", location: .body(locationName: "Body")),
+            AWSMemberEncoding(label: "responseHeaders", location: .header(locationName: ""))
+        ]
+
+        /// The response body from the underlying API tracked by the API asset.
+        public let body: String?
+        /// The response headers from the underlying API tracked by the API asset.
+        public let responseHeaders: [String: String]?
+
+        public init(body: String? = nil, responseHeaders: [String: String]? = nil) {
+            self.body = body
+            self.responseHeaders = responseHeaders
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case body = "Body"
+            case responseHeaders = ""
+        }
+    }
+
     public struct StartJobRequest: AWSEncodableShape {
         public static var _encoding = [
             AWSMemberEncoding(label: "jobId", location: .uri(locationName: "JobId"))
@@ -1835,7 +2069,7 @@ extension DataExchange {
 
         public let assetId: String
         public let dataSetId: String
-        /// The name of the asset. When importing from Amazon S3, the S3 object key is used as the asset name. When exporting to Amazon S3, the asset name is used as default target S3 object key.
+        /// The name of the asset. When importing from Amazon S3, the S3 object key is used as the asset name. When exporting to Amazon S3, the asset name is used as default target S3 object key. When importing from Amazon API Gateway API, the API name is used as the asset name. When importing from Amazon Redshift, the datashare name is used as the asset name.
         public let name: String
         public let revisionId: String
 

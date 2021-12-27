@@ -88,6 +88,28 @@ extension WellArchitected {
         )
     }
 
+    ///  List the lens shares associated with the lens.
+    /// Return PaginatorSequence for operation.
+    ///
+    /// - Parameters:
+    ///   - input: Input for request
+    ///   - logger: Logger used flot logging
+    ///   - eventLoop: EventLoop to run this process on
+    public func listLensSharesPaginator(
+        _ input: ListLensSharesInput,
+        logger: Logger = AWSClient.loggingDisabled,
+        on eventLoop: EventLoop? = nil
+    ) -> AWSClient.PaginatorSequence<ListLensSharesInput, ListLensSharesOutput> {
+        return .init(
+            input: input,
+            command: listLensShares,
+            inputKey: \ListLensSharesInput.nextToken,
+            outputKey: \ListLensSharesOutput.nextToken,
+            logger: logger,
+            on: eventLoop
+        )
+    }
+
     ///  List the available lenses.
     /// Return PaginatorSequence for operation.
     ///

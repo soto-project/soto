@@ -18,7 +18,7 @@
 
 /// Service object for interacting with AWS ComprehendMedical service.
 ///
-///  Amazon Comprehend Medical extracts structured information from unstructured clinical text. Use these actions to gain insight in your documents.
+///  Comprehend Medical; extracts structured information from unstructured clinical text. Use these actions to gain insight in your documents.
 public struct ComprehendMedical: AWSService {
     // MARK: Member variables
 
@@ -83,6 +83,11 @@ public struct ComprehendMedical: AWSService {
         return self.client.execute(operation: "DescribeRxNormInferenceJob", path: "/", httpMethod: .POST, serviceConfig: self.config, input: input, logger: logger, on: eventLoop)
     }
 
+    ///  Gets the properties associated with an InferSNOMEDCT job. Use this operation to get the status of an inference job.
+    public func describeSNOMEDCTInferenceJob(_ input: DescribeSNOMEDCTInferenceJobRequest, logger: Logger = AWSClient.loggingDisabled, on eventLoop: EventLoop? = nil) -> EventLoopFuture<DescribeSNOMEDCTInferenceJobResponse> {
+        return self.client.execute(operation: "DescribeSNOMEDCTInferenceJob", path: "/", httpMethod: .POST, serviceConfig: self.config, input: input, logger: logger, on: eventLoop)
+    }
+
     /// The DetectEntities operation is deprecated. You should use the DetectEntitiesV2 operation instead.  Inspects the clinical text for a variety of medical entities and returns specific information about them such as entity category, location, and confidence score on that information .
     @available(*, deprecated, message: "This operation is deprecated, use DetectEntitiesV2 instead.")
     public func detectEntities(_ input: DetectEntitiesRequest, logger: Logger = AWSClient.loggingDisabled, on eventLoop: EventLoop? = nil) -> EventLoopFuture<DetectEntitiesResponse> {
@@ -109,6 +114,11 @@ public struct ComprehendMedical: AWSService {
         return self.client.execute(operation: "InferRxNorm", path: "/", httpMethod: .POST, serviceConfig: self.config, input: input, logger: logger, on: eventLoop)
     }
 
+    ///  InferSNOMEDCT detects possible medical concepts as entities and links them to codes from the Systematized Nomenclature of Medicine, Clinical Terms (SNOMED-CT) ontology
+    public func inferSNOMEDCT(_ input: InferSNOMEDCTRequest, logger: Logger = AWSClient.loggingDisabled, on eventLoop: EventLoop? = nil) -> EventLoopFuture<InferSNOMEDCTResponse> {
+        return self.client.execute(operation: "InferSNOMEDCT", path: "/", httpMethod: .POST, serviceConfig: self.config, input: input, logger: logger, on: eventLoop)
+    }
+
     /// Gets a list of medical entity detection jobs that you have submitted.
     public func listEntitiesDetectionV2Jobs(_ input: ListEntitiesDetectionV2JobsRequest, logger: Logger = AWSClient.loggingDisabled, on eventLoop: EventLoop? = nil) -> EventLoopFuture<ListEntitiesDetectionV2JobsResponse> {
         return self.client.execute(operation: "ListEntitiesDetectionV2Jobs", path: "/", httpMethod: .POST, serviceConfig: self.config, input: input, logger: logger, on: eventLoop)
@@ -127,6 +137,11 @@ public struct ComprehendMedical: AWSService {
     /// Gets a list of InferRxNorm jobs that you have submitted.
     public func listRxNormInferenceJobs(_ input: ListRxNormInferenceJobsRequest, logger: Logger = AWSClient.loggingDisabled, on eventLoop: EventLoop? = nil) -> EventLoopFuture<ListRxNormInferenceJobsResponse> {
         return self.client.execute(operation: "ListRxNormInferenceJobs", path: "/", httpMethod: .POST, serviceConfig: self.config, input: input, logger: logger, on: eventLoop)
+    }
+
+    ///  Gets a list of InferSNOMEDCT jobs a user has submitted.
+    public func listSNOMEDCTInferenceJobs(_ input: ListSNOMEDCTInferenceJobsRequest, logger: Logger = AWSClient.loggingDisabled, on eventLoop: EventLoop? = nil) -> EventLoopFuture<ListSNOMEDCTInferenceJobsResponse> {
+        return self.client.execute(operation: "ListSNOMEDCTInferenceJobs", path: "/", httpMethod: .POST, serviceConfig: self.config, input: input, logger: logger, on: eventLoop)
     }
 
     /// Starts an asynchronous medical entity detection job for a collection of documents. Use the DescribeEntitiesDetectionV2Job operation to track the status of a job.
@@ -149,6 +164,11 @@ public struct ComprehendMedical: AWSService {
         return self.client.execute(operation: "StartRxNormInferenceJob", path: "/", httpMethod: .POST, serviceConfig: self.config, input: input, logger: logger, on: eventLoop)
     }
 
+    ///  Starts an asynchronous job to detect medical concepts and link them to the SNOMED-CT ontology. Use the DescribeSNOMEDCTInferenceJob operation to track the status of a job.
+    public func startSNOMEDCTInferenceJob(_ input: StartSNOMEDCTInferenceJobRequest, logger: Logger = AWSClient.loggingDisabled, on eventLoop: EventLoop? = nil) -> EventLoopFuture<StartSNOMEDCTInferenceJobResponse> {
+        return self.client.execute(operation: "StartSNOMEDCTInferenceJob", path: "/", httpMethod: .POST, serviceConfig: self.config, input: input, logger: logger, on: eventLoop)
+    }
+
     /// Stops a medical entities detection job in progress.
     public func stopEntitiesDetectionV2Job(_ input: StopEntitiesDetectionV2JobRequest, logger: Logger = AWSClient.loggingDisabled, on eventLoop: EventLoop? = nil) -> EventLoopFuture<StopEntitiesDetectionV2JobResponse> {
         return self.client.execute(operation: "StopEntitiesDetectionV2Job", path: "/", httpMethod: .POST, serviceConfig: self.config, input: input, logger: logger, on: eventLoop)
@@ -167,6 +187,11 @@ public struct ComprehendMedical: AWSService {
     /// Stops an InferRxNorm inference job in progress.
     public func stopRxNormInferenceJob(_ input: StopRxNormInferenceJobRequest, logger: Logger = AWSClient.loggingDisabled, on eventLoop: EventLoop? = nil) -> EventLoopFuture<StopRxNormInferenceJobResponse> {
         return self.client.execute(operation: "StopRxNormInferenceJob", path: "/", httpMethod: .POST, serviceConfig: self.config, input: input, logger: logger, on: eventLoop)
+    }
+
+    ///  Stops an InferSNOMEDCT inference job in progress.
+    public func stopSNOMEDCTInferenceJob(_ input: StopSNOMEDCTInferenceJobRequest, logger: Logger = AWSClient.loggingDisabled, on eventLoop: EventLoop? = nil) -> EventLoopFuture<StopSNOMEDCTInferenceJobResponse> {
+        return self.client.execute(operation: "StopSNOMEDCTInferenceJob", path: "/", httpMethod: .POST, serviceConfig: self.config, input: input, logger: logger, on: eventLoop)
     }
 }
 

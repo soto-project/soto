@@ -44,6 +44,28 @@ extension NetworkManager {
         )
     }
 
+    ///  Returns information about a core network Connect peer associations.
+    /// Return PaginatorSequence for operation.
+    ///
+    /// - Parameters:
+    ///   - input: Input for request
+    ///   - logger: Logger used flot logging
+    ///   - eventLoop: EventLoop to run this process on
+    public func getConnectPeerAssociationsPaginator(
+        _ input: GetConnectPeerAssociationsRequest,
+        logger: Logger = AWSClient.loggingDisabled,
+        on eventLoop: EventLoop? = nil
+    ) -> AWSClient.PaginatorSequence<GetConnectPeerAssociationsRequest, GetConnectPeerAssociationsResponse> {
+        return .init(
+            input: input,
+            command: getConnectPeerAssociations,
+            inputKey: \GetConnectPeerAssociationsRequest.nextToken,
+            outputKey: \GetConnectPeerAssociationsResponse.nextToken,
+            logger: logger,
+            on: eventLoop
+        )
+    }
+
     ///  Gets information about one or more of your connections in a global network.
     /// Return PaginatorSequence for operation.
     ///
@@ -61,6 +83,28 @@ extension NetworkManager {
             command: getConnections,
             inputKey: \GetConnectionsRequest.nextToken,
             outputKey: \GetConnectionsResponse.nextToken,
+            logger: logger,
+            on: eventLoop
+        )
+    }
+
+    ///  Returns a change set between the LIVE core network policy and a submitted policy.
+    /// Return PaginatorSequence for operation.
+    ///
+    /// - Parameters:
+    ///   - input: Input for request
+    ///   - logger: Logger used flot logging
+    ///   - eventLoop: EventLoop to run this process on
+    public func getCoreNetworkChangeSetPaginator(
+        _ input: GetCoreNetworkChangeSetRequest,
+        logger: Logger = AWSClient.loggingDisabled,
+        on eventLoop: EventLoop? = nil
+    ) -> AWSClient.PaginatorSequence<GetCoreNetworkChangeSetRequest, GetCoreNetworkChangeSetResponse> {
+        return .init(
+            input: input,
+            command: getCoreNetworkChangeSet,
+            inputKey: \GetCoreNetworkChangeSetRequest.nextToken,
+            outputKey: \GetCoreNetworkChangeSetResponse.nextToken,
             logger: logger,
             on: eventLoop
         )
@@ -303,6 +347,94 @@ extension NetworkManager {
             command: getTransitGatewayRegistrations,
             inputKey: \GetTransitGatewayRegistrationsRequest.nextToken,
             outputKey: \GetTransitGatewayRegistrationsResponse.nextToken,
+            logger: logger,
+            on: eventLoop
+        )
+    }
+
+    ///  Returns a list of core network attachments.
+    /// Return PaginatorSequence for operation.
+    ///
+    /// - Parameters:
+    ///   - input: Input for request
+    ///   - logger: Logger used flot logging
+    ///   - eventLoop: EventLoop to run this process on
+    public func listAttachmentsPaginator(
+        _ input: ListAttachmentsRequest,
+        logger: Logger = AWSClient.loggingDisabled,
+        on eventLoop: EventLoop? = nil
+    ) -> AWSClient.PaginatorSequence<ListAttachmentsRequest, ListAttachmentsResponse> {
+        return .init(
+            input: input,
+            command: listAttachments,
+            inputKey: \ListAttachmentsRequest.nextToken,
+            outputKey: \ListAttachmentsResponse.nextToken,
+            logger: logger,
+            on: eventLoop
+        )
+    }
+
+    ///  Returns a list of core network Connect peers.
+    /// Return PaginatorSequence for operation.
+    ///
+    /// - Parameters:
+    ///   - input: Input for request
+    ///   - logger: Logger used flot logging
+    ///   - eventLoop: EventLoop to run this process on
+    public func listConnectPeersPaginator(
+        _ input: ListConnectPeersRequest,
+        logger: Logger = AWSClient.loggingDisabled,
+        on eventLoop: EventLoop? = nil
+    ) -> AWSClient.PaginatorSequence<ListConnectPeersRequest, ListConnectPeersResponse> {
+        return .init(
+            input: input,
+            command: listConnectPeers,
+            inputKey: \ListConnectPeersRequest.nextToken,
+            outputKey: \ListConnectPeersResponse.nextToken,
+            logger: logger,
+            on: eventLoop
+        )
+    }
+
+    ///  Returns a list of core network policy versions.
+    /// Return PaginatorSequence for operation.
+    ///
+    /// - Parameters:
+    ///   - input: Input for request
+    ///   - logger: Logger used flot logging
+    ///   - eventLoop: EventLoop to run this process on
+    public func listCoreNetworkPolicyVersionsPaginator(
+        _ input: ListCoreNetworkPolicyVersionsRequest,
+        logger: Logger = AWSClient.loggingDisabled,
+        on eventLoop: EventLoop? = nil
+    ) -> AWSClient.PaginatorSequence<ListCoreNetworkPolicyVersionsRequest, ListCoreNetworkPolicyVersionsResponse> {
+        return .init(
+            input: input,
+            command: listCoreNetworkPolicyVersions,
+            inputKey: \ListCoreNetworkPolicyVersionsRequest.nextToken,
+            outputKey: \ListCoreNetworkPolicyVersionsResponse.nextToken,
+            logger: logger,
+            on: eventLoop
+        )
+    }
+
+    ///  Returns a list of owned and shared core networks.
+    /// Return PaginatorSequence for operation.
+    ///
+    /// - Parameters:
+    ///   - input: Input for request
+    ///   - logger: Logger used flot logging
+    ///   - eventLoop: EventLoop to run this process on
+    public func listCoreNetworksPaginator(
+        _ input: ListCoreNetworksRequest,
+        logger: Logger = AWSClient.loggingDisabled,
+        on eventLoop: EventLoop? = nil
+    ) -> AWSClient.PaginatorSequence<ListCoreNetworksRequest, ListCoreNetworksResponse> {
+        return .init(
+            input: input,
+            command: listCoreNetworks,
+            inputKey: \ListCoreNetworksRequest.nextToken,
+            outputKey: \ListCoreNetworksResponse.nextToken,
             logger: logger,
             on: eventLoop
         )

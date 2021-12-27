@@ -644,6 +644,7 @@ extension SSM {
 
     public enum PlatformType: String, CustomStringConvertible, Codable {
         case linux = "Linux"
+        case macos = "MacOS"
         case windows = "Windows"
         public var description: String { return self.rawValue }
     }
@@ -720,6 +721,13 @@ extension SSM {
         public var description: String { return self.rawValue }
     }
 
+    public enum SourceType: String, CustomStringConvertible, Codable {
+        case awsEc2Instance = "AWS::EC2::Instance"
+        case awsIotThing = "AWS::IoT::Thing"
+        case awsSsmManagedinstance = "AWS::SSM::ManagedInstance"
+        public var description: String { return self.rawValue }
+    }
+
     public enum StepExecutionFilterKey: String, CustomStringConvertible, Codable {
         case action = "Action"
         case starttimeafter = "StartTimeAfter"
@@ -760,19 +768,19 @@ extension SSM {
         public let activationId: String?
         /// The date the activation was created.
         public let createdDate: Date?
-        /// A name for the managed instance when it is created.
+        /// A name for the managed node when it is created.
         public let defaultInstanceName: String?
         /// A user defined description of the activation.
         public let description: String?
-        /// The date when this activation can no longer be used to register managed instances.
+        /// The date when this activation can no longer be used to register managed nodes.
         public let expirationDate: Date?
         /// Whether or not the activation is expired.
         public let expired: Bool?
-        /// The Identity and Access Management (IAM) role to assign to the managed instance.
+        /// The Identity and Access Management (IAM) role to assign to the managed node.
         public let iamRole: String?
-        /// The maximum number of managed instances that can be registered using this activation.
+        /// The maximum number of managed nodes that can be registered using this activation.
         public let registrationLimit: Int?
-        /// The number of managed instances already registered with this activation.
+        /// The number of managed nodes already registered with this activation.
         public let registrationsCount: Int?
         /// Tags assigned to the activation.
         public let tags: [Tag]?
@@ -805,9 +813,9 @@ extension SSM {
     }
 
     public struct AddTagsToResourceRequest: AWSEncodableShape {
-        /// The resource ID you want to tag. Use the ID of the resource. Here are some examples:  MaintenanceWindow: mw-012345abcde   PatchBaseline: pb-012345abcde   OpsMetadata object: ResourceID for tagging is created from the Amazon Resource Name (ARN) for the object. Specifically, ResourceID is created from the strings that come after the word opsmetadata in the ARN. For example, an OpsMetadata object with an ARN of arn:aws:ssm:us-east-2:1234567890:opsmetadata/aws/ssm/MyGroup/appmanager has a ResourceID of either aws/ssm/MyGroup/appmanager or /aws/ssm/MyGroup/appmanager. For the Document and Parameter values, use the name of the resource.  ManagedInstance: mi-012345abcde   The ManagedInstance type for this API operation is only for on-premises managed instances. You must specify the name of the managed instance in the following format: mi-ID_number . For example, mi-1a2b3c4d5e6f.
+        /// The resource ID you want to tag. Use the ID of the resource. Here are some examples:  MaintenanceWindow: mw-012345abcde   PatchBaseline: pb-012345abcde   OpsMetadata object: ResourceID for tagging is created from the Amazon Resource Name (ARN) for the object. Specifically, ResourceID is created from the strings that come after the word opsmetadata in the ARN. For example, an OpsMetadata object with an ARN of arn:aws:ssm:us-east-2:1234567890:opsmetadata/aws/ssm/MyGroup/appmanager has a ResourceID of either aws/ssm/MyGroup/appmanager or /aws/ssm/MyGroup/appmanager. For the Document and Parameter values, use the name of the resource.  ManagedInstance: mi-012345abcde   The ManagedInstance type for this API operation is only for on-premises managed nodes. You must specify the name of the managed node in the following format: mi-ID_number . For example, mi-1a2b3c4d5e6f.
         public let resourceId: String
-        /// Specifies the type of resource you are tagging.  The ManagedInstance type for this API operation is for on-premises managed instances. You must specify the name of the managed instance in the following format: mi-ID_number . For example, mi-1a2b3c4d5e6f.
+        /// Specifies the type of resource you are tagging.  The ManagedInstance type for this API operation is for on-premises managed nodes. You must specify the name of the managed node in the following format: mi-ID_number . For example, mi-1a2b3c4d5e6f.
         public let resourceType: ResourceTypeForTagging
         /// One or more tags. The value parameter is required.  Don't enter personally identifiable information in this field.
         public let tags: [Tag]
@@ -887,7 +895,7 @@ extension SSM {
         public let associationVersion: String?
         /// The version of the document used in the association.
         public let documentVersion: String?
-        /// The instance ID.
+        /// The managed node ID.
         public let instanceId: String?
         /// The date on which the association was last run.
         public let lastExecutionDate: Date?
@@ -897,7 +905,7 @@ extension SSM {
         public let overview: AssociationOverview?
         /// A cron expression that specifies a schedule when the association runs. The schedule runs in Coordinated Universal Time (UTC).
         public let scheduleExpression: String?
-        /// The instances targeted by the request to create an association. You can target all instances in an Amazon Web Services account by specifying the InstanceIds key with a value of *.
+        /// The managed nodes targeted by the request to create an association. You can target all managed nodes in an Amazon Web Services account by specifying the InstanceIds key with a value of *.
         public let targets: [Target]?
 
         public init(associationId: String? = nil, associationName: String? = nil, associationVersion: String? = nil, documentVersion: String? = nil, instanceId: String? = nil, lastExecutionDate: Date? = nil, name: String? = nil, overview: AssociationOverview? = nil, scheduleExpression: String? = nil, targets: [Target]? = nil) {
@@ -946,7 +954,7 @@ extension SSM {
         public let date: Date?
         /// The document version.
         public let documentVersion: String?
-        /// The instance ID.
+        /// The managed node ID.
         public let instanceId: String?
         /// The date on which the association was last run.
         public let lastExecutionDate: Date?
@@ -954,9 +962,9 @@ extension SSM {
         public let lastSuccessfulExecutionDate: Date?
         /// The date when the association was last updated.
         public let lastUpdateAssociationDate: Date?
-        /// The maximum number of targets allowed to run the association at the same time. You can specify a number, for example 10, or a percentage of the target set, for example 10%. The default value is 100%, which means all targets run the association at the same time. If a new instance starts and attempts to run an association while Systems Manager is running MaxConcurrency associations, the association is allowed to run. During the next association interval, the new instance will process its association within the limit specified for MaxConcurrency.
+        /// The maximum number of targets allowed to run the association at the same time. You can specify a number, for example 10, or a percentage of the target set, for example 10%. The default value is 100%, which means all targets run the association at the same time. If a new managed node starts and attempts to run an association while Systems Manager is running MaxConcurrency associations, the association is allowed to run. During the next association interval, the new managed node will process its association within the limit specified for MaxConcurrency.
         public let maxConcurrency: String?
-        /// The number of errors that are allowed before the system stops sending requests to run the association on additional targets. You can specify either an absolute number of errors, for example 10, or a percentage of the target set, for example 10%. If you specify 3, for example, the system stops sending requests when the fourth error is received. If you specify 0, then the system stops sending requests after the first error is returned. If you run an association on 50 instances and set MaxError to 10%, then the system stops sending the request when the sixth error is received. Executions that are already running an association when MaxErrors is reached are allowed to complete, but some of these executions may fail as well. If you need to ensure that there won't be more than max-errors failed executions, set MaxConcurrency to 1 so that executions proceed one at a time.
+        /// The number of errors that are allowed before the system stops sending requests to run the association on additional targets. You can specify either an absolute number of errors, for example 10, or a percentage of the target set, for example 10%. If you specify 3, for example, the system stops sending requests when the fourth error is received. If you specify 0, then the system stops sending requests after the first error is returned. If you run an association on 50 managed nodes and set MaxError to 10%, then the system stops sending the request when the sixth error is received. Executions that are already running an association when MaxErrors is reached are allowed to complete, but some of these executions may fail as well. If you need to ensure that there won't be more than max-errors failed executions, set MaxConcurrency to 1 so that executions proceed one at a time.
         public let maxErrors: String?
         /// The name of the SSM document.
         public let name: String?
@@ -974,7 +982,7 @@ extension SSM {
         public let syncCompliance: AssociationSyncCompliance?
         /// The combination of Amazon Web Services Regions and Amazon Web Services accounts where you want to run the association.
         public let targetLocations: [TargetLocation]?
-        /// The instances targeted by the request.
+        /// The managed nodes targeted by the request.
         public let targets: [Target]?
 
         public init(applyOnlyAtCronInterval: Bool? = nil, associationId: String? = nil, associationName: String? = nil, associationVersion: String? = nil, automationTargetParameterName: String? = nil, calendarNames: [String]? = nil, complianceSeverity: AssociationComplianceSeverity? = nil, date: Date? = nil, documentVersion: String? = nil, instanceId: String? = nil, lastExecutionDate: Date? = nil, lastSuccessfulExecutionDate: Date? = nil, lastUpdateAssociationDate: Date? = nil, maxConcurrency: String? = nil, maxErrors: String? = nil, name: String? = nil, outputLocation: InstanceAssociationOutputLocation? = nil, overview: AssociationOverview? = nil, parameters: [String: [String]]? = nil, scheduleExpression: String? = nil, status: AssociationStatus? = nil, syncCompliance: AssociationSyncCompliance? = nil, targetLocations: [TargetLocation]? = nil, targets: [Target]? = nil) {
@@ -1111,9 +1119,9 @@ extension SSM {
         public let lastExecutionDate: Date?
         /// The location where the association details are saved.
         public let outputSource: OutputSource?
-        /// The resource ID, for example, the instance ID where the association ran.
+        /// The resource ID, for example, the managed node ID where the association ran.
         public let resourceId: String?
-        /// The resource type, for example, instance.
+        /// The resource type, for example, EC2.
         public let resourceType: String?
         /// The association execution status.
         public let status: String?
@@ -1186,7 +1194,7 @@ extension SSM {
     }
 
     public struct AssociationOverview: AWSDecodableShape {
-        /// Returns the number of targets for the association status. For example, if you created an association with two instances, and one of them was successful, this would return the count of instances by status.
+        /// Returns the number of targets for the association status. For example, if you created an association with two managed nodes, and one of them was successful, this would return the count of managed nodes by status.
         public let associationStatusAggregatedCount: [String: Int]?
         /// A detailed status of the association.
         public let detailedStatus: String?
@@ -1254,9 +1262,9 @@ extension SSM {
         public let createdDate: Date?
         /// The version of an Amazon Web Services Systems Manager document (SSM document) used when the association version was created.
         public let documentVersion: String?
-        /// The maximum number of targets allowed to run the association at the same time. You can specify a number, for example 10, or a percentage of the target set, for example 10%. The default value is 100%, which means all targets run the association at the same time. If a new instance starts and attempts to run an association while Systems Manager is running MaxConcurrency associations, the association is allowed to run. During the next association interval, the new instance will process its association within the limit specified for MaxConcurrency.
+        /// The maximum number of targets allowed to run the association at the same time. You can specify a number, for example 10, or a percentage of the target set, for example 10%. The default value is 100%, which means all targets run the association at the same time. If a new managed node starts and attempts to run an association while Systems Manager is running MaxConcurrency associations, the association is allowed to run. During the next association interval, the new managed node will process its association within the limit specified for MaxConcurrency.
         public let maxConcurrency: String?
-        /// The number of errors that are allowed before the system stops sending requests to run the association on additional targets. You can specify either an absolute number of errors, for example 10, or a percentage of the target set, for example 10%. If you specify 3, for example, the system stops sending requests when the fourth error is received. If you specify 0, then the system stops sending requests after the first error is returned. If you run an association on 50 instances and set MaxError to 10%, then the system stops sending the request when the sixth error is received. Executions that are already running an association when MaxErrors is reached are allowed to complete, but some of these executions may fail as well. If you need to ensure that there won't be more than max-errors failed executions, set MaxConcurrency to 1 so that executions proceed one at a time.
+        /// The number of errors that are allowed before the system stops sending requests to run the association on additional targets. You can specify either an absolute number of errors, for example 10, or a percentage of the target set, for example 10%. If you specify 3, for example, the system stops sending requests when the fourth error is received. If you specify 0, then the system stops sending requests after the first error is returned. If you run an association on 50 managed nodes and set MaxError to 10%, then the system stops sending the request when the sixth error is received. Executions that are already running an association when MaxErrors is reached are allowed to complete, but some of these executions may fail as well. If you need to ensure that there won't be more than max-errors failed executions, set MaxConcurrency to 1 so that executions proceed one at a time.
         public let maxErrors: String?
         /// The name specified when the association was created.
         public let name: String?
@@ -1673,7 +1681,7 @@ extension SSM {
         public let approvedPatches: [String]?
         /// Defines the compliance level for approved patches. When an approved patch is reported as missing, this value describes the severity of the compliance violation.
         public let approvedPatchesComplianceLevel: PatchComplianceLevel?
-        /// Indicates whether the list of approved patches includes non-security updates that should be applied to the instances. The default value is false. Applies to Linux instances only.
+        /// Indicates whether the list of approved patches includes non-security updates that should be applied to the managed nodes. The default value is false. Applies to Linux managed nodes only.
         public let approvedPatchesEnableNonSecurity: Bool?
         public let globalFilters: PatchFilterGroup?
         /// The operating system rule used by the patch baseline override.
@@ -1682,7 +1690,7 @@ extension SSM {
         public let rejectedPatches: [String]?
         /// The action for Patch Manager to take on patches included in the RejectedPackages list. A patch can be allowed only if it is a dependency of another package, or blocked entirely along with packages that include it as a dependency.
         public let rejectedPatchesAction: PatchAction?
-        /// Information about the patches to use to update the instances, including target operating systems and source repositories. Applies to Linux instances only.
+        /// Information about the patches to use to update the managed nodes, including target operating systems and source repositories. Applies to Linux managed nodes only.
         public let sources: [PatchSource]?
 
         public init(approvalRules: PatchRuleGroup? = nil, approvedPatches: [String]? = nil, approvedPatchesComplianceLevel: PatchComplianceLevel? = nil, approvedPatchesEnableNonSecurity: Bool? = nil, globalFilters: PatchFilterGroup? = nil, operatingSystem: OperatingSystem? = nil, rejectedPatches: [String]? = nil, rejectedPatchesAction: PatchAction? = nil, sources: [PatchSource]? = nil) {
@@ -1735,7 +1743,7 @@ extension SSM {
     public struct CancelCommandRequest: AWSEncodableShape {
         /// The ID of the command you want to cancel.
         public let commandId: String
-        /// (Optional) A list of instance IDs on which you want to cancel the command. If not provided, the command is canceled on every instance on which it was requested.
+        /// (Optional) A list of managed node IDs on which you want to cancel the command. If not provided, the command is canceled on every node on which it was requested.
         public let instanceIds: [String]?
 
         public init(commandId: String, instanceIds: [String]? = nil) {
@@ -1836,9 +1844,9 @@ extension SSM {
         public let errorCount: Int?
         /// If this time is reached and the command hasn't already started running, it won't run. Calculated based on the ExpiresAfter user input provided as part of the SendCommand API operation.
         public let expiresAfter: Date?
-        /// The instance IDs against which this command was requested.
+        /// The managed node IDs against which this command was requested.
         public let instanceIds: [String]?
-        /// The maximum number of instances that are allowed to run the command at the same time. You can specify a number of instances, such as 10, or a percentage of instances, such as 10%. The default value is 50. For more information about how to use MaxConcurrency, see Running commands using Systems Manager Run Command in the Amazon Web Services Systems Manager User Guide.
+        /// The maximum number of managed nodes that are allowed to run the command at the same time. You can specify a number of managed nodes, such as 10, or a percentage of nodes, such as 10%. The default value is 50. For more information about how to use MaxConcurrency, see Running commands using Systems Manager Run Command in the Amazon Web Services Systems Manager User Guide.
         public let maxConcurrency: String?
         /// The maximum number of errors allowed before the system stops sending the command to additional targets. You can specify a number of errors, such as 10, or a percentage or errors, such as 10%. The default value is 0. For more information about how to use MaxErrors, see Running commands using Systems Manager Run Command in the Amazon Web Services Systems Manager User Guide.
         public let maxErrors: String?
@@ -1858,11 +1866,11 @@ extension SSM {
         public let serviceRole: String?
         /// The status of the command.
         public let status: CommandStatus?
-        /// A detailed status of the command execution. StatusDetails includes more information than Status because it includes states resulting from error and concurrency control parameters. StatusDetails can show different results than Status. For more information about these statuses, see Understanding command statuses in the Amazon Web Services Systems Manager User Guide. StatusDetails can be one of the following values:   Pending: The command hasn't been sent to any instances.   In Progress: The command has been sent to at least one instance but hasn't reached a final state on all instances.   Success: The command successfully ran on all invocations. This is a terminal state.   Delivery Timed Out: The value of MaxErrors or more command invocations shows a status of Delivery Timed Out. This is a terminal state.   Execution Timed Out: The value of MaxErrors or more command invocations shows a status of Execution Timed Out. This is a terminal state.   Failed: The value of MaxErrors or more command invocations shows a status of Failed. This is a terminal state.   Incomplete: The command was attempted on all instances and one or more invocations doesn't have a value of Success but not enough invocations failed for the status to be Failed. This is a terminal state.   Canceled: The command was terminated before it was completed. This is a terminal state.   Rate Exceeded: The number of instances targeted by the command exceeded the account limit for pending invocations. The system has canceled the command before running it on any instance. This is a terminal state.
+        /// A detailed status of the command execution. StatusDetails includes more information than Status because it includes states resulting from error and concurrency control parameters. StatusDetails can show different results than Status. For more information about these statuses, see Understanding command statuses in the Amazon Web Services Systems Manager User Guide. StatusDetails can be one of the following values:   Pending: The command hasn't been sent to any managed nodes.   In Progress: The command has been sent to at least one managed node but hasn't reached a final state on all managed nodes.   Success: The command successfully ran on all invocations. This is a terminal state.   Delivery Timed Out: The value of MaxErrors or more command invocations shows a status of Delivery Timed Out. This is a terminal state.   Execution Timed Out: The value of MaxErrors or more command invocations shows a status of Execution Timed Out. This is a terminal state.   Failed: The value of MaxErrors or more command invocations shows a status of Failed. This is a terminal state.   Incomplete: The command was attempted on all managed nodes and one or more invocations doesn't have a value of Success but not enough invocations failed for the status to be Failed. This is a terminal state.   Canceled: The command was terminated before it was completed. This is a terminal state.   Rate Exceeded: The number of managed nodes targeted by the command exceeded the account limit for pending invocations. The system has canceled the command before running it on any managed node. This is a terminal state.
         public let statusDetails: String?
         /// The number of targets for the command.
         public let targetCount: Int?
-        /// An array of search criteria that targets instances using a Key,Value combination that you specify. Targets is required if you don't provide one or more instance IDs in the call.
+        /// An array of search criteria that targets managed nodes using a Key,Value combination that you specify. Targets is required if you don't provide one or more managed node IDs in the call.
         public let targets: [Target]?
         /// The TimeoutSeconds value specified for a command.
         public let timeoutSeconds: Int?
@@ -1925,7 +1933,7 @@ extension SSM {
     public struct CommandFilter: AWSEncodableShape {
         /// The name of the filter.  The ExecutionStage filter can't be used with the ListCommandInvocations operation, only with ListCommands.
         public let key: CommandFilterKey
-        /// The filter value. Valid values for each filter key are as follows:    InvokedAfter: Specify a timestamp to limit your results. For example, specify 2021-07-07T00:00:00Z to see a list of command executions occurring July 7, 2021, and later.    InvokedBefore: Specify a timestamp to limit your results. For example, specify 2021-07-07T00:00:00Z to see a list of command executions from before July 7, 2021.    Status: Specify a valid command status to see a list of all command executions with that status. The status choices depend on the API you call. The status values you can specify for ListCommands are:    Pending     InProgress     Success     Cancelled     Failed     TimedOut (this includes both Delivery and Execution time outs)     AccessDenied     DeliveryTimedOut     ExecutionTimedOut     Incomplete     NoInstancesInTag     LimitExceeded    The status values you can specify for ListCommandInvocations are:    Pending     InProgress     Delayed     Success     Cancelled     Failed     TimedOut (this includes both Delivery and Execution time outs)     AccessDenied     DeliveryTimedOut     ExecutionTimedOut     Undeliverable     InvalidPlatform     Terminated       DocumentName: Specify name of the Amazon Web Services Systems Manager document (SSM document) for which you want to see command execution results. For example, specify AWS-RunPatchBaseline to see command executions that used this SSM document to perform security patching operations on instances.     ExecutionStage: Specify one of the following values (ListCommands operations only):    Executing: Returns a list of command executions that are currently still running.    Complete: Returns a list of command executions that have already completed.
+        /// The filter value. Valid values for each filter key are as follows:    InvokedAfter: Specify a timestamp to limit your results. For example, specify 2021-07-07T00:00:00Z to see a list of command executions occurring July 7, 2021, and later.    InvokedBefore: Specify a timestamp to limit your results. For example, specify 2021-07-07T00:00:00Z to see a list of command executions from before July 7, 2021.    Status: Specify a valid command status to see a list of all command executions with that status. The status choices depend on the API you call. The status values you can specify for ListCommands are:    Pending     InProgress     Success     Cancelled     Failed     TimedOut (this includes both Delivery and Execution time outs)     AccessDenied     DeliveryTimedOut     ExecutionTimedOut     Incomplete     NoInstancesInTag     LimitExceeded    The status values you can specify for ListCommandInvocations are:    Pending     InProgress     Delayed     Success     Cancelled     Failed     TimedOut (this includes both Delivery and Execution time outs)     AccessDenied     DeliveryTimedOut     ExecutionTimedOut     Undeliverable     InvalidPlatform     Terminated       DocumentName: Specify name of the Amazon Web Services Systems Manager document (SSM document) for which you want to see command execution results. For example, specify AWS-RunPatchBaseline to see command executions that used this SSM document to perform security patching operations on managed nodes.     ExecutionStage: Specify one of the following values (ListCommands operations only):    Executing: Returns a list of command executions that are currently still running.    Complete: Returns a list of command executions that have already completed.
         public let value: String
 
         public init(key: CommandFilterKey, value: String) {
@@ -1957,15 +1965,15 @@ extension SSM {
         public let documentName: String?
         /// The Systems Manager document (SSM document) version.
         public let documentVersion: String?
-        /// The instance ID in which this invocation was requested.
+        /// The managed node ID in which this invocation was requested.
         public let instanceId: String?
-        /// The fully qualified host name of the managed instance.
+        /// The fully qualified host name of the managed node.
         public let instanceName: String?
-        /// Configurations for sending notifications about command status changes on a per instance basis.
+        /// Configurations for sending notifications about command status changes on a per managed node basis.
         public let notificationConfig: NotificationConfig?
-        /// The time and date the request was sent to this instance.
+        /// The time and date the request was sent to this managed node.
         public let requestedDateTime: Date?
-        /// The Identity and Access Management (IAM) service role that Run Command, a capability of Amazon Web Services Systems Manager, uses to act on your behalf when sending notifications about command status changes on a per instance basis.
+        /// The Identity and Access Management (IAM) service role that Run Command, a capability of Amazon Web Services Systems Manager, uses to act on your behalf when sending notifications about command status changes on a per managed node basis.
         public let serviceRole: String?
         /// The URL to the plugin's StdErr file in Amazon Simple Storage Service (Amazon S3), if the S3 bucket was defined for the parent command. For an invocation, StandardErrorUrl is populated if there is just one plugin defined for the command, and the S3 bucket was defined for the command.
         public let standardErrorUrl: String?
@@ -1973,7 +1981,7 @@ extension SSM {
         public let standardOutputUrl: String?
         /// Whether or not the invocation succeeded, failed, or is pending.
         public let status: CommandInvocationStatus?
-        /// A detailed status of the command execution for each invocation (each instance targeted by the command). StatusDetails includes more information than Status because it includes states resulting from error and concurrency control parameters. StatusDetails can show different results than Status. For more information about these statuses, see Understanding command statuses in the Amazon Web Services Systems Manager User Guide. StatusDetails can be one of the following values:   Pending: The command hasn't been sent to the instance.   In Progress: The command has been sent to the instance but hasn't reached a terminal state.   Success: The execution of the command or plugin was successfully completed. This is a terminal state.   Delivery Timed Out: The command wasn't delivered to the instance before the delivery timeout expired. Delivery timeouts don't count against the parent command's MaxErrors limit, but they do contribute to whether the parent command status is Success or Incomplete. This is a terminal state.   Execution Timed Out: Command execution started on the instance, but the execution wasn't complete before the execution timeout expired. Execution timeouts count against the MaxErrors limit of the parent command. This is a terminal state.   Failed: The command wasn't successful on the instance. For a plugin, this indicates that the result code wasn't zero. For a command invocation, this indicates that the result code for one or more plugins wasn't zero. Invocation failures count against the MaxErrors limit of the parent command. This is a terminal state.   Canceled: The command was terminated before it was completed. This is a terminal state.   Undeliverable: The command can't be delivered to the instance. The instance might not exist or might not be responding. Undeliverable invocations don't count against the parent command's MaxErrors limit and don't contribute to whether the parent command status is Success or Incomplete. This is a terminal state.   Terminated: The parent command exceeded its MaxErrors limit and subsequent command invocations were canceled by the system. This is a terminal state.
+        /// A detailed status of the command execution for each invocation (each managed node targeted by the command). StatusDetails includes more information than Status because it includes states resulting from error and concurrency control parameters. StatusDetails can show different results than Status. For more information about these statuses, see Understanding command statuses in the Amazon Web Services Systems Manager User Guide. StatusDetails can be one of the following values:   Pending: The command hasn't been sent to the managed node.   In Progress: The command has been sent to the managed node but hasn't reached a terminal state.   Success: The execution of the command or plugin was successfully completed. This is a terminal state.   Delivery Timed Out: The command wasn't delivered to the managed node before the delivery timeout expired. Delivery timeouts don't count against the parent command's MaxErrors limit, but they do contribute to whether the parent command status is Success or Incomplete. This is a terminal state.   Execution Timed Out: Command execution started on the managed node, but the execution wasn't complete before the execution timeout expired. Execution timeouts count against the MaxErrors limit of the parent command. This is a terminal state.   Failed: The command wasn't successful on the managed node. For a plugin, this indicates that the result code wasn't zero. For a command invocation, this indicates that the result code for one or more plugins wasn't zero. Invocation failures count against the MaxErrors limit of the parent command. This is a terminal state.   Canceled: The command was terminated before it was completed. This is a terminal state.   Undeliverable: The command can't be delivered to the managed node. The managed node might not exist or might not be responding. Undeliverable invocations don't count against the parent command's MaxErrors limit and don't contribute to whether the parent command status is Success or Incomplete. This is a terminal state.   Terminated: The parent command exceeded its MaxErrors limit and subsequent command invocations were canceled by the system. This is a terminal state.
         public let statusDetails: String?
         ///  Gets the trace output sent by the agent.
         public let traceOutput: String?
@@ -2022,9 +2030,9 @@ extension SSM {
         public let name: String?
         /// Output of the plugin execution.
         public let output: String?
-        /// The S3 bucket where the responses to the command executions should be stored. This was requested when issuing the command. For example, in the following response:  doc-example-bucket/ab19cb99-a030-46dd-9dfc-8eSAMPLEPre-Fix/i-02573cafcfEXAMPLE/awsrunShellScript   doc-example-bucket is the name of the S3 bucket;  ab19cb99-a030-46dd-9dfc-8eSAMPLEPre-Fix is the name of the S3 prefix;  i-02573cafcfEXAMPLE is the instance ID;  awsrunShellScript is the name of the plugin.
+        /// The S3 bucket where the responses to the command executions should be stored. This was requested when issuing the command. For example, in the following response:  doc-example-bucket/ab19cb99-a030-46dd-9dfc-8eSAMPLEPre-Fix/i-02573cafcfEXAMPLE/awsrunShellScript   doc-example-bucket is the name of the S3 bucket;  ab19cb99-a030-46dd-9dfc-8eSAMPLEPre-Fix is the name of the S3 prefix;  i-02573cafcfEXAMPLE is the managed node ID;  awsrunShellScript is the name of the plugin.
         public let outputS3BucketName: String?
-        /// The S3 directory path inside the bucket where the responses to the command executions should be stored. This was requested when issuing the command. For example, in the following response:  doc-example-bucket/ab19cb99-a030-46dd-9dfc-8eSAMPLEPre-Fix/i-02573cafcfEXAMPLE/awsrunShellScript   doc-example-bucket is the name of the S3 bucket;  ab19cb99-a030-46dd-9dfc-8eSAMPLEPre-Fix is the name of the S3 prefix;  i-02573cafcfEXAMPLE is the instance ID;  awsrunShellScript is the name of the plugin.
+        /// The S3 directory path inside the bucket where the responses to the command executions should be stored. This was requested when issuing the command. For example, in the following response:  doc-example-bucket/ab19cb99-a030-46dd-9dfc-8eSAMPLEPre-Fix/i-02573cafcfEXAMPLE/awsrunShellScript   doc-example-bucket is the name of the S3 bucket;  ab19cb99-a030-46dd-9dfc-8eSAMPLEPre-Fix is the name of the S3 prefix;  i-02573cafcfEXAMPLE is the managed node ID;  awsrunShellScript is the name of the plugin.
         public let outputS3KeyPrefix: String?
         /// (Deprecated) You can no longer specify this parameter. The system ignores it. Instead, Amazon Web Services Systems Manager automatically determines the S3 bucket region.
         public let outputS3Region: String?
@@ -2040,7 +2048,7 @@ extension SSM {
         public let standardOutputUrl: String?
         /// The status of this plugin. You can run a document with multiple plugins.
         public let status: CommandPluginStatus?
-        /// A detailed status of the plugin execution. StatusDetails includes more information than Status because it includes states resulting from error and concurrency control parameters. StatusDetails can show different results than Status. For more information about these statuses, see Understanding command statuses in the Amazon Web Services Systems Manager User Guide. StatusDetails can be one of the following values:   Pending: The command hasn't been sent to the instance.   In Progress: The command has been sent to the instance but hasn't reached a terminal state.   Success: The execution of the command or plugin was successfully completed. This is a terminal state.   Delivery Timed Out: The command wasn't delivered to the instance before the delivery timeout expired. Delivery timeouts don't count against the parent command's MaxErrors limit, but they do contribute to whether the parent command status is Success or Incomplete. This is a terminal state.   Execution Timed Out: Command execution started on the instance, but the execution wasn't complete before the execution timeout expired. Execution timeouts count against the MaxErrors limit of the parent command. This is a terminal state.   Failed: The command wasn't successful on the instance. For a plugin, this indicates that the result code wasn't zero. For a command invocation, this indicates that the result code for one or more plugins wasn't zero. Invocation failures count against the MaxErrors limit of the parent command. This is a terminal state.   Canceled: The command was terminated before it was completed. This is a terminal state.   Undeliverable: The command can't be delivered to the instance. The instance might not exist, or it might not be responding. Undeliverable invocations don't count against the parent command's MaxErrors limit, and they don't contribute to whether the parent command status is Success or Incomplete. This is a terminal state.   Terminated: The parent command exceeded its MaxErrors limit and subsequent command invocations were canceled by the system. This is a terminal state.
+        /// A detailed status of the plugin execution. StatusDetails includes more information than Status because it includes states resulting from error and concurrency control parameters. StatusDetails can show different results than Status. For more information about these statuses, see Understanding command statuses in the Amazon Web Services Systems Manager User Guide. StatusDetails can be one of the following values:   Pending: The command hasn't been sent to the managed node.   In Progress: The command has been sent to the managed node but hasn't reached a terminal state.   Success: The execution of the command or plugin was successfully completed. This is a terminal state.   Delivery Timed Out: The command wasn't delivered to the managed node before the delivery timeout expired. Delivery timeouts don't count against the parent command's MaxErrors limit, but they do contribute to whether the parent command status is Success or Incomplete. This is a terminal state.   Execution Timed Out: Command execution started on the managed node, but the execution wasn't complete before the execution timeout expired. Execution timeouts count against the MaxErrors limit of the parent command. This is a terminal state.   Failed: The command wasn't successful on the managed node. For a plugin, this indicates that the result code wasn't zero. For a command invocation, this indicates that the result code for one or more plugins wasn't zero. Invocation failures count against the MaxErrors limit of the parent command. This is a terminal state.   Canceled: The command was terminated before it was completed. This is a terminal state.   Undeliverable: The command can't be delivered to the managed node. The managed node might not exist, or it might not be responding. Undeliverable invocations don't count against the parent command's MaxErrors limit, and they don't contribute to whether the parent command status is Success or Incomplete. This is a terminal state.   Terminated: The parent command exceeded its MaxErrors limit and subsequent command invocations were canceled by the system. This is a terminal state.
         public let statusDetails: String?
 
         public init(name: String? = nil, output: String? = nil, outputS3BucketName: String? = nil, outputS3KeyPrefix: String? = nil, outputS3Region: String? = nil, responseCode: Int? = nil, responseFinishDateTime: Date? = nil, responseStartDateTime: Date? = nil, standardErrorUrl: String? = nil, standardOutputUrl: String? = nil, status: CommandPluginStatus? = nil, statusDetails: String? = nil) {
@@ -2109,7 +2117,7 @@ extension SSM {
         public let executionSummary: ComplianceExecutionSummary?
         /// An ID for the compliance item. For example, if the compliance item is a Windows patch, the ID could be the number of the KB article; for example: KB4010320.
         public let id: String?
-        /// An ID for the resource. For a managed instance, this is the instance ID.
+        /// An ID for the resource. For a managed node, this is the node ID.
         public let resourceId: String?
         /// The type of resource. ManagedInstance is currently the only supported resource type.
         public let resourceType: String?
@@ -2251,19 +2259,19 @@ extension SSM {
     }
 
     public struct CreateActivationRequest: AWSEncodableShape {
-        /// The name of the registered, managed instance as it will appear in the Amazon Web Services Systems Manager console or when you use the Amazon Web Services command line tools to list Systems Manager resources.  Don't enter personally identifiable information in this field.
+        /// The name of the registered, managed node as it will appear in the Amazon Web Services Systems Manager console or when you use the Amazon Web Services command line tools to list Systems Manager resources.  Don't enter personally identifiable information in this field.
         public let defaultInstanceName: String?
         /// A user-defined description of the resource that you want to register with Systems Manager.   Don't enter personally identifiable information in this field.
         public let description: String?
         /// The date by which this activation request should expire, in timestamp format, such as "2021-07-07T00:00:00". You can specify a date up to 30 days in advance. If you don't provide an expiration date, the activation code expires in 24 hours.
         public let expirationDate: Date?
-        /// The name of the Identity and Access Management (IAM) role that you want to assign to the managed instance. This IAM role must provide AssumeRole permissions for the Amazon Web Services Systems Manager service principal ssm.amazonaws.com. For more information, see Create an IAM service role for a hybrid environment in the Amazon Web Services Systems Manager User Guide.
+        /// The name of the Identity and Access Management (IAM) role that you want to assign to the managed node. This IAM role must provide AssumeRole permissions for the Amazon Web Services Systems Manager service principal ssm.amazonaws.com. For more information, see Create an IAM service role for a hybrid environment in the Amazon Web Services Systems Manager User Guide.
         public let iamRole: String
-        /// Specify the maximum number of managed instances you want to register. The default value is 1.
+        /// Specify the maximum number of managed nodes you want to register. The default value is 1.
         public let registrationLimit: Int?
         /// Reserved for internal use.
         public let registrationMetadata: [RegistrationMetadataItem]?
-        /// Optional metadata that you assign to a resource. Tags enable you to categorize a resource in different ways, such as by purpose, owner, or environment. For example, you might want to tag an activation to identify which servers or virtual machines (VMs) in your on-premises environment you intend to activate. In this case, you could specify the following key-value pairs:    Key=OS,Value=Windows     Key=Environment,Value=Production     When you install SSM Agent on your on-premises servers and VMs, you specify an activation ID and code. When you specify the activation ID and code, tags assigned to the activation are automatically applied to the on-premises servers or VMs.  You can't add tags to or delete tags from an existing activation. You can tag your on-premises servers and VMs after they connect to Systems Manager for the first time and are assigned a managed instance ID. This means they are listed in the Amazon Web Services Systems Manager console with an ID that is prefixed with "mi-". For information about how to add tags to your managed instances, see AddTagsToResource. For information about how to remove tags from your managed instances, see RemoveTagsFromResource.
+        /// Optional metadata that you assign to a resource. Tags enable you to categorize a resource in different ways, such as by purpose, owner, or environment. For example, you might want to tag an activation to identify which servers or virtual machines (VMs) in your on-premises environment you intend to activate. In this case, you could specify the following key-value pairs:    Key=OS,Value=Windows     Key=Environment,Value=Production     When you install SSM Agent on your on-premises servers and VMs, you specify an activation ID and code. When you specify the activation ID and code, tags assigned to the activation are automatically applied to the on-premises servers or VMs.  You can't add tags to or delete tags from an existing activation. You can tag your on-premises servers, edge devices, and VMs after they connect to Systems Manager for the first time and are assigned a managed node ID. This means they are listed in the Amazon Web Services Systems Manager console with an ID that is prefixed with "mi-". For information about how to add tags to your managed nodes, see AddTagsToResource. For information about how to remove tags from your managed nodes, see RemoveTagsFromResource.
         public let tags: [Tag]?
 
         public init(defaultInstanceName: String? = nil, description: String? = nil, expirationDate: Date? = nil, iamRole: String, registrationLimit: Int? = nil, registrationMetadata: [RegistrationMetadataItem]? = nil, tags: [Tag]? = nil) {
@@ -2355,13 +2363,13 @@ extension SSM {
         public let complianceSeverity: AssociationComplianceSeverity?
         /// The document version.
         public let documentVersion: String?
-        /// The instance ID.   InstanceId has been deprecated. To specify an instance ID for an association, use the Targets parameter. Requests that include the parameter InstanceID with Systems Manager documents (SSM documents) that use schema version 2.0 or later will fail. In addition, if you use the parameter InstanceId, you can't use the parameters AssociationName, DocumentVersion, MaxErrors, MaxConcurrency, OutputLocation, or ScheduleExpression. To use these parameters, you must use the Targets parameter.
+        /// The managed node ID.   InstanceId has been deprecated. To specify a managed node ID for an association, use the Targets parameter. Requests that include the parameter InstanceID with Systems Manager documents (SSM documents) that use schema version 2.0 or later will fail. In addition, if you use the parameter InstanceId, you can't use the parameters AssociationName, DocumentVersion, MaxErrors, MaxConcurrency, OutputLocation, or ScheduleExpression. To use these parameters, you must use the Targets parameter.
         public let instanceId: String?
-        /// The maximum number of targets allowed to run the association at the same time. You can specify a number, for example 10, or a percentage of the target set, for example 10%. The default value is 100%, which means all targets run the association at the same time. If a new instance starts and attempts to run an association while Systems Manager is running MaxConcurrency associations, the association is allowed to run. During the next association interval, the new instance will process its association within the limit specified for MaxConcurrency.
+        /// The maximum number of targets allowed to run the association at the same time. You can specify a number, for example 10, or a percentage of the target set, for example 10%. The default value is 100%, which means all targets run the association at the same time. If a new managed node starts and attempts to run an association while Systems Manager is running MaxConcurrency associations, the association is allowed to run. During the next association interval, the new managed node will process its association within the limit specified for MaxConcurrency.
         public let maxConcurrency: String?
-        /// The number of errors that are allowed before the system stops sending requests to run the association on additional targets. You can specify either an absolute number of errors, for example 10, or a percentage of the target set, for example 10%. If you specify 3, for example, the system stops sending requests when the fourth error is received. If you specify 0, then the system stops sending requests after the first error is returned. If you run an association on 50 instances and set MaxError to 10%, then the system stops sending the request when the sixth error is received. Executions that are already running an association when MaxErrors is reached are allowed to complete, but some of these executions may fail as well. If you need to ensure that there won't be more than max-errors failed executions, set MaxConcurrency to 1 so that executions proceed one at a time.
+        /// The number of errors that are allowed before the system stops sending requests to run the association on additional targets. You can specify either an absolute number of errors, for example 10, or a percentage of the target set, for example 10%. If you specify 3, for example, the system stops sending requests when the fourth error is received. If you specify 0, then the system stops sending requests after the first error is returned. If you run an association on 50 managed nodes and set MaxError to 10%, then the system stops sending the request when the sixth error is received. Executions that are already running an association when MaxErrors is reached are allowed to complete, but some of these executions may fail as well. If you need to ensure that there won't be more than max-errors failed executions, set MaxConcurrency to 1 so that executions proceed one at a time.
         public let maxErrors: String?
-        /// The name of the SSM document that contains the configuration information for the instance. You can specify Command or Automation runbooks. You can specify Amazon Web Services-predefined documents, documents you created, or a document that is shared with you from another account. For SSM documents that are shared with you from other Amazon Web Services accounts, you must specify the complete SSM document ARN, in the following format:  arn:aws:ssm:region:account-id:document/document-name   For example:  arn:aws:ssm:us-east-2:12345678912:document/My-Shared-Document  For Amazon Web Services-predefined documents and SSM documents you created in your account, you only need to specify the document name. For example, AWS-ApplyPatchBaseline or My-Document.
+        /// The name of the SSM document that contains the configuration information for the managed node. You can specify Command or Automation runbooks. You can specify Amazon Web Services-predefined documents, documents you created, or a document that is shared with you from another account. For SSM documents that are shared with you from other Amazon Web Services accounts, you must specify the complete SSM document ARN, in the following format:  arn:aws:ssm:region:account-id:document/document-name   For example:  arn:aws:ssm:us-east-2:12345678912:document/My-Shared-Document  For Amazon Web Services-predefined documents and SSM documents you created in your account, you only need to specify the document name. For example, AWS-ApplyPatchBaseline or My-Document.
         public let name: String
         /// An S3 bucket where you want to store the results of this request.
         public let outputLocation: InstanceAssociationOutputLocation?
@@ -2373,7 +2381,7 @@ extension SSM {
         public let syncCompliance: AssociationSyncCompliance?
         /// Use this action to create an association in multiple Regions and multiple accounts.
         public let targetLocations: [TargetLocation]?
-        /// The instances targeted by the request.
+        /// The managed nodes targeted by the request.
         public let targets: [Target]?
 
         public init(applyOnlyAtCronInterval: Bool? = nil, associationName: String? = nil, automationTargetParameterName: String? = nil, calendarNames: [String]? = nil, complianceSeverity: AssociationComplianceSeverity? = nil, documentVersion: String? = nil, instanceId: String? = nil, maxConcurrency: String? = nil, maxErrors: String? = nil, name: String, outputLocation: InstanceAssociationOutputLocation? = nil, parameters: [String: [String]]? = nil, scheduleExpression: String? = nil, syncCompliance: AssociationSyncCompliance? = nil, targetLocations: [TargetLocation]? = nil, targets: [Target]? = nil) {
@@ -2473,13 +2481,13 @@ extension SSM {
         public let complianceSeverity: AssociationComplianceSeverity?
         /// The document version you want to associate with the target(s). Can be a specific version or the default version.
         public let documentVersion: String?
-        /// The instance ID.   InstanceId has been deprecated. To specify an instance ID for an association, use the Targets parameter. Requests that include the parameter InstanceID with Systems Manager documents (SSM documents) that use schema version 2.0 or later will fail. In addition, if you use the parameter InstanceId, you can't use the parameters AssociationName, DocumentVersion, MaxErrors, MaxConcurrency, OutputLocation, or ScheduleExpression. To use these parameters, you must use the Targets parameter.
+        /// The managed node ID.   InstanceId has been deprecated. To specify a managed node ID for an association, use the Targets parameter. Requests that include the parameter InstanceID with Systems Manager documents (SSM documents) that use schema version 2.0 or later will fail. In addition, if you use the parameter InstanceId, you can't use the parameters AssociationName, DocumentVersion, MaxErrors, MaxConcurrency, OutputLocation, or ScheduleExpression. To use these parameters, you must use the Targets parameter.
         public let instanceId: String?
-        /// The maximum number of targets allowed to run the association at the same time. You can specify a number, for example 10, or a percentage of the target set, for example 10%. The default value is 100%, which means all targets run the association at the same time. If a new instance starts and attempts to run an association while Systems Manager is running MaxConcurrency associations, the association is allowed to run. During the next association interval, the new instance will process its association within the limit specified for MaxConcurrency.
+        /// The maximum number of targets allowed to run the association at the same time. You can specify a number, for example 10, or a percentage of the target set, for example 10%. The default value is 100%, which means all targets run the association at the same time. If a new managed node starts and attempts to run an association while Systems Manager is running MaxConcurrency associations, the association is allowed to run. During the next association interval, the new managed node will process its association within the limit specified for MaxConcurrency.
         public let maxConcurrency: String?
-        /// The number of errors that are allowed before the system stops sending requests to run the association on additional targets. You can specify either an absolute number of errors, for example 10, or a percentage of the target set, for example 10%. If you specify 3, for example, the system stops sending requests when the fourth error is received. If you specify 0, then the system stops sending requests after the first error is returned. If you run an association on 50 instances and set MaxError to 10%, then the system stops sending the request when the sixth error is received. Executions that are already running an association when MaxErrors is reached are allowed to complete, but some of these executions may fail as well. If you need to ensure that there won't be more than max-errors failed executions, set MaxConcurrency to 1 so that executions proceed one at a time.
+        /// The number of errors that are allowed before the system stops sending requests to run the association on additional targets. You can specify either an absolute number of errors, for example 10, or a percentage of the target set, for example 10%. If you specify 3, for example, the system stops sending requests when the fourth error is received. If you specify 0, then the system stops sending requests after the first error is returned. If you run an association on 50 managed nodes and set MaxError to 10%, then the system stops sending the request when the sixth error is received. Executions that are already running an association when MaxErrors is reached are allowed to complete, but some of these executions may fail as well. If you need to ensure that there won't be more than max-errors failed executions, set MaxConcurrency to 1 so that executions proceed one at a time.
         public let maxErrors: String?
-        /// The name of the SSM Command document or Automation runbook that contains the configuration information for the instance. You can specify Amazon Web Services-predefined documents, documents you created, or a document that is shared with you from another account. For Systems Manager documents (SSM documents) that are shared with you from other Amazon Web Services accounts, you must specify the complete SSM document ARN, in the following format:  arn:partition:ssm:region:account-id:document/document-name   For example:  arn:aws:ssm:us-east-2:12345678912:document/My-Shared-Document  For Amazon Web Services-predefined documents and SSM documents you created in your account, you only need to specify the document name. For example, AWS-ApplyPatchBaseline or My-Document.
+        /// The name of the SSM Command document or Automation runbook that contains the configuration information for the managed node. You can specify Amazon Web Services-predefined documents, documents you created, or a document that is shared with you from another account. For Systems Manager documents (SSM documents) that are shared with you from other Amazon Web Services accounts, you must specify the complete SSM document ARN, in the following format:  arn:partition:ssm:region:account-id:document/document-name   For example:  arn:aws:ssm:us-east-2:12345678912:document/My-Shared-Document  For Amazon Web Services-predefined documents and SSM documents you created in your account, you only need to specify the document name. For example, AWS-ApplyPatchBaseline or My-Document.
         public let name: String
         /// An Amazon Simple Storage Service (Amazon S3) bucket where you want to store the output details of the request.
         public let outputLocation: InstanceAssociationOutputLocation?
@@ -2491,7 +2499,7 @@ extension SSM {
         public let syncCompliance: AssociationSyncCompliance?
         /// A location is a combination of Amazon Web Services Regions and Amazon Web Services accounts where you want to run the association. Use this action to create an association in multiple Regions and multiple accounts.
         public let targetLocations: [TargetLocation]?
-        /// The targets for the association. You can target instances by using tags, Amazon Web Services resource groups, all instances in an Amazon Web Services account, or individual instance IDs. You can target all instances in an Amazon Web Services account by specifying the InstanceIds key with a value of *. For more information about choosing targets for an association, see Using targets and rate controls with State Manager associations in the Amazon Web Services Systems Manager User Guide.
+        /// The targets for the association. You can target managed nodes by using tags, Amazon Web Services resource groups, all managed nodes in an Amazon Web Services account, or individual managed node IDs. You can target all managed nodes in an Amazon Web Services account by specifying the InstanceIds key with a value of *. For more information about choosing targets for an association, see Using targets and rate controls with State Manager associations in the Amazon Web Services Systems Manager User Guide.
         public let targets: [Target]?
 
         public init(applyOnlyAtCronInterval: Bool? = nil, associationName: String? = nil, automationTargetParameterName: String? = nil, calendarNames: [String]? = nil, complianceSeverity: AssociationComplianceSeverity? = nil, documentVersion: String? = nil, instanceId: String? = nil, maxConcurrency: String? = nil, maxErrors: String? = nil, name: String, outputLocation: InstanceAssociationOutputLocation? = nil, parameters: [String: [String]]? = nil, scheduleExpression: String? = nil, syncCompliance: AssociationSyncCompliance? = nil, targetLocations: [TargetLocation]? = nil, targets: [Target]? = nil) {
@@ -2660,7 +2668,7 @@ extension SSM {
     }
 
     public struct CreateMaintenanceWindowRequest: AWSEncodableShape {
-        /// Enables a maintenance window task to run on managed instances, even if you haven't registered those instances as targets. If enabled, then you must specify the unregistered instances (by instance ID) when you register a task with the maintenance window. If you don't enable this option, then you must specify previously-registered targets when you register a task with the maintenance window.
+        /// Enables a maintenance window task to run on managed nodes, even if you haven't registered those nodes as targets. If enabled, then you must specify the unregistered managed nodes (by node ID) when you register a task with the maintenance window. If you don't enable this option, then you must specify previously-registered targets when you register a task with the maintenance window.
         public let allowUnassociatedTargets: Bool
         /// User-provided idempotency token.
         public let clientToken: String?
@@ -2920,7 +2928,7 @@ extension SSM {
         public let approvedPatches: [String]?
         /// Defines the compliance level for approved patches. When an approved patch is reported as missing, this value describes the severity of the compliance violation. The default value is UNSPECIFIED.
         public let approvedPatchesComplianceLevel: PatchComplianceLevel?
-        /// Indicates whether the list of approved patches includes non-security updates that should be applied to the instances. The default value is false. Applies to Linux instances only.
+        /// Indicates whether the list of approved patches includes non-security updates that should be applied to the managed nodes. The default value is false. Applies to Linux managed nodes only.
         public let approvedPatchesEnableNonSecurity: Bool?
         /// User-provided idempotency token.
         public let clientToken: String?
@@ -2936,7 +2944,7 @@ extension SSM {
         public let rejectedPatches: [String]?
         /// The action for Patch Manager to take on patches included in the RejectedPackages list.     ALLOW_AS_DEPENDENCY : A package in the Rejected patches list is installed only if it is a dependency of another package. It is considered compliant with the patch baseline, and its status is reported as InstalledOther. This is the default action if no option is specified.     BLOCK : Packages in the RejectedPatches list, and packages that include them as dependencies, aren't installed under any circumstances. If a package was installed before it was added to the Rejected patches list, it is considered non-compliant with the patch baseline, and its status is reported as InstalledRejected.
         public let rejectedPatchesAction: PatchAction?
-        /// Information about the patches to use to update the instances, including target operating systems and source repositories. Applies to Linux instances only.
+        /// Information about the patches to use to update the managed nodes, including target operating systems and source repositories. Applies to Linux managed nodes only.
         public let sources: [PatchSource]?
         /// Optional metadata that you assign to a resource. Tags enable you to categorize a resource in different ways, such as by purpose, owner, or environment. For example, you might want to tag a patch baseline to identify the severity level of patches it specifies and the operating system family it applies to. In this case, you could specify the following key-value pairs:    Key=PatchSeverity,Value=Critical     Key=OS,Value=Windows     To add tags to an existing patch baseline, use the AddTagsToResource operation.
         public let tags: [Tag]?
@@ -3082,7 +3090,7 @@ extension SSM {
     public struct DeleteAssociationRequest: AWSEncodableShape {
         /// The association ID that you want to delete.
         public let associationId: String?
-        /// The instance ID.   InstanceId has been deprecated. To specify an instance ID for an association, use the Targets parameter. Requests that include the parameter InstanceID with Systems Manager documents (SSM documents) that use schema version 2.0 or later will fail. In addition, if you use the parameter InstanceId, you can't use the parameters AssociationName, DocumentVersion, MaxErrors, MaxConcurrency, OutputLocation, or ScheduleExpression. To use these parameters, you must use the Targets parameter.
+        /// The managed node ID.   InstanceId has been deprecated. To specify a managed node ID for an association, use the Targets parameter. Requests that include the parameter InstanceID with Systems Manager documents (SSM documents) that use schema version 2.0 or later will fail. In addition, if you use the parameter InstanceId, you can't use the parameters AssociationName, DocumentVersion, MaxErrors, MaxConcurrency, OutputLocation, or ScheduleExpression. To use these parameters, you must use the Targets parameter.
         public let instanceId: String?
         /// The name of the SSM document.
         public let name: String?
@@ -3375,7 +3383,7 @@ extension SSM {
     }
 
     public struct DeregisterManagedInstanceRequest: AWSEncodableShape {
-        /// The ID assigned to the managed instance when you registered it using the activation process.
+        /// The ID assigned to the managed node when you registered it using the activation process.
         public let instanceId: String
 
         public init(instanceId: String) {
@@ -3702,9 +3710,9 @@ extension SSM {
     public struct DescribeAssociationRequest: AWSEncodableShape {
         /// The association ID for which you want information.
         public let associationId: String?
-        /// Specify the association version to retrieve. To view the latest version, either specify $LATEST for this parameter, or omit this parameter. To view a list of all associations for an instance, use ListAssociations. To get a list of versions for a specific association, use ListAssociationVersions.
+        /// Specify the association version to retrieve. To view the latest version, either specify $LATEST for this parameter, or omit this parameter. To view a list of all associations for a managed node, use ListAssociations. To get a list of versions for a specific association, use ListAssociationVersions.
         public let associationVersion: String?
-        /// The instance ID.
+        /// The managed node ID.
         public let instanceId: String?
         /// The name of the SSM document.
         public let name: String?
@@ -3851,7 +3859,7 @@ extension SSM {
     }
 
     public struct DescribeAvailablePatchesRequest: AWSEncodableShape {
-        /// Each element in the array is a structure containing a key-value pair.  Windows Server  Supported keys for Windows Server instance patches include the following:     PATCH_SET   Sample values: OS | APPLICATION      PRODUCT   Sample values: WindowsServer2012 | Office 2010 | MicrosoftDefenderAntivirus      PRODUCT_FAMILY   Sample values: Windows | Office      MSRC_SEVERITY   Sample values: ServicePacks | Important | Moderate      CLASSIFICATION   Sample values: ServicePacks | SecurityUpdates | DefinitionUpdates      PATCH_ID   Sample values: KB123456 | KB4516046     Linux   When specifying filters for Linux patches, you must specify a key-pair for PRODUCT. For example, using the Command Line Interface (CLI), the following command fails:  aws ssm describe-available-patches --filters Key=CVE_ID,Values=CVE-2018-3615  However, the following command succeeds:  aws ssm describe-available-patches --filters Key=PRODUCT,Values=AmazonLinux2018.03 Key=CVE_ID,Values=CVE-2018-3615   Supported keys for Linux instance patches include the following:     PRODUCT   Sample values: AmazonLinux2018.03 | AmazonLinux2.0      NAME   Sample values: kernel-headers | samba-python | php      SEVERITY   Sample values: Critical | Important | Medium | Low      EPOCH   Sample values: 0 | 1      VERSION   Sample values: 78.6.1 | 4.10.16      RELEASE   Sample values: 9.56.amzn1 | 1.amzn2      ARCH   Sample values: i686 | x86_64      REPOSITORY   Sample values: Core | Updates      ADVISORY_ID   Sample values: ALAS-2018-1058 | ALAS2-2021-1594      CVE_ID   Sample values: CVE-2018-3615 | CVE-2020-1472      BUGZILLA_ID   Sample values: 1463241
+        /// Each element in the array is a structure containing a key-value pair.  Windows Server  Supported keys for Windows Server managed node patches include the following:     PATCH_SET   Sample values: OS | APPLICATION      PRODUCT   Sample values: WindowsServer2012 | Office 2010 | MicrosoftDefenderAntivirus      PRODUCT_FAMILY   Sample values: Windows | Office      MSRC_SEVERITY   Sample values: ServicePacks | Important | Moderate      CLASSIFICATION   Sample values: ServicePacks | SecurityUpdates | DefinitionUpdates      PATCH_ID   Sample values: KB123456 | KB4516046     Linux   When specifying filters for Linux patches, you must specify a key-pair for PRODUCT. For example, using the Command Line Interface (CLI), the following command fails:  aws ssm describe-available-patches --filters Key=CVE_ID,Values=CVE-2018-3615  However, the following command succeeds:  aws ssm describe-available-patches --filters Key=PRODUCT,Values=AmazonLinux2018.03 Key=CVE_ID,Values=CVE-2018-3615   Supported keys for Linux managed node patches include the following:     PRODUCT   Sample values: AmazonLinux2018.03 | AmazonLinux2.0      NAME   Sample values: kernel-headers | samba-python | php      SEVERITY   Sample values: Critical | Important | Medium | Low      EPOCH   Sample values: 0 | 1      VERSION   Sample values: 78.6.1 | 4.10.16      RELEASE   Sample values: 9.56.amzn1 | 1.amzn2      ARCH   Sample values: i686 | x86_64      REPOSITORY   Sample values: Core | Updates      ADVISORY_ID   Sample values: ALAS-2018-1058 | ALAS2-2021-1594      CVE_ID   Sample values: CVE-2018-3615 | CVE-2020-1472      BUGZILLA_ID   Sample values: 1463241
         public let filters: [PatchOrchestratorFilter]?
         /// The maximum number of patches to return (per page).
         public let maxResults: Int?
@@ -3991,7 +3999,7 @@ extension SSM {
     }
 
     public struct DescribeEffectiveInstanceAssociationsRequest: AWSEncodableShape {
-        /// The instance ID for which you want to view all associations.
+        /// The managed node ID for which you want to view all associations.
         public let instanceId: String
         /// The maximum number of items to return for this call. The call also returns a token that you can specify in a subsequent call to get the next set of results.
         public let maxResults: Int?
@@ -4018,7 +4026,7 @@ extension SSM {
     }
 
     public struct DescribeEffectiveInstanceAssociationsResult: AWSDecodableShape {
-        /// The associations for the requested instance.
+        /// The associations for the requested managed node.
         public let associations: [InstanceAssociation]?
         /// The token to use when requesting the next set of items. If there are no additional items to return, the string is empty.
         public let nextToken: String?
@@ -4081,7 +4089,7 @@ extension SSM {
     }
 
     public struct DescribeInstanceAssociationsStatusRequest: AWSEncodableShape {
-        /// The instance IDs for which you want association status information.
+        /// The managed node IDs for which you want association status information.
         public let instanceId: String
         /// The maximum number of items to return for this call. The call also returns a token that you can specify in a subsequent call to get the next set of results.
         public let maxResults: Int?
@@ -4125,9 +4133,9 @@ extension SSM {
     }
 
     public struct DescribeInstanceInformationRequest: AWSEncodableShape {
-        /// One or more filters. Use a filter to return a more specific list of instances. You can filter based on tags applied to EC2 instances. Use this Filters data type instead of InstanceInformationFilterList, which is deprecated.
+        /// One or more filters. Use a filter to return a more specific list of managed nodes. You can filter based on tags applied to EC2 instances. Use this Filters data type instead of InstanceInformationFilterList, which is deprecated.
         public let filters: [InstanceInformationStringFilter]?
-        /// This is a legacy method. We recommend that you don't use this method. Instead, use the Filters data type. Filters enables you to return instance information by filtering based on tags applied to managed instances.  Attempting to use InstanceInformationFilterList and Filters leads to an exception error.
+        /// This is a legacy method. We recommend that you don't use this method. Instead, use the Filters data type. Filters enables you to return node information by filtering based on tags applied to managed nodes.  Attempting to use InstanceInformationFilterList and Filters leads to an exception error.
         public let instanceInformationFilterList: [InstanceInformationFilter]?
         /// The maximum number of items to return for this call. The call also returns a token that you can specify in a subsequent call to get the next set of results.
         public let maxResults: Int?
@@ -4163,7 +4171,7 @@ extension SSM {
     }
 
     public struct DescribeInstanceInformationResult: AWSDecodableShape {
-        /// The instance information list.
+        /// The managed node information list.
         public let instanceInformationList: [InstanceInformation]?
         /// The token to use when requesting the next set of items. If there are no additional items to return, the string is empty.
         public let nextToken: String?
@@ -4218,7 +4226,7 @@ extension SSM {
     }
 
     public struct DescribeInstancePatchStatesForPatchGroupResult: AWSDecodableShape {
-        /// The high-level patch state for the requested instances.
+        /// The high-level patch state for the requested managed nodes.
         public let instancePatchStates: [InstancePatchState]?
         /// The token to use when requesting the next set of items. If there are no additional items to return, the string is empty.
         public let nextToken: String?
@@ -4235,9 +4243,9 @@ extension SSM {
     }
 
     public struct DescribeInstancePatchStatesRequest: AWSEncodableShape {
-        /// The ID of the instance for which patch state information should be retrieved.
+        /// The ID of the managed node for which patch state information should be retrieved.
         public let instanceIds: [String]
-        /// The maximum number of instances to return (per page).
+        /// The maximum number of managed nodes to return (per page).
         public let maxResults: Int?
         /// The token for the next set of items to return. (You received this token from a previous call.)
         public let nextToken: String?
@@ -4266,7 +4274,7 @@ extension SSM {
     }
 
     public struct DescribeInstancePatchStatesResult: AWSDecodableShape {
-        /// The high-level patch state for the requested instances.
+        /// The high-level patch state for the requested managed nodes.
         public let instancePatchStates: [InstancePatchState]?
         /// The token to use when requesting the next set of items. If there are no additional items to return, the string is empty.
         public let nextToken: String?
@@ -4285,7 +4293,7 @@ extension SSM {
     public struct DescribeInstancePatchesRequest: AWSEncodableShape {
         /// Each element in the array is a structure containing a key-value pair. Supported keys for DescribeInstancePatchesinclude the following:     Classification   Sample values: Security | SecurityUpdates      KBId   Sample values: KB4480056 | java-1.7.0-openjdk.x86_64      Severity   Sample values: Important | Medium | Low      State   Sample values: Installed | InstalledOther | InstalledPendingReboot
         public let filters: [PatchOrchestratorFilter]?
-        /// The ID of the instance whose patch state information should be retrieved.
+        /// The ID of the managed node whose patch state information should be retrieved.
         public let instanceId: String
         /// The maximum number of patches to return (per page).
         public let maxResults: Int?
@@ -4560,7 +4568,7 @@ extension SSM {
         public let nextToken: String?
         /// The type of resource you want to retrieve information about. For example, INSTANCE.
         public let resourceType: MaintenanceWindowResourceType?
-        /// The instance ID or key-value pair to retrieve information about.
+        /// The managed node ID or key-value pair to retrieve information about.
         public let targets: [Target]?
         /// The ID of the maintenance window to retrieve information about.
         public let windowId: String?
@@ -4735,7 +4743,7 @@ extension SSM {
         public let nextToken: String?
         /// The type of resource you want to retrieve information about. For example, INSTANCE.
         public let resourceType: MaintenanceWindowResourceType
-        /// The instance ID or key-value pair to retrieve information about.
+        /// The managed node ID or key-value pair to retrieve information about.
         public let targets: [Target]
 
         public init(maxResults: Int? = nil, nextToken: String? = nil, resourceType: MaintenanceWindowResourceType, targets: [Target]) {
@@ -4765,7 +4773,7 @@ extension SSM {
     public struct DescribeMaintenanceWindowsForTargetResult: AWSDecodableShape {
         /// The token for the next set of items to return. (You use this token in the next call.)
         public let nextToken: String?
-        /// Information about the maintenance window targets and tasks an instance is associated with.
+        /// Information about the maintenance window targets and tasks a managed node is associated with.
         public let windowIdentities: [MaintenanceWindowIdentityForTarget]?
 
         public init(nextToken: String? = nil, windowIdentities: [MaintenanceWindowIdentityForTarget]? = nil) {
@@ -4991,29 +4999,29 @@ extension SSM {
     }
 
     public struct DescribePatchGroupStateResult: AWSDecodableShape {
-        /// The number of instances in the patch group.
+        /// The number of managed nodes in the patch group.
         public let instances: Int?
-        /// The number of instances where patches that are specified as Critical for compliance reporting in the patch baseline aren't installed. These patches might be missing, have failed installation, were rejected, or were installed but awaiting a required instance reboot. The status of these instances is NON_COMPLIANT.
+        /// The number of managed nodes where patches that are specified as Critical for compliance reporting in the patch baseline aren't installed. These patches might be missing, have failed installation, were rejected, or were installed but awaiting a required managed node reboot. The status of these managed nodes is NON_COMPLIANT.
         public let instancesWithCriticalNonCompliantPatches: Int?
-        /// The number of instances with patches from the patch baseline that failed to install.
+        /// The number of managed nodes with patches from the patch baseline that failed to install.
         public let instancesWithFailedPatches: Int?
-        /// The number of instances with patches installed that aren't defined in the patch baseline.
+        /// The number of managed nodes with patches installed that aren't defined in the patch baseline.
         public let instancesWithInstalledOtherPatches: Int?
-        /// The number of instances with installed patches.
+        /// The number of managed nodes with installed patches.
         public let instancesWithInstalledPatches: Int?
-        /// The number of instances with patches installed by Patch Manager that haven't been rebooted after the patch installation. The status of these instances is NON_COMPLIANT.
+        /// The number of managed nodes with patches installed by Patch Manager that haven't been rebooted after the patch installation. The status of these managed nodes is NON_COMPLIANT.
         public let instancesWithInstalledPendingRebootPatches: Int?
-        /// The number of instances with patches installed that are specified in a RejectedPatches list. Patches with a status of INSTALLED_REJECTED were typically installed before they were added to a RejectedPatches list.  If ALLOW_AS_DEPENDENCY is the specified option for RejectedPatchesAction, the value of InstancesWithInstalledRejectedPatches will always be 0 (zero).
+        /// The number of managed nodes with patches installed that are specified in a RejectedPatches list. Patches with a status of INSTALLED_REJECTED were typically installed before they were added to a RejectedPatches list.  If ALLOW_AS_DEPENDENCY is the specified option for RejectedPatchesAction, the value of InstancesWithInstalledRejectedPatches will always be 0 (zero).
         public let instancesWithInstalledRejectedPatches: Int?
-        /// The number of instances with missing patches from the patch baseline.
+        /// The number of managed nodes with missing patches from the patch baseline.
         public let instancesWithMissingPatches: Int?
-        /// The number of instances with patches that aren't applicable.
+        /// The number of managed nodes with patches that aren't applicable.
         public let instancesWithNotApplicablePatches: Int?
-        /// The number of instances with patches installed that are specified as other than Critical or Security but aren't compliant with the patch baseline. The status of these instances is NON_COMPLIANT.
+        /// The number of managed nodes with patches installed that are specified as other than Critical or Security but aren't compliant with the patch baseline. The status of these managed nodes is NON_COMPLIANT.
         public let instancesWithOtherNonCompliantPatches: Int?
-        /// The number of instances where patches that are specified as Security in a patch advisory aren't installed. These patches might be missing, have failed installation, were rejected, or were installed but awaiting a required instance reboot. The status of these instances is NON_COMPLIANT.
+        /// The number of managed nodes where patches that are specified as Security in a patch advisory aren't installed. These patches might be missing, have failed installation, were rejected, or were installed but awaiting a required managed node reboot. The status of these managed nodes is NON_COMPLIANT.
         public let instancesWithSecurityNonCompliantPatches: Int?
-        /// The number of instances with NotApplicable patches beyond the supported limit, which aren't reported by name to Inventory. Inventory is a capability of Amazon Web Services Systems Manager.
+        /// The number of managed nodes with NotApplicable patches beyond the supported limit, which aren't reported by name to Inventory. Inventory is a capability of Amazon Web Services Systems Manager.
         public let instancesWithUnreportedNotApplicablePatches: Int?
 
         public init(instances: Int? = nil, instancesWithCriticalNonCompliantPatches: Int? = nil, instancesWithFailedPatches: Int? = nil, instancesWithInstalledOtherPatches: Int? = nil, instancesWithInstalledPatches: Int? = nil, instancesWithInstalledPendingRebootPatches: Int? = nil, instancesWithInstalledRejectedPatches: Int? = nil, instancesWithMissingPatches: Int? = nil, instancesWithNotApplicablePatches: Int? = nil, instancesWithOtherNonCompliantPatches: Int? = nil, instancesWithSecurityNonCompliantPatches: Int? = nil, instancesWithUnreportedNotApplicablePatches: Int? = nil) {
@@ -5798,7 +5806,7 @@ extension SSM {
     public struct GetCommandInvocationRequest: AWSEncodableShape {
         /// (Required) The parent command ID of the invocation plugin.
         public let commandId: String
-        /// (Required) The ID of the managed instance targeted by the command. A managed instance can be an Amazon Elastic Compute Cloud (Amazon EC2) instance or an instance in your hybrid environment that is configured for Amazon Web Services Systems Manager.
+        /// (Required) The ID of the managed node targeted by the command. A managed node can be an Amazon Elastic Compute Cloud (Amazon EC2) instance, edge device, and on-premises server or VM in your hybrid environment that is configured for Amazon Web Services Systems Manager.
         public let instanceId: String
         /// The name of the plugin for which you want detailed results. If the document contains only one plugin, you can omit the name and details for that plugin. If the document contains more than one plugin, you must specify the name of the plugin for which you want to view details. Plugin names are also referred to as step names in Systems Manager documents (SSM documents). For example, aws:RunShellScript is a plugin. To find the PluginName, check the document content and find the name of the plugin. Alternatively, use ListCommandInvocations with the CommandId and Details parameters. The PluginName is the Name attribute of the CommandPlugin object in the CommandPlugins list.
         public let pluginName: String?
@@ -5840,11 +5848,11 @@ extension SSM {
         public let executionEndDateTime: String?
         /// The date and time the plugin started running. Date and time are written in ISO 8601 format. For example, June 7, 2017 is represented as 2017-06-7. The following sample Amazon Web Services CLI command uses the InvokedBefore filter.  aws ssm list-commands --filters key=InvokedBefore,value=2017-06-07T00:00:00Z  If the plugin hasn't started to run, the string is empty.
         public let executionStartDateTime: String?
-        /// The ID of the managed instance targeted by the command. A managed instance can be an EC2 instance or an instance in your hybrid environment that is configured for Systems Manager.
+        /// The ID of the managed node targeted by the command. A managed node can be an Amazon Elastic Compute Cloud (Amazon EC2) instance, edge device, or on-premises server or VM in your hybrid environment that is configured for Amazon Web Services Systems Manager.
         public let instanceId: String?
         /// The name of the plugin, or step name, for which details are reported. For example, aws:RunShellScript is a plugin.
         public let pluginName: String?
-        /// The error level response code for the plugin script. If the response code is -1, then the command hasn't started running on the instance, or it wasn't received by the instance.
+        /// The error level response code for the plugin script. If the response code is -1, then the command hasn't started running on the managed node, or it wasn't received by the node.
         public let responseCode: Int?
         /// The first 8,000 characters written by the plugin to stderr. If the command hasn't finished running, then this string is empty.
         public let standardErrorContent: String?
@@ -5856,7 +5864,7 @@ extension SSM {
         public let standardOutputUrl: String?
         /// The status of this invocation plugin. This status can be different than StatusDetails.
         public let status: CommandInvocationStatus?
-        /// A detailed status of the command execution for an invocation. StatusDetails includes more information than Status because it includes states resulting from error and concurrency control parameters. StatusDetails can show different results than Status. For more information about these statuses, see Understanding command statuses in the Amazon Web Services Systems Manager User Guide. StatusDetails can be one of the following values:   Pending: The command hasn't been sent to the instance.   In Progress: The command has been sent to the instance but hasn't reached a terminal state.   Delayed: The system attempted to send the command to the target, but the target wasn't available. The instance might not be available because of network issues, because the instance was stopped, or for similar reasons. The system will try to send the command again.   Success: The command or plugin ran successfully. This is a terminal state.   Delivery Timed Out: The command wasn't delivered to the instance before the delivery timeout expired. Delivery timeouts don't count against the parent command's MaxErrors limit, but they do contribute to whether the parent command status is Success or Incomplete. This is a terminal state.   Execution Timed Out: The command started to run on the instance, but the execution wasn't complete before the timeout expired. Execution timeouts count against the MaxErrors limit of the parent command. This is a terminal state.   Failed: The command wasn't run successfully on the instance. For a plugin, this indicates that the result code wasn't zero. For a command invocation, this indicates that the result code for one or more plugins wasn't zero. Invocation failures count against the MaxErrors limit of the parent command. This is a terminal state.   Canceled: The command was terminated before it was completed. This is a terminal state.   Undeliverable: The command can't be delivered to the instance. The instance might not exist or might not be responding. Undeliverable invocations don't count against the parent command's MaxErrors limit and don't contribute to whether the parent command status is Success or Incomplete. This is a terminal state.   Terminated: The parent command exceeded its MaxErrors limit and subsequent command invocations were canceled by the system. This is a terminal state.
+        /// A detailed status of the command execution for an invocation. StatusDetails includes more information than Status because it includes states resulting from error and concurrency control parameters. StatusDetails can show different results than Status. For more information about these statuses, see Understanding command statuses in the Amazon Web Services Systems Manager User Guide. StatusDetails can be one of the following values:   Pending: The command hasn't been sent to the managed node.   In Progress: The command has been sent to the managed node but hasn't reached a terminal state.   Delayed: The system attempted to send the command to the target, but the target wasn't available. The managed node might not be available because of network issues, because the node was stopped, or for similar reasons. The system will try to send the command again.   Success: The command or plugin ran successfully. This is a terminal state.   Delivery Timed Out: The command wasn't delivered to the managed node before the delivery timeout expired. Delivery timeouts don't count against the parent command's MaxErrors limit, but they do contribute to whether the parent command status is Success or Incomplete. This is a terminal state.   Execution Timed Out: The command started to run on the managed node, but the execution wasn't complete before the timeout expired. Execution timeouts count against the MaxErrors limit of the parent command. This is a terminal state.   Failed: The command wasn't run successfully on the managed node. For a plugin, this indicates that the result code wasn't zero. For a command invocation, this indicates that the result code for one or more plugins wasn't zero. Invocation failures count against the MaxErrors limit of the parent command. This is a terminal state.   Canceled: The command was terminated before it was completed. This is a terminal state.   Undeliverable: The command can't be delivered to the managed node. The node might not exist or might not be responding. Undeliverable invocations don't count against the parent command's MaxErrors limit and don't contribute to whether the parent command status is Success or Incomplete. This is a terminal state.   Terminated: The parent command exceeded its MaxErrors limit and subsequent command invocations were canceled by the system. This is a terminal state.
         public let statusDetails: String?
 
         public init(cloudWatchOutputConfig: CloudWatchOutputConfig? = nil, commandId: String? = nil, comment: String? = nil, documentName: String? = nil, documentVersion: String? = nil, executionElapsedTime: String? = nil, executionEndDateTime: String? = nil, executionStartDateTime: String? = nil, instanceId: String? = nil, pluginName: String? = nil, responseCode: Int? = nil, standardErrorContent: String? = nil, standardErrorUrl: String? = nil, standardOutputContent: String? = nil, standardOutputUrl: String? = nil, status: CommandInvocationStatus? = nil, statusDetails: String? = nil) {
@@ -5901,7 +5909,7 @@ extension SSM {
     }
 
     public struct GetConnectionStatusRequest: AWSEncodableShape {
-        /// The instance ID.
+        /// The managed node ID.
         public let target: String
 
         public init(target: String) {
@@ -5919,9 +5927,9 @@ extension SSM {
     }
 
     public struct GetConnectionStatusResponse: AWSDecodableShape {
-        /// The status of the connection to the instance. For example, 'Connected' or 'Not Connected'.
+        /// The status of the connection to the managed node. For example, 'Connected' or 'Not Connected'.
         public let status: ConnectionStatus?
-        /// The ID of the instance to check connection status.
+        /// The ID of the managed node to check connection status.
         public let target: String?
 
         public init(status: ConnectionStatus? = nil, target: String? = nil) {
@@ -5968,7 +5976,7 @@ extension SSM {
     public struct GetDeployablePatchSnapshotForInstanceRequest: AWSEncodableShape {
         /// Defines the basic information about a patch baseline override.
         public let baselineOverride: BaselineOverride?
-        /// The ID of the instance for which the appropriate patch snapshot should be retrieved.
+        /// The ID of the managed node for which the appropriate patch snapshot should be retrieved.
         public let instanceId: String
         /// The snapshot ID provided by the user when running AWS-RunPatchBaseline.
         public let snapshotId: String
@@ -5995,9 +6003,9 @@ extension SSM {
     }
 
     public struct GetDeployablePatchSnapshotForInstanceResult: AWSDecodableShape {
-        /// The instance ID.
+        /// The managed node ID.
         public let instanceId: String?
-        /// Returns the specific operating system (for example Windows Server 2012 or Amazon Linux 2015.09) on the instance for the specified patch snapshot.
+        /// Returns the specific operating system (for example Windows Server 2012 or Amazon Linux 2015.09) on the managed node for the specified patch snapshot.
         public let product: String?
         /// A pre-signed Amazon Simple Storage Service (Amazon S3) URL that can be used to download the patch snapshot.
         public let snapshotDownloadUrl: String?
@@ -6112,7 +6120,7 @@ extension SSM {
     }
 
     public struct GetInventoryRequest: AWSEncodableShape {
-        /// Returns counts of inventory types based on one or more expressions. For example, if you aggregate by using an expression that uses the AWS:InstanceInformation.PlatformType type, you can see a count of how many Windows and Linux instances exist in your inventoried fleet.
+        /// Returns counts of inventory types based on one or more expressions. For example, if you aggregate by using an expression that uses the AWS:InstanceInformation.PlatformType type, you can see a count of how many Windows and Linux managed nodes exist in your inventoried fleet.
         public let aggregators: [InventoryAggregator]?
         /// One or more filters. Use a filter to return a more specific list of results.
         public let filters: [InventoryFilter]?
@@ -6161,7 +6169,7 @@ extension SSM {
     }
 
     public struct GetInventoryResult: AWSDecodableShape {
-        /// Collection of inventory entities such as a collection of instance inventory.
+        /// Collection of inventory entities such as a collection of managed node inventory.
         public let entities: [InventoryResultEntity]?
         /// The token to use when requesting the next set of items. If there are no additional items to return, the string is empty.
         public let nextToken: String?
@@ -7050,7 +7058,7 @@ extension SSM {
         public let approvedPatches: [String]?
         /// Returns the specified compliance severity level for approved patches in the patch baseline.
         public let approvedPatchesComplianceLevel: PatchComplianceLevel?
-        /// Indicates whether the list of approved patches includes non-security updates that should be applied to the instances. The default value is false. Applies to Linux instances only.
+        /// Indicates whether the list of approved patches includes non-security updates that should be applied to the managed nodes. The default value is false. Applies to Linux managed nodes only.
         public let approvedPatchesEnableNonSecurity: Bool?
         /// The ID of the retrieved patch baseline.
         public let baselineId: String?
@@ -7072,7 +7080,7 @@ extension SSM {
         public let rejectedPatches: [String]?
         /// The action specified to take on patches included in the RejectedPatches list. A patch can be allowed only if it is a dependency of another package, or blocked entirely along with packages that include it as a dependency.
         public let rejectedPatchesAction: PatchAction?
-        /// Information about the patches to use to update the instances, including target operating systems and source repositories. Applies to Linux instances only.
+        /// Information about the patches to use to update the managed nodes, including target operating systems and source repositories. Applies to Linux managed nodes only.
         public let sources: [PatchSource]?
 
         public init(approvalRules: PatchRuleGroup? = nil, approvedPatches: [String]? = nil, approvedPatchesComplianceLevel: PatchComplianceLevel? = nil, approvedPatchesEnableNonSecurity: Bool? = nil, baselineId: String? = nil, createdDate: Date? = nil, description: String? = nil, globalFilters: PatchFilterGroup? = nil, modifiedDate: Date? = nil, name: String? = nil, operatingSystem: OperatingSystem? = nil, patchGroups: [String]? = nil, rejectedPatches: [String]? = nil, rejectedPatchesAction: PatchAction? = nil, sources: [PatchSource]? = nil) {
@@ -7146,7 +7154,7 @@ extension SSM {
     public struct InstanceAggregatedAssociationOverview: AWSDecodableShape {
         /// Detailed status information about the aggregated associations.
         public let detailedStatus: String?
-        /// The number of associations for the instance(s).
+        /// The number of associations for the managed node(s).
         public let instanceAssociationStatusAggregatedCount: [String: Int]?
 
         public init(detailedStatus: String? = nil, instanceAssociationStatusAggregatedCount: [String: Int]? = nil) {
@@ -7163,11 +7171,11 @@ extension SSM {
     public struct InstanceAssociation: AWSDecodableShape {
         /// The association ID.
         public let associationId: String?
-        /// Version information for the association on the instance.
+        /// Version information for the association on the managed node.
         public let associationVersion: String?
-        /// The content of the association document for the instance(s).
+        /// The content of the association document for the managed node(s).
         public let content: String?
-        /// The instance ID.
+        /// The managed node ID.
         public let instanceId: String?
 
         public init(associationId: String? = nil, associationVersion: String? = nil, content: String? = nil, instanceId: String? = nil) {
@@ -7218,27 +7226,27 @@ extension SSM {
     public struct InstanceAssociationStatusInfo: AWSDecodableShape {
         /// The association ID.
         public let associationId: String?
-        /// The name of the association applied to the instance.
+        /// The name of the association applied to the managed node.
         public let associationName: String?
-        /// The version of the association applied to the instance.
+        /// The version of the association applied to the managed node.
         public let associationVersion: String?
-        /// Detailed status information about the instance association.
+        /// Detailed status information about the association.
         public let detailedStatus: String?
         /// The association document versions.
         public let documentVersion: String?
         /// An error code returned by the request to create the association.
         public let errorCode: String?
-        /// The date the instance association ran.
+        /// The date the association ran.
         public let executionDate: Date?
         /// Summary information about association execution.
         public let executionSummary: String?
-        /// The instance ID where the association was created.
+        /// The managed node ID where the association was created.
         public let instanceId: String?
         /// The name of the association.
         public let name: String?
         /// A URL for an S3 bucket where you want to store the results of this request.
         public let outputUrl: InstanceAssociationOutputUrl?
-        /// Status information about the instance association.
+        /// Status information about the association.
         public let status: String?
 
         public init(associationId: String? = nil, associationName: String? = nil, associationVersion: String? = nil, detailedStatus: String? = nil, documentVersion: String? = nil, errorCode: String? = nil, executionDate: Date? = nil, executionSummary: String? = nil, instanceId: String? = nil, name: String? = nil, outputUrl: InstanceAssociationOutputUrl? = nil, status: String? = nil) {
@@ -7275,21 +7283,21 @@ extension SSM {
     public struct InstanceInformation: AWSDecodableShape {
         /// The activation ID created by Amazon Web Services Systems Manager when the server or virtual machine (VM) was registered.
         public let activationId: String?
-        /// The version of SSM Agent running on your Linux instance.
+        /// The version of SSM Agent running on your Linux managed node.
         public let agentVersion: String?
         /// Information about the association.
         public let associationOverview: InstanceAggregatedAssociationOverview?
         /// The status of the association.
         public let associationStatus: String?
-        /// The fully qualified host name of the managed instance.
+        /// The fully qualified host name of the managed node.
         public let computerName: String?
-        /// The Identity and Access Management (IAM) role assigned to the on-premises Systems Manager managed instance. This call doesn't return the IAM role for Amazon Elastic Compute Cloud (Amazon EC2) instances. To retrieve the IAM role for an EC2 instance, use the Amazon EC2 DescribeInstances operation. For information, see DescribeInstances in the Amazon EC2 API Reference or describe-instances in the Amazon Web Services CLI Command Reference.
+        /// The Identity and Access Management (IAM) role assigned to the on-premises Systems Manager managed node. This call doesn't return the IAM role for Amazon Elastic Compute Cloud (Amazon EC2) instances. To retrieve the IAM role for an EC2 instance, use the Amazon EC2 DescribeInstances operation. For information, see DescribeInstances in the Amazon EC2 API Reference or describe-instances in the Amazon Web Services CLI Command Reference.
         public let iamRole: String?
-        /// The instance ID.
+        /// The managed node ID.
         public let instanceId: String?
-        /// The IP address of the managed instance.
+        /// The IP address of the managed node.
         public let iPAddress: String?
-        /// Indicates whether the latest version of SSM Agent is running on your Linux Managed Instance. This field doesn't indicate whether or not the latest version is installed on Windows managed instances, because some older versions of Windows Server use the EC2Config service to process Systems Manager requests.
+        /// Indicates whether the latest version of SSM Agent is running on your Linux managed node. This field doesn't indicate whether or not the latest version is installed on Windows managed nodes, because some older versions of Windows Server use the EC2Config service to process Systems Manager requests.
         public let isLatestVersion: Bool?
         /// The date the association was last run.
         public let lastAssociationExecutionDate: Date?
@@ -7297,22 +7305,26 @@ extension SSM {
         public let lastPingDateTime: Date?
         /// The last date the association was successfully run.
         public let lastSuccessfulAssociationExecutionDate: Date?
-        /// The name assigned to an on-premises server or virtual machine (VM) when it is activated as a Systems Manager managed instance. The name is specified as the DefaultInstanceName property using the CreateActivation command. It is applied to the managed instance by specifying the Activation Code and Activation ID when you install SSM Agent on the instance, as explained in Install SSM Agent for a hybrid environment (Linux) and Install SSM Agent for a hybrid environment (Windows). To retrieve the Name tag of an EC2 instance, use the Amazon EC2 DescribeInstances operation. For information, see DescribeInstances in the Amazon EC2 API Reference or describe-instances in the Amazon Web Services CLI Command Reference.
+        /// The name assigned to an on-premises server, edge device, or virtual machine (VM) when it is activated as a Systems Manager managed node. The name is specified as the DefaultInstanceName property using the CreateActivation command. It is applied to the managed node by specifying the Activation Code and Activation ID when you install SSM Agent on the node, as explained in Install SSM Agent for a hybrid environment (Linux) and Install SSM Agent for a hybrid environment (Windows). To retrieve the Name tag of an EC2 instance, use the Amazon EC2 DescribeInstances operation. For information, see DescribeInstances in the Amazon EC2 API Reference or describe-instances in the Amazon Web Services CLI Command Reference.
         public let name: String?
         /// Connection status of SSM Agent.   The status Inactive has been deprecated and is no longer in use.
         public let pingStatus: PingStatus?
-        /// The name of the operating system platform running on your instance.
+        /// The name of the operating system platform running on your managed node.
         public let platformName: String?
         /// The operating system platform type.
         public let platformType: PlatformType?
-        /// The version of the OS platform running on your instance.
+        /// The version of the OS platform running on your managed node.
         public let platformVersion: String?
-        /// The date the server or VM was registered with Amazon Web Services as a managed instance.
+        /// The date the server or VM was registered with Amazon Web Services as a managed node.
         public let registrationDate: Date?
         /// The type of instance. Instances are either EC2 instances or managed instances.
         public let resourceType: ResourceType?
+        /// The ID of the source resource. For IoT Greengrass devices, SourceId is the Thing name.
+        public let sourceId: String?
+        /// The type of the source resource. For IoT Greengrass devices, SourceType is AWS::IoT::Thing.
+        public let sourceType: SourceType?
 
-        public init(activationId: String? = nil, agentVersion: String? = nil, associationOverview: InstanceAggregatedAssociationOverview? = nil, associationStatus: String? = nil, computerName: String? = nil, iamRole: String? = nil, instanceId: String? = nil, iPAddress: String? = nil, isLatestVersion: Bool? = nil, lastAssociationExecutionDate: Date? = nil, lastPingDateTime: Date? = nil, lastSuccessfulAssociationExecutionDate: Date? = nil, name: String? = nil, pingStatus: PingStatus? = nil, platformName: String? = nil, platformType: PlatformType? = nil, platformVersion: String? = nil, registrationDate: Date? = nil, resourceType: ResourceType? = nil) {
+        public init(activationId: String? = nil, agentVersion: String? = nil, associationOverview: InstanceAggregatedAssociationOverview? = nil, associationStatus: String? = nil, computerName: String? = nil, iamRole: String? = nil, instanceId: String? = nil, iPAddress: String? = nil, isLatestVersion: Bool? = nil, lastAssociationExecutionDate: Date? = nil, lastPingDateTime: Date? = nil, lastSuccessfulAssociationExecutionDate: Date? = nil, name: String? = nil, pingStatus: PingStatus? = nil, platformName: String? = nil, platformType: PlatformType? = nil, platformVersion: String? = nil, registrationDate: Date? = nil, resourceType: ResourceType? = nil, sourceId: String? = nil, sourceType: SourceType? = nil) {
             self.activationId = activationId
             self.agentVersion = agentVersion
             self.associationOverview = associationOverview
@@ -7332,6 +7344,8 @@ extension SSM {
             self.platformVersion = platformVersion
             self.registrationDate = registrationDate
             self.resourceType = resourceType
+            self.sourceId = sourceId
+            self.sourceType = sourceType
         }
 
         private enum CodingKeys: String, CodingKey {
@@ -7354,6 +7368,8 @@ extension SSM {
             case platformVersion = "PlatformVersion"
             case registrationDate = "RegistrationDate"
             case resourceType = "ResourceType"
+            case sourceId = "SourceId"
+            case sourceType = "SourceType"
         }
     }
 
@@ -7383,7 +7399,7 @@ extension SSM {
     }
 
     public struct InstanceInformationStringFilter: AWSEncodableShape {
-        /// The filter key name to describe your instances. For example: "InstanceIds"|"AgentVersion"|"PingStatus"|"PlatformTypes"|"ActivationIds"|"IamRole"|"ResourceType"|"AssociationStatus"|"Tag Key"   Tag key isn't a valid filter. You must specify either tag-key or tag:keyname and a string. Here are some valid examples: tag-key, tag:123, tag:al!, tag:Windows. Here are some invalid examples: tag-keys, Tag Key, tag:, tagKey, abc:keyname.
+        /// The filter key name to describe your managed nodes. For example: "InstanceIds"|"AgentVersion"|"PingStatus"|"PlatformTypes"|"ActivationIds"|"IamRole"|"ResourceType"|"AssociationStatus"|"Tag Key"   Tag key isn't a valid filter. You must specify either tag-key or tag:keyname and a string. Here are some valid examples: tag-key, tag:123, tag:al!, tag:Windows. Here are some invalid examples: tag-keys, Tag Key, tag:, tagKey, abc:keyname.
         public let key: String
         /// The filter values.
         public let values: [String]
@@ -7409,45 +7425,45 @@ extension SSM {
     }
 
     public struct InstancePatchState: AWSDecodableShape {
-        /// The ID of the patch baseline used to patch the instance.
+        /// The ID of the patch baseline used to patch the managed node.
         public let baselineId: String
-        /// The number of instances where patches that are specified as Critical for compliance reporting in the patch baseline aren't installed. These patches might be missing, have failed installation, were rejected, or were installed but awaiting a required instance reboot. The status of these instances is NON_COMPLIANT.
+        /// The number of managed nodes where patches that are specified as Critical for compliance reporting in the patch baseline aren't installed. These patches might be missing, have failed installation, were rejected, or were installed but awaiting a required managed node reboot. The status of these managed nodes is NON_COMPLIANT.
         public let criticalNonCompliantCount: Int?
         /// The number of patches from the patch baseline that were attempted to be installed during the last patching operation, but failed to install.
         public let failedCount: Int?
-        /// The number of patches from the patch baseline that are installed on the instance.
+        /// The number of patches from the patch baseline that are installed on the managed node.
         public let installedCount: Int?
-        /// The number of patches not specified in the patch baseline that are installed on the instance.
+        /// The number of patches not specified in the patch baseline that are installed on the managed node.
         public let installedOtherCount: Int?
-        /// The number of patches installed by Patch Manager since the last time the instance was rebooted.
+        /// The number of patches installed by Patch Manager since the last time the managed node was rebooted.
         public let installedPendingRebootCount: Int?
-        /// The number of patches installed on an instance that are specified in a RejectedPatches list. Patches with a status of InstalledRejected were typically installed before they were added to a RejectedPatches list.  If ALLOW_AS_DEPENDENCY is the specified option for RejectedPatchesAction, the value of InstalledRejectedCount will always be 0 (zero).
+        /// The number of patches installed on a managed node that are specified in a RejectedPatches list. Patches with a status of InstalledRejected were typically installed before they were added to a RejectedPatches list.  If ALLOW_AS_DEPENDENCY is the specified option for RejectedPatchesAction, the value of InstalledRejectedCount will always be 0 (zero).
         public let installedRejectedCount: Int?
         /// An https URL or an Amazon Simple Storage Service (Amazon S3) path-style URL to a list of patches to be installed. This patch installation list, which you maintain in an S3 bucket in YAML format and specify in the SSM document AWS-RunPatchBaseline, overrides the patches specified by the default patch baseline. For more information about the InstallOverrideList parameter, see About the AWS-RunPatchBaseline  SSM document in the Amazon Web Services Systems Manager User Guide.
         public let installOverrideList: String?
-        /// The ID of the managed instance the high-level patch compliance information was collected for.
+        /// The ID of the managed node the high-level patch compliance information was collected for.
         public let instanceId: String
-        /// The time of the last attempt to patch the instance with NoReboot specified as the reboot option.
+        /// The time of the last attempt to patch the managed node with NoReboot specified as the reboot option.
         public let lastNoRebootInstallOperationTime: Date?
-        /// The number of patches from the patch baseline that are applicable for the instance but aren't currently installed.
+        /// The number of patches from the patch baseline that are applicable for the managed node but aren't currently installed.
         public let missingCount: Int?
-        /// The number of patches from the patch baseline that aren't applicable for the instance and therefore aren't installed on the instance. This number may be truncated if the list of patch names is very large. The number of patches beyond this limit are reported in UnreportedNotApplicableCount.
+        /// The number of patches from the patch baseline that aren't applicable for the managed node and therefore aren't installed on the node. This number may be truncated if the list of patch names is very large. The number of patches beyond this limit are reported in UnreportedNotApplicableCount.
         public let notApplicableCount: Int?
         /// The type of patching operation that was performed: or     SCAN assesses the patch compliance state.    INSTALL installs missing patches.
         public let operation: PatchOperationType
-        /// The time the most recent patching operation completed on the instance.
+        /// The time the most recent patching operation completed on the managed node.
         public let operationEndTime: Date
-        /// The time the most recent patching operation was started on the instance.
+        /// The time the most recent patching operation was started on the managed node.
         public let operationStartTime: Date
-        /// The number of instances with patches installed that are specified as other than Critical or Security but aren't compliant with the patch baseline. The status of these instances is NON_COMPLIANT.
+        /// The number of managed nodes with patches installed that are specified as other than Critical or Security but aren't compliant with the patch baseline. The status of these managed nodes is NON_COMPLIANT.
         public let otherNonCompliantCount: Int?
         /// Placeholder information. This field will always be empty in the current release of the service.
         public let ownerInformation: String?
-        /// The name of the patch group the managed instance belongs to.
+        /// The name of the patch group the managed node belongs to.
         public let patchGroup: String
-        /// Indicates the reboot option specified in the patch baseline.  Reboot options apply to Install operations only. Reboots aren't attempted for Patch Manager Scan operations.     RebootIfNeeded: Patch Manager tries to reboot the instance if it installed any patches, or if any patches are detected with a status of InstalledPendingReboot.    NoReboot: Patch Manager attempts to install missing packages without trying to reboot the system. Patches installed with this option are assigned a status of InstalledPendingReboot. These patches might not be in effect until a reboot is performed.
+        /// Indicates the reboot option specified in the patch baseline.  Reboot options apply to Install operations only. Reboots aren't attempted for Patch Manager Scan operations.     RebootIfNeeded: Patch Manager tries to reboot the managed node if it installed any patches, or if any patches are detected with a status of InstalledPendingReboot.    NoReboot: Patch Manager attempts to install missing packages without trying to reboot the system. Patches installed with this option are assigned a status of InstalledPendingReboot. These patches might not be in effect until a reboot is performed.
         public let rebootOption: RebootOption?
-        /// The number of instances where patches that are specified as Security in a patch advisory aren't installed. These patches might be missing, have failed installation, were rejected, or were installed but awaiting a required instance reboot. The status of these instances is NON_COMPLIANT.
+        /// The number of managed nodes where patches that are specified as Security in a patch advisory aren't installed. These patches might be missing, have failed installation, were rejected, or were installed but awaiting a required managed node reboot. The status of these managed nodes is NON_COMPLIANT.
         public let securityNonCompliantCount: Int?
         /// The ID of the patch baseline snapshot used during the patching operation when this compliance data was collected.
         public let snapshotId: String?
@@ -7653,7 +7669,7 @@ extension SSM {
         public let key: String
         /// The type of filter.  The Exists filter must be used with aggregators. For more information, see Aggregating inventory data in the Amazon Web Services Systems Manager User Guide.
         public let type: InventoryQueryOperatorType?
-        /// Inventory filter values. Example: inventory filter where instance IDs are specified as values Key=AWS:InstanceInformation.InstanceId,Values= i-a12b3c4d5e6g, i-1a2b3c4d5e6,Type=Equal.
+        /// Inventory filter values. Example: inventory filter where managed node IDs are specified as values Key=AWS:InstanceInformation.InstanceId,Values= i-a12b3c4d5e6g, i-1a2b3c4d5e6,Type=Equal.
         public let values: [String]
 
         public init(key: String, type: InventoryQueryOperatorType? = nil, values: [String]) {
@@ -7798,7 +7814,7 @@ extension SSM {
     public struct InventoryResultEntity: AWSDecodableShape {
         /// The data section in the inventory result entity JSON.
         public let data: [String: InventoryResultItem]?
-        /// ID of the inventory result entity. For example, for managed instance inventory the result will be the managed instance ID. For EC2 instance inventory, the result will be the instance ID.
+        /// ID of the inventory result entity. For example, for managed node inventory the result will be the managed node ID. For EC2 instance inventory, the result will be the instance ID.
         public let id: String?
 
         public init(data: [String: InventoryResultItem]? = nil, id: String? = nil) {
@@ -7935,7 +7951,7 @@ extension SSM {
     }
 
     public struct ListAssociationsRequest: AWSEncodableShape {
-        /// One or more filters. Use a filter to return a more specific list of results.  Filtering associations using the InstanceID attribute only returns legacy associations created using the InstanceID attribute. Associations targeting the instance that are part of the Target Attributes ResourceGroup or Tags aren't returned.
+        /// One or more filters. Use a filter to return a more specific list of results.  Filtering associations using the InstanceID attribute only returns legacy associations created using the InstanceID attribute. Associations targeting the managed node that are part of the Target Attributes ResourceGroup or Tags aren't returned.
         public let associationFilterList: [AssociationFilter]?
         /// The maximum number of items to return for this call. The call also returns a token that you can specify in a subsequent call to get the next set of results.
         public let maxResults: Int?
@@ -7988,7 +8004,7 @@ extension SSM {
         public let details: Bool?
         /// (Optional) One or more filters. Use a filter to return a more specific list of results.
         public let filters: [CommandFilter]?
-        /// (Optional) The command execution details for a specific instance ID.
+        /// (Optional) The command execution details for a specific managed node ID.
         public let instanceId: String?
         /// (Optional) The maximum number of items to return for this call. The call also returns a token that you can specify in a subsequent call to get the next set of results.
         public let maxResults: Int?
@@ -8049,7 +8065,7 @@ extension SSM {
         public let commandId: String?
         /// (Optional) One or more filters. Use a filter to return a more specific list of results.
         public let filters: [CommandFilter]?
-        /// (Optional) Lists commands issued against this instance ID.  You can't specify an instance ID in the same command that you specify Status = Pending. This is because the command hasn't reached the instance yet.
+        /// (Optional) Lists commands issued against this managed node ID.  You can't specify a managed node ID in the same command that you specify Status = Pending. This is because the command hasn't reached the managed node yet.
         public let instanceId: String?
         /// (Optional) The maximum number of items to return for this call. The call also returns a token that you can specify in a subsequent call to get the next set of results.
         public let maxResults: Int?
@@ -8381,7 +8397,7 @@ extension SSM {
     public struct ListInventoryEntriesRequest: AWSEncodableShape {
         /// One or more filters. Use a filter to return a more specific list of results.
         public let filters: [InventoryFilter]?
-        /// The instance ID for which you want inventory information.
+        /// The managed node ID for which you want inventory information.
         public let instanceId: String
         /// The maximum number of items to return for this call. The call also returns a token that you can specify in a subsequent call to get the next set of results.
         public let maxResults: Int?
@@ -8422,15 +8438,15 @@ extension SSM {
     }
 
     public struct ListInventoryEntriesResult: AWSDecodableShape {
-        /// The time that inventory information was collected for the instance(s).
+        /// The time that inventory information was collected for the managed node(s).
         public let captureTime: String?
-        /// A list of inventory items on the instance(s).
+        /// A list of inventory items on the managed node(s).
         public let entries: [[String: String]]?
-        /// The instance ID targeted by the request to query inventory information.
+        /// The managed node ID targeted by the request to query inventory information.
         public let instanceId: String?
         /// The token to use when requesting the next set of items. If there are no additional items to return, the string is empty.
         public let nextToken: String?
-        /// The inventory schema version used by the instance(s).
+        /// The inventory schema version used by the managed node(s).
         public let schemaVersion: String?
         /// The type of inventory item returned by the request.
         public let typeName: String?
@@ -8628,7 +8644,7 @@ extension SSM {
     public struct ListResourceComplianceSummariesResult: AWSDecodableShape {
         /// The token for the next set of items to return. Use this token to get the next set of results.
         public let nextToken: String?
-        /// A summary count for specified or targeted managed instances. Summary count includes information about compliant and non-compliant State Manager associations, patch status, or custom items according to the filter criteria that you specify.
+        /// A summary count for specified or targeted managed nodes. Summary count includes information about compliant and non-compliant State Manager associations, patch status, or custom items according to the filter criteria that you specify.
         public let resourceComplianceSummaryItems: [ResourceComplianceSummaryItem]?
 
         public init(nextToken: String? = nil, resourceComplianceSummaryItems: [ResourceComplianceSummaryItem]? = nil) {
@@ -9043,7 +9059,7 @@ extension SSM {
         public let documentHashType: DocumentHashType?
         /// The Amazon Web Services Systems Manager document (SSM document) version to use in the request. You can specify $DEFAULT, $LATEST, or a specific version number. If you run commands by using the Amazon Web Services CLI, then you must escape the first two options by using a backslash. If you specify a version number, then you don't need to use the backslash. For example:  --document-version "\$DEFAULT"   --document-version "\$LATEST"   --document-version "3"
         public let documentVersion: String?
-        /// Configurations for sending notifications about command status changes on a per-instance basis.
+        /// Configurations for sending notifications about command status changes on a per-managed node basis.
         public let notificationConfig: NotificationConfig?
         /// The name of the Amazon Simple Storage Service (Amazon S3) bucket.
         public let outputS3BucketName: String?
@@ -9129,7 +9145,7 @@ extension SSM {
         public let ownerInformation: String?
         /// The type of target that is being registered with the maintenance window.
         public let resourceType: MaintenanceWindowResourceType?
-        /// The targets, either instances or tags. Specify instances using the following format:  Key=instanceids,Values=&lt;instanceid1&gt;,&lt;instanceid2&gt;  Tags are specified using the following format:  Key=&lt;tag name&gt;,Values=&lt;tag value&gt;.
+        /// The targets, either managed nodes or tags. Specify managed nodes using the following format:  Key=instanceids,Values=&lt;instanceid1&gt;,&lt;instanceid2&gt;  Tags are specified using the following format:  Key=&lt;tag name&gt;,Values=&lt;tag value&gt;.
         public let targets: [Target]?
         /// The ID of the maintenance window to register the target with.
         public let windowId: String?
@@ -9174,7 +9190,7 @@ extension SSM {
         public let priority: Int?
         /// The Amazon Resource Name (ARN) of the Identity and Access Management (IAM) service role to use to publish Amazon Simple Notification Service (Amazon SNS) notifications for maintenance window Run Command tasks.
         public let serviceRoleArn: String?
-        /// The targets (either instances or tags). Instances are specified using Key=instanceids,Values=&lt;instanceid1&gt;,&lt;instanceid2&gt;. Tags are specified using Key=&lt;tag name&gt;,Values=&lt;tag value&gt;.
+        /// The targets (either managed nodes or tags). Managed nodes are specified using Key=instanceids,Values=&lt;instanceid1&gt;,&lt;instanceid2&gt;. Tags are specified using Key=&lt;tag name&gt;,Values=&lt;tag value&gt;.
         public let targets: [Target]?
         /// The resource that the task uses during execution. For RUN_COMMAND and AUTOMATION task types, TaskArn is the Amazon Web Services Systems Manager (SSM document) name or ARN. For LAMBDA tasks, it's the function name or ARN. For STEP_FUNCTIONS tasks, it's the state machine ARN.
         public let taskArn: String?
@@ -9361,7 +9377,7 @@ extension SSM {
         public let notificationArn: String?
         /// The different events for which you can receive notifications. To learn more about these events, see Monitoring Systems Manager status changes using Amazon SNS notifications in the Amazon Web Services Systems Manager User Guide.
         public let notificationEvents: [NotificationEvent]?
-        /// The type of notification.    Command: Receive notification when the status of a command changes.    Invocation: For commands sent to multiple instances, receive notification on a per-instance basis when the status of a command changes.
+        /// The type of notification.    Command: Receive notification when the status of a command changes.    Invocation: For commands sent to multiple managed nodes, receive notification on a per-node basis when the status of a command changes.
         public let notificationType: NotificationType?
 
         public init(notificationArn: String? = nil, notificationEvents: [NotificationEvent]? = nil, notificationType: NotificationType? = nil) {
@@ -10207,21 +10223,21 @@ extension SSM {
     }
 
     public struct Patch: AWSDecodableShape {
-        /// The Advisory ID of the patch. For example, RHSA-2020:3779. Applies to Linux-based instances only.
+        /// The Advisory ID of the patch. For example, RHSA-2020:3779. Applies to Linux-based managed nodes only.
         public let advisoryIds: [String]?
-        /// The architecture of the patch. For example, in example-pkg-0.710.10-2.7.abcd.x86_64, the architecture is indicated by x86_64. Applies to Linux-based instances only.
+        /// The architecture of the patch. For example, in example-pkg-0.710.10-2.7.abcd.x86_64, the architecture is indicated by x86_64. Applies to Linux-based managed nodes only.
         public let arch: String?
-        /// The Bugzilla ID of the patch. For example, 1600646. Applies to Linux-based instances only.
+        /// The Bugzilla ID of the patch. For example, 1600646. Applies to Linux-based managed nodes only.
         public let bugzillaIds: [String]?
         /// The classification of the patch. For example, SecurityUpdates, Updates, or CriticalUpdates.
         public let classification: String?
         /// The URL where more information can be obtained about the patch.
         public let contentUrl: String?
-        /// The Common Vulnerabilities and Exposures (CVE) ID of the patch. For example, CVE-2011-3192. Applies to Linux-based instances only.
+        /// The Common Vulnerabilities and Exposures (CVE) ID of the patch. For example, CVE-2011-3192. Applies to Linux-based managed nodes only.
         public let cVEIds: [String]?
         /// The description of the patch.
         public let description: String?
-        /// The epoch of the patch. For example in pkg-example-EE-20180914-2.2.amzn1.noarch, the epoch value is 20180914-2. Applies to Linux-based instances only.
+        /// The epoch of the patch. For example in pkg-example-EE-20180914-2.2.amzn1.noarch, the epoch value is 20180914-2. Applies to Linux-based managed nodes only.
         public let epoch: Int?
         /// The ID of the patch. Applies to Windows patches only.  This ID isn't the same as the Microsoft Knowledge Base ID.
         public let id: String?
@@ -10233,17 +10249,17 @@ extension SSM {
         public let msrcNumber: String?
         /// The severity of the patch, such as Critical, Important, or Moderate. Applies to Windows patches only.
         public let msrcSeverity: String?
-        /// The name of the patch. Applies to Linux-based instances only.
+        /// The name of the patch. Applies to Linux-based managed nodes only.
         public let name: String?
         /// The specific product the patch is applicable for. For example, WindowsServer2016 or AmazonLinux2018.03.
         public let product: String?
         /// The product family the patch is applicable for. For example, Windows or Amazon Linux 2.
         public let productFamily: String?
-        /// The particular release of a patch. For example, in pkg-example-EE-20180914-2.2.amzn1.noarch, the release is 2.amaz1. Applies to Linux-based instances only.
+        /// The particular release of a patch. For example, in pkg-example-EE-20180914-2.2.amzn1.noarch, the release is 2.amaz1. Applies to Linux-based managed nodes only.
         public let release: String?
         /// The date the patch was released.
         public let releaseDate: Date?
-        /// The source patch repository for the operating system and version, such as trusty-security for Ubuntu Server 14.04 LTE and focal-security for Ubuntu Server 20.04 LTE. Applies to Linux-based instances only.
+        /// The source patch repository for the operating system and version, such as trusty-security for Ubuntu Server 14.04 LTE and focal-security for Ubuntu Server 20.04 LTE. Applies to Linux-based managed nodes only.
         public let repository: String?
         /// The severity level of the patch. For example, CRITICAL or MODERATE.
         public let severity: String?
@@ -10251,7 +10267,7 @@ extension SSM {
         public let title: String?
         /// The name of the vendor providing the patch.
         public let vendor: String?
-        /// The version number of the patch. For example, in example-pkg-1.710.10-2.7.abcd.x86_64, the version number is indicated by -1. Applies to Linux-based instances only.
+        /// The version number of the patch. For example, in example-pkg-1.710.10-2.7.abcd.x86_64, the version number is indicated by -1. Applies to Linux-based managed nodes only.
         public let version: String?
 
         public init(advisoryIds: [String]? = nil, arch: String? = nil, bugzillaIds: [String]? = nil, classification: String? = nil, contentUrl: String? = nil, cVEIds: [String]? = nil, description: String? = nil, epoch: Int? = nil, id: String? = nil, kbNumber: String? = nil, language: String? = nil, msrcNumber: String? = nil, msrcSeverity: String? = nil, name: String? = nil, product: String? = nil, productFamily: String? = nil, release: String? = nil, releaseDate: Date? = nil, repository: String? = nil, severity: String? = nil, title: String? = nil, vendor: String? = nil, version: String? = nil) {
@@ -10341,13 +10357,13 @@ extension SSM {
         public let classification: String
         /// The IDs of one or more Common Vulnerabilities and Exposure (CVE) issues that are resolved by the patch.
         public let cVEIds: String?
-        /// The date/time the patch was installed on the instance. Not all operating systems provide this level of information.
+        /// The date/time the patch was installed on the managed node. Not all operating systems provide this level of information.
         public let installedTime: Date
         /// The operating system-specific ID of the patch.
         public let kBId: String
         /// The severity of the patchsuch as Critical, Important, and Moderate.
         public let severity: String
-        /// The state of the patch on the instance, such as INSTALLED or FAILED. For descriptions of each patch state, see About patch compliance in the Amazon Web Services Systems Manager User Guide.
+        /// The state of the patch on the managed node, such as INSTALLED or FAILED. For descriptions of each patch state, see About patch compliance in the Amazon Web Services Systems Manager User Guide.
         public let state: PatchComplianceDataState
         /// The title of the patch.
         public let title: String
@@ -10470,7 +10486,7 @@ extension SSM {
         public let approveUntilDate: String?
         /// A compliance severity level for all approved patches in a patch baseline.
         public let complianceLevel: PatchComplianceLevel?
-        /// For instances identified by the approval rule filters, enables a patch baseline to apply non-security updates available in the specified repository. The default value is false. Applies to Linux instances only.
+        /// For managed nodes identified by the approval rule filters, enables a patch baseline to apply non-security updates available in the specified repository. The default value is false. Applies to Linux managed nodes only.
         public let enableNonSecurity: Bool?
         /// The patch filter group that defines the criteria for the rule.
         public let patchFilterGroup: PatchFilterGroup
@@ -10613,7 +10629,7 @@ extension SSM {
         public let itemContentHash: String?
         /// Information about the compliance as defined by the resource type. For example, for a patch compliance type, Items includes information about the PatchSeverity, Classification, and so on.
         public let items: [ComplianceItemEntry]
-        /// Specify an ID for this resource. For a managed instance, this is the instance ID.
+        /// Specify an ID for this resource. For a managed node, this is the node ID.
         public let resourceId: String
         /// Specify the type of resource. ManagedInstance is currently the only supported resource type.
         public let resourceType: String
@@ -10663,9 +10679,9 @@ extension SSM {
     }
 
     public struct PutInventoryRequest: AWSEncodableShape {
-        /// An instance ID where you want to add or update inventory items.
+        /// An managed node ID where you want to add or update inventory items.
         public let instanceId: String
-        /// The inventory items that you want to add or update on instances.
+        /// The inventory items that you want to add or update on managed nodes.
         public let items: [InventoryItem]
 
         public init(instanceId: String, items: [InventoryItem]) {
@@ -10877,7 +10893,7 @@ extension SSM {
         public let ownerInformation: String?
         /// The type of target being registered with the maintenance window.
         public let resourceType: MaintenanceWindowResourceType
-        /// The targets to register with the maintenance window. In other words, the instances to run commands on when the maintenance window runs.  If a single maintenance window task is registered with multiple targets, its task invocations occur sequentially and not in parallel. If your task must run on multiple targets at the same time, register a task for each target individually and assign each task the same priority level.  You can specify targets using instance IDs, resource group names, or tags that have been applied to instances.  Example 1: Specify instance IDs  Key=InstanceIds,Values=instance-id-1,instance-id-2,instance-id-3    Example 2: Use tag key-pairs applied to instances  Key=tag:my-tag-key,Values=my-tag-value-1,my-tag-value-2    Example 3: Use tag-keys applied to instances  Key=tag-key,Values=my-tag-key-1,my-tag-key-2    Example 4: Use resource group names  Key=resource-groups:Name,Values=resource-group-name    Example 5: Use filters for resource group types  Key=resource-groups:ResourceTypeFilters,Values=resource-type-1,resource-type-2    For Key=resource-groups:ResourceTypeFilters, specify resource types in the following format  Key=resource-groups:ResourceTypeFilters,Values=AWS::EC2::INSTANCE,AWS::EC2::VPC    For more information about these examples formats, including the best use case for each one, see Examples: Register targets with a maintenance window in the Amazon Web Services Systems Manager User Guide.
+        /// The targets to register with the maintenance window. In other words, the managed nodes to run commands on when the maintenance window runs.  If a single maintenance window task is registered with multiple targets, its task invocations occur sequentially and not in parallel. If your task must run on multiple targets at the same time, register a task for each target individually and assign each task the same priority level.  You can specify targets using managed node IDs, resource group names, or tags that have been applied to managed nodes.  Example 1: Specify managed node IDs  Key=InstanceIds,Values=&lt;instance-id-1&gt;,&lt;instance-id-2&gt;,&lt;instance-id-3&gt;   Example 2: Use tag key-pairs applied to managed nodes  Key=tag:&lt;my-tag-key&gt;,Values=&lt;my-tag-value-1&gt;,&lt;my-tag-value-2&gt;   Example 3: Use tag-keys applied to managed nodes  Key=tag-key,Values=&lt;my-tag-key-1&gt;,&lt;my-tag-key-2&gt;   Example 4: Use resource group names  Key=resource-groups:Name,Values=&lt;resource-group-name&gt;   Example 5: Use filters for resource group types  Key=resource-groups:ResourceTypeFilters,Values=&lt;resource-type-1&gt;,&lt;resource-type-2&gt;   For Key=resource-groups:ResourceTypeFilters, specify resource types in the following format  Key=resource-groups:ResourceTypeFilters,Values=AWS::EC2::INSTANCE,AWS::EC2::VPC   For more information about these examples formats, including the best use case for each one, see Examples: Register targets with a maintenance window in the Amazon Web Services Systems Manager User Guide.
         public let targets: [Target]
         /// The ID of the maintenance window the target should be registered with.
         public let windowId: String
@@ -10943,7 +10959,7 @@ extension SSM {
         public let cutoffBehavior: MaintenanceWindowTaskCutoffBehavior?
         /// An optional description for the task.
         public let description: String?
-        /// A structure containing information about an Amazon Simple Storage Service (Amazon S3) bucket to write instance-level logs to.    LoggingInfo has been deprecated. To specify an Amazon Simple Storage Service (Amazon S3) bucket to contain logs, instead use the OutputS3BucketName and OutputS3KeyPrefix options in the TaskInvocationParameters structure. For information about how Amazon Web Services Systems Manager handles these options for the supported maintenance window task types, see MaintenanceWindowTaskInvocationParameters.
+        /// A structure containing information about an Amazon Simple Storage Service (Amazon S3) bucket to write managed node-level logs to.    LoggingInfo has been deprecated. To specify an Amazon Simple Storage Service (Amazon S3) bucket to contain logs, instead use the OutputS3BucketName and OutputS3KeyPrefix options in the TaskInvocationParameters structure. For information about how Amazon Web Services Systems Manager handles these options for the supported maintenance window task types, see MaintenanceWindowTaskInvocationParameters.
         public let loggingInfo: LoggingInfo?
         /// The maximum number of targets this task can be run for in parallel.  For maintenance window tasks without a target specified, you can't supply a value for this option. Instead, the system inserts a placeholder value of 1. This value doesn't affect the running of your task.
         public let maxConcurrency: String?
@@ -10955,7 +10971,7 @@ extension SSM {
         public let priority: Int?
         /// The Amazon Resource Name (ARN) of the IAM service role for Amazon Web Services Systems Manager to assume when running a maintenance window task. If you do not specify a service role ARN, Systems Manager uses your account's service-linked role. If no service-linked role for Systems Manager exists in your account, it is created when you run RegisterTaskWithMaintenanceWindow. For more information, see the following topics in the in the Amazon Web Services Systems Manager User Guide:    Using service-linked roles for Systems Manager     Should I use a service-linked role or a custom service role to run maintenance window tasks?
         public let serviceRoleArn: String?
-        /// The targets (either instances or maintenance window targets).  One or more targets must be specified for maintenance window Run Command-type tasks. Depending on the task, targets are optional for other maintenance window task types (Automation, Lambda, and Step Functions). For more information about running tasks that don't specify targets, see Registering maintenance window tasks without targets in the Amazon Web Services Systems Manager User Guide.  Specify instances using the following format:   Key=InstanceIds,Values=&lt;instance-id-1&gt;,&lt;instance-id-2&gt;  Specify maintenance window targets using the following format:  Key=WindowTargetIds,Values=&lt;window-target-id-1&gt;,&lt;window-target-id-2&gt;
+        /// The targets (either managed nodes or maintenance window targets).  One or more targets must be specified for maintenance window Run Command-type tasks. Depending on the task, targets are optional for other maintenance window task types (Automation, Lambda, and Step Functions). For more information about running tasks that don't specify targets, see Registering maintenance window tasks without targets in the Amazon Web Services Systems Manager User Guide.  Specify managed nodes using the following format:   Key=InstanceIds,Values=&lt;instance-id-1&gt;,&lt;instance-id-2&gt;  Specify maintenance window targets using the following format:  Key=WindowTargetIds,Values=&lt;window-target-id-1&gt;,&lt;window-target-id-2&gt;
         public let targets: [Target]?
         /// The ARN of the task to run.
         public let taskArn: String
@@ -11092,9 +11108,9 @@ extension SSM {
     }
 
     public struct RemoveTagsFromResourceRequest: AWSEncodableShape {
-        /// The ID of the resource from which you want to remove tags. For example: ManagedInstance: mi-012345abcde MaintenanceWindow: mw-012345abcde PatchBaseline: pb-012345abcde OpsMetadata object: ResourceID for tagging is created from the Amazon Resource Name (ARN) for the object. Specifically, ResourceID is created from the strings that come after the word opsmetadata in the ARN. For example, an OpsMetadata object with an ARN of arn:aws:ssm:us-east-2:1234567890:opsmetadata/aws/ssm/MyGroup/appmanager has a ResourceID of either aws/ssm/MyGroup/appmanager or /aws/ssm/MyGroup/appmanager. For the Document and Parameter values, use the name of the resource.  The ManagedInstance type for this API operation is only for on-premises managed instances. Specify the name of the managed instance in the following format: mi-ID_number. For example, mi-1a2b3c4d5e6f.
+        /// The ID of the resource from which you want to remove tags. For example: ManagedInstance: mi-012345abcde MaintenanceWindow: mw-012345abcde PatchBaseline: pb-012345abcde OpsMetadata object: ResourceID for tagging is created from the Amazon Resource Name (ARN) for the object. Specifically, ResourceID is created from the strings that come after the word opsmetadata in the ARN. For example, an OpsMetadata object with an ARN of arn:aws:ssm:us-east-2:1234567890:opsmetadata/aws/ssm/MyGroup/appmanager has a ResourceID of either aws/ssm/MyGroup/appmanager or /aws/ssm/MyGroup/appmanager. For the Document and Parameter values, use the name of the resource.  The ManagedInstance type for this API operation is only for on-premises managed nodes. Specify the name of the managed node in the following format: mi-ID_number. For example, mi-1a2b3c4d5e6f.
         public let resourceId: String
-        /// The type of resource from which you want to remove a tag.  The ManagedInstance type for this API operation is only for on-premises managed instances. Specify the name of the managed instance in the following format: mi-ID_number . For example, mi-1a2b3c4d5e6f.
+        /// The type of resource from which you want to remove a tag.  The ManagedInstance type for this API operation is only for on-premises managed nodes. Specify the name of the managed node in the following format: mi-ID_number . For example, mi-1a2b3c4d5e6f.
         public let resourceType: ResourceTypeForTagging
         /// Tag keys that you want to remove from the specified resource.
         public let tagKeys: [String]
@@ -11484,9 +11500,9 @@ extension SSM {
     public struct ResumeSessionResponse: AWSDecodableShape {
         /// The ID of the session.
         public let sessionId: String?
-        /// A URL back to SSM Agent on the instance that the Session Manager client uses to send commands and receive output from the instance. Format: wss://ssmmessages.region.amazonaws.com/v1/data-channel/session-id?stream=(input|output).  region represents the Region identifier for an Amazon Web Services Region supported by Amazon Web Services Systems Manager, such as us-east-2 for the US East (Ohio) Region. For a list of supported region values, see the Region column in Systems Manager service endpoints in the Amazon Web Services General Reference.  session-id represents the ID of a Session Manager session, such as 1a2b3c4dEXAMPLE.
+        /// A URL back to SSM Agent on the managed node that the Session Manager client uses to send commands and receive output from the managed node. Format: wss://ssmmessages.region.amazonaws.com/v1/data-channel/session-id?stream=(input|output).  region represents the Region identifier for an Amazon Web Services Region supported by Amazon Web Services Systems Manager, such as us-east-2 for the US East (Ohio) Region. For a list of supported region values, see the Region column in Systems Manager service endpoints in the Amazon Web Services General Reference.  session-id represents the ID of a Session Manager session, such as 1a2b3c4dEXAMPLE.
         public let streamUrl: String?
-        /// An encrypted token value containing session and caller information. Used to authenticate the connection to the instance.
+        /// An encrypted token value containing session and caller information. Used to authenticate the connection to the managed node.
         public let tokenValue: String?
 
         public init(sessionId: String? = nil, streamUrl: String? = nil, tokenValue: String? = nil) {
@@ -11705,9 +11721,9 @@ extension SSM {
         public let documentName: String
         /// The SSM document version to use in the request. You can specify $DEFAULT, $LATEST, or a specific version number. If you run commands by using the Command Line Interface (Amazon Web Services CLI), then you must escape the first two options by using a backslash. If you specify a version number, then you don't need to use the backslash. For example: --document-version "\$DEFAULT" --document-version "\$LATEST" --document-version "3"
         public let documentVersion: String?
-        /// The IDs of the instances where the command should run. Specifying instance IDs is most useful when you are targeting a limited number of instances, though you can specify up to 50 IDs. To target a larger number of instances, or if you prefer not to list individual instance IDs, we recommend using the Targets option instead. Using Targets, which accepts tag key-value pairs to identify the instances to send commands to, you can a send command to tens, hundreds, or thousands of instances at once. For more information about how to use targets, see Using targets and rate controls to send commands to a fleet in the Amazon Web Services Systems Manager User Guide.
+        /// The IDs of the managed nodes where the command should run. Specifying managed node IDs is most useful when you are targeting a limited number of managed nodes, though you can specify up to 50 IDs. To target a larger number of managed nodes, or if you prefer not to list individual node IDs, we recommend using the Targets option instead. Using Targets, which accepts tag key-value pairs to identify the managed nodes to send commands to, you can a send command to tens, hundreds, or thousands of nodes at once. For more information about how to use targets, see Using targets and rate controls to send commands to a fleet in the Amazon Web Services Systems Manager User Guide.
         public let instanceIds: [String]?
-        /// (Optional) The maximum number of instances that are allowed to run the command at the same time. You can specify a number such as 10 or a percentage such as 10%. The default value is 50. For more information about how to use MaxConcurrency, see Using concurrency controls in the Amazon Web Services Systems Manager User Guide.
+        /// (Optional) The maximum number of managed nodes that are allowed to run the command at the same time. You can specify a number such as 10 or a percentage such as 10%. The default value is 50. For more information about how to use MaxConcurrency, see Using concurrency controls in the Amazon Web Services Systems Manager User Guide.
         public let maxConcurrency: String?
         /// The maximum number of errors allowed without the command failing. When the command fails one more time beyond the value of MaxErrors, the systems stops sending the command to additional targets. You can specify a number like 10 or a percentage like 10%. The default value is 0. For more information about how to use MaxErrors, see Using error controls in the Amazon Web Services Systems Manager User Guide.
         public let maxErrors: String?
@@ -11723,7 +11739,7 @@ extension SSM {
         public let parameters: [String: [String]]?
         /// The ARN of the Identity and Access Management (IAM) service role to use to publish Amazon Simple Notification Service (Amazon SNS) notifications for Run Command commands.
         public let serviceRoleArn: String?
-        /// An array of search criteria that targets instances using a Key,Value combination that you specify. Specifying targets is most useful when you want to send a command to a large number of instances at once. Using Targets, which accepts tag key-value pairs to identify instances, you can send a command to tens, hundreds, or thousands of instances at once. To send a command to a smaller number of instances, you can use the InstanceIds option instead. For more information about how to use targets, see Sending commands to a fleet in the Amazon Web Services Systems Manager User Guide.
+        /// An array of search criteria that targets managed nodes using a Key,Value combination that you specify. Specifying targets is most useful when you want to send a command to a large number of managed nodes at once. Using Targets, which accepts tag key-value pairs to identify managed nodes, you can send a command to tens, hundreds, or thousands of nodes at once. To send a command to a smaller number of managed nodes, you can use the InstanceIds option instead. For more information about how to use targets, see Sending commands to a fleet in the Amazon Web Services Systems Manager User Guide.
         public let targets: [Target]?
         /// If this time is reached and the command hasn't already started running, it won't run.
         public let timeoutSeconds: Int?
@@ -11867,7 +11883,7 @@ extension SSM {
         public let startDate: Date?
         /// The status of the session. For example, "Connected" or "Terminated".
         public let status: SessionStatus?
-        /// The instance that the Session Manager session connected to.
+        /// The managed node that the Session Manager session connected to.
         public let target: String?
 
         public init(details: String? = nil, documentName: String? = nil, endDate: Date? = nil, maxSessionDuration: String? = nil, outputUrl: SessionManagerOutputUrl? = nil, owner: String? = nil, reason: String? = nil, sessionId: String? = nil, startDate: Date? = nil, status: SessionStatus? = nil, target: String? = nil) {
@@ -11902,7 +11918,7 @@ extension SSM {
     public struct SessionFilter: AWSEncodableShape {
         /// The name of the filter.
         public let key: SessionFilterKey
-        /// The filter value. Valid values for each filter key are as follows:   InvokedAfter: Specify a timestamp to limit your results. For example, specify 2018-08-29T00:00:00Z to see sessions that started August 29, 2018, and later.   InvokedBefore: Specify a timestamp to limit your results. For example, specify 2018-08-29T00:00:00Z to see sessions that started before August 29, 2018.   Target: Specify an instance to which session connections have been made.   Owner: Specify an Amazon Web Services user account to see a list of sessions started by that user.   Status: Specify a valid session status to see a list of all sessions with that status. Status values you can specify include:   Connected   Connecting   Disconnected   Terminated   Terminating   Failed     SessionId: Specify a session ID to return details about the session.
+        /// The filter value. Valid values for each filter key are as follows:   InvokedAfter: Specify a timestamp to limit your results. For example, specify 2018-08-29T00:00:00Z to see sessions that started August 29, 2018, and later.   InvokedBefore: Specify a timestamp to limit your results. For example, specify 2018-08-29T00:00:00Z to see sessions that started before August 29, 2018.   Target: Specify a managed node to which session connections have been made.   Owner: Specify an Amazon Web Services user account to see a list of sessions started by that user.   Status: Specify a valid session status to see a list of all sessions with that status. Status values you can specify include:   Connected   Connecting   Disconnected   Terminated   Terminating   Failed     SessionId: Specify a session ID to return details about the session.
         public let value: String
 
         public init(key: SessionFilterKey, value: String) {
@@ -12198,13 +12214,13 @@ extension SSM {
     }
 
     public struct StartSessionRequest: AWSEncodableShape {
-        /// The name of the SSM document to define the parameters and plugin settings for the session. For example, SSM-SessionManagerRunShell. You can call the GetDocument API to verify the document exists before attempting to start a session. If no document name is provided, a shell to the instance is launched by default.
+        /// The name of the SSM document to define the parameters and plugin settings for the session. For example, SSM-SessionManagerRunShell. You can call the GetDocument API to verify the document exists before attempting to start a session. If no document name is provided, a shell to the managed node is launched by default.
         public let documentName: String?
         /// Reserved for future use.
         public let parameters: [String: [String]]?
         /// The reason for connecting to the instance. This value is included in the details for the Amazon CloudWatch Events event created when you start the session.
         public let reason: String?
-        /// The instance to connect to for the session.
+        /// The managed node to connect to for the session.
         public let target: String
 
         public init(documentName: String? = nil, parameters: [String: [String]]? = nil, reason: String? = nil, target: String) {
@@ -12238,9 +12254,9 @@ extension SSM {
     public struct StartSessionResponse: AWSDecodableShape {
         /// The ID of the session.
         public let sessionId: String?
-        /// A URL back to SSM Agent on the instance that the Session Manager client uses to send commands and receive output from the instance. Format: wss://ssmmessages.region.amazonaws.com/v1/data-channel/session-id?stream=(input|output)   region represents the Region identifier for an Amazon Web Services Region supported by Amazon Web Services Systems Manager, such as us-east-2 for the US East (Ohio) Region. For a list of supported region values, see the Region column in Systems Manager service endpoints in the Amazon Web Services General Reference.  session-id represents the ID of a Session Manager session, such as 1a2b3c4dEXAMPLE.
+        /// A URL back to SSM Agent on the managed node that the Session Manager client uses to send commands and receive output from the node. Format: wss://ssmmessages.region.amazonaws.com/v1/data-channel/session-id?stream=(input|output)   region represents the Region identifier for an Amazon Web Services Region supported by Amazon Web Services Systems Manager, such as us-east-2 for the US East (Ohio) Region. For a list of supported region values, see the Region column in Systems Manager service endpoints in the Amazon Web Services General Reference.  session-id represents the ID of a Session Manager session, such as 1a2b3c4dEXAMPLE.
         public let streamUrl: String?
-        /// An encrypted token value containing session and caller information. Used to authenticate the connection to the instance.
+        /// An encrypted token value containing session and caller information. Used to authenticate the connection to the managed node.
         public let tokenValue: String?
 
         public init(sessionId: String? = nil, streamUrl: String? = nil, tokenValue: String? = nil) {
@@ -12432,7 +12448,7 @@ extension SSM {
     }
 
     public struct Target: AWSEncodableShape & AWSDecodableShape {
-        /// User-defined criteria for sending commands that target instances that meet the criteria.
+        /// User-defined criteria for sending commands that target managed nodes that meet the criteria.
         public let key: String?
         /// User-defined criteria that maps to Key. For example, if you specified tag:ServerRole, you could specify value:WebServer to run a command on instances that include EC2 tags of ServerRole,WebServer.  Depending on the type of target, the maximum number of values for a key might be lower than the global maximum of 50.
         public let values: [String]?
@@ -12598,11 +12614,11 @@ extension SSM {
         public let complianceSeverity: AssociationComplianceSeverity?
         /// The document version you want update for the association.
         public let documentVersion: String?
-        /// The maximum number of targets allowed to run the association at the same time. You can specify a number, for example 10, or a percentage of the target set, for example 10%. The default value is 100%, which means all targets run the association at the same time. If a new instance starts and attempts to run an association while Systems Manager is running MaxConcurrency associations, the association is allowed to run. During the next association interval, the new instance will process its association within the limit specified for MaxConcurrency.
+        /// The maximum number of targets allowed to run the association at the same time. You can specify a number, for example 10, or a percentage of the target set, for example 10%. The default value is 100%, which means all targets run the association at the same time. If a new managed node starts and attempts to run an association while Systems Manager is running MaxConcurrency associations, the association is allowed to run. During the next association interval, the new managed node will process its association within the limit specified for MaxConcurrency.
         public let maxConcurrency: String?
-        /// The number of errors that are allowed before the system stops sending requests to run the association on additional targets. You can specify either an absolute number of errors, for example 10, or a percentage of the target set, for example 10%. If you specify 3, for example, the system stops sending requests when the fourth error is received. If you specify 0, then the system stops sending requests after the first error is returned. If you run an association on 50 instances and set MaxError to 10%, then the system stops sending the request when the sixth error is received. Executions that are already running an association when MaxErrors is reached are allowed to complete, but some of these executions may fail as well. If you need to ensure that there won't be more than max-errors failed executions, set MaxConcurrency to 1 so that executions proceed one at a time.
+        /// The number of errors that are allowed before the system stops sending requests to run the association on additional targets. You can specify either an absolute number of errors, for example 10, or a percentage of the target set, for example 10%. If you specify 3, for example, the system stops sending requests when the fourth error is received. If you specify 0, then the system stops sending requests after the first error is returned. If you run an association on 50 managed nodes and set MaxError to 10%, then the system stops sending the request when the sixth error is received. Executions that are already running an association when MaxErrors is reached are allowed to complete, but some of these executions may fail as well. If you need to ensure that there won't be more than max-errors failed executions, set MaxConcurrency to 1 so that executions proceed one at a time.
         public let maxErrors: String?
-        /// The name of the SSM Command document or Automation runbook that contains the configuration information for the instance. You can specify Amazon Web Services-predefined documents, documents you created, or a document that is shared with you from another account. For Systems Manager document (SSM document) that are shared with you from other Amazon Web Services accounts, you must specify the complete SSM document ARN, in the following format:  arn:aws:ssm:region:account-id:document/document-name   For example:  arn:aws:ssm:us-east-2:12345678912:document/My-Shared-Document  For Amazon Web Services-predefined documents and SSM documents you created in your account, you only need to specify the document name. For example, AWS-ApplyPatchBaseline or My-Document.
+        /// The name of the SSM Command document or Automation runbook that contains the configuration information for the managed node. You can specify Amazon Web Services-predefined documents, documents you created, or a document that is shared with you from another account. For Systems Manager document (SSM document) that are shared with you from other Amazon Web Services accounts, you must specify the complete SSM document ARN, in the following format:  arn:aws:ssm:region:account-id:document/document-name   For example:  arn:aws:ssm:us-east-2:12345678912:document/My-Shared-Document  For Amazon Web Services-predefined documents and SSM documents you created in your account, you only need to specify the document name. For example, AWS-ApplyPatchBaseline or My-Document.
         public let name: String?
         /// An S3 bucket where you want to store the results of this request.
         public let outputLocation: InstanceAssociationOutputLocation?
@@ -12703,7 +12719,7 @@ extension SSM {
     public struct UpdateAssociationStatusRequest: AWSEncodableShape {
         /// The association status.
         public let associationStatus: AssociationStatus
-        /// The instance ID.
+        /// The managed node ID.
         public let instanceId: String
         /// The name of the SSM document.
         public let name: String
@@ -13123,7 +13139,7 @@ extension SSM {
         public let replace: Bool?
         /// The Amazon Resource Name (ARN) of the IAM service role for Amazon Web Services Systems Manager to assume when running a maintenance window task. If you do not specify a service role ARN, Systems Manager uses your account's service-linked role. If no service-linked role for Systems Manager exists in your account, it is created when you run RegisterTaskWithMaintenanceWindow. For more information, see the following topics in the in the Amazon Web Services Systems Manager User Guide:    Using service-linked roles for Systems Manager     Should I use a service-linked role or a custom service role to run maintenance window tasks?
         public let serviceRoleArn: String?
-        /// The targets (either instances or tags) to modify. Instances are specified using the format Key=instanceids,Values=instanceID_1,instanceID_2. Tags are specified using the format  Key=tag_name,Values=tag_value.   One or more targets must be specified for maintenance window Run Command-type tasks. Depending on the task, targets are optional for other maintenance window task types (Automation, Lambda, and Step Functions). For more information about running tasks that don't specify targets, see Registering maintenance window tasks without targets in the Amazon Web Services Systems Manager User Guide.
+        /// The targets (either managed nodes or tags) to modify. Managed nodes are specified using the format Key=instanceids,Values=instanceID_1,instanceID_2. Tags are specified using the format  Key=tag_name,Values=tag_value.   One or more targets must be specified for maintenance window Run Command-type tasks. Depending on the task, targets are optional for other maintenance window task types (Automation, Lambda, and Step Functions). For more information about running tasks that don't specify targets, see Registering maintenance window tasks without targets in the Amazon Web Services Systems Manager User Guide.
         public let targets: [Target]?
         /// The task ARN to modify.
         public let taskArn: String?
@@ -13276,7 +13292,7 @@ extension SSM {
     public struct UpdateManagedInstanceRoleRequest: AWSEncodableShape {
         /// The IAM role you want to assign or change.
         public let iamRole: String
-        /// The ID of the managed instance where you want to update the role.
+        /// The ID of the managed node where you want to update the role.
         public let instanceId: String
 
         public init(iamRole: String, instanceId: String) {
@@ -13458,7 +13474,7 @@ extension SSM {
         public let approvedPatches: [String]?
         /// Assigns a new compliance severity level to an existing patch baseline.
         public let approvedPatchesComplianceLevel: PatchComplianceLevel?
-        /// Indicates whether the list of approved patches includes non-security updates that should be applied to the instances. The default value is false. Applies to Linux instances only.
+        /// Indicates whether the list of approved patches includes non-security updates that should be applied to the managed nodes. The default value is false. Applies to Linux managed nodes only.
         public let approvedPatchesEnableNonSecurity: Bool?
         /// The ID of the patch baseline to update.
         public let baselineId: String
@@ -13474,7 +13490,7 @@ extension SSM {
         public let rejectedPatchesAction: PatchAction?
         /// If True, then all fields that are required by the CreatePatchBaseline operation are also required for this API request. Optional fields that aren't specified are set to null.
         public let replace: Bool?
-        /// Information about the patches to use to update the instances, including target operating systems and source repositories. Applies to Linux instances only.
+        /// Information about the patches to use to update the managed nodes, including target operating systems and source repositories. Applies to Linux managed nodes only.
         public let sources: [PatchSource]?
 
         public init(approvalRules: PatchRuleGroup? = nil, approvedPatches: [String]? = nil, approvedPatchesComplianceLevel: PatchComplianceLevel? = nil, approvedPatchesEnableNonSecurity: Bool? = nil, baselineId: String, description: String? = nil, globalFilters: PatchFilterGroup? = nil, name: String? = nil, rejectedPatches: [String]? = nil, rejectedPatchesAction: PatchAction? = nil, replace: Bool? = nil, sources: [PatchSource]? = nil) {
@@ -13545,7 +13561,7 @@ extension SSM {
         public let approvedPatches: [String]?
         /// The compliance severity level assigned to the patch baseline after the update completed.
         public let approvedPatchesComplianceLevel: PatchComplianceLevel?
-        /// Indicates whether the list of approved patches includes non-security updates that should be applied to the instances. The default value is false. Applies to Linux instances only.
+        /// Indicates whether the list of approved patches includes non-security updates that should be applied to the managed nodes. The default value is false. Applies to Linux managed nodes only.
         public let approvedPatchesEnableNonSecurity: Bool?
         /// The ID of the deleted patch baseline.
         public let baselineId: String?
@@ -13565,7 +13581,7 @@ extension SSM {
         public let rejectedPatches: [String]?
         /// The action specified to take on patches included in the RejectedPatches list. A patch can be allowed only if it is a dependency of another package, or blocked entirely along with packages that include it as a dependency.
         public let rejectedPatchesAction: PatchAction?
-        /// Information about the patches to use to update the instances, including target operating systems and source repositories. Applies to Linux instances only.
+        /// Information about the patches to use to update the managed nodes, including target operating systems and source repositories. Applies to Linux managed nodes only.
         public let sources: [PatchSource]?
 
         public init(approvalRules: PatchRuleGroup? = nil, approvedPatches: [String]? = nil, approvedPatchesComplianceLevel: PatchComplianceLevel? = nil, approvedPatchesEnableNonSecurity: Bool? = nil, baselineId: String? = nil, createdDate: Date? = nil, description: String? = nil, globalFilters: PatchFilterGroup? = nil, modifiedDate: Date? = nil, name: String? = nil, operatingSystem: OperatingSystem? = nil, rejectedPatches: [String]? = nil, rejectedPatchesAction: PatchAction? = nil, sources: [PatchSource]? = nil) {
