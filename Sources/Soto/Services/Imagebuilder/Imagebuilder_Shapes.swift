@@ -21,6 +21,13 @@ import SotoCore
 extension Imagebuilder {
     // MARK: Enums
 
+    public enum BuildType: String, CustomStringConvertible, Codable {
+        case `import` = "IMPORT"
+        case scheduled = "SCHEDULED"
+        case userInitiated = "USER_INITIATED"
+        public var description: String { return self.rawValue }
+    }
+
     public enum ComponentFormat: String, CustomStringConvertible, Codable {
         case shell = "SHELL"
         public var description: String { return self.rawValue }
@@ -44,6 +51,13 @@ extension Imagebuilder {
 
     public enum ContainerType: String, CustomStringConvertible, Codable {
         case docker = "DOCKER"
+        public var description: String { return self.rawValue }
+    }
+
+    public enum DiskImageFormat: String, CustomStringConvertible, Codable {
+        case raw = "RAW"
+        case vhd = "VHD"
+        case vmdk = "VMDK"
         public var description: String { return self.rawValue }
     }
 
@@ -227,7 +241,7 @@ extension Imagebuilder {
     }
 
     public struct CancelImageCreationRequest: AWSEncodableShape {
-        /// The idempotency token used to make this request idempotent.
+        /// Unique, case-sensitive identifier you provide to ensure idempotency of the request. For more information, see Ensuring idempotency  in the Amazon EC2 API Reference.
         public let clientToken: String
         /// The Amazon Resource Name (ARN) of the image whose creation you want to cancel.
         public let imageBuildVersionArn: String
@@ -250,7 +264,7 @@ extension Imagebuilder {
     }
 
     public struct CancelImageCreationResponse: AWSDecodableShape {
-        /// The idempotency token used to make this request idempotent.
+        /// The idempotency token that was used for this request.
         public let clientToken: String?
         /// The Amazon Resource Name (ARN) of the image whose creation has been cancelled.
         public let imageBuildVersionArn: String?
@@ -1423,7 +1437,12 @@ extension Imagebuilder {
         public let resourceTags: [String: String]?
         /// The security group IDs to associate with the instance used to customize your Amazon EC2 AMI.
         public let securityGroupIds: [String]?
-        /// The SNS topic on which to send image build events.
+        /// The Amazon Resource Name (ARN) for the SNS topic to which we send image build event notifications.
+        ///
+        /// 			         EC2 Image Builder is unable to send notifications to SNS topics that are encrypted using keys
+        /// 				from other accounts. The key that is used to encrypt the SNS topic must reside in the
+        /// 				account that the Image Builder service runs under.
+        ///
         public let snsTopicArn: String?
         /// The subnet ID in which to place the instance used to customize your Amazon EC2 AMI.
         public let subnetId: String?
@@ -1795,13 +1814,17 @@ extension Imagebuilder {
         public let licenseConfigurationArns: [String]?
         /// The target Region.
         public let region: String
+        /// Configure export settings to deliver disk images created from your image build,
+        /// 			using a file format that is compatible with your VMs in that Region.
+        public let s3ExportConfiguration: S3ExportConfiguration?
 
-        public init(amiDistributionConfiguration: AmiDistributionConfiguration? = nil, containerDistributionConfiguration: ContainerDistributionConfiguration? = nil, launchTemplateConfigurations: [LaunchTemplateConfiguration]? = nil, licenseConfigurationArns: [String]? = nil, region: String) {
+        public init(amiDistributionConfiguration: AmiDistributionConfiguration? = nil, containerDistributionConfiguration: ContainerDistributionConfiguration? = nil, launchTemplateConfigurations: [LaunchTemplateConfiguration]? = nil, licenseConfigurationArns: [String]? = nil, region: String, s3ExportConfiguration: S3ExportConfiguration? = nil) {
             self.amiDistributionConfiguration = amiDistributionConfiguration
             self.containerDistributionConfiguration = containerDistributionConfiguration
             self.launchTemplateConfigurations = launchTemplateConfigurations
             self.licenseConfigurationArns = licenseConfigurationArns
             self.region = region
+            self.s3ExportConfiguration = s3ExportConfiguration
         }
 
         public func validate(name: String) throws {
@@ -1819,6 +1842,7 @@ extension Imagebuilder {
             try self.validate(self.licenseConfigurationArns, name: "licenseConfigurationArns", parent: name, min: 1)
             try self.validate(self.region, name: "region", parent: name, max: 1024)
             try self.validate(self.region, name: "region", parent: name, min: 1)
+            try self.s3ExportConfiguration?.validate(name: "\(name).s3ExportConfiguration")
         }
 
         private enum CodingKeys: String, CodingKey {
@@ -1827,6 +1851,7 @@ extension Imagebuilder {
             case launchTemplateConfigurations
             case licenseConfigurationArns
             case region
+            case s3ExportConfiguration
         }
     }
 
@@ -2404,6 +2429,19 @@ extension Imagebuilder {
         ///
         ///
         public let arn: String?
+        /// Indicates the type of build that created this image. The build can be initiated
+        /// 			in the following ways:
+        ///
+        /// 				            USER_INITIATED – A manual
+        /// 					pipeline build request.
+        ///
+        /// 				            SCHEDULED – A pipeline build
+        /// 					initiated by a cron expression in the Image Builder pipeline, or from EventBridge.
+        ///
+        /// 				            IMPORT – A VM import created
+        /// 					the image to use as the base image for the recipe.
+        ///
+        public let buildType: BuildType?
         /// The recipe that is used to create an Image Builder container image.
         public let containerRecipe: ContainerRecipe?
         /// The date on which this image was created.
@@ -2456,8 +2494,9 @@ extension Imagebuilder {
         ///
         public let version: String?
 
-        public init(arn: String? = nil, containerRecipe: ContainerRecipe? = nil, dateCreated: String? = nil, distributionConfiguration: DistributionConfiguration? = nil, enhancedImageMetadataEnabled: Bool? = nil, imageRecipe: ImageRecipe? = nil, imageTestsConfiguration: ImageTestsConfiguration? = nil, infrastructureConfiguration: InfrastructureConfiguration? = nil, name: String? = nil, osVersion: String? = nil, outputResources: OutputResources? = nil, platform: Platform? = nil, sourcePipelineArn: String? = nil, sourcePipelineName: String? = nil, state: ImageState? = nil, tags: [String: String]? = nil, type: ImageType? = nil, version: String? = nil) {
+        public init(arn: String? = nil, buildType: BuildType? = nil, containerRecipe: ContainerRecipe? = nil, dateCreated: String? = nil, distributionConfiguration: DistributionConfiguration? = nil, enhancedImageMetadataEnabled: Bool? = nil, imageRecipe: ImageRecipe? = nil, imageTestsConfiguration: ImageTestsConfiguration? = nil, infrastructureConfiguration: InfrastructureConfiguration? = nil, name: String? = nil, osVersion: String? = nil, outputResources: OutputResources? = nil, platform: Platform? = nil, sourcePipelineArn: String? = nil, sourcePipelineName: String? = nil, state: ImageState? = nil, tags: [String: String]? = nil, type: ImageType? = nil, version: String? = nil) {
             self.arn = arn
+            self.buildType = buildType
             self.containerRecipe = containerRecipe
             self.dateCreated = dateCreated
             self.distributionConfiguration = distributionConfiguration
@@ -2479,6 +2518,7 @@ extension Imagebuilder {
 
         private enum CodingKeys: String, CodingKey {
             case arn
+            case buildType
             case containerRecipe
             case dateCreated
             case distributionConfiguration
@@ -2724,6 +2764,19 @@ extension Imagebuilder {
     public struct ImageSummary: AWSDecodableShape {
         /// The Amazon Resource Name (ARN) of the image.
         public let arn: String?
+        /// Indicates the type of build that created this image. The build can be initiated
+        /// 			in the following ways:
+        ///
+        /// 				            USER_INITIATED – A manual
+        /// 					pipeline build request.
+        ///
+        /// 				            SCHEDULED – A pipeline build
+        /// 					initiated by a cron expression in the Image Builder pipeline, or from EventBridge.
+        ///
+        /// 				            IMPORT – A VM import created
+        /// 					the image to use as the base image for the recipe.
+        ///
+        public let buildType: BuildType?
         /// The date on which this image was created.
         public let dateCreated: String?
         /// The name of the image.
@@ -2746,8 +2799,9 @@ extension Imagebuilder {
         /// The version of the image.
         public let version: String?
 
-        public init(arn: String? = nil, dateCreated: String? = nil, name: String? = nil, osVersion: String? = nil, outputResources: OutputResources? = nil, owner: String? = nil, platform: Platform? = nil, state: ImageState? = nil, tags: [String: String]? = nil, type: ImageType? = nil, version: String? = nil) {
+        public init(arn: String? = nil, buildType: BuildType? = nil, dateCreated: String? = nil, name: String? = nil, osVersion: String? = nil, outputResources: OutputResources? = nil, owner: String? = nil, platform: Platform? = nil, state: ImageState? = nil, tags: [String: String]? = nil, type: ImageType? = nil, version: String? = nil) {
             self.arn = arn
+            self.buildType = buildType
             self.dateCreated = dateCreated
             self.name = name
             self.osVersion = osVersion
@@ -2762,6 +2816,7 @@ extension Imagebuilder {
 
         private enum CodingKeys: String, CodingKey {
             case arn
+            case buildType
             case dateCreated
             case name
             case osVersion
@@ -2776,7 +2831,8 @@ extension Imagebuilder {
     }
 
     public struct ImageTestsConfiguration: AWSEncodableShape & AWSDecodableShape {
-        /// Defines if tests should be executed when building this image.
+        /// Determines if tests should run after building the image. Image Builder defaults
+        /// 			to enable tests to run following the image build, before image distribution.
         public let imageTestsEnabled: Bool?
         /// The maximum time in minutes that tests are permitted to run.
         public let timeoutMinutes: Int?
@@ -2812,6 +2868,19 @@ extension Imagebuilder {
         ///
         ///
         public let arn: String?
+        /// Indicates the type of build that created this image. The build can be initiated
+        /// 			in the following ways:
+        ///
+        /// 				            USER_INITIATED – A manual
+        /// 					pipeline build request.
+        ///
+        /// 				            SCHEDULED – A pipeline build
+        /// 					initiated by a cron expression in the Image Builder pipeline, or from EventBridge.
+        ///
+        /// 				            IMPORT – A VM import created
+        /// 					the image to use as the base image for the recipe.
+        ///
+        public let buildType: BuildType?
         /// The date on which this specific version of the Image Builder image was created.
         public let dateCreated: String?
         /// The name of this specific version of an Image Builder image.
@@ -2842,8 +2911,9 @@ extension Imagebuilder {
         ///
         public let version: String?
 
-        public init(arn: String? = nil, dateCreated: String? = nil, name: String? = nil, osVersion: String? = nil, owner: String? = nil, platform: Platform? = nil, type: ImageType? = nil, version: String? = nil) {
+        public init(arn: String? = nil, buildType: BuildType? = nil, dateCreated: String? = nil, name: String? = nil, osVersion: String? = nil, owner: String? = nil, platform: Platform? = nil, type: ImageType? = nil, version: String? = nil) {
             self.arn = arn
+            self.buildType = buildType
             self.dateCreated = dateCreated
             self.name = name
             self.osVersion = osVersion
@@ -2855,6 +2925,7 @@ extension Imagebuilder {
 
         private enum CodingKeys: String, CodingKey {
             case arn
+            case buildType
             case dateCreated
             case name
             case osVersion
@@ -2980,6 +3051,104 @@ extension Imagebuilder {
         }
     }
 
+    public struct ImportVmImageRequest: AWSEncodableShape {
+        /// Unique, case-sensitive identifier you provide to ensure idempotency of the request. For more information, see Ensuring idempotency  in the Amazon EC2 API Reference.
+        public let clientToken: String
+        /// The description for the base image that is created by the import process.
+        public let description: String?
+        /// The name of the base image that is created by the import process.
+        public let name: String
+        /// The operating system version for the imported VM.
+        public let osVersion: String?
+        /// The operating system platform for the imported VM.
+        public let platform: Platform
+        /// The semantic version to attach to the base image that was created during the
+        /// 			import process. This version follows the semantic version syntax.
+        ///
+        /// 			         The semantic version has four nodes: ../.
+        /// 	You can assign values for the first three, and can filter on all of them.
+        /// 			          Assignment: For the first three nodes you can assign any positive integer value, including
+        /// 	zero, with an upper limit of 2^30-1, or 1073741823 for each node. Image Builder automatically assigns the
+        /// 	build number to the fourth node.
+        /// 			          Patterns: You can use any numeric pattern that adheres to the assignment requirements for
+        /// 	the nodes that you can assign. For example, you might choose a software version pattern, such as 1.0.0, or
+        /// 	a date, such as 2021.01.01.
+        ///
+        public let semanticVersion: String
+        /// Tags that are attached to the import resources.
+        public let tags: [String: String]?
+        /// The importTaskId (API) or ImportTaskId (CLI) from the
+        /// 			Amazon EC2 VM import process. Image Builder retrieves information from the import process to pull
+        /// 			in the AMI that is created from the VM source as the base image for your recipe.
+        public let vmImportTaskId: String
+
+        public init(clientToken: String = ImportVmImageRequest.idempotencyToken(), description: String? = nil, name: String, osVersion: String? = nil, platform: Platform, semanticVersion: String, tags: [String: String]? = nil, vmImportTaskId: String) {
+            self.clientToken = clientToken
+            self.description = description
+            self.name = name
+            self.osVersion = osVersion
+            self.platform = platform
+            self.semanticVersion = semanticVersion
+            self.tags = tags
+            self.vmImportTaskId = vmImportTaskId
+        }
+
+        public func validate(name: String) throws {
+            try self.validate(self.clientToken, name: "clientToken", parent: name, max: 36)
+            try self.validate(self.clientToken, name: "clientToken", parent: name, min: 1)
+            try self.validate(self.description, name: "description", parent: name, max: 1024)
+            try self.validate(self.description, name: "description", parent: name, min: 1)
+            try self.validate(self.name, name: "name", parent: name, max: 1024)
+            try self.validate(self.name, name: "name", parent: name, min: 1)
+            try self.validate(self.osVersion, name: "osVersion", parent: name, min: 1)
+            try self.validate(self.semanticVersion, name: "semanticVersion", parent: name, pattern: "^[0-9]+\\.[0-9]+\\.[0-9]+$")
+            try self.tags?.forEach {
+                try validate($0.key, name: "tags.key", parent: name, max: 128)
+                try validate($0.key, name: "tags.key", parent: name, min: 1)
+                try validate($0.key, name: "tags.key", parent: name, pattern: "^(?!aws:)[a-zA-Z+-=._:/]+$")
+                try validate($0.value, name: "tags[\"\($0.key)\"]", parent: name, max: 256)
+            }
+            try self.validate(self.tags, name: "tags", parent: name, max: 50)
+            try self.validate(self.tags, name: "tags", parent: name, min: 1)
+            try self.validate(self.vmImportTaskId, name: "vmImportTaskId", parent: name, max: 1024)
+            try self.validate(self.vmImportTaskId, name: "vmImportTaskId", parent: name, min: 1)
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case clientToken
+            case description
+            case name
+            case osVersion
+            case platform
+            case semanticVersion
+            case tags
+            case vmImportTaskId
+        }
+    }
+
+    public struct ImportVmImageResponse: AWSDecodableShape {
+        /// The idempotency token that was used for this request.
+        public let clientToken: String?
+        /// The Amazon Resource Name (ARN) of the AMI that was created during the VM
+        /// 			import process. This AMI is used as the base image for the recipe that
+        /// 			imported the VM.
+        public let imageArn: String?
+        /// The request ID that uniquely identifies this request.
+        public let requestId: String?
+
+        public init(clientToken: String? = nil, imageArn: String? = nil, requestId: String? = nil) {
+            self.clientToken = clientToken
+            self.imageArn = imageArn
+            self.requestId = requestId
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case clientToken
+            case imageArn
+            case requestId
+        }
+    }
+
     public struct InfrastructureConfiguration: AWSDecodableShape {
         /// The Amazon Resource Name (ARN) of the infrastructure configuration.
         public let arn: String?
@@ -3005,7 +3174,12 @@ extension Imagebuilder {
         public let resourceTags: [String: String]?
         /// The security group IDs of the infrastructure configuration.
         public let securityGroupIds: [String]?
-        /// The SNS topic Amazon Resource Name (ARN) of the infrastructure configuration.
+        /// The Amazon Resource Name (ARN) for the SNS topic to which we send image build event notifications.
+        ///
+        /// 			         EC2 Image Builder is unable to send notifications to SNS topics that are encrypted using keys
+        /// 				from other accounts. The key that is used to encrypt the SNS topic must reside in the
+        /// 				account that the Image Builder service runs under.
+        ///
         public let snsTopicArn: String?
         /// The subnet ID of the infrastructure configuration.
         public let subnetId: String?
@@ -4174,10 +4348,56 @@ extension Imagebuilder {
         }
     }
 
+    public struct S3ExportConfiguration: AWSEncodableShape & AWSDecodableShape {
+        /// Export the updated image to one of the following supported disk
+        /// 			image formats:
+        ///
+        /// 				            Virtual Hard Disk (VHD) –
+        /// 					Compatible with Citrix Xen and Microsoft Hyper-V virtualization products.
+        ///
+        /// 				            Stream-optimized ESX Virtual Machine Disk
+        /// 					(VMDK) – Compatible with VMware ESX and
+        /// 					VMware vSphere versions 4, 5, and 6.
+        ///
+        /// 				            Raw – Raw format.
+        ///
+        public let diskImageFormat: DiskImageFormat
+        /// The name of the role that grants VM Import/Export permission to
+        /// 			export images to your S3 bucket.
+        public let roleName: String
+        /// The S3 bucket in which to store the output disk images for your VM.
+        public let s3Bucket: String
+        /// The Amazon S3 path for the bucket where the output disk images for your VM are stored.
+        public let s3Prefix: String?
+
+        public init(diskImageFormat: DiskImageFormat, roleName: String, s3Bucket: String, s3Prefix: String? = nil) {
+            self.diskImageFormat = diskImageFormat
+            self.roleName = roleName
+            self.s3Bucket = s3Bucket
+            self.s3Prefix = s3Prefix
+        }
+
+        public func validate(name: String) throws {
+            try self.validate(self.roleName, name: "roleName", parent: name, max: 1024)
+            try self.validate(self.roleName, name: "roleName", parent: name, min: 1)
+            try self.validate(self.s3Bucket, name: "s3Bucket", parent: name, max: 1024)
+            try self.validate(self.s3Bucket, name: "s3Bucket", parent: name, min: 1)
+            try self.validate(self.s3Prefix, name: "s3Prefix", parent: name, max: 1024)
+            try self.validate(self.s3Prefix, name: "s3Prefix", parent: name, min: 1)
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case diskImageFormat
+            case roleName
+            case s3Bucket
+            case s3Prefix
+        }
+    }
+
     public struct S3Logs: AWSEncodableShape & AWSDecodableShape {
-        /// The Amazon S3 bucket in which to store the logs.
+        /// The S3 bucket in which to store the logs.
         public let s3BucketName: String?
-        /// The Amazon S3 path in which to store the logs.
+        /// The Amazon S3 path to the bucket where the logs are stored.
         public let s3KeyPrefix: String?
 
         public init(s3BucketName: String? = nil, s3KeyPrefix: String? = nil) {
@@ -4579,7 +4799,12 @@ extension Imagebuilder {
         public let resourceTags: [String: String]?
         /// The security group IDs to associate with the instance used to customize your Amazon EC2 AMI.
         public let securityGroupIds: [String]?
-        /// The SNS topic on which to send image build events.
+        /// The Amazon Resource Name (ARN) for the SNS topic to which we send image build event notifications.
+        ///
+        /// 			         EC2 Image Builder is unable to send notifications to SNS topics that are encrypted using keys
+        /// 				from other accounts. The key that is used to encrypt the SNS topic must reside in the
+        /// 				account that the Image Builder service runs under.
+        ///
         public let snsTopicArn: String?
         /// The subnet ID to place the instance used to customize your Amazon EC2 AMI in.
         public let subnetId: String?

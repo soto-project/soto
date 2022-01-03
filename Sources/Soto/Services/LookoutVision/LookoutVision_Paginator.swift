@@ -73,7 +73,62 @@ extension LookoutVision {
         )
     }
 
-    ///  Lists the versions of a model in an Amazon Lookout for Vision project. This operation requires permissions to perform the lookoutvision:ListModels operation.
+    ///  Lists the model packaging jobs created for an Amazon Lookout for Vision project.
+    ///   This operation requires permissions to perform the lookoutvision:ListModelPackagingJobs operation.
+    ///    For more information, see  Using your Amazon Lookout for Vision model on an edge device in the  Amazon Lookout for Vision Developer Guide.
+    ///
+    /// Provide paginated results to closure `onPage` for it to combine them into one result.
+    /// This works in a similar manner to `Array.reduce<Result>(_:_:) -> Result`.
+    ///
+    /// Parameters:
+    ///   - input: Input for request
+    ///   - initialValue: The value to use as the initial accumulating value. `initialValue` is passed to `onPage` the first time it is called.
+    ///   - logger: Logger used flot logging
+    ///   - eventLoop: EventLoop to run this process on
+    ///   - onPage: closure called with each paginated response. It combines an accumulating result with the contents of response. This combined result is then returned
+    ///         along with a boolean indicating if the paginate operation should continue.
+    public func listModelPackagingJobsPaginator<Result>(
+        _ input: ListModelPackagingJobsRequest,
+        _ initialValue: Result,
+        logger: Logger = AWSClient.loggingDisabled,
+        on eventLoop: EventLoop? = nil,
+        onPage: @escaping (Result, ListModelPackagingJobsResponse, EventLoop) -> EventLoopFuture<(Bool, Result)>
+    ) -> EventLoopFuture<Result> {
+        return client.paginate(
+            input: input,
+            initialValue: initialValue,
+            command: listModelPackagingJobs,
+            inputKey: \ListModelPackagingJobsRequest.nextToken,
+            outputKey: \ListModelPackagingJobsResponse.nextToken,
+            on: eventLoop,
+            onPage: onPage
+        )
+    }
+
+    /// Provide paginated results to closure `onPage`.
+    ///
+    /// - Parameters:
+    ///   - input: Input for request
+    ///   - logger: Logger used flot logging
+    ///   - eventLoop: EventLoop to run this process on
+    ///   - onPage: closure called with each block of entries. Returns boolean indicating whether we should continue.
+    public func listModelPackagingJobsPaginator(
+        _ input: ListModelPackagingJobsRequest,
+        logger: Logger = AWSClient.loggingDisabled,
+        on eventLoop: EventLoop? = nil,
+        onPage: @escaping (ListModelPackagingJobsResponse, EventLoop) -> EventLoopFuture<Bool>
+    ) -> EventLoopFuture<Void> {
+        return client.paginate(
+            input: input,
+            command: listModelPackagingJobs,
+            inputKey: \ListModelPackagingJobsRequest.nextToken,
+            outputKey: \ListModelPackagingJobsResponse.nextToken,
+            on: eventLoop,
+            onPage: onPage
+        )
+    }
+
+    ///  Lists the versions of a model in an Amazon Lookout for Vision project. The ListModels operation is eventually consistent.   Recent calls to CreateModel might take a while to appear in the response from ListProjects. This operation requires permissions to perform the lookoutvision:ListModels operation.
     ///
     /// Provide paginated results to closure `onPage` for it to combine them into one result.
     /// This works in a similar manner to `Array.reduce<Result>(_:_:) -> Result`.
@@ -126,7 +181,7 @@ extension LookoutVision {
         )
     }
 
-    ///  Lists the Amazon Lookout for Vision projects in your AWS account. This operation requires permissions to perform the lookoutvision:ListProjects operation.
+    ///  Lists the Amazon Lookout for Vision projects in your AWS account. The ListProjects operation is eventually consistent.   Recent calls to CreateProject and DeleteProject might take a while to appear in the response from ListProjects. This operation requires permissions to perform the lookoutvision:ListProjects operation.
     ///
     /// Provide paginated results to closure `onPage` for it to combine them into one result.
     /// This works in a similar manner to `Array.reduce<Result>(_:_:) -> Result`.
@@ -192,6 +247,16 @@ extension LookoutVision.ListDatasetEntriesRequest: AWSPaginateToken {
             nextToken: token,
             projectName: self.projectName,
             sourceRefContains: self.sourceRefContains
+        )
+    }
+}
+
+extension LookoutVision.ListModelPackagingJobsRequest: AWSPaginateToken {
+    public func usingPaginationToken(_ token: String) -> LookoutVision.ListModelPackagingJobsRequest {
+        return .init(
+            maxResults: self.maxResults,
+            nextToken: token,
+            projectName: self.projectName
         )
     }
 }

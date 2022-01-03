@@ -634,31 +634,46 @@ extension ChimeSDKMessaging {
     public struct ChannelMessageCallback: AWSEncodableShape {
         /// The message content.
         public let content: String?
+        /// The attributes for the message, used for message filtering along with a FilterRule defined in the PushNotificationPreferences.
+        public let messageAttributes: [String: MessageAttributeValue]?
         /// The message ID.
         public let messageId: String
         /// The message metadata.
         public let metadata: String?
+        /// The push notification configuration of the message.
+        public let pushNotification: PushNotificationConfiguration?
 
-        public init(content: String? = nil, messageId: String, metadata: String? = nil) {
+        public init(content: String? = nil, messageAttributes: [String: MessageAttributeValue]? = nil, messageId: String, metadata: String? = nil, pushNotification: PushNotificationConfiguration? = nil) {
             self.content = content
+            self.messageAttributes = messageAttributes
             self.messageId = messageId
             self.metadata = metadata
+            self.pushNotification = pushNotification
         }
 
         public func validate(name: String) throws {
             try self.validate(self.content, name: "content", parent: name, min: 1)
             try self.validate(self.content, name: "content", parent: name, pattern: "^[\\s\\S]*$")
+            try self.messageAttributes?.forEach {
+                try validate($0.key, name: "messageAttributes.key", parent: name, max: 64)
+                try validate($0.key, name: "messageAttributes.key", parent: name, min: 1)
+                try validate($0.key, name: "messageAttributes.key", parent: name, pattern: "^[\\s\\S]*$")
+                try $0.value.validate(name: "\(name).messageAttributes[\"\($0.key)\"]")
+            }
             try self.validate(self.messageId, name: "messageId", parent: name, max: 128)
             try self.validate(self.messageId, name: "messageId", parent: name, min: 1)
             try self.validate(self.messageId, name: "messageId", parent: name, pattern: "^[-_a-zA-Z0-9]*$")
             try self.validate(self.metadata, name: "metadata", parent: name, max: 1024)
             try self.validate(self.metadata, name: "metadata", parent: name, pattern: ".*")
+            try self.pushNotification?.validate(name: "\(name).pushNotification")
         }
 
         private enum CodingKeys: String, CodingKey {
             case content = "Content"
+            case messageAttributes = "MessageAttributes"
             case messageId = "MessageId"
             case metadata = "Metadata"
+            case pushNotification = "PushNotification"
         }
     }
 
@@ -2054,7 +2069,7 @@ extension ChimeSDKMessaging {
         public let maxResults: Int?
         /// The token passed by previous API calls until all requested channel memberships are returned.
         public let nextToken: String?
-        /// The membership type of a user, DEFAULT or HIDDEN. Default members are always returned as part of ListChannelMemberships. Hidden members are only returned if the type filter in ListChannelMemberships equals HIDDEN. Otherwise hidden members are not returned.
+        /// The membership type of a user, DEFAULT or HIDDEN. Default members are returned as part of ListChannelMemberships if no type is specified. Hidden members are only returned if the type filter in ListChannelMemberships equals HIDDEN.
         public let type: ChannelMembershipType?
 
         public init(channelArn: String, chimeBearer: String, maxResults: Int? = nil, nextToken: String? = nil, type: ChannelMembershipType? = nil) {
@@ -2525,13 +2540,13 @@ extension ChimeSDKMessaging {
 
     public struct PushNotificationConfiguration: AWSEncodableShape {
         /// The body of the push notification.
-        public let body: String
+        public let body: String?
         /// The title of the push notification.
-        public let title: String
+        public let title: String?
         /// Enum value that indicates the type of the push notification for a message. DEFAULT: Normal mobile push notification. VOIP: VOIP mobile push notification.
-        public let type: PushNotificationType
+        public let type: PushNotificationType?
 
-        public init(body: String, title: String, type: PushNotificationType) {
+        public init(body: String? = nil, title: String? = nil, type: PushNotificationType? = nil) {
             self.body = body
             self.title = title
             self.type = type

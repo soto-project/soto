@@ -1550,6 +1550,7 @@ extension IoT {
         public func validate(name: String) throws {
             try self.resources.forEach {
                 try validate($0, name: "resources[]", parent: name, max: 2048)
+                try validate($0, name: "resources[]", parent: name, pattern: "^[\\s\\S]*$")
             }
         }
 
@@ -1620,6 +1621,10 @@ extension IoT {
         public let authorizerName: String?
         /// The UNIX timestamp of when the authorizer was created.
         public let creationDate: Date?
+        /// When true, the result from the authorizer’s Lambda function is
+        /// 	  cached for the time specified in refreshAfterInSeconds. The cached
+        /// 	  result is used while the device reuses the same HTTP connection.
+        public let enableCachingForHttp: Bool?
         /// The UNIX timestamp of when the authorizer was last updated.
         public let lastModifiedDate: Date?
         /// Specifies whether IoT validates the token signature in an authorization request.
@@ -1631,11 +1636,12 @@ extension IoT {
         /// The public keys used to validate the token signature returned by your custom authentication service.
         public let tokenSigningPublicKeys: [String: String]?
 
-        public init(authorizerArn: String? = nil, authorizerFunctionArn: String? = nil, authorizerName: String? = nil, creationDate: Date? = nil, lastModifiedDate: Date? = nil, signingDisabled: Bool? = nil, status: AuthorizerStatus? = nil, tokenKeyName: String? = nil, tokenSigningPublicKeys: [String: String]? = nil) {
+        public init(authorizerArn: String? = nil, authorizerFunctionArn: String? = nil, authorizerName: String? = nil, creationDate: Date? = nil, enableCachingForHttp: Bool? = nil, lastModifiedDate: Date? = nil, signingDisabled: Bool? = nil, status: AuthorizerStatus? = nil, tokenKeyName: String? = nil, tokenSigningPublicKeys: [String: String]? = nil) {
             self.authorizerArn = authorizerArn
             self.authorizerFunctionArn = authorizerFunctionArn
             self.authorizerName = authorizerName
             self.creationDate = creationDate
+            self.enableCachingForHttp = enableCachingForHttp
             self.lastModifiedDate = lastModifiedDate
             self.signingDisabled = signingDisabled
             self.status = status
@@ -1648,6 +1654,7 @@ extension IoT {
             case authorizerFunctionArn
             case authorizerName
             case creationDate
+            case enableCachingForHttp
             case lastModifiedDate
             case signingDisabled
             case status
@@ -2622,6 +2629,10 @@ extension IoT {
         public let authorizerFunctionArn: String
         /// The authorizer name.
         public let authorizerName: String
+        /// When true, the result from the authorizer’s Lambda function is
+        /// 	  cached for clients that use persistent HTTP connections. The results are cached for the time
+        /// 	  specified by the Lambda function in refreshAfterInSeconds. This value does not affect authorization of clients that use MQTT connections. The default value is false.
+        public let enableCachingForHttp: Bool?
         /// Specifies whether IoT validates the token signature in an authorization request.
         public let signingDisabled: Bool?
         /// The status of the create authorizer request.
@@ -2633,9 +2644,10 @@ extension IoT {
         /// The public keys used to verify the digital signature returned by your custom authentication service.
         public let tokenSigningPublicKeys: [String: String]?
 
-        public init(authorizerFunctionArn: String, authorizerName: String, signingDisabled: Bool? = nil, status: AuthorizerStatus? = nil, tags: [Tag]? = nil, tokenKeyName: String? = nil, tokenSigningPublicKeys: [String: String]? = nil) {
+        public init(authorizerFunctionArn: String, authorizerName: String, enableCachingForHttp: Bool? = nil, signingDisabled: Bool? = nil, status: AuthorizerStatus? = nil, tags: [Tag]? = nil, tokenKeyName: String? = nil, tokenSigningPublicKeys: [String: String]? = nil) {
             self.authorizerFunctionArn = authorizerFunctionArn
             self.authorizerName = authorizerName
+            self.enableCachingForHttp = enableCachingForHttp
             self.signingDisabled = signingDisabled
             self.status = status
             self.tags = tags
@@ -2645,6 +2657,7 @@ extension IoT {
 
         public func validate(name: String) throws {
             try self.validate(self.authorizerFunctionArn, name: "authorizerFunctionArn", parent: name, max: 2048)
+            try self.validate(self.authorizerFunctionArn, name: "authorizerFunctionArn", parent: name, pattern: "^[\\s\\S]*$")
             try self.validate(self.authorizerName, name: "authorizerName", parent: name, max: 128)
             try self.validate(self.authorizerName, name: "authorizerName", parent: name, min: 1)
             try self.validate(self.authorizerName, name: "authorizerName", parent: name, pattern: "^[\\w=,@-]+$")
@@ -2659,11 +2672,13 @@ extension IoT {
                 try validate($0.key, name: "tokenSigningPublicKeys.key", parent: name, min: 1)
                 try validate($0.key, name: "tokenSigningPublicKeys.key", parent: name, pattern: "^[a-zA-Z0-9:_-]+$")
                 try validate($0.value, name: "tokenSigningPublicKeys[\"\($0.key)\"]", parent: name, max: 5120)
+                try validate($0.value, name: "tokenSigningPublicKeys[\"\($0.key)\"]", parent: name, pattern: "^[\\s\\S]*$")
             }
         }
 
         private enum CodingKeys: String, CodingKey {
             case authorizerFunctionArn
+            case enableCachingForHttp
             case signingDisabled
             case status
             case tags
@@ -2760,7 +2775,9 @@ extension IoT {
         }
 
         public func validate(name: String) throws {
+            try self.validate(self.certificateSigningRequest, name: "certificateSigningRequest", parent: name, max: 4096)
             try self.validate(self.certificateSigningRequest, name: "certificateSigningRequest", parent: name, min: 1)
+            try self.validate(self.certificateSigningRequest, name: "certificateSigningRequest", parent: name, pattern: "^[\\s\\S]*$")
         }
 
         private enum CodingKeys: String, CodingKey {
@@ -2956,6 +2973,7 @@ extension IoT {
             try self.validate(self.domainConfigurationName, name: "domainConfigurationName", parent: name, pattern: "^[\\w.-]+$")
             try self.validate(self.domainName, name: "domainName", parent: name, max: 253)
             try self.validate(self.domainName, name: "domainName", parent: name, min: 1)
+            try self.validate(self.domainName, name: "domainName", parent: name, pattern: "^[\\s\\S]*$")
             try self.serverCertificateArns?.forEach {
                 try validate($0, name: "serverCertificateArns[]", parent: name, max: 2048)
                 try validate($0, name: "serverCertificateArns[]", parent: name, min: 1)
@@ -3527,6 +3545,10 @@ extension IoT {
         }
 
         public func validate(name: String) throws {
+            try self.additionalParameters?.forEach {
+                try validate($0.value, name: "additionalParameters[\"\($0.key)\"]", parent: name, max: 4096)
+                try validate($0.value, name: "additionalParameters[\"\($0.key)\"]", parent: name, pattern: "^[\\s\\S]*$")
+            }
             try self.awsJobAbortConfig?.validate(name: "\(name).awsJobAbortConfig")
             try self.awsJobExecutionsRolloutConfig?.validate(name: "\(name).awsJobExecutionsRolloutConfig")
             try self.validate(self.description, name: "description", parent: name, max: 2028)
@@ -3613,6 +3635,8 @@ extension IoT {
         }
 
         public func validate(name: String) throws {
+            try self.validate(self.policyDocument, name: "policyDocument", parent: name, max: 404_600)
+            try self.validate(self.policyDocument, name: "policyDocument", parent: name, pattern: "^[\\s\\S]*$")
             try self.validate(self.policyName, name: "policyName", parent: name, max: 128)
             try self.validate(self.policyName, name: "policyName", parent: name, min: 1)
             try self.validate(self.policyName, name: "policyName", parent: name, pattern: "^[\\w+=,.@-]+$")
@@ -3672,6 +3696,8 @@ extension IoT {
         }
 
         public func validate(name: String) throws {
+            try self.validate(self.policyDocument, name: "policyDocument", parent: name, max: 404_600)
+            try self.validate(self.policyDocument, name: "policyDocument", parent: name, pattern: "^[\\s\\S]*$")
             try self.validate(self.policyName, name: "policyName", parent: name, max: 128)
             try self.validate(self.policyName, name: "policyName", parent: name, min: 1)
             try self.validate(self.policyName, name: "policyName", parent: name, pattern: "^[\\w+=,.@-]+$")
@@ -3788,6 +3814,8 @@ extension IoT {
             try self.tags?.forEach {
                 try $0.validate(name: "\(name).tags[]")
             }
+            try self.validate(self.templateBody, name: "templateBody", parent: name, max: 10240)
+            try self.validate(self.templateBody, name: "templateBody", parent: name, pattern: "^[\\s\\S]*$")
             try self.validate(self.templateName, name: "templateName", parent: name, max: 36)
             try self.validate(self.templateName, name: "templateName", parent: name, min: 1)
             try self.validate(self.templateName, name: "templateName", parent: name, pattern: "^[0-9A-Za-z_-]+$")
@@ -3845,6 +3873,8 @@ extension IoT {
         }
 
         public func validate(name: String) throws {
+            try self.validate(self.templateBody, name: "templateBody", parent: name, max: 10240)
+            try self.validate(self.templateBody, name: "templateBody", parent: name, pattern: "^[\\s\\S]*$")
             try self.validate(self.templateName, name: "templateName", parent: name, max: 36)
             try self.validate(self.templateName, name: "templateName", parent: name, min: 1)
             try self.validate(self.templateName, name: "templateName", parent: name, pattern: "^[0-9A-Za-z_-]+$")
@@ -5888,6 +5918,7 @@ extension IoT {
 
         public func validate(name: String) throws {
             try self.validate(self.endpointType, name: "endpointType", parent: name, max: 128)
+            try self.validate(self.endpointType, name: "endpointType", parent: name, pattern: "^[\\s\\S]*$")
         }
 
         private enum CodingKeys: CodingKey {}
@@ -8316,11 +8347,14 @@ extension IoT {
             try self.headers?.forEach {
                 try validate($0.key, name: "headers.key", parent: name, max: 8192)
                 try validate($0.key, name: "headers.key", parent: name, min: 1)
+                try validate($0.key, name: "headers.key", parent: name, pattern: "^[\\s\\S]*$")
                 try validate($0.value, name: "headers[\"\($0.key)\"]", parent: name, max: 8192)
                 try validate($0.value, name: "headers[\"\($0.key)\"]", parent: name, min: 1)
+                try validate($0.value, name: "headers[\"\($0.key)\"]", parent: name, pattern: "^[\\s\\S]*$")
             }
             try self.validate(self.queryString, name: "queryString", parent: name, max: 4096)
             try self.validate(self.queryString, name: "queryString", parent: name, min: 1)
+            try self.validate(self.queryString, name: "queryString", parent: name, pattern: "^[\\s\\S]*$")
         }
 
         private enum CodingKeys: String, CodingKey {
@@ -11973,10 +12007,12 @@ extension IoT {
         public func validate(name: String) throws {
             try self.validate(self.clientId, name: "clientId", parent: name, max: 65535)
             try self.validate(self.clientId, name: "clientId", parent: name, min: 1)
+            try self.validate(self.clientId, name: "clientId", parent: name, pattern: "^[\\s\\S]*$")
             try self.validate(self.password, name: "password", parent: name, max: 65535)
             try self.validate(self.password, name: "password", parent: name, min: 1)
             try self.validate(self.username, name: "username", parent: name, max: 65535)
             try self.validate(self.username, name: "username", parent: name, min: 1)
+            try self.validate(self.username, name: "username", parent: name, pattern: "^[\\s\\S]*$")
         }
 
         private enum CodingKeys: String, CodingKey {
@@ -12031,6 +12067,10 @@ extension IoT {
         }
 
         public func validate(name: String) throws {
+            try self.attributes?.forEach {
+                try validate($0.value, name: "attributes[\"\($0.key)\"]", parent: name, max: 4096)
+                try validate($0.value, name: "attributes[\"\($0.key)\"]", parent: name, pattern: "^[\\s\\S]*$")
+            }
             try self.codeSigning?.validate(name: "\(name).codeSigning")
             try self.fileLocation?.validate(name: "\(name).fileLocation")
             try self.validate(self.fileType, name: "fileType", parent: name, max: 255)
@@ -12544,12 +12584,14 @@ extension IoT {
         public func validate(name: String) throws {
             try self.validate(self.caCertificate, name: "caCertificate", parent: name, max: 65536)
             try self.validate(self.caCertificate, name: "caCertificate", parent: name, min: 1)
+            try self.validate(self.caCertificate, name: "caCertificate", parent: name, pattern: "^[\\s\\S]*$")
             try self.registrationConfig?.validate(name: "\(name).registrationConfig")
             try self.tags?.forEach {
                 try $0.validate(name: "\(name).tags[]")
             }
             try self.validate(self.verificationCertificate, name: "verificationCertificate", parent: name, max: 65536)
             try self.validate(self.verificationCertificate, name: "verificationCertificate", parent: name, min: 1)
+            try self.validate(self.verificationCertificate, name: "verificationCertificate", parent: name, pattern: "^[\\s\\S]*$")
         }
 
         private enum CodingKeys: String, CodingKey {
@@ -12609,8 +12651,10 @@ extension IoT {
         public func validate(name: String) throws {
             try self.validate(self.caCertificatePem, name: "caCertificatePem", parent: name, max: 65536)
             try self.validate(self.caCertificatePem, name: "caCertificatePem", parent: name, min: 1)
+            try self.validate(self.caCertificatePem, name: "caCertificatePem", parent: name, pattern: "^[\\s\\S]*$")
             try self.validate(self.certificatePem, name: "certificatePem", parent: name, max: 65536)
             try self.validate(self.certificatePem, name: "certificatePem", parent: name, min: 1)
+            try self.validate(self.certificatePem, name: "certificatePem", parent: name, pattern: "^[\\s\\S]*$")
         }
 
         private enum CodingKeys: String, CodingKey {
@@ -12651,6 +12695,7 @@ extension IoT {
         public func validate(name: String) throws {
             try self.validate(self.certificatePem, name: "certificatePem", parent: name, max: 65536)
             try self.validate(self.certificatePem, name: "certificatePem", parent: name, min: 1)
+            try self.validate(self.certificatePem, name: "certificatePem", parent: name, pattern: "^[\\s\\S]*$")
         }
 
         private enum CodingKeys: String, CodingKey {
@@ -12685,6 +12730,17 @@ extension IoT {
         public init(parameters: [String: String]? = nil, templateBody: String) {
             self.parameters = parameters
             self.templateBody = templateBody
+        }
+
+        public func validate(name: String) throws {
+            try self.parameters?.forEach {
+                try validate($0.key, name: "parameters.key", parent: name, max: 2048)
+                try validate($0.key, name: "parameters.key", parent: name, pattern: "^[\\s\\S]*$")
+                try validate($0.value, name: "parameters[\"\($0.key)\"]", parent: name, max: 4096)
+                try validate($0.value, name: "parameters[\"\($0.key)\"]", parent: name, pattern: "^[\\s\\S]*$")
+            }
+            try self.validate(self.templateBody, name: "templateBody", parent: name, max: 10240)
+            try self.validate(self.templateBody, name: "templateBody", parent: name, pattern: "^[\\s\\S]*$")
         }
 
         private enum CodingKeys: String, CodingKey {
@@ -12724,6 +12780,8 @@ extension IoT {
         public func validate(name: String) throws {
             try self.validate(self.roleArn, name: "roleArn", parent: name, max: 2048)
             try self.validate(self.roleArn, name: "roleArn", parent: name, min: 20)
+            try self.validate(self.templateBody, name: "templateBody", parent: name, max: 10240)
+            try self.validate(self.templateBody, name: "templateBody", parent: name, pattern: "^[\\s\\S]*$")
         }
 
         private enum CodingKeys: String, CodingKey {
@@ -12752,6 +12810,7 @@ extension IoT {
             try self.validate(self.certificateId, name: "certificateId", parent: name, min: 64)
             try self.validate(self.certificateId, name: "certificateId", parent: name, pattern: "^(0x)?[a-fA-F0-9]+$")
             try self.validate(self.rejectReason, name: "rejectReason", parent: name, max: 128)
+            try self.validate(self.rejectReason, name: "rejectReason", parent: name, pattern: "^[\\s\\S]*$")
         }
 
         private enum CodingKeys: String, CodingKey {
@@ -13673,6 +13732,8 @@ extension IoT {
             try self.validate(self.inputFileKey, name: "inputFileKey", parent: name, pattern: "^[a-zA-Z0-9!_.*'()-\\/]+$")
             try self.validate(self.roleArn, name: "roleArn", parent: name, max: 2048)
             try self.validate(self.roleArn, name: "roleArn", parent: name, min: 20)
+            try self.validate(self.templateBody, name: "templateBody", parent: name, max: 10240)
+            try self.validate(self.templateBody, name: "templateBody", parent: name, pattern: "^[\\s\\S]*$")
         }
 
         private enum CodingKeys: String, CodingKey {
@@ -14151,6 +14212,7 @@ extension IoT {
             try self.tlsContext?.validate(name: "\(name).tlsContext")
             try self.validate(self.token, name: "token", parent: name, max: 6144)
             try self.validate(self.token, name: "token", parent: name, min: 1)
+            try self.validate(self.token, name: "token", parent: name, pattern: "^[\\s\\S]*$")
             try self.validate(self.tokenSignature, name: "tokenSignature", parent: name, max: 2560)
             try self.validate(self.tokenSignature, name: "tokenSignature", parent: name, min: 1)
             try self.validate(self.tokenSignature, name: "tokenSignature", parent: name, pattern: "^[A-Za-z0-9+/]+={0,2}$")
@@ -14579,6 +14641,7 @@ extension IoT {
         public func validate(name: String) throws {
             try self.validate(self.serverName, name: "serverName", parent: name, max: 253)
             try self.validate(self.serverName, name: "serverName", parent: name, min: 1)
+            try self.validate(self.serverName, name: "serverName", parent: name, pattern: "^[\\s\\S]*$")
         }
 
         private enum CodingKeys: String, CodingKey {
@@ -14819,6 +14882,7 @@ extension IoT {
             try self.validate(self.targetAwsAccount, name: "targetAwsAccount", parent: name, min: 12)
             try self.validate(self.targetAwsAccount, name: "targetAwsAccount", parent: name, pattern: "^[0-9]+$")
             try self.validate(self.transferMessage, name: "transferMessage", parent: name, max: 128)
+            try self.validate(self.transferMessage, name: "transferMessage", parent: name, pattern: "^[\\s\\S]*$")
         }
 
         private enum CodingKeys: String, CodingKey {
@@ -14976,6 +15040,10 @@ extension IoT {
         public let authorizerFunctionArn: String?
         /// The authorizer name.
         public let authorizerName: String
+        /// When true, the result from the authorizer’s Lambda function is
+        /// 	  cached for the time specified in refreshAfterInSeconds. The cached
+        /// 	  result is used while the device reuses the same HTTP connection.
+        public let enableCachingForHttp: Bool?
         /// The status of the update authorizer request.
         public let status: AuthorizerStatus?
         /// The key used to extract the token from the HTTP headers.
@@ -14983,9 +15051,10 @@ extension IoT {
         /// The public keys used to verify the token signature.
         public let tokenSigningPublicKeys: [String: String]?
 
-        public init(authorizerFunctionArn: String? = nil, authorizerName: String, status: AuthorizerStatus? = nil, tokenKeyName: String? = nil, tokenSigningPublicKeys: [String: String]? = nil) {
+        public init(authorizerFunctionArn: String? = nil, authorizerName: String, enableCachingForHttp: Bool? = nil, status: AuthorizerStatus? = nil, tokenKeyName: String? = nil, tokenSigningPublicKeys: [String: String]? = nil) {
             self.authorizerFunctionArn = authorizerFunctionArn
             self.authorizerName = authorizerName
+            self.enableCachingForHttp = enableCachingForHttp
             self.status = status
             self.tokenKeyName = tokenKeyName
             self.tokenSigningPublicKeys = tokenSigningPublicKeys
@@ -14993,6 +15062,7 @@ extension IoT {
 
         public func validate(name: String) throws {
             try self.validate(self.authorizerFunctionArn, name: "authorizerFunctionArn", parent: name, max: 2048)
+            try self.validate(self.authorizerFunctionArn, name: "authorizerFunctionArn", parent: name, pattern: "^[\\s\\S]*$")
             try self.validate(self.authorizerName, name: "authorizerName", parent: name, max: 128)
             try self.validate(self.authorizerName, name: "authorizerName", parent: name, min: 1)
             try self.validate(self.authorizerName, name: "authorizerName", parent: name, pattern: "^[\\w=,@-]+$")
@@ -15004,11 +15074,13 @@ extension IoT {
                 try validate($0.key, name: "tokenSigningPublicKeys.key", parent: name, min: 1)
                 try validate($0.key, name: "tokenSigningPublicKeys.key", parent: name, pattern: "^[a-zA-Z0-9:_-]+$")
                 try validate($0.value, name: "tokenSigningPublicKeys[\"\($0.key)\"]", parent: name, max: 5120)
+                try validate($0.value, name: "tokenSigningPublicKeys[\"\($0.key)\"]", parent: name, pattern: "^[\\s\\S]*$")
             }
         }
 
         private enum CodingKeys: String, CodingKey {
             case authorizerFunctionArn
+            case enableCachingForHttp
             case status
             case tokenKeyName
             case tokenSigningPublicKeys

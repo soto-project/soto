@@ -97,6 +97,7 @@ extension MediaConnect {
 
     public enum `Protocol`: String, CustomStringConvertible, Codable {
         case cdi
+        case fujitsuQos = "fujitsu-qos"
         case rist
         case rtp
         case rtpFec = "rtp-fec"
@@ -366,7 +367,7 @@ extension MediaConnect {
         public let destination: String?
         /// The type of key used for the encryption. If no keyType is provided, the service will use the default setting (static-key).
         public let encryption: Encryption?
-        /// The maximum latency in milliseconds for Zixi-based streams.
+        /// The maximum latency in milliseconds. This parameter applies only to RIST-based, Zixi-based, and Fujitsu-based streams.
         public let maxLatency: Int?
         /// The media streams that are associated with the output, and the parameters for those associations.
         public let mediaStreamOutputConfigurations: [MediaStreamOutputConfigurationRequest]?
@@ -380,6 +381,8 @@ extension MediaConnect {
         public let `protocol`: `Protocol`
         /// The remote ID for the Zixi-pull output stream.
         public let remoteId: String?
+        /// The port that the flow uses to send outbound requests to initiate connection with the sender.
+        public let senderControlPort: Int?
         /// The smoothing latency in milliseconds for RIST, RTP, and RTP-FEC streams.
         public let smoothingLatency: Int?
         /// The stream ID that you want to use for this transport. This parameter applies only to Zixi-based streams.
@@ -387,7 +390,7 @@ extension MediaConnect {
         /// The name of the VPC interface attachment to use for this output.
         public let vpcInterfaceAttachment: VpcInterfaceAttachment?
 
-        public init(cidrAllowList: [String]? = nil, description: String? = nil, destination: String? = nil, encryption: Encryption? = nil, maxLatency: Int? = nil, mediaStreamOutputConfigurations: [MediaStreamOutputConfigurationRequest]? = nil, minLatency: Int? = nil, name: String? = nil, port: Int? = nil, protocol: `Protocol`, remoteId: String? = nil, smoothingLatency: Int? = nil, streamId: String? = nil, vpcInterfaceAttachment: VpcInterfaceAttachment? = nil) {
+        public init(cidrAllowList: [String]? = nil, description: String? = nil, destination: String? = nil, encryption: Encryption? = nil, maxLatency: Int? = nil, mediaStreamOutputConfigurations: [MediaStreamOutputConfigurationRequest]? = nil, minLatency: Int? = nil, name: String? = nil, port: Int? = nil, protocol: `Protocol`, remoteId: String? = nil, senderControlPort: Int? = nil, smoothingLatency: Int? = nil, streamId: String? = nil, vpcInterfaceAttachment: VpcInterfaceAttachment? = nil) {
             self.cidrAllowList = cidrAllowList
             self.description = description
             self.destination = destination
@@ -399,6 +402,7 @@ extension MediaConnect {
             self.port = port
             self.`protocol` = `protocol`
             self.remoteId = remoteId
+            self.senderControlPort = senderControlPort
             self.smoothingLatency = smoothingLatency
             self.streamId = streamId
             self.vpcInterfaceAttachment = vpcInterfaceAttachment
@@ -416,6 +420,7 @@ extension MediaConnect {
             case port
             case `protocol`
             case remoteId
+            case senderControlPort
             case smoothingLatency
             case streamId
             case vpcInterfaceAttachment
@@ -1881,7 +1886,7 @@ extension MediaConnect {
         public let ingestPort: Int?
         /// The smoothing max bitrate for RIST, RTP, and RTP-FEC streams.
         public let maxBitrate: Int?
-        /// The maximum latency in milliseconds. This parameter applies only to RIST-based and Zixi-based streams.
+        /// The maximum latency in milliseconds. This parameter applies only to RIST-based, Zixi-based, and Fujitsu-based streams.
         public let maxLatency: Int?
         /// The size of the buffer (in milliseconds) to use to sync incoming source data.
         public let maxSyncBuffer: Int?
@@ -1893,6 +1898,10 @@ extension MediaConnect {
         public let name: String?
         /// The protocol that is used by the source.
         public let `protocol`: `Protocol`?
+        /// The port that the flow uses to send outbound requests to initiate connection with the sender.
+        public let senderControlPort: Int?
+        /// The IP address that the flow communicates with to initiate connection with the sender.
+        public let senderIpAddress: String?
         /// The stream ID that you want to use for this transport. This parameter applies only to Zixi-based streams.
         public let streamId: String?
         /// The name of the VPC interface to use for this source.
@@ -1900,7 +1909,7 @@ extension MediaConnect {
         /// The range of IP addresses that should be allowed to contribute content to your source. These IP addresses should be in the form of a Classless Inter-Domain Routing (CIDR) block; for example, 10.0.0.0/16.
         public let whitelistCidr: String?
 
-        public init(decryption: Encryption? = nil, description: String? = nil, entitlementArn: String? = nil, ingestPort: Int? = nil, maxBitrate: Int? = nil, maxLatency: Int? = nil, maxSyncBuffer: Int? = nil, mediaStreamSourceConfigurations: [MediaStreamSourceConfigurationRequest]? = nil, minLatency: Int? = nil, name: String? = nil, protocol: `Protocol`? = nil, streamId: String? = nil, vpcInterfaceName: String? = nil, whitelistCidr: String? = nil) {
+        public init(decryption: Encryption? = nil, description: String? = nil, entitlementArn: String? = nil, ingestPort: Int? = nil, maxBitrate: Int? = nil, maxLatency: Int? = nil, maxSyncBuffer: Int? = nil, mediaStreamSourceConfigurations: [MediaStreamSourceConfigurationRequest]? = nil, minLatency: Int? = nil, name: String? = nil, protocol: `Protocol`? = nil, senderControlPort: Int? = nil, senderIpAddress: String? = nil, streamId: String? = nil, vpcInterfaceName: String? = nil, whitelistCidr: String? = nil) {
             self.decryption = decryption
             self.description = description
             self.entitlementArn = entitlementArn
@@ -1912,6 +1921,8 @@ extension MediaConnect {
             self.minLatency = minLatency
             self.name = name
             self.`protocol` = `protocol`
+            self.senderControlPort = senderControlPort
+            self.senderIpAddress = senderIpAddress
             self.streamId = streamId
             self.vpcInterfaceName = vpcInterfaceName
             self.whitelistCidr = whitelistCidr
@@ -1929,6 +1940,8 @@ extension MediaConnect {
             case minLatency
             case name
             case `protocol`
+            case senderControlPort
+            case senderIpAddress
             case streamId
             case vpcInterfaceName
             case whitelistCidr
@@ -1952,6 +1965,10 @@ extension MediaConnect {
         public let mediaStreamSourceConfigurations: [MediaStreamSourceConfiguration]?
         /// The name of the source.
         public let name: String
+        /// The port that the flow uses to send outbound requests to initiate connection with the sender.
+        public let senderControlPort: Int?
+        /// The IP address that the flow communicates with to initiate connection with the sender.
+        public let senderIpAddress: String?
         /// The ARN of the source.
         public let sourceArn: String
         /// Attributes related to the transport stream that are used in the source.
@@ -1961,7 +1978,7 @@ extension MediaConnect {
         /// The range of IP addresses that should be allowed to contribute content to your source. These IP addresses should be in the form of a Classless Inter-Domain Routing (CIDR) block; for example, 10.0.0.0/16.
         public let whitelistCidr: String?
 
-        public init(dataTransferSubscriberFeePercent: Int? = nil, decryption: Encryption? = nil, description: String? = nil, entitlementArn: String? = nil, ingestIp: String? = nil, ingestPort: Int? = nil, mediaStreamSourceConfigurations: [MediaStreamSourceConfiguration]? = nil, name: String, sourceArn: String, transport: Transport? = nil, vpcInterfaceName: String? = nil, whitelistCidr: String? = nil) {
+        public init(dataTransferSubscriberFeePercent: Int? = nil, decryption: Encryption? = nil, description: String? = nil, entitlementArn: String? = nil, ingestIp: String? = nil, ingestPort: Int? = nil, mediaStreamSourceConfigurations: [MediaStreamSourceConfiguration]? = nil, name: String, senderControlPort: Int? = nil, senderIpAddress: String? = nil, sourceArn: String, transport: Transport? = nil, vpcInterfaceName: String? = nil, whitelistCidr: String? = nil) {
             self.dataTransferSubscriberFeePercent = dataTransferSubscriberFeePercent
             self.decryption = decryption
             self.description = description
@@ -1970,6 +1987,8 @@ extension MediaConnect {
             self.ingestPort = ingestPort
             self.mediaStreamSourceConfigurations = mediaStreamSourceConfigurations
             self.name = name
+            self.senderControlPort = senderControlPort
+            self.senderIpAddress = senderIpAddress
             self.sourceArn = sourceArn
             self.transport = transport
             self.vpcInterfaceName = vpcInterfaceName
@@ -1985,6 +2004,8 @@ extension MediaConnect {
             case ingestPort
             case mediaStreamSourceConfigurations
             case name
+            case senderControlPort
+            case senderIpAddress
             case sourceArn
             case transport
             case vpcInterfaceName
@@ -2094,7 +2115,7 @@ extension MediaConnect {
         public let cidrAllowList: [String]?
         /// The smoothing max bitrate for RIST, RTP, and RTP-FEC streams.
         public let maxBitrate: Int?
-        /// The maximum latency in milliseconds. This parameter applies only to RIST-based and Zixi-based streams.
+        /// The maximum latency in milliseconds. This parameter applies only to RIST-based, Zixi-based, and Fujitsu-based streams.
         public let maxLatency: Int?
         /// The size of the buffer (in milliseconds) to use to sync incoming source data.
         public let maxSyncBuffer: Int?
@@ -2104,12 +2125,16 @@ extension MediaConnect {
         public let `protocol`: `Protocol`
         /// The remote ID for the Zixi-pull stream.
         public let remoteId: String?
+        /// The port that the flow uses to send outbound requests to initiate connection with the sender.
+        public let senderControlPort: Int?
+        /// The IP address that the flow communicates with to initiate connection with the sender.
+        public let senderIpAddress: String?
         /// The smoothing latency in milliseconds for RIST, RTP, and RTP-FEC streams.
         public let smoothingLatency: Int?
         /// The stream ID that you want to use for this transport. This parameter applies only to Zixi-based streams.
         public let streamId: String?
 
-        public init(cidrAllowList: [String]? = nil, maxBitrate: Int? = nil, maxLatency: Int? = nil, maxSyncBuffer: Int? = nil, minLatency: Int? = nil, protocol: `Protocol`, remoteId: String? = nil, smoothingLatency: Int? = nil, streamId: String? = nil) {
+        public init(cidrAllowList: [String]? = nil, maxBitrate: Int? = nil, maxLatency: Int? = nil, maxSyncBuffer: Int? = nil, minLatency: Int? = nil, protocol: `Protocol`, remoteId: String? = nil, senderControlPort: Int? = nil, senderIpAddress: String? = nil, smoothingLatency: Int? = nil, streamId: String? = nil) {
             self.cidrAllowList = cidrAllowList
             self.maxBitrate = maxBitrate
             self.maxLatency = maxLatency
@@ -2117,6 +2142,8 @@ extension MediaConnect {
             self.minLatency = minLatency
             self.`protocol` = `protocol`
             self.remoteId = remoteId
+            self.senderControlPort = senderControlPort
+            self.senderIpAddress = senderIpAddress
             self.smoothingLatency = smoothingLatency
             self.streamId = streamId
         }
@@ -2129,6 +2156,8 @@ extension MediaConnect {
             case minLatency
             case `protocol`
             case remoteId
+            case senderControlPort
+            case senderIpAddress
             case smoothingLatency
             case streamId
         }
@@ -2348,7 +2377,7 @@ extension MediaConnect {
         public let encryption: UpdateEncryption?
         /// The flow that is associated with the output that you want to update.
         public let flowArn: String
-        /// The maximum latency in milliseconds for Zixi-based streams.
+        /// The maximum latency in milliseconds. This parameter applies only to RIST-based, Zixi-based, and Fujitsu-based streams.
         public let maxLatency: Int?
         /// The media streams that are associated with the output, and the parameters for those associations.
         public let mediaStreamOutputConfigurations: [MediaStreamOutputConfigurationRequest]?
@@ -2362,6 +2391,10 @@ extension MediaConnect {
         public let `protocol`: `Protocol`?
         /// The remote ID for the Zixi-pull stream.
         public let remoteId: String?
+        /// The port that the flow uses to send outbound requests to initiate connection with the sender.
+        public let senderControlPort: Int?
+        /// The IP address that the flow communicates with to initiate connection with the sender.
+        public let senderIpAddress: String?
         /// The smoothing latency in milliseconds for RIST, RTP, and RTP-FEC streams.
         public let smoothingLatency: Int?
         /// The stream ID that you want to use for this transport. This parameter applies only to Zixi-based streams.
@@ -2369,7 +2402,7 @@ extension MediaConnect {
         /// The name of the VPC interface attachment to use for this output.
         public let vpcInterfaceAttachment: VpcInterfaceAttachment?
 
-        public init(cidrAllowList: [String]? = nil, description: String? = nil, destination: String? = nil, encryption: UpdateEncryption? = nil, flowArn: String, maxLatency: Int? = nil, mediaStreamOutputConfigurations: [MediaStreamOutputConfigurationRequest]? = nil, minLatency: Int? = nil, outputArn: String, port: Int? = nil, protocol: `Protocol`? = nil, remoteId: String? = nil, smoothingLatency: Int? = nil, streamId: String? = nil, vpcInterfaceAttachment: VpcInterfaceAttachment? = nil) {
+        public init(cidrAllowList: [String]? = nil, description: String? = nil, destination: String? = nil, encryption: UpdateEncryption? = nil, flowArn: String, maxLatency: Int? = nil, mediaStreamOutputConfigurations: [MediaStreamOutputConfigurationRequest]? = nil, minLatency: Int? = nil, outputArn: String, port: Int? = nil, protocol: `Protocol`? = nil, remoteId: String? = nil, senderControlPort: Int? = nil, senderIpAddress: String? = nil, smoothingLatency: Int? = nil, streamId: String? = nil, vpcInterfaceAttachment: VpcInterfaceAttachment? = nil) {
             self.cidrAllowList = cidrAllowList
             self.description = description
             self.destination = destination
@@ -2382,6 +2415,8 @@ extension MediaConnect {
             self.port = port
             self.`protocol` = `protocol`
             self.remoteId = remoteId
+            self.senderControlPort = senderControlPort
+            self.senderIpAddress = senderIpAddress
             self.smoothingLatency = smoothingLatency
             self.streamId = streamId
             self.vpcInterfaceAttachment = vpcInterfaceAttachment
@@ -2398,6 +2433,8 @@ extension MediaConnect {
             case port
             case `protocol`
             case remoteId
+            case senderControlPort
+            case senderIpAddress
             case smoothingLatency
             case streamId
             case vpcInterfaceAttachment
@@ -2470,7 +2507,7 @@ extension MediaConnect {
         public let ingestPort: Int?
         /// The smoothing max bitrate for RIST, RTP, and RTP-FEC streams.
         public let maxBitrate: Int?
-        /// The maximum latency in milliseconds. This parameter applies only to RIST-based and Zixi-based streams.
+        /// The maximum latency in milliseconds. This parameter applies only to RIST-based, Zixi-based, and Fujitsu-based streams.
         public let maxLatency: Int?
         /// The size of the buffer (in milliseconds) to use to sync incoming source data.
         public let maxSyncBuffer: Int?
@@ -2480,6 +2517,10 @@ extension MediaConnect {
         public let minLatency: Int?
         /// The protocol that is used by the source.
         public let `protocol`: `Protocol`?
+        /// The port that the flow uses to send outbound requests to initiate connection with the sender.
+        public let senderControlPort: Int?
+        /// The IP address that the flow communicates with to initiate connection with the sender.
+        public let senderIpAddress: String?
         /// The ARN of the source that you want to update.
         public let sourceArn: String
         /// The stream ID that you want to use for this transport. This parameter applies only to Zixi-based streams.
@@ -2489,7 +2530,7 @@ extension MediaConnect {
         /// The range of IP addresses that should be allowed to contribute content to your source. These IP addresses should be in the form of a Classless Inter-Domain Routing (CIDR) block; for example, 10.0.0.0/16.
         public let whitelistCidr: String?
 
-        public init(decryption: UpdateEncryption? = nil, description: String? = nil, entitlementArn: String? = nil, flowArn: String, ingestPort: Int? = nil, maxBitrate: Int? = nil, maxLatency: Int? = nil, maxSyncBuffer: Int? = nil, mediaStreamSourceConfigurations: [MediaStreamSourceConfigurationRequest]? = nil, minLatency: Int? = nil, protocol: `Protocol`? = nil, sourceArn: String, streamId: String? = nil, vpcInterfaceName: String? = nil, whitelistCidr: String? = nil) {
+        public init(decryption: UpdateEncryption? = nil, description: String? = nil, entitlementArn: String? = nil, flowArn: String, ingestPort: Int? = nil, maxBitrate: Int? = nil, maxLatency: Int? = nil, maxSyncBuffer: Int? = nil, mediaStreamSourceConfigurations: [MediaStreamSourceConfigurationRequest]? = nil, minLatency: Int? = nil, protocol: `Protocol`? = nil, senderControlPort: Int? = nil, senderIpAddress: String? = nil, sourceArn: String, streamId: String? = nil, vpcInterfaceName: String? = nil, whitelistCidr: String? = nil) {
             self.decryption = decryption
             self.description = description
             self.entitlementArn = entitlementArn
@@ -2501,6 +2542,8 @@ extension MediaConnect {
             self.mediaStreamSourceConfigurations = mediaStreamSourceConfigurations
             self.minLatency = minLatency
             self.`protocol` = `protocol`
+            self.senderControlPort = senderControlPort
+            self.senderIpAddress = senderIpAddress
             self.sourceArn = sourceArn
             self.streamId = streamId
             self.vpcInterfaceName = vpcInterfaceName
@@ -2518,6 +2561,8 @@ extension MediaConnect {
             case mediaStreamSourceConfigurations
             case minLatency
             case `protocol`
+            case senderControlPort
+            case senderIpAddress
             case streamId
             case vpcInterfaceName
             case whitelistCidr
@@ -2542,7 +2587,7 @@ extension MediaConnect {
     }
 
     public struct VpcInterface: AWSDecodableShape {
-        /// Immutable and has to be a unique against other VpcInterfaces in this Flow
+        /// Immutable and has to be a unique against other VpcInterfaces in this Flow.
         public let name: String
         /// IDs of the network interfaces created in customer's account by MediaConnect.
         public let networkInterfaceIds: [String]

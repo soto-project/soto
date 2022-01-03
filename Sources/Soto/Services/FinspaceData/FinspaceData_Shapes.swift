@@ -82,6 +82,12 @@ extension FinspaceData {
         public var description: String { return self.rawValue }
     }
 
+    public enum ExportFileFormat: String, CustomStringConvertible, Codable {
+        case delimitedText = "DELIMITED_TEXT"
+        case parquet = "PARQUET"
+        public var description: String { return self.rawValue }
+    }
+
     public enum IngestionStatus: String, CustomStringConvertible, Codable {
         case failed = "FAILED"
         case pending = "PENDING"
@@ -117,6 +123,7 @@ extension FinspaceData {
     }
 
     public struct ChangesetSummary: AWSDecodableShape {
+        public let activeFromTimestamp: Int64?
         /// Time until which the Changeset is active. The value is determined as Epoch time in milliseconds. For example, the value for Monday, November 1, 2021 12:00:00 PM UTC is specified as 1635768000000.
         public let activeUntilTimestamp: Int64?
         /// The ARN identifier of the Changeset.
@@ -142,7 +149,8 @@ extension FinspaceData {
         /// The unique identifier of the Changeset that is updated.
         public let updatesChangesetId: String?
 
-        public init(activeUntilTimestamp: Int64? = nil, changesetArn: String? = nil, changesetId: String? = nil, changeType: ChangeType? = nil, createTime: Int64? = nil, datasetId: String? = nil, errorInfo: ChangesetErrorInfo? = nil, formatParams: [String: String]? = nil, sourceParams: [String: String]? = nil, status: IngestionStatus? = nil, updatedByChangesetId: String? = nil, updatesChangesetId: String? = nil) {
+        public init(activeFromTimestamp: Int64? = nil, activeUntilTimestamp: Int64? = nil, changesetArn: String? = nil, changesetId: String? = nil, changeType: ChangeType? = nil, createTime: Int64? = nil, datasetId: String? = nil, errorInfo: ChangesetErrorInfo? = nil, formatParams: [String: String]? = nil, sourceParams: [String: String]? = nil, status: IngestionStatus? = nil, updatedByChangesetId: String? = nil, updatesChangesetId: String? = nil) {
+            self.activeFromTimestamp = activeFromTimestamp
             self.activeUntilTimestamp = activeUntilTimestamp
             self.changesetArn = changesetArn
             self.changesetId = changesetId
@@ -158,6 +166,7 @@ extension FinspaceData {
         }
 
         private enum CodingKeys: String, CodingKey {
+            case activeFromTimestamp
             case activeUntilTimestamp
             case changesetArn
             case changesetId
@@ -306,6 +315,7 @@ extension FinspaceData {
             try self.validate(self.clientToken, name: "clientToken", parent: name, pattern: "\\S")
             try self.validate(self.datasetId, name: "datasetId", parent: name, max: 26)
             try self.validate(self.datasetId, name: "datasetId", parent: name, min: 1)
+            try self.destinationTypeParams.validate(name: "\(name).destinationTypeParams")
             try self.partitionColumns?.forEach {
                 try validate($0, name: "partitionColumns[]", parent: name, max: 255)
                 try validate($0, name: "partitionColumns[]", parent: name, min: 1)
@@ -347,11 +357,11 @@ extension FinspaceData {
 
     public struct CreateDatasetRequest: AWSEncodableShape {
         /// The unique resource identifier for a Dataset.
-        public let alias: String
+        public let alias: String?
         /// A token used to ensure idempotency.
         public let clientToken: String?
         /// Description of a Dataset.
-        public let datasetDescription: String
+        public let datasetDescription: String?
         /// Display title for a FinSpace Dataset.
         public let datasetTitle: String
         /// The format in which Dataset data is structured.    TABULAR - Data is structured in a tabular format.    NON_TABULAR - Data is structured in a non-tabular format.
@@ -363,7 +373,7 @@ extension FinspaceData {
         /// Definition for a schema on a tabular Dataset.
         public let schemaDefinition: SchemaUnion?
 
-        public init(alias: String, clientToken: String? = CreateDatasetRequest.idempotencyToken(), datasetDescription: String, datasetTitle: String, kind: DatasetKind, ownerInfo: DatasetOwnerInfo? = nil, permissionGroupParams: PermissionGroupParams, schemaDefinition: SchemaUnion? = nil) {
+        public init(alias: String? = nil, clientToken: String? = CreateDatasetRequest.idempotencyToken(), datasetDescription: String? = nil, datasetTitle: String, kind: DatasetKind, ownerInfo: DatasetOwnerInfo? = nil, permissionGroupParams: PermissionGroupParams, schemaDefinition: SchemaUnion? = nil) {
             self.alias = alias
             self.clientToken = clientToken
             self.datasetDescription = datasetDescription
@@ -381,7 +391,7 @@ extension FinspaceData {
             try self.validate(self.clientToken, name: "clientToken", parent: name, max: 128)
             try self.validate(self.clientToken, name: "clientToken", parent: name, min: 1)
             try self.validate(self.clientToken, name: "clientToken", parent: name, pattern: "\\S")
-            try self.validate(self.datasetDescription, name: "datasetDescription", parent: name, max: 256)
+            try self.validate(self.datasetDescription, name: "datasetDescription", parent: name, max: 1000)
             try self.validate(self.datasetDescription, name: "datasetDescription", parent: name, min: 1)
             try self.validate(self.datasetDescription, name: "datasetDescription", parent: name, pattern: "^[\\s\\S]*\\S[\\s\\S]*$")
             try self.validate(self.datasetTitle, name: "datasetTitle", parent: name, max: 255)
@@ -441,13 +451,28 @@ extension FinspaceData {
     public struct DataViewDestinationTypeParams: AWSEncodableShape & AWSDecodableShape {
         /// Destination type for a Dataview.    GLUE_TABLE - Glue table destination type.
         public let destinationType: String
+        public let s3DestinationExportFileFormat: ExportFileFormat?
+        public let s3DestinationExportFileFormatOptions: [String: String]?
 
-        public init(destinationType: String) {
+        public init(destinationType: String, s3DestinationExportFileFormat: ExportFileFormat? = nil, s3DestinationExportFileFormatOptions: [String: String]? = nil) {
             self.destinationType = destinationType
+            self.s3DestinationExportFileFormat = s3DestinationExportFileFormat
+            self.s3DestinationExportFileFormatOptions = s3DestinationExportFileFormatOptions
+        }
+
+        public func validate(name: String) throws {
+            try self.s3DestinationExportFileFormatOptions?.forEach {
+                try validate($0.key, name: "s3DestinationExportFileFormatOptions.key", parent: name, max: 128)
+                try validate($0.key, name: "s3DestinationExportFileFormatOptions.key", parent: name, pattern: "^[\\s\\S]*\\S[\\s\\S]*$")
+                try validate($0.value, name: "s3DestinationExportFileFormatOptions[\"\($0.key)\"]", parent: name, max: 1000)
+                try validate($0.value, name: "s3DestinationExportFileFormatOptions[\"\($0.key)\"]", parent: name, pattern: "^[\\s\\S]*\\S[\\s\\S]*$")
+            }
         }
 
         private enum CodingKeys: String, CodingKey {
             case destinationType
+            case s3DestinationExportFileFormat
+            case s3DestinationExportFileFormatOptions
         }
     }
 
@@ -674,6 +699,7 @@ extension FinspaceData {
     }
 
     public struct GetChangesetResponse: AWSDecodableShape {
+        public let activeFromTimestamp: Int64?
         /// Time until which the Changeset is active. The value is determined as Epoch time in milliseconds. For example, the value for Monday, November 1, 2021 12:00:00 PM UTC is specified as 1635768000000.
         public let activeUntilTimestamp: Int64?
         /// The ARN identifier of the Changeset.
@@ -699,7 +725,8 @@ extension FinspaceData {
         /// The unique identifier of the Changeset that is being updated.
         public let updatesChangesetId: String?
 
-        public init(activeUntilTimestamp: Int64? = nil, changesetArn: String? = nil, changesetId: String? = nil, changeType: ChangeType? = nil, createTime: Int64? = nil, datasetId: String? = nil, errorInfo: ChangesetErrorInfo? = nil, formatParams: [String: String]? = nil, sourceParams: [String: String]? = nil, status: IngestionStatus? = nil, updatedByChangesetId: String? = nil, updatesChangesetId: String? = nil) {
+        public init(activeFromTimestamp: Int64? = nil, activeUntilTimestamp: Int64? = nil, changesetArn: String? = nil, changesetId: String? = nil, changeType: ChangeType? = nil, createTime: Int64? = nil, datasetId: String? = nil, errorInfo: ChangesetErrorInfo? = nil, formatParams: [String: String]? = nil, sourceParams: [String: String]? = nil, status: IngestionStatus? = nil, updatedByChangesetId: String? = nil, updatesChangesetId: String? = nil) {
+            self.activeFromTimestamp = activeFromTimestamp
             self.activeUntilTimestamp = activeUntilTimestamp
             self.changesetArn = changesetArn
             self.changesetId = changesetId
@@ -715,6 +742,7 @@ extension FinspaceData {
         }
 
         private enum CodingKeys: String, CodingKey {
+            case activeFromTimestamp
             case activeUntilTimestamp
             case changesetArn
             case changesetId
@@ -1260,7 +1288,7 @@ extension FinspaceData {
         ]
 
         /// The unique resource identifier for a Dataset.
-        public let alias: String
+        public let alias: String?
         /// A token used to ensure idempotency.
         public let clientToken: String?
         /// A description for the Dataset.
@@ -1274,7 +1302,7 @@ extension FinspaceData {
         /// Definition for a schema on a tabular Dataset.
         public let schemaDefinition: SchemaUnion?
 
-        public init(alias: String, clientToken: String? = UpdateDatasetRequest.idempotencyToken(), datasetDescription: String? = nil, datasetId: String, datasetTitle: String, kind: DatasetKind, schemaDefinition: SchemaUnion? = nil) {
+        public init(alias: String? = nil, clientToken: String? = UpdateDatasetRequest.idempotencyToken(), datasetDescription: String? = nil, datasetId: String, datasetTitle: String, kind: DatasetKind, schemaDefinition: SchemaUnion? = nil) {
             self.alias = alias
             self.clientToken = clientToken
             self.datasetDescription = datasetDescription
@@ -1291,7 +1319,7 @@ extension FinspaceData {
             try self.validate(self.clientToken, name: "clientToken", parent: name, max: 128)
             try self.validate(self.clientToken, name: "clientToken", parent: name, min: 1)
             try self.validate(self.clientToken, name: "clientToken", parent: name, pattern: "\\S")
-            try self.validate(self.datasetDescription, name: "datasetDescription", parent: name, max: 256)
+            try self.validate(self.datasetDescription, name: "datasetDescription", parent: name, max: 1000)
             try self.validate(self.datasetDescription, name: "datasetDescription", parent: name, min: 1)
             try self.validate(self.datasetDescription, name: "datasetDescription", parent: name, pattern: "^[\\s\\S]*\\S[\\s\\S]*$")
             try self.validate(self.datasetId, name: "datasetId", parent: name, max: 26)

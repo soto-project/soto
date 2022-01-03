@@ -81,6 +81,11 @@ public struct DataSync: AWSService {
         return self.client.execute(operation: "CreateLocationEfs", path: "/", httpMethod: .POST, serviceConfig: self.config, input: input, logger: logger, on: eventLoop)
     }
 
+    /// Creates an endpoint for an Amazon FSx for Lustre file system.
+    public func createLocationFsxLustre(_ input: CreateLocationFsxLustreRequest, logger: Logger = AWSClient.loggingDisabled, on eventLoop: EventLoop? = nil) -> EventLoopFuture<CreateLocationFsxLustreResponse> {
+        return self.client.execute(operation: "CreateLocationFsxLustre", path: "/", httpMethod: .POST, serviceConfig: self.config, input: input, logger: logger, on: eventLoop)
+    }
+
     /// Creates an endpoint for an Amazon FSx for Windows File Server file system.
     public func createLocationFsxWindows(_ input: CreateLocationFsxWindowsRequest, logger: Logger = AWSClient.loggingDisabled, on eventLoop: EventLoop? = nil) -> EventLoopFuture<CreateLocationFsxWindowsResponse> {
         return self.client.execute(operation: "CreateLocationFsxWindows", path: "/", httpMethod: .POST, serviceConfig: self.config, input: input, logger: logger, on: eventLoop)
@@ -140,6 +145,11 @@ public struct DataSync: AWSService {
     /// Returns metadata, such as the path information about an Amazon EFS location.
     public func describeLocationEfs(_ input: DescribeLocationEfsRequest, logger: Logger = AWSClient.loggingDisabled, on eventLoop: EventLoop? = nil) -> EventLoopFuture<DescribeLocationEfsResponse> {
         return self.client.execute(operation: "DescribeLocationEfs", path: "/", httpMethod: .POST, serviceConfig: self.config, input: input, logger: logger, on: eventLoop)
+    }
+
+    /// Returns metadata, such as the path information about an Amazon FSx for Lustre location.
+    public func describeLocationFsxLustre(_ input: DescribeLocationFsxLustreRequest, logger: Logger = AWSClient.loggingDisabled, on eventLoop: EventLoop? = nil) -> EventLoopFuture<DescribeLocationFsxLustreResponse> {
+        return self.client.execute(operation: "DescribeLocationFsxLustre", path: "/", httpMethod: .POST, serviceConfig: self.config, input: input, logger: logger, on: eventLoop)
     }
 
     /// Returns metadata, such as the path information about an Amazon FSx for Windows File Server location.

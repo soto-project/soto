@@ -43,7 +43,7 @@ extension LookoutVision {
         return try await self.client.execute(operation: "DeleteDataset", path: "/2020-11-20/projects/{ProjectName}/datasets/{DatasetType}", httpMethod: .DELETE, serviceConfig: self.config, input: input, logger: logger, on: eventLoop)
     }
 
-    /// Deletes an Amazon Lookout for Vision model. You can't delete a running model. To stop a running model, use the StopModel operation. It might take a few seconds to delete a model. To determine if a model has been deleted, call ListProjects and check if the version of the model (ModelVersion) is in the Models array.  This operation requires permissions to perform the lookoutvision:DeleteModel operation.
+    /// Deletes an Amazon Lookout for Vision model. You can't delete a running model. To stop a running model, use the StopModel operation. It might take a few seconds to delete a model. To determine if a model has been deleted, call ListModels and check if the version of the model (ModelVersion) is in the Models array.   This operation requires permissions to perform the lookoutvision:DeleteModel operation.
     public func deleteModel(_ input: DeleteModelRequest, logger: Logger = AWSClient.loggingDisabled, on eventLoop: EventLoop? = nil) async throws -> DeleteModelResponse {
         return try await self.client.execute(operation: "DeleteModel", path: "/2020-11-20/projects/{ProjectName}/models/{ModelVersion}", httpMethod: .DELETE, serviceConfig: self.config, input: input, logger: logger, on: eventLoop)
     }
@@ -63,6 +63,12 @@ extension LookoutVision {
         return try await self.client.execute(operation: "DescribeModel", path: "/2020-11-20/projects/{ProjectName}/models/{ModelVersion}", httpMethod: .GET, serviceConfig: self.config, input: input, logger: logger, on: eventLoop)
     }
 
+    /// Describes an Amazon Lookout for Vision model packaging job.
+    ///  This operation requires permissions to perform the lookoutvision:DescribeModelPackagingJob operation.  For more information, see  Using your Amazon Lookout for Vision model on an edge device in the  Amazon Lookout for Vision Developer Guide.
+    public func describeModelPackagingJob(_ input: DescribeModelPackagingJobRequest, logger: Logger = AWSClient.loggingDisabled, on eventLoop: EventLoop? = nil) async throws -> DescribeModelPackagingJobResponse {
+        return try await self.client.execute(operation: "DescribeModelPackagingJob", path: "/2020-11-20/projects/{ProjectName}/modelpackagingjobs/{JobName}", httpMethod: .GET, serviceConfig: self.config, input: input, logger: logger, on: eventLoop)
+    }
+
     /// Describes an Amazon Lookout for Vision project. This operation requires permissions to perform the lookoutvision:DescribeProject operation.
     public func describeProject(_ input: DescribeProjectRequest, logger: Logger = AWSClient.loggingDisabled, on eventLoop: EventLoop? = nil) async throws -> DescribeProjectResponse {
         return try await self.client.execute(operation: "DescribeProject", path: "/2020-11-20/projects/{ProjectName}", httpMethod: .GET, serviceConfig: self.config, input: input, logger: logger, on: eventLoop)
@@ -78,12 +84,19 @@ extension LookoutVision {
         return try await self.client.execute(operation: "ListDatasetEntries", path: "/2020-11-20/projects/{ProjectName}/datasets/{DatasetType}/entries", httpMethod: .GET, serviceConfig: self.config, input: input, logger: logger, on: eventLoop)
     }
 
-    /// Lists the versions of a model in an Amazon Lookout for Vision project. This operation requires permissions to perform the lookoutvision:ListModels operation.
+    /// Lists the model packaging jobs created for an Amazon Lookout for Vision project.
+    ///  This operation requires permissions to perform the lookoutvision:ListModelPackagingJobs operation.
+    ///   For more information, see  Using your Amazon Lookout for Vision model on an edge device in the  Amazon Lookout for Vision Developer Guide.
+    public func listModelPackagingJobs(_ input: ListModelPackagingJobsRequest, logger: Logger = AWSClient.loggingDisabled, on eventLoop: EventLoop? = nil) async throws -> ListModelPackagingJobsResponse {
+        return try await self.client.execute(operation: "ListModelPackagingJobs", path: "/2020-11-20/projects/{ProjectName}/modelpackagingjobs", httpMethod: .GET, serviceConfig: self.config, input: input, logger: logger, on: eventLoop)
+    }
+
+    /// Lists the versions of a model in an Amazon Lookout for Vision project. The ListModels operation is eventually consistent.   Recent calls to CreateModel might take a while to appear in the response from ListProjects. This operation requires permissions to perform the lookoutvision:ListModels operation.
     public func listModels(_ input: ListModelsRequest, logger: Logger = AWSClient.loggingDisabled, on eventLoop: EventLoop? = nil) async throws -> ListModelsResponse {
         return try await self.client.execute(operation: "ListModels", path: "/2020-11-20/projects/{ProjectName}/models", httpMethod: .GET, serviceConfig: self.config, input: input, logger: logger, on: eventLoop)
     }
 
-    /// Lists the Amazon Lookout for Vision projects in your AWS account. This operation requires permissions to perform the lookoutvision:ListProjects operation.
+    /// Lists the Amazon Lookout for Vision projects in your AWS account. The ListProjects operation is eventually consistent.   Recent calls to CreateProject and DeleteProject might take a while to appear in the response from ListProjects. This operation requires permissions to perform the lookoutvision:ListProjects operation.
     public func listProjects(_ input: ListProjectsRequest, logger: Logger = AWSClient.loggingDisabled, on eventLoop: EventLoop? = nil) async throws -> ListProjectsResponse {
         return try await self.client.execute(operation: "ListProjects", path: "/2020-11-20/projects", httpMethod: .GET, serviceConfig: self.config, input: input, logger: logger, on: eventLoop)
     }
@@ -96,6 +109,13 @@ extension LookoutVision {
     /// Starts the running of the version of an Amazon Lookout for Vision model. Starting a model takes a while to complete. To check the current state of the model, use DescribeModel. A model is ready to use when its status is HOSTED. Once the model is running, you can detect custom labels in new images by calling  DetectAnomalies.  You are charged for the amount of time that the model is running. To stop a running model, call StopModel.  This operation requires permissions to perform the lookoutvision:StartModel operation.
     public func startModel(_ input: StartModelRequest, logger: Logger = AWSClient.loggingDisabled, on eventLoop: EventLoop? = nil) async throws -> StartModelResponse {
         return try await self.client.execute(operation: "StartModel", path: "/2020-11-20/projects/{ProjectName}/models/{ModelVersion}/start", httpMethod: .POST, serviceConfig: self.config, input: input, logger: logger, on: eventLoop)
+    }
+
+    /// Starts an Amazon Lookout for Vision model packaging job. A model packaging job creates an AWS IoT Greengrass component for a Lookout for Vision model. You can use the component to deploy your model to an edge device managed by Greengrass.
+    ///   Use the DescribeModelPackagingJob API to determine the current status of the job.  The model packaging job is complete if the value of Status is SUCCEEDED. To deploy the component to the target device, use the component name and component version with the AWS IoT Greengrass CreateDeployment API.
+    ///  This operation requires the following permissions:     lookoutvision:StartModelPackagingJobs     s3:PutObject     s3:GetBucketLocation     greengrass:CreateComponentVersion     greengrass:DescribeComponent    (Optional) greengrass:TagResource. Only required if you want to tag the component.     For more information, see  Using your Amazon Lookout for Vision model on an edge device in the  Amazon Lookout for Vision Developer Guide.
+    public func startModelPackagingJob(_ input: StartModelPackagingJobRequest, logger: Logger = AWSClient.loggingDisabled, on eventLoop: EventLoop? = nil) async throws -> StartModelPackagingJobResponse {
+        return try await self.client.execute(operation: "StartModelPackagingJob", path: "/2020-11-20/projects/{ProjectName}/modelpackagingjobs", httpMethod: .POST, serviceConfig: self.config, input: input, logger: logger, on: eventLoop)
     }
 
     /// Stops the hosting of a running model. The operation might take a while to complete. To check the current status, call DescribeModel.  After the model hosting stops, the Status of the model is TRAINED. This operation requires permissions to perform the lookoutvision:StopModel operation.
@@ -113,7 +133,7 @@ extension LookoutVision {
         return try await self.client.execute(operation: "UntagResource", path: "/2020-11-20/tags/{ResourceArn}", httpMethod: .DELETE, serviceConfig: self.config, input: input, logger: logger, on: eventLoop)
     }
 
-    /// Adds one or more JSON Line entries to a dataset. A JSON Line includes information about an image used for training or testing an Amazon Lookout for Vision model. The following is an example JSON Line.   Updating a dataset might take a while to complete. To check the current status, call DescribeDataset and check the Status field in the response. This operation requires permissions to perform the lookoutvision:UpdateDatasetEntries operation.
+    /// Adds or updates one or more JSON Line entries in a dataset. A JSON Line includes information about an image used for training or testing an Amazon Lookout for Vision model. To update an existing JSON Line, use the source-ref field to identify the JSON Line. The JSON line that you supply replaces the existing JSON line. Any existing annotations that are not in the new JSON line are removed from the dataset.    For more information, see  Defining JSON lines for anomaly classification in the  Amazon Lookout for Vision Developer Guide.    The images you reference in the source-ref field of a JSON line, must be  in the same S3 bucket as the existing images in the dataset.    Updating a dataset might take a while to complete. To check the current status, call DescribeDataset and check the Status field in the response. This operation requires permissions to perform the lookoutvision:UpdateDatasetEntries operation.
     public func updateDatasetEntries(_ input: UpdateDatasetEntriesRequest, logger: Logger = AWSClient.loggingDisabled, on eventLoop: EventLoop? = nil) async throws -> UpdateDatasetEntriesResponse {
         return try await self.client.execute(operation: "UpdateDatasetEntries", path: "/2020-11-20/projects/{ProjectName}/datasets/{DatasetType}/entries", httpMethod: .PATCH, serviceConfig: self.config, input: input, logger: logger, on: eventLoop)
     }

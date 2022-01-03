@@ -136,23 +136,23 @@ extension Support {
         public let categoryCode: String?
         /// The email addresses that receive copies of communication about the case.
         public let ccEmailAddresses: [String]?
-        /// The ID displayed for the case in the AWS Support Center. This is a numeric string.
+        /// The ID displayed for the case in the Amazon Web Services Support Center. This is a numeric string.
         public let displayId: String?
-        /// The ISO 639-1 code for the language in which AWS provides support. AWS Support currently supports English ("en") and Japanese ("ja"). Language parameters must be passed explicitly for operations that take them.
+        /// The ISO 639-1 code for the language in which Amazon Web Services provides support. Amazon Web Services Support currently supports English ("en") and Japanese ("ja"). Language parameters must be passed explicitly for operations that take them.
         public let language: String?
-        /// The five most recent communications between you and AWS Support Center, including the IDs of any attachments to the communications. Also includes a nextToken that you can use to retrieve earlier communications.
+        /// The five most recent communications between you and Amazon Web Services Support Center, including the IDs of any attachments to the communications. Also includes a nextToken that you can use to retrieve earlier communications.
         public let recentCommunications: RecentCaseCommunications?
-        /// The code for the AWS service. You can get a list of codes and the corresponding service names by calling DescribeServices.
+        /// The code for the Amazon Web Services service. You can get a list of codes and the corresponding service names by calling DescribeServices.
         public let serviceCode: String?
         /// The code for the severity level returned by the call to DescribeSeverityLevels.
         public let severityCode: String?
         /// The status of the case. Valid values:    opened     pending-customer-action     reopened     resolved     unassigned     work-in-progress
         public let status: String?
-        /// The subject line for the case in the AWS Support Center.
+        /// The subject line for the case in the Amazon Web Services Support Center.
         public let subject: String?
         /// The email address of the account that submitted the case.
         public let submittedBy: String?
-        /// The time that the case was created in the AWS Support Center.
+        /// The time that the case was created in the Amazon Web Services Support Center.
         public let timeCreated: String?
 
         public init(caseId: String? = nil, categoryCode: String? = nil, ccEmailAddresses: [String]? = nil, displayId: String? = nil, language: String? = nil, recentCommunications: RecentCaseCommunications? = nil, serviceCode: String? = nil, severityCode: String? = nil, status: String? = nil, subject: String? = nil, submittedBy: String? = nil, timeCreated: String? = nil) {
@@ -206,11 +206,11 @@ extension Support {
     public struct Communication: AWSDecodableShape {
         /// Information about the attachments to the case communication.
         public let attachmentSet: [AttachmentDetails]?
-        /// The text of the communication between the customer and AWS Support.
+        /// The text of the communication between the customer and Amazon Web Services Support.
         public let body: String?
         /// The support case ID requested or returned in the call. The case ID is an alphanumeric string formatted as shown in this example: case-12345678910-2013-c4c1d2bf33c5cf47
         public let caseId: String?
-        /// The identity of the account that submitted, or responded to, the support case. Customer entries include the role or IAM user as well as the email address. For example, "AdminRole (Role) . Entries from the AWS Support team display "Amazon Web Services," and don't show an email address.
+        /// The identity of the account that submitted, or responded to, the support case. Customer entries include the role or IAM user as well as the email address. For example, "AdminRole (Role) . Entries from the Amazon Web Services Support team display "Amazon Web Services," and don't show an email address.
         public let submittedBy: String?
         /// The time the communication was created.
         public let timeCreated: String?
@@ -235,21 +235,21 @@ extension Support {
     public struct CreateCaseRequest: AWSEncodableShape {
         /// The ID of a set of one or more attachments for the case. Create the set by using the AddAttachmentsToSet operation.
         public let attachmentSetId: String?
-        /// The category of problem for the support case. You also use the DescribeServices operation to get the category code for a service. Each AWS service defines its own set of category codes.
+        /// The category of problem for the support case. You also use the DescribeServices operation to get the category code for a service. Each Amazon Web Services service defines its own set of category codes.
         public let categoryCode: String?
-        /// A list of email addresses that AWS Support copies on case correspondence. AWS Support identifies the account that creates the case when you specify your AWS credentials in an HTTP POST method or use the AWS SDKs.
+        /// A list of email addresses that Amazon Web Services Support copies on case correspondence. Amazon Web Services Support identifies the account that creates the case when you specify your Amazon Web Services credentials in an HTTP POST method or use the Amazon Web Services SDKs.
         public let ccEmailAddresses: [String]?
-        /// The communication body text that describes the issue. This text appears in the Description field on the AWS Support Center Create Case page.
+        /// The communication body text that describes the issue. This text appears in the Description field on the Amazon Web Services Support Center Create Case page.
         public let communicationBody: String
         /// The type of issue for the case. You can specify customer-service or technical. If you don't specify a value, the default is technical.
         public let issueType: String?
-        /// The language in which AWS Support handles the case. You must specify the ISO 639-1 code for the language parameter if you want support in that language. Currently, English ("en") and Japanese ("ja") are supported.
+        /// The language in which Amazon Web Services Support handles the case. You must specify the ISO 639-1 code for the language parameter if you want support in that language. Currently, English ("en") and Japanese ("ja") are supported.
         public let language: String?
-        /// The code for the AWS service. You can use the DescribeServices operation to get the possible serviceCode values.
+        /// The code for the Amazon Web Services service. You can use the DescribeServices operation to get the possible serviceCode values.
         public let serviceCode: String?
-        /// A value that indicates the urgency of the case. This value determines the response time according to your service level agreement with AWS Support. You can use the DescribeSeverityLevels operation to get the possible values for severityCode.  For more information, see SeverityLevel and Choosing a Severity in the AWS Support User Guide.  The availability of severity levels depends on the support plan for the AWS account.
+        /// A value that indicates the urgency of the case. This value determines the response time according to your service level agreement with Amazon Web Services Support. You can use the DescribeSeverityLevels operation to get the possible values for severityCode.  For more information, see SeverityLevel and Choosing a Severity in the Amazon Web Services Support User Guide.  The availability of severity levels depends on the support plan for the Amazon Web Services account.
         public let severityCode: String?
-        /// The title of the support case. The title appears in the Subject field on the AWS Support Center Create Case page.
+        /// The title of the support case. The title appears in the Subject field on the Amazon Web Services Support Center Create Case page.
         public let subject: String
 
         public init(attachmentSetId: String? = nil, categoryCode: String? = nil, ccEmailAddresses: [String]? = nil, communicationBody: String, issueType: String? = nil, language: String? = nil, serviceCode: String? = nil, severityCode: String? = nil, subject: String) {
@@ -265,7 +265,7 @@ extension Support {
         }
 
         public func validate(name: String) throws {
-            try self.validate(self.serviceCode, name: "serviceCode", parent: name, pattern: "[0-9a-z\\-_]+")
+            try self.validate(self.serviceCode, name: "serviceCode", parent: name, pattern: "^[0-9a-z\\-_]+$")
         }
 
         private enum CodingKeys: String, CodingKey {
@@ -327,13 +327,13 @@ extension Support {
         public let beforeTime: String?
         /// A list of ID numbers of the support cases you want returned. The maximum number of cases is 100.
         public let caseIdList: [String]?
-        /// The ID displayed for a case in the AWS Support Center user interface.
+        /// The ID displayed for a case in the Amazon Web Services Support Center user interface.
         public let displayId: String?
         /// Specifies whether to include communications in the DescribeCases response. By default, communications are included.
         public let includeCommunications: Bool?
         /// Specifies whether to include resolved support cases in the DescribeCases response. By default, resolved cases aren't included.
         public let includeResolvedCases: Bool?
-        /// The ISO 639-1 code for the language in which AWS provides support. AWS Support currently supports English ("en") and Japanese ("ja"). Language parameters must be passed explicitly for operations that take them.
+        /// The ISO 639-1 code for the language in which Amazon Web Services provides support. Amazon Web Services Support currently supports English ("en") and Japanese ("ja"). Language parameters must be passed explicitly for operations that take them.
         public let language: String?
         /// The maximum number of results to return before paginating.
         public let maxResults: Int?
@@ -440,9 +440,9 @@ extension Support {
     }
 
     public struct DescribeServicesRequest: AWSEncodableShape {
-        /// The ISO 639-1 code for the language in which AWS provides support. AWS Support currently supports English ("en") and Japanese ("ja"). Language parameters must be passed explicitly for operations that take them.
+        /// The ISO 639-1 code for the language in which Amazon Web Services provides support. Amazon Web Services Support currently supports English ("en") and Japanese ("ja"). Language parameters must be passed explicitly for operations that take them.
         public let language: String?
-        /// A JSON-formatted list of service codes available for AWS services.
+        /// A JSON-formatted list of service codes available for Amazon Web Services services.
         public let serviceCodeList: [String]?
 
         public init(language: String? = nil, serviceCodeList: [String]? = nil) {
@@ -452,7 +452,7 @@ extension Support {
 
         public func validate(name: String) throws {
             try self.serviceCodeList?.forEach {
-                try validate($0, name: "serviceCodeList[]", parent: name, pattern: "[0-9a-z\\-_]+")
+                try validate($0, name: "serviceCodeList[]", parent: name, pattern: "^[0-9a-z\\-_]+$")
             }
             try self.validate(self.serviceCodeList, name: "serviceCodeList", parent: name, max: 100)
         }
@@ -464,7 +464,7 @@ extension Support {
     }
 
     public struct DescribeServicesResponse: AWSDecodableShape {
-        /// A JSON-formatted list of AWS services.
+        /// A JSON-formatted list of Amazon Web Services services.
         public let services: [Service]?
 
         public init(services: [Service]? = nil) {
@@ -477,7 +477,7 @@ extension Support {
     }
 
     public struct DescribeSeverityLevelsRequest: AWSEncodableShape {
-        /// The ISO 639-1 code for the language in which AWS provides support. AWS Support currently supports English ("en") and Japanese ("ja"). Language parameters must be passed explicitly for operations that take them.
+        /// The ISO 639-1 code for the language in which Amazon Web Services provides support. Amazon Web Services Support currently supports English ("en") and Japanese ("ja"). Language parameters must be passed explicitly for operations that take them.
         public let language: String?
 
         public init(language: String? = nil) {
@@ -490,7 +490,7 @@ extension Support {
     }
 
     public struct DescribeSeverityLevelsResponse: AWSDecodableShape {
-        /// The available severity levels for the support case. Available severity levels are defined by your service level agreement with AWS.
+        /// The available severity levels for the support case. Available severity levels are defined by your service level agreement with Amazon Web Services.
         public let severityLevels: [SeverityLevel]?
 
         public init(severityLevels: [SeverityLevel]? = nil) {
@@ -531,7 +531,7 @@ extension Support {
     public struct DescribeTrustedAdvisorCheckResultRequest: AWSEncodableShape {
         /// The unique identifier for the Trusted Advisor check.
         public let checkId: String
-        /// The ISO 639-1 code for the language in which AWS provides support. AWS Support currently supports English ("en") and Japanese ("ja"). Language parameters must be passed explicitly for operations that take them.
+        /// The ISO 639-1 code for the language in which Amazon Web Services provides support. Amazon Web Services Support currently supports English ("en") and Japanese ("ja"). Language parameters must be passed explicitly for operations that take them.
         public let language: String?
 
         public init(checkId: String, language: String? = nil) {
@@ -585,7 +585,7 @@ extension Support {
     }
 
     public struct DescribeTrustedAdvisorChecksRequest: AWSEncodableShape {
-        /// The ISO 639-1 code for the language in which AWS provides support. AWS Support currently supports English ("en") and Japanese ("ja"). Language parameters must be passed explicitly for operations that take them.
+        /// The ISO 639-1 code for the language in which Amazon Web Services provides support. Amazon Web Services Support currently supports English ("en") and Japanese ("ja"). Language parameters must be passed explicitly for operations that take them.
         public let language: String
 
         public init(language: String) {
@@ -684,11 +684,11 @@ extension Support {
     }
 
     public struct Service: AWSDecodableShape {
-        /// A list of categories that describe the type of support issue a case describes. Categories consist of a category name and a category code. Category names and codes are passed to AWS Support when you call CreateCase.
+        /// A list of categories that describe the type of support issue a case describes. Categories consist of a category name and a category code. Category names and codes are passed to Amazon Web Services Support when you call CreateCase.
         public let categories: [Category]?
-        /// The code for an AWS service returned by the DescribeServices response. The name element contains the corresponding friendly name.
+        /// The code for an Amazon Web Services service returned by the DescribeServices response. The name element contains the corresponding friendly name.
         public let code: String?
-        /// The friendly name for an AWS service. The code element contains the corresponding code.
+        /// The friendly name for an Amazon Web Services service. The code element contains the corresponding code.
         public let name: String?
 
         public init(categories: [Category]? = nil, code: String? = nil, name: String? = nil) {
@@ -707,7 +707,7 @@ extension Support {
     public struct SeverityLevel: AWSDecodableShape {
         /// The code for case severity level. Valid values: low | normal | high | urgent | critical
         public let code: String?
-        /// The name of the severity level that corresponds to the severity level code.  The values returned by the API are different from the values that appear in the AWS Support Center. For example, the API uses the code low, but the name appears as General guidance in Support Center.  The following are the API code names and how they appear in the console:    low - General guidance    normal - System impaired    high - Production system impaired    urgent - Production system down    critical - Business-critical system down    For more information, see Choosing a severity in the AWS Support User Guide.
+        /// The name of the severity level that corresponds to the severity level code.  The values returned by the API are different from the values that appear in the Amazon Web Services Support Center. For example, the API uses the code low, but the name appears as General guidance in Support Center.  The following are the API code names and how they appear in the console:    low - General guidance    normal - System impaired    high - Production system impaired    urgent - Production system down    critical - Business-critical system down    For more information, see Choosing a severity in the Amazon Web Services Support User Guide.
         public let name: String?
 
         public init(code: String? = nil, name: String? = nil) {
@@ -866,11 +866,11 @@ extension Support {
     }
 
     public struct TrustedAdvisorResourceDetail: AWSDecodableShape {
-        /// Specifies whether the AWS resource was ignored by Trusted Advisor because it was marked as suppressed by the user.
+        /// Specifies whether the Amazon Web Services resource was ignored by Trusted Advisor because it was marked as suppressed by the user.
         public let isSuppressed: Bool?
         /// Additional information about the identified resource. The exact metadata and its order can be obtained by inspecting the TrustedAdvisorCheckDescription object returned by the call to DescribeTrustedAdvisorChecks. Metadata contains all the data that is shown in the Excel download, even in those cases where the UI shows just summary data.
         public let metadata: [String]
-        /// The AWS Region in which the identified resource is located.
+        /// The Amazon Web Services Region in which the identified resource is located.
         public let region: String?
         /// The unique identifier for the identified resource.
         public let resourceId: String
@@ -895,13 +895,13 @@ extension Support {
     }
 
     public struct TrustedAdvisorResourcesSummary: AWSDecodableShape {
-        /// The number of AWS resources that were flagged (listed) by the Trusted Advisor check.
+        /// The number of Amazon Web Services resources that were flagged (listed) by the Trusted Advisor check.
         public let resourcesFlagged: Int64
-        /// The number of AWS resources ignored by Trusted Advisor because information was unavailable.
+        /// The number of Amazon Web Services resources ignored by Trusted Advisor because information was unavailable.
         public let resourcesIgnored: Int64
-        /// The number of AWS resources that were analyzed by the Trusted Advisor check.
+        /// The number of Amazon Web Services resources that were analyzed by the Trusted Advisor check.
         public let resourcesProcessed: Int64
-        /// The number of AWS resources ignored by Trusted Advisor because they were marked as suppressed by the user.
+        /// The number of Amazon Web Services resources ignored by Trusted Advisor because they were marked as suppressed by the user.
         public let resourcesSuppressed: Int64
 
         public init(resourcesFlagged: Int64, resourcesIgnored: Int64, resourcesProcessed: Int64, resourcesSuppressed: Int64) {

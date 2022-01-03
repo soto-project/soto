@@ -52,6 +52,7 @@ extension Route53 {
         case apSouth1 = "ap-south-1"
         case apSoutheast1 = "ap-southeast-1"
         case apSoutheast2 = "ap-southeast-2"
+        case apSoutheast3 = "ap-southeast-3"
         case caCentral1 = "ca-central-1"
         case cnNorth1 = "cn-north-1"
         case cnNorthwest1 = "cn-northwest-1"
@@ -68,6 +69,7 @@ extension Route53 {
         case usGovEast1 = "us-gov-east-1"
         case usGovWest1 = "us-gov-west-1"
         case usIsoEast1 = "us-iso-east-1"
+        case usIsoWest1 = "us-iso-west-1"
         case usIsobEast1 = "us-isob-east-1"
         case usWest1 = "us-west-1"
         case usWest2 = "us-west-2"
@@ -159,6 +161,7 @@ extension Route53 {
         case apSouth1 = "ap-south-1"
         case apSoutheast1 = "ap-southeast-1"
         case apSoutheast2 = "ap-southeast-2"
+        case apSoutheast3 = "ap-southeast-3"
         case caCentral1 = "ca-central-1"
         case cnNorth1 = "cn-north-1"
         case cnNorthwest1 = "cn-northwest-1"
@@ -206,6 +209,7 @@ extension Route53 {
         case apSouth1 = "ap-south-1"
         case apSoutheast1 = "ap-southeast-1"
         case apSoutheast2 = "ap-southeast-2"
+        case apSoutheast3 = "ap-southeast-3"
         case caCentral1 = "ca-central-1"
         case cnNorth1 = "cn-north-1"
         case euCentral1 = "eu-central-1"
@@ -221,6 +225,7 @@ extension Route53 {
         case usGovEast1 = "us-gov-east-1"
         case usGovWest1 = "us-gov-west-1"
         case usIsoEast1 = "us-iso-east-1"
+        case usIsoWest1 = "us-iso-west-1"
         case usIsobEast1 = "us-isob-east-1"
         case usWest1 = "us-west-1"
         case usWest2 = "us-west-2"
@@ -871,7 +876,10 @@ extension Route53 {
         /// 			CreateHostedZone returns in DelegationSet.
         public let name: String
         /// (Private hosted zones only) A complex type that contains information about the Amazon VPC that you're associating with this hosted zone.
-        /// 		       You can specify only one Amazon VPC when you create a private hosted zone. To associate additional Amazon VPCs with the hosted zone,
+        /// 		       You can specify only one Amazon VPC when you create a private hosted zone. If you are associating a VPC with a hosted zone with this request,
+        /// 			the paramaters
+        /// 			VPCId and VPCRegion are also required.
+        /// 		       To associate additional Amazon VPCs with the hosted zone,
         /// 			use AssociateVPCWithHostedZone
         /// 			after you create a hosted zone.
         public let vpc: VPC?
@@ -940,18 +948,18 @@ extension Route53 {
         public let callerReference: String
         /// The unique string (ID) used to identify a hosted zone.
         public let hostedZoneId: String
-        /// The Amazon resource name (ARN) for a customer managed customer master key (CMK) in Key Management Service (KMS).
+        /// The Amazon resource name (ARN) for a customer managed key in Key Management Service (KMS).
         /// 			The KeyManagementServiceArn must be unique for each key-signing key (KSK) in a single hosted zone.
         /// 			To see an example of KeyManagementServiceArn that grants the correct permissions for DNSSEC,
         /// 			scroll down to Example.
-        /// 		       You must configure the customer managed CMK as follows:
+        /// 		       You must configure the customer managed customer managed key as follows:
         /// 		        Status  Enabled  Key spec  ECC_NIST_P256  Key usage  Sign and verify  Key policy  The key policy must give permission for the following actions:
         /// 					            DescribeKey   GetPublicKey   Sign
         /// 					          The key policy must also include the Amazon Route 53 service in the principal for your account.
         /// 						Specify the following:
         /// 					             "Service": "dnssec-route53.amazonaws.com"
         ///
-        /// 		       For more information about working with a customer managed CMK in KMS, see
+        /// 		       For more information about working with a customer managed key in KMS, see
         /// 			Key Management Service concepts.
         public let keyManagementServiceArn: String
         /// A string used to identify a key-signing key (KSK). Name can include numbers, letters,  and underscores (_). Name must be unique for each key-signing key in the same
@@ -1323,8 +1331,8 @@ extension Route53 {
         /// A string that represents the current hosted zone signing status.
         /// 		       Status can have one of the following values:
         /// 		        SIGNING  DNSSEC signing is enabled for the hosted zone.  NOT_SIGNING  DNSSEC signing is not enabled for the hosted zone.  DELETING  DNSSEC signing is in the process of being removed for the hosted zone.  ACTION_NEEDED  There is a problem with signing in the hosted zone that requires you to take action to resolve.
-        /// 					For example, the customer managed customer master key (CMK) might have been deleted, or the
-        /// 					permissions for the customer managed CMK might have been changed.  INTERNAL_FAILURE  There was an error during a request. Before you can continue to work with DNSSEC
+        /// 					For example, the customer managed key might have been deleted, or the
+        /// 					permissions for the customer managed key might have been changed.  INTERNAL_FAILURE  There was an error during a request. Before you can continue to work with DNSSEC
         /// 					signing, including with key-signing keys (KSKs), you must correct the problem by enabling or
         /// 					disabling DNSSEC signing for the hosted zone.
         public let serveSignature: String?
@@ -2918,16 +2926,16 @@ extension Route53 {
         /// An integer used to identify the DNSSEC record for the domain name. The process used to calculate the value is described in
         /// 			RFC-4034 Appendix B.
         public let keyTag: Int?
-        /// The Amazon resource name (ARN) used to identify the customer managed customer master key (CMK) in Key Management Service (KMS).
+        /// The Amazon resource name (ARN) used to identify the customer managed key in Key Management Service (KMS).
         /// 			The KmsArn must be unique for each key-signing key (KSK) in a single hosted zone.
-        /// 		       You must configure the CMK as follows:
+        /// 		       You must configure the customer managed key as follows:
         /// 		        Status  Enabled  Key spec  ECC_NIST_P256  Key usage  Sign and verify  Key policy  The key policy must give permission for the following actions:
         /// 				             DescribeKey   GetPublicKey   Sign
         /// 					          The key policy must also include the Amazon Route 53 service in the principal for your account.
         /// 						Specify the following:
         /// 					             "Service": "dnssec-route53.amazonaws.com"
         ///
-        /// 		       For more information about working with the customer managed CMK in KMS, see
+        /// 		       For more information about working with the customer managed key in KMS, see
         /// 			Key Management Service concepts.
         public let kmsArn: String?
         /// The last time that the key-signing key (KSK) was changed.
@@ -2949,8 +2957,8 @@ extension Route53 {
         /// A string that represents the current key-signing key (KSK) status.
         /// 		       Status can have one of the following values:
         /// 		        ACTIVE  The KSK is being used for signing.  INACTIVE  The KSK is not being used for signing.  DELETING  The KSK is in the process of being deleted.  ACTION_NEEDED  There is a problem with the KSK that requires you to take action to resolve.
-        /// 				For example, the customer managed customer master key (CMK) might have been deleted, or the
-        /// 				permissions for the customer managed CMK might have been changed.  INTERNAL_FAILURE  There was an error during a request. Before you can continue to work with DNSSEC
+        /// 					For example, the customer managed key might have been deleted, or the
+        /// 					permissions for the customer managed key might have been changed.  INTERNAL_FAILURE  There was an error during a request. Before you can continue to work with DNSSEC
         /// 					signing, including actions that involve this KSK, you must correct the problem. For example,
         /// 					you may need to activate or deactivate the KSK.
         public let status: String?
@@ -4998,8 +5006,8 @@ extension Route53 {
         public let healthThreshold: Int?
         /// When CloudWatch has insufficient data about the metric to determine the alarm state, the status that you want Amazon Route 53 to assign
         /// 			to the health check:
-        /// 		          Healthy: Route 53 considers the health check to be healthy.    Unhealthy: Route 53 considers the health check to be unhealthy.    LastKnownStatus: Route 53 uses the status of the health check from the last time CloudWatch had sufficient data
-        /// 				to determine the alarm state. For new health checks that have no last known status, the default status for the health check is healthy.
+        /// 		          Healthy: Route 53 considers the health check to be healthy.    Unhealthy: Route 53 considers the health check to be unhealthy.    LastKnownStatus: By default, Route 53 uses the status of the health check from the last time CloudWatch had sufficient data
+        /// 				to determine the alarm state. For new health checks that have no last known status, the status for the health check is healthy.
         public let insufficientDataHealthStatus: InsufficientDataHealthStatus?
         /// Specify whether you want Amazon Route 53 to invert the status of a health check, for example, to consider a health check unhealthy when it
         /// 			otherwise would be considered healthy.
