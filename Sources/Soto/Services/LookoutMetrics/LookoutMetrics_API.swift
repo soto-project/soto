@@ -143,6 +143,11 @@ public struct LookoutMetrics: AWSService {
         return self.client.execute(operation: "ListAnomalyDetectors", path: "/ListAnomalyDetectors", httpMethod: .POST, serviceConfig: self.config, input: input, logger: logger, on: eventLoop)
     }
 
+    /// Returns a list of measures that are potential causes or effects of an anomaly group.
+    public func listAnomalyGroupRelatedMetrics(_ input: ListAnomalyGroupRelatedMetricsRequest, logger: Logger = AWSClient.loggingDisabled, on eventLoop: EventLoop? = nil) -> EventLoopFuture<ListAnomalyGroupRelatedMetricsResponse> {
+        return self.client.execute(operation: "ListAnomalyGroupRelatedMetrics", path: "/ListAnomalyGroupRelatedMetrics", httpMethod: .POST, serviceConfig: self.config, input: input, logger: logger, on: eventLoop)
+    }
+
     /// Returns a list of anomaly groups.
     public func listAnomalyGroupSummaries(_ input: ListAnomalyGroupSummariesRequest, logger: Logger = AWSClient.loggingDisabled, on eventLoop: EventLoop? = nil) -> EventLoopFuture<ListAnomalyGroupSummariesResponse> {
         return self.client.execute(operation: "ListAnomalyGroupSummaries", path: "/ListAnomalyGroupSummaries", httpMethod: .POST, serviceConfig: self.config, input: input, logger: logger, on: eventLoop)

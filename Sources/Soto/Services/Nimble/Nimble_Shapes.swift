@@ -85,6 +85,7 @@ extension Nimble {
     }
 
     public enum StreamingImageStatusCode: String, CustomStringConvertible, Codable {
+        case accessDenied = "ACCESS_DENIED"
         case internalError = "INTERNAL_ERROR"
         case streamingImageCreateInProgress = "STREAMING_IMAGE_CREATE_IN_PROGRESS"
         case streamingImageDeleted = "STREAMING_IMAGE_DELETED"
@@ -135,6 +136,11 @@ extension Nimble {
         case streamingSessionStartInProgress = "STREAMING_SESSION_START_IN_PROGRESS"
         case streamingSessionStopped = "STREAMING_SESSION_STOPPED"
         case streamingSessionStopInProgress = "STREAMING_SESSION_STOP_IN_PROGRESS"
+        public var description: String { return self.rawValue }
+    }
+
+    public enum StreamingSessionStorageMode: String, CustomStringConvertible, Codable {
+        case upload = "UPLOAD"
         public var description: String { return self.rawValue }
     }
 
@@ -726,7 +732,6 @@ extension Nimble {
             try self.configuration?.validate(name: "\(name).configuration")
             try self.validate(self.description, name: "description", parent: name, max: 256)
             try self.validate(self.ec2SecurityGroupIds, name: "ec2SecurityGroupIds", parent: name, max: 30)
-            try self.validate(self.ec2SecurityGroupIds, name: "ec2SecurityGroupIds", parent: name, min: 1)
             try self.initializationScripts?.forEach {
                 try $0.validate(name: "\(name).initializationScripts[]")
             }
@@ -2092,7 +2097,7 @@ extension Nimble {
     }
 
     public struct ListStudioMembersResponse: AWSDecodableShape {
-        /// A list of members.
+        /// A list of admin members.
         public let members: [StudioMembership]?
         /// The token for the next set of results, or null if there are no more results.
         public let nextToken: String?
@@ -2470,14 +2475,17 @@ extension Nimble {
         public let maxSessionLengthInMinutes: Int?
         /// Integer that determines if you can start and stop your sessions and how long a session can stay in the STOPPED state. The default value is 0. The maximum value is 5760. If the value is missing or set to 0, your sessions can’t be stopped. If you then call StopStreamingSession, the session fails. If the time that a session stays in the READY state exceeds the maxSessionLengthInMinutes value, the session will automatically be terminated by AWS (instead of stopped). If the value is set to a positive number, the session can be stopped. You can call StopStreamingSession to stop sessions in the READY state. If the time that a session stays in the READY state exceeds the maxSessionLengthInMinutes value, the session will automatically be stopped by AWS (instead of terminated).
         public let maxStoppedSessionLengthInMinutes: Int?
+        /// (Optional) The upload storage for a streaming session.
+        public let sessionStorage: StreamConfigurationSessionStorage?
         /// The streaming images that users can select from when launching a streaming session with this launch profile.
         public let streamingImageIds: [String]
 
-        public init(clipboardMode: StreamingClipboardMode, ec2InstanceTypes: [StreamingInstanceType], maxSessionLengthInMinutes: Int? = nil, maxStoppedSessionLengthInMinutes: Int? = nil, streamingImageIds: [String]) {
+        public init(clipboardMode: StreamingClipboardMode, ec2InstanceTypes: [StreamingInstanceType], maxSessionLengthInMinutes: Int? = nil, maxStoppedSessionLengthInMinutes: Int? = nil, sessionStorage: StreamConfigurationSessionStorage? = nil, streamingImageIds: [String]) {
             self.clipboardMode = clipboardMode
             self.ec2InstanceTypes = ec2InstanceTypes
             self.maxSessionLengthInMinutes = maxSessionLengthInMinutes
             self.maxStoppedSessionLengthInMinutes = maxStoppedSessionLengthInMinutes
+            self.sessionStorage = sessionStorage
             self.streamingImageIds = streamingImageIds
         }
 
@@ -2486,6 +2494,7 @@ extension Nimble {
             case ec2InstanceTypes
             case maxSessionLengthInMinutes
             case maxStoppedSessionLengthInMinutes
+            case sessionStorage
             case streamingImageIds
         }
     }
@@ -2497,16 +2506,19 @@ extension Nimble {
         public let ec2InstanceTypes: [StreamingInstanceType]
         /// The length of time, in minutes, that a streaming session can be active before it is stopped or terminated. After this point, Nimble Studio automatically terminates or stops the session. The default length of time is 690 minutes, and the maximum length of time is 30 days.
         public let maxSessionLengthInMinutes: Int?
-        /// The length of time, in minutes, that a streaming session can be active before it is stopped or terminated. After this point, Nimble Studio automatically terminates or stops the session. The default length of time is 690 minutes, and the maximum length of time is 30 days.
+        /// Integer that determines if you can start and stop your sessions and how long a session can stay in the STOPPED state. The default value is 0. The maximum value is 5760. If the value is missing or set to 0, your sessions can’t be stopped. If you then call StopStreamingSession, the session fails. If the time that a session stays in the READY state exceeds the maxSessionLengthInMinutes value, the session will automatically be terminated by AWS (instead of stopped). If the value is set to a positive number, the session can be stopped. You can call StopStreamingSession to stop sessions in the READY state. If the time that a session stays in the READY state exceeds the maxSessionLengthInMinutes value, the session will automatically be stopped by AWS (instead of terminated).
         public let maxStoppedSessionLengthInMinutes: Int?
+        /// (Optional) The upload storage for a streaming workstation that is created using this launch profile.
+        public let sessionStorage: StreamConfigurationSessionStorage?
         /// The streaming images that users can select from when launching a streaming session with this launch profile.
         public let streamingImageIds: [String]
 
-        public init(clipboardMode: StreamingClipboardMode, ec2InstanceTypes: [StreamingInstanceType], maxSessionLengthInMinutes: Int? = nil, maxStoppedSessionLengthInMinutes: Int? = nil, streamingImageIds: [String]) {
+        public init(clipboardMode: StreamingClipboardMode, ec2InstanceTypes: [StreamingInstanceType], maxSessionLengthInMinutes: Int? = nil, maxStoppedSessionLengthInMinutes: Int? = nil, sessionStorage: StreamConfigurationSessionStorage? = nil, streamingImageIds: [String]) {
             self.clipboardMode = clipboardMode
             self.ec2InstanceTypes = ec2InstanceTypes
             self.maxSessionLengthInMinutes = maxSessionLengthInMinutes
             self.maxStoppedSessionLengthInMinutes = maxStoppedSessionLengthInMinutes
+            self.sessionStorage = sessionStorage
             self.streamingImageIds = streamingImageIds
         }
 
@@ -2517,6 +2529,7 @@ extension Nimble {
             try self.validate(self.maxSessionLengthInMinutes, name: "maxSessionLengthInMinutes", parent: name, min: 1)
             try self.validate(self.maxStoppedSessionLengthInMinutes, name: "maxStoppedSessionLengthInMinutes", parent: name, max: 5760)
             try self.validate(self.maxStoppedSessionLengthInMinutes, name: "maxStoppedSessionLengthInMinutes", parent: name, min: 0)
+            try self.sessionStorage?.validate(name: "\(name).sessionStorage")
             try self.streamingImageIds.forEach {
                 try validate($0, name: "streamingImageIds[]", parent: name, max: 22)
                 try validate($0, name: "streamingImageIds[]", parent: name, pattern: "^[a-zA-Z0-9-_]*$")
@@ -2530,7 +2543,30 @@ extension Nimble {
             case ec2InstanceTypes
             case maxSessionLengthInMinutes
             case maxStoppedSessionLengthInMinutes
+            case sessionStorage
             case streamingImageIds
+        }
+    }
+
+    public struct StreamConfigurationSessionStorage: AWSEncodableShape & AWSDecodableShape {
+        /// Allows artists to upload files to their workstations. The only valid option is UPLOAD.
+        public let mode: [StreamingSessionStorageMode]
+        /// The configuration for the upload storage root of the streaming session.
+        public let root: StreamingSessionStorageRoot?
+
+        public init(mode: [StreamingSessionStorageMode], root: StreamingSessionStorageRoot? = nil) {
+            self.mode = mode
+            self.root = root
+        }
+
+        public func validate(name: String) throws {
+            try self.validate(self.mode, name: "mode", parent: name, min: 1)
+            try self.root?.validate(name: "\(name).root")
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case mode
+            case root
         }
     }
 
@@ -2704,6 +2740,32 @@ extension Nimble {
             case terminateAt
             case updatedAt
             case updatedBy
+        }
+    }
+
+    public struct StreamingSessionStorageRoot: AWSEncodableShape & AWSDecodableShape {
+        /// The folder path in Linux workstations where files are uploaded. The default path is $HOME/Downloads.
+        public let linux: String?
+        /// The folder path in Windows workstations where files are uploaded. The default path is %HOMEPATH%\Downloads.
+        public let windows: String?
+
+        public init(linux: String? = nil, windows: String? = nil) {
+            self.linux = linux
+            self.windows = windows
+        }
+
+        public func validate(name: String) throws {
+            try self.validate(self.linux, name: "linux", parent: name, max: 128)
+            try self.validate(self.linux, name: "linux", parent: name, min: 1)
+            try self.validate(self.linux, name: "linux", parent: name, pattern: "^(\\$HOME|/)[/]?([A-Za-z0-9-_]+/)*([A-Za-z0-9_-]+)$")
+            try self.validate(self.windows, name: "windows", parent: name, max: 128)
+            try self.validate(self.windows, name: "windows", parent: name, min: 1)
+            try self.validate(self.windows, name: "windows", parent: name, pattern: "^((\\%HOMEPATH\\%)|[a-zA-Z]:)[\\\\/](?:[a-zA-Z0-9_-]+[\\\\/])*[a-zA-Z0-9_-]+$")
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case linux
+            case windows
         }
     }
 
@@ -3304,7 +3366,6 @@ extension Nimble {
             try self.configuration?.validate(name: "\(name).configuration")
             try self.validate(self.description, name: "description", parent: name, max: 256)
             try self.validate(self.ec2SecurityGroupIds, name: "ec2SecurityGroupIds", parent: name, max: 30)
-            try self.validate(self.ec2SecurityGroupIds, name: "ec2SecurityGroupIds", parent: name, min: 1)
             try self.initializationScripts?.forEach {
                 try $0.validate(name: "\(name).initializationScripts[]")
             }

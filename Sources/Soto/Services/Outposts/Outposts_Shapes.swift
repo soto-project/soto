@@ -380,6 +380,7 @@ extension Outposts {
         public let availabilityZoneId: String?
         public let description: String?
         public let name: String
+        ///  The ID or the Amazon Resource Name (ARN) of the site.
         public let siteId: String
         ///  The type of hardware for this Outpost.
         public let supportedHardwareType: SupportedHardwareType?
@@ -520,7 +521,7 @@ extension Outposts {
             AWSMemberEncoding(label: "outpostId", location: .uri("OutpostId"))
         ]
 
-        ///  The ID of the Outpost.
+        ///  The ID or the Amazon Resource Name (ARN) of the Outpost.
         public let outpostId: String
 
         public init(outpostId: String) {
@@ -545,6 +546,7 @@ extension Outposts {
             AWSMemberEncoding(label: "siteId", location: .uri("SiteId"))
         ]
 
+        ///  The ID or the Amazon Resource Name (ARN) of the site.
         public let siteId: String
 
         public init(siteId: String) {
@@ -657,7 +659,7 @@ extension Outposts {
             AWSMemberEncoding(label: "outpostId", location: .uri("OutpostId"))
         ]
 
-        ///  The ID of the Outpost.
+        ///  The ID or the Amazon Resource Name (ARN) of the Outpost.
         public let outpostId: String
 
         public init(outpostId: String) {
@@ -682,7 +684,7 @@ extension Outposts {
 
         public let maxResults: Int?
         public let nextToken: String?
-        ///  The ID of the Outpost.
+        ///  The ID or the Amazon Resource Name (ARN) of the Outpost.
         public let outpostId: String
 
         public init(maxResults: Int? = nil, nextToken: String? = nil, outpostId: String) {
@@ -747,6 +749,7 @@ extension Outposts {
 
         ///  The type of the address you request.
         public let addressType: AddressType
+        ///  The ID or the Amazon Resource Name (ARN) of the site.
         public let siteId: String
 
         public init(addressType: AddressType, siteId: String) {
@@ -788,6 +791,7 @@ extension Outposts {
             AWSMemberEncoding(label: "siteId", location: .uri("SiteId"))
         ]
 
+        ///  The ID or the Amazon Resource Name (ARN) of the site.
         public let siteId: String
 
         public init(siteId: String) {
@@ -1417,6 +1421,55 @@ extension Outposts {
         public init() {}
     }
 
+    public struct UpdateOutpostInput: AWSEncodableShape {
+        public static var _encoding = [
+            AWSMemberEncoding(label: "outpostId", location: .uri("OutpostId"))
+        ]
+
+        public let description: String?
+        public let name: String?
+        ///  The ID or the Amazon Resource Name (ARN) of the Outpost.
+        public let outpostId: String
+        ///  The type of hardware for this Outpost.
+        public let supportedHardwareType: SupportedHardwareType?
+
+        public init(description: String? = nil, name: String? = nil, outpostId: String, supportedHardwareType: SupportedHardwareType? = nil) {
+            self.description = description
+            self.name = name
+            self.outpostId = outpostId
+            self.supportedHardwareType = supportedHardwareType
+        }
+
+        public func validate(name: String) throws {
+            try self.validate(self.description, name: "description", parent: name, max: 1000)
+            try self.validate(self.description, name: "description", parent: name, pattern: "^[\\S ]*$")
+            try self.validate(self.name, name: "name", parent: name, max: 255)
+            try self.validate(self.name, name: "name", parent: name, min: 1)
+            try self.validate(self.name, name: "name", parent: name, pattern: "^[\\S ]+$")
+            try self.validate(self.outpostId, name: "outpostId", parent: name, max: 180)
+            try self.validate(self.outpostId, name: "outpostId", parent: name, min: 1)
+            try self.validate(self.outpostId, name: "outpostId", parent: name, pattern: "^(arn:aws([a-z-]+)?:outposts:[a-z\\d-]+:\\d{12}:outpost/)?op-[a-f0-9]{17}$")
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case description = "Description"
+            case name = "Name"
+            case supportedHardwareType = "SupportedHardwareType"
+        }
+    }
+
+    public struct UpdateOutpostOutput: AWSDecodableShape {
+        public let outpost: Outpost?
+
+        public init(outpost: Outpost? = nil) {
+            self.outpost = outpost
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case outpost = "Outpost"
+        }
+    }
+
     public struct UpdateSiteAddressInput: AWSEncodableShape {
         public static var _encoding = [
             AWSMemberEncoding(label: "siteId", location: .uri("SiteId"))
@@ -1426,6 +1479,7 @@ extension Outposts {
         public let address: Address
         ///  The type of the address.
         public let addressType: AddressType
+        ///  The ID or the Amazon Resource Name (ARN) of the site.
         public let siteId: String
 
         public init(address: Address, addressType: AddressType, siteId: String) {
@@ -1473,6 +1527,7 @@ extension Outposts {
         public let name: String?
         ///  Notes about a site.
         public let notes: String?
+        ///  The ID or the Amazon Resource Name (ARN) of the site.
         public let siteId: String
 
         public init(description: String? = nil, name: String? = nil, notes: String? = nil, siteId: String) {
@@ -1535,6 +1590,7 @@ extension Outposts {
         public let powerFeedDrop: PowerFeedDrop?
         ///  Specify the power option that you can provide for hardware.    Single-phase AC feed: 200 V to 277 V, 50 Hz or 60 Hz   Three-phase AC feed: 346 V to 480 V, 50 Hz or 60 Hz
         public let powerPhase: PowerPhase?
+        ///  The ID or the Amazon Resource Name (ARN) of the site.
         public let siteId: String
         /// Racks come with two Outpost network devices. Depending on the supported uplink speed at the site, the Outpost network devices provide a variable number of uplinks. Specify the number of uplinks for each Outpost network device that you intend to use to connect the rack to your network. Note the correlation between UplinkGbps and UplinkCount.    1Gbps - Uplinks available: 1, 2, 4, 6, 8   10Gbps - Uplinks available: 1, 2, 4, 8, 12, 16   40 and 100 Gbps- Uplinks available: 1, 2, 4
         public let uplinkCount: UplinkCount?

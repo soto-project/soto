@@ -55,6 +55,13 @@ extension AppSync {
         public var description: String { return self.rawValue }
     }
 
+    public enum AssociationStatus: String, CustomStringConvertible, Codable {
+        case failed = "FAILED"
+        case processing = "PROCESSING"
+        case success = "SUCCESS"
+        public var description: String { return self.rawValue }
+    }
+
     public enum AuthenticationType: String, CustomStringConvertible, Codable {
         case amazonCognitoUserPools = "AMAZON_COGNITO_USER_POOLS"
         case apiKey = "API_KEY"
@@ -143,11 +150,11 @@ extension AppSync {
     // MARK: Shapes
 
     public struct AdditionalAuthenticationProvider: AWSEncodableShape & AWSDecodableShape {
-        /// The authentication type: API key, Identity and Access Management, OIDC, Amazon Cognito user pools, or Amazon Web Services Lambda.
+        /// The authentication type: API key, Identity and Access Management (IAM), OpenID Connect (OIDC), Amazon Cognito user pools, or Lambda.
         public let authenticationType: AuthenticationType?
-        /// Configuration for Amazon Web Services Lambda function authorization.
+        /// Configuration for Lambda function authorization.
         public let lambdaAuthorizerConfig: LambdaAuthorizerConfig?
-        /// The OpenID Connect configuration.
+        /// The OIDC configuration.
         public let openIDConnectConfig: OpenIDConnectConfig?
         /// The Amazon Cognito user pool configuration.
         public let userPoolConfig: CognitoUserPoolConfig?
@@ -171,16 +178,41 @@ extension AppSync {
         }
     }
 
+    public struct ApiAssociation: AWSDecodableShape {
+        /// The API ID.
+        public let apiId: String?
+        /// Identifies the status of an association.    PROCESSING: The API association is being created. You cannot modify association requests during processing.    SUCCESS: The API association was successful. You can modify associations after success.    FAILED: The API association has failed. You can modify associations after failure.
+        public let associationStatus: AssociationStatus?
+        /// Details about the last deployment status.
+        public let deploymentDetail: String?
+        /// The domain name.
+        public let domainName: String?
+
+        public init(apiId: String? = nil, associationStatus: AssociationStatus? = nil, deploymentDetail: String? = nil, domainName: String? = nil) {
+            self.apiId = apiId
+            self.associationStatus = associationStatus
+            self.deploymentDetail = deploymentDetail
+            self.domainName = domainName
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case apiId
+            case associationStatus
+            case deploymentDetail
+            case domainName
+        }
+    }
+
     public struct ApiCache: AWSDecodableShape {
         /// Caching behavior.    FULL_REQUEST_CACHING: All requests are fully cached.    PER_RESOLVER_CACHING: Individual resolvers that you specify are cached.
         public let apiCachingBehavior: ApiCachingBehavior?
-        /// At rest encryption flag for cache. This setting cannot be updated after creation.
+        /// At-rest encryption flag for cache. You cannot update this setting after creation.
         public let atRestEncryptionEnabled: Bool?
         /// The cache instance status.    AVAILABLE: The instance is available for use.    CREATING: The instance is currently creating.    DELETING: The instance is currently deleting.    MODIFYING: The instance is currently modifying.    FAILED: The instance has failed creation.
         public let status: ApiCacheStatus?
-        /// Transit encryption flag when connecting to cache. This setting cannot be updated after creation.
+        /// Transit encryption flag when connecting to cache. You cannot update this setting after creation.
         public let transitEncryptionEnabled: Bool?
-        /// TTL in seconds for cache entries. Valid values are between 1 and 3600 seconds.
+        /// TTL in seconds for cache entries. Valid values are 1–3,600 seconds.
         public let ttl: Int64?
         /// The cache instance type. Valid values are     SMALL     MEDIUM     LARGE     XLARGE     LARGE_2X     LARGE_4X     LARGE_8X (not available in all regions)    LARGE_12X    Historically, instance types were identified by an EC2-style value. As of July 2020, this is deprecated, and the generic identifiers above should be used. The following legacy instance types are available, but their use is discouraged:    T2_SMALL: A t2.small instance type.    T2_MEDIUM: A t2.medium instance type.    R4_LARGE: A r4.large instance type.    R4_XLARGE: A r4.xlarge instance type.    R4_2XLARGE: A r4.2xlarge instance type.    R4_4XLARGE: A r4.4xlarge instance type.    R4_8XLARGE: A r4.8xlarge instance type.
         public let type: ApiCacheType?
@@ -229,10 +261,49 @@ extension AppSync {
         }
     }
 
+    public struct AssociateApiRequest: AWSEncodableShape {
+        public static var _encoding = [
+            AWSMemberEncoding(label: "domainName", location: .uri("domainName"))
+        ]
+
+        /// The API ID.
+        public let apiId: String
+        /// The domain name.
+        public let domainName: String
+
+        public init(apiId: String, domainName: String) {
+            self.apiId = apiId
+            self.domainName = domainName
+        }
+
+        public func validate(name: String) throws {
+            try self.validate(self.domainName, name: "domainName", parent: name, max: 253)
+            try self.validate(self.domainName, name: "domainName", parent: name, min: 1)
+            try self.validate(self.domainName, name: "domainName", parent: name, pattern: "^(\\*[\\w\\d-]*\\.)?([\\w\\d-]+\\.)+[\\w\\d-]+$")
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case apiId
+        }
+    }
+
+    public struct AssociateApiResponse: AWSDecodableShape {
+        /// The ApiAssociation object.
+        public let apiAssociation: ApiAssociation?
+
+        public init(apiAssociation: ApiAssociation? = nil) {
+            self.apiAssociation = apiAssociation
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case apiAssociation
+        }
+    }
+
     public struct AuthorizationConfig: AWSEncodableShape & AWSDecodableShape {
-        /// The authorization type required by the HTTP endpoint.    AWS_IAM: The authorization type is Sigv4.
+        /// The authorization type that the HTTP endpoint requires.    AWS_IAM: The authorization type is Signature Version 4 (SigV4).
         public let authorizationType: AuthorizationType
-        /// The Identity and Access Management settings.
+        /// The Identity and Access Management (IAM) settings.
         public let awsIamConfig: AwsIamConfig?
 
         public init(authorizationType: AuthorizationType, awsIamConfig: AwsIamConfig? = nil) {
@@ -247,9 +318,9 @@ extension AppSync {
     }
 
     public struct AwsIamConfig: AWSEncodableShape & AWSDecodableShape {
-        /// The signing region for Identity and Access Management authorization.
+        /// The signing Amazon Web Services Region for IAM authorization.
         public let signingRegion: String?
-        /// The signing service name for Identity and Access Management authorization.
+        /// The signing service name for IAM authorization.
         public let signingServiceName: String?
 
         public init(signingRegion: String? = nil, signingServiceName: String? = nil) {
@@ -264,9 +335,9 @@ extension AppSync {
     }
 
     public struct CachingConfig: AWSEncodableShape & AWSDecodableShape {
-        /// The caching keys for a resolver that has caching enabled. Valid values are entries from the $context.arguments, $context.source, and $context.identity maps.
+        /// The caching keys for a resolver that has caching activated. Valid values are entries from the $context.arguments, $context.source, and $context.identity maps.
         public let cachingKeys: [String]?
-        /// The TTL in seconds for a resolver that has caching enabled. Valid values are between 1 and 3600 seconds.
+        /// The TTL in seconds for a resolver that has caching activated. Valid values are 1–3,600 seconds.
         public let ttl: Int64?
 
         public init(cachingKeys: [String]? = nil, ttl: Int64? = nil) {
@@ -308,13 +379,13 @@ extension AppSync {
 
         /// Caching behavior.    FULL_REQUEST_CACHING: All requests are fully cached.    PER_RESOLVER_CACHING: Individual resolvers that you specify are cached.
         public let apiCachingBehavior: ApiCachingBehavior
-        /// The GraphQL API Id.
+        /// The GraphQL API ID.
         public let apiId: String
-        /// At rest encryption flag for cache. This setting cannot be updated after creation.
+        /// At-rest encryption flag for cache. You cannot update this setting after creation.
         public let atRestEncryptionEnabled: Bool?
-        /// Transit encryption flag when connecting to cache. This setting cannot be updated after creation.
+        /// Transit encryption flag when connecting to cache. You cannot update this setting after creation.
         public let transitEncryptionEnabled: Bool?
-        /// TTL in seconds for cache entries. Valid values are between 1 and 3600 seconds.
+        /// TTL in seconds for cache entries. Valid values are 1–3,600 seconds.
         public let ttl: Int64
         /// The cache instance type. Valid values are     SMALL     MEDIUM     LARGE     XLARGE     LARGE_2X     LARGE_4X     LARGE_8X (not available in all regions)    LARGE_12X    Historically, instance types were identified by an EC2-style value. As of July 2020, this is deprecated, and the generic identifiers above should be used. The following legacy instance types are available, but their use is discouraged:    T2_SMALL: A t2.small instance type.    T2_MEDIUM: A t2.medium instance type.    R4_LARGE: A r4.large instance type.    R4_XLARGE: A r4.xlarge instance type.    R4_2XLARGE: A r4.2xlarge instance type.    R4_4XLARGE: A r4.4xlarge instance type.    R4_8XLARGE: A r4.8xlarge instance type.
         public let type: ApiCacheType
@@ -359,7 +430,7 @@ extension AppSync {
         public let apiId: String
         /// A description of the purpose of the API key.
         public let description: String?
-        /// The time from creation time after which the API key expires. The date is represented as seconds since the epoch, rounded down to the nearest hour. The default value for this parameter is 7 days from creation time. For more information, see .
+        /// From the creation time, the time after which the API key expires. The date is represented as seconds since the epoch, rounded down to the nearest hour. The default value for this parameter is 7 days from creation time. For more information, see .
         public let expires: Int64?
 
         public init(apiId: String, description: String? = nil, expires: Int64? = nil) {
@@ -402,7 +473,7 @@ extension AppSync {
         public let elasticsearchConfig: ElasticsearchDataSourceConfig?
         /// HTTP endpoint settings.
         public let httpConfig: HttpDataSourceConfig?
-        /// Amazon Web Services Lambda settings.
+        /// Lambda settings.
         public let lambdaConfig: LambdaDataSourceConfig?
         /// A user-supplied name for the DataSource.
         public let name: String
@@ -410,7 +481,7 @@ extension AppSync {
         public let openSearchServiceConfig: OpenSearchServiceDataSourceConfig?
         /// Relational database settings.
         public let relationalDatabaseConfig: RelationalDatabaseDataSourceConfig?
-        /// The Identity and Access Management service role ARN for the data source. The system assumes this role when accessing the data source.
+        /// The Identity and Access Management (IAM) service role Amazon Resource Name (ARN) for the data source. The system assumes this role when accessing the data source.
         public let serviceRoleArn: String?
         /// The type of the DataSource.
         public let type: DataSourceType
@@ -462,6 +533,51 @@ extension AppSync {
         }
     }
 
+    public struct CreateDomainNameRequest: AWSEncodableShape {
+        /// The Amazon Resource Name (ARN) of the certificate. This can be an Certificate Manager (ACM) certificate or an Identity and Access Management (IAM) server certificate.
+        public let certificateArn: String
+        /// A description of the DomainName.
+        public let description: String?
+        /// The domain name.
+        public let domainName: String
+
+        public init(certificateArn: String, description: String? = nil, domainName: String) {
+            self.certificateArn = certificateArn
+            self.description = description
+            self.domainName = domainName
+        }
+
+        public func validate(name: String) throws {
+            try self.validate(self.certificateArn, name: "certificateArn", parent: name, max: 2048)
+            try self.validate(self.certificateArn, name: "certificateArn", parent: name, min: 20)
+            try self.validate(self.certificateArn, name: "certificateArn", parent: name, pattern: "^arn:[a-z-]*:(acm|iam):[a-z0-9-]*:\\d{12}:(certificate|server-certificate)/[0-9A-Za-z_/-]*$")
+            try self.validate(self.description, name: "description", parent: name, max: 255)
+            try self.validate(self.description, name: "description", parent: name, pattern: "^.*$")
+            try self.validate(self.domainName, name: "domainName", parent: name, max: 253)
+            try self.validate(self.domainName, name: "domainName", parent: name, min: 1)
+            try self.validate(self.domainName, name: "domainName", parent: name, pattern: "^(\\*[\\w\\d-]*\\.)?([\\w\\d-]+\\.)+[\\w\\d-]+$")
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case certificateArn
+            case description
+            case domainName
+        }
+    }
+
+    public struct CreateDomainNameResponse: AWSDecodableShape {
+        /// The configuration for the DomainName.
+        public let domainNameConfig: DomainNameConfig?
+
+        public init(domainNameConfig: DomainNameConfig? = nil) {
+            self.domainNameConfig = domainNameConfig
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case domainNameConfig
+        }
+    }
+
     public struct CreateFunctionRequest: AWSEncodableShape {
         public static var _encoding = [
             AWSMemberEncoding(label: "apiId", location: .uri("apiId"))
@@ -473,7 +589,7 @@ extension AppSync {
         public let dataSourceName: String
         /// The Function description.
         public let description: String?
-        /// The version of the request mapping template. Currently the supported value is 2018-05-29.
+        /// The version of the request mapping template. Currently, the supported value is 2018-05-29.
         public let functionVersion: String
         /// The Function name. The function name does not have to be unique.
         public let name: String
@@ -534,21 +650,21 @@ extension AppSync {
     public struct CreateGraphqlApiRequest: AWSEncodableShape {
         /// A list of additional authentication providers for the GraphqlApi API.
         public let additionalAuthenticationProviders: [AdditionalAuthenticationProvider]?
-        /// The authentication type: API key, Identity and Access Management, OIDC, Amazon Cognito user pools, or Amazon Web Services Lambda.
+        /// The authentication type: API key, Identity and Access Management (IAM), OpenID Connect (OIDC), Amazon Cognito user pools, or Lambda.
         public let authenticationType: AuthenticationType
-        /// Configuration for Amazon Web Services Lambda function authorization.
+        /// Configuration for Lambda function authorization.
         public let lambdaAuthorizerConfig: LambdaAuthorizerConfig?
         /// The Amazon CloudWatch Logs configuration.
         public let logConfig: LogConfig?
         /// A user-supplied name for the GraphqlApi.
         public let name: String
-        /// The OpenID Connect configuration.
+        /// The OIDC configuration.
         public let openIDConnectConfig: OpenIDConnectConfig?
         /// A TagMap object.
         public let tags: [String: String]?
         /// The Amazon Cognito user pool configuration.
         public let userPoolConfig: UserPoolConfig?
-        /// A flag indicating whether to enable X-Ray tracing for the GraphqlApi.
+        /// A flag indicating whether to use X-Ray tracing for the GraphqlApi.
         public let xrayEnabled: Bool?
 
         public init(additionalAuthenticationProviders: [AdditionalAuthenticationProvider]? = nil, authenticationType: AuthenticationType, lambdaAuthorizerConfig: LambdaAuthorizerConfig? = nil, logConfig: LogConfig? = nil, name: String, openIDConnectConfig: OpenIDConnectConfig? = nil, tags: [String: String]? = nil, userPoolConfig: UserPoolConfig? = nil, xrayEnabled: Bool? = nil) {
@@ -618,15 +734,15 @@ extension AppSync {
         public let dataSourceName: String?
         /// The name of the field to attach the resolver to.
         public let fieldName: String
-        /// The resolver type.    UNIT: A UNIT resolver type. A UNIT resolver is the default resolver type. A UNIT resolver enables you to execute a GraphQL query against a single data source.    PIPELINE: A PIPELINE resolver type. A PIPELINE resolver enables you to execute a series of Function in a serial manner. You can use a pipeline resolver to execute a GraphQL query against multiple data sources.
+        /// The resolver type.    UNIT: A UNIT resolver type. A UNIT resolver is the default resolver type. You can use a UNIT resolver to run a GraphQL query against a single data source.    PIPELINE: A PIPELINE resolver type. You can use a PIPELINE resolver to invoke a series of Function objects in a serial manner. You can use a pipeline resolver to run a GraphQL query against multiple data sources.
         public let kind: ResolverKind?
         /// The PipelineConfig.
         public let pipelineConfig: PipelineConfig?
-        /// The mapping template to be used for requests. A resolver uses a request mapping template to convert a GraphQL expression into a format that a data source can understand. Mapping templates are written in Apache Velocity Template Language (VTL). VTL request mapping templates are optional when using a Lambda data source. For all other data sources, VTL request and response mapping templates are required.
+        /// The mapping template to use for requests. A resolver uses a request mapping template to convert a GraphQL expression into a format that a data source can understand. Mapping templates are written in Apache Velocity Template Language (VTL). VTL request mapping templates are optional when using an Lambda data source. For all other data sources, VTL request and response mapping templates are required.
         public let requestMappingTemplate: String?
-        /// The mapping template to be used for responses from the data source.
+        /// The mapping template to use for responses from the data source.
         public let responseMappingTemplate: String?
-        /// The SyncConfig for a resolver attached to a versioned datasource.
+        /// The SyncConfig for a resolver attached to a versioned data source.
         public let syncConfig: SyncConfig?
         /// The name of the Type.
         public let typeName: String
@@ -723,17 +839,17 @@ extension AppSync {
     }
 
     public struct DataSource: AWSDecodableShape {
-        /// The data source ARN.
+        /// The data source Amazon Resource Name (ARN).
         public let dataSourceArn: String?
         /// The description of the data source.
         public let description: String?
-        /// Amazon DynamoDB settings.
+        /// DynamoDB settings.
         public let dynamodbConfig: DynamodbDataSourceConfig?
         /// Amazon OpenSearch Service settings.
         public let elasticsearchConfig: ElasticsearchDataSourceConfig?
         /// HTTP endpoint settings.
         public let httpConfig: HttpDataSourceConfig?
-        /// Amazon Web Services Lambda settings.
+        /// Lambda settings.
         public let lambdaConfig: LambdaDataSourceConfig?
         /// The name of the data source.
         public let name: String?
@@ -741,9 +857,9 @@ extension AppSync {
         public let openSearchServiceConfig: OpenSearchServiceDataSourceConfig?
         /// Relational database settings.
         public let relationalDatabaseConfig: RelationalDatabaseDataSourceConfig?
-        /// The Identity and Access Management service role ARN for the data source. The system assumes this role when accessing the data source.
+        /// The Identity and Access Management (IAM) service role Amazon Resource Name (ARN) for the data source. The system assumes this role when accessing the data source.
         public let serviceRoleArn: String?
-        /// The type of the data source.    AWS_LAMBDA: The data source is an Amazon Web Services Lambda function.    AMAZON_DYNAMODB: The data source is an Amazon DynamoDB table.    AMAZON_ELASTICSEARCH: The data source is an Amazon OpenSearch Service domain.    AMAZON_OPENSEARCH_SERVICE: The data source is an Amazon OpenSearch Service domain.    NONE: There is no data source. This type is used when you wish to invoke a GraphQL operation without connecting to a data source, such as performing data transformation with resolvers or triggering a subscription to be invoked from a mutation.    HTTP: The data source is an HTTP endpoint.    RELATIONAL_DATABASE: The data source is a relational database.
+        /// The type of the data source.    AWS_LAMBDA: The data source is an Lambda function.    AMAZON_DYNAMODB: The data source is an Amazon DynamoDB table.    AMAZON_ELASTICSEARCH: The data source is an Amazon OpenSearch Service domain.    AMAZON_OPENSEARCH_SERVICE: The data source is an Amazon OpenSearch Service domain.    NONE: There is no data source. Use this type when you want to invoke a GraphQL operation without connecting to a data source, such as when you're performing data transformation with resolvers or invoking a subscription from a mutation.    HTTP: The data source is an HTTP endpoint.    RELATIONAL_DATABASE: The data source is a relational database.
         public let type: DataSourceType?
 
         public init(dataSourceArn: String? = nil, description: String? = nil, dynamodbConfig: DynamodbDataSourceConfig? = nil, elasticsearchConfig: ElasticsearchDataSourceConfig? = nil, httpConfig: HttpDataSourceConfig? = nil, lambdaConfig: LambdaDataSourceConfig? = nil, name: String? = nil, openSearchServiceConfig: OpenSearchServiceDataSourceConfig? = nil, relationalDatabaseConfig: RelationalDatabaseDataSourceConfig? = nil, serviceRoleArn: String? = nil, type: DataSourceType? = nil) {
@@ -843,6 +959,31 @@ extension AppSync {
     }
 
     public struct DeleteDataSourceResponse: AWSDecodableShape {
+        public init() {}
+    }
+
+    public struct DeleteDomainNameRequest: AWSEncodableShape {
+        public static var _encoding = [
+            AWSMemberEncoding(label: "domainName", location: .uri("domainName"))
+        ]
+
+        /// The domain name.
+        public let domainName: String
+
+        public init(domainName: String) {
+            self.domainName = domainName
+        }
+
+        public func validate(name: String) throws {
+            try self.validate(self.domainName, name: "domainName", parent: name, max: 253)
+            try self.validate(self.domainName, name: "domainName", parent: name, min: 1)
+            try self.validate(self.domainName, name: "domainName", parent: name, pattern: "^(\\*[\\w\\d-]*\\.)?([\\w\\d-]+\\.)+[\\w\\d-]+$")
+        }
+
+        private enum CodingKeys: CodingKey {}
+    }
+
+    public struct DeleteDomainNameResponse: AWSDecodableShape {
         public init() {}
     }
 
@@ -960,11 +1101,11 @@ extension AppSync {
     }
 
     public struct DeltaSyncConfig: AWSEncodableShape & AWSDecodableShape {
-        /// The number of minutes an Item is stored in the datasource.
+        /// The number of minutes that an Item is stored in the data source.
         public let baseTableTTL: Int64?
         /// The Delta Sync table name.
         public let deltaSyncTableName: String?
-        /// The number of minutes a Delta Sync log entry is stored in the Delta Sync table.
+        /// The number of minutes that a Delta Sync log entry is stored in the Delta Sync table.
         public let deltaSyncTableTTL: Int64?
 
         public init(baseTableTTL: Int64? = nil, deltaSyncTableName: String? = nil, deltaSyncTableTTL: Int64? = nil) {
@@ -980,10 +1121,64 @@ extension AppSync {
         }
     }
 
+    public struct DisassociateApiRequest: AWSEncodableShape {
+        public static var _encoding = [
+            AWSMemberEncoding(label: "domainName", location: .uri("domainName"))
+        ]
+
+        /// The domain name.
+        public let domainName: String
+
+        public init(domainName: String) {
+            self.domainName = domainName
+        }
+
+        public func validate(name: String) throws {
+            try self.validate(self.domainName, name: "domainName", parent: name, max: 253)
+            try self.validate(self.domainName, name: "domainName", parent: name, min: 1)
+            try self.validate(self.domainName, name: "domainName", parent: name, pattern: "^(\\*[\\w\\d-]*\\.)?([\\w\\d-]+\\.)+[\\w\\d-]+$")
+        }
+
+        private enum CodingKeys: CodingKey {}
+    }
+
+    public struct DisassociateApiResponse: AWSDecodableShape {
+        public init() {}
+    }
+
+    public struct DomainNameConfig: AWSDecodableShape {
+        /// The domain name that AppSync provides.
+        public let appsyncDomainName: String?
+        /// The Amazon Resource Name (ARN) of the certificate. This can be an Certificate Manager (ACM) certificate or an Identity and Access Management (IAM) server certificate.
+        public let certificateArn: String?
+        /// A description of the DomainName configuration.
+        public let description: String?
+        /// The domain name.
+        public let domainName: String?
+        /// The ID of your Amazon Route 53 hosted zone.
+        public let hostedZoneId: String?
+
+        public init(appsyncDomainName: String? = nil, certificateArn: String? = nil, description: String? = nil, domainName: String? = nil, hostedZoneId: String? = nil) {
+            self.appsyncDomainName = appsyncDomainName
+            self.certificateArn = certificateArn
+            self.description = description
+            self.domainName = domainName
+            self.hostedZoneId = hostedZoneId
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case appsyncDomainName
+            case certificateArn
+            case description
+            case domainName
+            case hostedZoneId
+        }
+    }
+
     public struct DynamodbDataSourceConfig: AWSEncodableShape & AWSDecodableShape {
         /// The Amazon Web Services Region.
         public let awsRegion: String
-        /// The DeltaSyncConfig for a versioned datasource.
+        /// The DeltaSyncConfig for a versioned data source.
         public let deltaSyncConfig: DeltaSyncConfig?
         /// The table name.
         public let tableName: String
@@ -1050,11 +1245,11 @@ extension AppSync {
         public let dataSourceName: String?
         /// The Function description.
         public let description: String?
-        /// The ARN of the Function object.
+        /// The Amazon Resource Name (ARN) of the Function object.
         public let functionArn: String?
         /// A unique ID representing the Function object.
         public let functionId: String?
-        /// The version of the request mapping template. Currently only the 2018-05-29 version of the template is supported.
+        /// The version of the request mapping template. Currently, only the 2018-05-29 version of the template is supported.
         public let functionVersion: String?
         /// The name of the Function object.
         public let name: String?
@@ -1086,6 +1281,40 @@ extension AppSync {
             case requestMappingTemplate
             case responseMappingTemplate
             case syncConfig
+        }
+    }
+
+    public struct GetApiAssociationRequest: AWSEncodableShape {
+        public static var _encoding = [
+            AWSMemberEncoding(label: "domainName", location: .uri("domainName"))
+        ]
+
+        /// The domain name.
+        public let domainName: String
+
+        public init(domainName: String) {
+            self.domainName = domainName
+        }
+
+        public func validate(name: String) throws {
+            try self.validate(self.domainName, name: "domainName", parent: name, max: 253)
+            try self.validate(self.domainName, name: "domainName", parent: name, min: 1)
+            try self.validate(self.domainName, name: "domainName", parent: name, pattern: "^(\\*[\\w\\d-]*\\.)?([\\w\\d-]+\\.)+[\\w\\d-]+$")
+        }
+
+        private enum CodingKeys: CodingKey {}
+    }
+
+    public struct GetApiAssociationResponse: AWSDecodableShape {
+        /// The ApiAssociation object.
+        public let apiAssociation: ApiAssociation?
+
+        public init(apiAssociation: ApiAssociation? = nil) {
+            self.apiAssociation = apiAssociation
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case apiAssociation
         }
     }
 
@@ -1152,6 +1381,40 @@ extension AppSync {
 
         private enum CodingKeys: String, CodingKey {
             case dataSource
+        }
+    }
+
+    public struct GetDomainNameRequest: AWSEncodableShape {
+        public static var _encoding = [
+            AWSMemberEncoding(label: "domainName", location: .uri("domainName"))
+        ]
+
+        /// The domain name.
+        public let domainName: String
+
+        public init(domainName: String) {
+            self.domainName = domainName
+        }
+
+        public func validate(name: String) throws {
+            try self.validate(self.domainName, name: "domainName", parent: name, max: 253)
+            try self.validate(self.domainName, name: "domainName", parent: name, min: 1)
+            try self.validate(self.domainName, name: "domainName", parent: name, pattern: "^(\\*[\\w\\d-]*\\.)?([\\w\\d-]+\\.)+[\\w\\d-]+$")
+        }
+
+        private enum CodingKeys: CodingKey {}
+    }
+
+    public struct GetDomainNameResponse: AWSDecodableShape {
+        /// The configuration for the DomainName.
+        public let domainNameConfig: DomainNameConfig?
+
+        public init(domainNameConfig: DomainNameConfig? = nil) {
+            self.domainNameConfig = domainNameConfig
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case domainNameConfig
         }
     }
 
@@ -1385,11 +1648,11 @@ extension AppSync {
         public let additionalAuthenticationProviders: [AdditionalAuthenticationProvider]?
         /// The API ID.
         public let apiId: String?
-        /// The ARN.
+        /// The Amazon Resource Name (ARN).
         public let arn: String?
         /// The authentication type.
         public let authenticationType: AuthenticationType?
-        /// Configuration for Amazon Web Services Lambda function authorization.
+        /// Configuration for Lambda function authorization.
         public let lambdaAuthorizerConfig: LambdaAuthorizerConfig?
         /// The Amazon CloudWatch Logs configuration.
         public let logConfig: LogConfig?
@@ -1403,9 +1666,9 @@ extension AppSync {
         public let uris: [String: String]?
         /// The Amazon Cognito user pool configuration.
         public let userPoolConfig: UserPoolConfig?
-        /// The ARN of the WAF ACL associated with this GraphqlApi, if one exists.
+        /// The ARN of the WAF access control list (ACL) associated with this GraphqlApi, if one exists.
         public let wafWebAclArn: String?
-        /// A flag representing whether X-Ray tracing is enabled for this GraphqlApi.
+        /// A flag indicating whether to use X-Ray tracing for this GraphqlApi.
         public let xrayEnabled: Bool?
 
         public init(additionalAuthenticationProviders: [AdditionalAuthenticationProvider]? = nil, apiId: String? = nil, arn: String? = nil, authenticationType: AuthenticationType? = nil, lambdaAuthorizerConfig: LambdaAuthorizerConfig? = nil, logConfig: LogConfig? = nil, name: String? = nil, openIDConnectConfig: OpenIDConnectConfig? = nil, tags: [String: String]? = nil, uris: [String: String]? = nil, userPoolConfig: UserPoolConfig? = nil, wafWebAclArn: String? = nil, xrayEnabled: Bool? = nil) {
@@ -1442,9 +1705,9 @@ extension AppSync {
     }
 
     public struct HttpDataSourceConfig: AWSEncodableShape & AWSDecodableShape {
-        /// The authorization config in case the HTTP endpoint requires authorization.
+        /// The authorization configuration in case the HTTP endpoint requires authorization.
         public let authorizationConfig: AuthorizationConfig?
-        /// The HTTP URL endpoint. You can either specify the domain name or IP, and port combination, and the URL scheme must be HTTP or HTTPS. If the port is not specified, AppSync uses the default port 80 for the HTTP endpoint and port 443 for HTTPS endpoints.
+        /// The HTTP URL endpoint. You can specify either the domain name or IP, and port combination, and the URL scheme must be HTTP or HTTPS. If you don't specify the port, AppSync uses the default port 80 for the HTTP endpoint and port 443 for HTTPS endpoints.
         public let endpoint: String?
 
         public init(authorizationConfig: AuthorizationConfig? = nil, endpoint: String? = nil) {
@@ -1461,7 +1724,7 @@ extension AppSync {
     public struct LambdaAuthorizerConfig: AWSEncodableShape & AWSDecodableShape {
         /// The number of seconds a response should be cached for. The default is 5 minutes (300 seconds). The Lambda function can override this by returning a ttlOverride key in its response. A value of 0 disables caching of responses.
         public let authorizerResultTtlInSeconds: Int?
-        /// The ARN of the Lambda function to be called for authorization. This may be a standard Lambda ARN, a version ARN (.../v3) or alias ARN.   Note: This Lambda function must have the following resource-based policy assigned to it. When configuring Lambda authorizers in the Console, this is done for you. To do so with the Amazon Web Services CLI, run the following:  aws lambda add-permission --function-name "arn:aws:lambda:us-east-2:111122223333:function:my-function" --statement-id "appsync" --principal appsync.amazonaws.com --action lambda:InvokeFunction
+        /// The Amazon Resource Name (ARN) of the Lambda function to be called for authorization. This can be a standard Lambda ARN, a version ARN (.../v3), or an alias ARN.   Note: This Lambda function must have the following resource-based policy assigned to it. When configuring Lambda authorizers in the console, this is done for you. To use the Command Line Interface (CLI), run the following:  aws lambda add-permission --function-name "arn:aws:lambda:us-east-2:111122223333:function:my-function" --statement-id "appsync" --principal appsync.amazonaws.com --action lambda:InvokeFunction
         public let authorizerUri: String
         /// A regular expression for validation of tokens before the Lambda function is called.
         public let identityValidationExpression: String?
@@ -1485,7 +1748,7 @@ extension AppSync {
     }
 
     public struct LambdaConflictHandlerConfig: AWSEncodableShape & AWSDecodableShape {
-        /// The Arn for the Lambda function to use as the Conflict Handler.
+        /// The Amazon Resource Name (ARN) for the Lambda function to use as the Conflict Handler.
         public let lambdaConflictHandlerArn: String?
 
         public init(lambdaConflictHandlerArn: String? = nil) {
@@ -1498,7 +1761,7 @@ extension AppSync {
     }
 
     public struct LambdaDataSourceConfig: AWSEncodableShape & AWSDecodableShape {
-        /// The ARN for the Lambda function.
+        /// The Amazon Resource Name (ARN) for the Lambda function.
         public let lambdaFunctionArn: String
 
         public init(lambdaFunctionArn: String) {
@@ -1519,9 +1782,9 @@ extension AppSync {
 
         /// The API ID.
         public let apiId: String
-        /// The maximum number of results you want the request to return.
+        /// The maximum number of results that you want the request to return.
         public let maxResults: Int?
-        /// An identifier that was returned from the previous call to this operation, which can be used to return the next set of items in the list.
+        /// An identifier that was returned from the previous call to this operation, which you can use to return the next set of items in the list.
         public let nextToken: String?
 
         public init(apiId: String, maxResults: Int? = nil, nextToken: String? = nil) {
@@ -1544,7 +1807,7 @@ extension AppSync {
     public struct ListApiKeysResponse: AWSDecodableShape {
         /// The ApiKey objects.
         public let apiKeys: [ApiKey]?
-        /// An identifier to be passed in the next request to this operation to return the next set of items in the list.
+        /// An identifier to pass in the next request to this operation to return the next set of items in the list.
         public let nextToken: String?
 
         public init(apiKeys: [ApiKey]? = nil, nextToken: String? = nil) {
@@ -1567,9 +1830,9 @@ extension AppSync {
 
         /// The API ID.
         public let apiId: String
-        /// The maximum number of results you want the request to return.
+        /// The maximum number of results that you want the request to return.
         public let maxResults: Int?
-        /// An identifier that was returned from the previous call to this operation, which can be used to return the next set of items in the list.
+        /// An identifier that was returned from the previous call to this operation, which you can use to return the next set of items in the list.
         public let nextToken: String?
 
         public init(apiId: String, maxResults: Int? = nil, nextToken: String? = nil) {
@@ -1592,7 +1855,7 @@ extension AppSync {
     public struct ListDataSourcesResponse: AWSDecodableShape {
         /// The DataSource objects.
         public let dataSources: [DataSource]?
-        /// An identifier to be passed in the next request to this operation to return the next set of items in the list.
+        /// An identifier to pass in the next request to this operation to return the next set of items in the list.
         public let nextToken: String?
 
         public init(dataSources: [DataSource]? = nil, nextToken: String? = nil) {
@@ -1606,6 +1869,50 @@ extension AppSync {
         }
     }
 
+    public struct ListDomainNamesRequest: AWSEncodableShape {
+        public static var _encoding = [
+            AWSMemberEncoding(label: "maxResults", location: .querystring("maxResults")),
+            AWSMemberEncoding(label: "nextToken", location: .querystring("nextToken"))
+        ]
+
+        /// The maximum number of results that you want the request to return.
+        public let maxResults: Int?
+        /// The API token.
+        public let nextToken: String?
+
+        public init(maxResults: Int? = nil, nextToken: String? = nil) {
+            self.maxResults = maxResults
+            self.nextToken = nextToken
+        }
+
+        public func validate(name: String) throws {
+            try self.validate(self.maxResults, name: "maxResults", parent: name, max: 25)
+            try self.validate(self.maxResults, name: "maxResults", parent: name, min: 0)
+            try self.validate(self.nextToken, name: "nextToken", parent: name, max: 65536)
+            try self.validate(self.nextToken, name: "nextToken", parent: name, min: 1)
+            try self.validate(self.nextToken, name: "nextToken", parent: name, pattern: "^[\\\\S]+$")
+        }
+
+        private enum CodingKeys: CodingKey {}
+    }
+
+    public struct ListDomainNamesResponse: AWSDecodableShape {
+        /// Lists configurations for multiple domain names.
+        public let domainNameConfigs: [DomainNameConfig]?
+        /// The API token.
+        public let nextToken: String?
+
+        public init(domainNameConfigs: [DomainNameConfig]? = nil, nextToken: String? = nil) {
+            self.domainNameConfigs = domainNameConfigs
+            self.nextToken = nextToken
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case domainNameConfigs
+            case nextToken
+        }
+    }
+
     public struct ListFunctionsRequest: AWSEncodableShape {
         public static var _encoding = [
             AWSMemberEncoding(label: "apiId", location: .uri("apiId")),
@@ -1615,9 +1922,9 @@ extension AppSync {
 
         /// The GraphQL API ID.
         public let apiId: String
-        /// The maximum number of results you want the request to return.
+        /// The maximum number of results that you want the request to return.
         public let maxResults: Int?
-        /// An identifier that was returned from the previous call to this operation, which can be used to return the next set of items in the list.
+        /// An identifier that was returned from the previous call to this operation, which you can use to return the next set of items in the list.
         public let nextToken: String?
 
         public init(apiId: String, maxResults: Int? = nil, nextToken: String? = nil) {
@@ -1640,7 +1947,7 @@ extension AppSync {
     public struct ListFunctionsResponse: AWSDecodableShape {
         /// A list of Function objects.
         public let functions: [FunctionConfiguration]?
-        /// An identifier that was returned from the previous call to this operation, which can be used to return the next set of items in the list.
+        /// An identifier that was returned from the previous call to this operation, which you can use to return the next set of items in the list.
         public let nextToken: String?
 
         public init(functions: [FunctionConfiguration]? = nil, nextToken: String? = nil) {
@@ -1660,9 +1967,9 @@ extension AppSync {
             AWSMemberEncoding(label: "nextToken", location: .querystring("nextToken"))
         ]
 
-        /// The maximum number of results you want the request to return.
+        /// The maximum number of results that you want the request to return.
         public let maxResults: Int?
-        /// An identifier that was returned from the previous call to this operation, which can be used to return the next set of items in the list.
+        /// An identifier that was returned from the previous call to this operation, which you can use to return the next set of items in the list.
         public let nextToken: String?
 
         public init(maxResults: Int? = nil, nextToken: String? = nil) {
@@ -1684,7 +1991,7 @@ extension AppSync {
     public struct ListGraphqlApisResponse: AWSDecodableShape {
         /// The GraphqlApi objects.
         public let graphqlApis: [GraphqlApi]?
-        /// An identifier to be passed in the next request to this operation to return the next set of items in the list.
+        /// An identifier to pass in the next request to this operation to return the next set of items in the list.
         public let nextToken: String?
 
         public init(graphqlApis: [GraphqlApi]? = nil, nextToken: String? = nil) {
@@ -1708,9 +2015,9 @@ extension AppSync {
 
         /// The API ID.
         public let apiId: String
-        /// The Function ID.
+        /// The function ID.
         public let functionId: String
-        /// The maximum number of results you want the request to return.
+        /// The maximum number of results that you want the request to return.
         public let maxResults: Int?
         /// An identifier that was returned from the previous call to this operation, which you can use to return the next set of items in the list.
         public let nextToken: String?
@@ -1734,7 +2041,7 @@ extension AppSync {
     }
 
     public struct ListResolversByFunctionResponse: AWSDecodableShape {
-        /// An identifier that can be used to return the next set of items in the list.
+        /// An identifier that you can use to return the next set of items in the list.
         public let nextToken: String?
         /// The list of resolvers.
         public let resolvers: [Resolver]?
@@ -1760,9 +2067,9 @@ extension AppSync {
 
         /// The API ID.
         public let apiId: String
-        /// The maximum number of results you want the request to return.
+        /// The maximum number of results that you want the request to return.
         public let maxResults: Int?
-        /// An identifier that was returned from the previous call to this operation, which can be used to return the next set of items in the list.
+        /// An identifier that was returned from the previous call to this operation, which you can use to return the next set of items in the list.
         public let nextToken: String?
         /// The type name.
         public let typeName: String
@@ -1786,7 +2093,7 @@ extension AppSync {
     }
 
     public struct ListResolversResponse: AWSDecodableShape {
-        /// An identifier to be passed in the next request to this operation to return the next set of items in the list.
+        /// An identifier to pass in the next request to this operation to return the next set of items in the list.
         public let nextToken: String?
         /// The Resolver objects.
         public let resolvers: [Resolver]?
@@ -1807,7 +2114,7 @@ extension AppSync {
             AWSMemberEncoding(label: "resourceArn", location: .uri("resourceArn"))
         ]
 
-        /// The GraphqlApi ARN.
+        /// The GraphqlApi Amazon Resource Name (ARN).
         public let resourceArn: String
 
         public init(resourceArn: String) {
@@ -1848,9 +2155,9 @@ extension AppSync {
         public let apiId: String
         /// The type format: SDL or JSON.
         public let format: TypeDefinitionFormat
-        /// The maximum number of results you want the request to return.
+        /// The maximum number of results that you want the request to return.
         public let maxResults: Int?
-        /// An identifier that was returned from the previous call to this operation, which can be used to return the next set of items in the list.
+        /// An identifier that was returned from the previous call to this operation, which you can use to return the next set of items in the list.
         public let nextToken: String?
 
         public init(apiId: String, format: TypeDefinitionFormat, maxResults: Int? = nil, nextToken: String? = nil) {
@@ -1872,7 +2179,7 @@ extension AppSync {
     }
 
     public struct ListTypesResponse: AWSDecodableShape {
-        /// An identifier to be passed in the next request to this operation to return the next set of items in the list.
+        /// An identifier to pass in the next request to this operation to return the next set of items in the list.
         public let nextToken: String?
         /// The Type objects.
         public let types: [`Type`]?
@@ -1889,11 +2196,11 @@ extension AppSync {
     }
 
     public struct LogConfig: AWSEncodableShape & AWSDecodableShape {
-        /// The service role that AppSync will assume to publish to Amazon CloudWatch logs in your account.
+        /// The service role that AppSync assumes to publish to CloudWatch logs in your account.
         public let cloudWatchLogsRoleArn: String
         /// Set to TRUE to exclude sections that contain information such as headers, context, and evaluated mapping templates, regardless of logging level.
         public let excludeVerboseContent: Bool?
-        /// The field logging level. Values can be NONE, ERROR, or ALL.     NONE: No field-level logs are captured.    ERROR: Logs the following information only for the fields that are in error:   The error section in the server response.   Field-level errors.   The generated request/response functions that got resolved for error fields.      ALL: The following information is logged for all fields in the query:   Field-level tracing information.   The generated request/response functions that got resolved for each field.
+        /// The field logging level. Values can be NONE, ERROR, or ALL.    NONE: No field-level logs are captured.    ERROR: Logs the following information only for the fields that are in error:   The error section in the server response.   Field-level errors.   The generated request/response functions that got resolved for error fields.      ALL: The following information is logged for all fields in the query:   Field-level tracing information.   The generated request/response functions that got resolved for each field.
         public let fieldLogLevel: FieldLogLevel
 
         public init(cloudWatchLogsRoleArn: String, excludeVerboseContent: Bool? = nil, fieldLogLevel: FieldLogLevel) {
@@ -1910,13 +2217,13 @@ extension AppSync {
     }
 
     public struct OpenIDConnectConfig: AWSEncodableShape & AWSDecodableShape {
-        /// The number of milliseconds a token is valid after being authenticated.
+        /// The number of milliseconds that a token is valid after being authenticated.
         public let authTTL: Int64?
-        /// The client identifier of the Relying party at the OpenID identity provider. This identifier is typically obtained when the Relying party is registered with the OpenID identity provider. You can specify a regular expression so the AppSync can validate against multiple client identifiers at a time.
+        /// The client identifier of the relying party at the OpenID identity provider. This identifier is typically obtained when the relying party is registered with the OpenID identity provider. You can specify a regular expression so that AppSync can validate against multiple client identifiers at a time.
         public let clientId: String?
-        /// The number of milliseconds a token is valid after being issued to a user.
+        /// The number of milliseconds that a token is valid after it's issued to a user.
         public let iatTTL: Int64?
-        /// The issuer for the OpenID Connect configuration. The issuer returned by discovery must exactly match the value of iss in the ID token.
+        /// The issuer for the OIDC configuration. The issuer returned by discovery must exactly match the value of iss in the ID token.
         public let issuer: String
 
         public init(authTTL: Int64? = nil, clientId: String? = nil, iatTTL: Int64? = nil, issuer: String) {
@@ -1965,13 +2272,13 @@ extension AppSync {
     }
 
     public struct RdsHttpEndpointConfig: AWSEncodableShape & AWSDecodableShape {
-        /// Amazon Web Services Region for RDS HTTP endpoint.
+        /// Amazon Web Services Region for Amazon RDS HTTP endpoint.
         public let awsRegion: String?
-        /// Amazon Web Services secret store ARN for database credentials.
+        /// Amazon Web Services secret store Amazon Resource Name (ARN) for database credentials.
         public let awsSecretStoreArn: String?
         /// Logical database name.
         public let databaseName: String?
-        /// Amazon RDS cluster ARN.
+        /// Amazon RDS cluster Amazon Resource Name (ARN).
         public let dbClusterIdentifier: String?
         /// Logical schema name.
         public let schema: String?
@@ -1996,7 +2303,7 @@ extension AppSync {
     public struct RelationalDatabaseDataSourceConfig: AWSEncodableShape & AWSDecodableShape {
         /// Amazon RDS HTTP endpoint settings.
         public let rdsHttpEndpointConfig: RdsHttpEndpointConfig?
-        /// Source type for the relational database.    RDS_HTTP_ENDPOINT: The relational database source type is an Amazon RDS HTTP endpoint.
+        /// Source type for the relational database.    RDS_HTTP_ENDPOINT: The relational database source type is an Amazon Relational Database Service (Amazon RDS) HTTP endpoint.
         public let relationalDatabaseSourceType: RelationalDatabaseSourceType?
 
         public init(rdsHttpEndpointConfig: RdsHttpEndpointConfig? = nil, relationalDatabaseSourceType: RelationalDatabaseSourceType? = nil) {
@@ -2017,17 +2324,17 @@ extension AppSync {
         public let dataSourceName: String?
         /// The resolver field name.
         public let fieldName: String?
-        /// The resolver type.    UNIT: A UNIT resolver type. A UNIT resolver is the default resolver type. A UNIT resolver enables you to execute a GraphQL query against a single data source.    PIPELINE: A PIPELINE resolver type. A PIPELINE resolver enables you to execute a series of Function in a serial manner. You can use a pipeline resolver to execute a GraphQL query against multiple data sources.
+        /// The resolver type.    UNIT: A UNIT resolver type. A UNIT resolver is the default resolver type. You can use a UNIT resolver to run a GraphQL query against a single data source.    PIPELINE: A PIPELINE resolver type. You can use a PIPELINE resolver to invoke a series of Function objects in a serial manner. You can use a pipeline resolver to run a GraphQL query against multiple data sources.
         public let kind: ResolverKind?
         /// The PipelineConfig.
         public let pipelineConfig: PipelineConfig?
         /// The request mapping template.
         public let requestMappingTemplate: String?
-        /// The resolver ARN.
+        /// The resolver Amazon Resource Name (ARN).
         public let resolverArn: String?
         /// The response mapping template.
         public let responseMappingTemplate: String?
-        /// The SyncConfig for a resolver attached to a versioned datasource.
+        /// The SyncConfig for a resolver attached to a versioned data source.
         public let syncConfig: SyncConfig?
         /// The resolver type name.
         public let typeName: String?
@@ -2093,9 +2400,9 @@ extension AppSync {
     }
 
     public struct SyncConfig: AWSEncodableShape & AWSDecodableShape {
-        /// The Conflict Detection strategy to use.    VERSION: Detect conflicts based on object versions for this resolver.    NONE: Do not detect conflicts when executing this resolver.
+        /// The Conflict Detection strategy to use.    VERSION: Detect conflicts based on object versions for this resolver.    NONE: Do not detect conflicts when invoking this resolver.
         public let conflictDetection: ConflictDetectionType?
-        /// The Conflict Resolution strategy to perform in the event of a conflict.    OPTIMISTIC_CONCURRENCY: Resolve conflicts by rejecting mutations when versions do not match the latest version at the server.    AUTOMERGE: Resolve conflicts with the Automerge conflict resolution strategy.    LAMBDA: Resolve conflicts with a Lambda function supplied in the LambdaConflictHandlerConfig.
+        /// The Conflict Resolution strategy to perform in the event of a conflict.    OPTIMISTIC_CONCURRENCY: Resolve conflicts by rejecting mutations when versions don't match the latest version at the server.    AUTOMERGE: Resolve conflicts with the Automerge conflict resolution strategy.    LAMBDA: Resolve conflicts with an Lambda function supplied in the LambdaConflictHandlerConfig.
         public let conflictHandler: ConflictHandlerType?
         /// The LambdaConflictHandlerConfig when configuring LAMBDA as the Conflict Handler.
         public let lambdaConflictHandlerConfig: LambdaConflictHandlerConfig?
@@ -2118,7 +2425,7 @@ extension AppSync {
             AWSMemberEncoding(label: "resourceArn", location: .uri("resourceArn"))
         ]
 
-        /// The GraphqlApi ARN.
+        /// The GraphqlApi Amazon Resource Name (ARN).
         public let resourceArn: String
         /// A TagMap object.
         public let tags: [String: String]
@@ -2152,7 +2459,7 @@ extension AppSync {
     }
 
     public struct `Type`: AWSDecodableShape {
-        /// The type ARN.
+        /// The type Amazon Resource Name (ARN).
         public let arn: String?
         /// The type definition.
         public let definition: String?
@@ -2186,7 +2493,7 @@ extension AppSync {
             AWSMemberEncoding(label: "tagKeys", location: .querystring("tagKeys"))
         ]
 
-        /// The GraphqlApi ARN.
+        /// The GraphqlApi Amazon Resource Name (ARN).
         public let resourceArn: String
         /// A list of TagKey objects.
         public let tagKeys: [String]
@@ -2223,9 +2530,9 @@ extension AppSync {
 
         /// Caching behavior.    FULL_REQUEST_CACHING: All requests are fully cached.    PER_RESOLVER_CACHING: Individual resolvers that you specify are cached.
         public let apiCachingBehavior: ApiCachingBehavior
-        /// The GraphQL API Id.
+        /// The GraphQL API ID.
         public let apiId: String
-        /// TTL in seconds for cache entries. Valid values are between 1 and 3600 seconds.
+        /// TTL in seconds for cache entries. Valid values are 1–3,600 seconds.
         public let ttl: Int64
         /// The cache instance type. Valid values are     SMALL     MEDIUM     LARGE     XLARGE     LARGE_2X     LARGE_4X     LARGE_8X (not available in all regions)    LARGE_12X    Historically, instance types were identified by an EC2-style value. As of July 2020, this is deprecated, and the generic identifiers above should be used. The following legacy instance types are available, but their use is discouraged:    T2_SMALL: A t2.small instance type.    T2_MEDIUM: A t2.medium instance type.    R4_LARGE: A r4.large instance type.    R4_XLARGE: A r4.xlarge instance type.    R4_2XLARGE: A r4.2xlarge instance type.    R4_4XLARGE: A r4.4xlarge instance type.    R4_8XLARGE: A r4.8xlarge instance type.
         public let type: ApiCacheType
@@ -2267,7 +2574,7 @@ extension AppSync {
         public let apiId: String
         /// A description of the purpose of the API key.
         public let description: String?
-        /// The time from update time after which the API key expires. The date is represented as seconds since the epoch. For more information, see .
+        /// From the update time, the time after which the API key expires. The date is represented as seconds since the epoch. For more information, see .
         public let expires: Int64?
         /// The API key ID.
         public let id: String
@@ -2314,7 +2621,7 @@ extension AppSync {
         public let elasticsearchConfig: ElasticsearchDataSourceConfig?
         /// The new HTTP endpoint configuration.
         public let httpConfig: HttpDataSourceConfig?
-        /// The new Amazon Web Services Lambda configuration.
+        /// The new Lambda configuration.
         public let lambdaConfig: LambdaDataSourceConfig?
         /// The new name for the data source.
         public let name: String
@@ -2322,7 +2629,7 @@ extension AppSync {
         public let openSearchServiceConfig: OpenSearchServiceDataSourceConfig?
         /// The new relational database configuration.
         public let relationalDatabaseConfig: RelationalDatabaseDataSourceConfig?
-        /// The new service role ARN for the data source.
+        /// The new service role Amazon Resource Name (ARN) for the data source.
         public let serviceRoleArn: String?
         /// The new data source type.
         public let type: DataSourceType
@@ -2373,6 +2680,47 @@ extension AppSync {
         }
     }
 
+    public struct UpdateDomainNameRequest: AWSEncodableShape {
+        public static var _encoding = [
+            AWSMemberEncoding(label: "domainName", location: .uri("domainName"))
+        ]
+
+        /// A description of the DomainName.
+        public let description: String?
+        /// The domain name.
+        public let domainName: String
+
+        public init(description: String? = nil, domainName: String) {
+            self.description = description
+            self.domainName = domainName
+        }
+
+        public func validate(name: String) throws {
+            try self.validate(self.description, name: "description", parent: name, max: 255)
+            try self.validate(self.description, name: "description", parent: name, pattern: "^.*$")
+            try self.validate(self.domainName, name: "domainName", parent: name, max: 253)
+            try self.validate(self.domainName, name: "domainName", parent: name, min: 1)
+            try self.validate(self.domainName, name: "domainName", parent: name, pattern: "^(\\*[\\w\\d-]*\\.)?([\\w\\d-]+\\.)+[\\w\\d-]+$")
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case description
+        }
+    }
+
+    public struct UpdateDomainNameResponse: AWSDecodableShape {
+        /// The configuration for the DomainName.
+        public let domainNameConfig: DomainNameConfig?
+
+        public init(domainNameConfig: DomainNameConfig? = nil) {
+            self.domainNameConfig = domainNameConfig
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case domainNameConfig
+        }
+    }
+
     public struct UpdateFunctionRequest: AWSEncodableShape {
         public static var _encoding = [
             AWSMemberEncoding(label: "apiId", location: .uri("apiId")),
@@ -2387,7 +2735,7 @@ extension AppSync {
         public let description: String?
         /// The function ID.
         public let functionId: String
-        /// The version of the request mapping template. Currently the supported value is 2018-05-29.
+        /// The version of the request mapping template. Currently, the supported value is 2018-05-29.
         public let functionVersion: String
         /// The Function name.
         public let name: String
@@ -2460,7 +2808,7 @@ extension AppSync {
         public let apiId: String
         /// The new authentication type for the GraphqlApi object.
         public let authenticationType: AuthenticationType?
-        /// Configuration for Amazon Web Services Lambda function authorization.
+        /// Configuration for Lambda function authorization.
         public let lambdaAuthorizerConfig: LambdaAuthorizerConfig?
         /// The Amazon CloudWatch Logs configuration for the GraphqlApi object.
         public let logConfig: LogConfig?
@@ -2468,9 +2816,9 @@ extension AppSync {
         public let name: String
         /// The OpenID Connect configuration for the GraphqlApi object.
         public let openIDConnectConfig: OpenIDConnectConfig?
-        /// The new Amazon Cognito user pool configuration for the GraphqlApi object.
+        /// The new Amazon Cognito user pool configuration for the ~GraphqlApi object.
         public let userPoolConfig: UserPoolConfig?
-        /// A flag indicating whether to enable X-Ray tracing for the GraphqlApi.
+        /// A flag indicating whether to use X-Ray tracing for the GraphqlApi.
         public let xrayEnabled: Bool?
 
         public init(additionalAuthenticationProviders: [AdditionalAuthenticationProvider]? = nil, apiId: String, authenticationType: AuthenticationType? = nil, lambdaAuthorizerConfig: LambdaAuthorizerConfig? = nil, logConfig: LogConfig? = nil, name: String, openIDConnectConfig: OpenIDConnectConfig? = nil, userPoolConfig: UserPoolConfig? = nil, xrayEnabled: Bool? = nil) {
@@ -2532,15 +2880,15 @@ extension AppSync {
         public let dataSourceName: String?
         /// The new field name.
         public let fieldName: String
-        /// The resolver type.    UNIT: A UNIT resolver type. A UNIT resolver is the default resolver type. A UNIT resolver enables you to execute a GraphQL query against a single data source.    PIPELINE: A PIPELINE resolver type. A PIPELINE resolver enables you to execute a series of Function in a serial manner. You can use a pipeline resolver to execute a GraphQL query against multiple data sources.
+        /// The resolver type.    UNIT: A UNIT resolver type. A UNIT resolver is the default resolver type. You can use a UNIT resolver to run a GraphQL query against a single data source.    PIPELINE: A PIPELINE resolver type. You can use a PIPELINE resolver to invoke a series of Function objects in a serial manner. You can use a pipeline resolver to run a GraphQL query against multiple data sources.
         public let kind: ResolverKind?
         /// The PipelineConfig.
         public let pipelineConfig: PipelineConfig?
-        /// The new request mapping template. A resolver uses a request mapping template to convert a GraphQL expression into a format that a data source can understand. Mapping templates are written in Apache Velocity Template Language (VTL). VTL request mapping templates are optional when using a Lambda data source. For all other data sources, VTL request and response mapping templates are required.
+        /// The new request mapping template. A resolver uses a request mapping template to convert a GraphQL expression into a format that a data source can understand. Mapping templates are written in Apache Velocity Template Language (VTL). VTL request mapping templates are optional when using an Lambda data source. For all other data sources, VTL request and response mapping templates are required.
         public let requestMappingTemplate: String?
         /// The new response mapping template.
         public let responseMappingTemplate: String?
-        /// The SyncConfig for a resolver attached to a versioned datasource.
+        /// The SyncConfig for a resolver attached to a versioned data source.
         public let syncConfig: SyncConfig?
         /// The new type name.
         public let typeName: String

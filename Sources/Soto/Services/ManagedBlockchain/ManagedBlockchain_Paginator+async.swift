@@ -21,7 +21,7 @@ import SotoCore
 
 // MARK: Paginators
 
-@available(macOS 12.0, iOS 15.0, watchOS 8.0, tvOS 15.0, *)
+@available(macOS 10.15, iOS 13.0, tvOS 13.0, watchOS 6.0, *)
 extension ManagedBlockchain {
     ///  Returns a list of all invitations for the current AWS account. Applies only to Hyperledger Fabric.
     /// Return PaginatorSequence for operation.

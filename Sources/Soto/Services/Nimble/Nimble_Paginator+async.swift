@@ -21,7 +21,7 @@ import SotoCore
 
 // MARK: Paginators
 
-@available(macOS 12.0, iOS 15.0, watchOS 8.0, tvOS 15.0, *)
+@available(macOS 10.15, iOS 13.0, tvOS 13.0, watchOS 6.0, *)
 extension Nimble {
     ///  List Eula Acceptances.
     /// Return PaginatorSequence for operation.
@@ -177,7 +177,7 @@ extension Nimble {
         )
     }
 
-    ///  Get all users in a given studio membership.
+    ///  Get all users in a given studio membership.   ListStudioMembers only returns admin members.
     /// Return PaginatorSequence for operation.
     ///
     /// - Parameters:

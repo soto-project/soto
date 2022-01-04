@@ -424,7 +424,7 @@ extension Redshift {
     }
 
     public struct AuthorizeDataShareMessage: AWSEncodableShape {
-        /// The identifier of the data consumer that is authorized to access the datashare. This identifier is an Amazon Web Services account ID.
+        /// The identifier of the data consumer that is authorized to access the datashare. This identifier is an Amazon Web Services account ID or a keyword, such as ADX.
         public let consumerIdentifier: String
         /// The Amazon Resource Name (ARN) of the datashare that producers are to authorize sharing for.
         public let dataShareArn: String
@@ -2286,13 +2286,16 @@ extension Redshift {
         /// A value that specifies when the datashare has an association between a producer and data consumers.
         @OptionalCustomCoding<StandardArrayCoder>
         public var dataShareAssociations: [DataShareAssociation]?
+        /// The identifier of a datashare to show its managing entity.
+        public let managedBy: String?
         /// The Amazon Resource Name (ARN) of the producer.
         public let producerArn: String?
 
-        public init(allowPubliclyAccessibleConsumers: Bool? = nil, dataShareArn: String? = nil, dataShareAssociations: [DataShareAssociation]? = nil, producerArn: String? = nil) {
+        public init(allowPubliclyAccessibleConsumers: Bool? = nil, dataShareArn: String? = nil, dataShareAssociations: [DataShareAssociation]? = nil, managedBy: String? = nil, producerArn: String? = nil) {
             self.allowPubliclyAccessibleConsumers = allowPubliclyAccessibleConsumers
             self.dataShareArn = dataShareArn
             self.dataShareAssociations = dataShareAssociations
+            self.managedBy = managedBy
             self.producerArn = producerArn
         }
 
@@ -2300,6 +2303,7 @@ extension Redshift {
             case allowPubliclyAccessibleConsumers = "AllowPubliclyAccessibleConsumers"
             case dataShareArn = "DataShareArn"
             case dataShareAssociations = "DataShareAssociations"
+            case managedBy = "ManagedBy"
             case producerArn = "ProducerArn"
         }
     }
@@ -2363,7 +2367,7 @@ extension Redshift {
     }
 
     public struct DeauthorizeDataShareMessage: AWSEncodableShape {
-        /// The identifier of the data consumer that is to have authorization removed from the datashare.  This identifier is an Amazon Web Services account ID.
+        /// The identifier of the data consumer that is to have authorization removed from the datashare.  This identifier is an Amazon Web Services account ID or a keyword, such as ADX.
         public let consumerIdentifier: String
         /// The Amazon Resource Name (ARN) of the datashare to remove authorization from.
         public let dataShareArn: String

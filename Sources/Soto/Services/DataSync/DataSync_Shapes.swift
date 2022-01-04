@@ -399,6 +399,61 @@ extension DataSync {
         }
     }
 
+    public struct CreateLocationFsxLustreRequest: AWSEncodableShape {
+        /// The Amazon Resource Name (ARN) for the FSx for Lustre file system.
+        public let fsxFilesystemArn: String
+        /// The Amazon Resource Names (ARNs) of the security groups that are used to configure the FSx for Lustre file system.
+        public let securityGroupArns: [String]
+        /// A subdirectory in the location's path. This subdirectory in the FSx for Lustre file system is used to read data from the FSx for Lustre source location or write data to the FSx for Lustre  destination.
+        public let subdirectory: String?
+        /// The key-value pair that represents a tag that you want to add to the resource. The value can be an empty string. This value helps you manage, filter, and search for your resources. We recommend that you create a name tag for your location.
+        public let tags: [TagListEntry]?
+
+        public init(fsxFilesystemArn: String, securityGroupArns: [String], subdirectory: String? = nil, tags: [TagListEntry]? = nil) {
+            self.fsxFilesystemArn = fsxFilesystemArn
+            self.securityGroupArns = securityGroupArns
+            self.subdirectory = subdirectory
+            self.tags = tags
+        }
+
+        public func validate(name: String) throws {
+            try self.validate(self.fsxFilesystemArn, name: "fsxFilesystemArn", parent: name, max: 128)
+            try self.validate(self.fsxFilesystemArn, name: "fsxFilesystemArn", parent: name, pattern: "^arn:(aws|aws-cn|aws-us-gov|aws-iso|aws-iso-b):fsx:[a-z\\-0-9]*:[0-9]{12}:file-system/fs-.*$")
+            try self.securityGroupArns.forEach {
+                try validate($0, name: "securityGroupArns[]", parent: name, max: 128)
+                try validate($0, name: "securityGroupArns[]", parent: name, pattern: "^arn:(aws|aws-cn|aws-us-gov|aws-iso|aws-iso-b):ec2:[a-z\\-0-9]*:[0-9]{12}:security-group/.*$")
+            }
+            try self.validate(self.securityGroupArns, name: "securityGroupArns", parent: name, max: 5)
+            try self.validate(self.securityGroupArns, name: "securityGroupArns", parent: name, min: 1)
+            try self.validate(self.subdirectory, name: "subdirectory", parent: name, max: 4096)
+            try self.validate(self.subdirectory, name: "subdirectory", parent: name, pattern: "^[a-zA-Z0-9_\\-\\+\\./\\(\\)\\$\\p{Zs}]+$")
+            try self.tags?.forEach {
+                try $0.validate(name: "\(name).tags[]")
+            }
+            try self.validate(self.tags, name: "tags", parent: name, max: 50)
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case fsxFilesystemArn = "FsxFilesystemArn"
+            case securityGroupArns = "SecurityGroupArns"
+            case subdirectory = "Subdirectory"
+            case tags = "Tags"
+        }
+    }
+
+    public struct CreateLocationFsxLustreResponse: AWSDecodableShape {
+        /// The Amazon Resource Name (ARN) of the FSx for Lustre file system location that's created.
+        public let locationArn: String?
+
+        public init(locationArn: String? = nil) {
+            self.locationArn = locationArn
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case locationArn = "LocationArn"
+        }
+    }
+
     public struct CreateLocationFsxWindowsRequest: AWSEncodableShape {
         /// The name of the Windows domain that the FSx for Windows File Server belongs to.
         public let domain: String?
@@ -406,9 +461,9 @@ extension DataSync {
         public let fsxFilesystemArn: String
         /// The password of the user who has the permissions to access files and folders in the FSx for Windows File Server file system.
         public let password: String
-        /// The Amazon Resource Names (ARNs) of the security groups that are to use to configure the FSx for Windows File Server file system.
+        /// The Amazon Resource Names (ARNs) of the security groups that are used to configure the FSx for Windows File Server file system.
         public let securityGroupArns: [String]
-        /// A subdirectory in the location’s path. This subdirectory in the Amazon FSx for Windows File Server file system is used to read data from the Amazon FSx for Windows File Server source location or write data to the FSx for Windows File Server destination.
+        /// A subdirectory in the location's path. This subdirectory in the Amazon FSx for Windows File Server file system is used to read data from the Amazon FSx for Windows File Server source location or write data to the FSx for Windows File Server destination.
         public let subdirectory: String?
         /// The key-value pair that represents a tag that you want to add to the resource. The value can be an empty string. This value helps you manage, filter, and search for your resources. We recommend that you create a name tag for your location.
         public let tags: [TagListEntry]?
@@ -1105,6 +1160,49 @@ extension DataSync {
             case ec2Config = "Ec2Config"
             case locationArn = "LocationArn"
             case locationUri = "LocationUri"
+        }
+    }
+
+    public struct DescribeLocationFsxLustreRequest: AWSEncodableShape {
+        /// The Amazon Resource Name (ARN) of the FSx for Lustre location to describe.
+        public let locationArn: String
+
+        public init(locationArn: String) {
+            self.locationArn = locationArn
+        }
+
+        public func validate(name: String) throws {
+            try self.validate(self.locationArn, name: "locationArn", parent: name, max: 128)
+            try self.validate(self.locationArn, name: "locationArn", parent: name, pattern: "^arn:(aws|aws-cn|aws-us-gov|aws-iso|aws-iso-b):datasync:[a-z\\-0-9]+:[0-9]{12}:location/loc-[0-9a-z]{17}$")
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case locationArn = "LocationArn"
+        }
+    }
+
+    public struct DescribeLocationFsxLustreResponse: AWSDecodableShape {
+        /// The time that the FSx for Lustre location was created.
+        public let creationTime: Date?
+        /// The Amazon Resource Name (ARN) of the FSx for Lustre location that was described.
+        public let locationArn: String?
+        /// The URI of the FSx for Lustre location that was described.
+        public let locationUri: String?
+        /// The Amazon Resource Names (ARNs) of the security groups that are configured for the FSx for Lustre file system.
+        public let securityGroupArns: [String]?
+
+        public init(creationTime: Date? = nil, locationArn: String? = nil, locationUri: String? = nil, securityGroupArns: [String]? = nil) {
+            self.creationTime = creationTime
+            self.locationArn = locationArn
+            self.locationUri = locationUri
+            self.securityGroupArns = securityGroupArns
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case creationTime = "CreationTime"
+            case locationArn = "LocationArn"
+            case locationUri = "LocationUri"
+            case securityGroupArns = "SecurityGroupArns"
         }
     }
 
@@ -1946,7 +2044,7 @@ extension DataSync {
     public struct LocationListEntry: AWSDecodableShape {
         /// The Amazon Resource Name (ARN) of the location. For Network File System (NFS) or Amazon EFS, the location is the export path. For Amazon S3, the location is the prefix path that you want to mount and use as the root of the location.
         public let locationArn: String?
-        /// Represents a list of URLs of a location. LocationUri returns an array that contains a list of locations when the ListLocations operation is called. Format: TYPE://GLOBAL_ID/SUBDIR. TYPE designates the type of location. Valid values: NFS | EFS | S3. GLOBAL_ID is the globally unique identifier of the resource that backs the location. An example for EFS is us-east-2.fs-abcd1234. An example for Amazon S3 is the bucket name, such as myBucket. An example for NFS is a valid IPv4 address or a host name compliant with Domain Name Service (DNS). SUBDIR is a valid file system path, delimited by forward slashes as is the *nix convention. For NFS and Amazon EFS, it's the export path to mount the location. For Amazon S3, it's the prefix path that you mount to and treat as the root of the location.
+        /// Represents a list of URIs of a location. LocationUri returns an array that contains a list of locations when the ListLocations operation is called. Format: TYPE://GLOBAL_ID/SUBDIR. TYPE designates the type of location. Valid values: NFS | EFS | S3. GLOBAL_ID is the globally unique identifier of the resource that backs the location. An example for EFS is us-east-2.fs-abcd1234. An example for Amazon S3 is the bucket name, such as myBucket. An example for NFS is a valid IPv4 address or a host name compliant with Domain Name Service (DNS). SUBDIR is a valid file system path, delimited by forward slashes as is the *nix convention. For NFS and Amazon EFS, it's the export path to mount the location. For Amazon S3, it's the prefix path that you mount to and treat as the root of the location.
         public let locationUri: String?
 
         public init(locationArn: String? = nil, locationUri: String? = nil) {

@@ -21,9 +21,10 @@ import SotoCore
 
 // MARK: Paginators
 
-@available(macOS 12.0, iOS 15.0, watchOS 8.0, tvOS 15.0, *)
+@available(macOS 10.15, iOS 13.0, tvOS 13.0, watchOS 6.0, *)
 extension Route53Domains {
-    ///  This operation returns all the domain names registered with Amazon Route 53 for the current AWS account.
+    ///  This operation returns all the domain names registered with Amazon Route 53 for the current Amazon Web Services account
+    ///  			 if no filtering conditions are used.
     /// Return PaginatorSequence for operation.
     ///
     /// - Parameters:
@@ -47,6 +48,7 @@ extension Route53Domains {
 
     ///  Returns information about all of the operations that return an operation ID and that have ever been
     ///  			performed on domains that were registered by the current account.
+    ///  		       This command runs only in the us-east-1 Region.
     /// Return PaginatorSequence for operation.
     ///
     /// - Parameters:
@@ -63,6 +65,51 @@ extension Route53Domains {
             command: listOperations,
             inputKey: \ListOperationsRequest.marker,
             outputKey: \ListOperationsResponse.nextPageMarker,
+            logger: logger,
+            on: eventLoop
+        )
+    }
+
+    ///  Lists the following prices for either all the TLDs supported by Route 53, or the specified TLD:
+    ///  		         Registration   Transfer   Owner change   Domain renewal   Domain restoration
+    /// Return PaginatorSequence for operation.
+    ///
+    /// - Parameters:
+    ///   - input: Input for request
+    ///   - logger: Logger used flot logging
+    ///   - eventLoop: EventLoop to run this process on
+    public func listPricesPaginator(
+        _ input: ListPricesRequest,
+        logger: Logger = AWSClient.loggingDisabled,
+        on eventLoop: EventLoop? = nil
+    ) -> AWSClient.PaginatorSequence<ListPricesRequest, ListPricesResponse> {
+        return .init(
+            input: input,
+            command: listPrices,
+            inputKey: \ListPricesRequest.marker,
+            outputKey: \ListPricesResponse.nextPageMarker,
+            logger: logger,
+            on: eventLoop
+        )
+    }
+
+    ///  Returns all the domain-related billing records for the current Amazon Web Services account for a specified period
+    /// Return PaginatorSequence for operation.
+    ///
+    /// - Parameters:
+    ///   - input: Input for request
+    ///   - logger: Logger used flot logging
+    ///   - eventLoop: EventLoop to run this process on
+    public func viewBillingPaginator(
+        _ input: ViewBillingRequest,
+        logger: Logger = AWSClient.loggingDisabled,
+        on eventLoop: EventLoop? = nil
+    ) -> AWSClient.PaginatorSequence<ViewBillingRequest, ViewBillingResponse> {
+        return .init(
+            input: input,
+            command: viewBilling,
+            inputKey: \ViewBillingRequest.marker,
+            outputKey: \ViewBillingResponse.nextPageMarker,
             logger: logger,
             on: eventLoop
         )

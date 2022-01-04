@@ -81,6 +81,12 @@ extension LookoutMetrics {
         public var description: String { return self.rawValue }
     }
 
+    public enum RelationshipType: String, CustomStringConvertible, Codable {
+        case causeOfInputAnomalyGroup = "CAUSE_OF_INPUT_ANOMALY_GROUP"
+        case effectOfInputAnomalyGroup = "EFFECT_OF_INPUT_ANOMALY_GROUP"
+        public var description: String { return self.rawValue }
+    }
+
     // MARK: Shapes
 
     public struct Action: AWSEncodableShape & AWSDecodableShape {
@@ -1259,6 +1265,31 @@ extension LookoutMetrics {
         }
     }
 
+    public struct InterMetricImpactDetails: AWSDecodableShape {
+        /// The ID of the anomaly group.
+        public let anomalyGroupId: String?
+        /// For potential causes (CAUSE_OF_INPUT_ANOMALY_GROUP), the percentage contribution the measure has in causing the anomalies.
+        public let contributionPercentage: Double?
+        /// The name of the measure.
+        public let metricName: String?
+        /// Whether a measure is a potential cause of the anomaly group (CAUSE_OF_INPUT_ANOMALY_GROUP), or whether the measure is impacted by the anomaly group (EFFECT_OF_INPUT_ANOMALY_GROUP).
+        public let relationshipType: RelationshipType?
+
+        public init(anomalyGroupId: String? = nil, contributionPercentage: Double? = nil, metricName: String? = nil, relationshipType: RelationshipType? = nil) {
+            self.anomalyGroupId = anomalyGroupId
+            self.contributionPercentage = contributionPercentage
+            self.metricName = metricName
+            self.relationshipType = relationshipType
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case anomalyGroupId = "AnomalyGroupId"
+            case contributionPercentage = "ContributionPercentage"
+            case metricName = "MetricName"
+            case relationshipType = "RelationshipType"
+        }
+    }
+
     public struct ItemizedMetricStats: AWSDecodableShape {
         /// The name of the measure.
         public let metricName: String?
@@ -1408,6 +1439,64 @@ extension LookoutMetrics {
 
         private enum CodingKeys: String, CodingKey {
             case anomalyDetectorSummaryList = "AnomalyDetectorSummaryList"
+            case nextToken = "NextToken"
+        }
+    }
+
+    public struct ListAnomalyGroupRelatedMetricsRequest: AWSEncodableShape {
+        /// The Amazon Resource Name (ARN) of the anomaly detector.
+        public let anomalyDetectorArn: String
+        /// The ID of the anomaly group.
+        public let anomalyGroupId: String
+        /// The maximum number of results to return.
+        public let maxResults: Int?
+        /// Specify the pagination token that's returned by a previous request to retrieve the next page of results.
+        public let nextToken: String?
+        /// Filter for potential causes (CAUSE_OF_INPUT_ANOMALY_GROUP) or downstream effects (EFFECT_OF_INPUT_ANOMALY_GROUP) of the anomaly group.
+        public let relationshipTypeFilter: RelationshipType?
+
+        public init(anomalyDetectorArn: String, anomalyGroupId: String, maxResults: Int? = nil, nextToken: String? = nil, relationshipTypeFilter: RelationshipType? = nil) {
+            self.anomalyDetectorArn = anomalyDetectorArn
+            self.anomalyGroupId = anomalyGroupId
+            self.maxResults = maxResults
+            self.nextToken = nextToken
+            self.relationshipTypeFilter = relationshipTypeFilter
+        }
+
+        public func validate(name: String) throws {
+            try self.validate(self.anomalyDetectorArn, name: "anomalyDetectorArn", parent: name, max: 256)
+            try self.validate(self.anomalyDetectorArn, name: "anomalyDetectorArn", parent: name, pattern: "^arn:([a-z\\d-]+):.*:.*:.*:.+$")
+            try self.validate(self.anomalyGroupId, name: "anomalyGroupId", parent: name, max: 63)
+            try self.validate(self.anomalyGroupId, name: "anomalyGroupId", parent: name, pattern: "^[a-z0-9]{8}-[a-z0-9]{4}-[a-z0-9]{4}-[a-z0-9]{4}-[a-z0-9]{12}$")
+            try self.validate(self.maxResults, name: "maxResults", parent: name, max: 100)
+            try self.validate(self.maxResults, name: "maxResults", parent: name, min: 1)
+            try self.validate(self.nextToken, name: "nextToken", parent: name, max: 3000)
+            try self.validate(self.nextToken, name: "nextToken", parent: name, min: 1)
+            try self.validate(self.nextToken, name: "nextToken", parent: name, pattern: "\\S")
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case anomalyDetectorArn = "AnomalyDetectorArn"
+            case anomalyGroupId = "AnomalyGroupId"
+            case maxResults = "MaxResults"
+            case nextToken = "NextToken"
+            case relationshipTypeFilter = "RelationshipTypeFilter"
+        }
+    }
+
+    public struct ListAnomalyGroupRelatedMetricsResponse: AWSDecodableShape {
+        /// Aggregated details about the measures contributing to the anomaly group, and the measures potentially impacted by the anomaly group.
+        public let interMetricImpactList: [InterMetricImpactDetails]?
+        /// The pagination token that's included if more results are available.
+        public let nextToken: String?
+
+        public init(interMetricImpactList: [InterMetricImpactDetails]? = nil, nextToken: String? = nil) {
+            self.interMetricImpactList = interMetricImpactList
+            self.nextToken = nextToken
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case interMetricImpactList = "InterMetricImpactList"
             case nextToken = "NextToken"
         }
     }

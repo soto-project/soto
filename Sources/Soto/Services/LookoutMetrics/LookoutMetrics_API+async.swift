@@ -19,7 +19,7 @@
 
 import SotoCore
 
-@available(macOS 12.0, iOS 15.0, watchOS 8.0, tvOS 15.0, *)
+@available(macOS 10.15, iOS 13.0, tvOS 13.0, watchOS 6.0, *)
 extension LookoutMetrics {
     // MARK: Async API Calls
 
@@ -101,6 +101,11 @@ extension LookoutMetrics {
     /// Lists the detectors in the current AWS Region. Amazon Lookout for Metrics API actions are eventually consistent. If you do a read operation on a resource immediately after creating or modifying it, use retries to allow time for the write operation to complete.
     public func listAnomalyDetectors(_ input: ListAnomalyDetectorsRequest, logger: Logger = AWSClient.loggingDisabled, on eventLoop: EventLoop? = nil) async throws -> ListAnomalyDetectorsResponse {
         return try await self.client.execute(operation: "ListAnomalyDetectors", path: "/ListAnomalyDetectors", httpMethod: .POST, serviceConfig: self.config, input: input, logger: logger, on: eventLoop)
+    }
+
+    /// Returns a list of measures that are potential causes or effects of an anomaly group.
+    public func listAnomalyGroupRelatedMetrics(_ input: ListAnomalyGroupRelatedMetricsRequest, logger: Logger = AWSClient.loggingDisabled, on eventLoop: EventLoop? = nil) async throws -> ListAnomalyGroupRelatedMetricsResponse {
+        return try await self.client.execute(operation: "ListAnomalyGroupRelatedMetrics", path: "/ListAnomalyGroupRelatedMetrics", httpMethod: .POST, serviceConfig: self.config, input: input, logger: logger, on: eventLoop)
     }
 
     /// Returns a list of anomaly groups.

@@ -252,7 +252,15 @@ extension LexModelsV2 {
         public var description: String { return self.rawValue }
     }
 
+    public enum SlotTypeCategory: String, CustomStringConvertible, Codable {
+        case custom = "Custom"
+        case extended = "Extended"
+        case externalGrammar = "ExternalGrammar"
+        public var description: String { return self.rawValue }
+    }
+
     public enum SlotTypeFilterName: String, CustomStringConvertible, Codable {
+        case externalSourceType = "ExternalSourceType"
         case slotTypeName = "SlotTypeName"
         public var description: String { return self.rawValue }
     }
@@ -2096,6 +2104,8 @@ extension LexModelsV2 {
         public let botVersion: String
         /// A description of the slot type. Use the description to help identify the slot type in lists.
         public let description: String?
+        /// Sets the type of external information used to create the slot type.
+        public let externalSourceSetting: ExternalSourceSetting?
         /// The identifier of the language and locale that the slot type will be used in. The string must match one of the supported locales. All of the bots, intents, and slots used by the slot type must have the same locale. For more information, see Supported languages.
         public let localeId: String
         /// The built-in slot type used as a parent of this slot type. When you define a parent slot type, the new slot type has the configuration of the parent slot type. Only AMAZON.AlphaNumeric is supported.
@@ -2105,12 +2115,13 @@ extension LexModelsV2 {
         /// A list of SlotTypeValue objects that defines the values that the slot type can take. Each value can have a list of synonyms, additional values that help train the machine learning model about the values that it resolves for a slot.
         public let slotTypeValues: [SlotTypeValue]?
         /// Determines the strategy that Amazon Lex uses to select a value from the list of possible values. The field can be set to one of the following values:    OriginalValue - Returns the value entered by the user, if the user value is similar to the slot value.    TopResolution - If there is a resolution list for the slot, return the first value in the resolution list. If there is no resolution list, return null.   If you don't specify the valueSelectionSetting parameter, the default is OriginalValue.
-        public let valueSelectionSetting: SlotValueSelectionSetting
+        public let valueSelectionSetting: SlotValueSelectionSetting?
 
-        public init(botId: String, botVersion: String, description: String? = nil, localeId: String, parentSlotTypeSignature: String? = nil, slotTypeName: String, slotTypeValues: [SlotTypeValue]? = nil, valueSelectionSetting: SlotValueSelectionSetting) {
+        public init(botId: String, botVersion: String, description: String? = nil, externalSourceSetting: ExternalSourceSetting? = nil, localeId: String, parentSlotTypeSignature: String? = nil, slotTypeName: String, slotTypeValues: [SlotTypeValue]? = nil, valueSelectionSetting: SlotValueSelectionSetting? = nil) {
             self.botId = botId
             self.botVersion = botVersion
             self.description = description
+            self.externalSourceSetting = externalSourceSetting
             self.localeId = localeId
             self.parentSlotTypeSignature = parentSlotTypeSignature
             self.slotTypeName = slotTypeName
@@ -2126,6 +2137,7 @@ extension LexModelsV2 {
             try self.validate(self.botVersion, name: "botVersion", parent: name, min: 5)
             try self.validate(self.botVersion, name: "botVersion", parent: name, pattern: "^DRAFT$")
             try self.validate(self.description, name: "description", parent: name, max: 200)
+            try self.externalSourceSetting?.validate(name: "\(name).externalSourceSetting")
             try self.validate(self.slotTypeName, name: "slotTypeName", parent: name, max: 100)
             try self.validate(self.slotTypeName, name: "slotTypeName", parent: name, min: 1)
             try self.validate(self.slotTypeName, name: "slotTypeName", parent: name, pattern: "^([0-9a-zA-Z][_-]?)+$")
@@ -2134,11 +2146,12 @@ extension LexModelsV2 {
             }
             try self.validate(self.slotTypeValues, name: "slotTypeValues", parent: name, max: 10000)
             try self.validate(self.slotTypeValues, name: "slotTypeValues", parent: name, min: 1)
-            try self.valueSelectionSetting.validate(name: "\(name).valueSelectionSetting")
+            try self.valueSelectionSetting?.validate(name: "\(name).valueSelectionSetting")
         }
 
         private enum CodingKeys: String, CodingKey {
             case description
+            case externalSourceSetting
             case parentSlotTypeSignature
             case slotTypeName
             case slotTypeValues
@@ -2155,6 +2168,8 @@ extension LexModelsV2 {
         public let creationDateTime: Date?
         /// The description specified for the slot type.
         public let description: String?
+        /// The type of external information used to create the slot type.
+        public let externalSourceSetting: ExternalSourceSetting?
         /// The specified language and local specified for the slot type.
         public let localeId: String?
         /// The signature of the base slot type specified for the slot type.
@@ -2168,11 +2183,12 @@ extension LexModelsV2 {
         /// The strategy that Amazon Lex uses to select a value from the list of possible values.
         public let valueSelectionSetting: SlotValueSelectionSetting?
 
-        public init(botId: String? = nil, botVersion: String? = nil, creationDateTime: Date? = nil, description: String? = nil, localeId: String? = nil, parentSlotTypeSignature: String? = nil, slotTypeId: String? = nil, slotTypeName: String? = nil, slotTypeValues: [SlotTypeValue]? = nil, valueSelectionSetting: SlotValueSelectionSetting? = nil) {
+        public init(botId: String? = nil, botVersion: String? = nil, creationDateTime: Date? = nil, description: String? = nil, externalSourceSetting: ExternalSourceSetting? = nil, localeId: String? = nil, parentSlotTypeSignature: String? = nil, slotTypeId: String? = nil, slotTypeName: String? = nil, slotTypeValues: [SlotTypeValue]? = nil, valueSelectionSetting: SlotValueSelectionSetting? = nil) {
             self.botId = botId
             self.botVersion = botVersion
             self.creationDateTime = creationDateTime
             self.description = description
+            self.externalSourceSetting = externalSourceSetting
             self.localeId = localeId
             self.parentSlotTypeSignature = parentSlotTypeSignature
             self.slotTypeId = slotTypeId
@@ -2186,6 +2202,7 @@ extension LexModelsV2 {
             case botVersion
             case creationDateTime
             case description
+            case externalSourceSetting
             case localeId
             case parentSlotTypeSignature
             case slotTypeId
@@ -2947,12 +2964,14 @@ extension LexModelsV2 {
         public let localeName: String?
         /// The confidence threshold where Amazon Lex inserts the AMAZON.FallbackIntent and AMAZON.KendraSearchIntent intents in the list of possible intents for an utterance.
         public let nluIntentConfidenceThreshold: Double?
+        /// Recommended actions to take to resolve an error in the failureReasons field.
+        public let recommendedActions: [String]?
         /// The number of slot types defined for the locale.
         public let slotTypesCount: Int?
         /// The Amazon Polly voice Amazon Lex uses for voice interaction with the user.
         public let voiceSettings: VoiceSettings?
 
-        public init(botId: String? = nil, botLocaleHistoryEvents: [BotLocaleHistoryEvent]? = nil, botLocaleStatus: BotLocaleStatus? = nil, botVersion: String? = nil, creationDateTime: Date? = nil, description: String? = nil, failureReasons: [String]? = nil, intentsCount: Int? = nil, lastBuildSubmittedDateTime: Date? = nil, lastUpdatedDateTime: Date? = nil, localeId: String? = nil, localeName: String? = nil, nluIntentConfidenceThreshold: Double? = nil, slotTypesCount: Int? = nil, voiceSettings: VoiceSettings? = nil) {
+        public init(botId: String? = nil, botLocaleHistoryEvents: [BotLocaleHistoryEvent]? = nil, botLocaleStatus: BotLocaleStatus? = nil, botVersion: String? = nil, creationDateTime: Date? = nil, description: String? = nil, failureReasons: [String]? = nil, intentsCount: Int? = nil, lastBuildSubmittedDateTime: Date? = nil, lastUpdatedDateTime: Date? = nil, localeId: String? = nil, localeName: String? = nil, nluIntentConfidenceThreshold: Double? = nil, recommendedActions: [String]? = nil, slotTypesCount: Int? = nil, voiceSettings: VoiceSettings? = nil) {
             self.botId = botId
             self.botLocaleHistoryEvents = botLocaleHistoryEvents
             self.botLocaleStatus = botLocaleStatus
@@ -2966,6 +2985,7 @@ extension LexModelsV2 {
             self.localeId = localeId
             self.localeName = localeName
             self.nluIntentConfidenceThreshold = nluIntentConfidenceThreshold
+            self.recommendedActions = recommendedActions
             self.slotTypesCount = slotTypesCount
             self.voiceSettings = voiceSettings
         }
@@ -2984,6 +3004,7 @@ extension LexModelsV2 {
             case localeId
             case localeName
             case nluIntentConfidenceThreshold
+            case recommendedActions
             case slotTypesCount
             case voiceSettings
         }
@@ -3668,6 +3689,7 @@ extension LexModelsV2 {
         public let creationDateTime: Date?
         /// The description specified for the slot type.
         public let description: String?
+        public let externalSourceSetting: ExternalSourceSetting?
         /// A timestamp of the date and time that the slot type was last updated.
         public let lastUpdatedDateTime: Date?
         /// The language and locale specified for the slot type.
@@ -3683,11 +3705,12 @@ extension LexModelsV2 {
         /// The strategy that Amazon Lex uses to choose a value from a list of possible values.
         public let valueSelectionSetting: SlotValueSelectionSetting?
 
-        public init(botId: String? = nil, botVersion: String? = nil, creationDateTime: Date? = nil, description: String? = nil, lastUpdatedDateTime: Date? = nil, localeId: String? = nil, parentSlotTypeSignature: String? = nil, slotTypeId: String? = nil, slotTypeName: String? = nil, slotTypeValues: [SlotTypeValue]? = nil, valueSelectionSetting: SlotValueSelectionSetting? = nil) {
+        public init(botId: String? = nil, botVersion: String? = nil, creationDateTime: Date? = nil, description: String? = nil, externalSourceSetting: ExternalSourceSetting? = nil, lastUpdatedDateTime: Date? = nil, localeId: String? = nil, parentSlotTypeSignature: String? = nil, slotTypeId: String? = nil, slotTypeName: String? = nil, slotTypeValues: [SlotTypeValue]? = nil, valueSelectionSetting: SlotValueSelectionSetting? = nil) {
             self.botId = botId
             self.botVersion = botVersion
             self.creationDateTime = creationDateTime
             self.description = description
+            self.externalSourceSetting = externalSourceSetting
             self.lastUpdatedDateTime = lastUpdatedDateTime
             self.localeId = localeId
             self.parentSlotTypeSignature = parentSlotTypeSignature
@@ -3702,6 +3725,7 @@ extension LexModelsV2 {
             case botVersion
             case creationDateTime
             case description
+            case externalSourceSetting
             case lastUpdatedDateTime
             case localeId
             case parentSlotTypeSignature
@@ -3857,6 +3881,23 @@ extension LexModelsV2 {
         }
     }
 
+    public struct ExternalSourceSetting: AWSEncodableShape & AWSDecodableShape {
+        /// Settings required for a slot type based on a grammar that you provide.
+        public let grammarSlotTypeSetting: GrammarSlotTypeSetting?
+
+        public init(grammarSlotTypeSetting: GrammarSlotTypeSetting? = nil) {
+            self.grammarSlotTypeSetting = grammarSlotTypeSetting
+        }
+
+        public func validate(name: String) throws {
+            try self.grammarSlotTypeSetting?.validate(name: "\(name).grammarSlotTypeSetting")
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case grammarSlotTypeSetting
+        }
+    }
+
     public struct FulfillmentCodeHookSettings: AWSEncodableShape & AWSDecodableShape {
         /// Indicates whether a Lambda function should be invoked to fulfill a specific intent.
         public let enabled: Bool
@@ -3974,6 +4015,56 @@ extension LexModelsV2 {
             case startResponse
             case timeoutInSeconds
             case updateResponse
+        }
+    }
+
+    public struct GrammarSlotTypeSetting: AWSEncodableShape & AWSDecodableShape {
+        /// The source of the grammar used to create the slot type.
+        public let source: GrammarSlotTypeSource?
+
+        public init(source: GrammarSlotTypeSource? = nil) {
+            self.source = source
+        }
+
+        public func validate(name: String) throws {
+            try self.source?.validate(name: "\(name).source")
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case source
+        }
+    }
+
+    public struct GrammarSlotTypeSource: AWSEncodableShape & AWSDecodableShape {
+        /// The Amazon KMS key required to decrypt the contents of the grammar, if any.
+        public let kmsKeyArn: String?
+        /// The name of the S3 bucket that contains the grammar source.
+        public let s3BucketName: String
+        /// The path to the grammar in the S3 bucket.
+        public let s3ObjectKey: String
+
+        public init(kmsKeyArn: String? = nil, s3BucketName: String, s3ObjectKey: String) {
+            self.kmsKeyArn = kmsKeyArn
+            self.s3BucketName = s3BucketName
+            self.s3ObjectKey = s3ObjectKey
+        }
+
+        public func validate(name: String) throws {
+            try self.validate(self.kmsKeyArn, name: "kmsKeyArn", parent: name, max: 2048)
+            try self.validate(self.kmsKeyArn, name: "kmsKeyArn", parent: name, min: 20)
+            try self.validate(self.kmsKeyArn, name: "kmsKeyArn", parent: name, pattern: "^arn:[\\w\\-]+:kms:[\\w\\-]+:[\\d]{12}:(?:key\\/[\\w\\-]+|alias\\/[a-zA-Z0-9:\\/_\\-]{1,256})$")
+            try self.validate(self.s3BucketName, name: "s3BucketName", parent: name, max: 63)
+            try self.validate(self.s3BucketName, name: "s3BucketName", parent: name, min: 3)
+            try self.validate(self.s3BucketName, name: "s3BucketName", parent: name, pattern: "^[a-z0-9][\\.\\-a-z0-9]{1,61}[a-z0-9]$")
+            try self.validate(self.s3ObjectKey, name: "s3ObjectKey", parent: name, max: 1024)
+            try self.validate(self.s3ObjectKey, name: "s3ObjectKey", parent: name, min: 1)
+            try self.validate(self.s3ObjectKey, name: "s3ObjectKey", parent: name, pattern: "^[\\.\\-\\!\\*\\_\\'\\(\\)a-zA-Z0-9][\\.\\-\\!\\*\\_\\'\\(\\)\\/a-zA-Z0-9]*$")
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case kmsKeyArn
+            case s3BucketName
+            case s3ObjectKey
         }
     }
 
@@ -6172,15 +6263,18 @@ extension LexModelsV2 {
         public let lastUpdatedDateTime: Date?
         /// If the slot type is derived from a built-on slot type, the name of the parent slot type.
         public let parentSlotTypeSignature: String?
+        /// Indicates the type of the slot type.    Custom - A slot type that you created using custom values. For more information, see Creating custom slot types.    Extended - A slot type created by extending the AMAZON.AlphaNumeric built-in slot type. For more information, see AMAZON.AlphaNumeric.    ExternalGrammar - A slot type using a custom GRXML grammar to define values. For more information, see Using a custom grammar slot type.
+        public let slotTypeCategory: SlotTypeCategory?
         /// The unique identifier assigned to the slot type.
         public let slotTypeId: String?
         /// The name of the slot type.
         public let slotTypeName: String?
 
-        public init(description: String? = nil, lastUpdatedDateTime: Date? = nil, parentSlotTypeSignature: String? = nil, slotTypeId: String? = nil, slotTypeName: String? = nil) {
+        public init(description: String? = nil, lastUpdatedDateTime: Date? = nil, parentSlotTypeSignature: String? = nil, slotTypeCategory: SlotTypeCategory? = nil, slotTypeId: String? = nil, slotTypeName: String? = nil) {
             self.description = description
             self.lastUpdatedDateTime = lastUpdatedDateTime
             self.parentSlotTypeSignature = parentSlotTypeSignature
+            self.slotTypeCategory = slotTypeCategory
             self.slotTypeId = slotTypeId
             self.slotTypeName = slotTypeName
         }
@@ -6189,6 +6283,7 @@ extension LexModelsV2 {
             case description
             case lastUpdatedDateTime
             case parentSlotTypeSignature
+            case slotTypeCategory
             case slotTypeId
             case slotTypeName
         }
@@ -6799,10 +6894,12 @@ extension LexModelsV2 {
         public let localeName: String?
         /// The updated confidence threshold for inserting the AMAZON.FallbackIntent and AMAZON.KendraSearchIntent intents in the list of possible intents for an utterance.
         public let nluIntentConfidenceThreshold: Double?
+        /// Recommended actions to take to resolve an error in the failureReasons field.
+        public let recommendedActions: [String]?
         /// The updated Amazon Polly voice to use for voice interaction with the user.
         public let voiceSettings: VoiceSettings?
 
-        public init(botId: String? = nil, botLocaleStatus: BotLocaleStatus? = nil, botVersion: String? = nil, creationDateTime: Date? = nil, description: String? = nil, failureReasons: [String]? = nil, lastUpdatedDateTime: Date? = nil, localeId: String? = nil, localeName: String? = nil, nluIntentConfidenceThreshold: Double? = nil, voiceSettings: VoiceSettings? = nil) {
+        public init(botId: String? = nil, botLocaleStatus: BotLocaleStatus? = nil, botVersion: String? = nil, creationDateTime: Date? = nil, description: String? = nil, failureReasons: [String]? = nil, lastUpdatedDateTime: Date? = nil, localeId: String? = nil, localeName: String? = nil, nluIntentConfidenceThreshold: Double? = nil, recommendedActions: [String]? = nil, voiceSettings: VoiceSettings? = nil) {
             self.botId = botId
             self.botLocaleStatus = botLocaleStatus
             self.botVersion = botVersion
@@ -6813,6 +6910,7 @@ extension LexModelsV2 {
             self.localeId = localeId
             self.localeName = localeName
             self.nluIntentConfidenceThreshold = nluIntentConfidenceThreshold
+            self.recommendedActions = recommendedActions
             self.voiceSettings = voiceSettings
         }
 
@@ -6827,6 +6925,7 @@ extension LexModelsV2 {
             case localeId
             case localeName
             case nluIntentConfidenceThreshold
+            case recommendedActions
             case voiceSettings
         }
     }
@@ -7470,6 +7569,7 @@ extension LexModelsV2 {
         public let botVersion: String
         /// The new description of the slot type.
         public let description: String?
+        public let externalSourceSetting: ExternalSourceSetting?
         /// The identifier of the language and locale that contains the slot type. The string must match one of the supported locales. For more information, see Supported languages.
         public let localeId: String
         /// The new built-in slot type that should be used as the parent of this slot type.
@@ -7481,12 +7581,13 @@ extension LexModelsV2 {
         /// A new list of values and their optional synonyms that define the values that the slot type can take.
         public let slotTypeValues: [SlotTypeValue]?
         /// The strategy that Amazon Lex should use when deciding on a value from the list of slot type values.
-        public let valueSelectionSetting: SlotValueSelectionSetting
+        public let valueSelectionSetting: SlotValueSelectionSetting?
 
-        public init(botId: String, botVersion: String, description: String? = nil, localeId: String, parentSlotTypeSignature: String? = nil, slotTypeId: String, slotTypeName: String, slotTypeValues: [SlotTypeValue]? = nil, valueSelectionSetting: SlotValueSelectionSetting) {
+        public init(botId: String, botVersion: String, description: String? = nil, externalSourceSetting: ExternalSourceSetting? = nil, localeId: String, parentSlotTypeSignature: String? = nil, slotTypeId: String, slotTypeName: String, slotTypeValues: [SlotTypeValue]? = nil, valueSelectionSetting: SlotValueSelectionSetting? = nil) {
             self.botId = botId
             self.botVersion = botVersion
             self.description = description
+            self.externalSourceSetting = externalSourceSetting
             self.localeId = localeId
             self.parentSlotTypeSignature = parentSlotTypeSignature
             self.slotTypeId = slotTypeId
@@ -7503,6 +7604,7 @@ extension LexModelsV2 {
             try self.validate(self.botVersion, name: "botVersion", parent: name, min: 5)
             try self.validate(self.botVersion, name: "botVersion", parent: name, pattern: "^DRAFT$")
             try self.validate(self.description, name: "description", parent: name, max: 200)
+            try self.externalSourceSetting?.validate(name: "\(name).externalSourceSetting")
             try self.validate(self.slotTypeId, name: "slotTypeId", parent: name, max: 10)
             try self.validate(self.slotTypeId, name: "slotTypeId", parent: name, min: 10)
             try self.validate(self.slotTypeId, name: "slotTypeId", parent: name, pattern: "^[0-9a-zA-Z]+$")
@@ -7514,11 +7616,12 @@ extension LexModelsV2 {
             }
             try self.validate(self.slotTypeValues, name: "slotTypeValues", parent: name, max: 10000)
             try self.validate(self.slotTypeValues, name: "slotTypeValues", parent: name, min: 1)
-            try self.valueSelectionSetting.validate(name: "\(name).valueSelectionSetting")
+            try self.valueSelectionSetting?.validate(name: "\(name).valueSelectionSetting")
         }
 
         private enum CodingKeys: String, CodingKey {
             case description
+            case externalSourceSetting
             case parentSlotTypeSignature
             case slotTypeName
             case slotTypeValues
@@ -7535,6 +7638,7 @@ extension LexModelsV2 {
         public let creationDateTime: Date?
         /// The updated description of the slot type.
         public let description: String?
+        public let externalSourceSetting: ExternalSourceSetting?
         /// A timestamp of the date and time that the slot type was last updated.
         public let lastUpdatedDateTime: Date?
         /// The language and locale of the updated slot type.
@@ -7550,11 +7654,12 @@ extension LexModelsV2 {
         /// The updated strategy that Amazon Lex uses to determine which value to select from the slot type.
         public let valueSelectionSetting: SlotValueSelectionSetting?
 
-        public init(botId: String? = nil, botVersion: String? = nil, creationDateTime: Date? = nil, description: String? = nil, lastUpdatedDateTime: Date? = nil, localeId: String? = nil, parentSlotTypeSignature: String? = nil, slotTypeId: String? = nil, slotTypeName: String? = nil, slotTypeValues: [SlotTypeValue]? = nil, valueSelectionSetting: SlotValueSelectionSetting? = nil) {
+        public init(botId: String? = nil, botVersion: String? = nil, creationDateTime: Date? = nil, description: String? = nil, externalSourceSetting: ExternalSourceSetting? = nil, lastUpdatedDateTime: Date? = nil, localeId: String? = nil, parentSlotTypeSignature: String? = nil, slotTypeId: String? = nil, slotTypeName: String? = nil, slotTypeValues: [SlotTypeValue]? = nil, valueSelectionSetting: SlotValueSelectionSetting? = nil) {
             self.botId = botId
             self.botVersion = botVersion
             self.creationDateTime = creationDateTime
             self.description = description
+            self.externalSourceSetting = externalSourceSetting
             self.lastUpdatedDateTime = lastUpdatedDateTime
             self.localeId = localeId
             self.parentSlotTypeSignature = parentSlotTypeSignature
@@ -7569,6 +7674,7 @@ extension LexModelsV2 {
             case botVersion
             case creationDateTime
             case description
+            case externalSourceSetting
             case lastUpdatedDateTime
             case localeId
             case parentSlotTypeSignature
@@ -7597,7 +7703,7 @@ extension LexModelsV2 {
     }
 
     public struct VoiceSettings: AWSEncodableShape & AWSDecodableShape {
-        /// Indicates the type of Amazon Polly voice that Amazon Lex should use for voice interaction with the user.  For more information, see Voices in Amazon Polly.
+        /// Indicates the type of Amazon Polly voice that Amazon Lex should use for voice interaction with the user. For more information, see the  engine parameter of the SynthesizeSpeech operation in the Amazon Polly developer guide. If you do not specify a value, the default is standard.
         public let engine: VoiceEngine?
         /// The identifier of the Amazon Polly voice to use.
         public let voiceId: String

@@ -1436,6 +1436,7 @@ extension SageMaker {
 
     public enum TargetDevice: String, CustomStringConvertible, Codable {
         case aisage
+        case ambaCv2 = "amba_cv2"
         case ambaCv22 = "amba_cv22"
         case ambaCv25 = "amba_cv25"
         case coreml
@@ -2632,24 +2633,30 @@ extension SageMaker {
     public struct AutoMLChannel: AWSEncodableShape & AWSDecodableShape {
         /// You can use Gzip or None. The default value is None.
         public let compressionType: CompressionType?
+        /// The content type of the data from the input source. You can use text/csv;header=present or x-application/vnd.amazon+parquet. The default value is text/csv;header=present.
+        public let contentType: String?
         /// The data source for an AutoML channel.
         public let dataSource: AutoMLDataSource
         /// The name of the target variable in supervised learning, usually represented by 'y'.
         public let targetAttributeName: String
 
-        public init(compressionType: CompressionType? = nil, dataSource: AutoMLDataSource, targetAttributeName: String) {
+        public init(compressionType: CompressionType? = nil, contentType: String? = nil, dataSource: AutoMLDataSource, targetAttributeName: String) {
             self.compressionType = compressionType
+            self.contentType = contentType
             self.dataSource = dataSource
             self.targetAttributeName = targetAttributeName
         }
 
         public func validate(name: String) throws {
+            try self.validate(self.contentType, name: "contentType", parent: name, max: 256)
+            try self.validate(self.contentType, name: "contentType", parent: name, pattern: ".*")
             try self.dataSource.validate(name: "\(name).dataSource")
             try self.validate(self.targetAttributeName, name: "targetAttributeName", parent: name, min: 1)
         }
 
         private enum CodingKeys: String, CodingKey {
             case compressionType = "CompressionType"
+            case contentType = "ContentType"
             case dataSource = "DataSource"
             case targetAttributeName = "TargetAttributeName"
         }
@@ -14645,7 +14652,7 @@ extension SageMaker {
             try self.customImages?.forEach {
                 try $0.validate(name: "\(name).customImages[]")
             }
-            try self.validate(self.customImages, name: "customImages", parent: name, max: 30)
+            try self.validate(self.customImages, name: "customImages", parent: name, max: 200)
             try self.defaultResourceSpec?.validate(name: "\(name).defaultResourceSpec")
             try self.lifecycleConfigArns?.forEach {
                 try validate($0, name: "lifecycleConfigArns[]", parent: name, max: 256)
@@ -21486,6 +21493,7 @@ extension SageMaker {
     }
 
     public struct PipelineExecutionStep: AWSDecodableShape {
+        public let attemptCount: Int?
         /// If this pipeline execution step was cached, details on the cache hit.
         public let cacheHitResult: CacheHitResult?
         /// The time that the step stopped executing.
@@ -21501,7 +21509,8 @@ extension SageMaker {
         /// The status of the step execution.
         public let stepStatus: StepStatus?
 
-        public init(cacheHitResult: CacheHitResult? = nil, endTime: Date? = nil, failureReason: String? = nil, metadata: PipelineExecutionStepMetadata? = nil, startTime: Date? = nil, stepName: String? = nil, stepStatus: StepStatus? = nil) {
+        public init(attemptCount: Int? = nil, cacheHitResult: CacheHitResult? = nil, endTime: Date? = nil, failureReason: String? = nil, metadata: PipelineExecutionStepMetadata? = nil, startTime: Date? = nil, stepName: String? = nil, stepStatus: StepStatus? = nil) {
+            self.attemptCount = attemptCount
             self.cacheHitResult = cacheHitResult
             self.endTime = endTime
             self.failureReason = failureReason
@@ -21512,6 +21521,7 @@ extension SageMaker {
         }
 
         private enum CodingKeys: String, CodingKey {
+            case attemptCount = "AttemptCount"
             case cacheHitResult = "CacheHitResult"
             case endTime = "EndTime"
             case failureReason = "FailureReason"

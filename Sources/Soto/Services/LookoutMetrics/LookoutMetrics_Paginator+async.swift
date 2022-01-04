@@ -21,7 +21,7 @@ import SotoCore
 
 // MARK: Paginators
 
-@available(macOS 12.0, iOS 15.0, watchOS 8.0, tvOS 15.0, *)
+@available(macOS 10.15, iOS 13.0, tvOS 13.0, watchOS 6.0, *)
 extension LookoutMetrics {
     ///  Returns information about the status of the specified anomaly detection jobs.
     /// Return PaginatorSequence for operation.
@@ -106,6 +106,28 @@ extension LookoutMetrics {
             command: listAnomalyDetectors,
             inputKey: \ListAnomalyDetectorsRequest.nextToken,
             outputKey: \ListAnomalyDetectorsResponse.nextToken,
+            logger: logger,
+            on: eventLoop
+        )
+    }
+
+    ///  Returns a list of measures that are potential causes or effects of an anomaly group.
+    /// Return PaginatorSequence for operation.
+    ///
+    /// - Parameters:
+    ///   - input: Input for request
+    ///   - logger: Logger used flot logging
+    ///   - eventLoop: EventLoop to run this process on
+    public func listAnomalyGroupRelatedMetricsPaginator(
+        _ input: ListAnomalyGroupRelatedMetricsRequest,
+        logger: Logger = AWSClient.loggingDisabled,
+        on eventLoop: EventLoop? = nil
+    ) -> AWSClient.PaginatorSequence<ListAnomalyGroupRelatedMetricsRequest, ListAnomalyGroupRelatedMetricsResponse> {
+        return .init(
+            input: input,
+            command: listAnomalyGroupRelatedMetrics,
+            inputKey: \ListAnomalyGroupRelatedMetricsRequest.nextToken,
+            outputKey: \ListAnomalyGroupRelatedMetricsResponse.nextToken,
             logger: logger,
             on: eventLoop
         )

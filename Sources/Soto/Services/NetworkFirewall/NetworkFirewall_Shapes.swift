@@ -61,9 +61,20 @@ extension NetworkFirewall {
         public var description: String { return self.rawValue }
     }
 
+    public enum OverrideAction: String, CustomStringConvertible, Codable {
+        case dropToAlert = "DROP_TO_ALERT"
+        public var description: String { return self.rawValue }
+    }
+
     public enum PerObjectSyncStatus: String, CustomStringConvertible, Codable {
         case inSync = "IN_SYNC"
         case pending = "PENDING"
+        public var description: String { return self.rawValue }
+    }
+
+    public enum ResourceManagedStatus: String, CustomStringConvertible, Codable {
+        case account = "ACCOUNT"
+        case managed = "MANAGED"
         public var description: String { return self.rawValue }
     }
 
@@ -881,6 +892,70 @@ extension NetworkFirewall {
         }
     }
 
+    public struct DescribeRuleGroupMetadataRequest: AWSEncodableShape {
+        /// The descriptive name of the rule group. You can't change the name of a rule group after you create it.  You must specify the ARN or the name, and you can specify both.
+        public let ruleGroupArn: String?
+        /// The descriptive name of the rule group. You can't change the name of a rule group after you create it.  You must specify the ARN or the name, and you can specify both.
+        public let ruleGroupName: String?
+        /// Indicates whether the rule group is stateless or stateful. If the rule group is stateless, it contains
+        /// stateless rules. If it is stateful, it contains stateful rules.    This setting is required for requests that do not include the RuleGroupARN.
+        public let type: RuleGroupType?
+
+        public init(ruleGroupArn: String? = nil, ruleGroupName: String? = nil, type: RuleGroupType? = nil) {
+            self.ruleGroupArn = ruleGroupArn
+            self.ruleGroupName = ruleGroupName
+            self.type = type
+        }
+
+        public func validate(name: String) throws {
+            try self.validate(self.ruleGroupArn, name: "ruleGroupArn", parent: name, max: 256)
+            try self.validate(self.ruleGroupArn, name: "ruleGroupArn", parent: name, min: 1)
+            try self.validate(self.ruleGroupArn, name: "ruleGroupArn", parent: name, pattern: "^arn:aws")
+            try self.validate(self.ruleGroupName, name: "ruleGroupName", parent: name, max: 128)
+            try self.validate(self.ruleGroupName, name: "ruleGroupName", parent: name, min: 1)
+            try self.validate(self.ruleGroupName, name: "ruleGroupName", parent: name, pattern: "^[a-zA-Z0-9-]+$")
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case ruleGroupArn = "RuleGroupArn"
+            case ruleGroupName = "RuleGroupName"
+            case type = "Type"
+        }
+    }
+
+    public struct DescribeRuleGroupMetadataResponse: AWSDecodableShape {
+        /// The maximum operating resources that this rule group can use. Rule group capacity is fixed at creation.  When you update a rule group, you are limited to this capacity. When you reference a rule group  from a firewall policy, Network Firewall reserves this capacity for the rule group.   You can retrieve the capacity that would be required for a rule group before you create the rule group by calling  CreateRuleGroup with DryRun set to TRUE.
+        public let capacity: Int?
+        /// Returns the metadata objects for the specified rule group.
+        public let description: String?
+        /// The descriptive name of the rule group. You can't change the name of a rule group after you create it.  You must specify the ARN or the name, and you can specify both.
+        public let ruleGroupArn: String
+        /// The descriptive name of the rule group. You can't change the name of a rule group after you create it.  You must specify the ARN or the name, and you can specify both.
+        public let ruleGroupName: String
+        public let statefulRuleOptions: StatefulRuleOptions?
+        /// Indicates whether the rule group is stateless or stateful. If the rule group is stateless, it contains
+        /// stateless rules. If it is stateful, it contains stateful rules.    This setting is required for requests that do not include the RuleGroupARN.
+        public let type: RuleGroupType?
+
+        public init(capacity: Int? = nil, description: String? = nil, ruleGroupArn: String, ruleGroupName: String, statefulRuleOptions: StatefulRuleOptions? = nil, type: RuleGroupType? = nil) {
+            self.capacity = capacity
+            self.description = description
+            self.ruleGroupArn = ruleGroupArn
+            self.ruleGroupName = ruleGroupName
+            self.statefulRuleOptions = statefulRuleOptions
+            self.type = type
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case capacity = "Capacity"
+            case description = "Description"
+            case ruleGroupArn = "RuleGroupArn"
+            case ruleGroupName = "RuleGroupName"
+            case statefulRuleOptions = "StatefulRuleOptions"
+            case type = "Type"
+        }
+    }
+
     public struct DescribeRuleGroupRequest: AWSEncodableShape {
         /// The Amazon Resource Name (ARN) of the rule group.  You must specify the ARN or the name, and you can specify both.
         public let ruleGroupArn: String?
@@ -1089,7 +1164,7 @@ extension NetworkFirewall {
     }
 
     public struct FirewallPolicy: AWSEncodableShape & AWSDecodableShape {
-        /// The default actions to take on a packet that doesn't match any stateful rules.
+        /// The default actions to take on a packet that doesn't match any stateful rules. The stateful default action is optional,  and is only valid when using the strict rule order. Valid values of the stateful default action:   aws:drop_strict   aws:drop_established   aws:alert_strict   aws:alert_established   For more information, see  Strict evaluation order in the AWS Network Firewall Developer Guide.
         public let statefulDefaultActions: [String]?
         /// Additional options governing how Network Firewall handles stateful rules. The stateful  rule groups that you use in your policy must have stateful rule options settings that are compatible with these settings.
         public let statefulEngineOptions: StatefulEngineOptions?
@@ -1386,10 +1461,13 @@ extension NetworkFirewall {
         public let maxResults: Int?
         /// When you request a list of objects with a MaxResults setting, if the number of objects that are still available for retrieval exceeds the maximum you requested, Network Firewall returns a NextToken  value in the response. To retrieve the next batch of objects, use the token returned from the prior request in your next request.
         public let nextToken: String?
+        /// The scope of the request. The default setting of ACCOUNT or a setting of  NULL returns all of the rule groups in your account. A setting of  MANAGED returns all available managed rule groups.
+        public let scope: ResourceManagedStatus?
 
-        public init(maxResults: Int? = nil, nextToken: String? = nil) {
+        public init(maxResults: Int? = nil, nextToken: String? = nil, scope: ResourceManagedStatus? = nil) {
             self.maxResults = maxResults
             self.nextToken = nextToken
+            self.scope = scope
         }
 
         public func validate(name: String) throws {
@@ -1403,6 +1481,7 @@ extension NetworkFirewall {
         private enum CodingKeys: String, CodingKey {
             case maxResults = "MaxResults"
             case nextToken = "NextToken"
+            case scope = "Scope"
         }
     }
 
@@ -1894,7 +1973,7 @@ extension NetworkFirewall {
     public struct RulesSourceList: AWSEncodableShape & AWSDecodableShape {
         /// Whether you want to allow or deny access to the domains in your target list.
         public let generatedRulesType: GeneratedRulesType
-        /// The domains that you want to inspect for in your traffic flows. To provide multiple domains, separate them with commas. Valid domain specifications are the following:   Explicit names. For example, abc.example.com matches only the domain abc.example.com.   Names that use a domain wildcard, which you indicate with an initial '.'. For example,.example.com matches example.com and matches all subdomains of example.com, such as abc.example.com and www.example.com.
+        /// The domains that you want to inspect for in your traffic flows. Valid domain specifications are the following:   Explicit names. For example, abc.example.com matches only the domain abc.example.com.   Names that use a domain wildcard, which you indicate with an initial '.'. For example,.example.com matches example.com and matches all subdomains of example.com, such as abc.example.com and www.example.com.
         ///
         public let targets: [String]
         /// The protocols you want to inspect. Specify TLS_SNI for HTTPS. Specify HTTP_HOST for HTTP. You can specify either or both.
@@ -1914,7 +1993,7 @@ extension NetworkFirewall {
     }
 
     public struct StatefulEngineOptions: AWSEncodableShape & AWSDecodableShape {
-        /// Indicates how to manage the order of stateful rule evaluation for the policy. By default, Network Firewall leaves the rule evaluation order up to the Suricata rule processing engine. If you set  this to STRICT_ORDER, your rules are evaluated in the exact order that you provide them in the policy. With strict ordering, the rule groups are evaluated by order of priority, starting from the lowest number, and  the rules in each rule group are processed in the order that they're defined.
+        /// Indicates how to manage the order of stateful rule evaluation for the policy. DEFAULT_ACTION_ORDER is the default behavior. Stateful rules are provided to the rule engine as Suricata compatible strings, and Suricata evaluates them based on certain settings. For more information, see  Evaluation order for stateful rules in the AWS Network Firewall Developer Guide.
         public let ruleOrder: RuleOrder?
 
         public init(ruleOrder: RuleOrder? = nil) {
@@ -1954,13 +2033,29 @@ extension NetworkFirewall {
         }
     }
 
+    public struct StatefulRuleGroupOverride: AWSEncodableShape & AWSDecodableShape {
+        /// The action that changes the rule group from DROP to ALERT. This only applies to managed rule groups.
+        public let action: OverrideAction?
+
+        public init(action: OverrideAction? = nil) {
+            self.action = action
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case action = "Action"
+        }
+    }
+
     public struct StatefulRuleGroupReference: AWSEncodableShape & AWSDecodableShape {
+        /// The action that allows the policy owner to override the behavior of the rule group within a policy.
+        public let override: StatefulRuleGroupOverride?
         /// An integer setting that indicates the order in which to run the stateful rule groups in a single FirewallPolicy. This setting only applies to firewall policies that specify the STRICT_ORDER rule order in the stateful engine options settings. Network Firewall evalutes each stateful rule group against a packet starting with the group that has the lowest priority setting. You must ensure that the priority settings are unique within each policy. You can change the priority settings of your rule groups at any time. To make it easier to insert rule groups later, number them so there's a wide range in between, for example use 100, 200, and so on.
         public let priority: Int?
         /// The Amazon Resource Name (ARN) of the stateful rule group.
         public let resourceArn: String
 
-        public init(priority: Int? = nil, resourceArn: String) {
+        public init(override: StatefulRuleGroupOverride? = nil, priority: Int? = nil, resourceArn: String) {
+            self.override = override
             self.priority = priority
             self.resourceArn = resourceArn
         }
@@ -1974,13 +2069,14 @@ extension NetworkFirewall {
         }
 
         private enum CodingKeys: String, CodingKey {
+            case override = "Override"
             case priority = "Priority"
             case resourceArn = "ResourceArn"
         }
     }
 
     public struct StatefulRuleOptions: AWSEncodableShape & AWSDecodableShape {
-        /// Indicates how to manage the order of the rule evaluation for the rule group. By default, Network Firewall leaves the rule evaluation order up to the Suricata rule processing engine. If you set  this to STRICT_ORDER, your rules are evaluated in the exact order that they're listed  in your Suricata rules string.
+        /// Indicates how to manage the order of the rule evaluation for the rule group. DEFAULT_ACTION_ORDER is the default behavior. Stateful rules are provided to the rule engine as Suricata compatible strings, and Suricata evaluates them based on certain settings. For more information, see  Evaluation order for stateful rules in the AWS Network Firewall Developer Guide.
         public let ruleOrder: RuleOrder?
 
         public init(ruleOrder: RuleOrder? = nil) {
@@ -2240,6 +2336,7 @@ extension NetworkFirewall {
     }
 
     public struct UpdateFirewallDeleteProtectionResponse: AWSDecodableShape {
+        /// A flag indicating whether it is possible to delete the firewall. A setting of TRUE indicates that the firewall is protected against deletion. Use this setting to protect against accidentally deleting a firewall that is in use. When you create a firewall, the operation initializes this flag to TRUE.
         public let deleteProtection: Bool?
         /// The Amazon Resource Name (ARN) of the firewall.
         public let firewallArn: String?

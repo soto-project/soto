@@ -20,7 +20,8 @@ import SotoCore
 // MARK: Paginators
 
 extension Route53Domains {
-    ///  This operation returns all the domain names registered with Amazon Route 53 for the current AWS account.
+    ///  This operation returns all the domain names registered with Amazon Route 53 for the current Amazon Web Services account
+    ///  			 if no filtering conditions are used.
     ///
     /// Provide paginated results to closure `onPage` for it to combine them into one result.
     /// This works in a similar manner to `Array.reduce<Result>(_:_:) -> Result`.
@@ -75,6 +76,7 @@ extension Route53Domains {
 
     ///  Returns information about all of the operations that return an operation ID and that have ever been
     ///  			performed on domains that were registered by the current account.
+    ///  		       This command runs only in the us-east-1 Region.
     ///
     /// Provide paginated results to closure `onPage` for it to combine them into one result.
     /// This works in a similar manner to `Array.reduce<Result>(_:_:) -> Result`.
@@ -126,13 +128,122 @@ extension Route53Domains {
             onPage: onPage
         )
     }
+
+    ///  Lists the following prices for either all the TLDs supported by Route 53, or the specified TLD:
+    ///  		         Registration   Transfer   Owner change   Domain renewal   Domain restoration
+    ///
+    /// Provide paginated results to closure `onPage` for it to combine them into one result.
+    /// This works in a similar manner to `Array.reduce<Result>(_:_:) -> Result`.
+    ///
+    /// Parameters:
+    ///   - input: Input for request
+    ///   - initialValue: The value to use as the initial accumulating value. `initialValue` is passed to `onPage` the first time it is called.
+    ///   - logger: Logger used flot logging
+    ///   - eventLoop: EventLoop to run this process on
+    ///   - onPage: closure called with each paginated response. It combines an accumulating result with the contents of response. This combined result is then returned
+    ///         along with a boolean indicating if the paginate operation should continue.
+    public func listPricesPaginator<Result>(
+        _ input: ListPricesRequest,
+        _ initialValue: Result,
+        logger: Logger = AWSClient.loggingDisabled,
+        on eventLoop: EventLoop? = nil,
+        onPage: @escaping (Result, ListPricesResponse, EventLoop) -> EventLoopFuture<(Bool, Result)>
+    ) -> EventLoopFuture<Result> {
+        return client.paginate(
+            input: input,
+            initialValue: initialValue,
+            command: listPrices,
+            inputKey: \ListPricesRequest.marker,
+            outputKey: \ListPricesResponse.nextPageMarker,
+            on: eventLoop,
+            onPage: onPage
+        )
+    }
+
+    /// Provide paginated results to closure `onPage`.
+    ///
+    /// - Parameters:
+    ///   - input: Input for request
+    ///   - logger: Logger used flot logging
+    ///   - eventLoop: EventLoop to run this process on
+    ///   - onPage: closure called with each block of entries. Returns boolean indicating whether we should continue.
+    public func listPricesPaginator(
+        _ input: ListPricesRequest,
+        logger: Logger = AWSClient.loggingDisabled,
+        on eventLoop: EventLoop? = nil,
+        onPage: @escaping (ListPricesResponse, EventLoop) -> EventLoopFuture<Bool>
+    ) -> EventLoopFuture<Void> {
+        return client.paginate(
+            input: input,
+            command: listPrices,
+            inputKey: \ListPricesRequest.marker,
+            outputKey: \ListPricesResponse.nextPageMarker,
+            on: eventLoop,
+            onPage: onPage
+        )
+    }
+
+    ///  Returns all the domain-related billing records for the current Amazon Web Services account for a specified period
+    ///
+    /// Provide paginated results to closure `onPage` for it to combine them into one result.
+    /// This works in a similar manner to `Array.reduce<Result>(_:_:) -> Result`.
+    ///
+    /// Parameters:
+    ///   - input: Input for request
+    ///   - initialValue: The value to use as the initial accumulating value. `initialValue` is passed to `onPage` the first time it is called.
+    ///   - logger: Logger used flot logging
+    ///   - eventLoop: EventLoop to run this process on
+    ///   - onPage: closure called with each paginated response. It combines an accumulating result with the contents of response. This combined result is then returned
+    ///         along with a boolean indicating if the paginate operation should continue.
+    public func viewBillingPaginator<Result>(
+        _ input: ViewBillingRequest,
+        _ initialValue: Result,
+        logger: Logger = AWSClient.loggingDisabled,
+        on eventLoop: EventLoop? = nil,
+        onPage: @escaping (Result, ViewBillingResponse, EventLoop) -> EventLoopFuture<(Bool, Result)>
+    ) -> EventLoopFuture<Result> {
+        return client.paginate(
+            input: input,
+            initialValue: initialValue,
+            command: viewBilling,
+            inputKey: \ViewBillingRequest.marker,
+            outputKey: \ViewBillingResponse.nextPageMarker,
+            on: eventLoop,
+            onPage: onPage
+        )
+    }
+
+    /// Provide paginated results to closure `onPage`.
+    ///
+    /// - Parameters:
+    ///   - input: Input for request
+    ///   - logger: Logger used flot logging
+    ///   - eventLoop: EventLoop to run this process on
+    ///   - onPage: closure called with each block of entries. Returns boolean indicating whether we should continue.
+    public func viewBillingPaginator(
+        _ input: ViewBillingRequest,
+        logger: Logger = AWSClient.loggingDisabled,
+        on eventLoop: EventLoop? = nil,
+        onPage: @escaping (ViewBillingResponse, EventLoop) -> EventLoopFuture<Bool>
+    ) -> EventLoopFuture<Void> {
+        return client.paginate(
+            input: input,
+            command: viewBilling,
+            inputKey: \ViewBillingRequest.marker,
+            outputKey: \ViewBillingResponse.nextPageMarker,
+            on: eventLoop,
+            onPage: onPage
+        )
+    }
 }
 
 extension Route53Domains.ListDomainsRequest: AWSPaginateToken {
     public func usingPaginationToken(_ token: String) -> Route53Domains.ListDomainsRequest {
         return .init(
+            filterConditions: self.filterConditions,
             marker: token,
-            maxItems: self.maxItems
+            maxItems: self.maxItems,
+            sortCondition: self.sortCondition
         )
     }
 }
@@ -143,6 +254,27 @@ extension Route53Domains.ListOperationsRequest: AWSPaginateToken {
             marker: token,
             maxItems: self.maxItems,
             submittedSince: self.submittedSince
+        )
+    }
+}
+
+extension Route53Domains.ListPricesRequest: AWSPaginateToken {
+    public func usingPaginationToken(_ token: String) -> Route53Domains.ListPricesRequest {
+        return .init(
+            marker: token,
+            maxItems: self.maxItems,
+            tld: self.tld
+        )
+    }
+}
+
+extension Route53Domains.ViewBillingRequest: AWSPaginateToken {
+    public func usingPaginationToken(_ token: String) -> Route53Domains.ViewBillingRequest {
+        return .init(
+            end: self.end,
+            marker: token,
+            maxItems: self.maxItems,
+            start: self.start
         )
     }
 }

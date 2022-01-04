@@ -21,7 +21,7 @@ import SotoCore
 
 // MARK: Paginators
 
-@available(macOS 12.0, iOS 15.0, watchOS 8.0, tvOS 15.0, *)
+@available(macOS 10.15, iOS 13.0, tvOS 13.0, watchOS 6.0, *)
 extension SageMakerA2IRuntime {
     ///  Returns information about human loops, given the specified parameters. If a human loop was deleted, it will not be included.
     /// Return PaginatorSequence for operation.

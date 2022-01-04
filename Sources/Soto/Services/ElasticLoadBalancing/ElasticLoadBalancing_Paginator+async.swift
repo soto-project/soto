@@ -21,7 +21,7 @@ import SotoCore
 
 // MARK: Paginators
 
-@available(macOS 12.0, iOS 15.0, watchOS 8.0, tvOS 15.0, *)
+@available(macOS 10.15, iOS 13.0, tvOS 13.0, watchOS 6.0, *)
 extension ElasticLoadBalancing {
     ///  Describes the specified the load balancers. If no load balancers are specified, the call describes all of your load balancers.
     /// Return PaginatorSequence for operation.

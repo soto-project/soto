@@ -56,7 +56,7 @@ public struct ComprehendMedicalErrorType: AWSErrorType {
     public static var invalidRequestException: Self { .init(.invalidRequestException) }
     /// The resource identified by the specified Amazon Resource Name (ARN) was not found. Check the ARN and try your request again.
     public static var resourceNotFoundException: Self { .init(.resourceNotFoundException) }
-    ///  The Amazon Comprehend Medical service is temporarily unavailable. Please wait and then retry your request.
+    ///  The Comprehend Medical; service is temporarily unavailable. Please wait and then retry your request.
     public static var serviceUnavailableException: Self { .init(.serviceUnavailableException) }
     ///  The size of the text you submitted exceeds the size limit. Reduce the size of the text or use a smaller document and then retry your request.
     public static var textSizeLimitExceededException: Self { .init(.textSizeLimitExceededException) }

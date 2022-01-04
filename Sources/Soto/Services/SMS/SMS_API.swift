@@ -19,7 +19,7 @@
 
 /// Service object for interacting with AWS SMS service.
 ///
-/// AWS Server Migration Service AWS Server Migration Service (AWS SMS) makes it easier and faster for you to migrate your on-premises workloads to AWS. To learn more about AWS SMS, see the following  resources:    AWS Server Migration Service product page     AWS Server Migration Service User Guide
+///   Product update  As of March 31, 2022, Amazon Web Services will discontinue Server Migration Service (Amazon Web Services SMS). Going forward, we recommend Amazon Web Services Application Migration Service (Amazon Web Services MGN) as the primary migration service for lift-and-shift migrations. You can initiate new migration jobs in Server Migration Service until January 1, 2022. Complete these active migration projects by March 31, 2022. For more information, see When to Choose AWS Application Migration Service.   Server Migration Service (Server Migration Service) makes it easier and faster for you to migrate your on-premises workloads to Amazon Web Services. To learn more about Server Migration Service, see the following  resources:    Server Migration Service product page     Server Migration Service User Guide
 public struct SMS: AWSService {
     // MARK: Member variables
 
@@ -70,12 +70,12 @@ public struct SMS: AWSService {
         return self.client.execute(operation: "CreateApp", path: "/", httpMethod: .POST, serviceConfig: self.config, input: input, logger: logger, on: eventLoop)
     }
 
-    /// Creates a replication job. The replication job schedules periodic replication runs to replicate your server to AWS. Each replication run creates an Amazon Machine Image (AMI).
+    /// Creates a replication job. The replication job schedules periodic replication runs to replicate your server to Amazon Web Services. Each replication run creates an Amazon Machine Image (AMI).
     public func createReplicationJob(_ input: CreateReplicationJobRequest, logger: Logger = AWSClient.loggingDisabled, on eventLoop: EventLoop? = nil) -> EventLoopFuture<CreateReplicationJobResponse> {
         return self.client.execute(operation: "CreateReplicationJob", path: "/", httpMethod: .POST, serviceConfig: self.config, input: input, logger: logger, on: eventLoop)
     }
 
-    /// Deletes the specified application. Optionally deletes the launched stack associated with the application and all AWS SMS replication jobs for servers in the application.
+    /// Deletes the specified application. Optionally deletes the launched stack associated with the application and all Server Migration Service replication jobs for servers in the application.
     public func deleteApp(_ input: DeleteAppRequest, logger: Logger = AWSClient.loggingDisabled, on eventLoop: EventLoop? = nil) -> EventLoopFuture<DeleteAppResponse> {
         return self.client.execute(operation: "DeleteApp", path: "/", httpMethod: .POST, serviceConfig: self.config, input: input, logger: logger, on: eventLoop)
     }
@@ -95,7 +95,7 @@ public struct SMS: AWSService {
         return self.client.execute(operation: "DeleteAppValidationConfiguration", path: "/", httpMethod: .POST, serviceConfig: self.config, input: input, logger: logger, on: eventLoop)
     }
 
-    /// Deletes the specified replication job. After you delete a replication job, there are no further replication runs. AWS deletes the contents of the Amazon S3 bucket used to store AWS SMS artifacts. The AMIs created by the replication runs are not deleted.
+    /// Deletes the specified replication job. After you delete a replication job, there are no further replication runs. Amazon Web Services deletes the contents of the Amazon S3 bucket used to store Server Migration Service artifacts. The AMIs created by the replication runs are not deleted.
     public func deleteReplicationJob(_ input: DeleteReplicationJobRequest, logger: Logger = AWSClient.loggingDisabled, on eventLoop: EventLoop? = nil) -> EventLoopFuture<DeleteReplicationJobResponse> {
         return self.client.execute(operation: "DeleteReplicationJob", path: "/", httpMethod: .POST, serviceConfig: self.config, input: input, logger: logger, on: eventLoop)
     }
@@ -105,7 +105,7 @@ public struct SMS: AWSService {
         return self.client.execute(operation: "DeleteServerCatalog", path: "/", httpMethod: .POST, serviceConfig: self.config, input: input, logger: logger, on: eventLoop)
     }
 
-    /// Disassociates the specified connector from AWS SMS. After you disassociate a connector, it is no longer available to support replication jobs.
+    /// Disassociates the specified connector from Server Migration Service. After you disassociate a connector, it is no longer available to support replication jobs.
     public func disassociateConnector(_ input: DisassociateConnectorRequest, logger: Logger = AWSClient.loggingDisabled, on eventLoop: EventLoop? = nil) -> EventLoopFuture<DisassociateConnectorResponse> {
         return self.client.execute(operation: "DisassociateConnector", path: "/", httpMethod: .POST, serviceConfig: self.config, input: input, logger: logger, on: eventLoop)
     }
@@ -115,7 +115,7 @@ public struct SMS: AWSService {
         return self.client.execute(operation: "GenerateChangeSet", path: "/", httpMethod: .POST, serviceConfig: self.config, input: input, logger: logger, on: eventLoop)
     }
 
-    /// Generates an AWS CloudFormation template based on the current launch configuration and writes it to an Amazon S3 object in the customer’s Amazon S3 bucket.
+    /// Generates an CloudFormation template based on the current launch configuration and writes it to an Amazon S3 object in the customer’s Amazon S3 bucket.
     public func generateTemplate(_ input: GenerateTemplateRequest, logger: Logger = AWSClient.loggingDisabled, on eventLoop: EventLoop? = nil) -> EventLoopFuture<GenerateTemplateResponse> {
         return self.client.execute(operation: "GenerateTemplate", path: "/", httpMethod: .POST, serviceConfig: self.config, input: input, logger: logger, on: eventLoop)
     }
@@ -145,7 +145,7 @@ public struct SMS: AWSService {
         return self.client.execute(operation: "GetAppValidationOutput", path: "/", httpMethod: .POST, serviceConfig: self.config, input: input, logger: logger, on: eventLoop)
     }
 
-    /// Describes the connectors registered with the AWS SMS.
+    /// Describes the connectors registered with the Server Migration Service.
     public func getConnectors(_ input: GetConnectorsRequest, logger: Logger = AWSClient.loggingDisabled, on eventLoop: EventLoop? = nil) -> EventLoopFuture<GetConnectorsResponse> {
         return self.client.execute(operation: "GetConnectors", path: "/", httpMethod: .POST, serviceConfig: self.config, input: input, logger: logger, on: eventLoop)
     }
@@ -165,7 +165,7 @@ public struct SMS: AWSService {
         return self.client.execute(operation: "GetServers", path: "/", httpMethod: .POST, serviceConfig: self.config, input: input, logger: logger, on: eventLoop)
     }
 
-    /// Allows application import from AWS Migration Hub.
+    /// Allows application import from Migration Hub.
     public func importAppCatalog(_ input: ImportAppCatalogRequest, logger: Logger = AWSClient.loggingDisabled, on eventLoop: EventLoop? = nil) -> EventLoopFuture<ImportAppCatalogResponse> {
         return self.client.execute(operation: "ImportAppCatalog", path: "/", httpMethod: .POST, serviceConfig: self.config, input: input, logger: logger, on: eventLoop)
     }
@@ -175,7 +175,7 @@ public struct SMS: AWSService {
         return self.client.execute(operation: "ImportServerCatalog", path: "/", httpMethod: .POST, serviceConfig: self.config, input: input, logger: logger, on: eventLoop)
     }
 
-    /// Launches the specified application as a stack in AWS CloudFormation.
+    /// Launches the specified application as a stack in CloudFormation.
     public func launchApp(_ input: LaunchAppRequest, logger: Logger = AWSClient.loggingDisabled, on eventLoop: EventLoop? = nil) -> EventLoopFuture<LaunchAppResponse> {
         return self.client.execute(operation: "LaunchApp", path: "/", httpMethod: .POST, serviceConfig: self.config, input: input, logger: logger, on: eventLoop)
     }
@@ -185,7 +185,7 @@ public struct SMS: AWSService {
         return self.client.execute(operation: "ListApps", path: "/", httpMethod: .POST, serviceConfig: self.config, input: input, logger: logger, on: eventLoop)
     }
 
-    /// Provides information to AWS SMS about whether application validation is successful.
+    /// Provides information to Server Migration Service about whether application validation is successful.
     public func notifyAppValidationOutput(_ input: NotifyAppValidationOutputRequest, logger: Logger = AWSClient.loggingDisabled, on eventLoop: EventLoop? = nil) -> EventLoopFuture<NotifyAppValidationOutputResponse> {
         return self.client.execute(operation: "NotifyAppValidationOutput", path: "/", httpMethod: .POST, serviceConfig: self.config, input: input, logger: logger, on: eventLoop)
     }

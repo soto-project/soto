@@ -20,7 +20,7 @@ import SotoCore
 // MARK: Paginators
 
 extension SMS {
-    ///  Describes the connectors registered with the AWS SMS.
+    ///  Describes the connectors registered with the Server Migration Service.
     ///
     /// Provide paginated results to closure `onPage` for it to combine them into one result.
     /// This works in a similar manner to `Array.reduce<Result>(_:_:) -> Result`.

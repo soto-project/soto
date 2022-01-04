@@ -204,6 +204,7 @@ extension CustomerProfiles {
         case `case` = "CASE"
         case lookupOnly = "LOOKUP_ONLY"
         case newOnly = "NEW_ONLY"
+        case order = "ORDER"
         case profile = "PROFILE"
         case secondary = "SECONDARY"
         case unique = "UNIQUE"
@@ -1472,17 +1473,22 @@ extension CustomerProfiles {
         /// The timestamp of when the domain was most recently edited.
         public let lastUpdatedAt: Date
         /// The name of the profile object type.
-        public let objectTypeName: String
+        public let objectTypeName: String?
+        /// A map in which each key is an event type from an external application such as Segment or Shopify, and each value is an ObjectTypeName (template) used to ingest the event.
+        /// It supports the following event types: SegmentIdentify, ShopifyCreateCustomers, ShopifyUpdateCustomers, ShopifyCreateDraftOrders,
+        /// ShopifyUpdateDraftOrders, ShopifyCreateOrders, and ShopifyUpdatedOrders.
+        public let objectTypeNames: [String: String]?
         /// The tags used to organize, track, or control access for this resource.
         public let tags: [String: String]?
         /// The URI of the S3 bucket or any other type of data source.
         public let uri: String
 
-        public init(createdAt: Date, domainName: String, lastUpdatedAt: Date, objectTypeName: String, tags: [String: String]? = nil, uri: String) {
+        public init(createdAt: Date, domainName: String, lastUpdatedAt: Date, objectTypeName: String? = nil, objectTypeNames: [String: String]? = nil, tags: [String: String]? = nil, uri: String) {
             self.createdAt = createdAt
             self.domainName = domainName
             self.lastUpdatedAt = lastUpdatedAt
             self.objectTypeName = objectTypeName
+            self.objectTypeNames = objectTypeNames
             self.tags = tags
             self.uri = uri
         }
@@ -1492,6 +1498,7 @@ extension CustomerProfiles {
             case domainName = "DomainName"
             case lastUpdatedAt = "LastUpdatedAt"
             case objectTypeName = "ObjectTypeName"
+            case objectTypeNames = "ObjectTypeNames"
             case tags = "Tags"
             case uri = "Uri"
         }
@@ -1979,17 +1986,22 @@ extension CustomerProfiles {
         /// The timestamp of when the domain was most recently edited.
         public let lastUpdatedAt: Date
         /// The name of the profile object type.
-        public let objectTypeName: String
+        public let objectTypeName: String?
+        /// A map in which each key is an event type from an external application such as Segment or Shopify, and each value is an ObjectTypeName (template) used to ingest the event.
+        /// It supports the following event types: SegmentIdentify, ShopifyCreateCustomers, ShopifyUpdateCustomers, ShopifyCreateDraftOrders,
+        /// ShopifyUpdateDraftOrders, ShopifyCreateOrders, and ShopifyUpdatedOrders.
+        public let objectTypeNames: [String: String]?
         /// The tags used to organize, track, or control access for this resource.
         public let tags: [String: String]?
         /// The URI of the S3 bucket or any other type of data source.
         public let uri: String
 
-        public init(createdAt: Date, domainName: String, lastUpdatedAt: Date, objectTypeName: String, tags: [String: String]? = nil, uri: String) {
+        public init(createdAt: Date, domainName: String, lastUpdatedAt: Date, objectTypeName: String? = nil, objectTypeNames: [String: String]? = nil, tags: [String: String]? = nil, uri: String) {
             self.createdAt = createdAt
             self.domainName = domainName
             self.lastUpdatedAt = lastUpdatedAt
             self.objectTypeName = objectTypeName
+            self.objectTypeNames = objectTypeNames
             self.tags = tags
             self.uri = uri
         }
@@ -1999,6 +2011,7 @@ extension CustomerProfiles {
             case domainName = "DomainName"
             case lastUpdatedAt = "LastUpdatedAt"
             case objectTypeName = "ObjectTypeName"
+            case objectTypeNames = "ObjectTypeNames"
             case tags = "Tags"
             case uri = "Uri"
         }
@@ -2231,7 +2244,7 @@ extension CustomerProfiles {
         public let maxResults: Int?
         /// The pagination token from the previous call to ListProfileObjects.
         public let nextToken: String?
-        /// Applies a filter to the response to include profile objects with the specified index values. This filter is only supported for ObjectTypeName _asset and _case.
+        /// Applies a filter to the response to include profile objects with the specified index values. This filter is only supported for ObjectTypeName _asset, _case and _order.
         public let objectFilter: ObjectFilter?
         /// The name of the profile object type.
         public let objectTypeName: String
@@ -2469,7 +2482,7 @@ extension CustomerProfiles {
     }
 
     public struct ObjectFilter: AWSEncodableShape {
-        /// A searchable identifier of a standard profile object. The predefined keys you can use to search for _asset include: _assetId, _assetName, _serialNumber. The predefined keys you can use to search for _case include: _caseId.
+        /// A searchable identifier of a standard profile object. The predefined keys you can use to search for _asset include: _assetId, _assetName, _serialNumber. The predefined keys you can use to search for _case include: _caseId. The predefined keys you can use to search for _order include: _orderId.
         public let keyName: String
         /// A list of key values.
         public let values: [String]
@@ -2526,7 +2539,7 @@ extension CustomerProfiles {
     public struct ObjectTypeKey: AWSEncodableShape & AWSDecodableShape {
         /// The reference for the key name of the fields map.
         public let fieldNames: [String]?
-        /// The types of keys that a ProfileObject can have. Each ProfileObject can have only 1 UNIQUE key but multiple PROFILE keys. PROFILE, ASSET or CASE means that this key can be used to tie an object to a PROFILE, ASSET or CASE respectively. UNIQUE means that it can be used to uniquely identify an object. If a key a is marked as SECONDARY, it will be used to search for profiles after all other PROFILE keys have been searched. A LOOKUP_ONLY key is only used to match a profile but is not persisted to be used for searching of the profile. A NEW_ONLY key is only used if the profile does not already exist before the object is ingested, otherwise it is only used for matching objects to profiles.
+        /// The types of keys that a ProfileObject can have. Each ProfileObject can have only 1 UNIQUE key but multiple PROFILE keys. PROFILE, ASSET, CASE, or ORDER  means that this key can be used to tie an object to a PROFILE, ASSET, CASE, or ORDER respectively. UNIQUE means that it can be used to uniquely identify an object. If a key a is marked as SECONDARY, it will be used to search for profiles after all other PROFILE keys have been searched. A LOOKUP_ONLY key is only used to match a profile but is not persisted to be used for searching of the profile. A NEW_ONLY key is only used if the profile does not already exist before the object is ingested, otherwise it is only used for matching objects to profiles.
         public let standardIdentifiers: [StandardIdentifier]?
 
         public init(fieldNames: [String]? = nil, standardIdentifiers: [StandardIdentifier]? = nil) {
@@ -2655,16 +2668,21 @@ extension CustomerProfiles {
         /// The configuration that controls how Customer Profiles retrieves data from the source.
         public let flowDefinition: FlowDefinition?
         /// The name of the profile object type.
-        public let objectTypeName: String
+        public let objectTypeName: String?
+        /// A map in which each key is an event type from an external application such as Segment or Shopify, and each value is an ObjectTypeName (template) used to ingest the event.
+        /// It supports the following event types: SegmentIdentify, ShopifyCreateCustomers, ShopifyUpdateCustomers, ShopifyCreateDraftOrders,
+        /// ShopifyUpdateDraftOrders, ShopifyCreateOrders, and ShopifyUpdatedOrders.
+        public let objectTypeNames: [String: String]?
         /// The tags used to organize, track, or control access for this resource.
         public let tags: [String: String]?
         /// The URI of the S3 bucket or any other type of data source.
         public let uri: String?
 
-        public init(domainName: String, flowDefinition: FlowDefinition? = nil, objectTypeName: String, tags: [String: String]? = nil, uri: String? = nil) {
+        public init(domainName: String, flowDefinition: FlowDefinition? = nil, objectTypeName: String? = nil, objectTypeNames: [String: String]? = nil, tags: [String: String]? = nil, uri: String? = nil) {
             self.domainName = domainName
             self.flowDefinition = flowDefinition
             self.objectTypeName = objectTypeName
+            self.objectTypeNames = objectTypeNames
             self.tags = tags
             self.uri = uri
         }
@@ -2677,6 +2695,13 @@ extension CustomerProfiles {
             try self.validate(self.objectTypeName, name: "objectTypeName", parent: name, max: 255)
             try self.validate(self.objectTypeName, name: "objectTypeName", parent: name, min: 1)
             try self.validate(self.objectTypeName, name: "objectTypeName", parent: name, pattern: "^[a-zA-Z_][a-zA-Z_0-9-]*$")
+            try self.objectTypeNames?.forEach {
+                try validate($0.key, name: "objectTypeNames.key", parent: name, max: 255)
+                try validate($0.key, name: "objectTypeNames.key", parent: name, min: 1)
+                try validate($0.value, name: "objectTypeNames[\"\($0.key)\"]", parent: name, max: 255)
+                try validate($0.value, name: "objectTypeNames[\"\($0.key)\"]", parent: name, min: 1)
+                try validate($0.value, name: "objectTypeNames[\"\($0.key)\"]", parent: name, pattern: "^[a-zA-Z_][a-zA-Z_0-9-]*$")
+            }
             try self.tags?.forEach {
                 try validate($0.key, name: "tags.key", parent: name, max: 128)
                 try validate($0.key, name: "tags.key", parent: name, min: 1)
@@ -2692,6 +2717,7 @@ extension CustomerProfiles {
         private enum CodingKeys: String, CodingKey {
             case flowDefinition = "FlowDefinition"
             case objectTypeName = "ObjectTypeName"
+            case objectTypeNames = "ObjectTypeNames"
             case tags = "Tags"
             case uri = "Uri"
         }
@@ -2705,17 +2731,22 @@ extension CustomerProfiles {
         /// The timestamp of when the domain was most recently edited.
         public let lastUpdatedAt: Date
         /// The name of the profile object type.
-        public let objectTypeName: String
+        public let objectTypeName: String?
+        /// A map in which each key is an event type from an external application such as Segment or Shopify, and each value is an ObjectTypeName (template) used to ingest the event.
+        /// It supports the following event types: SegmentIdentify, ShopifyCreateCustomers, ShopifyUpdateCustomers, ShopifyCreateDraftOrders,
+        /// ShopifyUpdateDraftOrders, ShopifyCreateOrders, and ShopifyUpdatedOrders.
+        public let objectTypeNames: [String: String]?
         /// The tags used to organize, track, or control access for this resource.
         public let tags: [String: String]?
         /// The URI of the S3 bucket or any other type of data source.
         public let uri: String
 
-        public init(createdAt: Date, domainName: String, lastUpdatedAt: Date, objectTypeName: String, tags: [String: String]? = nil, uri: String) {
+        public init(createdAt: Date, domainName: String, lastUpdatedAt: Date, objectTypeName: String? = nil, objectTypeNames: [String: String]? = nil, tags: [String: String]? = nil, uri: String) {
             self.createdAt = createdAt
             self.domainName = domainName
             self.lastUpdatedAt = lastUpdatedAt
             self.objectTypeName = objectTypeName
+            self.objectTypeNames = objectTypeNames
             self.tags = tags
             self.uri = uri
         }
@@ -2725,6 +2756,7 @@ extension CustomerProfiles {
             case domainName = "DomainName"
             case lastUpdatedAt = "LastUpdatedAt"
             case objectTypeName = "ObjectTypeName"
+            case objectTypeNames = "ObjectTypeNames"
             case tags = "Tags"
             case uri = "Uri"
         }
@@ -3078,7 +3110,7 @@ extension CustomerProfiles {
 
         /// The unique name of the domain.
         public let domainName: String
-        /// A searchable identifier of a customer profile. The predefined keys you can use to search include: _account, _profileId, _fullName, _phone, _email, _ctrContactId, _marketoLeadId, _salesforceAccountId, _salesforceContactId, _zendeskUserId, _zendeskExternalId, _serviceNowSystemId.
+        /// A searchable identifier of a customer profile. The predefined keys you can use to search include: _account, _profileId, _assetId, _caseId, _orderId, _fullName, _phone, _email, _ctrContactId, _marketoLeadId, _salesforceAccountId, _salesforceContactId, _salesforceAssetId, _zendeskUserId, _zendeskExternalId, _zendeskTicketId, _serviceNowSystemId, _serviceNowIncidentId, _segmentUserId, _shopifyCustomerId, _shopifyOrderId.
         public let keyName: String
         /// The maximum number of objects returned per page.
         public let maxResults: Int?

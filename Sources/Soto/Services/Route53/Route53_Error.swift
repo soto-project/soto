@@ -188,7 +188,7 @@ public struct Route53ErrorType: AWSErrorType {
     public static var invalidTrafficPolicyDocument: Self { .init(.invalidTrafficPolicyDocument) }
     /// The VPC ID that you specified either isn't a valid ID or the current account is not authorized to access this VPC.
     public static var invalidVPCId: Self { .init(.invalidVPCId) }
-    /// You've already created a key-signing key (KSK) with this name or with the same customer managed customer master key (CMK) ARN.
+    /// You've already created a key-signing key (KSK) with this name or with the same customer managed key ARN.
     public static var keySigningKeyAlreadyExists: Self { .init(.keySigningKeyAlreadyExists) }
     /// The key-signing key (KSK) is specified in a parent DS record.
     public static var keySigningKeyInParentDSRecord: Self { .init(.keySigningKeyInParentDSRecord) }

@@ -94,8 +94,8 @@ extension CloudFront {
     }
 
     public enum HttpVersion: String, CustomStringConvertible, Codable {
-        case http11 = "HTTP1_1"
-        case http2 = "HTTP2"
+        case http11 = "http1.1"
+        case http2
         public var description: String { return self.rawValue }
     }
 
@@ -225,6 +225,12 @@ extension CloudFront {
         case tlSv1 = "TLSv1"
         case tlSv11 = "TLSv1.1"
         case tlSv12 = "TLSv1.2"
+        public var description: String { return self.rawValue }
+    }
+
+    public enum UppercaseHttpVersion: String, CustomStringConvertible, Codable {
+        case http11 = "HTTP1_1"
+        case http2 = "HTTP2"
         public var description: String { return self.rawValue }
     }
 
@@ -3028,7 +3034,7 @@ extension CloudFront {
         ///  Specify the maximum HTTP version that you want viewers to use to communicate with
         /// 			CloudFront. The default value for new web distributions is http2. Viewers that don't
         /// 			support HTTP/2 will automatically use an earlier version.
-        public let httpVersion: HttpVersion
+        public let httpVersion: UppercaseHttpVersion
         /// The identifier for the distribution. For example:
         /// 			EDFDVBD632BHDS5.
         public let id: String
@@ -3057,7 +3063,7 @@ extension CloudFront {
         /// The Web ACL Id (if any) associated with the distribution.
         public let webACLId: String
 
-        public init(aliases: Aliases, aliasICPRecordals: [AliasICPRecordal]? = nil, arn: String, cacheBehaviors: CacheBehaviors, comment: String, customErrorResponses: CustomErrorResponses, defaultCacheBehavior: DefaultCacheBehavior, domainName: String, enabled: Bool, httpVersion: HttpVersion, id: String, isIPV6Enabled: Bool, lastModifiedTime: Date, originGroups: OriginGroups? = nil, origins: Origins, priceClass: PriceClass, restrictions: Restrictions, status: String, viewerCertificate: ViewerCertificate, webACLId: String) {
+        public init(aliases: Aliases, aliasICPRecordals: [AliasICPRecordal]? = nil, arn: String, cacheBehaviors: CacheBehaviors, comment: String, customErrorResponses: CustomErrorResponses, defaultCacheBehavior: DefaultCacheBehavior, domainName: String, enabled: Bool, httpVersion: UppercaseHttpVersion, id: String, isIPV6Enabled: Bool, lastModifiedTime: Date, originGroups: OriginGroups? = nil, origins: Origins, priceClass: PriceClass, restrictions: Restrictions, status: String, viewerCertificate: ViewerCertificate, webACLId: String) {
             self.aliases = aliases
             self.aliasICPRecordals = aliasICPRecordals
             self.arn = arn

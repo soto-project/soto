@@ -1214,7 +1214,8 @@ extension Health {
     public struct OrganizationEventDetailsErrorItem: AWSDecodableShape {
         /// Error information returned when a DescribeEventDetailsForOrganization operation can't find a specified event.
         public let awsAccountId: String?
-        /// A message that describes the error. If you call the DescribeEventDetailsForOrganization operation and receive one of the following errors, follow the recommendations in the message:    We couldn't find a public event that matches your request. To find an event that is account specific, you must enter an Amazon Web Services account ID in the request.   We couldn't find an account specific event for the specified Amazon Web Services account. To find an event that is public, you must enter a null value for the Amazon Web Services account ID in the request.   Your Amazon Web Services account doesn't include the Amazon Web Services Support plan required to use the Health API. You must have either a Business or Enterprise Support plan.
+        /// A message that describes the error.  If you call the DescribeEventDetailsForOrganization operation and receive one of the following errors, follow the recommendations in the message:    We couldn't find a public event that matches your request. To find an event that is account specific, you must enter an Amazon Web Services account ID in the request.   We couldn't find an account specific event for the specified Amazon Web Services account. To find an event that is public, you must enter a null value for the Amazon Web Services account ID in the request.   Your Amazon Web Services account doesn't include the Amazon Web Services Support plan required to use the
+        /// Health API. You must have either a Business, Enterprise On-Ramp, or Enterprise Support plan.
         public let errorMessage: String?
         /// The name of the error.
         public let errorName: String?

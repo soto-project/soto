@@ -21,7 +21,7 @@ import SotoCore
 
 // MARK: Paginators
 
-@available(macOS 12.0, iOS 15.0, watchOS 8.0, tvOS 15.0, *)
+@available(macOS 10.15, iOS 13.0, tvOS 13.0, watchOS 6.0, *)
 extension DataPipeline {
     ///  Gets the object definitions for a set of objects associated with the pipeline. Object definitions are composed of  a set of fields that define the properties of the object.
     ///  POST / HTTP/1.1

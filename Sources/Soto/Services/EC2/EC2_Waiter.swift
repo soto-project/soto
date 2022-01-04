@@ -263,6 +263,23 @@ extension EC2 {
         return self.client.waitUntil(input, waiter: waiter, maxWaitTime: maxWaitTime, logger: logger, on: eventLoop)
     }
 
+    public func waitUntilInternetGatewayExists(
+        _ input: DescribeInternetGatewaysRequest,
+        maxWaitTime: TimeAmount? = nil,
+        logger: Logger = AWSClient.loggingDisabled,
+        on eventLoop: EventLoop? = nil
+    ) -> EventLoopFuture<Void> {
+        let waiter = AWSClient.Waiter(
+            acceptors: [
+                .init(state: .success, matcher: try! JMESPathMatcher("length(internetGateways[].internetGatewayId) > `0`", expected: "true")),
+                .init(state: .retry, matcher: AWSErrorCodeMatcher("InvalidInternetGateway.NotFound")),
+            ],
+            minDelayTime: .seconds(5),
+            command: describeInternetGateways
+        )
+        return self.client.waitUntil(input, waiter: waiter, maxWaitTime: maxWaitTime, logger: logger, on: eventLoop)
+    }
+
     public func waitUntilKeyPairExists(
         _ input: DescribeKeyPairsRequest,
         maxWaitTime: TimeAmount? = nil,

@@ -126,7 +126,7 @@ extension Route53RecoveryControlConfig {
         )
     }
 
-    ///  Returns an array of control panels for a cluster.
+    ///  Returns an array of control panels in an account or in a cluster.
     ///
     /// Provide paginated results to closure `onPage` for it to combine them into one result.
     /// This works in a similar manner to `Array.reduce<Result>(_:_:) -> Result`.

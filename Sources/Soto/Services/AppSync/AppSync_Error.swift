@@ -51,7 +51,7 @@ public struct AppSyncErrorType: AWSErrorType {
     /// return error code string
     public var errorCode: String { self.error.rawValue }
 
-    /// You do not have access to perform this operation on this resource.
+    /// You don't have access to perform this operation on this resource.
     public static var accessDeniedException: Self { .init(.accessDeniedException) }
     /// The API key exceeded a limit. Try your request again.
     public static var apiKeyLimitExceededException: Self { .init(.apiKeyLimitExceededException) }
@@ -71,7 +71,7 @@ public struct AppSyncErrorType: AWSErrorType {
     public static var limitExceededException: Self { .init(.limitExceededException) }
     /// The resource specified in the request was not found. Check the resource, and then try again.
     public static var notFoundException: Self { .init(.notFoundException) }
-    /// You are not authorized to perform this operation.
+    /// You aren't authorized to perform this operation.
     public static var unauthorizedException: Self { .init(.unauthorizedException) }
 }
 

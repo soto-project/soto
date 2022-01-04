@@ -391,7 +391,7 @@ extension Nimble {
         )
     }
 
-    ///  Get all users in a given studio membership.
+    ///  Get all users in a given studio membership.   ListStudioMembers only returns admin members.
     ///
     /// Provide paginated results to closure `onPage` for it to combine them into one result.
     /// This works in a similar manner to `Array.reduce<Result>(_:_:) -> Result`.
