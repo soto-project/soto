@@ -20,7 +20,7 @@ import SotoCore
 
 // MARK: Paginators
 
-@available(macOS 12.0, iOS 15.0, watchOS 8.0, tvOS 15.0, *)
+@available(macOS 10.15, iOS 13.0, tvOS 13.0, watchOS 6.0, *)
 extension LocationService {
     ///  Retrieves the device position history from a tracker resource within a specified range of time.  Device positions are deleted after 30 days.
     /// Return PaginatorSequence for operation.

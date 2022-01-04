@@ -20,7 +20,7 @@ import SotoCore
 
 // MARK: Paginators
 
-@available(macOS 12.0, iOS 15.0, watchOS 8.0, tvOS 15.0, *)
+@available(macOS 10.15, iOS 13.0, tvOS 13.0, watchOS 6.0, *)
 extension SecretsManager {
     ///  Lists the versions for a secret.  To list the secrets in the account, use ListSecrets. To get the secret value from SecretString or SecretBinary, call GetSecretValue.  Minimum permissions  To run this command, you must have secretsmanager:ListSecretVersionIds permissions.
     /// Return PaginatorSequence for operation.
