@@ -1,6 +1,7 @@
 .DS_Store
-/.build
-/.swiftpm
+.build
+.swiftpm
+.vscode
 /Packages
 *.xcodeproj
 .env
@@ -9,5 +10,3 @@ build
 awssdkswift.json
 Package.resolved
 docs/docsets
-/CodeGenerator/.build
-/CodeGenerator/.swiftpm
