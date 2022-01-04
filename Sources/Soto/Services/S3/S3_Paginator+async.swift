@@ -21,7 +21,7 @@ import SotoCore
 
 // MARK: Paginators
 
-@available(macOS 12.0, iOS 15.0, watchOS 8.0, tvOS 15.0, *)
+@available(macOS 10.15, iOS 13.0, tvOS 13.0, watchOS 6.0, *)
 extension S3 {
     ///  Returns some or all (up to 1,000) of the objects in a bucket with each request. You can use the request parameters as selection criteria to return a subset of the objects in a bucket. A  200 OK response can contain valid or invalid XML. Make sure to design your application to parse the contents of the response and handle it appropriately.  Objects are returned sorted in an ascending order of the respective key names in the list. For more information about listing objects, see Listing object keys  programmatically
     ///   To use this operation, you must have READ access to the bucket.

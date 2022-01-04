@@ -21,7 +21,7 @@ import SotoCore
 
 // MARK: Paginators
 
-@available(macOS 12.0, iOS 15.0, watchOS 8.0, tvOS 15.0, *)
+@available(macOS 10.15, iOS 13.0, tvOS 13.0, watchOS 6.0, *)
 extension GameLift {
     ///  Retrieves core fleet-wide properties, including the computing hardware and deployment configuration for all instances in the fleet. This operation can be used in the following ways:    To get attributes for one or more specific fleets, provide a list of fleet IDs or fleet ARNs.    To get attributes for all fleets, do not provide a fleet identifier.    When requesting attributes for multiple fleets, use the pagination parameters to retrieve results as a set of sequential pages.  If successful, a FleetAttributes object is returned for each fleet requested, unless the fleet identifier is not found.   Some API operations limit the number of fleet IDs that allowed in one request. If a request exceeds this limit, the request fails and the error message contains the maximum allowed number.   Learn more   Setting up GameLift fleets   Related actions   ListFleets |  DescribeEC2InstanceLimits |  DescribeFleetAttributes |  DescribeFleetCapacity |  DescribeFleetEvents |  DescribeFleetLocationAttributes |  DescribeFleetPortSettings |  DescribeFleetUtilization |  DescribeRuntimeConfiguration |  DescribeScalingPolicies |  All APIs by task
     /// Return PaginatorSequence for operation.
