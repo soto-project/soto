@@ -39,7 +39,6 @@ extension ComprehendMedical {
         case dosage = "DOSAGE"
         case duration = "DURATION"
         case dxName = "DX_NAME"
-        case dxName = "DX_NAME"
         case email = "EMAIL"
         case form = "FORM"
         case frequency = "FREQUENCY"

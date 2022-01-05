@@ -31,9 +31,6 @@ extension API {
             ReplacePatch(PatchKeyPath2(\Self.operations["GetDashboard"], \.errors[1].shapeName), value: "ResourceNotFoundException", originalValue: "DashboardNotFoundError"),
             ReplacePatch(PatchKeyPath2(\Self.operations["DeleteDashboards"], \.errors[1].shapeName), value: "ResourceNotFoundException", originalValue: "DashboardNotFoundError"),
         ],
-        "ComprehendMedical": [
-            AddPatch(PatchKeyPath3(\Self.shapes["EntitySubType"], \.type.enum, \.cases), value: "DX_NAME"),
-        ],
         "CognitoIdentityProvider": [
             AddPatch(PatchKeyPath3(\Self.shapes["UserStatusType"], \.type.enum, \.cases), value: "EXTERNAL_PROVIDER"),
         ],
