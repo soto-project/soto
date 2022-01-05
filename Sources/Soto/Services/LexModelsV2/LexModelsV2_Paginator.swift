@@ -178,6 +178,59 @@ extension LexModelsV2 {
         )
     }
 
+    ///  Get a list of bot recommendations that meet the specified criteria.
+    ///
+    /// Provide paginated results to closure `onPage` for it to combine them into one result.
+    /// This works in a similar manner to `Array.reduce<Result>(_:_:) -> Result`.
+    ///
+    /// Parameters:
+    ///   - input: Input for request
+    ///   - initialValue: The value to use as the initial accumulating value. `initialValue` is passed to `onPage` the first time it is called.
+    ///   - logger: Logger used for logging output
+    ///   - eventLoop: EventLoop to run this process on
+    ///   - onPage: closure called with each paginated response. It combines an accumulating result with the contents of response. This combined result is then returned
+    ///         along with a boolean indicating if the paginate operation should continue.
+    public func listBotRecommendationsPaginator<Result>(
+        _ input: ListBotRecommendationsRequest,
+        _ initialValue: Result,
+        logger: Logger = AWSClient.loggingDisabled,
+        on eventLoop: EventLoop? = nil,
+        onPage: @escaping (Result, ListBotRecommendationsResponse, EventLoop) -> EventLoopFuture<(Bool, Result)>
+    ) -> EventLoopFuture<Result> {
+        return client.paginate(
+            input: input,
+            initialValue: initialValue,
+            command: listBotRecommendations,
+            inputKey: \ListBotRecommendationsRequest.nextToken,
+            outputKey: \ListBotRecommendationsResponse.nextToken,
+            on: eventLoop,
+            onPage: onPage
+        )
+    }
+
+    /// Provide paginated results to closure `onPage`.
+    ///
+    /// - Parameters:
+    ///   - input: Input for request
+    ///   - logger: Logger used for logging output
+    ///   - eventLoop: EventLoop to run this process on
+    ///   - onPage: closure called with each block of entries. Returns boolean indicating whether we should continue.
+    public func listBotRecommendationsPaginator(
+        _ input: ListBotRecommendationsRequest,
+        logger: Logger = AWSClient.loggingDisabled,
+        on eventLoop: EventLoop? = nil,
+        onPage: @escaping (ListBotRecommendationsResponse, EventLoop) -> EventLoopFuture<Bool>
+    ) -> EventLoopFuture<Void> {
+        return client.paginate(
+            input: input,
+            command: listBotRecommendations,
+            inputKey: \ListBotRecommendationsRequest.nextToken,
+            outputKey: \ListBotRecommendationsResponse.nextToken,
+            on: eventLoop,
+            onPage: onPage
+        )
+    }
+
     ///  Gets information about all of the versions of a bot. The ListBotVersions operation returns a summary of each version of a bot. For example, if a bot has three numbered versions, the ListBotVersions operation returns for summaries, one for each numbered version and one for the DRAFT version. The ListBotVersions operation always returns at least one version, the DRAFT version.
     ///
     /// Provide paginated results to closure `onPage` for it to combine them into one result.
@@ -549,6 +602,59 @@ extension LexModelsV2 {
         )
     }
 
+    ///  Gets a list of recommended intents provided by the bot recommendation that you can use in your bot.
+    ///
+    /// Provide paginated results to closure `onPage` for it to combine them into one result.
+    /// This works in a similar manner to `Array.reduce<Result>(_:_:) -> Result`.
+    ///
+    /// Parameters:
+    ///   - input: Input for request
+    ///   - initialValue: The value to use as the initial accumulating value. `initialValue` is passed to `onPage` the first time it is called.
+    ///   - logger: Logger used for logging output
+    ///   - eventLoop: EventLoop to run this process on
+    ///   - onPage: closure called with each paginated response. It combines an accumulating result with the contents of response. This combined result is then returned
+    ///         along with a boolean indicating if the paginate operation should continue.
+    public func listRecommendedIntentsPaginator<Result>(
+        _ input: ListRecommendedIntentsRequest,
+        _ initialValue: Result,
+        logger: Logger = AWSClient.loggingDisabled,
+        on eventLoop: EventLoop? = nil,
+        onPage: @escaping (Result, ListRecommendedIntentsResponse, EventLoop) -> EventLoopFuture<(Bool, Result)>
+    ) -> EventLoopFuture<Result> {
+        return client.paginate(
+            input: input,
+            initialValue: initialValue,
+            command: listRecommendedIntents,
+            inputKey: \ListRecommendedIntentsRequest.nextToken,
+            outputKey: \ListRecommendedIntentsResponse.nextToken,
+            on: eventLoop,
+            onPage: onPage
+        )
+    }
+
+    /// Provide paginated results to closure `onPage`.
+    ///
+    /// - Parameters:
+    ///   - input: Input for request
+    ///   - logger: Logger used for logging output
+    ///   - eventLoop: EventLoop to run this process on
+    ///   - onPage: closure called with each block of entries. Returns boolean indicating whether we should continue.
+    public func listRecommendedIntentsPaginator(
+        _ input: ListRecommendedIntentsRequest,
+        logger: Logger = AWSClient.loggingDisabled,
+        on eventLoop: EventLoop? = nil,
+        onPage: @escaping (ListRecommendedIntentsResponse, EventLoop) -> EventLoopFuture<Bool>
+    ) -> EventLoopFuture<Void> {
+        return client.paginate(
+            input: input,
+            command: listRecommendedIntents,
+            inputKey: \ListRecommendedIntentsRequest.nextToken,
+            outputKey: \ListRecommendedIntentsResponse.nextToken,
+            on: eventLoop,
+            onPage: onPage
+        )
+    }
+
     ///  Gets a list of slot types that match the specified criteria.
     ///
     /// Provide paginated results to closure `onPage` for it to combine them into one result.
@@ -695,6 +801,18 @@ extension LexModelsV2.ListBotLocalesRequest: AWSPaginateToken {
     }
 }
 
+extension LexModelsV2.ListBotRecommendationsRequest: AWSPaginateToken {
+    public func usingPaginationToken(_ token: String) -> LexModelsV2.ListBotRecommendationsRequest {
+        return .init(
+            botId: self.botId,
+            botVersion: self.botVersion,
+            localeId: self.localeId,
+            maxResults: self.maxResults,
+            nextToken: token
+        )
+    }
+}
+
 extension LexModelsV2.ListBotVersionsRequest: AWSPaginateToken {
     public func usingPaginationToken(_ token: String) -> LexModelsV2.ListBotVersionsRequest {
         return .init(
@@ -775,6 +893,19 @@ extension LexModelsV2.ListIntentsRequest: AWSPaginateToken {
             maxResults: self.maxResults,
             nextToken: token,
             sortBy: self.sortBy
+        )
+    }
+}
+
+extension LexModelsV2.ListRecommendedIntentsRequest: AWSPaginateToken {
+    public func usingPaginationToken(_ token: String) -> LexModelsV2.ListRecommendedIntentsRequest {
+        return .init(
+            botId: self.botId,
+            botRecommendationId: self.botRecommendationId,
+            botVersion: self.botVersion,
+            localeId: self.localeId,
+            maxResults: self.maxResults,
+            nextToken: token
         )
     }
 }

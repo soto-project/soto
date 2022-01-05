@@ -20,7 +20,7 @@ import SotoCore
 
 // MARK: Paginators
 
-@available(macOS 12.0, iOS 15.0, watchOS 8.0, tvOS 15.0, *)
+@available(macOS 10.15, iOS 13.0, tvOS 13.0, watchOS 6.0, *)
 extension Detective {
     ///  Returns the list of behavior graphs that the calling account is an administrator account of. This operation can only be called by an administrator account. Because an account can currently only be the administrator of one behavior graph within a Region, the results always contain a single behavior graph.
     /// Return PaginatorSequence for operation.
@@ -44,7 +44,7 @@ extension Detective {
         )
     }
 
-    ///  Retrieves the list of open and accepted behavior graph invitations for the member account. This operation can only be called by a member account. Open invitations are invitations that the member account has not responded to. The results do not include behavior graphs for which the member account declined the invitation. The results also do not include behavior graphs that the member account resigned from or was removed from.
+    ///  Retrieves the list of open and accepted behavior graph invitations for the member account. This operation can only be called by an invited member account. Open invitations are invitations that the member account has not responded to. The results do not include behavior graphs for which the member account declined the invitation. The results also do not include behavior graphs that the member account resigned from or was removed from.
     /// Return PaginatorSequence for operation.
     ///
     /// - Parameters:
@@ -66,7 +66,7 @@ extension Detective {
         )
     }
 
-    ///  Retrieves the list of member accounts for a behavior graph. Does not return member accounts that were removed from the behavior graph.
+    ///  Retrieves the list of member accounts for a behavior graph. For invited accounts, the results do not include member accounts that were removed from the behavior graph. For the organization behavior graph, the results do not include organization accounts that the Detective administrator account has not enabled as member accounts.
     /// Return PaginatorSequence for operation.
     ///
     /// - Parameters:
@@ -83,6 +83,28 @@ extension Detective {
             command: listMembers,
             inputKey: \ListMembersRequest.nextToken,
             outputKey: \ListMembersResponse.nextToken,
+            logger: logger,
+            on: eventLoop
+        )
+    }
+
+    ///  Returns information about the Detective administrator account for an organization. Can only be called by the organization management account.
+    /// Return PaginatorSequence for operation.
+    ///
+    /// - Parameters:
+    ///   - input: Input for request
+    ///   - logger: Logger used flot logging
+    ///   - eventLoop: EventLoop to run this process on
+    public func listOrganizationAdminAccountsPaginator(
+        _ input: ListOrganizationAdminAccountsRequest,
+        logger: Logger = AWSClient.loggingDisabled,
+        on eventLoop: EventLoop? = nil
+    ) -> AWSClient.PaginatorSequence<ListOrganizationAdminAccountsRequest, ListOrganizationAdminAccountsResponse> {
+        return .init(
+            input: input,
+            command: listOrganizationAdminAccounts,
+            inputKey: \ListOrganizationAdminAccountsRequest.nextToken,
+            outputKey: \ListOrganizationAdminAccountsResponse.nextToken,
             logger: logger,
             on: eventLoop
         )

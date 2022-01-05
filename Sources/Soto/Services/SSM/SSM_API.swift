@@ -18,7 +18,7 @@
 
 /// Service object for interacting with AWS SSM service.
 ///
-/// Amazon Web Services Systems Manager is a collection of capabilities that helps you automate management tasks such as collecting system inventory, applying operating system (OS) patches, automating the creation of Amazon Machine Images (AMIs), and configuring operating systems (OSs) and applications at scale. Systems Manager lets you remotely and securely manage the configuration of your managed instances. A managed instance is any Amazon Elastic Compute Cloud instance (EC2 instance), or any on-premises server or virtual machine (VM) in your hybrid environment that has been configured for Systems Manager. This reference is intended to be used with the Amazon Web Services Systems Manager User Guide. To get started, verify prerequisites and configure managed instances. For more information, see Setting up Amazon Web Services Systems Manager in the Amazon Web Services Systems Manager User Guide.  Related resources    For information about how to use a Query API, see Making API requests.    For information about other API operations you can perform on EC2 instances, see the Amazon EC2 API Reference.   For information about AppConfig, a capability of Systems Manager, see the AppConfig User Guide and the AppConfig API Reference.   For information about Incident Manager, a capability of Systems Manager, see the Incident Manager User Guide and the Incident Manager API Reference.
+/// Amazon Web Services Systems Manager is a collection of capabilities that helps you automate management tasks such as collecting system inventory, applying operating system (OS) patches, automating the creation of Amazon Machine Images (AMIs), and configuring operating systems (OSs) and applications at scale. Systems Manager lets you remotely and securely manage the configuration of your managed nodes. A managed node is any Amazon Elastic Compute Cloud (Amazon EC2) instance, edge device, or on-premises server or virtual machine (VM) that has been configured for Systems Manager.   With support for IoT Greengrass Version 2 devices, the phrase managed instance has been changed to managed node in most of the Systems Manager documentation. The Systems Manager console, API calls, error messages, and SSM documents still use the term instance.  This reference is intended to be used with the Amazon Web Services Systems Manager User Guide. To get started, verify prerequisites and configure managed nodes. For more information, see Setting up Amazon Web Services Systems Manager in the Amazon Web Services Systems Manager User Guide.  Related resources    For information about how to use a Query API, see Making API requests.    For information about other API operations you can perform on EC2 instances, see the Amazon EC2 API Reference.   For information about AppConfig, a capability of Systems Manager, see the AppConfig User Guide and the AppConfig API Reference.   For information about Incident Manager, a capability of Systems Manager, see the Incident Manager User Guide and the Incident Manager API Reference.
 public struct SSM: AWSService {
     // MARK: Member variables
 
@@ -63,7 +63,7 @@ public struct SSM: AWSService {
 
     // MARK: API Calls
 
-    /// Adds or overwrites one or more tags for the specified resource. Tags are metadata that you can assign to your documents, managed instances, maintenance windows, Parameter Store parameters, and patch baselines. Tags enable you to categorize your resources in different ways, for example, by purpose, owner, or environment. Each tag consists of a key and an optional value, both of which you define. For example, you could define a set of tags for your account's managed instances that helps you track each instance's owner and stack level. For example:    Key=Owner,Value=DbAdmin     Key=Owner,Value=SysAdmin     Key=Owner,Value=Dev     Key=Stack,Value=Production     Key=Stack,Value=Pre-Production     Key=Stack,Value=Test    Each resource can have a maximum of 50 tags. We recommend that you devise a set of tag keys that meets your needs for each resource type. Using a consistent set of tag keys makes it easier for you to manage your resources. You can search and filter the resources based on the tags you add. Tags don't have any semantic meaning to and are interpreted strictly as a string of characters.  For more information about using tags with Amazon Elastic Compute Cloud (Amazon EC2) instances, see Tagging your Amazon EC2 resources in the Amazon EC2 User Guide.
+    /// Adds or overwrites one or more tags for the specified resource. Tags are metadata that you can assign to your documents, managed nodes, maintenance windows, Parameter Store parameters, and patch baselines. Tags enable you to categorize your resources in different ways, for example, by purpose, owner, or environment. Each tag consists of a key and an optional value, both of which you define. For example, you could define a set of tags for your account's managed nodes that helps you track each node's owner and stack level. For example:    Key=Owner,Value=DbAdmin     Key=Owner,Value=SysAdmin     Key=Owner,Value=Dev     Key=Stack,Value=Production     Key=Stack,Value=Pre-Production     Key=Stack,Value=Test    Each resource can have a maximum of 50 tags. We recommend that you devise a set of tag keys that meets your needs for each resource type. Using a consistent set of tag keys makes it easier for you to manage your resources. You can search and filter the resources based on the tags you add. Tags don't have any semantic meaning to and are interpreted strictly as a string of characters.  For more information about using tags with Amazon Elastic Compute Cloud (Amazon EC2) instances, see Tagging your Amazon EC2 resources in the Amazon EC2 User Guide.
     public func addTagsToResource(_ input: AddTagsToResourceRequest, logger: Logger = AWSClient.loggingDisabled, on eventLoop: EventLoop? = nil) -> EventLoopFuture<AddTagsToResourceResult> {
         return self.client.execute(operation: "AddTagsToResource", path: "/", httpMethod: .POST, serviceConfig: self.config, input: input, logger: logger, on: eventLoop)
     }
@@ -83,22 +83,22 @@ public struct SSM: AWSService {
         return self.client.execute(operation: "CancelMaintenanceWindowExecution", path: "/", httpMethod: .POST, serviceConfig: self.config, input: input, logger: logger, on: eventLoop)
     }
 
-    /// Generates an activation code and activation ID you can use to register your on-premises server or virtual machine (VM) with Amazon Web Services Systems Manager. Registering these machines with Systems Manager makes it possible to manage them using Systems Manager capabilities. You use the activation code and ID when installing SSM Agent on machines in your hybrid environment. For more information about requirements for managing on-premises instances and VMs using Systems Manager, see Setting up Amazon Web Services Systems Manager for hybrid environments in the Amazon Web Services Systems Manager User Guide.   On-premises servers or VMs that are registered with Systems Manager and Amazon Elastic Compute Cloud (Amazon EC2) instances that you manage with Systems Manager are all called managed instances.
+    /// Generates an activation code and activation ID you can use to register your on-premises servers, edge devices, or virtual machine (VM) with Amazon Web Services Systems Manager. Registering these machines with Systems Manager makes it possible to manage them using Systems Manager capabilities. You use the activation code and ID when installing SSM Agent on machines in your hybrid environment. For more information about requirements for managing on-premises machines using Systems Manager, see Setting up Amazon Web Services Systems Manager for hybrid environments in the Amazon Web Services Systems Manager User Guide.   Amazon Elastic Compute Cloud (Amazon EC2) instances, edge devices, and on-premises servers and VMs that are configured for Systems Manager are all called managed nodes.
     public func createActivation(_ input: CreateActivationRequest, logger: Logger = AWSClient.loggingDisabled, on eventLoop: EventLoop? = nil) -> EventLoopFuture<CreateActivationResult> {
         return self.client.execute(operation: "CreateActivation", path: "/", httpMethod: .POST, serviceConfig: self.config, input: input, logger: logger, on: eventLoop)
     }
 
-    /// A State Manager association defines the state that you want to maintain on your instances. For example, an association can specify that anti-virus software must be installed and running on your instances, or that certain ports must be closed. For static targets, the association specifies a schedule for when the configuration is reapplied. For dynamic targets, such as an Amazon Web Services resource group or an Amazon Web Services autoscaling group, State Manager, a capability of Amazon Web Services Systems Manager applies the configuration when new instances are added to the group. The association also specifies actions to take when applying the configuration. For example, an association for anti-virus software might run once a day. If the software isn't installed, then State Manager installs it. If the software is installed, but the service isn't running, then the association might instruct State Manager to start the service.
+    /// A State Manager association defines the state that you want to maintain on your managed nodes. For example, an association can specify that anti-virus software must be installed and running on your managed nodes, or that certain ports must be closed. For static targets, the association specifies a schedule for when the configuration is reapplied. For dynamic targets, such as an Amazon Web Services resource group or an Amazon Web Services autoscaling group, State Manager, a capability of Amazon Web Services Systems Manager applies the configuration when new managed nodes are added to the group. The association also specifies actions to take when applying the configuration. For example, an association for anti-virus software might run once a day. If the software isn't installed, then State Manager installs it. If the software is installed, but the service isn't running, then the association might instruct State Manager to start the service.
     public func createAssociation(_ input: CreateAssociationRequest, logger: Logger = AWSClient.loggingDisabled, on eventLoop: EventLoop? = nil) -> EventLoopFuture<CreateAssociationResult> {
         return self.client.execute(operation: "CreateAssociation", path: "/", httpMethod: .POST, serviceConfig: self.config, input: input, logger: logger, on: eventLoop)
     }
 
-    /// Associates the specified Amazon Web Services Systems Manager document (SSM document) with the specified instances or targets. When you associate a document with one or more instances using instance IDs or tags, Amazon Web Services Systems Manager Agent (SSM Agent) running on the instance processes the document and configures the instance as specified. If you associate a document with an instance that already has an associated document, the system returns the AssociationAlreadyExists exception.
+    /// Associates the specified Amazon Web Services Systems Manager document (SSM document) with the specified managed nodes or targets. When you associate a document with one or more managed nodes using IDs or tags, Amazon Web Services Systems Manager Agent (SSM Agent) running on the managed node processes the document and configures the node as specified. If you associate a document with a managed node that already has an associated document, the system returns the AssociationAlreadyExists exception.
     public func createAssociationBatch(_ input: CreateAssociationBatchRequest, logger: Logger = AWSClient.loggingDisabled, on eventLoop: EventLoop? = nil) -> EventLoopFuture<CreateAssociationBatchResult> {
         return self.client.execute(operation: "CreateAssociationBatch", path: "/", httpMethod: .POST, serviceConfig: self.config, input: input, logger: logger, on: eventLoop)
     }
 
-    /// Creates a Amazon Web Services Systems Manager (SSM document). An SSM document defines the actions that Systems Manager performs on your managed instances. For more information about SSM documents, including information about supported schemas, features, and syntax, see Amazon Web Services Systems Manager Documents in the Amazon Web Services Systems Manager User Guide.
+    /// Creates a Amazon Web Services Systems Manager (SSM document). An SSM document defines the actions that Systems Manager performs on your managed nodes. For more information about SSM documents, including information about supported schemas, features, and syntax, see Amazon Web Services Systems Manager Documents in the Amazon Web Services Systems Manager User Guide.
     public func createDocument(_ input: CreateDocumentRequest, logger: Logger = AWSClient.loggingDisabled, on eventLoop: EventLoop? = nil) -> EventLoopFuture<CreateDocumentResult> {
         return self.client.execute(operation: "CreateDocument", path: "/", httpMethod: .POST, serviceConfig: self.config, input: input, logger: logger, on: eventLoop)
     }
@@ -128,17 +128,17 @@ public struct SSM: AWSService {
         return self.client.execute(operation: "CreateResourceDataSync", path: "/", httpMethod: .POST, serviceConfig: self.config, input: input, logger: logger, on: eventLoop)
     }
 
-    /// Deletes an activation. You aren't required to delete an activation. If you delete an activation, you can no longer use it to register additional managed instances. Deleting an activation doesn't de-register managed instances. You must manually de-register managed instances.
+    /// Deletes an activation. You aren't required to delete an activation. If you delete an activation, you can no longer use it to register additional managed nodes. Deleting an activation doesn't de-register managed nodes. You must manually de-register managed nodes.
     public func deleteActivation(_ input: DeleteActivationRequest, logger: Logger = AWSClient.loggingDisabled, on eventLoop: EventLoop? = nil) -> EventLoopFuture<DeleteActivationResult> {
         return self.client.execute(operation: "DeleteActivation", path: "/", httpMethod: .POST, serviceConfig: self.config, input: input, logger: logger, on: eventLoop)
     }
 
-    /// Disassociates the specified Amazon Web Services Systems Manager document (SSM document) from the specified instance. If you created the association by using the Targets parameter, then you must delete the association by using the association ID. When you disassociate a document from an instance, it doesn't change the configuration of the instance. To change the configuration state of an instance after you disassociate a document, you must create a new document with the desired configuration and associate it with the instance.
+    /// Disassociates the specified Amazon Web Services Systems Manager document (SSM document) from the specified managed node. If you created the association by using the Targets parameter, then you must delete the association by using the association ID. When you disassociate a document from a managed node, it doesn't change the configuration of the node. To change the configuration state of a managed node after you disassociate a document, you must create a new document with the desired configuration and associate it with the node.
     public func deleteAssociation(_ input: DeleteAssociationRequest, logger: Logger = AWSClient.loggingDisabled, on eventLoop: EventLoop? = nil) -> EventLoopFuture<DeleteAssociationResult> {
         return self.client.execute(operation: "DeleteAssociation", path: "/", httpMethod: .POST, serviceConfig: self.config, input: input, logger: logger, on: eventLoop)
     }
 
-    /// Deletes the Amazon Web Services Systems Manager document (SSM document) and all instance associations to the document. Before you delete the document, we recommend that you use DeleteAssociation to disassociate all instances that are associated with the document.
+    /// Deletes the Amazon Web Services Systems Manager document (SSM document) and all managed node associations to the document. Before you delete the document, we recommend that you use DeleteAssociation to disassociate all managed nodes that are associated with the document.
     public func deleteDocument(_ input: DeleteDocumentRequest, logger: Logger = AWSClient.loggingDisabled, on eventLoop: EventLoop? = nil) -> EventLoopFuture<DeleteDocumentResult> {
         return self.client.execute(operation: "DeleteDocument", path: "/", httpMethod: .POST, serviceConfig: self.config, input: input, logger: logger, on: eventLoop)
     }
@@ -173,12 +173,12 @@ public struct SSM: AWSService {
         return self.client.execute(operation: "DeletePatchBaseline", path: "/", httpMethod: .POST, serviceConfig: self.config, input: input, logger: logger, on: eventLoop)
     }
 
-    /// Deletes a resource data sync configuration. After the configuration is deleted, changes to data on managed instances are no longer synced to or from the target. Deleting a sync configuration doesn't delete data.
+    /// Deletes a resource data sync configuration. After the configuration is deleted, changes to data on managed nodes are no longer synced to or from the target. Deleting a sync configuration doesn't delete data.
     public func deleteResourceDataSync(_ input: DeleteResourceDataSyncRequest, logger: Logger = AWSClient.loggingDisabled, on eventLoop: EventLoop? = nil) -> EventLoopFuture<DeleteResourceDataSyncResult> {
         return self.client.execute(operation: "DeleteResourceDataSync", path: "/", httpMethod: .POST, serviceConfig: self.config, input: input, logger: logger, on: eventLoop)
     }
 
-    /// Removes the server or virtual machine from the list of registered servers. You can reregister the instance again at any time. If you don't plan to use Run Command on the server, we suggest uninstalling SSM Agent first.
+    /// Removes the server or virtual machine from the list of registered servers. You can reregister the node again at any time. If you don't plan to use Run Command on the server, we suggest uninstalling SSM Agent first.
     public func deregisterManagedInstance(_ input: DeregisterManagedInstanceRequest, logger: Logger = AWSClient.loggingDisabled, on eventLoop: EventLoop? = nil) -> EventLoopFuture<DeregisterManagedInstanceResult> {
         return self.client.execute(operation: "DeregisterManagedInstance", path: "/", httpMethod: .POST, serviceConfig: self.config, input: input, logger: logger, on: eventLoop)
     }
@@ -198,12 +198,12 @@ public struct SSM: AWSService {
         return self.client.execute(operation: "DeregisterTaskFromMaintenanceWindow", path: "/", httpMethod: .POST, serviceConfig: self.config, input: input, logger: logger, on: eventLoop)
     }
 
-    /// Describes details about the activation, such as the date and time the activation was created, its expiration date, the Identity and Access Management (IAM) role assigned to the instances in the activation, and the number of instances registered by using this activation.
+    /// Describes details about the activation, such as the date and time the activation was created, its expiration date, the Identity and Access Management (IAM) role assigned to the managed nodes in the activation, and the number of nodes registered by using this activation.
     public func describeActivations(_ input: DescribeActivationsRequest, logger: Logger = AWSClient.loggingDisabled, on eventLoop: EventLoop? = nil) -> EventLoopFuture<DescribeActivationsResult> {
         return self.client.execute(operation: "DescribeActivations", path: "/", httpMethod: .POST, serviceConfig: self.config, input: input, logger: logger, on: eventLoop)
     }
 
-    /// Describes the association for the specified target or instance. If you created the association by using the Targets parameter, then you must retrieve the association by using the association ID.
+    /// Describes the association for the specified target or managed node. If you created the association by using the Targets parameter, then you must retrieve the association by using the association ID.
     public func describeAssociation(_ input: DescribeAssociationRequest, logger: Logger = AWSClient.loggingDisabled, on eventLoop: EventLoop? = nil) -> EventLoopFuture<DescribeAssociationResult> {
         return self.client.execute(operation: "DescribeAssociation", path: "/", httpMethod: .POST, serviceConfig: self.config, input: input, logger: logger, on: eventLoop)
     }
@@ -243,7 +243,7 @@ public struct SSM: AWSService {
         return self.client.execute(operation: "DescribeDocumentPermission", path: "/", httpMethod: .POST, serviceConfig: self.config, input: input, logger: logger, on: eventLoop)
     }
 
-    /// All associations for the instance(s).
+    /// All associations for the managed node(s).
     public func describeEffectiveInstanceAssociations(_ input: DescribeEffectiveInstanceAssociationsRequest, logger: Logger = AWSClient.loggingDisabled, on eventLoop: EventLoop? = nil) -> EventLoopFuture<DescribeEffectiveInstanceAssociationsResult> {
         return self.client.execute(operation: "DescribeEffectiveInstanceAssociations", path: "/", httpMethod: .POST, serviceConfig: self.config, input: input, logger: logger, on: eventLoop)
     }
@@ -253,27 +253,27 @@ public struct SSM: AWSService {
         return self.client.execute(operation: "DescribeEffectivePatchesForPatchBaseline", path: "/", httpMethod: .POST, serviceConfig: self.config, input: input, logger: logger, on: eventLoop)
     }
 
-    /// The status of the associations for the instance(s).
+    /// The status of the associations for the managed node(s).
     public func describeInstanceAssociationsStatus(_ input: DescribeInstanceAssociationsStatusRequest, logger: Logger = AWSClient.loggingDisabled, on eventLoop: EventLoop? = nil) -> EventLoopFuture<DescribeInstanceAssociationsStatusResult> {
         return self.client.execute(operation: "DescribeInstanceAssociationsStatus", path: "/", httpMethod: .POST, serviceConfig: self.config, input: input, logger: logger, on: eventLoop)
     }
 
-    /// Describes one or more of your instances, including information about the operating system platform, the version of SSM Agent installed on the instance, instance status, and so on. If you specify one or more instance IDs, it returns information for those instances. If you don't specify instance IDs, it returns information for all your instances. If you specify an instance ID that isn't valid or an instance that you don't own, you receive an error.  The IamRole field for this API operation is the Identity and Access Management (IAM) role assigned to on-premises instances. This call doesn't return the IAM role for EC2 instances.
+    /// Describes one or more of your managed nodes, including information about the operating system platform, the version of SSM Agent installed on the managed node, node status, and so on. If you specify one or more managed node IDs, it returns information for those managed nodes. If you don't specify node IDs, it returns information for all your managed nodes. If you specify a node ID that isn't valid or a node that you don't own, you receive an error.  The IamRole field for this API operation is the Identity and Access Management (IAM) role assigned to on-premises managed nodes. This call doesn't return the IAM role for EC2 instances.
     public func describeInstanceInformation(_ input: DescribeInstanceInformationRequest, logger: Logger = AWSClient.loggingDisabled, on eventLoop: EventLoop? = nil) -> EventLoopFuture<DescribeInstanceInformationResult> {
         return self.client.execute(operation: "DescribeInstanceInformation", path: "/", httpMethod: .POST, serviceConfig: self.config, input: input, logger: logger, on: eventLoop)
     }
 
-    /// Retrieves the high-level patch state of one or more instances.
+    /// Retrieves the high-level patch state of one or more managed nodes.
     public func describeInstancePatchStates(_ input: DescribeInstancePatchStatesRequest, logger: Logger = AWSClient.loggingDisabled, on eventLoop: EventLoop? = nil) -> EventLoopFuture<DescribeInstancePatchStatesResult> {
         return self.client.execute(operation: "DescribeInstancePatchStates", path: "/", httpMethod: .POST, serviceConfig: self.config, input: input, logger: logger, on: eventLoop)
     }
 
-    /// Retrieves the high-level patch state for the instances in the specified patch group.
+    /// Retrieves the high-level patch state for the managed nodes in the specified patch group.
     public func describeInstancePatchStatesForPatchGroup(_ input: DescribeInstancePatchStatesForPatchGroupRequest, logger: Logger = AWSClient.loggingDisabled, on eventLoop: EventLoop? = nil) -> EventLoopFuture<DescribeInstancePatchStatesForPatchGroupResult> {
         return self.client.execute(operation: "DescribeInstancePatchStatesForPatchGroup", path: "/", httpMethod: .POST, serviceConfig: self.config, input: input, logger: logger, on: eventLoop)
     }
 
-    /// Retrieves information about the patches on the specified instance and their state relative to the patch baseline being used for the instance.
+    /// Retrieves information about the patches on the specified managed node and their state relative to the patch baseline being used for the node.
     public func describeInstancePatches(_ input: DescribeInstancePatchesRequest, logger: Logger = AWSClient.loggingDisabled, on eventLoop: EventLoop? = nil) -> EventLoopFuture<DescribeInstancePatchesResult> {
         return self.client.execute(operation: "DescribeInstancePatches", path: "/", httpMethod: .POST, serviceConfig: self.config, input: input, logger: logger, on: eventLoop)
     }
@@ -318,7 +318,7 @@ public struct SSM: AWSService {
         return self.client.execute(operation: "DescribeMaintenanceWindows", path: "/", httpMethod: .POST, serviceConfig: self.config, input: input, logger: logger, on: eventLoop)
     }
 
-    /// Retrieves information about the maintenance window targets or tasks that an instance is associated with.
+    /// Retrieves information about the maintenance window targets or tasks that a managed node is associated with.
     public func describeMaintenanceWindowsForTarget(_ input: DescribeMaintenanceWindowsForTargetRequest, logger: Logger = AWSClient.loggingDisabled, on eventLoop: EventLoop? = nil) -> EventLoopFuture<DescribeMaintenanceWindowsForTargetResult> {
         return self.client.execute(operation: "DescribeMaintenanceWindowsForTarget", path: "/", httpMethod: .POST, serviceConfig: self.config, input: input, logger: logger, on: eventLoop)
     }
@@ -373,12 +373,12 @@ public struct SSM: AWSService {
         return self.client.execute(operation: "GetCalendarState", path: "/", httpMethod: .POST, serviceConfig: self.config, input: input, logger: logger, on: eventLoop)
     }
 
-    /// Returns detailed information about command execution for an invocation or plugin.  GetCommandInvocation only gives the execution status of a plugin in a document. To get the command execution status on a specific instance, use ListCommandInvocations. To get the command execution status across instances, use ListCommands.
+    /// Returns detailed information about command execution for an invocation or plugin.  GetCommandInvocation only gives the execution status of a plugin in a document. To get the command execution status on a specific managed node, use ListCommandInvocations. To get the command execution status across managed nodes, use ListCommands.
     public func getCommandInvocation(_ input: GetCommandInvocationRequest, logger: Logger = AWSClient.loggingDisabled, on eventLoop: EventLoop? = nil) -> EventLoopFuture<GetCommandInvocationResult> {
         return self.client.execute(operation: "GetCommandInvocation", path: "/", httpMethod: .POST, serviceConfig: self.config, input: input, logger: logger, on: eventLoop)
     }
 
-    /// Retrieves the Session Manager connection status for an instance to determine whether it is running and ready to receive Session Manager connections.
+    /// Retrieves the Session Manager connection status for a managed node to determine whether it is running and ready to receive Session Manager connections.
     public func getConnectionStatus(_ input: GetConnectionStatusRequest, logger: Logger = AWSClient.loggingDisabled, on eventLoop: EventLoop? = nil) -> EventLoopFuture<GetConnectionStatusResponse> {
         return self.client.execute(operation: "GetConnectionStatus", path: "/", httpMethod: .POST, serviceConfig: self.config, input: input, logger: logger, on: eventLoop)
     }
@@ -388,7 +388,7 @@ public struct SSM: AWSService {
         return self.client.execute(operation: "GetDefaultPatchBaseline", path: "/", httpMethod: .POST, serviceConfig: self.config, input: input, logger: logger, on: eventLoop)
     }
 
-    /// Retrieves the current snapshot for the patch baseline the instance uses. This API is primarily used by the AWS-RunPatchBaseline Systems Manager document (SSM document).  If you run the command locally, such as with the Command Line Interface (CLI), the system attempts to use your local Amazon Web Services credentials and the operation fails. To avoid this, you can run the command in the Amazon Web Services Systems Manager console. Use Run Command, a capability of Amazon Web Services Systems Manager, with an SSM document that enables you to target an instance with a script or command. For example, run the command using the AWS-RunShellScript document or the AWS-RunPowerShellScript document.
+    /// Retrieves the current snapshot for the patch baseline the managed node uses. This API is primarily used by the AWS-RunPatchBaseline Systems Manager document (SSM document).  If you run the command locally, such as with the Command Line Interface (CLI), the system attempts to use your local Amazon Web Services credentials and the operation fails. To avoid this, you can run the command in the Amazon Web Services Systems Manager console. Use Run Command, a capability of Amazon Web Services Systems Manager, with an SSM document that enables you to target a managed node with a script or command. For example, run the command using the AWS-RunShellScript document or the AWS-RunPowerShellScript document.
     public func getDeployablePatchSnapshotForInstance(_ input: GetDeployablePatchSnapshotForInstanceRequest, logger: Logger = AWSClient.loggingDisabled, on eventLoop: EventLoop? = nil) -> EventLoopFuture<GetDeployablePatchSnapshotForInstanceResult> {
         return self.client.execute(operation: "GetDeployablePatchSnapshotForInstance", path: "/", httpMethod: .POST, serviceConfig: self.config, input: input, logger: logger, on: eventLoop)
     }
@@ -398,7 +398,7 @@ public struct SSM: AWSService {
         return self.client.execute(operation: "GetDocument", path: "/", httpMethod: .POST, serviceConfig: self.config, input: input, logger: logger, on: eventLoop)
     }
 
-    /// Query inventory information. This includes instance status, such as Stopped or Terminated.
+    /// Query inventory information. This includes managed node status, such as Stopped or Terminated.
     public func getInventory(_ input: GetInventoryRequest, logger: Logger = AWSClient.loggingDisabled, on eventLoop: EventLoop? = nil) -> EventLoopFuture<GetInventoryResult> {
         return self.client.execute(operation: "GetInventory", path: "/", httpMethod: .POST, serviceConfig: self.config, input: input, logger: logger, on: eventLoop)
     }
@@ -493,12 +493,12 @@ public struct SSM: AWSService {
         return self.client.execute(operation: "ListAssociationVersions", path: "/", httpMethod: .POST, serviceConfig: self.config, input: input, logger: logger, on: eventLoop)
     }
 
-    /// Returns all State Manager associations in the current Amazon Web Services account and Amazon Web Services Region. You can limit the results to a specific State Manager association document or instance by specifying a filter. State Manager is a capability of Amazon Web Services Systems Manager.
+    /// Returns all State Manager associations in the current Amazon Web Services account and Amazon Web Services Region. You can limit the results to a specific State Manager association document or managed node by specifying a filter. State Manager is a capability of Amazon Web Services Systems Manager.
     public func listAssociations(_ input: ListAssociationsRequest, logger: Logger = AWSClient.loggingDisabled, on eventLoop: EventLoop? = nil) -> EventLoopFuture<ListAssociationsResult> {
         return self.client.execute(operation: "ListAssociations", path: "/", httpMethod: .POST, serviceConfig: self.config, input: input, logger: logger, on: eventLoop)
     }
 
-    /// An invocation is copy of a command sent to a specific instance. A command can apply to one or more instances. A command invocation applies to one instance. For example, if a user runs SendCommand against three instances, then a command invocation is created for each requested instance ID. ListCommandInvocations provide status about command execution.
+    /// An invocation is copy of a command sent to a specific managed node. A command can apply to one or more managed nodes. A command invocation applies to one managed node. For example, if a user runs SendCommand against three managed nodes, then a command invocation is created for each requested managed node ID. ListCommandInvocations provide status about command execution.
     public func listCommandInvocations(_ input: ListCommandInvocationsRequest, logger: Logger = AWSClient.loggingDisabled, on eventLoop: EventLoop? = nil) -> EventLoopFuture<ListCommandInvocationsResult> {
         return self.client.execute(operation: "ListCommandInvocations", path: "/", httpMethod: .POST, serviceConfig: self.config, input: input, logger: logger, on: eventLoop)
     }
@@ -573,12 +573,12 @@ public struct SSM: AWSService {
         return self.client.execute(operation: "ModifyDocumentPermission", path: "/", httpMethod: .POST, serviceConfig: self.config, input: input, logger: logger, on: eventLoop)
     }
 
-    /// Registers a compliance type and other compliance details on a designated resource. This operation lets you register custom compliance details with a resource. This call overwrites existing compliance information on the resource, so you must provide a full list of compliance items each time that you send the request. ComplianceType can be one of the following:   ExecutionId: The execution ID when the patch, association, or custom compliance item was applied.   ExecutionType: Specify patch, association, or Custom:string.   ExecutionTime. The time the patch, association, or custom compliance item was applied to the instance.   Id: The patch, association, or custom compliance ID.   Title: A title.   Status: The status of the compliance item. For example, approved for patches, or Failed for associations.   Severity: A patch severity. For example, critical.   DocumentName: An SSM document name. For example, AWS-RunPatchBaseline.   DocumentVersion: An SSM document version number. For example, 4.   Classification: A patch classification. For example, security updates.   PatchBaselineId: A patch baseline ID.   PatchSeverity: A patch severity. For example, Critical.   PatchState: A patch state. For example, InstancesWithFailedPatches.   PatchGroup: The name of a patch group.   InstalledTime: The time the association, patch, or custom compliance item was applied to the resource. Specify the time by using the following format: yyyy-MM-dd'T'HH:mm:ss'Z'
+    /// Registers a compliance type and other compliance details on a designated resource. This operation lets you register custom compliance details with a resource. This call overwrites existing compliance information on the resource, so you must provide a full list of compliance items each time that you send the request. ComplianceType can be one of the following:   ExecutionId: The execution ID when the patch, association, or custom compliance item was applied.   ExecutionType: Specify patch, association, or Custom:string.   ExecutionTime. The time the patch, association, or custom compliance item was applied to the managed node.   Id: The patch, association, or custom compliance ID.   Title: A title.   Status: The status of the compliance item. For example, approved for patches, or Failed for associations.   Severity: A patch severity. For example, critical.   DocumentName: An SSM document name. For example, AWS-RunPatchBaseline.   DocumentVersion: An SSM document version number. For example, 4.   Classification: A patch classification. For example, security updates.   PatchBaselineId: A patch baseline ID.   PatchSeverity: A patch severity. For example, Critical.   PatchState: A patch state. For example, InstancesWithFailedPatches.   PatchGroup: The name of a patch group.   InstalledTime: The time the association, patch, or custom compliance item was applied to the resource. Specify the time by using the following format: yyyy-MM-dd'T'HH:mm:ss'Z'
     public func putComplianceItems(_ input: PutComplianceItemsRequest, logger: Logger = AWSClient.loggingDisabled, on eventLoop: EventLoop? = nil) -> EventLoopFuture<PutComplianceItemsResult> {
         return self.client.execute(operation: "PutComplianceItems", path: "/", httpMethod: .POST, serviceConfig: self.config, input: input, logger: logger, on: eventLoop)
     }
 
-    /// Bulk update custom inventory items on one more instance. The request adds an inventory item, if it doesn't already exist, or updates an inventory item, if it does exist.
+    /// Bulk update custom inventory items on one or more managed nodes. The request adds an inventory item, if it doesn't already exist, or updates an inventory item, if it does exist.
     public func putInventory(_ input: PutInventoryRequest, logger: Logger = AWSClient.loggingDisabled, on eventLoop: EventLoop? = nil) -> EventLoopFuture<PutInventoryResult> {
         return self.client.execute(operation: "PutInventory", path: "/", httpMethod: .POST, serviceConfig: self.config, input: input, logger: logger, on: eventLoop)
     }
@@ -618,7 +618,7 @@ public struct SSM: AWSService {
         return self.client.execute(operation: "ResetServiceSetting", path: "/", httpMethod: .POST, serviceConfig: self.config, input: input, logger: logger, on: eventLoop)
     }
 
-    /// Reconnects a session to an instance after it has been disconnected. Connections can be resumed for disconnected sessions, but not terminated sessions.  This command is primarily for use by client machines to automatically reconnect during intermittent network issues. It isn't intended for any other use.
+    /// Reconnects a session to a managed node after it has been disconnected. Connections can be resumed for disconnected sessions, but not terminated sessions.  This command is primarily for use by client machines to automatically reconnect during intermittent network issues. It isn't intended for any other use.
     public func resumeSession(_ input: ResumeSessionRequest, logger: Logger = AWSClient.loggingDisabled, on eventLoop: EventLoop? = nil) -> EventLoopFuture<ResumeSessionResponse> {
         return self.client.execute(operation: "ResumeSession", path: "/", httpMethod: .POST, serviceConfig: self.config, input: input, logger: logger, on: eventLoop)
     }
@@ -628,7 +628,7 @@ public struct SSM: AWSService {
         return self.client.execute(operation: "SendAutomationSignal", path: "/", httpMethod: .POST, serviceConfig: self.config, input: input, logger: logger, on: eventLoop)
     }
 
-    /// Runs commands on one or more managed instances.
+    /// Runs commands on one or more managed nodes.
     public func sendCommand(_ input: SendCommandRequest, logger: Logger = AWSClient.loggingDisabled, on eventLoop: EventLoop? = nil) -> EventLoopFuture<SendCommandResult> {
         return self.client.execute(operation: "SendCommand", path: "/", httpMethod: .POST, serviceConfig: self.config, input: input, logger: logger, on: eventLoop)
     }
@@ -648,7 +648,7 @@ public struct SSM: AWSService {
         return self.client.execute(operation: "StartChangeRequestExecution", path: "/", httpMethod: .POST, serviceConfig: self.config, input: input, logger: logger, on: eventLoop)
     }
 
-    /// Initiates a connection to a target (for example, an instance) for a Session Manager session. Returns a URL and token that can be used to open a WebSocket connection for sending input and receiving outputs.  Amazon Web Services CLI usage: start-session is an interactive command that requires the Session Manager plugin to be installed on the client machine making the call. For information, see Install the Session Manager plugin for the Amazon Web Services CLI in the Amazon Web Services Systems Manager User Guide. Amazon Web Services Tools for PowerShell usage: Start-SSMSession isn't currently supported by Amazon Web Services Tools for PowerShell on Windows local machines.
+    /// Initiates a connection to a target (for example, a managed node) for a Session Manager session. Returns a URL and token that can be used to open a WebSocket connection for sending input and receiving outputs.  Amazon Web Services CLI usage: start-session is an interactive command that requires the Session Manager plugin to be installed on the client machine making the call. For information, see Install the Session Manager plugin for the Amazon Web Services CLI in the Amazon Web Services Systems Manager User Guide. Amazon Web Services Tools for PowerShell usage: Start-SSMSession isn't currently supported by Amazon Web Services Tools for PowerShell on Windows local machines.
     public func startSession(_ input: StartSessionRequest, logger: Logger = AWSClient.loggingDisabled, on eventLoop: EventLoop? = nil) -> EventLoopFuture<StartSessionResponse> {
         return self.client.execute(operation: "StartSession", path: "/", httpMethod: .POST, serviceConfig: self.config, input: input, logger: logger, on: eventLoop)
     }
@@ -658,7 +658,7 @@ public struct SSM: AWSService {
         return self.client.execute(operation: "StopAutomationExecution", path: "/", httpMethod: .POST, serviceConfig: self.config, input: input, logger: logger, on: eventLoop)
     }
 
-    /// Permanently ends a session and closes the data connection between the Session Manager client and SSM Agent on the instance. A terminated session isn't be resumed.
+    /// Permanently ends a session and closes the data connection between the Session Manager client and SSM Agent on the managed node. A terminated session isn't be resumed.
     public func terminateSession(_ input: TerminateSessionRequest, logger: Logger = AWSClient.loggingDisabled, on eventLoop: EventLoop? = nil) -> EventLoopFuture<TerminateSessionResponse> {
         return self.client.execute(operation: "TerminateSession", path: "/", httpMethod: .POST, serviceConfig: self.config, input: input, logger: logger, on: eventLoop)
     }
@@ -673,7 +673,7 @@ public struct SSM: AWSService {
         return self.client.execute(operation: "UpdateAssociation", path: "/", httpMethod: .POST, serviceConfig: self.config, input: input, logger: logger, on: eventLoop)
     }
 
-    /// Updates the status of the Amazon Web Services Systems Manager document (SSM document) associated with the specified instance.  UpdateAssociationStatus is primarily used by the Amazon Web Services Systems Manager Agent (SSM Agent) to report status updates about your associations and is only used for associations created with the InstanceId legacy parameter.
+    /// Updates the status of the Amazon Web Services Systems Manager document (SSM document) associated with the specified managed node.  UpdateAssociationStatus is primarily used by the Amazon Web Services Systems Manager Agent (SSM Agent) to report status updates about your associations and is only used for associations created with the InstanceId legacy parameter.
     public func updateAssociationStatus(_ input: UpdateAssociationStatusRequest, logger: Logger = AWSClient.loggingDisabled, on eventLoop: EventLoop? = nil) -> EventLoopFuture<UpdateAssociationStatusResult> {
         return self.client.execute(operation: "UpdateAssociationStatus", path: "/", httpMethod: .POST, serviceConfig: self.config, input: input, logger: logger, on: eventLoop)
     }
@@ -708,7 +708,7 @@ public struct SSM: AWSService {
         return self.client.execute(operation: "UpdateMaintenanceWindowTask", path: "/", httpMethod: .POST, serviceConfig: self.config, input: input, logger: logger, on: eventLoop)
     }
 
-    /// Changes the Identity and Access Management (IAM) role that is assigned to the on-premises instance or virtual machines (VM). IAM roles are first assigned to these hybrid instances during the activation process. For more information, see CreateActivation.
+    /// Changes the Identity and Access Management (IAM) role that is assigned to the on-premises server, edge device, or virtual machines (VM). IAM roles are first assigned to these hybrid nodes during the activation process. For more information, see CreateActivation.
     public func updateManagedInstanceRole(_ input: UpdateManagedInstanceRoleRequest, logger: Logger = AWSClient.loggingDisabled, on eventLoop: EventLoop? = nil) -> EventLoopFuture<UpdateManagedInstanceRoleResult> {
         return self.client.execute(operation: "UpdateManagedInstanceRole", path: "/", httpMethod: .POST, serviceConfig: self.config, input: input, logger: logger, on: eventLoop)
     }

@@ -90,10 +90,38 @@ extension ECR {
         public var description: String { return self.rawValue }
     }
 
+    public enum ScanFrequency: String, CustomStringConvertible, Codable {
+        case continuousScan = "CONTINUOUS_SCAN"
+        case manual = "MANUAL"
+        case scanOnPush = "SCAN_ON_PUSH"
+        public var description: String { return self.rawValue }
+    }
+
     public enum ScanStatus: String, CustomStringConvertible, Codable {
+        case active = "ACTIVE"
         case complete = "COMPLETE"
         case failed = "FAILED"
+        case findingsUnavailable = "FINDINGS_UNAVAILABLE"
         case inProgress = "IN_PROGRESS"
+        case pending = "PENDING"
+        case scanEligibilityExpired = "SCAN_ELIGIBILITY_EXPIRED"
+        case unsupportedImage = "UNSUPPORTED_IMAGE"
+        public var description: String { return self.rawValue }
+    }
+
+    public enum ScanType: String, CustomStringConvertible, Codable {
+        case basic = "BASIC"
+        case enhanced = "ENHANCED"
+        public var description: String { return self.rawValue }
+    }
+
+    public enum ScanningConfigurationFailureCode: String, CustomStringConvertible, Codable {
+        case repositoryNotFound = "REPOSITORY_NOT_FOUND"
+        public var description: String { return self.rawValue }
+    }
+
+    public enum ScanningRepositoryFilterType: String, CustomStringConvertible, Codable {
+        case wildcard = "WILDCARD"
         public var description: String { return self.rawValue }
     }
 
@@ -141,6 +169,47 @@ extension ECR {
             case authorizationToken
             case expiresAt
             case proxyEndpoint
+        }
+    }
+
+    public struct AwsEcrContainerImageDetails: AWSDecodableShape {
+        /// The architecture of the Amazon ECR container image.
+        public let architecture: String?
+        /// The image author of the Amazon ECR container image.
+        public let author: String?
+        /// The image hash of the Amazon ECR container image.
+        public let imageHash: String?
+        /// The image tags attached to the Amazon ECR container image.
+        public let imageTags: [String]?
+        /// The platform of the Amazon ECR container image.
+        public let platform: String?
+        /// The date and time the Amazon ECR container image was pushed.
+        public let pushedAt: Date?
+        /// The registry the Amazon ECR container image belongs to.
+        public let registry: String?
+        /// The name of the repository the Amazon ECR container image resides in.
+        public let repositoryName: String?
+
+        public init(architecture: String? = nil, author: String? = nil, imageHash: String? = nil, imageTags: [String]? = nil, platform: String? = nil, pushedAt: Date? = nil, registry: String? = nil, repositoryName: String? = nil) {
+            self.architecture = architecture
+            self.author = author
+            self.imageHash = imageHash
+            self.imageTags = imageTags
+            self.platform = platform
+            self.pushedAt = pushedAt
+            self.registry = registry
+            self.repositoryName = repositoryName
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case architecture
+            case author
+            case imageHash
+            case imageTags
+            case platform
+            case pushedAt
+            case registry
+            case repositoryName
         }
     }
 
@@ -301,6 +370,46 @@ extension ECR {
         }
     }
 
+    public struct BatchGetRepositoryScanningConfigurationRequest: AWSEncodableShape {
+        /// One or more repository names to get the scanning configuration for.
+        public let repositoryNames: [String]
+
+        public init(repositoryNames: [String]) {
+            self.repositoryNames = repositoryNames
+        }
+
+        public func validate(name: String) throws {
+            try self.repositoryNames.forEach {
+                try validate($0, name: "repositoryNames[]", parent: name, max: 256)
+                try validate($0, name: "repositoryNames[]", parent: name, min: 2)
+                try validate($0, name: "repositoryNames[]", parent: name, pattern: "(?:[a-z0-9]+(?:[._-][a-z0-9]+)*/)*[a-z0-9]+(?:[._-][a-z0-9]+)*")
+            }
+            try self.validate(self.repositoryNames, name: "repositoryNames", parent: name, max: 25)
+            try self.validate(self.repositoryNames, name: "repositoryNames", parent: name, min: 1)
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case repositoryNames
+        }
+    }
+
+    public struct BatchGetRepositoryScanningConfigurationResponse: AWSDecodableShape {
+        /// Any failures associated with the call.
+        public let failures: [RepositoryScanningConfigurationFailure]?
+        /// The scanning configuration for the requested repositories.
+        public let scanningConfigurations: [RepositoryScanningConfiguration]?
+
+        public init(failures: [RepositoryScanningConfigurationFailure]? = nil, scanningConfigurations: [RepositoryScanningConfiguration]? = nil) {
+            self.failures = failures
+            self.scanningConfigurations = scanningConfigurations
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case failures
+            case scanningConfigurations
+        }
+    }
+
     public struct CompleteLayerUploadRequest: AWSEncodableShape {
         /// The sha256 digest of the image layer.
         public let layerDigests: [String]
@@ -364,6 +473,59 @@ extension ECR {
         }
     }
 
+    public struct CreatePullThroughCacheRuleRequest: AWSEncodableShape {
+        /// The repository name prefix to use when caching images from the source registry.
+        public let ecrRepositoryPrefix: String
+        /// The Amazon Web Services account ID associated with the registry to create the pull through cache rule for. If you do not specify a registry, the default registry is assumed.
+        public let registryId: String?
+        /// The registry URL of the upstream public registry to use as the source for the pull through cache rule.
+        public let upstreamRegistryUrl: String
+
+        public init(ecrRepositoryPrefix: String, registryId: String? = nil, upstreamRegistryUrl: String) {
+            self.ecrRepositoryPrefix = ecrRepositoryPrefix
+            self.registryId = registryId
+            self.upstreamRegistryUrl = upstreamRegistryUrl
+        }
+
+        public func validate(name: String) throws {
+            try self.validate(self.ecrRepositoryPrefix, name: "ecrRepositoryPrefix", parent: name, max: 20)
+            try self.validate(self.ecrRepositoryPrefix, name: "ecrRepositoryPrefix", parent: name, min: 2)
+            try self.validate(self.ecrRepositoryPrefix, name: "ecrRepositoryPrefix", parent: name, pattern: "[a-z0-9]+(?:[._-][a-z0-9]+)*")
+            try self.validate(self.registryId, name: "registryId", parent: name, pattern: "[0-9]{12}")
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case ecrRepositoryPrefix
+            case registryId
+            case upstreamRegistryUrl
+        }
+    }
+
+    public struct CreatePullThroughCacheRuleResponse: AWSDecodableShape {
+        /// The date and time, in JavaScript date format, when the pull through cache rule was created.
+        public let createdAt: Date?
+        /// The Amazon ECR repository prefix associated with the pull through cache rule.
+        public let ecrRepositoryPrefix: String?
+        /// The registry ID associated with the request.
+        public let registryId: String?
+        /// The upstream registry URL associated with the pull through cache rule.
+        public let upstreamRegistryUrl: String?
+
+        public init(createdAt: Date? = nil, ecrRepositoryPrefix: String? = nil, registryId: String? = nil, upstreamRegistryUrl: String? = nil) {
+            self.createdAt = createdAt
+            self.ecrRepositoryPrefix = ecrRepositoryPrefix
+            self.registryId = registryId
+            self.upstreamRegistryUrl = upstreamRegistryUrl
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case createdAt
+            case ecrRepositoryPrefix
+            case registryId
+            case upstreamRegistryUrl
+        }
+    }
+
     public struct CreateRepositoryRequest: AWSEncodableShape {
         /// The encryption configuration for the repository. This determines how the contents of your repository are encrypted at rest.
         public let encryptionConfiguration: EncryptionConfiguration?
@@ -371,7 +533,7 @@ extension ECR {
         public let imageScanningConfiguration: ImageScanningConfiguration?
         /// The tag mutability setting for the repository. If this parameter is omitted, the default setting of MUTABLE will be used which will allow image tags to be overwritten. If IMMUTABLE is specified, all image tags within the repository will be immutable which will prevent them from being overwritten.
         public let imageTagMutability: ImageTagMutability?
-        /// The AWS account ID associated with the registry to create the repository. If you do not specify a registry, the default registry is assumed.
+        /// The Amazon Web Services account ID associated with the registry to create the repository. If you do not specify a registry, the default registry is assumed.
         public let registryId: String?
         /// The name to use for the repository. The repository name may be specified on its own (such as nginx-web-app) or it can be prepended with a namespace to group the repository into a category (such as project-a/nginx-web-app).
         public let repositoryName: String
@@ -415,6 +577,77 @@ extension ECR {
 
         private enum CodingKeys: String, CodingKey {
             case repository
+        }
+    }
+
+    public struct CvssScore: AWSDecodableShape {
+        /// The base CVSS score used for the finding.
+        public let baseScore: Double?
+        /// The vector string of the CVSS score.
+        public let scoringVector: String?
+        /// The source of the CVSS score.
+        public let source: String?
+        /// The version of CVSS used for the score.
+        public let version: String?
+
+        public init(baseScore: Double? = nil, scoringVector: String? = nil, source: String? = nil, version: String? = nil) {
+            self.baseScore = baseScore
+            self.scoringVector = scoringVector
+            self.source = source
+            self.version = version
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case baseScore
+            case scoringVector
+            case source
+            case version
+        }
+    }
+
+    public struct CvssScoreAdjustment: AWSDecodableShape {
+        /// The metric used to adjust the CVSS score.
+        public let metric: String?
+        /// The reason the CVSS score has been adjustment.
+        public let reason: String?
+
+        public init(metric: String? = nil, reason: String? = nil) {
+            self.metric = metric
+            self.reason = reason
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case metric
+            case reason
+        }
+    }
+
+    public struct CvssScoreDetails: AWSDecodableShape {
+        /// An object that contains details about adjustment Amazon Inspector made to the CVSS score.
+        public let adjustments: [CvssScoreAdjustment]?
+        /// The CVSS score.
+        public let score: Double?
+        /// The source for the CVSS score.
+        public let scoreSource: String?
+        /// The vector for the CVSS score.
+        public let scoringVector: String?
+        /// The CVSS version used in scoring.
+        public let version: String?
+
+        public init(adjustments: [CvssScoreAdjustment]? = nil, score: Double? = nil, scoreSource: String? = nil, scoringVector: String? = nil, version: String? = nil) {
+            self.adjustments = adjustments
+            self.score = score
+            self.scoreSource = scoreSource
+            self.scoringVector = scoringVector
+            self.version = version
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case adjustments
+            case score
+            case scoreSource
+            case scoringVector
+            case version
         }
     }
 
@@ -464,6 +697,55 @@ extension ECR {
             case lifecyclePolicyText
             case registryId
             case repositoryName
+        }
+    }
+
+    public struct DeletePullThroughCacheRuleRequest: AWSEncodableShape {
+        /// The Amazon ECR repository prefix associated with the pull through cache rule to delete.
+        public let ecrRepositoryPrefix: String
+        /// The Amazon Web Services account ID associated with the registry that contains the pull through cache rule. If you do not specify a registry, the default registry is assumed.
+        public let registryId: String?
+
+        public init(ecrRepositoryPrefix: String, registryId: String? = nil) {
+            self.ecrRepositoryPrefix = ecrRepositoryPrefix
+            self.registryId = registryId
+        }
+
+        public func validate(name: String) throws {
+            try self.validate(self.ecrRepositoryPrefix, name: "ecrRepositoryPrefix", parent: name, max: 20)
+            try self.validate(self.ecrRepositoryPrefix, name: "ecrRepositoryPrefix", parent: name, min: 2)
+            try self.validate(self.ecrRepositoryPrefix, name: "ecrRepositoryPrefix", parent: name, pattern: "[a-z0-9]+(?:[._-][a-z0-9]+)*")
+            try self.validate(self.registryId, name: "registryId", parent: name, pattern: "[0-9]{12}")
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case ecrRepositoryPrefix
+            case registryId
+        }
+    }
+
+    public struct DeletePullThroughCacheRuleResponse: AWSDecodableShape {
+        /// The timestamp associated with the pull through cache rule.
+        public let createdAt: Date?
+        /// The Amazon ECR repository prefix associated with the request.
+        public let ecrRepositoryPrefix: String?
+        /// The registry ID associated with the request.
+        public let registryId: String?
+        /// The upstream registry URL associated with the pull through cache rule.
+        public let upstreamRegistryUrl: String?
+
+        public init(createdAt: Date? = nil, ecrRepositoryPrefix: String? = nil, registryId: String? = nil, upstreamRegistryUrl: String? = nil) {
+            self.createdAt = createdAt
+            self.ecrRepositoryPrefix = ecrRepositoryPrefix
+            self.registryId = registryId
+            self.upstreamRegistryUrl = upstreamRegistryUrl
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case createdAt
+            case ecrRepositoryPrefix
+            case registryId
+            case upstreamRegistryUrl
         }
     }
 
@@ -769,6 +1051,61 @@ extension ECR {
         }
     }
 
+    public struct DescribePullThroughCacheRulesRequest: AWSEncodableShape {
+        /// The Amazon ECR repository prefixes associated with the pull through cache rules to return. If no repository prefix value is specified, all pull through cache rules are returned.
+        public let ecrRepositoryPrefixes: [String]?
+        /// The maximum number of pull through cache rules returned by DescribePullThroughCacheRulesRequest in paginated output. When this parameter is used, DescribePullThroughCacheRulesRequest only returns maxResults results in a single page along with a nextToken response element. The remaining results of the initial request can be seen by sending another DescribePullThroughCacheRulesRequest request with the returned nextToken value. This value can be between 1 and 1000. If this parameter is not used, then DescribePullThroughCacheRulesRequest returns up to 100 results and a nextToken value, if applicable.
+        public let maxResults: Int?
+        /// The nextToken value returned from a previous paginated DescribePullThroughCacheRulesRequest request where maxResults was used and the results exceeded the value of that parameter. Pagination continues from the end of the previous results that returned the nextToken value. This value is null when there are no more results to return.
+        public let nextToken: String?
+        /// The Amazon Web Services account ID associated with the registry to return the pull through cache rules for. If you do not specify a registry, the default registry is assumed.
+        public let registryId: String?
+
+        public init(ecrRepositoryPrefixes: [String]? = nil, maxResults: Int? = nil, nextToken: String? = nil, registryId: String? = nil) {
+            self.ecrRepositoryPrefixes = ecrRepositoryPrefixes
+            self.maxResults = maxResults
+            self.nextToken = nextToken
+            self.registryId = registryId
+        }
+
+        public func validate(name: String) throws {
+            try self.ecrRepositoryPrefixes?.forEach {
+                try validate($0, name: "ecrRepositoryPrefixes[]", parent: name, max: 20)
+                try validate($0, name: "ecrRepositoryPrefixes[]", parent: name, min: 2)
+                try validate($0, name: "ecrRepositoryPrefixes[]", parent: name, pattern: "[a-z0-9]+(?:[._-][a-z0-9]+)*")
+            }
+            try self.validate(self.ecrRepositoryPrefixes, name: "ecrRepositoryPrefixes", parent: name, max: 100)
+            try self.validate(self.ecrRepositoryPrefixes, name: "ecrRepositoryPrefixes", parent: name, min: 1)
+            try self.validate(self.maxResults, name: "maxResults", parent: name, max: 1000)
+            try self.validate(self.maxResults, name: "maxResults", parent: name, min: 1)
+            try self.validate(self.registryId, name: "registryId", parent: name, pattern: "[0-9]{12}")
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case ecrRepositoryPrefixes
+            case maxResults
+            case nextToken
+            case registryId
+        }
+    }
+
+    public struct DescribePullThroughCacheRulesResponse: AWSDecodableShape {
+        /// The nextToken value to include in a future DescribePullThroughCacheRulesRequest request. When the results of a DescribePullThroughCacheRulesRequest request exceed maxResults, this value can be used to retrieve the next page of results. This value is null when there are no more results to return.
+        public let nextToken: String?
+        /// The details of the pull through cache rules.
+        public let pullThroughCacheRules: [PullThroughCacheRule]?
+
+        public init(nextToken: String? = nil, pullThroughCacheRules: [PullThroughCacheRule]? = nil) {
+            self.nextToken = nextToken
+            self.pullThroughCacheRules = pullThroughCacheRules
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case nextToken
+            case pullThroughCacheRules
+        }
+    }
+
     public struct DescribeRegistryRequest: AWSEncodableShape {
         public init() {}
     }
@@ -846,7 +1183,7 @@ extension ECR {
     }
 
     public struct EncryptionConfiguration: AWSEncodableShape & AWSDecodableShape {
-        /// The encryption type to use. If you use the KMS encryption type, the contents of the repository will be encrypted using server-side encryption with Key Management Service key stored in KMS. When you use KMS to encrypt your data, you can either use the default Amazon Web Services managed KMS key for Amazon ECR, or specify your own KMS key, which you already created. For more information, see Protecting data using server-side encryption with an KMS key stored in Key Management Service (SSE-KMS) in the Amazon Simple Storage Service Console Developer Guide.. If you use the AES256 encryption type, Amazon ECR uses server-side encryption with Amazon S3-managed encryption keys which encrypts the images in the repository using an AES-256 encryption algorithm. For more information, see Protecting data using server-side encryption with Amazon S3-managed encryption keys (SSE-S3) in the Amazon Simple Storage Service Console Developer Guide..
+        /// The encryption type to use. If you use the KMS encryption type, the contents of the repository will be encrypted using server-side encryption with Key Management Service key stored in KMS. When you use KMS to encrypt your data, you can either use the default Amazon Web Services managed KMS key for Amazon ECR, or specify your own KMS key, which you already created. For more information, see Protecting data using server-side encryption with an KMS key stored in Key Management Service (SSE-KMS) in the Amazon Simple Storage Service Console Developer Guide. If you use the AES256 encryption type, Amazon ECR uses server-side encryption with Amazon S3-managed encryption keys which encrypts the images in the repository using an AES-256 encryption algorithm. For more information, see Protecting data using server-side encryption with Amazon S3-managed encryption keys (SSE-S3) in the Amazon Simple Storage Service Console Developer Guide.
         public let encryptionType: EncryptionType
         /// If you use the KMS encryption type, specify the KMS key to use for encryption. The alias, key ID, or full ARN of the KMS key can be specified. The key must exist in the same Region as the repository. If no key is specified, the default Amazon Web Services managed KMS key for Amazon ECR will be used.
         public let kmsKey: String?
@@ -864,6 +1201,75 @@ extension ECR {
         private enum CodingKeys: String, CodingKey {
             case encryptionType
             case kmsKey
+        }
+    }
+
+    public struct EnhancedImageScanFinding: AWSDecodableShape {
+        /// The Amazon Web Services account ID associated with the image.
+        public let awsAccountId: String?
+        /// The description of the finding.
+        public let description: String?
+        /// The Amazon Resource Number (ARN) of the finding.
+        public let findingArn: String?
+        /// The date and time that the finding was first observed.
+        public let firstObservedAt: Date?
+        /// The date and time that the finding was last observed.
+        public let lastObservedAt: Date?
+        /// An object that contains the details of a package vulnerability finding.
+        public let packageVulnerabilityDetails: PackageVulnerabilityDetails?
+        /// An object that contains the details about how to remediate a finding.
+        public let remediation: Remediation?
+        /// Contains information on the resources involved in a finding.
+        public let resources: [Resource]?
+        /// The Amazon Inspector score given to the finding.
+        public let score: Double?
+        /// An object that contains details of the Amazon Inspector score.
+        public let scoreDetails: ScoreDetails?
+        /// The severity of the finding.
+        public let severity: String?
+        /// The status of the finding.
+        public let status: String?
+        /// The title of the finding.
+        public let title: String?
+        /// The type of the finding.
+        public let type: String?
+        /// The date and time the finding was last updated at.
+        public let updatedAt: Date?
+
+        public init(awsAccountId: String? = nil, description: String? = nil, findingArn: String? = nil, firstObservedAt: Date? = nil, lastObservedAt: Date? = nil, packageVulnerabilityDetails: PackageVulnerabilityDetails? = nil, remediation: Remediation? = nil, resources: [Resource]? = nil, score: Double? = nil, scoreDetails: ScoreDetails? = nil, severity: String? = nil, status: String? = nil, title: String? = nil, type: String? = nil, updatedAt: Date? = nil) {
+            self.awsAccountId = awsAccountId
+            self.description = description
+            self.findingArn = findingArn
+            self.firstObservedAt = firstObservedAt
+            self.lastObservedAt = lastObservedAt
+            self.packageVulnerabilityDetails = packageVulnerabilityDetails
+            self.remediation = remediation
+            self.resources = resources
+            self.score = score
+            self.scoreDetails = scoreDetails
+            self.severity = severity
+            self.status = status
+            self.title = title
+            self.type = type
+            self.updatedAt = updatedAt
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case awsAccountId
+            case description
+            case findingArn
+            case firstObservedAt
+            case lastObservedAt
+            case packageVulnerabilityDetails
+            case remediation
+            case resources
+            case score
+            case scoreDetails
+            case severity
+            case status
+            case title
+            case type
+            case updatedAt
         }
     }
 
@@ -1084,6 +1490,27 @@ extension ECR {
         }
     }
 
+    public struct GetRegistryScanningConfigurationRequest: AWSEncodableShape {
+        public init() {}
+    }
+
+    public struct GetRegistryScanningConfigurationResponse: AWSDecodableShape {
+        /// The ID of the registry.
+        public let registryId: String?
+        /// The scanning configuration for the registry.
+        public let scanningConfiguration: RegistryScanningConfiguration?
+
+        public init(registryId: String? = nil, scanningConfiguration: RegistryScanningConfiguration? = nil) {
+            self.registryId = registryId
+            self.scanningConfiguration = scanningConfiguration
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case registryId
+            case scanningConfiguration
+        }
+    }
+
     public struct GetRepositoryPolicyRequest: AWSEncodableShape {
         /// The Amazon Web Services account ID associated with the registry that contains the repository. If you do not specify a registry, the default registry is assumed.
         public let registryId: String?
@@ -1255,7 +1682,7 @@ extension ECR {
         public let failureCode: String?
         /// The destination Region for the image replication.
         public let region: String?
-        /// The AWS account ID associated with the registry to which the image belongs.
+        /// The Amazon Web Services account ID associated with the registry to which the image belongs.
         public let registryId: String?
         /// The image replication status.
         public let status: ReplicationStatus?
@@ -1305,6 +1732,8 @@ extension ECR {
     }
 
     public struct ImageScanFindings: AWSDecodableShape {
+        /// Details about the enhanced scan findings from Amazon Inspector.
+        public let enhancedFindings: [EnhancedImageScanFinding]?
         /// The findings from the image scan.
         public let findings: [ImageScanFinding]?
         /// The image vulnerability counts, sorted by severity.
@@ -1314,7 +1743,8 @@ extension ECR {
         /// The time when the vulnerability data was last scanned.
         public let vulnerabilitySourceUpdatedAt: Date?
 
-        public init(findings: [ImageScanFinding]? = nil, findingSeverityCounts: [FindingSeverity: Int]? = nil, imageScanCompletedAt: Date? = nil, vulnerabilitySourceUpdatedAt: Date? = nil) {
+        public init(enhancedFindings: [EnhancedImageScanFinding]? = nil, findings: [ImageScanFinding]? = nil, findingSeverityCounts: [FindingSeverity: Int]? = nil, imageScanCompletedAt: Date? = nil, vulnerabilitySourceUpdatedAt: Date? = nil) {
+            self.enhancedFindings = enhancedFindings
             self.findings = findings
             self.findingSeverityCounts = findingSeverityCounts
             self.imageScanCompletedAt = imageScanCompletedAt
@@ -1322,6 +1752,7 @@ extension ECR {
         }
 
         private enum CodingKeys: String, CodingKey {
+            case enhancedFindings
             case findings
             case findingSeverityCounts
             case imageScanCompletedAt
@@ -1629,6 +2060,80 @@ extension ECR {
         }
     }
 
+    public struct PackageVulnerabilityDetails: AWSDecodableShape {
+        /// An object that contains details about the CVSS score of a finding.
+        public let cvss: [CvssScore]?
+        /// One or more URLs that contain details about this vulnerability type.
+        public let referenceUrls: [String]?
+        /// One or more vulnerabilities related to the one identified in this finding.
+        public let relatedVulnerabilities: [String]?
+        /// The source of the vulnerability information.
+        public let source: String?
+        /// A URL to the source of the vulnerability information.
+        public let sourceUrl: String?
+        /// The date and time that this vulnerability was first added to the vendor's database.
+        public let vendorCreatedAt: Date?
+        /// The severity the vendor has given to this vulnerability type.
+        public let vendorSeverity: String?
+        /// The date and time the vendor last updated this vulnerability in their database.
+        public let vendorUpdatedAt: Date?
+        /// The ID given to this vulnerability.
+        public let vulnerabilityId: String?
+        /// The packages impacted by this vulnerability.
+        public let vulnerablePackages: [VulnerablePackage]?
+
+        public init(cvss: [CvssScore]? = nil, referenceUrls: [String]? = nil, relatedVulnerabilities: [String]? = nil, source: String? = nil, sourceUrl: String? = nil, vendorCreatedAt: Date? = nil, vendorSeverity: String? = nil, vendorUpdatedAt: Date? = nil, vulnerabilityId: String? = nil, vulnerablePackages: [VulnerablePackage]? = nil) {
+            self.cvss = cvss
+            self.referenceUrls = referenceUrls
+            self.relatedVulnerabilities = relatedVulnerabilities
+            self.source = source
+            self.sourceUrl = sourceUrl
+            self.vendorCreatedAt = vendorCreatedAt
+            self.vendorSeverity = vendorSeverity
+            self.vendorUpdatedAt = vendorUpdatedAt
+            self.vulnerabilityId = vulnerabilityId
+            self.vulnerablePackages = vulnerablePackages
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case cvss
+            case referenceUrls
+            case relatedVulnerabilities
+            case source
+            case sourceUrl
+            case vendorCreatedAt
+            case vendorSeverity
+            case vendorUpdatedAt
+            case vulnerabilityId
+            case vulnerablePackages
+        }
+    }
+
+    public struct PullThroughCacheRule: AWSDecodableShape {
+        /// The date and time the pull through cache was created.
+        public let createdAt: Date?
+        /// The Amazon ECR repository prefix associated with the pull through cache rule.
+        public let ecrRepositoryPrefix: String?
+        /// The Amazon Web Services account ID associated with the registry the pull through cache rule is associated with.
+        public let registryId: String?
+        /// The upstream registry URL associated with the pull through cache rule.
+        public let upstreamRegistryUrl: String?
+
+        public init(createdAt: Date? = nil, ecrRepositoryPrefix: String? = nil, registryId: String? = nil, upstreamRegistryUrl: String? = nil) {
+            self.createdAt = createdAt
+            self.ecrRepositoryPrefix = ecrRepositoryPrefix
+            self.registryId = registryId
+            self.upstreamRegistryUrl = upstreamRegistryUrl
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case createdAt
+            case ecrRepositoryPrefix
+            case registryId
+            case upstreamRegistryUrl
+        }
+    }
+
     public struct PutImageRequest: AWSEncodableShape {
         /// The image digest of the image manifest corresponding to the image.
         public let imageDigest: String?
@@ -1870,6 +2375,44 @@ extension ECR {
         }
     }
 
+    public struct PutRegistryScanningConfigurationRequest: AWSEncodableShape {
+        /// The scanning rules to use for the registry. A scanning rule is used to determine which repository filters are used and at what frequency scanning will occur.
+        public let rules: [RegistryScanningRule]?
+        /// The scanning type to set for the registry. By default, the BASIC scan type is used. When basic scanning is set, you may specify filters to determine which individual repositories, or all repositories, are scanned when new images are pushed. Alternatively, you can do manual scans of images with basic scanning. When the ENHANCED scan type is set, Amazon Inspector provides automated, continuous scanning of all repositories in your registry.
+        public let scanType: ScanType?
+
+        public init(rules: [RegistryScanningRule]? = nil, scanType: ScanType? = nil) {
+            self.rules = rules
+            self.scanType = scanType
+        }
+
+        public func validate(name: String) throws {
+            try self.rules?.forEach {
+                try $0.validate(name: "\(name).rules[]")
+            }
+            try self.validate(self.rules, name: "rules", parent: name, max: 2)
+            try self.validate(self.rules, name: "rules", parent: name, min: 0)
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case rules
+            case scanType
+        }
+    }
+
+    public struct PutRegistryScanningConfigurationResponse: AWSDecodableShape {
+        /// The scanning configuration for your registry.
+        public let registryScanningConfiguration: RegistryScanningConfiguration?
+
+        public init(registryScanningConfiguration: RegistryScanningConfiguration? = nil) {
+            self.registryScanningConfiguration = registryScanningConfiguration
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case registryScanningConfiguration
+        }
+    }
+
     public struct PutReplicationConfigurationRequest: AWSEncodableShape {
         /// An object representing the replication configuration for a registry.
         public let replicationConfiguration: ReplicationConfiguration
@@ -1897,6 +2440,78 @@ extension ECR {
 
         private enum CodingKeys: String, CodingKey {
             case replicationConfiguration
+        }
+    }
+
+    public struct Recommendation: AWSDecodableShape {
+        /// The recommended course of action to remediate the finding.
+        public let text: String?
+        /// The URL address to the CVE remediation recommendations.
+        public let url: String?
+
+        public init(text: String? = nil, url: String? = nil) {
+            self.text = text
+            self.url = url
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case text
+            case url
+        }
+    }
+
+    public struct RegistryScanningConfiguration: AWSDecodableShape {
+        /// The scanning rules associated with the registry.
+        public let rules: [RegistryScanningRule]?
+        /// The type of scanning configured for the registry.
+        public let scanType: ScanType?
+
+        public init(rules: [RegistryScanningRule]? = nil, scanType: ScanType? = nil) {
+            self.rules = rules
+            self.scanType = scanType
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case rules
+            case scanType
+        }
+    }
+
+    public struct RegistryScanningRule: AWSEncodableShape & AWSDecodableShape {
+        /// The repository filters associated with the scanning configuration for a private registry.
+        public let repositoryFilters: [ScanningRepositoryFilter]
+        /// The frequency that scans are performed at for a private registry.
+        public let scanFrequency: ScanFrequency
+
+        public init(repositoryFilters: [ScanningRepositoryFilter], scanFrequency: ScanFrequency) {
+            self.repositoryFilters = repositoryFilters
+            self.scanFrequency = scanFrequency
+        }
+
+        public func validate(name: String) throws {
+            try self.repositoryFilters.forEach {
+                try $0.validate(name: "\(name).repositoryFilters[]")
+            }
+            try self.validate(self.repositoryFilters, name: "repositoryFilters", parent: name, max: 100)
+            try self.validate(self.repositoryFilters, name: "repositoryFilters", parent: name, min: 0)
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case repositoryFilters
+            case scanFrequency
+        }
+    }
+
+    public struct Remediation: AWSDecodableShape {
+        /// An object that contains information about the recommended course of action to remediate the finding.
+        public let recommendation: Recommendation?
+
+        public init(recommendation: Recommendation? = nil) {
+            self.recommendation = recommendation
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case recommendation
         }
     }
 
@@ -2035,6 +2650,130 @@ extension ECR {
         private enum CodingKeys: String, CodingKey {
             case filter
             case filterType
+        }
+    }
+
+    public struct RepositoryScanningConfiguration: AWSDecodableShape {
+        /// The scan filters applied to the repository.
+        public let appliedScanFilters: [ScanningRepositoryFilter]?
+        /// The ARN of the repository.
+        public let repositoryArn: String?
+        /// The name of the repository.
+        public let repositoryName: String?
+        /// The scan frequency for the repository.
+        public let scanFrequency: ScanFrequency?
+        /// Whether or not scan on push is configured for the repository.
+        public let scanOnPush: Bool?
+
+        public init(appliedScanFilters: [ScanningRepositoryFilter]? = nil, repositoryArn: String? = nil, repositoryName: String? = nil, scanFrequency: ScanFrequency? = nil, scanOnPush: Bool? = nil) {
+            self.appliedScanFilters = appliedScanFilters
+            self.repositoryArn = repositoryArn
+            self.repositoryName = repositoryName
+            self.scanFrequency = scanFrequency
+            self.scanOnPush = scanOnPush
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case appliedScanFilters
+            case repositoryArn
+            case repositoryName
+            case scanFrequency
+            case scanOnPush
+        }
+    }
+
+    public struct RepositoryScanningConfigurationFailure: AWSDecodableShape {
+        /// The failure code.
+        public let failureCode: ScanningConfigurationFailureCode?
+        /// The reason for the failure.
+        public let failureReason: String?
+        /// The name of the repository.
+        public let repositoryName: String?
+
+        public init(failureCode: ScanningConfigurationFailureCode? = nil, failureReason: String? = nil, repositoryName: String? = nil) {
+            self.failureCode = failureCode
+            self.failureReason = failureReason
+            self.repositoryName = repositoryName
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case failureCode
+            case failureReason
+            case repositoryName
+        }
+    }
+
+    public struct Resource: AWSDecodableShape {
+        /// An object that contains details about the resource involved in a finding.
+        public let details: ResourceDetails?
+        /// The ID of the resource.
+        public let id: String?
+        /// The tags attached to the resource.
+        public let tags: [String: String]?
+        /// The type of resource.
+        public let type: String?
+
+        public init(details: ResourceDetails? = nil, id: String? = nil, tags: [String: String]? = nil, type: String? = nil) {
+            self.details = details
+            self.id = id
+            self.tags = tags
+            self.type = type
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case details
+            case id
+            case tags
+            case type
+        }
+    }
+
+    public struct ResourceDetails: AWSDecodableShape {
+        /// An object that contains details about the Amazon ECR container image involved in the finding.
+        public let awsEcrContainerImage: AwsEcrContainerImageDetails?
+
+        public init(awsEcrContainerImage: AwsEcrContainerImageDetails? = nil) {
+            self.awsEcrContainerImage = awsEcrContainerImage
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case awsEcrContainerImage
+        }
+    }
+
+    public struct ScanningRepositoryFilter: AWSEncodableShape & AWSDecodableShape {
+        /// The filter to use when scanning.
+        public let filter: String
+        /// The type associated with the filter.
+        public let filterType: ScanningRepositoryFilterType
+
+        public init(filter: String, filterType: ScanningRepositoryFilterType) {
+            self.filter = filter
+            self.filterType = filterType
+        }
+
+        public func validate(name: String) throws {
+            try self.validate(self.filter, name: "filter", parent: name, max: 255)
+            try self.validate(self.filter, name: "filter", parent: name, min: 1)
+            try self.validate(self.filter, name: "filter", parent: name, pattern: "^[a-z0-9*](?:[._\\-/a-z0-9*]?[a-z0-9*]+)*$")
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case filter
+            case filterType
+        }
+    }
+
+    public struct ScoreDetails: AWSDecodableShape {
+        /// An object that contains details about the CVSS score given to a finding.
+        public let cvss: CvssScoreDetails?
+
+        public init(cvss: CvssScoreDetails? = nil) {
+            self.cvss = cvss
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case cvss
         }
     }
 
@@ -2326,6 +3065,47 @@ extension ECR {
             case registryId
             case repositoryName
             case uploadId
+        }
+    }
+
+    public struct VulnerablePackage: AWSDecodableShape {
+        /// The architecture of the vulnerable package.
+        public let arch: String?
+        /// The epoch of the vulnerable package.
+        public let epoch: Int?
+        /// The file path of the vulnerable package.
+        public let filePath: String?
+        /// The name of the vulnerable package.
+        public let name: String?
+        /// The package manager of the vulnerable package.
+        public let packageManager: String?
+        /// The release of the vulnerable package.
+        public let release: String?
+        /// The source layer hash of the vulnerable package.
+        public let sourceLayerHash: String?
+        /// The version of the vulnerable package.
+        public let version: String?
+
+        public init(arch: String? = nil, epoch: Int? = nil, filePath: String? = nil, name: String? = nil, packageManager: String? = nil, release: String? = nil, sourceLayerHash: String? = nil, version: String? = nil) {
+            self.arch = arch
+            self.epoch = epoch
+            self.filePath = filePath
+            self.name = name
+            self.packageManager = packageManager
+            self.release = release
+            self.sourceLayerHash = sourceLayerHash
+            self.version = version
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case arch
+            case epoch
+            case filePath
+            case name
+            case packageManager
+            case release
+            case sourceLayerHash
+            case version
         }
     }
 }

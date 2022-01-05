@@ -8656,6 +8656,98 @@ extension Pinpoint {
         }
     }
 
+    public struct SendOTPMessageRequest: AWSEncodableShape & AWSShapeWithPayload {
+        /// The key for the payload
+        public static let _payloadPath: String = "sendOTPMessageRequestParameters"
+        public static var _encoding = [
+            AWSMemberEncoding(label: "applicationId", location: .uri(locationName: "application-id")),
+            AWSMemberEncoding(label: "sendOTPMessageRequestParameters", location: .body(locationName: "SendOTPMessageRequestParameters"))
+        ]
+
+        public let applicationId: String
+        public let sendOTPMessageRequestParameters: SendOTPMessageRequestParameters
+
+        public init(applicationId: String, sendOTPMessageRequestParameters: SendOTPMessageRequestParameters) {
+            self.applicationId = applicationId
+            self.sendOTPMessageRequestParameters = sendOTPMessageRequestParameters
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case sendOTPMessageRequestParameters = "SendOTPMessageRequestParameters"
+        }
+    }
+
+    public struct SendOTPMessageRequestParameters: AWSEncodableShape {
+        /// The attempts allowed to validate an OTP.
+        public let allowedAttempts: Int?
+        /// The brand name that will be substituted into the OTP message body. Should be owned by calling AWS account.
+        public let brandName: String
+        /// Channel type for the OTP message. Supported values: [SMS].
+        public let channel: String
+        /// The number of characters in the generated OTP.
+        public let codeLength: Int?
+        /// The destination identity to send OTP to.
+        public let destinationIdentity: String
+        /// A unique Entity ID received from DLT after entity registration is approved.
+        public let entityId: String?
+        /// The language to be used for the outgoing message body containing the OTP.
+        public let language: String?
+        /// The origination identity used to send OTP from.
+        public let originationIdentity: String
+        /// Developer-specified reference identifier. Required to match during OTP verification.
+        public let referenceId: String
+        /// A unique Template ID received from DLT after entity registration is approved.
+        public let templateId: String?
+        /// The time in minutes before the OTP is no longer valid.
+        public let validityPeriod: Int?
+
+        public init(allowedAttempts: Int? = nil, brandName: String, channel: String, codeLength: Int? = nil, destinationIdentity: String, entityId: String? = nil, language: String? = nil, originationIdentity: String, referenceId: String, templateId: String? = nil, validityPeriod: Int? = nil) {
+            self.allowedAttempts = allowedAttempts
+            self.brandName = brandName
+            self.channel = channel
+            self.codeLength = codeLength
+            self.destinationIdentity = destinationIdentity
+            self.entityId = entityId
+            self.language = language
+            self.originationIdentity = originationIdentity
+            self.referenceId = referenceId
+            self.templateId = templateId
+            self.validityPeriod = validityPeriod
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case allowedAttempts = "AllowedAttempts"
+            case brandName = "BrandName"
+            case channel = "Channel"
+            case codeLength = "CodeLength"
+            case destinationIdentity = "DestinationIdentity"
+            case entityId = "EntityId"
+            case language = "Language"
+            case originationIdentity = "OriginationIdentity"
+            case referenceId = "ReferenceId"
+            case templateId = "TemplateId"
+            case validityPeriod = "ValidityPeriod"
+        }
+    }
+
+    public struct SendOTPMessageResponse: AWSDecodableShape & AWSShapeWithPayload {
+        /// The key for the payload
+        public static let _payloadPath: String = "messageResponse"
+        public static var _encoding = [
+            AWSMemberEncoding(label: "messageResponse", location: .body(locationName: "MessageResponse"))
+        ]
+
+        public let messageResponse: MessageResponse
+
+        public init(messageResponse: MessageResponse) {
+            self.messageResponse = messageResponse
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case messageResponse = "MessageResponse"
+        }
+    }
+
     public struct SendUsersMessageRequest: AWSEncodableShape {
         /// A map of custom attribute-value pairs. For a push notification, Amazon Pinpoint adds these attributes to the data.pinpoint object in the body of the notification payload. Amazon Pinpoint also provides these attributes in the events that it generates for users-messages deliveries.
         public let context: [String: String]?

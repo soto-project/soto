@@ -50,7 +50,7 @@ public struct WellArchitectedErrorType: AWSErrorType {
     public static var accessDeniedException: Self { .init(.accessDeniedException) }
     /// The resource already exists.
     public static var conflictException: Self { .init(.conflictException) }
-    /// There is a problem with the AWS Well-Architected Tool API service.
+    /// There is a problem with the Well-Architected Tool API service.
     public static var internalServerException: Self { .init(.internalServerException) }
     /// The requested resource was not found.
     public static var resourceNotFoundException: Self { .init(.resourceNotFoundException) }

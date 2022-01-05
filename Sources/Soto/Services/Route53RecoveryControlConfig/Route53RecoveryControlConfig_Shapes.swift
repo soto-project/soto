@@ -43,7 +43,7 @@ extension Route53RecoveryControlConfig {
         public let controlPanelArn: String
         /// Name of the assertion rule. You can use any non-white space character in the name.
         public let name: String
-        /// The criteria that you set for specific assertion controls (routing controls) that designate how many controls must be enabled as the result of a transaction. For example, if you have three assertion controls, you might specify atleast 2 for your rule configuration. This means that at least two assertion controls must be enabled, so that at least two Amazon Web Services Regions are enabled.
+        /// The criteria that you set for specific assertion routing controls (AssertedControls) that designate how many routing control states must be ON as the result of a transaction. For example, if you have three assertion routing controls, you might specify atleast 2 for your rule configuration. This means that at least two assertion routing control states must be ON, so that at least two Amazon Web Services Regions have traffic flowing to them.
         public let ruleConfig: RuleConfig
         /// The Amazon Resource Name (ARN) of the assertion rule.
         public let safetyRuleArn: String
@@ -91,6 +91,9 @@ extension Route53RecoveryControlConfig {
             try self.validate(self.name, name: "name", parent: name, max: 64)
             try self.validate(self.name, name: "name", parent: name, min: 1)
             try self.validate(self.name, name: "name", parent: name, pattern: "^\\S+$")
+            try self.validate(self.safetyRuleArn, name: "safetyRuleArn", parent: name, max: 256)
+            try self.validate(self.safetyRuleArn, name: "safetyRuleArn", parent: name, min: 1)
+            try self.validate(self.safetyRuleArn, name: "safetyRuleArn", parent: name, pattern: "^[A-Za-z0-9:\\/_-]*$")
         }
 
         private enum CodingKeys: String, CodingKey {
@@ -103,7 +106,7 @@ extension Route53RecoveryControlConfig {
     public struct Cluster: AWSDecodableShape {
         /// The Amazon Resource Name (ARN) of the cluster.
         public let clusterArn: String?
-        /// Endpoints for a cluster. Specify one of these endpoints when you want to set or retrieve a routing control state in the cluster. To get or update the routing control state, see the Amazon Route 53 Application Recovery Controller Cluster (Data Plane) Actions.
+        /// Endpoints for a cluster. Specify one of these endpoints when you want to set or retrieve a routing control state in the cluster. To get or update the routing control state, see the Amazon Route 53 Application Recovery Controller Routing Control Actions.
         public let clusterEndpoints: [ClusterEndpoint]?
         /// The name of the cluster.
         public let name: String?
@@ -126,7 +129,7 @@ extension Route53RecoveryControlConfig {
     }
 
     public struct ClusterEndpoint: AWSDecodableShape {
-        /// A cluster endpoint. Specify an endpoint and Amazon Web Services Region when you want to set or retrieve a routing control state in the cluster. To get or update the routing control state, see the Amazon Route 53 Application Recovery Controller Cluster (Data Plane) Actions.
+        /// A cluster endpoint. Specify an endpoint and Amazon Web Services Region when you want to set or retrieve a routing control state in the cluster. To get or update the routing control state, see the Amazon Route 53 Application Recovery Controller Routing Control Actions.
         public let endpoint: String?
         /// The Amazon Web Services Region for a cluster endpoint.
         public let region: String?
@@ -176,26 +179,37 @@ extension Route53RecoveryControlConfig {
     }
 
     public struct CreateClusterRequest: AWSEncodableShape {
-        /// Unique client idempotency token.
+        /// A unique, case-sensitive string of up to 64 ASCII characters. To make an idempotent API request with an action, specify a client token in the request.
         public let clientToken: String?
         /// The name of the cluster.
         public let clusterName: String
+        /// The tags associated with the cluster.
+        public let tags: [String: String]?
 
-        public init(clientToken: String? = CreateClusterRequest.idempotencyToken(), clusterName: String) {
+        public init(clientToken: String? = CreateClusterRequest.idempotencyToken(), clusterName: String, tags: [String: String]? = nil) {
             self.clientToken = clientToken
             self.clusterName = clusterName
+            self.tags = tags
         }
 
         public func validate(name: String) throws {
             try self.validate(self.clientToken, name: "clientToken", parent: name, max: 64)
+            try self.validate(self.clientToken, name: "clientToken", parent: name, min: 1)
+            try self.validate(self.clientToken, name: "clientToken", parent: name, pattern: "^\\S+$")
             try self.validate(self.clusterName, name: "clusterName", parent: name, max: 64)
             try self.validate(self.clusterName, name: "clusterName", parent: name, min: 1)
             try self.validate(self.clusterName, name: "clusterName", parent: name, pattern: "^\\S+$")
+            try self.tags?.forEach {
+                try validate($0.value, name: "tags[\"\($0.key)\"]", parent: name, max: 256)
+                try validate($0.value, name: "tags[\"\($0.key)\"]", parent: name, min: 0)
+                try validate($0.value, name: "tags[\"\($0.key)\"]", parent: name, pattern: "^\\S+$")
+            }
         }
 
         private enum CodingKeys: String, CodingKey {
             case clientToken = "ClientToken"
             case clusterName = "ClusterName"
+            case tags = "Tags"
         }
     }
 
@@ -213,30 +227,44 @@ extension Route53RecoveryControlConfig {
     }
 
     public struct CreateControlPanelRequest: AWSEncodableShape {
-        /// Unique client idempotency token.
+        /// A unique, case-sensitive string of up to 64 ASCII characters. To make an idempotent API request with an action, specify a client token in the request.
         public let clientToken: String?
         /// The Amazon Resource Name (ARN) of the cluster for the control panel.
         public let clusterArn: String
         /// The name of the control panel.
         public let controlPanelName: String
+        /// The tags associated with the control panel.
+        public let tags: [String: String]?
 
-        public init(clientToken: String? = CreateControlPanelRequest.idempotencyToken(), clusterArn: String, controlPanelName: String) {
+        public init(clientToken: String? = CreateControlPanelRequest.idempotencyToken(), clusterArn: String, controlPanelName: String, tags: [String: String]? = nil) {
             self.clientToken = clientToken
             self.clusterArn = clusterArn
             self.controlPanelName = controlPanelName
+            self.tags = tags
         }
 
         public func validate(name: String) throws {
             try self.validate(self.clientToken, name: "clientToken", parent: name, max: 64)
+            try self.validate(self.clientToken, name: "clientToken", parent: name, min: 1)
+            try self.validate(self.clientToken, name: "clientToken", parent: name, pattern: "^\\S+$")
+            try self.validate(self.clusterArn, name: "clusterArn", parent: name, max: 256)
+            try self.validate(self.clusterArn, name: "clusterArn", parent: name, min: 1)
+            try self.validate(self.clusterArn, name: "clusterArn", parent: name, pattern: "^[A-Za-z0-9:\\/_-]*$")
             try self.validate(self.controlPanelName, name: "controlPanelName", parent: name, max: 64)
             try self.validate(self.controlPanelName, name: "controlPanelName", parent: name, min: 1)
             try self.validate(self.controlPanelName, name: "controlPanelName", parent: name, pattern: "^\\S+$")
+            try self.tags?.forEach {
+                try validate($0.value, name: "tags[\"\($0.key)\"]", parent: name, max: 256)
+                try validate($0.value, name: "tags[\"\($0.key)\"]", parent: name, min: 0)
+                try validate($0.value, name: "tags[\"\($0.key)\"]", parent: name, pattern: "^\\S+$")
+            }
         }
 
         private enum CodingKeys: String, CodingKey {
             case clientToken = "ClientToken"
             case clusterArn = "ClusterArn"
             case controlPanelName = "ControlPanelName"
+            case tags = "Tags"
         }
     }
 
@@ -254,7 +282,7 @@ extension Route53RecoveryControlConfig {
     }
 
     public struct CreateRoutingControlRequest: AWSEncodableShape {
-        /// Unique client idempotency token.
+        /// A unique, case-sensitive string of up to 64 ASCII characters. To make an idempotent API request with an action, specify a client token in the request.
         public let clientToken: String?
         /// The Amazon Resource Name (ARN) of the cluster that includes the routing control.
         public let clusterArn: String
@@ -272,6 +300,14 @@ extension Route53RecoveryControlConfig {
 
         public func validate(name: String) throws {
             try self.validate(self.clientToken, name: "clientToken", parent: name, max: 64)
+            try self.validate(self.clientToken, name: "clientToken", parent: name, min: 1)
+            try self.validate(self.clientToken, name: "clientToken", parent: name, pattern: "^\\S+$")
+            try self.validate(self.clusterArn, name: "clusterArn", parent: name, max: 256)
+            try self.validate(self.clusterArn, name: "clusterArn", parent: name, min: 1)
+            try self.validate(self.clusterArn, name: "clusterArn", parent: name, pattern: "^[A-Za-z0-9:\\/_-]*$")
+            try self.validate(self.controlPanelArn, name: "controlPanelArn", parent: name, max: 256)
+            try self.validate(self.controlPanelArn, name: "controlPanelArn", parent: name, min: 1)
+            try self.validate(self.controlPanelArn, name: "controlPanelArn", parent: name, pattern: "^[A-Za-z0-9:\\/_-]*$")
             try self.validate(self.routingControlName, name: "routingControlName", parent: name, max: 64)
             try self.validate(self.routingControlName, name: "routingControlName", parent: name, min: 1)
             try self.validate(self.routingControlName, name: "routingControlName", parent: name, pattern: "^\\S+$")
@@ -299,32 +335,47 @@ extension Route53RecoveryControlConfig {
     }
 
     public struct CreateSafetyRuleRequest: AWSEncodableShape {
+        /// The assertion rule requested.
         public let assertionRule: NewAssertionRule?
-        /// Unique client idempotency token.
+        /// A unique, case-sensitive string of up to 64 ASCII characters. To make an idempotent API request with an action, specify a client token in the request.
         public let clientToken: String?
+        /// The gating rule requested.
         public let gatingRule: NewGatingRule?
+        /// The tags associated with the safety rule.
+        public let tags: [String: String]?
 
-        public init(assertionRule: NewAssertionRule? = nil, clientToken: String? = CreateSafetyRuleRequest.idempotencyToken(), gatingRule: NewGatingRule? = nil) {
+        public init(assertionRule: NewAssertionRule? = nil, clientToken: String? = CreateSafetyRuleRequest.idempotencyToken(), gatingRule: NewGatingRule? = nil, tags: [String: String]? = nil) {
             self.assertionRule = assertionRule
             self.clientToken = clientToken
             self.gatingRule = gatingRule
+            self.tags = tags
         }
 
         public func validate(name: String) throws {
             try self.assertionRule?.validate(name: "\(name).assertionRule")
             try self.validate(self.clientToken, name: "clientToken", parent: name, max: 64)
+            try self.validate(self.clientToken, name: "clientToken", parent: name, min: 1)
+            try self.validate(self.clientToken, name: "clientToken", parent: name, pattern: "^\\S+$")
             try self.gatingRule?.validate(name: "\(name).gatingRule")
+            try self.tags?.forEach {
+                try validate($0.value, name: "tags[\"\($0.key)\"]", parent: name, max: 256)
+                try validate($0.value, name: "tags[\"\($0.key)\"]", parent: name, min: 0)
+                try validate($0.value, name: "tags[\"\($0.key)\"]", parent: name, pattern: "^\\S+$")
+            }
         }
 
         private enum CodingKeys: String, CodingKey {
             case assertionRule = "AssertionRule"
             case clientToken = "ClientToken"
             case gatingRule = "GatingRule"
+            case tags = "Tags"
         }
     }
 
     public struct CreateSafetyRuleResponse: AWSDecodableShape {
+        /// The assertion rule created.
         public let assertionRule: AssertionRule?
+        /// The gating rule created.
         public let gatingRule: GatingRule?
 
         public init(assertionRule: AssertionRule? = nil, gatingRule: GatingRule? = nil) {
@@ -506,7 +557,9 @@ extension Route53RecoveryControlConfig {
     }
 
     public struct DescribeSafetyRuleResponse: AWSDecodableShape {
+        /// The assertion rule in the response.
         public let assertionRule: AssertionRule?
+        /// The gating rule in the response.
         public let gatingRule: GatingRule?
 
         public init(assertionRule: AssertionRule? = nil, gatingRule: GatingRule? = nil) {
@@ -523,17 +576,17 @@ extension Route53RecoveryControlConfig {
     public struct GatingRule: AWSDecodableShape {
         /// The Amazon Resource Name (ARN) of the control panel.
         public let controlPanelArn: String
-        /// The gating controls for the gating rule. That is, routing controls that are evaluated by the rule configuration that you specify.
+        /// An array of gating routing control Amazon Resource Names (ARNs). For a simple "on/off" switch, specify the ARN for one routing control. The gating routing controls are evaluated by the rule configuration that you specify to determine if the target routing control states can be changed.
         public let gatingControls: [String]
-        /// The name for the gating rule.
+        /// The name for the gating rule. You can use any non-white space character in the name.
         public let name: String
-        /// The criteria that you set for specific gating controls (routing controls) that designates how many controls must be enabled to allow you to change (set or unset) the target controls.
+        /// The criteria that you set for gating routing controls that designates how many of the routing control states must be ON to allow you to update target routing control states.
         public let ruleConfig: RuleConfig
         /// The Amazon Resource Name (ARN) of the gating rule.
         public let safetyRuleArn: String
         /// The deployment status of a gating rule. Status can be one of the following: PENDING, DEPLOYED, PENDING_DELETION.
         public let status: Status
-        /// Routing controls that can only be set or unset if the specified RuleConfig evaluates to true for the specified GatingControls. For example, say you have three gating controls, one for each of three Amazon Web Services Regions. Now you specify ATLEAST 2 as your RuleConfig. With these settings, you can only change (set or unset) the routing controls that you have specified as TargetControls if that rule evaluates to true. In other words, your ability to change the routing controls that you have specified as TargetControls is gated by the rule that you set for the routing controls in GatingControls.
+        /// An array of target routing control Amazon Resource Names (ARNs) for which the states can only be updated if the rule configuration that you specify evaluates to true for the gating routing control. As a simple example, if you have a single gating control, it acts as an overall "on/off" switch for a set of target routing controls. You can use this to manually override automated fail over, for example.
         public let targetControls: [String]
         /// An evaluation period, in milliseconds (ms), during which any request against the target routing controls will fail. This helps prevent "flapping" of state. The wait period is 5000 ms by default, but you can choose a custom value.
         public let waitPeriodMs: Int
@@ -562,7 +615,7 @@ extension Route53RecoveryControlConfig {
     }
 
     public struct GatingRuleUpdate: AWSEncodableShape {
-        /// The name for the gating rule.
+        /// The name for the gating rule. You can use any non-white space character in the name.
         public let name: String
         /// The Amazon Resource Name (ARN) of the gating rule.
         public let safetyRuleArn: String
@@ -579,6 +632,9 @@ extension Route53RecoveryControlConfig {
             try self.validate(self.name, name: "name", parent: name, max: 64)
             try self.validate(self.name, name: "name", parent: name, min: 1)
             try self.validate(self.name, name: "name", parent: name, pattern: "^\\S+$")
+            try self.validate(self.safetyRuleArn, name: "safetyRuleArn", parent: name, max: 256)
+            try self.validate(self.safetyRuleArn, name: "safetyRuleArn", parent: name, min: 1)
+            try self.validate(self.safetyRuleArn, name: "safetyRuleArn", parent: name, pattern: "^[A-Za-z0-9:\\/_-]*$")
         }
 
         private enum CodingKeys: String, CodingKey {
@@ -616,7 +672,7 @@ extension Route53RecoveryControlConfig {
     public struct ListAssociatedRoute53HealthChecksResponse: AWSDecodableShape {
         /// Identifiers for the health checks.
         public let healthCheckIds: [String]?
-        /// The token that identifies which batch of results you want to see.
+        /// Next token for listing health checks.
         public let nextToken: String?
 
         public init(healthCheckIds: [String]? = nil, nextToken: String? = nil) {
@@ -795,6 +851,33 @@ extension Route53RecoveryControlConfig {
         }
     }
 
+    public struct ListTagsForResourceRequest: AWSEncodableShape {
+        public static var _encoding = [
+            AWSMemberEncoding(label: "resourceArn", location: .uri(locationName: "ResourceArn"))
+        ]
+
+        public let resourceArn: String
+
+        public init(resourceArn: String) {
+            self.resourceArn = resourceArn
+        }
+
+        private enum CodingKeys: CodingKey {}
+    }
+
+    public struct ListTagsForResourceResponse: AWSDecodableShape {
+        /// The tags associated with the resource.
+        public let tags: [String: String]?
+
+        public init(tags: [String: String]? = nil) {
+            self.tags = tags
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case tags = "Tags"
+        }
+    }
+
     public struct NewAssertionRule: AWSEncodableShape {
         /// The routing controls that are part of transactions that are evaluated to determine if a request to change a routing control state is allowed. For example, you might include three routing controls, one for each of three Amazon Web Services Regions.
         public let assertedControls: [String]
@@ -802,7 +885,7 @@ extension Route53RecoveryControlConfig {
         public let controlPanelArn: String
         /// The name of the assertion rule. You can use any non-white space character in the name.
         public let name: String
-        /// The criteria that you set for specific assertion controls (routing controls) that designate how many controls must be enabled as the result of a transaction. For example, if you have three assertion controls, you might specify atleast 2 for your rule configuration. This means that at least two assertion controls must be enabled, so that at least two Amazon Web Services Regions are enabled.
+        /// The criteria that you set for specific assertion controls (routing controls) that designate how many control states must be ON as the result of a transaction. For example, if you have three assertion controls, you might specify ATLEAST 2for your rule configuration. This means that at least two assertion controls must be ON, so that at least two Amazon Web Services Regions have traffic flowing to them.
         public let ruleConfig: RuleConfig
         /// An evaluation period, in milliseconds (ms), during which any request against the target routing controls will fail. This helps prevent "flapping" of state. The wait period is 5000 ms by default, but you can choose a custom value.
         public let waitPeriodMs: Int
@@ -816,6 +899,14 @@ extension Route53RecoveryControlConfig {
         }
 
         public func validate(name: String) throws {
+            try self.assertedControls.forEach {
+                try validate($0, name: "assertedControls[]", parent: name, max: 256)
+                try validate($0, name: "assertedControls[]", parent: name, min: 1)
+                try validate($0, name: "assertedControls[]", parent: name, pattern: "^[A-Za-z0-9:\\/_-]*$")
+            }
+            try self.validate(self.controlPanelArn, name: "controlPanelArn", parent: name, max: 256)
+            try self.validate(self.controlPanelArn, name: "controlPanelArn", parent: name, min: 1)
+            try self.validate(self.controlPanelArn, name: "controlPanelArn", parent: name, pattern: "^[A-Za-z0-9:\\/_-]*$")
             try self.validate(self.name, name: "name", parent: name, max: 64)
             try self.validate(self.name, name: "name", parent: name, min: 1)
             try self.validate(self.name, name: "name", parent: name, pattern: "^\\S+$")
@@ -837,7 +928,7 @@ extension Route53RecoveryControlConfig {
         public let gatingControls: [String]
         /// The name for the new gating rule.
         public let name: String
-        /// The criteria that you set for specific gating controls (routing controls) that designates how many controls must be enabled to allow you to change (set or unset) the target controls.
+        /// The criteria that you set for specific gating controls (routing controls) that designates how many control states must be ON to allow you to change (set or unset) the target control states.
         public let ruleConfig: RuleConfig
         /// Routing controls that can only be set or unset if the specified RuleConfig evaluates to true for the specified GatingControls. For example, say you have three gating controls, one for each of three Amazon Web Services Regions. Now you specify AtLeast 2 as your RuleConfig. With these settings, you can only change (set or unset) the routing controls that you have specified as TargetControls if that rule evaluates to true. In other words, your ability to change the routing controls that you have specified as TargetControls is gated by the rule that you set for the routing controls in GatingControls.
         public let targetControls: [String]
@@ -854,9 +945,22 @@ extension Route53RecoveryControlConfig {
         }
 
         public func validate(name: String) throws {
+            try self.validate(self.controlPanelArn, name: "controlPanelArn", parent: name, max: 256)
+            try self.validate(self.controlPanelArn, name: "controlPanelArn", parent: name, min: 1)
+            try self.validate(self.controlPanelArn, name: "controlPanelArn", parent: name, pattern: "^[A-Za-z0-9:\\/_-]*$")
+            try self.gatingControls.forEach {
+                try validate($0, name: "gatingControls[]", parent: name, max: 256)
+                try validate($0, name: "gatingControls[]", parent: name, min: 1)
+                try validate($0, name: "gatingControls[]", parent: name, pattern: "^[A-Za-z0-9:\\/_-]*$")
+            }
             try self.validate(self.name, name: "name", parent: name, max: 64)
             try self.validate(self.name, name: "name", parent: name, min: 1)
             try self.validate(self.name, name: "name", parent: name, pattern: "^\\S+$")
+            try self.targetControls.forEach {
+                try validate($0, name: "targetControls[]", parent: name, max: 256)
+                try validate($0, name: "targetControls[]", parent: name, min: 1)
+                try validate($0, name: "targetControls[]", parent: name, pattern: "^[A-Za-z0-9:\\/_-]*$")
+            }
         }
 
         private enum CodingKeys: String, CodingKey {
@@ -895,9 +999,9 @@ extension Route53RecoveryControlConfig {
     }
 
     public struct Rule: AWSDecodableShape {
-        /// An assertion rule enforces that, when a routing control state is changed, the criteria set by the rule configuration is met. Otherwise, the change to the routing control is not accepted.
+        /// An assertion rule enforces that, when a routing control state is changed, the criteria set by the rule configuration is met. Otherwise, the change to the routing control state is not accepted. For example, the criteria might be that at least one routing control state is On after the transation so that traffic continues to flow to at least one cell for the application. This ensures that you avoid a fail-open scenario.
         public let assertion: AssertionRule?
-        /// A gating rule verifies that a set of gating controls evaluates as true, based on a rule configuration that you specify. If the gating rule evaluates to true, Amazon Route 53 Application Recovery Controller allows a set of routing control state changes to run and complete against the set of target controls.
+        /// A gating rule verifies that a gating routing control or set of gating rounting controls, evaluates as true, based on a rule configuration that you specify, which allows a set of routing control state changes to complete. For example, if you specify one gating routing control and you set the Type in the rule configuration to OR, that indicates that you must set the gating routing control to On for the rule to evaluate as true; that is, for the gating control "switch" to be "On". When you do that, then you can update the routing control states for the target routing controls that you specify in the gating rule.
         public let gating: GatingRule?
 
         public init(assertion: AssertionRule? = nil, gating: GatingRule? = nil) {
@@ -932,6 +1036,58 @@ extension Route53RecoveryControlConfig {
         }
     }
 
+    public struct TagResourceRequest: AWSEncodableShape {
+        public static var _encoding = [
+            AWSMemberEncoding(label: "resourceArn", location: .uri(locationName: "ResourceArn"))
+        ]
+
+        public let resourceArn: String
+        /// The tags associated with the resource.
+        public let tags: [String: String]
+
+        public init(resourceArn: String, tags: [String: String]) {
+            self.resourceArn = resourceArn
+            self.tags = tags
+        }
+
+        public func validate(name: String) throws {
+            try self.tags.forEach {
+                try validate($0.value, name: "tags[\"\($0.key)\"]", parent: name, max: 256)
+                try validate($0.value, name: "tags[\"\($0.key)\"]", parent: name, min: 0)
+                try validate($0.value, name: "tags[\"\($0.key)\"]", parent: name, pattern: "^\\S+$")
+            }
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case tags = "Tags"
+        }
+    }
+
+    public struct TagResourceResponse: AWSDecodableShape {
+        public init() {}
+    }
+
+    public struct UntagResourceRequest: AWSEncodableShape {
+        public static var _encoding = [
+            AWSMemberEncoding(label: "resourceArn", location: .uri(locationName: "ResourceArn")),
+            AWSMemberEncoding(label: "tagKeys", location: .querystring(locationName: "TagKeys"))
+        ]
+
+        public let resourceArn: String
+        public let tagKeys: [String]
+
+        public init(resourceArn: String, tagKeys: [String]) {
+            self.resourceArn = resourceArn
+            self.tagKeys = tagKeys
+        }
+
+        private enum CodingKeys: CodingKey {}
+    }
+
+    public struct UntagResourceResponse: AWSDecodableShape {
+        public init() {}
+    }
+
     public struct UpdateControlPanelRequest: AWSEncodableShape {
         /// The Amazon Resource Name (ARN) of the control panel.
         public let controlPanelArn: String
@@ -944,6 +1100,9 @@ extension Route53RecoveryControlConfig {
         }
 
         public func validate(name: String) throws {
+            try self.validate(self.controlPanelArn, name: "controlPanelArn", parent: name, max: 256)
+            try self.validate(self.controlPanelArn, name: "controlPanelArn", parent: name, min: 1)
+            try self.validate(self.controlPanelArn, name: "controlPanelArn", parent: name, pattern: "^[A-Za-z0-9:\\/_-]*$")
             try self.validate(self.controlPanelName, name: "controlPanelName", parent: name, max: 64)
             try self.validate(self.controlPanelName, name: "controlPanelName", parent: name, min: 1)
             try self.validate(self.controlPanelName, name: "controlPanelName", parent: name, pattern: "^\\S+$")
@@ -980,6 +1139,9 @@ extension Route53RecoveryControlConfig {
         }
 
         public func validate(name: String) throws {
+            try self.validate(self.routingControlArn, name: "routingControlArn", parent: name, max: 256)
+            try self.validate(self.routingControlArn, name: "routingControlArn", parent: name, min: 1)
+            try self.validate(self.routingControlArn, name: "routingControlArn", parent: name, pattern: "^[A-Za-z0-9:\\/_-]*$")
             try self.validate(self.routingControlName, name: "routingControlName", parent: name, max: 64)
             try self.validate(self.routingControlName, name: "routingControlName", parent: name, min: 1)
             try self.validate(self.routingControlName, name: "routingControlName", parent: name, pattern: "^\\S+$")
@@ -1005,7 +1167,9 @@ extension Route53RecoveryControlConfig {
     }
 
     public struct UpdateSafetyRuleRequest: AWSEncodableShape {
+        /// The assertion rule to update.
         public let assertionRuleUpdate: AssertionRuleUpdate?
+        /// The gating rule to update.
         public let gatingRuleUpdate: GatingRuleUpdate?
 
         public init(assertionRuleUpdate: AssertionRuleUpdate? = nil, gatingRuleUpdate: GatingRuleUpdate? = nil) {
@@ -1025,7 +1189,9 @@ extension Route53RecoveryControlConfig {
     }
 
     public struct UpdateSafetyRuleResponse: AWSDecodableShape {
+        /// The assertion rule updated.
         public let assertionRule: AssertionRule?
+        /// The gating rule updated.
         public let gatingRule: GatingRule?
 
         public init(assertionRule: AssertionRule? = nil, gatingRule: GatingRule? = nil) {

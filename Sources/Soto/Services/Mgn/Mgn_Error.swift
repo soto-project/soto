@@ -23,6 +23,7 @@ public struct MgnErrorType: AWSErrorType {
         case conflictException = "ConflictException"
         case internalServerException = "InternalServerException"
         case resourceNotFoundException = "ResourceNotFoundException"
+        case serviceQuotaExceededException = "ServiceQuotaExceededException"
         case throttlingException = "ThrottlingException"
         case uninitializedAccountException = "UninitializedAccountException"
         case validationException = "ValidationException"
@@ -54,6 +55,8 @@ public struct MgnErrorType: AWSErrorType {
     public static var internalServerException: Self { .init(.internalServerException) }
     /// Resource not found exception.
     public static var resourceNotFoundException: Self { .init(.resourceNotFoundException) }
+    /// The request could not be completed because its exceeded the service quota.
+    public static var serviceQuotaExceededException: Self { .init(.serviceQuotaExceededException) }
     /// Reached throttling quota exception.
     public static var throttlingException: Self { .init(.throttlingException) }
     /// Unitialized account exception.

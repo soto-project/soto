@@ -147,6 +147,12 @@ extension SecurityHub {
         public var description: String { return self.rawValue }
     }
 
+    public enum StatusReasonCode: String, CustomStringConvertible, Codable {
+        case internalError = "INTERNAL_ERROR"
+        case noAvailableConfigurationRecorder = "NO_AVAILABLE_CONFIGURATION_RECORDER"
+        public var description: String { return self.rawValue }
+    }
+
     public enum StringFilterComparison: String, CustomStringConvertible, Codable {
         case equals = "EQUALS"
         case notEquals = "NOT_EQUALS"
@@ -1030,7 +1036,26 @@ extension SecurityHub {
         }
     }
 
+    public struct AwsAutoScalingAutoScalingGroupAvailabilityZonesListDetails: AWSEncodableShape & AWSDecodableShape {
+        /// The name of the Availability Zone.
+        public let value: String?
+
+        public init(value: String? = nil) {
+            self.value = value
+        }
+
+        public func validate(name: String) throws {
+            try self.validate(self.value, name: "value", parent: name, pattern: ".*\\S.*")
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case value = "Value"
+        }
+    }
+
     public struct AwsAutoScalingAutoScalingGroupDetails: AWSEncodableShape & AWSDecodableShape {
+        /// The list of Availability Zones for the automatic scaling group.
+        public let availabilityZones: [AwsAutoScalingAutoScalingGroupAvailabilityZonesListDetails]?
         /// Indicates when the auto scaling group was created. Uses the date-time format specified in RFC 3339 section 5.6, Internet Date/Time Format. The value cannot contain spaces. For example, 2020-03-22T13:22:13.933Z.
         public let createdTime: String?
         /// The amount of time, in seconds, that Amazon EC2 Auto Scaling waits before it checks the health status of an EC2 instance that has come into service.
@@ -1041,30 +1066,174 @@ extension SecurityHub {
         public let launchConfigurationName: String?
         /// The list of load balancers associated with the group.
         public let loadBalancerNames: [String]?
+        /// The mixed instances policy for the automatic scaling group.
+        public let mixedInstancesPolicy: AwsAutoScalingAutoScalingGroupMixedInstancesPolicyDetails?
 
-        public init(createdTime: String? = nil, healthCheckGracePeriod: Int? = nil, healthCheckType: String? = nil, launchConfigurationName: String? = nil, loadBalancerNames: [String]? = nil) {
+        public init(availabilityZones: [AwsAutoScalingAutoScalingGroupAvailabilityZonesListDetails]? = nil, createdTime: String? = nil, healthCheckGracePeriod: Int? = nil, healthCheckType: String? = nil, launchConfigurationName: String? = nil, loadBalancerNames: [String]? = nil, mixedInstancesPolicy: AwsAutoScalingAutoScalingGroupMixedInstancesPolicyDetails? = nil) {
+            self.availabilityZones = availabilityZones
             self.createdTime = createdTime
             self.healthCheckGracePeriod = healthCheckGracePeriod
             self.healthCheckType = healthCheckType
             self.launchConfigurationName = launchConfigurationName
             self.loadBalancerNames = loadBalancerNames
+            self.mixedInstancesPolicy = mixedInstancesPolicy
         }
 
         public func validate(name: String) throws {
+            try self.availabilityZones?.forEach {
+                try $0.validate(name: "\(name).availabilityZones[]")
+            }
             try self.validate(self.createdTime, name: "createdTime", parent: name, pattern: ".*\\S.*")
             try self.validate(self.healthCheckType, name: "healthCheckType", parent: name, pattern: ".*\\S.*")
             try self.validate(self.launchConfigurationName, name: "launchConfigurationName", parent: name, pattern: ".*\\S.*")
             try self.loadBalancerNames?.forEach {
                 try validate($0, name: "loadBalancerNames[]", parent: name, pattern: ".*\\S.*")
             }
+            try self.mixedInstancesPolicy?.validate(name: "\(name).mixedInstancesPolicy")
         }
 
         private enum CodingKeys: String, CodingKey {
+            case availabilityZones = "AvailabilityZones"
             case createdTime = "CreatedTime"
             case healthCheckGracePeriod = "HealthCheckGracePeriod"
             case healthCheckType = "HealthCheckType"
             case launchConfigurationName = "LaunchConfigurationName"
             case loadBalancerNames = "LoadBalancerNames"
+            case mixedInstancesPolicy = "MixedInstancesPolicy"
+        }
+    }
+
+    public struct AwsAutoScalingAutoScalingGroupMixedInstancesPolicyDetails: AWSEncodableShape & AWSDecodableShape {
+        /// The instances distribution. The instances distribution specifies the distribution of On-Demand Instances and Spot Instances, the maximum price to pay for Spot Instances, and how the Auto Scaling group allocates instance types to fulfill On-Demand and Spot capacity.
+        public let instancesDistribution: AwsAutoScalingAutoScalingGroupMixedInstancesPolicyInstancesDistributionDetails?
+        /// The launch template to use and the instance types (overrides) to use to provision EC2 instances to fulfill On-Demand and Spot capacities.
+        public let launchTemplate: AwsAutoScalingAutoScalingGroupMixedInstancesPolicyLaunchTemplateDetails?
+
+        public init(instancesDistribution: AwsAutoScalingAutoScalingGroupMixedInstancesPolicyInstancesDistributionDetails? = nil, launchTemplate: AwsAutoScalingAutoScalingGroupMixedInstancesPolicyLaunchTemplateDetails? = nil) {
+            self.instancesDistribution = instancesDistribution
+            self.launchTemplate = launchTemplate
+        }
+
+        public func validate(name: String) throws {
+            try self.instancesDistribution?.validate(name: "\(name).instancesDistribution")
+            try self.launchTemplate?.validate(name: "\(name).launchTemplate")
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case instancesDistribution = "InstancesDistribution"
+            case launchTemplate = "LaunchTemplate"
+        }
+    }
+
+    public struct AwsAutoScalingAutoScalingGroupMixedInstancesPolicyInstancesDistributionDetails: AWSEncodableShape & AWSDecodableShape {
+        /// How to allocate instance types to fulfill On-Demand capacity.
+        public let onDemandAllocationStrategy: String?
+        /// The minimum amount of the Auto Scaling group's capacity that must be fulfilled by On-Demand Instances.
+        public let onDemandBaseCapacity: Int?
+        /// The percentage of On-Demand Instances and Spot Instances for additional capacity beyond OnDemandBaseCapacity.
+        public let onDemandPercentageAboveBaseCapacity: Int?
+        /// How to allocate instances across Spot Instance pools.
+        public let spotAllocationStrategy: String?
+        /// The number of Spot Instance pools across which to allocate your Spot Instances.
+        public let spotInstancePools: Int?
+        /// The maximum price per unit hour that you are willing to pay for a Spot Instance.
+        public let spotMaxPrice: String?
+
+        public init(onDemandAllocationStrategy: String? = nil, onDemandBaseCapacity: Int? = nil, onDemandPercentageAboveBaseCapacity: Int? = nil, spotAllocationStrategy: String? = nil, spotInstancePools: Int? = nil, spotMaxPrice: String? = nil) {
+            self.onDemandAllocationStrategy = onDemandAllocationStrategy
+            self.onDemandBaseCapacity = onDemandBaseCapacity
+            self.onDemandPercentageAboveBaseCapacity = onDemandPercentageAboveBaseCapacity
+            self.spotAllocationStrategy = spotAllocationStrategy
+            self.spotInstancePools = spotInstancePools
+            self.spotMaxPrice = spotMaxPrice
+        }
+
+        public func validate(name: String) throws {
+            try self.validate(self.onDemandAllocationStrategy, name: "onDemandAllocationStrategy", parent: name, pattern: ".*\\S.*")
+            try self.validate(self.spotAllocationStrategy, name: "spotAllocationStrategy", parent: name, pattern: ".*\\S.*")
+            try self.validate(self.spotMaxPrice, name: "spotMaxPrice", parent: name, pattern: ".*\\S.*")
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case onDemandAllocationStrategy = "OnDemandAllocationStrategy"
+            case onDemandBaseCapacity = "OnDemandBaseCapacity"
+            case onDemandPercentageAboveBaseCapacity = "OnDemandPercentageAboveBaseCapacity"
+            case spotAllocationStrategy = "SpotAllocationStrategy"
+            case spotInstancePools = "SpotInstancePools"
+            case spotMaxPrice = "SpotMaxPrice"
+        }
+    }
+
+    public struct AwsAutoScalingAutoScalingGroupMixedInstancesPolicyLaunchTemplateDetails: AWSEncodableShape & AWSDecodableShape {
+        /// The launch template to use.
+        public let launchTemplateSpecification: AwsAutoScalingAutoScalingGroupMixedInstancesPolicyLaunchTemplateLaunchTemplateSpecification?
+        /// Property values to use to override the values in the launch template.
+        public let overrides: [AwsAutoScalingAutoScalingGroupMixedInstancesPolicyLaunchTemplateOverridesListDetails]?
+
+        public init(launchTemplateSpecification: AwsAutoScalingAutoScalingGroupMixedInstancesPolicyLaunchTemplateLaunchTemplateSpecification? = nil, overrides: [AwsAutoScalingAutoScalingGroupMixedInstancesPolicyLaunchTemplateOverridesListDetails]? = nil) {
+            self.launchTemplateSpecification = launchTemplateSpecification
+            self.overrides = overrides
+        }
+
+        public func validate(name: String) throws {
+            try self.launchTemplateSpecification?.validate(name: "\(name).launchTemplateSpecification")
+            try self.overrides?.forEach {
+                try $0.validate(name: "\(name).overrides[]")
+            }
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case launchTemplateSpecification = "LaunchTemplateSpecification"
+            case overrides = "Overrides"
+        }
+    }
+
+    public struct AwsAutoScalingAutoScalingGroupMixedInstancesPolicyLaunchTemplateLaunchTemplateSpecification: AWSEncodableShape & AWSDecodableShape {
+        /// The identifier of the launch template. You must specify either LaunchTemplateId or LaunchTemplateName.
+        public let launchTemplateId: String?
+        /// The name of the launch template. You must specify either LaunchTemplateId or LaunchTemplateName.
+        public let launchTemplateName: String?
+        /// Identifies the version of the launch template. You can specify a version identifier, or use the values $Latest or $Default.
+        public let version: String?
+
+        public init(launchTemplateId: String? = nil, launchTemplateName: String? = nil, version: String? = nil) {
+            self.launchTemplateId = launchTemplateId
+            self.launchTemplateName = launchTemplateName
+            self.version = version
+        }
+
+        public func validate(name: String) throws {
+            try self.validate(self.launchTemplateId, name: "launchTemplateId", parent: name, pattern: ".*\\S.*")
+            try self.validate(self.launchTemplateName, name: "launchTemplateName", parent: name, pattern: ".*\\S.*")
+            try self.validate(self.version, name: "version", parent: name, pattern: ".*\\S.*")
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case launchTemplateId = "LaunchTemplateId"
+            case launchTemplateName = "LaunchTemplateName"
+            case version = "Version"
+        }
+    }
+
+    public struct AwsAutoScalingAutoScalingGroupMixedInstancesPolicyLaunchTemplateOverridesListDetails: AWSEncodableShape & AWSDecodableShape {
+        /// The instance type. For example, m3.xlarge.
+        public let instanceType: String?
+        /// The number of capacity units provided by the specified instance type in terms of virtual CPUs, memory, storage, throughput, or other relative performance characteristic.
+        public let weightedCapacity: String?
+
+        public init(instanceType: String? = nil, weightedCapacity: String? = nil) {
+            self.instanceType = instanceType
+            self.weightedCapacity = weightedCapacity
+        }
+
+        public func validate(name: String) throws {
+            try self.validate(self.instanceType, name: "instanceType", parent: name, pattern: ".*\\S.*")
+            try self.validate(self.weightedCapacity, name: "weightedCapacity", parent: name, pattern: ".*\\S.*")
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case instanceType = "InstanceType"
+            case weightedCapacity = "WeightedCapacity"
         }
     }
 
@@ -1164,6 +1333,8 @@ extension SecurityHub {
         public let keyName: String?
         /// The name of the launch configuration.
         public let launchConfigurationName: String?
+        /// The metadata options for the instances.
+        public let metadataOptions: AwsAutoScalingLaunchConfigurationMetadataOptions?
         /// The tenancy of the instance. An instance with dedicated tenancy runs on isolated, single-tenant hardware and can only be launched into a VPC.
         public let placementTenancy: String?
         /// The identifier of the RAM disk associated with the AMI.
@@ -1175,7 +1346,7 @@ extension SecurityHub {
         /// The user data to make available to the launched EC2 instances. Must be base64-encoded text.
         public let userData: String?
 
-        public init(associatePublicIpAddress: Bool? = nil, blockDeviceMappings: [AwsAutoScalingLaunchConfigurationBlockDeviceMappingsDetails]? = nil, classicLinkVpcId: String? = nil, classicLinkVpcSecurityGroups: [String]? = nil, createdTime: String? = nil, ebsOptimized: Bool? = nil, iamInstanceProfile: String? = nil, imageId: String? = nil, instanceMonitoring: AwsAutoScalingLaunchConfigurationInstanceMonitoringDetails? = nil, instanceType: String? = nil, kernelId: String? = nil, keyName: String? = nil, launchConfigurationName: String? = nil, placementTenancy: String? = nil, ramdiskId: String? = nil, securityGroups: [String]? = nil, spotPrice: String? = nil, userData: String? = nil) {
+        public init(associatePublicIpAddress: Bool? = nil, blockDeviceMappings: [AwsAutoScalingLaunchConfigurationBlockDeviceMappingsDetails]? = nil, classicLinkVpcId: String? = nil, classicLinkVpcSecurityGroups: [String]? = nil, createdTime: String? = nil, ebsOptimized: Bool? = nil, iamInstanceProfile: String? = nil, imageId: String? = nil, instanceMonitoring: AwsAutoScalingLaunchConfigurationInstanceMonitoringDetails? = nil, instanceType: String? = nil, kernelId: String? = nil, keyName: String? = nil, launchConfigurationName: String? = nil, metadataOptions: AwsAutoScalingLaunchConfigurationMetadataOptions? = nil, placementTenancy: String? = nil, ramdiskId: String? = nil, securityGroups: [String]? = nil, spotPrice: String? = nil, userData: String? = nil) {
             self.associatePublicIpAddress = associatePublicIpAddress
             self.blockDeviceMappings = blockDeviceMappings
             self.classicLinkVpcId = classicLinkVpcId
@@ -1189,6 +1360,7 @@ extension SecurityHub {
             self.kernelId = kernelId
             self.keyName = keyName
             self.launchConfigurationName = launchConfigurationName
+            self.metadataOptions = metadataOptions
             self.placementTenancy = placementTenancy
             self.ramdiskId = ramdiskId
             self.securityGroups = securityGroups
@@ -1211,6 +1383,7 @@ extension SecurityHub {
             try self.validate(self.kernelId, name: "kernelId", parent: name, pattern: ".*\\S.*")
             try self.validate(self.keyName, name: "keyName", parent: name, pattern: ".*\\S.*")
             try self.validate(self.launchConfigurationName, name: "launchConfigurationName", parent: name, pattern: ".*\\S.*")
+            try self.metadataOptions?.validate(name: "\(name).metadataOptions")
             try self.validate(self.placementTenancy, name: "placementTenancy", parent: name, pattern: ".*\\S.*")
             try self.validate(self.ramdiskId, name: "ramdiskId", parent: name, pattern: ".*\\S.*")
             try self.securityGroups?.forEach {
@@ -1234,6 +1407,7 @@ extension SecurityHub {
             case kernelId = "KernelId"
             case keyName = "KeyName"
             case launchConfigurationName = "LaunchConfigurationName"
+            case metadataOptions = "MetadataOptions"
             case placementTenancy = "PlacementTenancy"
             case ramdiskId = "RamdiskId"
             case securityGroups = "SecurityGroups"
@@ -1252,6 +1426,32 @@ extension SecurityHub {
 
         private enum CodingKeys: String, CodingKey {
             case enabled = "Enabled"
+        }
+    }
+
+    public struct AwsAutoScalingLaunchConfigurationMetadataOptions: AWSEncodableShape & AWSDecodableShape {
+        /// Enables or disables the HTTP metadata endpoint on your instances. By default, the metadata endpoint is enabled.
+        public let httpEndpoint: String?
+        /// The HTTP PUT response hop limit for instance metadata requests. The larger the number, the further instance metadata requests can travel.
+        public let httpPutResponseHopLimit: Int?
+        /// Indicates whether token usage is required or optional for metadata requests. By default, token usage is optional.
+        public let httpTokens: String?
+
+        public init(httpEndpoint: String? = nil, httpPutResponseHopLimit: Int? = nil, httpTokens: String? = nil) {
+            self.httpEndpoint = httpEndpoint
+            self.httpPutResponseHopLimit = httpPutResponseHopLimit
+            self.httpTokens = httpTokens
+        }
+
+        public func validate(name: String) throws {
+            try self.validate(self.httpEndpoint, name: "httpEndpoint", parent: name, pattern: ".*\\S.*")
+            try self.validate(self.httpTokens, name: "httpTokens", parent: name, pattern: ".*\\S.*")
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case httpEndpoint = "HttpEndpoint"
+            case httpPutResponseHopLimit = "HttpPutResponseHopLimit"
+            case httpTokens = "HttpTokens"
         }
     }
 
@@ -7793,6 +7993,167 @@ extension SecurityHub {
         }
     }
 
+    public struct AwsNetworkFirewallFirewallDetails: AWSEncodableShape & AWSDecodableShape {
+        /// Whether the firewall is protected from deletion. If set to true, then the firewall cannot be deleted.
+        public let deleteProtection: Bool?
+        /// A description of the firewall.
+        public let description: String?
+        /// The ARN of the firewall.
+        public let firewallArn: String?
+        /// The identifier of the firewall.
+        public let firewallId: String?
+        /// A descriptive name of the firewall.
+        public let firewallName: String?
+        /// The ARN of the firewall policy.
+        public let firewallPolicyArn: String?
+        /// Whether the firewall is protected from a change to the firewall policy. If set to true, you cannot associate a different policy with the firewall.
+        public let firewallPolicyChangeProtection: Bool?
+        /// Whether the firewall is protected from a change to the subnet associations. If set to true, you cannot map different subnets to the firewall.
+        public let subnetChangeProtection: Bool?
+        /// The public subnets that Network Firewall uses for the firewall. Each subnet must belong to a different Availability Zone.
+        public let subnetMappings: [AwsNetworkFirewallFirewallSubnetMappingsDetails]?
+        /// The identifier of the VPC where the firewall is used.
+        public let vpcId: String?
+
+        public init(deleteProtection: Bool? = nil, description: String? = nil, firewallArn: String? = nil, firewallId: String? = nil, firewallName: String? = nil, firewallPolicyArn: String? = nil, firewallPolicyChangeProtection: Bool? = nil, subnetChangeProtection: Bool? = nil, subnetMappings: [AwsNetworkFirewallFirewallSubnetMappingsDetails]? = nil, vpcId: String? = nil) {
+            self.deleteProtection = deleteProtection
+            self.description = description
+            self.firewallArn = firewallArn
+            self.firewallId = firewallId
+            self.firewallName = firewallName
+            self.firewallPolicyArn = firewallPolicyArn
+            self.firewallPolicyChangeProtection = firewallPolicyChangeProtection
+            self.subnetChangeProtection = subnetChangeProtection
+            self.subnetMappings = subnetMappings
+            self.vpcId = vpcId
+        }
+
+        public func validate(name: String) throws {
+            try self.validate(self.description, name: "description", parent: name, pattern: ".*\\S.*")
+            try self.validate(self.firewallArn, name: "firewallArn", parent: name, pattern: ".*\\S.*")
+            try self.validate(self.firewallId, name: "firewallId", parent: name, pattern: ".*\\S.*")
+            try self.validate(self.firewallName, name: "firewallName", parent: name, pattern: ".*\\S.*")
+            try self.validate(self.firewallPolicyArn, name: "firewallPolicyArn", parent: name, pattern: ".*\\S.*")
+            try self.subnetMappings?.forEach {
+                try $0.validate(name: "\(name).subnetMappings[]")
+            }
+            try self.validate(self.vpcId, name: "vpcId", parent: name, pattern: ".*\\S.*")
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case deleteProtection = "DeleteProtection"
+            case description = "Description"
+            case firewallArn = "FirewallArn"
+            case firewallId = "FirewallId"
+            case firewallName = "FirewallName"
+            case firewallPolicyArn = "FirewallPolicyArn"
+            case firewallPolicyChangeProtection = "FirewallPolicyChangeProtection"
+            case subnetChangeProtection = "SubnetChangeProtection"
+            case subnetMappings = "SubnetMappings"
+            case vpcId = "VpcId"
+        }
+    }
+
+    public struct AwsNetworkFirewallFirewallPolicyDetails: AWSEncodableShape & AWSDecodableShape {
+        /// A description of the firewall policy.
+        public let description: String?
+        /// The firewall policy configuration.
+        public let firewallPolicy: FirewallPolicyDetails?
+        /// The ARN of the firewall policy.
+        public let firewallPolicyArn: String?
+        /// The identifier of the firewall policy.
+        public let firewallPolicyId: String?
+        /// The name of the firewall policy.
+        public let firewallPolicyName: String?
+
+        public init(description: String? = nil, firewallPolicy: FirewallPolicyDetails? = nil, firewallPolicyArn: String? = nil, firewallPolicyId: String? = nil, firewallPolicyName: String? = nil) {
+            self.description = description
+            self.firewallPolicy = firewallPolicy
+            self.firewallPolicyArn = firewallPolicyArn
+            self.firewallPolicyId = firewallPolicyId
+            self.firewallPolicyName = firewallPolicyName
+        }
+
+        public func validate(name: String) throws {
+            try self.validate(self.description, name: "description", parent: name, pattern: ".*\\S.*")
+            try self.firewallPolicy?.validate(name: "\(name).firewallPolicy")
+            try self.validate(self.firewallPolicyArn, name: "firewallPolicyArn", parent: name, pattern: ".*\\S.*")
+            try self.validate(self.firewallPolicyId, name: "firewallPolicyId", parent: name, pattern: ".*\\S.*")
+            try self.validate(self.firewallPolicyName, name: "firewallPolicyName", parent: name, pattern: ".*\\S.*")
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case description = "Description"
+            case firewallPolicy = "FirewallPolicy"
+            case firewallPolicyArn = "FirewallPolicyArn"
+            case firewallPolicyId = "FirewallPolicyId"
+            case firewallPolicyName = "FirewallPolicyName"
+        }
+    }
+
+    public struct AwsNetworkFirewallFirewallSubnetMappingsDetails: AWSEncodableShape & AWSDecodableShape {
+        /// The identifier of the subnet
+        public let subnetId: String?
+
+        public init(subnetId: String? = nil) {
+            self.subnetId = subnetId
+        }
+
+        public func validate(name: String) throws {
+            try self.validate(self.subnetId, name: "subnetId", parent: name, pattern: ".*\\S.*")
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case subnetId = "SubnetId"
+        }
+    }
+
+    public struct AwsNetworkFirewallRuleGroupDetails: AWSEncodableShape & AWSDecodableShape {
+        /// The maximum number of operating resources that this rule group can use.
+        public let capacity: Int?
+        /// A description of the rule group.
+        public let description: String?
+        /// Details about the rule group.
+        public let ruleGroup: RuleGroupDetails?
+        /// The ARN of the rule group.
+        public let ruleGroupArn: String?
+        /// The identifier of the rule group.
+        public let ruleGroupId: String?
+        /// The descriptive name of the rule group.
+        public let ruleGroupName: String?
+        /// The type of rule group. A rule group can be stateful or stateless.
+        public let type: String?
+
+        public init(capacity: Int? = nil, description: String? = nil, ruleGroup: RuleGroupDetails? = nil, ruleGroupArn: String? = nil, ruleGroupId: String? = nil, ruleGroupName: String? = nil, type: String? = nil) {
+            self.capacity = capacity
+            self.description = description
+            self.ruleGroup = ruleGroup
+            self.ruleGroupArn = ruleGroupArn
+            self.ruleGroupId = ruleGroupId
+            self.ruleGroupName = ruleGroupName
+            self.type = type
+        }
+
+        public func validate(name: String) throws {
+            try self.validate(self.description, name: "description", parent: name, pattern: ".*\\S.*")
+            try self.ruleGroup?.validate(name: "\(name).ruleGroup")
+            try self.validate(self.ruleGroupArn, name: "ruleGroupArn", parent: name, pattern: ".*\\S.*")
+            try self.validate(self.ruleGroupId, name: "ruleGroupId", parent: name, pattern: ".*\\S.*")
+            try self.validate(self.ruleGroupName, name: "ruleGroupName", parent: name, pattern: ".*\\S.*")
+            try self.validate(self.type, name: "type", parent: name, pattern: ".*\\S.*")
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case capacity = "Capacity"
+            case description = "Description"
+            case ruleGroup = "RuleGroup"
+            case ruleGroupArn = "RuleGroupArn"
+            case ruleGroupId = "RuleGroupId"
+            case ruleGroupName = "RuleGroupName"
+            case type = "Type"
+        }
+    }
+
     public struct AwsOpenSearchServiceDomainClusterConfigDetails: AWSEncodableShape & AWSDecodableShape {
         /// The number of instances to use for the master node. If this attribute is specified, then DedicatedMasterEnabled must be true.
         public let dedicatedMasterCount: Int?
@@ -10351,6 +10712,27 @@ extension SecurityHub {
         }
     }
 
+    public struct AwsS3BucketBucketVersioningConfiguration: AWSEncodableShape & AWSDecodableShape {
+        /// Specifies whether MFA delete is currently enabled in the S3 bucket versioning configuration. If the S3 bucket was never configured with MFA delete, then this attribute is not included.
+        public let isMfaDeleteEnabled: Bool?
+        /// The versioning status of the S3 bucket.
+        public let status: String?
+
+        public init(isMfaDeleteEnabled: Bool? = nil, status: String? = nil) {
+            self.isMfaDeleteEnabled = isMfaDeleteEnabled
+            self.status = status
+        }
+
+        public func validate(name: String) throws {
+            try self.validate(self.status, name: "status", parent: name, pattern: ".*\\S.*")
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case isMfaDeleteEnabled = "IsMfaDeleteEnabled"
+            case status = "Status"
+        }
+    }
+
     public struct AwsS3BucketDetails: AWSEncodableShape & AWSDecodableShape {
         /// The access control list for the S3 bucket.
         public let accessControlList: String?
@@ -10360,6 +10742,8 @@ extension SecurityHub {
         public let bucketLoggingConfiguration: AwsS3BucketLoggingConfiguration?
         /// The notification configuration for the S3 bucket.
         public let bucketNotificationConfiguration: AwsS3BucketNotificationConfiguration?
+        /// The versioning state of an S3 bucket.
+        public let bucketVersioningConfiguration: AwsS3BucketBucketVersioningConfiguration?
         /// The website configuration parameters for the S3 bucket.
         public let bucketWebsiteConfiguration: AwsS3BucketWebsiteConfiguration?
         /// Indicates when the S3 bucket was created. Uses the date-time format specified in RFC 3339 section 5.6, Internet Date/Time Format. The value cannot contain spaces. For example, 2020-03-22T13:22:13.933Z.
@@ -10375,11 +10759,12 @@ extension SecurityHub {
         /// The encryption rules that are applied to the S3 bucket.
         public let serverSideEncryptionConfiguration: AwsS3BucketServerSideEncryptionConfiguration?
 
-        public init(accessControlList: String? = nil, bucketLifecycleConfiguration: AwsS3BucketBucketLifecycleConfigurationDetails? = nil, bucketLoggingConfiguration: AwsS3BucketLoggingConfiguration? = nil, bucketNotificationConfiguration: AwsS3BucketNotificationConfiguration? = nil, bucketWebsiteConfiguration: AwsS3BucketWebsiteConfiguration? = nil, createdAt: String? = nil, ownerAccountId: String? = nil, ownerId: String? = nil, ownerName: String? = nil, publicAccessBlockConfiguration: AwsS3AccountPublicAccessBlockDetails? = nil, serverSideEncryptionConfiguration: AwsS3BucketServerSideEncryptionConfiguration? = nil) {
+        public init(accessControlList: String? = nil, bucketLifecycleConfiguration: AwsS3BucketBucketLifecycleConfigurationDetails? = nil, bucketLoggingConfiguration: AwsS3BucketLoggingConfiguration? = nil, bucketNotificationConfiguration: AwsS3BucketNotificationConfiguration? = nil, bucketVersioningConfiguration: AwsS3BucketBucketVersioningConfiguration? = nil, bucketWebsiteConfiguration: AwsS3BucketWebsiteConfiguration? = nil, createdAt: String? = nil, ownerAccountId: String? = nil, ownerId: String? = nil, ownerName: String? = nil, publicAccessBlockConfiguration: AwsS3AccountPublicAccessBlockDetails? = nil, serverSideEncryptionConfiguration: AwsS3BucketServerSideEncryptionConfiguration? = nil) {
             self.accessControlList = accessControlList
             self.bucketLifecycleConfiguration = bucketLifecycleConfiguration
             self.bucketLoggingConfiguration = bucketLoggingConfiguration
             self.bucketNotificationConfiguration = bucketNotificationConfiguration
+            self.bucketVersioningConfiguration = bucketVersioningConfiguration
             self.bucketWebsiteConfiguration = bucketWebsiteConfiguration
             self.createdAt = createdAt
             self.ownerAccountId = ownerAccountId
@@ -10394,6 +10779,7 @@ extension SecurityHub {
             try self.bucketLifecycleConfiguration?.validate(name: "\(name).bucketLifecycleConfiguration")
             try self.bucketLoggingConfiguration?.validate(name: "\(name).bucketLoggingConfiguration")
             try self.bucketNotificationConfiguration?.validate(name: "\(name).bucketNotificationConfiguration")
+            try self.bucketVersioningConfiguration?.validate(name: "\(name).bucketVersioningConfiguration")
             try self.bucketWebsiteConfiguration?.validate(name: "\(name).bucketWebsiteConfiguration")
             try self.validate(self.createdAt, name: "createdAt", parent: name, pattern: ".*\\S.*")
             try self.validate(self.ownerAccountId, name: "ownerAccountId", parent: name, pattern: ".*\\S.*")
@@ -10407,6 +10793,7 @@ extension SecurityHub {
             case bucketLifecycleConfiguration = "BucketLifecycleConfiguration"
             case bucketLoggingConfiguration = "BucketLoggingConfiguration"
             case bucketNotificationConfiguration = "BucketNotificationConfiguration"
+            case bucketVersioningConfiguration = "BucketVersioningConfiguration"
             case bucketWebsiteConfiguration = "BucketWebsiteConfiguration"
             case createdAt = "CreatedAt"
             case ownerAccountId = "OwnerAccountId"
@@ -11247,7 +11634,7 @@ extension SecurityHub {
         public let verificationState: [StringFilter]?
         /// The workflow state of a finding. Note that this field is deprecated. To search for a finding based on its workflow status, use WorkflowStatus.
         public let workflowState: [StringFilter]?
-        /// The status of the investigation into a finding. Allowed values are the following.    NEW - The initial state of a finding, before it is reviewed. Security Hub also resets the workflow status from NOTIFIED or RESOLVED to NEW in the following cases:   The record state changes from ARCHIVED to ACTIVE.   The compliance status changes from PASSED to either WARNING, FAILED, or NOT_AVAILABLE.      NOTIFIED - Indicates that the resource owner has been notified about the security issue. Used when the initial reviewer is not the resource owner, and needs intervention from the resource owner.    SUPPRESSED - The finding will not be reviewed again and will not be acted upon.    RESOLVED - The finding was reviewed and remediated and is now considered resolved.
+        /// The status of the investigation into a finding. Allowed values are the following.    NEW - The initial state of a finding, before it is reviewed. Security Hub also resets the workflow status from NOTIFIED or RESOLVED to NEW in the following cases:    RecordState changes from ARCHIVED to ACTIVE.    Compliance.Status changes from PASSED to either WARNING, FAILED, or NOT_AVAILABLE.      NOTIFIED - Indicates that the resource owner has been notified about the security issue. Used when the initial reviewer is not the resource owner, and needs intervention from the resource owner. If one of the following occurs, the workflow status is changed automatically from NOTIFIED to NEW:    RecordState changes from ARCHIVED to ACTIVE.    Compliance.Status changes from PASSED to FAILED, WARNING, or NOT_AVAILABLE.      SUPPRESSED - Indicates that you reviewed the finding and do not believe that any action is needed. The workflow status of a SUPPRESSED finding does not change if RecordState changes from ARCHIVED to ACTIVE.    RESOLVED - The finding was reviewed and remediated and is now considered resolved.  The finding remains RESOLVED unless one of the following occurs:    RecordState changes from ARCHIVED to ACTIVE.    Compliance.Status changes from PASSED to FAILED, WARNING, or NOT_AVAILABLE.   In those cases, the workflow status is automatically reset to NEW. For findings from controls, if Compliance.Status is PASSED, then Security Hub automatically sets the workflow status to RESOLVED.
         public let workflowStatus: [StringFilter]?
 
         public init(awsAccountId: [StringFilter]? = nil, companyName: [StringFilter]? = nil, complianceStatus: [StringFilter]? = nil, confidence: [NumberFilter]? = nil, createdAt: [DateFilter]? = nil, criticality: [NumberFilter]? = nil, description: [StringFilter]? = nil, findingProviderFieldsConfidence: [NumberFilter]? = nil, findingProviderFieldsCriticality: [NumberFilter]? = nil, findingProviderFieldsRelatedFindingsId: [StringFilter]? = nil, findingProviderFieldsRelatedFindingsProductArn: [StringFilter]? = nil, findingProviderFieldsSeverityLabel: [StringFilter]? = nil, findingProviderFieldsSeverityOriginal: [StringFilter]? = nil, findingProviderFieldsTypes: [StringFilter]? = nil, firstObservedAt: [DateFilter]? = nil, generatorId: [StringFilter]? = nil, id: [StringFilter]? = nil, lastObservedAt: [DateFilter]? = nil, malwareName: [StringFilter]? = nil, malwarePath: [StringFilter]? = nil, malwareState: [StringFilter]? = nil, malwareType: [StringFilter]? = nil, networkDestinationDomain: [StringFilter]? = nil, networkDestinationIpV4: [IpFilter]? = nil, networkDestinationIpV6: [IpFilter]? = nil, networkDestinationPort: [NumberFilter]? = nil, networkDirection: [StringFilter]? = nil, networkProtocol: [StringFilter]? = nil, networkSourceDomain: [StringFilter]? = nil, networkSourceIpV4: [IpFilter]? = nil, networkSourceIpV6: [IpFilter]? = nil, networkSourceMac: [StringFilter]? = nil, networkSourcePort: [NumberFilter]? = nil, noteText: [StringFilter]? = nil, noteUpdatedAt: [DateFilter]? = nil, noteUpdatedBy: [StringFilter]? = nil, processLaunchedAt: [DateFilter]? = nil, processName: [StringFilter]? = nil, processParentPid: [NumberFilter]? = nil, processPath: [StringFilter]? = nil, processPid: [NumberFilter]? = nil, processTerminatedAt: [DateFilter]? = nil, productArn: [StringFilter]? = nil, productFields: [MapFilter]? = nil, productName: [StringFilter]? = nil, recommendationText: [StringFilter]? = nil, recordState: [StringFilter]? = nil, region: [StringFilter]? = nil, relatedFindingsId: [StringFilter]? = nil, relatedFindingsProductArn: [StringFilter]? = nil, resourceAwsEc2InstanceIamInstanceProfileArn: [StringFilter]? = nil, resourceAwsEc2InstanceImageId: [StringFilter]? = nil, resourceAwsEc2InstanceIpV4Addresses: [IpFilter]? = nil, resourceAwsEc2InstanceIpV6Addresses: [IpFilter]? = nil, resourceAwsEc2InstanceKeyName: [StringFilter]? = nil, resourceAwsEc2InstanceLaunchedAt: [DateFilter]? = nil, resourceAwsEc2InstanceSubnetId: [StringFilter]? = nil, resourceAwsEc2InstanceType: [StringFilter]? = nil, resourceAwsEc2InstanceVpcId: [StringFilter]? = nil, resourceAwsIamAccessKeyCreatedAt: [DateFilter]? = nil, resourceAwsIamAccessKeyPrincipalName: [StringFilter]? = nil, resourceAwsIamAccessKeyStatus: [StringFilter]? = nil, resourceAwsIamUserUserName: [StringFilter]? = nil, resourceAwsS3BucketOwnerId: [StringFilter]? = nil, resourceAwsS3BucketOwnerName: [StringFilter]? = nil, resourceContainerImageId: [StringFilter]? = nil, resourceContainerImageName: [StringFilter]? = nil, resourceContainerLaunchedAt: [DateFilter]? = nil, resourceContainerName: [StringFilter]? = nil, resourceDetailsOther: [MapFilter]? = nil, resourceId: [StringFilter]? = nil, resourcePartition: [StringFilter]? = nil, resourceRegion: [StringFilter]? = nil, resourceTags: [MapFilter]? = nil, resourceType: [StringFilter]? = nil, severityLabel: [StringFilter]? = nil, sourceUrl: [StringFilter]? = nil, threatIntelIndicatorCategory: [StringFilter]? = nil, threatIntelIndicatorLastObservedAt: [DateFilter]? = nil, threatIntelIndicatorSource: [StringFilter]? = nil, threatIntelIndicatorSourceUrl: [StringFilter]? = nil, threatIntelIndicatorType: [StringFilter]? = nil, threatIntelIndicatorValue: [StringFilter]? = nil, title: [StringFilter]? = nil, type: [StringFilter]? = nil, updatedAt: [DateFilter]? = nil, userDefinedFields: [MapFilter]? = nil, verificationState: [StringFilter]? = nil, workflowState: [StringFilter]? = nil, workflowStatus: [StringFilter]? = nil) {
@@ -13617,6 +14004,113 @@ extension SecurityHub {
         }
     }
 
+    public struct FirewallPolicyDetails: AWSEncodableShape & AWSDecodableShape {
+        /// The stateful rule groups that are used in the firewall policy.
+        public let statefulRuleGroupReferences: [FirewallPolicyStatefulRuleGroupReferencesDetails]?
+        /// The custom action definitions that are available to use in the firewall policy's StatelessDefaultActions setting.
+        public let statelessCustomActions: [FirewallPolicyStatelessCustomActionsDetails]?
+        /// The actions to take on a packet if it doesn't match any of the stateless rules in the policy. You must specify a standard action (aws:pass, aws:drop, aws:forward_to_sfe), and can optionally include a custom action from StatelessCustomActions.
+        public let statelessDefaultActions: [String]?
+        /// The actions to take on a fragmented UDP packet if it doesn't match any of the stateless rules in the policy. You must specify a standard action (aws:pass, aws:drop, aws:forward_to_sfe), and can optionally include a custom action from StatelessCustomActions.
+        public let statelessFragmentDefaultActions: [String]?
+        /// The stateless rule groups that are used in the firewall policy.
+        public let statelessRuleGroupReferences: [FirewallPolicyStatelessRuleGroupReferencesDetails]?
+
+        public init(statefulRuleGroupReferences: [FirewallPolicyStatefulRuleGroupReferencesDetails]? = nil, statelessCustomActions: [FirewallPolicyStatelessCustomActionsDetails]? = nil, statelessDefaultActions: [String]? = nil, statelessFragmentDefaultActions: [String]? = nil, statelessRuleGroupReferences: [FirewallPolicyStatelessRuleGroupReferencesDetails]? = nil) {
+            self.statefulRuleGroupReferences = statefulRuleGroupReferences
+            self.statelessCustomActions = statelessCustomActions
+            self.statelessDefaultActions = statelessDefaultActions
+            self.statelessFragmentDefaultActions = statelessFragmentDefaultActions
+            self.statelessRuleGroupReferences = statelessRuleGroupReferences
+        }
+
+        public func validate(name: String) throws {
+            try self.statefulRuleGroupReferences?.forEach {
+                try $0.validate(name: "\(name).statefulRuleGroupReferences[]")
+            }
+            try self.statelessCustomActions?.forEach {
+                try $0.validate(name: "\(name).statelessCustomActions[]")
+            }
+            try self.statelessDefaultActions?.forEach {
+                try validate($0, name: "statelessDefaultActions[]", parent: name, pattern: ".*\\S.*")
+            }
+            try self.statelessFragmentDefaultActions?.forEach {
+                try validate($0, name: "statelessFragmentDefaultActions[]", parent: name, pattern: ".*\\S.*")
+            }
+            try self.statelessRuleGroupReferences?.forEach {
+                try $0.validate(name: "\(name).statelessRuleGroupReferences[]")
+            }
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case statefulRuleGroupReferences = "StatefulRuleGroupReferences"
+            case statelessCustomActions = "StatelessCustomActions"
+            case statelessDefaultActions = "StatelessDefaultActions"
+            case statelessFragmentDefaultActions = "StatelessFragmentDefaultActions"
+            case statelessRuleGroupReferences = "StatelessRuleGroupReferences"
+        }
+    }
+
+    public struct FirewallPolicyStatefulRuleGroupReferencesDetails: AWSEncodableShape & AWSDecodableShape {
+        /// The ARN of the stateful rule group.
+        public let resourceArn: String?
+
+        public init(resourceArn: String? = nil) {
+            self.resourceArn = resourceArn
+        }
+
+        public func validate(name: String) throws {
+            try self.validate(self.resourceArn, name: "resourceArn", parent: name, pattern: ".*\\S.*")
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case resourceArn = "ResourceArn"
+        }
+    }
+
+    public struct FirewallPolicyStatelessCustomActionsDetails: AWSEncodableShape & AWSDecodableShape {
+        /// The definition of the custom action.
+        public let actionDefinition: StatelessCustomActionDefinition?
+        /// The name of the custom action.
+        public let actionName: String?
+
+        public init(actionDefinition: StatelessCustomActionDefinition? = nil, actionName: String? = nil) {
+            self.actionDefinition = actionDefinition
+            self.actionName = actionName
+        }
+
+        public func validate(name: String) throws {
+            try self.actionDefinition?.validate(name: "\(name).actionDefinition")
+            try self.validate(self.actionName, name: "actionName", parent: name, pattern: ".*\\S.*")
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case actionDefinition = "ActionDefinition"
+            case actionName = "ActionName"
+        }
+    }
+
+    public struct FirewallPolicyStatelessRuleGroupReferencesDetails: AWSEncodableShape & AWSDecodableShape {
+        /// The order in which to run the stateless rule group.
+        public let priority: Int?
+        /// The ARN of the stateless rule group.
+        public let resourceArn: String?
+
+        public init(priority: Int? = nil, resourceArn: String? = nil) {
+            self.priority = priority
+            self.resourceArn = resourceArn
+        }
+
+        public func validate(name: String) throws {
+            try self.validate(self.resourceArn, name: "resourceArn", parent: name, pattern: ".*\\S.*")
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case priority = "Priority"
+            case resourceArn = "ResourceArn"
+        }
+    }
+
     public struct GeoLocation: AWSEncodableShape & AWSDecodableShape {
         /// The latitude of the location.
         public let lat: Double?
@@ -15315,6 +15809,12 @@ extension SecurityHub {
         public let awsLambdaFunction: AwsLambdaFunctionDetails?
         /// Details for a Lambda layer version.
         public let awsLambdaLayerVersion: AwsLambdaLayerVersionDetails?
+        /// Details about an Network Firewall firewall.
+        public let awsNetworkFirewallFirewall: AwsNetworkFirewallFirewallDetails?
+        /// Details about an Network Firewall firewall policy.
+        public let awsNetworkFirewallFirewallPolicy: AwsNetworkFirewallFirewallPolicyDetails?
+        /// Details about an Network Firewall rule group.
+        public let awsNetworkFirewallRuleGroup: AwsNetworkFirewallRuleGroupDetails?
         /// Details about an Amazon OpenSearch Service domain.
         public let awsOpenSearchServiceDomain: AwsOpenSearchServiceDomainDetails?
         /// Details about an Amazon RDS database cluster.
@@ -15356,7 +15856,7 @@ extension SecurityHub {
         /// Details about a resource that are not available in a type-specific details object. Use the Other object in the following cases.   The type-specific object does not contain all of the fields that you want to populate. In this case, first use the type-specific object to populate those fields. Use the Other object to populate the fields that are missing from the type-specific object.   The resource type does not have a corresponding object. This includes resources for which the type is Other.
         public let other: [String: String]?
 
-        public init(awsApiGatewayRestApi: AwsApiGatewayRestApiDetails? = nil, awsApiGatewayStage: AwsApiGatewayStageDetails? = nil, awsApiGatewayV2Api: AwsApiGatewayV2ApiDetails? = nil, awsApiGatewayV2Stage: AwsApiGatewayV2StageDetails? = nil, awsAutoScalingAutoScalingGroup: AwsAutoScalingAutoScalingGroupDetails? = nil, awsAutoScalingLaunchConfiguration: AwsAutoScalingLaunchConfigurationDetails? = nil, awsCertificateManagerCertificate: AwsCertificateManagerCertificateDetails? = nil, awsCloudFrontDistribution: AwsCloudFrontDistributionDetails? = nil, awsCloudTrailTrail: AwsCloudTrailTrailDetails? = nil, awsCodeBuildProject: AwsCodeBuildProjectDetails? = nil, awsDynamoDbTable: AwsDynamoDbTableDetails? = nil, awsEc2Eip: AwsEc2EipDetails? = nil, awsEc2Instance: AwsEc2InstanceDetails? = nil, awsEc2NetworkAcl: AwsEc2NetworkAclDetails? = nil, awsEc2NetworkInterface: AwsEc2NetworkInterfaceDetails? = nil, awsEc2SecurityGroup: AwsEc2SecurityGroupDetails? = nil, awsEc2Subnet: AwsEc2SubnetDetails? = nil, awsEc2Volume: AwsEc2VolumeDetails? = nil, awsEc2Vpc: AwsEc2VpcDetails? = nil, awsEc2VpcEndpointService: AwsEc2VpcEndpointServiceDetails? = nil, awsEc2VpnConnection: AwsEc2VpnConnectionDetails? = nil, awsEcrContainerImage: AwsEcrContainerImageDetails? = nil, awsEcrRepository: AwsEcrRepositoryDetails? = nil, awsEcsCluster: AwsEcsClusterDetails? = nil, awsEcsService: AwsEcsServiceDetails? = nil, awsEcsTaskDefinition: AwsEcsTaskDefinitionDetails? = nil, awsEksCluster: AwsEksClusterDetails? = nil, awsElasticBeanstalkEnvironment: AwsElasticBeanstalkEnvironmentDetails? = nil, awsElasticsearchDomain: AwsElasticsearchDomainDetails? = nil, awsElbLoadBalancer: AwsElbLoadBalancerDetails? = nil, awsElbv2LoadBalancer: AwsElbv2LoadBalancerDetails? = nil, awsIamAccessKey: AwsIamAccessKeyDetails? = nil, awsIamGroup: AwsIamGroupDetails? = nil, awsIamPolicy: AwsIamPolicyDetails? = nil, awsIamRole: AwsIamRoleDetails? = nil, awsIamUser: AwsIamUserDetails? = nil, awsKmsKey: AwsKmsKeyDetails? = nil, awsLambdaFunction: AwsLambdaFunctionDetails? = nil, awsLambdaLayerVersion: AwsLambdaLayerVersionDetails? = nil, awsOpenSearchServiceDomain: AwsOpenSearchServiceDomainDetails? = nil, awsRdsDbCluster: AwsRdsDbClusterDetails? = nil, awsRdsDbClusterSnapshot: AwsRdsDbClusterSnapshotDetails? = nil, awsRdsDbInstance: AwsRdsDbInstanceDetails? = nil, awsRdsDbSnapshot: AwsRdsDbSnapshotDetails? = nil, awsRdsEventSubscription: AwsRdsEventSubscriptionDetails? = nil, awsRedshiftCluster: AwsRedshiftClusterDetails? = nil, awsS3AccountPublicAccessBlock: AwsS3AccountPublicAccessBlockDetails? = nil, awsS3Bucket: AwsS3BucketDetails? = nil, awsS3Object: AwsS3ObjectDetails? = nil, awsSecretsManagerSecret: AwsSecretsManagerSecretDetails? = nil, awsSnsTopic: AwsSnsTopicDetails? = nil, awsSqsQueue: AwsSqsQueueDetails? = nil, awsSsmPatchCompliance: AwsSsmPatchComplianceDetails? = nil, awsWafRateBasedRule: AwsWafRateBasedRuleDetails? = nil, awsWafRegionalRateBasedRule: AwsWafRegionalRateBasedRuleDetails? = nil, awsWafWebAcl: AwsWafWebAclDetails? = nil, awsXrayEncryptionConfig: AwsXrayEncryptionConfigDetails? = nil, container: ContainerDetails? = nil, other: [String: String]? = nil) {
+        public init(awsApiGatewayRestApi: AwsApiGatewayRestApiDetails? = nil, awsApiGatewayStage: AwsApiGatewayStageDetails? = nil, awsApiGatewayV2Api: AwsApiGatewayV2ApiDetails? = nil, awsApiGatewayV2Stage: AwsApiGatewayV2StageDetails? = nil, awsAutoScalingAutoScalingGroup: AwsAutoScalingAutoScalingGroupDetails? = nil, awsAutoScalingLaunchConfiguration: AwsAutoScalingLaunchConfigurationDetails? = nil, awsCertificateManagerCertificate: AwsCertificateManagerCertificateDetails? = nil, awsCloudFrontDistribution: AwsCloudFrontDistributionDetails? = nil, awsCloudTrailTrail: AwsCloudTrailTrailDetails? = nil, awsCodeBuildProject: AwsCodeBuildProjectDetails? = nil, awsDynamoDbTable: AwsDynamoDbTableDetails? = nil, awsEc2Eip: AwsEc2EipDetails? = nil, awsEc2Instance: AwsEc2InstanceDetails? = nil, awsEc2NetworkAcl: AwsEc2NetworkAclDetails? = nil, awsEc2NetworkInterface: AwsEc2NetworkInterfaceDetails? = nil, awsEc2SecurityGroup: AwsEc2SecurityGroupDetails? = nil, awsEc2Subnet: AwsEc2SubnetDetails? = nil, awsEc2Volume: AwsEc2VolumeDetails? = nil, awsEc2Vpc: AwsEc2VpcDetails? = nil, awsEc2VpcEndpointService: AwsEc2VpcEndpointServiceDetails? = nil, awsEc2VpnConnection: AwsEc2VpnConnectionDetails? = nil, awsEcrContainerImage: AwsEcrContainerImageDetails? = nil, awsEcrRepository: AwsEcrRepositoryDetails? = nil, awsEcsCluster: AwsEcsClusterDetails? = nil, awsEcsService: AwsEcsServiceDetails? = nil, awsEcsTaskDefinition: AwsEcsTaskDefinitionDetails? = nil, awsEksCluster: AwsEksClusterDetails? = nil, awsElasticBeanstalkEnvironment: AwsElasticBeanstalkEnvironmentDetails? = nil, awsElasticsearchDomain: AwsElasticsearchDomainDetails? = nil, awsElbLoadBalancer: AwsElbLoadBalancerDetails? = nil, awsElbv2LoadBalancer: AwsElbv2LoadBalancerDetails? = nil, awsIamAccessKey: AwsIamAccessKeyDetails? = nil, awsIamGroup: AwsIamGroupDetails? = nil, awsIamPolicy: AwsIamPolicyDetails? = nil, awsIamRole: AwsIamRoleDetails? = nil, awsIamUser: AwsIamUserDetails? = nil, awsKmsKey: AwsKmsKeyDetails? = nil, awsLambdaFunction: AwsLambdaFunctionDetails? = nil, awsLambdaLayerVersion: AwsLambdaLayerVersionDetails? = nil, awsNetworkFirewallFirewall: AwsNetworkFirewallFirewallDetails? = nil, awsNetworkFirewallFirewallPolicy: AwsNetworkFirewallFirewallPolicyDetails? = nil, awsNetworkFirewallRuleGroup: AwsNetworkFirewallRuleGroupDetails? = nil, awsOpenSearchServiceDomain: AwsOpenSearchServiceDomainDetails? = nil, awsRdsDbCluster: AwsRdsDbClusterDetails? = nil, awsRdsDbClusterSnapshot: AwsRdsDbClusterSnapshotDetails? = nil, awsRdsDbInstance: AwsRdsDbInstanceDetails? = nil, awsRdsDbSnapshot: AwsRdsDbSnapshotDetails? = nil, awsRdsEventSubscription: AwsRdsEventSubscriptionDetails? = nil, awsRedshiftCluster: AwsRedshiftClusterDetails? = nil, awsS3AccountPublicAccessBlock: AwsS3AccountPublicAccessBlockDetails? = nil, awsS3Bucket: AwsS3BucketDetails? = nil, awsS3Object: AwsS3ObjectDetails? = nil, awsSecretsManagerSecret: AwsSecretsManagerSecretDetails? = nil, awsSnsTopic: AwsSnsTopicDetails? = nil, awsSqsQueue: AwsSqsQueueDetails? = nil, awsSsmPatchCompliance: AwsSsmPatchComplianceDetails? = nil, awsWafRateBasedRule: AwsWafRateBasedRuleDetails? = nil, awsWafRegionalRateBasedRule: AwsWafRegionalRateBasedRuleDetails? = nil, awsWafWebAcl: AwsWafWebAclDetails? = nil, awsXrayEncryptionConfig: AwsXrayEncryptionConfigDetails? = nil, container: ContainerDetails? = nil, other: [String: String]? = nil) {
             self.awsApiGatewayRestApi = awsApiGatewayRestApi
             self.awsApiGatewayStage = awsApiGatewayStage
             self.awsApiGatewayV2Api = awsApiGatewayV2Api
@@ -15396,6 +15896,9 @@ extension SecurityHub {
             self.awsKmsKey = awsKmsKey
             self.awsLambdaFunction = awsLambdaFunction
             self.awsLambdaLayerVersion = awsLambdaLayerVersion
+            self.awsNetworkFirewallFirewall = awsNetworkFirewallFirewall
+            self.awsNetworkFirewallFirewallPolicy = awsNetworkFirewallFirewallPolicy
+            self.awsNetworkFirewallRuleGroup = awsNetworkFirewallRuleGroup
             self.awsOpenSearchServiceDomain = awsOpenSearchServiceDomain
             self.awsRdsDbCluster = awsRdsDbCluster
             self.awsRdsDbClusterSnapshot = awsRdsDbClusterSnapshot
@@ -15458,6 +15961,9 @@ extension SecurityHub {
             try self.awsKmsKey?.validate(name: "\(name).awsKmsKey")
             try self.awsLambdaFunction?.validate(name: "\(name).awsLambdaFunction")
             try self.awsLambdaLayerVersion?.validate(name: "\(name).awsLambdaLayerVersion")
+            try self.awsNetworkFirewallFirewall?.validate(name: "\(name).awsNetworkFirewallFirewall")
+            try self.awsNetworkFirewallFirewallPolicy?.validate(name: "\(name).awsNetworkFirewallFirewallPolicy")
+            try self.awsNetworkFirewallRuleGroup?.validate(name: "\(name).awsNetworkFirewallRuleGroup")
             try self.awsOpenSearchServiceDomain?.validate(name: "\(name).awsOpenSearchServiceDomain")
             try self.awsRdsDbCluster?.validate(name: "\(name).awsRdsDbCluster")
             try self.awsRdsDbClusterSnapshot?.validate(name: "\(name).awsRdsDbClusterSnapshot")
@@ -15522,6 +16028,9 @@ extension SecurityHub {
             case awsKmsKey = "AwsKmsKey"
             case awsLambdaFunction = "AwsLambdaFunction"
             case awsLambdaLayerVersion = "AwsLambdaLayerVersion"
+            case awsNetworkFirewallFirewall = "AwsNetworkFirewallFirewall"
+            case awsNetworkFirewallFirewallPolicy = "AwsNetworkFirewallFirewallPolicy"
+            case awsNetworkFirewallRuleGroup = "AwsNetworkFirewallRuleGroup"
             case awsOpenSearchServiceDomain = "AwsOpenSearchServiceDomain"
             case awsRdsDbCluster = "AwsRdsDbCluster"
             case awsRdsDbClusterSnapshot = "AwsRdsDbClusterSnapshot"
@@ -15559,6 +16068,480 @@ extension SecurityHub {
         private enum CodingKeys: String, CodingKey {
             case accountId = "AccountId"
             case processingResult = "ProcessingResult"
+        }
+    }
+
+    public struct RuleGroupDetails: AWSEncodableShape & AWSDecodableShape {
+        /// The rules and actions for the rule group. For stateful rule groups, can contain RulesString, RulesSourceList, or StatefulRules. For stateless rule groups, contains StatelessRulesAndCustomActions.
+        public let rulesSource: RuleGroupSource?
+        /// Additional settings to use in the specified rules.
+        public let ruleVariables: RuleGroupVariables?
+
+        public init(rulesSource: RuleGroupSource? = nil, ruleVariables: RuleGroupVariables? = nil) {
+            self.rulesSource = rulesSource
+            self.ruleVariables = ruleVariables
+        }
+
+        public func validate(name: String) throws {
+            try self.rulesSource?.validate(name: "\(name).rulesSource")
+            try self.ruleVariables?.validate(name: "\(name).ruleVariables")
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case rulesSource = "RulesSource"
+            case ruleVariables = "RuleVariables"
+        }
+    }
+
+    public struct RuleGroupSource: AWSEncodableShape & AWSDecodableShape {
+        /// Stateful inspection criteria for a domain list rule group. A domain list rule group determines access by specific protocols to specific domains.
+        public let rulesSourceList: RuleGroupSourceListDetails?
+        /// Stateful inspection criteria, provided in Suricata compatible intrusion prevention system (IPS) rules.
+        public let rulesString: String?
+        /// Suricata rule specifications.
+        public let statefulRules: [RuleGroupSourceStatefulRulesDetails]?
+        /// The stateless rules and custom actions used by a stateless rule group.
+        public let statelessRulesAndCustomActions: RuleGroupSourceStatelessRulesAndCustomActionsDetails?
+
+        public init(rulesSourceList: RuleGroupSourceListDetails? = nil, rulesString: String? = nil, statefulRules: [RuleGroupSourceStatefulRulesDetails]? = nil, statelessRulesAndCustomActions: RuleGroupSourceStatelessRulesAndCustomActionsDetails? = nil) {
+            self.rulesSourceList = rulesSourceList
+            self.rulesString = rulesString
+            self.statefulRules = statefulRules
+            self.statelessRulesAndCustomActions = statelessRulesAndCustomActions
+        }
+
+        public func validate(name: String) throws {
+            try self.rulesSourceList?.validate(name: "\(name).rulesSourceList")
+            try self.validate(self.rulesString, name: "rulesString", parent: name, pattern: ".*\\S.*")
+            try self.statefulRules?.forEach {
+                try $0.validate(name: "\(name).statefulRules[]")
+            }
+            try self.statelessRulesAndCustomActions?.validate(name: "\(name).statelessRulesAndCustomActions")
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case rulesSourceList = "RulesSourceList"
+            case rulesString = "RulesString"
+            case statefulRules = "StatefulRules"
+            case statelessRulesAndCustomActions = "StatelessRulesAndCustomActions"
+        }
+    }
+
+    public struct RuleGroupSourceCustomActionsDetails: AWSEncodableShape & AWSDecodableShape {
+        /// The definition of a custom action.
+        public let actionDefinition: StatelessCustomActionDefinition?
+        /// A descriptive name of the custom action.
+        public let actionName: String?
+
+        public init(actionDefinition: StatelessCustomActionDefinition? = nil, actionName: String? = nil) {
+            self.actionDefinition = actionDefinition
+            self.actionName = actionName
+        }
+
+        public func validate(name: String) throws {
+            try self.actionDefinition?.validate(name: "\(name).actionDefinition")
+            try self.validate(self.actionName, name: "actionName", parent: name, pattern: ".*\\S.*")
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case actionDefinition = "ActionDefinition"
+            case actionName = "ActionName"
+        }
+    }
+
+    public struct RuleGroupSourceListDetails: AWSEncodableShape & AWSDecodableShape {
+        /// Indicates whether to allow or deny access to the domains listed in Targets.
+        public let generatedRulesType: String?
+        /// The domains that you want to inspect for in your traffic flows. You can provide full domain names, or use the '.' prefix as a wildcard. For example, .example.com matches all domains that end with example.com.
+        public let targets: [String]?
+        /// The protocols that you want to inspect. Specify LS_SNI for HTTPS. Specify HTTP_HOST for HTTP. You can specify either or both.
+        public let targetTypes: [String]?
+
+        public init(generatedRulesType: String? = nil, targets: [String]? = nil, targetTypes: [String]? = nil) {
+            self.generatedRulesType = generatedRulesType
+            self.targets = targets
+            self.targetTypes = targetTypes
+        }
+
+        public func validate(name: String) throws {
+            try self.validate(self.generatedRulesType, name: "generatedRulesType", parent: name, pattern: ".*\\S.*")
+            try self.targets?.forEach {
+                try validate($0, name: "targets[]", parent: name, pattern: ".*\\S.*")
+            }
+            try self.targetTypes?.forEach {
+                try validate($0, name: "targetTypes[]", parent: name, pattern: ".*\\S.*")
+            }
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case generatedRulesType = "GeneratedRulesType"
+            case targets = "Targets"
+            case targetTypes = "TargetTypes"
+        }
+    }
+
+    public struct RuleGroupSourceStatefulRulesDetails: AWSEncodableShape & AWSDecodableShape {
+        /// Defines what Network Firewall should do with the packets in a traffic flow when the flow matches the stateful rule criteria.
+        public let action: String?
+        /// The stateful inspection criteria for the rule.
+        public let header: RuleGroupSourceStatefulRulesHeaderDetails?
+        /// Additional options for the rule.
+        public let ruleOptions: [RuleGroupSourceStatefulRulesOptionsDetails]?
+
+        public init(action: String? = nil, header: RuleGroupSourceStatefulRulesHeaderDetails? = nil, ruleOptions: [RuleGroupSourceStatefulRulesOptionsDetails]? = nil) {
+            self.action = action
+            self.header = header
+            self.ruleOptions = ruleOptions
+        }
+
+        public func validate(name: String) throws {
+            try self.validate(self.action, name: "action", parent: name, pattern: ".*\\S.*")
+            try self.header?.validate(name: "\(name).header")
+            try self.ruleOptions?.forEach {
+                try $0.validate(name: "\(name).ruleOptions[]")
+            }
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case action = "Action"
+            case header = "Header"
+            case ruleOptions = "RuleOptions"
+        }
+    }
+
+    public struct RuleGroupSourceStatefulRulesHeaderDetails: AWSEncodableShape & AWSDecodableShape {
+        /// The destination IP address or address range to inspect for, in CIDR notation. To match with any address, specify ANY.
+        public let destination: String?
+        /// The destination port to inspect for. You can specify an individual port, such as 1994. You also can specify a port range, such as 1990:1994. To match with any port, specify ANY.
+        public let destinationPort: String?
+        /// The direction of traffic flow to inspect. If set to ANY, the inspection matches bidirectional traffic, both from the source to the destination and from the destination to the source. If set to FORWARD, the inspection only matches traffic going from the source to the destination.
+        public let direction: String?
+        /// The protocol to inspect for. To inspector for all protocols, use IP.
+        public let `protocol`: String?
+        /// The source IP address or address range to inspect for, in CIDR notation. To match with any address, specify ANY.
+        public let source: String?
+        /// The source port to inspect for. You can specify an individual port, such as 1994. You also can specify a port range, such as 1990:1994. To match with any port, specify ANY.
+        public let sourcePort: String?
+
+        public init(destination: String? = nil, destinationPort: String? = nil, direction: String? = nil, protocol: String? = nil, source: String? = nil, sourcePort: String? = nil) {
+            self.destination = destination
+            self.destinationPort = destinationPort
+            self.direction = direction
+            self.`protocol` = `protocol`
+            self.source = source
+            self.sourcePort = sourcePort
+        }
+
+        public func validate(name: String) throws {
+            try self.validate(self.destination, name: "destination", parent: name, pattern: ".*\\S.*")
+            try self.validate(self.destinationPort, name: "destinationPort", parent: name, pattern: ".*\\S.*")
+            try self.validate(self.direction, name: "direction", parent: name, pattern: ".*\\S.*")
+            try self.validate(self.`protocol`, name: "`protocol`", parent: name, pattern: ".*\\S.*")
+            try self.validate(self.source, name: "source", parent: name, pattern: ".*\\S.*")
+            try self.validate(self.sourcePort, name: "sourcePort", parent: name, pattern: ".*\\S.*")
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case destination = "Destination"
+            case destinationPort = "DestinationPort"
+            case direction = "Direction"
+            case `protocol` = "Protocol"
+            case source = "Source"
+            case sourcePort = "SourcePort"
+        }
+    }
+
+    public struct RuleGroupSourceStatefulRulesOptionsDetails: AWSEncodableShape & AWSDecodableShape {
+        /// A keyword to look for.
+        public let keyword: String?
+        /// A list of settings.
+        public let settings: [String]?
+
+        public init(keyword: String? = nil, settings: [String]? = nil) {
+            self.keyword = keyword
+            self.settings = settings
+        }
+
+        public func validate(name: String) throws {
+            try self.validate(self.keyword, name: "keyword", parent: name, pattern: ".*\\S.*")
+            try self.settings?.forEach {
+                try validate($0, name: "settings[]", parent: name, pattern: ".*\\S.*")
+            }
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case keyword = "Keyword"
+            case settings = "Settings"
+        }
+    }
+
+    public struct RuleGroupSourceStatelessRuleDefinition: AWSEncodableShape & AWSDecodableShape {
+        /// The actions to take on a packet that matches one of the stateless rule definition's match attributes. You must specify a standard action (aws:pass, aws:drop, or aws:forward_to_sfe). You can then add custom actions.
+        public let actions: [String]?
+        /// The criteria for Network Firewall to use to inspect an individual packet in a stateless rule inspection.
+        public let matchAttributes: RuleGroupSourceStatelessRuleMatchAttributes?
+
+        public init(actions: [String]? = nil, matchAttributes: RuleGroupSourceStatelessRuleMatchAttributes? = nil) {
+            self.actions = actions
+            self.matchAttributes = matchAttributes
+        }
+
+        public func validate(name: String) throws {
+            try self.actions?.forEach {
+                try validate($0, name: "actions[]", parent: name, pattern: ".*\\S.*")
+            }
+            try self.matchAttributes?.validate(name: "\(name).matchAttributes")
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case actions = "Actions"
+            case matchAttributes = "MatchAttributes"
+        }
+    }
+
+    public struct RuleGroupSourceStatelessRuleMatchAttributes: AWSEncodableShape & AWSDecodableShape {
+        /// A list of port ranges to specify the destination ports to inspect for.
+        public let destinationPorts: [RuleGroupSourceStatelessRuleMatchAttributesDestinationPorts]?
+        /// The destination IP addresses and address ranges to inspect for, in CIDR notation.
+        public let destinations: [RuleGroupSourceStatelessRuleMatchAttributesDestinations]?
+        /// The protocols to inspect for.
+        public let protocols: [Int]?
+        /// A list of port ranges to specify the source ports to inspect for.
+        public let sourcePorts: [RuleGroupSourceStatelessRuleMatchAttributesSourcePorts]?
+        /// The source IP addresses and address ranges to inspect for, in CIDR notation.
+        public let sources: [RuleGroupSourceStatelessRuleMatchAttributesSources]?
+        /// The TCP flags and masks to inspect for.
+        public let tcpFlags: [RuleGroupSourceStatelessRuleMatchAttributesTcpFlags]?
+
+        public init(destinationPorts: [RuleGroupSourceStatelessRuleMatchAttributesDestinationPorts]? = nil, destinations: [RuleGroupSourceStatelessRuleMatchAttributesDestinations]? = nil, protocols: [Int]? = nil, sourcePorts: [RuleGroupSourceStatelessRuleMatchAttributesSourcePorts]? = nil, sources: [RuleGroupSourceStatelessRuleMatchAttributesSources]? = nil, tcpFlags: [RuleGroupSourceStatelessRuleMatchAttributesTcpFlags]? = nil) {
+            self.destinationPorts = destinationPorts
+            self.destinations = destinations
+            self.protocols = protocols
+            self.sourcePorts = sourcePorts
+            self.sources = sources
+            self.tcpFlags = tcpFlags
+        }
+
+        public func validate(name: String) throws {
+            try self.destinations?.forEach {
+                try $0.validate(name: "\(name).destinations[]")
+            }
+            try self.sources?.forEach {
+                try $0.validate(name: "\(name).sources[]")
+            }
+            try self.tcpFlags?.forEach {
+                try $0.validate(name: "\(name).tcpFlags[]")
+            }
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case destinationPorts = "DestinationPorts"
+            case destinations = "Destinations"
+            case protocols = "Protocols"
+            case sourcePorts = "SourcePorts"
+            case sources = "Sources"
+            case tcpFlags = "TcpFlags"
+        }
+    }
+
+    public struct RuleGroupSourceStatelessRuleMatchAttributesDestinationPorts: AWSEncodableShape & AWSDecodableShape {
+        /// The starting port value for the port range.
+        public let fromPort: Int?
+        /// The ending port value for the port range.
+        public let toPort: Int?
+
+        public init(fromPort: Int? = nil, toPort: Int? = nil) {
+            self.fromPort = fromPort
+            self.toPort = toPort
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case fromPort = "FromPort"
+            case toPort = "ToPort"
+        }
+    }
+
+    public struct RuleGroupSourceStatelessRuleMatchAttributesDestinations: AWSEncodableShape & AWSDecodableShape {
+        /// An IP address or a block of IP addresses.
+        public let addressDefinition: String?
+
+        public init(addressDefinition: String? = nil) {
+            self.addressDefinition = addressDefinition
+        }
+
+        public func validate(name: String) throws {
+            try self.validate(self.addressDefinition, name: "addressDefinition", parent: name, pattern: ".*\\S.*")
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case addressDefinition = "AddressDefinition"
+        }
+    }
+
+    public struct RuleGroupSourceStatelessRuleMatchAttributesSourcePorts: AWSEncodableShape & AWSDecodableShape {
+        /// The starting port value for the port range.
+        public let fromPort: Int?
+        /// The ending port value for the port range.
+        public let toPort: Int?
+
+        public init(fromPort: Int? = nil, toPort: Int? = nil) {
+            self.fromPort = fromPort
+            self.toPort = toPort
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case fromPort = "FromPort"
+            case toPort = "ToPort"
+        }
+    }
+
+    public struct RuleGroupSourceStatelessRuleMatchAttributesSources: AWSEncodableShape & AWSDecodableShape {
+        /// An IP address or a block of IP addresses.
+        public let addressDefinition: String?
+
+        public init(addressDefinition: String? = nil) {
+            self.addressDefinition = addressDefinition
+        }
+
+        public func validate(name: String) throws {
+            try self.validate(self.addressDefinition, name: "addressDefinition", parent: name, pattern: ".*\\S.*")
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case addressDefinition = "AddressDefinition"
+        }
+    }
+
+    public struct RuleGroupSourceStatelessRuleMatchAttributesTcpFlags: AWSEncodableShape & AWSDecodableShape {
+        /// Defines the flags from the Masks setting that must be set in order for the packet to match. Flags that are listed must be set. Flags that are not listed must not be set.
+        public let flags: [String]?
+        /// The set of flags to consider in the inspection. If not specified, then all flags are inspected.
+        public let masks: [String]?
+
+        public init(flags: [String]? = nil, masks: [String]? = nil) {
+            self.flags = flags
+            self.masks = masks
+        }
+
+        public func validate(name: String) throws {
+            try self.flags?.forEach {
+                try validate($0, name: "flags[]", parent: name, pattern: ".*\\S.*")
+            }
+            try self.masks?.forEach {
+                try validate($0, name: "masks[]", parent: name, pattern: ".*\\S.*")
+            }
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case flags = "Flags"
+            case masks = "Masks"
+        }
+    }
+
+    public struct RuleGroupSourceStatelessRulesAndCustomActionsDetails: AWSEncodableShape & AWSDecodableShape {
+        /// Custom actions for the rule group.
+        public let customActions: [RuleGroupSourceCustomActionsDetails]?
+        /// Stateless rules for the rule group.
+        public let statelessRules: [RuleGroupSourceStatelessRulesDetails]?
+
+        public init(customActions: [RuleGroupSourceCustomActionsDetails]? = nil, statelessRules: [RuleGroupSourceStatelessRulesDetails]? = nil) {
+            self.customActions = customActions
+            self.statelessRules = statelessRules
+        }
+
+        public func validate(name: String) throws {
+            try self.customActions?.forEach {
+                try $0.validate(name: "\(name).customActions[]")
+            }
+            try self.statelessRules?.forEach {
+                try $0.validate(name: "\(name).statelessRules[]")
+            }
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case customActions = "CustomActions"
+            case statelessRules = "StatelessRules"
+        }
+    }
+
+    public struct RuleGroupSourceStatelessRulesDetails: AWSEncodableShape & AWSDecodableShape {
+        /// Indicates the order in which to run this rule relative to all of the rules in the stateless rule group.
+        public let priority: Int?
+        /// Provides the definition of the stateless rule.
+        public let ruleDefinition: RuleGroupSourceStatelessRuleDefinition?
+
+        public init(priority: Int? = nil, ruleDefinition: RuleGroupSourceStatelessRuleDefinition? = nil) {
+            self.priority = priority
+            self.ruleDefinition = ruleDefinition
+        }
+
+        public func validate(name: String) throws {
+            try self.ruleDefinition?.validate(name: "\(name).ruleDefinition")
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case priority = "Priority"
+            case ruleDefinition = "RuleDefinition"
+        }
+    }
+
+    public struct RuleGroupVariables: AWSEncodableShape & AWSDecodableShape {
+        /// A list of IP addresses and address ranges, in CIDR notation.
+        public let ipSets: RuleGroupVariablesIpSetsDetails?
+        /// A list of port ranges.
+        public let portSets: RuleGroupVariablesPortSetsDetails?
+
+        public init(ipSets: RuleGroupVariablesIpSetsDetails? = nil, portSets: RuleGroupVariablesPortSetsDetails? = nil) {
+            self.ipSets = ipSets
+            self.portSets = portSets
+        }
+
+        public func validate(name: String) throws {
+            try self.ipSets?.validate(name: "\(name).ipSets")
+            try self.portSets?.validate(name: "\(name).portSets")
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case ipSets = "IpSets"
+            case portSets = "PortSets"
+        }
+    }
+
+    public struct RuleGroupVariablesIpSetsDetails: AWSEncodableShape & AWSDecodableShape {
+        /// The list of IP addresses and ranges.
+        public let definition: [String]?
+
+        public init(definition: [String]? = nil) {
+            self.definition = definition
+        }
+
+        public func validate(name: String) throws {
+            try self.definition?.forEach {
+                try validate($0, name: "definition[]", parent: name, pattern: ".*\\S.*")
+            }
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case definition = "Definition"
+        }
+    }
+
+    public struct RuleGroupVariablesPortSetsDetails: AWSEncodableShape & AWSDecodableShape {
+        /// The list of port ranges.
+        public let definition: [String]?
+
+        public init(definition: [String]? = nil) {
+            self.definition = definition
+        }
+
+        public func validate(name: String) throws {
+            try self.definition?.forEach {
+                try validate($0, name: "definition[]", parent: name, pattern: ".*\\S.*")
+            }
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case definition = "Definition"
         }
     }
 
@@ -15814,6 +16797,19 @@ extension SecurityHub {
         }
     }
 
+    public struct StandardsStatusReason: AWSDecodableShape {
+        /// The reason code that represents the reason for the current status of a standard subscription.
+        public let statusReasonCode: StatusReasonCode
+
+        public init(statusReasonCode: StatusReasonCode) {
+            self.statusReasonCode = statusReasonCode
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case statusReasonCode = "StatusReasonCode"
+        }
+    }
+
     public struct StandardsSubscription: AWSDecodableShape {
         /// The ARN of a standard.
         public let standardsArn: String
@@ -15821,13 +16817,16 @@ extension SecurityHub {
         public let standardsInput: [String: String]
         /// The status of the standard subscription. The status values are as follows:    PENDING - Standard is in the process of being enabled.    READY - Standard is enabled.    INCOMPLETE - Standard could not be enabled completely. Some controls may not be available.    DELETING - Standard is in the process of being disabled.    FAILED - Standard could not be disabled.
         public let standardsStatus: StandardsStatus
+        /// The reason for the current status.
+        public let standardsStatusReason: StandardsStatusReason?
         /// The ARN of a resource that represents your subscription to a supported standard.
         public let standardsSubscriptionArn: String
 
-        public init(standardsArn: String, standardsInput: [String: String], standardsStatus: StandardsStatus, standardsSubscriptionArn: String) {
+        public init(standardsArn: String, standardsInput: [String: String], standardsStatus: StandardsStatus, standardsStatusReason: StandardsStatusReason? = nil, standardsSubscriptionArn: String) {
             self.standardsArn = standardsArn
             self.standardsInput = standardsInput
             self.standardsStatus = standardsStatus
+            self.standardsStatusReason = standardsStatusReason
             self.standardsSubscriptionArn = standardsSubscriptionArn
         }
 
@@ -15835,6 +16834,7 @@ extension SecurityHub {
             case standardsArn = "StandardsArn"
             case standardsInput = "StandardsInput"
             case standardsStatus = "StandardsStatus"
+            case standardsStatusReason = "StandardsStatusReason"
             case standardsSubscriptionArn = "StandardsSubscriptionArn"
         }
     }
@@ -15861,6 +16861,59 @@ extension SecurityHub {
         private enum CodingKeys: String, CodingKey {
             case standardsArn = "StandardsArn"
             case standardsInput = "StandardsInput"
+        }
+    }
+
+    public struct StatelessCustomActionDefinition: AWSEncodableShape & AWSDecodableShape {
+        /// Information about metrics to publish to CloudWatch.
+        public let publishMetricAction: StatelessCustomPublishMetricAction?
+
+        public init(publishMetricAction: StatelessCustomPublishMetricAction? = nil) {
+            self.publishMetricAction = publishMetricAction
+        }
+
+        public func validate(name: String) throws {
+            try self.publishMetricAction?.validate(name: "\(name).publishMetricAction")
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case publishMetricAction = "PublishMetricAction"
+        }
+    }
+
+    public struct StatelessCustomPublishMetricAction: AWSEncodableShape & AWSDecodableShape {
+        /// Defines CloudWatch dimension values to publish.
+        public let dimensions: [StatelessCustomPublishMetricActionDimension]?
+
+        public init(dimensions: [StatelessCustomPublishMetricActionDimension]? = nil) {
+            self.dimensions = dimensions
+        }
+
+        public func validate(name: String) throws {
+            try self.dimensions?.forEach {
+                try $0.validate(name: "\(name).dimensions[]")
+            }
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case dimensions = "Dimensions"
+        }
+    }
+
+    public struct StatelessCustomPublishMetricActionDimension: AWSEncodableShape & AWSDecodableShape {
+        /// The value to use for the custom metric dimension.
+        public let value: String?
+
+        public init(value: String? = nil) {
+            self.value = value
+        }
+
+        public func validate(name: String) throws {
+            try self.validate(self.value, name: "value", parent: name, pattern: ".*\\S.*")
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case value = "Value"
         }
     }
 

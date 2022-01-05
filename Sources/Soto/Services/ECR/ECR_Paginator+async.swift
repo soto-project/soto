@@ -20,7 +20,7 @@ import SotoCore
 
 // MARK: Paginators
 
-@available(macOS 12.0, iOS 15.0, watchOS 8.0, tvOS 15.0, *)
+@available(macOS 10.15, iOS 13.0, tvOS 13.0, watchOS 6.0, *)
 extension ECR {
     ///  Returns the scan findings for the specified image.
     /// Return PaginatorSequence for operation.
@@ -61,6 +61,28 @@ extension ECR {
             command: describeImages,
             inputKey: \DescribeImagesRequest.nextToken,
             outputKey: \DescribeImagesResponse.nextToken,
+            logger: logger,
+            on: eventLoop
+        )
+    }
+
+    ///  Returns the pull through cache rules for a registry.
+    /// Return PaginatorSequence for operation.
+    ///
+    /// - Parameters:
+    ///   - input: Input for request
+    ///   - logger: Logger used flot logging
+    ///   - eventLoop: EventLoop to run this process on
+    public func describePullThroughCacheRulesPaginator(
+        _ input: DescribePullThroughCacheRulesRequest,
+        logger: Logger = AWSClient.loggingDisabled,
+        on eventLoop: EventLoop? = nil
+    ) -> AWSClient.PaginatorSequence<DescribePullThroughCacheRulesRequest, DescribePullThroughCacheRulesResponse> {
+        return .init(
+            input: input,
+            command: describePullThroughCacheRules,
+            inputKey: \DescribePullThroughCacheRulesRequest.nextToken,
+            outputKey: \DescribePullThroughCacheRulesResponse.nextToken,
             logger: logger,
             on: eventLoop
         )

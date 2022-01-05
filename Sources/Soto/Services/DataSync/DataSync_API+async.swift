@@ -18,7 +18,7 @@
 
 import SotoCore
 
-@available(macOS 12.0, iOS 15.0, watchOS 8.0, tvOS 15.0, *)
+@available(macOS 10.15, iOS 13.0, tvOS 13.0, watchOS 6.0, *)
 extension DataSync {
     // MARK: Async API Calls
 
@@ -35,6 +35,11 @@ extension DataSync {
     /// Creates an endpoint for an Amazon EFS file system.
     public func createLocationEfs(_ input: CreateLocationEfsRequest, logger: Logger = AWSClient.loggingDisabled, on eventLoop: EventLoop? = nil) async throws -> CreateLocationEfsResponse {
         return try await self.client.execute(operation: "CreateLocationEfs", path: "/", httpMethod: .POST, serviceConfig: self.config, input: input, logger: logger, on: eventLoop)
+    }
+
+    /// Creates an endpoint for an Amazon FSx for Lustre file system.
+    public func createLocationFsxLustre(_ input: CreateLocationFsxLustreRequest, logger: Logger = AWSClient.loggingDisabled, on eventLoop: EventLoop? = nil) async throws -> CreateLocationFsxLustreResponse {
+        return try await self.client.execute(operation: "CreateLocationFsxLustre", path: "/", httpMethod: .POST, serviceConfig: self.config, input: input, logger: logger, on: eventLoop)
     }
 
     /// Creates an endpoint for an Amazon FSx for Windows File Server file system.
@@ -95,6 +100,11 @@ extension DataSync {
     /// Returns metadata, such as the path information about an Amazon EFS location.
     public func describeLocationEfs(_ input: DescribeLocationEfsRequest, logger: Logger = AWSClient.loggingDisabled, on eventLoop: EventLoop? = nil) async throws -> DescribeLocationEfsResponse {
         return try await self.client.execute(operation: "DescribeLocationEfs", path: "/", httpMethod: .POST, serviceConfig: self.config, input: input, logger: logger, on: eventLoop)
+    }
+
+    /// Returns metadata, such as the path information about an Amazon FSx for Lustre location.
+    public func describeLocationFsxLustre(_ input: DescribeLocationFsxLustreRequest, logger: Logger = AWSClient.loggingDisabled, on eventLoop: EventLoop? = nil) async throws -> DescribeLocationFsxLustreResponse {
+        return try await self.client.execute(operation: "DescribeLocationFsxLustre", path: "/", httpMethod: .POST, serviceConfig: self.config, input: input, logger: logger, on: eventLoop)
     }
 
     /// Returns metadata, such as the path information about an Amazon FSx for Windows File Server location.

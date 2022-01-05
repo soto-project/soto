@@ -78,7 +78,7 @@ extension IoTDeviceAdvisor {
     public struct CreateSuiteDefinitionResponse: AWSDecodableShape {
         /// Creates a Device Advisor test suite with TimeStamp of when it was created.
         public let createdAt: Date?
-        /// Creates a Device Advisor test suite with Amazon Resource name.
+        /// Creates a Device Advisor test suite with Amazon Resource Name (ARN).
         public let suiteDefinitionArn: String?
         /// Creates a Device Advisor test suite with suite UUID.
         public let suiteDefinitionId: String?
@@ -105,7 +105,7 @@ extension IoTDeviceAdvisor {
             AWSMemberEncoding(label: "suiteDefinitionId", location: .uri(locationName: "suiteDefinitionId"))
         ]
 
-        /// Suite definition Id of the test suite to be deleted.
+        /// Suite definition ID of the test suite to be deleted.
         public let suiteDefinitionId: String
 
         public init(suiteDefinitionId: String) {
@@ -125,9 +125,9 @@ extension IoTDeviceAdvisor {
     }
 
     public struct DeviceUnderTest: AWSEncodableShape & AWSDecodableShape {
-        /// Lists devices certificate arn
+        /// Lists devices certificate ARN.
         public let certificateArn: String?
-        /// Lists devices thing arn
+        /// Lists devices thing ARN.
         public let thingArn: String?
 
         public init(certificateArn: String? = nil, thingArn: String? = nil) {
@@ -148,13 +148,52 @@ extension IoTDeviceAdvisor {
         }
     }
 
+    public struct GetEndpointRequest: AWSEncodableShape {
+        public static var _encoding = [
+            AWSMemberEncoding(label: "certificateArn", location: .querystring(locationName: "certificateArn")),
+            AWSMemberEncoding(label: "thingArn", location: .querystring(locationName: "thingArn"))
+        ]
+
+        /// The certificate ARN of the device. This is an optional parameter.
+        public let certificateArn: String?
+        /// The thing ARN of the device. This is an optional parameter.
+        public let thingArn: String?
+
+        public init(certificateArn: String? = nil, thingArn: String? = nil) {
+            self.certificateArn = certificateArn
+            self.thingArn = thingArn
+        }
+
+        public func validate(name: String) throws {
+            try self.validate(self.certificateArn, name: "certificateArn", parent: name, max: 2048)
+            try self.validate(self.certificateArn, name: "certificateArn", parent: name, min: 20)
+            try self.validate(self.thingArn, name: "thingArn", parent: name, max: 2048)
+            try self.validate(self.thingArn, name: "thingArn", parent: name, min: 20)
+        }
+
+        private enum CodingKeys: CodingKey {}
+    }
+
+    public struct GetEndpointResponse: AWSDecodableShape {
+        /// The response of an Device Advisor endpoint.
+        public let endpoint: String?
+
+        public init(endpoint: String? = nil) {
+            self.endpoint = endpoint
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case endpoint
+        }
+    }
+
     public struct GetSuiteDefinitionRequest: AWSEncodableShape {
         public static var _encoding = [
             AWSMemberEncoding(label: "suiteDefinitionId", location: .uri(locationName: "suiteDefinitionId")),
             AWSMemberEncoding(label: "suiteDefinitionVersion", location: .querystring(locationName: "suiteDefinitionVersion"))
         ]
 
-        /// Suite definition Id of the test suite to get.
+        /// Suite definition ID of the test suite to get.
         public let suiteDefinitionId: String
         /// Suite definition version of the test suite to get.
         public let suiteDefinitionVersion: String?
@@ -185,7 +224,7 @@ extension IoTDeviceAdvisor {
         public let suiteDefinitionArn: String?
         /// Suite configuration of the suite definition.
         public let suiteDefinitionConfiguration: SuiteDefinitionConfiguration?
-        /// Suite definition Id of the suite definition.
+        /// Suite definition ID of the suite definition.
         public let suiteDefinitionId: String?
         /// Suite definition version of the suite definition.
         public let suiteDefinitionVersion: String?
@@ -221,9 +260,9 @@ extension IoTDeviceAdvisor {
             AWSMemberEncoding(label: "suiteRunId", location: .uri(locationName: "suiteRunId"))
         ]
 
-        /// Suite definition Id of the test suite.
+        /// Suite definition ID of the test suite.
         public let suiteDefinitionId: String
-        /// Suite run Id of the test suite run.
+        /// Suite run ID of the test suite run.
         public let suiteRunId: String
 
         public init(suiteDefinitionId: String, suiteRunId: String) {
@@ -260,9 +299,9 @@ extension IoTDeviceAdvisor {
             AWSMemberEncoding(label: "suiteRunId", location: .uri(locationName: "suiteRunId"))
         ]
 
-        /// Suite definition Id for the test suite run.
+        /// Suite definition ID for the test suite run.
         public let suiteDefinitionId: String
-        /// Suite run Id for the test suite run.
+        /// Suite run ID for the test suite run.
         public let suiteRunId: String
 
         public init(suiteDefinitionId: String, suiteRunId: String) {
@@ -285,11 +324,11 @@ extension IoTDeviceAdvisor {
         public let endTime: Date?
         /// Error reason for any test suite run failure.
         public let errorReason: String?
-        /// Date (in Unix epoch time) when the test suite run was started.
+        /// Date (in Unix epoch time) when the test suite run started.
         public let startTime: Date?
         /// Status for the test suite run.
         public let status: SuiteRunStatus?
-        /// Suite definition Id for the test suite run.
+        /// Suite definition ID for the test suite run.
         public let suiteDefinitionId: String?
         /// Suite definition version for the test suite run.
         public let suiteDefinitionVersion: String?
@@ -297,7 +336,7 @@ extension IoTDeviceAdvisor {
         public let suiteRunArn: String?
         /// Suite run configuration for the test suite run.
         public let suiteRunConfiguration: SuiteRunConfiguration?
-        /// Suite run Id for the test suite run.
+        /// Suite run ID for the test suite run.
         public let suiteRunId: String?
         /// The tags attached to the suite run.
         public let tags: [String: String]?
@@ -334,7 +373,7 @@ extension IoTDeviceAdvisor {
     }
 
     public struct GroupResult: AWSDecodableShape {
-        /// Group result Id.
+        /// Group result ID.
         public let groupId: String?
         /// Group Result Name.
         public let groupName: String?
@@ -408,7 +447,7 @@ extension IoTDeviceAdvisor {
         public let maxResults: Int?
         /// A token to retrieve the next set of results.
         public let nextToken: String?
-        /// Lists the test suite runs of the specified test suite based on suite definition Id.
+        /// Lists the test suite runs of the specified test suite based on suite definition ID.
         public let suiteDefinitionId: String?
         /// Must be passed along with suiteDefinitionId. Lists the test suite runs of the specified test suite based on suite definition version.
         public let suiteDefinitionVersion: String?
@@ -488,7 +527,7 @@ extension IoTDeviceAdvisor {
             AWSMemberEncoding(label: "suiteDefinitionId", location: .uri(locationName: "suiteDefinitionId"))
         ]
 
-        /// Suite definition Id of the test suite.
+        /// Suite definition ID of the test suite.
         public let suiteDefinitionId: String
         /// Suite definition version of the test suite.
         public let suiteDefinitionVersion: String?
@@ -526,11 +565,11 @@ extension IoTDeviceAdvisor {
     }
 
     public struct StartSuiteRunResponse: AWSDecodableShape {
-        /// Date (in Unix epoch time) when the suite run was created.
+        /// Starts a Device Advisor test suite run based on suite create time.
         public let createdAt: Date?
-        /// Amazon resource name of the started suite run.
+        /// Amazon Resource Name (ARN) of the started suite run.
         public let suiteRunArn: String?
-        /// Suite Run Id of the started suite run.
+        /// Suite Run ID of the started suite run.
         public let suiteRunId: String?
 
         public init(createdAt: Date? = nil, suiteRunArn: String? = nil, suiteRunId: String? = nil) {
@@ -552,9 +591,9 @@ extension IoTDeviceAdvisor {
             AWSMemberEncoding(label: "suiteRunId", location: .uri(locationName: "suiteRunId"))
         ]
 
-        /// Suite definition Id of the test suite run to be stopped.
+        /// Suite definition ID of the test suite run to be stopped.
         public let suiteDefinitionId: String
-        /// Suite run Id of the test suite run to be stopped.
+        /// Suite run ID of the test suite run to be stopped.
         public let suiteRunId: String
 
         public init(suiteDefinitionId: String, suiteRunId: String) {
@@ -577,7 +616,7 @@ extension IoTDeviceAdvisor {
     }
 
     public struct SuiteDefinitionConfiguration: AWSEncodableShape & AWSDecodableShape {
-        /// Gets device permission arn.
+        /// Gets the device permission ARN.
         public let devicePermissionRoleArn: String?
         /// Gets the devices configured.
         public let devices: [DeviceUnderTest]?
@@ -622,11 +661,11 @@ extension IoTDeviceAdvisor {
     public struct SuiteDefinitionInformation: AWSDecodableShape {
         /// Date (in Unix epoch time) when the test suite was created.
         public let createdAt: Date?
-        /// Specifies the devices under test for the test suite.
+        /// Specifies the devices that are under test for the test suite.
         public let defaultDevices: [DeviceUnderTest]?
         /// Specifies if the test suite is intended for qualification.
         public let intendedForQualification: Bool?
-        /// Suite definition Id of the test suite.
+        /// Suite definition ID of the test suite.
         public let suiteDefinitionId: String?
         /// Suite name of the test suite.
         public let suiteDefinitionName: String?
@@ -649,12 +688,15 @@ extension IoTDeviceAdvisor {
     }
 
     public struct SuiteRunConfiguration: AWSEncodableShape & AWSDecodableShape {
+        /// TRUE if multiple test suites run in parallel.
+        public let parallelRun: Bool?
         /// Gets the primary device for suite run.
         public let primaryDevice: DeviceUnderTest?
         /// Gets test case list.
         public let selectedTestList: [String]?
 
-        public init(primaryDevice: DeviceUnderTest? = nil, selectedTestList: [String]? = nil) {
+        public init(parallelRun: Bool? = nil, primaryDevice: DeviceUnderTest? = nil, selectedTestList: [String]? = nil) {
+            self.parallelRun = parallelRun
             self.primaryDevice = primaryDevice
             self.selectedTestList = selectedTestList
         }
@@ -670,6 +712,7 @@ extension IoTDeviceAdvisor {
         }
 
         private enum CodingKeys: String, CodingKey {
+            case parallelRun
             case primaryDevice
             case selectedTestList
         }
@@ -688,13 +731,13 @@ extension IoTDeviceAdvisor {
         public let startedAt: Date?
         /// Status of the suite run.
         public let status: SuiteRunStatus?
-        /// Suite definition Id of the suite run.
+        /// Suite definition ID of the suite run.
         public let suiteDefinitionId: String?
         /// Suite definition name of the suite run.
         public let suiteDefinitionName: String?
         /// Suite definition version of the suite run.
         public let suiteDefinitionVersion: String?
-        /// Suite run Id of the suite run.
+        /// Suite run ID of the suite run.
         public let suiteRunId: String?
 
         public init(createdAt: Date? = nil, endAt: Date? = nil, failed: Int? = nil, passed: Int? = nil, startedAt: Date? = nil, status: SuiteRunStatus? = nil, suiteDefinitionId: String? = nil, suiteDefinitionName: String? = nil, suiteDefinitionVersion: String? = nil, suiteRunId: String? = nil) {
@@ -764,17 +807,17 @@ extension IoTDeviceAdvisor {
         public let endTime: Date?
         /// Provides test case run failure result.
         public let failure: String?
-        /// Provides test case run log Url.
+        /// Provides test case run log URL.
         public let logUrl: String?
         /// Provides test case run start time.
         public let startTime: Date?
-        /// Provides test case run status.
+        /// Provides the test case run status. Status is one of the following:    PASS: Test passed.    FAIL: Test failed.    PENDING: Test has not started running but is scheduled.    RUNNING: Test is running.    STOPPING: Test is performing cleanup steps. You will see this status only if you stop a suite run.    STOPPED Test is stopped. You will see this status only if you stop a suite run.    PASS_WITH_WARNINGS: Test passed with warnings.    ERORR: Test faced an error when running due to an internal issue.
         public let status: Status?
-        /// Provides test case run definition Id.
+        /// Provides the test case run definition ID.
         public let testCaseDefinitionId: String?
-        /// Provides test case run definition Name.
+        /// Provides the test case run definition name.
         public let testCaseDefinitionName: String?
-        /// Provides test case run Id.
+        /// Provides the test case run ID.
         public let testCaseRunId: String?
         /// Provides test case run warnings.
         public let warnings: String?
@@ -858,7 +901,7 @@ extension IoTDeviceAdvisor {
 
         /// Updates a Device Advisor test suite with suite definition configuration.
         public let suiteDefinitionConfiguration: SuiteDefinitionConfiguration?
-        /// Suite definition Id of the test suite to be updated.
+        /// Suite definition ID of the test suite to be updated.
         public let suiteDefinitionId: String
 
         public init(suiteDefinitionConfiguration: SuiteDefinitionConfiguration? = nil, suiteDefinitionId: String) {
@@ -882,9 +925,9 @@ extension IoTDeviceAdvisor {
         public let createdAt: Date?
         /// Timestamp of when the test suite was updated.
         public let lastUpdatedAt: Date?
-        /// Amazon Resource name of the updated test suite.
+        /// Amazon Resource Name (ARN) of the updated test suite.
         public let suiteDefinitionArn: String?
-        /// Suite definition Id of the updated test suite.
+        /// Suite definition ID of the updated test suite.
         public let suiteDefinitionId: String?
         /// Suite definition name of the updated test suite.
         public let suiteDefinitionName: String?

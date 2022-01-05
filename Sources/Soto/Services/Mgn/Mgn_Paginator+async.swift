@@ -20,7 +20,7 @@ import SotoCore
 
 // MARK: Paginators
 
-@available(macOS 12.0, iOS 15.0, watchOS 8.0, tvOS 15.0, *)
+@available(macOS 10.15, iOS 13.0, tvOS 13.0, watchOS 6.0, *)
 extension Mgn {
     ///  Retrieves detailed Job log with paging.
     /// Return PaginatorSequence for operation.
@@ -105,6 +105,28 @@ extension Mgn {
             command: describeSourceServers,
             inputKey: \DescribeSourceServersRequest.nextToken,
             outputKey: \DescribeSourceServersResponse.nextToken,
+            logger: logger,
+            on: eventLoop
+        )
+    }
+
+    ///  Lists all vCenter clients.
+    /// Return PaginatorSequence for operation.
+    ///
+    /// - Parameters:
+    ///   - input: Input for request
+    ///   - logger: Logger used flot logging
+    ///   - eventLoop: EventLoop to run this process on
+    public func describeVcenterClientsPaginator(
+        _ input: DescribeVcenterClientsRequest,
+        logger: Logger = AWSClient.loggingDisabled,
+        on eventLoop: EventLoop? = nil
+    ) -> AWSClient.PaginatorSequence<DescribeVcenterClientsRequest, DescribeVcenterClientsResponse> {
+        return .init(
+            input: input,
+            command: describeVcenterClients,
+            inputKey: \DescribeVcenterClientsRequest.nextToken,
+            outputKey: \DescribeVcenterClientsResponse.nextToken,
             logger: logger,
             on: eventLoop
         )

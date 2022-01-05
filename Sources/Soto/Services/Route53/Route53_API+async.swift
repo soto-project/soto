@@ -18,7 +18,7 @@
 
 import SotoCore
 
-@available(macOS 12.0, iOS 15.0, watchOS 8.0, tvOS 15.0, *)
+@available(macOS 10.15, iOS 13.0, tvOS 13.0, watchOS 6.0, *)
 extension Route53 {
     // MARK: Async API Calls
 
@@ -102,7 +102,7 @@ extension Route53 {
         return try await self.client.execute(operation: "DeleteHostedZone", path: "/2013-04-01/hostedzone/{Id}", httpMethod: .DELETE, serviceConfig: self.config, input: input, logger: logger, on: eventLoop)
     }
 
-    /// Deletes a key-signing key (KSK). Before you can delete a KSK, you must deactivate it. The KSK must be deactivated before you can delete it regardless of whether the hosted zone is enabled for DNSSEC signing.
+    /// Deletes a key-signing key (KSK). Before you can delete a KSK, you must deactivate it. The KSK must be deactivated before you can delete it regardless of whether the hosted zone is enabled for DNSSEC signing. You can use DeactivateKeySigningKey to deactivate the key before you delete it. Use GetDNSSEC to verify that the KSK is in an INACTIVE status.
     public func deleteKeySigningKey(_ input: DeleteKeySigningKeyRequest, logger: Logger = AWSClient.loggingDisabled, on eventLoop: EventLoop? = nil) async throws -> DeleteKeySigningKeyResponse {
         return try await self.client.execute(operation: "DeleteKeySigningKey", path: "/2013-04-01/keysigningkey/{HostedZoneId}/{Name}", httpMethod: .DELETE, serviceConfig: self.config, input: input, logger: logger, on: eventLoop)
     }

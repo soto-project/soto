@@ -20,7 +20,7 @@ import SotoCore
 
 // MARK: Paginators
 
-@available(macOS 12.0, iOS 15.0, watchOS 8.0, tvOS 15.0, *)
+@available(macOS 10.15, iOS 13.0, tvOS 13.0, watchOS 6.0, *)
 extension WellArchitected {
     ///  List of answers.
     /// Return PaginatorSequence for operation.
@@ -83,6 +83,28 @@ extension WellArchitected {
             command: listLensReviews,
             inputKey: \ListLensReviewsInput.nextToken,
             outputKey: \ListLensReviewsOutput.nextToken,
+            logger: logger,
+            on: eventLoop
+        )
+    }
+
+    ///  List the lens shares associated with the lens.
+    /// Return PaginatorSequence for operation.
+    ///
+    /// - Parameters:
+    ///   - input: Input for request
+    ///   - logger: Logger used flot logging
+    ///   - eventLoop: EventLoop to run this process on
+    public func listLensSharesPaginator(
+        _ input: ListLensSharesInput,
+        logger: Logger = AWSClient.loggingDisabled,
+        on eventLoop: EventLoop? = nil
+    ) -> AWSClient.PaginatorSequence<ListLensSharesInput, ListLensSharesOutput> {
+        return .init(
+            input: input,
+            command: listLensShares,
+            inputKey: \ListLensSharesInput.nextToken,
+            outputKey: \ListLensSharesOutput.nextToken,
             logger: logger,
             on: eventLoop
         )

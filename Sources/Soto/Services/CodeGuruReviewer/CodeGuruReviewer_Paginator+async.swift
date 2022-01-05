@@ -20,7 +20,7 @@ import SotoCore
 
 // MARK: Paginators
 
-@available(macOS 12.0, iOS 15.0, watchOS 8.0, tvOS 15.0, *)
+@available(macOS 10.15, iOS 13.0, tvOS 13.0, watchOS 6.0, *)
 extension CodeGuruReviewer {
     ///   Lists all the code reviews that the customer has created in the past 90 days.
     /// Return PaginatorSequence for operation.

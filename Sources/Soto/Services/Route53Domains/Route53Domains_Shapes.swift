@@ -30,6 +30,7 @@ extension Route53Domains {
     }
 
     public enum CountryCode: String, CustomStringConvertible, Codable {
+        case ac = "AC"
         case ad = "AD"
         case ae = "AE"
         case af = "AF"
@@ -45,6 +46,7 @@ extension Route53Domains {
         case at = "AT"
         case au = "AU"
         case aw = "AW"
+        case ax = "AX"
         case az = "AZ"
         case ba = "BA"
         case bb = "BB"
@@ -59,9 +61,11 @@ extension Route53Domains {
         case bm = "BM"
         case bn = "BN"
         case bo = "BO"
+        case bq = "BQ"
         case br = "BR"
         case bs = "BS"
         case bt = "BT"
+        case bv = "BV"
         case bw = "BW"
         case by = "BY"
         case bz = "BZ"
@@ -80,6 +84,7 @@ extension Route53Domains {
         case cr = "CR"
         case cu = "CU"
         case cv = "CV"
+        case cw = "CW"
         case cx = "CX"
         case cy = "CY"
         case cz = "CZ"
@@ -92,6 +97,7 @@ extension Route53Domains {
         case ec = "EC"
         case ee = "EE"
         case eg = "EG"
+        case eh = "EH"
         case er = "ER"
         case es = "ES"
         case et = "ET"
@@ -105,18 +111,23 @@ extension Route53Domains {
         case gb = "GB"
         case gd = "GD"
         case ge = "GE"
+        case gf = "GF"
+        case gg = "GG"
         case gh = "GH"
         case gi = "GI"
         case gl = "GL"
         case gm = "GM"
         case gn = "GN"
+        case gp = "GP"
         case gq = "GQ"
         case gr = "GR"
+        case gs = "GS"
         case gt = "GT"
         case gu = "GU"
         case gw = "GW"
         case gy = "GY"
         case hk = "HK"
+        case hm = "HM"
         case hn = "HN"
         case hr = "HR"
         case ht = "HT"
@@ -126,10 +137,12 @@ extension Route53Domains {
         case il = "IL"
         case im = "IM"
         case `in` = "IN"
+        case io = "IO"
         case iq = "IQ"
         case ir = "IR"
         case `is` = "IS"
         case it = "IT"
+        case je = "JE"
         case jm = "JM"
         case jo = "JO"
         case jp = "JP"
@@ -168,6 +181,7 @@ extension Route53Domains {
         case mn = "MN"
         case mo = "MO"
         case mp = "MP"
+        case mq = "MQ"
         case mr = "MR"
         case ms = "MS"
         case mt = "MT"
@@ -180,6 +194,7 @@ extension Route53Domains {
         case na = "NA"
         case nc = "NC"
         case ne = "NE"
+        case nf = "NF"
         case ng = "NG"
         case ni = "NI"
         case nl = "NL"
@@ -199,10 +214,12 @@ extension Route53Domains {
         case pm = "PM"
         case pn = "PN"
         case pr = "PR"
+        case ps = "PS"
         case pt = "PT"
         case pw = "PW"
         case py = "PY"
         case qa = "QA"
+        case re = "RE"
         case ro = "RO"
         case rs = "RS"
         case ru = "RU"
@@ -215,18 +232,22 @@ extension Route53Domains {
         case sg = "SG"
         case sh = "SH"
         case si = "SI"
+        case sj = "SJ"
         case sk = "SK"
         case sl = "SL"
         case sm = "SM"
         case sn = "SN"
         case so = "SO"
         case sr = "SR"
+        case ss = "SS"
         case st = "ST"
         case sv = "SV"
+        case sx = "SX"
         case sy = "SY"
         case sz = "SZ"
         case tc = "TC"
         case td = "TD"
+        case tf = "TF"
         case tg = "TG"
         case th = "TH"
         case tj = "TJ"
@@ -235,6 +256,7 @@ extension Route53Domains {
         case tm = "TM"
         case tn = "TN"
         case to = "TO"
+        case tp = "TP"
         case tr = "TR"
         case tt = "TT"
         case tv = "TV"
@@ -291,6 +313,7 @@ extension Route53Domains {
         case esIdentification = "ES_IDENTIFICATION"
         case esIdentificationType = "ES_IDENTIFICATION_TYPE"
         case esLegalForm = "ES_LEGAL_FORM"
+        case euCountryOfCitizenship = "EU_COUNTRY_OF_CITIZENSHIP"
         case fiBusinessNumber = "FI_BUSINESS_NUMBER"
         case fiIdNumber = "FI_ID_NUMBER"
         case fiNationality = "FI_NATIONALITY"
@@ -304,6 +327,12 @@ extension Route53Domains {
         case ukCompanyNumber = "UK_COMPANY_NUMBER"
         case ukContactType = "UK_CONTACT_TYPE"
         case vatNumber = "VAT_NUMBER"
+        public var description: String { return self.rawValue }
+    }
+
+    public enum ListDomainsAttributeName: String, CustomStringConvertible, Codable {
+        case domainname = "DomainName"
+        case expiry = "Expiry"
         public var description: String { return self.rawValue }
     }
 
@@ -338,10 +367,23 @@ extension Route53Domains {
         public var description: String { return self.rawValue }
     }
 
+    public enum `Operator`: String, CustomStringConvertible, Codable {
+        case beginsWith = "BEGINS_WITH"
+        case ge = "GE"
+        case le = "LE"
+        public var description: String { return self.rawValue }
+    }
+
     public enum ReachabilityStatus: String, CustomStringConvertible, Codable {
         case done = "DONE"
         case expired = "EXPIRED"
         case pending = "PENDING"
+        public var description: String { return self.rawValue }
+    }
+
+    public enum SortOrder: String, CustomStringConvertible, Codable {
+        case asc = "ASC"
+        case desc = "DESC"
         public var description: String { return self.rawValue }
     }
 
@@ -355,7 +397,7 @@ extension Route53Domains {
     // MARK: Shapes
 
     public struct AcceptDomainTransferFromAnotherAwsAccountRequest: AWSEncodableShape {
-        /// The name of the domain that was specified when another AWS account submitted a TransferDomainToAnotherAwsAccount request.
+        /// The name of the domain that was specified when another Amazon Web Services account submitted a TransferDomainToAnotherAwsAccount request.
         public let domainName: String
         /// The password that was returned by the TransferDomainToAnotherAwsAccount request.
         public let password: String
@@ -418,7 +460,7 @@ extension Route53Domains {
     }
 
     public struct CancelDomainTransferToAnotherAwsAccountRequest: AWSEncodableShape {
-        /// The name of the domain for which you want to cancel the transfer to another AWS account.
+        /// The name of the domain for which you want to cancel the transfer to another Amazon Web Services account.
         public let domainName: String
 
         public init(domainName: String) {
@@ -524,7 +566,7 @@ extension Route53Domains {
         public let addressLine2: String?
         /// The city of the contact's address.
         public let city: String?
-        /// Indicates whether the contact is a person, company, association, or public organization. Note the following:   If you specify a value other than PERSON, you must also specify a value for OrganizationName.   For some TLDs, the privacy protection available depends on the value that you specify for Contact Type. For the privacy protection settings for your TLD, see Domains that You Can Register with Amazon Route 53 in the Amazon Route 53 Developer Guide    For .es domains, if you specify PERSON, you must specify INDIVIDUAL for the value of ES_LEGAL_FORM.
+        /// Indicates whether the contact is a person, company, association, or public organization. Note the following:   If you specify a value other than PERSON, you must also specify a value for OrganizationName.   For some TLDs, the privacy protection available depends on the value that you specify for Contact Type. For the privacy protection settings for your TLD, see Domains that You Can Register with Amazon Route 53 in the Amazon Route 53 Developer Guide    For .es domains, the value of ContactType must be PERSON for all three contacts.
         public let contactType: ContactType?
         /// Code for the country of the contact's address.
         public let countryCode: CountryCode?
@@ -599,6 +641,36 @@ extension Route53Domains {
         }
     }
 
+    public struct DeleteDomainRequest: AWSEncodableShape {
+        /// Name of the domain to be deleted.
+        public let domainName: String
+
+        public init(domainName: String) {
+            self.domainName = domainName
+        }
+
+        public func validate(name: String) throws {
+            try self.validate(self.domainName, name: "domainName", parent: name, max: 255)
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case domainName = "DomainName"
+        }
+    }
+
+    public struct DeleteDomainResponse: AWSDecodableShape {
+        /// Identifier for tracking the progress of the request. To query the operation status, use GetOperationDetail.
+        public let operationId: String?
+
+        public init(operationId: String? = nil) {
+            self.operationId = operationId
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case operationId = "OperationId"
+        }
+    }
+
     public struct DeleteTagsForDomainRequest: AWSEncodableShape {
         /// The domain for which you want to delete one or more tags.
         public let domainName: String
@@ -612,6 +684,10 @@ extension Route53Domains {
 
         public func validate(name: String) throws {
             try self.validate(self.domainName, name: "domainName", parent: name, max: 255)
+            try self.tagsToDelete.forEach {
+                try validate($0, name: "tagsToDelete[]", parent: name, max: 128)
+                try validate($0, name: "tagsToDelete[]", parent: name, min: 1)
+            }
         }
 
         private enum CodingKeys: String, CodingKey {
@@ -672,6 +748,39 @@ extension Route53Domains {
 
         private enum CodingKeys: String, CodingKey {
             case operationId = "OperationId"
+        }
+    }
+
+    public struct DomainPrice: AWSDecodableShape {
+        /// The price for changing domain ownership.
+        public let changeOwnershipPrice: PriceWithCurrency?
+        /// The name of the TLD for which the prices apply.
+        public let name: String?
+        /// The price for domain registration with Route 53.
+        public let registrationPrice: PriceWithCurrency?
+        /// The price for renewing domain registration with Route 53.
+        public let renewalPrice: PriceWithCurrency?
+        /// The price for restoring the domain with Route 53.
+        public let restorationPrice: PriceWithCurrency?
+        /// The price for transferring the domain registration to Route 53.
+        public let transferPrice: PriceWithCurrency?
+
+        public init(changeOwnershipPrice: PriceWithCurrency? = nil, name: String? = nil, registrationPrice: PriceWithCurrency? = nil, renewalPrice: PriceWithCurrency? = nil, restorationPrice: PriceWithCurrency? = nil, transferPrice: PriceWithCurrency? = nil) {
+            self.changeOwnershipPrice = changeOwnershipPrice
+            self.name = name
+            self.registrationPrice = registrationPrice
+            self.renewalPrice = renewalPrice
+            self.restorationPrice = restorationPrice
+            self.transferPrice = transferPrice
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case changeOwnershipPrice = "ChangeOwnershipPrice"
+            case name = "Name"
+            case registrationPrice = "RegistrationPrice"
+            case renewalPrice = "RenewalPrice"
+            case restorationPrice = "RestorationPrice"
+            case transferPrice = "TransferPrice"
         }
     }
 
@@ -781,7 +890,7 @@ extension Route53Domains {
     }
 
     public struct ExtraParam: AWSEncodableShape & AWSDecodableShape {
-        /// The name of an additional parameter that is required by a top-level domain. Here are the top-level domains that require additional parameters and the names of the parameters that they require:  .com.au and .net.au     AU_ID_NUMBER     AU_ID_TYPE  Valid values include the following:    ABN (Australian business number)    ACN (Australian company number)    TM (Trademark number)      .ca     BRAND_NUMBER     CA_BUSINESS_ENTITY_TYPE  Valid values include the following:    BANK (Bank)    COMMERCIAL_COMPANY (Commercial company)    COMPANY (Company)    COOPERATION (Cooperation)    COOPERATIVE (Cooperative)    COOPRIX (Cooprix)    CORP (Corporation)    CREDIT_UNION (Credit union)    FOMIA (Federation of mutual insurance associations)    INC (Incorporated)    LTD (Limited)    LTEE (Limitée)    LLC (Limited liability corporation)    LLP (Limited liability partnership)    LTE (Lte.)    MBA (Mutual benefit association)    MIC (Mutual insurance company)    NFP (Not-for-profit corporation)    SA (S.A.)    SAVINGS_COMPANY (Savings company)    SAVINGS_UNION (Savings union)    SARL (Société à responsabilité limitée)    TRUST (Trust)    ULC (Unlimited liability corporation)      CA_LEGAL_TYPE  When ContactType is PERSON, valid values include the following:    ABO (Aboriginal Peoples indigenous to Canada)    CCT (Canadian citizen)    LGR (Legal Representative of a Canadian Citizen or Permanent Resident)    RES (Permanent resident of Canada)   When ContactType is a value other than PERSON, valid values include the following:    ASS (Canadian unincorporated association)    CCO (Canadian corporation)    EDU (Canadian educational institution)    GOV (Government or government entity in Canada)    HOP (Canadian Hospital)    INB (Indian Band recognized by the Indian Act of Canada)    LAM (Canadian Library, Archive, or Museum)    MAJ (Her/His Majesty the Queen/King)    OMK (Official mark registered in Canada)    PLT (Canadian Political Party)    PRT (Partnership Registered in Canada)    TDM (Trademark registered in Canada)    TRD (Canadian Trade Union)    TRS (Trust established in Canada)      .es     ES_IDENTIFICATION  Specify the applicable value:    For contacts inside Spain: Enter your passport ID.    For contacts outside of Spain: Enter the VAT identification number for the company.  For .es domains, the value of ContactType must be PERSON.       ES_IDENTIFICATION_TYPE  Valid values include the following:    DNI_AND_NIF (For Spanish contacts)    NIE (For foreigners with legal residence)    OTHER (For contacts outside of Spain)      ES_LEGAL_FORM  Valid values include the following:    ASSOCIATION     CENTRAL_GOVERNMENT_BODY     CIVIL_SOCIETY     COMMUNITY_OF_OWNERS     COMMUNITY_PROPERTY     CONSULATE     COOPERATIVE     DESIGNATION_OF_ORIGIN_SUPERVISORY_COUNCIL     ECONOMIC_INTEREST_GROUP     EMBASSY     ENTITY_MANAGING_NATURAL_AREAS     FARM_PARTNERSHIP     FOUNDATION     GENERAL_AND_LIMITED_PARTNERSHIP     GENERAL_PARTNERSHIP     INDIVIDUAL     LIMITED_COMPANY     LOCAL_AUTHORITY     LOCAL_PUBLIC_ENTITY     MUTUAL_INSURANCE_COMPANY     NATIONAL_PUBLIC_ENTITY     ORDER_OR_RELIGIOUS_INSTITUTION     OTHERS (Only for contacts outside of Spain)     POLITICAL_PARTY     PROFESSIONAL_ASSOCIATION     PUBLIC_LAW_ASSOCIATION     PUBLIC_LIMITED_COMPANY     REGIONAL_GOVERNMENT_BODY     REGIONAL_PUBLIC_ENTITY     SAVINGS_BANK     SPANISH_OFFICE     SPORTS_ASSOCIATION     SPORTS_FEDERATION     SPORTS_LIMITED_COMPANY     TEMPORARY_ALLIANCE_OF_ENTERPRISES     TRADE_UNION     WORKER_OWNED_COMPANY     WORKER_OWNED_LIMITED_COMPANY       .fi     BIRTH_DATE_IN_YYYY_MM_DD     FI_BUSINESS_NUMBER     FI_ID_NUMBER     FI_NATIONALITY  Valid values include the following:    FINNISH     NOT_FINNISH       FI_ORGANIZATION_TYPE  Valid values include the following:    COMPANY     CORPORATION     GOVERNMENT     INSTITUTION     POLITICAL_PARTY     PUBLIC_COMMUNITY     TOWNSHIP       .fr     BIRTH_CITY     BIRTH_COUNTRY     BIRTH_DATE_IN_YYYY_MM_DD     BIRTH_DEPARTMENT: Specify the INSEE code that corresponds with the department where the contact was born. If the contact was born somewhere other than France or its overseas departments, specify 99. For more information, including a list of departments and the corresponding INSEE numbers, see the Wikipedia entry Departments of France.    BRAND_NUMBER     .it     IT_NATIONALITY     IT_PIN     IT_REGISTRANT_ENTITY_TYPE  Valid values include the following:    FOREIGNERS     FREELANCE_WORKERS (Freelance workers and professionals)    ITALIAN_COMPANIES (Italian companies and one-person companies)    NON_PROFIT_ORGANIZATIONS     OTHER_SUBJECTS     PUBLIC_ORGANIZATIONS       .ru     BIRTH_DATE_IN_YYYY_MM_DD     RU_PASSPORT_DATA     .se     BIRTH_COUNTRY     SE_ID_NUMBER     .sg     SG_ID_NUMBER     .co.uk, .me.uk, and .org.uk     UK_CONTACT_TYPE  Valid values include the following:    CRC (UK Corporation by Royal Charter)    FCORP (Non-UK Corporation)    FIND (Non-UK Individual, representing self)    FOTHER (Non-UK Entity that does not fit into any other category)    GOV (UK Government Body)    IND (UK Individual (representing self))    IP (UK Industrial/Provident Registered Company)    LLP (UK Limited Liability Partnership)    LTD (UK Limited Company)    OTHER (UK Entity that does not fit into any other category)    PLC (UK Public Limited Company)    PTNR (UK Partnership)    RCHAR (UK Registered Charity)    SCH (UK School)    STAT (UK Statutory Body)    STRA (UK Sole Trader)      UK_COMPANY_NUMBER      In addition, many TLDs require a VAT_NUMBER.
+        /// The name of an additional parameter that is required by a top-level domain. Here are the top-level domains that require additional parameters and the names of the parameters that they require:  .com.au and .net.au     AU_ID_NUMBER     AU_ID_TYPE  Valid values include the following:    ABN (Australian business number)    ACN (Australian company number)    TM (Trademark number)      .ca     BRAND_NUMBER     CA_BUSINESS_ENTITY_TYPE  Valid values include the following:    BANK (Bank)    COMMERCIAL_COMPANY (Commercial company)    COMPANY (Company)    COOPERATION (Cooperation)    COOPERATIVE (Cooperative)    COOPRIX (Cooprix)    CORP (Corporation)    CREDIT_UNION (Credit union)    FOMIA (Federation of mutual insurance associations)    INC (Incorporated)    LTD (Limited)    LTEE (Limitée)    LLC (Limited liability corporation)    LLP (Limited liability partnership)    LTE (Lte.)    MBA (Mutual benefit association)    MIC (Mutual insurance company)    NFP (Not-for-profit corporation)    SA (S.A.)    SAVINGS_COMPANY (Savings company)    SAVINGS_UNION (Savings union)    SARL (Société à responsabilité limitée)    TRUST (Trust)    ULC (Unlimited liability corporation)      CA_LEGAL_TYPE  When ContactType is PERSON, valid values include the following:    ABO (Aboriginal Peoples indigenous to Canada)    CCT (Canadian citizen)    LGR (Legal Representative of a Canadian Citizen or Permanent Resident)    RES (Permanent resident of Canada)   When ContactType is a value other than PERSON, valid values include the following:    ASS (Canadian unincorporated association)    CCO (Canadian corporation)    EDU (Canadian educational institution)    GOV (Government or government entity in Canada)    HOP (Canadian Hospital)    INB (Indian Band recognized by the Indian Act of Canada)    LAM (Canadian Library, Archive, or Museum)    MAJ (Her/His Majesty the Queen/King)    OMK (Official mark registered in Canada)    PLT (Canadian Political Party)    PRT (Partnership Registered in Canada)    TDM (Trademark registered in Canada)    TRD (Canadian Trade Union)    TRS (Trust established in Canada)      .es     ES_IDENTIFICATION  The value of ES_IDENTIFICATION depends on the following values:   The value of ES_LEGAL_FORM    The value of ES_IDENTIFICATION_TYPE     If ES_LEGAL_FORM is any value other than INDIVIDUAL:    Specify 1 letter + 8 numbers (CIF [Certificado de Identificación Fiscal])   Example: B12345678    If ES_LEGAL_FORM is INDIVIDUAL, the value that you specify for ES_IDENTIFICATION depends on the value of ES_IDENTIFICATION_TYPE:    If ES_IDENTIFICATION_TYPE is DNI_AND_NIF (for Spanish contacts):   Specify 8 numbers + 1 letter (DNI [Documento Nacional de Identidad], NIF [Número de Identificación Fiscal])   Example: 12345678M     If ES_IDENTIFICATION_TYPE is NIE (for foreigners with legal residence):   Specify 1 letter + 7 numbers + 1 letter ( NIE [Número de Identidad de Extranjero])   Example: Y1234567X     If ES_IDENTIFICATION_TYPE is OTHER (for contacts outside of Spain):   Specify a passport number, drivers license number, or national identity card number        ES_IDENTIFICATION_TYPE  Valid values include the following:    DNI_AND_NIF (For Spanish contacts)    NIE (For foreigners with legal residence)    OTHER (For contacts outside of Spain)      ES_LEGAL_FORM  Valid values include the following:    ASSOCIATION     CENTRAL_GOVERNMENT_BODY     CIVIL_SOCIETY     COMMUNITY_OF_OWNERS     COMMUNITY_PROPERTY     CONSULATE     COOPERATIVE     DESIGNATION_OF_ORIGIN_SUPERVISORY_COUNCIL     ECONOMIC_INTEREST_GROUP     EMBASSY     ENTITY_MANAGING_NATURAL_AREAS     FARM_PARTNERSHIP     FOUNDATION     GENERAL_AND_LIMITED_PARTNERSHIP     GENERAL_PARTNERSHIP     INDIVIDUAL     LIMITED_COMPANY     LOCAL_AUTHORITY     LOCAL_PUBLIC_ENTITY     MUTUAL_INSURANCE_COMPANY     NATIONAL_PUBLIC_ENTITY     ORDER_OR_RELIGIOUS_INSTITUTION     OTHERS (Only for contacts outside of Spain)     POLITICAL_PARTY     PROFESSIONAL_ASSOCIATION     PUBLIC_LAW_ASSOCIATION     PUBLIC_LIMITED_COMPANY     REGIONAL_GOVERNMENT_BODY     REGIONAL_PUBLIC_ENTITY     SAVINGS_BANK     SPANISH_OFFICE     SPORTS_ASSOCIATION     SPORTS_FEDERATION     SPORTS_LIMITED_COMPANY     TEMPORARY_ALLIANCE_OF_ENTERPRISES     TRADE_UNION     WORKER_OWNED_COMPANY     WORKER_OWNED_LIMITED_COMPANY       .eu      EU_COUNTRY_OF_CITIZENSHIP     .fi     BIRTH_DATE_IN_YYYY_MM_DD     FI_BUSINESS_NUMBER     FI_ID_NUMBER     FI_NATIONALITY  Valid values include the following:    FINNISH     NOT_FINNISH       FI_ORGANIZATION_TYPE  Valid values include the following:    COMPANY     CORPORATION     GOVERNMENT     INSTITUTION     POLITICAL_PARTY     PUBLIC_COMMUNITY     TOWNSHIP       .fr     BIRTH_CITY     BIRTH_COUNTRY     BIRTH_DATE_IN_YYYY_MM_DD     BIRTH_DEPARTMENT: Specify the INSEE code that corresponds with the department where the contact was born. If the contact was born somewhere other than France or its overseas departments, specify 99. For more information, including a list of departments and the corresponding INSEE numbers, see the Wikipedia entry Departments of France.    BRAND_NUMBER     .it     IT_NATIONALITY     IT_PIN     IT_REGISTRANT_ENTITY_TYPE  Valid values include the following:    FOREIGNERS     FREELANCE_WORKERS (Freelance workers and professionals)    ITALIAN_COMPANIES (Italian companies and one-person companies)    NON_PROFIT_ORGANIZATIONS     OTHER_SUBJECTS     PUBLIC_ORGANIZATIONS       .ru     BIRTH_DATE_IN_YYYY_MM_DD     RU_PASSPORT_DATA     .se     BIRTH_COUNTRY     SE_ID_NUMBER     .sg     SG_ID_NUMBER     .co.uk, .me.uk, and .org.uk     UK_CONTACT_TYPE  Valid values include the following:    CRC (UK Corporation by Royal Charter)    FCORP (Non-UK Corporation)    FIND (Non-UK Individual, representing self)    FOTHER (Non-UK Entity that does not fit into any other category)    GOV (UK Government Body)    IND (UK Individual (representing self))    IP (UK Industrial/Provident Registered Company)    LLP (UK Limited Liability Partnership)    LTD (UK Limited Company)    OTHER (UK Entity that does not fit into any other category)    PLC (UK Public Limited Company)    PTNR (UK Partnership)    RCHAR (UK Registered Charity)    SCH (UK School)    STAT (UK Statutory Body)    STRA (UK Sole Trader)      UK_COMPANY_NUMBER      In addition, many TLDs require a VAT_NUMBER.
         public let name: ExtraParamName
         /// The value that corresponds with the name of an extra parameter.
         public let value: String
@@ -798,6 +907,36 @@ extension Route53Domains {
         private enum CodingKeys: String, CodingKey {
             case name = "Name"
             case value = "Value"
+        }
+    }
+
+    public struct FilterCondition: AWSEncodableShape {
+        /// Name of the field which should be used for filtering the list of domains.
+        public let name: ListDomainsAttributeName
+        /// The operator values for filtering domain names. The values can be:    LE: Less than, or equal to    GE: Greater than, or equal to    BEGINS_WITH: Begins with
+        public let `operator`: Operator
+        ///  An array of strings presenting values to compare. Only 1 item in the list is currently supported.
+        public let values: [String]
+
+        public init(name: ListDomainsAttributeName, operator: Operator, values: [String]) {
+            self.name = name
+            self.`operator` = `operator`
+            self.values = values
+        }
+
+        public func validate(name: String) throws {
+            try self.values.forEach {
+                try validate($0, name: "values[]", parent: name, max: 1024)
+                try validate($0, name: "values[]", parent: name, min: 1)
+            }
+            try self.validate(self.values, name: "values", parent: name, max: 1)
+            try self.validate(self.values, name: "values", parent: name, min: 1)
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case name = "Name"
+            case `operator` = "Operator"
+            case values = "Values"
         }
     }
 
@@ -865,7 +1004,7 @@ extension Route53Domains {
         public let autoRenew: Bool?
         /// The date when the domain was created as found in the response to a WHOIS query. The date and time is in Unix time format and Coordinated Universal time (UTC).
         public let creationDate: Date?
-        /// Reserved for future use.
+        /// Deprecated.
         public let dnsSec: String?
         /// The name of a domain.
         public let domainName: String
@@ -1034,29 +1173,40 @@ extension Route53Domains {
     }
 
     public struct ListDomainsRequest: AWSEncodableShape {
-        /// For an initial request for a list of domains, omit this element. If the number of domains that are associated with the current AWS account is greater than the value that you specified for MaxItems, you can use Marker to return additional domains. Get the value of NextPageMarker from the previous response, and submit another request that includes the value of NextPageMarker in the Marker element. Constraints: The marker must match the value specified in the previous request.
+        /// A complex type that contains information about the filters applied during the ListDomains request. The filter conditions can include domain name and domain expiration.
+        public let filterConditions: [FilterCondition]?
+        /// For an initial request for a list of domains, omit this element. If the number of domains that are associated with the current Amazon Web Services account is greater than the value that you specified for MaxItems, you can use Marker to return additional domains. Get the value of NextPageMarker from the previous response, and submit another request that includes the value of NextPageMarker in the Marker element. Constraints: The marker must match the value specified in the previous request.
         public let marker: String?
         /// Number of domains to be returned. Default: 20
         public let maxItems: Int?
+        /// A complex type that contains information about the requested ordering of domains in the returned list.
+        public let sortCondition: SortCondition?
 
-        public init(marker: String? = nil, maxItems: Int? = nil) {
+        public init(filterConditions: [FilterCondition]? = nil, marker: String? = nil, maxItems: Int? = nil, sortCondition: SortCondition? = nil) {
+            self.filterConditions = filterConditions
             self.marker = marker
             self.maxItems = maxItems
+            self.sortCondition = sortCondition
         }
 
         public func validate(name: String) throws {
+            try self.filterConditions?.forEach {
+                try $0.validate(name: "\(name).filterConditions[]")
+            }
             try self.validate(self.marker, name: "marker", parent: name, max: 4096)
             try self.validate(self.maxItems, name: "maxItems", parent: name, max: 100)
         }
 
         private enum CodingKeys: String, CodingKey {
+            case filterConditions = "FilterConditions"
             case marker = "Marker"
             case maxItems = "MaxItems"
+            case sortCondition = "SortCondition"
         }
     }
 
     public struct ListDomainsResponse: AWSDecodableShape {
-        /// A summary of domains.
+        /// A list of domains.
         public let domains: [DomainSummary]
         /// If there are more domains than you specified for MaxItems in the request, submit another request and include the value of NextPageMarker in the value of Marker.
         public let nextPageMarker: String?
@@ -1112,6 +1262,51 @@ extension Route53Domains {
         private enum CodingKeys: String, CodingKey {
             case nextPageMarker = "NextPageMarker"
             case operations = "Operations"
+        }
+    }
+
+    public struct ListPricesRequest: AWSEncodableShape {
+        /// For an initial request for a list of prices, omit this element. If the number of prices that are not yet complete is greater than the value that you specified for MaxItems, you can use Marker to return additional prices. Get the value of NextPageMarker from the previous response, and submit another request that includes the value of NextPageMarker in the Marker element.  Used only for all TLDs. If you specify a TLD, don't specify a Marker.
+        public let marker: String?
+        /// Number of Prices to be returned. Used only for all TLDs. If you specify a TLD, don't specify a MaxItems.
+        public let maxItems: Int?
+        /// The TLD for which you want to receive the pricing information. For example. .net. If a Tld value is not provided, a list of prices for all TLDs supported by Route 53 is returned.
+        public let tld: String?
+
+        public init(marker: String? = nil, maxItems: Int? = nil, tld: String? = nil) {
+            self.marker = marker
+            self.maxItems = maxItems
+            self.tld = tld
+        }
+
+        public func validate(name: String) throws {
+            try self.validate(self.marker, name: "marker", parent: name, max: 4096)
+            try self.validate(self.maxItems, name: "maxItems", parent: name, max: 100)
+            try self.validate(self.tld, name: "tld", parent: name, max: 255)
+            try self.validate(self.tld, name: "tld", parent: name, min: 1)
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case marker = "Marker"
+            case maxItems = "MaxItems"
+            case tld = "Tld"
+        }
+    }
+
+    public struct ListPricesResponse: AWSDecodableShape {
+        /// If there are more prices than you specified for MaxItems in the request, submit another request and include the value of NextPageMarker in the value of Marker.  Used only for all TLDs. If you specify a TLD, don't specify a NextPageMarker.
+        public let nextPageMarker: String?
+        /// A complex type that includes all the pricing information. If you specify a TLD, this array contains only the pricing for that TLD.
+        public let prices: [DomainPrice]
+
+        public init(nextPageMarker: String? = nil, prices: [DomainPrice]) {
+            self.nextPageMarker = nextPageMarker
+            self.prices = prices
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case nextPageMarker = "NextPageMarker"
+            case prices = "Prices"
         }
     }
 
@@ -1195,6 +1390,23 @@ extension Route53Domains {
         }
     }
 
+    public struct PriceWithCurrency: AWSDecodableShape {
+        /// The currency specifier.
+        public let currency: String
+        /// The price of a domain, in a specific currency.
+        public let price: Double
+
+        public init(currency: String, price: Double) {
+            self.currency = currency
+            self.price = price
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case currency = "Currency"
+            case price = "Price"
+        }
+    }
+
     public struct RegisterDomainRequest: AWSEncodableShape {
         /// Provides detailed contact information. For information about the values that you specify for each element, see ContactDetail.
         public let adminContact: ContactDetail
@@ -1206,11 +1418,11 @@ extension Route53Domains {
         public let durationInYears: Int
         /// Reserved for future use.
         public let idnLangCode: String?
-        /// Whether you want to conceal contact information from WHOIS queries. If you specify true, WHOIS ("who is") queries return contact information either for Amazon Registrar (for .com, .net, and .org domains) or for our registrar associate, Gandi (for all other TLDs). If you specify false, WHOIS queries return the information that you entered for the admin contact. Default: true
+        /// Whether you want to conceal contact information from WHOIS queries. If you specify true, WHOIS ("who is") queries return contact information either for Amazon Registrar (for .com, .net, and .org domains) or for our registrar associate, Gandi (for all other TLDs). If you specify false, WHOIS queries return the information that you entered for the admin contact.  You must specify the same privacy setting for the administrative, registrant, and technical contacts.  Default: true
         public let privacyProtectAdminContact: Bool?
-        /// Whether you want to conceal contact information from WHOIS queries. If you specify true, WHOIS ("who is") queries return contact information either for Amazon Registrar (for .com, .net, and .org domains) or for our registrar associate, Gandi (for all other TLDs). If you specify false, WHOIS queries return the information that you entered for the registrant contact (the domain owner). Default: true
+        /// Whether you want to conceal contact information from WHOIS queries. If you specify true, WHOIS ("who is") queries return contact information either for Amazon Registrar (for .com, .net, and .org domains) or for our registrar associate, Gandi (for all other TLDs). If you specify false, WHOIS queries return the information that you entered for the registrant contact (the domain owner).  You must specify the same privacy setting for the administrative, registrant, and technical contacts.  Default: true
         public let privacyProtectRegistrantContact: Bool?
-        /// Whether you want to conceal contact information from WHOIS queries. If you specify true, WHOIS ("who is") queries return contact information either for Amazon Registrar (for .com, .net, and .org domains) or for our registrar associate, Gandi (for all other TLDs). If you specify false, WHOIS queries return the information that you entered for the technical contact. Default: true
+        /// Whether you want to conceal contact information from WHOIS queries. If you specify true, WHOIS ("who is") queries return contact information either for Amazon Registrar (for .com, .net, and .org domains) or for our registrar associate, Gandi (for all other TLDs). If you specify false, WHOIS queries return the information that you entered for the technical contact.  You must specify the same privacy setting for the administrative, registrant, and technical contacts.  Default: true
         public let privacyProtectTechContact: Bool?
         /// Provides detailed contact information. For information about the values that you specify for each element, see ContactDetail.
         public let registrantContact: ContactDetail
@@ -1268,7 +1480,7 @@ extension Route53Domains {
     }
 
     public struct RejectDomainTransferFromAnotherAwsAccountRequest: AWSEncodableShape {
-        /// The name of the domain that was specified when another AWS account submitted a TransferDomainToAnotherAwsAccount request.
+        /// The name of the domain that was specified when another Amazon Web Services account submitted a TransferDomainToAnotherAwsAccount request.
         public let domainName: String
 
         public init(domainName: String) {
@@ -1405,6 +1617,23 @@ extension Route53Domains {
         }
     }
 
+    public struct SortCondition: AWSEncodableShape {
+        /// Field to be used for sorting the list of domains. It can be either the name or the expiration for a domain. Note that if filterCondition is used in the same ListDomains call, the field used for sorting has to be the same as the field used for filtering.
+        public let name: ListDomainsAttributeName
+        /// The sort order for a list of domains. Either ascending (ASC) or descending (DES).
+        public let sortOrder: SortOrder
+
+        public init(name: ListDomainsAttributeName, sortOrder: SortOrder) {
+            self.name = name
+            self.sortOrder = sortOrder
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case name = "Name"
+            case sortOrder = "SortOrder"
+        }
+    }
+
     public struct Tag: AWSEncodableShape & AWSDecodableShape {
         /// The key (name) of a tag. Valid values: A-Z, a-z, 0-9, space, ".:/=+\-@" Constraints: Each key can be 1-128 characters long.
         public let key: String?
@@ -1414,6 +1643,13 @@ extension Route53Domains {
         public init(key: String? = nil, value: String? = nil) {
             self.key = key
             self.value = value
+        }
+
+        public func validate(name: String) throws {
+            try self.validate(self.key, name: "key", parent: name, max: 128)
+            try self.validate(self.key, name: "key", parent: name, min: 1)
+            try self.validate(self.value, name: "value", parent: name, max: 256)
+            try self.validate(self.value, name: "value", parent: name, min: 0)
         }
 
         private enum CodingKeys: String, CodingKey {
@@ -1437,11 +1673,11 @@ extension Route53Domains {
         public let idnLangCode: String?
         /// Contains details for the host and glue IP addresses.
         public let nameservers: [Nameserver]?
-        /// Whether you want to conceal contact information from WHOIS queries. If you specify true, WHOIS ("who is") queries return contact information either for Amazon Registrar (for .com, .net, and .org domains) or for our registrar associate, Gandi (for all other TLDs). If you specify false, WHOIS queries return the information that you entered for the admin contact. Default: true
+        /// Whether you want to conceal contact information from WHOIS queries. If you specify true, WHOIS ("who is") queries return contact information either for Amazon Registrar (for .com, .net, and .org domains) or for our registrar associate, Gandi (for all other TLDs). If you specify false, WHOIS queries return the information that you entered for the admin contact.  You must specify the same privacy setting for the administrative, registrant, and technical contacts.  Default: true
         public let privacyProtectAdminContact: Bool?
-        /// Whether you want to conceal contact information from WHOIS queries. If you specify true, WHOIS ("who is") queries return contact information either for Amazon Registrar (for .com, .net, and .org domains) or for our registrar associate, Gandi (for all other TLDs). If you specify false, WHOIS queries return the information that you entered for the registrant contact (domain owner). Default: true
+        /// Whether you want to conceal contact information from WHOIS queries. If you specify true, WHOIS ("who is") queries return contact information either for Amazon Registrar (for .com, .net, and .org domains) or for our registrar associate, Gandi (for all other TLDs). If you specify false, WHOIS queries return the information that you entered for the registrant contact (domain owner).  You must specify the same privacy setting for the administrative, registrant, and technical contacts.  Default: true
         public let privacyProtectRegistrantContact: Bool?
-        /// Whether you want to conceal contact information from WHOIS queries. If you specify true, WHOIS ("who is") queries return contact information either for Amazon Registrar (for .com, .net, and .org domains) or for our registrar associate, Gandi (for all other TLDs). If you specify false, WHOIS queries return the information that you entered for the technical contact. Default: true
+        /// Whether you want to conceal contact information from WHOIS queries. If you specify true, WHOIS ("who is") queries return contact information either for Amazon Registrar (for .com, .net, and .org domains) or for our registrar associate, Gandi (for all other TLDs). If you specify false, WHOIS queries return the information that you entered for the technical contact.  You must specify the same privacy setting for the administrative, registrant, and technical contacts.  Default: true
         public let privacyProtectTechContact: Bool?
         /// Provides detailed contact information.
         public let registrantContact: ContactDetail
@@ -1507,9 +1743,9 @@ extension Route53Domains {
     }
 
     public struct TransferDomainToAnotherAwsAccountRequest: AWSEncodableShape {
-        /// The account ID of the AWS account that you want to transfer the domain to, for example, 111122223333.
+        /// The account ID of the Amazon Web Services account that you want to transfer the domain to, for example, 111122223333.
         public let accountId: String
-        /// The name of the domain that you want to transfer from the current AWS account to another account.
+        /// The name of the domain that you want to transfer from the current Amazon Web Services account to another account.
         public let domainName: String
 
         public init(accountId: String, domainName: String) {
@@ -1518,6 +1754,8 @@ extension Route53Domains {
         }
 
         public func validate(name: String) throws {
+            try self.validate(self.accountId, name: "accountId", parent: name, max: 12)
+            try self.validate(self.accountId, name: "accountId", parent: name, min: 12)
             try self.validate(self.accountId, name: "accountId", parent: name, pattern: "^(\\d{12})$")
             try self.validate(self.domainName, name: "domainName", parent: name, max: 255)
         }
@@ -1531,7 +1769,7 @@ extension Route53Domains {
     public struct TransferDomainToAnotherAwsAccountResponse: AWSDecodableShape {
         /// Identifier for tracking the progress of the request. To query the operation status, use GetOperationDetail.
         public let operationId: String?
-        /// To finish transferring a domain to another AWS account, the account that the domain is being transferred to must submit an AcceptDomainTransferFromAnotherAwsAccount request. The request must include the value of the Password element that was returned in the TransferDomainToAnotherAwsAccount response.
+        /// To finish transferring a domain to another Amazon Web Services account, the account that the domain is being transferred to must submit an AcceptDomainTransferFromAnotherAwsAccount request. The request must include the value of the Password element that was returned in the TransferDomainToAnotherAwsAccount response.
         public let password: String?
 
         public init(operationId: String? = nil, password: String? = nil) {
@@ -1546,13 +1784,13 @@ extension Route53Domains {
     }
 
     public struct UpdateDomainContactPrivacyRequest: AWSEncodableShape {
-        /// Whether you want to conceal contact information from WHOIS queries. If you specify true, WHOIS ("who is") queries return contact information either for Amazon Registrar (for .com, .net, and .org domains) or for our registrar associate, Gandi (for all other TLDs). If you specify false, WHOIS queries return the information that you entered for the admin contact.
+        /// Whether you want to conceal contact information from WHOIS queries. If you specify true, WHOIS ("who is") queries return contact information either for Amazon Registrar (for .com, .net, and .org domains) or for our registrar associate, Gandi (for all other TLDs). If you specify false, WHOIS queries return the information that you entered for the admin contact.  You must specify the same privacy setting for the administrative, registrant, and technical contacts.
         public let adminPrivacy: Bool?
         /// The name of the domain that you want to update the privacy setting for.
         public let domainName: String
-        /// Whether you want to conceal contact information from WHOIS queries. If you specify true, WHOIS ("who is") queries return contact information either for Amazon Registrar (for .com, .net, and .org domains) or for our registrar associate, Gandi (for all other TLDs). If you specify false, WHOIS queries return the information that you entered for the registrant contact (domain owner).
+        /// Whether you want to conceal contact information from WHOIS queries. If you specify true, WHOIS ("who is") queries return contact information either for Amazon Registrar (for .com, .net, and .org domains) or for our registrar associate, Gandi (for all other TLDs). If you specify false, WHOIS queries return the information that you entered for the registrant contact (domain owner).  You must specify the same privacy setting for the administrative, registrant, and technical contacts.
         public let registrantPrivacy: Bool?
-        /// Whether you want to conceal contact information from WHOIS queries. If you specify true, WHOIS ("who is") queries return contact information either for Amazon Registrar (for .com, .net, and .org domains) or for our registrar associate, Gandi (for all other TLDs). If you specify false, WHOIS queries return the information that you entered for the technical contact.
+        /// Whether you want to conceal contact information from WHOIS queries. If you specify true, WHOIS ("who is") queries return contact information either for Amazon Registrar (for .com, .net, and .org domains) or for our registrar associate, Gandi (for all other TLDs). If you specify false, WHOIS queries return the information that you entered for the technical contact.  You must specify the same privacy setting for the administrative, registrant, and technical contacts.
         public let techPrivacy: Bool?
 
         public init(adminPrivacy: Bool? = nil, domainName: String, registrantPrivacy: Bool? = nil, techPrivacy: Bool? = nil) {
@@ -1682,6 +1920,9 @@ extension Route53Domains {
 
         public func validate(name: String) throws {
             try self.validate(self.domainName, name: "domainName", parent: name, max: 255)
+            try self.tagsToUpdate?.forEach {
+                try $0.validate(name: "\(name).tagsToUpdate[]")
+            }
         }
 
         private enum CodingKeys: String, CodingKey {
@@ -1697,7 +1938,7 @@ extension Route53Domains {
     public struct ViewBillingRequest: AWSEncodableShape {
         /// The end date and time for the time period for which you want a list of billing records. Specify the date and time in Unix time format and Coordinated Universal time (UTC).
         public let end: Date?
-        /// For an initial request for a list of billing records, omit this element. If the number of billing records that are associated with the current AWS account during the specified period is greater than the value that you specified for MaxItems, you can use Marker to return additional billing records. Get the value of NextPageMarker from the previous response, and submit another request that includes the value of NextPageMarker in the Marker element.  Constraints: The marker must match the value of NextPageMarker that was returned in the previous response.
+        /// For an initial request for a list of billing records, omit this element. If the number of billing records that are associated with the current Amazon Web Services account during the specified period is greater than the value that you specified for MaxItems, you can use Marker to return additional billing records. Get the value of NextPageMarker from the previous response, and submit another request that includes the value of NextPageMarker in the Marker element.  Constraints: The marker must match the value of NextPageMarker that was returned in the previous response.
         public let marker: String?
         /// The number of billing records to be returned. Default: 20
         public let maxItems: Int?

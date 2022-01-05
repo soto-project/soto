@@ -1716,7 +1716,7 @@ extension DirectConnect {
         public let router: RouterType?
         /// The ID assigned to the virtual interface.
         public let virtualInterfaceId: String?
-        /// The name of the virtual interface assigned by the customer network.
+        /// Provides the details about a virtual interface's router.
         public let virtualInterfaceName: String?
 
         public init(customerRouterConfig: String? = nil, router: RouterType? = nil, virtualInterfaceId: String? = nil, virtualInterfaceName: String? = nil) {
@@ -2352,6 +2352,8 @@ extension DirectConnect {
         public let customerAddress: String?
         /// The ID of the Direct Connect gateway.
         public let directConnectGatewayId: String?
+        /// Indicates whether to enable or disable SiteLink.
+        public let enableSiteLink: Bool?
         /// The maximum transmission unit (MTU), in bytes. The supported values are 1500 and 9001. The default value is 1500.
         public let mtu: Int?
         /// The tags associated with the private virtual interface.
@@ -2363,13 +2365,14 @@ extension DirectConnect {
         /// The ID of the VLAN.
         public let vlan: Int
 
-        public init(addressFamily: AddressFamily? = nil, amazonAddress: String? = nil, asn: Int, authKey: String? = nil, customerAddress: String? = nil, directConnectGatewayId: String? = nil, mtu: Int? = nil, tags: [Tag]? = nil, virtualGatewayId: String? = nil, virtualInterfaceName: String, vlan: Int) {
+        public init(addressFamily: AddressFamily? = nil, amazonAddress: String? = nil, asn: Int, authKey: String? = nil, customerAddress: String? = nil, directConnectGatewayId: String? = nil, enableSiteLink: Bool? = nil, mtu: Int? = nil, tags: [Tag]? = nil, virtualGatewayId: String? = nil, virtualInterfaceName: String, vlan: Int) {
             self.addressFamily = addressFamily
             self.amazonAddress = amazonAddress
             self.asn = asn
             self.authKey = authKey
             self.customerAddress = customerAddress
             self.directConnectGatewayId = directConnectGatewayId
+            self.enableSiteLink = enableSiteLink
             self.mtu = mtu
             self.tags = tags
             self.virtualGatewayId = virtualGatewayId
@@ -2391,6 +2394,7 @@ extension DirectConnect {
             case authKey
             case customerAddress
             case directConnectGatewayId
+            case enableSiteLink
             case mtu
             case tags
             case virtualGatewayId
@@ -2568,6 +2572,8 @@ extension DirectConnect {
         public let customerAddress: String?
         /// The ID of the Direct Connect gateway.
         public let directConnectGatewayId: String?
+        /// Indicates whether to enable or disable SiteLink.
+        public let enableSiteLink: Bool?
         /// The maximum transmission unit (MTU), in bytes. The supported values are 1500 and 9001. The default value is 1500.
         public let mtu: Int?
         /// The tags associated with the transitive virtual interface.
@@ -2577,13 +2583,14 @@ extension DirectConnect {
         /// The ID of the VLAN.
         public let vlan: Int?
 
-        public init(addressFamily: AddressFamily? = nil, amazonAddress: String? = nil, asn: Int? = nil, authKey: String? = nil, customerAddress: String? = nil, directConnectGatewayId: String? = nil, mtu: Int? = nil, tags: [Tag]? = nil, virtualInterfaceName: String? = nil, vlan: Int? = nil) {
+        public init(addressFamily: AddressFamily? = nil, amazonAddress: String? = nil, asn: Int? = nil, authKey: String? = nil, customerAddress: String? = nil, directConnectGatewayId: String? = nil, enableSiteLink: Bool? = nil, mtu: Int? = nil, tags: [Tag]? = nil, virtualInterfaceName: String? = nil, vlan: Int? = nil) {
             self.addressFamily = addressFamily
             self.amazonAddress = amazonAddress
             self.asn = asn
             self.authKey = authKey
             self.customerAddress = customerAddress
             self.directConnectGatewayId = directConnectGatewayId
+            self.enableSiteLink = enableSiteLink
             self.mtu = mtu
             self.tags = tags
             self.virtualInterfaceName = virtualInterfaceName
@@ -2604,6 +2611,7 @@ extension DirectConnect {
             case authKey
             case customerAddress
             case directConnectGatewayId
+            case enableSiteLink
             case mtu
             case tags
             case virtualInterfaceName
@@ -2978,19 +2986,27 @@ extension DirectConnect {
     }
 
     public struct UpdateVirtualInterfaceAttributesRequest: AWSEncodableShape {
+        /// Indicates whether to enable or disable SiteLink.
+        public let enableSiteLink: Bool?
         /// The maximum transmission unit (MTU), in bytes. The supported values are 1500 and 9001. The default value is 1500.
         public let mtu: Int?
         /// The ID of the virtual private interface.
         public let virtualInterfaceId: String
+        /// The name of the virtual private interface.
+        public let virtualInterfaceName: String?
 
-        public init(mtu: Int? = nil, virtualInterfaceId: String) {
+        public init(enableSiteLink: Bool? = nil, mtu: Int? = nil, virtualInterfaceId: String, virtualInterfaceName: String? = nil) {
+            self.enableSiteLink = enableSiteLink
             self.mtu = mtu
             self.virtualInterfaceId = virtualInterfaceId
+            self.virtualInterfaceName = virtualInterfaceName
         }
 
         private enum CodingKeys: String, CodingKey {
+            case enableSiteLink
             case mtu
             case virtualInterfaceId
+            case virtualInterfaceName
         }
     }
 
@@ -3061,6 +3077,8 @@ extension DirectConnect {
         public let region: String?
         /// The routes to be advertised to the Amazon Web Services network in this Region. Applies to public virtual interfaces.
         public let routeFilterPrefixes: [RouteFilterPrefix]?
+        /// Indicates whether SiteLink is enabled.
+        public let siteLinkEnabled: Bool?
         /// The tags associated with the virtual interface.
         public let tags: [Tag]?
         /// The ID of the virtual private gateway. Applies only to private virtual interfaces.
@@ -3076,7 +3094,7 @@ extension DirectConnect {
         /// The ID of the VLAN.
         public let vlan: Int?
 
-        public init(addressFamily: AddressFamily? = nil, amazonAddress: String? = nil, amazonSideAsn: Int64? = nil, asn: Int? = nil, authKey: String? = nil, awsDeviceV2: String? = nil, awsLogicalDeviceId: String? = nil, bgpPeers: [BGPPeer]? = nil, connectionId: String? = nil, customerAddress: String? = nil, customerRouterConfig: String? = nil, directConnectGatewayId: String? = nil, jumboFrameCapable: Bool? = nil, location: String? = nil, mtu: Int? = nil, ownerAccount: String? = nil, region: String? = nil, routeFilterPrefixes: [RouteFilterPrefix]? = nil, tags: [Tag]? = nil, virtualGatewayId: String? = nil, virtualInterfaceId: String? = nil, virtualInterfaceName: String? = nil, virtualInterfaceState: VirtualInterfaceState? = nil, virtualInterfaceType: String? = nil, vlan: Int? = nil) {
+        public init(addressFamily: AddressFamily? = nil, amazonAddress: String? = nil, amazonSideAsn: Int64? = nil, asn: Int? = nil, authKey: String? = nil, awsDeviceV2: String? = nil, awsLogicalDeviceId: String? = nil, bgpPeers: [BGPPeer]? = nil, connectionId: String? = nil, customerAddress: String? = nil, customerRouterConfig: String? = nil, directConnectGatewayId: String? = nil, jumboFrameCapable: Bool? = nil, location: String? = nil, mtu: Int? = nil, ownerAccount: String? = nil, region: String? = nil, routeFilterPrefixes: [RouteFilterPrefix]? = nil, siteLinkEnabled: Bool? = nil, tags: [Tag]? = nil, virtualGatewayId: String? = nil, virtualInterfaceId: String? = nil, virtualInterfaceName: String? = nil, virtualInterfaceState: VirtualInterfaceState? = nil, virtualInterfaceType: String? = nil, vlan: Int? = nil) {
             self.addressFamily = addressFamily
             self.amazonAddress = amazonAddress
             self.amazonSideAsn = amazonSideAsn
@@ -3095,6 +3113,7 @@ extension DirectConnect {
             self.ownerAccount = ownerAccount
             self.region = region
             self.routeFilterPrefixes = routeFilterPrefixes
+            self.siteLinkEnabled = siteLinkEnabled
             self.tags = tags
             self.virtualGatewayId = virtualGatewayId
             self.virtualInterfaceId = virtualInterfaceId
@@ -3123,6 +3142,7 @@ extension DirectConnect {
             case ownerAccount
             case region
             case routeFilterPrefixes
+            case siteLinkEnabled
             case tags
             case virtualGatewayId
             case virtualInterfaceId

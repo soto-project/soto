@@ -72,6 +72,59 @@ extension NetworkManager {
         )
     }
 
+    ///  Returns information about a core network Connect peer associations.
+    ///
+    /// Provide paginated results to closure `onPage` for it to combine them into one result.
+    /// This works in a similar manner to `Array.reduce<Result>(_:_:) -> Result`.
+    ///
+    /// Parameters:
+    ///   - input: Input for request
+    ///   - initialValue: The value to use as the initial accumulating value. `initialValue` is passed to `onPage` the first time it is called.
+    ///   - logger: Logger used for logging output
+    ///   - eventLoop: EventLoop to run this process on
+    ///   - onPage: closure called with each paginated response. It combines an accumulating result with the contents of response. This combined result is then returned
+    ///         along with a boolean indicating if the paginate operation should continue.
+    public func getConnectPeerAssociationsPaginator<Result>(
+        _ input: GetConnectPeerAssociationsRequest,
+        _ initialValue: Result,
+        logger: Logger = AWSClient.loggingDisabled,
+        on eventLoop: EventLoop? = nil,
+        onPage: @escaping (Result, GetConnectPeerAssociationsResponse, EventLoop) -> EventLoopFuture<(Bool, Result)>
+    ) -> EventLoopFuture<Result> {
+        return client.paginate(
+            input: input,
+            initialValue: initialValue,
+            command: getConnectPeerAssociations,
+            inputKey: \GetConnectPeerAssociationsRequest.nextToken,
+            outputKey: \GetConnectPeerAssociationsResponse.nextToken,
+            on: eventLoop,
+            onPage: onPage
+        )
+    }
+
+    /// Provide paginated results to closure `onPage`.
+    ///
+    /// - Parameters:
+    ///   - input: Input for request
+    ///   - logger: Logger used for logging output
+    ///   - eventLoop: EventLoop to run this process on
+    ///   - onPage: closure called with each block of entries. Returns boolean indicating whether we should continue.
+    public func getConnectPeerAssociationsPaginator(
+        _ input: GetConnectPeerAssociationsRequest,
+        logger: Logger = AWSClient.loggingDisabled,
+        on eventLoop: EventLoop? = nil,
+        onPage: @escaping (GetConnectPeerAssociationsResponse, EventLoop) -> EventLoopFuture<Bool>
+    ) -> EventLoopFuture<Void> {
+        return client.paginate(
+            input: input,
+            command: getConnectPeerAssociations,
+            inputKey: \GetConnectPeerAssociationsRequest.nextToken,
+            outputKey: \GetConnectPeerAssociationsResponse.nextToken,
+            on: eventLoop,
+            onPage: onPage
+        )
+    }
+
     ///  Gets information about one or more of your connections in a global network.
     ///
     /// Provide paginated results to closure `onPage` for it to combine them into one result.
@@ -120,6 +173,59 @@ extension NetworkManager {
             command: getConnections,
             inputKey: \GetConnectionsRequest.nextToken,
             outputKey: \GetConnectionsResponse.nextToken,
+            on: eventLoop,
+            onPage: onPage
+        )
+    }
+
+    ///  Returns a change set between the LIVE core network policy and a submitted policy.
+    ///
+    /// Provide paginated results to closure `onPage` for it to combine them into one result.
+    /// This works in a similar manner to `Array.reduce<Result>(_:_:) -> Result`.
+    ///
+    /// Parameters:
+    ///   - input: Input for request
+    ///   - initialValue: The value to use as the initial accumulating value. `initialValue` is passed to `onPage` the first time it is called.
+    ///   - logger: Logger used for logging output
+    ///   - eventLoop: EventLoop to run this process on
+    ///   - onPage: closure called with each paginated response. It combines an accumulating result with the contents of response. This combined result is then returned
+    ///         along with a boolean indicating if the paginate operation should continue.
+    public func getCoreNetworkChangeSetPaginator<Result>(
+        _ input: GetCoreNetworkChangeSetRequest,
+        _ initialValue: Result,
+        logger: Logger = AWSClient.loggingDisabled,
+        on eventLoop: EventLoop? = nil,
+        onPage: @escaping (Result, GetCoreNetworkChangeSetResponse, EventLoop) -> EventLoopFuture<(Bool, Result)>
+    ) -> EventLoopFuture<Result> {
+        return client.paginate(
+            input: input,
+            initialValue: initialValue,
+            command: getCoreNetworkChangeSet,
+            inputKey: \GetCoreNetworkChangeSetRequest.nextToken,
+            outputKey: \GetCoreNetworkChangeSetResponse.nextToken,
+            on: eventLoop,
+            onPage: onPage
+        )
+    }
+
+    /// Provide paginated results to closure `onPage`.
+    ///
+    /// - Parameters:
+    ///   - input: Input for request
+    ///   - logger: Logger used for logging output
+    ///   - eventLoop: EventLoop to run this process on
+    ///   - onPage: closure called with each block of entries. Returns boolean indicating whether we should continue.
+    public func getCoreNetworkChangeSetPaginator(
+        _ input: GetCoreNetworkChangeSetRequest,
+        logger: Logger = AWSClient.loggingDisabled,
+        on eventLoop: EventLoop? = nil,
+        onPage: @escaping (GetCoreNetworkChangeSetResponse, EventLoop) -> EventLoopFuture<Bool>
+    ) -> EventLoopFuture<Void> {
+        return client.paginate(
+            input: input,
+            command: getCoreNetworkChangeSet,
+            inputKey: \GetCoreNetworkChangeSetRequest.nextToken,
+            outputKey: \GetCoreNetworkChangeSetResponse.nextToken,
             on: eventLoop,
             onPage: onPage
         )
@@ -707,12 +813,235 @@ extension NetworkManager {
             onPage: onPage
         )
     }
+
+    ///  Returns a list of core network attachments.
+    ///
+    /// Provide paginated results to closure `onPage` for it to combine them into one result.
+    /// This works in a similar manner to `Array.reduce<Result>(_:_:) -> Result`.
+    ///
+    /// Parameters:
+    ///   - input: Input for request
+    ///   - initialValue: The value to use as the initial accumulating value. `initialValue` is passed to `onPage` the first time it is called.
+    ///   - logger: Logger used for logging output
+    ///   - eventLoop: EventLoop to run this process on
+    ///   - onPage: closure called with each paginated response. It combines an accumulating result with the contents of response. This combined result is then returned
+    ///         along with a boolean indicating if the paginate operation should continue.
+    public func listAttachmentsPaginator<Result>(
+        _ input: ListAttachmentsRequest,
+        _ initialValue: Result,
+        logger: Logger = AWSClient.loggingDisabled,
+        on eventLoop: EventLoop? = nil,
+        onPage: @escaping (Result, ListAttachmentsResponse, EventLoop) -> EventLoopFuture<(Bool, Result)>
+    ) -> EventLoopFuture<Result> {
+        return client.paginate(
+            input: input,
+            initialValue: initialValue,
+            command: listAttachments,
+            inputKey: \ListAttachmentsRequest.nextToken,
+            outputKey: \ListAttachmentsResponse.nextToken,
+            on: eventLoop,
+            onPage: onPage
+        )
+    }
+
+    /// Provide paginated results to closure `onPage`.
+    ///
+    /// - Parameters:
+    ///   - input: Input for request
+    ///   - logger: Logger used for logging output
+    ///   - eventLoop: EventLoop to run this process on
+    ///   - onPage: closure called with each block of entries. Returns boolean indicating whether we should continue.
+    public func listAttachmentsPaginator(
+        _ input: ListAttachmentsRequest,
+        logger: Logger = AWSClient.loggingDisabled,
+        on eventLoop: EventLoop? = nil,
+        onPage: @escaping (ListAttachmentsResponse, EventLoop) -> EventLoopFuture<Bool>
+    ) -> EventLoopFuture<Void> {
+        return client.paginate(
+            input: input,
+            command: listAttachments,
+            inputKey: \ListAttachmentsRequest.nextToken,
+            outputKey: \ListAttachmentsResponse.nextToken,
+            on: eventLoop,
+            onPage: onPage
+        )
+    }
+
+    ///  Returns a list of core network Connect peers.
+    ///
+    /// Provide paginated results to closure `onPage` for it to combine them into one result.
+    /// This works in a similar manner to `Array.reduce<Result>(_:_:) -> Result`.
+    ///
+    /// Parameters:
+    ///   - input: Input for request
+    ///   - initialValue: The value to use as the initial accumulating value. `initialValue` is passed to `onPage` the first time it is called.
+    ///   - logger: Logger used for logging output
+    ///   - eventLoop: EventLoop to run this process on
+    ///   - onPage: closure called with each paginated response. It combines an accumulating result with the contents of response. This combined result is then returned
+    ///         along with a boolean indicating if the paginate operation should continue.
+    public func listConnectPeersPaginator<Result>(
+        _ input: ListConnectPeersRequest,
+        _ initialValue: Result,
+        logger: Logger = AWSClient.loggingDisabled,
+        on eventLoop: EventLoop? = nil,
+        onPage: @escaping (Result, ListConnectPeersResponse, EventLoop) -> EventLoopFuture<(Bool, Result)>
+    ) -> EventLoopFuture<Result> {
+        return client.paginate(
+            input: input,
+            initialValue: initialValue,
+            command: listConnectPeers,
+            inputKey: \ListConnectPeersRequest.nextToken,
+            outputKey: \ListConnectPeersResponse.nextToken,
+            on: eventLoop,
+            onPage: onPage
+        )
+    }
+
+    /// Provide paginated results to closure `onPage`.
+    ///
+    /// - Parameters:
+    ///   - input: Input for request
+    ///   - logger: Logger used for logging output
+    ///   - eventLoop: EventLoop to run this process on
+    ///   - onPage: closure called with each block of entries. Returns boolean indicating whether we should continue.
+    public func listConnectPeersPaginator(
+        _ input: ListConnectPeersRequest,
+        logger: Logger = AWSClient.loggingDisabled,
+        on eventLoop: EventLoop? = nil,
+        onPage: @escaping (ListConnectPeersResponse, EventLoop) -> EventLoopFuture<Bool>
+    ) -> EventLoopFuture<Void> {
+        return client.paginate(
+            input: input,
+            command: listConnectPeers,
+            inputKey: \ListConnectPeersRequest.nextToken,
+            outputKey: \ListConnectPeersResponse.nextToken,
+            on: eventLoop,
+            onPage: onPage
+        )
+    }
+
+    ///  Returns a list of core network policy versions.
+    ///
+    /// Provide paginated results to closure `onPage` for it to combine them into one result.
+    /// This works in a similar manner to `Array.reduce<Result>(_:_:) -> Result`.
+    ///
+    /// Parameters:
+    ///   - input: Input for request
+    ///   - initialValue: The value to use as the initial accumulating value. `initialValue` is passed to `onPage` the first time it is called.
+    ///   - logger: Logger used for logging output
+    ///   - eventLoop: EventLoop to run this process on
+    ///   - onPage: closure called with each paginated response. It combines an accumulating result with the contents of response. This combined result is then returned
+    ///         along with a boolean indicating if the paginate operation should continue.
+    public func listCoreNetworkPolicyVersionsPaginator<Result>(
+        _ input: ListCoreNetworkPolicyVersionsRequest,
+        _ initialValue: Result,
+        logger: Logger = AWSClient.loggingDisabled,
+        on eventLoop: EventLoop? = nil,
+        onPage: @escaping (Result, ListCoreNetworkPolicyVersionsResponse, EventLoop) -> EventLoopFuture<(Bool, Result)>
+    ) -> EventLoopFuture<Result> {
+        return client.paginate(
+            input: input,
+            initialValue: initialValue,
+            command: listCoreNetworkPolicyVersions,
+            inputKey: \ListCoreNetworkPolicyVersionsRequest.nextToken,
+            outputKey: \ListCoreNetworkPolicyVersionsResponse.nextToken,
+            on: eventLoop,
+            onPage: onPage
+        )
+    }
+
+    /// Provide paginated results to closure `onPage`.
+    ///
+    /// - Parameters:
+    ///   - input: Input for request
+    ///   - logger: Logger used for logging output
+    ///   - eventLoop: EventLoop to run this process on
+    ///   - onPage: closure called with each block of entries. Returns boolean indicating whether we should continue.
+    public func listCoreNetworkPolicyVersionsPaginator(
+        _ input: ListCoreNetworkPolicyVersionsRequest,
+        logger: Logger = AWSClient.loggingDisabled,
+        on eventLoop: EventLoop? = nil,
+        onPage: @escaping (ListCoreNetworkPolicyVersionsResponse, EventLoop) -> EventLoopFuture<Bool>
+    ) -> EventLoopFuture<Void> {
+        return client.paginate(
+            input: input,
+            command: listCoreNetworkPolicyVersions,
+            inputKey: \ListCoreNetworkPolicyVersionsRequest.nextToken,
+            outputKey: \ListCoreNetworkPolicyVersionsResponse.nextToken,
+            on: eventLoop,
+            onPage: onPage
+        )
+    }
+
+    ///  Returns a list of owned and shared core networks.
+    ///
+    /// Provide paginated results to closure `onPage` for it to combine them into one result.
+    /// This works in a similar manner to `Array.reduce<Result>(_:_:) -> Result`.
+    ///
+    /// Parameters:
+    ///   - input: Input for request
+    ///   - initialValue: The value to use as the initial accumulating value. `initialValue` is passed to `onPage` the first time it is called.
+    ///   - logger: Logger used for logging output
+    ///   - eventLoop: EventLoop to run this process on
+    ///   - onPage: closure called with each paginated response. It combines an accumulating result with the contents of response. This combined result is then returned
+    ///         along with a boolean indicating if the paginate operation should continue.
+    public func listCoreNetworksPaginator<Result>(
+        _ input: ListCoreNetworksRequest,
+        _ initialValue: Result,
+        logger: Logger = AWSClient.loggingDisabled,
+        on eventLoop: EventLoop? = nil,
+        onPage: @escaping (Result, ListCoreNetworksResponse, EventLoop) -> EventLoopFuture<(Bool, Result)>
+    ) -> EventLoopFuture<Result> {
+        return client.paginate(
+            input: input,
+            initialValue: initialValue,
+            command: listCoreNetworks,
+            inputKey: \ListCoreNetworksRequest.nextToken,
+            outputKey: \ListCoreNetworksResponse.nextToken,
+            on: eventLoop,
+            onPage: onPage
+        )
+    }
+
+    /// Provide paginated results to closure `onPage`.
+    ///
+    /// - Parameters:
+    ///   - input: Input for request
+    ///   - logger: Logger used for logging output
+    ///   - eventLoop: EventLoop to run this process on
+    ///   - onPage: closure called with each block of entries. Returns boolean indicating whether we should continue.
+    public func listCoreNetworksPaginator(
+        _ input: ListCoreNetworksRequest,
+        logger: Logger = AWSClient.loggingDisabled,
+        on eventLoop: EventLoop? = nil,
+        onPage: @escaping (ListCoreNetworksResponse, EventLoop) -> EventLoopFuture<Bool>
+    ) -> EventLoopFuture<Void> {
+        return client.paginate(
+            input: input,
+            command: listCoreNetworks,
+            inputKey: \ListCoreNetworksRequest.nextToken,
+            outputKey: \ListCoreNetworksResponse.nextToken,
+            on: eventLoop,
+            onPage: onPage
+        )
+    }
 }
 
 extension NetworkManager.DescribeGlobalNetworksRequest: AWSPaginateToken {
     public func usingPaginationToken(_ token: String) -> NetworkManager.DescribeGlobalNetworksRequest {
         return .init(
             globalNetworkIds: self.globalNetworkIds,
+            maxResults: self.maxResults,
+            nextToken: token
+        )
+    }
+}
+
+extension NetworkManager.GetConnectPeerAssociationsRequest: AWSPaginateToken {
+    public func usingPaginationToken(_ token: String) -> NetworkManager.GetConnectPeerAssociationsRequest {
+        return .init(
+            connectPeerIds: self.connectPeerIds,
+            globalNetworkId: self.globalNetworkId,
             maxResults: self.maxResults,
             nextToken: token
         )
@@ -727,6 +1056,17 @@ extension NetworkManager.GetConnectionsRequest: AWSPaginateToken {
             globalNetworkId: self.globalNetworkId,
             maxResults: self.maxResults,
             nextToken: token
+        )
+    }
+}
+
+extension NetworkManager.GetCoreNetworkChangeSetRequest: AWSPaginateToken {
+    public func usingPaginationToken(_ token: String) -> NetworkManager.GetCoreNetworkChangeSetRequest {
+        return .init(
+            coreNetworkId: self.coreNetworkId,
+            maxResults: self.maxResults,
+            nextToken: token,
+            policyVersionId: self.policyVersionId
         )
     }
 }
@@ -796,6 +1136,7 @@ extension NetworkManager.GetNetworkResourceRelationshipsRequest: AWSPaginateToke
         return .init(
             accountId: self.accountId,
             awsRegion: self.awsRegion,
+            coreNetworkId: self.coreNetworkId,
             globalNetworkId: self.globalNetworkId,
             maxResults: self.maxResults,
             nextToken: token,
@@ -811,6 +1152,7 @@ extension NetworkManager.GetNetworkResourcesRequest: AWSPaginateToken {
         return .init(
             accountId: self.accountId,
             awsRegion: self.awsRegion,
+            coreNetworkId: self.coreNetworkId,
             globalNetworkId: self.globalNetworkId,
             maxResults: self.maxResults,
             nextToken: token,
@@ -826,6 +1168,7 @@ extension NetworkManager.GetNetworkTelemetryRequest: AWSPaginateToken {
         return .init(
             accountId: self.accountId,
             awsRegion: self.awsRegion,
+            coreNetworkId: self.coreNetworkId,
             globalNetworkId: self.globalNetworkId,
             maxResults: self.maxResults,
             nextToken: token,
@@ -865,6 +1208,49 @@ extension NetworkManager.GetTransitGatewayRegistrationsRequest: AWSPaginateToken
             maxResults: self.maxResults,
             nextToken: token,
             transitGatewayArns: self.transitGatewayArns
+        )
+    }
+}
+
+extension NetworkManager.ListAttachmentsRequest: AWSPaginateToken {
+    public func usingPaginationToken(_ token: String) -> NetworkManager.ListAttachmentsRequest {
+        return .init(
+            attachmentType: self.attachmentType,
+            coreNetworkId: self.coreNetworkId,
+            edgeLocation: self.edgeLocation,
+            maxResults: self.maxResults,
+            nextToken: token,
+            state: self.state
+        )
+    }
+}
+
+extension NetworkManager.ListConnectPeersRequest: AWSPaginateToken {
+    public func usingPaginationToken(_ token: String) -> NetworkManager.ListConnectPeersRequest {
+        return .init(
+            connectAttachmentId: self.connectAttachmentId,
+            coreNetworkId: self.coreNetworkId,
+            maxResults: self.maxResults,
+            nextToken: token
+        )
+    }
+}
+
+extension NetworkManager.ListCoreNetworkPolicyVersionsRequest: AWSPaginateToken {
+    public func usingPaginationToken(_ token: String) -> NetworkManager.ListCoreNetworkPolicyVersionsRequest {
+        return .init(
+            coreNetworkId: self.coreNetworkId,
+            maxResults: self.maxResults,
+            nextToken: token
+        )
+    }
+}
+
+extension NetworkManager.ListCoreNetworksRequest: AWSPaginateToken {
+    public func usingPaginationToken(_ token: String) -> NetworkManager.ListCoreNetworksRequest {
+        return .init(
+            maxResults: self.maxResults,
+            nextToken: token
         )
     }
 }

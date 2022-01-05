@@ -18,7 +18,7 @@
 
 import SotoCore
 
-@available(macOS 12.0, iOS 15.0, watchOS 8.0, tvOS 15.0, *)
+@available(macOS 10.15, iOS 13.0, tvOS 13.0, watchOS 6.0, *)
 extension Lambda {
     // MARK: Async API Calls
 
@@ -50,10 +50,6 @@ extension Lambda {
     /// Creates a Lambda function. To create a function, you need a deployment package and an execution role. The deployment package is a .zip file archive or container image that contains your function code. The execution role grants the function permission to use Amazon Web Services services, such as Amazon CloudWatch Logs for log streaming and X-Ray for request tracing. You set the package type to Image if the deployment package is a container image. For a container image, the code property must include the URI of a container image in the Amazon ECR registry. You do not need to specify the handler and runtime properties.  You set the package type to Zip if the deployment package is a .zip file archive. For a .zip file archive, the code property specifies the location of the .zip file. You must also specify the handler and runtime properties. The code in the deployment package must be compatible with the target instruction set architecture of the function (x86-64 or arm64). If you do not specify the architecture, the default value is x86-64. When you create a function, Lambda provisions an instance of the function and its supporting resources. If your function connects to a VPC, this process can take a minute or so. During this time, you can't invoke or modify the function. The State, StateReason, and StateReasonCode fields in the response from GetFunctionConfiguration indicate when the function is ready to invoke. For more information, see Function States. A function has an unpublished version, and can have published versions and aliases. The unpublished version changes when you update your function's code and configuration. A published version is a snapshot of your function code and configuration that can't be changed. An alias is a named resource that maps to a version, and can be changed to map to a different version. Use the Publish parameter to create version 1 of your function from its initial configuration. The other parameters let you configure version-specific and function-level settings. You can modify version-specific settings later with UpdateFunctionConfiguration. Function-level settings apply to both the unpublished and published versions of the function, and include tags (TagResource) and per-function concurrency limits (PutFunctionConcurrency). You can use code signing if your deployment package is a .zip file archive. To enable code signing for this function, specify the ARN of a code-signing configuration. When a user attempts to deploy a code package with UpdateFunctionCode, Lambda checks that the code package has a valid signature from a trusted publisher. The code-signing configuration includes set set of signing profiles, which define the trusted publishers for this function. If another account or an Amazon Web Services service invokes your function, use AddPermission to grant permission by creating a resource-based IAM policy. You can grant permissions at the function level, on a version, or on an alias. To invoke your function directly, use Invoke. To invoke your function in response to events in other Amazon Web Services services, create an event source mapping (CreateEventSourceMapping), or configure a function trigger in the other service. For more information, see Invoking Functions.
     public func createFunction(_ input: CreateFunctionRequest, logger: Logger = AWSClient.loggingDisabled, on eventLoop: EventLoop? = nil) async throws -> FunctionConfiguration {
         return try await self.client.execute(operation: "CreateFunction", path: "/2015-03-31/functions", httpMethod: .POST, serviceConfig: self.config, input: input, logger: logger, on: eventLoop)
-    }
-
-    public func createFunctionUrlConfig(_ input: CreateFunctionUrlConfigRequest, logger: Logger = AWSClient.loggingDisabled, on eventLoop: EventLoop? = nil) async throws -> CreateFunctionUrlConfigResponse {
-        return try await self.client.execute(operation: "CreateFunctionUrlConfig", path: "/2021-10-31/functions/{FunctionName}/url", httpMethod: .POST, serviceConfig: self.config, input: input, logger: logger, on: eventLoop)
     }
 
     /// Deletes a Lambda function alias.
@@ -89,10 +85,6 @@ extension Lambda {
     /// Deletes the configuration for asynchronous invocation for a function, version, or alias. To configure options for asynchronous invocation, use PutFunctionEventInvokeConfig.
     public func deleteFunctionEventInvokeConfig(_ input: DeleteFunctionEventInvokeConfigRequest, logger: Logger = AWSClient.loggingDisabled, on eventLoop: EventLoop? = nil) async throws {
         return try await self.client.execute(operation: "DeleteFunctionEventInvokeConfig", path: "/2019-09-25/functions/{FunctionName}/event-invoke-config", httpMethod: .DELETE, serviceConfig: self.config, input: input, logger: logger, on: eventLoop)
-    }
-
-    public func deleteFunctionUrlConfig(_ input: DeleteFunctionUrlConfigRequest, logger: Logger = AWSClient.loggingDisabled, on eventLoop: EventLoop? = nil) async throws {
-        return try await self.client.execute(operation: "DeleteFunctionUrlConfig", path: "/2021-10-31/functions/{FunctionName}/url", httpMethod: .DELETE, serviceConfig: self.config, input: input, logger: logger, on: eventLoop)
     }
 
     /// Deletes a version of an Lambda layer. Deleted versions can no longer be viewed or added to functions. To avoid breaking functions, a copy of the version remains in Lambda until no functions refer to it.
@@ -150,10 +142,6 @@ extension Lambda {
         return try await self.client.execute(operation: "GetFunctionEventInvokeConfig", path: "/2019-09-25/functions/{FunctionName}/event-invoke-config", httpMethod: .GET, serviceConfig: self.config, input: input, logger: logger, on: eventLoop)
     }
 
-    public func getFunctionUrlConfig(_ input: GetFunctionUrlConfigRequest, logger: Logger = AWSClient.loggingDisabled, on eventLoop: EventLoop? = nil) async throws -> GetFunctionUrlConfigResponse {
-        return try await self.client.execute(operation: "GetFunctionUrlConfig", path: "/2021-10-31/functions/{FunctionName}/url", httpMethod: .GET, serviceConfig: self.config, input: input, logger: logger, on: eventLoop)
-    }
-
     /// Returns information about a version of an Lambda layer, with a link to download the layer archive that's valid for 10 minutes.
     public func getLayerVersion(_ input: GetLayerVersionRequest, logger: Logger = AWSClient.loggingDisabled, on eventLoop: EventLoop? = nil) async throws -> GetLayerVersionResponse {
         return try await self.client.execute(operation: "GetLayerVersion", path: "/2018-10-31/layers/{LayerName}/versions/{VersionNumber}", httpMethod: .GET, serviceConfig: self.config, input: input, logger: logger, on: eventLoop)
@@ -208,10 +196,6 @@ extension Lambda {
     /// Retrieves a list of configurations for asynchronous invocation for a function. To configure options for asynchronous invocation, use PutFunctionEventInvokeConfig.
     public func listFunctionEventInvokeConfigs(_ input: ListFunctionEventInvokeConfigsRequest, logger: Logger = AWSClient.loggingDisabled, on eventLoop: EventLoop? = nil) async throws -> ListFunctionEventInvokeConfigsResponse {
         return try await self.client.execute(operation: "ListFunctionEventInvokeConfigs", path: "/2019-09-25/functions/{FunctionName}/event-invoke-config/list", httpMethod: .GET, serviceConfig: self.config, input: input, logger: logger, on: eventLoop)
-    }
-
-    public func listFunctionUrlConfigs(_ input: ListFunctionUrlConfigsRequest, logger: Logger = AWSClient.loggingDisabled, on eventLoop: EventLoop? = nil) async throws -> ListFunctionUrlConfigsResponse {
-        return try await self.client.execute(operation: "ListFunctionUrlConfigs", path: "/2021-10-31/functions/{FunctionName}/urls", httpMethod: .GET, serviceConfig: self.config, input: input, logger: logger, on: eventLoop)
     }
 
     /// Returns a list of Lambda functions, with the version-specific configuration of each. Lambda returns up to 50 functions per call. Set FunctionVersion to ALL to include all published versions of each function in addition to the unpublished version.   The ListFunctions action returns a subset of the FunctionConfiguration fields. To get the additional fields (State, StateReasonCode, StateReason, LastUpdateStatus, LastUpdateStatusReason, LastUpdateStatusReasonCode) for a function or version, use GetFunction.
@@ -327,10 +311,6 @@ extension Lambda {
     /// Updates the configuration for asynchronous invocation for a function, version, or alias. To configure options for asynchronous invocation, use PutFunctionEventInvokeConfig.
     public func updateFunctionEventInvokeConfig(_ input: UpdateFunctionEventInvokeConfigRequest, logger: Logger = AWSClient.loggingDisabled, on eventLoop: EventLoop? = nil) async throws -> FunctionEventInvokeConfig {
         return try await self.client.execute(operation: "UpdateFunctionEventInvokeConfig", path: "/2019-09-25/functions/{FunctionName}/event-invoke-config", httpMethod: .POST, serviceConfig: self.config, input: input, logger: logger, on: eventLoop)
-    }
-
-    public func updateFunctionUrlConfig(_ input: UpdateFunctionUrlConfigRequest, logger: Logger = AWSClient.loggingDisabled, on eventLoop: EventLoop? = nil) async throws -> UpdateFunctionUrlConfigResponse {
-        return try await self.client.execute(operation: "UpdateFunctionUrlConfig", path: "/2021-10-31/functions/{FunctionName}/url", httpMethod: .PUT, serviceConfig: self.config, input: input, logger: logger, on: eventLoop)
     }
 }
 

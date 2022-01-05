@@ -3623,7 +3623,7 @@ extension APIGateway {
     }
 
     public struct QuotaSettings: AWSEncodableShape & AWSDecodableShape {
-        /// The maximum number of requests that can be made in a given time period.
+        /// The target maximum number of requests that can be made in a given time period.
         public let limit: Int?
         /// The day that a time period starts. For example, with a time period of WEEK, an offset of 0 starts on Sunday, and an offset of 1 starts on Monday.
         public let offset: Int?
@@ -4220,9 +4220,9 @@ extension APIGateway {
     }
 
     public struct ThrottleSettings: AWSEncodableShape & AWSDecodableShape {
-        /// The API request burst limit, the maximum rate limit over a time ranging from one to a few seconds, depending upon whether the underlying token bucket is at its full capacity.
+        /// The API target request burst rate limit. This allows more requests through for a period of time than the target rate limit.
         public let burstLimit: Int?
-        /// The API request steady-state rate limit.
+        /// The API target request rate limit.
         public let rateLimit: Double?
 
         public init(burstLimit: Int? = nil, rateLimit: Double? = nil) {
@@ -4832,11 +4832,11 @@ extension APIGateway {
         public let name: String?
         /// The AWS Markeplace product identifier to associate with the usage plan as a SaaS product on AWS Marketplace.
         public let productCode: String?
-        /// The maximum number of permitted requests per a given unit time interval.
+        /// The target maximum number of permitted requests per a given unit time interval.
         public let quota: QuotaSettings?
         /// The collection of tags. Each tag element is associated with a given resource.
         public let tags: [String: String]?
-        /// The request throttle limits of a usage plan.
+        /// Map containing method level throttling information for API stage in a usage plan.
         public let throttle: ThrottleSettings?
 
         public init(apiStages: [ApiStage]? = nil, description: String? = nil, id: String? = nil, name: String? = nil, productCode: String? = nil, quota: QuotaSettings? = nil, tags: [String: String]? = nil, throttle: ThrottleSettings? = nil) {

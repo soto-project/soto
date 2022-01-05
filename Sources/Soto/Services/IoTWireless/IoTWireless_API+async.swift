@@ -18,7 +18,7 @@
 
 import SotoCore
 
-@available(macOS 12.0, iOS 15.0, watchOS 8.0, tvOS 15.0, *)
+@available(macOS 10.15, iOS 13.0, tvOS 13.0, watchOS 6.0, *)
 extension IoTWireless {
     // MARK: Async API Calls
 
@@ -215,6 +215,11 @@ extension IoTWireless {
     /// Gets information about a multicast group session.
     public func getMulticastGroupSession(_ input: GetMulticastGroupSessionRequest, logger: Logger = AWSClient.loggingDisabled, on eventLoop: EventLoop? = nil) async throws -> GetMulticastGroupSessionResponse {
         return try await self.client.execute(operation: "GetMulticastGroupSession", path: "/multicast-groups/{Id}/session", httpMethod: .GET, serviceConfig: self.config, input: input, logger: logger, on: eventLoop)
+    }
+
+    /// Get NetworkAnalyzer configuration.
+    public func getNetworkAnalyzerConfiguration(_ input: GetNetworkAnalyzerConfigurationRequest, logger: Logger = AWSClient.loggingDisabled, on eventLoop: EventLoop? = nil) async throws -> GetNetworkAnalyzerConfigurationResponse {
+        return try await self.client.execute(operation: "GetNetworkAnalyzerConfiguration", path: "/network-analyzer-configurations/{ConfigurationName}", httpMethod: .GET, serviceConfig: self.config, input: input, logger: logger, on: eventLoop)
     }
 
     /// Gets information about a partner account. If PartnerAccountId and PartnerType are null, returns all partner accounts.
@@ -415,6 +420,11 @@ extension IoTWireless {
     /// Updates properties of a multicast group session.
     public func updateMulticastGroup(_ input: UpdateMulticastGroupRequest, logger: Logger = AWSClient.loggingDisabled, on eventLoop: EventLoop? = nil) async throws -> UpdateMulticastGroupResponse {
         return try await self.client.execute(operation: "UpdateMulticastGroup", path: "/multicast-groups/{Id}", httpMethod: .PATCH, serviceConfig: self.config, input: input, logger: logger, on: eventLoop)
+    }
+
+    /// Update NetworkAnalyzer configuration.
+    public func updateNetworkAnalyzerConfiguration(_ input: UpdateNetworkAnalyzerConfigurationRequest, logger: Logger = AWSClient.loggingDisabled, on eventLoop: EventLoop? = nil) async throws -> UpdateNetworkAnalyzerConfigurationResponse {
+        return try await self.client.execute(operation: "UpdateNetworkAnalyzerConfiguration", path: "/network-analyzer-configurations/{ConfigurationName}", httpMethod: .PATCH, serviceConfig: self.config, input: input, logger: logger, on: eventLoop)
     }
 
     /// Updates properties of a partner account.

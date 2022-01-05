@@ -55,7 +55,7 @@ public struct ECR: AWSService {
             serviceProtocol: .json(version: "1.1"),
             apiVersion: "2015-09-21",
             endpoint: endpoint,
-            serviceEndpoints: ["af-south-1": "api.ecr.af-south-1.amazonaws.com", "ap-east-1": "api.ecr.ap-east-1.amazonaws.com", "ap-northeast-1": "api.ecr.ap-northeast-1.amazonaws.com", "ap-northeast-2": "api.ecr.ap-northeast-2.amazonaws.com", "ap-northeast-3": "api.ecr.ap-northeast-3.amazonaws.com", "ap-south-1": "api.ecr.ap-south-1.amazonaws.com", "ap-southeast-1": "api.ecr.ap-southeast-1.amazonaws.com", "ap-southeast-2": "api.ecr.ap-southeast-2.amazonaws.com", "ca-central-1": "api.ecr.ca-central-1.amazonaws.com", "cn-north-1": "api.ecr.cn-north-1.amazonaws.com.cn", "cn-northwest-1": "api.ecr.cn-northwest-1.amazonaws.com.cn", "eu-central-1": "api.ecr.eu-central-1.amazonaws.com", "eu-north-1": "api.ecr.eu-north-1.amazonaws.com", "eu-south-1": "api.ecr.eu-south-1.amazonaws.com", "eu-west-1": "api.ecr.eu-west-1.amazonaws.com", "eu-west-2": "api.ecr.eu-west-2.amazonaws.com", "eu-west-3": "api.ecr.eu-west-3.amazonaws.com", "me-south-1": "api.ecr.me-south-1.amazonaws.com", "sa-east-1": "api.ecr.sa-east-1.amazonaws.com", "us-east-1": "api.ecr.us-east-1.amazonaws.com", "us-east-2": "api.ecr.us-east-2.amazonaws.com", "us-gov-east-1": "api.ecr.us-gov-east-1.amazonaws.com", "us-gov-west-1": "api.ecr.us-gov-west-1.amazonaws.com", "us-iso-east-1": "api.ecr.us-iso-east-1.c2s.ic.gov", "us-iso-west-1": "api.ecr.us-iso-west-1.c2s.ic.gov", "us-isob-east-1": "api.ecr.us-isob-east-1.sc2s.sgov.gov", "us-west-1": "api.ecr.us-west-1.amazonaws.com", "us-west-2": "api.ecr.us-west-2.amazonaws.com"],
+            serviceEndpoints: ["af-south-1": "api.ecr.af-south-1.amazonaws.com", "ap-east-1": "api.ecr.ap-east-1.amazonaws.com", "ap-northeast-1": "api.ecr.ap-northeast-1.amazonaws.com", "ap-northeast-2": "api.ecr.ap-northeast-2.amazonaws.com", "ap-northeast-3": "api.ecr.ap-northeast-3.amazonaws.com", "ap-south-1": "api.ecr.ap-south-1.amazonaws.com", "ap-southeast-1": "api.ecr.ap-southeast-1.amazonaws.com", "ap-southeast-2": "api.ecr.ap-southeast-2.amazonaws.com", "ap-southeast-3": "api.ecr.ap-southeast-3.amazonaws.com", "ca-central-1": "api.ecr.ca-central-1.amazonaws.com", "cn-north-1": "api.ecr.cn-north-1.amazonaws.com.cn", "cn-northwest-1": "api.ecr.cn-northwest-1.amazonaws.com.cn", "eu-central-1": "api.ecr.eu-central-1.amazonaws.com", "eu-north-1": "api.ecr.eu-north-1.amazonaws.com", "eu-south-1": "api.ecr.eu-south-1.amazonaws.com", "eu-west-1": "api.ecr.eu-west-1.amazonaws.com", "eu-west-2": "api.ecr.eu-west-2.amazonaws.com", "eu-west-3": "api.ecr.eu-west-3.amazonaws.com", "me-south-1": "api.ecr.me-south-1.amazonaws.com", "sa-east-1": "api.ecr.sa-east-1.amazonaws.com", "us-east-1": "api.ecr.us-east-1.amazonaws.com", "us-east-2": "api.ecr.us-east-2.amazonaws.com", "us-gov-east-1": "api.ecr.us-gov-east-1.amazonaws.com", "us-gov-west-1": "api.ecr.us-gov-west-1.amazonaws.com", "us-iso-east-1": "api.ecr.us-iso-east-1.c2s.ic.gov", "us-iso-west-1": "api.ecr.us-iso-west-1.c2s.ic.gov", "us-isob-east-1": "api.ecr.us-isob-east-1.sc2s.sgov.gov", "us-west-1": "api.ecr.us-west-1.amazonaws.com", "us-west-2": "api.ecr.us-west-2.amazonaws.com"],
             errorType: ECRErrorType.self,
             timeout: timeout,
             byteBufferAllocator: byteBufferAllocator,
@@ -80,9 +80,19 @@ public struct ECR: AWSService {
         return self.client.execute(operation: "BatchGetImage", path: "/", httpMethod: .POST, serviceConfig: self.config, input: input, logger: logger, on: eventLoop)
     }
 
+    /// Gets the scanning configuration for one or more repositories.
+    public func batchGetRepositoryScanningConfiguration(_ input: BatchGetRepositoryScanningConfigurationRequest, logger: Logger = AWSClient.loggingDisabled, on eventLoop: EventLoop? = nil) -> EventLoopFuture<BatchGetRepositoryScanningConfigurationResponse> {
+        return self.client.execute(operation: "BatchGetRepositoryScanningConfiguration", path: "/", httpMethod: .POST, serviceConfig: self.config, input: input, logger: logger, on: eventLoop)
+    }
+
     /// Informs Amazon ECR that the image layer upload has completed for a specified registry, repository name, and upload ID. You can optionally provide a sha256 digest of the image layer for data validation purposes. When an image is pushed, the CompleteLayerUpload API is called once per each new image layer to verify that the upload has completed.  This operation is used by the Amazon ECR proxy and is not generally used by customers for pulling and pushing images. In most cases, you should use the docker CLI to pull, tag, and push images.
     public func completeLayerUpload(_ input: CompleteLayerUploadRequest, logger: Logger = AWSClient.loggingDisabled, on eventLoop: EventLoop? = nil) -> EventLoopFuture<CompleteLayerUploadResponse> {
         return self.client.execute(operation: "CompleteLayerUpload", path: "/", httpMethod: .POST, serviceConfig: self.config, input: input, logger: logger, on: eventLoop)
+    }
+
+    /// Creates a pull through cache rule. A pull through cache rule provides a way to cache images from an external public registry in your Amazon ECR private registry.
+    public func createPullThroughCacheRule(_ input: CreatePullThroughCacheRuleRequest, logger: Logger = AWSClient.loggingDisabled, on eventLoop: EventLoop? = nil) -> EventLoopFuture<CreatePullThroughCacheRuleResponse> {
+        return self.client.execute(operation: "CreatePullThroughCacheRule", path: "/", httpMethod: .POST, serviceConfig: self.config, input: input, logger: logger, on: eventLoop)
     }
 
     /// Creates a repository. For more information, see Amazon ECR repositories in the Amazon Elastic Container Registry User Guide.
@@ -93,6 +103,11 @@ public struct ECR: AWSService {
     /// Deletes the lifecycle policy associated with the specified repository.
     public func deleteLifecyclePolicy(_ input: DeleteLifecyclePolicyRequest, logger: Logger = AWSClient.loggingDisabled, on eventLoop: EventLoop? = nil) -> EventLoopFuture<DeleteLifecyclePolicyResponse> {
         return self.client.execute(operation: "DeleteLifecyclePolicy", path: "/", httpMethod: .POST, serviceConfig: self.config, input: input, logger: logger, on: eventLoop)
+    }
+
+    /// Deletes a pull through cache rule.
+    public func deletePullThroughCacheRule(_ input: DeletePullThroughCacheRuleRequest, logger: Logger = AWSClient.loggingDisabled, on eventLoop: EventLoop? = nil) -> EventLoopFuture<DeletePullThroughCacheRuleResponse> {
+        return self.client.execute(operation: "DeletePullThroughCacheRule", path: "/", httpMethod: .POST, serviceConfig: self.config, input: input, logger: logger, on: eventLoop)
     }
 
     /// Deletes the registry permissions policy.
@@ -123,6 +138,11 @@ public struct ECR: AWSService {
     /// Returns metadata about the images in a repository.  Beginning with Docker version 1.9, the Docker client compresses image layers before pushing them to a V2 Docker registry. The output of the docker images command shows the uncompressed image size, so it may return a larger image size than the image sizes returned by DescribeImages.
     public func describeImages(_ input: DescribeImagesRequest, logger: Logger = AWSClient.loggingDisabled, on eventLoop: EventLoop? = nil) -> EventLoopFuture<DescribeImagesResponse> {
         return self.client.execute(operation: "DescribeImages", path: "/", httpMethod: .POST, serviceConfig: self.config, input: input, logger: logger, on: eventLoop)
+    }
+
+    /// Returns the pull through cache rules for a registry.
+    public func describePullThroughCacheRules(_ input: DescribePullThroughCacheRulesRequest, logger: Logger = AWSClient.loggingDisabled, on eventLoop: EventLoop? = nil) -> EventLoopFuture<DescribePullThroughCacheRulesResponse> {
+        return self.client.execute(operation: "DescribePullThroughCacheRules", path: "/", httpMethod: .POST, serviceConfig: self.config, input: input, logger: logger, on: eventLoop)
     }
 
     /// Describes the settings for a registry. The replication configuration for a repository can be created or updated with the PutReplicationConfiguration API action.
@@ -158,6 +178,11 @@ public struct ECR: AWSService {
     /// Retrieves the permissions policy for a registry.
     public func getRegistryPolicy(_ input: GetRegistryPolicyRequest, logger: Logger = AWSClient.loggingDisabled, on eventLoop: EventLoop? = nil) -> EventLoopFuture<GetRegistryPolicyResponse> {
         return self.client.execute(operation: "GetRegistryPolicy", path: "/", httpMethod: .POST, serviceConfig: self.config, input: input, logger: logger, on: eventLoop)
+    }
+
+    /// Retrieves the scanning configuration for a registry.
+    public func getRegistryScanningConfiguration(_ input: GetRegistryScanningConfigurationRequest, logger: Logger = AWSClient.loggingDisabled, on eventLoop: EventLoop? = nil) -> EventLoopFuture<GetRegistryScanningConfigurationResponse> {
+        return self.client.execute(operation: "GetRegistryScanningConfiguration", path: "/", httpMethod: .POST, serviceConfig: self.config, input: input, logger: logger, on: eventLoop)
     }
 
     /// Retrieves the repository policy for the specified repository.
@@ -203,6 +228,11 @@ public struct ECR: AWSService {
     /// Creates or updates the permissions policy for your registry. A registry policy is used to specify permissions for another Amazon Web Services account and is used when configuring cross-account replication. For more information, see Registry permissions in the Amazon Elastic Container Registry User Guide.
     public func putRegistryPolicy(_ input: PutRegistryPolicyRequest, logger: Logger = AWSClient.loggingDisabled, on eventLoop: EventLoop? = nil) -> EventLoopFuture<PutRegistryPolicyResponse> {
         return self.client.execute(operation: "PutRegistryPolicy", path: "/", httpMethod: .POST, serviceConfig: self.config, input: input, logger: logger, on: eventLoop)
+    }
+
+    /// Creates or updates the scanning configuration for your private registry.
+    public func putRegistryScanningConfiguration(_ input: PutRegistryScanningConfigurationRequest, logger: Logger = AWSClient.loggingDisabled, on eventLoop: EventLoop? = nil) -> EventLoopFuture<PutRegistryScanningConfigurationResponse> {
+        return self.client.execute(operation: "PutRegistryScanningConfiguration", path: "/", httpMethod: .POST, serviceConfig: self.config, input: input, logger: logger, on: eventLoop)
     }
 
     /// Creates or updates the replication configuration for a registry. The existing replication configuration for a repository can be retrieved with the DescribeRegistry API action. The first time the PutReplicationConfiguration API is called, a service-linked IAM role is created in your account for the replication process. For more information, see Using service-linked roles for Amazon ECR in the Amazon Elastic Container Registry User Guide.  When configuring cross-account replication, the destination account must grant the source account permission to replicate. This permission is controlled using a registry permissions policy. For more information, see PutRegistryPolicy.

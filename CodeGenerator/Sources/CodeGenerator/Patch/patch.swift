@@ -20,16 +20,16 @@ extension API {
             RemovePatch(PatchKeyPath3(\Self.shapes["App"], \.type.structure, \.required), value: "repository"),
         ],
         "CloudFront": [
-            ReplacePatch(PatchKeyPath3(\Self.shapes["HttpVersion"], \.type.enum, \.cases[0]), value: "HTTP1_1", originalValue: "http1.1"),
-            ReplacePatch(PatchKeyPath3(\Self.shapes["HttpVersion"], \.type.enum, \.cases[1]), value: "HTTP2", originalValue: "http2"),
+            // `DistributionConfig` and `DistributionSummary` both use `HttpVersion`. One expects it to be lowercase
+            // and the other expects it to be uppercase. Solution create new enum `UppercaseHttpVersion` for
+            // `DistributionSummary` to use. See https://github.com/soto-project/soto/issues/567
+            AddDictionaryPatch(PatchKeyPath1(\Self.shapes), key: "UppercaseHttpVersion", value: Shape(type: .enum(.init(cases: ["HTTP1_1", "HTTP2"])), name: "UppercaseHttpVersion")),
+            ReplacePatch(PatchKeyPath4(\Self.shapes["DistributionSummary"], \.type.structure, \.members["HttpVersion"], \.shapeName), value: "UppercaseHttpVersion", originalValue: "HttpVersion"),
         ],
         "CloudWatch": [
             // Patch error shape to avoid warning in generated code. Both errors have the same code "ResourceNotFound"
             ReplacePatch(PatchKeyPath2(\Self.operations["GetDashboard"], \.errors[1].shapeName), value: "ResourceNotFoundException", originalValue: "DashboardNotFoundError"),
             ReplacePatch(PatchKeyPath2(\Self.operations["DeleteDashboards"], \.errors[1].shapeName), value: "ResourceNotFoundException", originalValue: "DashboardNotFoundError"),
-        ],
-        "ComprehendMedical": [
-            AddPatch(PatchKeyPath3(\Self.shapes["EntitySubType"], \.type.enum, \.cases), value: "DX_NAME"),
         ],
         "CognitoIdentityProvider": [
             AddPatch(PatchKeyPath3(\Self.shapes["UserStatusType"], \.type.enum, \.cases), value: "EXTERNAL_PROVIDER"),
@@ -82,9 +82,6 @@ extension API {
         "SageMaker": [
             RemovePatch(PatchKeyPath3(\Self.shapes["ListFeatureGroupsResponse"], \.type.structure, \.required), value: "NextToken"),
         ],
-        "SQS": [
-            AddPatch(PatchKeyPath3(\Self.shapes["QueueAttributeName"], \.type.enum, \.cases), value: "SqsManagedSseEnabled"),
-        ]
     ]
 
     mutating func patch() throws {

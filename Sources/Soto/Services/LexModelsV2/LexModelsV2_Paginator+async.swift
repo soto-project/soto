@@ -20,7 +20,7 @@ import SotoCore
 
 // MARK: Paginators
 
-@available(macOS 12.0, iOS 15.0, watchOS 8.0, tvOS 15.0, *)
+@available(macOS 10.15, iOS 13.0, tvOS 13.0, watchOS 6.0, *)
 extension LexModelsV2 {
     ///  Provides a list of utterances that users have sent to the bot. Utterances are aggregated by the text of the utterance. For example, all instances where customers used the phrase "I want to order pizza" are aggregated into the same line in the response. You can see both detected utterances and missed utterances. A detected utterance is where the bot properly recognized the utterance and activated the associated intent. A missed utterance was not recognized by the bot and didn't activate an intent. Utterances can be aggregated for a bot alias or for a bot version, but not both at the same time. Utterances statistics are not generated under the following conditions:   The childDirected field was set to true when the bot was created.   You are using slot obfuscation with one or more slots.   You opted out of participating in improving Amazon Lex.
     /// Return PaginatorSequence for operation.
@@ -83,6 +83,28 @@ extension LexModelsV2 {
             command: listBotLocales,
             inputKey: \ListBotLocalesRequest.nextToken,
             outputKey: \ListBotLocalesResponse.nextToken,
+            logger: logger,
+            on: eventLoop
+        )
+    }
+
+    ///  Get a list of bot recommendations that meet the specified criteria.
+    /// Return PaginatorSequence for operation.
+    ///
+    /// - Parameters:
+    ///   - input: Input for request
+    ///   - logger: Logger used flot logging
+    ///   - eventLoop: EventLoop to run this process on
+    public func listBotRecommendationsPaginator(
+        _ input: ListBotRecommendationsRequest,
+        logger: Logger = AWSClient.loggingDisabled,
+        on eventLoop: EventLoop? = nil
+    ) -> AWSClient.PaginatorSequence<ListBotRecommendationsRequest, ListBotRecommendationsResponse> {
+        return .init(
+            input: input,
+            command: listBotRecommendations,
+            inputKey: \ListBotRecommendationsRequest.nextToken,
+            outputKey: \ListBotRecommendationsResponse.nextToken,
             logger: logger,
             on: eventLoop
         )
@@ -237,6 +259,28 @@ extension LexModelsV2 {
             command: listIntents,
             inputKey: \ListIntentsRequest.nextToken,
             outputKey: \ListIntentsResponse.nextToken,
+            logger: logger,
+            on: eventLoop
+        )
+    }
+
+    ///  Gets a list of recommended intents provided by the bot recommendation that you can use in your bot.
+    /// Return PaginatorSequence for operation.
+    ///
+    /// - Parameters:
+    ///   - input: Input for request
+    ///   - logger: Logger used flot logging
+    ///   - eventLoop: EventLoop to run this process on
+    public func listRecommendedIntentsPaginator(
+        _ input: ListRecommendedIntentsRequest,
+        logger: Logger = AWSClient.loggingDisabled,
+        on eventLoop: EventLoop? = nil
+    ) -> AWSClient.PaginatorSequence<ListRecommendedIntentsRequest, ListRecommendedIntentsResponse> {
+        return .init(
+            input: input,
+            command: listRecommendedIntents,
+            inputKey: \ListRecommendedIntentsRequest.nextToken,
+            outputKey: \ListRecommendedIntentsResponse.nextToken,
             logger: logger,
             on: eventLoop
         )

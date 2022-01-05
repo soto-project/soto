@@ -311,21 +311,21 @@ extension Snowball {
         public let forwardingAddressId: String?
         /// The type of job for this cluster. Currently, the only job type supported for clusters is LOCAL_USE.
         public let jobType: JobType?
-        /// The KmsKeyARN Amazon Resource Name (ARN) associated with this cluster. This ARN was created using the CreateKey API action in AWS Key Management Service (AWS KMS).
+        /// The KmsKeyARN Amazon Resource Name (ARN) associated with this cluster. This ARN was created using the CreateKey API action in Key Management Service (KMS.
         public let kmsKeyARN: String?
         /// The Amazon Simple Notification Service (Amazon SNS) notification settings for this cluster.
         public let notification: Notification?
-        /// Represents metadata and configuration settings for services on an AWS Snow Family device.
+        /// Represents metadata and configuration settings for services on an Amazon Web Services Snow Family device.
         public let onDeviceServiceConfiguration: OnDeviceServiceConfiguration?
         /// The arrays of JobResource objects that can include updated S3Resource objects or LambdaResource objects.
         public let resources: JobResource?
-        /// The role ARN associated with this cluster. This ARN was created using the CreateRole API action in AWS Identity and Access Management (IAM).
+        /// The role ARN associated with this cluster. This ARN was created using the CreateRole API action in Identity and Access Management (IAM).
         public let roleARN: String?
         /// The shipping speed for each node in this cluster. This speed doesn't dictate how soon you'll get each device, rather it represents how quickly each device moves to its destination while in transit. Regional shipping speeds are as follows:   In Australia, you have access to express shipping. Typically, devices shipped express are delivered in about a day.   In the European Union (EU), you have access to express shipping. Typically, Snow devices shipped express are delivered in about a day. In addition, most countries in the EU have access to standard shipping, which typically takes less than a week, one way.   In India, Snow devices are delivered in one to seven days.   In the US, you have access to one-day shipping and two-day shipping.
         public let shippingOption: ShippingOption?
-        /// The type of AWS Snow device to use for this cluster.   For cluster jobs, AWS Snow Family currently supports only the EDGE device type.
+        /// The type of Snowcone device to use for this cluster.   For cluster jobs, Amazon Web Services Snow Family currently supports only the EDGE device type.
         public let snowballType: SnowballType?
-        /// The tax documents required in your AWS Region.
+        /// The tax documents required in your Amazon Web Services Region.
         public let taxDocuments: TaxDocuments?
 
         public init(addressId: String? = nil, clusterId: String? = nil, clusterState: ClusterState? = nil, creationDate: Date? = nil, description: String? = nil, forwardingAddressId: String? = nil, jobType: JobType? = nil, kmsKeyARN: String? = nil, notification: Notification? = nil, onDeviceServiceConfiguration: OnDeviceServiceConfiguration? = nil, resources: JobResource? = nil, roleARN: String? = nil, shippingOption: ShippingOption? = nil, snowballType: SnowballType? = nil, taxDocuments: TaxDocuments? = nil) {
@@ -421,23 +421,23 @@ extension Snowball {
         public let forwardingAddressId: String?
         /// The type of job for this cluster. Currently, the only job type supported for clusters is LOCAL_USE. For more information, see "https://docs.aws.amazon.com/snowball/latest/snowcone-guide/snow-device-types.html" (Snow Family Devices and Capacity) in the Snowcone User Guide or "https://docs.aws.amazon.com/snowball/latest/developer-guide/snow-device-types.html" (Snow Family Devices and Capacity) in the Snowcone User Guide.
         public let jobType: JobType
-        /// The KmsKeyARN value that you want to associate with this cluster. KmsKeyARN values are created by using the CreateKey API action in AWS Key Management Service (AWS KMS).
+        /// The KmsKeyARN value that you want to associate with this cluster. KmsKeyARN values are created by using the CreateKey API action in Key Management Service (KMS).
         public let kmsKeyARN: String?
         /// The Amazon Simple Notification Service (Amazon SNS) notification settings for this cluster.
         public let notification: Notification?
-        /// Specifies the service or services on the Snow Family device that your transferred data will be exported from or imported into. AWS Snow Family supports Amazon S3 and NFS (Network File System).
+        /// Specifies the service or services on the Snow Family device that your transferred data will be exported from or imported into. Amazon Web Services Snow Family device clusters support Amazon S3 and NFS (Network File System).
         public let onDeviceServiceConfiguration: OnDeviceServiceConfiguration?
         /// Allows you to securely operate and manage Snow devices in a cluster remotely from outside of your internal network. When set to INSTALLED_AUTOSTART, remote management will automatically be available when the device arrives at your location. Otherwise, you need to use the Snowball Client to manage the device.
         public let remoteManagement: RemoteManagement?
-        /// The resources associated with the cluster job. These resources include Amazon S3 buckets and optional AWS Lambda functions written in the Python language.
+        /// The resources associated with the cluster job. These resources include Amazon S3 buckets and optional Lambda functions written in the Python language.
         public let resources: JobResource
-        /// The RoleARN that you want to associate with this cluster. RoleArn values are created by using the CreateRole API action in AWS Identity and Access Management (IAM).
+        /// The RoleARN that you want to associate with this cluster. RoleArn values are created by using the CreateRole API action in Identity and Access Management (IAM).
         public let roleARN: String
         /// The shipping speed for each node in this cluster. This speed doesn't dictate how soon you'll get each Snowball Edge device, rather it represents how quickly each device moves to its destination while in transit. Regional shipping speeds are as follows:    In Australia, you have access to express shipping. Typically, Snow devices shipped express are delivered in about a day.   In the European Union (EU), you have access to express shipping. Typically, Snow devices shipped express are delivered in about a day. In addition, most countries in the EU have access to standard shipping, which typically takes less than a week, one way.   In India, Snow devices are delivered in one to seven days.   In the United States of America (US), you have access to one-day shipping and two-day shipping.     In Australia, you have access to express shipping. Typically, devices shipped express are delivered in about a day.   In the European Union (EU), you have access to express shipping. Typically, Snow devices shipped express are delivered in about a day. In addition, most countries in the EU have access to standard shipping, which typically takes less than a week, one way.   In India, Snow devices are delivered in one to seven days.   In the US, you have access to one-day shipping and two-day shipping.
         public let shippingOption: ShippingOption
-        /// The type of AWS Snow Family device to use for this cluster.   For cluster jobs, AWS Snow Family currently supports only the EDGE device type.  For more information, see "https://docs.aws.amazon.com/snowball/latest/snowcone-guide/snow-device-types.html" (Snow Family Devices and Capacity) in the Snowcone User Guide or "https://docs.aws.amazon.com/snowball/latest/developer-guide/snow-device-types.html" (Snow Family Devices and Capacity) in the Snowcone User Guide.
+        /// The type of Snow Family Devices to use for this cluster.   For cluster jobs, Amazon Web Services Snow Family currently supports only the EDGE device type.  For more information, see "https://docs.aws.amazon.com/snowball/latest/snowcone-guide/snow-device-types.html" (Snow Family Devices and Capacity) in the Snowcone User Guide or "https://docs.aws.amazon.com/snowball/latest/developer-guide/snow-device-types.html" (Snow Family Devices and Capacity) in the Snowcone User Guide.
         public let snowballType: SnowballType
-        /// The tax documents required in your AWS Region.
+        /// The tax documents required in your Amazon Web Services Region.
         public let taxDocuments: TaxDocuments?
 
         public init(addressId: String, description: String? = nil, forwardingAddressId: String? = nil, jobType: JobType, kmsKeyARN: String? = nil, notification: Notification? = nil, onDeviceServiceConfiguration: OnDeviceServiceConfiguration? = nil, remoteManagement: RemoteManagement? = nil, resources: JobResource, roleARN: String, shippingOption: ShippingOption, snowballType: SnowballType, taxDocuments: TaxDocuments? = nil) {
@@ -512,33 +512,33 @@ extension Snowball {
         public let clusterId: String?
         /// Defines an optional description of this specific job, for example Important Photos 2016-08-11.
         public let description: String?
-        /// Defines the device configuration for an AWS Snowcone job. For more information, see "https://docs.aws.amazon.com/snowball/latest/snowcone-guide/snow-device-types.html" (Snow Family Devices and Capacity) in the Snowcone User Guide or "https://docs.aws.amazon.com/snowball/latest/developer-guide/snow-device-types.html" (Snow Family Devices and Capacity) in the Snowcone User Guide.
+        /// Defines the device configuration for an Snowcone job. For more information, see "https://docs.aws.amazon.com/snowball/latest/snowcone-guide/snow-device-types.html" (Snow Family Devices and Capacity) in the Snowcone User Guide or "https://docs.aws.amazon.com/snowball/latest/developer-guide/snow-device-types.html" (Snow Family Devices and Capacity) in the Snowcone User Guide.
         public let deviceConfiguration: DeviceConfiguration?
         /// The forwarding address ID for a job. This field is not supported in most Regions.
         public let forwardingAddressId: String?
         /// Defines the type of job that you're creating.
         public let jobType: JobType?
-        /// The KmsKeyARN that you want to associate with this job. KmsKeyARNs are created using the CreateKey AWS Key Management Service (KMS) API action.
+        /// The KmsKeyARN that you want to associate with this job. KmsKeyARNs are created using the CreateKey Key Management Service (KMS) API action.
         public let kmsKeyARN: String?
         /// The ID of the long-term pricing type for the device.
         public let longTermPricingId: String?
         /// Defines the Amazon Simple Notification Service (Amazon SNS) notification settings for this job.
         public let notification: Notification?
-        /// Specifies the service or services on the Snow Family device that your transferred data will be exported from or imported into. AWS Snow Family supports Amazon S3 and NFS (Network File System).
+        /// Specifies the service or services on the Snow Family device that your transferred data will be exported from or imported into. Amazon Web Services Snow Family supports Amazon S3 and NFS (Network File System) and the Amazon Web Services Storage Gateway service Tape Gateway type.
         public let onDeviceServiceConfiguration: OnDeviceServiceConfiguration?
         /// Allows you to securely operate and manage Snowcone devices remotely from outside of your internal network. When set to INSTALLED_AUTOSTART, remote management will automatically be available when the device arrives at your location. Otherwise, you need to use the Snowball Client to manage the device.
         public let remoteManagement: RemoteManagement?
         /// Defines the Amazon S3 buckets associated with this job. With IMPORT jobs, you specify the bucket or buckets that your transferred data will be imported into. With EXPORT jobs, you specify the bucket or buckets that your transferred data will be exported from. Optionally, you can also specify a KeyRange value. If you choose to export a range, you define the length of the range by providing either an inclusive BeginMarker value, an inclusive EndMarker value, or both. Ranges are UTF-8 binary sorted.
         public let resources: JobResource?
-        /// The RoleARN that you want to associate with this job. RoleArns are created using the CreateRole AWS Identity and Access Management (IAM) API action.
+        /// The RoleARN that you want to associate with this job. RoleArns are created using the CreateRole Identity and Access Management (IAM) API action.
         public let roleARN: String?
         /// The shipping speed for this job. This speed doesn't dictate how soon you'll get the Snow device, rather it represents how quickly the Snow device moves to its destination while in transit. Regional shipping speeds are as follows:   In Australia, you have access to express shipping. Typically, Snow devices shipped express are delivered in about a day.   In the European Union (EU), you have access to express shipping. Typically, Snow devices shipped express are delivered in about a day. In addition, most countries in the EU have access to standard shipping, which typically takes less than a week, one way.   In India, Snow devices are delivered in one to seven days.   In the US, you have access to one-day shipping and two-day shipping.
         public let shippingOption: ShippingOption?
         /// If your job is being created in one of the US regions, you have the option of specifying what size Snow device you'd like for this job. In all other regions, Snowballs come with 80 TB in storage capacity. For more information, see "https://docs.aws.amazon.com/snowball/latest/snowcone-guide/snow-device-types.html" (Snow Family Devices and Capacity) in the Snowcone User Guide or "https://docs.aws.amazon.com/snowball/latest/developer-guide/snow-device-types.html" (Snow Family Devices and Capacity) in the Snowcone User Guide.
         public let snowballCapacityPreference: SnowballCapacity?
-        /// The type of AWS Snow Family device to use for this job.   For cluster jobs, AWS Snow Family currently supports only the EDGE device type.  The type of AWS Snow device to use for this job. Currently, the only supported device type for cluster jobs is EDGE. For more information, see Snowball Edge Device Options in the Snowball Edge Developer Guide. For more information, see "https://docs.aws.amazon.com/snowball/latest/snowcone-guide/snow-device-types.html" (Snow Family Devices and Capacity) in the Snowcone User Guide or "https://docs.aws.amazon.com/snowball/latest/developer-guide/snow-device-types.html" (Snow Family Devices and Capacity) in the Snowcone User Guide.
+        /// The type of Snow Family Devices to use for this job.   For cluster jobs, Amazon Web Services Snow Family currently supports only the EDGE device type.  The type of Amazon Web Services Snow device to use for this job. Currently, the only supported device type for cluster jobs is EDGE. For more information, see Snowball Edge Device Options in the Snowball Edge Developer Guide. For more information, see "https://docs.aws.amazon.com/snowball/latest/snowcone-guide/snow-device-types.html" (Snow Family Devices and Capacity) in the Snowcone User Guide or "https://docs.aws.amazon.com/snowball/latest/developer-guide/snow-device-types.html" (Snow Family Devices and Capacity) in the Snowcone User Guide.
         public let snowballType: SnowballType?
-        /// The tax documents required in your AWS Region.
+        /// The tax documents required in your Amazon Web Services Region.
         public let taxDocuments: TaxDocuments?
 
         public init(addressId: String? = nil, clusterId: String? = nil, description: String? = nil, deviceConfiguration: DeviceConfiguration? = nil, forwardingAddressId: String? = nil, jobType: JobType? = nil, kmsKeyARN: String? = nil, longTermPricingId: String? = nil, notification: Notification? = nil, onDeviceServiceConfiguration: OnDeviceServiceConfiguration? = nil, remoteManagement: RemoteManagement? = nil, resources: JobResource? = nil, roleARN: String? = nil, shippingOption: ShippingOption? = nil, snowballCapacityPreference: SnowballCapacity? = nil, snowballType: SnowballType? = nil, taxDocuments: TaxDocuments? = nil) {
@@ -625,7 +625,7 @@ extension Snowball {
         public let isLongTermPricingAutoRenew: Bool?
         /// The type of long-term pricing option you want for the device, either 1-year or 3-year long-term pricing.
         public let longTermPricingType: LongTermPricingType
-        /// The type of AWS Snow Family device to use for the long-term pricing job.
+        /// The type of Snow Family Devices to use for the long-term pricing job.
         public let snowballType: SnowballType?
 
         public init(isLongTermPricingAutoRenew: Bool? = nil, longTermPricingType: LongTermPricingType, snowballType: SnowballType? = nil) {
@@ -657,7 +657,7 @@ extension Snowball {
     public struct CreateReturnShippingLabelRequest: AWSEncodableShape {
         /// The ID for a job that you want to create the return shipping label for; for example, JID123e4567-e89b-12d3-a456-426655440000.
         public let jobId: String
-        /// The shipping speed for a particular job. This speed doesn't dictate how soon the device is returned to AWS. This speed represents how quickly it moves to its destination while in transit. Regional shipping speeds are as follows:
+        /// The shipping speed for a particular job. This speed doesn't dictate how soon the device is returned to Amazon Web Services. This speed represents how quickly it moves to its destination while in transit. Regional shipping speeds are as follows:
         public let shippingOption: ShippingOption?
 
         public init(jobId: String, shippingOption: ShippingOption? = nil) {
@@ -678,7 +678,7 @@ extension Snowball {
     }
 
     public struct CreateReturnShippingLabelResult: AWSDecodableShape {
-        /// The status information of the task on a Snow device that is being returned to AWS.
+        /// The status information of the task on a Snow device that is being returned to Amazon Web Services.
         public let status: ShippingLabelStatus?
 
         public init(status: ShippingLabelStatus? = nil) {
@@ -878,22 +878,26 @@ extension Snowball {
     public struct DescribeReturnShippingLabelResult: AWSDecodableShape {
         /// The expiration date of the current return shipping label.
         public let expirationDate: Date?
-        /// The status information of the task on a Snow device that is being returned to AWS.
+        /// The pre-signed Amazon S3 URI used to download the return shipping label.
+        public let returnShippingLabelURI: String?
+        /// The status information of the task on a Snow device that is being returned to Amazon Web Services.
         public let status: ShippingLabelStatus?
 
-        public init(expirationDate: Date? = nil, status: ShippingLabelStatus? = nil) {
+        public init(expirationDate: Date? = nil, returnShippingLabelURI: String? = nil, status: ShippingLabelStatus? = nil) {
             self.expirationDate = expirationDate
+            self.returnShippingLabelURI = returnShippingLabelURI
             self.status = status
         }
 
         private enum CodingKeys: String, CodingKey {
             case expirationDate = "ExpirationDate"
+            case returnShippingLabelURI = "ReturnShippingLabelURI"
             case status = "Status"
         }
     }
 
     public struct DeviceConfiguration: AWSEncodableShape & AWSDecodableShape {
-        /// Returns information about the device configuration for an AWS Snowcone job.
+        /// Returns information about the device configuration for an Snowcone job.
         public let snowconeDeviceConfiguration: SnowconeDeviceConfiguration?
 
         public init(snowconeDeviceConfiguration: SnowconeDeviceConfiguration? = nil) {
@@ -931,7 +935,7 @@ extension Snowball {
     }
 
     public struct EventTriggerDefinition: AWSEncodableShape & AWSDecodableShape {
-        /// The Amazon Resource Name (ARN) for any local Amazon S3 resource that is an AWS Lambda function's event trigger associated with this job.
+        /// The Amazon Resource Name (ARN) for any local Amazon S3 resource that is an Lambda function's event trigger associated with this job.
         public let eventResourceARN: String?
 
         public init(eventResourceARN: String? = nil) {
@@ -1066,7 +1070,7 @@ extension Snowball {
     }
 
     public struct INDTaxDocuments: AWSEncodableShape & AWSDecodableShape {
-        /// The Goods and Services Tax (GST) documents required in AWS Regions in India.
+        /// The Goods and Services Tax (GST) documents required in Amazon Web Services Region in India.
         public let gstin: String?
 
         public init(gstin: String? = nil) {
@@ -1147,7 +1151,7 @@ extension Snowball {
         public let clusterId: String?
         /// The creation date for this job.
         public let creationDate: Date?
-        /// A value that defines the real-time status of a Snow device's data transfer while the device is at AWS. This data is only available while a job has a JobState value of InProgress, for both import and export jobs.
+        /// A value that defines the real-time status of a Snow device's data transfer while the device is at Amazon Web Services. This data is only available while a job has a JobState value of InProgress, for both import and export jobs.
         public let dataTransferProgress: DataTransfer?
         /// The description of the job, provided at job creation.
         public let description: String?
@@ -1162,19 +1166,19 @@ extension Snowball {
         public let jobState: JobState?
         /// The type of job.
         public let jobType: JobType?
-        /// The Amazon Resource Name (ARN) for the AWS Key Management Service (AWS KMS) key associated with this job. This ARN was created using the CreateKey API action in AWS KMS.
+        /// The Amazon Resource Name (ARN) for the Key Management Service (KMS) key associated with this job. This ARN was created using the CreateKey API action in KMS.
         public let kmsKeyARN: String?
         /// The ID of the long-term pricing type for the device.
         public let longTermPricingId: String?
         /// The Amazon Simple Notification Service (Amazon SNS) notification settings associated with a specific job. The Notification object is returned as a part of the response syntax of the DescribeJob action in the JobMetadata data type.
         public let notification: Notification?
-        /// Represents metadata and configuration settings for services on an AWS Snow Family device.
+        /// Represents metadata and configuration settings for services on an Amazon Web Services Snow Family device.
         public let onDeviceServiceConfiguration: OnDeviceServiceConfiguration?
         /// Allows you to securely operate and manage Snowcone devices remotely from outside of your internal network. When set to INSTALLED_AUTOSTART, remote management will automatically be available when the device arrives at your location. Otherwise, you need to use the Snowball Client to manage the device.
         public let remoteManagement: RemoteManagement?
         /// An array of S3Resource objects. Each S3Resource object represents an Amazon S3 bucket that your transferred data will be exported from or imported into.
         public let resources: JobResource?
-        /// The role ARN associated with this job. This ARN was created using the CreateRole API action in AWS Identity and Access Management (IAM).
+        /// The role ARN associated with this job. This ARN was created using the CreateRole API action in Identity and Access Management.
         public let roleARN: String?
         /// A job's shipping information, including inbound and outbound tracking numbers and shipping speed options.
         public let shippingDetails: ShippingDetails?
@@ -1182,7 +1186,7 @@ extension Snowball {
         public let snowballCapacityPreference: SnowballCapacity?
         /// The type of device used with this job.
         public let snowballType: SnowballType?
-        /// The metadata associated with the tax documents required in your AWS Region.
+        /// The metadata associated with the tax documents required in your Amazon Web Services Region.
         public let taxDocuments: TaxDocuments?
 
         public init(addressId: String? = nil, clusterId: String? = nil, creationDate: Date? = nil, dataTransferProgress: DataTransfer? = nil, description: String? = nil, deviceConfiguration: DeviceConfiguration? = nil, forwardingAddressId: String? = nil, jobId: String? = nil, jobLogInfo: JobLogs? = nil, jobState: JobState? = nil, jobType: JobType? = nil, kmsKeyARN: String? = nil, longTermPricingId: String? = nil, notification: Notification? = nil, onDeviceServiceConfiguration: OnDeviceServiceConfiguration? = nil, remoteManagement: RemoteManagement? = nil, resources: JobResource? = nil, roleARN: String? = nil, shippingDetails: ShippingDetails? = nil, snowballCapacityPreference: SnowballCapacity? = nil, snowballType: SnowballType? = nil, taxDocuments: TaxDocuments? = nil) {
@@ -1296,7 +1300,7 @@ extension Snowball {
     public struct LambdaResource: AWSEncodableShape & AWSDecodableShape {
         /// The array of ARNs for S3Resource objects to trigger the LambdaResource objects associated with this job.
         public let eventTriggers: [EventTriggerDefinition]?
-        /// An Amazon Resource Name (ARN) that represents an AWS Lambda function to be triggered by PUT object actions on the associated local Amazon S3 resource.
+        /// An Amazon Resource Name (ARN) that represents an Lambda function to be triggered by PUT object actions on the associated local Amazon S3 resource.
         public let lambdaArn: String?
 
         public init(eventTriggers: [EventTriggerDefinition]? = nil, lambdaArn: String? = nil) {
@@ -1549,7 +1553,7 @@ extension Snowball {
         public let longTermPricingType: LongTermPricingType?
         /// A new device that replaces a device that is ordered with long-term pricing.
         public let replacementJob: String?
-        /// The type of AWS Snow Family device associated with this long-term pricing job.
+        /// The type of Snow Family Devices associated with this long-term pricing job.
         public let snowballType: SnowballType?
 
         public init(currentActiveJob: String? = nil, isLongTermPricingAutoRenew: Bool? = nil, jobIds: [String]? = nil, longTermPricingEndDate: Date? = nil, longTermPricingId: String? = nil, longTermPricingStartDate: Date? = nil, longTermPricingStatus: String? = nil, longTermPricingType: LongTermPricingType? = nil, replacementJob: String? = nil, snowballType: SnowballType? = nil) {
@@ -1580,7 +1584,7 @@ extension Snowball {
     }
 
     public struct NFSOnDeviceServiceConfiguration: AWSEncodableShape & AWSDecodableShape {
-        /// The maximum NFS storage for one Snowball Family device.
+        /// The maximum NFS storage for one Snow Family device.
         public let storageLimit: Int?
         /// The scale unit of the NFS storage on the device. Valid values: TB.
         public let storageUnit: StorageUnit?
@@ -1605,7 +1609,7 @@ extension Snowball {
         public let jobStatesToNotify: [JobState]?
         /// Any change in job state will trigger a notification for this job.
         public let notifyAll: Bool?
-        /// The new SNS TopicArn that you want to associate with this job. You can create Amazon Resource Names (ARNs) for topics by using the CreateTopic Amazon SNS API action. You can subscribe email addresses to an Amazon SNS topic through the AWS Management Console, or by using the Subscribe Amazon Simple Notification Service (Amazon SNS) API action.
+        /// The new SNS TopicArn that you want to associate with this job. You can create Amazon Resource Names (ARNs) for topics by using the CreateTopic Amazon SNS API action. You can subscribe email addresses to an Amazon SNS topic through the Amazon Web Services Management Console, or by using the Subscribe Amazon Simple Notification Service (Amazon SNS) API action.
         public let snsTopicARN: String?
 
         public init(jobStatesToNotify: [JobState]? = nil, notifyAll: Bool? = nil, snsTopicARN: String? = nil) {
@@ -1627,19 +1631,24 @@ extension Snowball {
     }
 
     public struct OnDeviceServiceConfiguration: AWSEncodableShape & AWSDecodableShape {
-        /// Represents the NFS service on a Snow Family device.
+        /// Represents the NFS (Network File System) service on a Snow Family device.
         public let nFSOnDeviceService: NFSOnDeviceServiceConfiguration?
+        /// Represents the Storage Gateway service Tape Gateway type on a Snow Family device.
+        public let tGWOnDeviceService: TGWOnDeviceServiceConfiguration?
 
-        public init(nFSOnDeviceService: NFSOnDeviceServiceConfiguration? = nil) {
+        public init(nFSOnDeviceService: NFSOnDeviceServiceConfiguration? = nil, tGWOnDeviceService: TGWOnDeviceServiceConfiguration? = nil) {
             self.nFSOnDeviceService = nFSOnDeviceService
+            self.tGWOnDeviceService = tGWOnDeviceService
         }
 
         public func validate(name: String) throws {
             try self.nFSOnDeviceService?.validate(name: "\(name).nFSOnDeviceService")
+            try self.tGWOnDeviceService?.validate(name: "\(name).tGWOnDeviceService")
         }
 
         private enum CodingKeys: String, CodingKey {
             case nFSOnDeviceService = "NFSOnDeviceService"
+            case tGWOnDeviceService = "TGWOnDeviceService"
         }
     }
 
@@ -1648,7 +1657,7 @@ extension Snowball {
         public let bucketArn: String?
         /// For export jobs, you can provide an optional KeyRange within a specific Amazon S3 bucket. The length of the range is defined at job creation, and has either an inclusive BeginMarker, an inclusive EndMarker, or both. Ranges are UTF-8 binary sorted.
         public let keyRange: KeyRange?
-        /// Specifies the service or services on the Snow Family device that your transferred data will be exported from or imported into. AWS Snow Family supports Amazon S3 and NFS (Network File System).
+        /// Specifies the service or services on the Snow Family device that your transferred data will be exported from or imported into. Amazon Web Services Snow Family supports Amazon S3 and NFS (Network File System).
         public let targetOnDeviceServices: [TargetOnDeviceService]?
 
         public init(bucketArn: String? = nil, keyRange: KeyRange? = nil, targetOnDeviceServices: [TargetOnDeviceService]? = nil) {
@@ -1688,7 +1697,7 @@ extension Snowball {
     }
 
     public struct ShippingDetails: AWSDecodableShape {
-        /// The Status and TrackingNumber values for a Snow device being returned to AWS for a particular job.
+        /// The Status and TrackingNumber values for a Snow device being returned to Amazon Web Services for a particular job.
         public let inboundShipment: Shipment?
         /// The Status and TrackingNumber values for a Snow device being delivered to the address that you specified for a particular job.
         public let outboundShipment: Shipment?
@@ -1709,7 +1718,7 @@ extension Snowball {
     }
 
     public struct SnowconeDeviceConfiguration: AWSEncodableShape & AWSDecodableShape {
-        /// Configures the wireless connection for the AWS Snowcone device.
+        /// Configures the wireless connection for the Snowcone device.
         public let wirelessConnection: WirelessConnection?
 
         public init(wirelessConnection: WirelessConnection? = nil) {
@@ -1718,6 +1727,27 @@ extension Snowball {
 
         private enum CodingKeys: String, CodingKey {
             case wirelessConnection = "WirelessConnection"
+        }
+    }
+
+    public struct TGWOnDeviceServiceConfiguration: AWSEncodableShape & AWSDecodableShape {
+        /// The maximum number of virtual tapes to store on one Snow Family device. Due to physical resource limitations, this value must be set to 80 for Snowball Edge.
+        public let storageLimit: Int?
+        /// The scale unit of the virtual tapes on the device.
+        public let storageUnit: StorageUnit?
+
+        public init(storageLimit: Int? = nil, storageUnit: StorageUnit? = nil) {
+            self.storageLimit = storageLimit
+            self.storageUnit = storageUnit
+        }
+
+        public func validate(name: String) throws {
+            try self.validate(self.storageLimit, name: "storageLimit", parent: name, min: 0)
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case storageLimit = "StorageLimit"
+            case storageUnit = "StorageUnit"
         }
     }
 
@@ -1765,11 +1795,11 @@ extension Snowball {
         public let forwardingAddressId: String?
         /// The new or updated Notification object.
         public let notification: Notification?
-        /// Specifies the service or services on the Snow Family device that your transferred data will be exported from or imported into. AWS Snow Family supports Amazon S3 and NFS (Network File System).
+        /// Specifies the service or services on the Snow Family device that your transferred data will be exported from or imported into. Amazon Web Services Snow Family device clusters support Amazon S3 and NFS (Network File System).
         public let onDeviceServiceConfiguration: OnDeviceServiceConfiguration?
         /// The updated arrays of JobResource objects that can include updated S3Resource objects or LambdaResource objects.
         public let resources: JobResource?
-        /// The new role Amazon Resource Name (ARN) that you want to associate with this cluster. To create a role ARN, use the CreateRole API action in AWS Identity and Access Management (IAM).
+        /// The new role Amazon Resource Name (ARN) that you want to associate with this cluster. To create a role ARN, use the CreateRole API action in Identity and Access Management (IAM).
         public let roleARN: String?
         /// The updated shipping option value of this cluster's ShippingDetails object.
         public let shippingOption: ShippingOption?
@@ -1833,11 +1863,11 @@ extension Snowball {
         public let jobId: String
         /// The new or updated Notification object.
         public let notification: Notification?
-        /// Specifies the service or services on the Snow Family device that your transferred data will be exported from or imported into. AWS Snow Family supports Amazon S3 and NFS (Network File System).
+        /// Specifies the service or services on the Snow Family device that your transferred data will be exported from or imported into. Amazon Web Services Snow Family supports Amazon S3 and NFS (Network File System) and the Amazon Web Services Storage Gateway service Tape Gateway type.
         public let onDeviceServiceConfiguration: OnDeviceServiceConfiguration?
         /// The updated JobResource object, or the updated JobResource object.
         public let resources: JobResource?
-        /// The new role Amazon Resource Name (ARN) that you want to associate with this job. To create a role ARN, use the CreateRoleAWS Identity and Access Management (IAM) API action.
+        /// The new role Amazon Resource Name (ARN) that you want to associate with this job. To create a role ARN, use the CreateRoleIdentity and Access Management (IAM) API action.
         public let roleARN: String?
         /// The updated shipping option value of this job's ShippingDetails object.
         public let shippingOption: ShippingOption?
@@ -1897,7 +1927,7 @@ extension Snowball {
     public struct UpdateJobShipmentStateRequest: AWSEncodableShape {
         /// The job ID of the job whose shipment date you want to update, for example JID123e4567-e89b-12d3-a456-426655440000.
         public let jobId: String
-        /// The state of a device when it is being shipped.  Set to RECEIVED when the device arrives at your location. Set to RETURNED when you have returned the device to AWS.
+        /// The state of a device when it is being shipped.  Set to RECEIVED when the device arrives at your location. Set to RETURNED when you have returned the device to Amazon Web Services.
         public let shipmentState: ShipmentState
 
         public init(jobId: String, shipmentState: ShipmentState) {
@@ -1956,7 +1986,7 @@ extension Snowball {
     }
 
     public struct WirelessConnection: AWSEncodableShape & AWSDecodableShape {
-        /// Enables the Wi-Fi adapter on an AWS Snowcone device.
+        /// Enables the Wi-Fi adapter on an Snowcone device.
         public let isWifiEnabled: Bool?
 
         public init(isWifiEnabled: Bool? = nil) {

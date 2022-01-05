@@ -514,6 +514,11 @@ public struct Pinpoint: AWSService {
         return self.client.execute(operation: "SendMessages", path: "/v1/apps/{application-id}/messages", httpMethod: .POST, serviceConfig: self.config, input: input, logger: logger, on: eventLoop)
     }
 
+    /// Send an OTP message
+    public func sendOTPMessage(_ input: SendOTPMessageRequest, logger: Logger = AWSClient.loggingDisabled, on eventLoop: EventLoop? = nil) -> EventLoopFuture<SendOTPMessageResponse> {
+        return self.client.execute(operation: "SendOTPMessage", path: "/v1/apps/{application-id}/otp", httpMethod: .POST, serviceConfig: self.config, input: input, logger: logger, on: eventLoop)
+    }
+
     /// Creates and sends a message to a list of users.
     public func sendUsersMessages(_ input: SendUsersMessagesRequest, logger: Logger = AWSClient.loggingDisabled, on eventLoop: EventLoop? = nil) -> EventLoopFuture<SendUsersMessagesResponse> {
         return self.client.execute(operation: "SendUsersMessages", path: "/v1/apps/{application-id}/users-messages", httpMethod: .POST, serviceConfig: self.config, input: input, logger: logger, on: eventLoop)

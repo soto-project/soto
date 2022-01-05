@@ -20,9 +20,9 @@ import SotoCore
 
 // MARK: Paginators
 
-@available(macOS 12.0, iOS 15.0, watchOS 8.0, tvOS 15.0, *)
+@available(macOS 10.15, iOS 13.0, tvOS 13.0, watchOS 6.0, *)
 extension Proton {
-    ///  View a list of environment account connections. For more information, see Environment account connections in the AWS Proton Administrator guide.
+    ///  View a list of environment account connections. For more information, see Environment account connections in the Proton Administrator guide.
     /// Return PaginatorSequence for operation.
     ///
     /// - Parameters:
@@ -39,6 +39,50 @@ extension Proton {
             command: listEnvironmentAccountConnections,
             inputKey: \ListEnvironmentAccountConnectionsInput.nextToken,
             outputKey: \ListEnvironmentAccountConnectionsOutput.nextToken,
+            logger: logger,
+            on: eventLoop
+        )
+    }
+
+    ///  List the infrastructure as code outputs for your environment.
+    /// Return PaginatorSequence for operation.
+    ///
+    /// - Parameters:
+    ///   - input: Input for request
+    ///   - logger: Logger used flot logging
+    ///   - eventLoop: EventLoop to run this process on
+    public func listEnvironmentOutputsPaginator(
+        _ input: ListEnvironmentOutputsInput,
+        logger: Logger = AWSClient.loggingDisabled,
+        on eventLoop: EventLoop? = nil
+    ) -> AWSClient.PaginatorSequence<ListEnvironmentOutputsInput, ListEnvironmentOutputsOutput> {
+        return .init(
+            input: input,
+            command: listEnvironmentOutputs,
+            inputKey: \ListEnvironmentOutputsInput.nextToken,
+            outputKey: \ListEnvironmentOutputsOutput.nextToken,
+            logger: logger,
+            on: eventLoop
+        )
+    }
+
+    ///  List the provisioned resources for your environment.
+    /// Return PaginatorSequence for operation.
+    ///
+    /// - Parameters:
+    ///   - input: Input for request
+    ///   - logger: Logger used flot logging
+    ///   - eventLoop: EventLoop to run this process on
+    public func listEnvironmentProvisionedResourcesPaginator(
+        _ input: ListEnvironmentProvisionedResourcesInput,
+        logger: Logger = AWSClient.loggingDisabled,
+        on eventLoop: EventLoop? = nil
+    ) -> AWSClient.PaginatorSequence<ListEnvironmentProvisionedResourcesInput, ListEnvironmentProvisionedResourcesOutput> {
+        return .init(
+            input: input,
+            command: listEnvironmentProvisionedResources,
+            inputKey: \ListEnvironmentProvisionedResourcesInput.nextToken,
+            outputKey: \ListEnvironmentProvisionedResourcesOutput.nextToken,
             logger: logger,
             on: eventLoop
         )
@@ -110,6 +154,94 @@ extension Proton {
         )
     }
 
+    ///  List repositories with detail data.
+    /// Return PaginatorSequence for operation.
+    ///
+    /// - Parameters:
+    ///   - input: Input for request
+    ///   - logger: Logger used flot logging
+    ///   - eventLoop: EventLoop to run this process on
+    public func listRepositoriesPaginator(
+        _ input: ListRepositoriesInput,
+        logger: Logger = AWSClient.loggingDisabled,
+        on eventLoop: EventLoop? = nil
+    ) -> AWSClient.PaginatorSequence<ListRepositoriesInput, ListRepositoriesOutput> {
+        return .init(
+            input: input,
+            command: listRepositories,
+            inputKey: \ListRepositoriesInput.nextToken,
+            outputKey: \ListRepositoriesOutput.nextToken,
+            logger: logger,
+            on: eventLoop
+        )
+    }
+
+    ///  List repository sync definitions with detail data.
+    /// Return PaginatorSequence for operation.
+    ///
+    /// - Parameters:
+    ///   - input: Input for request
+    ///   - logger: Logger used flot logging
+    ///   - eventLoop: EventLoop to run this process on
+    public func listRepositorySyncDefinitionsPaginator(
+        _ input: ListRepositorySyncDefinitionsInput,
+        logger: Logger = AWSClient.loggingDisabled,
+        on eventLoop: EventLoop? = nil
+    ) -> AWSClient.PaginatorSequence<ListRepositorySyncDefinitionsInput, ListRepositorySyncDefinitionsOutput> {
+        return .init(
+            input: input,
+            command: listRepositorySyncDefinitions,
+            inputKey: \ListRepositorySyncDefinitionsInput.nextToken,
+            outputKey: \ListRepositorySyncDefinitionsOutput.nextToken,
+            logger: logger,
+            on: eventLoop
+        )
+    }
+
+    ///  View a list service instance infrastructure as code outputs with detail data.
+    /// Return PaginatorSequence for operation.
+    ///
+    /// - Parameters:
+    ///   - input: Input for request
+    ///   - logger: Logger used flot logging
+    ///   - eventLoop: EventLoop to run this process on
+    public func listServiceInstanceOutputsPaginator(
+        _ input: ListServiceInstanceOutputsInput,
+        logger: Logger = AWSClient.loggingDisabled,
+        on eventLoop: EventLoop? = nil
+    ) -> AWSClient.PaginatorSequence<ListServiceInstanceOutputsInput, ListServiceInstanceOutputsOutput> {
+        return .init(
+            input: input,
+            command: listServiceInstanceOutputs,
+            inputKey: \ListServiceInstanceOutputsInput.nextToken,
+            outputKey: \ListServiceInstanceOutputsOutput.nextToken,
+            logger: logger,
+            on: eventLoop
+        )
+    }
+
+    ///  List provisioned resources for a service instance with details.
+    /// Return PaginatorSequence for operation.
+    ///
+    /// - Parameters:
+    ///   - input: Input for request
+    ///   - logger: Logger used flot logging
+    ///   - eventLoop: EventLoop to run this process on
+    public func listServiceInstanceProvisionedResourcesPaginator(
+        _ input: ListServiceInstanceProvisionedResourcesInput,
+        logger: Logger = AWSClient.loggingDisabled,
+        on eventLoop: EventLoop? = nil
+    ) -> AWSClient.PaginatorSequence<ListServiceInstanceProvisionedResourcesInput, ListServiceInstanceProvisionedResourcesOutput> {
+        return .init(
+            input: input,
+            command: listServiceInstanceProvisionedResources,
+            inputKey: \ListServiceInstanceProvisionedResourcesInput.nextToken,
+            outputKey: \ListServiceInstanceProvisionedResourcesOutput.nextToken,
+            logger: logger,
+            on: eventLoop
+        )
+    }
+
     ///  List service instances with summaries of detail data.
     /// Return PaginatorSequence for operation.
     ///
@@ -127,6 +259,50 @@ extension Proton {
             command: listServiceInstances,
             inputKey: \ListServiceInstancesInput.nextToken,
             outputKey: \ListServiceInstancesOutput.nextToken,
+            logger: logger,
+            on: eventLoop
+        )
+    }
+
+    ///  View a list service pipeline infrastructure as code outputs with detail.
+    /// Return PaginatorSequence for operation.
+    ///
+    /// - Parameters:
+    ///   - input: Input for request
+    ///   - logger: Logger used flot logging
+    ///   - eventLoop: EventLoop to run this process on
+    public func listServicePipelineOutputsPaginator(
+        _ input: ListServicePipelineOutputsInput,
+        logger: Logger = AWSClient.loggingDisabled,
+        on eventLoop: EventLoop? = nil
+    ) -> AWSClient.PaginatorSequence<ListServicePipelineOutputsInput, ListServicePipelineOutputsOutput> {
+        return .init(
+            input: input,
+            command: listServicePipelineOutputs,
+            inputKey: \ListServicePipelineOutputsInput.nextToken,
+            outputKey: \ListServicePipelineOutputsOutput.nextToken,
+            logger: logger,
+            on: eventLoop
+        )
+    }
+
+    ///  List provisioned resources for a service and pipeline with details.
+    /// Return PaginatorSequence for operation.
+    ///
+    /// - Parameters:
+    ///   - input: Input for request
+    ///   - logger: Logger used flot logging
+    ///   - eventLoop: EventLoop to run this process on
+    public func listServicePipelineProvisionedResourcesPaginator(
+        _ input: ListServicePipelineProvisionedResourcesInput,
+        logger: Logger = AWSClient.loggingDisabled,
+        on eventLoop: EventLoop? = nil
+    ) -> AWSClient.PaginatorSequence<ListServicePipelineProvisionedResourcesInput, ListServicePipelineProvisionedResourcesOutput> {
+        return .init(
+            input: input,
+            command: listServicePipelineProvisionedResources,
+            inputKey: \ListServicePipelineProvisionedResourcesInput.nextToken,
+            outputKey: \ListServicePipelineProvisionedResourcesOutput.nextToken,
             logger: logger,
             on: eventLoop
         )
@@ -198,7 +374,7 @@ extension Proton {
         )
     }
 
-    ///  List tags for a resource. For more information, see AWS Proton resources and tagging in the AWS Proton Administrator Guide or AWS Proton User Guide.
+    ///  List tags for a resource. For more information, see Proton resources and tagging in the Proton Administrator Guide or Proton User Guide.
     /// Return PaginatorSequence for operation.
     ///
     /// - Parameters:

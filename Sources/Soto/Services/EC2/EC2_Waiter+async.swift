@@ -20,7 +20,7 @@ import SotoCore
 
 // MARK: Waiters
 
-@available(macOS 12.0, iOS 15.0, watchOS 8.0, tvOS 15.0, *)
+@available(macOS 10.15, iOS 13.0, tvOS 13.0, watchOS 6.0, *)
 extension EC2 {
     public func waitUntilBundleTaskComplete(
         _ input: DescribeBundleTasksRequest,
@@ -259,6 +259,23 @@ extension EC2 {
             ],
             minDelayTime: .seconds(15),
             command: describeInstances
+        )
+        return try await self.client.waitUntil(input, waiter: waiter, maxWaitTime: maxWaitTime, logger: logger, on: eventLoop)
+    }
+
+    public func waitUntilInternetGatewayExists(
+        _ input: DescribeInternetGatewaysRequest,
+        maxWaitTime: TimeAmount? = nil,
+        logger: Logger = AWSClient.loggingDisabled,
+        on eventLoop: EventLoop? = nil
+    ) async throws {
+        let waiter = AWSClient.Waiter(
+            acceptors: [
+                .init(state: .success, matcher: try! JMESPathMatcher("length(internetGateways[].internetGatewayId) > `0`", expected: true)),
+                .init(state: .retry, matcher: AWSErrorCodeMatcher("InvalidInternetGateway.NotFound")),
+            ],
+            minDelayTime: .seconds(5),
+            command: describeInternetGateways
         )
         return try await self.client.waitUntil(input, waiter: waiter, maxWaitTime: maxWaitTime, logger: logger, on: eventLoop)
     }

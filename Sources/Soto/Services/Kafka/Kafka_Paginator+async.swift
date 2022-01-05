@@ -20,7 +20,7 @@ import SotoCore
 
 // MARK: Paginators
 
-@available(macOS 12.0, iOS 15.0, watchOS 8.0, tvOS 15.0, *)
+@available(macOS 10.15, iOS 13.0, tvOS 13.0, watchOS 6.0, *)
 extension Kafka {
     ///  Returns a list of all the operations that have been performed on the specified MSK cluster.
     /// Return PaginatorSequence for operation.
@@ -61,6 +61,28 @@ extension Kafka {
             command: listClusters,
             inputKey: \ListClustersRequest.nextToken,
             outputKey: \ListClustersResponse.nextToken,
+            logger: logger,
+            on: eventLoop
+        )
+    }
+
+    ///  Returns a list of all the MSK clusters in the current Region.
+    /// Return PaginatorSequence for operation.
+    ///
+    /// - Parameters:
+    ///   - input: Input for request
+    ///   - logger: Logger used flot logging
+    ///   - eventLoop: EventLoop to run this process on
+    public func listClustersV2Paginator(
+        _ input: ListClustersV2Request,
+        logger: Logger = AWSClient.loggingDisabled,
+        on eventLoop: EventLoop? = nil
+    ) -> AWSClient.PaginatorSequence<ListClustersV2Request, ListClustersV2Response> {
+        return .init(
+            input: input,
+            command: listClustersV2,
+            inputKey: \ListClustersV2Request.nextToken,
+            outputKey: \ListClustersV2Response.nextToken,
             logger: logger,
             on: eventLoop
         )

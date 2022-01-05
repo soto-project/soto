@@ -18,7 +18,7 @@
 
 import SotoCore
 
-@available(macOS 12.0, iOS 15.0, watchOS 8.0, tvOS 15.0, *)
+@available(macOS 10.15, iOS 13.0, tvOS 13.0, watchOS 6.0, *)
 extension ComprehendMedical {
     // MARK: Async API Calls
 
@@ -40,6 +40,11 @@ extension ComprehendMedical {
     /// Gets the properties associated with an InferRxNorm job. Use this operation to get the status of an inference job.
     public func describeRxNormInferenceJob(_ input: DescribeRxNormInferenceJobRequest, logger: Logger = AWSClient.loggingDisabled, on eventLoop: EventLoop? = nil) async throws -> DescribeRxNormInferenceJobResponse {
         return try await self.client.execute(operation: "DescribeRxNormInferenceJob", path: "/", httpMethod: .POST, serviceConfig: self.config, input: input, logger: logger, on: eventLoop)
+    }
+
+    ///  Gets the properties associated with an InferSNOMEDCT job. Use this operation to get the status of an inference job.
+    public func describeSNOMEDCTInferenceJob(_ input: DescribeSNOMEDCTInferenceJobRequest, logger: Logger = AWSClient.loggingDisabled, on eventLoop: EventLoop? = nil) async throws -> DescribeSNOMEDCTInferenceJobResponse {
+        return try await self.client.execute(operation: "DescribeSNOMEDCTInferenceJob", path: "/", httpMethod: .POST, serviceConfig: self.config, input: input, logger: logger, on: eventLoop)
     }
 
     /// The DetectEntities operation is deprecated. You should use the DetectEntitiesV2 operation instead.  Inspects the clinical text for a variety of medical entities and returns specific information about them such as entity category, location, and confidence score on that information .
@@ -68,6 +73,11 @@ extension ComprehendMedical {
         return try await self.client.execute(operation: "InferRxNorm", path: "/", httpMethod: .POST, serviceConfig: self.config, input: input, logger: logger, on: eventLoop)
     }
 
+    ///  InferSNOMEDCT detects possible medical concepts as entities and links them to codes from the Systematized Nomenclature of Medicine, Clinical Terms (SNOMED-CT) ontology
+    public func inferSNOMEDCT(_ input: InferSNOMEDCTRequest, logger: Logger = AWSClient.loggingDisabled, on eventLoop: EventLoop? = nil) async throws -> InferSNOMEDCTResponse {
+        return try await self.client.execute(operation: "InferSNOMEDCT", path: "/", httpMethod: .POST, serviceConfig: self.config, input: input, logger: logger, on: eventLoop)
+    }
+
     /// Gets a list of medical entity detection jobs that you have submitted.
     public func listEntitiesDetectionV2Jobs(_ input: ListEntitiesDetectionV2JobsRequest, logger: Logger = AWSClient.loggingDisabled, on eventLoop: EventLoop? = nil) async throws -> ListEntitiesDetectionV2JobsResponse {
         return try await self.client.execute(operation: "ListEntitiesDetectionV2Jobs", path: "/", httpMethod: .POST, serviceConfig: self.config, input: input, logger: logger, on: eventLoop)
@@ -86,6 +96,11 @@ extension ComprehendMedical {
     /// Gets a list of InferRxNorm jobs that you have submitted.
     public func listRxNormInferenceJobs(_ input: ListRxNormInferenceJobsRequest, logger: Logger = AWSClient.loggingDisabled, on eventLoop: EventLoop? = nil) async throws -> ListRxNormInferenceJobsResponse {
         return try await self.client.execute(operation: "ListRxNormInferenceJobs", path: "/", httpMethod: .POST, serviceConfig: self.config, input: input, logger: logger, on: eventLoop)
+    }
+
+    ///  Gets a list of InferSNOMEDCT jobs a user has submitted.
+    public func listSNOMEDCTInferenceJobs(_ input: ListSNOMEDCTInferenceJobsRequest, logger: Logger = AWSClient.loggingDisabled, on eventLoop: EventLoop? = nil) async throws -> ListSNOMEDCTInferenceJobsResponse {
+        return try await self.client.execute(operation: "ListSNOMEDCTInferenceJobs", path: "/", httpMethod: .POST, serviceConfig: self.config, input: input, logger: logger, on: eventLoop)
     }
 
     /// Starts an asynchronous medical entity detection job for a collection of documents. Use the DescribeEntitiesDetectionV2Job operation to track the status of a job.
@@ -108,6 +123,11 @@ extension ComprehendMedical {
         return try await self.client.execute(operation: "StartRxNormInferenceJob", path: "/", httpMethod: .POST, serviceConfig: self.config, input: input, logger: logger, on: eventLoop)
     }
 
+    ///  Starts an asynchronous job to detect medical concepts and link them to the SNOMED-CT ontology. Use the DescribeSNOMEDCTInferenceJob operation to track the status of a job.
+    public func startSNOMEDCTInferenceJob(_ input: StartSNOMEDCTInferenceJobRequest, logger: Logger = AWSClient.loggingDisabled, on eventLoop: EventLoop? = nil) async throws -> StartSNOMEDCTInferenceJobResponse {
+        return try await self.client.execute(operation: "StartSNOMEDCTInferenceJob", path: "/", httpMethod: .POST, serviceConfig: self.config, input: input, logger: logger, on: eventLoop)
+    }
+
     /// Stops a medical entities detection job in progress.
     public func stopEntitiesDetectionV2Job(_ input: StopEntitiesDetectionV2JobRequest, logger: Logger = AWSClient.loggingDisabled, on eventLoop: EventLoop? = nil) async throws -> StopEntitiesDetectionV2JobResponse {
         return try await self.client.execute(operation: "StopEntitiesDetectionV2Job", path: "/", httpMethod: .POST, serviceConfig: self.config, input: input, logger: logger, on: eventLoop)
@@ -126,6 +146,11 @@ extension ComprehendMedical {
     /// Stops an InferRxNorm inference job in progress.
     public func stopRxNormInferenceJob(_ input: StopRxNormInferenceJobRequest, logger: Logger = AWSClient.loggingDisabled, on eventLoop: EventLoop? = nil) async throws -> StopRxNormInferenceJobResponse {
         return try await self.client.execute(operation: "StopRxNormInferenceJob", path: "/", httpMethod: .POST, serviceConfig: self.config, input: input, logger: logger, on: eventLoop)
+    }
+
+    ///  Stops an InferSNOMEDCT inference job in progress.
+    public func stopSNOMEDCTInferenceJob(_ input: StopSNOMEDCTInferenceJobRequest, logger: Logger = AWSClient.loggingDisabled, on eventLoop: EventLoop? = nil) async throws -> StopSNOMEDCTInferenceJobResponse {
+        return try await self.client.execute(operation: "StopSNOMEDCTInferenceJob", path: "/", httpMethod: .POST, serviceConfig: self.config, input: input, logger: logger, on: eventLoop)
     }
 }
 

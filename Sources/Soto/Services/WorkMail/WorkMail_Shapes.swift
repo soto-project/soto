@@ -742,6 +742,29 @@ extension WorkMail {
         public init() {}
     }
 
+    public struct DeleteEmailMonitoringConfigurationRequest: AWSEncodableShape {
+        /// The ID of the organization from which the email monitoring configuration is deleted.
+        public let organizationId: String
+
+        public init(organizationId: String) {
+            self.organizationId = organizationId
+        }
+
+        public func validate(name: String) throws {
+            try self.validate(self.organizationId, name: "organizationId", parent: name, max: 34)
+            try self.validate(self.organizationId, name: "organizationId", parent: name, min: 34)
+            try self.validate(self.organizationId, name: "organizationId", parent: name, pattern: "^m-[0-9a-f]{32}$")
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case organizationId = "OrganizationId"
+        }
+    }
+
+    public struct DeleteEmailMonitoringConfigurationResponse: AWSDecodableShape {
+        public init() {}
+    }
+
     public struct DeleteGroupRequest: AWSEncodableShape {
         /// The identifier of the group to be deleted.
         public let groupId: String
@@ -1066,6 +1089,42 @@ extension WorkMail {
 
     public struct DeregisterMailDomainResponse: AWSDecodableShape {
         public init() {}
+    }
+
+    public struct DescribeEmailMonitoringConfigurationRequest: AWSEncodableShape {
+        /// The ID of the organization for which the email monitoring configuration is described.
+        public let organizationId: String
+
+        public init(organizationId: String) {
+            self.organizationId = organizationId
+        }
+
+        public func validate(name: String) throws {
+            try self.validate(self.organizationId, name: "organizationId", parent: name, max: 34)
+            try self.validate(self.organizationId, name: "organizationId", parent: name, min: 34)
+            try self.validate(self.organizationId, name: "organizationId", parent: name, pattern: "^m-[0-9a-f]{32}$")
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case organizationId = "OrganizationId"
+        }
+    }
+
+    public struct DescribeEmailMonitoringConfigurationResponse: AWSDecodableShape {
+        /// The Amazon Resource Name (ARN) of the CloudWatch Log group associated with the email monitoring configuration.
+        public let logGroupArn: String?
+        /// The Amazon Resource Name (ARN) of the IAM Role associated with the email monitoring configuration.
+        public let roleArn: String?
+
+        public init(logGroupArn: String? = nil, roleArn: String? = nil) {
+            self.logGroupArn = logGroupArn
+            self.roleArn = roleArn
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case logGroupArn = "LogGroupArn"
+            case roleArn = "RoleArn"
+        }
     }
 
     public struct DescribeGroupRequest: AWSEncodableShape {
@@ -2969,6 +3028,42 @@ extension WorkMail {
     }
 
     public struct PutAccessControlRuleResponse: AWSDecodableShape {
+        public init() {}
+    }
+
+    public struct PutEmailMonitoringConfigurationRequest: AWSEncodableShape {
+        /// The Amazon Resource Name (ARN) of the CloudWatch Log group associated with the email monitoring configuration.
+        public let logGroupArn: String
+        /// The ID of the organization for which the email monitoring configuration is set.
+        public let organizationId: String
+        /// The Amazon Resource Name (ARN) of the IAM Role associated with the email monitoring configuration.
+        public let roleArn: String
+
+        public init(logGroupArn: String, organizationId: String, roleArn: String) {
+            self.logGroupArn = logGroupArn
+            self.organizationId = organizationId
+            self.roleArn = roleArn
+        }
+
+        public func validate(name: String) throws {
+            try self.validate(self.logGroupArn, name: "logGroupArn", parent: name, max: 562)
+            try self.validate(self.logGroupArn, name: "logGroupArn", parent: name, min: 47)
+            try self.validate(self.logGroupArn, name: "logGroupArn", parent: name, pattern: "arn:aws:logs:[a-z\\-0-9]*:[0-9]{12}:log-group:([\\.\\-_/#A-Za-z0-9]+):\\*$")
+            try self.validate(self.organizationId, name: "organizationId", parent: name, max: 34)
+            try self.validate(self.organizationId, name: "organizationId", parent: name, min: 34)
+            try self.validate(self.organizationId, name: "organizationId", parent: name, pattern: "^m-[0-9a-f]{32}$")
+            try self.validate(self.roleArn, name: "roleArn", parent: name, max: 2048)
+            try self.validate(self.roleArn, name: "roleArn", parent: name, min: 20)
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case logGroupArn = "LogGroupArn"
+            case organizationId = "OrganizationId"
+            case roleArn = "RoleArn"
+        }
+    }
+
+    public struct PutEmailMonitoringConfigurationResponse: AWSDecodableShape {
         public init() {}
     }
 

@@ -20,7 +20,7 @@ import SotoCore
 
 // MARK: Paginators
 
-@available(macOS 12.0, iOS 15.0, watchOS 8.0, tvOS 15.0, *)
+@available(macOS 10.15, iOS 13.0, tvOS 13.0, watchOS 6.0, *)
 extension OpenSearchService {
     ///  Provides scheduled Auto-Tune action details for the domain, such as Auto-Tune action type, description, severity, and scheduled date.
     /// Return PaginatorSequence for operation.

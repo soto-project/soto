@@ -20,7 +20,7 @@ import SotoCore
 
 // MARK: Paginators
 
-@available(macOS 12.0, iOS 15.0, watchOS 8.0, tvOS 15.0, *)
+@available(macOS 10.15, iOS 13.0, tvOS 13.0, watchOS 6.0, *)
 extension IoTSiteWise {
     ///  Gets aggregated values for an asset property. For more information, see Querying aggregates in the IoT SiteWise User Guide. To identify an asset property, you must specify one of the following:   The assetId and propertyId of an asset property.   A propertyAlias, which is a data stream alias (for example, /company/windfarm/3/turbine/7/temperature). To define an asset property's alias, see UpdateAssetProperty.
     /// Return PaginatorSequence for operation.
@@ -303,6 +303,28 @@ extension IoTSiteWise {
             command: listProjects,
             inputKey: \ListProjectsRequest.nextToken,
             outputKey: \ListProjectsResponse.nextToken,
+            logger: logger,
+            on: eventLoop
+        )
+    }
+
+    ///  Retrieves a paginated list of time series (data streams).
+    /// Return PaginatorSequence for operation.
+    ///
+    /// - Parameters:
+    ///   - input: Input for request
+    ///   - logger: Logger used flot logging
+    ///   - eventLoop: EventLoop to run this process on
+    public func listTimeSeriesPaginator(
+        _ input: ListTimeSeriesRequest,
+        logger: Logger = AWSClient.loggingDisabled,
+        on eventLoop: EventLoop? = nil
+    ) -> AWSClient.PaginatorSequence<ListTimeSeriesRequest, ListTimeSeriesResponse> {
+        return .init(
+            input: input,
+            command: listTimeSeries,
+            inputKey: \ListTimeSeriesRequest.nextToken,
+            outputKey: \ListTimeSeriesResponse.nextToken,
             logger: logger,
             on: eventLoop
         )

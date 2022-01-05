@@ -20,9 +20,9 @@ import SotoCore
 
 // MARK: Paginators
 
-@available(macOS 12.0, iOS 15.0, watchOS 8.0, tvOS 15.0, *)
+@available(macOS 10.15, iOS 13.0, tvOS 13.0, watchOS 6.0, *)
 extension SSM {
-    ///  Describes details about the activation, such as the date and time the activation was created, its expiration date, the Identity and Access Management (IAM) role assigned to the instances in the activation, and the number of instances registered by using this activation.
+    ///  Describes details about the activation, such as the date and time the activation was created, its expiration date, the Identity and Access Management (IAM) role assigned to the managed nodes in the activation, and the number of nodes registered by using this activation.
     /// Return PaginatorSequence for operation.
     ///
     /// - Parameters:
@@ -154,7 +154,7 @@ extension SSM {
         )
     }
 
-    ///  All associations for the instance(s).
+    ///  All associations for the managed node(s).
     /// Return PaginatorSequence for operation.
     ///
     /// - Parameters:
@@ -198,7 +198,7 @@ extension SSM {
         )
     }
 
-    ///  The status of the associations for the instance(s).
+    ///  The status of the associations for the managed node(s).
     /// Return PaginatorSequence for operation.
     ///
     /// - Parameters:
@@ -220,7 +220,7 @@ extension SSM {
         )
     }
 
-    ///  Describes one or more of your instances, including information about the operating system platform, the version of SSM Agent installed on the instance, instance status, and so on. If you specify one or more instance IDs, it returns information for those instances. If you don't specify instance IDs, it returns information for all your instances. If you specify an instance ID that isn't valid or an instance that you don't own, you receive an error.  The IamRole field for this API operation is the Identity and Access Management (IAM) role assigned to on-premises instances. This call doesn't return the IAM role for EC2 instances.
+    ///  Describes one or more of your managed nodes, including information about the operating system platform, the version of SSM Agent installed on the managed node, node status, and so on. If you specify one or more managed node IDs, it returns information for those managed nodes. If you don't specify node IDs, it returns information for all your managed nodes. If you specify a node ID that isn't valid or a node that you don't own, you receive an error.  The IamRole field for this API operation is the Identity and Access Management (IAM) role assigned to on-premises managed nodes. This call doesn't return the IAM role for EC2 instances.
     /// Return PaginatorSequence for operation.
     ///
     /// - Parameters:
@@ -242,7 +242,7 @@ extension SSM {
         )
     }
 
-    ///  Retrieves the high-level patch state of one or more instances.
+    ///  Retrieves the high-level patch state of one or more managed nodes.
     /// Return PaginatorSequence for operation.
     ///
     /// - Parameters:
@@ -264,7 +264,7 @@ extension SSM {
         )
     }
 
-    ///  Retrieves the high-level patch state for the instances in the specified patch group.
+    ///  Retrieves the high-level patch state for the managed nodes in the specified patch group.
     /// Return PaginatorSequence for operation.
     ///
     /// - Parameters:
@@ -286,7 +286,7 @@ extension SSM {
         )
     }
 
-    ///  Retrieves information about the patches on the specified instance and their state relative to the patch baseline being used for the instance.
+    ///  Retrieves information about the patches on the specified managed node and their state relative to the patch baseline being used for the node.
     /// Return PaginatorSequence for operation.
     ///
     /// - Parameters:
@@ -484,7 +484,7 @@ extension SSM {
         )
     }
 
-    ///  Retrieves information about the maintenance window targets or tasks that an instance is associated with.
+    ///  Retrieves information about the maintenance window targets or tasks that a managed node is associated with.
     /// Return PaginatorSequence for operation.
     ///
     /// - Parameters:
@@ -638,7 +638,7 @@ extension SSM {
         )
     }
 
-    ///  Query inventory information. This includes instance status, such as Stopped or Terminated.
+    ///  Query inventory information. This includes managed node status, such as Stopped or Terminated.
     /// Return PaginatorSequence for operation.
     ///
     /// - Parameters:
@@ -770,7 +770,7 @@ extension SSM {
         )
     }
 
-    ///  Returns all State Manager associations in the current Amazon Web Services account and Amazon Web Services Region. You can limit the results to a specific State Manager association document or instance by specifying a filter. State Manager is a capability of Amazon Web Services Systems Manager.
+    ///  Returns all State Manager associations in the current Amazon Web Services account and Amazon Web Services Region. You can limit the results to a specific State Manager association document or managed node by specifying a filter. State Manager is a capability of Amazon Web Services Systems Manager.
     /// Return PaginatorSequence for operation.
     ///
     /// - Parameters:
@@ -792,7 +792,7 @@ extension SSM {
         )
     }
 
-    ///  An invocation is copy of a command sent to a specific instance. A command can apply to one or more instances. A command invocation applies to one instance. For example, if a user runs SendCommand against three instances, then a command invocation is created for each requested instance ID. ListCommandInvocations provide status about command execution.
+    ///  An invocation is copy of a command sent to a specific managed node. A command can apply to one or more managed nodes. A command invocation applies to one managed node. For example, if a user runs SendCommand against three managed nodes, then a command invocation is created for each requested managed node ID. ListCommandInvocations provide status about command execution.
     /// Return PaginatorSequence for operation.
     ///
     /// - Parameters:

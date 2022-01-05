@@ -20,7 +20,7 @@ import SotoCore
 
 // MARK: Paginators
 
-@available(macOS 12.0, iOS 15.0, watchOS 8.0, tvOS 15.0, *)
+@available(macOS 10.15, iOS 13.0, tvOS 13.0, watchOS 6.0, *)
 extension Lambda {
     ///  Returns a list of aliases for a Lambda function.
     /// Return PaginatorSequence for operation.
@@ -105,27 +105,6 @@ extension Lambda {
             command: listFunctionEventInvokeConfigs,
             inputKey: \ListFunctionEventInvokeConfigsRequest.marker,
             outputKey: \ListFunctionEventInvokeConfigsResponse.nextMarker,
-            logger: logger,
-            on: eventLoop
-        )
-    }
-
-    /// Return PaginatorSequence for operation.
-    ///
-    /// - Parameters:
-    ///   - input: Input for request
-    ///   - logger: Logger used flot logging
-    ///   - eventLoop: EventLoop to run this process on
-    public func listFunctionUrlConfigsPaginator(
-        _ input: ListFunctionUrlConfigsRequest,
-        logger: Logger = AWSClient.loggingDisabled,
-        on eventLoop: EventLoop? = nil
-    ) -> AWSClient.PaginatorSequence<ListFunctionUrlConfigsRequest, ListFunctionUrlConfigsResponse> {
-        return .init(
-            input: input,
-            command: listFunctionUrlConfigs,
-            inputKey: \ListFunctionUrlConfigsRequest.marker,
-            outputKey: \ListFunctionUrlConfigsResponse.nextMarker,
             logger: logger,
             on: eventLoop
         )

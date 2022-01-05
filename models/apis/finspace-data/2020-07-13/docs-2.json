@@ -349,11 +349,17 @@
         "DataViewErrorInfo$errorMessage": "<p>The text of the error message.</p>"
       }
     },
+    "ExportFileFormat": {
+      "base": "Data View Export File Format",
+      "refs": {
+        "DataViewDestinationTypeParams$s3DestinationExportFileFormat": null
+      }
+    },
     "FormatParams": {
       "base": "Format Parameters of a Changeset",
       "refs": {
         "ChangesetSummary$formatParams": "<p>Options that define the structure of the source file(s).</p>",
-        "CreateChangesetRequest$formatParams": "<p>Options that define the structure of the source file(s) including the format type (<code>formatType</code>), header row (<code>withHeader</code>), data separation character (<code>separator</code>) and the type of compression (<code>compression</code>). </p> <p> <code>formatType</code> is a required attribute and can have the following values: </p> <ul> <li> <p> <code>PARQUET</code> - Parquet source file format.</p> </li> <li> <p> <code>CSV</code> - CSV source file format.</p> </li> <li> <p> <code>JSON</code> - JSON source file format.</p> </li> <li> <p> <code>XML</code> - XML source file format.</p> </li> </ul> <p> For example, you could specify the following for <code>formatParams</code>:</p>",
+        "CreateChangesetRequest$formatParams": "<p>Options that define the structure of the source file(s) including the format type (<code>formatType</code>), header row (<code>withHeader</code>), data separation character (<code>separator</code>) and the type of compression (<code>compression</code>). </p> <p> <code>formatType</code> is a required attribute and can have the following values: </p> <ul> <li> <p> <code>PARQUET</code> - Parquet source file format.</p> </li> <li> <p> <code>CSV</code> - CSV source file format.</p> </li> <li> <p> <code>JSON</code> - JSON source file format.</p> </li> <li> <p> <code>XML</code> - XML source file format.</p> </li> </ul> <p> For example, you could specify the following for <code>formatParams</code>: <code> \"formatParams\": { \"formatType\": \"CSV\", \"withHeader\": \"true\", \"separator\": \",\", \"compression\":\"None\" } </code> </p>",
         "GetChangesetResponse$formatParams": "<p>Structure of the source file(s).</p>",
         "UpdateChangesetRequest$formatParams": "<p>Options that define the structure of the source file(s).</p>"
       }
@@ -529,6 +535,12 @@
         "ListDatasetsRequest$maxResults": "<p>The maximum number of results per page.</p>"
       }
     },
+    "S3DestinationFormatOptions": {
+      "base": null,
+      "refs": {
+        "DataViewDestinationTypeParams$s3DestinationExportFileFormatOptions": null
+      }
+    },
     "SchemaDefinition": {
       "base": "<p>Definition for a schema on a tabular Dataset.</p>",
       "refs": {
@@ -572,6 +584,7 @@
       "base": null,
       "refs": {
         "FormatParams$key": null,
+        "S3DestinationFormatOptions$key": null,
         "SourceParams$key": null
       }
     },
@@ -579,6 +592,7 @@
       "base": null,
       "refs": {
         "FormatParams$value": null,
+        "S3DestinationFormatOptions$value": null,
         "SourceParams$value": null
       }
     },
@@ -606,6 +620,7 @@
       "refs": {
         "ChangesetSummary$createTime": "<p>The timestamp at which the Changeset was created in FinSpace. The value is determined as Epoch time in milliseconds. For example, the value for Monday, November 1, 2021 12:00:00 PM UTC is specified as 1635768000000.</p>",
         "ChangesetSummary$activeUntilTimestamp": "<p>Time until which the Changeset is active. The value is determined as Epoch time in milliseconds. For example, the value for Monday, November 1, 2021 12:00:00 PM UTC is specified as 1635768000000.</p>",
+        "ChangesetSummary$activeFromTimestamp": null,
         "CreateDataViewRequest$asOfTimestamp": "<p>Beginning time to use for the Dataview. The value is determined as Epoch time in milliseconds. For example, the value for Monday, November 1, 2021 12:00:00 PM UTC is specified as 1635768000000.</p>",
         "DataViewSummary$asOfTimestamp": "<p>Time range to use for the Dataview. The value is determined as Epoch time in milliseconds. For example, the value for Monday, November 1, 2021 12:00:00 PM UTC is specified as 1635768000000.</p>",
         "DataViewSummary$createTime": "<p>The timestamp at which the Dataview was created in FinSpace. The value is determined as Epoch time in milliseconds. For example, the value for Monday, November 1, 2021 12:00:00 PM UTC is specified as 1635768000000.</p>",
@@ -614,6 +629,7 @@
         "Dataset$lastModifiedTime": "<p>The last time that the Dataset was modified. The value is determined as Epoch time in milliseconds. For example, the value for Monday, November 1, 2021 12:00:00 PM UTC is specified as 1635768000000.</p>",
         "GetChangesetResponse$createTime": "<p>The timestamp at which the Changeset was created in FinSpace. The value is determined as Epoch time in milliseconds. For example, the value for Monday, November 1, 2021 12:00:00 PM UTC is specified as 1635768000000.</p>",
         "GetChangesetResponse$activeUntilTimestamp": "<p>Time until which the Changeset is active. The value is determined as Epoch time in milliseconds. For example, the value for Monday, November 1, 2021 12:00:00 PM UTC is specified as 1635768000000.</p>",
+        "GetChangesetResponse$activeFromTimestamp": null,
         "GetDataViewResponse$asOfTimestamp": "<p>Time range to use for the Dataview. The value is determined as Epoch time in milliseconds. For example, the value for Monday, November 1, 2021 12:00:00 PM UTC is specified as 1635768000000.</p>",
         "GetDataViewResponse$lastModifiedTime": "<p>The last time that a Dataview was modified. The value is determined as Epoch time in milliseconds. For example, the value for Monday, November 1, 2021 12:00:00 PM UTC is specified as 1635768000000.</p>",
         "GetDataViewResponse$createTime": "<p>The timestamp at which the Dataview was created in FinSpace. The value is determined as Epoch time in milliseconds. For example, the value for Monday, November 1, 2021 12:00:00 PM UTC is specified as 1635768000000.</p>",

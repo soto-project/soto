@@ -29,7 +29,15 @@ extension TimestreamWrite {
         case bigint = "BIGINT"
         case boolean = "BOOLEAN"
         case double = "DOUBLE"
+        case multi = "MULTI"
+        case timestamp = "TIMESTAMP"
         case varchar = "VARCHAR"
+        public var description: String { return self.rawValue }
+    }
+
+    public enum S3EncryptionOption: String, CustomStringConvertible, Codable {
+        case sseKms = "SSE_KMS"
+        case sseS3 = "SSE_S3"
         public var description: String { return self.rawValue }
     }
 
@@ -52,7 +60,7 @@ extension TimestreamWrite {
     public struct CreateDatabaseRequest: AWSEncodableShape {
         /// The name of the Timestream database.
         public let databaseName: String
-        /// The KMS key for the database. If the KMS key is not specified, the database will be encrypted with a Timestream managed KMS key located in your account. Refer to AWS managed KMS keys for more info.
+        /// The KMS key for the database. If the KMS key is not specified, the database will be encrypted with a Timestream managed KMS key located in your account. Refer to Amazon Web Services managed KMS keys for more info.
         public let kmsKeyId: String?
         ///  A list of key-value pairs to label the table.
         public let tags: [Tag]?
@@ -64,8 +72,6 @@ extension TimestreamWrite {
         }
 
         public func validate(name: String) throws {
-            try self.validate(self.databaseName, name: "databaseName", parent: name, max: 64)
-            try self.validate(self.databaseName, name: "databaseName", parent: name, min: 3)
             try self.validate(self.databaseName, name: "databaseName", parent: name, pattern: "[a-zA-Z0-9_.-]+")
             try self.validate(self.kmsKeyId, name: "kmsKeyId", parent: name, max: 2048)
             try self.validate(self.kmsKeyId, name: "kmsKeyId", parent: name, min: 1)
@@ -99,6 +105,8 @@ extension TimestreamWrite {
     public struct CreateTableRequest: AWSEncodableShape {
         /// The name of the Timestream database.
         public let databaseName: String
+        /// Contains properties to set on the table when enabling magnetic store writes.
+        public let magneticStoreWriteProperties: MagneticStoreWriteProperties?
         /// The duration for which your time series data must be stored in the memory store and the magnetic store.
         public let retentionProperties: RetentionProperties?
         /// The name of the Timestream table.
@@ -106,20 +114,18 @@ extension TimestreamWrite {
         ///  A list of key-value pairs to label the table.
         public let tags: [Tag]?
 
-        public init(databaseName: String, retentionProperties: RetentionProperties? = nil, tableName: String, tags: [Tag]? = nil) {
+        public init(databaseName: String, magneticStoreWriteProperties: MagneticStoreWriteProperties? = nil, retentionProperties: RetentionProperties? = nil, tableName: String, tags: [Tag]? = nil) {
             self.databaseName = databaseName
+            self.magneticStoreWriteProperties = magneticStoreWriteProperties
             self.retentionProperties = retentionProperties
             self.tableName = tableName
             self.tags = tags
         }
 
         public func validate(name: String) throws {
-            try self.validate(self.databaseName, name: "databaseName", parent: name, max: 64)
-            try self.validate(self.databaseName, name: "databaseName", parent: name, min: 3)
             try self.validate(self.databaseName, name: "databaseName", parent: name, pattern: "[a-zA-Z0-9_.-]+")
+            try self.magneticStoreWriteProperties?.validate(name: "\(name).magneticStoreWriteProperties")
             try self.retentionProperties?.validate(name: "\(name).retentionProperties")
-            try self.validate(self.tableName, name: "tableName", parent: name, max: 64)
-            try self.validate(self.tableName, name: "tableName", parent: name, min: 3)
             try self.validate(self.tableName, name: "tableName", parent: name, pattern: "[a-zA-Z0-9_.-]+")
             try self.tags?.forEach {
                 try $0.validate(name: "\(name).tags[]")
@@ -130,6 +136,7 @@ extension TimestreamWrite {
 
         private enum CodingKeys: String, CodingKey {
             case databaseName = "DatabaseName"
+            case magneticStoreWriteProperties = "MagneticStoreWriteProperties"
             case retentionProperties = "RetentionProperties"
             case tableName = "TableName"
             case tags = "Tags"
@@ -190,12 +197,6 @@ extension TimestreamWrite {
             self.databaseName = databaseName
         }
 
-        public func validate(name: String) throws {
-            try self.validate(self.databaseName, name: "databaseName", parent: name, max: 64)
-            try self.validate(self.databaseName, name: "databaseName", parent: name, min: 3)
-            try self.validate(self.databaseName, name: "databaseName", parent: name, pattern: "[a-zA-Z0-9_.-]+")
-        }
-
         private enum CodingKeys: String, CodingKey {
             case databaseName = "DatabaseName"
         }
@@ -212,15 +213,6 @@ extension TimestreamWrite {
             self.tableName = tableName
         }
 
-        public func validate(name: String) throws {
-            try self.validate(self.databaseName, name: "databaseName", parent: name, max: 64)
-            try self.validate(self.databaseName, name: "databaseName", parent: name, min: 3)
-            try self.validate(self.databaseName, name: "databaseName", parent: name, pattern: "[a-zA-Z0-9_.-]+")
-            try self.validate(self.tableName, name: "tableName", parent: name, max: 64)
-            try self.validate(self.tableName, name: "tableName", parent: name, min: 3)
-            try self.validate(self.tableName, name: "tableName", parent: name, pattern: "[a-zA-Z0-9_.-]+")
-        }
-
         private enum CodingKeys: String, CodingKey {
             case databaseName = "DatabaseName"
             case tableName = "TableName"
@@ -233,12 +225,6 @@ extension TimestreamWrite {
 
         public init(databaseName: String) {
             self.databaseName = databaseName
-        }
-
-        public func validate(name: String) throws {
-            try self.validate(self.databaseName, name: "databaseName", parent: name, max: 64)
-            try self.validate(self.databaseName, name: "databaseName", parent: name, min: 3)
-            try self.validate(self.databaseName, name: "databaseName", parent: name, pattern: "[a-zA-Z0-9_.-]+")
         }
 
         private enum CodingKeys: String, CodingKey {
@@ -287,15 +273,6 @@ extension TimestreamWrite {
             self.tableName = tableName
         }
 
-        public func validate(name: String) throws {
-            try self.validate(self.databaseName, name: "databaseName", parent: name, max: 64)
-            try self.validate(self.databaseName, name: "databaseName", parent: name, min: 3)
-            try self.validate(self.databaseName, name: "databaseName", parent: name, pattern: "[a-zA-Z0-9_.-]+")
-            try self.validate(self.tableName, name: "tableName", parent: name, max: 64)
-            try self.validate(self.tableName, name: "tableName", parent: name, min: 3)
-            try self.validate(self.tableName, name: "tableName", parent: name, pattern: "[a-zA-Z0-9_.-]+")
-        }
-
         private enum CodingKeys: String, CodingKey {
             case databaseName = "DatabaseName"
             case tableName = "TableName"
@@ -330,10 +307,7 @@ extension TimestreamWrite {
         }
 
         public func validate(name: String) throws {
-            try self.validate(self.name, name: "name", parent: name, max: 256)
             try self.validate(self.name, name: "name", parent: name, min: 1)
-            try self.validate(self.value, name: "value", parent: name, max: 2048)
-            try self.validate(self.value, name: "value", parent: name, min: 1)
         }
 
         private enum CodingKeys: String, CodingKey {
@@ -414,9 +388,6 @@ extension TimestreamWrite {
         }
 
         public func validate(name: String) throws {
-            try self.validate(self.databaseName, name: "databaseName", parent: name, max: 64)
-            try self.validate(self.databaseName, name: "databaseName", parent: name, min: 3)
-            try self.validate(self.databaseName, name: "databaseName", parent: name, pattern: "[a-zA-Z0-9_.-]+")
             try self.validate(self.maxResults, name: "maxResults", parent: name, max: 20)
             try self.validate(self.maxResults, name: "maxResults", parent: name, min: 1)
         }
@@ -476,6 +447,71 @@ extension TimestreamWrite {
         }
     }
 
+    public struct MagneticStoreRejectedDataLocation: AWSEncodableShape & AWSDecodableShape {
+        /// Configuration of an S3 location to write error reports for records rejected, asynchronously, during magnetic store writes.
+        public let s3Configuration: S3Configuration?
+
+        public init(s3Configuration: S3Configuration? = nil) {
+            self.s3Configuration = s3Configuration
+        }
+
+        public func validate(name: String) throws {
+            try self.s3Configuration?.validate(name: "\(name).s3Configuration")
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case s3Configuration = "S3Configuration"
+        }
+    }
+
+    public struct MagneticStoreWriteProperties: AWSEncodableShape & AWSDecodableShape {
+        /// A flag to enable magnetic store writes.
+        public let enableMagneticStoreWrites: Bool
+        /// The location to write error reports for records rejected asynchronously during magnetic store writes.
+        public let magneticStoreRejectedDataLocation: MagneticStoreRejectedDataLocation?
+
+        public init(enableMagneticStoreWrites: Bool, magneticStoreRejectedDataLocation: MagneticStoreRejectedDataLocation? = nil) {
+            self.enableMagneticStoreWrites = enableMagneticStoreWrites
+            self.magneticStoreRejectedDataLocation = magneticStoreRejectedDataLocation
+        }
+
+        public func validate(name: String) throws {
+            try self.magneticStoreRejectedDataLocation?.validate(name: "\(name).magneticStoreRejectedDataLocation")
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case enableMagneticStoreWrites = "EnableMagneticStoreWrites"
+            case magneticStoreRejectedDataLocation = "MagneticStoreRejectedDataLocation"
+        }
+    }
+
+    public struct MeasureValue: AWSEncodableShape {
+        ///  Name of the MeasureValue.   For constraints on MeasureValue names, refer to  Naming Constraints in the Timestream developer guide.
+        public let name: String
+        /// Contains the data type of the MeasureValue for the time series data point.
+        public let type: MeasureValueType
+        ///  Value for the MeasureValue.
+        public let value: String
+
+        public init(name: String, type: MeasureValueType, value: String) {
+            self.name = name
+            self.type = type
+            self.value = value
+        }
+
+        public func validate(name: String) throws {
+            try self.validate(self.name, name: "name", parent: name, min: 1)
+            try self.validate(self.value, name: "value", parent: name, max: 2048)
+            try self.validate(self.value, name: "value", parent: name, min: 1)
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case name = "Name"
+            case type = "Type"
+            case value = "Value"
+        }
+    }
+
     public struct Record: AWSEncodableShape {
         /// Contains the list of dimensions for time series data points.
         public let dimensions: [Dimension]?
@@ -483,19 +519,22 @@ extension TimestreamWrite {
         public let measureName: String?
         ///  Contains the measure value for the time series data point.
         public let measureValue: String?
-        ///  Contains the data type of the measure value for the time series data point.
+        ///  Contains the list of MeasureValue for time series data points.   This is only allowed for type MULTI. For scalar values, use MeasureValue attribute of the Record directly.
+        public let measureValues: [MeasureValue]?
+        ///  Contains the data type of the measure value for the time series data point. Default type is DOUBLE.
         public let measureValueType: MeasureValueType?
         ///  Contains the time at which the measure value for the data point was collected. The time value plus the unit provides the time elapsed since the epoch. For example, if the time value is 12345 and the unit is ms, then 12345 ms have elapsed since the epoch.
         public let time: String?
-        ///  The granularity of the timestamp unit. It indicates if the time value is in seconds, milliseconds, nanoseconds or other supported values.
+        ///  The granularity of the timestamp unit. It indicates if the time value is in seconds, milliseconds, nanoseconds or other supported values. Default is MILLISECONDS.
         public let timeUnit: TimeUnit?
-        /// 64-bit attribute used for record updates. Write requests for duplicate data with a higher version number will update the existing measure value and version. In cases where the measure value is the same, Version will still be updated . Default value is to 1.
+        /// 64-bit attribute used for record updates. Write requests for duplicate data with a higher version number will update the existing measure value and version. In cases where the measure value is the same, Version will still be updated . Default value is 1.   Version must be 1 or greater, or you will receive a ValidationException error.
         public let version: Int64?
 
-        public init(dimensions: [Dimension]? = nil, measureName: String? = nil, measureValue: String? = nil, measureValueType: MeasureValueType? = nil, time: String? = nil, timeUnit: TimeUnit? = nil, version: Int64? = nil) {
+        public init(dimensions: [Dimension]? = nil, measureName: String? = nil, measureValue: String? = nil, measureValues: [MeasureValue]? = nil, measureValueType: MeasureValueType? = nil, time: String? = nil, timeUnit: TimeUnit? = nil, version: Int64? = nil) {
             self.dimensions = dimensions
             self.measureName = measureName
             self.measureValue = measureValue
+            self.measureValues = measureValues
             self.measureValueType = measureValueType
             self.time = time
             self.timeUnit = timeUnit
@@ -507,10 +546,12 @@ extension TimestreamWrite {
                 try $0.validate(name: "\(name).dimensions[]")
             }
             try self.validate(self.dimensions, name: "dimensions", parent: name, max: 128)
-            try self.validate(self.measureName, name: "measureName", parent: name, max: 256)
             try self.validate(self.measureName, name: "measureName", parent: name, min: 1)
             try self.validate(self.measureValue, name: "measureValue", parent: name, max: 2048)
             try self.validate(self.measureValue, name: "measureValue", parent: name, min: 1)
+            try self.measureValues?.forEach {
+                try $0.validate(name: "\(name).measureValues[]")
+            }
             try self.validate(self.time, name: "time", parent: name, max: 256)
             try self.validate(self.time, name: "time", parent: name, min: 1)
         }
@@ -519,10 +560,32 @@ extension TimestreamWrite {
             case dimensions = "Dimensions"
             case measureName = "MeasureName"
             case measureValue = "MeasureValue"
+            case measureValues = "MeasureValues"
             case measureValueType = "MeasureValueType"
             case time = "Time"
             case timeUnit = "TimeUnit"
             case version = "Version"
+        }
+    }
+
+    public struct RecordsIngested: AWSDecodableShape {
+        /// Count of records ingested into the magnetic store.
+        public let magneticStore: Int?
+        /// Count of records ingested into the memory store.
+        public let memoryStore: Int?
+        /// Total count of successfully ingested records.
+        public let total: Int?
+
+        public init(magneticStore: Int? = nil, memoryStore: Int? = nil, total: Int? = nil) {
+            self.magneticStore = magneticStore
+            self.memoryStore = memoryStore
+            self.total = total
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case magneticStore = "MagneticStore"
+            case memoryStore = "MemoryStore"
+            case total = "Total"
         }
     }
 
@@ -550,6 +613,42 @@ extension TimestreamWrite {
         }
     }
 
+    public struct S3Configuration: AWSEncodableShape & AWSDecodableShape {
+        /// &gt;Bucket name of the customer S3 bucket.
+        public let bucketName: String?
+        /// Encryption option for the customer s3 location. Options are S3 server side encryption with an S3-managed key or KMS managed key.
+        public let encryptionOption: S3EncryptionOption?
+        /// KMS key id for the customer s3 location when encrypting with a KMS managed key.
+        public let kmsKeyId: String?
+        /// Object key preview for the customer S3 location.
+        public let objectKeyPrefix: String?
+
+        public init(bucketName: String? = nil, encryptionOption: S3EncryptionOption? = nil, kmsKeyId: String? = nil, objectKeyPrefix: String? = nil) {
+            self.bucketName = bucketName
+            self.encryptionOption = encryptionOption
+            self.kmsKeyId = kmsKeyId
+            self.objectKeyPrefix = objectKeyPrefix
+        }
+
+        public func validate(name: String) throws {
+            try self.validate(self.bucketName, name: "bucketName", parent: name, max: 63)
+            try self.validate(self.bucketName, name: "bucketName", parent: name, min: 3)
+            try self.validate(self.bucketName, name: "bucketName", parent: name, pattern: "[a-z0-9][\\.\\-a-z0-9]{1,61}[a-z0-9]")
+            try self.validate(self.kmsKeyId, name: "kmsKeyId", parent: name, max: 2048)
+            try self.validate(self.kmsKeyId, name: "kmsKeyId", parent: name, min: 1)
+            try self.validate(self.objectKeyPrefix, name: "objectKeyPrefix", parent: name, max: 928)
+            try self.validate(self.objectKeyPrefix, name: "objectKeyPrefix", parent: name, min: 1)
+            try self.validate(self.objectKeyPrefix, name: "objectKeyPrefix", parent: name, pattern: "[a-zA-Z0-9|!\\-_*'\\(\\)]([a-zA-Z0-9]|[!\\-_*'\\(\\)\\/.])+")
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case bucketName = "BucketName"
+            case encryptionOption = "EncryptionOption"
+            case kmsKeyId = "KmsKeyId"
+            case objectKeyPrefix = "ObjectKeyPrefix"
+        }
+    }
+
     public struct Table: AWSDecodableShape {
         /// The Amazon Resource Name that uniquely identifies this table.
         public let arn: String?
@@ -559,6 +658,8 @@ extension TimestreamWrite {
         public let databaseName: String?
         /// The time when the Timestream table was last updated.
         public let lastUpdatedTime: Date?
+        /// Contains properties to set on the table when enabling magnetic store writes.
+        public let magneticStoreWriteProperties: MagneticStoreWriteProperties?
         /// The retention duration for the memory store and magnetic store.
         public let retentionProperties: RetentionProperties?
         /// The name of the Timestream table.
@@ -566,11 +667,12 @@ extension TimestreamWrite {
         /// The current state of the table:    DELETING - The table is being deleted.    ACTIVE - The table is ready for use.
         public let tableStatus: TableStatus?
 
-        public init(arn: String? = nil, creationTime: Date? = nil, databaseName: String? = nil, lastUpdatedTime: Date? = nil, retentionProperties: RetentionProperties? = nil, tableName: String? = nil, tableStatus: TableStatus? = nil) {
+        public init(arn: String? = nil, creationTime: Date? = nil, databaseName: String? = nil, lastUpdatedTime: Date? = nil, magneticStoreWriteProperties: MagneticStoreWriteProperties? = nil, retentionProperties: RetentionProperties? = nil, tableName: String? = nil, tableStatus: TableStatus? = nil) {
             self.arn = arn
             self.creationTime = creationTime
             self.databaseName = databaseName
             self.lastUpdatedTime = lastUpdatedTime
+            self.magneticStoreWriteProperties = magneticStoreWriteProperties
             self.retentionProperties = retentionProperties
             self.tableName = tableName
             self.tableStatus = tableStatus
@@ -581,6 +683,7 @@ extension TimestreamWrite {
             case creationTime = "CreationTime"
             case databaseName = "DatabaseName"
             case lastUpdatedTime = "LastUpdatedTime"
+            case magneticStoreWriteProperties = "MagneticStoreWriteProperties"
             case retentionProperties = "RetentionProperties"
             case tableName = "TableName"
             case tableStatus = "TableStatus"
@@ -686,9 +789,6 @@ extension TimestreamWrite {
         }
 
         public func validate(name: String) throws {
-            try self.validate(self.databaseName, name: "databaseName", parent: name, max: 64)
-            try self.validate(self.databaseName, name: "databaseName", parent: name, min: 3)
-            try self.validate(self.databaseName, name: "databaseName", parent: name, pattern: "[a-zA-Z0-9_.-]+")
             try self.validate(self.kmsKeyId, name: "kmsKeyId", parent: name, max: 2048)
             try self.validate(self.kmsKeyId, name: "kmsKeyId", parent: name, min: 1)
         }
@@ -714,29 +814,28 @@ extension TimestreamWrite {
     public struct UpdateTableRequest: AWSEncodableShape {
         /// The name of the Timestream database.
         public let databaseName: String
+        /// Contains properties to set on the table when enabling magnetic store writes.
+        public let magneticStoreWriteProperties: MagneticStoreWriteProperties?
         /// The retention duration of the memory store and the magnetic store.
-        public let retentionProperties: RetentionProperties
-        /// The name of the Timesream table.
+        public let retentionProperties: RetentionProperties?
+        /// The name of the Timestream table.
         public let tableName: String
 
-        public init(databaseName: String, retentionProperties: RetentionProperties, tableName: String) {
+        public init(databaseName: String, magneticStoreWriteProperties: MagneticStoreWriteProperties? = nil, retentionProperties: RetentionProperties? = nil, tableName: String) {
             self.databaseName = databaseName
+            self.magneticStoreWriteProperties = magneticStoreWriteProperties
             self.retentionProperties = retentionProperties
             self.tableName = tableName
         }
 
         public func validate(name: String) throws {
-            try self.validate(self.databaseName, name: "databaseName", parent: name, max: 64)
-            try self.validate(self.databaseName, name: "databaseName", parent: name, min: 3)
-            try self.validate(self.databaseName, name: "databaseName", parent: name, pattern: "[a-zA-Z0-9_.-]+")
-            try self.retentionProperties.validate(name: "\(name).retentionProperties")
-            try self.validate(self.tableName, name: "tableName", parent: name, max: 64)
-            try self.validate(self.tableName, name: "tableName", parent: name, min: 3)
-            try self.validate(self.tableName, name: "tableName", parent: name, pattern: "[a-zA-Z0-9_.-]+")
+            try self.magneticStoreWriteProperties?.validate(name: "\(name).magneticStoreWriteProperties")
+            try self.retentionProperties?.validate(name: "\(name).retentionProperties")
         }
 
         private enum CodingKeys: String, CodingKey {
             case databaseName = "DatabaseName"
+            case magneticStoreWriteProperties = "MagneticStoreWriteProperties"
             case retentionProperties = "RetentionProperties"
             case tableName = "TableName"
         }
@@ -756,13 +855,13 @@ extension TimestreamWrite {
     }
 
     public struct WriteRecordsRequest: AWSEncodableShape {
-        /// A record containing the common measure and dimension attributes shared across all the records in the request. The measure and dimension attributes specified in here will be merged with the measure and dimension attributes in the records object when the data is written into Timestream.
+        /// A record containing the common measure, dimension, time, and version attributes shared across all the records in the request. The measure and dimension attributes specified will be merged with the measure and dimension attributes in the records object when the data is written into Timestream. Dimensions may not overlap, or a ValidationException will be thrown. In other words, a record must contain dimensions with unique names.
         public let commonAttributes: Record?
         /// The name of the Timestream database.
         public let databaseName: String
-        /// An array of records containing the unique dimension and measure attributes for each time series data point.
+        /// An array of records containing the unique measure, dimension, time, and version attributes for each time series data point.
         public let records: [Record]
-        /// The name of the Timesream table.
+        /// The name of the Timestream table.
         public let tableName: String
 
         public init(commonAttributes: Record? = nil, databaseName: String, records: [Record], tableName: String) {
@@ -774,17 +873,11 @@ extension TimestreamWrite {
 
         public func validate(name: String) throws {
             try self.commonAttributes?.validate(name: "\(name).commonAttributes")
-            try self.validate(self.databaseName, name: "databaseName", parent: name, max: 64)
-            try self.validate(self.databaseName, name: "databaseName", parent: name, min: 3)
-            try self.validate(self.databaseName, name: "databaseName", parent: name, pattern: "[a-zA-Z0-9_.-]+")
             try self.records.forEach {
                 try $0.validate(name: "\(name).records[]")
             }
             try self.validate(self.records, name: "records", parent: name, max: 100)
             try self.validate(self.records, name: "records", parent: name, min: 1)
-            try self.validate(self.tableName, name: "tableName", parent: name, max: 64)
-            try self.validate(self.tableName, name: "tableName", parent: name, min: 3)
-            try self.validate(self.tableName, name: "tableName", parent: name, pattern: "[a-zA-Z0-9_.-]+")
         }
 
         private enum CodingKeys: String, CodingKey {
@@ -792,6 +885,19 @@ extension TimestreamWrite {
             case databaseName = "DatabaseName"
             case records = "Records"
             case tableName = "TableName"
+        }
+    }
+
+    public struct WriteRecordsResponse: AWSDecodableShape {
+        /// Information on the records ingested by this request.
+        public let recordsIngested: RecordsIngested?
+
+        public init(recordsIngested: RecordsIngested? = nil) {
+            self.recordsIngested = recordsIngested
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case recordsIngested = "RecordsIngested"
         }
     }
 }

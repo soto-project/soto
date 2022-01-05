@@ -18,7 +18,7 @@
 
 import SotoCore
 
-@available(macOS 12.0, iOS 15.0, watchOS 8.0, tvOS 15.0, *)
+@available(macOS 10.15, iOS 13.0, tvOS 13.0, watchOS 6.0, *)
 extension NimbleStudio {
     // MARK: Async API Calls
 
@@ -182,7 +182,7 @@ extension NimbleStudio {
         return try await self.client.execute(operation: "ListStudioComponents", path: "/2020-08-01/studios/{studioId}/studio-components", httpMethod: .GET, serviceConfig: self.config, input: input, logger: logger, on: eventLoop)
     }
 
-    /// Get all users in a given studio membership.
+    /// Get all users in a given studio membership.   ListStudioMembers only returns admin members.
     public func listStudioMembers(_ input: ListStudioMembersRequest, logger: Logger = AWSClient.loggingDisabled, on eventLoop: EventLoop? = nil) async throws -> ListStudioMembersResponse {
         return try await self.client.execute(operation: "ListStudioMembers", path: "/2020-08-01/studios/{studioId}/membership", httpMethod: .GET, serviceConfig: self.config, input: input, logger: logger, on: eventLoop)
     }

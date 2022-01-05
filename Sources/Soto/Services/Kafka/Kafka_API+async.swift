@@ -18,7 +18,7 @@
 
 import SotoCore
 
-@available(macOS 12.0, iOS 15.0, watchOS 8.0, tvOS 15.0, *)
+@available(macOS 10.15, iOS 13.0, tvOS 13.0, watchOS 6.0, *)
 extension Kafka {
     // MARK: Async API Calls
 
@@ -35,6 +35,11 @@ extension Kafka {
     /// Creates a new MSK cluster.
     public func createCluster(_ input: CreateClusterRequest, logger: Logger = AWSClient.loggingDisabled, on eventLoop: EventLoop? = nil) async throws -> CreateClusterResponse {
         return try await self.client.execute(operation: "CreateCluster", path: "/v1/clusters", httpMethod: .POST, serviceConfig: self.config, input: input, logger: logger, on: eventLoop)
+    }
+
+    /// Creates a new Amazon MSK cluster of either the provisioned or the serverless type.
+    public func createClusterV2(_ input: CreateClusterV2Request, logger: Logger = AWSClient.loggingDisabled, on eventLoop: EventLoop? = nil) async throws -> CreateClusterV2Response {
+        return try await self.client.execute(operation: "CreateClusterV2", path: "/api/v2/clusters", httpMethod: .POST, serviceConfig: self.config, input: input, logger: logger, on: eventLoop)
     }
 
     /// Creates a new MSK configuration.
@@ -60,6 +65,11 @@ extension Kafka {
     /// Returns a description of the cluster operation specified by the ARN.
     public func describeClusterOperation(_ input: DescribeClusterOperationRequest, logger: Logger = AWSClient.loggingDisabled, on eventLoop: EventLoop? = nil) async throws -> DescribeClusterOperationResponse {
         return try await self.client.execute(operation: "DescribeClusterOperation", path: "/v1/operations/{clusterOperationArn}", httpMethod: .GET, serviceConfig: self.config, input: input, logger: logger, on: eventLoop)
+    }
+
+    /// Returns a description of the MSK cluster of either the provisioned or the serverless type whose Amazon Resource Name (ARN) is specified in the request.
+    public func describeClusterV2(_ input: DescribeClusterV2Request, logger: Logger = AWSClient.loggingDisabled, on eventLoop: EventLoop? = nil) async throws -> DescribeClusterV2Response {
+        return try await self.client.execute(operation: "DescribeClusterV2", path: "/api/v2/clusters/{clusterArn}", httpMethod: .GET, serviceConfig: self.config, input: input, logger: logger, on: eventLoop)
     }
 
     /// Returns a description of this MSK configuration.
@@ -90,6 +100,11 @@ extension Kafka {
     /// Returns a list of all the MSK clusters in the current Region.
     public func listClusters(_ input: ListClustersRequest, logger: Logger = AWSClient.loggingDisabled, on eventLoop: EventLoop? = nil) async throws -> ListClustersResponse {
         return try await self.client.execute(operation: "ListClusters", path: "/v1/clusters", httpMethod: .GET, serviceConfig: self.config, input: input, logger: logger, on: eventLoop)
+    }
+
+    /// Returns a list of all the MSK clusters in the current Region.
+    public func listClustersV2(_ input: ListClustersV2Request, logger: Logger = AWSClient.loggingDisabled, on eventLoop: EventLoop? = nil) async throws -> ListClustersV2Response {
+        return try await self.client.execute(operation: "ListClustersV2", path: "/api/v2/clusters", httpMethod: .GET, serviceConfig: self.config, input: input, logger: logger, on: eventLoop)
     }
 
     /// Returns a list of all the revisions of an MSK configuration.

@@ -20,7 +20,7 @@ import SotoCore
 
 // MARK: Paginators
 
-@available(macOS 12.0, iOS 15.0, watchOS 8.0, tvOS 15.0, *)
+@available(macOS 10.15, iOS 13.0, tvOS 13.0, watchOS 6.0, *)
 extension Macie2 {
     ///   Retrieves (queries) statistical data and other information about one or more S3 buckets that Amazon Macie monitors and analyzes.
     /// Return PaginatorSequence for operation.
@@ -198,7 +198,7 @@ extension Macie2 {
         )
     }
 
-    ///  Retrieves information about the delegated Amazon Macie administrator account for an Amazon Web Services organization.
+    ///  Retrieves information about the delegated Amazon Macie administrator account for an organization in Organizations.
     /// Return PaginatorSequence for operation.
     ///
     /// - Parameters:

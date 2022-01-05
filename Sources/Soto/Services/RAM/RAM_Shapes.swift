@@ -26,6 +26,19 @@ extension RAM {
         public var description: String { return self.rawValue }
     }
 
+    public enum ResourceRegionScope: String, CustomStringConvertible, Codable {
+        case global = "GLOBAL"
+        case regional = "REGIONAL"
+        public var description: String { return self.rawValue }
+    }
+
+    public enum ResourceRegionScopeFilter: String, CustomStringConvertible, Codable {
+        case all = "ALL"
+        case global = "GLOBAL"
+        case regional = "REGIONAL"
+        public var description: String { return self.rawValue }
+    }
+
     public enum ResourceShareAssociationStatus: String, CustomStringConvertible, Codable {
         case associated = "ASSOCIATED"
         case associating = "ASSOCIATING"
@@ -77,9 +90,9 @@ extension RAM {
     // MARK: Shapes
 
     public struct AcceptResourceShareInvitationRequest: AWSEncodableShape {
-        /// A unique, case-sensitive identifier that you provide to ensure the idempotency of the request.
+        /// Specifies a unique, case-sensitive identifier that you provide to ensure the idempotency of the request. This lets you safely retry the request without accidentally performing the same operation a second time. Passing the same value to a later call to an operation requires that you also pass the same value for all other parameters. We recommend that you use a UUID type of value.. If you don't provide this value, then Amazon Web Services generates a random one for you.
         public let clientToken: String?
-        /// The Amazon Resource Name (ARN) of the invitation.
+        /// The Amazon Resoure Name (ARN) of the invitation that you want to accept.
         public let resourceShareInvitationArn: String
 
         public init(clientToken: String? = nil, resourceShareInvitationArn: String) {
@@ -94,9 +107,9 @@ extension RAM {
     }
 
     public struct AcceptResourceShareInvitationResponse: AWSDecodableShape {
-        /// A unique, case-sensitive identifier that you provide to ensure the idempotency of the request.
+        /// The idempotency identifier associated with this request. If you want to repeat the same operation in an idempotent manner then you must include this value in the clientToken request parameter of that later call. All other parameters must also have the same values that you used in the first call.
         public let clientToken: String?
-        /// Information about the invitation.
+        /// An object that contains information about the specified invitation.
         public let resourceShareInvitation: ResourceShareInvitation?
 
         public init(clientToken: String? = nil, resourceShareInvitation: ResourceShareInvitation? = nil) {
@@ -111,15 +124,15 @@ extension RAM {
     }
 
     public struct AssociateResourceSharePermissionRequest: AWSEncodableShape {
-        /// A unique, case-sensitive identifier that you provide to ensure the idempotency of the request.
+        /// Specifies a unique, case-sensitive identifier that you provide to ensure the idempotency of the request. This lets you safely retry the request without accidentally performing the same operation a second time. Passing the same value to a later call to an operation requires that you also pass the same value for all other parameters. We recommend that you use a UUID type of value.. If you don't provide this value, then Amazon Web Services generates a random one for you.
         public let clientToken: String?
-        /// The Amazon Resource Name (ARN) of the RAM permission to associate with the resource share.
+        /// Specifies the Amazon Resoure Name (ARN) of the RAM permission to associate with the resource share. To find the ARN for a permission, use either the ListPermissions operation or go to the Permissions library page in the RAM console and then choose the name of the permission. The ARN is displayed on the detail page.
         public let permissionArn: String
-        /// The version of the RAM permissions to associate with the resource share.
+        /// Specifies the version of the RAM permission to associate with the resource share. If you don't specify this parameter, the operation uses the version designated as the default.
         public let permissionVersion: Int?
-        /// Indicates whether the permission should replace the permissions that are currently associated with the resource share. Use true to replace the current permissions. Use false to add the permission to the current permission.
+        /// Specifies whether the specified permission should replace or add to the existing permission associated with the resource share. Use true to replace the current permissions. Use false to add the permission to the current permission. The default value is false.  A resource share can have only one permission per resource type. If a resource share already has a permission for the specified resource type and you don't set replace to true then the operation returns an error. This helps prevent accidental overwriting of a permission.
         public let replace: Bool?
-        /// The Amazon Resource Name (ARN) of the resource share.
+        /// Specifies the Amazon Resoure Name (ARN) of the resource share to which you want to add or replace permissions.
         public let resourceShareArn: String
 
         public init(clientToken: String? = nil, permissionArn: String, permissionVersion: Int? = nil, replace: Bool? = nil, resourceShareArn: String) {
@@ -140,9 +153,9 @@ extension RAM {
     }
 
     public struct AssociateResourceSharePermissionResponse: AWSDecodableShape {
-        /// A unique, case-sensitive identifier that you provide to ensure the idempotency of the request.
+        /// The idempotency identifier associated with this request. If you want to repeat the same operation in an idempotent manner then you must include this value in the clientToken request parameter of that later call. All other parameters must also have the same values that you used in the first call.
         public let clientToken: String?
-        /// Indicates whether the request succeeded.
+        /// A return value of true indicates that the request succeeded. A value of false indicates that the request failed.
         public let returnValue: Bool?
 
         public init(clientToken: String? = nil, returnValue: Bool? = nil) {
@@ -157,13 +170,13 @@ extension RAM {
     }
 
     public struct AssociateResourceShareRequest: AWSEncodableShape {
-        /// A unique, case-sensitive identifier that you provide to ensure the idempotency of the request.
+        /// Specifies a unique, case-sensitive identifier that you provide to ensure the idempotency of the request. This lets you safely retry the request without accidentally performing the same operation a second time. Passing the same value to a later call to an operation requires that you also pass the same value for all other parameters. We recommend that you use a UUID type of value.. If you don't provide this value, then Amazon Web Services generates a random one for you.
         public let clientToken: String?
-        /// The principals to associate with the resource share. The possible values are:   An Amazon Web Services account ID   An Amazon Resource Name (ARN) of an organization in Organizations   An ARN of an organizational unit (OU) in Organizations   An ARN of an IAM role   An ARN of an IAM user    Not all resource types can be shared with IAM roles and IAM users. For more information, see Sharing with IAM roles and IAM users in the Resource Access Manager User Guide.
+        /// Specifies a list of principals to whom you want to the resource share. This can be null if you want to add only resources. What the principals can do with the resources in the share is determined by the RAM permissions that you associate with the resource share. See AssociateResourceSharePermission. You can include the following values:   An Amazon Web Services account ID, for example: 123456789012    An Amazon Resoure Name (ARN) of an organization in Organizations, for example: organizations::123456789012:organization/o-exampleorgid    An ARN of an organizational unit (OU) in Organizations, for example: organizations::123456789012:ou/o-exampleorgid/ou-examplerootid-exampleouid123    An ARN of an IAM role, for example: iam::123456789012:role/rolename    An ARN of an IAM user, for example: iam::123456789012user/username     Not all resource types can be shared with IAM roles and users. For more information, see Sharing with IAM roles and users in the Resource Access Manager User Guide.
         public let principals: [String]?
-        /// The Amazon Resource Names (ARNs) of the resources.
+        /// Specifies a list of Amazon Resource Names (ARNs) of the resources that you want to share. This can be null if you want to add only principals.
         public let resourceArns: [String]?
-        /// The Amazon Resource Name (ARN) of the resource share.
+        /// Specifies the Amazon Resoure Name (ARN) of the resource share that you want to add principals or resources to.
         public let resourceShareArn: String
 
         public init(clientToken: String? = nil, principals: [String]? = nil, resourceArns: [String]? = nil, resourceShareArn: String) {
@@ -182,9 +195,9 @@ extension RAM {
     }
 
     public struct AssociateResourceShareResponse: AWSDecodableShape {
-        /// A unique, case-sensitive identifier that you provide to ensure the idempotency of the request.
+        /// The idempotency identifier associated with this request. If you want to repeat the same operation in an idempotent manner then you must include this value in the clientToken request parameter of that later call. All other parameters must also have the same values that you used in the first call.
         public let clientToken: String?
-        /// Information about the associations.
+        /// An array of objects that contain information about the associations.
         public let resourceShareAssociations: [ResourceShareAssociation]?
 
         public init(clientToken: String? = nil, resourceShareAssociations: [ResourceShareAssociation]? = nil) {
@@ -199,19 +212,19 @@ extension RAM {
     }
 
     public struct CreateResourceShareRequest: AWSEncodableShape {
-        /// Indicates whether principals outside your organization in Organizations can be associated with a resource share.
+        /// Specifies whether principals outside your organization in Organizations can be associated with a resource share. A value of true lets you share with individual Amazon Web Services accounts that are not in your organization. A value of false only has meaning if your account is a member of an Amazon Web Services Organization. The default value is true.
         public let allowExternalPrincipals: Bool?
-        /// A unique, case-sensitive identifier that you provide to ensure the idempotency of the request.
+        /// Specifies a unique, case-sensitive identifier that you provide to ensure the idempotency of the request. This lets you safely retry the request without accidentally performing the same operation a second time. Passing the same value to a later call to an operation requires that you also pass the same value for all other parameters. We recommend that you use a UUID type of value.. If you don't provide this value, then Amazon Web Services generates a random one for you.
         public let clientToken: String?
-        /// The name of the resource share.
+        /// Specifies the name of the resource share.
         public let name: String
-        /// The Amazon Resource Names (ARNs) of the permissions to associate with the resource share. If you do not specify an ARN for the permission, RAM automatically attaches the default version of the permission for each resource type. Only one permission can be associated with each resource type in a resource share.
+        /// Specifies the Amazon Resource Names (ARNs) of the RAM permission to associate with the resource share. If you do not specify an ARN for the permission, RAM automatically attaches the default version of the permission for each resource type. You can associate only one permission with each resource type included in the resource share.
         public let permissionArns: [String]?
-        /// The principals to associate with the resource share. The possible values are:   An Amazon Web Services account ID   An Amazon Resource Name (ARN) of an organization in Organizations   An ARN of an organizational unit (OU) in Organizations   An ARN of an IAM role   An ARN of an IAM user    Not all resource types can be shared with IAM roles and IAM users. For more information, see Sharing with IAM roles and IAM users in the Resource Access Manager User Guide.
+        /// Specifies a list of one or more principals to associate with the resource share. You can include the following values:   An Amazon Web Services account ID, for example: 123456789012    An Amazon Resoure Name (ARN) of an organization in Organizations, for example: organizations::123456789012:organization/o-exampleorgid    An ARN of an organizational unit (OU) in Organizations, for example: organizations::123456789012:ou/o-exampleorgid/ou-examplerootid-exampleouid123    An ARN of an IAM role, for example: iam::123456789012:role/rolename    An ARN of an IAM user, for example: iam::123456789012user/username     Not all resource types can be shared with IAM roles and users. For more information, see Sharing with IAM roles and users in the Resource Access Manager User Guide.
         public let principals: [String]?
-        /// The ARNs of the resources to associate with the resource share.
+        /// Specifies a list of one or more ARNs of the resources to associate with the resource share.
         public let resourceArns: [String]?
-        /// One or more tags.
+        /// Specifies one or more tags to attach to the resource share itself. It doesn't attach the tags to the resources associated with the resource share.
         public let tags: [Tag]?
 
         public init(allowExternalPrincipals: Bool? = nil, clientToken: String? = nil, name: String, permissionArns: [String]? = nil, principals: [String]? = nil, resourceArns: [String]? = nil, tags: [Tag]? = nil) {
@@ -236,9 +249,9 @@ extension RAM {
     }
 
     public struct CreateResourceShareResponse: AWSDecodableShape {
-        /// A unique, case-sensitive identifier that you provide to ensure the idempotency of the request.
+        /// The idempotency identifier associated with this request. If you want to repeat the same operation in an idempotent manner then you must include this value in the clientToken request parameter of that later call. All other parameters must also have the same values that you used in the first call.
         public let clientToken: String?
-        /// Information about the resource share.
+        /// An object with information about the new resource share.
         public let resourceShare: ResourceShare?
 
         public init(clientToken: String? = nil, resourceShare: ResourceShare? = nil) {
@@ -258,9 +271,9 @@ extension RAM {
             AWSMemberEncoding(label: "resourceShareArn", location: .querystring(locationName: "resourceShareArn"))
         ]
 
-        /// A unique, case-sensitive identifier that you provide to ensure the idempotency of the request.
+        /// Specifies a unique, case-sensitive identifier that you provide to ensure the idempotency of the request. This lets you safely retry the request without accidentally performing the same operation a second time. Passing the same value to a later call to an operation requires that you also pass the same value for all other parameters. We recommend that you use a UUID type of value.. If you don't provide this value, then Amazon Web Services generates a random one for you.
         public let clientToken: String?
-        /// The Amazon Resource Name (ARN) of the resource share.
+        /// Specifies the Amazon Resoure Name (ARN) of the resource share to delete.
         public let resourceShareArn: String
 
         public init(clientToken: String? = nil, resourceShareArn: String) {
@@ -272,9 +285,9 @@ extension RAM {
     }
 
     public struct DeleteResourceShareResponse: AWSDecodableShape {
-        /// A unique, case-sensitive identifier that you provide to ensure the idempotency of the request.
+        /// The idempotency identifier associated with this request. If you want to repeat the same operation in an idempotent manner then you must include this value in the clientToken request parameter of that later call. All other parameters must also have the same values that you used in the first call.
         public let clientToken: String?
-        /// Indicates whether the request succeeded.
+        /// A return value of true indicates that the request succeeded. A value of false indicates that the request failed.
         public let returnValue: Bool?
 
         public init(clientToken: String? = nil, returnValue: Bool? = nil) {
@@ -289,11 +302,11 @@ extension RAM {
     }
 
     public struct DisassociateResourceSharePermissionRequest: AWSEncodableShape {
-        /// A unique, case-sensitive identifier that you provide to ensure the idempotency of the request.
+        /// Specifies a unique, case-sensitive identifier that you provide to ensure the idempotency of the request. This lets you safely retry the request without accidentally performing the same operation a second time. Passing the same value to a later call to an operation requires that you also pass the same value for all other parameters. We recommend that you use a UUID type of value.. If you don't provide this value, then Amazon Web Services generates a random one for you.
         public let clientToken: String?
-        /// The Amazon Resource Name (ARN) of the permission to disassociate from the resource share.
+        /// The Amazon Resoure Name (ARN) of the permission to disassociate from the resource share. Changes to permissions take effect immediately.
         public let permissionArn: String
-        /// The Amazon Resource Name (ARN) of the resource share.
+        /// The Amazon Resoure Name (ARN) of the resource share from which you want to disassociate a permission.
         public let resourceShareArn: String
 
         public init(clientToken: String? = nil, permissionArn: String, resourceShareArn: String) {
@@ -310,9 +323,9 @@ extension RAM {
     }
 
     public struct DisassociateResourceSharePermissionResponse: AWSDecodableShape {
-        /// A unique, case-sensitive identifier that you provide to ensure the idempotency of the request.
+        /// The idempotency identifier associated with this request. If you want to repeat the same operation in an idempotent manner then you must include this value in the clientToken request parameter of that later call. All other parameters must also have the same values that you used in the first call.
         public let clientToken: String?
-        /// Indicates whether the request succeeded.
+        /// A return value of true indicates that the request succeeded. A value of false indicates that the request failed.
         public let returnValue: Bool?
 
         public init(clientToken: String? = nil, returnValue: Bool? = nil) {
@@ -327,13 +340,13 @@ extension RAM {
     }
 
     public struct DisassociateResourceShareRequest: AWSEncodableShape {
-        /// A unique, case-sensitive identifier that you provide to ensure the idempotency of the request.
+        /// Specifies a unique, case-sensitive identifier that you provide to ensure the idempotency of the request. This lets you safely retry the request without accidentally performing the same operation a second time. Passing the same value to a later call to an operation requires that you also pass the same value for all other parameters. We recommend that you use a UUID type of value.. If you don't provide this value, then Amazon Web Services generates a random one for you.
         public let clientToken: String?
-        /// The principals.
+        /// Specifies a list of one or more principals that no longer are to have access to the resources in this resource share. You can include the following values:   An Amazon Web Services account ID, for example: 123456789012    An Amazon Resoure Name (ARN) of an organization in Organizations, for example: organizations::123456789012:organization/o-exampleorgid    An ARN of an organizational unit (OU) in Organizations, for example: organizations::123456789012:ou/o-exampleorgid/ou-examplerootid-exampleouid123    An ARN of an IAM role, for example: iam::123456789012:role/rolename    An ARN of an IAM user, for example: iam::123456789012user/username     Not all resource types can be shared with IAM roles and users. For more information, see Sharing with IAM roles and users in the Resource Access Manager User Guide.
         public let principals: [String]?
-        /// The Amazon Resource Names (ARNs) of the resources.
+        /// Specifies a list of Amazon Resource Names (ARNs) for one or more resources that you want to remove from the resource share. After the operation runs, these resources are no longer shared with principals outside of the Amazon Web Services account that created the resources.
         public let resourceArns: [String]?
-        /// The Amazon Resource Name (ARN) of the resource share.
+        /// Specifies Amazon Resoure Name (ARN) of the resource share that you want to remove resources from.
         public let resourceShareArn: String
 
         public init(clientToken: String? = nil, principals: [String]? = nil, resourceArns: [String]? = nil, resourceShareArn: String) {
@@ -352,9 +365,9 @@ extension RAM {
     }
 
     public struct DisassociateResourceShareResponse: AWSDecodableShape {
-        /// A unique, case-sensitive identifier that you provide to ensure the idempotency of the request.
+        /// The idempotency identifier associated with this request. If you want to repeat the same operation in an idempotent manner then you must include this value in the clientToken request parameter of that later call. All other parameters must also have the same values that you used in the first call.
         public let clientToken: String?
-        /// Information about the associations.
+        /// An array of objects that contain information about the updated associations for this resource share.
         public let resourceShareAssociations: [ResourceShareAssociation]?
 
         public init(clientToken: String? = nil, resourceShareAssociations: [ResourceShareAssociation]? = nil) {
@@ -373,7 +386,7 @@ extension RAM {
     }
 
     public struct EnableSharingWithAwsOrganizationResponse: AWSDecodableShape {
-        /// Indicates whether the request succeeded.
+        /// A return value of true indicates that the request succeeded. A value of false indicates that the request failed.
         public let returnValue: Bool?
 
         public init(returnValue: Bool? = nil) {
@@ -386,9 +399,9 @@ extension RAM {
     }
 
     public struct GetPermissionRequest: AWSEncodableShape {
-        /// The Amazon Resource Name (ARN) of the permission.
+        /// Specifies the Amazon Resoure Name (ARN) of the permission whose contents you want to retrieve. To find the ARN for a permission, use either the ListPermissions operation or go to the Permissions library page in the RAM console and then choose the name of the permission. The ARN is displayed on the detail page.
         public let permissionArn: String
-        /// The identifier for the version of the permission.
+        /// Specifies identifier for the version of the RAM permission to retrieve. If you don't specify this parameter, the operation retrieves the default version.
         public let permissionVersion: Int?
 
         public init(permissionArn: String, permissionVersion: Int? = nil) {
@@ -403,7 +416,7 @@ extension RAM {
     }
 
     public struct GetPermissionResponse: AWSDecodableShape {
-        /// Information about the permission.
+        /// An object that contains information about the permission.
         public let permission: ResourceSharePermissionDetail?
 
         public init(permission: ResourceSharePermissionDetail? = nil) {
@@ -416,13 +429,13 @@ extension RAM {
     }
 
     public struct GetResourcePoliciesRequest: AWSEncodableShape {
-        /// The maximum number of results to return with a single call. To retrieve the remaining results, make another call with the returned nextToken value.
+        /// Specifies the total number of results that you want included on each page of the response. If you do not include this parameter, it defaults to a value that is specific to the operation. If additional items exist beyond the number you specify, the NextToken response element is returned with a value (not null). Include the specified value as the NextToken request parameter in the next call to the operation to get the next part of the results. Note that the service might return fewer results than the maximum even when there are more results available. You should check NextToken after every operation to ensure that you receive all of the results.
         public let maxResults: Int?
-        /// The token for the next page of results.
+        /// Specifies that you want to receive the next page of results. Valid only if you received a NextToken response in the previous request. If you did, it indicates that more output is available. Set this parameter to the value provided by the previous call's NextToken response to request the next page of results.
         public let nextToken: String?
-        /// The principal.
+        /// Specifies the principal.
         public let principal: String?
-        /// The Amazon Resource Names (ARNs) of the resources.
+        /// Specifies the Amazon Resource Names (ARNs) of the resources whose policies you want to retrieve.
         public let resourceArns: [String]
 
         public init(maxResults: Int? = nil, nextToken: String? = nil, principal: String? = nil, resourceArns: [String]) {
@@ -446,9 +459,9 @@ extension RAM {
     }
 
     public struct GetResourcePoliciesResponse: AWSDecodableShape {
-        /// The token to use to retrieve the next page of results. This value is null when there are no more results to return.
+        /// If present, this value indicates that more output is available than is included in the current response. Use this value in the NextToken request parameter in a subsequent call to the operation to get the next part of the output. You should repeat this until the NextToken response element comes back as null. This indicates that this is the last page of results.
         public let nextToken: String?
-        /// A key policy document, in JSON format.
+        /// An array of resource policy documents in JSON format.
         public let policies: [String]?
 
         public init(nextToken: String? = nil, policies: [String]? = nil) {
@@ -463,19 +476,19 @@ extension RAM {
     }
 
     public struct GetResourceShareAssociationsRequest: AWSEncodableShape {
-        /// The association status.
+        /// Specifies that you want to retrieve only associations with this status.
         public let associationStatus: ResourceShareAssociationStatus?
-        /// The association type. Specify PRINCIPAL to list the principals that are associated with the specified resource share. Specify RESOURCE to list the resources that are associated with the specified resource share.
+        /// Specifies whether you want to retrieve the associations that involve a specified resource or principal.    PRINCIPAL – list the principals that are associated with the specified resource share.    RESOURCE – list the resources that are associated with the specified resource share.
         public let associationType: ResourceShareAssociationType
-        /// The maximum number of results to return with a single call. To retrieve the remaining results, make another call with the returned nextToken value.
+        /// Specifies the total number of results that you want included on each page of the response. If you do not include this parameter, it defaults to a value that is specific to the operation. If additional items exist beyond the number you specify, the NextToken response element is returned with a value (not null). Include the specified value as the NextToken request parameter in the next call to the operation to get the next part of the results. Note that the service might return fewer results than the maximum even when there are more results available. You should check NextToken after every operation to ensure that you receive all of the results.
         public let maxResults: Int?
-        /// The token for the next page of results.
+        /// Specifies that you want to receive the next page of results. Valid only if you received a NextToken response in the previous request. If you did, it indicates that more output is available. Set this parameter to the value provided by the previous call's NextToken response to request the next page of results.
         public let nextToken: String?
-        /// The principal. You cannot specify this parameter if the association type is RESOURCE.
+        /// Specifies the ID of the principal whose resource shares you want to retrieve. This can be an Amazon Web Services account ID, an organization ID, an organizational unit ID, or the Amazon Resoure Name (ARN) of an individual IAM user or role. You cannot specify this parameter if the association type is RESOURCE.
         public let principal: String?
-        /// The Amazon Resource Name (ARN) of the resource. You cannot specify this parameter if the association type is PRINCIPAL.
+        /// Specifies the Amazon Resoure Name (ARN) of the resource whose resource shares you want to retrieve. You cannot specify this parameter if the association type is PRINCIPAL.
         public let resourceArn: String?
-        /// The Amazon Resource Names (ARN) of the resource shares.
+        /// Specifies a list of Amazon Resource Names (ARNs) of the resource share whose associations you want to retrieve.
         public let resourceShareArns: [String]?
 
         public init(associationStatus: ResourceShareAssociationStatus? = nil, associationType: ResourceShareAssociationType, maxResults: Int? = nil, nextToken: String? = nil, principal: String? = nil, resourceArn: String? = nil, resourceShareArns: [String]? = nil) {
@@ -505,9 +518,9 @@ extension RAM {
     }
 
     public struct GetResourceShareAssociationsResponse: AWSDecodableShape {
-        /// The token to use to retrieve the next page of results. This value is null when there are no more results to return.
+        /// If present, this value indicates that more output is available than is included in the current response. Use this value in the NextToken request parameter in a subsequent call to the operation to get the next part of the output. You should repeat this until the NextToken response element comes back as null. This indicates that this is the last page of results.
         public let nextToken: String?
-        /// Information about the associations.
+        /// An array of objects that contain the details about the associations.
         public let resourceShareAssociations: [ResourceShareAssociation]?
 
         public init(nextToken: String? = nil, resourceShareAssociations: [ResourceShareAssociation]? = nil) {
@@ -522,13 +535,13 @@ extension RAM {
     }
 
     public struct GetResourceShareInvitationsRequest: AWSEncodableShape {
-        /// The maximum number of results to return with a single call. To retrieve the remaining results, make another call with the returned nextToken value.
+        /// Specifies the total number of results that you want included on each page of the response. If you do not include this parameter, it defaults to a value that is specific to the operation. If additional items exist beyond the number you specify, the NextToken response element is returned with a value (not null). Include the specified value as the NextToken request parameter in the next call to the operation to get the next part of the results. Note that the service might return fewer results than the maximum even when there are more results available. You should check NextToken after every operation to ensure that you receive all of the results.
         public let maxResults: Int?
-        /// The token for the next page of results.
+        /// Specifies that you want to receive the next page of results. Valid only if you received a NextToken response in the previous request. If you did, it indicates that more output is available. Set this parameter to the value provided by the previous call's NextToken response to request the next page of results.
         public let nextToken: String?
-        /// The Amazon Resource Names (ARN) of the resource shares.
+        /// Specifies that you want details about invitations only for the resource shares described by this list of Amazon Resource Names (ARNs)
         public let resourceShareArns: [String]?
-        /// The Amazon Resource Names (ARN) of the invitations.
+        /// Specifies the Amazon Resource Names (ARNs) of the resource share invitations you want information about.
         public let resourceShareInvitationArns: [String]?
 
         public init(maxResults: Int? = nil, nextToken: String? = nil, resourceShareArns: [String]? = nil, resourceShareInvitationArns: [String]? = nil) {
@@ -552,9 +565,9 @@ extension RAM {
     }
 
     public struct GetResourceShareInvitationsResponse: AWSDecodableShape {
-        /// The token to use to retrieve the next page of results. This value is null when there are no more results to return.
+        /// If present, this value indicates that more output is available than is included in the current response. Use this value in the NextToken request parameter in a subsequent call to the operation to get the next part of the output. You should repeat this until the NextToken response element comes back as null. This indicates that this is the last page of results.
         public let nextToken: String?
-        /// Information about the invitations.
+        /// An array of objects that contain the details about the invitations.
         public let resourceShareInvitations: [ResourceShareInvitation]?
 
         public init(nextToken: String? = nil, resourceShareInvitations: [ResourceShareInvitation]? = nil) {
@@ -569,21 +582,21 @@ extension RAM {
     }
 
     public struct GetResourceSharesRequest: AWSEncodableShape {
-        /// The maximum number of results to return with a single call. To retrieve the remaining results, make another call with the returned nextToken value.
+        /// Specifies the total number of results that you want included on each page of the response. If you do not include this parameter, it defaults to a value that is specific to the operation. If additional items exist beyond the number you specify, the NextToken response element is returned with a value (not null). Include the specified value as the NextToken request parameter in the next call to the operation to get the next part of the results. Note that the service might return fewer results than the maximum even when there are more results available. You should check NextToken after every operation to ensure that you receive all of the results.
         public let maxResults: Int?
-        /// The name of the resource share.
+        /// Specifies the name of an individual resource share that you want to retrieve details about.
         public let name: String?
-        /// The token for the next page of results.
+        /// Specifies that you want to receive the next page of results. Valid only if you received a NextToken response in the previous request. If you did, it indicates that more output is available. Set this parameter to the value provided by the previous call's NextToken response to request the next page of results.
         public let nextToken: String?
-        /// The Amazon Resource Name (ARN) of the RAM permission that is associated with the resource share.
+        /// Specifies that you want to retrieve details of only those resource shares that use the RAM permission with this Amazon Resoure Name (ARN).
         public let permissionArn: String?
-        /// The type of owner.
+        /// Specifies that you want to retrieve details of only those resource shares that match the following:     SELF  – resources that you are sharing     OTHER-ACCOUNTS  – resources that other accounts share with you
         public let resourceOwner: ResourceOwner
-        /// The Amazon Resource Names (ARNs) of the resource shares.
+        /// Specifies the Amazon Resource Names (ARNs) of individual resource shares that you want information about.
         public let resourceShareArns: [String]?
-        /// The status of the resource share.
+        /// Specifies that you want to retrieve details of only those resource shares that have this status.
         public let resourceShareStatus: ResourceShareStatus?
-        /// One or more tag filters.
+        /// Specifies that you want to retrieve details of only those resource shares that match the specified tag keys and values.
         public let tagFilters: [TagFilter]?
 
         public init(maxResults: Int? = nil, name: String? = nil, nextToken: String? = nil, permissionArn: String? = nil, resourceOwner: ResourceOwner, resourceShareArns: [String]? = nil, resourceShareStatus: ResourceShareStatus? = nil, tagFilters: [TagFilter]? = nil) {
@@ -615,9 +628,9 @@ extension RAM {
     }
 
     public struct GetResourceSharesResponse: AWSDecodableShape {
-        /// The token to use to retrieve the next page of results. This value is null when there are no more results to return.
+        /// If present, this value indicates that more output is available than is included in the current response. Use this value in the NextToken request parameter in a subsequent call to the operation to get the next part of the output. You should repeat this until the NextToken response element comes back as null. This indicates that this is the last page of results.
         public let nextToken: String?
-        /// Information about the resource shares.
+        /// An array of objects that contain the information about the resource shares.
         public let resourceShares: [ResourceShare]?
 
         public init(nextToken: String? = nil, resourceShares: [ResourceShare]? = nil) {
@@ -632,16 +645,19 @@ extension RAM {
     }
 
     public struct ListPendingInvitationResourcesRequest: AWSEncodableShape {
-        /// The maximum number of results to return with a single call. To retrieve the remaining results, make another call with the returned nextToken value.
+        /// Specifies the total number of results that you want included on each page of the response. If you do not include this parameter, it defaults to a value that is specific to the operation. If additional items exist beyond the number you specify, the NextToken response element is returned with a value (not null). Include the specified value as the NextToken request parameter in the next call to the operation to get the next part of the results. Note that the service might return fewer results than the maximum even when there are more results available. You should check NextToken after every operation to ensure that you receive all of the results.
         public let maxResults: Int?
-        /// The token for the next page of results.
+        /// Specifies that you want to receive the next page of results. Valid only if you received a NextToken response in the previous request. If you did, it indicates that more output is available. Set this parameter to the value provided by the previous call's NextToken response to request the next page of results.
         public let nextToken: String?
-        /// The Amazon Resource Name (ARN) of the invitation.
+        /// Specifies that you want the results to include only resources that have the specified scope.    ALL – the results include both global and regional resources or resource types.    GLOBAL – the results include only global resources or resource types.    REGIONAL – the results include only regional resources or resource types.   The default value is ALL.
+        public let resourceRegionScope: ResourceRegionScopeFilter?
+        /// Specifies the Amazon Resoure Name (ARN) of the invitation. You can use GetResourceShareInvitations to find the ARN of the invitation.
         public let resourceShareInvitationArn: String
 
-        public init(maxResults: Int? = nil, nextToken: String? = nil, resourceShareInvitationArn: String) {
+        public init(maxResults: Int? = nil, nextToken: String? = nil, resourceRegionScope: ResourceRegionScopeFilter? = nil, resourceShareInvitationArn: String) {
             self.maxResults = maxResults
             self.nextToken = nextToken
+            self.resourceRegionScope = resourceRegionScope
             self.resourceShareInvitationArn = resourceShareInvitationArn
         }
 
@@ -653,14 +669,15 @@ extension RAM {
         private enum CodingKeys: String, CodingKey {
             case maxResults
             case nextToken
+            case resourceRegionScope
             case resourceShareInvitationArn
         }
     }
 
     public struct ListPendingInvitationResourcesResponse: AWSDecodableShape {
-        /// The token to use to retrieve the next page of results. This value is null when there are no more results to return.
+        /// If present, this value indicates that more output is available than is included in the current response. Use this value in the NextToken request parameter in a subsequent call to the operation to get the next part of the output. You should repeat this until the NextToken response element comes back as null. This indicates that this is the last page of results.
         public let nextToken: String?
-        /// Information about the resources included the resource share.
+        /// An array of objects that contain the information about the resources included the specified resource share.
         public let resources: [Resource]?
 
         public init(nextToken: String? = nil, resources: [Resource]? = nil) {
@@ -675,11 +692,11 @@ extension RAM {
     }
 
     public struct ListPermissionsRequest: AWSEncodableShape {
-        /// The maximum number of results to return with a single call. To retrieve the remaining results, make another call with the returned nextToken value.
+        /// Specifies the total number of results that you want included on each page of the response. If you do not include this parameter, it defaults to a value that is specific to the operation. If additional items exist beyond the number you specify, the NextToken response element is returned with a value (not null). Include the specified value as the NextToken request parameter in the next call to the operation to get the next part of the results. Note that the service might return fewer results than the maximum even when there are more results available. You should check NextToken after every operation to ensure that you receive all of the results.
         public let maxResults: Int?
-        /// The token for the next page of results.
+        /// Specifies that you want to receive the next page of results. Valid only if you received a NextToken response in the previous request. If you did, it indicates that more output is available. Set this parameter to the value provided by the previous call's NextToken response to request the next page of results.
         public let nextToken: String?
-        /// Specifies the resource type for which to list permissions. For example, to list only permissions that apply to EC2 subnets, specify ec2:Subnet.
+        /// Specifies that you want to list permissions for only the specified resource type. For example, to list only permissions that apply to EC2 subnets, specify ec2:Subnet. You can use the ListResourceTypes operation to get the specific string required.
         public let resourceType: String?
 
         public init(maxResults: Int? = nil, nextToken: String? = nil, resourceType: String? = nil) {
@@ -701,9 +718,9 @@ extension RAM {
     }
 
     public struct ListPermissionsResponse: AWSDecodableShape {
-        /// The token to use to retrieve the next page of results. This value is null when there are no more results to return.
+        /// If present, this value indicates that more output is available than is included in the current response. Use this value in the NextToken request parameter in a subsequent call to the operation to get the next part of the output. You should repeat this until the NextToken response element comes back as null. This indicates that this is the last page of results.
         public let nextToken: String?
-        /// Information about the permissions.
+        /// An array of objects with information about the permissions.
         public let permissions: [ResourceSharePermissionSummary]?
 
         public init(nextToken: String? = nil, permissions: [ResourceSharePermissionSummary]? = nil) {
@@ -718,19 +735,19 @@ extension RAM {
     }
 
     public struct ListPrincipalsRequest: AWSEncodableShape {
-        /// The maximum number of results to return with a single call. To retrieve the remaining results, make another call with the returned nextToken value.
+        /// Specifies the total number of results that you want included on each page of the response. If you do not include this parameter, it defaults to a value that is specific to the operation. If additional items exist beyond the number you specify, the NextToken response element is returned with a value (not null). Include the specified value as the NextToken request parameter in the next call to the operation to get the next part of the results. Note that the service might return fewer results than the maximum even when there are more results available. You should check NextToken after every operation to ensure that you receive all of the results.
         public let maxResults: Int?
-        /// The token for the next page of results.
+        /// Specifies that you want to receive the next page of results. Valid only if you received a NextToken response in the previous request. If you did, it indicates that more output is available. Set this parameter to the value provided by the previous call's NextToken response to request the next page of results.
         public let nextToken: String?
-        /// The principals.
+        /// Specifies that you want to list information for only the listed principals. You can include the following values:   An Amazon Web Services account ID, for example: 123456789012    An Amazon Resoure Name (ARN) of an organization in Organizations, for example: organizations::123456789012:organization/o-exampleorgid    An ARN of an organizational unit (OU) in Organizations, for example: organizations::123456789012:ou/o-exampleorgid/ou-examplerootid-exampleouid123    An ARN of an IAM role, for example: iam::123456789012:role/rolename    An ARN of an IAM user, for example: iam::123456789012user/username     Not all resource types can be shared with IAM roles and users. For more information, see Sharing with IAM roles and users in the Resource Access Manager User Guide.
         public let principals: [String]?
-        /// The Amazon Resource Name (ARN) of the resource.
+        /// Specifies that you want to list principal information for the resource share with the specified Amazon Resoure Name (ARN).
         public let resourceArn: String?
-        /// The type of owner.
+        /// Specifies that you want to list information for only resource shares that match the following:     SELF  – resources that you are sharing     OTHER-ACCOUNTS  – resources that other accounts share with you
         public let resourceOwner: ResourceOwner
-        /// The Amazon Resource Names (ARN) of the resource shares.
+        /// Specifies that you want to list information for only principals associated with the resource shares specified by a list the Amazon Resource Names (ARNs).
         public let resourceShareArns: [String]?
-        /// The resource type. Valid values: acm-pca:CertificateAuthority | appmesh:Mesh | codebuild:Project | codebuild:ReportGroup | ec2:CapacityReservation | ec2:DedicatedHost | ec2:LocalGatewayRouteTable | ec2:PrefixList | ec2:Subnet | ec2:TrafficMirrorTarget | ec2:TransitGateway | imagebuilder:Component | imagebuilder:Image | imagebuilder:ImageRecipe | imagebuilder:ContainerRecipe | glue:Catalog | glue:Database | glue:Table | license-manager:LicenseConfiguration I network-firewall:FirewallPolicy | network-firewall:StatefulRuleGroup | network-firewall:StatelessRuleGroup | outposts:Outpost | resource-groups:Group | rds:Cluster | route53resolver:FirewallRuleGroup |route53resolver:ResolverQueryLogConfig | route53resolver:ResolverRule | s3-outposts:Outpost | ssm-contacts:Contact | ssm-incidents:ResponsePlan
+        /// Specifies that you want to list information for only principals associated with resource shares that include the specified resource type. For a list of valid values, query the ListResourceTypes operation.
         public let resourceType: String?
 
         public init(maxResults: Int? = nil, nextToken: String? = nil, principals: [String]? = nil, resourceArn: String? = nil, resourceOwner: ResourceOwner, resourceShareArns: [String]? = nil, resourceType: String? = nil) {
@@ -760,9 +777,9 @@ extension RAM {
     }
 
     public struct ListPrincipalsResponse: AWSDecodableShape {
-        /// The token to use to retrieve the next page of results. This value is null when there are no more results to return.
+        /// If present, this value indicates that more output is available than is included in the current response. Use this value in the NextToken request parameter in a subsequent call to the operation to get the next part of the output. You should repeat this until the NextToken response element comes back as null. This indicates that this is the last page of results.
         public let nextToken: String?
-        /// The principals.
+        /// An array of objects that contain the details about the principals.
         public let principals: [Principal]?
 
         public init(nextToken: String? = nil, principals: [Principal]? = nil) {
@@ -777,11 +794,11 @@ extension RAM {
     }
 
     public struct ListResourceSharePermissionsRequest: AWSEncodableShape {
-        /// The maximum number of results to return with a single call. To retrieve the remaining results, make another call with the returned nextToken value.
+        /// Specifies the total number of results that you want included on each page of the response. If you do not include this parameter, it defaults to a value that is specific to the operation. If additional items exist beyond the number you specify, the NextToken response element is returned with a value (not null). Include the specified value as the NextToken request parameter in the next call to the operation to get the next part of the results. Note that the service might return fewer results than the maximum even when there are more results available. You should check NextToken after every operation to ensure that you receive all of the results.
         public let maxResults: Int?
-        /// The token for the next page of results.
+        /// Specifies that you want to receive the next page of results. Valid only if you received a NextToken response in the previous request. If you did, it indicates that more output is available. Set this parameter to the value provided by the previous call's NextToken response to request the next page of results.
         public let nextToken: String?
-        /// The Amazon Resource Name (ARN) of the resource share.
+        /// Specifies the Amazon Resoure Name (ARN) of the resource share for which you want to retrieve the associated permissions.
         public let resourceShareArn: String
 
         public init(maxResults: Int? = nil, nextToken: String? = nil, resourceShareArn: String) {
@@ -803,9 +820,9 @@ extension RAM {
     }
 
     public struct ListResourceSharePermissionsResponse: AWSDecodableShape {
-        /// The token to use to retrieve the next page of results. This value is null when there are no more results to return.
+        /// If present, this value indicates that more output is available than is included in the current response. Use this value in the NextToken request parameter in a subsequent call to the operation to get the next part of the output. You should repeat this until the NextToken response element comes back as null. This indicates that this is the last page of results.
         public let nextToken: String?
-        /// The permissions associated with the resource share.
+        /// An array of objects that describe the permissions associated with the resource share.
         public let permissions: [ResourceSharePermissionSummary]?
 
         public init(nextToken: String? = nil, permissions: [ResourceSharePermissionSummary]? = nil) {
@@ -820,14 +837,17 @@ extension RAM {
     }
 
     public struct ListResourceTypesRequest: AWSEncodableShape {
-        /// The maximum number of results to return with a single call. To retrieve the remaining results, make another call with the returned nextToken value.
+        /// Specifies the total number of results that you want included on each page of the response. If you do not include this parameter, it defaults to a value that is specific to the operation. If additional items exist beyond the number you specify, the NextToken response element is returned with a value (not null). Include the specified value as the NextToken request parameter in the next call to the operation to get the next part of the results. Note that the service might return fewer results than the maximum even when there are more results available. You should check NextToken after every operation to ensure that you receive all of the results.
         public let maxResults: Int?
-        /// The token for the next page of results.
+        /// Specifies that you want to receive the next page of results. Valid only if you received a NextToken response in the previous request. If you did, it indicates that more output is available. Set this parameter to the value provided by the previous call's NextToken response to request the next page of results.
         public let nextToken: String?
+        /// Specifies that you want the results to include only resources that have the specified scope.    ALL – the results include both global and regional resources or resource types.    GLOBAL – the results include only global resources or resource types.    REGIONAL – the results include only regional resources or resource types.   The default value is ALL.
+        public let resourceRegionScope: ResourceRegionScopeFilter?
 
-        public init(maxResults: Int? = nil, nextToken: String? = nil) {
+        public init(maxResults: Int? = nil, nextToken: String? = nil, resourceRegionScope: ResourceRegionScopeFilter? = nil) {
             self.maxResults = maxResults
             self.nextToken = nextToken
+            self.resourceRegionScope = resourceRegionScope
         }
 
         public func validate(name: String) throws {
@@ -838,13 +858,14 @@ extension RAM {
         private enum CodingKeys: String, CodingKey {
             case maxResults
             case nextToken
+            case resourceRegionScope
         }
     }
 
     public struct ListResourceTypesResponse: AWSDecodableShape {
-        /// The token to use to retrieve the next page of results. This value is null when there are no more results to return.
+        /// If present, this value indicates that more output is available than is included in the current response. Use this value in the NextToken request parameter in a subsequent call to the operation to get the next part of the output. You should repeat this until the NextToken response element comes back as null. This indicates that this is the last page of results.
         public let nextToken: String?
-        /// The shareable resource types supported by RAM.
+        /// An array of objects that contain information about the resource types that can be shared using RAM.
         public let resourceTypes: [ServiceNameAndResourceType]?
 
         public init(nextToken: String? = nil, resourceTypes: [ServiceNameAndResourceType]? = nil) {
@@ -859,27 +880,30 @@ extension RAM {
     }
 
     public struct ListResourcesRequest: AWSEncodableShape {
-        /// The maximum number of results to return with a single call. To retrieve the remaining results, make another call with the returned nextToken value.
+        /// Specifies the total number of results that you want included on each page of the response. If you do not include this parameter, it defaults to a value that is specific to the operation. If additional items exist beyond the number you specify, the NextToken response element is returned with a value (not null). Include the specified value as the NextToken request parameter in the next call to the operation to get the next part of the results. Note that the service might return fewer results than the maximum even when there are more results available. You should check NextToken after every operation to ensure that you receive all of the results.
         public let maxResults: Int?
-        /// The token for the next page of results.
+        /// Specifies that you want to receive the next page of results. Valid only if you received a NextToken response in the previous request. If you did, it indicates that more output is available. Set this parameter to the value provided by the previous call's NextToken response to request the next page of results.
         public let nextToken: String?
-        /// The principal.
+        /// Specifies that you want to list only the resource shares that are associated with the specified principal.
         public let principal: String?
-        /// The Amazon Resource Names (ARNs) of the resources.
+        /// Specifies that you want to list only the resource shares that include resources with the specified Amazon Resource Names (ARNs).
         public let resourceArns: [String]?
-        /// The type of owner.
+        /// Specifies that you want to list only the resource shares that match the following:     SELF  – resources that you are sharing     OTHER-ACCOUNTS  – resources that other accounts share with you
         public let resourceOwner: ResourceOwner
-        /// The Amazon Resource Names (ARN) of the resource shares.
+        /// Specifies that you want the results to include only resources that have the specified scope.    ALL – the results include both global and regional resources or resource types.    GLOBAL – the results include only global resources or resource types.    REGIONAL – the results include only regional resources or resource types.   The default value is ALL.
+        public let resourceRegionScope: ResourceRegionScopeFilter?
+        /// Specifies that you want to list only resources in the resource shares identified by the specified Amazon Resource Names (ARNs).
         public let resourceShareArns: [String]?
-        /// The resource type. Valid values: acm-pca:CertificateAuthority | appmesh:Mesh | codebuild:Project | codebuild:ReportGroup | ec2:CapacityReservation | ec2:DedicatedHost | ec2:LocalGatewayRouteTable | ec2:PrefixList | ec2:Subnet | ec2:TrafficMirrorTarget | ec2:TransitGateway | imagebuilder:Component | imagebuilder:Image | imagebuilder:ImageRecipe | imagebuilder:ContainerRecipe | glue:Catalog | glue:Database | glue:Table | license-manager:LicenseConfiguration I network-firewall:FirewallPolicy | network-firewall:StatefulRuleGroup | network-firewall:StatelessRuleGroup | outposts:Outpost | resource-groups:Group | rds:Cluster | route53resolver:FirewallRuleGroup |route53resolver:ResolverQueryLogConfig | route53resolver:ResolverRule | s3-outposts:Outpost | ssm-contacts:Contact | ssm-incidents:ResponsePlan
+        /// Specifies that you want to list only the resource shares that include resources of the specified resource type. For valid values, query the ListResourceTypes operation.
         public let resourceType: String?
 
-        public init(maxResults: Int? = nil, nextToken: String? = nil, principal: String? = nil, resourceArns: [String]? = nil, resourceOwner: ResourceOwner, resourceShareArns: [String]? = nil, resourceType: String? = nil) {
+        public init(maxResults: Int? = nil, nextToken: String? = nil, principal: String? = nil, resourceArns: [String]? = nil, resourceOwner: ResourceOwner, resourceRegionScope: ResourceRegionScopeFilter? = nil, resourceShareArns: [String]? = nil, resourceType: String? = nil) {
             self.maxResults = maxResults
             self.nextToken = nextToken
             self.principal = principal
             self.resourceArns = resourceArns
             self.resourceOwner = resourceOwner
+            self.resourceRegionScope = resourceRegionScope
             self.resourceShareArns = resourceShareArns
             self.resourceType = resourceType
         }
@@ -895,15 +919,16 @@ extension RAM {
             case principal
             case resourceArns
             case resourceOwner
+            case resourceRegionScope
             case resourceShareArns
             case resourceType
         }
     }
 
     public struct ListResourcesResponse: AWSDecodableShape {
-        /// The token to use to retrieve the next page of results. This value is null when there are no more results to return.
+        /// If present, this value indicates that more output is available than is included in the current response. Use this value in the NextToken request parameter in a subsequent call to the operation to get the next part of the output. You should repeat this until the NextToken response element comes back as null. This indicates that this is the last page of results.
         public let nextToken: String?
-        /// Information about the resources.
+        /// An array of objects that contain information about the resources.
         public let resources: [Resource]?
 
         public init(nextToken: String? = nil, resources: [Resource]? = nil) {
@@ -918,15 +943,15 @@ extension RAM {
     }
 
     public struct Principal: AWSDecodableShape {
-        /// The time when the principal was associated with the resource share.
+        /// The date and time when the principal was associated with the resource share.
         public let creationTime: Date?
         /// Indicates whether the principal belongs to the same organization in Organizations as the Amazon Web Services account that owns the resource share.
         public let external: Bool?
         /// The ID of the principal.
         public let id: String?
-        /// The time when the association was last updated.
+        /// The date and time when the association was last updated.
         public let lastUpdatedTime: Date?
-        /// The Amazon Resource Name (ARN) of the resource share.
+        /// The Amazon Resoure Name (ARN) of a resource share the principal is associated with.
         public let resourceShareArn: String?
 
         public init(creationTime: Date? = nil, external: Bool? = nil, id: String? = nil, lastUpdatedTime: Date? = nil, resourceShareArn: String? = nil) {
@@ -951,7 +976,7 @@ extension RAM {
             AWSMemberEncoding(label: "resourceShareArn", location: .querystring(locationName: "resourceShareArn"))
         ]
 
-        /// The Amazon Resource Name (ARN) of the resource share to promote.
+        /// Specifies the Amazon Resoure Name (ARN) of the resource share to promote.
         public let resourceShareArn: String
 
         public init(resourceShareArn: String) {
@@ -962,7 +987,7 @@ extension RAM {
     }
 
     public struct PromoteResourceShareCreatedFromPolicyResponse: AWSDecodableShape {
-        /// Indicates whether the request succeeded.
+        /// A return value of true indicates that the request succeeded. A value of false indicates that the request failed.
         public let returnValue: Bool?
 
         public init(returnValue: Bool? = nil) {
@@ -975,9 +1000,9 @@ extension RAM {
     }
 
     public struct RejectResourceShareInvitationRequest: AWSEncodableShape {
-        /// A unique, case-sensitive identifier that you provide to ensure the idempotency of the request.
+        /// Specifies a unique, case-sensitive identifier that you provide to ensure the idempotency of the request. This lets you safely retry the request without accidentally performing the same operation a second time. Passing the same value to a later call to an operation requires that you also pass the same value for all other parameters. We recommend that you use a UUID type of value.. If you don't provide this value, then Amazon Web Services generates a random one for you.
         public let clientToken: String?
-        /// The Amazon Resource Name (ARN) of the invitation.
+        /// Specifies the Amazon Resoure Name (ARN) of the invitation that you want to reject.
         public let resourceShareInvitationArn: String
 
         public init(clientToken: String? = nil, resourceShareInvitationArn: String) {
@@ -992,9 +1017,9 @@ extension RAM {
     }
 
     public struct RejectResourceShareInvitationResponse: AWSDecodableShape {
-        /// A unique, case-sensitive identifier that you provide to ensure the idempotency of the request.
+        /// The idempotency identifier associated with this request. If you want to repeat the same operation in an idempotent manner then you must include this value in the clientToken request parameter of that later call. All other parameters must also have the same values that you used in the first call.
         public let clientToken: String?
-        /// Information about the invitation.
+        /// An object that contains the details about the rejected invitation.
         public let resourceShareInvitation: ResourceShareInvitation?
 
         public init(clientToken: String? = nil, resourceShareInvitation: ResourceShareInvitation? = nil) {
@@ -1009,28 +1034,31 @@ extension RAM {
     }
 
     public struct Resource: AWSDecodableShape {
-        /// The Amazon Resource Name (ARN) of the resource.
+        /// The Amazon Resoure Name (ARN) of the resource.
         public let arn: String?
-        /// The time when the resource was associated with the resource share.
+        /// The date and time when the resource was associated with the resource share.
         public let creationTime: Date?
-        /// The time when the association was last updated.
+        /// The date an time when the association was last updated.
         public let lastUpdatedTime: Date?
-        /// The Amazon Resource Name (ARN) of the resource group. This value is returned only if the resource is a resource group.
+        /// The Amazon Resoure Name (ARN) of the resource group. This value is available only if the resource is part of a resource group.
         public let resourceGroupArn: String?
-        /// The Amazon Resource Name (ARN) of the resource share.
+        /// Specifies the scope of visibility of this resource:    REGIONAL – The resource can be accessed only by using requests that target the Amazon Web Services Region in which the resource exists.    GLOBAL – The resource can be accessed from any Amazon Web Services Region.
+        public let resourceRegionScope: ResourceRegionScope?
+        /// The Amazon Resoure Name (ARN) of the resource share this resource is associated with.
         public let resourceShareArn: String?
-        /// The status of the resource.
+        /// The current status of the resource.
         public let status: ResourceStatus?
         /// A message about the status of the resource.
         public let statusMessage: String?
-        /// The resource type.
+        /// The resource type. This takes the form of: service-code:resource-code
         public let type: String?
 
-        public init(arn: String? = nil, creationTime: Date? = nil, lastUpdatedTime: Date? = nil, resourceGroupArn: String? = nil, resourceShareArn: String? = nil, status: ResourceStatus? = nil, statusMessage: String? = nil, type: String? = nil) {
+        public init(arn: String? = nil, creationTime: Date? = nil, lastUpdatedTime: Date? = nil, resourceGroupArn: String? = nil, resourceRegionScope: ResourceRegionScope? = nil, resourceShareArn: String? = nil, status: ResourceStatus? = nil, statusMessage: String? = nil, type: String? = nil) {
             self.arn = arn
             self.creationTime = creationTime
             self.lastUpdatedTime = lastUpdatedTime
             self.resourceGroupArn = resourceGroupArn
+            self.resourceRegionScope = resourceRegionScope
             self.resourceShareArn = resourceShareArn
             self.status = status
             self.statusMessage = statusMessage
@@ -1042,6 +1070,7 @@ extension RAM {
             case creationTime
             case lastUpdatedTime
             case resourceGroupArn
+            case resourceRegionScope
             case resourceShareArn
             case status
             case statusMessage
@@ -1052,23 +1081,23 @@ extension RAM {
     public struct ResourceShare: AWSDecodableShape {
         /// Indicates whether principals outside your organization in Organizations can be associated with a resource share.
         public let allowExternalPrincipals: Bool?
-        /// The time when the resource share was created.
+        /// The date and time when the resource share was created.
         public let creationTime: Date?
-        /// Indicates how the resource share was created. Possible values include:    CREATED_FROM_POLICY - Indicates that the resource share was created from an Amazon Web Services Identity and Access Management (Amazon Web Services IAM) policy attached to a resource. These resource shares are visible only to the Amazon Web Services account that created it. They cannot be modified in RAM.    PROMOTING_TO_STANDARD - The resource share is in the process of being promoted. For more information, see PromoteResourceShareCreatedFromPolicy.    STANDARD - Indicates that the resource share was created in RAM using the console or APIs. These resource shares are visible to all principals. They can be modified in RAM.
+        /// Indicates how the resource share was created. Possible values include:    CREATED_FROM_POLICY - Indicates that the resource share was created from an Identity and Access Management (IAM) resource-based permission policy attached to the resource. This type of resource share is visible only to the Amazon Web Services account that created it. You can't modify it in RAM unless you promote it. For more information, see PromoteResourceShareCreatedFromPolicy.    PROMOTING_TO_STANDARD - The resource share is in the process of being promoted. For more information, see PromoteResourceShareCreatedFromPolicy.    STANDARD - Indicates that the resource share was created in RAM using the console or APIs. These resource shares are visible to all principals you share the resource share with. You can modify these resource shares in RAM using the console or APIs.
         public let featureSet: ResourceShareFeatureSet?
-        /// The time when the resource share was last updated.
+        /// The date and time when the resource share was last updated.
         public let lastUpdatedTime: Date?
         /// The name of the resource share.
         public let name: String?
         /// The ID of the Amazon Web Services account that owns the resource share.
         public let owningAccountId: String?
-        /// The Amazon Resource Name (ARN) of the resource share.
+        /// The Amazon Resoure Name (ARN) of the resource share
         public let resourceShareArn: String?
-        /// The status of the resource share.
+        /// The current status of the resource share.
         public let status: ResourceShareStatus?
         /// A message about the status of the resource share.
         public let statusMessage: String?
-        /// The tags for the resource share.
+        /// The tag key and value pairs attached to the resource share.
         public let tags: [Tag]?
 
         public init(allowExternalPrincipals: Bool? = nil, creationTime: Date? = nil, featureSet: ResourceShareFeatureSet? = nil, lastUpdatedTime: Date? = nil, name: String? = nil, owningAccountId: String? = nil, resourceShareArn: String? = nil, status: ResourceShareStatus? = nil, statusMessage: String? = nil, tags: [Tag]? = nil) {
@@ -1099,21 +1128,21 @@ extension RAM {
     }
 
     public struct ResourceShareAssociation: AWSDecodableShape {
-        /// The associated entity. For resource associations, this is the Amazon Resource Name (ARN) of the resource. For principal associations, this is one of the following:   An Amazon Web Services account ID   An ARN of an organization in Organizations   An ARN of an organizational unit (OU) in Organizations   An ARN of an IAM role   An ARN of an IAM user
+        /// The associated entity. This can be either of the following:   For a resource association, this is the Amazon Resoure Name (ARN) of the resource.   For principal associations, this is one of the following:   The ID of an Amazon Web Services account   The Amazon Resoure Name (ARN) of an organization in Organizations   The ARN of an organizational unit (OU) in Organizations   The ARN of an IAM role   The ARN of an IAM user
         public let associatedEntity: String?
-        /// The association type.
+        /// The type of entity included in this association.
         public let associationType: ResourceShareAssociationType?
-        /// The time when the association was created.
+        /// The date and time when the association was created.
         public let creationTime: Date?
         /// Indicates whether the principal belongs to the same organization in Organizations as the Amazon Web Services account that owns the resource share.
         public let external: Bool?
-        /// The time when the association was last updated.
+        /// The date and time when the association was last updated.
         public let lastUpdatedTime: Date?
-        /// The Amazon Resource Name (ARN) of the resource share.
+        /// The Amazon Resoure Name (ARN) of the resource share.
         public let resourceShareArn: String?
         /// The name of the resource share.
         public let resourceShareName: String?
-        /// The status of the association.
+        /// The current status of the association.
         public let status: ResourceShareAssociationStatus?
         /// A message about the status of the association.
         public let statusMessage: String?
@@ -1148,17 +1177,17 @@ extension RAM {
         public let invitationTimestamp: Date?
         /// The ID of the Amazon Web Services account that received the invitation.
         public let receiverAccountId: String?
-        /// The Amazon Resource Name (ARN) of the IAM user or IAM role that received the invitation.
+        /// The Amazon Resoure Name (ARN) of the IAM user or role that received the invitation.
         public let receiverArn: String?
-        /// The Amazon Resource Name (ARN) of the resource share.
+        /// The Amazon Resoure Name (ARN) of the resource share
         public let resourceShareArn: String?
-        /// The Amazon Resource Name (ARN) of the invitation.
+        /// The Amazon Resoure Name (ARN) of the invitation.
         public let resourceShareInvitationArn: String?
         /// The name of the resource share.
         public let resourceShareName: String?
         /// The ID of the Amazon Web Services account that sent the invitation.
         public let senderAccountId: String?
-        /// The status of the invitation.
+        /// The current status of the invitation.
         public let status: ResourceShareInvitationStatus?
 
         public init(invitationTimestamp: Date? = nil, receiverAccountId: String? = nil, receiverArn: String? = nil, resourceShareArn: String? = nil, resourceShareInvitationArn: String? = nil, resourceShareName: String? = nil, senderAccountId: String? = nil, status: ResourceShareInvitationStatus? = nil) {
@@ -1185,23 +1214,23 @@ extension RAM {
     }
 
     public struct ResourceSharePermissionDetail: AWSDecodableShape {
-        /// The Amazon Resource Name (ARN) of the permission.
+        /// The Amazon Resoure Name (ARN) of this RAM permission.
         public let arn: String?
         /// The date and time when the permission was created.
         public let creationTime: Date?
-        /// Specifies whether the version of the permission is set to the default version for this permission.
+        /// Specifies whether the version of the permission represented in this structure is the default version for this permission.
         public let defaultVersion: Bool?
-        /// Specifies whether the version of the permission is set to the default version for this resource type.
+        /// Specifies whether the version of the permission represented in this structure is the default version for all resources of this resource type.
         public let isResourceTypeDefault: Bool?
         /// The date and time when the permission was last updated.
         public let lastUpdatedTime: Date?
-        /// The name of the permission.
+        /// The name of this permission.
         public let name: String?
-        /// The permission's effect and actions in JSON format. The effect indicates whether the actions are allowed or denied. The actions list the API actions to which the principal is granted or denied access.
+        /// The permission's effect and actions in JSON format. The effect indicates whether the specified actions are allowed or denied. The actions list the operations to which the principal is granted or denied access.
         public let permission: String?
-        /// The resource type to which the permission applies.
+        /// The resource type to which this permission applies.
         public let resourceType: String?
-        /// The identifier for the version of the permission.
+        /// The version of the permission represented in this structure.
         public let version: String?
 
         public init(arn: String? = nil, creationTime: Date? = nil, defaultVersion: Bool? = nil, isResourceTypeDefault: Bool? = nil, lastUpdatedTime: Date? = nil, name: String? = nil, permission: String? = nil, resourceType: String? = nil, version: String? = nil) {
@@ -1230,23 +1259,23 @@ extension RAM {
     }
 
     public struct ResourceSharePermissionSummary: AWSDecodableShape {
-        /// The Amazon Resource Name (ARN) of the permission.
+        /// The Amazon Resoure Name (ARN) of the permission you want information about.
         public let arn: String?
         /// The date and time when the permission was created.
         public let creationTime: Date?
-        /// Specifies whether the version of the permission is set to the default version for this permission.
+        /// Specifies whether the version of the permission represented in this structure is the default version for this permission.
         public let defaultVersion: Bool?
-        /// Specifies whether the version of the permission is set to the default version for this resource type.
+        /// Specifies whether the version of the permission represented in this structure is the default version for all resources of this resource type.
         public let isResourceTypeDefault: Bool?
         /// The date and time when the permission was last updated.
         public let lastUpdatedTime: Date?
-        /// The name of the permission.
+        /// The name of this permission.
         public let name: String?
-        /// The type of resource to which the permission applies.
+        /// The type of resource to which this permission applies.
         public let resourceType: String?
         /// The current status of the permission.
         public let status: String?
-        /// The identifier for the version of the permission.
+        /// The version of the permission represented in this structure.
         public let version: String?
 
         public init(arn: String? = nil, creationTime: Date? = nil, defaultVersion: Bool? = nil, isResourceTypeDefault: Bool? = nil, lastUpdatedTime: Date? = nil, name: String? = nil, resourceType: String? = nil, status: String? = nil, version: String? = nil) {
@@ -1275,26 +1304,30 @@ extension RAM {
     }
 
     public struct ServiceNameAndResourceType: AWSDecodableShape {
-        /// The shareable resource types.
+        /// Specifies the scope of visibility of resources of this type:    REGIONAL – The resource can be accessed only by using requests that target the Amazon Web Services Region in which the resource exists.    GLOBAL – The resource can be accessed from any Amazon Web Services Region.
+        public let resourceRegionScope: ResourceRegionScope?
+        /// The type of the resource.
         public let resourceType: String?
-        /// The name of the Amazon Web Services services to which the resources belong.
+        /// The name of the Amazon Web Services service to which resources of this type belong.
         public let serviceName: String?
 
-        public init(resourceType: String? = nil, serviceName: String? = nil) {
+        public init(resourceRegionScope: ResourceRegionScope? = nil, resourceType: String? = nil, serviceName: String? = nil) {
+            self.resourceRegionScope = resourceRegionScope
             self.resourceType = resourceType
             self.serviceName = serviceName
         }
 
         private enum CodingKeys: String, CodingKey {
+            case resourceRegionScope
             case resourceType
             case serviceName
         }
     }
 
     public struct Tag: AWSEncodableShape & AWSDecodableShape {
-        /// The key of the tag.
+        /// The key, or name, attached to the tag. Every tag must have a key. Key names are case sensitive.
         public let key: String?
-        /// The value of the tag.
+        /// The string value attached to the tag. The value can be an empty string. Key values are case sensitive.
         public let value: String?
 
         public init(key: String? = nil, value: String? = nil) {
@@ -1309,9 +1342,9 @@ extension RAM {
     }
 
     public struct TagFilter: AWSEncodableShape {
-        /// The tag key.
+        /// The tag key. This must have a valid string value and can't be empty.
         public let tagKey: String?
-        /// The tag values.
+        /// A list of zero or more tag values. If no values are provided, then the filter matches any tag with the specified key, regardless of its value.
         public let tagValues: [String]?
 
         public init(tagKey: String? = nil, tagValues: [String]? = nil) {
@@ -1326,9 +1359,9 @@ extension RAM {
     }
 
     public struct TagResourceRequest: AWSEncodableShape {
-        /// The Amazon Resource Name (ARN) of the resource share.
+        /// Specifies the Amazon Resoure Name (ARN) of the resource share that you want to add tags to.
         public let resourceShareArn: String
-        /// One or more tags.
+        /// A list of one or more tag key and value pairs. The tag key must be present and not be an empty string. The tag value must be present but can be an empty string.
         public let tags: [Tag]
 
         public init(resourceShareArn: String, tags: [Tag]) {
@@ -1347,9 +1380,9 @@ extension RAM {
     }
 
     public struct UntagResourceRequest: AWSEncodableShape {
-        /// The Amazon Resource Name (ARN) of the resource share.
+        /// Specifies the Amazon Resoure Name (ARN) of the resource share that you want to remove tags from. The tags are removed from the resource share, not the resources in the resource share.
         public let resourceShareArn: String
-        /// The tag keys of the tags to remove.
+        /// Specifies a list of one or more tag keys that you want to remove.
         public let tagKeys: [String]
 
         public init(resourceShareArn: String, tagKeys: [String]) {
@@ -1368,13 +1401,13 @@ extension RAM {
     }
 
     public struct UpdateResourceShareRequest: AWSEncodableShape {
-        /// Indicates whether principals outside your organization in Organizations can be associated with a resource share.
+        /// Specifies whether principals outside your organization in Organizations can be associated with a resource share.
         public let allowExternalPrincipals: Bool?
-        /// A unique, case-sensitive identifier that you provide to ensure the idempotency of the request.
+        /// Specifies a unique, case-sensitive identifier that you provide to ensure the idempotency of the request. This lets you safely retry the request without accidentally performing the same operation a second time. Passing the same value to a later call to an operation requires that you also pass the same value for all other parameters. We recommend that you use a UUID type of value.. If you don't provide this value, then Amazon Web Services generates a random one for you.
         public let clientToken: String?
-        /// The name of the resource share.
+        /// If specified, the new name that you want to attach to the resource share.
         public let name: String?
-        /// The Amazon Resource Name (ARN) of the resource share.
+        /// Specifies the Amazon Resoure Name (ARN) of the resource share that you want to modify.
         public let resourceShareArn: String
 
         public init(allowExternalPrincipals: Bool? = nil, clientToken: String? = nil, name: String? = nil, resourceShareArn: String) {
@@ -1393,7 +1426,7 @@ extension RAM {
     }
 
     public struct UpdateResourceShareResponse: AWSDecodableShape {
-        /// A unique, case-sensitive identifier that you provide to ensure the idempotency of the request.
+        /// The idempotency identifier associated with this request. If you want to repeat the same operation in an idempotent manner then you must include this value in the clientToken request parameter of that later call. All other parameters must also have the same values that you used in the first call.
         public let clientToken: String?
         /// Information about the resource share.
         public let resourceShare: ResourceShare?

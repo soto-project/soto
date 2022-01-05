@@ -18,7 +18,7 @@
 
 import SotoCore
 
-@available(macOS 12.0, iOS 15.0, watchOS 8.0, tvOS 15.0, *)
+@available(macOS 10.15, iOS 13.0, tvOS 13.0, watchOS 6.0, *)
 extension DataExchange {
     // MARK: Async API Calls
 
@@ -120,6 +120,11 @@ extension DataExchange {
     /// This operation lists the tags on the resource.
     public func listTagsForResource(_ input: ListTagsForResourceRequest, logger: Logger = AWSClient.loggingDisabled, on eventLoop: EventLoop? = nil) async throws -> ListTagsForResourceResponse {
         return try await self.client.execute(operation: "ListTagsForResource", path: "/tags/{resource-arn}", httpMethod: .GET, serviceConfig: self.config, input: input, logger: logger, on: eventLoop)
+    }
+
+    /// This operation invokes an API Gateway API asset. The request is proxied to the provider’s API Gateway API.
+    public func sendApiAsset(_ input: SendApiAssetRequest, logger: Logger = AWSClient.loggingDisabled, on eventLoop: EventLoop? = nil) async throws -> SendApiAssetResponse {
+        return try await self.client.execute(operation: "SendApiAsset", path: "/v1", httpMethod: .POST, serviceConfig: self.config, input: input, hostPrefix: "api-fulfill.", logger: logger, on: eventLoop)
     }
 
     /// This operation starts a job.

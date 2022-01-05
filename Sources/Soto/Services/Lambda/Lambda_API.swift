@@ -18,7 +18,7 @@
 
 /// Service object for interacting with AWS Lambda service.
 ///
-/// Lambda  Overview  Lambda is a compute service that lets you run code without provisioning or managing servers. Lambda runs your code on a high-availability compute infrastructure and performs all of the administration of the compute resources, including server and operating system maintenance, capacity provisioning and automatic scaling, code monitoring and logging. With Lambda, you can run code for virtually any type of application or backend service. For more information about the Lambda service, see What is Lambda in the Lambda Developer Guide. The Lambda API Reference provides information about each of the API methods, including details about the parameters in each API request and response.   You can use Software Development Kits (SDKs), Integrated Development Environment (IDE) Toolkits, and command line tools to access the API. For installation instructions, see Tools for Amazon Web Services.  For a list of Region-specific endpoints that Lambda supports, see Lambda endpoints and quotas  in the Amazon Web Services General Reference.
+/// Lambda  Overview  Lambda is a compute service that lets you run code without provisioning or managing servers. Lambda runs your code on a high-availability compute infrastructure and performs all of the administration of the compute resources, including server and operating system maintenance, capacity provisioning and automatic scaling, code monitoring and logging. With Lambda, you can run code for virtually any type of application or backend service. For more information about the Lambda service, see What is Lambda in the Lambda Developer Guide. The Lambda API Reference provides information about each of the API methods, including details about the parameters in each API request and response.   You can use Software Development Kits (SDKs), Integrated Development Environment (IDE) Toolkits, and command line tools to access the API. For installation instructions, see Tools for Amazon Web Services.  For a list of Region-specific endpoints that Lambda supports, see Lambda endpoints and quotas  in the Amazon Web Services General Reference..  When making the API calls, you will need to authenticate your request by providing a signature. Lambda supports signature version 4. For more information, see Signature Version 4 signing process in the Amazon Web Services General Reference..   CA certificates  Because Amazon Web Services SDKs use the CA certificates from your computer, changes to the certificates on the Amazon Web Services servers can cause connection failures when you attempt to use an SDK. You can prevent these failures by keeping your computer's CA certificates and operating system up-to-date. If you encounter this issue in a corporate environment and do not manage your own computer, you might need to ask an administrator to assist with the update process. The following list shows minimum operating system and Java versions:   Microsoft Windows versions that have updates from January 2005 or later installed contain at least one of the required CAs in their trust list.    Mac OS X 10.4 with Java for Mac OS X 10.4 Release 5 (February 2007), Mac OS X 10.5 (October 2007), and later versions contain at least one of the required CAs in their trust list.    Red Hat Enterprise Linux 5 (March 2007), 6, and 7 and CentOS 5, 6, and 7 all contain at least one of the required CAs in their default trusted CA list.    Java 1.4.2_12 (May 2006), 5 Update 2 (March 2005), and all later versions, including Java 6 (December 2006), 7, and 8, contain at least one of the required CAs in their default trusted CA list.    When accessing the Lambda management console or Lambda API endpoints, whether through browsers or programmatically, you will need to ensure your client machines support any of the following CAs:    Amazon Root CA 1   Starfield Services Root Certificate Authority - G2   Starfield Class 2 Certification Authority   Root certificates from the first two authorities are available from Amazon trust services, but keeping your computer up-to-date is the more straightforward solution. To learn more about ACM-provided certificates, see Amazon Web Services Certificate Manager FAQs.
 public struct Lambda: AWSService {
     // MARK: Member variables
 
@@ -92,10 +92,6 @@ public struct Lambda: AWSService {
         return self.client.execute(operation: "CreateFunction", path: "/2015-03-31/functions", httpMethod: .POST, serviceConfig: self.config, input: input, logger: logger, on: eventLoop)
     }
 
-    public func createFunctionUrlConfig(_ input: CreateFunctionUrlConfigRequest, logger: Logger = AWSClient.loggingDisabled, on eventLoop: EventLoop? = nil) -> EventLoopFuture<CreateFunctionUrlConfigResponse> {
-        return self.client.execute(operation: "CreateFunctionUrlConfig", path: "/2021-10-31/functions/{FunctionName}/url", httpMethod: .POST, serviceConfig: self.config, input: input, logger: logger, on: eventLoop)
-    }
-
     /// Deletes a Lambda function alias.
     @discardableResult public func deleteAlias(_ input: DeleteAliasRequest, logger: Logger = AWSClient.loggingDisabled, on eventLoop: EventLoop? = nil) -> EventLoopFuture<Void> {
         return self.client.execute(operation: "DeleteAlias", path: "/2015-03-31/functions/{FunctionName}/aliases/{Name}", httpMethod: .DELETE, serviceConfig: self.config, input: input, logger: logger, on: eventLoop)
@@ -129,10 +125,6 @@ public struct Lambda: AWSService {
     /// Deletes the configuration for asynchronous invocation for a function, version, or alias. To configure options for asynchronous invocation, use PutFunctionEventInvokeConfig.
     @discardableResult public func deleteFunctionEventInvokeConfig(_ input: DeleteFunctionEventInvokeConfigRequest, logger: Logger = AWSClient.loggingDisabled, on eventLoop: EventLoop? = nil) -> EventLoopFuture<Void> {
         return self.client.execute(operation: "DeleteFunctionEventInvokeConfig", path: "/2019-09-25/functions/{FunctionName}/event-invoke-config", httpMethod: .DELETE, serviceConfig: self.config, input: input, logger: logger, on: eventLoop)
-    }
-
-    @discardableResult public func deleteFunctionUrlConfig(_ input: DeleteFunctionUrlConfigRequest, logger: Logger = AWSClient.loggingDisabled, on eventLoop: EventLoop? = nil) -> EventLoopFuture<Void> {
-        return self.client.execute(operation: "DeleteFunctionUrlConfig", path: "/2021-10-31/functions/{FunctionName}/url", httpMethod: .DELETE, serviceConfig: self.config, input: input, logger: logger, on: eventLoop)
     }
 
     /// Deletes a version of an Lambda layer. Deleted versions can no longer be viewed or added to functions. To avoid breaking functions, a copy of the version remains in Lambda until no functions refer to it.
@@ -190,10 +182,6 @@ public struct Lambda: AWSService {
         return self.client.execute(operation: "GetFunctionEventInvokeConfig", path: "/2019-09-25/functions/{FunctionName}/event-invoke-config", httpMethod: .GET, serviceConfig: self.config, input: input, logger: logger, on: eventLoop)
     }
 
-    public func getFunctionUrlConfig(_ input: GetFunctionUrlConfigRequest, logger: Logger = AWSClient.loggingDisabled, on eventLoop: EventLoop? = nil) -> EventLoopFuture<GetFunctionUrlConfigResponse> {
-        return self.client.execute(operation: "GetFunctionUrlConfig", path: "/2021-10-31/functions/{FunctionName}/url", httpMethod: .GET, serviceConfig: self.config, input: input, logger: logger, on: eventLoop)
-    }
-
     /// Returns information about a version of an Lambda layer, with a link to download the layer archive that's valid for 10 minutes.
     public func getLayerVersion(_ input: GetLayerVersionRequest, logger: Logger = AWSClient.loggingDisabled, on eventLoop: EventLoop? = nil) -> EventLoopFuture<GetLayerVersionResponse> {
         return self.client.execute(operation: "GetLayerVersion", path: "/2018-10-31/layers/{LayerName}/versions/{VersionNumber}", httpMethod: .GET, serviceConfig: self.config, input: input, logger: logger, on: eventLoop)
@@ -248,10 +236,6 @@ public struct Lambda: AWSService {
     /// Retrieves a list of configurations for asynchronous invocation for a function. To configure options for asynchronous invocation, use PutFunctionEventInvokeConfig.
     public func listFunctionEventInvokeConfigs(_ input: ListFunctionEventInvokeConfigsRequest, logger: Logger = AWSClient.loggingDisabled, on eventLoop: EventLoop? = nil) -> EventLoopFuture<ListFunctionEventInvokeConfigsResponse> {
         return self.client.execute(operation: "ListFunctionEventInvokeConfigs", path: "/2019-09-25/functions/{FunctionName}/event-invoke-config/list", httpMethod: .GET, serviceConfig: self.config, input: input, logger: logger, on: eventLoop)
-    }
-
-    public func listFunctionUrlConfigs(_ input: ListFunctionUrlConfigsRequest, logger: Logger = AWSClient.loggingDisabled, on eventLoop: EventLoop? = nil) -> EventLoopFuture<ListFunctionUrlConfigsResponse> {
-        return self.client.execute(operation: "ListFunctionUrlConfigs", path: "/2021-10-31/functions/{FunctionName}/urls", httpMethod: .GET, serviceConfig: self.config, input: input, logger: logger, on: eventLoop)
     }
 
     /// Returns a list of Lambda functions, with the version-specific configuration of each. Lambda returns up to 50 functions per call. Set FunctionVersion to ALL to include all published versions of each function in addition to the unpublished version.   The ListFunctions action returns a subset of the FunctionConfiguration fields. To get the additional fields (State, StateReasonCode, StateReason, LastUpdateStatus, LastUpdateStatusReason, LastUpdateStatusReasonCode) for a function or version, use GetFunction.
@@ -367,10 +351,6 @@ public struct Lambda: AWSService {
     /// Updates the configuration for asynchronous invocation for a function, version, or alias. To configure options for asynchronous invocation, use PutFunctionEventInvokeConfig.
     public func updateFunctionEventInvokeConfig(_ input: UpdateFunctionEventInvokeConfigRequest, logger: Logger = AWSClient.loggingDisabled, on eventLoop: EventLoop? = nil) -> EventLoopFuture<FunctionEventInvokeConfig> {
         return self.client.execute(operation: "UpdateFunctionEventInvokeConfig", path: "/2019-09-25/functions/{FunctionName}/event-invoke-config", httpMethod: .POST, serviceConfig: self.config, input: input, logger: logger, on: eventLoop)
-    }
-
-    public func updateFunctionUrlConfig(_ input: UpdateFunctionUrlConfigRequest, logger: Logger = AWSClient.loggingDisabled, on eventLoop: EventLoop? = nil) -> EventLoopFuture<UpdateFunctionUrlConfigResponse> {
-        return self.client.execute(operation: "UpdateFunctionUrlConfig", path: "/2021-10-31/functions/{FunctionName}/url", httpMethod: .PUT, serviceConfig: self.config, input: input, logger: logger, on: eventLoop)
     }
 }
 

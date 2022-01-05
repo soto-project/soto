@@ -60,7 +60,7 @@ public struct ShieldErrorType: AWSErrorType {
     public static var internalErrorException: Self { .init(.internalErrorException) }
     /// Exception that indicates that the operation would not cause any change to occur.
     public static var invalidOperationException: Self { .init(.invalidOperationException) }
-    /// Exception that indicates that the NextToken specified in the request is invalid. Submit the request using the NextToken value that was returned in the response.
+    /// Exception that indicates that the NextToken specified in the request is invalid. Submit the request using the NextToken value that was returned in the prior response.
     public static var invalidPaginationTokenException: Self { .init(.invalidPaginationTokenException) }
     /// Exception that indicates that the parameters passed to the API are invalid. If available, this exception includes details in additional properties.
     public static var invalidParameterException: Self { .init(.invalidParameterException) }

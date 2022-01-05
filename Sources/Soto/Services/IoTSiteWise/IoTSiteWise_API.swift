@@ -67,6 +67,11 @@ public struct IoTSiteWise: AWSService {
         return self.client.execute(operation: "AssociateAssets", path: "/assets/{assetId}/associate", httpMethod: .POST, serviceConfig: self.config, input: input, hostPrefix: "api.", logger: logger, on: eventLoop)
     }
 
+    /// Associates a time series (data stream) with an asset property.
+    @discardableResult public func associateTimeSeriesToAssetProperty(_ input: AssociateTimeSeriesToAssetPropertyRequest, logger: Logger = AWSClient.loggingDisabled, on eventLoop: EventLoop? = nil) -> EventLoopFuture<Void> {
+        return self.client.execute(operation: "AssociateTimeSeriesToAssetProperty", path: "/timeseries/associate/", httpMethod: .POST, serviceConfig: self.config, input: input, hostPrefix: "api.", logger: logger, on: eventLoop)
+    }
+
     /// Associates a group (batch) of assets with an IoT SiteWise Monitor project.
     public func batchAssociateProjectAssets(_ input: BatchAssociateProjectAssetsRequest, logger: Logger = AWSClient.loggingDisabled, on eventLoop: EventLoop? = nil) -> EventLoopFuture<BatchAssociateProjectAssetsResponse> {
         return self.client.execute(operation: "BatchAssociateProjectAssets", path: "/projects/{projectId}/assets/associate", httpMethod: .POST, serviceConfig: self.config, input: input, hostPrefix: "monitor.", logger: logger, on: eventLoop)
@@ -112,7 +117,7 @@ public struct IoTSiteWise: AWSService {
         return self.client.execute(operation: "CreatePortal", path: "/portals", httpMethod: .POST, serviceConfig: self.config, input: input, hostPrefix: "monitor.", logger: logger, on: eventLoop)
     }
 
-    /// Creates a project in the specified portal.
+    /// Creates a project in the specified portal.  Make sure that the project name and description don't contain confidential information.
     public func createProject(_ input: CreateProjectRequest, logger: Logger = AWSClient.loggingDisabled, on eventLoop: EventLoop? = nil) -> EventLoopFuture<CreateProjectResponse> {
         return self.client.execute(operation: "CreateProject", path: "/projects", httpMethod: .POST, serviceConfig: self.config, input: input, hostPrefix: "monitor.", logger: logger, on: eventLoop)
     }
@@ -150,6 +155,11 @@ public struct IoTSiteWise: AWSService {
     /// Deletes a project from IoT SiteWise Monitor.
     public func deleteProject(_ input: DeleteProjectRequest, logger: Logger = AWSClient.loggingDisabled, on eventLoop: EventLoop? = nil) -> EventLoopFuture<DeleteProjectResponse> {
         return self.client.execute(operation: "DeleteProject", path: "/projects/{projectId}", httpMethod: .DELETE, serviceConfig: self.config, input: input, hostPrefix: "monitor.", logger: logger, on: eventLoop)
+    }
+
+    /// Deletes a time series (data stream). If you delete a time series that's associated with an asset property, the asset property still exists, but the time series will no longer be associated with this asset property. To identify a time series, do one of the following:   If the time series isn't associated with an asset property, specify the alias of the time series.   If the time series is associated with an asset property, specify one of the following:    The alias of the time series.   The assetId and propertyId that identifies the asset property.
+    @discardableResult public func deleteTimeSeries(_ input: DeleteTimeSeriesRequest, logger: Logger = AWSClient.loggingDisabled, on eventLoop: EventLoop? = nil) -> EventLoopFuture<Void> {
+        return self.client.execute(operation: "DeleteTimeSeries", path: "/timeseries/delete/", httpMethod: .POST, serviceConfig: self.config, input: input, hostPrefix: "api.", logger: logger, on: eventLoop)
     }
 
     /// Describes an access policy, which specifies an identity's access to an IoT SiteWise Monitor portal or project.
@@ -212,9 +222,19 @@ public struct IoTSiteWise: AWSService {
         return self.client.execute(operation: "DescribeStorageConfiguration", path: "/configuration/account/storage", httpMethod: .GET, serviceConfig: self.config, input: input, hostPrefix: "api.", logger: logger, on: eventLoop)
     }
 
+    /// Retrieves information about a time series (data stream). To identify a time series, do one of the following:   If the time series isn't associated with an asset property, specify the alias of the time series.   If the time series is associated with an asset property, specify one of the following:    The alias of the time series.   The assetId and propertyId that identifies the asset property.
+    public func describeTimeSeries(_ input: DescribeTimeSeriesRequest, logger: Logger = AWSClient.loggingDisabled, on eventLoop: EventLoop? = nil) -> EventLoopFuture<DescribeTimeSeriesResponse> {
+        return self.client.execute(operation: "DescribeTimeSeries", path: "/timeseries/describe/", httpMethod: .GET, serviceConfig: self.config, input: input, hostPrefix: "api.", logger: logger, on: eventLoop)
+    }
+
     /// Disassociates a child asset from the given parent asset through a hierarchy defined in the parent asset's model.
     @discardableResult public func disassociateAssets(_ input: DisassociateAssetsRequest, logger: Logger = AWSClient.loggingDisabled, on eventLoop: EventLoop? = nil) -> EventLoopFuture<Void> {
         return self.client.execute(operation: "DisassociateAssets", path: "/assets/{assetId}/disassociate", httpMethod: .POST, serviceConfig: self.config, input: input, hostPrefix: "api.", logger: logger, on: eventLoop)
+    }
+
+    /// Disassociates a time series (data stream) from an asset property.
+    @discardableResult public func disassociateTimeSeriesFromAssetProperty(_ input: DisassociateTimeSeriesFromAssetPropertyRequest, logger: Logger = AWSClient.loggingDisabled, on eventLoop: EventLoop? = nil) -> EventLoopFuture<Void> {
+        return self.client.execute(operation: "DisassociateTimeSeriesFromAssetProperty", path: "/timeseries/disassociate/", httpMethod: .POST, serviceConfig: self.config, input: input, hostPrefix: "api.", logger: logger, on: eventLoop)
     }
 
     /// Gets aggregated values for an asset property. For more information, see Querying aggregates in the IoT SiteWise User Guide. To identify an asset property, you must specify one of the following:   The assetId and propertyId of an asset property.   A propertyAlias, which is a data stream alias (for example, /company/windfarm/3/turbine/7/temperature). To define an asset property's alias, see UpdateAssetProperty.
@@ -290,6 +310,11 @@ public struct IoTSiteWise: AWSService {
     /// Retrieves the list of tags for an IoT SiteWise resource.
     public func listTagsForResource(_ input: ListTagsForResourceRequest, logger: Logger = AWSClient.loggingDisabled, on eventLoop: EventLoop? = nil) -> EventLoopFuture<ListTagsForResourceResponse> {
         return self.client.execute(operation: "ListTagsForResource", path: "/tags", httpMethod: .GET, serviceConfig: self.config, input: input, hostPrefix: "api.", logger: logger, on: eventLoop)
+    }
+
+    /// Retrieves a paginated list of time series (data streams).
+    public func listTimeSeries(_ input: ListTimeSeriesRequest, logger: Logger = AWSClient.loggingDisabled, on eventLoop: EventLoop? = nil) -> EventLoopFuture<ListTimeSeriesResponse> {
+        return self.client.execute(operation: "ListTimeSeries", path: "/timeseries/", httpMethod: .GET, serviceConfig: self.config, input: input, hostPrefix: "api.", logger: logger, on: eventLoop)
     }
 
     /// Sets the default encryption configuration for the Amazon Web Services account. For more information, see Key management in the IoT SiteWise User Guide.

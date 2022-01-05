@@ -135,7 +135,7 @@ extension SavingsPlans {
     public struct CreateSavingsPlanRequest: AWSEncodableShape {
         /// Unique, case-sensitive identifier that you provide to ensure the idempotency of the request.
         public let clientToken: String?
-        /// The hourly commitment, in USD. This is a value between 0.001 and 1 million. You cannot specify more than three digits after the decimal point.
+        /// The hourly commitment, in USD. This is a value between 0.001 and 1 million. You cannot specify more than five digits after the decimal point.
         public let commitment: String
         /// The time at which to purchase the Savings Plan, in UTC format (YYYY-MM-DDTHH:MM:SSZ).
         public let purchaseTime: Date?

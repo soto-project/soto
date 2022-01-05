@@ -20,7 +20,7 @@ import SotoCore
 
 // MARK: Paginators
 
-@available(macOS 12.0, iOS 15.0, watchOS 8.0, tvOS 15.0, *)
+@available(macOS 10.15, iOS 13.0, tvOS 13.0, watchOS 6.0, *)
 extension Redshift {
     ///  Returns an array of ClusterDbRevision objects.
     /// Return PaginatorSequence for operation.
@@ -215,6 +215,72 @@ extension Redshift {
             command: describeClusters,
             inputKey: \DescribeClustersMessage.marker,
             outputKey: \ClustersMessage.marker,
+            logger: logger,
+            on: eventLoop
+        )
+    }
+
+    ///  Shows the status of any inbound or outbound datashares available in the specified account.
+    /// Return PaginatorSequence for operation.
+    ///
+    /// - Parameters:
+    ///   - input: Input for request
+    ///   - logger: Logger used flot logging
+    ///   - eventLoop: EventLoop to run this process on
+    public func describeDataSharesPaginator(
+        _ input: DescribeDataSharesMessage,
+        logger: Logger = AWSClient.loggingDisabled,
+        on eventLoop: EventLoop? = nil
+    ) -> AWSClient.PaginatorSequence<DescribeDataSharesMessage, DescribeDataSharesResult> {
+        return .init(
+            input: input,
+            command: describeDataShares,
+            inputKey: \DescribeDataSharesMessage.marker,
+            outputKey: \DescribeDataSharesResult.marker,
+            logger: logger,
+            on: eventLoop
+        )
+    }
+
+    ///  Returns a list of datashares where the account identifier being called is a consumer account identifier.
+    /// Return PaginatorSequence for operation.
+    ///
+    /// - Parameters:
+    ///   - input: Input for request
+    ///   - logger: Logger used flot logging
+    ///   - eventLoop: EventLoop to run this process on
+    public func describeDataSharesForConsumerPaginator(
+        _ input: DescribeDataSharesForConsumerMessage,
+        logger: Logger = AWSClient.loggingDisabled,
+        on eventLoop: EventLoop? = nil
+    ) -> AWSClient.PaginatorSequence<DescribeDataSharesForConsumerMessage, DescribeDataSharesForConsumerResult> {
+        return .init(
+            input: input,
+            command: describeDataSharesForConsumer,
+            inputKey: \DescribeDataSharesForConsumerMessage.marker,
+            outputKey: \DescribeDataSharesForConsumerResult.marker,
+            logger: logger,
+            on: eventLoop
+        )
+    }
+
+    ///  Returns a list of datashares when the account identifier being called is a producer account identifier.
+    /// Return PaginatorSequence for operation.
+    ///
+    /// - Parameters:
+    ///   - input: Input for request
+    ///   - logger: Logger used flot logging
+    ///   - eventLoop: EventLoop to run this process on
+    public func describeDataSharesForProducerPaginator(
+        _ input: DescribeDataSharesForProducerMessage,
+        logger: Logger = AWSClient.loggingDisabled,
+        on eventLoop: EventLoop? = nil
+    ) -> AWSClient.PaginatorSequence<DescribeDataSharesForProducerMessage, DescribeDataSharesForProducerResult> {
+        return .init(
+            input: input,
+            command: describeDataSharesForProducer,
+            inputKey: \DescribeDataSharesForProducerMessage.marker,
+            outputKey: \DescribeDataSharesForProducerResult.marker,
             logger: logger,
             on: eventLoop
         )
@@ -418,6 +484,28 @@ extension Redshift {
         )
     }
 
+    ///  Returns exchange status details and associated metadata for a reserved-node exchange. Statuses include such values as in progress and requested.
+    /// Return PaginatorSequence for operation.
+    ///
+    /// - Parameters:
+    ///   - input: Input for request
+    ///   - logger: Logger used flot logging
+    ///   - eventLoop: EventLoop to run this process on
+    public func describeReservedNodeExchangeStatusPaginator(
+        _ input: DescribeReservedNodeExchangeStatusInputMessage,
+        logger: Logger = AWSClient.loggingDisabled,
+        on eventLoop: EventLoop? = nil
+    ) -> AWSClient.PaginatorSequence<DescribeReservedNodeExchangeStatusInputMessage, DescribeReservedNodeExchangeStatusOutputMessage> {
+        return .init(
+            input: input,
+            command: describeReservedNodeExchangeStatus,
+            inputKey: \DescribeReservedNodeExchangeStatusInputMessage.marker,
+            outputKey: \DescribeReservedNodeExchangeStatusOutputMessage.marker,
+            logger: logger,
+            on: eventLoop
+        )
+    }
+
     ///  Returns a list of the available reserved node offerings by Amazon Redshift with their descriptions including the node type, the fixed and recurring costs of reserving the node and duration the node will be reserved for you. These descriptions help you determine which reserve node offering you want to purchase. You then use the unique offering ID in you call to PurchaseReservedNodeOffering to reserve one or more nodes for your Amazon Redshift cluster.   For more information about reserved node offerings, go to Purchasing Reserved Nodes in the Amazon Redshift Cluster Management Guide.
     /// Return PaginatorSequence for operation.
     ///
@@ -589,6 +677,28 @@ extension Redshift {
             command: describeUsageLimits,
             inputKey: \DescribeUsageLimitsMessage.marker,
             outputKey: \UsageLimitList.marker,
+            logger: logger,
+            on: eventLoop
+        )
+    }
+
+    ///  Gets the configuration options for the reserved-node exchange. These options include information about the source reserved node and target reserved node offering. Details include the node type, the price, the node count, and the offering type.
+    /// Return PaginatorSequence for operation.
+    ///
+    /// - Parameters:
+    ///   - input: Input for request
+    ///   - logger: Logger used flot logging
+    ///   - eventLoop: EventLoop to run this process on
+    public func getReservedNodeExchangeConfigurationOptionsPaginator(
+        _ input: GetReservedNodeExchangeConfigurationOptionsInputMessage,
+        logger: Logger = AWSClient.loggingDisabled,
+        on eventLoop: EventLoop? = nil
+    ) -> AWSClient.PaginatorSequence<GetReservedNodeExchangeConfigurationOptionsInputMessage, GetReservedNodeExchangeConfigurationOptionsOutputMessage> {
+        return .init(
+            input: input,
+            command: getReservedNodeExchangeConfigurationOptions,
+            inputKey: \GetReservedNodeExchangeConfigurationOptionsInputMessage.marker,
+            outputKey: \GetReservedNodeExchangeConfigurationOptionsOutputMessage.marker,
             logger: logger,
             on: eventLoop
         )

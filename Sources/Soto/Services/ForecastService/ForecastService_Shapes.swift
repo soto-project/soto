@@ -108,7 +108,7 @@ extension ForecastService {
     // MARK: Shapes
 
     public struct AdditionalDataset: AWSEncodableShape & AWSDecodableShape {
-        ///  Weather Index  To enable the Weather Index, do not specify a value for Configuration.  Holidays  To enable Holidays, specify a country with one of the following two-letter country codes:   "AL" - ALBANIA   "AR" - ARGENTINA   "AT" - AUSTRIA   "AU" - AUSTRALIA   "BA" - BOSNIA HERZEGOVINA   "BE" - BELGIUM   "BG" - BULGARIA   "BO" - BOLIVIA   "BR" - BRAZIL   "BY" - BELARUS   "CA" - CANADA   "CL" - CHILE   "CO" - COLOMBIA   "CR" - COSTA RICA   "HR" - CROATIA   "CZ" - CZECH REPUBLIC   "DK" - DENMARK   "EC" - ECUADOR   "EE" - ESTONIA   "ET" - ETHIOPIA   "FI" - FINLAND   "FR" - FRANCE   "DE" - GERMANY   "GR" - GREECE   "HU" - HUNGARY   "IS" - ICELAND   "IN" - INDIA   "IE" - IRELAND   "IT" - ITALY   "JP" - JAPAN   "KZ" - KAZAKHSTAN   "KR" - KOREA   "LV" - LATVIA   "LI" - LIECHTENSTEIN   "LT" - LITHUANIA   "LU" - LUXEMBOURG   "MK" - MACEDONIA   "MT" - MALTA   "MX" - MEXICO   "MD" - MOLDOVA   "ME" - MONTENEGRO   "NL" - NETHERLANDS   "NZ" - NEW ZEALAND   "NI" - NICARAGUA   "NG" - NIGERIA   "NO" - NORWAY   "PA" - PANAMA   "PY" - PARAGUAY   "PE" - PERU   "PL" - POLAND   "PT" - PORTUGAL   "RO" - ROMANIA   "RU" - RUSSIA   "RS" - SERBIA   "SK" - SLOVAKIA   "SI" - SLOVENIA   "ZA" - SOUTH AFRICA   "ES" - SPAIN   "SE" - SWEDEN   "CH" - SWITZERLAND   "UA" - UKRAINE   "AE" - UNITED ARAB EMIRATES   "US" - UNITED STATES   "UK" - UNITED KINGDOM   "UY" - URUGUAY   "VE" - VENEZUELA
+        ///  Weather Index  To enable the Weather Index, do not specify a value for Configuration.  Holidays  To enable Holidays, set CountryCode to one of the following two-letter country codes:   "AL" - ALBANIA   "AR" - ARGENTINA   "AT" - AUSTRIA   "AU" - AUSTRALIA   "BA" - BOSNIA HERZEGOVINA   "BE" - BELGIUM   "BG" - BULGARIA   "BO" - BOLIVIA   "BR" - BRAZIL   "BY" - BELARUS   "CA" - CANADA   "CL" - CHILE   "CO" - COLOMBIA   "CR" - COSTA RICA   "HR" - CROATIA   "CZ" - CZECH REPUBLIC   "DK" - DENMARK   "EC" - ECUADOR   "EE" - ESTONIA   "ET" - ETHIOPIA   "FI" - FINLAND   "FR" - FRANCE   "DE" - GERMANY   "GR" - GREECE   "HU" - HUNGARY   "IS" - ICELAND   "IN" - INDIA   "IE" - IRELAND   "IT" - ITALY   "JP" - JAPAN   "KZ" - KAZAKHSTAN   "KR" - KOREA   "LV" - LATVIA   "LI" - LIECHTENSTEIN   "LT" - LITHUANIA   "LU" - LUXEMBOURG   "MK" - MACEDONIA   "MT" - MALTA   "MX" - MEXICO   "MD" - MOLDOVA   "ME" - MONTENEGRO   "NL" - NETHERLANDS   "NZ" - NEW ZEALAND   "NI" - NICARAGUA   "NG" - NIGERIA   "NO" - NORWAY   "PA" - PANAMA   "PY" - PARAGUAY   "PE" - PERU   "PL" - POLAND   "PT" - PORTUGAL   "RO" - ROMANIA   "RU" - RUSSIA   "RS" - SERBIA   "SK" - SLOVAKIA   "SI" - SLOVENIA   "ZA" - SOUTH AFRICA   "ES" - SPAIN   "SE" - SWEDEN   "CH" - SWITZERLAND   "UA" - UKRAINE   "AE" - UNITED ARAB EMIRATES   "US" - UNITED STATES   "UK" - UNITED KINGDOM   "UY" - URUGUAY   "VE" - VENEZUELA
         public let configuration: [String: [String]]?
         /// The name of the additional dataset. Valid names: "holiday" and "weather".
         public let name: String
@@ -231,6 +231,7 @@ extension ForecastService {
         /// The data configuration for your dataset group and any additional datasets.
         public let dataConfig: DataConfig?
         public let encryptionConfig: EncryptionConfig?
+        /// Create an Explainability resource for the predictor.
         public let explainPredictor: Bool?
         /// An array of dimension (field) names that specify how to group the generated forecast. For example, if you are generating forecasts for item sales across all your stores, and your dataset contains a store_id field, you would specify store_id as a dimension to group sales forecasts for each store.
         public let forecastDimensions: [String]?
@@ -571,7 +572,7 @@ extension ForecastService {
         public let dataSource: DataSource?
         /// Create an Expainability visualization that is viewable within the AWS console.
         public let enableVisualization: Bool?
-        /// If TimePointGranularity is set to SPECIFIC, define the last time point for the Explainability.
+        /// If TimePointGranularity is set to SPECIFIC, define the last time point for the Explainability. Use the following timestamp format: yyyy-MM-ddTHH:mm:ss (example: 2015-01-01T20:00:00)
         public let endDateTime: String?
         /// The configuration settings that define the granularity of time series and time points for the Explainability.
         public let explainabilityConfig: ExplainabilityConfig
@@ -580,7 +581,7 @@ extension ForecastService {
         /// The Amazon Resource Name (ARN) of the Predictor or Forecast used to create the Explainability.
         public let resourceArn: String
         public let schema: Schema?
-        /// If TimePointGranularity is set to SPECIFIC, define the first point for the Explainability.
+        /// If TimePointGranularity is set to SPECIFIC, define the first point for the Explainability. Use the following timestamp format: yyyy-MM-ddTHH:mm:ss (example: 2015-01-01T20:00:00)
         public let startDateTime: String?
         /// Optional metadata to help you categorize and organize your resources. Each tag consists of a key and an optional value, both of which you define. Tag keys and values are case sensitive. The following restrictions apply to tags:   For each resource, each tag key must be unique and each tag key must have one value.   Maximum number of tags per resource: 50.   Maximum key length: 128 Unicode characters in UTF-8.   Maximum value length: 256 Unicode characters in UTF-8.   Accepted characters: all letters and numbers, spaces representable in UTF-8, and + - = . _ : / @. If your tagging schema is used across other services and resources, the character restrictions of those services also apply.    Key prefixes cannot include any upper or lowercase combination of aws: or AWS:. Values can have this prefix. If a tag value has aws as its prefix but the key does not, Forecast considers it to be a user tag and will count against the limit of 50 tags. Tags with only the key prefix of aws do not count against your tags per resource limit. You cannot edit or delete tag keys with this prefix.
         public let tags: [Tag]?
@@ -969,7 +970,7 @@ extension ForecastService {
     }
 
     public struct DataSource: AWSEncodableShape & AWSDecodableShape {
-        /// The path to the training data stored in an Amazon Simple Storage Service (Amazon S3) bucket along with the credentials to access the data.
+        /// The path to the data stored in an Amazon Simple Storage Service (Amazon S3) bucket along with the credentials to access the data.
         public let s3Config: S3Config
 
         public init(s3Config: S3Config) {
@@ -1288,7 +1289,10 @@ extension ForecastService {
         public let encryptionConfig: EncryptionConfig?
         /// The estimated time remaining in minutes for the predictor training job to complete.
         public let estimatedTimeRemainingInMinutes: Int64?
+        /// Provides the status and ARN of the Predictor Explainability.
         public let explainabilityInfo: ExplainabilityInfo?
+        /// An array of dimension (field) names that specify the attributes used to group your time series.
+        public let forecastDimensions: [String]?
         /// The frequency of predictions in a forecast. Valid intervals are Y (Year), M (Month), W (Week), D (Day), H (Hour), 30min (30 minutes), 15min (15 minutes), 10min (10 minutes), 5min (5 minutes), and 1min (1 minute). For example, "Y" indicates every year and "5min" indicates every five minutes.
         public let forecastFrequency: String?
         /// The number of time-steps that the model predicts. The forecast horizon is also called the prediction length.
@@ -1310,13 +1314,14 @@ extension ForecastService {
         /// The status of the predictor. States include:     ACTIVE     CREATE_PENDING, CREATE_IN_PROGRESS, CREATE_FAILED     CREATE_STOPPING, CREATE_STOPPED     DELETE_PENDING, DELETE_IN_PROGRESS, DELETE_FAILED
         public let status: String?
 
-        public init(creationTime: Date? = nil, dataConfig: DataConfig? = nil, datasetImportJobArns: [String]? = nil, encryptionConfig: EncryptionConfig? = nil, estimatedTimeRemainingInMinutes: Int64? = nil, explainabilityInfo: ExplainabilityInfo? = nil, forecastFrequency: String? = nil, forecastHorizon: Int? = nil, forecastTypes: [String]? = nil, lastModificationTime: Date? = nil, message: String? = nil, optimizationMetric: OptimizationMetric? = nil, predictorArn: String? = nil, predictorName: String? = nil, referencePredictorSummary: ReferencePredictorSummary? = nil, status: String? = nil) {
+        public init(creationTime: Date? = nil, dataConfig: DataConfig? = nil, datasetImportJobArns: [String]? = nil, encryptionConfig: EncryptionConfig? = nil, estimatedTimeRemainingInMinutes: Int64? = nil, explainabilityInfo: ExplainabilityInfo? = nil, forecastDimensions: [String]? = nil, forecastFrequency: String? = nil, forecastHorizon: Int? = nil, forecastTypes: [String]? = nil, lastModificationTime: Date? = nil, message: String? = nil, optimizationMetric: OptimizationMetric? = nil, predictorArn: String? = nil, predictorName: String? = nil, referencePredictorSummary: ReferencePredictorSummary? = nil, status: String? = nil) {
             self.creationTime = creationTime
             self.dataConfig = dataConfig
             self.datasetImportJobArns = datasetImportJobArns
             self.encryptionConfig = encryptionConfig
             self.estimatedTimeRemainingInMinutes = estimatedTimeRemainingInMinutes
             self.explainabilityInfo = explainabilityInfo
+            self.forecastDimensions = forecastDimensions
             self.forecastFrequency = forecastFrequency
             self.forecastHorizon = forecastHorizon
             self.forecastTypes = forecastTypes
@@ -1336,6 +1341,7 @@ extension ForecastService {
             case encryptionConfig = "EncryptionConfig"
             case estimatedTimeRemainingInMinutes = "EstimatedTimeRemainingInMinutes"
             case explainabilityInfo = "ExplainabilityInfo"
+            case forecastDimensions = "ForecastDimensions"
             case forecastFrequency = "ForecastFrequency"
             case forecastHorizon = "ForecastHorizon"
             case forecastTypes = "ForecastTypes"
@@ -2145,7 +2151,9 @@ extension ForecastService {
     }
 
     public struct ExplainabilityInfo: AWSDecodableShape {
+        /// The Amazon Resource Name (ARN) of the Explainability.
         public let explainabilityArn: String?
+        /// The status of the Explainability. States include:     ACTIVE     CREATE_PENDING, CREATE_IN_PROGRESS, CREATE_FAILED     CREATE_STOPPING, CREATE_STOPPED     DELETE_PENDING, DELETE_IN_PROGRESS, DELETE_FAILED
         public let status: String?
 
         public init(explainabilityArn: String? = nil, status: String? = nil) {
@@ -2359,6 +2367,7 @@ extension ForecastService {
     }
 
     public struct ForecastSummary: AWSDecodableShape {
+        /// Whether the Forecast was created from an AutoPredictor.
         public let createdUsingAutoPredictor: Bool?
         /// When the forecast creation task was created.
         public let creationTime: Date?
@@ -2654,7 +2663,7 @@ extension ForecastService {
     }
 
     public struct ListExplainabilitiesRequest: AWSEncodableShape {
-        /// An array of filters. For each filter, provide a condition and a match statement. The condition is either IS or IS_NOT, which specifies whether to include or exclude the resources that match the statement from the list. The match statement consists of a key and a value.  Filter properties     Condition - The condition to apply. Valid values are IS and IS_NOT.    Key - The name of the parameter to filter on. Valid values are PredictorArn and Status.    Value - The value to match.
+        /// An array of filters. For each filter, provide a condition and a match statement. The condition is either IS or IS_NOT, which specifies whether to include or exclude the resources that match the statement from the list. The match statement consists of a key and a value.  Filter properties     Condition - The condition to apply. Valid values are IS and IS_NOT.    Key - The name of the parameter to filter on. Valid values are ResourceArn and Status.    Value - The value to match.
         public let filters: [Filter]?
         /// The number of items returned in the response.
         public let maxResults: Int?
@@ -2703,7 +2712,7 @@ extension ForecastService {
     }
 
     public struct ListExplainabilityExportsRequest: AWSEncodableShape {
-        /// An array of filters. For each filter, provide a condition and a match statement. The condition is either IS or IS_NOT, which specifies whether to include or exclude resources that match the statement from the list. The match statement consists of a key and a value.  Filter properties     Condition - The condition to apply. Valid values are IS and IS_NOT.    Key - The name of the parameter to filter on. Valid values are PredictorArn and Status.    Value - The value to match.
+        /// An array of filters. For each filter, provide a condition and a match statement. The condition is either IS or IS_NOT, which specifies whether to include or exclude resources that match the statement from the list. The match statement consists of a key and a value.  Filter properties     Condition - The condition to apply. Valid values are IS and IS_NOT.    Key - The name of the parameter to filter on. Valid values are ResourceArn and Status.    Value - The value to match.
         public let filters: [Filter]?
         /// The number of items to return in the response.
         public let maxResults: Int?
@@ -2948,7 +2957,7 @@ extension ForecastService {
     }
 
     public struct ListTagsForResourceRequest: AWSEncodableShape {
-        /// The Amazon Resource Name (ARN) that identifies the resource for which to list the tags. Currently, the supported resources are Forecast dataset groups, datasets, dataset import jobs, predictors, forecasts, and forecast export jobs.
+        /// The Amazon Resource Name (ARN) that identifies the resource for which to list the tags.
         public let resourceArn: String
 
         public init(resourceArn: String) {
@@ -3299,7 +3308,7 @@ extension ForecastService {
     }
 
     public struct StopResourceRequest: AWSEncodableShape {
-        /// The Amazon Resource Name (ARN) that identifies the resource to stop. The supported ARNs are DatasetImportJobArn, PredictorArn, PredictorBacktestExportJobArn, ForecastArn, and ForecastExportJobArn.
+        /// The Amazon Resource Name (ARN) that identifies the resource to stop. The supported ARNs are DatasetImportJobArn, PredictorArn, PredictorBacktestExportJobArn, ForecastArn, ForecastExportJobArn, ExplainabilityArn, and ExplainabilityExportArn.
         public let resourceArn: String
 
         public init(resourceArn: String) {
@@ -3368,7 +3377,7 @@ extension ForecastService {
     }
 
     public struct TagResourceRequest: AWSEncodableShape {
-        /// The Amazon Resource Name (ARN) that identifies the resource for which to list the tags. Currently, the supported resources are Forecast dataset groups, datasets, dataset import jobs, predictors, forecasts, and forecast export jobs.
+        /// The Amazon Resource Name (ARN) that identifies the resource for which to list the tags.
         public let resourceArn: String
         /// The tags to add to the resource. A tag is an array of key-value pairs. The following basic restrictions apply to tags:   Maximum number of tags per resource - 50.   For each resource, each tag key must be unique, and each tag key can have only one value.   Maximum key length - 128 Unicode characters in UTF-8.   Maximum value length - 256 Unicode characters in UTF-8.   If your tagging schema is used across multiple services and resources, remember that other services may have restrictions on allowed characters. Generally allowed characters are: letters, numbers, and spaces representable in UTF-8, and the following characters: + - = . _ : / @.   Tag keys and values are case sensitive.   Do not use aws:, AWS:, or any upper or lowercase combination of such as a prefix for keys as it is reserved for AWS use. You cannot edit or delete tag keys with this prefix. Values can have this prefix. If a tag value has aws as its prefix but the key does not, then Forecast considers it to be a user tag and will count against the limit of 50 tags. Tags with only the key prefix of aws do not count against your tags per resource limit.
         public let tags: [Tag]
@@ -3424,7 +3433,7 @@ extension ForecastService {
     }
 
     public struct UntagResourceRequest: AWSEncodableShape {
-        /// The Amazon Resource Name (ARN) that identifies the resource for which to list the tags. Currently, the supported resources are Forecast dataset groups, datasets, dataset import jobs, predictors, forecasts, and forecast exports.
+        /// The Amazon Resource Name (ARN) that identifies the resource for which to list the tags.
         public let resourceArn: String
         /// The keys of the tags to be removed.
         public let tagKeys: [String]

@@ -93,7 +93,7 @@ class TimestreamWriteTests: XCTestCase {
         let response = self.createDatabase(named: name)
             .flatMap { _ in
                 self.createTable(named: tableName, databaseName: name)
-                    .flatMap { _ -> EventLoopFuture<Void> in
+                    .flatMap { _ -> EventLoopFuture<TimestreamWrite.WriteRecordsResponse> in
                         let record = TimestreamWrite.Record(
                             dimensions: [.init(name: "Speed", value: "24.3")],
                             measureName: "Speed",

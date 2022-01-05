@@ -207,7 +207,7 @@ extension Backup {
     public struct BackupPlan: AWSDecodableShape {
         /// Contains a list of BackupOptions for each resource type.
         public let advancedBackupSettings: [AdvancedBackupSetting]?
-        /// The display name of a backup plan.
+        /// The display name of a backup plan. Must contain 1 to 50 alphanumeric or '-_.' characters.
         public let backupPlanName: String
         /// An array of BackupRule objects, each of which specifies a scheduled task that is used to back up a selection of resources.
         public let rules: [BackupRule]
@@ -228,7 +228,7 @@ extension Backup {
     public struct BackupPlanInput: AWSEncodableShape {
         /// Specifies a list of BackupOptions for each resource type. These settings are only available for Windows Volume Shadow Copy Service (VSS) backup jobs.
         public let advancedBackupSettings: [AdvancedBackupSetting]?
-        /// The optional display name of a backup plan.
+        /// The display name of a backup plan. Must contain 1 to 50 alphanumeric or '-_.' characters.
         public let backupPlanName: String
         /// An array of BackupRule objects, each of which specifies a scheduled task that is used to back up a selection of resources.
         public let rules: [BackupRuleInput]
@@ -283,7 +283,7 @@ extension Backup {
         public let backupPlanName: String?
         /// The date and time a resource backup plan is created, in Unix format and Coordinated Universal Time (UTC). The value of CreationDate is accurate to milliseconds. For example, the value 1516925490.087 represents Friday, January 26, 2018 12:11:30.087 AM.
         public let creationDate: Date?
-        /// A unique string that identifies the request and allows failed requests to be retried without the risk of running the operation twice.
+        /// A unique string that identifies the request and allows failed requests to be retried without the risk of running the operation twice. This parameter is optional. If used, this parameter must contain 1 to 50 alphanumeric or '-_.' characters.
         public let creatorRequestId: String?
         /// The date and time a backup plan is deleted, in Unix format and Coordinated Universal Time (UTC). The value of DeletionDate is accurate to milliseconds. For example, the value 1516925490.087 represents Friday, January 26, 2018 12:11:30.087 AM.
         public let deletionDate: Date?
@@ -330,9 +330,9 @@ extension Backup {
         public let recoveryPointTags: [String: String]?
         /// Uniquely identifies a rule that is used to schedule the backup of a selection of resources.
         public let ruleId: String?
-        /// An optional display name for a backup rule.
+        /// A display name for a backup rule. Must contain 1 to 50 alphanumeric or '-_.' characters.
         public let ruleName: String
-        /// A cron expression in UTC specifying when Backup initiates a backup job. For more information about cron expressions, see Schedule Expressions for Rules in the Amazon CloudWatch Events User Guide.. Prior to specifying a value for this parameter, we recommend testing your cron expression using one of the many available cron generator and testing tools.
+        /// A cron expression in UTC specifying when Backup initiates a backup job. For more information about Amazon Web Services cron expressions, see Schedule Expressions for Rules in the Amazon CloudWatch Events User Guide.. Two examples of Amazon Web Services cron expressions are  15 * ? * * * (take a backup every hour at 15 minutes past the hour) and 0 12 * * ? * (take a backup every day at 12 noon UTC). For a table of examples, click the preceding link and scroll down the page.
         public let scheduleExpression: String?
         /// A value in minutes after a backup is scheduled before a job will be canceled if it doesn't start successfully. This value is optional.
         public let startWindowMinutes: Int64?
@@ -377,7 +377,7 @@ extension Backup {
         public let lifecycle: Lifecycle?
         /// To help organize your resources, you can assign your own metadata to the resources that you create. Each tag is a key-value pair.
         public let recoveryPointTags: [String: String]?
-        /// An optional display name for a backup rule.
+        /// A display name for a backup rule. Must contain 1 to 50 alphanumeric or '-_.' characters.
         public let ruleName: String
         /// A CRON expression in UTC specifying when Backup initiates a backup job.
         public let scheduleExpression: String?
@@ -417,15 +417,17 @@ extension Backup {
     }
 
     public struct BackupSelection: AWSEncodableShape & AWSDecodableShape {
+        /// A list of conditions that you define to assign resources to your backup plans using tags. For example, "StringEquals": {"Department": "accounting". Condition operators are case sensitive.  Conditions differs from ListOfTags as follows:   When you specify more than one condition, you only assign the resources that match ALL conditions (using AND logic).    Conditions supports StringEquals, StringLike, StringNotEquals, and StringNotLike. ListOfTags only supports StringEquals.
         public let conditions: Conditions?
         /// The ARN of the IAM role that Backup uses to authenticate when backing up the target resource; for example, arn:aws:iam::123456789012:role/S3Access.
         public let iamRoleArn: String
-        /// An array of conditions used to specify a set of resources to assign to a backup plan; for example, "StringEquals": {"ec2:ResourceTag/Department": "accounting". Assigns the backup plan to every resource with at least one matching tag.
+        /// A list of conditions that you define to assign resources to your backup plans using tags. For example, "StringEquals": {"Department": "accounting". Condition operators are case sensitive.  ListOfTags differs from Conditions as follows:   When you specify more than one condition, you assign all resources that match AT LEAST ONE condition (using OR logic).    ListOfTags only supports StringEquals. Conditions supports StringEquals, StringLike, StringNotEquals, and StringNotLike.
         public let listOfTags: [Condition]?
+        /// A list of Amazon Resource Names (ARNs) to exclude from a backup plan. The maximum number of ARNs is 500 without wildcards, or 30 ARNs with wildcards. If you need to exclude many resources from a backup plan, consider a different resource selection strategy, such as assigning only one or a few resource types or refining your resource selection using tags.
         public let notResources: [String]?
-        /// An array of strings that contain Amazon Resource Names (ARNs) of resources to assign to a backup plan.
+        /// A list of Amazon Resource Names (ARNs) to assign to a backup plan. The maximum number of ARNs is 500 without wildcards, or 30 ARNs with wildcards. If you need to assign many resources to a backup plan, consider a different resource selection strategy, such as assigning all resources of a resource type or refining your resource selection using tags.
         public let resources: [String]?
-        /// The display name of a resource selection document.
+        /// The display name of a resource selection document. Must contain 1 to 50 alphanumeric or '-_.' characters.
         public let selectionName: String
 
         public init(conditions: Conditions? = nil, iamRoleArn: String, listOfTags: [Condition]? = nil, notResources: [String]? = nil, resources: [String]? = nil, selectionName: String) {
@@ -456,7 +458,7 @@ extension Backup {
         public let backupPlanId: String?
         /// The date and time a backup plan is created, in Unix format and Coordinated Universal Time (UTC). The value of CreationDate is accurate to milliseconds. For example, the value 1516925490.087 represents Friday, January 26, 2018 12:11:30.087 AM.
         public let creationDate: Date?
-        /// A unique string that identifies the request and allows failed requests to be retried without the risk of running the operation twice.
+        /// A unique string that identifies the request and allows failed requests to be retried without the risk of running the operation twice. This parameter is optional. If used, this parameter must contain 1 to 50 alphanumeric or '-_.' characters.
         public let creatorRequestId: String?
         /// Specifies the IAM role Amazon Resource Name (ARN) to create the target recovery point; for example, arn:aws:iam::123456789012:role/S3Access.
         public let iamRoleArn: String?
@@ -491,7 +493,7 @@ extension Backup {
         public let backupVaultName: String?
         /// The date and time a resource backup is created, in Unix format and Coordinated Universal Time (UTC). The value of CreationDate is accurate to milliseconds. For example, the value 1516925490.087 represents Friday, January 26, 2018 12:11:30.087 AM.
         public let creationDate: Date?
-        /// A unique string that identifies the request and allows failed requests to be retried without the risk of running the operation twice.
+        /// A unique string that identifies the request and allows failed requests to be retried without the risk of running the operation twice. This parameter is optional. If used, this parameter must contain 1 to 50 alphanumeric or '-_.' characters.
         public let creatorRequestId: String?
         /// The server-side encryption key that is used to protect your backups; for example, arn:aws:kms:us-west-2:111122223333:key/1234abcd-12ab-34cd-56ef-1234567890ab.
         public let encryptionKeyArn: String?
@@ -551,11 +553,11 @@ extension Backup {
     }
 
     public struct Condition: AWSEncodableShape & AWSDecodableShape {
-        /// The key in a key-value pair. For example, in "ec2:ResourceTag/Department": "accounting", "ec2:ResourceTag/Department" is the key.
+        /// The key in a key-value pair. For example, in the tag Department: Accounting, Department is the key.
         public let conditionKey: String
-        /// An operation, such as StringEquals, that is applied to a key-value pair used to filter resources in a selection.
+        /// An operation applied to a key-value pair used to assign resources to your backup plan. Condition only supports StringEquals. For more flexible assignment options, incluidng StringLike and the ability to exclude resources from your backup plan, use Conditions (with an "s" on the end) for your  BackupSelection .
         public let conditionType: ConditionType
-        /// The value in a key-value pair. For example, in "ec2:ResourceTag/Department": "accounting", "accounting" is the value.
+        /// The value in a key-value pair. For example, in the tag Department: Accounting, Accounting is the value.
         public let conditionValue: String
 
         public init(conditionKey: String, conditionType: ConditionType, conditionValue: String) {
@@ -572,7 +574,9 @@ extension Backup {
     }
 
     public struct ConditionParameter: AWSEncodableShape & AWSDecodableShape {
+        /// The key in a key-value pair. For example, in the tag Department: Accounting, Department is the key.
         public let conditionKey: String?
+        /// The value in a key-value pair. For example, in the tag Department: Accounting, Accounting is the value.
         public let conditionValue: String?
 
         public init(conditionKey: String? = nil, conditionValue: String? = nil) {
@@ -587,9 +591,13 @@ extension Backup {
     }
 
     public struct Conditions: AWSEncodableShape & AWSDecodableShape {
+        /// Filters the values of your tagged resources for only those resources that you tagged with the same value. Also called "exact matching."
         public let stringEquals: [ConditionParameter]?
+        /// Filters the values of your tagged resources for matching tag values with the use of a wildcard character (*) anywhere in the string. For example, "prod*" or "*rod*" matches the tag value "production".
         public let stringLike: [ConditionParameter]?
+        /// Filters the values of your tagged resources for only those resources that you tagged that do not have the same value. Also called "negated matching."
         public let stringNotEquals: [ConditionParameter]?
+        /// Filters the values of your tagged resources for non-matching tag values with the use of a wildcard character (*) anywhere in the string.
         public let stringNotLike: [ConditionParameter]?
 
         public init(stringEquals: [ConditionParameter]? = nil, stringLike: [ConditionParameter]? = nil, stringNotEquals: [ConditionParameter]? = nil, stringNotLike: [ConditionParameter]? = nil) {
@@ -629,7 +637,7 @@ extension Backup {
         public let complianceResourceIds: [String]?
         /// Describes whether the control scope includes one or more types of resources, such as EFS or RDS.
         public let complianceResourceTypes: [String]?
-        /// Describes whether the control scope includes resources with one or more tags. Each tag is a key-value pair.
+        /// The tag key-value pair applied to those Amazon Web Services resources that you want to trigger an evaluation for a rule. A maximum of one key-value pair can be provided. The tag value is optional, but it cannot be an empty string. The structure to assign a tag is: [{"Key":"string","Value":"string"}].
         public let tags: [String: String]?
 
         public init(complianceResourceIds: [String]? = nil, complianceResourceTypes: [String]? = nil, tags: [String: String]? = nil) {
@@ -739,7 +747,7 @@ extension Backup {
         public let backupPlan: BackupPlanInput
         /// To help organize your resources, you can assign your own metadata to the resources that you create. Each tag is a key-value pair. The specified tags are assigned to all backups created with this plan.
         public let backupPlanTags: [String: String]?
-        /// Identifies the request and allows failed requests to be retried without the risk of running the operation twice. If the request includes a CreatorRequestId that matches an existing backup plan, that plan is returned. This parameter is optional.
+        /// Identifies the request and allows failed requests to be retried without the risk of running the operation twice. If the request includes a CreatorRequestId that matches an existing backup plan, that plan is returned. This parameter is optional. If used, this parameter must contain 1 to 50 alphanumeric or '-_.' characters.
         public let creatorRequestId: String?
 
         public init(backupPlan: BackupPlanInput, backupPlanTags: [String: String]? = nil, creatorRequestId: String? = nil) {
@@ -797,7 +805,7 @@ extension Backup {
         public let backupPlanId: String
         /// Specifies the body of a request to assign a set of resources to a backup plan.
         public let backupSelection: BackupSelection
-        /// A unique string that identifies the request and allows failed requests to be retried without the risk of running the operation twice.
+        /// A unique string that identifies the request and allows failed requests to be retried without the risk of running the operation twice. This parameter is optional. If used, this parameter must contain 1 to 50 alphanumeric or '-_.' characters.
         public let creatorRequestId: String?
 
         public init(backupPlanId: String, backupSelection: BackupSelection, creatorRequestId: String? = nil) {
@@ -846,7 +854,7 @@ extension Backup {
         public let backupVaultName: String
         /// Metadata that you can assign to help organize the resources that you create. Each tag is a key-value pair.
         public let backupVaultTags: [String: String]?
-        /// A unique string that identifies the request and allows failed requests to be retried without the risk of running the operation twice.
+        /// A unique string that identifies the request and allows failed requests to be retried without the risk of running the operation twice. This parameter is optional. If used, this parameter must contain 1 to 50 alphanumeric or '-_.' characters.
         public let creatorRequestId: String?
         /// The server-side encryption key that is used to protect your backups; for example, arn:aws:kms:us-west-2:111122223333:key/1234abcd-12ab-34cd-56ef-1234567890ab.
         public let encryptionKeyArn: String?
@@ -1635,14 +1643,18 @@ extension Backup {
     }
 
     public struct DescribeRegionSettingsOutput: AWSDecodableShape {
+        /// Returns whether a DynamoDB recovery point was taken using  Backup's advanced DynamoDB backup features.
+        public let resourceTypeManagementPreference: [String: Bool]?
         /// Returns a list of all services along with the opt-in preferences in the Region.
         public let resourceTypeOptInPreference: [String: Bool]?
 
-        public init(resourceTypeOptInPreference: [String: Bool]? = nil) {
+        public init(resourceTypeManagementPreference: [String: Bool]? = nil, resourceTypeOptInPreference: [String: Bool]? = nil) {
+            self.resourceTypeManagementPreference = resourceTypeManagementPreference
             self.resourceTypeOptInPreference = resourceTypeOptInPreference
         }
 
         private enum CodingKeys: String, CodingKey {
+            case resourceTypeManagementPreference = "ResourceTypeManagementPreference"
             case resourceTypeOptInPreference = "ResourceTypeOptInPreference"
         }
     }
@@ -3058,7 +3070,7 @@ extension Backup {
             AWSMemberEncoding(label: "backupVaultName", location: .uri(locationName: "backupVaultName"))
         ]
 
-        /// An array of events that indicate the status of jobs to back up resources to the backup vault.  The following events are supported:  BACKUP_JOB_STARTED, BACKUP_JOB_COMPLETED,  COPY_JOB_STARTED, COPY_JOB_SUCCESSFUL, COPY_JOB_FAILED,  RESTORE_JOB_STARTED, RESTORE_JOB_COMPLETED, and RECOVERY_POINT_MODIFIED. To find failed backup jobs, use BACKUP_JOB_COMPLETED and filter using event metadata. Other events in the following list are deprecated.
+        /// An array of events that indicate the status of jobs to back up resources to the backup vault. For common use cases and code samples, see Using Amazon SNS to track Backup events. The following events are supported:    BACKUP_JOB_STARTED | BACKUP_JOB_COMPLETED     COPY_JOB_STARTED | COPY_JOB_SUCCESSFUL | COPY_JOB_FAILED     RESTORE_JOB_STARTED | RESTORE_JOB_COMPLETED | RECOVERY_POINT_MODIFIED     Ignore the list below because it includes deprecated events. Refer to the list above.
         public let backupVaultEvents: [BackupVaultEvent]
         /// The name of a logical container where backups are stored. Backup vaults are identified by names that are unique to the account used to create them and the Amazon Web Services Region where they are created. They consist of lowercase letters, numbers, and hyphens.
         public let backupVaultName: String
@@ -3664,7 +3676,7 @@ extension Backup {
 
         /// An ARN that uniquely identifies a resource. The format of the ARN depends on the type of the tagged resource.
         public let resourceArn: String
-        /// Key-value pairs that are used to help organize your resources. You can assign your own metadata to the resources you create.
+        /// Key-value pairs that are used to help organize your resources. You can assign your own metadata to the resources you create. For clarity, this is the structure to assign tags: [{"Key":"string","Value":"string"}].
         public let tags: [String: String]
 
         public init(resourceArn: String, tags: [String: String]) {
@@ -3878,20 +3890,27 @@ extension Backup {
     }
 
     public struct UpdateRegionSettingsInput: AWSEncodableShape {
+        /// Enables or disables  Backup's advanced DynamoDB backup features for the Region.
+        public let resourceTypeManagementPreference: [String: Bool]?
         /// Updates the list of services along with the opt-in preferences for the Region.
         public let resourceTypeOptInPreference: [String: Bool]?
 
-        public init(resourceTypeOptInPreference: [String: Bool]? = nil) {
+        public init(resourceTypeManagementPreference: [String: Bool]? = nil, resourceTypeOptInPreference: [String: Bool]? = nil) {
+            self.resourceTypeManagementPreference = resourceTypeManagementPreference
             self.resourceTypeOptInPreference = resourceTypeOptInPreference
         }
 
         public func validate(name: String) throws {
+            try self.resourceTypeManagementPreference?.forEach {
+                try validate($0.key, name: "resourceTypeManagementPreference.key", parent: name, pattern: "^[a-zA-Z0-9\\-\\_\\.]{1,50}$")
+            }
             try self.resourceTypeOptInPreference?.forEach {
                 try validate($0.key, name: "resourceTypeOptInPreference.key", parent: name, pattern: "^[a-zA-Z0-9\\-\\_\\.]{1,50}$")
             }
         }
 
         private enum CodingKeys: String, CodingKey {
+            case resourceTypeManagementPreference = "ResourceTypeManagementPreference"
             case resourceTypeOptInPreference = "ResourceTypeOptInPreference"
         }
     }

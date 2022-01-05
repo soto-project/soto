@@ -20,7 +20,7 @@ import SotoCore
 
 // MARK: Paginators
 
-@available(macOS 12.0, iOS 15.0, watchOS 8.0, tvOS 15.0, *)
+@available(macOS 10.15, iOS 13.0, tvOS 13.0, watchOS 6.0, *)
 extension SageMaker {
     ///  Lists the actions in your account and their properties.
     /// Return PaginatorSequence for operation.
@@ -572,6 +572,28 @@ extension SageMaker {
         )
     }
 
+    ///  Lists recommendation jobs that satisfy various filters.
+    /// Return PaginatorSequence for operation.
+    ///
+    /// - Parameters:
+    ///   - input: Input for request
+    ///   - logger: Logger used flot logging
+    ///   - eventLoop: EventLoop to run this process on
+    public func listInferenceRecommendationsJobsPaginator(
+        _ input: ListInferenceRecommendationsJobsRequest,
+        logger: Logger = AWSClient.loggingDisabled,
+        on eventLoop: EventLoop? = nil
+    ) -> AWSClient.PaginatorSequence<ListInferenceRecommendationsJobsRequest, ListInferenceRecommendationsJobsResponse> {
+        return .init(
+            input: input,
+            command: listInferenceRecommendationsJobs,
+            inputKey: \ListInferenceRecommendationsJobsRequest.nextToken,
+            outputKey: \ListInferenceRecommendationsJobsResponse.nextToken,
+            logger: logger,
+            on: eventLoop
+        )
+    }
+
     ///  Gets a list of labeling jobs.
     /// Return PaginatorSequence for operation.
     ///
@@ -616,6 +638,28 @@ extension SageMaker {
         )
     }
 
+    ///  A list of lineage groups shared with your Amazon Web Services account. For more information, see  Cross-Account Lineage Tracking  in the Amazon SageMaker Developer Guide.
+    /// Return PaginatorSequence for operation.
+    ///
+    /// - Parameters:
+    ///   - input: Input for request
+    ///   - logger: Logger used flot logging
+    ///   - eventLoop: EventLoop to run this process on
+    public func listLineageGroupsPaginator(
+        _ input: ListLineageGroupsRequest,
+        logger: Logger = AWSClient.loggingDisabled,
+        on eventLoop: EventLoop? = nil
+    ) -> AWSClient.PaginatorSequence<ListLineageGroupsRequest, ListLineageGroupsResponse> {
+        return .init(
+            input: input,
+            command: listLineageGroups,
+            inputKey: \ListLineageGroupsRequest.nextToken,
+            outputKey: \ListLineageGroupsResponse.nextToken,
+            logger: logger,
+            on: eventLoop
+        )
+    }
+
     ///  Lists model bias jobs definitions that satisfy various filters.
     /// Return PaginatorSequence for operation.
     ///
@@ -655,6 +699,28 @@ extension SageMaker {
             command: listModelExplainabilityJobDefinitions,
             inputKey: \ListModelExplainabilityJobDefinitionsRequest.nextToken,
             outputKey: \ListModelExplainabilityJobDefinitionsResponse.nextToken,
+            logger: logger,
+            on: eventLoop
+        )
+    }
+
+    ///  Lists the domain, framework, task, and model name of standard machine learning models found in common model zoos.
+    /// Return PaginatorSequence for operation.
+    ///
+    /// - Parameters:
+    ///   - input: Input for request
+    ///   - logger: Logger used flot logging
+    ///   - eventLoop: EventLoop to run this process on
+    public func listModelMetadataPaginator(
+        _ input: ListModelMetadataRequest,
+        logger: Logger = AWSClient.loggingDisabled,
+        on eventLoop: EventLoop? = nil
+    ) -> AWSClient.PaginatorSequence<ListModelMetadataRequest, ListModelMetadataResponse> {
+        return .init(
+            input: input,
+            command: listModelMetadata,
+            inputKey: \ListModelMetadataRequest.nextToken,
+            outputKey: \ListModelMetadataResponse.nextToken,
             logger: logger,
             on: eventLoop
         )
@@ -1205,6 +1271,28 @@ extension SageMaker {
             command: listWorkteams,
             inputKey: \ListWorkteamsRequest.nextToken,
             outputKey: \ListWorkteamsResponse.nextToken,
+            logger: logger,
+            on: eventLoop
+        )
+    }
+
+    ///  Use this action to inspect your lineage and discover relationships between entities. For more information, see  Querying Lineage Entities in the Amazon SageMaker Developer Guide.
+    /// Return PaginatorSequence for operation.
+    ///
+    /// - Parameters:
+    ///   - input: Input for request
+    ///   - logger: Logger used flot logging
+    ///   - eventLoop: EventLoop to run this process on
+    public func queryLineagePaginator(
+        _ input: QueryLineageRequest,
+        logger: Logger = AWSClient.loggingDisabled,
+        on eventLoop: EventLoop? = nil
+    ) -> AWSClient.PaginatorSequence<QueryLineageRequest, QueryLineageResponse> {
+        return .init(
+            input: input,
+            command: queryLineage,
+            inputKey: \QueryLineageRequest.nextToken,
+            outputKey: \QueryLineageResponse.nextToken,
             logger: logger,
             on: eventLoop
         )

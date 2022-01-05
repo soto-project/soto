@@ -18,7 +18,7 @@
 
 import SotoCore
 
-@available(macOS 12.0, iOS 15.0, watchOS 8.0, tvOS 15.0, *)
+@available(macOS 10.15, iOS 13.0, tvOS 13.0, watchOS 6.0, *)
 extension WorkMail {
     // MARK: Async API Calls
 
@@ -77,6 +77,11 @@ extension WorkMail {
         return try await self.client.execute(operation: "DeleteAlias", path: "/", httpMethod: .POST, serviceConfig: self.config, input: input, logger: logger, on: eventLoop)
     }
 
+    /// Deletes the email monitoring configuration for a specified organization.
+    public func deleteEmailMonitoringConfiguration(_ input: DeleteEmailMonitoringConfigurationRequest, logger: Logger = AWSClient.loggingDisabled, on eventLoop: EventLoop? = nil) async throws -> DeleteEmailMonitoringConfigurationResponse {
+        return try await self.client.execute(operation: "DeleteEmailMonitoringConfiguration", path: "/", httpMethod: .POST, serviceConfig: self.config, input: input, logger: logger, on: eventLoop)
+    }
+
     /// Deletes a group from Amazon WorkMail.
     public func deleteGroup(_ input: DeleteGroupRequest, logger: Logger = AWSClient.loggingDisabled, on eventLoop: EventLoop? = nil) async throws -> DeleteGroupResponse {
         return try await self.client.execute(operation: "DeleteGroup", path: "/", httpMethod: .POST, serviceConfig: self.config, input: input, logger: logger, on: eventLoop)
@@ -125,6 +130,11 @@ extension WorkMail {
     /// Removes a domain from Amazon WorkMail, stops email routing to WorkMail, and removes the authorization allowing WorkMail use. SES keeps the domain because other applications may use it. You must first remove any email address used by WorkMail entities before you remove the domain.
     public func deregisterMailDomain(_ input: DeregisterMailDomainRequest, logger: Logger = AWSClient.loggingDisabled, on eventLoop: EventLoop? = nil) async throws -> DeregisterMailDomainResponse {
         return try await self.client.execute(operation: "DeregisterMailDomain", path: "/", httpMethod: .POST, serviceConfig: self.config, input: input, logger: logger, on: eventLoop)
+    }
+
+    /// Describes the current email monitoring configuration for a specified organization.
+    public func describeEmailMonitoringConfiguration(_ input: DescribeEmailMonitoringConfigurationRequest, logger: Logger = AWSClient.loggingDisabled, on eventLoop: EventLoop? = nil) async throws -> DescribeEmailMonitoringConfigurationResponse {
+        return try await self.client.execute(operation: "DescribeEmailMonitoringConfiguration", path: "/", httpMethod: .POST, serviceConfig: self.config, input: input, logger: logger, on: eventLoop)
     }
 
     /// Returns the data available for the group.
@@ -270,6 +280,11 @@ extension WorkMail {
     /// Adds a new access control rule for the specified organization. The rule allows or denies access to the organization for the specified IPv4 addresses, access protocol actions, and user IDs. Adding a new rule with the same name as an existing rule replaces the older rule.
     public func putAccessControlRule(_ input: PutAccessControlRuleRequest, logger: Logger = AWSClient.loggingDisabled, on eventLoop: EventLoop? = nil) async throws -> PutAccessControlRuleResponse {
         return try await self.client.execute(operation: "PutAccessControlRule", path: "/", httpMethod: .POST, serviceConfig: self.config, input: input, logger: logger, on: eventLoop)
+    }
+
+    /// Creates or updates the email monitoring configuration for a specified organization.
+    public func putEmailMonitoringConfiguration(_ input: PutEmailMonitoringConfigurationRequest, logger: Logger = AWSClient.loggingDisabled, on eventLoop: EventLoop? = nil) async throws -> PutEmailMonitoringConfigurationResponse {
+        return try await self.client.execute(operation: "PutEmailMonitoringConfiguration", path: "/", httpMethod: .POST, serviceConfig: self.config, input: input, logger: logger, on: eventLoop)
     }
 
     /// Enables or disables a DMARC policy for a given organization.

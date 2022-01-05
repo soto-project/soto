@@ -259,6 +259,11 @@ public struct IoTWireless: AWSService {
         return self.client.execute(operation: "GetMulticastGroupSession", path: "/multicast-groups/{Id}/session", httpMethod: .GET, serviceConfig: self.config, input: input, logger: logger, on: eventLoop)
     }
 
+    /// Get NetworkAnalyzer configuration.
+    public func getNetworkAnalyzerConfiguration(_ input: GetNetworkAnalyzerConfigurationRequest, logger: Logger = AWSClient.loggingDisabled, on eventLoop: EventLoop? = nil) -> EventLoopFuture<GetNetworkAnalyzerConfigurationResponse> {
+        return self.client.execute(operation: "GetNetworkAnalyzerConfiguration", path: "/network-analyzer-configurations/{ConfigurationName}", httpMethod: .GET, serviceConfig: self.config, input: input, logger: logger, on: eventLoop)
+    }
+
     /// Gets information about a partner account. If PartnerAccountId and PartnerType are null, returns all partner accounts.
     public func getPartnerAccount(_ input: GetPartnerAccountRequest, logger: Logger = AWSClient.loggingDisabled, on eventLoop: EventLoop? = nil) -> EventLoopFuture<GetPartnerAccountResponse> {
         return self.client.execute(operation: "GetPartnerAccount", path: "/partner-accounts/{PartnerAccountId}", httpMethod: .GET, serviceConfig: self.config, input: input, logger: logger, on: eventLoop)
@@ -457,6 +462,11 @@ public struct IoTWireless: AWSService {
     /// Updates properties of a multicast group session.
     public func updateMulticastGroup(_ input: UpdateMulticastGroupRequest, logger: Logger = AWSClient.loggingDisabled, on eventLoop: EventLoop? = nil) -> EventLoopFuture<UpdateMulticastGroupResponse> {
         return self.client.execute(operation: "UpdateMulticastGroup", path: "/multicast-groups/{Id}", httpMethod: .PATCH, serviceConfig: self.config, input: input, logger: logger, on: eventLoop)
+    }
+
+    /// Update NetworkAnalyzer configuration.
+    public func updateNetworkAnalyzerConfiguration(_ input: UpdateNetworkAnalyzerConfigurationRequest, logger: Logger = AWSClient.loggingDisabled, on eventLoop: EventLoop? = nil) -> EventLoopFuture<UpdateNetworkAnalyzerConfigurationResponse> {
+        return self.client.execute(operation: "UpdateNetworkAnalyzerConfiguration", path: "/network-analyzer-configurations/{ConfigurationName}", httpMethod: .PATCH, serviceConfig: self.config, input: input, logger: logger, on: eventLoop)
     }
 
     /// Updates properties of a partner account.

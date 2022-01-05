@@ -43,8 +43,10 @@ extension ComprehendMedical {
         case form = "FORM"
         case frequency = "FREQUENCY"
         case genericName = "GENERIC_NAME"
+        case id = "ID"
         case identifier = "IDENTIFIER"
         case name = "NAME"
+        case phoneOrFax = "PHONE_OR_FAX"
         case procedureName = "PROCEDURE_NAME"
         case profession = "PROFESSION"
         case quality = "QUALITY"
@@ -54,6 +56,7 @@ extension ComprehendMedical {
         case strength = "STRENGTH"
         case systemOrganSite = "SYSTEM_ORGAN_SITE"
         case testName = "TEST_NAME"
+        case testUnit = "TEST_UNIT"
         case testUnits = "TEST_UNITS"
         case testValue = "TEST_VALUE"
         case timeExpression = "TIME_EXPRESSION"
@@ -145,6 +148,7 @@ extension ComprehendMedical {
         case routeOrMode = "ROUTE_OR_MODE"
         case strength = "STRENGTH"
         case systemOrganSite = "SYSTEM_ORGAN_SITE"
+        case testUnit = "TEST_UNIT"
         case testUnits = "TEST_UNITS"
         case testValue = "TEST_VALUE"
         case withDosage = "WITH_DOSAGE"
@@ -178,6 +182,49 @@ extension ComprehendMedical {
         public var description: String { return self.rawValue }
     }
 
+    public enum SNOMEDCTAttributeType: String, CustomStringConvertible, Codable {
+        case acuity = "ACUITY"
+        case direction = "DIRECTION"
+        case quality = "QUALITY"
+        case systemOrganSite = "SYSTEM_ORGAN_SITE"
+        case testUnit = "TEST_UNIT"
+        case testValue = "TEST_VALUE"
+        public var description: String { return self.rawValue }
+    }
+
+    public enum SNOMEDCTEntityCategory: String, CustomStringConvertible, Codable {
+        case anatomy = "ANATOMY"
+        case medicalCondition = "MEDICAL_CONDITION"
+        case testTreatmentProcedure = "TEST_TREATMENT_PROCEDURE"
+        public var description: String { return self.rawValue }
+    }
+
+    public enum SNOMEDCTEntityType: String, CustomStringConvertible, Codable {
+        case dxName = "DX_NAME"
+        case procedureName = "PROCEDURE_NAME"
+        case testName = "TEST_NAME"
+        case treatmentName = "TREATMENT_NAME"
+        public var description: String { return self.rawValue }
+    }
+
+    public enum SNOMEDCTRelationshipType: String, CustomStringConvertible, Codable {
+        case acuity = "ACUITY"
+        case direction = "DIRECTION"
+        case quality = "QUALITY"
+        case systemOrganSite = "SYSTEM_ORGAN_SITE"
+        case testUnits = "TEST_UNITS"
+        case testValue = "TEST_VALUE"
+        public var description: String { return self.rawValue }
+    }
+
+    public enum SNOMEDCTTraitName: String, CustomStringConvertible, Codable {
+        case diagnosis = "DIAGNOSIS"
+        case negation = "NEGATION"
+        case sign = "SIGN"
+        case symptom = "SYMPTOM"
+        public var description: String { return self.rawValue }
+    }
+
     // MARK: Shapes
 
     public struct Attribute: AWSDecodableShape {
@@ -189,11 +236,11 @@ extension ComprehendMedical {
         public let endOffset: Int?
         ///  The numeric identifier for this attribute. This is a monotonically increasing id unique within this response rather than a global unique identifier.
         public let id: Int?
-        ///  The level of confidence that Amazon Comprehend Medical has that this attribute is correctly related to this entity.
+        ///  The level of confidence that Comprehend Medical; has that this attribute is correctly related to this entity.
         public let relationshipScore: Float?
         /// The type of relationship between the entity and attribute. Type for the relationship is OVERLAP, indicating that the entity occurred at the same time as the Date_Expression.
         public let relationshipType: RelationshipType?
-        ///  The level of confidence that Amazon Comprehend Medical has that the segment of text is correctly recognized as an attribute.
+        ///  The level of confidence that Comprehend Medical; has that the segment of text is correctly recognized as an attribute.
         public let score: Float?
         ///  The segment of input text extracted as this attribute.
         public let text: String?
@@ -229,6 +276,19 @@ extension ComprehendMedical {
         }
     }
 
+    public struct Characters: AWSDecodableShape {
+        ///  The number of characters present in the input text document as processed by Comprehend Medical.
+        public let originalTextCharacters: Int?
+
+        public init(originalTextCharacters: Int? = nil) {
+            self.originalTextCharacters = originalTextCharacters
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case originalTextCharacters = "OriginalTextCharacters"
+        }
+    }
+
     public struct ComprehendMedicalAsyncJobFilter: AWSEncodableShape {
         /// Filters on the name of the job.
         public let jobName: String?
@@ -261,7 +321,7 @@ extension ComprehendMedical {
     }
 
     public struct ComprehendMedicalAsyncJobProperties: AWSDecodableShape {
-        /// The Amazon Resource Name (ARN) that gives Amazon Comprehend Medical read access to your input data.
+        /// The Amazon Resource Name (ARN) that gives Comprehend Medical; read access to your input data.
         public let dataAccessRoleArn: String?
         /// The time that the detection job completed.
         public let endTime: Date?
@@ -326,7 +386,7 @@ extension ComprehendMedical {
     }
 
     public struct DescribeEntitiesDetectionV2JobRequest: AWSEncodableShape {
-        /// The identifier that Amazon Comprehend Medical generated for the job. The StartEntitiesDetectionV2Job operation returns this identifier in its response.
+        /// The identifier that Comprehend Medical; generated for the job. The StartEntitiesDetectionV2Job operation returns this identifier in its response.
         public let jobId: String
 
         public init(jobId: String) {
@@ -390,7 +450,7 @@ extension ComprehendMedical {
     }
 
     public struct DescribePHIDetectionJobRequest: AWSEncodableShape {
-        /// The identifier that Amazon Comprehend Medical generated for the job. The StartPHIDetectionJob operation returns this identifier in its response.
+        /// The identifier that Comprehend Medical; generated for the job. The StartPHIDetectionJob operation returns this identifier in its response.
         public let jobId: String
 
         public init(jobId: String) {
@@ -453,6 +513,37 @@ extension ComprehendMedical {
         }
     }
 
+    public struct DescribeSNOMEDCTInferenceJobRequest: AWSEncodableShape {
+        ///  The identifier that Amazon Comprehend Medical generated for the job. The StartSNOMEDCTInferenceJob operation returns this identifier in its response.
+        public let jobId: String
+
+        public init(jobId: String) {
+            self.jobId = jobId
+        }
+
+        public func validate(name: String) throws {
+            try self.validate(self.jobId, name: "jobId", parent: name, max: 32)
+            try self.validate(self.jobId, name: "jobId", parent: name, min: 1)
+            try self.validate(self.jobId, name: "jobId", parent: name, pattern: "^([\\p{L}\\p{Z}\\p{N}_.:/=+\\-%@]*)$")
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case jobId = "JobId"
+        }
+    }
+
+    public struct DescribeSNOMEDCTInferenceJobResponse: AWSDecodableShape {
+        public let comprehendMedicalAsyncJobProperties: ComprehendMedicalAsyncJobProperties?
+
+        public init(comprehendMedicalAsyncJobProperties: ComprehendMedicalAsyncJobProperties? = nil) {
+            self.comprehendMedicalAsyncJobProperties = comprehendMedicalAsyncJobProperties
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case comprehendMedicalAsyncJobProperties = "ComprehendMedicalAsyncJobProperties"
+        }
+    }
+
     public struct DetectEntitiesRequest: AWSEncodableShape {
         ///  A UTF-8 text string containing the clinical content being examined for entities. Each string must contain fewer than 20,000 bytes of characters.
         public let text: String
@@ -472,7 +563,7 @@ extension ComprehendMedical {
     }
 
     public struct DetectEntitiesResponse: AWSDecodableShape {
-        ///  The collection of medical entities extracted from the input text and their associated information. For each entity, the response provides the entity text, the entity category, where the entity text begins and ends, and the level of confidence that Amazon Comprehend Medical has in the detection and analysis. Attributes and traits of the entity are also returned.
+        ///  The collection of medical entities extracted from the input text and their associated information. For each entity, the response provides the entity text, the entity category, where the entity text begins and ends, and the level of confidence that Comprehend Medical; has in the detection and analysis. Attributes and traits of the entity are also returned.
         public let entities: [Entity]
         /// The version of the model used to analyze the documents. The version number looks like X.X.X. You can use this information to track the model used for a particular batch of documents.
         public let modelVersion: String
@@ -558,7 +649,7 @@ extension ComprehendMedical {
     }
 
     public struct DetectPHIResponse: AWSDecodableShape {
-        ///  The collection of PHI entities extracted from the input text and their associated information. For each entity, the response provides the entity text, the entity category, where the entity text begins and ends, and the level of confidence that Amazon Comprehend Medical has in its detection.
+        ///  The collection of PHI entities extracted from the input text and their associated information. For each entity, the response provides the entity text, the entity category, where the entity text begins and ends, and the level of confidence that Comprehend Medical; has in its detection.
         public let entities: [Entity]
         /// The version of the model used to analyze the documents. The version number looks like X.X.X. You can use this information to track the model used for a particular batch of documents.
         public let modelVersion: String
@@ -589,7 +680,7 @@ extension ComprehendMedical {
         public let endOffset: Int?
         ///  The numeric identifier for the entity. This is a monotonically increasing id unique within this response rather than a global unique identifier.
         public let id: Int?
-        /// The level of confidence that Amazon Comprehend Medical has in the accuracy of the detection.
+        /// The level of confidence that Comprehend Medical; has in the accuracy of the detection.
         public let score: Float?
         ///  The segment of input text extracted as this entity.
         public let text: String?
@@ -745,7 +836,7 @@ extension ComprehendMedical {
     public struct ICD10CMTrait: AWSDecodableShape {
         /// Provides a name or contextual description about the trait.
         public let name: ICD10CMTraitName?
-        /// The level of confidence that Amazon Comprehend Medical has that the segment of text is correctly recognized as a trait.
+        /// The level of confidence that Comprehend Medical; has that the segment of text is correctly recognized as a trait.
         public let score: Float?
 
         public init(name: ICD10CMTraitName? = nil, score: Float? = nil) {
@@ -834,6 +925,53 @@ extension ComprehendMedical {
             case entities = "Entities"
             case modelVersion = "ModelVersion"
             case paginationToken = "PaginationToken"
+        }
+    }
+
+    public struct InferSNOMEDCTRequest: AWSEncodableShape {
+        ///  The input text to be analyzed using InferSNOMEDCT. The text should be a string with 1 to 10000 characters.
+        public let text: String
+
+        public init(text: String) {
+            self.text = text
+        }
+
+        public func validate(name: String) throws {
+            try self.validate(self.text, name: "text", parent: name, max: 10000)
+            try self.validate(self.text, name: "text", parent: name, min: 1)
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case text = "Text"
+        }
+    }
+
+    public struct InferSNOMEDCTResponse: AWSDecodableShape {
+        ///  The number of characters in the input request documentation.
+        public let characters: Characters?
+        ///  The collection of medical concept entities extracted from the input text and their associated information. For each entity, the response provides the entity text, the entity category, where the entity text begins and ends, and the level of confidence that Comprehend Medical has in the detection and analysis. Attributes and traits of the entity are also returned.
+        public let entities: [SNOMEDCTEntity]
+        ///  The version of the model used to analyze the documents, in the format n.n.n You can use this information to track the model used for a particular batch of documents.
+        public let modelVersion: String?
+        ///  If the result of the request is truncated, the pagination token can be used to fetch the next page of entities.
+        public let paginationToken: String?
+        ///  The details of the SNOMED-CT revision, including the edition, language, and version date.
+        public let sNOMEDCTDetails: SNOMEDCTDetails?
+
+        public init(characters: Characters? = nil, entities: [SNOMEDCTEntity], modelVersion: String? = nil, paginationToken: String? = nil, sNOMEDCTDetails: SNOMEDCTDetails? = nil) {
+            self.characters = characters
+            self.entities = entities
+            self.modelVersion = modelVersion
+            self.paginationToken = paginationToken
+            self.sNOMEDCTDetails = sNOMEDCTDetails
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case characters = "Characters"
+            case entities = "Entities"
+            case modelVersion = "ModelVersion"
+            case paginationToken = "PaginationToken"
+            case sNOMEDCTDetails = "SNOMEDCTDetails"
         }
     }
 
@@ -1042,10 +1180,54 @@ extension ComprehendMedical {
         }
     }
 
+    public struct ListSNOMEDCTInferenceJobsRequest: AWSEncodableShape {
+        public let filter: ComprehendMedicalAsyncJobFilter?
+        ///  The maximum number of results to return in each page. The default is 100.
+        public let maxResults: Int?
+        ///  Identifies the next page of InferSNOMEDCT results to return.
+        public let nextToken: String?
+
+        public init(filter: ComprehendMedicalAsyncJobFilter? = nil, maxResults: Int? = nil, nextToken: String? = nil) {
+            self.filter = filter
+            self.maxResults = maxResults
+            self.nextToken = nextToken
+        }
+
+        public func validate(name: String) throws {
+            try self.filter?.validate(name: "\(name).filter")
+            try self.validate(self.maxResults, name: "maxResults", parent: name, max: 500)
+            try self.validate(self.maxResults, name: "maxResults", parent: name, min: 1)
+            try self.validate(self.nextToken, name: "nextToken", parent: name, min: 1)
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case filter = "Filter"
+            case maxResults = "MaxResults"
+            case nextToken = "NextToken"
+        }
+    }
+
+    public struct ListSNOMEDCTInferenceJobsResponse: AWSDecodableShape {
+        ///  A list containing the properties of each job that is returned.
+        public let comprehendMedicalAsyncJobPropertiesList: [ComprehendMedicalAsyncJobProperties]?
+        ///  Identifies the next page of results to return.
+        public let nextToken: String?
+
+        public init(comprehendMedicalAsyncJobPropertiesList: [ComprehendMedicalAsyncJobProperties]? = nil, nextToken: String? = nil) {
+            self.comprehendMedicalAsyncJobPropertiesList = comprehendMedicalAsyncJobPropertiesList
+            self.nextToken = nextToken
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case comprehendMedicalAsyncJobPropertiesList = "ComprehendMedicalAsyncJobPropertiesList"
+            case nextToken = "NextToken"
+        }
+    }
+
     public struct OutputDataConfig: AWSEncodableShape & AWSDecodableShape {
         /// When you use the OutputDataConfig object with asynchronous operations, you specify the Amazon S3 location where you want to write the output data. The URI must be in the same region as the API endpoint that you are calling. The location is used as the prefix for the actual location of the output.
         public let s3Bucket: String
-        /// The path to the output data files in the S3 bucket. Amazon Comprehend Medical creates an output directory using the job ID so that the output from one job does not overwrite the output of another.
+        /// The path to the output data files in the S3 bucket. Comprehend Medical; creates an output directory using the job ID so that the output from one job does not overwrite the output of another.
         public let s3Key: String?
 
         public init(s3Bucket: String, s3Key: String? = nil) {
@@ -1195,20 +1377,181 @@ extension ComprehendMedical {
         }
     }
 
+    public struct SNOMEDCTAttribute: AWSDecodableShape {
+        ///  The 0-based character offset in the input text that shows where the attribute begins. The offset returns the UTF-8 code point in the string.
+        public let beginOffset: Int?
+        ///  The category of the detected attribute. Possible categories include MEDICAL_CONDITION, ANATOMY, and TEST_TREATMENT_PROCEDURE.
+        public let category: SNOMEDCTEntityCategory?
+        ///  The 0-based character offset in the input text that shows where the attribute ends. The offset returns the UTF-8 code point in the string.
+        public let endOffset: Int?
+        ///  The numeric identifier for this attribute. This is a monotonically increasing id unique within this response rather than a global unique identifier.
+        public let id: Int?
+        ///  The level of confidence that Comprehend Medical has that this attribute is correctly related to this entity.
+        public let relationshipScore: Float?
+        ///  The type of relationship that exists between the entity and the related attribute.
+        public let relationshipType: SNOMEDCTRelationshipType?
+        ///  The level of confidence that Comprehend Medical has that the segment of text is correctly recognized as an attribute.
+        public let score: Float?
+        ///  The SNOMED-CT concepts specific to an attribute, along with a score indicating the likelihood of the match.
+        public let sNOMEDCTConcepts: [SNOMEDCTConcept]?
+        ///  The segment of input text extracted as this attribute.
+        public let text: String?
+        ///  Contextual information for an attribute. Examples include signs, symptoms, diagnosis, and negation.
+        public let traits: [SNOMEDCTTrait]?
+        ///  The type of attribute. Possible types include DX_NAME, ACUITY, DIRECTION, SYSTEM_ORGAN_SITE,TEST_NAME, TEST_VALUE, TEST_UNIT, PROCEDURE_NAME, and TREATMENT_NAME.
+        public let type: SNOMEDCTAttributeType?
+
+        public init(beginOffset: Int? = nil, category: SNOMEDCTEntityCategory? = nil, endOffset: Int? = nil, id: Int? = nil, relationshipScore: Float? = nil, relationshipType: SNOMEDCTRelationshipType? = nil, score: Float? = nil, sNOMEDCTConcepts: [SNOMEDCTConcept]? = nil, text: String? = nil, traits: [SNOMEDCTTrait]? = nil, type: SNOMEDCTAttributeType? = nil) {
+            self.beginOffset = beginOffset
+            self.category = category
+            self.endOffset = endOffset
+            self.id = id
+            self.relationshipScore = relationshipScore
+            self.relationshipType = relationshipType
+            self.score = score
+            self.sNOMEDCTConcepts = sNOMEDCTConcepts
+            self.text = text
+            self.traits = traits
+            self.type = type
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case beginOffset = "BeginOffset"
+            case category = "Category"
+            case endOffset = "EndOffset"
+            case id = "Id"
+            case relationshipScore = "RelationshipScore"
+            case relationshipType = "RelationshipType"
+            case score = "Score"
+            case sNOMEDCTConcepts = "SNOMEDCTConcepts"
+            case text = "Text"
+            case traits = "Traits"
+            case type = "Type"
+        }
+    }
+
+    public struct SNOMEDCTConcept: AWSDecodableShape {
+        ///  The numeric ID for the SNOMED-CT concept.
+        public let code: String?
+        ///  The description of the SNOMED-CT concept.
+        public let description: String?
+        ///  The level of confidence Comprehend Medical has that the entity should be linked to the identified SNOMED-CT concept.
+        public let score: Float?
+
+        public init(code: String? = nil, description: String? = nil, score: Float? = nil) {
+            self.code = code
+            self.description = description
+            self.score = score
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case code = "Code"
+            case description = "Description"
+            case score = "Score"
+        }
+    }
+
+    public struct SNOMEDCTDetails: AWSDecodableShape {
+        ///  The edition of SNOMED-CT used. The edition used for the InferSNOMEDCT editions is the US edition.
+        public let edition: String?
+        ///  The language used in the SNOMED-CT ontology. All Amazon Comprehend Medical operations are US English (en).
+        public let language: String?
+        ///  The version date of the SNOMED-CT ontology used.
+        public let versionDate: String?
+
+        public init(edition: String? = nil, language: String? = nil, versionDate: String? = nil) {
+            self.edition = edition
+            self.language = language
+            self.versionDate = versionDate
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case edition = "Edition"
+            case language = "Language"
+            case versionDate = "VersionDate"
+        }
+    }
+
+    public struct SNOMEDCTEntity: AWSDecodableShape {
+        ///  An extracted segment of the text that is an attribute of an entity, or otherwise related to an entity, such as the dosage of a medication taken.
+        public let attributes: [SNOMEDCTAttribute]?
+        ///  The 0-based character offset in the input text that shows where the entity begins. The offset returns the UTF-8 code point in the string.
+        public let beginOffset: Int?
+        ///  The category of the detected entity. Possible categories are MEDICAL_CONDITION, ANATOMY, or TEST_TREATMENT_PROCEDURE.
+        public let category: SNOMEDCTEntityCategory?
+        ///  The 0-based character offset in the input text that shows where the entity ends. The offset returns the UTF-8 code point in the string.
+        public let endOffset: Int?
+        ///  The numeric identifier for the entity. This is a monotonically increasing id unique within this response rather than a global unique identifier.
+        public let id: Int?
+        ///  The level of confidence that Comprehend Medical has in the accuracy of the detected entity.
+        public let score: Float?
+        ///  The SNOMED concepts that the entity could refer to, along with a score indicating the likelihood of the match.
+        public let sNOMEDCTConcepts: [SNOMEDCTConcept]?
+        ///  The segment of input text extracted as this entity.
+        public let text: String?
+        ///  Contextual information for the entity.
+        public let traits: [SNOMEDCTTrait]?
+        ///  Describes the specific type of entity with category of entities. Possible types include DX_NAME, ACUITY, DIRECTION, SYSTEM_ORGAN_SITE, TEST_NAME, TEST_VALUE, TEST_UNIT, PROCEDURE_NAME, or TREATMENT_NAME.
+        public let type: SNOMEDCTEntityType?
+
+        public init(attributes: [SNOMEDCTAttribute]? = nil, beginOffset: Int? = nil, category: SNOMEDCTEntityCategory? = nil, endOffset: Int? = nil, id: Int? = nil, score: Float? = nil, sNOMEDCTConcepts: [SNOMEDCTConcept]? = nil, text: String? = nil, traits: [SNOMEDCTTrait]? = nil, type: SNOMEDCTEntityType? = nil) {
+            self.attributes = attributes
+            self.beginOffset = beginOffset
+            self.category = category
+            self.endOffset = endOffset
+            self.id = id
+            self.score = score
+            self.sNOMEDCTConcepts = sNOMEDCTConcepts
+            self.text = text
+            self.traits = traits
+            self.type = type
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case attributes = "Attributes"
+            case beginOffset = "BeginOffset"
+            case category = "Category"
+            case endOffset = "EndOffset"
+            case id = "Id"
+            case score = "Score"
+            case sNOMEDCTConcepts = "SNOMEDCTConcepts"
+            case text = "Text"
+            case traits = "Traits"
+            case type = "Type"
+        }
+    }
+
+    public struct SNOMEDCTTrait: AWSDecodableShape {
+        ///  The name or contextual description of a detected trait.
+        public let name: SNOMEDCTTraitName?
+        ///  The level of confidence that Comprehend Medical has in the accuracy of a detected trait.
+        public let score: Float?
+
+        public init(name: SNOMEDCTTraitName? = nil, score: Float? = nil) {
+            self.name = name
+            self.score = score
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case name = "Name"
+            case score = "Score"
+        }
+    }
+
     public struct StartEntitiesDetectionV2JobRequest: AWSEncodableShape {
-        /// A unique identifier for the request. If you don't set the client request token, Amazon Comprehend Medical generates one.
+        /// A unique identifier for the request. If you don't set the client request token, Comprehend Medical; generates one for you.
         public let clientRequestToken: String?
-        /// The Amazon Resource Name (ARN) of the AWS Identity and Access Management (IAM) role that grants Amazon Comprehend Medical read access to your input data. For more information, see  Role-Based Permissions Required for Asynchronous Operations.
+        /// The Amazon Resource Name (ARN) of the AWS Identity and Access Management (IAM) role that grants Comprehend Medical; read access to your input data. For more information, see  Role-Based Permissions Required for Asynchronous Operations.
         public let dataAccessRoleArn: String
-        /// Specifies the format and location of the input data for the job.
+        /// The input configuration that specifies the format and location of the input data for the job.
         public let inputDataConfig: InputDataConfig
         /// The identifier of the job.
         public let jobName: String?
         /// An AWS Key Management Service key to encrypt your output files. If you do not specify a key, the files are written in plain text.
         public let kMSKey: String?
-        /// The language of the input documents. All documents must be in the same language.
+        /// The language of the input documents. All documents must be in the same language. Comprehend Medical; processes files in US English (en).
         public let languageCode: LanguageCode
-        /// Specifies where to send the output files.
+        /// The output configuration that specifies where to send the output files.
         public let outputDataConfig: OutputDataConfig
 
         public init(clientRequestToken: String? = StartEntitiesDetectionV2JobRequest.idempotencyToken(), dataAccessRoleArn: String, inputDataConfig: InputDataConfig, jobName: String? = nil, kMSKey: String? = nil, languageCode: LanguageCode, outputDataConfig: OutputDataConfig) {
@@ -1263,9 +1606,9 @@ extension ComprehendMedical {
     }
 
     public struct StartICD10CMInferenceJobRequest: AWSEncodableShape {
-        /// A unique identifier for the request. If you don't set the client request token, Amazon Comprehend Medical generates one.
+        /// A unique identifier for the request. If you don't set the client request token, Comprehend Medical; generates one.
         public let clientRequestToken: String?
-        /// The Amazon Resource Name (ARN) of the AWS Identity and Access Management (IAM) role that grants Amazon Comprehend Medical read access to your input data. For more information, see  Role-Based Permissions Required for Asynchronous Operations.
+        /// The Amazon Resource Name (ARN) of the AWS Identity and Access Management (IAM) role that grants Comprehend Medical; read access to your input data. For more information, see  Role-Based Permissions Required for Asynchronous Operations.
         public let dataAccessRoleArn: String
         /// Specifies the format and location of the input data for the job.
         public let inputDataConfig: InputDataConfig
@@ -1330,9 +1673,9 @@ extension ComprehendMedical {
     }
 
     public struct StartPHIDetectionJobRequest: AWSEncodableShape {
-        /// A unique identifier for the request. If you don't set the client request token, Amazon Comprehend Medical generates one.
+        /// A unique identifier for the request. If you don't set the client request token, Comprehend Medical; generates one.
         public let clientRequestToken: String?
-        /// The Amazon Resource Name (ARN) of the AWS Identity and Access Management (IAM) role that grants Amazon Comprehend Medical read access to your input data. For more information, see  Role-Based Permissions Required for Asynchronous Operations.
+        /// The Amazon Resource Name (ARN) of the AWS Identity and Access Management (IAM) role that grants Comprehend Medical; read access to your input data. For more information, see  Role-Based Permissions Required for Asynchronous Operations.
         public let dataAccessRoleArn: String
         /// Specifies the format and location of the input data for the job.
         public let inputDataConfig: InputDataConfig
@@ -1397,9 +1740,9 @@ extension ComprehendMedical {
     }
 
     public struct StartRxNormInferenceJobRequest: AWSEncodableShape {
-        /// A unique identifier for the request. If you don't set the client request token, Amazon Comprehend Medical generates one.
+        /// A unique identifier for the request. If you don't set the client request token, Comprehend Medical; generates one.
         public let clientRequestToken: String?
-        /// The Amazon Resource Name (ARN) of the AWS Identity and Access Management (IAM) role that grants Amazon Comprehend Medical read access to your input data. For more information, see  Role-Based Permissions Required for Asynchronous Operations.
+        /// The Amazon Resource Name (ARN) of the AWS Identity and Access Management (IAM) role that grants Comprehend Medical; read access to your input data. For more information, see  Role-Based Permissions Required for Asynchronous Operations.
         public let dataAccessRoleArn: String
         /// Specifies the format and location of the input data for the job.
         public let inputDataConfig: InputDataConfig
@@ -1452,6 +1795,71 @@ extension ComprehendMedical {
 
     public struct StartRxNormInferenceJobResponse: AWSDecodableShape {
         /// The identifier of the job.
+        public let jobId: String?
+
+        public init(jobId: String? = nil) {
+            self.jobId = jobId
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case jobId = "JobId"
+        }
+    }
+
+    public struct StartSNOMEDCTInferenceJobRequest: AWSEncodableShape {
+        ///  A unique identifier for the request. If you don't set the client request token, Amazon Comprehend Medical generates one.
+        public let clientRequestToken: String?
+        ///  The Amazon Resource Name (ARN) of the AWS Identity and Access Management (IAM) role that grants Amazon Comprehend Medical read access to your input data.
+        public let dataAccessRoleArn: String
+        public let inputDataConfig: InputDataConfig
+        ///  The user generated name the asynchronous InferSNOMEDCT job.
+        public let jobName: String?
+        ///  An AWS Key Management Service key used to encrypt your output files. If you do not specify a key, the files are written in plain text.
+        public let kMSKey: String?
+        ///  The language of the input documents. All documents must be in the same language.
+        public let languageCode: LanguageCode
+        public let outputDataConfig: OutputDataConfig
+
+        public init(clientRequestToken: String? = StartSNOMEDCTInferenceJobRequest.idempotencyToken(), dataAccessRoleArn: String, inputDataConfig: InputDataConfig, jobName: String? = nil, kMSKey: String? = nil, languageCode: LanguageCode, outputDataConfig: OutputDataConfig) {
+            self.clientRequestToken = clientRequestToken
+            self.dataAccessRoleArn = dataAccessRoleArn
+            self.inputDataConfig = inputDataConfig
+            self.jobName = jobName
+            self.kMSKey = kMSKey
+            self.languageCode = languageCode
+            self.outputDataConfig = outputDataConfig
+        }
+
+        public func validate(name: String) throws {
+            try self.validate(self.clientRequestToken, name: "clientRequestToken", parent: name, max: 64)
+            try self.validate(self.clientRequestToken, name: "clientRequestToken", parent: name, min: 1)
+            try self.validate(self.clientRequestToken, name: "clientRequestToken", parent: name, pattern: "^[a-zA-Z0-9-]+$")
+            try self.validate(self.dataAccessRoleArn, name: "dataAccessRoleArn", parent: name, max: 2048)
+            try self.validate(self.dataAccessRoleArn, name: "dataAccessRoleArn", parent: name, min: 20)
+            try self.validate(self.dataAccessRoleArn, name: "dataAccessRoleArn", parent: name, pattern: "arn:aws(-[^:]+)?:iam::[0-9]{12}:role/.+")
+            try self.inputDataConfig.validate(name: "\(name).inputDataConfig")
+            try self.validate(self.jobName, name: "jobName", parent: name, max: 256)
+            try self.validate(self.jobName, name: "jobName", parent: name, min: 1)
+            try self.validate(self.jobName, name: "jobName", parent: name, pattern: "^([\\p{L}\\p{Z}\\p{N}_.:/=+\\-%@]*)$")
+            try self.validate(self.kMSKey, name: "kMSKey", parent: name, max: 2048)
+            try self.validate(self.kMSKey, name: "kMSKey", parent: name, min: 1)
+            try self.validate(self.kMSKey, name: "kMSKey", parent: name, pattern: ".*")
+            try self.outputDataConfig.validate(name: "\(name).outputDataConfig")
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case clientRequestToken = "ClientRequestToken"
+            case dataAccessRoleArn = "DataAccessRoleArn"
+            case inputDataConfig = "InputDataConfig"
+            case jobName = "JobName"
+            case kMSKey = "KMSKey"
+            case languageCode = "LanguageCode"
+            case outputDataConfig = "OutputDataConfig"
+        }
+    }
+
+    public struct StartSNOMEDCTInferenceJobResponse: AWSDecodableShape {
+        ///  The identifier generated for the job. To get the status of a job, use this identifier with the StartSNOMEDCTInferenceJob operation.
         public let jobId: String?
 
         public init(jobId: String? = nil) {
@@ -1591,10 +1999,42 @@ extension ComprehendMedical {
         }
     }
 
+    public struct StopSNOMEDCTInferenceJobRequest: AWSEncodableShape {
+        ///  The job id of the asynchronous InferSNOMEDCT job to be stopped.
+        public let jobId: String
+
+        public init(jobId: String) {
+            self.jobId = jobId
+        }
+
+        public func validate(name: String) throws {
+            try self.validate(self.jobId, name: "jobId", parent: name, max: 32)
+            try self.validate(self.jobId, name: "jobId", parent: name, min: 1)
+            try self.validate(self.jobId, name: "jobId", parent: name, pattern: "^([\\p{L}\\p{Z}\\p{N}_.:/=+\\-%@]*)$")
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case jobId = "JobId"
+        }
+    }
+
+    public struct StopSNOMEDCTInferenceJobResponse: AWSDecodableShape {
+        ///  The identifier generated for the job. To get the status of job, use this identifier with the DescribeSNOMEDCTInferenceJob operation.
+        public let jobId: String?
+
+        public init(jobId: String? = nil) {
+            self.jobId = jobId
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case jobId = "JobId"
+        }
+    }
+
     public struct Trait: AWSDecodableShape {
         ///  Provides a name or contextual description about the trait.
         public let name: AttributeName?
-        ///  The level of confidence that Amazon Comprehend Medical has in the accuracy of this trait.
+        ///  The level of confidence that Comprehend Medical; has in the accuracy of this trait.
         public let score: Float?
 
         public init(name: AttributeName? = nil, score: Float? = nil) {
@@ -1611,7 +2051,7 @@ extension ComprehendMedical {
     public struct UnmappedAttribute: AWSDecodableShape {
         ///  The specific attribute that has been extracted but not mapped to an entity.
         public let attribute: Attribute?
-        ///  The type of the attribute, could be one of the following values: "MEDICATION", "MEDICAL_CONDITION", "ANATOMY", "TEST_AND_TREATMENT_PROCEDURE" or "PROTECTED_HEALTH_INFORMATION".
+        ///  The type of the unmapped attribute, could be one of the following values: "MEDICATION", "MEDICAL_CONDITION", "ANATOMY", "TEST_AND_TREATMENT_PROCEDURE" or "PROTECTED_HEALTH_INFORMATION".
         public let type: EntityType?
 
         public init(attribute: Attribute? = nil, type: EntityType? = nil) {

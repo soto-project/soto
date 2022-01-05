@@ -137,17 +137,17 @@ public struct Macie2: AWSService {
         return self.client.execute(operation: "DescribeClassificationJob", path: "/jobs/{jobId}", httpMethod: .GET, serviceConfig: self.config, input: input, logger: logger, on: eventLoop)
     }
 
-    /// Retrieves the Amazon Macie configuration settings for an Amazon Web Services organization.
+    /// Retrieves the Amazon Macie configuration settings for an organization in Organizations.
     public func describeOrganizationConfiguration(_ input: DescribeOrganizationConfigurationRequest, logger: Logger = AWSClient.loggingDisabled, on eventLoop: EventLoop? = nil) -> EventLoopFuture<DescribeOrganizationConfigurationResponse> {
         return self.client.execute(operation: "DescribeOrganizationConfiguration", path: "/admin/configuration", httpMethod: .GET, serviceConfig: self.config, input: input, logger: logger, on: eventLoop)
     }
 
-    /// Disables an Amazon Macie account and deletes Macie resources for the account.
+    /// Disables Amazon Macie and deletes all settings and resources for a Macie account.
     public func disableMacie(_ input: DisableMacieRequest, logger: Logger = AWSClient.loggingDisabled, on eventLoop: EventLoop? = nil) -> EventLoopFuture<DisableMacieResponse> {
         return self.client.execute(operation: "DisableMacie", path: "/macie", httpMethod: .DELETE, serviceConfig: self.config, input: input, logger: logger, on: eventLoop)
     }
 
-    /// Disables an account as the delegated Amazon Macie administrator account for an Amazon Web Services organization.
+    /// Disables an account as the delegated Amazon Macie administrator account for an organization in Organizations.
     public func disableOrganizationAdminAccount(_ input: DisableOrganizationAdminAccountRequest, logger: Logger = AWSClient.loggingDisabled, on eventLoop: EventLoop? = nil) -> EventLoopFuture<DisableOrganizationAdminAccountResponse> {
         return self.client.execute(operation: "DisableOrganizationAdminAccount", path: "/admin", httpMethod: .DELETE, serviceConfig: self.config, input: input, logger: logger, on: eventLoop)
     }
@@ -172,7 +172,7 @@ public struct Macie2: AWSService {
         return self.client.execute(operation: "EnableMacie", path: "/macie", httpMethod: .POST, serviceConfig: self.config, input: input, logger: logger, on: eventLoop)
     }
 
-    /// Designates an account as the delegated Amazon Macie administrator account for an Amazon Web Services organization.
+    /// Designates an account as the delegated Amazon Macie administrator account for an organization in Organizations.
     public func enableOrganizationAdminAccount(_ input: EnableOrganizationAdminAccountRequest, logger: Logger = AWSClient.loggingDisabled, on eventLoop: EventLoop? = nil) -> EventLoopFuture<EnableOrganizationAdminAccountResponse> {
         return self.client.execute(operation: "EnableOrganizationAdminAccount", path: "/admin", httpMethod: .POST, serviceConfig: self.config, input: input, logger: logger, on: eventLoop)
     }
@@ -182,7 +182,7 @@ public struct Macie2: AWSService {
         return self.client.execute(operation: "GetAdministratorAccount", path: "/administrator", httpMethod: .GET, serviceConfig: self.config, input: input, logger: logger, on: eventLoop)
     }
 
-    ///  Retrieves (queries) aggregated statistical data for all the S3 buckets that Amazon Macie monitors and analyzes.
+    /// Retrieves (queries) aggregated statistical data about S3 buckets that Amazon Macie monitors and analyzes.
     public func getBucketStatistics(_ input: GetBucketStatisticsRequest, logger: Logger = AWSClient.loggingDisabled, on eventLoop: EventLoop? = nil) -> EventLoopFuture<GetBucketStatisticsResponse> {
         return self.client.execute(operation: "GetBucketStatistics", path: "/datasources/s3/statistics", httpMethod: .POST, serviceConfig: self.config, input: input, logger: logger, on: eventLoop)
     }
@@ -282,7 +282,7 @@ public struct Macie2: AWSService {
         return self.client.execute(operation: "ListMembers", path: "/members", httpMethod: .GET, serviceConfig: self.config, input: input, logger: logger, on: eventLoop)
     }
 
-    /// Retrieves information about the delegated Amazon Macie administrator account for an Amazon Web Services organization.
+    /// Retrieves information about the delegated Amazon Macie administrator account for an organization in Organizations.
     public func listOrganizationAdminAccounts(_ input: ListOrganizationAdminAccountsRequest, logger: Logger = AWSClient.loggingDisabled, on eventLoop: EventLoop? = nil) -> EventLoopFuture<ListOrganizationAdminAccountsResponse> {
         return self.client.execute(operation: "ListOrganizationAdminAccounts", path: "/admin", httpMethod: .GET, serviceConfig: self.config, input: input, logger: logger, on: eventLoop)
     }
@@ -332,7 +332,7 @@ public struct Macie2: AWSService {
         return self.client.execute(operation: "UpdateFindingsFilter", path: "/findingsfilters/{id}", httpMethod: .PATCH, serviceConfig: self.config, input: input, logger: logger, on: eventLoop)
     }
 
-    /// Suspends or re-enables an Amazon Macie account, or updates the configuration settings for a Macie account.
+    /// Suspends or re-enables Amazon Macie, or updates the configuration settings for a Macie account.
     public func updateMacieSession(_ input: UpdateMacieSessionRequest, logger: Logger = AWSClient.loggingDisabled, on eventLoop: EventLoop? = nil) -> EventLoopFuture<UpdateMacieSessionResponse> {
         return self.client.execute(operation: "UpdateMacieSession", path: "/macie", httpMethod: .PATCH, serviceConfig: self.config, input: input, logger: logger, on: eventLoop)
     }
@@ -342,7 +342,7 @@ public struct Macie2: AWSService {
         return self.client.execute(operation: "UpdateMemberSession", path: "/macie/members/{id}", httpMethod: .PATCH, serviceConfig: self.config, input: input, logger: logger, on: eventLoop)
     }
 
-    /// Updates the Amazon Macie configuration settings for an Amazon Web Services organization.
+    /// Updates the Amazon Macie configuration settings for an organization in Organizations.
     public func updateOrganizationConfiguration(_ input: UpdateOrganizationConfigurationRequest, logger: Logger = AWSClient.loggingDisabled, on eventLoop: EventLoop? = nil) -> EventLoopFuture<UpdateOrganizationConfigurationResponse> {
         return self.client.execute(operation: "UpdateOrganizationConfiguration", path: "/admin/configuration", httpMethod: .PATCH, serviceConfig: self.config, input: input, logger: logger, on: eventLoop)
     }

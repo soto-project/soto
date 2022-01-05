@@ -18,7 +18,7 @@
 
 import SotoCore
 
-@available(macOS 12.0, iOS 15.0, watchOS 8.0, tvOS 15.0, *)
+@available(macOS 10.15, iOS 13.0, tvOS 13.0, watchOS 6.0, *)
 extension ECR {
     // MARK: Async API Calls
 
@@ -37,9 +37,19 @@ extension ECR {
         return try await self.client.execute(operation: "BatchGetImage", path: "/", httpMethod: .POST, serviceConfig: self.config, input: input, logger: logger, on: eventLoop)
     }
 
+    /// Gets the scanning configuration for one or more repositories.
+    public func batchGetRepositoryScanningConfiguration(_ input: BatchGetRepositoryScanningConfigurationRequest, logger: Logger = AWSClient.loggingDisabled, on eventLoop: EventLoop? = nil) async throws -> BatchGetRepositoryScanningConfigurationResponse {
+        return try await self.client.execute(operation: "BatchGetRepositoryScanningConfiguration", path: "/", httpMethod: .POST, serviceConfig: self.config, input: input, logger: logger, on: eventLoop)
+    }
+
     /// Informs Amazon ECR that the image layer upload has completed for a specified registry, repository name, and upload ID. You can optionally provide a sha256 digest of the image layer for data validation purposes. When an image is pushed, the CompleteLayerUpload API is called once per each new image layer to verify that the upload has completed.  This operation is used by the Amazon ECR proxy and is not generally used by customers for pulling and pushing images. In most cases, you should use the docker CLI to pull, tag, and push images.
     public func completeLayerUpload(_ input: CompleteLayerUploadRequest, logger: Logger = AWSClient.loggingDisabled, on eventLoop: EventLoop? = nil) async throws -> CompleteLayerUploadResponse {
         return try await self.client.execute(operation: "CompleteLayerUpload", path: "/", httpMethod: .POST, serviceConfig: self.config, input: input, logger: logger, on: eventLoop)
+    }
+
+    /// Creates a pull through cache rule. A pull through cache rule provides a way to cache images from an external public registry in your Amazon ECR private registry.
+    public func createPullThroughCacheRule(_ input: CreatePullThroughCacheRuleRequest, logger: Logger = AWSClient.loggingDisabled, on eventLoop: EventLoop? = nil) async throws -> CreatePullThroughCacheRuleResponse {
+        return try await self.client.execute(operation: "CreatePullThroughCacheRule", path: "/", httpMethod: .POST, serviceConfig: self.config, input: input, logger: logger, on: eventLoop)
     }
 
     /// Creates a repository. For more information, see Amazon ECR repositories in the Amazon Elastic Container Registry User Guide.
@@ -50,6 +60,11 @@ extension ECR {
     /// Deletes the lifecycle policy associated with the specified repository.
     public func deleteLifecyclePolicy(_ input: DeleteLifecyclePolicyRequest, logger: Logger = AWSClient.loggingDisabled, on eventLoop: EventLoop? = nil) async throws -> DeleteLifecyclePolicyResponse {
         return try await self.client.execute(operation: "DeleteLifecyclePolicy", path: "/", httpMethod: .POST, serviceConfig: self.config, input: input, logger: logger, on: eventLoop)
+    }
+
+    /// Deletes a pull through cache rule.
+    public func deletePullThroughCacheRule(_ input: DeletePullThroughCacheRuleRequest, logger: Logger = AWSClient.loggingDisabled, on eventLoop: EventLoop? = nil) async throws -> DeletePullThroughCacheRuleResponse {
+        return try await self.client.execute(operation: "DeletePullThroughCacheRule", path: "/", httpMethod: .POST, serviceConfig: self.config, input: input, logger: logger, on: eventLoop)
     }
 
     /// Deletes the registry permissions policy.
@@ -80,6 +95,11 @@ extension ECR {
     /// Returns metadata about the images in a repository.  Beginning with Docker version 1.9, the Docker client compresses image layers before pushing them to a V2 Docker registry. The output of the docker images command shows the uncompressed image size, so it may return a larger image size than the image sizes returned by DescribeImages.
     public func describeImages(_ input: DescribeImagesRequest, logger: Logger = AWSClient.loggingDisabled, on eventLoop: EventLoop? = nil) async throws -> DescribeImagesResponse {
         return try await self.client.execute(operation: "DescribeImages", path: "/", httpMethod: .POST, serviceConfig: self.config, input: input, logger: logger, on: eventLoop)
+    }
+
+    /// Returns the pull through cache rules for a registry.
+    public func describePullThroughCacheRules(_ input: DescribePullThroughCacheRulesRequest, logger: Logger = AWSClient.loggingDisabled, on eventLoop: EventLoop? = nil) async throws -> DescribePullThroughCacheRulesResponse {
+        return try await self.client.execute(operation: "DescribePullThroughCacheRules", path: "/", httpMethod: .POST, serviceConfig: self.config, input: input, logger: logger, on: eventLoop)
     }
 
     /// Describes the settings for a registry. The replication configuration for a repository can be created or updated with the PutReplicationConfiguration API action.
@@ -115,6 +135,11 @@ extension ECR {
     /// Retrieves the permissions policy for a registry.
     public func getRegistryPolicy(_ input: GetRegistryPolicyRequest, logger: Logger = AWSClient.loggingDisabled, on eventLoop: EventLoop? = nil) async throws -> GetRegistryPolicyResponse {
         return try await self.client.execute(operation: "GetRegistryPolicy", path: "/", httpMethod: .POST, serviceConfig: self.config, input: input, logger: logger, on: eventLoop)
+    }
+
+    /// Retrieves the scanning configuration for a registry.
+    public func getRegistryScanningConfiguration(_ input: GetRegistryScanningConfigurationRequest, logger: Logger = AWSClient.loggingDisabled, on eventLoop: EventLoop? = nil) async throws -> GetRegistryScanningConfigurationResponse {
+        return try await self.client.execute(operation: "GetRegistryScanningConfiguration", path: "/", httpMethod: .POST, serviceConfig: self.config, input: input, logger: logger, on: eventLoop)
     }
 
     /// Retrieves the repository policy for the specified repository.
@@ -160,6 +185,11 @@ extension ECR {
     /// Creates or updates the permissions policy for your registry. A registry policy is used to specify permissions for another Amazon Web Services account and is used when configuring cross-account replication. For more information, see Registry permissions in the Amazon Elastic Container Registry User Guide.
     public func putRegistryPolicy(_ input: PutRegistryPolicyRequest, logger: Logger = AWSClient.loggingDisabled, on eventLoop: EventLoop? = nil) async throws -> PutRegistryPolicyResponse {
         return try await self.client.execute(operation: "PutRegistryPolicy", path: "/", httpMethod: .POST, serviceConfig: self.config, input: input, logger: logger, on: eventLoop)
+    }
+
+    /// Creates or updates the scanning configuration for your private registry.
+    public func putRegistryScanningConfiguration(_ input: PutRegistryScanningConfigurationRequest, logger: Logger = AWSClient.loggingDisabled, on eventLoop: EventLoop? = nil) async throws -> PutRegistryScanningConfigurationResponse {
+        return try await self.client.execute(operation: "PutRegistryScanningConfiguration", path: "/", httpMethod: .POST, serviceConfig: self.config, input: input, logger: logger, on: eventLoop)
     }
 
     /// Creates or updates the replication configuration for a registry. The existing replication configuration for a repository can be retrieved with the DescribeRegistry API action. The first time the PutReplicationConfiguration API is called, a service-linked IAM role is created in your account for the replication process. For more information, see Using service-linked roles for Amazon ECR in the Amazon Elastic Container Registry User Guide.  When configuring cross-account replication, the destination account must grant the source account permission to replicate. This permission is controlled using a registry permissions policy. For more information, see PutRegistryPolicy.

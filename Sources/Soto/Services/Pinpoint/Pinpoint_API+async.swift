@@ -18,7 +18,7 @@
 
 import SotoCore
 
-@available(macOS 12.0, iOS 15.0, watchOS 8.0, tvOS 15.0, *)
+@available(macOS 10.15, iOS 13.0, tvOS 13.0, watchOS 6.0, *)
 extension Pinpoint {
     // MARK: Async API Calls
 
@@ -470,6 +470,11 @@ extension Pinpoint {
     /// Creates and sends a direct message.
     public func sendMessages(_ input: SendMessagesRequest, logger: Logger = AWSClient.loggingDisabled, on eventLoop: EventLoop? = nil) async throws -> SendMessagesResponse {
         return try await self.client.execute(operation: "SendMessages", path: "/v1/apps/{application-id}/messages", httpMethod: .POST, serviceConfig: self.config, input: input, logger: logger, on: eventLoop)
+    }
+
+    /// Send an OTP message
+    public func sendOTPMessage(_ input: SendOTPMessageRequest, logger: Logger = AWSClient.loggingDisabled, on eventLoop: EventLoop? = nil) async throws -> SendOTPMessageResponse {
+        return try await self.client.execute(operation: "SendOTPMessage", path: "/v1/apps/{application-id}/otp", httpMethod: .POST, serviceConfig: self.config, input: input, logger: logger, on: eventLoop)
     }
 
     /// Creates and sends a message to a list of users.

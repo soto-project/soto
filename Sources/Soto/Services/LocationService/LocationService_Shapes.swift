@@ -736,14 +736,14 @@ extension LocationService {
         public let description: String?
         /// A key identifier for an AWS KMS customer managed key. Enter a key ID, key ARN, alias name, or alias ARN.
         public let kmsKeyId: String?
-        /// Specifies the pricing plan for the geofence collection. For additional details and restrictions on each pricing plan option, see the Amazon Location Service pricing page.
-        public let pricingPlan: PricingPlan
+        /// Optionally specifies the pricing plan for the geofence collection. Defaults to RequestBasedUsage. For additional details and restrictions on each pricing plan option, see the Amazon Location Service pricing page.
+        public let pricingPlan: PricingPlan?
         /// Specifies the data provider for the geofence collection.   Required value for the following pricing plans: MobileAssetTracking | MobileAssetManagement    For more information about Data Providers, and Pricing plans, see the Amazon Location Service product page.  Amazon Location Service only uses PricingPlanDataSource to calculate billing for your geofence collection. Your data won't be shared with the data provider, and will remain in your AWS account or Region unless you move it.  Valid Values: Esri | Here
         public let pricingPlanDataSource: String?
         /// Applies one or more tags to the geofence collection. A tag is a key-value pair helps manage, identify, search, and filter your resources by labelling them. Format: "key" : "value"  Restrictions:   Maximum 50 tags per resource   Each resource tag must be unique with a maximum of one value.   Maximum key length: 128 Unicode characters in UTF-8   Maximum value length: 256 Unicode characters in UTF-8   Can use alphanumeric characters (A–Z, a–z, 0–9), and the following characters: + - = . _ : / @.    Cannot use "aws:" as a prefix for a key.
         public let tags: [String: String]?
 
-        public init(collectionName: String, description: String? = nil, kmsKeyId: String? = nil, pricingPlan: PricingPlan, pricingPlanDataSource: String? = nil, tags: [String: String]? = nil) {
+        public init(collectionName: String, description: String? = nil, kmsKeyId: String? = nil, pricingPlan: PricingPlan? = nil, pricingPlanDataSource: String? = nil, tags: [String: String]? = nil) {
             self.collectionName = collectionName
             self.description = description
             self.kmsKeyId = kmsKeyId
@@ -809,12 +809,12 @@ extension LocationService {
         public let description: String?
         /// The name for the map resource. Requirements:   Must contain only alphanumeric characters (A–Z, a–z, 0–9), hyphens (-), periods (.), and underscores (_).    Must be a unique map resource name.    No spaces allowed. For example, ExampleMap.
         public let mapName: String
-        /// Specifies the pricing plan for your map resource. For additional details and restrictions on each pricing plan option, see Amazon Location Service pricing.
-        public let pricingPlan: PricingPlan
+        /// Optionally specifies the pricing plan for the map resource. Defaults to RequestBasedUsage. For additional details and restrictions on each pricing plan option, see Amazon Location Service pricing.
+        public let pricingPlan: PricingPlan?
         /// Applies one or more tags to the map resource. A tag is a key-value pair helps manage, identify, search, and filter your resources by labelling them. Format: "key" : "value"  Restrictions:   Maximum 50 tags per resource   Each resource tag must be unique with a maximum of one value.   Maximum key length: 128 Unicode characters in UTF-8   Maximum value length: 256 Unicode characters in UTF-8   Can use alphanumeric characters (A–Z, a–z, 0–9), and the following characters: + - = . _ : / @.    Cannot use "aws:" as a prefix for a key.
         public let tags: [String: String]?
 
-        public init(configuration: MapConfiguration, description: String? = nil, mapName: String, pricingPlan: PricingPlan, tags: [String: String]? = nil) {
+        public init(configuration: MapConfiguration, description: String? = nil, mapName: String, pricingPlan: PricingPlan? = nil, tags: [String: String]? = nil) {
             self.configuration = configuration
             self.description = description
             self.mapName = mapName
@@ -879,12 +879,12 @@ extension LocationService {
         public let description: String?
         /// The name of the place index resource.  Requirements:   Contain only alphanumeric characters (A–Z, a–z, 0–9), hyphens (-), periods (.), and underscores (_).   Must be a unique place index resource name.   No spaces allowed. For example, ExamplePlaceIndex.
         public let indexName: String
-        /// Specifies the pricing plan for your place index resource. For additional details and restrictions on each pricing plan option, see Amazon Location Service pricing.
-        public let pricingPlan: PricingPlan
+        /// Optionally specifies the pricing plan for the place index resource. Defaults to RequestBasedUsage. For additional details and restrictions on each pricing plan option, see Amazon Location Service pricing.
+        public let pricingPlan: PricingPlan?
         /// Applies one or more tags to the place index resource. A tag is a key-value pair that helps you manage, identify, search, and filter your resources. Format: "key" : "value"  Restrictions:   Maximum 50 tags per resource.   Each tag key must be unique and must have exactly one associated value.   Maximum key length: 128 Unicode characters in UTF-8.   Maximum value length: 256 Unicode characters in UTF-8.   Can use alphanumeric characters (A–Z, a–z, 0–9), and the following characters: + - = . _ : / @   Cannot use "aws:" as a prefix for a key.
         public let tags: [String: String]?
 
-        public init(dataSource: String, dataSourceConfiguration: DataSourceConfiguration? = nil, description: String? = nil, indexName: String, pricingPlan: PricingPlan, tags: [String: String]? = nil) {
+        public init(dataSource: String, dataSourceConfiguration: DataSourceConfiguration? = nil, description: String? = nil, indexName: String, pricingPlan: PricingPlan? = nil, tags: [String: String]? = nil) {
             self.dataSource = dataSource
             self.dataSourceConfiguration = dataSourceConfiguration
             self.description = description
@@ -948,12 +948,12 @@ extension LocationService {
         public let dataSource: String
         /// The optional description for the route calculator resource.
         public let description: String?
-        /// Specifies the pricing plan for your route calculator resource. For additional details and restrictions on each pricing plan option, see Amazon Location Service pricing.
-        public let pricingPlan: PricingPlan
+        /// Optionally specifies the pricing plan for the route calculator resource. Defaults to RequestBasedUsage. For additional details and restrictions on each pricing plan option, see Amazon Location Service pricing.
+        public let pricingPlan: PricingPlan?
         /// Applies one or more tags to the route calculator resource. A tag is a key-value pair helps manage, identify, search, and filter your resources by labelling them.   For example: { "tag1" : "value1", "tag2" : "value2"}   Format: "key" : "value"  Restrictions:   Maximum 50 tags per resource   Each resource tag must be unique with a maximum of one value.   Maximum key length: 128 Unicode characters in UTF-8   Maximum value length: 256 Unicode characters in UTF-8   Can use alphanumeric characters (A–Z, a–z, 0–9), and the following characters: + - = . _ : / @.    Cannot use "aws:" as a prefix for a key.
         public let tags: [String: String]?
 
-        public init(calculatorName: String, dataSource: String, description: String? = nil, pricingPlan: PricingPlan, tags: [String: String]? = nil) {
+        public init(calculatorName: String, dataSource: String, description: String? = nil, pricingPlan: PricingPlan? = nil, tags: [String: String]? = nil) {
             self.calculatorName = calculatorName
             self.dataSource = dataSource
             self.description = description
@@ -1013,10 +1013,10 @@ extension LocationService {
         public let description: String?
         /// A key identifier for an AWS KMS customer managed key. Enter a key ID, key ARN, alias name, or alias ARN.
         public let kmsKeyId: String?
-        /// Specifies the position filtering for the tracker resource. Valid values:    TimeBased - Location updates are evaluated against linked geofence collections, but not every location update is stored. If your update frequency is more often than 30 seconds, only one update per 30 seconds is stored for each unique device ID.     DistanceBased - If the device has moved less than 30 m (98.4 ft), location updates are ignored. Location updates within this area are neither evaluated against linked geofence collections, nor stored. This helps control costs by reducing the number of geofence evaluations and historical device positions to paginate through. Distance-based filtering can also reduce the effects of GPS noise when displaying device trajectories on a map.    This field is optional. If not specified, the default value is TimeBased.
+        /// Specifies the position filtering for the tracker resource. Valid values:    TimeBased - Location updates are evaluated against linked geofence collections, but not every location update is stored. If your update frequency is more often than 30 seconds, only one update per 30 seconds is stored for each unique device ID.     DistanceBased - If the device has moved less than 30 m (98.4 ft), location updates are ignored. Location updates within this area are neither evaluated against linked geofence collections, nor stored. This helps control costs by reducing the number of geofence evaluations and historical device positions to paginate through. Distance-based filtering can also reduce the effects of GPS noise when displaying device trajectories on a map.     AccuracyBased - If the device has moved less than the measured accuracy, location updates are ignored. For example, if two consecutive updates from a device have a horizontal accuracy of 5 m and 10 m, the second update is ignored if the device has moved less than 15 m. Ignored location updates are neither evaluated against linked geofence collections, nor stored. This can reduce the effects of GPS noise when displaying device trajectories on a map, and can help control your costs by reducing the number of geofence evaluations.    This field is optional. If not specified, the default value is TimeBased.
         public let positionFiltering: PositionFiltering?
-        /// Specifies the pricing plan for the tracker resource. For additional details and restrictions on each pricing plan option, see Amazon Location Service pricing.
-        public let pricingPlan: PricingPlan
+        /// Optionally specifies the pricing plan for the tracker resource. Defaults to RequestBasedUsage. For additional details and restrictions on each pricing plan option, see Amazon Location Service pricing.
+        public let pricingPlan: PricingPlan?
         /// Specifies the data provider for the tracker resource.   Required value for the following pricing plans: MobileAssetTracking | MobileAssetManagement    For more information about Data Providers, and Pricing plans, see the Amazon Location Service product page.  Amazon Location Service only uses PricingPlanDataSource to calculate billing for your tracker resource. Your data will not be shared with the data provider, and will remain in your AWS account or Region unless you move it.  Valid values: Esri | Here
         public let pricingPlanDataSource: String?
         /// Applies one or more tags to the tracker resource. A tag is a key-value pair helps manage, identify, search, and filter your resources by labelling them. Format: "key" : "value"  Restrictions:   Maximum 50 tags per resource   Each resource tag must be unique with a maximum of one value.   Maximum key length: 128 Unicode characters in UTF-8   Maximum value length: 256 Unicode characters in UTF-8   Can use alphanumeric characters (A–Z, a–z, 0–9), and the following characters: + - = . _ : / @.    Cannot use "aws:" as a prefix for a key.
@@ -1024,7 +1024,7 @@ extension LocationService {
         /// The name for the tracker resource. Requirements:   Contain only alphanumeric characters (A-Z, a-z, 0-9) , hyphens (-), periods (.), and underscores (_).   Must be a unique tracker resource name.   No spaces allowed. For example, ExampleTracker.
         public let trackerName: String
 
-        public init(description: String? = nil, kmsKeyId: String? = nil, positionFiltering: PositionFiltering? = nil, pricingPlan: PricingPlan, pricingPlanDataSource: String? = nil, tags: [String: String]? = nil, trackerName: String) {
+        public init(description: String? = nil, kmsKeyId: String? = nil, positionFiltering: PositionFiltering? = nil, pricingPlan: PricingPlan? = nil, pricingPlanDataSource: String? = nil, tags: [String: String]? = nil, trackerName: String) {
             self.description = description
             self.kmsKeyId = kmsKeyId
             self.positionFiltering = positionFiltering
@@ -1564,10 +1564,14 @@ extension LocationService {
     }
 
     public struct DevicePosition: AWSDecodableShape {
+        /// The accuracy of the device position.
+        public let accuracy: PositionalAccuracy?
         /// The device whose position you retrieved.
         public let deviceId: String?
         /// The last known device position.
         public let position: [Double]
+        /// The properties associated with the position.
+        public let positionProperties: [String: String]?
         /// The timestamp for when the tracker resource received the device position in  ISO 8601 format: YYYY-MM-DDThh:mm:ss.sssZ.
         @CustomCoding<ISO8601DateCoder>
         public var receivedTime: Date
@@ -1575,47 +1579,66 @@ extension LocationService {
         @CustomCoding<ISO8601DateCoder>
         public var sampleTime: Date
 
-        public init(deviceId: String? = nil, position: [Double], receivedTime: Date, sampleTime: Date) {
+        public init(accuracy: PositionalAccuracy? = nil, deviceId: String? = nil, position: [Double], positionProperties: [String: String]? = nil, receivedTime: Date, sampleTime: Date) {
+            self.accuracy = accuracy
             self.deviceId = deviceId
             self.position = position
+            self.positionProperties = positionProperties
             self.receivedTime = receivedTime
             self.sampleTime = sampleTime
         }
 
         private enum CodingKeys: String, CodingKey {
+            case accuracy = "Accuracy"
             case deviceId = "DeviceId"
             case position = "Position"
+            case positionProperties = "PositionProperties"
             case receivedTime = "ReceivedTime"
             case sampleTime = "SampleTime"
         }
     }
 
     public struct DevicePositionUpdate: AWSEncodableShape {
+        /// The accuracy of the device position.
+        public let accuracy: PositionalAccuracy?
         /// The device associated to the position update.
         public let deviceId: String
         /// The latest device position defined in WGS 84 format: [X or longitude, Y or latitude].
         public let position: [Double]
+        /// Associates one of more properties with the position update. A property is a key-value pair stored with the position update and added to any geofence event the update may trigger. Format: "key" : "value"
+        public let positionProperties: [String: String]?
         /// The timestamp at which the device's position was determined. Uses ISO 8601 format: YYYY-MM-DDThh:mm:ss.sssZ
         @CustomCoding<ISO8601DateCoder>
         public var sampleTime: Date
 
-        public init(deviceId: String, position: [Double], sampleTime: Date) {
+        public init(accuracy: PositionalAccuracy? = nil, deviceId: String, position: [Double], positionProperties: [String: String]? = nil, sampleTime: Date) {
+            self.accuracy = accuracy
             self.deviceId = deviceId
             self.position = position
+            self.positionProperties = positionProperties
             self.sampleTime = sampleTime
         }
 
         public func validate(name: String) throws {
+            try self.accuracy?.validate(name: "\(name).accuracy")
             try self.validate(self.deviceId, name: "deviceId", parent: name, max: 100)
             try self.validate(self.deviceId, name: "deviceId", parent: name, min: 1)
             try self.validate(self.deviceId, name: "deviceId", parent: name, pattern: "^[-._\\p{L}\\p{N}]+$")
             try self.validate(self.position, name: "position", parent: name, max: 2)
             try self.validate(self.position, name: "position", parent: name, min: 2)
+            try self.positionProperties?.forEach {
+                try validate($0.key, name: "positionProperties.key", parent: name, max: 20)
+                try validate($0.key, name: "positionProperties.key", parent: name, min: 1)
+                try validate($0.value, name: "positionProperties[\"\($0.key)\"]", parent: name, max: 40)
+                try validate($0.value, name: "positionProperties[\"\($0.key)\"]", parent: name, min: 1)
+            }
         }
 
         private enum CodingKeys: String, CodingKey {
+            case accuracy = "Accuracy"
             case deviceId = "DeviceId"
             case position = "Position"
+            case positionProperties = "PositionProperties"
             case sampleTime = "SampleTime"
         }
     }
@@ -1763,10 +1786,14 @@ extension LocationService {
     }
 
     public struct GetDevicePositionResponse: AWSDecodableShape {
+        /// The accuracy of the device position.
+        public let accuracy: PositionalAccuracy?
         /// The device whose position you retrieved.
         public let deviceId: String?
         /// The last known device position.
         public let position: [Double]
+        /// The properties associated with the position.
+        public let positionProperties: [String: String]?
         /// The timestamp for when the tracker resource received the device position in  ISO 8601  format: YYYY-MM-DDThh:mm:ss.sssZ.
         @CustomCoding<ISO8601DateCoder>
         public var receivedTime: Date
@@ -1774,16 +1801,20 @@ extension LocationService {
         @CustomCoding<ISO8601DateCoder>
         public var sampleTime: Date
 
-        public init(deviceId: String? = nil, position: [Double], receivedTime: Date, sampleTime: Date) {
+        public init(accuracy: PositionalAccuracy? = nil, deviceId: String? = nil, position: [Double], positionProperties: [String: String]? = nil, receivedTime: Date, sampleTime: Date) {
+            self.accuracy = accuracy
             self.deviceId = deviceId
             self.position = position
+            self.positionProperties = positionProperties
             self.receivedTime = receivedTime
             self.sampleTime = sampleTime
         }
 
         private enum CodingKeys: String, CodingKey {
+            case accuracy = "Accuracy"
             case deviceId = "DeviceId"
             case position = "Position"
+            case positionProperties = "PositionProperties"
             case receivedTime = "ReceivedTime"
             case sampleTime = "SampleTime"
         }
@@ -2159,23 +2190,31 @@ extension LocationService {
     }
 
     public struct ListDevicePositionsResponseEntry: AWSDecodableShape {
+        /// The accuracy of the device position.
+        public let accuracy: PositionalAccuracy?
         /// The ID of the device for this position.
         public let deviceId: String
         /// The last known device position. Empty if no positions currently stored.
         public let position: [Double]
+        /// The properties associated with the position.
+        public let positionProperties: [String: String]?
         /// The timestamp at which the device position was determined. Uses  ISO 8601 format: YYYY-MM-DDThh:mm:ss.sssZ.
         @CustomCoding<ISO8601DateCoder>
         public var sampleTime: Date
 
-        public init(deviceId: String, position: [Double], sampleTime: Date) {
+        public init(accuracy: PositionalAccuracy? = nil, deviceId: String, position: [Double], positionProperties: [String: String]? = nil, sampleTime: Date) {
+            self.accuracy = accuracy
             self.deviceId = deviceId
             self.position = position
+            self.positionProperties = positionProperties
             self.sampleTime = sampleTime
         }
 
         private enum CodingKeys: String, CodingKey {
+            case accuracy = "Accuracy"
             case deviceId = "DeviceId"
             case position = "Position"
+            case positionProperties = "PositionProperties"
             case sampleTime = "SampleTime"
         }
     }
@@ -2809,6 +2848,24 @@ extension LocationService {
         }
     }
 
+    public struct PositionalAccuracy: AWSEncodableShape & AWSDecodableShape {
+        /// Estimated maximum distance, in meters, between the measured position and the true position of a device, along the Earth's surface.
+        public let horizontal: Double
+
+        public init(horizontal: Double) {
+            self.horizontal = horizontal
+        }
+
+        public func validate(name: String) throws {
+            try self.validate(self.horizontal, name: "horizontal", parent: name, max: 10000)
+            try self.validate(self.horizontal, name: "horizontal", parent: name, min: 0)
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case horizontal = "Horizontal"
+        }
+    }
+
     public struct PutGeofenceRequest: AWSEncodableShape {
         public static var _encoding = [
             AWSMemberEncoding(label: "collectionName", location: .uri(locationName: "CollectionName")),
@@ -2880,6 +2937,19 @@ extension LocationService {
         private enum CodingKeys: String, CodingKey {
             case distance = "Distance"
             case place = "Place"
+        }
+    }
+
+    public struct SearchForSuggestionsResult: AWSDecodableShape {
+        /// The text of the place suggestion, typically formatted as an address string.
+        public let text: String
+
+        public init(text: String) {
+            self.text = text
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case text = "Text"
         }
     }
 
@@ -2986,6 +3056,121 @@ extension LocationService {
         }
     }
 
+    public struct SearchPlaceIndexForSuggestionsRequest: AWSEncodableShape {
+        public static var _encoding = [
+            AWSMemberEncoding(label: "indexName", location: .uri(locationName: "IndexName"))
+        ]
+
+        /// An optional parameter that indicates a preference for place suggestions that are closer to a specified position.  If provided, this parameter must contain a pair of numbers. The first number represents the X coordinate, or longitude; the second number represents the Y coordinate, or latitude. For example, [-123.1174, 49.2847] represents the position with longitude -123.1174 and latitude 49.2847.   BiasPosition and FilterBBox are mutually exclusive. Specifying both options results in an error.
+        public let biasPosition: [Double]?
+        /// An optional parameter that limits the search results by returning only suggestions within a specified bounding box.  If provided, this parameter must contain a total of four consecutive numbers in two pairs. The first pair of numbers represents the X and Y coordinates (longitude and latitude, respectively) of the southwest corner of the bounding box; the second pair of numbers represents the X and Y coordinates (longitude and latitude, respectively) of the northeast corner of the bounding box. For example, [-12.7935, -37.4835, -12.0684, -36.9542] represents a bounding box where the southwest corner has longitude -12.7935 and latitude -37.4835, and the northeast corner has longitude -12.0684 and latitude -36.9542.   FilterBBox and BiasPosition are mutually exclusive. Specifying both options results in an error.
+        public let filterBBox: [Double]?
+        /// An optional parameter that limits the search results by returning only suggestions within the provided list of countries.   Use the ISO 3166 3-digit country code. For example, Australia uses three upper-case characters: AUS.
+        public let filterCountries: [String]?
+        /// The name of the place index resource you want to use for the search.
+        public let indexName: String
+        /// The preferred language used to return results. The value must be a valid BCP 47 language tag, for example, en for English. This setting affects the languages used in the results. It does not change which results are returned. If the language is not specified, or not supported for a particular result, the partner automatically chooses a language for the result. Used only when the partner selected is Here.
+        public let language: String?
+        /// An optional parameter. The maximum number of results returned per request.  The default: 5
+        public let maxResults: Int?
+        /// The free-form partial text to use to generate place suggestions. For example, eiffel tow.
+        public let text: String
+
+        public init(biasPosition: [Double]? = nil, filterBBox: [Double]? = nil, filterCountries: [String]? = nil, indexName: String, language: String? = nil, maxResults: Int? = nil, text: String) {
+            self.biasPosition = biasPosition
+            self.filterBBox = filterBBox
+            self.filterCountries = filterCountries
+            self.indexName = indexName
+            self.language = language
+            self.maxResults = maxResults
+            self.text = text
+        }
+
+        public func validate(name: String) throws {
+            try self.validate(self.biasPosition, name: "biasPosition", parent: name, max: 2)
+            try self.validate(self.biasPosition, name: "biasPosition", parent: name, min: 2)
+            try self.validate(self.filterBBox, name: "filterBBox", parent: name, max: 4)
+            try self.validate(self.filterBBox, name: "filterBBox", parent: name, min: 4)
+            try self.filterCountries?.forEach {
+                try validate($0, name: "filterCountries[]", parent: name, pattern: "^[A-Z]{3}$")
+            }
+            try self.validate(self.filterCountries, name: "filterCountries", parent: name, max: 100)
+            try self.validate(self.filterCountries, name: "filterCountries", parent: name, min: 1)
+            try self.validate(self.indexName, name: "indexName", parent: name, max: 100)
+            try self.validate(self.indexName, name: "indexName", parent: name, min: 1)
+            try self.validate(self.indexName, name: "indexName", parent: name, pattern: "^[-._\\w]+$")
+            try self.validate(self.language, name: "language", parent: name, max: 35)
+            try self.validate(self.language, name: "language", parent: name, min: 2)
+            try self.validate(self.maxResults, name: "maxResults", parent: name, max: 15)
+            try self.validate(self.maxResults, name: "maxResults", parent: name, min: 1)
+            try self.validate(self.text, name: "text", parent: name, max: 200)
+            try self.validate(self.text, name: "text", parent: name, min: 1)
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case biasPosition = "BiasPosition"
+            case filterBBox = "FilterBBox"
+            case filterCountries = "FilterCountries"
+            case language = "Language"
+            case maxResults = "MaxResults"
+            case text = "Text"
+        }
+    }
+
+    public struct SearchPlaceIndexForSuggestionsResponse: AWSDecodableShape {
+        /// A list of place suggestions that best match the search text.
+        public let results: [SearchForSuggestionsResult]
+        /// Contains a summary of the request. Echoes the input values for BiasPosition, FilterBBox, FilterCountries, Language, MaxResults, and Text. Also includes the DataSource of the place index.
+        public let summary: SearchPlaceIndexForSuggestionsSummary
+
+        public init(results: [SearchForSuggestionsResult], summary: SearchPlaceIndexForSuggestionsSummary) {
+            self.results = results
+            self.summary = summary
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case results = "Results"
+            case summary = "Summary"
+        }
+    }
+
+    public struct SearchPlaceIndexForSuggestionsSummary: AWSDecodableShape {
+        /// Contains the coordinates for the optional bias position specified in the request. This parameter contains a pair of numbers. The first number represents the X coordinate, or longitude; the second number represents the Y coordinate, or latitude. For example, [-123.1174, 49.2847] represents the position with longitude -123.1174 and latitude 49.2847.
+        public let biasPosition: [Double]?
+        /// The geospatial data provider attached to the place index resource specified in the request. Values can be one of the following:   Esri   Here   For more information about data providers, see Amazon Location Service data providers.
+        public let dataSource: String
+        /// Contains the coordinates for the optional bounding box specified in the request.
+        public let filterBBox: [Double]?
+        /// Contains the optional country filter specified in the request.
+        public let filterCountries: [String]?
+        /// The preferred language used to return results. Matches the language in the request. The value is a valid BCP 47 language tag, for example, en for English.
+        public let language: String?
+        /// Contains the optional result count limit specified in the request.
+        public let maxResults: Int?
+        /// The free-form partial text input specified in the request.
+        public let text: String
+
+        public init(biasPosition: [Double]? = nil, dataSource: String, filterBBox: [Double]? = nil, filterCountries: [String]? = nil, language: String? = nil, maxResults: Int? = nil, text: String) {
+            self.biasPosition = biasPosition
+            self.dataSource = dataSource
+            self.filterBBox = filterBBox
+            self.filterCountries = filterCountries
+            self.language = language
+            self.maxResults = maxResults
+            self.text = text
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case biasPosition = "BiasPosition"
+            case dataSource = "DataSource"
+            case filterBBox = "FilterBBox"
+            case filterCountries = "FilterCountries"
+            case language = "Language"
+            case maxResults = "MaxResults"
+            case text = "Text"
+        }
+    }
+
     public struct SearchPlaceIndexForTextRequest: AWSEncodableShape {
         public static var _encoding = [
             AWSMemberEncoding(label: "indexName", location: .uri(locationName: "IndexName"))
@@ -3065,7 +3250,7 @@ extension LocationService {
     }
 
     public struct SearchPlaceIndexForTextSummary: AWSDecodableShape {
-        /// Contains the coordinates for the optional bias position specified in the request.
+        /// Contains the coordinates for the optional bias position specified in the request. This parameter contains a pair of numbers. The first number represents the X coordinate, or longitude; the second number represents the Y coordinate, or latitude. For example, [-123.1174, 49.2847] represents the position with longitude -123.1174 and latitude 49.2847.
         public let biasPosition: [Double]?
         /// The geospatial data provider attached to the place index resource specified in the request. Values can be one of the following:   Esri   Here   For more information about data providers, see Amazon Location Service data providers.
         public let dataSource: String
@@ -3503,7 +3688,7 @@ extension LocationService {
 
         /// Updates the description for the tracker resource.
         public let description: String?
-        /// Updates the position filtering for the tracker resource. Valid values:    TimeBased - Location updates are evaluated against linked geofence collections, but not every location update is stored. If your update frequency is more often than 30 seconds, only one update per 30 seconds is stored for each unique device ID.     DistanceBased - If the device has moved less than 30 m (98.4 ft), location updates are ignored. Location updates within this distance are neither evaluated against linked geofence collections, nor stored. This helps control costs by reducing the number of geofence evaluations and device positions to retrieve. Distance-based filtering can also reduce the jitter effect when displaying device trajectory on a map.
+        /// Updates the position filtering for the tracker resource. Valid values:    TimeBased - Location updates are evaluated against linked geofence collections, but not every location update is stored. If your update frequency is more often than 30 seconds, only one update per 30 seconds is stored for each unique device ID.     DistanceBased - If the device has moved less than 30 m (98.4 ft), location updates are ignored. Location updates within this distance are neither evaluated against linked geofence collections, nor stored. This helps control costs by reducing the number of geofence evaluations and historical device positions to paginate through. Distance-based filtering can also reduce the effects of GPS noise when displaying device trajectories on a map.     AccuracyBased - If the device has moved less than the measured accuracy, location updates are ignored. For example, if two consecutive updates from a device have a horizontal accuracy of 5 m and 10 m, the second update is ignored if the device has moved less than 15 m. Ignored location updates are neither evaluated against linked geofence collections, nor stored. This helps educe the effects of GPS noise when displaying device trajectories on a map, and can help control costs by reducing the number of geofence evaluations.
         public let positionFiltering: PositionFiltering?
         /// Updates the pricing plan for the tracker resource. For more information about each pricing plan option restrictions, see Amazon Location Service pricing.
         public let pricingPlan: PricingPlan?

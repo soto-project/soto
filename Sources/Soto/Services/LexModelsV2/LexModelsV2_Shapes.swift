@@ -37,6 +37,12 @@ extension LexModelsV2 {
         public var description: String { return self.rawValue }
     }
 
+    public enum AssociatedTranscriptFilterName: String, CustomStringConvertible, Codable {
+        case intentid = "IntentId"
+        case slottypeid = "SlotTypeId"
+        public var description: String { return self.rawValue }
+    }
+
     public enum BotAliasStatus: String, CustomStringConvertible, Codable {
         case available = "Available"
         case creating = "Creating"
@@ -80,7 +86,19 @@ extension LexModelsV2 {
         case failed = "Failed"
         case importing = "Importing"
         case notbuilt = "NotBuilt"
+        case processing = "Processing"
         case readyexpresstesting = "ReadyExpressTesting"
+        public var description: String { return self.rawValue }
+    }
+
+    public enum BotRecommendationStatus: String, CustomStringConvertible, Codable {
+        case available = "Available"
+        case deleted = "Deleted"
+        case deleting = "Deleting"
+        case downloading = "Downloading"
+        case failed = "Failed"
+        case processing = "Processing"
+        case updating = "Updating"
         public var description: String { return self.rawValue }
     }
 
@@ -192,6 +210,7 @@ extension LexModelsV2 {
     }
 
     public enum MergeStrategy: String, CustomStringConvertible, Codable {
+        case append = "Append"
         case failonconflict = "FailOnConflict"
         case overwrite = "Overwrite"
         public var description: String { return self.rawValue }
@@ -200,6 +219,12 @@ extension LexModelsV2 {
     public enum ObfuscationSettingType: String, CustomStringConvertible, Codable {
         case defaultobfuscation = "DefaultObfuscation"
         case none = "None"
+        public var description: String { return self.rawValue }
+    }
+
+    public enum SearchOrder: String, CustomStringConvertible, Codable {
+        case ascending = "Ascending"
+        case descending = "Descending"
         public var description: String { return self.rawValue }
     }
 
@@ -226,7 +251,15 @@ extension LexModelsV2 {
         public var description: String { return self.rawValue }
     }
 
+    public enum SlotTypeCategory: String, CustomStringConvertible, Codable {
+        case custom = "Custom"
+        case extended = "Extended"
+        case externalgrammar = "ExternalGrammar"
+        public var description: String { return self.rawValue }
+    }
+
     public enum SlotTypeFilterName: String, CustomStringConvertible, Codable {
+        case externalsourcetype = "ExternalSourceType"
         case slottypename = "SlotTypeName"
         public var description: String { return self.rawValue }
     }
@@ -259,6 +292,11 @@ extension LexModelsV2 {
         case days = "Days"
         case hours = "Hours"
         case weeks = "Weeks"
+        public var description: String { return self.rawValue }
+    }
+
+    public enum TranscriptFormat: String, CustomStringConvertible, Codable {
+        case lex = "Lex"
         public var description: String { return self.rawValue }
     }
 
@@ -348,6 +386,46 @@ extension LexModelsV2 {
             case utterance
             case utteranceFirstRecordedInAggregationDuration
             case utteranceLastRecordedInAggregationDuration
+        }
+    }
+
+    public struct AssociatedTranscript: AWSDecodableShape {
+        /// The content of the transcript that meets the search filter criteria. For the JSON format of the transcript, see Output transcript format.
+        public let transcript: String?
+
+        public init(transcript: String? = nil) {
+            self.transcript = transcript
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case transcript
+        }
+    }
+
+    public struct AssociatedTranscriptFilter: AWSEncodableShape {
+        /// The name of the field to use for filtering. The allowed names are IntentId and SlotTypeId.
+        public let name: AssociatedTranscriptFilterName
+        /// The values to use to filter the transcript.
+        public let values: [String]
+
+        public init(name: AssociatedTranscriptFilterName, values: [String]) {
+            self.name = name
+            self.values = values
+        }
+
+        public func validate(name: String) throws {
+            try self.values.forEach {
+                try validate($0, name: "values[]", parent: name, max: 100)
+                try validate($0, name: "values[]", parent: name, min: 1)
+                try validate($0, name: "values[]", parent: name, pattern: "^[0-9a-zA-Z_()\\s-]+$")
+            }
+            try self.validate(self.values, name: "values", parent: name, max: 1)
+            try self.validate(self.values, name: "values", parent: name, min: 1)
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case name
+            case values
         }
     }
 
@@ -743,6 +821,69 @@ extension LexModelsV2 {
             case lastUpdatedDateTime
             case localeId
             case localeName
+        }
+    }
+
+    public struct BotRecommendationResultStatistics: AWSDecodableShape {
+        /// Statistical information about about the intents associated with the bot recommendation results.
+        public let intents: IntentStatistics?
+        /// Statistical information about the slot types associated with the bot recommendation results.
+        public let slotTypes: SlotTypeStatistics?
+
+        public init(intents: IntentStatistics? = nil, slotTypes: SlotTypeStatistics? = nil) {
+            self.intents = intents
+            self.slotTypes = slotTypes
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case intents
+            case slotTypes
+        }
+    }
+
+    public struct BotRecommendationResults: AWSDecodableShape {
+        /// The presigned url link of the associated transcript.
+        public let associatedTranscriptsUrl: String?
+        /// The presigned URL link of the recommended bot definition.
+        public let botLocaleExportUrl: String?
+        /// The statistical summary of the bot recommendation results.
+        public let statistics: BotRecommendationResultStatistics?
+
+        public init(associatedTranscriptsUrl: String? = nil, botLocaleExportUrl: String? = nil, statistics: BotRecommendationResultStatistics? = nil) {
+            self.associatedTranscriptsUrl = associatedTranscriptsUrl
+            self.botLocaleExportUrl = botLocaleExportUrl
+            self.statistics = statistics
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case associatedTranscriptsUrl
+            case botLocaleExportUrl
+            case statistics
+        }
+    }
+
+    public struct BotRecommendationSummary: AWSDecodableShape {
+        /// The unique identifier of the bot recommendation to be updated.
+        public let botRecommendationId: String
+        /// The status of the bot recommendation. If the status is Failed, then the reasons for the failure are listed in the failureReasons field.
+        public let botRecommendationStatus: BotRecommendationStatus
+        /// A timestamp of the date and time that the bot recommendation was created.
+        public let creationDateTime: Date?
+        /// A timestamp of the date and time that the bot recommendation was last updated.
+        public let lastUpdatedDateTime: Date?
+
+        public init(botRecommendationId: String, botRecommendationStatus: BotRecommendationStatus, creationDateTime: Date? = nil, lastUpdatedDateTime: Date? = nil) {
+            self.botRecommendationId = botRecommendationId
+            self.botRecommendationStatus = botRecommendationStatus
+            self.creationDateTime = creationDateTime
+            self.lastUpdatedDateTime = lastUpdatedDateTime
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case botRecommendationId
+            case botRecommendationStatus
+            case creationDateTime
+            case lastUpdatedDateTime
         }
     }
 
@@ -1966,6 +2107,8 @@ extension LexModelsV2 {
         public let botVersion: String
         /// A description of the slot type. Use the description to help identify the slot type in lists.
         public let description: String?
+        /// Sets the type of external information used to create the slot type.
+        public let externalSourceSetting: ExternalSourceSetting?
         /// The identifier of the language and locale that the slot type will be used in. The string must match one of the supported locales. All of the bots, intents, and slots used by the slot type must have the same locale. For more information, see Supported languages.
         public let localeId: String
         /// The built-in slot type used as a parent of this slot type. When you define a parent slot type, the new slot type has the configuration of the parent slot type. Only AMAZON.AlphaNumeric is supported.
@@ -1975,12 +2118,13 @@ extension LexModelsV2 {
         /// A list of SlotTypeValue objects that defines the values that the slot type can take. Each value can have a list of synonyms, additional values that help train the machine learning model about the values that it resolves for a slot.
         public let slotTypeValues: [SlotTypeValue]?
         /// Determines the strategy that Amazon Lex uses to select a value from the list of possible values. The field can be set to one of the following values:    OriginalValue - Returns the value entered by the user, if the user value is similar to the slot value.    TopResolution - If there is a resolution list for the slot, return the first value in the resolution list. If there is no resolution list, return null.   If you don't specify the valueSelectionSetting parameter, the default is OriginalValue.
-        public let valueSelectionSetting: SlotValueSelectionSetting
+        public let valueSelectionSetting: SlotValueSelectionSetting?
 
-        public init(botId: String, botVersion: String, description: String? = nil, localeId: String, parentSlotTypeSignature: String? = nil, slotTypeName: String, slotTypeValues: [SlotTypeValue]? = nil, valueSelectionSetting: SlotValueSelectionSetting) {
+        public init(botId: String, botVersion: String, description: String? = nil, externalSourceSetting: ExternalSourceSetting? = nil, localeId: String, parentSlotTypeSignature: String? = nil, slotTypeName: String, slotTypeValues: [SlotTypeValue]? = nil, valueSelectionSetting: SlotValueSelectionSetting? = nil) {
             self.botId = botId
             self.botVersion = botVersion
             self.description = description
+            self.externalSourceSetting = externalSourceSetting
             self.localeId = localeId
             self.parentSlotTypeSignature = parentSlotTypeSignature
             self.slotTypeName = slotTypeName
@@ -1997,6 +2141,7 @@ extension LexModelsV2 {
             try self.validate(self.botVersion, name: "botVersion", parent: name, pattern: "^DRAFT$")
             try self.validate(self.description, name: "description", parent: name, max: 200)
             try self.validate(self.description, name: "description", parent: name, min: 0)
+            try self.externalSourceSetting?.validate(name: "\(name).externalSourceSetting")
             try self.validate(self.slotTypeName, name: "slotTypeName", parent: name, max: 100)
             try self.validate(self.slotTypeName, name: "slotTypeName", parent: name, min: 1)
             try self.validate(self.slotTypeName, name: "slotTypeName", parent: name, pattern: "^([0-9a-zA-Z][_-]?)+$")
@@ -2005,11 +2150,12 @@ extension LexModelsV2 {
             }
             try self.validate(self.slotTypeValues, name: "slotTypeValues", parent: name, max: 10000)
             try self.validate(self.slotTypeValues, name: "slotTypeValues", parent: name, min: 1)
-            try self.valueSelectionSetting.validate(name: "\(name).valueSelectionSetting")
+            try self.valueSelectionSetting?.validate(name: "\(name).valueSelectionSetting")
         }
 
         private enum CodingKeys: String, CodingKey {
             case description
+            case externalSourceSetting
             case parentSlotTypeSignature
             case slotTypeName
             case slotTypeValues
@@ -2026,6 +2172,8 @@ extension LexModelsV2 {
         public let creationDateTime: Date?
         /// The description specified for the slot type.
         public let description: String?
+        /// The type of external information used to create the slot type.
+        public let externalSourceSetting: ExternalSourceSetting?
         /// The specified language and local specified for the slot type.
         public let localeId: String?
         /// The signature of the base slot type specified for the slot type.
@@ -2039,11 +2187,12 @@ extension LexModelsV2 {
         /// The strategy that Amazon Lex uses to select a value from the list of possible values.
         public let valueSelectionSetting: SlotValueSelectionSetting?
 
-        public init(botId: String? = nil, botVersion: String? = nil, creationDateTime: Date? = nil, description: String? = nil, localeId: String? = nil, parentSlotTypeSignature: String? = nil, slotTypeId: String? = nil, slotTypeName: String? = nil, slotTypeValues: [SlotTypeValue]? = nil, valueSelectionSetting: SlotValueSelectionSetting? = nil) {
+        public init(botId: String? = nil, botVersion: String? = nil, creationDateTime: Date? = nil, description: String? = nil, externalSourceSetting: ExternalSourceSetting? = nil, localeId: String? = nil, parentSlotTypeSignature: String? = nil, slotTypeId: String? = nil, slotTypeName: String? = nil, slotTypeValues: [SlotTypeValue]? = nil, valueSelectionSetting: SlotValueSelectionSetting? = nil) {
             self.botId = botId
             self.botVersion = botVersion
             self.creationDateTime = creationDateTime
             self.description = description
+            self.externalSourceSetting = externalSourceSetting
             self.localeId = localeId
             self.parentSlotTypeSignature = parentSlotTypeSignature
             self.slotTypeId = slotTypeId
@@ -2057,6 +2206,7 @@ extension LexModelsV2 {
             case botVersion
             case creationDateTime
             case description
+            case externalSourceSetting
             case localeId
             case parentSlotTypeSignature
             case slotTypeId
@@ -2115,6 +2265,23 @@ extension LexModelsV2 {
 
         private enum CodingKeys: String, CodingKey {
             case childDirected
+        }
+    }
+
+    public struct DateRangeFilter: AWSEncodableShape & AWSDecodableShape {
+        /// A timestamp indicating the end date for the date range filter.
+        public let endDateTime: Date
+        /// A timestamp indicating the start date for the date range filter.
+        public let startDateTime: Date
+
+        public init(endDateTime: Date, startDateTime: Date) {
+            self.endDateTime = endDateTime
+            self.startDateTime = startDateTime
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case endDateTime
+            case startDateTime
         }
     }
 
@@ -2801,12 +2968,14 @@ extension LexModelsV2 {
         public let localeName: String?
         /// The confidence threshold where Amazon Lex inserts the AMAZON.FallbackIntent and AMAZON.KendraSearchIntent intents in the list of possible intents for an utterance.
         public let nluIntentConfidenceThreshold: Double?
+        /// Recommended actions to take to resolve an error in the failureReasons field.
+        public let recommendedActions: [String]?
         /// The number of slot types defined for the locale.
         public let slotTypesCount: Int?
         /// The Amazon Polly voice Amazon Lex uses for voice interaction with the user.
         public let voiceSettings: VoiceSettings?
 
-        public init(botId: String? = nil, botLocaleHistoryEvents: [BotLocaleHistoryEvent]? = nil, botLocaleStatus: BotLocaleStatus? = nil, botVersion: String? = nil, creationDateTime: Date? = nil, description: String? = nil, failureReasons: [String]? = nil, intentsCount: Int? = nil, lastBuildSubmittedDateTime: Date? = nil, lastUpdatedDateTime: Date? = nil, localeId: String? = nil, localeName: String? = nil, nluIntentConfidenceThreshold: Double? = nil, slotTypesCount: Int? = nil, voiceSettings: VoiceSettings? = nil) {
+        public init(botId: String? = nil, botLocaleHistoryEvents: [BotLocaleHistoryEvent]? = nil, botLocaleStatus: BotLocaleStatus? = nil, botVersion: String? = nil, creationDateTime: Date? = nil, description: String? = nil, failureReasons: [String]? = nil, intentsCount: Int? = nil, lastBuildSubmittedDateTime: Date? = nil, lastUpdatedDateTime: Date? = nil, localeId: String? = nil, localeName: String? = nil, nluIntentConfidenceThreshold: Double? = nil, recommendedActions: [String]? = nil, slotTypesCount: Int? = nil, voiceSettings: VoiceSettings? = nil) {
             self.botId = botId
             self.botLocaleHistoryEvents = botLocaleHistoryEvents
             self.botLocaleStatus = botLocaleStatus
@@ -2820,6 +2989,7 @@ extension LexModelsV2 {
             self.localeId = localeId
             self.localeName = localeName
             self.nluIntentConfidenceThreshold = nluIntentConfidenceThreshold
+            self.recommendedActions = recommendedActions
             self.slotTypesCount = slotTypesCount
             self.voiceSettings = voiceSettings
         }
@@ -2838,8 +3008,101 @@ extension LexModelsV2 {
             case localeId
             case localeName
             case nluIntentConfidenceThreshold
+            case recommendedActions
             case slotTypesCount
             case voiceSettings
+        }
+    }
+
+    public struct DescribeBotRecommendationRequest: AWSEncodableShape {
+        public static var _encoding = [
+            AWSMemberEncoding(label: "botId", location: .uri(locationName: "botId")),
+            AWSMemberEncoding(label: "botRecommendationId", location: .uri(locationName: "botRecommendationId")),
+            AWSMemberEncoding(label: "botVersion", location: .uri(locationName: "botVersion")),
+            AWSMemberEncoding(label: "localeId", location: .uri(locationName: "localeId"))
+        ]
+
+        /// The unique identifier of the bot associated with the bot recommendation.
+        public let botId: String
+        /// The identifier of the bot recommendation to describe.
+        public let botRecommendationId: String
+        /// The version of the bot associated with the bot recommendation.
+        public let botVersion: String
+        /// The identifier of the language and locale of the bot recommendation to describe. The string must match one of the supported locales. For more information, see Supported languages.
+        public let localeId: String
+
+        public init(botId: String, botRecommendationId: String, botVersion: String, localeId: String) {
+            self.botId = botId
+            self.botRecommendationId = botRecommendationId
+            self.botVersion = botVersion
+            self.localeId = localeId
+        }
+
+        public func validate(name: String) throws {
+            try self.validate(self.botId, name: "botId", parent: name, max: 10)
+            try self.validate(self.botId, name: "botId", parent: name, min: 10)
+            try self.validate(self.botId, name: "botId", parent: name, pattern: "^[0-9a-zA-Z]+$")
+            try self.validate(self.botRecommendationId, name: "botRecommendationId", parent: name, max: 10)
+            try self.validate(self.botRecommendationId, name: "botRecommendationId", parent: name, min: 10)
+            try self.validate(self.botRecommendationId, name: "botRecommendationId", parent: name, pattern: "^[0-9a-zA-Z]+$")
+            try self.validate(self.botVersion, name: "botVersion", parent: name, max: 5)
+            try self.validate(self.botVersion, name: "botVersion", parent: name, min: 5)
+            try self.validate(self.botVersion, name: "botVersion", parent: name, pattern: "^DRAFT$")
+        }
+
+        private enum CodingKeys: CodingKey {}
+    }
+
+    public struct DescribeBotRecommendationResponse: AWSDecodableShape {
+        /// The identifier of the bot associated with the bot recommendation.
+        public let botId: String?
+        /// The identifier of the bot recommendation being described.
+        public let botRecommendationId: String?
+        /// The object representing the URL of the bot definition, the URL of the associated transcript and a statistical summary of the bot recommendation results.
+        public let botRecommendationResults: BotRecommendationResults?
+        /// The status of the bot recommendation. If the status is Failed, then the reasons for the failure are listed in the failureReasons field.
+        public let botRecommendationStatus: BotRecommendationStatus?
+        /// The version of the bot associated with the bot recommendation.
+        public let botVersion: String?
+        /// The date and time that the bot recommendation was created.
+        public let creationDateTime: Date?
+        /// The object representing the passwords that were used to encrypt the data related to the bot recommendation results, as well as the KMS key ARN used to encrypt the associated metadata.
+        public let encryptionSetting: EncryptionSetting?
+        /// If botRecommendationStatus is Failed, Amazon Lex explains why.
+        public let failureReasons: [String]?
+        /// The date and time that the bot recommendation was last updated.
+        public let lastUpdatedDateTime: Date?
+        /// The identifier of the language and locale of the bot recommendation to describe.
+        public let localeId: String?
+        /// The object representing the Amazon S3 bucket containing the transcript, as well as the associated metadata.
+        public let transcriptSourceSetting: TranscriptSourceSetting?
+
+        public init(botId: String? = nil, botRecommendationId: String? = nil, botRecommendationResults: BotRecommendationResults? = nil, botRecommendationStatus: BotRecommendationStatus? = nil, botVersion: String? = nil, creationDateTime: Date? = nil, encryptionSetting: EncryptionSetting? = nil, failureReasons: [String]? = nil, lastUpdatedDateTime: Date? = nil, localeId: String? = nil, transcriptSourceSetting: TranscriptSourceSetting? = nil) {
+            self.botId = botId
+            self.botRecommendationId = botRecommendationId
+            self.botRecommendationResults = botRecommendationResults
+            self.botRecommendationStatus = botRecommendationStatus
+            self.botVersion = botVersion
+            self.creationDateTime = creationDateTime
+            self.encryptionSetting = encryptionSetting
+            self.failureReasons = failureReasons
+            self.lastUpdatedDateTime = lastUpdatedDateTime
+            self.localeId = localeId
+            self.transcriptSourceSetting = transcriptSourceSetting
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case botId
+            case botRecommendationId
+            case botRecommendationResults
+            case botRecommendationStatus
+            case botVersion
+            case creationDateTime
+            case encryptionSetting
+            case failureReasons
+            case lastUpdatedDateTime
+            case localeId
+            case transcriptSourceSetting
         }
     }
 
@@ -3430,6 +3693,7 @@ extension LexModelsV2 {
         public let creationDateTime: Date?
         /// The description specified for the slot type.
         public let description: String?
+        public let externalSourceSetting: ExternalSourceSetting?
         /// A timestamp of the date and time that the slot type was last updated.
         public let lastUpdatedDateTime: Date?
         /// The language and locale specified for the slot type.
@@ -3445,11 +3709,12 @@ extension LexModelsV2 {
         /// The strategy that Amazon Lex uses to choose a value from a list of possible values.
         public let valueSelectionSetting: SlotValueSelectionSetting?
 
-        public init(botId: String? = nil, botVersion: String? = nil, creationDateTime: Date? = nil, description: String? = nil, lastUpdatedDateTime: Date? = nil, localeId: String? = nil, parentSlotTypeSignature: String? = nil, slotTypeId: String? = nil, slotTypeName: String? = nil, slotTypeValues: [SlotTypeValue]? = nil, valueSelectionSetting: SlotValueSelectionSetting? = nil) {
+        public init(botId: String? = nil, botVersion: String? = nil, creationDateTime: Date? = nil, description: String? = nil, externalSourceSetting: ExternalSourceSetting? = nil, lastUpdatedDateTime: Date? = nil, localeId: String? = nil, parentSlotTypeSignature: String? = nil, slotTypeId: String? = nil, slotTypeName: String? = nil, slotTypeValues: [SlotTypeValue]? = nil, valueSelectionSetting: SlotValueSelectionSetting? = nil) {
             self.botId = botId
             self.botVersion = botVersion
             self.creationDateTime = creationDateTime
             self.description = description
+            self.externalSourceSetting = externalSourceSetting
             self.lastUpdatedDateTime = lastUpdatedDateTime
             self.localeId = localeId
             self.parentSlotTypeSignature = parentSlotTypeSignature
@@ -3464,6 +3729,7 @@ extension LexModelsV2 {
             case botVersion
             case creationDateTime
             case description
+            case externalSourceSetting
             case lastUpdatedDateTime
             case localeId
             case parentSlotTypeSignature
@@ -3484,6 +3750,37 @@ extension LexModelsV2 {
 
         private enum CodingKeys: String, CodingKey {
             case enabled
+        }
+    }
+
+    public struct EncryptionSetting: AWSEncodableShape & AWSDecodableShape {
+        /// The password used to encrypt the associated transcript file.
+        public let associatedTranscriptsPassword: String?
+        /// The password used to encrypt the recommended bot recommendation file.
+        public let botLocaleExportPassword: String?
+        /// The KMS key ARN used to encrypt the metadata associated with the bot recommendation.
+        public let kmsKeyArn: String?
+
+        public init(associatedTranscriptsPassword: String? = nil, botLocaleExportPassword: String? = nil, kmsKeyArn: String? = nil) {
+            self.associatedTranscriptsPassword = associatedTranscriptsPassword
+            self.botLocaleExportPassword = botLocaleExportPassword
+            self.kmsKeyArn = kmsKeyArn
+        }
+
+        public func validate(name: String) throws {
+            try self.validate(self.associatedTranscriptsPassword, name: "associatedTranscriptsPassword", parent: name, max: 1024)
+            try self.validate(self.associatedTranscriptsPassword, name: "associatedTranscriptsPassword", parent: name, min: 0)
+            try self.validate(self.botLocaleExportPassword, name: "botLocaleExportPassword", parent: name, max: 1024)
+            try self.validate(self.botLocaleExportPassword, name: "botLocaleExportPassword", parent: name, min: 0)
+            try self.validate(self.kmsKeyArn, name: "kmsKeyArn", parent: name, max: 2048)
+            try self.validate(self.kmsKeyArn, name: "kmsKeyArn", parent: name, min: 20)
+            try self.validate(self.kmsKeyArn, name: "kmsKeyArn", parent: name, pattern: "^arn:[\\w\\-]+:kms:[\\w\\-]+:[\\d]{12}:(?:key\\/[\\w\\-]+|alias\\/[a-zA-Z0-9:\\/_\\-]{1,256})$")
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case associatedTranscriptsPassword
+            case botLocaleExportPassword
+            case kmsKeyArn
         }
     }
 
@@ -3587,6 +3884,23 @@ extension LexModelsV2 {
             case fileFormat
             case lastUpdatedDateTime
             case resourceSpecification
+        }
+    }
+
+    public struct ExternalSourceSetting: AWSEncodableShape & AWSDecodableShape {
+        /// Settings required for a slot type based on a grammar that you provide.
+        public let grammarSlotTypeSetting: GrammarSlotTypeSetting?
+
+        public init(grammarSlotTypeSetting: GrammarSlotTypeSetting? = nil) {
+            self.grammarSlotTypeSetting = grammarSlotTypeSetting
+        }
+
+        public func validate(name: String) throws {
+            try self.grammarSlotTypeSetting?.validate(name: "\(name).grammarSlotTypeSetting")
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case grammarSlotTypeSetting
         }
     }
 
@@ -3707,6 +4021,56 @@ extension LexModelsV2 {
             case startResponse
             case timeoutInSeconds
             case updateResponse
+        }
+    }
+
+    public struct GrammarSlotTypeSetting: AWSEncodableShape & AWSDecodableShape {
+        /// The source of the grammar used to create the slot type.
+        public let source: GrammarSlotTypeSource?
+
+        public init(source: GrammarSlotTypeSource? = nil) {
+            self.source = source
+        }
+
+        public func validate(name: String) throws {
+            try self.source?.validate(name: "\(name).source")
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case source
+        }
+    }
+
+    public struct GrammarSlotTypeSource: AWSEncodableShape & AWSDecodableShape {
+        /// The Amazon KMS key required to decrypt the contents of the grammar, if any.
+        public let kmsKeyArn: String?
+        /// The name of the S3 bucket that contains the grammar source.
+        public let s3BucketName: String
+        /// The path to the grammar in the S3 bucket.
+        public let s3ObjectKey: String
+
+        public init(kmsKeyArn: String? = nil, s3BucketName: String, s3ObjectKey: String) {
+            self.kmsKeyArn = kmsKeyArn
+            self.s3BucketName = s3BucketName
+            self.s3ObjectKey = s3ObjectKey
+        }
+
+        public func validate(name: String) throws {
+            try self.validate(self.kmsKeyArn, name: "kmsKeyArn", parent: name, max: 2048)
+            try self.validate(self.kmsKeyArn, name: "kmsKeyArn", parent: name, min: 20)
+            try self.validate(self.kmsKeyArn, name: "kmsKeyArn", parent: name, pattern: "^arn:[\\w\\-]+:kms:[\\w\\-]+:[\\d]{12}:(?:key\\/[\\w\\-]+|alias\\/[a-zA-Z0-9:\\/_\\-]{1,256})$")
+            try self.validate(self.s3BucketName, name: "s3BucketName", parent: name, max: 63)
+            try self.validate(self.s3BucketName, name: "s3BucketName", parent: name, min: 3)
+            try self.validate(self.s3BucketName, name: "s3BucketName", parent: name, pattern: "^[a-z0-9][\\.\\-a-z0-9]{1,61}[a-z0-9]$")
+            try self.validate(self.s3ObjectKey, name: "s3ObjectKey", parent: name, max: 1024)
+            try self.validate(self.s3ObjectKey, name: "s3ObjectKey", parent: name, min: 1)
+            try self.validate(self.s3ObjectKey, name: "s3ObjectKey", parent: name, pattern: "[\\.\\-\\!\\*\\_\\'\\(\\)a-zA-Z0-9][\\.\\-\\!\\*\\_\\'\\(\\)\\/a-zA-Z0-9]*$")
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case kmsKeyArn
+            case s3BucketName
+            case s3ObjectKey
         }
     }
 
@@ -3970,6 +4334,19 @@ extension LexModelsV2 {
         }
     }
 
+    public struct IntentStatistics: AWSDecodableShape {
+        /// The number of recommended intents associated with the bot recommendation.
+        public let discoveredIntentCount: Int?
+
+        public init(discoveredIntentCount: Int? = nil) {
+            self.discoveredIntentCount = discoveredIntentCount
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case discoveredIntentCount
+        }
+    }
+
     public struct IntentSummary: AWSDecodableShape {
         /// The description of the intent.
         public let description: String?
@@ -4058,6 +4435,19 @@ extension LexModelsV2 {
         private enum CodingKeys: String, CodingKey {
             case codeHookInterfaceVersion
             case lambdaARN
+        }
+    }
+
+    public struct LexTranscriptFilter: AWSEncodableShape & AWSDecodableShape {
+        /// The object that contains a date range filter that will be applied to the transcript. Specify this object if you want Amazon Lex to only read the files that are within the date range.
+        public let dateRangeFilter: DateRangeFilter?
+
+        public init(dateRangeFilter: DateRangeFilter? = nil) {
+            self.dateRangeFilter = dateRangeFilter
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case dateRangeFilter
         }
     }
 
@@ -4304,6 +4694,78 @@ extension LexModelsV2 {
             case botId
             case botLocaleSummaries
             case botVersion
+            case nextToken
+        }
+    }
+
+    public struct ListBotRecommendationsRequest: AWSEncodableShape {
+        public static var _encoding = [
+            AWSMemberEncoding(label: "botId", location: .uri(locationName: "botId")),
+            AWSMemberEncoding(label: "botVersion", location: .uri(locationName: "botVersion")),
+            AWSMemberEncoding(label: "localeId", location: .uri(locationName: "localeId"))
+        ]
+
+        /// The unique identifier of the bot that contains the bot recommendation list.
+        public let botId: String
+        /// The version of the bot that contains the bot recommendation list.
+        public let botVersion: String
+        /// The identifier of the language and locale of the bot recommendation list.
+        public let localeId: String
+        /// The maximum number of bot recommendations to return in each page of results. If there are fewer results than the max page size, only the actual number of results are returned.
+        public let maxResults: Int?
+        /// If the response from the ListBotRecommendation operation contains more results than specified in the maxResults parameter, a token is returned in the response. Use that token in the nextToken parameter to return the next page of results.
+        public let nextToken: String?
+
+        public init(botId: String, botVersion: String, localeId: String, maxResults: Int? = nil, nextToken: String? = nil) {
+            self.botId = botId
+            self.botVersion = botVersion
+            self.localeId = localeId
+            self.maxResults = maxResults
+            self.nextToken = nextToken
+        }
+
+        public func validate(name: String) throws {
+            try self.validate(self.botId, name: "botId", parent: name, max: 10)
+            try self.validate(self.botId, name: "botId", parent: name, min: 10)
+            try self.validate(self.botId, name: "botId", parent: name, pattern: "^[0-9a-zA-Z]+$")
+            try self.validate(self.botVersion, name: "botVersion", parent: name, max: 5)
+            try self.validate(self.botVersion, name: "botVersion", parent: name, min: 5)
+            try self.validate(self.botVersion, name: "botVersion", parent: name, pattern: "^DRAFT$")
+            try self.validate(self.maxResults, name: "maxResults", parent: name, max: 1000)
+            try self.validate(self.maxResults, name: "maxResults", parent: name, min: 1)
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case maxResults
+            case nextToken
+        }
+    }
+
+    public struct ListBotRecommendationsResponse: AWSDecodableShape {
+        /// The unique identifier of the bot that contains the bot recommendation list.
+        public let botId: String?
+        /// Summary information for the bot recommendations that meet the filter specified in this request. The length of the list is specified in the maxResults parameter of the request. If there are more bot recommendations available, the nextToken field contains a token to get the next page of results.
+        public let botRecommendationSummaries: [BotRecommendationSummary]?
+        /// The version of the bot that contains the bot recommendation list.
+        public let botVersion: String?
+        /// The identifier of the language and locale of the bot recommendation list.
+        public let localeId: String?
+        /// A token that indicates whether there are more results to return in a response to the ListBotRecommendations operation. If the nextToken field is present, you send the contents as the nextToken parameter of a ListBotRecommendations operation request to get the next page of results.
+        public let nextToken: String?
+
+        public init(botId: String? = nil, botRecommendationSummaries: [BotRecommendationSummary]? = nil, botVersion: String? = nil, localeId: String? = nil, nextToken: String? = nil) {
+            self.botId = botId
+            self.botRecommendationSummaries = botRecommendationSummaries
+            self.botVersion = botVersion
+            self.localeId = localeId
+            self.nextToken = nextToken
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case botId
+            case botRecommendationSummaries
+            case botVersion
+            case localeId
             case nextToken
         }
     }
@@ -4758,6 +5220,89 @@ extension LexModelsV2 {
         }
     }
 
+    public struct ListRecommendedIntentsRequest: AWSEncodableShape {
+        public static var _encoding = [
+            AWSMemberEncoding(label: "botId", location: .uri(locationName: "botId")),
+            AWSMemberEncoding(label: "botRecommendationId", location: .uri(locationName: "botRecommendationId")),
+            AWSMemberEncoding(label: "botVersion", location: .uri(locationName: "botVersion")),
+            AWSMemberEncoding(label: "localeId", location: .uri(locationName: "localeId"))
+        ]
+
+        /// The unique identifier of the bot associated with the recommended intents.
+        public let botId: String
+        /// The identifier of the bot recommendation that contains the recommended intents.
+        public let botRecommendationId: String
+        /// The version of the bot that contains the recommended intents.
+        public let botVersion: String
+        /// The identifier of the language and locale of the recommended intents.
+        public let localeId: String
+        /// The maximum number of bot recommendations to return in each page of results. If there are fewer results than the max page size, only the actual number of results are returned.
+        public let maxResults: Int?
+        /// If the response from the ListRecommendedIntents operation contains more results than specified in the maxResults parameter, a token is returned in the response. Use that token in the nextToken parameter to return the next page of results.
+        public let nextToken: String?
+
+        public init(botId: String, botRecommendationId: String, botVersion: String, localeId: String, maxResults: Int? = nil, nextToken: String? = nil) {
+            self.botId = botId
+            self.botRecommendationId = botRecommendationId
+            self.botVersion = botVersion
+            self.localeId = localeId
+            self.maxResults = maxResults
+            self.nextToken = nextToken
+        }
+
+        public func validate(name: String) throws {
+            try self.validate(self.botId, name: "botId", parent: name, max: 10)
+            try self.validate(self.botId, name: "botId", parent: name, min: 10)
+            try self.validate(self.botId, name: "botId", parent: name, pattern: "^[0-9a-zA-Z]+$")
+            try self.validate(self.botRecommendationId, name: "botRecommendationId", parent: name, max: 10)
+            try self.validate(self.botRecommendationId, name: "botRecommendationId", parent: name, min: 10)
+            try self.validate(self.botRecommendationId, name: "botRecommendationId", parent: name, pattern: "^[0-9a-zA-Z]+$")
+            try self.validate(self.botVersion, name: "botVersion", parent: name, max: 5)
+            try self.validate(self.botVersion, name: "botVersion", parent: name, min: 5)
+            try self.validate(self.botVersion, name: "botVersion", parent: name, pattern: "^DRAFT$")
+            try self.validate(self.maxResults, name: "maxResults", parent: name, max: 1000)
+            try self.validate(self.maxResults, name: "maxResults", parent: name, min: 1)
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case maxResults
+            case nextToken
+        }
+    }
+
+    public struct ListRecommendedIntentsResponse: AWSDecodableShape {
+        /// The unique identifier of the bot associated with the recommended intent.
+        public let botId: String?
+        /// The identifier of the bot recommendation that contains the recommended intent.
+        public let botRecommendationId: String?
+        /// The version of the bot that contains the intent.
+        public let botVersion: String?
+        /// The identifier of the language and locale of the intents to list. The string must match one of the supported locales. For more information, see Supported languages.
+        public let localeId: String?
+        /// A token that indicates whether there are more results to return in a response to the ListRecommendedIntents operation. If the nextToken field is present, you send the contents as the nextToken parameter of a ListRecommendedIntents operation request to get the next page of results.
+        public let nextToken: String?
+        /// Summary information for the intents that meet the filter criteria specified in the request. The length of the list is specified in the maxResults parameter of the request. If there are more intents available, the nextToken field contains a token to get the next page of results.
+        public let summaryList: [RecommendedIntentSummary]?
+
+        public init(botId: String? = nil, botRecommendationId: String? = nil, botVersion: String? = nil, localeId: String? = nil, nextToken: String? = nil, summaryList: [RecommendedIntentSummary]? = nil) {
+            self.botId = botId
+            self.botRecommendationId = botRecommendationId
+            self.botVersion = botVersion
+            self.localeId = localeId
+            self.nextToken = nextToken
+            self.summaryList = summaryList
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case botId
+            case botRecommendationId
+            case botVersion
+            case localeId
+            case nextToken
+            case summaryList
+        }
+    }
+
     public struct ListSlotTypesRequest: AWSEncodableShape {
         public static var _encoding = [
             AWSMemberEncoding(label: "botId", location: .uri(locationName: "botId")),
@@ -5087,6 +5632,28 @@ extension LexModelsV2 {
         }
     }
 
+    public struct PathFormat: AWSEncodableShape & AWSDecodableShape {
+        /// A list of Amazon S3 prefixes that points to sub-folders in the Amazon S3 bucket. Specify this list if you only want Lex to read the files under this set of sub-folders.
+        public let objectPrefixes: [String]?
+
+        public init(objectPrefixes: [String]? = nil) {
+            self.objectPrefixes = objectPrefixes
+        }
+
+        public func validate(name: String) throws {
+            try self.objectPrefixes?.forEach {
+                try validate($0, name: "objectPrefixes[]", parent: name, min: 1)
+                try validate($0, name: "objectPrefixes[]", parent: name, pattern: "^[\\/]?+[a-zA-Z0-9!_.*'()-]+(\\/[a-zA-Z0-9!_.*'()-]+)*$")
+            }
+            try self.validate(self.objectPrefixes, name: "objectPrefixes", parent: name, max: 2)
+            try self.validate(self.objectPrefixes, name: "objectPrefixes", parent: name, min: 1)
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case objectPrefixes
+        }
+    }
+
     public struct PlainTextMessage: AWSEncodableShape & AWSDecodableShape {
         /// The message to send to the user.
         public let value: String
@@ -5186,6 +5753,27 @@ extension LexModelsV2 {
         }
     }
 
+    public struct RecommendedIntentSummary: AWSDecodableShape {
+        /// The unique identifier of a recommended intent associated with the bot recommendation.
+        public let intentId: String?
+        /// The name of a recommended intent associated with the bot recommendation.
+        public let intentName: String?
+        /// The count of sample utterances of a recommended intent that is associated with a bot recommendation.
+        public let sampleUtterancesCount: Int?
+
+        public init(intentId: String? = nil, intentName: String? = nil, sampleUtterancesCount: Int? = nil) {
+            self.intentId = intentId
+            self.intentName = intentName
+            self.sampleUtterancesCount = sampleUtterancesCount
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case intentId
+            case intentName
+            case sampleUtterancesCount
+        }
+    }
+
     public struct RelativeAggregationDuration: AWSEncodableShape & AWSDecodableShape {
         /// The type of time period that the timeValue field represents.
         public let timeDimension: TimeDimension
@@ -5264,6 +5852,45 @@ extension LexModelsV2 {
         }
     }
 
+    public struct S3BucketTranscriptSource: AWSEncodableShape & AWSDecodableShape {
+        /// The ARN of the KMS key that customer use to encrypt their Amazon S3 bucket. Only use this field if your bucket is encrypted using a customer managed KMS key.
+        public let kmsKeyArn: String?
+        /// The object that contains a path format that will be applied when Amazon Lex reads the transcript file in the bucket you provide. Specify this object if you only want Lex to read a subset of files in your Amazon S3 bucket.
+        public let pathFormat: PathFormat?
+        /// The name of the bucket containing the transcript and the associated metadata.
+        public let s3BucketName: String
+        /// The object that contains the filter which will be applied when Amazon Lex reads through the Amazon S3 bucket. Specify this object if you want Amazon Lex to read only a subset of the Amazon S3 bucket based on the filter you provide.
+        public let transcriptFilter: TranscriptFilter?
+        /// The format of the transcript content. Currently, Genie only supports the Amazon Lex transcript format.
+        public let transcriptFormat: TranscriptFormat
+
+        public init(kmsKeyArn: String? = nil, pathFormat: PathFormat? = nil, s3BucketName: String, transcriptFilter: TranscriptFilter? = nil, transcriptFormat: TranscriptFormat) {
+            self.kmsKeyArn = kmsKeyArn
+            self.pathFormat = pathFormat
+            self.s3BucketName = s3BucketName
+            self.transcriptFilter = transcriptFilter
+            self.transcriptFormat = transcriptFormat
+        }
+
+        public func validate(name: String) throws {
+            try self.validate(self.kmsKeyArn, name: "kmsKeyArn", parent: name, max: 2048)
+            try self.validate(self.kmsKeyArn, name: "kmsKeyArn", parent: name, min: 20)
+            try self.validate(self.kmsKeyArn, name: "kmsKeyArn", parent: name, pattern: "^arn:[\\w\\-]+:kms:[\\w\\-]+:[\\d]{12}:(?:key\\/[\\w\\-]+|alias\\/[a-zA-Z0-9:\\/_\\-]{1,256})$")
+            try self.pathFormat?.validate(name: "\(name).pathFormat")
+            try self.validate(self.s3BucketName, name: "s3BucketName", parent: name, max: 63)
+            try self.validate(self.s3BucketName, name: "s3BucketName", parent: name, min: 3)
+            try self.validate(self.s3BucketName, name: "s3BucketName", parent: name, pattern: "^[a-z0-9][\\.\\-a-z0-9]{1,61}[a-z0-9]$")
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case kmsKeyArn
+            case pathFormat
+            case s3BucketName
+            case transcriptFilter
+            case transcriptFormat
+        }
+    }
+
     public struct SSMLMessage: AWSEncodableShape & AWSDecodableShape {
         /// The SSML text that defines the prompt.
         public let value: String
@@ -5310,6 +5937,108 @@ extension LexModelsV2 {
 
         private enum CodingKeys: String, CodingKey {
             case value
+        }
+    }
+
+    public struct SearchAssociatedTranscriptsRequest: AWSEncodableShape {
+        public static var _encoding = [
+            AWSMemberEncoding(label: "botId", location: .uri(locationName: "botId")),
+            AWSMemberEncoding(label: "botRecommendationId", location: .uri(locationName: "botRecommendationId")),
+            AWSMemberEncoding(label: "botVersion", location: .uri(locationName: "botVersion")),
+            AWSMemberEncoding(label: "localeId", location: .uri(locationName: "localeId"))
+        ]
+
+        /// The unique identifier of the bot associated with the transcripts that you are searching.
+        public let botId: String
+        /// The unique identifier of the bot recommendation associated with the transcripts to search.
+        public let botRecommendationId: String
+        /// The version of the bot containing the transcripts that you are searching.
+        public let botVersion: String
+        /// A list of filter objects.
+        public let filters: [AssociatedTranscriptFilter]
+        /// The identifier of the language and locale of the transcripts to search. The string must match one of the supported locales. For more information, see Supported languages
+        public let localeId: String
+        /// The maximum number of bot recommendations to return in each page of results. If there are fewer results than the max page size, only the actual number of results are returned.
+        public let maxResults: Int?
+        /// If the response from the SearchAssociatedTranscriptsRequest operation contains more results than specified in the maxResults parameter, an index is returned in the response. Use that index in the nextIndex parameter to return the next page of results.
+        public let nextIndex: Int?
+        /// How SearchResults are ordered. Valid values are Ascending or Descending. The default is Descending.
+        public let searchOrder: SearchOrder?
+
+        public init(botId: String, botRecommendationId: String, botVersion: String, filters: [AssociatedTranscriptFilter], localeId: String, maxResults: Int? = nil, nextIndex: Int? = nil, searchOrder: SearchOrder? = nil) {
+            self.botId = botId
+            self.botRecommendationId = botRecommendationId
+            self.botVersion = botVersion
+            self.filters = filters
+            self.localeId = localeId
+            self.maxResults = maxResults
+            self.nextIndex = nextIndex
+            self.searchOrder = searchOrder
+        }
+
+        public func validate(name: String) throws {
+            try self.validate(self.botId, name: "botId", parent: name, max: 10)
+            try self.validate(self.botId, name: "botId", parent: name, min: 10)
+            try self.validate(self.botId, name: "botId", parent: name, pattern: "^[0-9a-zA-Z]+$")
+            try self.validate(self.botRecommendationId, name: "botRecommendationId", parent: name, max: 10)
+            try self.validate(self.botRecommendationId, name: "botRecommendationId", parent: name, min: 10)
+            try self.validate(self.botRecommendationId, name: "botRecommendationId", parent: name, pattern: "^[0-9a-zA-Z]+$")
+            try self.validate(self.botVersion, name: "botVersion", parent: name, max: 5)
+            try self.validate(self.botVersion, name: "botVersion", parent: name, min: 1)
+            try self.validate(self.botVersion, name: "botVersion", parent: name, pattern: "^(DRAFT|[0-9]+)$")
+            try self.filters.forEach {
+                try $0.validate(name: "\(name).filters[]")
+            }
+            try self.validate(self.filters, name: "filters", parent: name, max: 1)
+            try self.validate(self.filters, name: "filters", parent: name, min: 1)
+            try self.validate(self.maxResults, name: "maxResults", parent: name, max: 1000)
+            try self.validate(self.maxResults, name: "maxResults", parent: name, min: 1)
+            try self.validate(self.nextIndex, name: "nextIndex", parent: name, max: 10_000_000)
+            try self.validate(self.nextIndex, name: "nextIndex", parent: name, min: 0)
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case filters
+            case maxResults
+            case nextIndex
+            case searchOrder
+        }
+    }
+
+    public struct SearchAssociatedTranscriptsResponse: AWSDecodableShape {
+        /// The object that contains the associated transcript that meet the criteria you specified.
+        public let associatedTranscripts: [AssociatedTranscript]?
+        /// The unique identifier of the bot associated with the transcripts that you are searching.
+        public let botId: String?
+        ///  The unique identifier of the bot recommendation associated with the transcripts to search.
+        public let botRecommendationId: String?
+        /// The version of the bot containing the transcripts that you are searching.
+        public let botVersion: String?
+        /// The identifier of the language and locale of the transcripts to search. The string must match one of the supported locales. For more information, see Supported languages
+        public let localeId: String?
+        /// A index that indicates whether there are more results to return in a response to the SearchAssociatedTranscripts operation. If the nextIndex field is present, you send the contents as the nextIndex parameter of a SearchAssociatedTranscriptsRequest operation to get the next page of results.
+        public let nextIndex: Int?
+        /// The total number of transcripts returned by the search.
+        public let totalResults: Int?
+
+        public init(associatedTranscripts: [AssociatedTranscript]? = nil, botId: String? = nil, botRecommendationId: String? = nil, botVersion: String? = nil, localeId: String? = nil, nextIndex: Int? = nil, totalResults: Int? = nil) {
+            self.associatedTranscripts = associatedTranscripts
+            self.botId = botId
+            self.botRecommendationId = botRecommendationId
+            self.botVersion = botVersion
+            self.localeId = localeId
+            self.nextIndex = nextIndex
+            self.totalResults = totalResults
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case associatedTranscripts
+            case botId
+            case botRecommendationId
+            case botVersion
+            case localeId
+            case nextIndex
+            case totalResults
         }
     }
 
@@ -5523,6 +6252,19 @@ extension LexModelsV2 {
         }
     }
 
+    public struct SlotTypeStatistics: AWSDecodableShape {
+        /// The number of recommended slot types associated with the bot recommendation.
+        public let discoveredSlotTypeCount: Int?
+
+        public init(discoveredSlotTypeCount: Int? = nil) {
+            self.discoveredSlotTypeCount = discoveredSlotTypeCount
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case discoveredSlotTypeCount
+        }
+    }
+
     public struct SlotTypeSummary: AWSDecodableShape {
         /// The description of the slot type.
         public let description: String?
@@ -5530,15 +6272,18 @@ extension LexModelsV2 {
         public let lastUpdatedDateTime: Date?
         /// If the slot type is derived from a built-on slot type, the name of the parent slot type.
         public let parentSlotTypeSignature: String?
+        /// Indicates the type of the slot type.    Custom - A slot type that you created using custom values. For more information, see Creating custom slot types.    Extended - A slot type created by extending the AMAZON.AlphaNumeric built-in slot type. For more information, see AMAZON.AlphaNumeric.    ExternalGrammar - A slot type using a custom GRXML grammar to define values. For more information, see Using a custom grammar slot type.
+        public let slotTypeCategory: SlotTypeCategory?
         /// The unique identifier assigned to the slot type.
         public let slotTypeId: String?
         /// The name of the slot type.
         public let slotTypeName: String?
 
-        public init(description: String? = nil, lastUpdatedDateTime: Date? = nil, parentSlotTypeSignature: String? = nil, slotTypeId: String? = nil, slotTypeName: String? = nil) {
+        public init(description: String? = nil, lastUpdatedDateTime: Date? = nil, parentSlotTypeSignature: String? = nil, slotTypeCategory: SlotTypeCategory? = nil, slotTypeId: String? = nil, slotTypeName: String? = nil) {
             self.description = description
             self.lastUpdatedDateTime = lastUpdatedDateTime
             self.parentSlotTypeSignature = parentSlotTypeSignature
+            self.slotTypeCategory = slotTypeCategory
             self.slotTypeId = slotTypeId
             self.slotTypeName = slotTypeName
         }
@@ -5547,6 +6292,7 @@ extension LexModelsV2 {
             case description
             case lastUpdatedDateTime
             case parentSlotTypeSignature
+            case slotTypeCategory
             case slotTypeId
             case slotTypeName
         }
@@ -5648,6 +6394,90 @@ extension LexModelsV2 {
         private enum CodingKeys: String, CodingKey {
             case regexFilter
             case resolutionStrategy
+        }
+    }
+
+    public struct StartBotRecommendationRequest: AWSEncodableShape {
+        public static var _encoding = [
+            AWSMemberEncoding(label: "botId", location: .uri(locationName: "botId")),
+            AWSMemberEncoding(label: "botVersion", location: .uri(locationName: "botVersion")),
+            AWSMemberEncoding(label: "localeId", location: .uri(locationName: "localeId"))
+        ]
+
+        /// The unique identifier of the bot containing the bot recommendation.
+        public let botId: String
+        /// The version of the bot containing the bot recommendation.
+        public let botVersion: String
+        /// The object representing the passwords that will be used to encrypt the data related to the bot recommendation results, as well as the KMS key ARN used to encrypt the associated metadata.
+        public let encryptionSetting: EncryptionSetting?
+        /// The identifier of the language and locale of the bot recommendation to start. The string must match one of the supported locales. For more information, see Supported languages
+        public let localeId: String
+        /// The object representing the Amazon S3 bucket containing the transcript, as well as the associated metadata.
+        public let transcriptSourceSetting: TranscriptSourceSetting
+
+        public init(botId: String, botVersion: String, encryptionSetting: EncryptionSetting? = nil, localeId: String, transcriptSourceSetting: TranscriptSourceSetting) {
+            self.botId = botId
+            self.botVersion = botVersion
+            self.encryptionSetting = encryptionSetting
+            self.localeId = localeId
+            self.transcriptSourceSetting = transcriptSourceSetting
+        }
+
+        public func validate(name: String) throws {
+            try self.validate(self.botId, name: "botId", parent: name, max: 10)
+            try self.validate(self.botId, name: "botId", parent: name, min: 10)
+            try self.validate(self.botId, name: "botId", parent: name, pattern: "^[0-9a-zA-Z]+$")
+            try self.validate(self.botVersion, name: "botVersion", parent: name, max: 5)
+            try self.validate(self.botVersion, name: "botVersion", parent: name, min: 5)
+            try self.validate(self.botVersion, name: "botVersion", parent: name, pattern: "^DRAFT$")
+            try self.encryptionSetting?.validate(name: "\(name).encryptionSetting")
+            try self.transcriptSourceSetting.validate(name: "\(name).transcriptSourceSetting")
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case encryptionSetting
+            case transcriptSourceSetting
+        }
+    }
+
+    public struct StartBotRecommendationResponse: AWSDecodableShape {
+        /// The unique identifier of the bot containing the bot recommendation.
+        public let botId: String?
+        /// The identifier of the bot recommendation that you have created.
+        public let botRecommendationId: String?
+        /// The status of the bot recommendation. If the status is Failed, then the reasons for the failure are listed in the failureReasons field.
+        public let botRecommendationStatus: BotRecommendationStatus?
+        /// The version of the bot containing the bot recommendation.
+        public let botVersion: String?
+        /// A timestamp of the date and time that the bot recommendation was created.
+        public let creationDateTime: Date?
+        /// The object representing the passwords that were used to encrypt the data related to the bot recommendation results, as well as the KMS key ARN used to encrypt the associated metadata.
+        public let encryptionSetting: EncryptionSetting?
+        /// The identifier of the language and locale of the bot recommendation to start. The string must match one of the supported locales. For more information, see Supported languages
+        public let localeId: String?
+        /// The object representing the Amazon S3 bucket containing the transcript, as well as the associated metadata.
+        public let transcriptSourceSetting: TranscriptSourceSetting?
+
+        public init(botId: String? = nil, botRecommendationId: String? = nil, botRecommendationStatus: BotRecommendationStatus? = nil, botVersion: String? = nil, creationDateTime: Date? = nil, encryptionSetting: EncryptionSetting? = nil, localeId: String? = nil, transcriptSourceSetting: TranscriptSourceSetting? = nil) {
+            self.botId = botId
+            self.botRecommendationId = botRecommendationId
+            self.botRecommendationStatus = botRecommendationStatus
+            self.botVersion = botVersion
+            self.creationDateTime = creationDateTime
+            self.encryptionSetting = encryptionSetting
+            self.localeId = localeId
+            self.transcriptSourceSetting = transcriptSourceSetting
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case botId
+            case botRecommendationId
+            case botRecommendationStatus
+            case botVersion
+            case creationDateTime
+            case encryptionSetting
+            case localeId
+            case transcriptSourceSetting
         }
     }
 
@@ -5820,6 +6650,36 @@ extension LexModelsV2 {
         private enum CodingKeys: String, CodingKey {
             case destination
             case enabled
+        }
+    }
+
+    public struct TranscriptFilter: AWSEncodableShape & AWSDecodableShape {
+        /// The object representing the filter that Amazon Lex will use to select the appropriate transcript when the transcript format is the Amazon Lex format.
+        public let lexTranscriptFilter: LexTranscriptFilter?
+
+        public init(lexTranscriptFilter: LexTranscriptFilter? = nil) {
+            self.lexTranscriptFilter = lexTranscriptFilter
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case lexTranscriptFilter
+        }
+    }
+
+    public struct TranscriptSourceSetting: AWSEncodableShape & AWSDecodableShape {
+        /// Indicates the setting of the Amazon S3 bucket where the transcript is stored.
+        public let s3BucketTranscriptSource: S3BucketTranscriptSource?
+
+        public init(s3BucketTranscriptSource: S3BucketTranscriptSource? = nil) {
+            self.s3BucketTranscriptSource = s3BucketTranscriptSource
+        }
+
+        public func validate(name: String) throws {
+            try self.s3BucketTranscriptSource?.validate(name: "\(name).s3BucketTranscriptSource")
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case s3BucketTranscriptSource
         }
     }
 
@@ -6043,10 +6903,12 @@ extension LexModelsV2 {
         public let localeName: String?
         /// The updated confidence threshold for inserting the AMAZON.FallbackIntent and AMAZON.KendraSearchIntent intents in the list of possible intents for an utterance.
         public let nluIntentConfidenceThreshold: Double?
+        /// Recommended actions to take to resolve an error in the failureReasons field.
+        public let recommendedActions: [String]?
         /// The updated Amazon Polly voice to use for voice interaction with the user.
         public let voiceSettings: VoiceSettings?
 
-        public init(botId: String? = nil, botLocaleStatus: BotLocaleStatus? = nil, botVersion: String? = nil, creationDateTime: Date? = nil, description: String? = nil, failureReasons: [String]? = nil, lastUpdatedDateTime: Date? = nil, localeId: String? = nil, localeName: String? = nil, nluIntentConfidenceThreshold: Double? = nil, voiceSettings: VoiceSettings? = nil) {
+        public init(botId: String? = nil, botLocaleStatus: BotLocaleStatus? = nil, botVersion: String? = nil, creationDateTime: Date? = nil, description: String? = nil, failureReasons: [String]? = nil, lastUpdatedDateTime: Date? = nil, localeId: String? = nil, localeName: String? = nil, nluIntentConfidenceThreshold: Double? = nil, recommendedActions: [String]? = nil, voiceSettings: VoiceSettings? = nil) {
             self.botId = botId
             self.botLocaleStatus = botLocaleStatus
             self.botVersion = botVersion
@@ -6057,6 +6919,7 @@ extension LexModelsV2 {
             self.localeId = localeId
             self.localeName = localeName
             self.nluIntentConfidenceThreshold = nluIntentConfidenceThreshold
+            self.recommendedActions = recommendedActions
             self.voiceSettings = voiceSettings
         }
 
@@ -6071,7 +6934,98 @@ extension LexModelsV2 {
             case localeId
             case localeName
             case nluIntentConfidenceThreshold
+            case recommendedActions
             case voiceSettings
+        }
+    }
+
+    public struct UpdateBotRecommendationRequest: AWSEncodableShape {
+        public static var _encoding = [
+            AWSMemberEncoding(label: "botId", location: .uri(locationName: "botId")),
+            AWSMemberEncoding(label: "botRecommendationId", location: .uri(locationName: "botRecommendationId")),
+            AWSMemberEncoding(label: "botVersion", location: .uri(locationName: "botVersion")),
+            AWSMemberEncoding(label: "localeId", location: .uri(locationName: "localeId"))
+        ]
+
+        /// The unique identifier of the bot containing the bot recommendation to be updated.
+        public let botId: String
+        /// The unique identifier of the bot recommendation to be updated.
+        public let botRecommendationId: String
+        /// The version of the bot containing the bot recommendation to be updated.
+        public let botVersion: String
+        /// The object representing the passwords that will be used to encrypt the data related to the bot recommendation results, as well as the KMS key ARN used to encrypt the associated metadata.
+        public let encryptionSetting: EncryptionSetting
+        /// The identifier of the language and locale of the bot recommendation to update. The string must match one of the supported locales. For more information, see Supported languages
+        public let localeId: String
+
+        public init(botId: String, botRecommendationId: String, botVersion: String, encryptionSetting: EncryptionSetting, localeId: String) {
+            self.botId = botId
+            self.botRecommendationId = botRecommendationId
+            self.botVersion = botVersion
+            self.encryptionSetting = encryptionSetting
+            self.localeId = localeId
+        }
+
+        public func validate(name: String) throws {
+            try self.validate(self.botId, name: "botId", parent: name, max: 10)
+            try self.validate(self.botId, name: "botId", parent: name, min: 10)
+            try self.validate(self.botId, name: "botId", parent: name, pattern: "^[0-9a-zA-Z]+$")
+            try self.validate(self.botRecommendationId, name: "botRecommendationId", parent: name, max: 10)
+            try self.validate(self.botRecommendationId, name: "botRecommendationId", parent: name, min: 10)
+            try self.validate(self.botRecommendationId, name: "botRecommendationId", parent: name, pattern: "^[0-9a-zA-Z]+$")
+            try self.validate(self.botVersion, name: "botVersion", parent: name, max: 5)
+            try self.validate(self.botVersion, name: "botVersion", parent: name, min: 5)
+            try self.validate(self.botVersion, name: "botVersion", parent: name, pattern: "^DRAFT$")
+            try self.encryptionSetting.validate(name: "\(name).encryptionSetting")
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case encryptionSetting
+        }
+    }
+
+    public struct UpdateBotRecommendationResponse: AWSDecodableShape {
+        /// The unique identifier of the bot containing the bot recommendation that has been updated.
+        public let botId: String?
+        /// The unique identifier of the bot recommendation to be updated.
+        public let botRecommendationId: String?
+        /// The status of the bot recommendation. If the status is Failed, then the reasons for the failure are listed in the failureReasons field.
+        public let botRecommendationStatus: BotRecommendationStatus?
+        /// The version of the bot containing the bot recommendation that has been updated.
+        public let botVersion: String?
+        /// A timestamp of the date and time that the bot recommendation was created.
+        public let creationDateTime: Date?
+        /// The object representing the passwords that were used to encrypt the data related to the bot recommendation results, as well as the KMS key ARN used to encrypt the associated metadata.
+        public let encryptionSetting: EncryptionSetting?
+        /// A timestamp of the date and time that the bot recommendation was last updated.
+        public let lastUpdatedDateTime: Date?
+        /// The identifier of the language and locale of the bot recommendation to update. The string must match one of the supported locales. For more information, see Supported languages
+        public let localeId: String?
+        /// The object representing the Amazon S3 bucket containing the transcript, as well as the associated metadata.
+        public let transcriptSourceSetting: TranscriptSourceSetting?
+
+        public init(botId: String? = nil, botRecommendationId: String? = nil, botRecommendationStatus: BotRecommendationStatus? = nil, botVersion: String? = nil, creationDateTime: Date? = nil, encryptionSetting: EncryptionSetting? = nil, lastUpdatedDateTime: Date? = nil, localeId: String? = nil, transcriptSourceSetting: TranscriptSourceSetting? = nil) {
+            self.botId = botId
+            self.botRecommendationId = botRecommendationId
+            self.botRecommendationStatus = botRecommendationStatus
+            self.botVersion = botVersion
+            self.creationDateTime = creationDateTime
+            self.encryptionSetting = encryptionSetting
+            self.lastUpdatedDateTime = lastUpdatedDateTime
+            self.localeId = localeId
+            self.transcriptSourceSetting = transcriptSourceSetting
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case botId
+            case botRecommendationId
+            case botRecommendationStatus
+            case botVersion
+            case creationDateTime
+            case encryptionSetting
+            case lastUpdatedDateTime
+            case localeId
+            case transcriptSourceSetting
         }
     }
 
@@ -6629,6 +7583,7 @@ extension LexModelsV2 {
         public let botVersion: String
         /// The new description of the slot type.
         public let description: String?
+        public let externalSourceSetting: ExternalSourceSetting?
         /// The identifier of the language and locale that contains the slot type. The string must match one of the supported locales. For more information, see Supported languages.
         public let localeId: String
         /// The new built-in slot type that should be used as the parent of this slot type.
@@ -6640,12 +7595,13 @@ extension LexModelsV2 {
         /// A new list of values and their optional synonyms that define the values that the slot type can take.
         public let slotTypeValues: [SlotTypeValue]?
         /// The strategy that Amazon Lex should use when deciding on a value from the list of slot type values.
-        public let valueSelectionSetting: SlotValueSelectionSetting
+        public let valueSelectionSetting: SlotValueSelectionSetting?
 
-        public init(botId: String, botVersion: String, description: String? = nil, localeId: String, parentSlotTypeSignature: String? = nil, slotTypeId: String, slotTypeName: String, slotTypeValues: [SlotTypeValue]? = nil, valueSelectionSetting: SlotValueSelectionSetting) {
+        public init(botId: String, botVersion: String, description: String? = nil, externalSourceSetting: ExternalSourceSetting? = nil, localeId: String, parentSlotTypeSignature: String? = nil, slotTypeId: String, slotTypeName: String, slotTypeValues: [SlotTypeValue]? = nil, valueSelectionSetting: SlotValueSelectionSetting? = nil) {
             self.botId = botId
             self.botVersion = botVersion
             self.description = description
+            self.externalSourceSetting = externalSourceSetting
             self.localeId = localeId
             self.parentSlotTypeSignature = parentSlotTypeSignature
             self.slotTypeId = slotTypeId
@@ -6663,6 +7619,7 @@ extension LexModelsV2 {
             try self.validate(self.botVersion, name: "botVersion", parent: name, pattern: "^DRAFT$")
             try self.validate(self.description, name: "description", parent: name, max: 200)
             try self.validate(self.description, name: "description", parent: name, min: 0)
+            try self.externalSourceSetting?.validate(name: "\(name).externalSourceSetting")
             try self.validate(self.slotTypeId, name: "slotTypeId", parent: name, max: 10)
             try self.validate(self.slotTypeId, name: "slotTypeId", parent: name, min: 10)
             try self.validate(self.slotTypeId, name: "slotTypeId", parent: name, pattern: "^[0-9a-zA-Z]+$")
@@ -6674,11 +7631,12 @@ extension LexModelsV2 {
             }
             try self.validate(self.slotTypeValues, name: "slotTypeValues", parent: name, max: 10000)
             try self.validate(self.slotTypeValues, name: "slotTypeValues", parent: name, min: 1)
-            try self.valueSelectionSetting.validate(name: "\(name).valueSelectionSetting")
+            try self.valueSelectionSetting?.validate(name: "\(name).valueSelectionSetting")
         }
 
         private enum CodingKeys: String, CodingKey {
             case description
+            case externalSourceSetting
             case parentSlotTypeSignature
             case slotTypeName
             case slotTypeValues
@@ -6695,6 +7653,7 @@ extension LexModelsV2 {
         public let creationDateTime: Date?
         /// The updated description of the slot type.
         public let description: String?
+        public let externalSourceSetting: ExternalSourceSetting?
         /// A timestamp of the date and time that the slot type was last updated.
         public let lastUpdatedDateTime: Date?
         /// The language and locale of the updated slot type.
@@ -6710,11 +7669,12 @@ extension LexModelsV2 {
         /// The updated strategy that Amazon Lex uses to determine which value to select from the slot type.
         public let valueSelectionSetting: SlotValueSelectionSetting?
 
-        public init(botId: String? = nil, botVersion: String? = nil, creationDateTime: Date? = nil, description: String? = nil, lastUpdatedDateTime: Date? = nil, localeId: String? = nil, parentSlotTypeSignature: String? = nil, slotTypeId: String? = nil, slotTypeName: String? = nil, slotTypeValues: [SlotTypeValue]? = nil, valueSelectionSetting: SlotValueSelectionSetting? = nil) {
+        public init(botId: String? = nil, botVersion: String? = nil, creationDateTime: Date? = nil, description: String? = nil, externalSourceSetting: ExternalSourceSetting? = nil, lastUpdatedDateTime: Date? = nil, localeId: String? = nil, parentSlotTypeSignature: String? = nil, slotTypeId: String? = nil, slotTypeName: String? = nil, slotTypeValues: [SlotTypeValue]? = nil, valueSelectionSetting: SlotValueSelectionSetting? = nil) {
             self.botId = botId
             self.botVersion = botVersion
             self.creationDateTime = creationDateTime
             self.description = description
+            self.externalSourceSetting = externalSourceSetting
             self.lastUpdatedDateTime = lastUpdatedDateTime
             self.localeId = localeId
             self.parentSlotTypeSignature = parentSlotTypeSignature
@@ -6729,6 +7689,7 @@ extension LexModelsV2 {
             case botVersion
             case creationDateTime
             case description
+            case externalSourceSetting
             case lastUpdatedDateTime
             case localeId
             case parentSlotTypeSignature
@@ -6757,7 +7718,7 @@ extension LexModelsV2 {
     }
 
     public struct VoiceSettings: AWSEncodableShape & AWSDecodableShape {
-        /// Indicates the type of Amazon Polly voice that Amazon Lex should use for voice interaction with the user. For more information, see Voices in Amazon Polly.
+        /// Indicates the type of Amazon Polly voice that Amazon Lex should use for voice interaction with the user. For more information, see the  engine parameter of the SynthesizeSpeech operation in the Amazon Polly developer guide. If you do not specify a value, the default is standard.
         public let engine: VoiceEngine?
         /// The identifier of the Amazon Polly voice to use.
         public let voiceId: String

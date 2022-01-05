@@ -48,6 +48,13 @@ extension QLDB {
         public var description: String { return self.rawValue }
     }
 
+    public enum OutputFormat: String, CustomStringConvertible, Codable {
+        case ionBinary = "ION_BINARY"
+        case ionText = "ION_TEXT"
+        case json = "JSON"
+        public var description: String { return self.rawValue }
+    }
+
     public enum PermissionsMode: String, CustomStringConvertible, Codable {
         case allowAll = "ALLOW_ALL"
         case standard = "STANDARD"
@@ -116,9 +123,9 @@ extension QLDB {
     public struct CreateLedgerRequest: AWSEncodableShape {
         /// The flag that prevents a ledger from being deleted by any user. If not provided on ledger creation, this feature is enabled (true) by default. If deletion protection is enabled, you must first disable it before you can delete the ledger. You can disable it by calling the UpdateLedger operation to set the flag to false.
         public let deletionProtection: Bool?
-        /// The key in Key Management Service (KMS) to use for encryption of data at rest in the ledger. For more information, see Encryption at rest in the Amazon QLDB Developer Guide. Use one of the following options to specify this parameter:    AWS_OWNED_KMS_KEY: Use an KMS key that is owned and managed by Amazon Web Services on your behalf.    Undefined: By default, use an Amazon Web Services owned KMS key.    A valid symmetric customer managed KMS key: Use the specified KMS key in your account that you create, own, and manage. Amazon QLDB does not support asymmetric keys. For more information, see Using symmetric and asymmetric keys in the Key Management Service Developer Guide.   To specify a customer managed KMS key, you can use its key ID, Amazon Resource Name (ARN), alias name, or alias ARN. When using an alias name, prefix it with "alias/". To specify a key in a different account, you must use the key ARN or alias ARN. For example:   Key ID: 1234abcd-12ab-34cd-56ef-1234567890ab    Key ARN: arn:aws:kms:us-east-2:111122223333:key/1234abcd-12ab-34cd-56ef-1234567890ab    Alias name: alias/ExampleAlias    Alias ARN: arn:aws:kms:us-east-2:111122223333:alias/ExampleAlias    For more information, see Key identifiers (KeyId) in the Key Management Service Developer Guide.
+        /// The key in Key Management Service (KMS) to use for encryption of data at rest in the ledger. For more information, see Encryption at rest in the Amazon QLDB Developer Guide. Use one of the following options to specify this parameter:    AWS_OWNED_KMS_KEY: Use an KMS key that is owned and managed by Amazon Web Services on your behalf.    Undefined: By default, use an Amazon Web Services owned KMS key.    A valid symmetric customer managed KMS key: Use the specified KMS key in your account that you create, own, and manage. Amazon QLDB does not support asymmetric keys. For more information, see Using symmetric and asymmetric keys in the Key Management Service Developer Guide.   To specify a customer managed KMS key, you can use its key ID, Amazon Resource Name (ARN), alias name, or alias ARN. When using an alias name, prefix it with "alias/". To specify a key in a different Amazon Web Services account, you must use the key ARN or alias ARN. For example:   Key ID: 1234abcd-12ab-34cd-56ef-1234567890ab    Key ARN: arn:aws:kms:us-east-2:111122223333:key/1234abcd-12ab-34cd-56ef-1234567890ab    Alias name: alias/ExampleAlias    Alias ARN: arn:aws:kms:us-east-2:111122223333:alias/ExampleAlias    For more information, see Key identifiers (KeyId) in the Key Management Service Developer Guide.
         public let kmsKey: String?
-        /// The name of the ledger that you want to create. The name must be unique among all of the ledgers in your account in the current Region. Naming constraints for ledger names are defined in Quotas in Amazon QLDB in the Amazon QLDB Developer Guide.
+        /// The name of the ledger that you want to create. The name must be unique among all of the ledgers in your Amazon Web Services account in the current Region. Naming constraints for ledger names are defined in Quotas in Amazon QLDB in the Amazon QLDB Developer Guide.
         public let name: String
         /// The permissions mode to assign to the ledger that you want to create. This parameter can have one of the following values:    ALLOW_ALL: A legacy permissions mode that enables access control with API-level granularity for ledgers. This mode allows users who have the SendCommand API permission for this ledger to run all PartiQL commands (hence, ALLOW_ALL) on any tables in the specified ledger. This mode disregards any table-level or command-level IAM permissions policies that you create for the ledger.    STANDARD: (Recommended) A permissions mode that enables access control with finer granularity for ledgers, tables, and PartiQL commands. By default, this mode denies all user requests to run any PartiQL commands on any tables in this ledger. To allow PartiQL commands to run, you must create IAM permissions policies for specific table resources and PartiQL actions, in addition to the SendCommand API permission for the ledger. For information, see Getting started with the standard permissions mode in the Amazon QLDB Developer Guide.    We strongly recommend using the STANDARD permissions mode to maximize the security of your ledger data.
         public let permissionsMode: PermissionsMode
@@ -364,15 +371,18 @@ extension QLDB {
         public let inclusiveStartTime: Date
         /// The name of the ledger.
         public let name: String
-        /// The Amazon Resource Name (ARN) of the IAM role that grants QLDB permissions for a journal export job to do the following:   Write objects into your Amazon Simple Storage Service (Amazon S3) bucket.   (Optional) Use your customer master key (CMK) in Key Management Service (KMS) for server-side encryption of your exported data.
+        /// The output format of your exported journal data. If this parameter is not specified, the exported data defaults to ION_TEXT format.
+        public let outputFormat: OutputFormat?
+        /// The Amazon Resource Name (ARN) of the IAM role that grants QLDB permissions for a journal export job to do the following:   Write objects into your Amazon Simple Storage Service (Amazon S3) bucket.   (Optional) Use your customer managed key in Key Management Service (KMS) for server-side encryption of your exported data.   To pass a role to QLDB when requesting a journal export, you must have permissions to perform the iam:PassRole action on the IAM role resource. This is required for all journal export requests.
         public let roleArn: String
         /// The configuration settings of the Amazon S3 bucket destination for your export request.
         public let s3ExportConfiguration: S3ExportConfiguration
 
-        public init(exclusiveEndTime: Date, inclusiveStartTime: Date, name: String, roleArn: String, s3ExportConfiguration: S3ExportConfiguration) {
+        public init(exclusiveEndTime: Date, inclusiveStartTime: Date, name: String, outputFormat: OutputFormat? = nil, roleArn: String, s3ExportConfiguration: S3ExportConfiguration) {
             self.exclusiveEndTime = exclusiveEndTime
             self.inclusiveStartTime = inclusiveStartTime
             self.name = name
+            self.outputFormat = outputFormat
             self.roleArn = roleArn
             self.s3ExportConfiguration = s3ExportConfiguration
         }
@@ -389,6 +399,7 @@ extension QLDB {
         private enum CodingKeys: String, CodingKey {
             case exclusiveEndTime = "ExclusiveEndTime"
             case inclusiveStartTime = "InclusiveStartTime"
+            case outputFormat = "OutputFormat"
             case roleArn = "RoleArn"
             case s3ExportConfiguration = "S3ExportConfiguration"
         }
@@ -604,28 +615,31 @@ extension QLDB {
     }
 
     public struct JournalS3ExportDescription: AWSDecodableShape {
-        /// The exclusive end date and time for the range of journal contents that are specified in the original export request.
+        /// The exclusive end date and time for the range of journal contents that was specified in the original export request.
         public let exclusiveEndTime: Date
         /// The date and time, in epoch time format, when the export job was created. (Epoch time format is the number of seconds elapsed since 12:00:00 AM January 1, 1970 UTC.)
         public let exportCreationTime: Date
         /// The UUID (represented in Base62-encoded text) of the journal export job.
         public let exportId: String
-        /// The inclusive start date and time for the range of journal contents that are specified in the original export request.
+        /// The inclusive start date and time for the range of journal contents that was specified in the original export request.
         public let inclusiveStartTime: Date
         /// The name of the ledger.
         public let ledgerName: String
-        /// The Amazon Resource Name (ARN) of the IAM role that grants QLDB permissions for a journal export job to do the following:   Write objects into your Amazon Simple Storage Service (Amazon S3) bucket.   (Optional) Use your customer master key (CMK) in Key Management Service (KMS) for server-side encryption of your exported data.
+        /// The output format of the exported journal data.
+        public let outputFormat: OutputFormat?
+        /// The Amazon Resource Name (ARN) of the IAM role that grants QLDB permissions for a journal export job to do the following:   Write objects into your Amazon Simple Storage Service (Amazon S3) bucket.   (Optional) Use your customer managed key in Key Management Service (KMS) for server-side encryption of your exported data.
         public let roleArn: String
         public let s3ExportConfiguration: S3ExportConfiguration
         /// The current state of the journal export job.
         public let status: ExportStatus
 
-        public init(exclusiveEndTime: Date, exportCreationTime: Date, exportId: String, inclusiveStartTime: Date, ledgerName: String, roleArn: String, s3ExportConfiguration: S3ExportConfiguration, status: ExportStatus) {
+        public init(exclusiveEndTime: Date, exportCreationTime: Date, exportId: String, inclusiveStartTime: Date, ledgerName: String, outputFormat: OutputFormat? = nil, roleArn: String, s3ExportConfiguration: S3ExportConfiguration, status: ExportStatus) {
             self.exclusiveEndTime = exclusiveEndTime
             self.exportCreationTime = exportCreationTime
             self.exportId = exportId
             self.inclusiveStartTime = inclusiveStartTime
             self.ledgerName = ledgerName
+            self.outputFormat = outputFormat
             self.roleArn = roleArn
             self.s3ExportConfiguration = s3ExportConfiguration
             self.status = status
@@ -637,6 +651,7 @@ extension QLDB {
             case exportId = "ExportId"
             case inclusiveStartTime = "InclusiveStartTime"
             case ledgerName = "LedgerName"
+            case outputFormat = "OutputFormat"
             case roleArn = "RoleArn"
             case s3ExportConfiguration = "S3ExportConfiguration"
             case status = "Status"
@@ -837,7 +852,7 @@ extension QLDB {
     }
 
     public struct ListJournalS3ExportsResponse: AWSDecodableShape {
-        /// The array of journal export job descriptions for all ledgers that are associated with the current account and Region.
+        /// The array of journal export job descriptions for all ledgers that are associated with the current Amazon Web Services account and Region.
         public let journalS3Exports: [JournalS3ExportDescription]?
         ///   If NextToken is empty, then the last page of results has been processed and there are no more results to be retrieved.   If NextToken is not empty, then there are more results available. To retrieve the next page of results, use the value of NextToken in a subsequent ListJournalS3Exports call.
         public let nextToken: String?
@@ -881,7 +896,7 @@ extension QLDB {
     }
 
     public struct ListLedgersResponse: AWSDecodableShape {
-        /// The array of ledger summaries that are associated with the current account and Region.
+        /// The array of ledger summaries that are associated with the current Amazon Web Services account and Region.
         public let ledgers: [LedgerSummary]?
         /// A pagination token, indicating whether there are more results available:   If NextToken is empty, then the last page of results has been processed and there are no more results to be retrieved.   If NextToken is not empty, then there are more results available. To retrieve the next page of results, use the value of NextToken in a subsequent ListLedgers call.
         public let nextToken: String?
@@ -931,7 +946,7 @@ extension QLDB {
     }
 
     public struct S3EncryptionConfiguration: AWSEncodableShape & AWSDecodableShape {
-        /// The Amazon Resource Name (ARN) of a symmetric customer master key (CMK) in Key Management Service (KMS). Amazon S3 does not support asymmetric CMKs. You must provide a KmsKeyArn if you specify SSE_KMS as the ObjectEncryptionType.  KmsKeyArn is not required if you specify SSE_S3 as the ObjectEncryptionType.
+        /// The Amazon Resource Name (ARN) of a symmetric key in Key Management Service (KMS). Amazon S3 does not support asymmetric KMS keys. You must provide a KmsKeyArn if you specify SSE_KMS as the ObjectEncryptionType.  KmsKeyArn is not required if you specify SSE_S3 as the ObjectEncryptionType.
         public let kmsKeyArn: String?
         /// The Amazon S3 object encryption type. To learn more about server-side encryption options in Amazon S3, see Protecting Data Using Server-Side Encryption in the Amazon S3 Developer Guide.
         public let objectEncryptionType: S3ObjectEncryptionType
@@ -995,7 +1010,7 @@ extension QLDB {
         public let kinesisConfiguration: KinesisConfiguration
         /// The name of the ledger.
         public let ledgerName: String
-        /// The Amazon Resource Name (ARN) of the IAM role that grants QLDB permissions for a journal stream to write data records to a Kinesis Data Streams resource.
+        /// The Amazon Resource Name (ARN) of the IAM role that grants QLDB permissions for a journal stream to write data records to a Kinesis Data Streams resource. To pass a role to QLDB when requesting a journal stream, you must have permissions to perform the iam:PassRole action on the IAM role resource. This is required for all journal stream requests.
         public let roleArn: String
         /// The name that you want to assign to the QLDB journal stream. User-defined names can help identify and indicate the purpose of a stream. Your stream name must be unique among other active streams for a given ledger. Stream names have the same naming constraints as ledger names, as defined in Quotas in Amazon QLDB in the Amazon QLDB Developer Guide.
         public let streamName: String
@@ -1176,7 +1191,7 @@ extension QLDB {
 
         /// The flag that prevents a ledger from being deleted by any user. If not provided on ledger creation, this feature is enabled (true) by default. If deletion protection is enabled, you must first disable it before you can delete the ledger. You can disable it by calling the UpdateLedger operation to set the flag to false.
         public let deletionProtection: Bool?
-        /// The key in Key Management Service (KMS) to use for encryption of data at rest in the ledger. For more information, see Encryption at rest in the Amazon QLDB Developer Guide. Use one of the following options to specify this parameter:    AWS_OWNED_KMS_KEY: Use an KMS key that is owned and managed by Amazon Web Services on your behalf.    Undefined: Make no changes to the KMS key of the ledger.    A valid symmetric customer managed KMS key: Use the specified KMS key in your account that you create, own, and manage. Amazon QLDB does not support asymmetric keys. For more information, see Using symmetric and asymmetric keys in the Key Management Service Developer Guide.   To specify a customer managed KMS key, you can use its key ID, Amazon Resource Name (ARN), alias name, or alias ARN. When using an alias name, prefix it with "alias/". To specify a key in a different account, you must use the key ARN or alias ARN. For example:   Key ID: 1234abcd-12ab-34cd-56ef-1234567890ab    Key ARN: arn:aws:kms:us-east-2:111122223333:key/1234abcd-12ab-34cd-56ef-1234567890ab    Alias name: alias/ExampleAlias    Alias ARN: arn:aws:kms:us-east-2:111122223333:alias/ExampleAlias    For more information, see Key identifiers (KeyId) in the Key Management Service Developer Guide.
+        /// The key in Key Management Service (KMS) to use for encryption of data at rest in the ledger. For more information, see Encryption at rest in the Amazon QLDB Developer Guide. Use one of the following options to specify this parameter:    AWS_OWNED_KMS_KEY: Use an KMS key that is owned and managed by Amazon Web Services on your behalf.    Undefined: Make no changes to the KMS key of the ledger.    A valid symmetric customer managed KMS key: Use the specified KMS key in your account that you create, own, and manage. Amazon QLDB does not support asymmetric keys. For more information, see Using symmetric and asymmetric keys in the Key Management Service Developer Guide.   To specify a customer managed KMS key, you can use its key ID, Amazon Resource Name (ARN), alias name, or alias ARN. When using an alias name, prefix it with "alias/". To specify a key in a different Amazon Web Services account, you must use the key ARN or alias ARN. For example:   Key ID: 1234abcd-12ab-34cd-56ef-1234567890ab    Key ARN: arn:aws:kms:us-east-2:111122223333:key/1234abcd-12ab-34cd-56ef-1234567890ab    Alias name: alias/ExampleAlias    Alias ARN: arn:aws:kms:us-east-2:111122223333:alias/ExampleAlias    For more information, see Key identifiers (KeyId) in the Key Management Service Developer Guide.
         public let kmsKey: String?
         /// The name of the ledger.
         public let name: String

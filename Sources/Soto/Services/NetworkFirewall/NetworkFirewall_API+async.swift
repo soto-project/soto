@@ -18,7 +18,7 @@
 
 import SotoCore
 
-@available(macOS 12.0, iOS 15.0, watchOS 8.0, tvOS 15.0, *)
+@available(macOS 10.15, iOS 13.0, tvOS 13.0, watchOS 6.0, *)
 extension NetworkFirewall {
     // MARK: Async API Calls
 
@@ -92,6 +92,11 @@ extension NetworkFirewall {
         return try await self.client.execute(operation: "DescribeRuleGroup", path: "/", httpMethod: .POST, serviceConfig: self.config, input: input, logger: logger, on: eventLoop)
     }
 
+    /// High-level information about a rule group, returned by operations like create and describe. You can use the information provided in the metadata to retrieve and manage a rule group. You can retrieve all objects for a rule group by calling DescribeRuleGroup.
+    public func describeRuleGroupMetadata(_ input: DescribeRuleGroupMetadataRequest, logger: Logger = AWSClient.loggingDisabled, on eventLoop: EventLoop? = nil) async throws -> DescribeRuleGroupMetadataResponse {
+        return try await self.client.execute(operation: "DescribeRuleGroupMetadata", path: "/", httpMethod: .POST, serviceConfig: self.config, input: input, logger: logger, on: eventLoop)
+    }
+
     /// Removes the specified subnet associations from the firewall. This removes the firewall endpoints from the subnets and removes any network filtering protections that the endpoints were providing.
     public func disassociateSubnets(_ input: DisassociateSubnetsRequest, logger: Logger = AWSClient.loggingDisabled, on eventLoop: EventLoop? = nil) async throws -> DisassociateSubnetsResponse {
         return try await self.client.execute(operation: "DisassociateSubnets", path: "/", httpMethod: .POST, serviceConfig: self.config, input: input, logger: logger, on: eventLoop)
@@ -147,6 +152,7 @@ extension NetworkFirewall {
         return try await self.client.execute(operation: "UpdateFirewallPolicy", path: "/", httpMethod: .POST, serviceConfig: self.config, input: input, logger: logger, on: eventLoop)
     }
 
+    /// Modifies the flag, ChangeProtection, which indicates whether it is possible to change the firewall. If the flag is set to TRUE, the firewall is protected from changes. This setting helps protect against accidentally changing a firewall that's in use.
     public func updateFirewallPolicyChangeProtection(_ input: UpdateFirewallPolicyChangeProtectionRequest, logger: Logger = AWSClient.loggingDisabled, on eventLoop: EventLoop? = nil) async throws -> UpdateFirewallPolicyChangeProtectionResponse {
         return try await self.client.execute(operation: "UpdateFirewallPolicyChangeProtection", path: "/", httpMethod: .POST, serviceConfig: self.config, input: input, logger: logger, on: eventLoop)
     }
