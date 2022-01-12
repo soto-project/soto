@@ -20,7 +20,7 @@ import SotoCore
 
 // MARK: Paginators
 
-@available(macOS 10.15, iOS 13.0, tvOS 13.0, watchOS 6.0, *)
+@available(macOS 12.0, iOS 15.0, watchOS 8.0, tvOS 15.0, *)
 extension NetworkManager {
     ///  Describes one or more global networks. By default, all global networks are described. To describe the objects in your global network, you must use the appropriate Get* action. For example, to list the transit gateways in your global network, use GetTransitGatewayRegistrations.
     /// Return PaginatorSequence for operation.

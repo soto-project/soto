@@ -20,7 +20,7 @@ import SotoCore
 
 // MARK: Paginators
 
-@available(macOS 10.15, iOS 13.0, tvOS 13.0, watchOS 6.0, *)
+@available(macOS 12.0, iOS 15.0, watchOS 8.0, tvOS 15.0, *)
 extension IoTDataPlane {
     ///  Lists summary information about the retained messages stored for the account. This action returns only the topic names of the retained messages. It doesn't return any message payloads. Although this action doesn't return a message payload, it can still incur messaging costs. To get the message payload of a retained message, call GetRetainedMessage with the topic name of the retained message. Requires permission to access the ListRetainedMessages action. For more information about messaging costs, see IoT Core pricing - Messaging.
     /// Return PaginatorSequence for operation.
