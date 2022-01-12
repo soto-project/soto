@@ -20,7 +20,7 @@ import SotoCore
 
 // MARK: Paginators
 
-@available(macOS 10.15, iOS 13.0, tvOS 13.0, watchOS 6.0, *)
+@available(macOS 12.0, iOS 15.0, watchOS 8.0, tvOS 15.0, *)
 extension Route53 {
     ///  Retrieve a list of the health checks that are associated with the current Amazon Web Services account.
     /// Return PaginatorSequence for operation.

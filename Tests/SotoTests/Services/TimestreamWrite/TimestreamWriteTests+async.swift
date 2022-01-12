@@ -96,7 +96,7 @@ class TimestreamWriteAsyncTests: XCTestCase {
                     time: "\(Int(Date().timeIntervalSince1970))",
                     timeUnit: .seconds
                 )
-                try await self.ts.writeRecords(.init(databaseName: name, records: [record], tableName: tableName))
+                _ = try await self.ts.writeRecords(.init(databaseName: name, records: [record], tableName: tableName))
                 try await self.ts.deleteTable(.init(databaseName: name, tableName: tableName))
             } catch {
                 XCTFail("\(error)")

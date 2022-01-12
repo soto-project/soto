@@ -20,7 +20,7 @@ import SotoCore
 
 // MARK: Paginators
 
-@available(macOS 10.15, iOS 13.0, tvOS 13.0, watchOS 6.0, *)
+@available(macOS 12.0, iOS 15.0, watchOS 8.0, tvOS 15.0, *)
 extension CloudWatchRUM {
     ///  Retrieves the raw performance events that RUM has collected from your web application, so that you can do your own processing or analysis of this data.
     /// Return PaginatorSequence for operation.

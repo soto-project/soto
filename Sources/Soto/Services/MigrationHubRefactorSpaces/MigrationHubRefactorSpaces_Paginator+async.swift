@@ -20,7 +20,7 @@ import SotoCore
 
 // MARK: Paginators
 
-@available(macOS 10.15, iOS 13.0, tvOS 13.0, watchOS 6.0, *)
+@available(macOS 12.0, iOS 15.0, watchOS 8.0, tvOS 15.0, *)
 extension MigrationHubRefactorSpaces {
     ///  Lists all the Amazon Web Services Migration Hub Refactor Spaces applications within an environment.
     /// Return PaginatorSequence for operation.
