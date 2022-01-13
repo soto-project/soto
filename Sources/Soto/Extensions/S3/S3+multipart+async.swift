@@ -12,12 +12,12 @@
 //
 //===----------------------------------------------------------------------===//
 
-#if compiler(>=5.5) && canImport(_Concurrency)
+#if compiler(>=5.5.2) && canImport(_Concurrency)
 
 import NIO
 import SotoCore
 
-@available(macOS 12.0, iOS 15.0, watchOS 8.0, tvOS 15.0, *)
+@available(macOS 10.15, iOS 13.0, tvOS 13.0, watchOS 6.0, *)
 extension S3 {
     /// Multipart download of a file from S3.
     ///
@@ -578,7 +578,7 @@ extension S3 {
     }
 }
 
-@available(macOS 12.0, iOS 15.0, watchOS 8.0, tvOS 15.0, *)
+@available(macOS 10.15, iOS 13.0, tvOS 13.0, watchOS 6.0, *)
 extension S3 {
     /// Do all the work for opening a file and closing it for MultiUpload function
     func openFileForMultipartUpload(
@@ -666,7 +666,7 @@ extension S3 {
     }
 }
 
-@available(macOS 12.0, iOS 15.0, watchOS 8.0, tvOS 15.0, *)
+@available(macOS 10.15, iOS 13.0, tvOS 13.0, watchOS 6.0, *)
 extension Sequence {
     /// Returns an array containing the results of mapping the given async closure over
     /// the sequence’s elements.
@@ -715,7 +715,7 @@ extension Sequence {
     }
 }
 
-@available(macOS 12.0, iOS 15.0, watchOS 8.0, tvOS 15.0, *)
+@available(macOS 10.15, iOS 13.0, tvOS 13.0, watchOS 6.0, *)
 extension S3.ThreadPoolProvider {
     /// async version of destroy
     func destroy(_ threadPool: NIOThreadPool) async throws {
@@ -733,4 +733,4 @@ extension S3.ThreadPoolProvider {
     }
 }
 
-#endif // compiler(>=5.5) && canImport(_Concurrency)
+#endif // compiler(>=5.5.2) && canImport(_Concurrency)
