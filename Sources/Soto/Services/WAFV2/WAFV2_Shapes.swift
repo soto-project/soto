@@ -2920,7 +2920,7 @@ extension WAFV2 {
         }
     }
 
-    public class ManagedRuleGroupStatement: AWSEncodableShape & AWSDecodableShape {
+    public final class ManagedRuleGroupStatement: AWSEncodableShape & AWSDecodableShape {
         /// The rules in the referenced rule group whose actions are set to Count.   When you exclude a rule, WAF evaluates it exactly as it would if the rule action setting were Count.  This is a useful option for testing the rules in a rule group without modifying how they handle your web traffic.
         public let excludedRules: [ExcludedRule]?
         /// The name of the managed rule group. You use this, along with the vendor name, to identify the rule group.
@@ -3116,7 +3116,7 @@ extension WAFV2 {
         public init() {}
     }
 
-    public class NotStatement: AWSEncodableShape & AWSDecodableShape {
+    public final class NotStatement: AWSEncodableShape & AWSDecodableShape {
         /// The statement to negate. You can use any statement that can be nested.
         public let statement: Statement
 
@@ -3302,7 +3302,7 @@ extension WAFV2 {
         public init() {}
     }
 
-    public class RateBasedStatement: AWSEncodableShape & AWSDecodableShape {
+    public final class RateBasedStatement: AWSEncodableShape & AWSDecodableShape {
         /// Setting that indicates how to aggregate the request counts. The options are the following:   IP - Aggregate the request counts on the IP address from the web request origin.   FORWARDED_IP - Aggregate the request counts on the first IP address in an HTTP header. If you use this, configure the ForwardedIPConfig, to specify the header to use.
         public let aggregateKeyType: RateBasedStatementAggregateKeyType
         /// The configuration for inspecting IP addresses in an HTTP header that you specify, instead of using the IP address that's reported by the web request origin. Commonly, this is the X-Forwarded-For (XFF) header, but you can specify any header name.    If the specified header isn't present in the request, WAF doesn't apply the rule to the web request at all.    This is required if AggregateKeyType is set to FORWARDED_IP.
@@ -3850,7 +3850,7 @@ extension WAFV2 {
         }
     }
 
-    public class Statement: AWSEncodableShape & AWSDecodableShape {
+    public final class Statement: AWSEncodableShape & AWSDecodableShape {
         /// A logical rule statement used to combine other rule statements with AND logic. You provide more than one Statement within the AndStatement.
         public let andStatement: AndStatement?
         /// A rule statement that defines a string match search for WAF to apply to web requests. The byte match statement provides the bytes to search for, the location in requests that you want WAF to search, and other settings. The bytes to search for are typically a string that corresponds with ASCII characters. In the WAF console and the developer guide, this is refered to as a string match statement.

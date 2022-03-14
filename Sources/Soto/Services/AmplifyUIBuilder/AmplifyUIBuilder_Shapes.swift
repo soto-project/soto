@@ -162,7 +162,7 @@ extension AmplifyUIBuilder {
         }
     }
 
-    public class ComponentChild: AWSEncodableShape & AWSDecodableShape {
+    public final class ComponentChild: AWSEncodableShape & AWSDecodableShape {
         /// The list of ComponentChild instances for this component.
         public let children: [ComponentChild]?
         /// The type of the child component.
@@ -187,7 +187,7 @@ extension AmplifyUIBuilder {
         }
     }
 
-    public class ComponentConditionProperty: AWSEncodableShape & AWSDecodableShape {
+    public final class ComponentConditionProperty: AWSEncodableShape & AWSDecodableShape {
         /// The value to assign to the property if the condition is not met.
         public let `else`: ComponentProperty?
         /// The name of a field. Specify this when the property is a data model.
@@ -245,7 +245,7 @@ extension AmplifyUIBuilder {
         }
     }
 
-    public class ComponentProperty: AWSEncodableShape & AWSDecodableShape {
+    public final class ComponentProperty: AWSEncodableShape & AWSDecodableShape {
         /// The information to bind the component property to data at runtime.
         public let bindingProperties: ComponentPropertyBindingProperties?
         /// The information to bind the component property to form data.
@@ -932,7 +932,7 @@ extension AmplifyUIBuilder {
         }
     }
 
-    public class Predicate: AWSEncodableShape & AWSDecodableShape {
+    public final class Predicate: AWSEncodableShape & AWSDecodableShape {
         /// A list of predicates to combine logically.
         public let and: [Predicate]?
         /// The field to query.

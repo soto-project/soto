@@ -23420,7 +23420,7 @@ extension SageMaker {
         }
     }
 
-    public class SearchExpression: AWSEncodableShape {
+    public final class SearchExpression: AWSEncodableShape {
         /// A list of filter objects.
         public let filters: [Filter]?
         /// A list of nested filter objects.

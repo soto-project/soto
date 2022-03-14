@@ -7522,7 +7522,7 @@ extension SSM {
         }
     }
 
-    public class InventoryAggregator: AWSEncodableShape {
+    public final class InventoryAggregator: AWSEncodableShape {
         /// Nested aggregators to further refine aggregation for an inventory type.
         public let aggregators: [InventoryAggregator]?
         /// The inventory type and attribute name for aggregation.
@@ -9369,7 +9369,7 @@ extension SSM {
         }
     }
 
-    public class OpsAggregator: AWSEncodableShape {
+    public final class OpsAggregator: AWSEncodableShape {
         /// A nested aggregator for viewing counts of OpsData.
         public let aggregators: [OpsAggregator]?
         /// Either a Range or Count aggregator for limiting an OpsData summary.

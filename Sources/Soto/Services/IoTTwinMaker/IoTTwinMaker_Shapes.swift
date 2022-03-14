@@ -750,7 +750,7 @@ extension IoTTwinMaker {
         }
     }
 
-    public class DataType: AWSEncodableShape & AWSDecodableShape {
+    public final class DataType: AWSEncodableShape & AWSDecodableShape {
         /// The allowed values for this data type.
         public let allowedValues: [DataValue]?
         /// The nested type in the data type.
@@ -791,7 +791,7 @@ extension IoTTwinMaker {
         }
     }
 
-    public class DataValue: AWSEncodableShape & AWSDecodableShape {
+    public final class DataValue: AWSEncodableShape & AWSDecodableShape {
         /// A Boolean value.
         public let booleanValue: Bool?
         /// A double value.

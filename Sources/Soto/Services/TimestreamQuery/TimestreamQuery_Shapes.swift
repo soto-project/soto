@@ -112,7 +112,7 @@ extension TimestreamQuery {
         }
     }
 
-    public class ColumnInfo: AWSDecodableShape {
+    public final class ColumnInfo: AWSDecodableShape {
         ///  The name of the result set column. The name of the result set is available for columns of all data types except for arrays.
         public let name: String?
         /// The data type of the result set column. The data type can be a scalar or complex. Scalar data types are integers, strings, doubles, Booleans, and others. Complex data types are types such as arrays, rows, and others.
@@ -214,7 +214,7 @@ extension TimestreamQuery {
         }
     }
 
-    public class Datum: AWSDecodableShape {
+    public final class Datum: AWSDecodableShape {
         ///  Indicates if the data point is an array.
         public let arrayValue: [Datum]?
         ///  Indicates if the data point is null.
@@ -1184,7 +1184,7 @@ extension TimestreamQuery {
         }
     }
 
-    public class `Type`: AWSDecodableShape {
+    public final class `Type`: AWSDecodableShape {
         /// Indicates if the column is an array.
         public let arrayColumnInfo: ColumnInfo?
         /// Indicates if the column is a row.
