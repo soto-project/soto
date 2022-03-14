@@ -1445,7 +1445,7 @@ extension CostExplorer {
         }
     }
 
-    public class Expression: AWSEncodableShape & AWSDecodableShape {
+    public final class Expression: AWSEncodableShape & AWSDecodableShape {
         /// Return results that match both Dimension objects.
         public let and: [Expression]?
         /// The filter that's based on CostCategory values.

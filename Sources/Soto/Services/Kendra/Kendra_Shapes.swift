@@ -598,7 +598,7 @@ extension Kendra {
         }
     }
 
-    public class AttributeFilter: AWSEncodableShape {
+    public final class AttributeFilter: AWSEncodableShape {
         /// Performs a logical AND operation on all supplied filters.
         public let andAllFilters: [AttributeFilter]?
         /// Returns true when a document contains all of the specified document attributes. This filter is only applicable to StringListValue metadata.

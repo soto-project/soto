@@ -1330,7 +1330,7 @@ extension LexRuntimeV2 {
         }
     }
 
-    public class Slot: AWSEncodableShape & AWSDecodableShape {
+    public final class Slot: AWSEncodableShape & AWSDecodableShape {
         /// When the shape value is List, it indicates that the values field contains a list of slot values. When the value is Scalar, it indicates that the value field contains a single value.
         public let shape: Shape?
         /// The current value of the slot.
