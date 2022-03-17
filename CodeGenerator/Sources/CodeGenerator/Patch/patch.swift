@@ -45,9 +45,6 @@ extension API {
             // this fixes the waiter 'ConversionTaskDeleted'
             AddPatch(PatchKeyPath3(\Self.shapes["ConversionTaskState"], \.type.enum, \.cases), value: "deleted"),
         ],
-        "ECS": [
-            AddPatch(PatchKeyPath3(\Self.shapes["PropagateTags"], \.type.enum, \.cases), value: "NONE"),
-        ],
         "ElasticLoadBalancing": [
             ReplacePatch(PatchKeyPath2(\Self.shapes["SecurityGroupOwnerAlias"], \.type), value: .integer(), originalValue: .string(Shape.ShapeType.StringType())),
         ],
