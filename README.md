@@ -50,7 +50,7 @@ Alternatively if you are using Xcode 11 or later you can use the Swift Package M
 
 ## Compatibility
 
-Soto works on Linux, macOS and iOS. It requires v2.0 of [Swift NIO](https://github.com/apple/swift-nio). If you use v1.0 of Swift NIO then you will need to use v3.5 of Soto. Below is a compatibility table for different Soto versions.
+Soto works on Linux, macOS and iOS. It requires v2.0 of [Swift NIO](https://github.com/apple/swift-nio). Below is a compatibility table for different Soto versions.
 
 | Version | Swift | MacOS | iOS    | Linux              | Vapor  |
 |---------|-------|-------|--------|--------------------|--------|
@@ -125,6 +125,7 @@ Visit [soto.codes](https://soto.codes) to browse the user guides and api referen
 
 Additional user guides for specific elements of Soto are available
 
+- [Getting Started](https://soto.codes/getting-started.html)
 - [Upgrading to Soto v5](https://soto.codes/2020/12/upgrading-to-v5.html)
 - [AWSClient](https://soto.codes/user-guides/awsclient.html)
 - [AWS Service Objects](https://soto.codes/user-guides/service-objects.html)
