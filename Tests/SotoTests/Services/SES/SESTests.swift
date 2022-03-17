@@ -41,7 +41,8 @@ class SESTests: XCTestCase {
     }
 
     // Tests query protocol requests with no body
-    func testGetAccountSendingEnabled() {
+    func testGetAccountSendingEnabled() throws {
+        try XCTSkipIf(TestEnvironment.isUsingLocalstack)
         XCTAssertNoThrow(_ = try Self.ses.getAccountSendingEnabled().wait())
     }
 
