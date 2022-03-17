@@ -16,4 +16,4 @@ jobs:
         fetch-depth: 0
     - name: API breaking changes
       run: |
-        swift package diagnose-api-breaking-changes origin/$GITHUB_BASEREF
+        swift package diagnose-api-breaking-changes origin/${GITHUB_BASEREF}
