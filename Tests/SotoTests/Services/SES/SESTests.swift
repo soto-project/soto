@@ -40,6 +40,12 @@ class SESTests: XCTestCase {
         XCTAssertNoThrow(try Self.client.syncShutdown())
     }
 
+    // Tests query protocol requests with no body
+    func testGetAccountSendingEnabled() throws {
+        try XCTSkipIf(TestEnvironment.isUsingLocalstack)
+        XCTAssertNoThrow(_ = try Self.ses.getAccountSendingEnabled().wait())
+    }
+
     /* func testSESIdentityExistsWaiter() {
          let response = Self.ses.verifyEmailIdentity(.init(emailAddress: "admin@opticalaberration.com"))
              .flatMap{ _ in
