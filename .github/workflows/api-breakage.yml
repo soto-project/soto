@@ -3,7 +3,6 @@ name: API breaking changes
 
 on:
   pull_request:
-  workflow_dispatch:
 
 jobs:
   linux:
@@ -16,5 +15,7 @@ jobs:
       with:
         fetch-depth: 0
     - name: API breaking changes
+      env: |
+        GITHUB_BASEREF: ${{ env.GITHUB_BASEREF }}
       run: |
-        swift package diagnose-api-breaking-changes origin/main
+        swift package diagnose-api-breaking-changes origin/${GITHUB_BASEREF}
