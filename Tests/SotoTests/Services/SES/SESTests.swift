@@ -44,7 +44,7 @@ class SESTests: XCTestCase {
     func testGetAccountSendingEnabled() {
         XCTAssertNoThrow(_ = try Self.ses.getAccountSendingEnabled().wait())
     }
-    
+
     /* func testSESIdentityExistsWaiter() {
          let response = Self.ses.verifyEmailIdentity(.init(emailAddress: "admin@opticalaberration.com"))
              .flatMap{ _ in
