@@ -2482,6 +2482,7 @@ extension S3 {
     public struct DeleteObjectsRequest: AWSEncodableShape & AWSShapeWithPayload {
         /// The key for the payload
         public static let _payloadPath: String = "delete"
+        public static let _options: AWSShapeOptions = [.checksumHeader, .checksumRequired]
         public static var _encoding = [
             AWSMemberEncoding(label: "bucket", location: .uri("Bucket")),
             AWSMemberEncoding(label: "bypassGovernanceRetention", location: .header("x-amz-bypass-governance-retention")),
@@ -3931,6 +3932,7 @@ extension S3 {
     }
 
     public struct GetObjectRequest: AWSEncodableShape {
+        public static let _options: AWSShapeOptions = [.checksumHeader]
         public static var _encoding = [
             AWSMemberEncoding(label: "bucket", location: .uri("Bucket")),
             AWSMemberEncoding(label: "checksumMode", location: .header("x-amz-checksum-mode")),
@@ -6361,6 +6363,7 @@ extension S3 {
     public struct PutBucketAccelerateConfigurationRequest: AWSEncodableShape & AWSShapeWithPayload {
         /// The key for the payload
         public static let _payloadPath: String = "accelerateConfiguration"
+        public static let _options: AWSShapeOptions = [.checksumHeader]
         public static var _encoding = [
             AWSMemberEncoding(label: "accelerateConfiguration", location: .body("AccelerateConfiguration")),
             AWSMemberEncoding(label: "bucket", location: .uri("Bucket")),
@@ -6392,7 +6395,7 @@ extension S3 {
     public struct PutBucketAclRequest: AWSEncodableShape & AWSShapeWithPayload {
         /// The key for the payload
         public static let _payloadPath: String = "accessControlPolicy"
-        public static let _options: AWSShapeOptions = [.md5ChecksumHeader]
+        public static let _options: AWSShapeOptions = [.checksumHeader, .checksumRequired, .md5ChecksumHeader]
         public static var _encoding = [
             AWSMemberEncoding(label: "accessControlPolicy", location: .body("AccessControlPolicy")),
             AWSMemberEncoding(label: "acl", location: .header("x-amz-acl")),
@@ -6487,7 +6490,7 @@ extension S3 {
     public struct PutBucketCorsRequest: AWSEncodableShape & AWSShapeWithPayload {
         /// The key for the payload
         public static let _payloadPath: String = "corsConfiguration"
-        public static let _options: AWSShapeOptions = [.md5ChecksumHeader]
+        public static let _options: AWSShapeOptions = [.checksumHeader, .checksumRequired, .md5ChecksumHeader]
         public static var _encoding = [
             AWSMemberEncoding(label: "bucket", location: .uri("Bucket")),
             AWSMemberEncoding(label: "checksumAlgorithm", location: .header("x-amz-sdk-checksum-algorithm")),
@@ -6523,7 +6526,7 @@ extension S3 {
     public struct PutBucketEncryptionRequest: AWSEncodableShape & AWSShapeWithPayload {
         /// The key for the payload
         public static let _payloadPath: String = "serverSideEncryptionConfiguration"
-        public static let _options: AWSShapeOptions = [.md5ChecksumHeader]
+        public static let _options: AWSShapeOptions = [.checksumHeader, .checksumRequired, .md5ChecksumHeader]
         public static var _encoding = [
             AWSMemberEncoding(label: "bucket", location: .uri("Bucket")),
             AWSMemberEncoding(label: "checksumAlgorithm", location: .header("x-amz-sdk-checksum-algorithm")),
@@ -6620,6 +6623,7 @@ extension S3 {
     public struct PutBucketLifecycleConfigurationRequest: AWSEncodableShape & AWSShapeWithPayload {
         /// The key for the payload
         public static let _payloadPath: String = "lifecycleConfiguration"
+        public static let _options: AWSShapeOptions = [.checksumHeader, .checksumRequired]
         public static var _encoding = [
             AWSMemberEncoding(label: "bucket", location: .uri("Bucket")),
             AWSMemberEncoding(label: "checksumAlgorithm", location: .header("x-amz-sdk-checksum-algorithm")),
@@ -6655,7 +6659,7 @@ extension S3 {
     public struct PutBucketLoggingRequest: AWSEncodableShape & AWSShapeWithPayload {
         /// The key for the payload
         public static let _payloadPath: String = "bucketLoggingStatus"
-        public static let _options: AWSShapeOptions = [.md5ChecksumHeader]
+        public static let _options: AWSShapeOptions = [.checksumHeader, .checksumRequired, .md5ChecksumHeader]
         public static var _encoding = [
             AWSMemberEncoding(label: "bucket", location: .uri("Bucket")),
             AWSMemberEncoding(label: "bucketLoggingStatus", location: .body("BucketLoggingStatus")),
@@ -6756,7 +6760,7 @@ extension S3 {
     public struct PutBucketOwnershipControlsRequest: AWSEncodableShape & AWSShapeWithPayload {
         /// The key for the payload
         public static let _payloadPath: String = "ownershipControls"
-        public static let _options: AWSShapeOptions = [.md5ChecksumHeader]
+        public static let _options: AWSShapeOptions = [.checksumHeader, .checksumRequired, .md5ChecksumHeader]
         public static var _encoding = [
             AWSMemberEncoding(label: "bucket", location: .uri("Bucket")),
             AWSMemberEncoding(label: "contentMD5", location: .header("Content-MD5")),
@@ -6788,7 +6792,7 @@ extension S3 {
     public struct PutBucketPolicyRequest: AWSEncodableShape & AWSShapeWithPayload {
         /// The key for the payload
         public static let _payloadPath: String = "policy"
-        public static let _options: AWSShapeOptions = [.md5ChecksumHeader]
+        public static let _options: AWSShapeOptions = [.checksumHeader, .checksumRequired, .md5ChecksumHeader]
         public static var _encoding = [
             AWSMemberEncoding(label: "bucket", location: .uri("Bucket")),
             AWSMemberEncoding(label: "checksumAlgorithm", location: .header("x-amz-sdk-checksum-algorithm")),
@@ -6828,7 +6832,7 @@ extension S3 {
     public struct PutBucketReplicationRequest: AWSEncodableShape & AWSShapeWithPayload {
         /// The key for the payload
         public static let _payloadPath: String = "replicationConfiguration"
-        public static let _options: AWSShapeOptions = [.md5ChecksumHeader]
+        public static let _options: AWSShapeOptions = [.checksumHeader, .checksumRequired, .md5ChecksumHeader]
         public static var _encoding = [
             AWSMemberEncoding(label: "bucket", location: .uri("Bucket")),
             AWSMemberEncoding(label: "checksumAlgorithm", location: .header("x-amz-sdk-checksum-algorithm")),
@@ -6871,7 +6875,7 @@ extension S3 {
     public struct PutBucketRequestPaymentRequest: AWSEncodableShape & AWSShapeWithPayload {
         /// The key for the payload
         public static let _payloadPath: String = "requestPaymentConfiguration"
-        public static let _options: AWSShapeOptions = [.md5ChecksumHeader]
+        public static let _options: AWSShapeOptions = [.checksumHeader, .checksumRequired, .md5ChecksumHeader]
         public static var _encoding = [
             AWSMemberEncoding(label: "bucket", location: .uri("Bucket")),
             AWSMemberEncoding(label: "checksumAlgorithm", location: .header("x-amz-sdk-checksum-algorithm")),
@@ -6907,7 +6911,7 @@ extension S3 {
     public struct PutBucketTaggingRequest: AWSEncodableShape & AWSShapeWithPayload {
         /// The key for the payload
         public static let _payloadPath: String = "tagging"
-        public static let _options: AWSShapeOptions = [.md5ChecksumHeader]
+        public static let _options: AWSShapeOptions = [.checksumHeader, .checksumRequired, .md5ChecksumHeader]
         public static var _encoding = [
             AWSMemberEncoding(label: "bucket", location: .uri("Bucket")),
             AWSMemberEncoding(label: "checksumAlgorithm", location: .header("x-amz-sdk-checksum-algorithm")),
@@ -6947,7 +6951,7 @@ extension S3 {
     public struct PutBucketVersioningRequest: AWSEncodableShape & AWSShapeWithPayload {
         /// The key for the payload
         public static let _payloadPath: String = "versioningConfiguration"
-        public static let _options: AWSShapeOptions = [.md5ChecksumHeader]
+        public static let _options: AWSShapeOptions = [.checksumHeader, .checksumRequired, .md5ChecksumHeader]
         public static var _encoding = [
             AWSMemberEncoding(label: "bucket", location: .uri("Bucket")),
             AWSMemberEncoding(label: "checksumAlgorithm", location: .header("x-amz-sdk-checksum-algorithm")),
@@ -6987,7 +6991,7 @@ extension S3 {
     public struct PutBucketWebsiteRequest: AWSEncodableShape & AWSShapeWithPayload {
         /// The key for the payload
         public static let _payloadPath: String = "websiteConfiguration"
-        public static let _options: AWSShapeOptions = [.md5ChecksumHeader]
+        public static let _options: AWSShapeOptions = [.checksumHeader, .checksumRequired, .md5ChecksumHeader]
         public static var _encoding = [
             AWSMemberEncoding(label: "bucket", location: .uri("Bucket")),
             AWSMemberEncoding(label: "checksumAlgorithm", location: .header("x-amz-sdk-checksum-algorithm")),
@@ -7043,7 +7047,7 @@ extension S3 {
     public struct PutObjectAclRequest: AWSEncodableShape & AWSShapeWithPayload {
         /// The key for the payload
         public static let _payloadPath: String = "accessControlPolicy"
-        public static let _options: AWSShapeOptions = [.md5ChecksumHeader]
+        public static let _options: AWSShapeOptions = [.checksumHeader, .checksumRequired, .md5ChecksumHeader]
         public static var _encoding = [
             AWSMemberEncoding(label: "accessControlPolicy", location: .body("AccessControlPolicy")),
             AWSMemberEncoding(label: "acl", location: .header("x-amz-acl")),
@@ -7134,7 +7138,7 @@ extension S3 {
     public struct PutObjectLegalHoldRequest: AWSEncodableShape & AWSShapeWithPayload {
         /// The key for the payload
         public static let _payloadPath: String = "legalHold"
-        public static let _options: AWSShapeOptions = [.md5ChecksumHeader]
+        public static let _options: AWSShapeOptions = [.checksumHeader, .checksumRequired, .md5ChecksumHeader]
         public static var _encoding = [
             AWSMemberEncoding(label: "bucket", location: .uri("Bucket")),
             AWSMemberEncoding(label: "checksumAlgorithm", location: .header("x-amz-sdk-checksum-algorithm")),
@@ -7201,7 +7205,7 @@ extension S3 {
     public struct PutObjectLockConfigurationRequest: AWSEncodableShape & AWSShapeWithPayload {
         /// The key for the payload
         public static let _payloadPath: String = "objectLockConfiguration"
-        public static let _options: AWSShapeOptions = [.md5ChecksumHeader]
+        public static let _options: AWSShapeOptions = [.checksumHeader, .checksumRequired, .md5ChecksumHeader]
         public static var _encoding = [
             AWSMemberEncoding(label: "bucket", location: .uri("Bucket")),
             AWSMemberEncoding(label: "checksumAlgorithm", location: .header("x-amz-sdk-checksum-algorithm")),
@@ -7325,7 +7329,7 @@ extension S3 {
     public struct PutObjectRequest: AWSEncodableShape & AWSShapeWithPayload {
         /// The key for the payload
         public static let _payloadPath: String = "body"
-        public static let _options: AWSShapeOptions = [.md5ChecksumHeader, .rawPayload, .allowStreaming]
+        public static let _options: AWSShapeOptions = [.checksumHeader, .md5ChecksumHeader, .rawPayload, .allowStreaming]
         public static var _encoding = [
             AWSMemberEncoding(label: "acl", location: .header("x-amz-acl")),
             AWSMemberEncoding(label: "bucket", location: .uri("Bucket")),
@@ -7512,7 +7516,7 @@ extension S3 {
     public struct PutObjectRetentionRequest: AWSEncodableShape & AWSShapeWithPayload {
         /// The key for the payload
         public static let _payloadPath: String = "retention"
-        public static let _options: AWSShapeOptions = [.md5ChecksumHeader]
+        public static let _options: AWSShapeOptions = [.checksumHeader, .checksumRequired, .md5ChecksumHeader]
         public static var _encoding = [
             AWSMemberEncoding(label: "bucket", location: .uri("Bucket")),
             AWSMemberEncoding(label: "bypassGovernanceRetention", location: .header("x-amz-bypass-governance-retention")),
@@ -7584,7 +7588,7 @@ extension S3 {
     public struct PutObjectTaggingRequest: AWSEncodableShape & AWSShapeWithPayload {
         /// The key for the payload
         public static let _payloadPath: String = "tagging"
-        public static let _options: AWSShapeOptions = [.md5ChecksumHeader]
+        public static let _options: AWSShapeOptions = [.checksumHeader, .checksumRequired, .md5ChecksumHeader]
         public static var _encoding = [
             AWSMemberEncoding(label: "bucket", location: .uri("Bucket")),
             AWSMemberEncoding(label: "checksumAlgorithm", location: .header("x-amz-sdk-checksum-algorithm")),
@@ -7636,7 +7640,7 @@ extension S3 {
     public struct PutPublicAccessBlockRequest: AWSEncodableShape & AWSShapeWithPayload {
         /// The key for the payload
         public static let _payloadPath: String = "publicAccessBlockConfiguration"
-        public static let _options: AWSShapeOptions = [.md5ChecksumHeader]
+        public static let _options: AWSShapeOptions = [.checksumHeader, .checksumRequired, .md5ChecksumHeader]
         public static var _encoding = [
             AWSMemberEncoding(label: "bucket", location: .uri("Bucket")),
             AWSMemberEncoding(label: "checksumAlgorithm", location: .header("x-amz-sdk-checksum-algorithm")),
@@ -7949,6 +7953,7 @@ extension S3 {
     public struct RestoreObjectRequest: AWSEncodableShape & AWSShapeWithPayload {
         /// The key for the payload
         public static let _payloadPath: String = "restoreRequest"
+        public static let _options: AWSShapeOptions = [.checksumHeader]
         public static var _encoding = [
             AWSMemberEncoding(label: "bucket", location: .uri("Bucket")),
             AWSMemberEncoding(label: "checksumAlgorithm", location: .header("x-amz-sdk-checksum-algorithm")),
@@ -8731,7 +8736,7 @@ extension S3 {
     public struct UploadPartRequest: AWSEncodableShape & AWSShapeWithPayload {
         /// The key for the payload
         public static let _payloadPath: String = "body"
-        public static let _options: AWSShapeOptions = [.md5ChecksumHeader, .rawPayload, .allowStreaming]
+        public static let _options: AWSShapeOptions = [.checksumHeader, .md5ChecksumHeader, .rawPayload, .allowStreaming]
         public static var _encoding = [
             AWSMemberEncoding(label: "bucket", location: .uri("Bucket")),
             AWSMemberEncoding(label: "checksumAlgorithm", location: .header("x-amz-sdk-checksum-algorithm")),
