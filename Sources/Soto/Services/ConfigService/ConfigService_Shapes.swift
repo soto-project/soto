@@ -241,6 +241,9 @@ extension ConfigService {
         case awsCloudtrailTrail = "AWS::CloudTrail::Trail"
         case awsCloudwatchAlarm = "AWS::CloudWatch::Alarm"
         case awsCodebuildProject = "AWS::CodeBuild::Project"
+        case awsCodedeployApplication = "AWS::CodeDeploy::Application"
+        case awsCodedeployDeploymentconfig = "AWS::CodeDeploy::DeploymentConfig"
+        case awsCodedeployDeploymentgroup = "AWS::CodeDeploy::DeploymentGroup"
         case awsCodepipelinePipeline = "AWS::CodePipeline::Pipeline"
         case awsConfigConformancepackcompliance = "AWS::Config::ConformancePackCompliance"
         case awsConfigResourcecompliance = "AWS::Config::ResourceCompliance"
@@ -252,6 +255,7 @@ extension ConfigService {
         case awsEC2Host = "AWS::EC2::Host"
         case awsEC2Instance = "AWS::EC2::Instance"
         case awsEC2Internetgateway = "AWS::EC2::InternetGateway"
+        case awsEC2Launchtemplate = "AWS::EC2::LaunchTemplate"
         case awsEC2Natgateway = "AWS::EC2::NatGateway"
         case awsEC2Networkacl = "AWS::EC2::NetworkAcl"
         case awsEC2Networkinterface = "AWS::EC2::NetworkInterface"
@@ -259,6 +263,7 @@ extension ConfigService {
         case awsEC2Routetable = "AWS::EC2::RouteTable"
         case awsEC2Securitygroup = "AWS::EC2::SecurityGroup"
         case awsEC2Subnet = "AWS::EC2::Subnet"
+        case awsEC2Transitgateway = "AWS::EC2::TransitGateway"
         case awsEc2Vpc = "AWS::EC2::VPC"
         case awsEC2Vpcendpoint = "AWS::EC2::VPCEndpoint"
         case awsEC2Vpcendpointservice = "AWS::EC2::VPCEndpointService"
@@ -266,6 +271,7 @@ extension ConfigService {
         case awsEC2Vpnconnection = "AWS::EC2::VPNConnection"
         case awsEC2Vpngateway = "AWS::EC2::VPNGateway"
         case awsEC2Volume = "AWS::EC2::Volume"
+        case awsECRPublicrepository = "AWS::ECR::PublicRepository"
         case awsECRRepository = "AWS::ECR::Repository"
         case awsECSCluster = "AWS::ECS::Cluster"
         case awsECSService = "AWS::ECS::Service"
@@ -284,6 +290,8 @@ extension ConfigService {
         case awsIAMRole = "AWS::IAM::Role"
         case awsIAMUser = "AWS::IAM::User"
         case awsKMSKey = "AWS::KMS::Key"
+        case awsKinesisStream = "AWS::Kinesis::Stream"
+        case awsKinesisStreamconsumer = "AWS::Kinesis::StreamConsumer"
         case awsLambdaFunction = "AWS::Lambda::Function"
         case awsNetworkfirewallFirewall = "AWS::NetworkFirewall::Firewall"
         case awsNetworkfirewallFirewallpolicy = "AWS::NetworkFirewall::FirewallPolicy"
@@ -5452,7 +5460,7 @@ extension ConfigService {
         /// 		        This field is optional.
         public let deliveryS3KeyPrefix: String?
         /// A string containing full conformance pack template body. Structure containing the template body with a minimum length of 1 byte and a maximum length of 51,200 bytes.
-        /// 		        You can only use a YAML template with one resource type, that is, config rule and a remediation action.
+        /// 		        You can only use a YAML template with two resource types: config rule (AWS::Config::ConfigRule) and a remediation action (AWS::Config::RemediationConfiguration).
         public let templateBody: String?
         /// Location of file containing the template body (s3://bucketname/prefix). The uri must point to the conformance pack template (max size: 300 KB) that is located in an Amazon S3 bucket in the same region as the conformance pack.
         /// 		        You must have access to read Amazon S3 bucket.

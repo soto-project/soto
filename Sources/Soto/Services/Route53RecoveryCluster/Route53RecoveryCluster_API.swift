@@ -19,18 +19,37 @@
 
 /// Service object for interacting with AWS Route53RecoveryCluster service.
 ///
-/// Welcome to the Amazon Route 53 Application Recovery Controller API Reference Guide for Recovery Control Data Plane .
-/// 			      Recovery control in Route 53 Application Recovery Controller includes extremely reliable routing controls that enable you to recover applications
-/// 				by rerouting traffic, for example, across Availability Zones or AWS Regions. Routing controls are simple on/off switches
-/// 				hosted on a cluster. A cluster is a set of five redundant regional endpoints against which you can execute API calls to update or
-/// 				get the state of routing controls. You use routing controls to failover traffic to recover your application
-/// 				across Availability Zones or Regions.
-/// 			      This API guide includes information about how to get and update routing control states in Route 53 Application Recovery Controller.
-/// 			      For more information about Route 53 Application Recovery Controller, see the following:
-/// 			        You can create clusters, routing controls, and control panels by using the control plane API for Recovery
-/// 					Control. For more information, see Amazon Route 53 Application Recovery Controller Recovery Control API Reference.   Route 53 Application Recovery Controller also provides continuous readiness checks to ensure that your applications are scaled to handle failover traffic.
-/// 					For more information about the related API actions, see Amazon Route 53 Application Recovery Controller Recovery Readiness API Reference.   For more information about creating resilient applications and preparing for recovery readiness with Route 53 Application Recovery Controller,
-/// 					see the Amazon Route 53 Application Recovery Controller Developer Guide.
+/// Welcome to the Routing Control (Recovery Cluster) API Reference Guide for Amazon Route 53 Application Recovery Controller.
+/// 			      With Amazon Route 53 Application Recovery Controller, you can use routing control with extreme reliability to
+/// 			recover applications by rerouting traffic across
+/// 			Availability Zones or AWS Regions. Routing controls are simple on/off switches hosted
+/// 			on a highly available cluster in Application Recovery Controller. A cluster provides a set of five redundant Regional endpoints against which you
+/// 			can run API calls to get or update the state of routing controls. To implement failover, you set
+/// 			one routing control on and another one off, to reroute traffic from one Availability Zone or Amazon Web Services Region
+/// 			to another.
+/// 			       Be aware that you must specify the Regional endpoints for a cluster when you work with API cluster operations
+/// 				to get or update routing control states in Application Recovery Controller. In addition, you must specify the US West (Oregon) Region
+/// 				for Application Recovery Controller API calls. For example, use the parameter region us-west-2 with AWS CLI commands.
+/// 				For more information, see
+///
+/// 					Get and update routing control states using the API in the Amazon Route 53 Application Recovery Controller Developer Guide.
+/// 		       This API guide includes information about the API operations for how to get and update routing control states
+/// 			in Application Recovery Controller. You also must set up the structures to support routing controls: clusters and control panels.
+/// 			      For more information about working with routing control in Application Recovery Controller, see the following:
+///
+/// 				           To create clusters, routing controls, and control panels by using the control plane API
+/// 					for routing control, see the Recovery Control Configuration API Reference Guide for Amazon Route 53 Application Recovery Controller.
+/// 			           Learn about the components in recovery control configuration, including clusters,
+/// 				routing controls, and control panels. For more information, see
+///
+/// 					Recovery control components in the Amazon Route 53 Application Recovery Controller Developer Guide.
+/// 				           Application Recovery Controller also provides readiness checks that run continually to help make sure that your
+/// 					applications are scaled and ready to handle failover traffic. For more information about
+/// 					the related API actions, see the Recovery Readiness API Reference Guide for Amazon Route 53 Application Recovery Controller.
+///
+/// 				           For more information about creating resilient applications and preparing for
+/// 					recovery readiness with Application Recovery Controller, see the Amazon Route 53 Application Recovery Controller Developer Guide.
+///
 public struct Route53RecoveryCluster: AWSService {
     // MARK: Member variables
 
@@ -75,34 +94,72 @@ public struct Route53RecoveryCluster: AWSService {
 
     // MARK: API Calls
 
-    /// Get the state for a routing control. A routing control is a simple on/off switch
-    /// 				that you can use to route traffic to cells. When the state is On, traffic flows to a cell. When it's off, traffic does not flow.
-    /// 			      Before you can create a routing control, you first must create a cluster to host the control.
-    /// 				For more information, see
-    /// 				CreateCluster.
-    /// 				Access one of the endpoints for the cluster to get or update the routing control state to
+    /// Get the state for a routing control. A routing control is a simple on/off switch that you
+    /// 			can use to route traffic to cells. When the state is On, traffic flows to a cell. When
+    /// 			it's Off, traffic does not flow.
+    /// 			      Before you can create a routing control, you must first create a cluster to host the control
+    /// 				in a control panel. For more information, see
+    /// 					Create routing control structures in the Amazon Route 53 Application Recovery Controller Developer Guide.
+    /// 				Then you access one of the endpoints for the cluster to get or update the routing control state to
     /// 				redirect traffic.
-    /// 			      For more information about working with routing controls, see
-    /// 				Routing control
-    /// 				in the Route 53 Application Recovery Controller Developer Guide.
+    /// 			       You must specify Regional endpoints when you work with API cluster operations
+    /// 				to get or update routing control states in Application Recovery Controller.
+    /// 			      To see a code example for getting a routing control state, including accessing Regional cluster endpoints
+    /// 				in sequence, see API examples
+    /// 				in the Amazon Route 53 Application Recovery Controller Developer Guide.
+    /// 			      Learn more about working with routing controls in the following topics in the
+    /// 				Amazon Route 53 Application Recovery Controller Developer Guide:
+    ///
+    /// 					Viewing and updating routing control states     Working with routing controls overall
     public func getRoutingControlState(_ input: GetRoutingControlStateRequest, logger: Logger = AWSClient.loggingDisabled, on eventLoop: EventLoop? = nil) -> EventLoopFuture<GetRoutingControlStateResponse> {
         return self.client.execute(operation: "GetRoutingControlState", path: "/", httpMethod: .POST, serviceConfig: self.config, input: input, logger: logger, on: eventLoop)
     }
 
-    /// Set the state of the routing control to reroute traffic. You can set the value to be On or Off.
-    /// 				When the state is On, traffic flows to a cell. When it's off, traffic does not flow.
-    /// 			      For more information about working with routing controls, see
-    /// 				Routing control
-    /// 				in the Route 53 Application Recovery Controller Developer Guide.
+    /// Set the state of the routing control to reroute traffic. You can set the value to be On or
+    /// 			Off. When the state is On, traffic flows to a cell. When it's Off, traffic does not
+    /// 			flow.
+    /// 			      With Application Recovery Controller, you can add safety rules for routing controls, which are safeguards for routing
+    /// 				control state updates that help prevent unexpected outcomes, like fail open traffic routing. However,
+    /// 				there are scenarios when you might want to bypass the routing control safeguards that are enforced with
+    /// 				safety rules that you've configured. For example, you might want to fail over quickly for disaster recovery,
+    /// 				and one or more safety rules might be unexpectedly preventing you from updating a routing control state to
+    /// 				reroute traffic. In a "break glass" scenario like this, you can override one or more safety rules to change
+    /// 				a routing control state and fail over your application.
+    /// 			      The SafetyRulesToOverride property enables you override one or more safety rules and
+    /// 				update routing control states. For more information, see
+    ///
+    /// 					Override safety rules to reroute traffic in the Amazon Route 53 Application Recovery Controller Developer Guide.
+    /// 			       You must specify Regional endpoints when you work with API cluster operations
+    /// 				to get or update routing control states in Application Recovery Controller.
+    /// 			      To see a code example for getting a routing control state, including accessing Regional cluster endpoints
+    /// 				in sequence, see API examples
+    /// 				in the Amazon Route 53 Application Recovery Controller Developer Guide.
+    ///
+    /// 					Viewing and updating routing control states     Working with routing controls overall
     public func updateRoutingControlState(_ input: UpdateRoutingControlStateRequest, logger: Logger = AWSClient.loggingDisabled, on eventLoop: EventLoop? = nil) -> EventLoopFuture<UpdateRoutingControlStateResponse> {
         return self.client.execute(operation: "UpdateRoutingControlState", path: "/", httpMethod: .POST, serviceConfig: self.config, input: input, logger: logger, on: eventLoop)
     }
 
     /// Set multiple routing control states. You can set the value for each state to be On or Off.
-    /// 			When the state is On, traffic flows to a cell. When it's off, traffic does not flow.
-    /// 			      For more information about working with routing controls, see
-    /// 				Routing control
-    /// 				in the Route 53 Application Recovery Controller Developer Guide.
+    /// 			When the state is On, traffic flows to a cell. When it's Off, traffic does not
+    /// 			flow.
+    /// 			      With Application Recovery Controller, you can add safety rules for routing controls, which are safeguards for routing
+    /// 				control state updates that help prevent unexpected outcomes, like fail open traffic routing. However,
+    /// 				there are scenarios when you might want to bypass the routing control safeguards that are enforced with
+    /// 				safety rules that you've configured. For example, you might want to fail over quickly for disaster recovery,
+    /// 				and one or more safety rules might be unexpectedly preventing you from updating a routing control state to
+    /// 				reroute traffic. In a "break glass" scenario like this, you can override one or more safety rules to change
+    /// 				a routing control state and fail over your application.
+    /// 			      The SafetyRulesToOverride property enables you override one or more safety rules and
+    /// 				update routing control states. For more information, see
+    ///
+    /// 					Override safety rules to reroute traffic in the Amazon Route 53 Application Recovery Controller Developer Guide.			  You must specify Regional endpoints when you work with API cluster operations
+    /// 				to get or update routing control states in Application Recovery Controller.
+    /// 			      To see a code example for getting a routing control state, including accessing Regional cluster endpoints
+    /// 				in sequence, see API examples
+    /// 				in the Amazon Route 53 Application Recovery Controller Developer Guide.
+    ///
+    /// 					Viewing and updating routing control states     Working with routing controls overall
     public func updateRoutingControlStates(_ input: UpdateRoutingControlStatesRequest, logger: Logger = AWSClient.loggingDisabled, on eventLoop: EventLoop? = nil) -> EventLoopFuture<UpdateRoutingControlStatesResponse> {
         return self.client.execute(operation: "UpdateRoutingControlStates", path: "/", httpMethod: .POST, serviceConfig: self.config, input: input, logger: logger, on: eventLoop)
     }

@@ -61,6 +61,36 @@ extension Nimble {
         public var description: String { return self.rawValue }
     }
 
+    public enum LaunchProfileValidationState: String, CustomStringConvertible, Codable {
+        case validationFailed = "VALIDATION_FAILED"
+        case validationFailedInternalServerError = "VALIDATION_FAILED_INTERNAL_SERVER_ERROR"
+        case validationInProgress = "VALIDATION_IN_PROGRESS"
+        case validationNotStarted = "VALIDATION_NOT_STARTED"
+        case validationSuccess = "VALIDATION_SUCCESS"
+        public var description: String { return self.rawValue }
+    }
+
+    public enum LaunchProfileValidationStatusCode: String, CustomStringConvertible, Codable {
+        case validationFailedInternalServerError = "VALIDATION_FAILED_INTERNAL_SERVER_ERROR"
+        case validationFailedInvalidActiveDirectory = "VALIDATION_FAILED_INVALID_ACTIVE_DIRECTORY"
+        case validationFailedInvalidSecurityGroupAssociation = "VALIDATION_FAILED_INVALID_SECURITY_GROUP_ASSOCIATION"
+        case validationFailedInvalidSubnetRouteTableAssociation = "VALIDATION_FAILED_INVALID_SUBNET_ROUTE_TABLE_ASSOCIATION"
+        case validationFailedSubnetNotFound = "VALIDATION_FAILED_SUBNET_NOT_FOUND"
+        case validationFailedUnauthorized = "VALIDATION_FAILED_UNAUTHORIZED"
+        case validationInProgress = "VALIDATION_IN_PROGRESS"
+        case validationNotStarted = "VALIDATION_NOT_STARTED"
+        case validationSuccess = "VALIDATION_SUCCESS"
+        public var description: String { return self.rawValue }
+    }
+
+    public enum LaunchProfileValidationType: String, CustomStringConvertible, Codable {
+        case validateActiveDirectoryStudioComponent = "VALIDATE_ACTIVE_DIRECTORY_STUDIO_COMPONENT"
+        case validateNetworkAclAssociation = "VALIDATE_NETWORK_ACL_ASSOCIATION"
+        case validateSecurityGroupAssociation = "VALIDATE_SECURITY_GROUP_ASSOCIATION"
+        case validateSubnetAssociation = "VALIDATE_SUBNET_ASSOCIATION"
+        public var description: String { return self.rawValue }
+    }
+
     public enum StreamingClipboardMode: String, CustomStringConvertible, Codable {
         case disabled = "DISABLED"
         case enabled = "ENABLED"
@@ -122,6 +152,7 @@ extension Nimble {
 
     public enum StreamingSessionStatusCode: String, CustomStringConvertible, Codable {
         case activeDirectoryDomainJoinError = "ACTIVE_DIRECTORY_DOMAIN_JOIN_ERROR"
+        case amiValidationError = "AMI_VALIDATION_ERROR"
         case decryptStreamingImageError = "DECRYPT_STREAMING_IMAGE_ERROR"
         case initializationScriptError = "INITIALIZATION_SCRIPT_ERROR"
         case insufficientCapacity = "INSUFFICIENT_CAPACITY"
@@ -587,7 +618,7 @@ extension Nimble {
         public let ec2InstanceType: StreamingInstanceType?
         /// The launch profile ID.
         public let launchProfileId: String?
-        /// The user ID of the user that owns the streaming session.
+        /// The user ID of the user that owns the streaming session. The user that owns the session will be logging into the session and interacting with the virtual workstation.
         public let ownedBy: String?
         /// The ID of the streaming image.
         public let streamingImageId: String?
@@ -1568,8 +1599,10 @@ extension Nimble {
         public var updatedAt: Date?
         /// The user ID of the user that most recently updated the resource.
         public let updatedBy: String?
+        /// The list of the latest validation results.
+        public let validationResults: [ValidationResult]?
 
-        public init(arn: String? = nil, createdAt: Date? = nil, createdBy: String? = nil, description: String? = nil, ec2SubnetIds: [String]? = nil, launchProfileId: String? = nil, launchProfileProtocolVersions: [String]? = nil, name: String? = nil, state: LaunchProfileState? = nil, statusCode: LaunchProfileStatusCode? = nil, statusMessage: String? = nil, streamConfiguration: StreamConfiguration? = nil, studioComponentIds: [String]? = nil, tags: [String: String]? = nil, updatedAt: Date? = nil, updatedBy: String? = nil) {
+        public init(arn: String? = nil, createdAt: Date? = nil, createdBy: String? = nil, description: String? = nil, ec2SubnetIds: [String]? = nil, launchProfileId: String? = nil, launchProfileProtocolVersions: [String]? = nil, name: String? = nil, state: LaunchProfileState? = nil, statusCode: LaunchProfileStatusCode? = nil, statusMessage: String? = nil, streamConfiguration: StreamConfiguration? = nil, studioComponentIds: [String]? = nil, tags: [String: String]? = nil, updatedAt: Date? = nil, updatedBy: String? = nil, validationResults: [ValidationResult]? = nil) {
             self.arn = arn
             self.createdAt = createdAt
             self.createdBy = createdBy
@@ -1586,6 +1619,7 @@ extension Nimble {
             self.tags = tags
             self.updatedAt = updatedAt
             self.updatedBy = updatedBy
+            self.validationResults = validationResults
         }
 
         private enum CodingKeys: String, CodingKey {
@@ -1605,6 +1639,7 @@ extension Nimble {
             case tags
             case updatedAt
             case updatedBy
+            case validationResults
         }
     }
 
@@ -1890,11 +1925,11 @@ extension Nimble {
         /// The principal ID. This currently supports a Amazon Web Services SSO UserId.
         public let principalId: String?
         /// Filter this request to launch profiles in any of the given states.
-        public let states: [String]?
+        public let states: [LaunchProfileState]?
         /// The studio ID.
         public let studioId: String
 
-        public init(maxResults: Int? = nil, nextToken: String? = nil, principalId: String? = nil, states: [String]? = nil, studioId: String) {
+        public init(maxResults: Int? = nil, nextToken: String? = nil, principalId: String? = nil, states: [LaunchProfileState]? = nil, studioId: String) {
             self.maxResults = maxResults
             self.nextToken = nextToken
             self.principalId = principalId
@@ -2029,13 +2064,13 @@ extension Nimble {
         /// The token to request the next page of results.
         public let nextToken: String?
         /// Filters the request to studio components that are in one of the given states.
-        public let states: [String]?
+        public let states: [StudioComponentState]?
         /// The studio ID.
         public let studioId: String
         /// Filters the request to studio components that are of one of the given types.
-        public let types: [String]?
+        public let types: [StudioComponentType]?
 
-        public init(maxResults: Int? = nil, nextToken: String? = nil, states: [String]? = nil, studioId: String, types: [String]? = nil) {
+        public init(maxResults: Int? = nil, nextToken: String? = nil, states: [StudioComponentState]? = nil, studioId: String, types: [StudioComponentType]? = nil) {
             self.maxResults = maxResults
             self.nextToken = nextToken
             self.states = states
@@ -2660,7 +2695,7 @@ extension Nimble {
         public let ec2InstanceType: String?
         /// The ID of the launch profile used to control access from the streaming session.
         public let launchProfileId: String?
-        /// The user ID of the user that owns the streaming session.
+        /// The user ID of the user that owns the streaming session. The user that owns the session will be logging into the session and interacting with the virtual workstation.
         public let ownedBy: String?
         /// The session ID.
         public let sessionId: String?
@@ -2744,9 +2779,9 @@ extension Nimble {
     }
 
     public struct StreamingSessionStorageRoot: AWSEncodableShape & AWSDecodableShape {
-        /// The folder path in Linux workstations where files are uploaded. The default path is $HOME/Downloads.
+        /// The folder path in Linux workstations where files are uploaded.
         public let linux: String?
-        /// The folder path in Windows workstations where files are uploaded. The default path is %HOMEPATH%\Downloads.
+        /// The folder path in Windows workstations where files are uploaded.
         public let windows: String?
 
         public init(linux: String? = nil, windows: String? = nil) {
@@ -2778,7 +2813,7 @@ extension Nimble {
         /// The Unix epoch timestamp in seconds for when the resource expires.
         @OptionalCustomCoding<ISO8601DateCoder>
         public var expiresAt: Date?
-        /// The user ID of the user that owns the streaming session.
+        /// The user ID of the user that owns the streaming session. The user that owns the session will be logging into the session and interacting with the virtual workstation.
         public let ownedBy: String?
         /// The current state.
         public let state: StreamingSessionStreamState?
@@ -3449,6 +3484,31 @@ extension Nimble {
 
         private enum CodingKeys: String, CodingKey {
             case studio
+        }
+    }
+
+    public struct ValidationResult: AWSDecodableShape {
+        /// The current state.
+        public let state: LaunchProfileValidationState
+        /// The status code. This will contain the failure reason if the state is VALIDATION_FAILED.
+        public let statusCode: LaunchProfileValidationStatusCode
+        /// The status message for the validation result.
+        public let statusMessage: String
+        /// The type of the validation result.
+        public let type: LaunchProfileValidationType
+
+        public init(state: LaunchProfileValidationState, statusCode: LaunchProfileValidationStatusCode, statusMessage: String, type: LaunchProfileValidationType) {
+            self.state = state
+            self.statusCode = statusCode
+            self.statusMessage = statusMessage
+            self.type = type
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case state
+            case statusCode
+            case statusMessage
+            case type
         }
     }
 }

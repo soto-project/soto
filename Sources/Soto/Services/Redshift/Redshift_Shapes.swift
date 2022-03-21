@@ -200,6 +200,7 @@ extension Redshift {
 
     public enum UsageLimitFeatureType: String, CustomStringConvertible, Codable {
         case concurrencyScaling = "concurrency-scaling"
+        case crossRegionDatasharing = "cross-region-datasharing"
         case spectrum
         public var description: String { return self.rawValue }
     }
@@ -328,23 +329,28 @@ extension Redshift {
         public let associateEntireAccount: Bool?
         /// The Amazon Resource Name (ARN) of the consumer that is associated with the datashare.
         public let consumerArn: String?
+        /// From a datashare consumer account, associates a datashare with all existing and future namespaces in the specified Amazon Web Services Region.
+        public let consumerRegion: String?
         /// The Amazon Resource Name (ARN) of the datashare that the consumer is to use with the account or the namespace.
         public let dataShareArn: String
 
-        public init(associateEntireAccount: Bool? = nil, consumerArn: String? = nil, dataShareArn: String) {
+        public init(associateEntireAccount: Bool? = nil, consumerArn: String? = nil, consumerRegion: String? = nil, dataShareArn: String) {
             self.associateEntireAccount = associateEntireAccount
             self.consumerArn = consumerArn
+            self.consumerRegion = consumerRegion
             self.dataShareArn = dataShareArn
         }
 
         public func validate(name: String) throws {
             try self.validate(self.consumerArn, name: "consumerArn", parent: name, max: 2_147_483_647)
+            try self.validate(self.consumerRegion, name: "consumerRegion", parent: name, max: 2_147_483_647)
             try self.validate(self.dataShareArn, name: "dataShareArn", parent: name, max: 2_147_483_647)
         }
 
         private enum CodingKeys: String, CodingKey {
             case associateEntireAccount = "AssociateEntireAccount"
             case consumerArn = "ConsumerArn"
+            case consumerRegion = "ConsumerRegion"
             case dataShareArn = "DataShareArn"
         }
     }
@@ -1478,7 +1484,7 @@ extension Redshift {
         public let hsmClientCertificateIdentifier: String?
         /// Specifies the name of the HSM configuration that contains the information the Amazon Redshift cluster can use to retrieve and store keys in an HSM.
         public let hsmConfigurationIdentifier: String?
-        /// A list of Identity and Access Management (IAM) roles that can be used by the cluster to access other Amazon Web Services services. You must supply the IAM roles in their Amazon Resource Name (ARN) format. You can supply up to 10 IAM roles in a single request. A cluster can have up to 10 IAM roles associated with it at any time.
+        /// A list of Identity and Access Management (IAM) roles that can be used by the cluster to access other Amazon Web Services services. You must supply the IAM roles in their Amazon Resource Name (ARN) format.  The maximum number of IAM roles that you can associate is subject to a quota. For more information, go to Quotas and limits in the Amazon Redshift Cluster Management Guide.
         @OptionalCustomCoding<ArrayCoder<_IamRolesEncoding, String>>
         public var iamRoles: [String]?
         /// The Key Management Service (KMS) key ID of the encryption key that you want to use to encrypt data in the cluster.
@@ -1490,7 +1496,7 @@ extension Redshift {
         /// The user name associated with the admin user account for the cluster that is being created. Constraints:   Must be 1 - 128 alphanumeric characters. The user name can't be PUBLIC.   First character must be a letter.
         ///  Cannot be a reserved word. A list of reserved words can be found in Reserved Words in the Amazon Redshift Database Developer Guide.
         public let masterUsername: String
-        /// The password associated with the admin user account for the cluster that is being created. Constraints:   Must be between 8 and 64 characters in length.   Must contain at least one uppercase letter.   Must contain at least one lowercase letter.   Must contain one number.   Can be any printable ASCII character (ASCII code 33 to 126) except ' (single quote), " (double quote), \, /, @, or space.
+        /// The password associated with the admin user account for the cluster that is being created. Constraints:   Must be between 8 and 64 characters in length.   Must contain at least one uppercase letter.   Must contain at least one lowercase letter.   Must contain one number.   Can be any printable ASCII character (ASCII code 33-126) except ' (single quote), " (double quote), \, /, or @.
         public let masterUserPassword: String
         /// The node type to be provisioned for the cluster. For information about node types, go to  Working with Clusters in the Amazon Redshift Cluster Management Guide.  Valid Values: ds2.xlarge | ds2.8xlarge | dc1.large | dc1.8xlarge |  dc2.large | dc2.8xlarge |  ra3.xlplus |  ra3.4xlarge | ra3.16xlarge
         public let nodeType: String
@@ -2099,7 +2105,7 @@ extension Redshift {
     public struct CreateSnapshotCopyGrantMessage: AWSEncodableShape {
         public struct _TagsEncoding: ArrayCoderProperties { public static let member = "Tag" }
 
-        /// The unique identifier of the customer master key (CMK) to which to grant Amazon Redshift permission. If no key is specified, the default key is used.
+        /// The unique identifier of the encrypted symmetric key to which to grant Amazon Redshift permission. If no key is specified, the default key is used.
         public let kmsKeyId: String?
         /// The name of the snapshot copy grant. This name must be unique in the region for the Amazon Web Services account.  Constraints:   Must contain from 1 to 63 alphanumeric characters or hyphens.   Alphabetic characters must be lowercase.   First character must be a letter.   Cannot end with a hyphen or contain two consecutive hyphens.   Must be unique for all clusters within an Amazon Web Services account.
         public let snapshotCopyGrantName: String
@@ -2225,7 +2231,7 @@ extension Redshift {
         public let clusterIdentifier: String
         /// The Amazon Redshift feature that you want to limit.
         public let featureType: UsageLimitFeatureType
-        /// The type of limit. Depending on the feature type, this can be based on a time duration or data size. If FeatureType is spectrum, then LimitType must be data-scanned. If FeatureType is concurrency-scaling, then LimitType must be time.
+        /// The type of limit. Depending on the feature type, this can be based on a time duration or data size. If FeatureType is spectrum, then LimitType must be data-scanned. If FeatureType is concurrency-scaling, then LimitType must be time. If FeatureType is cross-region-datasharing, then LimitType must be data-scanned.
         public let limitType: UsageLimitLimitType
         /// The time period that the amount applies to. A weekly period begins on Sunday. The default is monthly.
         public let period: UsageLimitPeriod?
@@ -2311,6 +2317,8 @@ extension Redshift {
     public struct DataShareAssociation: AWSDecodableShape {
         /// The name of the consumer accounts that have an association with a producer datashare.
         public let consumerIdentifier: String?
+        /// The Amazon Web Services Region of the consumer accounts that have an association with a producer datashare.
+        public let consumerRegion: String?
         /// The creation date of the datashare that is associated.
         public let createdDate: Date?
         /// The status of the datashare that is associated.
@@ -2318,8 +2326,9 @@ extension Redshift {
         /// The status change data of the datashare that is associated.
         public let statusChangeDate: Date?
 
-        public init(consumerIdentifier: String? = nil, createdDate: Date? = nil, status: DataShareStatus? = nil, statusChangeDate: Date? = nil) {
+        public init(consumerIdentifier: String? = nil, consumerRegion: String? = nil, createdDate: Date? = nil, status: DataShareStatus? = nil, statusChangeDate: Date? = nil) {
             self.consumerIdentifier = consumerIdentifier
+            self.consumerRegion = consumerRegion
             self.createdDate = createdDate
             self.status = status
             self.statusChangeDate = statusChangeDate
@@ -2327,6 +2336,7 @@ extension Redshift {
 
         private enum CodingKeys: String, CodingKey {
             case consumerIdentifier = "ConsumerIdentifier"
+            case consumerRegion = "ConsumerRegion"
             case createdDate = "CreatedDate"
             case status = "Status"
             case statusChangeDate = "StatusChangeDate"
@@ -4249,24 +4259,29 @@ extension Redshift {
     public struct DisassociateDataShareConsumerMessage: AWSEncodableShape {
         /// The Amazon Resource Name (ARN) of the consumer that association for the datashare is removed from.
         public let consumerArn: String?
+        /// From a datashare consumer account, removes association of a datashare from all the existing and future namespaces in the specified Amazon Web Services Region.
+        public let consumerRegion: String?
         /// The Amazon Resource Name (ARN) of the datashare to remove association for.
         public let dataShareArn: String
         /// A value that specifies whether association for the datashare is removed from the entire account.
         public let disassociateEntireAccount: Bool?
 
-        public init(consumerArn: String? = nil, dataShareArn: String, disassociateEntireAccount: Bool? = nil) {
+        public init(consumerArn: String? = nil, consumerRegion: String? = nil, dataShareArn: String, disassociateEntireAccount: Bool? = nil) {
             self.consumerArn = consumerArn
+            self.consumerRegion = consumerRegion
             self.dataShareArn = dataShareArn
             self.disassociateEntireAccount = disassociateEntireAccount
         }
 
         public func validate(name: String) throws {
             try self.validate(self.consumerArn, name: "consumerArn", parent: name, max: 2_147_483_647)
+            try self.validate(self.consumerRegion, name: "consumerRegion", parent: name, max: 2_147_483_647)
             try self.validate(self.dataShareArn, name: "dataShareArn", parent: name, max: 2_147_483_647)
         }
 
         private enum CodingKeys: String, CodingKey {
             case consumerArn = "ConsumerArn"
+            case consumerRegion = "ConsumerRegion"
             case dataShareArn = "DataShareArn"
             case disassociateEntireAccount = "DisassociateEntireAccount"
         }
@@ -5210,14 +5225,14 @@ extension Redshift {
         public struct _AddIamRolesEncoding: ArrayCoderProperties { public static let member = "IamRoleArn" }
         public struct _RemoveIamRolesEncoding: ArrayCoderProperties { public static let member = "IamRoleArn" }
 
-        /// Zero or more IAM roles to associate with the cluster. The roles must be in their Amazon Resource Name (ARN) format. You can associate up to 10 IAM roles with a single cluster in a single request.
+        /// Zero or more IAM roles to associate with the cluster. The roles must be in their Amazon Resource Name (ARN) format.
         @OptionalCustomCoding<ArrayCoder<_AddIamRolesEncoding, String>>
         public var addIamRoles: [String]?
         /// The unique identifier of the cluster for which you want to associate or disassociate IAM roles.
         public let clusterIdentifier: String
         /// The Amazon Resource Name (ARN) for the IAM role that was set as default for the cluster when the cluster was last modified.
         public let defaultIamRoleArn: String?
-        /// Zero or more IAM roles in ARN format to disassociate from the cluster. You can disassociate up to 10 IAM roles from a single cluster in a single request.
+        /// Zero or more IAM roles in ARN format to disassociate from the cluster.
         @OptionalCustomCoding<ArrayCoder<_RemoveIamRolesEncoding, String>>
         public var removeIamRoles: [String]?
 
@@ -5351,7 +5366,7 @@ extension Redshift {
         public let maintenanceTrackName: String?
         /// The default for number of days that a newly created manual snapshot is retained. If the value is -1, the manual snapshot is retained indefinitely. This value doesn't retroactively change the retention periods of existing manual snapshots. The value must be either -1 or an integer between 1 and 3,653. The default value is -1.
         public let manualSnapshotRetentionPeriod: Int?
-        /// The new password for the cluster admin user. This change is asynchronously applied as soon as possible. Between the time of the request and the completion of the request, the MasterUserPassword element exists in the PendingModifiedValues element of the operation response.   Operations never return the password, so this operation provides a way to regain access to the admin user account for a cluster if the password is lost.  Default: Uses existing setting. Constraints:   Must be between 8 and 64 characters in length.   Must contain at least one uppercase letter.   Must contain at least one lowercase letter.   Must contain one number.   Can be any printable ASCII character (ASCII code 33 to 126) except ' (single quote), " (double quote), \, /, @, or space.
+        /// The new password for the cluster admin user. This change is asynchronously applied as soon as possible. Between the time of the request and the completion of the request, the MasterUserPassword element exists in the PendingModifiedValues element of the operation response.   Operations never return the password, so this operation provides a way to regain access to the admin user account for a cluster if the password is lost.  Default: Uses existing setting. Constraints:   Must be between 8 and 64 characters in length.   Must contain at least one uppercase letter.   Must contain at least one lowercase letter.   Must contain one number.   Can be any printable ASCII character (ASCII code 33-126) except ' (single quote), " (double quote), \, /, or @.
         public let masterUserPassword: String?
         /// The new identifier for the cluster.  Constraints:   Must contain from 1 to 63 alphanumeric characters or hyphens.   Alphabetic characters must be lowercase.   First character must be a letter.   Cannot end with a hyphen or contain two consecutive hyphens.   Must be unique for all clusters within an Amazon Web Services account.
         ///  Example: examplecluster
@@ -6736,7 +6751,7 @@ extension Redshift {
         public let hsmClientCertificateIdentifier: String?
         /// Specifies the name of the HSM configuration that contains the information the Amazon Redshift cluster can use to retrieve and store keys in an HSM.
         public let hsmConfigurationIdentifier: String?
-        /// A list of Identity and Access Management (IAM) roles that can be used by the cluster to access other Amazon Web Services services. You must supply the IAM roles in their Amazon Resource Name (ARN) format. You can supply up to 10 IAM roles in a single request. A cluster can have up to 10 IAM roles associated at any time.
+        /// A list of Identity and Access Management (IAM) roles that can be used by the cluster to access other Amazon Web Services services. You must supply the IAM roles in their Amazon Resource Name (ARN) format.  The maximum number of IAM roles that you can associate is subject to a quota. For more information, go to Quotas and limits in the Amazon Redshift Cluster Management Guide.
         @OptionalCustomCoding<ArrayCoder<_IamRolesEncoding, String>>
         public var iamRoles: [String]?
         /// The Key Management Service (KMS) key ID of the encryption key that you want to use to encrypt data in the cluster that you restore from a shared snapshot.
@@ -7462,7 +7477,7 @@ extension Redshift {
     public struct SnapshotCopyGrant: AWSDecodableShape {
         public struct _TagsEncoding: ArrayCoderProperties { public static let member = "Tag" }
 
-        /// The unique identifier of the customer master key (CMK) in Amazon Web Services KMS to which Amazon Redshift is granted permission.
+        /// The unique identifier of the encrypted symmetric key in Amazon Web Services KMS to which Amazon Redshift is granted permission.
         public let kmsKeyId: String?
         /// The name of the snapshot copy grant.
         public let snapshotCopyGrantName: String?

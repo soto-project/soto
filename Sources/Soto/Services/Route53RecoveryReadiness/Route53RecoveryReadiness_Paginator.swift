@@ -20,7 +20,7 @@ import SotoCore
 // MARK: Paginators
 
 extension Route53RecoveryReadiness {
-    ///  Returns information about readiness of a Cell.
+    ///  Gets readiness for a cell. Aggregates the readiness of all the resources that are associated with the cell into a single value.
     ///
     /// Provide paginated results to closure `onPage` for it to combine them into one result.
     /// This works in a similar manner to `Array.reduce<Result>(_:_:) -> Result`.
@@ -73,7 +73,7 @@ extension Route53RecoveryReadiness {
         )
     }
 
-    ///  Returns detailed information about the status of an individual resource within a Readiness Check's Resource Set.
+    ///  Gets individual readiness status for a readiness check. To see the overall readiness status for a recovery group, that considers the readiness status for all the readiness checks in the recovery group, use GetRecoveryGroupReadinessSummary.
     ///
     /// Provide paginated results to closure `onPage` for it to combine them into one result.
     /// This works in a similar manner to `Array.reduce<Result>(_:_:) -> Result`.
@@ -126,7 +126,7 @@ extension Route53RecoveryReadiness {
         )
     }
 
-    ///  Returns information about the status of a Readiness Check.
+    ///  Gets the readiness status for an individual readiness check. To see the overall readiness status for a recovery group, that considers the readiness status for all the readiness checks in a recovery group, use GetRecoveryGroupReadinessSummary.
     ///
     /// Provide paginated results to closure `onPage` for it to combine them into one result.
     /// This works in a similar manner to `Array.reduce<Result>(_:_:) -> Result`.
@@ -179,7 +179,7 @@ extension Route53RecoveryReadiness {
         )
     }
 
-    ///  Returns information about a Recovery Group.
+    ///  Displays a summary of information about a recovery group's readiness status. Includes the readiness checks for resources in the recovery group and the readiness status of each one.
     ///
     /// Provide paginated results to closure `onPage` for it to combine them into one result.
     /// This works in a similar manner to `Array.reduce<Result>(_:_:) -> Result`.
@@ -232,7 +232,7 @@ extension Route53RecoveryReadiness {
         )
     }
 
-    ///  Returns a collection of Cells.
+    ///  Lists the cells for an account.
     ///
     /// Provide paginated results to closure `onPage` for it to combine them into one result.
     /// This works in a similar manner to `Array.reduce<Result>(_:_:) -> Result`.
@@ -285,7 +285,7 @@ extension Route53RecoveryReadiness {
         )
     }
 
-    ///  Returns a collection of cross account readiness authorizations.
+    ///  Lists the cross-account readiness authorizations that are in place for an account.
     ///
     /// Provide paginated results to closure `onPage` for it to combine them into one result.
     /// This works in a similar manner to `Array.reduce<Result>(_:_:) -> Result`.
@@ -338,7 +338,7 @@ extension Route53RecoveryReadiness {
         )
     }
 
-    ///  Returns a collection of Readiness Checks.
+    ///  Lists the readiness checks for an account.
     ///
     /// Provide paginated results to closure `onPage` for it to combine them into one result.
     /// This works in a similar manner to `Array.reduce<Result>(_:_:) -> Result`.
@@ -391,7 +391,7 @@ extension Route53RecoveryReadiness {
         )
     }
 
-    ///  Returns a collection of Recovery Groups.
+    ///  Lists the recovery groups in an account.
     ///
     /// Provide paginated results to closure `onPage` for it to combine them into one result.
     /// This works in a similar manner to `Array.reduce<Result>(_:_:) -> Result`.
@@ -444,7 +444,7 @@ extension Route53RecoveryReadiness {
         )
     }
 
-    ///  Returns a collection of Resource Sets.
+    ///  Lists the resource sets in an account.
     ///
     /// Provide paginated results to closure `onPage` for it to combine them into one result.
     /// This works in a similar manner to `Array.reduce<Result>(_:_:) -> Result`.
@@ -497,7 +497,7 @@ extension Route53RecoveryReadiness {
         )
     }
 
-    ///  Returns a collection of rules that are applied as part of Readiness Checks.
+    ///  Lists all readiness rules, or lists the readiness rules for a specific resource type.
     ///
     /// Provide paginated results to closure `onPage` for it to combine them into one result.
     /// This works in a similar manner to `Array.reduce<Result>(_:_:) -> Result`.

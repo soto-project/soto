@@ -243,7 +243,7 @@ extension MigrationHubRefactorSpaces {
         public let apiGatewayProxy: ApiGatewayProxySummary?
         /// The unique identifier of the application.
         public let applicationId: String?
-        /// he Amazon Resource Name (ARN) of the application.
+        /// The Amazon Resource Name (ARN) of the application.
         public let arn: String?
         /// The Amazon Web Services account ID of the application creator.
         public let createdByAccountId: String?
@@ -257,7 +257,7 @@ extension MigrationHubRefactorSpaces {
         public let lastUpdatedTime: Date?
         /// The name of the application.
         public let name: String?
-        /// The Amazon Web Services account ID of the application owner.
+        /// The Amazon Web Services account ID of the application owner (which is always the same as the environment owner account ID).
         public let ownerAccountId: String?
         /// The proxy type of the proxy created within the application.
         public let proxyType: ProxyType?
@@ -379,7 +379,7 @@ extension MigrationHubRefactorSpaces {
         public let lastUpdatedTime: Date?
         /// The name of the application.
         public let name: String?
-        /// The Amazon Web Services account ID of the application owner.
+        /// The Amazon Web Services account ID of the application owner (which is always the same as the environment owner account ID).
         public let ownerAccountId: String?
         /// The proxy type of the proxy created within the application.
         public let proxyType: ProxyType?
@@ -590,9 +590,9 @@ extension MigrationHubRefactorSpaces {
         public let routeId: String?
         /// The route type of the route.
         public let routeType: RouteType?
-        /// The ID of service in which the rute iscreated. Traffic that matches this route is forwarded to this service.
+        /// The ID of service in which the route is created. Traffic that matches this route is forwarded to this service.
         public let serviceId: String?
-        /// he current state of the route.
+        /// The current state of the route.
         public let state: RouteState?
         /// The tags assigned to the created route. A tag is a label that you assign to an Amazon Web Services resource. Each tag consists of a key-value pair.
         public let tags: [String: String]?
@@ -951,7 +951,7 @@ extension MigrationHubRefactorSpaces {
     }
 
     public struct DeleteRouteResponse: AWSDecodableShape {
-        /// he ID of the application that the route belongs to.
+        /// The ID of the application that the route belongs to.
         public let applicationId: String?
         /// The Amazon Resource Name (ARN) of the route.
         public let arn: String?
@@ -1229,7 +1229,7 @@ extension MigrationHubRefactorSpaces {
         public let lastUpdatedTime: Date?
         /// The name of the application.
         public let name: String?
-        /// The Amazon Web Services account ID of the application owner.
+        /// The Amazon Web Services account ID of the application owner (which is always the same as the environment owner account ID).
         public let ownerAccountId: String?
         /// The proxy type of the proxy created within the application.
         public let proxyType: ProxyType?

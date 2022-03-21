@@ -19,7 +19,7 @@
 
 /// Service object for interacting with AWS EC2 service.
 ///
-/// Amazon Elastic Compute Cloud Amazon Elastic Compute Cloud (Amazon EC2) provides secure and resizable computing capacity in the AWS Cloud.  Using Amazon EC2 eliminates the need to invest in hardware up front, so you can develop and deploy applications  faster. Amazon Virtual Private Cloud (Amazon VPC) enables you to provision a logically isolated section of the  AWS Cloud where you can launch AWS resources in a virtual network that you've defined. Amazon Elastic Block Store  (Amazon EBS) provides block level storage volumes for use with EC2 instances. EBS volumes are highly available   and reliable storage volumes that can be attached to any running instance and used like a hard drive. To learn more, see the following resources:   Amazon EC2: AmazonEC2 product page, Amazon EC2 documentation    Amazon EBS: Amazon EBS product page, Amazon EBS documentation    Amazon VPC: Amazon VPC product page, Amazon VPC documentation    AWS VPN: AWS VPN product page, AWS VPN documentation
+/// Amazon Elastic Compute Cloud Amazon Elastic Compute Cloud (Amazon EC2) provides secure and resizable computing capacity in the Amazon Web Services Cloud.  Using Amazon EC2 eliminates the need to invest in hardware up front, so you can develop and deploy applications  faster. Amazon Virtual Private Cloud (Amazon VPC) enables you to provision a logically isolated section of the  Amazon Web Services Cloud where you can launch Amazon Web Services resources in a virtual network that you've defined. Amazon Elastic Block Store  (Amazon EBS) provides block level storage volumes for use with EC2 instances. EBS volumes are highly available   and reliable storage volumes that can be attached to any running instance and used like a hard drive. To learn more, see the following resources:   Amazon EC2: AmazonEC2 product page, Amazon EC2 documentation    Amazon EBS: Amazon EBS product page, Amazon EBS documentation    Amazon VPC: Amazon VPC product page, Amazon VPC documentation    Amazon Web Services VPN: Amazon Web Services VPN product page, Amazon Web Services VPN documentation
 public struct EC2: AWSService {
     // MARK: Member variables
 
@@ -434,7 +434,7 @@ public struct EC2: AWSService {
         return self.client.execute(operation: "CreateEgressOnlyInternetGateway", path: "/", httpMethod: .POST, serviceConfig: self.config, input: input, logger: logger, on: eventLoop)
     }
 
-    /// Launches an EC2 Fleet. You can create a single EC2 Fleet that includes multiple launch specifications that vary by instance type, AMI, Availability Zone, or subnet. For more information, see Launching an EC2 Fleet in the Amazon EC2 User Guide.
+    /// Launches an EC2 Fleet. You can create a single EC2 Fleet that includes multiple launch specifications that vary by instance type, AMI, Availability Zone, or subnet. For more information, see EC2 Fleet in the Amazon EC2 User Guide.
     public func createFleet(_ input: CreateFleetRequest, logger: Logger = AWSClient.loggingDisabled, on eventLoop: EventLoop? = nil) -> EventLoopFuture<CreateFleetResult> {
         return self.client.execute(operation: "CreateFleet", path: "/", httpMethod: .POST, serviceConfig: self.config, input: input, logger: logger, on: eventLoop)
     }
@@ -449,7 +449,7 @@ public struct EC2: AWSService {
         return self.client.execute(operation: "CreateFpgaImage", path: "/", httpMethod: .POST, serviceConfig: self.config, input: input, logger: logger, on: eventLoop)
     }
 
-    /// Creates an Amazon EBS-backed AMI from an Amazon EBS-backed instance  	that is either running or stopped.    	 	     If you customized your instance with instance store volumes or Amazon EBS volumes in addition to the root device volume, the  	new AMI contains block device mapping information for those volumes. When you launch an instance from this new AMI,  	the instance automatically launches with those additional volumes. 	     For more information, see Creating Amazon EBS-Backed Linux AMIs
+    /// Creates an Amazon EBS-backed AMI from an Amazon EBS-backed instance  	that is either running or stopped.  By default, Amazon EC2 shuts down and reboots the instance before creating the AMI to ensure that everything on  the instance is stopped and in a consistent state during the creation process. If you're confident that your  instance is in a consistent state appropriate for AMI creation, use the NoReboot  parameter to prevent Amazon EC2 from shutting down and rebooting the instance.      	 	     If you customized your instance with instance store volumes or Amazon EBS volumes in addition to the root device volume, the  	new AMI contains block device mapping information for those volumes. When you launch an instance from this new AMI,  	the instance automatically launches with those additional volumes. 	     For more information, see Creating Amazon EBS-Backed Linux AMIs
     /// 				in the Amazon Elastic Compute Cloud User Guide.
     public func createImage(_ input: CreateImageRequest, logger: Logger = AWSClient.loggingDisabled, on eventLoop: EventLoop? = nil) -> EventLoopFuture<CreateImageResult> {
         return self.client.execute(operation: "CreateImage", path: "/", httpMethod: .POST, serviceConfig: self.config, input: input, logger: logger, on: eventLoop)
@@ -812,7 +812,7 @@ public struct EC2: AWSService {
         return self.client.execute(operation: "DeleteEgressOnlyInternetGateway", path: "/", httpMethod: .POST, serviceConfig: self.config, input: input, logger: logger, on: eventLoop)
     }
 
-    /// Deletes the specified EC2 Fleet. After you delete an EC2 Fleet, it launches no new instances. You must specify whether a deleted EC2 Fleet should also terminate its instances. If you choose to terminate the instances, the EC2 Fleet enters the deleted_terminating state. Otherwise, the EC2 Fleet enters the deleted_running state, and the instances continue to run until they are interrupted or you terminate them manually. For instant fleets, EC2 Fleet must terminate the instances when the fleet is deleted. A deleted instant fleet with running instances is not supported.  Restrictions    You can delete up to 25 instant fleets in a single request. If you exceed this number, no instant fleets are deleted and an error is returned. There is no restriction on the number of fleets of type maintain or request that can be deleted in a single request.   Up to 1000 instances can be terminated in a single request to delete instant fleets.    For more information, see Deleting an EC2 Fleet in the Amazon EC2 User Guide.
+    /// Deletes the specified EC2 Fleet. After you delete an EC2 Fleet, it launches no new instances. You must specify whether a deleted EC2 Fleet should also terminate its instances. If you choose to terminate the instances, the EC2 Fleet enters the deleted_terminating state. Otherwise, the EC2 Fleet enters the deleted_running state, and the instances continue to run until they are interrupted or you terminate them manually. For instant fleets, EC2 Fleet must terminate the instances when the fleet is deleted. A deleted instant fleet with running instances is not supported.  Restrictions    You can delete up to 25 instant fleets in a single request. If you exceed this number, no instant fleets are deleted and an error is returned. There is no restriction on the number of fleets of type maintain or request that can be deleted in a single request.   Up to 1000 instances can be terminated in a single request to delete instant fleets.    For more information, see Delete an EC2 Fleet in the Amazon EC2 User Guide.
     public func deleteFleets(_ input: DeleteFleetsRequest, logger: Logger = AWSClient.loggingDisabled, on eventLoop: EventLoop? = nil) -> EventLoopFuture<DeleteFleetsResult> {
         return self.client.execute(operation: "DeleteFleets", path: "/", httpMethod: .POST, serviceConfig: self.config, input: input, logger: logger, on: eventLoop)
     }
@@ -1114,10 +1114,7 @@ public struct EC2: AWSService {
         return self.client.execute(operation: "DeprovisionPublicIpv4PoolCidr", path: "/", httpMethod: .POST, serviceConfig: self.config, input: input, logger: logger, on: eventLoop)
     }
 
-    /// Deregisters the specified AMI. After you deregister an AMI, it can't be used to launch
-    /// 			new instances; however, it doesn't affect any instances that you've already launched
-    /// 			from the AMI. You'll continue to incur usage costs for those instances until you
-    /// 			terminate them. 	     When you deregister an Amazon EBS-backed AMI, it doesn't affect the snapshot that was
+    /// Deregisters the specified AMI. After you deregister an AMI, it can't be used to  launch new instances.   If you deregister an AMI that matches a Recycle Bin retention rule, the AMI is  retained in the Recycle Bin for the specified retention period. For more information,  see Recycle Bin in the Amazon Elastic Compute Cloud User Guide.  When you deregister an AMI, it doesn't affect any instances that you've already  launched from the AMI. You'll continue to incur usage costs for those instances until  you terminate them. 	     When you deregister an Amazon EBS-backed AMI, it doesn't affect the snapshot that was
     /// 			created for the root volume of the instance during the AMI creation process. When you
     /// 			deregister an instance store-backed AMI, it doesn't affect the files that you uploaded
     /// 			to Amazon S3 when you created the AMI.
@@ -1125,7 +1122,7 @@ public struct EC2: AWSService {
         return self.client.execute(operation: "DeregisterImage", path: "/", httpMethod: .POST, serviceConfig: self.config, input: input, logger: logger, on: eventLoop)
     }
 
-    /// c 	     Deregisters tag keys to prevent tags that have the specified tag keys from being included
+    /// Deregisters tag keys to prevent tags that have the specified tag keys from being included
     /// 			in scheduled event notifications for resources in the Region.
     public func deregisterInstanceEventNotificationAttributes(_ input: DeregisterInstanceEventNotificationAttributesRequest, logger: Logger = AWSClient.loggingDisabled, on eventLoop: EventLoop? = nil) -> EventLoopFuture<DeregisterInstanceEventNotificationAttributesResult> {
         return self.client.execute(operation: "DeregisterInstanceEventNotificationAttributes", path: "/", httpMethod: .POST, serviceConfig: self.config, input: input, logger: logger, on: eventLoop)
@@ -1141,7 +1138,7 @@ public struct EC2: AWSService {
         return self.client.execute(operation: "DeregisterTransitGatewayMulticastGroupSources", path: "/", httpMethod: .POST, serviceConfig: self.config, input: input, logger: logger, on: eventLoop)
     }
 
-    /// Describes attributes of your AWS account. The following are the supported account attributes:    supported-platforms: Indicates whether your account can launch instances into EC2-Classic and EC2-VPC, or only into EC2-VPC.    default-vpc: The ID of the default VPC for your account, or none.    max-instances: This attribute is no longer supported. The returned value does not reflect your actual vCPU limit for running On-Demand Instances. For more information, see On-Demand Instance Limits in the Amazon Elastic Compute Cloud User Guide.    vpc-max-security-groups-per-interface: The maximum number of security groups that you can assign to a network interface.    max-elastic-ips: The maximum number of Elastic IP addresses that you can allocate for use with EC2-Classic.     vpc-max-elastic-ips: The maximum number of Elastic IP addresses that you can allocate for use with EC2-VPC.
+    /// Describes attributes of your Amazon Web Services account. The following are the supported account attributes:    supported-platforms: Indicates whether your account can launch instances into EC2-Classic and EC2-VPC, or only into EC2-VPC.    default-vpc: The ID of the default VPC for your account, or none.    max-instances: This attribute is no longer supported. The returned value does not reflect your actual vCPU limit for running On-Demand Instances. For more information, see On-Demand Instance Limits in the Amazon Elastic Compute Cloud User Guide.    vpc-max-security-groups-per-interface: The maximum number of security groups that you can assign to a network interface.    max-elastic-ips: The maximum number of Elastic IP addresses that you can allocate for use with EC2-Classic.     vpc-max-elastic-ips: The maximum number of Elastic IP addresses that you can allocate for use with EC2-VPC.
     public func describeAccountAttributes(_ input: DescribeAccountAttributesRequest, logger: Logger = AWSClient.loggingDisabled, on eventLoop: EventLoop? = nil) -> EventLoopFuture<DescribeAccountAttributesResult> {
         return self.client.execute(operation: "DescribeAccountAttributes", path: "/", httpMethod: .POST, serviceConfig: self.config, input: input, logger: logger, on: eventLoop)
     }
@@ -1268,6 +1265,11 @@ public struct EC2: AWSService {
         return self.client.execute(operation: "DescribeExportTasks", path: "/", httpMethod: .POST, serviceConfig: self.config, input: input, logger: logger, on: eventLoop)
     }
 
+    /// Describe details for Windows AMIs that are configured for faster launching.
+    public func describeFastLaunchImages(_ input: DescribeFastLaunchImagesRequest, logger: Logger = AWSClient.loggingDisabled, on eventLoop: EventLoop? = nil) -> EventLoopFuture<DescribeFastLaunchImagesResult> {
+        return self.client.execute(operation: "DescribeFastLaunchImages", path: "/", httpMethod: .POST, serviceConfig: self.config, input: input, logger: logger, on: eventLoop)
+    }
+
     /// Describes the state of fast snapshot restores for your snapshots.
     public func describeFastSnapshotRestores(_ input: DescribeFastSnapshotRestoresRequest, logger: Logger = AWSClient.loggingDisabled, on eventLoop: EventLoop? = nil) -> EventLoopFuture<DescribeFastSnapshotRestoresResult> {
         return self.client.execute(operation: "DescribeFastSnapshotRestores", path: "/", httpMethod: .POST, serviceConfig: self.config, input: input, logger: logger, on: eventLoop)
@@ -1278,12 +1280,12 @@ public struct EC2: AWSService {
         return self.client.execute(operation: "DescribeFleetHistory", path: "/", httpMethod: .POST, serviceConfig: self.config, input: input, logger: logger, on: eventLoop)
     }
 
-    /// Describes the running instances for the specified EC2 Fleet. For more information, see Monitoring your EC2 Fleet in the Amazon EC2 User Guide.
+    /// Describes the running instances for the specified EC2 Fleet. For more information, see Monitor your EC2 Fleet in the Amazon EC2 User Guide.
     public func describeFleetInstances(_ input: DescribeFleetInstancesRequest, logger: Logger = AWSClient.loggingDisabled, on eventLoop: EventLoop? = nil) -> EventLoopFuture<DescribeFleetInstancesResult> {
         return self.client.execute(operation: "DescribeFleetInstances", path: "/", httpMethod: .POST, serviceConfig: self.config, input: input, logger: logger, on: eventLoop)
     }
 
-    /// Describes the specified EC2 Fleets or all of your EC2 Fleets. For more information, see Monitoring your EC2 Fleet in the Amazon EC2 User Guide.
+    /// Describes the specified EC2 Fleets or all of your EC2 Fleets. For more information, see Monitor your EC2 Fleet in the Amazon EC2 User Guide.
     public func describeFleets(_ input: DescribeFleetsRequest, logger: Logger = AWSClient.loggingDisabled, on eventLoop: EventLoop? = nil) -> EventLoopFuture<DescribeFleetsResult> {
         return self.client.execute(operation: "DescribeFleets", path: "/", httpMethod: .POST, serviceConfig: self.config, input: input, logger: logger, on: eventLoop)
     }
@@ -1664,7 +1666,7 @@ public struct EC2: AWSService {
         return self.client.execute(operation: "DescribeSpotPriceHistory", path: "/", httpMethod: .POST, serviceConfig: self.config, input: input, logger: logger, on: eventLoop)
     }
 
-    /// [VPC only] Describes the stale security group rules for security groups in a specified VPC. Rules are stale when they reference a deleted security group in a peer VPC, or a security group in a peer VPC for which the VPC peering connection has been deleted.
+    /// [VPC only] Describes the stale security group rules for security groups in a specified VPC.  Rules are stale when they reference a deleted security group in the same VPC or in a peer VPC,  or if they reference a security group in a peer VPC for which the VPC peering connection has  been deleted.
     public func describeStaleSecurityGroups(_ input: DescribeStaleSecurityGroupsRequest, logger: Logger = AWSClient.loggingDisabled, on eventLoop: EventLoop? = nil) -> EventLoopFuture<DescribeStaleSecurityGroupsResult> {
         return self.client.execute(operation: "DescribeStaleSecurityGroups", path: "/", httpMethod: .POST, serviceConfig: self.config, input: input, logger: logger, on: eventLoop)
     }
@@ -1862,6 +1864,16 @@ public struct EC2: AWSService {
         return self.client.execute(operation: "DisableEbsEncryptionByDefault", path: "/", httpMethod: .POST, serviceConfig: self.config, input: input, logger: logger, on: eventLoop)
     }
 
+    /// Discontinue faster launching for a Windows AMI, and clean up existing pre-provisioned snapshots.
+    /// 			When you disable faster launching, the AMI uses the standard launch process for each
+    /// 			instance. All pre-provisioned snapshots must be removed before you can enable faster launching again.
+    ///
+    /// 			         To change these settings, you must own the AMI.
+    ///
+    public func disableFastLaunch(_ input: DisableFastLaunchRequest, logger: Logger = AWSClient.loggingDisabled, on eventLoop: EventLoop? = nil) -> EventLoopFuture<DisableFastLaunchResult> {
+        return self.client.execute(operation: "DisableFastLaunch", path: "/", httpMethod: .POST, serviceConfig: self.config, input: input, logger: logger, on: eventLoop)
+    }
+
     /// Disables fast snapshot restores for the specified snapshots in the specified Availability Zones.
     public func disableFastSnapshotRestores(_ input: DisableFastSnapshotRestoresRequest, logger: Logger = AWSClient.loggingDisabled, on eventLoop: EventLoop? = nil) -> EventLoopFuture<DisableFastSnapshotRestoresResult> {
         return self.client.execute(operation: "DisableFastSnapshotRestores", path: "/", httpMethod: .POST, serviceConfig: self.config, input: input, logger: logger, on: eventLoop)
@@ -1989,6 +2001,19 @@ public struct EC2: AWSService {
     /// Enables EBS encryption by default for your account in the current Region. After you enable encryption by default, the EBS volumes that you create are 	always encrypted, either using the default KMS key or the KMS key that you specified when you created each volume. For more information, see Amazon EBS encryption in the Amazon Elastic Compute Cloud User Guide. 	      You can specify the default KMS key for encryption by default using ModifyEbsDefaultKmsKeyId or ResetEbsDefaultKmsKeyId. Enabling encryption by default has no effect on the encryption status of your  existing volumes. After you enable encryption by default, you can no longer launch instances using instance types that do not support encryption. For more information, see Supported instance types.
     public func enableEbsEncryptionByDefault(_ input: EnableEbsEncryptionByDefaultRequest, logger: Logger = AWSClient.loggingDisabled, on eventLoop: EventLoop? = nil) -> EventLoopFuture<EnableEbsEncryptionByDefaultResult> {
         return self.client.execute(operation: "EnableEbsEncryptionByDefault", path: "/", httpMethod: .POST, serviceConfig: self.config, input: input, logger: logger, on: eventLoop)
+    }
+
+    /// When you enable faster launching for a Windows AMI, images are pre-provisioned,
+    /// 			using snapshots to launch instances up to 65% faster. To create the optimized Windows
+    /// 			image, Amazon EC2 launches an instance and runs through Sysprep steps, rebooting as required.
+    /// 			Then it creates a set of reserved snapshots that are used for subsequent launches. The
+    /// 			reserved snapshots are automatically replenished as they are used, depending on your
+    /// 			settings for launch frequency.
+    ///
+    /// 			         To change these settings, you must own the AMI.
+    ///
+    public func enableFastLaunch(_ input: EnableFastLaunchRequest, logger: Logger = AWSClient.loggingDisabled, on eventLoop: EventLoop? = nil) -> EventLoopFuture<EnableFastLaunchResult> {
+        return self.client.execute(operation: "EnableFastLaunch", path: "/", httpMethod: .POST, serviceConfig: self.config, input: input, logger: logger, on: eventLoop)
     }
 
     /// Enables fast snapshot restores for the specified snapshots in the specified Availability Zones. You get the full benefit of fast snapshot restores after they enter the enabled state. To get the current state of fast snapshot restores, use DescribeFastSnapshotRestores. To disable fast snapshot restores, use DisableFastSnapshotRestores. For more information, see Amazon EBS fast snapshot restore in the Amazon Elastic Compute Cloud User Guide.
@@ -2281,6 +2306,11 @@ public struct EC2: AWSService {
         return self.client.execute(operation: "ImportVolume", path: "/", httpMethod: .POST, serviceConfig: self.config, input: input, logger: logger, on: eventLoop)
     }
 
+    /// Lists one or more AMIs that are currently in the Recycle Bin. For more information,  see Recycle Bin in the Amazon Elastic Compute Cloud User Guide.
+    public func listImagesInRecycleBin(_ input: ListImagesInRecycleBinRequest, logger: Logger = AWSClient.loggingDisabled, on eventLoop: EventLoop? = nil) -> EventLoopFuture<ListImagesInRecycleBinResult> {
+        return self.client.execute(operation: "ListImagesInRecycleBin", path: "/", httpMethod: .POST, serviceConfig: self.config, input: input, logger: logger, on: eventLoop)
+    }
+
     /// Lists one or more snapshots that are currently in the Recycle Bin.
     public func listSnapshotsInRecycleBin(_ input: ListSnapshotsInRecycleBinRequest, logger: Logger = AWSClient.loggingDisabled, on eventLoop: EventLoop? = nil) -> EventLoopFuture<ListSnapshotsInRecycleBinResult> {
         return self.client.execute(operation: "ListSnapshotsInRecycleBin", path: "/", httpMethod: .POST, serviceConfig: self.config, input: input, logger: logger, on: eventLoop)
@@ -2535,6 +2565,11 @@ public struct EC2: AWSService {
         return self.client.execute(operation: "ModifyVpcEndpointServiceConfiguration", path: "/", httpMethod: .POST, serviceConfig: self.config, input: input, logger: logger, on: eventLoop)
     }
 
+    /// Modifies the payer responsibility for your VPC endpoint service.
+    public func modifyVpcEndpointServicePayerResponsibility(_ input: ModifyVpcEndpointServicePayerResponsibilityRequest, logger: Logger = AWSClient.loggingDisabled, on eventLoop: EventLoop? = nil) -> EventLoopFuture<ModifyVpcEndpointServicePayerResponsibilityResult> {
+        return self.client.execute(operation: "ModifyVpcEndpointServicePayerResponsibility", path: "/", httpMethod: .POST, serviceConfig: self.config, input: input, logger: logger, on: eventLoop)
+    }
+
     /// Modifies the permissions for your VPC endpoint service. You can add or remove permissions for service consumers (IAM users,
     /// 	        IAM roles, and Amazon Web Services accounts) to connect to your endpoint service.
     /// 	        If you grant permissions to all principals, the service is public. Any users who know the name of a
@@ -2577,7 +2612,7 @@ public struct EC2: AWSService {
         return self.client.execute(operation: "ModifyVpnTunnelOptions", path: "/", httpMethod: .POST, serviceConfig: self.config, input: input, logger: logger, on: eventLoop)
     }
 
-    /// Enables detailed monitoring for a running instance. Otherwise, basic monitoring is enabled. For more information, see Monitor your instances using  CloudWatch in the Amazon EC2 User Guide. To disable detailed monitoring, see .
+    /// Enables detailed monitoring for a running instance. Otherwise, basic monitoring is enabled. For more information, see Monitor your instances using  CloudWatch in the Amazon EC2 User Guide. To disable detailed monitoring, see UnmonitorInstances.
     public func monitorInstances(_ input: MonitorInstancesRequest, logger: Logger = AWSClient.loggingDisabled, on eventLoop: EventLoop? = nil) -> EventLoopFuture<MonitorInstancesResult> {
         return self.client.execute(operation: "MonitorInstances", path: "/", httpMethod: .POST, serviceConfig: self.config, input: input, logger: logger, on: eventLoop)
     }
@@ -2587,7 +2622,7 @@ public struct EC2: AWSService {
         return self.client.execute(operation: "MoveAddressToVpc", path: "/", httpMethod: .POST, serviceConfig: self.config, input: input, logger: logger, on: eventLoop)
     }
 
-    /// Move an BYOIP IPv4 CIDR to IPAM from a public IPv4 pool.
+    /// Move an BYOIP IPv4 CIDR to IPAM from a public IPv4 pool. If you already have an IPv4 BYOIP CIDR with Amazon Web Services, you can move the CIDR to IPAM from a public IPv4 pool. You cannot move an IPv6 CIDR to IPAM. If you are bringing a new IP address to Amazon Web Services for the first time, complete the steps in Tutorial: BYOIP address CIDRs to IPAM.
     public func moveByoipCidrToIpam(_ input: MoveByoipCidrToIpamRequest, logger: Logger = AWSClient.loggingDisabled, on eventLoop: EventLoop? = nil) -> EventLoopFuture<MoveByoipCidrToIpamResult> {
         return self.client.execute(operation: "MoveByoipCidrToIpam", path: "/", httpMethod: .POST, serviceConfig: self.config, input: input, logger: logger, on: eventLoop)
     }
@@ -2597,7 +2632,7 @@ public struct EC2: AWSService {
         return self.client.execute(operation: "ProvisionByoipCidr", path: "/", httpMethod: .POST, serviceConfig: self.config, input: input, logger: logger, on: eventLoop)
     }
 
-    /// Provision a CIDR to an IPAM pool. You can use thsi action to provision new CIDRs to a top-level pool or to transfer a CIDR from a top-level pool to a pool within it. For more information, see Provision CIDRs to pools in the Amazon VPC IPAM User Guide.
+    /// Provision a CIDR to an IPAM pool. You can use this action to provision new CIDRs to a top-level pool or to transfer a CIDR from a top-level pool to a pool within it. For more information, see Provision CIDRs to pools in the Amazon VPC IPAM User Guide.
     public func provisionIpamPoolCidr(_ input: ProvisionIpamPoolCidrRequest, logger: Logger = AWSClient.loggingDisabled, on eventLoop: EventLoop? = nil) -> EventLoopFuture<ProvisionIpamPoolCidrResult> {
         return self.client.execute(operation: "ProvisionIpamPoolCidr", path: "/", httpMethod: .POST, serviceConfig: self.config, input: input, logger: logger, on: eventLoop)
     }
@@ -2637,7 +2672,7 @@ public struct EC2: AWSService {
         return self.client.execute(operation: "RegisterImage", path: "/", httpMethod: .POST, serviceConfig: self.config, input: input, logger: logger, on: eventLoop)
     }
 
-    /// Registers a set of tag keys to include in scheduled event notifications for your resources.  		 To remove tags, use .
+    /// Registers a set of tag keys to include in scheduled event notifications for your resources.  		 To remove tags, use DeregisterInstanceEventNotificationAttributes.
     public func registerInstanceEventNotificationAttributes(_ input: RegisterInstanceEventNotificationAttributesRequest, logger: Logger = AWSClient.loggingDisabled, on eventLoop: EventLoop? = nil) -> EventLoopFuture<RegisterInstanceEventNotificationAttributesResult> {
         return self.client.execute(operation: "RegisterInstanceEventNotificationAttributes", path: "/", httpMethod: .POST, serviceConfig: self.config, input: input, logger: logger, on: eventLoop)
     }
@@ -2786,6 +2821,11 @@ public struct EC2: AWSService {
     /// Restores an Elastic IP address that was previously moved to the EC2-VPC platform back to the EC2-Classic platform. You cannot move an Elastic IP address that was originally allocated for use in EC2-VPC. The Elastic IP address must not be associated with an instance or network interface.
     public func restoreAddressToClassic(_ input: RestoreAddressToClassicRequest, logger: Logger = AWSClient.loggingDisabled, on eventLoop: EventLoop? = nil) -> EventLoopFuture<RestoreAddressToClassicResult> {
         return self.client.execute(operation: "RestoreAddressToClassic", path: "/", httpMethod: .POST, serviceConfig: self.config, input: input, logger: logger, on: eventLoop)
+    }
+
+    /// Restores an AMI from the Recycle Bin. For more information, see Recycle Bin in the Amazon Elastic Compute Cloud User Guide.
+    public func restoreImageFromRecycleBin(_ input: RestoreImageFromRecycleBinRequest, logger: Logger = AWSClient.loggingDisabled, on eventLoop: EventLoop? = nil) -> EventLoopFuture<RestoreImageFromRecycleBinResult> {
+        return self.client.execute(operation: "RestoreImageFromRecycleBin", path: "/", httpMethod: .POST, serviceConfig: self.config, input: input, logger: logger, on: eventLoop)
     }
 
     /// Restores the entries from a previous version of a managed prefix list to a new version of the prefix list.

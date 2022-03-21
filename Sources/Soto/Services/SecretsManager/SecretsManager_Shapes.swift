@@ -951,6 +951,8 @@ extension SecretsManager {
     public struct RotateSecretRequest: AWSEncodableShape {
         /// A unique identifier for the new version of the secret that helps ensure idempotency. Secrets Manager uses this value to prevent the accidental creation of duplicate versions if there are failures and retries during rotation. This value becomes the VersionId of the new version. If you use the Amazon Web Services CLI or one of the Amazon Web Services SDK to call this operation, then you can leave this parameter empty. The CLI or SDK generates a random UUID for you and includes that in the request for this parameter. If you don't use the SDK and instead generate a raw HTTP request to the Secrets Manager service endpoint, then you must generate a ClientRequestToken yourself for new versions and include that value in the request. You only need to specify this value if you implement your own retry logic and you want to ensure that Secrets Manager doesn't attempt to create a secret version twice. We recommend that you generate a UUID-type value to ensure uniqueness within the specified secret.
         public let clientRequestToken: String?
+        /// Specifies whether to rotate the secret immediately or wait until the next scheduled rotation window.  The rotation schedule is defined in RotateSecretRequest$RotationRules. If you don't immediately rotate the secret, Secrets Manager tests the rotation configuration by running the   testSecret  step of the Lambda rotation function. The test creates an AWSPENDING version of the secret and then removes it. If you don't specify this value, then by default, Secrets Manager rotates the secret immediately.
+        public let rotateImmediately: Bool?
         /// The ARN of the Lambda rotation function that can rotate the secret.
         public let rotationLambdaARN: String?
         /// A structure that defines the rotation configuration for this secret.
@@ -958,8 +960,9 @@ extension SecretsManager {
         /// The ARN or name of the secret to rotate. For an ARN, we recommend that you specify a complete ARN rather  than a partial ARN.
         public let secretId: String
 
-        public init(clientRequestToken: String? = RotateSecretRequest.idempotencyToken(), rotationLambdaARN: String? = nil, rotationRules: RotationRulesType? = nil, secretId: String) {
+        public init(clientRequestToken: String? = RotateSecretRequest.idempotencyToken(), rotateImmediately: Bool? = nil, rotationLambdaARN: String? = nil, rotationRules: RotationRulesType? = nil, secretId: String) {
             self.clientRequestToken = clientRequestToken
+            self.rotateImmediately = rotateImmediately
             self.rotationLambdaARN = rotationLambdaARN
             self.rotationRules = rotationRules
             self.secretId = secretId
@@ -976,6 +979,7 @@ extension SecretsManager {
 
         private enum CodingKeys: String, CodingKey {
             case clientRequestToken = "ClientRequestToken"
+            case rotateImmediately = "RotateImmediately"
             case rotationLambdaARN = "RotationLambdaARN"
             case rotationRules = "RotationRules"
             case secretId = "SecretId"
@@ -1004,20 +1008,34 @@ extension SecretsManager {
     }
 
     public struct RotationRulesType: AWSEncodableShape & AWSDecodableShape {
-        /// Specifies the number of days between automatic scheduled rotations of the secret. Secrets Manager schedules the next rotation when the previous  one is complete. Secrets Manager schedules the date by adding the rotation interval (number of days) to the  actual date of the last rotation. The service chooses the hour within that 24-hour date window  randomly. The minute is also chosen somewhat randomly, but weighted towards the top of the hour  and influenced by a variety of factors that help distribute load.
+        /// The number of days between automatic scheduled rotations of the secret. You can use this  value to check that your secret meets your compliance guidelines for how often secrets must  be rotated. In DescribeSecret and ListSecrets, this value is calculated from  the rotation schedule after every successful rotation. In RotateSecret, you can  set the rotation schedule in RotationRules with AutomaticallyAfterDays or ScheduleExpression, but not both.
         public let automaticallyAfterDays: Int64?
+        /// The length of the rotation window in hours, for example 3h for a three hour window. Secrets Manager  rotates your secret at any time during this window. The window must not go into the next UTC  day. If you don't specify this value, the window automatically ends at the end of  the UTC day. The window begins according to the ScheduleExpression. For more  information, including examples, see Schedule expressions  in Secrets Manager rotation.
+        public let duration: String?
+        /// A cron() or rate() expression that defines the schedule for  rotating your secret. Secrets Manager rotation schedules use UTC time zone.  Secrets Manager rate() expressions  represent the interval in days that you want to rotate your secret, for example  rate(10 days). If you use a rate() expression, the rotation  window opens at midnight, and Secrets Manager rotates your secret any time that day after midnight.  You can set a Duration to shorten the rotation window. You can use a cron() expression to create rotation schedules that are  more detailed than a rotation interval. For more information, including examples, see  Schedule expressions  in Secrets Manager rotation. If you use a cron() expression, Secrets Manager rotates  your secret any time during that day after the window opens. For example,  cron(0 8 1 * ? *) represents a rotation window that occurs on the first  day of every month beginning at 8:00 AM UTC. Secrets Manager rotates the secret any time that day  after 8:00 AM. You can set a Duration to shorten  the rotation window.
+        public let scheduleExpression: String?
 
-        public init(automaticallyAfterDays: Int64? = nil) {
+        public init(automaticallyAfterDays: Int64? = nil, duration: String? = nil, scheduleExpression: String? = nil) {
             self.automaticallyAfterDays = automaticallyAfterDays
+            self.duration = duration
+            self.scheduleExpression = scheduleExpression
         }
 
         public func validate(name: String) throws {
             try self.validate(self.automaticallyAfterDays, name: "automaticallyAfterDays", parent: name, max: 1000)
             try self.validate(self.automaticallyAfterDays, name: "automaticallyAfterDays", parent: name, min: 1)
+            try self.validate(self.duration, name: "duration", parent: name, max: 3)
+            try self.validate(self.duration, name: "duration", parent: name, min: 2)
+            try self.validate(self.duration, name: "duration", parent: name, pattern: "^[0-9h]+$")
+            try self.validate(self.scheduleExpression, name: "scheduleExpression", parent: name, max: 256)
+            try self.validate(self.scheduleExpression, name: "scheduleExpression", parent: name, min: 1)
+            try self.validate(self.scheduleExpression, name: "scheduleExpression", parent: name, pattern: "^[0-9A-Za-z\\(\\)#\\?\\*\\-\\/, ]+$")
         }
 
         private enum CodingKeys: String, CodingKey {
             case automaticallyAfterDays = "AutomaticallyAfterDays"
+            case duration = "Duration"
+            case scheduleExpression = "ScheduleExpression"
         }
     }
 
@@ -1026,7 +1044,7 @@ extension SecretsManager {
         public let arn: String?
         /// The date and time when a secret was created.
         public let createdDate: Date?
-        /// The date and time the deletion of the secret occurred. Not present on active secrets. The secret can be recovered until the number of days in the recovery window has passed, as specified in the RecoveryWindowInDays parameter of the DeleteSecret operation.
+        /// The date and time the deletion of the secret occurred. Not present on active secrets. The secret can be recovered until the number of days in the recovery window has passed, as specified in the RecoveryWindowInDays parameter of the  DeleteSecret operation.
         public let deletedDate: Date?
         /// The user-provided description of the secret.
         public let description: String?
@@ -1046,13 +1064,13 @@ extension SecretsManager {
         public let primaryRegion: String?
         /// Indicates whether automatic, scheduled rotation is enabled for this secret.
         public let rotationEnabled: Bool?
-        /// The ARN of an Amazon Web Services Lambda function invoked by Secrets Manager to rotate and expire the secret either automatically per the schedule or manually by a call to RotateSecret.
+        /// The ARN of an Amazon Web Services Lambda function invoked by Secrets Manager to rotate and expire the secret either automatically per the schedule or manually by a call to  RotateSecret .
         public let rotationLambdaARN: String?
         /// A structure that defines the rotation configuration for the secret.
         public let rotationRules: RotationRulesType?
         /// A list of all of the currently assigned SecretVersionStage staging labels and the SecretVersionId attached to each one. Staging labels are used to keep track of the different versions during the rotation process.  A version that does not have any SecretVersionStage is considered deprecated and subject to deletion. Such versions are not included in this list.
         public let secretVersionsToStages: [String: [String]]?
-        /// The list of user-defined tags associated with the secret. To add tags to a secret, use TagResource. To remove tags, use UntagResource.
+        /// The list of user-defined tags associated with the secret. To add tags to a secret, use  TagResource .  To remove tags, use  UntagResource .
         public let tags: [Tag]?
 
         public init(arn: String? = nil, createdDate: Date? = nil, deletedDate: Date? = nil, description: String? = nil, kmsKeyId: String? = nil, lastAccessedDate: Date? = nil, lastChangedDate: Date? = nil, lastRotatedDate: Date? = nil, name: String? = nil, owningService: String? = nil, primaryRegion: String? = nil, rotationEnabled: Bool? = nil, rotationLambdaARN: String? = nil, rotationRules: RotationRulesType? = nil, secretVersionsToStages: [String: [String]]? = nil, tags: [Tag]? = nil) {

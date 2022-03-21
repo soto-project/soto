@@ -50,7 +50,7 @@ public struct FMSErrorType: AWSErrorType {
     public static var internalErrorException: Self { .init(.internalErrorException) }
     /// The parameters of the request were invalid.
     public static var invalidInputException: Self { .init(.invalidInputException) }
-    /// The operation failed because there was nothing to do or the operation wasn't possible. For example, you might have submitted an AssociateAdminAccount request for an account ID that  was already set as the Firewall Manager administrator. Or you might have tried to access a Region that's disabled by default, and that you need to enable for the Firewall Manager          administrator account and for Organizations before you can access it.
+    /// The operation failed because there was nothing to do or the operation wasn't possible. For example, you might have submitted an AssociateAdminAccount request for an account ID that was already set as the Firewall Manager administrator. Or you might have tried to access a Region that's disabled by default, and that you need to enable for the Firewall Manager administrator account and for Organizations before you can access it.
     public static var invalidOperationException: Self { .init(.invalidOperationException) }
     /// The value of the Type parameter is invalid.
     public static var invalidTypeException: Self { .init(.invalidTypeException) }

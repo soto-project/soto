@@ -70,6 +70,11 @@ public struct AppStream: AWSService {
         return self.client.execute(operation: "AssociateApplicationFleet", path: "/", httpMethod: .POST, serviceConfig: self.config, input: input, logger: logger, on: eventLoop)
     }
 
+    /// Associates an application to entitle.
+    public func associateApplicationToEntitlement(_ input: AssociateApplicationToEntitlementRequest, logger: Logger = AWSClient.loggingDisabled, on eventLoop: EventLoop? = nil) -> EventLoopFuture<AssociateApplicationToEntitlementResult> {
+        return self.client.execute(operation: "AssociateApplicationToEntitlement", path: "/", httpMethod: .POST, serviceConfig: self.config, input: input, logger: logger, on: eventLoop)
+    }
+
     /// Associates the specified fleet with the specified stack.
     public func associateFleet(_ input: AssociateFleetRequest, logger: Logger = AWSClient.loggingDisabled, on eventLoop: EventLoop? = nil) -> EventLoopFuture<AssociateFleetResult> {
         return self.client.execute(operation: "AssociateFleet", path: "/", httpMethod: .POST, serviceConfig: self.config, input: input, logger: logger, on: eventLoop)
@@ -103,6 +108,11 @@ public struct AppStream: AWSService {
     /// Creates a Directory Config object in AppStream 2.0. This object includes the configuration information required to join fleets and image builders to Microsoft Active Directory domains.
     public func createDirectoryConfig(_ input: CreateDirectoryConfigRequest, logger: Logger = AWSClient.loggingDisabled, on eventLoop: EventLoop? = nil) -> EventLoopFuture<CreateDirectoryConfigResult> {
         return self.client.execute(operation: "CreateDirectoryConfig", path: "/", httpMethod: .POST, serviceConfig: self.config, input: input, logger: logger, on: eventLoop)
+    }
+
+    /// Creates a new entitlement. Entitlements control access to specific applications within a stack, based on user attributes. Entitlements apply to SAML 2.0 federated user identities. Amazon AppStream 2.0 user pool and streaming URL users are entitled to all applications in a stack. Entitlements don't apply to the desktop stream view application, or to applications managed by a dynamic app provider using the Dynamic Application Framework.
+    public func createEntitlement(_ input: CreateEntitlementRequest, logger: Logger = AWSClient.loggingDisabled, on eventLoop: EventLoop? = nil) -> EventLoopFuture<CreateEntitlementResult> {
+        return self.client.execute(operation: "CreateEntitlement", path: "/", httpMethod: .POST, serviceConfig: self.config, input: input, logger: logger, on: eventLoop)
     }
 
     /// Creates a fleet. A fleet consists of streaming instances that run a specified image when using Always-On or On-Demand.
@@ -160,6 +170,11 @@ public struct AppStream: AWSService {
         return self.client.execute(operation: "DeleteDirectoryConfig", path: "/", httpMethod: .POST, serviceConfig: self.config, input: input, logger: logger, on: eventLoop)
     }
 
+    /// Deletes the specified entitlement.
+    public func deleteEntitlement(_ input: DeleteEntitlementRequest, logger: Logger = AWSClient.loggingDisabled, on eventLoop: EventLoop? = nil) -> EventLoopFuture<DeleteEntitlementResult> {
+        return self.client.execute(operation: "DeleteEntitlement", path: "/", httpMethod: .POST, serviceConfig: self.config, input: input, logger: logger, on: eventLoop)
+    }
+
     /// Deletes the specified fleet.
     public func deleteFleet(_ input: DeleteFleetRequest, logger: Logger = AWSClient.loggingDisabled, on eventLoop: EventLoop? = nil) -> EventLoopFuture<DeleteFleetResult> {
         return self.client.execute(operation: "DeleteFleet", path: "/", httpMethod: .POST, serviceConfig: self.config, input: input, logger: logger, on: eventLoop)
@@ -213,6 +228,11 @@ public struct AppStream: AWSService {
     /// Retrieves a list that describes one or more specified Directory Config objects for AppStream 2.0, if the names for these objects are provided. Otherwise, all Directory Config objects in the account are described. These objects include the configuration information required to join fleets and image builders to Microsoft Active Directory domains.   Although the response syntax in this topic includes the account password, this password is not returned in the actual response.
     public func describeDirectoryConfigs(_ input: DescribeDirectoryConfigsRequest, logger: Logger = AWSClient.loggingDisabled, on eventLoop: EventLoop? = nil) -> EventLoopFuture<DescribeDirectoryConfigsResult> {
         return self.client.execute(operation: "DescribeDirectoryConfigs", path: "/", httpMethod: .POST, serviceConfig: self.config, input: input, logger: logger, on: eventLoop)
+    }
+
+    /// Retrieves a list that describes one of more entitlements.
+    public func describeEntitlements(_ input: DescribeEntitlementsRequest, logger: Logger = AWSClient.loggingDisabled, on eventLoop: EventLoop? = nil) -> EventLoopFuture<DescribeEntitlementsResult> {
+        return self.client.execute(operation: "DescribeEntitlements", path: "/", httpMethod: .POST, serviceConfig: self.config, input: input, logger: logger, on: eventLoop)
     }
 
     /// Retrieves a list that describes one or more specified fleets, if the fleet names are provided. Otherwise, all fleets in the account are described.
@@ -270,6 +290,11 @@ public struct AppStream: AWSService {
         return self.client.execute(operation: "DisassociateApplicationFleet", path: "/", httpMethod: .POST, serviceConfig: self.config, input: input, logger: logger, on: eventLoop)
     }
 
+    /// Deletes the specified application from the specified entitlement.
+    public func disassociateApplicationFromEntitlement(_ input: DisassociateApplicationFromEntitlementRequest, logger: Logger = AWSClient.loggingDisabled, on eventLoop: EventLoop? = nil) -> EventLoopFuture<DisassociateApplicationFromEntitlementResult> {
+        return self.client.execute(operation: "DisassociateApplicationFromEntitlement", path: "/", httpMethod: .POST, serviceConfig: self.config, input: input, logger: logger, on: eventLoop)
+    }
+
     /// Disassociates the specified fleet from the specified stack.
     public func disassociateFleet(_ input: DisassociateFleetRequest, logger: Logger = AWSClient.loggingDisabled, on eventLoop: EventLoop? = nil) -> EventLoopFuture<DisassociateFleetResult> {
         return self.client.execute(operation: "DisassociateFleet", path: "/", httpMethod: .POST, serviceConfig: self.config, input: input, logger: logger, on: eventLoop)
@@ -293,6 +318,11 @@ public struct AppStream: AWSService {
     /// Retrieves the name of the stack with which the specified fleet is associated.
     public func listAssociatedStacks(_ input: ListAssociatedStacksRequest, logger: Logger = AWSClient.loggingDisabled, on eventLoop: EventLoop? = nil) -> EventLoopFuture<ListAssociatedStacksResult> {
         return self.client.execute(operation: "ListAssociatedStacks", path: "/", httpMethod: .POST, serviceConfig: self.config, input: input, logger: logger, on: eventLoop)
+    }
+
+    /// Retrieves a list of entitled applications.
+    public func listEntitledApplications(_ input: ListEntitledApplicationsRequest, logger: Logger = AWSClient.loggingDisabled, on eventLoop: EventLoop? = nil) -> EventLoopFuture<ListEntitledApplicationsResult> {
+        return self.client.execute(operation: "ListEntitledApplications", path: "/", httpMethod: .POST, serviceConfig: self.config, input: input, logger: logger, on: eventLoop)
     }
 
     /// Retrieves a list of all tags for the specified AppStream 2.0 resource. You can tag AppStream 2.0 image builders, images, fleets, and stacks. For more information about tags, see Tagging Your Resources in the Amazon AppStream 2.0 Administration Guide.
@@ -338,6 +368,11 @@ public struct AppStream: AWSService {
     /// Updates the specified Directory Config object in AppStream 2.0. This object includes the configuration information required to join fleets and image builders to Microsoft Active Directory domains.
     public func updateDirectoryConfig(_ input: UpdateDirectoryConfigRequest, logger: Logger = AWSClient.loggingDisabled, on eventLoop: EventLoop? = nil) -> EventLoopFuture<UpdateDirectoryConfigResult> {
         return self.client.execute(operation: "UpdateDirectoryConfig", path: "/", httpMethod: .POST, serviceConfig: self.config, input: input, logger: logger, on: eventLoop)
+    }
+
+    /// Updates the specified entitlement.
+    public func updateEntitlement(_ input: UpdateEntitlementRequest, logger: Logger = AWSClient.loggingDisabled, on eventLoop: EventLoop? = nil) -> EventLoopFuture<UpdateEntitlementResult> {
+        return self.client.execute(operation: "UpdateEntitlement", path: "/", httpMethod: .POST, serviceConfig: self.config, input: input, logger: logger, on: eventLoop)
     }
 
     /// Updates the specified fleet. If the fleet is in the STOPPED state, you can update any attribute except the fleet name. If the fleet is in the RUNNING state, you can update the following based on the fleet type:   Always-On and On-Demand fleet types You can update the  DisplayName, ComputeCapacity, ImageARN, ImageName, IdleDisconnectTimeoutInSeconds, and DisconnectTimeoutInSeconds attributes.   Elastic fleet type You can update the  DisplayName, IdleDisconnectTimeoutInSeconds, DisconnectTimeoutInSeconds, MaxConcurrentSessions, and UsbDeviceFilterStrings attributes.   If the fleet is in the STARTING or STOPPED state, you can't update it.
