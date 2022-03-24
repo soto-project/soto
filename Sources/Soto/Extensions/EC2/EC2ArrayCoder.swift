@@ -21,7 +21,7 @@ import SotoCore
 
 extension EC2 {
     /// Coder for encoding/decoding Arrays. This is extended to support encoding and decoding based on whether `Element` is `Encodable` or `Decodable`.
-    public struct ArrayCoder<Properties: ArrayCoderProperties, Element>: CustomCoder {
+    public struct ArrayCoder<Properties: ArrayCoderProperties, Element: SotoSendable>: CustomCoder {
         public typealias CodableValue = [Element]
     }
 
