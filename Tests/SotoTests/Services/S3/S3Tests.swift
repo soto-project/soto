@@ -197,6 +197,74 @@ class S3Tests: XCTestCase {
         XCTAssertNoThrow(try response.wait())
     }
 
+    func testPutObjectChecksum() {
+        let name = TestEnvironment.generateResourceName()
+        let filename = "testfile.txt"
+        let contents = "testing S3.PutObject and S3.GetObject"
+        let response = Self.createBucket(name: name, s3: Self.s3)
+            .flatMap { _ -> EventLoopFuture<S3.PutObjectOutput> in
+                let putRequest = S3.PutObjectRequest(
+                    body: .string(contents),
+                    bucket: name,
+                    checksumAlgorithm: .crc32,
+                    key: filename
+                )
+                return Self.s3.putObject(putRequest)
+            }
+            .flatMapErrorThrowing { error -> S3.PutObjectOutput in
+                XCTFail("\(error)")
+                throw error
+            }
+            .flatMap { _ -> EventLoopFuture<S3.PutObjectOutput> in
+                let putRequest = S3.PutObjectRequest(
+                    body: .string(contents),
+                    bucket: name,
+                    checksumAlgorithm: .crc32c,
+                    key: filename
+                )
+                return Self.s3.putObject(putRequest)
+            }
+            .flatMapErrorThrowing { error -> S3.PutObjectOutput in
+                XCTFail("\(error)")
+                throw error
+            }
+            .flatMap { _ -> EventLoopFuture<S3.PutObjectOutput> in
+                let putRequest = S3.PutObjectRequest(
+                    body: .string(contents),
+                    bucket: name,
+                    checksumAlgorithm: .sha256,
+                    key: filename
+                )
+                return Self.s3.putObject(putRequest)
+            }
+            .flatMapErrorThrowing { error -> S3.PutObjectOutput in
+                XCTFail("\(error)")
+                throw error
+            }
+            .flatMap { _ -> EventLoopFuture<S3.PutObjectOutput> in
+                let putRequest = S3.PutObjectRequest(
+                    body: .string(contents),
+                    bucket: name,
+                    checksumAlgorithm: .sha1,
+                    key: filename
+                )
+                return Self.s3.putObject(putRequest)
+            }
+            .flatMapErrorThrowing { error -> S3.PutObjectOutput in
+                XCTFail("\(error)")
+                throw error
+            }
+            .flatAlways { _ -> EventLoopFuture<Void> in
+                return Self.deleteBucket(name: name, s3: Self.s3)
+            }
+        do {
+            try response.wait()
+        } catch {
+            print("\(error)")
+        }
+        XCTAssertNoThrow(try response.wait())
+    }
+
     /// test uploaded objects are returned in ListObjects
     func testListObjects() {
         let name = TestEnvironment.generateResourceName()

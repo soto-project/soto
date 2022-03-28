@@ -69,41 +69,37 @@ class TimestreamWriteAsyncTests: XCTestCase {
         try await self.ts.deleteDatabase(.init(databaseName: name))
     }
 
-    func testCreateDeleteDatabaseAsync() {
+    func testCreateDeleteDatabaseAsync() async throws {
         guard !TestEnvironment.isUsingLocalstack else { return }
         let name = TestEnvironment.generateResourceName()
 
-        XCTRunAsyncAndBlock {
-            _ = try await self.createDatabase(named: name)
-            _ = try await self.deleteDatabase(named: name)
-        }
+        _ = try await self.createDatabase(named: name)
+        _ = try await self.deleteDatabase(named: name)
     }
 
-    func testCreateTableAndWriteAsync() {
+    func testCreateTableAndWriteAsync() async throws {
         guard !TestEnvironment.isUsingLocalstack else { return }
         let name = TestEnvironment.generateResourceName()
         let tableName = "\(name)-table"
 
-        XCTRunAsyncAndBlock {
-            _ = try await self.createDatabase(named: name)
-            do {
-                try await self.createTable(named: tableName, databaseName: name)
-                let record = TimestreamWrite.Record(
-                    dimensions: [.init(name: "Speed", value: "24.3")],
-                    measureName: "Speed",
-                    measureValue: "24.3",
-                    measureValueType: .double,
-                    time: "\(Int(Date().timeIntervalSince1970))",
-                    timeUnit: .seconds
-                )
-                _ = try await self.ts.writeRecords(.init(databaseName: name, records: [record], tableName: tableName))
-                try await self.ts.deleteTable(.init(databaseName: name, tableName: tableName))
-            } catch {
-                XCTFail("\(error)")
-                try await self.ts.deleteTable(.init(databaseName: name, tableName: tableName))
-            }
-            _ = try await self.deleteDatabase(named: name)
+        _ = try await self.createDatabase(named: name)
+        do {
+            try await self.createTable(named: tableName, databaseName: name)
+            let record = TimestreamWrite.Record(
+                dimensions: [.init(name: "Speed", value: "24.3")],
+                measureName: "Speed",
+                measureValue: "24.3",
+                measureValueType: .double,
+                time: "\(Int(Date().timeIntervalSince1970))",
+                timeUnit: .seconds
+            )
+            _ = try await self.ts.writeRecords(.init(databaseName: name, records: [record], tableName: tableName))
+            try await self.ts.deleteTable(.init(databaseName: name, tableName: tableName))
+        } catch {
+            XCTFail("\(error)")
+            try await self.ts.deleteTable(.init(databaseName: name, tableName: tableName))
         }
+        _ = try await self.deleteDatabase(named: name)
     }
 }
 
