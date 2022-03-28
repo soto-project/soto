@@ -388,7 +388,7 @@ extension SSM {
         return try await self.client.execute(operation: "GetMaintenanceWindowExecutionTaskInvocation", path: "/", httpMethod: .POST, serviceConfig: self.config, input: input, logger: logger, on: eventLoop)
     }
 
-    /// Lists the tasks in a maintenance window.  For maintenance window tasks without a specified target, you can't supply values for --max-errors and --max-concurrency. Instead, the system inserts a placeholder value of 1, which may be reported in the response to this command. These values don't affect the running of your task and can be ignored.
+    /// Retrieves the details of a maintenance window task. 	        		         For maintenance window tasks without a specified target, you can't supply values for 			--max-errors and --max-concurrency. Instead, the system inserts a 			placeholder value of 1, which may be reported in the response to this command. 			These values don't affect the running of your task and can be ignored. 	        	       To retrieve a list of tasks in a maintenance window, instead use the DescribeMaintenanceWindowTasks command.
     public func getMaintenanceWindowTask(_ input: GetMaintenanceWindowTaskRequest, logger: Logger = AWSClient.loggingDisabled, on eventLoop: EventLoop? = nil) async throws -> GetMaintenanceWindowTaskResult {
         return try await self.client.execute(operation: "GetMaintenanceWindowTask", path: "/", httpMethod: .POST, serviceConfig: self.config, input: input, logger: logger, on: eventLoop)
     }
@@ -618,7 +618,7 @@ extension SSM {
         return try await self.client.execute(operation: "StopAutomationExecution", path: "/", httpMethod: .POST, serviceConfig: self.config, input: input, logger: logger, on: eventLoop)
     }
 
-    /// Permanently ends a session and closes the data connection between the Session Manager client and SSM Agent on the managed node. A terminated session isn't be resumed.
+    /// Permanently ends a session and closes the data connection between the Session Manager client and SSM Agent on the managed node. A terminated session can't be resumed.
     public func terminateSession(_ input: TerminateSessionRequest, logger: Logger = AWSClient.loggingDisabled, on eventLoop: EventLoop? = nil) async throws -> TerminateSessionResponse {
         return try await self.client.execute(operation: "TerminateSession", path: "/", httpMethod: .POST, serviceConfig: self.config, input: input, logger: logger, on: eventLoop)
     }
@@ -628,7 +628,8 @@ extension SSM {
         return try await self.client.execute(operation: "UnlabelParameterVersion", path: "/", httpMethod: .POST, serviceConfig: self.config, input: input, logger: logger, on: eventLoop)
     }
 
-    /// Updates an association. You can update the association name and version, the document version, schedule, parameters, and Amazon Simple Storage Service (Amazon S3) output.  In order to call this API operation, your Identity and Access Management (IAM) user account, group, or role must be configured with permission to call the DescribeAssociation API operation. If you don't have permission to call DescribeAssociation, then you receive the following error: An error occurred (AccessDeniedException) when calling the UpdateAssociation operation: User:  isn't authorized to perform: ssm:DescribeAssociation on resource:    When you update an association, the association immediately runs against the specified targets.
+    /// Updates an association. You can update the association name and version, the document version, schedule, parameters, and Amazon Simple Storage Service (Amazon S3) output. When you call UpdateAssociation, the system removes all optional parameters from the request and overwrites the association with null values for those parameters. This is by design. You must specify all optional parameters in the call, even if you are not changing the parameters. This includes the Name parameter. Before calling this API action, we recommend that you call the DescribeAssociation API operation and make a note of all optional parameters required for your UpdateAssociation call.
+    ///  In order to call this API operation, your Identity and Access Management (IAM) user account, group, or role must be configured with permission to call the DescribeAssociation API operation. If you don't have permission to call DescribeAssociation, then you receive the following error: An error occurred (AccessDeniedException) when calling the UpdateAssociation operation: User:  isn't authorized to perform: ssm:DescribeAssociation on resource:    When you update an association, the association immediately runs against the specified targets. You can add the ApplyOnlyAtCronInterval parameter to run the association during the next schedule run.
     public func updateAssociation(_ input: UpdateAssociationRequest, logger: Logger = AWSClient.loggingDisabled, on eventLoop: EventLoop? = nil) async throws -> UpdateAssociationResult {
         return try await self.client.execute(operation: "UpdateAssociation", path: "/", httpMethod: .POST, serviceConfig: self.config, input: input, logger: logger, on: eventLoop)
     }
@@ -643,7 +644,7 @@ extension SSM {
         return try await self.client.execute(operation: "UpdateDocument", path: "/", httpMethod: .POST, serviceConfig: self.config, input: input, logger: logger, on: eventLoop)
     }
 
-    /// Set the default version of a document.
+    /// Set the default version of a document.   If you change a document version for a State Manager association, Systems Manager immediately runs the association unless you previously specifed the apply-only-at-cron-interval parameter.
     public func updateDocumentDefaultVersion(_ input: UpdateDocumentDefaultVersionRequest, logger: Logger = AWSClient.loggingDisabled, on eventLoop: EventLoop? = nil) async throws -> UpdateDocumentDefaultVersionResult {
         return try await self.client.execute(operation: "UpdateDocumentDefaultVersion", path: "/", httpMethod: .POST, serviceConfig: self.config, input: input, logger: logger, on: eventLoop)
     }

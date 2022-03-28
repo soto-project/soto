@@ -21,6 +21,23 @@ import SotoCore
 extension FinspaceData {
     // MARK: Enums
 
+    public enum ApiAccess: String, CustomStringConvertible, Codable {
+        case disabled = "DISABLED"
+        case enabled = "ENABLED"
+        public var description: String { return self.rawValue }
+    }
+
+    public enum ApplicationPermission: String, CustomStringConvertible, Codable {
+        case accessNotebooks = "AccessNotebooks"
+        case createDataset = "CreateDataset"
+        case getTemporaryCredentials = "GetTemporaryCredentials"
+        case manageAttributeSets = "ManageAttributeSets"
+        case manageClusters = "ManageClusters"
+        case manageUsersAndGroups = "ManageUsersAndGroups"
+        case viewAuditData = "ViewAuditData"
+        public var description: String { return self.rawValue }
+    }
+
     public enum ChangeType: String, CustomStringConvertible, Codable {
         case append = "APPEND"
         case modify = "MODIFY"
@@ -97,6 +114,19 @@ extension FinspaceData {
         public var description: String { return self.rawValue }
     }
 
+    public enum UserStatus: String, CustomStringConvertible, Codable {
+        case creating = "CREATING"
+        case disabled = "DISABLED"
+        case enabled = "ENABLED"
+        public var description: String { return self.rawValue }
+    }
+
+    public enum UserType: String, CustomStringConvertible, Codable {
+        case appUser = "APP_USER"
+        case superUser = "SUPER_USER"
+        public var description: String { return self.rawValue }
+    }
+
     public enum LocationType: String, CustomStringConvertible, Codable {
         case ingestion = "INGESTION"
         case sagemaker = "SAGEMAKER"
@@ -106,7 +136,7 @@ extension FinspaceData {
     // MARK: Shapes
 
     public struct ChangesetErrorInfo: AWSDecodableShape {
-        /// The category of the error.    VALIDATION -The inputs to this request are invalid.    SERVICE_QUOTA_EXCEEDED - Service quotas have been exceeded. Please contact AWS support to increase quotas.    ACCESS_DENIED - Missing required permission to perform this request.    RESOURCE_NOT_FOUND - One or more inputs to this request were not found.    THROTTLING - The system temporarily lacks sufficient resources to process the request.    INTERNAL_SERVICE_EXCEPTION - An internal service error has occurred.    CANCELLED - Cancelled.    USER_RECOVERABLE - A user recoverable error has occurred.
+        /// The category of the error.    VALIDATION – The inputs to this request are invalid.    SERVICE_QUOTA_EXCEEDED – Service quotas have been exceeded. Please contact AWS support to increase quotas.    ACCESS_DENIED – Missing required permission to perform this request.    RESOURCE_NOT_FOUND – One or more inputs to this request were not found.    THROTTLING – The system temporarily lacks sufficient resources to process the request.    INTERNAL_SERVICE_EXCEPTION – An internal service error has occurred.    CANCELLED – Cancelled.    USER_RECOVERABLE – A user recoverable error has occurred.
         public let errorCategory: ErrorCategory?
         /// The text of the error message.
         public let errorMessage: String?
@@ -123,16 +153,17 @@ extension FinspaceData {
     }
 
     public struct ChangesetSummary: AWSDecodableShape {
+        /// Beginning time from which the Changeset is active. The value is determined as epoch time in milliseconds. For example, the value for Monday, November 1, 2021 12:00:00 PM UTC is specified as 1635768000000.
         public let activeFromTimestamp: Int64?
-        /// Time until which the Changeset is active. The value is determined as Epoch time in milliseconds. For example, the value for Monday, November 1, 2021 12:00:00 PM UTC is specified as 1635768000000.
+        /// Time until which the Changeset is active. The value is determined as epoch time in milliseconds. For example, the value for Monday, November 1, 2021 12:00:00 PM UTC is specified as 1635768000000.
         public let activeUntilTimestamp: Int64?
         /// The ARN identifier of the Changeset.
         public let changesetArn: String?
         /// The unique identifier for a Changeset.
         public let changesetId: String?
-        /// Type that indicates how a Changeset is applied to a Dataset.    REPLACE - Changeset is considered as a replacement to all prior loaded Changesets.    APPEND - Changeset is considered as an addition to the end of all prior loaded Changesets.    MODIFY - Changeset is considered as a replacement to a specific prior ingested Changeset.
+        /// Type that indicates how a Changeset is applied to a Dataset.    REPLACE – Changeset is considered as a replacement to all prior loaded Changesets.    APPEND – Changeset is considered as an addition to the end of all prior loaded Changesets.    MODIFY – Changeset is considered as a replacement to a specific prior ingested Changeset.
         public let changeType: ChangeType?
-        /// The timestamp at which the Changeset was created in FinSpace. The value is determined as Epoch time in milliseconds. For example, the value for Monday, November 1, 2021 12:00:00 PM UTC is specified as 1635768000000.
+        /// The timestamp at which the Changeset was created in FinSpace. The value is determined as epoch time in milliseconds. For example, the value for Monday, November 1, 2021 12:00:00 PM UTC is specified as 1635768000000.
         public let createTime: Int64?
         /// The unique identifier for the FinSpace Dataset in which the Changeset is created.
         public let datasetId: String?
@@ -142,7 +173,7 @@ extension FinspaceData {
         public let formatParams: [String: String]?
         /// Options that define the location of the data being ingested.
         public let sourceParams: [String: String]?
-        /// Status of the Changeset ingestion.    PENDING - Changeset is pending creation.    FAILED - Changeset creation has failed.    SUCCESS - Changeset creation has succeeded.    RUNNING - Changeset creation is running.    STOP_REQUESTED - User requested Changeset creation to stop.
+        /// Status of the Changeset ingestion.    PENDING – Changeset is pending creation.    FAILED – Changeset creation has failed.    SUCCESS – Changeset creation has succeeded.    RUNNING – Changeset creation is running.    STOP_REQUESTED – User requested Changeset creation to stop.
         public let status: IngestionStatus?
         /// The unique identifier of the updated Changeset.
         public let updatedByChangesetId: String?
@@ -185,9 +216,9 @@ extension FinspaceData {
     public struct ColumnDefinition: AWSEncodableShape & AWSDecodableShape {
         /// Description for a column.
         public let columnDescription: String?
-        /// Name for a column.
+        /// The name of a column.
         public let columnName: String?
-        /// Data type of a column.    STRING - A String data type.  CHAR - A char data type.  INTEGER - An integer data type.  TINYINT - A tinyint data type.  SMALLINT - A smallint data type.  BIGINT - A bigint data type.  FLOAT - A float data type.  DOUBLE - A double data type.  DATE - A date data type.  DATETIME - A datetime data type.  BOOLEAN - A boolean data type.  BINARY - A binary data type.
+        /// Data type of a column.    STRING – A String data type.  CHAR – A char data type.  INTEGER – An integer data type.  TINYINT – A tinyint data type.  SMALLINT – A smallint data type.  BIGINT – A bigint data type.  FLOAT – A float data type.  DOUBLE – A double data type.  DATE – A date data type.  DATETIME – A datetime data type.  BOOLEAN – A boolean data type.  BINARY – A binary data type.
         public let dataType: ColumnDataType?
 
         public init(columnDescription: String? = nil, columnName: String? = nil, dataType: ColumnDataType? = nil) {
@@ -215,15 +246,15 @@ extension FinspaceData {
             AWSMemberEncoding(label: "datasetId", location: .uri("datasetId"))
         ]
 
-        /// Option to indicate how a Changeset will be applied to a Dataset.    REPLACE - Changeset will be considered as a replacement to all prior loaded Changesets.    APPEND - Changeset will be considered as an addition to the end of all prior loaded Changesets.    MODIFY - Changeset is considered as a replacement to a specific prior ingested Changeset.
+        /// The option to indicate how a Changeset will be applied to a Dataset.    REPLACE – Changeset will be considered as a replacement to all prior loaded Changesets.    APPEND – Changeset will be considered as an addition to the end of all prior loaded Changesets.    MODIFY – Changeset is considered as a replacement to a specific prior ingested Changeset.
         public let changeType: ChangeType
-        /// A token used to ensure idempotency.
+        /// A token that ensures idempotency. This token expires in 10 minutes.
         public let clientToken: String?
         /// The unique identifier for the FinSpace Dataset where the Changeset will be created.
         public let datasetId: String
-        /// Options that define the structure of the source file(s) including the format type (formatType), header row (withHeader), data separation character (separator) and the type of compression (compression).   formatType is a required attribute and can have the following values:     PARQUET - Parquet source file format.    CSV - CSV source file format.    JSON - JSON source file format.    XML - XML source file format.      For example, you could specify the following for formatParams:   "formatParams":  { "formatType": "CSV", "withHeader": "true", "separator": ",", "compression":"None" }
+        /// Options that define the structure of the source file(s) including the format type (formatType), header row (withHeader), data separation character (separator) and the type of compression (compression).   formatType is a required attribute and can have the following values:     PARQUET – Parquet source file format.    CSV – CSV source file format.    JSON – JSON source file format.    XML – XML source file format.    Here is an example of how you could specify the formatParams:   "formatParams":  { "formatType": "CSV", "withHeader": "true", "separator": ",", "compression":"None" }    Note that if you only provide formatType as CSV, the rest of the attributes will automatically default to CSV values as following:   { "withHeader": "true", "separator": "," }   For more information about supported file formats, see Supported Data Types and File Formats in the FinSpace User Guide.
         public let formatParams: [String: String]
-        /// Options that define the location of the data being ingested.
+        /// Options that define the location of the data being ingested (s3SourcePath) and the source of the changeset (sourceType). Both s3SourcePath and sourceType are required attributes. Here is an example of how you could specify the sourceParams:   "sourceParams":  { "s3SourcePath": "s3://finspace-landing-us-east-2-bk7gcfvitndqa6ebnvys4d/scratch/wr5hh8pwkpqqkxa4sxrmcw/ingestion/equity.csv", "sourceType": "S3" }   The S3 path that you specify must allow the FinSpace role access. To do that, you first need to configure the IAM policy on S3 bucket. For more information, see Loading data from an Amazon S3 Bucket using the FinSpace API section.
         public let sourceParams: [String: String]
 
         public init(changeType: ChangeType, clientToken: String? = CreateChangesetRequest.idempotencyToken(), datasetId: String, formatParams: [String: String], sourceParams: [String: String]) {
@@ -284,11 +315,11 @@ extension FinspaceData {
             AWSMemberEncoding(label: "datasetId", location: .uri("datasetId"))
         ]
 
-        /// Beginning time to use for the Dataview. The value is determined as Epoch time in milliseconds. For example, the value for Monday, November 1, 2021 12:00:00 PM UTC is specified as 1635768000000.
+        /// Beginning time to use for the Dataview. The value is determined as epoch time in milliseconds. For example, the value for Monday, November 1, 2021 12:00:00 PM UTC is specified as 1635768000000.
         public let asOfTimestamp: Int64?
         /// Flag to indicate Dataview should be updated automatically.
         public let autoUpdate: Bool?
-        /// A token used to ensure idempotency.
+        /// A token that ensures idempotency. This token expires in 10 minutes.
         public let clientToken: String?
         /// The unique Dataset identifier that is used to create a Dataview.
         public let datasetId: String
@@ -358,13 +389,13 @@ extension FinspaceData {
     public struct CreateDatasetRequest: AWSEncodableShape {
         /// The unique resource identifier for a Dataset.
         public let alias: String?
-        /// A token used to ensure idempotency.
+        /// A token that ensures idempotency. This token expires in 10 minutes.
         public let clientToken: String?
         /// Description of a Dataset.
         public let datasetDescription: String?
         /// Display title for a FinSpace Dataset.
         public let datasetTitle: String
-        /// The format in which Dataset data is structured.    TABULAR - Data is structured in a tabular format.    NON_TABULAR - Data is structured in a non-tabular format.
+        /// The format in which Dataset data is structured.    TABULAR – Data is structured in a tabular format.    NON_TABULAR – Data is structured in a non-tabular format.
         public let kind: DatasetKind
         /// Contact information for a Dataset owner.
         public let ownerInfo: DatasetOwnerInfo?
@@ -427,6 +458,124 @@ extension FinspaceData {
         }
     }
 
+    public struct CreatePermissionGroupRequest: AWSEncodableShape {
+        /// The option to indicate FinSpace application permissions that are granted to a specific group.    CreateDataset – Group members can create new datasets.    ManageClusters – Group members can manage Apache Spark clusters from FinSpace notebooks.    ManageUsersAndGroups – Group members can manage users and permission groups.    ManageAttributeSets – Group members can manage attribute sets.    ViewAuditData – Group members can view audit data.    AccessNotebooks – Group members will have access to FinSpace notebooks.    GetTemporaryCredentials – Group members can get temporary API credentials.
+        public let applicationPermissions: [ApplicationPermission]
+        /// A token that ensures idempotency. This token expires in 10 minutes.
+        public let clientToken: String?
+        /// A brief description for the permission group.
+        public let description: String?
+        /// The name of the permission group.
+        public let name: String
+
+        public init(applicationPermissions: [ApplicationPermission], clientToken: String? = CreatePermissionGroupRequest.idempotencyToken(), description: String? = nil, name: String) {
+            self.applicationPermissions = applicationPermissions
+            self.clientToken = clientToken
+            self.description = description
+            self.name = name
+        }
+
+        public func validate(name: String) throws {
+            try self.validate(self.clientToken, name: "clientToken", parent: name, max: 128)
+            try self.validate(self.clientToken, name: "clientToken", parent: name, min: 1)
+            try self.validate(self.clientToken, name: "clientToken", parent: name, pattern: "\\S")
+            try self.validate(self.description, name: "description", parent: name, max: 4000)
+            try self.validate(self.description, name: "description", parent: name, min: 1)
+            try self.validate(self.description, name: "description", parent: name, pattern: "\\S")
+            try self.validate(self.name, name: "name", parent: name, max: 255)
+            try self.validate(self.name, name: "name", parent: name, min: 1)
+            try self.validate(self.name, name: "name", parent: name, pattern: "\\S")
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case applicationPermissions
+            case clientToken
+            case description
+            case name
+        }
+    }
+
+    public struct CreatePermissionGroupResponse: AWSDecodableShape {
+        /// The unique identifier for the permission group.
+        public let permissionGroupId: String?
+
+        public init(permissionGroupId: String? = nil) {
+            self.permissionGroupId = permissionGroupId
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case permissionGroupId
+        }
+    }
+
+    public struct CreateUserRequest: AWSEncodableShape {
+        /// The option to indicate whether the user can use the GetProgrammaticAccessCredentials API to obtain credentials that can then be used to access other FinSpace Data API operations.    ENABLED – The user has permissions to use the APIs.    DISABLED – The user does not have permissions to use any APIs.
+        public let apiAccess: ApiAccess?
+        /// The ARN identifier of an AWS user or role that is allowed to call the GetProgrammaticAccessCredentials API to obtain a credentials token for a specific FinSpace user. This must be an IAM role within your FinSpace account.
+        public let apiAccessPrincipalArn: String?
+        /// A token that ensures idempotency. This token expires in 10 minutes.
+        public let clientToken: String?
+        /// The email address of the user that you want to register. The email address serves as a uniquer identifier for each user and cannot be changed after it's created.
+        public let emailAddress: String
+        /// The first name of the user that you want to register.
+        public let firstName: String?
+        /// The last name of the user that you want to register.
+        public let lastName: String?
+        /// The option to indicate the type of user. Use one of the following options to specify this parameter:    SUPER_USER – A user with permission to all the functionality and data in FinSpace.    APP_USER – A user with specific permissions in FinSpace. The users are assigned permissions by adding them to a permission group.
+        public let type: UserType
+
+        public init(apiAccess: ApiAccess? = nil, apiAccessPrincipalArn: String? = nil, clientToken: String? = CreateUserRequest.idempotencyToken(), emailAddress: String, firstName: String? = nil, lastName: String? = nil, type: UserType) {
+            self.apiAccess = apiAccess
+            self.apiAccessPrincipalArn = apiAccessPrincipalArn
+            self.clientToken = clientToken
+            self.emailAddress = emailAddress
+            self.firstName = firstName
+            self.lastName = lastName
+            self.type = type
+        }
+
+        public func validate(name: String) throws {
+            try self.validate(self.apiAccessPrincipalArn, name: "apiAccessPrincipalArn", parent: name, max: 2048)
+            try self.validate(self.apiAccessPrincipalArn, name: "apiAccessPrincipalArn", parent: name, min: 20)
+            try self.validate(self.apiAccessPrincipalArn, name: "apiAccessPrincipalArn", parent: name, pattern: "^arn:aws[a-z\\-]*:iam::\\d{12}:role/?[a-zA-Z_0-9+=,.@\\-_/]+$")
+            try self.validate(self.clientToken, name: "clientToken", parent: name, max: 128)
+            try self.validate(self.clientToken, name: "clientToken", parent: name, min: 1)
+            try self.validate(self.clientToken, name: "clientToken", parent: name, pattern: "\\S")
+            try self.validate(self.emailAddress, name: "emailAddress", parent: name, max: 320)
+            try self.validate(self.emailAddress, name: "emailAddress", parent: name, min: 4)
+            try self.validate(self.emailAddress, name: "emailAddress", parent: name, pattern: "^[A-Za-z0-9._%+-]+@[A-Za-z0-9.-]+\\.[A-Za-z]{2,4}$")
+            try self.validate(self.firstName, name: "firstName", parent: name, max: 50)
+            try self.validate(self.firstName, name: "firstName", parent: name, min: 1)
+            try self.validate(self.firstName, name: "firstName", parent: name, pattern: "\\S")
+            try self.validate(self.lastName, name: "lastName", parent: name, max: 50)
+            try self.validate(self.lastName, name: "lastName", parent: name, min: 1)
+            try self.validate(self.lastName, name: "lastName", parent: name, pattern: "\\S")
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case apiAccess = "ApiAccess"
+            case apiAccessPrincipalArn
+            case clientToken
+            case emailAddress
+            case firstName
+            case lastName
+            case type
+        }
+    }
+
+    public struct CreateUserResponse: AWSDecodableShape {
+        /// The unique identifier for the user.
+        public let userId: String?
+
+        public init(userId: String? = nil) {
+            self.userId = userId
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case userId
+        }
+    }
+
     public struct Credentials: AWSDecodableShape {
         /// The access key identifier.
         public let accessKeyId: String?
@@ -449,9 +598,11 @@ extension FinspaceData {
     }
 
     public struct DataViewDestinationTypeParams: AWSEncodableShape & AWSDecodableShape {
-        /// Destination type for a Dataview.    GLUE_TABLE - Glue table destination type.
+        /// Destination type for a Dataview.    GLUE_TABLE – Glue table destination type.    S3 – S3 destination type.
         public let destinationType: String
+        /// Data view export file format.    PARQUET – Parquet export file format.    DELIMITED_TEXT – Delimited text export file format.
         public let s3DestinationExportFileFormat: ExportFileFormat?
+        /// Format Options for S3 Destination type. Here is an example of how you could specify the s3DestinationExportFileFormatOptions     { "header": "true", "delimiter": ",", "compression": "gzip" }
         public let s3DestinationExportFileFormatOptions: [String: String]?
 
         public init(destinationType: String, s3DestinationExportFileFormat: ExportFileFormat? = nil, s3DestinationExportFileFormatOptions: [String: String]? = nil) {
@@ -477,7 +628,7 @@ extension FinspaceData {
     }
 
     public struct DataViewErrorInfo: AWSDecodableShape {
-        /// The category of the error.    VALIDATION -The inputs to this request are invalid.    SERVICE_QUOTA_EXCEEDED - Service quotas have been exceeded. Please contact AWS support to increase quotas.    ACCESS_DENIED - Missing required permission to perform this request.    RESOURCE_NOT_FOUND - One or more inputs to this request were not found.    THROTTLING - The system temporarily lacks sufficient resources to process the request.    INTERNAL_SERVICE_EXCEPTION - An internal service error has occurred.    CANCELLED - Cancelled.    USER_RECOVERABLE - A user recoverable error has occurred.
+        /// The category of the error.    VALIDATION – The inputs to this request are invalid.    SERVICE_QUOTA_EXCEEDED – Service quotas have been exceeded. Please contact AWS support to increase quotas.    ACCESS_DENIED – Missing required permission to perform this request.    RESOURCE_NOT_FOUND – One or more inputs to this request were not found.    THROTTLING – The system temporarily lacks sufficient resources to process the request.    INTERNAL_SERVICE_EXCEPTION – An internal service error has occurred.    CANCELLED – Cancelled.    USER_RECOVERABLE – A user recoverable error has occurred.
         public let errorCategory: ErrorCategory?
         /// The text of the error message.
         public let errorMessage: String?
@@ -494,11 +645,11 @@ extension FinspaceData {
     }
 
     public struct DataViewSummary: AWSDecodableShape {
-        /// Time range to use for the Dataview. The value is determined as Epoch time in milliseconds. For example, the value for Monday, November 1, 2021 12:00:00 PM UTC is specified as 1635768000000.
+        /// Time range to use for the Dataview. The value is determined as epoch time in milliseconds. For example, the value for Monday, November 1, 2021 12:00:00 PM UTC is specified as 1635768000000.
         public let asOfTimestamp: Int64?
         /// The flag to indicate Dataview should be updated automatically.
         public let autoUpdate: Bool?
-        /// The timestamp at which the Dataview was created in FinSpace. The value is determined as Epoch time in milliseconds. For example, the value for Monday, November 1, 2021 12:00:00 PM UTC is specified as 1635768000000.
+        /// The timestamp at which the Dataview was created in FinSpace. The value is determined as epoch time in milliseconds. For example, the value for Monday, November 1, 2021 12:00:00 PM UTC is specified as 1635768000000.
         public let createTime: Int64?
         /// Th unique identifier for the Dataview Dataset.
         public let datasetId: String?
@@ -510,13 +661,13 @@ extension FinspaceData {
         public let destinationTypeProperties: DataViewDestinationTypeParams?
         /// The structure with error messages.
         public let errorInfo: DataViewErrorInfo?
-        /// The last time that a Dataview was modified. The value is determined as Epoch time in milliseconds. For example, the value for Monday, November 1, 2021 12:00:00 PM UTC is specified as 1635768000000.
+        /// The last time that a Dataview was modified. The value is determined as epoch time in milliseconds. For example, the value for Monday, November 1, 2021 12:00:00 PM UTC is specified as 1635768000000.
         public let lastModifiedTime: Int64?
         /// Ordered set of column names used to partition data.
         public let partitionColumns: [String]?
         /// Columns to be used for sorting the data.
         public let sortColumns: [String]?
-        /// The status of a Dataview creation.    RUNNING - Dataview creation is running.     STARTING - Dataview creation is starting.     FAILED - Dataview creation has failed.     CANCELLED - Dataview creation has been cancelled.     TIMEOUT - Dataview creation has timed out.     SUCCESS - Dataview creation has succeeded.     PENDING - Dataview creation is pending.     FAILED_CLEANUP_FAILED - Dataview creation failed and resource cleanup failed.
+        /// The status of a Dataview creation.    RUNNING – Dataview creation is running.     STARTING – Dataview creation is starting.     FAILED – Dataview creation has failed.     CANCELLED – Dataview creation has been cancelled.     TIMEOUT – Dataview creation has timed out.     SUCCESS – Dataview creation has succeeded.     PENDING – Dataview creation is pending.     FAILED_CLEANUP_FAILED – Dataview creation failed and resource cleanup failed.
         public let status: DataViewStatus?
 
         public init(asOfTimestamp: Int64? = nil, autoUpdate: Bool? = nil, createTime: Int64? = nil, datasetId: String? = nil, dataViewArn: String? = nil, dataViewId: String? = nil, destinationTypeProperties: DataViewDestinationTypeParams? = nil, errorInfo: DataViewErrorInfo? = nil, lastModifiedTime: Int64? = nil, partitionColumns: [String]? = nil, sortColumns: [String]? = nil, status: DataViewStatus? = nil) {
@@ -553,7 +704,7 @@ extension FinspaceData {
     public struct Dataset: AWSDecodableShape {
         /// The unique resource identifier for a Dataset.
         public let alias: String?
-        /// The timestamp at which the Dataset was created in FinSpace. The value is determined as Epoch time in milliseconds. For example, the value for Monday, November 1, 2021 12:00:00 PM UTC is specified as 1635768000000.
+        /// The timestamp at which the Dataset was created in FinSpace. The value is determined as epoch time in milliseconds. For example, the value for Monday, November 1, 2021 12:00:00 PM UTC is specified as 1635768000000.
         public let createTime: Int64?
         /// The ARN identifier of the Dataset.
         public let datasetArn: String?
@@ -563,9 +714,9 @@ extension FinspaceData {
         public let datasetId: String?
         /// Display title for a Dataset.
         public let datasetTitle: String?
-        /// The format in which Dataset data is structured.    TABULAR - Data is structured in a tabular format.    NON_TABULAR - Data is structured in a non-tabular format.
+        /// The format in which Dataset data is structured.    TABULAR – Data is structured in a tabular format.    NON_TABULAR – Data is structured in a non-tabular format.
         public let kind: DatasetKind?
-        /// The last time that the Dataset was modified. The value is determined as Epoch time in milliseconds. For example, the value for Monday, November 1, 2021 12:00:00 PM UTC is specified as 1635768000000.
+        /// The last time that the Dataset was modified. The value is determined as epoch time in milliseconds. For example, the value for Monday, November 1, 2021 12:00:00 PM UTC is specified as 1635768000000.
         public let lastModifiedTime: Int64?
         /// Contact information for a Dataset owner.
         public let ownerInfo: DatasetOwnerInfo?
@@ -602,7 +753,7 @@ extension FinspaceData {
     public struct DatasetOwnerInfo: AWSEncodableShape & AWSDecodableShape {
         /// Email address for the Dataset owner.
         public let email: String?
-        /// Name of the Dataset owner.
+        /// The name of the Dataset owner.
         public let name: String?
         /// Phone number for the Dataset owner.
         public let phoneNumber: String?
@@ -638,7 +789,7 @@ extension FinspaceData {
             AWSMemberEncoding(label: "datasetId", location: .uri("datasetId"))
         ]
 
-        /// A token used to ensure idempotency.
+        /// A token that ensures idempotency. This token expires in 10 minutes.
         public let clientToken: String?
         /// The unique identifier of the Dataset to be deleted.
         public let datasetId: String
@@ -672,6 +823,131 @@ extension FinspaceData {
         }
     }
 
+    public struct DeletePermissionGroupRequest: AWSEncodableShape {
+        public static var _encoding = [
+            AWSMemberEncoding(label: "clientToken", location: .querystring("clientToken")),
+            AWSMemberEncoding(label: "permissionGroupId", location: .uri("permissionGroupId"))
+        ]
+
+        /// A token that ensures idempotency. This token expires in 10 minutes.
+        public let clientToken: String?
+        /// The unique identifier for the permission group that you want to delete.
+        public let permissionGroupId: String
+
+        public init(clientToken: String? = DeletePermissionGroupRequest.idempotencyToken(), permissionGroupId: String) {
+            self.clientToken = clientToken
+            self.permissionGroupId = permissionGroupId
+        }
+
+        public func validate(name: String) throws {
+            try self.validate(self.clientToken, name: "clientToken", parent: name, max: 128)
+            try self.validate(self.clientToken, name: "clientToken", parent: name, min: 1)
+            try self.validate(self.clientToken, name: "clientToken", parent: name, pattern: "\\S")
+            try self.validate(self.permissionGroupId, name: "permissionGroupId", parent: name, max: 26)
+            try self.validate(self.permissionGroupId, name: "permissionGroupId", parent: name, min: 1)
+            try self.validate(self.permissionGroupId, name: "permissionGroupId", parent: name, pattern: "\\S")
+        }
+
+        private enum CodingKeys: CodingKey {}
+    }
+
+    public struct DeletePermissionGroupResponse: AWSDecodableShape {
+        /// The unique identifier for the deleted permission group.
+        public let permissionGroupId: String?
+
+        public init(permissionGroupId: String? = nil) {
+            self.permissionGroupId = permissionGroupId
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case permissionGroupId
+        }
+    }
+
+    public struct DisableUserRequest: AWSEncodableShape {
+        public static var _encoding = [
+            AWSMemberEncoding(label: "userId", location: .uri("userId"))
+        ]
+
+        /// A token that ensures idempotency. This token expires in 10 minutes.
+        public let clientToken: String?
+        /// The unique identifier for the user account that you want to disable.
+        public let userId: String
+
+        public init(clientToken: String? = DisableUserRequest.idempotencyToken(), userId: String) {
+            self.clientToken = clientToken
+            self.userId = userId
+        }
+
+        public func validate(name: String) throws {
+            try self.validate(self.clientToken, name: "clientToken", parent: name, max: 128)
+            try self.validate(self.clientToken, name: "clientToken", parent: name, min: 1)
+            try self.validate(self.clientToken, name: "clientToken", parent: name, pattern: "\\S")
+            try self.validate(self.userId, name: "userId", parent: name, max: 26)
+            try self.validate(self.userId, name: "userId", parent: name, min: 1)
+            try self.validate(self.userId, name: "userId", parent: name, pattern: "\\S")
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case clientToken
+        }
+    }
+
+    public struct DisableUserResponse: AWSDecodableShape {
+        /// The unique identifier for the disabled user account.
+        public let userId: String?
+
+        public init(userId: String? = nil) {
+            self.userId = userId
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case userId
+        }
+    }
+
+    public struct EnableUserRequest: AWSEncodableShape {
+        public static var _encoding = [
+            AWSMemberEncoding(label: "userId", location: .uri("userId"))
+        ]
+
+        /// A token that ensures idempotency. This token expires in 10 minutes.
+        public let clientToken: String?
+        /// The unique identifier for the user account that you want to enable.
+        public let userId: String
+
+        public init(clientToken: String? = EnableUserRequest.idempotencyToken(), userId: String) {
+            self.clientToken = clientToken
+            self.userId = userId
+        }
+
+        public func validate(name: String) throws {
+            try self.validate(self.clientToken, name: "clientToken", parent: name, max: 128)
+            try self.validate(self.clientToken, name: "clientToken", parent: name, min: 1)
+            try self.validate(self.clientToken, name: "clientToken", parent: name, pattern: "\\S")
+            try self.validate(self.userId, name: "userId", parent: name, max: 26)
+            try self.validate(self.userId, name: "userId", parent: name, min: 1)
+            try self.validate(self.userId, name: "userId", parent: name, pattern: "\\S")
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case clientToken
+        }
+    }
+
+    public struct EnableUserResponse: AWSDecodableShape {
+        /// The unique identifier for the enabled user account.
+        public let userId: String?
+
+        public init(userId: String? = nil) {
+            self.userId = userId
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case userId
+        }
+    }
+
     public struct GetChangesetRequest: AWSEncodableShape {
         public static var _encoding = [
             AWSMemberEncoding(label: "changesetId", location: .uri("changesetId")),
@@ -699,16 +975,17 @@ extension FinspaceData {
     }
 
     public struct GetChangesetResponse: AWSDecodableShape {
+        /// Beginning time from which the Changeset is active. The value is determined as epoch time in milliseconds. For example, the value for Monday, November 1, 2021 12:00:00 PM UTC is specified as 1635768000000.
         public let activeFromTimestamp: Int64?
-        /// Time until which the Changeset is active. The value is determined as Epoch time in milliseconds. For example, the value for Monday, November 1, 2021 12:00:00 PM UTC is specified as 1635768000000.
+        /// Time until which the Changeset is active. The value is determined as epoch time in milliseconds. For example, the value for Monday, November 1, 2021 12:00:00 PM UTC is specified as 1635768000000.
         public let activeUntilTimestamp: Int64?
         /// The ARN identifier of the Changeset.
         public let changesetArn: String?
         /// The unique identifier for a Changeset.
         public let changesetId: String?
-        /// Type that indicates how a Changeset is applied to a Dataset.    REPLACE - Changeset is considered as a replacement to all prior loaded Changesets.    APPEND - Changeset is considered as an addition to the end of all prior loaded Changesets.    MODIFY - Changeset is considered as a replacement to a specific prior ingested Changeset.
+        /// Type that indicates how a Changeset is applied to a Dataset.    REPLACE – Changeset is considered as a replacement to all prior loaded Changesets.    APPEND – Changeset is considered as an addition to the end of all prior loaded Changesets.    MODIFY – Changeset is considered as a replacement to a specific prior ingested Changeset.
         public let changeType: ChangeType?
-        /// The timestamp at which the Changeset was created in FinSpace. The value is determined as Epoch time in milliseconds. For example, the value for Monday, November 1, 2021 12:00:00 PM UTC is specified as 1635768000000.
+        /// The timestamp at which the Changeset was created in FinSpace. The value is determined as epoch time in milliseconds. For example, the value for Monday, November 1, 2021 12:00:00 PM UTC is specified as 1635768000000.
         public let createTime: Int64?
         /// The unique identifier for the FinSpace Dataset where the Changeset is created.
         public let datasetId: String?
@@ -785,11 +1062,11 @@ extension FinspaceData {
     }
 
     public struct GetDataViewResponse: AWSDecodableShape {
-        /// Time range to use for the Dataview. The value is determined as Epoch time in milliseconds. For example, the value for Monday, November 1, 2021 12:00:00 PM UTC is specified as 1635768000000.
+        /// Time range to use for the Dataview. The value is determined as epoch time in milliseconds. For example, the value for Monday, November 1, 2021 12:00:00 PM UTC is specified as 1635768000000.
         public let asOfTimestamp: Int64?
         /// Flag to indicate Dataview should be updated automatically.
         public let autoUpdate: Bool?
-        /// The timestamp at which the Dataview was created in FinSpace. The value is determined as Epoch time in milliseconds. For example, the value for Monday, November 1, 2021 12:00:00 PM UTC is specified as 1635768000000.
+        /// The timestamp at which the Dataview was created in FinSpace. The value is determined as epoch time in milliseconds. For example, the value for Monday, November 1, 2021 12:00:00 PM UTC is specified as 1635768000000.
         public let createTime: Int64?
         /// The unique identifier for the Dataset used in the Dataview.
         public let datasetId: String?
@@ -801,13 +1078,13 @@ extension FinspaceData {
         public let destinationTypeParams: DataViewDestinationTypeParams?
         /// Information about an error that occurred for the Dataview.
         public let errorInfo: DataViewErrorInfo?
-        /// The last time that a Dataview was modified. The value is determined as Epoch time in milliseconds. For example, the value for Monday, November 1, 2021 12:00:00 PM UTC is specified as 1635768000000.
+        /// The last time that a Dataview was modified. The value is determined as epoch time in milliseconds. For example, the value for Monday, November 1, 2021 12:00:00 PM UTC is specified as 1635768000000.
         public let lastModifiedTime: Int64?
         /// Ordered set of column names used to partition data.
         public let partitionColumns: [String]?
         /// Columns to be used for sorting the data.
         public let sortColumns: [String]?
-        /// The status of a Dataview creation.    RUNNING - Dataview creation is running.    STARTING - Dataview creation is starting.    FAILED - Dataview creation has failed.    CANCELLED - Dataview creation has been cancelled.    TIMEOUT - Dataview creation has timed out.    SUCCESS - Dataview creation has succeeded.    PENDING - Dataview creation is pending.    FAILED_CLEANUP_FAILED - Dataview creation failed and resource cleanup failed.
+        /// The status of a Dataview creation.    RUNNING – Dataview creation is running.    STARTING – Dataview creation is starting.    FAILED – Dataview creation has failed.    CANCELLED – Dataview creation has been cancelled.    TIMEOUT – Dataview creation has timed out.    SUCCESS – Dataview creation has succeeded.    PENDING – Dataview creation is pending.    FAILED_CLEANUP_FAILED – Dataview creation failed and resource cleanup failed.
         public let status: DataViewStatus?
 
         public init(asOfTimestamp: Int64? = nil, autoUpdate: Bool? = nil, createTime: Int64? = nil, datasetId: String? = nil, dataViewArn: String? = nil, dataViewId: String? = nil, destinationTypeParams: DataViewDestinationTypeParams? = nil, errorInfo: DataViewErrorInfo? = nil, lastModifiedTime: Int64? = nil, partitionColumns: [String]? = nil, sortColumns: [String]? = nil, status: DataViewStatus? = nil) {
@@ -865,7 +1142,7 @@ extension FinspaceData {
     public struct GetDatasetResponse: AWSDecodableShape {
         /// The unique resource identifier for a Dataset.
         public let alias: String?
-        /// The timestamp at which the Dataset was created in FinSpace. The value is determined as Epoch time in milliseconds. For example, the value for Monday, November 1, 2021 12:00:00 PM UTC is specified as 1635768000000.
+        /// The timestamp at which the Dataset was created in FinSpace. The value is determined as epoch time in milliseconds. For example, the value for Monday, November 1, 2021 12:00:00 PM UTC is specified as 1635768000000.
         public let createTime: Int64?
         /// The ARN identifier of the Dataset.
         public let datasetArn: String?
@@ -875,13 +1152,13 @@ extension FinspaceData {
         public let datasetId: String?
         /// Display title for a Dataset.
         public let datasetTitle: String?
-        /// The format in which Dataset data is structured.    TABULAR - Data is structured in a tabular format.    NON_TABULAR - Data is structured in a non-tabular format.
+        /// The format in which Dataset data is structured.    TABULAR – Data is structured in a tabular format.    NON_TABULAR – Data is structured in a non-tabular format.
         public let kind: DatasetKind?
-        /// The last time that the Dataset was modified. The value is determined as Epoch time in milliseconds. For example, the value for Monday, November 1, 2021 12:00:00 PM UTC is specified as 1635768000000.
+        /// The last time that the Dataset was modified. The value is determined as epoch time in milliseconds. For example, the value for Monday, November 1, 2021 12:00:00 PM UTC is specified as 1635768000000.
         public let lastModifiedTime: Int64?
         /// Definition for a schema on a tabular Dataset.
         public let schemaDefinition: SchemaUnion?
-        /// Status of the Dataset creation.    PENDING - Dataset is pending creation.    FAILED - Dataset creation has failed.    SUCCESS - Dataset creation has succeeded.    RUNNING - Dataset creation is running.
+        /// Status of the Dataset creation.    PENDING – Dataset is pending creation.    FAILED – Dataset creation has failed.    SUCCESS – Dataset creation has succeeded.    RUNNING – Dataset creation is running.
         public let status: DatasetStatus?
 
         public init(alias: String? = nil, createTime: Int64? = nil, datasetArn: String? = nil, datasetDescription: String? = nil, datasetId: String? = nil, datasetTitle: String? = nil, kind: DatasetKind? = nil, lastModifiedTime: Int64? = nil, schemaDefinition: SchemaUnion? = nil, status: DatasetStatus? = nil) {
@@ -954,8 +1231,90 @@ extension FinspaceData {
         }
     }
 
+    public struct GetUserRequest: AWSEncodableShape {
+        public static var _encoding = [
+            AWSMemberEncoding(label: "userId", location: .uri("userId"))
+        ]
+
+        /// The unique identifier of the user to get data for.
+        public let userId: String
+
+        public init(userId: String) {
+            self.userId = userId
+        }
+
+        public func validate(name: String) throws {
+            try self.validate(self.userId, name: "userId", parent: name, max: 26)
+            try self.validate(self.userId, name: "userId", parent: name, min: 1)
+            try self.validate(self.userId, name: "userId", parent: name, pattern: "\\S")
+        }
+
+        private enum CodingKeys: CodingKey {}
+    }
+
+    public struct GetUserResponse: AWSDecodableShape {
+        /// Indicates whether the user can use the GetProgrammaticAccessCredentials API to obtain credentials that can then be used to access other FinSpace Data API operations.     ENABLED – The user has permissions to use the APIs.    DISABLED – The user does not have permissions to use any APIs.
+        public let apiAccess: ApiAccess?
+        /// The ARN identifier of an AWS user or role that is allowed to call the GetProgrammaticAccessCredentials API to obtain a credentials token for a specific FinSpace user. This must be an IAM role within your FinSpace account.
+        public let apiAccessPrincipalArn: String?
+        /// The timestamp at which the user account was created in FinSpace. The value is determined as epoch time in milliseconds.
+        public let createTime: Int64?
+        /// The email address that is associated with the user.
+        public let emailAddress: String?
+        /// The first name of the user.
+        public let firstName: String?
+        /// Describes the last time the user account was disabled. The value is determined as epoch time in milliseconds.
+        public let lastDisabledTime: Int64?
+        /// Describes the last time the user account was enabled. The value is determined as epoch time in milliseconds.
+        public let lastEnabledTime: Int64?
+        /// Describes the last time that the user logged into their account. The value is determined as epoch time in milliseconds.
+        public let lastLoginTime: Int64?
+        /// Describes the last time the user account was updated. The value is determined as epoch time in milliseconds.
+        public let lastModifiedTime: Int64?
+        /// The last name of the user.
+        public let lastName: String?
+        /// The current status of the user account.     CREATING – The user account creation is in progress.    ENABLED – The user account is created and is currently active.    DISABLED – The user account is currently inactive.
+        public let status: UserStatus?
+        /// Indicates the type of user.      SUPER_USER – A user with permission to all the functionality and data in FinSpace.      APP_USER – A user with specific permissions in FinSpace. The users are assigned permissions by adding them to a permissions group.
+        public let type: UserType?
+        /// The unique identifier for the user account that is retrieved.
+        public let userId: String?
+
+        public init(apiAccess: ApiAccess? = nil, apiAccessPrincipalArn: String? = nil, createTime: Int64? = nil, emailAddress: String? = nil, firstName: String? = nil, lastDisabledTime: Int64? = nil, lastEnabledTime: Int64? = nil, lastLoginTime: Int64? = nil, lastModifiedTime: Int64? = nil, lastName: String? = nil, status: UserStatus? = nil, type: UserType? = nil, userId: String? = nil) {
+            self.apiAccess = apiAccess
+            self.apiAccessPrincipalArn = apiAccessPrincipalArn
+            self.createTime = createTime
+            self.emailAddress = emailAddress
+            self.firstName = firstName
+            self.lastDisabledTime = lastDisabledTime
+            self.lastEnabledTime = lastEnabledTime
+            self.lastLoginTime = lastLoginTime
+            self.lastModifiedTime = lastModifiedTime
+            self.lastName = lastName
+            self.status = status
+            self.type = type
+            self.userId = userId
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case apiAccess
+            case apiAccessPrincipalArn
+            case createTime
+            case emailAddress
+            case firstName
+            case lastDisabledTime
+            case lastEnabledTime
+            case lastLoginTime
+            case lastModifiedTime
+            case lastName
+            case status
+            case type
+            case userId
+        }
+    }
+
     public struct GetWorkingLocationRequest: AWSEncodableShape {
-        /// Specify the type of the working location.    SAGEMAKER - Use the Amazon S3 location as a temporary location to store data content when working with FinSpace Notebooks that run on SageMaker studio.    INGESTION - Use the Amazon S3 location as a staging location to copy your data content and then use the location with the Changeset creation operation.
+        /// Specify the type of the working location.    SAGEMAKER – Use the Amazon S3 location as a temporary location to store data content when working with FinSpace Notebooks that run on SageMaker studio.    INGESTION – Use the Amazon S3 location as a staging location to copy your data content and then use the location with the Changeset creation operation.
         public let locationType: LocationType?
 
         public init(locationType: LocationType? = nil) {
@@ -999,7 +1358,7 @@ extension FinspaceData {
         public let datasetId: String
         /// The maximum number of results per page.
         public let maxResults: Int?
-        /// A token indicating where a results page should begin.
+        /// A token that indicates where a results page should begin.
         public let nextToken: String?
 
         public init(datasetId: String, maxResults: Int? = nil, nextToken: String? = nil) {
@@ -1021,7 +1380,7 @@ extension FinspaceData {
     public struct ListChangesetsResponse: AWSDecodableShape {
         /// List of Changesets found.
         public let changesets: [ChangesetSummary]?
-        /// A token indicating where a results page should begin.
+        /// A token that indicates where a results page should begin.
         public let nextToken: String?
 
         public init(changesets: [ChangesetSummary]? = nil, nextToken: String? = nil) {
@@ -1046,7 +1405,7 @@ extension FinspaceData {
         public let datasetId: String
         /// The maximum number of results per page.
         public let maxResults: Int?
-        /// A token indicating where a results page should begin.
+        /// A token that indicates where a results page should begin.
         public let nextToken: String?
 
         public init(datasetId: String, maxResults: Int? = nil, nextToken: String? = nil) {
@@ -1068,7 +1427,7 @@ extension FinspaceData {
     public struct ListDataViewsResponse: AWSDecodableShape {
         /// A list of Dataviews.
         public let dataViews: [DataViewSummary]?
-        /// A token indicating where a results page should begin.
+        /// A token that indicates where a results page should begin.
         public let nextToken: String?
 
         public init(dataViews: [DataViewSummary]? = nil, nextToken: String? = nil) {
@@ -1090,7 +1449,7 @@ extension FinspaceData {
 
         /// The maximum number of results per page.
         public let maxResults: Int?
-        /// A token indicating where a results page should begin.
+        /// A token that indicates where a results page should begin.
         public let nextToken: String?
 
         public init(maxResults: Int? = nil, nextToken: String? = nil) {
@@ -1109,7 +1468,7 @@ extension FinspaceData {
     public struct ListDatasetsResponse: AWSDecodableShape {
         /// List of Datasets.
         public let datasets: [Dataset]?
-        /// A token indicating where a results page should begin.
+        /// A token that indicates where a results page should begin.
         public let nextToken: String?
 
         public init(datasets: [Dataset]? = nil, nextToken: String? = nil) {
@@ -1123,10 +1482,125 @@ extension FinspaceData {
         }
     }
 
+    public struct ListPermissionGroupsRequest: AWSEncodableShape {
+        public static var _encoding = [
+            AWSMemberEncoding(label: "maxResults", location: .querystring("maxResults")),
+            AWSMemberEncoding(label: "nextToken", location: .querystring("nextToken"))
+        ]
+
+        /// The maximum number of results per page.
+        public let maxResults: Int
+        /// A token that indicates where a results page should begin.
+        public let nextToken: String?
+
+        public init(maxResults: Int, nextToken: String? = nil) {
+            self.maxResults = maxResults
+            self.nextToken = nextToken
+        }
+
+        public func validate(name: String) throws {
+            try self.validate(self.maxResults, name: "maxResults", parent: name, max: 100)
+            try self.validate(self.maxResults, name: "maxResults", parent: name, min: 1)
+        }
+
+        private enum CodingKeys: CodingKey {}
+    }
+
+    public struct ListPermissionGroupsResponse: AWSDecodableShape {
+        /// A token that indicates where a results page should begin.
+        public let nextToken: String?
+        /// A list of all the permission groups.
+        public let permissionGroups: [PermissionGroup]?
+
+        public init(nextToken: String? = nil, permissionGroups: [PermissionGroup]? = nil) {
+            self.nextToken = nextToken
+            self.permissionGroups = permissionGroups
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case nextToken
+            case permissionGroups
+        }
+    }
+
+    public struct ListUsersRequest: AWSEncodableShape {
+        public static var _encoding = [
+            AWSMemberEncoding(label: "maxResults", location: .querystring("maxResults")),
+            AWSMemberEncoding(label: "nextToken", location: .querystring("nextToken"))
+        ]
+
+        /// The maximum number of results per page.
+        public let maxResults: Int
+        /// A token that indicates where a results page should begin.
+        public let nextToken: String?
+
+        public init(maxResults: Int, nextToken: String? = nil) {
+            self.maxResults = maxResults
+            self.nextToken = nextToken
+        }
+
+        public func validate(name: String) throws {
+            try self.validate(self.maxResults, name: "maxResults", parent: name, max: 100)
+            try self.validate(self.maxResults, name: "maxResults", parent: name, min: 1)
+        }
+
+        private enum CodingKeys: CodingKey {}
+    }
+
+    public struct ListUsersResponse: AWSDecodableShape {
+        /// A token that indicates where a results page should begin.
+        public let nextToken: String?
+        /// A list of all the user accounts.
+        public let users: [User]?
+
+        public init(nextToken: String? = nil, users: [User]? = nil) {
+            self.nextToken = nextToken
+            self.users = users
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case nextToken
+            case users
+        }
+    }
+
+    public struct PermissionGroup: AWSDecodableShape {
+        /// Indicates the permissions that are granted to a specific group for accessing the FinSpace application.    CreateDataset – Group members can create new datasets.    ManageClusters – Group members can manage Apache Spark clusters from FinSpace notebooks.    ManageUsersAndGroups – Group members can manage users and permission groups.    ManageAttributeSets – Group members can manage attribute sets.    ViewAuditData – Group members can view audit data.    AccessNotebooks – Group members will have access to FinSpace notebooks.    GetTemporaryCredentials – Group members can get temporary API credentials.
+        public let applicationPermissions: [ApplicationPermission]?
+        /// The timestamp at which the group was created in FinSpace. The value is determined as epoch time in milliseconds.
+        public let createTime: Int64?
+        ///  A brief description for the permission group.
+        public let description: String?
+        /// Describes the last time the permission group was updated. The value is determined as epoch time in milliseconds.
+        public let lastModifiedTime: Int64?
+        /// The name of the permission group.
+        public let name: String?
+        ///  The unique identifier for the permission group.
+        public let permissionGroupId: String?
+
+        public init(applicationPermissions: [ApplicationPermission]? = nil, createTime: Int64? = nil, description: String? = nil, lastModifiedTime: Int64? = nil, name: String? = nil, permissionGroupId: String? = nil) {
+            self.applicationPermissions = applicationPermissions
+            self.createTime = createTime
+            self.description = description
+            self.lastModifiedTime = lastModifiedTime
+            self.name = name
+            self.permissionGroupId = permissionGroupId
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case applicationPermissions
+            case createTime
+            case description
+            case lastModifiedTime
+            case name
+            case permissionGroupId
+        }
+    }
+
     public struct PermissionGroupParams: AWSEncodableShape {
         /// List of resource permissions.
         public let datasetPermissions: [ResourcePermission]?
-        /// The unique identifier of the PermissionGroup.
+        /// The unique identifier for the PermissionGroup.
         public let permissionGroupId: String?
 
         public init(datasetPermissions: [ResourcePermission]? = nil, permissionGroupId: String? = nil) {
@@ -1140,11 +1614,58 @@ extension FinspaceData {
             }
             try self.validate(self.permissionGroupId, name: "permissionGroupId", parent: name, max: 26)
             try self.validate(self.permissionGroupId, name: "permissionGroupId", parent: name, min: 1)
+            try self.validate(self.permissionGroupId, name: "permissionGroupId", parent: name, pattern: "\\S")
         }
 
         private enum CodingKeys: String, CodingKey {
             case datasetPermissions
             case permissionGroupId
+        }
+    }
+
+    public struct ResetUserPasswordRequest: AWSEncodableShape {
+        public static var _encoding = [
+            AWSMemberEncoding(label: "userId", location: .uri("userId"))
+        ]
+
+        /// A token that ensures idempotency. This token expires in 10 minutes.
+        public let clientToken: String?
+        /// The unique identifier of the user that a temporary password is requested for.
+        public let userId: String
+
+        public init(clientToken: String? = ResetUserPasswordRequest.idempotencyToken(), userId: String) {
+            self.clientToken = clientToken
+            self.userId = userId
+        }
+
+        public func validate(name: String) throws {
+            try self.validate(self.clientToken, name: "clientToken", parent: name, max: 128)
+            try self.validate(self.clientToken, name: "clientToken", parent: name, min: 1)
+            try self.validate(self.clientToken, name: "clientToken", parent: name, pattern: "\\S")
+            try self.validate(self.userId, name: "userId", parent: name, max: 26)
+            try self.validate(self.userId, name: "userId", parent: name, min: 1)
+            try self.validate(self.userId, name: "userId", parent: name, pattern: "\\S")
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case clientToken
+        }
+    }
+
+    public struct ResetUserPasswordResponse: AWSDecodableShape {
+        /// A randomly generated temporary password for the requested user account. This password expires in 7 days.
+        public let temporaryPassword: String?
+        /// The unique identifier of the user that a new password is generated for.
+        public let userId: String?
+
+        public init(temporaryPassword: String? = nil, userId: String? = nil) {
+            self.temporaryPassword = temporaryPassword
+            self.userId = userId
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case temporaryPassword
+            case userId
         }
     }
 
@@ -1219,13 +1740,13 @@ extension FinspaceData {
 
         /// The unique identifier for the Changeset to update.
         public let changesetId: String
-        /// A token used to ensure idempotency.
+        /// A token that ensures idempotency. This token expires in 10 minutes.
         public let clientToken: String?
         /// The unique identifier for the FinSpace Dataset in which the Changeset is created.
         public let datasetId: String
-        /// Options that define the structure of the source file(s).
+        /// Options that define the structure of the source file(s) including the format type (formatType), header row (withHeader), data separation character (separator) and the type of compression (compression).   formatType is a required attribute and can have the following values:     PARQUET – Parquet source file format.    CSV – CSV source file format.    JSON – JSON source file format.    XML – XML source file format.    Here is an example of how you could specify the formatParams:   "formatParams":  { "formatType": "CSV", "withHeader": "true", "separator": ",", "compression":"None" }    Note that if you only provide formatType as CSV, the rest of the attributes will automatically default to CSV values as following:   { "withHeader": "true", "separator": "," }   For more information about supported file formats, see Supported Data Types and File Formats in the FinSpace User Guide.
         public let formatParams: [String: String]
-        /// Options that define the location of the data being ingested.
+        /// Options that define the location of the data being ingested (s3SourcePath) and the source of the changeset (sourceType). Both s3SourcePath and sourceType are required attributes. Here is an example of how you could specify the sourceParams:   "sourceParams":  { "s3SourcePath": "s3://finspace-landing-us-east-2-bk7gcfvitndqa6ebnvys4d/scratch/wr5hh8pwkpqqkxa4sxrmcw/ingestion/equity.csv", "sourceType": "S3" }   The S3 path that you specify must allow the FinSpace role access. To do that, you first need to configure the IAM policy on S3 bucket. For more information, see Loading data from an Amazon S3 Bucket using the FinSpace APIsection.
         public let sourceParams: [String: String]
 
         public init(changesetId: String, clientToken: String? = UpdateChangesetRequest.idempotencyToken(), datasetId: String, formatParams: [String: String], sourceParams: [String: String]) {
@@ -1289,7 +1810,7 @@ extension FinspaceData {
 
         /// The unique resource identifier for a Dataset.
         public let alias: String?
-        /// A token used to ensure idempotency.
+        /// A token that ensures idempotency. This token expires in 10 minutes.
         public let clientToken: String?
         /// A description for the Dataset.
         public let datasetDescription: String?
@@ -1297,7 +1818,7 @@ extension FinspaceData {
         public let datasetId: String
         /// A display title for the Dataset.
         public let datasetTitle: String
-        /// The format in which the Dataset data is structured.    TABULAR - Data is structured in a tabular format.    NON_TABULAR - Data is structured in a non-tabular format.
+        /// The format in which the Dataset data is structured.    TABULAR – Data is structured in a tabular format.    NON_TABULAR – Data is structured in a non-tabular format.
         public let kind: DatasetKind
         /// Definition for a schema on a tabular Dataset.
         public let schemaDefinition: SchemaUnion?
@@ -1350,6 +1871,198 @@ extension FinspaceData {
 
         private enum CodingKeys: String, CodingKey {
             case datasetId
+        }
+    }
+
+    public struct UpdatePermissionGroupRequest: AWSEncodableShape {
+        public static var _encoding = [
+            AWSMemberEncoding(label: "permissionGroupId", location: .uri("permissionGroupId"))
+        ]
+
+        /// The permissions that are granted to a specific group for accessing the FinSpace application.    CreateDataset – Group members can create new datasets.    ManageClusters – Group members can manage Apache Spark clusters from FinSpace notebooks.    ManageUsersAndGroups – Group members can manage users and permission groups.    ManageAttributeSets – Group members can manage attribute sets.    ViewAuditData – Group members can view audit data.    AccessNotebooks – Group members will have access to FinSpace notebooks.    GetTemporaryCredentials – Group members can get temporary API credentials.
+        public let applicationPermissions: [ApplicationPermission]?
+        /// A token that ensures idempotency. This token expires in 10 minutes.
+        public let clientToken: String?
+        /// A brief description for the permission group.
+        public let description: String?
+        /// The name of the permission group.
+        public let name: String?
+        /// The unique identifier for the permission group to update.
+        public let permissionGroupId: String
+
+        public init(applicationPermissions: [ApplicationPermission]? = nil, clientToken: String? = UpdatePermissionGroupRequest.idempotencyToken(), description: String? = nil, name: String? = nil, permissionGroupId: String) {
+            self.applicationPermissions = applicationPermissions
+            self.clientToken = clientToken
+            self.description = description
+            self.name = name
+            self.permissionGroupId = permissionGroupId
+        }
+
+        public func validate(name: String) throws {
+            try self.validate(self.clientToken, name: "clientToken", parent: name, max: 128)
+            try self.validate(self.clientToken, name: "clientToken", parent: name, min: 1)
+            try self.validate(self.clientToken, name: "clientToken", parent: name, pattern: "\\S")
+            try self.validate(self.description, name: "description", parent: name, max: 4000)
+            try self.validate(self.description, name: "description", parent: name, min: 1)
+            try self.validate(self.description, name: "description", parent: name, pattern: "\\S")
+            try self.validate(self.name, name: "name", parent: name, max: 255)
+            try self.validate(self.name, name: "name", parent: name, min: 1)
+            try self.validate(self.name, name: "name", parent: name, pattern: "\\S")
+            try self.validate(self.permissionGroupId, name: "permissionGroupId", parent: name, max: 26)
+            try self.validate(self.permissionGroupId, name: "permissionGroupId", parent: name, min: 1)
+            try self.validate(self.permissionGroupId, name: "permissionGroupId", parent: name, pattern: "\\S")
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case applicationPermissions
+            case clientToken
+            case description
+            case name
+        }
+    }
+
+    public struct UpdatePermissionGroupResponse: AWSDecodableShape {
+        /// The unique identifier for the updated permission group.
+        public let permissionGroupId: String?
+
+        public init(permissionGroupId: String? = nil) {
+            self.permissionGroupId = permissionGroupId
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case permissionGroupId
+        }
+    }
+
+    public struct UpdateUserRequest: AWSEncodableShape {
+        public static var _encoding = [
+            AWSMemberEncoding(label: "userId", location: .uri("userId"))
+        ]
+
+        /// The option to indicate whether the user can use the GetProgrammaticAccessCredentials API to obtain credentials that can then be used to access other FinSpace Data API operations.    ENABLED – The user has permissions to use the APIs.    DISABLED – The user does not have permissions to use any APIs.
+        public let apiAccess: ApiAccess?
+        /// The ARN identifier of an AWS user or role that is allowed to call the GetProgrammaticAccessCredentials API to obtain a credentials token for a specific FinSpace user. This must be an IAM role within your FinSpace account.
+        public let apiAccessPrincipalArn: String?
+        /// A token that ensures idempotency. This token expires in 10 minutes.
+        public let clientToken: String?
+        /// The first name of the user.
+        public let firstName: String?
+        /// The last name of the user.
+        public let lastName: String?
+        /// The option to indicate the type of user.    SUPER_USER– A user with permission to all the functionality and data in FinSpace.    APP_USER – A user with specific permissions in FinSpace. The users are assigned permissions by adding them to a permissions group.
+        public let type: UserType?
+        /// The unique identifier for the user account to update.
+        public let userId: String
+
+        public init(apiAccess: ApiAccess? = nil, apiAccessPrincipalArn: String? = nil, clientToken: String? = UpdateUserRequest.idempotencyToken(), firstName: String? = nil, lastName: String? = nil, type: UserType? = nil, userId: String) {
+            self.apiAccess = apiAccess
+            self.apiAccessPrincipalArn = apiAccessPrincipalArn
+            self.clientToken = clientToken
+            self.firstName = firstName
+            self.lastName = lastName
+            self.type = type
+            self.userId = userId
+        }
+
+        public func validate(name: String) throws {
+            try self.validate(self.apiAccessPrincipalArn, name: "apiAccessPrincipalArn", parent: name, max: 2048)
+            try self.validate(self.apiAccessPrincipalArn, name: "apiAccessPrincipalArn", parent: name, min: 20)
+            try self.validate(self.apiAccessPrincipalArn, name: "apiAccessPrincipalArn", parent: name, pattern: "^arn:aws[a-z\\-]*:iam::\\d{12}:role/?[a-zA-Z_0-9+=,.@\\-_/]+$")
+            try self.validate(self.clientToken, name: "clientToken", parent: name, max: 128)
+            try self.validate(self.clientToken, name: "clientToken", parent: name, min: 1)
+            try self.validate(self.clientToken, name: "clientToken", parent: name, pattern: "\\S")
+            try self.validate(self.firstName, name: "firstName", parent: name, max: 50)
+            try self.validate(self.firstName, name: "firstName", parent: name, min: 1)
+            try self.validate(self.firstName, name: "firstName", parent: name, pattern: "\\S")
+            try self.validate(self.lastName, name: "lastName", parent: name, max: 50)
+            try self.validate(self.lastName, name: "lastName", parent: name, min: 1)
+            try self.validate(self.lastName, name: "lastName", parent: name, pattern: "\\S")
+            try self.validate(self.userId, name: "userId", parent: name, max: 26)
+            try self.validate(self.userId, name: "userId", parent: name, min: 1)
+            try self.validate(self.userId, name: "userId", parent: name, pattern: "\\S")
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case apiAccess
+            case apiAccessPrincipalArn
+            case clientToken
+            case firstName
+            case lastName
+            case type
+        }
+    }
+
+    public struct UpdateUserResponse: AWSDecodableShape {
+        /// The unique identifier of the updated user account.
+        public let userId: String?
+
+        public init(userId: String? = nil) {
+            self.userId = userId
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case userId
+        }
+    }
+
+    public struct User: AWSDecodableShape {
+        /// Indicates whether the user can use the GetProgrammaticAccessCredentials API to obtain credentials that can then be used to access other FinSpace Data API operations.    ENABLED – The user has permissions to use the APIs.    DISABLED – The user does not have permissions to use any APIs.
+        public let apiAccess: ApiAccess?
+        /// The ARN identifier of an AWS user or role that is allowed to call the GetProgrammaticAccessCredentials API to obtain a credentials token for a specific FinSpace user. This must be an IAM role within your FinSpace account.
+        public let apiAccessPrincipalArn: String?
+        /// The timestamp at which the user account was created in FinSpace. The value is determined as epoch time in milliseconds.
+        public let createTime: Int64?
+        /// The email address of the user. The email address serves as a uniquer identifier for each user and cannot be changed after it's created.
+        public let emailAddress: String?
+        /// The first name of the user.
+        public let firstName: String?
+        /// Describes the last time the user account was disabled. The value is determined as epoch time in milliseconds.
+        public let lastDisabledTime: Int64?
+        ///  Describes the last time the user account was enabled. The value is determined as epoch time in milliseconds.
+        public let lastEnabledTime: Int64?
+        /// Describes the last time that the user logged into their account. The value is determined as epoch time in milliseconds.
+        public let lastLoginTime: Int64?
+        /// Describes the last time the user account was updated. The value is determined as epoch time in milliseconds.
+        public let lastModifiedTime: Int64?
+        ///  The last name of the user.
+        public let lastName: String?
+        /// The current status of the user account.     CREATING – The user account creation is in progress.    ENABLED – The user account is created and is currently active.    DISABLED – The user account is currently inactive.
+        public let status: UserStatus?
+        ///  Indicates the type of user.    SUPER_USER – A user with permission to all the functionality and data in FinSpace.    APP_USER – A user with specific permissions in FinSpace. The users are assigned permissions by adding them to a permissions group.
+        public let type: UserType?
+        /// The unique identifier for the user.
+        public let userId: String?
+
+        public init(apiAccess: ApiAccess? = nil, apiAccessPrincipalArn: String? = nil, createTime: Int64? = nil, emailAddress: String? = nil, firstName: String? = nil, lastDisabledTime: Int64? = nil, lastEnabledTime: Int64? = nil, lastLoginTime: Int64? = nil, lastModifiedTime: Int64? = nil, lastName: String? = nil, status: UserStatus? = nil, type: UserType? = nil, userId: String? = nil) {
+            self.apiAccess = apiAccess
+            self.apiAccessPrincipalArn = apiAccessPrincipalArn
+            self.createTime = createTime
+            self.emailAddress = emailAddress
+            self.firstName = firstName
+            self.lastDisabledTime = lastDisabledTime
+            self.lastEnabledTime = lastEnabledTime
+            self.lastLoginTime = lastLoginTime
+            self.lastModifiedTime = lastModifiedTime
+            self.lastName = lastName
+            self.status = status
+            self.type = type
+            self.userId = userId
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case apiAccess
+            case apiAccessPrincipalArn
+            case createTime
+            case emailAddress
+            case firstName
+            case lastDisabledTime
+            case lastEnabledTime
+            case lastLoginTime
+            case lastModifiedTime
+            case lastName
+            case status
+            case type
+            case userId
         }
     }
 }

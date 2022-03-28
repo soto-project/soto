@@ -53,13 +53,13 @@ extension AppConfigData {
             AWSMemberEncoding(label: "nextPollIntervalInSeconds", location: .header("Next-Poll-Interval-In-Seconds"))
         ]
 
-        /// The data of the configuration. Note that this may be empty if the client already has the latest version of configuration.
+        /// The data of the configuration. This may be empty if the client already has the latest version of configuration.
         public let configuration: AWSPayload?
         /// A standard MIME type describing the format of the configuration content.
         public let contentType: String?
         /// The latest token describing the current state of the configuration session. This MUST be provided to the next call to GetLatestConfiguration.
         public let nextPollConfigurationToken: String?
-        /// The amount of time the client should wait before polling for configuration updates again. See RequiredMinimumPollIntervalInSeconds to set the desired poll interval.
+        /// The amount of time the client should wait before polling for configuration updates again. Use RequiredMinimumPollIntervalInSeconds to set the desired poll interval.
         public let nextPollIntervalInSeconds: Int?
 
         public init(configuration: AWSPayload? = nil, contentType: String? = nil, nextPollConfigurationToken: String? = nil, nextPollIntervalInSeconds: Int? = nil) {
@@ -84,7 +84,7 @@ extension AppConfigData {
         public let configurationProfileIdentifier: String
         /// The environment ID or the environment name.
         public let environmentIdentifier: String
-        /// The interval at which your client will poll for configuration. If provided, the service will throw a BadRequestException if the client polls before the specified poll interval. By default, client poll intervals are not enforced.
+        /// Sets a constraint on a session. If you specify a value of, for example, 60 seconds, then the client that established the session can't call GetLatestConfiguration more frequently then every 60 seconds.
         public let requiredMinimumPollIntervalInSeconds: Int?
 
         public init(applicationIdentifier: String, configurationProfileIdentifier: String, environmentIdentifier: String, requiredMinimumPollIntervalInSeconds: Int? = nil) {
@@ -114,7 +114,7 @@ extension AppConfigData {
     }
 
     public struct StartConfigurationSessionResponse: AWSDecodableShape {
-        /// Token encapsulating state about the configuration session. Provide this token to the GetLatestConfiguration API to retrieve configuration data.  This token should only be used once in your first call to GetLatestConfiguration. You MUST use the new token in the GetConfiguration response (NextPollConfigurationToken) in each subsequent call to GetLatestConfiguration.
+        /// Token encapsulating state about the configuration session. Provide this token to the GetLatestConfiguration API to retrieve configuration data.  This token should only be used once in your first call to GetLatestConfiguration. You MUST use the new token in the GetLatestConfiguration response (NextPollConfigurationToken) in each subsequent call to GetLatestConfiguration.
         public let initialConfigurationToken: String?
 
         public init(initialConfigurationToken: String? = nil) {

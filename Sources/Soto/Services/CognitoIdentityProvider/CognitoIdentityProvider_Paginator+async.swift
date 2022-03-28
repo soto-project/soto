@@ -45,7 +45,7 @@ extension CognitoIdentityProvider {
         )
     }
 
-    ///  Lists a history of user activity and any risks detected as part of Amazon Cognito advanced security.
+    ///  A history of user activity and any risks detected as part of Amazon Cognito advanced security.
     /// Return PaginatorSequence for operation.
     ///
     /// - Parameters:
@@ -155,7 +155,7 @@ extension CognitoIdentityProvider {
         )
     }
 
-    ///  Lists the user pools associated with an account.
+    ///  Lists the user pools associated with an Amazon Web Services account.
     /// Return PaginatorSequence for operation.
     ///
     /// - Parameters:

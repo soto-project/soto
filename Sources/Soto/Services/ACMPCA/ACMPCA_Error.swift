@@ -82,8 +82,8 @@ public struct ACMPCAErrorType: AWSErrorType {
     /// The tag associated with the CA is not valid. The invalid argument is contained in the
     /// 			message field.
     public static var invalidTagException: Self { .init(.invalidTagException) }
-    /// An ACM Private CA quota has been exceeded. See the exception message returned to determine the
-    /// 			quota that was exceeded.
+    /// An Amazon Web Services Private CA quota has been exceeded. See the exception message returned to determine
+    /// 			the quota that was exceeded.
     public static var limitExceededException: Self { .init(.limitExceededException) }
     /// The current action was prevented because it would lock the caller out from performing
     /// 			subsequent actions. Verify that the specified parameters would not result in the caller

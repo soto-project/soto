@@ -22,6 +22,7 @@ public struct EC2InstanceConnectErrorType: AWSErrorType {
     enum Code: String {
         case authException = "AuthException"
         case ec2InstanceNotFoundException = "EC2InstanceNotFoundException"
+        case ec2InstanceStateInvalidException = "EC2InstanceStateInvalidException"
         case ec2InstanceTypeInvalidException = "EC2InstanceTypeInvalidException"
         case invalidArgsException = "InvalidArgsException"
         case serialConsoleAccessDisabledException = "SerialConsoleAccessDisabledException"
@@ -53,6 +54,8 @@ public struct EC2InstanceConnectErrorType: AWSErrorType {
     public static var authException: Self { .init(.authException) }
     /// The specified instance was not found.
     public static var ec2InstanceNotFoundException: Self { .init(.ec2InstanceNotFoundException) }
+    /// Unable to connect because the instance is not in a valid state.  Connecting to a stopped or terminated instance is not supported. If the instance is stopped,  start your instance, and try to connect again.
+    public static var ec2InstanceStateInvalidException: Self { .init(.ec2InstanceStateInvalidException) }
     /// The instance type is not supported for connecting via the serial console. Only Nitro instance types are currently supported.
     public static var ec2InstanceTypeInvalidException: Self { .init(.ec2InstanceTypeInvalidException) }
     /// One of the parameters is not valid.

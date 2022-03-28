@@ -175,8 +175,8 @@ public struct ConfigService: AWSService {
         return self.client.execute(operation: "DeleteEvaluationResults", path: "/", httpMethod: .POST, serviceConfig: self.config, input: input, logger: logger, on: eventLoop)
     }
 
-    /// Deletes the specified organization config rule and all of its evaluation results from all member accounts in that organization.
-    /// 	        Only a master account and a delegated administrator account can delete an organization config rule.
+    /// Deletes the specified organization Config rule and all of its evaluation results from all member accounts in that organization.
+    /// 	        Only a master account and a delegated administrator account can delete an organization Config rule.
     /// 		When calling this API with a delegated administrator, you must ensure Organizations
     /// 			ListDelegatedAdministrator permissions are added.
     /// 		       Config sets the state of a rule to DELETE_IN_PROGRESS until the deletion is complete.
@@ -185,7 +185,7 @@ public struct ConfigService: AWSService {
         return self.client.execute(operation: "DeleteOrganizationConfigRule", path: "/", httpMethod: .POST, serviceConfig: self.config, input: input, logger: logger, on: eventLoop)
     }
 
-    /// Deletes the specified organization conformance pack and all of the config rules and remediation actions from
+    /// Deletes the specified organization conformance pack and all of the Config rules and remediation actions from
     /// 			all member accounts in that organization.  Only a master account or a delegated administrator account can delete an organization conformance pack.
     /// 	When calling this API with a delegated administrator, you must ensure Organizations
     /// 		ListDelegatedAdministrator permissions are added.
@@ -426,23 +426,23 @@ public struct ConfigService: AWSService {
         return self.client.execute(operation: "DescribeDeliveryChannels", path: "/", httpMethod: .POST, serviceConfig: self.config, input: input, logger: logger, on: eventLoop)
     }
 
-    /// Provides organization config rule deployment status for an organization.
+    /// Provides organization Config rule deployment status for an organization.
     ///
-    /// 		        The status is not considered successful until organization config rule is successfully deployed in all the member
+    /// 		        The status is not considered successful until organization Config rule is successfully deployed in all the member
     /// 			accounts with an exception of excluded accounts.
     /// 			         When you specify the limit and the next token, you receive a paginated response.
-    /// 			Limit and next token are not applicable if you specify organization config rule names.
-    /// 			It is only applicable, when you request all the organization config rules.
+    /// 			Limit and next token are not applicable if you specify organization Config rule names.
+    /// 			It is only applicable, when you request all the organization Config rules.
     ///
     public func describeOrganizationConfigRuleStatuses(_ input: DescribeOrganizationConfigRuleStatusesRequest, logger: Logger = AWSClient.loggingDisabled, on eventLoop: EventLoop? = nil) -> EventLoopFuture<DescribeOrganizationConfigRuleStatusesResponse> {
         return self.client.execute(operation: "DescribeOrganizationConfigRuleStatuses", path: "/", httpMethod: .POST, serviceConfig: self.config, input: input, logger: logger, on: eventLoop)
     }
 
-    /// Returns a list of organization config rules.
+    /// Returns a list of organization Config rules.
     ///
     /// 		        When you specify the limit and the next token, you receive a paginated response.
-    /// 			Limit and next token are not applicable if you specify organization config rule names.
-    /// 			It is only applicable, when you request all the organization config rules.
+    /// 			Limit and next token are not applicable if you specify organization Config rule names.
+    /// 			It is only applicable, when you request all the organization Config rules.
     public func describeOrganizationConfigRules(_ input: DescribeOrganizationConfigRulesRequest, logger: Logger = AWSClient.loggingDisabled, on eventLoop: EventLoop? = nil) -> EventLoopFuture<DescribeOrganizationConfigRulesResponse> {
         return self.client.execute(operation: "DescribeOrganizationConfigRules", path: "/", httpMethod: .POST, serviceConfig: self.config, input: input, logger: logger, on: eventLoop)
     }
@@ -586,6 +586,11 @@ public struct ConfigService: AWSService {
         return self.client.execute(operation: "GetConformancePackComplianceSummary", path: "/", httpMethod: .POST, serviceConfig: self.config, input: input, logger: logger, on: eventLoop)
     }
 
+    /// Returns the policy definition containing the logic for your Config Custom Policy rule.
+    public func getCustomRulePolicy(_ input: GetCustomRulePolicyRequest, logger: Logger = AWSClient.loggingDisabled, on eventLoop: EventLoop? = nil) -> EventLoopFuture<GetCustomRulePolicyResponse> {
+        return self.client.execute(operation: "GetCustomRulePolicy", path: "/", httpMethod: .POST, serviceConfig: self.config, input: input, logger: logger, on: eventLoop)
+    }
+
     /// Returns the resource types, the number of each resource type,
     /// 			and the total number of resources that Config is recording in
     /// 			this region for your Amazon Web Services account.
@@ -634,7 +639,7 @@ public struct ConfigService: AWSService {
         return self.client.execute(operation: "GetDiscoveredResourceCounts", path: "/", httpMethod: .POST, serviceConfig: self.config, input: input, logger: logger, on: eventLoop)
     }
 
-    /// Returns detailed status for each member account within an organization for a given organization config rule.
+    /// Returns detailed status for each member account within an organization for a given organization Config rule.
     public func getOrganizationConfigRuleDetailedStatus(_ input: GetOrganizationConfigRuleDetailedStatusRequest, logger: Logger = AWSClient.loggingDisabled, on eventLoop: EventLoop? = nil) -> EventLoopFuture<GetOrganizationConfigRuleDetailedStatusResponse> {
         return self.client.execute(operation: "GetOrganizationConfigRuleDetailedStatus", path: "/", httpMethod: .POST, serviceConfig: self.config, input: input, logger: logger, on: eventLoop)
     }
@@ -642,6 +647,11 @@ public struct ConfigService: AWSService {
     /// Returns detailed status for each member account within an organization for a given organization conformance pack.
     public func getOrganizationConformancePackDetailedStatus(_ input: GetOrganizationConformancePackDetailedStatusRequest, logger: Logger = AWSClient.loggingDisabled, on eventLoop: EventLoop? = nil) -> EventLoopFuture<GetOrganizationConformancePackDetailedStatusResponse> {
         return self.client.execute(operation: "GetOrganizationConformancePackDetailedStatus", path: "/", httpMethod: .POST, serviceConfig: self.config, input: input, logger: logger, on: eventLoop)
+    }
+
+    /// Returns the policy definition containing the logic for your organization Config Custom Policy rule.
+    public func getOrganizationCustomRulePolicy(_ input: GetOrganizationCustomRulePolicyRequest, logger: Logger = AWSClient.loggingDisabled, on eventLoop: EventLoop? = nil) -> EventLoopFuture<GetOrganizationCustomRulePolicyResponse> {
+        return self.client.execute(operation: "GetOrganizationCustomRulePolicy", path: "/", httpMethod: .POST, serviceConfig: self.config, input: input, logger: logger, on: eventLoop)
     }
 
     /// Returns a list of ConfigurationItems for the specified resource.
@@ -760,7 +770,7 @@ public struct ConfigService: AWSService {
     /// 			individual account(s) or an organization.
     ///
     /// 		        accountIds that are passed will be replaced with existing accounts.
-    /// 			If you want to add additional accounts into the aggregator, call DescribeAggregator to get the previous accounts and then append new ones.
+    /// 			If you want to add additional accounts into the aggregator, call DescribeConfigurationAggregators to get the previous accounts and then append new ones.
     ///
     /// 			         Config should be enabled in source accounts and regions
     /// 				you want to aggregate.
@@ -834,9 +844,9 @@ public struct ConfigService: AWSService {
         return self.client.execute(operation: "PutExternalEvaluation", path: "/", httpMethod: .POST, serviceConfig: self.config, input: input, logger: logger, on: eventLoop)
     }
 
-    /// Adds or updates organization config rule for your entire organization evaluating whether your Amazon Web Services resources comply with your
+    /// Adds or updates organization Config rule for your entire organization evaluating whether your Amazon Web Services resources comply with your
     /// 			desired configurations.
-    /// 	         Only a master account and a delegated administrator can create or update an organization config rule.
+    /// 	         Only a master account and a delegated administrator can create or update an organization Config rule.
     /// 		When calling this API with a delegated administrator, you must ensure Organizations
     /// 		ListDelegatedAdministrator permissions are added.
     /// 		       This API enables organization service access through the EnableAWSServiceAccess action and creates a service linked
@@ -851,7 +861,7 @@ public struct ConfigService: AWSService {
     /// 			When you use the PutOrganizationConfigRule action to add the rule to Config, you must
     /// 			specify the Amazon Resource Name (ARN) that Lambda assigns to the function.
     /// 			If you are adding an Config managed rule, specify the rule's identifier for the RuleIdentifier key.
-    /// 		       The maximum number of organization config rules that Config supports is 150 and 3 delegated administrator per organization.
+    /// 		       The maximum number of organization Config rules that Config supports is 150 and 3 delegated administrator per organization.
     /// 		        Prerequisite: Ensure you call EnableAllFeatures API to enable all features in an organization.
     /// 			         Specify either OrganizationCustomRuleMetadata or OrganizationManagedRuleMetadata.
     ///

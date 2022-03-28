@@ -133,6 +133,28 @@ extension RAM {
         )
     }
 
+    ///  Lists the available versions of the specified RAM permission.
+    /// Return PaginatorSequence for operation.
+    ///
+    /// - Parameters:
+    ///   - input: Input for request
+    ///   - logger: Logger used flot logging
+    ///   - eventLoop: EventLoop to run this process on
+    public func listPermissionVersionsPaginator(
+        _ input: ListPermissionVersionsRequest,
+        logger: Logger = AWSClient.loggingDisabled,
+        on eventLoop: EventLoop? = nil
+    ) -> AWSClient.PaginatorSequence<ListPermissionVersionsRequest, ListPermissionVersionsResponse> {
+        return .init(
+            input: input,
+            command: listPermissionVersions,
+            inputKey: \ListPermissionVersionsRequest.nextToken,
+            outputKey: \ListPermissionVersionsResponse.nextToken,
+            logger: logger,
+            on: eventLoop
+        )
+    }
+
     ///  Retrieves a list of available RAM permissions that you can use for the supported resource types.
     /// Return PaginatorSequence for operation.
     ///
@@ -221,7 +243,7 @@ extension RAM {
         )
     }
 
-    ///  Lists the resources that you added to a resource shares or the resources that are shared with you.
+    ///  Lists the resources that you added to a resource share or the resources that are shared with you.
     /// Return PaginatorSequence for operation.
     ///
     /// - Parameters:

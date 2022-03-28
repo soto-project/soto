@@ -123,7 +123,7 @@ extension Nimble {
         return try await self.client.execute(operation: "GetStreamingImage", path: "/2020-08-01/studios/{studioId}/streaming-images/{streamingImageId}", httpMethod: .GET, serviceConfig: self.config, input: input, logger: logger, on: eventLoop)
     }
 
-    /// Gets StreamingSession resource. anvoke this operation to poll for a streaming session state while creating or deleting a session.
+    /// Gets StreamingSession resource. Invoke this operation to poll for a streaming session state while creating or deleting a session.
     public func getStreamingSession(_ input: GetStreamingSessionRequest, logger: Logger = AWSClient.loggingDisabled, on eventLoop: EventLoop? = nil) async throws -> GetStreamingSessionResponse {
         return try await self.client.execute(operation: "GetStreamingSession", path: "/2020-08-01/studios/{studioId}/streaming-sessions/{sessionId}", httpMethod: .GET, serviceConfig: self.config, input: input, logger: logger, on: eventLoop)
     }

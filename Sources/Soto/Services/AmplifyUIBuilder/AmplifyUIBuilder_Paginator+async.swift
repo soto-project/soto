@@ -23,6 +23,50 @@ import SotoCore
 
 @available(macOS 10.15, iOS 13.0, tvOS 13.0, watchOS 6.0, *)
 extension AmplifyUIBuilder {
+    ///  Exports component configurations to code that is ready to integrate into an Amplify app.
+    /// Return PaginatorSequence for operation.
+    ///
+    /// - Parameters:
+    ///   - input: Input for request
+    ///   - logger: Logger used flot logging
+    ///   - eventLoop: EventLoop to run this process on
+    public func exportComponentsPaginator(
+        _ input: ExportComponentsRequest,
+        logger: Logger = AWSClient.loggingDisabled,
+        on eventLoop: EventLoop? = nil
+    ) -> AWSClient.PaginatorSequence<ExportComponentsRequest, ExportComponentsResponse> {
+        return .init(
+            input: input,
+            command: exportComponents,
+            inputKey: \ExportComponentsRequest.nextToken,
+            outputKey: \ExportComponentsResponse.nextToken,
+            logger: logger,
+            on: eventLoop
+        )
+    }
+
+    ///  Exports theme configurations to code that is ready to integrate into an Amplify app.
+    /// Return PaginatorSequence for operation.
+    ///
+    /// - Parameters:
+    ///   - input: Input for request
+    ///   - logger: Logger used flot logging
+    ///   - eventLoop: EventLoop to run this process on
+    public func exportThemesPaginator(
+        _ input: ExportThemesRequest,
+        logger: Logger = AWSClient.loggingDisabled,
+        on eventLoop: EventLoop? = nil
+    ) -> AWSClient.PaginatorSequence<ExportThemesRequest, ExportThemesResponse> {
+        return .init(
+            input: input,
+            command: exportThemes,
+            inputKey: \ExportThemesRequest.nextToken,
+            outputKey: \ExportThemesResponse.nextToken,
+            logger: logger,
+            on: eventLoop
+        )
+    }
+
     ///  Retrieves a list of components for a specified Amplify app and backend environment.
     /// Return PaginatorSequence for operation.
     ///

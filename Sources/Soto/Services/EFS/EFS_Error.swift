@@ -41,6 +41,7 @@ public struct EFSErrorType: AWSErrorType {
         case networkInterfaceLimitExceeded = "NetworkInterfaceLimitExceeded"
         case noFreeAddressesInSubnet = "NoFreeAddressesInSubnet"
         case policyNotFound = "PolicyNotFound"
+        case replicationNotFound = "ReplicationNotFound"
         case securityGroupLimitExceeded = "SecurityGroupLimitExceeded"
         case securityGroupNotFound = "SecurityGroupNotFound"
         case subnetNotFound = "SubnetNotFound"
@@ -110,6 +111,8 @@ public struct EFSErrorType: AWSErrorType {
     public static var noFreeAddressesInSubnet: Self { .init(.noFreeAddressesInSubnet) }
     /// Returned if the default file system policy is in effect for the EFS file system specified.
     public static var policyNotFound: Self { .init(.policyNotFound) }
+    /// Returned if the specified file system did not have a replication configuration.
+    public static var replicationNotFound: Self { .init(.replicationNotFound) }
     /// Returned if the size of SecurityGroups specified in the request is greater than five.
     public static var securityGroupLimitExceeded: Self { .init(.securityGroupLimitExceeded) }
     /// Returned if one of the specified security groups doesn't exist in the subnet's VPC.

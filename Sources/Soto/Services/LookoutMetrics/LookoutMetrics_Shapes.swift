@@ -48,12 +48,22 @@ extension LookoutMetrics {
         public var description: String { return self.rawValue }
     }
 
+    public enum AnomalyDetectorFailureType: String, CustomStringConvertible, Codable {
+        case activationFailure = "ACTIVATION_FAILURE"
+        case backTestActivationFailure = "BACK_TEST_ACTIVATION_FAILURE"
+        case deactivationFailure = "DEACTIVATION_FAILURE"
+        case deletionFailure = "DELETION_FAILURE"
+        public var description: String { return self.rawValue }
+    }
+
     public enum AnomalyDetectorStatus: String, CustomStringConvertible, Codable {
         case activating = "ACTIVATING"
         case active = "ACTIVE"
         case backTestActivating = "BACK_TEST_ACTIVATING"
         case backTestActive = "BACK_TEST_ACTIVE"
         case backTestComplete = "BACK_TEST_COMPLETE"
+        case deactivated = "DEACTIVATED"
+        case deactivating = "DEACTIVATING"
         case deleting = "DELETING"
         case failed = "FAILED"
         case inactive = "INACTIVE"
@@ -427,11 +437,11 @@ extension LookoutMetrics {
 
     public struct AppFlowConfig: AWSEncodableShape & AWSDecodableShape {
         ///  name of the flow.
-        public let flowName: String
+        public let flowName: String?
         /// An IAM role that gives Amazon Lookout for Metrics permission to access the flow.
-        public let roleArn: String
+        public let roleArn: String?
 
-        public init(flowName: String, roleArn: String) {
+        public init(flowName: String? = nil, roleArn: String? = nil) {
             self.flowName = flowName
             self.roleArn = roleArn
         }
@@ -473,9 +483,9 @@ extension LookoutMetrics {
 
     public struct CloudWatchConfig: AWSEncodableShape & AWSDecodableShape {
         /// An IAM role that gives Amazon Lookout for Metrics permission to access data in Amazon CloudWatch.
-        public let roleArn: String
+        public let roleArn: String?
 
-        public init(roleArn: String) {
+        public init(roleArn: String? = nil) {
             self.roleArn = roleArn
         }
 
@@ -776,6 +786,28 @@ extension LookoutMetrics {
         }
     }
 
+    public struct DeactivateAnomalyDetectorRequest: AWSEncodableShape {
+        /// The Amazon Resource Name (ARN) of the anomaly detector.
+        public let anomalyDetectorArn: String
+
+        public init(anomalyDetectorArn: String) {
+            self.anomalyDetectorArn = anomalyDetectorArn
+        }
+
+        public func validate(name: String) throws {
+            try self.validate(self.anomalyDetectorArn, name: "anomalyDetectorArn", parent: name, max: 256)
+            try self.validate(self.anomalyDetectorArn, name: "anomalyDetectorArn", parent: name, pattern: "^arn:([a-z\\d-]+):.*:.*:.*:.+$")
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case anomalyDetectorArn = "AnomalyDetectorArn"
+        }
+    }
+
+    public struct DeactivateAnomalyDetectorResponse: AWSDecodableShape {
+        public init() {}
+    }
+
     public struct DeleteAlertRequest: AWSEncodableShape {
         /// The ARN of the alert to delete.
         public let alertArn: String
@@ -934,8 +966,10 @@ extension LookoutMetrics {
         public let anomalyDetectorName: String?
         /// The time at which the detector was created.
         public let creationTime: Date?
-        /// The reason that the detector failed, if any.
+        /// The reason that the detector failed.
         public let failureReason: String?
+        /// The process that caused the detector to fail.
+        public let failureType: AnomalyDetectorFailureType?
         /// The ARN of the KMS key to use to encrypt your data.
         public let kmsKeyArn: String?
         /// The time at which the detector was last modified.
@@ -943,13 +977,14 @@ extension LookoutMetrics {
         /// The status of the detector.
         public let status: AnomalyDetectorStatus?
 
-        public init(anomalyDetectorArn: String? = nil, anomalyDetectorConfig: AnomalyDetectorConfigSummary? = nil, anomalyDetectorDescription: String? = nil, anomalyDetectorName: String? = nil, creationTime: Date? = nil, failureReason: String? = nil, kmsKeyArn: String? = nil, lastModificationTime: Date? = nil, status: AnomalyDetectorStatus? = nil) {
+        public init(anomalyDetectorArn: String? = nil, anomalyDetectorConfig: AnomalyDetectorConfigSummary? = nil, anomalyDetectorDescription: String? = nil, anomalyDetectorName: String? = nil, creationTime: Date? = nil, failureReason: String? = nil, failureType: AnomalyDetectorFailureType? = nil, kmsKeyArn: String? = nil, lastModificationTime: Date? = nil, status: AnomalyDetectorStatus? = nil) {
             self.anomalyDetectorArn = anomalyDetectorArn
             self.anomalyDetectorConfig = anomalyDetectorConfig
             self.anomalyDetectorDescription = anomalyDetectorDescription
             self.anomalyDetectorName = anomalyDetectorName
             self.creationTime = creationTime
             self.failureReason = failureReason
+            self.failureType = failureType
             self.kmsKeyArn = kmsKeyArn
             self.lastModificationTime = lastModificationTime
             self.status = status
@@ -962,6 +997,7 @@ extension LookoutMetrics {
             case anomalyDetectorName = "AnomalyDetectorName"
             case creationTime = "CreationTime"
             case failureReason = "FailureReason"
+            case failureType = "FailureType"
             case kmsKeyArn = "KmsKeyArn"
             case lastModificationTime = "LastModificationTime"
             case status = "Status"
@@ -1865,23 +1901,23 @@ extension LookoutMetrics {
 
     public struct RDSSourceConfig: AWSEncodableShape & AWSDecodableShape {
         /// The host name of the database.
-        public let databaseHost: String
+        public let databaseHost: String?
         /// The name of the RDS database.
-        public let databaseName: String
+        public let databaseName: String?
         /// The port number where the database can be accessed.
-        public let databasePort: Int
+        public let databasePort: Int?
         /// A string identifying the database instance.
-        public let dbInstanceIdentifier: String
+        public let dbInstanceIdentifier: String?
         /// The Amazon Resource Name (ARN) of the role.
-        public let roleArn: String
+        public let roleArn: String?
         /// The Amazon Resource Name (ARN) of the AWS Secrets Manager role.
-        public let secretManagerArn: String
+        public let secretManagerArn: String?
         /// The name of the table in the database.
-        public let tableName: String
+        public let tableName: String?
         /// An object containing information about the Amazon Virtual Private Cloud (VPC) configuration.
-        public let vpcConfiguration: VpcConfiguration
+        public let vpcConfiguration: VpcConfiguration?
 
-        public init(databaseHost: String, databaseName: String, databasePort: Int, dbInstanceIdentifier: String, roleArn: String, secretManagerArn: String, tableName: String, vpcConfiguration: VpcConfiguration) {
+        public init(databaseHost: String? = nil, databaseName: String? = nil, databasePort: Int? = nil, dbInstanceIdentifier: String? = nil, roleArn: String? = nil, secretManagerArn: String? = nil, tableName: String? = nil, vpcConfiguration: VpcConfiguration? = nil) {
             self.databaseHost = databaseHost
             self.databaseName = databaseName
             self.databasePort = databasePort
@@ -1911,7 +1947,7 @@ extension LookoutMetrics {
             try self.validate(self.tableName, name: "tableName", parent: name, max: 100)
             try self.validate(self.tableName, name: "tableName", parent: name, min: 1)
             try self.validate(self.tableName, name: "tableName", parent: name, pattern: "^[a-zA-Z][a-zA-Z0-9_.]*$")
-            try self.vpcConfiguration.validate(name: "\(name).vpcConfiguration")
+            try self.vpcConfiguration?.validate(name: "\(name).vpcConfiguration")
         }
 
         private enum CodingKeys: String, CodingKey {
@@ -1928,23 +1964,23 @@ extension LookoutMetrics {
 
     public struct RedshiftSourceConfig: AWSEncodableShape & AWSDecodableShape {
         /// A string identifying the Redshift cluster.
-        public let clusterIdentifier: String
+        public let clusterIdentifier: String?
         /// The name of the database host.
-        public let databaseHost: String
+        public let databaseHost: String?
         /// The Redshift database name.
-        public let databaseName: String
+        public let databaseName: String?
         /// The port number where the database can be accessed.
-        public let databasePort: Int
+        public let databasePort: Int?
         /// The Amazon Resource Name (ARN) of the role providing access to the database.
-        public let roleArn: String
+        public let roleArn: String?
         /// The Amazon Resource Name (ARN) of the AWS Secrets Manager role.
-        public let secretManagerArn: String
+        public let secretManagerArn: String?
         /// The table name of the Redshift database.
-        public let tableName: String
+        public let tableName: String?
         /// Contains information about the Amazon Virtual Private Cloud (VPC) configuration.
-        public let vpcConfiguration: VpcConfiguration
+        public let vpcConfiguration: VpcConfiguration?
 
-        public init(clusterIdentifier: String, databaseHost: String, databaseName: String, databasePort: Int, roleArn: String, secretManagerArn: String, tableName: String, vpcConfiguration: VpcConfiguration) {
+        public init(clusterIdentifier: String? = nil, databaseHost: String? = nil, databaseName: String? = nil, databasePort: Int? = nil, roleArn: String? = nil, secretManagerArn: String? = nil, tableName: String? = nil, vpcConfiguration: VpcConfiguration? = nil) {
             self.clusterIdentifier = clusterIdentifier
             self.databaseHost = databaseHost
             self.databaseName = databaseName
@@ -1974,7 +2010,7 @@ extension LookoutMetrics {
             try self.validate(self.tableName, name: "tableName", parent: name, max: 100)
             try self.validate(self.tableName, name: "tableName", parent: name, min: 1)
             try self.validate(self.tableName, name: "tableName", parent: name, pattern: "^[a-zA-Z][a-zA-Z0-9_.]*$")
-            try self.vpcConfiguration.validate(name: "\(name).vpcConfiguration")
+            try self.vpcConfiguration?.validate(name: "\(name).vpcConfiguration")
         }
 
         private enum CodingKeys: String, CodingKey {
@@ -1995,11 +2031,11 @@ extension LookoutMetrics {
         /// A list of paths to the historical data files.
         public let historicalDataPathList: [String]?
         /// The ARN of an IAM role that has read and write access permissions to the source S3 bucket.
-        public let roleArn: String
+        public let roleArn: String?
         /// A list of templated paths to the source files.
         public let templatedPathList: [String]?
 
-        public init(fileFormatDescriptor: FileFormatDescriptor? = nil, historicalDataPathList: [String]? = nil, roleArn: String, templatedPathList: [String]? = nil) {
+        public init(fileFormatDescriptor: FileFormatDescriptor? = nil, historicalDataPathList: [String]? = nil, roleArn: String? = nil, templatedPathList: [String]? = nil) {
             self.fileFormatDescriptor = fileFormatDescriptor
             self.historicalDataPathList = historicalDataPathList
             self.roleArn = roleArn

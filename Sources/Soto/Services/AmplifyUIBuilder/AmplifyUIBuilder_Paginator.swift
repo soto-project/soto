@@ -20,6 +20,112 @@ import SotoCore
 // MARK: Paginators
 
 extension AmplifyUIBuilder {
+    ///  Exports component configurations to code that is ready to integrate into an Amplify app.
+    ///
+    /// Provide paginated results to closure `onPage` for it to combine them into one result.
+    /// This works in a similar manner to `Array.reduce<Result>(_:_:) -> Result`.
+    ///
+    /// Parameters:
+    ///   - input: Input for request
+    ///   - initialValue: The value to use as the initial accumulating value. `initialValue` is passed to `onPage` the first time it is called.
+    ///   - logger: Logger used flot logging
+    ///   - eventLoop: EventLoop to run this process on
+    ///   - onPage: closure called with each paginated response. It combines an accumulating result with the contents of response. This combined result is then returned
+    ///         along with a boolean indicating if the paginate operation should continue.
+    public func exportComponentsPaginator<Result>(
+        _ input: ExportComponentsRequest,
+        _ initialValue: Result,
+        logger: Logger = AWSClient.loggingDisabled,
+        on eventLoop: EventLoop? = nil,
+        onPage: @escaping (Result, ExportComponentsResponse, EventLoop) -> EventLoopFuture<(Bool, Result)>
+    ) -> EventLoopFuture<Result> {
+        return client.paginate(
+            input: input,
+            initialValue: initialValue,
+            command: exportComponents,
+            inputKey: \ExportComponentsRequest.nextToken,
+            outputKey: \ExportComponentsResponse.nextToken,
+            on: eventLoop,
+            onPage: onPage
+        )
+    }
+
+    /// Provide paginated results to closure `onPage`.
+    ///
+    /// - Parameters:
+    ///   - input: Input for request
+    ///   - logger: Logger used flot logging
+    ///   - eventLoop: EventLoop to run this process on
+    ///   - onPage: closure called with each block of entries. Returns boolean indicating whether we should continue.
+    public func exportComponentsPaginator(
+        _ input: ExportComponentsRequest,
+        logger: Logger = AWSClient.loggingDisabled,
+        on eventLoop: EventLoop? = nil,
+        onPage: @escaping (ExportComponentsResponse, EventLoop) -> EventLoopFuture<Bool>
+    ) -> EventLoopFuture<Void> {
+        return client.paginate(
+            input: input,
+            command: exportComponents,
+            inputKey: \ExportComponentsRequest.nextToken,
+            outputKey: \ExportComponentsResponse.nextToken,
+            on: eventLoop,
+            onPage: onPage
+        )
+    }
+
+    ///  Exports theme configurations to code that is ready to integrate into an Amplify app.
+    ///
+    /// Provide paginated results to closure `onPage` for it to combine them into one result.
+    /// This works in a similar manner to `Array.reduce<Result>(_:_:) -> Result`.
+    ///
+    /// Parameters:
+    ///   - input: Input for request
+    ///   - initialValue: The value to use as the initial accumulating value. `initialValue` is passed to `onPage` the first time it is called.
+    ///   - logger: Logger used flot logging
+    ///   - eventLoop: EventLoop to run this process on
+    ///   - onPage: closure called with each paginated response. It combines an accumulating result with the contents of response. This combined result is then returned
+    ///         along with a boolean indicating if the paginate operation should continue.
+    public func exportThemesPaginator<Result>(
+        _ input: ExportThemesRequest,
+        _ initialValue: Result,
+        logger: Logger = AWSClient.loggingDisabled,
+        on eventLoop: EventLoop? = nil,
+        onPage: @escaping (Result, ExportThemesResponse, EventLoop) -> EventLoopFuture<(Bool, Result)>
+    ) -> EventLoopFuture<Result> {
+        return client.paginate(
+            input: input,
+            initialValue: initialValue,
+            command: exportThemes,
+            inputKey: \ExportThemesRequest.nextToken,
+            outputKey: \ExportThemesResponse.nextToken,
+            on: eventLoop,
+            onPage: onPage
+        )
+    }
+
+    /// Provide paginated results to closure `onPage`.
+    ///
+    /// - Parameters:
+    ///   - input: Input for request
+    ///   - logger: Logger used flot logging
+    ///   - eventLoop: EventLoop to run this process on
+    ///   - onPage: closure called with each block of entries. Returns boolean indicating whether we should continue.
+    public func exportThemesPaginator(
+        _ input: ExportThemesRequest,
+        logger: Logger = AWSClient.loggingDisabled,
+        on eventLoop: EventLoop? = nil,
+        onPage: @escaping (ExportThemesResponse, EventLoop) -> EventLoopFuture<Bool>
+    ) -> EventLoopFuture<Void> {
+        return client.paginate(
+            input: input,
+            command: exportThemes,
+            inputKey: \ExportThemesRequest.nextToken,
+            outputKey: \ExportThemesResponse.nextToken,
+            on: eventLoop,
+            onPage: onPage
+        )
+    }
+
     ///  Retrieves a list of components for a specified Amplify app and backend environment.
     ///
     /// Provide paginated results to closure `onPage` for it to combine them into one result.
@@ -123,6 +229,26 @@ extension AmplifyUIBuilder {
             outputKey: \ListThemesResponse.nextToken,
             on: eventLoop,
             onPage: onPage
+        )
+    }
+}
+
+extension AmplifyUIBuilder.ExportComponentsRequest: AWSPaginateToken {
+    public func usingPaginationToken(_ token: String) -> AmplifyUIBuilder.ExportComponentsRequest {
+        return .init(
+            appId: self.appId,
+            environmentName: self.environmentName,
+            nextToken: token
+        )
+    }
+}
+
+extension AmplifyUIBuilder.ExportThemesRequest: AWSPaginateToken {
+    public func usingPaginationToken(_ token: String) -> AmplifyUIBuilder.ExportThemesRequest {
+        return .init(
+            appId: self.appId,
+            environmentName: self.environmentName,
+            nextToken: token
         )
     }
 }

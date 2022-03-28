@@ -429,6 +429,7 @@ extension SSM {
         case oracleLinux = "ORACLE_LINUX"
         case raspbian = "RASPBIAN"
         case redhatEnterpriseLinux = "REDHAT_ENTERPRISE_LINUX"
+        case rockyLinux = "ROCKY_LINUX"
         case suse = "SUSE"
         case ubuntu = "UBUNTU"
         case windows = "WINDOWS"
@@ -669,6 +670,7 @@ extension SSM {
     }
 
     public enum ResourceTypeForTagging: String, CustomStringConvertible, Codable {
+        case automation = "Automation"
         case document = "Document"
         case maintenanceWindow = "MaintenanceWindow"
         case managedInstance = "ManagedInstance"
@@ -894,7 +896,8 @@ extension SSM {
         public let associationName: String?
         /// The association version.
         public let associationVersion: String?
-        /// The version of the document used in the association.
+        /// The version of the document used in the association. If you change a document version for a State Manager association, Systems Manager immediately runs the association unless you previously specifed the apply-only-at-cron-interval parameter.
+        ///   State Manager doesn't support running associations that use a new version of a document if that document is shared from another account. State Manager always runs the default version of a document if shared from another account, even though the Systems Manager console shows that a new version was processed. If you want to run an association using a new version of a document shared form another account, you must set the document version to default.
         public let documentVersion: String?
         /// The managed node ID.
         public let instanceId: String?
@@ -1829,7 +1832,7 @@ extension SSM {
         public let commandId: String?
         /// User-specified information about the command, such as a brief description of what the command should do.
         public let comment: String?
-        /// The number of targets for which the command invocation reached a terminal state. Terminal states include the following: Success, Failed, Execution Timed Out, Delivery Timed Out, Canceled, Terminated, or Undeliverable.
+        /// The number of targets for which the command invocation reached a terminal state. Terminal states include the following: Success, Failed, Execution Timed Out, Delivery Timed Out, Cancelled, Terminated, or Undeliverable.
         public let completedCount: Int?
         /// The number of targets for which the status is Delivery Timed Out.
         public let deliveryTimedOutCount: Int?
@@ -1863,7 +1866,7 @@ extension SSM {
         public let serviceRole: String?
         /// The status of the command.
         public let status: CommandStatus?
-        /// A detailed status of the command execution. StatusDetails includes more information than Status because it includes states resulting from error and concurrency control parameters. StatusDetails can show different results than Status. For more information about these statuses, see Understanding command statuses in the Amazon Web Services Systems Manager User Guide. StatusDetails can be one of the following values:   Pending: The command hasn't been sent to any managed nodes.   In Progress: The command has been sent to at least one managed node but hasn't reached a final state on all managed nodes.   Success: The command successfully ran on all invocations. This is a terminal state.   Delivery Timed Out: The value of MaxErrors or more command invocations shows a status of Delivery Timed Out. This is a terminal state.   Execution Timed Out: The value of MaxErrors or more command invocations shows a status of Execution Timed Out. This is a terminal state.   Failed: The value of MaxErrors or more command invocations shows a status of Failed. This is a terminal state.   Incomplete: The command was attempted on all managed nodes and one or more invocations doesn't have a value of Success but not enough invocations failed for the status to be Failed. This is a terminal state.   Canceled: The command was terminated before it was completed. This is a terminal state.   Rate Exceeded: The number of managed nodes targeted by the command exceeded the account limit for pending invocations. The system has canceled the command before running it on any managed node. This is a terminal state.
+        /// A detailed status of the command execution. StatusDetails includes more information than Status because it includes states resulting from error and concurrency control parameters. StatusDetails can show different results than Status. For more information about these statuses, see Understanding command statuses in the Amazon Web Services Systems Manager User Guide. StatusDetails can be one of the following values:   Pending: The command hasn't been sent to any managed nodes.   In Progress: The command has been sent to at least one managed node but hasn't reached a final state on all managed nodes.   Success: The command successfully ran on all invocations. This is a terminal state.   Delivery Timed Out: The value of MaxErrors or more command invocations shows a status of Delivery Timed Out. This is a terminal state.   Execution Timed Out: The value of MaxErrors or more command invocations shows a status of Execution Timed Out. This is a terminal state.   Failed: The value of MaxErrors or more command invocations shows a status of Failed. This is a terminal state.   Incomplete: The command was attempted on all managed nodes and one or more invocations doesn't have a value of Success but not enough invocations failed for the status to be Failed. This is a terminal state.   Cancelled: The command was terminated before it was completed. This is a terminal state.   Rate Exceeded: The number of managed nodes targeted by the command exceeded the account limit for pending invocations. The system has canceled the command before running it on any managed node. This is a terminal state.
         public let statusDetails: String?
         /// The number of targets for the command.
         public let targetCount: Int?
@@ -1978,7 +1981,7 @@ extension SSM {
         public let standardOutputUrl: String?
         /// Whether or not the invocation succeeded, failed, or is pending.
         public let status: CommandInvocationStatus?
-        /// A detailed status of the command execution for each invocation (each managed node targeted by the command). StatusDetails includes more information than Status because it includes states resulting from error and concurrency control parameters. StatusDetails can show different results than Status. For more information about these statuses, see Understanding command statuses in the Amazon Web Services Systems Manager User Guide. StatusDetails can be one of the following values:   Pending: The command hasn't been sent to the managed node.   In Progress: The command has been sent to the managed node but hasn't reached a terminal state.   Success: The execution of the command or plugin was successfully completed. This is a terminal state.   Delivery Timed Out: The command wasn't delivered to the managed node before the delivery timeout expired. Delivery timeouts don't count against the parent command's MaxErrors limit, but they do contribute to whether the parent command status is Success or Incomplete. This is a terminal state.   Execution Timed Out: Command execution started on the managed node, but the execution wasn't complete before the execution timeout expired. Execution timeouts count against the MaxErrors limit of the parent command. This is a terminal state.   Failed: The command wasn't successful on the managed node. For a plugin, this indicates that the result code wasn't zero. For a command invocation, this indicates that the result code for one or more plugins wasn't zero. Invocation failures count against the MaxErrors limit of the parent command. This is a terminal state.   Canceled: The command was terminated before it was completed. This is a terminal state.   Undeliverable: The command can't be delivered to the managed node. The managed node might not exist or might not be responding. Undeliverable invocations don't count against the parent command's MaxErrors limit and don't contribute to whether the parent command status is Success or Incomplete. This is a terminal state.   Terminated: The parent command exceeded its MaxErrors limit and subsequent command invocations were canceled by the system. This is a terminal state.
+        /// A detailed status of the command execution for each invocation (each managed node targeted by the command). StatusDetails includes more information than Status because it includes states resulting from error and concurrency control parameters. StatusDetails can show different results than Status. For more information about these statuses, see Understanding command statuses in the Amazon Web Services Systems Manager User Guide. StatusDetails can be one of the following values:   Pending: The command hasn't been sent to the managed node.   In Progress: The command has been sent to the managed node but hasn't reached a terminal state.   Success: The execution of the command or plugin was successfully completed. This is a terminal state.   Delivery Timed Out: The command wasn't delivered to the managed node before the delivery timeout expired. Delivery timeouts don't count against the parent command's MaxErrors limit, but they do contribute to whether the parent command status is Success or Incomplete. This is a terminal state.   Execution Timed Out: Command execution started on the managed node, but the execution wasn't complete before the execution timeout expired. Execution timeouts count against the MaxErrors limit of the parent command. This is a terminal state.   Failed: The command wasn't successful on the managed node. For a plugin, this indicates that the result code wasn't zero. For a command invocation, this indicates that the result code for one or more plugins wasn't zero. Invocation failures count against the MaxErrors limit of the parent command. This is a terminal state.   Cancelled: The command was terminated before it was completed. This is a terminal state.   Undeliverable: The command can't be delivered to the managed node. The managed node might not exist or might not be responding. Undeliverable invocations don't count against the parent command's MaxErrors limit and don't contribute to whether the parent command status is Success or Incomplete. This is a terminal state.   Terminated: The parent command exceeded its MaxErrors limit and subsequent command invocations were canceled by the system. This is a terminal state.
         public let statusDetails: String?
         ///  Gets the trace output sent by the agent.
         public let traceOutput: String?
@@ -2045,7 +2048,7 @@ extension SSM {
         public let standardOutputUrl: String?
         /// The status of this plugin. You can run a document with multiple plugins.
         public let status: CommandPluginStatus?
-        /// A detailed status of the plugin execution. StatusDetails includes more information than Status because it includes states resulting from error and concurrency control parameters. StatusDetails can show different results than Status. For more information about these statuses, see Understanding command statuses in the Amazon Web Services Systems Manager User Guide. StatusDetails can be one of the following values:   Pending: The command hasn't been sent to the managed node.   In Progress: The command has been sent to the managed node but hasn't reached a terminal state.   Success: The execution of the command or plugin was successfully completed. This is a terminal state.   Delivery Timed Out: The command wasn't delivered to the managed node before the delivery timeout expired. Delivery timeouts don't count against the parent command's MaxErrors limit, but they do contribute to whether the parent command status is Success or Incomplete. This is a terminal state.   Execution Timed Out: Command execution started on the managed node, but the execution wasn't complete before the execution timeout expired. Execution timeouts count against the MaxErrors limit of the parent command. This is a terminal state.   Failed: The command wasn't successful on the managed node. For a plugin, this indicates that the result code wasn't zero. For a command invocation, this indicates that the result code for one or more plugins wasn't zero. Invocation failures count against the MaxErrors limit of the parent command. This is a terminal state.   Canceled: The command was terminated before it was completed. This is a terminal state.   Undeliverable: The command can't be delivered to the managed node. The managed node might not exist, or it might not be responding. Undeliverable invocations don't count against the parent command's MaxErrors limit, and they don't contribute to whether the parent command status is Success or Incomplete. This is a terminal state.   Terminated: The parent command exceeded its MaxErrors limit and subsequent command invocations were canceled by the system. This is a terminal state.
+        /// A detailed status of the plugin execution. StatusDetails includes more information than Status because it includes states resulting from error and concurrency control parameters. StatusDetails can show different results than Status. For more information about these statuses, see Understanding command statuses in the Amazon Web Services Systems Manager User Guide. StatusDetails can be one of the following values:   Pending: The command hasn't been sent to the managed node.   In Progress: The command has been sent to the managed node but hasn't reached a terminal state.   Success: The execution of the command or plugin was successfully completed. This is a terminal state.   Delivery Timed Out: The command wasn't delivered to the managed node before the delivery timeout expired. Delivery timeouts don't count against the parent command's MaxErrors limit, but they do contribute to whether the parent command status is Success or Incomplete. This is a terminal state.   Execution Timed Out: Command execution started on the managed node, but the execution wasn't complete before the execution timeout expired. Execution timeouts count against the MaxErrors limit of the parent command. This is a terminal state.   Failed: The command wasn't successful on the managed node. For a plugin, this indicates that the result code wasn't zero. For a command invocation, this indicates that the result code for one or more plugins wasn't zero. Invocation failures count against the MaxErrors limit of the parent command. This is a terminal state.   Cancelled: The command was terminated before it was completed. This is a terminal state.   Undeliverable: The command can't be delivered to the managed node. The managed node might not exist, or it might not be responding. Undeliverable invocations don't count against the parent command's MaxErrors limit, and they don't contribute to whether the parent command status is Success or Incomplete. This is a terminal state.   Terminated: The parent command exceeded its MaxErrors limit and subsequent command invocations were canceled by the system. This is a terminal state.
         public let statusDetails: String?
 
         public init(name: String? = nil, output: String? = nil, outputS3BucketName: String? = nil, outputS3KeyPrefix: String? = nil, outputS3Region: String? = nil, responseCode: Int? = nil, responseFinishDateTime: Date? = nil, responseStartDateTime: Date? = nil, standardErrorUrl: String? = nil, standardOutputUrl: String? = nil, status: CommandPluginStatus? = nil, statusDetails: String? = nil) {
@@ -2472,7 +2475,7 @@ extension SSM {
         public let calendarNames: [String]?
         /// The severity level to assign to the association.
         public let complianceSeverity: AssociationComplianceSeverity?
-        /// The document version you want to associate with the target(s). Can be a specific version or the default version.
+        /// The document version you want to associate with the target(s). Can be a specific version or the default version.  State Manager doesn't support running associations that use a new version of a document if that document is shared from another account. State Manager always runs the default version of a document if shared from another account, even though the Systems Manager console shows that a new version was processed. If you want to run an association using a new version of a document shared form another account, you must set the document version to default.
         public let documentVersion: String?
         /// The managed node ID.   InstanceId has been deprecated. To specify a managed node ID for an association, use the Targets parameter. Requests that include the parameter InstanceID with Systems Manager documents (SSM documents) that use schema version 2.0 or later will fail. In addition, if you use the parameter InstanceId, you can't use the parameters AssociationName, DocumentVersion, MaxErrors, MaxConcurrency, OutputLocation, or ScheduleExpression. To use these parameters, you must use the Targets parameter.
         public let instanceId: String?
@@ -2583,7 +2586,7 @@ extension SSM {
         public let displayName: String?
         /// Specify the document format for the request. The document format can be JSON, YAML, or TEXT. JSON is the default format.
         public let documentFormat: DocumentFormat?
-        /// The type of document to create.
+        /// The type of document to create.  The DeploymentStrategy document type is an internal-use-only document type reserved for AppConfig.
         public let documentType: DocumentType?
         /// A name for the SSM document.  You can't use the following strings as document name prefixes. These are reserved by Amazon Web Services for use as document name prefixes:    aws-     amazon     amzn
         public let name: String
@@ -5233,6 +5236,10 @@ extension SSM {
         public let attachmentsInformation: [AttachmentInformation]?
         /// The user in your organization who created the document.
         public let author: String?
+        /// The classification of a document to help you identify and categorize its use.
+        public let category: [String]?
+        /// The value that identifies a document's category.
+        public let categoryEnum: [String]?
         /// The date when the document was created.
         public let createdDate: Date?
         /// The default version.
@@ -5261,7 +5268,7 @@ extension SSM {
         public let parameters: [DocumentParameter]?
         /// The version of the document that is currently under review.
         public let pendingReviewVersion: String?
-        /// The list of OS platforms compatible with this SSM document.
+        /// The list of operating system (OS) platforms compatible with this SSM document.
         public let platformTypes: [PlatformType]?
         /// A list of SSM documents required by a document. For example, an ApplicationConfiguration document requires an ApplicationConfigurationSchema document.
         public let requires: [DocumentRequires]?
@@ -5284,10 +5291,12 @@ extension SSM {
         /// The version of the artifact associated with the document.
         public let versionName: String?
 
-        public init(approvedVersion: String? = nil, attachmentsInformation: [AttachmentInformation]? = nil, author: String? = nil, createdDate: Date? = nil, defaultVersion: String? = nil, description: String? = nil, displayName: String? = nil, documentFormat: DocumentFormat? = nil, documentType: DocumentType? = nil, documentVersion: String? = nil, hash: String? = nil, hashType: DocumentHashType? = nil, latestVersion: String? = nil, name: String? = nil, owner: String? = nil, parameters: [DocumentParameter]? = nil, pendingReviewVersion: String? = nil, platformTypes: [PlatformType]? = nil, requires: [DocumentRequires]? = nil, reviewInformation: [ReviewInformation]? = nil, reviewStatus: ReviewStatus? = nil, schemaVersion: String? = nil, sha1: String? = nil, status: DocumentStatus? = nil, statusInformation: String? = nil, tags: [Tag]? = nil, targetType: String? = nil, versionName: String? = nil) {
+        public init(approvedVersion: String? = nil, attachmentsInformation: [AttachmentInformation]? = nil, author: String? = nil, category: [String]? = nil, categoryEnum: [String]? = nil, createdDate: Date? = nil, defaultVersion: String? = nil, description: String? = nil, displayName: String? = nil, documentFormat: DocumentFormat? = nil, documentType: DocumentType? = nil, documentVersion: String? = nil, hash: String? = nil, hashType: DocumentHashType? = nil, latestVersion: String? = nil, name: String? = nil, owner: String? = nil, parameters: [DocumentParameter]? = nil, pendingReviewVersion: String? = nil, platformTypes: [PlatformType]? = nil, requires: [DocumentRequires]? = nil, reviewInformation: [ReviewInformation]? = nil, reviewStatus: ReviewStatus? = nil, schemaVersion: String? = nil, sha1: String? = nil, status: DocumentStatus? = nil, statusInformation: String? = nil, tags: [Tag]? = nil, targetType: String? = nil, versionName: String? = nil) {
             self.approvedVersion = approvedVersion
             self.attachmentsInformation = attachmentsInformation
             self.author = author
+            self.category = category
+            self.categoryEnum = categoryEnum
             self.createdDate = createdDate
             self.defaultVersion = defaultVersion
             self.description = description
@@ -5319,6 +5328,8 @@ extension SSM {
             case approvedVersion = "ApprovedVersion"
             case attachmentsInformation = "AttachmentsInformation"
             case author = "Author"
+            case category = "Category"
+            case categoryEnum = "CategoryEnum"
             case createdDate = "CreatedDate"
             case defaultVersion = "DefaultVersion"
             case description = "Description"
@@ -5837,7 +5848,7 @@ extension SSM {
         public let standardOutputUrl: String?
         /// The status of this invocation plugin. This status can be different than StatusDetails.
         public let status: CommandInvocationStatus?
-        /// A detailed status of the command execution for an invocation. StatusDetails includes more information than Status because it includes states resulting from error and concurrency control parameters. StatusDetails can show different results than Status. For more information about these statuses, see Understanding command statuses in the Amazon Web Services Systems Manager User Guide. StatusDetails can be one of the following values:   Pending: The command hasn't been sent to the managed node.   In Progress: The command has been sent to the managed node but hasn't reached a terminal state.   Delayed: The system attempted to send the command to the target, but the target wasn't available. The managed node might not be available because of network issues, because the node was stopped, or for similar reasons. The system will try to send the command again.   Success: The command or plugin ran successfully. This is a terminal state.   Delivery Timed Out: The command wasn't delivered to the managed node before the delivery timeout expired. Delivery timeouts don't count against the parent command's MaxErrors limit, but they do contribute to whether the parent command status is Success or Incomplete. This is a terminal state.   Execution Timed Out: The command started to run on the managed node, but the execution wasn't complete before the timeout expired. Execution timeouts count against the MaxErrors limit of the parent command. This is a terminal state.   Failed: The command wasn't run successfully on the managed node. For a plugin, this indicates that the result code wasn't zero. For a command invocation, this indicates that the result code for one or more plugins wasn't zero. Invocation failures count against the MaxErrors limit of the parent command. This is a terminal state.   Canceled: The command was terminated before it was completed. This is a terminal state.   Undeliverable: The command can't be delivered to the managed node. The node might not exist or might not be responding. Undeliverable invocations don't count against the parent command's MaxErrors limit and don't contribute to whether the parent command status is Success or Incomplete. This is a terminal state.   Terminated: The parent command exceeded its MaxErrors limit and subsequent command invocations were canceled by the system. This is a terminal state.
+        /// A detailed status of the command execution for an invocation. StatusDetails includes more information than Status because it includes states resulting from error and concurrency control parameters. StatusDetails can show different results than Status. For more information about these statuses, see Understanding command statuses in the Amazon Web Services Systems Manager User Guide. StatusDetails can be one of the following values:   Pending: The command hasn't been sent to the managed node.   In Progress: The command has been sent to the managed node but hasn't reached a terminal state.   Delayed: The system attempted to send the command to the target, but the target wasn't available. The managed node might not be available because of network issues, because the node was stopped, or for similar reasons. The system will try to send the command again.   Success: The command or plugin ran successfully. This is a terminal state.   Delivery Timed Out: The command wasn't delivered to the managed node before the delivery timeout expired. Delivery timeouts don't count against the parent command's MaxErrors limit, but they do contribute to whether the parent command status is Success or Incomplete. This is a terminal state.   Execution Timed Out: The command started to run on the managed node, but the execution wasn't complete before the timeout expired. Execution timeouts count against the MaxErrors limit of the parent command. This is a terminal state.   Failed: The command wasn't run successfully on the managed node. For a plugin, this indicates that the result code wasn't zero. For a command invocation, this indicates that the result code for one or more plugins wasn't zero. Invocation failures count against the MaxErrors limit of the parent command. This is a terminal state.   Cancelled: The command was terminated before it was completed. This is a terminal state.   Undeliverable: The command can't be delivered to the managed node. The node might not exist or might not be responding. Undeliverable invocations don't count against the parent command's MaxErrors limit and don't contribute to whether the parent command status is Success or Incomplete. This is a terminal state.   Terminated: The parent command exceeded its MaxErrors limit and subsequent command invocations were canceled by the system. This is a terminal state.
         public let statusDetails: String?
 
         public init(cloudWatchOutputConfig: CloudWatchOutputConfig? = nil, commandId: String? = nil, comment: String? = nil, documentName: String? = nil, documentVersion: String? = nil, executionElapsedTime: String? = nil, executionEndDateTime: String? = nil, executionStartDateTime: String? = nil, instanceId: String? = nil, pluginName: String? = nil, responseCode: Int? = nil, standardErrorContent: String? = nil, standardErrorUrl: String? = nil, standardOutputContent: String? = nil, standardOutputUrl: String? = nil, status: CommandInvocationStatus? = nil, statusDetails: String? = nil) {
@@ -6865,7 +6876,7 @@ extension SSM {
         public let nextToken: String?
         /// Filters to limit the request results.  The following Key values are supported for GetParametersByPath: Type, KeyId, and Label. The following Key values aren't supported for GetParametersByPath: tag, DataType, Name, Path, and Tier.
         public let parameterFilters: [ParameterStringFilter]?
-        /// The hierarchy for the parameter. Hierarchies start with a forward slash (/). The hierachy is the parameter name except the last part of the parameter. For the API call to succeeed, the last part of the parameter name can't be in the path. A parameter name hierarchy can have a maximum of 15 levels. Here is an example of a hierarchy: /Finance/Prod/IAD/WinServ2016/license33
+        /// The hierarchy for the parameter. Hierarchies start with a forward slash (/). The hierarchy is the parameter name except the last part of the parameter. For the API call to succeed, the last part of the parameter name can't be in the path. A parameter name hierarchy can have a maximum of 15 levels. Here is an example of a hierarchy: /Finance/Prod/IAD/WinServ2016/license33
         public let path: String
         /// Retrieve all parameters within a hierarchy.  If a user has access to a path, then the user can access all levels of that path. For example, if a user has permission to access path /a, then the user can also access /a/b. Even if a user has explicitly been denied access in IAM for parameter /a/b, they can still call the GetParametersByPath API operation recursively for /a and view /a/b.
         public let recursive: Bool?
@@ -6962,7 +6973,7 @@ extension SSM {
     }
 
     public struct GetPatchBaselineForPatchGroupRequest: AWSEncodableShape {
-        /// Returns he operating system rule specified for patch groups using the patch baseline.
+        /// Returns the operating system rule specified for patch groups using the patch baseline.
         public let operatingSystem: OperatingSystem?
         /// The name of the patch group whose patch baseline should be retrieved.
         public let patchGroup: String
@@ -9155,9 +9166,9 @@ extension SSM {
         public let description: String?
         /// Information about an S3 bucket to write task-level logs to.   LoggingInfo has been deprecated. To specify an Amazon Simple Storage Service (Amazon S3) bucket to contain logs, instead use the OutputS3BucketName and OutputS3KeyPrefix options in the TaskInvocationParameters structure. For information about how Amazon Web Services Systems Manager handles these options for the supported maintenance window task types, see MaintenanceWindowTaskInvocationParameters.
         public let loggingInfo: LoggingInfo?
-        /// The maximum number of targets this task can be run for, in parallel.
+        /// The maximum number of targets this task can be run for, in parallel.  Although this element is listed as "Required: No", a value can be omitted only when you are registering or updating a targetless task You must provide a value in all other cases. For maintenance window tasks without a target specified, you can't supply a value for this option. Instead, the system inserts a placeholder value of 1. This value doesn't affect the running of your task.
         public let maxConcurrency: String?
-        /// The maximum number of errors allowed before this task stops being scheduled.
+        /// The maximum number of errors allowed before this task stops being scheduled.  Although this element is listed as "Required: No", a value can be omitted only when you are registering or updating a targetless task You must provide a value in all other cases. For maintenance window tasks without a target specified, you can't supply a value for this option. Instead, the system inserts a placeholder value of 1. This value doesn't affect the running of your task.
         public let maxErrors: String?
         /// The task name.
         public let name: String?
@@ -9969,9 +9980,9 @@ extension SSM {
         public let selector: String?
         /// Applies to parameters that reference information in other Amazon Web Services services. SourceResult is the raw result or response from the source.
         public let sourceResult: String?
-        /// The type of parameter. Valid values include the following: String, StringList, and SecureString.
+        /// The type of parameter. Valid values include the following: String, StringList, and SecureString.  If type is StringList, the system returns a comma-separated string with no spaces between commas in the Value field.
         public let type: ParameterType?
-        /// The parameter value.
+        /// The parameter value.  If type is StringList, the system returns a comma-separated string with no spaces between commas in the Value field.
         public let value: String?
         /// The parameter version.
         public let version: Int64?
@@ -10067,7 +10078,7 @@ extension SSM {
         public let policyStatus: String?
         /// The JSON text of the policy.
         public let policyText: String?
-        /// The type of policy. Parameter Store, a capablility of Amazon Web Services Systems Manager, supports the following policy types: Expiration, ExpirationNotification, and NoChangeNotification.
+        /// The type of policy. Parameter Store, a capability of Amazon Web Services Systems Manager, supports the following policy types: Expiration, ExpirationNotification, and NoChangeNotification.
         public let policyType: String?
 
         public init(policyStatus: String? = nil, policyText: String? = nil, policyType: String? = nil) {
@@ -10336,7 +10347,7 @@ extension SSM {
         public let installedTime: Date
         /// The operating system-specific ID of the patch.
         public let kbId: String
-        /// The severity of the patchsuch as Critical, Important, and Moderate.
+        /// The severity of the patch such as Critical, Important, and Moderate.
         public let severity: String
         /// The state of the patch on the managed node, such as INSTALLED or FAILED. For descriptions of each patch state, see About patch compliance in the Amazon Web Services Systems Manager User Guide.
         public let state: PatchComplianceDataState
@@ -10692,13 +10703,13 @@ extension SSM {
     public struct PutParameterRequest: AWSEncodableShape {
         /// A regular expression used to validate the parameter value. For example, for String types with values restricted to numbers, you can specify the following: AllowedPattern=^\d+$
         public let allowedPattern: String?
-        /// The data type for a String parameter. Supported data types include plain text and Amazon Machine Image (AMI) IDs.  The following data type values are supported.     text     aws:ec2:image    When you create a String parameter and specify aws:ec2:image, Amazon Web Services Systems Manager validates the parameter value is in the required format, such as ami-12345abcdeEXAMPLE, and that the specified AMI is available in your Amazon Web Services account. For more information, see Native parameter support for Amazon Machine Image (AMI) IDs in the Amazon Web Services Systems Manager User Guide.
+        /// The data type for a String parameter. Supported data types include plain text and Amazon Machine Image (AMI) IDs.  The following data type values are supported.     text     aws:ec2:image     aws:ssm:integration    When you create a String parameter and specify aws:ec2:image, Amazon Web Services Systems Manager validates the parameter value is in the required format, such as ami-12345abcdeEXAMPLE, and that the specified AMI is available in your Amazon Web Services account. For more information, see Native parameter support for Amazon Machine Image (AMI) IDs in the Amazon Web Services Systems Manager User Guide.
         public let dataType: String?
         /// Information about the parameter that you want to add to the system. Optional but recommended.  Don't enter personally identifiable information in this field.
         public let description: String?
         /// The Key Management Service (KMS) ID that you want to use to encrypt a parameter. Either the default KMS key automatically assigned to your Amazon Web Services account or a custom key. Required for parameters that use the SecureString data type. If you don't specify a key ID, the system uses the default key associated with your Amazon Web Services account.   To use your default KMS key, choose the SecureString data type, and do not specify the Key ID when you create the parameter. The system automatically populates Key ID with your default KMS key.   To use a custom KMS key, choose the SecureString data type with the Key ID parameter.
         public let keyId: String?
-        /// The fully qualified name of the parameter that you want to add to the system. The fully qualified name includes the complete hierarchy of the parameter path and name. For parameters in a hierarchy, you must include a leading forward slash character (/) when you create or reference a parameter. For example: /Dev/DBServer/MySQL/db-string13  Naming Constraints:   Parameter names are case sensitive.   A parameter name must be unique within an Amazon Web Services Region   A parameter name can't be prefixed with "aws" or "ssm" (case-insensitive).   Parameter names can include only the following symbols and letters: a-zA-Z0-9_.-  In addition, the slash character ( / ) is used to delineate hierarchies in parameter names. For example: /Dev/Production/East/Project-ABC/MyParameter    A parameter name can't include spaces.   Parameter hierarchies are limited to a maximum depth of fifteen levels.   For additional information about valid values for parameter names, see Creating Systems Manager parameters in the Amazon Web Services Systems Manager User Guide.  The maximum length constraint listed below includes capacity for additional system attributes that aren't part of the name. The maximum length for a parameter name, including the full length of the parameter ARN, is 1011 characters. For example, the length of the following parameter name is 65 characters, not 20 characters:  arn:aws:ssm:us-east-2:111122223333:parameter/ExampleParameterName
+        /// The fully qualified name of the parameter that you want to add to the system. The fully qualified name includes the complete hierarchy of the parameter path and name. For parameters in a hierarchy, you must include a leading forward slash character (/) when you create or reference a parameter. For example: /Dev/DBServer/MySQL/db-string13  Naming Constraints:   Parameter names are case sensitive.   A parameter name must be unique within an Amazon Web Services Region   A parameter name can't be prefixed with "aws" or "ssm" (case-insensitive).   Parameter names can include only the following symbols and letters: a-zA-Z0-9_.-  In addition, the slash character ( / ) is used to delineate hierarchies in parameter names. For example: /Dev/Production/East/Project-ABC/MyParameter    A parameter name can't include spaces.   Parameter hierarchies are limited to a maximum depth of fifteen levels.   For additional information about valid values for parameter names, see Creating Systems Manager parameters in the Amazon Web Services Systems Manager User Guide.  The maximum length constraint of 2048 characters listed below includes 1037 characters reserved for internal use by Systems Manager. The maximum length for a parameter name that you create is 1011 characters. This includes the characters in the ARN that precede the name you specify, such as arn:aws:ssm:us-east-2:111122223333:parameter/.
         public let name: String
         /// Overwrite an existing parameter. The default value is false.
         public let overwrite: Bool?
@@ -10929,9 +10940,9 @@ extension SSM {
         public let description: String?
         /// A structure containing information about an Amazon Simple Storage Service (Amazon S3) bucket to write managed node-level logs to.    LoggingInfo has been deprecated. To specify an Amazon Simple Storage Service (Amazon S3) bucket to contain logs, instead use the OutputS3BucketName and OutputS3KeyPrefix options in the TaskInvocationParameters structure. For information about how Amazon Web Services Systems Manager handles these options for the supported maintenance window task types, see MaintenanceWindowTaskInvocationParameters.
         public let loggingInfo: LoggingInfo?
-        /// The maximum number of targets this task can be run for in parallel.  For maintenance window tasks without a target specified, you can't supply a value for this option. Instead, the system inserts a placeholder value of 1. This value doesn't affect the running of your task.
+        /// The maximum number of targets this task can be run for, in parallel.  Although this element is listed as "Required: No", a value can be omitted only when you are registering or updating a targetless task You must provide a value in all other cases. For maintenance window tasks without a target specified, you can't supply a value for this option. Instead, the system inserts a placeholder value of 1. This value doesn't affect the running of your task.
         public let maxConcurrency: String?
-        /// The maximum number of errors allowed before this task stops being scheduled.  For maintenance window tasks without a target specified, you can't supply a value for this option. Instead, the system inserts a placeholder value of 1. This value doesn't affect the running of your task.
+        /// The maximum number of errors allowed before this task stops being scheduled.  Although this element is listed as "Required: No", a value can be omitted only when you are registering or updating a targetless task You must provide a value in all other cases. For maintenance window tasks without a target specified, you can't supply a value for this option. Instead, the system inserts a placeholder value of 1. This value doesn't affect the running of your task.
         public let maxErrors: String?
         /// An optional name for the task.
         public let name: String?
@@ -12188,7 +12199,7 @@ extension SSM {
     public struct StartSessionRequest: AWSEncodableShape {
         /// The name of the SSM document to define the parameters and plugin settings for the session. For example, SSM-SessionManagerRunShell. You can call the GetDocument API to verify the document exists before attempting to start a session. If no document name is provided, a shell to the managed node is launched by default.
         public let documentName: String?
-        /// Reserved for future use.
+        /// The values you want to specify for the parameters defined in the Session document.
         public let parameters: [String: [String]]?
         /// The reason for connecting to the instance. This value is included in the details for the Amazon CloudWatch Events event created when you start the session.
         public let reason: String?
@@ -12571,7 +12582,8 @@ extension SSM {
     }
 
     public struct UpdateAssociationRequest: AWSEncodableShape {
-        /// By default, when you update an association, the system runs it immediately after it is updated and then according to the schedule you specified. Specify this option if you don't want an association to run immediately after you update it. This parameter isn't supported for rate expressions. Also, if you specified this option when you created the association, you can reset it. To do so, specify the no-apply-only-at-cron-interval parameter when you update the association from the command line. This parameter forces the association to run immediately after updating it and according to the interval specified.
+        /// By default, when you update an association, the system runs it immediately after it is updated and then according to the schedule you specified. Specify this option if you don't want an association to run immediately after you update it. This parameter isn't supported for rate expressions.
+        ///  If you chose this option when you created an association and later you edit that association or you make changes to the SSM document on which that association is based (by using the Documents page in the console), State Manager applies the association at the next specified cron interval. For example, if you chose the Latest version of an SSM document when you created an association and you edit the association by choosing a different document version on the Documents page, State Manager applies the association at the next specified cron interval if you previously selected this option. If this option wasn't selected, State Manager immediately runs the association. You can reset this option. To do so, specify the no-apply-only-at-cron-interval parameter when you update the association from the command line. This parameter forces the association to run immediately after updating it and according to the interval specified.
         public let applyOnlyAtCronInterval: Bool?
         /// The ID of the association you want to update.
         public let associationId: String
@@ -12585,7 +12597,7 @@ extension SSM {
         public let calendarNames: [String]?
         /// The severity level to assign to the association.
         public let complianceSeverity: AssociationComplianceSeverity?
-        /// The document version you want update for the association.
+        /// The document version you want update for the association.   State Manager doesn't support running associations that use a new version of a document if that document is shared from another account. State Manager always runs the default version of a document if shared from another account, even though the Systems Manager console shows that a new version was processed. If you want to run an association using a new version of a document shared form another account, you must set the document version to default.
         public let documentVersion: String?
         /// The maximum number of targets allowed to run the association at the same time. You can specify a number, for example 10, or a percentage of the target set, for example 10%. The default value is 100%, which means all targets run the association at the same time. If a new managed node starts and attempts to run an association while Systems Manager is running MaxConcurrency associations, the association is allowed to run. During the next association interval, the new managed node will process its association within the limit specified for MaxConcurrency.
         public let maxConcurrency: String?
@@ -12803,7 +12815,7 @@ extension SSM {
         public let displayName: String?
         /// Specify the document format for the new document version. Systems Manager supports JSON and YAML documents. JSON is the default format.
         public let documentFormat: DocumentFormat?
-        /// The version of the document that you want to update. Currently, Systems Manager supports updating only the latest version of the document. You can specify the version number of the latest version or use the $LATEST variable.
+        /// The version of the document that you want to update. Currently, Systems Manager supports updating only the latest version of the document. You can specify the version number of the latest version or use the $LATEST variable.  If you change a document version for a State Manager association, Systems Manager immediately runs the association unless you previously specifed the apply-only-at-cron-interval parameter.
         public let documentVersion: String?
         /// The name of the SSM document that you want to update.
         public let name: String
@@ -12886,7 +12898,7 @@ extension SSM {
         public let scheduleOffset: Int?
         /// The time zone that the scheduled maintenance window executions are based on, in Internet Assigned Numbers Authority (IANA) format. For example: "America/Los_Angeles", "UTC", or "Asia/Seoul". For more information, see the Time Zone Database on the IANA website.
         public let scheduleTimezone: String?
-        /// The time zone that the scheduled maintenance window executions are based on, in Internet Assigned Numbers Authority (IANA) format. For example: "America/Los_Angeles", "UTC", or "Asia/Seoul". For more information, see the Time Zone Database on the IANA website.
+        /// The date and time, in ISO-8601 Extended format, for when you want the maintenance window to become active. StartDate allows you to delay activation of the maintenance window until the specified future date.
         public let startDate: String?
         /// The ID of the maintenance window to update.
         public let windowId: String
@@ -13097,9 +13109,9 @@ extension SSM {
         public let description: String?
         /// The new logging location in Amazon S3 to specify.   LoggingInfo has been deprecated. To specify an Amazon Simple Storage Service (Amazon S3) bucket to contain logs, instead use the OutputS3BucketName and OutputS3KeyPrefix options in the TaskInvocationParameters structure. For information about how Amazon Web Services Systems Manager handles these options for the supported maintenance window task types, see MaintenanceWindowTaskInvocationParameters.
         public let loggingInfo: LoggingInfo?
-        /// The new MaxConcurrency value you want to specify. MaxConcurrency is the number of targets that are allowed to run this task in parallel.  For maintenance window tasks without a target specified, you can't supply a value for this option. Instead, the system inserts a placeholder value of 1, which may be reported in the response to this command. This value doesn't affect the running of your task and can be ignored.
+        /// The new MaxConcurrency value you want to specify. MaxConcurrency is the number of targets that are allowed to run this task, in parallel.  Although this element is listed as "Required: No", a value can be omitted only when you are registering or updating a targetless task You must provide a value in all other cases. For maintenance window tasks without a target specified, you can't supply a value for this option. Instead, the system inserts a placeholder value of 1. This value doesn't affect the running of your task.
         public let maxConcurrency: String?
-        /// The new MaxErrors value to specify. MaxErrors is the maximum number of errors that are allowed before the task stops being scheduled.  For maintenance window tasks without a target specified, you can't supply a value for this option. Instead, the system inserts a placeholder value of 1, which may be reported in the response to this command. This value doesn't affect the running of your task and can be ignored.
+        /// The new MaxErrors value to specify. MaxErrors is the maximum number of errors that are allowed before the task stops being scheduled.  Although this element is listed as "Required: No", a value can be omitted only when you are registering or updating a targetless task You must provide a value in all other cases. For maintenance window tasks without a target specified, you can't supply a value for this option. Instead, the system inserts a placeholder value of 1. This value doesn't affect the running of your task.
         public let maxErrors: String?
         /// The new task name to specify.
         public let name: String?
@@ -13389,7 +13401,7 @@ extension SSM {
         public let keysToDelete: [String]?
         /// Metadata to add to an OpsMetadata object.
         public let metadataToUpdate: [String: MetadataValue]?
-        /// The Amazon Resoure Name (ARN) of the OpsMetadata Object to update.
+        /// The Amazon Resource Name (ARN) of the OpsMetadata Object to update.
         public let opsMetadataArn: String
 
         public init(keysToDelete: [String]? = nil, metadataToUpdate: [String: MetadataValue]? = nil, opsMetadataArn: String) {

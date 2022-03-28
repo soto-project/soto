@@ -133,6 +133,28 @@ extension IoTWireless {
         )
     }
 
+    ///  The operation to list queued messages.
+    /// Return PaginatorSequence for operation.
+    ///
+    /// - Parameters:
+    ///   - input: Input for request
+    ///   - logger: Logger used flot logging
+    ///   - eventLoop: EventLoop to run this process on
+    public func listQueuedMessagesPaginator(
+        _ input: ListQueuedMessagesRequest,
+        logger: Logger = AWSClient.loggingDisabled,
+        on eventLoop: EventLoop? = nil
+    ) -> AWSClient.PaginatorSequence<ListQueuedMessagesRequest, ListQueuedMessagesResponse> {
+        return .init(
+            input: input,
+            command: listQueuedMessages,
+            inputKey: \ListQueuedMessagesRequest.nextToken,
+            outputKey: \ListQueuedMessagesResponse.nextToken,
+            logger: logger,
+            on: eventLoop
+        )
+    }
+
     ///  Lists the service profiles registered to your AWS account.
     /// Return PaginatorSequence for operation.
     ///

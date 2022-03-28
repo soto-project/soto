@@ -139,6 +139,11 @@ public struct Glue: AWSService {
         return self.client.execute(operation: "CancelMLTaskRun", path: "/", httpMethod: .POST, serviceConfig: self.config, input: input, logger: logger, on: eventLoop)
     }
 
+    /// Cancels the statement..
+    public func cancelStatement(_ input: CancelStatementRequest, logger: Logger = AWSClient.loggingDisabled, on eventLoop: EventLoop? = nil) -> EventLoopFuture<CancelStatementResponse> {
+        return self.client.execute(operation: "CancelStatement", path: "/", httpMethod: .POST, serviceConfig: self.config, input: input, logger: logger, on: eventLoop)
+    }
+
     /// Validates the supplied schema. This call has no side effects, it simply validates using the supplied schema using DataFormat as the format. Since it does not take a schema set name, no compatibility checks are performed.
     public func checkSchemaVersionValidity(_ input: CheckSchemaVersionValidityInput, logger: Logger = AWSClient.loggingDisabled, on eventLoop: EventLoop? = nil) -> EventLoopFuture<CheckSchemaVersionValidityResponse> {
         return self.client.execute(operation: "CheckSchemaVersionValidity", path: "/", httpMethod: .POST, serviceConfig: self.config, input: input, logger: logger, on: eventLoop)
@@ -215,6 +220,11 @@ public struct Glue: AWSService {
     /// Creates a new security configuration. A security configuration is a set of security properties that can be used by Glue. You can use a security configuration to encrypt data at rest. For information about using security configurations in Glue, see Encrypting Data Written by Crawlers, Jobs, and Development Endpoints.
     public func createSecurityConfiguration(_ input: CreateSecurityConfigurationRequest, logger: Logger = AWSClient.loggingDisabled, on eventLoop: EventLoop? = nil) -> EventLoopFuture<CreateSecurityConfigurationResponse> {
         return self.client.execute(operation: "CreateSecurityConfiguration", path: "/", httpMethod: .POST, serviceConfig: self.config, input: input, logger: logger, on: eventLoop)
+    }
+
+    /// Creates a new session.
+    public func createSession(_ input: CreateSessionRequest, logger: Logger = AWSClient.loggingDisabled, on eventLoop: EventLoop? = nil) -> EventLoopFuture<CreateSessionResponse> {
+        return self.client.execute(operation: "CreateSession", path: "/", httpMethod: .POST, serviceConfig: self.config, input: input, logger: logger, on: eventLoop)
     }
 
     /// Creates a new table definition in the Data Catalog.
@@ -324,6 +334,11 @@ public struct Glue: AWSService {
     /// Deletes a specified security configuration.
     public func deleteSecurityConfiguration(_ input: DeleteSecurityConfigurationRequest, logger: Logger = AWSClient.loggingDisabled, on eventLoop: EventLoop? = nil) -> EventLoopFuture<DeleteSecurityConfigurationResponse> {
         return self.client.execute(operation: "DeleteSecurityConfiguration", path: "/", httpMethod: .POST, serviceConfig: self.config, input: input, logger: logger, on: eventLoop)
+    }
+
+    /// Deletes the session.
+    public func deleteSession(_ input: DeleteSessionRequest, logger: Logger = AWSClient.loggingDisabled, on eventLoop: EventLoop? = nil) -> EventLoopFuture<DeleteSessionResponse> {
+        return self.client.execute(operation: "DeleteSession", path: "/", httpMethod: .POST, serviceConfig: self.config, input: input, logger: logger, on: eventLoop)
     }
 
     /// Removes a table definition from the Data Catalog.  After completing this operation, you no longer have access to the table versions and partitions that belong to the deleted table. Glue deletes these "orphaned" resources asynchronously in a timely manner, at the discretion of the service. To ensure the immediate deletion of all related resources, before calling DeleteTable, use DeleteTableVersion or BatchDeleteTableVersion, and DeletePartition or BatchDeletePartition, to delete any resources that belong to the table.
@@ -566,6 +581,16 @@ public struct Glue: AWSService {
         return self.client.execute(operation: "GetSecurityConfigurations", path: "/", httpMethod: .POST, serviceConfig: self.config, input: input, logger: logger, on: eventLoop)
     }
 
+    /// Retrieves the session.
+    public func getSession(_ input: GetSessionRequest, logger: Logger = AWSClient.loggingDisabled, on eventLoop: EventLoop? = nil) -> EventLoopFuture<GetSessionResponse> {
+        return self.client.execute(operation: "GetSession", path: "/", httpMethod: .POST, serviceConfig: self.config, input: input, logger: logger, on: eventLoop)
+    }
+
+    /// Retrieves the statement.
+    public func getStatement(_ input: GetStatementRequest, logger: Logger = AWSClient.loggingDisabled, on eventLoop: EventLoop? = nil) -> EventLoopFuture<GetStatementResponse> {
+        return self.client.execute(operation: "GetStatement", path: "/", httpMethod: .POST, serviceConfig: self.config, input: input, logger: logger, on: eventLoop)
+    }
+
     /// Retrieves the Table definition in a Data Catalog for a specified table.
     public func getTable(_ input: GetTableRequest, logger: Logger = AWSClient.loggingDisabled, on eventLoop: EventLoop? = nil) -> EventLoopFuture<GetTableResponse> {
         return self.client.execute(operation: "GetTable", path: "/", httpMethod: .POST, serviceConfig: self.config, input: input, logger: logger, on: eventLoop)
@@ -599,6 +624,18 @@ public struct Glue: AWSService {
     /// Gets all the triggers associated with a job.
     public func getTriggers(_ input: GetTriggersRequest, logger: Logger = AWSClient.loggingDisabled, on eventLoop: EventLoop? = nil) -> EventLoopFuture<GetTriggersResponse> {
         return self.client.execute(operation: "GetTriggers", path: "/", httpMethod: .POST, serviceConfig: self.config, input: input, logger: logger, on: eventLoop)
+    }
+
+    public func getUnfilteredPartitionMetadata(_ input: GetUnfilteredPartitionMetadataRequest, logger: Logger = AWSClient.loggingDisabled, on eventLoop: EventLoop? = nil) -> EventLoopFuture<GetUnfilteredPartitionMetadataResponse> {
+        return self.client.execute(operation: "GetUnfilteredPartitionMetadata", path: "/", httpMethod: .POST, serviceConfig: self.config, input: input, logger: logger, on: eventLoop)
+    }
+
+    public func getUnfilteredPartitionsMetadata(_ input: GetUnfilteredPartitionsMetadataRequest, logger: Logger = AWSClient.loggingDisabled, on eventLoop: EventLoop? = nil) -> EventLoopFuture<GetUnfilteredPartitionsMetadataResponse> {
+        return self.client.execute(operation: "GetUnfilteredPartitionsMetadata", path: "/", httpMethod: .POST, serviceConfig: self.config, input: input, logger: logger, on: eventLoop)
+    }
+
+    public func getUnfilteredTableMetadata(_ input: GetUnfilteredTableMetadataRequest, logger: Logger = AWSClient.loggingDisabled, on eventLoop: EventLoop? = nil) -> EventLoopFuture<GetUnfilteredTableMetadataResponse> {
+        return self.client.execute(operation: "GetUnfilteredTableMetadata", path: "/", httpMethod: .POST, serviceConfig: self.config, input: input, logger: logger, on: eventLoop)
     }
 
     /// Retrieves a specified function definition from the Data Catalog.
@@ -680,6 +717,16 @@ public struct Glue: AWSService {
         return self.client.execute(operation: "ListSchemas", path: "/", httpMethod: .POST, serviceConfig: self.config, input: input, logger: logger, on: eventLoop)
     }
 
+    /// Retrieve a session..
+    public func listSessions(_ input: ListSessionsRequest, logger: Logger = AWSClient.loggingDisabled, on eventLoop: EventLoop? = nil) -> EventLoopFuture<ListSessionsResponse> {
+        return self.client.execute(operation: "ListSessions", path: "/", httpMethod: .POST, serviceConfig: self.config, input: input, logger: logger, on: eventLoop)
+    }
+
+    /// Lists statements for the session.
+    public func listStatements(_ input: ListStatementsRequest, logger: Logger = AWSClient.loggingDisabled, on eventLoop: EventLoop? = nil) -> EventLoopFuture<ListStatementsResponse> {
+        return self.client.execute(operation: "ListStatements", path: "/", httpMethod: .POST, serviceConfig: self.config, input: input, logger: logger, on: eventLoop)
+    }
+
     /// Retrieves the names of all trigger resources in this Amazon Web Services account, or the resources with the specified tag. This operation allows you to see which resources are available in your account, and their names.
     ///  This operation takes the optional Tags field, which you can use as a filter on the response so that tagged resources can be retrieved as a group. If you choose to use tags filtering, only resources with the tag are retrieved.
     public func listTriggers(_ input: ListTriggersRequest, logger: Logger = AWSClient.loggingDisabled, on eventLoop: EventLoop? = nil) -> EventLoopFuture<ListTriggersResponse> {
@@ -735,6 +782,11 @@ public struct Glue: AWSService {
     /// Restarts selected nodes of a previous partially completed workflow run and resumes the workflow run. The selected nodes and all nodes that are downstream from the selected nodes are run.
     public func resumeWorkflowRun(_ input: ResumeWorkflowRunRequest, logger: Logger = AWSClient.loggingDisabled, on eventLoop: EventLoop? = nil) -> EventLoopFuture<ResumeWorkflowRunResponse> {
         return self.client.execute(operation: "ResumeWorkflowRun", path: "/", httpMethod: .POST, serviceConfig: self.config, input: input, logger: logger, on: eventLoop)
+    }
+
+    /// Executes the statement.
+    public func runStatement(_ input: RunStatementRequest, logger: Logger = AWSClient.loggingDisabled, on eventLoop: EventLoop? = nil) -> EventLoopFuture<RunStatementResponse> {
+        return self.client.execute(operation: "RunStatement", path: "/", httpMethod: .POST, serviceConfig: self.config, input: input, logger: logger, on: eventLoop)
     }
 
     /// Searches a set of tables based on properties in the table metadata as well as on the parent database. You can search against text or filter conditions.  You can only get tables that you have access to based on the security policies defined in Lake Formation. You need at least a read-only access to the table for it to be returned. If you do not have access to all the columns in the table, these columns will not be searched against when returning the list of tables back to you. If you have access to the columns but not the data in the columns, those columns and the associated metadata for those columns will be included in the search.
@@ -809,6 +861,11 @@ public struct Glue: AWSService {
     /// Sets the schedule state of the specified crawler to NOT_SCHEDULED, but does not stop the crawler if it is already running.
     public func stopCrawlerSchedule(_ input: StopCrawlerScheduleRequest, logger: Logger = AWSClient.loggingDisabled, on eventLoop: EventLoop? = nil) -> EventLoopFuture<StopCrawlerScheduleResponse> {
         return self.client.execute(operation: "StopCrawlerSchedule", path: "/", httpMethod: .POST, serviceConfig: self.config, input: input, logger: logger, on: eventLoop)
+    }
+
+    /// Stops the session.
+    public func stopSession(_ input: StopSessionRequest, logger: Logger = AWSClient.loggingDisabled, on eventLoop: EventLoop? = nil) -> EventLoopFuture<StopSessionResponse> {
+        return self.client.execute(operation: "StopSession", path: "/", httpMethod: .POST, serviceConfig: self.config, input: input, logger: logger, on: eventLoop)
     }
 
     /// Stops a specified trigger.

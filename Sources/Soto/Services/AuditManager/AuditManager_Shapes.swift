@@ -1470,9 +1470,9 @@ extension AuditManager {
 
     public struct CreateAssessmentFrameworkControl: AWSEncodableShape {
         ///  The unique identifier of the control.
-        public let id: String?
+        public let id: String
 
-        public init(id: String? = nil) {
+        public init(id: String) {
             self.id = id
         }
 
@@ -4177,20 +4177,20 @@ extension AuditManager {
 
     public struct UpdateAssessmentFrameworkControlSet: AWSEncodableShape {
         ///  The list of controls that are contained within the control set.
-        public let controls: [CreateAssessmentFrameworkControl]?
+        public let controls: [CreateAssessmentFrameworkControl]
         ///  The unique identifier for the control set.
         public let id: String?
         ///  The name of the control set.
         public let name: String
 
-        public init(controls: [CreateAssessmentFrameworkControl]? = nil, id: String? = nil, name: String) {
+        public init(controls: [CreateAssessmentFrameworkControl], id: String? = nil, name: String) {
             self.controls = controls
             self.id = id
             self.name = name
         }
 
         public func validate(name: String) throws {
-            try self.controls?.forEach {
+            try self.controls.forEach {
                 try $0.validate(name: "\(name).controls[]")
             }
             try self.validate(self.controls, name: "controls", parent: name, min: 1)
@@ -4239,6 +4239,7 @@ extension AuditManager {
             try self.controlSets.forEach {
                 try $0.validate(name: "\(name).controlSets[]")
             }
+            try self.validate(self.controlSets, name: "controlSets", parent: name, min: 1)
             try self.validate(self.description, name: "description", parent: name, max: 1000)
             try self.validate(self.description, name: "description", parent: name, min: 1)
             try self.validate(self.description, name: "description", parent: name, pattern: "^[\\w\\W\\s\\S]*$")
@@ -4518,8 +4519,8 @@ extension AuditManager {
             try self.validate(self.kmsKey, name: "kmsKey", parent: name, min: 7)
             try self.validate(self.kmsKey, name: "kmsKey", parent: name, pattern: "^arn:.*:kms:.*|DEFAULT$")
             try self.validate(self.snsTopic, name: "snsTopic", parent: name, max: 2048)
-            try self.validate(self.snsTopic, name: "snsTopic", parent: name, min: 20)
-            try self.validate(self.snsTopic, name: "snsTopic", parent: name, pattern: "^arn:.*:sns:")
+            try self.validate(self.snsTopic, name: "snsTopic", parent: name, min: 4)
+            try self.validate(self.snsTopic, name: "snsTopic", parent: name, pattern: "^arn:.*:sns:.*|NONE$")
         }
 
         private enum CodingKeys: String, CodingKey {

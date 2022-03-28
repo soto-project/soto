@@ -179,7 +179,7 @@ extension Outposts {
         )
     }
 
-    ///  Lists the sites for your Amazon Web Services account.
+    ///  Create a list of the Outpost sites for your Amazon Web Services account. Add operating address filters to your request to return a more specific list of results. Use filters to match site city, country code, or state/region of the  operating address.   If you specify multiple filters, the filters are joined with an AND, and the request returns only  results that match all of the specified filters.
     ///
     /// Provide paginated results to closure `onPage` for it to combine them into one result.
     /// This works in a similar manner to `Array.reduce<Result>(_:_:) -> Result`.
@@ -271,7 +271,10 @@ extension Outposts.ListSitesInput: AWSPaginateToken {
     public func usingPaginationToken(_ token: String) -> Outposts.ListSitesInput {
         return .init(
             maxResults: self.maxResults,
-            nextToken: token
+            nextToken: token,
+            operatingAddressCityFilter: self.operatingAddressCityFilter,
+            operatingAddressCountryCodeFilter: self.operatingAddressCountryCodeFilter,
+            operatingAddressStateOrRegionFilter: self.operatingAddressStateOrRegionFilter
         )
     }
 }

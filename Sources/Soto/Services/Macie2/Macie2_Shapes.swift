@@ -1182,15 +1182,15 @@ extension Macie2 {
         /// The maximum number of characters that can exist between text that matches the regular expression and the character sequences specified by the keywords array. Amazon Macie includes or excludes a result based on the proximity of a keyword to text that matches the regular expression. The distance can be 1-300 characters. The default value is 50.
         public let maximumMatchDistance: Int?
         /// A custom name for the custom data identifier. The name can contain as many as 128 characters. We strongly recommend that you avoid including any sensitive data in the name of a custom data identifier. Other users of your account might be able to see this name, depending on the actions that they're allowed to perform in Amazon Macie.
-        public let name: String?
+        public let name: String
         /// The regular expression (regex) that defines the pattern to match. The expression can contain as many as 512 characters.
-        public let regex: String?
+        public let regex: String
         /// The severity to assign to findings that the custom data identifier produces, based on the number of occurrences of text that matches the custom data identifier's detection criteria. You can specify as many as three SeverityLevel objects in this array, one for each severity: LOW, MEDIUM, or HIGH. If you specify more than one, the occurrences thresholds must be in ascending order by severity, moving from LOW to HIGH. For example, 1 for LOW, 50 for MEDIUM, and 100 for HIGH. If an S3 object contains fewer occurrences than the lowest specified threshold, Amazon Macie doesn't create a finding. If you don't specify any values for this array, Macie creates findings for S3 objects that contain at least one occurrence of text that matches the detection criteria, and Macie assigns the MEDIUM severity to those findings.
         public let severityLevels: [SeverityLevel]?
         /// A map of key-value pairs that specifies the tags to associate with the custom data identifier. A custom data identifier can have a maximum of 50 tags. Each tag consists of a tag key and an associated tag value. The maximum length of a tag key is 128 characters. The maximum length of a tag value is 256 characters.
         public let tags: [String: String]?
 
-        public init(clientToken: String? = CreateCustomDataIdentifierRequest.idempotencyToken(), description: String? = nil, ignoreWords: [String]? = nil, keywords: [String]? = nil, maximumMatchDistance: Int? = nil, name: String? = nil, regex: String? = nil, severityLevels: [SeverityLevel]? = nil, tags: [String: String]? = nil) {
+        public init(clientToken: String? = CreateCustomDataIdentifierRequest.idempotencyToken(), description: String? = nil, ignoreWords: [String]? = nil, keywords: [String]? = nil, maximumMatchDistance: Int? = nil, name: String, regex: String, severityLevels: [SeverityLevel]? = nil, tags: [String: String]? = nil) {
             self.clientToken = clientToken
             self.description = description
             self.ignoreWords = ignoreWords

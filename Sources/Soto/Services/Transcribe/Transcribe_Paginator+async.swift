@@ -23,7 +23,7 @@ import SotoCore
 
 @available(macOS 10.15, iOS 13.0, tvOS 13.0, watchOS 6.0, *)
 extension Transcribe {
-    ///  Provides more information about the call analytics categories that you've created. You  can use the information in this list to find a specific category. You can then use the operation to get more information about it.
+    ///  Provides more information about the call analytics categories that you've created. You  can use the information in this list to find a specific category. You can then use the operation to get more information about  it.
     /// Return PaginatorSequence for operation.
     ///
     /// - Parameters:
@@ -67,7 +67,7 @@ extension Transcribe {
         )
     }
 
-    ///  Provides more information about the custom language models you've created. You can use the information in  this list to find a specific custom language model. You can then use the  operation to get more information about it.
+    ///  Provides more information about the custom language models you've created. You can  use the information in this list to find a specific custom language model. You can then use  the  operation to get more information about  it.
     /// Return PaginatorSequence for operation.
     ///
     /// - Parameters:
@@ -155,7 +155,7 @@ extension Transcribe {
         )
     }
 
-    ///  Returns a list of vocabularies that match the specified criteria. If no criteria are specified, returns the entire list  of vocabularies.
+    ///  Returns a list of vocabularies that match the specified criteria. If no criteria are specified,  returns the entire list of vocabularies.
     /// Return PaginatorSequence for operation.
     ///
     /// - Parameters:

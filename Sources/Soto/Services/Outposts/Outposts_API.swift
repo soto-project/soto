@@ -139,7 +139,7 @@ public struct Outposts: AWSService {
         return self.client.execute(operation: "ListOutposts", path: "/outposts", httpMethod: .GET, serviceConfig: self.config, input: input, logger: logger, on: eventLoop)
     }
 
-    /// Lists the sites for your Amazon Web Services account.
+    /// Create a list of the Outpost sites for your Amazon Web Services account. Add operating address filters to your request to return a more specific list of results. Use filters to match site city, country code, or state/region of the  operating address.   If you specify multiple filters, the filters are joined with an AND, and the request returns only  results that match all of the specified filters.
     public func listSites(_ input: ListSitesInput, logger: Logger = AWSClient.loggingDisabled, on eventLoop: EventLoop? = nil) -> EventLoopFuture<ListSitesOutput> {
         return self.client.execute(operation: "ListSites", path: "/sites", httpMethod: .GET, serviceConfig: self.config, input: input, logger: logger, on: eventLoop)
     }

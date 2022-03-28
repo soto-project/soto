@@ -1189,6 +1189,13 @@ extension ServiceCatalogAppRegistry {
         /// The new name of the application. The name must be unique in the region in which you are updating the application.
         public let name: String?
 
+        public init(application: String, description: String? = nil) {
+            self.application = application
+            self.description = description
+            self.name = nil
+        }
+
+        @available(*, deprecated, message: "Members name have been deprecated")
         public init(application: String, description: String? = nil, name: String? = nil) {
             self.application = application
             self.description = description
@@ -1238,6 +1245,14 @@ extension ServiceCatalogAppRegistry {
         /// The new name of the attribute group. The name must be unique in the region in which you are updating the attribute group.
         public let name: String?
 
+        public init(attributeGroup: String, attributes: String? = nil, description: String? = nil) {
+            self.attributeGroup = attributeGroup
+            self.attributes = attributes
+            self.description = description
+            self.name = nil
+        }
+
+        @available(*, deprecated, message: "Members name have been deprecated")
         public init(attributeGroup: String, attributes: String? = nil, description: String? = nil, name: String? = nil) {
             self.attributeGroup = attributeGroup
             self.attributes = attributes

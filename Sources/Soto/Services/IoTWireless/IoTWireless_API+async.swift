@@ -128,6 +128,11 @@ extension IoTWireless {
         return try await self.client.execute(operation: "DeleteMulticastGroup", path: "/multicast-groups/{Id}", httpMethod: .DELETE, serviceConfig: self.config, input: input, logger: logger, on: eventLoop)
     }
 
+    ///  The operation to delete queued messages.
+    public func deleteQueuedMessages(_ input: DeleteQueuedMessagesRequest, logger: Logger = AWSClient.loggingDisabled, on eventLoop: EventLoop? = nil) async throws -> DeleteQueuedMessagesResponse {
+        return try await self.client.execute(operation: "DeleteQueuedMessages", path: "/wireless-devices/{Id}/data", httpMethod: .DELETE, serviceConfig: self.config, input: input, logger: logger, on: eventLoop)
+    }
+
     /// Deletes a service profile.
     public func deleteServiceProfile(_ input: DeleteServiceProfileRequest, logger: Logger = AWSClient.loggingDisabled, on eventLoop: EventLoop? = nil) async throws -> DeleteServiceProfileResponse {
         return try await self.client.execute(operation: "DeleteServiceProfile", path: "/service-profiles/{Id}", httpMethod: .DELETE, serviceConfig: self.config, input: input, logger: logger, on: eventLoop)
@@ -316,6 +321,11 @@ extension IoTWireless {
     /// Lists the partner accounts associated with your AWS account.
     public func listPartnerAccounts(_ input: ListPartnerAccountsRequest, logger: Logger = AWSClient.loggingDisabled, on eventLoop: EventLoop? = nil) async throws -> ListPartnerAccountsResponse {
         return try await self.client.execute(operation: "ListPartnerAccounts", path: "/partner-accounts", httpMethod: .GET, serviceConfig: self.config, input: input, logger: logger, on: eventLoop)
+    }
+
+    /// The operation to list queued messages.
+    public func listQueuedMessages(_ input: ListQueuedMessagesRequest, logger: Logger = AWSClient.loggingDisabled, on eventLoop: EventLoop? = nil) async throws -> ListQueuedMessagesResponse {
+        return try await self.client.execute(operation: "ListQueuedMessages", path: "/wireless-devices/{Id}/data", httpMethod: .GET, serviceConfig: self.config, input: input, logger: logger, on: eventLoop)
     }
 
     /// Lists the service profiles registered to your AWS account.

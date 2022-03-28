@@ -23,6 +23,7 @@ extension Rbin {
 
     public enum ResourceType: String, CustomStringConvertible, Codable {
         case ebsSnapshot = "EBS_SNAPSHOT"
+        case ec2Image = "EC2_IMAGE"
         public var description: String { return self.rawValue }
     }
 
@@ -40,11 +41,11 @@ extension Rbin {
     // MARK: Shapes
 
     public struct CreateRuleRequest: AWSEncodableShape {
-        /// A brief description for the retention rule.
+        /// The retention rule description.
         public let description: String?
-        /// Information about the resource tags to use to identify resources that are to be retained  by the retention rule. The retention rule retains only deleted snapshots that have one or more  of the specified tag key and value pairs. If a snapshot is deleted, but it does not have  any of the specified tag key and value pairs, it is immediately deleted without being retained  by the retention rule. You can add the same tag key and value pair to a maximum or five retention rules.
+        /// Specifies the resource tags to use to identify resources that are to be retained by a  tag-level retention rule. For tag-level retention rules, only deleted resources, of the specified resource type, that  have one or more of the specified tag key and value pairs are retained. If a resource is deleted, but it does not have  any of the specified tag key and value pairs, it is immediately deleted without being retained by the retention rule. You can add the same tag key and value pair to a maximum or five retention rules. To create a Region-level retention rule, omit this parameter. A Region-level retention rule  does not have any resource tags specified. It retains all deleted resources of the specified  resource type in the Region in which the rule is created, even if the resources are not tagged.
         public let resourceTags: [ResourceTag]?
-        /// The resource type to be retained by the retention rule. Currently, only Amazon EBS snapshots are  supported.
+        /// The resource type to be retained by the retention rule. Currently, only Amazon EBS snapshots  and EBS-backed AMIs are supported. To retain snapshots, specify EBS_SNAPSHOT. To  retain EBS-backed AMIs, specify EC2_IMAGE.
         public let resourceType: ResourceType
         /// Information about the retention period for which the retention rule is to retain resources.
         public let retentionPeriod: RetentionPeriod
@@ -84,16 +85,16 @@ extension Rbin {
     public struct CreateRuleResponse: AWSDecodableShape {
         /// The retention rule description.
         public let description: String?
-        /// The unique identifier of the retention rule.
+        /// The unique ID of the retention rule.
         public let identifier: String?
         /// Information about the resource tags used to identify resources that are retained by the retention  rule.
         public let resourceTags: [ResourceTag]?
         /// The resource type retained by the retention rule.
         public let resourceType: ResourceType?
         public let retentionPeriod: RetentionPeriod?
-        /// The state of the retention rule. Only retention rules that are in the available state retain snapshots.
+        /// The state of the retention rule. Only retention rules that are in the available  state retain resources.
         public let status: RuleStatus?
-        /// The tags assigned to the retention rule.
+        /// Information about the tags assigned to the retention rule.
         public let tags: [Tag]?
 
         public init(description: String? = nil, identifier: String? = nil, resourceTags: [ResourceTag]? = nil, resourceType: ResourceType? = nil, retentionPeriod: RetentionPeriod? = nil, status: RuleStatus? = nil, tags: [Tag]? = nil) {
@@ -122,7 +123,7 @@ extension Rbin {
             AWSMemberEncoding(label: "identifier", location: .uri("Identifier"))
         ]
 
-        /// The unique ID of the retention rule to delete.
+        /// The unique ID of the retention rule.
         public let identifier: String
 
         public init(identifier: String) {
@@ -160,17 +161,17 @@ extension Rbin {
     }
 
     public struct GetRuleResponse: AWSDecodableShape {
-        /// The description assigned to the retention rule.
+        /// The retention rule description.
         public let description: String?
         /// The unique ID of the retention rule.
         public let identifier: String?
-        /// The resource tags used to identify resources that are to be retained by the retention rule.
+        /// Information about the resource tags used to identify resources that are retained by the retention  rule.
         public let resourceTags: [ResourceTag]?
-        /// The resource type retained by the retention rule. Currently, only Amazon EBS snapshots are supported.
+        /// The resource type retained by the retention rule.
         public let resourceType: ResourceType?
-        /// Information about the period for which the retention rule retains resources.
+        /// Information about the retention period for which the retention rule is to retain resources.
         public let retentionPeriod: RetentionPeriod?
-        /// The state of the retention rule. Only retention rules that are in the available state retain snapshots.
+        /// The state of the retention rule. Only retention rules that are in the available  state retain resources.
         public let status: RuleStatus?
 
         public init(description: String? = nil, identifier: String? = nil, resourceTags: [ResourceTag]? = nil, resourceType: ResourceType? = nil, retentionPeriod: RetentionPeriod? = nil, status: RuleStatus? = nil) {
@@ -193,13 +194,14 @@ extension Rbin {
     }
 
     public struct ListRulesRequest: AWSEncodableShape {
-        /// The maximum number of results to return for the request in a single page. The remaining results can be seen by sending another request with the returned nextToken value. This value can be between 5 and 500. If maxResults is given a larger value than 500, you receive an error.
+        /// The maximum number of results to return with a single call.
+        /// 	To retrieve the remaining results, make another call with the returned NextToken value.
         public let maxResults: Int?
-        /// The token to use to retrieve the next page of results.
+        /// The token for the next page of results.
         public let nextToken: String?
-        /// The tags used to identify resources that are to be retained by the retention rule.
+        /// Information about the resource tags used to identify resources that are retained by the retention  rule.
         public let resourceTags: [ResourceTag]?
-        /// The resource type retained by the retention rule. Only retention rules that retain the specified resource type  are listed.
+        /// The resource type retained by the retention rule. Only retention rules that retain  the specified resource type are listed. Currently, only Amazon EBS snapshots and EBS-backed  AMIs are supported. To list retention rules that retain snapshots, specify  EBS_SNAPSHOT. To list retention rules that retain EBS-backed AMIs, specify  EC2_IMAGE.
         public let resourceType: ResourceType
 
         public init(maxResults: Int? = nil, nextToken: String? = nil, resourceTags: [ResourceTag]? = nil, resourceType: ResourceType) {
@@ -249,7 +251,7 @@ extension Rbin {
             AWSMemberEncoding(label: "resourceArn", location: .uri("ResourceArn"))
         ]
 
-        /// The Amazon Resource Name (ARN) of the resource for which to list the tags.
+        /// The Amazon Resource Name (ARN) of the retention rule.
         public let resourceArn: String
 
         public init(resourceArn: String) {
@@ -265,7 +267,7 @@ extension Rbin {
     }
 
     public struct ListTagsForResourceResponse: AWSDecodableShape {
-        /// Information about the tags assigned to the resource.
+        /// Information about the tags assigned to the retention rule.
         public let tags: [Tag]?
 
         public init(tags: [Tag]? = nil) {
@@ -322,11 +324,11 @@ extension Rbin {
     }
 
     public struct RuleSummary: AWSDecodableShape {
-        /// The description for the retention rule.
+        /// The retention rule description.
         public let description: String?
         /// The unique ID of the retention rule.
         public let identifier: String?
-        /// Information about the retention period for which the retention rule retains resources
+        /// Information about the retention period for which the retention rule is to retain resources.
         public let retentionPeriod: RetentionPeriod?
 
         public init(description: String? = nil, identifier: String? = nil, retentionPeriod: RetentionPeriod? = nil) {
@@ -372,9 +374,9 @@ extension Rbin {
             AWSMemberEncoding(label: "resourceArn", location: .uri("ResourceArn"))
         ]
 
-        /// The Amazon Resource Name (ARN) of the resource to which to assign the tags.
+        /// The Amazon Resource Name (ARN) of the retention rule.
         public let resourceArn: String
-        /// Information about the tags to assign to the resource.
+        /// Information about the tags to assign to the retention rule.
         public let tags: [Tag]
 
         public init(resourceArn: String, tags: [Tag]) {
@@ -406,9 +408,9 @@ extension Rbin {
             AWSMemberEncoding(label: "tagKeys", location: .querystring("tagKeys"))
         ]
 
-        /// The Amazon Resource Name (ARN) of the resource from which to unassign the tags.
+        /// The Amazon Resource Name (ARN) of the retention rule.
         public let resourceArn: String
-        /// Information about the tags to unassign from the resource.
+        /// The tag keys of the tags to unassign. All tags that have the specified tag key are unassigned.
         public let tagKeys: [String]
 
         public init(resourceArn: String, tagKeys: [String]) {
@@ -441,11 +443,11 @@ extension Rbin {
 
         /// The retention rule description.
         public let description: String?
-        /// The unique ID of the retention rule to update.
+        /// The unique ID of the retention rule.
         public let identifier: String
-        /// Information about the resource tags to use to identify resources that are to be retained  by the retention rule. The retention rule retains only deleted snapshots that have one or more  of the specified tag key and value pairs. If a snapshot is deleted, but it does not have  any of the specified tag key and value pairs, it is immediately deleted without being retained  by the retention rule.  You can add the same tag key and value pair to a maximum or five retention rules.
+        /// Specifies the resource tags to use to identify resources that are to be retained by a  tag-level retention rule. For tag-level retention rules, only deleted resources, of the specified resource type, that  have one or more of the specified tag key and value pairs are retained. If a resource is deleted, but it does not have  any of the specified tag key and value pairs, it is immediately deleted without being retained by the retention rule. You can add the same tag key and value pair to a maximum or five retention rules. To create a Region-level retention rule, omit this parameter. A Region-level retention rule  does not have any resource tags specified. It retains all deleted resources of the specified  resource type in the Region in which the rule is created, even if the resources are not tagged.
         public let resourceTags: [ResourceTag]?
-        /// The resource type to be retained by the retention rule. Currently, only Amazon EBS snapshots are supported.
+        /// The resource type to be retained by the retention rule. Currently, only Amazon EBS snapshots  and EBS-backed AMIs are supported. To retain snapshots, specify EBS_SNAPSHOT. To  retain EBS-backed AMIs, specify EC2_IMAGE.
         public let resourceType: ResourceType?
         /// Information about the retention period for which the retention rule is to retain resources.
         public let retentionPeriod: RetentionPeriod?
@@ -486,7 +488,7 @@ extension Rbin {
         /// The resource type retained by the retention rule.
         public let resourceType: ResourceType?
         public let retentionPeriod: RetentionPeriod?
-        /// The state of the retention rule. Only retention rules that are in the available state retain snapshots.
+        /// The state of the retention rule. Only retention rules that are in the available  state retain resources.
         public let status: RuleStatus?
 
         public init(description: String? = nil, identifier: String? = nil, resourceTags: [ResourceTag]? = nil, resourceType: ResourceType? = nil, retentionPeriod: RetentionPeriod? = nil, status: RuleStatus? = nil) {

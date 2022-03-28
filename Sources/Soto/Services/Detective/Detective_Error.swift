@@ -24,6 +24,7 @@ public struct DetectiveErrorType: AWSErrorType {
         case internalServerException = "InternalServerException"
         case resourceNotFoundException = "ResourceNotFoundException"
         case serviceQuotaExceededException = "ServiceQuotaExceededException"
+        case tooManyRequestsException = "TooManyRequestsException"
         case validationException = "ValidationException"
     }
 
@@ -51,8 +52,10 @@ public struct DetectiveErrorType: AWSErrorType {
     public static var internalServerException: Self { .init(.internalServerException) }
     /// The request refers to a nonexistent resource.
     public static var resourceNotFoundException: Self { .init(.resourceNotFoundException) }
-    /// This request cannot be completed for one of the following reasons.   The request would cause the number of member accounts in the behavior graph to exceed the maximum allowed. A behavior graph cannot have more than 1000 member accounts.   The request would cause the data rate for the behavior graph to exceed the maximum allowed.   Detective is unable to verify the data rate for the member account. This is usually because the member account is not enrolled in Amazon GuardDuty.
+    /// This request cannot be completed for one of the following reasons.   The request would cause the number of member accounts in the behavior graph to exceed the maximum allowed. A behavior graph cannot have more than 1200 member accounts.   The request would cause the data rate for the behavior graph to exceed the maximum allowed.   Detective is unable to verify the data rate for the member account. This is usually because the member account is not enrolled in Amazon GuardDuty.
     public static var serviceQuotaExceededException: Self { .init(.serviceQuotaExceededException) }
+    /// The request cannot be completed because too many other requests are occurring at the same time.
+    public static var tooManyRequestsException: Self { .init(.tooManyRequestsException) }
     /// The request parameters are invalid.
     public static var validationException: Self { .init(.validationException) }
 }

@@ -1141,6 +1141,8 @@ extension Pinpoint {
     public struct ApplicationResponse: AWSDecodableShape {
         /// The Amazon Resource Name (ARN) of the application.
         public let arn: String
+        /// The date and time when the Application was created.
+        public let creationDate: String?
         /// The unique identifier for the application. This identifier is displayed as the Project ID on the Amazon Pinpoint console.
         public let id: String
         /// The display name of the application. This name is displayed as the Project name on the Amazon Pinpoint console.
@@ -1148,8 +1150,9 @@ extension Pinpoint {
         /// A string-to-string map of key-value pairs that identifies the tags that are associated with the application. Each tag consists of a required tag key and an associated tag value.
         public let tags: [String: String]?
 
-        public init(arn: String, id: String, name: String, tags: [String: String]? = nil) {
+        public init(arn: String, creationDate: String? = nil, id: String, name: String, tags: [String: String]? = nil) {
             self.arn = arn
+            self.creationDate = creationDate
             self.id = id
             self.name = name
             self.tags = tags
@@ -1157,6 +1160,7 @@ extension Pinpoint {
 
         private enum CodingKeys: String, CodingKey {
             case arn = "Arn"
+            case creationDate = "CreationDate"
             case id = "Id"
             case name = "Name"
             case tags
@@ -6832,7 +6836,7 @@ extension Pinpoint {
         }
     }
 
-    public struct JourneyChannelSettings: AWSDecodableShape {
+    public struct JourneyChannelSettings: AWSEncodableShape & AWSDecodableShape {
         /// Amazon Resource Name (ARN) of the Connect Campaign.
         public let connectCampaignArn: String?
         /// IAM role ARN to be assumed when invoking Connect campaign execution APIs for dialing.
@@ -10929,6 +10933,8 @@ extension Pinpoint {
         public let activities: [String: Activity]?
         /// The date, in ISO 8601 format, when the journey was created.
         public let creationDate: String?
+        /// The channel-specific configurations for the journey.
+        public let journeyChannelSettings: JourneyChannelSettings?
         /// The date, in ISO 8601 format, when the journey was last modified.
         public let lastModifiedDate: String?
         /// The messaging and entry limits for the journey.
@@ -10954,9 +10960,10 @@ extension Pinpoint {
         /// Specifies whether endpoints in quiet hours should enter a wait till the end of their quiet hours.
         public let waitForQuietTime: Bool?
 
-        public init(activities: [String: Activity]? = nil, creationDate: String? = nil, lastModifiedDate: String? = nil, limits: JourneyLimits? = nil, localTime: Bool? = nil, name: String, quietTime: QuietTime? = nil, refreshFrequency: String? = nil, refreshOnSegmentUpdate: Bool? = nil, schedule: JourneySchedule? = nil, startActivity: String? = nil, startCondition: StartCondition? = nil, state: State? = nil, waitForQuietTime: Bool? = nil) {
+        public init(activities: [String: Activity]? = nil, creationDate: String? = nil, journeyChannelSettings: JourneyChannelSettings? = nil, lastModifiedDate: String? = nil, limits: JourneyLimits? = nil, localTime: Bool? = nil, name: String, quietTime: QuietTime? = nil, refreshFrequency: String? = nil, refreshOnSegmentUpdate: Bool? = nil, schedule: JourneySchedule? = nil, startActivity: String? = nil, startCondition: StartCondition? = nil, state: State? = nil, waitForQuietTime: Bool? = nil) {
             self.activities = activities
             self.creationDate = creationDate
+            self.journeyChannelSettings = journeyChannelSettings
             self.lastModifiedDate = lastModifiedDate
             self.limits = limits
             self.localTime = localTime
@@ -10974,6 +10981,7 @@ extension Pinpoint {
         private enum CodingKeys: String, CodingKey {
             case activities = "Activities"
             case creationDate = "CreationDate"
+            case journeyChannelSettings = "JourneyChannelSettings"
             case lastModifiedDate = "LastModifiedDate"
             case limits = "Limits"
             case localTime = "LocalTime"

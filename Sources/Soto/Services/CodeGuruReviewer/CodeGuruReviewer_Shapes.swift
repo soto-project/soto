@@ -874,7 +874,7 @@ extension CodeGuruReviewer {
             try self.validate(self.codeReviewArn, name: "codeReviewArn", parent: name, max: 1600)
             try self.validate(self.codeReviewArn, name: "codeReviewArn", parent: name, min: 1)
             try self.validate(self.codeReviewArn, name: "codeReviewArn", parent: name, pattern: "^arn:aws[^:\\s]*:codeguru-reviewer:[^:\\s]+:[\\d]{12}:[a-z-]+:[\\w-]+$")
-            try self.validate(self.maxResults, name: "maxResults", parent: name, max: 100)
+            try self.validate(self.maxResults, name: "maxResults", parent: name, max: 300)
             try self.validate(self.maxResults, name: "maxResults", parent: name, min: 1)
             try self.validate(self.nextToken, name: "nextToken", parent: name, max: 2048)
             try self.validate(self.nextToken, name: "nextToken", parent: name, min: 1)

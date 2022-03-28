@@ -74,6 +74,7 @@ extension MediaPackage {
 
     public enum Profile: String, CustomStringConvertible, Codable {
         case hbbtv15 = "HBBTV_1_5"
+        case hybridcast = "HYBRIDCAST"
         case none = "NONE"
         public var description: String { return self.rawValue }
     }

@@ -44,7 +44,7 @@ extension MarketplaceMetering {
         public func validate(name: String) throws {
             try self.validate(self.productCode, name: "productCode", parent: name, max: 255)
             try self.validate(self.productCode, name: "productCode", parent: name, min: 1)
-            try self.validate(self.productCode, name: "productCode", parent: name, pattern: "[\\s\\S]+")
+            try self.validate(self.productCode, name: "productCode", parent: name, pattern: "^[-a-zA-Z0-9/=:_.@]*$")
             try self.usageRecords.forEach {
                 try $0.validate(name: "\(name).usageRecords[]")
             }
@@ -58,7 +58,7 @@ extension MarketplaceMetering {
     }
 
     public struct BatchMeterUsageResult: AWSDecodableShape {
-        /// Contains all UsageRecords processed by BatchMeterUsage. These records were either honored by AWS Marketplace Metering Service or were invalid.
+        /// Contains all UsageRecords processed by BatchMeterUsage. These records were either honored by AWS Marketplace Metering Service or were invalid. Invalid records should be fixed before being resubmitted.
         public let results: [UsageRecordResult]?
         /// Contains all UsageRecords that were not processed by BatchMeterUsage. This is a list of UsageRecords. You can retry the failed request by making another BatchMeterUsage call with this list as input in the BatchMeterUsageRequest.
         public let unprocessedRecords: [UsageRecord]?
@@ -100,15 +100,15 @@ extension MarketplaceMetering {
         public func validate(name: String) throws {
             try self.validate(self.productCode, name: "productCode", parent: name, max: 255)
             try self.validate(self.productCode, name: "productCode", parent: name, min: 1)
-            try self.validate(self.productCode, name: "productCode", parent: name, pattern: "[\\s\\S]+")
+            try self.validate(self.productCode, name: "productCode", parent: name, pattern: "^[-a-zA-Z0-9/=:_.@]*$")
             try self.usageAllocations?.forEach {
                 try $0.validate(name: "\(name).usageAllocations[]")
             }
-            try self.validate(self.usageAllocations, name: "usageAllocations", parent: name, max: 500)
+            try self.validate(self.usageAllocations, name: "usageAllocations", parent: name, max: 2500)
             try self.validate(self.usageAllocations, name: "usageAllocations", parent: name, min: 1)
             try self.validate(self.usageDimension, name: "usageDimension", parent: name, max: 255)
             try self.validate(self.usageDimension, name: "usageDimension", parent: name, min: 1)
-            try self.validate(self.usageDimension, name: "usageDimension", parent: name, pattern: "[\\s\\S]+")
+            try self.validate(self.usageDimension, name: "usageDimension", parent: name, pattern: "^[\\s\\S]+$")
             try self.validate(self.usageQuantity, name: "usageQuantity", parent: name, max: 2_147_483_647)
             try self.validate(self.usageQuantity, name: "usageQuantity", parent: name, min: 0)
         }
@@ -152,10 +152,10 @@ extension MarketplaceMetering {
 
         public func validate(name: String) throws {
             try self.validate(self.nonce, name: "nonce", parent: name, max: 255)
-            try self.validate(self.nonce, name: "nonce", parent: name, pattern: "[\\s\\S]*")
+            try self.validate(self.nonce, name: "nonce", parent: name, pattern: "^[\\s\\S]*$")
             try self.validate(self.productCode, name: "productCode", parent: name, max: 255)
             try self.validate(self.productCode, name: "productCode", parent: name, min: 1)
-            try self.validate(self.productCode, name: "productCode", parent: name, pattern: "[\\s\\S]+")
+            try self.validate(self.productCode, name: "productCode", parent: name, pattern: "^[-a-zA-Z0-9/=:_.@]*$")
             try self.validate(self.publicKeyVersion, name: "publicKeyVersion", parent: name, min: 1)
         }
 
@@ -184,7 +184,7 @@ extension MarketplaceMetering {
     }
 
     public struct ResolveCustomerRequest: AWSEncodableShape {
-        /// When a buyer visits your website during the registration process, the buyer submits a registration token through the browser. The registration token is resolved to obtain a CustomerIdentifier and product code.
+        /// When a buyer visits your website during the registration process, the buyer submits a registration token through the browser. The registration token is resolved to obtain a CustomerIdentifier along with the CustomerAWSAccountId and ProductCode.
         public let registrationToken: String
 
         public init(registrationToken: String) {
@@ -192,7 +192,7 @@ extension MarketplaceMetering {
         }
 
         public func validate(name: String) throws {
-            try self.validate(self.registrationToken, name: "registrationToken", parent: name, pattern: "[\\s\\S]+")
+            try self.validate(self.registrationToken, name: "registrationToken", parent: name, pattern: "^[\\s\\S]+$")
         }
 
         private enum CodingKeys: String, CodingKey {
@@ -201,17 +201,21 @@ extension MarketplaceMetering {
     }
 
     public struct ResolveCustomerResult: AWSDecodableShape {
+        /// The CustomerAWSAccountId provides the AWS account ID associated with the CustomerIdentifier for the individual customer.
+        public let customerAWSAccountId: String?
         /// The CustomerIdentifier is used to identify an individual customer in your application. Calls to BatchMeterUsage require CustomerIdentifiers for each UsageRecord.
         public let customerIdentifier: String?
         /// The product code is returned to confirm that the buyer is registering for your product. Subsequent BatchMeterUsage calls should be made using this product code.
         public let productCode: String?
 
-        public init(customerIdentifier: String? = nil, productCode: String? = nil) {
+        public init(customerAWSAccountId: String? = nil, customerIdentifier: String? = nil, productCode: String? = nil) {
+            self.customerAWSAccountId = customerAWSAccountId
             self.customerIdentifier = customerIdentifier
             self.productCode = productCode
         }
 
         private enum CodingKeys: String, CodingKey {
+            case customerAWSAccountId = "CustomerAWSAccountId"
             case customerIdentifier = "CustomerIdentifier"
             case productCode = "ProductCode"
         }
@@ -273,13 +277,13 @@ extension MarketplaceMetering {
     public struct UsageRecord: AWSEncodableShape & AWSDecodableShape {
         /// The CustomerIdentifier is obtained through the ResolveCustomer operation and represents an individual buyer in your application.
         public let customerIdentifier: String
-        /// During the process of registering a product on AWS Marketplace, up to eight dimensions are specified. These represent different units of value in your application.
+        /// During the process of registering a product on AWS Marketplace, dimensions are specified. These represent different units of value in your application.
         public let dimension: String
         /// The quantity of usage consumed by the customer for the given dimension and time. Defaults to 0 if not specified.
         public let quantity: Int?
         /// Timestamp, in UTC, for which the usage is being reported. Your application can meter usage for up to one hour in the past. Make sure the timestamp value is not before the start of the software usage.
         public let timestamp: Date
-        /// The set of UsageAllocations to submit. The sum of all UsageAllocation quantities  must equal the Quantity of the UsageRecord.
+        /// The set of UsageAllocations to submit. The sum of all UsageAllocation quantities must equal the Quantity of the UsageRecord.
         public let usageAllocations: [UsageAllocation]?
 
         public init(customerIdentifier: String, dimension: String, quantity: Int? = nil, timestamp: Date, usageAllocations: [UsageAllocation]? = nil) {
@@ -293,16 +297,16 @@ extension MarketplaceMetering {
         public func validate(name: String) throws {
             try self.validate(self.customerIdentifier, name: "customerIdentifier", parent: name, max: 255)
             try self.validate(self.customerIdentifier, name: "customerIdentifier", parent: name, min: 1)
-            try self.validate(self.customerIdentifier, name: "customerIdentifier", parent: name, pattern: "[\\s\\S]+")
+            try self.validate(self.customerIdentifier, name: "customerIdentifier", parent: name, pattern: "^[\\s\\S]+$")
             try self.validate(self.dimension, name: "dimension", parent: name, max: 255)
             try self.validate(self.dimension, name: "dimension", parent: name, min: 1)
-            try self.validate(self.dimension, name: "dimension", parent: name, pattern: "[\\s\\S]+")
+            try self.validate(self.dimension, name: "dimension", parent: name, pattern: "^[\\s\\S]+$")
             try self.validate(self.quantity, name: "quantity", parent: name, max: 2_147_483_647)
             try self.validate(self.quantity, name: "quantity", parent: name, min: 0)
             try self.usageAllocations?.forEach {
                 try $0.validate(name: "\(name).usageAllocations[]")
             }
-            try self.validate(self.usageAllocations, name: "usageAllocations", parent: name, max: 500)
+            try self.validate(self.usageAllocations, name: "usageAllocations", parent: name, max: 2500)
             try self.validate(self.usageAllocations, name: "usageAllocations", parent: name, min: 1)
         }
 
@@ -318,7 +322,7 @@ extension MarketplaceMetering {
     public struct UsageRecordResult: AWSDecodableShape {
         /// The MeteringRecordId is a unique identifier for this metering event.
         public let meteringRecordId: String?
-        /// The UsageRecordResult Status indicates the status of an individual UsageRecord processed by BatchMeterUsage.    Success- The UsageRecord was accepted and honored by BatchMeterUsage.    CustomerNotSubscribed- The CustomerIdentifier specified is not subscribed to your product. The UsageRecord was not honored. Future UsageRecords for this customer will fail until the customer subscribes to your product.    DuplicateRecord- Indicates that the UsageRecord was invalid and not honored. A previously metered UsageRecord had the same customer, dimension, and time, but a different quantity.
+        /// The UsageRecordResult Status indicates the status of an individual UsageRecord processed by BatchMeterUsage.    Success- The UsageRecord was accepted and honored by BatchMeterUsage.    CustomerNotSubscribed- The CustomerIdentifier specified is not able to use your product. The UsageRecord was not honored. There are three causes for this result:   The customer identifier is invalid.   The customer identifier provided in the metering record does not have an active agreement or subscription with this product. Future UsageRecords for this customer will fail until the customer subscribes to your product.   The customer's AWS account was suspended.      DuplicateRecord- Indicates that the UsageRecord was invalid and not honored. A previously metered UsageRecord had the same customer, dimension, and time, but a different quantity.
         public let status: UsageRecordResultStatus?
         /// The UsageRecord that was part of the BatchMeterUsage request.
         public let usageRecord: UsageRecord?

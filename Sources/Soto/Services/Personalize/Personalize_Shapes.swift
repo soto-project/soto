@@ -3571,9 +3571,12 @@ extension Personalize {
     public struct RecommenderConfig: AWSEncodableShape & AWSDecodableShape {
         /// Specifies the exploration configuration hyperparameters, including explorationWeight and  explorationItemAgeCutOff, you want to use to configure the amount of item exploration Amazon Personalize uses when recommending items. Provide itemExplorationConfig data only if your recommenders generate personalized recommendations for a user (not popular items or similar items).
         public let itemExplorationConfig: [String: String]?
+        /// Specifies the requested minimum provisioned recommendation requests per second that Amazon Personalize will support.
+        public let minRecommendationRequestsPerSecond: Int?
 
-        public init(itemExplorationConfig: [String: String]? = nil) {
+        public init(itemExplorationConfig: [String: String]? = nil, minRecommendationRequestsPerSecond: Int? = nil) {
             self.itemExplorationConfig = itemExplorationConfig
+            self.minRecommendationRequestsPerSecond = minRecommendationRequestsPerSecond
         }
 
         public func validate(name: String) throws {
@@ -3582,10 +3585,12 @@ extension Personalize {
                 try validate($0.value, name: "itemExplorationConfig[\"\($0.key)\"]", parent: name, max: 1000)
             }
             try self.validate(self.itemExplorationConfig, name: "itemExplorationConfig", parent: name, max: 100)
+            try self.validate(self.minRecommendationRequestsPerSecond, name: "minRecommendationRequestsPerSecond", parent: name, min: 1)
         }
 
         private enum CodingKeys: String, CodingKey {
             case itemExplorationConfig
+            case minRecommendationRequestsPerSecond
         }
     }
 
@@ -3660,7 +3665,7 @@ extension Personalize {
     }
 
     public struct S3DataConfig: AWSEncodableShape & AWSDecodableShape {
-        /// The Amazon Resource Name (ARN) of the Key Management Service (KMS) key that Amazon Personalize uses to encrypt or decrypt the input and output files of a batch inference job.
+        /// The Amazon Resource Name (ARN) of the Key Management Service (KMS) key that Amazon Personalize uses to encrypt or decrypt the input and output files.
         public let kmsKeyArn: String?
         /// The file path of the Amazon S3 bucket.
         public let path: String

@@ -729,13 +729,13 @@ extension ConfigService {
         )
     }
 
-    ///  Provides organization config rule deployment status for an organization.
+    ///  Provides organization Config rule deployment status for an organization.
     ///
-    ///  		        The status is not considered successful until organization config rule is successfully deployed in all the member
+    ///  		        The status is not considered successful until organization Config rule is successfully deployed in all the member
     ///  			accounts with an exception of excluded accounts.
     ///  			         When you specify the limit and the next token, you receive a paginated response.
-    ///  			Limit and next token are not applicable if you specify organization config rule names.
-    ///  			It is only applicable, when you request all the organization config rules.
+    ///  			Limit and next token are not applicable if you specify organization Config rule names.
+    ///  			It is only applicable, when you request all the organization Config rules.
     ///
     ///
     /// Provide paginated results to closure `onPage` for it to combine them into one result.
@@ -789,11 +789,11 @@ extension ConfigService {
         )
     }
 
-    ///  Returns a list of organization config rules.
+    ///  Returns a list of organization Config rules.
     ///
     ///  		        When you specify the limit and the next token, you receive a paginated response.
-    ///  			Limit and next token are not applicable if you specify organization config rule names.
-    ///  			It is only applicable, when you request all the organization config rules.
+    ///  			Limit and next token are not applicable if you specify organization Config rule names.
+    ///  			It is only applicable, when you request all the organization Config rules.
     ///
     /// Provide paginated results to closure `onPage` for it to combine them into one result.
     /// This works in a similar manner to `Array.reduce<Result>(_:_:) -> Result`.
@@ -1729,7 +1729,7 @@ extension ConfigService {
         )
     }
 
-    ///  Returns detailed status for each member account within an organization for a given organization config rule.
+    ///  Returns detailed status for each member account within an organization for a given organization Config rule.
     ///
     /// Provide paginated results to closure `onPage` for it to combine them into one result.
     /// This works in a similar manner to `Array.reduce<Result>(_:_:) -> Result`.

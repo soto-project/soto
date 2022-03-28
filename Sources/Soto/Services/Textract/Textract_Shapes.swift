@@ -25,9 +25,11 @@ extension Textract {
         case cell = "CELL"
         case keyValueSet = "KEY_VALUE_SET"
         case line = "LINE"
+        case mergedCell = "MERGED_CELL"
         case page = "PAGE"
         case selectionElement = "SELECTION_ELEMENT"
         case table = "TABLE"
+        case title = "TITLE"
         case word = "WORD"
         public var description: String { return self.rawValue }
     }
@@ -39,6 +41,7 @@ extension Textract {
     }
 
     public enum EntityType: String, CustomStringConvertible, Codable {
+        case columnHeader = "COLUMN_HEADER"
         case key = "KEY"
         case value = "VALUE"
         public var description: String { return self.rawValue }
@@ -61,6 +64,8 @@ extension Textract {
     public enum RelationshipType: String, CustomStringConvertible, Codable {
         case child = "CHILD"
         case complexFeatures = "COMPLEX_FEATURES"
+        case mergedCell = "MERGED_CELL"
+        case title = "TITLE"
         case value = "VALUE"
         public var description: String { return self.rawValue }
     }

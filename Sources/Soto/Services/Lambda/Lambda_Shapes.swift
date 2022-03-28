@@ -103,6 +103,7 @@ extension Lambda {
     }
 
     public enum Runtime: String, CustomStringConvertible, Codable {
+        case dotnet6
         case dotnetcore10 = "dotnetcore1.0"
         case dotnetcore20 = "dotnetcore2.0"
         case dotnetcore21 = "dotnetcore2.1"
@@ -307,6 +308,8 @@ extension Lambda {
         public let functionName: String
         /// The Amazon Web Services service or account that invokes the function. If you specify a service, use SourceArn or SourceAccount to limit who can invoke the function through that service.
         public let principal: String
+        /// The identifier for your organization in Organizations. Use this to grant permissions to all the Amazon Web Services accounts under this organization.
+        public let principalOrgID: String?
         /// Specify a version or alias to add permissions to a published version of the function.
         public let qualifier: String?
         /// Only update the policy if the revision ID matches the ID that's specified. Use this option to avoid modifying a policy that has changed since you last read it.
@@ -318,11 +321,12 @@ extension Lambda {
         /// A statement identifier that differentiates the statement from others in the same policy.
         public let statementId: String
 
-        public init(action: String, eventSourceToken: String? = nil, functionName: String, principal: String, qualifier: String? = nil, revisionId: String? = nil, sourceAccount: String? = nil, sourceArn: String? = nil, statementId: String) {
+        public init(action: String, eventSourceToken: String? = nil, functionName: String, principal: String, principalOrgID: String? = nil, qualifier: String? = nil, revisionId: String? = nil, sourceAccount: String? = nil, sourceArn: String? = nil, statementId: String) {
             self.action = action
             self.eventSourceToken = eventSourceToken
             self.functionName = functionName
             self.principal = principal
+            self.principalOrgID = principalOrgID
             self.qualifier = qualifier
             self.revisionId = revisionId
             self.sourceAccount = sourceAccount
@@ -338,6 +342,9 @@ extension Lambda {
             try self.validate(self.functionName, name: "functionName", parent: name, min: 1)
             try self.validate(self.functionName, name: "functionName", parent: name, pattern: "^(arn:(aws[a-zA-Z-]*)?:lambda:)?([a-z]{2}(-gov)?-[a-z]+-\\d{1}:)?(\\d{12}:)?(function:)?([a-zA-Z0-9-_]+)(:(\\$LATEST|[a-zA-Z0-9-_]+))?$")
             try self.validate(self.principal, name: "principal", parent: name, pattern: "^[^\\s]+$")
+            try self.validate(self.principalOrgID, name: "principalOrgID", parent: name, max: 34)
+            try self.validate(self.principalOrgID, name: "principalOrgID", parent: name, min: 12)
+            try self.validate(self.principalOrgID, name: "principalOrgID", parent: name, pattern: "^o-[a-z0-9]{10,32}$")
             try self.validate(self.qualifier, name: "qualifier", parent: name, max: 128)
             try self.validate(self.qualifier, name: "qualifier", parent: name, min: 1)
             try self.validate(self.qualifier, name: "qualifier", parent: name, pattern: "^(|[a-zA-Z0-9$_-]+)$")
@@ -353,6 +360,7 @@ extension Lambda {
             case action = "Action"
             case eventSourceToken = "EventSourceToken"
             case principal = "Principal"
+            case principalOrgID = "PrincipalOrgID"
             case revisionId = "RevisionId"
             case sourceAccount = "SourceAccount"
             case sourceArn = "SourceArn"
@@ -734,6 +742,8 @@ extension Lambda {
         public let description: String?
         /// Environment variables that are accessible from function code during execution.
         public let environment: Environment?
+        /// The size of the function’s /tmp directory in MB. The default value is 512, but can be any whole number between 512 and 10240 MB.
+        public let ephemeralStorage: EphemeralStorage?
         /// Connection settings for an Amazon EFS file system.
         public let fileSystemConfigs: [FileSystemConfig]?
         /// The name of the Lambda function.  Name formats     Function name - my-function.    Function ARN - arn:aws:lambda:us-west-2:123456789012:function:my-function.    Partial ARN - 123456789012:function:my-function.   The length constraint applies only to the full ARN. If you specify only the function name, it is limited to 64 characters in length.
@@ -767,13 +777,14 @@ extension Lambda {
         /// For network connectivity to Amazon Web Services resources in a VPC, specify a list of security groups and subnets in the VPC. When you connect a function to a VPC, it can only access resources and the internet through that VPC. For more information, see VPC Settings.
         public let vpcConfig: VpcConfig?
 
-        public init(architectures: [Architecture]? = nil, code: FunctionCode, codeSigningConfigArn: String? = nil, deadLetterConfig: DeadLetterConfig? = nil, description: String? = nil, environment: Environment? = nil, fileSystemConfigs: [FileSystemConfig]? = nil, functionName: String, handler: String? = nil, imageConfig: ImageConfig? = nil, kmsKeyArn: String? = nil, layers: [String]? = nil, memorySize: Int? = nil, packageType: PackageType? = nil, publish: Bool? = nil, role: String, runtime: Runtime? = nil, tags: [String: String]? = nil, timeout: Int? = nil, tracingConfig: TracingConfig? = nil, vpcConfig: VpcConfig? = nil) {
+        public init(architectures: [Architecture]? = nil, code: FunctionCode, codeSigningConfigArn: String? = nil, deadLetterConfig: DeadLetterConfig? = nil, description: String? = nil, environment: Environment? = nil, ephemeralStorage: EphemeralStorage? = nil, fileSystemConfigs: [FileSystemConfig]? = nil, functionName: String, handler: String? = nil, imageConfig: ImageConfig? = nil, kmsKeyArn: String? = nil, layers: [String]? = nil, memorySize: Int? = nil, packageType: PackageType? = nil, publish: Bool? = nil, role: String, runtime: Runtime? = nil, tags: [String: String]? = nil, timeout: Int? = nil, tracingConfig: TracingConfig? = nil, vpcConfig: VpcConfig? = nil) {
             self.architectures = architectures
             self.code = code
             self.codeSigningConfigArn = codeSigningConfigArn
             self.deadLetterConfig = deadLetterConfig
             self.description = description
             self.environment = environment
+            self.ephemeralStorage = ephemeralStorage
             self.fileSystemConfigs = fileSystemConfigs
             self.functionName = functionName
             self.handler = handler
@@ -800,6 +811,7 @@ extension Lambda {
             try self.deadLetterConfig?.validate(name: "\(name).deadLetterConfig")
             try self.validate(self.description, name: "description", parent: name, max: 256)
             try self.environment?.validate(name: "\(name).environment")
+            try self.ephemeralStorage?.validate(name: "\(name).ephemeralStorage")
             try self.fileSystemConfigs?.forEach {
                 try $0.validate(name: "\(name).fileSystemConfigs[]")
             }
@@ -830,6 +842,7 @@ extension Lambda {
             case deadLetterConfig = "DeadLetterConfig"
             case description = "Description"
             case environment = "Environment"
+            case ephemeralStorage = "EphemeralStorage"
             case fileSystemConfigs = "FileSystemConfigs"
             case functionName = "FunctionName"
             case handler = "Handler"
@@ -1158,6 +1171,24 @@ extension Lambda {
         }
     }
 
+    public struct EphemeralStorage: AWSEncodableShape & AWSDecodableShape {
+        /// The size of the function’s /tmp directory.
+        public let size: Int
+
+        public init(size: Int) {
+            self.size = size
+        }
+
+        public func validate(name: String) throws {
+            try self.validate(self.size, name: "size", parent: name, max: 10240)
+            try self.validate(self.size, name: "size", parent: name, min: 512)
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case size = "Size"
+        }
+    }
+
     public struct EventSourceMappingConfiguration: AWSDecodableShape {
         /// The maximum number of records in each batch that Lambda pulls from your stream or queue and sends to your function. Lambda passes all of the records in the batch to the function in a single call, up to the payload limit for synchronous invocation (6 MB). Default value: Varies by service. For Amazon SQS, the default is 10. For all other services, the default is 100. Related setting: When you set BatchSize to a value greater than 10, you must set MaximumBatchingWindowInSeconds to at least 1.
         public let batchSize: Int?
@@ -1399,6 +1430,8 @@ extension Lambda {
         public let description: String?
         /// The function's environment variables.
         public let environment: EnvironmentResponse?
+        /// The size of the function’s /tmp directory in MB. The default value is 512, but can be any whole number between 512 and 10240 MB.
+        public let ephemeralStorage: EphemeralStorage?
         /// Connection settings for an Amazon EFS file system.
         public let fileSystemConfigs: [FileSystemConfig]?
         /// The function's Amazon Resource Name (ARN).
@@ -1452,13 +1485,14 @@ extension Lambda {
         /// The function's networking configuration.
         public let vpcConfig: VpcConfigResponse?
 
-        public init(architectures: [Architecture]? = nil, codeSha256: String? = nil, codeSize: Int64? = nil, deadLetterConfig: DeadLetterConfig? = nil, description: String? = nil, environment: EnvironmentResponse? = nil, fileSystemConfigs: [FileSystemConfig]? = nil, functionArn: String? = nil, functionName: String? = nil, handler: String? = nil, imageConfigResponse: ImageConfigResponse? = nil, kmsKeyArn: String? = nil, lastModified: String? = nil, lastUpdateStatus: LastUpdateStatus? = nil, lastUpdateStatusReason: String? = nil, lastUpdateStatusReasonCode: LastUpdateStatusReasonCode? = nil, layers: [Layer]? = nil, masterArn: String? = nil, memorySize: Int? = nil, packageType: PackageType? = nil, revisionId: String? = nil, role: String? = nil, runtime: Runtime? = nil, signingJobArn: String? = nil, signingProfileVersionArn: String? = nil, state: State? = nil, stateReason: String? = nil, stateReasonCode: StateReasonCode? = nil, timeout: Int? = nil, tracingConfig: TracingConfigResponse? = nil, version: String? = nil, vpcConfig: VpcConfigResponse? = nil) {
+        public init(architectures: [Architecture]? = nil, codeSha256: String? = nil, codeSize: Int64? = nil, deadLetterConfig: DeadLetterConfig? = nil, description: String? = nil, environment: EnvironmentResponse? = nil, ephemeralStorage: EphemeralStorage? = nil, fileSystemConfigs: [FileSystemConfig]? = nil, functionArn: String? = nil, functionName: String? = nil, handler: String? = nil, imageConfigResponse: ImageConfigResponse? = nil, kmsKeyArn: String? = nil, lastModified: String? = nil, lastUpdateStatus: LastUpdateStatus? = nil, lastUpdateStatusReason: String? = nil, lastUpdateStatusReasonCode: LastUpdateStatusReasonCode? = nil, layers: [Layer]? = nil, masterArn: String? = nil, memorySize: Int? = nil, packageType: PackageType? = nil, revisionId: String? = nil, role: String? = nil, runtime: Runtime? = nil, signingJobArn: String? = nil, signingProfileVersionArn: String? = nil, state: State? = nil, stateReason: String? = nil, stateReasonCode: StateReasonCode? = nil, timeout: Int? = nil, tracingConfig: TracingConfigResponse? = nil, version: String? = nil, vpcConfig: VpcConfigResponse? = nil) {
             self.architectures = architectures
             self.codeSha256 = codeSha256
             self.codeSize = codeSize
             self.deadLetterConfig = deadLetterConfig
             self.description = description
             self.environment = environment
+            self.ephemeralStorage = ephemeralStorage
             self.fileSystemConfigs = fileSystemConfigs
             self.functionArn = functionArn
             self.functionName = functionName
@@ -1494,6 +1528,7 @@ extension Lambda {
             case deadLetterConfig = "DeadLetterConfig"
             case description = "Description"
             case environment = "Environment"
+            case ephemeralStorage = "EphemeralStorage"
             case fileSystemConfigs = "FileSystemConfigs"
             case functionArn = "FunctionArn"
             case functionName = "FunctionName"
@@ -3718,19 +3753,21 @@ extension Lambda {
         public let dryRun: Bool?
         /// The name of the Lambda function.  Name formats     Function name - my-function.    Function ARN - arn:aws:lambda:us-west-2:123456789012:function:my-function.    Partial ARN - 123456789012:function:my-function.   The length constraint applies only to the full ARN. If you specify only the function name, it is limited to 64 characters in length.
         public let functionName: String
-        /// URI of a container image in the Amazon ECR registry.
+        /// URI of a container image in the Amazon ECR registry. Do not use for a function defined with a .zip file archive.
         public let imageUri: String?
         /// Set to true to publish a new version of the function after updating the code. This has the same effect as calling PublishVersion separately.
         public let publish: Bool?
         /// Only update the function if the revision ID matches the ID that's specified. Use this option to avoid modifying a function that has changed since you last read it.
         public let revisionId: String?
-        /// An Amazon S3 bucket in the same Amazon Web Services Region as your function. The bucket can be in a different Amazon Web Services account.
+        /// An Amazon S3 bucket in the same Amazon Web Services Region as your function. The bucket can be in a different
+        /// Amazon Web Services account. Use only with a function defined with a .zip file archive deployment package.
         public let s3Bucket: String?
-        /// The Amazon S3 key of the deployment package.
+        /// The Amazon S3 key of the deployment package. Use only with a function defined with a .zip file archive deployment package.
         public let s3Key: String?
         /// For versioned objects, the version of the deployment package object to use.
         public let s3ObjectVersion: String?
-        /// The base64-encoded contents of the deployment package. Amazon Web Services SDK and Amazon Web Services CLI clients handle the encoding for you.
+        /// The base64-encoded contents of the deployment package. Amazon Web Services SDK and Amazon Web Services CLI clients
+        /// handle the encoding for you. Use only with a function defined with a .zip file archive deployment package.
         public let zipFile: Data?
 
         public init(architectures: [Architecture]? = nil, dryRun: Bool? = nil, functionName: String, imageUri: String? = nil, publish: Bool? = nil, revisionId: String? = nil, s3Bucket: String? = nil, s3Key: String? = nil, s3ObjectVersion: String? = nil, zipFile: Data? = nil) {
@@ -3785,6 +3822,8 @@ extension Lambda {
         public let description: String?
         /// Environment variables that are accessible from function code during execution.
         public let environment: Environment?
+        /// The size of the function’s /tmp directory in MB. The default value is 512, but can be any whole number between 512 and 10240 MB.
+        public let ephemeralStorage: EphemeralStorage?
         /// Connection settings for an Amazon EFS file system.
         public let fileSystemConfigs: [FileSystemConfig]?
         /// The name of the Lambda function.  Name formats     Function name - my-function.    Function ARN - arn:aws:lambda:us-west-2:123456789012:function:my-function.    Partial ARN - 123456789012:function:my-function.   The length constraint applies only to the full ARN. If you specify only the function name, it is limited to 64 characters in length.
@@ -3814,10 +3853,11 @@ extension Lambda {
         /// For network connectivity to Amazon Web Services resources in a VPC, specify a list of security groups and subnets in the VPC. When you connect a function to a VPC, it can only access resources and the internet through that VPC. For more information, see VPC Settings.
         public let vpcConfig: VpcConfig?
 
-        public init(deadLetterConfig: DeadLetterConfig? = nil, description: String? = nil, environment: Environment? = nil, fileSystemConfigs: [FileSystemConfig]? = nil, functionName: String, handler: String? = nil, imageConfig: ImageConfig? = nil, kmsKeyArn: String? = nil, layers: [String]? = nil, memorySize: Int? = nil, revisionId: String? = nil, role: String? = nil, runtime: Runtime? = nil, timeout: Int? = nil, tracingConfig: TracingConfig? = nil, vpcConfig: VpcConfig? = nil) {
+        public init(deadLetterConfig: DeadLetterConfig? = nil, description: String? = nil, environment: Environment? = nil, ephemeralStorage: EphemeralStorage? = nil, fileSystemConfigs: [FileSystemConfig]? = nil, functionName: String, handler: String? = nil, imageConfig: ImageConfig? = nil, kmsKeyArn: String? = nil, layers: [String]? = nil, memorySize: Int? = nil, revisionId: String? = nil, role: String? = nil, runtime: Runtime? = nil, timeout: Int? = nil, tracingConfig: TracingConfig? = nil, vpcConfig: VpcConfig? = nil) {
             self.deadLetterConfig = deadLetterConfig
             self.description = description
             self.environment = environment
+            self.ephemeralStorage = ephemeralStorage
             self.fileSystemConfigs = fileSystemConfigs
             self.functionName = functionName
             self.handler = handler
@@ -3837,6 +3877,7 @@ extension Lambda {
             try self.deadLetterConfig?.validate(name: "\(name).deadLetterConfig")
             try self.validate(self.description, name: "description", parent: name, max: 256)
             try self.environment?.validate(name: "\(name).environment")
+            try self.ephemeralStorage?.validate(name: "\(name).ephemeralStorage")
             try self.fileSystemConfigs?.forEach {
                 try $0.validate(name: "\(name).fileSystemConfigs[]")
             }
@@ -3864,6 +3905,7 @@ extension Lambda {
             case deadLetterConfig = "DeadLetterConfig"
             case description = "Description"
             case environment = "Environment"
+            case ephemeralStorage = "EphemeralStorage"
             case fileSystemConfigs = "FileSystemConfigs"
             case handler = "Handler"
             case imageConfig = "ImageConfig"

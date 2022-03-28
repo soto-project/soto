@@ -20,7 +20,7 @@ import SotoCore
 // MARK: Paginators
 
 extension Transcribe {
-    ///  Provides more information about the call analytics categories that you've created. You  can use the information in this list to find a specific category. You can then use the operation to get more information about it.
+    ///  Provides more information about the call analytics categories that you've created. You  can use the information in this list to find a specific category. You can then use the operation to get more information about  it.
     ///
     /// Provide paginated results to closure `onPage` for it to combine them into one result.
     /// This works in a similar manner to `Array.reduce<Result>(_:_:) -> Result`.
@@ -126,7 +126,7 @@ extension Transcribe {
         )
     }
 
-    ///  Provides more information about the custom language models you've created. You can use the information in  this list to find a specific custom language model. You can then use the  operation to get more information about it.
+    ///  Provides more information about the custom language models you've created. You can  use the information in this list to find a specific custom language model. You can then use  the  operation to get more information about  it.
     ///
     /// Provide paginated results to closure `onPage` for it to combine them into one result.
     /// This works in a similar manner to `Array.reduce<Result>(_:_:) -> Result`.
@@ -338,7 +338,7 @@ extension Transcribe {
         )
     }
 
-    ///  Returns a list of vocabularies that match the specified criteria. If no criteria are specified, returns the entire list  of vocabularies.
+    ///  Returns a list of vocabularies that match the specified criteria. If no criteria are specified,  returns the entire list of vocabularies.
     ///
     /// Provide paginated results to closure `onPage` for it to combine them into one result.
     /// This works in a similar manner to `Array.reduce<Result>(_:_:) -> Result`.

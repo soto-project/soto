@@ -19,7 +19,7 @@
 
 /// Service object for interacting with AWS FIS service.
 ///
-/// AWS Fault Injection Simulator is a managed service that enables you to perform fault injection  experiments on your AWS workloads. For more information, see the AWS Fault Injection Simulator User Guide.
+/// Fault Injection Simulator is a managed service that enables you to perform fault injection  experiments on your Amazon Web Services workloads. For more information, see the Fault Injection Simulator User Guide.
 public struct FIS: AWSService {
     // MARK: Member variables
 
@@ -63,7 +63,7 @@ public struct FIS: AWSService {
 
     // MARK: API Calls
 
-    /// Creates an experiment template.  To create a template, specify the following information:     Targets: A target can be a specific resource in your AWS environment, or one or more resources that match criteria that you specify, for example, resources that have specific tags.    Actions: The actions to carry out on the target. You can specify multiple actions, the duration of each action, and when to start each action during an experiment.    Stop conditions: If a stop condition is triggered while an experiment is running, the experiment is automatically stopped. You can define a stop condition as a CloudWatch alarm.   For more information, see the AWS Fault Injection Simulator User Guide.
+    /// Creates an experiment template.  An experiment template includes the following components:    Targets: A target can be a specific resource in  your Amazon Web Services environment, or one or more resources that match criteria that you specify, for example, resources that have specific tags.    Actions: The actions to carry out on the target. You can specify multiple actions, the duration of each action, and when to start each action during an experiment.    Stop conditions: If a stop condition is triggered while an experiment is running, the experiment is automatically stopped. You can define a stop condition as a CloudWatch alarm.   For more information, see Experiment templates in the Fault Injection Simulator User Guide.
     public func createExperimentTemplate(_ input: CreateExperimentTemplateRequest, logger: Logger = AWSClient.loggingDisabled, on eventLoop: EventLoop? = nil) -> EventLoopFuture<CreateExperimentTemplateResponse> {
         return self.client.execute(operation: "CreateExperimentTemplate", path: "/experimentTemplates", httpMethod: .POST, serviceConfig: self.config, input: input, logger: logger, on: eventLoop)
     }
@@ -73,7 +73,7 @@ public struct FIS: AWSService {
         return self.client.execute(operation: "DeleteExperimentTemplate", path: "/experimentTemplates/{id}", httpMethod: .DELETE, serviceConfig: self.config, input: input, logger: logger, on: eventLoop)
     }
 
-    /// Gets information about the specified AWS FIS action.
+    /// Gets information about the specified FIS action.
     public func getAction(_ input: GetActionRequest, logger: Logger = AWSClient.loggingDisabled, on eventLoop: EventLoop? = nil) -> EventLoopFuture<GetActionResponse> {
         return self.client.execute(operation: "GetAction", path: "/actions/{id}", httpMethod: .GET, serviceConfig: self.config, input: input, logger: logger, on: eventLoop)
     }
@@ -88,7 +88,12 @@ public struct FIS: AWSService {
         return self.client.execute(operation: "GetExperimentTemplate", path: "/experimentTemplates/{id}", httpMethod: .GET, serviceConfig: self.config, input: input, logger: logger, on: eventLoop)
     }
 
-    /// Lists the available AWS FIS actions.
+    /// Gets information about the specified resource type.
+    public func getTargetResourceType(_ input: GetTargetResourceTypeRequest, logger: Logger = AWSClient.loggingDisabled, on eventLoop: EventLoop? = nil) -> EventLoopFuture<GetTargetResourceTypeResponse> {
+        return self.client.execute(operation: "GetTargetResourceType", path: "/targetResourceTypes/{resourceType}", httpMethod: .GET, serviceConfig: self.config, input: input, logger: logger, on: eventLoop)
+    }
+
+    /// Lists the available FIS actions.
     public func listActions(_ input: ListActionsRequest, logger: Logger = AWSClient.loggingDisabled, on eventLoop: EventLoop? = nil) -> EventLoopFuture<ListActionsResponse> {
         return self.client.execute(operation: "ListActions", path: "/actions", httpMethod: .GET, serviceConfig: self.config, input: input, logger: logger, on: eventLoop)
     }
@@ -106,6 +111,11 @@ public struct FIS: AWSService {
     /// Lists the tags for the specified resource.
     public func listTagsForResource(_ input: ListTagsForResourceRequest, logger: Logger = AWSClient.loggingDisabled, on eventLoop: EventLoop? = nil) -> EventLoopFuture<ListTagsForResourceResponse> {
         return self.client.execute(operation: "ListTagsForResource", path: "/tags/{resourceArn}", httpMethod: .GET, serviceConfig: self.config, input: input, logger: logger, on: eventLoop)
+    }
+
+    /// Lists the target resource types.
+    public func listTargetResourceTypes(_ input: ListTargetResourceTypesRequest, logger: Logger = AWSClient.loggingDisabled, on eventLoop: EventLoop? = nil) -> EventLoopFuture<ListTargetResourceTypesResponse> {
+        return self.client.execute(operation: "ListTargetResourceTypes", path: "/targetResourceTypes", httpMethod: .GET, serviceConfig: self.config, input: input, logger: logger, on: eventLoop)
     }
 
     /// Starts running an experiment from the specified experiment template.

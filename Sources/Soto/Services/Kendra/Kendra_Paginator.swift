@@ -20,6 +20,59 @@ import SotoCore
 // MARK: Paginators
 
 extension Kendra {
+    ///  Retrieves search metrics data. The data provides a snapshot of how your users interact with your search application and how effective the application is.
+    ///
+    /// Provide paginated results to closure `onPage` for it to combine them into one result.
+    /// This works in a similar manner to `Array.reduce<Result>(_:_:) -> Result`.
+    ///
+    /// Parameters:
+    ///   - input: Input for request
+    ///   - initialValue: The value to use as the initial accumulating value. `initialValue` is passed to `onPage` the first time it is called.
+    ///   - logger: Logger used flot logging
+    ///   - eventLoop: EventLoop to run this process on
+    ///   - onPage: closure called with each paginated response. It combines an accumulating result with the contents of response. This combined result is then returned
+    ///         along with a boolean indicating if the paginate operation should continue.
+    public func getSnapshotsPaginator<Result>(
+        _ input: GetSnapshotsRequest,
+        _ initialValue: Result,
+        logger: Logger = AWSClient.loggingDisabled,
+        on eventLoop: EventLoop? = nil,
+        onPage: @escaping (Result, GetSnapshotsResponse, EventLoop) -> EventLoopFuture<(Bool, Result)>
+    ) -> EventLoopFuture<Result> {
+        return client.paginate(
+            input: input,
+            initialValue: initialValue,
+            command: getSnapshots,
+            inputKey: \GetSnapshotsRequest.nextToken,
+            outputKey: \GetSnapshotsResponse.nextToken,
+            on: eventLoop,
+            onPage: onPage
+        )
+    }
+
+    /// Provide paginated results to closure `onPage`.
+    ///
+    /// - Parameters:
+    ///   - input: Input for request
+    ///   - logger: Logger used flot logging
+    ///   - eventLoop: EventLoop to run this process on
+    ///   - onPage: closure called with each block of entries. Returns boolean indicating whether we should continue.
+    public func getSnapshotsPaginator(
+        _ input: GetSnapshotsRequest,
+        logger: Logger = AWSClient.loggingDisabled,
+        on eventLoop: EventLoop? = nil,
+        onPage: @escaping (GetSnapshotsResponse, EventLoop) -> EventLoopFuture<Bool>
+    ) -> EventLoopFuture<Void> {
+        return client.paginate(
+            input: input,
+            command: getSnapshots,
+            inputKey: \GetSnapshotsRequest.nextToken,
+            outputKey: \GetSnapshotsResponse.nextToken,
+            on: eventLoop,
+            onPage: onPage
+        )
+    }
+
     ///  Gets statistics about synchronizing Amazon Kendra with a data source.
     ///
     /// Provide paginated results to closure `onPage` for it to combine them into one result.
@@ -335,6 +388,18 @@ extension Kendra {
             outputKey: \ListIndicesResponse.nextToken,
             on: eventLoop,
             onPage: onPage
+        )
+    }
+}
+
+extension Kendra.GetSnapshotsRequest: AWSPaginateToken {
+    public func usingPaginationToken(_ token: String) -> Kendra.GetSnapshotsRequest {
+        return .init(
+            indexId: self.indexId,
+            interval: self.interval,
+            maxResults: self.maxResults,
+            metricType: self.metricType,
+            nextToken: token
         )
     }
 }

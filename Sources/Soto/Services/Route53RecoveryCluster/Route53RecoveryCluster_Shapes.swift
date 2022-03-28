@@ -40,7 +40,7 @@ extension Route53RecoveryCluster {
         public func validate(name: String) throws {
             try self.validate(self.routingControlArn, name: "routingControlArn", parent: name, max: 255)
             try self.validate(self.routingControlArn, name: "routingControlArn", parent: name, min: 1)
-            try self.validate(self.routingControlArn, name: "routingControlArn", parent: name, pattern: "^[A-Za-z0-9:\\/_-]*$")
+            try self.validate(self.routingControlArn, name: "routingControlArn", parent: name, pattern: "^[A-Za-z0-9:.\\/_-]*$")
         }
 
         private enum CodingKeys: String, CodingKey {
@@ -66,7 +66,7 @@ extension Route53RecoveryCluster {
     }
 
     public struct UpdateRoutingControlStateEntry: AWSEncodableShape {
-        /// The Amazon Resource Number (ARN) for the routing control state entry.
+        /// The Amazon Resource Number (ARN) for a routing control state entry.
         public let routingControlArn: String
         /// The routing control state in a set of routing control state entries.
         public let routingControlState: RoutingControlState
@@ -79,7 +79,7 @@ extension Route53RecoveryCluster {
         public func validate(name: String) throws {
             try self.validate(self.routingControlArn, name: "routingControlArn", parent: name, max: 255)
             try self.validate(self.routingControlArn, name: "routingControlArn", parent: name, min: 1)
-            try self.validate(self.routingControlArn, name: "routingControlArn", parent: name, pattern: "^[A-Za-z0-9:\\/_-]*$")
+            try self.validate(self.routingControlArn, name: "routingControlArn", parent: name, pattern: "^[A-Za-z0-9:.\\/_-]*$")
         }
 
         private enum CodingKeys: String, CodingKey {
@@ -93,21 +93,34 @@ extension Route53RecoveryCluster {
         public let routingControlArn: String
         /// The state of the routing control. You can set the value to be On or Off.
         public let routingControlState: RoutingControlState
+        /// The Amazon Resource Numbers (ARNs) for the safety rules that you want to override when you're updating the state of
+        /// 			a routing control. You can override one safety rule or multiple safety rules by including one or more ARNs, separated
+        /// 			by commas.
+        /// 		       For more information, see
+        /// 			Override safety rules to reroute traffic in the Amazon Route 53 Application Recovery Controller Developer Guide.
+        public let safetyRulesToOverride: [String]?
 
-        public init(routingControlArn: String, routingControlState: RoutingControlState) {
+        public init(routingControlArn: String, routingControlState: RoutingControlState, safetyRulesToOverride: [String]? = nil) {
             self.routingControlArn = routingControlArn
             self.routingControlState = routingControlState
+            self.safetyRulesToOverride = safetyRulesToOverride
         }
 
         public func validate(name: String) throws {
             try self.validate(self.routingControlArn, name: "routingControlArn", parent: name, max: 255)
             try self.validate(self.routingControlArn, name: "routingControlArn", parent: name, min: 1)
-            try self.validate(self.routingControlArn, name: "routingControlArn", parent: name, pattern: "^[A-Za-z0-9:\\/_-]*$")
+            try self.validate(self.routingControlArn, name: "routingControlArn", parent: name, pattern: "^[A-Za-z0-9:.\\/_-]*$")
+            try self.safetyRulesToOverride?.forEach {
+                try validate($0, name: "safetyRulesToOverride[]", parent: name, max: 255)
+                try validate($0, name: "safetyRulesToOverride[]", parent: name, min: 1)
+                try validate($0, name: "safetyRulesToOverride[]", parent: name, pattern: "^[A-Za-z0-9:.\\/_-]*$")
+            }
         }
 
         private enum CodingKeys: String, CodingKey {
             case routingControlArn = "RoutingControlArn"
             case routingControlState = "RoutingControlState"
+            case safetyRulesToOverride = "SafetyRulesToOverride"
         }
     }
 
@@ -116,20 +129,33 @@ extension Route53RecoveryCluster {
     }
 
     public struct UpdateRoutingControlStatesRequest: AWSEncodableShape {
+        /// The Amazon Resource Numbers (ARNs) for the safety rules that you want to override when you're updating routing
+        /// 			control states. You can override one safety rule or multiple safety rules by including one or more ARNs, separated
+        /// 			by commas.
+        /// 		       For more information, see
+        /// 			Override safety rules to reroute traffic in the Amazon Route 53 Application Recovery Controller Developer Guide.
+        public let safetyRulesToOverride: [String]?
         /// A set of routing control entries that you want to update.
         public let updateRoutingControlStateEntries: [UpdateRoutingControlStateEntry]
 
-        public init(updateRoutingControlStateEntries: [UpdateRoutingControlStateEntry]) {
+        public init(safetyRulesToOverride: [String]? = nil, updateRoutingControlStateEntries: [UpdateRoutingControlStateEntry]) {
+            self.safetyRulesToOverride = safetyRulesToOverride
             self.updateRoutingControlStateEntries = updateRoutingControlStateEntries
         }
 
         public func validate(name: String) throws {
+            try self.safetyRulesToOverride?.forEach {
+                try validate($0, name: "safetyRulesToOverride[]", parent: name, max: 255)
+                try validate($0, name: "safetyRulesToOverride[]", parent: name, min: 1)
+                try validate($0, name: "safetyRulesToOverride[]", parent: name, pattern: "^[A-Za-z0-9:.\\/_-]*$")
+            }
             try self.updateRoutingControlStateEntries.forEach {
                 try $0.validate(name: "\(name).updateRoutingControlStateEntries[]")
             }
         }
 
         private enum CodingKeys: String, CodingKey {
+            case safetyRulesToOverride = "SafetyRulesToOverride"
             case updateRoutingControlStateEntries = "UpdateRoutingControlStateEntries"
         }
     }

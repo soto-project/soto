@@ -23,7 +23,7 @@ extension RAM {
 
     public enum ResourceOwner: String, CustomStringConvertible, Codable {
         case otherAccounts = "OTHER-ACCOUNTS"
-        case `self` = "SELF"
+        case _self = "SELF"
         public var description: String { return self.rawValue }
     }
 
@@ -129,7 +129,7 @@ extension RAM {
         public let clientToken: String?
         /// Specifies the Amazon Resoure Name (ARN) of the RAM permission to associate with the resource share. To find the ARN for a permission, use either the ListPermissions operation or go to the Permissions library page in the RAM console and  then choose the name of the permission. The ARN is displayed on the detail page.
         public let permissionArn: String
-        /// Specifies the version of the RAM permission to associate with the resource share. If you don't specify this parameter, the operation uses the version designated as the default.
+        /// Specifies the version of the RAM permission to associate with the resource share. If you don't specify this parameter, the operation uses the version designated as the default. You can use the ListPermissionVersions operation to discover the available versions of a permission.
         public let permissionVersion: Int?
         /// Specifies whether the specified permission should replace or add to the existing permission associated with the resource share. Use true to replace the current permissions. Use false to add the permission to the current permission. The default value is false.  A resource share can have only one permission per resource type. If a resource share already has a permission for the specified resource type and you don't set replace to true then the operation returns an error. This helps prevent accidental overwriting of a permission.
         public let replace: Bool?
@@ -591,7 +591,7 @@ extension RAM {
         public let nextToken: String?
         /// Specifies that you want to retrieve details of only those resource shares that use the RAM permission with this Amazon Resoure Name (ARN).
         public let permissionArn: String?
-        /// Specifies that you want to retrieve details of only those resource shares that match the following:     SELF – resources that you are sharing     OTHER-ACCOUNTS – resources that other accounts share with you
+        /// Specifies that you want to retrieve details of only those resource shares that match the following:     SELF – resource shares that your account shares with other accounts     OTHER-ACCOUNTS – resource shares that other accounts share with your account
         public let resourceOwner: ResourceOwner
         /// Specifies the Amazon Resource Names (ARNs) of individual resource shares that you want information about.
         public let resourceShareArns: [String]?
@@ -692,6 +692,49 @@ extension RAM {
         }
     }
 
+    public struct ListPermissionVersionsRequest: AWSEncodableShape {
+        /// Specifies the total number of results that you want included on each page  of the response. If you do not include this parameter, it defaults to a value that is  specific to the operation. If additional items exist beyond the number you specify, the NextToken response element is returned with a value (not null). Include the specified value as the NextToken request parameter in the next  call to the operation to get the next part of the results. Note that the service might  return fewer results than the maximum even when there are more results available. You  should check NextToken after every operation to ensure that you receive all of the results.
+        public let maxResults: Int?
+        /// Specifies that you want to receive the next page of results. Valid  only if you received a NextToken response in the previous request. If you did, it indicates that more output is available. Set this parameter to the value  provided by the previous call's NextToken response to request the  next page of results.
+        public let nextToken: String?
+        /// Specifies the Amazon Resoure Name (ARN) of the RAM permission whose versions you want to list. You can use the permissionVersion parameter on the AssociateResourceSharePermission operation to specify a non-default version to attach.
+        public let permissionArn: String
+
+        public init(maxResults: Int? = nil, nextToken: String? = nil, permissionArn: String) {
+            self.maxResults = maxResults
+            self.nextToken = nextToken
+            self.permissionArn = permissionArn
+        }
+
+        public func validate(name: String) throws {
+            try self.validate(self.maxResults, name: "maxResults", parent: name, max: 500)
+            try self.validate(self.maxResults, name: "maxResults", parent: name, min: 1)
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case maxResults
+            case nextToken
+            case permissionArn
+        }
+    }
+
+    public struct ListPermissionVersionsResponse: AWSDecodableShape {
+        /// If present, this value indicates that more output is available than  is included in the current response. Use this value in the NextToken  request parameter in a subsequent call to the operation to get the next part of the  output. You should repeat this until the NextToken response element comes  back as null. This indicates that this is the last page of results.
+        public let nextToken: String?
+        /// An array of objects that contain details for each of the available versions.
+        public let permissions: [ResourceSharePermissionSummary]?
+
+        public init(nextToken: String? = nil, permissions: [ResourceSharePermissionSummary]? = nil) {
+            self.nextToken = nextToken
+            self.permissions = permissions
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case nextToken
+            case permissions
+        }
+    }
+
     public struct ListPermissionsRequest: AWSEncodableShape {
         /// Specifies the total number of results that you want included on each page  of the response. If you do not include this parameter, it defaults to a value that is  specific to the operation. If additional items exist beyond the number you specify, the NextToken response element is returned with a value (not null). Include the specified value as the NextToken request parameter in the next  call to the operation to get the next part of the results. Note that the service might  return fewer results than the maximum even when there are more results available. You  should check NextToken after every operation to ensure that you receive all of the results.
         public let maxResults: Int?
@@ -744,7 +787,7 @@ extension RAM {
         public let principals: [String]?
         /// Specifies that you want to list principal information for the resource share with the specified Amazon Resoure Name (ARN).
         public let resourceArn: String?
-        /// Specifies that you want to list information for only resource shares that match the following:     SELF – resources that you are sharing     OTHER-ACCOUNTS – resources that other accounts share with you
+        /// Specifies that you want to list information for only resource shares that match the following:     SELF – principals that your account is sharing resources with     OTHER-ACCOUNTS – principals that are sharing resources with your account
         public let resourceOwner: ResourceOwner
         /// Specifies that you want to list information for only principals associated with the resource shares specified by a list the Amazon Resource Names (ARNs).
         public let resourceShareArns: [String]?
@@ -889,7 +932,7 @@ extension RAM {
         public let principal: String?
         /// Specifies that you want to list only the resource shares that include resources with the specified Amazon Resource Names (ARNs).
         public let resourceArns: [String]?
-        /// Specifies that you want to list only the resource shares that match the following:     SELF – resources that you are sharing     OTHER-ACCOUNTS – resources that other accounts share with you
+        /// Specifies that you want to list only the resource shares that match the following:     SELF – resources that your account shares with other accounts     OTHER-ACCOUNTS – resources that other accounts share with your account
         public let resourceOwner: ResourceOwner
         /// Specifies that you want the results to include only  resources that have the specified scope.    ALL – the results include both global and  regional resources or resource types.    GLOBAL – the results include only global  resources or resource types.    REGIONAL – the results include only regional  resources or resource types.   The default value is ALL.
         public let resourceRegionScope: ResourceRegionScopeFilter?

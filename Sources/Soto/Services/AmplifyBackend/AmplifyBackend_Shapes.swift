@@ -469,11 +469,11 @@ extension AmplifyBackend {
     }
 
     public struct CreateBackendAuthForgotPasswordConfig: AWSEncodableShape & AWSDecodableShape {
-        /// Describes which mode to use (either SMS or email) to deliver messages to app users who want to recover their password.
+        /// (DEPRECATED) Describes which mode to use (either SMS or email) to deliver messages to app users who want to recover their password.
         public let deliveryMethod: DeliveryMethod
-        /// The configuration for the email sent when an app user forgets their password.
+        /// (DEPRECATED) The configuration for the email sent when an app user forgets their password.
         public let emailSettings: EmailSettings?
-        /// The configuration for the SMS message sent when an app user forgets their password.
+        /// (DEPRECATED) The configuration for the SMS message sent when an app user forgets their password.
         public let smsSettings: SmsSettings?
 
         public init(deliveryMethod: DeliveryMethod, emailSettings: EmailSettings? = nil, smsSettings: SmsSettings? = nil) {
@@ -660,7 +660,7 @@ extension AmplifyBackend {
     }
 
     public struct CreateBackendAuthUserPoolConfig: AWSEncodableShape & AWSDecodableShape {
-        /// Describes the forgotten password policy for your Amazon Cognito user pool, configured as a part of your Amplify project.
+        /// (DEPRECATED) Describes the forgotten password policy for your Amazon Cognito user pool, configured as a part of your Amplify project.
         public let forgotPassword: CreateBackendAuthForgotPasswordConfig?
         /// Describes whether to apply multi-factor authentication policies for your Amazon Cognito user pool configured as a part of your Amplify project.
         public let mfa: CreateBackendAuthMFAConfig?
@@ -674,8 +674,10 @@ extension AmplifyBackend {
         public let signInMethod: SignInMethod
         /// The Amazon Cognito user pool name.
         public let userPoolName: String
+        /// Describes the email or SMS verification message for your Amazon Cognito user pool, configured as a part of your Amplify project.
+        public let verificationMessage: CreateBackendAuthVerificationMessageConfig?
 
-        public init(forgotPassword: CreateBackendAuthForgotPasswordConfig? = nil, mfa: CreateBackendAuthMFAConfig? = nil, oAuth: CreateBackendAuthOAuthConfig? = nil, passwordPolicy: CreateBackendAuthPasswordPolicyConfig? = nil, requiredSignUpAttributes: [RequiredSignUpAttributesElement], signInMethod: SignInMethod, userPoolName: String) {
+        public init(forgotPassword: CreateBackendAuthForgotPasswordConfig? = nil, mfa: CreateBackendAuthMFAConfig? = nil, oAuth: CreateBackendAuthOAuthConfig? = nil, passwordPolicy: CreateBackendAuthPasswordPolicyConfig? = nil, requiredSignUpAttributes: [RequiredSignUpAttributesElement], signInMethod: SignInMethod, userPoolName: String, verificationMessage: CreateBackendAuthVerificationMessageConfig? = nil) {
             self.forgotPassword = forgotPassword
             self.mfa = mfa
             self.oAuth = oAuth
@@ -683,6 +685,7 @@ extension AmplifyBackend {
             self.requiredSignUpAttributes = requiredSignUpAttributes
             self.signInMethod = signInMethod
             self.userPoolName = userPoolName
+            self.verificationMessage = verificationMessage
         }
 
         private enum CodingKeys: String, CodingKey {
@@ -693,6 +696,28 @@ extension AmplifyBackend {
             case requiredSignUpAttributes
             case signInMethod
             case userPoolName
+            case verificationMessage
+        }
+    }
+
+    public struct CreateBackendAuthVerificationMessageConfig: AWSEncodableShape & AWSDecodableShape {
+        /// The type of verification message to send.
+        public let deliveryMethod: DeliveryMethod
+        /// The settings for the email message.
+        public let emailSettings: EmailSettings?
+        /// The settings for the SMS message.
+        public let smsSettings: SmsSettings?
+
+        public init(deliveryMethod: DeliveryMethod, emailSettings: EmailSettings? = nil, smsSettings: SmsSettings? = nil) {
+            self.deliveryMethod = deliveryMethod
+            self.emailSettings = emailSettings
+            self.smsSettings = smsSettings
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case deliveryMethod
+            case emailSettings
+            case smsSettings
         }
     }
 
@@ -748,7 +773,7 @@ extension AmplifyBackend {
         public let appName: String
         /// The name of the backend environment.
         public let backendEnvironmentName: String
-        /// The resource configuration for creating backend storage.
+        /// The resource configuration for creating a backend.
         public let resourceConfig: ResourceConfig?
         /// The name of the resource.
         public let resourceName: String?
@@ -1173,9 +1198,9 @@ extension AmplifyBackend {
     }
 
     public struct EmailSettings: AWSEncodableShape & AWSDecodableShape {
-        /// The body of the email.
+        /// The contents of the email message.
         public let emailMessage: String?
-        /// The subject of the email.
+        /// The contents of the subject line of the email message.
         public let emailSubject: String?
 
         public init(emailMessage: String? = nil, emailSubject: String? = nil) {
@@ -1991,7 +2016,7 @@ extension AmplifyBackend {
     }
 
     public struct SmsSettings: AWSEncodableShape & AWSDecodableShape {
-        /// The body of the SMS message.
+        /// The contents of the SMS message.
         public let smsMessage: String?
 
         public init(smsMessage: String? = nil) {
@@ -2086,11 +2111,11 @@ extension AmplifyBackend {
     }
 
     public struct UpdateBackendAuthForgotPasswordConfig: AWSEncodableShape {
-        /// Describes which mode to use (either SMS or email) to deliver messages to app users that want to recover their password.
+        /// (DEPRECATED) Describes which mode to use (either SMS or email) to deliver messages to app users that want to recover their password.
         public let deliveryMethod: DeliveryMethod?
-        /// The configuration for the email sent when an app user forgets their password.
+        /// (DEPRECATED) The configuration for the email sent when an app user forgets their password.
         public let emailSettings: EmailSettings?
-        /// The configuration for the SMS message sent when an Amplify app user forgets their password.
+        /// (DEPRECATED) The configuration for the SMS message sent when an Amplify app user forgets their password.
         public let smsSettings: SmsSettings?
 
         public init(deliveryMethod: DeliveryMethod? = nil, emailSettings: EmailSettings? = nil, smsSettings: SmsSettings? = nil) {
@@ -2273,7 +2298,7 @@ extension AmplifyBackend {
     }
 
     public struct UpdateBackendAuthUserPoolConfig: AWSEncodableShape {
-        /// Describes the forgot password policy for your Amazon Cognito user pool, configured as a part of your Amplify project.
+        /// (DEPRECATED) Describes the forgot password policy for your Amazon Cognito user pool, configured as a part of your Amplify project.
         public let forgotPassword: UpdateBackendAuthForgotPasswordConfig?
         /// Describes whether to apply multi-factor authentication policies for your Amazon Cognito user pool configured as a part of your Amplify project.
         public let mfa: UpdateBackendAuthMFAConfig?
@@ -2281,12 +2306,15 @@ extension AmplifyBackend {
         public let oAuth: UpdateBackendAuthOAuthConfig?
         /// Describes the password policy for your Amazon Cognito user pool, configured as a part of your Amplify project.
         public let passwordPolicy: UpdateBackendAuthPasswordPolicyConfig?
+        /// Describes the email or SMS verification message for your Amazon Cognito user pool, configured as a part of your Amplify project.
+        public let verificationMessage: UpdateBackendAuthVerificationMessageConfig?
 
-        public init(forgotPassword: UpdateBackendAuthForgotPasswordConfig? = nil, mfa: UpdateBackendAuthMFAConfig? = nil, oAuth: UpdateBackendAuthOAuthConfig? = nil, passwordPolicy: UpdateBackendAuthPasswordPolicyConfig? = nil) {
+        public init(forgotPassword: UpdateBackendAuthForgotPasswordConfig? = nil, mfa: UpdateBackendAuthMFAConfig? = nil, oAuth: UpdateBackendAuthOAuthConfig? = nil, passwordPolicy: UpdateBackendAuthPasswordPolicyConfig? = nil, verificationMessage: UpdateBackendAuthVerificationMessageConfig? = nil) {
             self.forgotPassword = forgotPassword
             self.mfa = mfa
             self.oAuth = oAuth
             self.passwordPolicy = passwordPolicy
+            self.verificationMessage = verificationMessage
         }
 
         private enum CodingKeys: String, CodingKey {
@@ -2294,6 +2322,28 @@ extension AmplifyBackend {
             case mfa
             case oAuth
             case passwordPolicy
+            case verificationMessage
+        }
+    }
+
+    public struct UpdateBackendAuthVerificationMessageConfig: AWSEncodableShape {
+        /// The type of verification message to send.
+        public let deliveryMethod: DeliveryMethod
+        /// The settings for the email message.
+        public let emailSettings: EmailSettings?
+        /// The settings for the SMS message.
+        public let smsSettings: SmsSettings?
+
+        public init(deliveryMethod: DeliveryMethod, emailSettings: EmailSettings? = nil, smsSettings: SmsSettings? = nil) {
+            self.deliveryMethod = deliveryMethod
+            self.emailSettings = emailSettings
+            self.smsSettings = smsSettings
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case deliveryMethod
+            case emailSettings
+            case smsSettings
         }
     }
 

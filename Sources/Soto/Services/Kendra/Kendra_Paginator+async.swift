@@ -23,6 +23,28 @@ import SotoCore
 
 @available(macOS 10.15, iOS 13.0, tvOS 13.0, watchOS 6.0, *)
 extension Kendra {
+    ///  Retrieves search metrics data. The data provides a snapshot of how your users interact with your search application and how effective the application is.
+    /// Return PaginatorSequence for operation.
+    ///
+    /// - Parameters:
+    ///   - input: Input for request
+    ///   - logger: Logger used flot logging
+    ///   - eventLoop: EventLoop to run this process on
+    public func getSnapshotsPaginator(
+        _ input: GetSnapshotsRequest,
+        logger: Logger = AWSClient.loggingDisabled,
+        on eventLoop: EventLoop? = nil
+    ) -> AWSClient.PaginatorSequence<GetSnapshotsRequest, GetSnapshotsResponse> {
+        return .init(
+            input: input,
+            command: getSnapshots,
+            inputKey: \GetSnapshotsRequest.nextToken,
+            outputKey: \GetSnapshotsResponse.nextToken,
+            logger: logger,
+            on: eventLoop
+        )
+    }
+
     ///  Gets statistics about synchronizing Amazon Kendra with a data source.
     /// Return PaginatorSequence for operation.
     ///

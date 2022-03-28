@@ -224,6 +224,11 @@ public struct Athena: AWSService {
         return self.client.execute(operation: "UpdateDataCatalog", path: "/", httpMethod: .POST, serviceConfig: self.config, input: input, logger: logger, on: eventLoop)
     }
 
+    /// Updates a NamedQuery object. The database or workgroup cannot be updated.
+    public func updateNamedQuery(_ input: UpdateNamedQueryInput, logger: Logger = AWSClient.loggingDisabled, on eventLoop: EventLoop? = nil) -> EventLoopFuture<UpdateNamedQueryOutput> {
+        return self.client.execute(operation: "UpdateNamedQuery", path: "/", httpMethod: .POST, serviceConfig: self.config, input: input, logger: logger, on: eventLoop)
+    }
+
     /// Updates a prepared statement.
     public func updatePreparedStatement(_ input: UpdatePreparedStatementInput, logger: Logger = AWSClient.loggingDisabled, on eventLoop: EventLoop? = nil) -> EventLoopFuture<UpdatePreparedStatementOutput> {
         return self.client.execute(operation: "UpdatePreparedStatement", path: "/", httpMethod: .POST, serviceConfig: self.config, input: input, logger: logger, on: eventLoop)

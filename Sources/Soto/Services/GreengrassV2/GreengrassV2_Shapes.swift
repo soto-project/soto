@@ -182,6 +182,32 @@ extension GreengrassV2 {
         }
     }
 
+    public struct AssociateServiceRoleToAccountRequest: AWSEncodableShape {
+        /// The Amazon Resource Name (ARN) of the service role to associate with IoT Greengrass for your Amazon Web Services account in this Amazon Web Services Region.
+        public let roleArn: String
+
+        public init(roleArn: String) {
+            self.roleArn = roleArn
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case roleArn = "RoleArn"
+        }
+    }
+
+    public struct AssociateServiceRoleToAccountResponse: AWSDecodableShape {
+        /// The time when the service role was associated with IoT Greengrass for your Amazon Web Services account in this Amazon Web Services Region.
+        public let associatedAt: String?
+
+        public init(associatedAt: String? = nil) {
+            self.associatedAt = associatedAt
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case associatedAt = "AssociatedAt"
+        }
+    }
+
     public struct AssociatedClientDevice: AWSDecodableShape {
         /// The time that the client device was associated, expressed in ISO 8601 format.
         public let associationTimestamp: Date?
@@ -273,7 +299,7 @@ extension GreengrassV2 {
     }
 
     public struct BatchDisassociateClientDeviceFromCoreDeviceResponse: AWSDecodableShape {
-        /// The list of errors (if any) for the entries in the request. Each error entry contains the name of the IoT thing that failed to disassociate.
+        /// The list of any errors for the entries in the request. Each error entry contains the name of the IoT thing that failed to disassociate.
         public let errorEntries: [DisassociateClientDeviceFromCoreDeviceErrorEntry]?
 
         public init(errorEntries: [DisassociateClientDeviceFromCoreDeviceErrorEntry]? = nil) {
@@ -571,6 +597,36 @@ extension GreengrassV2 {
             case arn
             case componentName
             case componentVersion
+        }
+    }
+
+    public struct ConnectivityInfo: AWSEncodableShape & AWSDecodableShape {
+        /// The IP address or DNS address where client devices can connect to an MQTT broker on the Greengrass core device.
+        public let hostAddress: String?
+        /// An ID for the connectivity information.
+        public let id: String?
+        /// Additional metadata to provide to client devices that connect to this core device.
+        public let metadata: String?
+        /// The port where the MQTT broker operates on the core device. This port is typically 8883, which is the default port for the MQTT broker component that runs on core devices.
+        public let portNumber: Int?
+
+        public init(hostAddress: String? = nil, id: String? = nil, metadata: String? = nil, portNumber: Int? = nil) {
+            self.hostAddress = hostAddress
+            self.id = id
+            self.metadata = metadata
+            self.portNumber = portNumber
+        }
+
+        public func validate(name: String) throws {
+            try self.validate(self.portNumber, name: "portNumber", parent: name, max: 65535)
+            try self.validate(self.portNumber, name: "portNumber", parent: name, min: 0)
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case hostAddress = "HostAddress"
+            case id = "Id"
+            case metadata = "Metadata"
+            case portNumber = "PortNumber"
         }
     }
 
@@ -999,6 +1055,23 @@ extension GreengrassV2 {
         }
     }
 
+    public struct DisassociateServiceRoleFromAccountRequest: AWSEncodableShape {
+        public init() {}
+    }
+
+    public struct DisassociateServiceRoleFromAccountResponse: AWSDecodableShape {
+        /// The time when the service role was disassociated from IoT Greengrass for your Amazon Web Services account in this Amazon Web Services Region.
+        public let disassociatedAt: String?
+
+        public init(disassociatedAt: String? = nil) {
+            self.disassociatedAt = disassociatedAt
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case disassociatedAt = "DisassociatedAt"
+        }
+    }
+
     public struct EffectiveDeployment: AWSDecodableShape {
         /// The status of the deployment job on the Greengrass core device.
         public let coreDeviceExecutionStatus: EffectiveDeploymentExecutionStatus
@@ -1126,6 +1199,43 @@ extension GreengrassV2 {
 
         private enum CodingKeys: String, CodingKey {
             case preSignedUrl
+        }
+    }
+
+    public struct GetConnectivityInfoRequest: AWSEncodableShape {
+        public static var _encoding = [
+            AWSMemberEncoding(label: "thingName", location: .uri("thingName"))
+        ]
+
+        /// The name of the core device. This is also the name of the IoT thing.
+        public let thingName: String
+
+        public init(thingName: String) {
+            self.thingName = thingName
+        }
+
+        public func validate(name: String) throws {
+            try self.validate(self.thingName, name: "thingName", parent: name, max: 128)
+            try self.validate(self.thingName, name: "thingName", parent: name, min: 1)
+        }
+
+        private enum CodingKeys: CodingKey {}
+    }
+
+    public struct GetConnectivityInfoResponse: AWSDecodableShape {
+        /// The connectivity information for the core device.
+        public let connectivityInfo: [ConnectivityInfo]?
+        /// A message about the connectivity information request.
+        public let message: String?
+
+        public init(connectivityInfo: [ConnectivityInfo]? = nil, message: String? = nil) {
+            self.connectivityInfo = connectivityInfo
+            self.message = message
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case connectivityInfo = "ConnectivityInfo"
+            case message = "Message"
         }
     }
 
@@ -1263,6 +1373,27 @@ extension GreengrassV2 {
             case revisionId
             case tags
             case targetArn
+        }
+    }
+
+    public struct GetServiceRoleForAccountRequest: AWSEncodableShape {
+        public init() {}
+    }
+
+    public struct GetServiceRoleForAccountResponse: AWSDecodableShape {
+        /// The time when the service role was associated with IoT Greengrass for your Amazon Web Services account in this Amazon Web Services Region.
+        public let associatedAt: String?
+        /// The ARN of the service role that is associated with IoT Greengrass for your Amazon Web Services account in this Amazon Web Services Region.
+        public let roleArn: String?
+
+        public init(associatedAt: String? = nil, roleArn: String? = nil) {
+            self.associatedAt = associatedAt
+            self.roleArn = roleArn
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case associatedAt = "AssociatedAt"
+            case roleArn = "RoleArn"
         }
     }
 
@@ -2164,5 +2295,50 @@ extension GreengrassV2 {
 
     public struct UntagResourceResponse: AWSDecodableShape {
         public init() {}
+    }
+
+    public struct UpdateConnectivityInfoRequest: AWSEncodableShape {
+        public static var _encoding = [
+            AWSMemberEncoding(label: "thingName", location: .uri("ThingName"))
+        ]
+
+        /// The connectivity information for the core device.
+        public let connectivityInfo: [ConnectivityInfo]
+        /// The name of the core device. This is also the name of the IoT thing.
+        public let thingName: String
+
+        public init(connectivityInfo: [ConnectivityInfo], thingName: String) {
+            self.connectivityInfo = connectivityInfo
+            self.thingName = thingName
+        }
+
+        public func validate(name: String) throws {
+            try self.connectivityInfo.forEach {
+                try $0.validate(name: "\(name).connectivityInfo[]")
+            }
+            try self.validate(self.thingName, name: "thingName", parent: name, max: 128)
+            try self.validate(self.thingName, name: "thingName", parent: name, min: 1)
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case connectivityInfo = "ConnectivityInfo"
+        }
+    }
+
+    public struct UpdateConnectivityInfoResponse: AWSDecodableShape {
+        /// A message about the connectivity information update request.
+        public let message: String?
+        /// The new version of the connectivity information for the core device.
+        public let version: String?
+
+        public init(message: String? = nil, version: String? = nil) {
+            self.message = message
+            self.version = version
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case message = "Message"
+            case version = "Version"
+        }
     }
 }

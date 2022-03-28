@@ -95,7 +95,7 @@ extension Imagebuilder {
 
     public enum Ownership: String, CustomStringConvertible, Codable {
         case amazon = "Amazon"
-        case `self` = "Self"
+        case _self = "Self"
         case shared = "Shared"
         public var description: String { return self.rawValue }
     }
@@ -125,11 +125,17 @@ extension Imagebuilder {
         public let systemsManagerAgent: SystemsManagerAgent?
         /// Use this property to provide commands or a command script to run when you launch
         /// 			your build instance.
+        /// 		       The userDataOverride property replaces any commands that Image Builder might have added to ensure
+        /// 			that Systems Manager is installed on your Linux build instance. If you override the user data,
+        /// 			make sure that you add commands to install Systems Manager, if it is not pre-installed on your
+        /// 			base image.
         ///
-        /// 			         The userDataOverride property replaces any commands that Image Builder might have added to ensure
-        /// 				that Systems Manager is installed on your Linux build instance. If you override the user data,
-        /// 				make sure that you add commands to install Systems Manager, if it is not pre-installed on your
-        /// 				base image.
+        /// 			         The user data is always base 64 encoded. For example, the
+        /// 				following commands are encoded as IyEvYmluL2Jhc2gKbWtkaXIgLXAgL3Zhci9iYi8KdG91Y2ggL3Zhci$:
+        ///
+        /// 			          #!/bin/bash
+        /// 			         mkdir -p /var/bb/
+        /// 			         touch /var
         ///
         public let userDataOverride: String?
 
@@ -289,7 +295,7 @@ extension Imagebuilder {
         public let arn: String?
         /// The change description of the component.
         public let changeDescription: String?
-        /// The data of the component.
+        /// Component data contains the YAML document content for the component.
         public let data: String?
         /// The date that the component was created.
         public let dateCreated: String?
@@ -786,8 +792,9 @@ extension Imagebuilder {
         public let changeDescription: String?
         /// The idempotency token of the component.
         public let clientToken: String
-        /// The data of the component. Used to specify the data inline. Either data or
-        /// 			uri can be used to specify the data within the component.
+        /// Component data contains inline YAML document content for the component.
+        /// 			Alternatively, you can specify the uri of a YAML document file stored in
+        /// 			Amazon S3. However, you cannot specify both properties.
         public let data: String?
         /// The description of the component. Describes the contents of the component.
         public let description: String?
@@ -815,10 +822,12 @@ extension Imagebuilder {
         public let supportedOsVersions: [String]?
         /// The tags of the component.
         public let tags: [String: String]?
-        /// The uri of the component. Must be an Amazon S3 URL and the requester must have permission to
-        /// 			access the Amazon S3 bucket. If you use Amazon S3, you can specify component content up to your service
-        /// 			quota. Either data or uri can be used to specify the data within the
-        /// 			component.
+        /// The uri of a YAML component document file. This must be an S3 URL
+        /// 			(s3://bucket/key), and the requester must have permission to access
+        /// 			the S3 bucket it points to. If you use Amazon S3, you can specify component content
+        /// 			up to your service quota.
+        /// 		       Alternatively, you can specify the YAML document inline, using the component
+        /// 			data property. You cannot specify both properties.
         public let uri: String?
 
         public init(changeDescription: String? = nil, clientToken: String = CreateComponentRequest.idempotencyToken(), data: String? = nil, description: String? = nil, kmsKeyId: String? = nil, name: String, platform: Platform, semanticVersion: String, supportedOsVersions: [String]? = nil, tags: [String: String]? = nil, uri: String? = nil) {
@@ -1806,6 +1815,8 @@ extension Imagebuilder {
         /// Container distribution settings for encryption, licensing, and sharing
         /// 			in a specific Region.
         public let containerDistributionConfiguration: ContainerDistributionConfiguration?
+        /// The Windows faster-launching configurations to use for AMI distribution.
+        public let fastLaunchConfigurations: [FastLaunchConfiguration]?
         /// A group of launchTemplateConfiguration settings that apply to image distribution
         /// 			for specified accounts.
         public let launchTemplateConfigurations: [LaunchTemplateConfiguration]?
@@ -1818,9 +1829,10 @@ extension Imagebuilder {
         /// 			using a file format that is compatible with your VMs in that Region.
         public let s3ExportConfiguration: S3ExportConfiguration?
 
-        public init(amiDistributionConfiguration: AmiDistributionConfiguration? = nil, containerDistributionConfiguration: ContainerDistributionConfiguration? = nil, launchTemplateConfigurations: [LaunchTemplateConfiguration]? = nil, licenseConfigurationArns: [String]? = nil, region: String, s3ExportConfiguration: S3ExportConfiguration? = nil) {
+        public init(amiDistributionConfiguration: AmiDistributionConfiguration? = nil, containerDistributionConfiguration: ContainerDistributionConfiguration? = nil, fastLaunchConfigurations: [FastLaunchConfiguration]? = nil, launchTemplateConfigurations: [LaunchTemplateConfiguration]? = nil, licenseConfigurationArns: [String]? = nil, region: String, s3ExportConfiguration: S3ExportConfiguration? = nil) {
             self.amiDistributionConfiguration = amiDistributionConfiguration
             self.containerDistributionConfiguration = containerDistributionConfiguration
+            self.fastLaunchConfigurations = fastLaunchConfigurations
             self.launchTemplateConfigurations = launchTemplateConfigurations
             self.licenseConfigurationArns = licenseConfigurationArns
             self.region = region
@@ -1830,6 +1842,11 @@ extension Imagebuilder {
         public func validate(name: String) throws {
             try self.amiDistributionConfiguration?.validate(name: "\(name).amiDistributionConfiguration")
             try self.containerDistributionConfiguration?.validate(name: "\(name).containerDistributionConfiguration")
+            try self.fastLaunchConfigurations?.forEach {
+                try $0.validate(name: "\(name).fastLaunchConfigurations[]")
+            }
+            try self.validate(self.fastLaunchConfigurations, name: "fastLaunchConfigurations", parent: name, max: 1000)
+            try self.validate(self.fastLaunchConfigurations, name: "fastLaunchConfigurations", parent: name, min: 1)
             try self.launchTemplateConfigurations?.forEach {
                 try $0.validate(name: "\(name).launchTemplateConfigurations[]")
             }
@@ -1848,6 +1865,7 @@ extension Imagebuilder {
         private enum CodingKeys: String, CodingKey {
             case amiDistributionConfiguration
             case containerDistributionConfiguration
+            case fastLaunchConfigurations
             case launchTemplateConfigurations
             case licenseConfigurationArns
             case region
@@ -1986,6 +2004,97 @@ extension Imagebuilder {
             case throughput
             case volumeSize
             case volumeType
+        }
+    }
+
+    public struct FastLaunchConfiguration: AWSEncodableShape & AWSDecodableShape {
+        /// The owner account ID for the fast-launch enabled Windows AMI.
+        public let accountId: String?
+        /// A Boolean that represents the current state of faster launching for the
+        /// 			Windows AMI. Set to true to start using Windows faster launching, or
+        /// 			false to stop using it.
+        public let enabled: Bool
+        /// The launch template that the fast-launch enabled Windows AMI uses when it
+        /// 			launches Windows instances to create pre-provisioned snapshots.
+        public let launchTemplate: FastLaunchLaunchTemplateSpecification?
+        /// The maximum number of parallel instances that are launched for creating
+        /// 			resources.
+        public let maxParallelLaunches: Int?
+        /// Configuration settings for managing the number of snapshots that are
+        /// 			created from pre-provisioned instances for the Windows AMI when faster
+        /// 			launching is enabled.
+        public let snapshotConfiguration: FastLaunchSnapshotConfiguration?
+
+        public init(accountId: String? = nil, enabled: Bool, launchTemplate: FastLaunchLaunchTemplateSpecification? = nil, maxParallelLaunches: Int? = nil, snapshotConfiguration: FastLaunchSnapshotConfiguration? = nil) {
+            self.accountId = accountId
+            self.enabled = enabled
+            self.launchTemplate = launchTemplate
+            self.maxParallelLaunches = maxParallelLaunches
+            self.snapshotConfiguration = snapshotConfiguration
+        }
+
+        public func validate(name: String) throws {
+            try self.validate(self.accountId, name: "accountId", parent: name, pattern: "^[0-9]{12}$")
+            try self.launchTemplate?.validate(name: "\(name).launchTemplate")
+            try self.validate(self.maxParallelLaunches, name: "maxParallelLaunches", parent: name, max: 10000)
+            try self.validate(self.maxParallelLaunches, name: "maxParallelLaunches", parent: name, min: 1)
+            try self.snapshotConfiguration?.validate(name: "\(name).snapshotConfiguration")
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case accountId
+            case enabled
+            case launchTemplate
+            case maxParallelLaunches
+            case snapshotConfiguration
+        }
+    }
+
+    public struct FastLaunchLaunchTemplateSpecification: AWSEncodableShape & AWSDecodableShape {
+        /// The ID of the launch template to use for faster launching for a Windows AMI.
+        public let launchTemplateId: String?
+        /// The name of the launch template to use for faster launching for a Windows AMI.
+        public let launchTemplateName: String?
+        /// The version of the launch template to use for faster launching for a Windows AMI.
+        public let launchTemplateVersion: String?
+
+        public init(launchTemplateId: String? = nil, launchTemplateName: String? = nil, launchTemplateVersion: String? = nil) {
+            self.launchTemplateId = launchTemplateId
+            self.launchTemplateName = launchTemplateName
+            self.launchTemplateVersion = launchTemplateVersion
+        }
+
+        public func validate(name: String) throws {
+            try self.validate(self.launchTemplateId, name: "launchTemplateId", parent: name, pattern: "^lt-[a-z0-9-_]{17}$")
+            try self.validate(self.launchTemplateName, name: "launchTemplateName", parent: name, max: 1024)
+            try self.validate(self.launchTemplateName, name: "launchTemplateName", parent: name, min: 1)
+            try self.validate(self.launchTemplateVersion, name: "launchTemplateVersion", parent: name, max: 1024)
+            try self.validate(self.launchTemplateVersion, name: "launchTemplateVersion", parent: name, min: 1)
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case launchTemplateId
+            case launchTemplateName
+            case launchTemplateVersion
+        }
+    }
+
+    public struct FastLaunchSnapshotConfiguration: AWSEncodableShape & AWSDecodableShape {
+        /// The number of pre-provisioned snapshots to keep on hand for a fast-launch enabled
+        /// 			Windows AMI.
+        public let targetResourceCount: Int?
+
+        public init(targetResourceCount: Int? = nil) {
+            self.targetResourceCount = targetResourceCount
+        }
+
+        public func validate(name: String) throws {
+            try self.validate(self.targetResourceCount, name: "targetResourceCount", parent: name, max: 10000)
+            try self.validate(self.targetResourceCount, name: "targetResourceCount", parent: name, min: 1)
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case targetResourceCount
         }
     }
 

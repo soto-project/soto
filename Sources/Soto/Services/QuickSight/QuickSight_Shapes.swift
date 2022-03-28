@@ -193,6 +193,16 @@ extension QuickSight {
         public var description: String { return self.rawValue }
     }
 
+    public enum GroupFilterAttribute: String, CustomStringConvertible, Codable {
+        case groupName = "GROUP_NAME"
+        public var description: String { return self.rawValue }
+    }
+
+    public enum GroupFilterOperator: String, CustomStringConvertible, Codable {
+        case startsWith = "StartsWith"
+        public var description: String { return self.rawValue }
+    }
+
     public enum IdentityStore: String, CustomStringConvertible, Codable {
         case quicksight = "QUICKSIGHT"
         public var description: String { return self.rawValue }
@@ -2202,7 +2212,7 @@ extension QuickSight {
         public let groupName: String
         /// The name of the user that you want to add to the group membership.
         public let memberName: String
-        /// The namespace. Currently, you should set this to default.
+        /// The namespace that you want the user to be a part of.
         public let namespace: String
 
         public init(awsAccountId: String, groupName: String, memberName: String, namespace: String) {
@@ -2266,7 +2276,7 @@ extension QuickSight {
         public let description: String?
         /// A name for the group that you want to create.
         public let groupName: String
-        /// The namespace. Currently, you should set this to default.
+        /// The namespace that you want the group to be a part of.
         public let namespace: String
 
         public init(awsAccountId: String, description: String? = nil, groupName: String, namespace: String) {
@@ -4038,7 +4048,7 @@ extension QuickSight {
         public let groupName: String
         /// The name of the user that you want to delete from the group membership.
         public let memberName: String
-        /// The namespace. Currently, you should set this to default.
+        /// The namespace of the group that you want to remove a user from.
         public let namespace: String
 
         public init(awsAccountId: String, groupName: String, memberName: String, namespace: String) {
@@ -4097,7 +4107,7 @@ extension QuickSight {
         public let awsAccountId: String
         /// The name of the group that you want to delete.
         public let groupName: String
-        /// The namespace. Currently, you should set this to default.
+        /// The namespace of the group that you want to delete.
         public let namespace: String
 
         public init(awsAccountId: String, groupName: String, namespace: String) {
@@ -5370,6 +5380,70 @@ extension QuickSight {
         }
     }
 
+    public struct DescribeGroupMembershipRequest: AWSEncodableShape {
+        public static var _encoding = [
+            AWSMemberEncoding(label: "awsAccountId", location: .uri("AwsAccountId")),
+            AWSMemberEncoding(label: "groupName", location: .uri("GroupName")),
+            AWSMemberEncoding(label: "memberName", location: .uri("MemberName")),
+            AWSMemberEncoding(label: "namespace", location: .uri("Namespace"))
+        ]
+
+        /// The ID for the Amazon Web Services account that the group is in. Currently, you use the ID for the  Amazon Web Services account that contains your Amazon QuickSight account.
+        public let awsAccountId: String
+        /// The name of the group that you want to search.
+        public let groupName: String
+        /// The user name of the user that you want to search for.
+        public let memberName: String
+        /// The namespace that includes the group you are searching within.
+        public let namespace: String
+
+        public init(awsAccountId: String, groupName: String, memberName: String, namespace: String) {
+            self.awsAccountId = awsAccountId
+            self.groupName = groupName
+            self.memberName = memberName
+            self.namespace = namespace
+        }
+
+        public func validate(name: String) throws {
+            try self.validate(self.awsAccountId, name: "awsAccountId", parent: name, max: 12)
+            try self.validate(self.awsAccountId, name: "awsAccountId", parent: name, min: 12)
+            try self.validate(self.awsAccountId, name: "awsAccountId", parent: name, pattern: "^[0-9]{12}$")
+            try self.validate(self.groupName, name: "groupName", parent: name, min: 1)
+            try self.validate(self.groupName, name: "groupName", parent: name, pattern: "^[\\u0020-\\u00FF]+$")
+            try self.validate(self.memberName, name: "memberName", parent: name, max: 256)
+            try self.validate(self.memberName, name: "memberName", parent: name, min: 1)
+            try self.validate(self.memberName, name: "memberName", parent: name, pattern: "^[\\u0020-\\u00FF]+$")
+            try self.validate(self.namespace, name: "namespace", parent: name, max: 64)
+            try self.validate(self.namespace, name: "namespace", parent: name, pattern: "^[a-zA-Z0-9._-]*$")
+        }
+
+        private enum CodingKeys: CodingKey {}
+    }
+
+    public struct DescribeGroupMembershipResponse: AWSDecodableShape {
+        public static var _encoding = [
+            AWSMemberEncoding(label: "status", location: .statusCode)
+        ]
+
+        public let groupMember: GroupMember?
+        /// The Amazon Web Services request ID for this operation.
+        public let requestId: String?
+        /// The HTTP status of the request.
+        public let status: Int?
+
+        public init(groupMember: GroupMember? = nil, requestId: String? = nil, status: Int? = nil) {
+            self.groupMember = groupMember
+            self.requestId = requestId
+            self.status = status
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case groupMember = "GroupMember"
+            case requestId = "RequestId"
+            case status = "Status"
+        }
+    }
+
     public struct DescribeGroupRequest: AWSEncodableShape {
         public static var _encoding = [
             AWSMemberEncoding(label: "awsAccountId", location: .uri("AwsAccountId")),
@@ -5382,7 +5456,7 @@ extension QuickSight {
         public let awsAccountId: String
         /// The name of the group that you want to describe.
         public let groupName: String
-        /// The namespace. Currently, you should set this to default.
+        /// The namespace of the group that you want described.
         public let namespace: String
 
         public init(awsAccountId: String, groupName: String, namespace: String) {
@@ -6692,6 +6766,27 @@ extension QuickSight {
         }
     }
 
+    public struct GroupSearchFilter: AWSEncodableShape {
+        /// The name of the value that you want to use as a filter, for example "Name": "GROUP_NAME". Currently, the only supported name is GROUP_NAME.
+        public let name: GroupFilterAttribute
+        /// The comparison operator that you want to use as a filter, for example "Operator": "StartsWith". Currently, the only supported operator is StartsWith.
+        public let `operator`: GroupFilterOperator
+        /// The value of the named item, in this case GROUP_NAME, that you want to use as a filter.
+        public let value: String
+
+        public init(name: GroupFilterAttribute, operator: GroupFilterOperator, value: String) {
+            self.name = name
+            self.`operator` = `operator`
+            self.value = value
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case name = "Name"
+            case `operator` = "Operator"
+            case value = "Value"
+        }
+    }
+
     public struct GutterStyle: AWSEncodableShape & AWSDecodableShape {
         /// This Boolean value controls whether to display a gutter space between sheet tiles.
         public let show: Bool?
@@ -7387,7 +7482,7 @@ extension QuickSight {
         public let groupName: String
         /// The maximum number of results to return from this request.
         public let maxResults: Int?
-        /// The namespace. Currently, you should set this to default.
+        /// The namespace of the group that you want a list of users from.
         public let namespace: String
         /// A pagination token that can be used in a subsequent request.
         public let nextToken: String?
@@ -7457,7 +7552,7 @@ extension QuickSight {
         public let awsAccountId: String
         /// The maximum number of results to return.
         public let maxResults: Int?
-        /// The namespace. Currently, you should set this to default.
+        /// The namespace that you want a list of groups from.
         public let namespace: String
         /// A pagination token that can be used in a subsequent request.
         public let nextToken: String?
@@ -8835,7 +8930,7 @@ extension QuickSight {
         public let awsAccountId: String
         /// The URL of the custom OpenID Connect (OIDC) provider that provides identity to let a user federate into Amazon QuickSight with an associated Identity and Access Management(IAM) role. This parameter should only be used when ExternalLoginFederationProviderType parameter is set to CUSTOM_OIDC.
         public let customFederationProviderUrl: String?
-        /// (Enterprise edition only) The name of the custom permissions profile that you want to assign to this user. Customized permissions allows you to control a user's access by restricting access the following operations:   Create and update data sources   Create and update datasets   Create and update email reports   Subscribe to email reports   To add custom permissions to an existing user, use  UpdateUser instead. A set of custom permissions includes any combination of these restrictions. Currently, you need to create the profile names for custom permission sets by using the Amazon QuickSight console. Then, you use the RegisterUser API operation to assign the named set of permissions to a QuickSight user.  Amazon QuickSight custom permissions are applied through IAM policies. Therefore, they override the permissions typically granted by assigning Amazon QuickSight users to one of the default security cohorts in Amazon QuickSight (admin, author, reader). This feature is available only to Amazon QuickSight Enterprise edition subscriptions.
+        /// (Enterprise edition only) The name of the custom permissions profile that you want to assign to this user. Customized permissions allows you to control a user's access by restricting access the following operations:   Create and update data sources   Create and update datasets   Create and update email reports   Subscribe to email reports   To add custom permissions to an existing user, use  UpdateUser instead. A set of custom permissions includes any combination of these restrictions. Currently, you need to create the profile names for custom permission sets by using the Amazon QuickSight console. Then, you use the RegisterUser API operation to assign the named set of permissions to a Amazon QuickSight user.  Amazon QuickSight custom permissions are applied through IAM policies. Therefore, they override the permissions typically granted by assigning Amazon QuickSight users to one of the default security cohorts in Amazon QuickSight (admin, author, reader). This feature is available only to Amazon QuickSight Enterprise edition subscriptions.
         public let customPermissionsName: String?
         /// The email address of the user that you want to register.
         public let email: String
@@ -9543,6 +9638,79 @@ extension QuickSight {
 
         private enum CodingKeys: String, CodingKey {
             case folderSummaryList = "FolderSummaryList"
+            case nextToken = "NextToken"
+            case requestId = "RequestId"
+            case status = "Status"
+        }
+    }
+
+    public struct SearchGroupsRequest: AWSEncodableShape {
+        public static var _encoding = [
+            AWSMemberEncoding(label: "awsAccountId", location: .uri("AwsAccountId")),
+            AWSMemberEncoding(label: "maxResults", location: .querystring("max-results")),
+            AWSMemberEncoding(label: "namespace", location: .uri("Namespace")),
+            AWSMemberEncoding(label: "nextToken", location: .querystring("next-token"))
+        ]
+
+        /// The ID for the Amazon Web Services account that the group is in. Currently, you use the ID for the Amazon Web Services account that contains your Amazon QuickSight account.
+        public let awsAccountId: String
+        /// The structure for the search filters that you want to apply to your search.
+        public let filters: [GroupSearchFilter]
+        /// The maximum number of results to return from this request.
+        public let maxResults: Int?
+        /// The namespace that you want to search.
+        public let namespace: String
+        /// A pagination token that can be used in a subsequent request.
+        public let nextToken: String?
+
+        public init(awsAccountId: String, filters: [GroupSearchFilter], maxResults: Int? = nil, namespace: String, nextToken: String? = nil) {
+            self.awsAccountId = awsAccountId
+            self.filters = filters
+            self.maxResults = maxResults
+            self.namespace = namespace
+            self.nextToken = nextToken
+        }
+
+        public func validate(name: String) throws {
+            try self.validate(self.awsAccountId, name: "awsAccountId", parent: name, max: 12)
+            try self.validate(self.awsAccountId, name: "awsAccountId", parent: name, min: 12)
+            try self.validate(self.awsAccountId, name: "awsAccountId", parent: name, pattern: "^[0-9]{12}$")
+            try self.validate(self.filters, name: "filters", parent: name, max: 1)
+            try self.validate(self.filters, name: "filters", parent: name, min: 1)
+            try self.validate(self.maxResults, name: "maxResults", parent: name, max: 100)
+            try self.validate(self.maxResults, name: "maxResults", parent: name, min: 1)
+            try self.validate(self.namespace, name: "namespace", parent: name, max: 64)
+            try self.validate(self.namespace, name: "namespace", parent: name, pattern: "^[a-zA-Z0-9._-]*$")
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case filters = "Filters"
+        }
+    }
+
+    public struct SearchGroupsResponse: AWSDecodableShape {
+        public static var _encoding = [
+            AWSMemberEncoding(label: "status", location: .statusCode)
+        ]
+
+        /// A list of groups in a specified namespace that match the filters you set in your SearchGroups request.
+        public let groupList: [Group]?
+        /// A pagination token that can be used in a subsequent request.
+        public let nextToken: String?
+        /// The Amazon Web Services request ID for this operation.
+        public let requestId: String?
+        /// The HTTP status of the request.
+        public let status: Int?
+
+        public init(groupList: [Group]? = nil, nextToken: String? = nil, requestId: String? = nil, status: Int? = nil) {
+            self.groupList = groupList
+            self.nextToken = nextToken
+            self.requestId = requestId
+            self.status = status
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case groupList = "GroupList"
             case nextToken = "NextToken"
             case requestId = "RequestId"
             case status = "Status"
@@ -11600,7 +11768,7 @@ extension QuickSight {
         public let description: String?
         /// The name of the group that you want to update.
         public let groupName: String
-        /// The namespace. Currently, you should set this to default.
+        /// The namespace of the group that you want to update.
         public let namespace: String
 
         public init(awsAccountId: String, description: String? = nil, groupName: String, namespace: String) {
@@ -12297,7 +12465,7 @@ extension QuickSight {
         public let awsAccountId: String
         /// The URL of the custom OpenID Connect (OIDC) provider that provides identity to let a user federate into Amazon QuickSight with an associated Identity and Access Management(IAM) role. This parameter should only be used when ExternalLoginFederationProviderType parameter is set to CUSTOM_OIDC.
         public let customFederationProviderUrl: String?
-        /// (Enterprise edition only) The name of the custom permissions profile that you want to assign to this user. Customized permissions allows you to control a user's access by restricting access the following operations:   Create and update data sources   Create and update datasets   Create and update email reports   Subscribe to email reports   A set of custom permissions includes any combination of these restrictions. Currently, you need to create the profile names for custom permission sets by using the Amazon QuickSight console. Then, you use the RegisterUser API operation to assign the named set of permissions to a QuickSight user.  Amazon QuickSight custom permissions are applied through IAM policies. Therefore, they override the permissions typically granted by assigning Amazon QuickSight users to one of the default security cohorts in Amazon QuickSight (admin, author, reader). This feature is available only to Amazon QuickSight Enterprise edition subscriptions.
+        /// (Enterprise edition only) The name of the custom permissions profile that you want to assign to this user. Customized permissions allows you to control a user's access by restricting access the following operations:   Create and update data sources   Create and update datasets   Create and update email reports   Subscribe to email reports   A set of custom permissions includes any combination of these restrictions. Currently, you need to create the profile names for custom permission sets by using the Amazon QuickSight console. Then, you use the RegisterUser API operation to assign the named set of permissions to a Amazon QuickSight user.  Amazon QuickSight custom permissions are applied through IAM policies. Therefore, they override the permissions typically granted by assigning Amazon QuickSight users to one of the default security cohorts in Amazon QuickSight (admin, author, reader). This feature is available only to Amazon QuickSight Enterprise edition subscriptions.
         public let customPermissionsName: String?
         /// The email address of the user that you want to update.
         public let email: String

@@ -110,6 +110,7 @@ extension AutoScaling {
         case terminating = "Terminating"
         case terminatingProceed = "Terminating:Proceed"
         case terminatingWait = "Terminating:Wait"
+        case warmedHibernated = "Warmed:Hibernated"
         case warmedPending = "Warmed:Pending"
         case warmedPendingProceed = "Warmed:Pending:Proceed"
         case warmedPendingWait = "Warmed:Pending:Wait"
@@ -210,6 +211,7 @@ extension AutoScaling {
     }
 
     public enum WarmPoolState: String, CustomStringConvertible, Codable {
+        case hibernated = "Hibernated"
         case running = "Running"
         case stopped = "Stopped"
         public var description: String { return self.rawValue }
@@ -1003,7 +1005,7 @@ extension AutoScaling {
         public let desiredCapacity: Int?
         /// The unit of measurement for the value specified for desired capacity. Amazon EC2 Auto Scaling supports DesiredCapacityType for attribute-based instance type selection only. For more information, see Creating an Auto Scaling group using attribute-based instance type selection in the Amazon EC2 Auto Scaling User Guide. By default, Amazon EC2 Auto Scaling specifies units, which translates into number of instances.  Valid values: units | vcpu | memory-mib
         public let desiredCapacityType: String?
-        /// The amount of time, in seconds, that Amazon EC2 Auto Scaling waits before checking the health status of an EC2 instance that has come into service and marking it unhealthy due to a failed health check. The default value is 0. For more information, see Health check grace period in the Amazon EC2 Auto Scaling User Guide. Conditional: Required if you are adding an ELB health check.
+        /// The amount of time, in seconds, that Amazon EC2 Auto Scaling waits before checking the health status of an EC2 instance that has come into service and marking it unhealthy due to a failed health check. The default value is 0. For more information, see Health check grace period in the Amazon EC2 Auto Scaling User Guide. Required if you are adding an ELB health check.
         public let healthCheckGracePeriod: Int?
         /// The service to use for the health checks. The valid values are EC2 (default) and ELB. If you configure an Auto Scaling group to use load balancer (ELB) health checks, it considers the instance unhealthy if it fails either the EC2 status checks or the load balancer health checks. For more information, see Health checks for Auto Scaling instances in the Amazon EC2 Auto Scaling User Guide.
         public let healthCheckType: String?
@@ -2831,11 +2833,11 @@ extension AutoScaling {
         public let memoryMiB: MemoryMiBRequest
         /// The minimum and maximum number of network interfaces for an instance type. Default: No minimum or maximum
         public let networkInterfaceCount: NetworkInterfaceCountRequest?
-        /// The price protection threshold for On-Demand Instances. This is the maximum you’ll pay for an On-Demand Instance, expressed as a percentage higher than the cheapest M, C, or R instance type with your specified attributes. When Amazon EC2 Auto Scaling selects instance types with your attributes, we will exclude instance types whose price is higher than your threshold. The parameter accepts an integer, which Amazon EC2 Auto Scaling interprets as a percentage. To turn off price protection, specify a high value, such as 999999.  Default: 20
+        /// The price protection threshold for On-Demand Instances. This is the maximum you’ll pay for an On-Demand Instance, expressed as a percentage higher than the cheapest M, C, or R instance type with your specified attributes. When Amazon EC2 Auto Scaling selects instance types with your attributes, we will exclude instance types whose price is higher than your threshold. The parameter accepts an integer, which Amazon EC2 Auto Scaling interprets as a percentage. To turn off price protection, specify a high value, such as 999999.  If you set DesiredCapacityType to vcpu or memory-mib, the price protection threshold is applied based on the per vCPU or per memory price instead of the per instance price.  Default: 20
         public let onDemandMaxPricePercentageOverLowestPrice: Int?
         /// Indicates whether instance types must provide On-Demand Instance hibernation support. Default: false
         public let requireHibernateSupport: Bool?
-        /// The price protection threshold for Spot Instances. This is the maximum you’ll pay for a Spot Instance, expressed as a percentage higher than the cheapest M, C, or R instance type with your specified attributes. When Amazon EC2 Auto Scaling selects instance types with your attributes, we will exclude instance types whose price is higher than your threshold. The parameter accepts an integer, which Amazon EC2 Auto Scaling interprets as a percentage. To turn off price protection, specify a high value, such as 999999.  Default: 100
+        /// The price protection threshold for Spot Instances. This is the maximum you’ll pay for a Spot Instance, expressed as a percentage higher than the cheapest M, C, or R instance type with your specified attributes. When Amazon EC2 Auto Scaling selects instance types with your attributes, we will exclude instance types whose price is higher than your threshold. The parameter accepts an integer, which Amazon EC2 Auto Scaling interprets as a percentage. To turn off price protection, specify a high value, such as 999999.  If you set DesiredCapacityType to vcpu or memory-mib, the price protection threshold is applied based on the per vCPU or per memory price instead of the per instance price.  Default: 100
         public let spotMaxPricePercentageOverLowestPrice: Int?
         /// The minimum and maximum total local storage size for an instance type, in GB. Default: No minimum or maximum
         public let totalLocalStorageGB: TotalLocalStorageGBRequest?
@@ -2907,6 +2909,19 @@ extension AutoScaling {
             case spotMaxPricePercentageOverLowestPrice = "SpotMaxPricePercentageOverLowestPrice"
             case totalLocalStorageGB = "TotalLocalStorageGB"
             case vCpuCount = "VCpuCount"
+        }
+    }
+
+    public struct InstanceReusePolicy: AWSEncodableShape & AWSDecodableShape {
+        /// Specifies whether instances in the Auto Scaling group can be returned to the warm pool on scale in.
+        public let reuseOnScaleIn: Bool?
+
+        public init(reuseOnScaleIn: Bool? = nil) {
+            self.reuseOnScaleIn = reuseOnScaleIn
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case reuseOnScaleIn = "ReuseOnScaleIn"
         }
     }
 
@@ -3139,9 +3154,9 @@ extension AutoScaling {
         public let instanceRequirements: InstanceRequirements?
         /// The instance type, such as m3.xlarge. You must use an instance type that is supported in your requested Region and Availability Zones. For more information, see Instance types in the Amazon Elastic Compute Cloud User Guide.
         public let instanceType: String?
-        /// Provides the launch template to be used when launching the instance type specified in InstanceType. For example, some instance types might require a launch template with a different AMI. If not provided, Amazon EC2 Auto Scaling uses the launch template that's defined for your mixed instances policy. For more information, see Specifying a different launch template for an instance type in the Amazon EC2 Auto Scaling User Guide.
+        /// Provides a launch template for the specified instance type or instance requirements. For example, some instance types might require a launch template with a different AMI. If not provided, Amazon EC2 Auto Scaling uses the launch template that's defined for your mixed instances policy. For more information, see Specifying a different launch template for an instance type in the Amazon EC2 Auto Scaling User Guide.
         public let launchTemplateSpecification: LaunchTemplateSpecification?
-        /// The number of capacity units provided by the instance type specified in InstanceType in terms of virtual CPUs, memory, storage, throughput, or other relative performance characteristic. When a Spot or On-Demand Instance is launched, the capacity units count toward the desired capacity. Amazon EC2 Auto Scaling launches instances until the desired capacity is totally fulfilled, even if this results in an overage. For example, if there are two units remaining to fulfill capacity, and Amazon EC2 Auto Scaling can only launch an instance with a WeightedCapacity of five units, the instance is launched, and the desired capacity is exceeded by three units. For more information, see Instance weighting for Amazon EC2 Auto Scaling in the Amazon EC2 Auto Scaling User Guide. Value must be in the range of 1–999.
+        /// The number of capacity units provided by the instance type specified in InstanceType in terms of virtual CPUs, memory, storage, throughput, or other relative performance characteristic. When a Spot or On-Demand Instance is launched, the capacity units count toward the desired capacity. Amazon EC2 Auto Scaling launches instances until the desired capacity is totally fulfilled, even if this results in an overage. For example, if there are two units remaining to fulfill capacity, and Amazon EC2 Auto Scaling can only launch an instance with a WeightedCapacity of five units, the instance is launched, and the desired capacity is exceeded by three units. For more information, see Configuring instance weighting for Amazon EC2 Auto Scaling in the Amazon EC2 Auto Scaling User Guide. Value must be in the range of 1–999.
         public let weightedCapacity: String?
 
         public init(instanceRequirements: InstanceRequirements? = nil, instanceType: String? = nil, launchTemplateSpecification: LaunchTemplateSpecification? = nil, weightedCapacity: String? = nil) {
@@ -3220,7 +3235,7 @@ extension AutoScaling {
         public let notificationMetadata: String?
         /// The ARN of the target that Amazon EC2 Auto Scaling sends notifications to when an instance is in the transition state for the lifecycle hook. The notification target can be either an SQS queue or an SNS topic.
         public let notificationTargetARN: String?
-        /// The ARN of the IAM role that allows the Auto Scaling group to publish to the specified notification target.
+        /// The ARN of the IAM role that allows the Auto Scaling group to publish to the specified notification target (an Amazon SNS topic or an Amazon SQS queue).
         public let roleARN: String?
 
         public init(autoScalingGroupName: String? = nil, defaultResult: String? = nil, globalTimeout: Int? = nil, heartbeatTimeout: Int? = nil, lifecycleHookName: String? = nil, lifecycleTransition: String? = nil, notificationMetadata: String? = nil, notificationTargetARN: String? = nil, roleARN: String? = nil) {
@@ -3261,7 +3276,7 @@ extension AutoScaling {
         public let notificationMetadata: String?
         /// The ARN of the target that Amazon EC2 Auto Scaling sends notifications to when an instance is in the transition state for the lifecycle hook. The notification target can be either an SQS queue or an SNS topic.
         public let notificationTargetARN: String?
-        /// The ARN of the IAM role that allows the Auto Scaling group to publish to the specified notification target, for example, an Amazon SNS topic or an Amazon SQS queue.
+        /// The ARN of the IAM role that allows the Auto Scaling group to publish to the specified notification target. Valid only if the notification target is an Amazon SNS topic or an Amazon SQS queue. Required for new lifecycle hooks, but optional when updating existing hooks.
         public let roleARN: String?
 
         public init(defaultResult: String? = nil, heartbeatTimeout: Int? = nil, lifecycleHookName: String, lifecycleTransition: String, notificationMetadata: String? = nil, notificationTargetARN: String? = nil, roleARN: String? = nil) {
@@ -3635,7 +3650,7 @@ extension AutoScaling {
     }
 
     public struct PredefinedMetricSpecification: AWSEncodableShape & AWSDecodableShape {
-        /// The metric type. The following predefined metrics are available:    ASGAverageCPUUtilization - Average CPU utilization of the Auto Scaling group.    ASGAverageNetworkIn - Average number of bytes received on all network interfaces by the Auto Scaling group.    ASGAverageNetworkOut - Average number of bytes sent out on all network interfaces by the Auto Scaling group.    ALBRequestCountPerTarget - Number of requests completed per target in an Application Load Balancer target group.
+        /// The metric type. The following predefined metrics are available:    ASGAverageCPUUtilization - Average CPU utilization of the Auto Scaling group.    ASGAverageNetworkIn - Average number of bytes received (per instance per minute) for the Auto Scaling group.    ASGAverageNetworkOut - Average number of bytes sent out (per instance per minute) for the Auto Scaling group.    ALBRequestCountPerTarget - Average Application Load Balancer request count (per target per minute) for your Auto Scaling group.
         public let predefinedMetricType: MetricType
         /// A label that uniquely identifies a specific Application Load Balancer target group from which to determine the average request count served by your Auto Scaling group. You can't specify a resource label unless the target group is attached to the Auto Scaling group. You create the resource label by appending the final portion of the load balancer ARN and the final portion of the target group ARN into a single value, separated by a forward slash (/). The format of the resource label is:  app/my-alb/778d41231b141a0f/targetgroup/my-alb-target-group/943f017f100becff. Where:   app// is the final portion of the load balancer ARN   targetgroup// is the final portion of the target group ARN.   To find the ARN for an Application Load Balancer, use the DescribeLoadBalancers API operation. To find the ARN for the target group, use the DescribeTargetGroups API operation.
         public let resourceLabel: String?
@@ -3917,7 +3932,7 @@ extension AutoScaling {
         public let notificationMetadata: String?
         /// The ARN of the notification target that Amazon EC2 Auto Scaling uses to notify you when an instance is in the transition state for the lifecycle hook. This target can be either an SQS queue or an SNS topic. If you specify an empty string, this overrides the current ARN. This operation uses the JSON format when sending notifications to an Amazon SQS queue, and an email key-value pair format when sending notifications to an Amazon SNS topic. When you specify a notification target, Amazon EC2 Auto Scaling sends it a test message. Test messages contain the following additional key-value pair: "Event": "autoscaling:TEST_NOTIFICATION".
         public let notificationTargetARN: String?
-        /// The ARN of the IAM role that allows the Auto Scaling group to publish to the specified notification target, for example, an Amazon SNS topic or an Amazon SQS queue. Required for new lifecycle hooks, but optional when updating existing hooks.
+        /// The ARN of the IAM role that allows the Auto Scaling group to publish to the specified notification target. Valid only if the notification target is an Amazon SNS topic or an Amazon SQS queue. Required for new lifecycle hooks, but optional when updating existing hooks.
         public let roleARN: String?
 
         public init(autoScalingGroupName: String, defaultResult: String? = nil, heartbeatTimeout: Int? = nil, lifecycleHookName: String, lifecycleTransition: String? = nil, notificationMetadata: String? = nil, notificationTargetARN: String? = nil, roleARN: String? = nil) {
@@ -4153,6 +4168,8 @@ extension AutoScaling {
     public struct PutWarmPoolType: AWSEncodableShape {
         /// The name of the Auto Scaling group.
         public let autoScalingGroupName: String
+        /// Indicates whether instances in the Auto Scaling group can be returned to the warm pool on scale in. The default is to terminate instances in the Auto Scaling group when the group scales in.
+        public let instanceReusePolicy: InstanceReusePolicy?
         /// Specifies the maximum number of instances that are allowed to be in the warm pool or in any state except Terminated for the Auto Scaling group. This is an optional property. Specify it only if you do not want the warm pool size to be determined by the difference between the group's maximum capacity and its desired capacity.   If a value for MaxGroupPreparedCapacity is not specified, Amazon EC2 Auto Scaling launches and maintains the difference between the group's maximum capacity and its desired capacity. If you specify a value for MaxGroupPreparedCapacity, Amazon EC2 Auto Scaling uses the difference between the MaxGroupPreparedCapacity and the desired capacity instead.  The size of the warm pool is dynamic. Only when MaxGroupPreparedCapacity and MinSize are set to the same value does the warm pool have an absolute size.  If the desired capacity of the Auto Scaling group is higher than the MaxGroupPreparedCapacity, the capacity of the warm pool is 0, unless you specify a value for MinSize. To remove a value that you previously set, include the property but specify -1 for the value.
         public let maxGroupPreparedCapacity: Int?
         /// Specifies the minimum number of instances to maintain in the warm pool. This helps you to ensure that there is always a certain number of warmed instances available to handle traffic spikes. Defaults to 0 if not specified.
@@ -4160,8 +4177,9 @@ extension AutoScaling {
         /// Sets the instance state to transition to after the lifecycle actions are complete. Default is Stopped.
         public let poolState: WarmPoolState?
 
-        public init(autoScalingGroupName: String, maxGroupPreparedCapacity: Int? = nil, minSize: Int? = nil, poolState: WarmPoolState? = nil) {
+        public init(autoScalingGroupName: String, instanceReusePolicy: InstanceReusePolicy? = nil, maxGroupPreparedCapacity: Int? = nil, minSize: Int? = nil, poolState: WarmPoolState? = nil) {
             self.autoScalingGroupName = autoScalingGroupName
+            self.instanceReusePolicy = instanceReusePolicy
             self.maxGroupPreparedCapacity = maxGroupPreparedCapacity
             self.minSize = minSize
             self.poolState = poolState
@@ -4177,6 +4195,7 @@ extension AutoScaling {
 
         private enum CodingKeys: String, CodingKey {
             case autoScalingGroupName = "AutoScalingGroupName"
+            case instanceReusePolicy = "InstanceReusePolicy"
             case maxGroupPreparedCapacity = "MaxGroupPreparedCapacity"
             case minSize = "MinSize"
             case poolState = "PoolState"
@@ -4767,7 +4786,7 @@ extension AutoScaling {
         public let disableScaleIn: Bool?
         /// A predefined metric. You must specify either a predefined metric or a customized metric.
         public let predefinedMetricSpecification: PredefinedMetricSpecification?
-        /// The target value for the metric.
+        /// The target value for the metric.  Some metrics are based on a count instead of a percentage, such as the request count for an Application Load Balancer or the number of messages in an SQS queue. If the scaling policy specifies one of these metrics, specify the target utilization as the optimal average request or message count per instance during any one-minute interval.
         public let targetValue: Double
 
         public init(customizedMetricSpecification: CustomizedMetricSpecification? = nil, disableScaleIn: Bool? = nil, predefinedMetricSpecification: PredefinedMetricSpecification? = nil, targetValue: Double) {
@@ -4850,7 +4869,7 @@ extension AutoScaling {
         public let desiredCapacity: Int?
         /// The unit of measurement for the value specified for desired capacity. Amazon EC2 Auto Scaling supports DesiredCapacityType for attribute-based instance type selection only. For more information, see Creating an Auto Scaling group using attribute-based instance type selection in the Amazon EC2 Auto Scaling User Guide. By default, Amazon EC2 Auto Scaling specifies units, which translates into number of instances. Valid values: units | vcpu | memory-mib
         public let desiredCapacityType: String?
-        /// The amount of time, in seconds, that Amazon EC2 Auto Scaling waits before checking the health status of an EC2 instance that has come into service and marking it unhealthy due to a failed health check. The default value is 0. For more information, see Health check grace period in the Amazon EC2 Auto Scaling User Guide. Conditional: Required if you are adding an ELB health check.
+        /// The amount of time, in seconds, that Amazon EC2 Auto Scaling waits before checking the health status of an EC2 instance that has come into service and marking it unhealthy due to a failed health check. The default value is 0. For more information, see Health check grace period in the Amazon EC2 Auto Scaling User Guide. Required if you are adding an ELB health check.
         public let healthCheckGracePeriod: Int?
         /// The service to use for the health checks. The valid values are EC2 and ELB. If you configure an Auto Scaling group to use ELB health checks, it considers the instance unhealthy if it fails either the EC2 status checks or the load balancer health checks.
         public let healthCheckType: String?
@@ -4984,6 +5003,8 @@ extension AutoScaling {
     }
 
     public struct WarmPoolConfiguration: AWSDecodableShape {
+        /// The instance reuse policy.
+        public let instanceReusePolicy: InstanceReusePolicy?
         /// The maximum number of instances that are allowed to be in the warm pool or in any state except Terminated for the Auto Scaling group.
         public let maxGroupPreparedCapacity: Int?
         /// The minimum number of instances to maintain in the warm pool.
@@ -4993,7 +5014,8 @@ extension AutoScaling {
         /// The status of a warm pool that is marked for deletion.
         public let status: WarmPoolStatus?
 
-        public init(maxGroupPreparedCapacity: Int? = nil, minSize: Int? = nil, poolState: WarmPoolState? = nil, status: WarmPoolStatus? = nil) {
+        public init(instanceReusePolicy: InstanceReusePolicy? = nil, maxGroupPreparedCapacity: Int? = nil, minSize: Int? = nil, poolState: WarmPoolState? = nil, status: WarmPoolStatus? = nil) {
+            self.instanceReusePolicy = instanceReusePolicy
             self.maxGroupPreparedCapacity = maxGroupPreparedCapacity
             self.minSize = minSize
             self.poolState = poolState
@@ -5001,6 +5023,7 @@ extension AutoScaling {
         }
 
         private enum CodingKeys: String, CodingKey {
+            case instanceReusePolicy = "InstanceReusePolicy"
             case maxGroupPreparedCapacity = "MaxGroupPreparedCapacity"
             case minSize = "MinSize"
             case poolState = "PoolState"

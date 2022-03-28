@@ -44,13 +44,13 @@ public struct MacieErrorType: AWSErrorType {
     /// return error code string
     public var errorCode: String { self.error.rawValue }
 
-    /// You do not have required permissions to access the requested resource.
+    /// (Discontinued) You do not have required permissions to access the requested resource.
     public static var accessDeniedException: Self { .init(.accessDeniedException) }
-    /// Internal server error.
+    /// (Discontinued) Internal server error.
     public static var internalException: Self { .init(.internalException) }
-    /// The request was rejected because an invalid or out-of-range value was supplied for an input parameter.
+    /// (Discontinued) The request was rejected because an invalid or out-of-range value was supplied for an input parameter.
     public static var invalidInputException: Self { .init(.invalidInputException) }
-    /// The request was rejected because it attempted to create resources beyond the current AWS account limits. The error code describes the limit exceeded.
+    /// (Discontinued) The request was rejected because it attempted to create resources beyond the current Amazon Web Services account quotas. The error code describes the quota exceeded.
     public static var limitExceededException: Self { .init(.limitExceededException) }
 }
 

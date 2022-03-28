@@ -88,6 +88,11 @@ extension OpenSearch {
         return try await self.client.execute(operation: "DescribeDomainAutoTunes", path: "/2021-01-01/opensearch/domain/{DomainName}/autoTunes", httpMethod: .GET, serviceConfig: self.config, input: input, logger: logger, on: eventLoop)
     }
 
+    /// Returns information about the current blue/green deployment happening on a domain, including a change ID, status, and progress stages.
+    public func describeDomainChangeProgress(_ input: DescribeDomainChangeProgressRequest, logger: Logger = AWSClient.loggingDisabled, on eventLoop: EventLoop? = nil) async throws -> DescribeDomainChangeProgressResponse {
+        return try await self.client.execute(operation: "DescribeDomainChangeProgress", path: "/2021-01-01/opensearch/domain/{DomainName}/progress", httpMethod: .GET, serviceConfig: self.config, input: input, logger: logger, on: eventLoop)
+    }
+
     /// Provides cluster configuration information about the specified domain, such as the state, creation date, update version, and update date for cluster options.
     public func describeDomainConfig(_ input: DescribeDomainConfigRequest, logger: Logger = AWSClient.loggingDisabled, on eventLoop: EventLoop? = nil) async throws -> DescribeDomainConfigResponse {
         return try await self.client.execute(operation: "DescribeDomainConfig", path: "/2021-01-01/opensearch/domain/{DomainName}/config", httpMethod: .GET, serviceConfig: self.config, input: input, logger: logger, on: eventLoop)

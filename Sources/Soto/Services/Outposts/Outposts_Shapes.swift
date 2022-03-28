@@ -1063,15 +1063,27 @@ extension Outposts {
     public struct ListSitesInput: AWSEncodableShape {
         public static var _encoding = [
             AWSMemberEncoding(label: "maxResults", location: .querystring("MaxResults")),
-            AWSMemberEncoding(label: "nextToken", location: .querystring("NextToken"))
+            AWSMemberEncoding(label: "nextToken", location: .querystring("NextToken")),
+            AWSMemberEncoding(label: "operatingAddressCityFilter", location: .querystring("OperatingAddressCityFilter")),
+            AWSMemberEncoding(label: "operatingAddressCountryCodeFilter", location: .querystring("OperatingAddressCountryCodeFilter")),
+            AWSMemberEncoding(label: "operatingAddressStateOrRegionFilter", location: .querystring("OperatingAddressStateOrRegionFilter"))
         ]
 
         public let maxResults: Int?
         public let nextToken: String?
+        ///  A filter for the city of the Outpost site.   Filter values are case sensitive. If you specify multiple  values for a filter, the values are joined with an OR, and the request returns  all results that match any of the specified values.
+        public let operatingAddressCityFilter: [String]?
+        ///  A filter for the country code of the Outpost site.  Filter values are case sensitive. If you specify multiple  values for a filter, the values are joined with an OR, and the request returns  all results that match any of the specified values.
+        public let operatingAddressCountryCodeFilter: [String]?
+        ///  A filter for the state/region of the Outpost site.  Filter values are case sensitive. If you specify multiple  values for a filter, the values are joined with an OR, and the request returns  all results that match any of the specified values.
+        public let operatingAddressStateOrRegionFilter: [String]?
 
-        public init(maxResults: Int? = nil, nextToken: String? = nil) {
+        public init(maxResults: Int? = nil, nextToken: String? = nil, operatingAddressCityFilter: [String]? = nil, operatingAddressCountryCodeFilter: [String]? = nil, operatingAddressStateOrRegionFilter: [String]? = nil) {
             self.maxResults = maxResults
             self.nextToken = nextToken
+            self.operatingAddressCityFilter = operatingAddressCityFilter
+            self.operatingAddressCountryCodeFilter = operatingAddressCountryCodeFilter
+            self.operatingAddressStateOrRegionFilter = operatingAddressStateOrRegionFilter
         }
 
         public func validate(name: String) throws {
@@ -1080,6 +1092,21 @@ extension Outposts {
             try self.validate(self.nextToken, name: "nextToken", parent: name, max: 1005)
             try self.validate(self.nextToken, name: "nextToken", parent: name, min: 1)
             try self.validate(self.nextToken, name: "nextToken", parent: name, pattern: "^(\\d+)##(\\S+)$")
+            try self.operatingAddressCityFilter?.forEach {
+                try validate($0, name: "operatingAddressCityFilter[]", parent: name, max: 50)
+                try validate($0, name: "operatingAddressCityFilter[]", parent: name, min: 1)
+                try validate($0, name: "operatingAddressCityFilter[]", parent: name, pattern: "^\\S[\\S ]*$")
+            }
+            try self.operatingAddressCountryCodeFilter?.forEach {
+                try validate($0, name: "operatingAddressCountryCodeFilter[]", parent: name, max: 2)
+                try validate($0, name: "operatingAddressCountryCodeFilter[]", parent: name, min: 2)
+                try validate($0, name: "operatingAddressCountryCodeFilter[]", parent: name, pattern: "^[A-Z]{2}$")
+            }
+            try self.operatingAddressStateOrRegionFilter?.forEach {
+                try validate($0, name: "operatingAddressStateOrRegionFilter[]", parent: name, max: 50)
+                try validate($0, name: "operatingAddressStateOrRegionFilter[]", parent: name, min: 1)
+                try validate($0, name: "operatingAddressStateOrRegionFilter[]", parent: name, pattern: "^\\S[\\S ]*$")
+            }
         }
 
         private enum CodingKeys: CodingKey {}

@@ -23,7 +23,7 @@ import SotoCore
 
 @available(macOS 10.15, iOS 13.0, tvOS 13.0, watchOS 6.0, *)
 extension FIS {
-    ///  Lists the available AWS FIS actions.
+    ///  Lists the available FIS actions.
     /// Return PaginatorSequence for operation.
     ///
     /// - Parameters:
@@ -84,6 +84,28 @@ extension FIS {
             command: listExperiments,
             inputKey: \ListExperimentsRequest.nextToken,
             outputKey: \ListExperimentsResponse.nextToken,
+            logger: logger,
+            on: eventLoop
+        )
+    }
+
+    ///  Lists the target resource types.
+    /// Return PaginatorSequence for operation.
+    ///
+    /// - Parameters:
+    ///   - input: Input for request
+    ///   - logger: Logger used flot logging
+    ///   - eventLoop: EventLoop to run this process on
+    public func listTargetResourceTypesPaginator(
+        _ input: ListTargetResourceTypesRequest,
+        logger: Logger = AWSClient.loggingDisabled,
+        on eventLoop: EventLoop? = nil
+    ) -> AWSClient.PaginatorSequence<ListTargetResourceTypesRequest, ListTargetResourceTypesResponse> {
+        return .init(
+            input: input,
+            command: listTargetResourceTypes,
+            inputKey: \ListTargetResourceTypesRequest.nextToken,
+            outputKey: \ListTargetResourceTypesResponse.nextToken,
             logger: logger,
             on: eventLoop
         )

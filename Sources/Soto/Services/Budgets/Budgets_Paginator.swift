@@ -179,6 +179,60 @@ extension Budgets {
         )
     }
 
+    ///  			Lists the budget names and notifications that are associated with an account.
+    ///
+    ///
+    /// Provide paginated results to closure `onPage` for it to combine them into one result.
+    /// This works in a similar manner to `Array.reduce<Result>(_:_:) -> Result`.
+    ///
+    /// Parameters:
+    ///   - input: Input for request
+    ///   - initialValue: The value to use as the initial accumulating value. `initialValue` is passed to `onPage` the first time it is called.
+    ///   - logger: Logger used flot logging
+    ///   - eventLoop: EventLoop to run this process on
+    ///   - onPage: closure called with each paginated response. It combines an accumulating result with the contents of response. This combined result is then returned
+    ///         along with a boolean indicating if the paginate operation should continue.
+    public func describeBudgetNotificationsForAccountPaginator<Result>(
+        _ input: DescribeBudgetNotificationsForAccountRequest,
+        _ initialValue: Result,
+        logger: Logger = AWSClient.loggingDisabled,
+        on eventLoop: EventLoop? = nil,
+        onPage: @escaping (Result, DescribeBudgetNotificationsForAccountResponse, EventLoop) -> EventLoopFuture<(Bool, Result)>
+    ) -> EventLoopFuture<Result> {
+        return client.paginate(
+            input: input,
+            initialValue: initialValue,
+            command: describeBudgetNotificationsForAccount,
+            inputKey: \DescribeBudgetNotificationsForAccountRequest.nextToken,
+            outputKey: \DescribeBudgetNotificationsForAccountResponse.nextToken,
+            on: eventLoop,
+            onPage: onPage
+        )
+    }
+
+    /// Provide paginated results to closure `onPage`.
+    ///
+    /// - Parameters:
+    ///   - input: Input for request
+    ///   - logger: Logger used flot logging
+    ///   - eventLoop: EventLoop to run this process on
+    ///   - onPage: closure called with each block of entries. Returns boolean indicating whether we should continue.
+    public func describeBudgetNotificationsForAccountPaginator(
+        _ input: DescribeBudgetNotificationsForAccountRequest,
+        logger: Logger = AWSClient.loggingDisabled,
+        on eventLoop: EventLoop? = nil,
+        onPage: @escaping (DescribeBudgetNotificationsForAccountResponse, EventLoop) -> EventLoopFuture<Bool>
+    ) -> EventLoopFuture<Void> {
+        return client.paginate(
+            input: input,
+            command: describeBudgetNotificationsForAccount,
+            inputKey: \DescribeBudgetNotificationsForAccountRequest.nextToken,
+            outputKey: \DescribeBudgetNotificationsForAccountResponse.nextToken,
+            on: eventLoop,
+            onPage: onPage
+        )
+    }
+
     ///  Describes the history for DAILY, MONTHLY, and QUARTERLY budgets. Budget history isn't available for ANNUAL budgets.
     ///
     /// Provide paginated results to closure `onPage` for it to combine them into one result.
@@ -423,6 +477,16 @@ extension Budgets.DescribeBudgetActionsForBudgetRequest: AWSPaginateToken {
         return .init(
             accountId: self.accountId,
             budgetName: self.budgetName,
+            maxResults: self.maxResults,
+            nextToken: token
+        )
+    }
+}
+
+extension Budgets.DescribeBudgetNotificationsForAccountRequest: AWSPaginateToken {
+    public func usingPaginationToken(_ token: String) -> Budgets.DescribeBudgetNotificationsForAccountRequest {
+        return .init(
+            accountId: self.accountId,
             maxResults: self.maxResults,
             nextToken: token
         )

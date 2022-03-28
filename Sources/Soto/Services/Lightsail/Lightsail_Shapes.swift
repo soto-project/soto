@@ -1787,7 +1787,9 @@ extension Lightsail {
         public let command: [String]?
         /// The environment variables of the container.
         public let environment: [String: String]?
-        /// The name of the image used for the container.  Container images sourced from your Lightsail container service, that are registered and stored on your service, start with a colon (:). For example, if your container service name is container-service-1, the container image label is mystaticsite, and you want to use the third (3) version of the registered container image, then you should specify :container-service-1.mystaticsite.3. To use the latest version of a container image, specify latest instead of a version number (for example, :container-service-1.mystaticsite.latest). Lightsail will automatically use the highest numbered version of the registered container image.  Container images sourced from a public registry like Docker Hub don't start with a colon. For example, nginx:latest or nginx.
+        /// The name of the image used for the container.
+        ///  Container images sourced from your Lightsail container service, that are registered and stored on your service, start with a colon (:). For example, if your container service name is container-service-1, the container image label is mystaticsite, and you want to use the third (3) version of the registered container image, then you should specify :container-service-1.mystaticsite.3. To use the latest version of a container image, specify latest instead of a version number (for example, :container-service-1.mystaticsite.latest). Lightsail will automatically use the highest numbered version of the registered container image.
+        ///  Container images sourced from a public registry like Docker Hub don't start with a colon. For example, nginx:latest or nginx.
         public let image: String?
         /// The open firewall ports of the container.
         public let ports: [String: ContainerServiceProtocol]?
@@ -2709,7 +2711,7 @@ extension Lightsail {
         ///  The possible values are ipv4 for IPv4 only, and dualstack for IPv4 and IPv6.
         ///  The default value is dualstack.
         public let ipAddressType: IpAddressType?
-        /// An object that describes the origin resource for the distribution, such as a Lightsail instance or load balancer. The distribution pulls, caches, and serves content from the origin.
+        /// An object that describes the origin resource for the distribution, such as a Lightsail instance, bucket, or load balancer. The distribution pulls, caches, and serves content from the origin.
         public let origin: InputOrigin
         /// The tag keys and optional values to add to the distribution during create. Use the TagResource action to tag a resource after it's created.
         public let tags: [Tag]?
@@ -3837,10 +3839,13 @@ extension Lightsail {
     }
 
     public struct DeleteKeyPairRequest: AWSEncodableShape {
+        /// The RSA fingerprint of the Lightsail default key pair to delete.  The expectedFingerprint parameter is required only when specifying to delete a Lightsail default key pair.
+        public let expectedFingerprint: String?
         /// The name of the key pair to delete.
         public let keyPairName: String
 
-        public init(keyPairName: String) {
+        public init(expectedFingerprint: String? = nil, keyPairName: String) {
+            self.expectedFingerprint = expectedFingerprint
             self.keyPairName = keyPairName
         }
 
@@ -3849,6 +3854,7 @@ extension Lightsail {
         }
 
         private enum CodingKeys: String, CodingKey {
+            case expectedFingerprint
             case keyPairName
         }
     }
@@ -4578,17 +4584,21 @@ extension Lightsail {
     }
 
     public struct DownloadDefaultKeyPairResult: AWSDecodableShape {
+        /// The timestamp when the default key pair was created.
+        public let createdAt: Date?
         /// A base64-encoded RSA private key.
         public let privateKeyBase64: String?
         /// A base64-encoded public key of the ssh-rsa type.
         public let publicKeyBase64: String?
 
-        public init(privateKeyBase64: String? = nil, publicKeyBase64: String? = nil) {
+        public init(createdAt: Date? = nil, privateKeyBase64: String? = nil, publicKeyBase64: String? = nil) {
+            self.createdAt = createdAt
             self.privateKeyBase64 = privateKeyBase64
             self.publicKeyBase64 = publicKeyBase64
         }
 
         private enum CodingKeys: String, CodingKey {
+            case createdAt
             case privateKeyBase64
             case publicKeyBase64
         }
@@ -6123,14 +6133,18 @@ extension Lightsail {
     }
 
     public struct GetKeyPairsRequest: AWSEncodableShape {
+        /// A Boolean value that indicates whether to include the default key pair in the response of your request.
+        public let includeDefaultKeyPair: Bool?
         /// The token to advance to the next page of results from your request. To get a page token, perform an initial GetKeyPairs request. If your results are paginated, the response will return a next page token that you can specify as the page token in a subsequent request.
         public let pageToken: String?
 
-        public init(pageToken: String? = nil) {
+        public init(includeDefaultKeyPair: Bool? = nil, pageToken: String? = nil) {
+            self.includeDefaultKeyPair = includeDefaultKeyPair
             self.pageToken = pageToken
         }
 
         private enum CodingKeys: String, CodingKey {
+            case includeDefaultKeyPair
             case pageToken
         }
     }
@@ -7581,7 +7595,7 @@ extension Lightsail {
         public let location: ResourceLocation?
         /// The name of the distribution.
         public let name: String?
-        /// An object that describes the origin resource of the distribution, such as a Lightsail instance or load balancer. The distribution pulls, caches, and serves content from the origin.
+        /// An object that describes the origin resource of the distribution, such as a Lightsail instance, bucket, or load balancer. The distribution pulls, caches, and serves content from the origin.
         public let origin: Origin?
         /// The public DNS of the origin.
         public let originPublicDNS: String?
@@ -9639,7 +9653,7 @@ extension Lightsail {
         public let distributionName: String
         /// Indicates whether to enable the distribution.
         public let isEnabled: Bool?
-        /// An object that describes the origin resource for the distribution, such as a Lightsail instance or load balancer. The distribution pulls, caches, and serves content from the origin.
+        /// An object that describes the origin resource for the distribution, such as a Lightsail instance, bucket, or load balancer. The distribution pulls, caches, and serves content from the origin.
         public let origin: InputOrigin?
 
         public init(cacheBehaviors: [CacheBehaviorPerPath]? = nil, cacheBehaviorSettings: CacheSettings? = nil, defaultCacheBehavior: CacheBehavior? = nil, distributionName: String, isEnabled: Bool? = nil, origin: InputOrigin? = nil) {

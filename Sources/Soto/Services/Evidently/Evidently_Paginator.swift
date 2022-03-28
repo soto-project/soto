@@ -238,7 +238,8 @@ extension Evidently.ListExperimentsRequest: AWSPaginateToken {
         return .init(
             maxResults: self.maxResults,
             nextToken: token,
-            project: self.project
+            project: self.project,
+            status: self.status
         )
     }
 }
@@ -258,7 +259,8 @@ extension Evidently.ListLaunchesRequest: AWSPaginateToken {
         return .init(
             maxResults: self.maxResults,
             nextToken: token,
-            project: self.project
+            project: self.project,
+            status: self.status
         )
     }
 }

@@ -200,9 +200,11 @@ extension SageMaker {
         case failed = "Failed"
         case featureEngineering = "FeatureEngineering"
         case generatingExplainabilityReport = "GeneratingExplainabilityReport"
+        case generatingModelInsightsReport = "GeneratingModelInsightsReport"
         case maxAutoMLJobRuntimeReached = "MaxAutoMLJobRuntimeReached"
         case maxCandidatesReached = "MaxCandidatesReached"
         case modelDeploymentError = "ModelDeploymentError"
+        case modelInsightsError = "ModelInsightsError"
         case modelTuning = "ModelTuning"
         case starting = "Starting"
         case stopped = "Stopped"
@@ -1473,6 +1475,7 @@ extension SageMaker {
     public enum TargetPlatformAccelerator: String, CustomStringConvertible, Codable {
         case intelGraphics = "INTEL_GRAPHICS"
         case mali = "MALI"
+        case nna = "NNA"
         case nvidia = "NVIDIA"
         public var description: String { return self.rawValue }
     }
@@ -1532,6 +1535,14 @@ extension SageMaker {
         case mlG4Dn4Xlarge = "ml.g4dn.4xlarge"
         case mlG4Dn8Xlarge = "ml.g4dn.8xlarge"
         case mlG4DnXlarge = "ml.g4dn.xlarge"
+        case mlG512Xlarge = "ml.g5.12xlarge"
+        case mlG516Xlarge = "ml.g5.16xlarge"
+        case mlG524Xlarge = "ml.g5.24xlarge"
+        case mlG52Xlarge = "ml.g5.2xlarge"
+        case mlG548Xlarge = "ml.g5.48xlarge"
+        case mlG54Xlarge = "ml.g5.4xlarge"
+        case mlG58Xlarge = "ml.g5.8xlarge"
+        case mlG5Xlarge = "ml.g5.xlarge"
         case mlM410Xlarge = "ml.m4.10xlarge"
         case mlM416Xlarge = "ml.m4.16xlarge"
         case mlM42Xlarge = "ml.m4.2xlarge"
@@ -3117,13 +3128,17 @@ extension SageMaker {
     public struct CandidateArtifactLocations: AWSDecodableShape {
         /// The Amazon S3 prefix to the explainability artifacts generated for the AutoML candidate.
         public let explainability: String
+        /// The Amazon S3 prefix to the model insight artifacts generated for the AutoML candidate.
+        public let modelInsights: String?
 
-        public init(explainability: String) {
+        public init(explainability: String, modelInsights: String? = nil) {
             self.explainability = explainability
+            self.modelInsights = modelInsights
         }
 
         private enum CodingKeys: String, CodingKey {
             case explainability = "Explainability"
+            case modelInsights = "ModelInsights"
         }
     }
 
@@ -4532,7 +4547,7 @@ extension SageMaker {
         public let domainName: String
         /// A collection of Domain settings.
         public let domainSettings: DomainSettings?
-        /// This member is deprecated and replaced with KmsKeyId.
+        /// Use KmsKeyId.
         public let homeEfsFileSystemKmsKeyId: String?
         /// SageMaker uses Amazon Web Services KMS to encrypt the EFS volume attached to the domain with an Amazon Web Services managed key by default. For more control, specify a customer managed key.
         public let kmsKeyId: String?
@@ -4694,7 +4709,7 @@ extension SageMaker {
     }
 
     public struct CreateEndpointConfigInput: AWSEncodableShape {
-        /// Specifies configuration for how an endpoint performs asynchronous inference.  This is a required field in order for your Endpoint to be invoked using   InvokeEndpointAsync .
+        /// Specifies configuration for how an endpoint performs asynchronous inference.  This is a required field in order for your Endpoint to be invoked using InvokeEndpointAsync.
         public let asyncInferenceConfig: AsyncInferenceConfig?
         public let dataCaptureConfig: DataCaptureConfig?
         /// The name of the endpoint configuration. You specify this name in a CreateEndpoint request.
@@ -6077,8 +6092,12 @@ extension SageMaker {
     public struct CreatePipelineRequest: AWSEncodableShape {
         /// A unique, case-sensitive identifier that you provide to ensure the idempotency of the operation. An idempotent operation completes no more than one time.
         public let clientRequestToken: String
+        /// This is the configuration that controls the parallelism of the pipeline.  If specified, it applies to all runs of this pipeline by default.
+        public let parallelismConfiguration: ParallelismConfiguration?
         /// The JSON pipeline definition of the pipeline.
-        public let pipelineDefinition: String
+        public let pipelineDefinition: String?
+        /// The location of the pipeline definition stored in Amazon S3. If specified,  SageMaker will retrieve the pipeline definition from this location.
+        public let pipelineDefinitionS3Location: PipelineDefinitionS3Location?
         /// A description of the pipeline.
         public let pipelineDescription: String?
         /// The display name of the pipeline.
@@ -6090,9 +6109,11 @@ extension SageMaker {
         /// A list of tags to apply to the created pipeline.
         public let tags: [Tag]?
 
-        public init(clientRequestToken: String = CreatePipelineRequest.idempotencyToken(), pipelineDefinition: String, pipelineDescription: String? = nil, pipelineDisplayName: String? = nil, pipelineName: String, roleArn: String, tags: [Tag]? = nil) {
+        public init(clientRequestToken: String = CreatePipelineRequest.idempotencyToken(), parallelismConfiguration: ParallelismConfiguration? = nil, pipelineDefinition: String? = nil, pipelineDefinitionS3Location: PipelineDefinitionS3Location? = nil, pipelineDescription: String? = nil, pipelineDisplayName: String? = nil, pipelineName: String, roleArn: String, tags: [Tag]? = nil) {
             self.clientRequestToken = clientRequestToken
+            self.parallelismConfiguration = parallelismConfiguration
             self.pipelineDefinition = pipelineDefinition
+            self.pipelineDefinitionS3Location = pipelineDefinitionS3Location
             self.pipelineDescription = pipelineDescription
             self.pipelineDisplayName = pipelineDisplayName
             self.pipelineName = pipelineName
@@ -6103,9 +6124,11 @@ extension SageMaker {
         public func validate(name: String) throws {
             try self.validate(self.clientRequestToken, name: "clientRequestToken", parent: name, max: 128)
             try self.validate(self.clientRequestToken, name: "clientRequestToken", parent: name, min: 32)
+            try self.parallelismConfiguration?.validate(name: "\(name).parallelismConfiguration")
             try self.validate(self.pipelineDefinition, name: "pipelineDefinition", parent: name, max: 1_048_576)
             try self.validate(self.pipelineDefinition, name: "pipelineDefinition", parent: name, min: 1)
             try self.validate(self.pipelineDefinition, name: "pipelineDefinition", parent: name, pattern: "(?:[ \\r\\n\\t].*)*$")
+            try self.pipelineDefinitionS3Location?.validate(name: "\(name).pipelineDefinitionS3Location")
             try self.validate(self.pipelineDescription, name: "pipelineDescription", parent: name, max: 3072)
             try self.validate(self.pipelineDescription, name: "pipelineDescription", parent: name, pattern: ".*")
             try self.validate(self.pipelineDisplayName, name: "pipelineDisplayName", parent: name, max: 256)
@@ -6125,7 +6148,9 @@ extension SageMaker {
 
         private enum CodingKeys: String, CodingKey {
             case clientRequestToken = "ClientRequestToken"
+            case parallelismConfiguration = "ParallelismConfiguration"
             case pipelineDefinition = "PipelineDefinition"
+            case pipelineDefinitionS3Location = "PipelineDefinitionS3Location"
             case pipelineDescription = "PipelineDescription"
             case pipelineDisplayName = "PipelineDisplayName"
             case pipelineName = "PipelineName"
@@ -9376,7 +9401,7 @@ extension SageMaker {
         public let failureReason: String?
         /// The ID of the Amazon Elastic File System (EFS) managed by this Domain.
         public let homeEfsFileSystemId: String?
-        /// This member is deprecated and replaced with KmsKeyId.
+        /// Use KmsKeyId.
         public let homeEfsFileSystemKmsKeyId: String?
         /// The Amazon Web Services KMS customer managed key used to encrypt the EFS volume attached to the domain.
         public let kmsKeyId: String?
@@ -11148,6 +11173,8 @@ extension SageMaker {
         public let lastModifiedBy: UserContext?
         /// The time when the pipeline execution was modified last.
         public let lastModifiedTime: Date?
+        /// The parallelism configuration applied to the pipeline.
+        public let parallelismConfiguration: ParallelismConfiguration?
         /// The Amazon Resource Name (ARN) of the pipeline.
         public let pipelineArn: String?
         /// The Amazon Resource Name (ARN) of the pipeline execution.
@@ -11160,12 +11187,13 @@ extension SageMaker {
         public let pipelineExecutionStatus: PipelineExecutionStatus?
         public let pipelineExperimentConfig: PipelineExperimentConfig?
 
-        public init(createdBy: UserContext? = nil, creationTime: Date? = nil, failureReason: String? = nil, lastModifiedBy: UserContext? = nil, lastModifiedTime: Date? = nil, pipelineArn: String? = nil, pipelineExecutionArn: String? = nil, pipelineExecutionDescription: String? = nil, pipelineExecutionDisplayName: String? = nil, pipelineExecutionStatus: PipelineExecutionStatus? = nil, pipelineExperimentConfig: PipelineExperimentConfig? = nil) {
+        public init(createdBy: UserContext? = nil, creationTime: Date? = nil, failureReason: String? = nil, lastModifiedBy: UserContext? = nil, lastModifiedTime: Date? = nil, parallelismConfiguration: ParallelismConfiguration? = nil, pipelineArn: String? = nil, pipelineExecutionArn: String? = nil, pipelineExecutionDescription: String? = nil, pipelineExecutionDisplayName: String? = nil, pipelineExecutionStatus: PipelineExecutionStatus? = nil, pipelineExperimentConfig: PipelineExperimentConfig? = nil) {
             self.createdBy = createdBy
             self.creationTime = creationTime
             self.failureReason = failureReason
             self.lastModifiedBy = lastModifiedBy
             self.lastModifiedTime = lastModifiedTime
+            self.parallelismConfiguration = parallelismConfiguration
             self.pipelineArn = pipelineArn
             self.pipelineExecutionArn = pipelineExecutionArn
             self.pipelineExecutionDescription = pipelineExecutionDescription
@@ -11180,6 +11208,7 @@ extension SageMaker {
             case failureReason = "FailureReason"
             case lastModifiedBy = "LastModifiedBy"
             case lastModifiedTime = "LastModifiedTime"
+            case parallelismConfiguration = "ParallelismConfiguration"
             case pipelineArn = "PipelineArn"
             case pipelineExecutionArn = "PipelineExecutionArn"
             case pipelineExecutionDescription = "PipelineExecutionDescription"
@@ -11217,6 +11246,8 @@ extension SageMaker {
         public let lastModifiedTime: Date?
         /// The time when the pipeline was last run.
         public let lastRunTime: Date?
+        /// Lists the parallelism configuration applied to the pipeline.
+        public let parallelismConfiguration: ParallelismConfiguration?
         /// The Amazon Resource Name (ARN) of the pipeline.
         public let pipelineArn: String?
         /// The JSON pipeline definition.
@@ -11232,12 +11263,13 @@ extension SageMaker {
         /// The Amazon Resource Name (ARN) that the pipeline uses to execute.
         public let roleArn: String?
 
-        public init(createdBy: UserContext? = nil, creationTime: Date? = nil, lastModifiedBy: UserContext? = nil, lastModifiedTime: Date? = nil, lastRunTime: Date? = nil, pipelineArn: String? = nil, pipelineDefinition: String? = nil, pipelineDescription: String? = nil, pipelineDisplayName: String? = nil, pipelineName: String? = nil, pipelineStatus: PipelineStatus? = nil, roleArn: String? = nil) {
+        public init(createdBy: UserContext? = nil, creationTime: Date? = nil, lastModifiedBy: UserContext? = nil, lastModifiedTime: Date? = nil, lastRunTime: Date? = nil, parallelismConfiguration: ParallelismConfiguration? = nil, pipelineArn: String? = nil, pipelineDefinition: String? = nil, pipelineDescription: String? = nil, pipelineDisplayName: String? = nil, pipelineName: String? = nil, pipelineStatus: PipelineStatus? = nil, roleArn: String? = nil) {
             self.createdBy = createdBy
             self.creationTime = creationTime
             self.lastModifiedBy = lastModifiedBy
             self.lastModifiedTime = lastModifiedTime
             self.lastRunTime = lastRunTime
+            self.parallelismConfiguration = parallelismConfiguration
             self.pipelineArn = pipelineArn
             self.pipelineDefinition = pipelineDefinition
             self.pipelineDescription = pipelineDescription
@@ -11253,6 +11285,7 @@ extension SageMaker {
             case lastModifiedBy = "LastModifiedBy"
             case lastModifiedTime = "LastModifiedTime"
             case lastRunTime = "LastRunTime"
+            case parallelismConfiguration = "ParallelismConfiguration"
             case pipelineArn = "PipelineArn"
             case pipelineDefinition = "PipelineDefinition"
             case pipelineDescription = "PipelineDescription"
@@ -12514,6 +12547,31 @@ extension SageMaker {
         }
     }
 
+    public struct EMRStepMetadata: AWSDecodableShape {
+        /// The identifier of the EMR cluster.
+        public let clusterId: String?
+        /// The path to the log file where the cluster step's failure root cause  is recorded.
+        public let logFilePath: String?
+        /// The identifier of the EMR cluster step.
+        public let stepId: String?
+        /// The name of the EMR cluster step.
+        public let stepName: String?
+
+        public init(clusterId: String? = nil, logFilePath: String? = nil, stepId: String? = nil, stepName: String? = nil) {
+            self.clusterId = clusterId
+            self.logFilePath = logFilePath
+            self.stepId = stepId
+            self.stepName = stepName
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case clusterId = "ClusterId"
+            case logFilePath = "LogFilePath"
+            case stepId = "StepId"
+            case stepName = "StepName"
+        }
+    }
+
     public struct Edge: AWSDecodableShape {
         /// The type of the Association(Edge) between the source and destination. For example ContributedTo,  Produced, or DerivedFrom.
         public let associationType: AssociationEdgeType?
@@ -13118,6 +13176,19 @@ extension SageMaker {
 
         private enum CodingKeys: String, CodingKey {
             case report = "Report"
+        }
+    }
+
+    public struct FailStepMetadata: AWSDecodableShape {
+        /// A message that you define and then is processed and rendered by  the Fail step when the error occurs.
+        public let errorMessage: String?
+
+        public init(errorMessage: String? = nil) {
+            self.errorMessage = errorMessage
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case errorMessage = "ErrorMessage"
         }
     }
 
@@ -14520,7 +14591,7 @@ extension SageMaker {
         public let dataInputConfig: String
         /// Identifies the framework in which the model was trained. For example: TENSORFLOW.
         public let framework: Framework
-        /// Specifies the framework version to use. This API field is only supported for PyTorch framework versions 1.4,  1.5, and 1.6 for  cloud instance target devices: ml_c4, ml_c5, ml_m4,  ml_m5, ml_p2, ml_p3, and ml_g4dn.
+        /// Specifies the framework version to use. This API field is only supported for the PyTorch and TensorFlow frameworks. For information about framework versions supported for cloud targets and edge devices, see  Cloud Supported Instance Types and Frameworks and  Edge Supported Frameworks.
         public let frameworkVersion: String?
         /// The S3 path where the model artifacts, which result from model training, are stored. This path must point to a single gzip compressed tar archive (.tar.gz suffix).
         public let s3Uri: String
@@ -17327,7 +17398,7 @@ extension SageMaker {
         public let modelApprovalStatus: ModelApprovalStatus?
         /// A filter that returns only model versions that belong to the specified model group.
         public let modelPackageGroupName: String?
-        /// A filter that returns onlyl the model packages of the specified type. This can be one of the following values.    VERSIONED - List only versioned models.    UNVERSIONED - List only unversioined models.    BOTH - List both versioned and unversioned models.
+        /// A filter that returns only the model packages of the specified type. This can be one of the following values.    UNVERSIONED - List only unversioined models.  This is the default value if no ModelPackageType is specified.    VERSIONED - List only versioned models.    BOTH - List both versioned and unversioned models.
         public let modelPackageType: ModelPackageType?
         /// A string in the model package name. This filter returns only model packages whose name contains the specified string.
         public let nameContains: String?
@@ -21159,8 +21230,25 @@ extension SageMaker {
         }
     }
 
+    public struct ParallelismConfiguration: AWSEncodableShape & AWSDecodableShape {
+        /// The max number of steps that can be executed in parallel.
+        public let maxParallelExecutionSteps: Int
+
+        public init(maxParallelExecutionSteps: Int) {
+            self.maxParallelExecutionSteps = maxParallelExecutionSteps
+        }
+
+        public func validate(name: String) throws {
+            try self.validate(self.maxParallelExecutionSteps, name: "maxParallelExecutionSteps", parent: name, min: 1)
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case maxParallelExecutionSteps = "MaxParallelExecutionSteps"
+        }
+    }
+
     public struct Parameter: AWSEncodableShape & AWSDecodableShape {
-        /// The name of the parameter to assign a value to. This parameter name must match a named parameter in the pipeline definition.
+        /// The name of the parameter to assign a value to. This  parameter name must match a named parameter in the  pipeline definition.
         public let name: String
         /// The literal value for the parameter.
         public let value: String
@@ -21392,6 +21480,8 @@ extension SageMaker {
         public let lastModifiedTime: Date?
         /// The time when the pipeline was last run.
         public let lastRunTime: Date?
+        /// The parallelism configuration applied to the pipeline.
+        public let parallelismConfiguration: ParallelismConfiguration?
         /// The Amazon Resource Name (ARN) of the pipeline.
         public let pipelineArn: String?
         /// The description of the pipeline.
@@ -21407,12 +21497,13 @@ extension SageMaker {
         /// A list of tags that apply to the pipeline.
         public let tags: [Tag]?
 
-        public init(createdBy: UserContext? = nil, creationTime: Date? = nil, lastModifiedBy: UserContext? = nil, lastModifiedTime: Date? = nil, lastRunTime: Date? = nil, pipelineArn: String? = nil, pipelineDescription: String? = nil, pipelineDisplayName: String? = nil, pipelineName: String? = nil, pipelineStatus: PipelineStatus? = nil, roleArn: String? = nil, tags: [Tag]? = nil) {
+        public init(createdBy: UserContext? = nil, creationTime: Date? = nil, lastModifiedBy: UserContext? = nil, lastModifiedTime: Date? = nil, lastRunTime: Date? = nil, parallelismConfiguration: ParallelismConfiguration? = nil, pipelineArn: String? = nil, pipelineDescription: String? = nil, pipelineDisplayName: String? = nil, pipelineName: String? = nil, pipelineStatus: PipelineStatus? = nil, roleArn: String? = nil, tags: [Tag]? = nil) {
             self.createdBy = createdBy
             self.creationTime = creationTime
             self.lastModifiedBy = lastModifiedBy
             self.lastModifiedTime = lastModifiedTime
             self.lastRunTime = lastRunTime
+            self.parallelismConfiguration = parallelismConfiguration
             self.pipelineArn = pipelineArn
             self.pipelineDescription = pipelineDescription
             self.pipelineDisplayName = pipelineDisplayName
@@ -21428,6 +21519,7 @@ extension SageMaker {
             case lastModifiedBy = "LastModifiedBy"
             case lastModifiedTime = "LastModifiedTime"
             case lastRunTime = "LastRunTime"
+            case parallelismConfiguration = "ParallelismConfiguration"
             case pipelineArn = "PipelineArn"
             case pipelineDescription = "PipelineDescription"
             case pipelineDisplayName = "PipelineDisplayName"
@@ -21435,6 +21527,39 @@ extension SageMaker {
             case pipelineStatus = "PipelineStatus"
             case roleArn = "RoleArn"
             case tags = "Tags"
+        }
+    }
+
+    public struct PipelineDefinitionS3Location: AWSEncodableShape {
+        /// Name of the S3 bucket.
+        public let bucket: String
+        /// The object key (or key name) uniquely identifies the  object in an S3 bucket.
+        public let objectKey: String
+        /// Version Id of the pipeline definition file. If not specified, Amazon SageMaker  will retrieve the latest version.
+        public let versionId: String?
+
+        public init(bucket: String, objectKey: String, versionId: String? = nil) {
+            self.bucket = bucket
+            self.objectKey = objectKey
+            self.versionId = versionId
+        }
+
+        public func validate(name: String) throws {
+            try self.validate(self.bucket, name: "bucket", parent: name, max: 63)
+            try self.validate(self.bucket, name: "bucket", parent: name, min: 3)
+            try self.validate(self.bucket, name: "bucket", parent: name, pattern: "^[a-z0-9][\\.\\-a-z0-9]{1,61}[a-z0-9]$")
+            try self.validate(self.objectKey, name: "objectKey", parent: name, max: 1024)
+            try self.validate(self.objectKey, name: "objectKey", parent: name, min: 1)
+            try self.validate(self.objectKey, name: "objectKey", parent: name, pattern: "^.+$")
+            try self.validate(self.versionId, name: "versionId", parent: name, max: 1024)
+            try self.validate(self.versionId, name: "versionId", parent: name, min: 1)
+            try self.validate(self.versionId, name: "versionId", parent: name, pattern: "^.+$")
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case bucket = "Bucket"
+            case objectKey = "ObjectKey"
+            case versionId = "VersionId"
         }
     }
 
@@ -21447,6 +21572,8 @@ extension SageMaker {
         public let lastModifiedBy: UserContext?
         /// The time that the pipeline execution was last modified.
         public let lastModifiedTime: Date?
+        /// The parallelism configuration applied to the pipeline execution.
+        public let parallelismConfiguration: ParallelismConfiguration?
         /// The Amazon Resource Name (ARN) of the pipeline that was executed.
         public let pipelineArn: String?
         /// The Amazon Resource Name (ARN) of the pipeline execution.
@@ -21461,12 +21588,13 @@ extension SageMaker {
         /// Contains a list of pipeline parameters. This list can be empty.
         public let pipelineParameters: [Parameter]?
 
-        public init(createdBy: UserContext? = nil, creationTime: Date? = nil, failureReason: String? = nil, lastModifiedBy: UserContext? = nil, lastModifiedTime: Date? = nil, pipelineArn: String? = nil, pipelineExecutionArn: String? = nil, pipelineExecutionDescription: String? = nil, pipelineExecutionDisplayName: String? = nil, pipelineExecutionStatus: PipelineExecutionStatus? = nil, pipelineExperimentConfig: PipelineExperimentConfig? = nil, pipelineParameters: [Parameter]? = nil) {
+        public init(createdBy: UserContext? = nil, creationTime: Date? = nil, failureReason: String? = nil, lastModifiedBy: UserContext? = nil, lastModifiedTime: Date? = nil, parallelismConfiguration: ParallelismConfiguration? = nil, pipelineArn: String? = nil, pipelineExecutionArn: String? = nil, pipelineExecutionDescription: String? = nil, pipelineExecutionDisplayName: String? = nil, pipelineExecutionStatus: PipelineExecutionStatus? = nil, pipelineExperimentConfig: PipelineExperimentConfig? = nil, pipelineParameters: [Parameter]? = nil) {
             self.createdBy = createdBy
             self.creationTime = creationTime
             self.failureReason = failureReason
             self.lastModifiedBy = lastModifiedBy
             self.lastModifiedTime = lastModifiedTime
+            self.parallelismConfiguration = parallelismConfiguration
             self.pipelineArn = pipelineArn
             self.pipelineExecutionArn = pipelineExecutionArn
             self.pipelineExecutionDescription = pipelineExecutionDescription
@@ -21482,6 +21610,7 @@ extension SageMaker {
             case failureReason = "FailureReason"
             case lastModifiedBy = "LastModifiedBy"
             case lastModifiedTime = "LastModifiedTime"
+            case parallelismConfiguration = "ParallelismConfiguration"
             case pipelineArn = "PipelineArn"
             case pipelineExecutionArn = "PipelineExecutionArn"
             case pipelineExecutionDescription = "PipelineExecutionDescription"
@@ -21493,6 +21622,7 @@ extension SageMaker {
     }
 
     public struct PipelineExecutionStep: AWSDecodableShape {
+        /// The current attempt of the execution step. For more information, see Retry Policy for SageMaker Pipelines steps.
         public let attemptCount: Int?
         /// If this pipeline execution step was cached, details on the cache hit.
         public let cacheHitResult: CacheHitResult?
@@ -21504,18 +21634,24 @@ extension SageMaker {
         public let metadata: PipelineExecutionStepMetadata?
         /// The time that the step started executing.
         public let startTime: Date?
+        /// The description of the step.
+        public let stepDescription: String?
+        /// The display name of the step.
+        public let stepDisplayName: String?
         /// The name of the step that is executed.
         public let stepName: String?
         /// The status of the step execution.
         public let stepStatus: StepStatus?
 
-        public init(attemptCount: Int? = nil, cacheHitResult: CacheHitResult? = nil, endTime: Date? = nil, failureReason: String? = nil, metadata: PipelineExecutionStepMetadata? = nil, startTime: Date? = nil, stepName: String? = nil, stepStatus: StepStatus? = nil) {
+        public init(attemptCount: Int? = nil, cacheHitResult: CacheHitResult? = nil, endTime: Date? = nil, failureReason: String? = nil, metadata: PipelineExecutionStepMetadata? = nil, startTime: Date? = nil, stepDescription: String? = nil, stepDisplayName: String? = nil, stepName: String? = nil, stepStatus: StepStatus? = nil) {
             self.attemptCount = attemptCount
             self.cacheHitResult = cacheHitResult
             self.endTime = endTime
             self.failureReason = failureReason
             self.metadata = metadata
             self.startTime = startTime
+            self.stepDescription = stepDescription
+            self.stepDisplayName = stepDisplayName
             self.stepName = stepName
             self.stepStatus = stepStatus
         }
@@ -21527,6 +21663,8 @@ extension SageMaker {
             case failureReason = "FailureReason"
             case metadata = "Metadata"
             case startTime = "StartTime"
+            case stepDescription = "StepDescription"
+            case stepDisplayName = "StepDisplayName"
             case stepName = "StepName"
             case stepStatus = "StepStatus"
         }
@@ -21539,6 +21677,10 @@ extension SageMaker {
         public let clarifyCheck: ClarifyCheckStepMetadata?
         /// The outcome of the condition evaluation that was run by this step execution.
         public let condition: ConditionStepMetadata?
+        /// The configurations and outcomes of an EMR step execution.
+        public let emr: EMRStepMetadata?
+        /// The configurations and outcomes of a Fail step execution.
+        public let fail: FailStepMetadata?
         /// The Amazon Resource Name (ARN) of the Lambda function that was run by this step execution and a list of output parameters.
         public let lambda: LambdaStepMetadata?
         /// The Amazon Resource Name (ARN) of the model that was created by this step execution.
@@ -21556,10 +21698,12 @@ extension SageMaker {
         /// The Amazon Resource Name (ARN) of the tuning job that was run by this step execution.
         public let tuningJob: TuningJobStepMetaData?
 
-        public init(callback: CallbackStepMetadata? = nil, clarifyCheck: ClarifyCheckStepMetadata? = nil, condition: ConditionStepMetadata? = nil, lambda: LambdaStepMetadata? = nil, model: ModelStepMetadata? = nil, processingJob: ProcessingJobStepMetadata? = nil, qualityCheck: QualityCheckStepMetadata? = nil, registerModel: RegisterModelStepMetadata? = nil, trainingJob: TrainingJobStepMetadata? = nil, transformJob: TransformJobStepMetadata? = nil, tuningJob: TuningJobStepMetaData? = nil) {
+        public init(callback: CallbackStepMetadata? = nil, clarifyCheck: ClarifyCheckStepMetadata? = nil, condition: ConditionStepMetadata? = nil, emr: EMRStepMetadata? = nil, fail: FailStepMetadata? = nil, lambda: LambdaStepMetadata? = nil, model: ModelStepMetadata? = nil, processingJob: ProcessingJobStepMetadata? = nil, qualityCheck: QualityCheckStepMetadata? = nil, registerModel: RegisterModelStepMetadata? = nil, trainingJob: TrainingJobStepMetadata? = nil, transformJob: TransformJobStepMetadata? = nil, tuningJob: TuningJobStepMetaData? = nil) {
             self.callback = callback
             self.clarifyCheck = clarifyCheck
             self.condition = condition
+            self.emr = emr
+            self.fail = fail
             self.lambda = lambda
             self.model = model
             self.processingJob = processingJob
@@ -21574,6 +21718,8 @@ extension SageMaker {
             case callback = "Callback"
             case clarifyCheck = "ClarifyCheck"
             case condition = "Condition"
+            case emr = "EMR"
+            case fail = "Fail"
             case lambda = "Lambda"
             case model = "Model"
             case processingJob = "ProcessingJob"
@@ -21592,15 +21738,18 @@ extension SageMaker {
         public let pipelineExecutionDescription: String?
         /// The display name of the pipeline execution.
         public let pipelineExecutionDisplayName: String?
+        /// A message generated by SageMaker Pipelines describing why the pipeline execution failed.
+        public let pipelineExecutionFailureReason: String?
         /// The status of the pipeline execution.
         public let pipelineExecutionStatus: PipelineExecutionStatus?
         /// The start time of the pipeline execution.
         public let startTime: Date?
 
-        public init(pipelineExecutionArn: String? = nil, pipelineExecutionDescription: String? = nil, pipelineExecutionDisplayName: String? = nil, pipelineExecutionStatus: PipelineExecutionStatus? = nil, startTime: Date? = nil) {
+        public init(pipelineExecutionArn: String? = nil, pipelineExecutionDescription: String? = nil, pipelineExecutionDisplayName: String? = nil, pipelineExecutionFailureReason: String? = nil, pipelineExecutionStatus: PipelineExecutionStatus? = nil, startTime: Date? = nil) {
             self.pipelineExecutionArn = pipelineExecutionArn
             self.pipelineExecutionDescription = pipelineExecutionDescription
             self.pipelineExecutionDisplayName = pipelineExecutionDisplayName
+            self.pipelineExecutionFailureReason = pipelineExecutionFailureReason
             self.pipelineExecutionStatus = pipelineExecutionStatus
             self.startTime = startTime
         }
@@ -21609,6 +21758,7 @@ extension SageMaker {
             case pipelineExecutionArn = "PipelineExecutionArn"
             case pipelineExecutionDescription = "PipelineExecutionDescription"
             case pipelineExecutionDisplayName = "PipelineExecutionDisplayName"
+            case pipelineExecutionFailureReason = "PipelineExecutionFailureReason"
             case pipelineExecutionStatus = "PipelineExecutionStatus"
             case startTime = "StartTime"
         }
@@ -23281,23 +23431,28 @@ extension SageMaker {
     public struct RetryPipelineExecutionRequest: AWSEncodableShape {
         /// A unique, case-sensitive identifier that you provide to ensure the idempotency of the operation. An idempotent operation completes no more than once.
         public let clientRequestToken: String
+        /// This configuration, if specified, overrides the parallelism configuration  of the parent pipeline.
+        public let parallelismConfiguration: ParallelismConfiguration?
         /// The Amazon Resource Name (ARN) of the pipeline execution.
         public let pipelineExecutionArn: String
 
-        public init(clientRequestToken: String = RetryPipelineExecutionRequest.idempotencyToken(), pipelineExecutionArn: String) {
+        public init(clientRequestToken: String = RetryPipelineExecutionRequest.idempotencyToken(), parallelismConfiguration: ParallelismConfiguration? = nil, pipelineExecutionArn: String) {
             self.clientRequestToken = clientRequestToken
+            self.parallelismConfiguration = parallelismConfiguration
             self.pipelineExecutionArn = pipelineExecutionArn
         }
 
         public func validate(name: String) throws {
             try self.validate(self.clientRequestToken, name: "clientRequestToken", parent: name, max: 128)
             try self.validate(self.clientRequestToken, name: "clientRequestToken", parent: name, min: 32)
+            try self.parallelismConfiguration?.validate(name: "\(name).parallelismConfiguration")
             try self.validate(self.pipelineExecutionArn, name: "pipelineExecutionArn", parent: name, max: 256)
             try self.validate(self.pipelineExecutionArn, name: "pipelineExecutionArn", parent: name, pattern: "^arn:aws[a-z\\-]*:sagemaker:[a-z0-9\\-]*:[0-9]{12}:pipeline\\/.*\\/execution\\/.*$")
         }
 
         private enum CodingKeys: String, CodingKey {
             case clientRequestToken = "ClientRequestToken"
+            case parallelismConfiguration = "ParallelismConfiguration"
             case pipelineExecutionArn = "PipelineExecutionArn"
         }
     }
@@ -23916,6 +24071,8 @@ extension SageMaker {
     public struct StartPipelineExecutionRequest: AWSEncodableShape {
         /// A unique, case-sensitive identifier that you provide to ensure the idempotency of the operation. An idempotent operation completes no more than once.
         public let clientRequestToken: String
+        /// This configuration, if specified, overrides the parallelism configuration  of the parent pipeline for this specific run.
+        public let parallelismConfiguration: ParallelismConfiguration?
         /// The description of the pipeline execution.
         public let pipelineExecutionDescription: String?
         /// The display name of the pipeline execution.
@@ -23925,8 +24082,9 @@ extension SageMaker {
         /// Contains a list of pipeline parameters. This list can be empty.
         public let pipelineParameters: [Parameter]?
 
-        public init(clientRequestToken: String = StartPipelineExecutionRequest.idempotencyToken(), pipelineExecutionDescription: String? = nil, pipelineExecutionDisplayName: String? = nil, pipelineName: String, pipelineParameters: [Parameter]? = nil) {
+        public init(clientRequestToken: String = StartPipelineExecutionRequest.idempotencyToken(), parallelismConfiguration: ParallelismConfiguration? = nil, pipelineExecutionDescription: String? = nil, pipelineExecutionDisplayName: String? = nil, pipelineName: String, pipelineParameters: [Parameter]? = nil) {
             self.clientRequestToken = clientRequestToken
+            self.parallelismConfiguration = parallelismConfiguration
             self.pipelineExecutionDescription = pipelineExecutionDescription
             self.pipelineExecutionDisplayName = pipelineExecutionDisplayName
             self.pipelineName = pipelineName
@@ -23936,6 +24094,7 @@ extension SageMaker {
         public func validate(name: String) throws {
             try self.validate(self.clientRequestToken, name: "clientRequestToken", parent: name, max: 128)
             try self.validate(self.clientRequestToken, name: "clientRequestToken", parent: name, min: 32)
+            try self.parallelismConfiguration?.validate(name: "\(name).parallelismConfiguration")
             try self.validate(self.pipelineExecutionDescription, name: "pipelineExecutionDescription", parent: name, max: 3072)
             try self.validate(self.pipelineExecutionDescription, name: "pipelineExecutionDescription", parent: name, pattern: ".*")
             try self.validate(self.pipelineExecutionDisplayName, name: "pipelineExecutionDisplayName", parent: name, max: 82)
@@ -23952,6 +24111,7 @@ extension SageMaker {
 
         private enum CodingKeys: String, CodingKey {
             case clientRequestToken = "ClientRequestToken"
+            case parallelismConfiguration = "ParallelismConfiguration"
             case pipelineExecutionDescription = "PipelineExecutionDescription"
             case pipelineExecutionDisplayName = "PipelineExecutionDisplayName"
             case pipelineName = "PipelineName"
@@ -24199,7 +24359,7 @@ extension SageMaker {
     }
 
     public struct StopTransformJobRequest: AWSEncodableShape {
-        /// The name of the transform job to stop.
+        /// The name of the batch transform job to stop.
         public let transformJobName: String
 
         public init(transformJobName: String) {
@@ -26430,6 +26590,8 @@ extension SageMaker {
     }
 
     public struct UpdatePipelineExecutionRequest: AWSEncodableShape {
+        /// This configuration, if specified, overrides the parallelism configuration  of the parent pipeline for this specific run.
+        public let parallelismConfiguration: ParallelismConfiguration?
         /// The Amazon Resource Name (ARN) of the pipeline execution.
         public let pipelineExecutionArn: String
         /// The description of the pipeline execution.
@@ -26437,13 +26599,15 @@ extension SageMaker {
         /// The display name of the pipeline execution.
         public let pipelineExecutionDisplayName: String?
 
-        public init(pipelineExecutionArn: String, pipelineExecutionDescription: String? = nil, pipelineExecutionDisplayName: String? = nil) {
+        public init(parallelismConfiguration: ParallelismConfiguration? = nil, pipelineExecutionArn: String, pipelineExecutionDescription: String? = nil, pipelineExecutionDisplayName: String? = nil) {
+            self.parallelismConfiguration = parallelismConfiguration
             self.pipelineExecutionArn = pipelineExecutionArn
             self.pipelineExecutionDescription = pipelineExecutionDescription
             self.pipelineExecutionDisplayName = pipelineExecutionDisplayName
         }
 
         public func validate(name: String) throws {
+            try self.parallelismConfiguration?.validate(name: "\(name).parallelismConfiguration")
             try self.validate(self.pipelineExecutionArn, name: "pipelineExecutionArn", parent: name, max: 256)
             try self.validate(self.pipelineExecutionArn, name: "pipelineExecutionArn", parent: name, pattern: "^arn:aws[a-z\\-]*:sagemaker:[a-z0-9\\-]*:[0-9]{12}:pipeline\\/.*\\/execution\\/.*$")
             try self.validate(self.pipelineExecutionDescription, name: "pipelineExecutionDescription", parent: name, max: 3072)
@@ -26454,6 +26618,7 @@ extension SageMaker {
         }
 
         private enum CodingKeys: String, CodingKey {
+            case parallelismConfiguration = "ParallelismConfiguration"
             case pipelineExecutionArn = "PipelineExecutionArn"
             case pipelineExecutionDescription = "PipelineExecutionDescription"
             case pipelineExecutionDisplayName = "PipelineExecutionDisplayName"
@@ -26474,8 +26639,12 @@ extension SageMaker {
     }
 
     public struct UpdatePipelineRequest: AWSEncodableShape {
+        /// If specified, it applies to all executions of this pipeline by default.
+        public let parallelismConfiguration: ParallelismConfiguration?
         /// The JSON pipeline definition.
         public let pipelineDefinition: String?
+        /// The location of the pipeline definition stored in Amazon S3. If specified,  SageMaker will retrieve the pipeline definition from this location.
+        public let pipelineDefinitionS3Location: PipelineDefinitionS3Location?
         /// The description of the pipeline.
         public let pipelineDescription: String?
         /// The display name of the pipeline.
@@ -26485,8 +26654,10 @@ extension SageMaker {
         /// The Amazon Resource Name (ARN) that the pipeline uses to execute.
         public let roleArn: String?
 
-        public init(pipelineDefinition: String? = nil, pipelineDescription: String? = nil, pipelineDisplayName: String? = nil, pipelineName: String, roleArn: String? = nil) {
+        public init(parallelismConfiguration: ParallelismConfiguration? = nil, pipelineDefinition: String? = nil, pipelineDefinitionS3Location: PipelineDefinitionS3Location? = nil, pipelineDescription: String? = nil, pipelineDisplayName: String? = nil, pipelineName: String, roleArn: String? = nil) {
+            self.parallelismConfiguration = parallelismConfiguration
             self.pipelineDefinition = pipelineDefinition
+            self.pipelineDefinitionS3Location = pipelineDefinitionS3Location
             self.pipelineDescription = pipelineDescription
             self.pipelineDisplayName = pipelineDisplayName
             self.pipelineName = pipelineName
@@ -26494,9 +26665,11 @@ extension SageMaker {
         }
 
         public func validate(name: String) throws {
+            try self.parallelismConfiguration?.validate(name: "\(name).parallelismConfiguration")
             try self.validate(self.pipelineDefinition, name: "pipelineDefinition", parent: name, max: 1_048_576)
             try self.validate(self.pipelineDefinition, name: "pipelineDefinition", parent: name, min: 1)
             try self.validate(self.pipelineDefinition, name: "pipelineDefinition", parent: name, pattern: "(?:[ \\r\\n\\t].*)*$")
+            try self.pipelineDefinitionS3Location?.validate(name: "\(name).pipelineDefinitionS3Location")
             try self.validate(self.pipelineDescription, name: "pipelineDescription", parent: name, max: 3072)
             try self.validate(self.pipelineDescription, name: "pipelineDescription", parent: name, pattern: ".*")
             try self.validate(self.pipelineDisplayName, name: "pipelineDisplayName", parent: name, max: 256)
@@ -26511,7 +26684,9 @@ extension SageMaker {
         }
 
         private enum CodingKeys: String, CodingKey {
+            case parallelismConfiguration = "ParallelismConfiguration"
             case pipelineDefinition = "PipelineDefinition"
+            case pipelineDefinitionS3Location = "PipelineDefinitionS3Location"
             case pipelineDescription = "PipelineDescription"
             case pipelineDisplayName = "PipelineDisplayName"
             case pipelineName = "PipelineName"

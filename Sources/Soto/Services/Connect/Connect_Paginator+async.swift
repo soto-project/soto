@@ -200,6 +200,28 @@ extension Connect {
         )
     }
 
+    ///  Lists the default vocabularies for the specified Amazon Connect instance.
+    /// Return PaginatorSequence for operation.
+    ///
+    /// - Parameters:
+    ///   - input: Input for request
+    ///   - logger: Logger used flot logging
+    ///   - eventLoop: EventLoop to run this process on
+    public func listDefaultVocabulariesPaginator(
+        _ input: ListDefaultVocabulariesRequest,
+        logger: Logger = AWSClient.loggingDisabled,
+        on eventLoop: EventLoop? = nil
+    ) -> AWSClient.PaginatorSequence<ListDefaultVocabulariesRequest, ListDefaultVocabulariesResponse> {
+        return .init(
+            input: input,
+            command: listDefaultVocabularies,
+            inputKey: \ListDefaultVocabulariesRequest.nextToken,
+            outputKey: \ListDefaultVocabulariesResponse.nextToken,
+            logger: logger,
+            on: eventLoop
+        )
+    }
+
     ///  Provides information about the hours of operation for the specified Amazon Connect instance. For more information about hours of operation, see Set the Hours of Operation for a Queue in the Amazon Connect Administrator Guide.
     /// Return PaginatorSequence for operation.
     ///
@@ -289,7 +311,7 @@ extension Connect {
         )
     }
 
-    ///  Provides summary information about the AWS resource associations for the specified Amazon Connect instance.
+    ///  Provides summary information about the Amazon Web Services resource associations for the specified Amazon Connect instance.
     /// Return PaginatorSequence for operation.
     ///
     /// - Parameters:
@@ -636,6 +658,28 @@ extension Connect {
             command: listUsers,
             inputKey: \ListUsersRequest.nextToken,
             outputKey: \ListUsersResponse.nextToken,
+            logger: logger,
+            on: eventLoop
+        )
+    }
+
+    ///  Searches for vocabularies within a specific Amazon Connect instance using State, NameStartsWith, and LanguageCode.
+    /// Return PaginatorSequence for operation.
+    ///
+    /// - Parameters:
+    ///   - input: Input for request
+    ///   - logger: Logger used flot logging
+    ///   - eventLoop: EventLoop to run this process on
+    public func searchVocabulariesPaginator(
+        _ input: SearchVocabulariesRequest,
+        logger: Logger = AWSClient.loggingDisabled,
+        on eventLoop: EventLoop? = nil
+    ) -> AWSClient.PaginatorSequence<SearchVocabulariesRequest, SearchVocabulariesResponse> {
+        return .init(
+            input: input,
+            command: searchVocabularies,
+            inputKey: \SearchVocabulariesRequest.nextToken,
+            outputKey: \SearchVocabulariesResponse.nextToken,
             logger: logger,
             on: eventLoop
         )

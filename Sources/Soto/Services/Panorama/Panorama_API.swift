@@ -93,7 +93,7 @@ public struct Panorama: AWSService {
         return self.client.execute(operation: "DeleteDevice", path: "/devices/{DeviceId}", httpMethod: .DELETE, serviceConfig: self.config, input: input, logger: logger, on: eventLoop)
     }
 
-    /// Deletes a package.
+    /// Deletes a package.  To delete a package, you need permission to call s3:DeleteObject in addition to permissions for the AWS Panorama API.
     public func deletePackage(_ input: DeletePackageRequest, logger: Logger = AWSClient.loggingDisabled, on eventLoop: EventLoop? = nil) -> EventLoopFuture<DeletePackageResponse> {
         return self.client.execute(operation: "DeletePackage", path: "/packages/{PackageId}", httpMethod: .DELETE, serviceConfig: self.config, input: input, logger: logger, on: eventLoop)
     }

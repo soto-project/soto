@@ -66,7 +66,7 @@ public struct CloudFormationErrorType: AWSErrorType {
     public static var alreadyExistsException: Self { .init(.alreadyExistsException) }
     /// An error occurred during a CloudFormation registry operation.
     public static var cfnRegistryException: Self { .init(.cfnRegistryException) }
-    /// The specified change set name or ID doesn't exit. To view valid change sets for a stack, use the ListChangeSets action.
+    /// The specified change set name or ID doesn't exit. To view valid change sets for a stack, use the ListChangeSets operation.
     public static var changeSetNotFoundException: Self { .init(.changeSetNotFoundException) }
     /// The specified resource exists, but has been changed.
     public static var createdButModifiedException: Self { .init(.createdButModifiedException) }
@@ -76,9 +76,9 @@ public struct CloudFormationErrorType: AWSErrorType {
     public static var invalidChangeSetStatusException: Self { .init(.invalidChangeSetStatusException) }
     /// The specified operation isn't valid.
     public static var invalidOperationException: Self { .init(.invalidOperationException) }
-    /// Error reserved for use by the CloudFormation CLI. CloudFormation does not return this error to users.
+    /// Error reserved for use by the CloudFormation CLI. CloudFormation doesn't return this error to users.
     public static var invalidStateTransitionException: Self { .init(.invalidStateTransitionException) }
-    /// The quota for the resource has already been reached. For information on resource and stack limitations, see Limits in the CloudFormation User Guide.
+    /// The quota for the resource has already been reached. For information on resource and stack limitations, see CloudFormation quotas in the CloudFormation User Guide.
     public static var limitExceededException: Self { .init(.limitExceededException) }
     /// The specified name is already in use.
     public static var nameAlreadyExistsException: Self { .init(.nameAlreadyExistsException) }
@@ -88,11 +88,11 @@ public struct CloudFormationErrorType: AWSErrorType {
     public static var operationInProgressException: Self { .init(.operationInProgressException) }
     /// The specified ID refers to an operation that doesn't exist.
     public static var operationNotFoundException: Self { .init(.operationNotFoundException) }
-    /// Error reserved for use by the CloudFormation CLI. CloudFormation does not return this error to users.
+    /// Error reserved for use by the CloudFormation CLI. CloudFormation doesn't return this error to users.
     public static var operationStatusCheckFailedException: Self { .init(.operationStatusCheckFailedException) }
     /// The specified stack instance doesn't exist.
     public static var stackInstanceNotFoundException: Self { .init(.stackInstanceNotFoundException) }
-    /// The specified stack ARN doesn’t exist or stack doesn’t exist corresponding to the ARN in input.
+    /// The specified stack ARN doesn't exist or stack doesn't exist corresponding to the ARN in input.
     public static var stackNotFoundException: Self { .init(.stackNotFoundException) }
     /// You can't yet delete this stack set, because it still contains one or more stack instances. Delete all stack instances from the stack set before deleting the stack set.
     public static var stackSetNotEmptyException: Self { .init(.stackSetNotEmptyException) }
@@ -102,9 +102,9 @@ public struct CloudFormationErrorType: AWSErrorType {
     public static var staleRequestException: Self { .init(.staleRequestException) }
     /// A client request token already exists.
     public static var tokenAlreadyExistsException: Self { .init(.tokenAlreadyExistsException) }
-    /// The specified extension configuration cannot be found.
+    /// The specified extension configuration can't be found.
     public static var typeConfigurationNotFoundException: Self { .init(.typeConfigurationNotFoundException) }
-    /// The specified extension does not exist in the CloudFormation registry.
+    /// The specified extension doesn't exist in the CloudFormation registry.
     public static var typeNotFoundException: Self { .init(.typeNotFoundException) }
 }
 

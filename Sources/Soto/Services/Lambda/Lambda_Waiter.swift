@@ -22,7 +22,7 @@ import SotoCore
 // MARK: Waiters
 
 extension Lambda {
-    /// Waits for the function's State to be Active.
+    /// Waits for the function's State to be Active. This waiter uses GetFunctionConfiguration API. This should be used after new function creation.
     public func waitUntilFunctionActive(
         _ input: GetFunctionConfigurationRequest,
         maxWaitTime: TimeAmount? = nil,
@@ -37,6 +37,25 @@ extension Lambda {
             ],
             minDelayTime: .seconds(5),
             command: getFunctionConfiguration
+        )
+        return self.client.waitUntil(input, waiter: waiter, maxWaitTime: maxWaitTime, logger: logger, on: eventLoop)
+    }
+
+    /// Waits for the function's State to be Active. This waiter uses GetFunction API. This should be used after new function creation.
+    public func waitUntilFunctionActiveV2(
+        _ input: GetFunctionRequest,
+        maxWaitTime: TimeAmount? = nil,
+        logger: Logger = AWSClient.loggingDisabled,
+        on eventLoop: EventLoop? = nil
+    ) -> EventLoopFuture<Void> {
+        let waiter = AWSClient.Waiter(
+            acceptors: [
+                .init(state: .success, matcher: try! JMESPathMatcher("configuration.state", expected: "Active")),
+                .init(state: .failure, matcher: try! JMESPathMatcher("configuration.state", expected: "Failed")),
+                .init(state: .retry, matcher: try! JMESPathMatcher("configuration.state", expected: "Pending")),
+            ],
+            minDelayTime: .seconds(1),
+            command: getFunction
         )
         return self.client.waitUntil(input, waiter: waiter, maxWaitTime: maxWaitTime, logger: logger, on: eventLoop)
     }
@@ -58,7 +77,7 @@ extension Lambda {
         return self.client.waitUntil(input, waiter: waiter, maxWaitTime: maxWaitTime, logger: logger, on: eventLoop)
     }
 
-    /// Waits for the function's LastUpdateStatus to be Successful.
+    /// Waits for the function's LastUpdateStatus to be Successful. This waiter uses GetFunctionConfiguration API. This should be used after function updates.
     public func waitUntilFunctionUpdated(
         _ input: GetFunctionConfigurationRequest,
         maxWaitTime: TimeAmount? = nil,
@@ -73,6 +92,25 @@ extension Lambda {
             ],
             minDelayTime: .seconds(5),
             command: getFunctionConfiguration
+        )
+        return self.client.waitUntil(input, waiter: waiter, maxWaitTime: maxWaitTime, logger: logger, on: eventLoop)
+    }
+
+    /// Waits for the function's LastUpdateStatus to be Successful. This waiter uses GetFunction API. This should be used after function updates.
+    public func waitUntilFunctionUpdatedV2(
+        _ input: GetFunctionRequest,
+        maxWaitTime: TimeAmount? = nil,
+        logger: Logger = AWSClient.loggingDisabled,
+        on eventLoop: EventLoop? = nil
+    ) -> EventLoopFuture<Void> {
+        let waiter = AWSClient.Waiter(
+            acceptors: [
+                .init(state: .success, matcher: try! JMESPathMatcher("configuration.lastUpdateStatus", expected: "Successful")),
+                .init(state: .failure, matcher: try! JMESPathMatcher("configuration.lastUpdateStatus", expected: "Failed")),
+                .init(state: .retry, matcher: try! JMESPathMatcher("configuration.lastUpdateStatus", expected: "InProgress")),
+            ],
+            minDelayTime: .seconds(1),
+            command: getFunction
         )
         return self.client.waitUntil(input, waiter: waiter, maxWaitTime: maxWaitTime, logger: logger, on: eventLoop)
     }

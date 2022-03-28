@@ -179,7 +179,7 @@ extension AppConfig {
         )
     }
 
-    ///  Lists the deployments for an environment.
+    ///  Lists the deployments for an environment in descending deployment number order.
     ///
     /// Provide paginated results to closure `onPage` for it to combine them into one result.
     /// This works in a similar manner to `Array.reduce<Result>(_:_:) -> Result`.

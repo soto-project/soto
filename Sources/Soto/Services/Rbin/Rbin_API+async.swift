@@ -23,12 +23,12 @@ import SotoCore
 extension Rbin {
     // MARK: Async API Calls
 
-    /// Creates a Recycle Bin retention rule. For more information, see  Create Recycle Bin retention rules in the Amazon EC2 User Guide.
+    /// Creates a Recycle Bin retention rule. For more information, see  Create Recycle Bin retention rules in the Amazon Elastic Compute Cloud User Guide.
     public func createRule(_ input: CreateRuleRequest, logger: Logger = AWSClient.loggingDisabled, on eventLoop: EventLoop? = nil) async throws -> CreateRuleResponse {
         return try await self.client.execute(operation: "CreateRule", path: "/rules", httpMethod: .POST, serviceConfig: self.config, input: input, logger: logger, on: eventLoop)
     }
 
-    /// Deletes a Recycle Bin retention rule. For more information, see  Delete Recycle Bin retention rules in the Amazon EC2 User Guide.
+    /// Deletes a Recycle Bin retention rule. For more information, see  Delete Recycle Bin retention rules in the Amazon Elastic Compute Cloud User Guide.
     public func deleteRule(_ input: DeleteRuleRequest, logger: Logger = AWSClient.loggingDisabled, on eventLoop: EventLoop? = nil) async throws -> DeleteRuleResponse {
         return try await self.client.execute(operation: "DeleteRule", path: "/rules/{Identifier}", httpMethod: .DELETE, serviceConfig: self.config, input: input, logger: logger, on: eventLoop)
     }
@@ -43,22 +43,22 @@ extension Rbin {
         return try await self.client.execute(operation: "ListRules", path: "/list-rules", httpMethod: .POST, serviceConfig: self.config, input: input, logger: logger, on: eventLoop)
     }
 
-    /// Lists the tags assigned a specific resource.
+    /// Lists the tags assigned to a retention rule.
     public func listTagsForResource(_ input: ListTagsForResourceRequest, logger: Logger = AWSClient.loggingDisabled, on eventLoop: EventLoop? = nil) async throws -> ListTagsForResourceResponse {
         return try await self.client.execute(operation: "ListTagsForResource", path: "/tags/{ResourceArn}", httpMethod: .GET, serviceConfig: self.config, input: input, logger: logger, on: eventLoop)
     }
 
-    /// Assigns tags to the specified resource.
+    /// Assigns tags to the specified retention rule.
     public func tagResource(_ input: TagResourceRequest, logger: Logger = AWSClient.loggingDisabled, on eventLoop: EventLoop? = nil) async throws -> TagResourceResponse {
         return try await self.client.execute(operation: "TagResource", path: "/tags/{ResourceArn}", httpMethod: .POST, serviceConfig: self.config, input: input, logger: logger, on: eventLoop)
     }
 
-    /// Unassigns a tag from a resource.
+    /// Unassigns a tag from a retention rule.
     public func untagResource(_ input: UntagResourceRequest, logger: Logger = AWSClient.loggingDisabled, on eventLoop: EventLoop? = nil) async throws -> UntagResourceResponse {
         return try await self.client.execute(operation: "UntagResource", path: "/tags/{ResourceArn}", httpMethod: .DELETE, serviceConfig: self.config, input: input, logger: logger, on: eventLoop)
     }
 
-    /// Updates an existing Recycle Bin retention rule. For more information, see  Update Recycle Bin retention rules in the Amazon EC2 User Guide.
+    /// Updates an existing Recycle Bin retention rule. For more information, see  Update Recycle Bin retention rules in the Amazon Elastic Compute Cloud User Guide.
     public func updateRule(_ input: UpdateRuleRequest, logger: Logger = AWSClient.loggingDisabled, on eventLoop: EventLoop? = nil) async throws -> UpdateRuleResponse {
         return try await self.client.execute(operation: "UpdateRule", path: "/rules/{Identifier}", httpMethod: .PATCH, serviceConfig: self.config, input: input, logger: logger, on: eventLoop)
     }

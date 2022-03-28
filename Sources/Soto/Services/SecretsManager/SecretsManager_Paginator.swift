@@ -20,7 +20,7 @@ import SotoCore
 // MARK: Paginators
 
 extension SecretsManager {
-    ///  Lists the versions for a secret.  To list the secrets in the account, use ListSecrets. To get the secret value from SecretString or SecretBinary,  call GetSecretValue.    Minimum permissions  To run this command, you must have secretsmanager:ListSecretVersionIds permissions.
+    ///  Lists the versions for a secret.  To list the secrets in the account, use ListSecrets. To get the secret value from SecretString or SecretBinary,  call GetSecretValue.   Required permissions:  secretsmanager:ListSecretVersionIds.  For more information, see  IAM policy actions for Secrets Manager and Authentication  and access control in Secrets Manager.
     ///
     /// Provide paginated results to closure `onPage` for it to combine them into one result.
     /// This works in a similar manner to `Array.reduce<Result>(_:_:) -> Result`.
@@ -73,7 +73,7 @@ extension SecretsManager {
         )
     }
 
-    ///  Lists the secrets that are stored by Secrets Manager in the Amazon Web Services account.  To list the versions of a secret, use ListSecretVersionIds. To get the secret value from SecretString or SecretBinary,  call GetSecretValue.  For information about finding secrets in the console, see Enhanced search capabilities  for secrets in Secrets Manager.  Minimum permissions  To run this command, you must have secretsmanager:ListSecrets permissions.
+    ///  Lists the secrets that are stored by Secrets Manager in the Amazon Web Services account, not including secrets  that are marked for deletion. To see secrets marked for deletion, use the Secrets Manager console. To list the versions of a secret, use ListSecretVersionIds. To get the secret value from SecretString or SecretBinary,  call GetSecretValue.  For information about finding secrets in the console, see Enhanced search capabilities  for secrets in Secrets Manager.  Required permissions:  secretsmanager:ListSecrets.  For more information, see  IAM policy actions for Secrets Manager and Authentication  and access control in Secrets Manager.
     ///
     /// Provide paginated results to closure `onPage` for it to combine them into one result.
     /// This works in a similar manner to `Array.reduce<Result>(_:_:) -> Result`.

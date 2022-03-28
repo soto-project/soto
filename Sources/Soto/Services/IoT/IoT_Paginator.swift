@@ -3145,6 +3145,7 @@ extension IoT.ListJobExecutionsForJobRequest: AWSPaginateToken {
 extension IoT.ListJobExecutionsForThingRequest: AWSPaginateToken {
     public func usingPaginationToken(_ token: String) -> IoT.ListJobExecutionsForThingRequest {
         return .init(
+            jobId: self.jobId,
             maxResults: self.maxResults,
             namespaceId: self.namespaceId,
             nextToken: token,

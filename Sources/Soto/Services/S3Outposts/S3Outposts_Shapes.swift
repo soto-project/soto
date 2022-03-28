@@ -37,15 +37,15 @@ extension S3Outposts {
     // MARK: Shapes
 
     public struct CreateEndpointRequest: AWSEncodableShape {
-        /// The type of access for the on-premise network connectivity for the  Outpost endpoint. To access the endpoint from an on-premises network, you must  specify the access type and provide the customer owned IPv4 pool.
+        /// The type of access for the network connectivity for the Amazon S3 on Outposts endpoint. To use the Amazon Web Services VPC, choose Private. To use the endpoint with an on-premises network, choose CustomerOwnedIp.  If you choose CustomerOwnedIp, you must also provide the customer-owned IP address pool (CoIP pool).   Private is the default access type value.
         public let accessType: EndpointAccessType?
-        /// The ID of the customer-owned IPv4 pool for the endpoint.  IP addresses will be allocated from this pool for the endpoint.
+        /// The ID of the customer-owned IPv4 address pool (CoIP pool) for the endpoint. IP addresses are allocated from this pool for the endpoint.
         public let customerOwnedIpv4Pool: String?
-        /// The ID of the AWS Outposts.
+        /// The ID of the Outposts.
         public let outpostId: String
         /// The ID of the security group to use with the endpoint.
         public let securityGroupId: String
-        /// The ID of the subnet in the selected VPC. The endpoint subnet  must belong to the Outpost that has the Amazon S3 on Outposts provisioned.
+        /// The ID of the subnet in the selected VPC. The endpoint subnet must belong to the Outpost that has Amazon S3 on Outposts provisioned.
         public let subnetId: String
 
         public init(accessType: EndpointAccessType? = nil, customerOwnedIpv4Pool: String? = nil, outpostId: String, securityGroupId: String, subnetId: String) {
@@ -93,7 +93,7 @@ extension S3Outposts {
 
         /// The ID of the endpoint.
         public let endpointId: String
-        /// The ID of the AWS Outposts.
+        /// The ID of the Outposts.
         public let outpostId: String
 
         public init(endpointId: String, outpostId: String) {
@@ -110,18 +110,19 @@ extension S3Outposts {
     }
 
     public struct Endpoint: AWSDecodableShape {
+        /// The type of connectivity used to access the Amazon S3 on Outposts endpoint.
         public let accessType: EndpointAccessType?
         /// The VPC CIDR committed by this endpoint.
         public let cidrBlock: String?
         /// The time the endpoint was created.
         public let creationTime: Date?
-        /// The ID of the customer-owned IPv4 pool used for the endpoint.
+        /// The ID of the customer-owned IPv4 address pool used for the endpoint.
         public let customerOwnedIpv4Pool: String?
         /// The Amazon Resource Name (ARN) of the endpoint.
         public let endpointArn: String?
         /// The network interface of the endpoint.
         public let networkInterfaces: [NetworkInterface]?
-        /// The ID of the AWS Outposts.
+        /// The ID of the Outposts.
         public let outpostsId: String?
         /// The ID of the security group used for the endpoint.
         public let securityGroupId: String?
@@ -167,9 +168,9 @@ extension S3Outposts {
             AWSMemberEncoding(label: "nextToken", location: .querystring("nextToken"))
         ]
 
-        /// The max number of endpoints that can be returned on the request.
+        /// The maximum number of endpoints that will be returned in the response.
         public let maxResults: Int?
-        /// The next endpoint requested in the list.
+        /// If a previous response from this operation included a NextToken value,  provide that value here to retrieve the next page of results.
         public let nextToken: String?
 
         public init(maxResults: Int? = nil, nextToken: String? = nil) {
@@ -189,9 +190,58 @@ extension S3Outposts {
     }
 
     public struct ListEndpointsResult: AWSDecodableShape {
-        /// Returns an array of endpoints associated with AWS Outposts.
+        /// The list of endpoints associated with the specified Outpost.
         public let endpoints: [Endpoint]?
-        /// The next endpoint returned in the list.
+        /// If the number of endpoints associated with the specified Outpost exceeds MaxResults,  you can include this value in subsequent calls to this operation to retrieve more results.
+        public let nextToken: String?
+
+        public init(endpoints: [Endpoint]? = nil, nextToken: String? = nil) {
+            self.endpoints = endpoints
+            self.nextToken = nextToken
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case endpoints = "Endpoints"
+            case nextToken = "NextToken"
+        }
+    }
+
+    public struct ListSharedEndpointsRequest: AWSEncodableShape {
+        public static var _encoding = [
+            AWSMemberEncoding(label: "maxResults", location: .querystring("maxResults")),
+            AWSMemberEncoding(label: "nextToken", location: .querystring("nextToken")),
+            AWSMemberEncoding(label: "outpostId", location: .querystring("outpostId"))
+        ]
+
+        /// The maximum number of endpoints that will be returned in the response.
+        public let maxResults: Int?
+        /// If a previous response from this operation included a NextToken value, you can provide that value here to retrieve the next page of results.
+        public let nextToken: String?
+        /// The ID of the Amazon Web Services Outpost.
+        public let outpostId: String
+
+        public init(maxResults: Int? = nil, nextToken: String? = nil, outpostId: String) {
+            self.maxResults = maxResults
+            self.nextToken = nextToken
+            self.outpostId = outpostId
+        }
+
+        public func validate(name: String) throws {
+            try self.validate(self.maxResults, name: "maxResults", parent: name, max: 100)
+            try self.validate(self.maxResults, name: "maxResults", parent: name, min: 0)
+            try self.validate(self.nextToken, name: "nextToken", parent: name, max: 1024)
+            try self.validate(self.nextToken, name: "nextToken", parent: name, min: 1)
+            try self.validate(self.nextToken, name: "nextToken", parent: name, pattern: "^[A-Za-z0-9\\+\\:\\/\\=\\?\\#-_]+$")
+            try self.validate(self.outpostId, name: "outpostId", parent: name, pattern: "^(op-[a-f0-9]{17}|\\d{12}|ec2)$")
+        }
+
+        private enum CodingKeys: CodingKey {}
+    }
+
+    public struct ListSharedEndpointsResult: AWSDecodableShape {
+        /// The list of endpoints associated with the specified Outpost that have been shared by Amazon Web Services Resource Access Manager (RAM).
+        public let endpoints: [Endpoint]?
+        /// If the number of endpoints associated with the specified Outpost exceeds MaxResults,  you can include this value in subsequent calls to this operation to retrieve more results.
         public let nextToken: String?
 
         public init(endpoints: [Endpoint]? = nil, nextToken: String? = nil) {

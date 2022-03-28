@@ -73,10 +73,10 @@ extension ACMPCA {
         )
     }
 
-    ///  List all permissions on a private CA, if any, granted to the AWS Certificate Manager (ACM) service
+    ///  List all permissions on a private CA, if any, granted to the Certificate Manager (ACM) service
     ///  			principal (acm.amazonaws.com).
     ///  		       These permissions allow ACM to issue and renew ACM certificates that reside in the
-    ///  			same AWS account as the CA.
+    ///  			same Amazon Web Services account as the CA.
     ///  		       Permissions can be granted with the CreatePermission action and
     ///  			revoked with the DeletePermission action.
     ///  		        About Permissions
@@ -92,7 +92,7 @@ extension ACMPCA {
     ///  			the ACM certificate owner must set up a resource-based policy to enable
     ///  			cross-account issuance and renewals. For more information, see
     ///  			Using a Resource
-    ///  			Based Policy with ACM Private CA.
+    ///  			Based Policy with Amazon Web Services Private CA.
     ///
     ///
     /// Provide paginated results to closure `onPage` for it to combine them into one result.

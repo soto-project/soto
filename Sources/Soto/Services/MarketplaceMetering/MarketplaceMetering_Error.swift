@@ -75,7 +75,7 @@ public struct MarketplaceMeteringErrorType: AWSErrorType {
     public static var invalidProductCodeException: Self { .init(.invalidProductCodeException) }
     /// Public Key version is invalid.
     public static var invalidPublicKeyVersionException: Self { .init(.invalidPublicKeyVersionException) }
-    /// RegisterUsage must be called in the same AWS Region the ECS task was launched in. This prevents a container from hardcoding a Region (e.g. withRegion(“us-east-1”) when calling RegisterUsage.
+    ///  RegisterUsage must be called in the same AWS Region the ECS task was launched in. This prevents a container from hardcoding a Region (e.g. withRegion(“us-east-1”) when calling RegisterUsage.
     public static var invalidRegionException: Self { .init(.invalidRegionException) }
     /// The tag is invalid, or the number of tags is greater than 5.
     public static var invalidTagException: Self { .init(.invalidTagException) }
@@ -89,7 +89,7 @@ public struct MarketplaceMeteringErrorType: AWSErrorType {
     public static var platformNotSupportedException: Self { .init(.platformNotSupportedException) }
     /// The calls to the API are throttled.
     public static var throttlingException: Self { .init(.throttlingException) }
-    /// The timestamp value passed in the meterUsage() is out of allowed range.
+    /// The timestamp value passed in the UsageRecord is out of allowed range. For BatchMeterUsage, if any of the records are outside of the allowed range, the entire batch is not processed. You must remove invalid records and try again.
     public static var timestampOutOfBoundsException: Self { .init(.timestampOutOfBoundsException) }
 }
 

@@ -1127,6 +1127,37 @@ extension IoTWireless {
         public init() {}
     }
 
+    public struct DeleteQueuedMessagesRequest: AWSEncodableShape {
+        public static var _encoding = [
+            AWSMemberEncoding(label: "id", location: .uri("Id")),
+            AWSMemberEncoding(label: "messageId", location: .querystring("messageId")),
+            AWSMemberEncoding(label: "wirelessDeviceType", location: .querystring("WirelessDeviceType"))
+        ]
+
+        /// Id of a given wireless device which messages will be deleted
+        public let id: String
+        /// if messageID=="*", the queue for a particular wireless deviceId will be purged, otherwise, the specific message with messageId will be deleted
+        public let messageId: String
+        /// The wireless device type, it is either Sidewalk or LoRaWAN.
+        public let wirelessDeviceType: WirelessDeviceType?
+
+        public init(id: String, messageId: String, wirelessDeviceType: WirelessDeviceType? = nil) {
+            self.id = id
+            self.messageId = messageId
+            self.wirelessDeviceType = wirelessDeviceType
+        }
+
+        public func validate(name: String) throws {
+            try self.validate(self.id, name: "id", parent: name, max: 256)
+        }
+
+        private enum CodingKeys: CodingKey {}
+    }
+
+    public struct DeleteQueuedMessagesResponse: AWSDecodableShape {
+        public init() {}
+    }
+
     public struct DeleteServiceProfileRequest: AWSEncodableShape {
         public static var _encoding = [
             AWSMemberEncoding(label: "id", location: .uri("Id"))
@@ -1482,6 +1513,30 @@ extension IoTWireless {
 
     public struct DisassociateWirelessGatewayFromThingResponse: AWSDecodableShape {
         public init() {}
+    }
+
+    public struct DownlinkQueueMessage: AWSDecodableShape {
+        public let loRaWAN: LoRaWANSendDataToDevice?
+        ///  The messageId allocated by IoT Wireless for tracing purpose
+        public let messageId: String?
+        /// The timestamp that Iot Wireless received the message.
+        public let receivedAt: String?
+        /// The transmit mode to use to send data to the wireless device. Can be: 0 for UM (unacknowledge mode) or 1 for AM (acknowledge mode).
+        public let transmitMode: Int?
+
+        public init(loRaWAN: LoRaWANSendDataToDevice? = nil, messageId: String? = nil, receivedAt: String? = nil, transmitMode: Int? = nil) {
+            self.loRaWAN = loRaWAN
+            self.messageId = messageId
+            self.receivedAt = receivedAt
+            self.transmitMode = transmitMode
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case loRaWAN = "LoRaWAN"
+            case messageId = "MessageId"
+            case receivedAt = "ReceivedAt"
+            case transmitMode = "TransmitMode"
+        }
     }
 
     public struct FPorts: AWSEncodableShape & AWSDecodableShape {
@@ -2645,6 +2700,57 @@ extension IoTWireless {
         }
     }
 
+    public struct ListQueuedMessagesRequest: AWSEncodableShape {
+        public static var _encoding = [
+            AWSMemberEncoding(label: "id", location: .uri("Id")),
+            AWSMemberEncoding(label: "maxResults", location: .querystring("maxResults")),
+            AWSMemberEncoding(label: "nextToken", location: .querystring("nextToken")),
+            AWSMemberEncoding(label: "wirelessDeviceType", location: .querystring("WirelessDeviceType"))
+        ]
+
+        /// Id of a given wireless device which the downlink packets are targeted
+        public let id: String
+        /// The maximum number of results to return in this operation.
+        public let maxResults: Int?
+        /// To retrieve the next set of results, the nextToken value from a previous response; otherwise null to receive the first set of results.
+        public let nextToken: String?
+        /// The wireless device type, it is either Sidewalk or LoRaWAN.
+        public let wirelessDeviceType: WirelessDeviceType?
+
+        public init(id: String, maxResults: Int? = nil, nextToken: String? = nil, wirelessDeviceType: WirelessDeviceType? = nil) {
+            self.id = id
+            self.maxResults = maxResults
+            self.nextToken = nextToken
+            self.wirelessDeviceType = wirelessDeviceType
+        }
+
+        public func validate(name: String) throws {
+            try self.validate(self.id, name: "id", parent: name, max: 256)
+            try self.validate(self.maxResults, name: "maxResults", parent: name, max: 250)
+            try self.validate(self.maxResults, name: "maxResults", parent: name, min: 0)
+            try self.validate(self.nextToken, name: "nextToken", parent: name, max: 4096)
+        }
+
+        private enum CodingKeys: CodingKey {}
+    }
+
+    public struct ListQueuedMessagesResponse: AWSDecodableShape {
+        /// The messages in downlink queue.
+        public let downlinkQueueMessagesList: [DownlinkQueueMessage]?
+        /// To retrieve the next set of results, the nextToken value from a previous response; otherwise null to receive the first set of results.
+        public let nextToken: String?
+
+        public init(downlinkQueueMessagesList: [DownlinkQueueMessage]? = nil, nextToken: String? = nil) {
+            self.downlinkQueueMessagesList = downlinkQueueMessagesList
+            self.nextToken = nextToken
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case downlinkQueueMessagesList = "DownlinkQueueMessagesList"
+            case nextToken = "NextToken"
+        }
+    }
+
     public struct ListServiceProfilesRequest: AWSEncodableShape {
         public static var _encoding = [
             AWSMemberEncoding(label: "maxResults", location: .querystring("maxResults")),
@@ -3399,7 +3505,7 @@ extension IoTWireless {
         }
     }
 
-    public struct LoRaWANSendDataToDevice: AWSEncodableShape {
+    public struct LoRaWANSendDataToDevice: AWSEncodableShape & AWSDecodableShape {
         public let fPort: Int?
 
         public init(fPort: Int? = nil) {

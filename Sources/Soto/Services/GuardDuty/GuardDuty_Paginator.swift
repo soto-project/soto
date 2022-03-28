@@ -285,7 +285,7 @@ extension GuardDuty {
         )
     }
 
-    ///  Lists all GuardDuty membership invitations that were sent to the current AWS account.
+    ///  Lists all GuardDuty membership invitations that were sent to the current Amazon Web Services account.
     ///
     /// Provide paginated results to closure `onPage` for it to combine them into one result.
     /// This works in a similar manner to `Array.reduce<Result>(_:_:) -> Result`.
@@ -444,7 +444,7 @@ extension GuardDuty {
         )
     }
 
-    ///  Returns a list of publishing destinations associated with the specified dectectorId.
+    ///  Returns a list of publishing destinations associated with the specified detectorId.
     ///
     /// Provide paginated results to closure `onPage` for it to combine them into one result.
     /// This works in a similar manner to `Array.reduce<Result>(_:_:) -> Result`.

@@ -89,7 +89,7 @@ extension AppConfig {
         )
     }
 
-    ///  Lists the deployments for an environment.
+    ///  Lists the deployments for an environment in descending deployment number order.
     /// Return PaginatorSequence for operation.
     ///
     /// - Parameters:

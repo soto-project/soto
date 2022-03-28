@@ -32,14 +32,28 @@ extension Appflow {
         public var description: String { return self.rawValue }
     }
 
+    public enum AuthenticationType: String, CustomStringConvertible, Codable {
+        case apikey = "APIKEY"
+        case basic = "BASIC"
+        case custom = "CUSTOM"
+        case oauth2 = "OAUTH2"
+        public var description: String { return self.rawValue }
+    }
+
     public enum ConnectionMode: String, CustomStringConvertible, Codable {
         case `private` = "Private"
         case `public` = "Public"
         public var description: String { return self.rawValue }
     }
 
+    public enum ConnectorProvisioningType: String, CustomStringConvertible, Codable {
+        case lambda = "LAMBDA"
+        public var description: String { return self.rawValue }
+    }
+
     public enum ConnectorType: String, CustomStringConvertible, Codable {
         case amplitude = "Amplitude"
+        case customConnector = "CustomConnector"
         case customerProfiles = "CustomerProfiles"
         case datadog = "Datadog"
         case dynatrace = "Dynatrace"
@@ -177,6 +191,12 @@ extension Appflow {
         public var description: String { return self.rawValue }
     }
 
+    public enum OAuth2GrantType: String, CustomStringConvertible, Codable {
+        case authorizationCode = "AUTHORIZATION_CODE"
+        case clientCredentials = "CLIENT_CREDENTIALS"
+        public var description: String { return self.rawValue }
+    }
+
     public enum Operator: String, CustomStringConvertible, Codable {
         case addition = "ADDITION"
         case between = "BETWEEN"
@@ -218,6 +238,31 @@ extension Appflow {
         case validationAction = "VALIDATION_ACTION"
         case value = "VALUE"
         case values = "VALUES"
+        public var description: String { return self.rawValue }
+    }
+
+    public enum Operators: String, CustomStringConvertible, Codable {
+        case addition = "ADDITION"
+        case between = "BETWEEN"
+        case contains = "CONTAINS"
+        case division = "DIVISION"
+        case equalTo = "EQUAL_TO"
+        case greaterThan = "GREATER_THAN"
+        case greaterThanOrEqualTo = "GREATER_THAN_OR_EQUAL_TO"
+        case lessThan = "LESS_THAN"
+        case lessThanOrEqualTo = "LESS_THAN_OR_EQUAL_TO"
+        case maskAll = "MASK_ALL"
+        case maskFirstN = "MASK_FIRST_N"
+        case maskLastN = "MASK_LAST_N"
+        case multiplication = "MULTIPLICATION"
+        case notEqualTo = "NOT_EQUAL_TO"
+        case noOp = "NO_OP"
+        case projection = "PROJECTION"
+        case subtraction = "SUBTRACTION"
+        case validateNonNegative = "VALIDATE_NON_NEGATIVE"
+        case validateNonNull = "VALIDATE_NON_NULL"
+        case validateNonZero = "VALIDATE_NON_ZERO"
+        case validateNumeric = "VALIDATE_NUMERIC"
         public var description: String { return self.rawValue }
     }
 
@@ -416,6 +461,7 @@ extension Appflow {
         case mapAll = "Map_all"
         case mask = "Mask"
         case merge = "Merge"
+        case passthrough = "Passthrough"
         case truncate = "Truncate"
         case validate = "Validate"
         public var description: String { return self.rawValue }
@@ -472,6 +518,7 @@ extension Appflow {
     }
 
     public enum WriteOperationType: String, CustomStringConvertible, Codable {
+        case delete = "DELETE"
         case insert = "INSERT"
         case update = "UPDATE"
         case upsert = "UPSERT"
@@ -561,6 +608,96 @@ extension Appflow {
         }
     }
 
+    public struct ApiKeyCredentials: AWSEncodableShape {
+        /// The API key required for API key authentication.
+        public let apiKey: String
+        /// The API secret key required for API key authentication.
+        public let apiSecretKey: String?
+
+        public init(apiKey: String, apiSecretKey: String? = nil) {
+            self.apiKey = apiKey
+            self.apiSecretKey = apiSecretKey
+        }
+
+        public func validate(name: String) throws {
+            try self.validate(self.apiKey, name: "apiKey", parent: name, max: 256)
+            try self.validate(self.apiKey, name: "apiKey", parent: name, pattern: "^\\S+$")
+            try self.validate(self.apiSecretKey, name: "apiSecretKey", parent: name, max: 256)
+            try self.validate(self.apiSecretKey, name: "apiSecretKey", parent: name, pattern: "^\\S+$")
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case apiKey
+            case apiSecretKey
+        }
+    }
+
+    public struct AuthParameter: AWSDecodableShape {
+        /// Contains default values for this authentication parameter that are supplied by the connector.
+        public let connectorSuppliedValues: [String]?
+        /// A description about the authentication parameter.
+        public let description: String?
+        /// Indicates whether this authentication parameter is required.
+        public let isRequired: Bool?
+        /// Indicates whether this authentication parameter is a sensitive field.
+        public let isSensitiveField: Bool?
+        /// The authentication key required to authenticate with the connector.
+        public let key: String?
+        /// Label used for authentication parameter.
+        public let label: String?
+
+        public init(connectorSuppliedValues: [String]? = nil, description: String? = nil, isRequired: Bool? = nil, isSensitiveField: Bool? = nil, key: String? = nil, label: String? = nil) {
+            self.connectorSuppliedValues = connectorSuppliedValues
+            self.description = description
+            self.isRequired = isRequired
+            self.isSensitiveField = isSensitiveField
+            self.key = key
+            self.label = label
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case connectorSuppliedValues
+            case description
+            case isRequired
+            case isSensitiveField
+            case key
+            case label
+        }
+    }
+
+    public struct AuthenticationConfig: AWSDecodableShape {
+        /// Contains information required for custom authentication.
+        public let customAuthConfigs: [CustomAuthConfig]?
+        /// Indicates whether API key authentication is supported by the connector
+        public let isApiKeyAuthSupported: Bool?
+        /// Indicates whether basic authentication is supported by the connector.
+        public let isBasicAuthSupported: Bool?
+        /// Indicates whether custom authentication is supported by the connector
+        public let isCustomAuthSupported: Bool?
+        /// Indicates whether OAuth 2.0 authentication is supported by the connector.
+        public let isOAuth2Supported: Bool?
+        /// Contains the default values required for OAuth 2.0 authentication.
+        public let oAuth2Defaults: OAuth2Defaults?
+
+        public init(customAuthConfigs: [CustomAuthConfig]? = nil, isApiKeyAuthSupported: Bool? = nil, isBasicAuthSupported: Bool? = nil, isCustomAuthSupported: Bool? = nil, isOAuth2Supported: Bool? = nil, oAuth2Defaults: OAuth2Defaults? = nil) {
+            self.customAuthConfigs = customAuthConfigs
+            self.isApiKeyAuthSupported = isApiKeyAuthSupported
+            self.isBasicAuthSupported = isBasicAuthSupported
+            self.isCustomAuthSupported = isCustomAuthSupported
+            self.isOAuth2Supported = isOAuth2Supported
+            self.oAuth2Defaults = oAuth2Defaults
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case customAuthConfigs
+            case isApiKeyAuthSupported
+            case isBasicAuthSupported
+            case isCustomAuthSupported
+            case isOAuth2Supported
+            case oAuth2Defaults
+        }
+    }
+
     public struct BasicAuthCredentials: AWSEncodableShape {
         ///  The password to use to connect to a resource.
         public let password: String
@@ -586,43 +723,168 @@ extension Appflow {
     }
 
     public struct ConnectorConfiguration: AWSDecodableShape {
+        /// The authentication config required for the connector.
+        public let authenticationConfig: AuthenticationConfig?
         ///  Specifies whether the connector can be used as a destination.
         public let canUseAsDestination: Bool?
         ///  Specifies whether the connector can be used as a source.
         public let canUseAsSource: Bool?
+        /// The Amazon Resource Name (ARN) for the registered connector.
+        public let connectorArn: String?
+        /// A description about the connector.
+        public let connectorDescription: String?
+        /// The label used for registering the connector.
+        public let connectorLabel: String?
         ///  Specifies connector-specific metadata such as oAuthScopes, supportedRegions, privateLinkServiceUrl, and so on.
         public let connectorMetadata: ConnectorMetadata?
+        /// The connection modes that the connector supports.
+        public let connectorModes: [String]?
+        /// The connector name.
+        public let connectorName: String?
+        /// The owner who developed the connector.
+        public let connectorOwner: String?
+        /// The configuration required for registering the connector.
+        public let connectorProvisioningConfig: ConnectorProvisioningConfig?
+        /// The provisioning type used to register the connector.
+        public let connectorProvisioningType: ConnectorProvisioningType?
+        /// The required connector runtime settings.
+        public let connectorRuntimeSettings: [ConnectorRuntimeSetting]?
+        /// The connector type.
+        public let connectorType: ConnectorType?
+        /// The connector version.
+        public let connectorVersion: String?
         ///  Specifies if PrivateLink is enabled for that connector.
         public let isPrivateLinkEnabled: Bool?
         ///  Specifies if a PrivateLink endpoint URL is required.
         public let isPrivateLinkEndpointUrlRequired: Bool?
+        /// Logo URL of the connector.
+        public let logoURL: String?
+        /// The date on which the connector was registered.
+        public let registeredAt: Date?
+        /// Information about who registered the connector.
+        public let registeredBy: String?
+        /// A list of API versions that are supported by the connector.
+        public let supportedApiVersions: [String]?
         ///  Lists the connectors that are available for use as destinations.
         public let supportedDestinationConnectors: [ConnectorType]?
+        /// A list of operators supported by the connector.
+        public let supportedOperators: [Operators]?
         ///  Specifies the supported flow frequency for that connector.
         public let supportedSchedulingFrequencies: [ScheduleFrequencyType]?
         ///  Specifies the supported trigger types for the flow.
         public let supportedTriggerTypes: [TriggerType]?
+        /// A list of write operations supported by the connector.
+        public let supportedWriteOperations: [WriteOperationType]?
 
-        public init(canUseAsDestination: Bool? = nil, canUseAsSource: Bool? = nil, connectorMetadata: ConnectorMetadata? = nil, isPrivateLinkEnabled: Bool? = nil, isPrivateLinkEndpointUrlRequired: Bool? = nil, supportedDestinationConnectors: [ConnectorType]? = nil, supportedSchedulingFrequencies: [ScheduleFrequencyType]? = nil, supportedTriggerTypes: [TriggerType]? = nil) {
+        public init(authenticationConfig: AuthenticationConfig? = nil, canUseAsDestination: Bool? = nil, canUseAsSource: Bool? = nil, connectorArn: String? = nil, connectorDescription: String? = nil, connectorLabel: String? = nil, connectorMetadata: ConnectorMetadata? = nil, connectorModes: [String]? = nil, connectorName: String? = nil, connectorOwner: String? = nil, connectorProvisioningConfig: ConnectorProvisioningConfig? = nil, connectorProvisioningType: ConnectorProvisioningType? = nil, connectorRuntimeSettings: [ConnectorRuntimeSetting]? = nil, connectorType: ConnectorType? = nil, connectorVersion: String? = nil, isPrivateLinkEnabled: Bool? = nil, isPrivateLinkEndpointUrlRequired: Bool? = nil, logoURL: String? = nil, registeredAt: Date? = nil, registeredBy: String? = nil, supportedApiVersions: [String]? = nil, supportedDestinationConnectors: [ConnectorType]? = nil, supportedOperators: [Operators]? = nil, supportedSchedulingFrequencies: [ScheduleFrequencyType]? = nil, supportedTriggerTypes: [TriggerType]? = nil, supportedWriteOperations: [WriteOperationType]? = nil) {
+            self.authenticationConfig = authenticationConfig
             self.canUseAsDestination = canUseAsDestination
             self.canUseAsSource = canUseAsSource
+            self.connectorArn = connectorArn
+            self.connectorDescription = connectorDescription
+            self.connectorLabel = connectorLabel
             self.connectorMetadata = connectorMetadata
+            self.connectorModes = connectorModes
+            self.connectorName = connectorName
+            self.connectorOwner = connectorOwner
+            self.connectorProvisioningConfig = connectorProvisioningConfig
+            self.connectorProvisioningType = connectorProvisioningType
+            self.connectorRuntimeSettings = connectorRuntimeSettings
+            self.connectorType = connectorType
+            self.connectorVersion = connectorVersion
             self.isPrivateLinkEnabled = isPrivateLinkEnabled
             self.isPrivateLinkEndpointUrlRequired = isPrivateLinkEndpointUrlRequired
+            self.logoURL = logoURL
+            self.registeredAt = registeredAt
+            self.registeredBy = registeredBy
+            self.supportedApiVersions = supportedApiVersions
             self.supportedDestinationConnectors = supportedDestinationConnectors
+            self.supportedOperators = supportedOperators
             self.supportedSchedulingFrequencies = supportedSchedulingFrequencies
             self.supportedTriggerTypes = supportedTriggerTypes
+            self.supportedWriteOperations = supportedWriteOperations
         }
 
         private enum CodingKeys: String, CodingKey {
+            case authenticationConfig
             case canUseAsDestination
             case canUseAsSource
+            case connectorArn
+            case connectorDescription
+            case connectorLabel
             case connectorMetadata
+            case connectorModes
+            case connectorName
+            case connectorOwner
+            case connectorProvisioningConfig
+            case connectorProvisioningType
+            case connectorRuntimeSettings
+            case connectorType
+            case connectorVersion
             case isPrivateLinkEnabled
             case isPrivateLinkEndpointUrlRequired
+            case logoURL
+            case registeredAt
+            case registeredBy
+            case supportedApiVersions
             case supportedDestinationConnectors
+            case supportedOperators
             case supportedSchedulingFrequencies
             case supportedTriggerTypes
+            case supportedWriteOperations
+        }
+    }
+
+    public struct ConnectorDetail: AWSDecodableShape {
+        /// The application type of the connector.
+        public let applicationType: String?
+        /// A description about the registered connector.
+        public let connectorDescription: String?
+        /// A label used for the connector.
+        public let connectorLabel: String?
+        /// The connection mode that the connector supports.
+        public let connectorModes: [String]?
+        /// The name of the connector.
+        public let connectorName: String?
+        /// The owner of the connector.
+        public let connectorOwner: String?
+        /// The provisioning type that the connector uses.
+        public let connectorProvisioningType: ConnectorProvisioningType?
+        /// The connector type.
+        public let connectorType: ConnectorType?
+        /// The connector version.
+        public let connectorVersion: String?
+        /// The time at which the connector was registered.
+        public let registeredAt: Date?
+        /// The user who registered the connector.
+        public let registeredBy: String?
+
+        public init(applicationType: String? = nil, connectorDescription: String? = nil, connectorLabel: String? = nil, connectorModes: [String]? = nil, connectorName: String? = nil, connectorOwner: String? = nil, connectorProvisioningType: ConnectorProvisioningType? = nil, connectorType: ConnectorType? = nil, connectorVersion: String? = nil, registeredAt: Date? = nil, registeredBy: String? = nil) {
+            self.applicationType = applicationType
+            self.connectorDescription = connectorDescription
+            self.connectorLabel = connectorLabel
+            self.connectorModes = connectorModes
+            self.connectorName = connectorName
+            self.connectorOwner = connectorOwner
+            self.connectorProvisioningType = connectorProvisioningType
+            self.connectorType = connectorType
+            self.connectorVersion = connectorVersion
+            self.registeredAt = registeredAt
+            self.registeredBy = registeredBy
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case applicationType
+            case connectorDescription
+            case connectorLabel
+            case connectorModes
+            case connectorName
+            case connectorOwner
+            case connectorProvisioningType
+            case connectorType
+            case connectorVersion
+            case registeredAt
+            case registeredBy
         }
     }
 
@@ -648,33 +910,53 @@ extension Appflow {
     }
 
     public struct ConnectorEntityField: AWSDecodableShape {
+        /// A map that has specific properties related to the ConnectorEntityField.
+        public let customProperties: [String: String]?
+        /// Default value that can be assigned to this field.
+        public let defaultValue: String?
         ///  A description of the connector entity field.
         public let description: String?
         ///  The properties applied to a field when the connector is being used as a destination.
         public let destinationProperties: DestinationFieldProperties?
         ///  The unique identifier of the connector field.
         public let identifier: String
+        /// Booelan value that indicates whether this field is deprecated or not.
+        public let isDeprecated: Bool?
+        /// Booelan value that indicates whether this field can be used as a primary key.
+        public let isPrimaryKey: Bool?
         ///  The label applied to a connector entity field.
         public let label: String?
+        /// The parent identifier of the connector field.
+        public let parentIdentifier: String?
         ///  The properties that can be applied to a field when the connector is being used as a source.
         public let sourceProperties: SourceFieldProperties?
         ///  Contains details regarding the supported FieldType, including the corresponding filterOperators and supportedValues.
         public let supportedFieldTypeDetails: SupportedFieldTypeDetails?
 
-        public init(description: String? = nil, destinationProperties: DestinationFieldProperties? = nil, identifier: String, label: String? = nil, sourceProperties: SourceFieldProperties? = nil, supportedFieldTypeDetails: SupportedFieldTypeDetails? = nil) {
+        public init(customProperties: [String: String]? = nil, defaultValue: String? = nil, description: String? = nil, destinationProperties: DestinationFieldProperties? = nil, identifier: String, isDeprecated: Bool? = nil, isPrimaryKey: Bool? = nil, label: String? = nil, parentIdentifier: String? = nil, sourceProperties: SourceFieldProperties? = nil, supportedFieldTypeDetails: SupportedFieldTypeDetails? = nil) {
+            self.customProperties = customProperties
+            self.defaultValue = defaultValue
             self.description = description
             self.destinationProperties = destinationProperties
             self.identifier = identifier
+            self.isDeprecated = isDeprecated
+            self.isPrimaryKey = isPrimaryKey
             self.label = label
+            self.parentIdentifier = parentIdentifier
             self.sourceProperties = sourceProperties
             self.supportedFieldTypeDetails = supportedFieldTypeDetails
         }
 
         private enum CodingKeys: String, CodingKey {
+            case customProperties
+            case defaultValue
             case description
             case destinationProperties
             case identifier
+            case isDeprecated
+            case isPrimaryKey
             case label
+            case parentIdentifier
             case sourceProperties
             case supportedFieldTypeDetails
         }
@@ -799,6 +1081,8 @@ extension Appflow {
     public struct ConnectorOperator: AWSEncodableShape & AWSDecodableShape {
         ///  The operation to be performed on the provided Amplitude source fields.
         public let amplitude: AmplitudeConnectorOperator?
+        /// Operators supported by the custom connector.
+        public let customConnector: Operator?
         ///  The operation to be performed on the provided Datadog source fields.
         public let datadog: DatadogConnectorOperator?
         ///  The operation to be performed on the provided Dynatrace source fields.
@@ -828,8 +1112,9 @@ extension Appflow {
         ///  The operation to be performed on the provided Zendesk source fields.
         public let zendesk: ZendeskConnectorOperator?
 
-        public init(amplitude: AmplitudeConnectorOperator? = nil, datadog: DatadogConnectorOperator? = nil, dynatrace: DynatraceConnectorOperator? = nil, googleAnalytics: GoogleAnalyticsConnectorOperator? = nil, inforNexus: InforNexusConnectorOperator? = nil, marketo: MarketoConnectorOperator? = nil, s3: S3ConnectorOperator? = nil, salesforce: SalesforceConnectorOperator? = nil, sapoData: SAPODataConnectorOperator? = nil, serviceNow: ServiceNowConnectorOperator? = nil, singular: SingularConnectorOperator? = nil, slack: SlackConnectorOperator? = nil, trendmicro: TrendmicroConnectorOperator? = nil, veeva: VeevaConnectorOperator? = nil, zendesk: ZendeskConnectorOperator? = nil) {
+        public init(amplitude: AmplitudeConnectorOperator? = nil, customConnector: Operator? = nil, datadog: DatadogConnectorOperator? = nil, dynatrace: DynatraceConnectorOperator? = nil, googleAnalytics: GoogleAnalyticsConnectorOperator? = nil, inforNexus: InforNexusConnectorOperator? = nil, marketo: MarketoConnectorOperator? = nil, s3: S3ConnectorOperator? = nil, salesforce: SalesforceConnectorOperator? = nil, sapoData: SAPODataConnectorOperator? = nil, serviceNow: ServiceNowConnectorOperator? = nil, singular: SingularConnectorOperator? = nil, slack: SlackConnectorOperator? = nil, trendmicro: TrendmicroConnectorOperator? = nil, veeva: VeevaConnectorOperator? = nil, zendesk: ZendeskConnectorOperator? = nil) {
             self.amplitude = amplitude
+            self.customConnector = customConnector
             self.datadog = datadog
             self.dynatrace = dynatrace
             self.googleAnalytics = googleAnalytics
@@ -848,6 +1133,7 @@ extension Appflow {
 
         private enum CodingKeys: String, CodingKey {
             case amplitude = "Amplitude"
+            case customConnector = "CustomConnector"
             case datadog = "Datadog"
             case dynatrace = "Dynatrace"
             case googleAnalytics = "GoogleAnalytics"
@@ -868,6 +1154,8 @@ extension Appflow {
     public struct ConnectorProfile: AWSDecodableShape {
         ///  Indicates the connection mode and if it is public or private.
         public let connectionMode: ConnectionMode?
+        /// The label for the connector profile being created.
+        public let connectorLabel: String?
         ///  The Amazon Resource Name (ARN) of the connector profile.
         public let connectorProfileArn: String?
         ///  The name of the connector profile. The name is unique for each ConnectorProfile in the Amazon Web Services account.
@@ -885,8 +1173,9 @@ extension Appflow {
         ///  Specifies the private connection provisioning state.
         public let privateConnectionProvisioningState: PrivateConnectionProvisioningState?
 
-        public init(connectionMode: ConnectionMode? = nil, connectorProfileArn: String? = nil, connectorProfileName: String? = nil, connectorProfileProperties: ConnectorProfileProperties? = nil, connectorType: ConnectorType? = nil, createdAt: Date? = nil, credentialsArn: String? = nil, lastUpdatedAt: Date? = nil, privateConnectionProvisioningState: PrivateConnectionProvisioningState? = nil) {
+        public init(connectionMode: ConnectionMode? = nil, connectorLabel: String? = nil, connectorProfileArn: String? = nil, connectorProfileName: String? = nil, connectorProfileProperties: ConnectorProfileProperties? = nil, connectorType: ConnectorType? = nil, createdAt: Date? = nil, credentialsArn: String? = nil, lastUpdatedAt: Date? = nil, privateConnectionProvisioningState: PrivateConnectionProvisioningState? = nil) {
             self.connectionMode = connectionMode
+            self.connectorLabel = connectorLabel
             self.connectorProfileArn = connectorProfileArn
             self.connectorProfileName = connectorProfileName
             self.connectorProfileProperties = connectorProfileProperties
@@ -899,6 +1188,7 @@ extension Appflow {
 
         private enum CodingKeys: String, CodingKey {
             case connectionMode
+            case connectorLabel
             case connectorProfileArn
             case connectorProfileName
             case connectorProfileProperties
@@ -935,6 +1225,7 @@ extension Appflow {
     public struct ConnectorProfileCredentials: AWSEncodableShape {
         ///  The connector-specific credentials required when using Amplitude.
         public let amplitude: AmplitudeConnectorProfileCredentials?
+        public let customConnector: CustomConnectorProfileCredentials?
         ///  The connector-specific credentials required when using Datadog.
         public let datadog: DatadogConnectorProfileCredentials?
         ///  The connector-specific credentials required when using Dynatrace.
@@ -967,8 +1258,9 @@ extension Appflow {
         ///  The connector-specific credentials required when using Zendesk.
         public let zendesk: ZendeskConnectorProfileCredentials?
 
-        public init(amplitude: AmplitudeConnectorProfileCredentials? = nil, datadog: DatadogConnectorProfileCredentials? = nil, dynatrace: DynatraceConnectorProfileCredentials? = nil, googleAnalytics: GoogleAnalyticsConnectorProfileCredentials? = nil, honeycode: HoneycodeConnectorProfileCredentials? = nil, inforNexus: InforNexusConnectorProfileCredentials? = nil, marketo: MarketoConnectorProfileCredentials? = nil, redshift: RedshiftConnectorProfileCredentials? = nil, salesforce: SalesforceConnectorProfileCredentials? = nil, sapoData: SAPODataConnectorProfileCredentials? = nil, serviceNow: ServiceNowConnectorProfileCredentials? = nil, singular: SingularConnectorProfileCredentials? = nil, slack: SlackConnectorProfileCredentials? = nil, snowflake: SnowflakeConnectorProfileCredentials? = nil, trendmicro: TrendmicroConnectorProfileCredentials? = nil, veeva: VeevaConnectorProfileCredentials? = nil, zendesk: ZendeskConnectorProfileCredentials? = nil) {
+        public init(amplitude: AmplitudeConnectorProfileCredentials? = nil, customConnector: CustomConnectorProfileCredentials? = nil, datadog: DatadogConnectorProfileCredentials? = nil, dynatrace: DynatraceConnectorProfileCredentials? = nil, googleAnalytics: GoogleAnalyticsConnectorProfileCredentials? = nil, honeycode: HoneycodeConnectorProfileCredentials? = nil, inforNexus: InforNexusConnectorProfileCredentials? = nil, marketo: MarketoConnectorProfileCredentials? = nil, redshift: RedshiftConnectorProfileCredentials? = nil, salesforce: SalesforceConnectorProfileCredentials? = nil, sapoData: SAPODataConnectorProfileCredentials? = nil, serviceNow: ServiceNowConnectorProfileCredentials? = nil, singular: SingularConnectorProfileCredentials? = nil, slack: SlackConnectorProfileCredentials? = nil, snowflake: SnowflakeConnectorProfileCredentials? = nil, trendmicro: TrendmicroConnectorProfileCredentials? = nil, veeva: VeevaConnectorProfileCredentials? = nil, zendesk: ZendeskConnectorProfileCredentials? = nil) {
             self.amplitude = amplitude
+            self.customConnector = customConnector
             self.datadog = datadog
             self.dynatrace = dynatrace
             self.googleAnalytics = googleAnalytics
@@ -989,6 +1281,7 @@ extension Appflow {
 
         public func validate(name: String) throws {
             try self.amplitude?.validate(name: "\(name).amplitude")
+            try self.customConnector?.validate(name: "\(name).customConnector")
             try self.datadog?.validate(name: "\(name).datadog")
             try self.dynatrace?.validate(name: "\(name).dynatrace")
             try self.googleAnalytics?.validate(name: "\(name).googleAnalytics")
@@ -1009,6 +1302,7 @@ extension Appflow {
 
         private enum CodingKeys: String, CodingKey {
             case amplitude = "Amplitude"
+            case customConnector = "CustomConnector"
             case datadog = "Datadog"
             case dynatrace = "Dynatrace"
             case googleAnalytics = "GoogleAnalytics"
@@ -1031,6 +1325,8 @@ extension Appflow {
     public struct ConnectorProfileProperties: AWSEncodableShape & AWSDecodableShape {
         ///  The connector-specific properties required by Amplitude.
         public let amplitude: AmplitudeConnectorProfileProperties?
+        /// The properties required by the custom connector.
+        public let customConnector: CustomConnectorProfileProperties?
         ///  The connector-specific properties required by Datadog.
         public let datadog: DatadogConnectorProfileProperties?
         ///  The connector-specific properties required by Dynatrace.
@@ -1063,8 +1359,9 @@ extension Appflow {
         ///  The connector-specific properties required by Zendesk.
         public let zendesk: ZendeskConnectorProfileProperties?
 
-        public init(amplitude: AmplitudeConnectorProfileProperties? = nil, datadog: DatadogConnectorProfileProperties? = nil, dynatrace: DynatraceConnectorProfileProperties? = nil, googleAnalytics: GoogleAnalyticsConnectorProfileProperties? = nil, honeycode: HoneycodeConnectorProfileProperties? = nil, inforNexus: InforNexusConnectorProfileProperties? = nil, marketo: MarketoConnectorProfileProperties? = nil, redshift: RedshiftConnectorProfileProperties? = nil, salesforce: SalesforceConnectorProfileProperties? = nil, sapoData: SAPODataConnectorProfileProperties? = nil, serviceNow: ServiceNowConnectorProfileProperties? = nil, singular: SingularConnectorProfileProperties? = nil, slack: SlackConnectorProfileProperties? = nil, snowflake: SnowflakeConnectorProfileProperties? = nil, trendmicro: TrendmicroConnectorProfileProperties? = nil, veeva: VeevaConnectorProfileProperties? = nil, zendesk: ZendeskConnectorProfileProperties? = nil) {
+        public init(amplitude: AmplitudeConnectorProfileProperties? = nil, customConnector: CustomConnectorProfileProperties? = nil, datadog: DatadogConnectorProfileProperties? = nil, dynatrace: DynatraceConnectorProfileProperties? = nil, googleAnalytics: GoogleAnalyticsConnectorProfileProperties? = nil, honeycode: HoneycodeConnectorProfileProperties? = nil, inforNexus: InforNexusConnectorProfileProperties? = nil, marketo: MarketoConnectorProfileProperties? = nil, redshift: RedshiftConnectorProfileProperties? = nil, salesforce: SalesforceConnectorProfileProperties? = nil, sapoData: SAPODataConnectorProfileProperties? = nil, serviceNow: ServiceNowConnectorProfileProperties? = nil, singular: SingularConnectorProfileProperties? = nil, slack: SlackConnectorProfileProperties? = nil, snowflake: SnowflakeConnectorProfileProperties? = nil, trendmicro: TrendmicroConnectorProfileProperties? = nil, veeva: VeevaConnectorProfileProperties? = nil, zendesk: ZendeskConnectorProfileProperties? = nil) {
             self.amplitude = amplitude
+            self.customConnector = customConnector
             self.datadog = datadog
             self.dynatrace = dynatrace
             self.googleAnalytics = googleAnalytics
@@ -1084,6 +1381,7 @@ extension Appflow {
         }
 
         public func validate(name: String) throws {
+            try self.customConnector?.validate(name: "\(name).customConnector")
             try self.datadog?.validate(name: "\(name).datadog")
             try self.dynatrace?.validate(name: "\(name).dynatrace")
             try self.inforNexus?.validate(name: "\(name).inforNexus")
@@ -1100,6 +1398,7 @@ extension Appflow {
 
         private enum CodingKeys: String, CodingKey {
             case amplitude = "Amplitude"
+            case customConnector = "CustomConnector"
             case datadog = "Datadog"
             case dynatrace = "Dynatrace"
             case googleAnalytics = "GoogleAnalytics"
@@ -1119,9 +1418,65 @@ extension Appflow {
         }
     }
 
+    public struct ConnectorProvisioningConfig: AWSEncodableShape & AWSDecodableShape {
+        /// Contains information about the configuration of the lambda which is being registered as the connector.
+        public let lambda: LambdaConnectorProvisioningConfig?
+
+        public init(lambda: LambdaConnectorProvisioningConfig? = nil) {
+            self.lambda = lambda
+        }
+
+        public func validate(name: String) throws {
+            try self.lambda?.validate(name: "\(name).lambda")
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case lambda
+        }
+    }
+
+    public struct ConnectorRuntimeSetting: AWSDecodableShape {
+        /// Contains default values for the connector runtime setting that are supplied by the connector.
+        public let connectorSuppliedValueOptions: [String]?
+        /// Data type of the connector runtime setting.
+        public let dataType: String?
+        /// A description about the connector runtime setting.
+        public let description: String?
+        /// Indicates whether this connector runtime setting is required.
+        public let isRequired: Bool?
+        /// Contains value information about the connector runtime setting.
+        public let key: String?
+        /// A label used for connector runtime setting.
+        public let label: String?
+        /// Indicates the scope of the connector runtime setting.
+        public let scope: String?
+
+        public init(connectorSuppliedValueOptions: [String]? = nil, dataType: String? = nil, description: String? = nil, isRequired: Bool? = nil, key: String? = nil, label: String? = nil, scope: String? = nil) {
+            self.connectorSuppliedValueOptions = connectorSuppliedValueOptions
+            self.dataType = dataType
+            self.description = description
+            self.isRequired = isRequired
+            self.key = key
+            self.label = label
+            self.scope = scope
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case connectorSuppliedValueOptions
+            case dataType
+            case description
+            case isRequired
+            case key
+            case label
+            case scope
+        }
+    }
+
     public struct CreateConnectorProfileRequest: AWSEncodableShape {
         ///  Indicates the connection mode and specifies whether it is public or private. Private flows use Amazon Web Services PrivateLink to route data over Amazon Web Services infrastructure without exposing it to the public internet.
         public let connectionMode: ConnectionMode
+        /// The label of the connector. The label is unique for each ConnectorRegistration in your Amazon Web Services account. Only needed if calling for CUSTOMCONNECTOR connector type/.
+        public let connectorLabel: String?
         ///  Defines the connector-specific configuration and credentials.
         public let connectorProfileConfig: ConnectorProfileConfig
         ///  The name of the connector profile. The name is unique for each ConnectorProfile in your Amazon Web Services account.
@@ -1131,8 +1486,9 @@ extension Appflow {
         ///  The ARN (Amazon Resource Name) of the Key Management Service (KMS) key you provide for encryption. This is required if you do not want to use the Amazon AppFlow-managed KMS key. If you don't provide anything here, Amazon AppFlow uses the Amazon AppFlow-managed KMS key.
         public let kmsArn: String?
 
-        public init(connectionMode: ConnectionMode, connectorProfileConfig: ConnectorProfileConfig, connectorProfileName: String, connectorType: ConnectorType, kmsArn: String? = nil) {
+        public init(connectionMode: ConnectionMode, connectorLabel: String? = nil, connectorProfileConfig: ConnectorProfileConfig, connectorProfileName: String, connectorType: ConnectorType, kmsArn: String? = nil) {
             self.connectionMode = connectionMode
+            self.connectorLabel = connectorLabel
             self.connectorProfileConfig = connectorProfileConfig
             self.connectorProfileName = connectorProfileName
             self.connectorType = connectorType
@@ -1140,6 +1496,8 @@ extension Appflow {
         }
 
         public func validate(name: String) throws {
+            try self.validate(self.connectorLabel, name: "connectorLabel", parent: name, max: 256)
+            try self.validate(self.connectorLabel, name: "connectorLabel", parent: name, pattern: "^[a-zA-Z0-9][\\w!@#.-]+$")
             try self.connectorProfileConfig.validate(name: "\(name).connectorProfileConfig")
             try self.validate(self.connectorProfileName, name: "connectorProfileName", parent: name, max: 256)
             try self.validate(self.connectorProfileName, name: "connectorProfileName", parent: name, pattern: "^[\\w/!@#+=.-]+$")
@@ -1150,6 +1508,7 @@ extension Appflow {
 
         private enum CodingKeys: String, CodingKey {
             case connectionMode
+            case connectorLabel
             case connectorProfileConfig
             case connectorProfileName
             case connectorType
@@ -1251,6 +1610,194 @@ extension Appflow {
         private enum CodingKeys: String, CodingKey {
             case flowArn
             case flowStatus
+        }
+    }
+
+    public struct CustomAuthConfig: AWSDecodableShape {
+        /// Information about authentication parameters required for authentication.
+        public let authParameters: [AuthParameter]?
+        /// The authentication type that the custom connector uses.
+        public let customAuthenticationType: String?
+
+        public init(authParameters: [AuthParameter]? = nil, customAuthenticationType: String? = nil) {
+            self.authParameters = authParameters
+            self.customAuthenticationType = customAuthenticationType
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case authParameters
+            case customAuthenticationType
+        }
+    }
+
+    public struct CustomAuthCredentials: AWSEncodableShape {
+        /// A map that holds custom authentication credentials.
+        public let credentialsMap: [String: String]?
+        /// The custom authentication type that the connector uses.
+        public let customAuthenticationType: String
+
+        public init(credentialsMap: [String: String]? = nil, customAuthenticationType: String) {
+            self.credentialsMap = credentialsMap
+            self.customAuthenticationType = customAuthenticationType
+        }
+
+        public func validate(name: String) throws {
+            try self.credentialsMap?.forEach {
+                try validate($0.key, name: "credentialsMap.key", parent: name, max: 128)
+                try validate($0.key, name: "credentialsMap.key", parent: name, min: 1)
+                try validate($0.key, name: "credentialsMap.key", parent: name, pattern: "^[\\w]+$")
+                try validate($0.value, name: "credentialsMap[\"\($0.key)\"]", parent: name, max: 2048)
+                try validate($0.value, name: "credentialsMap[\"\($0.key)\"]", parent: name, pattern: "^\\S+$")
+            }
+            try self.validate(self.credentialsMap, name: "credentialsMap", parent: name, max: 50)
+            try self.validate(self.customAuthenticationType, name: "customAuthenticationType", parent: name, max: 256)
+            try self.validate(self.customAuthenticationType, name: "customAuthenticationType", parent: name, pattern: "^\\S+$")
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case credentialsMap
+            case customAuthenticationType
+        }
+    }
+
+    public struct CustomConnectorDestinationProperties: AWSEncodableShape & AWSDecodableShape {
+        /// The custom properties that are specific to the connector when it's used as a destination in the flow.
+        public let customProperties: [String: String]?
+        /// The entity specified in the custom connector as a destination in the flow.
+        public let entityName: String
+        /// The settings that determine how Amazon AppFlow handles an error when placing data in the custom connector as destination.
+        public let errorHandlingConfig: ErrorHandlingConfig?
+        /// The name of the field that Amazon AppFlow uses as an ID when performing a write operation such as update, delete, or upsert.
+        public let idFieldNames: [String]?
+        /// Specifies the type of write operation to be performed in the custom connector when it's used as destination.
+        public let writeOperationType: WriteOperationType?
+
+        public init(customProperties: [String: String]? = nil, entityName: String, errorHandlingConfig: ErrorHandlingConfig? = nil, idFieldNames: [String]? = nil, writeOperationType: WriteOperationType? = nil) {
+            self.customProperties = customProperties
+            self.entityName = entityName
+            self.errorHandlingConfig = errorHandlingConfig
+            self.idFieldNames = idFieldNames
+            self.writeOperationType = writeOperationType
+        }
+
+        public func validate(name: String) throws {
+            try self.customProperties?.forEach {
+                try validate($0.key, name: "customProperties.key", parent: name, max: 128)
+                try validate($0.key, name: "customProperties.key", parent: name, min: 1)
+                try validate($0.key, name: "customProperties.key", parent: name, pattern: "^[\\w]+$")
+                try validate($0.value, name: "customProperties[\"\($0.key)\"]", parent: name, max: 2048)
+                try validate($0.value, name: "customProperties[\"\($0.key)\"]", parent: name, pattern: "^\\S+$")
+            }
+            try self.validate(self.customProperties, name: "customProperties", parent: name, max: 50)
+            try self.validate(self.entityName, name: "entityName", parent: name, max: 1024)
+            try self.validate(self.entityName, name: "entityName", parent: name, pattern: "^\\S+$")
+            try self.errorHandlingConfig?.validate(name: "\(name).errorHandlingConfig")
+            try self.idFieldNames?.forEach {
+                try validate($0, name: "idFieldNames[]", parent: name, max: 128)
+                try validate($0, name: "idFieldNames[]", parent: name, pattern: "^\\S+$")
+            }
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case customProperties
+            case entityName
+            case errorHandlingConfig
+            case idFieldNames
+            case writeOperationType
+        }
+    }
+
+    public struct CustomConnectorProfileCredentials: AWSEncodableShape {
+        /// The API keys required for the authentication of the user.
+        public let apiKey: ApiKeyCredentials?
+        /// The authentication type that the custom connector uses for authenticating while creating a connector profile.
+        public let authenticationType: AuthenticationType
+        /// The basic credentials that are required for the authentication of the user.
+        public let basic: BasicAuthCredentials?
+        /// If the connector uses the custom authentication mechanism, this holds the required credentials.
+        public let custom: CustomAuthCredentials?
+        /// The OAuth 2.0 credentials required for the authentication of the user.
+        public let oauth2: OAuth2Credentials?
+
+        public init(apiKey: ApiKeyCredentials? = nil, authenticationType: AuthenticationType, basic: BasicAuthCredentials? = nil, custom: CustomAuthCredentials? = nil, oauth2: OAuth2Credentials? = nil) {
+            self.apiKey = apiKey
+            self.authenticationType = authenticationType
+            self.basic = basic
+            self.custom = custom
+            self.oauth2 = oauth2
+        }
+
+        public func validate(name: String) throws {
+            try self.apiKey?.validate(name: "\(name).apiKey")
+            try self.basic?.validate(name: "\(name).basic")
+            try self.custom?.validate(name: "\(name).custom")
+            try self.oauth2?.validate(name: "\(name).oauth2")
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case apiKey
+            case authenticationType
+            case basic
+            case custom
+            case oauth2
+        }
+    }
+
+    public struct CustomConnectorProfileProperties: AWSEncodableShape & AWSDecodableShape {
+        public let oAuth2Properties: OAuth2Properties?
+        /// A map of properties that are required to create a profile for the custom connector.
+        public let profileProperties: [String: String]?
+
+        public init(oAuth2Properties: OAuth2Properties? = nil, profileProperties: [String: String]? = nil) {
+            self.oAuth2Properties = oAuth2Properties
+            self.profileProperties = profileProperties
+        }
+
+        public func validate(name: String) throws {
+            try self.oAuth2Properties?.validate(name: "\(name).oAuth2Properties")
+            try self.profileProperties?.forEach {
+                try validate($0.key, name: "profileProperties.key", parent: name, max: 128)
+                try validate($0.key, name: "profileProperties.key", parent: name, min: 1)
+                try validate($0.key, name: "profileProperties.key", parent: name, pattern: "^[\\w]+$")
+                try validate($0.value, name: "profileProperties[\"\($0.key)\"]", parent: name, max: 2048)
+                try validate($0.value, name: "profileProperties[\"\($0.key)\"]", parent: name, pattern: "^\\S+$")
+            }
+            try self.validate(self.profileProperties, name: "profileProperties", parent: name, max: 50)
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case oAuth2Properties
+            case profileProperties
+        }
+    }
+
+    public struct CustomConnectorSourceProperties: AWSEncodableShape & AWSDecodableShape {
+        /// Custom properties that are required to use the custom connector as a source.
+        public let customProperties: [String: String]?
+        /// The entity specified in the custom connector as a source in the flow.
+        public let entityName: String
+
+        public init(customProperties: [String: String]? = nil, entityName: String) {
+            self.customProperties = customProperties
+            self.entityName = entityName
+        }
+
+        public func validate(name: String) throws {
+            try self.customProperties?.forEach {
+                try validate($0.key, name: "customProperties.key", parent: name, max: 128)
+                try validate($0.key, name: "customProperties.key", parent: name, min: 1)
+                try validate($0.key, name: "customProperties.key", parent: name, pattern: "^[\\w]+$")
+                try validate($0.value, name: "customProperties[\"\($0.key)\"]", parent: name, max: 2048)
+                try validate($0.value, name: "customProperties[\"\($0.key)\"]", parent: name, pattern: "^\\S+$")
+            }
+            try self.validate(self.customProperties, name: "customProperties", parent: name, max: 50)
+            try self.validate(self.entityName, name: "entityName", parent: name, max: 1024)
+            try self.validate(self.entityName, name: "entityName", parent: name, pattern: "^\\S+$")
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case customProperties
+            case entityName
         }
     }
 
@@ -1399,6 +1946,8 @@ extension Appflow {
     }
 
     public struct DescribeConnectorEntityRequest: AWSEncodableShape {
+        /// The version of the API that's used by the connector.
+        public let apiVersion: String?
         ///  The entity name for that connector.
         public let connectorEntityName: String
         ///  The name of the connector profile. The name is unique for each ConnectorProfile in the Amazon Web Services account.
@@ -1406,20 +1955,24 @@ extension Appflow {
         ///  The type of connector application, such as Salesforce, Amplitude, and so on.
         public let connectorType: ConnectorType?
 
-        public init(connectorEntityName: String, connectorProfileName: String? = nil, connectorType: ConnectorType? = nil) {
+        public init(apiVersion: String? = nil, connectorEntityName: String, connectorProfileName: String? = nil, connectorType: ConnectorType? = nil) {
+            self.apiVersion = apiVersion
             self.connectorEntityName = connectorEntityName
             self.connectorProfileName = connectorProfileName
             self.connectorType = connectorType
         }
 
         public func validate(name: String) throws {
-            try self.validate(self.connectorEntityName, name: "connectorEntityName", parent: name, max: 128)
+            try self.validate(self.apiVersion, name: "apiVersion", parent: name, max: 256)
+            try self.validate(self.apiVersion, name: "apiVersion", parent: name, pattern: "^\\S+$")
+            try self.validate(self.connectorEntityName, name: "connectorEntityName", parent: name, max: 1024)
             try self.validate(self.connectorEntityName, name: "connectorEntityName", parent: name, pattern: "^\\S+$")
             try self.validate(self.connectorProfileName, name: "connectorProfileName", parent: name, max: 256)
             try self.validate(self.connectorProfileName, name: "connectorProfileName", parent: name, pattern: "^[\\w/!@#+=.-]+$")
         }
 
         private enum CodingKeys: String, CodingKey {
+            case apiVersion
             case connectorEntityName
             case connectorProfileName
             case connectorType
@@ -1440,6 +1993,8 @@ extension Appflow {
     }
 
     public struct DescribeConnectorProfilesRequest: AWSEncodableShape {
+        /// The name of the connector. The name is unique for each ConnectorRegistration in your Amazon Web Services account. Only needed if calling for CUSTOMCONNECTOR connector type/.
+        public let connectorLabel: String?
         ///  The name of the connector profile. The name is unique for each ConnectorProfile in the Amazon Web Services account.
         public let connectorProfileNames: [String]?
         ///  The type of connector, such as Salesforce, Amplitude, and so on.
@@ -1449,7 +2004,8 @@ extension Appflow {
         ///  The pagination token for the next page of data.
         public let nextToken: String?
 
-        public init(connectorProfileNames: [String]? = nil, connectorType: ConnectorType? = nil, maxResults: Int? = nil, nextToken: String? = nil) {
+        public init(connectorLabel: String? = nil, connectorProfileNames: [String]? = nil, connectorType: ConnectorType? = nil, maxResults: Int? = nil, nextToken: String? = nil) {
+            self.connectorLabel = connectorLabel
             self.connectorProfileNames = connectorProfileNames
             self.connectorType = connectorType
             self.maxResults = maxResults
@@ -1457,6 +2013,8 @@ extension Appflow {
         }
 
         public func validate(name: String) throws {
+            try self.validate(self.connectorLabel, name: "connectorLabel", parent: name, max: 256)
+            try self.validate(self.connectorLabel, name: "connectorLabel", parent: name, pattern: "^[a-zA-Z0-9][\\w!@#.-]+$")
             try self.connectorProfileNames?.forEach {
                 try validate($0, name: "connectorProfileNames[]", parent: name, max: 256)
                 try validate($0, name: "connectorProfileNames[]", parent: name, pattern: "^[\\w/!@#+=.-]+$")
@@ -1469,6 +2027,7 @@ extension Appflow {
         }
 
         private enum CodingKeys: String, CodingKey {
+            case connectorLabel
             case connectorProfileNames
             case connectorType
             case maxResults
@@ -1493,25 +2052,66 @@ extension Appflow {
         }
     }
 
+    public struct DescribeConnectorRequest: AWSEncodableShape {
+        /// The label of the connector. The label is unique for each ConnectorRegistration in your Amazon Web Services account. Only needed if calling for CUSTOMCONNECTOR connector type/.
+        public let connectorLabel: String?
+        /// The connector type, such as CUSTOMCONNECTOR, Saleforce, Marketo. Please choose CUSTOMCONNECTOR for Lambda based custom connectors.
+        public let connectorType: ConnectorType
+
+        public init(connectorLabel: String? = nil, connectorType: ConnectorType) {
+            self.connectorLabel = connectorLabel
+            self.connectorType = connectorType
+        }
+
+        public func validate(name: String) throws {
+            try self.validate(self.connectorLabel, name: "connectorLabel", parent: name, max: 256)
+            try self.validate(self.connectorLabel, name: "connectorLabel", parent: name, pattern: "^[a-zA-Z0-9][\\w!@#.-]+$")
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case connectorLabel
+            case connectorType
+        }
+    }
+
+    public struct DescribeConnectorResponse: AWSDecodableShape {
+        /// Configuration info of all the connectors that the user requested.
+        public let connectorConfiguration: ConnectorConfiguration?
+
+        public init(connectorConfiguration: ConnectorConfiguration? = nil) {
+            self.connectorConfiguration = connectorConfiguration
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case connectorConfiguration
+        }
+    }
+
     public struct DescribeConnectorsRequest: AWSEncodableShape {
         ///  The type of connector, such as Salesforce, Amplitude, and so on.
         public let connectorTypes: [ConnectorType]?
+        /// The maximum number of items that should be returned in the result set. The default is 20.
+        public let maxResults: Int?
         ///  The pagination token for the next page of data.
         public let nextToken: String?
 
-        public init(connectorTypes: [ConnectorType]? = nil, nextToken: String? = nil) {
+        public init(connectorTypes: [ConnectorType]? = nil, maxResults: Int? = nil, nextToken: String? = nil) {
             self.connectorTypes = connectorTypes
+            self.maxResults = maxResults
             self.nextToken = nextToken
         }
 
         public func validate(name: String) throws {
             try self.validate(self.connectorTypes, name: "connectorTypes", parent: name, max: 100)
+            try self.validate(self.maxResults, name: "maxResults", parent: name, max: 100)
+            try self.validate(self.maxResults, name: "maxResults", parent: name, min: 1)
             try self.validate(self.nextToken, name: "nextToken", parent: name, max: 2048)
             try self.validate(self.nextToken, name: "nextToken", parent: name, pattern: "^\\S+$")
         }
 
         private enum CodingKeys: String, CodingKey {
             case connectorTypes
+            case maxResults
             case nextToken
         }
     }
@@ -1519,16 +2119,20 @@ extension Appflow {
     public struct DescribeConnectorsResponse: AWSDecodableShape {
         ///  The configuration that is applied to the connectors used in the flow.
         public let connectorConfigurations: [ConnectorType: ConnectorConfiguration]?
+        /// Information about the connectors supported in Amazon AppFlow.
+        public let connectors: [ConnectorDetail]?
         ///  The pagination token for the next page of data.
         public let nextToken: String?
 
-        public init(connectorConfigurations: [ConnectorType: ConnectorConfiguration]? = nil, nextToken: String? = nil) {
+        public init(connectorConfigurations: [ConnectorType: ConnectorConfiguration]? = nil, connectors: [ConnectorDetail]? = nil, nextToken: String? = nil) {
             self.connectorConfigurations = connectorConfigurations
+            self.connectors = connectors
             self.nextToken = nextToken
         }
 
         private enum CodingKeys: String, CodingKey {
             case connectorConfigurations
+            case connectors
             case nextToken
         }
     }
@@ -1672,6 +2276,8 @@ extension Appflow {
     }
 
     public struct DestinationConnectorProperties: AWSEncodableShape & AWSDecodableShape {
+        /// The properties that are required to query the custom Connector.
+        public let customConnector: CustomConnectorDestinationProperties?
         ///  The properties required to query Amazon Connect Customer Profiles.
         public let customerProfiles: CustomerProfilesDestinationProperties?
         ///  The properties required to query Amazon EventBridge.
@@ -1680,12 +2286,16 @@ extension Appflow {
         public let honeycode: HoneycodeDestinationProperties?
         ///  The properties required to query Amazon Lookout for Metrics.
         public let lookoutMetrics: LookoutMetricsDestinationProperties?
+        /// The properties required to query Marketo.
+        public let marketo: MarketoDestinationProperties?
         ///  The properties required to query Amazon Redshift.
         public let redshift: RedshiftDestinationProperties?
         ///  The properties required to query Amazon S3.
         public let s3: S3DestinationProperties?
         ///  The properties required to query Salesforce.
         public let salesforce: SalesforceDestinationProperties?
+        /// The properties required to query SAPOData.
+        public let sapoData: SAPODataDestinationProperties?
         ///  The properties required to query Snowflake.
         public let snowflake: SnowflakeDestinationProperties?
         ///  The properties required to query Upsolver.
@@ -1693,39 +2303,48 @@ extension Appflow {
         /// The properties required to query Zendesk.
         public let zendesk: ZendeskDestinationProperties?
 
-        public init(customerProfiles: CustomerProfilesDestinationProperties? = nil, eventBridge: EventBridgeDestinationProperties? = nil, honeycode: HoneycodeDestinationProperties? = nil, lookoutMetrics: LookoutMetricsDestinationProperties? = nil, redshift: RedshiftDestinationProperties? = nil, s3: S3DestinationProperties? = nil, salesforce: SalesforceDestinationProperties? = nil, snowflake: SnowflakeDestinationProperties? = nil, upsolver: UpsolverDestinationProperties? = nil, zendesk: ZendeskDestinationProperties? = nil) {
+        public init(customConnector: CustomConnectorDestinationProperties? = nil, customerProfiles: CustomerProfilesDestinationProperties? = nil, eventBridge: EventBridgeDestinationProperties? = nil, honeycode: HoneycodeDestinationProperties? = nil, lookoutMetrics: LookoutMetricsDestinationProperties? = nil, marketo: MarketoDestinationProperties? = nil, redshift: RedshiftDestinationProperties? = nil, s3: S3DestinationProperties? = nil, salesforce: SalesforceDestinationProperties? = nil, sapoData: SAPODataDestinationProperties? = nil, snowflake: SnowflakeDestinationProperties? = nil, upsolver: UpsolverDestinationProperties? = nil, zendesk: ZendeskDestinationProperties? = nil) {
+            self.customConnector = customConnector
             self.customerProfiles = customerProfiles
             self.eventBridge = eventBridge
             self.honeycode = honeycode
             self.lookoutMetrics = lookoutMetrics
+            self.marketo = marketo
             self.redshift = redshift
             self.s3 = s3
             self.salesforce = salesforce
+            self.sapoData = sapoData
             self.snowflake = snowflake
             self.upsolver = upsolver
             self.zendesk = zendesk
         }
 
         public func validate(name: String) throws {
+            try self.customConnector?.validate(name: "\(name).customConnector")
             try self.customerProfiles?.validate(name: "\(name).customerProfiles")
             try self.eventBridge?.validate(name: "\(name).eventBridge")
             try self.honeycode?.validate(name: "\(name).honeycode")
+            try self.marketo?.validate(name: "\(name).marketo")
             try self.redshift?.validate(name: "\(name).redshift")
             try self.s3?.validate(name: "\(name).s3")
             try self.salesforce?.validate(name: "\(name).salesforce")
+            try self.sapoData?.validate(name: "\(name).sapoData")
             try self.snowflake?.validate(name: "\(name).snowflake")
             try self.upsolver?.validate(name: "\(name).upsolver")
             try self.zendesk?.validate(name: "\(name).zendesk")
         }
 
         private enum CodingKeys: String, CodingKey {
+            case customConnector = "CustomConnector"
             case customerProfiles = "CustomerProfiles"
             case eventBridge = "EventBridge"
             case honeycode = "Honeycode"
             case lookoutMetrics = "LookoutMetrics"
+            case marketo = "Marketo"
             case redshift = "Redshift"
             case s3 = "S3"
             case salesforce = "Salesforce"
+            case sapoData = "SAPOData"
             case snowflake = "Snowflake"
             case upsolver = "Upsolver"
             case zendesk = "Zendesk"
@@ -1735,6 +2354,8 @@ extension Appflow {
     public struct DestinationFieldProperties: AWSDecodableShape {
         ///  Specifies if the destination field can be created by the current user.
         public let isCreatable: Bool?
+        /// Specifies whether the field can use the default value during a Create operation.
+        public let isDefaultedOnCreate: Bool?
         ///  Specifies if the destination field can have a null value.
         public let isNullable: Bool?
         ///  Specifies whether the field can be updated during an UPDATE or UPSERT write operation.
@@ -1744,8 +2365,9 @@ extension Appflow {
         ///  A list of supported write operations. For each write operation listed, this field can be used in idFieldNames when that write operation is present as a destination option.
         public let supportedWriteOperations: [WriteOperationType]?
 
-        public init(isCreatable: Bool? = nil, isNullable: Bool? = nil, isUpdatable: Bool? = nil, isUpsertable: Bool? = nil, supportedWriteOperations: [WriteOperationType]? = nil) {
+        public init(isCreatable: Bool? = nil, isDefaultedOnCreate: Bool? = nil, isNullable: Bool? = nil, isUpdatable: Bool? = nil, isUpsertable: Bool? = nil, supportedWriteOperations: [WriteOperationType]? = nil) {
             self.isCreatable = isCreatable
+            self.isDefaultedOnCreate = isDefaultedOnCreate
             self.isNullable = isNullable
             self.isUpdatable = isUpdatable
             self.isUpsertable = isUpsertable
@@ -1754,6 +2376,7 @@ extension Appflow {
 
         private enum CodingKeys: String, CodingKey {
             case isCreatable
+            case isDefaultedOnCreate
             case isNullable
             case isUpdatable
             case isUpsertable
@@ -1762,6 +2385,8 @@ extension Appflow {
     }
 
     public struct DestinationFlowConfig: AWSEncodableShape & AWSDecodableShape {
+        /// The API version that the destination connector uses.
+        public let apiVersion: String?
         ///  The name of the connector profile. This name must be unique for each connector profile in the Amazon Web Services account.
         public let connectorProfileName: String?
         ///  The type of connector, such as Salesforce, Amplitude, and so on.
@@ -1769,19 +2394,23 @@ extension Appflow {
         ///  This stores the information that is required to query a particular connector.
         public let destinationConnectorProperties: DestinationConnectorProperties
 
-        public init(connectorProfileName: String? = nil, connectorType: ConnectorType, destinationConnectorProperties: DestinationConnectorProperties) {
+        public init(apiVersion: String? = nil, connectorProfileName: String? = nil, connectorType: ConnectorType, destinationConnectorProperties: DestinationConnectorProperties) {
+            self.apiVersion = apiVersion
             self.connectorProfileName = connectorProfileName
             self.connectorType = connectorType
             self.destinationConnectorProperties = destinationConnectorProperties
         }
 
         public func validate(name: String) throws {
+            try self.validate(self.apiVersion, name: "apiVersion", parent: name, max: 256)
+            try self.validate(self.apiVersion, name: "apiVersion", parent: name, pattern: "^\\S+$")
             try self.validate(self.connectorProfileName, name: "connectorProfileName", parent: name, max: 256)
             try self.validate(self.connectorProfileName, name: "connectorProfileName", parent: name, pattern: "^[\\w/!@#+=.-]+$")
             try self.destinationConnectorProperties.validate(name: "\(name).destinationConnectorProperties")
         }
 
         private enum CodingKeys: String, CodingKey {
+            case apiVersion
             case connectorProfileName
             case connectorType
             case destinationConnectorProperties
@@ -2002,23 +2631,39 @@ extension Appflow {
     }
 
     public struct FieldTypeDetails: AWSDecodableShape {
+        /// This is the allowable length range for this field's value.
+        public let fieldLengthRange: Range?
         ///  The type of field, such as string, integer, date, and so on.
         public let fieldType: String
+        /// The range of values this field can hold.
+        public let fieldValueRange: Range?
         ///  The list of operators supported by a field.
         public let filterOperators: [Operator]
+        /// The date format that the field supports.
+        public let supportedDateFormat: String?
         ///  The list of values that a field can contain. For example, a Boolean fieldType can have two values: "true" and "false".
         public let supportedValues: [String]?
+        /// The regular expression pattern for the field name.
+        public let valueRegexPattern: String?
 
-        public init(fieldType: String, filterOperators: [Operator], supportedValues: [String]? = nil) {
+        public init(fieldLengthRange: Range? = nil, fieldType: String, fieldValueRange: Range? = nil, filterOperators: [Operator], supportedDateFormat: String? = nil, supportedValues: [String]? = nil, valueRegexPattern: String? = nil) {
+            self.fieldLengthRange = fieldLengthRange
             self.fieldType = fieldType
+            self.fieldValueRange = fieldValueRange
             self.filterOperators = filterOperators
+            self.supportedDateFormat = supportedDateFormat
             self.supportedValues = supportedValues
+            self.valueRegexPattern = valueRegexPattern
         }
 
         private enum CodingKeys: String, CodingKey {
+            case fieldLengthRange
             case fieldType
+            case fieldValueRange
             case filterOperators
+            case supportedDateFormat
             case supportedValues
+            case valueRegexPattern
         }
     }
 
@@ -2029,6 +2674,8 @@ extension Appflow {
         public let createdBy: String?
         ///  A user-entered description of the flow.
         public let description: String?
+        /// The label of the destination connector in the flow.
+        public let destinationConnectorLabel: String?
         ///  Specifies the destination connector type, such as Salesforce, Amazon S3, Amplitude, and so on.
         public let destinationConnectorType: ConnectorType?
         ///  The flow's Amazon Resource Name (ARN).
@@ -2043,6 +2690,8 @@ extension Appflow {
         public let lastUpdatedAt: Date?
         ///  Specifies the account user name that most recently updated the flow.
         public let lastUpdatedBy: String?
+        /// The label of the source connector in the flow.
+        public let sourceConnectorLabel: String?
         ///  Specifies the source connector type, such as Salesforce, Amazon S3, Amplitude, and so on.
         public let sourceConnectorType: ConnectorType?
         ///  The tags used to organize, track, or control access for your flow.
@@ -2050,10 +2699,11 @@ extension Appflow {
         ///  Specifies the type of flow trigger. This can be OnDemand, Scheduled, or Event.
         public let triggerType: TriggerType?
 
-        public init(createdAt: Date? = nil, createdBy: String? = nil, description: String? = nil, destinationConnectorType: ConnectorType? = nil, flowArn: String? = nil, flowName: String? = nil, flowStatus: FlowStatus? = nil, lastRunExecutionDetails: ExecutionDetails? = nil, lastUpdatedAt: Date? = nil, lastUpdatedBy: String? = nil, sourceConnectorType: ConnectorType? = nil, tags: [String: String]? = nil, triggerType: TriggerType? = nil) {
+        public init(createdAt: Date? = nil, createdBy: String? = nil, description: String? = nil, destinationConnectorLabel: String? = nil, destinationConnectorType: ConnectorType? = nil, flowArn: String? = nil, flowName: String? = nil, flowStatus: FlowStatus? = nil, lastRunExecutionDetails: ExecutionDetails? = nil, lastUpdatedAt: Date? = nil, lastUpdatedBy: String? = nil, sourceConnectorLabel: String? = nil, sourceConnectorType: ConnectorType? = nil, tags: [String: String]? = nil, triggerType: TriggerType? = nil) {
             self.createdAt = createdAt
             self.createdBy = createdBy
             self.description = description
+            self.destinationConnectorLabel = destinationConnectorLabel
             self.destinationConnectorType = destinationConnectorType
             self.flowArn = flowArn
             self.flowName = flowName
@@ -2061,6 +2711,7 @@ extension Appflow {
             self.lastRunExecutionDetails = lastRunExecutionDetails
             self.lastUpdatedAt = lastUpdatedAt
             self.lastUpdatedBy = lastUpdatedBy
+            self.sourceConnectorLabel = sourceConnectorLabel
             self.sourceConnectorType = sourceConnectorType
             self.tags = tags
             self.triggerType = triggerType
@@ -2070,6 +2721,7 @@ extension Appflow {
             case createdAt
             case createdBy
             case description
+            case destinationConnectorLabel
             case destinationConnectorType
             case flowArn
             case flowName
@@ -2077,6 +2729,7 @@ extension Appflow {
             case lastRunExecutionDetails
             case lastUpdatedAt
             case lastUpdatedBy
+            case sourceConnectorLabel
             case sourceConnectorType
             case tags
             case triggerType
@@ -2104,14 +2757,14 @@ extension Appflow {
         }
 
         public func validate(name: String) throws {
-            try self.validate(self.accessToken, name: "accessToken", parent: name, max: 512)
+            try self.validate(self.accessToken, name: "accessToken", parent: name, max: 2048)
             try self.validate(self.accessToken, name: "accessToken", parent: name, pattern: "^\\S+$")
             try self.validate(self.clientId, name: "clientId", parent: name, max: 512)
             try self.validate(self.clientId, name: "clientId", parent: name, pattern: "^\\S+$")
             try self.validate(self.clientSecret, name: "clientSecret", parent: name, max: 512)
             try self.validate(self.clientSecret, name: "clientSecret", parent: name, pattern: "^\\S+$")
             try self.oAuthRequest?.validate(name: "\(name).oAuthRequest")
-            try self.validate(self.refreshToken, name: "refreshToken", parent: name, max: 512)
+            try self.validate(self.refreshToken, name: "refreshToken", parent: name, max: 1024)
             try self.validate(self.refreshToken, name: "refreshToken", parent: name, pattern: "^\\S+$")
         }
 
@@ -2173,10 +2826,10 @@ extension Appflow {
         }
 
         public func validate(name: String) throws {
-            try self.validate(self.accessToken, name: "accessToken", parent: name, max: 512)
+            try self.validate(self.accessToken, name: "accessToken", parent: name, max: 2048)
             try self.validate(self.accessToken, name: "accessToken", parent: name, pattern: "^\\S+$")
             try self.oAuthRequest?.validate(name: "\(name).oAuthRequest")
-            try self.validate(self.refreshToken, name: "refreshToken", parent: name, max: 512)
+            try self.validate(self.refreshToken, name: "refreshToken", parent: name, max: 1024)
             try self.validate(self.refreshToken, name: "refreshToken", parent: name, pattern: "^\\S+$")
         }
 
@@ -2320,7 +2973,27 @@ extension Appflow {
         }
     }
 
+    public struct LambdaConnectorProvisioningConfig: AWSEncodableShape & AWSDecodableShape {
+        /// Lambda ARN of the connector being registered.
+        public let lambdaArn: String
+
+        public init(lambdaArn: String) {
+            self.lambdaArn = lambdaArn
+        }
+
+        public func validate(name: String) throws {
+            try self.validate(self.lambdaArn, name: "lambdaArn", parent: name, max: 512)
+            try self.validate(self.lambdaArn, name: "lambdaArn", parent: name, pattern: "^arn:aws:.*:.*:[0-9]+:")
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case lambdaArn
+        }
+    }
+
     public struct ListConnectorEntitiesRequest: AWSEncodableShape {
+        /// The version of the API that's used by the connector.
+        public let apiVersion: String?
         ///  The name of the connector profile. The name is unique for each ConnectorProfile in the Amazon Web Services account, and is used to query the downstream connector.
         public let connectorProfileName: String?
         ///  The type of connector, such as Salesforce, Amplitude, and so on.
@@ -2328,13 +3001,16 @@ extension Appflow {
         ///  This optional parameter is specific to connector implementation. Some connectors support multiple levels or categories of entities. You can find out the list of roots for such providers by sending a request without the entitiesPath parameter. If the connector supports entities at different roots, this initial request returns the list of roots. Otherwise, this request returns all entities supported by the provider.
         public let entitiesPath: String?
 
-        public init(connectorProfileName: String? = nil, connectorType: ConnectorType? = nil, entitiesPath: String? = nil) {
+        public init(apiVersion: String? = nil, connectorProfileName: String? = nil, connectorType: ConnectorType? = nil, entitiesPath: String? = nil) {
+            self.apiVersion = apiVersion
             self.connectorProfileName = connectorProfileName
             self.connectorType = connectorType
             self.entitiesPath = entitiesPath
         }
 
         public func validate(name: String) throws {
+            try self.validate(self.apiVersion, name: "apiVersion", parent: name, max: 256)
+            try self.validate(self.apiVersion, name: "apiVersion", parent: name, pattern: "^\\S+$")
             try self.validate(self.connectorProfileName, name: "connectorProfileName", parent: name, max: 256)
             try self.validate(self.connectorProfileName, name: "connectorProfileName", parent: name, pattern: "^[\\w/!@#+=.-]+$")
             try self.validate(self.entitiesPath, name: "entitiesPath", parent: name, max: 256)
@@ -2342,6 +3018,7 @@ extension Appflow {
         }
 
         private enum CodingKeys: String, CodingKey {
+            case apiVersion
             case connectorProfileName
             case connectorType
             case entitiesPath
@@ -2358,6 +3035,47 @@ extension Appflow {
 
         private enum CodingKeys: String, CodingKey {
             case connectorEntityMap
+        }
+    }
+
+    public struct ListConnectorsRequest: AWSEncodableShape {
+        /// Specifies the maximum number of items that should be returned in the result set. The default for maxResults is 20 (for all paginated API operations).
+        public let maxResults: Int?
+        /// The pagination token for the next page of data.
+        public let nextToken: String?
+
+        public init(maxResults: Int? = nil, nextToken: String? = nil) {
+            self.maxResults = maxResults
+            self.nextToken = nextToken
+        }
+
+        public func validate(name: String) throws {
+            try self.validate(self.maxResults, name: "maxResults", parent: name, max: 100)
+            try self.validate(self.maxResults, name: "maxResults", parent: name, min: 1)
+            try self.validate(self.nextToken, name: "nextToken", parent: name, max: 2048)
+            try self.validate(self.nextToken, name: "nextToken", parent: name, pattern: "^\\S+$")
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case maxResults
+            case nextToken
+        }
+    }
+
+    public struct ListConnectorsResponse: AWSDecodableShape {
+        /// Contains information about the connectors supported by Amazon AppFlow.
+        public let connectors: [ConnectorDetail]?
+        /// The pagination token for the next page of data. If nextToken=null, this means that all records have been fetched.
+        public let nextToken: String?
+
+        public init(connectors: [ConnectorDetail]? = nil, nextToken: String? = nil) {
+            self.connectors = connectors
+            self.nextToken = nextToken
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case connectors
+            case nextToken
         }
     }
 
@@ -2457,7 +3175,7 @@ extension Appflow {
         }
 
         public func validate(name: String) throws {
-            try self.validate(self.accessToken, name: "accessToken", parent: name, max: 512)
+            try self.validate(self.accessToken, name: "accessToken", parent: name, max: 2048)
             try self.validate(self.accessToken, name: "accessToken", parent: name, pattern: "^\\S+$")
             try self.validate(self.clientId, name: "clientId", parent: name, max: 512)
             try self.validate(self.clientId, name: "clientId", parent: name, pattern: "^\\S+$")
@@ -2492,6 +3210,28 @@ extension Appflow {
         }
     }
 
+    public struct MarketoDestinationProperties: AWSEncodableShape & AWSDecodableShape {
+        public let errorHandlingConfig: ErrorHandlingConfig?
+        /// The object specified in the Marketo flow destination.
+        public let object: String
+
+        public init(errorHandlingConfig: ErrorHandlingConfig? = nil, object: String) {
+            self.errorHandlingConfig = errorHandlingConfig
+            self.object = object
+        }
+
+        public func validate(name: String) throws {
+            try self.errorHandlingConfig?.validate(name: "\(name).errorHandlingConfig")
+            try self.validate(self.object, name: "object", parent: name, max: 512)
+            try self.validate(self.object, name: "object", parent: name, pattern: "^\\S+$")
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case errorHandlingConfig
+            case object
+        }
+    }
+
     public struct MarketoMetadata: AWSDecodableShape {
         public init() {}
     }
@@ -2511,6 +3251,93 @@ extension Appflow {
 
         private enum CodingKeys: String, CodingKey {
             case object
+        }
+    }
+
+    public struct OAuth2Credentials: AWSEncodableShape {
+        /// The access token used to access the connector on your behalf.
+        public let accessToken: String?
+        /// The identifier for the desired client.
+        public let clientId: String?
+        /// The client secret used by the OAuth client to authenticate to the authorization server.
+        public let clientSecret: String?
+        public let oAuthRequest: ConnectorOAuthRequest?
+        /// The refresh token used to refresh an expired access token.
+        public let refreshToken: String?
+
+        public init(accessToken: String? = nil, clientId: String? = nil, clientSecret: String? = nil, oAuthRequest: ConnectorOAuthRequest? = nil, refreshToken: String? = nil) {
+            self.accessToken = accessToken
+            self.clientId = clientId
+            self.clientSecret = clientSecret
+            self.oAuthRequest = oAuthRequest
+            self.refreshToken = refreshToken
+        }
+
+        public func validate(name: String) throws {
+            try self.validate(self.accessToken, name: "accessToken", parent: name, max: 2048)
+            try self.validate(self.accessToken, name: "accessToken", parent: name, pattern: "^\\S+$")
+            try self.validate(self.clientId, name: "clientId", parent: name, max: 512)
+            try self.validate(self.clientId, name: "clientId", parent: name, pattern: "^\\S+$")
+            try self.validate(self.clientSecret, name: "clientSecret", parent: name, max: 512)
+            try self.validate(self.clientSecret, name: "clientSecret", parent: name, pattern: "^\\S+$")
+            try self.oAuthRequest?.validate(name: "\(name).oAuthRequest")
+            try self.validate(self.refreshToken, name: "refreshToken", parent: name, max: 1024)
+            try self.validate(self.refreshToken, name: "refreshToken", parent: name, pattern: "^\\S+$")
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case accessToken
+            case clientId
+            case clientSecret
+            case oAuthRequest
+            case refreshToken
+        }
+    }
+
+    public struct OAuth2Defaults: AWSDecodableShape {
+        /// Auth code URLs that can be used for OAuth 2.0 authentication.
+        public let authCodeUrls: [String]?
+        /// OAuth 2.0 grant types supported by the connector.
+        public let oauth2GrantTypesSupported: [OAuth2GrantType]?
+        /// OAuth 2.0 scopes that the connector supports.
+        public let oauthScopes: [String]?
+        /// Token URLs that can be used for OAuth 2.0 authentication.
+        public let tokenUrls: [String]?
+
+        public init(authCodeUrls: [String]? = nil, oauth2GrantTypesSupported: [OAuth2GrantType]? = nil, oauthScopes: [String]? = nil, tokenUrls: [String]? = nil) {
+            self.authCodeUrls = authCodeUrls
+            self.oauth2GrantTypesSupported = oauth2GrantTypesSupported
+            self.oauthScopes = oauthScopes
+            self.tokenUrls = tokenUrls
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case authCodeUrls
+            case oauth2GrantTypesSupported
+            case oauthScopes
+            case tokenUrls
+        }
+    }
+
+    public struct OAuth2Properties: AWSEncodableShape & AWSDecodableShape {
+        /// The OAuth 2.0 grant type used by connector for OAuth 2.0 authentication.
+        public let oAuth2GrantType: OAuth2GrantType
+        /// The token URL required for OAuth 2.0 authentication.
+        public let tokenUrl: String
+
+        public init(oAuth2GrantType: OAuth2GrantType, tokenUrl: String) {
+            self.oAuth2GrantType = oAuth2GrantType
+            self.tokenUrl = tokenUrl
+        }
+
+        public func validate(name: String) throws {
+            try self.validate(self.tokenUrl, name: "tokenUrl", parent: name, max: 256)
+            try self.validate(self.tokenUrl, name: "tokenUrl", parent: name, pattern: "^(https?)://[-a-zA-Z0-9+&@#/%?=~_|!:,.;]*[-a-zA-Z0-9+&@#/%=~_|]$")
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case oAuth2GrantType
+            case tokenUrl
         }
     }
 
@@ -2535,14 +3362,14 @@ extension Appflow {
         }
 
         public func validate(name: String) throws {
-            try self.validate(self.accessToken, name: "accessToken", parent: name, max: 512)
+            try self.validate(self.accessToken, name: "accessToken", parent: name, max: 2048)
             try self.validate(self.accessToken, name: "accessToken", parent: name, pattern: "^\\S+$")
             try self.validate(self.clientId, name: "clientId", parent: name, max: 512)
             try self.validate(self.clientId, name: "clientId", parent: name, pattern: "^\\S+$")
             try self.validate(self.clientSecret, name: "clientSecret", parent: name, max: 512)
             try self.validate(self.clientSecret, name: "clientSecret", parent: name, pattern: "^\\S+$")
             try self.oAuthRequest?.validate(name: "\(name).oAuthRequest")
-            try self.validate(self.refreshToken, name: "refreshToken", parent: name, max: 512)
+            try self.validate(self.refreshToken, name: "refreshToken", parent: name, max: 1024)
             try self.validate(self.refreshToken, name: "refreshToken", parent: name, pattern: "^\\S+$")
         }
 
@@ -2574,7 +3401,7 @@ extension Appflow {
             try self.validate(self.authCodeUrl, name: "authCodeUrl", parent: name, pattern: "^(https?)://[-a-zA-Z0-9+&@#/%?=~_|!:,.;]*[-a-zA-Z0-9+&@#/%=~_|]$")
             try self.oAuthScopes.forEach {
                 try validate($0, name: "oAuthScopes[]", parent: name, max: 128)
-                try validate($0, name: "oAuthScopes[]", parent: name, pattern: "^[/\\w]*$")
+                try validate($0, name: "oAuthScopes[]", parent: name, pattern: "^\\S+$")
             }
             try self.validate(self.tokenUrl, name: "tokenUrl", parent: name, max: 256)
             try self.validate(self.tokenUrl, name: "tokenUrl", parent: name, pattern: "^(https?)://[-a-zA-Z0-9+&@#/%?=~_|!:,.;]*[-a-zA-Z0-9+&@#/%=~_|]$")
@@ -2622,6 +3449,23 @@ extension Appflow {
             case failureCause
             case failureMessage
             case status
+        }
+    }
+
+    public struct Range: AWSDecodableShape {
+        /// Maximum value supported by the field.
+        public let maximum: Double?
+        /// Minimum value supported by the field.
+        public let minimum: Double?
+
+        public init(maximum: Double? = nil, minimum: Double? = nil) {
+            self.maximum = maximum
+            self.minimum = minimum
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case maximum
+            case minimum
         }
     }
 
@@ -2724,6 +3568,52 @@ extension Appflow {
 
     public struct RedshiftMetadata: AWSDecodableShape {
         public init() {}
+    }
+
+    public struct RegisterConnectorRequest: AWSEncodableShape {
+        ///  The name of the connector. The name is unique for each ConnectorRegistration in your Amazon Web Services account.
+        public let connectorLabel: String?
+        /// The provisioning type of the connector. Currently the only supported value is LAMBDA.
+        public let connectorProvisioningConfig: ConnectorProvisioningConfig?
+        /// The provisioning type of the connector. Currently the only supported value is LAMBDA.
+        public let connectorProvisioningType: ConnectorProvisioningType?
+        /// A description about the connector that's being registered.
+        public let description: String?
+
+        public init(connectorLabel: String? = nil, connectorProvisioningConfig: ConnectorProvisioningConfig? = nil, connectorProvisioningType: ConnectorProvisioningType? = nil, description: String? = nil) {
+            self.connectorLabel = connectorLabel
+            self.connectorProvisioningConfig = connectorProvisioningConfig
+            self.connectorProvisioningType = connectorProvisioningType
+            self.description = description
+        }
+
+        public func validate(name: String) throws {
+            try self.validate(self.connectorLabel, name: "connectorLabel", parent: name, max: 256)
+            try self.validate(self.connectorLabel, name: "connectorLabel", parent: name, pattern: "^[a-zA-Z0-9][\\w!@#.-]+$")
+            try self.connectorProvisioningConfig?.validate(name: "\(name).connectorProvisioningConfig")
+            try self.validate(self.description, name: "description", parent: name, max: 1024)
+            try self.validate(self.description, name: "description", parent: name, pattern: "^[\\s\\w/!@#+=.-]*$")
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case connectorLabel
+            case connectorProvisioningConfig
+            case connectorProvisioningType
+            case description
+        }
+    }
+
+    public struct RegisterConnectorResponse: AWSDecodableShape {
+        /// The ARN of the connector being registered.
+        public let connectorArn: String?
+
+        public init(connectorArn: String? = nil) {
+            self.connectorArn = connectorArn
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case connectorArn
+        }
     }
 
     public struct S3DestinationProperties: AWSEncodableShape & AWSDecodableShape {
@@ -2895,6 +3785,43 @@ extension Appflow {
         }
     }
 
+    public struct SAPODataDestinationProperties: AWSEncodableShape & AWSDecodableShape {
+        public let errorHandlingConfig: ErrorHandlingConfig?
+        public let idFieldNames: [String]?
+        /// The object path specified in the SAPOData flow destination.
+        public let objectPath: String
+        /// Determines how Amazon AppFlow handles the success response that it gets from the connector after placing data. For example, this setting would determine where to write the response from a destination connector upon a successful insert operation.
+        public let successResponseHandlingConfig: SuccessResponseHandlingConfig?
+        public let writeOperationType: WriteOperationType?
+
+        public init(errorHandlingConfig: ErrorHandlingConfig? = nil, idFieldNames: [String]? = nil, objectPath: String, successResponseHandlingConfig: SuccessResponseHandlingConfig? = nil, writeOperationType: WriteOperationType? = nil) {
+            self.errorHandlingConfig = errorHandlingConfig
+            self.idFieldNames = idFieldNames
+            self.objectPath = objectPath
+            self.successResponseHandlingConfig = successResponseHandlingConfig
+            self.writeOperationType = writeOperationType
+        }
+
+        public func validate(name: String) throws {
+            try self.errorHandlingConfig?.validate(name: "\(name).errorHandlingConfig")
+            try self.idFieldNames?.forEach {
+                try validate($0, name: "idFieldNames[]", parent: name, max: 128)
+                try validate($0, name: "idFieldNames[]", parent: name, pattern: "^\\S+$")
+            }
+            try self.validate(self.objectPath, name: "objectPath", parent: name, max: 512)
+            try self.validate(self.objectPath, name: "objectPath", parent: name, pattern: "^\\S+$")
+            try self.successResponseHandlingConfig?.validate(name: "\(name).successResponseHandlingConfig")
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case errorHandlingConfig
+            case idFieldNames
+            case objectPath
+            case successResponseHandlingConfig
+            case writeOperationType
+        }
+    }
+
     public struct SAPODataMetadata: AWSDecodableShape {
         public init() {}
     }
@@ -2935,13 +3862,13 @@ extension Appflow {
         }
 
         public func validate(name: String) throws {
-            try self.validate(self.accessToken, name: "accessToken", parent: name, max: 512)
+            try self.validate(self.accessToken, name: "accessToken", parent: name, max: 2048)
             try self.validate(self.accessToken, name: "accessToken", parent: name, pattern: "^\\S+$")
             try self.validate(self.clientCredentialsArn, name: "clientCredentialsArn", parent: name, max: 2048)
             try self.validate(self.clientCredentialsArn, name: "clientCredentialsArn", parent: name, min: 20)
             try self.validate(self.clientCredentialsArn, name: "clientCredentialsArn", parent: name, pattern: "^arn:aws:secretsmanager:.*:[0-9]+:")
             try self.oAuthRequest?.validate(name: "\(name).oAuthRequest")
-            try self.validate(self.refreshToken, name: "refreshToken", parent: name, max: 512)
+            try self.validate(self.refreshToken, name: "refreshToken", parent: name, max: 1024)
             try self.validate(self.refreshToken, name: "refreshToken", parent: name, pattern: "^\\S+$")
         }
 
@@ -2998,7 +3925,6 @@ extension Appflow {
                 try validate($0, name: "idFieldNames[]", parent: name, max: 128)
                 try validate($0, name: "idFieldNames[]", parent: name, pattern: "^\\S+$")
             }
-            try self.validate(self.idFieldNames, name: "idFieldNames", parent: name, max: 1)
             try self.validate(self.object, name: "object", parent: name, max: 512)
             try self.validate(self.object, name: "object", parent: name, pattern: "^\\S+$")
         }
@@ -3222,7 +4148,7 @@ extension Appflow {
         }
 
         public func validate(name: String) throws {
-            try self.validate(self.accessToken, name: "accessToken", parent: name, max: 512)
+            try self.validate(self.accessToken, name: "accessToken", parent: name, max: 2048)
             try self.validate(self.accessToken, name: "accessToken", parent: name, pattern: "^\\S+$")
             try self.validate(self.clientId, name: "clientId", parent: name, max: 512)
             try self.validate(self.clientId, name: "clientId", parent: name, pattern: "^\\S+$")
@@ -3419,6 +4345,7 @@ extension Appflow {
     public struct SourceConnectorProperties: AWSEncodableShape & AWSDecodableShape {
         ///  Specifies the information that is required for querying Amplitude.
         public let amplitude: AmplitudeSourceProperties?
+        public let customConnector: CustomConnectorSourceProperties?
         ///  Specifies the information that is required for querying Datadog.
         public let datadog: DatadogSourceProperties?
         ///  Specifies the information that is required for querying Dynatrace.
@@ -3447,8 +4374,9 @@ extension Appflow {
         ///  Specifies the information that is required for querying Zendesk.
         public let zendesk: ZendeskSourceProperties?
 
-        public init(amplitude: AmplitudeSourceProperties? = nil, datadog: DatadogSourceProperties? = nil, dynatrace: DynatraceSourceProperties? = nil, googleAnalytics: GoogleAnalyticsSourceProperties? = nil, inforNexus: InforNexusSourceProperties? = nil, marketo: MarketoSourceProperties? = nil, s3: S3SourceProperties? = nil, salesforce: SalesforceSourceProperties? = nil, sapoData: SAPODataSourceProperties? = nil, serviceNow: ServiceNowSourceProperties? = nil, singular: SingularSourceProperties? = nil, slack: SlackSourceProperties? = nil, trendmicro: TrendmicroSourceProperties? = nil, veeva: VeevaSourceProperties? = nil, zendesk: ZendeskSourceProperties? = nil) {
+        public init(amplitude: AmplitudeSourceProperties? = nil, customConnector: CustomConnectorSourceProperties? = nil, datadog: DatadogSourceProperties? = nil, dynatrace: DynatraceSourceProperties? = nil, googleAnalytics: GoogleAnalyticsSourceProperties? = nil, inforNexus: InforNexusSourceProperties? = nil, marketo: MarketoSourceProperties? = nil, s3: S3SourceProperties? = nil, salesforce: SalesforceSourceProperties? = nil, sapoData: SAPODataSourceProperties? = nil, serviceNow: ServiceNowSourceProperties? = nil, singular: SingularSourceProperties? = nil, slack: SlackSourceProperties? = nil, trendmicro: TrendmicroSourceProperties? = nil, veeva: VeevaSourceProperties? = nil, zendesk: ZendeskSourceProperties? = nil) {
             self.amplitude = amplitude
+            self.customConnector = customConnector
             self.datadog = datadog
             self.dynatrace = dynatrace
             self.googleAnalytics = googleAnalytics
@@ -3467,6 +4395,7 @@ extension Appflow {
 
         public func validate(name: String) throws {
             try self.amplitude?.validate(name: "\(name).amplitude")
+            try self.customConnector?.validate(name: "\(name).customConnector")
             try self.datadog?.validate(name: "\(name).datadog")
             try self.dynatrace?.validate(name: "\(name).dynatrace")
             try self.googleAnalytics?.validate(name: "\(name).googleAnalytics")
@@ -3485,6 +4414,7 @@ extension Appflow {
 
         private enum CodingKeys: String, CodingKey {
             case amplitude = "Amplitude"
+            case customConnector = "CustomConnector"
             case datadog = "Datadog"
             case dynatrace = "Dynatrace"
             case googleAnalytics = "GoogleAnalytics"
@@ -3507,19 +4437,25 @@ extension Appflow {
         public let isQueryable: Bool?
         ///  Indicates whether the field can be returned in a search result.
         public let isRetrievable: Bool?
+        /// Indicates if this timestamp field can be used for incremental queries.
+        public let isTimestampFieldForIncrementalQueries: Bool?
 
-        public init(isQueryable: Bool? = nil, isRetrievable: Bool? = nil) {
+        public init(isQueryable: Bool? = nil, isRetrievable: Bool? = nil, isTimestampFieldForIncrementalQueries: Bool? = nil) {
             self.isQueryable = isQueryable
             self.isRetrievable = isRetrievable
+            self.isTimestampFieldForIncrementalQueries = isTimestampFieldForIncrementalQueries
         }
 
         private enum CodingKeys: String, CodingKey {
             case isQueryable
             case isRetrievable
+            case isTimestampFieldForIncrementalQueries
         }
     }
 
     public struct SourceFlowConfig: AWSEncodableShape & AWSDecodableShape {
+        /// The API version of the connector when it's used as a source in the flow.
+        public let apiVersion: String?
         ///  The name of the connector profile. This name must be unique for each connector profile in the Amazon Web Services account.
         public let connectorProfileName: String?
         ///  The type of connector, such as Salesforce, Amplitude, and so on.
@@ -3529,7 +4465,8 @@ extension Appflow {
         ///  Specifies the information that is required to query a particular source connector.
         public let sourceConnectorProperties: SourceConnectorProperties
 
-        public init(connectorProfileName: String? = nil, connectorType: ConnectorType, incrementalPullConfig: IncrementalPullConfig? = nil, sourceConnectorProperties: SourceConnectorProperties) {
+        public init(apiVersion: String? = nil, connectorProfileName: String? = nil, connectorType: ConnectorType, incrementalPullConfig: IncrementalPullConfig? = nil, sourceConnectorProperties: SourceConnectorProperties) {
+            self.apiVersion = apiVersion
             self.connectorProfileName = connectorProfileName
             self.connectorType = connectorType
             self.incrementalPullConfig = incrementalPullConfig
@@ -3537,6 +4474,8 @@ extension Appflow {
         }
 
         public func validate(name: String) throws {
+            try self.validate(self.apiVersion, name: "apiVersion", parent: name, max: 256)
+            try self.validate(self.apiVersion, name: "apiVersion", parent: name, pattern: "^\\S+$")
             try self.validate(self.connectorProfileName, name: "connectorProfileName", parent: name, max: 256)
             try self.validate(self.connectorProfileName, name: "connectorProfileName", parent: name, pattern: "^[\\w/!@#+=.-]+$")
             try self.incrementalPullConfig?.validate(name: "\(name).incrementalPullConfig")
@@ -3544,6 +4483,7 @@ extension Appflow {
         }
 
         private enum CodingKeys: String, CodingKey {
+            case apiVersion
             case connectorProfileName
             case connectorType
             case incrementalPullConfig
@@ -3622,6 +4562,31 @@ extension Appflow {
         private enum CodingKeys: String, CodingKey {
             case flowArn
             case flowStatus
+        }
+    }
+
+    public struct SuccessResponseHandlingConfig: AWSEncodableShape & AWSDecodableShape {
+        /// The name of the Amazon S3 bucket.
+        public let bucketName: String?
+        /// The Amazon S3 bucket prefix.
+        public let bucketPrefix: String?
+
+        public init(bucketName: String? = nil, bucketPrefix: String? = nil) {
+            self.bucketName = bucketName
+            self.bucketPrefix = bucketPrefix
+        }
+
+        public func validate(name: String) throws {
+            try self.validate(self.bucketName, name: "bucketName", parent: name, max: 63)
+            try self.validate(self.bucketName, name: "bucketName", parent: name, min: 3)
+            try self.validate(self.bucketName, name: "bucketName", parent: name, pattern: "^\\S+$")
+            try self.validate(self.bucketPrefix, name: "bucketPrefix", parent: name, max: 512)
+            try self.validate(self.bucketPrefix, name: "bucketPrefix", parent: name, pattern: ".*")
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case bucketName
+            case bucketPrefix
         }
     }
 
@@ -3797,6 +4762,32 @@ extension Appflow {
         private enum CodingKeys: String, CodingKey {
             case scheduled = "Scheduled"
         }
+    }
+
+    public struct UnregisterConnectorRequest: AWSEncodableShape {
+        /// The label of the connector. The label is unique for each ConnectorRegistration in your Amazon Web Services account.
+        public let connectorLabel: String
+        /// Indicates whether Amazon AppFlow should unregister the connector, even if it is currently in use in one or more connector profiles. The default value is false.
+        public let forceDelete: Bool?
+
+        public init(connectorLabel: String, forceDelete: Bool? = nil) {
+            self.connectorLabel = connectorLabel
+            self.forceDelete = forceDelete
+        }
+
+        public func validate(name: String) throws {
+            try self.validate(self.connectorLabel, name: "connectorLabel", parent: name, max: 256)
+            try self.validate(self.connectorLabel, name: "connectorLabel", parent: name, pattern: "^[a-zA-Z0-9][\\w!@#.-]+$")
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case connectorLabel
+            case forceDelete
+        }
+    }
+
+    public struct UnregisterConnectorResponse: AWSDecodableShape {
+        public init() {}
     }
 
     public struct UntagResourceRequest: AWSEncodableShape {
@@ -4085,7 +5076,7 @@ extension Appflow {
         }
 
         public func validate(name: String) throws {
-            try self.validate(self.accessToken, name: "accessToken", parent: name, max: 512)
+            try self.validate(self.accessToken, name: "accessToken", parent: name, max: 2048)
             try self.validate(self.accessToken, name: "accessToken", parent: name, pattern: "^\\S+$")
             try self.validate(self.clientId, name: "clientId", parent: name, max: 512)
             try self.validate(self.clientId, name: "clientId", parent: name, pattern: "^\\S+$")
@@ -4140,7 +5131,6 @@ extension Appflow {
                 try validate($0, name: "idFieldNames[]", parent: name, max: 128)
                 try validate($0, name: "idFieldNames[]", parent: name, pattern: "^\\S+$")
             }
-            try self.validate(self.idFieldNames, name: "idFieldNames", parent: name, max: 1)
             try self.validate(self.object, name: "object", parent: name, max: 512)
             try self.validate(self.object, name: "object", parent: name, pattern: "^\\S+$")
         }

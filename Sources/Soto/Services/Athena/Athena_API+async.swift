@@ -183,6 +183,11 @@ extension Athena {
         return try await self.client.execute(operation: "UpdateDataCatalog", path: "/", httpMethod: .POST, serviceConfig: self.config, input: input, logger: logger, on: eventLoop)
     }
 
+    /// Updates a NamedQuery object. The database or workgroup cannot be updated.
+    public func updateNamedQuery(_ input: UpdateNamedQueryInput, logger: Logger = AWSClient.loggingDisabled, on eventLoop: EventLoop? = nil) async throws -> UpdateNamedQueryOutput {
+        return try await self.client.execute(operation: "UpdateNamedQuery", path: "/", httpMethod: .POST, serviceConfig: self.config, input: input, logger: logger, on: eventLoop)
+    }
+
     /// Updates a prepared statement.
     public func updatePreparedStatement(_ input: UpdatePreparedStatementInput, logger: Logger = AWSClient.loggingDisabled, on eventLoop: EventLoop? = nil) async throws -> UpdatePreparedStatementOutput {
         return try await self.client.execute(operation: "UpdatePreparedStatement", path: "/", httpMethod: .POST, serviceConfig: self.config, input: input, logger: logger, on: eventLoop)

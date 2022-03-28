@@ -19,7 +19,7 @@
 
 /// Service object for interacting with AWS Connect service.
 ///
-/// Amazon Connect is a cloud-based contact center solution that you use to set up and manage a customer contact center and provide reliable customer engagement at any scale. Amazon Connect provides metrics and real-time reporting that enable you to optimize contact routing. You can also resolve customer issues more efficiently by getting customers in touch with the appropriate agents. There are limits to the number of Amazon Connect resources that you can create. There are also limits to the number of requests that you can make per second. For more information, see Amazon Connect Service Quotas in the Amazon Connect Administrator Guide. You can connect programmatically to an AWS service by using an endpoint. For a list of Amazon Connect endpoints, see Amazon Connect Endpoints.  Working with contact flows? Check out the Amazon Connect Flow language.
+/// Amazon Connect is a cloud-based contact center solution that you use to set up and manage a customer contact center and provide reliable customer engagement at any scale. Amazon Connect provides metrics and real-time reporting that enable you to optimize contact routing. You can also resolve customer issues more efficiently by getting customers in touch with the appropriate agents. There are limits to the number of Amazon Connect resources that you can create. There are also limits to the number of requests that you can make per second. For more information, see Amazon Connect Service Quotas in the Amazon Connect Administrator Guide. You can connect programmatically to an Amazon Web Services service by using an endpoint. For a list of Amazon Connect endpoints, see Amazon Connect Endpoints.  Working with contact flows? Check out the Amazon Connect Flow language.
 public struct Connect: AWSService {
     // MARK: Member variables
 
@@ -71,6 +71,11 @@ public struct Connect: AWSService {
     /// This API is in preview release for Amazon Connect and is subject to change. Allows the specified Amazon Connect instance to access the specified Amazon Lex or Amazon Lex V2 bot.
     @discardableResult public func associateBot(_ input: AssociateBotRequest, logger: Logger = AWSClient.loggingDisabled, on eventLoop: EventLoop? = nil) -> EventLoopFuture<Void> {
         return self.client.execute(operation: "AssociateBot", path: "/instance/{InstanceId}/bot", httpMethod: .PUT, serviceConfig: self.config, input: input, logger: logger, on: eventLoop)
+    }
+
+    /// Associates an existing vocabulary as the default. Contact Lens for Amazon Connect uses the vocabulary in post-call and real-time analysis sessions for the given language.
+    public func associateDefaultVocabulary(_ input: AssociateDefaultVocabularyRequest, logger: Logger = AWSClient.loggingDisabled, on eventLoop: EventLoop? = nil) -> EventLoopFuture<AssociateDefaultVocabularyResponse> {
+        return self.client.execute(operation: "AssociateDefaultVocabulary", path: "/default-vocabulary/{InstanceId}/{LanguageCode}", httpMethod: .PUT, serviceConfig: self.config, input: input, logger: logger, on: eventLoop)
     }
 
     /// This API is in preview release for Amazon Connect and is subject to change. Associates a storage resource type for the first time. You can only associate one type of storage configuration in a single call. This means, for example, that you can't define an instance with multiple S3 buckets for storing chat transcripts. This API does not create a resource that doesn't exist. It only associates it to the instance. Ensure that the resource being specified in the storage configuration, like an S3 bucket, exists when being used for association.
@@ -130,7 +135,7 @@ public struct Connect: AWSService {
         return self.client.execute(operation: "CreateInstance", path: "/instance", httpMethod: .PUT, serviceConfig: self.config, input: input, logger: logger, on: eventLoop)
     }
 
-    /// Creates an AWS resource association with an Amazon Connect instance.
+    /// Creates an Amazon Web Services resource association with an Amazon Connect instance.
     public func createIntegrationAssociation(_ input: CreateIntegrationAssociationRequest, logger: Logger = AWSClient.loggingDisabled, on eventLoop: EventLoop? = nil) -> EventLoopFuture<CreateIntegrationAssociationResponse> {
         return self.client.execute(operation: "CreateIntegrationAssociation", path: "/instance/{InstanceId}/integration-associations", httpMethod: .PUT, serviceConfig: self.config, input: input, logger: logger, on: eventLoop)
     }
@@ -170,6 +175,11 @@ public struct Connect: AWSService {
         return self.client.execute(operation: "CreateUserHierarchyGroup", path: "/user-hierarchy-groups/{InstanceId}", httpMethod: .PUT, serviceConfig: self.config, input: input, logger: logger, on: eventLoop)
     }
 
+    /// Creates a custom vocabulary associated with your Amazon Connect instance. You can set a custom vocabulary to be your default vocabulary for a given language. Contact Lens for Amazon Connect uses the default vocabulary in post-call and real-time contact analysis sessions for that language.
+    public func createVocabulary(_ input: CreateVocabularyRequest, logger: Logger = AWSClient.loggingDisabled, on eventLoop: EventLoop? = nil) -> EventLoopFuture<CreateVocabularyResponse> {
+        return self.client.execute(operation: "CreateVocabulary", path: "/vocabulary/{InstanceId}", httpMethod: .POST, serviceConfig: self.config, input: input, logger: logger, on: eventLoop)
+    }
+
     /// Deletes a contact flow for the specified Amazon Connect instance.
     @discardableResult public func deleteContactFlow(_ input: DeleteContactFlowRequest, logger: Logger = AWSClient.loggingDisabled, on eventLoop: EventLoop? = nil) -> EventLoopFuture<Void> {
         return self.client.execute(operation: "DeleteContactFlow", path: "/contact-flows/{InstanceId}/{ContactFlowId}", httpMethod: .DELETE, serviceConfig: self.config, input: input, logger: logger, on: eventLoop)
@@ -192,7 +202,7 @@ public struct Connect: AWSService {
         return self.client.execute(operation: "DeleteInstance", path: "/instance/{InstanceId}", httpMethod: .DELETE, serviceConfig: self.config, input: input, logger: logger, on: eventLoop)
     }
 
-    /// Deletes an AWS resource association from an Amazon Connect instance. The association must not have any use cases associated with it.
+    /// Deletes an Amazon Web Services resource association from an Amazon Connect instance. The association must not have any use cases associated with it.
     @discardableResult public func deleteIntegrationAssociation(_ input: DeleteIntegrationAssociationRequest, logger: Logger = AWSClient.loggingDisabled, on eventLoop: EventLoop? = nil) -> EventLoopFuture<Void> {
         return self.client.execute(operation: "DeleteIntegrationAssociation", path: "/instance/{InstanceId}/integration-associations/{IntegrationAssociationId}", httpMethod: .DELETE, serviceConfig: self.config, input: input, logger: logger, on: eventLoop)
     }
@@ -220,6 +230,11 @@ public struct Connect: AWSService {
     /// Deletes an existing user hierarchy group. It must not be associated with any agents or have any active child groups.
     @discardableResult public func deleteUserHierarchyGroup(_ input: DeleteUserHierarchyGroupRequest, logger: Logger = AWSClient.loggingDisabled, on eventLoop: EventLoop? = nil) -> EventLoopFuture<Void> {
         return self.client.execute(operation: "DeleteUserHierarchyGroup", path: "/user-hierarchy-groups/{InstanceId}/{HierarchyGroupId}", httpMethod: .DELETE, serviceConfig: self.config, input: input, logger: logger, on: eventLoop)
+    }
+
+    /// Deletes the vocabulary that has the given identifier.
+    public func deleteVocabulary(_ input: DeleteVocabularyRequest, logger: Logger = AWSClient.loggingDisabled, on eventLoop: EventLoop? = nil) -> EventLoopFuture<DeleteVocabularyResponse> {
+        return self.client.execute(operation: "DeleteVocabulary", path: "/vocabulary-remove/{InstanceId}/{VocabularyId}", httpMethod: .POST, serviceConfig: self.config, input: input, logger: logger, on: eventLoop)
     }
 
     /// This API is in preview release for Amazon Connect and is subject to change. Describes an agent status.
@@ -295,6 +310,11 @@ public struct Connect: AWSService {
     /// Describes the hierarchy structure of the specified Amazon Connect instance.
     public func describeUserHierarchyStructure(_ input: DescribeUserHierarchyStructureRequest, logger: Logger = AWSClient.loggingDisabled, on eventLoop: EventLoop? = nil) -> EventLoopFuture<DescribeUserHierarchyStructureResponse> {
         return self.client.execute(operation: "DescribeUserHierarchyStructure", path: "/user-hierarchy-structure/{InstanceId}", httpMethod: .GET, serviceConfig: self.config, input: input, logger: logger, on: eventLoop)
+    }
+
+    /// Describes the specified vocabulary.
+    public func describeVocabulary(_ input: DescribeVocabularyRequest, logger: Logger = AWSClient.loggingDisabled, on eventLoop: EventLoop? = nil) -> EventLoopFuture<DescribeVocabularyResponse> {
+        return self.client.execute(operation: "DescribeVocabulary", path: "/vocabulary/{InstanceId}/{VocabularyId}", httpMethod: .GET, serviceConfig: self.config, input: input, logger: logger, on: eventLoop)
     }
 
     /// This API is in preview release for Amazon Connect and is subject to change. Revokes access to integrated applications from Amazon Connect.
@@ -388,6 +408,11 @@ public struct Connect: AWSService {
         return self.client.execute(operation: "ListContactReferences", path: "/contact/references/{InstanceId}/{ContactId}", httpMethod: .GET, serviceConfig: self.config, input: input, logger: logger, on: eventLoop)
     }
 
+    /// Lists the default vocabularies for the specified Amazon Connect instance.
+    public func listDefaultVocabularies(_ input: ListDefaultVocabulariesRequest, logger: Logger = AWSClient.loggingDisabled, on eventLoop: EventLoop? = nil) -> EventLoopFuture<ListDefaultVocabulariesResponse> {
+        return self.client.execute(operation: "ListDefaultVocabularies", path: "/default-vocabulary-summary/{InstanceId}", httpMethod: .POST, serviceConfig: self.config, input: input, logger: logger, on: eventLoop)
+    }
+
     /// Provides information about the hours of operation for the specified Amazon Connect instance. For more information about hours of operation, see Set the Hours of Operation for a Queue in the Amazon Connect Administrator Guide.
     public func listHoursOfOperations(_ input: ListHoursOfOperationsRequest, logger: Logger = AWSClient.loggingDisabled, on eventLoop: EventLoop? = nil) -> EventLoopFuture<ListHoursOfOperationsResponse> {
         return self.client.execute(operation: "ListHoursOfOperations", path: "/hours-of-operations-summary/{InstanceId}", httpMethod: .GET, serviceConfig: self.config, input: input, logger: logger, on: eventLoop)
@@ -409,7 +434,7 @@ public struct Connect: AWSService {
         return self.client.execute(operation: "ListInstances", path: "/instance", httpMethod: .GET, serviceConfig: self.config, input: input, logger: logger, on: eventLoop)
     }
 
-    /// Provides summary information about the AWS resource associations for the specified Amazon Connect instance.
+    /// Provides summary information about the Amazon Web Services resource associations for the specified Amazon Connect instance.
     public func listIntegrationAssociations(_ input: ListIntegrationAssociationsRequest, logger: Logger = AWSClient.loggingDisabled, on eventLoop: EventLoop? = nil) -> EventLoopFuture<ListIntegrationAssociationsResponse> {
         return self.client.execute(operation: "ListIntegrationAssociations", path: "/instance/{InstanceId}/integration-associations", httpMethod: .GET, serviceConfig: self.config, input: input, logger: logger, on: eventLoop)
     }
@@ -500,15 +525,20 @@ public struct Connect: AWSService {
         return self.client.execute(operation: "ResumeContactRecording", path: "/contact/resume-recording", httpMethod: .POST, serviceConfig: self.config, input: input, logger: logger, on: eventLoop)
     }
 
+    /// Searches for vocabularies within a specific Amazon Connect instance using State, NameStartsWith, and LanguageCode.
+    public func searchVocabularies(_ input: SearchVocabulariesRequest, logger: Logger = AWSClient.loggingDisabled, on eventLoop: EventLoop? = nil) -> EventLoopFuture<SearchVocabulariesResponse> {
+        return self.client.execute(operation: "SearchVocabularies", path: "/vocabulary-summary/{InstanceId}", httpMethod: .POST, serviceConfig: self.config, input: input, logger: logger, on: eventLoop)
+    }
+
     /// Initiates a contact flow to start a new chat for the customer. Response of this API provides a token required to obtain credentials from the CreateParticipantConnection API in the Amazon Connect Participant Service.
     ///  When a new chat contact is successfully created, clients must subscribe to the participant’s connection for the created chat within 5 minutes. This is achieved by invoking CreateParticipantConnection with WEBSOCKET and CONNECTION_CREDENTIALS.
-    ///  A 429 error occurs in two situations:   API rate limit is exceeded. API TPS throttling returns a TooManyRequests exception.   The quota for concurrent active chats is exceeded. Active chat throttling returns a LimitExceededException.
+    ///  A 429 error occurs in the following situations:   API rate limit is exceeded. API TPS throttling returns a TooManyRequests exception.   The quota for concurrent active chats is exceeded. Active chat throttling returns a LimitExceededException.       If you use the ChatDurationInMinutes parameter and receive a 400 error, your account may not support the ability to configure custom chat durations. For more information, contact Amazon Web Services Support.
     ///  For more information about chat, see Chat in the Amazon Connect Administrator Guide.
     public func startChatContact(_ input: StartChatContactRequest, logger: Logger = AWSClient.loggingDisabled, on eventLoop: EventLoop? = nil) -> EventLoopFuture<StartChatContactResponse> {
         return self.client.execute(operation: "StartChatContact", path: "/contact/chat", httpMethod: .PUT, serviceConfig: self.config, input: input, logger: logger, on: eventLoop)
     }
 
-    /// Starts recording the contact when the agent joins the call. StartContactRecording is a one-time action. For example, if you use StopContactRecording to stop recording an ongoing call, you can't use StartContactRecording to restart it. For scenarios where the recording has started and you want to suspend and resume it, such as when collecting sensitive information (for example, a credit card number), use SuspendContactRecording and ResumeContactRecording. You can use this API to override the recording behavior configured in the Set recording behavior block. Only voice recordings are supported at this time.
+    /// Starts recording the contact:    If the API is called before the agent joins the call, recording starts when the agent joins the call.   If the API is called after the agent joins the call, recording starts at the time of the API call.    StartContactRecording is a one-time action. For example, if you use StopContactRecording to stop recording an ongoing call, you can't use StartContactRecording to restart it. For scenarios where the recording has started and you want to suspend and resume it, such as when collecting sensitive information (for example, a credit card number), use SuspendContactRecording and ResumeContactRecording. You can use this API to override the recording behavior configured in the Set recording behavior block. Only voice recordings are supported at this time.
     public func startContactRecording(_ input: StartContactRecordingRequest, logger: Logger = AWSClient.loggingDisabled, on eventLoop: EventLoop? = nil) -> EventLoopFuture<StartContactRecordingResponse> {
         return self.client.execute(operation: "StartContactRecording", path: "/contact/start-recording", httpMethod: .POST, serviceConfig: self.config, input: input, logger: logger, on: eventLoop)
     }
@@ -518,8 +548,9 @@ public struct Connect: AWSService {
         return self.client.execute(operation: "StartContactStreaming", path: "/contact/start-streaming", httpMethod: .POST, serviceConfig: self.config, input: input, logger: logger, on: eventLoop)
     }
 
-    /// Places an outbound call to a contact, and then initiates the contact flow. It performs the actions in the contact flow that's specified (in ContactFlowId).  Agents do not initiate the outbound API, which means that they do not dial the contact. If the contact flow places an outbound call to a contact, and then puts the contact in queue, the call is then routed to the agent, like any other inbound case.
-    ///  There is a 60-second dialing timeout for this operation. If the call is not connected after 60 seconds, it fails.  UK numbers with a 447 prefix are not allowed by default. Before you can dial these UK mobile numbers, you must submit a service quota increase request. For more information, see Amazon Connect Service Quotas in the Amazon Connect Administrator Guide.    Campaign calls are not allowed by default. Before you can make a call with  TrafficType = CAMPAIGN, you must submit a service quota increase request. For more information, see  Amazon Connect Service Quotas in the Amazon Connect Administrator Guide.
+    /// Places an outbound call to a contact, and then initiates the contact flow. It performs the actions in the contact flow that's specified (in ContactFlowId).
+    ///  Agents do not initiate the outbound API, which means that they do not dial the contact. If the contact flow places an outbound call to a contact, and then puts the contact in queue, the call is then routed to the agent, like any other inbound case.
+    ///  There is a 60-second dialing timeout for this operation. If the call is not connected after 60 seconds, it fails.  UK numbers with a 447 prefix are not allowed by default. Before you can dial these UK mobile numbers, you must submit a service quota increase request. For more information, see Amazon Connect Service Quotas in the Amazon Connect Administrator Guide.    Campaign calls are not allowed by default. Before you can make a call with TrafficType = CAMPAIGN, you must submit a service quota increase request. For more information, see Amazon Connect Service Quotas in the Amazon Connect Administrator Guide.
     public func startOutboundVoiceContact(_ input: StartOutboundVoiceContactRequest, logger: Logger = AWSClient.loggingDisabled, on eventLoop: EventLoop? = nil) -> EventLoopFuture<StartOutboundVoiceContactResponse> {
         return self.client.execute(operation: "StartOutboundVoiceContact", path: "/contact/outbound-voice", httpMethod: .PUT, serviceConfig: self.config, input: input, logger: logger, on: eventLoop)
     }
@@ -529,7 +560,7 @@ public struct Connect: AWSService {
         return self.client.execute(operation: "StartTaskContact", path: "/contact/task", httpMethod: .PUT, serviceConfig: self.config, input: input, logger: logger, on: eventLoop)
     }
 
-    /// Ends the specified contact.
+    /// Ends the specified contact. This call does not work for the following initiation methods:   CALLBACK   DISCONNECT   TRANSFER   QUEUE_TRANSFER
     public func stopContact(_ input: StopContactRequest, logger: Logger = AWSClient.loggingDisabled, on eventLoop: EventLoop? = nil) -> EventLoopFuture<StopContactResponse> {
         return self.client.execute(operation: "StopContact", path: "/contact/stop", httpMethod: .POST, serviceConfig: self.config, input: input, logger: logger, on: eventLoop)
     }
@@ -550,7 +581,7 @@ public struct Connect: AWSService {
         return self.client.execute(operation: "SuspendContactRecording", path: "/contact/suspend-recording", httpMethod: .POST, serviceConfig: self.config, input: input, logger: logger, on: eventLoop)
     }
 
-    /// Adds the specified tags to the specified resource. The supported resource types are users, routing profiles, queues, quick connects,  contact flows, agent status, and hours of operation. For sample policies that use tags, see Amazon Connect Identity-Based Policy Examples in the Amazon Connect Administrator Guide.
+    /// Adds the specified tags to the specified resource. The supported resource types are users, routing profiles, queues, quick connects, contact flows, agent status, and hours of operation. For sample policies that use tags, see Amazon Connect Identity-Based Policy Examples in the Amazon Connect Administrator Guide.
     @discardableResult public func tagResource(_ input: TagResourceRequest, logger: Logger = AWSClient.loggingDisabled, on eventLoop: EventLoop? = nil) -> EventLoopFuture<Void> {
         return self.client.execute(operation: "TagResource", path: "/tags/{resourceArn}", httpMethod: .POST, serviceConfig: self.config, input: input, logger: logger, on: eventLoop)
     }

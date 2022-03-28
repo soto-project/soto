@@ -23,19 +23,24 @@ import SotoCore
 extension S3Outposts {
     // MARK: Async API Calls
 
-    /// Amazon S3 on Outposts Access Points simplify managing data access at scale for shared datasets in S3 on Outposts.  S3 on Outposts uses endpoints to connect to Outposts buckets so that you can perform actions within your  virtual private cloud (VPC). For more information, see  Accessing S3 on Outposts using VPC only access points. This action creates an endpoint and associates it with the specified Outposts.  It can take up to 5 minutes for this action to complete.    Related actions include:    DeleteEndpoint     ListEndpoints
+    /// Creates an endpoint and associates it with the specified Outpost.  It can take up to 5 minutes for this action to finish.    Related actions include:    DeleteEndpoint     ListEndpoints
     public func createEndpoint(_ input: CreateEndpointRequest, logger: Logger = AWSClient.loggingDisabled, on eventLoop: EventLoop? = nil) async throws -> CreateEndpointResult {
         return try await self.client.execute(operation: "CreateEndpoint", path: "/S3Outposts/CreateEndpoint", httpMethod: .POST, serviceConfig: self.config, input: input, logger: logger, on: eventLoop)
     }
 
-    /// Amazon S3 on Outposts Access Points simplify managing data access at scale for shared datasets in S3 on Outposts.  S3 on Outposts uses endpoints to connect to Outposts buckets so that you can perform actions within your  virtual private cloud (VPC). For more information, see  Accessing S3 on Outposts using VPC only access points. This action deletes an endpoint.  It can take up to 5 minutes for this action to complete.    Related actions include:    CreateEndpoint     ListEndpoints
+    /// Deletes an endpoint.  It can take up to 5 minutes for this action to finish.    Related actions include:    CreateEndpoint     ListEndpoints
     public func deleteEndpoint(_ input: DeleteEndpointRequest, logger: Logger = AWSClient.loggingDisabled, on eventLoop: EventLoop? = nil) async throws {
         return try await self.client.execute(operation: "DeleteEndpoint", path: "/S3Outposts/DeleteEndpoint", httpMethod: .DELETE, serviceConfig: self.config, input: input, logger: logger, on: eventLoop)
     }
 
-    /// Amazon S3 on Outposts Access Points simplify managing data access at scale for shared datasets in S3 on Outposts.  S3 on Outposts uses endpoints to connect to Outposts buckets so that you can perform actions within your  virtual private cloud (VPC). For more information, see  Accessing S3 on Outposts using VPC only access points. This action lists endpoints associated with the Outposts.   Related actions include:    CreateEndpoint     DeleteEndpoint
+    /// Lists endpoints associated with the specified Outpost.  Related actions include:    CreateEndpoint     DeleteEndpoint
     public func listEndpoints(_ input: ListEndpointsRequest, logger: Logger = AWSClient.loggingDisabled, on eventLoop: EventLoop? = nil) async throws -> ListEndpointsResult {
         return try await self.client.execute(operation: "ListEndpoints", path: "/S3Outposts/ListEndpoints", httpMethod: .GET, serviceConfig: self.config, input: input, logger: logger, on: eventLoop)
+    }
+
+    /// Lists all endpoints associated with an Outpost that has been shared by Amazon Web Services Resource Access Manager (RAM). Related actions include:    CreateEndpoint     DeleteEndpoint
+    public func listSharedEndpoints(_ input: ListSharedEndpointsRequest, logger: Logger = AWSClient.loggingDisabled, on eventLoop: EventLoop? = nil) async throws -> ListSharedEndpointsResult {
+        return try await self.client.execute(operation: "ListSharedEndpoints", path: "/S3Outposts/ListSharedEndpoints", httpMethod: .GET, serviceConfig: self.config, input: input, logger: logger, on: eventLoop)
     }
 }
 

@@ -50,7 +50,8 @@ public struct Location: AWSService {
         self.config = AWSServiceConfig(
             region: region,
             partition: region?.partition ?? partition,
-            service: "geo",
+            service: "location",
+            signingName: "geo",
             serviceProtocol: .restjson,
             apiVersion: "2020-11-19",
             endpoint: endpoint,
@@ -98,9 +99,14 @@ public struct Location: AWSService {
         return self.client.execute(operation: "BatchUpdateDevicePosition", path: "/tracking/v0/trackers/{TrackerName}/positions", httpMethod: .POST, serviceConfig: self.config, input: input, hostPrefix: "tracking.", logger: logger, on: eventLoop)
     }
 
-    ///  Calculates a route given the following required parameters: DeparturePostiton and DestinationPosition. Requires that you first create a route calculator resource. By default, a request that doesn't specify a departure time uses the best time of day to travel with the best traffic conditions when calculating the route. Additional options include:    Specifying a departure time using either DepartureTime or DepartureNow. This calculates a route based on predictive traffic data at the given time.   You can't specify both DepartureTime and DepartureNow in a single request. Specifying both parameters returns a validation error.     Specifying a travel mode using TravelMode. This lets you specify an additional route preference such as CarModeOptions if traveling by Car, or TruckModeOptions if traveling by Truck.
+    ///  Calculates a route given the following required parameters: DeparturePosition and DestinationPosition. Requires that you first create a route calculator resource. By default, a request that doesn't specify a departure time uses the best time of day to travel with the best traffic conditions when calculating the route. Additional options include:    Specifying a departure time using either DepartureTime or DepartNow. This calculates a route based on predictive traffic data at the given time.   You can't specify both DepartureTime and DepartNow in a single request. Specifying both parameters returns a validation error.     Specifying a travel mode using TravelMode sets the transportation mode used to calculate the routes. This also lets you specify additional route preferences in CarModeOptions if traveling by Car, or TruckModeOptions if traveling by Truck.
     public func calculateRoute(_ input: CalculateRouteRequest, logger: Logger = AWSClient.loggingDisabled, on eventLoop: EventLoop? = nil) -> EventLoopFuture<CalculateRouteResponse> {
         return self.client.execute(operation: "CalculateRoute", path: "/routes/v0/calculators/{CalculatorName}/calculate/route", httpMethod: .POST, serviceConfig: self.config, input: input, hostPrefix: "routes.", logger: logger, on: eventLoop)
+    }
+
+    ///  Calculates a route matrix given the following required parameters: DeparturePositions and DestinationPositions. CalculateRouteMatrix calculates routes and returns the travel time and  travel distance from each departure position to each destination position in the  request. For example, given departure positions A and B, and destination positions  X and Y, CalculateRouteMatrix will return time and distance for routes  from A to X, A to Y, B to X, and B to Y (in that order). The number of results returned  (and routes calculated) will be the number of DeparturePositions  times the number of DestinationPositions.  Your account is charged for each route calculated, not the number of requests.  Requires that you first create a route calculator resource. By default, a request that doesn't specify a departure time uses the best time of day to travel with the best traffic conditions when calculating routes. Additional options include:     Specifying a departure time using either DepartureTime or DepartNow. This calculates routes based on predictive traffic data at the given time.   You can't specify both DepartureTime and DepartNow in a single request. Specifying both parameters returns a validation error.     Specifying a travel mode using TravelMode sets the transportation mode used to calculate the routes. This also lets you specify additional route preferences in CarModeOptions if traveling by Car, or TruckModeOptions if traveling by Truck.
+    public func calculateRouteMatrix(_ input: CalculateRouteMatrixRequest, logger: Logger = AWSClient.loggingDisabled, on eventLoop: EventLoop? = nil) -> EventLoopFuture<CalculateRouteMatrixResponse> {
+        return self.client.execute(operation: "CalculateRouteMatrix", path: "/routes/v0/calculators/{CalculatorName}/calculate/route-matrix", httpMethod: .POST, serviceConfig: self.config, input: input, hostPrefix: "routes.", logger: logger, on: eventLoop)
     }
 
     /// Creates a geofence collection, which manages and stores geofences.
@@ -108,17 +114,17 @@ public struct Location: AWSService {
         return self.client.execute(operation: "CreateGeofenceCollection", path: "/geofencing/v0/collections", httpMethod: .POST, serviceConfig: self.config, input: input, hostPrefix: "geofencing.", logger: logger, on: eventLoop)
     }
 
-    /// Creates a map resource in your AWS account, which provides map tiles of different styles sourced from global location data providers.
+    /// Creates a map resource in your AWS account, which provides map tiles of different styles sourced from global location data providers.  If your application is tracking or routing assets you use in your business, such  as delivery vehicles or employees, you may only use HERE as your geolocation  provider. See section 82 of the AWS service terms for more details.
     public func createMap(_ input: CreateMapRequest, logger: Logger = AWSClient.loggingDisabled, on eventLoop: EventLoop? = nil) -> EventLoopFuture<CreateMapResponse> {
         return self.client.execute(operation: "CreateMap", path: "/maps/v0/maps", httpMethod: .POST, serviceConfig: self.config, input: input, hostPrefix: "maps.", logger: logger, on: eventLoop)
     }
 
-    /// Creates a place index resource in your AWS account. Use a place index resource to geocode addresses and other text queries by using the SearchPlaceIndexForText operation, and reverse geocode coordinates by using the SearchPlaceIndexForPosition operation, and enable autosuggestions by using the SearchPlaceIndexForSuggestions operation.
+    /// Creates a place index resource in your AWS account. Use a place index resource to geocode addresses and other text queries by using the SearchPlaceIndexForText operation, and reverse geocode coordinates by using the SearchPlaceIndexForPosition operation, and enable autosuggestions by using the SearchPlaceIndexForSuggestions operation.  If your application is tracking or routing assets you use in your business, such  as delivery vehicles or employees, you may only use HERE as your geolocation  provider. See section 82 of the AWS service terms for more details.
     public func createPlaceIndex(_ input: CreatePlaceIndexRequest, logger: Logger = AWSClient.loggingDisabled, on eventLoop: EventLoop? = nil) -> EventLoopFuture<CreatePlaceIndexResponse> {
         return self.client.execute(operation: "CreatePlaceIndex", path: "/places/v0/indexes", httpMethod: .POST, serviceConfig: self.config, input: input, hostPrefix: "places.", logger: logger, on: eventLoop)
     }
 
-    /// Creates a route calculator resource in your AWS account. You can send requests to a route calculator resource to estimate travel time, distance, and get directions. A route calculator sources traffic and road network data from your chosen data provider.
+    /// Creates a route calculator resource in your AWS account. You can send requests to a route calculator resource to estimate travel time, distance, and get directions. A route calculator sources traffic and road network data from your chosen data provider.  If your application is tracking or routing assets you use in your business, such  as delivery vehicles or employees, you may only use HERE as your geolocation  provider. See section 82 of the AWS service terms for more details.
     public func createRouteCalculator(_ input: CreateRouteCalculatorRequest, logger: Logger = AWSClient.loggingDisabled, on eventLoop: EventLoop? = nil) -> EventLoopFuture<CreateRouteCalculatorResponse> {
         return self.client.execute(operation: "CreateRouteCalculator", path: "/routes/v0/calculators", httpMethod: .POST, serviceConfig: self.config, input: input, hostPrefix: "routes.", logger: logger, on: eventLoop)
     }

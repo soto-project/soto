@@ -30,6 +30,7 @@ extension SSMIncidents {
     public enum ItemType: String, CustomStringConvertible, Codable {
         case analysis = "ANALYSIS"
         case attachment = "ATTACHMENT"
+        case automation = "AUTOMATION"
         case incident = "INCIDENT"
         case metric = "METRIC"
         case other = "OTHER"
