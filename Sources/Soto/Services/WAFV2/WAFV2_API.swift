@@ -142,6 +142,12 @@ public struct WAFV2: AWSService {
         return self.client.execute(operation: "DisassociateWebACL", path: "/", httpMethod: .POST, serviceConfig: self.config, input: input, logger: logger, on: eventLoop)
     }
 
+    /// Generates a presigned download URL for the specified release of the mobile SDK. The mobile SDK is not generally available. Customers who have access to the mobile SDK can use it to establish and manage Security Token Service (STS) security tokens for use in HTTP(S) requests from a mobile device to WAF. For more information, see
+    /// WAF client application integration in the WAF Developer Guide.
+    public func generateMobileSdkReleaseUrl(_ input: GenerateMobileSdkReleaseUrlRequest, logger: Logger = AWSClient.loggingDisabled, on eventLoop: EventLoop? = nil) -> EventLoopFuture<GenerateMobileSdkReleaseUrlResponse> {
+        return self.client.execute(operation: "GenerateMobileSdkReleaseUrl", path: "/", httpMethod: .POST, serviceConfig: self.config, input: input, logger: logger, on: eventLoop)
+    }
+
     /// Retrieves the specified IPSet.
     public func getIPSet(_ input: GetIPSetRequest, logger: Logger = AWSClient.loggingDisabled, on eventLoop: EventLoop? = nil) -> EventLoopFuture<GetIPSetResponse> {
         return self.client.execute(operation: "GetIPSet", path: "/", httpMethod: .POST, serviceConfig: self.config, input: input, logger: logger, on: eventLoop)
@@ -155,6 +161,12 @@ public struct WAFV2: AWSService {
     /// Retrieves the specified managed rule set.   This is intended for use only by vendors of managed rule sets. Vendors are Amazon Web Services and Amazon Web Services Marketplace sellers.  Vendors, you can use the managed rule set APIs to provide controlled rollout of your versioned managed rule group offerings for your customers. The APIs are ListManagedRuleSets, GetManagedRuleSet, PutManagedRuleSetVersions, and UpdateManagedRuleSetVersionExpiryDate.
     public func getManagedRuleSet(_ input: GetManagedRuleSetRequest, logger: Logger = AWSClient.loggingDisabled, on eventLoop: EventLoop? = nil) -> EventLoopFuture<GetManagedRuleSetResponse> {
         return self.client.execute(operation: "GetManagedRuleSet", path: "/", httpMethod: .POST, serviceConfig: self.config, input: input, logger: logger, on: eventLoop)
+    }
+
+    /// Retrieves information for the specified mobile SDK release, including release notes and tags. The mobile SDK is not generally available. Customers who have access to the mobile SDK can use it to establish and manage Security Token Service (STS) security tokens for use in HTTP(S) requests from a mobile device to WAF. For more information, see
+    /// WAF client application integration in the WAF Developer Guide.
+    public func getMobileSdkRelease(_ input: GetMobileSdkReleaseRequest, logger: Logger = AWSClient.loggingDisabled, on eventLoop: EventLoop? = nil) -> EventLoopFuture<GetMobileSdkReleaseResponse> {
+        return self.client.execute(operation: "GetMobileSdkRelease", path: "/", httpMethod: .POST, serviceConfig: self.config, input: input, logger: logger, on: eventLoop)
     }
 
     /// Returns the IAM policy that is attached to the specified rule group. You must be the owner of the rule group to perform this operation.
@@ -217,6 +229,12 @@ public struct WAFV2: AWSService {
         return self.client.execute(operation: "ListManagedRuleSets", path: "/", httpMethod: .POST, serviceConfig: self.config, input: input, logger: logger, on: eventLoop)
     }
 
+    /// Retrieves a list of the available releases for the mobile SDK and the specified device platform.  The mobile SDK is not generally available. Customers who have access to the mobile SDK can use it to establish and manage Security Token Service (STS) security tokens for use in HTTP(S) requests from a mobile device to WAF. For more information, see
+    /// WAF client application integration in the WAF Developer Guide.
+    public func listMobileSdkReleases(_ input: ListMobileSdkReleasesRequest, logger: Logger = AWSClient.loggingDisabled, on eventLoop: EventLoop? = nil) -> EventLoopFuture<ListMobileSdkReleasesResponse> {
+        return self.client.execute(operation: "ListMobileSdkReleases", path: "/", httpMethod: .POST, serviceConfig: self.config, input: input, logger: logger, on: eventLoop)
+    }
+
     /// Retrieves an array of RegexPatternSetSummary objects for the regex pattern sets that you manage.
     public func listRegexPatternSets(_ input: ListRegexPatternSetsRequest, logger: Logger = AWSClient.loggingDisabled, on eventLoop: EventLoop? = nil) -> EventLoopFuture<ListRegexPatternSetsResponse> {
         return self.client.execute(operation: "ListRegexPatternSets", path: "/", httpMethod: .POST, serviceConfig: self.config, input: input, logger: logger, on: eventLoop)
@@ -242,7 +260,7 @@ public struct WAFV2: AWSService {
         return self.client.execute(operation: "ListWebACLs", path: "/", httpMethod: .POST, serviceConfig: self.config, input: input, logger: logger, on: eventLoop)
     }
 
-    /// Enables the specified LoggingConfiguration, to start logging from a web ACL, according to the configuration provided. You can access information about all traffic that WAF inspects using the following steps:   Create your logging destination. You can use an Amazon CloudWatch Logs log group, an Amazon Simple Storage Service (Amazon S3) bucket, or an Amazon Kinesis Data Firehose.  For information about configuring logging destinations and the permissions that are required for each, see  Logging web ACL traffic information  in the WAF Developer Guide.   Associate your logging destination to your web ACL using a PutLoggingConfiguration request.   When you successfully enable logging using a PutLoggingConfiguration request, WAF creates an additional role or policy that is required to write logs to the logging destination. For an Amazon CloudWatch Logs log group, WAF creates a resource policy on the log group. For an Amazon S3 bucket, WAF creates a bucket policy. For an Amazon Kinesis Data Firehose, WAF creates a service-linked role.  This operation completely replaces the mutable specifications that you already have for the logging configuration with the ones that you provide to this call. To modify the logging configuration, retrieve it by calling GetLoggingConfiguration, update the settings as needed, and then provide the complete logging configuration specification to this call.
+    /// Enables the specified LoggingConfiguration, to start logging from a web ACL, according to the configuration provided.   You can define one logging destination per web ACL.  You can access information about the traffic that WAF inspects using the following steps:   Create your logging destination. You can use an Amazon CloudWatch Logs log group, an Amazon Simple Storage Service (Amazon S3) bucket, or an Amazon Kinesis Data Firehose.  For information about configuring logging destinations and the permissions that are required for each, see  Logging web ACL traffic information  in the WAF Developer Guide.   Associate your logging destination to your web ACL using a PutLoggingConfiguration request.   When you successfully enable logging using a PutLoggingConfiguration request, WAF creates an additional role or policy that is required to write logs to the logging destination. For an Amazon CloudWatch Logs log group, WAF creates a resource policy on the log group. For an Amazon S3 bucket, WAF creates a bucket policy. For an Amazon Kinesis Data Firehose, WAF creates a service-linked role.  For additional information about web ACL logging, see  Logging web ACL traffic information  in the WAF Developer Guide.   This operation completely replaces the mutable specifications that you already have for the logging configuration with the ones that you provide to this call. To modify the logging configuration, retrieve it by calling GetLoggingConfiguration, update the settings as needed, and then provide the complete logging configuration specification to this call.
     public func putLoggingConfiguration(_ input: PutLoggingConfigurationRequest, logger: Logger = AWSClient.loggingDisabled, on eventLoop: EventLoop? = nil) -> EventLoopFuture<PutLoggingConfigurationResponse> {
         return self.client.execute(operation: "PutLoggingConfiguration", path: "/", httpMethod: .POST, serviceConfig: self.config, input: input, logger: logger, on: eventLoop)
     }

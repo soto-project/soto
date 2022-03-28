@@ -752,6 +752,38 @@ extension KafkaConnect {
         }
     }
 
+    public struct DeleteCustomPluginRequest: AWSEncodableShape {
+        public static var _encoding = [
+            AWSMemberEncoding(label: "customPluginArn", location: .uri("customPluginArn"))
+        ]
+
+        /// The Amazon Resource Name (ARN) of the custom plugin that you want to delete.
+        public let customPluginArn: String
+
+        public init(customPluginArn: String) {
+            self.customPluginArn = customPluginArn
+        }
+
+        private enum CodingKeys: CodingKey {}
+    }
+
+    public struct DeleteCustomPluginResponse: AWSDecodableShape {
+        /// The Amazon Resource Name (ARN) of the custom plugin that you requested to delete.
+        public let customPluginArn: String?
+        /// The state of the custom plugin.
+        public let customPluginState: CustomPluginState?
+
+        public init(customPluginArn: String? = nil, customPluginState: CustomPluginState? = nil) {
+            self.customPluginArn = customPluginArn
+            self.customPluginState = customPluginState
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case customPluginArn
+            case customPluginState
+        }
+    }
+
     public struct DescribeConnectorRequest: AWSEncodableShape {
         public static var _encoding = [
             AWSMemberEncoding(label: "connectorArn", location: .uri("connectorArn"))
@@ -799,10 +831,12 @@ extension KafkaConnect {
         public let plugins: [PluginDescription]?
         /// The Amazon Resource Name (ARN) of the IAM role used by the connector to access Amazon Web Services resources.
         public let serviceExecutionRoleArn: String?
+        /// Details about the state of a connector.
+        public let stateDescription: StateDescription?
         /// Specifies which worker configuration was used for the connector.
         public let workerConfiguration: WorkerConfigurationDescription?
 
-        public init(capacity: CapacityDescription? = nil, connectorArn: String? = nil, connectorConfiguration: [String: String]? = nil, connectorDescription: String? = nil, connectorName: String? = nil, connectorState: ConnectorState? = nil, creationTime: Date? = nil, currentVersion: String? = nil, kafkaCluster: KafkaClusterDescription? = nil, kafkaClusterClientAuthentication: KafkaClusterClientAuthenticationDescription? = nil, kafkaClusterEncryptionInTransit: KafkaClusterEncryptionInTransitDescription? = nil, kafkaConnectVersion: String? = nil, logDelivery: LogDeliveryDescription? = nil, plugins: [PluginDescription]? = nil, serviceExecutionRoleArn: String? = nil, workerConfiguration: WorkerConfigurationDescription? = nil) {
+        public init(capacity: CapacityDescription? = nil, connectorArn: String? = nil, connectorConfiguration: [String: String]? = nil, connectorDescription: String? = nil, connectorName: String? = nil, connectorState: ConnectorState? = nil, creationTime: Date? = nil, currentVersion: String? = nil, kafkaCluster: KafkaClusterDescription? = nil, kafkaClusterClientAuthentication: KafkaClusterClientAuthenticationDescription? = nil, kafkaClusterEncryptionInTransit: KafkaClusterEncryptionInTransitDescription? = nil, kafkaConnectVersion: String? = nil, logDelivery: LogDeliveryDescription? = nil, plugins: [PluginDescription]? = nil, serviceExecutionRoleArn: String? = nil, stateDescription: StateDescription? = nil, workerConfiguration: WorkerConfigurationDescription? = nil) {
             self.capacity = capacity
             self.connectorArn = connectorArn
             self.connectorConfiguration = connectorConfiguration
@@ -818,6 +852,7 @@ extension KafkaConnect {
             self.logDelivery = logDelivery
             self.plugins = plugins
             self.serviceExecutionRoleArn = serviceExecutionRoleArn
+            self.stateDescription = stateDescription
             self.workerConfiguration = workerConfiguration
         }
 
@@ -837,6 +872,7 @@ extension KafkaConnect {
             case logDelivery
             case plugins
             case serviceExecutionRoleArn
+            case stateDescription
             case workerConfiguration
         }
     }
@@ -870,14 +906,17 @@ extension KafkaConnect {
         public let latestRevision: CustomPluginRevisionSummary?
         /// The name of the custom plugin.
         public let name: String?
+        /// Details about the state of a custom plugin.
+        public let stateDescription: StateDescription?
 
-        public init(creationTime: Date? = nil, customPluginArn: String? = nil, customPluginState: CustomPluginState? = nil, description: String? = nil, latestRevision: CustomPluginRevisionSummary? = nil, name: String? = nil) {
+        public init(creationTime: Date? = nil, customPluginArn: String? = nil, customPluginState: CustomPluginState? = nil, description: String? = nil, latestRevision: CustomPluginRevisionSummary? = nil, name: String? = nil, stateDescription: StateDescription? = nil) {
             self.creationTime = creationTime
             self.customPluginArn = customPluginArn
             self.customPluginState = customPluginState
             self.description = description
             self.latestRevision = latestRevision
             self.name = name
+            self.stateDescription = stateDescription
         }
 
         private enum CodingKeys: String, CodingKey {
@@ -887,6 +926,7 @@ extension KafkaConnect {
             case description
             case latestRevision
             case name
+            case stateDescription
         }
     }
 
@@ -1474,6 +1514,23 @@ extension KafkaConnect {
 
         private enum CodingKeys: String, CodingKey {
             case cpuUtilizationPercentage
+        }
+    }
+
+    public struct StateDescription: AWSDecodableShape {
+        /// A code that describes the state of a resource.
+        public let code: String?
+        /// A message that describes the state of a resource.
+        public let message: String?
+
+        public init(code: String? = nil, message: String? = nil) {
+            self.code = code
+            self.message = message
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case code
+            case message
         }
     }
 

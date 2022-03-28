@@ -597,7 +597,7 @@ extension TranscribeStreaming {
         public let languageCode: LanguageCode
         /// The encoding used for the input audio.
         public let mediaEncoding: MediaEncoding
-        /// The sample rate of the input audio in Hertz.
+        /// The sample rate of the input audio (in Hertz). Amazon Transcribe medical supports a range from  16,000 Hz to 48,000 Hz. Note that the sample rate you specify must match that of your audio.
         public let mediaSampleRateHertz: Int
         /// The number of channels that are in your audio stream.
         public let numberOfChannels: Int?
@@ -671,7 +671,7 @@ extension TranscribeStreaming {
         public let languageCode: LanguageCode?
         /// The encoding used for the input audio stream.
         public let mediaEncoding: MediaEncoding?
-        /// The sample rate of the input audio in Hertz.
+        /// The sample rate of the input audio, in Hertz (Hz).
         public let mediaSampleRateHertz: Int?
         /// The number of channels identified in the stream.
         public let numberOfChannels: Int?
@@ -746,7 +746,9 @@ extension TranscribeStreaming {
             AWSMemberEncoding(label: "showSpeakerLabel", location: .header("x-amzn-transcribe-show-speaker-label")),
             AWSMemberEncoding(label: "vocabularyFilterMethod", location: .header("x-amzn-transcribe-vocabulary-filter-method")),
             AWSMemberEncoding(label: "vocabularyFilterName", location: .header("x-amzn-transcribe-vocabulary-filter-name")),
-            AWSMemberEncoding(label: "vocabularyName", location: .header("x-amzn-transcribe-vocabulary-name"))
+            AWSMemberEncoding(label: "vocabularyFilterNames", location: .header("x-amzn-transcribe-vocabulary-filter-names")),
+            AWSMemberEncoding(label: "vocabularyName", location: .header("x-amzn-transcribe-vocabulary-name")),
+            AWSMemberEncoding(label: "vocabularyNames", location: .header("x-amzn-transcribe-vocabulary-names"))
         ]
 
         /// PCM-encoded stream of audio blobs. The audio stream is encoded as an HTTP/2 data frame.
@@ -755,7 +757,7 @@ extension TranscribeStreaming {
         public let contentIdentificationType: ContentIdentificationType?
         /// Set this field to PII to redact personally identifiable information (PII) in the transcription output. Content redaction is performed only upon complete transcription of the audio segments.  You can’t set both ContentRedactionType and ContentIdentificationType in the same request. If you set both, your request returns a BadRequestException.
         public let contentRedactionType: ContentRedactionType?
-        /// When true, instructs Amazon Transcribe to process each audio channel separately, then merges the transcription output of each channel into a single transcription. Amazon Transcribe also produces a transcription of each item. An item includes the start time, end time, and any alternative transcriptions. You can't set both ShowSpeakerLabel and EnableChannelIdentification in the same request. If you set both, your request returns a BadRequestException.
+        /// When true, instructs Amazon Transcribe to process each audio channel separately, then merges the transcription output of each channel into a single transcription. Amazon Transcribe also produces a transcription of each item. An item includes the start time, end time, and any alternative transcriptions.
         public let enableChannelIdentification: Bool?
         /// When true, instructs Amazon Transcribe to present transcription results that have the partial results stabilized. Normally, any word or phrase from one partial result can change in a subsequent partial result. With partial results stabilization enabled, only the last few words of one partial result can change in another partial result.
         public let enablePartialResultsStabilization: Bool?
@@ -769,7 +771,7 @@ extension TranscribeStreaming {
         public let languageOptions: String?
         /// The encoding used for the input audio.
         public let mediaEncoding: MediaEncoding
-        /// The sample rate, in Hertz (Hz), of the input audio. We suggest that you use 8,000 Hz  for low quality audio and 16,000 Hz or higher for high quality audio.
+        /// The sample rate of the input audio (in Hertz). Low-quality audio, such as telephone  audio, is typically around 8,000 Hz. High-quality audio typically ranges from 16,000 Hz to  48,000 Hz. Note that the sample rate you specify must match that of your audio.
         public let mediaSampleRateHertz: Int
         /// The number of channels that are in your audio stream.
         public let numberOfChannels: Int?
@@ -785,12 +787,16 @@ extension TranscribeStreaming {
         public let showSpeakerLabel: Bool?
         /// The manner in which you use your vocabulary filter to filter words in your transcript. Remove removes filtered words from your transcription results. Mask masks filtered words with a *** in your transcription results. Tag keeps the filtered words in your transcription results and tags  them. The tag appears as VocabularyFilterMatch equal to  True.
         public let vocabularyFilterMethod: VocabularyFilterMethod?
-        /// The name of the vocabulary filter you've created that is unique to your account. Provide the name in this field to successfully use it in a stream.
+        /// The name of the vocabulary filter you want to use with your transcription. This operation is not intended for use in conjunction with the  IdentifyLanguage operation. If you're using IdentifyLanguage in your request and want to use one or more vocabulary filters with your transcription, use the  VocabularyFilterNames operation instead.
         public let vocabularyFilterName: String?
-        /// The name of the vocabulary to use when processing the transcription job.
+        /// The names of the vocabulary filters you want to use with your transcription. Note that if the vocabulary filters you specify are in languages that don't match the  language identified in your media, your job fails. This operation is only intended for use in conjunction with the  IdentifyLanguage operation. If you're not using IdentifyLanguage in your request and want to use a vocabulary filter with your transcription, use the  VocabularyFilterName operation instead.
+        public let vocabularyFilterNames: String?
+        /// The name of the custom vocabulary you want to use with your transcription. This operation is not intended for use in conjunction with the  IdentifyLanguage operation. If you're using IdentifyLanguage in your request and want to use one or more custom vocabularies with your transcription, use the  VocabularyNames operation instead.
         public let vocabularyName: String?
+        /// The names of the custom vocabularies you want to use with your transcription. Note that if the custom vocabularies you specify are in languages that don't match the  language identified in your media, your job fails. This operation is only intended for use in conjunction with the  IdentifyLanguage operation. If you're not using IdentifyLanguage in your request and want to use a custom vocabulary with your transcription, use the  VocabularyName operation instead.
+        public let vocabularyNames: String?
 
-        public init(audioStream: AudioStream, contentIdentificationType: ContentIdentificationType? = nil, contentRedactionType: ContentRedactionType? = nil, enableChannelIdentification: Bool? = nil, enablePartialResultsStabilization: Bool? = nil, identifyLanguage: Bool? = nil, languageCode: LanguageCode? = nil, languageModelName: String? = nil, languageOptions: String? = nil, mediaEncoding: MediaEncoding, mediaSampleRateHertz: Int, numberOfChannels: Int? = nil, partialResultsStability: PartialResultsStability? = nil, piiEntityTypes: String? = nil, preferredLanguage: LanguageCode? = nil, sessionId: String? = nil, showSpeakerLabel: Bool? = nil, vocabularyFilterMethod: VocabularyFilterMethod? = nil, vocabularyFilterName: String? = nil, vocabularyName: String? = nil) {
+        public init(audioStream: AudioStream, contentIdentificationType: ContentIdentificationType? = nil, contentRedactionType: ContentRedactionType? = nil, enableChannelIdentification: Bool? = nil, enablePartialResultsStabilization: Bool? = nil, identifyLanguage: Bool? = nil, languageCode: LanguageCode? = nil, languageModelName: String? = nil, languageOptions: String? = nil, mediaEncoding: MediaEncoding, mediaSampleRateHertz: Int, numberOfChannels: Int? = nil, partialResultsStability: PartialResultsStability? = nil, piiEntityTypes: String? = nil, preferredLanguage: LanguageCode? = nil, sessionId: String? = nil, showSpeakerLabel: Bool? = nil, vocabularyFilterMethod: VocabularyFilterMethod? = nil, vocabularyFilterName: String? = nil, vocabularyFilterNames: String? = nil, vocabularyName: String? = nil, vocabularyNames: String? = nil) {
             self.audioStream = audioStream
             self.contentIdentificationType = contentIdentificationType
             self.contentRedactionType = contentRedactionType
@@ -810,7 +816,9 @@ extension TranscribeStreaming {
             self.showSpeakerLabel = showSpeakerLabel
             self.vocabularyFilterMethod = vocabularyFilterMethod
             self.vocabularyFilterName = vocabularyFilterName
+            self.vocabularyFilterNames = vocabularyFilterNames
             self.vocabularyName = vocabularyName
+            self.vocabularyNames = vocabularyNames
         }
 
         public func validate(name: String) throws {
@@ -832,9 +840,15 @@ extension TranscribeStreaming {
             try self.validate(self.vocabularyFilterName, name: "vocabularyFilterName", parent: name, max: 200)
             try self.validate(self.vocabularyFilterName, name: "vocabularyFilterName", parent: name, min: 1)
             try self.validate(self.vocabularyFilterName, name: "vocabularyFilterName", parent: name, pattern: "^[0-9a-zA-Z._-]+$")
+            try self.validate(self.vocabularyFilterNames, name: "vocabularyFilterNames", parent: name, max: 3000)
+            try self.validate(self.vocabularyFilterNames, name: "vocabularyFilterNames", parent: name, min: 1)
+            try self.validate(self.vocabularyFilterNames, name: "vocabularyFilterNames", parent: name, pattern: "^[a-zA-Z0-9,-._]+$")
             try self.validate(self.vocabularyName, name: "vocabularyName", parent: name, max: 200)
             try self.validate(self.vocabularyName, name: "vocabularyName", parent: name, min: 1)
             try self.validate(self.vocabularyName, name: "vocabularyName", parent: name, pattern: "^[0-9a-zA-Z._-]+$")
+            try self.validate(self.vocabularyNames, name: "vocabularyNames", parent: name, max: 3000)
+            try self.validate(self.vocabularyNames, name: "vocabularyNames", parent: name, min: 1)
+            try self.validate(self.vocabularyNames, name: "vocabularyNames", parent: name, pattern: "^[a-zA-Z0-9,-._]+$")
         }
 
         private enum CodingKeys: String, CodingKey {
@@ -866,28 +880,30 @@ extension TranscribeStreaming {
             AWSMemberEncoding(label: "transcriptResultStream", location: .body("TranscriptResultStream")),
             AWSMemberEncoding(label: "vocabularyFilterMethod", location: .header("x-amzn-transcribe-vocabulary-filter-method")),
             AWSMemberEncoding(label: "vocabularyFilterName", location: .header("x-amzn-transcribe-vocabulary-filter-name")),
-            AWSMemberEncoding(label: "vocabularyName", location: .header("x-amzn-transcribe-vocabulary-name"))
+            AWSMemberEncoding(label: "vocabularyFilterNames", location: .header("x-amzn-transcribe-vocabulary-filter-names")),
+            AWSMemberEncoding(label: "vocabularyName", location: .header("x-amzn-transcribe-vocabulary-name")),
+            AWSMemberEncoding(label: "vocabularyNames", location: .header("x-amzn-transcribe-vocabulary-names"))
         ]
 
         /// Shows whether content identification was enabled in this stream.
         public let contentIdentificationType: ContentIdentificationType?
         /// Shows whether content redaction was enabled in this stream.
         public let contentRedactionType: ContentRedactionType?
-        /// Shows whether channel identification has been enabled in the stream.
+        /// Shows whether channel identification was enabled in the stream.
         public let enableChannelIdentification: Bool?
-        /// Shows whether partial results stabilization has been enabled in the stream.
+        /// Shows whether partial results stabilization was enabled in the transcription.
         public let enablePartialResultsStabilization: Bool?
         /// The language code of the language identified in your media stream.
         public let identifyLanguage: Bool?
         /// The language code of the input audio stream.
         public let languageCode: LanguageCode?
-        /// The name of the language model used in your media stream.
+        /// The name of the custom language model used in the transcription.
         public let languageModelName: String?
         /// The language codes used in the identification of your media stream's predominant  language.
         public let languageOptions: String?
         /// The encoding used for the input audio stream.
         public let mediaEncoding: MediaEncoding?
-        /// The sample rate, in Hertz (Hz), for the input audio stream. Use 8,000 Hz for low quality  audio and 16,000 Hz or higher for high quality audio.
+        /// The sample rate, in Hertz (Hz), for the input audio stream.
         public let mediaSampleRateHertz: Int?
         /// The number of channels identified in the stream.
         public let numberOfChannels: Int?
@@ -897,22 +913,26 @@ extension TranscribeStreaming {
         public let piiEntityTypes: String?
         /// The preferred language you specified in your request.
         public let preferredLanguage: LanguageCode?
-        /// An identifier for the streaming transcription.
+        /// An identifier for the transcription.
         public let requestId: String?
         /// An identifier for a specific transcription session.
         public let sessionId: String?
-        /// Shows whether speaker identification was enabled in the stream.
+        /// Shows whether speaker identification was enabled in the transcription.
         public let showSpeakerLabel: Bool?
         /// Represents the stream of transcription events from Amazon Transcribe to your application.
         public let transcriptResultStream: TranscriptResultStream?
-        /// The vocabulary filtering method used in the media stream.
+        /// The vocabulary filtering method used when processing the stream.
         public let vocabularyFilterMethod: VocabularyFilterMethod?
-        /// The name of the vocabulary filter used in your media stream.
+        /// The name of the vocabulary filter used when processing the stream.
         public let vocabularyFilterName: String?
-        /// The name of the vocabulary used when processing the stream.
+        /// The name of the vocabulary filter used when processing the stream.
+        public let vocabularyFilterNames: String?
+        /// The name of the custom vocabulary used when processing the stream.
         public let vocabularyName: String?
+        /// The name of the custom vocabulary used when processing the stream.
+        public let vocabularyNames: String?
 
-        public init(contentIdentificationType: ContentIdentificationType? = nil, contentRedactionType: ContentRedactionType? = nil, enableChannelIdentification: Bool? = nil, enablePartialResultsStabilization: Bool? = nil, identifyLanguage: Bool? = nil, languageCode: LanguageCode? = nil, languageModelName: String? = nil, languageOptions: String? = nil, mediaEncoding: MediaEncoding? = nil, mediaSampleRateHertz: Int? = nil, numberOfChannels: Int? = nil, partialResultsStability: PartialResultsStability? = nil, piiEntityTypes: String? = nil, preferredLanguage: LanguageCode? = nil, requestId: String? = nil, sessionId: String? = nil, showSpeakerLabel: Bool? = nil, transcriptResultStream: TranscriptResultStream? = nil, vocabularyFilterMethod: VocabularyFilterMethod? = nil, vocabularyFilterName: String? = nil, vocabularyName: String? = nil) {
+        public init(contentIdentificationType: ContentIdentificationType? = nil, contentRedactionType: ContentRedactionType? = nil, enableChannelIdentification: Bool? = nil, enablePartialResultsStabilization: Bool? = nil, identifyLanguage: Bool? = nil, languageCode: LanguageCode? = nil, languageModelName: String? = nil, languageOptions: String? = nil, mediaEncoding: MediaEncoding? = nil, mediaSampleRateHertz: Int? = nil, numberOfChannels: Int? = nil, partialResultsStability: PartialResultsStability? = nil, piiEntityTypes: String? = nil, preferredLanguage: LanguageCode? = nil, requestId: String? = nil, sessionId: String? = nil, showSpeakerLabel: Bool? = nil, transcriptResultStream: TranscriptResultStream? = nil, vocabularyFilterMethod: VocabularyFilterMethod? = nil, vocabularyFilterName: String? = nil, vocabularyFilterNames: String? = nil, vocabularyName: String? = nil, vocabularyNames: String? = nil) {
             self.contentIdentificationType = contentIdentificationType
             self.contentRedactionType = contentRedactionType
             self.enableChannelIdentification = enableChannelIdentification
@@ -933,7 +953,9 @@ extension TranscribeStreaming {
             self.transcriptResultStream = transcriptResultStream
             self.vocabularyFilterMethod = vocabularyFilterMethod
             self.vocabularyFilterName = vocabularyFilterName
+            self.vocabularyFilterNames = vocabularyFilterNames
             self.vocabularyName = vocabularyName
+            self.vocabularyNames = vocabularyNames
         }
 
         private enum CodingKeys: String, CodingKey {
@@ -957,7 +979,9 @@ extension TranscribeStreaming {
             case transcriptResultStream = "TranscriptResultStream"
             case vocabularyFilterMethod = "x-amzn-transcribe-vocabulary-filter-method"
             case vocabularyFilterName = "x-amzn-transcribe-vocabulary-filter-name"
+            case vocabularyFilterNames = "x-amzn-transcribe-vocabulary-filter-names"
             case vocabularyName = "x-amzn-transcribe-vocabulary-name"
+            case vocabularyNames = "x-amzn-transcribe-vocabulary-names"
         }
     }
 

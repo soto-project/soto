@@ -186,6 +186,7 @@ extension Connect {
         case chatTranscripts = "CHAT_TRANSCRIPTS"
         case contactTraceRecords = "CONTACT_TRACE_RECORDS"
         case mediaStreams = "MEDIA_STREAMS"
+        case realTimeContactAnalysisSegments = "REAL_TIME_CONTACT_ANALYSIS_SEGMENTS"
         case scheduledReports = "SCHEDULED_REPORTS"
         public var description: String { return self.rawValue }
     }
@@ -529,6 +530,39 @@ extension Connect {
         public var description: String { return self.rawValue }
     }
 
+    public enum VocabularyLanguageCode: String, CustomStringConvertible, Codable {
+        case arAE = "ar-AE"
+        case deCH = "de-CH"
+        case deDE = "de-DE"
+        case enAB = "en-AB"
+        case enAU = "en-AU"
+        case enGB = "en-GB"
+        case enIE = "en-IE"
+        case enIN = "en-IN"
+        case enUS = "en-US"
+        case enWL = "en-WL"
+        case esES = "es-ES"
+        case esUS = "es-US"
+        case frCA = "fr-CA"
+        case frFR = "fr-FR"
+        case hiIN = "hi-IN"
+        case itIT = "it-IT"
+        case jaJP = "ja-JP"
+        case koKR = "ko-KR"
+        case ptBR = "pt-BR"
+        case ptPT = "pt-PT"
+        case zhCN = "zh-CN"
+        public var description: String { return self.rawValue }
+    }
+
+    public enum VocabularyState: String, CustomStringConvertible, Codable {
+        case active = "ACTIVE"
+        case creationFailed = "CREATION_FAILED"
+        case creationInProgress = "CREATION_IN_PROGRESS"
+        case deleteInProgress = "DELETE_IN_PROGRESS"
+        public var description: String { return self.rawValue }
+    }
+
     public enum VoiceRecordingTrack: String, CustomStringConvertible, Codable {
         case all = "ALL"
         case fromAgent = "FROM_AGENT"
@@ -723,6 +757,42 @@ extension Connect {
             case lexBot = "LexBot"
             case lexV2Bot = "LexV2Bot"
         }
+    }
+
+    public struct AssociateDefaultVocabularyRequest: AWSEncodableShape {
+        public static var _encoding = [
+            AWSMemberEncoding(label: "instanceId", location: .uri("InstanceId")),
+            AWSMemberEncoding(label: "languageCode", location: .uri("LanguageCode"))
+        ]
+
+        /// The identifier of the Amazon Connect instance. You can find the instanceId in the ARN of the instance.
+        public let instanceId: String
+        /// The language code of the vocabulary entries. For a list of languages and their corresponding language codes, see
+        /// What is Amazon Transcribe?
+        public let languageCode: VocabularyLanguageCode
+        /// The identifier of the custom vocabulary. If this is empty, the default is set to none.
+        public let vocabularyId: String?
+
+        public init(instanceId: String, languageCode: VocabularyLanguageCode, vocabularyId: String? = nil) {
+            self.instanceId = instanceId
+            self.languageCode = languageCode
+            self.vocabularyId = vocabularyId
+        }
+
+        public func validate(name: String) throws {
+            try self.validate(self.instanceId, name: "instanceId", parent: name, max: 100)
+            try self.validate(self.instanceId, name: "instanceId", parent: name, min: 1)
+            try self.validate(self.vocabularyId, name: "vocabularyId", parent: name, max: 500)
+            try self.validate(self.vocabularyId, name: "vocabularyId", parent: name, min: 1)
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case vocabularyId = "VocabularyId"
+        }
+    }
+
+    public struct AssociateDefaultVocabularyResponse: AWSDecodableShape {
+        public init() {}
     }
 
     public struct AssociateInstanceStorageConfigRequest: AWSEncodableShape {
@@ -967,7 +1037,7 @@ extension Connect {
     public struct ChatMessage: AWSEncodableShape {
         /// The content of the chat message.
         public let content: String
-        /// The type of the content. Supported types are text and plain.
+        /// The type of the content. Supported types are text/plain.
         public let contentType: String
 
         public init(content: String, contentType: String) {
@@ -1999,21 +2069,33 @@ extension Connect {
         public let name: String
         /// The identifier for the parent hierarchy group. The user hierarchy is created at level one if the parent group ID is null.
         public let parentGroupId: String?
+        /// The tags used to organize, track, or control access for this resource.
+        public let tags: [String: String]?
 
-        public init(instanceId: String, name: String, parentGroupId: String? = nil) {
+        public init(instanceId: String, name: String, parentGroupId: String? = nil, tags: [String: String]? = nil) {
             self.instanceId = instanceId
             self.name = name
             self.parentGroupId = parentGroupId
+            self.tags = tags
         }
 
         public func validate(name: String) throws {
             try self.validate(self.instanceId, name: "instanceId", parent: name, max: 100)
             try self.validate(self.instanceId, name: "instanceId", parent: name, min: 1)
+            try self.tags?.forEach {
+                try validate($0.key, name: "tags.key", parent: name, max: 128)
+                try validate($0.key, name: "tags.key", parent: name, min: 1)
+                try validate($0.key, name: "tags.key", parent: name, pattern: "^(?!aws:)[a-zA-Z+-=._:/]+$")
+                try validate($0.value, name: "tags[\"\($0.key)\"]", parent: name, max: 256)
+            }
+            try self.validate(self.tags, name: "tags", parent: name, max: 50)
+            try self.validate(self.tags, name: "tags", parent: name, min: 1)
         }
 
         private enum CodingKeys: String, CodingKey {
             case name = "Name"
             case parentGroupId = "ParentGroupId"
+            case tags = "Tags"
         }
     }
 
@@ -2123,6 +2205,83 @@ extension Connect {
         }
     }
 
+    public struct CreateVocabularyRequest: AWSEncodableShape {
+        public static var _encoding = [
+            AWSMemberEncoding(label: "instanceId", location: .uri("InstanceId"))
+        ]
+
+        /// A unique, case-sensitive identifier that you provide to ensure the idempotency of the request. If a create request is received more than once with same client token, subsequent requests return the previous response without creating a vocabulary again.
+        public let clientToken: String?
+        /// The content of the custom vocabulary in plain-text format with a table of values. Each row in the table represents a word or a phrase, described with Phrase, IPA, SoundsLike, and DisplayAs fields. Separate the fields with TAB characters. The size limit is 50KB. For more information, see Create a custom vocabulary using a table.
+        public let content: String
+        /// The identifier of the Amazon Connect instance. You can find the instanceId in the ARN of the instance.
+        public let instanceId: String
+        /// The language code of the vocabulary entries. For a list of languages and their corresponding language codes, see
+        /// What is Amazon Transcribe?
+        public let languageCode: VocabularyLanguageCode
+        /// The tags used to organize, track, or control access for this resource.
+        public let tags: [String: String]?
+        /// A unique name of the custom vocabulary.
+        public let vocabularyName: String
+
+        public init(clientToken: String? = CreateVocabularyRequest.idempotencyToken(), content: String, instanceId: String, languageCode: VocabularyLanguageCode, tags: [String: String]? = nil, vocabularyName: String) {
+            self.clientToken = clientToken
+            self.content = content
+            self.instanceId = instanceId
+            self.languageCode = languageCode
+            self.tags = tags
+            self.vocabularyName = vocabularyName
+        }
+
+        public func validate(name: String) throws {
+            try self.validate(self.clientToken, name: "clientToken", parent: name, max: 500)
+            try self.validate(self.content, name: "content", parent: name, max: 60000)
+            try self.validate(self.content, name: "content", parent: name, min: 1)
+            try self.validate(self.instanceId, name: "instanceId", parent: name, max: 100)
+            try self.validate(self.instanceId, name: "instanceId", parent: name, min: 1)
+            try self.tags?.forEach {
+                try validate($0.key, name: "tags.key", parent: name, max: 128)
+                try validate($0.key, name: "tags.key", parent: name, min: 1)
+                try validate($0.key, name: "tags.key", parent: name, pattern: "^(?!aws:)[a-zA-Z+-=._:/]+$")
+                try validate($0.value, name: "tags[\"\($0.key)\"]", parent: name, max: 256)
+            }
+            try self.validate(self.tags, name: "tags", parent: name, max: 50)
+            try self.validate(self.tags, name: "tags", parent: name, min: 1)
+            try self.validate(self.vocabularyName, name: "vocabularyName", parent: name, max: 140)
+            try self.validate(self.vocabularyName, name: "vocabularyName", parent: name, min: 1)
+            try self.validate(self.vocabularyName, name: "vocabularyName", parent: name, pattern: "^[0-9a-zA-Z._-]+$")
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case clientToken = "ClientToken"
+            case content = "Content"
+            case languageCode = "LanguageCode"
+            case tags = "Tags"
+            case vocabularyName = "VocabularyName"
+        }
+    }
+
+    public struct CreateVocabularyResponse: AWSDecodableShape {
+        /// The current state of the custom vocabulary.
+        public let state: VocabularyState
+        /// The Amazon Resource Name (ARN) of the custom vocabulary.
+        public let vocabularyArn: String
+        /// The identifier of the custom vocabulary.
+        public let vocabularyId: String
+
+        public init(state: VocabularyState, vocabularyArn: String, vocabularyId: String) {
+            self.state = state
+            self.vocabularyArn = vocabularyArn
+            self.vocabularyId = vocabularyId
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case state = "State"
+            case vocabularyArn = "VocabularyArn"
+            case vocabularyId = "VocabularyId"
+        }
+    }
+
     public struct Credentials: AWSDecodableShape {
         /// An access token generated for a federated user to access Amazon Connect.
         public let accessToken: String?
@@ -2196,6 +2355,32 @@ extension Connect {
         private enum CodingKeys: String, CodingKey {
             case collections = "Collections"
             case dimensions = "Dimensions"
+        }
+    }
+
+    public struct DefaultVocabulary: AWSDecodableShape {
+        /// The identifier of the Amazon Connect instance. You can find the instanceId in the ARN of the instance.
+        public let instanceId: String
+        /// The language code of the vocabulary entries. For a list of languages and their corresponding language codes, see
+        /// What is Amazon Transcribe?
+        public let languageCode: VocabularyLanguageCode
+        /// The identifier of the custom vocabulary.
+        public let vocabularyId: String
+        /// A unique name of the custom vocabulary.
+        public let vocabularyName: String
+
+        public init(instanceId: String, languageCode: VocabularyLanguageCode, vocabularyId: String, vocabularyName: String) {
+            self.instanceId = instanceId
+            self.languageCode = languageCode
+            self.vocabularyId = vocabularyId
+            self.vocabularyName = vocabularyName
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case instanceId = "InstanceId"
+            case languageCode = "LanguageCode"
+            case vocabularyId = "VocabularyId"
+            case vocabularyName = "VocabularyName"
         }
     }
 
@@ -2450,6 +2635,53 @@ extension Connect {
         }
 
         private enum CodingKeys: CodingKey {}
+    }
+
+    public struct DeleteVocabularyRequest: AWSEncodableShape {
+        public static var _encoding = [
+            AWSMemberEncoding(label: "instanceId", location: .uri("InstanceId")),
+            AWSMemberEncoding(label: "vocabularyId", location: .uri("VocabularyId"))
+        ]
+
+        /// The identifier of the Amazon Connect instance. You can find the instanceId in the ARN of the instance.
+        public let instanceId: String
+        /// The identifier of the custom vocabulary.
+        public let vocabularyId: String
+
+        public init(instanceId: String, vocabularyId: String) {
+            self.instanceId = instanceId
+            self.vocabularyId = vocabularyId
+        }
+
+        public func validate(name: String) throws {
+            try self.validate(self.instanceId, name: "instanceId", parent: name, max: 100)
+            try self.validate(self.instanceId, name: "instanceId", parent: name, min: 1)
+            try self.validate(self.vocabularyId, name: "vocabularyId", parent: name, max: 500)
+            try self.validate(self.vocabularyId, name: "vocabularyId", parent: name, min: 1)
+        }
+
+        private enum CodingKeys: CodingKey {}
+    }
+
+    public struct DeleteVocabularyResponse: AWSDecodableShape {
+        /// The current state of the custom vocabulary.
+        public let state: VocabularyState
+        /// The Amazon Resource Name (ARN) of the custom vocabulary.
+        public let vocabularyArn: String
+        /// The identifier of the custom vocabulary.
+        public let vocabularyId: String
+
+        public init(state: VocabularyState, vocabularyArn: String, vocabularyId: String) {
+            self.state = state
+            self.vocabularyArn = vocabularyArn
+            self.vocabularyId = vocabularyId
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case state = "State"
+            case vocabularyArn = "VocabularyArn"
+            case vocabularyId = "VocabularyId"
+        }
     }
 
     public struct DescribeAgentStatusRequest: AWSEncodableShape {
@@ -3010,6 +3242,45 @@ extension Connect {
         }
     }
 
+    public struct DescribeVocabularyRequest: AWSEncodableShape {
+        public static var _encoding = [
+            AWSMemberEncoding(label: "instanceId", location: .uri("InstanceId")),
+            AWSMemberEncoding(label: "vocabularyId", location: .uri("VocabularyId"))
+        ]
+
+        /// The identifier of the Amazon Connect instance. You can find the instanceId in the ARN of the instance.
+        public let instanceId: String
+        /// The identifier of the custom vocabulary.
+        public let vocabularyId: String
+
+        public init(instanceId: String, vocabularyId: String) {
+            self.instanceId = instanceId
+            self.vocabularyId = vocabularyId
+        }
+
+        public func validate(name: String) throws {
+            try self.validate(self.instanceId, name: "instanceId", parent: name, max: 100)
+            try self.validate(self.instanceId, name: "instanceId", parent: name, min: 1)
+            try self.validate(self.vocabularyId, name: "vocabularyId", parent: name, max: 500)
+            try self.validate(self.vocabularyId, name: "vocabularyId", parent: name, min: 1)
+        }
+
+        private enum CodingKeys: CodingKey {}
+    }
+
+    public struct DescribeVocabularyResponse: AWSDecodableShape {
+        /// A list of specific words that you want Contact Lens for Amazon Connect to recognize in your audio input. They are generally domain-specific words and phrases, words that Contact Lens is not recognizing, or proper nouns.
+        public let vocabulary: Vocabulary
+
+        public init(vocabulary: Vocabulary) {
+            self.vocabulary = vocabulary
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case vocabulary = "Vocabulary"
+        }
+    }
+
     public struct Dimensions: AWSDecodableShape {
         /// The channel used for grouping and filters.
         public let channel: Channel?
@@ -3279,7 +3550,7 @@ extension Connect {
     public struct Filters: AWSEncodableShape {
         /// The channel to use to filter the metrics.
         public let channels: [Channel]?
-        /// The queues to use to filter the metrics. You can specify up to 100 queues per request.
+        /// The queues to use to filter the metrics. You should specify at least one queue, and can specify up to 100 queues per request. The GetCurrentMetricsData API in particular requires a queue when you include a Filter in your request.
         public let queues: [String]?
 
         public init(channels: [Channel]? = nil, queues: [String]? = nil) {
@@ -3524,13 +3795,16 @@ extension Connect {
         public let levelId: String?
         /// The name of the hierarchy group.
         public let name: String?
+        /// The tags used to organize, track, or control access for this resource.
+        public let tags: [String: String]?
 
-        public init(arn: String? = nil, hierarchyPath: HierarchyPath? = nil, id: String? = nil, levelId: String? = nil, name: String? = nil) {
+        public init(arn: String? = nil, hierarchyPath: HierarchyPath? = nil, id: String? = nil, levelId: String? = nil, name: String? = nil, tags: [String: String]? = nil) {
             self.arn = arn
             self.hierarchyPath = hierarchyPath
             self.id = id
             self.levelId = levelId
             self.name = name
+            self.tags = tags
         }
 
         private enum CodingKeys: String, CodingKey {
@@ -3539,6 +3813,7 @@ extension Connect {
             case id = "Id"
             case levelId = "LevelId"
             case name = "Name"
+            case tags = "Tags"
         }
     }
 
@@ -4458,6 +4733,63 @@ extension Connect {
         private enum CodingKeys: String, CodingKey {
             case nextToken = "NextToken"
             case referenceSummaryList = "ReferenceSummaryList"
+        }
+    }
+
+    public struct ListDefaultVocabulariesRequest: AWSEncodableShape {
+        public static var _encoding = [
+            AWSMemberEncoding(label: "instanceId", location: .uri("InstanceId"))
+        ]
+
+        /// The identifier of the Amazon Connect instance. You can find the instanceId in the ARN of the instance.
+        public let instanceId: String
+        /// The language code of the vocabulary entries. For a list of languages and their corresponding language codes, see
+        /// What is Amazon Transcribe?
+        public let languageCode: VocabularyLanguageCode?
+        /// The maximum number of results to return per page.
+        public let maxResults: Int?
+        /// The token for the next set of results. Use the value returned in the previous
+        /// response in the next request to retrieve the next set of results.
+        public let nextToken: String?
+
+        public init(instanceId: String, languageCode: VocabularyLanguageCode? = nil, maxResults: Int? = nil, nextToken: String? = nil) {
+            self.instanceId = instanceId
+            self.languageCode = languageCode
+            self.maxResults = maxResults
+            self.nextToken = nextToken
+        }
+
+        public func validate(name: String) throws {
+            try self.validate(self.instanceId, name: "instanceId", parent: name, max: 100)
+            try self.validate(self.instanceId, name: "instanceId", parent: name, min: 1)
+            try self.validate(self.maxResults, name: "maxResults", parent: name, max: 100)
+            try self.validate(self.maxResults, name: "maxResults", parent: name, min: 1)
+            try self.validate(self.nextToken, name: "nextToken", parent: name, max: 131_070)
+            try self.validate(self.nextToken, name: "nextToken", parent: name, min: 1)
+            try self.validate(self.nextToken, name: "nextToken", parent: name, pattern: "\\S")
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case languageCode = "LanguageCode"
+            case maxResults = "MaxResults"
+            case nextToken = "NextToken"
+        }
+    }
+
+    public struct ListDefaultVocabulariesResponse: AWSDecodableShape {
+        /// A list of default vocabularies.
+        public let defaultVocabularyList: [DefaultVocabulary]
+        /// If there are additional results, this is the token for the next set of results.
+        public let nextToken: String?
+
+        public init(defaultVocabularyList: [DefaultVocabulary], nextToken: String? = nil) {
+            self.defaultVocabularyList = defaultVocabularyList
+            self.nextToken = nextToken
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case defaultVocabularyList = "DefaultVocabularyList"
+            case nextToken = "NextToken"
         }
     }
 
@@ -6055,6 +6387,74 @@ extension Connect {
         }
     }
 
+    public struct SearchVocabulariesRequest: AWSEncodableShape {
+        public static var _encoding = [
+            AWSMemberEncoding(label: "instanceId", location: .uri("InstanceId"))
+        ]
+
+        /// The identifier of the Amazon Connect instance. You can find the instanceId in the ARN of the instance.
+        public let instanceId: String
+        /// The language code of the vocabulary entries. For a list of languages and their corresponding language codes, see
+        /// What is Amazon Transcribe?
+        public let languageCode: VocabularyLanguageCode?
+        /// The maximum number of results to return per page.
+        public let maxResults: Int?
+        /// The starting pattern of the name of the vocabulary.
+        public let nameStartsWith: String?
+        /// The token for the next set of results. Use the value returned in the previous
+        /// response in the next request to retrieve the next set of results.
+        public let nextToken: String?
+        /// The current state of the custom vocabulary.
+        public let state: VocabularyState?
+
+        public init(instanceId: String, languageCode: VocabularyLanguageCode? = nil, maxResults: Int? = nil, nameStartsWith: String? = nil, nextToken: String? = nil, state: VocabularyState? = nil) {
+            self.instanceId = instanceId
+            self.languageCode = languageCode
+            self.maxResults = maxResults
+            self.nameStartsWith = nameStartsWith
+            self.nextToken = nextToken
+            self.state = state
+        }
+
+        public func validate(name: String) throws {
+            try self.validate(self.instanceId, name: "instanceId", parent: name, max: 100)
+            try self.validate(self.instanceId, name: "instanceId", parent: name, min: 1)
+            try self.validate(self.maxResults, name: "maxResults", parent: name, max: 100)
+            try self.validate(self.maxResults, name: "maxResults", parent: name, min: 1)
+            try self.validate(self.nameStartsWith, name: "nameStartsWith", parent: name, max: 140)
+            try self.validate(self.nameStartsWith, name: "nameStartsWith", parent: name, min: 1)
+            try self.validate(self.nameStartsWith, name: "nameStartsWith", parent: name, pattern: "^[0-9a-zA-Z._-]+$")
+            try self.validate(self.nextToken, name: "nextToken", parent: name, max: 131_070)
+            try self.validate(self.nextToken, name: "nextToken", parent: name, min: 1)
+            try self.validate(self.nextToken, name: "nextToken", parent: name, pattern: "\\S")
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case languageCode = "LanguageCode"
+            case maxResults = "MaxResults"
+            case nameStartsWith = "NameStartsWith"
+            case nextToken = "NextToken"
+            case state = "State"
+        }
+    }
+
+    public struct SearchVocabulariesResponse: AWSDecodableShape {
+        /// If there are additional results, this is the token for the next set of results.
+        public let nextToken: String?
+        /// The list of the available custom vocabularies.
+        public let vocabularySummaryList: [VocabularySummary]?
+
+        public init(nextToken: String? = nil, vocabularySummaryList: [VocabularySummary]? = nil) {
+            self.nextToken = nextToken
+            self.vocabularySummaryList = vocabularySummaryList
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case nextToken = "NextToken"
+            case vocabularySummaryList = "VocabularySummaryList"
+        }
+    }
+
     public struct SecurityKey: AWSDecodableShape {
         /// The existing association identifier that uniquely identifies the resource type and storage config for the given instance ID.
         public let associationId: String?
@@ -6133,6 +6533,8 @@ extension Connect {
     public struct StartChatContactRequest: AWSEncodableShape {
         /// A custom key-value pair using an attribute map. The attributes are standard Amazon Connect attributes. They can be accessed in contact flows just like any other contact attributes.  There can be up to 32,768 UTF-8 bytes across all key-value pairs per contact. Attribute keys can include only alphanumeric, dash, and underscore characters.
         public let attributes: [String: String]?
+        /// The total duration of the newly started chat session. If not specified, the chat session duration defaults to 25 hour.  The minumum configurable time is 60 minutes. The maximum configurable time is 10,080 minutes (7 days).
+        public let chatDurationInMinutes: Int?
         /// A unique, case-sensitive identifier that you provide to ensure the idempotency of the request.
         public let clientToken: String?
         /// The identifier of the contact flow for initiating the chat. To see the ContactFlowId in the Amazon Connect console user interface, on the navigation menu go to Routing, Contact Flows. Choose the contact flow. On the contact flow page, under the name of the contact flow, choose Show additional flow information. The ContactFlowId is the last part of the ARN, shown here in bold:  arn:aws:connect:us-west-2:xxxxxxxxxxxx:instance/xxxxxxxx-xxxx-xxxx-xxxx-xxxxxxxxxxxx/contact-flow/846ec553-a005-41c0-8341-xxxxxxxxxxxx
@@ -6143,14 +6545,18 @@ extension Connect {
         public let instanceId: String
         /// Information identifying the participant.
         public let participantDetails: ParticipantDetails
+        /// The supported chat message content types. Content types can be text/plain or both text/plain and text/markdown.
+        public let supportedMessagingContentTypes: [String]?
 
-        public init(attributes: [String: String]? = nil, clientToken: String? = StartChatContactRequest.idempotencyToken(), contactFlowId: String, initialMessage: ChatMessage? = nil, instanceId: String, participantDetails: ParticipantDetails) {
+        public init(attributes: [String: String]? = nil, chatDurationInMinutes: Int? = nil, clientToken: String? = StartChatContactRequest.idempotencyToken(), contactFlowId: String, initialMessage: ChatMessage? = nil, instanceId: String, participantDetails: ParticipantDetails, supportedMessagingContentTypes: [String]? = nil) {
             self.attributes = attributes
+            self.chatDurationInMinutes = chatDurationInMinutes
             self.clientToken = clientToken
             self.contactFlowId = contactFlowId
             self.initialMessage = initialMessage
             self.instanceId = instanceId
             self.participantDetails = participantDetails
+            self.supportedMessagingContentTypes = supportedMessagingContentTypes
         }
 
         public func validate(name: String) throws {
@@ -6159,21 +6565,29 @@ extension Connect {
                 try validate($0.key, name: "attributes.key", parent: name, min: 1)
                 try validate($0.value, name: "attributes[\"\($0.key)\"]", parent: name, max: 32767)
             }
+            try self.validate(self.chatDurationInMinutes, name: "chatDurationInMinutes", parent: name, max: 10080)
+            try self.validate(self.chatDurationInMinutes, name: "chatDurationInMinutes", parent: name, min: 60)
             try self.validate(self.clientToken, name: "clientToken", parent: name, max: 500)
             try self.validate(self.contactFlowId, name: "contactFlowId", parent: name, max: 500)
             try self.initialMessage?.validate(name: "\(name).initialMessage")
             try self.validate(self.instanceId, name: "instanceId", parent: name, max: 100)
             try self.validate(self.instanceId, name: "instanceId", parent: name, min: 1)
             try self.participantDetails.validate(name: "\(name).participantDetails")
+            try self.supportedMessagingContentTypes?.forEach {
+                try validate($0, name: "supportedMessagingContentTypes[]", parent: name, max: 100)
+                try validate($0, name: "supportedMessagingContentTypes[]", parent: name, min: 1)
+            }
         }
 
         private enum CodingKeys: String, CodingKey {
             case attributes = "Attributes"
+            case chatDurationInMinutes = "ChatDurationInMinutes"
             case clientToken = "ClientToken"
             case contactFlowId = "ContactFlowId"
             case initialMessage = "InitialMessage"
             case instanceId = "InstanceId"
             case participantDetails = "ParticipantDetails"
+            case supportedMessagingContentTypes = "SupportedMessagingContentTypes"
         }
     }
 
@@ -7057,7 +7471,7 @@ extension Connect {
             AWSMemberEncoding(label: "instanceId", location: .uri("InstanceId"))
         ]
 
-        /// The type of attribute.  Only allowlisted customers can consume USE_CUSTOM_TTS_VOICES. To access this feature, contact AWS Support for allowlisting.
+        /// The type of attribute.  Only allowlisted customers can consume USE_CUSTOM_TTS_VOICES. To access this feature, contact Amazon Web Services Support for allowlisting.
         public let attributeType: InstanceAttributeType
         /// The identifier of the Amazon Connect instance. You can find the instanceId in the ARN of the instance.
         public let instanceId: String
@@ -7895,6 +8309,90 @@ extension Connect {
             case arn = "Arn"
             case id = "Id"
             case username = "Username"
+        }
+    }
+
+    public struct Vocabulary: AWSDecodableShape {
+        /// The Amazon Resource Name (ARN) of the custom vocabulary.
+        public let arn: String
+        /// The content of the custom vocabulary in plain-text format with a table of values. Each row in the table represents a word or a phrase, described with Phrase, IPA, SoundsLike, and DisplayAs fields. Separate the fields with TAB characters. For more information, see Create a custom vocabulary using a table.
+        public let content: String?
+        /// The reason why the custom vocabulary was not created.
+        public let failureReason: String?
+        /// The identifier of the custom vocabulary.
+        public let id: String
+        /// The language code of the vocabulary entries. For a list of languages and their corresponding language codes, see
+        /// What is Amazon Transcribe?
+        public let languageCode: VocabularyLanguageCode
+        /// The timestamp when the custom vocabulary was last modified.
+        public let lastModifiedTime: Date
+        /// A unique name of the custom vocabulary.
+        public let name: String
+        /// The current state of the custom vocabulary.
+        public let state: VocabularyState
+        /// The tags used to organize, track, or control access for this resource.
+        public let tags: [String: String]?
+
+        public init(arn: String, content: String? = nil, failureReason: String? = nil, id: String, languageCode: VocabularyLanguageCode, lastModifiedTime: Date, name: String, state: VocabularyState, tags: [String: String]? = nil) {
+            self.arn = arn
+            self.content = content
+            self.failureReason = failureReason
+            self.id = id
+            self.languageCode = languageCode
+            self.lastModifiedTime = lastModifiedTime
+            self.name = name
+            self.state = state
+            self.tags = tags
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case arn = "Arn"
+            case content = "Content"
+            case failureReason = "FailureReason"
+            case id = "Id"
+            case languageCode = "LanguageCode"
+            case lastModifiedTime = "LastModifiedTime"
+            case name = "Name"
+            case state = "State"
+            case tags = "Tags"
+        }
+    }
+
+    public struct VocabularySummary: AWSDecodableShape {
+        /// The Amazon Resource Name (ARN) of the custom vocabulary.
+        public let arn: String
+        /// The reason why the custom vocabulary was not created.
+        public let failureReason: String?
+        /// The identifier of the custom vocabulary.
+        public let id: String
+        /// The language code of the vocabulary entries. For a list of languages and their corresponding language codes, see
+        /// What is Amazon Transcribe?
+        public let languageCode: VocabularyLanguageCode
+        /// The timestamp when the custom vocabulary was last modified.
+        public let lastModifiedTime: Date
+        /// A unique name of the custom vocabulary.
+        public let name: String
+        /// The current state of the custom vocabulary.
+        public let state: VocabularyState
+
+        public init(arn: String, failureReason: String? = nil, id: String, languageCode: VocabularyLanguageCode, lastModifiedTime: Date, name: String, state: VocabularyState) {
+            self.arn = arn
+            self.failureReason = failureReason
+            self.id = id
+            self.languageCode = languageCode
+            self.lastModifiedTime = lastModifiedTime
+            self.name = name
+            self.state = state
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case arn = "Arn"
+            case failureReason = "FailureReason"
+            case id = "Id"
+            case languageCode = "LanguageCode"
+            case lastModifiedTime = "LastModifiedTime"
+            case name = "Name"
+            case state = "State"
         }
     }
 

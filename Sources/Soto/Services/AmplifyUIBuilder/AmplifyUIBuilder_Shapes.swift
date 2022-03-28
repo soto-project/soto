@@ -35,14 +35,59 @@ extension AmplifyUIBuilder {
 
     // MARK: Shapes
 
+    public struct ActionParameters: AWSEncodableShape & AWSDecodableShape {
+        /// The HTML anchor link to the location to open. Specify this value for a navigation action.
+        public let anchor: ComponentProperty?
+        /// A dictionary of key-value pairs mapping Amplify Studio properties to fields in a data model. Use when the action performs an operation on an Amplify DataStore model.
+        public let fields: [String: ComponentProperty]?
+        /// Specifies whether the user should be signed out globally. Specify this value for an auth sign out action.
+        public let global: ComponentProperty?
+        /// The unique ID of the component that the ActionParameters apply to.
+        public let id: ComponentProperty?
+        /// The name of the data model. Use when the action performs an operation on an Amplify DataStore model.
+        public let model: String?
+        /// A key-value pair that specifies the state property name and its initial value.
+        public let state: MutationActionSetStateParameter?
+        /// The element within the same component to modify when the action occurs.
+        public let target: ComponentProperty?
+        /// The type of navigation action. Valid values are url and anchor. This value is required for a navigation action.
+        public let type: ComponentProperty?
+        /// The URL to the location to open. Specify this value for a navigation action.
+        public let url: ComponentProperty?
+
+        public init(anchor: ComponentProperty? = nil, fields: [String: ComponentProperty]? = nil, global: ComponentProperty? = nil, id: ComponentProperty? = nil, model: String? = nil, state: MutationActionSetStateParameter? = nil, target: ComponentProperty? = nil, type: ComponentProperty? = nil, url: ComponentProperty? = nil) {
+            self.anchor = anchor
+            self.fields = fields
+            self.global = global
+            self.id = id
+            self.model = model
+            self.state = state
+            self.target = target
+            self.type = type
+            self.url = url
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case anchor
+            case fields
+            case global
+            case id
+            case model
+            case state
+            case target
+            case type
+            case url
+        }
+    }
+
     public struct Component: AWSDecodableShape {
         /// The unique ID of the Amplify app associated with the component.
         public let appId: String
-        /// The information to connect a component's properties to data at runtime.
+        /// The information to connect a component's properties to data at runtime. You can't specify tags as a valid property for bindingProperties.
         public let bindingProperties: [String: ComponentBindingPropertiesValue]
         /// A list of the component's ComponentChild instances.
         public let children: [ComponentChild]?
-        /// The data binding configuration for the component's properties. Use this for a collection component.
+        /// The data binding configuration for the component's properties. Use this for a collection component. You can't specify tags as a valid property for collectionProperties.
         public let collectionProperties: [String: ComponentDataConfiguration]?
         /// The type of the component. This can be an Amplify custom UI component or another custom component.
         public let componentType: String
@@ -50,16 +95,20 @@ extension AmplifyUIBuilder {
         public let createdAt: Date
         /// The name of the backend environment that is a part of the Amplify app.
         public let environmentName: String
+        /// Describes the events that can be raised on the component. Use for the workflow feature in Amplify Studio that allows you to bind events and actions to components.
+        public let events: [String: ComponentEvent]?
         /// The unique ID of the component.
         public let id: String
         /// The time that the component was modified.
         public let modifiedAt: Date?
         /// The name of the component.
         public let name: String
-        /// Describes the component's properties that can be overriden in a customized instance of the component.
+        /// Describes the component's properties that can be overriden in a customized instance of the component. You can't specify tags as a valid property for overrides.
         public let overrides: [String: [String: String]]
-        /// Describes the component's properties.
+        /// Describes the component's properties. You can't specify tags as a valid property for properties.
         public let properties: [String: ComponentProperty]
+        /// The schema version of the component when it was imported.
+        public let schemaVersion: String?
         /// The unique ID of the component in its original source system, such as Figma.
         public let sourceId: String?
         /// One or more key-value pairs to use when tagging the component.
@@ -67,7 +116,7 @@ extension AmplifyUIBuilder {
         /// A list of the component's variants. A variant is a unique style configuration of a main component.
         public let variants: [ComponentVariant]
 
-        public init(appId: String, bindingProperties: [String: ComponentBindingPropertiesValue], children: [ComponentChild]? = nil, collectionProperties: [String: ComponentDataConfiguration]? = nil, componentType: String, createdAt: Date, environmentName: String, id: String, modifiedAt: Date? = nil, name: String, overrides: [String: [String: String]], properties: [String: ComponentProperty], sourceId: String? = nil, tags: [String: String]? = nil, variants: [ComponentVariant]) {
+        public init(appId: String, bindingProperties: [String: ComponentBindingPropertiesValue], children: [ComponentChild]? = nil, collectionProperties: [String: ComponentDataConfiguration]? = nil, componentType: String, createdAt: Date, environmentName: String, events: [String: ComponentEvent]? = nil, id: String, modifiedAt: Date? = nil, name: String, overrides: [String: [String: String]], properties: [String: ComponentProperty], schemaVersion: String? = nil, sourceId: String? = nil, tags: [String: String]? = nil, variants: [ComponentVariant]) {
             self.appId = appId
             self.bindingProperties = bindingProperties
             self.children = children
@@ -75,11 +124,13 @@ extension AmplifyUIBuilder {
             self.componentType = componentType
             self.createdAt = createdAt
             self.environmentName = environmentName
+            self.events = events
             self.id = id
             self.modifiedAt = modifiedAt
             self.name = name
             self.overrides = overrides
             self.properties = properties
+            self.schemaVersion = schemaVersion
             self.sourceId = sourceId
             self.tags = tags
             self.variants = variants
@@ -93,11 +144,13 @@ extension AmplifyUIBuilder {
             case componentType
             case createdAt
             case environmentName
+            case events
             case id
             case modifiedAt
             case name
             case overrides
             case properties
+            case schemaVersion
             case sourceId
             case tags
             case variants
@@ -167,14 +220,17 @@ extension AmplifyUIBuilder {
         public let children: [ComponentChild]?
         /// The type of the child component.
         public let componentType: String
+        /// Describes the events that can be raised on the child component. Use for the workflow feature in Amplify Studio that allows you to bind events and actions to components.
+        public let events: [String: ComponentEvent]?
         /// The name of the child component.
         public let name: String
-        /// Describes the properties of the child component.
+        /// Describes the properties of the child component. You can't specify tags as a valid property for properties.
         public let properties: [String: ComponentProperty]
 
-        public init(children: [ComponentChild]? = nil, componentType: String, name: String, properties: [String: ComponentProperty]) {
+        public init(children: [ComponentChild]? = nil, componentType: String, events: [String: ComponentEvent]? = nil, name: String, properties: [String: ComponentProperty]) {
             self.children = children
             self.componentType = componentType
+            self.events = events
             self.name = name
             self.properties = properties
         }
@@ -182,6 +238,7 @@ extension AmplifyUIBuilder {
         private enum CodingKeys: String, CodingKey {
             case children
             case componentType
+            case events
             case name
             case properties
         }
@@ -194,6 +251,8 @@ extension AmplifyUIBuilder {
         public let field: String?
         /// The value of the property to evaluate.
         public let operand: String?
+        /// The type of the property to evaluate.
+        public let operandType: String?
         /// The operator to use to perform the evaluation, such as eq to represent equals.
         public let `operator`: String?
         /// The name of the conditional property.
@@ -201,10 +260,11 @@ extension AmplifyUIBuilder {
         /// The value to assign to the property if the condition is met.
         public let then: ComponentProperty?
 
-        public init(else: ComponentProperty? = nil, field: String? = nil, operand: String? = nil, operator: String? = nil, property: String? = nil, then: ComponentProperty? = nil) {
+        public init(else: ComponentProperty? = nil, field: String? = nil, operand: String? = nil, operandType: String? = nil, operator: String? = nil, property: String? = nil, then: ComponentProperty? = nil) {
             self.`else` = `else`
             self.field = field
             self.operand = operand
+            self.operandType = operandType
             self.`operator` = `operator`
             self.property = property
             self.then = then
@@ -214,6 +274,7 @@ extension AmplifyUIBuilder {
             case `else`
             case field
             case operand
+            case operandType
             case `operator`
             case property
             case then
@@ -245,6 +306,23 @@ extension AmplifyUIBuilder {
         }
     }
 
+    public struct ComponentEvent: AWSEncodableShape & AWSDecodableShape {
+        /// The action to perform when a specific event is raised.
+        public let action: String?
+        /// Describes information about the action.
+        public let parameters: ActionParameters?
+
+        public init(action: String? = nil, parameters: ActionParameters? = nil) {
+            self.action = action
+            self.parameters = parameters
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case action
+            case parameters
+        }
+    }
+
     public final class ComponentProperty: AWSEncodableShape & AWSDecodableShape {
         /// The information to bind the component property to data at runtime.
         public let bindingProperties: ComponentPropertyBindingProperties?
@@ -252,9 +330,11 @@ extension AmplifyUIBuilder {
         public let bindings: [String: FormBindingElement]?
         /// The information to bind the component property to data at runtime. Use this for collection components.
         public let collectionBindingProperties: ComponentPropertyBindingProperties?
+        /// The name of the component that is affected by an event.
+        public let componentName: String?
         /// A list of component properties to concatenate to create the value to assign to this component property.
         public let concat: [ComponentProperty]?
-        /// The conditional expression to use to assign a value to the component property..
+        /// The conditional expression to use to assign a value to the component property.
         public let condition: ComponentConditionProperty?
         /// Specifies whether the user configured the property in Amplify Studio after importing it.
         public let configured: Bool?
@@ -262,10 +342,12 @@ extension AmplifyUIBuilder {
         public let defaultValue: String?
         /// An event that occurs in your app. Use this for workflow data binding.
         public let event: String?
-        /// The default value assigned to property when the component is imported into an app.
+        /// The default value assigned to the property when the component is imported into an app.
         public let importedValue: String?
         /// The data model to use to assign a value to the component property.
         public let model: String?
+        /// The name of the component's property that is affected by an event.
+        public let property: String?
         /// The component type.
         public let type: String?
         /// An authenticated user attribute to use to assign a value to the component property.
@@ -273,10 +355,11 @@ extension AmplifyUIBuilder {
         /// The value to assign to the component property.
         public let value: String?
 
-        public init(bindingProperties: ComponentPropertyBindingProperties? = nil, bindings: [String: FormBindingElement]? = nil, collectionBindingProperties: ComponentPropertyBindingProperties? = nil, concat: [ComponentProperty]? = nil, condition: ComponentConditionProperty? = nil, configured: Bool? = nil, defaultValue: String? = nil, event: String? = nil, importedValue: String? = nil, model: String? = nil, type: String? = nil, userAttribute: String? = nil, value: String? = nil) {
+        public init(bindingProperties: ComponentPropertyBindingProperties? = nil, bindings: [String: FormBindingElement]? = nil, collectionBindingProperties: ComponentPropertyBindingProperties? = nil, componentName: String? = nil, concat: [ComponentProperty]? = nil, condition: ComponentConditionProperty? = nil, configured: Bool? = nil, defaultValue: String? = nil, event: String? = nil, importedValue: String? = nil, model: String? = nil, property: String? = nil, type: String? = nil, userAttribute: String? = nil, value: String? = nil) {
             self.bindingProperties = bindingProperties
             self.bindings = bindings
             self.collectionBindingProperties = collectionBindingProperties
+            self.componentName = componentName
             self.concat = concat
             self.condition = condition
             self.configured = configured
@@ -284,6 +367,7 @@ extension AmplifyUIBuilder {
             self.event = event
             self.importedValue = importedValue
             self.model = model
+            self.property = property
             self.type = type
             self.userAttribute = userAttribute
             self.value = value
@@ -293,6 +377,7 @@ extension AmplifyUIBuilder {
             case bindingProperties
             case bindings
             case collectionBindingProperties
+            case componentName
             case concat
             case condition
             case configured
@@ -300,6 +385,7 @@ extension AmplifyUIBuilder {
             case event
             case importedValue
             case model
+            case property
             case type
             case userAttribute
             case value
@@ -353,9 +439,9 @@ extension AmplifyUIBuilder {
     }
 
     public struct ComponentVariant: AWSEncodableShape & AWSDecodableShape {
-        /// The properties of the component variant that can be overriden when customizing an instance of the component.
+        /// The properties of the component variant that can be overriden when customizing an instance of the component. You can't specify tags as a valid property for overrides.
         public let overrides: [String: [String: String]]?
-        /// The combination of variants that comprise this variant.
+        /// The combination of variants that comprise this variant. You can't specify tags as a valid property for variantValues.
         public let variantValues: [String: String]?
 
         public init(overrides: [String: [String: String]]? = nil, variantValues: [String: String]? = nil) {
@@ -378,12 +464,16 @@ extension AmplifyUIBuilder {
         public let collectionProperties: [String: ComponentDataConfiguration]?
         /// The component type. This can be an Amplify custom UI component or another custom component.
         public let componentType: String
+        /// The event configuration for the component. Use for the workflow feature in Amplify Studio that allows you to bind events and actions to components.
+        public let events: [String: ComponentEvent]?
         /// The name of the component
         public let name: String
         /// Describes the component properties that can be overriden to customize an instance of the component.
         public let overrides: [String: [String: String]]
         /// Describes the component's properties.
         public let properties: [String: ComponentProperty]
+        /// The schema version of the component when it was imported.
+        public let schemaVersion: String?
         /// The unique ID of the component in its original source system, such as Figma.
         public let sourceId: String?
         /// One or more key-value pairs to use when tagging the component data.
@@ -391,14 +481,16 @@ extension AmplifyUIBuilder {
         /// A list of the unique variants of this component.
         public let variants: [ComponentVariant]
 
-        public init(bindingProperties: [String: ComponentBindingPropertiesValue], children: [ComponentChild]? = nil, collectionProperties: [String: ComponentDataConfiguration]? = nil, componentType: String, name: String, overrides: [String: [String: String]], properties: [String: ComponentProperty], sourceId: String? = nil, tags: [String: String]? = nil, variants: [ComponentVariant]) {
+        public init(bindingProperties: [String: ComponentBindingPropertiesValue], children: [ComponentChild]? = nil, collectionProperties: [String: ComponentDataConfiguration]? = nil, componentType: String, events: [String: ComponentEvent]? = nil, name: String, overrides: [String: [String: String]], properties: [String: ComponentProperty], schemaVersion: String? = nil, sourceId: String? = nil, tags: [String: String]? = nil, variants: [ComponentVariant]) {
             self.bindingProperties = bindingProperties
             self.children = children
             self.collectionProperties = collectionProperties
             self.componentType = componentType
+            self.events = events
             self.name = name
             self.overrides = overrides
             self.properties = properties
+            self.schemaVersion = schemaVersion
             self.sourceId = sourceId
             self.tags = tags
             self.variants = variants
@@ -423,9 +515,11 @@ extension AmplifyUIBuilder {
             case children
             case collectionProperties
             case componentType
+            case events
             case name
             case overrides
             case properties
+            case schemaVersion
             case sourceId
             case tags
             case variants
@@ -678,17 +772,21 @@ extension AmplifyUIBuilder {
     public struct ExportComponentsRequest: AWSEncodableShape {
         public static var _encoding = [
             AWSMemberEncoding(label: "appId", location: .uri("appId")),
-            AWSMemberEncoding(label: "environmentName", location: .uri("environmentName"))
+            AWSMemberEncoding(label: "environmentName", location: .uri("environmentName")),
+            AWSMemberEncoding(label: "nextToken", location: .querystring("nextToken"))
         ]
 
         /// The unique ID of the Amplify app to export components to.
         public let appId: String
         /// The name of the backend environment that is a part of the Amplify app.
         public let environmentName: String
+        /// The token to request the next page of results.
+        public let nextToken: String?
 
-        public init(appId: String, environmentName: String) {
+        public init(appId: String, environmentName: String, nextToken: String? = nil) {
             self.appId = appId
             self.environmentName = environmentName
+            self.nextToken = nextToken
         }
 
         private enum CodingKeys: CodingKey {}
@@ -697,30 +795,38 @@ extension AmplifyUIBuilder {
     public struct ExportComponentsResponse: AWSDecodableShape {
         /// Represents the configuration of the exported components.
         public let entities: [Component]
+        /// The pagination token that's included if more results are available.
+        public let nextToken: String?
 
-        public init(entities: [Component]) {
+        public init(entities: [Component], nextToken: String? = nil) {
             self.entities = entities
+            self.nextToken = nextToken
         }
 
         private enum CodingKeys: String, CodingKey {
             case entities
+            case nextToken
         }
     }
 
     public struct ExportThemesRequest: AWSEncodableShape {
         public static var _encoding = [
             AWSMemberEncoding(label: "appId", location: .uri("appId")),
-            AWSMemberEncoding(label: "environmentName", location: .uri("environmentName"))
+            AWSMemberEncoding(label: "environmentName", location: .uri("environmentName")),
+            AWSMemberEncoding(label: "nextToken", location: .querystring("nextToken"))
         ]
 
         /// The unique ID of the Amplify app to export the themes to.
         public let appId: String
         /// The name of the backend environment that is part of the Amplify app.
         public let environmentName: String
+        /// The token to request the next page of results.
+        public let nextToken: String?
 
-        public init(appId: String, environmentName: String) {
+        public init(appId: String, environmentName: String, nextToken: String? = nil) {
             self.appId = appId
             self.environmentName = environmentName
+            self.nextToken = nextToken
         }
 
         private enum CodingKeys: CodingKey {}
@@ -729,13 +835,17 @@ extension AmplifyUIBuilder {
     public struct ExportThemesResponse: AWSDecodableShape {
         /// Represents the configuration of the exported themes.
         public let entities: [Theme]
+        /// The pagination token that's included if more results are available.
+        public let nextToken: String?
 
-        public init(entities: [Theme]) {
+        public init(entities: [Theme], nextToken: String? = nil) {
             self.entities = entities
+            self.nextToken = nextToken
         }
 
         private enum CodingKeys: String, CodingKey {
             case entities
+            case nextToken
         }
     }
 
@@ -929,6 +1039,27 @@ extension AmplifyUIBuilder {
         private enum CodingKeys: String, CodingKey {
             case entities
             case nextToken
+        }
+    }
+
+    public struct MutationActionSetStateParameter: AWSEncodableShape & AWSDecodableShape {
+        /// The name of the component that is being modified.
+        public let componentName: String
+        /// The name of the component property to apply the state configuration to.
+        public let property: String
+        /// The state configuration to assign to the property.
+        public let set: ComponentProperty
+
+        public init(componentName: String, property: String, set: ComponentProperty) {
+            self.componentName = componentName
+            self.property = property
+            self.set = set
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case componentName
+            case property
+            case set
         }
     }
 
@@ -1143,6 +1274,8 @@ extension AmplifyUIBuilder {
         public let collectionProperties: [String: ComponentDataConfiguration]?
         /// The type of the component. This can be an Amplify custom UI component or another custom component.
         public let componentType: String?
+        /// The event configuration for the component. Use for the workflow feature in Amplify Studio that allows you to bind events and actions to components.
+        public let events: [String: ComponentEvent]?
         /// The unique ID of the component to update.
         public let id: String?
         /// The name of the component to update.
@@ -1151,20 +1284,24 @@ extension AmplifyUIBuilder {
         public let overrides: [String: [String: String]]?
         /// Describes the component's properties.
         public let properties: [String: ComponentProperty]?
+        /// The schema version of the component when it was imported.
+        public let schemaVersion: String?
         /// The unique ID of the component in its original source system, such as Figma.
         public let sourceId: String?
         /// A list of the unique variants of the main component being updated.
         public let variants: [ComponentVariant]?
 
-        public init(bindingProperties: [String: ComponentBindingPropertiesValue]? = nil, children: [ComponentChild]? = nil, collectionProperties: [String: ComponentDataConfiguration]? = nil, componentType: String? = nil, id: String? = nil, name: String? = nil, overrides: [String: [String: String]]? = nil, properties: [String: ComponentProperty]? = nil, sourceId: String? = nil, variants: [ComponentVariant]? = nil) {
+        public init(bindingProperties: [String: ComponentBindingPropertiesValue]? = nil, children: [ComponentChild]? = nil, collectionProperties: [String: ComponentDataConfiguration]? = nil, componentType: String? = nil, events: [String: ComponentEvent]? = nil, id: String? = nil, name: String? = nil, overrides: [String: [String: String]]? = nil, properties: [String: ComponentProperty]? = nil, schemaVersion: String? = nil, sourceId: String? = nil, variants: [ComponentVariant]? = nil) {
             self.bindingProperties = bindingProperties
             self.children = children
             self.collectionProperties = collectionProperties
             self.componentType = componentType
+            self.events = events
             self.id = id
             self.name = name
             self.overrides = overrides
             self.properties = properties
+            self.schemaVersion = schemaVersion
             self.sourceId = sourceId
             self.variants = variants
         }
@@ -1181,10 +1318,12 @@ extension AmplifyUIBuilder {
             case children
             case collectionProperties
             case componentType
+            case events
             case id
             case name
             case overrides
             case properties
+            case schemaVersion
             case sourceId
             case variants
         }

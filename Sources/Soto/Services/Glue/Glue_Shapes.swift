@@ -167,6 +167,7 @@ extension Glue {
     public enum DataFormat: String, CustomStringConvertible, Codable {
         case avro = "AVRO"
         case json = "JSON"
+        case protobuf = "PROTOBUF"
         public var description: String { return self.rawValue }
     }
 
@@ -265,6 +266,12 @@ extension Glue {
         public var description: String { return self.rawValue }
     }
 
+    public enum PermissionType: String, CustomStringConvertible, Codable {
+        case cellFilterPermission = "CELL_FILTER_PERMISSION"
+        case columnPermission = "COLUMN_PERMISSION"
+        public var description: String { return self.rawValue }
+    }
+
     public enum PrincipalType: String, CustomStringConvertible, Codable {
         case group = "GROUP"
         case role = "ROLE"
@@ -332,6 +339,16 @@ extension Glue {
         public var description: String { return self.rawValue }
     }
 
+    public enum SessionStatus: String, CustomStringConvertible, Codable {
+        case failed = "FAILED"
+        case provisioning = "PROVISIONING"
+        case ready = "READY"
+        case stopped = "STOPPED"
+        case stopping = "STOPPING"
+        case timeout = "TIMEOUT"
+        public var description: String { return self.rawValue }
+    }
+
     public enum Sort: String, CustomStringConvertible, Codable {
         case asc = "ASC"
         case desc = "DESC"
@@ -341,6 +358,16 @@ extension Glue {
     public enum SortDirectionType: String, CustomStringConvertible, Codable {
         case ascending = "ASCENDING"
         case descending = "DESCENDING"
+        public var description: String { return self.rawValue }
+    }
+
+    public enum StatementState: String, CustomStringConvertible, Codable {
+        case available = "AVAILABLE"
+        case cancelled = "CANCELLED"
+        case cancelling = "CANCELLING"
+        case error = "ERROR"
+        case running = "RUNNING"
+        case waiting = "WAITING"
         public var description: String { return self.rawValue }
     }
 
@@ -480,6 +507,36 @@ extension Glue {
             case notificationProperty = "NotificationProperty"
             case securityConfiguration = "SecurityConfiguration"
             case timeout = "Timeout"
+        }
+    }
+
+    public struct AuditContext: AWSEncodableShape {
+        /// The context for the audit..
+        public let additionalAuditContext: String?
+        /// All columns request for audit.
+        public let allColumnsRequested: Bool?
+        /// The requested columns for audit.
+        public let requestedColumns: [String]?
+
+        public init(additionalAuditContext: String? = nil, allColumnsRequested: Bool? = nil, requestedColumns: [String]? = nil) {
+            self.additionalAuditContext = additionalAuditContext
+            self.allColumnsRequested = allColumnsRequested
+            self.requestedColumns = requestedColumns
+        }
+
+        public func validate(name: String) throws {
+            try self.validate(self.additionalAuditContext, name: "additionalAuditContext", parent: name, max: 2048)
+            try self.requestedColumns?.forEach {
+                try validate($0, name: "requestedColumns[]", parent: name, max: 1024)
+                try validate($0, name: "requestedColumns[]", parent: name, min: 1)
+                try validate($0, name: "requestedColumns[]", parent: name, pattern: "^[\\u0020-\\uD7FF\\uE000-\\uFFFD\\uD800\\uDC00-\\uDBFF\\uDFFF\\t]*$")
+            }
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case additionalAuditContext = "AdditionalAuditContext"
+            case allColumnsRequested = "AllColumnsRequested"
+            case requestedColumns = "RequestedColumns"
         }
     }
 
@@ -1468,6 +1525,40 @@ extension Glue {
         }
     }
 
+    public struct CancelStatementRequest: AWSEncodableShape {
+        /// The ID of the statement to be cancelled.
+        public let id: Int
+        /// The origin of the request to cancel the statement.
+        public let requestOrigin: String?
+        /// The Session ID of the statement to be cancelled.
+        public let sessionId: String
+
+        public init(id: Int, requestOrigin: String? = nil, sessionId: String) {
+            self.id = id
+            self.requestOrigin = requestOrigin
+            self.sessionId = sessionId
+        }
+
+        public func validate(name: String) throws {
+            try self.validate(self.requestOrigin, name: "requestOrigin", parent: name, max: 128)
+            try self.validate(self.requestOrigin, name: "requestOrigin", parent: name, min: 1)
+            try self.validate(self.requestOrigin, name: "requestOrigin", parent: name, pattern: "^[\\.\\-_A-Za-z0-9]+$")
+            try self.validate(self.sessionId, name: "sessionId", parent: name, max: 255)
+            try self.validate(self.sessionId, name: "sessionId", parent: name, min: 1)
+            try self.validate(self.sessionId, name: "sessionId", parent: name, pattern: "^[\\u0020-\\uD7FF\\uE000-\\uFFFD\\uD800\\uDC00-\\uDBFF\\uDFFF\\t]*$")
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case id = "Id"
+            case requestOrigin = "RequestOrigin"
+            case sessionId = "SessionId"
+        }
+    }
+
+    public struct CancelStatementResponse: AWSDecodableShape {
+        public init() {}
+    }
+
     public struct CatalogEntry: AWSEncodableShape {
         /// The database in which the table metadata resides.
         public let databaseName: String
@@ -1516,12 +1607,15 @@ extension Glue {
     }
 
     public struct CatalogTarget: AWSEncodableShape & AWSDecodableShape {
+        /// The name of the connection for an Amazon S3-backed Data Catalog table to be a target of the crawl when using a Catalog connection type paired with a NETWORK Connection type.
+        public let connectionName: String?
         /// The name of the database to be synchronized.
         public let databaseName: String
         /// A list of the tables to be synchronized.
         public let tables: [String]
 
-        public init(databaseName: String, tables: [String]) {
+        public init(connectionName: String? = nil, databaseName: String, tables: [String]) {
+            self.connectionName = connectionName
             self.databaseName = databaseName
             self.tables = tables
         }
@@ -1539,13 +1633,14 @@ extension Glue {
         }
 
         private enum CodingKeys: String, CodingKey {
+            case connectionName = "ConnectionName"
             case databaseName = "DatabaseName"
             case tables = "Tables"
         }
     }
 
     public struct CheckSchemaVersionValidityInput: AWSEncodableShape {
-        /// The data format of the schema definition. Currently AVRO and JSON are supported.
+        /// The data format of the schema definition. Currently AVRO, JSON and PROTOBUF are supported.
         public let dataFormat: DataFormat
         /// The definition of the schema that has to be validated.
         public let schemaDefinition: String
@@ -1785,6 +1880,21 @@ extension Glue {
         private enum CodingKeys: String, CodingKey {
             case columnName = "ColumnName"
             case importance = "Importance"
+        }
+    }
+
+    public struct ColumnRowFilter: AWSDecodableShape {
+        public let columnName: String?
+        public let rowFilterExpression: String?
+
+        public init(columnName: String? = nil, rowFilterExpression: String? = nil) {
+            self.columnName = columnName
+            self.rowFilterExpression = rowFilterExpression
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case columnName = "ColumnName"
+            case rowFilterExpression = "RowFilterExpression"
         }
     }
 
@@ -2137,6 +2247,7 @@ extension Glue {
         public let databaseName: String?
         /// A description of the crawler.
         public let description: String?
+        public let lakeFormationConfiguration: LakeFormationConfiguration?
         /// The status of the last crawl, and potentially error information if an error occurred.
         public let lastCrawl: LastCrawlInfo?
         /// The time that the crawler was last updated.
@@ -2162,7 +2273,7 @@ extension Glue {
         /// The version of the crawler.
         public let version: Int64?
 
-        public init(classifiers: [String]? = nil, configuration: String? = nil, crawlElapsedTime: Int64? = nil, crawlerSecurityConfiguration: String? = nil, creationTime: Date? = nil, databaseName: String? = nil, description: String? = nil, lastCrawl: LastCrawlInfo? = nil, lastUpdated: Date? = nil, lineageConfiguration: LineageConfiguration? = nil, name: String? = nil, recrawlPolicy: RecrawlPolicy? = nil, role: String? = nil, schedule: Schedule? = nil, schemaChangePolicy: SchemaChangePolicy? = nil, state: CrawlerState? = nil, tablePrefix: String? = nil, targets: CrawlerTargets? = nil, version: Int64? = nil) {
+        public init(classifiers: [String]? = nil, configuration: String? = nil, crawlElapsedTime: Int64? = nil, crawlerSecurityConfiguration: String? = nil, creationTime: Date? = nil, databaseName: String? = nil, description: String? = nil, lakeFormationConfiguration: LakeFormationConfiguration? = nil, lastCrawl: LastCrawlInfo? = nil, lastUpdated: Date? = nil, lineageConfiguration: LineageConfiguration? = nil, name: String? = nil, recrawlPolicy: RecrawlPolicy? = nil, role: String? = nil, schedule: Schedule? = nil, schemaChangePolicy: SchemaChangePolicy? = nil, state: CrawlerState? = nil, tablePrefix: String? = nil, targets: CrawlerTargets? = nil, version: Int64? = nil) {
             self.classifiers = classifiers
             self.configuration = configuration
             self.crawlElapsedTime = crawlElapsedTime
@@ -2170,6 +2281,7 @@ extension Glue {
             self.creationTime = creationTime
             self.databaseName = databaseName
             self.description = description
+            self.lakeFormationConfiguration = lakeFormationConfiguration
             self.lastCrawl = lastCrawl
             self.lastUpdated = lastUpdated
             self.lineageConfiguration = lineageConfiguration
@@ -2192,6 +2304,7 @@ extension Glue {
             case creationTime = "CreationTime"
             case databaseName = "DatabaseName"
             case description = "Description"
+            case lakeFormationConfiguration = "LakeFormationConfiguration"
             case lastCrawl = "LastCrawl"
             case lastUpdated = "LastUpdated"
             case lineageConfiguration = "LineageConfiguration"
@@ -2264,6 +2377,8 @@ extension Glue {
     public struct CrawlerTargets: AWSEncodableShape & AWSDecodableShape {
         /// Specifies Glue Data Catalog targets.
         public let catalogTargets: [CatalogTarget]?
+        /// Specifies Delta data store targets.
+        public let deltaTargets: [DeltaTarget]?
         /// Specifies Amazon DynamoDB targets.
         public let dynamoDBTargets: [DynamoDBTarget]?
         /// Specifies JDBC targets.
@@ -2273,8 +2388,9 @@ extension Glue {
         /// Specifies Amazon Simple Storage Service (Amazon S3) targets.
         public let s3Targets: [S3Target]?
 
-        public init(catalogTargets: [CatalogTarget]? = nil, dynamoDBTargets: [DynamoDBTarget]? = nil, jdbcTargets: [JdbcTarget]? = nil, mongoDBTargets: [MongoDBTarget]? = nil, s3Targets: [S3Target]? = nil) {
+        public init(catalogTargets: [CatalogTarget]? = nil, deltaTargets: [DeltaTarget]? = nil, dynamoDBTargets: [DynamoDBTarget]? = nil, jdbcTargets: [JdbcTarget]? = nil, mongoDBTargets: [MongoDBTarget]? = nil, s3Targets: [S3Target]? = nil) {
             self.catalogTargets = catalogTargets
+            self.deltaTargets = deltaTargets
             self.dynamoDBTargets = dynamoDBTargets
             self.jdbcTargets = jdbcTargets
             self.mongoDBTargets = mongoDBTargets
@@ -2289,6 +2405,7 @@ extension Glue {
 
         private enum CodingKeys: String, CodingKey {
             case catalogTargets = "CatalogTargets"
+            case deltaTargets = "DeltaTargets"
             case dynamoDBTargets = "DynamoDBTargets"
             case jdbcTargets = "JdbcTargets"
             case mongoDBTargets = "MongoDBTargets"
@@ -2436,6 +2553,7 @@ extension Glue {
         public let databaseName: String?
         /// A description of the new crawler.
         public let description: String?
+        public let lakeFormationConfiguration: LakeFormationConfiguration?
         /// Specifies data lineage configuration settings for the crawler.
         public let lineageConfiguration: LineageConfiguration?
         /// Name of the new crawler.
@@ -2455,12 +2573,13 @@ extension Glue {
         /// A list of collection of targets to crawl.
         public let targets: CrawlerTargets
 
-        public init(classifiers: [String]? = nil, configuration: String? = nil, crawlerSecurityConfiguration: String? = nil, databaseName: String? = nil, description: String? = nil, lineageConfiguration: LineageConfiguration? = nil, name: String, recrawlPolicy: RecrawlPolicy? = nil, role: String, schedule: String? = nil, schemaChangePolicy: SchemaChangePolicy? = nil, tablePrefix: String? = nil, tags: [String: String]? = nil, targets: CrawlerTargets) {
+        public init(classifiers: [String]? = nil, configuration: String? = nil, crawlerSecurityConfiguration: String? = nil, databaseName: String? = nil, description: String? = nil, lakeFormationConfiguration: LakeFormationConfiguration? = nil, lineageConfiguration: LineageConfiguration? = nil, name: String, recrawlPolicy: RecrawlPolicy? = nil, role: String, schedule: String? = nil, schemaChangePolicy: SchemaChangePolicy? = nil, tablePrefix: String? = nil, tags: [String: String]? = nil, targets: CrawlerTargets) {
             self.classifiers = classifiers
             self.configuration = configuration
             self.crawlerSecurityConfiguration = crawlerSecurityConfiguration
             self.databaseName = databaseName
             self.description = description
+            self.lakeFormationConfiguration = lakeFormationConfiguration
             self.lineageConfiguration = lineageConfiguration
             self.name = name
             self.recrawlPolicy = recrawlPolicy
@@ -2481,6 +2600,7 @@ extension Glue {
             try self.validate(self.crawlerSecurityConfiguration, name: "crawlerSecurityConfiguration", parent: name, max: 128)
             try self.validate(self.description, name: "description", parent: name, max: 2048)
             try self.validate(self.description, name: "description", parent: name, pattern: "^[\\u0020-\\uD7FF\\uE000-\\uFFFD\\uD800\\uDC00-\\uDBFF\\uDFFF\\r\\n\\t]*$")
+            try self.lakeFormationConfiguration?.validate(name: "\(name).lakeFormationConfiguration")
             try self.validate(self.name, name: "name", parent: name, max: 255)
             try self.validate(self.name, name: "name", parent: name, min: 1)
             try self.validate(self.name, name: "name", parent: name, pattern: "^[\\u0020-\\uD7FF\\uE000-\\uFFFD\\uD800\\uDC00-\\uDBFF\\uDFFF\\t]*$")
@@ -2500,6 +2620,7 @@ extension Glue {
             case crawlerSecurityConfiguration = "CrawlerSecurityConfiguration"
             case databaseName = "DatabaseName"
             case description = "Description"
+            case lakeFormationConfiguration = "LakeFormationConfiguration"
             case lineageConfiguration = "LineageConfiguration"
             case name = "Name"
             case recrawlPolicy = "RecrawlPolicy"
@@ -3250,7 +3371,7 @@ extension Glue {
         /// The compatibility mode of the schema. The possible values are:
         /// 	    NONE: No compatibility mode applies. You can use this choice in development scenarios or if you do not know the compatibility mode that you want to apply to schemas. Any new version added will be accepted without undergoing a compatibility check.    DISABLED: This compatibility choice prevents versioning for a particular schema. You can use this choice to prevent future versioning of a schema.    BACKWARD: This compatibility choice is recommended as it allows data receivers to read both the current and one previous schema version. This means that for instance, a new schema version cannot drop data fields or change the type of these fields, so they can't be read by readers using the previous version.    BACKWARD_ALL: This compatibility choice allows data receivers to read both the current and all previous schema versions. You can use this choice when you need to delete fields or add optional fields, and check compatibility against all previous schema versions.     FORWARD: This compatibility choice allows data receivers to read both the current and one next schema version, but not necessarily later versions. You can use this choice when you need to add fields or delete optional fields, but only check compatibility against the last schema version.    FORWARD_ALL: This compatibility choice allows data receivers to read written by producers of any new registered schema. You can use this choice when you need to add fields or delete optional fields, and check compatibility against all previous schema versions.    FULL: This compatibility choice allows data receivers to read data written by producers using the previous or next version of the schema, but not necessarily earlier or later versions. You can use this choice when you need to add or remove optional fields, but only check compatibility against the last schema version.    FULL_ALL: This compatibility choice allows data receivers to read data written by producers using all previous schema versions. You can use this choice when you need to add or remove optional fields, and check compatibility against all previous schema versions.
         public let compatibility: Compatibility?
-        /// The data format of the schema definition. Currently AVRO and JSON are supported.
+        /// The data format of the schema definition. Currently AVRO, JSON and PROTOBUF are supported.
         public let dataFormat: DataFormat
         /// An optional description of the schema. If description is not provided, there will not be any automatic default value for this.
         public let description: String?
@@ -3305,7 +3426,7 @@ extension Glue {
     public struct CreateSchemaResponse: AWSDecodableShape {
         /// The schema compatibility mode.
         public let compatibility: Compatibility?
-        /// The data format of the schema definition. Currently AVRO and JSON are supported.
+        /// The data format of the schema definition. Currently AVRO, JSON and PROTOBUF are supported.
         public let dataFormat: DataFormat?
         /// A description of the schema if specified when created.
         public let description: String?
@@ -3452,6 +3573,125 @@ extension Glue {
         private enum CodingKeys: String, CodingKey {
             case createdTimestamp = "CreatedTimestamp"
             case name = "Name"
+        }
+    }
+
+    public struct CreateSessionRequest: AWSEncodableShape {
+        /// The SessionCommand that runs the job.
+        public let command: SessionCommand
+        /// The number of connections to use for the session.
+        public let connections: ConnectionsList?
+        /// A map array of key-value pairs. Max is 75 pairs.
+        public let defaultArguments: [String: String]?
+        /// The description of the session.
+        public let description: String?
+        /// The Glue version determines the versions of Apache Spark and Python that AWS Glue supports.  The GlueVersion must be greater than 2.0.
+        public let glueVersion: String?
+        /// The ID of the session request.
+        public let id: String
+        /// The number of seconds when idle before request times out.
+        public let idleTimeout: Int?
+        /// The number of AWS Glue data processing units (DPUs) that can be allocated when the job runs.  A DPU is a relative measure of processing power that consists of 4 vCPUs of compute capacity and 16 GB memory.
+        public let maxCapacity: Double?
+        /// The number of workers to use for the session.
+        public let numberOfWorkers: Int?
+        /// The origin of the request.
+        public let requestOrigin: String?
+        /// The IAM Role ARN
+        public let role: String
+        /// The name of the SecurityConfiguration structure to be used with the session
+        public let securityConfiguration: String?
+        /// The map of key value pairs (tags) belonging to the session.
+        public let tags: [String: String]?
+        /// The number of seconds before request times out.
+        public let timeout: Int?
+        /// The Worker Type. Can be one of G.1X, G.2X, Standard
+        public let workerType: WorkerType?
+
+        public init(command: SessionCommand, connections: ConnectionsList? = nil, defaultArguments: [String: String]? = nil, description: String? = nil, glueVersion: String? = nil, id: String, idleTimeout: Int? = nil, maxCapacity: Double? = nil, numberOfWorkers: Int? = nil, requestOrigin: String? = nil, role: String, securityConfiguration: String? = nil, tags: [String: String]? = nil, timeout: Int? = nil, workerType: WorkerType? = nil) {
+            self.command = command
+            self.connections = connections
+            self.defaultArguments = defaultArguments
+            self.description = description
+            self.glueVersion = glueVersion
+            self.id = id
+            self.idleTimeout = idleTimeout
+            self.maxCapacity = maxCapacity
+            self.numberOfWorkers = numberOfWorkers
+            self.requestOrigin = requestOrigin
+            self.role = role
+            self.securityConfiguration = securityConfiguration
+            self.tags = tags
+            self.timeout = timeout
+            self.workerType = workerType
+        }
+
+        public func validate(name: String) throws {
+            try self.command.validate(name: "\(name).command")
+            try self.defaultArguments?.forEach {
+                try validate($0.key, name: "defaultArguments.key", parent: name, max: 128)
+                try validate($0.key, name: "defaultArguments.key", parent: name, min: 1)
+                try validate($0.key, name: "defaultArguments.key", parent: name, pattern: "^[\\.\\-_A-Za-z0-9]+$")
+                try validate($0.value, name: "defaultArguments[\"\($0.key)\"]", parent: name, max: 4096)
+                try validate($0.value, name: "defaultArguments[\"\($0.key)\"]", parent: name, pattern: "^[\\u0020-\\uD7FF\\uE000-\\uFFFD\\uD800\\uDC00-\\uDBFF\\uDFFF\\r\\n\\t]*$")
+            }
+            try self.validate(self.defaultArguments, name: "defaultArguments", parent: name, max: 75)
+            try self.validate(self.description, name: "description", parent: name, max: 2048)
+            try self.validate(self.description, name: "description", parent: name, pattern: "^[\\u0020-\\uD7FF\\uE000-\\uFFFD\\uD800\\uDC00-\\uDBFF\\uDFFF\\r\\n\\t]*$")
+            try self.validate(self.glueVersion, name: "glueVersion", parent: name, max: 255)
+            try self.validate(self.glueVersion, name: "glueVersion", parent: name, min: 1)
+            try self.validate(self.glueVersion, name: "glueVersion", parent: name, pattern: "^\\w+\\.\\w+$")
+            try self.validate(self.id, name: "id", parent: name, max: 255)
+            try self.validate(self.id, name: "id", parent: name, min: 1)
+            try self.validate(self.id, name: "id", parent: name, pattern: "^[\\u0020-\\uD7FF\\uE000-\\uFFFD\\uD800\\uDC00-\\uDBFF\\uDFFF\\t]*$")
+            try self.validate(self.idleTimeout, name: "idleTimeout", parent: name, min: 1)
+            try self.validate(self.requestOrigin, name: "requestOrigin", parent: name, max: 128)
+            try self.validate(self.requestOrigin, name: "requestOrigin", parent: name, min: 1)
+            try self.validate(self.requestOrigin, name: "requestOrigin", parent: name, pattern: "^[\\.\\-_A-Za-z0-9]+$")
+            try self.validate(self.role, name: "role", parent: name, max: 2048)
+            try self.validate(self.role, name: "role", parent: name, min: 20)
+            try self.validate(self.role, name: "role", parent: name, pattern: "^arn:aws[^:]*:iam::[0-9]*:role/.+$")
+            try self.validate(self.securityConfiguration, name: "securityConfiguration", parent: name, max: 255)
+            try self.validate(self.securityConfiguration, name: "securityConfiguration", parent: name, min: 1)
+            try self.validate(self.securityConfiguration, name: "securityConfiguration", parent: name, pattern: "^[\\u0020-\\uD7FF\\uE000-\\uFFFD\\uD800\\uDC00-\\uDBFF\\uDFFF\\t]*$")
+            try self.tags?.forEach {
+                try validate($0.key, name: "tags.key", parent: name, max: 128)
+                try validate($0.key, name: "tags.key", parent: name, min: 1)
+                try validate($0.value, name: "tags[\"\($0.key)\"]", parent: name, max: 256)
+            }
+            try self.validate(self.tags, name: "tags", parent: name, max: 50)
+            try self.validate(self.timeout, name: "timeout", parent: name, min: 1)
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case command = "Command"
+            case connections = "Connections"
+            case defaultArguments = "DefaultArguments"
+            case description = "Description"
+            case glueVersion = "GlueVersion"
+            case id = "Id"
+            case idleTimeout = "IdleTimeout"
+            case maxCapacity = "MaxCapacity"
+            case numberOfWorkers = "NumberOfWorkers"
+            case requestOrigin = "RequestOrigin"
+            case role = "Role"
+            case securityConfiguration = "SecurityConfiguration"
+            case tags = "Tags"
+            case timeout = "Timeout"
+            case workerType = "WorkerType"
+        }
+    }
+
+    public struct CreateSessionResponse: AWSDecodableShape {
+        /// Returns the session object in the response.
+        public let session: Session?
+
+        public init(session: Session? = nil) {
+            self.session = session
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case session = "Session"
         }
     }
 
@@ -4454,7 +4694,7 @@ extension Glue {
             try self.validate(self.policyHashCondition, name: "policyHashCondition", parent: name, pattern: "^[\\u0020-\\uD7FF\\uE000-\\uFFFD\\uD800\\uDC00-\\uDBFF\\uDFFF\\t]*$")
             try self.validate(self.resourceArn, name: "resourceArn", parent: name, max: 10240)
             try self.validate(self.resourceArn, name: "resourceArn", parent: name, min: 1)
-            try self.validate(self.resourceArn, name: "resourceArn", parent: name, pattern: "^arn:aws:glue:")
+            try self.validate(self.resourceArn, name: "resourceArn", parent: name, pattern: "^arn:(aws|aws-us-gov|aws-cn):glue:")
         }
 
         private enum CodingKeys: String, CodingKey {
@@ -4564,6 +4804,45 @@ extension Glue {
 
     public struct DeleteSecurityConfigurationResponse: AWSDecodableShape {
         public init() {}
+    }
+
+    public struct DeleteSessionRequest: AWSEncodableShape {
+        /// The ID of the session to be deleted.
+        public let id: String
+        /// The name of the origin of the delete session request.
+        public let requestOrigin: String?
+
+        public init(id: String, requestOrigin: String? = nil) {
+            self.id = id
+            self.requestOrigin = requestOrigin
+        }
+
+        public func validate(name: String) throws {
+            try self.validate(self.id, name: "id", parent: name, max: 255)
+            try self.validate(self.id, name: "id", parent: name, min: 1)
+            try self.validate(self.id, name: "id", parent: name, pattern: "^[\\u0020-\\uD7FF\\uE000-\\uFFFD\\uD800\\uDC00-\\uDBFF\\uDFFF\\t]*$")
+            try self.validate(self.requestOrigin, name: "requestOrigin", parent: name, max: 128)
+            try self.validate(self.requestOrigin, name: "requestOrigin", parent: name, min: 1)
+            try self.validate(self.requestOrigin, name: "requestOrigin", parent: name, pattern: "^[\\.\\-_A-Za-z0-9]+$")
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case id = "Id"
+            case requestOrigin = "RequestOrigin"
+        }
+    }
+
+    public struct DeleteSessionResponse: AWSDecodableShape {
+        /// Returns the ID of the deleted session.
+        public let id: String?
+
+        public init(id: String? = nil) {
+            self.id = id
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case id = "Id"
+        }
     }
 
     public struct DeleteTableRequest: AWSEncodableShape {
@@ -4752,6 +5031,27 @@ extension Glue {
 
         private enum CodingKeys: String, CodingKey {
             case name = "Name"
+        }
+    }
+
+    public struct DeltaTarget: AWSEncodableShape & AWSDecodableShape {
+        /// The name of the connection to use to connect to the Delta table target.
+        public let connectionName: String?
+        /// A list of the Amazon S3 paths to the Delta tables.
+        public let deltaTables: [String]?
+        /// Specifies whether to write the manifest files to the Delta table path.
+        public let writeManifest: Bool?
+
+        public init(connectionName: String? = nil, deltaTables: [String]? = nil, writeManifest: Bool? = nil) {
+            self.connectionName = connectionName
+            self.deltaTables = deltaTables
+            self.writeManifest = writeManifest
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case connectionName = "ConnectionName"
+            case deltaTables = "DeltaTables"
+            case writeManifest = "WriteManifest"
         }
     }
 
@@ -6905,7 +7205,7 @@ extension Glue {
         public func validate(name: String) throws {
             try self.validate(self.resourceArn, name: "resourceArn", parent: name, max: 10240)
             try self.validate(self.resourceArn, name: "resourceArn", parent: name, min: 1)
-            try self.validate(self.resourceArn, name: "resourceArn", parent: name, pattern: "^arn:aws:glue:")
+            try self.validate(self.resourceArn, name: "resourceArn", parent: name, pattern: "^arn:(aws|aws-us-gov|aws-cn):glue:")
         }
 
         private enum CodingKeys: String, CodingKey {
@@ -6966,7 +7266,7 @@ extension Glue {
     public struct GetSchemaByDefinitionResponse: AWSDecodableShape {
         /// The date and time the schema was created.
         public let createdTime: String?
-        /// The data format of the schema definition. Currently only AVRO and JSON are supported.
+        /// The data format of the schema definition. Currently AVRO, JSON and PROTOBUF are supported.
         public let dataFormat: DataFormat?
         /// The Amazon Resource Name (ARN) of the schema.
         public let schemaArn: String?
@@ -7015,7 +7315,7 @@ extension Glue {
         public let compatibility: Compatibility?
         /// The date and time the schema was created.
         public let createdTime: String?
-        /// The data format of the schema definition. Currently AVRO and JSON are supported.
+        /// The data format of the schema definition. Currently AVRO, JSON and PROTOBUF are supported.
         public let dataFormat: DataFormat?
         /// A description of schema if specified when created
         public let description: String?
@@ -7104,7 +7404,7 @@ extension Glue {
     public struct GetSchemaVersionResponse: AWSDecodableShape {
         /// The date and time the schema version was created.
         public let createdTime: String?
-        /// The data format of the schema definition. Currently AVRO and JSON are supported.
+        /// The data format of the schema definition. Currently AVRO, JSON and PROTOBUF are supported.
         public let dataFormat: DataFormat?
         /// The Amazon Resource Name (ARN) of the schema.
         public let schemaArn: String?
@@ -7251,6 +7551,88 @@ extension Glue {
         private enum CodingKeys: String, CodingKey {
             case nextToken = "NextToken"
             case securityConfigurations = "SecurityConfigurations"
+        }
+    }
+
+    public struct GetSessionRequest: AWSEncodableShape {
+        /// The ID of the session.
+        public let id: String
+        /// The origin of the request.
+        public let requestOrigin: String?
+
+        public init(id: String, requestOrigin: String? = nil) {
+            self.id = id
+            self.requestOrigin = requestOrigin
+        }
+
+        public func validate(name: String) throws {
+            try self.validate(self.id, name: "id", parent: name, max: 255)
+            try self.validate(self.id, name: "id", parent: name, min: 1)
+            try self.validate(self.id, name: "id", parent: name, pattern: "^[\\u0020-\\uD7FF\\uE000-\\uFFFD\\uD800\\uDC00-\\uDBFF\\uDFFF\\t]*$")
+            try self.validate(self.requestOrigin, name: "requestOrigin", parent: name, max: 128)
+            try self.validate(self.requestOrigin, name: "requestOrigin", parent: name, min: 1)
+            try self.validate(self.requestOrigin, name: "requestOrigin", parent: name, pattern: "^[\\.\\-_A-Za-z0-9]+$")
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case id = "Id"
+            case requestOrigin = "RequestOrigin"
+        }
+    }
+
+    public struct GetSessionResponse: AWSDecodableShape {
+        /// The session object is returned in the response.
+        public let session: Session?
+
+        public init(session: Session? = nil) {
+            self.session = session
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case session = "Session"
+        }
+    }
+
+    public struct GetStatementRequest: AWSEncodableShape {
+        /// The Id of the statement.
+        public let id: Int
+        /// The origin of the request.
+        public let requestOrigin: String?
+        /// The Session ID of the statement.
+        public let sessionId: String
+
+        public init(id: Int, requestOrigin: String? = nil, sessionId: String) {
+            self.id = id
+            self.requestOrigin = requestOrigin
+            self.sessionId = sessionId
+        }
+
+        public func validate(name: String) throws {
+            try self.validate(self.requestOrigin, name: "requestOrigin", parent: name, max: 128)
+            try self.validate(self.requestOrigin, name: "requestOrigin", parent: name, min: 1)
+            try self.validate(self.requestOrigin, name: "requestOrigin", parent: name, pattern: "^[\\.\\-_A-Za-z0-9]+$")
+            try self.validate(self.sessionId, name: "sessionId", parent: name, max: 255)
+            try self.validate(self.sessionId, name: "sessionId", parent: name, min: 1)
+            try self.validate(self.sessionId, name: "sessionId", parent: name, pattern: "^[\\u0020-\\uD7FF\\uE000-\\uFFFD\\uD800\\uDC00-\\uDBFF\\uDFFF\\t]*$")
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case id = "Id"
+            case requestOrigin = "RequestOrigin"
+            case sessionId = "SessionId"
+        }
+    }
+
+    public struct GetStatementResponse: AWSDecodableShape {
+        /// Returns the statement.
+        public let statement: Statement?
+
+        public init(statement: Statement? = nil) {
+            self.statement = statement
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case statement = "Statement"
         }
     }
 
@@ -7505,7 +7887,7 @@ extension Glue {
         public func validate(name: String) throws {
             try self.validate(self.resourceArn, name: "resourceArn", parent: name, max: 10240)
             try self.validate(self.resourceArn, name: "resourceArn", parent: name, min: 1)
-            try self.validate(self.resourceArn, name: "resourceArn", parent: name, pattern: "^arn:aws:glue:")
+            try self.validate(self.resourceArn, name: "resourceArn", parent: name, pattern: "^arn:(aws|aws-us-gov|aws-cn):glue:")
         }
 
         private enum CodingKeys: String, CodingKey {
@@ -7601,6 +7983,200 @@ extension Glue {
         private enum CodingKeys: String, CodingKey {
             case nextToken = "NextToken"
             case triggers = "Triggers"
+        }
+    }
+
+    public struct GetUnfilteredPartitionMetadataRequest: AWSEncodableShape {
+        public let auditContext: AuditContext?
+        public let catalogId: String
+        public let databaseName: String
+        public let partitionValues: [String]
+        public let supportedPermissionTypes: [PermissionType]
+        public let tableName: String
+
+        public init(auditContext: AuditContext? = nil, catalogId: String, databaseName: String, partitionValues: [String], supportedPermissionTypes: [PermissionType], tableName: String) {
+            self.auditContext = auditContext
+            self.catalogId = catalogId
+            self.databaseName = databaseName
+            self.partitionValues = partitionValues
+            self.supportedPermissionTypes = supportedPermissionTypes
+            self.tableName = tableName
+        }
+
+        public func validate(name: String) throws {
+            try self.auditContext?.validate(name: "\(name).auditContext")
+            try self.validate(self.catalogId, name: "catalogId", parent: name, max: 255)
+            try self.validate(self.catalogId, name: "catalogId", parent: name, min: 1)
+            try self.validate(self.catalogId, name: "catalogId", parent: name, pattern: "^[\\u0020-\\uD7FF\\uE000-\\uFFFD\\uD800\\uDC00-\\uDBFF\\uDFFF\\t]*$")
+            try self.validate(self.databaseName, name: "databaseName", parent: name, max: 255)
+            try self.validate(self.databaseName, name: "databaseName", parent: name, min: 1)
+            try self.validate(self.databaseName, name: "databaseName", parent: name, pattern: "^[\\u0020-\\uD7FF\\uE000-\\uFFFD\\uD800\\uDC00-\\uDBFF\\uDFFF\\t]*$")
+            try self.partitionValues.forEach {
+                try validate($0, name: "partitionValues[]", parent: name, max: 1024)
+            }
+            try self.validate(self.supportedPermissionTypes, name: "supportedPermissionTypes", parent: name, max: 255)
+            try self.validate(self.supportedPermissionTypes, name: "supportedPermissionTypes", parent: name, min: 1)
+            try self.validate(self.tableName, name: "tableName", parent: name, max: 255)
+            try self.validate(self.tableName, name: "tableName", parent: name, min: 1)
+            try self.validate(self.tableName, name: "tableName", parent: name, pattern: "^[\\u0020-\\uD7FF\\uE000-\\uFFFD\\uD800\\uDC00-\\uDBFF\\uDFFF\\t]*$")
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case auditContext = "AuditContext"
+            case catalogId = "CatalogId"
+            case databaseName = "DatabaseName"
+            case partitionValues = "PartitionValues"
+            case supportedPermissionTypes = "SupportedPermissionTypes"
+            case tableName = "TableName"
+        }
+    }
+
+    public struct GetUnfilteredPartitionMetadataResponse: AWSDecodableShape {
+        public let authorizedColumns: [String]?
+        public let isRegisteredWithLakeFormation: Bool?
+        public let partition: Partition?
+
+        public init(authorizedColumns: [String]? = nil, isRegisteredWithLakeFormation: Bool? = nil, partition: Partition? = nil) {
+            self.authorizedColumns = authorizedColumns
+            self.isRegisteredWithLakeFormation = isRegisteredWithLakeFormation
+            self.partition = partition
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case authorizedColumns = "AuthorizedColumns"
+            case isRegisteredWithLakeFormation = "IsRegisteredWithLakeFormation"
+            case partition = "Partition"
+        }
+    }
+
+    public struct GetUnfilteredPartitionsMetadataRequest: AWSEncodableShape {
+        public let auditContext: AuditContext?
+        public let catalogId: String
+        public let databaseName: String
+        public let expression: String?
+        public let maxResults: Int?
+        public let nextToken: String?
+        public let segment: Segment?
+        public let supportedPermissionTypes: [PermissionType]
+        public let tableName: String
+
+        public init(auditContext: AuditContext? = nil, catalogId: String, databaseName: String, expression: String? = nil, maxResults: Int? = nil, nextToken: String? = nil, segment: Segment? = nil, supportedPermissionTypes: [PermissionType], tableName: String) {
+            self.auditContext = auditContext
+            self.catalogId = catalogId
+            self.databaseName = databaseName
+            self.expression = expression
+            self.maxResults = maxResults
+            self.nextToken = nextToken
+            self.segment = segment
+            self.supportedPermissionTypes = supportedPermissionTypes
+            self.tableName = tableName
+        }
+
+        public func validate(name: String) throws {
+            try self.auditContext?.validate(name: "\(name).auditContext")
+            try self.validate(self.catalogId, name: "catalogId", parent: name, max: 255)
+            try self.validate(self.catalogId, name: "catalogId", parent: name, min: 1)
+            try self.validate(self.catalogId, name: "catalogId", parent: name, pattern: "^[\\u0020-\\uD7FF\\uE000-\\uFFFD\\uD800\\uDC00-\\uDBFF\\uDFFF\\t]*$")
+            try self.validate(self.databaseName, name: "databaseName", parent: name, max: 255)
+            try self.validate(self.databaseName, name: "databaseName", parent: name, min: 1)
+            try self.validate(self.databaseName, name: "databaseName", parent: name, pattern: "^[\\u0020-\\uD7FF\\uE000-\\uFFFD\\uD800\\uDC00-\\uDBFF\\uDFFF\\t]*$")
+            try self.validate(self.expression, name: "expression", parent: name, max: 2048)
+            try self.validate(self.expression, name: "expression", parent: name, pattern: "^[\\u0020-\\uD7FF\\uE000-\\uFFFD\\uD800\\uDC00-\\uDBFF\\uDFFF\\r\\n\\t]*$")
+            try self.validate(self.maxResults, name: "maxResults", parent: name, max: 1000)
+            try self.validate(self.maxResults, name: "maxResults", parent: name, min: 1)
+            try self.segment?.validate(name: "\(name).segment")
+            try self.validate(self.supportedPermissionTypes, name: "supportedPermissionTypes", parent: name, max: 255)
+            try self.validate(self.supportedPermissionTypes, name: "supportedPermissionTypes", parent: name, min: 1)
+            try self.validate(self.tableName, name: "tableName", parent: name, max: 255)
+            try self.validate(self.tableName, name: "tableName", parent: name, min: 1)
+            try self.validate(self.tableName, name: "tableName", parent: name, pattern: "^[\\u0020-\\uD7FF\\uE000-\\uFFFD\\uD800\\uDC00-\\uDBFF\\uDFFF\\t]*$")
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case auditContext = "AuditContext"
+            case catalogId = "CatalogId"
+            case databaseName = "DatabaseName"
+            case expression = "Expression"
+            case maxResults = "MaxResults"
+            case nextToken = "NextToken"
+            case segment = "Segment"
+            case supportedPermissionTypes = "SupportedPermissionTypes"
+            case tableName = "TableName"
+        }
+    }
+
+    public struct GetUnfilteredPartitionsMetadataResponse: AWSDecodableShape {
+        public let nextToken: String?
+        public let unfilteredPartitions: [UnfilteredPartition]?
+
+        public init(nextToken: String? = nil, unfilteredPartitions: [UnfilteredPartition]? = nil) {
+            self.nextToken = nextToken
+            self.unfilteredPartitions = unfilteredPartitions
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case nextToken = "NextToken"
+            case unfilteredPartitions = "UnfilteredPartitions"
+        }
+    }
+
+    public struct GetUnfilteredTableMetadataRequest: AWSEncodableShape {
+        public let auditContext: AuditContext?
+        public let catalogId: String
+        public let databaseName: String
+        public let name: String
+        public let supportedPermissionTypes: [PermissionType]
+
+        public init(auditContext: AuditContext? = nil, catalogId: String, databaseName: String, name: String, supportedPermissionTypes: [PermissionType]) {
+            self.auditContext = auditContext
+            self.catalogId = catalogId
+            self.databaseName = databaseName
+            self.name = name
+            self.supportedPermissionTypes = supportedPermissionTypes
+        }
+
+        public func validate(name: String) throws {
+            try self.auditContext?.validate(name: "\(name).auditContext")
+            try self.validate(self.catalogId, name: "catalogId", parent: name, max: 255)
+            try self.validate(self.catalogId, name: "catalogId", parent: name, min: 1)
+            try self.validate(self.catalogId, name: "catalogId", parent: name, pattern: "^[\\u0020-\\uD7FF\\uE000-\\uFFFD\\uD800\\uDC00-\\uDBFF\\uDFFF\\t]*$")
+            try self.validate(self.databaseName, name: "databaseName", parent: name, max: 255)
+            try self.validate(self.databaseName, name: "databaseName", parent: name, min: 1)
+            try self.validate(self.databaseName, name: "databaseName", parent: name, pattern: "^[\\u0020-\\uD7FF\\uE000-\\uFFFD\\uD800\\uDC00-\\uDBFF\\uDFFF\\t]*$")
+            try self.validate(self.name, name: "name", parent: name, max: 255)
+            try self.validate(self.name, name: "name", parent: name, min: 1)
+            try self.validate(self.name, name: "name", parent: name, pattern: "^[\\u0020-\\uD7FF\\uE000-\\uFFFD\\uD800\\uDC00-\\uDBFF\\uDFFF\\t]*$")
+            try self.validate(self.supportedPermissionTypes, name: "supportedPermissionTypes", parent: name, max: 255)
+            try self.validate(self.supportedPermissionTypes, name: "supportedPermissionTypes", parent: name, min: 1)
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case auditContext = "AuditContext"
+            case catalogId = "CatalogId"
+            case databaseName = "DatabaseName"
+            case name = "Name"
+            case supportedPermissionTypes = "SupportedPermissionTypes"
+        }
+    }
+
+    public struct GetUnfilteredTableMetadataResponse: AWSDecodableShape {
+        public let authorizedColumns: [String]?
+        public let cellFilters: [ColumnRowFilter]?
+        public let isRegisteredWithLakeFormation: Bool?
+        public let table: Table?
+
+        public init(authorizedColumns: [String]? = nil, cellFilters: [ColumnRowFilter]? = nil, isRegisteredWithLakeFormation: Bool? = nil, table: Table? = nil) {
+            self.authorizedColumns = authorizedColumns
+            self.cellFilters = cellFilters
+            self.isRegisteredWithLakeFormation = isRegisteredWithLakeFormation
+            self.table = table
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case authorizedColumns = "AuthorizedColumns"
+            case cellFilters = "CellFilters"
+            case isRegisteredWithLakeFormation = "IsRegisteredWithLakeFormation"
+            case table = "Table"
         }
     }
 
@@ -8239,6 +8815,7 @@ extension Glue {
 
         public func validate(name: String) throws {
             try self.validate(self.pythonVersion, name: "pythonVersion", parent: name, pattern: "^[2-3]$")
+            try self.validate(self.scriptLocation, name: "scriptLocation", parent: name, max: 400_000)
         }
 
         private enum CodingKeys: String, CodingKey {
@@ -8564,6 +9141,25 @@ extension Glue {
 
         private enum CodingKeys: String, CodingKey {
             case outputS3Path = "OutputS3Path"
+        }
+    }
+
+    public struct LakeFormationConfiguration: AWSEncodableShape & AWSDecodableShape {
+        public let accountId: String?
+        public let useLakeFormationCredentials: Bool?
+
+        public init(accountId: String? = nil, useLakeFormationCredentials: Bool? = nil) {
+            self.accountId = accountId
+            self.useLakeFormationCredentials = useLakeFormationCredentials
+        }
+
+        public func validate(name: String) throws {
+            try self.validate(self.accountId, name: "accountId", parent: name, max: 12)
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case accountId = "AccountId"
+            case useLakeFormationCredentials = "UseLakeFormationCredentials"
         }
     }
 
@@ -9023,6 +9619,113 @@ extension Glue {
         private enum CodingKeys: String, CodingKey {
             case nextToken = "NextToken"
             case schemas = "Schemas"
+        }
+    }
+
+    public struct ListSessionsRequest: AWSEncodableShape {
+        /// The maximum number of results.
+        public let maxResults: Int?
+        /// The token for the next set of results, or null if there are no more result.
+        public let nextToken: String?
+        /// The origin of the request.
+        public let requestOrigin: String?
+        /// Tags belonging to the session.
+        public let tags: [String: String]?
+
+        public init(maxResults: Int? = nil, nextToken: String? = nil, requestOrigin: String? = nil, tags: [String: String]? = nil) {
+            self.maxResults = maxResults
+            self.nextToken = nextToken
+            self.requestOrigin = requestOrigin
+            self.tags = tags
+        }
+
+        public func validate(name: String) throws {
+            try self.validate(self.maxResults, name: "maxResults", parent: name, max: 1000)
+            try self.validate(self.maxResults, name: "maxResults", parent: name, min: 1)
+            try self.validate(self.nextToken, name: "nextToken", parent: name, max: 400_000)
+            try self.validate(self.requestOrigin, name: "requestOrigin", parent: name, max: 128)
+            try self.validate(self.requestOrigin, name: "requestOrigin", parent: name, min: 1)
+            try self.validate(self.requestOrigin, name: "requestOrigin", parent: name, pattern: "^[\\.\\-_A-Za-z0-9]+$")
+            try self.tags?.forEach {
+                try validate($0.key, name: "tags.key", parent: name, max: 128)
+                try validate($0.key, name: "tags.key", parent: name, min: 1)
+                try validate($0.value, name: "tags[\"\($0.key)\"]", parent: name, max: 256)
+            }
+            try self.validate(self.tags, name: "tags", parent: name, max: 50)
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case maxResults = "MaxResults"
+            case nextToken = "NextToken"
+            case requestOrigin = "RequestOrigin"
+            case tags = "Tags"
+        }
+    }
+
+    public struct ListSessionsResponse: AWSDecodableShape {
+        /// Returns the Id of the session.
+        public let ids: [String]?
+        /// The token for the next set of results, or null if there are no more result.
+        public let nextToken: String?
+        /// Returns the session object.
+        public let sessions: [Session]?
+
+        public init(ids: [String]? = nil, nextToken: String? = nil, sessions: [Session]? = nil) {
+            self.ids = ids
+            self.nextToken = nextToken
+            self.sessions = sessions
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case ids = "Ids"
+            case nextToken = "NextToken"
+            case sessions = "Sessions"
+        }
+    }
+
+    public struct ListStatementsRequest: AWSEncodableShape {
+        public let nextToken: String?
+        /// The origin of the request to list statements.
+        public let requestOrigin: String?
+        /// The Session ID of the statements.
+        public let sessionId: String
+
+        public init(nextToken: String? = nil, requestOrigin: String? = nil, sessionId: String) {
+            self.nextToken = nextToken
+            self.requestOrigin = requestOrigin
+            self.sessionId = sessionId
+        }
+
+        public func validate(name: String) throws {
+            try self.validate(self.nextToken, name: "nextToken", parent: name, max: 400_000)
+            try self.validate(self.requestOrigin, name: "requestOrigin", parent: name, max: 128)
+            try self.validate(self.requestOrigin, name: "requestOrigin", parent: name, min: 1)
+            try self.validate(self.requestOrigin, name: "requestOrigin", parent: name, pattern: "^[\\.\\-_A-Za-z0-9]+$")
+            try self.validate(self.sessionId, name: "sessionId", parent: name, max: 255)
+            try self.validate(self.sessionId, name: "sessionId", parent: name, min: 1)
+            try self.validate(self.sessionId, name: "sessionId", parent: name, pattern: "^[\\u0020-\\uD7FF\\uE000-\\uFFFD\\uD800\\uDC00-\\uDBFF\\uDFFF\\t]*$")
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case nextToken = "NextToken"
+            case requestOrigin = "RequestOrigin"
+            case sessionId = "SessionId"
+        }
+    }
+
+    public struct ListStatementsResponse: AWSDecodableShape {
+        public let nextToken: String?
+        /// Returns the list of statements.
+        public let statements: [Statement]?
+
+        public init(nextToken: String? = nil, statements: [Statement]? = nil) {
+            self.nextToken = nextToken
+            self.statements = statements
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case nextToken = "NextToken"
+            case statements = "Statements"
         }
     }
 
@@ -9850,11 +10553,10 @@ extension Glue {
             try self.validate(self.policyHashCondition, name: "policyHashCondition", parent: name, max: 255)
             try self.validate(self.policyHashCondition, name: "policyHashCondition", parent: name, min: 1)
             try self.validate(self.policyHashCondition, name: "policyHashCondition", parent: name, pattern: "^[\\u0020-\\uD7FF\\uE000-\\uFFFD\\uD800\\uDC00-\\uDBFF\\uDFFF\\t]*$")
-            try self.validate(self.policyInJson, name: "policyInJson", parent: name, max: 10240)
             try self.validate(self.policyInJson, name: "policyInJson", parent: name, min: 2)
             try self.validate(self.resourceArn, name: "resourceArn", parent: name, max: 10240)
             try self.validate(self.resourceArn, name: "resourceArn", parent: name, min: 1)
-            try self.validate(self.resourceArn, name: "resourceArn", parent: name, pattern: "^arn:aws:glue:")
+            try self.validate(self.resourceArn, name: "resourceArn", parent: name, pattern: "^arn:(aws|aws-us-gov|aws-cn):glue:")
         }
 
         private enum CodingKeys: String, CodingKey {
@@ -10137,7 +10839,7 @@ extension Glue {
         public func validate(name: String) throws {
             try self.validate(self.registryArn, name: "registryArn", parent: name, max: 10240)
             try self.validate(self.registryArn, name: "registryArn", parent: name, min: 1)
-            try self.validate(self.registryArn, name: "registryArn", parent: name, pattern: "^arn:aws:glue:")
+            try self.validate(self.registryArn, name: "registryArn", parent: name, pattern: "^arn:(aws|aws-us-gov|aws-cn):glue:")
             try self.validate(self.registryName, name: "registryName", parent: name, max: 255)
             try self.validate(self.registryName, name: "registryName", parent: name, min: 1)
             try self.validate(self.registryName, name: "registryName", parent: name, pattern: "^[a-zA-Z0-9-_$#.]+$")
@@ -10362,6 +11064,50 @@ extension Glue {
         }
     }
 
+    public struct RunStatementRequest: AWSEncodableShape {
+        /// The statement code to be run.
+        public let code: String
+        /// The origin of the request.
+        public let requestOrigin: String?
+        /// The Session Id of the statement to be run.
+        public let sessionId: String
+
+        public init(code: String, requestOrigin: String? = nil, sessionId: String) {
+            self.code = code
+            self.requestOrigin = requestOrigin
+            self.sessionId = sessionId
+        }
+
+        public func validate(name: String) throws {
+            try self.validate(self.code, name: "code", parent: name, max: 68000)
+            try self.validate(self.requestOrigin, name: "requestOrigin", parent: name, max: 128)
+            try self.validate(self.requestOrigin, name: "requestOrigin", parent: name, min: 1)
+            try self.validate(self.requestOrigin, name: "requestOrigin", parent: name, pattern: "^[\\.\\-_A-Za-z0-9]+$")
+            try self.validate(self.sessionId, name: "sessionId", parent: name, max: 255)
+            try self.validate(self.sessionId, name: "sessionId", parent: name, min: 1)
+            try self.validate(self.sessionId, name: "sessionId", parent: name, pattern: "^[\\u0020-\\uD7FF\\uE000-\\uFFFD\\uD800\\uDC00-\\uDBFF\\uDFFF\\t]*$")
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case code = "Code"
+            case requestOrigin = "RequestOrigin"
+            case sessionId = "SessionId"
+        }
+    }
+
+    public struct RunStatementResponse: AWSDecodableShape {
+        /// Returns the Id of the statement that was run.
+        public let id: Int?
+
+        public init(id: Int? = nil) {
+            self.id = id
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case id = "Id"
+        }
+    }
+
     public struct S3Encryption: AWSEncodableShape & AWSDecodableShape {
         /// The Amazon Resource Name (ARN) of the KMS key to be used to encrypt the data.
         public let kmsKeyArn: String?
@@ -10495,7 +11241,7 @@ extension Glue {
             try self.validate(self.registryName, name: "registryName", parent: name, pattern: "^[a-zA-Z0-9-_$#.]+$")
             try self.validate(self.schemaArn, name: "schemaArn", parent: name, max: 10240)
             try self.validate(self.schemaArn, name: "schemaArn", parent: name, min: 1)
-            try self.validate(self.schemaArn, name: "schemaArn", parent: name, pattern: "^arn:aws:glue:")
+            try self.validate(self.schemaArn, name: "schemaArn", parent: name, pattern: "^arn:(aws|aws-us-gov|aws-cn):glue:")
             try self.validate(self.schemaName, name: "schemaName", parent: name, max: 255)
             try self.validate(self.schemaName, name: "schemaName", parent: name, min: 1)
             try self.validate(self.schemaName, name: "schemaName", parent: name, pattern: "^[a-zA-Z0-9-_$#.]+$")
@@ -10795,6 +11541,91 @@ extension Glue {
             case name = "Name"
             case parameters = "Parameters"
             case serializationLibrary = "SerializationLibrary"
+        }
+    }
+
+    public struct Session: AWSDecodableShape {
+        /// The command object.See SessionCommand.
+        public let command: SessionCommand?
+        /// The number of connections used for the session.
+        public let connections: ConnectionsList?
+        /// The time and date when the session was created.
+        public let createdOn: Date?
+        /// A map array of key-value pairs. Max is 75 pairs.
+        public let defaultArguments: [String: String]?
+        /// The description of the session.
+        public let description: String?
+        /// The error message displayed during the session.
+        public let errorMessage: String?
+        /// The Glue version determines the versions of Apache Spark and Python that AWS Glue supports.  The GlueVersion must be greater than 2.0.
+        public let glueVersion: String?
+        /// The ID of the session.
+        public let id: String?
+        /// The number of AWS Glue data processing units (DPUs) that can be allocated when the job runs.  A DPU is a relative measure of processing power that consists of 4 vCPUs of compute capacity and 16 GB memory.
+        public let maxCapacity: Double?
+        /// The code execution progress of the session.
+        public let progress: Double?
+        /// The name or Amazon Resource Name (ARN) of the IAM role associated with the Session.
+        public let role: String?
+        /// The name of the SecurityConfiguration structure to be used with the session.
+        public let securityConfiguration: String?
+        /// The session status.
+        public let status: SessionStatus?
+
+        public init(command: SessionCommand? = nil, connections: ConnectionsList? = nil, createdOn: Date? = nil, defaultArguments: [String: String]? = nil, description: String? = nil, errorMessage: String? = nil, glueVersion: String? = nil, id: String? = nil, maxCapacity: Double? = nil, progress: Double? = nil, role: String? = nil, securityConfiguration: String? = nil, status: SessionStatus? = nil) {
+            self.command = command
+            self.connections = connections
+            self.createdOn = createdOn
+            self.defaultArguments = defaultArguments
+            self.description = description
+            self.errorMessage = errorMessage
+            self.glueVersion = glueVersion
+            self.id = id
+            self.maxCapacity = maxCapacity
+            self.progress = progress
+            self.role = role
+            self.securityConfiguration = securityConfiguration
+            self.status = status
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case command = "Command"
+            case connections = "Connections"
+            case createdOn = "CreatedOn"
+            case defaultArguments = "DefaultArguments"
+            case description = "Description"
+            case errorMessage = "ErrorMessage"
+            case glueVersion = "GlueVersion"
+            case id = "Id"
+            case maxCapacity = "MaxCapacity"
+            case progress = "Progress"
+            case role = "Role"
+            case securityConfiguration = "SecurityConfiguration"
+            case status = "Status"
+        }
+    }
+
+    public struct SessionCommand: AWSEncodableShape & AWSDecodableShape {
+        /// Specifies the name of the SessionCommand.Can be 'glueetl' or 'gluestreaming'.
+        public let name: String?
+        /// Specifies the Python version. The Python version indicates the version supported for jobs of type Spark.
+        public let pythonVersion: String?
+
+        public init(name: String? = nil, pythonVersion: String? = nil) {
+            self.name = name
+            self.pythonVersion = pythonVersion
+        }
+
+        public func validate(name: String) throws {
+            try self.validate(self.name, name: "name", parent: name, max: 255)
+            try self.validate(self.name, name: "name", parent: name, min: 1)
+            try self.validate(self.name, name: "name", parent: name, pattern: "^[\\u0020-\\uD7FF\\uE000-\\uFFFD\\uD800\\uDC00-\\uDBFF\\uDFFF\\t]*$")
+            try self.validate(self.pythonVersion, name: "pythonVersion", parent: name, pattern: "^[2-3]$")
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case name = "Name"
+            case pythonVersion = "PythonVersion"
         }
     }
 
@@ -11212,19 +12043,28 @@ extension Glue {
     public struct StartWorkflowRunRequest: AWSEncodableShape {
         /// The name of the workflow to start.
         public let name: String
+        /// The workflow run properties for the new workflow run.
+        public let runProperties: [String: String]?
 
-        public init(name: String) {
+        public init(name: String, runProperties: [String: String]? = nil) {
             self.name = name
+            self.runProperties = runProperties
         }
 
         public func validate(name: String) throws {
             try self.validate(self.name, name: "name", parent: name, max: 255)
             try self.validate(self.name, name: "name", parent: name, min: 1)
             try self.validate(self.name, name: "name", parent: name, pattern: "^[\\u0020-\\uD7FF\\uE000-\\uFFFD\\uD800\\uDC00-\\uDBFF\\uDFFF\\t]*$")
+            try self.runProperties?.forEach {
+                try validate($0.key, name: "runProperties.key", parent: name, max: 255)
+                try validate($0.key, name: "runProperties.key", parent: name, min: 1)
+                try validate($0.key, name: "runProperties.key", parent: name, pattern: "^[\\u0020-\\uD7FF\\uE000-\\uFFFD\\uD800\\uDC00-\\uDBFF\\uDFFF\\t]*$")
+            }
         }
 
         private enum CodingKeys: String, CodingKey {
             case name = "Name"
+            case runProperties = "RunProperties"
         }
     }
 
@@ -11255,6 +12095,89 @@ extension Glue {
         private enum CodingKeys: String, CodingKey {
             case batchSize = "BatchSize"
             case batchWindow = "BatchWindow"
+        }
+    }
+
+    public struct Statement: AWSDecodableShape {
+        /// The execution code of the statement.
+        public let code: String?
+        /// The unix time and date that the job definition was completed.
+        public let completedOn: Int64?
+        /// The ID of the statement.
+        public let id: Int?
+        /// The output in JSON.
+        public let output: StatementOutput?
+        /// The code execution progress.
+        public let progress: Double?
+        /// The unix time and date that the job definition was started.
+        public let startedOn: Int64?
+        /// The state while request is actioned.
+        public let state: StatementState?
+
+        public init(code: String? = nil, completedOn: Int64? = nil, id: Int? = nil, output: StatementOutput? = nil, progress: Double? = nil, startedOn: Int64? = nil, state: StatementState? = nil) {
+            self.code = code
+            self.completedOn = completedOn
+            self.id = id
+            self.output = output
+            self.progress = progress
+            self.startedOn = startedOn
+            self.state = state
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case code = "Code"
+            case completedOn = "CompletedOn"
+            case id = "Id"
+            case output = "Output"
+            case progress = "Progress"
+            case startedOn = "StartedOn"
+            case state = "State"
+        }
+    }
+
+    public struct StatementOutput: AWSDecodableShape {
+        /// The code execution output.
+        public let data: StatementOutputData?
+        /// The name of the error in the output.
+        public let errorName: String?
+        /// The error value of the output.
+        public let errorValue: String?
+        /// The execution count of the output.
+        public let executionCount: Int?
+        /// The status of the code execution output.
+        public let status: StatementState?
+        /// The traceback of the output.
+        public let traceback: [String]?
+
+        public init(data: StatementOutputData? = nil, errorName: String? = nil, errorValue: String? = nil, executionCount: Int? = nil, status: StatementState? = nil, traceback: [String]? = nil) {
+            self.data = data
+            self.errorName = errorName
+            self.errorValue = errorValue
+            self.executionCount = executionCount
+            self.status = status
+            self.traceback = traceback
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case data = "Data"
+            case errorName = "ErrorName"
+            case errorValue = "ErrorValue"
+            case executionCount = "ExecutionCount"
+            case status = "Status"
+            case traceback = "Traceback"
+        }
+    }
+
+    public struct StatementOutputData: AWSDecodableShape {
+        /// The code execution output in text format.
+        public let textPlain: String?
+
+        public init(textPlain: String? = nil) {
+            self.textPlain = textPlain
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case textPlain = "TextPlain"
         }
     }
 
@@ -11302,6 +12225,45 @@ extension Glue {
 
     public struct StopCrawlerScheduleResponse: AWSDecodableShape {
         public init() {}
+    }
+
+    public struct StopSessionRequest: AWSEncodableShape {
+        /// The ID of the session to be stopped.
+        public let id: String
+        /// The origin of the request.
+        public let requestOrigin: String?
+
+        public init(id: String, requestOrigin: String? = nil) {
+            self.id = id
+            self.requestOrigin = requestOrigin
+        }
+
+        public func validate(name: String) throws {
+            try self.validate(self.id, name: "id", parent: name, max: 255)
+            try self.validate(self.id, name: "id", parent: name, min: 1)
+            try self.validate(self.id, name: "id", parent: name, pattern: "^[\\u0020-\\uD7FF\\uE000-\\uFFFD\\uD800\\uDC00-\\uDBFF\\uDFFF\\t]*$")
+            try self.validate(self.requestOrigin, name: "requestOrigin", parent: name, max: 128)
+            try self.validate(self.requestOrigin, name: "requestOrigin", parent: name, min: 1)
+            try self.validate(self.requestOrigin, name: "requestOrigin", parent: name, pattern: "^[\\.\\-_A-Za-z0-9]+$")
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case id = "Id"
+            case requestOrigin = "RequestOrigin"
+        }
+    }
+
+    public struct StopSessionResponse: AWSDecodableShape {
+        /// Returns the Id of the stopped session.
+        public let id: String?
+
+        public init(id: String? = nil) {
+            self.id = id
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case id = "Id"
+        }
     }
 
     public struct StopTriggerRequest: AWSEncodableShape {
@@ -11367,6 +12329,7 @@ extension Glue {
     }
 
     public struct StorageDescriptor: AWSEncodableShape & AWSDecodableShape {
+        public let additionalLocations: [String]?
         /// A list of reducer grouping columns, clustering columns, and bucketing columns in the table.
         public let bucketColumns: [String]?
         /// A list of the Columns in the table.
@@ -11396,7 +12359,8 @@ extension Glue {
         ///  True if the table data is stored in subdirectories, or False if not.
         public let storedAsSubDirectories: Bool?
 
-        public init(bucketColumns: [String]? = nil, columns: [Column]? = nil, compressed: Bool? = nil, inputFormat: String? = nil, location: String? = nil, numberOfBuckets: Int? = nil, outputFormat: String? = nil, parameters: [String: String]? = nil, schemaReference: SchemaReference? = nil, serdeInfo: SerDeInfo? = nil, skewedInfo: SkewedInfo? = nil, sortColumns: [Order]? = nil, storedAsSubDirectories: Bool? = nil) {
+        public init(additionalLocations: [String]? = nil, bucketColumns: [String]? = nil, columns: [Column]? = nil, compressed: Bool? = nil, inputFormat: String? = nil, location: String? = nil, numberOfBuckets: Int? = nil, outputFormat: String? = nil, parameters: [String: String]? = nil, schemaReference: SchemaReference? = nil, serdeInfo: SerDeInfo? = nil, skewedInfo: SkewedInfo? = nil, sortColumns: [Order]? = nil, storedAsSubDirectories: Bool? = nil) {
+            self.additionalLocations = additionalLocations
             self.bucketColumns = bucketColumns
             self.columns = columns
             self.compressed = compressed
@@ -11413,6 +12377,10 @@ extension Glue {
         }
 
         public func validate(name: String) throws {
+            try self.additionalLocations?.forEach {
+                try validate($0, name: "additionalLocations[]", parent: name, max: 2056)
+                try validate($0, name: "additionalLocations[]", parent: name, pattern: "^[\\u0020-\\uD7FF\\uE000-\\uFFFD\\uD800\\uDC00-\\uDBFF\\uDFFF\\r\\n\\t]*$")
+            }
             try self.bucketColumns?.forEach {
                 try validate($0, name: "bucketColumns[]", parent: name, max: 255)
                 try validate($0, name: "bucketColumns[]", parent: name, min: 1)
@@ -11442,6 +12410,7 @@ extension Glue {
         }
 
         private enum CodingKeys: String, CodingKey {
+            case additionalLocations = "AdditionalLocations"
             case bucketColumns = "BucketColumns"
             case columns = "Columns"
             case compressed = "Compressed"
@@ -11526,12 +12495,13 @@ extension Glue {
         public let targetTable: TableIdentifier?
         /// The last time that the table was updated.
         public let updateTime: Date?
+        public let versionId: String?
         /// If the table is a view, the expanded text of the view; otherwise null.
         public let viewExpandedText: String?
         /// If the table is a view, the original text of the view; otherwise null.
         public let viewOriginalText: String?
 
-        public init(catalogId: String? = nil, createdBy: String? = nil, createTime: Date? = nil, databaseName: String? = nil, description: String? = nil, isRegisteredWithLakeFormation: Bool? = nil, lastAccessTime: Date? = nil, lastAnalyzedTime: Date? = nil, name: String, owner: String? = nil, parameters: [String: String]? = nil, partitionKeys: [Column]? = nil, retention: Int? = nil, storageDescriptor: StorageDescriptor? = nil, tableType: String? = nil, targetTable: TableIdentifier? = nil, updateTime: Date? = nil, viewExpandedText: String? = nil, viewOriginalText: String? = nil) {
+        public init(catalogId: String? = nil, createdBy: String? = nil, createTime: Date? = nil, databaseName: String? = nil, description: String? = nil, isRegisteredWithLakeFormation: Bool? = nil, lastAccessTime: Date? = nil, lastAnalyzedTime: Date? = nil, name: String, owner: String? = nil, parameters: [String: String]? = nil, partitionKeys: [Column]? = nil, retention: Int? = nil, storageDescriptor: StorageDescriptor? = nil, tableType: String? = nil, targetTable: TableIdentifier? = nil, updateTime: Date? = nil, versionId: String? = nil, viewExpandedText: String? = nil, viewOriginalText: String? = nil) {
             self.catalogId = catalogId
             self.createdBy = createdBy
             self.createTime = createTime
@@ -11549,6 +12519,7 @@ extension Glue {
             self.tableType = tableType
             self.targetTable = targetTable
             self.updateTime = updateTime
+            self.versionId = versionId
             self.viewExpandedText = viewExpandedText
             self.viewOriginalText = viewOriginalText
         }
@@ -11571,6 +12542,7 @@ extension Glue {
             case tableType = "TableType"
             case targetTable = "TargetTable"
             case updateTime = "UpdateTime"
+            case versionId = "VersionId"
             case viewExpandedText = "ViewExpandedText"
             case viewOriginalText = "ViewOriginalText"
         }
@@ -11766,7 +12738,7 @@ extension Glue {
         public func validate(name: String) throws {
             try self.validate(self.resourceArn, name: "resourceArn", parent: name, max: 10240)
             try self.validate(self.resourceArn, name: "resourceArn", parent: name, min: 1)
-            try self.validate(self.resourceArn, name: "resourceArn", parent: name, pattern: "^arn:aws:glue:")
+            try self.validate(self.resourceArn, name: "resourceArn", parent: name, pattern: "^arn:(aws|aws-us-gov|aws-cn):glue:")
             try self.tagsToAdd.forEach {
                 try validate($0.key, name: "tagsToAdd.key", parent: name, max: 128)
                 try validate($0.key, name: "tagsToAdd.key", parent: name, min: 1)
@@ -12134,6 +13106,24 @@ extension Glue {
         }
     }
 
+    public struct UnfilteredPartition: AWSDecodableShape {
+        public let authorizedColumns: [String]?
+        public let isRegisteredWithLakeFormation: Bool?
+        public let partition: Partition?
+
+        public init(authorizedColumns: [String]? = nil, isRegisteredWithLakeFormation: Bool? = nil, partition: Partition? = nil) {
+            self.authorizedColumns = authorizedColumns
+            self.isRegisteredWithLakeFormation = isRegisteredWithLakeFormation
+            self.partition = partition
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case authorizedColumns = "AuthorizedColumns"
+            case isRegisteredWithLakeFormation = "IsRegisteredWithLakeFormation"
+            case partition = "Partition"
+        }
+    }
+
     public struct UntagResourceRequest: AWSEncodableShape {
         /// The Amazon Resource Name (ARN) of the resource from which to remove the tags.
         public let resourceArn: String
@@ -12148,7 +13138,7 @@ extension Glue {
         public func validate(name: String) throws {
             try self.validate(self.resourceArn, name: "resourceArn", parent: name, max: 10240)
             try self.validate(self.resourceArn, name: "resourceArn", parent: name, min: 1)
-            try self.validate(self.resourceArn, name: "resourceArn", parent: name, pattern: "^arn:aws:glue:")
+            try self.validate(self.resourceArn, name: "resourceArn", parent: name, pattern: "^arn:(aws|aws-us-gov|aws-cn):glue:")
             try self.tagsToRemove.forEach {
                 try validate($0, name: "tagsToRemove[]", parent: name, max: 128)
                 try validate($0, name: "tagsToRemove[]", parent: name, min: 1)
@@ -12408,6 +13398,7 @@ extension Glue {
         public let databaseName: String?
         /// A description of the new crawler.
         public let description: String?
+        public let lakeFormationConfiguration: LakeFormationConfiguration?
         /// Specifies data lineage configuration settings for the crawler.
         public let lineageConfiguration: LineageConfiguration?
         /// Name of the new crawler.
@@ -12425,12 +13416,13 @@ extension Glue {
         /// A list of targets to crawl.
         public let targets: CrawlerTargets?
 
-        public init(classifiers: [String]? = nil, configuration: String? = nil, crawlerSecurityConfiguration: String? = nil, databaseName: String? = nil, description: String? = nil, lineageConfiguration: LineageConfiguration? = nil, name: String, recrawlPolicy: RecrawlPolicy? = nil, role: String? = nil, schedule: String? = nil, schemaChangePolicy: SchemaChangePolicy? = nil, tablePrefix: String? = nil, targets: CrawlerTargets? = nil) {
+        public init(classifiers: [String]? = nil, configuration: String? = nil, crawlerSecurityConfiguration: String? = nil, databaseName: String? = nil, description: String? = nil, lakeFormationConfiguration: LakeFormationConfiguration? = nil, lineageConfiguration: LineageConfiguration? = nil, name: String, recrawlPolicy: RecrawlPolicy? = nil, role: String? = nil, schedule: String? = nil, schemaChangePolicy: SchemaChangePolicy? = nil, tablePrefix: String? = nil, targets: CrawlerTargets? = nil) {
             self.classifiers = classifiers
             self.configuration = configuration
             self.crawlerSecurityConfiguration = crawlerSecurityConfiguration
             self.databaseName = databaseName
             self.description = description
+            self.lakeFormationConfiguration = lakeFormationConfiguration
             self.lineageConfiguration = lineageConfiguration
             self.name = name
             self.recrawlPolicy = recrawlPolicy
@@ -12450,6 +13442,7 @@ extension Glue {
             try self.validate(self.crawlerSecurityConfiguration, name: "crawlerSecurityConfiguration", parent: name, max: 128)
             try self.validate(self.description, name: "description", parent: name, max: 2048)
             try self.validate(self.description, name: "description", parent: name, pattern: "^[\\u0020-\\uD7FF\\uE000-\\uFFFD\\uD800\\uDC00-\\uDBFF\\uDFFF\\r\\n\\t]*$")
+            try self.lakeFormationConfiguration?.validate(name: "\(name).lakeFormationConfiguration")
             try self.validate(self.name, name: "name", parent: name, max: 255)
             try self.validate(self.name, name: "name", parent: name, min: 1)
             try self.validate(self.name, name: "name", parent: name, pattern: "^[\\u0020-\\uD7FF\\uE000-\\uFFFD\\uD800\\uDC00-\\uDBFF\\uDFFF\\t]*$")
@@ -12463,6 +13456,7 @@ extension Glue {
             case crawlerSecurityConfiguration = "CrawlerSecurityConfiguration"
             case databaseName = "DatabaseName"
             case description = "Description"
+            case lakeFormationConfiguration = "LakeFormationConfiguration"
             case lineageConfiguration = "LineageConfiguration"
             case name = "Name"
             case recrawlPolicy = "RecrawlPolicy"
@@ -12986,13 +13980,15 @@ extension Glue {
         public let tableInput: TableInput
         /// The transaction ID at which to update the table contents.
         public let transactionId: String?
+        public let versionId: String?
 
-        public init(catalogId: String? = nil, databaseName: String, skipArchive: Bool? = nil, tableInput: TableInput, transactionId: String? = nil) {
+        public init(catalogId: String? = nil, databaseName: String, skipArchive: Bool? = nil, tableInput: TableInput, transactionId: String? = nil, versionId: String? = nil) {
             self.catalogId = catalogId
             self.databaseName = databaseName
             self.skipArchive = skipArchive
             self.tableInput = tableInput
             self.transactionId = transactionId
+            self.versionId = versionId
         }
 
         public func validate(name: String) throws {
@@ -13006,6 +14002,9 @@ extension Glue {
             try self.validate(self.transactionId, name: "transactionId", parent: name, max: 255)
             try self.validate(self.transactionId, name: "transactionId", parent: name, min: 1)
             try self.validate(self.transactionId, name: "transactionId", parent: name, pattern: "^[\\p{L}\\p{N}\\p{P}]*$")
+            try self.validate(self.versionId, name: "versionId", parent: name, max: 255)
+            try self.validate(self.versionId, name: "versionId", parent: name, min: 1)
+            try self.validate(self.versionId, name: "versionId", parent: name, pattern: "^[\\u0020-\\uD7FF\\uE000-\\uFFFD\\uD800\\uDC00-\\uDBFF\\uDFFF\\t]*$")
         }
 
         private enum CodingKeys: String, CodingKey {
@@ -13014,6 +14013,7 @@ extension Glue {
             case skipArchive = "SkipArchive"
             case tableInput = "TableInput"
             case transactionId = "TransactionId"
+            case versionId = "VersionId"
         }
     }
 

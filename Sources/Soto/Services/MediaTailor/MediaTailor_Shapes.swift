@@ -244,7 +244,7 @@ extension MediaTailor {
         /// The timestamp of when the channel was created.
         @OptionalCustomCoding<UnixEpochDateCoder>
         public var creationTime: Date?
-        /// Contains information about the slate used to fill gaps between programs in the schedule. You must configure FillerSlate if your channel uses an LINEAR PlaybackMode.
+        /// The slate used to fill gaps between programs in the schedule. You must configure filler slate if your channel uses the LINEAR PlaybackMode. MediaTailor doesn't support filler slate for channels using the LOOP PlaybackMode.
         public let fillerSlate: SlateSource?
         /// The timestamp of when the channel was last modified.
         @OptionalCustomCoding<UnixEpochDateCoder>
@@ -322,7 +322,7 @@ extension MediaTailor {
 
         /// The identifier for the channel you are working on.
         public let channelName: String
-        /// The slate used to fill gaps between programs in the schedule. You must configure filler slate if your channel uses a LINEAR PlaybackMode.
+        /// The slate used to fill gaps between programs in the schedule. You must configure filler slate if your channel uses the LINEAR PlaybackMode. MediaTailor doesn't support filler slate for channels using the LOOP PlaybackMode.
         public let fillerSlate: SlateSource?
         /// The channel's output properties.
         public let outputs: [RequestOutputItem]
@@ -549,15 +549,17 @@ extension MediaTailor {
         public let defaultSegmentDeliveryConfiguration: DefaultSegmentDeliveryConfiguration?
         /// The source's HTTP package configurations.
         public let httpConfiguration: HttpConfiguration
+        public let segmentDeliveryConfigurations: [SegmentDeliveryConfiguration]?
         /// The identifier for the source location you are working on.
         public let sourceLocationName: String
         /// The tags to assign to the source location.
         public let tags: [String: String]?
 
-        public init(accessConfiguration: AccessConfiguration? = nil, defaultSegmentDeliveryConfiguration: DefaultSegmentDeliveryConfiguration? = nil, httpConfiguration: HttpConfiguration, sourceLocationName: String, tags: [String: String]? = nil) {
+        public init(accessConfiguration: AccessConfiguration? = nil, defaultSegmentDeliveryConfiguration: DefaultSegmentDeliveryConfiguration? = nil, httpConfiguration: HttpConfiguration, segmentDeliveryConfigurations: [SegmentDeliveryConfiguration]? = nil, sourceLocationName: String, tags: [String: String]? = nil) {
             self.accessConfiguration = accessConfiguration
             self.defaultSegmentDeliveryConfiguration = defaultSegmentDeliveryConfiguration
             self.httpConfiguration = httpConfiguration
+            self.segmentDeliveryConfigurations = segmentDeliveryConfigurations
             self.sourceLocationName = sourceLocationName
             self.tags = tags
         }
@@ -566,6 +568,7 @@ extension MediaTailor {
             case accessConfiguration = "AccessConfiguration"
             case defaultSegmentDeliveryConfiguration = "DefaultSegmentDeliveryConfiguration"
             case httpConfiguration = "HttpConfiguration"
+            case segmentDeliveryConfigurations = "SegmentDeliveryConfigurations"
             case tags
         }
     }
@@ -585,18 +588,20 @@ extension MediaTailor {
         /// The timestamp that indicates when the source location was last modified.
         @OptionalCustomCoding<UnixEpochDateCoder>
         public var lastModifiedTime: Date?
+        public let segmentDeliveryConfigurations: [SegmentDeliveryConfiguration]?
         /// The name of the source location.
         public let sourceLocationName: String?
         /// The tags assigned to the source location.
         public let tags: [String: String]?
 
-        public init(accessConfiguration: AccessConfiguration? = nil, arn: String? = nil, creationTime: Date? = nil, defaultSegmentDeliveryConfiguration: DefaultSegmentDeliveryConfiguration? = nil, httpConfiguration: HttpConfiguration? = nil, lastModifiedTime: Date? = nil, sourceLocationName: String? = nil, tags: [String: String]? = nil) {
+        public init(accessConfiguration: AccessConfiguration? = nil, arn: String? = nil, creationTime: Date? = nil, defaultSegmentDeliveryConfiguration: DefaultSegmentDeliveryConfiguration? = nil, httpConfiguration: HttpConfiguration? = nil, lastModifiedTime: Date? = nil, segmentDeliveryConfigurations: [SegmentDeliveryConfiguration]? = nil, sourceLocationName: String? = nil, tags: [String: String]? = nil) {
             self.accessConfiguration = accessConfiguration
             self.arn = arn
             self.creationTime = creationTime
             self.defaultSegmentDeliveryConfiguration = defaultSegmentDeliveryConfiguration
             self.httpConfiguration = httpConfiguration
             self.lastModifiedTime = lastModifiedTime
+            self.segmentDeliveryConfigurations = segmentDeliveryConfigurations
             self.sourceLocationName = sourceLocationName
             self.tags = tags
         }
@@ -608,6 +613,7 @@ extension MediaTailor {
             case defaultSegmentDeliveryConfiguration = "DefaultSegmentDeliveryConfiguration"
             case httpConfiguration = "HttpConfiguration"
             case lastModifiedTime = "LastModifiedTime"
+            case segmentDeliveryConfigurations = "SegmentDeliveryConfigurations"
             case sourceLocationName = "SourceLocationName"
             case tags
         }
@@ -1055,18 +1061,20 @@ extension MediaTailor {
         /// The timestamp that indicates when the source location was last modified.
         @OptionalCustomCoding<UnixEpochDateCoder>
         public var lastModifiedTime: Date?
+        public let segmentDeliveryConfigurations: [SegmentDeliveryConfiguration]?
         /// The name of the source location.
         public let sourceLocationName: String?
         /// The tags assigned to the source location.
         public let tags: [String: String]?
 
-        public init(accessConfiguration: AccessConfiguration? = nil, arn: String? = nil, creationTime: Date? = nil, defaultSegmentDeliveryConfiguration: DefaultSegmentDeliveryConfiguration? = nil, httpConfiguration: HttpConfiguration? = nil, lastModifiedTime: Date? = nil, sourceLocationName: String? = nil, tags: [String: String]? = nil) {
+        public init(accessConfiguration: AccessConfiguration? = nil, arn: String? = nil, creationTime: Date? = nil, defaultSegmentDeliveryConfiguration: DefaultSegmentDeliveryConfiguration? = nil, httpConfiguration: HttpConfiguration? = nil, lastModifiedTime: Date? = nil, segmentDeliveryConfigurations: [SegmentDeliveryConfiguration]? = nil, sourceLocationName: String? = nil, tags: [String: String]? = nil) {
             self.accessConfiguration = accessConfiguration
             self.arn = arn
             self.creationTime = creationTime
             self.defaultSegmentDeliveryConfiguration = defaultSegmentDeliveryConfiguration
             self.httpConfiguration = httpConfiguration
             self.lastModifiedTime = lastModifiedTime
+            self.segmentDeliveryConfigurations = segmentDeliveryConfigurations
             self.sourceLocationName = sourceLocationName
             self.tags = tags
         }
@@ -1078,6 +1086,7 @@ extension MediaTailor {
             case defaultSegmentDeliveryConfiguration = "DefaultSegmentDeliveryConfiguration"
             case httpConfiguration = "HttpConfiguration"
             case lastModifiedTime = "LastModifiedTime"
+            case segmentDeliveryConfigurations = "SegmentDeliveryConfigurations"
             case sourceLocationName = "SourceLocationName"
             case tags
         }
@@ -2266,6 +2275,21 @@ extension MediaTailor {
         }
     }
 
+    public struct SegmentDeliveryConfiguration: AWSEncodableShape & AWSDecodableShape {
+        public let baseUrl: String?
+        public let name: String?
+
+        public init(baseUrl: String? = nil, name: String? = nil) {
+            self.baseUrl = baseUrl
+            self.name = name
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case baseUrl = "BaseUrl"
+            case name = "Name"
+        }
+    }
+
     public struct SlateSource: AWSEncodableShape & AWSDecodableShape {
         /// The name of the source location where the slate VOD source is stored.
         public let sourceLocationName: String?
@@ -2298,18 +2322,20 @@ extension MediaTailor {
         /// The timestamp that indicates when the source location was last modified.
         @OptionalCustomCoding<UnixEpochDateCoder>
         public var lastModifiedTime: Date?
+        public let segmentDeliveryConfigurations: [SegmentDeliveryConfiguration]?
         /// The name of the source location.
         public let sourceLocationName: String
         /// The tags assigned to the source location.
         public let tags: [String: String]?
 
-        public init(accessConfiguration: AccessConfiguration? = nil, arn: String, creationTime: Date? = nil, defaultSegmentDeliveryConfiguration: DefaultSegmentDeliveryConfiguration? = nil, httpConfiguration: HttpConfiguration, lastModifiedTime: Date? = nil, sourceLocationName: String, tags: [String: String]? = nil) {
+        public init(accessConfiguration: AccessConfiguration? = nil, arn: String, creationTime: Date? = nil, defaultSegmentDeliveryConfiguration: DefaultSegmentDeliveryConfiguration? = nil, httpConfiguration: HttpConfiguration, lastModifiedTime: Date? = nil, segmentDeliveryConfigurations: [SegmentDeliveryConfiguration]? = nil, sourceLocationName: String, tags: [String: String]? = nil) {
             self.accessConfiguration = accessConfiguration
             self.arn = arn
             self.creationTime = creationTime
             self.defaultSegmentDeliveryConfiguration = defaultSegmentDeliveryConfiguration
             self.httpConfiguration = httpConfiguration
             self.lastModifiedTime = lastModifiedTime
+            self.segmentDeliveryConfigurations = segmentDeliveryConfigurations
             self.sourceLocationName = sourceLocationName
             self.tags = tags
         }
@@ -2321,6 +2347,7 @@ extension MediaTailor {
             case defaultSegmentDeliveryConfiguration = "DefaultSegmentDeliveryConfiguration"
             case httpConfiguration = "HttpConfiguration"
             case lastModifiedTime = "LastModifiedTime"
+            case segmentDeliveryConfigurations = "SegmentDeliveryConfigurations"
             case sourceLocationName = "SourceLocationName"
             case tags
         }
@@ -2460,15 +2487,19 @@ extension MediaTailor {
 
         /// The identifier for the channel you are working on.
         public let channelName: String
+        /// The slate used to fill gaps between programs in the schedule. You must configure filler slate if your channel uses the LINEAR PlaybackMode. MediaTailor doesn't support filler slate for channels using the LOOP PlaybackMode.
+        public let fillerSlate: SlateSource?
         /// The channel's output properties.
         public let outputs: [RequestOutputItem]
 
-        public init(channelName: String, outputs: [RequestOutputItem]) {
+        public init(channelName: String, fillerSlate: SlateSource? = nil, outputs: [RequestOutputItem]) {
             self.channelName = channelName
+            self.fillerSlate = fillerSlate
             self.outputs = outputs
         }
 
         private enum CodingKeys: String, CodingKey {
+            case fillerSlate = "FillerSlate"
             case outputs = "Outputs"
         }
     }
@@ -2531,13 +2562,15 @@ extension MediaTailor {
         public let defaultSegmentDeliveryConfiguration: DefaultSegmentDeliveryConfiguration?
         /// The HTTP configuration for the source location.
         public let httpConfiguration: HttpConfiguration
+        public let segmentDeliveryConfigurations: [SegmentDeliveryConfiguration]?
         /// The identifier for the source location you are working on.
         public let sourceLocationName: String
 
-        public init(accessConfiguration: AccessConfiguration? = nil, defaultSegmentDeliveryConfiguration: DefaultSegmentDeliveryConfiguration? = nil, httpConfiguration: HttpConfiguration, sourceLocationName: String) {
+        public init(accessConfiguration: AccessConfiguration? = nil, defaultSegmentDeliveryConfiguration: DefaultSegmentDeliveryConfiguration? = nil, httpConfiguration: HttpConfiguration, segmentDeliveryConfigurations: [SegmentDeliveryConfiguration]? = nil, sourceLocationName: String) {
             self.accessConfiguration = accessConfiguration
             self.defaultSegmentDeliveryConfiguration = defaultSegmentDeliveryConfiguration
             self.httpConfiguration = httpConfiguration
+            self.segmentDeliveryConfigurations = segmentDeliveryConfigurations
             self.sourceLocationName = sourceLocationName
         }
 
@@ -2545,6 +2578,7 @@ extension MediaTailor {
             case accessConfiguration = "AccessConfiguration"
             case defaultSegmentDeliveryConfiguration = "DefaultSegmentDeliveryConfiguration"
             case httpConfiguration = "HttpConfiguration"
+            case segmentDeliveryConfigurations = "SegmentDeliveryConfigurations"
         }
     }
 
@@ -2563,18 +2597,20 @@ extension MediaTailor {
         /// The timestamp that indicates when the source location was last modified.
         @OptionalCustomCoding<UnixEpochDateCoder>
         public var lastModifiedTime: Date?
+        public let segmentDeliveryConfigurations: [SegmentDeliveryConfiguration]?
         /// The name of the source location.
         public let sourceLocationName: String?
         /// The tags assigned to the source location.
         public let tags: [String: String]?
 
-        public init(accessConfiguration: AccessConfiguration? = nil, arn: String? = nil, creationTime: Date? = nil, defaultSegmentDeliveryConfiguration: DefaultSegmentDeliveryConfiguration? = nil, httpConfiguration: HttpConfiguration? = nil, lastModifiedTime: Date? = nil, sourceLocationName: String? = nil, tags: [String: String]? = nil) {
+        public init(accessConfiguration: AccessConfiguration? = nil, arn: String? = nil, creationTime: Date? = nil, defaultSegmentDeliveryConfiguration: DefaultSegmentDeliveryConfiguration? = nil, httpConfiguration: HttpConfiguration? = nil, lastModifiedTime: Date? = nil, segmentDeliveryConfigurations: [SegmentDeliveryConfiguration]? = nil, sourceLocationName: String? = nil, tags: [String: String]? = nil) {
             self.accessConfiguration = accessConfiguration
             self.arn = arn
             self.creationTime = creationTime
             self.defaultSegmentDeliveryConfiguration = defaultSegmentDeliveryConfiguration
             self.httpConfiguration = httpConfiguration
             self.lastModifiedTime = lastModifiedTime
+            self.segmentDeliveryConfigurations = segmentDeliveryConfigurations
             self.sourceLocationName = sourceLocationName
             self.tags = tags
         }
@@ -2586,6 +2622,7 @@ extension MediaTailor {
             case defaultSegmentDeliveryConfiguration = "DefaultSegmentDeliveryConfiguration"
             case httpConfiguration = "HttpConfiguration"
             case lastModifiedTime = "LastModifiedTime"
+            case segmentDeliveryConfigurations = "SegmentDeliveryConfigurations"
             case sourceLocationName = "SourceLocationName"
             case tags
         }

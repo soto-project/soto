@@ -421,6 +421,27 @@ extension Glue {
         )
     }
 
+    /// Return PaginatorSequence for operation.
+    ///
+    /// - Parameters:
+    ///   - input: Input for request
+    ///   - logger: Logger used flot logging
+    ///   - eventLoop: EventLoop to run this process on
+    public func getUnfilteredPartitionsMetadataPaginator(
+        _ input: GetUnfilteredPartitionsMetadataRequest,
+        logger: Logger = AWSClient.loggingDisabled,
+        on eventLoop: EventLoop? = nil
+    ) -> AWSClient.PaginatorSequence<GetUnfilteredPartitionsMetadataRequest, GetUnfilteredPartitionsMetadataResponse> {
+        return .init(
+            input: input,
+            command: getUnfilteredPartitionsMetadata,
+            inputKey: \GetUnfilteredPartitionsMetadataRequest.nextToken,
+            outputKey: \GetUnfilteredPartitionsMetadataResponse.nextToken,
+            logger: logger,
+            on: eventLoop
+        )
+    }
+
     ///  Retrieves multiple function definitions from the Data Catalog.
     /// Return PaginatorSequence for operation.
     ///
@@ -640,6 +661,28 @@ extension Glue {
             command: listSchemas,
             inputKey: \ListSchemasInput.nextToken,
             outputKey: \ListSchemasResponse.nextToken,
+            logger: logger,
+            on: eventLoop
+        )
+    }
+
+    ///  Retrieve a session..
+    /// Return PaginatorSequence for operation.
+    ///
+    /// - Parameters:
+    ///   - input: Input for request
+    ///   - logger: Logger used flot logging
+    ///   - eventLoop: EventLoop to run this process on
+    public func listSessionsPaginator(
+        _ input: ListSessionsRequest,
+        logger: Logger = AWSClient.loggingDisabled,
+        on eventLoop: EventLoop? = nil
+    ) -> AWSClient.PaginatorSequence<ListSessionsRequest, ListSessionsResponse> {
+        return .init(
+            input: input,
+            command: listSessions,
+            inputKey: \ListSessionsRequest.nextToken,
+            outputKey: \ListSessionsResponse.nextToken,
             logger: logger,
             on: eventLoop
         )

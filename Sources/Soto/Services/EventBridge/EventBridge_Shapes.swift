@@ -1842,7 +1842,7 @@ extension EventBridge {
         public let enableExecuteCommand: Bool?
         /// Specifies an ECS task group for the task. The maximum length is 255 characters.
         public let group: String?
-        /// Specifies the launch type on which your task is running. The launch type that you specify here must match one of the launch type (compatibilities) of the target task. The FARGATE value is supported only in the Regions where Fargate witt Amazon ECS is supported. For more information, see Fargate on Amazon ECS in the Amazon Elastic Container Service Developer Guide.
+        /// Specifies the launch type on which your task is running. The launch type that you specify here must match one of the launch type (compatibilities) of the target task. The FARGATE value is supported only in the Regions where Fargate with Amazon ECS is supported. For more information, see Fargate on Amazon ECS in the Amazon Elastic Container Service Developer Guide.
         public let launchType: LaunchType?
         /// Use this structure if the Amazon ECS task uses the awsvpc network mode. This structure specifies the VPC subnets and security groups associated with the task, and whether a public IP address is to be used. This structure is required if LaunchType is FARGATE because the awsvpc mode is required for Fargate tasks. If you specify NetworkConfiguration when the target ECS task does not use the awsvpc network mode, the task fails.
         public let networkConfiguration: NetworkConfiguration?
@@ -2827,7 +2827,7 @@ extension EventBridge {
         public let source: String?
         /// The time stamp of the event, per RFC3339. If no time stamp is provided, the time stamp of the PutEvents call is used.
         public let time: Date?
-        /// An X-Ray trade header, which is an http header (X-Amzn-Trace-Id) that contains the trace-id associated with the event. To learn more about X-Ray trace headers, see Tracing header in the X-Ray Developer Guide.
+        /// An X-Ray trace header, which is an http header (X-Amzn-Trace-Id) that contains the trace-id associated with the event. To learn more about X-Ray trace headers, see Tracing header in the X-Ray Developer Guide.
         public let traceHeader: String?
 
         public init(detail: String? = nil, detailType: String? = nil, eventBusName: String? = nil, resources: [String]? = nil, source: String? = nil, time: Date? = nil, traceHeader: String? = nil) {
@@ -3004,7 +3004,7 @@ extension EventBridge {
         /// The 12-digit Amazon Web Services account ID that you are permitting to put events to your default event bus. Specify "*" to permit any account to put events to your default event bus.
         ///  If you specify "*" without specifying Condition, avoid creating rules that may match undesirable events. To create more secure rules, make sure that the event pattern for each rule contains an account field with a specific account ID from which to receive events. Rules with an account field do not match any events sent from other accounts.
         public let principal: String?
-        /// An identifier string for the external account that you are granting permissions to. If you later want to revoke the permission for this external account, specify this StatementId when you run RemovePermission.
+        /// An identifier string for the external account that you are granting permissions to. If you later want to revoke the permission for this external account, specify this StatementId when you run RemovePermission.  Each StatementId must be unique.
         public let statementId: String?
 
         public init(action: String? = nil, condition: Condition? = nil, eventBusName: String? = nil, policy: String? = nil, principal: String? = nil, statementId: String? = nil) {
@@ -3719,7 +3719,7 @@ extension EventBridge {
         public let ecsParameters: EcsParameters?
         /// Contains the HTTP parameters to use when the target is a API Gateway REST endpoint or EventBridge ApiDestination. If you specify an API Gateway REST API or EventBridge ApiDestination as a target, you can use this parameter to specify headers, path parameters, and query string keys/values as part of your target invoking request. If you're using ApiDestinations, the corresponding Connection can also have these values configured. In case of any conflicting keys, values from the Connection take precedence.
         public let httpParameters: HttpParameters?
-        /// The ID of the target. We recommend using a memorable and unique string.
+        /// The ID of the target within the specified rule. Use this ID to reference the target when updating the rule. We recommend using a memorable and unique string.
         public let id: String
         /// Valid JSON text passed to the target. In this case, nothing from the event itself is passed to the target. For more information, see The JavaScript Object Notation (JSON) Data Interchange Format.
         public let input: String?

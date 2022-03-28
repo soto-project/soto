@@ -361,6 +361,31 @@ extension WorkSpaces {
         }
     }
 
+    public struct ConnectClientAddIn: AWSDecodableShape {
+        /// The client add-in identifier.
+        public let addInId: String?
+        /// The name of the client add in.
+        public let name: String?
+        /// The directory identifier for which the client add-in is configured.
+        public let resourceId: String?
+        /// The endpoint URL of the client add-in.
+        public let url: String?
+
+        public init(addInId: String? = nil, name: String? = nil, resourceId: String? = nil, url: String? = nil) {
+            self.addInId = addInId
+            self.name = name
+            self.resourceId = resourceId
+            self.url = url
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case addInId = "AddInId"
+            case name = "Name"
+            case resourceId = "ResourceId"
+            case url = "URL"
+        }
+    }
+
     public struct ConnectionAlias: AWSDecodableShape {
         /// The identifier of the connection alias.
         public let aliasId: String?
@@ -491,6 +516,52 @@ extension WorkSpaces {
 
         private enum CodingKeys: String, CodingKey {
             case imageId = "ImageId"
+        }
+    }
+
+    public struct CreateConnectClientAddInRequest: AWSEncodableShape {
+        /// The name of the client add-in.
+        public let name: String
+        /// The directory identifier for which to configure the client add-in.
+        public let resourceId: String
+        /// The endpoint URL of the Amazon Connect client add-in.
+        public let url: String
+
+        public init(name: String, resourceId: String, url: String) {
+            self.name = name
+            self.resourceId = resourceId
+            self.url = url
+        }
+
+        public func validate(name: String) throws {
+            try self.validate(self.name, name: "name", parent: name, max: 64)
+            try self.validate(self.name, name: "name", parent: name, min: 1)
+            try self.validate(self.name, name: "name", parent: name, pattern: "^.*$")
+            try self.validate(self.resourceId, name: "resourceId", parent: name, max: 65)
+            try self.validate(self.resourceId, name: "resourceId", parent: name, min: 10)
+            try self.validate(self.resourceId, name: "resourceId", parent: name, pattern: "^d-[0-9a-f]{8,63}$")
+            try self.validate(self.url, name: "url", parent: name, max: 1024)
+            try self.validate(self.url, name: "url", parent: name, min: 1)
+            try self.validate(self.url, name: "url", parent: name, pattern: "^(http|https)\\://\\S+$")
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case name = "Name"
+            case resourceId = "ResourceId"
+            case url = "URL"
+        }
+    }
+
+    public struct CreateConnectClientAddInResult: AWSDecodableShape {
+        /// The client add-in identifier.
+        public let addInId: String?
+
+        public init(addInId: String? = nil) {
+            self.addInId = addInId
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case addInId = "AddInId"
         }
     }
 
@@ -788,6 +859,36 @@ extension WorkSpaces {
         }
     }
 
+    public struct DeleteConnectClientAddInRequest: AWSEncodableShape {
+        /// The identifier of the client add-in to delete.
+        public let addInId: String
+        /// The directory identifier for which the client add-in is configured.
+        public let resourceId: String
+
+        public init(addInId: String, resourceId: String) {
+            self.addInId = addInId
+            self.resourceId = resourceId
+        }
+
+        public func validate(name: String) throws {
+            try self.validate(self.addInId, name: "addInId", parent: name, max: 36)
+            try self.validate(self.addInId, name: "addInId", parent: name, min: 36)
+            try self.validate(self.addInId, name: "addInId", parent: name, pattern: "^[a-f0-9]{8}-[a-f0-9]{4}-[a-f0-9]{4}-[a-f0-9]{4}-[a-f0-9]{12}$")
+            try self.validate(self.resourceId, name: "resourceId", parent: name, max: 65)
+            try self.validate(self.resourceId, name: "resourceId", parent: name, min: 10)
+            try self.validate(self.resourceId, name: "resourceId", parent: name, pattern: "^d-[0-9a-f]{8,63}$")
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case addInId = "AddInId"
+            case resourceId = "ResourceId"
+        }
+    }
+
+    public struct DeleteConnectClientAddInResult: AWSDecodableShape {
+        public init() {}
+    }
+
     public struct DeleteConnectionAliasRequest: AWSEncodableShape {
         /// The identifier of the connection alias to delete.
         public let aliasId: String
@@ -1012,6 +1113,54 @@ extension WorkSpaces {
 
         private enum CodingKeys: String, CodingKey {
             case clientPropertiesList = "ClientPropertiesList"
+        }
+    }
+
+    public struct DescribeConnectClientAddInsRequest: AWSEncodableShape {
+        /// The maximum number of items to return.
+        public let maxResults: Int?
+        /// If you received a NextToken from a previous call that was paginated, provide this token to receive the next set of results.
+        public let nextToken: String?
+        /// The directory identifier for which the client add-in is configured.
+        public let resourceId: String
+
+        public init(maxResults: Int? = nil, nextToken: String? = nil, resourceId: String) {
+            self.maxResults = maxResults
+            self.nextToken = nextToken
+            self.resourceId = resourceId
+        }
+
+        public func validate(name: String) throws {
+            try self.validate(self.maxResults, name: "maxResults", parent: name, max: 25)
+            try self.validate(self.maxResults, name: "maxResults", parent: name, min: 1)
+            try self.validate(self.nextToken, name: "nextToken", parent: name, max: 2048)
+            try self.validate(self.nextToken, name: "nextToken", parent: name, min: 1)
+            try self.validate(self.resourceId, name: "resourceId", parent: name, max: 65)
+            try self.validate(self.resourceId, name: "resourceId", parent: name, min: 10)
+            try self.validate(self.resourceId, name: "resourceId", parent: name, pattern: "^d-[0-9a-f]{8,63}$")
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case maxResults = "MaxResults"
+            case nextToken = "NextToken"
+            case resourceId = "ResourceId"
+        }
+    }
+
+    public struct DescribeConnectClientAddInsResult: AWSDecodableShape {
+        /// Information about client add-ins.
+        public let addIns: [ConnectClientAddIn]?
+        /// The token to use to retrieve the next page of results. This value is null when there are no more results to return.
+        public let nextToken: String?
+
+        public init(addIns: [ConnectClientAddIn]? = nil, nextToken: String? = nil) {
+            self.addIns = addIns
+            self.nextToken = nextToken
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case addIns = "AddIns"
+            case nextToken = "NextToken"
         }
     }
 
@@ -2468,6 +2617,50 @@ extension WorkSpaces {
         private enum CodingKeys: String, CodingKey {
             case failedRequests = "FailedRequests"
         }
+    }
+
+    public struct UpdateConnectClientAddInRequest: AWSEncodableShape {
+        /// The identifier of the client add-in to update.
+        public let addInId: String
+        /// The name of the client add-in.
+        public let name: String?
+        /// The directory identifier for which the client add-in is configured.
+        public let resourceId: String
+        /// The endpoint URL of the Amazon Connect client add-in.
+        public let url: String?
+
+        public init(addInId: String, name: String? = nil, resourceId: String, url: String? = nil) {
+            self.addInId = addInId
+            self.name = name
+            self.resourceId = resourceId
+            self.url = url
+        }
+
+        public func validate(name: String) throws {
+            try self.validate(self.addInId, name: "addInId", parent: name, max: 36)
+            try self.validate(self.addInId, name: "addInId", parent: name, min: 36)
+            try self.validate(self.addInId, name: "addInId", parent: name, pattern: "^[a-f0-9]{8}-[a-f0-9]{4}-[a-f0-9]{4}-[a-f0-9]{4}-[a-f0-9]{12}$")
+            try self.validate(self.name, name: "name", parent: name, max: 64)
+            try self.validate(self.name, name: "name", parent: name, min: 1)
+            try self.validate(self.name, name: "name", parent: name, pattern: "^.*$")
+            try self.validate(self.resourceId, name: "resourceId", parent: name, max: 65)
+            try self.validate(self.resourceId, name: "resourceId", parent: name, min: 10)
+            try self.validate(self.resourceId, name: "resourceId", parent: name, pattern: "^d-[0-9a-f]{8,63}$")
+            try self.validate(self.url, name: "url", parent: name, max: 1024)
+            try self.validate(self.url, name: "url", parent: name, min: 1)
+            try self.validate(self.url, name: "url", parent: name, pattern: "^(http|https)\\://\\S+$")
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case addInId = "AddInId"
+            case name = "Name"
+            case resourceId = "ResourceId"
+            case url = "URL"
+        }
+    }
+
+    public struct UpdateConnectClientAddInResult: AWSDecodableShape {
+        public init() {}
     }
 
     public struct UpdateConnectionAliasPermissionRequest: AWSEncodableShape {

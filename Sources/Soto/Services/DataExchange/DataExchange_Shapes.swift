@@ -549,6 +549,13 @@ extension DataExchange {
         public let finalized: Bool?
         /// The unique identifier for the revision.
         public let id: String?
+        /// A required comment to inform subscribers of the reason their access to the revision was revoked.
+        public let revocationComment: String?
+        /// A status indicating that subscribers' access to the revision was revoked.
+        public let revoked: Bool?
+        /// The date and time that the revision was revoked, in ISO 8601 format.
+        @OptionalCustomCoding<ISO8601DateCoder>
+        public var revokedAt: Date?
         /// The revision ID of the owned revision corresponding to the entitled revision being viewed. This parameter is returned when a revision owner is viewing the entitled copy of its owned revision.
         public let sourceId: String?
         /// The tags for the revision.
@@ -557,13 +564,16 @@ extension DataExchange {
         @OptionalCustomCoding<ISO8601DateCoder>
         public var updatedAt: Date?
 
-        public init(arn: String? = nil, comment: String? = nil, createdAt: Date? = nil, dataSetId: String? = nil, finalized: Bool? = nil, id: String? = nil, sourceId: String? = nil, tags: [String: String]? = nil, updatedAt: Date? = nil) {
+        public init(arn: String? = nil, comment: String? = nil, createdAt: Date? = nil, dataSetId: String? = nil, finalized: Bool? = nil, id: String? = nil, revocationComment: String? = nil, revoked: Bool? = nil, revokedAt: Date? = nil, sourceId: String? = nil, tags: [String: String]? = nil, updatedAt: Date? = nil) {
             self.arn = arn
             self.comment = comment
             self.createdAt = createdAt
             self.dataSetId = dataSetId
             self.finalized = finalized
             self.id = id
+            self.revocationComment = revocationComment
+            self.revoked = revoked
+            self.revokedAt = revokedAt
             self.sourceId = sourceId
             self.tags = tags
             self.updatedAt = updatedAt
@@ -576,6 +586,9 @@ extension DataExchange {
             case dataSetId = "DataSetId"
             case finalized = "Finalized"
             case id = "Id"
+            case revocationComment = "RevocationComment"
+            case revoked = "Revoked"
+            case revokedAt = "RevokedAt"
             case sourceId = "SourceId"
             case tags = "Tags"
             case updatedAt = "UpdatedAt"
@@ -1219,6 +1232,13 @@ extension DataExchange {
         public let finalized: Bool?
         /// The unique identifier for the revision.
         public let id: String?
+        /// A required comment to inform subscribers of the reason their access to the revision was revoked.
+        public let revocationComment: String?
+        /// A status indicating that subscribers' access to the revision was revoked.
+        public let revoked: Bool?
+        /// The date and time that the revision was revoked, in ISO 8601 format.
+        @OptionalCustomCoding<ISO8601DateCoder>
+        public var revokedAt: Date?
         /// The revision ID of the owned revision corresponding to the entitled revision being viewed. This parameter is returned when a revision owner is viewing the entitled copy of its owned revision.
         public let sourceId: String?
         /// The tags for the revision.
@@ -1227,13 +1247,16 @@ extension DataExchange {
         @OptionalCustomCoding<ISO8601DateCoder>
         public var updatedAt: Date?
 
-        public init(arn: String? = nil, comment: String? = nil, createdAt: Date? = nil, dataSetId: String? = nil, finalized: Bool? = nil, id: String? = nil, sourceId: String? = nil, tags: [String: String]? = nil, updatedAt: Date? = nil) {
+        public init(arn: String? = nil, comment: String? = nil, createdAt: Date? = nil, dataSetId: String? = nil, finalized: Bool? = nil, id: String? = nil, revocationComment: String? = nil, revoked: Bool? = nil, revokedAt: Date? = nil, sourceId: String? = nil, tags: [String: String]? = nil, updatedAt: Date? = nil) {
             self.arn = arn
             self.comment = comment
             self.createdAt = createdAt
             self.dataSetId = dataSetId
             self.finalized = finalized
             self.id = id
+            self.revocationComment = revocationComment
+            self.revoked = revoked
+            self.revokedAt = revokedAt
             self.sourceId = sourceId
             self.tags = tags
             self.updatedAt = updatedAt
@@ -1246,6 +1269,9 @@ extension DataExchange {
             case dataSetId = "DataSetId"
             case finalized = "Finalized"
             case id = "Id"
+            case revocationComment = "RevocationComment"
+            case revoked = "Revoked"
+            case revokedAt = "RevokedAt"
             case sourceId = "SourceId"
             case tags = "Tags"
             case updatedAt = "UpdatedAt"
@@ -2013,19 +2039,29 @@ extension DataExchange {
         public let finalized: Bool?
         /// The unique identifier for the revision.
         public let id: String
+        /// A required comment to inform subscribers of the reason their access to the revision was revoked.
+        public let revocationComment: String?
+        /// A status indicating that subscribers' access to the revision was revoked.
+        public let revoked: Bool?
+        /// The date and time that the revision was revoked, in ISO 8601 format.
+        @OptionalCustomCoding<ISO8601DateCoder>
+        public var revokedAt: Date?
         /// The revision ID of the owned revision corresponding to the entitled revision being viewed. This parameter is returned when a revision owner is viewing the entitled copy of its owned revision.
         public let sourceId: String?
         /// The date and time that the revision was last updated, in ISO 8601 format.
         @CustomCoding<ISO8601DateCoder>
         public var updatedAt: Date
 
-        public init(arn: String, comment: String? = nil, createdAt: Date, dataSetId: String, finalized: Bool? = nil, id: String, sourceId: String? = nil, updatedAt: Date) {
+        public init(arn: String, comment: String? = nil, createdAt: Date, dataSetId: String, finalized: Bool? = nil, id: String, revocationComment: String? = nil, revoked: Bool? = nil, revokedAt: Date? = nil, sourceId: String? = nil, updatedAt: Date) {
             self.arn = arn
             self.comment = comment
             self.createdAt = createdAt
             self.dataSetId = dataSetId
             self.finalized = finalized
             self.id = id
+            self.revocationComment = revocationComment
+            self.revoked = revoked
+            self.revokedAt = revokedAt
             self.sourceId = sourceId
             self.updatedAt = updatedAt
         }
@@ -2037,6 +2073,9 @@ extension DataExchange {
             case dataSetId = "DataSetId"
             case finalized = "Finalized"
             case id = "Id"
+            case revocationComment = "RevocationComment"
+            case revoked = "Revoked"
+            case revokedAt = "RevokedAt"
             case sourceId = "SourceId"
             case updatedAt = "UpdatedAt"
         }
@@ -2052,6 +2091,91 @@ extension DataExchange {
 
         private enum CodingKeys: String, CodingKey {
             case dataSetId = "DataSetId"
+        }
+    }
+
+    public struct RevokeRevisionRequest: AWSEncodableShape {
+        public static var _encoding = [
+            AWSMemberEncoding(label: "dataSetId", location: .uri("DataSetId")),
+            AWSMemberEncoding(label: "revisionId", location: .uri("RevisionId"))
+        ]
+
+        /// The unique identifier for a data set.
+        public let dataSetId: String
+        /// The unique identifier for a revision.
+        public let revisionId: String
+        /// A required comment to inform subscribers of the reason their access to the revision was revoked.
+        public let revocationComment: String
+
+        public init(dataSetId: String, revisionId: String, revocationComment: String) {
+            self.dataSetId = dataSetId
+            self.revisionId = revisionId
+            self.revocationComment = revocationComment
+        }
+
+        public func validate(name: String) throws {
+            try self.validate(self.revocationComment, name: "revocationComment", parent: name, max: 512)
+            try self.validate(self.revocationComment, name: "revocationComment", parent: name, min: 10)
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case revocationComment = "RevocationComment"
+        }
+    }
+
+    public struct RevokeRevisionResponse: AWSDecodableShape {
+        /// The ARN for the revision.
+        public let arn: String?
+        /// An optional comment about the revision.
+        public let comment: String?
+        /// The date and time that the revision was created, in ISO 8601 format.
+        @OptionalCustomCoding<ISO8601DateCoder>
+        public var createdAt: Date?
+        /// The unique identifier for the data set associated with this revision.
+        public let dataSetId: String?
+        /// To publish a revision to a data set in a product, the revision must first be finalized. Finalizing a revision tells AWS Data Exchange that changes to the assets in the revision are complete. After it's in this read-only state, you can publish the revision to your products. Finalized revisions can be published through the AWS Data Exchange console or the AWS Marketplace Catalog API, using the StartChangeSet AWS Marketplace Catalog API action. When using the API, revisions are uniquely identified by their ARN.
+        public let finalized: Bool?
+        /// The unique identifier for the revision.
+        public let id: String?
+        /// A required comment to inform subscribers of the reason their access to the revision was revoked.
+        public let revocationComment: String?
+        /// A status indicating that subscribers' access to the revision was revoked.
+        public let revoked: Bool?
+        /// The date and time that the revision was revoked, in ISO 8601 format.
+        @OptionalCustomCoding<ISO8601DateCoder>
+        public var revokedAt: Date?
+        /// The revision ID of the owned revision corresponding to the entitled revision being viewed. This parameter is returned when a revision owner is viewing the entitled copy of its owned revision.
+        public let sourceId: String?
+        /// The date and time that the revision was last updated, in ISO 8601 format.
+        @OptionalCustomCoding<ISO8601DateCoder>
+        public var updatedAt: Date?
+
+        public init(arn: String? = nil, comment: String? = nil, createdAt: Date? = nil, dataSetId: String? = nil, finalized: Bool? = nil, id: String? = nil, revocationComment: String? = nil, revoked: Bool? = nil, revokedAt: Date? = nil, sourceId: String? = nil, updatedAt: Date? = nil) {
+            self.arn = arn
+            self.comment = comment
+            self.createdAt = createdAt
+            self.dataSetId = dataSetId
+            self.finalized = finalized
+            self.id = id
+            self.revocationComment = revocationComment
+            self.revoked = revoked
+            self.revokedAt = revokedAt
+            self.sourceId = sourceId
+            self.updatedAt = updatedAt
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case arn = "Arn"
+            case comment = "Comment"
+            case createdAt = "CreatedAt"
+            case dataSetId = "DataSetId"
+            case finalized = "Finalized"
+            case id = "Id"
+            case revocationComment = "RevocationComment"
+            case revoked = "Revoked"
+            case revokedAt = "RevokedAt"
+            case sourceId = "SourceId"
+            case updatedAt = "UpdatedAt"
         }
     }
 
@@ -2452,19 +2576,29 @@ extension DataExchange {
         public let finalized: Bool?
         /// The unique identifier for the revision.
         public let id: String?
+        /// A required comment to inform subscribers of the reason their access to the revision was revoked.
+        public let revocationComment: String?
+        /// A status indicating that subscribers' access to the revision was revoked.
+        public let revoked: Bool?
+        /// The date and time that the revision was revoked, in ISO 8601 format.
+        @OptionalCustomCoding<ISO8601DateCoder>
+        public var revokedAt: Date?
         /// The revision ID of the owned revision corresponding to the entitled revision being viewed. This parameter is returned when a revision owner is viewing the entitled copy of its owned revision.
         public let sourceId: String?
         /// The date and time that the revision was last updated, in ISO 8601 format.
         @OptionalCustomCoding<ISO8601DateCoder>
         public var updatedAt: Date?
 
-        public init(arn: String? = nil, comment: String? = nil, createdAt: Date? = nil, dataSetId: String? = nil, finalized: Bool? = nil, id: String? = nil, sourceId: String? = nil, updatedAt: Date? = nil) {
+        public init(arn: String? = nil, comment: String? = nil, createdAt: Date? = nil, dataSetId: String? = nil, finalized: Bool? = nil, id: String? = nil, revocationComment: String? = nil, revoked: Bool? = nil, revokedAt: Date? = nil, sourceId: String? = nil, updatedAt: Date? = nil) {
             self.arn = arn
             self.comment = comment
             self.createdAt = createdAt
             self.dataSetId = dataSetId
             self.finalized = finalized
             self.id = id
+            self.revocationComment = revocationComment
+            self.revoked = revoked
+            self.revokedAt = revokedAt
             self.sourceId = sourceId
             self.updatedAt = updatedAt
         }
@@ -2476,6 +2610,9 @@ extension DataExchange {
             case dataSetId = "DataSetId"
             case finalized = "Finalized"
             case id = "Id"
+            case revocationComment = "RevocationComment"
+            case revoked = "Revoked"
+            case revokedAt = "RevokedAt"
             case sourceId = "SourceId"
             case updatedAt = "UpdatedAt"
         }

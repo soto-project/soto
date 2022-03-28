@@ -88,6 +88,7 @@ extension ElastiCache {
     }
 
     public enum LogType: String, CustomStringConvertible, Codable {
+        case engineLog = "engine-log"
         case slowLog = "slow-log"
         public var description: String { return self.rawValue }
     }
@@ -602,7 +603,7 @@ extension ElastiCache {
         public let cacheEngineDescription: String?
         /// The description of the cache engine version.
         public let cacheEngineVersionDescription: String?
-        /// The name of the cache parameter group family associated with this cache engine. Valid values are:  memcached1.4 |  memcached1.5 |  memcached1.6 |  redis2.6 |  redis2.8 | redis3.2 | redis4.0 | redis5.0 |  redis6.0 |  redis6.2
+        /// The name of the cache parameter group family associated with this cache engine. Valid values are:  memcached1.4 |  memcached1.5 |  memcached1.6 |  redis2.6 |  redis2.8 | redis3.2 | redis4.0 | redis5.0 |  redis6.x
         public let cacheParameterGroupFamily: String?
         /// The name of the cache engine.
         public let engine: String?
@@ -796,7 +797,7 @@ extension ElastiCache {
     public struct CacheParameterGroup: AWSDecodableShape {
         /// The ARN (Amazon Resource Name) of the cache parameter group.
         public let arn: String?
-        /// The name of the cache parameter group family that this cache parameter group is compatible with. Valid values are:  memcached1.4 |  memcached1.5 |  memcached1.6 |  redis2.6 |  redis2.8 | redis3.2 | redis4.0 | redis5.0 |  redis6.0 |
+        /// The name of the cache parameter group family that this cache parameter group is compatible with. Valid values are:  memcached1.4 |  memcached1.5 |  memcached1.6 |  redis2.6 |  redis2.8 | redis3.2 | redis4.0 | redis5.0 |  redis6.x |
         public let cacheParameterGroupFamily: String?
         /// The name of the cache parameter group.
         public let cacheParameterGroupName: String?
@@ -1214,31 +1215,7 @@ extension ElastiCache {
         /// 						                Compute optimized:
         /// 				             Previous generation: (not recommended)
         /// 			                   C1 node types:
-        /// 			                     cache.c1.xlarge      Memory optimized with data tiering:
-        /// 		               Current generation:
-        ///
-        /// 		                    R6gd node types (available only for Redis engine version 6.2 onward).
-        ///
-        ///
-        ///
-        ///
-        ///
-        ///
-        /// 		                      cache.r6gd.xlarge,
-        /// 		                    cache.r6gd.2xlarge,
-        /// 		                    cache.r6gd.4xlarge,
-        /// 		                    cache.r6gd.8xlarge,
-        /// 		                    cache.r6gd.12xlarge,
-        /// 		                    cache.r6gd.16xlarge
-        ///
-        ///
-        ///
-        ///
-        ///
-        ///
-        ///
-        ///
-        /// 		                    Memory optimized:
+        /// 			                     cache.c1.xlarge      Memory optimized:
         /// 				             Current generation:
         ///
         ///
@@ -1299,7 +1276,7 @@ extension ElastiCache {
         /// A list of the Availability Zones in which cache nodes are created. The order of the zones in the list is not important. This option is only supported on Memcached.  If you are creating your cluster in an Amazon VPC (recommended) you can only locate nodes in Availability Zones that are associated with the subnets in the selected subnet group. The number of Availability Zones listed must equal the value of NumCacheNodes.  If you want all the nodes in the same Availability Zone, use PreferredAvailabilityZone instead, or  repeat the Availability Zone multiple times in the list. Default: System chosen Availability Zones.
         @OptionalCustomCoding<ArrayCoder<_PreferredAvailabilityZonesEncoding, String>>
         public var preferredAvailabilityZones: [String]?
-        /// Specifies the weekly time range during which maintenance on the cluster is performed. It is specified as a range in the format ddd:hh24:mi-ddd:hh24:mi (24H Clock UTC). The minimum maintenance window is a 60 minute period. Valid values for ddd are:
+        /// Specifies the weekly time range during which maintenance on the cluster is performed. It is specified as a range in the format ddd:hh24:mi-ddd:hh24:mi (24H Clock UTC). The minimum maintenance window is a 60 minute period.
         public let preferredMaintenanceWindow: String?
         /// The outpost ARN in which the cache cluster is created.
         public let preferredOutpostArn: String?
@@ -1400,7 +1377,7 @@ extension ElastiCache {
     public struct CreateCacheParameterGroupMessage: AWSEncodableShape {
         public struct _TagsEncoding: ArrayCoderProperties { public static let member = "Tag" }
 
-        /// The name of the cache parameter group family that the cache parameter group can be used with. Valid values are:  memcached1.4 |  memcached1.5 |  memcached1.6 |  redis2.6 |  redis2.8 | redis3.2 | redis4.0 | redis5.0 |  redis6.0 |  redis6.2
+        /// The name of the cache parameter group family that the cache parameter group can be used with. Valid values are:  memcached1.4 |  memcached1.5 |  memcached1.6 |  redis2.6 |  redis2.8 | redis3.2 | redis4.0 | redis5.0 |  redis6.x
         public let cacheParameterGroupFamily: String
         /// A user-specified name for the cache parameter group.
         public let cacheParameterGroupName: String
@@ -3195,7 +3172,7 @@ extension ElastiCache {
         /// A list of parameters specific to a particular cache node type. Each element in the list contains detailed information about one parameter.
         @OptionalCustomCoding<ArrayCoder<_CacheNodeTypeSpecificParametersEncoding, CacheNodeTypeSpecificParameter>>
         public var cacheNodeTypeSpecificParameters: [CacheNodeTypeSpecificParameter]?
-        /// Specifies the name of the cache parameter group family to which the engine default parameters apply. Valid values are:  memcached1.4 |  memcached1.5 |  memcached1.6 |  redis2.6 |  redis2.8 | redis3.2 | redis4.0 | redis5.0 |  redis6.0 |  redis6.2
+        /// Specifies the name of the cache parameter group family to which the engine default parameters apply. Valid values are:  memcached1.4 |  memcached1.5 |  memcached1.6 |  redis2.6 |  redis2.8 | redis3.2 | redis4.0 | redis5.0 |  redis6.0 |  redis6.x
         public let cacheParameterGroupFamily: String?
         /// Provides an identifier to allow retrieval of paginated results.
         public let marker: String?
@@ -3595,7 +3572,7 @@ extension ElastiCache {
         public let destinationType: DestinationType?
         /// Returns the log format, either JSON or TEXT.
         public let logFormat: LogFormat?
-        /// Refers to slow-log.
+        /// Refers to slow-log or engine-log.
         public let logType: LogType?
         /// Returns an error message for the log delivery configuration.
         public let message: String?
@@ -3630,7 +3607,7 @@ extension ElastiCache {
         public let enabled: Bool?
         /// Specifies either JSON or TEXT
         public let logFormat: LogFormat?
-        /// Refers to slow-log.
+        /// Refers to slow-log or engine-log..
         public let logType: LogType?
 
         public init(destinationDetails: DestinationDetails? = nil, destinationType: DestinationType? = nil, enabled: Bool? = nil, logFormat: LogFormat? = nil, logType: LogType? = nil) {
@@ -4485,7 +4462,7 @@ extension ElastiCache {
         public let destinationType: DestinationType?
         /// Returns the log format, either JSON or TEXT
         public let logFormat: LogFormat?
-        /// Refers to slow-log.
+        /// Refers to slow-log or engine-log..
         public let logType: LogType?
 
         public init(destinationDetails: DestinationDetails? = nil, destinationType: DestinationType? = nil, logFormat: LogFormat? = nil, logType: LogType? = nil) {

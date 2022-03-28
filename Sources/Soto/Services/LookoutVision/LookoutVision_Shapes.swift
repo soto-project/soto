@@ -735,8 +735,9 @@ extension LookoutVision {
     }
 
     public struct GreengrassConfiguration: AWSEncodableShape & AWSDecodableShape {
-        /// Additional compiler options for the Greengrass component. Currently,  only NVIDIA Graphics Processing Units (GPU) are supported.    For more information, see  Compiler options in the  Amazon Lookout for Vision Developer Guide.
-        public let compilerOptions: String
+        /// Additional compiler options for the Greengrass component. Currently,  only NVIDIA Graphics Processing Units (GPU) are supported. If you specify TargetPlatform, you must specify
+        /// CompilerOptions. If you specify TargetDevice, don't specify CompilerOptions.    For more information, see  Compiler options in the  Amazon Lookout for Vision Developer Guide.
+        public let compilerOptions: String?
         ///  A description for the AWS IoT Greengrass component.
         public let componentDescription: String?
         ///  A name for the AWS IoT Greengrass component.
@@ -752,7 +753,7 @@ extension LookoutVision {
         /// The target platform for the model. If you specify TargetPlatform, you can't specify TargetDevice.
         public let targetPlatform: TargetPlatform?
 
-        public init(compilerOptions: String, componentDescription: String? = nil, componentName: String, componentVersion: String? = nil, s3OutputLocation: S3Location, tags: [Tag]? = nil, targetDevice: TargetDevice? = nil, targetPlatform: TargetPlatform? = nil) {
+        public init(compilerOptions: String? = nil, componentDescription: String? = nil, componentName: String, componentVersion: String? = nil, s3OutputLocation: S3Location, tags: [Tag]? = nil, targetDevice: TargetDevice? = nil, targetPlatform: TargetPlatform? = nil) {
             self.compilerOptions = compilerOptions
             self.componentDescription = componentDescription
             self.componentName = componentName

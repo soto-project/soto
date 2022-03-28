@@ -59,6 +59,12 @@ extension AppRunner {
         public var description: String { return self.rawValue }
     }
 
+    public enum EgressType: String, CustomStringConvertible, Codable {
+        case `default` = "DEFAULT"
+        case vpc = "VPC"
+        public var description: String { return self.rawValue }
+    }
+
     public enum HealthCheckProtocol: String, CustomStringConvertible, Codable {
         case http = "HTTP"
         case tcp = "TCP"
@@ -97,7 +103,10 @@ extension AppRunner {
     }
 
     public enum Runtime: String, CustomStringConvertible, Codable {
+        case corretto11 = "CORRETTO_11"
+        case corretto8 = "CORRETTO_8"
         case nodejs12 = "NODEJS_12"
+        case nodejs14 = "NODEJS_14"
         case python3 = "PYTHON_3"
         public var description: String { return self.rawValue }
     }
@@ -114,6 +123,12 @@ extension AppRunner {
 
     public enum SourceCodeVersionType: String, CustomStringConvertible, Codable {
         case branch = "BRANCH"
+        public var description: String { return self.rawValue }
+    }
+
+    public enum VpcConnectorStatus: String, CustomStringConvertible, Codable {
+        case active = "ACTIVE"
+        case inactive = "INACTIVE"
         public var description: String { return self.rawValue }
     }
 
@@ -136,6 +151,7 @@ extension AppRunner {
         public func validate(name: String) throws {
             try self.validate(self.domainName, name: "domainName", parent: name, max: 255)
             try self.validate(self.domainName, name: "domainName", parent: name, min: 1)
+            try self.validate(self.domainName, name: "domainName", parent: name, pattern: "^[A-Za-z0-9*.-]{1,255}$")
             try self.validate(self.serviceArn, name: "serviceArn", parent: name, max: 1011)
             try self.validate(self.serviceArn, name: "serviceArn", parent: name, min: 1)
             try self.validate(self.serviceArn, name: "serviceArn", parent: name, pattern: "^arn:aws(-[\\w]+)*:[a-z0-9-\\\\.]{0,63}:[a-z0-9-\\\\.]{0,63}:[0-9]{12}:(\\w|\\/|-){1,1011}$")
@@ -332,8 +348,17 @@ extension AppRunner {
         }
 
         public func validate(name: String) throws {
+            try self.validate(self.buildCommand, name: "buildCommand", parent: name, pattern: "^[^\\x0a\\x0d]+$")
             try self.validate(self.port, name: "port", parent: name, max: 51200)
             try self.validate(self.port, name: "port", parent: name, pattern: ".*")
+            try self.runtimeEnvironmentVariables?.forEach {
+                try validate($0.key, name: "runtimeEnvironmentVariables.key", parent: name, max: 51200)
+                try validate($0.key, name: "runtimeEnvironmentVariables.key", parent: name, min: 1)
+                try validate($0.key, name: "runtimeEnvironmentVariables.key", parent: name, pattern: ".*")
+                try validate($0.value, name: "runtimeEnvironmentVariables[\"\($0.key)\"]", parent: name, max: 51200)
+                try validate($0.value, name: "runtimeEnvironmentVariables[\"\($0.key)\"]", parent: name, pattern: ".*")
+            }
+            try self.validate(self.startCommand, name: "startCommand", parent: name, pattern: "^[^\\x0a\\x0d]+$")
         }
 
         private enum CodingKeys: String, CodingKey {
@@ -432,7 +457,7 @@ extension AppRunner {
     }
 
     public struct CreateAutoScalingConfigurationRequest: AWSEncodableShape {
-        /// A name for the auto scaling configuration. When you use it for the first time in an Amazon Web Services Region, App Runner creates revision number 1 of this name. When you use the same name in subsequent calls, App Runner creates incremental revisions of the configuration.
+        /// A name for the auto scaling configuration. When you use it for the first time in an Amazon Web Services Region, App Runner creates revision number 1 of this name. When you use the same name in subsequent calls, App Runner creates incremental revisions of the configuration.  The name DefaultConfiguration is reserved (it's the configuration that App Runner uses if you don't provide a custome one). You can't use it to create a new auto scaling configuration, and you can't create a revision of it. When you want to use your own auto scaling configuration for your App Runner service, create a configuration with a different name, and then provide it when you create or update your service.
         public let autoScalingConfigurationName: String
         /// The maximum number of concurrent requests that you want an instance to process. If the number of concurrent requests exceeds this limit, App Runner scales up your service. Default: 100
         public let maxConcurrency: Int?
@@ -532,26 +557,29 @@ extension AppRunner {
     }
 
     public struct CreateServiceRequest: AWSEncodableShape {
-        /// The Amazon Resource Name (ARN) of an App Runner automatic scaling configuration resource that you want to associate with your service. If not provided, App Runner associates the latest revision of a default auto scaling configuration.
+        /// The Amazon Resource Name (ARN) of an App Runner automatic scaling configuration resource that you want to associate with the App Runner service. If not provided, App Runner associates the latest revision of a default auto scaling configuration.
         public let autoScalingConfigurationArn: String?
-        /// An optional custom encryption key that App Runner uses to encrypt the copy of your source repository that it maintains and your service logs. By default, App Runner uses an Amazon Web Services managed CMK.
+        /// An optional custom encryption key that App Runner uses to encrypt the copy of your source repository that it maintains and your service logs. By default, App Runner uses an Amazon Web Services managed key.
         public let encryptionConfiguration: EncryptionConfiguration?
-        /// The settings for the health check that App Runner performs to monitor the health of your service.
+        /// The settings for the health check that App Runner performs to monitor the health of the App Runner service.
         public let healthCheckConfiguration: HealthCheckConfiguration?
         /// The runtime configuration of instances (scaling units) of the App Runner service.
         public let instanceConfiguration: InstanceConfiguration?
-        /// A name for the new service. It must be unique across all the running App Runner services in your Amazon Web Services account in the Amazon Web Services Region.
+        /// Configuration settings related to network traffic of the web application that the App Runner service runs.
+        public let networkConfiguration: NetworkConfiguration?
+        /// A name for the App Runner service. It must be unique across all the running App Runner services in your Amazon Web Services account in the Amazon Web Services Region.
         public let serviceName: String
         /// The source to deploy to the App Runner service. It can be a code or an image repository.
         public let sourceConfiguration: SourceConfiguration
-        /// An optional list of metadata items that you can associate with your service resource. A tag is a key-value pair.
+        /// An optional list of metadata items that you can associate with the App Runner service resource. A tag is a key-value pair.
         public let tags: [Tag]?
 
-        public init(autoScalingConfigurationArn: String? = nil, encryptionConfiguration: EncryptionConfiguration? = nil, healthCheckConfiguration: HealthCheckConfiguration? = nil, instanceConfiguration: InstanceConfiguration? = nil, serviceName: String, sourceConfiguration: SourceConfiguration, tags: [Tag]? = nil) {
+        public init(autoScalingConfigurationArn: String? = nil, encryptionConfiguration: EncryptionConfiguration? = nil, healthCheckConfiguration: HealthCheckConfiguration? = nil, instanceConfiguration: InstanceConfiguration? = nil, networkConfiguration: NetworkConfiguration? = nil, serviceName: String, sourceConfiguration: SourceConfiguration, tags: [Tag]? = nil) {
             self.autoScalingConfigurationArn = autoScalingConfigurationArn
             self.encryptionConfiguration = encryptionConfiguration
             self.healthCheckConfiguration = healthCheckConfiguration
             self.instanceConfiguration = instanceConfiguration
+            self.networkConfiguration = networkConfiguration
             self.serviceName = serviceName
             self.sourceConfiguration = sourceConfiguration
             self.tags = tags
@@ -564,6 +592,7 @@ extension AppRunner {
             try self.encryptionConfiguration?.validate(name: "\(name).encryptionConfiguration")
             try self.healthCheckConfiguration?.validate(name: "\(name).healthCheckConfiguration")
             try self.instanceConfiguration?.validate(name: "\(name).instanceConfiguration")
+            try self.networkConfiguration?.validate(name: "\(name).networkConfiguration")
             try self.validate(self.serviceName, name: "serviceName", parent: name, max: 40)
             try self.validate(self.serviceName, name: "serviceName", parent: name, min: 4)
             try self.validate(self.serviceName, name: "serviceName", parent: name, pattern: "^[A-Za-z0-9][A-Za-z0-9-_]{3,39}$")
@@ -578,6 +607,7 @@ extension AppRunner {
             case encryptionConfiguration = "EncryptionConfiguration"
             case healthCheckConfiguration = "HealthCheckConfiguration"
             case instanceConfiguration = "InstanceConfiguration"
+            case networkConfiguration = "NetworkConfiguration"
             case serviceName = "ServiceName"
             case sourceConfiguration = "SourceConfiguration"
             case tags = "Tags"
@@ -598,6 +628,61 @@ extension AppRunner {
         private enum CodingKeys: String, CodingKey {
             case operationId = "OperationId"
             case service = "Service"
+        }
+    }
+
+    public struct CreateVpcConnectorRequest: AWSEncodableShape {
+        /// A list of IDs of security groups that App Runner should use for access to Amazon Web Services resources under the specified subnets. If not specified, App Runner uses the default security group of the Amazon VPC. The default security group allows all outbound traffic.
+        public let securityGroups: [String]?
+        /// A list of IDs of subnets that App Runner should use when it associates your service with a custom Amazon VPC. Specify IDs of subnets of a single Amazon VPC. App Runner determines the Amazon VPC from the subnets you specify.
+        public let subnets: [String]
+        /// A list of metadata items that you can associate with your VPC connector resource. A tag is a key-value pair.
+        public let tags: [Tag]?
+        /// A name for the VPC connector.
+        public let vpcConnectorName: String
+
+        public init(securityGroups: [String]? = nil, subnets: [String], tags: [Tag]? = nil, vpcConnectorName: String) {
+            self.securityGroups = securityGroups
+            self.subnets = subnets
+            self.tags = tags
+            self.vpcConnectorName = vpcConnectorName
+        }
+
+        public func validate(name: String) throws {
+            try self.securityGroups?.forEach {
+                try validate($0, name: "securityGroups[]", parent: name, max: 51200)
+                try validate($0, name: "securityGroups[]", parent: name, pattern: ".*")
+            }
+            try self.subnets.forEach {
+                try validate($0, name: "subnets[]", parent: name, max: 51200)
+                try validate($0, name: "subnets[]", parent: name, pattern: ".*")
+            }
+            try self.tags?.forEach {
+                try $0.validate(name: "\(name).tags[]")
+            }
+            try self.validate(self.vpcConnectorName, name: "vpcConnectorName", parent: name, max: 40)
+            try self.validate(self.vpcConnectorName, name: "vpcConnectorName", parent: name, min: 4)
+            try self.validate(self.vpcConnectorName, name: "vpcConnectorName", parent: name, pattern: "^[A-Za-z0-9][A-Za-z0-9\\-_]{3,39}$")
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case securityGroups = "SecurityGroups"
+            case subnets = "Subnets"
+            case tags = "Tags"
+            case vpcConnectorName = "VpcConnectorName"
+        }
+    }
+
+    public struct CreateVpcConnectorResponse: AWSDecodableShape {
+        /// A description of the App Runner VPC connector that's created by this request.
+        public let vpcConnector: VpcConnector
+
+        public init(vpcConnector: VpcConnector) {
+            self.vpcConnector = vpcConnector
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case vpcConnector = "VpcConnector"
         }
     }
 
@@ -726,6 +811,38 @@ extension AppRunner {
         }
     }
 
+    public struct DeleteVpcConnectorRequest: AWSEncodableShape {
+        /// The Amazon Resource Name (ARN) of the App Runner VPC connector that you want to delete. The ARN must be a full VPC connector ARN.
+        public let vpcConnectorArn: String
+
+        public init(vpcConnectorArn: String) {
+            self.vpcConnectorArn = vpcConnectorArn
+        }
+
+        public func validate(name: String) throws {
+            try self.validate(self.vpcConnectorArn, name: "vpcConnectorArn", parent: name, max: 1011)
+            try self.validate(self.vpcConnectorArn, name: "vpcConnectorArn", parent: name, min: 1)
+            try self.validate(self.vpcConnectorArn, name: "vpcConnectorArn", parent: name, pattern: "^arn:aws(-[\\w]+)*:[a-z0-9-\\\\.]{0,63}:[a-z0-9-\\\\.]{0,63}:[0-9]{12}:(\\w|\\/|-){1,1011}$")
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case vpcConnectorArn = "VpcConnectorArn"
+        }
+    }
+
+    public struct DeleteVpcConnectorResponse: AWSDecodableShape {
+        /// A description of the App Runner VPC connector that this request just deleted.
+        public let vpcConnector: VpcConnector
+
+        public init(vpcConnector: VpcConnector) {
+            self.vpcConnector = vpcConnector
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case vpcConnector = "VpcConnector"
+        }
+    }
+
     public struct DescribeAutoScalingConfigurationRequest: AWSEncodableShape {
         /// The Amazon Resource Name (ARN) of the App Runner auto scaling configuration that you want a description for. The ARN can be a full auto scaling configuration ARN, or a partial ARN ending with either .../name or .../name/revision . If a revision isn't specified, the latest active revision is described.
         public let autoScalingConfigurationArn: String
@@ -846,6 +963,38 @@ extension AppRunner {
         }
     }
 
+    public struct DescribeVpcConnectorRequest: AWSEncodableShape {
+        /// The Amazon Resource Name (ARN) of the App Runner VPC connector that you want a description for. The ARN must be a full VPC connector ARN.
+        public let vpcConnectorArn: String
+
+        public init(vpcConnectorArn: String) {
+            self.vpcConnectorArn = vpcConnectorArn
+        }
+
+        public func validate(name: String) throws {
+            try self.validate(self.vpcConnectorArn, name: "vpcConnectorArn", parent: name, max: 1011)
+            try self.validate(self.vpcConnectorArn, name: "vpcConnectorArn", parent: name, min: 1)
+            try self.validate(self.vpcConnectorArn, name: "vpcConnectorArn", parent: name, pattern: "^arn:aws(-[\\w]+)*:[a-z0-9-\\\\.]{0,63}:[a-z0-9-\\\\.]{0,63}:[0-9]{12}:(\\w|\\/|-){1,1011}$")
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case vpcConnectorArn = "VpcConnectorArn"
+        }
+    }
+
+    public struct DescribeVpcConnectorResponse: AWSDecodableShape {
+        /// A description of the App Runner VPC connector that you specified in this request.
+        public let vpcConnector: VpcConnector
+
+        public init(vpcConnector: VpcConnector) {
+            self.vpcConnector = vpcConnector
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case vpcConnector = "VpcConnector"
+        }
+    }
+
     public struct DisassociateCustomDomainRequest: AWSEncodableShape {
         /// The domain name that you want to disassociate from the App Runner service.
         public let domainName: String
@@ -860,6 +1009,7 @@ extension AppRunner {
         public func validate(name: String) throws {
             try self.validate(self.domainName, name: "domainName", parent: name, max: 255)
             try self.validate(self.domainName, name: "domainName", parent: name, min: 1)
+            try self.validate(self.domainName, name: "domainName", parent: name, pattern: "^[A-Za-z0-9*.-]{1,255}$")
             try self.validate(self.serviceArn, name: "serviceArn", parent: name, max: 1011)
             try self.validate(self.serviceArn, name: "serviceArn", parent: name, min: 1)
             try self.validate(self.serviceArn, name: "serviceArn", parent: name, pattern: "^arn:aws(-[\\w]+)*:[a-z0-9-\\\\.]{0,63}:[a-z0-9-\\\\.]{0,63}:[0-9]{12}:(\\w|\\/|-){1,1011}$")
@@ -889,6 +1039,29 @@ extension AppRunner {
             case customDomain = "CustomDomain"
             case dnsTarget = "DNSTarget"
             case serviceArn = "ServiceArn"
+        }
+    }
+
+    public struct EgressConfiguration: AWSEncodableShape & AWSDecodableShape {
+        /// The type of egress configuration. Set to DEFAULT for access to resources hosted on public networks. Set to VPC to associate your service to a custom VPC specified by VpcConnectorArn.
+        public let egressType: EgressType?
+        /// The Amazon Resource Name (ARN) of the App Runner VPC connector that you want to associate with your App Runner service. Only valid when EgressType = VPC.
+        public let vpcConnectorArn: String?
+
+        public init(egressType: EgressType? = nil, vpcConnectorArn: String? = nil) {
+            self.egressType = egressType
+            self.vpcConnectorArn = vpcConnectorArn
+        }
+
+        public func validate(name: String) throws {
+            try self.validate(self.vpcConnectorArn, name: "vpcConnectorArn", parent: name, max: 1011)
+            try self.validate(self.vpcConnectorArn, name: "vpcConnectorArn", parent: name, min: 1)
+            try self.validate(self.vpcConnectorArn, name: "vpcConnectorArn", parent: name, pattern: "^arn:aws(-[\\w]+)*:[a-z0-9-\\\\.]{0,63}:[a-z0-9-\\\\.]{0,63}:[0-9]{12}:(\\w|\\/|-){1,1011}$")
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case egressType = "EgressType"
+            case vpcConnectorArn = "VpcConnectorArn"
         }
     }
 
@@ -972,8 +1145,14 @@ extension AppRunner {
         public func validate(name: String) throws {
             try self.validate(self.port, name: "port", parent: name, max: 51200)
             try self.validate(self.port, name: "port", parent: name, pattern: ".*")
-            try self.validate(self.startCommand, name: "startCommand", parent: name, max: 51200)
-            try self.validate(self.startCommand, name: "startCommand", parent: name, pattern: ".*")
+            try self.runtimeEnvironmentVariables?.forEach {
+                try validate($0.key, name: "runtimeEnvironmentVariables.key", parent: name, max: 51200)
+                try validate($0.key, name: "runtimeEnvironmentVariables.key", parent: name, min: 1)
+                try validate($0.key, name: "runtimeEnvironmentVariables.key", parent: name, pattern: ".*")
+                try validate($0.value, name: "runtimeEnvironmentVariables[\"\($0.key)\"]", parent: name, max: 51200)
+                try validate($0.value, name: "runtimeEnvironmentVariables[\"\($0.key)\"]", parent: name, pattern: ".*")
+            }
+            try self.validate(self.startCommand, name: "startCommand", parent: name, pattern: "^[^\\x0a\\x0d]+$")
         }
 
         private enum CodingKeys: String, CodingKey {
@@ -1267,6 +1446,65 @@ extension AppRunner {
         }
     }
 
+    public struct ListVpcConnectorsRequest: AWSEncodableShape {
+        /// The maximum number of results to include in each response (result page). It's used for a paginated request. If you don't specify MaxResults, the request retrieves all available results in a single response.
+        public let maxResults: Int?
+        /// A token from a previous result page. It's used for a paginated request. The request retrieves the next result page. All other parameter values must be identical to the ones that are specified in the initial request. If you don't specify NextToken, the request retrieves the first result page.
+        public let nextToken: String?
+
+        public init(maxResults: Int? = nil, nextToken: String? = nil) {
+            self.maxResults = maxResults
+            self.nextToken = nextToken
+        }
+
+        public func validate(name: String) throws {
+            try self.validate(self.maxResults, name: "maxResults", parent: name, max: 100)
+            try self.validate(self.maxResults, name: "maxResults", parent: name, min: 1)
+            try self.validate(self.nextToken, name: "nextToken", parent: name, max: 1024)
+            try self.validate(self.nextToken, name: "nextToken", parent: name, min: 1)
+            try self.validate(self.nextToken, name: "nextToken", parent: name, pattern: ".*")
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case maxResults = "MaxResults"
+            case nextToken = "NextToken"
+        }
+    }
+
+    public struct ListVpcConnectorsResponse: AWSDecodableShape {
+        /// The token that you can pass in a subsequent request to get the next result page. It's returned in a paginated request.
+        public let nextToken: String?
+        /// A list of information records for VPC connectors. In a paginated request, the request returns up to MaxResults records for each call.
+        public let vpcConnectors: [VpcConnector]
+
+        public init(nextToken: String? = nil, vpcConnectors: [VpcConnector]) {
+            self.nextToken = nextToken
+            self.vpcConnectors = vpcConnectors
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case nextToken = "NextToken"
+            case vpcConnectors = "VpcConnectors"
+        }
+    }
+
+    public struct NetworkConfiguration: AWSEncodableShape & AWSDecodableShape {
+        /// Network configuration settings for outbound message traffic.
+        public let egressConfiguration: EgressConfiguration?
+
+        public init(egressConfiguration: EgressConfiguration? = nil) {
+            self.egressConfiguration = egressConfiguration
+        }
+
+        public func validate(name: String) throws {
+            try self.egressConfiguration?.validate(name: "\(name).egressConfiguration")
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case egressConfiguration = "EgressConfiguration"
+        }
+    }
+
     public struct OperationSummary: AWSDecodableShape {
         /// The time when the operation ended. It's in the Unix time stamp format.
         public let endedAt: Date?
@@ -1383,12 +1621,14 @@ extension AppRunner {
         public let createdAt: Date
         /// The time when the App Runner service was deleted. It's in the Unix time stamp format.
         public let deletedAt: Date?
-        /// The encryption key that App Runner uses to encrypt the service logs and the copy of the source repository that App Runner maintains for the service. It can be either a customer-provided encryption key or an Amazon Web Services managed CMK.
+        /// The encryption key that App Runner uses to encrypt the service logs and the copy of the source repository that App Runner maintains for the service. It can be either a customer-provided encryption key or an Amazon Web Services managed key.
         public let encryptionConfiguration: EncryptionConfiguration?
         /// The settings for the health check that App Runner performs to monitor the health of this service.
         public let healthCheckConfiguration: HealthCheckConfiguration?
         /// The runtime configuration of instances (scaling units) of this service.
         public let instanceConfiguration: InstanceConfiguration
+        /// Configuration settings related to network traffic of the web application that this service runs.
+        public let networkConfiguration: NetworkConfiguration
         /// The Amazon Resource Name (ARN) of this service.
         public let serviceArn: String
         /// An ID that App Runner generated for this service. It's unique within the Amazon Web Services Region.
@@ -1404,13 +1644,14 @@ extension AppRunner {
         /// The time when the App Runner service was last updated at. It's in the Unix time stamp format.
         public let updatedAt: Date
 
-        public init(autoScalingConfigurationSummary: AutoScalingConfigurationSummary, createdAt: Date, deletedAt: Date? = nil, encryptionConfiguration: EncryptionConfiguration? = nil, healthCheckConfiguration: HealthCheckConfiguration? = nil, instanceConfiguration: InstanceConfiguration, serviceArn: String, serviceId: String, serviceName: String, serviceUrl: String, sourceConfiguration: SourceConfiguration, status: ServiceStatus, updatedAt: Date) {
+        public init(autoScalingConfigurationSummary: AutoScalingConfigurationSummary, createdAt: Date, deletedAt: Date? = nil, encryptionConfiguration: EncryptionConfiguration? = nil, healthCheckConfiguration: HealthCheckConfiguration? = nil, instanceConfiguration: InstanceConfiguration, networkConfiguration: NetworkConfiguration, serviceArn: String, serviceId: String, serviceName: String, serviceUrl: String, sourceConfiguration: SourceConfiguration, status: ServiceStatus, updatedAt: Date) {
             self.autoScalingConfigurationSummary = autoScalingConfigurationSummary
             self.createdAt = createdAt
             self.deletedAt = deletedAt
             self.encryptionConfiguration = encryptionConfiguration
             self.healthCheckConfiguration = healthCheckConfiguration
             self.instanceConfiguration = instanceConfiguration
+            self.networkConfiguration = networkConfiguration
             self.serviceArn = serviceArn
             self.serviceId = serviceId
             self.serviceName = serviceName
@@ -1427,6 +1668,7 @@ extension AppRunner {
             case encryptionConfiguration = "EncryptionConfiguration"
             case healthCheckConfiguration = "HealthCheckConfiguration"
             case instanceConfiguration = "InstanceConfiguration"
+            case networkConfiguration = "NetworkConfiguration"
             case serviceArn = "ServiceArn"
             case serviceId = "ServiceId"
             case serviceName = "ServiceName"
@@ -1647,21 +1889,24 @@ extension AppRunner {
     }
 
     public struct UpdateServiceRequest: AWSEncodableShape {
-        /// The Amazon Resource Name (ARN) of an App Runner automatic scaling configuration resource that you want to associate with your service.
+        /// The Amazon Resource Name (ARN) of an App Runner automatic scaling configuration resource that you want to associate with the App Runner service.
         public let autoScalingConfigurationArn: String?
-        /// The settings for the health check that App Runner performs to monitor the health of your service.
+        /// The settings for the health check that App Runner performs to monitor the health of the App Runner service.
         public let healthCheckConfiguration: HealthCheckConfiguration?
         /// The runtime configuration to apply to instances (scaling units) of the App Runner service.
         public let instanceConfiguration: InstanceConfiguration?
+        /// Configuration settings related to network traffic of the web application that the App Runner service runs.
+        public let networkConfiguration: NetworkConfiguration?
         /// The Amazon Resource Name (ARN) of the App Runner service that you want to update.
         public let serviceArn: String
         /// The source configuration to apply to the App Runner service. You can change the configuration of the code or image repository that the service uses. However, you can't switch from code to image or the other way around. This means that you must provide the same structure member of SourceConfiguration that you originally included when you created the service. Specifically, you can include either CodeRepository or ImageRepository. To update the source configuration, set the values to members of the structure that you include.
         public let sourceConfiguration: SourceConfiguration?
 
-        public init(autoScalingConfigurationArn: String? = nil, healthCheckConfiguration: HealthCheckConfiguration? = nil, instanceConfiguration: InstanceConfiguration? = nil, serviceArn: String, sourceConfiguration: SourceConfiguration? = nil) {
+        public init(autoScalingConfigurationArn: String? = nil, healthCheckConfiguration: HealthCheckConfiguration? = nil, instanceConfiguration: InstanceConfiguration? = nil, networkConfiguration: NetworkConfiguration? = nil, serviceArn: String, sourceConfiguration: SourceConfiguration? = nil) {
             self.autoScalingConfigurationArn = autoScalingConfigurationArn
             self.healthCheckConfiguration = healthCheckConfiguration
             self.instanceConfiguration = instanceConfiguration
+            self.networkConfiguration = networkConfiguration
             self.serviceArn = serviceArn
             self.sourceConfiguration = sourceConfiguration
         }
@@ -1672,6 +1917,7 @@ extension AppRunner {
             try self.validate(self.autoScalingConfigurationArn, name: "autoScalingConfigurationArn", parent: name, pattern: "^arn:aws(-[\\w]+)*:[a-z0-9-\\\\.]{0,63}:[a-z0-9-\\\\.]{0,63}:[0-9]{12}:(\\w|\\/|-){1,1011}$")
             try self.healthCheckConfiguration?.validate(name: "\(name).healthCheckConfiguration")
             try self.instanceConfiguration?.validate(name: "\(name).instanceConfiguration")
+            try self.networkConfiguration?.validate(name: "\(name).networkConfiguration")
             try self.validate(self.serviceArn, name: "serviceArn", parent: name, max: 1011)
             try self.validate(self.serviceArn, name: "serviceArn", parent: name, min: 1)
             try self.validate(self.serviceArn, name: "serviceArn", parent: name, pattern: "^arn:aws(-[\\w]+)*:[a-z0-9-\\\\.]{0,63}:[a-z0-9-\\\\.]{0,63}:[0-9]{12}:(\\w|\\/|-){1,1011}$")
@@ -1682,6 +1928,7 @@ extension AppRunner {
             case autoScalingConfigurationArn = "AutoScalingConfigurationArn"
             case healthCheckConfiguration = "HealthCheckConfiguration"
             case instanceConfiguration = "InstanceConfiguration"
+            case networkConfiguration = "NetworkConfiguration"
             case serviceArn = "ServiceArn"
             case sourceConfiguration = "SourceConfiguration"
         }
@@ -1701,6 +1948,47 @@ extension AppRunner {
         private enum CodingKeys: String, CodingKey {
             case operationId = "OperationId"
             case service = "Service"
+        }
+    }
+
+    public struct VpcConnector: AWSDecodableShape {
+        /// The time when the VPC connector was created. It's in Unix time stamp format.
+        public let createdAt: Date?
+        /// The time when the VPC connector was deleted. It's in Unix time stamp format.
+        public let deletedAt: Date?
+        /// A list of IDs of security groups that App Runner uses for access to Amazon Web Services resources under the specified subnets. If not specified, App Runner uses the default security group of the Amazon VPC. The default security group allows all outbound traffic.
+        public let securityGroups: [String]?
+        /// The current state of the VPC connector. If the status of a connector revision is INACTIVE, it was deleted and can't be used. Inactive connector revisions are permanently removed some time after they are deleted.
+        public let status: VpcConnectorStatus?
+        /// A list of IDs of subnets that App Runner uses for your service. All IDs are of subnets of a single Amazon VPC.
+        public let subnets: [String]?
+        /// The Amazon Resource Name (ARN) of this VPC connector.
+        public let vpcConnectorArn: String?
+        /// The customer-provided VPC connector name.
+        public let vpcConnectorName: String?
+        /// The revision of this VPC connector. It's unique among all the active connectors ("Status": "ACTIVE") that share the same Name.  At this time, App Runner supports only one revision per name.
+        public let vpcConnectorRevision: Int?
+
+        public init(createdAt: Date? = nil, deletedAt: Date? = nil, securityGroups: [String]? = nil, status: VpcConnectorStatus? = nil, subnets: [String]? = nil, vpcConnectorArn: String? = nil, vpcConnectorName: String? = nil, vpcConnectorRevision: Int? = nil) {
+            self.createdAt = createdAt
+            self.deletedAt = deletedAt
+            self.securityGroups = securityGroups
+            self.status = status
+            self.subnets = subnets
+            self.vpcConnectorArn = vpcConnectorArn
+            self.vpcConnectorName = vpcConnectorName
+            self.vpcConnectorRevision = vpcConnectorRevision
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case createdAt = "CreatedAt"
+            case deletedAt = "DeletedAt"
+            case securityGroups = "SecurityGroups"
+            case status = "Status"
+            case subnets = "Subnets"
+            case vpcConnectorArn = "VpcConnectorArn"
+            case vpcConnectorName = "VpcConnectorName"
+            case vpcConnectorRevision = "VpcConnectorRevision"
         }
     }
 }

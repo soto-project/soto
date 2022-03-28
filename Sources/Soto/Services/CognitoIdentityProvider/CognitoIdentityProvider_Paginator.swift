@@ -73,7 +73,7 @@ extension CognitoIdentityProvider {
         )
     }
 
-    ///  Lists a history of user activity and any risks detected as part of Amazon Cognito advanced security.
+    ///  A history of user activity and any risks detected as part of Amazon Cognito advanced security.
     ///
     /// Provide paginated results to closure `onPage` for it to combine them into one result.
     /// This works in a similar manner to `Array.reduce<Result>(_:_:) -> Result`.
@@ -338,7 +338,7 @@ extension CognitoIdentityProvider {
         )
     }
 
-    ///  Lists the user pools associated with an account.
+    ///  Lists the user pools associated with an Amazon Web Services account.
     ///
     /// Provide paginated results to closure `onPage` for it to combine them into one result.
     /// This works in a similar manner to `Array.reduce<Result>(_:_:) -> Result`.

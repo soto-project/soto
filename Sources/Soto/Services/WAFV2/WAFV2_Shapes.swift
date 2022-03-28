@@ -350,6 +350,18 @@ extension WAFV2 {
         public var description: String { return self.rawValue }
     }
 
+    public enum PayloadType: String, CustomStringConvertible, Codable {
+        case formEncoded = "FORM_ENCODED"
+        case json = "JSON"
+        public var description: String { return self.rawValue }
+    }
+
+    public enum Platform: String, CustomStringConvertible, Codable {
+        case android = "ANDROID"
+        case ios = "IOS"
+        public var description: String { return self.rawValue }
+    }
+
     public enum PositionalConstraint: String, CustomStringConvertible, Codable {
         case contains = "CONTAINS"
         case containsWord = "CONTAINS_WORD"
@@ -683,7 +695,7 @@ extension WAFV2 {
     }
 
     public struct CreateIPSetRequest: AWSEncodableShape {
-        /// Contains an array of strings that specify one or more IP addresses or blocks of IP addresses in Classless Inter-Domain Routing (CIDR) notation. WAF supports all IPv4 and IPv6 CIDR ranges except for /0.  Examples:    To configure WAF to allow, block, or count requests that originated from the IP address 192.0.2.44, specify 192.0.2.44/32.   To configure WAF to allow, block, or count requests that originated from IP addresses from 192.0.2.0 to 192.0.2.255, specify  192.0.2.0/24.   To configure WAF to allow, block, or count requests that originated from the IP address 1111:0000:0000:0000:0000:0000:0000:0111, specify 1111:0000:0000:0000:0000:0000:0000:0111/128.   To configure WAF to allow, block, or count requests that originated from IP addresses 1111:0000:0000:0000:0000:0000:0000:0000 to 1111:0000:0000:0000:ffff:ffff:ffff:ffff, specify 1111:0000:0000:0000:0000:0000:0000:0000/64.   For more information about CIDR notation, see the Wikipedia entry Classless Inter-Domain Routing.
+        /// Contains an array of strings that specifies zero or more IP addresses or blocks of IP addresses in Classless Inter-Domain Routing (CIDR) notation. WAF supports all IPv4 and IPv6 CIDR ranges except for /0.  Example address strings:    To configure WAF to allow, block, or count requests that originated from the IP address 192.0.2.44, specify 192.0.2.44/32.   To configure WAF to allow, block, or count requests that originated from IP addresses from 192.0.2.0 to 192.0.2.255, specify  192.0.2.0/24.   To configure WAF to allow, block, or count requests that originated from the IP address 1111:0000:0000:0000:0000:0000:0000:0111, specify 1111:0000:0000:0000:0000:0000:0000:0111/128.   To configure WAF to allow, block, or count requests that originated from IP addresses 1111:0000:0000:0000:0000:0000:0000:0000 to 1111:0000:0000:0000:ffff:ffff:ffff:ffff, specify 1111:0000:0000:0000:0000:0000:0000:0000/64.   For more information about CIDR notation, see the Wikipedia entry Classless Inter-Domain Routing.  Example JSON Addresses specifications:    Empty array: "Addresses": []     Array with one address: "Addresses": ["192.0.2.44/32"]     Array with three addresses: "Addresses": ["192.0.2.44/32", "192.0.2.0/24", "192.0.0.0/16"]     INVALID specification: "Addresses": [""] INVALID
         public let addresses: [String]
         /// A description of the IP set that helps with identification.
         public let description: String?
@@ -1601,6 +1613,42 @@ extension WAFV2 {
         }
     }
 
+    public struct GenerateMobileSdkReleaseUrlRequest: AWSEncodableShape {
+        /// The device platform.
+        public let platform: Platform
+        /// The release version. For the latest available version, specify LATEST.
+        public let releaseVersion: String
+
+        public init(platform: Platform, releaseVersion: String) {
+            self.platform = platform
+            self.releaseVersion = releaseVersion
+        }
+
+        public func validate(name: String) throws {
+            try self.validate(self.releaseVersion, name: "releaseVersion", parent: name, max: 64)
+            try self.validate(self.releaseVersion, name: "releaseVersion", parent: name, min: 1)
+            try self.validate(self.releaseVersion, name: "releaseVersion", parent: name, pattern: "^[\\w#:\\.\\-/]+$")
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case platform = "Platform"
+            case releaseVersion = "ReleaseVersion"
+        }
+    }
+
+    public struct GenerateMobileSdkReleaseUrlResponse: AWSDecodableShape {
+        /// The presigned download URL for the specified SDK release.
+        public let url: String?
+
+        public init(url: String? = nil) {
+            self.url = url
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case url = "Url"
+        }
+    }
+
     public struct GeoMatchStatement: AWSEncodableShape & AWSDecodableShape {
         /// An array of two-character country codes, for example, [ "US", "CN" ], from the alpha-2 country ISO codes of the ISO 3166 international standard.
         public let countryCodes: [CountryCode]?
@@ -1745,6 +1793,42 @@ extension WAFV2 {
         private enum CodingKeys: String, CodingKey {
             case lockToken = "LockToken"
             case managedRuleSet = "ManagedRuleSet"
+        }
+    }
+
+    public struct GetMobileSdkReleaseRequest: AWSEncodableShape {
+        /// The device platform.
+        public let platform: Platform
+        /// The release version. For the latest available version, specify LATEST.
+        public let releaseVersion: String
+
+        public init(platform: Platform, releaseVersion: String) {
+            self.platform = platform
+            self.releaseVersion = releaseVersion
+        }
+
+        public func validate(name: String) throws {
+            try self.validate(self.releaseVersion, name: "releaseVersion", parent: name, max: 64)
+            try self.validate(self.releaseVersion, name: "releaseVersion", parent: name, min: 1)
+            try self.validate(self.releaseVersion, name: "releaseVersion", parent: name, pattern: "^[\\w#:\\.\\-/]+$")
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case platform = "Platform"
+            case releaseVersion = "ReleaseVersion"
+        }
+    }
+
+    public struct GetMobileSdkReleaseResponse: AWSDecodableShape {
+        /// Information for a specified SDK release, including release notes and tags.
+        public let mobileSdkRelease: MobileSdkRelease?
+
+        public init(mobileSdkRelease: MobileSdkRelease? = nil) {
+            self.mobileSdkRelease = mobileSdkRelease
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case mobileSdkRelease = "MobileSdkRelease"
         }
     }
 
@@ -2065,17 +2149,21 @@ extension WAFV2 {
     }
 
     public struct GetWebACLResponse: AWSDecodableShape {
+        /// The URL to use in SDK integrations with Amazon Web Services managed rule groups. For example, you can use the integration SDKs with the account takeover prevention managed rule group AWSManagedRulesATPRuleSet. This is only populated if you are using a rule group in your web ACL that integrates with your applications in this way. For more information, see WAF client application integration in the WAF Developer Guide.
+        public let applicationIntegrationURL: String?
         /// A token used for optimistic locking. WAF returns a token to your get and list requests, to mark the state of the entity at the time of the request. To make changes to the entity associated with the token, you provide the token to operations like update and delete. WAF uses the token to ensure that no changes have been made to the entity since you last retrieved it. If a change has been made, the update fails with a WAFOptimisticLockException. If this happens, perform another get, and use the new token returned by that operation.
         public let lockToken: String?
         /// The web ACL specification. You can modify the settings in this web ACL and use it to update this web ACL or create a new one.
         public let webACL: WebACL?
 
-        public init(lockToken: String? = nil, webACL: WebACL? = nil) {
+        public init(applicationIntegrationURL: String? = nil, lockToken: String? = nil, webACL: WebACL? = nil) {
+            self.applicationIntegrationURL = applicationIntegrationURL
             self.lockToken = lockToken
             self.webACL = webACL
         }
 
         private enum CodingKeys: String, CodingKey {
+            case applicationIntegrationURL = "ApplicationIntegrationURL"
             case lockToken = "LockToken"
             case webACL = "WebACL"
         }
@@ -2132,7 +2220,7 @@ extension WAFV2 {
     }
 
     public struct IPSet: AWSDecodableShape {
-        /// Contains an array of strings that specify one or more IP addresses or blocks of IP addresses in Classless Inter-Domain Routing (CIDR) notation. WAF supports all IPv4 and IPv6 CIDR ranges except for /0.  Examples:    To configure WAF to allow, block, or count requests that originated from the IP address 192.0.2.44, specify 192.0.2.44/32.   To configure WAF to allow, block, or count requests that originated from IP addresses from 192.0.2.0 to 192.0.2.255, specify  192.0.2.0/24.   To configure WAF to allow, block, or count requests that originated from the IP address 1111:0000:0000:0000:0000:0000:0000:0111, specify 1111:0000:0000:0000:0000:0000:0000:0111/128.   To configure WAF to allow, block, or count requests that originated from IP addresses 1111:0000:0000:0000:0000:0000:0000:0000 to 1111:0000:0000:0000:ffff:ffff:ffff:ffff, specify 1111:0000:0000:0000:0000:0000:0000:0000/64.   For more information about CIDR notation, see the Wikipedia entry Classless Inter-Domain Routing.
+        /// Contains an array of strings that specifies zero or more IP addresses or blocks of IP addresses in Classless Inter-Domain Routing (CIDR) notation. WAF supports all IPv4 and IPv6 CIDR ranges except for /0.  Example address strings:    To configure WAF to allow, block, or count requests that originated from the IP address 192.0.2.44, specify 192.0.2.44/32.   To configure WAF to allow, block, or count requests that originated from IP addresses from 192.0.2.0 to 192.0.2.255, specify  192.0.2.0/24.   To configure WAF to allow, block, or count requests that originated from the IP address 1111:0000:0000:0000:0000:0000:0000:0111, specify 1111:0000:0000:0000:0000:0000:0000:0111/128.   To configure WAF to allow, block, or count requests that originated from IP addresses 1111:0000:0000:0000:0000:0000:0000:0000 to 1111:0000:0000:0000:ffff:ffff:ffff:ffff, specify 1111:0000:0000:0000:0000:0000:0000:0000/64.   For more information about CIDR notation, see the Wikipedia entry Classless Inter-Domain Routing.  Example JSON Addresses specifications:    Empty array: "Addresses": []     Array with one address: "Addresses": ["192.0.2.44/32"]     Array with three addresses: "Addresses": ["192.0.2.44/32", "192.0.2.0/24", "192.0.0.0/16"]     INVALID specification: "Addresses": [""] INVALID
         public let addresses: [String]
         /// The Amazon Resource Name (ARN) of the entity.
         public let arn: String
@@ -2629,6 +2717,52 @@ extension WAFV2 {
         }
     }
 
+    public struct ListMobileSdkReleasesRequest: AWSEncodableShape {
+        /// The maximum number of objects that you want WAF to return for this request. If more  objects are available, in the response, WAF provides a  NextMarker value that you can use in a subsequent call to get the next batch of objects.
+        public let limit: Int?
+        /// When you request a list of objects with a Limit setting, if the number of objects that are still available for retrieval exceeds the limit, WAF returns a NextMarker  value in the response. To retrieve the next batch of objects, provide the marker from the prior call in your next request.
+        public let nextMarker: String?
+        /// The device platform to retrieve the list for.
+        public let platform: Platform
+
+        public init(limit: Int? = nil, nextMarker: String? = nil, platform: Platform) {
+            self.limit = limit
+            self.nextMarker = nextMarker
+            self.platform = platform
+        }
+
+        public func validate(name: String) throws {
+            try self.validate(self.limit, name: "limit", parent: name, max: 100)
+            try self.validate(self.limit, name: "limit", parent: name, min: 1)
+            try self.validate(self.nextMarker, name: "nextMarker", parent: name, max: 256)
+            try self.validate(self.nextMarker, name: "nextMarker", parent: name, min: 1)
+            try self.validate(self.nextMarker, name: "nextMarker", parent: name, pattern: "\\S")
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case limit = "Limit"
+            case nextMarker = "NextMarker"
+            case platform = "Platform"
+        }
+    }
+
+    public struct ListMobileSdkReleasesResponse: AWSDecodableShape {
+        /// When you request a list of objects with a Limit setting, if the number of objects that are still available for retrieval exceeds the limit, WAF returns a NextMarker  value in the response. To retrieve the next batch of objects, provide the marker from the prior call in your next request.
+        public let nextMarker: String?
+        /// High level information for the available SDK releases.
+        public let releaseSummaries: [ReleaseSummary]?
+
+        public init(nextMarker: String? = nil, releaseSummaries: [ReleaseSummary]? = nil) {
+            self.nextMarker = nextMarker
+            self.releaseSummaries = releaseSummaries
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case nextMarker = "NextMarker"
+            case releaseSummaries = "ReleaseSummaries"
+        }
+    }
+
     public struct ListRegexPatternSetsRequest: AWSEncodableShape {
         /// The maximum number of objects that you want WAF to return for this request. If more  objects are available, in the response, WAF provides a  NextMarker value that you can use in a subsequent call to get the next batch of objects.
         public let limit: Int?
@@ -2850,7 +2984,7 @@ extension WAFV2 {
     }
 
     public struct LoggingConfiguration: AWSEncodableShape & AWSDecodableShape {
-        /// The Amazon Resource Names (ARNs) of the logging destinations that you want to associate with the web ACL.
+        /// The logging destination configuration that you want to associate with the web ACL.  You can associate one logging destination to a web ACL.
         public let logDestinationConfigs: [String]
         /// Filtering that specifies which web requests are kept in the logs and which are dropped. You can filter on the rule action and on the web request labels that were applied by matching rules during web ACL evaluation.
         public let loggingFilter: LoggingFilter?
@@ -2920,9 +3054,44 @@ extension WAFV2 {
         }
     }
 
+    public struct ManagedRuleGroupConfig: AWSEncodableShape & AWSDecodableShape {
+        /// The path of the login endpoint for your application. For example, for the URL https://example.com/web/login, you would provide the path /web/login.
+        public let loginPath: String?
+        /// Details about your login page password field.
+        public let passwordField: PasswordField?
+        /// The payload type for your login endpoint, either JSON or form encoded.
+        public let payloadType: PayloadType?
+        /// Details about your login page username field.
+        public let usernameField: UsernameField?
+
+        public init(loginPath: String? = nil, passwordField: PasswordField? = nil, payloadType: PayloadType? = nil, usernameField: UsernameField? = nil) {
+            self.loginPath = loginPath
+            self.passwordField = passwordField
+            self.payloadType = payloadType
+            self.usernameField = usernameField
+        }
+
+        public func validate(name: String) throws {
+            try self.validate(self.loginPath, name: "loginPath", parent: name, max: 256)
+            try self.validate(self.loginPath, name: "loginPath", parent: name, min: 1)
+            try self.validate(self.loginPath, name: "loginPath", parent: name, pattern: "\\S")
+            try self.passwordField?.validate(name: "\(name).passwordField")
+            try self.usernameField?.validate(name: "\(name).usernameField")
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case loginPath = "LoginPath"
+            case passwordField = "PasswordField"
+            case payloadType = "PayloadType"
+            case usernameField = "UsernameField"
+        }
+    }
+
     public final class ManagedRuleGroupStatement: AWSEncodableShape & AWSDecodableShape {
         /// The rules in the referenced rule group whose actions are set to Count.   When you exclude a rule, WAF evaluates it exactly as it would if the rule action setting were Count.  This is a useful option for testing the rules in a rule group without modifying how they handle your web traffic.
         public let excludedRules: [ExcludedRule]?
+        /// Additional information that's used by a managed rule group. Most managed rule groups don't require this. Use this for the account takeover prevention managed rule group  AWSManagedRulesATPRuleSet, to provide information about the sign-in page of your application.
+        public let managedRuleGroupConfigs: [ManagedRuleGroupConfig]?
         /// The name of the managed rule group. You use this, along with the vendor name, to identify the rule group.
         public let name: String
         /// An optional nested statement that narrows the scope of the web requests that are evaluated by the managed rule group. Requests are only evaluated by the rule group if they match the scope-down statement. You can use any nestable Statement in the scope-down statement, and you can nest statements at any level, the same as you can for a rule statement.
@@ -2932,8 +3101,9 @@ extension WAFV2 {
         /// The version of the managed rule group to use. If you specify this, the version setting  is fixed until you change it.  If you don't specify this, WAF uses the vendor's default version, and then keeps the version  at the vendor's default when the vendor updates the managed rule group settings.
         public let version: String?
 
-        public init(excludedRules: [ExcludedRule]? = nil, name: String, scopeDownStatement: Statement? = nil, vendorName: String, version: String? = nil) {
+        public init(excludedRules: [ExcludedRule]? = nil, managedRuleGroupConfigs: [ManagedRuleGroupConfig]? = nil, name: String, scopeDownStatement: Statement? = nil, vendorName: String, version: String? = nil) {
             self.excludedRules = excludedRules
+            self.managedRuleGroupConfigs = managedRuleGroupConfigs
             self.name = name
             self.scopeDownStatement = scopeDownStatement
             self.vendorName = vendorName
@@ -2944,6 +3114,10 @@ extension WAFV2 {
             try self.excludedRules?.forEach {
                 try $0.validate(name: "\(name).excludedRules[]")
             }
+            try self.managedRuleGroupConfigs?.forEach {
+                try $0.validate(name: "\(name).managedRuleGroupConfigs[]")
+            }
+            try self.validate(self.managedRuleGroupConfigs, name: "managedRuleGroupConfigs", parent: name, min: 1)
             try self.validate(self.name, name: "name", parent: name, max: 128)
             try self.validate(self.name, name: "name", parent: name, min: 1)
             try self.validate(self.name, name: "name", parent: name, pattern: "^[\\w\\-]+$")
@@ -2958,6 +3132,7 @@ extension WAFV2 {
 
         private enum CodingKeys: String, CodingKey {
             case excludedRules = "ExcludedRules"
+            case managedRuleGroupConfigs = "ManagedRuleGroupConfigs"
             case name = "Name"
             case scopeDownStatement = "ScopeDownStatement"
             case vendorName = "VendorName"
@@ -3112,6 +3287,31 @@ extension WAFV2 {
         public init() {}
     }
 
+    public struct MobileSdkRelease: AWSDecodableShape {
+        /// Notes describing the release.
+        public let releaseNotes: String?
+        /// The release version.
+        public let releaseVersion: String?
+        /// Tags that are associated with the release.
+        public let tags: [Tag]?
+        /// The timestamp of the release.
+        public let timestamp: Date?
+
+        public init(releaseNotes: String? = nil, releaseVersion: String? = nil, tags: [Tag]? = nil, timestamp: Date? = nil) {
+            self.releaseNotes = releaseNotes
+            self.releaseVersion = releaseVersion
+            self.tags = tags
+            self.timestamp = timestamp
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case releaseNotes = "ReleaseNotes"
+            case releaseVersion = "ReleaseVersion"
+            case tags = "Tags"
+            case timestamp = "Timestamp"
+        }
+    }
+
     public struct NoneAction: AWSEncodableShape & AWSDecodableShape {
         public init() {}
     }
@@ -3170,6 +3370,25 @@ extension WAFV2 {
         private enum CodingKeys: String, CodingKey {
             case count = "Count"
             case none = "None"
+        }
+    }
+
+    public struct PasswordField: AWSEncodableShape & AWSDecodableShape {
+        /// The name of the password field. For example /form/password.
+        public let identifier: String
+
+        public init(identifier: String) {
+            self.identifier = identifier
+        }
+
+        public func validate(name: String) throws {
+            try self.validate(self.identifier, name: "identifier", parent: name, max: 512)
+            try self.validate(self.identifier, name: "identifier", parent: name, min: 1)
+            try self.validate(self.identifier, name: "identifier", parent: name, pattern: "\\S")
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case identifier = "Identifier"
         }
     }
 
@@ -3489,6 +3708,23 @@ extension WAFV2 {
             case id = "Id"
             case lockToken = "LockToken"
             case name = "Name"
+        }
+    }
+
+    public struct ReleaseSummary: AWSDecodableShape {
+        /// The release version.
+        public let releaseVersion: String?
+        /// The timestamp of the release.
+        public let timestamp: Date?
+
+        public init(releaseVersion: String? = nil, timestamp: Date? = nil) {
+            self.releaseVersion = releaseVersion
+            self.timestamp = timestamp
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case releaseVersion = "ReleaseVersion"
+            case timestamp = "Timestamp"
         }
     }
 
@@ -4082,7 +4318,7 @@ extension WAFV2 {
     }
 
     public struct UpdateIPSetRequest: AWSEncodableShape {
-        /// Contains an array of strings that specify one or more IP addresses or blocks of IP addresses in Classless Inter-Domain Routing (CIDR) notation. WAF supports all IPv4 and IPv6 CIDR ranges except for /0.  Examples:    To configure WAF to allow, block, or count requests that originated from the IP address 192.0.2.44, specify 192.0.2.44/32.   To configure WAF to allow, block, or count requests that originated from IP addresses from 192.0.2.0 to 192.0.2.255, specify  192.0.2.0/24.   To configure WAF to allow, block, or count requests that originated from the IP address 1111:0000:0000:0000:0000:0000:0000:0111, specify 1111:0000:0000:0000:0000:0000:0000:0111/128.   To configure WAF to allow, block, or count requests that originated from IP addresses 1111:0000:0000:0000:0000:0000:0000:0000 to 1111:0000:0000:0000:ffff:ffff:ffff:ffff, specify 1111:0000:0000:0000:0000:0000:0000:0000/64.   For more information about CIDR notation, see the Wikipedia entry Classless Inter-Domain Routing.
+        /// Contains an array of strings that specifies zero or more IP addresses or blocks of IP addresses in Classless Inter-Domain Routing (CIDR) notation. WAF supports all IPv4 and IPv6 CIDR ranges except for /0.  Example address strings:    To configure WAF to allow, block, or count requests that originated from the IP address 192.0.2.44, specify 192.0.2.44/32.   To configure WAF to allow, block, or count requests that originated from IP addresses from 192.0.2.0 to 192.0.2.255, specify  192.0.2.0/24.   To configure WAF to allow, block, or count requests that originated from the IP address 1111:0000:0000:0000:0000:0000:0000:0111, specify 1111:0000:0000:0000:0000:0000:0000:0111/128.   To configure WAF to allow, block, or count requests that originated from IP addresses 1111:0000:0000:0000:0000:0000:0000:0000 to 1111:0000:0000:0000:ffff:ffff:ffff:ffff, specify 1111:0000:0000:0000:0000:0000:0000:0000/64.   For more information about CIDR notation, see the Wikipedia entry Classless Inter-Domain Routing.  Example JSON Addresses specifications:    Empty array: "Addresses": []     Array with one address: "Addresses": ["192.0.2.44/32"]     Array with three addresses: "Addresses": ["192.0.2.44/32", "192.0.2.0/24", "192.0.0.0/16"]     INVALID specification: "Addresses": [""] INVALID
         public let addresses: [String]
         /// A description of the IP set that helps with identification.
         public let description: String?
@@ -4451,6 +4687,25 @@ extension WAFV2 {
 
     public struct UriPath: AWSEncodableShape & AWSDecodableShape {
         public init() {}
+    }
+
+    public struct UsernameField: AWSEncodableShape & AWSDecodableShape {
+        /// The name of the username field. For example /form/username.
+        public let identifier: String
+
+        public init(identifier: String) {
+            self.identifier = identifier
+        }
+
+        public func validate(name: String) throws {
+            try self.validate(self.identifier, name: "identifier", parent: name, max: 512)
+            try self.validate(self.identifier, name: "identifier", parent: name, min: 1)
+            try self.validate(self.identifier, name: "identifier", parent: name, pattern: "\\S")
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case identifier = "Identifier"
+        }
     }
 
     public struct VersionToPublish: AWSEncodableShape {

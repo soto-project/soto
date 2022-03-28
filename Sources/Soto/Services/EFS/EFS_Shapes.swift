@@ -37,6 +37,14 @@ extension EFS {
         public var description: String { return self.rawValue }
     }
 
+    public enum ReplicationStatus: String, CustomStringConvertible, Codable {
+        case deleting = "DELETING"
+        case enabled = "ENABLED"
+        case enabling = "ENABLING"
+        case error = "ERROR"
+        public var description: String { return self.rawValue }
+    }
+
     public enum Resource: String, CustomStringConvertible, Codable {
         case fileSystem = "FILE_SYSTEM"
         case mountTarget = "MOUNT_TARGET"
@@ -199,13 +207,13 @@ extension EFS {
     public struct CreateFileSystemRequest: AWSEncodableShape {
         /// Used to create a file system that uses One Zone storage classes. It specifies the Amazon Web Services Availability Zone in which to create the file system. Use the format us-east-1a to specify the Availability Zone. For more information about One Zone storage classes, see Using EFS storage classes in the Amazon EFS User Guide.  One Zone storage classes are not available in all Availability Zones in Amazon Web Services Regions where Amazon EFS is available.
         public let availabilityZoneName: String?
-        /// Specifies whether automatic backups are enabled on the file system that you are creating. Set the value to true to enable automatic backups. If you are creating a file system that uses One Zone storage classes, automatic backups are enabled by default. For more information, see Automatic backups in the Amazon EFS User Guide. Default is false. However, if you specify an AvailabilityZoneName,  the default is true.  Backup is not available in all Amazon Web Services Regionswhere Amazon EFS is available.
+        /// Specifies whether automatic backups are enabled on the file system that you are creating. Set the value to true to enable automatic backups. If you are creating a file system that uses One Zone storage classes, automatic backups are enabled by default. For more information, see Automatic backups in the Amazon EFS User Guide. Default is false. However, if you specify an AvailabilityZoneName,  the default is true.  Backup is not available in all Amazon Web Services Regions where Amazon EFS is available.
         public let backup: Bool?
         /// A string of up to 64 ASCII characters. Amazon EFS uses this to ensure idempotent creation.
         public let creationToken: String
-        /// A Boolean value that, if true, creates an encrypted file system. When creating an encrypted file system, you have the option of specifying CreateFileSystemRequest$KmsKeyId for an existing Key Management Service (KMS customer master key (CMK). If you don't specify a CMK, then the default CMK for Amazon EFS, /aws/elasticfilesystem, is used to protect the encrypted file system.
+        /// A Boolean value that, if true, creates an encrypted file system. When creating an encrypted file system, you have the option of specifying an existing Key Management Service key (KMS key). If you don't specify a KMS key, then the default KMS key for Amazon EFS, /aws/elasticfilesystem, is used to protect the encrypted file system.
         public let encrypted: Bool?
-        /// The ID of the KMS CMK that you want to use to protect the encrypted file system. This parameter is only required if you want to use a non-default KMS key. If this parameter is not specified, the default CMK for Amazon EFS is used. This ID can be in one of the following formats:   Key ID - A unique identifier of the key, for example 1234abcd-12ab-34cd-56ef-1234567890ab.   ARN - An Amazon Resource Name (ARN) for the key, for example arn:aws:kms:us-west-2:111122223333:key/1234abcd-12ab-34cd-56ef-1234567890ab.   Key alias - A previously created display name for a key, for example alias/projectKey1.   Key alias ARN - An ARN for a key alias, for example arn:aws:kms:us-west-2:444455556666:alias/projectKey1.   If KmsKeyId is specified, the CreateFileSystemRequest$Encrypted parameter must be set to true.  EFS accepts only symmetric KMS keys. You cannot use asymmetric KMS keys with EFS file systems.
+        /// The ID of the KMS key that you want to use to protect the encrypted file system. This parameter is only required if you want to use a non-default KMS key. If this parameter is not specified, the default KMS key for Amazon EFS is used. You can specify a KMS key  ID using the following formats:   Key ID - A unique identifier of the key, for example 1234abcd-12ab-34cd-56ef-1234567890ab.   ARN - An Amazon Resource Name (ARN) for the key, for example arn:aws:kms:us-west-2:111122223333:key/1234abcd-12ab-34cd-56ef-1234567890ab.   Key alias - A previously created display name for a key, for example alias/projectKey1.   Key alias ARN - An ARN for a key alias, for example arn:aws:kms:us-west-2:444455556666:alias/projectKey1.   If you use KmsKeyId, you must set the CreateFileSystemRequest$Encrypted  parameter to true.  EFS accepts only symmetric KMS keys. You cannot use asymmetric  KMS keys with Amazon EFS file systems.
         public let kmsKeyId: String?
         /// The performance mode of the file system. We recommend generalPurpose performance mode for most file systems. File systems using the maxIO performance mode can scale to higher levels of aggregate throughput and operations per second with a tradeoff of slightly higher latencies for most file operations. The performance mode can't be changed after the file system has been created.  The maxIO mode is not supported on file systems using One Zone storage classes.
         public let performanceMode: PerformanceMode?
@@ -295,6 +303,34 @@ extension EFS {
             case ipAddress = "IpAddress"
             case securityGroups = "SecurityGroups"
             case subnetId = "SubnetId"
+        }
+    }
+
+    public struct CreateReplicationConfigurationRequest: AWSEncodableShape {
+        public static var _encoding = [
+            AWSMemberEncoding(label: "sourceFileSystemId", location: .uri("SourceFileSystemId"))
+        ]
+
+        /// An array of destination configuration objects. Only one destination configuration object is supported.
+        public let destinations: [DestinationToCreate]
+        /// Specifies the Amazon EFS file system that you want to replicate. This file system cannot already be  a source or destination file system in another replication configuration.
+        public let sourceFileSystemId: String
+
+        public init(destinations: [DestinationToCreate], sourceFileSystemId: String) {
+            self.destinations = destinations
+            self.sourceFileSystemId = sourceFileSystemId
+        }
+
+        public func validate(name: String) throws {
+            try self.destinations.forEach {
+                try $0.validate(name: "\(name).destinations[]")
+            }
+            try self.validate(self.sourceFileSystemId, name: "sourceFileSystemId", parent: name, max: 128)
+            try self.validate(self.sourceFileSystemId, name: "sourceFileSystemId", parent: name, pattern: "^(arn:aws[-a-z]*:elasticfilesystem:[0-9a-z-:]+:file-system/fs-[0-9a-f]{8,40}|fs-[0-9a-f]{8,40})$")
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case destinations = "Destinations"
         }
     }
 
@@ -438,6 +474,26 @@ extension EFS {
         private enum CodingKeys: CodingKey {}
     }
 
+    public struct DeleteReplicationConfigurationRequest: AWSEncodableShape {
+        public static var _encoding = [
+            AWSMemberEncoding(label: "sourceFileSystemId", location: .uri("SourceFileSystemId"))
+        ]
+
+        /// The ID of the source file system in the replication configuration.
+        public let sourceFileSystemId: String
+
+        public init(sourceFileSystemId: String) {
+            self.sourceFileSystemId = sourceFileSystemId
+        }
+
+        public func validate(name: String) throws {
+            try self.validate(self.sourceFileSystemId, name: "sourceFileSystemId", parent: name, max: 128)
+            try self.validate(self.sourceFileSystemId, name: "sourceFileSystemId", parent: name, pattern: "^(arn:aws[-a-z]*:elasticfilesystem:[0-9a-z-:]+:file-system/fs-[0-9a-f]{8,40}|fs-[0-9a-f]{8,40})$")
+        }
+
+        private enum CodingKeys: CodingKey {}
+    }
+
     public struct DeleteTagsRequest: AWSEncodableShape {
         public static var _encoding = [
             AWSMemberEncoding(label: "fileSystemId", location: .uri("FileSystemId"))
@@ -484,7 +540,7 @@ extension EFS {
         public let fileSystemId: String?
         /// (Optional) When retrieving all access points for a file system, you can optionally specify the MaxItems parameter to limit the number of objects returned in a response.   The default value is 100.
         public let maxResults: Int?
-        ///  NextToken is present if the response is paginated. You can use NextMarker in the subsequent request to fetch the next page of access point descriptions.
+        ///  NextToken is present if the response is paginated. You can use  NextMarker in the subsequent request to fetch the next page of access point descriptions.
         public let nextToken: String?
 
         public init(accessPointId: String? = nil, fileSystemId: String? = nil, maxResults: Int? = nil, nextToken: String? = nil) {
@@ -786,6 +842,55 @@ extension EFS {
         }
     }
 
+    public struct DescribeReplicationConfigurationsRequest: AWSEncodableShape {
+        public static var _encoding = [
+            AWSMemberEncoding(label: "fileSystemId", location: .querystring("FileSystemId")),
+            AWSMemberEncoding(label: "maxResults", location: .querystring("MaxResults")),
+            AWSMemberEncoding(label: "nextToken", location: .querystring("NextToken"))
+        ]
+
+        /// You can retrieve replication configurations for a specific file system by providing a file system ID.
+        public let fileSystemId: String?
+        /// (Optional) You can optionally specify the MaxItems parameter  to limit the number of objects returned in a response. The default value is 100.
+        public let maxResults: Int?
+        ///  NextToken is present if the response is paginated. You can use  NextMarker in a subsequent request to fetch the next page of output.
+        public let nextToken: String?
+
+        public init(fileSystemId: String? = nil, maxResults: Int? = nil, nextToken: String? = nil) {
+            self.fileSystemId = fileSystemId
+            self.maxResults = maxResults
+            self.nextToken = nextToken
+        }
+
+        public func validate(name: String) throws {
+            try self.validate(self.fileSystemId, name: "fileSystemId", parent: name, max: 128)
+            try self.validate(self.fileSystemId, name: "fileSystemId", parent: name, pattern: "^(arn:aws[-a-z]*:elasticfilesystem:[0-9a-z-:]+:file-system/fs-[0-9a-f]{8,40}|fs-[0-9a-f]{8,40})$")
+            try self.validate(self.maxResults, name: "maxResults", parent: name, min: 1)
+            try self.validate(self.nextToken, name: "nextToken", parent: name, max: 128)
+            try self.validate(self.nextToken, name: "nextToken", parent: name, min: 1)
+            try self.validate(self.nextToken, name: "nextToken", parent: name, pattern: "^.+$")
+        }
+
+        private enum CodingKeys: CodingKey {}
+    }
+
+    public struct DescribeReplicationConfigurationsResponse: AWSDecodableShape {
+        /// You can use the NextToken from the previous response in a subsequent  request to fetch the additional descriptions.
+        public let nextToken: String?
+        /// The collection of replication configurations returned.
+        public let replications: [ReplicationConfigurationDescription]?
+
+        public init(nextToken: String? = nil, replications: [ReplicationConfigurationDescription]? = nil) {
+            self.nextToken = nextToken
+            self.replications = replications
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case nextToken = "NextToken"
+            case replications = "Replications"
+        }
+    }
+
     public struct DescribeTagsRequest: AWSEncodableShape {
         public static var _encoding = [
             AWSMemberEncoding(label: "fileSystemId", location: .uri("FileSystemId")),
@@ -839,6 +944,63 @@ extension EFS {
         }
     }
 
+    public struct Destination: AWSDecodableShape {
+        /// The ID of the destination Amazon EFS file system.
+        public let fileSystemId: String
+        /// The time when the most recent sync successfully completed on the destination file system.  Any changes to data on the source file system that occurred prior to this time were successfully  replicated to the destination file system. Any changes that occurred after this time might not be  fully replicated.
+        public let lastReplicatedTimestamp: Date?
+        /// The Amazon Web Services Region in which the destination file system is located.
+        public let region: String
+        /// Describes the status of the destination Amazon EFS file system.
+        public let status: ReplicationStatus
+
+        public init(fileSystemId: String, lastReplicatedTimestamp: Date? = nil, region: String, status: ReplicationStatus) {
+            self.fileSystemId = fileSystemId
+            self.lastReplicatedTimestamp = lastReplicatedTimestamp
+            self.region = region
+            self.status = status
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case fileSystemId = "FileSystemId"
+            case lastReplicatedTimestamp = "LastReplicatedTimestamp"
+            case region = "Region"
+            case status = "Status"
+        }
+    }
+
+    public struct DestinationToCreate: AWSEncodableShape {
+        /// To create a file system that uses One Zone storage, specify the name of the  Availability Zone in which to create the destination file system.
+        public let availabilityZoneName: String?
+        /// Specifies the KMS key you want to use to encrypt the destination file system. If you do not  specify a KMS key, EFS uses your default KMS key for Amazon EFS,  /aws/elasticfilesystem. This ID can be in one of the following formats:   Key ID - A unique identifier of the key, for example 1234abcd-12ab-34cd-56ef-1234567890ab.   ARN - An Amazon Resource Name (ARN) for the key, for example arn:aws:kms:us-west-2:111122223333:key/1234abcd-12ab-34cd-56ef-1234567890ab.   Key alias - A previously created display name for a key, for example alias/projectKey1.   Key alias ARN - An ARN for a key alias, for example arn:aws:kms:us-west-2:444455556666:alias/projectKey1.
+        public let kmsKeyId: String?
+        /// To create a file system that uses regional storage, specify the Amazon Web Services Region in which to create the destination file system.
+        public let region: String?
+
+        public init(availabilityZoneName: String? = nil, kmsKeyId: String? = nil, region: String? = nil) {
+            self.availabilityZoneName = availabilityZoneName
+            self.kmsKeyId = kmsKeyId
+            self.region = region
+        }
+
+        public func validate(name: String) throws {
+            try self.validate(self.availabilityZoneName, name: "availabilityZoneName", parent: name, max: 64)
+            try self.validate(self.availabilityZoneName, name: "availabilityZoneName", parent: name, min: 1)
+            try self.validate(self.availabilityZoneName, name: "availabilityZoneName", parent: name, pattern: "^.+$")
+            try self.validate(self.kmsKeyId, name: "kmsKeyId", parent: name, max: 2048)
+            try self.validate(self.kmsKeyId, name: "kmsKeyId", parent: name, pattern: "^([0-9a-f]{8}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{12}|mrk-[0-9a-f]{32}|alias/[a-zA-Z0-9/_-]+|(arn:aws[-a-z]*:kms:[a-z0-9-]+:\\d{12}:((key/[0-9a-f]{8}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{12})|(key/mrk-[0-9a-f]{32})|(alias/[a-zA-Z0-9/_-]+))))$")
+            try self.validate(self.region, name: "region", parent: name, max: 64)
+            try self.validate(self.region, name: "region", parent: name, min: 1)
+            try self.validate(self.region, name: "region", parent: name, pattern: "^[a-z]{2}-((iso[a-z]{0,1}-)|(gov-)){0,1}[a-z]+-{0,1}[0-9]{0,1}$")
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case availabilityZoneName = "AvailabilityZoneName"
+            case kmsKeyId = "KmsKeyId"
+            case region = "Region"
+        }
+    }
+
     public struct FileSystemDescription: AWSDecodableShape {
         /// The unique and consistent identifier of the Availability Zone in which the file system's One Zone storage classes exist. For example, use1-az1 is an Availability Zone ID for the us-east-1 Amazon Web Services Region, and it has the same location in every Amazon Web Services account.
         public let availabilityZoneId: String?
@@ -854,7 +1016,7 @@ extension EFS {
         public let fileSystemArn: String?
         /// The ID of the file system, assigned by Amazon EFS.
         public let fileSystemId: String
-        /// The ID of an Key Management Service customer master key (CMK) that was used to protect the encrypted file system.
+        /// The ID of an KMS key used to protect the encrypted file system.
         public let kmsKeyId: String?
         /// The lifecycle phase of the file system.
         public let lifeCycleState: LifeCycleState
@@ -1152,7 +1314,7 @@ extension EFS {
     }
 
     public struct PutAccountPreferencesRequest: AWSEncodableShape {
-        /// Specifies the EFS resource ID preference to set for the user's Amazon Web Services account, in the current Amazon Web Services Region,  either LONG_ID (17 characters), or SHORT_ID (8 characters).  Starting in October, 2021, you will receive an error when setting the account preference to SHORT_ID.  Contact Amazon Web Services support if you receive an error and need to use short IDs for file system and mount target resources.
+        /// Specifies the EFS resource ID preference to set for the user's Amazon Web Services account,  in the current Amazon Web Services Region, either LONG_ID (17 characters), or  SHORT_ID (8 characters).  Starting in October, 2021, you will receive an error when setting the account  preference to SHORT_ID. Contact Amazon Web Services support if you receive an  error and need to use short IDs for file system and mount target resources.
         public let resourceIdType: ResourceIdType
 
         public init(resourceIdType: ResourceIdType) {
@@ -1256,6 +1418,39 @@ extension EFS {
 
         private enum CodingKeys: String, CodingKey {
             case lifecyclePolicies = "LifecyclePolicies"
+        }
+    }
+
+    public struct ReplicationConfigurationDescription: AWSDecodableShape {
+        /// Describes when the replication configuration was created.
+        public let creationTime: Date
+        /// Array of destination objects. Only one destination object is supported.
+        public let destinations: [Destination]
+        /// The Amazon Resource Name (ARN) of the original source Amazon EFS  file system in the replication configuration.
+        public let originalSourceFileSystemArn: String
+        /// The ARN of the current source file system in the replication configuration.
+        public let sourceFileSystemArn: String
+        /// The ID of the source Amazon EFS file system that is being replicated.
+        public let sourceFileSystemId: String
+        /// The Amazon Web Services Region in which the source Amazon EFS  file system is located.
+        public let sourceFileSystemRegion: String
+
+        public init(creationTime: Date, destinations: [Destination], originalSourceFileSystemArn: String, sourceFileSystemArn: String, sourceFileSystemId: String, sourceFileSystemRegion: String) {
+            self.creationTime = creationTime
+            self.destinations = destinations
+            self.originalSourceFileSystemArn = originalSourceFileSystemArn
+            self.sourceFileSystemArn = sourceFileSystemArn
+            self.sourceFileSystemId = sourceFileSystemId
+            self.sourceFileSystemRegion = sourceFileSystemRegion
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case creationTime = "CreationTime"
+            case destinations = "Destinations"
+            case originalSourceFileSystemArn = "OriginalSourceFileSystemArn"
+            case sourceFileSystemArn = "SourceFileSystemArn"
+            case sourceFileSystemId = "SourceFileSystemId"
+            case sourceFileSystemRegion = "SourceFileSystemRegion"
         }
     }
 

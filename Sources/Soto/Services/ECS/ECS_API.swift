@@ -115,8 +115,7 @@ public struct ECS: AWSService {
     /// 				Amazon Elastic Container Service Developer Guide.
     /// 		       Tasks for services that don't use a load balancer are considered healthy if they're in
     /// 			the RUNNING state. Tasks for services that use a load balancer are
-    /// 			considered healthy if they're in the RUNNING state and the container
-    /// 			instance that they're hosted on is reported as healthy by the load balancer.
+    /// 			considered healthy if they're in the RUNNING state and are reported as healthy by the load balancer.
     /// 		       There are two service scheduler strategies available:
     ///
     /// 				            REPLICA - The replica scheduling strategy places and
@@ -455,7 +454,7 @@ public struct ECS: AWSService {
     /// 			the root user for an account is affected. The opt-in and opt-out account setting must be
     /// 			set for each Amazon ECS resource separately. The ARN and resource ID format of a resource is
     /// 			defined by the opt-in status of the IAM user or role that created the resource. You must
-    /// 			enable this setting to use Amazon ECS features such as resource tagging.
+    /// 			turn on this setting to use Amazon ECS features such as resource tagging.
     /// 		       When awsvpcTrunking is specified, the elastic network interface (ENI)
     /// 			limit for any new container instances that support the feature is changed. If
     /// 				awsvpcTrunking is enabled, any new container instances that support the
@@ -542,7 +541,7 @@ public struct ECS: AWSService {
     /// 				Amazon Elastic Container Service Developer Guide.
     /// 		       Alternatively, you can use StartTask to use your own scheduler or
     /// 			place tasks manually on specific container instances.
-    /// 		       The Amazon ECS API follows an eventual consistency model. This is because the distributed
+    /// 		       The Amazon ECS API follows an eventual consistency model. This is because of the distributed
     /// 			nature of the system supporting the API. This means that the result of an API command
     /// 			you run that affects your Amazon ECS resources might not be immediately visible to all
     /// 			subsequent commands you run. Keep this in mind when you carry out an API command that
@@ -685,8 +684,8 @@ public struct ECS: AWSService {
     /// 					replacement tasks are considered healthy. Tasks for services that do not use a
     /// 					load balancer are considered healthy if they're in the RUNNING
     /// 					state. Tasks for services that use a load balancer are considered healthy if
-    /// 					they're in the RUNNING state and the container instance they're
-    /// 					hosted on is reported as healthy by the load balancer.
+    /// 					they're in the RUNNING state and are reported as healthy by the
+    /// 					load balancer.
     ///
     /// 				           The maximumPercent parameter represents an upper limit on the
     /// 					number of running tasks during task replacement. You can use this to define the
@@ -713,19 +712,22 @@ public struct ECS: AWSService {
     /// 				apply to your participation in this preview.
     ///
     /// 		       Modifies the parameters of a service.
-    /// 		       For services using the rolling update (ECS) deployment controller, the
-    /// 			desired count, deployment configuration, network configuration, task placement
-    /// 			constraints and strategies, or task definition used can be updated.
-    /// 		       For services using the blue/green (CODE_DEPLOY) deployment controller,
-    /// 			only the desired count, deployment configuration, task placement constraints and
-    /// 			strategies, and health check grace period can be updated using this API. If the network
-    /// 			configuration, platform version, or task definition need to be updated, a new CodeDeploy
-    /// 			deployment is created. For more information, see CreateDeployment in the CodeDeploy API Reference.
-    /// 		       For services using an external deployment controller, you can update only the desired
-    /// 			count, task placement constraints and strategies, and health check grace period using
-    /// 			this API. If the launch type, load balancer, network configuration, platform version, or
-    /// 			task definition need to be updated, create a new task set. For more information, see
-    /// 				CreateTaskSet.
+    /// 		       For services using the rolling update (ECS) you can update the desired count,
+    /// 			deployment configuration, network configuration, load balancers, service registries,
+    /// 			enable ECS managed tags option, propagate tags option, task placement constraints and
+    /// 			strategies, and task definition. When you update any of these parameters, Amazon ECS starts
+    /// 			new tasks with the new configuration.
+    /// 		       For services using the blue/green (CODE_DEPLOY) deployment controller, only the
+    /// 			desired count, deployment configuration, health check grace period, task placement
+    /// 			constraints and strategies, enable ECS managed tags option, and propagate tags can be
+    /// 			updated using this API. If the network configuration, platform version, task definition,
+    /// 			or load balancer need to be updated, create a new CodeDeploy deployment. For more
+    /// 			information, see CreateDeployment in the CodeDeploy API Reference.
+    /// 		       For services using an external deployment controller, you can update only the desired count,
+    /// 			task placement constraints and strategies, health check grace period, enable ECS managed
+    /// 			tags option, and propagate tags option, using this API. If the launch type, load
+    /// 			balancer, network configuration, platform version, or task definition need to be
+    /// 			updated, create a new task set For more information, see CreateTaskSet.
     /// 		       You can add to or subtract from the number of instantiations of a task definition in a
     /// 			service by specifying the cluster that the service is running in and a new
     /// 				desiredCount parameter.
@@ -752,9 +754,8 @@ public struct ECS: AWSService {
     /// 					scheduler to stop two existing tasks before starting two new tasks. Tasks for
     /// 					services that don't use a load balancer are considered healthy if they're in the
     /// 						RUNNING state. Tasks for services that use a load balancer are
-    /// 					considered healthy if they're in the RUNNING state and the
-    /// 					container instance they're hosted on is reported as healthy by the load
-    /// 					balancer.
+    /// 					considered healthy if they're in the RUNNING state and are reported
+    /// 					as healthy by the load balancer.
     ///
     /// 				           The maximumPercent parameter represents an upper limit on the
     /// 					number of running tasks during a deployment. You can use it to define the
@@ -791,6 +792,7 @@ public struct ECS: AWSService {
     /// 							service.
     ///
     ///
+    ///
     /// 		       When the service scheduler stops running tasks, it attempts to maintain balance across
     /// 			the Availability Zones in your cluster using the following logic:
     ///
@@ -802,6 +804,18 @@ public struct ECS: AWSService {
     /// 				           Stop the task on a container instance in an optimal Availability Zone (based
     /// 					on the previous steps), favoring container instances with the largest number of
     /// 					running tasks for this service.
+    ///
+    ///
+    /// 		          You must have a service-linked role when you update any of the following service properties.
+    /// 			If you specified a custom IAM role when you created the service, Amazon ECS automatically
+    /// 			replaces the roleARN associated with the service with the ARN of your service-linked
+    /// 			role. For more information, see Service-linked
+    /// 				roles in the Amazon Elastic Container Service Developer Guide.
+    ///
+    /// 				               loadBalancers,
+    ///
+    /// 				               serviceRegistries
+    ///
     ///
     public func updateService(_ input: UpdateServiceRequest, logger: Logger = AWSClient.loggingDisabled, on eventLoop: EventLoop? = nil) -> EventLoopFuture<UpdateServiceResponse> {
         return self.client.execute(operation: "UpdateService", path: "/", httpMethod: .POST, serviceConfig: self.config, input: input, logger: logger, on: eventLoop)

@@ -88,6 +88,11 @@ extension Comprehend {
         return try await self.client.execute(operation: "DeleteEntityRecognizer", path: "/", httpMethod: .POST, serviceConfig: self.config, input: input, logger: logger, on: eventLoop)
     }
 
+    /// Deletes a resource-based policy that is attached to a custom model.
+    public func deleteResourcePolicy(_ input: DeleteResourcePolicyRequest, logger: Logger = AWSClient.loggingDisabled, on eventLoop: EventLoop? = nil) async throws -> DeleteResourcePolicyResponse {
+        return try await self.client.execute(operation: "DeleteResourcePolicy", path: "/", httpMethod: .POST, serviceConfig: self.config, input: input, logger: logger, on: eventLoop)
+    }
+
     /// Gets the properties associated with a document classification job. Use this operation to get the status of a classification job.
     public func describeDocumentClassificationJob(_ input: DescribeDocumentClassificationJobRequest, logger: Logger = AWSClient.loggingDisabled, on eventLoop: EventLoop? = nil) async throws -> DescribeDocumentClassificationJobResponse {
         return try await self.client.execute(operation: "DescribeDocumentClassificationJob", path: "/", httpMethod: .POST, serviceConfig: self.config, input: input, logger: logger, on: eventLoop)
@@ -133,9 +138,19 @@ extension Comprehend {
         return try await self.client.execute(operation: "DescribePiiEntitiesDetectionJob", path: "/", httpMethod: .POST, serviceConfig: self.config, input: input, logger: logger, on: eventLoop)
     }
 
+    /// Gets the details of a resource-based policy that is attached to a custom model, including the JSON body of the policy.
+    public func describeResourcePolicy(_ input: DescribeResourcePolicyRequest, logger: Logger = AWSClient.loggingDisabled, on eventLoop: EventLoop? = nil) async throws -> DescribeResourcePolicyResponse {
+        return try await self.client.execute(operation: "DescribeResourcePolicy", path: "/", httpMethod: .POST, serviceConfig: self.config, input: input, logger: logger, on: eventLoop)
+    }
+
     /// Gets the properties associated with a sentiment detection job. Use this operation to get the status of a detection job.
     public func describeSentimentDetectionJob(_ input: DescribeSentimentDetectionJobRequest, logger: Logger = AWSClient.loggingDisabled, on eventLoop: EventLoop? = nil) async throws -> DescribeSentimentDetectionJobResponse {
         return try await self.client.execute(operation: "DescribeSentimentDetectionJob", path: "/", httpMethod: .POST, serviceConfig: self.config, input: input, logger: logger, on: eventLoop)
+    }
+
+    /// Gets the properties associated with a targeted sentiment detection job. Use this operation  to get the status of the job.
+    public func describeTargetedSentimentDetectionJob(_ input: DescribeTargetedSentimentDetectionJobRequest, logger: Logger = AWSClient.loggingDisabled, on eventLoop: EventLoop? = nil) async throws -> DescribeTargetedSentimentDetectionJobResponse {
+        return try await self.client.execute(operation: "DescribeTargetedSentimentDetectionJob", path: "/", httpMethod: .POST, serviceConfig: self.config, input: input, logger: logger, on: eventLoop)
     }
 
     /// Gets the properties associated with a topic detection job. Use this operation to get the status of a detection job.
@@ -171,6 +186,11 @@ extension Comprehend {
     /// Inspects text for syntax and the part of speech of words in the document. For more information, how-syntax.
     public func detectSyntax(_ input: DetectSyntaxRequest, logger: Logger = AWSClient.loggingDisabled, on eventLoop: EventLoop? = nil) async throws -> DetectSyntaxResponse {
         return try await self.client.execute(operation: "DetectSyntax", path: "/", httpMethod: .POST, serviceConfig: self.config, input: input, logger: logger, on: eventLoop)
+    }
+
+    /// Creates a new custom model that replicates a source custom model that you import. The source model can be in your AWS account or another one. If the source model is in another AWS account, then it must have a resource-based policy that authorizes you to import it. The source model must be in the same AWS region that you're using when you import. You can't import a model that's in a different region.
+    public func importModel(_ input: ImportModelRequest, logger: Logger = AWSClient.loggingDisabled, on eventLoop: EventLoop? = nil) async throws -> ImportModelResponse {
+        return try await self.client.execute(operation: "ImportModel", path: "/", httpMethod: .POST, serviceConfig: self.config, input: input, logger: logger, on: eventLoop)
     }
 
     /// Gets a list of the documentation classification jobs that you have submitted.
@@ -238,9 +258,19 @@ extension Comprehend {
         return try await self.client.execute(operation: "ListTagsForResource", path: "/", httpMethod: .POST, serviceConfig: self.config, input: input, logger: logger, on: eventLoop)
     }
 
+    /// Gets a list of targeted sentiment detection jobs that you have submitted.
+    public func listTargetedSentimentDetectionJobs(_ input: ListTargetedSentimentDetectionJobsRequest, logger: Logger = AWSClient.loggingDisabled, on eventLoop: EventLoop? = nil) async throws -> ListTargetedSentimentDetectionJobsResponse {
+        return try await self.client.execute(operation: "ListTargetedSentimentDetectionJobs", path: "/", httpMethod: .POST, serviceConfig: self.config, input: input, logger: logger, on: eventLoop)
+    }
+
     /// Gets a list of the topic detection jobs that you have submitted.
     public func listTopicsDetectionJobs(_ input: ListTopicsDetectionJobsRequest, logger: Logger = AWSClient.loggingDisabled, on eventLoop: EventLoop? = nil) async throws -> ListTopicsDetectionJobsResponse {
         return try await self.client.execute(operation: "ListTopicsDetectionJobs", path: "/", httpMethod: .POST, serviceConfig: self.config, input: input, logger: logger, on: eventLoop)
+    }
+
+    /// Attaches a resource-based policy to a custom model. You can use this policy to authorize an entity in another AWS account to import the custom model, which replicates it in Amazon Comprehend in their account.
+    public func putResourcePolicy(_ input: PutResourcePolicyRequest, logger: Logger = AWSClient.loggingDisabled, on eventLoop: EventLoop? = nil) async throws -> PutResourcePolicyResponse {
+        return try await self.client.execute(operation: "PutResourcePolicy", path: "/", httpMethod: .POST, serviceConfig: self.config, input: input, logger: logger, on: eventLoop)
     }
 
     /// Starts an asynchronous document classification job. Use the  operation to track the progress of the job.
@@ -273,9 +303,14 @@ extension Comprehend {
         return try await self.client.execute(operation: "StartPiiEntitiesDetectionJob", path: "/", httpMethod: .POST, serviceConfig: self.config, input: input, logger: logger, on: eventLoop)
     }
 
-    /// Starts an asynchronous sentiment detection job for a collection of documents. use the operation to track the status of a job.
+    /// Starts an asynchronous sentiment detection job for a collection of documents. Use the operation to track the status of a job.
     public func startSentimentDetectionJob(_ input: StartSentimentDetectionJobRequest, logger: Logger = AWSClient.loggingDisabled, on eventLoop: EventLoop? = nil) async throws -> StartSentimentDetectionJobResponse {
         return try await self.client.execute(operation: "StartSentimentDetectionJob", path: "/", httpMethod: .POST, serviceConfig: self.config, input: input, logger: logger, on: eventLoop)
+    }
+
+    /// Starts an asynchronous targeted sentiment detection job for a collection of documents. Use the operation to track the status of a job.
+    public func startTargetedSentimentDetectionJob(_ input: StartTargetedSentimentDetectionJobRequest, logger: Logger = AWSClient.loggingDisabled, on eventLoop: EventLoop? = nil) async throws -> StartTargetedSentimentDetectionJobResponse {
+        return try await self.client.execute(operation: "StartTargetedSentimentDetectionJob", path: "/", httpMethod: .POST, serviceConfig: self.config, input: input, logger: logger, on: eventLoop)
     }
 
     /// Starts an asynchronous topic detection job. Use the DescribeTopicDetectionJob operation to track the status of a job.
@@ -311,6 +346,11 @@ extension Comprehend {
     /// Stops a sentiment detection job in progress. If the job state is IN_PROGRESS the job is marked for termination and put into the STOP_REQUESTED state. If the job completes before it can be stopped, it is put into the COMPLETED state; otherwise the job is be stopped and put into the STOPPED state. If the job is in the COMPLETED or FAILED state when you call the StopDominantLanguageDetectionJob operation, the operation returns a 400 Internal Request Exception.  When a job is stopped, any documents already processed are written to the output location.
     public func stopSentimentDetectionJob(_ input: StopSentimentDetectionJobRequest, logger: Logger = AWSClient.loggingDisabled, on eventLoop: EventLoop? = nil) async throws -> StopSentimentDetectionJobResponse {
         return try await self.client.execute(operation: "StopSentimentDetectionJob", path: "/", httpMethod: .POST, serviceConfig: self.config, input: input, logger: logger, on: eventLoop)
+    }
+
+    /// Stops a targeted sentiment detection job in progress. If the job state is IN_PROGRESS the job is marked for termination and put into the STOP_REQUESTED state. If the job completes before it can be stopped, it is put into the COMPLETED state; otherwise the job is be stopped and put into the STOPPED state. If the job is in the COMPLETED or FAILED state when you call the StopDominantLanguageDetectionJob operation, the operation returns a 400 Internal Request Exception.  When a job is stopped, any documents already processed are written to the output location.
+    public func stopTargetedSentimentDetectionJob(_ input: StopTargetedSentimentDetectionJobRequest, logger: Logger = AWSClient.loggingDisabled, on eventLoop: EventLoop? = nil) async throws -> StopTargetedSentimentDetectionJobResponse {
+        return try await self.client.execute(operation: "StopTargetedSentimentDetectionJob", path: "/", httpMethod: .POST, serviceConfig: self.config, input: input, logger: logger, on: eventLoop)
     }
 
     /// Stops a document classifier training job while in progress. If the training job state is TRAINING, the job is marked for termination and put into the STOP_REQUESTED state. If the training job completes before it can be stopped, it is put into the TRAINED; otherwise the training job is stopped and put into the STOPPED state and the service sends back an HTTP 200 response with an empty HTTP body.

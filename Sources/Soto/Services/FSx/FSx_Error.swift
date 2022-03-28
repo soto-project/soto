@@ -133,11 +133,11 @@ public struct FSxErrorType: AWSErrorType {
     public static var snapshotNotFound: Self { .init(.snapshotNotFound) }
     /// The request was rejected because the lifecycle status of the source backup isn't AVAILABLE.
     public static var sourceBackupUnavailable: Self { .init(.sourceBackupUnavailable) }
-    /// No Amazon FSx for NetApp ONTAP SVMs were found based upon the supplied parameters.
+    /// No FSx for ONTAP SVMs were found based upon the supplied parameters.
     public static var storageVirtualMachineNotFound: Self { .init(.storageVirtualMachineNotFound) }
     /// The requested operation is not supported for this resource or API.
     public static var unsupportedOperation: Self { .init(.unsupportedOperation) }
-    /// No Amazon FSx for NetApp ONTAP volumes were found based upon the supplied parameters.
+    /// No Amazon FSx volumes were found based upon the supplied parameters.
     public static var volumeNotFound: Self { .init(.volumeNotFound) }
 }
 

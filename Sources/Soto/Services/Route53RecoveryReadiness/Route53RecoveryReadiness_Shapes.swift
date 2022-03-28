@@ -32,14 +32,15 @@ extension Route53RecoveryReadiness {
     // MARK: Shapes
 
     public struct CellOutput: AWSDecodableShape {
-        /// The arn for the Cell
+        /// The Amazon Resource Name (ARN) for the cell.
         public let cellArn: String
-        /// The name of the Cell
+        /// The name of the cell.
         public let cellName: String
-        /// A list of Cell arns
+        /// A list of cell ARNs.
         public let cells: [String]
-        /// A list of Cell ARNs and/or RecoveryGroup ARNs
+        /// The readiness scope for the cell, which can be a cell Amazon Resource Name (ARN) or a recovery group ARN. This is a list but currently can have only one element.
         public let parentReadinessScopes: [String]
+        /// Tags on the resources.
         public let tags: [String: String]?
 
         public init(cellArn: String, cellName: String, cells: [String], parentReadinessScopes: [String], tags: [String: String]? = nil) {
@@ -60,9 +61,9 @@ extension Route53RecoveryReadiness {
     }
 
     public struct CreateCellRequest: AWSEncodableShape {
-        /// The name of the Cell to create
+        /// The name of the cell to create.
         public let cellName: String
-        /// A list of Cell arns contained within this Cell (for use in nested Cells, e.g. regions within which AZs)
+        /// A list of cell Amazon Resource Names (ARNs) contained within this cell, for use in nested cells. For example, Availability Zones within specific Amazon Web Services Regions.
         public let cells: [String]?
         public let tags: [String: String]?
 
@@ -80,14 +81,15 @@ extension Route53RecoveryReadiness {
     }
 
     public struct CreateCellResponse: AWSDecodableShape {
-        /// The arn for the Cell
+        /// The Amazon Resource Name (ARN) for the cell.
         public let cellArn: String?
-        /// The name of the Cell
+        /// The name of the cell.
         public let cellName: String?
-        /// A list of Cell arns
+        /// A list of cell ARNs.
         public let cells: [String]?
-        /// A list of Cell ARNs and/or RecoveryGroup ARNs
+        /// The readiness scope for the cell, which can be a cell Amazon Resource Name (ARN) or a recovery group ARN. This is a list but currently can have only one element.
         public let parentReadinessScopes: [String]?
+        /// Tags on the resources.
         public let tags: [String: String]?
 
         public init(cellArn: String? = nil, cellName: String? = nil, cells: [String]? = nil, parentReadinessScopes: [String]? = nil, tags: [String: String]? = nil) {
@@ -108,7 +110,7 @@ extension Route53RecoveryReadiness {
     }
 
     public struct CreateCrossAccountAuthorizationRequest: AWSEncodableShape {
-        /// The cross account authorization
+        /// The cross-account authorization.
         public let crossAccountAuthorization: String
 
         public init(crossAccountAuthorization: String) {
@@ -121,7 +123,7 @@ extension Route53RecoveryReadiness {
     }
 
     public struct CreateCrossAccountAuthorizationResponse: AWSDecodableShape {
-        /// The cross account authorization
+        /// The cross-account authorization.
         public let crossAccountAuthorization: String?
 
         public init(crossAccountAuthorization: String? = nil) {
@@ -134,9 +136,9 @@ extension Route53RecoveryReadiness {
     }
 
     public struct CreateReadinessCheckRequest: AWSEncodableShape {
-        /// The name of the ReadinessCheck to create
+        /// The name of the readiness check to create.
         public let readinessCheckName: String
-        /// The name of the ResourceSet to check
+        /// The name of the resource set to check.
         public let resourceSetName: String
         public let tags: [String: String]?
 
@@ -154,11 +156,11 @@ extension Route53RecoveryReadiness {
     }
 
     public struct CreateReadinessCheckResponse: AWSDecodableShape {
-        /// Arn associated with ReadinessCheck
+        /// The Amazon Resource Name (ARN) associated with a readiness check.
         public let readinessCheckArn: String?
-        /// Name for a ReadinessCheck
+        /// Name of a readiness check.
         public let readinessCheckName: String?
-        /// Name of the ResourceSet to be checked
+        /// Name of the resource set to be checked.
         public let resourceSet: String?
         public let tags: [String: String]?
 
@@ -178,9 +180,9 @@ extension Route53RecoveryReadiness {
     }
 
     public struct CreateRecoveryGroupRequest: AWSEncodableShape {
-        /// A list of Cell arns
+        /// A list of the cell Amazon Resource Names (ARNs) in the recovery group.
         public let cells: [String]?
-        /// The name of the RecoveryGroup to create
+        /// The name of the recovery group to create.
         public let recoveryGroupName: String
         public let tags: [String: String]?
 
@@ -198,12 +200,13 @@ extension Route53RecoveryReadiness {
     }
 
     public struct CreateRecoveryGroupResponse: AWSDecodableShape {
-        /// A list of Cell arns
+        /// A list of a cell's Amazon Resource Names (ARNs).
         public let cells: [String]?
-        /// The arn for the RecoveryGroup
+        /// The Amazon Resource Name (ARN) for the recovery group.
         public let recoveryGroupArn: String?
-        /// The name of the RecoveryGroup
+        /// The name of the recovery group.
         public let recoveryGroupName: String?
+        /// The tags associated with the recovery group.
         public let tags: [String: String]?
 
         public init(cells: [String]? = nil, recoveryGroupArn: String? = nil, recoveryGroupName: String? = nil, tags: [String: String]? = nil) {
@@ -222,12 +225,13 @@ extension Route53RecoveryReadiness {
     }
 
     public struct CreateResourceSetRequest: AWSEncodableShape {
-        /// A list of Resource objects
+        /// A list of resource objects in the resource set.
         public let resources: [Resource]
-        /// The name of the ResourceSet to create
+        /// The name of the resource set to create.
         public let resourceSetName: String
-        /// AWS Resource type of the resources in the ResourceSet
+        /// The resource type of the resources in the resource set. Enter one of the following values for resource type: AWS::ApiGateway::Stage, AWS::ApiGatewayV2::Stage, AWS::AutoScaling::AutoScalingGroup, AWS::CloudWatch::Alarm, AWS::EC2::CustomerGateway, AWS::DynamoDB::Table, AWS::EC2::Volume, AWS::ElasticLoadBalancing::LoadBalancer, AWS::ElasticLoadBalancingV2::LoadBalancer, AWS::Lambda::Function, AWS::MSK::Cluster, AWS::RDS::DBCluster, AWS::Route53::HealthCheck, AWS::SQS::Queue, AWS::SNS::Topic, AWS::SNS::Subscription, AWS::EC2::VPC, AWS::EC2::VPNConnection, AWS::EC2::VPNGateway, AWS::Route53RecoveryReadiness::DNSTargetResource
         public let resourceSetType: String
+        /// A tag to associate with the parameters for a resource set.
         public let tags: [String: String]?
 
         public init(resources: [Resource], resourceSetName: String, resourceSetType: String, tags: [String: String]? = nil) {
@@ -250,13 +254,13 @@ extension Route53RecoveryReadiness {
     }
 
     public struct CreateResourceSetResponse: AWSDecodableShape {
-        /// A list of Resource objects
+        /// A list of resource objects.
         public let resources: [Resource]?
-        /// The arn for the ResourceSet
+        /// The Amazon Resource Name (ARN) for the resource set.
         public let resourceSetArn: String?
-        /// The name of the ResourceSet
+        /// The name of the resource set.
         public let resourceSetName: String?
-        /// AWS Resource Type of the resources in the ResourceSet
+        /// The resource type of the resources in the resource set. Enter one of the following values for resource type: AWS::ApiGateway::Stage, AWS::ApiGatewayV2::Stage, AWS::AutoScaling::AutoScalingGroup, AWS::CloudWatch::Alarm, AWS::EC2::CustomerGateway, AWS::DynamoDB::Table, AWS::EC2::Volume, AWS::ElasticLoadBalancing::LoadBalancer, AWS::ElasticLoadBalancingV2::LoadBalancer, AWS::Lambda::Function, AWS::MSK::Cluster, AWS::RDS::DBCluster, AWS::Route53::HealthCheck, AWS::SQS::Queue, AWS::SNS::Topic, AWS::SNS::Subscription, AWS::EC2::VPC, AWS::EC2::VPNConnection, AWS::EC2::VPNGateway, AWS::Route53RecoveryReadiness::DNSTargetResource
         public let resourceSetType: String?
         public let tags: [String: String]?
 
@@ -278,14 +282,15 @@ extension Route53RecoveryReadiness {
     }
 
     public struct DNSTargetResource: AWSEncodableShape & AWSDecodableShape {
-        /// The DNS Name that acts as ingress point to a portion of application
+        /// The domain name that acts as an ingress point to a portion of the customer application.
         public let domainName: String?
-        /// The Hosted Zone ARN that contains the DNS record with the provided name of target resource.
+        /// The hosted zone Amazon Resource Name (ARN) that contains the DNS record with the provided name of the target resource.
         public let hostedZoneArn: String?
-        /// The R53 Set Id to uniquely identify a record given a Name and a Type
+        /// The Route 53 record set ID that uniquely identifies a DNS record, given a name and a type.
         public let recordSetId: String?
-        /// The Type of DNS Record of target resource
+        /// The type of DNS record of the target resource.
         public let recordType: String?
+        /// The target resource of the DNS target resource.
         public let targetResource: TargetResource?
 
         public init(domainName: String? = nil, hostedZoneArn: String? = nil, recordSetId: String? = nil, recordType: String? = nil, targetResource: TargetResource? = nil) {
@@ -310,7 +315,7 @@ extension Route53RecoveryReadiness {
             AWSMemberEncoding(label: "cellName", location: .uri("CellName"))
         ]
 
-        /// The Cell to delete
+        /// The name of the cell.
         public let cellName: String
 
         public init(cellName: String) {
@@ -325,7 +330,7 @@ extension Route53RecoveryReadiness {
             AWSMemberEncoding(label: "crossAccountAuthorization", location: .uri("CrossAccountAuthorization"))
         ]
 
-        /// The cross account authorization
+        /// The cross-account authorization.
         public let crossAccountAuthorization: String
 
         public init(crossAccountAuthorization: String) {
@@ -344,7 +349,7 @@ extension Route53RecoveryReadiness {
             AWSMemberEncoding(label: "readinessCheckName", location: .uri("ReadinessCheckName"))
         ]
 
-        /// The ReadinessCheck to delete
+        /// Name of a readiness check.
         public let readinessCheckName: String
 
         public init(readinessCheckName: String) {
@@ -359,7 +364,7 @@ extension Route53RecoveryReadiness {
             AWSMemberEncoding(label: "recoveryGroupName", location: .uri("RecoveryGroupName"))
         ]
 
-        /// The RecoveryGroup to delete
+        /// The name of a recovery group.
         public let recoveryGroupName: String
 
         public init(recoveryGroupName: String) {
@@ -374,7 +379,7 @@ extension Route53RecoveryReadiness {
             AWSMemberEncoding(label: "resourceSetName", location: .uri("ResourceSetName"))
         ]
 
-        /// The ResourceSet to delete
+        /// Name of a resource set.
         public let resourceSetName: String
 
         public init(resourceSetName: String) {
@@ -391,11 +396,11 @@ extension Route53RecoveryReadiness {
             AWSMemberEncoding(label: "recoveryGroupName", location: .uri("RecoveryGroupName"))
         ]
 
-        /// Upper bound on number of records to return.
+        /// The number of objects that you want to return with this call.
         public let maxResults: Int?
-        /// A token that can be used to resume pagination from the end of the collection.
+        /// The token that identifies which batch of results you want to see.
         public let nextToken: String?
-        /// Name of RecoveryGroup (top level resource) to be analyzed.
+        /// The name of a recovery group.
         public let recoveryGroupName: String
 
         public init(maxResults: Int? = nil, nextToken: String? = nil, recoveryGroupName: String) {
@@ -413,12 +418,12 @@ extension Route53RecoveryReadiness {
     }
 
     public struct GetArchitectureRecommendationsResponse: AWSDecodableShape {
-        /// The time a Recovery Group was last assessed for recommendations in UTC ISO-8601 format.
+        /// The time that a recovery group was last assessed for recommendations, in UTC ISO-8601 format.
         @OptionalCustomCoding<ISO8601DateCoder>
         public var lastAuditTimestamp: Date?
-        /// A token that can be used to resume pagination from the end of the collection
+        /// The token that identifies which batch of results you want to see.
         public let nextToken: String?
-        /// A list of recommendations for the customer's application
+        /// A list of the recommendations for the customer's application.
         public let recommendations: [Recommendation]?
 
         public init(lastAuditTimestamp: Date? = nil, nextToken: String? = nil, recommendations: [Recommendation]? = nil) {
@@ -441,11 +446,11 @@ extension Route53RecoveryReadiness {
             AWSMemberEncoding(label: "nextToken", location: .querystring("nextToken"))
         ]
 
-        /// The name of the Cell
+        /// The name of the cell.
         public let cellName: String
-        /// Upper bound on number of records to return.
+        /// The number of objects that you want to return with this call.
         public let maxResults: Int?
-        /// A token used to resume pagination from the end of a previous request.
+        /// The token that identifies which batch of results you want to see.
         public let nextToken: String?
 
         public init(cellName: String, maxResults: Int? = nil, nextToken: String? = nil) {
@@ -463,11 +468,11 @@ extension Route53RecoveryReadiness {
     }
 
     public struct GetCellReadinessSummaryResponse: AWSDecodableShape {
-        /// A token that can be used to resume pagination from the end of the collection.
+        /// The token that identifies which batch of results you want to see.
         public let nextToken: String?
-        /// The readiness at Cell level.
+        /// The readiness at a cell level.
         public let readiness: Readiness?
-        /// Summaries for the ReadinessChecks making up the Cell
+        /// Summaries for the readiness checks that make up the cell.
         public let readinessChecks: [ReadinessCheckSummary]?
 
         public init(nextToken: String? = nil, readiness: Readiness? = nil, readinessChecks: [ReadinessCheckSummary]? = nil) {
@@ -488,7 +493,7 @@ extension Route53RecoveryReadiness {
             AWSMemberEncoding(label: "cellName", location: .uri("CellName"))
         ]
 
-        /// The Cell to get
+        /// The name of the cell.
         public let cellName: String
 
         public init(cellName: String) {
@@ -499,14 +504,15 @@ extension Route53RecoveryReadiness {
     }
 
     public struct GetCellResponse: AWSDecodableShape {
-        /// The arn for the Cell
+        /// The Amazon Resource Name (ARN) for the cell.
         public let cellArn: String?
-        /// The name of the Cell
+        /// The name of the cell.
         public let cellName: String?
-        /// A list of Cell arns
+        /// A list of cell ARNs.
         public let cells: [String]?
-        /// A list of Cell ARNs and/or RecoveryGroup ARNs
+        /// The readiness scope for the cell, which can be a cell Amazon Resource Name (ARN) or a recovery group ARN. This is a list but currently can have only one element.
         public let parentReadinessScopes: [String]?
+        /// Tags on the resources.
         public let tags: [String: String]?
 
         public init(cellArn: String? = nil, cellName: String? = nil, cells: [String]? = nil, parentReadinessScopes: [String]? = nil, tags: [String: String]? = nil) {
@@ -531,7 +537,7 @@ extension Route53RecoveryReadiness {
             AWSMemberEncoding(label: "readinessCheckName", location: .uri("ReadinessCheckName"))
         ]
 
-        /// The ReadinessCheck to get
+        /// Name of a readiness check.
         public let readinessCheckName: String
 
         public init(readinessCheckName: String) {
@@ -549,13 +555,13 @@ extension Route53RecoveryReadiness {
             AWSMemberEncoding(label: "resourceIdentifier", location: .uri("ResourceIdentifier"))
         ]
 
-        /// Upper bound on number of records to return.
+        /// The number of objects that you want to return with this call.
         public let maxResults: Int?
-        /// A token used to resume pagination from the end of a previous request.
+        /// The token that identifies which batch of results you want to see.
         public let nextToken: String?
-        /// The ReadinessCheck to get
+        /// Name of a readiness check.
         public let readinessCheckName: String
-        /// The resource ARN or component Id to get
+        /// The resource identifier, which is the Amazon Resource Name (ARN) or the identifier generated for the resource by Application Recovery Controller (for example, for a DNS target resource).
         public let resourceIdentifier: String
 
         public init(maxResults: Int? = nil, nextToken: String? = nil, readinessCheckName: String, resourceIdentifier: String) {
@@ -574,11 +580,11 @@ extension Route53RecoveryReadiness {
     }
 
     public struct GetReadinessCheckResourceStatusResponse: AWSDecodableShape {
-        /// A token that can be used to resume pagination from the end of the collection.
+        /// The token that identifies which batch of results you want to see.
         public let nextToken: String?
-        /// The readiness at rule level.
+        /// The readiness at a rule level.
         public let readiness: Readiness?
-        /// Details of the rules's results
+        /// Details of the rule's results.
         public let rules: [RuleResult]?
 
         public init(nextToken: String? = nil, readiness: Readiness? = nil, rules: [RuleResult]? = nil) {
@@ -595,11 +601,11 @@ extension Route53RecoveryReadiness {
     }
 
     public struct GetReadinessCheckResponse: AWSDecodableShape {
-        /// Arn associated with ReadinessCheck
+        /// The Amazon Resource Name (ARN) associated with a readiness check.
         public let readinessCheckArn: String?
-        /// Name for a ReadinessCheck
+        /// Name of a readiness check.
         public let readinessCheckName: String?
-        /// Name of the ResourceSet to be checked
+        /// Name of the resource set to be checked.
         public let resourceSet: String?
         public let tags: [String: String]?
 
@@ -625,11 +631,11 @@ extension Route53RecoveryReadiness {
             AWSMemberEncoding(label: "readinessCheckName", location: .uri("ReadinessCheckName"))
         ]
 
-        /// Upper bound on number of records to return.
+        /// The number of objects that you want to return with this call.
         public let maxResults: Int?
-        /// A token used to resume pagination from the end of a previous request.
+        /// The token that identifies which batch of results you want to see.
         public let nextToken: String?
-        /// The ReadinessCheck to get
+        /// Name of a readiness check.
         public let readinessCheckName: String
 
         public init(maxResults: Int? = nil, nextToken: String? = nil, readinessCheckName: String) {
@@ -649,11 +655,11 @@ extension Route53RecoveryReadiness {
     public struct GetReadinessCheckStatusResponse: AWSDecodableShape {
         /// Top level messages for readiness check status
         public let messages: [Message]?
-        /// A token that can be used to resume pagination from the end of the collection.
+        /// The token that identifies which batch of results you want to see.
         public let nextToken: String?
         /// The readiness at rule level.
         public let readiness: Readiness?
-        /// Summary of resources's readiness
+        /// Summary of the readiness of resources.
         public let resources: [ResourceResult]?
 
         public init(messages: [Message]? = nil, nextToken: String? = nil, readiness: Readiness? = nil, resources: [ResourceResult]? = nil) {
@@ -678,11 +684,11 @@ extension Route53RecoveryReadiness {
             AWSMemberEncoding(label: "recoveryGroupName", location: .uri("RecoveryGroupName"))
         ]
 
-        /// Upper bound on number of records to return.
+        /// The number of objects that you want to return with this call.
         public let maxResults: Int?
-        /// A token used to resume pagination from the end of a previous request.
+        /// The token that identifies which batch of results you want to see.
         public let nextToken: String?
-        /// The name of the RecoveryGroup
+        /// The name of a recovery group.
         public let recoveryGroupName: String
 
         public init(maxResults: Int? = nil, nextToken: String? = nil, recoveryGroupName: String) {
@@ -700,11 +706,11 @@ extension Route53RecoveryReadiness {
     }
 
     public struct GetRecoveryGroupReadinessSummaryResponse: AWSDecodableShape {
-        /// A token that can be used to resume pagination from the end of the collection.
+        /// The token that identifies which batch of results you want to see.
         public let nextToken: String?
-        /// The readiness at RecoveryGroup level.
+        /// The readiness status at a recovery group level.
         public let readiness: Readiness?
-        /// Summaries for the ReadinessChecks making up the RecoveryGroup
+        /// Summaries of the readiness checks for the recovery group.
         public let readinessChecks: [ReadinessCheckSummary]?
 
         public init(nextToken: String? = nil, readiness: Readiness? = nil, readinessChecks: [ReadinessCheckSummary]? = nil) {
@@ -725,7 +731,7 @@ extension Route53RecoveryReadiness {
             AWSMemberEncoding(label: "recoveryGroupName", location: .uri("RecoveryGroupName"))
         ]
 
-        /// The RecoveryGroup to get
+        /// The name of a recovery group.
         public let recoveryGroupName: String
 
         public init(recoveryGroupName: String) {
@@ -736,12 +742,13 @@ extension Route53RecoveryReadiness {
     }
 
     public struct GetRecoveryGroupResponse: AWSDecodableShape {
-        /// A list of Cell arns
+        /// A list of a cell's Amazon Resource Names (ARNs).
         public let cells: [String]?
-        /// The arn for the RecoveryGroup
+        /// The Amazon Resource Name (ARN) for the recovery group.
         public let recoveryGroupArn: String?
-        /// The name of the RecoveryGroup
+        /// The name of the recovery group.
         public let recoveryGroupName: String?
+        /// The tags associated with the recovery group.
         public let tags: [String: String]?
 
         public init(cells: [String]? = nil, recoveryGroupArn: String? = nil, recoveryGroupName: String? = nil, tags: [String: String]? = nil) {
@@ -764,7 +771,7 @@ extension Route53RecoveryReadiness {
             AWSMemberEncoding(label: "resourceSetName", location: .uri("ResourceSetName"))
         ]
 
-        /// The ResourceSet to get
+        /// Name of a resource set.
         public let resourceSetName: String
 
         public init(resourceSetName: String) {
@@ -775,13 +782,13 @@ extension Route53RecoveryReadiness {
     }
 
     public struct GetResourceSetResponse: AWSDecodableShape {
-        /// A list of Resource objects
+        /// A list of resource objects.
         public let resources: [Resource]?
-        /// The arn for the ResourceSet
+        /// The Amazon Resource Name (ARN) for the resource set.
         public let resourceSetArn: String?
-        /// The name of the ResourceSet
+        /// The name of the resource set.
         public let resourceSetName: String?
-        /// AWS Resource Type of the resources in the ResourceSet
+        /// The resource type of the resources in the resource set. Enter one of the following values for resource type: AWS::ApiGateway::Stage, AWS::ApiGatewayV2::Stage, AWS::AutoScaling::AutoScalingGroup, AWS::CloudWatch::Alarm, AWS::EC2::CustomerGateway, AWS::DynamoDB::Table, AWS::EC2::Volume, AWS::ElasticLoadBalancing::LoadBalancer, AWS::ElasticLoadBalancingV2::LoadBalancer, AWS::Lambda::Function, AWS::MSK::Cluster, AWS::RDS::DBCluster, AWS::Route53::HealthCheck, AWS::SQS::Queue, AWS::SNS::Topic, AWS::SNS::Subscription, AWS::EC2::VPC, AWS::EC2::VPNConnection, AWS::EC2::VPNGateway, AWS::Route53RecoveryReadiness::DNSTargetResource
         public let resourceSetType: String?
         public let tags: [String: String]?
 
@@ -808,9 +815,9 @@ extension Route53RecoveryReadiness {
             AWSMemberEncoding(label: "nextToken", location: .querystring("nextToken"))
         ]
 
-        /// Upper bound on number of records to return.
+        /// The number of objects that you want to return with this call.
         public let maxResults: Int?
-        /// A token used to resume pagination from the end of a previous request.
+        /// The token that identifies which batch of results you want to see.
         public let nextToken: String?
 
         public init(maxResults: Int? = nil, nextToken: String? = nil) {
@@ -827,9 +834,9 @@ extension Route53RecoveryReadiness {
     }
 
     public struct ListCellsResponse: AWSDecodableShape {
-        /// A list of Cells
+        /// A list of cells.
         public let cells: [CellOutput]?
-        /// A token that can be used to resume pagination from the end of the collection.
+        /// The token that identifies which batch of results you want to see.
         public let nextToken: String?
 
         public init(cells: [CellOutput]? = nil, nextToken: String? = nil) {
@@ -849,9 +856,9 @@ extension Route53RecoveryReadiness {
             AWSMemberEncoding(label: "nextToken", location: .querystring("nextToken"))
         ]
 
-        /// Upper bound on number of records to return.
+        /// The number of objects that you want to return with this call.
         public let maxResults: Int?
-        /// A token used to resume pagination from the end of a previous request.
+        /// The token that identifies which batch of results you want to see.
         public let nextToken: String?
 
         public init(maxResults: Int? = nil, nextToken: String? = nil) {
@@ -868,9 +875,9 @@ extension Route53RecoveryReadiness {
     }
 
     public struct ListCrossAccountAuthorizationsResponse: AWSDecodableShape {
-        /// A list of CrossAccountAuthorizations
+        /// A list of cross-account authorizations.
         public let crossAccountAuthorizations: [String]?
-        /// A token that can be used to resume pagination from the end of the collection.
+        /// The token that identifies which batch of results you want to see.
         public let nextToken: String?
 
         public init(crossAccountAuthorizations: [String]? = nil, nextToken: String? = nil) {
@@ -890,9 +897,9 @@ extension Route53RecoveryReadiness {
             AWSMemberEncoding(label: "nextToken", location: .querystring("nextToken"))
         ]
 
-        /// Upper bound on number of records to return.
+        /// The number of objects that you want to return with this call.
         public let maxResults: Int?
-        /// A token used to resume pagination from the end of a previous request.
+        /// The token that identifies which batch of results you want to see.
         public let nextToken: String?
 
         public init(maxResults: Int? = nil, nextToken: String? = nil) {
@@ -909,9 +916,9 @@ extension Route53RecoveryReadiness {
     }
 
     public struct ListReadinessChecksResponse: AWSDecodableShape {
-        /// A token that can be used to resume pagination from the end of the collection.
+        /// The token that identifies which batch of results you want to see.
         public let nextToken: String?
-        /// A list of ReadinessCheck associated with the account
+        /// A list of readiness checks associated with the account.
         public let readinessChecks: [ReadinessCheckOutput]?
 
         public init(nextToken: String? = nil, readinessChecks: [ReadinessCheckOutput]? = nil) {
@@ -931,9 +938,9 @@ extension Route53RecoveryReadiness {
             AWSMemberEncoding(label: "nextToken", location: .querystring("nextToken"))
         ]
 
-        /// Upper bound on number of records to return.
+        /// The number of objects that you want to return with this call.
         public let maxResults: Int?
-        /// A token used to resume pagination from the end of a previous request.
+        /// The token that identifies which batch of results you want to see.
         public let nextToken: String?
 
         public init(maxResults: Int? = nil, nextToken: String? = nil) {
@@ -950,9 +957,9 @@ extension Route53RecoveryReadiness {
     }
 
     public struct ListRecoveryGroupsResponse: AWSDecodableShape {
-        /// A token that can be used to resume pagination from the end of the collection.
+        /// The token that identifies which batch of results you want to see.
         public let nextToken: String?
-        /// A list of RecoveryGroups
+        /// A list of recovery groups.
         public let recoveryGroups: [RecoveryGroupOutput]?
 
         public init(nextToken: String? = nil, recoveryGroups: [RecoveryGroupOutput]? = nil) {
@@ -972,9 +979,9 @@ extension Route53RecoveryReadiness {
             AWSMemberEncoding(label: "nextToken", location: .querystring("nextToken"))
         ]
 
-        /// Upper bound on number of records to return.
+        /// The number of objects that you want to return with this call.
         public let maxResults: Int?
-        /// A token used to resume pagination from the end of a previous request.
+        /// The token that identifies which batch of results you want to see.
         public let nextToken: String?
 
         public init(maxResults: Int? = nil, nextToken: String? = nil) {
@@ -991,9 +998,9 @@ extension Route53RecoveryReadiness {
     }
 
     public struct ListResourceSetsResponse: AWSDecodableShape {
-        /// A token that can be used to resume pagination from the end of the collection.
+        /// The token that identifies which batch of results you want to see.
         public let nextToken: String?
-        /// A list of ResourceSets associated with the account
+        /// A list of resource sets associated with the account.
         public let resourceSets: [ResourceSetOutput]?
 
         public init(nextToken: String? = nil, resourceSets: [ResourceSetOutput]? = nil) {
@@ -1008,11 +1015,11 @@ extension Route53RecoveryReadiness {
     }
 
     public struct ListRulesOutput: AWSDecodableShape {
-        /// The resource type the rule applies to.
+        /// The resource type that the readiness rule applies to.
         public let resourceType: String
-        /// A description of the rule
+        /// The description of a readiness rule.
         public let ruleDescription: String
-        /// The Rule's ID.
+        /// The ID for the readiness rule.
         public let ruleId: String
 
         public init(resourceType: String, ruleDescription: String, ruleId: String) {
@@ -1035,11 +1042,11 @@ extension Route53RecoveryReadiness {
             AWSMemberEncoding(label: "resourceType", location: .querystring("resourceType"))
         ]
 
-        /// Upper bound on number of records to return.
+        /// The number of objects that you want to return with this call.
         public let maxResults: Int?
-        /// A token used to resume pagination from the end of a previous request.
+        /// The token that identifies which batch of results you want to see.
         public let nextToken: String?
-        /// Filter parameter which specifies the rules to return given a resource type.
+        /// The resource type that a readiness rule applies to.
         public let resourceType: String?
 
         public init(maxResults: Int? = nil, nextToken: String? = nil, resourceType: String? = nil) {
@@ -1057,9 +1064,9 @@ extension Route53RecoveryReadiness {
     }
 
     public struct ListRulesResponse: AWSDecodableShape {
-        /// A token that can be used to resume pagination from the end of the collection.
+        /// The token that identifies which batch of results you want to see.
         public let nextToken: String?
-        /// A list of rules
+        /// A list of readiness rules for a specific resource type.
         public let rules: [ListRulesOutput]?
 
         public init(nextToken: String? = nil, rules: [ListRulesOutput]? = nil) {
@@ -1078,7 +1085,7 @@ extension Route53RecoveryReadiness {
             AWSMemberEncoding(label: "resourceArn", location: .uri("ResourceArn"))
         ]
 
-        /// The Amazon Resource Name (ARN) for the resource. You can get this from the response to any request to the resource.
+        /// The Amazon Resource Name (ARN) for a resource.
         public let resourceArn: String
 
         public init(resourceArn: String) {
@@ -1101,7 +1108,7 @@ extension Route53RecoveryReadiness {
     }
 
     public struct Message: AWSDecodableShape {
-        /// The text of a readiness check message
+        /// The text of a readiness check message.
         public let messageText: String?
 
         public init(messageText: String? = nil) {
@@ -1114,7 +1121,7 @@ extension Route53RecoveryReadiness {
     }
 
     public struct NLBResource: AWSEncodableShape & AWSDecodableShape {
-        /// An NLB resource arn
+        /// The Network Load Balancer resource Amazon Resource Name (ARN).
         public let arn: String?
 
         public init(arn: String? = nil) {
@@ -1127,9 +1134,9 @@ extension Route53RecoveryReadiness {
     }
 
     public struct R53ResourceRecord: AWSEncodableShape & AWSDecodableShape {
-        /// The DNS target name
+        /// The DNS target domain name.
         public let domainName: String?
-        /// The Resource Record set id
+        /// The Route 53 Resource Record Set ID.
         public let recordSetId: String?
 
         public init(domainName: String? = nil, recordSetId: String? = nil) {
@@ -1144,11 +1151,11 @@ extension Route53RecoveryReadiness {
     }
 
     public struct ReadinessCheckOutput: AWSDecodableShape {
-        /// Arn associated with ReadinessCheck
+        /// The Amazon Resource Name (ARN) associated with a readiness check.
         public let readinessCheckArn: String
-        /// Name for a ReadinessCheck
+        /// Name of a readiness check.
         public let readinessCheckName: String?
-        /// Name of the ResourceSet to be checked
+        /// Name of the resource set to be checked.
         public let resourceSet: String
         public let tags: [String: String]?
 
@@ -1168,9 +1175,9 @@ extension Route53RecoveryReadiness {
     }
 
     public struct ReadinessCheckSummary: AWSDecodableShape {
-        /// The readiness of this ReadinessCheck
+        /// The readiness status of this readiness check.
         public let readiness: Readiness?
-        /// The name of a ReadinessCheck which is part of the given RecoveryGroup or Cell
+        /// The name of a readiness check.
         public let readinessCheckName: String?
 
         public init(readiness: Readiness? = nil, readinessCheckName: String? = nil) {
@@ -1185,7 +1192,7 @@ extension Route53RecoveryReadiness {
     }
 
     public struct Recommendation: AWSDecodableShape {
-        /// Guidance text for recommendation
+        /// Text of the recommendations that are provided to make an application more recovery resilient.
         public let recommendationText: String
 
         public init(recommendationText: String) {
@@ -1198,12 +1205,13 @@ extension Route53RecoveryReadiness {
     }
 
     public struct RecoveryGroupOutput: AWSDecodableShape {
-        /// A list of Cell arns
+        /// A list of a cell's Amazon Resource Names (ARNs).
         public let cells: [String]
-        /// The arn for the RecoveryGroup
+        /// The Amazon Resource Name (ARN) for the recovery group.
         public let recoveryGroupArn: String
-        /// The name of the RecoveryGroup
+        /// The name of the recovery group.
         public let recoveryGroupName: String
+        /// The tags associated with the recovery group.
         public let tags: [String: String]?
 
         public init(cells: [String], recoveryGroupArn: String, recoveryGroupName: String, tags: [String: String]? = nil) {
@@ -1222,12 +1230,13 @@ extension Route53RecoveryReadiness {
     }
 
     public struct Resource: AWSEncodableShape & AWSDecodableShape {
-        /// The component id of the resource, generated by the service when dnsTargetResource is used
+        /// The component identifier of the resource, generated when DNS target resource is used.
         public let componentId: String?
+        /// The DNS target resource.
         public let dnsTargetResource: DNSTargetResource?
-        /// A list of RecoveryGroup ARNs and/or Cell ARNs that this resource is contained within.
+        /// A list of recovery group Amazon Resource Names (ARNs) and cell ARNs that this resource is contained within.
         public let readinessScopes: [String]?
-        /// The ARN of the AWS resource, can be skipped if dnsTargetResource is used
+        /// The Amazon Resource Name (ARN) of the Amazon Web Services resource.
         public let resourceArn: String?
 
         public init(componentId: String? = nil, dnsTargetResource: DNSTargetResource? = nil, readinessScopes: [String]? = nil, resourceArn: String? = nil) {
@@ -1246,14 +1255,14 @@ extension Route53RecoveryReadiness {
     }
 
     public struct ResourceResult: AWSDecodableShape {
-        /// The component id of the resource
+        /// The component id of the resource.
         public let componentId: String?
-        /// The time the resource was last checked for readiness, in ISO-8601 format, UTC.
+        /// The time (UTC) that the resource was last checked for readiness, in ISO-8601 format.
         @CustomCoding<ISO8601DateCoder>
         public var lastCheckedTimestamp: Date
-        /// The readiness of the resource.
+        /// The readiness of a resource.
         public let readiness: Readiness
-        /// The ARN of the resource
+        /// The Amazon Resource Name (ARN) of the resource.
         public let resourceArn: String?
 
         public init(componentId: String? = nil, lastCheckedTimestamp: Date, readiness: Readiness, resourceArn: String? = nil) {
@@ -1272,13 +1281,13 @@ extension Route53RecoveryReadiness {
     }
 
     public struct ResourceSetOutput: AWSDecodableShape {
-        /// A list of Resource objects
+        /// A list of resource objects.
         public let resources: [Resource]
-        /// The arn for the ResourceSet
+        /// The Amazon Resource Name (ARN) for the resource set.
         public let resourceSetArn: String
-        /// The name of the ResourceSet
+        /// The name of the resource set.
         public let resourceSetName: String
-        /// AWS Resource Type of the resources in the ResourceSet
+        /// The resource type of the resources in the resource set. Enter one of the following values for resource type: AWS::ApiGateway::Stage, AWS::ApiGatewayV2::Stage, AWS::AutoScaling::AutoScalingGroup, AWS::CloudWatch::Alarm, AWS::EC2::CustomerGateway, AWS::DynamoDB::Table, AWS::EC2::Volume, AWS::ElasticLoadBalancing::LoadBalancer, AWS::ElasticLoadBalancingV2::LoadBalancer, AWS::Lambda::Function, AWS::MSK::Cluster, AWS::RDS::DBCluster, AWS::Route53::HealthCheck, AWS::SQS::Queue, AWS::SNS::Topic, AWS::SNS::Subscription, AWS::EC2::VPC, AWS::EC2::VPNConnection, AWS::EC2::VPNGateway, AWS::Route53RecoveryReadiness::DNSTargetResource
         public let resourceSetType: String
         public let tags: [String: String]?
 
@@ -1303,7 +1312,7 @@ extension Route53RecoveryReadiness {
         /// The time the resource was last checked for readiness, in ISO-8601 format, UTC.
         @CustomCoding<ISO8601DateCoder>
         public var lastCheckedTimestamp: Date
-        /// Details about the resource's readiness
+        /// Details about the resource's readiness.
         public let messages: [Message]
         /// The readiness at rule level.
         public let readiness: Readiness
@@ -1330,7 +1339,7 @@ extension Route53RecoveryReadiness {
             AWSMemberEncoding(label: "resourceArn", location: .uri("ResourceArn"))
         ]
 
-        /// The Amazon Resource Name (ARN) for the resource. You can get this from the response to any request to the resource.
+        /// The Amazon Resource Name (ARN) for a resource.
         public let resourceArn: String
         public let tags: [String: String]
 
@@ -1349,7 +1358,9 @@ extension Route53RecoveryReadiness {
     }
 
     public struct TargetResource: AWSEncodableShape & AWSDecodableShape {
+        /// The Network Load Balancer Resource.
         public let nlbResource: NLBResource?
+        /// The Route 53 resource.
         public let r53Resource: R53ResourceRecord?
 
         public init(nlbResource: NLBResource? = nil, r53Resource: R53ResourceRecord? = nil) {
@@ -1369,9 +1380,9 @@ extension Route53RecoveryReadiness {
             AWSMemberEncoding(label: "tagKeys", location: .querystring("tagKeys"))
         ]
 
-        /// The Amazon Resource Name (ARN) for the resource. You can get this from the response to any request to the resource.
+        /// The Amazon Resource Name (ARN) for a resource.
         public let resourceArn: String
-        /// A comma-separated list of the tag keys to remove from the resource.
+        /// The keys for tags you add to resources.
         public let tagKeys: [String]
 
         public init(resourceArn: String, tagKeys: [String]) {
@@ -1387,9 +1398,9 @@ extension Route53RecoveryReadiness {
             AWSMemberEncoding(label: "cellName", location: .uri("CellName"))
         ]
 
-        /// The Cell to update
+        /// The name of the cell.
         public let cellName: String
-        /// A list of Cell arns, completely replaces previous list
+        /// A list of cell Amazon Resource Names (ARNs), which completely replaces the previous list.
         public let cells: [String]
 
         public init(cellName: String, cells: [String]) {
@@ -1403,14 +1414,15 @@ extension Route53RecoveryReadiness {
     }
 
     public struct UpdateCellResponse: AWSDecodableShape {
-        /// The arn for the Cell
+        /// The Amazon Resource Name (ARN) for the cell.
         public let cellArn: String?
-        /// The name of the Cell
+        /// The name of the cell.
         public let cellName: String?
-        /// A list of Cell arns
+        /// A list of cell ARNs.
         public let cells: [String]?
-        /// A list of Cell ARNs and/or RecoveryGroup ARNs
+        /// The readiness scope for the cell, which can be a cell Amazon Resource Name (ARN) or a recovery group ARN. This is a list but currently can have only one element.
         public let parentReadinessScopes: [String]?
+        /// Tags on the resources.
         public let tags: [String: String]?
 
         public init(cellArn: String? = nil, cellName: String? = nil, cells: [String]? = nil, parentReadinessScopes: [String]? = nil, tags: [String: String]? = nil) {
@@ -1435,9 +1447,9 @@ extension Route53RecoveryReadiness {
             AWSMemberEncoding(label: "readinessCheckName", location: .uri("ReadinessCheckName"))
         ]
 
-        /// The ReadinessCheck to update
+        /// Name of a readiness check.
         public let readinessCheckName: String
-        /// The name of the ResourceSet to check
+        /// The name of the resource set to be checked.
         public let resourceSetName: String
 
         public init(readinessCheckName: String, resourceSetName: String) {
@@ -1451,11 +1463,11 @@ extension Route53RecoveryReadiness {
     }
 
     public struct UpdateReadinessCheckResponse: AWSDecodableShape {
-        /// Arn associated with ReadinessCheck
+        /// The Amazon Resource Name (ARN) associated with a readiness check.
         public let readinessCheckArn: String?
-        /// Name for a ReadinessCheck
+        /// Name of a readiness check.
         public let readinessCheckName: String?
-        /// Name of the ResourceSet to be checked
+        /// Name of the resource set to be checked.
         public let resourceSet: String?
         public let tags: [String: String]?
 
@@ -1479,9 +1491,9 @@ extension Route53RecoveryReadiness {
             AWSMemberEncoding(label: "recoveryGroupName", location: .uri("RecoveryGroupName"))
         ]
 
-        /// A list of Cell arns, completely replaces previous list
+        /// A list of cell Amazon Resource Names (ARNs). This list completely replaces the previous list.
         public let cells: [String]
-        /// The RecoveryGroup to update
+        /// The name of a recovery group.
         public let recoveryGroupName: String
 
         public init(cells: [String], recoveryGroupName: String) {
@@ -1495,12 +1507,13 @@ extension Route53RecoveryReadiness {
     }
 
     public struct UpdateRecoveryGroupResponse: AWSDecodableShape {
-        /// A list of Cell arns
+        /// A list of a cell's Amazon Resource Names (ARNs).
         public let cells: [String]?
-        /// The arn for the RecoveryGroup
+        /// The Amazon Resource Name (ARN) for the recovery group.
         public let recoveryGroupArn: String?
-        /// The name of the RecoveryGroup
+        /// The name of the recovery group.
         public let recoveryGroupName: String?
+        /// The tags associated with the recovery group.
         public let tags: [String: String]?
 
         public init(cells: [String]? = nil, recoveryGroupArn: String? = nil, recoveryGroupName: String? = nil, tags: [String: String]? = nil) {
@@ -1523,11 +1536,11 @@ extension Route53RecoveryReadiness {
             AWSMemberEncoding(label: "resourceSetName", location: .uri("ResourceSetName"))
         ]
 
-        /// A list of Resource objects
+        /// A list of resource objects.
         public let resources: [Resource]
-        /// The ResourceSet to update
+        /// Name of a resource set.
         public let resourceSetName: String
-        /// AWS Resource Type of the resources in the ResourceSet
+        /// The resource type of the resources in the resource set. Enter one of the following values for resource type: AWS::ApiGateway::Stage, AWS::ApiGatewayV2::Stage, AWS::AutoScaling::AutoScalingGroup, AWS::CloudWatch::Alarm, AWS::EC2::CustomerGateway, AWS::DynamoDB::Table, AWS::EC2::Volume, AWS::ElasticLoadBalancing::LoadBalancer, AWS::ElasticLoadBalancingV2::LoadBalancer, AWS::Lambda::Function, AWS::MSK::Cluster, AWS::RDS::DBCluster, AWS::Route53::HealthCheck, AWS::SQS::Queue, AWS::SNS::Topic, AWS::SNS::Subscription, AWS::EC2::VPC, AWS::EC2::VPNConnection, AWS::EC2::VPNGateway, AWS::Route53RecoveryReadiness::DNSTargetResource
         public let resourceSetType: String
 
         public init(resources: [Resource], resourceSetName: String, resourceSetType: String) {
@@ -1547,13 +1560,13 @@ extension Route53RecoveryReadiness {
     }
 
     public struct UpdateResourceSetResponse: AWSDecodableShape {
-        /// A list of Resource objects
+        /// A list of resource objects.
         public let resources: [Resource]?
-        /// The arn for the ResourceSet
+        /// The Amazon Resource Name (ARN) for the resource set.
         public let resourceSetArn: String?
-        /// The name of the ResourceSet
+        /// The name of the resource set.
         public let resourceSetName: String?
-        /// AWS Resource Type of the resources in the ResourceSet
+        /// The resource type of the resources in the resource set. Enter one of the following values for resource type: AWS::ApiGateway::Stage, AWS::ApiGatewayV2::Stage, AWS::AutoScaling::AutoScalingGroup, AWS::CloudWatch::Alarm, AWS::EC2::CustomerGateway, AWS::DynamoDB::Table, AWS::EC2::Volume, AWS::ElasticLoadBalancing::LoadBalancer, AWS::ElasticLoadBalancingV2::LoadBalancer, AWS::Lambda::Function, AWS::MSK::Cluster, AWS::RDS::DBCluster, AWS::Route53::HealthCheck, AWS::SQS::Queue, AWS::SNS::Topic, AWS::SNS::Subscription, AWS::EC2::VPC, AWS::EC2::VPNConnection, AWS::EC2::VPNGateway, AWS::Route53RecoveryReadiness::DNSTargetResource
         public let resourceSetType: String?
         public let tags: [String: String]?
 

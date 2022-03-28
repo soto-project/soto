@@ -1154,7 +1154,7 @@ extension RoboMaker {
             try self.dataSources?.forEach {
                 try $0.validate(name: "\(name).dataSources[]")
             }
-            try self.validate(self.dataSources, name: "dataSources", parent: name, max: 5)
+            try self.validate(self.dataSources, name: "dataSources", parent: name, max: 6)
             try self.validate(self.dataSources, name: "dataSources", parent: name, min: 1)
             try self.validate(self.iamRole, name: "iamRole", parent: name, max: 255)
             try self.validate(self.iamRole, name: "iamRole", parent: name, min: 1)
@@ -1887,7 +1887,7 @@ extension RoboMaker {
                 try validate($0.value, name: "environmentVariables[\"\($0.key)\"]", parent: name, min: 1)
                 try validate($0.value, name: "environmentVariables[\"\($0.key)\"]", parent: name, pattern: ".*")
             }
-            try self.validate(self.environmentVariables, name: "environmentVariables", parent: name, max: 16)
+            try self.validate(self.environmentVariables, name: "environmentVariables", parent: name, max: 20)
             try self.validate(self.launchFile, name: "launchFile", parent: name, max: 1024)
             try self.validate(self.launchFile, name: "launchFile", parent: name, min: 1)
             try self.validate(self.launchFile, name: "launchFile", parent: name, pattern: "^[a-zA-Z0-9_.\\-]*$")
@@ -2964,7 +2964,7 @@ extension RoboMaker {
                 try validate($0.value, name: "environmentVariables[\"\($0.key)\"]", parent: name, min: 1)
                 try validate($0.value, name: "environmentVariables[\"\($0.key)\"]", parent: name, pattern: ".*")
             }
-            try self.validate(self.environmentVariables, name: "environmentVariables", parent: name, max: 16)
+            try self.validate(self.environmentVariables, name: "environmentVariables", parent: name, max: 20)
             try self.validate(self.launchFile, name: "launchFile", parent: name, max: 1024)
             try self.validate(self.launchFile, name: "launchFile", parent: name, min: 1)
             try self.validate(self.launchFile, name: "launchFile", parent: name, pattern: "^[a-zA-Z0-9_.\\-]*$")
@@ -3563,10 +3563,15 @@ extension RoboMaker {
     }
 
     public struct LoggingConfig: AWSEncodableShape & AWSDecodableShape {
-        /// A boolean indicating whether to record all ROS topics.
-        public let recordAllRosTopics: Bool
+        /// A boolean indicating whether to record all ROS topics.  This API is no longer supported and will throw an error if used.
+        public let recordAllRosTopics: Bool?
 
-        public init(recordAllRosTopics: Bool) {
+        public init() {
+            self.recordAllRosTopics = nil
+        }
+
+        @available(*, deprecated, message: "Members recordAllRosTopics have been deprecated")
+        public init(recordAllRosTopics: Bool? = nil) {
             self.recordAllRosTopics = recordAllRosTopics
         }
 
@@ -3840,11 +3845,22 @@ extension RoboMaker {
         public let tools: [Tool]?
         /// The upload configurations for the robot application.
         public let uploadConfigurations: [UploadConfiguration]?
-        /// A Boolean indicating whether to use default robot application tools. The default tools are rviz, rqt, terminal and rosbag record. The default is False.
+        /// A Boolean indicating whether to use default robot application tools. The default tools are rviz, rqt, terminal and rosbag record. The default is False.  This API is no longer supported and will throw an error if used.
         public let useDefaultTools: Bool?
-        /// A Boolean indicating whether to use default upload configurations. By default, .ros and .gazebo files are uploaded when the application terminates and all ROS topics will be recorded. If you set this value, you must specify an outputLocation.
+        /// A Boolean indicating whether to use default upload configurations. By default, .ros and .gazebo files are uploaded when the application terminates and all ROS topics will be recorded. If you set this value, you must specify an outputLocation.  This API is no longer supported and will throw an error if used.
         public let useDefaultUploadConfigurations: Bool?
 
+        public init(application: String, applicationVersion: String? = nil, launchConfig: LaunchConfig, tools: [Tool]? = nil, uploadConfigurations: [UploadConfiguration]? = nil) {
+            self.application = application
+            self.applicationVersion = applicationVersion
+            self.launchConfig = launchConfig
+            self.tools = tools
+            self.uploadConfigurations = uploadConfigurations
+            self.useDefaultTools = nil
+            self.useDefaultUploadConfigurations = nil
+        }
+
+        @available(*, deprecated, message: "Members useDefaultTools, useDefaultUploadConfigurations have been deprecated")
         public init(application: String, applicationVersion: String? = nil, launchConfig: LaunchConfig, tools: [Tool]? = nil, uploadConfigurations: [UploadConfiguration]? = nil, useDefaultTools: Bool? = nil, useDefaultUploadConfigurations: Bool? = nil) {
             self.application = application
             self.applicationVersion = applicationVersion
@@ -4025,13 +4041,25 @@ extension RoboMaker {
         public let tools: [Tool]?
         /// Information about upload configurations for the simulation application.
         public let uploadConfigurations: [UploadConfiguration]?
-        /// A Boolean indicating whether to use default simulation application tools. The default tools are rviz, rqt, terminal and rosbag record. The default is False.
+        /// A Boolean indicating whether to use default simulation application tools. The default tools are rviz, rqt, terminal and rosbag record. The default is False.  This API is no longer supported and will throw an error if used.
         public let useDefaultTools: Bool?
-        /// A Boolean indicating whether to use default upload configurations. By default, .ros and .gazebo files are uploaded when the application terminates and all ROS topics will be recorded. If you set this value, you must specify an outputLocation.
+        /// A Boolean indicating whether to use default upload configurations. By default, .ros and .gazebo files are uploaded when the application terminates and all ROS topics will be recorded. If you set this value, you must specify an outputLocation.  This API is no longer supported and will throw an error if used.
         public let useDefaultUploadConfigurations: Bool?
         /// A list of world configurations.
         public let worldConfigs: [WorldConfig]?
 
+        public init(application: String, applicationVersion: String? = nil, launchConfig: LaunchConfig, tools: [Tool]? = nil, uploadConfigurations: [UploadConfiguration]? = nil, worldConfigs: [WorldConfig]? = nil) {
+            self.application = application
+            self.applicationVersion = applicationVersion
+            self.launchConfig = launchConfig
+            self.tools = tools
+            self.uploadConfigurations = uploadConfigurations
+            self.useDefaultTools = nil
+            self.useDefaultUploadConfigurations = nil
+            self.worldConfigs = worldConfigs
+        }
+
+        @available(*, deprecated, message: "Members useDefaultTools, useDefaultUploadConfigurations have been deprecated")
         public init(application: String, applicationVersion: String? = nil, launchConfig: LaunchConfig, tools: [Tool]? = nil, uploadConfigurations: [UploadConfiguration]? = nil, useDefaultTools: Bool? = nil, useDefaultUploadConfigurations: Bool? = nil, worldConfigs: [WorldConfig]? = nil) {
             self.application = application
             self.applicationVersion = applicationVersion
@@ -4283,7 +4311,7 @@ extension RoboMaker {
             try self.dataSources?.forEach {
                 try $0.validate(name: "\(name).dataSources[]")
             }
-            try self.validate(self.dataSources, name: "dataSources", parent: name, max: 5)
+            try self.validate(self.dataSources, name: "dataSources", parent: name, max: 6)
             try self.validate(self.dataSources, name: "dataSources", parent: name, min: 1)
             try self.validate(self.iamRole, name: "iamRole", parent: name, max: 255)
             try self.validate(self.iamRole, name: "iamRole", parent: name, min: 1)
@@ -5153,14 +5181,16 @@ extension RoboMaker {
         public let arn: String?
         /// The time, in milliseconds since the epoch, when the world export job was created.
         public let createdAt: Date?
+        public let outputLocation: OutputLocation?
         /// The status of the world export job.  Pending  The world export job request is pending.  Running  The world export job is running.   Completed  The world export job completed.   Failed  The world export job failed. See failureCode for more information.   Canceled  The world export job was cancelled.  Canceling  The world export job is being cancelled.
         public let status: WorldExportJobStatus?
         /// A list of worlds.
         public let worlds: [String]?
 
-        public init(arn: String? = nil, createdAt: Date? = nil, status: WorldExportJobStatus? = nil, worlds: [String]? = nil) {
+        public init(arn: String? = nil, createdAt: Date? = nil, outputLocation: OutputLocation? = nil, status: WorldExportJobStatus? = nil, worlds: [String]? = nil) {
             self.arn = arn
             self.createdAt = createdAt
+            self.outputLocation = outputLocation
             self.status = status
             self.worlds = worlds
         }
@@ -5168,6 +5198,7 @@ extension RoboMaker {
         private enum CodingKeys: String, CodingKey {
             case arn
             case createdAt
+            case outputLocation
             case status
             case worlds
         }

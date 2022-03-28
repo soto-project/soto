@@ -503,6 +503,7 @@ extension Location.GetDevicePositionHistoryRequest: AWSPaginateToken {
         return .init(
             deviceId: self.deviceId,
             endTimeExclusive: self.endTimeExclusive,
+            maxResults: self.maxResults,
             nextToken: token,
             startTimeInclusive: self.startTimeInclusive,
             trackerName: self.trackerName

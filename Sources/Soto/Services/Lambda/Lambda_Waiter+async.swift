@@ -41,6 +41,24 @@ extension Lambda {
         return try await self.client.waitUntil(input, waiter: waiter, maxWaitTime: maxWaitTime, logger: logger, on: eventLoop)
     }
 
+    public func waitUntilFunctionActiveV2(
+        _ input: GetFunctionRequest,
+        maxWaitTime: TimeAmount? = nil,
+        logger: Logger = AWSClient.loggingDisabled,
+        on eventLoop: EventLoop? = nil
+    ) async throws {
+        let waiter = AWSClient.Waiter(
+            acceptors: [
+                .init(state: .success, matcher: try! JMESPathMatcher("configuration.state", expected: "Active")),
+                .init(state: .failure, matcher: try! JMESPathMatcher("configuration.state", expected: "Failed")),
+                .init(state: .retry, matcher: try! JMESPathMatcher("configuration.state", expected: "Pending")),
+            ],
+            minDelayTime: .seconds(1),
+            command: getFunction
+        )
+        return try await self.client.waitUntil(input, waiter: waiter, maxWaitTime: maxWaitTime, logger: logger, on: eventLoop)
+    }
+
     public func waitUntilFunctionExists(
         _ input: GetFunctionRequest,
         maxWaitTime: TimeAmount? = nil,
@@ -72,6 +90,24 @@ extension Lambda {
             ],
             minDelayTime: .seconds(5),
             command: getFunctionConfiguration
+        )
+        return try await self.client.waitUntil(input, waiter: waiter, maxWaitTime: maxWaitTime, logger: logger, on: eventLoop)
+    }
+
+    public func waitUntilFunctionUpdatedV2(
+        _ input: GetFunctionRequest,
+        maxWaitTime: TimeAmount? = nil,
+        logger: Logger = AWSClient.loggingDisabled,
+        on eventLoop: EventLoop? = nil
+    ) async throws {
+        let waiter = AWSClient.Waiter(
+            acceptors: [
+                .init(state: .success, matcher: try! JMESPathMatcher("configuration.lastUpdateStatus", expected: "Successful")),
+                .init(state: .failure, matcher: try! JMESPathMatcher("configuration.lastUpdateStatus", expected: "Failed")),
+                .init(state: .retry, matcher: try! JMESPathMatcher("configuration.lastUpdateStatus", expected: "InProgress")),
+            ],
+            minDelayTime: .seconds(1),
+            command: getFunction
         )
         return try await self.client.waitUntil(input, waiter: waiter, maxWaitTime: maxWaitTime, logger: logger, on: eventLoop)
     }

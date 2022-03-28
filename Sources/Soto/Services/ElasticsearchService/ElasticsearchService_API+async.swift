@@ -88,6 +88,11 @@ extension ElasticsearchService {
         return try await self.client.execute(operation: "DescribeDomainAutoTunes", path: "/2015-01-01/es/domain/{DomainName}/autoTunes", httpMethod: .GET, serviceConfig: self.config, input: input, logger: logger, on: eventLoop)
     }
 
+    /// Returns information about the current blue/green deployment happening on a domain, including a change ID, status, and progress stages.
+    public func describeDomainChangeProgress(_ input: DescribeDomainChangeProgressRequest, logger: Logger = AWSClient.loggingDisabled, on eventLoop: EventLoop? = nil) async throws -> DescribeDomainChangeProgressResponse {
+        return try await self.client.execute(operation: "DescribeDomainChangeProgress", path: "/2015-01-01/es/domain/{DomainName}/progress", httpMethod: .GET, serviceConfig: self.config, input: input, logger: logger, on: eventLoop)
+    }
+
     /// Returns domain configuration information about the specified Elasticsearch domain, including the domain ID, domain endpoint, and domain ARN.
     public func describeElasticsearchDomain(_ input: DescribeElasticsearchDomainRequest, logger: Logger = AWSClient.loggingDisabled, on eventLoop: EventLoop? = nil) async throws -> DescribeElasticsearchDomainResponse {
         return try await self.client.execute(operation: "DescribeElasticsearchDomain", path: "/2015-01-01/es/domain/{DomainName}", httpMethod: .GET, serviceConfig: self.config, input: input, logger: logger, on: eventLoop)

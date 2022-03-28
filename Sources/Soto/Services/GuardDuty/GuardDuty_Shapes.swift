@@ -31,6 +31,7 @@ extension GuardDuty {
         case cloudTrail = "CLOUD_TRAIL"
         case dnsLogs = "DNS_LOGS"
         case flowLogs = "FLOW_LOGS"
+        case kubernetesAuditLogs = "KUBERNETES_AUDIT_LOGS"
         case s3Logs = "S3_LOGS"
         public var description: String { return self.rawValue }
     }
@@ -261,15 +262,18 @@ extension GuardDuty {
         public let awsApiCallAction: AwsApiCallAction?
         /// Information about the DNS_REQUEST action described in this finding.
         public let dnsRequestAction: DnsRequestAction?
+        /// Information about the Kubernetes API call action described in this finding.
+        public let kubernetesApiCallAction: KubernetesApiCallAction?
         /// Information about the NETWORK_CONNECTION action described in this finding.
         public let networkConnectionAction: NetworkConnectionAction?
         /// Information about the PORT_PROBE action described in this finding.
         public let portProbeAction: PortProbeAction?
 
-        public init(actionType: String? = nil, awsApiCallAction: AwsApiCallAction? = nil, dnsRequestAction: DnsRequestAction? = nil, networkConnectionAction: NetworkConnectionAction? = nil, portProbeAction: PortProbeAction? = nil) {
+        public init(actionType: String? = nil, awsApiCallAction: AwsApiCallAction? = nil, dnsRequestAction: DnsRequestAction? = nil, kubernetesApiCallAction: KubernetesApiCallAction? = nil, networkConnectionAction: NetworkConnectionAction? = nil, portProbeAction: PortProbeAction? = nil) {
             self.actionType = actionType
             self.awsApiCallAction = awsApiCallAction
             self.dnsRequestAction = dnsRequestAction
+            self.kubernetesApiCallAction = kubernetesApiCallAction
             self.networkConnectionAction = networkConnectionAction
             self.portProbeAction = portProbeAction
         }
@@ -278,13 +282,14 @@ extension GuardDuty {
             case actionType
             case awsApiCallAction
             case dnsRequestAction
+            case kubernetesApiCallAction
             case networkConnectionAction
             case portProbeAction
         }
     }
 
     public struct AdminAccount: AWSDecodableShape {
-        /// The AWS account ID for the account.
+        /// The Amazon Web Services account ID for the account.
         public let adminAccountId: String?
         /// Indicates whether the account is enabled as the delegated administrator.
         public let adminStatus: AdminStatus?
@@ -335,26 +340,31 @@ extension GuardDuty {
     }
 
     public struct AwsApiCallAction: AWSDecodableShape {
-        /// The AWS API name.
+        /// The Amazon Web Services API name.
         public let api: String?
-        /// The AWS API caller type.
+        /// The Amazon Web Services API caller type.
         public let callerType: String?
-        /// The domain information for the AWS API call.
+        /// The domain information for the Amazon Web Services API call.
         public let domainDetails: DomainDetails?
-        /// The error code of the failed AWS API action.
+        /// The error code of the failed Amazon Web Services API action.
         public let errorCode: String?
-        /// The remote IP information of the connection that initiated the AWS API call.
+        /// The details of the Amazon Web Services account that made the API call. This field appears if the call was made from outside your account.
+        public let remoteAccountDetails: RemoteAccountDetails?
+        /// The remote IP information of the connection that initiated the Amazon Web Services API call.
         public let remoteIpDetails: RemoteIpDetails?
-        /// The AWS service name whose API was invoked.
+        /// The Amazon Web Services service name whose API was invoked.
         public let serviceName: String?
+        public let userAgent: String?
 
-        public init(api: String? = nil, callerType: String? = nil, domainDetails: DomainDetails? = nil, errorCode: String? = nil, remoteIpDetails: RemoteIpDetails? = nil, serviceName: String? = nil) {
+        public init(api: String? = nil, callerType: String? = nil, domainDetails: DomainDetails? = nil, errorCode: String? = nil, remoteAccountDetails: RemoteAccountDetails? = nil, remoteIpDetails: RemoteIpDetails? = nil, serviceName: String? = nil, userAgent: String? = nil) {
             self.api = api
             self.callerType = callerType
             self.domainDetails = domainDetails
             self.errorCode = errorCode
+            self.remoteAccountDetails = remoteAccountDetails
             self.remoteIpDetails = remoteIpDetails
             self.serviceName = serviceName
+            self.userAgent = userAgent
         }
 
         private enum CodingKeys: String, CodingKey {
@@ -362,8 +372,10 @@ extension GuardDuty {
             case callerType
             case domainDetails
             case errorCode
+            case remoteAccountDetails
             case remoteIpDetails
             case serviceName
+            case userAgent
         }
     }
 
@@ -529,6 +541,43 @@ extension GuardDuty {
         }
     }
 
+    public struct Container: AWSDecodableShape {
+        /// The container runtime (such as, Docker or containerd) used to run the container.
+        public let containerRuntime: String?
+        /// Container ID.
+        public let id: String?
+        /// Container image.
+        public let image: String?
+        /// Part of the image name before the last slash. For example, imagePrefix for public.ecr.aws/amazonlinux/amazonlinux:latest would be public.ecr.aws/amazonlinux. If the image name is relative and does not have a slash, this field is empty.
+        public let imagePrefix: String?
+        /// Container name.
+        public let name: String?
+        /// Container security context.
+        public let securityContext: SecurityContext?
+        /// Container volume mounts.
+        public let volumeMounts: [VolumeMount]?
+
+        public init(containerRuntime: String? = nil, id: String? = nil, image: String? = nil, imagePrefix: String? = nil, name: String? = nil, securityContext: SecurityContext? = nil, volumeMounts: [VolumeMount]? = nil) {
+            self.containerRuntime = containerRuntime
+            self.id = id
+            self.image = image
+            self.imagePrefix = imagePrefix
+            self.name = name
+            self.securityContext = securityContext
+            self.volumeMounts = volumeMounts
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case containerRuntime
+            case id
+            case image
+            case imagePrefix
+            case name
+            case securityContext
+            case volumeMounts
+        }
+    }
+
     public struct Country: AWSDecodableShape {
         /// The country code of the remote IP address.
         public let countryCode: String?
@@ -613,7 +662,7 @@ extension GuardDuty {
         public let description: String?
         /// The ID of the detector belonging to the GuardDuty account that you want to create a filter for.
         public let detectorId: String
-        /// Represents the criteria to be used in the filter for querying findings. You can only use the following attributes to query findings:   accountId   region   confidence   id   resource.accessKeyDetails.accessKeyId   resource.accessKeyDetails.principalId   resource.accessKeyDetails.userName   resource.accessKeyDetails.userType   resource.instanceDetails.iamInstanceProfile.id   resource.instanceDetails.imageId   resource.instanceDetails.instanceId   resource.instanceDetails.outpostArn   resource.instanceDetails.networkInterfaces.ipv6Addresses   resource.instanceDetails.networkInterfaces.privateIpAddresses.privateIpAddress   resource.instanceDetails.networkInterfaces.publicDnsName   resource.instanceDetails.networkInterfaces.publicIp   resource.instanceDetails.networkInterfaces.securityGroups.groupId   resource.instanceDetails.networkInterfaces.securityGroups.groupName   resource.instanceDetails.networkInterfaces.subnetId   resource.instanceDetails.networkInterfaces.vpcId   resource.instanceDetails.tags.key   resource.instanceDetails.tags.value   resource.resourceType   service.action.actionType   service.action.awsApiCallAction.api   service.action.awsApiCallAction.callerType   service.action.awsApiCallAction.errorCode   service.action.awsApiCallAction.remoteIpDetails.city.cityName   service.action.awsApiCallAction.remoteIpDetails.country.countryName   service.action.awsApiCallAction.remoteIpDetails.ipAddressV4   service.action.awsApiCallAction.remoteIpDetails.organization.asn   service.action.awsApiCallAction.remoteIpDetails.organization.asnOrg   service.action.awsApiCallAction.serviceName   service.action.dnsRequestAction.domain   service.action.networkConnectionAction.blocked   service.action.networkConnectionAction.connectionDirection   service.action.networkConnectionAction.localPortDetails.port   service.action.networkConnectionAction.protocol   service.action.networkConnectionAction.localIpDetails.ipAddressV4   service.action.networkConnectionAction.remoteIpDetails.city.cityName   service.action.networkConnectionAction.remoteIpDetails.country.countryName   service.action.networkConnectionAction.remoteIpDetails.ipAddressV4   service.action.networkConnectionAction.remoteIpDetails.organization.asn   service.action.networkConnectionAction.remoteIpDetails.organization.asnOrg   service.action.networkConnectionAction.remotePortDetails.port   service.additionalInfo.threatListName   service.archived When this attribute is set to TRUE, only archived findings are listed. When it's set to FALSE, only unarchived findings are listed. When this attribute is not set, all existing findings are listed.   service.resourceRole   severity   type   updatedAt Type: ISO 8601 string format: YYYY-MM-DDTHH:MM:SS.SSSZ or YYYY-MM-DDTHH:MM:SSZ depending on whether the value contains milliseconds.
+        /// Represents the criteria to be used in the filter for querying findings. You can only use the following attributes to query findings:   accountId   region   confidence   id   resource.accessKeyDetails.accessKeyId   resource.accessKeyDetails.principalId   resource.accessKeyDetails.userName   resource.accessKeyDetails.userType   resource.instanceDetails.iamInstanceProfile.id   resource.instanceDetails.imageId   resource.instanceDetails.instanceId   resource.instanceDetails.outpostArn   resource.instanceDetails.networkInterfaces.ipv6Addresses   resource.instanceDetails.networkInterfaces.privateIpAddresses.privateIpAddress   resource.instanceDetails.networkInterfaces.publicDnsName   resource.instanceDetails.networkInterfaces.publicIp   resource.instanceDetails.networkInterfaces.securityGroups.groupId   resource.instanceDetails.networkInterfaces.securityGroups.groupName   resource.instanceDetails.networkInterfaces.subnetId   resource.instanceDetails.networkInterfaces.vpcId   resource.instanceDetails.tags.key   resource.instanceDetails.tags.value   resource.resourceType   service.action.actionType   service.action.awsApiCallAction.api   service.action.awsApiCallAction.callerType   service.action.awsApiCallAction.errorCode   service.action.awsApiCallAction.remoteIpDetails.city.cityName   service.action.awsApiCallAction.remoteIpDetails.country.countryName   service.action.awsApiCallAction.remoteIpDetails.ipAddressV4   service.action.awsApiCallAction.remoteIpDetails.organization.asn   service.action.awsApiCallAction.remoteIpDetails.organization.asnOrg   service.action.awsApiCallAction.serviceName   service.action.dnsRequestAction.domain   service.action.networkConnectionAction.blocked   service.action.networkConnectionAction.connectionDirection   service.action.networkConnectionAction.localPortDetails.port   service.action.networkConnectionAction.protocol   service.action.networkConnectionAction.localIpDetails.ipAddressV4   service.action.networkConnectionAction.remoteIpDetails.city.cityName   service.action.networkConnectionAction.remoteIpDetails.country.countryName   service.action.networkConnectionAction.remoteIpDetails.ipAddressV4   service.action.networkConnectionAction.remoteIpDetails.organization.asn   service.action.networkConnectionAction.remoteIpDetails.organization.asnOrg   service.action.networkConnectionAction.remotePortDetails.port   service.additionalInfo.threatListName   resource.s3BucketDetails.publicAccess.effectivePermissions   resource.s3BucketDetails.name   resource.s3BucketDetails.tags.key   resource.s3BucketDetails.tags.value   resource.s3BucketDetails.type   service.archived When this attribute is set to TRUE, only archived findings are listed. When it's set to FALSE, only unarchived findings are listed. When this attribute is not set, all existing findings are listed.   service.resourceRole   severity   type   updatedAt Type: ISO 8601 string format: YYYY-MM-DDTHH:MM:SS.SSSZ or YYYY-MM-DDTHH:MM:SSZ depending on whether the value contains milliseconds.
         public let findingCriteria: FindingCriteria
         /// The name of the filter. Minimum length of 3. Maximum length of 64. Valid characters include alphanumeric characters, dot (.), underscore (_), and dash (-). Spaces are not allowed.
         public let name: String
@@ -689,7 +738,7 @@ extension GuardDuty {
         public let detectorId: String
         /// The format of the file that contains the IPSet.
         public let format: IpSetFormat
-        /// The URI of the file that contains the IPSet. For example: https://s3.us-west-2.amazonaws.com/my-bucket/my-object-key.
+        /// The URI of the file that contains the IPSet.
         public let location: String
         /// The user-friendly name to identify the IPSet. Allowed characters are alphanumerics, spaces, hyphens (-), and underscores (_).
         public let name: String
@@ -884,7 +933,7 @@ extension GuardDuty {
         public let detectorId: String
         /// The format of the file that contains the ThreatIntelSet.
         public let format: ThreatIntelSetFormat
-        /// The URI of the file that contains the ThreatIntelSet. For example: https://s3.us-west-2.amazonaws.com/my-bucket/my-object-key.
+        /// The URI of the file that contains the ThreatIntelSet.
         public let location: String
         /// A user-friendly ThreatIntelSet name displayed in all findings that are generated by activity that involves IP addresses included in this ThreatIntelSet.
         public let name: String
@@ -956,14 +1005,18 @@ extension GuardDuty {
     }
 
     public struct DataSourceConfigurations: AWSEncodableShape {
+        /// Describes whether any Kubernetes logs are enabled as data sources.
+        public let kubernetes: KubernetesConfiguration?
         /// Describes whether S3 data event logs are enabled as a data source.
         public let s3Logs: S3LogsConfiguration?
 
-        public init(s3Logs: S3LogsConfiguration? = nil) {
+        public init(kubernetes: KubernetesConfiguration? = nil, s3Logs: S3LogsConfiguration? = nil) {
+            self.kubernetes = kubernetes
             self.s3Logs = s3Logs
         }
 
         private enum CodingKeys: String, CodingKey {
+            case kubernetes
             case s3Logs
         }
     }
@@ -975,13 +1028,16 @@ extension GuardDuty {
         public let dnsLogs: DNSLogsConfigurationResult
         /// An object that contains information on the status of VPC flow logs as a data source.
         public let flowLogs: FlowLogsConfigurationResult
+        /// An object that contains information on the status of all Kubernetes data sources.
+        public let kubernetes: KubernetesConfigurationResult?
         /// An object that contains information on the status of S3 Data event logs as a data source.
         public let s3Logs: S3LogsConfigurationResult
 
-        public init(cloudTrail: CloudTrailConfigurationResult, dnsLogs: DNSLogsConfigurationResult, flowLogs: FlowLogsConfigurationResult, s3Logs: S3LogsConfigurationResult) {
+        public init(cloudTrail: CloudTrailConfigurationResult, dnsLogs: DNSLogsConfigurationResult, flowLogs: FlowLogsConfigurationResult, kubernetes: KubernetesConfigurationResult? = nil, s3Logs: S3LogsConfigurationResult) {
             self.cloudTrail = cloudTrail
             self.dnsLogs = dnsLogs
             self.flowLogs = flowLogs
+            self.kubernetes = kubernetes
             self.s3Logs = s3Logs
         }
 
@@ -989,12 +1045,13 @@ extension GuardDuty {
             case cloudTrail
             case dnsLogs
             case flowLogs
+            case kubernetes
             case s3Logs
         }
     }
 
     public struct DeclineInvitationsRequest: AWSEncodableShape {
-        /// A list of account IDs of the AWS accounts that sent invitations to the current member account that you want to decline invitations from.
+        /// A list of account IDs of the Amazon Web Services accounts that sent invitations to the current member account that you want to decline invitations from.
         public let accountIds: [String]
 
         public init(accountIds: [String]) {
@@ -1126,7 +1183,7 @@ extension GuardDuty {
     }
 
     public struct DeleteInvitationsRequest: AWSEncodableShape {
-        /// A list of account IDs of the AWS accounts that sent invitations to the current member account that you want to delete invitations from.
+        /// A list of account IDs of the Amazon Web Services accounts that sent invitations to the current member account that you want to delete invitations from.
         public let accountIds: [String]
 
         public init(accountIds: [String]) {
@@ -1376,7 +1433,7 @@ extension GuardDuty {
     }
 
     public struct DestinationProperties: AWSEncodableShape & AWSDecodableShape {
-        /// The ARN of the resource to publish to.
+        /// The ARN of the resource to publish to. To specify an S3 bucket folder use the following format: arn:aws:s3:::DOC-EXAMPLE-BUCKET/myFolder/
         public let destinationArn: String?
         /// The ARN of the KMS key to use for encryption.
         public let kmsKeyArn: String?
@@ -1393,7 +1450,7 @@ extension GuardDuty {
     }
 
     public struct DisableOrganizationAdminAccountRequest: AWSEncodableShape {
-        /// The AWS Account ID for the organizations account to be disabled as a GuardDuty delegated administrator.
+        /// The Amazon Web Services Account ID for the organizations account to be disabled as a GuardDuty delegated administrator.
         public let adminAccountId: String
 
         public init(adminAccountId: String) {
@@ -1491,7 +1548,7 @@ extension GuardDuty {
     }
 
     public struct DomainDetails: AWSDecodableShape {
-        /// The domain information for the AWS API call.
+        /// The domain information for the Amazon Web Services API call.
         public let domain: String?
 
         public init(domain: String? = nil) {
@@ -1503,8 +1560,41 @@ extension GuardDuty {
         }
     }
 
+    public struct EksClusterDetails: AWSDecodableShape {
+        /// EKS cluster ARN.
+        public let arn: String?
+        /// The timestamp when the EKS cluster was created.
+        public let createdAt: Date?
+        /// EKS cluster name.
+        public let name: String?
+        /// The EKS cluster status.
+        public let status: String?
+        /// The EKS cluster tags.
+        public let tags: [Tag]?
+        /// The VPC ID to which the EKS cluster is attached.
+        public let vpcId: String?
+
+        public init(arn: String? = nil, createdAt: Date? = nil, name: String? = nil, status: String? = nil, tags: [Tag]? = nil, vpcId: String? = nil) {
+            self.arn = arn
+            self.createdAt = createdAt
+            self.name = name
+            self.status = status
+            self.tags = tags
+            self.vpcId = vpcId
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case arn
+            case createdAt
+            case name
+            case status
+            case tags
+            case vpcId
+        }
+    }
+
     public struct EnableOrganizationAdminAccountRequest: AWSEncodableShape {
-        /// The AWS Account ID for the organization account to be enabled as a GuardDuty delegated administrator.
+        /// The Amazon Web Services Account ID for the organization account to be enabled as a GuardDuty delegated administrator.
         public let adminAccountId: String
 
         public init(adminAccountId: String) {
@@ -1887,7 +1977,7 @@ extension GuardDuty {
     public struct GetIPSetResponse: AWSDecodableShape {
         /// The format of the file that contains the IPSet.
         public let format: IpSetFormat
-        /// The URI of the file that contains the IPSet. For example: https://s3.us-west-2.amazonaws.com/my-bucket/my-object-key.
+        /// The URI of the file that contains the IPSet.
         public let location: String
         /// The user-friendly name for the IPSet.
         public let name: String
@@ -2086,7 +2176,7 @@ extension GuardDuty {
     public struct GetThreatIntelSetResponse: AWSDecodableShape {
         /// The format of the threatIntelSet.
         public let format: ThreatIntelSetFormat
-        /// The URI of the file that contains the ThreatIntelSet. For example: https://s3.us-west-2.amazonaws.com/my-bucket/my-object-key.
+        /// The URI of the file that contains the ThreatIntelSet.
         public let location: String
         /// A user-friendly ThreatIntelSet name displayed in all findings that are generated by activity that involves IP addresses included in this ThreatIntelSet.
         public let name: String
@@ -2173,6 +2263,19 @@ extension GuardDuty {
         }
     }
 
+    public struct HostPath: AWSDecodableShape {
+        /// Path of the file or directory on the host that the volume maps to.
+        public let path: String?
+
+        public init(path: String? = nil) {
+            self.path = path
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case path
+        }
+    }
+
     public struct IamInstanceProfile: AWSDecodableShape {
         /// The profile ARN of the EC2 instance.
         public let arn: String?
@@ -2209,7 +2312,7 @@ extension GuardDuty {
         public let launchTime: String?
         /// The elastic network interface information of the EC2 instance.
         public let networkInterfaces: [NetworkInterface]?
-        /// The Amazon Resource Name (ARN) of the AWS Outpost. Only applicable to AWS Outposts instances.
+        /// The Amazon Resource Name (ARN) of the Amazon Web Services Outpost. Only applicable to Amazon Web Services Outposts instances.
         public let outpostArn: String?
         /// The platform of the EC2 instance.
         public let platform: String?
@@ -2328,6 +2431,169 @@ extension GuardDuty {
         }
     }
 
+    public struct KubernetesApiCallAction: AWSDecodableShape {
+        /// Parameters related to the Kubernetes API call action.
+        public let parameters: String?
+        public let remoteIpDetails: RemoteIpDetails?
+        /// The Kubernetes API request URI.
+        public let requestUri: String?
+        /// The IP of the  Kubernetes API caller and the IPs of any proxies or load balancers between the caller and the API endpoint.
+        public let sourceIps: [String]?
+        /// The resulting HTTP response code of the Kubernetes API call action.
+        public let statusCode: Int?
+        /// The user agent of the caller of the Kubernetes API.
+        public let userAgent: String?
+        /// The Kubernetes API request HTTP verb.
+        public let verb: String?
+
+        public init(parameters: String? = nil, remoteIpDetails: RemoteIpDetails? = nil, requestUri: String? = nil, sourceIps: [String]? = nil, statusCode: Int? = nil, userAgent: String? = nil, verb: String? = nil) {
+            self.parameters = parameters
+            self.remoteIpDetails = remoteIpDetails
+            self.requestUri = requestUri
+            self.sourceIps = sourceIps
+            self.statusCode = statusCode
+            self.userAgent = userAgent
+            self.verb = verb
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case parameters
+            case remoteIpDetails
+            case requestUri
+            case sourceIps
+            case statusCode
+            case userAgent
+            case verb
+        }
+    }
+
+    public struct KubernetesAuditLogsConfiguration: AWSEncodableShape {
+        /// The status of Kubernetes audit logs as a data source.
+        public let enable: Bool
+
+        public init(enable: Bool) {
+            self.enable = enable
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case enable
+        }
+    }
+
+    public struct KubernetesAuditLogsConfigurationResult: AWSDecodableShape {
+        /// A value that describes whether Kubernetes audit logs are enabled as a data source.
+        public let status: DataSourceStatus
+
+        public init(status: DataSourceStatus) {
+            self.status = status
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case status
+        }
+    }
+
+    public struct KubernetesConfiguration: AWSEncodableShape {
+        /// The status of Kubernetes audit logs as a data source.
+        public let auditLogs: KubernetesAuditLogsConfiguration
+
+        public init(auditLogs: KubernetesAuditLogsConfiguration) {
+            self.auditLogs = auditLogs
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case auditLogs
+        }
+    }
+
+    public struct KubernetesConfigurationResult: AWSDecodableShape {
+        /// Describes whether Kubernetes audit logs are enabled as a data source.
+        public let auditLogs: KubernetesAuditLogsConfigurationResult
+
+        public init(auditLogs: KubernetesAuditLogsConfigurationResult) {
+            self.auditLogs = auditLogs
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case auditLogs
+        }
+    }
+
+    public struct KubernetesDetails: AWSDecodableShape {
+        /// Details about the Kubernetes user involved in a Kubernetes finding.
+        public let kubernetesUserDetails: KubernetesUserDetails?
+        /// Details about the Kubernetes workload involved in a Kubernetes finding.
+        public let kubernetesWorkloadDetails: KubernetesWorkloadDetails?
+
+        public init(kubernetesUserDetails: KubernetesUserDetails? = nil, kubernetesWorkloadDetails: KubernetesWorkloadDetails? = nil) {
+            self.kubernetesUserDetails = kubernetesUserDetails
+            self.kubernetesWorkloadDetails = kubernetesWorkloadDetails
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case kubernetesUserDetails
+            case kubernetesWorkloadDetails
+        }
+    }
+
+    public struct KubernetesUserDetails: AWSDecodableShape {
+        /// The groups that include the user who called the Kubernetes API.
+        public let groups: [String]?
+        /// The user ID of the user who called the Kubernetes API.
+        public let uid: String?
+        /// The username of the user who called the Kubernetes API.
+        public let username: String?
+
+        public init(groups: [String]? = nil, uid: String? = nil, username: String? = nil) {
+            self.groups = groups
+            self.uid = uid
+            self.username = username
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case groups
+            case uid
+            case username
+        }
+    }
+
+    public struct KubernetesWorkloadDetails: AWSDecodableShape {
+        /// Containers running as part of the Kubernetes workload.
+        public let containers: [Container]?
+        /// Whether the hostNetwork flag is enabled for the pods included in the workload.
+        public let hostNetwork: Bool?
+        /// Kubernetes workload name.
+        public let name: String?
+        /// Kubernetes namespace that the workload is part of.
+        public let namespace: String?
+        /// Kubernetes workload type (e.g. Pod, Deployment, etc.).
+        public let type: String?
+        /// Kubernetes workload ID.
+        public let uid: String?
+        /// Volumes used by the Kubernetes workload.
+        public let volumes: [Volume]?
+
+        public init(containers: [Container]? = nil, hostNetwork: Bool? = nil, name: String? = nil, namespace: String? = nil, type: String? = nil, uid: String? = nil, volumes: [Volume]? = nil) {
+            self.containers = containers
+            self.hostNetwork = hostNetwork
+            self.name = name
+            self.namespace = namespace
+            self.type = type
+            self.uid = uid
+            self.volumes = volumes
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case containers
+            case hostNetwork
+            case name
+            case namespace
+            case type
+            case uid
+            case volumes
+        }
+    }
+
     public struct ListDetectorsRequest: AWSEncodableShape {
         public static var _encoding = [
             AWSMemberEncoding(label: "maxResults", location: .querystring("maxResults")),
@@ -2423,7 +2689,7 @@ extension GuardDuty {
 
         /// The ID of the detector that specifies the GuardDuty service whose findings you want to list.
         public let detectorId: String
-        /// Represents the criteria used for querying findings. Valid values include:   JSON field name   accountId   region   confidence   id   resource.accessKeyDetails.accessKeyId   resource.accessKeyDetails.principalId   resource.accessKeyDetails.userName   resource.accessKeyDetails.userType   resource.instanceDetails.iamInstanceProfile.id   resource.instanceDetails.imageId   resource.instanceDetails.instanceId   resource.instanceDetails.networkInterfaces.ipv6Addresses   resource.instanceDetails.networkInterfaces.privateIpAddresses.privateIpAddress   resource.instanceDetails.networkInterfaces.publicDnsName   resource.instanceDetails.networkInterfaces.publicIp   resource.instanceDetails.networkInterfaces.securityGroups.groupId   resource.instanceDetails.networkInterfaces.securityGroups.groupName   resource.instanceDetails.networkInterfaces.subnetId   resource.instanceDetails.networkInterfaces.vpcId   resource.instanceDetails.tags.key   resource.instanceDetails.tags.value   resource.resourceType   service.action.actionType   service.action.awsApiCallAction.api   service.action.awsApiCallAction.callerType   service.action.awsApiCallAction.remoteIpDetails.city.cityName   service.action.awsApiCallAction.remoteIpDetails.country.countryName   service.action.awsApiCallAction.remoteIpDetails.ipAddressV4   service.action.awsApiCallAction.remoteIpDetails.organization.asn   service.action.awsApiCallAction.remoteIpDetails.organization.asnOrg   service.action.awsApiCallAction.serviceName   service.action.dnsRequestAction.domain   service.action.networkConnectionAction.blocked   service.action.networkConnectionAction.connectionDirection   service.action.networkConnectionAction.localPortDetails.port   service.action.networkConnectionAction.protocol   service.action.networkConnectionAction.remoteIpDetails.city.cityName   service.action.networkConnectionAction.remoteIpDetails.country.countryName   service.action.networkConnectionAction.remoteIpDetails.ipAddressV4   service.action.networkConnectionAction.remoteIpDetails.organization.asn   service.action.networkConnectionAction.remoteIpDetails.organization.asnOrg   service.action.networkConnectionAction.remotePortDetails.port   service.additionalInfo.threatListName   service.archived When this attribute is set to 'true', only archived findings are listed. When it's set to 'false', only unarchived findings are listed. When this attribute is not set, all existing findings are listed.   service.resourceRole   severity   type   updatedAt Type: Timestamp in Unix Epoch millisecond format: 1486685375000
+        /// Represents the criteria used for querying findings. Valid values include:   JSON field name   accountId   region   confidence   id   resource.accessKeyDetails.accessKeyId   resource.accessKeyDetails.principalId   resource.accessKeyDetails.userName   resource.accessKeyDetails.userType   resource.instanceDetails.iamInstanceProfile.id   resource.instanceDetails.imageId   resource.instanceDetails.instanceId   resource.instanceDetails.networkInterfaces.ipv6Addresses   resource.instanceDetails.networkInterfaces.privateIpAddresses.privateIpAddress   resource.instanceDetails.networkInterfaces.publicDnsName   resource.instanceDetails.networkInterfaces.publicIp   resource.instanceDetails.networkInterfaces.securityGroups.groupId   resource.instanceDetails.networkInterfaces.securityGroups.groupName   resource.instanceDetails.networkInterfaces.subnetId   resource.instanceDetails.networkInterfaces.vpcId   resource.instanceDetails.tags.key   resource.instanceDetails.tags.value   resource.resourceType   service.action.actionType   service.action.awsApiCallAction.api   service.action.awsApiCallAction.callerType   service.action.awsApiCallAction.remoteIpDetails.city.cityName   service.action.awsApiCallAction.remoteIpDetails.country.countryName   service.action.awsApiCallAction.remoteIpDetails.ipAddressV4   service.action.awsApiCallAction.remoteIpDetails.organization.asn   service.action.awsApiCallAction.remoteIpDetails.organization.asnOrg   service.action.awsApiCallAction.serviceName   service.action.dnsRequestAction.domain   service.action.networkConnectionAction.blocked   service.action.networkConnectionAction.connectionDirection   service.action.networkConnectionAction.localPortDetails.port   service.action.networkConnectionAction.protocol   service.action.networkConnectionAction.remoteIpDetails.country.countryName   service.action.networkConnectionAction.remoteIpDetails.ipAddressV4   service.action.networkConnectionAction.remoteIpDetails.organization.asn   service.action.networkConnectionAction.remoteIpDetails.organization.asnOrg   service.action.networkConnectionAction.remotePortDetails.port   service.additionalInfo.threatListName   service.archived When this attribute is set to 'true', only archived findings are listed. When it's set to 'false', only unarchived findings are listed. When this attribute is not set, all existing findings are listed.   service.resourceRole   severity   type   updatedAt Type: Timestamp in Unix Epoch millisecond format: 1486685375000
         public let findingCriteria: FindingCriteria?
         /// You can use this parameter to indicate the maximum number of items you want in the response. The default value is 50. The maximum value is 50.
         public let maxResults: Int?
@@ -2999,28 +3265,88 @@ extension GuardDuty {
     }
 
     public struct OrganizationDataSourceConfigurations: AWSEncodableShape {
+        /// Describes the configuration of Kubernetes data sources for new members of the organization.
+        public let kubernetes: OrganizationKubernetesConfiguration?
         /// Describes whether S3 data event logs are enabled for new members of the organization.
         public let s3Logs: OrganizationS3LogsConfiguration?
 
-        public init(s3Logs: OrganizationS3LogsConfiguration? = nil) {
+        public init(kubernetes: OrganizationKubernetesConfiguration? = nil, s3Logs: OrganizationS3LogsConfiguration? = nil) {
+            self.kubernetes = kubernetes
             self.s3Logs = s3Logs
         }
 
         private enum CodingKeys: String, CodingKey {
+            case kubernetes
             case s3Logs
         }
     }
 
     public struct OrganizationDataSourceConfigurationsResult: AWSDecodableShape {
+        /// Describes the configuration of Kubernetes data sources.
+        public let kubernetes: OrganizationKubernetesConfigurationResult?
         /// Describes whether S3 data event logs are enabled as a data source.
         public let s3Logs: OrganizationS3LogsConfigurationResult
 
-        public init(s3Logs: OrganizationS3LogsConfigurationResult) {
+        public init(kubernetes: OrganizationKubernetesConfigurationResult? = nil, s3Logs: OrganizationS3LogsConfigurationResult) {
+            self.kubernetes = kubernetes
             self.s3Logs = s3Logs
         }
 
         private enum CodingKeys: String, CodingKey {
+            case kubernetes
             case s3Logs
+        }
+    }
+
+    public struct OrganizationKubernetesAuditLogsConfiguration: AWSEncodableShape {
+        /// A value that contains information on whether Kubernetes audit logs should be enabled automatically as a data source for the organization.
+        public let autoEnable: Bool
+
+        public init(autoEnable: Bool) {
+            self.autoEnable = autoEnable
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case autoEnable
+        }
+    }
+
+    public struct OrganizationKubernetesAuditLogsConfigurationResult: AWSDecodableShape {
+        /// Whether Kubernetes audit logs data source should be auto-enabled for new members joining the organization.
+        public let autoEnable: Bool
+
+        public init(autoEnable: Bool) {
+            self.autoEnable = autoEnable
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case autoEnable
+        }
+    }
+
+    public struct OrganizationKubernetesConfiguration: AWSEncodableShape {
+        /// Whether Kubernetes audit logs data source should be auto-enabled for new members joining the organization.
+        public let auditLogs: OrganizationKubernetesAuditLogsConfiguration
+
+        public init(auditLogs: OrganizationKubernetesAuditLogsConfiguration) {
+            self.auditLogs = auditLogs
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case auditLogs
+        }
+    }
+
+    public struct OrganizationKubernetesConfigurationResult: AWSDecodableShape {
+        /// The current configuration of Kubernetes audit logs as a data source for the organization.
+        public let auditLogs: OrganizationKubernetesAuditLogsConfigurationResult
+
+        public init(auditLogs: OrganizationKubernetesAuditLogsConfigurationResult) {
+            self.auditLogs = auditLogs
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case auditLogs
         }
     }
 
@@ -3169,6 +3495,23 @@ extension GuardDuty {
         }
     }
 
+    public struct RemoteAccountDetails: AWSDecodableShape {
+        /// The Amazon Web Services account ID of the remote API caller.
+        public let accountId: String?
+        /// Details on whether the Amazon Web Services account of the remote API caller is related to your GuardDuty environment.  If this value is True the API caller is affiliated to your account in some way. If it is False the API caller is from outside your environment.
+        public let affiliated: Bool?
+
+        public init(accountId: String? = nil, affiliated: Bool? = nil) {
+            self.accountId = accountId
+            self.affiliated = affiliated
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case accountId
+            case affiliated
+        }
+    }
+
     public struct RemoteIpDetails: AWSDecodableShape {
         /// The city information of the remote IP address.
         public let city: City?
@@ -3218,23 +3561,31 @@ extension GuardDuty {
     public struct Resource: AWSDecodableShape {
         /// The IAM access key details (IAM user information) of a user that engaged in the activity that prompted GuardDuty to generate a finding.
         public let accessKeyDetails: AccessKeyDetails?
+        /// Details about the EKS cluster involved in a Kubernetes finding.
+        public let eksClusterDetails: EksClusterDetails?
         /// The information about the EC2 instance associated with the activity that prompted GuardDuty to generate a finding.
         public let instanceDetails: InstanceDetails?
-        /// The type of AWS resource.
+        /// Details about the Kubernetes user and workload involved in a Kubernetes finding.
+        public let kubernetesDetails: KubernetesDetails?
+        /// The type of Amazon Web Services resource.
         public let resourceType: String?
         /// Contains information on the S3 bucket.
         public let s3BucketDetails: [S3BucketDetail]?
 
-        public init(accessKeyDetails: AccessKeyDetails? = nil, instanceDetails: InstanceDetails? = nil, resourceType: String? = nil, s3BucketDetails: [S3BucketDetail]? = nil) {
+        public init(accessKeyDetails: AccessKeyDetails? = nil, eksClusterDetails: EksClusterDetails? = nil, instanceDetails: InstanceDetails? = nil, kubernetesDetails: KubernetesDetails? = nil, resourceType: String? = nil, s3BucketDetails: [S3BucketDetail]? = nil) {
             self.accessKeyDetails = accessKeyDetails
+            self.eksClusterDetails = eksClusterDetails
             self.instanceDetails = instanceDetails
+            self.kubernetesDetails = kubernetesDetails
             self.resourceType = resourceType
             self.s3BucketDetails = s3BucketDetails
         }
 
         private enum CodingKeys: String, CodingKey {
             case accessKeyDetails
+            case eksClusterDetails
             case instanceDetails
+            case kubernetesDetails
             case resourceType
             case s3BucketDetails
         }
@@ -3307,6 +3658,19 @@ extension GuardDuty {
         }
     }
 
+    public struct SecurityContext: AWSDecodableShape {
+        /// Whether the container is privileged.
+        public let privileged: Bool?
+
+        public init(privileged: Bool? = nil) {
+            self.privileged = privileged
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case privileged
+        }
+    }
+
     public struct SecurityGroup: AWSDecodableShape {
         /// The security group ID of the EC2 instance.
         public let groupId: String?
@@ -3341,7 +3705,7 @@ extension GuardDuty {
         public let evidence: Evidence?
         /// The resource role information for this finding.
         public let resourceRole: String?
-        /// The name of the AWS service (GuardDuty) that generated a finding.
+        /// The name of the Amazon Web Services service (GuardDuty) that generated a finding.
         public let serviceName: String?
         /// Feedback that was submitted about the finding.
         public let userFeedback: String?
@@ -3600,7 +3964,7 @@ extension GuardDuty {
     }
 
     public struct UnprocessedAccount: AWSDecodableShape {
-        /// The AWS account ID.
+        /// The Amazon Web Services account ID.
         public let accountId: String
         /// A reason why the account hasn't been processed.
         public let result: String
@@ -3798,7 +4162,7 @@ extension GuardDuty {
         public let detectorId: String
         /// The unique ID that specifies the IPSet that you want to update.
         public let ipSetId: String
-        /// The updated URI of the file that contains the IPSet. For example: https://s3.us-west-2.amazonaws.com/my-bucket/my-object-key.
+        /// The updated URI of the file that contains the IPSet.
         public let location: String?
         /// The unique ID that specifies the IPSet that you want to update.
         public let name: String?
@@ -4055,7 +4419,7 @@ extension GuardDuty {
     }
 
     public struct UsageResourceResult: AWSDecodableShape {
-        /// The AWS resource that generated usage.
+        /// The Amazon Web Services resource that generated usage.
         public let resource: String?
         /// Represents the sum total of usage for the specified resource type.
         public let total: Total?
@@ -4093,6 +4457,40 @@ extension GuardDuty {
             case sumByDataSource
             case sumByResource
             case topResources
+        }
+    }
+
+    public struct Volume: AWSDecodableShape {
+        /// Represents a pre-existing file or directory on the host machine that the volume maps to.
+        public let hostPath: HostPath?
+        /// Volume name.
+        public let name: String?
+
+        public init(hostPath: HostPath? = nil, name: String? = nil) {
+            self.hostPath = hostPath
+            self.name = name
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case hostPath
+            case name
+        }
+    }
+
+    public struct VolumeMount: AWSDecodableShape {
+        /// Volume mount path.
+        public let mountPath: String?
+        /// Volume mount name.
+        public let name: String?
+
+        public init(mountPath: String? = nil, name: String? = nil) {
+            self.mountPath = mountPath
+            self.name = name
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case mountPath
+            case name
         }
     }
 }

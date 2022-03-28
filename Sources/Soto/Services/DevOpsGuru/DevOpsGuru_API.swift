@@ -106,6 +106,11 @@ public struct DevOpsGuru: AWSService {
         return self.client.execute(operation: "DescribeAnomaly", path: "/anomalies/{Id}", httpMethod: .GET, serviceConfig: self.config, input: input, logger: logger, on: eventLoop)
     }
 
+    /// This operation lists details about a DevOps Guru event source that is shared with your  account.
+    public func describeEventSourcesConfig(_ input: DescribeEventSourcesConfigRequest, logger: Logger = AWSClient.loggingDisabled, on eventLoop: EventLoop? = nil) -> EventLoopFuture<DescribeEventSourcesConfigResponse> {
+        return self.client.execute(operation: "DescribeEventSourcesConfig", path: "/event-sources", httpMethod: .POST, serviceConfig: self.config, input: input, logger: logger, on: eventLoop)
+    }
+
     ///  Returns the most recent feedback submitted in the current Amazon Web Services account and Region.
     ///
     public func describeFeedback(_ input: DescribeFeedbackRequest, logger: Logger = AWSClient.loggingDisabled, on eventLoop: EventLoop? = nil) -> EventLoopFuture<DescribeFeedbackResponse> {
@@ -227,12 +232,12 @@ public struct DevOpsGuru: AWSService {
 
     ///  Returns a list of insights in your organization. You can specify which insights are
     /// 			returned by their start time, one or more statuses (ONGOING,
-    /// 			CLOSED, and CLOSED), one or more severities
-    /// 			(LOW, MEDIUM, and HIGH), and type
-    /// 			(REACTIVE or PROACTIVE).
+    /// 				CLOSED, and CLOSED), one or more severities
+    /// 				(LOW, MEDIUM, and HIGH), and type
+    /// 				(REACTIVE or PROACTIVE).
     /// 		        Use the Filters parameter to specify status and severity search
     /// 			parameters. Use the Type parameter to specify REACTIVE or
-    /// 			PROACTIVE in your search.
+    /// 				PROACTIVE in your search.
     public func searchOrganizationInsights(_ input: SearchOrganizationInsightsRequest, logger: Logger = AWSClient.loggingDisabled, on eventLoop: EventLoop? = nil) -> EventLoopFuture<SearchOrganizationInsightsResponse> {
         return self.client.execute(operation: "SearchOrganizationInsights", path: "/organization/insights/search", httpMethod: .POST, serviceConfig: self.config, input: input, logger: logger, on: eventLoop)
     }
@@ -241,6 +246,11 @@ public struct DevOpsGuru: AWSService {
     /// 			resources.
     public func startCostEstimation(_ input: StartCostEstimationRequest, logger: Logger = AWSClient.loggingDisabled, on eventLoop: EventLoop? = nil) -> EventLoopFuture<StartCostEstimationResponse> {
         return self.client.execute(operation: "StartCostEstimation", path: "/cost-estimation", httpMethod: .PUT, serviceConfig: self.config, input: input, logger: logger, on: eventLoop)
+    }
+
+    /// Updates the event source configuration.
+    public func updateEventSourcesConfig(_ input: UpdateEventSourcesConfigRequest, logger: Logger = AWSClient.loggingDisabled, on eventLoop: EventLoop? = nil) -> EventLoopFuture<UpdateEventSourcesConfigResponse> {
+        return self.client.execute(operation: "UpdateEventSourcesConfig", path: "/event-sources", httpMethod: .PUT, serviceConfig: self.config, input: input, logger: logger, on: eventLoop)
     }
 
     ///  Updates the collection of resources that DevOps Guru analyzes.

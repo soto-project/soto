@@ -88,6 +88,11 @@ public struct LookoutMetrics: AWSService {
         return self.client.execute(operation: "CreateMetricSet", path: "/CreateMetricSet", httpMethod: .POST, serviceConfig: self.config, input: input, logger: logger, on: eventLoop)
     }
 
+    /// Deactivates an anomaly detector.
+    public func deactivateAnomalyDetector(_ input: DeactivateAnomalyDetectorRequest, logger: Logger = AWSClient.loggingDisabled, on eventLoop: EventLoop? = nil) -> EventLoopFuture<DeactivateAnomalyDetectorResponse> {
+        return self.client.execute(operation: "DeactivateAnomalyDetector", path: "/DeactivateAnomalyDetector", httpMethod: .POST, serviceConfig: self.config, input: input, logger: logger, on: eventLoop)
+    }
+
     /// Deletes an alert.
     public func deleteAlert(_ input: DeleteAlertRequest, logger: Logger = AWSClient.loggingDisabled, on eventLoop: EventLoop? = nil) -> EventLoopFuture<DeleteAlertResponse> {
         return self.client.execute(operation: "DeleteAlert", path: "/DeleteAlert", httpMethod: .POST, serviceConfig: self.config, input: input, logger: logger, on: eventLoop)

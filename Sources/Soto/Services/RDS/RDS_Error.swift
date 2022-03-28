@@ -248,7 +248,7 @@ public struct RDSErrorType: AWSErrorType {
     public static var dbProxyTargetGroupNotFoundFault: Self { .init(.dbProxyTargetGroupNotFoundFault) }
     /// The specified RDS DB instance or Aurora DB cluster isn't available for a proxy owned by your Amazon Web Services account in the specified Amazon Web Services Region.
     public static var dbProxyTargetNotFoundFault: Self { .init(.dbProxyTargetNotFoundFault) }
-    ///  A DB security group with the name specified in DBSecurityGroupName already exists.
+    /// A DB security group with the name specified in DBSecurityGroupName already exists.
     public static var dbSecurityGroupAlreadyExistsFault: Self { .init(.dbSecurityGroupAlreadyExistsFault) }
     ///  DBSecurityGroupName doesn't refer to an existing DB security group.
     public static var dbSecurityGroupNotFoundFault: Self { .init(.dbSecurityGroupNotFoundFault) }
@@ -316,7 +316,7 @@ public struct RDSErrorType: AWSErrorType {
     public static var invalidDBClusterSnapshotStateFault: Self { .init(.invalidDBClusterSnapshotStateFault) }
     /// The requested operation can't be performed while the cluster is in this state.
     public static var invalidDBClusterStateFault: Self { .init(.invalidDBClusterStateFault) }
-    /// The automated backup is in an invalid state.  	    For example, this automated backup is associated with an active instance.
+    /// The automated backup is in an invalid state.  For example, this automated backup is associated with an active instance.
     public static var invalidDBInstanceAutomatedBackupStateFault: Self { .init(.invalidDBInstanceAutomatedBackupStateFault) }
     /// The DB instance isn't in a valid state.
     public static var invalidDBInstanceStateFault: Self { .init(.invalidDBInstanceStateFault) }
@@ -334,7 +334,7 @@ public struct RDSErrorType: AWSErrorType {
     public static var invalidDBSubnetGroupFault: Self { .init(.invalidDBSubnetGroupFault) }
     /// The DB subnet group cannot be deleted because it's in use.
     public static var invalidDBSubnetGroupStateFault: Self { .init(.invalidDBSubnetGroupStateFault) }
-    ///  The DB subnet isn't in the available state.
+    /// The DB subnet isn't in the available state.
     public static var invalidDBSubnetStateFault: Self { .init(.invalidDBSubnetStateFault) }
     /// This error can occur if someone else is modifying a subscription. You should retry the action.
     public static var invalidEventSubscriptionStateFault: Self { .init(.invalidEventSubscriptionStateFault) }
@@ -346,7 +346,7 @@ public struct RDSErrorType: AWSErrorType {
     public static var invalidExportTaskStateFault: Self { .init(.invalidExportTaskStateFault) }
     /// The global cluster is in an invalid state and can't perform the requested operation.
     public static var invalidGlobalClusterStateFault: Self { .init(.invalidGlobalClusterStateFault) }
-    ///  The option group isn't in the available state.
+    /// The option group isn't in the available state.
     public static var invalidOptionGroupStateFault: Self { .init(.invalidOptionGroupStateFault) }
     /// Cannot restore from VPC backup to non-VPC DB instance.
     public static var invalidRestoreFault: Self { .init(.invalidRestoreFault) }
@@ -382,7 +382,7 @@ public struct RDSErrorType: AWSErrorType {
     public static var sharedSnapshotQuotaExceededFault: Self { .init(.sharedSnapshotQuotaExceededFault) }
     /// The request would result in the user exceeding the allowed number of DB snapshots.
     public static var snapshotQuotaExceededFault: Self { .init(.snapshotQuotaExceededFault) }
-    /// SNS has responded that there is a problem with the SND topic specified.
+    /// SNS has responded that there is a problem with the SNS topic specified.
     public static var snsInvalidTopicFault: Self { .init(.snsInvalidTopicFault) }
     /// You do not have permission to publish to the SNS topic ARN.
     public static var snsNoAuthorizationFault: Self { .init(.snsNoAuthorizationFault) }

@@ -75,7 +75,7 @@ public struct WAFV2ErrorType: AWSErrorType {
     public static var wafInvalidResourceException: Self { .init(.wafInvalidResourceException) }
     /// WAF couldn’t perform the operation because you exceeded your resource limit. For example, the maximum number of WebACL objects that you can create for an Amazon Web Services account. For more information, see WAF quotas in the WAF Developer Guide.
     public static var wafLimitsExceededException: Self { .init(.wafLimitsExceededException) }
-    /// The operation failed because you don't have the permissions that your logging configuration requires. For information, see  Logging web ACL traffic information  in the WAF Developer Guide.
+    /// The operation failed because you don't have the permissions that your logging configuration requires. For information, see Logging web ACL traffic information in the WAF Developer Guide.
     public static var wafLogDestinationPermissionIssueException: Self { .init(.wafLogDestinationPermissionIssueException) }
     /// WAF couldn’t perform the operation because your resource doesn’t exist.
     public static var wafNonexistentItemException: Self { .init(.wafNonexistentItemException) }

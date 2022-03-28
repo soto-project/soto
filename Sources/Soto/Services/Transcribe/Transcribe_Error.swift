@@ -45,7 +45,7 @@ public struct TranscribeErrorType: AWSErrorType {
     /// return error code string
     public var errorCode: String { self.error.rawValue }
 
-    /// Your request didn't pass one or more validation tests. For example, if the entity that you're trying to delete  doesn't exist or if it is in a non-terminal state (for example, it's "in progress"). See the exception Message field for more information.
+    /// Your request didn't pass one or more validation tests. For example, if the entity that  you're trying to delete doesn't exist or if it is in a non-terminal state (for example, it's  "in progress"). See the exception Message field for more information.
     public static var badRequestException: Self { .init(.badRequestException) }
     /// There is already a resource with that name.
     public static var conflictException: Self { .init(.conflictException) }

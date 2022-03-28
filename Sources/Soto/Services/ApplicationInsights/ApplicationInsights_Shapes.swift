@@ -91,6 +91,7 @@ extension ApplicationInsights {
     }
 
     public enum Tier: String, CustomStringConvertible, Codable {
+        case activeDirectory = "ACTIVE_DIRECTORY"
         case custom = "CUSTOM"
         case `default` = "DEFAULT"
         case dotNetCore = "DOT_NET_CORE"
@@ -104,6 +105,7 @@ extension ApplicationInsights {
         case sapHanaHighAvailability = "SAP_HANA_HIGH_AVAILABILITY"
         case sapHanaMultiNode = "SAP_HANA_MULTI_NODE"
         case sapHanaSingleNode = "SAP_HANA_SINGLE_NODE"
+        case sharepoint = "SHAREPOINT"
         case sqlServer = "SQL_SERVER"
         case sqlServerAlwaysonAvailabilityGroup = "SQL_SERVER_ALWAYSON_AVAILABILITY_GROUP"
         case sqlServerFailoverClusterInstance = "SQL_SERVER_FAILOVER_CLUSTER_INSTANCE"

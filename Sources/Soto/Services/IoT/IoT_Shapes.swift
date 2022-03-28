@@ -389,7 +389,10 @@ extension IoT {
     }
 
     public enum LogTargetType: String, CustomStringConvertible, Codable {
+        case clientId = "CLIENT_ID"
         case `default` = "DEFAULT"
+        case principalId = "PRINCIPAL_ID"
+        case sourceIp = "SOURCE_IP"
         case thingGroup = "THING_GROUP"
         public var description: String { return self.rawValue }
     }
@@ -457,6 +460,13 @@ extension IoT {
         case iamRole = "IAM_ROLE"
         case iotPolicy = "IOT_POLICY"
         case roleAlias = "ROLE_ALIAS"
+        public var description: String { return self.rawValue }
+    }
+
+    public enum RetryableFailureType: String, CustomStringConvertible, Codable {
+        case all = "ALL"
+        case failed = "FAILED"
+        case timedOut = "TIMED_OUT"
         public var description: String { return self.rawValue }
     }
 
@@ -3199,7 +3209,7 @@ extension IoT {
             AWSMemberEncoding(label: "jobId", location: .uri("jobId"))
         ]
 
-        /// Allows you to create criteria to abort a job.
+        /// Allows you to create the criteria to abort a job.
         public let abortConfig: AbortConfig?
         /// A short text description of the job.
         public let description: String?
@@ -3209,6 +3219,8 @@ extension IoT {
         public let documentParameters: [String: String]?
         /// An S3 link to the job document. Required if you don't specify a value for document.  If the job document resides in an S3 bucket, you must use a placeholder link when specifying the document. The placeholder link is of the following form:  ${aws:iot:s3-presigned-url:https://s3.amazonaws.com/bucket/key}  where bucket is your bucket name and key is the object in the bucket to which you are linking.
         public let documentSource: String?
+        /// Allows you to create the criteria to retry a job.
+        public let jobExecutionsRetryConfig: JobExecutionsRetryConfig?
         /// Allows you to create a staged rollout of the job.
         public let jobExecutionsRolloutConfig: JobExecutionsRolloutConfig?
         /// A job identifier which must be unique for your Amazon Web Services account. We recommend using a UUID. Alpha-numeric characters, "-" and "_" are valid for use here.
@@ -3228,12 +3240,13 @@ extension IoT {
         /// Specifies the amount of time each device has to finish its execution of the job. The timer  is started when the job execution status is set to IN_PROGRESS. If the job  execution status is not set to another terminal state before the time expires, it will be  automatically set to TIMED_OUT.
         public let timeoutConfig: TimeoutConfig?
 
-        public init(abortConfig: AbortConfig? = nil, description: String? = nil, document: String? = nil, documentParameters: [String: String]? = nil, documentSource: String? = nil, jobExecutionsRolloutConfig: JobExecutionsRolloutConfig? = nil, jobId: String, jobTemplateArn: String? = nil, namespaceId: String? = nil, presignedUrlConfig: PresignedUrlConfig? = nil, tags: [Tag]? = nil, targets: [String], targetSelection: TargetSelection? = nil, timeoutConfig: TimeoutConfig? = nil) {
+        public init(abortConfig: AbortConfig? = nil, description: String? = nil, document: String? = nil, documentParameters: [String: String]? = nil, documentSource: String? = nil, jobExecutionsRetryConfig: JobExecutionsRetryConfig? = nil, jobExecutionsRolloutConfig: JobExecutionsRolloutConfig? = nil, jobId: String, jobTemplateArn: String? = nil, namespaceId: String? = nil, presignedUrlConfig: PresignedUrlConfig? = nil, tags: [Tag]? = nil, targets: [String], targetSelection: TargetSelection? = nil, timeoutConfig: TimeoutConfig? = nil) {
             self.abortConfig = abortConfig
             self.description = description
             self.document = document
             self.documentParameters = documentParameters
             self.documentSource = documentSource
+            self.jobExecutionsRetryConfig = jobExecutionsRetryConfig
             self.jobExecutionsRolloutConfig = jobExecutionsRolloutConfig
             self.jobId = jobId
             self.jobTemplateArn = jobTemplateArn
@@ -3260,6 +3273,7 @@ extension IoT {
             }
             try self.validate(self.documentSource, name: "documentSource", parent: name, max: 1350)
             try self.validate(self.documentSource, name: "documentSource", parent: name, min: 1)
+            try self.jobExecutionsRetryConfig?.validate(name: "\(name).jobExecutionsRetryConfig")
             try self.jobExecutionsRolloutConfig?.validate(name: "\(name).jobExecutionsRolloutConfig")
             try self.validate(self.jobId, name: "jobId", parent: name, max: 64)
             try self.validate(self.jobId, name: "jobId", parent: name, min: 1)
@@ -3286,6 +3300,7 @@ extension IoT {
             case document
             case documentParameters
             case documentSource
+            case jobExecutionsRetryConfig
             case jobExecutionsRolloutConfig
             case jobTemplateArn
             case namespaceId
@@ -3332,6 +3347,8 @@ extension IoT {
         public let documentSource: String?
         /// The ARN of the job to use as the basis for the job template.
         public let jobArn: String?
+        /// Allows you to create the criteria to retry a job.
+        public let jobExecutionsRetryConfig: JobExecutionsRetryConfig?
         public let jobExecutionsRolloutConfig: JobExecutionsRolloutConfig?
         /// A unique identifier for the job template. We recommend using a UUID. Alpha-numeric  characters, "-", and "_" are valid for use here.
         public let jobTemplateId: String
@@ -3340,12 +3357,13 @@ extension IoT {
         public let tags: [Tag]?
         public let timeoutConfig: TimeoutConfig?
 
-        public init(abortConfig: AbortConfig? = nil, description: String, document: String? = nil, documentSource: String? = nil, jobArn: String? = nil, jobExecutionsRolloutConfig: JobExecutionsRolloutConfig? = nil, jobTemplateId: String, presignedUrlConfig: PresignedUrlConfig? = nil, tags: [Tag]? = nil, timeoutConfig: TimeoutConfig? = nil) {
+        public init(abortConfig: AbortConfig? = nil, description: String, document: String? = nil, documentSource: String? = nil, jobArn: String? = nil, jobExecutionsRetryConfig: JobExecutionsRetryConfig? = nil, jobExecutionsRolloutConfig: JobExecutionsRolloutConfig? = nil, jobTemplateId: String, presignedUrlConfig: PresignedUrlConfig? = nil, tags: [Tag]? = nil, timeoutConfig: TimeoutConfig? = nil) {
             self.abortConfig = abortConfig
             self.description = description
             self.document = document
             self.documentSource = documentSource
             self.jobArn = jobArn
+            self.jobExecutionsRetryConfig = jobExecutionsRetryConfig
             self.jobExecutionsRolloutConfig = jobExecutionsRolloutConfig
             self.jobTemplateId = jobTemplateId
             self.presignedUrlConfig = presignedUrlConfig
@@ -3360,6 +3378,7 @@ extension IoT {
             try self.validate(self.document, name: "document", parent: name, max: 32768)
             try self.validate(self.documentSource, name: "documentSource", parent: name, max: 1350)
             try self.validate(self.documentSource, name: "documentSource", parent: name, min: 1)
+            try self.jobExecutionsRetryConfig?.validate(name: "\(name).jobExecutionsRetryConfig")
             try self.jobExecutionsRolloutConfig?.validate(name: "\(name).jobExecutionsRolloutConfig")
             try self.validate(self.jobTemplateId, name: "jobTemplateId", parent: name, max: 64)
             try self.validate(self.jobTemplateId, name: "jobTemplateId", parent: name, min: 1)
@@ -3376,6 +3395,7 @@ extension IoT {
             case document
             case documentSource
             case jobArn
+            case jobExecutionsRetryConfig
             case jobExecutionsRolloutConfig
             case presignedUrlConfig
             case tags
@@ -6200,6 +6220,8 @@ extension IoT {
         public let document: String?
         /// An S3 link to the job document.
         public let documentSource: String?
+        /// The configuration that determines how many retries are allowed for each failure type for a job.
+        public let jobExecutionsRetryConfig: JobExecutionsRetryConfig?
         public let jobExecutionsRolloutConfig: JobExecutionsRolloutConfig?
         /// The ARN of the job template.
         public let jobTemplateArn: String?
@@ -6208,12 +6230,13 @@ extension IoT {
         public let presignedUrlConfig: PresignedUrlConfig?
         public let timeoutConfig: TimeoutConfig?
 
-        public init(abortConfig: AbortConfig? = nil, createdAt: Date? = nil, description: String? = nil, document: String? = nil, documentSource: String? = nil, jobExecutionsRolloutConfig: JobExecutionsRolloutConfig? = nil, jobTemplateArn: String? = nil, jobTemplateId: String? = nil, presignedUrlConfig: PresignedUrlConfig? = nil, timeoutConfig: TimeoutConfig? = nil) {
+        public init(abortConfig: AbortConfig? = nil, createdAt: Date? = nil, description: String? = nil, document: String? = nil, documentSource: String? = nil, jobExecutionsRetryConfig: JobExecutionsRetryConfig? = nil, jobExecutionsRolloutConfig: JobExecutionsRolloutConfig? = nil, jobTemplateArn: String? = nil, jobTemplateId: String? = nil, presignedUrlConfig: PresignedUrlConfig? = nil, timeoutConfig: TimeoutConfig? = nil) {
             self.abortConfig = abortConfig
             self.createdAt = createdAt
             self.description = description
             self.document = document
             self.documentSource = documentSource
+            self.jobExecutionsRetryConfig = jobExecutionsRetryConfig
             self.jobExecutionsRolloutConfig = jobExecutionsRolloutConfig
             self.jobTemplateArn = jobTemplateArn
             self.jobTemplateId = jobTemplateId
@@ -6227,6 +6250,7 @@ extension IoT {
             case description
             case document
             case documentSource
+            case jobExecutionsRetryConfig
             case jobExecutionsRolloutConfig
             case jobTemplateArn
             case jobTemplateId
@@ -8516,6 +8540,8 @@ extension IoT {
         public let forceCanceled: Bool?
         /// An ARN identifying the job with format "arn:aws:iot:region:account:job/jobId".
         public let jobArn: String?
+        /// The configuration for the criteria to retry the job.
+        public let jobExecutionsRetryConfig: JobExecutionsRetryConfig?
         /// Allows you to create a staged rollout of a job.
         public let jobExecutionsRolloutConfig: JobExecutionsRolloutConfig?
         /// The unique identifier you assigned to this job when it was created.
@@ -8541,7 +8567,7 @@ extension IoT {
         /// Specifies the amount of time each device has to finish its execution of the job.  A timer  is started when the job execution status is set to IN_PROGRESS. If the job  execution status is not set to another terminal state before the timer expires, it will be automatically set to TIMED_OUT.
         public let timeoutConfig: TimeoutConfig?
 
-        public init(abortConfig: AbortConfig? = nil, comment: String? = nil, completedAt: Date? = nil, createdAt: Date? = nil, description: String? = nil, documentParameters: [String: String]? = nil, forceCanceled: Bool? = nil, jobArn: String? = nil, jobExecutionsRolloutConfig: JobExecutionsRolloutConfig? = nil, jobId: String? = nil, jobProcessDetails: JobProcessDetails? = nil, jobTemplateArn: String? = nil, lastUpdatedAt: Date? = nil, namespaceId: String? = nil, presignedUrlConfig: PresignedUrlConfig? = nil, reasonCode: String? = nil, status: JobStatus? = nil, targets: [String]? = nil, targetSelection: TargetSelection? = nil, timeoutConfig: TimeoutConfig? = nil) {
+        public init(abortConfig: AbortConfig? = nil, comment: String? = nil, completedAt: Date? = nil, createdAt: Date? = nil, description: String? = nil, documentParameters: [String: String]? = nil, forceCanceled: Bool? = nil, jobArn: String? = nil, jobExecutionsRetryConfig: JobExecutionsRetryConfig? = nil, jobExecutionsRolloutConfig: JobExecutionsRolloutConfig? = nil, jobId: String? = nil, jobProcessDetails: JobProcessDetails? = nil, jobTemplateArn: String? = nil, lastUpdatedAt: Date? = nil, namespaceId: String? = nil, presignedUrlConfig: PresignedUrlConfig? = nil, reasonCode: String? = nil, status: JobStatus? = nil, targets: [String]? = nil, targetSelection: TargetSelection? = nil, timeoutConfig: TimeoutConfig? = nil) {
             self.abortConfig = abortConfig
             self.comment = comment
             self.completedAt = completedAt
@@ -8550,6 +8576,7 @@ extension IoT {
             self.documentParameters = documentParameters
             self.forceCanceled = forceCanceled
             self.jobArn = jobArn
+            self.jobExecutionsRetryConfig = jobExecutionsRetryConfig
             self.jobExecutionsRolloutConfig = jobExecutionsRolloutConfig
             self.jobId = jobId
             self.jobProcessDetails = jobProcessDetails
@@ -8573,6 +8600,7 @@ extension IoT {
             case documentParameters
             case forceCanceled
             case jobArn
+            case jobExecutionsRetryConfig
             case jobExecutionsRolloutConfig
             case jobId
             case jobProcessDetails
@@ -8661,15 +8689,18 @@ extension IoT {
         public let lastUpdatedAt: Date?
         /// The time, in seconds since the epoch, when the job execution was queued.
         public let queuedAt: Date?
+        /// The number that indicates how many retry attempts have been completed for this  job on this device.
+        public let retryAttempt: Int?
         /// The time, in seconds since the epoch, when the job execution started.
         public let startedAt: Date?
         /// The status of the job execution.
         public let status: JobExecutionStatus?
 
-        public init(executionNumber: Int64? = nil, lastUpdatedAt: Date? = nil, queuedAt: Date? = nil, startedAt: Date? = nil, status: JobExecutionStatus? = nil) {
+        public init(executionNumber: Int64? = nil, lastUpdatedAt: Date? = nil, queuedAt: Date? = nil, retryAttempt: Int? = nil, startedAt: Date? = nil, status: JobExecutionStatus? = nil) {
             self.executionNumber = executionNumber
             self.lastUpdatedAt = lastUpdatedAt
             self.queuedAt = queuedAt
+            self.retryAttempt = retryAttempt
             self.startedAt = startedAt
             self.status = status
         }
@@ -8678,6 +8709,7 @@ extension IoT {
             case executionNumber
             case lastUpdatedAt
             case queuedAt
+            case retryAttempt
             case startedAt
             case status
         }
@@ -8714,6 +8746,27 @@ extension IoT {
         private enum CodingKeys: String, CodingKey {
             case jobExecutionSummary
             case jobId
+        }
+    }
+
+    public struct JobExecutionsRetryConfig: AWSEncodableShape & AWSDecodableShape {
+        /// The list of criteria that determines how many retries are allowed for each failure type for a job.
+        public let criteriaList: [RetryCriteria]
+
+        public init(criteriaList: [RetryCriteria]) {
+            self.criteriaList = criteriaList
+        }
+
+        public func validate(name: String) throws {
+            try self.criteriaList.forEach {
+                try $0.validate(name: "\(name).criteriaList[]")
+            }
+            try self.validate(self.criteriaList, name: "criteriaList", parent: name, max: 2)
+            try self.validate(self.criteriaList, name: "criteriaList", parent: name, min: 1)
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case criteriaList
         }
     }
 
@@ -9979,6 +10032,7 @@ extension IoT {
 
     public struct ListJobExecutionsForThingRequest: AWSEncodableShape {
         public static var _encoding = [
+            AWSMemberEncoding(label: "jobId", location: .querystring("jobId")),
             AWSMemberEncoding(label: "maxResults", location: .querystring("maxResults")),
             AWSMemberEncoding(label: "namespaceId", location: .querystring("namespaceId")),
             AWSMemberEncoding(label: "nextToken", location: .querystring("nextToken")),
@@ -9986,6 +10040,8 @@ extension IoT {
             AWSMemberEncoding(label: "thingName", location: .uri("thingName"))
         ]
 
+        /// The unique identifier you assigned to this job when it was created.
+        public let jobId: String?
         /// The maximum number of results to be returned per request.
         public let maxResults: Int?
         /// The namespace used to indicate that a job is a customer-managed job. When you specify a value for this parameter, Amazon Web Services IoT Core sends jobs notifications to MQTT topics that  contain the value in the following format.  $aws/things/THING_NAME/jobs/JOB_ID/notify-namespace-NAMESPACE_ID/   The namespaceId feature is in public preview.
@@ -9997,7 +10053,8 @@ extension IoT {
         /// The thing name.
         public let thingName: String
 
-        public init(maxResults: Int? = nil, namespaceId: String? = nil, nextToken: String? = nil, status: JobExecutionStatus? = nil, thingName: String) {
+        public init(jobId: String? = nil, maxResults: Int? = nil, namespaceId: String? = nil, nextToken: String? = nil, status: JobExecutionStatus? = nil, thingName: String) {
+            self.jobId = jobId
             self.maxResults = maxResults
             self.namespaceId = namespaceId
             self.nextToken = nextToken
@@ -10006,6 +10063,9 @@ extension IoT {
         }
 
         public func validate(name: String) throws {
+            try self.validate(self.jobId, name: "jobId", parent: name, max: 64)
+            try self.validate(self.jobId, name: "jobId", parent: name, min: 1)
+            try self.validate(self.jobId, name: "jobId", parent: name, pattern: "^[a-zA-Z0-9_-]+$")
             try self.validate(self.maxResults, name: "maxResults", parent: name, max: 250)
             try self.validate(self.maxResults, name: "maxResults", parent: name, min: 1)
             try self.validate(self.namespaceId, name: "namespaceId", parent: name, max: 64)
@@ -13041,6 +13101,28 @@ extension IoT {
         }
     }
 
+    public struct RetryCriteria: AWSEncodableShape & AWSDecodableShape {
+        /// The type of job execution failures that can initiate a job retry.
+        public let failureType: RetryableFailureType
+        /// The number of retries allowed for a failure type for the job.
+        public let numberOfRetries: Int
+
+        public init(failureType: RetryableFailureType, numberOfRetries: Int) {
+            self.failureType = failureType
+            self.numberOfRetries = numberOfRetries
+        }
+
+        public func validate(name: String) throws {
+            try self.validate(self.numberOfRetries, name: "numberOfRetries", parent: name, max: 10)
+            try self.validate(self.numberOfRetries, name: "numberOfRetries", parent: name, min: 0)
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case failureType
+            case numberOfRetries
+        }
+    }
+
     public struct RoleAliasDescription: AWSDecodableShape {
         /// The UNIX timestamp of when the role alias was created.
         public let creationDate: Date?
@@ -15602,6 +15684,8 @@ extension IoT {
         public let abortConfig: AbortConfig?
         /// A short text description of the job.
         public let description: String?
+        /// Allows you to create the criteria to retry a job.
+        public let jobExecutionsRetryConfig: JobExecutionsRetryConfig?
         /// Allows you to create a staged rollout of the job.
         public let jobExecutionsRolloutConfig: JobExecutionsRolloutConfig?
         /// The ID of the job to be updated.
@@ -15613,9 +15697,10 @@ extension IoT {
         /// Specifies the amount of time each device has to finish its execution of the job. The timer is started when the job execution status is set to IN_PROGRESS.  If the job execution status is not set to another terminal state before the time expires, it will be automatically set to TIMED_OUT.
         public let timeoutConfig: TimeoutConfig?
 
-        public init(abortConfig: AbortConfig? = nil, description: String? = nil, jobExecutionsRolloutConfig: JobExecutionsRolloutConfig? = nil, jobId: String, namespaceId: String? = nil, presignedUrlConfig: PresignedUrlConfig? = nil, timeoutConfig: TimeoutConfig? = nil) {
+        public init(abortConfig: AbortConfig? = nil, description: String? = nil, jobExecutionsRetryConfig: JobExecutionsRetryConfig? = nil, jobExecutionsRolloutConfig: JobExecutionsRolloutConfig? = nil, jobId: String, namespaceId: String? = nil, presignedUrlConfig: PresignedUrlConfig? = nil, timeoutConfig: TimeoutConfig? = nil) {
             self.abortConfig = abortConfig
             self.description = description
+            self.jobExecutionsRetryConfig = jobExecutionsRetryConfig
             self.jobExecutionsRolloutConfig = jobExecutionsRolloutConfig
             self.jobId = jobId
             self.namespaceId = namespaceId
@@ -15627,6 +15712,7 @@ extension IoT {
             try self.abortConfig?.validate(name: "\(name).abortConfig")
             try self.validate(self.description, name: "description", parent: name, max: 2028)
             try self.validate(self.description, name: "description", parent: name, pattern: "^[^\\p{C}]+$")
+            try self.jobExecutionsRetryConfig?.validate(name: "\(name).jobExecutionsRetryConfig")
             try self.jobExecutionsRolloutConfig?.validate(name: "\(name).jobExecutionsRolloutConfig")
             try self.validate(self.jobId, name: "jobId", parent: name, max: 64)
             try self.validate(self.jobId, name: "jobId", parent: name, min: 1)
@@ -15640,6 +15726,7 @@ extension IoT {
         private enum CodingKeys: String, CodingKey {
             case abortConfig
             case description
+            case jobExecutionsRetryConfig
             case jobExecutionsRolloutConfig
             case presignedUrlConfig
             case timeoutConfig

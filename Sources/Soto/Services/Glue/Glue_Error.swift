@@ -33,6 +33,7 @@ public struct GlueErrorType: AWSErrorType {
         case glueEncryptionException = "GlueEncryptionException"
         case idempotentParameterMismatchException = "IdempotentParameterMismatchException"
         case illegalBlueprintStateException = "IllegalBlueprintStateException"
+        case illegalSessionStateException = "IllegalSessionStateException"
         case illegalWorkflowStateException = "IllegalWorkflowStateException"
         case internalServiceException = "InternalServiceException"
         case invalidInputException = "InvalidInputException"
@@ -40,6 +41,7 @@ public struct GlueErrorType: AWSErrorType {
         case mlTransformNotReadyException = "MLTransformNotReadyException"
         case noScheduleException = "NoScheduleException"
         case operationTimeoutException = "OperationTimeoutException"
+        case permissionTypeMismatchException = "PermissionTypeMismatchException"
         case resourceNotReadyException = "ResourceNotReadyException"
         case resourceNumberLimitExceededException = "ResourceNumberLimitExceededException"
         case schedulerNotRunningException = "SchedulerNotRunningException"
@@ -92,6 +94,8 @@ public struct GlueErrorType: AWSErrorType {
     /// The same unique identifier was associated with two different records.
     public static var idempotentParameterMismatchException: Self { .init(.idempotentParameterMismatchException) }
     public static var illegalBlueprintStateException: Self { .init(.illegalBlueprintStateException) }
+    /// The session is in an invalid state to perform a requested operation.
+    public static var illegalSessionStateException: Self { .init(.illegalSessionStateException) }
     /// The workflow is in an invalid state to perform a requested operation.
     public static var illegalWorkflowStateException: Self { .init(.illegalWorkflowStateException) }
     /// An internal service error occurred.
@@ -106,6 +110,7 @@ public struct GlueErrorType: AWSErrorType {
     public static var noScheduleException: Self { .init(.noScheduleException) }
     /// The operation timed out.
     public static var operationTimeoutException: Self { .init(.operationTimeoutException) }
+    public static var permissionTypeMismatchException: Self { .init(.permissionTypeMismatchException) }
     /// A resource was not ready for a transaction.
     public static var resourceNotReadyException: Self { .init(.resourceNotReadyException) }
     /// A resource numerical limit was exceeded.

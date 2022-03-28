@@ -2115,6 +2115,8 @@ extension DynamoDB {
     public struct ExecuteStatementInput: AWSEncodableShape {
         /// The consistency of a read operation. If set to true, then a strongly consistent read is used; otherwise, an eventually consistent read is used.
         public let consistentRead: Bool?
+        /// The maximum number of items to evaluate (not necessarily the number of matching items). If DynamoDB processes the number of items up to the limit while processing the results, it stops the operation and returns the matching values up to that point, along with a key in LastEvaluatedKey to apply in a subsequent operation so you can pick up where you left off. Also, if the processed dataset size exceeds 1 MB before DynamoDB reaches this limit, it stops the operation and returns the matching values up to the limit, and a key in LastEvaluatedKey to apply in a subsequent operation to continue the operation.
+        public let limit: Int?
         /// Set this value to get remaining results, if NextToken was returned in the statement response.
         public let nextToken: String?
         /// The parameters for the PartiQL statement, if any.
@@ -2123,8 +2125,9 @@ extension DynamoDB {
         /// The PartiQL statement representing the operation to run.
         public let statement: String
 
-        public init(consistentRead: Bool? = nil, nextToken: String? = nil, parameters: [AttributeValue]? = nil, returnConsumedCapacity: ReturnConsumedCapacity? = nil, statement: String) {
+        public init(consistentRead: Bool? = nil, limit: Int? = nil, nextToken: String? = nil, parameters: [AttributeValue]? = nil, returnConsumedCapacity: ReturnConsumedCapacity? = nil, statement: String) {
             self.consistentRead = consistentRead
+            self.limit = limit
             self.nextToken = nextToken
             self.parameters = parameters
             self.returnConsumedCapacity = returnConsumedCapacity
@@ -2132,6 +2135,7 @@ extension DynamoDB {
         }
 
         public func validate(name: String) throws {
+            try self.validate(self.limit, name: "limit", parent: name, min: 1)
             try self.validate(self.nextToken, name: "nextToken", parent: name, max: 32768)
             try self.validate(self.nextToken, name: "nextToken", parent: name, min: 1)
             try self.parameters?.forEach {
@@ -2144,6 +2148,7 @@ extension DynamoDB {
 
         private enum CodingKeys: String, CodingKey {
             case consistentRead = "ConsistentRead"
+            case limit = "Limit"
             case nextToken = "NextToken"
             case parameters = "Parameters"
             case returnConsumedCapacity = "ReturnConsumedCapacity"
@@ -2155,18 +2160,22 @@ extension DynamoDB {
         public let consumedCapacity: ConsumedCapacity?
         /// If a read operation was used, this property will contain the result of the read operation; a map of attribute names and their values. For the write operations this value will be empty.
         public let items: [[String: AttributeValue]]?
+        /// The primary key of the item where the operation stopped, inclusive of the previous result set. Use this value to start a new operation, excluding this value in the new request. If LastEvaluatedKey is empty, then the "last page" of results has been processed and there is no more data to be retrieved. If LastEvaluatedKey is not empty, it does not necessarily mean that there is more data in the result set. The only way to know when you have reached the end of the result set is when LastEvaluatedKey is empty.
+        public let lastEvaluatedKey: [String: AttributeValue]?
         /// If the response of a read request exceeds the response payload limit DynamoDB will set this value in the response. If set, you can use that this value in the subsequent request to get the remaining results.
         public let nextToken: String?
 
-        public init(consumedCapacity: ConsumedCapacity? = nil, items: [[String: AttributeValue]]? = nil, nextToken: String? = nil) {
+        public init(consumedCapacity: ConsumedCapacity? = nil, items: [[String: AttributeValue]]? = nil, lastEvaluatedKey: [String: AttributeValue]? = nil, nextToken: String? = nil) {
             self.consumedCapacity = consumedCapacity
             self.items = items
+            self.lastEvaluatedKey = lastEvaluatedKey
             self.nextToken = nextToken
         }
 
         private enum CodingKeys: String, CodingKey {
             case consumedCapacity = "ConsumedCapacity"
             case items = "Items"
+            case lastEvaluatedKey = "LastEvaluatedKey"
             case nextToken = "NextToken"
         }
     }
@@ -3326,7 +3335,7 @@ extension DynamoDB {
         public let earliestRestorableDateTime: Date?
         ///  LatestRestorableDateTime is typically 5 minutes before the current time.
         public let latestRestorableDateTime: Date?
-        /// The current state of point in time recovery:    ENABLING - Point in time recovery is being enabled.    ENABLED - Point in time recovery is enabled.    DISABLED - Point in time recovery is disabled.
+        /// The current state of point in time recovery:    ENABLED - Point in time recovery is enabled.    DISABLED - Point in time recovery is disabled.
         public let pointInTimeRecoveryStatus: PointInTimeRecoveryStatus?
 
         public init(earliestRestorableDateTime: Date? = nil, latestRestorableDateTime: Date? = nil, pointInTimeRecoveryStatus: PointInTimeRecoveryStatus? = nil) {

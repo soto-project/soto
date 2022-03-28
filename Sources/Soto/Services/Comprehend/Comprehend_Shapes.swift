@@ -220,7 +220,7 @@ extension Comprehend {
         public let annotationDataS3Uri: String?
         /// The JSON attribute that contains the annotations for your training documents. The number of attribute names that you specify depends on whether your augmented manifest file is the output of a single labeling job or a chained labeling job. If your file is the output of a single labeling job, specify the LabelAttributeName key that was used when the job was created in Ground Truth. If your file is the output of a chained labeling job, specify the LabelAttributeName key for one or more jobs in the chain. Each LabelAttributeName key provides the annotations from an individual job.
         public let attributeNames: [String]
-        /// The type of augmented manifest. PlainTextDocument or SemiStructuredDocument. If you don't specify, the default is PlainTextDocument.     PLAIN_TEXT_DOCUMENT A document type that represents any unicode text that is encoded in UTF-8.    SEMI_STRUCTURED_DOCUMENT A document type with positional and structural context, like a PDF. For training with Amazon Comprehend, only PDFs are supported.  For inference, Amazon Comprehend support PDFs, DOCX and TXT.
+        /// The type of augmented manifest. PlainTextDocument or SemiStructuredDocument. If you don't specify, the default is PlainTextDocument.     PLAIN_TEXT_DOCUMENT A document type that represents any unicode text that is encoded in UTF-8.    SEMI_STRUCTURED_DOCUMENT A document type with positional and structural context, like a PDF. For training with Amazon Comprehend, only PDFs are supported. For inference, Amazon Comprehend support PDFs, DOCX and TXT.
         public let documentType: AugmentedManifestsDocumentTypeFormat?
         /// The Amazon S3 location of the augmented manifest file.
         public let s3Uri: String
@@ -723,18 +723,20 @@ extension Comprehend {
         public let mode: DocumentClassifierMode?
         /// ID for the AWS Key Management Service (KMS) key that Amazon Comprehend uses to encrypt trained custom models. The ModelKmsKeyId can be either of the following formats:   KMS Key ID: "1234abcd-12ab-34cd-56ef-1234567890ab"    Amazon Resource Name (ARN) of a KMS Key: "arn:aws:kms:us-west-2:111122223333:key/1234abcd-12ab-34cd-56ef-1234567890ab"
         public let modelKmsKeyId: String?
+        /// The resource-based policy to attach to your custom document classifier model. You can use this policy to allow another AWS account to import your custom model. Provide your policy as a JSON body that you enter as a UTF-8 encoded string without line breaks. To provide valid JSON, enclose the attribute names and values in double quotes. If the JSON body is also enclosed in double quotes, then you must escape the double quotes that are inside the policy:  "{\"attribute\": \"value\", \"attribute\": [\"value\"]}"  To avoid escaping quotes, you can use single quotes to enclose the policy and double quotes to enclose the JSON names and values:  '{"attribute": "value", "attribute": ["value"]}'
+        public let modelPolicy: String?
         /// Enables the addition of output results configuration parameters for custom classifier jobs.
         public let outputDataConfig: DocumentClassifierOutputDataConfig?
         /// Tags to be associated with the document classifier being created. A tag is a key-value pair that adds as a metadata to a resource used by Amazon Comprehend. For example, a tag with "Sales" as the key might be added to a resource to indicate its use by the sales department.
         public let tags: [Tag]?
-        /// The version name given to the newly created classifier.  Version names can have a maximum of 256 characters. Alphanumeric characters, hyphens (-) and underscores (_) are allowed.  The version name must be unique among all models with the same classifier name in the account/AWS Region.
+        /// The version name given to the newly created classifier. Version names can have a maximum of 256 characters. Alphanumeric characters, hyphens (-) and underscores (_) are allowed. The version name must be unique among all models with the same classifier name in the account/AWS Region.
         public let versionName: String?
         /// ID for the AWS Key Management Service (KMS) key that Amazon Comprehend uses to encrypt data on the storage volume attached to the ML compute instance(s) that process the analysis job. The VolumeKmsKeyId can be either of the following formats:   KMS Key ID: "1234abcd-12ab-34cd-56ef-1234567890ab"    Amazon Resource Name (ARN) of a KMS Key: "arn:aws:kms:us-west-2:111122223333:key/1234abcd-12ab-34cd-56ef-1234567890ab"
         public let volumeKmsKeyId: String?
         /// Configuration parameters for an optional private Virtual Private Cloud (VPC) containing the resources you are using for your custom classifier. For more information, see Amazon VPC.
         public let vpcConfig: VpcConfig?
 
-        public init(clientRequestToken: String? = CreateDocumentClassifierRequest.idempotencyToken(), dataAccessRoleArn: String, documentClassifierName: String, inputDataConfig: DocumentClassifierInputDataConfig, languageCode: LanguageCode, mode: DocumentClassifierMode? = nil, modelKmsKeyId: String? = nil, outputDataConfig: DocumentClassifierOutputDataConfig? = nil, tags: [Tag]? = nil, versionName: String? = nil, volumeKmsKeyId: String? = nil, vpcConfig: VpcConfig? = nil) {
+        public init(clientRequestToken: String? = CreateDocumentClassifierRequest.idempotencyToken(), dataAccessRoleArn: String, documentClassifierName: String, inputDataConfig: DocumentClassifierInputDataConfig, languageCode: LanguageCode, mode: DocumentClassifierMode? = nil, modelKmsKeyId: String? = nil, modelPolicy: String? = nil, outputDataConfig: DocumentClassifierOutputDataConfig? = nil, tags: [Tag]? = nil, versionName: String? = nil, volumeKmsKeyId: String? = nil, vpcConfig: VpcConfig? = nil) {
             self.clientRequestToken = clientRequestToken
             self.dataAccessRoleArn = dataAccessRoleArn
             self.documentClassifierName = documentClassifierName
@@ -742,6 +744,7 @@ extension Comprehend {
             self.languageCode = languageCode
             self.mode = mode
             self.modelKmsKeyId = modelKmsKeyId
+            self.modelPolicy = modelPolicy
             self.outputDataConfig = outputDataConfig
             self.tags = tags
             self.versionName = versionName
@@ -760,7 +763,10 @@ extension Comprehend {
             try self.validate(self.documentClassifierName, name: "documentClassifierName", parent: name, pattern: "^[a-zA-Z0-9](-*[a-zA-Z0-9])*$")
             try self.inputDataConfig.validate(name: "\(name).inputDataConfig")
             try self.validate(self.modelKmsKeyId, name: "modelKmsKeyId", parent: name, max: 2048)
-            try self.validate(self.modelKmsKeyId, name: "modelKmsKeyId", parent: name, pattern: ".*")
+            try self.validate(self.modelKmsKeyId, name: "modelKmsKeyId", parent: name, pattern: "^\\p{ASCII}+$")
+            try self.validate(self.modelPolicy, name: "modelPolicy", parent: name, max: 20000)
+            try self.validate(self.modelPolicy, name: "modelPolicy", parent: name, min: 1)
+            try self.validate(self.modelPolicy, name: "modelPolicy", parent: name, pattern: "^[\\u0009\\u000A\\u000D\\u0020-\\u00FF]+$")
             try self.outputDataConfig?.validate(name: "\(name).outputDataConfig")
             try self.tags?.forEach {
                 try $0.validate(name: "\(name).tags[]")
@@ -768,7 +774,7 @@ extension Comprehend {
             try self.validate(self.versionName, name: "versionName", parent: name, max: 63)
             try self.validate(self.versionName, name: "versionName", parent: name, pattern: "^[a-zA-Z0-9](-*[a-zA-Z0-9])*$")
             try self.validate(self.volumeKmsKeyId, name: "volumeKmsKeyId", parent: name, max: 2048)
-            try self.validate(self.volumeKmsKeyId, name: "volumeKmsKeyId", parent: name, pattern: ".*")
+            try self.validate(self.volumeKmsKeyId, name: "volumeKmsKeyId", parent: name, pattern: "^\\p{ASCII}+$")
             try self.vpcConfig?.validate(name: "\(name).vpcConfig")
         }
 
@@ -780,6 +786,7 @@ extension Comprehend {
             case languageCode = "LanguageCode"
             case mode = "Mode"
             case modelKmsKeyId = "ModelKmsKeyId"
+            case modelPolicy = "ModelPolicy"
             case outputDataConfig = "OutputDataConfig"
             case tags = "Tags"
             case versionName = "VersionName"
@@ -875,23 +882,26 @@ extension Comprehend {
         public let languageCode: LanguageCode
         /// ID for the AWS Key Management Service (KMS) key that Amazon Comprehend uses to encrypt trained custom models. The ModelKmsKeyId can be either of the following formats   KMS Key ID: "1234abcd-12ab-34cd-56ef-1234567890ab"    Amazon Resource Name (ARN) of a KMS Key: "arn:aws:kms:us-west-2:111122223333:key/1234abcd-12ab-34cd-56ef-1234567890ab"
         public let modelKmsKeyId: String?
+        /// The JSON resource-based policy to attach to your custom entity recognizer model. You can use this policy to allow another AWS account to import your custom model. Provide your JSON as a UTF-8 encoded string without line breaks. To provide valid JSON for your policy, enclose the attribute names and values in double quotes. If the JSON body is also enclosed in double quotes, then you must escape the double quotes that are inside the policy:  "{\"attribute\": \"value\", \"attribute\": [\"value\"]}"  To avoid escaping quotes, you can use single quotes to enclose the policy and double quotes to enclose the JSON names and values:  '{"attribute": "value", "attribute": ["value"]}'
+        public let modelPolicy: String?
         /// The name given to the newly created recognizer. Recognizer names can be a maximum of 256 characters. Alphanumeric characters, hyphens (-) and underscores (_) are allowed. The name must be unique in the account/region.
         public let recognizerName: String
         /// Tags to be associated with the entity recognizer being created. A tag is a key-value pair that adds as a metadata to a resource used by Amazon Comprehend. For example, a tag with "Sales" as the key might be added to a resource to indicate its use by the sales department.
         public let tags: [Tag]?
-        /// The version name given to the newly created recognizer.  Version names can be a maximum of 256 characters. Alphanumeric characters, hyphens (-) and underscores (_) are allowed.  The version name must be unique among all models with the same recognizer name in the account/ AWS Region.
+        /// The version name given to the newly created recognizer. Version names can be a maximum of 256 characters. Alphanumeric characters, hyphens (-) and underscores (_) are allowed. The version name must be unique among all models with the same recognizer name in the account/ AWS Region.
         public let versionName: String?
         /// ID for the AWS Key Management Service (KMS) key that Amazon Comprehend uses to encrypt data on the storage volume attached to the ML compute instance(s) that process the analysis job. The VolumeKmsKeyId can be either of the following formats:   KMS Key ID: "1234abcd-12ab-34cd-56ef-1234567890ab"    Amazon Resource Name (ARN) of a KMS Key: "arn:aws:kms:us-west-2:111122223333:key/1234abcd-12ab-34cd-56ef-1234567890ab"
         public let volumeKmsKeyId: String?
         /// Configuration parameters for an optional private Virtual Private Cloud (VPC) containing the resources you are using for your custom entity recognizer. For more information, see Amazon VPC.
         public let vpcConfig: VpcConfig?
 
-        public init(clientRequestToken: String? = CreateEntityRecognizerRequest.idempotencyToken(), dataAccessRoleArn: String, inputDataConfig: EntityRecognizerInputDataConfig, languageCode: LanguageCode, modelKmsKeyId: String? = nil, recognizerName: String, tags: [Tag]? = nil, versionName: String? = nil, volumeKmsKeyId: String? = nil, vpcConfig: VpcConfig? = nil) {
+        public init(clientRequestToken: String? = CreateEntityRecognizerRequest.idempotencyToken(), dataAccessRoleArn: String, inputDataConfig: EntityRecognizerInputDataConfig, languageCode: LanguageCode, modelKmsKeyId: String? = nil, modelPolicy: String? = nil, recognizerName: String, tags: [Tag]? = nil, versionName: String? = nil, volumeKmsKeyId: String? = nil, vpcConfig: VpcConfig? = nil) {
             self.clientRequestToken = clientRequestToken
             self.dataAccessRoleArn = dataAccessRoleArn
             self.inputDataConfig = inputDataConfig
             self.languageCode = languageCode
             self.modelKmsKeyId = modelKmsKeyId
+            self.modelPolicy = modelPolicy
             self.recognizerName = recognizerName
             self.tags = tags
             self.versionName = versionName
@@ -908,7 +918,10 @@ extension Comprehend {
             try self.validate(self.dataAccessRoleArn, name: "dataAccessRoleArn", parent: name, pattern: "^arn:aws(-[^:]+)?:iam::[0-9]{12}:role/.+$")
             try self.inputDataConfig.validate(name: "\(name).inputDataConfig")
             try self.validate(self.modelKmsKeyId, name: "modelKmsKeyId", parent: name, max: 2048)
-            try self.validate(self.modelKmsKeyId, name: "modelKmsKeyId", parent: name, pattern: ".*")
+            try self.validate(self.modelKmsKeyId, name: "modelKmsKeyId", parent: name, pattern: "^\\p{ASCII}+$")
+            try self.validate(self.modelPolicy, name: "modelPolicy", parent: name, max: 20000)
+            try self.validate(self.modelPolicy, name: "modelPolicy", parent: name, min: 1)
+            try self.validate(self.modelPolicy, name: "modelPolicy", parent: name, pattern: "^[\\u0009\\u000A\\u000D\\u0020-\\u00FF]+$")
             try self.validate(self.recognizerName, name: "recognizerName", parent: name, max: 63)
             try self.validate(self.recognizerName, name: "recognizerName", parent: name, pattern: "^[a-zA-Z0-9](-*[a-zA-Z0-9])*$")
             try self.tags?.forEach {
@@ -917,7 +930,7 @@ extension Comprehend {
             try self.validate(self.versionName, name: "versionName", parent: name, max: 63)
             try self.validate(self.versionName, name: "versionName", parent: name, pattern: "^[a-zA-Z0-9](-*[a-zA-Z0-9])*$")
             try self.validate(self.volumeKmsKeyId, name: "volumeKmsKeyId", parent: name, max: 2048)
-            try self.validate(self.volumeKmsKeyId, name: "volumeKmsKeyId", parent: name, pattern: ".*")
+            try self.validate(self.volumeKmsKeyId, name: "volumeKmsKeyId", parent: name, pattern: "^\\p{ASCII}+$")
             try self.vpcConfig?.validate(name: "\(name).vpcConfig")
         }
 
@@ -927,6 +940,7 @@ extension Comprehend {
             case inputDataConfig = "InputDataConfig"
             case languageCode = "LanguageCode"
             case modelKmsKeyId = "ModelKmsKeyId"
+            case modelPolicy = "ModelPolicy"
             case recognizerName = "RecognizerName"
             case tags = "Tags"
             case versionName = "VersionName"
@@ -1011,6 +1025,34 @@ extension Comprehend {
     }
 
     public struct DeleteEntityRecognizerResponse: AWSDecodableShape {
+        public init() {}
+    }
+
+    public struct DeleteResourcePolicyRequest: AWSEncodableShape {
+        /// The revision ID of the policy to delete.
+        public let policyRevisionId: String?
+        /// The Amazon Resource Name (ARN) of the custom model version that has the policy to delete.
+        public let resourceArn: String
+
+        public init(policyRevisionId: String? = nil, resourceArn: String) {
+            self.policyRevisionId = policyRevisionId
+            self.resourceArn = resourceArn
+        }
+
+        public func validate(name: String) throws {
+            try self.validate(self.policyRevisionId, name: "policyRevisionId", parent: name, max: 64)
+            try self.validate(self.policyRevisionId, name: "policyRevisionId", parent: name, pattern: "^[0-9A-Fa-f]+$")
+            try self.validate(self.resourceArn, name: "resourceArn", parent: name, max: 256)
+            try self.validate(self.resourceArn, name: "resourceArn", parent: name, pattern: "^arn:aws(-[^:]+)?:comprehend:[a-zA-Z0-9-]*:[0-9]{12}:(document-classifier|entity-recognizer)/[a-zA-Z0-9](-*[a-zA-Z0-9])*(/version/[a-zA-Z0-9](-*[a-zA-Z0-9])*)?$")
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case policyRevisionId = "PolicyRevisionId"
+            case resourceArn = "ResourceArn"
+        }
+    }
+
+    public struct DeleteResourcePolicyResponse: AWSDecodableShape {
         public init() {}
     }
 
@@ -1298,6 +1340,49 @@ extension Comprehend {
         }
     }
 
+    public struct DescribeResourcePolicyRequest: AWSEncodableShape {
+        /// The Amazon Resource Name (ARN) of the policy to describe.
+        public let resourceArn: String
+
+        public init(resourceArn: String) {
+            self.resourceArn = resourceArn
+        }
+
+        public func validate(name: String) throws {
+            try self.validate(self.resourceArn, name: "resourceArn", parent: name, max: 256)
+            try self.validate(self.resourceArn, name: "resourceArn", parent: name, pattern: "^arn:aws(-[^:]+)?:comprehend:[a-zA-Z0-9-]*:[0-9]{12}:(document-classifier|entity-recognizer)/[a-zA-Z0-9](-*[a-zA-Z0-9])*(/version/[a-zA-Z0-9](-*[a-zA-Z0-9])*)?$")
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case resourceArn = "ResourceArn"
+        }
+    }
+
+    public struct DescribeResourcePolicyResponse: AWSDecodableShape {
+        /// The time at which the policy was created.
+        public let creationTime: Date?
+        /// The time at which the policy was last modified.
+        public let lastModifiedTime: Date?
+        /// The revision ID of the policy. Each time you modify a policy, Amazon Comprehend assigns a new revision ID, and it deletes the prior version of the policy.
+        public let policyRevisionId: String?
+        /// The JSON body of the resource-based policy.
+        public let resourcePolicy: String?
+
+        public init(creationTime: Date? = nil, lastModifiedTime: Date? = nil, policyRevisionId: String? = nil, resourcePolicy: String? = nil) {
+            self.creationTime = creationTime
+            self.lastModifiedTime = lastModifiedTime
+            self.policyRevisionId = policyRevisionId
+            self.resourcePolicy = resourcePolicy
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case creationTime = "CreationTime"
+            case lastModifiedTime = "LastModifiedTime"
+            case policyRevisionId = "PolicyRevisionId"
+            case resourcePolicy = "ResourcePolicy"
+        }
+    }
+
     public struct DescribeSentimentDetectionJobRequest: AWSEncodableShape {
         /// The identifier that Amazon Comprehend generated for the job. The  operation returns this identifier in its response.
         public let jobId: String
@@ -1327,6 +1412,38 @@ extension Comprehend {
 
         private enum CodingKeys: String, CodingKey {
             case sentimentDetectionJobProperties = "SentimentDetectionJobProperties"
+        }
+    }
+
+    public struct DescribeTargetedSentimentDetectionJobRequest: AWSEncodableShape {
+        /// The identifier that Amazon Comprehend generated for the job. The  operation returns this identifier in its response.
+        public let jobId: String
+
+        public init(jobId: String) {
+            self.jobId = jobId
+        }
+
+        public func validate(name: String) throws {
+            try self.validate(self.jobId, name: "jobId", parent: name, max: 32)
+            try self.validate(self.jobId, name: "jobId", parent: name, min: 1)
+            try self.validate(self.jobId, name: "jobId", parent: name, pattern: "^([\\p{L}\\p{Z}\\p{N}_.:/=+\\-%@]*)$")
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case jobId = "JobId"
+        }
+    }
+
+    public struct DescribeTargetedSentimentDetectionJobResponse: AWSDecodableShape {
+        /// An object that contains the properties associated with a targeted sentiment detection job.
+        public let targetedSentimentDetectionJobProperties: TargetedSentimentDetectionJobProperties?
+
+        public init(targetedSentimentDetectionJobProperties: TargetedSentimentDetectionJobProperties? = nil) {
+            self.targetedSentimentDetectionJobProperties = targetedSentimentDetectionJobProperties
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case targetedSentimentDetectionJobProperties = "TargetedSentimentDetectionJobProperties"
         }
     }
 
@@ -1720,7 +1837,7 @@ extension Comprehend {
         public let labelDelimiter: String?
         /// The Amazon S3 URI for the input data. The S3 bucket must be in the same region as the API endpoint that you are calling. The URI can point to a single input file or it can provide the prefix for a collection of input files. For example, if you use the URI S3://bucketName/prefix, if the prefix is a single file, Amazon Comprehend uses that file as input. If more than one file begins with the prefix, Amazon Comprehend uses all of them as input. This parameter is required if you set DataFormat to COMPREHEND_CSV.
         public let s3Uri: String?
-        /// The Amazon S3 URI for the input data.  The Amazon S3 bucket must be in the same AWS Region as the API endpoint that you are calling. The URI can point to a single input file or it can provide the prefix for a collection of input files.
+        /// The Amazon S3 URI for the input data. The Amazon S3 bucket must be in the same AWS Region as the API endpoint that you are calling. The URI can point to a single input file or it can provide the prefix for a collection of input files.
         public let testS3Uri: String?
 
         public init(augmentedManifests: [AugmentedManifestsListItem]? = nil, dataFormat: DocumentClassifierDataFormat? = nil, labelDelimiter: String? = nil, s3Uri: String? = nil, testS3Uri: String? = nil) {
@@ -1766,7 +1883,7 @@ extension Comprehend {
 
         public func validate(name: String) throws {
             try self.validate(self.kmsKeyId, name: "kmsKeyId", parent: name, max: 2048)
-            try self.validate(self.kmsKeyId, name: "kmsKeyId", parent: name, pattern: ".*")
+            try self.validate(self.kmsKeyId, name: "kmsKeyId", parent: name, pattern: "^\\p{ASCII}+$")
             try self.validate(self.s3Uri, name: "s3Uri", parent: name, max: 1024)
             try self.validate(self.s3Uri, name: "s3Uri", parent: name, pattern: "^s3://[a-z0-9][\\.\\-a-z0-9]{1,61}[a-z0-9](/.*)?$")
         }
@@ -1798,6 +1915,8 @@ extension Comprehend {
         public let modelKmsKeyId: String?
         ///  Provides output results configuration parameters for custom classifier jobs.
         public let outputDataConfig: DocumentClassifierOutputDataConfig?
+        /// The Amazon Resource Name (ARN) of the source model. This model was imported from a different AWS account to create the document classifier model in your AWS account.
+        public let sourceModelArn: String?
         /// The status of the document classifier. If the status is TRAINED the classifier is ready to use. If the status is FAILED you can see additional information about why the classifier wasn't trained in the Message field.
         public let status: ModelStatus?
         /// The time that the document classifier was submitted for training.
@@ -1813,7 +1932,7 @@ extension Comprehend {
         ///  Configuration parameters for a private Virtual Private Cloud (VPC) containing the resources you are using for your custom classifier. For more information, see Amazon VPC.
         public let vpcConfig: VpcConfig?
 
-        public init(classifierMetadata: ClassifierMetadata? = nil, dataAccessRoleArn: String? = nil, documentClassifierArn: String? = nil, endTime: Date? = nil, inputDataConfig: DocumentClassifierInputDataConfig? = nil, languageCode: LanguageCode? = nil, message: String? = nil, mode: DocumentClassifierMode? = nil, modelKmsKeyId: String? = nil, outputDataConfig: DocumentClassifierOutputDataConfig? = nil, status: ModelStatus? = nil, submitTime: Date? = nil, trainingEndTime: Date? = nil, trainingStartTime: Date? = nil, versionName: String? = nil, volumeKmsKeyId: String? = nil, vpcConfig: VpcConfig? = nil) {
+        public init(classifierMetadata: ClassifierMetadata? = nil, dataAccessRoleArn: String? = nil, documentClassifierArn: String? = nil, endTime: Date? = nil, inputDataConfig: DocumentClassifierInputDataConfig? = nil, languageCode: LanguageCode? = nil, message: String? = nil, mode: DocumentClassifierMode? = nil, modelKmsKeyId: String? = nil, outputDataConfig: DocumentClassifierOutputDataConfig? = nil, sourceModelArn: String? = nil, status: ModelStatus? = nil, submitTime: Date? = nil, trainingEndTime: Date? = nil, trainingStartTime: Date? = nil, versionName: String? = nil, volumeKmsKeyId: String? = nil, vpcConfig: VpcConfig? = nil) {
             self.classifierMetadata = classifierMetadata
             self.dataAccessRoleArn = dataAccessRoleArn
             self.documentClassifierArn = documentClassifierArn
@@ -1824,6 +1943,7 @@ extension Comprehend {
             self.mode = mode
             self.modelKmsKeyId = modelKmsKeyId
             self.outputDataConfig = outputDataConfig
+            self.sourceModelArn = sourceModelArn
             self.status = status
             self.submitTime = submitTime
             self.trainingEndTime = trainingEndTime
@@ -1844,6 +1964,7 @@ extension Comprehend {
             case mode = "Mode"
             case modelKmsKeyId = "ModelKmsKeyId"
             case outputDataConfig = "OutputDataConfig"
+            case sourceModelArn = "SourceModelArn"
             case status = "Status"
             case submitTime = "SubmitTime"
             case trainingEndTime = "TrainingEndTime"
@@ -2259,7 +2380,7 @@ extension Comprehend {
     public struct EntityRecognizerAnnotations: AWSEncodableShape & AWSDecodableShape {
         ///  Specifies the Amazon S3 location where the annotations for an entity recognizer are located. The URI must be in the same region as the API endpoint that you are calling.
         public let s3Uri: String
-        /// This specifies the Amazon S3 location where the test annotations for an entity recognizer are located.  The URI must be in the same AWS Region as the API endpoint that you are calling.
+        /// This specifies the Amazon S3 location where the test annotations for an entity recognizer are located. The URI must be in the same AWS Region as the API endpoint that you are calling.
         public let testS3Uri: String?
 
         public init(s3Uri: String, testS3Uri: String? = nil) {
@@ -2281,11 +2402,11 @@ extension Comprehend {
     }
 
     public struct EntityRecognizerDocuments: AWSEncodableShape & AWSDecodableShape {
-        ///  Specifies how the text in an input file should be processed. This is optional, and the default is ONE_DOC_PER_LINE.  ONE_DOC_PER_FILE - Each file is considered a separate document. Use this option when you are processing large documents, such as newspaper articles or scientific papers.  ONE_DOC_PER_LINE - Each line in a file is considered a separate document. Use this option when you are processing many short documents, such as text messages.
+        ///  Specifies how the text in an input file should be processed. This is optional, and the default is ONE_DOC_PER_LINE. ONE_DOC_PER_FILE - Each file is considered a separate document. Use this option when you are processing large documents, such as newspaper articles or scientific papers. ONE_DOC_PER_LINE - Each line in a file is considered a separate document. Use this option when you are processing many short documents, such as text messages.
         public let inputFormat: InputFormat?
         ///  Specifies the Amazon S3 location where the training documents for an entity recognizer are located. The URI must be in the same region as the API endpoint that you are calling.
         public let s3Uri: String
-        ///  Specifies the Amazon S3 location where the test documents for an entity recognizer are located.  The URI must be in the same AWS Region as the API endpoint that you are calling.
+        ///  Specifies the Amazon S3 location where the test documents for an entity recognizer are located. The URI must be in the same AWS Region as the API endpoint that you are calling.
         public let testS3Uri: String?
 
         public init(inputFormat: InputFormat? = nil, s3Uri: String, testS3Uri: String? = nil) {
@@ -2327,7 +2448,7 @@ extension Comprehend {
     }
 
     public struct EntityRecognizerEvaluationMetrics: AWSDecodableShape {
-        /// A measure of how accurate the recognizer results are for the test data. It is derived from the Precision and Recall values. The F1Score is the harmonic average of the two scores. The highest score is 1, and the worst score is 0.
+        /// A measure of how accurate the recognizer results are for the test data. It is derived from the Precision and Recall values. The F1Score is the harmonic average of the two scores. For plain text entity recognizer models, the range is 0 to 100,  where 100 is the best score. For PDF/Word entity recognizer models, the range is 0 to 1,  where 1 is the best score.
         public let f1Score: Double?
         /// A measure of the usefulness of the recognizer results in the test data. High precision means that the recognizer returned substantially more relevant results than irrelevant ones.
         public let precision: Double?
@@ -2485,6 +2606,8 @@ extension Comprehend {
         public let modelKmsKeyId: String?
         ///  Provides information about an entity recognizer.
         public let recognizerMetadata: EntityRecognizerMetadata?
+        /// The Amazon Resource Name (ARN) of the source model. This model was imported from a different AWS account to create the entity recognizer model in your AWS account.
+        public let sourceModelArn: String?
         /// Provides the status of the entity recognizer.
         public let status: ModelStatus?
         /// The time that the recognizer was submitted for processing.
@@ -2500,7 +2623,7 @@ extension Comprehend {
         ///  Configuration parameters for a private Virtual Private Cloud (VPC) containing the resources you are using for your custom entity recognizer. For more information, see Amazon VPC.
         public let vpcConfig: VpcConfig?
 
-        public init(dataAccessRoleArn: String? = nil, endTime: Date? = nil, entityRecognizerArn: String? = nil, inputDataConfig: EntityRecognizerInputDataConfig? = nil, languageCode: LanguageCode? = nil, message: String? = nil, modelKmsKeyId: String? = nil, recognizerMetadata: EntityRecognizerMetadata? = nil, status: ModelStatus? = nil, submitTime: Date? = nil, trainingEndTime: Date? = nil, trainingStartTime: Date? = nil, versionName: String? = nil, volumeKmsKeyId: String? = nil, vpcConfig: VpcConfig? = nil) {
+        public init(dataAccessRoleArn: String? = nil, endTime: Date? = nil, entityRecognizerArn: String? = nil, inputDataConfig: EntityRecognizerInputDataConfig? = nil, languageCode: LanguageCode? = nil, message: String? = nil, modelKmsKeyId: String? = nil, recognizerMetadata: EntityRecognizerMetadata? = nil, sourceModelArn: String? = nil, status: ModelStatus? = nil, submitTime: Date? = nil, trainingEndTime: Date? = nil, trainingStartTime: Date? = nil, versionName: String? = nil, volumeKmsKeyId: String? = nil, vpcConfig: VpcConfig? = nil) {
             self.dataAccessRoleArn = dataAccessRoleArn
             self.endTime = endTime
             self.entityRecognizerArn = entityRecognizerArn
@@ -2509,6 +2632,7 @@ extension Comprehend {
             self.message = message
             self.modelKmsKeyId = modelKmsKeyId
             self.recognizerMetadata = recognizerMetadata
+            self.sourceModelArn = sourceModelArn
             self.status = status
             self.submitTime = submitTime
             self.trainingEndTime = trainingEndTime
@@ -2527,6 +2651,7 @@ extension Comprehend {
             case message = "Message"
             case modelKmsKeyId = "ModelKmsKeyId"
             case recognizerMetadata = "RecognizerMetadata"
+            case sourceModelArn = "SourceModelArn"
             case status = "Status"
             case submitTime = "SubmitTime"
             case trainingEndTime = "TrainingEndTime"
@@ -2597,7 +2722,7 @@ extension Comprehend {
 
         public func validate(name: String) throws {
             try self.validate(self.type, name: "type", parent: name, max: 64)
-            try self.validate(self.type, name: "type", parent: name, pattern: "^(?:(?!\\\\n+|\\\\t+|\\\\r+|[\\r\\t\\n,]).)+$")
+            try self.validate(self.type, name: "type", parent: name, pattern: "^(?![^\\n\\r\\t,]*\\\\n|\\\\r|\\\\t)[^\\n\\r\\t,]+$")
         }
 
         private enum CodingKeys: String, CodingKey {
@@ -2690,6 +2815,69 @@ extension Comprehend {
             case outputDataConfig = "OutputDataConfig"
             case submitTime = "SubmitTime"
             case targetEventTypes = "TargetEventTypes"
+        }
+    }
+
+    public struct ImportModelRequest: AWSEncodableShape {
+        /// The Amazon Resource Name (ARN) of the AWS Identity and Management (IAM) role that allows Amazon Comprehend to use Amazon Key Management Service (KMS) to encrypt or decrypt the custom model.
+        public let dataAccessRoleArn: String?
+        /// ID for the AWS Key Management Service (KMS) key that Amazon Comprehend uses to encrypt trained custom models. The ModelKmsKeyId can be either of the following formats:   KMS Key ID: "1234abcd-12ab-34cd-56ef-1234567890ab"    Amazon Resource Name (ARN) of a KMS Key: "arn:aws:kms:us-west-2:111122223333:key/1234abcd-12ab-34cd-56ef-1234567890ab"
+        public let modelKmsKeyId: String?
+        /// The name to assign to the custom model that is created in Amazon Comprehend by this import.
+        public let modelName: String?
+        /// The Amazon Resource Name (ARN) of the custom model to import.
+        public let sourceModelArn: String
+        /// Tags to be associated with the custom model that is created by this import. A tag is a key-value pair that adds as a metadata to a resource used by Amazon Comprehend. For example, a tag with "Sales" as the key might be added to a resource to indicate its use by the sales department.
+        public let tags: [Tag]?
+        /// The version name given to the custom model that is created by this import. Version names can have a maximum of 256 characters. Alphanumeric characters, hyphens (-) and underscores (_) are allowed. The version name must be unique among all models with the same classifier name in the account/AWS Region.
+        public let versionName: String?
+
+        public init(dataAccessRoleArn: String? = nil, modelKmsKeyId: String? = nil, modelName: String? = nil, sourceModelArn: String, tags: [Tag]? = nil, versionName: String? = nil) {
+            self.dataAccessRoleArn = dataAccessRoleArn
+            self.modelKmsKeyId = modelKmsKeyId
+            self.modelName = modelName
+            self.sourceModelArn = sourceModelArn
+            self.tags = tags
+            self.versionName = versionName
+        }
+
+        public func validate(name: String) throws {
+            try self.validate(self.dataAccessRoleArn, name: "dataAccessRoleArn", parent: name, max: 2048)
+            try self.validate(self.dataAccessRoleArn, name: "dataAccessRoleArn", parent: name, min: 20)
+            try self.validate(self.dataAccessRoleArn, name: "dataAccessRoleArn", parent: name, pattern: "^arn:aws(-[^:]+)?:iam::[0-9]{12}:role/.+$")
+            try self.validate(self.modelKmsKeyId, name: "modelKmsKeyId", parent: name, max: 2048)
+            try self.validate(self.modelKmsKeyId, name: "modelKmsKeyId", parent: name, pattern: "^\\p{ASCII}+$")
+            try self.validate(self.modelName, name: "modelName", parent: name, max: 63)
+            try self.validate(self.modelName, name: "modelName", parent: name, pattern: "^[a-zA-Z0-9](-*[a-zA-Z0-9])*$")
+            try self.validate(self.sourceModelArn, name: "sourceModelArn", parent: name, max: 256)
+            try self.validate(self.sourceModelArn, name: "sourceModelArn", parent: name, pattern: "^arn:aws(-[^:]+)?:comprehend:[a-zA-Z0-9-]*:[0-9]{12}:(document-classifier|entity-recognizer)/[a-zA-Z0-9](-*[a-zA-Z0-9])*(/version/[a-zA-Z0-9](-*[a-zA-Z0-9])*)?$")
+            try self.tags?.forEach {
+                try $0.validate(name: "\(name).tags[]")
+            }
+            try self.validate(self.versionName, name: "versionName", parent: name, max: 63)
+            try self.validate(self.versionName, name: "versionName", parent: name, pattern: "^[a-zA-Z0-9](-*[a-zA-Z0-9])*$")
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case dataAccessRoleArn = "DataAccessRoleArn"
+            case modelKmsKeyId = "ModelKmsKeyId"
+            case modelName = "ModelName"
+            case sourceModelArn = "SourceModelArn"
+            case tags = "Tags"
+            case versionName = "VersionName"
+        }
+    }
+
+    public struct ImportModelResponse: AWSDecodableShape {
+        /// The Amazon Resource Name (ARN) of the custom model being imported.
+        public let modelArn: String?
+
+        public init(modelArn: String? = nil) {
+            self.modelArn = modelArn
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case modelArn = "ModelArn"
         }
     }
 
@@ -3402,6 +3590,51 @@ extension Comprehend {
         }
     }
 
+    public struct ListTargetedSentimentDetectionJobsRequest: AWSEncodableShape {
+        /// Filters the jobs that are returned. You can filter jobs on their name, status, or the date and time that they were submitted. You can only set one filter at a time.
+        public let filter: TargetedSentimentDetectionJobFilter?
+        /// The maximum number of results to return in each page. The default is 100.
+        public let maxResults: Int?
+        /// Identifies the next page of results to return.
+        public let nextToken: String?
+
+        public init(filter: TargetedSentimentDetectionJobFilter? = nil, maxResults: Int? = nil, nextToken: String? = nil) {
+            self.filter = filter
+            self.maxResults = maxResults
+            self.nextToken = nextToken
+        }
+
+        public func validate(name: String) throws {
+            try self.filter?.validate(name: "\(name).filter")
+            try self.validate(self.maxResults, name: "maxResults", parent: name, max: 500)
+            try self.validate(self.maxResults, name: "maxResults", parent: name, min: 1)
+            try self.validate(self.nextToken, name: "nextToken", parent: name, min: 1)
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case filter = "Filter"
+            case maxResults = "MaxResults"
+            case nextToken = "NextToken"
+        }
+    }
+
+    public struct ListTargetedSentimentDetectionJobsResponse: AWSDecodableShape {
+        /// Identifies the next page of results to return.
+        public let nextToken: String?
+        /// A list containing the properties of each job that is returned.
+        public let targetedSentimentDetectionJobPropertiesList: [TargetedSentimentDetectionJobProperties]?
+
+        public init(nextToken: String? = nil, targetedSentimentDetectionJobPropertiesList: [TargetedSentimentDetectionJobProperties]? = nil) {
+            self.nextToken = nextToken
+            self.targetedSentimentDetectionJobPropertiesList = targetedSentimentDetectionJobPropertiesList
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case nextToken = "NextToken"
+            case targetedSentimentDetectionJobPropertiesList = "TargetedSentimentDetectionJobPropertiesList"
+        }
+    }
+
     public struct ListTopicsDetectionJobsRequest: AWSEncodableShape {
         /// Filters the jobs that are returned. Jobs can be filtered on their name, status, or the date and time that they were submitted. You can set only one filter at a time.
         public let filter: TopicsDetectionJobFilter?
@@ -3450,7 +3683,7 @@ extension Comprehend {
     public struct OutputDataConfig: AWSEncodableShape & AWSDecodableShape {
         /// ID for the AWS Key Management Service (KMS) key that Amazon Comprehend uses to encrypt the output results from an analysis job. The KmsKeyId can be one of the following formats:   KMS Key ID: "1234abcd-12ab-34cd-56ef-1234567890ab"    Amazon Resource Name (ARN) of a KMS Key: "arn:aws:kms:us-west-2:111122223333:key/1234abcd-12ab-34cd-56ef-1234567890ab"    KMS Key Alias: "alias/ExampleAlias"    ARN of a KMS Key Alias: "arn:aws:kms:us-west-2:111122223333:alias/ExampleAlias"
         public let kmsKeyId: String?
-        /// When you use the OutputDataConfig object with asynchronous operations, you specify the Amazon S3 location where you want to write the output data. The URI must be in the same region as the API endpoint that you are calling. The location is used as the prefix for the actual location of the output file. When the topic detection job is finished, the service creates an output file in a directory specific to the job. The S3Uri field contains the location of the output file, called output.tar.gz. It is a compressed archive that contains the ouput of the operation.
+        /// When you use the OutputDataConfig object with asynchronous operations, you specify the Amazon S3 location where you want to write the output data. The URI must be in the same region as the API endpoint that you are calling. The location is used as the prefix for the actual location of the output file. When the topic detection job is finished, the service creates an output file in a directory specific to the job. The S3Uri field contains the location of the output file, called output.tar.gz. It is a compressed archive that contains the ouput of the operation.  For a PII entity detection job, the output file is plain text, not a compressed archive.  The output file name is the same as the input file, with .out appended at the end.
         public let s3Uri: String
 
         public init(kmsKeyId: String? = nil, s3Uri: String) {
@@ -3460,7 +3693,7 @@ extension Comprehend {
 
         public func validate(name: String) throws {
             try self.validate(self.kmsKeyId, name: "kmsKeyId", parent: name, max: 2048)
-            try self.validate(self.kmsKeyId, name: "kmsKeyId", parent: name, pattern: ".*")
+            try self.validate(self.kmsKeyId, name: "kmsKeyId", parent: name, pattern: "^\\p{ASCII}+$")
             try self.validate(self.s3Uri, name: "s3Uri", parent: name, max: 1024)
             try self.validate(self.s3Uri, name: "s3Uri", parent: name, pattern: "^s3://[a-z0-9][\\.\\-a-z0-9]{1,61}[a-z0-9](/.*)?$")
         }
@@ -3608,7 +3841,7 @@ extension Comprehend {
     public struct PiiOutputDataConfig: AWSDecodableShape {
         /// ID for the AWS Key Management Service (KMS) key that Amazon Comprehend uses to encrypt the output results from an analysis job.
         public let kmsKeyId: String?
-        /// When you use the PiiOutputDataConfig object with asynchronous operations, you specify the Amazon S3 location where you want to write the output data.
+        /// When you use the PiiOutputDataConfig object with asynchronous operations, you specify the Amazon S3 location where you want to write the output data.   For a PII entity detection job, the output file is plain text, not a compressed archive.  The output file name is the same as the input file, with .out appended at the end.
         public let s3Uri: String
 
         public init(kmsKeyId: String? = nil, s3Uri: String) {
@@ -3619,6 +3852,50 @@ extension Comprehend {
         private enum CodingKeys: String, CodingKey {
             case kmsKeyId = "KmsKeyId"
             case s3Uri = "S3Uri"
+        }
+    }
+
+    public struct PutResourcePolicyRequest: AWSEncodableShape {
+        /// The revision ID that Amazon Comprehend assigned to the policy that you are updating. If you are creating a new policy that has no prior version, don't use this parameter. Amazon Comprehend creates the revision ID for you.
+        public let policyRevisionId: String?
+        /// The Amazon Resource Name (ARN) of the custom model to attach the policy to.
+        public let resourceArn: String
+        /// The JSON resource-based policy to attach to your custom model. Provide your JSON as a UTF-8 encoded string without line breaks. To provide valid JSON for your policy, enclose the attribute names and values in double quotes. If the JSON body is also enclosed in double quotes, then you must escape the double quotes that are inside the policy:  "{\"attribute\": \"value\", \"attribute\": [\"value\"]}"  To avoid escaping quotes, you can use single quotes to enclose the policy and double quotes to enclose the JSON names and values:  '{"attribute": "value", "attribute": ["value"]}'
+        public let resourcePolicy: String
+
+        public init(policyRevisionId: String? = nil, resourceArn: String, resourcePolicy: String) {
+            self.policyRevisionId = policyRevisionId
+            self.resourceArn = resourceArn
+            self.resourcePolicy = resourcePolicy
+        }
+
+        public func validate(name: String) throws {
+            try self.validate(self.policyRevisionId, name: "policyRevisionId", parent: name, max: 64)
+            try self.validate(self.policyRevisionId, name: "policyRevisionId", parent: name, pattern: "^[0-9A-Fa-f]+$")
+            try self.validate(self.resourceArn, name: "resourceArn", parent: name, max: 256)
+            try self.validate(self.resourceArn, name: "resourceArn", parent: name, pattern: "^arn:aws(-[^:]+)?:comprehend:[a-zA-Z0-9-]*:[0-9]{12}:(document-classifier|entity-recognizer)/[a-zA-Z0-9](-*[a-zA-Z0-9])*(/version/[a-zA-Z0-9](-*[a-zA-Z0-9])*)?$")
+            try self.validate(self.resourcePolicy, name: "resourcePolicy", parent: name, max: 20000)
+            try self.validate(self.resourcePolicy, name: "resourcePolicy", parent: name, min: 1)
+            try self.validate(self.resourcePolicy, name: "resourcePolicy", parent: name, pattern: "^[\\u0009\\u000A\\u000D\\u0020-\\u00FF]+$")
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case policyRevisionId = "PolicyRevisionId"
+            case resourceArn = "ResourceArn"
+            case resourcePolicy = "ResourcePolicy"
+        }
+    }
+
+    public struct PutResourcePolicyResponse: AWSDecodableShape {
+        /// The revision ID of the policy. Each time you modify a policy, Amazon Comprehend assigns a new revision ID, and it deletes the prior version of the policy.
+        public let policyRevisionId: String?
+
+        public init(policyRevisionId: String? = nil) {
+            self.policyRevisionId = policyRevisionId
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case policyRevisionId = "PolicyRevisionId"
         }
     }
 
@@ -3816,7 +4093,7 @@ extension Comprehend {
                 try $0.validate(name: "\(name).tags[]")
             }
             try self.validate(self.volumeKmsKeyId, name: "volumeKmsKeyId", parent: name, max: 2048)
-            try self.validate(self.volumeKmsKeyId, name: "volumeKmsKeyId", parent: name, pattern: ".*")
+            try self.validate(self.volumeKmsKeyId, name: "volumeKmsKeyId", parent: name, pattern: "^\\p{ASCII}+$")
             try self.vpcConfig?.validate(name: "\(name).vpcConfig")
         }
 
@@ -3899,7 +4176,7 @@ extension Comprehend {
                 try $0.validate(name: "\(name).tags[]")
             }
             try self.validate(self.volumeKmsKeyId, name: "volumeKmsKeyId", parent: name, max: 2048)
-            try self.validate(self.volumeKmsKeyId, name: "volumeKmsKeyId", parent: name, pattern: ".*")
+            try self.validate(self.volumeKmsKeyId, name: "volumeKmsKeyId", parent: name, pattern: "^\\p{ASCII}+$")
             try self.vpcConfig?.validate(name: "\(name).vpcConfig")
         }
 
@@ -3989,7 +4266,7 @@ extension Comprehend {
                 try $0.validate(name: "\(name).tags[]")
             }
             try self.validate(self.volumeKmsKeyId, name: "volumeKmsKeyId", parent: name, max: 2048)
-            try self.validate(self.volumeKmsKeyId, name: "volumeKmsKeyId", parent: name, pattern: ".*")
+            try self.validate(self.volumeKmsKeyId, name: "volumeKmsKeyId", parent: name, pattern: "^\\p{ASCII}+$")
             try self.vpcConfig?.validate(name: "\(name).vpcConfig")
         }
 
@@ -4161,7 +4438,7 @@ extension Comprehend {
                 try $0.validate(name: "\(name).tags[]")
             }
             try self.validate(self.volumeKmsKeyId, name: "volumeKmsKeyId", parent: name, max: 2048)
-            try self.validate(self.volumeKmsKeyId, name: "volumeKmsKeyId", parent: name, pattern: ".*")
+            try self.validate(self.volumeKmsKeyId, name: "volumeKmsKeyId", parent: name, pattern: "^\\p{ASCII}+$")
             try self.vpcConfig?.validate(name: "\(name).vpcConfig")
         }
 
@@ -4331,7 +4608,7 @@ extension Comprehend {
                 try $0.validate(name: "\(name).tags[]")
             }
             try self.validate(self.volumeKmsKeyId, name: "volumeKmsKeyId", parent: name, max: 2048)
-            try self.validate(self.volumeKmsKeyId, name: "volumeKmsKeyId", parent: name, pattern: ".*")
+            try self.validate(self.volumeKmsKeyId, name: "volumeKmsKeyId", parent: name, pattern: "^\\p{ASCII}+$")
             try self.vpcConfig?.validate(name: "\(name).vpcConfig")
         }
 
@@ -4350,6 +4627,90 @@ extension Comprehend {
 
     public struct StartSentimentDetectionJobResponse: AWSDecodableShape {
         /// The Amazon Resource Name (ARN) of the sentiment detection job. It is a unique, fully qualified identifier for the job. It includes the AWS account, Region, and the job ID. The format of the ARN is as follows:  arn::comprehend:::sentiment-detection-job/  The following is an example job ARN:  arn:aws:comprehend:us-west-2:111122223333:sentiment-detection-job/1234abcd12ab34cd56ef1234567890ab
+        public let jobArn: String?
+        /// The identifier generated for the job. To get the status of a job, use this identifier with the  operation.
+        public let jobId: String?
+        /// The status of the job.    SUBMITTED - The job has been received and is queued for processing.   IN_PROGRESS - Amazon Comprehend is processing the job.   COMPLETED - The job was successfully completed and the output is available.   FAILED - The job did not complete. To get details, use the  operation.
+        public let jobStatus: JobStatus?
+
+        public init(jobArn: String? = nil, jobId: String? = nil, jobStatus: JobStatus? = nil) {
+            self.jobArn = jobArn
+            self.jobId = jobId
+            self.jobStatus = jobStatus
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case jobArn = "JobArn"
+            case jobId = "JobId"
+            case jobStatus = "JobStatus"
+        }
+    }
+
+    public struct StartTargetedSentimentDetectionJobRequest: AWSEncodableShape {
+        /// A unique identifier for the request. If you don't set the client request token, Amazon Comprehend generates one.
+        public let clientRequestToken: String?
+        /// The Amazon Resource Name (ARN) of the AWS Identity and Access Management (IAM) role that grants Amazon Comprehend read access to your input data. For more information, see Role-based permissions.
+        public let dataAccessRoleArn: String
+        public let inputDataConfig: InputDataConfig
+        /// The identifier of the job.
+        public let jobName: String?
+        /// The language of the input documents. You can specify any of the primary languages supported by Amazon Comprehend. All documents must be in the same language.
+        public let languageCode: LanguageCode
+        /// Specifies where to send the output files.
+        public let outputDataConfig: OutputDataConfig
+        /// Tags to be associated with the targeted sentiment detection job. A tag is a key-value pair that adds metadata to a resource used by Amazon Comprehend. For example, a tag with "Sales" as the key might be added to a resource to indicate its use by the sales department.
+        public let tags: [Tag]?
+        /// ID for the KMS key that Amazon Comprehend uses to encrypt data on the storage volume attached to the ML compute instance(s) that process the analysis job. The VolumeKmsKeyId can be either of the following formats:   KMS Key ID: "1234abcd-12ab-34cd-56ef-1234567890ab"    Amazon Resource Name (ARN) of a KMS Key: "arn:aws:kms:us-west-2:111122223333:key/1234abcd-12ab-34cd-56ef-1234567890ab"
+        public let volumeKmsKeyId: String?
+        public let vpcConfig: VpcConfig?
+
+        public init(clientRequestToken: String? = StartTargetedSentimentDetectionJobRequest.idempotencyToken(), dataAccessRoleArn: String, inputDataConfig: InputDataConfig, jobName: String? = nil, languageCode: LanguageCode, outputDataConfig: OutputDataConfig, tags: [Tag]? = nil, volumeKmsKeyId: String? = nil, vpcConfig: VpcConfig? = nil) {
+            self.clientRequestToken = clientRequestToken
+            self.dataAccessRoleArn = dataAccessRoleArn
+            self.inputDataConfig = inputDataConfig
+            self.jobName = jobName
+            self.languageCode = languageCode
+            self.outputDataConfig = outputDataConfig
+            self.tags = tags
+            self.volumeKmsKeyId = volumeKmsKeyId
+            self.vpcConfig = vpcConfig
+        }
+
+        public func validate(name: String) throws {
+            try self.validate(self.clientRequestToken, name: "clientRequestToken", parent: name, max: 64)
+            try self.validate(self.clientRequestToken, name: "clientRequestToken", parent: name, min: 1)
+            try self.validate(self.clientRequestToken, name: "clientRequestToken", parent: name, pattern: "^[a-zA-Z0-9-]+$")
+            try self.validate(self.dataAccessRoleArn, name: "dataAccessRoleArn", parent: name, max: 2048)
+            try self.validate(self.dataAccessRoleArn, name: "dataAccessRoleArn", parent: name, min: 20)
+            try self.validate(self.dataAccessRoleArn, name: "dataAccessRoleArn", parent: name, pattern: "^arn:aws(-[^:]+)?:iam::[0-9]{12}:role/.+$")
+            try self.inputDataConfig.validate(name: "\(name).inputDataConfig")
+            try self.validate(self.jobName, name: "jobName", parent: name, max: 256)
+            try self.validate(self.jobName, name: "jobName", parent: name, min: 1)
+            try self.validate(self.jobName, name: "jobName", parent: name, pattern: "^([\\p{L}\\p{Z}\\p{N}_.:/=+\\-%@]*)$")
+            try self.outputDataConfig.validate(name: "\(name).outputDataConfig")
+            try self.tags?.forEach {
+                try $0.validate(name: "\(name).tags[]")
+            }
+            try self.validate(self.volumeKmsKeyId, name: "volumeKmsKeyId", parent: name, max: 2048)
+            try self.validate(self.volumeKmsKeyId, name: "volumeKmsKeyId", parent: name, pattern: "^\\p{ASCII}+$")
+            try self.vpcConfig?.validate(name: "\(name).vpcConfig")
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case clientRequestToken = "ClientRequestToken"
+            case dataAccessRoleArn = "DataAccessRoleArn"
+            case inputDataConfig = "InputDataConfig"
+            case jobName = "JobName"
+            case languageCode = "LanguageCode"
+            case outputDataConfig = "OutputDataConfig"
+            case tags = "Tags"
+            case volumeKmsKeyId = "VolumeKmsKeyId"
+            case vpcConfig = "VpcConfig"
+        }
+    }
+
+    public struct StartTargetedSentimentDetectionJobResponse: AWSDecodableShape {
+        /// The Amazon Resource Name (ARN) of the targeted sentiment detection job. It is a unique, fully qualified identifier for the job. It includes the AWS account, Region, and the job ID. The format of the ARN is as follows:  arn::comprehend:::targeted-sentiment-detection-job/  The following is an example job ARN:  arn:aws:comprehend:us-west-2:111122223333:targeted-sentiment-detection-job/1234abcd12ab34cd56ef1234567890ab
         public let jobArn: String?
         /// The identifier generated for the job. To get the status of a job, use this identifier with the  operation.
         public let jobId: String?
@@ -4419,7 +4780,7 @@ extension Comprehend {
                 try $0.validate(name: "\(name).tags[]")
             }
             try self.validate(self.volumeKmsKeyId, name: "volumeKmsKeyId", parent: name, max: 2048)
-            try self.validate(self.volumeKmsKeyId, name: "volumeKmsKeyId", parent: name, pattern: ".*")
+            try self.validate(self.volumeKmsKeyId, name: "volumeKmsKeyId", parent: name, pattern: "^\\p{ASCII}+$")
             try self.vpcConfig?.validate(name: "\(name).vpcConfig")
         }
 
@@ -4673,6 +5034,42 @@ extension Comprehend {
         }
     }
 
+    public struct StopTargetedSentimentDetectionJobRequest: AWSEncodableShape {
+        /// The identifier of the targeted sentiment detection job to stop.
+        public let jobId: String
+
+        public init(jobId: String) {
+            self.jobId = jobId
+        }
+
+        public func validate(name: String) throws {
+            try self.validate(self.jobId, name: "jobId", parent: name, max: 32)
+            try self.validate(self.jobId, name: "jobId", parent: name, min: 1)
+            try self.validate(self.jobId, name: "jobId", parent: name, pattern: "^([\\p{L}\\p{Z}\\p{N}_.:/=+\\-%@]*)$")
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case jobId = "JobId"
+        }
+    }
+
+    public struct StopTargetedSentimentDetectionJobResponse: AWSDecodableShape {
+        /// The identifier of the targeted sentiment detection job to stop.
+        public let jobId: String?
+        /// Either STOP_REQUESTED if the job is currently running, or STOPPED if the job was previously stopped with the StopSentimentDetectionJob operation.
+        public let jobStatus: JobStatus?
+
+        public init(jobId: String? = nil, jobStatus: JobStatus? = nil) {
+            self.jobId = jobId
+            self.jobStatus = jobStatus
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case jobId = "JobId"
+            case jobStatus = "JobStatus"
+        }
+    }
+
     public struct StopTrainingDocumentClassifierRequest: AWSEncodableShape {
         /// The Amazon Resource Name (ARN) that identifies the document classifier currently being trained.
         public let documentClassifierArn: String
@@ -4796,6 +5193,95 @@ extension Comprehend {
 
     public struct TagResourceResponse: AWSDecodableShape {
         public init() {}
+    }
+
+    public struct TargetedSentimentDetectionJobFilter: AWSEncodableShape {
+        /// Filters on the name of the job.
+        public let jobName: String?
+        /// Filters the list of jobs based on job status. Returns only jobs with the specified status.
+        public let jobStatus: JobStatus?
+        /// Filters the list of jobs based on the time that the job was submitted for processing. Returns only jobs submitted after the specified time. Jobs are returned in descending order, newest to oldest.
+        public let submitTimeAfter: Date?
+        /// Filters the list of jobs based on the time that the job was submitted for processing. Returns only jobs submitted before the specified time. Jobs are returned in ascending order, oldest to newest.
+        public let submitTimeBefore: Date?
+
+        public init(jobName: String? = nil, jobStatus: JobStatus? = nil, submitTimeAfter: Date? = nil, submitTimeBefore: Date? = nil) {
+            self.jobName = jobName
+            self.jobStatus = jobStatus
+            self.submitTimeAfter = submitTimeAfter
+            self.submitTimeBefore = submitTimeBefore
+        }
+
+        public func validate(name: String) throws {
+            try self.validate(self.jobName, name: "jobName", parent: name, max: 256)
+            try self.validate(self.jobName, name: "jobName", parent: name, min: 1)
+            try self.validate(self.jobName, name: "jobName", parent: name, pattern: "^([\\p{L}\\p{Z}\\p{N}_.:/=+\\-%@]*)$")
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case jobName = "JobName"
+            case jobStatus = "JobStatus"
+            case submitTimeAfter = "SubmitTimeAfter"
+            case submitTimeBefore = "SubmitTimeBefore"
+        }
+    }
+
+    public struct TargetedSentimentDetectionJobProperties: AWSDecodableShape {
+        /// The Amazon Resource Name (ARN) that gives Amazon Comprehend read access to your input data.
+        public let dataAccessRoleArn: String?
+        /// The time that the targeted sentiment detection job ended.
+        public let endTime: Date?
+        public let inputDataConfig: InputDataConfig?
+        /// The Amazon Resource Name (ARN) of the targeted sentiment detection job. It is a unique, fully qualified identifier for the job. It includes the AWS account, Region, and the job ID. The format of the ARN is as follows:  arn::comprehend:::targeted-sentiment-detection-job/  The following is an example job ARN:  arn:aws:comprehend:us-west-2:111122223333:targeted-sentiment-detection-job/1234abcd12ab34cd56ef1234567890ab
+        public let jobArn: String?
+        /// The identifier assigned to the targeted sentiment detection job.
+        public let jobId: String?
+        /// The name that you assigned to the targeted sentiment detection job.
+        public let jobName: String?
+        /// The current status of the targeted sentiment detection job. If the status is FAILED, the Messages field shows the reason for the failure.
+        public let jobStatus: JobStatus?
+        /// The language code of the input documents.
+        public let languageCode: LanguageCode?
+        /// A description of the status of a job.
+        public let message: String?
+        public let outputDataConfig: OutputDataConfig?
+        /// The time that the targeted sentiment detection job was submitted for processing.
+        public let submitTime: Date?
+        /// ID for the AWS Key Management Service (KMS) key that Amazon Comprehend uses to encrypt data on the storage volume attached to the ML compute instance(s) that process the   targeted sentiment detection job. The VolumeKmsKeyId can be either of the following formats:   KMS Key ID: "1234abcd-12ab-34cd-56ef-1234567890ab"    Amazon Resource Name (ARN) of a KMS Key: "arn:aws:kms:us-west-2:111122223333:key/1234abcd-12ab-34cd-56ef-1234567890ab"
+        public let volumeKmsKeyId: String?
+        public let vpcConfig: VpcConfig?
+
+        public init(dataAccessRoleArn: String? = nil, endTime: Date? = nil, inputDataConfig: InputDataConfig? = nil, jobArn: String? = nil, jobId: String? = nil, jobName: String? = nil, jobStatus: JobStatus? = nil, languageCode: LanguageCode? = nil, message: String? = nil, outputDataConfig: OutputDataConfig? = nil, submitTime: Date? = nil, volumeKmsKeyId: String? = nil, vpcConfig: VpcConfig? = nil) {
+            self.dataAccessRoleArn = dataAccessRoleArn
+            self.endTime = endTime
+            self.inputDataConfig = inputDataConfig
+            self.jobArn = jobArn
+            self.jobId = jobId
+            self.jobName = jobName
+            self.jobStatus = jobStatus
+            self.languageCode = languageCode
+            self.message = message
+            self.outputDataConfig = outputDataConfig
+            self.submitTime = submitTime
+            self.volumeKmsKeyId = volumeKmsKeyId
+            self.vpcConfig = vpcConfig
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case dataAccessRoleArn = "DataAccessRoleArn"
+            case endTime = "EndTime"
+            case inputDataConfig = "InputDataConfig"
+            case jobArn = "JobArn"
+            case jobId = "JobId"
+            case jobName = "JobName"
+            case jobStatus = "JobStatus"
+            case languageCode = "LanguageCode"
+            case message = "Message"
+            case outputDataConfig = "OutputDataConfig"
+            case submitTime = "SubmitTime"
+            case volumeKmsKeyId = "VolumeKmsKeyId"
+            case vpcConfig = "VpcConfig"
+        }
     }
 
     public struct TopicsDetectionJobFilter: AWSEncodableShape {

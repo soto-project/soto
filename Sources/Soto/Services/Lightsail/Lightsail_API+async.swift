@@ -158,7 +158,7 @@ extension Lightsail {
         return try await self.client.execute(operation: "CreateInstancesFromSnapshot", path: "/ls/api/2016-11-28/CreateInstancesFromSnapshot", httpMethod: .POST, serviceConfig: self.config, input: input, logger: logger, on: eventLoop)
     }
 
-    /// Creates an SSH key pair. The create key pair operation supports tag-based access control via request tags. For more information, see the Amazon Lightsail Developer Guide.
+    /// Creates a custom SSH key pair that you can use with an Amazon Lightsail instance.  Use the DownloadDefaultKeyPair action to create a Lightsail default key pair in an Amazon Web Services Region where a default key pair does not currently exist.  The create key pair operation supports tag-based access control via request tags. For more information, see the Amazon Lightsail Developer Guide.
     public func createKeyPair(_ input: CreateKeyPairRequest, logger: Logger = AWSClient.loggingDisabled, on eventLoop: EventLoop? = nil) async throws -> CreateKeyPairResult {
         return try await self.client.execute(operation: "CreateKeyPair", path: "/ls/api/2016-11-28/CreateKeyPair", httpMethod: .POST, serviceConfig: self.config, input: input, logger: logger, on: eventLoop)
     }
@@ -266,7 +266,7 @@ extension Lightsail {
         return try await self.client.execute(operation: "DeleteInstanceSnapshot", path: "/ls/api/2016-11-28/DeleteInstanceSnapshot", httpMethod: .POST, serviceConfig: self.config, input: input, logger: logger, on: eventLoop)
     }
 
-    /// Deletes a specific SSH key pair.
+    /// Deletes the specified key pair by removing the public key from Amazon Lightsail. You can delete key pairs that were created using the ImportKeyPair and CreateKeyPair actions, as well as the Lightsail default key pair. A new default key pair will not be created unless you launch an instance without specifying a custom key pair, or you call the DownloadDefaultKeyPair API.
     ///  The delete key pair operation supports tag-based access control via resource tags applied to the resource identified by key pair name. For more information, see the Amazon Lightsail Developer Guide.
     public func deleteKeyPair(_ input: DeleteKeyPairRequest, logger: Logger = AWSClient.loggingDisabled, on eventLoop: EventLoop? = nil) async throws -> DeleteKeyPairResult {
         return try await self.client.execute(operation: "DeleteKeyPair", path: "/ls/api/2016-11-28/DeleteKeyPair", httpMethod: .POST, serviceConfig: self.config, input: input, logger: logger, on: eventLoop)
@@ -322,7 +322,7 @@ extension Lightsail {
         return try await self.client.execute(operation: "DisableAddOn", path: "/ls/api/2016-11-28/DisableAddOn", httpMethod: .POST, serviceConfig: self.config, input: input, logger: logger, on: eventLoop)
     }
 
-    /// Downloads the default SSH key pair from the user's account.
+    /// Downloads the regional Amazon Lightsail default key pair. This action also creates a Lightsail default key pair if a default key pair does not currently exist in the Amazon Web Services Region.
     public func downloadDefaultKeyPair(_ input: DownloadDefaultKeyPairRequest, logger: Logger = AWSClient.loggingDisabled, on eventLoop: EventLoop? = nil) async throws -> DownloadDefaultKeyPairResult {
         return try await self.client.execute(operation: "DownloadDefaultKeyPair", path: "/ls/api/2016-11-28/DownloadDefaultKeyPair", httpMethod: .POST, serviceConfig: self.config, input: input, logger: logger, on: eventLoop)
     }

@@ -1796,7 +1796,7 @@ extension Chime {
         public let metadata: String?
         /// The name of the AppInstance.
         public let name: String
-        /// Tags assigned to the AppInstanceUser.
+        /// Tags assigned to the AppInstance.
         public let tags: [Tag]?
 
         public init(clientRequestToken: String = CreateAppInstanceRequest.idempotencyToken(), metadata: String? = nil, name: String, tags: [Tag]? = nil) {
@@ -4365,7 +4365,7 @@ extension Chime {
     }
 
     public struct EngineTranscribeSettings: AWSEncodableShape {
-        /// Set this field to PII to identify personal health information in the transcription output.
+        /// Set this field to PII to identify personally identifiable information in the transcription output.
         public let contentIdentificationType: TranscribeContentIdentificationType?
         /// Set this field to PII to redact personally identifiable information in the transcription output. Content redaction is performed only upon complete transcription of the audio segments.
         public let contentRedactionType: TranscribeContentRedactionType?
@@ -7052,14 +7052,18 @@ extension Chime {
     }
 
     public struct LoggingConfiguration: AWSEncodableShape & AWSDecodableShape {
-        /// When true, enables SIP message logs for sending to Amazon CloudWatch Logs.
+        /// Boolean that enables logging of detailed media metrics for Voice Connectors to CloudWatch logs.
+        public let enableMediaMetricLogs: Bool?
+        /// Boolean that enables SIP message logs to CloudWatch logs.
         public let enableSIPLogs: Bool?
 
-        public init(enableSIPLogs: Bool? = nil) {
+        public init(enableMediaMetricLogs: Bool? = nil, enableSIPLogs: Bool? = nil) {
+            self.enableMediaMetricLogs = enableMediaMetricLogs
             self.enableSIPLogs = enableSIPLogs
         }
 
         private enum CodingKeys: String, CodingKey {
+            case enableMediaMetricLogs = "EnableMediaMetricLogs"
             case enableSIPLogs = "EnableSIPLogs"
         }
     }
@@ -7144,7 +7148,7 @@ extension Chime {
         public let audioFallbackUrl: String?
         /// The audio host URL.
         public let audioHostUrl: String?
-        /// The event ingestion URL.
+        /// The event ingestion URL to which you send client meeting events.
         public let eventIngestionUrl: String?
         /// The screen data URL.
         public let screenDataUrl: String?

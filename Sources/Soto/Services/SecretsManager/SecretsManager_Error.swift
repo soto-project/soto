@@ -60,7 +60,7 @@ public struct SecretsManagerErrorType: AWSErrorType {
     public static var internalServiceError: Self { .init(.internalServiceError) }
     /// The NextToken value is invalid.
     public static var invalidNextTokenException: Self { .init(.invalidNextTokenException) }
-    /// The parameter name is invalid value.
+    /// The parameter name or value is invalid.
     public static var invalidParameterException: Self { .init(.invalidParameterException) }
     /// A parameter value is not valid for the current state of the resource. Possible causes:   The secret is scheduled for deletion.   You tried to enable rotation on a secret that doesn't already have a Lambda function ARN configured and you didn't include such an ARN as a parameter in this call.
     public static var invalidRequestException: Self { .init(.invalidRequestException) }

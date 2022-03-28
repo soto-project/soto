@@ -223,6 +223,14 @@ extension OpenSearch {
         public var description: String { return self.rawValue }
     }
 
+    public enum OverallChangeStatus: String, CustomStringConvertible, Codable {
+        case completed = "COMPLETED"
+        case failed = "FAILED"
+        case pending = "PENDING"
+        case processing = "PROCESSING"
+        public var description: String { return self.rawValue }
+    }
+
     public enum PackageStatus: String, CustomStringConvertible, Codable {
         case available = "AVAILABLE"
         case copying = "COPYING"
@@ -443,6 +451,10 @@ extension OpenSearch {
     }
 
     public struct AdvancedSecurityOptions: AWSDecodableShape {
+        /// Specifies the Anonymous Auth Disable Date when Anonymous Auth is enabled.
+        public let anonymousAuthDisableDate: Date?
+        /// True if Anonymous auth is enabled. Anonymous auth can be enabled only when AdvancedSecurity is enabled on existing domains.
+        public let anonymousAuthEnabled: Bool?
         /// True if advanced security is enabled.
         public let enabled: Bool?
         /// True if the internal user database is enabled.
@@ -450,13 +462,17 @@ extension OpenSearch {
         /// Describes the SAML application configured for a domain.
         public let samlOptions: SAMLOptionsOutput?
 
-        public init(enabled: Bool? = nil, internalUserDatabaseEnabled: Bool? = nil, samlOptions: SAMLOptionsOutput? = nil) {
+        public init(anonymousAuthDisableDate: Date? = nil, anonymousAuthEnabled: Bool? = nil, enabled: Bool? = nil, internalUserDatabaseEnabled: Bool? = nil, samlOptions: SAMLOptionsOutput? = nil) {
+            self.anonymousAuthDisableDate = anonymousAuthDisableDate
+            self.anonymousAuthEnabled = anonymousAuthEnabled
             self.enabled = enabled
             self.internalUserDatabaseEnabled = internalUserDatabaseEnabled
             self.samlOptions = samlOptions
         }
 
         private enum CodingKeys: String, CodingKey {
+            case anonymousAuthDisableDate = "AnonymousAuthDisableDate"
+            case anonymousAuthEnabled = "AnonymousAuthEnabled"
             case enabled = "Enabled"
             case internalUserDatabaseEnabled = "InternalUserDatabaseEnabled"
             case samlOptions = "SAMLOptions"
@@ -464,6 +480,8 @@ extension OpenSearch {
     }
 
     public struct AdvancedSecurityOptionsInput: AWSEncodableShape {
+        /// True if Anonymous auth is enabled. Anonymous auth can be enabled only when AdvancedSecurity is enabled on existing domains.
+        public let anonymousAuthEnabled: Bool?
         /// True if advanced security is enabled.
         public let enabled: Bool?
         /// True if the internal user database is enabled.
@@ -473,7 +491,8 @@ extension OpenSearch {
         /// The SAML application configuration for the domain.
         public let samlOptions: SAMLOptionsInput?
 
-        public init(enabled: Bool? = nil, internalUserDatabaseEnabled: Bool? = nil, masterUserOptions: MasterUserOptions? = nil, samlOptions: SAMLOptionsInput? = nil) {
+        public init(anonymousAuthEnabled: Bool? = nil, enabled: Bool? = nil, internalUserDatabaseEnabled: Bool? = nil, masterUserOptions: MasterUserOptions? = nil, samlOptions: SAMLOptionsInput? = nil) {
+            self.anonymousAuthEnabled = anonymousAuthEnabled
             self.enabled = enabled
             self.internalUserDatabaseEnabled = internalUserDatabaseEnabled
             self.masterUserOptions = masterUserOptions
@@ -486,6 +505,7 @@ extension OpenSearch {
         }
 
         private enum CodingKeys: String, CodingKey {
+            case anonymousAuthEnabled = "AnonymousAuthEnabled"
             case enabled = "Enabled"
             case internalUserDatabaseEnabled = "InternalUserDatabaseEnabled"
             case masterUserOptions = "MasterUserOptions"
@@ -750,6 +770,85 @@ extension OpenSearch {
 
         private enum CodingKeys: String, CodingKey {
             case serviceSoftwareOptions = "ServiceSoftwareOptions"
+        }
+    }
+
+    public struct ChangeProgressDetails: AWSDecodableShape {
+        /// The unique change identifier associated with a specific domain configuration change.
+        public let changeId: String?
+        /// Contains an optional message associated with the domain configuration change.
+        public let message: String?
+
+        public init(changeId: String? = nil, message: String? = nil) {
+            self.changeId = changeId
+            self.message = message
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case changeId = "ChangeId"
+            case message = "Message"
+        }
+    }
+
+    public struct ChangeProgressStage: AWSDecodableShape {
+        /// The description of the progress stage.
+        public let description: String?
+        /// The last updated timestamp of the progress stage.
+        public let lastUpdated: Date?
+        /// The name of the specific progress stage.
+        public let name: String?
+        /// The overall status of a specific progress stage.
+        public let status: String?
+
+        public init(description: String? = nil, lastUpdated: Date? = nil, name: String? = nil, status: String? = nil) {
+            self.description = description
+            self.lastUpdated = lastUpdated
+            self.name = name
+            self.status = status
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case description = "Description"
+            case lastUpdated = "LastUpdated"
+            case name = "Name"
+            case status = "Status"
+        }
+    }
+
+    public struct ChangeProgressStatusDetails: AWSDecodableShape {
+        /// The unique change identifier associated with a specific domain configuration change.
+        public let changeId: String?
+        /// The specific stages that the domain is going through to perform the configuration change.
+        public let changeProgressStages: [ChangeProgressStage]?
+        /// The list of properties involved in the domain configuration change that are completed.
+        public let completedProperties: [String]?
+        /// The list of properties involved in the domain configuration change that are still in pending.
+        public let pendingProperties: [String]?
+        /// The time at which the configuration change is made on the domain.
+        public let startTime: Date?
+        /// The overall status of the domain configuration change. This field can take the following values: PENDING, PROCESSING, COMPLETED and FAILED
+        public let status: OverallChangeStatus?
+        /// The total number of stages required for the configuration change.
+        public let totalNumberOfStages: Int?
+
+        public init(changeId: String? = nil, changeProgressStages: [ChangeProgressStage]? = nil, completedProperties: [String]? = nil, pendingProperties: [String]? = nil, startTime: Date? = nil, status: OverallChangeStatus? = nil, totalNumberOfStages: Int? = nil) {
+            self.changeId = changeId
+            self.changeProgressStages = changeProgressStages
+            self.completedProperties = completedProperties
+            self.pendingProperties = pendingProperties
+            self.startTime = startTime
+            self.status = status
+            self.totalNumberOfStages = totalNumberOfStages
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case changeId = "ChangeId"
+            case changeProgressStages = "ChangeProgressStages"
+            case completedProperties = "CompletedProperties"
+            case pendingProperties = "PendingProperties"
+            case startTime = "StartTime"
+            case status = "Status"
+            case totalNumberOfStages = "TotalNumberOfStages"
         }
     }
 
@@ -1296,6 +1395,47 @@ extension OpenSearch {
         }
     }
 
+    public struct DescribeDomainChangeProgressRequest: AWSEncodableShape {
+        public static var _encoding = [
+            AWSMemberEncoding(label: "changeId", location: .querystring("changeid")),
+            AWSMemberEncoding(label: "domainName", location: .uri("DomainName"))
+        ]
+
+        /// The specific change ID for which you want to get progress information. This is an optional parameter. If omitted, the service returns information about the most recent configuration change.
+        public let changeId: String?
+        /// The domain you want to get the progress information about.
+        public let domainName: String
+
+        public init(changeId: String? = nil, domainName: String) {
+            self.changeId = changeId
+            self.domainName = domainName
+        }
+
+        public func validate(name: String) throws {
+            try self.validate(self.changeId, name: "changeId", parent: name, max: 36)
+            try self.validate(self.changeId, name: "changeId", parent: name, min: 36)
+            try self.validate(self.changeId, name: "changeId", parent: name, pattern: "^\\p{XDigit}{8}-\\p{XDigit}{4}-\\p{XDigit}{4}-\\p{XDigit}{4}-\\p{XDigit}{12}$")
+            try self.validate(self.domainName, name: "domainName", parent: name, max: 28)
+            try self.validate(self.domainName, name: "domainName", parent: name, min: 3)
+            try self.validate(self.domainName, name: "domainName", parent: name, pattern: "^[a-z][a-z0-9\\-]+$")
+        }
+
+        private enum CodingKeys: CodingKey {}
+    }
+
+    public struct DescribeDomainChangeProgressResponse: AWSDecodableShape {
+        /// Progress information for the configuration change that is requested in the DescribeDomainChangeProgress request.
+        public let changeProgressStatus: ChangeProgressStatusDetails?
+
+        public init(changeProgressStatus: ChangeProgressStatusDetails? = nil) {
+            self.changeProgressStatus = changeProgressStatus
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case changeProgressStatus = "ChangeProgressStatus"
+        }
+    }
+
     public struct DescribeDomainConfigRequest: AWSEncodableShape {
         public static var _encoding = [
             AWSMemberEncoding(label: "domainName", location: .uri("DomainName"))
@@ -1740,6 +1880,8 @@ extension OpenSearch {
         public let advancedSecurityOptions: AdvancedSecurityOptionsStatus?
         /// Specifies AutoTuneOptions for the domain.
         public let autoTuneOptions: AutoTuneOptionsStatus?
+        /// Specifies change details of the domain configuration change.
+        public let changeProgressDetails: ChangeProgressDetails?
         /// The ClusterConfig for the domain.
         public let clusterConfig: ClusterConfigStatus?
         /// The CognitoOptions for the specified domain. For more information, see Configuring Amazon Cognito authentication for OpenSearch Dashboards.
@@ -1761,11 +1903,12 @@ extension OpenSearch {
         /// The VPCOptions for the specified domain. For more information, see  Launching your Amazon OpenSearch Service domains using a VPC.
         public let vpcOptions: VPCDerivedInfoStatus?
 
-        public init(accessPolicies: AccessPoliciesStatus? = nil, advancedOptions: AdvancedOptionsStatus? = nil, advancedSecurityOptions: AdvancedSecurityOptionsStatus? = nil, autoTuneOptions: AutoTuneOptionsStatus? = nil, clusterConfig: ClusterConfigStatus? = nil, cognitoOptions: CognitoOptionsStatus? = nil, domainEndpointOptions: DomainEndpointOptionsStatus? = nil, ebsOptions: EBSOptionsStatus? = nil, encryptionAtRestOptions: EncryptionAtRestOptionsStatus? = nil, engineVersion: VersionStatus? = nil, logPublishingOptions: LogPublishingOptionsStatus? = nil, nodeToNodeEncryptionOptions: NodeToNodeEncryptionOptionsStatus? = nil, snapshotOptions: SnapshotOptionsStatus? = nil, vpcOptions: VPCDerivedInfoStatus? = nil) {
+        public init(accessPolicies: AccessPoliciesStatus? = nil, advancedOptions: AdvancedOptionsStatus? = nil, advancedSecurityOptions: AdvancedSecurityOptionsStatus? = nil, autoTuneOptions: AutoTuneOptionsStatus? = nil, changeProgressDetails: ChangeProgressDetails? = nil, clusterConfig: ClusterConfigStatus? = nil, cognitoOptions: CognitoOptionsStatus? = nil, domainEndpointOptions: DomainEndpointOptionsStatus? = nil, ebsOptions: EBSOptionsStatus? = nil, encryptionAtRestOptions: EncryptionAtRestOptionsStatus? = nil, engineVersion: VersionStatus? = nil, logPublishingOptions: LogPublishingOptionsStatus? = nil, nodeToNodeEncryptionOptions: NodeToNodeEncryptionOptionsStatus? = nil, snapshotOptions: SnapshotOptionsStatus? = nil, vpcOptions: VPCDerivedInfoStatus? = nil) {
             self.accessPolicies = accessPolicies
             self.advancedOptions = advancedOptions
             self.advancedSecurityOptions = advancedSecurityOptions
             self.autoTuneOptions = autoTuneOptions
+            self.changeProgressDetails = changeProgressDetails
             self.clusterConfig = clusterConfig
             self.cognitoOptions = cognitoOptions
             self.domainEndpointOptions = domainEndpointOptions
@@ -1783,6 +1926,7 @@ extension OpenSearch {
             case advancedOptions = "AdvancedOptions"
             case advancedSecurityOptions = "AdvancedSecurityOptions"
             case autoTuneOptions = "AutoTuneOptions"
+            case changeProgressDetails = "ChangeProgressDetails"
             case clusterConfig = "ClusterConfig"
             case cognitoOptions = "CognitoOptions"
             case domainEndpointOptions = "DomainEndpointOptions"
@@ -1939,6 +2083,8 @@ extension OpenSearch {
         public let arn: String
         /// The current status of the domain's Auto-Tune options.
         public let autoTuneOptions: AutoTuneOptionsOutput?
+        /// Specifies change details of the domain configuration change.
+        public let changeProgressDetails: ChangeProgressDetails?
         /// The type and number of instances in the domain.
         public let clusterConfig: ClusterConfig
         /// The CognitoOptions for the specified domain. For more information, see Configuring Amazon Cognito authentication for OpenSearch Dashboards.
@@ -1977,12 +2123,13 @@ extension OpenSearch {
         /// The VPCOptions for the specified domain. For more information, see  Launching your Amazon OpenSearch Service domains using a VPC.
         public let vpcOptions: VPCDerivedInfo?
 
-        public init(accessPolicies: String? = nil, advancedOptions: [String: String]? = nil, advancedSecurityOptions: AdvancedSecurityOptions? = nil, arn: String, autoTuneOptions: AutoTuneOptionsOutput? = nil, clusterConfig: ClusterConfig, cognitoOptions: CognitoOptions? = nil, created: Bool? = nil, deleted: Bool? = nil, domainEndpointOptions: DomainEndpointOptions? = nil, domainId: String, domainName: String, ebsOptions: EBSOptions? = nil, encryptionAtRestOptions: EncryptionAtRestOptions? = nil, endpoint: String? = nil, endpoints: [String: String]? = nil, engineVersion: String? = nil, logPublishingOptions: [LogType: LogPublishingOption]? = nil, nodeToNodeEncryptionOptions: NodeToNodeEncryptionOptions? = nil, processing: Bool? = nil, serviceSoftwareOptions: ServiceSoftwareOptions? = nil, snapshotOptions: SnapshotOptions? = nil, upgradeProcessing: Bool? = nil, vpcOptions: VPCDerivedInfo? = nil) {
+        public init(accessPolicies: String? = nil, advancedOptions: [String: String]? = nil, advancedSecurityOptions: AdvancedSecurityOptions? = nil, arn: String, autoTuneOptions: AutoTuneOptionsOutput? = nil, changeProgressDetails: ChangeProgressDetails? = nil, clusterConfig: ClusterConfig, cognitoOptions: CognitoOptions? = nil, created: Bool? = nil, deleted: Bool? = nil, domainEndpointOptions: DomainEndpointOptions? = nil, domainId: String, domainName: String, ebsOptions: EBSOptions? = nil, encryptionAtRestOptions: EncryptionAtRestOptions? = nil, endpoint: String? = nil, endpoints: [String: String]? = nil, engineVersion: String? = nil, logPublishingOptions: [LogType: LogPublishingOption]? = nil, nodeToNodeEncryptionOptions: NodeToNodeEncryptionOptions? = nil, processing: Bool? = nil, serviceSoftwareOptions: ServiceSoftwareOptions? = nil, snapshotOptions: SnapshotOptions? = nil, upgradeProcessing: Bool? = nil, vpcOptions: VPCDerivedInfo? = nil) {
             self.accessPolicies = accessPolicies
             self.advancedOptions = advancedOptions
             self.advancedSecurityOptions = advancedSecurityOptions
             self.arn = arn
             self.autoTuneOptions = autoTuneOptions
+            self.changeProgressDetails = changeProgressDetails
             self.clusterConfig = clusterConfig
             self.cognitoOptions = cognitoOptions
             self.created = created
@@ -2010,6 +2157,7 @@ extension OpenSearch {
             case advancedSecurityOptions = "AdvancedSecurityOptions"
             case arn = "ARN"
             case autoTuneOptions = "AutoTuneOptions"
+            case changeProgressDetails = "ChangeProgressDetails"
             case clusterConfig = "ClusterConfig"
             case cognitoOptions = "CognitoOptions"
             case created = "Created"
@@ -3679,6 +3827,7 @@ extension OpenSearch {
 
     public struct UpgradeDomainResponse: AWSDecodableShape {
         public let advancedOptions: [String: String]?
+        public let changeProgressDetails: ChangeProgressDetails?
         public let domainName: String?
         ///  When true, indicates that an upgrade eligibility check needs to be performed. Does not actually perform the upgrade.
         public let performCheckOnly: Bool?
@@ -3686,8 +3835,9 @@ extension OpenSearch {
         public let targetVersion: String?
         public let upgradeId: String?
 
-        public init(advancedOptions: [String: String]? = nil, domainName: String? = nil, performCheckOnly: Bool? = nil, targetVersion: String? = nil, upgradeId: String? = nil) {
+        public init(advancedOptions: [String: String]? = nil, changeProgressDetails: ChangeProgressDetails? = nil, domainName: String? = nil, performCheckOnly: Bool? = nil, targetVersion: String? = nil, upgradeId: String? = nil) {
             self.advancedOptions = advancedOptions
+            self.changeProgressDetails = changeProgressDetails
             self.domainName = domainName
             self.performCheckOnly = performCheckOnly
             self.targetVersion = targetVersion
@@ -3696,6 +3846,7 @@ extension OpenSearch {
 
         private enum CodingKeys: String, CodingKey {
             case advancedOptions = "AdvancedOptions"
+            case changeProgressDetails = "ChangeProgressDetails"
             case domainName = "DomainName"
             case performCheckOnly = "PerformCheckOnly"
             case targetVersion = "TargetVersion"

@@ -20,6 +20,8 @@
 /// Service object for interacting with AWS MWAA service.
 ///
 /// Amazon Managed Workflows for Apache Airflow This section contains the Amazon Managed Workflows for Apache Airflow (MWAA) API reference documentation. For more information, see What Is Amazon MWAA?.
+///   Endpoints     api.airflow.{region}.amazonaws.com - This endpoint is used for environment management.    CreateEnvironment     DeleteEnvironment     GetEnvironment     ListEnvironments     ListTagsForResource     TagResource     UntagResource     UpdateEnvironment       env.airflow.{region}.amazonaws.com - This endpoint is used to operate the Airflow environment.     CreateCliToken     CreateWebLoginToken       ops.airflow.{region}.amazonaws.com - This endpoint is used to push environment metrics that track environment health.     PublishMetrics
+///   Regions  For a list of regions that Amazon MWAA supports, see Region availability in the Amazon MWAA User Guide.
 public struct MWAA: AWSService {
     // MARK: Member variables
 
@@ -63,7 +65,7 @@ public struct MWAA: AWSService {
 
     // MARK: API Calls
 
-    /// Create a CLI token to use Airflow CLI.
+    /// Creates a CLI token for the Airflow CLI. To learn more, see Creating an Apache Airflow CLI token.
     public func createCliToken(_ input: CreateCliTokenRequest, logger: Logger = AWSClient.loggingDisabled, on eventLoop: EventLoop? = nil) -> EventLoopFuture<CreateCliTokenResponse> {
         return self.client.execute(operation: "CreateCliToken", path: "/clitoken/{Name}", httpMethod: .POST, serviceConfig: self.config, input: input, hostPrefix: "env.", logger: logger, on: eventLoop)
     }
@@ -73,7 +75,7 @@ public struct MWAA: AWSService {
         return self.client.execute(operation: "CreateEnvironment", path: "/environments/{Name}", httpMethod: .PUT, serviceConfig: self.config, input: input, hostPrefix: "api.", logger: logger, on: eventLoop)
     }
 
-    /// Create a JWT token to be used to login to Airflow Web UI with claims based Authentication.
+    /// Creates a web login token for the Airflow Web UI. To learn more, see Creating an Apache Airflow web login token.
     public func createWebLoginToken(_ input: CreateWebLoginTokenRequest, logger: Logger = AWSClient.loggingDisabled, on eventLoop: EventLoop? = nil) -> EventLoopFuture<CreateWebLoginTokenResponse> {
         return self.client.execute(operation: "CreateWebLoginToken", path: "/webtoken/{Name}", httpMethod: .POST, serviceConfig: self.config, input: input, hostPrefix: "env.", logger: logger, on: eventLoop)
     }
@@ -83,7 +85,7 @@ public struct MWAA: AWSService {
         return self.client.execute(operation: "DeleteEnvironment", path: "/environments/{Name}", httpMethod: .DELETE, serviceConfig: self.config, input: input, hostPrefix: "api.", logger: logger, on: eventLoop)
     }
 
-    /// Retrieves the details of an Amazon Managed Workflows for Apache Airflow (MWAA) environment.
+    /// Describes an Amazon Managed Workflows for Apache Airflow (MWAA) environment.
     public func getEnvironment(_ input: GetEnvironmentInput, logger: Logger = AWSClient.loggingDisabled, on eventLoop: EventLoop? = nil) -> EventLoopFuture<GetEnvironmentOutput> {
         return self.client.execute(operation: "GetEnvironment", path: "/environments/{Name}", httpMethod: .GET, serviceConfig: self.config, input: input, hostPrefix: "api.", logger: logger, on: eventLoop)
     }
@@ -98,7 +100,7 @@ public struct MWAA: AWSService {
         return self.client.execute(operation: "ListTagsForResource", path: "/tags/{ResourceArn}", httpMethod: .GET, serviceConfig: self.config, input: input, hostPrefix: "api.", logger: logger, on: eventLoop)
     }
 
-    /// An operation for publishing metrics from the customers to the Ops plane.
+    ///  Internal only. Publishes environment health metrics to Amazon CloudWatch.
     public func publishMetrics(_ input: PublishMetricsInput, logger: Logger = AWSClient.loggingDisabled, on eventLoop: EventLoop? = nil) -> EventLoopFuture<PublishMetricsOutput> {
         return self.client.execute(operation: "PublishMetrics", path: "/metrics/environments/{EnvironmentName}", httpMethod: .POST, serviceConfig: self.config, input: input, hostPrefix: "ops.", logger: logger, on: eventLoop)
     }

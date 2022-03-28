@@ -55,7 +55,6 @@ public struct EventBridge: AWSService {
             serviceProtocol: .json(version: "1.1"),
             apiVersion: "2015-10-07",
             endpoint: endpoint,
-            serviceEndpoints: ["us-gov-east-1": "events.us-gov-east-1.amazonaws.com", "us-gov-west-1": "events.us-gov-west-1.amazonaws.com"],
             errorType: EventBridgeErrorType.self,
             xmlNamespace: "http://events.amazonaws.com/doc/2015-10-07",
             timeout: timeout,
@@ -287,8 +286,8 @@ public struct EventBridge: AWSService {
         return self.client.execute(operation: "PutRule", path: "/", httpMethod: .POST, serviceConfig: self.config, input: input, logger: logger, on: eventLoop)
     }
 
-    /// Adds the specified targets to the specified rule, or updates the targets if they are already associated with the rule. Targets are the resources that are invoked when a rule is triggered. You can configure the following as targets for Events:
-    ///     API destination    Amazon API Gateway REST API endpoints   API Gateway   Batch job queue   CloudWatch Logs group   CodeBuild project   CodePipeline   Amazon EC2 CreateSnapshot API call   Amazon EC2 RebootInstances API call   Amazon EC2 StopInstances API call   Amazon EC2 TerminateInstances API call   Amazon ECS tasks   Event bus in a different Amazon Web Services account or Region. You can use an event bus in the US East (N. Virginia) us-east-1, US West (Oregon) us-west-2, or Europe (Ireland) eu-west-1 Regions as a target for a rule.   Firehose delivery stream (Kinesis Data Firehose)   Inspector assessment template (Amazon Inspector)   Kinesis stream (Kinesis Data Stream)   Lambda function   Redshift clusters (Data API statement execution)   Amazon SNS topic   Amazon SQS queues (includes FIFO queues   SSM Automation   SSM OpsItem   SSM Run Command   Step Functions state machines
+    /// Adds the specified targets to the specified rule, or updates the targets if they are already associated with the rule. Targets are the resources that are invoked when a rule is triggered.  Each rule can have up to five (5) targets associated with it at one time.  You can configure the following as targets for Events:
+    ///     API destination    Amazon API Gateway REST API endpoints   API Gateway   Batch job queue   CloudWatch Logs group   CodeBuild project   CodePipeline   Amazon EC2 CreateSnapshot API call   EC2 Image Builder   Amazon EC2 RebootInstances API call   Amazon EC2 StopInstances API call   Amazon EC2 TerminateInstances API call   Amazon ECS tasks   Event bus in a different Amazon Web Services account or Region. You can use an event bus in the US East (N. Virginia) us-east-1, US West (Oregon) us-west-2, or Europe (Ireland) eu-west-1 Regions as a target for a rule.   Firehose delivery stream (Kinesis Data Firehose)   Inspector assessment template (Amazon Inspector)   Kinesis stream (Kinesis Data Stream)   Lambda function   Redshift clusters (Data API statement execution)   Amazon SNS topic   Amazon SQS queues (includes FIFO queues)   SSM Automation   SSM OpsItem   SSM Run Command   Step Functions state machines
     ///  Creating rules with built-in targets is supported only in the Amazon Web Services Management Console. The built-in targets are EC2 CreateSnapshot API call, EC2 RebootInstances API call, EC2 StopInstances API call, and EC2 TerminateInstances API call.
     ///  For some target types, PutTargets provides target-specific parameters. If the target is a Kinesis data stream, you can optionally specify which shard the event goes to by using the KinesisParameters argument. To invoke a command on multiple EC2 instances with one rule, you can use the RunCommandParameters field.
     ///  To be able to make API calls against the resources that you own, Amazon EventBridge needs the appropriate permissions. For Lambda and Amazon SNS resources, EventBridge relies on resource-based policies. For EC2 instances, Kinesis Data Streams,  Step Functions state machines and API Gateway REST APIs, EventBridge relies on IAM roles that you specify in the RoleARN argument in PutTargets. For more information, see Authentication and Access Control in the Amazon EventBridge User Guide.
@@ -310,7 +309,7 @@ public struct EventBridge: AWSService {
         return self.client.execute(operation: "RemovePermission", path: "/", httpMethod: .POST, serviceConfig: self.config, input: input, logger: logger, on: eventLoop)
     }
 
-    /// Removes the specified targets from the specified rule. When the rule is triggered, those targets are no longer be invoked.
+    /// Removes the specified targets from the specified rule. When the rule is triggered, those targets are no longer be invoked.   A successful execution of RemoveTargets doesn't guarantee all targets are removed from the rule, it means that the target(s) listed in the request are removed.
     ///  When you remove a target, when the associated rule triggers, removed targets might continue to be invoked. Allow a short period of time for changes to take effect.
     ///  This action can partially fail if too many requests are made at the same time. If that happens, FailedEntryCount is non-zero in the response and each entry in FailedEntries provides the ID of the failed target and the error code.
     public func removeTargets(_ input: RemoveTargetsRequest, logger: Logger = AWSClient.loggingDisabled, on eventLoop: EventLoop? = nil) -> EventLoopFuture<RemoveTargetsResponse> {

@@ -211,6 +211,17 @@ extension CustomerProfiles {
         public var description: String { return self.rawValue }
     }
 
+    public enum Status: String, CustomStringConvertible, Codable {
+        case cancelled = "CANCELLED"
+        case complete = "COMPLETE"
+        case failed = "FAILED"
+        case inProgress = "IN_PROGRESS"
+        case notStarted = "NOT_STARTED"
+        case retry = "RETRY"
+        case split = "SPLIT"
+        public var description: String { return self.rawValue }
+    }
+
     public enum TaskType: String, CustomStringConvertible, Codable {
         case arithmetic = "Arithmetic"
         case filter = "Filter"
@@ -226,6 +237,11 @@ extension CustomerProfiles {
         case event = "Event"
         case onDemand = "OnDemand"
         case scheduled = "Scheduled"
+        public var description: String { return self.rawValue }
+    }
+
+    public enum WorkflowType: String, CustomStringConvertible, Codable {
+        case appflowIntegration = "APPFLOW_INTEGRATION"
         public var description: String { return self.rawValue }
     }
 
@@ -380,6 +396,109 @@ extension CustomerProfiles {
         }
     }
 
+    public struct AppflowIntegration: AWSEncodableShape {
+        /// Batches in workflow of type APPFLOW_INTEGRATION.
+        public let batches: [Batch]?
+        public let flowDefinition: FlowDefinition
+
+        public init(batches: [Batch]? = nil, flowDefinition: FlowDefinition) {
+            self.batches = batches
+            self.flowDefinition = flowDefinition
+        }
+
+        public func validate(name: String) throws {
+            try self.flowDefinition.validate(name: "\(name).flowDefinition")
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case batches = "Batches"
+            case flowDefinition = "FlowDefinition"
+        }
+    }
+
+    public struct AppflowIntegrationWorkflowAttributes: AWSDecodableShape {
+        /// The name of the AppFlow connector profile used for ingestion.
+        public let connectorProfileName: String
+        /// The Amazon Resource Name (ARN) of the IAM role. Customer Profiles assumes this role to create resources on your behalf as part of workflow execution.
+        public let roleArn: String?
+        /// Specifies the source connector type, such as Salesforce, ServiceNow, and Marketo. Indicates source of ingestion.
+        public let sourceConnectorType: SourceConnectorType
+
+        public init(connectorProfileName: String, roleArn: String? = nil, sourceConnectorType: SourceConnectorType) {
+            self.connectorProfileName = connectorProfileName
+            self.roleArn = roleArn
+            self.sourceConnectorType = sourceConnectorType
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case connectorProfileName = "ConnectorProfileName"
+            case roleArn = "RoleArn"
+            case sourceConnectorType = "SourceConnectorType"
+        }
+    }
+
+    public struct AppflowIntegrationWorkflowMetrics: AWSDecodableShape {
+        /// Number of records processed in APPFLOW_INTEGRATION workflow.
+        public let recordsProcessed: Int64
+        /// Total steps completed in APPFLOW_INTEGRATION workflow.
+        public let stepsCompleted: Int64
+        /// Total steps in APPFLOW_INTEGRATION workflow.
+        public let totalSteps: Int64
+
+        public init(recordsProcessed: Int64, stepsCompleted: Int64, totalSteps: Int64) {
+            self.recordsProcessed = recordsProcessed
+            self.stepsCompleted = stepsCompleted
+            self.totalSteps = totalSteps
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case recordsProcessed = "RecordsProcessed"
+            case stepsCompleted = "StepsCompleted"
+            case totalSteps = "TotalSteps"
+        }
+    }
+
+    public struct AppflowIntegrationWorkflowStep: AWSDecodableShape {
+        /// End datetime of records pulled in batch during execution of workflow step for APPFLOW_INTEGRATION workflow.
+        public let batchRecordsEndTime: String
+        /// Start datetime of records pulled in batch during execution of workflow step for APPFLOW_INTEGRATION workflow.
+        public let batchRecordsStartTime: String
+        /// Creation timestamp of workflow step for APPFLOW_INTEGRATION workflow.
+        public let createdAt: Date
+        /// Message indicating execution of workflow step for APPFLOW_INTEGRATION workflow.
+        public let executionMessage: String
+        /// Name of the flow created during execution of workflow step. APPFLOW_INTEGRATION workflow type creates an appflow flow during workflow step execution on the customers behalf.
+        public let flowName: String
+        /// Last updated timestamp for workflow step for APPFLOW_INTEGRATION workflow.
+        public let lastUpdatedAt: Date
+        /// Total number of records processed during execution of workflow step for APPFLOW_INTEGRATION workflow.
+        public let recordsProcessed: Int64
+        /// Workflow step status for APPFLOW_INTEGRATION workflow.
+        public let status: Status
+
+        public init(batchRecordsEndTime: String, batchRecordsStartTime: String, createdAt: Date, executionMessage: String, flowName: String, lastUpdatedAt: Date, recordsProcessed: Int64, status: Status) {
+            self.batchRecordsEndTime = batchRecordsEndTime
+            self.batchRecordsStartTime = batchRecordsStartTime
+            self.createdAt = createdAt
+            self.executionMessage = executionMessage
+            self.flowName = flowName
+            self.lastUpdatedAt = lastUpdatedAt
+            self.recordsProcessed = recordsProcessed
+            self.status = status
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case batchRecordsEndTime = "BatchRecordsEndTime"
+            case batchRecordsStartTime = "BatchRecordsStartTime"
+            case createdAt = "CreatedAt"
+            case executionMessage = "ExecutionMessage"
+            case flowName = "FlowName"
+            case lastUpdatedAt = "LastUpdatedAt"
+            case recordsProcessed = "RecordsProcessed"
+            case status = "Status"
+        }
+    }
+
     public struct AutoMerging: AWSEncodableShape & AWSDecodableShape {
         /// How the auto-merging process should resolve conflicts between different profiles. For example, if Profile A and Profile B have the same FirstName and LastName (and that is the matching criteria), which EmailAddress should be used?
         public let conflictResolution: ConflictResolution?
@@ -403,6 +522,23 @@ extension CustomerProfiles {
             case conflictResolution = "ConflictResolution"
             case consolidation = "Consolidation"
             case enabled = "Enabled"
+        }
+    }
+
+    public struct Batch: AWSEncodableShape {
+        /// End time of batch to split ingestion.
+        public let endTime: Date
+        /// Start time of batch to split ingestion.
+        public let startTime: Date
+
+        public init(endTime: Date, startTime: Date) {
+            self.endTime = endTime
+            self.startTime = startTime
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case endTime = "EndTime"
+            case startTime = "StartTime"
         }
     }
 
@@ -582,6 +718,79 @@ extension CustomerProfiles {
             case lastUpdatedAt = "LastUpdatedAt"
             case matching = "Matching"
             case tags = "Tags"
+        }
+    }
+
+    public struct CreateIntegrationWorkflowRequest: AWSEncodableShape {
+        public static var _encoding = [
+            AWSMemberEncoding(label: "domainName", location: .uri("DomainName"))
+        ]
+
+        /// The unique name of the domain.
+        public let domainName: String
+        /// Configuration data for integration workflow.
+        public let integrationConfig: IntegrationConfig
+        /// The name of the profile object type.
+        public let objectTypeName: String
+        /// The Amazon Resource Name (ARN) of the IAM role. Customer Profiles assumes this role to create resources on your behalf as part of workflow execution.
+        public let roleArn: String
+        /// The tags used to organize, track, or control access for this resource.
+        public let tags: [String: String]?
+        /// The type of workflow. The only supported value is APPFLOW_INTEGRATION.
+        public let workflowType: WorkflowType
+
+        public init(domainName: String, integrationConfig: IntegrationConfig, objectTypeName: String, roleArn: String, tags: [String: String]? = nil, workflowType: WorkflowType) {
+            self.domainName = domainName
+            self.integrationConfig = integrationConfig
+            self.objectTypeName = objectTypeName
+            self.roleArn = roleArn
+            self.tags = tags
+            self.workflowType = workflowType
+        }
+
+        public func validate(name: String) throws {
+            try self.validate(self.domainName, name: "domainName", parent: name, max: 64)
+            try self.validate(self.domainName, name: "domainName", parent: name, min: 1)
+            try self.validate(self.domainName, name: "domainName", parent: name, pattern: "^[a-zA-Z0-9_-]+$")
+            try self.integrationConfig.validate(name: "\(name).integrationConfig")
+            try self.validate(self.objectTypeName, name: "objectTypeName", parent: name, max: 255)
+            try self.validate(self.objectTypeName, name: "objectTypeName", parent: name, min: 1)
+            try self.validate(self.objectTypeName, name: "objectTypeName", parent: name, pattern: "^[a-zA-Z_][a-zA-Z_0-9-]*$")
+            try self.validate(self.roleArn, name: "roleArn", parent: name, max: 512)
+            try self.validate(self.roleArn, name: "roleArn", parent: name, pattern: "^arn:aws:iam:.*:[0-9]+:")
+            try self.tags?.forEach {
+                try validate($0.key, name: "tags.key", parent: name, max: 128)
+                try validate($0.key, name: "tags.key", parent: name, min: 1)
+                try validate($0.key, name: "tags.key", parent: name, pattern: "^(?!aws:)[a-zA-Z+-=._:/]+$")
+                try validate($0.value, name: "tags[\"\($0.key)\"]", parent: name, max: 256)
+            }
+            try self.validate(self.tags, name: "tags", parent: name, max: 50)
+            try self.validate(self.tags, name: "tags", parent: name, min: 1)
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case integrationConfig = "IntegrationConfig"
+            case objectTypeName = "ObjectTypeName"
+            case roleArn = "RoleArn"
+            case tags = "Tags"
+            case workflowType = "WorkflowType"
+        }
+    }
+
+    public struct CreateIntegrationWorkflowResponse: AWSDecodableShape {
+        /// A message indicating create request was received.
+        public let message: String
+        /// Unique identifier for the workflow.
+        public let workflowId: String
+
+        public init(message: String, workflowId: String) {
+            self.message = message
+            self.workflowId = workflowId
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case message = "Message"
+            case workflowId = "WorkflowId"
         }
     }
 
@@ -1004,6 +1213,37 @@ extension CustomerProfiles {
         private enum CodingKeys: String, CodingKey {
             case message = "Message"
         }
+    }
+
+    public struct DeleteWorkflowRequest: AWSEncodableShape {
+        public static var _encoding = [
+            AWSMemberEncoding(label: "domainName", location: .uri("DomainName")),
+            AWSMemberEncoding(label: "workflowId", location: .uri("WorkflowId"))
+        ]
+
+        /// The unique name of the domain.
+        public let domainName: String
+        /// Unique identifier for the workflow.
+        public let workflowId: String
+
+        public init(domainName: String, workflowId: String) {
+            self.domainName = domainName
+            self.workflowId = workflowId
+        }
+
+        public func validate(name: String) throws {
+            try self.validate(self.domainName, name: "domainName", parent: name, max: 64)
+            try self.validate(self.domainName, name: "domainName", parent: name, min: 1)
+            try self.validate(self.domainName, name: "domainName", parent: name, pattern: "^[a-zA-Z0-9_-]+$")
+            try self.validate(self.workflowId, name: "workflowId", parent: name, max: 255)
+            try self.validate(self.workflowId, name: "workflowId", parent: name, min: 1)
+        }
+
+        private enum CodingKeys: CodingKey {}
+    }
+
+    public struct DeleteWorkflowResponse: AWSDecodableShape {
+        public init() {}
     }
 
     public struct DomainStats: AWSDecodableShape {
@@ -1482,8 +1722,10 @@ extension CustomerProfiles {
         public let tags: [String: String]?
         /// The URI of the S3 bucket or any other type of data source.
         public let uri: String
+        /// Unique identifier for the workflow.
+        public let workflowId: String?
 
-        public init(createdAt: Date, domainName: String, lastUpdatedAt: Date, objectTypeName: String? = nil, objectTypeNames: [String: String]? = nil, tags: [String: String]? = nil, uri: String) {
+        public init(createdAt: Date, domainName: String, lastUpdatedAt: Date, objectTypeName: String? = nil, objectTypeNames: [String: String]? = nil, tags: [String: String]? = nil, uri: String, workflowId: String? = nil) {
             self.createdAt = createdAt
             self.domainName = domainName
             self.lastUpdatedAt = lastUpdatedAt
@@ -1491,6 +1733,7 @@ extension CustomerProfiles {
             self.objectTypeNames = objectTypeNames
             self.tags = tags
             self.uri = uri
+            self.workflowId = workflowId
         }
 
         private enum CodingKeys: String, CodingKey {
@@ -1501,6 +1744,7 @@ extension CustomerProfiles {
             case objectTypeNames = "ObjectTypeNames"
             case tags = "Tags"
             case uri = "Uri"
+            case workflowId = "WorkflowId"
         }
     }
 
@@ -1706,6 +1950,137 @@ extension CustomerProfiles {
         }
     }
 
+    public struct GetWorkflowRequest: AWSEncodableShape {
+        public static var _encoding = [
+            AWSMemberEncoding(label: "domainName", location: .uri("DomainName")),
+            AWSMemberEncoding(label: "workflowId", location: .uri("WorkflowId"))
+        ]
+
+        /// The unique name of the domain.
+        public let domainName: String
+        /// Unique identifier for the workflow.
+        public let workflowId: String
+
+        public init(domainName: String, workflowId: String) {
+            self.domainName = domainName
+            self.workflowId = workflowId
+        }
+
+        public func validate(name: String) throws {
+            try self.validate(self.domainName, name: "domainName", parent: name, max: 64)
+            try self.validate(self.domainName, name: "domainName", parent: name, min: 1)
+            try self.validate(self.domainName, name: "domainName", parent: name, pattern: "^[a-zA-Z0-9_-]+$")
+            try self.validate(self.workflowId, name: "workflowId", parent: name, pattern: "^[a-f0-9]{32}$")
+        }
+
+        private enum CodingKeys: CodingKey {}
+    }
+
+    public struct GetWorkflowResponse: AWSDecodableShape {
+        /// Attributes provided for workflow execution.
+        public let attributes: WorkflowAttributes?
+        /// Workflow error messages during execution (if any).
+        public let errorDescription: String?
+        /// The timestamp that represents when workflow execution last updated.
+        public let lastUpdatedAt: Date?
+        /// Workflow specific execution metrics.
+        public let metrics: WorkflowMetrics?
+        /// The timestamp that represents when workflow execution started.
+        public let startDate: Date?
+        /// Status of workflow execution.
+        public let status: Status?
+        /// Unique identifier for the workflow.
+        public let workflowId: String?
+        /// The type of workflow. The only supported value is APPFLOW_INTEGRATION.
+        public let workflowType: WorkflowType?
+
+        public init(attributes: WorkflowAttributes? = nil, errorDescription: String? = nil, lastUpdatedAt: Date? = nil, metrics: WorkflowMetrics? = nil, startDate: Date? = nil, status: Status? = nil, workflowId: String? = nil, workflowType: WorkflowType? = nil) {
+            self.attributes = attributes
+            self.errorDescription = errorDescription
+            self.lastUpdatedAt = lastUpdatedAt
+            self.metrics = metrics
+            self.startDate = startDate
+            self.status = status
+            self.workflowId = workflowId
+            self.workflowType = workflowType
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case attributes = "Attributes"
+            case errorDescription = "ErrorDescription"
+            case lastUpdatedAt = "LastUpdatedAt"
+            case metrics = "Metrics"
+            case startDate = "StartDate"
+            case status = "Status"
+            case workflowId = "WorkflowId"
+            case workflowType = "WorkflowType"
+        }
+    }
+
+    public struct GetWorkflowStepsRequest: AWSEncodableShape {
+        public static var _encoding = [
+            AWSMemberEncoding(label: "domainName", location: .uri("DomainName")),
+            AWSMemberEncoding(label: "maxResults", location: .querystring("max-results")),
+            AWSMemberEncoding(label: "nextToken", location: .querystring("next-token")),
+            AWSMemberEncoding(label: "workflowId", location: .uri("WorkflowId"))
+        ]
+
+        /// The unique name of the domain.
+        public let domainName: String
+        /// The maximum number of results to return per page.
+        public let maxResults: Int?
+        /// The token for the next set of results. Use the value returned in the previous
+        /// response in the next request to retrieve the next set of results.
+        public let nextToken: String?
+        /// Unique identifier for the workflow.
+        public let workflowId: String
+
+        public init(domainName: String, maxResults: Int? = nil, nextToken: String? = nil, workflowId: String) {
+            self.domainName = domainName
+            self.maxResults = maxResults
+            self.nextToken = nextToken
+            self.workflowId = workflowId
+        }
+
+        public func validate(name: String) throws {
+            try self.validate(self.domainName, name: "domainName", parent: name, max: 64)
+            try self.validate(self.domainName, name: "domainName", parent: name, min: 1)
+            try self.validate(self.domainName, name: "domainName", parent: name, pattern: "^[a-zA-Z0-9_-]+$")
+            try self.validate(self.maxResults, name: "maxResults", parent: name, max: 100)
+            try self.validate(self.maxResults, name: "maxResults", parent: name, min: 1)
+            try self.validate(self.nextToken, name: "nextToken", parent: name, max: 1024)
+            try self.validate(self.nextToken, name: "nextToken", parent: name, min: 1)
+            try self.validate(self.workflowId, name: "workflowId", parent: name, pattern: "^[a-f0-9]{32}$")
+        }
+
+        private enum CodingKeys: CodingKey {}
+    }
+
+    public struct GetWorkflowStepsResponse: AWSDecodableShape {
+        /// List containing workflow step details.
+        public let items: [WorkflowStepItem]?
+        /// If there are additional results, this is the token for the next set of results.
+        public let nextToken: String?
+        /// Unique identifier for the workflow.
+        public let workflowId: String?
+        /// The type of workflow. The only supported value is APPFLOW_INTEGRATION.
+        public let workflowType: WorkflowType?
+
+        public init(items: [WorkflowStepItem]? = nil, nextToken: String? = nil, workflowId: String? = nil, workflowType: WorkflowType? = nil) {
+            self.items = items
+            self.nextToken = nextToken
+            self.workflowId = workflowId
+            self.workflowType = workflowType
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case items = "Items"
+            case nextToken = "NextToken"
+            case workflowId = "WorkflowId"
+            case workflowType = "WorkflowType"
+        }
+    }
+
     public struct IdentityResolutionJob: AWSDecodableShape {
         /// The unique name of the domain.
         public let domainName: String?
@@ -1765,6 +2140,23 @@ extension CustomerProfiles {
         }
     }
 
+    public struct IntegrationConfig: AWSEncodableShape {
+        /// Configuration data for APPFLOW_INTEGRATION workflow type.
+        public let appflowIntegration: AppflowIntegration?
+
+        public init(appflowIntegration: AppflowIntegration? = nil) {
+            self.appflowIntegration = appflowIntegration
+        }
+
+        public func validate(name: String) throws {
+            try self.appflowIntegration?.validate(name: "\(name).appflowIntegration")
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case appflowIntegration = "AppflowIntegration"
+        }
+    }
+
     public struct JobSchedule: AWSEncodableShape & AWSDecodableShape {
         /// The day when the Identity Resolution Job should run every week.
         public let dayOfTheWeek: JobScheduleDayOfTheWeek
@@ -1811,10 +2203,13 @@ extension CustomerProfiles {
 
     public struct ListAccountIntegrationsRequest: AWSEncodableShape {
         public static var _encoding = [
+            AWSMemberEncoding(label: "includeHidden", location: .querystring("include-hidden")),
             AWSMemberEncoding(label: "maxResults", location: .querystring("max-results")),
             AWSMemberEncoding(label: "nextToken", location: .querystring("next-token"))
         ]
 
+        /// Boolean to indicate if hidden integration should be returned. Defaults to False.
+        public let includeHidden: Bool?
         /// The maximum number of objects returned per page.
         public let maxResults: Int?
         /// The pagination token from the previous ListAccountIntegrations API call.
@@ -1822,7 +2217,8 @@ extension CustomerProfiles {
         /// The URI of the S3 bucket or any other type of data source.
         public let uri: String
 
-        public init(maxResults: Int? = nil, nextToken: String? = nil, uri: String) {
+        public init(includeHidden: Bool? = nil, maxResults: Int? = nil, nextToken: String? = nil, uri: String) {
+            self.includeHidden = includeHidden
             self.maxResults = maxResults
             self.nextToken = nextToken
             self.uri = uri
@@ -1995,8 +2391,10 @@ extension CustomerProfiles {
         public let tags: [String: String]?
         /// The URI of the S3 bucket or any other type of data source.
         public let uri: String
+        /// Unique identifier for the workflow.
+        public let workflowId: String?
 
-        public init(createdAt: Date, domainName: String, lastUpdatedAt: Date, objectTypeName: String? = nil, objectTypeNames: [String: String]? = nil, tags: [String: String]? = nil, uri: String) {
+        public init(createdAt: Date, domainName: String, lastUpdatedAt: Date, objectTypeName: String? = nil, objectTypeNames: [String: String]? = nil, tags: [String: String]? = nil, uri: String, workflowId: String? = nil) {
             self.createdAt = createdAt
             self.domainName = domainName
             self.lastUpdatedAt = lastUpdatedAt
@@ -2004,6 +2402,7 @@ extension CustomerProfiles {
             self.objectTypeNames = objectTypeNames
             self.tags = tags
             self.uri = uri
+            self.workflowId = workflowId
         }
 
         private enum CodingKeys: String, CodingKey {
@@ -2014,25 +2413,30 @@ extension CustomerProfiles {
             case objectTypeNames = "ObjectTypeNames"
             case tags = "Tags"
             case uri = "Uri"
+            case workflowId = "WorkflowId"
         }
     }
 
     public struct ListIntegrationsRequest: AWSEncodableShape {
         public static var _encoding = [
             AWSMemberEncoding(label: "domainName", location: .uri("DomainName")),
+            AWSMemberEncoding(label: "includeHidden", location: .querystring("include-hidden")),
             AWSMemberEncoding(label: "maxResults", location: .querystring("max-results")),
             AWSMemberEncoding(label: "nextToken", location: .querystring("next-token"))
         ]
 
         /// The unique name of the domain.
         public let domainName: String
+        /// Boolean to indicate if hidden integration should be returned. Defaults to False.
+        public let includeHidden: Bool?
         /// The maximum number of objects returned per page.
         public let maxResults: Int?
         /// The pagination token from the previous ListIntegrations API call.
         public let nextToken: String?
 
-        public init(domainName: String, maxResults: Int? = nil, nextToken: String? = nil) {
+        public init(domainName: String, includeHidden: Bool? = nil, maxResults: Int? = nil, nextToken: String? = nil) {
             self.domainName = domainName
+            self.includeHidden = includeHidden
             self.maxResults = maxResults
             self.nextToken = nextToken
         }
@@ -2329,6 +2733,107 @@ extension CustomerProfiles {
 
         private enum CodingKeys: String, CodingKey {
             case tags
+        }
+    }
+
+    public struct ListWorkflowsItem: AWSDecodableShape {
+        /// Creation timestamp for workflow.
+        public let createdAt: Date
+        /// Last updated timestamp for workflow.
+        public let lastUpdatedAt: Date
+        /// Status of workflow execution.
+        public let status: Status
+        /// Description for workflow execution status.
+        public let statusDescription: String
+        /// Unique identifier for the workflow.
+        public let workflowId: String
+        /// The type of workflow. The only supported value is APPFLOW_INTEGRATION.
+        public let workflowType: WorkflowType
+
+        public init(createdAt: Date, lastUpdatedAt: Date, status: Status, statusDescription: String, workflowId: String, workflowType: WorkflowType) {
+            self.createdAt = createdAt
+            self.lastUpdatedAt = lastUpdatedAt
+            self.status = status
+            self.statusDescription = statusDescription
+            self.workflowId = workflowId
+            self.workflowType = workflowType
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case createdAt = "CreatedAt"
+            case lastUpdatedAt = "LastUpdatedAt"
+            case status = "Status"
+            case statusDescription = "StatusDescription"
+            case workflowId = "WorkflowId"
+            case workflowType = "WorkflowType"
+        }
+    }
+
+    public struct ListWorkflowsRequest: AWSEncodableShape {
+        public static var _encoding = [
+            AWSMemberEncoding(label: "domainName", location: .uri("DomainName")),
+            AWSMemberEncoding(label: "maxResults", location: .querystring("max-results")),
+            AWSMemberEncoding(label: "nextToken", location: .querystring("next-token"))
+        ]
+
+        /// The unique name of the domain.
+        public let domainName: String
+        /// The maximum number of results to return per page.
+        public let maxResults: Int?
+        /// The token for the next set of results. Use the value returned in the previous
+        /// response in the next request to retrieve the next set of results.
+        public let nextToken: String?
+        /// Retrieve workflows ended after timestamp.
+        public let queryEndDate: Date?
+        /// Retrieve workflows started after timestamp.
+        public let queryStartDate: Date?
+        /// Status of workflow execution.
+        public let status: Status?
+        /// The type of workflow. The only supported value is APPFLOW_INTEGRATION.
+        public let workflowType: WorkflowType?
+
+        public init(domainName: String, maxResults: Int? = nil, nextToken: String? = nil, queryEndDate: Date? = nil, queryStartDate: Date? = nil, status: Status? = nil, workflowType: WorkflowType? = nil) {
+            self.domainName = domainName
+            self.maxResults = maxResults
+            self.nextToken = nextToken
+            self.queryEndDate = queryEndDate
+            self.queryStartDate = queryStartDate
+            self.status = status
+            self.workflowType = workflowType
+        }
+
+        public func validate(name: String) throws {
+            try self.validate(self.domainName, name: "domainName", parent: name, max: 64)
+            try self.validate(self.domainName, name: "domainName", parent: name, min: 1)
+            try self.validate(self.domainName, name: "domainName", parent: name, pattern: "^[a-zA-Z0-9_-]+$")
+            try self.validate(self.maxResults, name: "maxResults", parent: name, max: 100)
+            try self.validate(self.maxResults, name: "maxResults", parent: name, min: 1)
+            try self.validate(self.nextToken, name: "nextToken", parent: name, max: 1024)
+            try self.validate(self.nextToken, name: "nextToken", parent: name, min: 1)
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case queryEndDate = "QueryEndDate"
+            case queryStartDate = "QueryStartDate"
+            case status = "Status"
+            case workflowType = "WorkflowType"
+        }
+    }
+
+    public struct ListWorkflowsResponse: AWSDecodableShape {
+        /// List containing workflow details.
+        public let items: [ListWorkflowsItem]?
+        /// If there are additional results, this is the token for the next set of results.
+        public let nextToken: String?
+
+        public init(items: [ListWorkflowsItem]? = nil, nextToken: String? = nil) {
+            self.items = items
+            self.nextToken = nextToken
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case items = "Items"
+            case nextToken = "NextToken"
         }
     }
 
@@ -2740,8 +3245,10 @@ extension CustomerProfiles {
         public let tags: [String: String]?
         /// The URI of the S3 bucket or any other type of data source.
         public let uri: String
+        /// Unique identifier for the workflow.
+        public let workflowId: String?
 
-        public init(createdAt: Date, domainName: String, lastUpdatedAt: Date, objectTypeName: String? = nil, objectTypeNames: [String: String]? = nil, tags: [String: String]? = nil, uri: String) {
+        public init(createdAt: Date, domainName: String, lastUpdatedAt: Date, objectTypeName: String? = nil, objectTypeNames: [String: String]? = nil, tags: [String: String]? = nil, uri: String, workflowId: String? = nil) {
             self.createdAt = createdAt
             self.domainName = domainName
             self.lastUpdatedAt = lastUpdatedAt
@@ -2749,6 +3256,7 @@ extension CustomerProfiles {
             self.objectTypeNames = objectTypeNames
             self.tags = tags
             self.uri = uri
+            self.workflowId = workflowId
         }
 
         private enum CodingKeys: String, CodingKey {
@@ -2759,6 +3267,7 @@ extension CustomerProfiles {
             case objectTypeNames = "ObjectTypeNames"
             case tags = "Tags"
             case uri = "Uri"
+            case workflowId = "WorkflowId"
         }
     }
 
@@ -3718,6 +4227,45 @@ extension CustomerProfiles {
 
         private enum CodingKeys: String, CodingKey {
             case profileId = "ProfileId"
+        }
+    }
+
+    public struct WorkflowAttributes: AWSDecodableShape {
+        /// Workflow attributes specific to APPFLOW_INTEGRATION workflow.
+        public let appflowIntegration: AppflowIntegrationWorkflowAttributes?
+
+        public init(appflowIntegration: AppflowIntegrationWorkflowAttributes? = nil) {
+            self.appflowIntegration = appflowIntegration
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case appflowIntegration = "AppflowIntegration"
+        }
+    }
+
+    public struct WorkflowMetrics: AWSDecodableShape {
+        /// Workflow execution metrics for APPFLOW_INTEGRATION workflow.
+        public let appflowIntegration: AppflowIntegrationWorkflowMetrics?
+
+        public init(appflowIntegration: AppflowIntegrationWorkflowMetrics? = nil) {
+            self.appflowIntegration = appflowIntegration
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case appflowIntegration = "AppflowIntegration"
+        }
+    }
+
+    public struct WorkflowStepItem: AWSDecodableShape {
+        /// Workflow step information specific to APPFLOW_INTEGRATION workflow.
+        public let appflowIntegration: AppflowIntegrationWorkflowStep?
+
+        public init(appflowIntegration: AppflowIntegrationWorkflowStep? = nil) {
+            self.appflowIntegration = appflowIntegration
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case appflowIntegration = "AppflowIntegration"
         }
     }
 

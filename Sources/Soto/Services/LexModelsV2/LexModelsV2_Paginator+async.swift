@@ -199,7 +199,7 @@ extension LexModelsV2 {
         )
     }
 
-    ///  Lists the exports for a bot or bot locale. Exports are kept in the list for 7 days.
+    ///  Lists the exports for a bot, bot locale, or custom vocabulary. Exports are kept in the list for 7 days.
     /// Return PaginatorSequence for operation.
     ///
     /// - Parameters:
@@ -221,7 +221,7 @@ extension LexModelsV2 {
         )
     }
 
-    ///  Lists the imports for a bot or bot locale. Imports are kept in the list for 7 days.
+    ///  Lists the imports for a bot, bot locale, or custom vocabulary. Imports are kept in the list for 7 days.
     /// Return PaginatorSequence for operation.
     ///
     /// - Parameters:

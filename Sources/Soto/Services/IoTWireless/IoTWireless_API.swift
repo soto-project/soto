@@ -19,7 +19,17 @@
 
 /// Service object for interacting with AWS IoTWireless service.
 ///
-/// AWS IoT Wireless API documentation
+/// AWS IoT Wireless provides bi-directional communication between internet-connected wireless
+/// 	        devices and the AWS Cloud. To onboard both LoRaWAN and Sidewalk devices to AWS IoT, use the
+/// 	        IoT Wireless API. These wireless devices use the Low Power Wide Area Networking (LPWAN)
+/// 	        communication protocol to communicate with AWS IoT.
+/// 	        Using the API, you can perform create, read, update, and delete operations for your wireless
+/// 	        devices, gateways, destinations, and profiles. After onboarding your devices, you
+/// 	        can use the API operations to set log levels and monitor your devices with CloudWatch.
+/// 	        You can also use the API operations to create multicast groups and schedule a multicast session for
+/// 	        sending a downlink message to devices in the group. By using Firmware Updates Over-The-Air
+/// 	        (FUOTA) API operations, you can create a FUOTA task and schedule a session to update the firmware
+/// 	        of individual devices or an entire group of devices in a multicast group.
 public struct IoTWireless: AWSService {
     // MARK: Member variables
 
@@ -168,6 +178,11 @@ public struct IoTWireless: AWSService {
     /// Deletes a multicast group if it is not in use by a fuota task.
     public func deleteMulticastGroup(_ input: DeleteMulticastGroupRequest, logger: Logger = AWSClient.loggingDisabled, on eventLoop: EventLoop? = nil) -> EventLoopFuture<DeleteMulticastGroupResponse> {
         return self.client.execute(operation: "DeleteMulticastGroup", path: "/multicast-groups/{Id}", httpMethod: .DELETE, serviceConfig: self.config, input: input, logger: logger, on: eventLoop)
+    }
+
+    ///  The operation to delete queued messages.
+    public func deleteQueuedMessages(_ input: DeleteQueuedMessagesRequest, logger: Logger = AWSClient.loggingDisabled, on eventLoop: EventLoop? = nil) -> EventLoopFuture<DeleteQueuedMessagesResponse> {
+        return self.client.execute(operation: "DeleteQueuedMessages", path: "/wireless-devices/{Id}/data", httpMethod: .DELETE, serviceConfig: self.config, input: input, logger: logger, on: eventLoop)
     }
 
     /// Deletes a service profile.
@@ -358,6 +373,11 @@ public struct IoTWireless: AWSService {
     /// Lists the partner accounts associated with your AWS account.
     public func listPartnerAccounts(_ input: ListPartnerAccountsRequest, logger: Logger = AWSClient.loggingDisabled, on eventLoop: EventLoop? = nil) -> EventLoopFuture<ListPartnerAccountsResponse> {
         return self.client.execute(operation: "ListPartnerAccounts", path: "/partner-accounts", httpMethod: .GET, serviceConfig: self.config, input: input, logger: logger, on: eventLoop)
+    }
+
+    /// The operation to list queued messages.
+    public func listQueuedMessages(_ input: ListQueuedMessagesRequest, logger: Logger = AWSClient.loggingDisabled, on eventLoop: EventLoop? = nil) -> EventLoopFuture<ListQueuedMessagesResponse> {
+        return self.client.execute(operation: "ListQueuedMessages", path: "/wireless-devices/{Id}/data", httpMethod: .GET, serviceConfig: self.config, input: input, logger: logger, on: eventLoop)
     }
 
     /// Lists the service profiles registered to your AWS account.

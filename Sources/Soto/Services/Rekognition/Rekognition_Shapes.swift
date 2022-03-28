@@ -674,7 +674,7 @@ extension Rekognition {
     public struct CreateCollectionResponse: AWSDecodableShape {
         /// Amazon Resource Name (ARN) of the collection. You can use this to manage permissions on your resources.
         public let collectionArn: String?
-        /// Version number of the face detection model associated with the collection you are creating.
+        /// Latest face model being used with the collection. For more information, see Model versioning.
         public let faceModelVersion: String?
         /// HTTP status code indicating the result of the operation.
         public let statusCode: Int?
@@ -1991,13 +1991,16 @@ extension Rekognition {
         public let faceId: String?
         /// Unique identifier that Amazon Rekognition assigns to the input image.
         public let imageId: String?
+        ///  The version of the face detect and storage model that was used when indexing the face vector.
+        public let indexFacesModelVersion: String?
 
-        public init(boundingBox: BoundingBox? = nil, confidence: Float? = nil, externalImageId: String? = nil, faceId: String? = nil, imageId: String? = nil) {
+        public init(boundingBox: BoundingBox? = nil, confidence: Float? = nil, externalImageId: String? = nil, faceId: String? = nil, imageId: String? = nil, indexFacesModelVersion: String? = nil) {
             self.boundingBox = boundingBox
             self.confidence = confidence
             self.externalImageId = externalImageId
             self.faceId = faceId
             self.imageId = imageId
+            self.indexFacesModelVersion = indexFacesModelVersion
         }
 
         private enum CodingKeys: String, CodingKey {
@@ -2006,6 +2009,7 @@ extension Rekognition {
             case externalImageId = "ExternalImageId"
             case faceId = "FaceId"
             case imageId = "ImageId"
+            case indexFacesModelVersion = "IndexFacesModelVersion"
         }
     }
 
@@ -2897,7 +2901,7 @@ extension Rekognition {
     }
 
     public struct IndexFacesResponse: AWSDecodableShape {
-        /// The version number of the face detection model that's associated with the input collection (CollectionId).
+        /// Latest face model being used with the collection. For more information, see Model versioning.
         public let faceModelVersion: String?
         /// An array of faces detected and added to the collection. For more information, see Searching Faces in a Collection in the Amazon Rekognition Developer Guide.
         public let faceRecords: [FaceRecord]?
@@ -3074,7 +3078,7 @@ extension Rekognition {
     public struct ListCollectionsResponse: AWSDecodableShape {
         /// An array of collection IDs.
         public let collectionIds: [String]?
-        /// Version numbers of the face detection models associated with the collections in the array CollectionIds. For example, the value of FaceModelVersions[2] is the version number for the face detection model used by the collection in CollectionId[2].
+        /// Latest face models being used with the corresponding collections in the array. For more information, see Model versioning.  For example, the value of FaceModelVersions[2] is the version number for the face detection model used by the collection in CollectionId[2].
         public let faceModelVersions: [String]?
         /// If the result is truncated, the response provides a NextToken that you can use in the subsequent request to fetch the next set of collection IDs.
         public let nextToken: String?
@@ -3243,7 +3247,7 @@ extension Rekognition {
     }
 
     public struct ListFacesResponse: AWSDecodableShape {
-        /// Version number of the face detection model associated with the input collection (CollectionId).
+        /// Latest face model being used with the collection. For more information, see Model versioning.
         public let faceModelVersion: String?
         /// An array of Face objects.
         public let faces: [Face]?
@@ -3844,7 +3848,7 @@ extension Rekognition {
     public struct SearchFacesByImageResponse: AWSDecodableShape {
         /// An array of faces that match the input face, along with the confidence in the match.
         public let faceMatches: [FaceMatch]?
-        /// Version number of the face detection model associated with the input collection (CollectionId).
+        /// Latest face model being used with the collection. For more information, see Model versioning.
         public let faceModelVersion: String?
         /// The bounding box around the face in the input image that Amazon Rekognition used for the search.
         public let searchedFaceBoundingBox: BoundingBox?
@@ -3905,7 +3909,7 @@ extension Rekognition {
     public struct SearchFacesResponse: AWSDecodableShape {
         /// An array of faces that matched the input face, along with the confidence in the match.
         public let faceMatches: [FaceMatch]?
-        /// Version number of the face detection model associated with the input collection (CollectionId).
+        /// Latest face model being used with the collection. For more information, see Model versioning.
         public let faceModelVersion: String?
         /// ID of the face that was searched for matches in a collection.
         public let searchedFaceId: String?
