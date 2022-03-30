@@ -328,8 +328,10 @@ class S3Tests: XCTestCase {
     }
 
     /// test 100-Complete header forces failed request to quit before uploading everything
-    func testPut100Complete() {
-        guard !TestEnvironment.isUsingLocalstack else { return }
+    func testPut100Complete() throws {
+        // doesnt work with LocalStack
+        try XCTSkipIf(TestEnvironment.isUsingLocalstack)
+
         struct Verify100CompleteMiddleware: AWSServiceMiddleware {
             func chain(request: AWSRequest, context: AWSMiddlewareContext) throws -> AWSRequest {
                 XCTAssertEqual(request.httpHeaders["Expect"].first, "100-continue")
@@ -628,9 +630,9 @@ class S3Tests: XCTestCase {
         XCTAssertNoThrow(try response.wait())
     }
 
-    func testSignedURL() {
+    func testSignedURL() throws {
         // doesnt work with LocalStack
-        guard !TestEnvironment.isUsingLocalstack else { return }
+        try XCTSkipIf(TestEnvironment.isUsingLocalstack)
 
         let name = TestEnvironment.generateResourceName()
         let httpClient = HTTPClient(eventLoopGroupProvider: .createNew)
@@ -668,9 +670,9 @@ class S3Tests: XCTestCase {
         XCTAssertNoThrow(try response.wait())
     }
 
-    func testDualStack() {
+    func testDualStack() throws {
         // doesnt work with LocalStack
-        guard !TestEnvironment.isUsingLocalstack else { return }
+        try XCTSkipIf(TestEnvironment.isUsingLocalstack)
 
         let s3 = Self.s3.with(options: .s3UseDualStackEndpoint)
         let name = TestEnvironment.generateResourceName()
@@ -698,9 +700,9 @@ class S3Tests: XCTestCase {
         XCTAssertNoThrow(try response.wait())
     }
 
-    func testTransferAccelerated() {
+    func testTransferAccelerated() throws {
         // doesnt work with LocalStack
-        guard !TestEnvironment.isUsingLocalstack else { return }
+        try XCTSkipIf(TestEnvironment.isUsingLocalstack)
 
         let s3Accelerated = Self.s3.with(options: .s3UseTransferAcceleratedEndpoint)
         let name = TestEnvironment.generateResourceName()

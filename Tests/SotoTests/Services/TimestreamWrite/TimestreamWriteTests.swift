@@ -76,8 +76,10 @@ class TimestreamWriteTests: XCTestCase {
         return self.ts.deleteDatabase(.init(databaseName: name))
     }
 
-    func testCreateDeleteDatabase() {
-        guard !TestEnvironment.isUsingLocalstack else { return }
+    func testCreateDeleteDatabase() throws {
+        // doesnt work with LocalStack
+        try XCTSkipIf(TestEnvironment.isUsingLocalstack)
+
         let name = TestEnvironment.generateResourceName()
         let response = self.createDatabase(named: name)
             .flatMap { _ in
@@ -86,8 +88,10 @@ class TimestreamWriteTests: XCTestCase {
         XCTAssertNoThrow(try response.wait())
     }
 
-    func testCreateTableAndWrite() {
-        guard !TestEnvironment.isUsingLocalstack else { return }
+    func testCreateTableAndWrite() throws {
+        // doesnt work with LocalStack
+        try XCTSkipIf(TestEnvironment.isUsingLocalstack)
+
         let name = TestEnvironment.generateResourceName()
         let tableName = "\(name)-table"
         let response = self.createDatabase(named: name)

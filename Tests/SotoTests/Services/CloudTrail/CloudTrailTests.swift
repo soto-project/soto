@@ -38,9 +38,10 @@ class CloudTrailTests: XCTestCase {
         XCTAssertNoThrow(try self.client.syncShutdown())
     }
 
-    func testLookupEvents() {
-        // This doesnt work with LocalStack
-        guard !TestEnvironment.isUsingLocalstack else { return }
+    func testLookupEvents() throws {
+        // doesnt work with LocalStack
+        try XCTSkipIf(TestEnvironment.isUsingLocalstack)
+
         let from = Date(timeIntervalSinceNow: -1 * 24 * 60 * 60)
         let to = Date()
         let request = CloudTrail.LookupEventsRequest(endTime: to, lookupAttributes: nil, startTime: from)

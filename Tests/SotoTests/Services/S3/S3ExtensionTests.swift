@@ -343,9 +343,10 @@ class S3ExtensionTests: XCTestCase {
         XCTAssertEqual(values3?.versionId, "5")
     }
 
-    func testSelectObjectContent() {
-        // This doesnt work with LocalStack
-        guard !TestEnvironment.isUsingLocalstack else { return }
+    func testSelectObjectContent() throws {
+        // doesnt work with LocalStack
+        try XCTSkipIf(TestEnvironment.isUsingLocalstack)
+
         let s3 = Self.s3.with(timeout: .minutes(2))
         let strings = "Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat. Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur. Excepteur sint occaecat cupidatat non proident, sunt in culpa qui officia deserunt mollit anim id est laborum.".split(separator: " ")
         let file = strings.reduce("") { $0 + "\($1), \($1.count), \($0.count + $1.count)\n" }

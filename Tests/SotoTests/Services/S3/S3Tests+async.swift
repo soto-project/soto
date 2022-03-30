@@ -405,7 +405,7 @@ class S3AsyncTests: XCTestCase {
 
     func testSignedURLAsync() async throws {
         // doesnt work with LocalStack
-        guard !TestEnvironment.isUsingLocalstack else { return }
+        try XCTSkipIf(TestEnvironment.isUsingLocalstack)
 
         let name = TestEnvironment.generateResourceName()
         let httpClient = HTTPClient(eventLoopGroupProvider: .createNew)
@@ -433,7 +433,7 @@ class S3AsyncTests: XCTestCase {
 
     func testDualStackAsync() async throws {
         // doesnt work with LocalStack
-        guard !TestEnvironment.isUsingLocalstack else { return }
+        try XCTSkipIf(TestEnvironment.isUsingLocalstack)
 
         let s3 = Self.s3.with(options: .s3UseDualStackEndpoint)
         let name = TestEnvironment.generateResourceName()
@@ -457,7 +457,7 @@ class S3AsyncTests: XCTestCase {
 
     func testTransferAcceleratedAsync() async throws {
         // doesnt work with LocalStack
-        guard !TestEnvironment.isUsingLocalstack else { return }
+        try XCTSkipIf(TestEnvironment.isUsingLocalstack)
 
         let s3Accelerated = Self.s3.with(options: .s3UseTransferAcceleratedEndpoint)
         let name = TestEnvironment.generateResourceName()
@@ -495,7 +495,7 @@ class S3AsyncTests: XCTestCase {
 
     func testErrorAsync() async throws {
         // get wrong error with LocalStack
-        guard !TestEnvironment.isUsingLocalstack else { return }
+        try XCTSkipIf(TestEnvironment.isUsingLocalstack)
 
         do {
             _ = try await Self.s3.deleteBucket(.init(bucket: "nosuch-bucket-name3458bjhdfgdf"))
@@ -528,7 +528,9 @@ class S3AsyncTests: XCTestCase {
     }
 
     func testMultiPartDownload() async throws {
-        guard !TestEnvironment.isUsingLocalstack else { return }
+        // doesnt work with LocalStack
+        try XCTSkipIf(TestEnvironment.isUsingLocalstack)
+
         let s3 = Self.s3.with(timeout: .minutes(2))
         let data = S3Tests.createRandomBuffer(size: 10 * 1024 * 1028)
         let name = TestEnvironment.generateResourceName()
