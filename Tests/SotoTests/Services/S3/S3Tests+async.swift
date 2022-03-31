@@ -99,36 +99,30 @@ class S3AsyncTests: XCTestCase {
     }
 
     /// Runs test: construct bucket with supplied name, runs process and deletes bucket
-    func s3Test(bucket name: String, s3: S3 = S3AsyncTests.s3, _ process: @escaping () async throws -> Void) {
-        XCTRunAsyncAndBlock {
-            do {
-                try await Self.createBucket(name: name, s3: s3)
-                do {
-                    try await process()
-                } catch {
-                    XCTFail("\(error)")
-                }
-                try await Self.deleteBucket(name: name, s3: s3)
-            } catch {
-                XCTFail("\(error)")
-            }
+    func s3Test(bucket name: String, s3: S3 = S3AsyncTests.s3, _ process: @escaping () async throws -> Void) async throws {
+        try await Self.createBucket(name: name, s3: s3)
+        do {
+            try await process()
+        } catch {
+            XCTFail("\(error)")
         }
+        try await Self.deleteBucket(name: name, s3: s3)
     }
 
     // MARK: TESTS
 
-    func testHeadBucketAsync() throws {
+    func testHeadBucketAsync() async throws {
         let name = TestEnvironment.generateResourceName()
-        self.s3Test(bucket: name) {
+        try await self.s3Test(bucket: name) {
             try await Self.s3.headBucket(.init(bucket: name))
         }
     }
 
-    func testPutGetObjectAsync() {
+    func testPutGetObjectAsync() async throws {
         let name = TestEnvironment.generateResourceName()
         let filename = "testfile.txt"
         let contents = "testing S3.PutObject and S3.GetObject"
-        self.s3Test(bucket: name) {
+        try await self.s3Test(bucket: name) {
             let putRequest = S3.PutObjectRequest(
                 acl: .publicRead,
                 body: .string(contents),
@@ -144,11 +138,11 @@ class S3AsyncTests: XCTestCase {
         }
     }
 
-    func testPutGetObjectWithSpecialNameAsync() {
+    func testPutGetObjectWithSpecialNameAsync() async throws {
         let name = TestEnvironment.generateResourceName()
         let filename = "test $filé+!@£$%2F%^&*()_=-[]{}\\|';:\",./?><~`.txt"
         let contents = "testing S3.PutObject and S3.GetObject"
-        self.s3Test(bucket: name) {
+        try await self.s3Test(bucket: name) {
             let putRequest = S3.PutObjectRequest(
                 acl: .publicRead,
                 body: .string(contents),
@@ -164,12 +158,12 @@ class S3AsyncTests: XCTestCase {
         }
     }
 
-    func testCopyAsync() {
+    func testCopyAsync() async throws {
         let name = TestEnvironment.generateResourceName()
         let keyName = "file1"
         let newKeyName = "file2"
         let contents = "testing S3.PutObject and S3.GetObject"
-        self.s3Test(bucket: name) {
+        try await self.s3Test(bucket: name) {
             _ = try await Self.s3.putObject(.init(body: .string(contents), bucket: name, key: keyName))
             _ = try await Self.s3.copyObject(.init(bucket: name, copySource: "\(name)/\(keyName)", key: newKeyName))
             let getResponse = try await Self.s3.getObject(.init(bucket: name, key: newKeyName))
@@ -178,11 +172,11 @@ class S3AsyncTests: XCTestCase {
     }
 
     /// test uploaded objects are returned in ListObjects
-    func testListObjectsAsync() {
+    func testListObjectsAsync() async throws {
         let name = TestEnvironment.generateResourceName()
         let contents = "testing S3.ListObjectsV2"
 
-        self.s3Test(bucket: name) {
+        try await self.s3Test(bucket: name) {
             let putResponse = try await Self.s3.putObject(.init(body: .string(contents), bucket: name, key: name))
             let eTag = try XCTUnwrap(putResponse.eTag)
             let listResponse = try await Self.s3.listObjectsV2(.init(bucket: name))
@@ -193,7 +187,7 @@ class S3AsyncTests: XCTestCase {
         }
     }
 
-    func testStreamPutObjectAsync() {
+    func testStreamPutObjectAsync() async throws {
         let s3 = Self.s3.with(timeout: .minutes(2))
         let name = TestEnvironment.generateResourceName()
         let dataSize = 240 * 1024
@@ -202,7 +196,7 @@ class S3AsyncTests: XCTestCase {
         var byteBuffer = ByteBufferAllocator().buffer(capacity: dataSize)
         byteBuffer.writeBytes(data)
 
-        self.s3Test(bucket: name) {
+        try await self.s3Test(bucket: name) {
             let payload = AWSPayload.stream(size: dataSize) { eventLoop in
                 let size = min(blockSize, byteBuffer.readableBytes)
                 if size == 0 {
@@ -219,10 +213,10 @@ class S3AsyncTests: XCTestCase {
     }
 
     /// test lifecycle rules are uploaded and downloaded ok
-    func testLifecycleRuleAsync() {
+    func testLifecycleRuleAsync() async throws {
         let name = TestEnvironment.generateResourceName()
 
-        self.s3Test(bucket: name) {
+        try await self.s3Test(bucket: name) {
             // set lifecycle rules
             let incompleteMultipartUploads = S3.AbortIncompleteMultipartUpload(daysAfterInitiation: 7) // clear incomplete multipart uploads after 7 days
             let filter = S3.LifecycleRuleFilter.prefix("") // everything
@@ -244,10 +238,10 @@ class S3AsyncTests: XCTestCase {
         }
     }
 
-    func testMultipleUploadAsync() {
+    func testMultipleUploadAsync() async throws {
         let name = TestEnvironment.generateResourceName()
         let s3 = Self.s3.with(timeout: .minutes(2))
-        self.s3Test(bucket: name) {
+        try await self.s3Test(bucket: name) {
             await withThrowingTaskGroup(of: String?.self) { group in
                 for index in 1...16 {
                     group.addTask {
@@ -264,11 +258,11 @@ class S3AsyncTests: XCTestCase {
     }
 
     /// testing decoding of values in xml attributes
-    func testGetAclRequestPayerAsync() {
+    func testGetAclRequestPayerAsync() async throws {
         let name = TestEnvironment.generateResourceName()
         let contents = "testing xml attributes header"
 
-        self.s3Test(bucket: name) {
+        try await self.s3Test(bucket: name) {
             let putRequest = S3.PutObjectRequest(
                 body: .string(contents),
                 bucket: name,
@@ -279,9 +273,9 @@ class S3AsyncTests: XCTestCase {
         }
     }
 
-    func testListPaginatorAsync() {
+    func testListPaginatorAsync() async throws {
         let name = TestEnvironment.generateResourceName()
-        self.s3Test(bucket: name) {
+        try await self.s3Test(bucket: name) {
             await withThrowingTaskGroup(of: String?.self) { group in
                 for index in 1...16 {
                     let body = "testMultipleUpload - " + index.description
@@ -301,7 +295,7 @@ class S3AsyncTests: XCTestCase {
         }
     }
 
-    func testStreamRequestObjectAsync() {
+    func testStreamRequestObjectAsync() async throws {
         // testing eventLoop so need to use MultiThreadedEventLoopGroup
         let elg = MultiThreadedEventLoopGroup(numberOfThreads: 3)
         let httpClient = HTTPClient(eventLoopGroupProvider: .shared(elg))
@@ -338,7 +332,7 @@ class S3AsyncTests: XCTestCase {
         }
         let name = TestEnvironment.generateResourceName()
 
-        self.s3Test(bucket: name, s3: s3) {
+        try await self.s3Test(bucket: name, s3: s3) {
             let putRequest = S3.PutObjectRequest(body: payload, bucket: name, key: "tempfile")
             _ = try await s3.putObject(putRequest, on: runOnEventLoop)
             let getRequest = S3.GetObjectRequest(bucket: name, key: "tempfile")
@@ -347,7 +341,7 @@ class S3AsyncTests: XCTestCase {
         }
     }
 
-    func testStreamResponseObjectAsync() {
+    func testStreamResponseObjectAsync() async throws {
         // testing eventLoop so need to use MultiThreadedEventLoopGroup
         let elg = MultiThreadedEventLoopGroup(numberOfThreads: 3)
         let httpClient = HTTPClient(eventLoopGroupProvider: .shared(elg))
@@ -378,7 +372,7 @@ class S3AsyncTests: XCTestCase {
         let runOnEventLoop = s3.client.eventLoopGroup.next()
         var byteBufferCollate = ByteBufferAllocator().buffer(capacity: dataSize)
 
-        self.s3Test(bucket: name, s3: s3) {
+        try await self.s3Test(bucket: name, s3: s3) {
             let putRequest = S3.PutObjectRequest(body: .data(data), bucket: name, key: "tempfile")
             _ = try await s3.putObject(putRequest, on: runOnEventLoop)
             let getRequest = S3.GetObjectRequest(bucket: name, key: "tempfile")
@@ -393,10 +387,10 @@ class S3AsyncTests: XCTestCase {
     }
 
     /// testing Date format in response headers
-    func testMultipartAbortDateAsync() {
+    func testMultipartAbortDateAsync() async throws {
         let name = TestEnvironment.generateResourceName()
 
-        self.s3Test(bucket: name) {
+        try await self.s3Test(bucket: name) {
             let rule = S3.LifecycleRule(abortIncompleteMultipartUpload: .init(daysAfterInitiation: 7), filter: .prefix(""), id: "multipart-upload", status: .enabled)
             let request = S3.PutBucketLifecycleConfigurationRequest(
                 bucket: name,
@@ -409,16 +403,16 @@ class S3AsyncTests: XCTestCase {
         }
     }
 
-    func testSignedURLAsync() {
+    func testSignedURLAsync() async throws {
         // doesnt work with LocalStack
-        guard !TestEnvironment.isUsingLocalstack else { return }
+        try XCTSkipIf(TestEnvironment.isUsingLocalstack)
 
         let name = TestEnvironment.generateResourceName()
         let httpClient = HTTPClient(eventLoopGroupProvider: .createNew)
         defer { XCTAssertNoThrow(try httpClient.syncShutdown()) }
         let s3Url = URL(string: "https://\(name).s3.us-east-1.amazonaws.com/\(name)!=%25+/*()_.txt")!
 
-        self.s3Test(bucket: name) {
+        try await self.s3Test(bucket: name) {
             let putURL = try await Self.s3.signURL(url: s3Url, httpMethod: .PUT, expires: .minutes(5)).get()
             let buffer = ByteBufferAllocator().buffer(string: "Testing upload via signed URL")
 
@@ -437,15 +431,15 @@ class S3AsyncTests: XCTestCase {
         }
     }
 
-    func testDualStackAsync() {
+    func testDualStackAsync() async throws {
         // doesnt work with LocalStack
-        guard !TestEnvironment.isUsingLocalstack else { return }
+        try XCTSkipIf(TestEnvironment.isUsingLocalstack)
 
         let s3 = Self.s3.with(options: .s3UseDualStackEndpoint)
         let name = TestEnvironment.generateResourceName()
         let filename = "testfile.txt"
         let contents = "testing S3.PutObject and S3.GetObject"
-        self.s3Test(bucket: name, s3: s3) {
+        try await self.s3Test(bucket: name, s3: s3) {
             let putRequest = S3.PutObjectRequest(
                 acl: .publicRead,
                 body: .string(contents),
@@ -461,15 +455,15 @@ class S3AsyncTests: XCTestCase {
         }
     }
 
-    func testTransferAcceleratedAsync() {
+    func testTransferAcceleratedAsync() async throws {
         // doesnt work with LocalStack
-        guard !TestEnvironment.isUsingLocalstack else { return }
+        try XCTSkipIf(TestEnvironment.isUsingLocalstack)
 
         let s3Accelerated = Self.s3.with(options: .s3UseTransferAcceleratedEndpoint)
         let name = TestEnvironment.generateResourceName()
         let filename = "testfile.txt"
         let contents = "testing S3.PutObject and S3.GetObject"
-        self.s3Test(bucket: name) {
+        try await self.s3Test(bucket: name) {
             let accelerationRequest = S3.PutBucketAccelerateConfigurationRequest(accelerateConfiguration: .init(status: .enabled), bucket: name)
             _ = try await Self.s3.putBucketAccelerateConfiguration(accelerationRequest)
             let putRequest = S3.PutObjectRequest(
@@ -487,11 +481,11 @@ class S3AsyncTests: XCTestCase {
         }
     }
 
-    func testWaitersAsync() {
+    func testWaitersAsync() async throws {
         let name = TestEnvironment.generateResourceName()
         let filename = "testfile.txt"
         let contents = "testing S3.PutObject and S3.GetObject"
-        self.s3Test(bucket: name) {
+        try await self.s3Test(bucket: name) {
             _ = try await Self.s3.putObject(.init(body: .string(contents), bucket: name, key: filename))
             try await Self.s3.waitUntilObjectExists(.init(bucket: name, key: filename))
             _ = try await Self.s3.deleteObject(.init(bucket: name, key: filename))
@@ -499,26 +493,24 @@ class S3AsyncTests: XCTestCase {
         }
     }
 
-    func testErrorAsync() {
+    func testErrorAsync() async throws {
         // get wrong error with LocalStack
-        guard !TestEnvironment.isUsingLocalstack else { return }
+        try XCTSkipIf(TestEnvironment.isUsingLocalstack)
 
-        XCTRunAsyncAndBlock {
-            do {
-                _ = try await Self.s3.deleteBucket(.init(bucket: "nosuch-bucket-name3458bjhdfgdf"))
-            } catch {
-                switch error {
-                case let error as S3ErrorType where error == .noSuchBucket:
-                    XCTAssertNotNil(error.message)
-                default:
-                    XCTFail("Wrong error: \(error)")
-                }
+        do {
+            _ = try await Self.s3.deleteBucket(.init(bucket: "nosuch-bucket-name3458bjhdfgdf"))
+        } catch {
+            switch error {
+            case let error as S3ErrorType where error == .noSuchBucket:
+                XCTAssertNotNil(error.message)
+            default:
+                XCTFail("Wrong error: \(error)")
             }
         }
     }
 
     /// test S3 control host is prefixed with account id
-    func testS3ControlPrefix() throws {
+    func testS3ControlPrefix() async throws {
         // don't actually want to make this API call so once I've checked the host is correct
         // I will throw an error in the request middleware
         struct CancelError: Error {}
@@ -528,23 +520,23 @@ class S3AsyncTests: XCTestCase {
                 throw CancelError()
             }
         }
-        XCTRunAsyncAndBlock {
-            let s3Control = S3Control(client: Self.client, region: .euwest1).with(middlewares: [CheckHostMiddleware()])
-            do {
-                let request = S3Control.ListJobsRequest(accountId: "123456780123")
-                _ = try await s3Control.listJobs(request)
-            } catch is CancelError {}
-        }
+        let s3Control = S3Control(client: Self.client, region: .euwest1).with(middlewares: [CheckHostMiddleware()])
+        do {
+            let request = S3Control.ListJobsRequest(accountId: "123456780123")
+            _ = try await s3Control.listJobs(request)
+        } catch is CancelError {}
     }
 
-    func testMultiPartDownload() throws {
-        guard !TestEnvironment.isUsingLocalstack else { return }
+    func testMultiPartDownload() async throws {
+        // doesnt work with LocalStack
+        try XCTSkipIf(TestEnvironment.isUsingLocalstack)
+
         let s3 = Self.s3.with(timeout: .minutes(2))
         let data = S3Tests.createRandomBuffer(size: 10 * 1024 * 1028)
         let name = TestEnvironment.generateResourceName()
         let filename = "S3MultipartDownloadTest"
 
-        self.s3Test(bucket: name) {
+        try await self.s3Test(bucket: name) {
             var buffer = ByteBuffer(data: data)
             let putRequest = S3.CreateMultipartUploadRequest(bucket: name, key: filename)
             _ = try await s3.multipartUploadFromStream(putRequest, logger: TestEnvironment.logger) { _ -> AWSPayload in
@@ -563,7 +555,7 @@ class S3AsyncTests: XCTestCase {
         }
     }
 
-    func testMultiPartUpload() {
+    func testMultiPartUpload() async throws {
         let s3 = Self.s3.with(timeout: .minutes(2))
         let data = S3Tests.createRandomBuffer(size: 11 * 1024 * 1024)
         let name = TestEnvironment.generateResourceName()
@@ -574,7 +566,7 @@ class S3AsyncTests: XCTestCase {
             XCTAssertNoThrow(try FileManager.default.removeItem(atPath: filename))
         }
 
-        self.s3Test(bucket: name) {
+        try await self.s3Test(bucket: name) {
             let request = S3.CreateMultipartUploadRequest(
                 bucket: name,
                 key: name
@@ -586,7 +578,7 @@ class S3AsyncTests: XCTestCase {
         }
     }
 
-    func testResumeMultiPartUpload() {
+    func testResumeMultiPartUpload() async throws {
         struct CancelError: Error {}
         let s3 = Self.s3.with(timeout: .minutes(2))
         let data = S3Tests.createRandomBuffer(size: 11 * 1024 * 1024)
@@ -598,7 +590,7 @@ class S3AsyncTests: XCTestCase {
             XCTAssertNoThrow(try FileManager.default.removeItem(atPath: filename))
         }
 
-        self.s3Test(bucket: name) {
+        try await self.s3Test(bucket: name) {
             var resumeRequest: S3.ResumeMultipartUploadRequest
             do {
                 let request = S3.CreateMultipartUploadRequest(bucket: name, key: name)
@@ -630,7 +622,7 @@ class S3AsyncTests: XCTestCase {
         }
     }
 
-    func testMultipartCopy() {
+    func testMultipartCopy() async throws {
         let s3 = Self.s3.with(timeout: .minutes(2))
         let data = S3Tests.createRandomBuffer(size: 6 * 1024 * 1024)
         let name = TestEnvironment.generateResourceName()
@@ -643,13 +635,13 @@ class S3AsyncTests: XCTestCase {
             XCTAssertNoThrow(try FileManager.default.removeItem(atPath: filename))
         }
 
-        self.s3Test(bucket: name) {
+        try await self.s3Test(bucket: name) {
             let s3Euwest2 = S3(
                 client: Self.client,
                 region: .useast1,
                 endpoint: TestEnvironment.getEndPoint(environment: "LOCALSTACK_ENDPOINT")
             )
-            self.s3Test(bucket: name2, s3: s3Euwest2) {
+            try await self.s3Test(bucket: name2, s3: s3Euwest2) {
                 // upload to bucket
                 let uploadRequest = S3.CreateMultipartUploadRequest(
                     bucket: name,

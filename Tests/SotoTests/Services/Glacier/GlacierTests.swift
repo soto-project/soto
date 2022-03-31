@@ -87,9 +87,10 @@ class GlacierTests: XCTestCase {
         XCTAssertNoThrow(try response.wait())
     }
 
-    func testError() {
-        // This doesnt work with LocalStack
-        guard !TestEnvironment.isUsingLocalstack else { return }
+    func testError() throws {
+        // doesnt work with LocalStack
+        try XCTSkipIf(TestEnvironment.isUsingLocalstack)
+
         let job = Glacier.JobParameters(description: "Inventory", format: "CSV", type: "inventory-retrieval")
         let inventoryJobInput = Glacier.InitiateJobInput(accountId: "-", jobParameters: job, vaultName: "aws-test-vault-doesnt-exist")
         let response = Self.glacier.initiateJob(inventoryJobInput)

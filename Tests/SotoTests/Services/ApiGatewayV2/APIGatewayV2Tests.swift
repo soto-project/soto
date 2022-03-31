@@ -94,8 +94,10 @@ class APIGatewayV2Tests: XCTestCase {
     // MARK: TESTS
 
     /// tests whether created date is loading correctly
-    func testGetApis() {
-        guard !TestEnvironment.isUsingLocalstack else { return }
+    func testGetApis() throws {
+        // doesnt work with LocalStack
+        try XCTSkipIf(TestEnvironment.isUsingLocalstack)
+
         // get date from 1 minute before now.
         let date = Date(timeIntervalSinceNow: -60.0)
         let response = self.testRestApi { id in

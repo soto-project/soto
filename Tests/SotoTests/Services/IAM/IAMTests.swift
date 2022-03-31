@@ -195,9 +195,10 @@ class IAMTests: XCTestCase {
         XCTAssertNoThrow(try response.wait())
     }
 
-    func testError() {
-        // This doesnt work with LocalStack
-        guard !TestEnvironment.isUsingLocalstack else { return }
+    func testError() throws {
+        // doesnt work with LocalStack
+        try XCTSkipIf(TestEnvironment.isUsingLocalstack)
+
         let response = Self.iam.getRole(.init(roleName: "_invalid-role-name"), logger: TestEnvironment.logger)
         XCTAssertThrowsError(try response.wait()) { error in
             switch error {

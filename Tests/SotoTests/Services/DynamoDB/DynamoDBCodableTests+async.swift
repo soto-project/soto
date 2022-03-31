@@ -55,7 +55,7 @@ final class DynamoDBCodableAsyncTests: XCTestCase {
 
     // MARK: Tests
 
-    func testPutGetAsync() {
+    func testPutGetAsync() async throws {
         struct TestObject: Codable, Equatable {
             let id: String
             let name: String
@@ -68,25 +68,23 @@ final class DynamoDBCodableAsyncTests: XCTestCase {
         let test = TestObject(id: id, name: "John", surname: "Smith", age: 32, address: "1 Park Lane", pets: ["zebra", "cat", "dog", "cat"])
 
         let tableName = TestEnvironment.generateResourceName()
-        XCTRunAsyncAndBlock {
-            do {
-                try await self.createTable(name: tableName)
+        do {
+            try await self.createTable(name: tableName)
 
-                let putRequest = DynamoDB.PutItemCodableInput(item: test, tableName: tableName)
-                _ = try await Self.dynamoDB.putItem(putRequest, logger: TestEnvironment.logger)
+            let putRequest = DynamoDB.PutItemCodableInput(item: test, tableName: tableName)
+            _ = try await Self.dynamoDB.putItem(putRequest, logger: TestEnvironment.logger)
 
-                let getRequest = DynamoDB.GetItemInput(consistentRead: true, key: ["id": .s(id)], tableName: tableName)
-                let response = try await Self.dynamoDB.getItem(getRequest, type: TestObject.self, logger: TestEnvironment.logger)
+            let getRequest = DynamoDB.GetItemInput(consistentRead: true, key: ["id": .s(id)], tableName: tableName)
+            let response = try await Self.dynamoDB.getItem(getRequest, type: TestObject.self, logger: TestEnvironment.logger)
 
-                XCTAssertEqual(test, response.item)
-            } catch {
-                XCTFail("\(error)")
-            }
-            try await self.deleteTable(name: tableName)
+            XCTAssertEqual(test, response.item)
+        } catch {
+            XCTFail("\(error)")
         }
+        try await self.deleteTable(name: tableName)
     }
 
-    func testUpdateAsync() {
+    func testUpdateAsync() async throws {
         struct TestObject: Codable, Equatable {
             let id: String
             let name: String
@@ -105,32 +103,30 @@ final class DynamoDBCodableAsyncTests: XCTestCase {
         let nameUpdate = NameUpdate(id: id, name: "David", surname: "Jones")
 
         let tableName = TestEnvironment.generateResourceName()
-        XCTRunAsyncAndBlock {
-            do {
-                _ = try await self.createTable(name: tableName)
+        do {
+            _ = try await self.createTable(name: tableName)
 
-                let putRequest = DynamoDB.PutItemCodableInput(item: test, tableName: tableName)
-                _ = try await Self.dynamoDB.putItem(putRequest, logger: TestEnvironment.logger)
+            let putRequest = DynamoDB.PutItemCodableInput(item: test, tableName: tableName)
+            _ = try await Self.dynamoDB.putItem(putRequest, logger: TestEnvironment.logger)
 
-                let updateRequest = DynamoDB.UpdateItemCodableInput(key: ["id"], tableName: tableName, updateItem: nameUpdate)
-                _ = try await Self.dynamoDB.updateItem(updateRequest, logger: TestEnvironment.logger)
+            let updateRequest = DynamoDB.UpdateItemCodableInput(key: ["id"], tableName: tableName, updateItem: nameUpdate)
+            _ = try await Self.dynamoDB.updateItem(updateRequest, logger: TestEnvironment.logger)
 
-                let getRequest = DynamoDB.GetItemInput(consistentRead: true, key: ["id": .s(id)], tableName: tableName)
-                let response = try await Self.dynamoDB.getItem(getRequest, type: TestObject.self, logger: TestEnvironment.logger)
+            let getRequest = DynamoDB.GetItemInput(consistentRead: true, key: ["id": .s(id)], tableName: tableName)
+            let response = try await Self.dynamoDB.getItem(getRequest, type: TestObject.self, logger: TestEnvironment.logger)
 
-                XCTAssertEqual("David", response.item?.name)
-                XCTAssertEqual("Jones", response.item?.surname)
-                XCTAssertEqual(32, response.item?.age)
-                XCTAssertEqual("1 Park Lane", response.item?.address)
-                XCTAssertEqual(["cat", "dog"], response.item?.pets)
-            } catch {
-                XCTFail("\(error)")
-            }
-            try await self.deleteTable(name: tableName)
+            XCTAssertEqual("David", response.item?.name)
+            XCTAssertEqual("Jones", response.item?.surname)
+            XCTAssertEqual(32, response.item?.age)
+            XCTAssertEqual("1 Park Lane", response.item?.address)
+            XCTAssertEqual(["cat", "dog"], response.item?.pets)
+        } catch {
+            XCTFail("\(error)")
         }
+        try await self.deleteTable(name: tableName)
     }
 
-    func testQueryPaginatorAsync() {
+    func testQueryPaginatorAsync() async throws {
         struct TestObject: Codable, Equatable {
             let id: String
             let version: Int
@@ -146,44 +142,42 @@ final class DynamoDBCodableAsyncTests: XCTestCase {
 
         var results: [TestObject] = []
         let tableName = TestEnvironment.generateResourceName()
-        XCTRunAsyncAndBlock {
-            do {
-                _ = try await self.createTable(
-                    name: tableName,
-                    attributeDefinitions: [.init(attributeName: "id", attributeType: .s), .init(attributeName: "version", attributeType: .n)],
-                    keySchema: [.init(attributeName: "id", keyType: .hash), .init(attributeName: "version", keyType: .range)]
-                )
+        do {
+            _ = try await self.createTable(
+                name: tableName,
+                attributeDefinitions: [.init(attributeName: "id", attributeType: .s), .init(attributeName: "version", attributeType: .n)],
+                keySchema: [.init(attributeName: "id", keyType: .hash), .init(attributeName: "version", keyType: .range)]
+            )
 
-                try await withThrowingTaskGroup(of: Void.self) { group in
-                    testItems.forEach { item in
-                        group.addTask {
-                            _ = try await Self.dynamoDB.putItem(.init(item: item, tableName: tableName), logger: TestEnvironment.logger)
-                        }
+            try await withThrowingTaskGroup(of: Void.self) { group in
+                testItems.forEach { item in
+                    group.addTask {
+                        _ = try await Self.dynamoDB.putItem(.init(item: item, tableName: tableName), logger: TestEnvironment.logger)
                     }
-                    while let _ = try await group.next() {}
                 }
-
-                let queryRequest = DynamoDB.QueryInput(
-                    consistentRead: true,
-                    expressionAttributeValues: [":id": .s("test"), ":version": .n("2")],
-                    keyConditionExpression: "id = :id and version >= :version",
-                    limit: 3,
-                    tableName: tableName
-                )
-                let paginator = Self.dynamoDB.queryPaginator(queryRequest, type: TestObject.self, logger: TestEnvironment.logger)
-                for try await response in paginator {
-                    results.append(contentsOf: response.items ?? [])
-                }
-
-                XCTAssertEqual(testItems[1], results[0])
-                XCTAssertEqual(testItems[2], results[1])
-                XCTAssertEqual(testItems[3], results[2])
-                XCTAssertEqual(testItems[4], results[3])
-            } catch {
-                XCTFail("\(error)")
+                while let _ = try await group.next() {}
             }
-            try await self.deleteTable(name: tableName)
+
+            let queryRequest = DynamoDB.QueryInput(
+                consistentRead: true,
+                expressionAttributeValues: [":id": .s("test"), ":version": .n("2")],
+                keyConditionExpression: "id = :id and version >= :version",
+                limit: 3,
+                tableName: tableName
+            )
+            let paginator = Self.dynamoDB.queryPaginator(queryRequest, type: TestObject.self, logger: TestEnvironment.logger)
+            for try await response in paginator {
+                results.append(contentsOf: response.items ?? [])
+            }
+
+            XCTAssertEqual(testItems[1], results[0])
+            XCTAssertEqual(testItems[2], results[1])
+            XCTAssertEqual(testItems[3], results[2])
+            XCTAssertEqual(testItems[4], results[3])
+        } catch {
+            XCTFail("\(error)")
         }
+        try await self.deleteTable(name: tableName)
     }
 }
 
