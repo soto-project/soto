@@ -87,6 +87,10 @@ public struct S3RequestMiddleware: AWSServiceMiddleware {
                 urlPath = paths.joined(separator: "/")
                 urlHost = host
             }
+            // add trailing "/" back if it was present
+            if request.url.pathWithSlash.hasSuffix("/") {
+                urlPath += "/"
+            }
             // add percent encoding back into path as converting from URL to String has removed it
             let percentEncodedUrlPath = Self.urlEncodePath(urlPath)
             var urlString = "\(request.url.scheme ?? "https")://\(urlHost)/\(percentEncodedUrlPath)"
