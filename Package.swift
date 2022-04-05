@@ -568,7 +568,7 @@ let package = Package(
         .target(name: "SotoRoute53RecoveryControlConfig", dependencies: [.product(name: "SotoCore", package: "soto-core")], path: "./Sources/Soto/Services/Route53RecoveryControlConfig"),
         .target(name: "SotoRoute53RecoveryReadiness", dependencies: [.product(name: "SotoCore", package: "soto-core")], path: "./Sources/Soto/Services/Route53RecoveryReadiness"),
         .target(name: "SotoRoute53Resolver", dependencies: [.product(name: "SotoCore", package: "soto-core")], path: "./Sources/Soto/Services/Route53Resolver"),
-        .target(name: "SotoS3", dependencies: [.product(name: "SotoCore", package: "soto-core"), .byName(name: "CSotoZlib")], path: "./Sources/Soto/", sources: ["Services/S3", "Extensions/S3"]),
+        .target(name: "SotoS3", dependencies: [.product(name: "SotoCore", package: "soto-core")], path: "./Sources/Soto/", sources: ["Services/S3", "Extensions/S3"]),
         .target(name: "SotoS3Control", dependencies: [.product(name: "SotoCore", package: "soto-core")], path: "./Sources/Soto/Services/S3Control"),
         .target(name: "SotoS3Outposts", dependencies: [.product(name: "SotoCore", package: "soto-core")], path: "./Sources/Soto/Services/S3Outposts"),
         .target(name: "SotoSES", dependencies: [.product(name: "SotoCore", package: "soto-core")], path: "./Sources/Soto/Services/SES"),
@@ -626,7 +626,6 @@ let package = Package(
         .target(name: "SotoWorkSpaces", dependencies: [.product(name: "SotoCore", package: "soto-core")], path: "./Sources/Soto/Services/WorkSpaces"),
         .target(name: "SotoWorkSpacesWeb", dependencies: [.product(name: "SotoCore", package: "soto-core")], path: "./Sources/Soto/Services/WorkSpacesWeb"),
         .target(name: "SotoXRay", dependencies: [.product(name: "SotoCore", package: "soto-core")], path: "./Sources/Soto/Services/XRay"),
-        .target(name: "CSotoZlib", linkerSettings: [.linkedLibrary("z")]),
 
         .testTarget(
             name: "SotoTests",

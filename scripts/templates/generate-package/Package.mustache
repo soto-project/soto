@@ -36,7 +36,6 @@ let package = Package(
         .target(name: "Soto{{name}}", dependencies: [{{#dependencies}}{{.}}{{^last()}}, {{/last()}}{{/dependencies}}], path: "./Sources/Soto/Services/{{name}}"),
 {{/hasExtension}}
 {{/targets}}
-        .target(name: "CSotoZlib", linkerSettings: [.linkedLibrary("z")]),
 
         .testTarget(
             name: "SotoTests",

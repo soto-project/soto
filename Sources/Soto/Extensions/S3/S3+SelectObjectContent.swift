@@ -12,7 +12,6 @@
 //
 //===----------------------------------------------------------------------===//
 
-import CSotoZlib
 import Foundation
 import NIOCore
 import SotoCore
@@ -55,8 +54,7 @@ extension S3.SelectObjectContentEventStream {
         guard var preludeBuffer = byteBuffer.getSlice(at: byteBuffer.readerIndex, length: 8) else { return nil }
         guard let preludeCRC: UInt32 = byteBuffer.getInteger(at: byteBuffer.readerIndex + 8) else { return nil }
         // verify crc
-        let preludeBufferView = ByteBufferView(preludeBuffer)
-        let calculatedPreludeCRC = preludeBufferView.withContiguousStorageIfAvailable { bytes in crc32(0, bytes.baseAddress, uInt(bytes.count)) }
+        let calculatedPreludeCRC = soto_crc32(0, bytes: ByteBufferView(preludeBuffer))
         guard UInt(preludeCRC) == calculatedPreludeCRC else { throw S3SelectError.corruptPayload }
         // get lengths
         guard let totalLength: Int32 = preludeBuffer.readInteger(),
@@ -66,8 +64,7 @@ extension S3.SelectObjectContentEventStream {
         guard var messageBuffer = byteBuffer.readSlice(length: Int(totalLength - 4)),
               let messageCRC: UInt32 = byteBuffer.readInteger() else { return nil }
         // verify message CRC
-        let messageBufferView = ByteBufferView(messageBuffer)
-        let calculatedCRC = messageBufferView.withContiguousStorageIfAvailable { bytes in crc32(0, bytes.baseAddress, uInt(bytes.count)) }
+        let calculatedCRC = soto_crc32(0, bytes: ByteBufferView(messageBuffer))
         guard UInt(messageCRC) == calculatedCRC else { throw S3SelectError.corruptPayload }
 
         // skip past prelude
