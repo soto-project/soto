@@ -37,11 +37,7 @@ struct GeneratePackage {
         let srcFolders = servicesFolder.subfolders.map { folder -> Target in
             let hasExtension = extensionSubfolders.first { $0.name == folder.name } != nil
             let dependencies: [String]
-            if folder.name == "S3" {
-                dependencies = [#".product(name: "SotoCore", package: "soto-core")"#, #".byName(name: "CSotoZlib")"#]
-            } else {
-                dependencies = [#".product(name: "SotoCore", package: "soto-core")"#]
-            }
+            dependencies = [#".product(name: "SotoCore", package: "soto-core")"#]
             return Target(name: folder.name, hasExtension: hasExtension, dependencies: dependencies)
         }
         // construct list of tests, plus the ones used in AWSRequestTests.swift
