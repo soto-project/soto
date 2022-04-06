@@ -18,6 +18,7 @@ needs to be listed here.
 - Tim Condon <0xtimc@gmail.com>
 - Yifei Teng <tengyifei@users.noreply.github.com>
 - Yuki Takei <yuki@miketokyo.com>
+- jmoisan21 <102834890+jmoisan21@users.noreply.github.com>
 
 ### Contributors - SotoCore
 
