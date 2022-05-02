@@ -12,12 +12,16 @@
 //
 //===----------------------------------------------------------------------===//
 
+#if compiler(>=5.6)
+@preconcurrency import Logging
+#else
 import Logging
+#endif
 import NIOCore
 import SotoCore
 
 /// Protocol providing a Cognito Identity id and tokens
-public protocol IdentityProvider {
+public protocol IdentityProvider: _SotoSendableProtocol {
     func getIdentity(on eventLoop: EventLoop, logger: Logger) -> EventLoopFuture<CognitoIdentity.IdentityParams>
     func shutdown(on eventLoop: EventLoop) -> EventLoopFuture<Void>
 }
@@ -31,7 +35,7 @@ extension IdentityProvider {
 /// A helper struct to defer the creation of an `IdentityProvider` until after the `IdentityCredentialProvider` has been created.
 public struct IdentityProviderFactory {
     /// The initialization context for a `IdentityProvider`
-    public struct Context {
+    public struct Context: _SotoSendable {
         public let cognitoIdentity: CognitoIdentity
         public let identityPoolId: String
         public let logger: Logger
@@ -98,6 +102,11 @@ extension CognitoIdentity {
 
     /// Protocol providing Cognito Identity id and tokens
     public struct ExternalIdentityProvider: IdentityProvider {
+        #if compiler(>=5.6)
+        typealias LoginProvider = @Sendable (Context) -> EventLoopFuture<[String: String]>
+        #else
+        typealias LoginProvider = (Context) -> EventLoopFuture<[String: String]>
+        #endif
         /// The context passed to the logins provider closure
         public struct Context {
             public let client: AWSClient
@@ -107,12 +116,12 @@ extension CognitoIdentity {
             public let logger: Logger
         }
 
-        let loginsProvider: (Context) -> EventLoopFuture<[String: String]>
+        let loginsProvider: LoginProvider
         let identityProviderContext: IdentityProviderFactory.Context
 
         init(
             context: IdentityProviderFactory.Context,
-            _ loginsProvider: @escaping (Context) -> EventLoopFuture<[String: String]>
+            _ loginsProvider: @escaping LoginProvider
         ) {
             self.loginsProvider = loginsProvider
             self.identityProviderContext = context
