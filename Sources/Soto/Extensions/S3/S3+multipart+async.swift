@@ -695,7 +695,7 @@ extension Sequence {
     ///     element of this sequence as its parameter and returns a transformed value of
     ///     the same or of a different type.
     /// - Returns: An array containing the transformed elements of this sequence.
-    public func concurrentMap<T: Sendable>(priority: TaskPriority? = nil, _ transform: @escaping ConcurrentMapTransform<T>) async rethrows -> [T] where Element: Sendable {
+    public func concurrentMap<T: _SotoSendable>(priority: TaskPriority? = nil, _ transform: @escaping ConcurrentMapTransform<T>) async rethrows -> [T] where Element: _SotoSendable {
         try await withThrowingTaskGroup(of: (Int, T).self) { group in
             self.enumerated().forEach { element in
                 group.addTask(priority: priority) {
