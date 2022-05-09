@@ -736,7 +736,8 @@
       ],
       "members":{
         "RedactionType":{"shape":"RedactionType"},
-        "RedactionOutput":{"shape":"RedactionOutput"}
+        "RedactionOutput":{"shape":"RedactionOutput"},
+        "PiiEntityTypes":{"shape":"PiiEntityTypes"}
       }
     },
     "CreateCallAnalyticsCategoryRequest":{
@@ -1367,6 +1368,11 @@
       "type":"string",
       "enum":["PHI"]
     },
+    "MedicalMediaSampleRateHertz":{
+      "type":"integer",
+      "max":48000,
+      "min":16000
+    },
     "MedicalTranscript":{
       "type":"structure",
       "members":{
@@ -1379,7 +1385,7 @@
         "MedicalTranscriptionJobName":{"shape":"TranscriptionJobName"},
         "TranscriptionJobStatus":{"shape":"TranscriptionJobStatus"},
         "LanguageCode":{"shape":"LanguageCode"},
-        "MediaSampleRateHertz":{"shape":"MediaSampleRateHertz"},
+        "MediaSampleRateHertz":{"shape":"MedicalMediaSampleRateHertz"},
         "MediaFormat":{"shape":"MediaFormat"},
         "Media":{"shape":"Media"},
         "Transcript":{"shape":"MedicalTranscript"},
@@ -1516,6 +1522,29 @@
       "type":"list",
       "member":{"shape":"Phrase"}
     },
+    "PiiEntityType":{
+      "type":"string",
+      "enum":[
+        "BANK_ACCOUNT_NUMBER",
+        "BANK_ROUTING",
+        "CREDIT_DEBIT_NUMBER",
+        "CREDIT_DEBIT_CVV",
+        "CREDIT_DEBIT_EXPIRY",
+        "PIN",
+        "EMAIL",
+        "ADDRESS",
+        "NAME",
+        "PHONE",
+        "SSN",
+        "ALL"
+      ]
+    },
+    "PiiEntityTypes":{
+      "type":"list",
+      "member":{"shape":"PiiEntityType"},
+      "max":11,
+      "min":0
+    },
     "RedactionOutput":{
       "type":"string",
       "enum":[
@@ -1630,7 +1659,7 @@
       "members":{
         "MedicalTranscriptionJobName":{"shape":"TranscriptionJobName"},
         "LanguageCode":{"shape":"LanguageCode"},
-        "MediaSampleRateHertz":{"shape":"MediaSampleRateHertz"},
+        "MediaSampleRateHertz":{"shape":"MedicalMediaSampleRateHertz"},
         "MediaFormat":{"shape":"MediaFormat"},
         "Media":{"shape":"Media"},
         "OutputBucketName":{"shape":"OutputBucketName"},
@@ -1704,17 +1733,24 @@
       "type":"list",
       "member":{"shape":"SubtitleFormat"}
     },
+    "SubtitleOutputStartIndex":{
+      "type":"integer",
+      "max":1,
+      "min":0
+    },
     "Subtitles":{
       "type":"structure",
       "members":{
-        "Formats":{"shape":"SubtitleFormats"}
+        "Formats":{"shape":"SubtitleFormats"},
+        "OutputStartIndex":{"shape":"SubtitleOutputStartIndex"}
       }
     },
     "SubtitlesOutput":{
       "type":"structure",
       "members":{
         "Formats":{"shape":"SubtitleFormats"},
-        "SubtitleFileUris":{"shape":"SubtitleFileUris"}
+        "SubtitleFileUris":{"shape":"SubtitleFileUris"},
+        "OutputStartIndex":{"shape":"SubtitleOutputStartIndex"}
       }
     },
     "Tag":{

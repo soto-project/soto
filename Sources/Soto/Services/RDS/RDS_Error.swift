@@ -24,9 +24,7 @@ public struct RDSErrorType: AWSErrorType {
         case authorizationQuotaExceededFault = "AuthorizationQuotaExceeded"
         case backupPolicyNotFoundFault = "BackupPolicyNotFoundFault"
         case certificateNotFoundFault = "CertificateNotFound"
-        case customAvailabilityZoneAlreadyExistsFault = "CustomAvailabilityZoneAlreadyExists"
         case customAvailabilityZoneNotFoundFault = "CustomAvailabilityZoneNotFound"
-        case customAvailabilityZoneQuotaExceededFault = "CustomAvailabilityZoneQuotaExceeded"
         case customDBEngineVersionAlreadyExistsFault = "CustomDBEngineVersionAlreadyExistsFault"
         case customDBEngineVersionNotFoundFault = "CustomDBEngineVersionNotFoundFault"
         case customDBEngineVersionQuotaExceededFault = "CustomDBEngineVersionQuotaExceededFault"
@@ -85,8 +83,6 @@ public struct RDSErrorType: AWSErrorType {
         case globalClusterQuotaExceededFault = "GlobalClusterQuotaExceededFault"
         case iamRoleMissingPermissionsFault = "IamRoleMissingPermissions"
         case iamRoleNotFoundFault = "IamRoleNotFound"
-        case installationMediaAlreadyExistsFault = "InstallationMediaAlreadyExists"
-        case installationMediaNotFoundFault = "InstallationMediaNotFound"
         case instanceQuotaExceededFault = "InstanceQuotaExceeded"
         case insufficientAvailableIPsInSubnetFault = "InsufficientAvailableIPsInSubnetFault"
         case insufficientDBClusterCapacityFault = "InsufficientDBClusterCapacityFault"
@@ -118,6 +114,7 @@ public struct RDSErrorType: AWSErrorType {
         case invalidSubnet = "InvalidSubnet"
         case invalidVPCNetworkStateFault = "InvalidVPCNetworkStateFault"
         case kMSKeyNotAccessibleFault = "KMSKeyNotAccessibleFault"
+        case networkTypeNotSupported = "NetworkTypeNotSupported"
         case optionGroupAlreadyExistsFault = "OptionGroupAlreadyExistsFault"
         case optionGroupNotFoundFault = "OptionGroupNotFoundFault"
         case optionGroupQuotaExceededFault = "OptionGroupQuotaExceededFault"
@@ -169,12 +166,8 @@ public struct RDSErrorType: AWSErrorType {
     public static var backupPolicyNotFoundFault: Self { .init(.backupPolicyNotFoundFault) }
     ///  CertificateIdentifier doesn't refer to an existing certificate.
     public static var certificateNotFoundFault: Self { .init(.certificateNotFoundFault) }
-    ///  CustomAvailabilityZoneName is already used by an existing custom Availability Zone.
-    public static var customAvailabilityZoneAlreadyExistsFault: Self { .init(.customAvailabilityZoneAlreadyExistsFault) }
     ///  CustomAvailabilityZoneId doesn't refer to an existing custom Availability Zone identifier.
     public static var customAvailabilityZoneNotFoundFault: Self { .init(.customAvailabilityZoneNotFoundFault) }
-    /// You have exceeded the maximum number of custom Availability Zones.
-    public static var customAvailabilityZoneQuotaExceededFault: Self { .init(.customAvailabilityZoneQuotaExceededFault) }
     /// A CEV with the specified name already exists.
     public static var customDBEngineVersionAlreadyExistsFault: Self { .init(.customDBEngineVersionAlreadyExistsFault) }
     /// The specified CEV was not found.
@@ -247,7 +240,7 @@ public struct RDSErrorType: AWSErrorType {
     public static var dBProxyTargetGroupNotFoundFault: Self { .init(.dBProxyTargetGroupNotFoundFault) }
     /// The specified RDS DB instance or Aurora DB cluster isn't available for a proxy owned by your Amazon Web Services account in the specified Amazon Web Services Region.
     public static var dBProxyTargetNotFoundFault: Self { .init(.dBProxyTargetNotFoundFault) }
-    ///  A DB security group with the name specified in DBSecurityGroupName already exists.
+    /// A DB security group with the name specified in DBSecurityGroupName already exists.
     public static var dBSecurityGroupAlreadyExistsFault: Self { .init(.dBSecurityGroupAlreadyExistsFault) }
     ///  DBSecurityGroupName doesn't refer to an existing DB security group.
     public static var dBSecurityGroupNotFoundFault: Self { .init(.dBSecurityGroupNotFoundFault) }
@@ -291,10 +284,6 @@ public struct RDSErrorType: AWSErrorType {
     public static var iamRoleMissingPermissionsFault: Self { .init(.iamRoleMissingPermissionsFault) }
     /// The IAM role is missing for exporting to an Amazon S3 bucket.
     public static var iamRoleNotFoundFault: Self { .init(.iamRoleNotFoundFault) }
-    /// The specified installation medium has already been imported.
-    public static var installationMediaAlreadyExistsFault: Self { .init(.installationMediaAlreadyExistsFault) }
-    ///  InstallationMediaID doesn't refer to an existing installation medium.
-    public static var installationMediaNotFoundFault: Self { .init(.installationMediaNotFoundFault) }
     /// The request would result in the user exceeding the allowed number of DB instances.
     public static var instanceQuotaExceededFault: Self { .init(.instanceQuotaExceededFault) }
     /// The requested operation can't be performed because there aren't enough available IP addresses in the proxy's subnets. Add more CIDR blocks to the VPC or remove IP address that aren't required from the subnets.
@@ -333,7 +322,7 @@ public struct RDSErrorType: AWSErrorType {
     public static var invalidDBSubnetGroupFault: Self { .init(.invalidDBSubnetGroupFault) }
     /// The DB subnet group cannot be deleted because it's in use.
     public static var invalidDBSubnetGroupStateFault: Self { .init(.invalidDBSubnetGroupStateFault) }
-    ///  The DB subnet isn't in the available state.
+    /// The DB subnet isn't in the available state.
     public static var invalidDBSubnetStateFault: Self { .init(.invalidDBSubnetStateFault) }
     /// This error can occur if someone else is modifying a subscription. You should retry the action.
     public static var invalidEventSubscriptionStateFault: Self { .init(.invalidEventSubscriptionStateFault) }
@@ -345,7 +334,7 @@ public struct RDSErrorType: AWSErrorType {
     public static var invalidExportTaskStateFault: Self { .init(.invalidExportTaskStateFault) }
     /// The global cluster is in an invalid state and can't perform the requested operation.
     public static var invalidGlobalClusterStateFault: Self { .init(.invalidGlobalClusterStateFault) }
-    ///  The option group isn't in the available state.
+    /// The option group isn't in the available state.
     public static var invalidOptionGroupStateFault: Self { .init(.invalidOptionGroupStateFault) }
     /// Cannot restore from VPC backup to non-VPC DB instance.
     public static var invalidRestoreFault: Self { .init(.invalidRestoreFault) }
@@ -357,6 +346,8 @@ public struct RDSErrorType: AWSErrorType {
     public static var invalidVPCNetworkStateFault: Self { .init(.invalidVPCNetworkStateFault) }
     /// An error occurred accessing an Amazon Web Services KMS key.
     public static var kMSKeyNotAccessibleFault: Self { .init(.kMSKeyNotAccessibleFault) }
+    /// The network type is invalid for the DB instance. Valid nework type values are IPV4 and DUAL.
+    public static var networkTypeNotSupported: Self { .init(.networkTypeNotSupported) }
     /// The option group you are trying to create already exists.
     public static var optionGroupAlreadyExistsFault: Self { .init(.optionGroupAlreadyExistsFault) }
     /// The specified option group could not be found.
@@ -377,7 +368,7 @@ public struct RDSErrorType: AWSErrorType {
     public static var reservedDBInstancesOfferingNotFoundFault: Self { .init(.reservedDBInstancesOfferingNotFoundFault) }
     /// The specified resource ID was not found.
     public static var resourceNotFoundFault: Self { .init(.resourceNotFoundFault) }
-    /// SNS has responded that there is a problem with the SND topic specified.
+    /// SNS has responded that there is a problem with the SNS topic specified.
     public static var sNSInvalidTopicFault: Self { .init(.sNSInvalidTopicFault) }
     /// You do not have permission to publish to the SNS topic ARN.
     public static var sNSNoAuthorizationFault: Self { .init(.sNSNoAuthorizationFault) }

@@ -65,6 +65,33 @@ extension IoTSiteWise {
         public var description: String { return self.rawValue }
     }
 
+    public enum BatchEntryCompletionStatus: String, CustomStringConvertible, Codable {
+        case error = "ERROR"
+        case success = "SUCCESS"
+        public var description: String { return self.rawValue }
+    }
+
+    public enum BatchGetAssetPropertyAggregatesErrorCode: String, CustomStringConvertible, Codable {
+        case accessdeniedexception = "AccessDeniedException"
+        case invalidrequestexception = "InvalidRequestException"
+        case resourcenotfoundexception = "ResourceNotFoundException"
+        public var description: String { return self.rawValue }
+    }
+
+    public enum BatchGetAssetPropertyValueErrorCode: String, CustomStringConvertible, Codable {
+        case accessdeniedexception = "AccessDeniedException"
+        case invalidrequestexception = "InvalidRequestException"
+        case resourcenotfoundexception = "ResourceNotFoundException"
+        public var description: String { return self.rawValue }
+    }
+
+    public enum BatchGetAssetPropertyValueHistoryErrorCode: String, CustomStringConvertible, Codable {
+        case accessdeniedexception = "AccessDeniedException"
+        case invalidrequestexception = "InvalidRequestException"
+        case resourcenotfoundexception = "ResourceNotFoundException"
+        public var description: String { return self.rawValue }
+    }
+
     public enum BatchPutAssetPropertyValueErrorCode: String, CustomStringConvertible, Codable {
         case accessdeniedexception = "AccessDeniedException"
         case conflictingoperationexception = "ConflictingOperationException"
@@ -765,7 +792,6 @@ extension IoTSiteWise {
 
         public func validate(name: String) throws {
             try self.timestamp.validate(name: "\(name).timestamp")
-            try self.value.validate(name: "\(name).value")
         }
 
         private enum CodingKeys: String, CodingKey {
@@ -1098,6 +1124,564 @@ extension IoTSiteWise {
 
         private enum CodingKeys: String, CodingKey {
             case errors
+        }
+    }
+
+    public struct BatchGetAssetPropertyAggregatesEntry: AWSEncodableShape {
+        /// The data aggregating function.
+        public let aggregateTypes: [AggregateType]
+        /// The ID of the asset in which the asset property was created.
+        public let assetId: String?
+        /// The inclusive end of the range from which to query historical data, expressed in seconds in Unix epoch time.
+        public let endDate: Date
+        /// The ID of the entry.
+        public let entryId: String
+        /// The alias that identifies the property, such as an OPC-UA server data stream path (for example, /company/windfarm/3/turbine/7/temperature). For more information, see Mapping industrial data streams to asset properties in the IoT SiteWise User Guide.
+        public let propertyAlias: String?
+        /// The ID of the asset property.
+        public let propertyId: String?
+        /// The quality by which to filter asset data.
+        public let qualities: [Quality]?
+        /// The time interval over which to aggregate data.
+        public let resolution: String
+        /// The exclusive start of the range from which to query historical data, expressed in seconds in Unix epoch time.
+        public let startDate: Date
+        /// The chronological sorting order of the requested information. Default: ASCENDING
+        public let timeOrdering: TimeOrdering?
+
+        public init(aggregateTypes: [AggregateType], assetId: String? = nil, endDate: Date, entryId: String, propertyAlias: String? = nil, propertyId: String? = nil, qualities: [Quality]? = nil, resolution: String, startDate: Date, timeOrdering: TimeOrdering? = nil) {
+            self.aggregateTypes = aggregateTypes
+            self.assetId = assetId
+            self.endDate = endDate
+            self.entryId = entryId
+            self.propertyAlias = propertyAlias
+            self.propertyId = propertyId
+            self.qualities = qualities
+            self.resolution = resolution
+            self.startDate = startDate
+            self.timeOrdering = timeOrdering
+        }
+
+        public func validate(name: String) throws {
+            try self.validate(self.aggregateTypes, name: "aggregateTypes", parent: name, min: 1)
+            try self.validate(self.assetId, name: "assetId", parent: name, max: 36)
+            try self.validate(self.assetId, name: "assetId", parent: name, min: 36)
+            try self.validate(self.assetId, name: "assetId", parent: name, pattern: "^[0-9a-f]{8}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{12}$")
+            try self.validate(self.entryId, name: "entryId", parent: name, max: 64)
+            try self.validate(self.entryId, name: "entryId", parent: name, min: 1)
+            try self.validate(self.entryId, name: "entryId", parent: name, pattern: "^[a-zA-Z0-9_-]+$")
+            try self.validate(self.propertyAlias, name: "propertyAlias", parent: name, max: 2048)
+            try self.validate(self.propertyAlias, name: "propertyAlias", parent: name, min: 1)
+            try self.validate(self.propertyAlias, name: "propertyAlias", parent: name, pattern: "[^\\u0000-\\u001F\\u007F]+")
+            try self.validate(self.propertyId, name: "propertyId", parent: name, max: 36)
+            try self.validate(self.propertyId, name: "propertyId", parent: name, min: 36)
+            try self.validate(self.propertyId, name: "propertyId", parent: name, pattern: "^[0-9a-f]{8}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{12}$")
+            try self.validate(self.qualities, name: "qualities", parent: name, max: 1)
+            try self.validate(self.qualities, name: "qualities", parent: name, min: 1)
+            try self.validate(self.resolution, name: "resolution", parent: name, max: 2)
+            try self.validate(self.resolution, name: "resolution", parent: name, min: 2)
+            try self.validate(self.resolution, name: "resolution", parent: name, pattern: "1m|1h|1d")
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case aggregateTypes
+            case assetId
+            case endDate
+            case entryId
+            case propertyAlias
+            case propertyId
+            case qualities
+            case resolution
+            case startDate
+            case timeOrdering
+        }
+    }
+
+    public struct BatchGetAssetPropertyAggregatesErrorEntry: AWSDecodableShape {
+        /// The ID of the entry.
+        public let entryId: String
+        /// The error code.
+        public let errorCode: BatchGetAssetPropertyAggregatesErrorCode
+        /// The associated error message.
+        public let errorMessage: String
+
+        public init(entryId: String, errorCode: BatchGetAssetPropertyAggregatesErrorCode, errorMessage: String) {
+            self.entryId = entryId
+            self.errorCode = errorCode
+            self.errorMessage = errorMessage
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case entryId
+            case errorCode
+            case errorMessage
+        }
+    }
+
+    public struct BatchGetAssetPropertyAggregatesErrorInfo: AWSDecodableShape {
+        /// The error code.
+        public let errorCode: BatchGetAssetPropertyAggregatesErrorCode
+        /// The date the error occurred, in Unix epoch time.
+        public let errorTimestamp: Date
+
+        public init(errorCode: BatchGetAssetPropertyAggregatesErrorCode, errorTimestamp: Date) {
+            self.errorCode = errorCode
+            self.errorTimestamp = errorTimestamp
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case errorCode
+            case errorTimestamp
+        }
+    }
+
+    public struct BatchGetAssetPropertyAggregatesRequest: AWSEncodableShape {
+        /// The list of asset property aggregate entries for the batch get request. You can specify up to 16 entries per request.
+        public let entries: [BatchGetAssetPropertyAggregatesEntry]
+        /// The maximum number of results to return for each paginated request. A result set is returned in the two cases, whichever occurs first.   The size of the result set is less than 1 MB.   The number of data points in the result set is less than the value of maxResults. The maximum value of maxResults is 4000.
+        public let maxResults: Int?
+        /// The token to be used for the next set of paginated results.
+        public let nextToken: String?
+
+        public init(entries: [BatchGetAssetPropertyAggregatesEntry], maxResults: Int? = nil, nextToken: String? = nil) {
+            self.entries = entries
+            self.maxResults = maxResults
+            self.nextToken = nextToken
+        }
+
+        public func validate(name: String) throws {
+            try self.entries.forEach {
+                try $0.validate(name: "\(name).entries[]")
+            }
+            try self.validate(self.maxResults, name: "maxResults", parent: name, min: 1)
+            try self.validate(self.nextToken, name: "nextToken", parent: name, max: 4096)
+            try self.validate(self.nextToken, name: "nextToken", parent: name, min: 1)
+            try self.validate(self.nextToken, name: "nextToken", parent: name, pattern: "[A-Za-z0-9+/=]+")
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case entries
+            case maxResults
+            case nextToken
+        }
+    }
+
+    public struct BatchGetAssetPropertyAggregatesResponse: AWSDecodableShape {
+        /// A list of the errors (if any) associated with the batch request. Each error entry contains the entryId of the entry that failed.
+        public let errorEntries: [BatchGetAssetPropertyAggregatesErrorEntry]
+        /// The token for the next set of results, or null if there are no additional results.
+        public let nextToken: String?
+        /// A list of entries that were not processed by this batch request. because these entries had been completely processed by previous paginated requests. Each skipped entry contains the entryId of the entry that skipped.
+        public let skippedEntries: [BatchGetAssetPropertyAggregatesSkippedEntry]
+        /// A list of entries that were processed successfully by this batch request. Each success entry contains the entryId of the entry that succeeded and the latest query result.
+        public let successEntries: [BatchGetAssetPropertyAggregatesSuccessEntry]
+
+        public init(errorEntries: [BatchGetAssetPropertyAggregatesErrorEntry], nextToken: String? = nil, skippedEntries: [BatchGetAssetPropertyAggregatesSkippedEntry], successEntries: [BatchGetAssetPropertyAggregatesSuccessEntry]) {
+            self.errorEntries = errorEntries
+            self.nextToken = nextToken
+            self.skippedEntries = skippedEntries
+            self.successEntries = successEntries
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case errorEntries
+            case nextToken
+            case skippedEntries
+            case successEntries
+        }
+    }
+
+    public struct BatchGetAssetPropertyAggregatesSkippedEntry: AWSDecodableShape {
+        /// The completion status of each entry that is associated with the BatchGetAssetPropertyAggregates API.
+        public let completionStatus: BatchEntryCompletionStatus
+        /// The ID of the entry.
+        public let entryId: String
+        /// The error information, such as the error code and the timestamp.
+        public let errorInfo: BatchGetAssetPropertyAggregatesErrorInfo?
+
+        public init(completionStatus: BatchEntryCompletionStatus, entryId: String, errorInfo: BatchGetAssetPropertyAggregatesErrorInfo? = nil) {
+            self.completionStatus = completionStatus
+            self.entryId = entryId
+            self.errorInfo = errorInfo
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case completionStatus
+            case entryId
+            case errorInfo
+        }
+    }
+
+    public struct BatchGetAssetPropertyAggregatesSuccessEntry: AWSDecodableShape {
+        /// The requested aggregated asset property values (for example, average, minimum, and maximum).
+        public let aggregatedValues: [AggregatedValue]
+        /// The ID of the entry.
+        public let entryId: String
+
+        public init(aggregatedValues: [AggregatedValue], entryId: String) {
+            self.aggregatedValues = aggregatedValues
+            self.entryId = entryId
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case aggregatedValues
+            case entryId
+        }
+    }
+
+    public struct BatchGetAssetPropertyValueEntry: AWSEncodableShape {
+        /// The ID of the asset in which the asset property was created.
+        public let assetId: String?
+        /// The ID of the entry.
+        public let entryId: String
+        /// The alias that identifies the property, such as an OPC-UA server data stream path (for example, /company/windfarm/3/turbine/7/temperature). For more information, see Mapping industrial data streams to asset properties in the IoT SiteWise User Guide.
+        public let propertyAlias: String?
+        /// The ID of the asset property.
+        public let propertyId: String?
+
+        public init(assetId: String? = nil, entryId: String, propertyAlias: String? = nil, propertyId: String? = nil) {
+            self.assetId = assetId
+            self.entryId = entryId
+            self.propertyAlias = propertyAlias
+            self.propertyId = propertyId
+        }
+
+        public func validate(name: String) throws {
+            try self.validate(self.assetId, name: "assetId", parent: name, max: 36)
+            try self.validate(self.assetId, name: "assetId", parent: name, min: 36)
+            try self.validate(self.assetId, name: "assetId", parent: name, pattern: "^[0-9a-f]{8}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{12}$")
+            try self.validate(self.entryId, name: "entryId", parent: name, max: 64)
+            try self.validate(self.entryId, name: "entryId", parent: name, min: 1)
+            try self.validate(self.entryId, name: "entryId", parent: name, pattern: "^[a-zA-Z0-9_-]+$")
+            try self.validate(self.propertyAlias, name: "propertyAlias", parent: name, max: 2048)
+            try self.validate(self.propertyAlias, name: "propertyAlias", parent: name, min: 1)
+            try self.validate(self.propertyAlias, name: "propertyAlias", parent: name, pattern: "[^\\u0000-\\u001F\\u007F]+")
+            try self.validate(self.propertyId, name: "propertyId", parent: name, max: 36)
+            try self.validate(self.propertyId, name: "propertyId", parent: name, min: 36)
+            try self.validate(self.propertyId, name: "propertyId", parent: name, pattern: "^[0-9a-f]{8}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{12}$")
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case assetId
+            case entryId
+            case propertyAlias
+            case propertyId
+        }
+    }
+
+    public struct BatchGetAssetPropertyValueErrorEntry: AWSDecodableShape {
+        /// The ID of the entry.
+        public let entryId: String
+        /// The error code.
+        public let errorCode: BatchGetAssetPropertyValueErrorCode
+        /// The associated error message.
+        public let errorMessage: String
+
+        public init(entryId: String, errorCode: BatchGetAssetPropertyValueErrorCode, errorMessage: String) {
+            self.entryId = entryId
+            self.errorCode = errorCode
+            self.errorMessage = errorMessage
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case entryId
+            case errorCode
+            case errorMessage
+        }
+    }
+
+    public struct BatchGetAssetPropertyValueErrorInfo: AWSDecodableShape {
+        /// The error code.
+        public let errorCode: BatchGetAssetPropertyValueErrorCode
+        /// The date the error occurred, in Unix epoch time.
+        public let errorTimestamp: Date
+
+        public init(errorCode: BatchGetAssetPropertyValueErrorCode, errorTimestamp: Date) {
+            self.errorCode = errorCode
+            self.errorTimestamp = errorTimestamp
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case errorCode
+            case errorTimestamp
+        }
+    }
+
+    public struct BatchGetAssetPropertyValueHistoryEntry: AWSEncodableShape {
+        /// The ID of the asset in which the asset property was created.
+        public let assetId: String?
+        /// The inclusive end of the range from which to query historical data, expressed in seconds in Unix epoch time.
+        public let endDate: Date?
+        /// The ID of the entry.
+        public let entryId: String
+        /// The alias that identifies the property, such as an OPC-UA server data stream path (for example, /company/windfarm/3/turbine/7/temperature). For more information, see Mapping industrial data streams to asset properties in the IoT SiteWise User Guide.
+        public let propertyAlias: String?
+        /// The ID of the asset property.
+        public let propertyId: String?
+        /// The quality by which to filter asset data.
+        public let qualities: [Quality]?
+        /// The exclusive start of the range from which to query historical data, expressed in seconds in Unix epoch time.
+        public let startDate: Date?
+        /// The chronological sorting order of the requested information. Default: ASCENDING
+        public let timeOrdering: TimeOrdering?
+
+        public init(assetId: String? = nil, endDate: Date? = nil, entryId: String, propertyAlias: String? = nil, propertyId: String? = nil, qualities: [Quality]? = nil, startDate: Date? = nil, timeOrdering: TimeOrdering? = nil) {
+            self.assetId = assetId
+            self.endDate = endDate
+            self.entryId = entryId
+            self.propertyAlias = propertyAlias
+            self.propertyId = propertyId
+            self.qualities = qualities
+            self.startDate = startDate
+            self.timeOrdering = timeOrdering
+        }
+
+        public func validate(name: String) throws {
+            try self.validate(self.assetId, name: "assetId", parent: name, max: 36)
+            try self.validate(self.assetId, name: "assetId", parent: name, min: 36)
+            try self.validate(self.assetId, name: "assetId", parent: name, pattern: "^[0-9a-f]{8}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{12}$")
+            try self.validate(self.entryId, name: "entryId", parent: name, max: 64)
+            try self.validate(self.entryId, name: "entryId", parent: name, min: 1)
+            try self.validate(self.entryId, name: "entryId", parent: name, pattern: "^[a-zA-Z0-9_-]+$")
+            try self.validate(self.propertyAlias, name: "propertyAlias", parent: name, max: 2048)
+            try self.validate(self.propertyAlias, name: "propertyAlias", parent: name, min: 1)
+            try self.validate(self.propertyAlias, name: "propertyAlias", parent: name, pattern: "[^\\u0000-\\u001F\\u007F]+")
+            try self.validate(self.propertyId, name: "propertyId", parent: name, max: 36)
+            try self.validate(self.propertyId, name: "propertyId", parent: name, min: 36)
+            try self.validate(self.propertyId, name: "propertyId", parent: name, pattern: "^[0-9a-f]{8}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{12}$")
+            try self.validate(self.qualities, name: "qualities", parent: name, max: 1)
+            try self.validate(self.qualities, name: "qualities", parent: name, min: 1)
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case assetId
+            case endDate
+            case entryId
+            case propertyAlias
+            case propertyId
+            case qualities
+            case startDate
+            case timeOrdering
+        }
+    }
+
+    public struct BatchGetAssetPropertyValueHistoryErrorEntry: AWSDecodableShape {
+        /// The ID of the entry.
+        public let entryId: String
+        /// The error code.
+        public let errorCode: BatchGetAssetPropertyValueHistoryErrorCode
+        /// The associated error message.
+        public let errorMessage: String
+
+        public init(entryId: String, errorCode: BatchGetAssetPropertyValueHistoryErrorCode, errorMessage: String) {
+            self.entryId = entryId
+            self.errorCode = errorCode
+            self.errorMessage = errorMessage
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case entryId
+            case errorCode
+            case errorMessage
+        }
+    }
+
+    public struct BatchGetAssetPropertyValueHistoryErrorInfo: AWSDecodableShape {
+        /// The error code.
+        public let errorCode: BatchGetAssetPropertyValueHistoryErrorCode
+        /// The date the error occurred, in Unix epoch time.
+        public let errorTimestamp: Date
+
+        public init(errorCode: BatchGetAssetPropertyValueHistoryErrorCode, errorTimestamp: Date) {
+            self.errorCode = errorCode
+            self.errorTimestamp = errorTimestamp
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case errorCode
+            case errorTimestamp
+        }
+    }
+
+    public struct BatchGetAssetPropertyValueHistoryRequest: AWSEncodableShape {
+        /// The list of asset property historical value entries for the batch get request. You can specify up to 16 entries per request.
+        public let entries: [BatchGetAssetPropertyValueHistoryEntry]
+        /// The maximum number of results to return for each paginated request. A result set is returned in the two cases, whichever occurs first.   The size of the result set is less than 1 MB.   The number of data points in the result set is less than the value of maxResults. The maximum value of maxResults is 4000.
+        public let maxResults: Int?
+        /// The token to be used for the next set of paginated results.
+        public let nextToken: String?
+
+        public init(entries: [BatchGetAssetPropertyValueHistoryEntry], maxResults: Int? = nil, nextToken: String? = nil) {
+            self.entries = entries
+            self.maxResults = maxResults
+            self.nextToken = nextToken
+        }
+
+        public func validate(name: String) throws {
+            try self.entries.forEach {
+                try $0.validate(name: "\(name).entries[]")
+            }
+            try self.validate(self.maxResults, name: "maxResults", parent: name, min: 1)
+            try self.validate(self.nextToken, name: "nextToken", parent: name, max: 4096)
+            try self.validate(self.nextToken, name: "nextToken", parent: name, min: 1)
+            try self.validate(self.nextToken, name: "nextToken", parent: name, pattern: "[A-Za-z0-9+/=]+")
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case entries
+            case maxResults
+            case nextToken
+        }
+    }
+
+    public struct BatchGetAssetPropertyValueHistoryResponse: AWSDecodableShape {
+        /// A list of the errors (if any) associated with the batch request. Each error entry contains the entryId of the entry that failed.
+        public let errorEntries: [BatchGetAssetPropertyValueHistoryErrorEntry]
+        /// The token for the next set of results, or null if there are no additional results.
+        public let nextToken: String?
+        /// A list of entries that were not processed by this batch request. because these entries had been completely processed by previous paginated requests. Each skipped entry contains the entryId of the entry that skipped.
+        public let skippedEntries: [BatchGetAssetPropertyValueHistorySkippedEntry]
+        /// A list of entries that were processed successfully by this batch request. Each success entry contains the entryId of the entry that succeeded and the latest query result.
+        public let successEntries: [BatchGetAssetPropertyValueHistorySuccessEntry]
+
+        public init(errorEntries: [BatchGetAssetPropertyValueHistoryErrorEntry], nextToken: String? = nil, skippedEntries: [BatchGetAssetPropertyValueHistorySkippedEntry], successEntries: [BatchGetAssetPropertyValueHistorySuccessEntry]) {
+            self.errorEntries = errorEntries
+            self.nextToken = nextToken
+            self.skippedEntries = skippedEntries
+            self.successEntries = successEntries
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case errorEntries
+            case nextToken
+            case skippedEntries
+            case successEntries
+        }
+    }
+
+    public struct BatchGetAssetPropertyValueHistorySkippedEntry: AWSDecodableShape {
+        /// The completion status of each entry that is associated with the BatchGetAssetPropertyValueHistory API.
+        public let completionStatus: BatchEntryCompletionStatus
+        /// The ID of the entry.
+        public let entryId: String
+        /// The error information, such as the error code and the timestamp.
+        public let errorInfo: BatchGetAssetPropertyValueHistoryErrorInfo?
+
+        public init(completionStatus: BatchEntryCompletionStatus, entryId: String, errorInfo: BatchGetAssetPropertyValueHistoryErrorInfo? = nil) {
+            self.completionStatus = completionStatus
+            self.entryId = entryId
+            self.errorInfo = errorInfo
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case completionStatus
+            case entryId
+            case errorInfo
+        }
+    }
+
+    public struct BatchGetAssetPropertyValueHistorySuccessEntry: AWSDecodableShape {
+        /// The requested historical values for the specified asset property.
+        public let assetPropertyValueHistory: [AssetPropertyValue]
+        /// The ID of the entry.
+        public let entryId: String
+
+        public init(assetPropertyValueHistory: [AssetPropertyValue], entryId: String) {
+            self.assetPropertyValueHistory = assetPropertyValueHistory
+            self.entryId = entryId
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case assetPropertyValueHistory
+            case entryId
+        }
+    }
+
+    public struct BatchGetAssetPropertyValueRequest: AWSEncodableShape {
+        /// The list of asset property value entries for the batch get request. You can specify up to 16 entries per request.
+        public let entries: [BatchGetAssetPropertyValueEntry]
+        /// The token to be used for the next set of paginated results.
+        public let nextToken: String?
+
+        public init(entries: [BatchGetAssetPropertyValueEntry], nextToken: String? = nil) {
+            self.entries = entries
+            self.nextToken = nextToken
+        }
+
+        public func validate(name: String) throws {
+            try self.entries.forEach {
+                try $0.validate(name: "\(name).entries[]")
+            }
+            try self.validate(self.nextToken, name: "nextToken", parent: name, max: 4096)
+            try self.validate(self.nextToken, name: "nextToken", parent: name, min: 1)
+            try self.validate(self.nextToken, name: "nextToken", parent: name, pattern: "[A-Za-z0-9+/=]+")
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case entries
+            case nextToken
+        }
+    }
+
+    public struct BatchGetAssetPropertyValueResponse: AWSDecodableShape {
+        /// A list of the errors (if any) associated with the batch request. Each error entry contains the entryId of the entry that failed.
+        public let errorEntries: [BatchGetAssetPropertyValueErrorEntry]
+        /// The token for the next set of results, or null if there are no additional results.
+        public let nextToken: String?
+        /// A list of entries that were not processed by this batch request. because these entries had been completely processed by previous paginated requests. Each skipped entry contains the entryId of the entry that skipped.
+        public let skippedEntries: [BatchGetAssetPropertyValueSkippedEntry]
+        /// A list of entries that were processed successfully by this batch request. Each success entry contains the entryId of the entry that succeeded and the latest query result.
+        public let successEntries: [BatchGetAssetPropertyValueSuccessEntry]
+
+        public init(errorEntries: [BatchGetAssetPropertyValueErrorEntry], nextToken: String? = nil, skippedEntries: [BatchGetAssetPropertyValueSkippedEntry], successEntries: [BatchGetAssetPropertyValueSuccessEntry]) {
+            self.errorEntries = errorEntries
+            self.nextToken = nextToken
+            self.skippedEntries = skippedEntries
+            self.successEntries = successEntries
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case errorEntries
+            case nextToken
+            case skippedEntries
+            case successEntries
+        }
+    }
+
+    public struct BatchGetAssetPropertyValueSkippedEntry: AWSDecodableShape {
+        /// The completion status of each entry that is associated with the BatchGetAssetPropertyValue request.
+        public let completionStatus: BatchEntryCompletionStatus
+        /// The ID of the entry.
+        public let entryId: String
+        /// The error information, such as the error code and the timestamp.
+        public let errorInfo: BatchGetAssetPropertyValueErrorInfo?
+
+        public init(completionStatus: BatchEntryCompletionStatus, entryId: String, errorInfo: BatchGetAssetPropertyValueErrorInfo? = nil) {
+            self.completionStatus = completionStatus
+            self.entryId = entryId
+            self.errorInfo = errorInfo
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case completionStatus
+            case entryId
+            case errorInfo
+        }
+    }
+
+    public struct BatchGetAssetPropertyValueSuccessEntry: AWSDecodableShape {
+        public let assetPropertyValue: AssetPropertyValue?
+        /// The ID of the entry.
+        public let entryId: String
+
+        public init(assetPropertyValue: AssetPropertyValue? = nil, entryId: String) {
+            self.assetPropertyValue = assetPropertyValue
+            self.entryId = entryId
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case assetPropertyValue
+            case entryId
         }
     }
 
@@ -3320,7 +3904,7 @@ extension IoTSiteWise {
             try self.validate(self.assetId, name: "assetId", parent: name, max: 36)
             try self.validate(self.assetId, name: "assetId", parent: name, min: 36)
             try self.validate(self.assetId, name: "assetId", parent: name, pattern: "^[0-9a-f]{8}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{12}$")
-            try self.validate(self.endTimeInSeconds, name: "endTimeInSeconds", parent: name, max: 31_556_889_864_403_199)
+            try self.validate(self.endTimeInSeconds, name: "endTimeInSeconds", parent: name, max: 9_223_372_036_854_774)
             try self.validate(self.endTimeInSeconds, name: "endTimeInSeconds", parent: name, min: 1)
             try self.validate(self.endTimeOffsetInNanos, name: "endTimeOffsetInNanos", parent: name, max: 999_999_999)
             try self.validate(self.endTimeOffsetInNanos, name: "endTimeOffsetInNanos", parent: name, min: 0)
@@ -3338,7 +3922,7 @@ extension IoTSiteWise {
             try self.validate(self.propertyId, name: "propertyId", parent: name, max: 36)
             try self.validate(self.propertyId, name: "propertyId", parent: name, min: 36)
             try self.validate(self.propertyId, name: "propertyId", parent: name, pattern: "^[0-9a-f]{8}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{12}$")
-            try self.validate(self.startTimeInSeconds, name: "startTimeInSeconds", parent: name, max: 31_556_889_864_403_199)
+            try self.validate(self.startTimeInSeconds, name: "startTimeInSeconds", parent: name, max: 9_223_372_036_854_774)
             try self.validate(self.startTimeInSeconds, name: "startTimeInSeconds", parent: name, min: 1)
             try self.validate(self.startTimeOffsetInNanos, name: "startTimeOffsetInNanos", parent: name, max: 999_999_999)
             try self.validate(self.startTimeOffsetInNanos, name: "startTimeOffsetInNanos", parent: name, min: 0)
@@ -4794,7 +5378,7 @@ extension IoTSiteWise {
         public func validate(name: String) throws {
             try self.validate(self.offsetInNanos, name: "offsetInNanos", parent: name, max: 999_999_999)
             try self.validate(self.offsetInNanos, name: "offsetInNanos", parent: name, min: 0)
-            try self.validate(self.timeInSeconds, name: "timeInSeconds", parent: name, max: 31_556_889_864_403_199)
+            try self.validate(self.timeInSeconds, name: "timeInSeconds", parent: name, max: 9_223_372_036_854_774)
             try self.validate(self.timeInSeconds, name: "timeInSeconds", parent: name, min: 1)
         }
 
@@ -5495,10 +6079,6 @@ extension IoTSiteWise {
             self.doubleValue = doubleValue
             self.integerValue = integerValue
             self.stringValue = stringValue
-        }
-
-        public func validate(name: String) throws {
-            try self.validate(self.stringValue, name: "stringValue", parent: name, pattern: "[^\\u0000-\\u001F\\u007F]+")
         }
 
         private enum CodingKeys: String, CodingKey {

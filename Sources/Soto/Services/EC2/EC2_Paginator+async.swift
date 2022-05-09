@@ -352,6 +352,28 @@ extension EC2 {
         )
     }
 
+    ///  Describe details for Windows AMIs that are configured for faster launching.
+    /// Return PaginatorSequence for operation.
+    ///
+    /// - Parameters:
+    ///   - input: Input for request
+    ///   - logger: Logger used flot logging
+    ///   - eventLoop: EventLoop to run this process on
+    public func describeFastLaunchImagesPaginator(
+        _ input: DescribeFastLaunchImagesRequest,
+        logger: Logger = AWSClient.loggingDisabled,
+        on eventLoop: EventLoop? = nil
+    ) -> AWSClient.PaginatorSequence<DescribeFastLaunchImagesRequest, DescribeFastLaunchImagesResult> {
+        return .init(
+            input: input,
+            command: describeFastLaunchImages,
+            inputKey: \DescribeFastLaunchImagesRequest.nextToken,
+            outputKey: \DescribeFastLaunchImagesResult.nextToken,
+            logger: logger,
+            on: eventLoop
+        )
+    }
+
     ///  Describes the state of fast snapshot restores for your snapshots.
     /// Return PaginatorSequence for operation.
     ///
@@ -374,7 +396,7 @@ extension EC2 {
         )
     }
 
-    ///  Describes the specified EC2 Fleets or all of your EC2 Fleets. For more information, see Monitoring your EC2 Fleet in the Amazon EC2 User Guide.
+    ///  Describes the specified EC2 Fleets or all of your EC2 Fleets. For more information, see Monitor your EC2 Fleet in the Amazon EC2 User Guide.
     /// Return PaginatorSequence for operation.
     ///
     /// - Parameters:
@@ -1562,7 +1584,7 @@ extension EC2 {
         )
     }
 
-    ///  [VPC only] Describes the stale security group rules for security groups in a specified VPC. Rules are stale when they reference a deleted security group in a peer VPC, or a security group in a peer VPC for which the VPC peering connection has been deleted.
+    ///  [VPC only] Describes the stale security group rules for security groups in a specified VPC. Rules are stale when they reference a deleted security group in the same VPC or in a peer VPC, or if they reference a security group in a peer VPC for which the VPC peering connection has been deleted.
     /// Return PaginatorSequence for operation.
     ///
     /// - Parameters:
@@ -2503,6 +2525,28 @@ extension EC2 {
             command: getVpnConnectionDeviceTypes,
             inputKey: \GetVpnConnectionDeviceTypesRequest.nextToken,
             outputKey: \GetVpnConnectionDeviceTypesResult.nextToken,
+            logger: logger,
+            on: eventLoop
+        )
+    }
+
+    ///  Lists one or more AMIs that are currently in the Recycle Bin. For more information, see Recycle Bin in the Amazon Elastic Compute Cloud User Guide.
+    /// Return PaginatorSequence for operation.
+    ///
+    /// - Parameters:
+    ///   - input: Input for request
+    ///   - logger: Logger used flot logging
+    ///   - eventLoop: EventLoop to run this process on
+    public func listImagesInRecycleBinPaginator(
+        _ input: ListImagesInRecycleBinRequest,
+        logger: Logger = AWSClient.loggingDisabled,
+        on eventLoop: EventLoop? = nil
+    ) -> AWSClient.PaginatorSequence<ListImagesInRecycleBinRequest, ListImagesInRecycleBinResult> {
+        return .init(
+            input: input,
+            command: listImagesInRecycleBin,
+            inputKey: \ListImagesInRecycleBinRequest.nextToken,
+            outputKey: \ListImagesInRecycleBinResult.nextToken,
             logger: logger,
             on: eventLoop
         )

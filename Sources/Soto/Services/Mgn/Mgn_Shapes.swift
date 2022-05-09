@@ -20,6 +20,12 @@ import SotoCore
 extension Mgn {
     // MARK: Enums
 
+    public enum BootMode: String, CustomStringConvertible, Codable {
+        case legacyBios = "LEGACY_BIOS"
+        case uefi = "UEFI"
+        public var description: String { return self.rawValue }
+    }
+
     public enum ChangeServerLifeCycleStateSourceServerLifecycleState: String, CustomStringConvertible, Codable {
         case cutover = "CUTOVER"
         case readyForCutover = "READY_FOR_CUTOVER"
@@ -172,6 +178,7 @@ extension Mgn {
 
     public enum ReplicationConfigurationDefaultLargeStagingDiskType: String, CustomStringConvertible, Codable {
         case gp2 = "GP2"
+        case gp3 = "GP3"
         case st1 = "ST1"
         public var description: String { return self.rawValue }
     }
@@ -185,7 +192,9 @@ extension Mgn {
     public enum ReplicationConfigurationReplicatedDiskStagingDiskType: String, CustomStringConvertible, Codable {
         case auto = "AUTO"
         case gp2 = "GP2"
+        case gp3 = "GP3"
         case io1 = "IO1"
+        case io2 = "IO2"
         case sc1 = "SC1"
         case st1 = "ST1"
         case standard = "STANDARD"
@@ -268,19 +277,19 @@ extension Mgn {
         public let createPublicIP: Bool
         /// Request to configure data plane routing during Replication Settings template creation.
         public let dataPlaneRouting: ReplicationConfigurationDataPlaneRouting
-        /// Request to configure the Staging Disk EBS volume type to "gp2" during Replication Settings template creation.
+        /// Request to configure the default large staging disk EBS volume type during Replication Settings template creation.
         public let defaultLargeStagingDiskType: ReplicationConfigurationDefaultLargeStagingDiskType
-        /// Request to configure EBS enryption during Replication Settings template creation.
+        /// Request to configure EBS encryption during Replication Settings template creation.
         public let ebsEncryption: ReplicationConfigurationEbsEncryption
-        /// Request to configure an EBS enryption key during Replication Settings template creation.
+        /// Request to configure an EBS encryption key during Replication Settings template creation.
         public let ebsEncryptionKeyArn: String?
         /// Request to configure the Replication Server instance type during Replication Settings template creation.
         public let replicationServerInstanceType: String
-        /// Request to configure the Replication Server Secuirity group ID during Replication Settings template creation.
+        /// Request to configure the Replication Server Security group ID during Replication Settings template creation.
         public let replicationServersSecurityGroupsIDs: [String]
         /// Request to configure the Staging Area subnet ID during Replication Settings template creation.
         public let stagingAreaSubnetId: String
-        /// Request to configure Staiging Area tags during Replication Settings template creation.
+        /// Request to configure Staging Area tags during Replication Settings template creation.
         public let stagingAreaTags: [String: String]
         /// Request to configure tags during Replication Settings template creation.
         public let tags: [String: String]?
@@ -376,7 +385,7 @@ extension Mgn {
         public let dataReplicationState: DataReplicationState?
         /// Request to query the time when data replication will be complete.
         public let etaDateTime: String?
-        /// Request to query data replication lag durating.
+        /// Request to query data replication lag duration.
         public let lagDuration: String?
         /// Request to query data replication last snapshot time.
         public let lastSnapshotDateTime: String?
@@ -608,20 +617,20 @@ extension Mgn {
 
     public struct DescribeJobsRequest: AWSEncodableShape {
         /// Request to describe Job log filters.
-        public let filters: DescribeJobsRequestFilters
-        /// Request to describe Job log by max results.
+        public let filters: DescribeJobsRequestFilters?
+        /// Request to describe job log items by max results.
         public let maxResults: Int?
-        /// Request to describe Job logby next token.
+        /// Request to describe job log items by next token.
         public let nextToken: String?
 
-        public init(filters: DescribeJobsRequestFilters, maxResults: Int? = nil, nextToken: String? = nil) {
+        public init(filters: DescribeJobsRequestFilters? = nil, maxResults: Int? = nil, nextToken: String? = nil) {
             self.filters = filters
             self.maxResults = maxResults
             self.nextToken = nextToken
         }
 
         public func validate(name: String) throws {
-            try self.filters.validate(name: "\(name).filters")
+            try self.filters?.validate(name: "\(name).filters")
             try self.validate(self.maxResults, name: "maxResults", parent: name, min: 1)
             try self.validate(self.nextToken, name: "nextToken", parent: name, max: 2048)
             try self.validate(self.nextToken, name: "nextToken", parent: name, min: 0)
@@ -639,7 +648,7 @@ extension Mgn {
         public let fromDate: String?
         /// Request to describe Job log filters by job ID.
         public let jobIDs: [String]?
-        /// Request to describe Job log by last date.
+        /// Request to describe job log items by last date.
         public let toDate: String?
 
         public init(fromDate: String? = nil, jobIDs: [String]? = nil, toDate: String? = nil) {
@@ -694,9 +703,9 @@ extension Mgn {
         /// Request to describe Replication Configuration template by next token.
         public let nextToken: String?
         /// Request to describe Replication Configuration template by template IDs.
-        public let replicationConfigurationTemplateIDs: [String]
+        public let replicationConfigurationTemplateIDs: [String]?
 
-        public init(maxResults: Int? = nil, nextToken: String? = nil, replicationConfigurationTemplateIDs: [String]) {
+        public init(maxResults: Int? = nil, nextToken: String? = nil, replicationConfigurationTemplateIDs: [String]? = nil) {
             self.maxResults = maxResults
             self.nextToken = nextToken
             self.replicationConfigurationTemplateIDs = replicationConfigurationTemplateIDs
@@ -706,7 +715,7 @@ extension Mgn {
             try self.validate(self.maxResults, name: "maxResults", parent: name, min: 1)
             try self.validate(self.nextToken, name: "nextToken", parent: name, max: 2048)
             try self.validate(self.nextToken, name: "nextToken", parent: name, min: 0)
-            try self.replicationConfigurationTemplateIDs.forEach {
+            try self.replicationConfigurationTemplateIDs?.forEach {
                 try validate($0, name: "replicationConfigurationTemplateIDs[]", parent: name, max: 21)
                 try validate($0, name: "replicationConfigurationTemplateIDs[]", parent: name, min: 21)
                 try validate($0, name: "replicationConfigurationTemplateIDs[]", parent: name, pattern: "^rct-[0-9a-zA-Z]{17}$")
@@ -741,20 +750,20 @@ extension Mgn {
 
     public struct DescribeSourceServersRequest: AWSEncodableShape {
         /// Request to filter Source Servers list.
-        public let filters: DescribeSourceServersRequestFilters
+        public let filters: DescribeSourceServersRequestFilters?
         /// Request to filter Source Servers list by maximum results.
         public let maxResults: Int?
         /// Request to filter Source Servers list by next token.
         public let nextToken: String?
 
-        public init(filters: DescribeSourceServersRequestFilters, maxResults: Int? = nil, nextToken: String? = nil) {
+        public init(filters: DescribeSourceServersRequestFilters? = nil, maxResults: Int? = nil, nextToken: String? = nil) {
             self.filters = filters
             self.maxResults = maxResults
             self.nextToken = nextToken
         }
 
         public func validate(name: String) throws {
-            try self.filters.validate(name: "\(name).filters")
+            try self.filters?.validate(name: "\(name).filters")
             try self.validate(self.maxResults, name: "maxResults", parent: name, min: 1)
             try self.validate(self.nextToken, name: "nextToken", parent: name, max: 2048)
             try self.validate(self.nextToken, name: "nextToken", parent: name, min: 0)
@@ -902,7 +911,7 @@ extension Mgn {
     }
 
     public struct FinalizeCutoverRequest: AWSEncodableShape {
-        /// Request to finalize Cutover by Soure Server ID.
+        /// Request to finalize Cutover by Source Server ID.
         public let sourceServerID: String
 
         public init(sourceServerID: String) {
@@ -940,7 +949,7 @@ extension Mgn {
     }
 
     public struct GetReplicationConfigurationRequest: AWSEncodableShape {
-        /// Request to get Replication Configuaration by Source Server ID.
+        /// Request to get Replication Configuration by Source Server ID.
         public let sourceServerID: String
 
         public init(sourceServerID: String) {
@@ -1010,7 +1019,7 @@ extension Mgn {
         public let participatingServers: [ParticipatingServer]?
         /// Job status.
         public let status: JobStatus?
-        /// Tags associated with spcific Job.
+        /// Tags associated with specific Job.
         public let tags: [String: String]?
         /// Job type.
         public let type: JobType?
@@ -1087,24 +1096,27 @@ extension Mgn {
     }
 
     public struct LaunchConfiguration: AWSDecodableShape {
+        /// Launch configuration boot mode.
+        public let bootMode: BootMode?
         /// Copy Private IP during Launch Configuration.
         public let copyPrivateIp: Bool?
         /// Copy Tags during Launch Configuration.
         public let copyTags: Bool?
-        /// Configure EC2 lauch configuration template ID.
+        /// Launch configuration EC2 Launch template ID.
         public let ec2LaunchTemplateID: String?
-        /// Configure launch dispostion for launch configuration.
+        /// Launch disposition for launch configuration.
         public let launchDisposition: LaunchDisposition?
-        /// Configure launch configuration OS licensing.
+        /// Launch configuration OS licensing.
         public let licensing: Licensing?
-        /// Configure launch configuration name.
+        /// Launch configuration name.
         public let name: String?
-        /// Configure launch configuration Source Server ID.
+        /// Launch configuration Source Server ID.
         public let sourceServerID: String?
-        /// Configure launch configuration Target instance type right sizing method.
+        /// Launch configuration Target instance type right sizing method.
         public let targetInstanceTypeRightSizingMethod: TargetInstanceTypeRightSizingMethod?
 
-        public init(copyPrivateIp: Bool? = nil, copyTags: Bool? = nil, ec2LaunchTemplateID: String? = nil, launchDisposition: LaunchDisposition? = nil, licensing: Licensing? = nil, name: String? = nil, sourceServerID: String? = nil, targetInstanceTypeRightSizingMethod: TargetInstanceTypeRightSizingMethod? = nil) {
+        public init(bootMode: BootMode? = nil, copyPrivateIp: Bool? = nil, copyTags: Bool? = nil, ec2LaunchTemplateID: String? = nil, launchDisposition: LaunchDisposition? = nil, licensing: Licensing? = nil, name: String? = nil, sourceServerID: String? = nil, targetInstanceTypeRightSizingMethod: TargetInstanceTypeRightSizingMethod? = nil) {
+            self.bootMode = bootMode
             self.copyPrivateIp = copyPrivateIp
             self.copyTags = copyTags
             self.ec2LaunchTemplateID = ec2LaunchTemplateID
@@ -1116,6 +1128,7 @@ extension Mgn {
         }
 
         private enum CodingKeys: String, CodingKey {
+            case bootMode
             case copyPrivateIp
             case copyTags
             case ec2LaunchTemplateID
@@ -1128,11 +1141,11 @@ extension Mgn {
     }
 
     public struct LaunchedInstance: AWSDecodableShape {
-        /// Configure launced instance EC2 ID.
+        /// Launched instance EC2 ID.
         public let ec2InstanceID: String?
-        /// Configure launced instance first boot.
+        /// Launched instance first boot.
         public let firstBoot: FirstBoot?
-        /// Configure launced instance Job ID.
+        /// Launched instance Job ID.
         public let jobID: String?
 
         public init(ec2InstanceID: String? = nil, firstBoot: FirstBoot? = nil, jobID: String? = nil) {
@@ -1262,7 +1275,7 @@ extension Mgn {
     }
 
     public struct LifeCycleLastTest: AWSDecodableShape {
-        /// Lifecycle last Test finlized.
+        /// Lifecycle last Test finalized.
         public let finalized: LifeCycleLastTestFinalized?
         /// Lifecycle last Test initiated.
         public let initiated: LifeCycleLastTestInitiated?
@@ -1506,18 +1519,22 @@ extension Mgn {
         public let isBootDisk: Bool?
         /// Replication Configuration replicated disk staging disk type.
         public let stagingDiskType: ReplicationConfigurationReplicatedDiskStagingDiskType?
+        /// Replication Configuration replicated disk throughput.
+        public let throughput: Int64?
 
-        public init(deviceName: String? = nil, iops: Int64? = nil, isBootDisk: Bool? = nil, stagingDiskType: ReplicationConfigurationReplicatedDiskStagingDiskType? = nil) {
+        public init(deviceName: String? = nil, iops: Int64? = nil, isBootDisk: Bool? = nil, stagingDiskType: ReplicationConfigurationReplicatedDiskStagingDiskType? = nil, throughput: Int64? = nil) {
             self.deviceName = deviceName
             self.iops = iops
             self.isBootDisk = isBootDisk
             self.stagingDiskType = stagingDiskType
+            self.throughput = throughput
         }
 
         public func validate(name: String) throws {
             try self.validate(self.deviceName, name: "deviceName", parent: name, max: 256)
             try self.validate(self.deviceName, name: "deviceName", parent: name, min: 0)
             try self.validate(self.iops, name: "iops", parent: name, min: 0)
+            try self.validate(self.throughput, name: "throughput", parent: name, min: 0)
         }
 
         private enum CodingKeys: String, CodingKey {
@@ -1525,6 +1542,7 @@ extension Mgn {
             case iops
             case isBootDisk
             case stagingDiskType
+            case throughput
         }
     }
 
@@ -1533,19 +1551,19 @@ extension Mgn {
         public let arn: String?
         /// Replication Configuration template associate default Application Migration Service Security group.
         public let associateDefaultSecurityGroup: Bool?
-        /// Replication Configuration template bandwidth throtting.
+        /// Replication Configuration template bandwidth throttling.
         public let bandwidthThrottling: Int64?
         /// Replication Configuration template create Public IP.
         public let createPublicIP: Bool?
         /// Replication Configuration template data plane routing.
         public let dataPlaneRouting: ReplicationConfigurationDataPlaneRouting?
-        /// Replication Configuration template use dedault large Staging Disk type.
+        /// Replication Configuration template use default large Staging Disk type.
         public let defaultLargeStagingDiskType: ReplicationConfigurationDefaultLargeStagingDiskType?
         /// Replication Configuration template EBS encryption.
         public let ebsEncryption: ReplicationConfigurationEbsEncryption?
         /// Replication Configuration template EBS encryption key ARN.
         public let ebsEncryptionKeyArn: String?
-        /// Replication Configuration template template ID.
+        /// Replication Configuration template ID.
         public let replicationConfigurationTemplateID: String
         /// Replication Configuration template server instance type.
         public let replicationServerInstanceType: String?
@@ -1923,6 +1941,8 @@ extension Mgn {
     }
 
     public struct UpdateLaunchConfigurationRequest: AWSEncodableShape {
+        /// Update Launch configuration boot mode request.
+        public let bootMode: BootMode?
         /// Update Launch configuration copy Private IP request.
         public let copyPrivateIp: Bool?
         /// Update Launch configuration copy Tags request.
@@ -1938,7 +1958,8 @@ extension Mgn {
         /// Update Launch configuration Target instance right sizing request.
         public let targetInstanceTypeRightSizingMethod: TargetInstanceTypeRightSizingMethod?
 
-        public init(copyPrivateIp: Bool? = nil, copyTags: Bool? = nil, launchDisposition: LaunchDisposition? = nil, licensing: Licensing? = nil, name: String? = nil, sourceServerID: String, targetInstanceTypeRightSizingMethod: TargetInstanceTypeRightSizingMethod? = nil) {
+        public init(bootMode: BootMode? = nil, copyPrivateIp: Bool? = nil, copyTags: Bool? = nil, launchDisposition: LaunchDisposition? = nil, licensing: Licensing? = nil, name: String? = nil, sourceServerID: String, targetInstanceTypeRightSizingMethod: TargetInstanceTypeRightSizingMethod? = nil) {
+            self.bootMode = bootMode
             self.copyPrivateIp = copyPrivateIp
             self.copyTags = copyTags
             self.launchDisposition = launchDisposition
@@ -1957,6 +1978,7 @@ extension Mgn {
         }
 
         private enum CodingKeys: String, CodingKey {
+            case bootMode
             case copyPrivateIp
             case copyTags
             case launchDisposition

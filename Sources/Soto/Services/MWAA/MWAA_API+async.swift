@@ -22,7 +22,7 @@ import SotoCore
 extension MWAA {
     // MARK: Async API Calls
 
-    /// Create a CLI token to use Airflow CLI.
+    /// Creates a CLI token for the Airflow CLI. To learn more, see Creating an Apache Airflow CLI token.
     public func createCliToken(_ input: CreateCliTokenRequest, logger: Logger = AWSClient.loggingDisabled, on eventLoop: EventLoop? = nil) async throws -> CreateCliTokenResponse {
         return try await self.client.execute(operation: "CreateCliToken", path: "/clitoken/{Name}", httpMethod: .POST, serviceConfig: self.config, input: input, hostPrefix: "env.", logger: logger, on: eventLoop)
     }
@@ -32,7 +32,7 @@ extension MWAA {
         return try await self.client.execute(operation: "CreateEnvironment", path: "/environments/{Name}", httpMethod: .PUT, serviceConfig: self.config, input: input, hostPrefix: "api.", logger: logger, on: eventLoop)
     }
 
-    /// Create a JWT token to be used to login to Airflow Web UI with claims based Authentication.
+    /// Creates a web login token for the Airflow Web UI. To learn more, see Creating an Apache Airflow web login token.
     public func createWebLoginToken(_ input: CreateWebLoginTokenRequest, logger: Logger = AWSClient.loggingDisabled, on eventLoop: EventLoop? = nil) async throws -> CreateWebLoginTokenResponse {
         return try await self.client.execute(operation: "CreateWebLoginToken", path: "/webtoken/{Name}", httpMethod: .POST, serviceConfig: self.config, input: input, hostPrefix: "env.", logger: logger, on: eventLoop)
     }
@@ -42,7 +42,7 @@ extension MWAA {
         return try await self.client.execute(operation: "DeleteEnvironment", path: "/environments/{Name}", httpMethod: .DELETE, serviceConfig: self.config, input: input, hostPrefix: "api.", logger: logger, on: eventLoop)
     }
 
-    /// Retrieves the details of an Amazon Managed Workflows for Apache Airflow (MWAA) environment.
+    /// Describes an Amazon Managed Workflows for Apache Airflow (MWAA) environment.
     public func getEnvironment(_ input: GetEnvironmentInput, logger: Logger = AWSClient.loggingDisabled, on eventLoop: EventLoop? = nil) async throws -> GetEnvironmentOutput {
         return try await self.client.execute(operation: "GetEnvironment", path: "/environments/{Name}", httpMethod: .GET, serviceConfig: self.config, input: input, hostPrefix: "api.", logger: logger, on: eventLoop)
     }
@@ -57,7 +57,7 @@ extension MWAA {
         return try await self.client.execute(operation: "ListTagsForResource", path: "/tags/{ResourceArn}", httpMethod: .GET, serviceConfig: self.config, input: input, hostPrefix: "api.", logger: logger, on: eventLoop)
     }
 
-    /// An operation for publishing metrics from the customers to the Ops plane.
+    ///  Internal only. Publishes environment health metrics to Amazon CloudWatch.
     public func publishMetrics(_ input: PublishMetricsInput, logger: Logger = AWSClient.loggingDisabled, on eventLoop: EventLoop? = nil) async throws -> PublishMetricsOutput {
         return try await self.client.execute(operation: "PublishMetrics", path: "/metrics/environments/{EnvironmentName}", httpMethod: .POST, serviceConfig: self.config, input: input, hostPrefix: "ops.", logger: logger, on: eventLoop)
     }

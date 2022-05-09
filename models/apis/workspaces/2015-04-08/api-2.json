@@ -80,6 +80,22 @@
         {"shape":"InvalidParameterValuesException"}
       ]
     },
+    "CreateConnectClientAddIn":{
+      "name":"CreateConnectClientAddIn",
+      "http":{
+        "method":"POST",
+        "requestUri":"/"
+      },
+      "input":{"shape":"CreateConnectClientAddInRequest"},
+      "output":{"shape":"CreateConnectClientAddInResult"},
+      "errors":[
+        {"shape":"InvalidParameterValuesException"},
+        {"shape":"ResourceNotFoundException"},
+        {"shape":"ResourceCreationFailedException"},
+        {"shape":"ResourceAlreadyExistsException"},
+        {"shape":"AccessDeniedException"}
+      ]
+    },
     "CreateConnectionAlias":{
       "name":"CreateConnectionAlias",
       "http":{
@@ -173,6 +189,34 @@
       "errors":[
         {"shape":"ResourceLimitExceededException"},
         {"shape":"InvalidParameterValuesException"}
+      ]
+    },
+    "DeleteClientBranding":{
+      "name":"DeleteClientBranding",
+      "http":{
+        "method":"POST",
+        "requestUri":"/"
+      },
+      "input":{"shape":"DeleteClientBrandingRequest"},
+      "output":{"shape":"DeleteClientBrandingResult"},
+      "errors":[
+        {"shape":"InvalidParameterValuesException"},
+        {"shape":"ResourceNotFoundException"},
+        {"shape":"AccessDeniedException"}
+      ]
+    },
+    "DeleteConnectClientAddIn":{
+      "name":"DeleteConnectClientAddIn",
+      "http":{
+        "method":"POST",
+        "requestUri":"/"
+      },
+      "input":{"shape":"DeleteConnectClientAddInRequest"},
+      "output":{"shape":"DeleteConnectClientAddInResult"},
+      "errors":[
+        {"shape":"InvalidParameterValuesException"},
+        {"shape":"ResourceNotFoundException"},
+        {"shape":"AccessDeniedException"}
       ]
     },
     "DeleteConnectionAlias":{
@@ -289,6 +333,20 @@
         {"shape":"AccessDeniedException"}
       ]
     },
+    "DescribeClientBranding":{
+      "name":"DescribeClientBranding",
+      "http":{
+        "method":"POST",
+        "requestUri":"/"
+      },
+      "input":{"shape":"DescribeClientBrandingRequest"},
+      "output":{"shape":"DescribeClientBrandingResult"},
+      "errors":[
+        {"shape":"InvalidParameterValuesException"},
+        {"shape":"ResourceNotFoundException"},
+        {"shape":"AccessDeniedException"}
+      ]
+    },
     "DescribeClientProperties":{
       "name":"DescribeClientProperties",
       "http":{
@@ -297,6 +355,20 @@
       },
       "input":{"shape":"DescribeClientPropertiesRequest"},
       "output":{"shape":"DescribeClientPropertiesResult"},
+      "errors":[
+        {"shape":"InvalidParameterValuesException"},
+        {"shape":"ResourceNotFoundException"},
+        {"shape":"AccessDeniedException"}
+      ]
+    },
+    "DescribeConnectClientAddIns":{
+      "name":"DescribeConnectClientAddIns",
+      "http":{
+        "method":"POST",
+        "requestUri":"/"
+      },
+      "input":{"shape":"DescribeConnectClientAddInsRequest"},
+      "output":{"shape":"DescribeConnectClientAddInsResult"},
       "errors":[
         {"shape":"InvalidParameterValuesException"},
         {"shape":"ResourceNotFoundException"},
@@ -474,6 +546,20 @@
         {"shape":"InvalidParameterValuesException"},
         {"shape":"ResourceNotFoundException"},
         {"shape":"InvalidResourceStateException"},
+        {"shape":"AccessDeniedException"}
+      ]
+    },
+    "ImportClientBranding":{
+      "name":"ImportClientBranding",
+      "http":{
+        "method":"POST",
+        "requestUri":"/"
+      },
+      "input":{"shape":"ImportClientBrandingRequest"},
+      "output":{"shape":"ImportClientBrandingResult"},
+      "errors":[
+        {"shape":"InvalidParameterValuesException"},
+        {"shape":"ResourceLimitExceededException"},
         {"shape":"AccessDeniedException"}
       ]
     },
@@ -721,6 +807,20 @@
       "input":{"shape":"TerminateWorkspacesRequest"},
       "output":{"shape":"TerminateWorkspacesResult"}
     },
+    "UpdateConnectClientAddIn":{
+      "name":"UpdateConnectClientAddIn",
+      "http":{
+        "method":"POST",
+        "requestUri":"/"
+      },
+      "input":{"shape":"UpdateConnectClientAddInRequest"},
+      "output":{"shape":"UpdateConnectClientAddInResult"},
+      "errors":[
+        {"shape":"InvalidParameterValuesException"},
+        {"shape":"ResourceNotFoundException"},
+        {"shape":"AccessDeniedException"}
+      ]
+    },
     "UpdateConnectionAliasPermission":{
       "name":"UpdateConnectionAliasPermission",
       "http":{
@@ -821,7 +921,25 @@
       "type":"list",
       "member":{"shape":"AccountModification"}
     },
+    "AddInName":{
+      "type":"string",
+      "max":64,
+      "min":1,
+      "pattern":"^.*$"
+    },
+    "AddInUrl":{
+      "type":"string",
+      "max":1024,
+      "min":1,
+      "pattern":"^(http|https)\\://\\S+"
+    },
     "Alias":{"type":"string"},
+    "AmazonUuid":{
+      "type":"string",
+      "max":36,
+      "min":36,
+      "pattern":"[a-f0-9]{8}-[a-f0-9]{4}-[a-f0-9]{4}-[a-f0-9]{4}-[a-f0-9]{12}"
+    },
     "Application":{
       "type":"string",
       "enum":[
@@ -914,6 +1032,41 @@
       "member":{"shape":"WorkspaceBundle"}
     },
     "BundleOwner":{"type":"string"},
+    "ClientDeviceType":{
+      "type":"string",
+      "enum":[
+        "DeviceTypeWindows",
+        "DeviceTypeOsx",
+        "DeviceTypeAndroid",
+        "DeviceTypeIos",
+        "DeviceTypeLinux",
+        "DeviceTypeWeb"
+      ]
+    },
+    "ClientDeviceTypeList":{
+      "type":"list",
+      "member":{"shape":"ClientDeviceType"},
+      "max":6,
+      "min":1
+    },
+    "ClientEmail":{
+      "type":"string",
+      "max":64,
+      "min":6,
+      "pattern":"^[a-zA-Z0-9._%+-]+@[a-zA-Z0-9.-]+\\.[a-zA-Z]{2,4}$"
+    },
+    "ClientLocale":{
+      "type":"string",
+      "max":5,
+      "min":5,
+      "pattern":"^[a-z]{2}_[A-Z]{2}$"
+    },
+    "ClientLoginMessage":{
+      "type":"string",
+      "max":600,
+      "min":0,
+      "pattern":"^.*$"
+    },
     "ClientProperties":{
       "type":"structure",
       "members":{
@@ -931,6 +1084,12 @@
         "ClientProperties":{"shape":"ClientProperties"}
       }
     },
+    "ClientUrl":{
+      "type":"string",
+      "max":200,
+      "min":1,
+      "pattern":"^(http|https)\\://\\S+"
+    },
     "Compute":{
       "type":"string",
       "enum":[
@@ -940,7 +1099,9 @@
         "POWER",
         "GRAPHICS",
         "POWERPRO",
-        "GRAPHICSPRO"
+        "GRAPHICSPRO",
+        "GRAPHICS_G4DN",
+        "GRAPHICSPRO_G4DN"
       ]
     },
     "ComputeType":{
@@ -950,6 +1111,19 @@
       }
     },
     "ComputerName":{"type":"string"},
+    "ConnectClientAddIn":{
+      "type":"structure",
+      "members":{
+        "AddInId":{"shape":"AmazonUuid"},
+        "ResourceId":{"shape":"DirectoryId"},
+        "Name":{"shape":"AddInName"},
+        "URL":{"shape":"AddInUrl"}
+      }
+    },
+    "ConnectClientAddInList":{
+      "type":"list",
+      "member":{"shape":"ConnectClientAddIn"}
+    },
     "ConnectionAlias":{
       "type":"structure",
       "members":{
@@ -1057,6 +1231,25 @@
       "type":"structure",
       "members":{
         "ImageId":{"shape":"WorkspaceImageId"}
+      }
+    },
+    "CreateConnectClientAddInRequest":{
+      "type":"structure",
+      "required":[
+        "ResourceId",
+        "Name",
+        "URL"
+      ],
+      "members":{
+        "ResourceId":{"shape":"DirectoryId"},
+        "Name":{"shape":"AddInName"},
+        "URL":{"shape":"AddInUrl"}
+      }
+    },
+    "CreateConnectClientAddInResult":{
+      "type":"structure",
+      "members":{
+        "AddInId":{"shape":"AmazonUuid"}
       }
     },
     "CreateConnectionAliasRequest":{
@@ -1191,6 +1384,31 @@
         "DISABLED"
       ]
     },
+    "DefaultClientBrandingAttributes":{
+      "type":"structure",
+      "members":{
+        "LogoUrl":{"shape":"ClientUrl"},
+        "SupportEmail":{"shape":"ClientEmail"},
+        "SupportLink":{"shape":"ClientUrl"},
+        "ForgotPasswordLink":{"shape":"ClientUrl"},
+        "LoginMessage":{"shape":"LoginMessage"}
+      }
+    },
+    "DefaultImportClientBrandingAttributes":{
+      "type":"structure",
+      "members":{
+        "Logo":{"shape":"DefaultLogo"},
+        "SupportEmail":{"shape":"ClientEmail"},
+        "SupportLink":{"shape":"ClientUrl"},
+        "ForgotPasswordLink":{"shape":"ClientUrl"},
+        "LoginMessage":{"shape":"LoginMessage"}
+      }
+    },
+    "DefaultLogo":{
+      "type":"blob",
+      "max":1500000,
+      "min":1
+    },
     "DefaultOu":{"type":"string"},
     "DefaultWorkspaceCreationProperties":{
       "type":"structure",
@@ -1201,6 +1419,38 @@
         "CustomSecurityGroupId":{"shape":"SecurityGroupId"},
         "UserEnabledAsLocalAdministrator":{"shape":"BooleanObject"},
         "EnableMaintenanceMode":{"shape":"BooleanObject"}
+      }
+    },
+    "DeleteClientBrandingRequest":{
+      "type":"structure",
+      "required":[
+        "ResourceId",
+        "Platforms"
+      ],
+      "members":{
+        "ResourceId":{"shape":"DirectoryId"},
+        "Platforms":{"shape":"ClientDeviceTypeList"}
+      }
+    },
+    "DeleteClientBrandingResult":{
+      "type":"structure",
+      "members":{
+      }
+    },
+    "DeleteConnectClientAddInRequest":{
+      "type":"structure",
+      "required":[
+        "AddInId",
+        "ResourceId"
+      ],
+      "members":{
+        "AddInId":{"shape":"AmazonUuid"},
+        "ResourceId":{"shape":"DirectoryId"}
+      }
+    },
+    "DeleteConnectClientAddInResult":{
+      "type":"structure",
+      "members":{
       }
     },
     "DeleteConnectionAliasRequest":{
@@ -1303,6 +1553,24 @@
         "DedicatedTenancyManagementCidrRange":{"shape":"DedicatedTenancyManagementCidrRange"}
       }
     },
+    "DescribeClientBrandingRequest":{
+      "type":"structure",
+      "required":["ResourceId"],
+      "members":{
+        "ResourceId":{"shape":"DirectoryId"}
+      }
+    },
+    "DescribeClientBrandingResult":{
+      "type":"structure",
+      "members":{
+        "DeviceTypeWindows":{"shape":"DefaultClientBrandingAttributes"},
+        "DeviceTypeOsx":{"shape":"DefaultClientBrandingAttributes"},
+        "DeviceTypeAndroid":{"shape":"DefaultClientBrandingAttributes"},
+        "DeviceTypeIos":{"shape":"IosClientBrandingAttributes"},
+        "DeviceTypeLinux":{"shape":"DefaultClientBrandingAttributes"},
+        "DeviceTypeWeb":{"shape":"DefaultClientBrandingAttributes"}
+      }
+    },
     "DescribeClientPropertiesRequest":{
       "type":"structure",
       "required":["ResourceIds"],
@@ -1314,6 +1582,22 @@
       "type":"structure",
       "members":{
         "ClientPropertiesList":{"shape":"ClientPropertiesList"}
+      }
+    },
+    "DescribeConnectClientAddInsRequest":{
+      "type":"structure",
+      "required":["ResourceId"],
+      "members":{
+        "ResourceId":{"shape":"DirectoryId"},
+        "NextToken":{"shape":"PaginationToken"},
+        "MaxResults":{"shape":"Limit"}
+      }
+    },
+    "DescribeConnectClientAddInsResult":{
+      "type":"structure",
+      "members":{
+        "AddIns":{"shape":"ConnectClientAddInList"},
+        "NextToken":{"shape":"PaginationToken"}
       }
     },
     "DescribeConnectionAliasPermissionsRequest":{
@@ -1599,6 +1883,30 @@
         "SHARED"
       ]
     },
+    "ImportClientBrandingRequest":{
+      "type":"structure",
+      "required":["ResourceId"],
+      "members":{
+        "ResourceId":{"shape":"DirectoryId"},
+        "DeviceTypeWindows":{"shape":"DefaultImportClientBrandingAttributes"},
+        "DeviceTypeOsx":{"shape":"DefaultImportClientBrandingAttributes"},
+        "DeviceTypeAndroid":{"shape":"DefaultImportClientBrandingAttributes"},
+        "DeviceTypeIos":{"shape":"IosImportClientBrandingAttributes"},
+        "DeviceTypeLinux":{"shape":"DefaultImportClientBrandingAttributes"},
+        "DeviceTypeWeb":{"shape":"DefaultImportClientBrandingAttributes"}
+      }
+    },
+    "ImportClientBrandingResult":{
+      "type":"structure",
+      "members":{
+        "DeviceTypeWindows":{"shape":"DefaultClientBrandingAttributes"},
+        "DeviceTypeOsx":{"shape":"DefaultClientBrandingAttributes"},
+        "DeviceTypeAndroid":{"shape":"DefaultClientBrandingAttributes"},
+        "DeviceTypeIos":{"shape":"IosClientBrandingAttributes"},
+        "DeviceTypeLinux":{"shape":"DefaultClientBrandingAttributes"},
+        "DeviceTypeWeb":{"shape":"DefaultClientBrandingAttributes"}
+      }
+    },
     "ImportWorkspaceImageRequest":{
       "type":"structure",
       "required":[
@@ -1635,6 +1943,45 @@
         "message":{"shape":"ExceptionMessage"}
       },
       "exception":true
+    },
+    "Ios2XLogo":{
+      "type":"blob",
+      "max":1770000,
+      "min":1
+    },
+    "Ios3XLogo":{
+      "type":"blob",
+      "max":1770000,
+      "min":1
+    },
+    "IosClientBrandingAttributes":{
+      "type":"structure",
+      "members":{
+        "LogoUrl":{"shape":"ClientUrl"},
+        "Logo2xUrl":{"shape":"ClientUrl"},
+        "Logo3xUrl":{"shape":"ClientUrl"},
+        "SupportEmail":{"shape":"ClientEmail"},
+        "SupportLink":{"shape":"ClientUrl"},
+        "ForgotPasswordLink":{"shape":"ClientUrl"},
+        "LoginMessage":{"shape":"LoginMessage"}
+      }
+    },
+    "IosImportClientBrandingAttributes":{
+      "type":"structure",
+      "members":{
+        "Logo":{"shape":"IosLogo"},
+        "Logo2x":{"shape":"Ios2XLogo"},
+        "Logo3x":{"shape":"Ios3XLogo"},
+        "SupportEmail":{"shape":"ClientEmail"},
+        "SupportLink":{"shape":"ClientUrl"},
+        "ForgotPasswordLink":{"shape":"ClientUrl"},
+        "LoginMessage":{"shape":"LoginMessage"}
+      }
+    },
+    "IosLogo":{
+      "type":"blob",
+      "max":447000,
+      "min":1
     },
     "IpAddress":{"type":"string"},
     "IpGroupDesc":{"type":"string"},
@@ -1684,6 +2031,11 @@
         "ManagementCidrRanges":{"shape":"DedicatedTenancyCidrRangeList"},
         "NextToken":{"shape":"PaginationToken"}
       }
+    },
+    "LoginMessage":{
+      "type":"map",
+      "key":{"shape":"ClientLocale"},
+      "value":{"shape":"ClientLoginMessage"}
     },
     "ManagementCidrRangeConstraint":{
       "type":"string",
@@ -2232,6 +2584,24 @@
       },
       "exception":true
     },
+    "UpdateConnectClientAddInRequest":{
+      "type":"structure",
+      "required":[
+        "AddInId",
+        "ResourceId"
+      ],
+      "members":{
+        "AddInId":{"shape":"AmazonUuid"},
+        "ResourceId":{"shape":"DirectoryId"},
+        "Name":{"shape":"AddInName"},
+        "URL":{"shape":"AddInUrl"}
+      }
+    },
+    "UpdateConnectClientAddInResult":{
+      "type":"structure",
+      "members":{
+      }
+    },
     "UpdateConnectionAliasPermissionRequest":{
       "type":"structure",
       "required":[
@@ -2492,6 +2862,7 @@
         "BYOL_REGULAR",
         "BYOL_GRAPHICS",
         "BYOL_GRAPHICSPRO",
+        "BYOL_GRAPHICS_G4DN",
         "BYOL_REGULAR_WSP"
       ]
     },

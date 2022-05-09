@@ -218,6 +218,11 @@ extension Macie2 {
         public var description: String { return self.rawValue }
     }
 
+    public enum OriginType: String, CustomStringConvertible, Codable {
+        case sensitiveDataDiscoveryJob = "SENSITIVE_DATA_DISCOVERY_JOB"
+        public var description: String { return self.rawValue }
+    }
+
     public enum RelationshipStatus: String, CustomStringConvertible, Codable {
         case accountsuspended = "AccountSuspended"
         case created = "Created"
@@ -913,12 +918,14 @@ extension Macie2 {
         public let detailedResultsLocation: String?
         public let jobArn: String?
         public let jobId: String?
+        public let originType: OriginType?
         public let result: ClassificationResult?
 
-        public init(detailedResultsLocation: String? = nil, jobArn: String? = nil, jobId: String? = nil, result: ClassificationResult? = nil) {
+        public init(detailedResultsLocation: String? = nil, jobArn: String? = nil, jobId: String? = nil, originType: OriginType? = nil, result: ClassificationResult? = nil) {
             self.detailedResultsLocation = detailedResultsLocation
             self.jobArn = jobArn
             self.jobId = jobId
+            self.originType = originType
             self.result = result
         }
 
@@ -926,6 +933,7 @@ extension Macie2 {
             case detailedResultsLocation
             case jobArn
             case jobId
+            case originType
             case result
         }
     }
@@ -1050,12 +1058,12 @@ extension Macie2 {
         public let ignoreWords: [String]?
         public let keywords: [String]?
         public let maximumMatchDistance: Int?
-        public let name: String?
-        public let regex: String?
+        public let name: String
+        public let regex: String
         public let severityLevels: [SeverityLevel]?
         public let tags: [String: String]?
 
-        public init(clientToken: String? = CreateCustomDataIdentifierRequest.idempotencyToken(), description: String? = nil, ignoreWords: [String]? = nil, keywords: [String]? = nil, maximumMatchDistance: Int? = nil, name: String? = nil, regex: String? = nil, severityLevels: [SeverityLevel]? = nil, tags: [String: String]? = nil) {
+        public init(clientToken: String? = CreateCustomDataIdentifierRequest.idempotencyToken(), description: String? = nil, ignoreWords: [String]? = nil, keywords: [String]? = nil, maximumMatchDistance: Int? = nil, name: String, regex: String, severityLevels: [SeverityLevel]? = nil, tags: [String: String]? = nil) {
             self.clientToken = clientToken
             self.description = description
             self.ignoreWords = ignoreWords

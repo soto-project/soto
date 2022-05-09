@@ -31,6 +31,12 @@ extension Translate {
         public var description: String { return self.rawValue }
     }
 
+    public enum Formality: String, CustomStringConvertible, Codable {
+        case formal = "FORMAL"
+        case informal = "INFORMAL"
+        public var description: String { return self.rawValue }
+    }
+
     public enum JobStatus: String, CustomStringConvertible, Codable {
         case completed = "COMPLETED"
         case completedWithError = "COMPLETED_WITH_ERROR"
@@ -1148,14 +1154,17 @@ extension Translate {
     }
 
     public struct TranslationSettings: AWSEncodableShape & AWSDecodableShape {
+        public let formality: Formality?
         /// Enable the profanity setting if you want Amazon Translate to mask profane words and phrases in your translation output. To mask profane words and phrases, Amazon Translate replaces them with the grawlix string “?$#@$“. This 5-character sequence is used for each profane word or phrase, regardless of the length or number of words. Amazon Translate does not detect profanity in all of its supported languages. For languages that support profanity detection, see Supported Languages and Language Codes in the Amazon Translate Developer Guide.
         public let profanity: Profanity?
 
-        public init(profanity: Profanity? = nil) {
+        public init(formality: Formality? = nil, profanity: Profanity? = nil) {
+            self.formality = formality
             self.profanity = profanity
         }
 
         private enum CodingKeys: String, CodingKey {
+            case formality = "Formality"
             case profanity = "Profanity"
         }
     }

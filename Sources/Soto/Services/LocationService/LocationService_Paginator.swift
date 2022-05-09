@@ -502,6 +502,7 @@ extension LocationService.GetDevicePositionHistoryRequest: AWSPaginateToken {
         return .init(
             deviceId: self.deviceId,
             endTimeExclusive: self.endTimeExclusive,
+            maxResults: self.maxResults,
             nextToken: token,
             startTimeInclusive: self.startTimeInclusive,
             trackerName: self.trackerName
@@ -532,6 +533,7 @@ extension LocationService.ListGeofencesRequest: AWSPaginateToken {
     public func usingPaginationToken(_ token: String) -> LocationService.ListGeofencesRequest {
         return .init(
             collectionName: self.collectionName,
+            maxResults: self.maxResults,
             nextToken: token
         )
     }

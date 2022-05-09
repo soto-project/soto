@@ -108,6 +108,12 @@ extension DataSync {
         public var description: String { return self.rawValue }
     }
 
+    public enum ObjectTags: String, CustomStringConvertible, Codable {
+        case none = "NONE"
+        case preserve = "PRESERVE"
+        public var description: String { return self.rawValue }
+    }
+
     public enum `Operator`: String, CustomStringConvertible, Codable {
         case beginswith = "BeginsWith"
         case contains = "Contains"
@@ -455,6 +461,66 @@ extension DataSync {
         }
     }
 
+    public struct CreateLocationFsxOpenZfsRequest: AWSEncodableShape {
+        /// The Amazon Resource Name (ARN) of the FSx for OpenZFS file system.
+        public let fsxFilesystemArn: String
+        /// The type of protocol that DataSync uses to access your file system.
+        public let `protocol`: FsxProtocol
+        /// The ARNs of the security groups that are used to configure the FSx for OpenZFS file system.
+        public let securityGroupArns: [String]
+        /// A subdirectory in the location's path that must begin with /fsx. DataSync uses this subdirectory to read or write data (depending on whether the file system is a source or destination location).
+        public let subdirectory: String?
+        /// The key-value pair that represents a tag that you want to add to the resource. The value can be an empty string. This value helps you manage, filter, and search for your resources. We recommend that you create a name tag for your location.
+        public let tags: [TagListEntry]?
+
+        public init(fsxFilesystemArn: String, protocol: FsxProtocol, securityGroupArns: [String], subdirectory: String? = nil, tags: [TagListEntry]? = nil) {
+            self.fsxFilesystemArn = fsxFilesystemArn
+            self.`protocol` = `protocol`
+            self.securityGroupArns = securityGroupArns
+            self.subdirectory = subdirectory
+            self.tags = tags
+        }
+
+        public func validate(name: String) throws {
+            try self.validate(self.fsxFilesystemArn, name: "fsxFilesystemArn", parent: name, max: 128)
+            try self.validate(self.fsxFilesystemArn, name: "fsxFilesystemArn", parent: name, pattern: "^arn:(aws|aws-cn|aws-us-gov|aws-iso|aws-iso-b):fsx:[a-z\\-0-9]*:[0-9]{12}:file-system/fs-.*$")
+            try self.securityGroupArns.forEach {
+                try validate($0, name: "securityGroupArns[]", parent: name, max: 128)
+                try validate($0, name: "securityGroupArns[]", parent: name, pattern: "^arn:(aws|aws-cn|aws-us-gov|aws-iso|aws-iso-b):ec2:[a-z\\-0-9]*:[0-9]{12}:security-group/.*$")
+            }
+            try self.validate(self.securityGroupArns, name: "securityGroupArns", parent: name, max: 5)
+            try self.validate(self.securityGroupArns, name: "securityGroupArns", parent: name, min: 1)
+            try self.validate(self.subdirectory, name: "subdirectory", parent: name, max: 4096)
+            try self.validate(self.subdirectory, name: "subdirectory", parent: name, pattern: "^[^\\u0000\\u0085\\u2028\\u2029\\r\\n]{1,4096}$")
+            try self.tags?.forEach {
+                try $0.validate(name: "\(name).tags[]")
+            }
+            try self.validate(self.tags, name: "tags", parent: name, max: 50)
+            try self.validate(self.tags, name: "tags", parent: name, min: 0)
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case fsxFilesystemArn = "FsxFilesystemArn"
+            case `protocol` = "Protocol"
+            case securityGroupArns = "SecurityGroupArns"
+            case subdirectory = "Subdirectory"
+            case tags = "Tags"
+        }
+    }
+
+    public struct CreateLocationFsxOpenZfsResponse: AWSDecodableShape {
+        /// The ARN of the FSx for OpenZFS file system location that you created.
+        public let locationArn: String?
+
+        public init(locationArn: String? = nil) {
+            self.locationArn = locationArn
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case locationArn = "LocationArn"
+        }
+    }
+
     public struct CreateLocationFsxWindowsRequest: AWSEncodableShape {
         /// The name of the Windows domain that the FSx for Windows File Server belongs to.
         public let domain: String?
@@ -462,7 +528,7 @@ extension DataSync {
         public let fsxFilesystemArn: String
         /// The password of the user who has the permissions to access files and folders in the FSx for Windows File Server file system.
         public let password: String
-        /// The Amazon Resource Names (ARNs) of the security groups that are used to configure the FSx for Windows File Server file system.
+        /// The ARNs of the security groups that are used to configure the FSx for Windows File Server file system.
         public let securityGroupArns: [String]
         /// A subdirectory in the location's path. This subdirectory in the Amazon FSx for Windows File Server file system is used to read data from the Amazon FSx for Windows File Server source location or write data to the FSx for Windows File Server destination.
         public let subdirectory: String?
@@ -517,7 +583,7 @@ extension DataSync {
     }
 
     public struct CreateLocationFsxWindowsResponse: AWSDecodableShape {
-        /// The Amazon Resource Name (ARN) of the FSx for Windows File Server file system location that is created.
+        /// The Amazon Resource Name (ARN) of the FSx for Windows File Server file system location you created.
         public let locationArn: String?
 
         public init(locationArn: String? = nil) {
@@ -643,7 +709,7 @@ extension DataSync {
         public let mountOptions: NfsMountOptions?
         /// Contains a list of Amazon Resource Names (ARNs) of agents that are used to connect to an NFS server.  If you are copying data to or from your Snowcone device, see NFS Server on Snowcone for more information.
         public let onPremConfig: OnPremConfig
-        /// The name of the NFS server. This value is the IP address or Domain Name Service (DNS) name of the NFS server. An agent that is installed on-premises uses this host name to mount the NFS server in a network.  If you are copying data to or from your Snowcone device, see NFS Server on Snowcone for more information.  This name must either be DNS-compliant or must be an IP version 4 (IPv4) address.
+        /// The name of the NFS server. This value is the IP address or Domain Name Service (DNS) name of the NFS server. An agent that is installed on-premises uses this hostname to mount the NFS server in a network.  If you are copying data to or from your Snowcone device, see NFS Server on Snowcone for more information.  This name must either be DNS-compliant or must be an IP version 4 (IPv4) address.
         public let serverHostname: String
         /// The subdirectory in the NFS file system that is used to read data from the NFS source location or write data to the NFS destination. The NFS path should be a path that's exported by the NFS server, or a subdirectory of that path. The path should be such that it can be mounted by other NFS clients in your network.  To see all the paths exported by your NFS server, run "showmount -e nfs-server-name" from an NFS client that has access to your server. You can specify any directory that appears in the results, and any subdirectory of that directory. Ensure that the NFS export is accessible without Kerberos authentication.  To transfer all the data in the folder you specified, DataSync needs to have permissions to read all the data. To ensure this, either configure the NFS export with no_root_squash, or ensure that the permissions for all of the files that you want DataSync allow read access for all users. Doing either enables the agent to read the files. For the agent to access directories, you must additionally enable all execute access. If you are copying data to or from your Snowcone device, see NFS Server on Snowcone for more information. For information about NFS export configuration, see 18.7. The /etc/exports Configuration File in the Red Hat Enterprise Linux documentation.
         public let subdirectory: String
@@ -702,7 +768,7 @@ extension DataSync {
         public let bucketName: String
         /// Optional. The secret key is used if credentials are required to access the self-managed object storage server. If your object storage requires a user name and password to authenticate, use AccessKey and SecretKey to provide the user name and password, respectively.
         public let secretKey: String?
-        /// The name of the self-managed object storage server. This value is the IP address or Domain Name Service (DNS) name of the object storage server. An agent uses this host name to mount the object storage server in a network.
+        /// The name of the self-managed object storage server. This value is the IP address or Domain Name Service (DNS) name of the object storage server. An agent uses this hostname to mount the object storage server in a network.
         public let serverHostname: String
         /// The port that your self-managed object storage server accepts inbound network traffic on. The server port is set by default to TCP 80 (HTTP) or TCP 443 (HTTPS). You can specify a custom port if your self-managed object storage server requires one.
         public let serverPort: Int?
@@ -781,7 +847,7 @@ extension DataSync {
     }
 
     public struct CreateLocationS3Request: AWSEncodableShape {
-        /// If you are using DataSync on an Amazon Web Services Outpost, specify the Amazon Resource Names (ARNs) of the DataSync agents deployed on your Outpost. For more information about launching a DataSync agent on an Amazon Web Services Outpost, see Deploy your DataSync agent on Outposts.
+        /// If you're using DataSync on an Amazon Web Services Outpost, specify the Amazon Resource Names (ARNs) of the DataSync agents deployed on your Outpost. For more information about launching a DataSync agent on an Amazon Web Services Outpost, see Deploy your DataSync agent on Outposts.
         public let agentArns: [String]?
         /// The ARN of the Amazon S3 bucket. If the bucket is on an Amazon Web Services Outpost, this must be an access point ARN.
         public let s3BucketArn: String
@@ -1211,6 +1277,53 @@ extension DataSync {
             case creationTime = "CreationTime"
             case locationArn = "LocationArn"
             case locationUri = "LocationUri"
+            case securityGroupArns = "SecurityGroupArns"
+        }
+    }
+
+    public struct DescribeLocationFsxOpenZfsRequest: AWSEncodableShape {
+        /// The Amazon Resource Name (ARN) of the FSx for OpenZFS location to describe.
+        public let locationArn: String
+
+        public init(locationArn: String) {
+            self.locationArn = locationArn
+        }
+
+        public func validate(name: String) throws {
+            try self.validate(self.locationArn, name: "locationArn", parent: name, max: 128)
+            try self.validate(self.locationArn, name: "locationArn", parent: name, pattern: "^arn:(aws|aws-cn|aws-us-gov|aws-iso|aws-iso-b):datasync:[a-z\\-0-9]+:[0-9]{12}:location/loc-[0-9a-z]{17}$")
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case locationArn = "LocationArn"
+        }
+    }
+
+    public struct DescribeLocationFsxOpenZfsResponse: AWSDecodableShape {
+        /// The time that the FSx for OpenZFS location was created.
+        public let creationTime: Date?
+        /// The ARN of the FSx for OpenZFS location that was described.
+        public let locationArn: String?
+        /// The uniform resource identifier (URI) of the FSx for OpenZFS location that was described. Example: fsxz://us-west-2.fs-1234567890abcdef02/fsx/folderA/folder
+        public let locationUri: String?
+        /// The type of protocol that DataSync uses to access your file system.
+        public let `protocol`: FsxProtocol?
+        /// The ARNs of the security groups that are configured for the FSx for OpenZFS file system.
+        public let securityGroupArns: [String]?
+
+        public init(creationTime: Date? = nil, locationArn: String? = nil, locationUri: String? = nil, protocol: FsxProtocol? = nil, securityGroupArns: [String]? = nil) {
+            self.creationTime = creationTime
+            self.locationArn = locationArn
+            self.locationUri = locationUri
+            self.`protocol` = `protocol`
+            self.securityGroupArns = securityGroupArns
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case creationTime = "CreationTime"
+            case locationArn = "LocationArn"
+            case locationUri = "LocationUri"
+            case `protocol` = "Protocol"
             case securityGroupArns = "SecurityGroupArns"
         }
     }
@@ -1715,7 +1828,7 @@ extension DataSync {
     public struct Ec2Config: AWSEncodableShape & AWSDecodableShape {
         /// The Amazon Resource Names (ARNs) of the security groups that are configured for the Amazon EC2 resource.
         public let securityGroupArns: [String]
-        /// The ARN of the subnet and the security group that DataSync uses to access the target EFS file system.
+        /// The ARN of the subnet that DataSync uses to access the target EFS file system.
         public let subnetArn: String
 
         public init(securityGroupArns: [String], subnetArn: String) {
@@ -1752,13 +1865,38 @@ extension DataSync {
         }
 
         public func validate(name: String) throws {
-            try self.validate(self.value, name: "value", parent: name, max: 409_600)
+            try self.validate(self.value, name: "value", parent: name, max: 102_400)
             try self.validate(self.value, name: "value", parent: name, pattern: "^[^\\x00]+$")
         }
 
         private enum CodingKeys: String, CodingKey {
             case filterType = "FilterType"
             case value = "Value"
+        }
+    }
+
+    public struct FsxProtocol: AWSEncodableShape & AWSDecodableShape {
+        /// Represents the Network File System (NFS) protocol that DataSync uses to access your FSx for OpenZFS file system.
+        public let nfs: FsxProtocolNfs?
+
+        public init(nfs: FsxProtocolNfs? = nil) {
+            self.nfs = nfs
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case nfs = "NFS"
+        }
+    }
+
+    public struct FsxProtocolNfs: AWSEncodableShape & AWSDecodableShape {
+        public let mountOptions: NfsMountOptions?
+
+        public init(mountOptions: NfsMountOptions? = nil) {
+            self.mountOptions = mountOptions
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case mountOptions = "MountOptions"
         }
     }
 
@@ -2050,7 +2188,7 @@ extension DataSync {
     public struct LocationListEntry: AWSDecodableShape {
         /// The Amazon Resource Name (ARN) of the location. For Network File System (NFS) or Amazon EFS, the location is the export path. For Amazon S3, the location is the prefix path that you want to mount and use as the root of the location.
         public let locationArn: String?
-        /// Represents a list of URIs of a location. LocationUri returns an array that contains a list of locations when the ListLocations operation is called. Format: TYPE://GLOBAL_ID/SUBDIR. TYPE designates the type of location. Valid values: NFS | EFS | S3. GLOBAL_ID is the globally unique identifier of the resource that backs the location. An example for EFS is us-east-2.fs-abcd1234. An example for Amazon S3 is the bucket name, such as myBucket. An example for NFS is a valid IPv4 address or a host name compliant with Domain Name Service (DNS). SUBDIR is a valid file system path, delimited by forward slashes as is the *nix convention. For NFS and Amazon EFS, it's the export path to mount the location. For Amazon S3, it's the prefix path that you mount to and treat as the root of the location.
+        /// Represents a list of URIs of a location. LocationUri returns an array that contains a list of locations when the ListLocations operation is called. Format: TYPE://GLOBAL_ID/SUBDIR. TYPE designates the type of location (for example, nfs or s3). GLOBAL_ID is the globally unique identifier of the resource that backs the location. An example for EFS is us-east-2.fs-abcd1234. An example for Amazon S3 is the bucket name, such as myBucket. An example for NFS is a valid IPv4 address or a hostname that is compliant with Domain Name Service (DNS). SUBDIR is a valid file system path, delimited by forward slashes as is the *nix convention. For NFS and Amazon EFS, it's the export path to mount the location. For Amazon S3, it's the prefix path that you mount to and treat as the root of the location.
         public let locationUri: String?
 
         public init(locationArn: String? = nil, locationUri: String? = nil) {
@@ -2108,8 +2246,10 @@ extension DataSync {
         public let gid: Gid?
         /// A value that determines the type of logs that DataSync publishes to a log stream in the Amazon CloudWatch log group that you provide. For more information about providing a log group for DataSync, see CloudWatchLogGroupArn. If set to OFF, no logs are published. BASIC publishes logs on errors for individual files transferred, and TRANSFER publishes logs for every file or object that is transferred and integrity checked.
         public let logLevel: LogLevel?
-        /// A value that indicates the last time that a file was modified (that is, a file was written to) before the PREPARING phase. This option is required for cases when you need to run the same task more than one time.  Default value: PRESERVE.  PRESERVE: Preserve original Mtime (recommended)  NONE: Ignore Mtime.   If Mtime is set to PRESERVE, Atime must be set to BEST_EFFORT. If Mtime is set to NONE, Atime must also be set to NONE.
+        /// A value that indicates the last time that a file was modified (that is, a file was written to) before the PREPARING phase. This option is required for cases when you need to run the same task more than one time.  Default Value: PRESERVE  PRESERVE: Preserve original Mtime (recommended)  NONE: Ignore Mtime.   If Mtime is set to PRESERVE, Atime must be set to BEST_EFFORT. If Mtime is set to NONE, Atime must also be set to NONE.
         public let mtime: Mtime?
+        /// Specifies whether object tags are maintained when transferring between object storage systems. If you want your DataSync task to ignore object tags, specify the NONE value. Default Value: PRESERVE
+        public let objectTags: ObjectTags?
         /// A value that determines whether files at the destination should be overwritten or preserved when copying files. If set to NEVER a destination file will not be replaced by a source file, even if the destination file differs from the source file. If you modify files in the destination and you sync the files, you can use this value to protect against overwriting those changes.  Some storage classes have specific behaviors that can affect your S3 storage cost. For detailed information, see Considerations when working with Amazon S3 storage classes in DataSync  in the DataSync User Guide.
         public let overwriteMode: OverwriteMode?
         /// A value that determines which users or groups can access a file for a specific purpose such as reading, writing, or execution of the file. This option should only be set for NFS, EFS, and S3 locations. For more information about what metadata is copied by DataSync, see Metadata Copied by DataSync.  Default value: PRESERVE. PRESERVE: Preserve POSIX-style permissions (recommended). NONE: Ignore permissions.   DataSync can preserve extant permissions of a source location.
@@ -2126,15 +2266,16 @@ extension DataSync {
         public let transferMode: TransferMode?
         /// The POSIX user ID (UID) of the file's owner. This option should only be set for NFS, EFS, and S3 locations. To learn more about what metadata is copied by DataSync, see Metadata Copied by DataSync. Default value: INT_VALUE. This preserves the integer value of the ID. INT_VALUE: Preserve the integer value of UID and group ID (GID) (recommended). NONE: Ignore UID and GID.
         public let uid: Uid?
-        /// A value that determines whether a data integrity verification should be performed at the end of a task execution after all data and metadata have been transferred. For more information, see Configure task settings.  Default value: POINT_IN_TIME_CONSISTENT. ONLY_FILES_TRANSFERRED (recommended): Perform verification only on files that were transferred.  POINT_IN_TIME_CONSISTENT: Scan the entire source and entire destination at the end of the transfer to verify that source and destination are fully synchronized. This option isn't supported when transferring to S3 Glacier or S3 Glacier Deep Archive storage classes. NONE: No additional verification is done at the end of the transfer, but all data transmissions are integrity-checked with checksum verification during the transfer.
+        /// A value that determines whether a data integrity verification should be performed at the end of a task execution after all data and metadata have been transferred. For more information, see Configure task settings.  Default value: POINT_IN_TIME_CONSISTENT. ONLY_FILES_TRANSFERRED (recommended): Perform verification only on files that were transferred.  POINT_IN_TIME_CONSISTENT: Scan the entire source and entire destination at the end of the transfer to verify that source and destination are fully synchronized. This option isn't supported when transferring to S3 Glacier Flexible Retrieval or S3 Glacier Deep Archive storage classes. NONE: No additional verification is done at the end of the transfer, but all data transmissions are integrity-checked with checksum verification during the transfer.
         public let verifyMode: VerifyMode?
 
-        public init(atime: Atime? = nil, bytesPerSecond: Int64? = nil, gid: Gid? = nil, logLevel: LogLevel? = nil, mtime: Mtime? = nil, overwriteMode: OverwriteMode? = nil, posixPermissions: PosixPermissions? = nil, preserveDeletedFiles: PreserveDeletedFiles? = nil, preserveDevices: PreserveDevices? = nil, securityDescriptorCopyFlags: SmbSecurityDescriptorCopyFlags? = nil, taskQueueing: TaskQueueing? = nil, transferMode: TransferMode? = nil, uid: Uid? = nil, verifyMode: VerifyMode? = nil) {
+        public init(atime: Atime? = nil, bytesPerSecond: Int64? = nil, gid: Gid? = nil, logLevel: LogLevel? = nil, mtime: Mtime? = nil, objectTags: ObjectTags? = nil, overwriteMode: OverwriteMode? = nil, posixPermissions: PosixPermissions? = nil, preserveDeletedFiles: PreserveDeletedFiles? = nil, preserveDevices: PreserveDevices? = nil, securityDescriptorCopyFlags: SmbSecurityDescriptorCopyFlags? = nil, taskQueueing: TaskQueueing? = nil, transferMode: TransferMode? = nil, uid: Uid? = nil, verifyMode: VerifyMode? = nil) {
             self.atime = atime
             self.bytesPerSecond = bytesPerSecond
             self.gid = gid
             self.logLevel = logLevel
             self.mtime = mtime
+            self.objectTags = objectTags
             self.overwriteMode = overwriteMode
             self.posixPermissions = posixPermissions
             self.preserveDeletedFiles = preserveDeletedFiles
@@ -2156,6 +2297,7 @@ extension DataSync {
             case gid = "Gid"
             case logLevel = "LogLevel"
             case mtime = "Mtime"
+            case objectTags = "ObjectTags"
             case overwriteMode = "OverwriteMode"
             case posixPermissions = "PosixPermissions"
             case preserveDeletedFiles = "PreserveDeletedFiles"
@@ -2211,7 +2353,7 @@ extension DataSync {
     }
 
     public struct S3Config: AWSEncodableShape & AWSDecodableShape {
-        /// The Amazon S3 bucket to access. This bucket is used as a parameter in the CreateLocationS3 operation.
+        /// The ARN of the IAM role for accessing the S3 bucket.
         public let bucketAccessRoleArn: String
 
         public init(bucketAccessRoleArn: String) {
@@ -2550,9 +2692,9 @@ extension DataSync {
         public let authenticationType: HdfsAuthenticationType?
         /// The size of the data blocks to write into the HDFS cluster.
         public let blockSize: Int?
-        /// The Kerberos key table (keytab) that contains mappings between the defined Kerberos principal and the encrypted keys. You can load the keytab from a file by providing the file's address. If you use the AWS CLI, it performs base64 encoding for you. Otherwise, provide the base64-encoded text.
+        /// The Kerberos key table (keytab) that contains mappings between the defined Kerberos principal and the encrypted keys. You can load the keytab from a file by providing the file's address. If you use the CLI, it performs base64 encoding for you. Otherwise, provide the base64-encoded text.
         public let kerberosKeytab: Data?
-        /// The krb5.conf file that contains the Kerberos configuration information. You can load the krb5.conf file by providing the file's address. If you're using the AWS CLI, it performs the base64 encoding for you. Otherwise, provide the base64-encoded text.
+        /// The krb5.conf file that contains the Kerberos configuration information. You can load the krb5.conf file by providing the file's address. If you're using the CLI, it performs the base64 encoding for you. Otherwise, provide the base64-encoded text.
         public let kerberosKrb5Conf: Data?
         /// The Kerberos principal with access to the files and folders on the HDFS cluster.
         public let kerberosPrincipal: String?

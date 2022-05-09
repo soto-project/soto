@@ -22,6 +22,72 @@ import SotoCore
 
 @available(macOS 12.0, iOS 15.0, watchOS 8.0, tvOS 15.0, *)
 extension IoTSiteWise {
+    ///  Gets aggregated values (for example, average, minimum, and maximum) for one or more asset properties. For more information, see Querying aggregates in the IoT SiteWise User Guide.
+    /// Return PaginatorSequence for operation.
+    ///
+    /// - Parameters:
+    ///   - input: Input for request
+    ///   - logger: Logger used flot logging
+    ///   - eventLoop: EventLoop to run this process on
+    public func batchGetAssetPropertyAggregatesPaginator(
+        _ input: BatchGetAssetPropertyAggregatesRequest,
+        logger: Logger = AWSClient.loggingDisabled,
+        on eventLoop: EventLoop? = nil
+    ) -> AWSClient.PaginatorSequence<BatchGetAssetPropertyAggregatesRequest, BatchGetAssetPropertyAggregatesResponse> {
+        return .init(
+            input: input,
+            command: batchGetAssetPropertyAggregates,
+            inputKey: \BatchGetAssetPropertyAggregatesRequest.nextToken,
+            outputKey: \BatchGetAssetPropertyAggregatesResponse.nextToken,
+            logger: logger,
+            on: eventLoop
+        )
+    }
+
+    ///  Gets the current value for one or more asset properties. For more information, see Querying current values in the IoT SiteWise User Guide.
+    /// Return PaginatorSequence for operation.
+    ///
+    /// - Parameters:
+    ///   - input: Input for request
+    ///   - logger: Logger used flot logging
+    ///   - eventLoop: EventLoop to run this process on
+    public func batchGetAssetPropertyValuePaginator(
+        _ input: BatchGetAssetPropertyValueRequest,
+        logger: Logger = AWSClient.loggingDisabled,
+        on eventLoop: EventLoop? = nil
+    ) -> AWSClient.PaginatorSequence<BatchGetAssetPropertyValueRequest, BatchGetAssetPropertyValueResponse> {
+        return .init(
+            input: input,
+            command: batchGetAssetPropertyValue,
+            inputKey: \BatchGetAssetPropertyValueRequest.nextToken,
+            outputKey: \BatchGetAssetPropertyValueResponse.nextToken,
+            logger: logger,
+            on: eventLoop
+        )
+    }
+
+    ///  Gets the historical values for one or more asset properties. For more information, see Querying historical values in the IoT SiteWise User Guide.
+    /// Return PaginatorSequence for operation.
+    ///
+    /// - Parameters:
+    ///   - input: Input for request
+    ///   - logger: Logger used flot logging
+    ///   - eventLoop: EventLoop to run this process on
+    public func batchGetAssetPropertyValueHistoryPaginator(
+        _ input: BatchGetAssetPropertyValueHistoryRequest,
+        logger: Logger = AWSClient.loggingDisabled,
+        on eventLoop: EventLoop? = nil
+    ) -> AWSClient.PaginatorSequence<BatchGetAssetPropertyValueHistoryRequest, BatchGetAssetPropertyValueHistoryResponse> {
+        return .init(
+            input: input,
+            command: batchGetAssetPropertyValueHistory,
+            inputKey: \BatchGetAssetPropertyValueHistoryRequest.nextToken,
+            outputKey: \BatchGetAssetPropertyValueHistoryResponse.nextToken,
+            logger: logger,
+            on: eventLoop
+        )
+    }
+
     ///  Gets aggregated values for an asset property. For more information, see Querying aggregates in the IoT SiteWise User Guide. To identify an asset property, you must specify one of the following:   The assetId and propertyId of an asset property.   A propertyAlias, which is a data stream alias (for example, /company/windfarm/3/turbine/7/temperature). To define an asset property's alias, see UpdateAssetProperty.
     /// Return PaginatorSequence for operation.
     ///

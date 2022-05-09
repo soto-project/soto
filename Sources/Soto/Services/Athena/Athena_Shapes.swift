@@ -50,6 +50,11 @@ extension Athena {
         public var description: String { return self.rawValue }
     }
 
+    public enum S3AclOption: String, CustomStringConvertible, Codable {
+        case bucketOwnerFullControl = "BUCKET_OWNER_FULL_CONTROL"
+        public var description: String { return self.rawValue }
+    }
+
     public enum StatementType: String, CustomStringConvertible, Codable {
         case ddl = "DDL"
         case dml = "DML"
@@ -64,6 +69,44 @@ extension Athena {
     }
 
     // MARK: Shapes
+
+    public struct AclConfiguration: AWSEncodableShape & AWSDecodableShape {
+        /// The Amazon S3 canned ACL that Athena should specify when storing query results. Currently the only supported canned ACL is BUCKET_OWNER_FULL_CONTROL. If a query runs in a workgroup and the workgroup overrides client-side settings, then the Amazon S3 canned ACL specified in the workgroup's settings is used for all queries that run in the workgroup. For more information about Amazon S3 canned ACLs, see Canned ACL in the Amazon S3 User Guide.
+        public let s3AclOption: S3AclOption
+
+        public init(s3AclOption: S3AclOption) {
+            self.s3AclOption = s3AclOption
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case s3AclOption = "S3AclOption"
+        }
+    }
+
+    public struct AthenaError: AWSDecodableShape {
+        /// An integer value that specifies the category of a query failure error. The following list shows the category for each integer value.  1 - System  2 - User  3 - Other
+        public let errorCategory: Int?
+        /// Contains a short description of the error that occurred.
+        public let errorMessage: String?
+        /// An integer value that provides specific information about an Athena query error. For the meaning of specific values, see the Error Type Reference in the Amazon Athena User Guide.
+        public let errorType: Int?
+        /// True if the query might succeed if resubmitted.
+        public let retryable: Bool?
+
+        public init(errorCategory: Int? = nil, errorMessage: String? = nil, errorType: Int? = nil, retryable: Bool? = nil) {
+            self.errorCategory = errorCategory
+            self.errorMessage = errorMessage
+            self.errorType = errorType
+            self.retryable = retryable
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case errorCategory = "ErrorCategory"
+            case errorMessage = "ErrorMessage"
+            case errorType = "ErrorType"
+            case retryable = "Retryable"
+        }
+    }
 
     public struct BatchGetNamedQueryInput: AWSEncodableShape {
         /// An array of query IDs.
@@ -208,7 +251,7 @@ extension Athena {
     public struct CreateDataCatalogInput: AWSEncodableShape {
         /// A description of the data catalog to be created.
         public let description: String?
-        /// The name of the data catalog to create. The catalog name must be unique for the Amazon Web Services account and can use a maximum of 128 alphanumeric, underscore, at sign, or hyphen characters.
+        /// The name of the data catalog to create. The catalog name must be unique for the Amazon Web Services account and can use a maximum of 127 alphanumeric, underscore, at sign, or hyphen characters. The remainder of the length constraint of 256 is reserved for use by Athena.
         public let name: String
         /// Specifies the Lambda function or functions to use for creating the data catalog. This is a mapping whose values depend on the catalog type.    For the HIVE data catalog type, use the following syntax. The metadata-function parameter is required. The sdk-version parameter is optional and defaults to the currently supported version.  metadata-function=lambda_arn, sdk-version=version_number     For the LAMBDA data catalog type, use one of the following sets of required parameters, but not both.   If you have one Lambda function that processes metadata and another for reading the actual data, use the following syntax. Both parameters are required.  metadata-function=lambda_arn, record-function=lambda_arn      If you have a composite Lambda function that processes both metadata and data, use the following syntax to specify your Lambda function.  function=lambda_arn       The GLUE type takes a catalog ID parameter and is required. The  catalog_id  is the account ID of the Amazon Web Services account to which the Glue Data Catalog belongs.  catalog-id=catalog_id     The GLUE data catalog type also applies to the default AwsDataCatalog that already exists in your account, of which you can have only one and cannot modify.   Queries that specify a Glue Data Catalog other than the default AwsDataCatalog must be run on Athena engine version 2.   In Regions where Athena engine version 2 is not available, creating new Glue data catalogs results in an INVALID_INPUT error.
         public let parameters: [String: String]?
@@ -397,7 +440,7 @@ extension Athena {
     public struct DataCatalog: AWSDecodableShape {
         /// An optional description of the data catalog.
         public let description: String?
-        /// The name of the data catalog. The catalog name must be unique for the Amazon Web Services account and can use a maximum of 128 alphanumeric, underscore, at sign, or hyphen characters.
+        /// The name of the data catalog. The catalog name must be unique for the Amazon Web Services account and can use a maximum of 127 alphanumeric, underscore, at sign, or hyphen characters. The remainder of the length constraint of 256 is reserved for use by Athena.
         public let name: String
         /// Specifies the Lambda function or functions to use for the data catalog. This is a mapping whose values depend on the catalog type.    For the HIVE data catalog type, use the following syntax. The metadata-function parameter is required. The sdk-version parameter is optional and defaults to the currently supported version.  metadata-function=lambda_arn, sdk-version=version_number     For the LAMBDA data catalog type, use one of the following sets of required parameters, but not both.   If you have one Lambda function that processes metadata and another for reading the actual data, use the following syntax. Both parameters are required.  metadata-function=lambda_arn, record-function=lambda_arn      If you have a composite Lambda function that processes both metadata and data, use the following syntax to specify your Lambda function.  function=lambda_arn       The GLUE type takes a catalog ID parameter and is required. The  catalog_id  is the account ID of the Amazon Web Services account to which the Glue catalog belongs.  catalog-id=catalog_id     The GLUE data catalog type also applies to the default AwsDataCatalog that already exists in your account, of which you can have only one and cannot modify.   Queries that specify a Glue Data Catalog other than the default AwsDataCatalog must be run on Athena engine version 2.
         public let parameters: [String: String]?
@@ -420,7 +463,7 @@ extension Athena {
     }
 
     public struct DataCatalogSummary: AWSDecodableShape {
-        /// The name of the data catalog.
+        /// The name of the data catalog. The catalog name is unique for the Amazon Web Services account and can use a maximum of 127 alphanumeric, underscore, at sign, or hyphen characters. The remainder of the length constraint of 256 is reserved for use by Athena.
         public let catalogName: String?
         /// The data catalog type.
         public let type: DataCatalogType?
@@ -564,9 +607,9 @@ extension Athena {
     }
 
     public struct EncryptionConfiguration: AWSEncodableShape & AWSDecodableShape {
-        /// Indicates whether Amazon S3 server-side encryption with Amazon S3-managed keys (SSE-S3), server-side encryption with KMS-managed keys (SSE-KMS), or client-side encryption with KMS-managed keys (CSE-KMS) is used. If a query runs in a workgroup and the workgroup overrides client-side settings, then the workgroup's setting for encryption is used. It specifies whether query results must be encrypted, for all queries that run in this workgroup.
+        /// Indicates whether Amazon S3 server-side encryption with Amazon S3-managed keys (SSE_S3), server-side encryption with KMS-managed keys (SSE_KMS), or client-side encryption with KMS-managed keys (CSE_KMS) is used. If a query runs in a workgroup and the workgroup overrides client-side settings, then the workgroup's setting for encryption is used. It specifies whether query results must be encrypted, for all queries that run in this workgroup.
         public let encryptionOption: EncryptionOption
-        /// For SSE-KMS and CSE-KMS, this is the KMS key ARN or ID.
+        /// For SSE_KMS and CSE_KMS, this is the KMS key ARN or ID.
         public let kmsKey: String?
 
         public init(encryptionOption: EncryptionOption, kmsKey: String? = nil) {
@@ -1310,7 +1353,7 @@ extension Athena {
         public let name: String
         /// The unique identifier of the query.
         public let namedQueryId: String?
-        /// The SQL query statements that comprise the query.
+        /// The SQL statements that make up the query.
         public let queryString: String
         /// The name of the workgroup that contains the named query.
         public let workGroup: String?
@@ -1488,6 +1531,8 @@ extension Athena {
     }
 
     public struct QueryExecutionStatus: AWSDecodableShape {
+        /// Provides information about an Athena query error.
+        public let athenaError: AthenaError?
         /// The date and time that the query completed.
         public let completionDateTime: Date?
         /// The state of query execution. QUEUED indicates that the query has been submitted to the service, and Athena will execute the query as soon as resources are available. RUNNING indicates that the query is in execution phase. SUCCEEDED indicates that the query completed without errors. FAILED indicates that the query experienced an error and did not complete processing. CANCELLED indicates that a user input interrupted query execution.  Athena automatically retries your queries in cases of certain transient errors. As a result, you may see the query state transition from RUNNING or FAILED to QUEUED.
@@ -1497,7 +1542,8 @@ extension Athena {
         /// The date and time that the query was submitted.
         public let submissionDateTime: Date?
 
-        public init(completionDateTime: Date? = nil, state: QueryExecutionState? = nil, stateChangeReason: String? = nil, submissionDateTime: Date? = nil) {
+        public init(athenaError: AthenaError? = nil, completionDateTime: Date? = nil, state: QueryExecutionState? = nil, stateChangeReason: String? = nil, submissionDateTime: Date? = nil) {
+            self.athenaError = athenaError
             self.completionDateTime = completionDateTime
             self.state = state
             self.stateChangeReason = stateChangeReason
@@ -1505,6 +1551,7 @@ extension Athena {
         }
 
         private enum CodingKeys: String, CodingKey {
+            case athenaError = "AthenaError"
             case completionDateTime = "CompletionDateTime"
             case state = "State"
             case stateChangeReason = "StateChangeReason"
@@ -1513,43 +1560,67 @@ extension Athena {
     }
 
     public struct ResultConfiguration: AWSEncodableShape & AWSDecodableShape {
-        /// If query results are encrypted in Amazon S3, indicates the encryption option used (for example, SSE-KMS or CSE-KMS) and key information. This is a client-side setting. If workgroup settings override client-side settings, then the query uses the encryption configuration that is specified for the workgroup, and also uses the location for storing query results specified in the workgroup. See WorkGroupConfiguration$EnforceWorkGroupConfiguration and Workgroup Settings Override Client-Side Settings.
+        /// Indicates that an Amazon S3 canned ACL should be set to control ownership of stored query results. Currently the only supported canned ACL is BUCKET_OWNER_FULL_CONTROL. This is a client-side setting. If workgroup settings override client-side settings, then the query uses the ACL configuration that is specified for the workgroup, and also uses the location for storing query results specified in the workgroup. For more information, see WorkGroupConfiguration$EnforceWorkGroupConfiguration and Workgroup Settings Override Client-Side Settings.
+        public let aclConfiguration: AclConfiguration?
+        /// If query results are encrypted in Amazon S3, indicates the encryption option used (for example, SSE_KMS or CSE_KMS) and key information. This is a client-side setting. If workgroup settings override client-side settings, then the query uses the encryption configuration that is specified for the workgroup, and also uses the location for storing query results specified in the workgroup. See WorkGroupConfiguration$EnforceWorkGroupConfiguration and Workgroup Settings Override Client-Side Settings.
         public let encryptionConfiguration: EncryptionConfiguration?
+        /// The Amazon Web Services account ID that you expect to be the owner of the Amazon S3 bucket specified by ResultConfiguration$OutputLocation. If set, Athena uses the value for ExpectedBucketOwner when it makes Amazon S3 calls to your specified output location. If the ExpectedBucketOwner Amazon Web Services account ID does not match the actual owner of the Amazon S3 bucket, the call fails with a permissions error. This is a client-side setting. If workgroup settings override client-side settings, then the query uses the ExpectedBucketOwner setting that is specified for the workgroup, and also uses the location for storing query results specified in the workgroup. See WorkGroupConfiguration$EnforceWorkGroupConfiguration and Workgroup Settings Override Client-Side Settings.
+        public let expectedBucketOwner: String?
         /// The location in Amazon S3 where your query results are stored, such as s3://path/to/query/bucket/. To run the query, you must specify the query results location using one of the ways: either for individual queries using either this setting (client-side), or in the workgroup, using WorkGroupConfiguration. If none of them is set, Athena issues an error that no output location is provided. For more information, see Query Results. If workgroup settings override client-side settings, then the query uses the settings specified for the workgroup. See WorkGroupConfiguration$EnforceWorkGroupConfiguration.
         public let outputLocation: String?
 
-        public init(encryptionConfiguration: EncryptionConfiguration? = nil, outputLocation: String? = nil) {
+        public init(aclConfiguration: AclConfiguration? = nil, encryptionConfiguration: EncryptionConfiguration? = nil, expectedBucketOwner: String? = nil, outputLocation: String? = nil) {
+            self.aclConfiguration = aclConfiguration
             self.encryptionConfiguration = encryptionConfiguration
+            self.expectedBucketOwner = expectedBucketOwner
             self.outputLocation = outputLocation
         }
 
         private enum CodingKeys: String, CodingKey {
+            case aclConfiguration = "AclConfiguration"
             case encryptionConfiguration = "EncryptionConfiguration"
+            case expectedBucketOwner = "ExpectedBucketOwner"
             case outputLocation = "OutputLocation"
         }
     }
 
     public struct ResultConfigurationUpdates: AWSEncodableShape {
+        /// The ACL configuration for the query results.
+        public let aclConfiguration: AclConfiguration?
         /// The encryption configuration for the query results.
         public let encryptionConfiguration: EncryptionConfiguration?
+        /// The Amazon Web Services account ID that you expect to be the owner of the Amazon S3 bucket specified by ResultConfiguration$OutputLocation. If set, Athena uses the value for ExpectedBucketOwner when it makes Amazon S3 calls to your specified output location. If the ExpectedBucketOwner Amazon Web Services account ID does not match the actual owner of the Amazon S3 bucket, the call fails with a permissions error. If workgroup settings override client-side settings, then the query uses the ExpectedBucketOwner setting that is specified for the workgroup, and also uses the location for storing query results specified in the workgroup. See WorkGroupConfiguration$EnforceWorkGroupConfiguration and Workgroup Settings Override Client-Side Settings.
+        public let expectedBucketOwner: String?
         /// The location in Amazon S3 where your query results are stored, such as s3://path/to/query/bucket/. For more information, see Query Results If workgroup settings override client-side settings, then the query uses the location for the query results and the encryption configuration that are specified for the workgroup. The "workgroup settings override" is specified in EnforceWorkGroupConfiguration (true/false) in the WorkGroupConfiguration. See WorkGroupConfiguration$EnforceWorkGroupConfiguration.
         public let outputLocation: String?
+        /// If set to true, indicates that the previously-specified ACL configuration for queries in this workgroup should be ignored and set to null. If set to false or not set, and a value is present in the AclConfiguration of ResultConfigurationUpdates, the AclConfiguration in the workgroup's ResultConfiguration is updated with the new value. For more information, see Workgroup Settings Override Client-Side Settings.
+        public let removeAclConfiguration: Bool?
         /// If set to "true", indicates that the previously-specified encryption configuration (also known as the client-side setting) for queries in this workgroup should be ignored and set to null. If set to "false" or not set, and a value is present in the EncryptionConfiguration in ResultConfigurationUpdates (the client-side setting), the EncryptionConfiguration in the workgroup's ResultConfiguration will be updated with the new value. For more information, see Workgroup Settings Override Client-Side Settings.
         public let removeEncryptionConfiguration: Bool?
+        /// If set to "true", removes the Amazon Web Services account ID previously specified for ResultConfiguration$ExpectedBucketOwner. If set to "false" or not set, and a value is present in the ExpectedBucketOwner in ResultConfigurationUpdates (the client-side setting), the ExpectedBucketOwner in the workgroup's ResultConfiguration is updated with the new value. For more information, see Workgroup Settings Override Client-Side Settings.
+        public let removeExpectedBucketOwner: Bool?
         /// If set to "true", indicates that the previously-specified query results location (also known as a client-side setting) for queries in this workgroup should be ignored and set to null. If set to "false" or not set, and a value is present in the OutputLocation in ResultConfigurationUpdates (the client-side setting), the OutputLocation in the workgroup's ResultConfiguration will be updated with the new value. For more information, see Workgroup Settings Override Client-Side Settings.
         public let removeOutputLocation: Bool?
 
-        public init(encryptionConfiguration: EncryptionConfiguration? = nil, outputLocation: String? = nil, removeEncryptionConfiguration: Bool? = nil, removeOutputLocation: Bool? = nil) {
+        public init(aclConfiguration: AclConfiguration? = nil, encryptionConfiguration: EncryptionConfiguration? = nil, expectedBucketOwner: String? = nil, outputLocation: String? = nil, removeAclConfiguration: Bool? = nil, removeEncryptionConfiguration: Bool? = nil, removeExpectedBucketOwner: Bool? = nil, removeOutputLocation: Bool? = nil) {
+            self.aclConfiguration = aclConfiguration
             self.encryptionConfiguration = encryptionConfiguration
+            self.expectedBucketOwner = expectedBucketOwner
             self.outputLocation = outputLocation
+            self.removeAclConfiguration = removeAclConfiguration
             self.removeEncryptionConfiguration = removeEncryptionConfiguration
+            self.removeExpectedBucketOwner = removeExpectedBucketOwner
             self.removeOutputLocation = removeOutputLocation
         }
 
         private enum CodingKeys: String, CodingKey {
+            case aclConfiguration = "AclConfiguration"
             case encryptionConfiguration = "EncryptionConfiguration"
+            case expectedBucketOwner = "ExpectedBucketOwner"
             case outputLocation = "OutputLocation"
+            case removeAclConfiguration = "RemoveAclConfiguration"
             case removeEncryptionConfiguration = "RemoveEncryptionConfiguration"
+            case removeExpectedBucketOwner = "RemoveExpectedBucketOwner"
             case removeOutputLocation = "RemoveOutputLocation"
         }
     }
@@ -1830,7 +1901,7 @@ extension Athena {
     public struct UpdateDataCatalogInput: AWSEncodableShape {
         /// New or modified text that describes the data catalog.
         public let description: String?
-        /// The name of the data catalog to update. The catalog name must be unique for the Amazon Web Services account and can use a maximum of 128 alphanumeric, underscore, at sign, or hyphen characters.
+        /// The name of the data catalog to update. The catalog name must be unique for the Amazon Web Services account and can use a maximum of 127 alphanumeric, underscore, at sign, or hyphen characters. The remainder of the length constraint of 256 is reserved for use by Athena.
         public let name: String
         /// Specifies the Lambda function or functions to use for updating the data catalog. This is a mapping whose values depend on the catalog type.    For the HIVE data catalog type, use the following syntax. The metadata-function parameter is required. The sdk-version parameter is optional and defaults to the currently supported version.  metadata-function=lambda_arn, sdk-version=version_number     For the LAMBDA data catalog type, use one of the following sets of required parameters, but not both.   If you have one Lambda function that processes metadata and another for reading the actual data, use the following syntax. Both parameters are required.  metadata-function=lambda_arn, record-function=lambda_arn      If you have a composite Lambda function that processes both metadata and data, use the following syntax to specify your Lambda function.  function=lambda_arn
         public let parameters: [String: String]?
@@ -1867,6 +1938,44 @@ extension Athena {
     }
 
     public struct UpdateDataCatalogOutput: AWSDecodableShape {
+        public init() {}
+    }
+
+    public struct UpdateNamedQueryInput: AWSEncodableShape {
+        /// The query description.
+        public let description: String?
+        /// The name of the query.
+        public let name: String
+        /// The unique identifier (UUID) of the query.
+        public let namedQueryId: String
+        /// The contents of the query with all query statements.
+        public let queryString: String
+
+        public init(description: String? = nil, name: String, namedQueryId: String, queryString: String) {
+            self.description = description
+            self.name = name
+            self.namedQueryId = namedQueryId
+            self.queryString = queryString
+        }
+
+        public func validate(name: String) throws {
+            try self.validate(self.description, name: "description", parent: name, max: 1024)
+            try self.validate(self.description, name: "description", parent: name, min: 0)
+            try self.validate(self.name, name: "name", parent: name, max: 128)
+            try self.validate(self.name, name: "name", parent: name, min: 1)
+            try self.validate(self.queryString, name: "queryString", parent: name, max: 262_144)
+            try self.validate(self.queryString, name: "queryString", parent: name, min: 1)
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case description = "Description"
+            case name = "Name"
+            case namedQueryId = "NamedQueryId"
+            case queryString = "QueryString"
+        }
+    }
+
+    public struct UpdateNamedQueryOutput: AWSDecodableShape {
         public init() {}
     }
 

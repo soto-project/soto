@@ -26,6 +26,7 @@ public struct CostExplorerErrorType: AWSErrorType {
         case requestChangedException = "RequestChangedException"
         case resourceNotFoundException = "ResourceNotFoundException"
         case serviceQuotaExceededException = "ServiceQuotaExceededException"
+        case tooManyTagsException = "TooManyTagsException"
         case unknownMonitorException = "UnknownMonitorException"
         case unknownSubscriptionException = "UnknownSubscriptionException"
         case unresolvableUsageUnitException = "UnresolvableUsageUnitException"
@@ -63,6 +64,8 @@ public struct CostExplorerErrorType: AWSErrorType {
     public static var resourceNotFoundException: Self { .init(.resourceNotFoundException) }
     ///  You've reached the limit on the number of resources you can create, or exceeded the size of an individual resource.
     public static var serviceQuotaExceededException: Self { .init(.serviceQuotaExceededException) }
+    /// Can occur if you specify a number of tags for a resource greater than the maximum 50 user tags per resource.
+    public static var tooManyTagsException: Self { .init(.tooManyTagsException) }
     /// The cost anomaly monitor does not exist for the account.
     public static var unknownMonitorException: Self { .init(.unknownMonitorException) }
     /// The cost anomaly subscription does not exist for the account.

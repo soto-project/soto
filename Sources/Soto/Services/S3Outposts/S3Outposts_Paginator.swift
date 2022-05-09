@@ -19,7 +19,7 @@ import SotoCore
 // MARK: Paginators
 
 extension S3Outposts {
-    ///  Amazon S3 on Outposts Access Points simplify managing data access at scale for shared datasets in S3 on Outposts. S3 on Outposts uses endpoints to connect to Outposts buckets so that you can perform actions within your virtual private cloud (VPC). For more information, see  Accessing S3 on Outposts using VPC only access points. This action lists endpoints associated with the Outposts.   Related actions include:    CreateEndpoint     DeleteEndpoint
+    ///  Lists endpoints associated with the specified Outpost.  Related actions include:    CreateEndpoint     DeleteEndpoint
     ///
     /// Provide paginated results to closure `onPage` for it to combine them into one result.
     /// This works in a similar manner to `Array.reduce<Result>(_:_:) -> Result`.
@@ -71,6 +71,59 @@ extension S3Outposts {
             onPage: onPage
         )
     }
+
+    ///  Lists all endpoints associated with an Outpost that has been shared by Amazon Web Services Resource Access Manager (RAM). Related actions include:    CreateEndpoint     DeleteEndpoint
+    ///
+    /// Provide paginated results to closure `onPage` for it to combine them into one result.
+    /// This works in a similar manner to `Array.reduce<Result>(_:_:) -> Result`.
+    ///
+    /// Parameters:
+    ///   - input: Input for request
+    ///   - initialValue: The value to use as the initial accumulating value. `initialValue` is passed to `onPage` the first time it is called.
+    ///   - logger: Logger used for logging output
+    ///   - eventLoop: EventLoop to run this process on
+    ///   - onPage: closure called with each paginated response. It combines an accumulating result with the contents of response. This combined result is then returned
+    ///         along with a boolean indicating if the paginate operation should continue.
+    public func listSharedEndpointsPaginator<Result>(
+        _ input: ListSharedEndpointsRequest,
+        _ initialValue: Result,
+        logger: Logger = AWSClient.loggingDisabled,
+        on eventLoop: EventLoop? = nil,
+        onPage: @escaping (Result, ListSharedEndpointsResult, EventLoop) -> EventLoopFuture<(Bool, Result)>
+    ) -> EventLoopFuture<Result> {
+        return client.paginate(
+            input: input,
+            initialValue: initialValue,
+            command: listSharedEndpoints,
+            inputKey: \ListSharedEndpointsRequest.nextToken,
+            outputKey: \ListSharedEndpointsResult.nextToken,
+            on: eventLoop,
+            onPage: onPage
+        )
+    }
+
+    /// Provide paginated results to closure `onPage`.
+    ///
+    /// - Parameters:
+    ///   - input: Input for request
+    ///   - logger: Logger used for logging output
+    ///   - eventLoop: EventLoop to run this process on
+    ///   - onPage: closure called with each block of entries. Returns boolean indicating whether we should continue.
+    public func listSharedEndpointsPaginator(
+        _ input: ListSharedEndpointsRequest,
+        logger: Logger = AWSClient.loggingDisabled,
+        on eventLoop: EventLoop? = nil,
+        onPage: @escaping (ListSharedEndpointsResult, EventLoop) -> EventLoopFuture<Bool>
+    ) -> EventLoopFuture<Void> {
+        return client.paginate(
+            input: input,
+            command: listSharedEndpoints,
+            inputKey: \ListSharedEndpointsRequest.nextToken,
+            outputKey: \ListSharedEndpointsResult.nextToken,
+            on: eventLoop,
+            onPage: onPage
+        )
+    }
 }
 
 extension S3Outposts.ListEndpointsRequest: AWSPaginateToken {
@@ -78,6 +131,16 @@ extension S3Outposts.ListEndpointsRequest: AWSPaginateToken {
         return .init(
             maxResults: self.maxResults,
             nextToken: token
+        )
+    }
+}
+
+extension S3Outposts.ListSharedEndpointsRequest: AWSPaginateToken {
+    public func usingPaginationToken(_ token: String) -> S3Outposts.ListSharedEndpointsRequest {
+        return .init(
+            maxResults: self.maxResults,
+            nextToken: token,
+            outpostId: self.outpostId
         )
     }
 }

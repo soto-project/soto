@@ -20,6 +20,8 @@ import SotoCore
 public struct AppStreamErrorType: AWSErrorType {
     enum Code: String {
         case concurrentModificationException = "ConcurrentModificationException"
+        case entitlementAlreadyExistsException = "EntitlementAlreadyExistsException"
+        case entitlementNotFoundException = "EntitlementNotFoundException"
         case incompatibleImageException = "IncompatibleImageException"
         case invalidAccountStatusException = "InvalidAccountStatusException"
         case invalidParameterCombinationException = "InvalidParameterCombinationException"
@@ -53,6 +55,10 @@ public struct AppStreamErrorType: AWSErrorType {
 
     /// An API error occurred. Wait a few minutes and try again.
     public static var concurrentModificationException: Self { .init(.concurrentModificationException) }
+    /// The entitlement already exists.
+    public static var entitlementAlreadyExistsException: Self { .init(.entitlementAlreadyExistsException) }
+    /// The entitlement can't be found.
+    public static var entitlementNotFoundException: Self { .init(.entitlementNotFoundException) }
     /// The image can't be updated because it's not compatible for updates.
     public static var incompatibleImageException: Self { .init(.incompatibleImageException) }
     /// The resource cannot be created because your AWS account is suspended. For assistance, contact AWS Support.

@@ -28,6 +28,7 @@ public struct LakeFormationErrorType: AWSErrorType {
         case internalServiceException = "InternalServiceException"
         case invalidInputException = "InvalidInputException"
         case operationTimeoutException = "OperationTimeoutException"
+        case permissionTypeMismatchException = "PermissionTypeMismatchException"
         case resourceNotReadyException = "ResourceNotReadyException"
         case resourceNumberLimitExceededException = "ResourceNumberLimitExceededException"
         case statisticsNotReadyYetException = "StatisticsNotReadyYetException"
@@ -74,6 +75,8 @@ public struct LakeFormationErrorType: AWSErrorType {
     public static var invalidInputException: Self { .init(.invalidInputException) }
     /// The operation timed out.
     public static var operationTimeoutException: Self { .init(.operationTimeoutException) }
+    /// The engine does not support filtering data based on the enforced permissions. For example, if you call the GetTemporaryGlueTableCredentials operation with SupportedPermissionType equal to ColumnPermission, but cell-level permissions exist on the table, this exception is thrown.
+    public static var permissionTypeMismatchException: Self { .init(.permissionTypeMismatchException) }
     /// Contains details about an error related to a resource which is not ready for a transaction.
     public static var resourceNotReadyException: Self { .init(.resourceNotReadyException) }
     /// A resource numerical limit was exceeded.

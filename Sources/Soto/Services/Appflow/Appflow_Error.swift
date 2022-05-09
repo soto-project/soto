@@ -19,12 +19,14 @@ import SotoCore
 /// Error enum for Appflow
 public struct AppflowErrorType: AWSErrorType {
     enum Code: String {
+        case accessDeniedException = "AccessDeniedException"
         case conflictException = "ConflictException"
         case connectorAuthenticationException = "ConnectorAuthenticationException"
         case connectorServerException = "ConnectorServerException"
         case internalServerException = "InternalServerException"
         case resourceNotFoundException = "ResourceNotFoundException"
         case serviceQuotaExceededException = "ServiceQuotaExceededException"
+        case throttlingException = "ThrottlingException"
         case unsupportedOperationException = "UnsupportedOperationException"
         case validationException = "ValidationException"
     }
@@ -47,6 +49,8 @@ public struct AppflowErrorType: AWSErrorType {
     /// return error code string
     public var errorCode: String { self.error.rawValue }
 
+    /// AppFlow/Requester has invalid or missing permissions.
+    public static var accessDeniedException: Self { .init(.accessDeniedException) }
     ///  There was a conflict when processing the request (for example, a flow with the given name already exists within the account. Check for conflicting resource names and try again.
     public static var conflictException: Self { .init(.conflictException) }
     ///  An error occurred when authenticating with the connector endpoint.
@@ -59,6 +63,8 @@ public struct AppflowErrorType: AWSErrorType {
     public static var resourceNotFoundException: Self { .init(.resourceNotFoundException) }
     ///  The request would cause a service quota (such as the number of flows) to be exceeded.
     public static var serviceQuotaExceededException: Self { .init(.serviceQuotaExceededException) }
+    /// API calls have exceeded the maximum allowed API request rate per account and per Region.
+    public static var throttlingException: Self { .init(.throttlingException) }
     ///  The requested operation is not supported for the current flow.
     public static var unsupportedOperationException: Self { .init(.unsupportedOperationException) }
     ///  The request has invalid or missing parameters.

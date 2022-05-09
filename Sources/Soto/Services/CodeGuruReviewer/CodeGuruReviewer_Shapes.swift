@@ -26,6 +26,13 @@ extension CodeGuruReviewer {
         public var description: String { return self.rawValue }
     }
 
+    public enum ConfigFileState: String, CustomStringConvertible, Codable {
+        case absent = "Absent"
+        case present = "Present"
+        case presentwitherrors = "PresentWithErrors"
+        public var description: String { return self.rawValue }
+    }
+
     public enum EncryptionOption: String, CustomStringConvertible, Codable {
         case awsOwnedCmk = "AWS_OWNED_CMK"
         case customerManagedCmk = "CUSTOMER_MANAGED_CMK"
@@ -228,12 +235,14 @@ extension CodeGuruReviewer {
     }
 
     public struct CodeReview: AWSDecodableShape {
-        /// They types of analysis performed during a repository analysis or a pull request review. You can specify either Security, CodeQuality, or both.
+        /// The types of analysis performed during a repository analysis or a pull request review. You can specify either Security, CodeQuality, or both.
         public let analysisTypes: [AnalysisType]?
         ///  The Amazon Resource Name (ARN) of the  RepositoryAssociation  that contains the reviewed source code. You can retrieve associated repository ARNs by calling  ListRepositoryAssociations .
         public let associationArn: String?
         /// The Amazon Resource Name (ARN) of the  CodeReview  object.
         public let codeReviewArn: String?
+        /// The state of the aws-codeguru-reviewer.yml configuration file that allows the configuration of the CodeGuru Reviewer analysis. The file either exists, doesn't exist, or exists with errors at the root directory of your repository.
+        public let configFileState: ConfigFileState?
         ///  The time, in milliseconds since the epoch, when the code review was created.
         public let createdTimeStamp: Date?
         ///  The time, in milliseconds since the epoch, when the code review was last updated.
@@ -259,10 +268,11 @@ extension CodeGuruReviewer {
         ///  The type of code review.
         public let type: `Type`?
 
-        public init(analysisTypes: [AnalysisType]? = nil, associationArn: String? = nil, codeReviewArn: String? = nil, createdTimeStamp: Date? = nil, lastUpdatedTimeStamp: Date? = nil, metrics: Metrics? = nil, name: String? = nil, owner: String? = nil, providerType: ProviderType? = nil, pullRequestId: String? = nil, repositoryName: String? = nil, sourceCodeType: SourceCodeType? = nil, state: JobState? = nil, stateReason: String? = nil, type: `Type`? = nil) {
+        public init(analysisTypes: [AnalysisType]? = nil, associationArn: String? = nil, codeReviewArn: String? = nil, configFileState: ConfigFileState? = nil, createdTimeStamp: Date? = nil, lastUpdatedTimeStamp: Date? = nil, metrics: Metrics? = nil, name: String? = nil, owner: String? = nil, providerType: ProviderType? = nil, pullRequestId: String? = nil, repositoryName: String? = nil, sourceCodeType: SourceCodeType? = nil, state: JobState? = nil, stateReason: String? = nil, type: `Type`? = nil) {
             self.analysisTypes = analysisTypes
             self.associationArn = associationArn
             self.codeReviewArn = codeReviewArn
+            self.configFileState = configFileState
             self.createdTimeStamp = createdTimeStamp
             self.lastUpdatedTimeStamp = lastUpdatedTimeStamp
             self.metrics = metrics
@@ -281,6 +291,7 @@ extension CodeGuruReviewer {
             case analysisTypes = "AnalysisTypes"
             case associationArn = "AssociationArn"
             case codeReviewArn = "CodeReviewArn"
+            case configFileState = "ConfigFileState"
             case createdTimeStamp = "CreatedTimeStamp"
             case lastUpdatedTimeStamp = "LastUpdatedTimeStamp"
             case metrics = "Metrics"
@@ -822,7 +833,7 @@ extension CodeGuruReviewer {
             try self.validate(self.codeReviewArn, name: "codeReviewArn", parent: name, max: 1600)
             try self.validate(self.codeReviewArn, name: "codeReviewArn", parent: name, min: 1)
             try self.validate(self.codeReviewArn, name: "codeReviewArn", parent: name, pattern: "^arn:aws[^:\\s]*:codeguru-reviewer:[^:\\s]+:[\\d]{12}:[a-z-]+:[\\w-]+$")
-            try self.validate(self.maxResults, name: "maxResults", parent: name, max: 100)
+            try self.validate(self.maxResults, name: "maxResults", parent: name, max: 300)
             try self.validate(self.maxResults, name: "maxResults", parent: name, min: 1)
             try self.validate(self.nextToken, name: "nextToken", parent: name, max: 2048)
             try self.validate(self.nextToken, name: "nextToken", parent: name, min: 1)
@@ -962,17 +973,21 @@ extension CodeGuruReviewer {
     public struct Metrics: AWSDecodableShape {
         ///  Total number of recommendations found in the code review.
         public let findingsCount: Int64?
-        ///  MeteredLinesOfCode is the number of lines of code in the repository where the code review happened. This does not include non-code lines such as comments and blank lines.
+        ///  MeteredLinesOfCodeCount is the number of lines of code in the repository where the code review happened. This does not include non-code lines such as comments and blank lines.
         public let meteredLinesOfCodeCount: Int64?
+        ///  SuppressedLinesOfCodeCount is the number of lines of code in the repository where the code review happened that CodeGuru Reviewer did not analyze. The lines suppressed in the analysis is based on the excludeFiles variable in the aws-codeguru-reviewer.yml file. This number does not include non-code lines such as comments and blank lines.
+        public let suppressedLinesOfCodeCount: Int64?
 
-        public init(findingsCount: Int64? = nil, meteredLinesOfCodeCount: Int64? = nil) {
+        public init(findingsCount: Int64? = nil, meteredLinesOfCodeCount: Int64? = nil, suppressedLinesOfCodeCount: Int64? = nil) {
             self.findingsCount = findingsCount
             self.meteredLinesOfCodeCount = meteredLinesOfCodeCount
+            self.suppressedLinesOfCodeCount = suppressedLinesOfCodeCount
         }
 
         private enum CodingKeys: String, CodingKey {
             case findingsCount = "FindingsCount"
             case meteredLinesOfCodeCount = "MeteredLinesOfCodeCount"
+            case suppressedLinesOfCodeCount = "SuppressedLinesOfCodeCount"
         }
     }
 
@@ -981,15 +996,19 @@ extension CodeGuruReviewer {
         public let findingsCount: Int64?
         ///  Lines of code metered in the code review. For the initial code review pull request and all subsequent revisions, this includes all lines of code in the files added to the pull request. In subsequent revisions, for files that already existed in the pull request, this includes only the changed lines of code. In both cases, this does not include non-code lines such as comments and import statements. For example, if you submit a pull request containing 5 files, each with 500 lines of code, and in a subsequent revision you added a new file with 200 lines of code, and also modified a total of 25 lines across the initial 5 files, MeteredLinesOfCodeCount includes the first 5 files (5 * 500 = 2,500 lines), the new file (200 lines) and the 25 changed lines of code for a total of 2,725 lines of code.
         public let meteredLinesOfCodeCount: Int64?
+        /// Lines of code suppressed in the code review based on the excludeFiles element in the aws-codeguru-reviewer.yml file. For full repository analyses, this number includes all lines of code in the files that are suppressed. For pull requests, this number only includes the changed lines of code that are suppressed. In both cases, this number does not include non-code lines such as comments and import statements. For example, if you initiate a full repository analysis on a repository containing 5 files, each file with 100 lines of code, and 2 files are listed as excluded in the aws-codeguru-reviewer.yml file, then SuppressedLinesOfCodeCount returns 200 (2 * 100) as the total number of lines of code suppressed. However, if you submit a pull request for the same repository, then SuppressedLinesOfCodeCount only includes the lines in the 2 files that changed. If only 1 of the 2 files changed in the pull request, then SuppressedLinesOfCodeCount returns 100 (1 * 100) as the total number of lines of code suppressed.
+        public let suppressedLinesOfCodeCount: Int64?
 
-        public init(findingsCount: Int64? = nil, meteredLinesOfCodeCount: Int64? = nil) {
+        public init(findingsCount: Int64? = nil, meteredLinesOfCodeCount: Int64? = nil, suppressedLinesOfCodeCount: Int64? = nil) {
             self.findingsCount = findingsCount
             self.meteredLinesOfCodeCount = meteredLinesOfCodeCount
+            self.suppressedLinesOfCodeCount = suppressedLinesOfCodeCount
         }
 
         private enum CodingKeys: String, CodingKey {
             case findingsCount = "FindingsCount"
             case meteredLinesOfCodeCount = "MeteredLinesOfCodeCount"
+            case suppressedLinesOfCodeCount = "SuppressedLinesOfCodeCount"
         }
     }
 

@@ -255,7 +255,7 @@ extension IoTDataPlane {
             AWSMemberEncoding(label: "topic", location: .uri(locationName: "topic"))
         ]
 
-        /// The message body. MQTT accepts text, binary, and empty (null) message payloads. Publishing an empty (null) payload with retain = true deletes the retained message identified by topic from IoT Core.
+        /// The message body. MQTT accepts text, binary, and empty (null) message payloads. Publishing an empty (null) payload with retain = true deletes the retained message identified by topic from Amazon Web Services IoT Core.
         public let payload: AWSPayload?
         /// The Quality of Service (QoS) level.
         public let qos: Int?

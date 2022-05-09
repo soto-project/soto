@@ -34,8 +34,10 @@ extension ManagedGrafana {
 
     public enum DataSourceType: String, CustomStringConvertible, Codable {
         case amazonOpensearchService = "AMAZON_OPENSEARCH_SERVICE"
+        case athena = "ATHENA"
         case cloudwatch = "CLOUDWATCH"
         case prometheus = "PROMETHEUS"
+        case redshift = "REDSHIFT"
         case sitewise = "SITEWISE"
         case timestream = "TIMESTREAM"
         case xray = "XRAY"
@@ -244,13 +246,15 @@ extension ManagedGrafana {
         public let clientToken: String?
         /// The name of an IAM role that already exists to use with Organizations to access Amazon Web Services data sources and notification channels in other accounts in an organization.
         public let organizationRoleName: String?
-        /// If you specify Service Managed, Amazon Managed Grafana automatically creates the IAM roles and provisions the permissions that the workspace needs to use Amazon Web Services data sources and notification channels. If you specify CUSTOMER_MANAGED, you will manage those roles and permissions yourself. If you are creating this workspace in a member account of an organization that is not a delegated administrator account, and you want the workspace to access data sources in other Amazon Web Services accounts in the organization, you must choose CUSTOMER_MANAGED. For more information, see Amazon Managed Grafana permissions and policies for Amazon Web Services data sources and notification channels
+        /// If you specify SERVICE_MANAGED on AWS Grafana console, Amazon Managed Grafana automatically creates the IAM roles and provisions the permissions that the workspace needs to use Amazon Web Services data sources and notification channels. In CLI mode, the permissionType SERVICE_MANAGED will not create the IAM role for you. If you specify CUSTOMER_MANAGED, you will manage those roles and permissions yourself. If you are creating this workspace in a member account of an organization that is not a delegated administrator account, and you want the workspace to access data sources in other Amazon Web Services accounts in the organization, you must choose CUSTOMER_MANAGED. For more information, see Amazon Managed Grafana permissions and policies for Amazon Web Services data sources and notification channels.
         public let permissionType: PermissionType
         /// The name of the CloudFormation stack set to use to generate IAM roles to be used for this workspace.
         public let stackSetName: String?
+        /// The list of tags associated with the workspace.
+        public let tags: [String: String]?
         /// Specify the Amazon Web Services data sources that you want to be queried in this workspace. Specifying these data sources here enables Amazon Managed Grafana to create IAM roles and permissions that allow Amazon Managed Grafana to read data from these sources. You must still add them as data sources in the Grafana console in the workspace. If you don't specify a data source here, you can still add it as a data source in the workspace console later. However, you will then have to manually configure permissions for it.
         public let workspaceDataSources: [DataSourceType]?
-        /// A description for the workspace. This is used only to help you identify this workspace.
+        /// A description for the workspace. This is used only to help you identify this workspace. Pattern: ^[\\p{L}\\p{Z}\\p{N}\\p{P}]{0,2048}$
         public let workspaceDescription: String?
         /// The name for the workspace. It does not have to be unique.
         public let workspaceName: String?
@@ -258,16 +262,17 @@ extension ManagedGrafana {
         public let workspaceNotificationDestinations: [NotificationDestinationType]?
         /// Specifies the organizational units that this workspace is allowed to use data sources from, if this workspace is in an account that is part of an organization.
         public let workspaceOrganizationalUnits: [String]?
-        /// The workspace needs an IAM role that grants permissions to the Amazon Web Services resources that the workspace will view data from. If you already have a role that you want to use, specify it here. If you omit this field and you specify some Amazon Web Services resources in workspaceDataSources or workspaceNotificationDestinations, a new IAM role with the necessary permissions is automatically created.
+        /// The workspace needs an IAM role that grants permissions to the Amazon Web Services resources that the workspace will view data from. If you already have a role that you want to use, specify it here. The permission type should be set to CUSTOMER_MANAGED.
         public let workspaceRoleArn: String?
 
-        public init(accountAccessType: AccountAccessType, authenticationProviders: [AuthenticationProviderTypes], clientToken: String? = CreateWorkspaceRequest.idempotencyToken(), organizationRoleName: String? = nil, permissionType: PermissionType, stackSetName: String? = nil, workspaceDataSources: [DataSourceType]? = nil, workspaceDescription: String? = nil, workspaceName: String? = nil, workspaceNotificationDestinations: [NotificationDestinationType]? = nil, workspaceOrganizationalUnits: [String]? = nil, workspaceRoleArn: String? = nil) {
+        public init(accountAccessType: AccountAccessType, authenticationProviders: [AuthenticationProviderTypes], clientToken: String? = CreateWorkspaceRequest.idempotencyToken(), organizationRoleName: String? = nil, permissionType: PermissionType, stackSetName: String? = nil, tags: [String: String]? = nil, workspaceDataSources: [DataSourceType]? = nil, workspaceDescription: String? = nil, workspaceName: String? = nil, workspaceNotificationDestinations: [NotificationDestinationType]? = nil, workspaceOrganizationalUnits: [String]? = nil, workspaceRoleArn: String? = nil) {
             self.accountAccessType = accountAccessType
             self.authenticationProviders = authenticationProviders
             self.clientToken = clientToken
             self.organizationRoleName = organizationRoleName
             self.permissionType = permissionType
             self.stackSetName = stackSetName
+            self.tags = tags
             self.workspaceDataSources = workspaceDataSources
             self.workspaceDescription = workspaceDescription
             self.workspaceName = workspaceName
@@ -280,6 +285,12 @@ extension ManagedGrafana {
             try self.validate(self.clientToken, name: "clientToken", parent: name, pattern: "^[!-~]{1,64}$")
             try self.validate(self.organizationRoleName, name: "organizationRoleName", parent: name, max: 2048)
             try self.validate(self.organizationRoleName, name: "organizationRoleName", parent: name, min: 1)
+            try self.tags?.forEach {
+                try validate($0.key, name: "tags.key", parent: name, max: 128)
+                try validate($0.key, name: "tags.key", parent: name, min: 1)
+                try validate($0.value, name: "tags[\"\($0.key)\"]", parent: name, max: 256)
+                try validate($0.value, name: "tags[\"\($0.key)\"]", parent: name, min: 0)
+            }
             try self.validate(self.workspaceDescription, name: "workspaceDescription", parent: name, max: 2048)
             try self.validate(self.workspaceDescription, name: "workspaceDescription", parent: name, min: 0)
             try self.validate(self.workspaceName, name: "workspaceName", parent: name, pattern: "^[a-zA-Z0-9-._~]{1,255}$")
@@ -294,6 +305,7 @@ extension ManagedGrafana {
             case organizationRoleName
             case permissionType
             case stackSetName
+            case tags
             case workspaceDataSources
             case workspaceDescription
             case workspaceName
@@ -532,6 +544,34 @@ extension ManagedGrafana {
         }
     }
 
+    public struct ListTagsForResourceRequest: AWSEncodableShape {
+        public static var _encoding = [
+            AWSMemberEncoding(label: "resourceArn", location: .uri(locationName: "resourceArn"))
+        ]
+
+        /// The ARN of the resource the list of tags are associated with.
+        public let resourceArn: String
+
+        public init(resourceArn: String) {
+            self.resourceArn = resourceArn
+        }
+
+        private enum CodingKeys: CodingKey {}
+    }
+
+    public struct ListTagsForResourceResponse: AWSDecodableShape {
+        /// The list of tags that are associated with the resource.
+        public let tags: [String: String]?
+
+        public init(tags: [String: String]? = nil) {
+            self.tags = tags
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case tags
+        }
+    }
+
     public struct ListWorkspacesRequest: AWSEncodableShape {
         public static var _encoding = [
             AWSMemberEncoding(label: "maxResults", location: .querystring(locationName: "maxResults")),
@@ -672,6 +712,69 @@ extension ManagedGrafana {
             case loginValidityDuration
             case roleValues
         }
+    }
+
+    public struct TagResourceRequest: AWSEncodableShape {
+        public static var _encoding = [
+            AWSMemberEncoding(label: "resourceArn", location: .uri(locationName: "resourceArn"))
+        ]
+
+        /// The ARN of the resource the tag is associated with.
+        public let resourceArn: String
+        /// The list of tag keys and values to associate with the resource. You can associate tag keys only, tags (key and values) only or a combination of tag keys and tags.
+        public let tags: [String: String]
+
+        public init(resourceArn: String, tags: [String: String]) {
+            self.resourceArn = resourceArn
+            self.tags = tags
+        }
+
+        public func validate(name: String) throws {
+            try self.tags.forEach {
+                try validate($0.key, name: "tags.key", parent: name, max: 128)
+                try validate($0.key, name: "tags.key", parent: name, min: 1)
+                try validate($0.value, name: "tags[\"\($0.key)\"]", parent: name, max: 256)
+                try validate($0.value, name: "tags[\"\($0.key)\"]", parent: name, min: 0)
+            }
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case tags
+        }
+    }
+
+    public struct TagResourceResponse: AWSDecodableShape {
+        public init() {}
+    }
+
+    public struct UntagResourceRequest: AWSEncodableShape {
+        public static var _encoding = [
+            AWSMemberEncoding(label: "resourceArn", location: .uri(locationName: "resourceArn")),
+            AWSMemberEncoding(label: "tagKeys", location: .querystring(locationName: "tagKeys"))
+        ]
+
+        /// The ARN of the resource the tag association is removed from.
+        public let resourceArn: String
+        /// The key values of the tag to be removed from the resource.
+        public let tagKeys: [String]
+
+        public init(resourceArn: String, tagKeys: [String]) {
+            self.resourceArn = resourceArn
+            self.tagKeys = tagKeys
+        }
+
+        public func validate(name: String) throws {
+            try self.tagKeys.forEach {
+                try validate($0, name: "tagKeys[]", parent: name, max: 128)
+                try validate($0, name: "tagKeys[]", parent: name, min: 1)
+            }
+        }
+
+        private enum CodingKeys: CodingKey {}
+    }
+
+    public struct UntagResourceResponse: AWSDecodableShape {
+        public init() {}
     }
 
     public struct UpdateError: AWSDecodableShape {
@@ -887,7 +990,7 @@ extension ManagedGrafana {
     }
 
     public struct User: AWSEncodableShape & AWSDecodableShape {
-        /// The ID of the user or group.
+        /// The ID of the user or group. Pattern: ^([0-9a-fA-F]{10}-|)[A-Fa-f0-9]{8}-[A-Fa-f0-9]{4}-[A-Fa-f0-9]{4}-[A-Fa-f0-9]{4}-[A-Fa-f0-9]{12}$
         public let id: String
         /// Specifies whether this is a single user or a group.
         public let type: UserType
@@ -949,10 +1052,12 @@ extension ManagedGrafana {
         public let stackSetName: String?
         /// The current status of the workspace.
         public let status: WorkspaceStatus
+        /// The list of tags associated with the workspace.
+        public let tags: [String: String]?
         /// The IAM role that grants permissions to the Amazon Web Services resources that the workspace will view data from. This role must already exist.
         public let workspaceRoleArn: String?
 
-        public init(accountAccessType: AccountAccessType? = nil, authentication: AuthenticationSummary, created: Date, dataSources: [DataSourceType], description: String? = nil, endpoint: String, freeTrialConsumed: Bool? = nil, freeTrialExpiration: Date? = nil, grafanaVersion: String, id: String, licenseExpiration: Date? = nil, licenseType: LicenseType? = nil, modified: Date, name: String? = nil, notificationDestinations: [NotificationDestinationType]? = nil, organizationalUnits: [String]? = nil, organizationRoleName: String? = nil, permissionType: PermissionType? = nil, stackSetName: String? = nil, status: WorkspaceStatus, workspaceRoleArn: String? = nil) {
+        public init(accountAccessType: AccountAccessType? = nil, authentication: AuthenticationSummary, created: Date, dataSources: [DataSourceType], description: String? = nil, endpoint: String, freeTrialConsumed: Bool? = nil, freeTrialExpiration: Date? = nil, grafanaVersion: String, id: String, licenseExpiration: Date? = nil, licenseType: LicenseType? = nil, modified: Date, name: String? = nil, notificationDestinations: [NotificationDestinationType]? = nil, organizationalUnits: [String]? = nil, organizationRoleName: String? = nil, permissionType: PermissionType? = nil, stackSetName: String? = nil, status: WorkspaceStatus, tags: [String: String]? = nil, workspaceRoleArn: String? = nil) {
             self.accountAccessType = accountAccessType
             self.authentication = authentication
             self.created = created
@@ -973,6 +1078,7 @@ extension ManagedGrafana {
             self.permissionType = permissionType
             self.stackSetName = stackSetName
             self.status = status
+            self.tags = tags
             self.workspaceRoleArn = workspaceRoleArn
         }
 
@@ -997,6 +1103,7 @@ extension ManagedGrafana {
             case permissionType
             case stackSetName
             case status
+            case tags
             case workspaceRoleArn
         }
     }
@@ -1022,8 +1129,10 @@ extension ManagedGrafana {
         public let notificationDestinations: [NotificationDestinationType]?
         /// The current status of the workspace.
         public let status: WorkspaceStatus
+        /// The list of tags associated with the workspace.
+        public let tags: [String: String]?
 
-        public init(authentication: AuthenticationSummary, created: Date, description: String? = nil, endpoint: String, grafanaVersion: String, id: String, modified: Date, name: String? = nil, notificationDestinations: [NotificationDestinationType]? = nil, status: WorkspaceStatus) {
+        public init(authentication: AuthenticationSummary, created: Date, description: String? = nil, endpoint: String, grafanaVersion: String, id: String, modified: Date, name: String? = nil, notificationDestinations: [NotificationDestinationType]? = nil, status: WorkspaceStatus, tags: [String: String]? = nil) {
             self.authentication = authentication
             self.created = created
             self.description = description
@@ -1034,6 +1143,7 @@ extension ManagedGrafana {
             self.name = name
             self.notificationDestinations = notificationDestinations
             self.status = status
+            self.tags = tags
         }
 
         private enum CodingKeys: String, CodingKey {
@@ -1047,6 +1157,7 @@ extension ManagedGrafana {
             case name
             case notificationDestinations
             case status
+            case tags
         }
     }
 }

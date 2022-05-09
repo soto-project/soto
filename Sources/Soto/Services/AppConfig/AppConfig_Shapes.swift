@@ -126,7 +126,7 @@ extension AppConfig {
 
         /// The configuration version.
         public let configurationVersion: String?
-        /// The content of the configuration or the configuration data.  Compare the configuration version numbers of the configuration cached locally on your machine and the configuration number in the the header. If the configuration numbers are the same, the content can be ignored. The Content section only appears if the system finds new or updated configuration data. If the system doesn't find new or updated configuration data, then the Content section is not returned.
+        /// The content of the configuration or the configuration data.  The Content attribute only contains data if the system finds new or updated configuration data. If there is no new or updated data and ClientConfigurationVersion matches the version of the current configuration, AppConfig returns a 204 No Content HTTP response code and the Content value will be empty.
         public let content: AWSPayload?
         /// A standard MIME type describing the format of the configuration content. For more information, see Content-Type.
         public let contentType: String?
@@ -157,7 +157,7 @@ extension AppConfig {
         public let name: String?
         /// The ARN of an IAM role with permission to access the configuration at the specified LocationUri.
         public let retrievalRoleArn: String?
-        /// The type of configurations that the configuration profile contains. A configuration can be a feature flag used for enabling or disabling new features or a free-form configuration used for distributing configurations to your application.
+        /// The type of configurations contained in the profile. AppConfig supports feature flags and freeform configurations. We recommend you create feature flag configurations to enable or disable new features and freeform configurations to distribute configurations to an application. When calling this API, enter one of the following values for Type:  AWS.AppConfig.FeatureFlags   AWS.Freeform
         public let type: String?
         /// A list of methods for validating the configuration.
         public let validators: [Validator]?
@@ -194,7 +194,7 @@ extension AppConfig {
         public let locationUri: String?
         /// The name of the configuration profile.
         public let name: String?
-        /// The type of configurations that the configuration profile contains. A configuration can be a feature flag used for enabling or disabling new features or a free-form configuration used to introduce changes to your application.
+        /// The type of configurations contained in the profile. AppConfig supports feature flags and freeform configurations. We recommend you create feature flag configurations to enable or disable new features and freeform configurations to distribute configurations to an application. When calling this API, enter one of the following values for Type:  AWS.AppConfig.FeatureFlags   AWS.Freeform
         public let type: String?
         /// The types of validators in the configuration profile.
         public let validatorTypes: [ValidatorType]?
@@ -285,7 +285,7 @@ extension AppConfig {
         public let retrievalRoleArn: String?
         /// Metadata to assign to the configuration profile. Tags help organize and categorize your AppConfig resources. Each tag consists of a key and an optional value, both of which you define.
         public let tags: [String: String]?
-        /// The type of configurations that the configuration profile contains. A configuration can be a feature flag used for enabling or disabling new features or a free-form configuration used for distributing configurations to your application.
+        /// The type of configurations contained in the profile. AppConfig supports feature flags and freeform configurations. We recommend you create feature flag configurations to enable or disable new features and freeform configurations to distribute configurations to an application. When calling this API, enter one of the following values for Type:  AWS.AppConfig.FeatureFlags   AWS.Freeform
         public let type: String?
         /// A list of methods for validating the configuration.
         public let validators: [Validator]?
@@ -1212,7 +1212,7 @@ extension AppConfig {
         public let maxResults: Int?
         /// A token to start the list. Use this token to get the next set of results.
         public let nextToken: String?
-        /// A filter based on the type of configurations that the configuration profile contains. A configuration can be a feature flag or a free-form configuration.
+        /// A filter based on the type of configurations that the configuration profile contains. A configuration can be a feature flag or a freeform configuration.
         public let type: String?
 
         public init(applicationId: String, maxResults: Int? = nil, nextToken: String? = nil, type: String? = nil) {
@@ -1272,9 +1272,9 @@ extension AppConfig {
         public let applicationId: String
         /// The environment ID.
         public let environmentId: String
-        /// The maximum number of items to return for this call. The call also returns a token that you can specify in a subsequent call to get the next set of results.
+        /// The maximum number of items that may be returned for this call. If there are items that have not yet been returned, the response will include a non-null NextToken that you can provide in a subsequent call to get the next set of results.
         public let maxResults: Int?
-        /// A token to start the list. Use this token to get the next set of results.
+        /// The token returned by a prior call to this operation indicating the next set of results to be returned. If not specified, the operation will return the first set of results.
         public let nextToken: String?
 
         public init(applicationId: String, environmentId: String, maxResults: Int? = nil, nextToken: String? = nil) {

@@ -92,7 +92,7 @@ public struct Panorama: AWSService {
         return self.client.execute(operation: "DeleteDevice", path: "/devices/{DeviceId}", httpMethod: .DELETE, serviceConfig: self.config, input: input, logger: logger, on: eventLoop)
     }
 
-    /// Deletes a package.
+    /// Deletes a package.  To delete a package, you need permission to call s3:DeleteObject in addition to permissions for the AWS Panorama API.
     public func deletePackage(_ input: DeletePackageRequest, logger: Logger = AWSClient.loggingDisabled, on eventLoop: EventLoop? = nil) -> EventLoopFuture<DeletePackageResponse> {
         return self.client.execute(operation: "DeletePackage", path: "/packages/{PackageId}", httpMethod: .DELETE, serviceConfig: self.config, input: input, logger: logger, on: eventLoop)
     }
@@ -104,12 +104,12 @@ public struct Panorama: AWSService {
 
     /// Returns information about an application instance on a device.
     public func describeApplicationInstance(_ input: DescribeApplicationInstanceRequest, logger: Logger = AWSClient.loggingDisabled, on eventLoop: EventLoop? = nil) -> EventLoopFuture<DescribeApplicationInstanceResponse> {
-        return self.client.execute(operation: "DescribeApplicationInstance", path: "/application-instances/{applicationInstanceId}", httpMethod: .GET, serviceConfig: self.config, input: input, logger: logger, on: eventLoop)
+        return self.client.execute(operation: "DescribeApplicationInstance", path: "/application-instances/{ApplicationInstanceId}", httpMethod: .GET, serviceConfig: self.config, input: input, logger: logger, on: eventLoop)
     }
 
     /// Returns information about an application instance's configuration manifest.
     public func describeApplicationInstanceDetails(_ input: DescribeApplicationInstanceDetailsRequest, logger: Logger = AWSClient.loggingDisabled, on eventLoop: EventLoop? = nil) -> EventLoopFuture<DescribeApplicationInstanceDetailsResponse> {
-        return self.client.execute(operation: "DescribeApplicationInstanceDetails", path: "/application-instances/{applicationInstanceId}/details", httpMethod: .GET, serviceConfig: self.config, input: input, logger: logger, on: eventLoop)
+        return self.client.execute(operation: "DescribeApplicationInstanceDetails", path: "/application-instances/{ApplicationInstanceId}/details", httpMethod: .GET, serviceConfig: self.config, input: input, logger: logger, on: eventLoop)
     }
 
     /// Returns information about a device.
@@ -149,12 +149,12 @@ public struct Panorama: AWSService {
 
     /// Returns a list of application instance dependencies.
     public func listApplicationInstanceDependencies(_ input: ListApplicationInstanceDependenciesRequest, logger: Logger = AWSClient.loggingDisabled, on eventLoop: EventLoop? = nil) -> EventLoopFuture<ListApplicationInstanceDependenciesResponse> {
-        return self.client.execute(operation: "ListApplicationInstanceDependencies", path: "/application-instances/{applicationInstanceId}/package-dependencies", httpMethod: .GET, serviceConfig: self.config, input: input, logger: logger, on: eventLoop)
+        return self.client.execute(operation: "ListApplicationInstanceDependencies", path: "/application-instances/{ApplicationInstanceId}/package-dependencies", httpMethod: .GET, serviceConfig: self.config, input: input, logger: logger, on: eventLoop)
     }
 
     /// Returns a list of application node instances.
     public func listApplicationInstanceNodeInstances(_ input: ListApplicationInstanceNodeInstancesRequest, logger: Logger = AWSClient.loggingDisabled, on eventLoop: EventLoop? = nil) -> EventLoopFuture<ListApplicationInstanceNodeInstancesResponse> {
-        return self.client.execute(operation: "ListApplicationInstanceNodeInstances", path: "/application-instances/{applicationInstanceId}/node-instances", httpMethod: .GET, serviceConfig: self.config, input: input, logger: logger, on: eventLoop)
+        return self.client.execute(operation: "ListApplicationInstanceNodeInstances", path: "/application-instances/{ApplicationInstanceId}/node-instances", httpMethod: .GET, serviceConfig: self.config, input: input, logger: logger, on: eventLoop)
     }
 
     /// Returns a list of application instances.
@@ -197,7 +197,7 @@ public struct Panorama: AWSService {
         return self.client.execute(operation: "ListTagsForResource", path: "/tags/{ResourceArn}", httpMethod: .GET, serviceConfig: self.config, input: input, logger: logger, on: eventLoop)
     }
 
-    /// Creates a device and returns a configuration archive. The configuration archive is a ZIP file that contains a provisioning certificate that is valid for 5 minutes. Transfer the configuration archive to the device with the included USB storage device within 5 minutes.
+    /// Creates a device and returns a configuration archive. The configuration archive is a ZIP file that contains a provisioning certificate that is valid for 5 minutes. Name the configuration archive certificates-omni_device-name.zip and transfer it to the device within 5 minutes. Use the included USB storage device and connect it to the USB 3.0 port next to the HDMI output.
     public func provisionDevice(_ input: ProvisionDeviceRequest, logger: Logger = AWSClient.loggingDisabled, on eventLoop: EventLoop? = nil) -> EventLoopFuture<ProvisionDeviceResponse> {
         return self.client.execute(operation: "ProvisionDevice", path: "/devices", httpMethod: .POST, serviceConfig: self.config, input: input, logger: logger, on: eventLoop)
     }
@@ -209,7 +209,7 @@ public struct Panorama: AWSService {
 
     /// Removes an application instance.
     public func removeApplicationInstance(_ input: RemoveApplicationInstanceRequest, logger: Logger = AWSClient.loggingDisabled, on eventLoop: EventLoop? = nil) -> EventLoopFuture<RemoveApplicationInstanceResponse> {
-        return self.client.execute(operation: "RemoveApplicationInstance", path: "/application-instances/{applicationInstanceId}", httpMethod: .DELETE, serviceConfig: self.config, input: input, logger: logger, on: eventLoop)
+        return self.client.execute(operation: "RemoveApplicationInstance", path: "/application-instances/{ApplicationInstanceId}", httpMethod: .DELETE, serviceConfig: self.config, input: input, logger: logger, on: eventLoop)
     }
 
     /// Tags a resource.

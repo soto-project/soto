@@ -653,6 +653,11 @@ public struct Pinpoint: AWSService {
     public func updateVoiceTemplate(_ input: UpdateVoiceTemplateRequest, logger: Logger = AWSClient.loggingDisabled, on eventLoop: EventLoop? = nil) -> EventLoopFuture<UpdateVoiceTemplateResponse> {
         return self.client.execute(operation: "UpdateVoiceTemplate", path: "/v1/templates/{template-name}/voice", httpMethod: .PUT, serviceConfig: self.config, input: input, logger: logger, on: eventLoop)
     }
+
+    /// Verify an OTP
+    public func verifyOTPMessage(_ input: VerifyOTPMessageRequest, logger: Logger = AWSClient.loggingDisabled, on eventLoop: EventLoop? = nil) -> EventLoopFuture<VerifyOTPMessageResponse> {
+        return self.client.execute(operation: "VerifyOTPMessage", path: "/v1/apps/{application-id}/verify-otp", httpMethod: .POST, serviceConfig: self.config, input: input, logger: logger, on: eventLoop)
+    }
 }
 
 extension Pinpoint {

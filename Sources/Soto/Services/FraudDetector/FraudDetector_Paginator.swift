@@ -655,6 +655,59 @@ extension FraudDetector {
         )
     }
 
+    ///  Gets a list of past predictions. The list can be filtered by detector ID, detector version ID, event ID, event type, or by specifying a time period. If filter is not specified, the most recent prediction is returned. For example, the following filter lists all past predictions for xyz event type - { "eventType":{ "value": "xyz" }” }   This is a paginated API. If you provide a null maxResults, this action will retrieve a maximum of 10 records per page. If you provide a maxResults, the value must be between 50 and 100. To get the next page results, provide the nextToken from the response as part of your request. A null nextToken fetches the records from the beginning.
+    ///
+    /// Provide paginated results to closure `onPage` for it to combine them into one result.
+    /// This works in a similar manner to `Array.reduce<Result>(_:_:) -> Result`.
+    ///
+    /// Parameters:
+    ///   - input: Input for request
+    ///   - initialValue: The value to use as the initial accumulating value. `initialValue` is passed to `onPage` the first time it is called.
+    ///   - logger: Logger used for logging output
+    ///   - eventLoop: EventLoop to run this process on
+    ///   - onPage: closure called with each paginated response. It combines an accumulating result with the contents of response. This combined result is then returned
+    ///         along with a boolean indicating if the paginate operation should continue.
+    public func listEventPredictionsPaginator<Result>(
+        _ input: ListEventPredictionsRequest,
+        _ initialValue: Result,
+        logger: Logger = AWSClient.loggingDisabled,
+        on eventLoop: EventLoop? = nil,
+        onPage: @escaping (Result, ListEventPredictionsResult, EventLoop) -> EventLoopFuture<(Bool, Result)>
+    ) -> EventLoopFuture<Result> {
+        return client.paginate(
+            input: input,
+            initialValue: initialValue,
+            command: listEventPredictions,
+            inputKey: \ListEventPredictionsRequest.nextToken,
+            outputKey: \ListEventPredictionsResult.nextToken,
+            on: eventLoop,
+            onPage: onPage
+        )
+    }
+
+    /// Provide paginated results to closure `onPage`.
+    ///
+    /// - Parameters:
+    ///   - input: Input for request
+    ///   - logger: Logger used for logging output
+    ///   - eventLoop: EventLoop to run this process on
+    ///   - onPage: closure called with each block of entries. Returns boolean indicating whether we should continue.
+    public func listEventPredictionsPaginator(
+        _ input: ListEventPredictionsRequest,
+        logger: Logger = AWSClient.loggingDisabled,
+        on eventLoop: EventLoop? = nil,
+        onPage: @escaping (ListEventPredictionsResult, EventLoop) -> EventLoopFuture<Bool>
+    ) -> EventLoopFuture<Void> {
+        return client.paginate(
+            input: input,
+            command: listEventPredictions,
+            inputKey: \ListEventPredictionsRequest.nextToken,
+            outputKey: \ListEventPredictionsResult.nextToken,
+            on: eventLoop,
+            onPage: onPage
+        )
+    }
+
     ///  Lists all tags associated with the resource. This is a paginated API. To get the next page results, provide the pagination token from the response as part of your request. A null pagination token fetches the records from the beginning.
     ///
     /// Provide paginated results to closure `onPage` for it to combine them into one result.
@@ -830,6 +883,20 @@ extension FraudDetector.GetVariablesRequest: AWSPaginateToken {
             maxResults: self.maxResults,
             name: self.name,
             nextToken: token
+        )
+    }
+}
+
+extension FraudDetector.ListEventPredictionsRequest: AWSPaginateToken {
+    public func usingPaginationToken(_ token: String) -> FraudDetector.ListEventPredictionsRequest {
+        return .init(
+            detectorId: self.detectorId,
+            detectorVersionId: self.detectorVersionId,
+            eventId: self.eventId,
+            eventType: self.eventType,
+            maxResults: self.maxResults,
+            nextToken: token,
+            predictionTimeRange: self.predictionTimeRange
         )
     }
 }

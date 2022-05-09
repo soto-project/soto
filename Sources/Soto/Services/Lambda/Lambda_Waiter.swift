@@ -53,6 +53,31 @@ extension Lambda {
     ///   - maxWaitTime: Maximum amount of time to wait for waiter to be successful
     ///   - logger: Logger for logging output
     ///   - eventLoop: EventLoop to run waiter code on
+    public func waitUntilFunctionActiveV2(
+        _ input: GetFunctionRequest,
+        maxWaitTime: TimeAmount? = nil,
+        logger: Logger = AWSClient.loggingDisabled,
+        on eventLoop: EventLoop? = nil
+    ) -> EventLoopFuture<Void> {
+        let waiter = AWSClient.Waiter(
+            acceptors: [
+                .init(state: .success, matcher: try! JMESPathMatcher("configuration.state", expected: "Active")),
+                .init(state: .failure, matcher: try! JMESPathMatcher("configuration.state", expected: "Failed")),
+                .init(state: .retry, matcher: try! JMESPathMatcher("configuration.state", expected: "Pending")),
+            ],
+            minDelayTime: .seconds(1),
+            command: getFunction
+        )
+        return self.client.waitUntil(input, waiter: waiter, maxWaitTime: maxWaitTime, logger: logger, on: eventLoop)
+    }
+
+    /// Poll resource until it reaches a desired state
+    ///
+    /// Parameters:
+    ///   - input: Input for request
+    ///   - maxWaitTime: Maximum amount of time to wait for waiter to be successful
+    ///   - logger: Logger for logging output
+    ///   - eventLoop: EventLoop to run waiter code on
     public func waitUntilFunctionExists(
         _ input: GetFunctionRequest,
         maxWaitTime: TimeAmount? = nil,
@@ -91,6 +116,31 @@ extension Lambda {
             ],
             minDelayTime: .seconds(5),
             command: getFunctionConfiguration
+        )
+        return self.client.waitUntil(input, waiter: waiter, maxWaitTime: maxWaitTime, logger: logger, on: eventLoop)
+    }
+
+    /// Poll resource until it reaches a desired state
+    ///
+    /// Parameters:
+    ///   - input: Input for request
+    ///   - maxWaitTime: Maximum amount of time to wait for waiter to be successful
+    ///   - logger: Logger for logging output
+    ///   - eventLoop: EventLoop to run waiter code on
+    public func waitUntilFunctionUpdatedV2(
+        _ input: GetFunctionRequest,
+        maxWaitTime: TimeAmount? = nil,
+        logger: Logger = AWSClient.loggingDisabled,
+        on eventLoop: EventLoop? = nil
+    ) -> EventLoopFuture<Void> {
+        let waiter = AWSClient.Waiter(
+            acceptors: [
+                .init(state: .success, matcher: try! JMESPathMatcher("configuration.lastUpdateStatus", expected: "Successful")),
+                .init(state: .failure, matcher: try! JMESPathMatcher("configuration.lastUpdateStatus", expected: "Failed")),
+                .init(state: .retry, matcher: try! JMESPathMatcher("configuration.lastUpdateStatus", expected: "InProgress")),
+            ],
+            minDelayTime: .seconds(1),
+            command: getFunction
         )
         return self.client.waitUntil(input, waiter: waiter, maxWaitTime: maxWaitTime, logger: logger, on: eventLoop)
     }

@@ -47,7 +47,18 @@ extension Synthetics {
     }
 
     public enum CanaryStateReasonCode: String, CustomStringConvertible, Codable {
+        case createFailed = "CREATE_FAILED"
+        case createInProgress = "CREATE_IN_PROGRESS"
+        case createPending = "CREATE_PENDING"
+        case deleteFailed = "DELETE_FAILED"
+        case deleteInProgress = "DELETE_IN_PROGRESS"
         case invalidPermissions = "INVALID_PERMISSIONS"
+        case rollbackComplete = "ROLLBACK_COMPLETE"
+        case rollbackFailed = "ROLLBACK_FAILED"
+        case syncDeleteInProgress = "SYNC_DELETE_IN_PROGRESS"
+        case updateComplete = "UPDATE_COMPLETE"
+        case updateInProgress = "UPDATE_IN_PROGRESS"
+        case updatePending = "UPDATE_PENDING"
         public var description: String { return self.rawValue }
     }
 
@@ -191,7 +202,7 @@ extension Synthetics {
     }
 
     public struct CanaryCodeInput: AWSEncodableShape {
-        /// The entry point to use for the source code when running the canary. This value must end with the string .handler. The string is limited to 29 characters or fewer.
+        /// The entry point to use for the source code when running the canary. For canaries that use the syn-python-selenium-1.0 runtime or a syn-nodejs.puppeteer runtime earlier than syn-nodejs.puppeteer-3.4, the handler must be specified as  fileName.handler. For syn-python-selenium-1.1, syn-nodejs.puppeteer-3.4, and later runtimes, the handler can be specified as  fileName.functionName , or you can specify a folder where canary scripts reside as  folder/fileName.functionName .
         public let handler: String
         /// If your canary script is located in S3, specify the bucket name here. Do not include s3:// as the start of the bucket name.
         public let s3Bucket: String?
@@ -199,7 +210,7 @@ extension Synthetics {
         public let s3Key: String?
         /// The S3 version ID of your script.
         public let s3Version: String?
-        /// If you input your canary script directly into the canary instead of referring to an S3 location, the value of this parameter is the base64-encoded contents of the .zip file that contains the script. It must be smaller than 256 Kb.
+        /// If you input your canary script directly into the canary instead of referring to an S3 location, the value of this parameter is the base64-encoded contents of the .zip file that contains the script. It must be smaller than 225 Kb. For large canary scripts, we recommend that you use an S3 location instead of inputting it directly with this parameter.
         public let zipFile: Data?
 
         public init(handler: String, s3Bucket: String? = nil, s3Key: String? = nil, s3Version: String? = nil, zipFile: Data? = nil) {
@@ -211,8 +222,9 @@ extension Synthetics {
         }
 
         public func validate(name: String) throws {
-            try self.validate(self.handler, name: "handler", parent: name, max: 1024)
+            try self.validate(self.handler, name: "handler", parent: name, max: 128)
             try self.validate(self.handler, name: "handler", parent: name, min: 1)
+            try self.validate(self.handler, name: "handler", parent: name, pattern: "^([0-9a-zA-Z_-]+\\/)*[0-9A-Za-z_\\\\-]+\\.[A-Za-z_][A-Za-z0-9_]*$")
             try self.validate(self.s3Bucket, name: "s3Bucket", parent: name, max: 1024)
             try self.validate(self.s3Bucket, name: "s3Bucket", parent: name, min: 1)
             try self.validate(self.s3Key, name: "s3Key", parent: name, max: 1024)
@@ -576,13 +588,17 @@ extension Synthetics {
 
     public struct DeleteCanaryRequest: AWSEncodableShape {
         public static var _encoding = [
+            AWSMemberEncoding(label: "deleteLambda", location: .querystring(locationName: "deleteLambda")),
             AWSMemberEncoding(label: "name", location: .uri(locationName: "name"))
         ]
 
+        /// Specifies whether to also delete the Lambda functions and layers used by this canary. The default is false. Type: Boolean
+        public let deleteLambda: Bool?
         /// The name of the canary that you want to delete. To find the names of your canaries, use DescribeCanaries.
         public let name: String
 
-        public init(name: String) {
+        public init(deleteLambda: Bool? = nil, name: String) {
+            self.deleteLambda = deleteLambda
             self.name = name
         }
 
@@ -602,23 +618,34 @@ extension Synthetics {
     public struct DescribeCanariesLastRunRequest: AWSEncodableShape {
         /// Specify this parameter to limit how many runs are returned each time you use the DescribeLastRun operation. If you omit this parameter, the default of 100 is used.
         public let maxResults: Int?
+        /// Use this parameter to return only canaries that match the names that you specify here. You can specify as many as five canary names. If you specify this parameter, the operation is successful only if you have authorization to view all the canaries that you specify in your request. If you do not have permission to view any of the canaries, the request fails with a 403 response. You are required to use the Names parameter if you are logged on to a user or role that has an IAM policy that restricts which canaries that you are allowed to view. For more information, see  Limiting a user to viewing specific canaries.
+        public let names: [String]?
         /// A token that indicates that there is more data available. You can use this token in a subsequent DescribeCanaries operation to retrieve the next set of results.
         public let nextToken: String?
 
-        public init(maxResults: Int? = nil, nextToken: String? = nil) {
+        public init(maxResults: Int? = nil, names: [String]? = nil, nextToken: String? = nil) {
             self.maxResults = maxResults
+            self.names = names
             self.nextToken = nextToken
         }
 
         public func validate(name: String) throws {
             try self.validate(self.maxResults, name: "maxResults", parent: name, max: 100)
             try self.validate(self.maxResults, name: "maxResults", parent: name, min: 1)
+            try self.names?.forEach {
+                try validate($0, name: "names[]", parent: name, max: 21)
+                try validate($0, name: "names[]", parent: name, min: 1)
+                try validate($0, name: "names[]", parent: name, pattern: "^[0-9a-z_\\-]+$")
+            }
+            try self.validate(self.names, name: "names", parent: name, max: 5)
+            try self.validate(self.names, name: "names", parent: name, min: 1)
             try self.validate(self.nextToken, name: "nextToken", parent: name, max: 252)
             try self.validate(self.nextToken, name: "nextToken", parent: name, min: 4)
         }
 
         private enum CodingKeys: String, CodingKey {
             case maxResults = "MaxResults"
+            case names = "Names"
             case nextToken = "NextToken"
         }
     }
@@ -643,23 +670,34 @@ extension Synthetics {
     public struct DescribeCanariesRequest: AWSEncodableShape {
         /// Specify this parameter to limit how many canaries are returned each time you use the DescribeCanaries operation. If you omit this parameter, the default of 100 is used.
         public let maxResults: Int?
+        /// Use this parameter to return only canaries that match the names that you specify here. You can specify as many as five canary names. If you specify this parameter, the operation is successful only if you have authorization to view all the canaries that you specify in your request. If you do not have permission to view any of the canaries, the request fails with a 403 response. You are required to use this parameter if you are logged on to a user or role that has an IAM policy that restricts which canaries that you are allowed to view. For more information, see  Limiting a user to viewing specific canaries.
+        public let names: [String]?
         /// A token that indicates that there is more data available. You can use this token in a subsequent operation to retrieve the next set of results.
         public let nextToken: String?
 
-        public init(maxResults: Int? = nil, nextToken: String? = nil) {
+        public init(maxResults: Int? = nil, names: [String]? = nil, nextToken: String? = nil) {
             self.maxResults = maxResults
+            self.names = names
             self.nextToken = nextToken
         }
 
         public func validate(name: String) throws {
             try self.validate(self.maxResults, name: "maxResults", parent: name, max: 20)
             try self.validate(self.maxResults, name: "maxResults", parent: name, min: 1)
+            try self.names?.forEach {
+                try validate($0, name: "names[]", parent: name, max: 21)
+                try validate($0, name: "names[]", parent: name, min: 1)
+                try validate($0, name: "names[]", parent: name, pattern: "^[0-9a-z_\\-]+$")
+            }
+            try self.validate(self.names, name: "names", parent: name, max: 5)
+            try self.validate(self.names, name: "names", parent: name, min: 1)
             try self.validate(self.nextToken, name: "nextToken", parent: name, max: 252)
             try self.validate(self.nextToken, name: "nextToken", parent: name, min: 4)
         }
 
         private enum CodingKeys: String, CodingKey {
             case maxResults = "MaxResults"
+            case names = "Names"
             case nextToken = "NextToken"
         }
     }

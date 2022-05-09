@@ -40,9 +40,11 @@ public struct EFSErrorType: AWSErrorType {
         case networkInterfaceLimitExceeded = "NetworkInterfaceLimitExceeded"
         case noFreeAddressesInSubnet = "NoFreeAddressesInSubnet"
         case policyNotFound = "PolicyNotFound"
+        case replicationNotFound = "ReplicationNotFound"
         case securityGroupLimitExceeded = "SecurityGroupLimitExceeded"
         case securityGroupNotFound = "SecurityGroupNotFound"
         case subnetNotFound = "SubnetNotFound"
+        case throttlingException = "ThrottlingException"
         case throughputLimitExceeded = "ThroughputLimitExceeded"
         case tooManyRequests = "TooManyRequests"
         case unsupportedAvailabilityZone = "UnsupportedAvailabilityZone"
@@ -67,13 +69,13 @@ public struct EFSErrorType: AWSErrorType {
     /// return error code string
     public var errorCode: String { self.error.rawValue }
 
-    /// Returned if the access point you are trying to create already exists, with the creation token you provided in the request.
+    /// Returned if the access point that you are trying to create already exists, with the creation token you provided in the request.
     public static var accessPointAlreadyExists: Self { .init(.accessPointAlreadyExists) }
-    /// Returned if the Amazon Web Services account has already created the maximum number of access points allowed per file system.
+    /// Returned if the Amazon Web Services account has already created the maximum number of access points allowed per file system. For more informaton, see https://docs.aws.amazon.com/efs/latest/ug/limits.html#limits-efs-resources-per-account-per-region.
     public static var accessPointLimitExceeded: Self { .init(.accessPointLimitExceeded) }
     /// Returned if the specified AccessPointId value doesn't exist in the requester's Amazon Web Services account.
     public static var accessPointNotFound: Self { .init(.accessPointNotFound) }
-    /// Returned if the Availability Zone that was specified for a mount target is different from the Availability Zone that was specified for One Zone storage classes. For more information, see Regional and One Zone storage redundancy.
+    /// Returned if the Availability Zone that was specified for a mount target is different from the Availability Zone that was specified for One Zone storage. For more information, see Regional and One Zone storage redundancy.
     public static var availabilityZonesMismatch: Self { .init(.availabilityZonesMismatch) }
     /// Returned if the request is malformed or contains an error such as an invalid parameter value or a missing required parameter.
     public static var badRequest: Self { .init(.badRequest) }
@@ -91,11 +93,11 @@ public struct EFSErrorType: AWSErrorType {
     public static var incorrectFileSystemLifeCycleState: Self { .init(.incorrectFileSystemLifeCycleState) }
     /// Returned if the mount target is not in the correct state for the operation.
     public static var incorrectMountTargetState: Self { .init(.incorrectMountTargetState) }
-    /// Returned if there's not enough capacity to provision additional throughput. This value might be returned when you try to create a file system in provisioned throughput mode, when you attempt to increase the provisioned throughput of an existing file system, or when you attempt to change an existing file system from bursting to provisioned throughput mode. Try again later.
+    /// Returned if there's not enough capacity to provision additional throughput. This value might be returned when you try to create a file system in provisioned throughput mode, when you attempt to increase the provisioned throughput of an existing file system, or when you attempt to change an existing file system from Bursting Throughput to Provisioned Throughput mode. Try again later.
     public static var insufficientThroughputCapacity: Self { .init(.insufficientThroughputCapacity) }
     /// Returned if an error occurred on the server side.
     public static var internalServerError: Self { .init(.internalServerError) }
-    /// Returned if the FileSystemPolicy is is malformed or contains an error such as an invalid parameter value or a missing required parameter. Returned in the case of a policy lockout safety check error.
+    /// Returned if the FileSystemPolicy is malformed or contains an error such as a parameter value that is not valid or a missing required parameter. Returned in the case of a policy lockout safety check error.
     public static var invalidPolicyException: Self { .init(.invalidPolicyException) }
     /// Returned if the request specified an IpAddress that is already in use in the subnet.
     public static var ipAddressInUse: Self { .init(.ipAddressInUse) }
@@ -103,21 +105,25 @@ public struct EFSErrorType: AWSErrorType {
     public static var mountTargetConflict: Self { .init(.mountTargetConflict) }
     /// Returned if there is no mount target with the specified ID found in the caller's Amazon Web Services account.
     public static var mountTargetNotFound: Self { .init(.mountTargetNotFound) }
-    /// The calling account has reached the limit for elastic network interfaces for the specific Amazon Web Services Region. The client should try to delete some elastic network interfaces or get the account limit raised. For more information, see Amazon VPC Limits in the Amazon VPC User Guide  (see the Network interfaces per VPC entry in the table).
+    /// The calling account has reached the limit for elastic network interfaces for the specific Amazon Web Services Region. Either delete some network interfaces or request that the account quota be raised. For more information, see Amazon VPC Quotas in the Amazon VPC User Guide (see the Network interfaces per Region entry in the Network interfaces table).
     public static var networkInterfaceLimitExceeded: Self { .init(.networkInterfaceLimitExceeded) }
     /// Returned if IpAddress was not specified in the request and there are no free IP addresses in the subnet.
     public static var noFreeAddressesInSubnet: Self { .init(.noFreeAddressesInSubnet) }
     /// Returned if the default file system policy is in effect for the EFS file system specified.
     public static var policyNotFound: Self { .init(.policyNotFound) }
+    /// Returned if the specified file system does not have a replication configuration.
+    public static var replicationNotFound: Self { .init(.replicationNotFound) }
     /// Returned if the size of SecurityGroups specified in the request is greater than five.
     public static var securityGroupLimitExceeded: Self { .init(.securityGroupLimitExceeded) }
-    /// Returned if one of the specified security groups doesn't exist in the subnet's VPC.
+    /// Returned if one of the specified security groups doesn't exist in the subnet's virtual private cloud (VPC).
     public static var securityGroupNotFound: Self { .init(.securityGroupNotFound) }
     /// Returned if there is no subnet with ID SubnetId provided in the request.
     public static var subnetNotFound: Self { .init(.subnetNotFound) }
+    /// Returned when the CreateAccessPoint API action is called too quickly and the number of Access Points in the account is nearing the limit of 120.
+    public static var throttlingException: Self { .init(.throttlingException) }
     /// Returned if the throughput mode or amount of provisioned throughput can't be changed because the throughput limit of 1024 MiB/s has been reached.
     public static var throughputLimitExceeded: Self { .init(.throughputLimitExceeded) }
-    /// Returned if you don’t wait at least 24 hours before changing the throughput mode, or decreasing the Provisioned Throughput value.
+    /// Returned if you don’t wait at least 24 hours before either changing the throughput mode, or decreasing the Provisioned Throughput value.
     public static var tooManyRequests: Self { .init(.tooManyRequests) }
     /// Returned if the requested Amazon EFS functionality is not available in the specified Availability Zone.
     public static var unsupportedAvailabilityZone: Self { .init(.unsupportedAvailabilityZone) }

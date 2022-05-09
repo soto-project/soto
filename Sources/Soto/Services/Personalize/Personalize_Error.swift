@@ -25,6 +25,8 @@ public struct PersonalizeErrorType: AWSErrorType {
         case resourceAlreadyExistsException = "ResourceAlreadyExistsException"
         case resourceInUseException = "ResourceInUseException"
         case resourceNotFoundException = "ResourceNotFoundException"
+        case tooManyTagKeysException = "TooManyTagKeysException"
+        case tooManyTagsException = "TooManyTagsException"
     }
 
     private let error: Code
@@ -57,6 +59,10 @@ public struct PersonalizeErrorType: AWSErrorType {
     public static var resourceInUseException: Self { .init(.resourceInUseException) }
     /// Could not find the specified resource.
     public static var resourceNotFoundException: Self { .init(.resourceNotFoundException) }
+    /// The request contains more tag keys than can be associated with a resource (50 tag keys per resource).
+    public static var tooManyTagKeysException: Self { .init(.tooManyTagKeysException) }
+    /// You have exceeded the maximum number of tags you can apply to this resource.
+    public static var tooManyTagsException: Self { .init(.tooManyTagsException) }
 }
 
 extension PersonalizeErrorType: Equatable {

@@ -72,60 +72,7 @@ extension RDS {
         )
     }
 
-    ///  Returns information about custom Availability Zones (AZs). A custom AZ is an on-premises AZ that is integrated with a VMware vSphere cluster. For more information about RDS on VMware, see the  RDS on VMware User Guide.
-    ///
-    /// Provide paginated results to closure `onPage` for it to combine them into one result.
-    /// This works in a similar manner to `Array.reduce<Result>(_:_:) -> Result`.
-    ///
-    /// Parameters:
-    ///   - input: Input for request
-    ///   - initialValue: The value to use as the initial accumulating value. `initialValue` is passed to `onPage` the first time it is called.
-    ///   - logger: Logger used for logging output
-    ///   - eventLoop: EventLoop to run this process on
-    ///   - onPage: closure called with each paginated response. It combines an accumulating result with the contents of response. This combined result is then returned
-    ///         along with a boolean indicating if the paginate operation should continue.
-    public func describeCustomAvailabilityZonesPaginator<Result>(
-        _ input: DescribeCustomAvailabilityZonesMessage,
-        _ initialValue: Result,
-        logger: Logger = AWSClient.loggingDisabled,
-        on eventLoop: EventLoop? = nil,
-        onPage: @escaping (Result, CustomAvailabilityZoneMessage, EventLoop) -> EventLoopFuture<(Bool, Result)>
-    ) -> EventLoopFuture<Result> {
-        return client.paginate(
-            input: input,
-            initialValue: initialValue,
-            command: describeCustomAvailabilityZones,
-            inputKey: \DescribeCustomAvailabilityZonesMessage.marker,
-            outputKey: \CustomAvailabilityZoneMessage.marker,
-            on: eventLoop,
-            onPage: onPage
-        )
-    }
-
-    /// Provide paginated results to closure `onPage`.
-    ///
-    /// - Parameters:
-    ///   - input: Input for request
-    ///   - logger: Logger used for logging output
-    ///   - eventLoop: EventLoop to run this process on
-    ///   - onPage: closure called with each block of entries. Returns boolean indicating whether we should continue.
-    public func describeCustomAvailabilityZonesPaginator(
-        _ input: DescribeCustomAvailabilityZonesMessage,
-        logger: Logger = AWSClient.loggingDisabled,
-        on eventLoop: EventLoop? = nil,
-        onPage: @escaping (CustomAvailabilityZoneMessage, EventLoop) -> EventLoopFuture<Bool>
-    ) -> EventLoopFuture<Void> {
-        return client.paginate(
-            input: input,
-            command: describeCustomAvailabilityZones,
-            inputKey: \DescribeCustomAvailabilityZonesMessage.marker,
-            outputKey: \CustomAvailabilityZoneMessage.marker,
-            on: eventLoop,
-            onPage: onPage
-        )
-    }
-
-    ///  Returns information about backtracks for a DB cluster. For more information on Amazon Aurora, see  What is Amazon Aurora? in the Amazon Aurora User Guide.   This action only applies to Aurora MySQL DB clusters.
+    ///  Returns information about backtracks for a DB cluster. For more information on Amazon Aurora, see  What is Amazon Aurora? in the Amazon Aurora User Guide.  This action only applies to Aurora MySQL DB clusters.
     ///
     /// Provide paginated results to closure `onPage` for it to combine them into one result.
     /// This works in a similar manner to `Array.reduce<Result>(_:_:) -> Result`.
@@ -231,7 +178,7 @@ extension RDS {
         )
     }
 
-    ///   Returns a list of DBClusterParameterGroup descriptions. If a DBClusterParameterGroupName parameter is specified, the list will contain only the description of the specified DB cluster parameter group.  For more information on Amazon Aurora, see  What is Amazon Aurora? in the Amazon Aurora User Guide.  For more information on Multi-AZ DB clusters, see  Multi-AZ deployments with two readable standby DB instances in the Amazon RDS User Guide.   The Multi-AZ DB clusters feature is in preview and is subject to change.
+    ///  Returns a list of DBClusterParameterGroup descriptions. If a DBClusterParameterGroupName parameter is specified, the list will contain only the description of the specified DB cluster parameter group. For more information on Amazon Aurora, see  What is Amazon Aurora? in the Amazon Aurora User Guide. For more information on Multi-AZ DB clusters, see  Multi-AZ deployments with two readable standby DB instances in the Amazon RDS User Guide.
     ///
     /// Provide paginated results to closure `onPage` for it to combine them into one result.
     /// This works in a similar manner to `Array.reduce<Result>(_:_:) -> Result`.
@@ -284,7 +231,7 @@ extension RDS {
         )
     }
 
-    ///  Returns the detailed parameter list for a particular DB cluster parameter group. For more information on Amazon Aurora, see  What is Amazon Aurora? in the Amazon Aurora User Guide.  For more information on Multi-AZ DB clusters, see  Multi-AZ deployments with two readable standby DB instances in the Amazon RDS User Guide.   The Multi-AZ DB clusters feature is in preview and is subject to change.
+    ///  Returns the detailed parameter list for a particular DB cluster parameter group. For more information on Amazon Aurora, see  What is Amazon Aurora? in the Amazon Aurora User Guide. For more information on Multi-AZ DB clusters, see  Multi-AZ deployments with two readable standby DB instances in the Amazon RDS User Guide.
     ///
     /// Provide paginated results to closure `onPage` for it to combine them into one result.
     /// This works in a similar manner to `Array.reduce<Result>(_:_:) -> Result`.
@@ -337,7 +284,7 @@ extension RDS {
         )
     }
 
-    ///  Returns information about DB cluster snapshots. This API action supports pagination. For more information on Amazon Aurora DB clusters, see  What is Amazon Aurora? in the Amazon Aurora User Guide.  For more information on Multi-AZ DB clusters, see  Multi-AZ deployments with two readable standby DB instances in the Amazon RDS User Guide.   The Multi-AZ DB clusters feature is in preview and is subject to change.
+    ///  Returns information about DB cluster snapshots. This API action supports pagination. For more information on Amazon Aurora DB clusters, see  What is Amazon Aurora? in the Amazon Aurora User Guide. For more information on Multi-AZ DB clusters, see  Multi-AZ deployments with two readable standby DB instances in the Amazon RDS User Guide.
     ///
     /// Provide paginated results to closure `onPage` for it to combine them into one result.
     /// This works in a similar manner to `Array.reduce<Result>(_:_:) -> Result`.
@@ -390,7 +337,7 @@ extension RDS {
         )
     }
 
-    ///  Returns information about Amazon Aurora DB clusters and Multi-AZ DB clusters. This API supports pagination. For more information on Amazon Aurora DB clusters, see  What is Amazon Aurora? in the Amazon Aurora User Guide.  For more information on Multi-AZ DB clusters, see  Multi-AZ deployments with two readable standby DB instances in the Amazon RDS User Guide.   The Multi-AZ DB clusters feature is in preview and is subject to change.  This operation can also return information for Amazon Neptune DB instances and Amazon DocumentDB instances.
+    ///  Returns information about Amazon Aurora DB clusters and Multi-AZ DB clusters. This API supports pagination. For more information on Amazon Aurora DB clusters, see  What is Amazon Aurora? in the Amazon Aurora User Guide. For more information on Multi-AZ DB clusters, see  Multi-AZ deployments with two readable standby DB instances in the Amazon RDS User Guide. This operation can also return information for Amazon Neptune DB instances and Amazon DocumentDB instances.
     ///
     /// Provide paginated results to closure `onPage` for it to combine them into one result.
     /// This works in a similar manner to `Array.reduce<Result>(_:_:) -> Result`.
@@ -655,7 +602,7 @@ extension RDS {
         )
     }
 
-    ///   Returns a list of DBParameterGroup descriptions. If a DBParameterGroupName is specified, the list will contain only the description of the specified DB parameter group.
+    ///  Returns a list of DBParameterGroup descriptions. If a DBParameterGroupName is specified, the list will contain only the description of the specified DB parameter group.
     ///
     /// Provide paginated results to closure `onPage` for it to combine them into one result.
     /// This works in a similar manner to `Array.reduce<Result>(_:_:) -> Result`.
@@ -973,7 +920,7 @@ extension RDS {
         )
     }
 
-    ///   Returns a list of DBSecurityGroup descriptions. If a DBSecurityGroupName is specified, the list will contain only the descriptions of the specified DB security group.
+    ///  Returns a list of DBSecurityGroup descriptions. If a DBSecurityGroupName is specified, the list will contain only the descriptions of the specified DB security group.
     ///
     /// Provide paginated results to closure `onPage` for it to combine them into one result.
     /// This works in a similar manner to `Array.reduce<Result>(_:_:) -> Result`.
@@ -1238,7 +1185,7 @@ extension RDS {
         )
     }
 
-    ///  Returns events related to DB instances, DB clusters, DB parameter groups, DB security groups, DB snapshots, and DB cluster snapshots for the past 14 days. Events specific to a particular DB instances, DB clusters, DB parameter groups, DB security groups, DB snapshots, and DB cluster snapshots group can be obtained by providing the name as a parameter.  By default, the past hour of events are returned.
+    ///  Returns events related to DB instances, DB clusters, DB parameter groups, DB security groups, DB snapshots, DB cluster snapshots, and RDS Proxies for the past 14 days. Events specific to a particular DB instance, DB cluster, DB parameter group, DB security group, DB snapshot, DB cluster snapshot group, or RDS Proxy can be obtained by providing the name as a parameter.  By default, RDS returns events that were generated in the past hour.
     ///
     /// Provide paginated results to closure `onPage` for it to combine them into one result.
     /// This works in a similar manner to `Array.reduce<Result>(_:_:) -> Result`.
@@ -1344,7 +1291,7 @@ extension RDS {
         )
     }
 
-    ///   Returns information about Aurora global database clusters. This API supports pagination.   For more information on Amazon Aurora, see  What is Amazon Aurora? in the Amazon Aurora User Guide.   This action only applies to Aurora DB clusters.
+    ///  Returns information about Aurora global database clusters. This API supports pagination. For more information on Amazon Aurora, see  What is Amazon Aurora? in the Amazon Aurora User Guide.  This action only applies to Aurora DB clusters.
     ///
     /// Provide paginated results to closure `onPage` for it to combine them into one result.
     /// This works in a similar manner to `Array.reduce<Result>(_:_:) -> Result`.
@@ -1392,59 +1339,6 @@ extension RDS {
             command: describeGlobalClusters,
             inputKey: \DescribeGlobalClustersMessage.marker,
             outputKey: \GlobalClustersMessage.marker,
-            on: eventLoop,
-            onPage: onPage
-        )
-    }
-
-    ///  Describes the available installation media for a DB engine that requires an on-premises customer provided license, such as Microsoft SQL Server.
-    ///
-    /// Provide paginated results to closure `onPage` for it to combine them into one result.
-    /// This works in a similar manner to `Array.reduce<Result>(_:_:) -> Result`.
-    ///
-    /// Parameters:
-    ///   - input: Input for request
-    ///   - initialValue: The value to use as the initial accumulating value. `initialValue` is passed to `onPage` the first time it is called.
-    ///   - logger: Logger used for logging output
-    ///   - eventLoop: EventLoop to run this process on
-    ///   - onPage: closure called with each paginated response. It combines an accumulating result with the contents of response. This combined result is then returned
-    ///         along with a boolean indicating if the paginate operation should continue.
-    public func describeInstallationMediaPaginator<Result>(
-        _ input: DescribeInstallationMediaMessage,
-        _ initialValue: Result,
-        logger: Logger = AWSClient.loggingDisabled,
-        on eventLoop: EventLoop? = nil,
-        onPage: @escaping (Result, InstallationMediaMessage, EventLoop) -> EventLoopFuture<(Bool, Result)>
-    ) -> EventLoopFuture<Result> {
-        return client.paginate(
-            input: input,
-            initialValue: initialValue,
-            command: describeInstallationMedia,
-            inputKey: \DescribeInstallationMediaMessage.marker,
-            outputKey: \InstallationMediaMessage.marker,
-            on: eventLoop,
-            onPage: onPage
-        )
-    }
-
-    /// Provide paginated results to closure `onPage`.
-    ///
-    /// - Parameters:
-    ///   - input: Input for request
-    ///   - logger: Logger used for logging output
-    ///   - eventLoop: EventLoop to run this process on
-    ///   - onPage: closure called with each block of entries. Returns boolean indicating whether we should continue.
-    public func describeInstallationMediaPaginator(
-        _ input: DescribeInstallationMediaMessage,
-        logger: Logger = AWSClient.loggingDisabled,
-        on eventLoop: EventLoop? = nil,
-        onPage: @escaping (InstallationMediaMessage, EventLoop) -> EventLoopFuture<Bool>
-    ) -> EventLoopFuture<Void> {
-        return client.paginate(
-            input: input,
-            command: describeInstallationMedia,
-            inputKey: \DescribeInstallationMediaMessage.marker,
-            outputKey: \InstallationMediaMessage.marker,
             on: eventLoop,
             onPage: onPage
         )
@@ -1886,17 +1780,6 @@ extension RDS.DescribeCertificatesMessage: AWSPaginateToken {
     }
 }
 
-extension RDS.DescribeCustomAvailabilityZonesMessage: AWSPaginateToken {
-    public func usingPaginationToken(_ token: String) -> RDS.DescribeCustomAvailabilityZonesMessage {
-        return .init(
-            customAvailabilityZoneId: self.customAvailabilityZoneId,
-            filters: self.filters,
-            marker: token,
-            maxRecords: self.maxRecords
-        )
-    }
-}
-
 extension RDS.DescribeDBClusterBacktracksMessage: AWSPaginateToken {
     public func usingPaginationToken(_ token: String) -> RDS.DescribeDBClusterBacktracksMessage {
         return .init(
@@ -2189,17 +2072,6 @@ extension RDS.DescribeGlobalClustersMessage: AWSPaginateToken {
         return .init(
             filters: self.filters,
             globalClusterIdentifier: self.globalClusterIdentifier,
-            marker: token,
-            maxRecords: self.maxRecords
-        )
-    }
-}
-
-extension RDS.DescribeInstallationMediaMessage: AWSPaginateToken {
-    public func usingPaginationToken(_ token: String) -> RDS.DescribeInstallationMediaMessage {
-        return .init(
-            filters: self.filters,
-            installationMediaId: self.installationMediaId,
             marker: token,
             maxRecords: self.maxRecords
         )

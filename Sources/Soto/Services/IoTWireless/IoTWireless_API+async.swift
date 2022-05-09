@@ -82,6 +82,11 @@ extension IoTWireless {
         return try await self.client.execute(operation: "CreateMulticastGroup", path: "/multicast-groups", httpMethod: .POST, serviceConfig: self.config, input: input, logger: logger, on: eventLoop)
     }
 
+    /// Creates a new network analyzer configuration.
+    public func createNetworkAnalyzerConfiguration(_ input: CreateNetworkAnalyzerConfigurationRequest, logger: Logger = AWSClient.loggingDisabled, on eventLoop: EventLoop? = nil) async throws -> CreateNetworkAnalyzerConfigurationResponse {
+        return try await self.client.execute(operation: "CreateNetworkAnalyzerConfiguration", path: "/network-analyzer-configurations", httpMethod: .POST, serviceConfig: self.config, input: input, logger: logger, on: eventLoop)
+    }
+
     /// Creates a new service profile.
     public func createServiceProfile(_ input: CreateServiceProfileRequest, logger: Logger = AWSClient.loggingDisabled, on eventLoop: EventLoop? = nil) async throws -> CreateServiceProfileResponse {
         return try await self.client.execute(operation: "CreateServiceProfile", path: "/service-profiles", httpMethod: .POST, serviceConfig: self.config, input: input, logger: logger, on: eventLoop)
@@ -125,6 +130,16 @@ extension IoTWireless {
     /// Deletes a multicast group if it is not in use by a fuota task.
     public func deleteMulticastGroup(_ input: DeleteMulticastGroupRequest, logger: Logger = AWSClient.loggingDisabled, on eventLoop: EventLoop? = nil) async throws -> DeleteMulticastGroupResponse {
         return try await self.client.execute(operation: "DeleteMulticastGroup", path: "/multicast-groups/{Id}", httpMethod: .DELETE, serviceConfig: self.config, input: input, logger: logger, on: eventLoop)
+    }
+
+    /// Deletes a network analyzer configuration.
+    public func deleteNetworkAnalyzerConfiguration(_ input: DeleteNetworkAnalyzerConfigurationRequest, logger: Logger = AWSClient.loggingDisabled, on eventLoop: EventLoop? = nil) async throws -> DeleteNetworkAnalyzerConfigurationResponse {
+        return try await self.client.execute(operation: "DeleteNetworkAnalyzerConfiguration", path: "/network-analyzer-configurations/{ConfigurationName}", httpMethod: .DELETE, serviceConfig: self.config, input: input, logger: logger, on: eventLoop)
+    }
+
+    /// Remove queued messages from the downlink queue.
+    public func deleteQueuedMessages(_ input: DeleteQueuedMessagesRequest, logger: Logger = AWSClient.loggingDisabled, on eventLoop: EventLoop? = nil) async throws -> DeleteQueuedMessagesResponse {
+        return try await self.client.execute(operation: "DeleteQueuedMessages", path: "/wireless-devices/{Id}/data", httpMethod: .DELETE, serviceConfig: self.config, input: input, logger: logger, on: eventLoop)
     }
 
     /// Deletes a service profile.
@@ -197,6 +212,11 @@ extension IoTWireless {
         return try await self.client.execute(operation: "GetDeviceProfile", path: "/device-profiles/{Id}", httpMethod: .GET, serviceConfig: self.config, input: input, logger: logger, on: eventLoop)
     }
 
+    /// Get the event configuration by resource types.
+    public func getEventConfigurationByResourceTypes(_ input: GetEventConfigurationByResourceTypesRequest, logger: Logger = AWSClient.loggingDisabled, on eventLoop: EventLoop? = nil) async throws -> GetEventConfigurationByResourceTypesResponse {
+        return try await self.client.execute(operation: "GetEventConfigurationByResourceTypes", path: "/event-configurations-resource-types", httpMethod: .GET, serviceConfig: self.config, input: input, logger: logger, on: eventLoop)
+    }
+
     /// Gets information about a FUOTA task.
     public func getFuotaTask(_ input: GetFuotaTaskRequest, logger: Logger = AWSClient.loggingDisabled, on eventLoop: EventLoop? = nil) async throws -> GetFuotaTaskResponse {
         return try await self.client.execute(operation: "GetFuotaTask", path: "/fuota-tasks/{Id}", httpMethod: .GET, serviceConfig: self.config, input: input, logger: logger, on: eventLoop)
@@ -217,7 +237,7 @@ extension IoTWireless {
         return try await self.client.execute(operation: "GetMulticastGroupSession", path: "/multicast-groups/{Id}/session", httpMethod: .GET, serviceConfig: self.config, input: input, logger: logger, on: eventLoop)
     }
 
-    /// Get NetworkAnalyzer configuration.
+    /// Get network analyzer configuration.
     public func getNetworkAnalyzerConfiguration(_ input: GetNetworkAnalyzerConfigurationRequest, logger: Logger = AWSClient.loggingDisabled, on eventLoop: EventLoop? = nil) async throws -> GetNetworkAnalyzerConfigurationResponse {
         return try await self.client.execute(operation: "GetNetworkAnalyzerConfiguration", path: "/network-analyzer-configurations/{ConfigurationName}", httpMethod: .GET, serviceConfig: self.config, input: input, logger: logger, on: eventLoop)
     }
@@ -297,6 +317,11 @@ extension IoTWireless {
         return try await self.client.execute(operation: "ListDeviceProfiles", path: "/device-profiles", httpMethod: .GET, serviceConfig: self.config, input: input, logger: logger, on: eventLoop)
     }
 
+    /// List event configurations where at least one event topic has been enabled.
+    public func listEventConfigurations(_ input: ListEventConfigurationsRequest, logger: Logger = AWSClient.loggingDisabled, on eventLoop: EventLoop? = nil) async throws -> ListEventConfigurationsResponse {
+        return try await self.client.execute(operation: "ListEventConfigurations", path: "/event-configurations", httpMethod: .GET, serviceConfig: self.config, input: input, logger: logger, on: eventLoop)
+    }
+
     /// Lists the FUOTA tasks registered to your AWS account.
     public func listFuotaTasks(_ input: ListFuotaTasksRequest, logger: Logger = AWSClient.loggingDisabled, on eventLoop: EventLoop? = nil) async throws -> ListFuotaTasksResponse {
         return try await self.client.execute(operation: "ListFuotaTasks", path: "/fuota-tasks", httpMethod: .GET, serviceConfig: self.config, input: input, logger: logger, on: eventLoop)
@@ -312,9 +337,19 @@ extension IoTWireless {
         return try await self.client.execute(operation: "ListMulticastGroupsByFuotaTask", path: "/fuota-tasks/{Id}/multicast-groups", httpMethod: .GET, serviceConfig: self.config, input: input, logger: logger, on: eventLoop)
     }
 
+    /// Lists the network analyzer configurations.
+    public func listNetworkAnalyzerConfigurations(_ input: ListNetworkAnalyzerConfigurationsRequest, logger: Logger = AWSClient.loggingDisabled, on eventLoop: EventLoop? = nil) async throws -> ListNetworkAnalyzerConfigurationsResponse {
+        return try await self.client.execute(operation: "ListNetworkAnalyzerConfigurations", path: "/network-analyzer-configurations", httpMethod: .GET, serviceConfig: self.config, input: input, logger: logger, on: eventLoop)
+    }
+
     /// Lists the partner accounts associated with your AWS account.
     public func listPartnerAccounts(_ input: ListPartnerAccountsRequest, logger: Logger = AWSClient.loggingDisabled, on eventLoop: EventLoop? = nil) async throws -> ListPartnerAccountsResponse {
         return try await self.client.execute(operation: "ListPartnerAccounts", path: "/partner-accounts", httpMethod: .GET, serviceConfig: self.config, input: input, logger: logger, on: eventLoop)
+    }
+
+    /// List queued messages in the downlink queue.
+    public func listQueuedMessages(_ input: ListQueuedMessagesRequest, logger: Logger = AWSClient.loggingDisabled, on eventLoop: EventLoop? = nil) async throws -> ListQueuedMessagesResponse {
+        return try await self.client.execute(operation: "ListQueuedMessages", path: "/wireless-devices/{Id}/data", httpMethod: .GET, serviceConfig: self.config, input: input, logger: logger, on: eventLoop)
     }
 
     /// Lists the service profiles registered to your AWS account.
@@ -407,6 +442,11 @@ extension IoTWireless {
         return try await self.client.execute(operation: "UpdateDestination", path: "/destinations/{Name}", httpMethod: .PATCH, serviceConfig: self.config, input: input, logger: logger, on: eventLoop)
     }
 
+    /// Update the event configuration by resource types.
+    public func updateEventConfigurationByResourceTypes(_ input: UpdateEventConfigurationByResourceTypesRequest, logger: Logger = AWSClient.loggingDisabled, on eventLoop: EventLoop? = nil) async throws -> UpdateEventConfigurationByResourceTypesResponse {
+        return try await self.client.execute(operation: "UpdateEventConfigurationByResourceTypes", path: "/event-configurations-resource-types", httpMethod: .PATCH, serviceConfig: self.config, input: input, logger: logger, on: eventLoop)
+    }
+
     /// Updates properties of a FUOTA task.
     public func updateFuotaTask(_ input: UpdateFuotaTaskRequest, logger: Logger = AWSClient.loggingDisabled, on eventLoop: EventLoop? = nil) async throws -> UpdateFuotaTaskResponse {
         return try await self.client.execute(operation: "UpdateFuotaTask", path: "/fuota-tasks/{Id}", httpMethod: .PATCH, serviceConfig: self.config, input: input, logger: logger, on: eventLoop)
@@ -422,7 +462,7 @@ extension IoTWireless {
         return try await self.client.execute(operation: "UpdateMulticastGroup", path: "/multicast-groups/{Id}", httpMethod: .PATCH, serviceConfig: self.config, input: input, logger: logger, on: eventLoop)
     }
 
-    /// Update NetworkAnalyzer configuration.
+    /// Update network analyzer configuration.
     public func updateNetworkAnalyzerConfiguration(_ input: UpdateNetworkAnalyzerConfigurationRequest, logger: Logger = AWSClient.loggingDisabled, on eventLoop: EventLoop? = nil) async throws -> UpdateNetworkAnalyzerConfigurationResponse {
         return try await self.client.execute(operation: "UpdateNetworkAnalyzerConfiguration", path: "/network-analyzer-configurations/{ConfigurationName}", httpMethod: .PATCH, serviceConfig: self.config, input: input, logger: logger, on: eventLoop)
     }

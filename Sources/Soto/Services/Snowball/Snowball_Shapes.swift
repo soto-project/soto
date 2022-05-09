@@ -183,28 +183,40 @@ extension Snowball {
             try self.validate(self.addressId, name: "addressId", parent: name, pattern: "ADID[0-9a-f]{8}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{12}")
             try self.validate(self.city, name: "city", parent: name, max: 1024)
             try self.validate(self.city, name: "city", parent: name, min: 1)
+            try self.validate(self.city, name: "city", parent: name, pattern: ".*")
             try self.validate(self.company, name: "company", parent: name, max: 1024)
             try self.validate(self.company, name: "company", parent: name, min: 1)
+            try self.validate(self.company, name: "company", parent: name, pattern: ".*")
             try self.validate(self.country, name: "country", parent: name, max: 1024)
             try self.validate(self.country, name: "country", parent: name, min: 1)
+            try self.validate(self.country, name: "country", parent: name, pattern: ".*")
             try self.validate(self.landmark, name: "landmark", parent: name, max: 1024)
             try self.validate(self.landmark, name: "landmark", parent: name, min: 1)
+            try self.validate(self.landmark, name: "landmark", parent: name, pattern: ".*")
             try self.validate(self.name, name: "name", parent: name, max: 1024)
             try self.validate(self.name, name: "name", parent: name, min: 1)
+            try self.validate(self.name, name: "name", parent: name, pattern: ".*")
             try self.validate(self.phoneNumber, name: "phoneNumber", parent: name, max: 1024)
             try self.validate(self.phoneNumber, name: "phoneNumber", parent: name, min: 1)
+            try self.validate(self.phoneNumber, name: "phoneNumber", parent: name, pattern: ".*")
             try self.validate(self.postalCode, name: "postalCode", parent: name, max: 1024)
             try self.validate(self.postalCode, name: "postalCode", parent: name, min: 1)
+            try self.validate(self.postalCode, name: "postalCode", parent: name, pattern: ".*")
             try self.validate(self.prefectureOrDistrict, name: "prefectureOrDistrict", parent: name, max: 1024)
             try self.validate(self.prefectureOrDistrict, name: "prefectureOrDistrict", parent: name, min: 1)
+            try self.validate(self.prefectureOrDistrict, name: "prefectureOrDistrict", parent: name, pattern: ".*")
             try self.validate(self.stateOrProvince, name: "stateOrProvince", parent: name, max: 1024)
             try self.validate(self.stateOrProvince, name: "stateOrProvince", parent: name, min: 1)
+            try self.validate(self.stateOrProvince, name: "stateOrProvince", parent: name, pattern: ".*")
             try self.validate(self.street1, name: "street1", parent: name, max: 1024)
             try self.validate(self.street1, name: "street1", parent: name, min: 1)
+            try self.validate(self.street1, name: "street1", parent: name, pattern: ".*")
             try self.validate(self.street2, name: "street2", parent: name, max: 1024)
             try self.validate(self.street2, name: "street2", parent: name, min: 1)
+            try self.validate(self.street2, name: "street2", parent: name, pattern: ".*")
             try self.validate(self.street3, name: "street3", parent: name, max: 1024)
             try self.validate(self.street3, name: "street3", parent: name, min: 1)
+            try self.validate(self.street3, name: "street3", parent: name, pattern: ".*")
         }
 
         private enum CodingKeys: String, CodingKey {
@@ -462,6 +474,7 @@ extension Snowball {
             try self.validate(self.addressId, name: "addressId", parent: name, pattern: "ADID[0-9a-f]{8}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{12}")
             try self.validate(self.description, name: "description", parent: name, max: 1024)
             try self.validate(self.description, name: "description", parent: name, min: 1)
+            try self.validate(self.description, name: "description", parent: name, pattern: ".*")
             try self.validate(self.forwardingAddressId, name: "forwardingAddressId", parent: name, max: 40)
             try self.validate(self.forwardingAddressId, name: "forwardingAddressId", parent: name, min: 40)
             try self.validate(self.forwardingAddressId, name: "forwardingAddressId", parent: name, pattern: "ADID[0-9a-f]{8}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{12}")
@@ -570,6 +583,7 @@ extension Snowball {
             try self.validate(self.clusterId, name: "clusterId", parent: name, pattern: "CID[0-9a-f]{8}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{12}")
             try self.validate(self.description, name: "description", parent: name, max: 1024)
             try self.validate(self.description, name: "description", parent: name, min: 1)
+            try self.validate(self.description, name: "description", parent: name, pattern: ".*")
             try self.validate(self.forwardingAddressId, name: "forwardingAddressId", parent: name, max: 40)
             try self.validate(self.forwardingAddressId, name: "forwardingAddressId", parent: name, min: 40)
             try self.validate(self.forwardingAddressId, name: "forwardingAddressId", parent: name, pattern: "ADID[0-9a-f]{8}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{12}")
@@ -763,6 +777,7 @@ extension Snowball {
             try self.validate(self.maxResults, name: "maxResults", parent: name, min: 0)
             try self.validate(self.nextToken, name: "nextToken", parent: name, max: 1024)
             try self.validate(self.nextToken, name: "nextToken", parent: name, min: 1)
+            try self.validate(self.nextToken, name: "nextToken", parent: name, pattern: ".*")
         }
 
         private enum CodingKeys: String, CodingKey {
@@ -926,6 +941,7 @@ extension Snowball {
             try self.validate(self.amiId, name: "amiId", parent: name, pattern: "(ami-[0-9a-f]{8})|(ami-[0-9a-f]{17})")
             try self.validate(self.snowballAmiId, name: "snowballAmiId", parent: name, max: 1024)
             try self.validate(self.snowballAmiId, name: "snowballAmiId", parent: name, min: 1)
+            try self.validate(self.snowballAmiId, name: "snowballAmiId", parent: name, pattern: ".*")
         }
 
         private enum CodingKeys: String, CodingKey {
@@ -1078,6 +1094,8 @@ extension Snowball {
         }
 
         public func validate(name: String) throws {
+            try self.validate(self.gstin, name: "gstin", parent: name, max: 15)
+            try self.validate(self.gstin, name: "gstin", parent: name, min: 15)
             try self.validate(self.gstin, name: "gstin", parent: name, pattern: "\\d{2}[A-Z]{5}\\d{4}[A-Z]{1}[A-Z\\d]{1}[Z]{1}[A-Z\\d]{1}")
         }
 
@@ -1287,8 +1305,10 @@ extension Snowball {
         public func validate(name: String) throws {
             try self.validate(self.beginMarker, name: "beginMarker", parent: name, max: 1024)
             try self.validate(self.beginMarker, name: "beginMarker", parent: name, min: 1)
+            try self.validate(self.beginMarker, name: "beginMarker", parent: name, pattern: ".*")
             try self.validate(self.endMarker, name: "endMarker", parent: name, max: 1024)
             try self.validate(self.endMarker, name: "endMarker", parent: name, min: 1)
+            try self.validate(self.endMarker, name: "endMarker", parent: name, pattern: ".*")
         }
 
         private enum CodingKeys: String, CodingKey {
@@ -1344,6 +1364,7 @@ extension Snowball {
             try self.validate(self.maxResults, name: "maxResults", parent: name, min: 0)
             try self.validate(self.nextToken, name: "nextToken", parent: name, max: 1024)
             try self.validate(self.nextToken, name: "nextToken", parent: name, min: 1)
+            try self.validate(self.nextToken, name: "nextToken", parent: name, pattern: ".*")
         }
 
         private enum CodingKeys: String, CodingKey {
@@ -1386,6 +1407,7 @@ extension Snowball {
             try self.validate(self.maxResults, name: "maxResults", parent: name, min: 0)
             try self.validate(self.nextToken, name: "nextToken", parent: name, max: 1024)
             try self.validate(self.nextToken, name: "nextToken", parent: name, min: 1)
+            try self.validate(self.nextToken, name: "nextToken", parent: name, pattern: ".*")
         }
 
         private enum CodingKeys: String, CodingKey {
@@ -1427,6 +1449,7 @@ extension Snowball {
             try self.validate(self.maxResults, name: "maxResults", parent: name, min: 0)
             try self.validate(self.nextToken, name: "nextToken", parent: name, max: 1024)
             try self.validate(self.nextToken, name: "nextToken", parent: name, min: 1)
+            try self.validate(self.nextToken, name: "nextToken", parent: name, pattern: ".*")
         }
 
         private enum CodingKeys: String, CodingKey {
@@ -1468,6 +1491,7 @@ extension Snowball {
             try self.validate(self.maxResults, name: "maxResults", parent: name, min: 0)
             try self.validate(self.nextToken, name: "nextToken", parent: name, max: 1024)
             try self.validate(self.nextToken, name: "nextToken", parent: name, min: 1)
+            try self.validate(self.nextToken, name: "nextToken", parent: name, pattern: ".*")
         }
 
         private enum CodingKeys: String, CodingKey {
@@ -1509,6 +1533,7 @@ extension Snowball {
             try self.validate(self.maxResults, name: "maxResults", parent: name, min: 0)
             try self.validate(self.nextToken, name: "nextToken", parent: name, max: 1024)
             try self.validate(self.nextToken, name: "nextToken", parent: name, min: 1)
+            try self.validate(self.nextToken, name: "nextToken", parent: name, pattern: ".*")
         }
 
         private enum CodingKeys: String, CodingKey {
@@ -1825,6 +1850,7 @@ extension Snowball {
             try self.validate(self.clusterId, name: "clusterId", parent: name, pattern: "CID[0-9a-f]{8}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{12}")
             try self.validate(self.description, name: "description", parent: name, max: 1024)
             try self.validate(self.description, name: "description", parent: name, min: 1)
+            try self.validate(self.description, name: "description", parent: name, pattern: ".*")
             try self.validate(self.forwardingAddressId, name: "forwardingAddressId", parent: name, max: 40)
             try self.validate(self.forwardingAddressId, name: "forwardingAddressId", parent: name, min: 40)
             try self.validate(self.forwardingAddressId, name: "forwardingAddressId", parent: name, pattern: "ADID[0-9a-f]{8}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{12}")
@@ -1893,6 +1919,7 @@ extension Snowball {
             try self.validate(self.addressId, name: "addressId", parent: name, pattern: "ADID[0-9a-f]{8}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{12}")
             try self.validate(self.description, name: "description", parent: name, max: 1024)
             try self.validate(self.description, name: "description", parent: name, min: 1)
+            try self.validate(self.description, name: "description", parent: name, pattern: ".*")
             try self.validate(self.forwardingAddressId, name: "forwardingAddressId", parent: name, max: 40)
             try self.validate(self.forwardingAddressId, name: "forwardingAddressId", parent: name, min: 40)
             try self.validate(self.forwardingAddressId, name: "forwardingAddressId", parent: name, pattern: "ADID[0-9a-f]{8}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{12}")

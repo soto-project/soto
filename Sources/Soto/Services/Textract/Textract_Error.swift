@@ -79,7 +79,7 @@ public struct TextractErrorType: AWSErrorType {
     public static var provisionedThroughputExceededException: Self { .init(.provisionedThroughputExceededException) }
     /// Amazon Textract is temporarily unable to process the request. Try your call again.
     public static var throttlingException: Self { .init(.throttlingException) }
-    /// The format of the input document isn't supported. Documents for synchronous operations can be in PNG or JPEG format only. Documents for asynchronous operations can be in PDF format.
+    /// The format of the input document isn't supported. Documents for operations can be in PNG, JPEG, PDF, or TIFF format.
     public static var unsupportedDocumentException: Self { .init(.unsupportedDocumentException) }
 }
 

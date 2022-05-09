@@ -22,7 +22,7 @@ import SotoCore
 
 @available(macOS 12.0, iOS 15.0, watchOS 8.0, tvOS 15.0, *)
 extension Organizations {
-    ///  Returns a list of the AWS services that you enabled to integrate with your organization. After a service on this list creates the resources that it requires for the integration, it can perform operations on your organization and its accounts. For more information about integrating other services with AWS Organizations, including the list of services that currently work with Organizations, see Integrating AWS Organizations with Other AWS Services in the AWS Organizations User Guide.  This operation can be called only from the organization's management account or by a member account that is a delegated administrator for an AWS service.
+    ///  Returns a list of the Amazon Web Services services that you enabled to integrate with your organization. After a service on this list creates the resources that it requires for the integration, it can perform operations on your organization and its accounts. For more information about integrating other services with Organizations, including the list of services that currently work with Organizations, see Integrating Organizations with Other Amazon Web Services Services in the Organizations User Guide.  This operation can be called only from the organization's management account or by a member account that is a delegated administrator for an Amazon Web Services service.
     /// Return PaginatorSequence for operation.
     ///
     /// - Parameters:
@@ -44,7 +44,7 @@ extension Organizations {
         )
     }
 
-    ///  Lists all the accounts in the organization. To request only the accounts in a specified root or organizational unit (OU), use the ListAccountsForParent operation instead.  Always check the NextToken response parameter for a null value when calling a List* operation. These operations can occasionally return an empty set of results even when there are more results available. The NextToken response parameter value is null only when there are no more results to display.  This operation can be called only from the organization's management account or by a member account that is a delegated administrator for an AWS service.
+    ///  Lists all the accounts in the organization. To request only the accounts in a specified root or organizational unit (OU), use the ListAccountsForParent operation instead.  Always check the NextToken response parameter for a null value when calling a List* operation. These operations can occasionally return an empty set of results even when there are more results available. The NextToken response parameter value is null only when there are no more results to display.  This operation can be called only from the organization's management account or by a member account that is a delegated administrator for an Amazon Web Services service.
     /// Return PaginatorSequence for operation.
     ///
     /// - Parameters:
@@ -66,7 +66,7 @@ extension Organizations {
         )
     }
 
-    ///  Lists the accounts in an organization that are contained by the specified target root or organizational unit (OU). If you specify the root, you get a list of all the accounts that aren't in any OU. If you specify an OU, you get a list of all the accounts in only that OU and not in any child OUs. To get a list of all accounts in the organization, use the ListAccounts operation.  Always check the NextToken response parameter for a null value when calling a List* operation. These operations can occasionally return an empty set of results even when there are more results available. The NextToken response parameter value is null only when there are no more results to display.  This operation can be called only from the organization's management account or by a member account that is a delegated administrator for an AWS service.
+    ///  Lists the accounts in an organization that are contained by the specified target root or organizational unit (OU). If you specify the root, you get a list of all the accounts that aren't in any OU. If you specify an OU, you get a list of all the accounts in only that OU and not in any child OUs. To get a list of all accounts in the organization, use the ListAccounts operation.  Always check the NextToken response parameter for a null value when calling a List* operation. These operations can occasionally return an empty set of results even when there are more results available. The NextToken response parameter value is null only when there are no more results to display.  This operation can be called only from the organization's management account or by a member account that is a delegated administrator for an Amazon Web Services service.
     /// Return PaginatorSequence for operation.
     ///
     /// - Parameters:
@@ -88,7 +88,7 @@ extension Organizations {
         )
     }
 
-    ///  Lists all of the organizational units (OUs) or accounts that are contained in the specified parent OU or root. This operation, along with ListParents enables you to traverse the tree structure that makes up this root.  Always check the NextToken response parameter for a null value when calling a List* operation. These operations can occasionally return an empty set of results even when there are more results available. The NextToken response parameter value is null only when there are no more results to display.  This operation can be called only from the organization's management account or by a member account that is a delegated administrator for an AWS service.
+    ///  Lists all of the organizational units (OUs) or accounts that are contained in the specified parent OU or root. This operation, along with ListParents enables you to traverse the tree structure that makes up this root.  Always check the NextToken response parameter for a null value when calling a List* operation. These operations can occasionally return an empty set of results even when there are more results available. The NextToken response parameter value is null only when there are no more results to display.  This operation can be called only from the organization's management account or by a member account that is a delegated administrator for an Amazon Web Services service.
     /// Return PaginatorSequence for operation.
     ///
     /// - Parameters:
@@ -110,7 +110,7 @@ extension Organizations {
         )
     }
 
-    ///  Lists the account creation requests that match the specified status that is currently being tracked for the organization.  Always check the NextToken response parameter for a null value when calling a List* operation. These operations can occasionally return an empty set of results even when there are more results available. The NextToken response parameter value is null only when there are no more results to display.  This operation can be called only from the organization's management account or by a member account that is a delegated administrator for an AWS service.
+    ///  Lists the account creation requests that match the specified status that is currently being tracked for the organization.  Always check the NextToken response parameter for a null value when calling a List* operation. These operations can occasionally return an empty set of results even when there are more results available. The NextToken response parameter value is null only when there are no more results to display.  This operation can be called only from the organization's management account or by a member account that is a delegated administrator for an Amazon Web Services service.
     /// Return PaginatorSequence for operation.
     ///
     /// - Parameters:
@@ -132,7 +132,7 @@ extension Organizations {
         )
     }
 
-    ///  Lists the AWS accounts that are designated as delegated administrators in this organization. This operation can be called only from the organization's management account or by a member account that is a delegated administrator for an AWS service.
+    ///  Lists the Amazon Web Services accounts that are designated as delegated administrators in this organization. This operation can be called only from the organization's management account or by a member account that is a delegated administrator for an Amazon Web Services service.
     /// Return PaginatorSequence for operation.
     ///
     /// - Parameters:
@@ -154,7 +154,7 @@ extension Organizations {
         )
     }
 
-    ///  List the AWS services for which the specified account is a delegated administrator. This operation can be called only from the organization's management account or by a member account that is a delegated administrator for an AWS service.
+    ///  List the Amazon Web Services services for which the specified account is a delegated administrator. This operation can be called only from the organization's management account or by a member account that is a delegated administrator for an Amazon Web Services service.
     /// Return PaginatorSequence for operation.
     ///
     /// - Parameters:
@@ -176,7 +176,7 @@ extension Organizations {
         )
     }
 
-    ///  Lists the current handshakes that are associated with the account of the requesting user. Handshakes that are ACCEPTED, DECLINED, or CANCELED appear in the results of this API for only 30 days after changing to that state. After that, they're deleted and no longer accessible.  Always check the NextToken response parameter for a null value when calling a List* operation. These operations can occasionally return an empty set of results even when there are more results available. The NextToken response parameter value is null only when there are no more results to display.  This operation can be called from any account in the organization.
+    ///  Lists the current handshakes that are associated with the account of the requesting user. Handshakes that are ACCEPTED, DECLINED, CANCELED, or EXPIRED appear in the results of this API for only 30 days after changing to that state. After that, they're deleted and no longer accessible.  Always check the NextToken response parameter for a null value when calling a List* operation. These operations can occasionally return an empty set of results even when there are more results available. The NextToken response parameter value is null only when there are no more results to display.  This operation can be called from any account in the organization.
     /// Return PaginatorSequence for operation.
     ///
     /// - Parameters:
@@ -198,7 +198,7 @@ extension Organizations {
         )
     }
 
-    ///  Lists the handshakes that are associated with the organization that the requesting user is part of. The ListHandshakesForOrganization operation returns a list of handshake structures. Each structure contains details and status about a handshake. Handshakes that are ACCEPTED, DECLINED, or CANCELED appear in the results of this API for only 30 days after changing to that state. After that, they're deleted and no longer accessible.  Always check the NextToken response parameter for a null value when calling a List* operation. These operations can occasionally return an empty set of results even when there are more results available. The NextToken response parameter value is null only when there are no more results to display.  This operation can be called only from the organization's management account or by a member account that is a delegated administrator for an AWS service.
+    ///  Lists the handshakes that are associated with the organization that the requesting user is part of. The ListHandshakesForOrganization operation returns a list of handshake structures. Each structure contains details and status about a handshake. Handshakes that are ACCEPTED, DECLINED, CANCELED, or EXPIRED appear in the results of this API for only 30 days after changing to that state. After that, they're deleted and no longer accessible.  Always check the NextToken response parameter for a null value when calling a List* operation. These operations can occasionally return an empty set of results even when there are more results available. The NextToken response parameter value is null only when there are no more results to display.  This operation can be called only from the organization's management account or by a member account that is a delegated administrator for an Amazon Web Services service.
     /// Return PaginatorSequence for operation.
     ///
     /// - Parameters:
@@ -220,7 +220,7 @@ extension Organizations {
         )
     }
 
-    ///  Lists the organizational units (OUs) in a parent organizational unit or root.  Always check the NextToken response parameter for a null value when calling a List* operation. These operations can occasionally return an empty set of results even when there are more results available. The NextToken response parameter value is null only when there are no more results to display.  This operation can be called only from the organization's management account or by a member account that is a delegated administrator for an AWS service.
+    ///  Lists the organizational units (OUs) in a parent organizational unit or root.  Always check the NextToken response parameter for a null value when calling a List* operation. These operations can occasionally return an empty set of results even when there are more results available. The NextToken response parameter value is null only when there are no more results to display.  This operation can be called only from the organization's management account or by a member account that is a delegated administrator for an Amazon Web Services service.
     /// Return PaginatorSequence for operation.
     ///
     /// - Parameters:
@@ -242,7 +242,7 @@ extension Organizations {
         )
     }
 
-    ///  Lists the root or organizational units (OUs) that serve as the immediate parent of the specified child OU or account. This operation, along with ListChildren enables you to traverse the tree structure that makes up this root.  Always check the NextToken response parameter for a null value when calling a List* operation. These operations can occasionally return an empty set of results even when there are more results available. The NextToken response parameter value is null only when there are no more results to display.  This operation can be called only from the organization's management account or by a member account that is a delegated administrator for an AWS service.  In the current release, a child can have only a single parent.
+    ///  Lists the root or organizational units (OUs) that serve as the immediate parent of the specified child OU or account. This operation, along with ListChildren enables you to traverse the tree structure that makes up this root.  Always check the NextToken response parameter for a null value when calling a List* operation. These operations can occasionally return an empty set of results even when there are more results available. The NextToken response parameter value is null only when there are no more results to display.  This operation can be called only from the organization's management account or by a member account that is a delegated administrator for an Amazon Web Services service.  In the current release, a child can have only a single parent.
     /// Return PaginatorSequence for operation.
     ///
     /// - Parameters:
@@ -264,7 +264,7 @@ extension Organizations {
         )
     }
 
-    ///  Retrieves the list of all policies in an organization of a specified type.  Always check the NextToken response parameter for a null value when calling a List* operation. These operations can occasionally return an empty set of results even when there are more results available. The NextToken response parameter value is null only when there are no more results to display.  This operation can be called only from the organization's management account or by a member account that is a delegated administrator for an AWS service.
+    ///  Retrieves the list of all policies in an organization of a specified type.  Always check the NextToken response parameter for a null value when calling a List* operation. These operations can occasionally return an empty set of results even when there are more results available. The NextToken response parameter value is null only when there are no more results to display.  This operation can be called only from the organization's management account or by a member account that is a delegated administrator for an Amazon Web Services service.
     /// Return PaginatorSequence for operation.
     ///
     /// - Parameters:
@@ -286,7 +286,7 @@ extension Organizations {
         )
     }
 
-    ///  Lists the policies that are directly attached to the specified target root, organizational unit (OU), or account. You must specify the policy type that you want included in the returned list.  Always check the NextToken response parameter for a null value when calling a List* operation. These operations can occasionally return an empty set of results even when there are more results available. The NextToken response parameter value is null only when there are no more results to display.  This operation can be called only from the organization's management account or by a member account that is a delegated administrator for an AWS service.
+    ///  Lists the policies that are directly attached to the specified target root, organizational unit (OU), or account. You must specify the policy type that you want included in the returned list.  Always check the NextToken response parameter for a null value when calling a List* operation. These operations can occasionally return an empty set of results even when there are more results available. The NextToken response parameter value is null only when there are no more results to display.  This operation can be called only from the organization's management account or by a member account that is a delegated administrator for an Amazon Web Services service.
     /// Return PaginatorSequence for operation.
     ///
     /// - Parameters:
@@ -308,7 +308,7 @@ extension Organizations {
         )
     }
 
-    ///  Lists the roots that are defined in the current organization.  Always check the NextToken response parameter for a null value when calling a List* operation. These operations can occasionally return an empty set of results even when there are more results available. The NextToken response parameter value is null only when there are no more results to display.  This operation can be called only from the organization's management account or by a member account that is a delegated administrator for an AWS service.  Policy types can be enabled and disabled in roots. This is distinct from whether they're available in the organization. When you enable all features, you make policy types available for use in that organization. Individual policy types can then be enabled and disabled in a root. To see the availability of a policy type in an organization, use DescribeOrganization.
+    ///  Lists the roots that are defined in the current organization.  Always check the NextToken response parameter for a null value when calling a List* operation. These operations can occasionally return an empty set of results even when there are more results available. The NextToken response parameter value is null only when there are no more results to display.  This operation can be called only from the organization's management account or by a member account that is a delegated administrator for an Amazon Web Services service.  Policy types can be enabled and disabled in roots. This is distinct from whether they're available in the organization. When you enable all features, you make policy types available for use in that organization. Individual policy types can then be enabled and disabled in a root. To see the availability of a policy type in an organization, use DescribeOrganization.
     /// Return PaginatorSequence for operation.
     ///
     /// - Parameters:
@@ -330,7 +330,7 @@ extension Organizations {
         )
     }
 
-    ///  Lists tags that are attached to the specified resource. You can attach tags to the following resources in AWS Organizations.   AWS account   Organization root   Organizational unit (OU)   Policy (any type)   This operation can be called only from the organization's management account or by a member account that is a delegated administrator for an AWS service.
+    ///  Lists tags that are attached to the specified resource. You can attach tags to the following resources in Organizations.   Amazon Web Services account   Organization root   Organizational unit (OU)   Policy (any type)   This operation can be called only from the organization's management account or by a member account that is a delegated administrator for an Amazon Web Services service.
     /// Return PaginatorSequence for operation.
     ///
     /// - Parameters:
@@ -352,7 +352,7 @@ extension Organizations {
         )
     }
 
-    ///  Lists all the roots, organizational units (OUs), and accounts that the specified policy is attached to.  Always check the NextToken response parameter for a null value when calling a List* operation. These operations can occasionally return an empty set of results even when there are more results available. The NextToken response parameter value is null only when there are no more results to display.  This operation can be called only from the organization's management account or by a member account that is a delegated administrator for an AWS service.
+    ///  Lists all the roots, organizational units (OUs), and accounts that the specified policy is attached to.  Always check the NextToken response parameter for a null value when calling a List* operation. These operations can occasionally return an empty set of results even when there are more results available. The NextToken response parameter value is null only when there are no more results to display.  This operation can be called only from the organization's management account or by a member account that is a delegated administrator for an Amazon Web Services service.
     /// Return PaginatorSequence for operation.
     ///
     /// - Parameters:

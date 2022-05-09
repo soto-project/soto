@@ -629,7 +629,7 @@ extension Personalize {
     public struct CreateBatchInferenceJobRequest: AWSEncodableShape {
         /// The configuration details of a batch inference job.
         public let batchInferenceJobConfig: BatchInferenceJobConfig?
-        /// The ARN of the filter to apply to the batch inference job. For more information on using filters, see Filtering Batch Recommendations..
+        /// The ARN of the filter to apply to the batch inference job. For more information on using filters, see Filtering batch recommendations.
         public let filterArn: String?
         /// The Amazon S3 path that leads to the input file to base your recommendations on. The input material must be in JSON format.
         public let jobInput: BatchInferenceJobInput
@@ -637,14 +637,16 @@ extension Personalize {
         public let jobName: String
         /// The path to the Amazon S3 bucket where the job's output will be stored.
         public let jobOutput: BatchInferenceJobOutput
-        /// The number of recommendations to retreive.
+        /// The number of recommendations to retrieve.
         public let numResults: Int?
         /// The ARN of the Amazon Identity and Access Management role that has permissions to read and write to your input and output Amazon S3 buckets respectively.
         public let roleArn: String
         /// The Amazon Resource Name (ARN) of the solution version that will be used to generate the batch inference recommendations.
         public let solutionVersionArn: String
+        /// A list of tags to apply to the batch inference job.
+        public let tags: [Tag]?
 
-        public init(batchInferenceJobConfig: BatchInferenceJobConfig? = nil, filterArn: String? = nil, jobInput: BatchInferenceJobInput, jobName: String, jobOutput: BatchInferenceJobOutput, numResults: Int? = nil, roleArn: String, solutionVersionArn: String) {
+        public init(batchInferenceJobConfig: BatchInferenceJobConfig? = nil, filterArn: String? = nil, jobInput: BatchInferenceJobInput, jobName: String, jobOutput: BatchInferenceJobOutput, numResults: Int? = nil, roleArn: String, solutionVersionArn: String, tags: [Tag]? = nil) {
             self.batchInferenceJobConfig = batchInferenceJobConfig
             self.filterArn = filterArn
             self.jobInput = jobInput
@@ -653,6 +655,7 @@ extension Personalize {
             self.numResults = numResults
             self.roleArn = roleArn
             self.solutionVersionArn = solutionVersionArn
+            self.tags = tags
         }
 
         public func validate(name: String) throws {
@@ -668,6 +671,11 @@ extension Personalize {
             try self.validate(self.roleArn, name: "roleArn", parent: name, pattern: "arn:([a-z\\d-]+):iam::\\d{12}:role/?[a-zA-Z_0-9+=,.@\\-_/]+")
             try self.validate(self.solutionVersionArn, name: "solutionVersionArn", parent: name, max: 256)
             try self.validate(self.solutionVersionArn, name: "solutionVersionArn", parent: name, pattern: "arn:([a-z\\d-]+):personalize:.*:.*:.+")
+            try self.tags?.forEach {
+                try $0.validate(name: "\(name).tags[]")
+            }
+            try self.validate(self.tags, name: "tags", parent: name, max: 200)
+            try self.validate(self.tags, name: "tags", parent: name, min: 0)
         }
 
         private enum CodingKeys: String, CodingKey {
@@ -679,6 +687,7 @@ extension Personalize {
             case numResults
             case roleArn
             case solutionVersionArn
+            case tags
         }
     }
 
@@ -696,7 +705,7 @@ extension Personalize {
     }
 
     public struct CreateBatchSegmentJobRequest: AWSEncodableShape {
-        /// The ARN of the filter to apply to the batch segment job. For more information on using filters, see filter-batch.
+        /// The ARN of the filter to apply to the batch segment job. For more information on using filters, see Filtering batch recommendations.
         public let filterArn: String?
         /// The Amazon S3 path for the input data used to generate the batch segment job.
         public let jobInput: BatchSegmentJobInput
@@ -710,8 +719,10 @@ extension Personalize {
         public let roleArn: String
         /// The Amazon Resource Name (ARN) of the solution version you want the batch segment job to use to generate batch segments.
         public let solutionVersionArn: String
+        /// A list of tags to apply to the batch segment job.
+        public let tags: [Tag]?
 
-        public init(filterArn: String? = nil, jobInput: BatchSegmentJobInput, jobName: String, jobOutput: BatchSegmentJobOutput, numResults: Int? = nil, roleArn: String, solutionVersionArn: String) {
+        public init(filterArn: String? = nil, jobInput: BatchSegmentJobInput, jobName: String, jobOutput: BatchSegmentJobOutput, numResults: Int? = nil, roleArn: String, solutionVersionArn: String, tags: [Tag]? = nil) {
             self.filterArn = filterArn
             self.jobInput = jobInput
             self.jobName = jobName
@@ -719,6 +730,7 @@ extension Personalize {
             self.numResults = numResults
             self.roleArn = roleArn
             self.solutionVersionArn = solutionVersionArn
+            self.tags = tags
         }
 
         public func validate(name: String) throws {
@@ -733,6 +745,11 @@ extension Personalize {
             try self.validate(self.roleArn, name: "roleArn", parent: name, pattern: "arn:([a-z\\d-]+):iam::\\d{12}:role/?[a-zA-Z_0-9+=,.@\\-_/]+")
             try self.validate(self.solutionVersionArn, name: "solutionVersionArn", parent: name, max: 256)
             try self.validate(self.solutionVersionArn, name: "solutionVersionArn", parent: name, pattern: "arn:([a-z\\d-]+):personalize:.*:.*:.+")
+            try self.tags?.forEach {
+                try $0.validate(name: "\(name).tags[]")
+            }
+            try self.validate(self.tags, name: "tags", parent: name, max: 200)
+            try self.validate(self.tags, name: "tags", parent: name, min: 0)
         }
 
         private enum CodingKeys: String, CodingKey {
@@ -743,6 +760,7 @@ extension Personalize {
             case numResults
             case roleArn
             case solutionVersionArn
+            case tags
         }
     }
 
@@ -768,12 +786,15 @@ extension Personalize {
         public let name: String
         /// The Amazon Resource Name (ARN) of the solution version to deploy.
         public let solutionVersionArn: String
+        /// A list of tags to apply to the campaign.
+        public let tags: [Tag]?
 
-        public init(campaignConfig: CampaignConfig? = nil, minProvisionedTPS: Int? = nil, name: String, solutionVersionArn: String) {
+        public init(campaignConfig: CampaignConfig? = nil, minProvisionedTPS: Int? = nil, name: String, solutionVersionArn: String, tags: [Tag]? = nil) {
             self.campaignConfig = campaignConfig
             self.minProvisionedTPS = minProvisionedTPS
             self.name = name
             self.solutionVersionArn = solutionVersionArn
+            self.tags = tags
         }
 
         public func validate(name: String) throws {
@@ -784,6 +805,11 @@ extension Personalize {
             try self.validate(self.name, name: "name", parent: name, pattern: "^[a-zA-Z0-9][a-zA-Z0-9\\-_]*")
             try self.validate(self.solutionVersionArn, name: "solutionVersionArn", parent: name, max: 256)
             try self.validate(self.solutionVersionArn, name: "solutionVersionArn", parent: name, pattern: "arn:([a-z\\d-]+):personalize:.*:.*:.+")
+            try self.tags?.forEach {
+                try $0.validate(name: "\(name).tags[]")
+            }
+            try self.validate(self.tags, name: "tags", parent: name, max: 200)
+            try self.validate(self.tags, name: "tags", parent: name, min: 0)
         }
 
         private enum CodingKeys: String, CodingKey {
@@ -791,6 +817,7 @@ extension Personalize {
             case minProvisionedTPS
             case name
             case solutionVersionArn
+            case tags
         }
     }
 
@@ -818,13 +845,16 @@ extension Personalize {
         public let jobOutput: DatasetExportJobOutput
         /// The Amazon Resource Name (ARN) of the IAM service role that has permissions to add data to your output Amazon S3 bucket.
         public let roleArn: String
+        /// A list of tags to apply to the dataset export job.
+        public let tags: [Tag]?
 
-        public init(datasetArn: String, ingestionMode: IngestionMode? = nil, jobName: String, jobOutput: DatasetExportJobOutput, roleArn: String) {
+        public init(datasetArn: String, ingestionMode: IngestionMode? = nil, jobName: String, jobOutput: DatasetExportJobOutput, roleArn: String, tags: [Tag]? = nil) {
             self.datasetArn = datasetArn
             self.ingestionMode = ingestionMode
             self.jobName = jobName
             self.jobOutput = jobOutput
             self.roleArn = roleArn
+            self.tags = tags
         }
 
         public func validate(name: String) throws {
@@ -836,6 +866,11 @@ extension Personalize {
             try self.jobOutput.validate(name: "\(name).jobOutput")
             try self.validate(self.roleArn, name: "roleArn", parent: name, max: 256)
             try self.validate(self.roleArn, name: "roleArn", parent: name, pattern: "arn:([a-z\\d-]+):iam::\\d{12}:role/?[a-zA-Z_0-9+=,.@\\-_/]+")
+            try self.tags?.forEach {
+                try $0.validate(name: "\(name).tags[]")
+            }
+            try self.validate(self.tags, name: "tags", parent: name, max: 200)
+            try self.validate(self.tags, name: "tags", parent: name, min: 0)
         }
 
         private enum CodingKeys: String, CodingKey {
@@ -844,6 +879,7 @@ extension Personalize {
             case jobName
             case jobOutput
             case roleArn
+            case tags
         }
     }
 
@@ -869,12 +905,15 @@ extension Personalize {
         public let name: String
         /// The ARN of the Identity and Access Management (IAM) role that has permissions to access the Key Management Service (KMS) key. Supplying an IAM role is only valid when also specifying a KMS key.
         public let roleArn: String?
+        /// A list of tags to apply to the dataset group.
+        public let tags: [Tag]?
 
-        public init(domain: Domain? = nil, kmsKeyArn: String? = nil, name: String, roleArn: String? = nil) {
+        public init(domain: Domain? = nil, kmsKeyArn: String? = nil, name: String, roleArn: String? = nil, tags: [Tag]? = nil) {
             self.domain = domain
             self.kmsKeyArn = kmsKeyArn
             self.name = name
             self.roleArn = roleArn
+            self.tags = tags
         }
 
         public func validate(name: String) throws {
@@ -885,6 +924,11 @@ extension Personalize {
             try self.validate(self.name, name: "name", parent: name, pattern: "^[a-zA-Z0-9][a-zA-Z0-9\\-_]*")
             try self.validate(self.roleArn, name: "roleArn", parent: name, max: 256)
             try self.validate(self.roleArn, name: "roleArn", parent: name, pattern: "arn:([a-z\\d-]+):iam::\\d{12}:role/?[a-zA-Z_0-9+=,.@\\-_/]+")
+            try self.tags?.forEach {
+                try $0.validate(name: "\(name).tags[]")
+            }
+            try self.validate(self.tags, name: "tags", parent: name, max: 200)
+            try self.validate(self.tags, name: "tags", parent: name, min: 0)
         }
 
         private enum CodingKeys: String, CodingKey {
@@ -892,6 +936,7 @@ extension Personalize {
             case kmsKeyArn
             case name
             case roleArn
+            case tags
         }
     }
 
@@ -921,12 +966,15 @@ extension Personalize {
         public let jobName: String
         /// The ARN of the IAM role that has permissions to read from the Amazon S3 data source.
         public let roleArn: String
+        /// A list of tags to apply to the dataset import job.
+        public let tags: [Tag]?
 
-        public init(datasetArn: String, dataSource: DataSource, jobName: String, roleArn: String) {
+        public init(datasetArn: String, dataSource: DataSource, jobName: String, roleArn: String, tags: [Tag]? = nil) {
             self.datasetArn = datasetArn
             self.dataSource = dataSource
             self.jobName = jobName
             self.roleArn = roleArn
+            self.tags = tags
         }
 
         public func validate(name: String) throws {
@@ -938,6 +986,11 @@ extension Personalize {
             try self.validate(self.jobName, name: "jobName", parent: name, pattern: "^[a-zA-Z0-9][a-zA-Z0-9\\-_]*")
             try self.validate(self.roleArn, name: "roleArn", parent: name, max: 256)
             try self.validate(self.roleArn, name: "roleArn", parent: name, pattern: "arn:([a-z\\d-]+):iam::\\d{12}:role/?[a-zA-Z_0-9+=,.@\\-_/]+")
+            try self.tags?.forEach {
+                try $0.validate(name: "\(name).tags[]")
+            }
+            try self.validate(self.tags, name: "tags", parent: name, max: 200)
+            try self.validate(self.tags, name: "tags", parent: name, min: 0)
         }
 
         private enum CodingKeys: String, CodingKey {
@@ -945,6 +998,7 @@ extension Personalize {
             case dataSource
             case jobName
             case roleArn
+            case tags
         }
     }
 
@@ -970,12 +1024,15 @@ extension Personalize {
         public let name: String
         /// The ARN of the schema to associate with the dataset. The schema defines the dataset fields.
         public let schemaArn: String
+        /// A list of tags to apply to the dataset.
+        public let tags: [Tag]?
 
-        public init(datasetGroupArn: String, datasetType: String, name: String, schemaArn: String) {
+        public init(datasetGroupArn: String, datasetType: String, name: String, schemaArn: String, tags: [Tag]? = nil) {
             self.datasetGroupArn = datasetGroupArn
             self.datasetType = datasetType
             self.name = name
             self.schemaArn = schemaArn
+            self.tags = tags
         }
 
         public func validate(name: String) throws {
@@ -987,6 +1044,11 @@ extension Personalize {
             try self.validate(self.name, name: "name", parent: name, pattern: "^[a-zA-Z0-9][a-zA-Z0-9\\-_]*")
             try self.validate(self.schemaArn, name: "schemaArn", parent: name, max: 256)
             try self.validate(self.schemaArn, name: "schemaArn", parent: name, pattern: "arn:([a-z\\d-]+):personalize:.*:.*:.+")
+            try self.tags?.forEach {
+                try $0.validate(name: "\(name).tags[]")
+            }
+            try self.validate(self.tags, name: "tags", parent: name, max: 200)
+            try self.validate(self.tags, name: "tags", parent: name, min: 0)
         }
 
         private enum CodingKeys: String, CodingKey {
@@ -994,6 +1056,7 @@ extension Personalize {
             case datasetType
             case name
             case schemaArn
+            case tags
         }
     }
 
@@ -1015,10 +1078,13 @@ extension Personalize {
         public let datasetGroupArn: String
         /// The name for the event tracker.
         public let name: String
+        /// A list of tags to apply to the event tracker.
+        public let tags: [Tag]?
 
-        public init(datasetGroupArn: String, name: String) {
+        public init(datasetGroupArn: String, name: String, tags: [Tag]? = nil) {
             self.datasetGroupArn = datasetGroupArn
             self.name = name
+            self.tags = tags
         }
 
         public func validate(name: String) throws {
@@ -1027,11 +1093,17 @@ extension Personalize {
             try self.validate(self.name, name: "name", parent: name, max: 63)
             try self.validate(self.name, name: "name", parent: name, min: 1)
             try self.validate(self.name, name: "name", parent: name, pattern: "^[a-zA-Z0-9][a-zA-Z0-9\\-_]*")
+            try self.tags?.forEach {
+                try $0.validate(name: "\(name).tags[]")
+            }
+            try self.validate(self.tags, name: "tags", parent: name, max: 200)
+            try self.validate(self.tags, name: "tags", parent: name, min: 0)
         }
 
         private enum CodingKeys: String, CodingKey {
             case datasetGroupArn
             case name
+            case tags
         }
     }
 
@@ -1055,15 +1127,18 @@ extension Personalize {
     public struct CreateFilterRequest: AWSEncodableShape {
         /// The ARN of the dataset group that the filter will belong to.
         public let datasetGroupArn: String
-        /// The filter expression defines which items are included or excluded from recommendations. Filter expression must follow specific format rules. For information about filter expression structure and syntax, see filter-expressions.
+        /// The filter expression defines which items are included or excluded from recommendations. Filter expression must follow specific format rules. For information about filter expression structure and syntax, see Filter expressions.
         public let filterExpression: String
         /// The name of the filter to create.
         public let name: String
+        /// A list of tags to apply to the filter.
+        public let tags: [Tag]?
 
-        public init(datasetGroupArn: String, filterExpression: String, name: String) {
+        public init(datasetGroupArn: String, filterExpression: String, name: String, tags: [Tag]? = nil) {
             self.datasetGroupArn = datasetGroupArn
             self.filterExpression = filterExpression
             self.name = name
+            self.tags = tags
         }
 
         public func validate(name: String) throws {
@@ -1074,12 +1149,18 @@ extension Personalize {
             try self.validate(self.name, name: "name", parent: name, max: 63)
             try self.validate(self.name, name: "name", parent: name, min: 1)
             try self.validate(self.name, name: "name", parent: name, pattern: "^[a-zA-Z0-9][a-zA-Z0-9\\-_]*")
+            try self.tags?.forEach {
+                try $0.validate(name: "\(name).tags[]")
+            }
+            try self.validate(self.tags, name: "tags", parent: name, max: 200)
+            try self.validate(self.tags, name: "tags", parent: name, min: 0)
         }
 
         private enum CodingKeys: String, CodingKey {
             case datasetGroupArn
             case filterExpression
             case name
+            case tags
         }
     }
 
@@ -1105,12 +1186,15 @@ extension Personalize {
         public let recipeArn: String
         /// The configuration details of the recommender.
         public let recommenderConfig: RecommenderConfig?
+        /// A list of tags to apply to the recommender.
+        public let tags: [Tag]?
 
-        public init(datasetGroupArn: String, name: String, recipeArn: String, recommenderConfig: RecommenderConfig? = nil) {
+        public init(datasetGroupArn: String, name: String, recipeArn: String, recommenderConfig: RecommenderConfig? = nil, tags: [Tag]? = nil) {
             self.datasetGroupArn = datasetGroupArn
             self.name = name
             self.recipeArn = recipeArn
             self.recommenderConfig = recommenderConfig
+            self.tags = tags
         }
 
         public func validate(name: String) throws {
@@ -1122,6 +1206,11 @@ extension Personalize {
             try self.validate(self.recipeArn, name: "recipeArn", parent: name, max: 256)
             try self.validate(self.recipeArn, name: "recipeArn", parent: name, pattern: "arn:([a-z\\d-]+):personalize:.*:.*:.+")
             try self.recommenderConfig?.validate(name: "\(name).recommenderConfig")
+            try self.tags?.forEach {
+                try $0.validate(name: "\(name).tags[]")
+            }
+            try self.validate(self.tags, name: "tags", parent: name, max: 200)
+            try self.validate(self.tags, name: "tags", parent: name, min: 0)
         }
 
         private enum CodingKeys: String, CodingKey {
@@ -1129,6 +1218,7 @@ extension Personalize {
             case name
             case recipeArn
             case recommenderConfig
+            case tags
         }
     }
 
@@ -1201,8 +1291,10 @@ extension Personalize {
         public let recipeArn: String?
         /// The configuration to use with the solution. When performAutoML is set to true, Amazon Personalize only evaluates the autoMLConfig section of the solution configuration.  Amazon Personalize doesn't support configuring the hpoObjective at this time.
         public let solutionConfig: SolutionConfig?
+        /// A list of tags to apply to the solution.
+        public let tags: [Tag]?
 
-        public init(datasetGroupArn: String, eventType: String? = nil, name: String, performAutoML: Bool? = nil, performHPO: Bool? = nil, recipeArn: String? = nil, solutionConfig: SolutionConfig? = nil) {
+        public init(datasetGroupArn: String, eventType: String? = nil, name: String, performAutoML: Bool? = nil, performHPO: Bool? = nil, recipeArn: String? = nil, solutionConfig: SolutionConfig? = nil, tags: [Tag]? = nil) {
             self.datasetGroupArn = datasetGroupArn
             self.eventType = eventType
             self.name = name
@@ -1210,6 +1302,7 @@ extension Personalize {
             self.performHPO = performHPO
             self.recipeArn = recipeArn
             self.solutionConfig = solutionConfig
+            self.tags = tags
         }
 
         public func validate(name: String) throws {
@@ -1222,6 +1315,11 @@ extension Personalize {
             try self.validate(self.recipeArn, name: "recipeArn", parent: name, max: 256)
             try self.validate(self.recipeArn, name: "recipeArn", parent: name, pattern: "arn:([a-z\\d-]+):personalize:.*:.*:.+")
             try self.solutionConfig?.validate(name: "\(name).solutionConfig")
+            try self.tags?.forEach {
+                try $0.validate(name: "\(name).tags[]")
+            }
+            try self.validate(self.tags, name: "tags", parent: name, max: 200)
+            try self.validate(self.tags, name: "tags", parent: name, min: 0)
         }
 
         private enum CodingKeys: String, CodingKey {
@@ -1232,6 +1330,7 @@ extension Personalize {
             case performHPO
             case recipeArn
             case solutionConfig
+            case tags
         }
     }
 
@@ -1251,21 +1350,30 @@ extension Personalize {
     public struct CreateSolutionVersionRequest: AWSEncodableShape {
         /// The Amazon Resource Name (ARN) of the solution containing the training configuration information.
         public let solutionArn: String
+        /// A list of tags to apply to the solution version.
+        public let tags: [Tag]?
         /// The scope of training to be performed when creating the solution version. The FULL option trains the solution version based on the entirety of the input solution's training data, while the UPDATE option processes only the data that has changed in comparison to the input solution. Choose UPDATE when you want to incrementally update your solution version instead of creating an entirely new one.  The UPDATE option can only be used when you already have an active solution version created from the input solution using the FULL option and the input solution was trained with the User-Personalization recipe or the HRNN-Coldstart recipe.
         public let trainingMode: TrainingMode?
 
-        public init(solutionArn: String, trainingMode: TrainingMode? = nil) {
+        public init(solutionArn: String, tags: [Tag]? = nil, trainingMode: TrainingMode? = nil) {
             self.solutionArn = solutionArn
+            self.tags = tags
             self.trainingMode = trainingMode
         }
 
         public func validate(name: String) throws {
             try self.validate(self.solutionArn, name: "solutionArn", parent: name, max: 256)
             try self.validate(self.solutionArn, name: "solutionArn", parent: name, pattern: "arn:([a-z\\d-]+):personalize:.*:.*:.+")
+            try self.tags?.forEach {
+                try $0.validate(name: "\(name).tags[]")
+            }
+            try self.validate(self.tags, name: "tags", parent: name, max: 200)
+            try self.validate(self.tags, name: "tags", parent: name, min: 0)
         }
 
         private enum CodingKeys: String, CodingKey {
             case solutionArn
+            case tags
             case trainingMode
         }
     }
@@ -2539,7 +2647,7 @@ extension Personalize {
         public let failureReason: String?
         /// The ARN of the filter.
         public let filterArn: String?
-        /// Specifies the type of item interactions to filter out of recommendation results. The filter expression must follow specific format rules. For information about filter expression structure and syntax, see filter-expressions.
+        /// Specifies the type of item interactions to filter out of recommendation results. The filter expression must follow specific format rules. For information about filter expression structure and syntax, see Filter expressions.
         public let filterExpression: String?
         /// The time at which the filter was last updated.
         public let lastUpdatedDateTime: Date?
@@ -3191,7 +3299,7 @@ extension Personalize {
     }
 
     public struct ListRecipesRequest: AWSEncodableShape {
-        ///  Filters returned recipes by domain for a Domain dataset group. Only recipes (Domain dataset group use cases) for this domain are included in the response. If you don't specify a domain, only non-domain recipes are returned.
+        ///  Filters returned recipes by domain for a Domain dataset group. Only recipes (Domain dataset group use cases) for this domain are included in the response. If you don't specify a domain, all recipes are returned.
         public let domain: Domain?
         /// The maximum number of recipes to return.
         public let maxResults: Int?
@@ -3416,6 +3524,37 @@ extension Personalize {
         }
     }
 
+    public struct ListTagsForResourceRequest: AWSEncodableShape {
+        /// The resource's Amazon Resource Name.
+        public let resourceArn: String
+
+        public init(resourceArn: String) {
+            self.resourceArn = resourceArn
+        }
+
+        public func validate(name: String) throws {
+            try self.validate(self.resourceArn, name: "resourceArn", parent: name, max: 256)
+            try self.validate(self.resourceArn, name: "resourceArn", parent: name, pattern: "arn:([a-z\\d-]+):personalize:.*:.*:.+")
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case resourceArn
+        }
+    }
+
+    public struct ListTagsForResourceResponse: AWSDecodableShape {
+        /// The resource's tags.
+        public let tags: [Tag]?
+
+        public init(tags: [Tag]? = nil) {
+            self.tags = tags
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case tags
+        }
+    }
+
     public struct OptimizationObjective: AWSEncodableShape & AWSDecodableShape {
         /// The numerical metadata column in an Items dataset related to the optimization objective. For example, VIDEO_LENGTH (to maximize streaming minutes), or PRICE (to maximize revenue).
         public let itemAttribute: String?
@@ -3568,9 +3707,12 @@ extension Personalize {
     public struct RecommenderConfig: AWSEncodableShape & AWSDecodableShape {
         /// Specifies the exploration configuration hyperparameters, including explorationWeight and explorationItemAgeCutOff, you want to use to configure the amount of item exploration Amazon Personalize uses when recommending items. Provide itemExplorationConfig data only if your recommenders generate personalized recommendations for a user (not popular items or similar items).
         public let itemExplorationConfig: [String: String]?
+        /// Specifies the requested minimum provisioned recommendation requests per second that Amazon Personalize will support.
+        public let minRecommendationRequestsPerSecond: Int?
 
-        public init(itemExplorationConfig: [String: String]? = nil) {
+        public init(itemExplorationConfig: [String: String]? = nil, minRecommendationRequestsPerSecond: Int? = nil) {
             self.itemExplorationConfig = itemExplorationConfig
+            self.minRecommendationRequestsPerSecond = minRecommendationRequestsPerSecond
         }
 
         public func validate(name: String) throws {
@@ -3578,10 +3720,12 @@ extension Personalize {
                 try validate($0.key, name: "itemExplorationConfig.key", parent: name, max: 256)
                 try validate($0.value, name: "itemExplorationConfig[\"\($0.key)\"]", parent: name, max: 1000)
             }
+            try self.validate(self.minRecommendationRequestsPerSecond, name: "minRecommendationRequestsPerSecond", parent: name, min: 1)
         }
 
         private enum CodingKeys: String, CodingKey {
             case itemExplorationConfig
+            case minRecommendationRequestsPerSecond
         }
     }
 
@@ -3656,7 +3800,7 @@ extension Personalize {
     }
 
     public struct S3DataConfig: AWSEncodableShape & AWSDecodableShape {
-        /// The Amazon Resource Name (ARN) of the Key Management Service (KMS) key that Amazon Personalize uses to encrypt or decrypt the input and output files of a batch inference job.
+        /// The Amazon Resource Name (ARN) of the Key Management Service (KMS) key that Amazon Personalize uses to encrypt or decrypt the input and output files.
         public let kmsKeyArn: String?
         /// The file path of the Amazon S3 bucket.
         public let path: String
@@ -3915,6 +4059,68 @@ extension Personalize {
         }
     }
 
+    public struct StartRecommenderRequest: AWSEncodableShape {
+        /// The Amazon Resource Name (ARN) of the recommender to start.
+        public let recommenderArn: String
+
+        public init(recommenderArn: String) {
+            self.recommenderArn = recommenderArn
+        }
+
+        public func validate(name: String) throws {
+            try self.validate(self.recommenderArn, name: "recommenderArn", parent: name, max: 256)
+            try self.validate(self.recommenderArn, name: "recommenderArn", parent: name, pattern: "arn:([a-z\\d-]+):personalize:.*:.*:.+")
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case recommenderArn
+        }
+    }
+
+    public struct StartRecommenderResponse: AWSDecodableShape {
+        /// The Amazon Resource Name (ARN) of the recommender you started.
+        public let recommenderArn: String?
+
+        public init(recommenderArn: String? = nil) {
+            self.recommenderArn = recommenderArn
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case recommenderArn
+        }
+    }
+
+    public struct StopRecommenderRequest: AWSEncodableShape {
+        /// The Amazon Resource Name (ARN) of the recommender to stop.
+        public let recommenderArn: String
+
+        public init(recommenderArn: String) {
+            self.recommenderArn = recommenderArn
+        }
+
+        public func validate(name: String) throws {
+            try self.validate(self.recommenderArn, name: "recommenderArn", parent: name, max: 256)
+            try self.validate(self.recommenderArn, name: "recommenderArn", parent: name, pattern: "arn:([a-z\\d-]+):personalize:.*:.*:.+")
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case recommenderArn
+        }
+    }
+
+    public struct StopRecommenderResponse: AWSDecodableShape {
+        /// The Amazon Resource Name (ARN) of the recommender you stopped.
+        public let recommenderArn: String?
+
+        public init(recommenderArn: String? = nil) {
+            self.recommenderArn = recommenderArn
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case recommenderArn
+        }
+    }
+
     public struct StopSolutionVersionCreationRequest: AWSEncodableShape {
         /// The Amazon Resource Name (ARN) of the solution version you want to stop creating.
         public let solutionVersionArn: String
@@ -3933,6 +4139,63 @@ extension Personalize {
         }
     }
 
+    public struct Tag: AWSEncodableShape & AWSDecodableShape {
+        /// One part of a key-value pair that makes up a tag. A key is a general label that acts like a category for more specific tag values.
+        public let tagKey: String
+        /// The optional part of a key-value pair that makes up a tag. A value acts as a descriptor within a tag category (key).
+        public let tagValue: String
+
+        public init(tagKey: String, tagValue: String) {
+            self.tagKey = tagKey
+            self.tagValue = tagValue
+        }
+
+        public func validate(name: String) throws {
+            try self.validate(self.tagKey, name: "tagKey", parent: name, max: 128)
+            try self.validate(self.tagKey, name: "tagKey", parent: name, min: 1)
+            try self.validate(self.tagKey, name: "tagKey", parent: name, pattern: "^([\\p{L}\\p{Z}\\p{N}_.:/=+\\-@]*)$")
+            try self.validate(self.tagValue, name: "tagValue", parent: name, max: 256)
+            try self.validate(self.tagValue, name: "tagValue", parent: name, min: 0)
+            try self.validate(self.tagValue, name: "tagValue", parent: name, pattern: "^([\\p{L}\\p{Z}\\p{N}_.:/=+\\-@]*)$")
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case tagKey
+            case tagValue
+        }
+    }
+
+    public struct TagResourceRequest: AWSEncodableShape {
+        /// The resource's Amazon Resource Name (ARN).
+        public let resourceArn: String
+        /// Tags to apply to the resource. For more information see Tagging Personalize resources.
+        public let tags: [Tag]
+
+        public init(resourceArn: String, tags: [Tag]) {
+            self.resourceArn = resourceArn
+            self.tags = tags
+        }
+
+        public func validate(name: String) throws {
+            try self.validate(self.resourceArn, name: "resourceArn", parent: name, max: 256)
+            try self.validate(self.resourceArn, name: "resourceArn", parent: name, pattern: "arn:([a-z\\d-]+):personalize:.*:.*:.+")
+            try self.tags.forEach {
+                try $0.validate(name: "\(name).tags[]")
+            }
+            try self.validate(self.tags, name: "tags", parent: name, max: 200)
+            try self.validate(self.tags, name: "tags", parent: name, min: 0)
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case resourceArn
+            case tags
+        }
+    }
+
+    public struct TagResourceResponse: AWSDecodableShape {
+        public init() {}
+    }
+
     public struct TunedHPOParams: AWSDecodableShape {
         /// A list of the hyperparameter values of the best performing model.
         public let algorithmHyperParameters: [String: String]?
@@ -3944,6 +4207,39 @@ extension Personalize {
         private enum CodingKeys: String, CodingKey {
             case algorithmHyperParameters
         }
+    }
+
+    public struct UntagResourceRequest: AWSEncodableShape {
+        /// The resource's Amazon Resource Name (ARN).
+        public let resourceArn: String
+        /// Keys to remove from the resource's tags.
+        public let tagKeys: [String]
+
+        public init(resourceArn: String, tagKeys: [String]) {
+            self.resourceArn = resourceArn
+            self.tagKeys = tagKeys
+        }
+
+        public func validate(name: String) throws {
+            try self.validate(self.resourceArn, name: "resourceArn", parent: name, max: 256)
+            try self.validate(self.resourceArn, name: "resourceArn", parent: name, pattern: "arn:([a-z\\d-]+):personalize:.*:.*:.+")
+            try self.tagKeys.forEach {
+                try validate($0, name: "tagKeys[]", parent: name, max: 128)
+                try validate($0, name: "tagKeys[]", parent: name, min: 1)
+                try validate($0, name: "tagKeys[]", parent: name, pattern: "^([\\p{L}\\p{Z}\\p{N}_.:/=+\\-@]*)$")
+            }
+            try self.validate(self.tagKeys, name: "tagKeys", parent: name, max: 200)
+            try self.validate(self.tagKeys, name: "tagKeys", parent: name, min: 0)
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case resourceArn
+            case tagKeys
+        }
+    }
+
+    public struct UntagResourceResponse: AWSDecodableShape {
+        public init() {}
     }
 
     public struct UpdateCampaignRequest: AWSEncodableShape {

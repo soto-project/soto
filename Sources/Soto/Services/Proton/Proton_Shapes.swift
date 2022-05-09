@@ -165,9 +165,9 @@ extension Proton {
     }
 
     public struct AccountSettings: AWSDecodableShape {
-        /// The repository that you provide with pull request provisioning.  Provisioning by pull request is currently in feature preview and is only usable with Terraform based Proton Templates. To learn more about Amazon Web Services Feature Preview terms, see section 2 on Beta and Previews.
+        /// The repository configured in the Amazon Web Services account for pipeline provisioning. Required it if you have environments configured for self-managed provisioning with services that include pipelines.
         public let pipelineProvisioningRepository: RepositoryBranch?
-        /// The Amazon Resource Name (ARN) of the Proton pipeline service role.
+        /// The Amazon Resource Name (ARN) of the service role you want to use for provisioning pipelines. Assumed by Proton for Amazon Web Services-managed provisioning, and by customer-owned automation for self-managed provisioning.
         public let pipelineServiceRoleArn: String?
 
         public init(pipelineProvisioningRepository: RepositoryBranch? = nil, pipelineServiceRoleArn: String? = nil) {
@@ -332,11 +332,11 @@ extension Proton {
         public let clientToken: String?
         /// The name of the Proton environment that's created in the associated management account.
         public let environmentName: String
-        /// The ID of the management account that accepts or rejects the environment account connection. You create an manage the Proton environment in this account. If the management account accepts the environment account connection, Proton can use the associated IAM role to provision environment infrastructure resources in the associated environment account.
+        /// The ID of the management account that accepts or rejects the environment account connection. You create and manage the Proton environment in this account. If the management account accepts the environment account connection, Proton can use the associated IAM role to provision environment infrastructure resources in the associated environment account.
         public let managementAccountId: String
         /// The Amazon Resource Name (ARN) of the IAM service role that's created in the environment account. Proton uses this role to provision infrastructure resources in the associated environment account.
         public let roleArn: String
-        /// Tags for your environment account connection. For more information, see Proton resources and tagging in the Proton Administrator Guide.
+        /// An optional list of metadata items that you can associate with the Proton environment account connection. A tag is a key-value pair. For more information, see Proton resources and tagging in the Proton Administrator Guide.
         public let tags: [Tag]?
 
         public init(clientToken: String? = CreateEnvironmentAccountConnectionInput.idempotencyToken(), environmentName: String, managementAccountId: String, roleArn: String, tags: [Tag]? = nil) {
@@ -389,17 +389,17 @@ extension Proton {
     public struct CreateEnvironmentInput: AWSEncodableShape {
         /// A description of the environment that's being created and deployed.
         public let description: String?
-        /// The ID of the environment account connection that you provide if you're provisioning your environment infrastructure resources to an environment account. You must include either the environmentAccountConnectionId or protonServiceRoleArn parameter and value and omit the provisioningRepository parameter and values. For more information, see Environment account connections in the Proton Administrator guide.
+        /// The ID of the environment account connection that you provide if you're provisioning your environment infrastructure resources to an environment account. For more information, see Environment account connections in the Proton Administrator guide. To use Amazon Web Services-managed provisioning for the environment, specify either the environmentAccountConnectionId or protonServiceRoleArn parameter and omit the provisioningRepository parameter.
         public let environmentAccountConnectionId: String?
         /// The name of the environment.
         public let name: String
-        /// The Amazon Resource Name (ARN) of the Proton service role that allows Proton to make calls to other services on your behalf. You must include either the environmentAccountConnectionId or protonServiceRoleArn parameter and value and omit the provisioningRepository parameter when you use standard provisioning.
+        /// The Amazon Resource Name (ARN) of the Proton service role that allows Proton to make calls to other services on your behalf. To use Amazon Web Services-managed provisioning for the environment, specify either the environmentAccountConnectionId or protonServiceRoleArn parameter and omit the provisioningRepository parameter.
         public let protonServiceRoleArn: String?
-        /// The repository that you provide with pull request provisioning. If you provide this parameter, you must omit the environmentAccountConnectionId and protonServiceRoleArn parameters.  Provisioning by pull request is currently in feature preview and is only usable with Terraform based Proton Templates. To learn more about Amazon Web Services Feature Preview terms, see section 2 on Beta and Previews.
+        /// The infrastructure repository that you use to host your rendered infrastructure templates for self-managed provisioning. To use self-managed provisioning for the environment, specify this parameter and omit the environmentAccountConnectionId and protonServiceRoleArn parameters.
         public let provisioningRepository: RepositoryBranchInput?
-        /// A link to a YAML formatted spec file that provides inputs as defined in the environment template bundle schema file. For more information, see Environments in the Proton Administrator Guide.
+        /// A YAML formatted string that provides inputs as defined in the environment template bundle schema file. For more information, see Environments in the Proton Administrator Guide.
         public let spec: String
-        /// Create tags for your environment. For more information, see Proton resources and tagging in the Proton Administrator Guide or Proton User Guide.
+        /// An optional list of metadata items that you can associate with the Proton environment. A tag is a key-value pair. For more information, see Proton resources and tagging in the Proton Administrator Guide or Proton User Guide.
         public let tags: [Tag]?
         /// The major version of the environment template.
         public let templateMajorVersion: String
@@ -487,7 +487,7 @@ extension Proton {
         public let name: String
         /// When included, indicates that the environment template is for customer provisioned and managed infrastructure.
         public let provisioning: Provisioning?
-        /// Create tags for your environment template. For more information, see Proton resources and tagging in the Proton Administrator Guide or Proton User Guide.
+        /// An optional list of metadata items that you can associate with the Proton environment template. A tag is a key-value pair. For more information, see Proton resources and tagging in the Proton Administrator Guide or Proton User Guide.
         public let tags: [Tag]?
 
         public init(description: String? = nil, displayName: String? = nil, encryptionKey: String? = nil, name: String, provisioning: Provisioning? = nil, tags: [Tag]? = nil) {
@@ -544,11 +544,11 @@ extension Proton {
         public let clientToken: String?
         /// A description of the new version of an environment template.
         public let description: String?
-        /// To create a new minor version of the environment template, include a major Version. To create a new major and minor version of the environment template, exclude major Version.
+        /// To create a new minor version of the environment template, include major Version. To create a new major and minor version of the environment template, exclude major Version.
         public let majorVersion: String?
         /// An object that includes the template bundle S3 bucket path and name for the new version of an template.
         public let source: TemplateVersionSourceInput
-        /// Create tags for a new version of an environment template.
+        /// An optional list of metadata items that you can associate with the Proton environment template version. A tag is a key-value pair. For more information, see Proton resources and tagging in the Proton Administrator Guide or Proton User Guide.
         public let tags: [Tag]?
         /// The name of the environment template.
         public let templateName: String
@@ -610,16 +610,19 @@ extension Proton {
         public let connectionArn: String
         /// The ARN of your customer Amazon Web Services Key Management Service (Amazon Web Services KMS) key.
         public let encryptionKey: String?
-        /// The repository name, for example myrepos/myrepo.
+        /// The repository name (for example, myrepos/myrepo).
         public let name: String
         /// The repository provider.
         public let provider: RepositoryProvider
+        /// An optional list of metadata items that you can associate with the Proton repository. A tag is a key-value pair. For more information, see Proton resources and tagging in the Proton Administrator Guide or Proton User Guide.
+        public let tags: [Tag]?
 
-        public init(connectionArn: String, encryptionKey: String? = nil, name: String, provider: RepositoryProvider) {
+        public init(connectionArn: String, encryptionKey: String? = nil, name: String, provider: RepositoryProvider, tags: [Tag]? = nil) {
             self.connectionArn = connectionArn
             self.encryptionKey = encryptionKey
             self.name = name
             self.provider = provider
+            self.tags = tags
         }
 
         public func validate(name: String) throws {
@@ -630,6 +633,11 @@ extension Proton {
             try self.validate(self.name, name: "name", parent: name, max: 100)
             try self.validate(self.name, name: "name", parent: name, min: 1)
             try self.validate(self.name, name: "name", parent: name, pattern: "[A-Za-z0-9_.-].*/[A-Za-z0-9_.-].*")
+            try self.tags?.forEach {
+                try $0.validate(name: "\(name).tags[]")
+            }
+            try self.validate(self.tags, name: "tags", parent: name, max: 50)
+            try self.validate(self.tags, name: "tags", parent: name, min: 0)
         }
 
         private enum CodingKeys: String, CodingKey {
@@ -637,6 +645,7 @@ extension Proton {
             case encryptionKey
             case name
             case provider
+            case tags
         }
     }
 
@@ -666,7 +675,7 @@ extension Proton {
         public let repositoryId: String?
         /// A link to a spec file that provides inputs as defined in the service template bundle schema file. The spec file is in YAML format. Don’t include pipeline inputs in the spec if your service template doesn’t include a service pipeline. For more information, see Create a service in the Proton Administrator Guide and Create a service in the Proton User Guide.
         public let spec: String
-        /// Create tags for your service. For more information, see Proton resources and tagging in the Proton Administrator Guide or Proton User Guide.
+        /// An optional list of metadata items that you can associate with the Proton service. A tag is a key-value pair. For more information, see Proton resources and tagging in the Proton Administrator Guide or Proton User Guide.
         public let tags: [Tag]?
         /// The major version of the service template that was used to create the service.
         public let templateMajorVersion: String
@@ -754,9 +763,9 @@ extension Proton {
         public let encryptionKey: String?
         /// The name of the service template.
         public let name: String
-        /// Proton includes a service pipeline for your service by default. When included, this parameter indicates that an Proton service pipeline won't be included for your service. Once specified, this parameter can't be changed. For more information, see Service template bundles in the Proton Administrator Guide.
+        /// By default, Proton provides a service pipeline for your service. When this parameter is included, it indicates that an Proton service pipeline isn't provided for your service. After it's included, it can't be changed. For more information, see Service template bundles in the Proton Administrator Guide.
         public let pipelineProvisioning: Provisioning?
-        /// Create tags for your service template. For more information, see Proton resources and tagging in the Proton Administrator Guide or Proton User Guide.
+        /// An optional list of metadata items that you can associate with the Proton service template. A tag is a key-value pair. For more information, see Proton resources and tagging in the Proton Administrator Guide or Proton User Guide.
         public let tags: [Tag]?
 
         public init(description: String? = nil, displayName: String? = nil, encryptionKey: String? = nil, name: String, pipelineProvisioning: Provisioning? = nil, tags: [Tag]? = nil) {
@@ -819,7 +828,7 @@ extension Proton {
         public let majorVersion: String?
         /// An object that includes the template bundle S3 bucket path and name for the new version of a service template.
         public let source: TemplateVersionSourceInput
-        /// Create tags for a new version of a service template.
+        /// An optional list of metadata items that you can associate with the Proton service template version. A tag is a key-value pair. For more information, see Proton resources and tagging in the Proton Administrator Guide or Proton User Guide.
         public let tags: [Tag]?
         /// The name of the service template.
         public let templateName: String
@@ -886,7 +895,7 @@ extension Proton {
     public struct CreateTemplateSyncConfigInput: AWSEncodableShape {
         /// The branch of the registered repository for your template.
         public let branch: String
-        /// The name of your repository, for example myrepos/myrepo.
+        /// The name of your repository (for example, myrepos/myrepo).
         public let repositoryName: String
         /// The provider type for your repository.
         public let repositoryProvider: RepositoryProvider
@@ -1289,13 +1298,13 @@ extension Proton {
         public let protonServiceRoleArn: String?
         /// When included, indicates that the environment template is for customer provisioned and managed infrastructure.
         public let provisioning: Provisioning?
-        /// The repository that you provide with pull request provisioning.  Provisioning by pull request is currently in feature preview and is only usable with Terraform based Proton Templates. To learn more about Amazon Web Services Feature Preview terms, see section 2 on Beta and Previews.
+        /// The infrastructure repository that you use to host your rendered infrastructure templates for self-managed provisioning.
         public let provisioningRepository: RepositoryBranch?
         /// The environment spec.
         public let spec: String?
-        /// The ID of the major version of the environment template.
+        /// The major version of the environment template.
         public let templateMajorVersion: String
-        /// The ID of the minor version of the environment template.
+        /// The minor version of the environment template.
         public let templateMinorVersion: String
         /// The Amazon Resource Name (ARN) of the environment template.
         public let templateName: String
@@ -1684,7 +1693,7 @@ extension Proton {
         public let status: TemplateVersionStatus
         /// The status message of the version of an environment template.
         public let statusMessage: String?
-        /// The name of the version of an environment template.
+        /// The name of the environment template.
         public let templateName: String
 
         public init(arn: String, createdAt: Date, description: String? = nil, lastModifiedAt: Date, majorVersion: String, minorVersion: String, recommendedMinorVersion: String? = nil, status: TemplateVersionStatus, statusMessage: String? = nil, templateName: String) {
@@ -2143,7 +2152,7 @@ extension Proton {
         public let templateName: String
         /// The template type.
         public let templateType: TemplateType
-        /// The template version.
+        /// The template major version.
         public let templateVersion: String
 
         public init(templateName: String, templateType: TemplateType, templateVersion: String) {
@@ -2194,7 +2203,7 @@ extension Proton {
         public let environmentName: String?
         /// The maximum number of environment account connections to list.
         public let maxResults: Int?
-        /// A token to indicate the location of the next environment account connection in the array of environment account connections, after the list of environment account connections that was previously requested.
+        /// A token that indicates the location of the next environment account connection in the array of environment account connections, after the list of environment account connections that was previously requested.
         public let nextToken: String?
         /// The type of account making the ListEnvironmentAccountConnections request.
         public let requestedBy: EnvironmentAccountConnectionRequesterAccountType
@@ -2230,7 +2239,7 @@ extension Proton {
     public struct ListEnvironmentAccountConnectionsOutput: AWSDecodableShape {
         /// An array of environment account connections with details that's returned by Proton.
         public let environmentAccountConnections: [EnvironmentAccountConnectionSummary]
-        /// A token to indicate the location of the next environment account connection in the array of environment account connections, after the current requested list of environment account connections.
+        /// A token that indicates the location of the next environment account connection in the array of environment account connections, after the current requested list of environment account connections.
         public let nextToken: String?
 
         public init(environmentAccountConnections: [EnvironmentAccountConnectionSummary], nextToken: String? = nil) {
@@ -2247,7 +2256,7 @@ extension Proton {
     public struct ListEnvironmentOutputsInput: AWSEncodableShape {
         /// The environment name.
         public let environmentName: String
-        /// A token to indicate the location of the next environment output in the array of environment outputs, after the list of environment outputs that was previously requested.
+        /// A token that indicates the location of the next environment output in the array of environment outputs, after the list of environment outputs that was previously requested.
         public let nextToken: String?
 
         public init(environmentName: String, nextToken: String? = nil) {
@@ -2270,7 +2279,7 @@ extension Proton {
     }
 
     public struct ListEnvironmentOutputsOutput: AWSDecodableShape {
-        /// A token to indicate the location of the next environment output in the array of environment outputs, after the current requested list of environment outputs.
+        /// A token that indicates the location of the next environment output in the array of environment outputs, after the current requested list of environment outputs.
         public let nextToken: String?
         /// An array of environment outputs with detail data.
         public let outputs: [Output]
@@ -2289,7 +2298,7 @@ extension Proton {
     public struct ListEnvironmentProvisionedResourcesInput: AWSEncodableShape {
         /// The environment name.
         public let environmentName: String
-        /// A token to indicate the location of the next environment provisioned resource in the array of environment provisioned resources, after the list of environment provisioned resources that was previously requested.
+        /// A token that indicates the location of the next environment provisioned resource in the array of environment provisioned resources, after the list of environment provisioned resources that was previously requested.
         public let nextToken: String?
 
         public init(environmentName: String, nextToken: String? = nil) {
@@ -2312,7 +2321,7 @@ extension Proton {
     }
 
     public struct ListEnvironmentProvisionedResourcesOutput: AWSDecodableShape {
-        /// A token to indicate the location of the next environment provisioned resource in the array of provisioned resources, after the current requested list of environment provisioned resources.
+        /// A token that indicates the location of the next environment provisioned resource in the array of provisioned resources, after the current requested list of environment provisioned resources.
         public let nextToken: String?
         /// An array of environment provisioned resources.
         public let provisionedResources: [ProvisionedResource]
@@ -2333,7 +2342,7 @@ extension Proton {
         public let majorVersion: String?
         /// The maximum number of major or minor versions of an environment template to list.
         public let maxResults: Int?
-        /// A token to indicate the location of the next major or minor version in the array of major or minor versions of an environment template, after the list of major or minor versions that was previously requested.
+        /// A token that indicates the location of the next major or minor version in the array of major or minor versions of an environment template, after the list of major or minor versions that was previously requested.
         public let nextToken: String?
         /// The name of the environment template.
         public let templateName: String
@@ -2366,7 +2375,7 @@ extension Proton {
     }
 
     public struct ListEnvironmentTemplateVersionsOutput: AWSDecodableShape {
-        /// A token to indicate the location of the next major or minor version in the array of major or minor versions of an environment template, after the list of major or minor versions that was previously requested.
+        /// A token that indicates the location of the next major or minor version in the array of major or minor versions of an environment template, after the list of major or minor versions that was previously requested.
         public let nextToken: String?
         /// An array of major or minor versions of an environment template detail data.
         public let templateVersions: [EnvironmentTemplateVersionSummary]
@@ -2385,7 +2394,7 @@ extension Proton {
     public struct ListEnvironmentTemplatesInput: AWSEncodableShape {
         /// The maximum number of environment templates to list.
         public let maxResults: Int?
-        /// A token to indicate the location of the next environment template in the array of environment templates, after the list of environment templates that was previously requested.
+        /// A token that indicates the location of the next environment template in the array of environment templates, after the list of environment templates that was previously requested.
         public let nextToken: String?
 
         public init(maxResults: Int? = nil, nextToken: String? = nil) {
@@ -2406,7 +2415,7 @@ extension Proton {
     }
 
     public struct ListEnvironmentTemplatesOutput: AWSDecodableShape {
-        /// A token to indicate the location of the next environment template in the array of environment templates, after the current requested list of environment templates.
+        /// A token that indicates the location of the next environment template in the array of environment templates, after the current requested list of environment templates.
         public let nextToken: String?
         /// An array of environment templates with detail data.
         public let templates: [EnvironmentTemplateSummary]
@@ -2427,7 +2436,7 @@ extension Proton {
         public let environmentTemplates: [EnvironmentTemplateFilter]?
         /// The maximum number of environments to list.
         public let maxResults: Int?
-        /// A token to indicate the location of the next environment in the array of environments, after the list of environments that was previously requested.
+        /// A token that indicates the location of the next environment in the array of environments, after the list of environments that was previously requested.
         public let nextToken: String?
 
         public init(environmentTemplates: [EnvironmentTemplateFilter]? = nil, maxResults: Int? = nil, nextToken: String? = nil) {
@@ -2455,7 +2464,7 @@ extension Proton {
     public struct ListEnvironmentsOutput: AWSDecodableShape {
         /// An array of environment detail data summaries.
         public let environments: [EnvironmentSummary]
-        /// A token to indicate the location of the next environment in the array of environments, after the current requested list of environments.
+        /// A token that indicates the location of the next environment in the array of environments, after the current requested list of environments.
         public let nextToken: String?
 
         public init(environments: [EnvironmentSummary], nextToken: String? = nil) {
@@ -2472,7 +2481,7 @@ extension Proton {
     public struct ListRepositoriesInput: AWSEncodableShape {
         /// The maximum number of repositories to list.
         public let maxResults: Int?
-        /// A token to indicate the location of the next repository in the array of repositories, after the list of repositories previously requested.
+        /// A token that indicates the location of the next repository in the array of repositories, after the list of repositories previously requested.
         public let nextToken: String?
 
         public init(maxResults: Int? = nil, nextToken: String? = nil) {
@@ -2493,7 +2502,7 @@ extension Proton {
     }
 
     public struct ListRepositoriesOutput: AWSDecodableShape {
-        /// A token to indicate the location of the next repository in the array of repositories, after the current requested list of repositories.
+        /// A token that indicates the location of the next repository in the array of repositories, after the current requested list of repositories.
         public let nextToken: String?
         /// An array of repositories.
         public let repositories: [RepositorySummary]
@@ -2510,7 +2519,7 @@ extension Proton {
     }
 
     public struct ListRepositorySyncDefinitionsInput: AWSEncodableShape {
-        /// A token to indicate the location of the next repository sync definition in the array of repository sync definitions, after the list of repository sync definitions previously requested.
+        /// A token that indicates the location of the next repository sync definition in the array of repository sync definitions, after the list of repository sync definitions previously requested.
         public let nextToken: String?
         /// The repository name.
         public let repositoryName: String
@@ -2543,7 +2552,7 @@ extension Proton {
     }
 
     public struct ListRepositorySyncDefinitionsOutput: AWSDecodableShape {
-        /// A token to indicate the location of the next repository sync definition in the array of repository sync definitions, after the current requested list of repository sync definitions.
+        /// A token that indicates the location of the next repository sync definition in the array of repository sync definitions, after the current requested list of repository sync definitions.
         public let nextToken: String?
         /// An array of repository sync definitions.
         public let syncDefinitions: [RepositorySyncDefinition]
@@ -2560,7 +2569,7 @@ extension Proton {
     }
 
     public struct ListServiceInstanceOutputsInput: AWSEncodableShape {
-        /// A token to indicate the location of the next output in the array of outputs, after the list of outputs that was previously requested.
+        /// A token that indicates the location of the next output in the array of outputs, after the list of outputs that was previously requested.
         public let nextToken: String?
         /// The service instance name.
         public let serviceInstanceName: String
@@ -2592,7 +2601,7 @@ extension Proton {
     }
 
     public struct ListServiceInstanceOutputsOutput: AWSDecodableShape {
-        /// A token to indicate the location of the next output in the array of outputs, after the current requested list of outputs.
+        /// A token that indicates the location of the next output in the array of outputs, after the current requested list of outputs.
         public let nextToken: String?
         /// An array of service instance infrastructure as code outputs.
         public let outputs: [Output]
@@ -2609,7 +2618,7 @@ extension Proton {
     }
 
     public struct ListServiceInstanceProvisionedResourcesInput: AWSEncodableShape {
-        /// A token to indicate the location of the next provisioned resource in the array of provisioned resources, after the list of provisioned resources that was previously requested.
+        /// A token that indicates the location of the next provisioned resource in the array of provisioned resources, after the list of provisioned resources that was previously requested.
         public let nextToken: String?
         /// The service instance name.
         public let serviceInstanceName: String
@@ -2641,7 +2650,7 @@ extension Proton {
     }
 
     public struct ListServiceInstanceProvisionedResourcesOutput: AWSDecodableShape {
-        /// A token to indicate the location of the next provisioned resource in the array of provisioned resources, after the current requested list of provisioned resources.
+        /// A token that indicates the location of the next provisioned resource in the array of provisioned resources, after the current requested list of provisioned resources.
         public let nextToken: String?
         /// An array of provisioned resources for a service instance.
         public let provisionedResources: [ProvisionedResource]
@@ -2660,7 +2669,7 @@ extension Proton {
     public struct ListServiceInstancesInput: AWSEncodableShape {
         /// The maximum number of service instances to list.
         public let maxResults: Int?
-        /// A token to indicate the location of the next service in the array of service instances, after the list of service instances that was previously requested.
+        /// A token that indicates the location of the next service in the array of service instances, after the list of service instances that was previously requested.
         public let nextToken: String?
         /// The name of the service that the service instance belongs to.
         public let serviceName: String?
@@ -2688,7 +2697,7 @@ extension Proton {
     }
 
     public struct ListServiceInstancesOutput: AWSDecodableShape {
-        /// A token to indicate the location of the next service instance in the array of service instances, after the current requested list of service instances.
+        /// A token that indicates the location of the next service instance in the array of service instances, after the current requested list of service instances.
         public let nextToken: String?
         /// An array of service instances with summaries of detail data.
         public let serviceInstances: [ServiceInstanceSummary]
@@ -2705,7 +2714,7 @@ extension Proton {
     }
 
     public struct ListServicePipelineOutputsInput: AWSEncodableShape {
-        /// A token to indicate the location of the next output in the array of outputs, after the list of outputs that was previously requested.
+        /// A token that indicates the location of the next output in the array of outputs, after the list of outputs that was previously requested.
         public let nextToken: String?
         /// The service name.
         public let serviceName: String
@@ -2730,7 +2739,7 @@ extension Proton {
     }
 
     public struct ListServicePipelineOutputsOutput: AWSDecodableShape {
-        /// A token to indicate the location of the next output in the array of outputs, after the current requested list of outputs.
+        /// A token that indicates the location of the next output in the array of outputs, after the current requested list of outputs.
         public let nextToken: String?
         /// An array of outputs.
         public let outputs: [Output]
@@ -2747,7 +2756,7 @@ extension Proton {
     }
 
     public struct ListServicePipelineProvisionedResourcesInput: AWSEncodableShape {
-        /// A token to indicate the location of the next provisioned resource in the array of provisioned resources, after the list of provisioned resources that was previously requested.
+        /// A token that indicates the location of the next provisioned resource in the array of provisioned resources, after the list of provisioned resources that was previously requested.
         public let nextToken: String?
         /// The service name.
         public let serviceName: String
@@ -2772,7 +2781,7 @@ extension Proton {
     }
 
     public struct ListServicePipelineProvisionedResourcesOutput: AWSDecodableShape {
-        /// A token to indicate the location of the next provisioned resource in the array of provisioned resources, after the current requested list of provisioned resources.
+        /// A token that indicates the location of the next provisioned resource in the array of provisioned resources, after the current requested list of provisioned resources.
         public let nextToken: String?
         /// An array of provisioned resources for a service and pipeline.
         public let provisionedResources: [ProvisionedResource]
@@ -2793,7 +2802,7 @@ extension Proton {
         public let majorVersion: String?
         /// The maximum number of major or minor versions of a service template to list.
         public let maxResults: Int?
-        /// A token to indicate the location of the next major or minor version in the array of major or minor versions of a service template, after the list of major or minor versions that was previously requested.
+        /// A token that indicates the location of the next major or minor version in the array of major or minor versions of a service template, after the list of major or minor versions that was previously requested.
         public let nextToken: String?
         /// The name of the service template.
         public let templateName: String
@@ -2826,7 +2835,7 @@ extension Proton {
     }
 
     public struct ListServiceTemplateVersionsOutput: AWSDecodableShape {
-        /// A token to indicate the location of the next major or minor version in the array of major or minor versions of a service template, after the current requested list of service major or minor versions.
+        /// A token that indicates the location of the next major or minor version in the array of major or minor versions of a service template, after the current requested list of service major or minor versions.
         public let nextToken: String?
         /// An array of major or minor versions of a service template with detail data.
         public let templateVersions: [ServiceTemplateVersionSummary]
@@ -2845,7 +2854,7 @@ extension Proton {
     public struct ListServiceTemplatesInput: AWSEncodableShape {
         /// The maximum number of service templates to list.
         public let maxResults: Int?
-        /// A token to indicate the location of the next service template in the array of service templates, after the list of service templates previously requested.
+        /// A token that indicates the location of the next service template in the array of service templates, after the list of service templates previously requested.
         public let nextToken: String?
 
         public init(maxResults: Int? = nil, nextToken: String? = nil) {
@@ -2866,7 +2875,7 @@ extension Proton {
     }
 
     public struct ListServiceTemplatesOutput: AWSDecodableShape {
-        /// A token to indicate the location of the next service template in the array of service templates, after the current requested list of service templates.
+        /// A token that indicates the location of the next service template in the array of service templates, after the current requested list of service templates.
         public let nextToken: String?
         /// An array of service templates with detail data.
         public let templates: [ServiceTemplateSummary]
@@ -2885,7 +2894,7 @@ extension Proton {
     public struct ListServicesInput: AWSEncodableShape {
         /// The maximum number of services to list.
         public let maxResults: Int?
-        /// A token to indicate the location of the next service in the array of services, after the list of services that was previously requested.
+        /// A token that indicates the location of the next service in the array of services, after the list of services that was previously requested.
         public let nextToken: String?
 
         public init(maxResults: Int? = nil, nextToken: String? = nil) {
@@ -2906,7 +2915,7 @@ extension Proton {
     }
 
     public struct ListServicesOutput: AWSDecodableShape {
-        /// A token to indicate the location of the next service in the array of services, after the current requested list of services.
+        /// A token that indicates the location of the next service in the array of services, after the current requested list of services.
         public let nextToken: String?
         /// An array of services with summaries of detail data.
         public let services: [ServiceSummary]
@@ -2925,7 +2934,7 @@ extension Proton {
     public struct ListTagsForResourceInput: AWSEncodableShape {
         /// The maximum number of tags to list.
         public let maxResults: Int?
-        /// A token to indicate the location of the next resource tag in the array of resource tags, after the list of resource tags that was previously requested.
+        /// A token that indicates the location of the next resource tag in the array of resource tags, after the list of resource tags that was previously requested.
         public let nextToken: String?
         /// The Amazon Resource Name (ARN) of the resource for the listed tags.
         public let resourceArn: String
@@ -2951,9 +2960,9 @@ extension Proton {
     }
 
     public struct ListTagsForResourceOutput: AWSDecodableShape {
-        /// A token to indicate the location of the next resource tag in the array of resource tags, after the current requested list of resource tags.
+        /// A token that indicates the location of the next resource tag in the array of resource tags, after the current requested list of resource tags.
         public let nextToken: String?
-        /// An array of resource tags with detail data.
+        /// A list of resource tags with detail data.
         public let tags: [Tag]
 
         public init(nextToken: String? = nil, tags: [Tag]) {
@@ -3042,7 +3051,7 @@ extension Proton {
         public let identifier: String?
         /// The provisioned resource name.
         public let name: String?
-        /// The resource provisioning engine.  Provisioning by pull request is currently in feature preview and is only usable with Terraform based Proton Templates. To learn more about Amazon Web Services Feature Preview terms, see section 2 on Beta and Previews.
+        /// The resource provisioning engine. At this time, CLOUDFORMATION can be used for Amazon Web Services-managed provisioning, and TERRAFORM can be used for self-managed provisioning. For more information, see Self-managed provisioning in the Proton Administrator Guide.
         public let provisioningEngine: ProvisionedResourceEngine?
 
         public init(identifier: String? = nil, name: String? = nil, provisioningEngine: ProvisionedResourceEngine? = nil) {
@@ -3861,9 +3870,9 @@ extension Proton {
     }
 
     public struct TagResourceInput: AWSEncodableShape {
-        /// The Amazon Resource Name (ARN) of the resource that the resource tag is applied to.
+        /// The Amazon Resource Name (ARN) of the Proton resource to apply customer tags to.
         public let resourceArn: String
-        /// An array of resource tags to apply to a resource.
+        /// A list of customer tags to apply to the Proton resource.
         public let tags: [Tag]
 
         public init(resourceArn: String, tags: [Tag]) {
@@ -3942,9 +3951,9 @@ extension Proton {
     }
 
     public struct UntagResourceInput: AWSEncodableShape {
-        /// The Amazon Resource Name (ARN) of the resource that the tag is to be removed from.
+        /// The Amazon Resource Name (ARN) of the resource to remove customer tags from.
         public let resourceArn: String
-        /// An array of tag keys indicating the resource tags to be removed from the resource.
+        /// A list of customer tag keys that indicate the customer tags to be removed from the resource.
         public let tagKeys: [String]
 
         public init(resourceArn: String, tagKeys: [String]) {
@@ -3974,9 +3983,9 @@ extension Proton {
     }
 
     public struct UpdateAccountSettingsInput: AWSEncodableShape {
-        /// The repository that you provide with pull request provisioning.  Provisioning by pull request is currently in feature preview and is only usable with Terraform based Proton Templates. To learn more about Amazon Web Services Feature Preview terms, see section 2 on Beta and Previews.
+        /// A repository for pipeline provisioning. Specify it if you have environments configured for self-managed provisioning with services that include pipelines.
         public let pipelineProvisioningRepository: RepositoryBranchInput?
-        /// The Amazon Resource Name (ARN) of the Proton pipeline service role.  Provisioning by pull request is currently in feature preview and is only usable with Terraform based Proton Templates. To learn more about Amazon Web Services Feature Preview terms, see section 2 on Beta and Previews.
+        /// The Amazon Resource Name (ARN) of the service role you want to use for provisioning pipelines. Assumed by Proton for Amazon Web Services-managed provisioning, and by customer-owned automation for self-managed provisioning.
         public let pipelineServiceRoleArn: String?
 
         public init(pipelineProvisioningRepository: RepositoryBranchInput? = nil, pipelineServiceRoleArn: String? = nil) {
@@ -3998,7 +4007,7 @@ extension Proton {
     }
 
     public struct UpdateAccountSettingsOutput: AWSDecodableShape {
-        /// The Proton pipeline service role repository detail data that's returned by Proton.
+        /// The Proton pipeline service role and repository data shared across the Amazon Web Services account.
         public let accountSettings: AccountSettings
 
         public init(accountSettings: AccountSettings) {
@@ -4013,7 +4022,7 @@ extension Proton {
     public struct UpdateEnvironmentAccountConnectionInput: AWSEncodableShape {
         /// The ID of the environment account connection to update.
         public let id: String
-        /// The Amazon Resource Name (ARN) of the IAM service role that is associated with the environment account connection to update.
+        /// The Amazon Resource Name (ARN) of the IAM service role that's associated with the environment account connection to update.
         public let roleArn: String
 
         public init(id: String, roleArn: String) {
@@ -4047,7 +4056,7 @@ extension Proton {
     }
 
     public struct UpdateEnvironmentInput: AWSEncodableShape {
-        /// There are four modes for updating an environment as described in the following. The deploymentType field defines the mode.     NONE  In this mode, a deployment doesn't occur. Only the requested metadata parameters are updated.     CURRENT_VERSION  In this mode, the environment is deployed and updated with the new spec that you provide. Only requested parameters are updated. Don’t include minor or major version parameters when you use this deployment-type.     MINOR_VERSION  In this mode, the environment is deployed and updated with the published, recommended (latest) minor version of the current major version in use, by default. You can also specify a different minor version of the current major version in use.     MAJOR_VERSION  In this mode, the environment is deployed and updated with the published, recommended (latest) major and minor version of the current template, by default. You can also specify a different major version that is higher than the major version in use and a minor version (optional).
+        /// There are four modes for updating an environment. The deploymentType field defines the mode.     NONE  In this mode, a deployment doesn't occur. Only the requested metadata parameters are updated.     CURRENT_VERSION  In this mode, the environment is deployed and updated with the new spec that you provide. Only requested parameters are updated. Don’t include major or minor version parameters when you use this deployment-type.     MINOR_VERSION  In this mode, the environment is deployed and updated with the published, recommended (latest) minor version of the current major version in use, by default. You can also specify a different minor version of the current major version in use.     MAJOR_VERSION  In this mode, the environment is deployed and updated with the published, recommended (latest) major and minor version of the current template, by default. You can also specify a different major version that is higher than the major version in use and a minor version (optional).
         public let deploymentType: DeploymentUpdateType
         /// A description of the environment update.
         public let description: String?
@@ -4057,7 +4066,7 @@ extension Proton {
         public let name: String
         /// The Amazon Resource Name (ARN) of the Proton service role that allows Proton to make API calls to other services your behalf.
         public let protonServiceRoleArn: String?
-        /// The repository that you provide with pull request provisioning.  Provisioning by pull request is currently in feature preview and is only usable with Terraform based Proton Templates. To learn more about Amazon Web Services Feature Preview terms, see section 2 on Beta and Previews.
+        /// The infrastructure repository that you use to host your rendered infrastructure templates for self-managed provisioning.
         public let provisioningRepository: RepositoryBranchInput?
         /// The formatted specification that defines the update.
         public let spec: String?
@@ -4256,7 +4265,7 @@ extension Proton {
     }
 
     public struct UpdateServiceInstanceInput: AWSEncodableShape {
-        /// The deployment type. There are four modes for updating a service instance as described in the following. The deploymentType field defines the mode.     NONE  In this mode, a deployment doesn't occur. Only the requested metadata parameters are updated.     CURRENT_VERSION  In this mode, the service instance is deployed and updated with the new spec that you provide. Only requested parameters are updated. Don’t include minor or major version parameters when you use this deployment-type.     MINOR_VERSION  In this mode, the service instance is deployed and updated with the published, recommended (latest) minor version of the current major version in use, by default. You can also specify a different minor version of the current major version in use.     MAJOR_VERSION  In this mode, the service instance is deployed and updated with the published, recommended (latest) major and minor version of the current template, by default. You can also specify a different major version that is higher than the major version in use and a minor version (optional).
+        /// The deployment type. There are four modes for updating a service instance. The deploymentType field defines the mode.     NONE  In this mode, a deployment doesn't occur. Only the requested metadata parameters are updated.     CURRENT_VERSION  In this mode, the service instance is deployed and updated with the new spec that you provide. Only requested parameters are updated. Don’t include major or minor version parameters when you use this deployment-type.     MINOR_VERSION  In this mode, the service instance is deployed and updated with the published, recommended (latest) minor version of the current major version in use, by default. You can also specify a different minor version of the current major version in use.     MAJOR_VERSION  In this mode, the service instance is deployed and updated with the published, recommended (latest) major and minor version of the current template, by default. You can specify a different major version that's higher than the major version in use and a minor version.
         public let deploymentType: DeploymentUpdateType
         /// The name of the service instance to update.
         public let name: String
@@ -4306,7 +4315,7 @@ extension Proton {
     }
 
     public struct UpdateServiceInstanceOutput: AWSDecodableShape {
-        /// The service instance summary data returned by Proton.
+        /// The service instance summary data that's returned by Proton.
         public let serviceInstance: ServiceInstance
 
         public init(serviceInstance: ServiceInstance) {
@@ -4332,7 +4341,7 @@ extension Proton {
     }
 
     public struct UpdateServicePipelineInput: AWSEncodableShape {
-        /// The deployment type. There are four modes for updating a service pipeline as described in the following. The deploymentType field defines the mode.     NONE  In this mode, a deployment doesn't occur. Only the requested metadata parameters are updated.     CURRENT_VERSION  In this mode, the service pipeline is deployed and updated with the new spec that you provide. Only requested parameters are updated. Don’t include minor or major version parameters when you use this deployment-type.     MINOR_VERSION  In this mode, the service pipeline is deployed and updated with the published, recommended (latest) minor version of the current major version in use, by default. You can also specify a different minor version of the current major version in use.     MAJOR_VERSION  In this mode, the service pipeline is deployed and updated with the published, recommended (latest) major and minor version of the current template, by default. You can also specify a different major version that is higher than the major version in use and a minor version (optional).
+        /// The deployment type. There are four modes for updating a service pipeline. The deploymentType field defines the mode.     NONE  In this mode, a deployment doesn't occur. Only the requested metadata parameters are updated.     CURRENT_VERSION  In this mode, the service pipeline is deployed and updated with the new spec that you provide. Only requested parameters are updated. Don’t include major or minor version parameters when you use this deployment-type.     MINOR_VERSION  In this mode, the service pipeline is deployed and updated with the published, recommended (latest) minor version of the current major version in use, by default. You can specify a different minor version of the current major version in use.     MAJOR_VERSION  In this mode, the service pipeline is deployed and updated with the published, recommended (latest) major and minor version of the current template, by default. You can specify a different major version that's higher than the major version in use and a minor version.
         public let deploymentType: DeploymentUpdateType
         /// The name of the service to that the pipeline is associated with.
         public let serviceName: String
@@ -4375,7 +4384,7 @@ extension Proton {
     }
 
     public struct UpdateServicePipelineOutput: AWSDecodableShape {
-        /// The pipeline details returned by Proton.
+        /// The pipeline details that are returned by Proton.
         public let pipeline: ServicePipeline
 
         public init(pipeline: ServicePipeline) {
@@ -4390,7 +4399,7 @@ extension Proton {
     public struct UpdateServiceTemplateInput: AWSEncodableShape {
         /// A description of the service template update.
         public let description: String?
-        /// The name of the service template to update as displayed in the developer interface.
+        /// The name of the service template to update that's displayed in the developer interface.
         public let displayName: String?
         /// The name of the service template to update.
         public let name: String
@@ -4499,7 +4508,7 @@ extension Proton {
     public struct UpdateTemplateSyncConfigInput: AWSEncodableShape {
         /// The repository branch.
         public let branch: String
-        /// The name of the repository, for example myrepos/myrepo.
+        /// The name of the repository (for example, myrepos/myrepo).
         public let repositoryName: String
         /// The repository provider.
         public let repositoryProvider: RepositoryProvider

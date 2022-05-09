@@ -54,7 +54,6 @@ public struct CloudWatchEvents: AWSService {
             serviceProtocol: .json(version: "1.1"),
             apiVersion: "2015-10-07",
             endpoint: endpoint,
-            serviceEndpoints: ["us-gov-east-1": "events.us-gov-east-1.amazonaws.com", "us-gov-west-1": "events.us-gov-west-1.amazonaws.com"],
             errorType: CloudWatchEventsErrorType.self,
             timeout: timeout,
             byteBufferAllocator: byteBufferAllocator,

@@ -332,7 +332,7 @@ extension StorageGateway {
     public struct AssignTapePoolInput: AWSEncodableShape {
         /// Set permissions to bypass governance retention. If the lock type of the archived tape is Governance, the tape's archived age is not older than RetentionLockInDays, and the user does not already have BypassGovernanceRetention, setting this to TRUE enables the user to bypass the retention lock. This parameter is set to true by default for calls from the console. Valid values: TRUE | FALSE
         public let bypassGovernanceRetention: Bool?
-        /// The ID of the pool that you want to add your tape to for archiving. The tape in this pool is archived in the S3 storage class that is associated with the pool. When you use your backup application to eject the tape, the tape is archived directly into the storage class (S3 Glacier or S3 Glacier Deep Archive) that corresponds to the pool. Valid Values: GLACIER | DEEP_ARCHIVE
+        /// The ID of the pool that you want to add your tape to for archiving. The tape in this pool is archived in the S3 storage class that is associated with the pool. When you use your backup application to eject the tape, the tape is archived directly into the storage class (S3 Glacier or S3 Glacier Deep Archive) that corresponds to the pool.
         public let poolId: String
         /// The unique Amazon Resource Name (ARN) of the virtual tape that you want to add to the tape pool.
         public let tapeARN: String
@@ -348,7 +348,7 @@ extension StorageGateway {
             try self.validate(self.poolId, name: "poolId", parent: name, min: 1)
             try self.validate(self.tapeARN, name: "tapeARN", parent: name, max: 500)
             try self.validate(self.tapeARN, name: "tapeARN", parent: name, min: 50)
-            try self.validate(self.tapeARN, name: "tapeARN", parent: name, pattern: "^arn:(aws|aws-cn|aws-us-gov):storagegateway:[a-z\\-0-9]+:[0-9]+:tape\\/[0-9A-Z]{7,16}$")
+            try self.validate(self.tapeARN, name: "tapeARN", parent: name, pattern: "^arn:(aws|aws-cn|aws-us-gov):storagegateway:[a-z\\-0-9]+:[0-9]+:tape\\/[0-9A-Z]{5,16}$")
         }
 
         private enum CodingKeys: String, CodingKey {
@@ -525,7 +525,7 @@ extension StorageGateway {
     public struct AutomaticTapeCreationRule: AWSEncodableShape & AWSDecodableShape {
         /// The minimum number of available virtual tapes that the gateway maintains at all times. If the number of tapes on the gateway goes below this value, the gateway creates as many new tapes as are needed to have MinimumNumTapes on the gateway. For more information about automatic tape creation, see Creating Tapes Automatically.
         public let minimumNumTapes: Int
-        /// The ID of the pool that you want to add your tape to for archiving. The tape in this pool is archived in the Amazon S3 storage class that is associated with the pool. When you use your backup application to eject the tape, the tape is archived directly into the storage class (S3 Glacier or S3 Glacier Deep Archive) that corresponds to the pool. Valid Values: GLACIER | DEEP_ARCHIVE
+        /// The ID of the pool that you want to add your tape to for archiving. The tape in this pool is archived in the Amazon S3 storage class that is associated with the pool. When you use your backup application to eject the tape, the tape is archived directly into the storage class (S3 Glacier or S3 Glacier Deep Archive) that corresponds to the pool.
         public let poolId: String
         /// A prefix that you append to the barcode of the virtual tape that you are creating. This prefix makes the barcode unique.  The prefix must be 1-4 characters in length and must be one of the uppercase letters from A to Z.
         public let tapeBarcodePrefix: String
@@ -654,7 +654,7 @@ extension StorageGateway {
         public let volumeStatus: String?
         /// One of the VolumeType enumeration values that describes the type of the volume.
         public let volumeType: String?
-        /// The size of the data stored on the volume in bytes. This value is calculated based on the number of blocks that are touched, instead of the actual amount of data written. This value can be useful for sequential write patterns but less accurate for random write patterns. VolumeUsedInBytes is different from the compressed size of the volume, which is the value that is used to calculate your bill.  This value is not available for volumes created prior to May 13, 2015, until you store data on the volume.
+        /// The size of the data stored on the volume in bytes. This value is calculated based on the number of blocks that are touched, instead of the actual amount of data written. This value can be useful for sequential write patterns but less accurate for random write patterns. VolumeUsedInBytes is different from the compressed size of the volume, which is the value that is used to calculate your bill.  This value is not available for volumes created prior to May 13, 2015, until you store data on the volume. If you use a delete tool that overwrites the data on your volume with random data, your usage will not be reduced. This is because the random data is not compressible. If you want to reduce the amount of billed storage on your volume, we recommend overwriting your files with zeros to compress the data to a negligible amount of actual storage.
         public let volumeUsedInBytes: Int64?
 
         public init(createdDate: Date? = nil, kMSKey: String? = nil, sourceSnapshotId: String? = nil, targetName: String? = nil, volumeARN: String? = nil, volumeAttachmentStatus: String? = nil, volumeId: String? = nil, volumeiSCSIAttributes: VolumeiSCSIAttributes? = nil, volumeProgress: Double? = nil, volumeSizeInBytes: Int64? = nil, volumeStatus: String? = nil, volumeType: String? = nil, volumeUsedInBytes: Int64? = nil) {
@@ -705,7 +705,7 @@ extension StorageGateway {
             try self.validate(self.gatewayARN, name: "gatewayARN", parent: name, min: 50)
             try self.validate(self.tapeARN, name: "tapeARN", parent: name, max: 500)
             try self.validate(self.tapeARN, name: "tapeARN", parent: name, min: 50)
-            try self.validate(self.tapeARN, name: "tapeARN", parent: name, pattern: "^arn:(aws|aws-cn|aws-us-gov):storagegateway:[a-z\\-0-9]+:[0-9]+:tape\\/[0-9A-Z]{7,16}$")
+            try self.validate(self.tapeARN, name: "tapeARN", parent: name, pattern: "^arn:(aws|aws-cn|aws-us-gov):storagegateway:[a-z\\-0-9]+:[0-9]+:tape\\/[0-9A-Z]{5,16}$")
         }
 
         private enum CodingKeys: String, CodingKey {
@@ -742,7 +742,7 @@ extension StorageGateway {
             try self.validate(self.gatewayARN, name: "gatewayARN", parent: name, min: 50)
             try self.validate(self.tapeARN, name: "tapeARN", parent: name, max: 500)
             try self.validate(self.tapeARN, name: "tapeARN", parent: name, min: 50)
-            try self.validate(self.tapeARN, name: "tapeARN", parent: name, pattern: "^arn:(aws|aws-cn|aws-us-gov):storagegateway:[a-z\\-0-9]+:[0-9]+:tape\\/[0-9A-Z]{7,16}$")
+            try self.validate(self.tapeARN, name: "tapeARN", parent: name, pattern: "^arn:(aws|aws-cn|aws-us-gov):storagegateway:[a-z\\-0-9]+:[0-9]+:tape\\/[0-9A-Z]{5,16}$")
         }
 
         private enum CodingKeys: String, CodingKey {
@@ -885,7 +885,7 @@ extension StorageGateway {
         public let clientList: [String]?
         /// A unique string value that you supply that is used by S3 File Gateway to ensure idempotent file share creation.
         public let clientToken: String
-        /// The default storage class for objects put into an Amazon S3 bucket by the S3 File Gateway. The default value is S3_INTELLIGENT_TIERING. Optional. Valid Values: S3_STANDARD | S3_INTELLIGENT_TIERING | S3_STANDARD_IA | S3_ONEZONE_IA
+        /// The default storage class for objects put into an Amazon S3 bucket by the S3 File Gateway. The default value is S3_STANDARD. Optional. Valid Values: S3_STANDARD | S3_INTELLIGENT_TIERING | S3_STANDARD_IA | S3_ONEZONE_IA
         public let defaultStorageClass: String?
         /// The name of the file share. Optional.   FileShareName must be set if an S3 prefix name is set in LocationARN, or if an access point or access point alias is used.
         public let fileShareName: String?
@@ -1036,7 +1036,7 @@ extension StorageGateway {
         public let caseSensitivity: CaseSensitivity?
         /// A unique string value that you supply that is used by S3 File Gateway to ensure idempotent file share creation.
         public let clientToken: String
-        /// The default storage class for objects put into an Amazon S3 bucket by the S3 File Gateway. The default value is S3_INTELLIGENT_TIERING. Optional. Valid Values: S3_STANDARD | S3_INTELLIGENT_TIERING | S3_STANDARD_IA | S3_ONEZONE_IA
+        /// The default storage class for objects put into an Amazon S3 bucket by the S3 File Gateway. The default value is S3_STANDARD. Optional. Valid Values: S3_STANDARD | S3_INTELLIGENT_TIERING | S3_STANDARD_IA | S3_ONEZONE_IA
         public let defaultStorageClass: String?
         /// The name of the file share. Optional.   FileShareName must be set if an S3 prefix name is set in LocationARN, or if an access point or access point alias is used.
         public let fileShareName: String?
@@ -1439,7 +1439,7 @@ extension StorageGateway {
         public let kMSEncrypted: Bool?
         /// The Amazon Resource Name (ARN) of a symmetric customer master key (CMK) used for Amazon S3 server-side encryption. Storage Gateway does not support asymmetric CMKs. This value can only be set when KMSEncrypted is true. Optional.
         public let kMSKey: String?
-        /// The ID of the pool that you want to add your tape to for archiving. The tape in this pool is archived in the S3 storage class that is associated with the pool. When you use your backup application to eject the tape, the tape is archived directly into the storage class (S3 Glacier or S3 Deep Archive) that corresponds to the pool. Valid Values: GLACIER | DEEP_ARCHIVE
+        /// The ID of the pool that you want to add your tape to for archiving. The tape in this pool is archived in the S3 storage class that is associated with the pool. When you use your backup application to eject the tape, the tape is archived directly into the storage class (S3 Glacier or S3 Deep Archive) that corresponds to the pool.
         public let poolId: String?
         /// A list of up to 50 tags that can be assigned to a virtual tape that has a barcode. Each tag is a key-value pair.  Valid characters for key and value are letters, spaces, and numbers representable in UTF-8 format, and the following special characters: + - = . _ : / @. The maximum length of a tag's key is 128 characters, and the maximum length for a tag's value is 256.
         public let tags: [Tag]?
@@ -1473,7 +1473,7 @@ extension StorageGateway {
                 try $0.validate(name: "\(name).tags[]")
             }
             try self.validate(self.tapeBarcode, name: "tapeBarcode", parent: name, max: 16)
-            try self.validate(self.tapeBarcode, name: "tapeBarcode", parent: name, min: 7)
+            try self.validate(self.tapeBarcode, name: "tapeBarcode", parent: name, min: 5)
             try self.validate(self.tapeBarcode, name: "tapeBarcode", parent: name, pattern: "^[A-Z0-9]*$")
         }
 
@@ -1513,7 +1513,7 @@ extension StorageGateway {
         public let kMSKey: String?
         /// The number of virtual tapes that you want to create.
         public let numTapesToCreate: Int
-        /// The ID of the pool that you want to add your tape to for archiving. The tape in this pool is archived in the S3 storage class that is associated with the pool. When you use your backup application to eject the tape, the tape is archived directly into the storage class (S3 Glacier or S3 Glacier Deep Archive) that corresponds to the pool. Valid Values: GLACIER | DEEP_ARCHIVE
+        /// The ID of the pool that you want to add your tape to for archiving. The tape in this pool is archived in the S3 storage class that is associated with the pool. When you use your backup application to eject the tape, the tape is archived directly into the storage class (S3 Glacier or S3 Glacier Deep Archive) that corresponds to the pool.
         public let poolId: String?
         /// A list of up to 50 tags that can be assigned to a virtual tape. Each tag is a key-value pair.  Valid characters for key and value are letters, spaces, and numbers representable in UTF-8 format, and the following special characters: + - = . _ : / @. The maximum length of a tag's key is 128 characters, and the maximum length for a tag's value is 256.
         public let tags: [Tag]?
@@ -1799,7 +1799,7 @@ extension StorageGateway {
         public func validate(name: String) throws {
             try self.validate(self.tapeARN, name: "tapeARN", parent: name, max: 500)
             try self.validate(self.tapeARN, name: "tapeARN", parent: name, min: 50)
-            try self.validate(self.tapeARN, name: "tapeARN", parent: name, pattern: "^arn:(aws|aws-cn|aws-us-gov):storagegateway:[a-z\\-0-9]+:[0-9]+:tape\\/[0-9A-Z]{7,16}$")
+            try self.validate(self.tapeARN, name: "tapeARN", parent: name, pattern: "^arn:(aws|aws-cn|aws-us-gov):storagegateway:[a-z\\-0-9]+:[0-9]+:tape\\/[0-9A-Z]{5,16}$")
         }
 
         private enum CodingKeys: String, CodingKey {
@@ -1840,7 +1840,7 @@ extension StorageGateway {
             try self.validate(self.gatewayARN, name: "gatewayARN", parent: name, min: 50)
             try self.validate(self.tapeARN, name: "tapeARN", parent: name, max: 500)
             try self.validate(self.tapeARN, name: "tapeARN", parent: name, min: 50)
-            try self.validate(self.tapeARN, name: "tapeARN", parent: name, pattern: "^arn:(aws|aws-cn|aws-us-gov):storagegateway:[a-z\\-0-9]+:[0-9]+:tape\\/[0-9A-Z]{7,16}$")
+            try self.validate(self.tapeARN, name: "tapeARN", parent: name, pattern: "^arn:(aws|aws-cn|aws-us-gov):storagegateway:[a-z\\-0-9]+:[0-9]+:tape\\/[0-9A-Z]{5,16}$")
         }
 
         private enum CodingKeys: String, CodingKey {
@@ -2202,7 +2202,7 @@ extension StorageGateway {
     }
 
     public struct DescribeGatewayInformationOutput: AWSDecodableShape {
-        /// The Amazon Resource Name (ARN) of the Amazon CloudWatch log group that is used to monitor events in the gateway.
+        /// The Amazon Resource Name (ARN) of the Amazon CloudWatch log group that is used to monitor events in the gateway. This field only only exist and returns once it have been chosen and set by the SGW service, based on the OS version of the gateway VM
         public let cloudWatchLogGroupARN: String?
         /// Date after which this gateway will not receive software updates for new features and bug fixes.
         public let deprecationDate: String?
@@ -2231,7 +2231,7 @@ extension StorageGateway {
         public let hostEnvironment: HostEnvironment?
         /// A unique identifier for the specific instance of the host platform running the gateway. This value is only available for certain host environments, and its format depends on the host environment type.
         public let hostEnvironmentId: String?
-        /// The date on which the last software update was applied to the gateway. If the gateway has never been updated, this field does not return a value in the response.
+        /// The date on which the last software update was applied to the gateway. If the gateway has never been updated, this field does not return a value in the response. This only only exist and returns once it have been chosen and set by the SGW service, based on the OS version of the gateway VM
         public let lastSoftwareUpdate: String?
         /// The date on which an update to the gateway is available. This date is in the time zone of the gateway. If the gateway is not available for an update this field is not returned in the response.
         public let nextUpdateAvailabilityDate: String?
@@ -2570,7 +2570,7 @@ extension StorageGateway {
             try self.tapeARNs?.forEach {
                 try validate($0, name: "tapeARNs[]", parent: name, max: 500)
                 try validate($0, name: "tapeARNs[]", parent: name, min: 50)
-                try validate($0, name: "tapeARNs[]", parent: name, pattern: "^arn:(aws|aws-cn|aws-us-gov):storagegateway:[a-z\\-0-9]+:[0-9]+:tape\\/[0-9A-Z]{7,16}$")
+                try validate($0, name: "tapeARNs[]", parent: name, pattern: "^arn:(aws|aws-cn|aws-us-gov):storagegateway:[a-z\\-0-9]+:[0-9]+:tape\\/[0-9A-Z]{5,16}$")
             }
         }
 
@@ -2671,7 +2671,7 @@ extension StorageGateway {
             try self.tapeARNs?.forEach {
                 try validate($0, name: "tapeARNs[]", parent: name, max: 500)
                 try validate($0, name: "tapeARNs[]", parent: name, min: 50)
-                try validate($0, name: "tapeARNs[]", parent: name, pattern: "^arn:(aws|aws-cn|aws-us-gov):storagegateway:[a-z\\-0-9]+:[0-9]+:tape\\/[0-9A-Z]{7,16}$")
+                try validate($0, name: "tapeARNs[]", parent: name, pattern: "^arn:(aws|aws-cn|aws-us-gov):storagegateway:[a-z\\-0-9]+:[0-9]+:tape\\/[0-9A-Z]{5,16}$")
             }
         }
 
@@ -3571,7 +3571,7 @@ extension StorageGateway {
             try self.tapeARNs?.forEach {
                 try validate($0, name: "tapeARNs[]", parent: name, max: 500)
                 try validate($0, name: "tapeARNs[]", parent: name, min: 50)
-                try validate($0, name: "tapeARNs[]", parent: name, pattern: "^arn:(aws|aws-cn|aws-us-gov):storagegateway:[a-z\\-0-9]+:[0-9]+:tape\\/[0-9A-Z]{7,16}$")
+                try validate($0, name: "tapeARNs[]", parent: name, pattern: "^arn:(aws|aws-cn|aws-us-gov):storagegateway:[a-z\\-0-9]+:[0-9]+:tape\\/[0-9A-Z]{5,16}$")
             }
         }
 
@@ -3756,7 +3756,7 @@ extension StorageGateway {
         /// Refresh cache information for the file share.
         public let cacheAttributes: CacheAttributes?
         public let clientList: [String]?
-        /// The default storage class for objects put into an Amazon S3 bucket by the S3 File Gateway. The default value is S3_INTELLIGENT_TIERING. Optional. Valid Values: S3_STANDARD | S3_INTELLIGENT_TIERING | S3_STANDARD_IA | S3_ONEZONE_IA
+        /// The default storage class for objects put into an Amazon S3 bucket by the S3 File Gateway. The default value is S3_STANDARD. Optional. Valid Values: S3_STANDARD | S3_INTELLIGENT_TIERING | S3_STANDARD_IA | S3_ONEZONE_IA
         public let defaultStorageClass: String?
         public let fileShareARN: String?
         public let fileShareId: String?
@@ -4059,7 +4059,7 @@ extension StorageGateway {
             try self.validate(self.gatewayARN, name: "gatewayARN", parent: name, min: 50)
             try self.validate(self.tapeARN, name: "tapeARN", parent: name, max: 500)
             try self.validate(self.tapeARN, name: "tapeARN", parent: name, min: 50)
-            try self.validate(self.tapeARN, name: "tapeARN", parent: name, pattern: "^arn:(aws|aws-cn|aws-us-gov):storagegateway:[a-z\\-0-9]+:[0-9]+:tape\\/[0-9A-Z]{7,16}$")
+            try self.validate(self.tapeARN, name: "tapeARN", parent: name, pattern: "^arn:(aws|aws-cn|aws-us-gov):storagegateway:[a-z\\-0-9]+:[0-9]+:tape\\/[0-9A-Z]{5,16}$")
         }
 
         private enum CodingKeys: String, CodingKey {
@@ -4096,7 +4096,7 @@ extension StorageGateway {
             try self.validate(self.gatewayARN, name: "gatewayARN", parent: name, min: 50)
             try self.validate(self.tapeARN, name: "tapeARN", parent: name, max: 500)
             try self.validate(self.tapeARN, name: "tapeARN", parent: name, min: 50)
-            try self.validate(self.tapeARN, name: "tapeARN", parent: name, pattern: "^arn:(aws|aws-cn|aws-us-gov):storagegateway:[a-z\\-0-9]+:[0-9]+:tape\\/[0-9A-Z]{7,16}$")
+            try self.validate(self.tapeARN, name: "tapeARN", parent: name, pattern: "^arn:(aws|aws-cn|aws-us-gov):storagegateway:[a-z\\-0-9]+:[0-9]+:tape\\/[0-9A-Z]{5,16}$")
         }
 
         private enum CodingKeys: String, CodingKey {
@@ -4132,7 +4132,7 @@ extension StorageGateway {
         public let cacheAttributes: CacheAttributes?
         /// The case of an object name in an Amazon S3 bucket. For ClientSpecified, the client determines the case sensitivity. For CaseSensitive, the gateway determines the case sensitivity. The default value is ClientSpecified.
         public let caseSensitivity: CaseSensitivity?
-        /// The default storage class for objects put into an Amazon S3 bucket by the S3 File Gateway. The default value is S3_INTELLIGENT_TIERING. Optional. Valid Values: S3_STANDARD | S3_INTELLIGENT_TIERING | S3_STANDARD_IA | S3_ONEZONE_IA
+        /// The default storage class for objects put into an Amazon S3 bucket by the S3 File Gateway. The default value is S3_STANDARD. Optional. Valid Values: S3_STANDARD | S3_INTELLIGENT_TIERING | S3_STANDARD_IA | S3_ONEZONE_IA
         public let defaultStorageClass: String?
         public let fileShareARN: String?
         public let fileShareId: String?
@@ -4512,7 +4512,7 @@ extension StorageGateway {
         public let kMSKey: String?
         /// The date that the tape enters a custom tape pool.
         public let poolEntryDate: Date?
-        /// The ID of the pool that contains tapes that will be archived. The tapes in this pool are archived in the S3 storage class that is associated with the pool. When you use your backup application to eject the tape, the tape is archived directly into the storage class (S3 Glacier or S3 Glacier Deep Archive) that corresponds to the pool. Valid Values: GLACIER | DEEP_ARCHIVE
+        /// The ID of the pool that contains tapes that will be archived. The tapes in this pool are archived in the S3 storage class that is associated with the pool. When you use your backup application to eject the tape, the tape is archived directly into the storage class (S3 Glacier or S3 Glacier Deep Archive) that corresponds to the pool.
         public let poolId: String?
         /// For archiving virtual tapes, indicates how much data remains to be uploaded before archiving is complete. Range: 0 (not started) to 100 (complete).
         public let progress: Double?
@@ -4574,7 +4574,7 @@ extension StorageGateway {
         public let kMSKey: String?
         /// The time that the tape entered the custom tape pool. The default timestamp format is in the ISO8601 extended YYYY-MM-DD'T'HH:MM:SS'Z' format.
         public let poolEntryDate: Date?
-        /// The ID of the pool that was used to archive the tape. The tapes in this pool are archived in the S3 storage class that is associated with the pool. Valid Values: GLACIER | DEEP_ARCHIVE
+        /// The ID of the pool that was used to archive the tape. The tapes in this pool are archived in the S3 storage class that is associated with the pool.
         public let poolId: String?
         /// If the archived tape is subject to tape retention lock, the date that the archived tape started being retained.
         public let retentionStartDate: Date?
@@ -4633,7 +4633,7 @@ extension StorageGateway {
         public let gatewayARN: String?
         /// The date that the tape entered the custom tape pool with tape retention lock enabled.
         public let poolEntryDate: Date?
-        /// The ID of the pool that you want to add your tape to for archiving. The tape in this pool is archived in the S3 storage class that is associated with the pool. When you use your backup application to eject the tape, the tape is archived directly into the storage class (S3 Glacier or S3 Glacier Deep Archive) that corresponds to the pool. Valid Values: GLACIER | DEEP_ARCHIVE
+        /// The ID of the pool that you want to add your tape to for archiving. The tape in this pool is archived in the S3 storage class that is associated with the pool. When you use your backup application to eject the tape, the tape is archived directly into the storage class (S3 Glacier or S3 Glacier Deep Archive) that corresponds to the pool.
         public let poolId: String?
         /// The date that the tape became subject to tape retention lock.
         public let retentionStartDate: Date?
@@ -5059,7 +5059,7 @@ extension StorageGateway {
         public let cacheAttributes: CacheAttributes?
         /// The list of clients that are allowed to access the S3 File Gateway. The list must contain either valid IP addresses or valid CIDR blocks.
         public let clientList: [String]?
-        /// The default storage class for objects put into an Amazon S3 bucket by the S3 File Gateway. The default value is S3_INTELLIGENT_TIERING. Optional. Valid Values: S3_STANDARD | S3_INTELLIGENT_TIERING | S3_STANDARD_IA | S3_ONEZONE_IA
+        /// The default storage class for objects put into an Amazon S3 bucket by the S3 File Gateway. The default value is S3_STANDARD. Optional. Valid Values: S3_STANDARD | S3_INTELLIGENT_TIERING | S3_STANDARD_IA | S3_ONEZONE_IA
         public let defaultStorageClass: String?
         /// The Amazon Resource Name (ARN) of the file share to be updated.
         public let fileShareARN: String
@@ -5169,7 +5169,7 @@ extension StorageGateway {
         public let cacheAttributes: CacheAttributes?
         /// The case of an object name in an Amazon S3 bucket. For ClientSpecified, the client determines the case sensitivity. For CaseSensitive, the gateway determines the case sensitivity. The default value is ClientSpecified.
         public let caseSensitivity: CaseSensitivity?
-        /// The default storage class for objects put into an Amazon S3 bucket by the S3 File Gateway. The default value is S3_INTELLIGENT_TIERING. Optional. Valid Values: S3_STANDARD | S3_INTELLIGENT_TIERING | S3_STANDARD_IA | S3_ONEZONE_IA
+        /// The default storage class for objects put into an Amazon S3 bucket by the S3 File Gateway. The default value is S3_STANDARD. Optional. Valid Values: S3_STANDARD | S3_INTELLIGENT_TIERING | S3_STANDARD_IA | S3_ONEZONE_IA
         public let defaultStorageClass: String?
         /// The Amazon Resource Name (ARN) of the SMB file share that you want to update.
         public let fileShareARN: String

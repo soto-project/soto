@@ -1173,7 +1173,7 @@ extension IoTEventsData {
     public struct Timer: AWSDecodableShape {
         /// The name of the timer.
         public let name: String
-        /// The number of seconds which have elapsed on the timer.
+        /// The expiration time for the timer.
         public let timestamp: Date
 
         public init(name: String, timestamp: Date) {

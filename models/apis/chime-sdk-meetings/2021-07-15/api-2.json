@@ -21,11 +21,14 @@
       "output":{"shape":"BatchCreateAttendeeResponse"},
       "errors":[
         {"shape":"BadRequestException"},
-        {"shape":"UnauthorizedException"},
-        {"shape":"ServiceUnavailableException"},
-        {"shape":"NotFoundException"},
         {"shape":"ForbiddenException"},
-        {"shape":"LimitExceededException"}
+        {"shape":"NotFoundException"},
+        {"shape":"UnauthorizedException"},
+        {"shape":"UnprocessableEntityException"},
+        {"shape":"LimitExceededException"},
+        {"shape":"ServiceUnavailableException"},
+        {"shape":"ServiceFailureException"},
+        {"shape":"ThrottlingException"}
       ]
     },
     "CreateAttendee":{
@@ -39,11 +42,13 @@
       "errors":[
         {"shape":"BadRequestException"},
         {"shape":"ForbiddenException"},
+        {"shape":"NotFoundException"},
         {"shape":"UnauthorizedException"},
         {"shape":"UnprocessableEntityException"},
+        {"shape":"LimitExceededException"},
         {"shape":"ServiceUnavailableException"},
-        {"shape":"NotFoundException"},
-        {"shape":"LimitExceededException"}
+        {"shape":"ServiceFailureException"},
+        {"shape":"ThrottlingException"}
       ]
     },
     "CreateMeeting":{
@@ -56,8 +61,11 @@
       "output":{"shape":"CreateMeetingResponse"},
       "errors":[
         {"shape":"BadRequestException"},
-        {"shape":"ServiceUnavailableException"},
+        {"shape":"ForbiddenException"},
         {"shape":"UnauthorizedException"},
+        {"shape":"ThrottlingException"},
+        {"shape":"ServiceFailureException"},
+        {"shape":"ServiceUnavailableException"},
         {"shape":"LimitExceededException"}
       ]
     },
@@ -71,8 +79,11 @@
       "output":{"shape":"CreateMeetingWithAttendeesResponse"},
       "errors":[
         {"shape":"BadRequestException"},
-        {"shape":"ServiceUnavailableException"},
+        {"shape":"ForbiddenException"},
         {"shape":"UnauthorizedException"},
+        {"shape":"ThrottlingException"},
+        {"shape":"ServiceFailureException"},
+        {"shape":"ServiceUnavailableException"},
         {"shape":"LimitExceededException"}
       ]
     },
@@ -85,8 +96,13 @@
       },
       "input":{"shape":"DeleteAttendeeRequest"},
       "errors":[
+        {"shape":"BadRequestException"},
         {"shape":"ForbiddenException"},
-        {"shape":"NotFoundException"}
+        {"shape":"NotFoundException"},
+        {"shape":"UnauthorizedException"},
+        {"shape":"ServiceUnavailableException"},
+        {"shape":"ServiceFailureException"},
+        {"shape":"ThrottlingException"}
       ]
     },
     "DeleteMeeting":{
@@ -99,7 +115,12 @@
       "input":{"shape":"DeleteMeetingRequest"},
       "errors":[
         {"shape":"BadRequestException"},
-        {"shape":"ForbiddenException"}
+        {"shape":"ForbiddenException"},
+        {"shape":"UnauthorizedException"},
+        {"shape":"NotFoundException"},
+        {"shape":"ServiceUnavailableException"},
+        {"shape":"ServiceFailureException"},
+        {"shape":"ThrottlingException"}
       ]
     },
     "GetAttendee":{
@@ -112,8 +133,12 @@
       "output":{"shape":"GetAttendeeResponse"},
       "errors":[
         {"shape":"BadRequestException"},
+        {"shape":"ForbiddenException"},
         {"shape":"NotFoundException"},
-        {"shape":"ForbiddenException"}
+        {"shape":"UnauthorizedException"},
+        {"shape":"ServiceUnavailableException"},
+        {"shape":"ServiceFailureException"},
+        {"shape":"ThrottlingException"}
       ]
     },
     "GetMeeting":{
@@ -127,7 +152,11 @@
       "errors":[
         {"shape":"NotFoundException"},
         {"shape":"BadRequestException"},
-        {"shape":"ForbiddenException"}
+        {"shape":"ForbiddenException"},
+        {"shape":"UnauthorizedException"},
+        {"shape":"ServiceUnavailableException"},
+        {"shape":"ServiceFailureException"},
+        {"shape":"ThrottlingException"}
       ]
     },
     "ListAttendees":{
@@ -141,8 +170,12 @@
       "output":{"shape":"ListAttendeesResponse"},
       "errors":[
         {"shape":"BadRequestException"},
+        {"shape":"ForbiddenException"},
         {"shape":"NotFoundException"},
-        {"shape":"ForbiddenException"}
+        {"shape":"UnauthorizedException"},
+        {"shape":"ServiceUnavailableException"},
+        {"shape":"ServiceFailureException"},
+        {"shape":"ThrottlingException"}
       ]
     },
     "StartMeetingTranscription":{
@@ -160,7 +193,9 @@
         {"shape":"UnauthorizedException"},
         {"shape":"LimitExceededException"},
         {"shape":"UnprocessableEntityException"},
-        {"shape":"ServiceUnavailableException"}
+        {"shape":"ThrottlingException"},
+        {"shape":"ServiceUnavailableException"},
+        {"shape":"ServiceFailureException"}
       ]
     },
     "StopMeetingTranscription":{
@@ -177,7 +212,9 @@
         {"shape":"BadRequestException"},
         {"shape":"UnauthorizedException"},
         {"shape":"UnprocessableEntityException"},
-        {"shape":"ServiceUnavailableException"}
+        {"shape":"ThrottlingException"},
+        {"shape":"ServiceUnavailableException"},
+        {"shape":"ServiceFailureException"}
       ]
     }
   },
@@ -309,7 +346,8 @@
         "MeetingHostId":{"shape":"ExternalUserId"},
         "ExternalMeetingId":{"shape":"ExternalMeetingId"},
         "NotificationsConfiguration":{"shape":"NotificationsConfiguration"},
-        "MeetingFeatures":{"shape":"MeetingFeaturesConfiguration"}
+        "MeetingFeatures":{"shape":"MeetingFeaturesConfiguration"},
+        "PrimaryMeetingId":{"shape":"PrimaryMeetingId"}
       }
     },
     "CreateMeetingResponse":{
@@ -336,7 +374,8 @@
         "ExternalMeetingId":{"shape":"ExternalMeetingId"},
         "MeetingFeatures":{"shape":"MeetingFeaturesConfiguration"},
         "NotificationsConfiguration":{"shape":"NotificationsConfiguration"},
-        "Attendees":{"shape":"CreateMeetingWithAttendeesRequestItemList"}
+        "Attendees":{"shape":"CreateMeetingWithAttendeesRequestItemList"},
+        "PrimaryMeetingId":{"shape":"PrimaryMeetingId"}
       }
     },
     "CreateMeetingWithAttendeesRequestItemList":{
@@ -401,7 +440,6 @@
     },
     "EngineTranscribeSettings":{
       "type":"structure",
-      "required":["LanguageCode"],
       "members":{
         "LanguageCode":{"shape":"TranscribeLanguageCode"},
         "VocabularyFilterMethod":{"shape":"TranscribeVocabularyFilterMethod"},
@@ -413,7 +451,10 @@
         "ContentIdentificationType":{"shape":"TranscribeContentIdentificationType"},
         "ContentRedactionType":{"shape":"TranscribeContentRedactionType"},
         "PiiEntityTypes":{"shape":"TranscribePiiEntityTypes"},
-        "LanguageModelName":{"shape":"TranscribeLanguageModelName"}
+        "LanguageModelName":{"shape":"TranscribeLanguageModelName"},
+        "IdentifyLanguage":{"shape":"Boolean"},
+        "LanguageOptions":{"shape":"TranscribeLanguageOptions"},
+        "PreferredLanguage":{"shape":"TranscribeLanguageCode"}
       }
     },
     "ExternalMeetingId":{
@@ -554,7 +595,8 @@
         "ExternalMeetingId":{"shape":"ExternalMeetingId"},
         "MediaRegion":{"shape":"MediaRegion"},
         "MediaPlacement":{"shape":"MediaPlacement"},
-        "MeetingFeatures":{"shape":"MeetingFeaturesConfiguration"}
+        "MeetingFeatures":{"shape":"MeetingFeaturesConfiguration"},
+        "PrimaryMeetingId":{"shape":"PrimaryMeetingId"}
       }
     },
     "MeetingFeatureStatus":{
@@ -588,12 +630,28 @@
         "SqsQueueArn":{"shape":"Arn"}
       }
     },
+    "PrimaryMeetingId":{
+      "type":"string",
+      "max":64,
+      "min":2
+    },
     "ResultMax":{
       "type":"integer",
       "max":100,
       "min":1
     },
     "RetryAfterSeconds":{"type":"string"},
+    "ServiceFailureException":{
+      "type":"structure",
+      "members":{
+        "Code":{"shape":"String"},
+        "Message":{"shape":"String"},
+        "RequestId":{"shape":"String"}
+      },
+      "error":{"httpStatusCode":500},
+      "exception":true,
+      "fault":true
+    },
     "ServiceUnavailableException":{
       "type":"structure",
       "members":{
@@ -640,6 +698,16 @@
       "type":"string",
       "max":4096
     },
+    "ThrottlingException":{
+      "type":"structure",
+      "members":{
+        "Code":{"shape":"String"},
+        "Message":{"shape":"String"},
+        "RequestId":{"shape":"String"}
+      },
+      "error":{"httpStatusCode":429},
+      "exception":true
+    },
     "TranscribeContentIdentificationType":{
       "type":"string",
       "enum":["PII"]
@@ -670,6 +738,12 @@
       "max":200,
       "min":1,
       "pattern":"^[0-9a-zA-Z._-]+"
+    },
+    "TranscribeLanguageOptions":{
+      "type":"string",
+      "max":200,
+      "min":1,
+      "pattern":"^[a-zA-Z-,]+"
     },
     "TranscribeMedicalContentIdentificationType":{
       "type":"string",

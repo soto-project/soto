@@ -2151,7 +2151,8 @@
       "members":{
         "DataShareArn":{"shape":"String"},
         "AssociateEntireAccount":{"shape":"BooleanOptional"},
-        "ConsumerArn":{"shape":"String"}
+        "ConsumerArn":{"shape":"String"},
+        "ConsumerRegion":{"shape":"String"}
       }
     },
     "AssociatedClusterList":{
@@ -3005,7 +3006,8 @@
         "SnapshotScheduleIdentifier":{"shape":"String"},
         "AvailabilityZoneRelocation":{"shape":"BooleanOptional"},
         "AquaConfigurationStatus":{"shape":"AquaConfigurationStatus"},
-        "DefaultIamRoleArn":{"shape":"String"}
+        "DefaultIamRoleArn":{"shape":"String"},
+        "LoadSampleData":{"shape":"String"}
       }
     },
     "CreateClusterParameterGroupMessage":{
@@ -3264,6 +3266,7 @@
       "members":{
         "ConsumerIdentifier":{"shape":"String"},
         "Status":{"shape":"DataShareStatus"},
+        "ConsumerRegion":{"shape":"String"},
         "CreatedDate":{"shape":"TStamp"},
         "StatusChangeDate":{"shape":"TStamp"}
       }
@@ -3947,7 +3950,8 @@
       "members":{
         "DataShareArn":{"shape":"String"},
         "DisassociateEntireAccount":{"shape":"BooleanOptional"},
-        "ConsumerArn":{"shape":"String"}
+        "ConsumerArn":{"shape":"String"},
+        "ConsumerRegion":{"shape":"String"}
       }
     },
     "Double":{"type":"double"},
@@ -3984,14 +3988,13 @@
     },
     "EnableLoggingMessage":{
       "type":"structure",
-      "required":[
-        "ClusterIdentifier",
-        "BucketName"
-      ],
+      "required":["ClusterIdentifier"],
       "members":{
         "ClusterIdentifier":{"shape":"String"},
         "BucketName":{"shape":"String"},
-        "S3KeyPrefix":{"shape":"String"}
+        "S3KeyPrefix":{"shape":"String"},
+        "LogDestinationType":{"shape":"LogDestinationType"},
+        "LogExports":{"shape":"LogTypeList"}
       }
     },
     "EnableSnapshotCopyMessage":{
@@ -4855,6 +4858,17 @@
       },
       "exception":true
     },
+    "LogDestinationType":{
+      "type":"string",
+      "enum":[
+        "s3",
+        "cloudwatch"
+      ]
+    },
+    "LogTypeList":{
+      "type":"list",
+      "member":{"shape":"String"}
+    },
     "LoggingStatus":{
       "type":"structure",
       "members":{
@@ -4863,7 +4877,9 @@
         "S3KeyPrefix":{"shape":"String"},
         "LastSuccessfulDeliveryTime":{"shape":"TStamp"},
         "LastFailureTime":{"shape":"TStamp"},
-        "LastFailureMessage":{"shape":"String"}
+        "LastFailureMessage":{"shape":"String"},
+        "LogDestinationType":{"shape":"LogDestinationType"},
+        "LogExports":{"shape":"LogTypeList"}
       }
     },
     "Long":{"type":"long"},
@@ -5775,7 +5791,8 @@
         "AquaConfigurationStatus":{"shape":"AquaConfigurationStatus"},
         "DefaultIamRoleArn":{"shape":"String"},
         "ReservedNodeId":{"shape":"String"},
-        "TargetReservedNodeOfferingId":{"shape":"String"}
+        "TargetReservedNodeOfferingId":{"shape":"String"},
+        "Encrypted":{"shape":"BooleanOptional"}
       }
     },
     "RestoreFromClusterSnapshotResult":{
@@ -6761,7 +6778,8 @@
       "type":"string",
       "enum":[
         "spectrum",
-        "concurrency-scaling"
+        "concurrency-scaling",
+        "cross-region-datasharing"
       ]
     },
     "UsageLimitLimitType":{

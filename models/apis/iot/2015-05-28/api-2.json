@@ -217,7 +217,8 @@
         {"shape":"InvalidRequestException"},
         {"shape":"ResourceNotFoundException"},
         {"shape":"ThrottlingException"},
-        {"shape":"ServiceUnavailableException"}
+        {"shape":"ServiceUnavailableException"},
+        {"shape":"LimitExceededException"}
       ]
     },
     "CancelJobExecution":{
@@ -2503,6 +2504,21 @@
         {"shape":"InternalServerException"}
       ]
     },
+    "ListMetricValues":{
+      "name":"ListMetricValues",
+      "http":{
+        "method":"GET",
+        "requestUri":"/metric-values"
+      },
+      "input":{"shape":"ListMetricValuesRequest"},
+      "output":{"shape":"ListMetricValuesResponse"},
+      "errors":[
+        {"shape":"InvalidRequestException"},
+        {"shape":"ThrottlingException"},
+        {"shape":"InternalFailureException"},
+        {"shape":"ResourceNotFoundException"}
+      ]
+    },
     "ListMitigationActions":{
       "name":"ListMitigationActions",
       "http":{
@@ -3953,7 +3969,7 @@
       "required":["thingGroupNames"],
       "members":{
         "thingGroupNames":{"shape":"ThingGroupNames"},
-        "overrideDynamicGroups":{"shape":"OverrideDynamicGroups"}
+        "overrideDynamicGroups":{"shape":"NullableBoolean"}
       }
     },
     "AdditionalMetricsToRetainList":{
@@ -4752,6 +4768,7 @@
     },
     "Boolean":{"type":"boolean"},
     "BooleanKey":{"type":"boolean"},
+    "BooleanWrapperObject":{"type":"boolean"},
     "Bucket":{
       "type":"structure",
       "members":{
@@ -5489,6 +5506,7 @@
         "tags":{"shape":"TagList"},
         "namespaceId":{"shape":"NamespaceId"},
         "jobTemplateArn":{"shape":"JobTemplateArn"},
+        "jobExecutionsRetryConfig":{"shape":"JobExecutionsRetryConfig"},
         "documentParameters":{"shape":"ParameterMap"}
       }
     },
@@ -5520,7 +5538,8 @@
         "jobExecutionsRolloutConfig":{"shape":"JobExecutionsRolloutConfig"},
         "abortConfig":{"shape":"AbortConfig"},
         "timeoutConfig":{"shape":"TimeoutConfig"},
-        "tags":{"shape":"TagList"}
+        "tags":{"shape":"TagList"},
+        "jobExecutionsRetryConfig":{"shape":"JobExecutionsRetryConfig"}
       }
     },
     "CreateJobTemplateResponse":{
@@ -7003,7 +7022,8 @@
         "presignedUrlConfig":{"shape":"PresignedUrlConfig"},
         "jobExecutionsRolloutConfig":{"shape":"JobExecutionsRolloutConfig"},
         "abortConfig":{"shape":"AbortConfig"},
-        "timeoutConfig":{"shape":"TimeoutConfig"}
+        "timeoutConfig":{"shape":"TimeoutConfig"},
+        "jobExecutionsRetryConfig":{"shape":"JobExecutionsRetryConfig"}
       }
     },
     "DescribeManagedJobTemplateRequest":{
@@ -8485,7 +8505,9 @@
         "timeoutConfig":{"shape":"TimeoutConfig"},
         "namespaceId":{"shape":"NamespaceId"},
         "jobTemplateArn":{"shape":"JobTemplateArn"},
-        "documentParameters":{"shape":"ParameterMap"}
+        "jobExecutionsRetryConfig":{"shape":"JobExecutionsRetryConfig"},
+        "documentParameters":{"shape":"ParameterMap"},
+        "isConcurrent":{"shape":"BooleanWrapperObject"}
       }
     },
     "JobArn":{"type":"string"},
@@ -8554,7 +8576,8 @@
         "queuedAt":{"shape":"DateType"},
         "startedAt":{"shape":"DateType"},
         "lastUpdatedAt":{"shape":"DateType"},
-        "executionNumber":{"shape":"ExecutionNumber"}
+        "executionNumber":{"shape":"ExecutionNumber"},
+        "retryAttempt":{"shape":"RetryAttempt"}
       }
     },
     "JobExecutionSummaryForJob":{
@@ -8578,6 +8601,13 @@
     "JobExecutionSummaryForThingList":{
       "type":"list",
       "member":{"shape":"JobExecutionSummaryForThing"}
+    },
+    "JobExecutionsRetryConfig":{
+      "type":"structure",
+      "required":["criteriaList"],
+      "members":{
+        "criteriaList":{"shape":"RetryCriteriaList"}
+      }
     },
     "JobExecutionsRolloutConfig":{
       "type":"structure",
@@ -8625,7 +8655,8 @@
         "status":{"shape":"JobStatus"},
         "createdAt":{"shape":"DateType"},
         "lastUpdatedAt":{"shape":"DateType"},
-        "completedAt":{"shape":"DateType"}
+        "completedAt":{"shape":"DateType"},
+        "isConcurrent":{"shape":"BooleanWrapperObject"}
       }
     },
     "JobSummaryList":{
@@ -9391,6 +9422,11 @@
           "shape":"NextToken",
           "location":"querystring",
           "locationName":"nextToken"
+        },
+        "jobId":{
+          "shape":"JobId",
+          "location":"querystring",
+          "locationName":"jobId"
         }
       }
     },
@@ -9494,6 +9530,64 @@
       "type":"structure",
       "members":{
         "managedJobTemplates":{"shape":"ManagedJobTemplatesSummaryList"},
+        "nextToken":{"shape":"NextToken"}
+      }
+    },
+    "ListMetricValuesRequest":{
+      "type":"structure",
+      "required":[
+        "thingName",
+        "metricName",
+        "startTime",
+        "endTime"
+      ],
+      "members":{
+        "thingName":{
+          "shape":"DeviceDefenderThingName",
+          "location":"querystring",
+          "locationName":"thingName"
+        },
+        "metricName":{
+          "shape":"BehaviorMetric",
+          "location":"querystring",
+          "locationName":"metricName"
+        },
+        "dimensionName":{
+          "shape":"DimensionName",
+          "location":"querystring",
+          "locationName":"dimensionName"
+        },
+        "dimensionValueOperator":{
+          "shape":"DimensionValueOperator",
+          "location":"querystring",
+          "locationName":"dimensionValueOperator"
+        },
+        "startTime":{
+          "shape":"Timestamp",
+          "location":"querystring",
+          "locationName":"startTime"
+        },
+        "endTime":{
+          "shape":"Timestamp",
+          "location":"querystring",
+          "locationName":"endTime"
+        },
+        "maxResults":{
+          "shape":"MaxResults",
+          "location":"querystring",
+          "locationName":"maxResults"
+        },
+        "nextToken":{
+          "shape":"NextToken",
+          "location":"querystring",
+          "locationName":"nextToken"
+        }
+      }
+    },
+    "ListMetricValuesResponse":{
+      "type":"structure",
+      "members":{
+        "metricDatumList":{"shape":"MetricDatumList"},
         "nextToken":{"shape":"NextToken"}
       }
     },
@@ -10452,7 +10546,10 @@
       "type":"string",
       "enum":[
         "DEFAULT",
-        "THING_GROUP"
+        "THING_GROUP",
+        "CLIENT_ID",
+        "SOURCE_IP",
+        "PRINCIPAL_ID"
       ]
     },
     "LoggingOptionsPayload":{
@@ -10541,6 +10638,17 @@
     "MessageId":{
       "type":"string",
       "max":128
+    },
+    "MetricDatum":{
+      "type":"structure",
+      "members":{
+        "timestamp":{"shape":"Timestamp"},
+        "value":{"shape":"MetricValue"}
+      }
+    },
+    "MetricDatumList":{
+      "type":"list",
+      "member":{"shape":"MetricDatum"}
     },
     "MetricDimension":{
       "type":"structure",
@@ -10725,6 +10833,11 @@
     "NumberList":{
       "type":"list",
       "member":{"shape":"Number"}
+    },
+    "NumberOfRetries":{
+      "type":"integer",
+      "max":10,
+      "min":0
     },
     "NumberOfThings":{
       "type":"integer",
@@ -11453,6 +11566,32 @@
     "Resources":{
       "type":"list",
       "member":{"shape":"Resource"}
+    },
+    "RetryAttempt":{"type":"integer"},
+    "RetryCriteria":{
+      "type":"structure",
+      "required":[
+        "failureType",
+        "numberOfRetries"
+      ],
+      "members":{
+        "failureType":{"shape":"RetryableFailureType"},
+        "numberOfRetries":{"shape":"NumberOfRetries"}
+      }
+    },
+    "RetryCriteriaList":{
+      "type":"list",
+      "member":{"shape":"RetryCriteria"},
+      "max":2,
+      "min":1
+    },
+    "RetryableFailureType":{
+      "type":"string",
+      "enum":[
+        "FAILED",
+        "TIMED_OUT",
+        "ALL"
+      ]
     },
     "RoleAlias":{
       "type":"string",
@@ -13071,7 +13210,8 @@
           "shape":"NamespaceId",
           "location":"querystring",
           "locationName":"namespaceId"
-        }
+        },
+        "jobExecutionsRetryConfig":{"shape":"JobExecutionsRetryConfig"}
       }
     },
     "UpdateMitigationActionRequest":{
@@ -13348,7 +13488,7 @@
     "VerificationStateDescription":{
       "type":"string",
       "max":1000,
-      "pattern":"[\\p{Graph}\\x20]*"
+      "pattern":"[^\\p{Cntrl}]*"
     },
     "Version":{"type":"long"},
     "VersionConflictException":{

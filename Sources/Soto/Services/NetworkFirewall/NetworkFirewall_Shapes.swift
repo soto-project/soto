@@ -34,6 +34,12 @@ extension NetworkFirewall {
         public var description: String { return self.rawValue }
     }
 
+    public enum EncryptionType: String, CustomStringConvertible, Codable {
+        case awsOwnedKmsKey = "AWS_OWNED_KMS_KEY"
+        case customerKms = "CUSTOMER_KMS"
+        public var description: String { return self.rawValue }
+    }
+
     public enum FirewallStatusValue: String, CustomStringConvertible, Codable {
         case deleting = "DELETING"
         case provisioning = "PROVISIONING"
@@ -74,6 +80,12 @@ extension NetworkFirewall {
     public enum ResourceManagedStatus: String, CustomStringConvertible, Codable {
         case account = "ACCOUNT"
         case managed = "MANAGED"
+        public var description: String { return self.rawValue }
+    }
+
+    public enum ResourceManagedType: String, CustomStringConvertible, Codable {
+        case awsManagedDomainLists = "AWS_MANAGED_DOMAIN_LISTS"
+        case awsManagedThreatSignatures = "AWS_MANAGED_THREAT_SIGNATURES"
         public var description: String { return self.rawValue }
     }
 
@@ -340,6 +352,8 @@ extension NetworkFirewall {
         public let description: String?
         /// Indicates whether you want Network Firewall to just check the validity of the request, rather than run the request.  If set to TRUE, Network Firewall checks whether the request can run successfully, but doesn't actually make the requested changes. The call returns the value that the request would return if you ran it with dry run set to FALSE, but doesn't make additions or changes to your resources. This option allows you to make sure that you have the required permissions to run the request and that your request parameters are valid.  If set to FALSE, Network Firewall makes the requested changes to your resources.
         public let dryRun: Bool?
+        /// A complex type that contains settings for encryption of your firewall policy resources.
+        public let encryptionConfiguration: EncryptionConfiguration?
         /// The rule groups and policy actions to use in the firewall policy.
         public let firewallPolicy: FirewallPolicy
         /// The descriptive name of the firewall policy. You can't change the name of a firewall policy after you create it.
@@ -347,9 +361,10 @@ extension NetworkFirewall {
         /// The key:value pairs to associate with the resource.
         public let tags: [Tag]?
 
-        public init(description: String? = nil, dryRun: Bool? = nil, firewallPolicy: FirewallPolicy, firewallPolicyName: String, tags: [Tag]? = nil) {
+        public init(description: String? = nil, dryRun: Bool? = nil, encryptionConfiguration: EncryptionConfiguration? = nil, firewallPolicy: FirewallPolicy, firewallPolicyName: String, tags: [Tag]? = nil) {
             self.description = description
             self.dryRun = dryRun
+            self.encryptionConfiguration = encryptionConfiguration
             self.firewallPolicy = firewallPolicy
             self.firewallPolicyName = firewallPolicyName
             self.tags = tags
@@ -358,6 +373,7 @@ extension NetworkFirewall {
         public func validate(name: String) throws {
             try self.validate(self.description, name: "description", parent: name, max: 512)
             try self.validate(self.description, name: "description", parent: name, pattern: "^.*$")
+            try self.encryptionConfiguration?.validate(name: "\(name).encryptionConfiguration")
             try self.firewallPolicy.validate(name: "\(name).firewallPolicy")
             try self.validate(self.firewallPolicyName, name: "firewallPolicyName", parent: name, max: 128)
             try self.validate(self.firewallPolicyName, name: "firewallPolicyName", parent: name, min: 1)
@@ -372,6 +388,7 @@ extension NetworkFirewall {
         private enum CodingKeys: String, CodingKey {
             case description = "Description"
             case dryRun = "DryRun"
+            case encryptionConfiguration = "EncryptionConfiguration"
             case firewallPolicy = "FirewallPolicy"
             case firewallPolicyName = "FirewallPolicyName"
             case tags = "Tags"
@@ -400,6 +417,8 @@ extension NetworkFirewall {
         public let deleteProtection: Bool?
         /// A description of the firewall.
         public let description: String?
+        /// A complex type that contains settings for encryption of your firewall resources.
+        public let encryptionConfiguration: EncryptionConfiguration?
         /// The descriptive name of the firewall. You can't change the name of a firewall after you create it.
         public let firewallName: String
         /// The Amazon Resource Name (ARN) of the FirewallPolicy that you want to use for the firewall.
@@ -415,9 +434,10 @@ extension NetworkFirewall {
         /// The unique identifier of the VPC where Network Firewall should create the firewall.  You can't change this setting after you create the firewall.
         public let vpcId: String
 
-        public init(deleteProtection: Bool? = nil, description: String? = nil, firewallName: String, firewallPolicyArn: String, firewallPolicyChangeProtection: Bool? = nil, subnetChangeProtection: Bool? = nil, subnetMappings: [SubnetMapping], tags: [Tag]? = nil, vpcId: String) {
+        public init(deleteProtection: Bool? = nil, description: String? = nil, encryptionConfiguration: EncryptionConfiguration? = nil, firewallName: String, firewallPolicyArn: String, firewallPolicyChangeProtection: Bool? = nil, subnetChangeProtection: Bool? = nil, subnetMappings: [SubnetMapping], tags: [Tag]? = nil, vpcId: String) {
             self.deleteProtection = deleteProtection
             self.description = description
+            self.encryptionConfiguration = encryptionConfiguration
             self.firewallName = firewallName
             self.firewallPolicyArn = firewallPolicyArn
             self.firewallPolicyChangeProtection = firewallPolicyChangeProtection
@@ -430,6 +450,7 @@ extension NetworkFirewall {
         public func validate(name: String) throws {
             try self.validate(self.description, name: "description", parent: name, max: 512)
             try self.validate(self.description, name: "description", parent: name, pattern: "^.*$")
+            try self.encryptionConfiguration?.validate(name: "\(name).encryptionConfiguration")
             try self.validate(self.firewallName, name: "firewallName", parent: name, max: 128)
             try self.validate(self.firewallName, name: "firewallName", parent: name, min: 1)
             try self.validate(self.firewallName, name: "firewallName", parent: name, pattern: "^[a-zA-Z0-9-]+$")
@@ -449,6 +470,7 @@ extension NetworkFirewall {
         private enum CodingKeys: String, CodingKey {
             case deleteProtection = "DeleteProtection"
             case description = "Description"
+            case encryptionConfiguration = "EncryptionConfiguration"
             case firewallName = "FirewallName"
             case firewallPolicyArn = "FirewallPolicyArn"
             case firewallPolicyChangeProtection = "FirewallPolicyChangeProtection"
@@ -483,24 +505,30 @@ extension NetworkFirewall {
         public let description: String?
         /// Indicates whether you want Network Firewall to just check the validity of the request, rather than run the request.  If set to TRUE, Network Firewall checks whether the request can run successfully, but doesn't actually make the requested changes. The call returns the value that the request would return if you ran it with dry run set to FALSE, but doesn't make additions or changes to your resources. This option allows you to make sure that you have the required permissions to run the request and that your request parameters are valid.  If set to FALSE, Network Firewall makes the requested changes to your resources.
         public let dryRun: Bool?
+        /// A complex type that contains settings for encryption of your rule group resources.
+        public let encryptionConfiguration: EncryptionConfiguration?
         /// An object that defines the rule group rules.   You must provide either this rule group setting or a Rules setting, but not both.
         public let ruleGroup: RuleGroup?
         /// The descriptive name of the rule group. You can't change the name of a rule group after you create it.
         public let ruleGroupName: String
         /// A string containing stateful rule group rules specifications in Suricata flat format, with one rule per line. Use this to import your existing Suricata compatible rule groups.   You must provide either this rules setting or a populated RuleGroup setting, but not both.   You can provide your rule group specification in Suricata flat format through this setting when you create or update your rule group. The call response returns a RuleGroup object that Network Firewall has populated from your string.
         public let rules: String?
+        /// A complex type that contains metadata about the rule group that your own rule group is copied from. You can use the metadata to keep track of updates made to the originating rule group.
+        public let sourceMetadata: SourceMetadata?
         /// The key:value pairs to associate with the resource.
         public let tags: [Tag]?
         /// Indicates whether the rule group is stateless or stateful. If the rule group is stateless, it contains stateless rules. If it is stateful, it contains stateful rules.
         public let type: RuleGroupType
 
-        public init(capacity: Int, description: String? = nil, dryRun: Bool? = nil, ruleGroup: RuleGroup? = nil, ruleGroupName: String, rules: String? = nil, tags: [Tag]? = nil, type: RuleGroupType) {
+        public init(capacity: Int, description: String? = nil, dryRun: Bool? = nil, encryptionConfiguration: EncryptionConfiguration? = nil, ruleGroup: RuleGroup? = nil, ruleGroupName: String, rules: String? = nil, sourceMetadata: SourceMetadata? = nil, tags: [Tag]? = nil, type: RuleGroupType) {
             self.capacity = capacity
             self.description = description
             self.dryRun = dryRun
+            self.encryptionConfiguration = encryptionConfiguration
             self.ruleGroup = ruleGroup
             self.ruleGroupName = ruleGroupName
             self.rules = rules
+            self.sourceMetadata = sourceMetadata
             self.tags = tags
             self.type = type
         }
@@ -508,12 +536,14 @@ extension NetworkFirewall {
         public func validate(name: String) throws {
             try self.validate(self.description, name: "description", parent: name, max: 512)
             try self.validate(self.description, name: "description", parent: name, pattern: "^.*$")
+            try self.encryptionConfiguration?.validate(name: "\(name).encryptionConfiguration")
             try self.ruleGroup?.validate(name: "\(name).ruleGroup")
             try self.validate(self.ruleGroupName, name: "ruleGroupName", parent: name, max: 128)
             try self.validate(self.ruleGroupName, name: "ruleGroupName", parent: name, min: 1)
             try self.validate(self.ruleGroupName, name: "ruleGroupName", parent: name, pattern: "^[a-zA-Z0-9-]+$")
             try self.validate(self.rules, name: "rules", parent: name, max: 2_000_000)
             try self.validate(self.rules, name: "rules", parent: name, min: 0)
+            try self.sourceMetadata?.validate(name: "\(name).sourceMetadata")
             try self.tags?.forEach {
                 try $0.validate(name: "\(name).tags[]")
             }
@@ -525,9 +555,11 @@ extension NetworkFirewall {
             case capacity = "Capacity"
             case description = "Description"
             case dryRun = "DryRun"
+            case encryptionConfiguration = "EncryptionConfiguration"
             case ruleGroup = "RuleGroup"
             case ruleGroupName = "RuleGroupName"
             case rules = "Rules"
+            case sourceMetadata = "SourceMetadata"
             case tags = "Tags"
             case type = "Type"
         }
@@ -876,7 +908,7 @@ extension NetworkFirewall {
     }
 
     public struct DescribeResourcePolicyResponse: AWSDecodableShape {
-        /// The AWS Identity and Access Management policy for the resource.
+        /// The IAM policy for the resource.
         public let policy: String?
 
         public init(policy: String? = nil) {
@@ -923,6 +955,8 @@ extension NetworkFirewall {
         public let capacity: Int?
         /// Returns the metadata objects for the specified rule group.
         public let description: String?
+        /// The last time that the rule group was changed.
+        public let lastModifiedTime: Date?
         /// The descriptive name of the rule group. You can't change the name of a rule group after you create it. You must specify the ARN or the name, and you can specify both.
         public let ruleGroupArn: String
         /// The descriptive name of the rule group. You can't change the name of a rule group after you create it. You must specify the ARN or the name, and you can specify both.
@@ -931,9 +965,10 @@ extension NetworkFirewall {
         /// Indicates whether the rule group is stateless or stateful. If the rule group is stateless, it contains stateless rules. If it is stateful, it contains stateful rules.   This setting is required for requests that do not include the RuleGroupARN.
         public let type: RuleGroupType?
 
-        public init(capacity: Int? = nil, description: String? = nil, ruleGroupArn: String, ruleGroupName: String, statefulRuleOptions: StatefulRuleOptions? = nil, type: RuleGroupType? = nil) {
+        public init(capacity: Int? = nil, description: String? = nil, lastModifiedTime: Date? = nil, ruleGroupArn: String, ruleGroupName: String, statefulRuleOptions: StatefulRuleOptions? = nil, type: RuleGroupType? = nil) {
             self.capacity = capacity
             self.description = description
+            self.lastModifiedTime = lastModifiedTime
             self.ruleGroupArn = ruleGroupArn
             self.ruleGroupName = ruleGroupName
             self.statefulRuleOptions = statefulRuleOptions
@@ -943,6 +978,7 @@ extension NetworkFirewall {
         private enum CodingKeys: String, CodingKey {
             case capacity = "Capacity"
             case description = "Description"
+            case lastModifiedTime = "LastModifiedTime"
             case ruleGroupArn = "RuleGroupArn"
             case ruleGroupName = "RuleGroupName"
             case statefulRuleOptions = "StatefulRuleOptions"
@@ -981,7 +1017,7 @@ extension NetworkFirewall {
     }
 
     public struct DescribeRuleGroupResponse: AWSDecodableShape {
-        /// The object that defines the rules in a rule group. This, along with RuleGroupResponse, define the rule group. You can retrieve all objects for a rule group by calling DescribeRuleGroup.  AWS Network Firewall uses a rule group to inspect and control network traffic. You define stateless rule groups to inspect individual packets and you define stateful rule groups to inspect packets in the context of their traffic flow.  To use a rule group, you include it by reference in an Network Firewall firewall policy, then you use the policy in a firewall. You can reference a rule group from more than one firewall policy, and you can use a firewall policy in more than one firewall.
+        /// The object that defines the rules in a rule group. This, along with RuleGroupResponse, define the rule group. You can retrieve all objects for a rule group by calling DescribeRuleGroup.  Network Firewall uses a rule group to inspect and control network traffic. You define stateless rule groups to inspect individual packets and you define stateful rule groups to inspect packets in the context of their traffic flow.  To use a rule group, you include it by reference in an Network Firewall firewall policy, then you use the policy in a firewall. You can reference a rule group from more than one firewall policy, and you can use a firewall policy in more than one firewall.
         public let ruleGroup: RuleGroup?
         /// The high-level properties of a rule group. This, along with the RuleGroup, define the rule group. You can retrieve all objects for a rule group by calling DescribeRuleGroup.
         public let ruleGroupResponse: RuleGroupResponse
@@ -1087,11 +1123,36 @@ extension NetworkFirewall {
         }
     }
 
+    public struct EncryptionConfiguration: AWSEncodableShape & AWSDecodableShape {
+        /// The ID of the Amazon Web Services Key Management Service (KMS) customer managed key. You can use any of the key identifiers that KMS supports, unless you're using a key that's managed by another account. If you're using a key managed by another account, then specify the key ARN. For more information, see Key ID in the Amazon Web Services KMS Developer Guide.
+        public let keyId: String?
+        /// The type of Amazon Web Services KMS key to use for encryption of your Network Firewall resources.
+        public let type: EncryptionType
+
+        public init(keyId: String? = nil, type: EncryptionType) {
+            self.keyId = keyId
+            self.type = type
+        }
+
+        public func validate(name: String) throws {
+            try self.validate(self.keyId, name: "keyId", parent: name, max: 2048)
+            try self.validate(self.keyId, name: "keyId", parent: name, min: 1)
+            try self.validate(self.keyId, name: "keyId", parent: name, pattern: ".*\\S.*")
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case keyId = "KeyId"
+            case type = "Type"
+        }
+    }
+
     public struct Firewall: AWSDecodableShape {
         /// A flag indicating whether it is possible to delete the firewall. A setting of TRUE indicates that the firewall is protected against deletion. Use this setting to protect against accidentally deleting a firewall that is in use. When you create a firewall, the operation initializes this flag to TRUE.
         public let deleteProtection: Bool?
         /// A description of the firewall.
         public let description: String?
+        /// A complex type that contains the Amazon Web Services KMS encryption configuration settings for your firewall.
+        public let encryptionConfiguration: EncryptionConfiguration?
         /// The Amazon Resource Name (ARN) of the firewall.
         public let firewallArn: String?
         /// The unique identifier for the firewall.
@@ -1110,9 +1171,10 @@ extension NetworkFirewall {
         /// The unique identifier of the VPC where the firewall is in use.
         public let vpcId: String
 
-        public init(deleteProtection: Bool? = nil, description: String? = nil, firewallArn: String? = nil, firewallId: String, firewallName: String? = nil, firewallPolicyArn: String, firewallPolicyChangeProtection: Bool? = nil, subnetChangeProtection: Bool? = nil, subnetMappings: [SubnetMapping], tags: [Tag]? = nil, vpcId: String) {
+        public init(deleteProtection: Bool? = nil, description: String? = nil, encryptionConfiguration: EncryptionConfiguration? = nil, firewallArn: String? = nil, firewallId: String, firewallName: String? = nil, firewallPolicyArn: String, firewallPolicyChangeProtection: Bool? = nil, subnetChangeProtection: Bool? = nil, subnetMappings: [SubnetMapping], tags: [Tag]? = nil, vpcId: String) {
             self.deleteProtection = deleteProtection
             self.description = description
+            self.encryptionConfiguration = encryptionConfiguration
             self.firewallArn = firewallArn
             self.firewallId = firewallId
             self.firewallName = firewallName
@@ -1127,6 +1189,7 @@ extension NetworkFirewall {
         private enum CodingKeys: String, CodingKey {
             case deleteProtection = "DeleteProtection"
             case description = "Description"
+            case encryptionConfiguration = "EncryptionConfiguration"
             case firewallArn = "FirewallArn"
             case firewallId = "FirewallId"
             case firewallName = "FirewallName"
@@ -1157,7 +1220,7 @@ extension NetworkFirewall {
     }
 
     public struct FirewallPolicy: AWSEncodableShape & AWSDecodableShape {
-        /// The default actions to take on a packet that doesn't match any stateful rules. The stateful default action is optional, and is only valid when using the strict rule order. Valid values of the stateful default action:   aws:drop_strict   aws:drop_established   aws:alert_strict   aws:alert_established   For more information, see Strict evaluation order in the AWS Network Firewall Developer Guide.
+        /// The default actions to take on a packet that doesn't match any stateful rules. The stateful default action is optional, and is only valid when using the strict rule order. Valid values of the stateful default action:   aws:drop_strict   aws:drop_established   aws:alert_strict   aws:alert_established   For more information, see Strict evaluation order in the Network Firewall Developer Guide.
         public let statefulDefaultActions: [String]?
         /// Additional options governing how Network Firewall handles stateful rules. The stateful rule groups that you use in your policy must have stateful rule options settings that are compatible with these settings.
         public let statefulEngineOptions: StatefulEngineOptions?
@@ -1229,6 +1292,8 @@ extension NetworkFirewall {
         public let consumedStatelessRuleCapacity: Int?
         /// A description of the firewall policy.
         public let description: String?
+        /// A complex type that contains the Amazon Web Services KMS encryption configuration settings for your firewall policy.
+        public let encryptionConfiguration: EncryptionConfiguration?
         /// The Amazon Resource Name (ARN) of the firewall policy.  If this response is for a create request that had DryRun set to TRUE, then this ARN is a placeholder that isn't attached to a valid resource.
         public let firewallPolicyArn: String
         /// The unique identifier for the firewall policy.
@@ -1237,19 +1302,23 @@ extension NetworkFirewall {
         public let firewallPolicyName: String
         /// The current status of the firewall policy. You can retrieve this for a firewall policy by calling DescribeFirewallPolicy and providing the firewall policy's name or ARN.
         public let firewallPolicyStatus: ResourceStatus?
+        /// The last time that the firewall policy was changed.
+        public let lastModifiedTime: Date?
         /// The number of firewalls that are associated with this firewall policy.
         public let numberOfAssociations: Int?
         /// The key:value pairs to associate with the resource.
         public let tags: [Tag]?
 
-        public init(consumedStatefulRuleCapacity: Int? = nil, consumedStatelessRuleCapacity: Int? = nil, description: String? = nil, firewallPolicyArn: String, firewallPolicyId: String, firewallPolicyName: String, firewallPolicyStatus: ResourceStatus? = nil, numberOfAssociations: Int? = nil, tags: [Tag]? = nil) {
+        public init(consumedStatefulRuleCapacity: Int? = nil, consumedStatelessRuleCapacity: Int? = nil, description: String? = nil, encryptionConfiguration: EncryptionConfiguration? = nil, firewallPolicyArn: String, firewallPolicyId: String, firewallPolicyName: String, firewallPolicyStatus: ResourceStatus? = nil, lastModifiedTime: Date? = nil, numberOfAssociations: Int? = nil, tags: [Tag]? = nil) {
             self.consumedStatefulRuleCapacity = consumedStatefulRuleCapacity
             self.consumedStatelessRuleCapacity = consumedStatelessRuleCapacity
             self.description = description
+            self.encryptionConfiguration = encryptionConfiguration
             self.firewallPolicyArn = firewallPolicyArn
             self.firewallPolicyId = firewallPolicyId
             self.firewallPolicyName = firewallPolicyName
             self.firewallPolicyStatus = firewallPolicyStatus
+            self.lastModifiedTime = lastModifiedTime
             self.numberOfAssociations = numberOfAssociations
             self.tags = tags
         }
@@ -1258,10 +1327,12 @@ extension NetworkFirewall {
             case consumedStatefulRuleCapacity = "ConsumedStatefulRuleCapacity"
             case consumedStatelessRuleCapacity = "ConsumedStatelessRuleCapacity"
             case description = "Description"
+            case encryptionConfiguration = "EncryptionConfiguration"
             case firewallPolicyArn = "FirewallPolicyArn"
             case firewallPolicyId = "FirewallPolicyId"
             case firewallPolicyName = "FirewallPolicyName"
             case firewallPolicyStatus = "FirewallPolicyStatus"
+            case lastModifiedTime = "LastModifiedTime"
             case numberOfAssociations = "NumberOfAssociations"
             case tags = "Tags"
         }
@@ -1295,7 +1366,7 @@ extension NetworkFirewall {
         public let destinationPort: String
         /// The direction of traffic flow to inspect. If set to ANY, the inspection matches bidirectional traffic, both from the source to the destination and from the destination to the source. If set to FORWARD, the inspection only matches traffic going from the source to the destination.
         public let direction: StatefulRuleDirection
-        /// The protocol to inspect for. To specify all, you can use IP, because all traffic on AWS and on the internet is IP.
+        /// The protocol to inspect for. To specify all, you can use IP, because all traffic on Amazon Web Services and on the internet is IP.
         public let `protocol`: StatefulRuleProtocol
         /// The source IP address or address range to inspect for, in CIDR notation. To match with any address, specify ANY.  Specify an IP address or a block of IP addresses in Classless Inter-Domain Routing (CIDR) notation. Network Firewall supports all address ranges for IPv4.  Examples:    To configure Network Firewall to inspect for the IP address 192.0.2.44, specify 192.0.2.44/32.   To configure Network Firewall to inspect for IP addresses from 192.0.2.0 to 192.0.2.255, specify 192.0.2.0/24.   For more information about CIDR notation, see the Wikipedia entry Classless Inter-Domain Routing.
         public let source: String
@@ -1450,17 +1521,23 @@ extension NetworkFirewall {
     }
 
     public struct ListRuleGroupsRequest: AWSEncodableShape {
+        /// Indicates the general category of the Amazon Web Services managed rule group.
+        public let managedType: ResourceManagedType?
         /// The maximum number of objects that you want Network Firewall to return for this request. If more objects are available, in the response, Network Firewall provides a NextToken value that you can use in a subsequent call to get the next batch of objects.
         public let maxResults: Int?
         /// When you request a list of objects with a MaxResults setting, if the number of objects that are still available for retrieval exceeds the maximum you requested, Network Firewall returns a NextToken value in the response. To retrieve the next batch of objects, use the token returned from the prior request in your next request.
         public let nextToken: String?
         /// The scope of the request. The default setting of ACCOUNT or a setting of NULL returns all of the rule groups in your account. A setting of MANAGED returns all available managed rule groups.
         public let scope: ResourceManagedStatus?
+        /// Indicates whether the rule group is stateless or stateful. If the rule group is stateless, it contains stateless rules. If it is stateful, it contains stateful rules.
+        public let type: RuleGroupType?
 
-        public init(maxResults: Int? = nil, nextToken: String? = nil, scope: ResourceManagedStatus? = nil) {
+        public init(managedType: ResourceManagedType? = nil, maxResults: Int? = nil, nextToken: String? = nil, scope: ResourceManagedStatus? = nil, type: RuleGroupType? = nil) {
+            self.managedType = managedType
             self.maxResults = maxResults
             self.nextToken = nextToken
             self.scope = scope
+            self.type = type
         }
 
         public func validate(name: String) throws {
@@ -1472,9 +1549,11 @@ extension NetworkFirewall {
         }
 
         private enum CodingKeys: String, CodingKey {
+            case managedType = "ManagedType"
             case maxResults = "MaxResults"
             case nextToken = "NextToken"
             case scope = "Scope"
+            case type = "Type"
         }
     }
 
@@ -1729,7 +1808,7 @@ extension NetworkFirewall {
     }
 
     public struct PutResourcePolicyRequest: AWSEncodableShape {
-        /// The AWS Identity and Access Management policy statement that lists the accounts that you want to share your rule group or firewall policy with and the operations that you want the accounts to be able to perform.  For a rule group resource, you can specify the following operations in the Actions section of the statement:   network-firewall:CreateFirewallPolicy   network-firewall:UpdateFirewallPolicy   network-firewall:ListRuleGroups   For a firewall policy resource, you can specify the following operations in the Actions section of the statement:   network-firewall:CreateFirewall   network-firewall:UpdateFirewall   network-firewall:AssociateFirewallPolicy   network-firewall:ListFirewallPolicies   In the Resource section of the statement, you specify the ARNs for the rule groups and firewall policies that you want to share with the account that you specified in Arn.
+        /// The IAM policy statement that lists the accounts that you want to share your rule group or firewall policy with and the operations that you want the accounts to be able to perform.  For a rule group resource, you can specify the following operations in the Actions section of the statement:   network-firewall:CreateFirewallPolicy   network-firewall:UpdateFirewallPolicy   network-firewall:ListRuleGroups   For a firewall policy resource, you can specify the following operations in the Actions section of the statement:   network-firewall:CreateFirewall   network-firewall:UpdateFirewall   network-firewall:AssociateFirewallPolicy   network-firewall:ListFirewallPolicies   In the Resource section of the statement, you specify the ARNs for the rule groups and firewall policies that you want to share with the account that you specified in Arn.
         public let policy: String
         /// The Amazon Resource Name (ARN) of the account that you want to share rule groups and firewall policies with.
         public let resourceArn: String
@@ -1829,6 +1908,10 @@ extension NetworkFirewall {
         public let consumedCapacity: Int?
         /// A description of the rule group.
         public let description: String?
+        /// A complex type that contains the Amazon Web Services KMS encryption configuration settings for your rule group.
+        public let encryptionConfiguration: EncryptionConfiguration?
+        /// The last time that the rule group was changed.
+        public let lastModifiedTime: Date?
         /// The number of firewall policies that use this rule group.
         public let numberOfAssociations: Int?
         /// The Amazon Resource Name (ARN) of the rule group.  If this response is for a create request that had DryRun set to TRUE, then this ARN is a placeholder that isn't attached to a valid resource.
@@ -1839,20 +1922,28 @@ extension NetworkFirewall {
         public let ruleGroupName: String
         /// Detailed information about the current status of a rule group.
         public let ruleGroupStatus: ResourceStatus?
+        /// The Amazon resource name (ARN) of the Amazon Simple Notification Service SNS topic that's used to record changes to the managed rule group. You can subscribe to the SNS topic to receive notifications when the managed rule group is modified, such as for new versions and for version expiration. For more information, see the Amazon Simple Notification Service Developer Guide..
+        public let snsTopic: String?
+        /// A complex type that contains metadata about the rule group that your own rule group is copied from. You can use the metadata to track the version updates made to the originating rule group.
+        public let sourceMetadata: SourceMetadata?
         /// The key:value pairs to associate with the resource.
         public let tags: [Tag]?
         /// Indicates whether the rule group is stateless or stateful. If the rule group is stateless, it contains stateless rules. If it is stateful, it contains stateful rules.
         public let type: RuleGroupType?
 
-        public init(capacity: Int? = nil, consumedCapacity: Int? = nil, description: String? = nil, numberOfAssociations: Int? = nil, ruleGroupArn: String, ruleGroupId: String, ruleGroupName: String, ruleGroupStatus: ResourceStatus? = nil, tags: [Tag]? = nil, type: RuleGroupType? = nil) {
+        public init(capacity: Int? = nil, consumedCapacity: Int? = nil, description: String? = nil, encryptionConfiguration: EncryptionConfiguration? = nil, lastModifiedTime: Date? = nil, numberOfAssociations: Int? = nil, ruleGroupArn: String, ruleGroupId: String, ruleGroupName: String, ruleGroupStatus: ResourceStatus? = nil, snsTopic: String? = nil, sourceMetadata: SourceMetadata? = nil, tags: [Tag]? = nil, type: RuleGroupType? = nil) {
             self.capacity = capacity
             self.consumedCapacity = consumedCapacity
             self.description = description
+            self.encryptionConfiguration = encryptionConfiguration
+            self.lastModifiedTime = lastModifiedTime
             self.numberOfAssociations = numberOfAssociations
             self.ruleGroupArn = ruleGroupArn
             self.ruleGroupId = ruleGroupId
             self.ruleGroupName = ruleGroupName
             self.ruleGroupStatus = ruleGroupStatus
+            self.snsTopic = snsTopic
+            self.sourceMetadata = sourceMetadata
             self.tags = tags
             self.type = type
         }
@@ -1861,11 +1952,15 @@ extension NetworkFirewall {
             case capacity = "Capacity"
             case consumedCapacity = "ConsumedCapacity"
             case description = "Description"
+            case encryptionConfiguration = "EncryptionConfiguration"
+            case lastModifiedTime = "LastModifiedTime"
             case numberOfAssociations = "NumberOfAssociations"
             case ruleGroupArn = "RuleGroupArn"
             case ruleGroupId = "RuleGroupId"
             case ruleGroupName = "RuleGroupName"
             case ruleGroupStatus = "RuleGroupStatus"
+            case snsTopic = "SnsTopic"
+            case sourceMetadata = "SourceMetadata"
             case tags = "Tags"
             case type = "Type"
         }
@@ -1984,8 +2079,34 @@ extension NetworkFirewall {
         }
     }
 
+    public struct SourceMetadata: AWSEncodableShape & AWSDecodableShape {
+        /// The Amazon Resource Name (ARN) of the rule group that your own rule group is copied from.
+        public let sourceArn: String?
+        /// The update token of the Amazon Web Services managed rule group that your own rule group is copied from. To determine the update token for the managed rule group, call DescribeRuleGroup.
+        public let sourceUpdateToken: String?
+
+        public init(sourceArn: String? = nil, sourceUpdateToken: String? = nil) {
+            self.sourceArn = sourceArn
+            self.sourceUpdateToken = sourceUpdateToken
+        }
+
+        public func validate(name: String) throws {
+            try self.validate(self.sourceArn, name: "sourceArn", parent: name, max: 256)
+            try self.validate(self.sourceArn, name: "sourceArn", parent: name, min: 1)
+            try self.validate(self.sourceArn, name: "sourceArn", parent: name, pattern: "^arn:aws.*")
+            try self.validate(self.sourceUpdateToken, name: "sourceUpdateToken", parent: name, max: 1024)
+            try self.validate(self.sourceUpdateToken, name: "sourceUpdateToken", parent: name, min: 1)
+            try self.validate(self.sourceUpdateToken, name: "sourceUpdateToken", parent: name, pattern: "^([0-9a-f]{8})-([0-9a-f]{4}-){3}([0-9a-f]{12})$")
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case sourceArn = "SourceArn"
+            case sourceUpdateToken = "SourceUpdateToken"
+        }
+    }
+
     public struct StatefulEngineOptions: AWSEncodableShape & AWSDecodableShape {
-        /// Indicates how to manage the order of stateful rule evaluation for the policy. DEFAULT_ACTION_ORDER is the default behavior. Stateful rules are provided to the rule engine as Suricata compatible strings, and Suricata evaluates them based on certain settings. For more information, see Evaluation order for stateful rules in the AWS Network Firewall Developer Guide.
+        /// Indicates how to manage the order of stateful rule evaluation for the policy. DEFAULT_ACTION_ORDER is the default behavior. Stateful rules are provided to the rule engine as Suricata compatible strings, and Suricata evaluates them based on certain settings. For more information, see Evaluation order for stateful rules in the Network Firewall Developer Guide.
         public let ruleOrder: RuleOrder?
 
         public init(ruleOrder: RuleOrder? = nil) {
@@ -2068,7 +2189,7 @@ extension NetworkFirewall {
     }
 
     public struct StatefulRuleOptions: AWSEncodableShape & AWSDecodableShape {
-        /// Indicates how to manage the order of the rule evaluation for the rule group. DEFAULT_ACTION_ORDER is the default behavior. Stateful rules are provided to the rule engine as Suricata compatible strings, and Suricata evaluates them based on certain settings. For more information, see Evaluation order for stateful rules in the AWS Network Firewall Developer Guide.
+        /// Indicates how to manage the order of the rule evaluation for the rule group. DEFAULT_ACTION_ORDER is the default behavior. Stateful rules are provided to the rule engine as Suricata compatible strings, and Suricata evaluates them based on certain settings. For more information, see Evaluation order for stateful rules in the Network Firewall Developer Guide.
         public let ruleOrder: RuleOrder?
 
         public init(ruleOrder: RuleOrder? = nil) {
@@ -2417,6 +2538,67 @@ extension NetworkFirewall {
         }
     }
 
+    public struct UpdateFirewallEncryptionConfigurationRequest: AWSEncodableShape {
+        public let encryptionConfiguration: EncryptionConfiguration?
+        /// The Amazon Resource Name (ARN) of the firewall.
+        public let firewallArn: String?
+        /// The descriptive name of the firewall. You can't change the name of a firewall after you create it.
+        public let firewallName: String?
+        /// An optional token that you can use for optimistic locking. Network Firewall returns a token to your requests that access the firewall. The token marks the state of the firewall resource at the time of the request.  To make an unconditional change to the firewall, omit the token in your update request. Without the token, Network Firewall performs your updates regardless of whether the firewall has changed since you last retrieved it. To make a conditional change to the firewall, provide the token in your update request. Network Firewall uses the token to ensure that the firewall hasn't changed since you last retrieved it. If it has changed, the operation fails with an InvalidTokenException. If this happens, retrieve the firewall again to get a current copy of it with a new token. Reapply your changes as needed, then try the operation again using the new token.
+        public let updateToken: String?
+
+        public init(encryptionConfiguration: EncryptionConfiguration? = nil, firewallArn: String? = nil, firewallName: String? = nil, updateToken: String? = nil) {
+            self.encryptionConfiguration = encryptionConfiguration
+            self.firewallArn = firewallArn
+            self.firewallName = firewallName
+            self.updateToken = updateToken
+        }
+
+        public func validate(name: String) throws {
+            try self.encryptionConfiguration?.validate(name: "\(name).encryptionConfiguration")
+            try self.validate(self.firewallArn, name: "firewallArn", parent: name, max: 256)
+            try self.validate(self.firewallArn, name: "firewallArn", parent: name, min: 1)
+            try self.validate(self.firewallArn, name: "firewallArn", parent: name, pattern: "^arn:aws.*")
+            try self.validate(self.firewallName, name: "firewallName", parent: name, max: 128)
+            try self.validate(self.firewallName, name: "firewallName", parent: name, min: 1)
+            try self.validate(self.firewallName, name: "firewallName", parent: name, pattern: "^[a-zA-Z0-9-]+$")
+            try self.validate(self.updateToken, name: "updateToken", parent: name, max: 1024)
+            try self.validate(self.updateToken, name: "updateToken", parent: name, min: 1)
+            try self.validate(self.updateToken, name: "updateToken", parent: name, pattern: "^([0-9a-f]{8})-([0-9a-f]{4}-){3}([0-9a-f]{12})$")
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case encryptionConfiguration = "EncryptionConfiguration"
+            case firewallArn = "FirewallArn"
+            case firewallName = "FirewallName"
+            case updateToken = "UpdateToken"
+        }
+    }
+
+    public struct UpdateFirewallEncryptionConfigurationResponse: AWSDecodableShape {
+        public let encryptionConfiguration: EncryptionConfiguration?
+        /// The Amazon Resource Name (ARN) of the firewall.
+        public let firewallArn: String?
+        /// The descriptive name of the firewall. You can't change the name of a firewall after you create it.
+        public let firewallName: String?
+        /// An optional token that you can use for optimistic locking. Network Firewall returns a token to your requests that access the firewall. The token marks the state of the firewall resource at the time of the request.  To make an unconditional change to the firewall, omit the token in your update request. Without the token, Network Firewall performs your updates regardless of whether the firewall has changed since you last retrieved it. To make a conditional change to the firewall, provide the token in your update request. Network Firewall uses the token to ensure that the firewall hasn't changed since you last retrieved it. If it has changed, the operation fails with an InvalidTokenException. If this happens, retrieve the firewall again to get a current copy of it with a new token. Reapply your changes as needed, then try the operation again using the new token.
+        public let updateToken: String?
+
+        public init(encryptionConfiguration: EncryptionConfiguration? = nil, firewallArn: String? = nil, firewallName: String? = nil, updateToken: String? = nil) {
+            self.encryptionConfiguration = encryptionConfiguration
+            self.firewallArn = firewallArn
+            self.firewallName = firewallName
+            self.updateToken = updateToken
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case encryptionConfiguration = "EncryptionConfiguration"
+            case firewallArn = "FirewallArn"
+            case firewallName = "FirewallName"
+            case updateToken = "UpdateToken"
+        }
+    }
+
     public struct UpdateFirewallPolicyChangeProtectionRequest: AWSEncodableShape {
         /// The Amazon Resource Name (ARN) of the firewall. You must specify the ARN or the name, and you can specify both.
         public let firewallArn: String?
@@ -2484,6 +2666,8 @@ extension NetworkFirewall {
         public let description: String?
         /// Indicates whether you want Network Firewall to just check the validity of the request, rather than run the request.  If set to TRUE, Network Firewall checks whether the request can run successfully, but doesn't actually make the requested changes. The call returns the value that the request would return if you ran it with dry run set to FALSE, but doesn't make additions or changes to your resources. This option allows you to make sure that you have the required permissions to run the request and that your request parameters are valid.  If set to FALSE, Network Firewall makes the requested changes to your resources.
         public let dryRun: Bool?
+        /// A complex type that contains settings for encryption of your firewall policy resources.
+        public let encryptionConfiguration: EncryptionConfiguration?
         /// The updated firewall policy to use for the firewall.
         public let firewallPolicy: FirewallPolicy
         /// The Amazon Resource Name (ARN) of the firewall policy. You must specify the ARN or the name, and you can specify both.
@@ -2493,9 +2677,10 @@ extension NetworkFirewall {
         /// A token used for optimistic locking. Network Firewall returns a token to your requests that access the firewall policy. The token marks the state of the policy resource at the time of the request.  To make changes to the policy, you provide the token in your request. Network Firewall uses the token to ensure that the policy hasn't changed since you last retrieved it. If it has changed, the operation fails with an InvalidTokenException. If this happens, retrieve the firewall policy again to get a current copy of it with current token. Reapply your changes as needed, then try the operation again using the new token.
         public let updateToken: String
 
-        public init(description: String? = nil, dryRun: Bool? = nil, firewallPolicy: FirewallPolicy, firewallPolicyArn: String? = nil, firewallPolicyName: String? = nil, updateToken: String) {
+        public init(description: String? = nil, dryRun: Bool? = nil, encryptionConfiguration: EncryptionConfiguration? = nil, firewallPolicy: FirewallPolicy, firewallPolicyArn: String? = nil, firewallPolicyName: String? = nil, updateToken: String) {
             self.description = description
             self.dryRun = dryRun
+            self.encryptionConfiguration = encryptionConfiguration
             self.firewallPolicy = firewallPolicy
             self.firewallPolicyArn = firewallPolicyArn
             self.firewallPolicyName = firewallPolicyName
@@ -2505,6 +2690,7 @@ extension NetworkFirewall {
         public func validate(name: String) throws {
             try self.validate(self.description, name: "description", parent: name, max: 512)
             try self.validate(self.description, name: "description", parent: name, pattern: "^.*$")
+            try self.encryptionConfiguration?.validate(name: "\(name).encryptionConfiguration")
             try self.firewallPolicy.validate(name: "\(name).firewallPolicy")
             try self.validate(self.firewallPolicyArn, name: "firewallPolicyArn", parent: name, max: 256)
             try self.validate(self.firewallPolicyArn, name: "firewallPolicyArn", parent: name, min: 1)
@@ -2520,6 +2706,7 @@ extension NetworkFirewall {
         private enum CodingKeys: String, CodingKey {
             case description = "Description"
             case dryRun = "DryRun"
+            case encryptionConfiguration = "EncryptionConfiguration"
             case firewallPolicy = "FirewallPolicy"
             case firewallPolicyArn = "FirewallPolicyArn"
             case firewallPolicyName = "FirewallPolicyName"
@@ -2600,6 +2787,8 @@ extension NetworkFirewall {
         public let description: String?
         /// Indicates whether you want Network Firewall to just check the validity of the request, rather than run the request.  If set to TRUE, Network Firewall checks whether the request can run successfully, but doesn't actually make the requested changes. The call returns the value that the request would return if you ran it with dry run set to FALSE, but doesn't make additions or changes to your resources. This option allows you to make sure that you have the required permissions to run the request and that your request parameters are valid.  If set to FALSE, Network Firewall makes the requested changes to your resources.
         public let dryRun: Bool?
+        /// A complex type that contains settings for encryption of your rule group resources.
+        public let encryptionConfiguration: EncryptionConfiguration?
         /// An object that defines the rule group rules.   You must provide either this rule group setting or a Rules setting, but not both.
         public let ruleGroup: RuleGroup?
         /// The Amazon Resource Name (ARN) of the rule group. You must specify the ARN or the name, and you can specify both.
@@ -2608,18 +2797,22 @@ extension NetworkFirewall {
         public let ruleGroupName: String?
         /// A string containing stateful rule group rules specifications in Suricata flat format, with one rule per line. Use this to import your existing Suricata compatible rule groups.   You must provide either this rules setting or a populated RuleGroup setting, but not both.   You can provide your rule group specification in Suricata flat format through this setting when you create or update your rule group. The call response returns a RuleGroup object that Network Firewall has populated from your string.
         public let rules: String?
+        /// A complex type that contains metadata about the rule group that your own rule group is copied from. You can use the metadata to keep track of updates made to the originating rule group.
+        public let sourceMetadata: SourceMetadata?
         /// Indicates whether the rule group is stateless or stateful. If the rule group is stateless, it contains stateless rules. If it is stateful, it contains stateful rules.   This setting is required for requests that do not include the RuleGroupARN.
         public let type: RuleGroupType?
         /// A token used for optimistic locking. Network Firewall returns a token to your requests that access the rule group. The token marks the state of the rule group resource at the time of the request.  To make changes to the rule group, you provide the token in your request. Network Firewall uses the token to ensure that the rule group hasn't changed since you last retrieved it. If it has changed, the operation fails with an InvalidTokenException. If this happens, retrieve the rule group again to get a current copy of it with a current token. Reapply your changes as needed, then try the operation again using the new token.
         public let updateToken: String
 
-        public init(description: String? = nil, dryRun: Bool? = nil, ruleGroup: RuleGroup? = nil, ruleGroupArn: String? = nil, ruleGroupName: String? = nil, rules: String? = nil, type: RuleGroupType? = nil, updateToken: String) {
+        public init(description: String? = nil, dryRun: Bool? = nil, encryptionConfiguration: EncryptionConfiguration? = nil, ruleGroup: RuleGroup? = nil, ruleGroupArn: String? = nil, ruleGroupName: String? = nil, rules: String? = nil, sourceMetadata: SourceMetadata? = nil, type: RuleGroupType? = nil, updateToken: String) {
             self.description = description
             self.dryRun = dryRun
+            self.encryptionConfiguration = encryptionConfiguration
             self.ruleGroup = ruleGroup
             self.ruleGroupArn = ruleGroupArn
             self.ruleGroupName = ruleGroupName
             self.rules = rules
+            self.sourceMetadata = sourceMetadata
             self.type = type
             self.updateToken = updateToken
         }
@@ -2627,6 +2820,7 @@ extension NetworkFirewall {
         public func validate(name: String) throws {
             try self.validate(self.description, name: "description", parent: name, max: 512)
             try self.validate(self.description, name: "description", parent: name, pattern: "^.*$")
+            try self.encryptionConfiguration?.validate(name: "\(name).encryptionConfiguration")
             try self.ruleGroup?.validate(name: "\(name).ruleGroup")
             try self.validate(self.ruleGroupArn, name: "ruleGroupArn", parent: name, max: 256)
             try self.validate(self.ruleGroupArn, name: "ruleGroupArn", parent: name, min: 1)
@@ -2636,6 +2830,7 @@ extension NetworkFirewall {
             try self.validate(self.ruleGroupName, name: "ruleGroupName", parent: name, pattern: "^[a-zA-Z0-9-]+$")
             try self.validate(self.rules, name: "rules", parent: name, max: 2_000_000)
             try self.validate(self.rules, name: "rules", parent: name, min: 0)
+            try self.sourceMetadata?.validate(name: "\(name).sourceMetadata")
             try self.validate(self.updateToken, name: "updateToken", parent: name, max: 1024)
             try self.validate(self.updateToken, name: "updateToken", parent: name, min: 1)
             try self.validate(self.updateToken, name: "updateToken", parent: name, pattern: "^([0-9a-f]{8})-([0-9a-f]{4}-){3}([0-9a-f]{12})$")
@@ -2644,10 +2839,12 @@ extension NetworkFirewall {
         private enum CodingKeys: String, CodingKey {
             case description = "Description"
             case dryRun = "DryRun"
+            case encryptionConfiguration = "EncryptionConfiguration"
             case ruleGroup = "RuleGroup"
             case ruleGroupArn = "RuleGroupArn"
             case ruleGroupName = "RuleGroupName"
             case rules = "Rules"
+            case sourceMetadata = "SourceMetadata"
             case type = "Type"
             case updateToken = "UpdateToken"
         }

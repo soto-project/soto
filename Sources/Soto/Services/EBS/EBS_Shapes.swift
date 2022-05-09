@@ -137,11 +137,11 @@ extension EBS {
             AWSMemberEncoding(label: "snapshotId", location: .uri(locationName: "snapshotId"))
         ]
 
-        /// The block index of the block from which to get data. Obtain the BlockIndex by running the ListChangedBlocks or ListSnapshotBlocks operations.
+        /// The block index of the block in which to read the data. A block index is a logical index in units of 512 KiB blocks. To identify the block index, divide the logical offset of the data in the logical volume by the block size (logical offset of data/524288). The logical offset of the data must be 512 KiB aligned.
         public let blockIndex: Int
-        /// The block token of the block from which to get data. Obtain the BlockToken by running the ListChangedBlocks or ListSnapshotBlocks operations.
+        /// The block token of the block from which to get data. You can obtain the BlockToken by running the ListChangedBlocks or ListSnapshotBlocks operations.
         public let blockToken: String
-        /// The ID of the snapshot containing the block from which to get data.
+        /// The ID of the snapshot containing the block from which to get data.  If the specified snapshot is encrypted, you must have permission to use the KMS key that was used to encrypt the snapshot. For more information, see  Using encryption in the Amazon Elastic Compute Cloud User Guide.
         public let snapshotId: String
 
         public init(blockIndex: Int, blockToken: String, snapshotId: String) {
@@ -208,13 +208,13 @@ extension EBS {
 
         /// The ID of the first snapshot to use for the comparison.  The FirstSnapshotID parameter must be specified with a SecondSnapshotId parameter; otherwise, an error occurs.
         public let firstSnapshotId: String?
-        /// The number of results to return.
+        /// The maximum number of blocks to be returned by the request. Even if additional blocks can be retrieved from the snapshot, the request can return less blocks than MaxResults or an empty array of blocks. To retrieve the next set of blocks from the snapshot, make another request with the returned NextToken value. The value of NextToken is null when there are no more blocks to return.
         public let maxResults: Int?
-        /// The token to request the next page of results.
+        /// The token to request the next page of results. If you specify NextToken, then StartingBlockIndex is ignored.
         public let nextToken: String?
         /// The ID of the second snapshot to use for the comparison.  The SecondSnapshotId parameter must be specified with a FirstSnapshotID parameter; otherwise, an error occurs.
         public let secondSnapshotId: String
-        /// The block index from which the comparison should start. The list in the response will start from this block index or the next valid block index in the snapshots.
+        /// The block index from which the comparison should start. The list in the response will start from this block index or the next valid block index in the snapshots. If you specify NextToken, then StartingBlockIndex is ignored.
         public let startingBlockIndex: Int?
 
         public init(firstSnapshotId: String? = nil, maxResults: Int? = nil, nextToken: String? = nil, secondSnapshotId: String, startingBlockIndex: Int? = nil) {
@@ -279,13 +279,13 @@ extension EBS {
             AWSMemberEncoding(label: "startingBlockIndex", location: .querystring(locationName: "startingBlockIndex"))
         ]
 
-        /// The number of results to return.
+        /// The maximum number of blocks to be returned by the request. Even if additional blocks can be retrieved from the snapshot, the request can return less blocks than MaxResults or an empty array of blocks. To retrieve the next set of blocks from the snapshot, make another request with the returned NextToken value. The value of NextToken is null when there are no more blocks to return.
         public let maxResults: Int?
-        /// The token to request the next page of results.
+        /// The token to request the next page of results. If you specify NextToken, then StartingBlockIndex is ignored.
         public let nextToken: String?
         /// The ID of the snapshot from which to get block indexes and block tokens.
         public let snapshotId: String
-        /// The block index from which the list should start. The list in the response will start from this block index or the next valid block index in the snapshot.
+        /// The block index from which the list should start. The list in the response will start from this block index or the next valid block index in the snapshot. If you specify NextToken, then StartingBlockIndex is ignored.
         public let startingBlockIndex: Int?
 
         public init(maxResults: Int? = nil, nextToken: String? = nil, snapshotId: String, startingBlockIndex: Int? = nil) {
@@ -364,7 +364,7 @@ extension EBS {
         public let dataLength: Int
         /// The progress of the write process, as a percentage.
         public let progress: Int?
-        /// The ID of the snapshot.
+        /// The ID of the snapshot.  If the specified snapshot is encrypted, you must have permission to use the KMS key that was used to encrypt the snapshot. For more information, see  Using encryption in the Amazon Elastic Compute Cloud User Guide..
         public let snapshotId: String
 
         public init(blockData: AWSPayload, blockIndex: Int, checksum: String, checksumAlgorithm: ChecksumAlgorithm, dataLength: Int, progress: Int? = nil, snapshotId: String) {
@@ -418,11 +418,11 @@ extension EBS {
         public let clientToken: String?
         /// A description for the snapshot.
         public let description: String?
-        /// Indicates whether to encrypt the snapshot. To create an encrypted snapshot, specify true. To create an unencrypted snapshot, omit this parameter. If you specify a value for ParentSnapshotId, omit this parameter. If you specify true, the snapshot is encrypted using the KMS key specified using the KmsKeyArn parameter. If no value is specified for KmsKeyArn, the default KMS key for your account is used. If no default KMS key has been specified for your account, the Amazon Web Services managed KMS key is used. To set a default KMS key for your account, use  ModifyEbsDefaultKmsKeyId. If your account is enabled for encryption by default, you cannot set this parameter to false. In this case, you can omit this parameter. For more information, see  Using encryption in the Amazon Elastic Compute Cloud User Guide.
+        /// Indicates whether to encrypt the snapshot. You can't specify Encrypted and  ParentSnapshotId in the same request. If you specify both parameters, the request fails with ValidationException. The encryption status of the snapshot depends on the values that you specify for Encrypted, KmsKeyArn, and ParentSnapshotId, and whether your Amazon Web Services account is enabled for  encryption by default. For more information, see  Using encryption in the Amazon Elastic Compute Cloud User Guide.  To create an encrypted snapshot, you must have permission to use the KMS key. For more information, see  Permissions to use Key Management Service keys in the Amazon Elastic Compute Cloud User Guide.
         public let encrypted: Bool?
-        /// The Amazon Resource Name (ARN) of the Key Management Service (KMS) key to be used to encrypt the snapshot. If you do not specify a KMS key, the default Amazon Web Services managed KMS key is used. If you specify a ParentSnapshotId, omit this parameter; the snapshot will be encrypted using the same KMS key that was used to encrypt the parent snapshot. If Encrypted is set to true, you must specify a KMS key ARN.
+        /// The Amazon Resource Name (ARN) of the Key Management Service (KMS) key to be used to encrypt the snapshot. The encryption status of the snapshot depends on the values that you specify for Encrypted, KmsKeyArn, and ParentSnapshotId, and whether your Amazon Web Services account is enabled for  encryption by default. For more information, see  Using encryption in the Amazon Elastic Compute Cloud User Guide.  To create an encrypted snapshot, you must have permission to use the KMS key. For more information, see  Permissions to use Key Management Service keys in the Amazon Elastic Compute Cloud User Guide.
         public let kmsKeyArn: String?
-        /// The ID of the parent snapshot. If there is no parent snapshot, or if you are creating the first snapshot for an on-premises volume, omit this parameter. If your account is enabled for encryption by default, you cannot use an unencrypted snapshot as a parent snapshot. You must first create an encrypted copy of the parent snapshot using CopySnapshot.
+        /// The ID of the parent snapshot. If there is no parent snapshot, or if you are creating the first snapshot for an on-premises volume, omit this parameter. You can't specify ParentSnapshotId and Encrypted in the same request. If you specify both parameters, the request fails with ValidationException. The encryption status of the snapshot depends on the values that you specify for Encrypted, KmsKeyArn, and ParentSnapshotId, and whether your Amazon Web Services account is enabled for  encryption by default. For more information, see  Using encryption in the Amazon Elastic Compute Cloud User Guide.  If you specify an encrypted parent snapshot, you must have permission to use the KMS key that was used to encrypt the parent snapshot. For more information, see  Permissions to use Key Management Service keys in the Amazon Elastic Compute Cloud User Guide.
         public let parentSnapshotId: String?
         /// The tags to apply to the snapshot.
         public let tags: [Tag]?
@@ -456,7 +456,7 @@ extension EBS {
             try self.tags?.forEach {
                 try $0.validate(name: "\(name).tags[]")
             }
-            try self.validate(self.timeout, name: "timeout", parent: name, max: 60)
+            try self.validate(self.timeout, name: "timeout", parent: name, max: 4320)
             try self.validate(self.timeout, name: "timeout", parent: name, min: 10)
             try self.validate(self.volumeSize, name: "volumeSize", parent: name, min: 1)
         }
@@ -537,7 +537,7 @@ extension EBS {
             try self.validate(self.key, name: "key", parent: name, max: 127)
             try self.validate(self.key, name: "key", parent: name, pattern: "^[\\S\\s]+$")
             try self.validate(self.value, name: "value", parent: name, max: 255)
-            try self.validate(self.value, name: "value", parent: name, pattern: "^[\\S\\s]+$")
+            try self.validate(self.value, name: "value", parent: name, pattern: "^[\\S\\s]*$")
         }
 
         private enum CodingKeys: String, CodingKey {

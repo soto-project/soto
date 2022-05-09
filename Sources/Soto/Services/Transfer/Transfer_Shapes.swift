@@ -40,7 +40,14 @@ extension Transfer {
     }
 
     public enum ExecutionErrorType: String, CustomStringConvertible, Codable {
+        case alreadyExists = "ALREADY_EXISTS"
+        case badRequest = "BAD_REQUEST"
+        case customStepFailed = "CUSTOM_STEP_FAILED"
+        case internalServerError = "INTERNAL_SERVER_ERROR"
+        case notFound = "NOT_FOUND"
         case permissionDenied = "PERMISSION_DENIED"
+        case throttled = "THROTTLED"
+        case timeout = "TIMEOUT"
         public var description: String { return self.rawValue }
     }
 
@@ -107,28 +114,35 @@ extension Transfer {
     // MARK: Shapes
 
     public struct CopyStepDetails: AWSEncodableShape & AWSDecodableShape {
+        /// Specifies the location for the file being copied. Only applicable for Copy type workflow steps. Use ${Transfer:username} in this field to parametrize the destination prefix by username.
         public let destinationFileLocation: InputFileLocation?
         /// The name of the step, used as an identifier.
         public let name: String?
         /// A flag that indicates whether or not to overwrite an existing file of the same name. The default is FALSE.
         public let overwriteExisting: OverwriteExisting?
+        /// Specifies which file to use as input to the workflow step: either the output from the previous step, or the originally uploaded file for the workflow.   Enter ${previous.file} to use the previous file as the input. In this case, this workflow step uses the output file from the previous workflow step as input. This is the default value.   Enter ${original.file} to use the originally-uploaded file location as input for this step.
+        public let sourceFileLocation: String?
 
-        public init(destinationFileLocation: InputFileLocation? = nil, name: String? = nil, overwriteExisting: OverwriteExisting? = nil) {
+        public init(destinationFileLocation: InputFileLocation? = nil, name: String? = nil, overwriteExisting: OverwriteExisting? = nil, sourceFileLocation: String? = nil) {
             self.destinationFileLocation = destinationFileLocation
             self.name = name
             self.overwriteExisting = overwriteExisting
+            self.sourceFileLocation = sourceFileLocation
         }
 
         public func validate(name: String) throws {
             try self.destinationFileLocation?.validate(name: "\(name).destinationFileLocation")
             try self.validate(self.name, name: "name", parent: name, max: 30)
             try self.validate(self.name, name: "name", parent: name, pattern: "^[\\w-]*$")
+            try self.validate(self.sourceFileLocation, name: "sourceFileLocation", parent: name, max: 256)
+            try self.validate(self.sourceFileLocation, name: "sourceFileLocation", parent: name, pattern: "^\\$\\{(\\w+.)+\\w+\\}$")
         }
 
         private enum CodingKeys: String, CodingKey {
             case destinationFileLocation = "DestinationFileLocation"
             case name = "Name"
             case overwriteExisting = "OverwriteExisting"
+            case sourceFileLocation = "SourceFileLocation"
         }
     }
 
@@ -137,7 +151,7 @@ extension Transfer {
         public let externalId: String
         /// The landing directory (folder) for a user when they log in to the server using the client. A HomeDirectory example is /bucket_name/home/mydirectory.
         public let homeDirectory: String?
-        /// Logical directory mappings that specify what Amazon S3 or Amazon EFS paths and keys should be visible to your user and how you want to make them visible. You must specify the Entry and Target pair, where Entry shows how the path is made visible and Target is the actual Amazon S3 or Amazon EFS path. If you only specify a target, it is displayed as is. You also must ensure that your Amazon Web Services Identity and Access Management (IAM) role provides access to paths in Target. This value can only be set when HomeDirectoryType is set to LOGICAL. The following is an Entry and Target pair example.  [ { "Entry": "/directory1", "Target": "/bucket_name/home/mydirectory" } ]  In most cases, you can use this value instead of the session policy to lock down your user to the designated home directory ("chroot"). To do this, you can set Entry to / and set Target to the HomeDirectory parameter value. The following is an Entry and Target pair example for chroot.  [ { "Entry:": "/", "Target": "/bucket_name/home/mydirectory" } ]   If the target of a logical directory entry does not exist in Amazon S3 or EFS, the entry is ignored. As a workaround, you can use the Amazon S3 API or EFS API to create 0 byte objects as place holders for your directory. If using the CLI, use the s3api or efsapi call instead of s3 or efs so you can use the put-object operation. For example, you use the following: aws s3api put-object --bucket bucketname --key path/to/folder/. Make sure that the end of the key name ends in a / for it to be considered a folder.
+        /// Logical directory mappings that specify what Amazon S3 or Amazon EFS paths and keys should be visible to your user and how you want to make them visible. You must specify the Entry and Target pair, where Entry shows how the path is made visible and Target is the actual Amazon S3 or Amazon EFS path. If you only specify a target, it is displayed as is. You also must ensure that your Amazon Web Services Identity and Access Management (IAM) role provides access to paths in Target. This value can only be set when HomeDirectoryType is set to LOGICAL. The following is an Entry and Target pair example.  [ { "Entry": "/directory1", "Target": "/bucket_name/home/mydirectory" } ]  In most cases, you can use this value instead of the session policy to lock down your user to the designated home directory ("chroot"). To do this, you can set Entry to / and set Target to the HomeDirectory parameter value. The following is an Entry and Target pair example for chroot.  [ { "Entry": "/", "Target": "/bucket_name/home/mydirectory" } ]
         public let homeDirectoryMappings: [HomeDirectoryMapEntry]?
         /// The type of landing directory (folder) you want your users' home directory to be when they log into the server. If you set it to PATH, the user will see the absolute Amazon S3 bucket or EFS paths as is in their file transfer protocol clients. If you set it LOGICAL, you need to provide mappings in the HomeDirectoryMappings for how you want to make Amazon S3 or EFS paths visible to your users.
         public let homeDirectoryType: HomeDirectoryType?
@@ -227,6 +241,10 @@ extension Transfer {
         public let identityProviderType: IdentityProviderType?
         /// Specifies the Amazon Resource Name (ARN) of the Amazon Web Services Identity and Access Management (IAM) role that allows a server to turn on Amazon CloudWatch logging for Amazon S3 or Amazon EFS events. When set, user activity can be viewed in your CloudWatch logs.
         public let loggingRole: String?
+        /// Specify a string to display when users connect to a server. This string is displayed after the user authenticates.  The SFTP protocol does not support post-authentication display banners.
+        public let postAuthenticationLoginBanner: String?
+        /// Specify a string to display when users connect to a server. This string is displayed before the user authenticates. For example, the following banner displays details about using the system.  This system is for the use of authorized users only. Individuals using this computer system without authority, or in excess of their authority, are subject to having all of their activities on this system monitored and recorded by system personnel.
+        public let preAuthenticationLoginBanner: String?
         /// The protocol settings that are configured for your server.  Use the PassiveIp parameter to indicate passive mode (for FTP and FTPS protocols). Enter a single dotted-quad IPv4 address, such as the external IP address of a firewall, router, or load balancer.  Use the TlsSessionResumptionMode parameter to determine whether or not your Transfer server resumes recent, negotiated sessions through a unique session ID.
         public let protocolDetails: ProtocolDetails?
         /// Specifies the file transfer protocol or protocols over which your file transfer protocol client can connect to your server's endpoint. The available protocols are:    SFTP (Secure Shell (SSH) File Transfer Protocol): File transfer over SSH    FTPS (File Transfer Protocol Secure): File transfer with TLS encryption    FTP (File Transfer Protocol): Unencrypted file transfer    If you select FTPS, you must choose a certificate stored in Amazon Web Services Certificate Manager (ACM) which is used to identify your server when clients connect to it over FTPS. If Protocol includes either FTP or FTPS, then the EndpointType must be VPC and the IdentityProviderType must be AWS_DIRECTORY_SERVICE or API_GATEWAY. If Protocol includes FTP, then AddressAllocationIds cannot be associated. If Protocol is set only to SFTP, the EndpointType can be set to PUBLIC and the IdentityProviderType can be set to SERVICE_MANAGED.
@@ -238,7 +256,7 @@ extension Transfer {
         /// Specifies the workflow ID for the workflow to assign and the execution role used for executing the workflow.
         public let workflowDetails: WorkflowDetails?
 
-        public init(certificate: String? = nil, domain: Domain? = nil, endpointDetails: EndpointDetails? = nil, endpointType: EndpointType? = nil, hostKey: String? = nil, identityProviderDetails: IdentityProviderDetails? = nil, identityProviderType: IdentityProviderType? = nil, loggingRole: String? = nil, protocolDetails: ProtocolDetails? = nil, protocols: [Protocol]? = nil, securityPolicyName: String? = nil, tags: [Tag]? = nil, workflowDetails: WorkflowDetails? = nil) {
+        public init(certificate: String? = nil, domain: Domain? = nil, endpointDetails: EndpointDetails? = nil, endpointType: EndpointType? = nil, hostKey: String? = nil, identityProviderDetails: IdentityProviderDetails? = nil, identityProviderType: IdentityProviderType? = nil, loggingRole: String? = nil, postAuthenticationLoginBanner: String? = nil, preAuthenticationLoginBanner: String? = nil, protocolDetails: ProtocolDetails? = nil, protocols: [Protocol]? = nil, securityPolicyName: String? = nil, tags: [Tag]? = nil, workflowDetails: WorkflowDetails? = nil) {
             self.certificate = certificate
             self.domain = domain
             self.endpointDetails = endpointDetails
@@ -247,6 +265,8 @@ extension Transfer {
             self.identityProviderDetails = identityProviderDetails
             self.identityProviderType = identityProviderType
             self.loggingRole = loggingRole
+            self.postAuthenticationLoginBanner = postAuthenticationLoginBanner
+            self.preAuthenticationLoginBanner = preAuthenticationLoginBanner
             self.protocolDetails = protocolDetails
             self.protocols = protocols
             self.securityPolicyName = securityPolicyName
@@ -262,6 +282,10 @@ extension Transfer {
             try self.validate(self.loggingRole, name: "loggingRole", parent: name, max: 2048)
             try self.validate(self.loggingRole, name: "loggingRole", parent: name, min: 20)
             try self.validate(self.loggingRole, name: "loggingRole", parent: name, pattern: "arn:.*role/.*")
+            try self.validate(self.postAuthenticationLoginBanner, name: "postAuthenticationLoginBanner", parent: name, max: 512)
+            try self.validate(self.postAuthenticationLoginBanner, name: "postAuthenticationLoginBanner", parent: name, pattern: "[\\x09-\\x0D\\x20-\\x7E]*")
+            try self.validate(self.preAuthenticationLoginBanner, name: "preAuthenticationLoginBanner", parent: name, max: 512)
+            try self.validate(self.preAuthenticationLoginBanner, name: "preAuthenticationLoginBanner", parent: name, pattern: "[\\x09-\\x0D\\x20-\\x7E]*")
             try self.protocolDetails?.validate(name: "\(name).protocolDetails")
             try self.validate(self.protocols, name: "protocols", parent: name, max: 3)
             try self.validate(self.protocols, name: "protocols", parent: name, min: 1)
@@ -284,6 +308,8 @@ extension Transfer {
             case identityProviderDetails = "IdentityProviderDetails"
             case identityProviderType = "IdentityProviderType"
             case loggingRole = "LoggingRole"
+            case postAuthenticationLoginBanner = "PostAuthenticationLoginBanner"
+            case preAuthenticationLoginBanner = "PreAuthenticationLoginBanner"
             case protocolDetails = "ProtocolDetails"
             case protocols = "Protocols"
             case securityPolicyName = "SecurityPolicyName"
@@ -308,7 +334,7 @@ extension Transfer {
     public struct CreateUserRequest: AWSEncodableShape {
         /// The landing directory (folder) for a user when they log in to the server using the client. A HomeDirectory example is /bucket_name/home/mydirectory.
         public let homeDirectory: String?
-        /// Logical directory mappings that specify what Amazon S3 or Amazon EFS paths and keys should be visible to your user and how you want to make them visible. You must specify the Entry and Target pair, where Entry shows how the path is made visible and Target is the actual Amazon S3 or Amazon EFS path. If you only specify a target, it is displayed as is. You also must ensure that your Amazon Web Services Identity and Access Management (IAM) role provides access to paths in Target. This value can only be set when HomeDirectoryType is set to LOGICAL. The following is an Entry and Target pair example.  [ { "Entry": "/directory1", "Target": "/bucket_name/home/mydirectory" } ]  In most cases, you can use this value instead of the session policy to lock your user down to the designated home directory ("chroot"). To do this, you can set Entry to / and set Target to the HomeDirectory parameter value. The following is an Entry and Target pair example for chroot.  [ { "Entry:": "/", "Target": "/bucket_name/home/mydirectory" } ]   If the target of a logical directory entry does not exist in Amazon S3 or EFS, the entry is ignored. As a workaround, you can use the Amazon S3 API or EFS API to create 0 byte objects as place holders for your directory. If using the CLI, use the s3api or efsapi call instead of s3 or efs so you can use the put-object operation. For example, you use the following: aws s3api put-object --bucket bucketname --key path/to/folder/. Make sure that the end of the key name ends in a / for it to be considered a folder.
+        /// Logical directory mappings that specify what Amazon S3 or Amazon EFS paths and keys should be visible to your user and how you want to make them visible. You must specify the Entry and Target pair, where Entry shows how the path is made visible and Target is the actual Amazon S3 or Amazon EFS path. If you only specify a target, it is displayed as is. You also must ensure that your Amazon Web Services Identity and Access Management (IAM) role provides access to paths in Target. This value can only be set when HomeDirectoryType is set to LOGICAL. The following is an Entry and Target pair example.  [ { "Entry": "/directory1", "Target": "/bucket_name/home/mydirectory" } ]  In most cases, you can use this value instead of the session policy to lock your user down to the designated home directory ("chroot"). To do this, you can set Entry to / and set Target to the HomeDirectory parameter value. The following is an Entry and Target pair example for chroot.  [ { "Entry": "/", "Target": "/bucket_name/home/mydirectory" } ]
         public let homeDirectoryMappings: [HomeDirectoryMapEntry]?
         /// The type of landing directory (folder) you want your users' home directory to be when they log into the server. If you set it to PATH, the user will see the absolute Amazon S3 bucket or EFS paths as is in their file transfer protocol clients. If you set it LOGICAL, you need to provide mappings in the HomeDirectoryMappings for how you want to make Amazon S3 or EFS paths visible to your users.
         public let homeDirectoryType: HomeDirectoryType?
@@ -404,7 +430,7 @@ extension Transfer {
         public let description: String?
         /// Specifies the steps (actions) to take if errors are encountered during execution of the workflow.  For custom steps, the lambda function needs to send FAILURE to the call back API to kick off the exception steps. Additionally, if the lambda does not send SUCCESS before it times out, the exception steps are executed.
         public let onExceptionSteps: [WorkflowStep]?
-        /// Specifies the details for the steps that are in the specified workflow.  The TYPE specifies which of the following actions is being taken for this step.     Copy: copy the file to another location    Custom: custom step with a lambda target    Delete: delete the file    Tag: add a tag to the file     Currently, copying and tagging are supported only on S3.    For file location, you specify either the S3 bucket and key, or the EFS filesystem ID and path.
+        /// Specifies the details for the steps that are in the specified workflow.  The TYPE specifies which of the following actions is being taken for this step.     COPY: copy the file to another location    CUSTOM: custom step with a lambda target    DELETE: delete the file    TAG: add a tag to the file     Currently, copying and tagging are supported only on S3.    For file location, you specify either the S3 bucket and key, or the EFS filesystem ID and path.
         public let steps: [WorkflowStep]
         /// Key-value pairs that can be used to group and search for workflows. Tags are metadata attached to workflows for any purpose.
         public let tags: [Tag]?
@@ -458,13 +484,16 @@ extension Transfer {
     public struct CustomStepDetails: AWSEncodableShape & AWSDecodableShape {
         /// The name of the step, used as an identifier.
         public let name: String?
+        /// Specifies which file to use as input to the workflow step: either the output from the previous step, or the originally uploaded file for the workflow.   Enter ${previous.file} to use the previous file as the input. In this case, this workflow step uses the output file from the previous workflow step as input. This is the default value.   Enter ${original.file} to use the originally-uploaded file location as input for this step.
+        public let sourceFileLocation: String?
         /// The ARN for the lambda function that is being called.
         public let target: String?
         /// Timeout, in seconds, for the step.
         public let timeoutSeconds: Int?
 
-        public init(name: String? = nil, target: String? = nil, timeoutSeconds: Int? = nil) {
+        public init(name: String? = nil, sourceFileLocation: String? = nil, target: String? = nil, timeoutSeconds: Int? = nil) {
             self.name = name
+            self.sourceFileLocation = sourceFileLocation
             self.target = target
             self.timeoutSeconds = timeoutSeconds
         }
@@ -472,6 +501,8 @@ extension Transfer {
         public func validate(name: String) throws {
             try self.validate(self.name, name: "name", parent: name, max: 30)
             try self.validate(self.name, name: "name", parent: name, pattern: "^[\\w-]*$")
+            try self.validate(self.sourceFileLocation, name: "sourceFileLocation", parent: name, max: 256)
+            try self.validate(self.sourceFileLocation, name: "sourceFileLocation", parent: name, pattern: "^\\$\\{(\\w+.)+\\w+\\}$")
             try self.validate(self.target, name: "target", parent: name, max: 170)
             try self.validate(self.target, name: "target", parent: name, pattern: "arn:[a-z-]+:lambda:.*$")
             try self.validate(self.timeoutSeconds, name: "timeoutSeconds", parent: name, max: 1800)
@@ -480,6 +511,7 @@ extension Transfer {
 
         private enum CodingKeys: String, CodingKey {
             case name = "Name"
+            case sourceFileLocation = "SourceFileLocation"
             case target = "Target"
             case timeoutSeconds = "TimeoutSeconds"
         }
@@ -566,18 +598,24 @@ extension Transfer {
     public struct DeleteStepDetails: AWSEncodableShape & AWSDecodableShape {
         /// The name of the step, used as an identifier.
         public let name: String?
+        /// Specifies which file to use as input to the workflow step: either the output from the previous step, or the originally uploaded file for the workflow.   Enter ${previous.file} to use the previous file as the input. In this case, this workflow step uses the output file from the previous workflow step as input. This is the default value.   Enter ${original.file} to use the originally-uploaded file location as input for this step.
+        public let sourceFileLocation: String?
 
-        public init(name: String? = nil) {
+        public init(name: String? = nil, sourceFileLocation: String? = nil) {
             self.name = name
+            self.sourceFileLocation = sourceFileLocation
         }
 
         public func validate(name: String) throws {
             try self.validate(self.name, name: "name", parent: name, max: 30)
             try self.validate(self.name, name: "name", parent: name, pattern: "^[\\w-]*$")
+            try self.validate(self.sourceFileLocation, name: "sourceFileLocation", parent: name, max: 256)
+            try self.validate(self.sourceFileLocation, name: "sourceFileLocation", parent: name, pattern: "^\\$\\{(\\w+.)+\\w+\\}$")
         }
 
         private enum CodingKeys: String, CodingKey {
             case name = "Name"
+            case sourceFileLocation = "SourceFileLocation"
         }
     }
 
@@ -978,6 +1016,10 @@ extension Transfer {
         public let identityProviderType: IdentityProviderType?
         /// Specifies the Amazon Resource Name (ARN) of the Amazon Web Services Identity and Access Management (IAM) role that allows a server to turn on Amazon CloudWatch logging for Amazon S3 or Amazon EFS events. When set, user activity can be viewed in your CloudWatch logs.
         public let loggingRole: String?
+        /// Specify a string to display when users connect to a server. This string is displayed after the user authenticates.  The SFTP protocol does not support post-authentication display banners.
+        public let postAuthenticationLoginBanner: String?
+        /// Specify a string to display when users connect to a server. This string is displayed before the user authenticates. For example, the following banner displays details about using the system.  This system is for the use of authorized users only. Individuals using this computer system without authority, or in excess of their authority, are subject to having all of their activities on this system monitored and recorded by system personnel.
+        public let preAuthenticationLoginBanner: String?
         ///  The protocol settings that are configured for your server.   Use the PassiveIp parameter to indicate passive mode. Enter a single dotted-quad IPv4 address, such as the external IP address of a firewall, router, or load balancer.
         public let protocolDetails: ProtocolDetails?
         /// Specifies the file transfer protocol or protocols over which your file transfer protocol client can connect to your server's endpoint. The available protocols are:    SFTP (Secure Shell (SSH) File Transfer Protocol): File transfer over SSH    FTPS (File Transfer Protocol Secure): File transfer with TLS encryption    FTP (File Transfer Protocol): Unencrypted file transfer
@@ -995,7 +1037,7 @@ extension Transfer {
         /// Specifies the workflow ID for the workflow to assign and the execution role used for executing the workflow.
         public let workflowDetails: WorkflowDetails?
 
-        public init(arn: String, certificate: String? = nil, domain: Domain? = nil, endpointDetails: EndpointDetails? = nil, endpointType: EndpointType? = nil, hostKeyFingerprint: String? = nil, identityProviderDetails: IdentityProviderDetails? = nil, identityProviderType: IdentityProviderType? = nil, loggingRole: String? = nil, protocolDetails: ProtocolDetails? = nil, protocols: [Protocol]? = nil, securityPolicyName: String? = nil, serverId: String? = nil, state: State? = nil, tags: [Tag]? = nil, userCount: Int? = nil, workflowDetails: WorkflowDetails? = nil) {
+        public init(arn: String, certificate: String? = nil, domain: Domain? = nil, endpointDetails: EndpointDetails? = nil, endpointType: EndpointType? = nil, hostKeyFingerprint: String? = nil, identityProviderDetails: IdentityProviderDetails? = nil, identityProviderType: IdentityProviderType? = nil, loggingRole: String? = nil, postAuthenticationLoginBanner: String? = nil, preAuthenticationLoginBanner: String? = nil, protocolDetails: ProtocolDetails? = nil, protocols: [Protocol]? = nil, securityPolicyName: String? = nil, serverId: String? = nil, state: State? = nil, tags: [Tag]? = nil, userCount: Int? = nil, workflowDetails: WorkflowDetails? = nil) {
             self.arn = arn
             self.certificate = certificate
             self.domain = domain
@@ -1005,6 +1047,8 @@ extension Transfer {
             self.identityProviderDetails = identityProviderDetails
             self.identityProviderType = identityProviderType
             self.loggingRole = loggingRole
+            self.postAuthenticationLoginBanner = postAuthenticationLoginBanner
+            self.preAuthenticationLoginBanner = preAuthenticationLoginBanner
             self.protocolDetails = protocolDetails
             self.protocols = protocols
             self.securityPolicyName = securityPolicyName
@@ -1025,6 +1069,8 @@ extension Transfer {
             case identityProviderDetails = "IdentityProviderDetails"
             case identityProviderType = "IdentityProviderType"
             case loggingRole = "LoggingRole"
+            case postAuthenticationLoginBanner = "PostAuthenticationLoginBanner"
+            case preAuthenticationLoginBanner = "PreAuthenticationLoginBanner"
             case protocolDetails = "ProtocolDetails"
             case protocols = "Protocols"
             case securityPolicyName = "SecurityPolicyName"
@@ -1132,9 +1178,9 @@ extension Transfer {
         public func validate(name: String) throws {
             try self.validate(self.fileSystemId, name: "fileSystemId", parent: name, max: 128)
             try self.validate(self.fileSystemId, name: "fileSystemId", parent: name, pattern: "^(arn:aws[-a-z]*:elasticfilesystem:[0-9a-z-:]+:(access-point/fsap|file-system/fs)-[0-9a-f]{8,40}|fs(ap)?-[0-9a-f]{8,40})$")
-            try self.validate(self.path, name: "path", parent: name, max: 100)
+            try self.validate(self.path, name: "path", parent: name, max: 65536)
             try self.validate(self.path, name: "path", parent: name, min: 1)
-            try self.validate(self.path, name: "path", parent: name, pattern: "^(\\/|(\\/(?!\\.)+[^$#<>;`|&?{}^*/\\n]+){1,4})$")
+            try self.validate(self.path, name: "path", parent: name, pattern: "^[^\\x00]+$")
         }
 
         private enum CodingKeys: String, CodingKey {
@@ -1186,7 +1232,7 @@ extension Transfer {
     public struct ExecutionError: AWSDecodableShape {
         /// Specifies the descriptive message that corresponds to the ErrorType.
         public let message: String
-        /// Specifies the error type: currently, the only valid value is PERMISSION_DENIED, which occurs if your policy does not contain the correct permissions to complete one or more of the steps in the workflow.
+        /// Specifies the error type.    ALREADY_EXISTS: occurs for a copy step, if the overwrite option is not selected and a file with the same name already exists in the target location.    BAD_REQUEST: a general bad request: for example, a step that attempts to tag an EFS file returns BAD_REQUEST, as only S3 files can be tagged.    CUSTOM_STEP_FAILED: occurs when the custom step provided a callback that indicates failure.    INTERNAL_SERVER_ERROR: a catch-all error that can occur for a variety of reasons.    NOT_FOUND: occurs when a requested entity, for example a source file for a copy step, does not exist.    PERMISSION_DENIED: occurs if your policy does not contain the correct permissions to complete one or more of the steps in the workflow.    TIMEOUT: occurs when the execution times out.   You can set the TimeoutSeconds for a custom step, anywhere from 1 second to 1800 seconds (30 minutes).      THROTTLED: occurs if you exceed the new execution refill rate of one workflow per second.
         public let type: ExecutionErrorType
 
         public init(message: String, type: ExecutionErrorType) {
@@ -1222,7 +1268,7 @@ extension Transfer {
         public let error: ExecutionError?
         /// The values for the key/value pair applied as a tag to the file. Only applicable if the step type is TAG.
         public let outputs: String?
-        /// One of the available step types.    Copy: copy the file to another location    Custom: custom step with a lambda target    Delete: delete the file    Tag: add a tag to the file
+        /// One of the available step types.    COPY: copy the file to another location    CUSTOM: custom step with a lambda target    DELETE: delete the file    TAG: add a tag to the file
         public let stepType: WorkflowStepType?
 
         public init(error: ExecutionError? = nil, outputs: String? = nil, stepType: WorkflowStepType? = nil) {
@@ -2181,17 +2227,22 @@ extension Transfer {
     public struct TagStepDetails: AWSEncodableShape & AWSDecodableShape {
         /// The name of the step, used as an identifier.
         public let name: String?
+        /// Specifies which file to use as input to the workflow step: either the output from the previous step, or the originally uploaded file for the workflow.   Enter ${previous.file} to use the previous file as the input. In this case, this workflow step uses the output file from the previous workflow step as input. This is the default value.   Enter ${original.file} to use the originally-uploaded file location as input for this step.
+        public let sourceFileLocation: String?
         /// Array that contains from 1 to 10 key/value pairs.
         public let tags: [S3Tag]?
 
-        public init(name: String? = nil, tags: [S3Tag]? = nil) {
+        public init(name: String? = nil, sourceFileLocation: String? = nil, tags: [S3Tag]? = nil) {
             self.name = name
+            self.sourceFileLocation = sourceFileLocation
             self.tags = tags
         }
 
         public func validate(name: String) throws {
             try self.validate(self.name, name: "name", parent: name, max: 30)
             try self.validate(self.name, name: "name", parent: name, pattern: "^[\\w-]*$")
+            try self.validate(self.sourceFileLocation, name: "sourceFileLocation", parent: name, max: 256)
+            try self.validate(self.sourceFileLocation, name: "sourceFileLocation", parent: name, pattern: "^\\$\\{(\\w+.)+\\w+\\}$")
             try self.tags?.forEach {
                 try $0.validate(name: "\(name).tags[]")
             }
@@ -2201,6 +2252,7 @@ extension Transfer {
 
         private enum CodingKeys: String, CodingKey {
             case name = "Name"
+            case sourceFileLocation = "SourceFileLocation"
             case tags = "Tags"
         }
     }
@@ -2247,7 +2299,7 @@ extension Transfer {
     }
 
     public struct TestIdentityProviderResponse: AWSDecodableShape {
-        /// A message that indicates whether the test was successful or not.
+        /// A message that indicates whether the test was successful or not.  If an empty string is returned, the most likely cause is that the authentication failed due to an incorrect username or password.
         public let message: String?
         /// The response that is returned from your API Gateway.
         public let response: String?
@@ -2304,7 +2356,7 @@ extension Transfer {
         public let externalId: String
         /// The landing directory (folder) for a user when they log in to the server using the client. A HomeDirectory example is /bucket_name/home/mydirectory.
         public let homeDirectory: String?
-        /// Logical directory mappings that specify what Amazon S3 or Amazon EFS paths and keys should be visible to your user and how you want to make them visible. You must specify the Entry and Target pair, where Entry shows how the path is made visible and Target is the actual Amazon S3 or Amazon EFS path. If you only specify a target, it is displayed as is. You also must ensure that your Amazon Web Services Identity and Access Management (IAM) role provides access to paths in Target. This value can only be set when HomeDirectoryType is set to LOGICAL. The following is an Entry and Target pair example.  [ { "Entry": "/directory1", "Target": "/bucket_name/home/mydirectory" } ]  In most cases, you can use this value instead of the session policy to lock down your user to the designated home directory ("chroot"). To do this, you can set Entry to / and set Target to the HomeDirectory parameter value. The following is an Entry and Target pair example for chroot.  [ { "Entry:": "/", "Target": "/bucket_name/home/mydirectory" } ]   If the target of a logical directory entry does not exist in Amazon S3 or EFS, the entry is ignored. As a workaround, you can use the Amazon S3 API or EFS API to create 0 byte objects as place holders for your directory. If using the CLI, use the s3api or efsapi call instead of s3 or efs so you can use the put-object operation. For example, you use the following: aws s3api put-object --bucket bucketname --key path/to/folder/. Make sure that the end of the key name ends in a / for it to be considered a folder.
+        /// Logical directory mappings that specify what Amazon S3 or Amazon EFS paths and keys should be visible to your user and how you want to make them visible. You must specify the Entry and Target pair, where Entry shows how the path is made visible and Target is the actual Amazon S3 or Amazon EFS path. If you only specify a target, it is displayed as is. You also must ensure that your Amazon Web Services Identity and Access Management (IAM) role provides access to paths in Target. This value can only be set when HomeDirectoryType is set to LOGICAL. The following is an Entry and Target pair example.  [ { "Entry": "/directory1", "Target": "/bucket_name/home/mydirectory" } ]  In most cases, you can use this value instead of the session policy to lock down your user to the designated home directory ("chroot"). To do this, you can set Entry to / and set Target to the HomeDirectory parameter value. The following is an Entry and Target pair example for chroot.  [ { "Entry": "/", "Target": "/bucket_name/home/mydirectory" } ]
         public let homeDirectoryMappings: [HomeDirectoryMapEntry]?
         /// The type of landing directory (folder) you want your users' home directory to be when they log into the server. If you set it to PATH, the user will see the absolute Amazon S3 bucket or EFS paths as is in their file transfer protocol clients. If you set it LOGICAL, you need to provide mappings in the HomeDirectoryMappings for how you want to make Amazon S3 or EFS paths visible to your users.
         public let homeDirectoryType: HomeDirectoryType?
@@ -2390,6 +2442,10 @@ extension Transfer {
         public let identityProviderDetails: IdentityProviderDetails?
         /// Specifies the Amazon Resource Name (ARN) of the Amazon Web Services Identity and Access Management (IAM) role that allows a server to turn on Amazon CloudWatch logging for Amazon S3 or Amazon EFS events. When set, user activity can be viewed in your CloudWatch logs.
         public let loggingRole: String?
+        /// Specify a string to display when users connect to a server. This string is displayed after the user authenticates.  The SFTP protocol does not support post-authentication display banners.
+        public let postAuthenticationLoginBanner: String?
+        /// Specify a string to display when users connect to a server. This string is displayed before the user authenticates. For example, the following banner displays details about using the system.  This system is for the use of authorized users only. Individuals using this computer system without authority, or in excess of their authority, are subject to having all of their activities on this system monitored and recorded by system personnel.
+        public let preAuthenticationLoginBanner: String?
         ///  The protocol settings that are configured for your server.   Use the PassiveIp parameter to indicate passive mode (for FTP and FTPS protocols). Enter a single dotted-quad IPv4 address, such as the external IP address of a firewall, router, or load balancer.  Use the TlsSessionResumptionMode parameter to determine whether or not your Transfer server resumes recent, negotiated sessions through a unique session ID.
         public let protocolDetails: ProtocolDetails?
         /// Specifies the file transfer protocol or protocols over which your file transfer protocol client can connect to your server's endpoint. The available protocols are:   Secure Shell (SSH) File Transfer Protocol (SFTP): File transfer over SSH   File Transfer Protocol Secure (FTPS): File transfer with TLS encryption   File Transfer Protocol (FTP): Unencrypted file transfer    If you select FTPS, you must choose a certificate stored in Amazon Web ServicesCertificate Manager (ACM) which will be used to identify your server when clients connect to it over FTPS. If Protocol includes either FTP or FTPS, then the EndpointType must be VPC and the IdentityProviderType must be AWS_DIRECTORY_SERVICE or API_GATEWAY. If Protocol includes FTP, then AddressAllocationIds cannot be associated. If Protocol is set only to SFTP, the EndpointType can be set to PUBLIC and the IdentityProviderType can be set to SERVICE_MANAGED.
@@ -2398,16 +2454,18 @@ extension Transfer {
         public let securityPolicyName: String?
         /// A system-assigned unique identifier for a server instance that the user account is assigned to.
         public let serverId: String
-        /// Specifies the workflow ID for the workflow to assign and the execution role used for executing the workflow.
+        /// Specifies the workflow ID for the workflow to assign and the execution role used for executing the workflow. To remove an associated workflow from a server, you can provide an empty OnUpload object, as in the following example.  aws transfer update-server --server-id s-01234567890abcdef --workflow-details '{"OnUpload":[]}'
         public let workflowDetails: WorkflowDetails?
 
-        public init(certificate: String? = nil, endpointDetails: EndpointDetails? = nil, endpointType: EndpointType? = nil, hostKey: String? = nil, identityProviderDetails: IdentityProviderDetails? = nil, loggingRole: String? = nil, protocolDetails: ProtocolDetails? = nil, protocols: [Protocol]? = nil, securityPolicyName: String? = nil, serverId: String, workflowDetails: WorkflowDetails? = nil) {
+        public init(certificate: String? = nil, endpointDetails: EndpointDetails? = nil, endpointType: EndpointType? = nil, hostKey: String? = nil, identityProviderDetails: IdentityProviderDetails? = nil, loggingRole: String? = nil, postAuthenticationLoginBanner: String? = nil, preAuthenticationLoginBanner: String? = nil, protocolDetails: ProtocolDetails? = nil, protocols: [Protocol]? = nil, securityPolicyName: String? = nil, serverId: String, workflowDetails: WorkflowDetails? = nil) {
             self.certificate = certificate
             self.endpointDetails = endpointDetails
             self.endpointType = endpointType
             self.hostKey = hostKey
             self.identityProviderDetails = identityProviderDetails
             self.loggingRole = loggingRole
+            self.postAuthenticationLoginBanner = postAuthenticationLoginBanner
+            self.preAuthenticationLoginBanner = preAuthenticationLoginBanner
             self.protocolDetails = protocolDetails
             self.protocols = protocols
             self.securityPolicyName = securityPolicyName
@@ -2422,6 +2480,10 @@ extension Transfer {
             try self.identityProviderDetails?.validate(name: "\(name).identityProviderDetails")
             try self.validate(self.loggingRole, name: "loggingRole", parent: name, max: 2048)
             try self.validate(self.loggingRole, name: "loggingRole", parent: name, pattern: "^$|arn:.*role/.*")
+            try self.validate(self.postAuthenticationLoginBanner, name: "postAuthenticationLoginBanner", parent: name, max: 512)
+            try self.validate(self.postAuthenticationLoginBanner, name: "postAuthenticationLoginBanner", parent: name, pattern: "[\\x09-\\x0D\\x20-\\x7E]*")
+            try self.validate(self.preAuthenticationLoginBanner, name: "preAuthenticationLoginBanner", parent: name, max: 512)
+            try self.validate(self.preAuthenticationLoginBanner, name: "preAuthenticationLoginBanner", parent: name, pattern: "[\\x09-\\x0D\\x20-\\x7E]*")
             try self.protocolDetails?.validate(name: "\(name).protocolDetails")
             try self.validate(self.protocols, name: "protocols", parent: name, max: 3)
             try self.validate(self.protocols, name: "protocols", parent: name, min: 1)
@@ -2440,6 +2502,8 @@ extension Transfer {
             case hostKey = "HostKey"
             case identityProviderDetails = "IdentityProviderDetails"
             case loggingRole = "LoggingRole"
+            case postAuthenticationLoginBanner = "PostAuthenticationLoginBanner"
+            case preAuthenticationLoginBanner = "PreAuthenticationLoginBanner"
             case protocolDetails = "ProtocolDetails"
             case protocols = "Protocols"
             case securityPolicyName = "SecurityPolicyName"
@@ -2464,7 +2528,7 @@ extension Transfer {
     public struct UpdateUserRequest: AWSEncodableShape {
         /// The landing directory (folder) for a user when they log in to the server using the client. A HomeDirectory example is /bucket_name/home/mydirectory.
         public let homeDirectory: String?
-        /// Logical directory mappings that specify what Amazon S3 or Amazon EFS paths and keys should be visible to your user and how you want to make them visible. You must specify the Entry and Target pair, where Entry shows how the path is made visible and Target is the actual Amazon S3 or Amazon EFS path. If you only specify a target, it is displayed as is. You also must ensure that your Amazon Web Services Identity and Access Management (IAM) role provides access to paths in Target. This value can only be set when HomeDirectoryType is set to LOGICAL. The following is an Entry and Target pair example.  [ { "Entry": "/directory1", "Target": "/bucket_name/home/mydirectory" } ]  In most cases, you can use this value instead of the session policy to lock down your user to the designated home directory ("chroot"). To do this, you can set Entry to '/' and set Target to the HomeDirectory parameter value. The following is an Entry and Target pair example for chroot.  [ { "Entry:": "/", "Target": "/bucket_name/home/mydirectory" } ]   If the target of a logical directory entry does not exist in Amazon S3 or EFS, the entry is ignored. As a workaround, you can use the Amazon S3 API or EFS API to create 0 byte objects as place holders for your directory. If using the CLI, use the s3api or efsapi call instead of s3 or efs so you can use the put-object operation. For example, you use the following: aws s3api put-object --bucket bucketname --key path/to/folder/. Make sure that the end of the key name ends in a / for it to be considered a folder.
+        /// Logical directory mappings that specify what Amazon S3 or Amazon EFS paths and keys should be visible to your user and how you want to make them visible. You must specify the Entry and Target pair, where Entry shows how the path is made visible and Target is the actual Amazon S3 or Amazon EFS path. If you only specify a target, it is displayed as is. You also must ensure that your Amazon Web Services Identity and Access Management (IAM) role provides access to paths in Target. This value can only be set when HomeDirectoryType is set to LOGICAL. The following is an Entry and Target pair example.  [ { "Entry": "/directory1", "Target": "/bucket_name/home/mydirectory" } ]  In most cases, you can use this value instead of the session policy to lock down your user to the designated home directory ("chroot"). To do this, you can set Entry to '/' and set Target to the HomeDirectory parameter value. The following is an Entry and Target pair example for chroot.  [ { "Entry": "/", "Target": "/bucket_name/home/mydirectory" } ]
         public let homeDirectoryMappings: [HomeDirectoryMapEntry]?
         /// The type of landing directory (folder) you want your users' home directory to be when they log into the server. If you set it to PATH, the user will see the absolute Amazon S3 bucket or EFS paths as is in their file transfer protocol clients. If you set it LOGICAL, you need to provide mappings in the HomeDirectoryMappings for how you want to make Amazon S3 or EFS paths visible to your users.
         public let homeDirectoryType: HomeDirectoryType?
@@ -2588,7 +2652,7 @@ extension Transfer {
     }
 
     public struct WorkflowDetails: AWSEncodableShape & AWSDecodableShape {
-        /// A trigger that starts a workflow: the workflow begins to execute after a file is uploaded.
+        /// A trigger that starts a workflow: the workflow begins to execute after a file is uploaded. To remove an associated workflow from a server, you can provide an empty OnUpload object, as in the following example.  aws transfer update-server --server-id s-01234567890abcdef --workflow-details '{"OnUpload":[]}'
         public let onUpload: [WorkflowDetail]
 
         public init(onUpload: [WorkflowDetail]) {
@@ -2616,7 +2680,7 @@ extension Transfer {
         public let deleteStepDetails: DeleteStepDetails?
         /// Details for a step that creates one or more tags. You specify one or more tags: each tag contains a key/value pair.
         public let tagStepDetails: TagStepDetails?
-        ///  Currently, the following step types are supported.     Copy: copy the file to another location    Custom: custom step with a lambda target    Delete: delete the file    Tag: add a tag to the file
+        ///  Currently, the following step types are supported.     COPY: copy the file to another location    CUSTOM: custom step with a lambda target    DELETE: delete the file    TAG: add a tag to the file
         public let type: WorkflowStepType?
 
         public init(copyStepDetails: CopyStepDetails? = nil, customStepDetails: CustomStepDetails? = nil, deleteStepDetails: DeleteStepDetails? = nil, tagStepDetails: TagStepDetails? = nil, type: WorkflowStepType? = nil) {

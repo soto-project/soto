@@ -549,6 +549,59 @@ extension Comprehend {
         )
     }
 
+    ///  Gets a list of targeted sentiment detection jobs that you have submitted.
+    ///
+    /// Provide paginated results to closure `onPage` for it to combine them into one result.
+    /// This works in a similar manner to `Array.reduce<Result>(_:_:) -> Result`.
+    ///
+    /// Parameters:
+    ///   - input: Input for request
+    ///   - initialValue: The value to use as the initial accumulating value. `initialValue` is passed to `onPage` the first time it is called.
+    ///   - logger: Logger used for logging output
+    ///   - eventLoop: EventLoop to run this process on
+    ///   - onPage: closure called with each paginated response. It combines an accumulating result with the contents of response. This combined result is then returned
+    ///         along with a boolean indicating if the paginate operation should continue.
+    public func listTargetedSentimentDetectionJobsPaginator<Result>(
+        _ input: ListTargetedSentimentDetectionJobsRequest,
+        _ initialValue: Result,
+        logger: Logger = AWSClient.loggingDisabled,
+        on eventLoop: EventLoop? = nil,
+        onPage: @escaping (Result, ListTargetedSentimentDetectionJobsResponse, EventLoop) -> EventLoopFuture<(Bool, Result)>
+    ) -> EventLoopFuture<Result> {
+        return client.paginate(
+            input: input,
+            initialValue: initialValue,
+            command: listTargetedSentimentDetectionJobs,
+            inputKey: \ListTargetedSentimentDetectionJobsRequest.nextToken,
+            outputKey: \ListTargetedSentimentDetectionJobsResponse.nextToken,
+            on: eventLoop,
+            onPage: onPage
+        )
+    }
+
+    /// Provide paginated results to closure `onPage`.
+    ///
+    /// - Parameters:
+    ///   - input: Input for request
+    ///   - logger: Logger used for logging output
+    ///   - eventLoop: EventLoop to run this process on
+    ///   - onPage: closure called with each block of entries. Returns boolean indicating whether we should continue.
+    public func listTargetedSentimentDetectionJobsPaginator(
+        _ input: ListTargetedSentimentDetectionJobsRequest,
+        logger: Logger = AWSClient.loggingDisabled,
+        on eventLoop: EventLoop? = nil,
+        onPage: @escaping (ListTargetedSentimentDetectionJobsResponse, EventLoop) -> EventLoopFuture<Bool>
+    ) -> EventLoopFuture<Void> {
+        return client.paginate(
+            input: input,
+            command: listTargetedSentimentDetectionJobs,
+            inputKey: \ListTargetedSentimentDetectionJobsRequest.nextToken,
+            outputKey: \ListTargetedSentimentDetectionJobsResponse.nextToken,
+            on: eventLoop,
+            onPage: onPage
+        )
+    }
+
     ///  Gets a list of the topic detection jobs that you have submitted.
     ///
     /// Provide paginated results to closure `onPage` for it to combine them into one result.
@@ -693,6 +746,16 @@ extension Comprehend.ListKeyPhrasesDetectionJobsRequest: AWSPaginateToken {
 
 extension Comprehend.ListSentimentDetectionJobsRequest: AWSPaginateToken {
     public func usingPaginationToken(_ token: String) -> Comprehend.ListSentimentDetectionJobsRequest {
+        return .init(
+            filter: self.filter,
+            maxResults: self.maxResults,
+            nextToken: token
+        )
+    }
+}
+
+extension Comprehend.ListTargetedSentimentDetectionJobsRequest: AWSPaginateToken {
+    public func usingPaginationToken(_ token: String) -> Comprehend.ListTargetedSentimentDetectionJobsRequest {
         return .init(
             filter: self.filter,
             maxResults: self.maxResults,

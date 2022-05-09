@@ -1291,6 +1291,59 @@ extension IoT {
         )
     }
 
+    ///  Lists the values reported for an IoT Device Defender metric (device-side metric, cloud-side metric, or custom metric) by the given thing during the specified time period.
+    ///
+    /// Provide paginated results to closure `onPage` for it to combine them into one result.
+    /// This works in a similar manner to `Array.reduce<Result>(_:_:) -> Result`.
+    ///
+    /// Parameters:
+    ///   - input: Input for request
+    ///   - initialValue: The value to use as the initial accumulating value. `initialValue` is passed to `onPage` the first time it is called.
+    ///   - logger: Logger used for logging output
+    ///   - eventLoop: EventLoop to run this process on
+    ///   - onPage: closure called with each paginated response. It combines an accumulating result with the contents of response. This combined result is then returned
+    ///         along with a boolean indicating if the paginate operation should continue.
+    public func listMetricValuesPaginator<Result>(
+        _ input: ListMetricValuesRequest,
+        _ initialValue: Result,
+        logger: Logger = AWSClient.loggingDisabled,
+        on eventLoop: EventLoop? = nil,
+        onPage: @escaping (Result, ListMetricValuesResponse, EventLoop) -> EventLoopFuture<(Bool, Result)>
+    ) -> EventLoopFuture<Result> {
+        return client.paginate(
+            input: input,
+            initialValue: initialValue,
+            command: listMetricValues,
+            inputKey: \ListMetricValuesRequest.nextToken,
+            outputKey: \ListMetricValuesResponse.nextToken,
+            on: eventLoop,
+            onPage: onPage
+        )
+    }
+
+    /// Provide paginated results to closure `onPage`.
+    ///
+    /// - Parameters:
+    ///   - input: Input for request
+    ///   - logger: Logger used for logging output
+    ///   - eventLoop: EventLoop to run this process on
+    ///   - onPage: closure called with each block of entries. Returns boolean indicating whether we should continue.
+    public func listMetricValuesPaginator(
+        _ input: ListMetricValuesRequest,
+        logger: Logger = AWSClient.loggingDisabled,
+        on eventLoop: EventLoop? = nil,
+        onPage: @escaping (ListMetricValuesResponse, EventLoop) -> EventLoopFuture<Bool>
+    ) -> EventLoopFuture<Void> {
+        return client.paginate(
+            input: input,
+            command: listMetricValues,
+            inputKey: \ListMetricValuesRequest.nextToken,
+            outputKey: \ListMetricValuesResponse.nextToken,
+            on: eventLoop,
+            onPage: onPage
+        )
+    }
+
     ///  Gets a list of all mitigation actions that match the specified filter criteria. Requires permission to access the ListMitigationActions action.
     ///
     /// Provide paginated results to closure `onPage` for it to combine them into one result.
@@ -3124,6 +3177,7 @@ extension IoT.ListJobExecutionsForJobRequest: AWSPaginateToken {
 extension IoT.ListJobExecutionsForThingRequest: AWSPaginateToken {
     public func usingPaginationToken(_ token: String) -> IoT.ListJobExecutionsForThingRequest {
         return .init(
+            jobId: self.jobId,
             maxResults: self.maxResults,
             namespaceId: self.namespaceId,
             nextToken: token,
@@ -3152,6 +3206,21 @@ extension IoT.ListJobsRequest: AWSPaginateToken {
             targetSelection: self.targetSelection,
             thingGroupId: self.thingGroupId,
             thingGroupName: self.thingGroupName
+        )
+    }
+}
+
+extension IoT.ListMetricValuesRequest: AWSPaginateToken {
+    public func usingPaginationToken(_ token: String) -> IoT.ListMetricValuesRequest {
+        return .init(
+            dimensionName: self.dimensionName,
+            dimensionValueOperator: self.dimensionValueOperator,
+            endTime: self.endTime,
+            maxResults: self.maxResults,
+            metricName: self.metricName,
+            nextToken: token,
+            startTime: self.startTime,
+            thingName: self.thingName
         )
     }
 }

@@ -772,21 +772,26 @@ extension Braket {
     }
 
     public struct InstanceConfig: AWSEncodableShape & AWSDecodableShape {
+        /// Configures the number of resource instances to use while running an Amazon Braket job on Amazon Braket. The default value is 1.
+        public let instanceCount: Int?
         /// Configures the type resource instances to use while running an Amazon Braket hybrid job.
         public let instanceType: InstanceType
         /// The size of the storage volume, in GB, that user wants to provision.
         public let volumeSizeInGb: Int
 
-        public init(instanceType: InstanceType, volumeSizeInGb: Int) {
+        public init(instanceCount: Int? = nil, instanceType: InstanceType, volumeSizeInGb: Int) {
+            self.instanceCount = instanceCount
             self.instanceType = instanceType
             self.volumeSizeInGb = volumeSizeInGb
         }
 
         public func validate(name: String) throws {
+            try self.validate(self.instanceCount, name: "instanceCount", parent: name, min: 1)
             try self.validate(self.volumeSizeInGb, name: "volumeSizeInGb", parent: name, min: 1)
         }
 
         private enum CodingKeys: String, CodingKey {
+            case instanceCount
             case instanceType
             case volumeSizeInGb
         }

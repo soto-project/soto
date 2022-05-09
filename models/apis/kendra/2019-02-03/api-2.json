@@ -1162,6 +1162,28 @@
     },
     "Blob":{"type":"blob"},
     "Boolean":{"type":"boolean"},
+    "BoxConfiguration":{
+      "type":"structure",
+      "required":[
+        "EnterpriseId",
+        "SecretArn"
+      ],
+      "members":{
+        "EnterpriseId":{"shape":"EnterpriseId"},
+        "SecretArn":{"shape":"SecretArn"},
+        "UseChangeLog":{"shape":"Boolean"},
+        "CrawlComments":{"shape":"Boolean"},
+        "CrawlTasks":{"shape":"Boolean"},
+        "CrawlWebLinks":{"shape":"Boolean"},
+        "FileFieldMappings":{"shape":"DataSourceToIndexFieldMappingList"},
+        "TaskFieldMappings":{"shape":"DataSourceToIndexFieldMappingList"},
+        "CommentFieldMappings":{"shape":"DataSourceToIndexFieldMappingList"},
+        "WebLinkFieldMappings":{"shape":"DataSourceToIndexFieldMappingList"},
+        "InclusionPatterns":{"shape":"DataSourceInclusionsExclusionsStrings"},
+        "ExclusionPatterns":{"shape":"DataSourceInclusionsExclusionsStrings"},
+        "VpcConfiguration":{"shape":"DataSourceVpcConfiguration"}
+      }
+    },
     "CapacityUnitsConfiguration":{
       "type":"structure",
       "required":[
@@ -1470,6 +1492,19 @@
         "PPT"
       ]
     },
+    "Correction":{
+      "type":"structure",
+      "members":{
+        "BeginOffset":{"shape":"Integer"},
+        "EndOffset":{"shape":"Integer"},
+        "Term":{"shape":"String"},
+        "CorrectedTerm":{"shape":"String"}
+      }
+    },
+    "CorrectionList":{
+      "type":"list",
+      "member":{"shape":"Correction"}
+    },
     "CrawlDepth":{
       "type":"integer",
       "max":10,
@@ -1663,7 +1698,11 @@
         "ConfluenceConfiguration":{"shape":"ConfluenceConfiguration"},
         "GoogleDriveConfiguration":{"shape":"GoogleDriveConfiguration"},
         "WebCrawlerConfiguration":{"shape":"WebCrawlerConfiguration"},
-        "WorkDocsConfiguration":{"shape":"WorkDocsConfiguration"}
+        "WorkDocsConfiguration":{"shape":"WorkDocsConfiguration"},
+        "FsxConfiguration":{"shape":"FsxConfiguration"},
+        "SlackConfiguration":{"shape":"SlackConfiguration"},
+        "BoxConfiguration":{"shape":"BoxConfiguration"},
+        "QuipConfiguration":{"shape":"QuipConfiguration"}
       }
     },
     "DataSourceDateFieldFormat":{
@@ -1834,7 +1873,11 @@
         "CONFLUENCE",
         "GOOGLEDRIVE",
         "WEBCRAWLER",
-        "WORKDOCS"
+        "WORKDOCS",
+        "FSX",
+        "SLACK",
+        "BOX",
+        "QUIP"
       ]
     },
     "DataSourceVpcConfiguration":{
@@ -2314,7 +2357,8 @@
       "type":"structure",
       "members":{
         "DocumentAttributeValue":{"shape":"DocumentAttributeValue"},
-        "Count":{"shape":"Integer"}
+        "Count":{"shape":"Integer"},
+        "FacetResults":{"shape":"FacetResultList"}
       }
     },
     "DocumentAttributeValueCountPairList":{
@@ -2424,6 +2468,12 @@
         "S3Prefix":{"shape":"S3ObjectKey"}
       }
     },
+    "Domain":{
+      "type":"string",
+      "max":63,
+      "min":1,
+      "pattern":"^(?!-)[A-Za-z0-9-].*(?<!-)$"
+    },
     "Duration":{
       "type":"string",
       "max":10,
@@ -2439,6 +2489,12 @@
     "EndpointType":{
       "type":"string",
       "enum":["HOME"]
+    },
+    "EnterpriseId":{
+      "type":"string",
+      "max":64,
+      "min":1,
+      "pattern":"^[A-Z0-9]*$"
     },
     "EntityConfiguration":{
       "type":"structure",
@@ -2598,7 +2654,9 @@
     "Facet":{
       "type":"structure",
       "members":{
-        "DocumentAttributeKey":{"shape":"DocumentAttributeKey"}
+        "DocumentAttributeKey":{"shape":"DocumentAttributeKey"},
+        "Facets":{"shape":"FacetList"},
+        "MaxResults":{"shape":"TopDocumentAttributeValueCountPairsSize"}
       }
     },
     "FacetList":{
@@ -2700,6 +2758,42 @@
       "max":2048,
       "min":1,
       "pattern":"^\\P{C}*.\\P{C}*$"
+    },
+    "FileSystemId":{
+      "type":"string",
+      "max":21,
+      "min":11,
+      "pattern":"^(fs-[0-9a-f]{8,})$"
+    },
+    "FolderId":{
+      "type":"string",
+      "max":500,
+      "min":1
+    },
+    "FolderIdList":{
+      "type":"list",
+      "member":{"shape":"FolderId"}
+    },
+    "FsxConfiguration":{
+      "type":"structure",
+      "required":[
+        "FileSystemId",
+        "FileSystemType",
+        "VpcConfiguration"
+      ],
+      "members":{
+        "FileSystemId":{"shape":"FileSystemId"},
+        "FileSystemType":{"shape":"FsxFileSystemType"},
+        "VpcConfiguration":{"shape":"DataSourceVpcConfiguration"},
+        "SecretArn":{"shape":"SecretArn"},
+        "InclusionPatterns":{"shape":"DataSourceInclusionsExclusionsStrings"},
+        "ExclusionPatterns":{"shape":"DataSourceInclusionsExclusionsStrings"},
+        "FieldMappings":{"shape":"DataSourceToIndexFieldMappingList"}
+      }
+    },
+    "FsxFileSystemType":{
+      "type":"string",
+      "enum":["WINDOWS"]
     },
     "GetQuerySuggestionsRequest":{
       "type":"structure",
@@ -3240,6 +3334,11 @@
       }
     },
     "Long":{"type":"long"},
+    "LookBackPeriod":{
+      "type":"integer",
+      "max":168,
+      "min":0
+    },
     "MaxContentSizePerPageInMegaBytes":{
       "type":"float",
       "max":50,
@@ -3498,6 +3597,10 @@
         "GROUP"
       ]
     },
+    "PrivateChannelFilter":{
+      "type":"list",
+      "member":{"shape":"String"}
+    },
     "ProxyConfiguration":{
       "type":"structure",
       "required":[
@@ -3509,6 +3612,10 @@
         "Port":{"shape":"Port"},
         "Credentials":{"shape":"SecretArn"}
       }
+    },
+    "PublicChannelFilter":{
+      "type":"list",
+      "member":{"shape":"String"}
     },
     "PutPrincipalMappingRequest":{
       "type":"structure",
@@ -3545,10 +3652,7 @@
     },
     "QueryRequest":{
       "type":"structure",
-      "required":[
-        "IndexId",
-        "QueryText"
-      ],
+      "required":["IndexId"],
       "members":{
         "IndexId":{"shape":"IndexId"},
         "QueryText":{"shape":"QueryText"},
@@ -3561,7 +3665,8 @@
         "PageSize":{"shape":"Integer"},
         "SortingConfiguration":{"shape":"SortingConfiguration"},
         "UserContext":{"shape":"UserContext"},
-        "VisitorId":{"shape":"VisitorId"}
+        "VisitorId":{"shape":"VisitorId"},
+        "SpellCorrectionConfiguration":{"shape":"SpellCorrectionConfiguration"}
       }
     },
     "QueryResult":{
@@ -3570,7 +3675,9 @@
         "QueryId":{"shape":"QueryId"},
         "ResultItems":{"shape":"QueryResultItemList"},
         "FacetResults":{"shape":"FacetResultList"},
-        "TotalNumberOfResults":{"shape":"Integer"}
+        "TotalNumberOfResults":{"shape":"Integer"},
+        "Warnings":{"shape":"WarningList"},
+        "SpellCorrectedQueries":{"shape":"SpellCorrectedQueryList"}
       }
     },
     "QueryResultItem":{
@@ -3653,8 +3760,28 @@
     "QueryText":{
       "type":"string",
       "max":1000,
-      "min":1,
-      "pattern":"^\\P{C}*$"
+      "min":1
+    },
+    "QuipConfiguration":{
+      "type":"structure",
+      "required":[
+        "Domain",
+        "SecretArn"
+      ],
+      "members":{
+        "Domain":{"shape":"Domain"},
+        "SecretArn":{"shape":"SecretArn"},
+        "CrawlFileComments":{"shape":"Boolean"},
+        "CrawlChatRooms":{"shape":"Boolean"},
+        "CrawlAttachments":{"shape":"Boolean"},
+        "FolderIds":{"shape":"FolderIdList"},
+        "ThreadFieldMappings":{"shape":"DataSourceToIndexFieldMappingList"},
+        "MessageFieldMappings":{"shape":"DataSourceToIndexFieldMappingList"},
+        "AttachmentFieldMappings":{"shape":"DataSourceToIndexFieldMappingList"},
+        "InclusionPatterns":{"shape":"DataSourceInclusionsExclusionsStrings"},
+        "ExclusionPatterns":{"shape":"DataSourceInclusionsExclusionsStrings"},
+        "VpcConfiguration":{"shape":"DataSourceVpcConfiguration"}
+      }
     },
     "ReadAccessType":{
       "type":"string",
@@ -4094,6 +4221,12 @@
       "min":1,
       "pattern":"^\\P{C}*$"
     },
+    "SinceCrawlDate":{
+      "type":"string",
+      "max":10,
+      "min":10,
+      "pattern":"(20\\d{2})-(0?[1-9]|1[0-2])-(0?[1-9]|1\\d|2\\d|3[01])"
+    },
     "SiteMap":{
       "type":"string",
       "max":2048,
@@ -4112,6 +4245,46 @@
       "member":{"shape":"SiteMap"},
       "max":3,
       "min":0
+    },
+    "SlackConfiguration":{
+      "type":"structure",
+      "required":[
+        "TeamId",
+        "SecretArn",
+        "SlackEntityList",
+        "SinceCrawlDate"
+      ],
+      "members":{
+        "TeamId":{"shape":"TeamId"},
+        "SecretArn":{"shape":"SecretArn"},
+        "VpcConfiguration":{"shape":"DataSourceVpcConfiguration"},
+        "SlackEntityList":{"shape":"SlackEntityList"},
+        "UseChangeLog":{"shape":"Boolean"},
+        "CrawlBotMessage":{"shape":"Boolean"},
+        "ExcludeArchived":{"shape":"Boolean"},
+        "SinceCrawlDate":{"shape":"SinceCrawlDate"},
+        "LookBackPeriod":{"shape":"LookBackPeriod"},
+        "PrivateChannelFilter":{"shape":"PrivateChannelFilter"},
+        "PublicChannelFilter":{"shape":"PublicChannelFilter"},
+        "InclusionPatterns":{"shape":"DataSourceInclusionsExclusionsStrings"},
+        "ExclusionPatterns":{"shape":"DataSourceInclusionsExclusionsStrings"},
+        "FieldMappings":{"shape":"DataSourceToIndexFieldMappingList"}
+      }
+    },
+    "SlackEntity":{
+      "type":"string",
+      "enum":[
+        "PUBLIC_CHANNEL",
+        "PRIVATE_CHANNEL",
+        "GROUP_MESSAGE",
+        "DIRECT_MESSAGE"
+      ]
+    },
+    "SlackEntityList":{
+      "type":"list",
+      "member":{"shape":"SlackEntity"},
+      "max":4,
+      "min":1
     },
     "SnapshotsDataHeaderFields":{
       "type":"list",
@@ -4141,6 +4314,24 @@
       "members":{
         "DocumentAttributeKey":{"shape":"DocumentAttributeKey"},
         "SortOrder":{"shape":"SortOrder"}
+      }
+    },
+    "SpellCorrectedQuery":{
+      "type":"structure",
+      "members":{
+        "SuggestedQueryText":{"shape":"SuggestedQueryText"},
+        "Corrections":{"shape":"CorrectionList"}
+      }
+    },
+    "SpellCorrectedQueryList":{
+      "type":"list",
+      "member":{"shape":"SpellCorrectedQuery"}
+    },
+    "SpellCorrectionConfiguration":{
+      "type":"structure",
+      "required":["IncludeQuerySpellCheckSuggestions"],
+      "members":{
+        "IncludeQuerySpellCheckSuggestions":{"shape":"Boolean"}
       }
     },
     "SqlConfiguration":{
@@ -4218,6 +4409,11 @@
       "type":"list",
       "member":{"shape":"SubnetId"},
       "max":6,
+      "min":1
+    },
+    "SuggestedQueryText":{
+      "type":"string",
+      "max":1000,
       "min":1
     },
     "Suggestion":{
@@ -4314,6 +4510,12 @@
       "max":256,
       "min":0
     },
+    "TeamId":{
+      "type":"string",
+      "max":64,
+      "min":1,
+      "pattern":"[A-Z0-9]*"
+    },
     "TenantDomain":{
       "type":"string",
       "max":256,
@@ -4396,6 +4598,11 @@
       "max":100000,
       "min":1,
       "pattern":"^\\P{C}*$"
+    },
+    "TopDocumentAttributeValueCountPairsSize":{
+      "type":"integer",
+      "max":5000,
+      "min":0
     },
     "UntagResourceRequest":{
       "type":"structure",
@@ -4610,6 +4817,29 @@
       "max":200,
       "min":1,
       "pattern":"[-0-9a-zA-Z]+"
+    },
+    "Warning":{
+      "type":"structure",
+      "members":{
+        "Message":{"shape":"WarningMessage"},
+        "Code":{"shape":"WarningCode"}
+      }
+    },
+    "WarningCode":{
+      "type":"string",
+      "enum":["QUERY_LANGUAGE_INVALID_SYNTAX"]
+    },
+    "WarningList":{
+      "type":"list",
+      "member":{"shape":"Warning"},
+      "max":1,
+      "min":1
+    },
+    "WarningMessage":{
+      "type":"string",
+      "max":2048,
+      "min":1,
+      "pattern":"^\\P{C}*$"
     },
     "WebCrawlerConfiguration":{
       "type":"structure",

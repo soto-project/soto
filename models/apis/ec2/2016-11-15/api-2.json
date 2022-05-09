@@ -1874,6 +1874,15 @@
       "input":{"shape":"DescribeExportTasksRequest"},
       "output":{"shape":"DescribeExportTasksResult"}
     },
+    "DescribeFastLaunchImages":{
+      "name":"DescribeFastLaunchImages",
+      "http":{
+        "method":"POST",
+        "requestUri":"/"
+      },
+      "input":{"shape":"DescribeFastLaunchImagesRequest"},
+      "output":{"shape":"DescribeFastLaunchImagesResult"}
+    },
     "DescribeFastSnapshotRestores":{
       "name":"DescribeFastSnapshotRestores",
       "http":{
@@ -2897,6 +2906,15 @@
       "input":{"shape":"DisableEbsEncryptionByDefaultRequest"},
       "output":{"shape":"DisableEbsEncryptionByDefaultResult"}
     },
+    "DisableFastLaunch":{
+      "name":"DisableFastLaunch",
+      "http":{
+        "method":"POST",
+        "requestUri":"/"
+      },
+      "input":{"shape":"DisableFastLaunchRequest"},
+      "output":{"shape":"DisableFastLaunchResult"}
+    },
     "DisableFastSnapshotRestores":{
       "name":"DisableFastSnapshotRestores",
       "http":{
@@ -3073,6 +3091,15 @@
       },
       "input":{"shape":"EnableEbsEncryptionByDefaultRequest"},
       "output":{"shape":"EnableEbsEncryptionByDefaultResult"}
+    },
+    "EnableFastLaunch":{
+      "name":"EnableFastLaunch",
+      "http":{
+        "method":"POST",
+        "requestUri":"/"
+      },
+      "input":{"shape":"EnableFastLaunchRequest"},
+      "output":{"shape":"EnableFastLaunchResult"}
     },
     "EnableFastSnapshotRestores":{
       "name":"EnableFastSnapshotRestores",
@@ -3549,6 +3576,15 @@
       "input":{"shape":"ImportVolumeRequest"},
       "output":{"shape":"ImportVolumeResult"}
     },
+    "ListImagesInRecycleBin":{
+      "name":"ListImagesInRecycleBin",
+      "http":{
+        "method":"POST",
+        "requestUri":"/"
+      },
+      "input":{"shape":"ListImagesInRecycleBinRequest"},
+      "output":{"shape":"ListImagesInRecycleBinResult"}
+    },
     "ListSnapshotsInRecycleBin":{
       "name":"ListSnapshotsInRecycleBin",
       "http":{
@@ -3715,6 +3751,15 @@
       },
       "input":{"shape":"ModifyInstanceEventWindowRequest"},
       "output":{"shape":"ModifyInstanceEventWindowResult"}
+    },
+    "ModifyInstanceMaintenanceOptions":{
+      "name":"ModifyInstanceMaintenanceOptions",
+      "http":{
+        "method":"POST",
+        "requestUri":"/"
+      },
+      "input":{"shape":"ModifyInstanceMaintenanceOptionsRequest"},
+      "output":{"shape":"ModifyInstanceMaintenanceOptionsResult"}
     },
     "ModifyInstanceMetadataOptions":{
       "name":"ModifyInstanceMetadataOptions",
@@ -3962,6 +4007,15 @@
       },
       "input":{"shape":"ModifyVpcEndpointServiceConfigurationRequest"},
       "output":{"shape":"ModifyVpcEndpointServiceConfigurationResult"}
+    },
+    "ModifyVpcEndpointServicePayerResponsibility":{
+      "name":"ModifyVpcEndpointServicePayerResponsibility",
+      "http":{
+        "method":"POST",
+        "requestUri":"/"
+      },
+      "input":{"shape":"ModifyVpcEndpointServicePayerResponsibilityRequest"},
+      "output":{"shape":"ModifyVpcEndpointServicePayerResponsibilityResult"}
     },
     "ModifyVpcEndpointServicePermissions":{
       "name":"ModifyVpcEndpointServicePermissions",
@@ -4367,6 +4421,15 @@
       },
       "input":{"shape":"RestoreAddressToClassicRequest"},
       "output":{"shape":"RestoreAddressToClassicResult"}
+    },
+    "RestoreImageFromRecycleBin":{
+      "name":"RestoreImageFromRecycleBin",
+      "http":{
+        "method":"POST",
+        "requestUri":"/"
+      },
+      "input":{"shape":"RestoreImageFromRecycleBinRequest"},
+      "output":{"shape":"RestoreImageFromRecycleBinResult"}
     },
     "RestoreManagedPrefixListVersion":{
       "name":"RestoreManagedPrefixListVersion",
@@ -4988,6 +5051,26 @@
         "Description":{"shape":"String"}
       }
     },
+    "AdditionalDetail":{
+      "type":"structure",
+      "members":{
+        "AdditionalDetailType":{
+          "shape":"String",
+          "locationName":"additionalDetailType"
+        },
+        "Component":{
+          "shape":"AnalysisComponent",
+          "locationName":"component"
+        }
+      }
+    },
+    "AdditionalDetailList":{
+      "type":"list",
+      "member":{
+        "shape":"AdditionalDetail",
+        "locationName":"item"
+      }
+    },
     "Address":{
       "type":"structure",
       "members":{
@@ -5211,7 +5294,8 @@
           "shape":"TagSpecificationList",
           "locationName":"TagSpecification"
         },
-        "HostRecovery":{"shape":"HostRecovery"}
+        "HostRecovery":{"shape":"HostRecovery"},
+        "OutpostArn":{"shape":"String"}
       }
     },
     "AllocateHostsResult":{
@@ -7244,6 +7328,10 @@
         "CapacityReservationFleetId":{
           "shape":"String",
           "locationName":"capacityReservationFleetId"
+        },
+        "PlacementGroupArn":{
+          "shape":"PlacementGroupArn",
+          "locationName":"placementGroupArn"
         }
       }
     },
@@ -7394,7 +7482,13 @@
         "Windows with SQL Server Web",
         "Linux with SQL Server Standard",
         "Linux with SQL Server Web",
-        "Linux with SQL Server Enterprise"
+        "Linux with SQL Server Enterprise",
+        "RHEL with SQL Server Standard",
+        "RHEL with SQL Server Enterprise",
+        "RHEL with SQL Server Web",
+        "RHEL with HA",
+        "RHEL with HA and SQL Server Standard",
+        "RHEL with HA and SQL Server Enterprise"
       ]
     },
     "CapacityReservationOptions":{
@@ -7704,6 +7798,26 @@
         "UploadStart":{"shape":"DateTime"}
       }
     },
+    "ClientLoginBannerOptions":{
+      "type":"structure",
+      "members":{
+        "Enabled":{"shape":"Boolean"},
+        "BannerText":{"shape":"String"}
+      }
+    },
+    "ClientLoginBannerResponseOptions":{
+      "type":"structure",
+      "members":{
+        "Enabled":{
+          "shape":"Boolean",
+          "locationName":"enabled"
+        },
+        "BannerText":{
+          "shape":"String",
+          "locationName":"bannerText"
+        }
+      }
+    },
     "ClientVpnAssociationId":{"type":"string"},
     "ClientVpnAuthentication":{
       "type":"structure",
@@ -7954,6 +8068,14 @@
         "ClientConnectOptions":{
           "shape":"ClientConnectResponseOptions",
           "locationName":"clientConnectOptions"
+        },
+        "SessionTimeoutHours":{
+          "shape":"Integer",
+          "locationName":"sessionTimeoutHours"
+        },
+        "ClientLoginBannerOptions":{
+          "shape":"ClientLoginBannerResponseOptions",
+          "locationName":"clientLoginBannerOptions"
         }
       }
     },
@@ -8108,7 +8230,7 @@
       "type":"structure",
       "members":{
         "PoolId":{
-          "shape":"CoipPoolId",
+          "shape":"Ipv4PoolCoipId",
           "locationName":"poolId"
         },
         "PoolCidrs":{
@@ -8133,7 +8255,7 @@
     "CoipPoolIdSet":{
       "type":"list",
       "member":{
-        "shape":"CoipPoolId",
+        "shape":"Ipv4PoolCoipId",
         "locationName":"item"
       }
     },
@@ -8570,7 +8692,8 @@
         "InstanceMatchCriteria":{"shape":"InstanceMatchCriteria"},
         "TagSpecifications":{"shape":"TagSpecificationList"},
         "DryRun":{"shape":"Boolean"},
-        "OutpostArn":{"shape":"OutpostArn"}
+        "OutpostArn":{"shape":"OutpostArn"},
+        "PlacementGroupArn":{"shape":"PlacementGroupArn"}
       }
     },
     "CreateCapacityReservationResult":{
@@ -8643,7 +8766,9 @@
         },
         "VpcId":{"shape":"VpcId"},
         "SelfServicePortal":{"shape":"SelfServicePortal"},
-        "ClientConnectOptions":{"shape":"ClientConnectOptions"}
+        "ClientConnectOptions":{"shape":"ClientConnectOptions"},
+        "SessionTimeoutHours":{"shape":"Integer"},
+        "ClientLoginBannerOptions":{"shape":"ClientLoginBannerOptions"}
       }
     },
     "CreateClientVpnEndpointResult":{
@@ -9123,7 +9248,10 @@
     },
     "CreateIpamPoolRequest":{
       "type":"structure",
-      "required":["IpamScopeId"],
+      "required":[
+        "IpamScopeId",
+        "AddressFamily"
+      ],
       "members":{
         "DryRun":{"shape":"Boolean"},
         "IpamScopeId":{"shape":"IpamScopeId"},
@@ -9227,7 +9355,8 @@
         "TagSpecifications":{
           "shape":"TagSpecificationList",
           "locationName":"TagSpecification"
-        }
+        },
+        "KeyFormat":{"shape":"KeyFormat"}
       }
     },
     "CreateLaunchTemplateRequest":{
@@ -9527,8 +9656,8 @@
       "members":{
         "SourceIp":{"shape":"IpAddress"},
         "DestinationIp":{"shape":"IpAddress"},
-        "Source":{"shape":"String"},
-        "Destination":{"shape":"String"},
+        "Source":{"shape":"NetworkInsightsResourceId"},
+        "Destination":{"shape":"NetworkInsightsResourceId"},
         "Protocol":{"shape":"Protocol"},
         "DestinationPort":{"shape":"Port"},
         "TagSpecifications":{
@@ -11171,7 +11300,8 @@
       "required":["IpamId"],
       "members":{
         "DryRun":{"shape":"Boolean"},
-        "IpamId":{"shape":"IpamId"}
+        "IpamId":{"shape":"IpamId"},
+        "Cascade":{"shape":"Boolean"}
       }
     },
     "DeleteIpamResult":{
@@ -12957,6 +13087,88 @@
         }
       }
     },
+    "DescribeFastLaunchImagesRequest":{
+      "type":"structure",
+      "members":{
+        "ImageIds":{
+          "shape":"FastLaunchImageIdList",
+          "locationName":"ImageId"
+        },
+        "Filters":{
+          "shape":"FilterList",
+          "locationName":"Filter"
+        },
+        "MaxResults":{"shape":"DescribeFastLaunchImagesRequestMaxResults"},
+        "NextToken":{"shape":"NextToken"},
+        "DryRun":{"shape":"Boolean"}
+      }
+    },
+    "DescribeFastLaunchImagesRequestMaxResults":{
+      "type":"integer",
+      "max":200,
+      "min":0
+    },
+    "DescribeFastLaunchImagesResult":{
+      "type":"structure",
+      "members":{
+        "FastLaunchImages":{
+          "shape":"DescribeFastLaunchImagesSuccessSet",
+          "locationName":"fastLaunchImageSet"
+        },
+        "NextToken":{
+          "shape":"NextToken",
+          "locationName":"nextToken"
+        }
+      }
+    },
+    "DescribeFastLaunchImagesSuccessItem":{
+      "type":"structure",
+      "members":{
+        "ImageId":{
+          "shape":"ImageId",
+          "locationName":"imageId"
+        },
+        "ResourceType":{
+          "shape":"FastLaunchResourceType",
+          "locationName":"resourceType"
+        },
+        "SnapshotConfiguration":{
+          "shape":"FastLaunchSnapshotConfigurationResponse",
+          "locationName":"snapshotConfiguration"
+        },
+        "LaunchTemplate":{
+          "shape":"FastLaunchLaunchTemplateSpecificationResponse",
+          "locationName":"launchTemplate"
+        },
+        "MaxParallelLaunches":{
+          "shape":"Integer",
+          "locationName":"maxParallelLaunches"
+        },
+        "OwnerId":{
+          "shape":"String",
+          "locationName":"ownerId"
+        },
+        "State":{
+          "shape":"FastLaunchStateCode",
+          "locationName":"state"
+        },
+        "StateTransitionReason":{
+          "shape":"String",
+          "locationName":"stateTransitionReason"
+        },
+        "StateTransitionTime":{
+          "shape":"MillisecondDateTime",
+          "locationName":"stateTransitionTime"
+        }
+      }
+    },
+    "DescribeFastLaunchImagesSuccessSet":{
+      "type":"list",
+      "member":{
+        "shape":"DescribeFastLaunchImagesSuccessItem",
+        "locationName":"item"
+      }
+    },
     "DescribeFastSnapshotRestoreSuccessItem":{
       "type":"structure",
       "members":{
@@ -13945,7 +14157,8 @@
         "DryRun":{
           "shape":"Boolean",
           "locationName":"dryRun"
-        }
+        },
+        "IncludePublicKey":{"shape":"Boolean"}
       }
     },
     "DescribeKeyPairsResult":{
@@ -16654,6 +16867,56 @@
         }
       }
     },
+    "DisableFastLaunchRequest":{
+      "type":"structure",
+      "required":["ImageId"],
+      "members":{
+        "ImageId":{"shape":"ImageId"},
+        "Force":{"shape":"Boolean"},
+        "DryRun":{"shape":"Boolean"}
+      }
+    },
+    "DisableFastLaunchResult":{
+      "type":"structure",
+      "members":{
+        "ImageId":{
+          "shape":"ImageId",
+          "locationName":"imageId"
+        },
+        "ResourceType":{
+          "shape":"FastLaunchResourceType",
+          "locationName":"resourceType"
+        },
+        "SnapshotConfiguration":{
+          "shape":"FastLaunchSnapshotConfigurationResponse",
+          "locationName":"snapshotConfiguration"
+        },
+        "LaunchTemplate":{
+          "shape":"FastLaunchLaunchTemplateSpecificationResponse",
+          "locationName":"launchTemplate"
+        },
+        "MaxParallelLaunches":{
+          "shape":"Integer",
+          "locationName":"maxParallelLaunches"
+        },
+        "OwnerId":{
+          "shape":"String",
+          "locationName":"ownerId"
+        },
+        "State":{
+          "shape":"FastLaunchStateCode",
+          "locationName":"state"
+        },
+        "StateTransitionReason":{
+          "shape":"String",
+          "locationName":"stateTransitionReason"
+        },
+        "StateTransitionTime":{
+          "shape":"MillisecondDateTime",
+          "locationName":"stateTransitionTime"
+        }
+      }
+    },
     "DisableFastSnapshotRestoreErrorItem":{
       "type":"structure",
       "members":{
@@ -17687,6 +17950,59 @@
         }
       }
     },
+    "EnableFastLaunchRequest":{
+      "type":"structure",
+      "required":["ImageId"],
+      "members":{
+        "ImageId":{"shape":"ImageId"},
+        "ResourceType":{"shape":"String"},
+        "SnapshotConfiguration":{"shape":"FastLaunchSnapshotConfigurationRequest"},
+        "LaunchTemplate":{"shape":"FastLaunchLaunchTemplateSpecificationRequest"},
+        "MaxParallelLaunches":{"shape":"Integer"},
+        "DryRun":{"shape":"Boolean"}
+      }
+    },
+    "EnableFastLaunchResult":{
+      "type":"structure",
+      "members":{
+        "ImageId":{
+          "shape":"ImageId",
+          "locationName":"imageId"
+        },
+        "ResourceType":{
+          "shape":"FastLaunchResourceType",
+          "locationName":"resourceType"
+        },
+        "SnapshotConfiguration":{
+          "shape":"FastLaunchSnapshotConfigurationResponse",
+          "locationName":"snapshotConfiguration"
+        },
+        "LaunchTemplate":{
+          "shape":"FastLaunchLaunchTemplateSpecificationResponse",
+          "locationName":"launchTemplate"
+        },
+        "MaxParallelLaunches":{
+          "shape":"Integer",
+          "locationName":"maxParallelLaunches"
+        },
+        "OwnerId":{
+          "shape":"String",
+          "locationName":"ownerId"
+        },
+        "State":{
+          "shape":"FastLaunchStateCode",
+          "locationName":"state"
+        },
+        "StateTransitionReason":{
+          "shape":"String",
+          "locationName":"stateTransitionReason"
+        },
+        "StateTransitionTime":{
+          "shape":"MillisecondDateTime",
+          "locationName":"stateTransitionTime"
+        }
+      }
+    },
     "EnableFastSnapshotRestoreErrorItem":{
       "type":"structure",
       "members":{
@@ -18257,6 +18573,22 @@
         "VpnGateway":{
           "shape":"AnalysisComponent",
           "locationName":"vpnGateway"
+        },
+        "TransitGateway":{
+          "shape":"AnalysisComponent",
+          "locationName":"transitGateway"
+        },
+        "TransitGatewayRouteTable":{
+          "shape":"AnalysisComponent",
+          "locationName":"transitGatewayRouteTable"
+        },
+        "TransitGatewayRouteTableRoute":{
+          "shape":"TransitGatewayRouteTableRoute",
+          "locationName":"transitGatewayRouteTableRoute"
+        },
+        "TransitGatewayAttachment":{
+          "shape":"AnalysisComponent",
+          "locationName":"transitGatewayAttachment"
         }
       }
     },
@@ -18619,6 +18951,69 @@
         "shape":"FailedQueuedPurchaseDeletion",
         "locationName":"item"
       }
+    },
+    "FastLaunchImageIdList":{
+      "type":"list",
+      "member":{
+        "shape":"ImageId",
+        "locationName":"ImageId"
+      }
+    },
+    "FastLaunchLaunchTemplateSpecificationRequest":{
+      "type":"structure",
+      "required":["Version"],
+      "members":{
+        "LaunchTemplateId":{"shape":"LaunchTemplateId"},
+        "LaunchTemplateName":{"shape":"String"},
+        "Version":{"shape":"String"}
+      }
+    },
+    "FastLaunchLaunchTemplateSpecificationResponse":{
+      "type":"structure",
+      "members":{
+        "LaunchTemplateId":{
+          "shape":"LaunchTemplateId",
+          "locationName":"launchTemplateId"
+        },
+        "LaunchTemplateName":{
+          "shape":"String",
+          "locationName":"launchTemplateName"
+        },
+        "Version":{
+          "shape":"String",
+          "locationName":"version"
+        }
+      }
+    },
+    "FastLaunchResourceType":{
+      "type":"string",
+      "enum":["snapshot"]
+    },
+    "FastLaunchSnapshotConfigurationRequest":{
+      "type":"structure",
+      "members":{
+        "TargetResourceCount":{"shape":"Integer"}
+      }
+    },
+    "FastLaunchSnapshotConfigurationResponse":{
+      "type":"structure",
+      "members":{
+        "TargetResourceCount":{
+          "shape":"Integer",
+          "locationName":"targetResourceCount"
+        }
+      }
+    },
+    "FastLaunchStateCode":{
+      "type":"string",
+      "enum":[
+        "enabling",
+        "enabling-failed",
+        "enabled",
+        "enabled-failed",
+        "disabling",
+        "disabling-failed"
+      ]
     },
     "FastSnapshotRestoreStateCode":{
       "type":"string",
@@ -19458,7 +19853,7 @@
       "type":"structure",
       "required":["PoolId"],
       "members":{
-        "PoolId":{"shape":"CoipPoolId"},
+        "PoolId":{"shape":"Ipv4PoolCoipId"},
         "Filters":{
           "shape":"FilterList",
           "locationName":"Filter"
@@ -20525,6 +20920,10 @@
         "MemberOfServiceLinkedResourceGroup":{
           "shape":"Boolean",
           "locationName":"memberOfServiceLinkedResourceGroup"
+        },
+        "OutpostArn":{
+          "shape":"String",
+          "locationName":"outpostArn"
         }
       }
     },
@@ -20579,7 +20978,7 @@
           "locationName":"instanceFamily"
         },
         "OfferingId":{
-          "shape":"String",
+          "shape":"OfferingId",
           "locationName":"offeringId"
         },
         "PaymentOption":{
@@ -20655,7 +21054,7 @@
           "locationName":"hostIdSet"
         },
         "HostReservationId":{
-          "shape":"String",
+          "shape":"HostReservationId",
           "locationName":"hostReservationId"
         },
         "HourlyPrice":{
@@ -20667,7 +21066,7 @@
           "locationName":"instanceFamily"
         },
         "OfferingId":{
-          "shape":"String",
+          "shape":"OfferingId",
           "locationName":"offeringId"
         },
         "PaymentOption":{
@@ -21036,6 +21435,10 @@
         "BootMode":{
           "shape":"AttributeValue",
           "locationName":"bootMode"
+        },
+        "LastLaunchedTime":{
+          "shape":"AttributeValue",
+          "locationName":"lastLaunchedTime"
         }
       }
     },
@@ -21049,7 +21452,8 @@
         "productCodes",
         "blockDeviceMapping",
         "sriovNetSupport",
-        "bootMode"
+        "bootMode",
+        "lastLaunchedTime"
       ]
     },
     "ImageDiskContainer":{
@@ -21089,6 +21493,38 @@
       "type":"list",
       "member":{
         "shape":"Image",
+        "locationName":"item"
+      }
+    },
+    "ImageRecycleBinInfo":{
+      "type":"structure",
+      "members":{
+        "ImageId":{
+          "shape":"String",
+          "locationName":"imageId"
+        },
+        "Name":{
+          "shape":"String",
+          "locationName":"name"
+        },
+        "Description":{
+          "shape":"String",
+          "locationName":"description"
+        },
+        "RecycleBinEnterTime":{
+          "shape":"MillisecondDateTime",
+          "locationName":"recycleBinEnterTime"
+        },
+        "RecycleBinExitTime":{
+          "shape":"MillisecondDateTime",
+          "locationName":"recycleBinExitTime"
+        }
+      }
+    },
+    "ImageRecycleBinInfoList":{
+      "type":"list",
+      "member":{
+        "shape":"ImageRecycleBinInfo",
         "locationName":"item"
       }
     },
@@ -21935,6 +22371,10 @@
         "Ipv6Address":{
           "shape":"String",
           "locationName":"ipv6Address"
+        },
+        "MaintenanceOptions":{
+          "shape":"InstanceMaintenanceOptions",
+          "locationName":"maintenanceOptions"
         }
       }
     },
@@ -22025,6 +22465,13 @@
         "sriovNetSupport",
         "enaSupport",
         "enclaveOptions"
+      ]
+    },
+    "InstanceAutoRecoveryState":{
+      "type":"string",
+      "enum":[
+        "disabled",
+        "default"
       ]
     },
     "InstanceBlockDeviceMapping":{
@@ -22476,6 +22923,21 @@
         "locationName":"item"
       }
     },
+    "InstanceMaintenanceOptions":{
+      "type":"structure",
+      "members":{
+        "AutoRecovery":{
+          "shape":"InstanceAutoRecoveryState",
+          "locationName":"autoRecovery"
+        }
+      }
+    },
+    "InstanceMaintenanceOptionsRequest":{
+      "type":"structure",
+      "members":{
+        "AutoRecovery":{"shape":"InstanceAutoRecoveryState"}
+      }
+    },
     "InstanceMarketOptionsRequest":{
       "type":"structure",
       "members":{
@@ -22503,7 +22965,8 @@
         "HttpTokens":{"shape":"HttpTokensState"},
         "HttpPutResponseHopLimit":{"shape":"Integer"},
         "HttpEndpoint":{"shape":"InstanceMetadataEndpointState"},
-        "HttpProtocolIpv6":{"shape":"InstanceMetadataProtocolState"}
+        "HttpProtocolIpv6":{"shape":"InstanceMetadataProtocolState"},
+        "InstanceMetadataTags":{"shape":"InstanceMetadataTagsState"}
       }
     },
     "InstanceMetadataOptionsResponse":{
@@ -22528,6 +22991,10 @@
         "HttpProtocolIpv6":{
           "shape":"InstanceMetadataProtocolState",
           "locationName":"httpProtocolIpv6"
+        },
+        "InstanceMetadataTags":{
+          "shape":"InstanceMetadataTagsState",
+          "locationName":"instanceMetadataTags"
         }
       }
     },
@@ -22539,6 +23006,13 @@
       ]
     },
     "InstanceMetadataProtocolState":{
+      "type":"string",
+      "enum":[
+        "disabled",
+        "enabled"
+      ]
+    },
+    "InstanceMetadataTagsState":{
       "type":"string",
       "enum":[
         "disabled",
@@ -23180,154 +23654,12 @@
     "InstanceType":{
       "type":"string",
       "enum":[
-        "t1.micro",
-        "t2.nano",
-        "t2.micro",
-        "t2.small",
-        "t2.medium",
-        "t2.large",
-        "t2.xlarge",
-        "t2.2xlarge",
-        "t3.nano",
-        "t3.micro",
-        "t3.small",
-        "t3.medium",
-        "t3.large",
-        "t3.xlarge",
-        "t3.2xlarge",
-        "t3a.nano",
-        "t3a.micro",
-        "t3a.small",
-        "t3a.medium",
-        "t3a.large",
-        "t3a.xlarge",
-        "t3a.2xlarge",
-        "t4g.nano",
-        "t4g.micro",
-        "t4g.small",
-        "t4g.medium",
-        "t4g.large",
-        "t4g.xlarge",
-        "t4g.2xlarge",
-        "m1.small",
-        "m1.medium",
-        "m1.large",
-        "m1.xlarge",
-        "m3.medium",
-        "m3.large",
-        "m3.xlarge",
-        "m3.2xlarge",
-        "m4.large",
-        "m4.xlarge",
-        "m4.2xlarge",
-        "m4.4xlarge",
-        "m4.10xlarge",
-        "m4.16xlarge",
-        "m2.xlarge",
-        "m2.2xlarge",
-        "m2.4xlarge",
-        "cr1.8xlarge",
-        "r3.large",
-        "r3.xlarge",
-        "r3.2xlarge",
-        "r3.4xlarge",
-        "r3.8xlarge",
-        "r4.large",
-        "r4.xlarge",
-        "r4.2xlarge",
-        "r4.4xlarge",
-        "r4.8xlarge",
-        "r4.16xlarge",
-        "r5.large",
-        "r5.xlarge",
-        "r5.2xlarge",
-        "r5.4xlarge",
-        "r5.8xlarge",
-        "r5.12xlarge",
-        "r5.16xlarge",
-        "r5.24xlarge",
-        "r5.metal",
-        "r5a.large",
-        "r5a.xlarge",
-        "r5a.2xlarge",
-        "r5a.4xlarge",
-        "r5a.8xlarge",
-        "r5a.12xlarge",
-        "r5a.16xlarge",
-        "r5a.24xlarge",
-        "r5b.large",
-        "r5b.xlarge",
-        "r5b.2xlarge",
-        "r5b.4xlarge",
-        "r5b.8xlarge",
-        "r5b.12xlarge",
-        "r5b.16xlarge",
-        "r5b.24xlarge",
-        "r5b.metal",
-        "r5d.large",
-        "r5d.xlarge",
-        "r5d.2xlarge",
-        "r5d.4xlarge",
-        "r5d.8xlarge",
-        "r5d.12xlarge",
-        "r5d.16xlarge",
-        "r5d.24xlarge",
-        "r5d.metal",
-        "r5ad.large",
-        "r5ad.xlarge",
-        "r5ad.2xlarge",
-        "r5ad.4xlarge",
-        "r5ad.8xlarge",
-        "r5ad.12xlarge",
-        "r5ad.16xlarge",
-        "r5ad.24xlarge",
-        "r6g.metal",
-        "r6g.medium",
-        "r6g.large",
-        "r6g.xlarge",
-        "r6g.2xlarge",
-        "r6g.4xlarge",
-        "r6g.8xlarge",
-        "r6g.12xlarge",
-        "r6g.16xlarge",
-        "r6gd.metal",
-        "r6gd.medium",
-        "r6gd.large",
-        "r6gd.xlarge",
-        "r6gd.2xlarge",
-        "r6gd.4xlarge",
-        "r6gd.8xlarge",
-        "r6gd.12xlarge",
-        "r6gd.16xlarge",
-        "x1.16xlarge",
-        "x1.32xlarge",
-        "x1e.xlarge",
-        "x1e.2xlarge",
-        "x1e.4xlarge",
-        "x1e.8xlarge",
-        "x1e.16xlarge",
-        "x1e.32xlarge",
-        "i2.xlarge",
-        "i2.2xlarge",
-        "i2.4xlarge",
-        "i2.8xlarge",
-        "i3.large",
-        "i3.xlarge",
-        "i3.2xlarge",
-        "i3.4xlarge",
-        "i3.8xlarge",
-        "i3.16xlarge",
-        "i3.metal",
-        "i3en.large",
-        "i3en.xlarge",
-        "i3en.2xlarge",
-        "i3en.3xlarge",
-        "i3en.6xlarge",
-        "i3en.12xlarge",
-        "i3en.24xlarge",
-        "i3en.metal",
-        "hi1.4xlarge",
-        "hs1.8xlarge",
+        "a1.medium",
+        "a1.large",
+        "a1.xlarge",
+        "a1.2xlarge",
+        "a1.4xlarge",
+        "a1.metal",
         "c1.medium",
         "c1.xlarge",
         "c3.large",
@@ -23381,7 +23713,6 @@
         "c5n.9xlarge",
         "c5n.18xlarge",
         "c5n.metal",
-        "c6g.metal",
         "c6g.medium",
         "c6g.large",
         "c6g.xlarge",
@@ -23390,7 +23721,7 @@
         "c6g.8xlarge",
         "c6g.12xlarge",
         "c6g.16xlarge",
-        "c6gd.metal",
+        "c6g.metal",
         "c6gd.medium",
         "c6gd.large",
         "c6gd.xlarge",
@@ -23399,6 +23730,7 @@
         "c6gd.8xlarge",
         "c6gd.12xlarge",
         "c6gd.16xlarge",
+        "c6gd.metal",
         "c6gn.medium",
         "c6gn.large",
         "c6gn.xlarge",
@@ -23416,35 +23748,11 @@
         "c6i.16xlarge",
         "c6i.24xlarge",
         "c6i.32xlarge",
+        "c6i.metal",
         "cc1.4xlarge",
         "cc2.8xlarge",
-        "g2.2xlarge",
-        "g2.8xlarge",
-        "g3.4xlarge",
-        "g3.8xlarge",
-        "g3.16xlarge",
-        "g3s.xlarge",
-        "g4ad.xlarge",
-        "g4ad.2xlarge",
-        "g4ad.4xlarge",
-        "g4ad.8xlarge",
-        "g4ad.16xlarge",
-        "g4dn.xlarge",
-        "g4dn.2xlarge",
-        "g4dn.4xlarge",
-        "g4dn.8xlarge",
-        "g4dn.12xlarge",
-        "g4dn.16xlarge",
-        "g4dn.metal",
         "cg1.4xlarge",
-        "p2.xlarge",
-        "p2.8xlarge",
-        "p2.16xlarge",
-        "p3.2xlarge",
-        "p3.8xlarge",
-        "p3.16xlarge",
-        "p3dn.24xlarge",
-        "p4d.24xlarge",
+        "cr1.8xlarge",
         "d2.xlarge",
         "d2.2xlarge",
         "d2.4xlarge",
@@ -23463,6 +23771,97 @@
         "f1.2xlarge",
         "f1.4xlarge",
         "f1.16xlarge",
+        "g2.2xlarge",
+        "g2.8xlarge",
+        "g3.4xlarge",
+        "g3.8xlarge",
+        "g3.16xlarge",
+        "g3s.xlarge",
+        "g4ad.xlarge",
+        "g4ad.2xlarge",
+        "g4ad.4xlarge",
+        "g4ad.8xlarge",
+        "g4ad.16xlarge",
+        "g4dn.xlarge",
+        "g4dn.2xlarge",
+        "g4dn.4xlarge",
+        "g4dn.8xlarge",
+        "g4dn.12xlarge",
+        "g4dn.16xlarge",
+        "g4dn.metal",
+        "g5.xlarge",
+        "g5.2xlarge",
+        "g5.4xlarge",
+        "g5.8xlarge",
+        "g5.12xlarge",
+        "g5.16xlarge",
+        "g5.24xlarge",
+        "g5.48xlarge",
+        "g5g.xlarge",
+        "g5g.2xlarge",
+        "g5g.4xlarge",
+        "g5g.8xlarge",
+        "g5g.16xlarge",
+        "g5g.metal",
+        "hi1.4xlarge",
+        "hpc6a.48xlarge",
+        "hs1.8xlarge",
+        "h1.2xlarge",
+        "h1.4xlarge",
+        "h1.8xlarge",
+        "h1.16xlarge",
+        "i2.xlarge",
+        "i2.2xlarge",
+        "i2.4xlarge",
+        "i2.8xlarge",
+        "i3.large",
+        "i3.xlarge",
+        "i3.2xlarge",
+        "i3.4xlarge",
+        "i3.8xlarge",
+        "i3.16xlarge",
+        "i3.metal",
+        "i3en.large",
+        "i3en.xlarge",
+        "i3en.2xlarge",
+        "i3en.3xlarge",
+        "i3en.6xlarge",
+        "i3en.12xlarge",
+        "i3en.24xlarge",
+        "i3en.metal",
+        "im4gn.large",
+        "im4gn.xlarge",
+        "im4gn.2xlarge",
+        "im4gn.4xlarge",
+        "im4gn.8xlarge",
+        "im4gn.16xlarge",
+        "inf1.xlarge",
+        "inf1.2xlarge",
+        "inf1.6xlarge",
+        "inf1.24xlarge",
+        "is4gen.medium",
+        "is4gen.large",
+        "is4gen.xlarge",
+        "is4gen.2xlarge",
+        "is4gen.4xlarge",
+        "is4gen.8xlarge",
+        "m1.small",
+        "m1.medium",
+        "m1.large",
+        "m1.xlarge",
+        "m2.xlarge",
+        "m2.2xlarge",
+        "m2.4xlarge",
+        "m3.medium",
+        "m3.large",
+        "m3.xlarge",
+        "m3.2xlarge",
+        "m4.large",
+        "m4.xlarge",
+        "m4.2xlarge",
+        "m4.4xlarge",
+        "m4.10xlarge",
+        "m4.16xlarge",
         "m5.large",
         "m5.xlarge",
         "m5.2xlarge",
@@ -23480,6 +23879,14 @@
         "m5a.12xlarge",
         "m5a.16xlarge",
         "m5a.24xlarge",
+        "m5ad.large",
+        "m5ad.xlarge",
+        "m5ad.2xlarge",
+        "m5ad.4xlarge",
+        "m5ad.8xlarge",
+        "m5ad.12xlarge",
+        "m5ad.16xlarge",
+        "m5ad.24xlarge",
         "m5d.large",
         "m5d.xlarge",
         "m5d.2xlarge",
@@ -23489,47 +23896,6 @@
         "m5d.16xlarge",
         "m5d.24xlarge",
         "m5d.metal",
-        "m5ad.large",
-        "m5ad.xlarge",
-        "m5ad.2xlarge",
-        "m5ad.4xlarge",
-        "m5ad.8xlarge",
-        "m5ad.12xlarge",
-        "m5ad.16xlarge",
-        "m5ad.24xlarge",
-        "m5zn.large",
-        "m5zn.xlarge",
-        "m5zn.2xlarge",
-        "m5zn.3xlarge",
-        "m5zn.6xlarge",
-        "m5zn.12xlarge",
-        "m5zn.metal",
-        "h1.2xlarge",
-        "h1.4xlarge",
-        "h1.8xlarge",
-        "h1.16xlarge",
-        "z1d.large",
-        "z1d.xlarge",
-        "z1d.2xlarge",
-        "z1d.3xlarge",
-        "z1d.6xlarge",
-        "z1d.12xlarge",
-        "z1d.metal",
-        "u-6tb1.56xlarge",
-        "u-6tb1.112xlarge",
-        "u-9tb1.112xlarge",
-        "u-12tb1.112xlarge",
-        "u-6tb1.metal",
-        "u-9tb1.metal",
-        "u-12tb1.metal",
-        "u-18tb1.metal",
-        "u-24tb1.metal",
-        "a1.medium",
-        "a1.large",
-        "a1.xlarge",
-        "a1.2xlarge",
-        "a1.4xlarge",
-        "a1.metal",
         "m5dn.large",
         "m5dn.xlarge",
         "m5dn.2xlarge",
@@ -23548,28 +23914,23 @@
         "m5n.16xlarge",
         "m5n.24xlarge",
         "m5n.metal",
-        "r5dn.large",
-        "r5dn.xlarge",
-        "r5dn.2xlarge",
-        "r5dn.4xlarge",
-        "r5dn.8xlarge",
-        "r5dn.12xlarge",
-        "r5dn.16xlarge",
-        "r5dn.24xlarge",
-        "r5dn.metal",
-        "r5n.large",
-        "r5n.xlarge",
-        "r5n.2xlarge",
-        "r5n.4xlarge",
-        "r5n.8xlarge",
-        "r5n.12xlarge",
-        "r5n.16xlarge",
-        "r5n.24xlarge",
-        "r5n.metal",
-        "inf1.xlarge",
-        "inf1.2xlarge",
-        "inf1.6xlarge",
-        "inf1.24xlarge",
+        "m5zn.large",
+        "m5zn.xlarge",
+        "m5zn.2xlarge",
+        "m5zn.3xlarge",
+        "m5zn.6xlarge",
+        "m5zn.12xlarge",
+        "m5zn.metal",
+        "m6a.large",
+        "m6a.xlarge",
+        "m6a.2xlarge",
+        "m6a.4xlarge",
+        "m6a.8xlarge",
+        "m6a.12xlarge",
+        "m6a.16xlarge",
+        "m6a.24xlarge",
+        "m6a.32xlarge",
+        "m6a.48xlarge",
         "m6g.metal",
         "m6g.medium",
         "m6g.large",
@@ -23588,16 +23949,6 @@
         "m6gd.8xlarge",
         "m6gd.12xlarge",
         "m6gd.16xlarge",
-        "m6a.large",
-        "m6a.xlarge",
-        "m6a.2xlarge",
-        "m6a.4xlarge",
-        "m6a.8xlarge",
-        "m6a.12xlarge",
-        "m6a.16xlarge",
-        "m6a.24xlarge",
-        "m6a.32xlarge",
-        "m6a.48xlarge",
         "m6i.large",
         "m6i.xlarge",
         "m6i.2xlarge",
@@ -23607,7 +23958,171 @@
         "m6i.16xlarge",
         "m6i.24xlarge",
         "m6i.32xlarge",
+        "m6i.metal",
         "mac1.metal",
+        "p2.xlarge",
+        "p2.8xlarge",
+        "p2.16xlarge",
+        "p3.2xlarge",
+        "p3.8xlarge",
+        "p3.16xlarge",
+        "p3dn.24xlarge",
+        "p4d.24xlarge",
+        "r3.large",
+        "r3.xlarge",
+        "r3.2xlarge",
+        "r3.4xlarge",
+        "r3.8xlarge",
+        "r4.large",
+        "r4.xlarge",
+        "r4.2xlarge",
+        "r4.4xlarge",
+        "r4.8xlarge",
+        "r4.16xlarge",
+        "r5.large",
+        "r5.xlarge",
+        "r5.2xlarge",
+        "r5.4xlarge",
+        "r5.8xlarge",
+        "r5.12xlarge",
+        "r5.16xlarge",
+        "r5.24xlarge",
+        "r5.metal",
+        "r5a.large",
+        "r5a.xlarge",
+        "r5a.2xlarge",
+        "r5a.4xlarge",
+        "r5a.8xlarge",
+        "r5a.12xlarge",
+        "r5a.16xlarge",
+        "r5a.24xlarge",
+        "r5ad.large",
+        "r5ad.xlarge",
+        "r5ad.2xlarge",
+        "r5ad.4xlarge",
+        "r5ad.8xlarge",
+        "r5ad.12xlarge",
+        "r5ad.16xlarge",
+        "r5ad.24xlarge",
+        "r5b.large",
+        "r5b.xlarge",
+        "r5b.2xlarge",
+        "r5b.4xlarge",
+        "r5b.8xlarge",
+        "r5b.12xlarge",
+        "r5b.16xlarge",
+        "r5b.24xlarge",
+        "r5b.metal",
+        "r5d.large",
+        "r5d.xlarge",
+        "r5d.2xlarge",
+        "r5d.4xlarge",
+        "r5d.8xlarge",
+        "r5d.12xlarge",
+        "r5d.16xlarge",
+        "r5d.24xlarge",
+        "r5d.metal",
+        "r5dn.large",
+        "r5dn.xlarge",
+        "r5dn.2xlarge",
+        "r5dn.4xlarge",
+        "r5dn.8xlarge",
+        "r5dn.12xlarge",
+        "r5dn.16xlarge",
+        "r5dn.24xlarge",
+        "r5dn.metal",
+        "r5n.large",
+        "r5n.xlarge",
+        "r5n.2xlarge",
+        "r5n.4xlarge",
+        "r5n.8xlarge",
+        "r5n.12xlarge",
+        "r5n.16xlarge",
+        "r5n.24xlarge",
+        "r5n.metal",
+        "r6g.medium",
+        "r6g.large",
+        "r6g.xlarge",
+        "r6g.2xlarge",
+        "r6g.4xlarge",
+        "r6g.8xlarge",
+        "r6g.12xlarge",
+        "r6g.16xlarge",
+        "r6g.metal",
+        "r6gd.medium",
+        "r6gd.large",
+        "r6gd.xlarge",
+        "r6gd.2xlarge",
+        "r6gd.4xlarge",
+        "r6gd.8xlarge",
+        "r6gd.12xlarge",
+        "r6gd.16xlarge",
+        "r6gd.metal",
+        "r6i.large",
+        "r6i.xlarge",
+        "r6i.2xlarge",
+        "r6i.4xlarge",
+        "r6i.8xlarge",
+        "r6i.12xlarge",
+        "r6i.16xlarge",
+        "r6i.24xlarge",
+        "r6i.32xlarge",
+        "r6i.metal",
+        "t1.micro",
+        "t2.nano",
+        "t2.micro",
+        "t2.small",
+        "t2.medium",
+        "t2.large",
+        "t2.xlarge",
+        "t2.2xlarge",
+        "t3.nano",
+        "t3.micro",
+        "t3.small",
+        "t3.medium",
+        "t3.large",
+        "t3.xlarge",
+        "t3.2xlarge",
+        "t3a.nano",
+        "t3a.micro",
+        "t3a.small",
+        "t3a.medium",
+        "t3a.large",
+        "t3a.xlarge",
+        "t3a.2xlarge",
+        "t4g.nano",
+        "t4g.micro",
+        "t4g.small",
+        "t4g.medium",
+        "t4g.large",
+        "t4g.xlarge",
+        "t4g.2xlarge",
+        "u-6tb1.56xlarge",
+        "u-6tb1.112xlarge",
+        "u-9tb1.112xlarge",
+        "u-12tb1.112xlarge",
+        "u-6tb1.metal",
+        "u-9tb1.metal",
+        "u-12tb1.metal",
+        "u-18tb1.metal",
+        "u-24tb1.metal",
+        "vt1.3xlarge",
+        "vt1.6xlarge",
+        "vt1.24xlarge",
+        "x1.16xlarge",
+        "x1.32xlarge",
+        "x1e.xlarge",
+        "x1e.2xlarge",
+        "x1e.4xlarge",
+        "x1e.8xlarge",
+        "x1e.16xlarge",
+        "x1e.32xlarge",
+        "x2iezn.2xlarge",
+        "x2iezn.4xlarge",
+        "x2iezn.6xlarge",
+        "x2iezn.8xlarge",
+        "x2iezn.12xlarge",
+        "x2iezn.metal",
         "x2gd.medium",
         "x2gd.large",
         "x2gd.xlarge",
@@ -23617,35 +24132,42 @@
         "x2gd.12xlarge",
         "x2gd.16xlarge",
         "x2gd.metal",
-        "vt1.3xlarge",
-        "vt1.6xlarge",
-        "vt1.24xlarge",
-        "im4gn.16xlarge",
-        "im4gn.2xlarge",
-        "im4gn.4xlarge",
-        "im4gn.8xlarge",
-        "im4gn.large",
-        "im4gn.xlarge",
-        "is4gen.2xlarge",
-        "is4gen.4xlarge",
-        "is4gen.8xlarge",
-        "is4gen.large",
-        "is4gen.medium",
-        "is4gen.xlarge",
-        "g5g.xlarge",
-        "g5g.2xlarge",
-        "g5g.4xlarge",
-        "g5g.8xlarge",
-        "g5g.16xlarge",
-        "g5g.metal",
-        "g5.xlarge",
-        "g5.2xlarge",
-        "g5.4xlarge",
-        "g5.8xlarge",
-        "g5.12xlarge",
-        "g5.16xlarge",
-        "g5.24xlarge",
-        "g5.48xlarge"
+        "z1d.large",
+        "z1d.xlarge",
+        "z1d.2xlarge",
+        "z1d.3xlarge",
+        "z1d.6xlarge",
+        "z1d.12xlarge",
+        "z1d.metal",
+        "x2idn.16xlarge",
+        "x2idn.24xlarge",
+        "x2idn.32xlarge",
+        "x2iedn.xlarge",
+        "x2iedn.2xlarge",
+        "x2iedn.4xlarge",
+        "x2iedn.8xlarge",
+        "x2iedn.16xlarge",
+        "x2iedn.24xlarge",
+        "x2iedn.32xlarge",
+        "c6a.large",
+        "c6a.xlarge",
+        "c6a.2xlarge",
+        "c6a.4xlarge",
+        "c6a.8xlarge",
+        "c6a.12xlarge",
+        "c6a.16xlarge",
+        "c6a.24xlarge",
+        "c6a.32xlarge",
+        "c6a.48xlarge",
+        "c6a.metal",
+        "m6a.metal",
+        "i4i.large",
+        "i4i.xlarge",
+        "i4i.2xlarge",
+        "i4i.4xlarge",
+        "i4i.8xlarge",
+        "i4i.16xlarge",
+        "i4i.32xlarge"
       ]
     },
     "InstanceTypeHypervisor":{
@@ -24410,7 +24932,10 @@
         "modify-failed",
         "delete-in-progress",
         "delete-complete",
-        "delete-failed"
+        "delete-failed",
+        "isolate-in-progress",
+        "isolate-complete",
+        "restore-in-progress"
       ]
     },
     "IpamResourceCidr":{
@@ -24583,7 +25108,10 @@
         "modify-failed",
         "delete-in-progress",
         "delete-complete",
-        "delete-failed"
+        "delete-failed",
+        "isolate-in-progress",
+        "isolate-complete",
+        "restore-in-progress"
       ]
     },
     "IpamScopeType":{
@@ -24611,9 +25139,13 @@
         "modify-failed",
         "delete-in-progress",
         "delete-complete",
-        "delete-failed"
+        "delete-failed",
+        "isolate-in-progress",
+        "isolate-complete",
+        "restore-in-progress"
       ]
     },
+    "Ipv4PoolCoipId":{"type":"string"},
     "Ipv4PoolEc2Id":{"type":"string"},
     "Ipv4PrefixList":{
       "type":"list",
@@ -24819,6 +25351,13 @@
       ]
     },
     "KernelId":{"type":"string"},
+    "KeyFormat":{
+      "type":"string",
+      "enum":[
+        "pem",
+        "ppk"
+      ]
+    },
     "KeyNameStringList":{
       "type":"list",
       "member":{
@@ -24881,6 +25420,14 @@
         "Tags":{
           "shape":"TagList",
           "locationName":"tagSet"
+        },
+        "PublicKey":{
+          "shape":"String",
+          "locationName":"publicKey"
+        },
+        "CreateTime":{
+          "shape":"MillisecondDateTime",
+          "locationName":"createTime"
         }
       }
     },
@@ -25065,6 +25612,13 @@
           "locationName":"overrides"
         }
       }
+    },
+    "LaunchTemplateAutoRecoveryState":{
+      "type":"string",
+      "enum":[
+        "default",
+        "disabled"
+      ]
     },
     "LaunchTemplateBlockDeviceMapping":{
       "type":"structure",
@@ -25335,6 +25889,21 @@
         "locationName":"item"
       }
     },
+    "LaunchTemplateInstanceMaintenanceOptions":{
+      "type":"structure",
+      "members":{
+        "AutoRecovery":{
+          "shape":"LaunchTemplateAutoRecoveryState",
+          "locationName":"autoRecovery"
+        }
+      }
+    },
+    "LaunchTemplateInstanceMaintenanceOptionsRequest":{
+      "type":"structure",
+      "members":{
+        "AutoRecovery":{"shape":"LaunchTemplateAutoRecoveryState"}
+      }
+    },
     "LaunchTemplateInstanceMarketOptions":{
       "type":"structure",
       "members":{
@@ -25384,6 +25953,10 @@
         "HttpProtocolIpv6":{
           "shape":"LaunchTemplateInstanceMetadataProtocolIpv6",
           "locationName":"httpProtocolIpv6"
+        },
+        "InstanceMetadataTags":{
+          "shape":"LaunchTemplateInstanceMetadataTagsState",
+          "locationName":"instanceMetadataTags"
         }
       }
     },
@@ -25393,7 +25966,8 @@
         "HttpTokens":{"shape":"LaunchTemplateHttpTokensState"},
         "HttpPutResponseHopLimit":{"shape":"Integer"},
         "HttpEndpoint":{"shape":"LaunchTemplateInstanceMetadataEndpointState"},
-        "HttpProtocolIpv6":{"shape":"LaunchTemplateInstanceMetadataProtocolIpv6"}
+        "HttpProtocolIpv6":{"shape":"LaunchTemplateInstanceMetadataProtocolIpv6"},
+        "InstanceMetadataTags":{"shape":"LaunchTemplateInstanceMetadataTagsState"}
       }
     },
     "LaunchTemplateInstanceMetadataOptionsState":{
@@ -25404,6 +25978,13 @@
       ]
     },
     "LaunchTemplateInstanceMetadataProtocolIpv6":{
+      "type":"string",
+      "enum":[
+        "disabled",
+        "enabled"
+      ]
+    },
+    "LaunchTemplateInstanceMetadataTagsState":{
       "type":"string",
       "enum":[
         "disabled",
@@ -25868,6 +26449,36 @@
       "member":{
         "shape":"LicenseConfigurationRequest",
         "locationName":"item"
+      }
+    },
+    "ListImagesInRecycleBinMaxResults":{
+      "type":"integer",
+      "max":1000,
+      "min":1
+    },
+    "ListImagesInRecycleBinRequest":{
+      "type":"structure",
+      "members":{
+        "ImageIds":{
+          "shape":"ImageIdStringList",
+          "locationName":"ImageId"
+        },
+        "NextToken":{"shape":"String"},
+        "MaxResults":{"shape":"ListImagesInRecycleBinMaxResults"},
+        "DryRun":{"shape":"Boolean"}
+      }
+    },
+    "ListImagesInRecycleBinResult":{
+      "type":"structure",
+      "members":{
+        "Images":{
+          "shape":"ImageRecycleBinInfoList",
+          "locationName":"imageSet"
+        },
+        "NextToken":{
+          "shape":"String",
+          "locationName":"nextToken"
+        }
       }
     },
     "ListSnapshotsInRecycleBinMaxResults":{
@@ -26591,7 +27202,9 @@
         },
         "VpcId":{"shape":"VpcId"},
         "SelfServicePortal":{"shape":"SelfServicePortal"},
-        "ClientConnectOptions":{"shape":"ClientConnectOptions"}
+        "ClientConnectOptions":{"shape":"ClientConnectOptions"},
+        "SessionTimeoutHours":{"shape":"Integer"},
+        "ClientLoginBannerOptions":{"shape":"ClientLoginBannerOptions"}
       }
     },
     "ModifyClientVpnEndpointResult":{
@@ -26957,6 +27570,28 @@
         }
       }
     },
+    "ModifyInstanceMaintenanceOptionsRequest":{
+      "type":"structure",
+      "required":["InstanceId"],
+      "members":{
+        "InstanceId":{"shape":"InstanceId"},
+        "AutoRecovery":{"shape":"InstanceAutoRecoveryState"},
+        "DryRun":{"shape":"Boolean"}
+      }
+    },
+    "ModifyInstanceMaintenanceOptionsResult":{
+      "type":"structure",
+      "members":{
+        "InstanceId":{
+          "shape":"String",
+          "locationName":"instanceId"
+        },
+        "AutoRecovery":{
+          "shape":"InstanceAutoRecoveryState",
+          "locationName":"autoRecovery"
+        }
+      }
+    },
     "ModifyInstanceMetadataOptionsRequest":{
       "type":"structure",
       "required":["InstanceId"],
@@ -26966,7 +27601,8 @@
         "HttpPutResponseHopLimit":{"shape":"Integer"},
         "HttpEndpoint":{"shape":"InstanceMetadataEndpointState"},
         "DryRun":{"shape":"Boolean"},
-        "HttpProtocolIpv6":{"shape":"InstanceMetadataProtocolState"}
+        "HttpProtocolIpv6":{"shape":"InstanceMetadataProtocolState"},
+        "InstanceMetadataTags":{"shape":"InstanceMetadataTagsState"}
       }
     },
     "ModifyInstanceMetadataOptionsResult":{
@@ -27680,6 +28316,27 @@
         }
       }
     },
+    "ModifyVpcEndpointServicePayerResponsibilityRequest":{
+      "type":"structure",
+      "required":[
+        "ServiceId",
+        "PayerResponsibility"
+      ],
+      "members":{
+        "DryRun":{"shape":"Boolean"},
+        "ServiceId":{"shape":"VpcEndpointServiceId"},
+        "PayerResponsibility":{"shape":"PayerResponsibility"}
+      }
+    },
+    "ModifyVpcEndpointServicePayerResponsibilityResult":{
+      "type":"structure",
+      "members":{
+        "ReturnValue":{
+          "shape":"Boolean",
+          "locationName":"return"
+        }
+      }
+    },
     "ModifyVpcEndpointServicePermissionsRequest":{
       "type":"structure",
       "required":["ServiceId"],
@@ -27942,6 +28599,11 @@
     },
     "MoveByoipCidrToIpamRequest":{
       "type":"structure",
+      "required":[
+        "Cidr",
+        "IpamPoolId",
+        "IpamPoolOwner"
+      ],
       "members":{
         "DryRun":{"shape":"Boolean"},
         "Cidr":{"shape":"String"},
@@ -28556,6 +29218,7 @@
         "locationName":"item"
       }
     },
+    "NetworkInsightsResourceId":{"type":"string"},
     "NetworkInterface":{
       "type":"structure",
       "members":{
@@ -28924,7 +29587,20 @@
         "interface",
         "natGateway",
         "efa",
-        "trunk"
+        "trunk",
+        "load_balancer",
+        "network_load_balancer",
+        "vpc_endpoint",
+        "branch",
+        "transit_gateway",
+        "lambda",
+        "quicksight",
+        "global_accelerator_managed",
+        "api_gateway_managed",
+        "gateway_load_balancer",
+        "gateway_load_balancer_endpoint",
+        "iot_rules_managed",
+        "aws_codestar_connections_managed"
       ]
     },
     "NetworkPerformance":{"type":"string"},
@@ -29186,6 +29862,18 @@
         "Vpc":{
           "shape":"AnalysisComponent",
           "locationName":"vpc"
+        },
+        "AdditionalDetails":{
+          "shape":"AdditionalDetailList",
+          "locationName":"additionalDetailSet"
+        },
+        "TransitGateway":{
+          "shape":"AnalysisComponent",
+          "locationName":"transitGateway"
+        },
+        "TransitGatewayRouteTableRoute":{
+          "shape":"TransitGatewayRouteTableRoute",
+          "locationName":"transitGatewayRouteTableRoute"
         }
       }
     },
@@ -29215,6 +29903,10 @@
         "PacketHeaderStatement":{"shape":"PacketHeaderStatementRequest"},
         "ResourceStatement":{"shape":"ResourceStatementRequest"}
       }
+    },
+    "PayerResponsibility":{
+      "type":"string",
+      "enum":["ServiceOwner"]
     },
     "PaymentOption":{
       "type":"string",
@@ -29529,8 +30221,16 @@
         "Tags":{
           "shape":"TagList",
           "locationName":"tagSet"
+        },
+        "GroupArn":{
+          "shape":"String",
+          "locationName":"groupArn"
         }
       }
+    },
+    "PlacementGroupArn":{
+      "type":"string",
+      "pattern":"^arn:aws([a-z-]+)?:ec2:[a-z\\d-]+:\\d{12}:placement-group/([^\\s].+[^\\s]){1,255}$"
     },
     "PlacementGroupId":{"type":"string"},
     "PlacementGroupIdStringList":{
@@ -30287,7 +30987,7 @@
           "locationName":"hostIdSet"
         },
         "HostReservationId":{
-          "shape":"String",
+          "shape":"HostReservationId",
           "locationName":"hostReservationId"
         },
         "HourlyPrice":{
@@ -30819,7 +31519,8 @@
       "type":"structure",
       "required":[
         "IpamPoolId",
-        "Cidr"
+        "Cidr",
+        "IpamPoolAllocationId"
       ],
       "members":{
         "DryRun":{"shape":"Boolean"},
@@ -31285,7 +31986,8 @@
         "MetadataOptions":{"shape":"LaunchTemplateInstanceMetadataOptionsRequest"},
         "EnclaveOptions":{"shape":"LaunchTemplateEnclaveOptionsRequest"},
         "InstanceRequirements":{"shape":"InstanceRequirementsRequest"},
-        "PrivateDnsNameOptions":{"shape":"LaunchTemplatePrivateDnsNameOptionsRequest"}
+        "PrivateDnsNameOptions":{"shape":"LaunchTemplatePrivateDnsNameOptionsRequest"},
+        "MaintenanceOptions":{"shape":"LaunchTemplateInstanceMaintenanceOptionsRequest"}
       }
     },
     "RequestSpotFleetRequest":{
@@ -32152,6 +32854,7 @@
         "spot-fleet-request",
         "spot-instances-request",
         "subnet",
+        "subnet-cidr-reservation",
         "traffic-mirror-filter",
         "traffic-mirror-session",
         "traffic-mirror-target",
@@ -32315,6 +33018,10 @@
         "PrivateDnsNameOptions":{
           "shape":"LaunchTemplatePrivateDnsNameOptions",
           "locationName":"privateDnsNameOptions"
+        },
+        "MaintenanceOptions":{
+          "shape":"LaunchTemplateInstanceMaintenanceOptions",
+          "locationName":"maintenanceOptions"
         }
       }
     },
@@ -32346,6 +33053,23 @@
         "Status":{
           "shape":"Status",
           "locationName":"status"
+        }
+      }
+    },
+    "RestoreImageFromRecycleBinRequest":{
+      "type":"structure",
+      "required":["ImageId"],
+      "members":{
+        "ImageId":{"shape":"ImageId"},
+        "DryRun":{"shape":"Boolean"}
+      }
+    },
+    "RestoreImageFromRecycleBinResult":{
+      "type":"structure",
+      "members":{
+        "Return":{
+          "shape":"Boolean",
+          "locationName":"return"
         }
       }
     },
@@ -32844,7 +33568,7 @@
           "locationName":"SecurityGroup"
         },
         "SubnetId":{"shape":"SubnetId"},
-        "UserData":{"shape":"String"},
+        "UserData":{"shape":"RunInstancesUserData"},
         "AdditionalInfo":{
           "shape":"String",
           "locationName":"additionalInfo"
@@ -32903,8 +33627,13 @@
         },
         "MetadataOptions":{"shape":"InstanceMetadataOptionsRequest"},
         "EnclaveOptions":{"shape":"EnclaveOptionsRequest"},
-        "PrivateDnsNameOptions":{"shape":"PrivateDnsNameOptionsRequest"}
+        "PrivateDnsNameOptions":{"shape":"PrivateDnsNameOptionsRequest"},
+        "MaintenanceOptions":{"shape":"InstanceMaintenanceOptionsRequest"}
       }
+    },
+    "RunInstancesUserData":{
+      "type":"string",
+      "sensitive":true
     },
     "RunScheduledInstancesRequest":{
       "type":"structure",
@@ -33648,6 +34377,10 @@
           "shape":"PrivateDnsNameConfiguration",
           "locationName":"privateDnsNameConfiguration"
         },
+        "PayerResponsibility":{
+          "shape":"PayerResponsibility",
+          "locationName":"payerResponsibility"
+        },
         "Tags":{
           "shape":"TagList",
           "locationName":"tagSet"
@@ -33707,6 +34440,10 @@
         "ManagesVpcEndpoints":{
           "shape":"Boolean",
           "locationName":"managesVpcEndpoints"
+        },
+        "PayerResponsibility":{
+          "shape":"PayerResponsibility",
+          "locationName":"payerResponsibility"
         },
         "Tags":{
           "shape":"TagList",
@@ -37067,6 +37804,39 @@
       "member":{
         "shape":"TransitGatewayRouteTablePropagation",
         "locationName":"item"
+      }
+    },
+    "TransitGatewayRouteTableRoute":{
+      "type":"structure",
+      "members":{
+        "DestinationCidr":{
+          "shape":"String",
+          "locationName":"destinationCidr"
+        },
+        "State":{
+          "shape":"String",
+          "locationName":"state"
+        },
+        "RouteOrigin":{
+          "shape":"String",
+          "locationName":"routeOrigin"
+        },
+        "PrefixListId":{
+          "shape":"String",
+          "locationName":"prefixListId"
+        },
+        "AttachmentId":{
+          "shape":"String",
+          "locationName":"attachmentId"
+        },
+        "ResourceId":{
+          "shape":"String",
+          "locationName":"resourceId"
+        },
+        "ResourceType":{
+          "shape":"String",
+          "locationName":"resourceType"
+        }
       }
     },
     "TransitGatewayRouteTableState":{

@@ -22,6 +22,50 @@ import SotoCore
 
 @available(macOS 12.0, iOS 15.0, watchOS 8.0, tvOS 15.0, *)
 extension CloudTrail {
+    ///  Gets event data results of a query. You must specify the QueryID value returned by the StartQuery operation, and an ARN for EventDataStore.
+    /// Return PaginatorSequence for operation.
+    ///
+    /// - Parameters:
+    ///   - input: Input for request
+    ///   - logger: Logger used flot logging
+    ///   - eventLoop: EventLoop to run this process on
+    public func getQueryResultsPaginator(
+        _ input: GetQueryResultsRequest,
+        logger: Logger = AWSClient.loggingDisabled,
+        on eventLoop: EventLoop? = nil
+    ) -> AWSClient.PaginatorSequence<GetQueryResultsRequest, GetQueryResultsResponse> {
+        return .init(
+            input: input,
+            command: getQueryResults,
+            inputKey: \GetQueryResultsRequest.nextToken,
+            outputKey: \GetQueryResultsResponse.nextToken,
+            logger: logger,
+            on: eventLoop
+        )
+    }
+
+    ///  Returns information about all event data stores in the account, in the current region.
+    /// Return PaginatorSequence for operation.
+    ///
+    /// - Parameters:
+    ///   - input: Input for request
+    ///   - logger: Logger used flot logging
+    ///   - eventLoop: EventLoop to run this process on
+    public func listEventDataStoresPaginator(
+        _ input: ListEventDataStoresRequest,
+        logger: Logger = AWSClient.loggingDisabled,
+        on eventLoop: EventLoop? = nil
+    ) -> AWSClient.PaginatorSequence<ListEventDataStoresRequest, ListEventDataStoresResponse> {
+        return .init(
+            input: input,
+            command: listEventDataStores,
+            inputKey: \ListEventDataStoresRequest.nextToken,
+            outputKey: \ListEventDataStoresResponse.nextToken,
+            logger: logger,
+            on: eventLoop
+        )
+    }
+
     ///  Returns all public keys whose private keys were used to sign the digest files within the specified time range. The public key is needed to validate digest files that were signed with its corresponding private key.  CloudTrail uses different private and public key pairs per region. Each digest file is signed with a private key unique to its region. When you validate a digest file from a specific region, you must look in the same region for its corresponding public key.
     /// Return PaginatorSequence for operation.
     ///
@@ -44,7 +88,29 @@ extension CloudTrail {
         )
     }
 
-    ///  Lists the tags for the trail in the current region.
+    ///  Returns a list of queries and query statuses for the past seven days. You must specify an ARN value for EventDataStore. Optionally, to shorten the list of results, you can specify a time range, formatted as timestamps, by adding StartTime and EndTime parameters, and a QueryStatus value. Valid values for QueryStatus include QUEUED, RUNNING, FINISHED, FAILED, TIMED_OUT, or CANCELLED.
+    /// Return PaginatorSequence for operation.
+    ///
+    /// - Parameters:
+    ///   - input: Input for request
+    ///   - logger: Logger used flot logging
+    ///   - eventLoop: EventLoop to run this process on
+    public func listQueriesPaginator(
+        _ input: ListQueriesRequest,
+        logger: Logger = AWSClient.loggingDisabled,
+        on eventLoop: EventLoop? = nil
+    ) -> AWSClient.PaginatorSequence<ListQueriesRequest, ListQueriesResponse> {
+        return .init(
+            input: input,
+            command: listQueries,
+            inputKey: \ListQueriesRequest.nextToken,
+            outputKey: \ListQueriesResponse.nextToken,
+            logger: logger,
+            on: eventLoop
+        )
+    }
+
+    ///  Lists the tags for the trail or event data store in the current region.
     /// Return PaginatorSequence for operation.
     ///
     /// - Parameters:

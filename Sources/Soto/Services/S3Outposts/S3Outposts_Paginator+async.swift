@@ -22,7 +22,7 @@ import SotoCore
 
 @available(macOS 12.0, iOS 15.0, watchOS 8.0, tvOS 15.0, *)
 extension S3Outposts {
-    ///  Amazon S3 on Outposts Access Points simplify managing data access at scale for shared datasets in S3 on Outposts. S3 on Outposts uses endpoints to connect to Outposts buckets so that you can perform actions within your virtual private cloud (VPC). For more information, see  Accessing S3 on Outposts using VPC only access points. This action lists endpoints associated with the Outposts.   Related actions include:    CreateEndpoint     DeleteEndpoint
+    ///  Lists endpoints associated with the specified Outpost.  Related actions include:    CreateEndpoint     DeleteEndpoint
     /// Return PaginatorSequence for operation.
     ///
     /// - Parameters:
@@ -39,6 +39,28 @@ extension S3Outposts {
             command: listEndpoints,
             inputKey: \ListEndpointsRequest.nextToken,
             outputKey: \ListEndpointsResult.nextToken,
+            logger: logger,
+            on: eventLoop
+        )
+    }
+
+    ///  Lists all endpoints associated with an Outpost that has been shared by Amazon Web Services Resource Access Manager (RAM). Related actions include:    CreateEndpoint     DeleteEndpoint
+    /// Return PaginatorSequence for operation.
+    ///
+    /// - Parameters:
+    ///   - input: Input for request
+    ///   - logger: Logger used flot logging
+    ///   - eventLoop: EventLoop to run this process on
+    public func listSharedEndpointsPaginator(
+        _ input: ListSharedEndpointsRequest,
+        logger: Logger = AWSClient.loggingDisabled,
+        on eventLoop: EventLoop? = nil
+    ) -> AWSClient.PaginatorSequence<ListSharedEndpointsRequest, ListSharedEndpointsResult> {
+        return .init(
+            input: input,
+            command: listSharedEndpoints,
+            inputKey: \ListSharedEndpointsRequest.nextToken,
+            outputKey: \ListSharedEndpointsResult.nextToken,
             logger: logger,
             on: eventLoop
         )

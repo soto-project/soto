@@ -20,6 +20,13 @@ import SotoCore
 extension IoTSecureTunneling {
     // MARK: Enums
 
+    public enum ClientMode: String, CustomStringConvertible, Codable {
+        case all = "ALL"
+        case destination = "DESTINATION"
+        case source = "SOURCE"
+        public var description: String { return self.rawValue }
+    }
+
     public enum ConnectionStatus: String, CustomStringConvertible, Codable {
         case connected = "CONNECTED"
         case disconnected = "DISCONNECTED"
@@ -35,7 +42,7 @@ extension IoTSecureTunneling {
     // MARK: Shapes
 
     public struct CloseTunnelRequest: AWSEncodableShape {
-        /// When set to true, AWS IoT Secure Tunneling deletes the tunnel data immediately.
+        /// When set to true, IoT Secure Tunneling deletes the tunnel data immediately.
         public let delete: Bool?
         /// The ID of the tunnel to close.
         public let tunnelId: String
@@ -107,7 +114,7 @@ extension IoTSecureTunneling {
     }
 
     public struct DestinationConfig: AWSEncodableShape & AWSDecodableShape {
-        /// A list of service names that identity the target application. The AWS IoT client running on the destination device reads this value and uses it to look up a port or an IP address and a port. The AWS IoT client instantiates the local proxy which uses this information to connect to the destination application.
+        /// A list of service names that identify the target application. The IoT client running on the destination device reads this value and uses it to look up a port or an IP address and a port. The IoT client instantiates the local proxy, which uses this information to connect to the destination application.
         public let services: [String]
         /// The name of the IoT thing to which you want to connect.
         public let thingName: String?
@@ -169,7 +176,7 @@ extension IoTSecureTunneling {
     public struct ListTunnelsRequest: AWSEncodableShape {
         /// The maximum number of results to return at once.
         public let maxResults: Int?
-        /// A token to retrieve the next set of results.
+        /// To retrieve the next set of results, the nextToken value from a previous response; otherwise null to receive the first set of results.
         public let nextToken: String?
         /// The name of the IoT thing associated with the destination device.
         public let thingName: String?
@@ -197,9 +204,9 @@ extension IoTSecureTunneling {
     }
 
     public struct ListTunnelsResponse: AWSDecodableShape {
-        /// A token to used to retrieve the next set of results.
+        /// The token to use to get the next set of results, or null if there are no additional results.
         public let nextToken: String?
-        /// A short description of the tunnels in an AWS account.
+        /// A short description of the tunnels in an Amazon Web Services account.
         public let tunnelSummaries: [TunnelSummary]?
 
         public init(nextToken: String? = nil, tunnelSummaries: [TunnelSummary]? = nil) {
@@ -250,11 +257,11 @@ extension IoTSecureTunneling {
     }
 
     public struct OpenTunnelResponse: AWSDecodableShape {
-        /// The access token the destination local proxy uses to connect to AWS IoT Secure Tunneling.
+        /// The access token the destination local proxy uses to connect to IoT Secure Tunneling.
         public let destinationAccessToken: String?
-        /// The access token the source local proxy uses to connect to AWS IoT Secure Tunneling.
+        /// The access token the source local proxy uses to connect to IoT Secure Tunneling.
         public let sourceAccessToken: String?
-        /// The Amazon Resource Name for the tunnel. The tunnel ARN format is arn:aws:tunnel:&lt;region&gt;:&lt;account-id&gt;:tunnel/&lt;tunnel-id&gt;
+        /// The Amazon Resource Name for the tunnel.
         public let tunnelArn: String?
         /// A unique alpha-numeric tunnel ID.
         public let tunnelId: String?
@@ -271,6 +278,52 @@ extension IoTSecureTunneling {
             case sourceAccessToken
             case tunnelArn
             case tunnelId
+        }
+    }
+
+    public struct RotateTunnelAccessTokenRequest: AWSEncodableShape {
+        /// The mode of the client that will use the client token, which can be either the source or destination, or both source and destination.
+        public let clientMode: ClientMode
+        public let destinationConfig: DestinationConfig?
+        /// The tunnel for which you want to rotate the access tokens.
+        public let tunnelId: String
+
+        public init(clientMode: ClientMode, destinationConfig: DestinationConfig? = nil, tunnelId: String) {
+            self.clientMode = clientMode
+            self.destinationConfig = destinationConfig
+            self.tunnelId = tunnelId
+        }
+
+        public func validate(name: String) throws {
+            try self.destinationConfig?.validate(name: "\(name).destinationConfig")
+            try self.validate(self.tunnelId, name: "tunnelId", parent: name, pattern: "[a-zA-Z0-9_\\-+=:]{1,128}")
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case clientMode
+            case destinationConfig
+            case tunnelId
+        }
+    }
+
+    public struct RotateTunnelAccessTokenResponse: AWSDecodableShape {
+        /// The client access token that the destination local proxy uses to connect to IoT Secure Tunneling.
+        public let destinationAccessToken: String?
+        /// The client access token that the source local proxy uses to connect to IoT Secure Tunneling.
+        public let sourceAccessToken: String?
+        /// The Amazon Resource Name for the tunnel.
+        public let tunnelArn: String?
+
+        public init(destinationAccessToken: String? = nil, sourceAccessToken: String? = nil, tunnelArn: String? = nil) {
+            self.destinationAccessToken = destinationAccessToken
+            self.sourceAccessToken = sourceAccessToken
+            self.tunnelArn = tunnelArn
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case destinationAccessToken
+            case sourceAccessToken
+            case tunnelArn
         }
     }
 
@@ -368,7 +421,7 @@ extension IoTSecureTunneling {
         public let tags: [Tag]?
         /// Timeout configuration for the tunnel.
         public let timeoutConfig: TimeoutConfig?
-        /// The Amazon Resource Name (ARN) of a tunnel. The tunnel ARN format is arn:aws:tunnel:&lt;region&gt;:&lt;account-id&gt;:tunnel/&lt;tunnel-id&gt;
+        /// The Amazon Resource Name (ARN) of a tunnel.
         public let tunnelArn: String?
         /// A unique alpha-numeric ID that identifies a tunnel.
         public let tunnelId: String?
@@ -411,7 +464,7 @@ extension IoTSecureTunneling {
         public let lastUpdatedAt: Date?
         /// The status of a tunnel. Valid values are: Open and Closed.
         public let status: TunnelStatus?
-        /// The Amazon Resource Name of the tunnel. The tunnel ARN format is arn:aws:tunnel:&lt;region&gt;:&lt;account-id&gt;:tunnel/&lt;tunnel-id&gt;
+        /// The Amazon Resource Name of the tunnel.
         public let tunnelArn: String?
         /// The unique alpha-numeric identifier for the tunnel.
         public let tunnelId: String?

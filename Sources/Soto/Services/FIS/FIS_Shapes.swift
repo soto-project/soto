@@ -130,7 +130,7 @@ extension FIS {
     }
 
     public struct CreateExperimentTemplateActionInput: AWSEncodableShape {
-        /// The ID of the action.
+        /// The ID of the action. The format of the action ID is: aws:service-name:action-type.
         public let actionId: String
         /// A description for the action.
         public let description: String?
@@ -181,14 +181,42 @@ extension FIS {
         }
     }
 
+    public struct CreateExperimentTemplateLogConfigurationInput: AWSEncodableShape {
+        /// The configuration for experiment logging to Amazon CloudWatch Logs.
+        public let cloudWatchLogsConfiguration: ExperimentTemplateCloudWatchLogsLogConfigurationInput?
+        /// The schema version.
+        public let logSchemaVersion: Int
+        /// The configuration for experiment logging to Amazon S3.
+        public let s3Configuration: ExperimentTemplateS3LogConfigurationInput?
+
+        public init(cloudWatchLogsConfiguration: ExperimentTemplateCloudWatchLogsLogConfigurationInput? = nil, logSchemaVersion: Int, s3Configuration: ExperimentTemplateS3LogConfigurationInput? = nil) {
+            self.cloudWatchLogsConfiguration = cloudWatchLogsConfiguration
+            self.logSchemaVersion = logSchemaVersion
+            self.s3Configuration = s3Configuration
+        }
+
+        public func validate(name: String) throws {
+            try self.cloudWatchLogsConfiguration?.validate(name: "\(name).cloudWatchLogsConfiguration")
+            try self.s3Configuration?.validate(name: "\(name).s3Configuration")
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case cloudWatchLogsConfiguration
+            case logSchemaVersion
+            case s3Configuration
+        }
+    }
+
     public struct CreateExperimentTemplateRequest: AWSEncodableShape {
         /// The actions for the experiment.
         public let actions: [String: CreateExperimentTemplateActionInput]
         /// Unique, case-sensitive identifier that you provide to ensure the idempotency of the request.
         public let clientToken: String
-        /// A description for the experiment template. Can contain up to 64 letters (A-Z and a-z).
+        /// A description for the experiment template.
         public let description: String
-        /// The Amazon Resource Name (ARN) of an IAM role that grants the AWS FIS service permission to perform service actions on your behalf.
+        /// The configuration for experiment logging.
+        public let logConfiguration: CreateExperimentTemplateLogConfigurationInput?
+        /// The Amazon Resource Name (ARN) of an IAM role that grants the FIS service permission to perform service actions on your behalf.
         public let roleArn: String
         /// The stop conditions.
         public let stopConditions: [CreateExperimentTemplateStopConditionInput]
@@ -197,10 +225,11 @@ extension FIS {
         /// The targets for the experiment.
         public let targets: [String: CreateExperimentTemplateTargetInput]?
 
-        public init(actions: [String: CreateExperimentTemplateActionInput], clientToken: String = CreateExperimentTemplateRequest.idempotencyToken(), description: String, roleArn: String, stopConditions: [CreateExperimentTemplateStopConditionInput], tags: [String: String]? = nil, targets: [String: CreateExperimentTemplateTargetInput]? = nil) {
+        public init(actions: [String: CreateExperimentTemplateActionInput], clientToken: String = CreateExperimentTemplateRequest.idempotencyToken(), description: String, logConfiguration: CreateExperimentTemplateLogConfigurationInput? = nil, roleArn: String, stopConditions: [CreateExperimentTemplateStopConditionInput], tags: [String: String]? = nil, targets: [String: CreateExperimentTemplateTargetInput]? = nil) {
             self.actions = actions
             self.clientToken = clientToken
             self.description = description
+            self.logConfiguration = logConfiguration
             self.roleArn = roleArn
             self.stopConditions = stopConditions
             self.tags = tags
@@ -218,6 +247,7 @@ extension FIS {
             try self.validate(self.clientToken, name: "clientToken", parent: name, pattern: "[\\S]+")
             try self.validate(self.description, name: "description", parent: name, max: 512)
             try self.validate(self.description, name: "description", parent: name, pattern: "[\\s\\S]+")
+            try self.logConfiguration?.validate(name: "\(name).logConfiguration")
             try self.validate(self.roleArn, name: "roleArn", parent: name, max: 2048)
             try self.validate(self.roleArn, name: "roleArn", parent: name, min: 20)
             try self.validate(self.roleArn, name: "roleArn", parent: name, pattern: "[\\S]+")
@@ -241,6 +271,7 @@ extension FIS {
             case actions
             case clientToken
             case description
+            case logConfiguration
             case roleArn
             case stopConditions
             case tags
@@ -289,17 +320,20 @@ extension FIS {
     public struct CreateExperimentTemplateTargetInput: AWSEncodableShape {
         /// The filters to apply to identify target resources using specific attributes.
         public let filters: [ExperimentTemplateTargetInputFilter]?
+        /// The resource type parameters.
+        public let parameters: [String: String]?
         /// The Amazon Resource Names (ARNs) of the resources.
         public let resourceArns: [String]?
         /// The tags for the target resources.
         public let resourceTags: [String: String]?
-        /// The AWS resource type. The resource type must be supported for the specified action.
+        /// The resource type. The resource type must be supported for the specified action.
         public let resourceType: String
         /// Scopes the identified resources to a specific count of the resources at random, or a percentage of the resources. All identified resources are included in the target.   ALL - Run the action on all identified targets. This is the default.   COUNT(n) - Run the action on the specified number of targets, chosen from the identified targets at random. For example, COUNT(1) selects one of the targets.   PERCENT(n) - Run the action on the specified percentage of targets, chosen from the identified targets at random. For example, PERCENT(25) selects 25% of the targets.
         public let selectionMode: String
 
-        public init(filters: [ExperimentTemplateTargetInputFilter]? = nil, resourceArns: [String]? = nil, resourceTags: [String: String]? = nil, resourceType: String, selectionMode: String) {
+        public init(filters: [ExperimentTemplateTargetInputFilter]? = nil, parameters: [String: String]? = nil, resourceArns: [String]? = nil, resourceTags: [String: String]? = nil, resourceType: String, selectionMode: String) {
             self.filters = filters
+            self.parameters = parameters
             self.resourceArns = resourceArns
             self.resourceTags = resourceTags
             self.resourceType = resourceType
@@ -309,6 +343,13 @@ extension FIS {
         public func validate(name: String) throws {
             try self.filters?.forEach {
                 try $0.validate(name: "\(name).filters[]")
+            }
+            try self.parameters?.forEach {
+                try validate($0.key, name: "parameters.key", parent: name, max: 64)
+                try validate($0.key, name: "parameters.key", parent: name, pattern: "[\\S]+")
+                try validate($0.value, name: "parameters[\"\($0.key)\"]", parent: name, max: 1024)
+                try validate($0.value, name: "parameters[\"\($0.key)\"]", parent: name, min: 1)
+                try validate($0.value, name: "parameters[\"\($0.key)\"]", parent: name, pattern: "^[\\p{L}\\p{Z}\\p{N}_.:/=+\\-@]+$")
             }
             try self.resourceArns?.forEach {
                 try validate($0, name: "resourceArns[]", parent: name, max: 2048)
@@ -322,7 +363,7 @@ extension FIS {
                 try validate($0.value, name: "resourceTags[\"\($0.key)\"]", parent: name, max: 256)
                 try validate($0.value, name: "resourceTags[\"\($0.key)\"]", parent: name, pattern: "[\\s\\S]*")
             }
-            try self.validate(self.resourceType, name: "resourceType", parent: name, max: 64)
+            try self.validate(self.resourceType, name: "resourceType", parent: name, max: 128)
             try self.validate(self.resourceType, name: "resourceType", parent: name, pattern: "[\\S]+")
             try self.validate(self.selectionMode, name: "selectionMode", parent: name, max: 64)
             try self.validate(self.selectionMode, name: "selectionMode", parent: name, pattern: "[\\S]+")
@@ -330,6 +371,7 @@ extension FIS {
 
         private enum CodingKeys: String, CodingKey {
             case filters
+            case parameters
             case resourceArns
             case resourceTags
             case resourceType
@@ -373,7 +415,7 @@ extension FIS {
     public struct Experiment: AWSDecodableShape {
         /// The actions for the experiment.
         public let actions: [String: ExperimentAction]?
-        /// The time the experiment was created.
+        /// The time that the experiment was created.
         public let creationTime: Date?
         /// The time that the experiment ended.
         public let endTime: Date?
@@ -381,9 +423,11 @@ extension FIS {
         public let experimentTemplateId: String?
         /// The ID of the experiment.
         public let id: String?
-        /// The Amazon Resource Name (ARN) of an IAM role that grants the AWS FIS service permission to perform service actions on your behalf.
+        /// The configuration for experiment logging.
+        public let logConfiguration: ExperimentLogConfiguration?
+        /// The Amazon Resource Name (ARN) of an IAM role that grants the FIS service permission to perform service actions on your behalf.
         public let roleArn: String?
-        /// The time that the experiment was started.
+        /// The time that the experiment started.
         public let startTime: Date?
         /// The state of the experiment.
         public let state: ExperimentState?
@@ -394,12 +438,13 @@ extension FIS {
         /// The targets for the experiment.
         public let targets: [String: ExperimentTarget]?
 
-        public init(actions: [String: ExperimentAction]? = nil, creationTime: Date? = nil, endTime: Date? = nil, experimentTemplateId: String? = nil, id: String? = nil, roleArn: String? = nil, startTime: Date? = nil, state: ExperimentState? = nil, stopConditions: [ExperimentStopCondition]? = nil, tags: [String: String]? = nil, targets: [String: ExperimentTarget]? = nil) {
+        public init(actions: [String: ExperimentAction]? = nil, creationTime: Date? = nil, endTime: Date? = nil, experimentTemplateId: String? = nil, id: String? = nil, logConfiguration: ExperimentLogConfiguration? = nil, roleArn: String? = nil, startTime: Date? = nil, state: ExperimentState? = nil, stopConditions: [ExperimentStopCondition]? = nil, tags: [String: String]? = nil, targets: [String: ExperimentTarget]? = nil) {
             self.actions = actions
             self.creationTime = creationTime
             self.endTime = endTime
             self.experimentTemplateId = experimentTemplateId
             self.id = id
+            self.logConfiguration = logConfiguration
             self.roleArn = roleArn
             self.startTime = startTime
             self.state = state
@@ -414,6 +459,7 @@ extension FIS {
             case endTime
             case experimentTemplateId
             case id
+            case logConfiguration
             case roleArn
             case startTime
             case state
@@ -428,20 +474,26 @@ extension FIS {
         public let actionId: String?
         /// The description for the action.
         public let description: String?
+        /// The time that the action ended.
+        public let endTime: Date?
         /// The parameters for the action.
         public let parameters: [String: String]?
         /// The name of the action that must be completed before this action starts.
         public let startAfter: [String]?
+        /// The time that the action started.
+        public let startTime: Date?
         /// The state of the action.
         public let state: ExperimentActionState?
         /// The targets for the action.
         public let targets: [String: String]?
 
-        public init(actionId: String? = nil, description: String? = nil, parameters: [String: String]? = nil, startAfter: [String]? = nil, state: ExperimentActionState? = nil, targets: [String: String]? = nil) {
+        public init(actionId: String? = nil, description: String? = nil, endTime: Date? = nil, parameters: [String: String]? = nil, startAfter: [String]? = nil, startTime: Date? = nil, state: ExperimentActionState? = nil, targets: [String: String]? = nil) {
             self.actionId = actionId
             self.description = description
+            self.endTime = endTime
             self.parameters = parameters
             self.startAfter = startAfter
+            self.startTime = startTime
             self.state = state
             self.targets = targets
         }
@@ -449,8 +501,10 @@ extension FIS {
         private enum CodingKeys: String, CodingKey {
             case actionId
             case description
+            case endTime
             case parameters
             case startAfter
+            case startTime
             case state
             case targets
         }
@@ -470,6 +524,57 @@ extension FIS {
         private enum CodingKeys: String, CodingKey {
             case reason
             case status
+        }
+    }
+
+    public struct ExperimentCloudWatchLogsLogConfiguration: AWSDecodableShape {
+        /// The Amazon Resource Name (ARN) of the destination Amazon CloudWatch Logs log group.
+        public let logGroupArn: String?
+
+        public init(logGroupArn: String? = nil) {
+            self.logGroupArn = logGroupArn
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case logGroupArn
+        }
+    }
+
+    public struct ExperimentLogConfiguration: AWSDecodableShape {
+        /// The configuration for experiment logging to Amazon CloudWatch Logs.
+        public let cloudWatchLogsConfiguration: ExperimentCloudWatchLogsLogConfiguration?
+        /// The schema version.
+        public let logSchemaVersion: Int?
+        /// The configuration for experiment logging to Amazon S3.
+        public let s3Configuration: ExperimentS3LogConfiguration?
+
+        public init(cloudWatchLogsConfiguration: ExperimentCloudWatchLogsLogConfiguration? = nil, logSchemaVersion: Int? = nil, s3Configuration: ExperimentS3LogConfiguration? = nil) {
+            self.cloudWatchLogsConfiguration = cloudWatchLogsConfiguration
+            self.logSchemaVersion = logSchemaVersion
+            self.s3Configuration = s3Configuration
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case cloudWatchLogsConfiguration
+            case logSchemaVersion
+            case s3Configuration
+        }
+    }
+
+    public struct ExperimentS3LogConfiguration: AWSDecodableShape {
+        /// The name of the destination bucket.
+        public let bucketName: String?
+        /// The bucket prefix.
+        public let prefix: String?
+
+        public init(bucketName: String? = nil, prefix: String? = nil) {
+            self.bucketName = bucketName
+            self.prefix = prefix
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case bucketName
+            case prefix
         }
     }
 
@@ -539,6 +644,8 @@ extension FIS {
     public struct ExperimentTarget: AWSDecodableShape {
         /// The filters to apply to identify target resources using specific attributes.
         public let filters: [ExperimentTargetFilter]?
+        /// The resource type parameters.
+        public let parameters: [String: String]?
         /// The Amazon Resource Names (ARNs) of the resources.
         public let resourceArns: [String]?
         /// The tags for the target resources.
@@ -548,8 +655,9 @@ extension FIS {
         /// Scopes the identified resources to a specific count or percentage.
         public let selectionMode: String?
 
-        public init(filters: [ExperimentTargetFilter]? = nil, resourceArns: [String]? = nil, resourceTags: [String: String]? = nil, resourceType: String? = nil, selectionMode: String? = nil) {
+        public init(filters: [ExperimentTargetFilter]? = nil, parameters: [String: String]? = nil, resourceArns: [String]? = nil, resourceTags: [String: String]? = nil, resourceType: String? = nil, selectionMode: String? = nil) {
             self.filters = filters
+            self.parameters = parameters
             self.resourceArns = resourceArns
             self.resourceTags = resourceTags
             self.resourceType = resourceType
@@ -558,6 +666,7 @@ extension FIS {
 
         private enum CodingKeys: String, CodingKey {
             case filters
+            case parameters
             case resourceArns
             case resourceTags
             case resourceType
@@ -593,6 +702,8 @@ extension FIS {
         public let id: String?
         /// The time the experiment template was last updated.
         public let lastUpdateTime: Date?
+        /// The configuration for experiment logging.
+        public let logConfiguration: ExperimentTemplateLogConfiguration?
         /// The Amazon Resource Name (ARN) of an IAM role.
         public let roleArn: String?
         /// The stop conditions for the experiment.
@@ -602,12 +713,13 @@ extension FIS {
         /// The targets for the experiment.
         public let targets: [String: ExperimentTemplateTarget]?
 
-        public init(actions: [String: ExperimentTemplateAction]? = nil, creationTime: Date? = nil, description: String? = nil, id: String? = nil, lastUpdateTime: Date? = nil, roleArn: String? = nil, stopConditions: [ExperimentTemplateStopCondition]? = nil, tags: [String: String]? = nil, targets: [String: ExperimentTemplateTarget]? = nil) {
+        public init(actions: [String: ExperimentTemplateAction]? = nil, creationTime: Date? = nil, description: String? = nil, id: String? = nil, lastUpdateTime: Date? = nil, logConfiguration: ExperimentTemplateLogConfiguration? = nil, roleArn: String? = nil, stopConditions: [ExperimentTemplateStopCondition]? = nil, tags: [String: String]? = nil, targets: [String: ExperimentTemplateTarget]? = nil) {
             self.actions = actions
             self.creationTime = creationTime
             self.description = description
             self.id = id
             self.lastUpdateTime = lastUpdateTime
+            self.logConfiguration = logConfiguration
             self.roleArn = roleArn
             self.stopConditions = stopConditions
             self.tags = tags
@@ -620,6 +732,7 @@ extension FIS {
             case description
             case id
             case lastUpdateTime
+            case logConfiguration
             case roleArn
             case stopConditions
             case tags
@@ -653,6 +766,102 @@ extension FIS {
             case parameters
             case startAfter
             case targets
+        }
+    }
+
+    public struct ExperimentTemplateCloudWatchLogsLogConfiguration: AWSDecodableShape {
+        /// The Amazon Resource Name (ARN) of the destination Amazon CloudWatch Logs log group.
+        public let logGroupArn: String?
+
+        public init(logGroupArn: String? = nil) {
+            self.logGroupArn = logGroupArn
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case logGroupArn
+        }
+    }
+
+    public struct ExperimentTemplateCloudWatchLogsLogConfigurationInput: AWSEncodableShape {
+        /// The Amazon Resource Name (ARN) of the destination Amazon CloudWatch Logs log group.
+        public let logGroupArn: String
+
+        public init(logGroupArn: String) {
+            self.logGroupArn = logGroupArn
+        }
+
+        public func validate(name: String) throws {
+            try self.validate(self.logGroupArn, name: "logGroupArn", parent: name, max: 2048)
+            try self.validate(self.logGroupArn, name: "logGroupArn", parent: name, min: 20)
+            try self.validate(self.logGroupArn, name: "logGroupArn", parent: name, pattern: "[\\S]+")
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case logGroupArn
+        }
+    }
+
+    public struct ExperimentTemplateLogConfiguration: AWSDecodableShape {
+        /// The configuration for experiment logging to Amazon CloudWatch Logs.
+        public let cloudWatchLogsConfiguration: ExperimentTemplateCloudWatchLogsLogConfiguration?
+        /// The schema version.
+        public let logSchemaVersion: Int?
+        /// The configuration for experiment logging to Amazon S3.
+        public let s3Configuration: ExperimentTemplateS3LogConfiguration?
+
+        public init(cloudWatchLogsConfiguration: ExperimentTemplateCloudWatchLogsLogConfiguration? = nil, logSchemaVersion: Int? = nil, s3Configuration: ExperimentTemplateS3LogConfiguration? = nil) {
+            self.cloudWatchLogsConfiguration = cloudWatchLogsConfiguration
+            self.logSchemaVersion = logSchemaVersion
+            self.s3Configuration = s3Configuration
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case cloudWatchLogsConfiguration
+            case logSchemaVersion
+            case s3Configuration
+        }
+    }
+
+    public struct ExperimentTemplateS3LogConfiguration: AWSDecodableShape {
+        /// The name of the destination bucket.
+        public let bucketName: String?
+        /// The bucket prefix.
+        public let prefix: String?
+
+        public init(bucketName: String? = nil, prefix: String? = nil) {
+            self.bucketName = bucketName
+            self.prefix = prefix
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case bucketName
+            case prefix
+        }
+    }
+
+    public struct ExperimentTemplateS3LogConfigurationInput: AWSEncodableShape {
+        /// The name of the destination bucket.
+        public let bucketName: String
+        /// The bucket prefix.
+        public let prefix: String?
+
+        public init(bucketName: String, prefix: String? = nil) {
+            self.bucketName = bucketName
+            self.prefix = prefix
+        }
+
+        public func validate(name: String) throws {
+            try self.validate(self.bucketName, name: "bucketName", parent: name, max: 63)
+            try self.validate(self.bucketName, name: "bucketName", parent: name, min: 3)
+            try self.validate(self.bucketName, name: "bucketName", parent: name, pattern: "[\\S]+")
+            try self.validate(self.prefix, name: "prefix", parent: name, max: 1024)
+            try self.validate(self.prefix, name: "prefix", parent: name, min: 1)
+            try self.validate(self.prefix, name: "prefix", parent: name, pattern: "[\\s\\S]+")
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case bucketName
+            case prefix
         }
     }
 
@@ -705,6 +914,8 @@ extension FIS {
     public struct ExperimentTemplateTarget: AWSDecodableShape {
         /// The filters to apply to identify target resources using specific attributes.
         public let filters: [ExperimentTemplateTargetFilter]?
+        /// The resource type parameters.
+        public let parameters: [String: String]?
         /// The Amazon Resource Names (ARNs) of the targets.
         public let resourceArns: [String]?
         /// The tags for the target resources.
@@ -714,8 +925,9 @@ extension FIS {
         /// Scopes the identified resources to a specific count or percentage.
         public let selectionMode: String?
 
-        public init(filters: [ExperimentTemplateTargetFilter]? = nil, resourceArns: [String]? = nil, resourceTags: [String: String]? = nil, resourceType: String? = nil, selectionMode: String? = nil) {
+        public init(filters: [ExperimentTemplateTargetFilter]? = nil, parameters: [String: String]? = nil, resourceArns: [String]? = nil, resourceTags: [String: String]? = nil, resourceType: String? = nil, selectionMode: String? = nil) {
             self.filters = filters
+            self.parameters = parameters
             self.resourceArns = resourceArns
             self.resourceTags = resourceTags
             self.resourceType = resourceType
@@ -724,6 +936,7 @@ extension FIS {
 
         private enum CodingKeys: String, CodingKey {
             case filters
+            case parameters
             case resourceArns
             case resourceTags
             case resourceType
@@ -870,6 +1083,39 @@ extension FIS {
 
         private enum CodingKeys: String, CodingKey {
             case experimentTemplate
+        }
+    }
+
+    public struct GetTargetResourceTypeRequest: AWSEncodableShape {
+        public static var _encoding = [
+            AWSMemberEncoding(label: "resourceType", location: .uri(locationName: "resourceType"))
+        ]
+
+        /// The resource type.
+        public let resourceType: String
+
+        public init(resourceType: String) {
+            self.resourceType = resourceType
+        }
+
+        public func validate(name: String) throws {
+            try self.validate(self.resourceType, name: "resourceType", parent: name, max: 128)
+            try self.validate(self.resourceType, name: "resourceType", parent: name, pattern: "[\\S]+")
+        }
+
+        private enum CodingKeys: CodingKey {}
+    }
+
+    public struct GetTargetResourceTypeResponse: AWSDecodableShape {
+        /// Information about the resource type.
+        public let targetResourceType: TargetResourceType?
+
+        public init(targetResourceType: TargetResourceType? = nil) {
+            self.targetResourceType = targetResourceType
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case targetResourceType
         }
     }
 
@@ -1039,6 +1285,50 @@ extension FIS {
         }
     }
 
+    public struct ListTargetResourceTypesRequest: AWSEncodableShape {
+        public static var _encoding = [
+            AWSMemberEncoding(label: "maxResults", location: .querystring(locationName: "maxResults")),
+            AWSMemberEncoding(label: "nextToken", location: .querystring(locationName: "nextToken"))
+        ]
+
+        /// The maximum number of results to return with a single call. To retrieve the remaining results, make another call with the returned nextToken value.
+        public let maxResults: Int?
+        /// The token for the next page of results.
+        public let nextToken: String?
+
+        public init(maxResults: Int? = nil, nextToken: String? = nil) {
+            self.maxResults = maxResults
+            self.nextToken = nextToken
+        }
+
+        public func validate(name: String) throws {
+            try self.validate(self.maxResults, name: "maxResults", parent: name, max: 100)
+            try self.validate(self.maxResults, name: "maxResults", parent: name, min: 1)
+            try self.validate(self.nextToken, name: "nextToken", parent: name, max: 1024)
+            try self.validate(self.nextToken, name: "nextToken", parent: name, min: 1)
+            try self.validate(self.nextToken, name: "nextToken", parent: name, pattern: "[\\S]+")
+        }
+
+        private enum CodingKeys: CodingKey {}
+    }
+
+    public struct ListTargetResourceTypesResponse: AWSDecodableShape {
+        /// The token to use to retrieve the next page of results. This value is null when there are no more results to return.
+        public let nextToken: String?
+        /// The target resource types.
+        public let targetResourceTypes: [TargetResourceTypeSummary]?
+
+        public init(nextToken: String? = nil, targetResourceTypes: [TargetResourceTypeSummary]? = nil) {
+            self.nextToken = nextToken
+            self.targetResourceTypes = targetResourceTypes
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case nextToken
+            case targetResourceTypes
+        }
+    }
+
     public struct StartExperimentRequest: AWSEncodableShape {
         /// Unique, case-sensitive identifier that you provide to ensure the idempotency of the request.
         public let clientToken: String
@@ -1156,6 +1446,61 @@ extension FIS {
         public init() {}
     }
 
+    public struct TargetResourceType: AWSDecodableShape {
+        /// A description of the resource type.
+        public let description: String?
+        /// The parameters for the resource type.
+        public let parameters: [String: TargetResourceTypeParameter]?
+        /// The resource type.
+        public let resourceType: String?
+
+        public init(description: String? = nil, parameters: [String: TargetResourceTypeParameter]? = nil, resourceType: String? = nil) {
+            self.description = description
+            self.parameters = parameters
+            self.resourceType = resourceType
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case description
+            case parameters
+            case resourceType
+        }
+    }
+
+    public struct TargetResourceTypeParameter: AWSDecodableShape {
+        /// A description of the parameter.
+        public let description: String?
+        /// Indicates whether the parameter is required.
+        public let required: Bool?
+
+        public init(description: String? = nil, required: Bool? = nil) {
+            self.description = description
+            self.required = required
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case description
+            case required
+        }
+    }
+
+    public struct TargetResourceTypeSummary: AWSDecodableShape {
+        /// A description of the resource type.
+        public let description: String?
+        /// The resource type.
+        public let resourceType: String?
+
+        public init(description: String? = nil, resourceType: String? = nil) {
+            self.description = description
+            self.resourceType = resourceType
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case description
+            case resourceType
+        }
+    }
+
     public struct UntagResourceRequest: AWSEncodableShape {
         public static var _encoding = [
             AWSMemberEncoding(label: "resourceArn", location: .uri(locationName: "resourceArn")),
@@ -1241,6 +1586,32 @@ extension FIS {
         }
     }
 
+    public struct UpdateExperimentTemplateLogConfigurationInput: AWSEncodableShape {
+        /// The configuration for experiment logging to Amazon CloudWatch Logs.
+        public let cloudWatchLogsConfiguration: ExperimentTemplateCloudWatchLogsLogConfigurationInput?
+        /// The schema version.
+        public let logSchemaVersion: Int?
+        /// The configuration for experiment logging to Amazon S3.
+        public let s3Configuration: ExperimentTemplateS3LogConfigurationInput?
+
+        public init(cloudWatchLogsConfiguration: ExperimentTemplateCloudWatchLogsLogConfigurationInput? = nil, logSchemaVersion: Int? = nil, s3Configuration: ExperimentTemplateS3LogConfigurationInput? = nil) {
+            self.cloudWatchLogsConfiguration = cloudWatchLogsConfiguration
+            self.logSchemaVersion = logSchemaVersion
+            self.s3Configuration = s3Configuration
+        }
+
+        public func validate(name: String) throws {
+            try self.cloudWatchLogsConfiguration?.validate(name: "\(name).cloudWatchLogsConfiguration")
+            try self.s3Configuration?.validate(name: "\(name).s3Configuration")
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case cloudWatchLogsConfiguration
+            case logSchemaVersion
+            case s3Configuration
+        }
+    }
+
     public struct UpdateExperimentTemplateRequest: AWSEncodableShape {
         public static var _encoding = [
             AWSMemberEncoding(label: "id", location: .uri(locationName: "id"))
@@ -1252,17 +1623,20 @@ extension FIS {
         public let description: String?
         /// The ID of the experiment template.
         public let id: String
-        /// The Amazon Resource Name (ARN) of an IAM role that grants the AWS FIS service permission to perform service actions on your behalf.
+        /// The configuration for experiment logging.
+        public let logConfiguration: UpdateExperimentTemplateLogConfigurationInput?
+        /// The Amazon Resource Name (ARN) of an IAM role that grants the FIS service permission to perform service actions on your behalf.
         public let roleArn: String?
         /// The stop conditions for the experiment.
         public let stopConditions: [UpdateExperimentTemplateStopConditionInput]?
         /// The targets for the experiment.
         public let targets: [String: UpdateExperimentTemplateTargetInput]?
 
-        public init(actions: [String: UpdateExperimentTemplateActionInputItem]? = nil, description: String? = nil, id: String, roleArn: String? = nil, stopConditions: [UpdateExperimentTemplateStopConditionInput]? = nil, targets: [String: UpdateExperimentTemplateTargetInput]? = nil) {
+        public init(actions: [String: UpdateExperimentTemplateActionInputItem]? = nil, description: String? = nil, id: String, logConfiguration: UpdateExperimentTemplateLogConfigurationInput? = nil, roleArn: String? = nil, stopConditions: [UpdateExperimentTemplateStopConditionInput]? = nil, targets: [String: UpdateExperimentTemplateTargetInput]? = nil) {
             self.actions = actions
             self.description = description
             self.id = id
+            self.logConfiguration = logConfiguration
             self.roleArn = roleArn
             self.stopConditions = stopConditions
             self.targets = targets
@@ -1278,6 +1652,7 @@ extension FIS {
             try self.validate(self.description, name: "description", parent: name, pattern: "[\\s\\S]+")
             try self.validate(self.id, name: "id", parent: name, max: 64)
             try self.validate(self.id, name: "id", parent: name, pattern: "[\\S]+")
+            try self.logConfiguration?.validate(name: "\(name).logConfiguration")
             try self.validate(self.roleArn, name: "roleArn", parent: name, max: 2048)
             try self.validate(self.roleArn, name: "roleArn", parent: name, min: 20)
             try self.validate(self.roleArn, name: "roleArn", parent: name, pattern: "[\\S]+")
@@ -1294,6 +1669,7 @@ extension FIS {
         private enum CodingKeys: String, CodingKey {
             case actions
             case description
+            case logConfiguration
             case roleArn
             case stopConditions
             case targets
@@ -1341,17 +1717,20 @@ extension FIS {
     public struct UpdateExperimentTemplateTargetInput: AWSEncodableShape {
         /// The filters to apply to identify target resources using specific attributes.
         public let filters: [ExperimentTemplateTargetInputFilter]?
+        /// The resource type parameters.
+        public let parameters: [String: String]?
         /// The Amazon Resource Names (ARNs) of the targets.
         public let resourceArns: [String]?
         /// The tags for the target resources.
         public let resourceTags: [String: String]?
-        /// The AWS resource type. The resource type must be supported for the specified action.
+        /// The resource type. The resource type must be supported for the specified action.
         public let resourceType: String
         /// Scopes the identified resources to a specific count or percentage.
         public let selectionMode: String
 
-        public init(filters: [ExperimentTemplateTargetInputFilter]? = nil, resourceArns: [String]? = nil, resourceTags: [String: String]? = nil, resourceType: String, selectionMode: String) {
+        public init(filters: [ExperimentTemplateTargetInputFilter]? = nil, parameters: [String: String]? = nil, resourceArns: [String]? = nil, resourceTags: [String: String]? = nil, resourceType: String, selectionMode: String) {
             self.filters = filters
+            self.parameters = parameters
             self.resourceArns = resourceArns
             self.resourceTags = resourceTags
             self.resourceType = resourceType
@@ -1361,6 +1740,13 @@ extension FIS {
         public func validate(name: String) throws {
             try self.filters?.forEach {
                 try $0.validate(name: "\(name).filters[]")
+            }
+            try self.parameters?.forEach {
+                try validate($0.key, name: "parameters.key", parent: name, max: 64)
+                try validate($0.key, name: "parameters.key", parent: name, pattern: "[\\S]+")
+                try validate($0.value, name: "parameters[\"\($0.key)\"]", parent: name, max: 1024)
+                try validate($0.value, name: "parameters[\"\($0.key)\"]", parent: name, min: 1)
+                try validate($0.value, name: "parameters[\"\($0.key)\"]", parent: name, pattern: "^[\\p{L}\\p{Z}\\p{N}_.:/=+\\-@]+$")
             }
             try self.resourceArns?.forEach {
                 try validate($0, name: "resourceArns[]", parent: name, max: 2048)
@@ -1374,7 +1760,7 @@ extension FIS {
                 try validate($0.value, name: "resourceTags[\"\($0.key)\"]", parent: name, max: 256)
                 try validate($0.value, name: "resourceTags[\"\($0.key)\"]", parent: name, pattern: "[\\s\\S]*")
             }
-            try self.validate(self.resourceType, name: "resourceType", parent: name, max: 64)
+            try self.validate(self.resourceType, name: "resourceType", parent: name, max: 128)
             try self.validate(self.resourceType, name: "resourceType", parent: name, pattern: "[\\S]+")
             try self.validate(self.selectionMode, name: "selectionMode", parent: name, max: 64)
             try self.validate(self.selectionMode, name: "selectionMode", parent: name, pattern: "[\\S]+")
@@ -1382,6 +1768,7 @@ extension FIS {
 
         private enum CodingKeys: String, CodingKey {
             case filters
+            case parameters
             case resourceArns
             case resourceTags
             case resourceType

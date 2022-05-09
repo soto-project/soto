@@ -19,7 +19,113 @@ import SotoCore
 // MARK: Paginators
 
 extension Outposts {
-    ///  Use to create a list of every item in the catalog. Add filters to your request to return a more specific list of results. Use filters to match an item class, storage option, or EC2 family.  If you specify multiple filters, the filters are joined with an AND, and the request returns only results that match all of the specified filters.
+    ///  Gets the instance types for the specified Outpost.
+    ///
+    /// Provide paginated results to closure `onPage` for it to combine them into one result.
+    /// This works in a similar manner to `Array.reduce<Result>(_:_:) -> Result`.
+    ///
+    /// Parameters:
+    ///   - input: Input for request
+    ///   - initialValue: The value to use as the initial accumulating value. `initialValue` is passed to `onPage` the first time it is called.
+    ///   - logger: Logger used for logging output
+    ///   - eventLoop: EventLoop to run this process on
+    ///   - onPage: closure called with each paginated response. It combines an accumulating result with the contents of response. This combined result is then returned
+    ///         along with a boolean indicating if the paginate operation should continue.
+    public func getOutpostInstanceTypesPaginator<Result>(
+        _ input: GetOutpostInstanceTypesInput,
+        _ initialValue: Result,
+        logger: Logger = AWSClient.loggingDisabled,
+        on eventLoop: EventLoop? = nil,
+        onPage: @escaping (Result, GetOutpostInstanceTypesOutput, EventLoop) -> EventLoopFuture<(Bool, Result)>
+    ) -> EventLoopFuture<Result> {
+        return client.paginate(
+            input: input,
+            initialValue: initialValue,
+            command: getOutpostInstanceTypes,
+            inputKey: \GetOutpostInstanceTypesInput.nextToken,
+            outputKey: \GetOutpostInstanceTypesOutput.nextToken,
+            on: eventLoop,
+            onPage: onPage
+        )
+    }
+
+    /// Provide paginated results to closure `onPage`.
+    ///
+    /// - Parameters:
+    ///   - input: Input for request
+    ///   - logger: Logger used for logging output
+    ///   - eventLoop: EventLoop to run this process on
+    ///   - onPage: closure called with each block of entries. Returns boolean indicating whether we should continue.
+    public func getOutpostInstanceTypesPaginator(
+        _ input: GetOutpostInstanceTypesInput,
+        logger: Logger = AWSClient.loggingDisabled,
+        on eventLoop: EventLoop? = nil,
+        onPage: @escaping (GetOutpostInstanceTypesOutput, EventLoop) -> EventLoopFuture<Bool>
+    ) -> EventLoopFuture<Void> {
+        return client.paginate(
+            input: input,
+            command: getOutpostInstanceTypes,
+            inputKey: \GetOutpostInstanceTypesInput.nextToken,
+            outputKey: \GetOutpostInstanceTypesOutput.nextToken,
+            on: eventLoop,
+            onPage: onPage
+        )
+    }
+
+    ///   Lists the hardware assets in an Outpost. If you are using Dedicated Hosts on Amazon Web Services Outposts, you can filter your request by host ID to return a list of hardware assets that allocate resources for Dedicated Hosts.
+    ///
+    /// Provide paginated results to closure `onPage` for it to combine them into one result.
+    /// This works in a similar manner to `Array.reduce<Result>(_:_:) -> Result`.
+    ///
+    /// Parameters:
+    ///   - input: Input for request
+    ///   - initialValue: The value to use as the initial accumulating value. `initialValue` is passed to `onPage` the first time it is called.
+    ///   - logger: Logger used for logging output
+    ///   - eventLoop: EventLoop to run this process on
+    ///   - onPage: closure called with each paginated response. It combines an accumulating result with the contents of response. This combined result is then returned
+    ///         along with a boolean indicating if the paginate operation should continue.
+    public func listAssetsPaginator<Result>(
+        _ input: ListAssetsInput,
+        _ initialValue: Result,
+        logger: Logger = AWSClient.loggingDisabled,
+        on eventLoop: EventLoop? = nil,
+        onPage: @escaping (Result, ListAssetsOutput, EventLoop) -> EventLoopFuture<(Bool, Result)>
+    ) -> EventLoopFuture<Result> {
+        return client.paginate(
+            input: input,
+            initialValue: initialValue,
+            command: listAssets,
+            inputKey: \ListAssetsInput.nextToken,
+            outputKey: \ListAssetsOutput.nextToken,
+            on: eventLoop,
+            onPage: onPage
+        )
+    }
+
+    /// Provide paginated results to closure `onPage`.
+    ///
+    /// - Parameters:
+    ///   - input: Input for request
+    ///   - logger: Logger used for logging output
+    ///   - eventLoop: EventLoop to run this process on
+    ///   - onPage: closure called with each block of entries. Returns boolean indicating whether we should continue.
+    public func listAssetsPaginator(
+        _ input: ListAssetsInput,
+        logger: Logger = AWSClient.loggingDisabled,
+        on eventLoop: EventLoop? = nil,
+        onPage: @escaping (ListAssetsOutput, EventLoop) -> EventLoopFuture<Bool>
+    ) -> EventLoopFuture<Void> {
+        return client.paginate(
+            input: input,
+            command: listAssets,
+            inputKey: \ListAssetsInput.nextToken,
+            outputKey: \ListAssetsOutput.nextToken,
+            on: eventLoop,
+            onPage: onPage
+        )
+    }
+
+    ///  Lists the items in the catalog. Add filters to your request to return a more specific list of results. Use filters to match an item class, storage option, or EC2 family.  If you specify multiple filters, the filters are joined with an AND, and the request returns only results that match all of the specified filters.
     ///
     /// Provide paginated results to closure `onPage` for it to combine them into one result.
     /// This works in a similar manner to `Array.reduce<Result>(_:_:) -> Result`.
@@ -72,7 +178,7 @@ extension Outposts {
         )
     }
 
-    ///  Create a list of the Outpost orders for your Amazon Web Services account. You can filter your request by Outpost to return a more specific list of results.
+    ///  Lists the Outpost orders for your Amazon Web Services account. You can filter your request by Outpost to return a more specific list of results.
     ///
     /// Provide paginated results to closure `onPage` for it to combine them into one result.
     /// This works in a similar manner to `Array.reduce<Result>(_:_:) -> Result`.
@@ -125,7 +231,7 @@ extension Outposts {
         )
     }
 
-    ///  Create a list of the Outposts for your Amazon Web Services account. Add filters to your request to return a more specific list of results. Use filters to match an Outpost lifecycle status, Availability Zone (us-east-1a), and AZ ID (use1-az1).  If you specify multiple filters, the filters are joined with an AND, and the request returns only results that match all of the specified filters.
+    ///  Lists the Outposts for your Amazon Web Services account. Add filters to your request to return a more specific list of results. Use filters to match an Outpost lifecycle status, Availability Zone (us-east-1a), and AZ ID (use1-az1).  If you specify multiple filters, the filters are joined with an AND, and the request returns only results that match all of the specified filters.
     ///
     /// Provide paginated results to closure `onPage` for it to combine them into one result.
     /// This works in a similar manner to `Array.reduce<Result>(_:_:) -> Result`.
@@ -178,7 +284,7 @@ extension Outposts {
         )
     }
 
-    ///  Lists the sites for your Amazon Web Services account.
+    ///  Lists the Outpost sites for your Amazon Web Services account. Add operating address filters to your request to return a more specific list of results. Use filters to match site city, country code, or state/region of the operating address.  If you specify multiple filters, the filters are joined with an AND, and the request returns only results that match all of the specified filters.
     ///
     /// Provide paginated results to closure `onPage` for it to combine them into one result.
     /// This works in a similar manner to `Array.reduce<Result>(_:_:) -> Result`.
@@ -232,6 +338,27 @@ extension Outposts {
     }
 }
 
+extension Outposts.GetOutpostInstanceTypesInput: AWSPaginateToken {
+    public func usingPaginationToken(_ token: String) -> Outposts.GetOutpostInstanceTypesInput {
+        return .init(
+            maxResults: self.maxResults,
+            nextToken: token,
+            outpostId: self.outpostId
+        )
+    }
+}
+
+extension Outposts.ListAssetsInput: AWSPaginateToken {
+    public func usingPaginationToken(_ token: String) -> Outposts.ListAssetsInput {
+        return .init(
+            hostIdFilter: self.hostIdFilter,
+            maxResults: self.maxResults,
+            nextToken: token,
+            outpostIdentifier: self.outpostIdentifier
+        )
+    }
+}
+
 extension Outposts.ListCatalogItemsInput: AWSPaginateToken {
     public func usingPaginationToken(_ token: String) -> Outposts.ListCatalogItemsInput {
         return .init(
@@ -270,7 +397,10 @@ extension Outposts.ListSitesInput: AWSPaginateToken {
     public func usingPaginationToken(_ token: String) -> Outposts.ListSitesInput {
         return .init(
             maxResults: self.maxResults,
-            nextToken: token
+            nextToken: token,
+            operatingAddressCityFilter: self.operatingAddressCityFilter,
+            operatingAddressCountryCodeFilter: self.operatingAddressCountryCodeFilter,
+            operatingAddressStateOrRegionFilter: self.operatingAddressStateOrRegionFilter
         )
     }
 }

@@ -45,6 +45,12 @@ extension MediaPackageVod {
         public var description: String { return self.rawValue }
     }
 
+    public enum ScteMarkersSource: String, CustomStringConvertible, Codable {
+        case manifest = "MANIFEST"
+        case segments = "SEGMENTS"
+        public var description: String { return self.rawValue }
+    }
+
     public enum SegmentTemplateFormat: String, CustomStringConvertible, Codable {
         case numberWithDuration = "NUMBER_WITH_DURATION"
         case numberWithTimeline = "NUMBER_WITH_TIMELINE"
@@ -404,13 +410,16 @@ extension MediaPackageVod {
         public let minBufferTimeSeconds: Int?
         /// The Dynamic Adaptive Streaming over HTTP (DASH) profile type.  When set to "HBBTV_1_5", HbbTV 1.5 compliant output is enabled.
         public let profile: Profile?
+        /// The source of scte markers used. When set to SEGMENTS, the scte markers are sourced from the segments of the ingested content. When set to MANIFEST, the scte markers are sourced from the manifest of the ingested content.
+        public let scteMarkersSource: ScteMarkersSource?
         public let streamSelection: StreamSelection?
 
-        public init(manifestLayout: ManifestLayout? = nil, manifestName: String? = nil, minBufferTimeSeconds: Int? = nil, profile: Profile? = nil, streamSelection: StreamSelection? = nil) {
+        public init(manifestLayout: ManifestLayout? = nil, manifestName: String? = nil, minBufferTimeSeconds: Int? = nil, profile: Profile? = nil, scteMarkersSource: ScteMarkersSource? = nil, streamSelection: StreamSelection? = nil) {
             self.manifestLayout = manifestLayout
             self.manifestName = manifestName
             self.minBufferTimeSeconds = minBufferTimeSeconds
             self.profile = profile
+            self.scteMarkersSource = scteMarkersSource
             self.streamSelection = streamSelection
         }
 
@@ -419,6 +428,7 @@ extension MediaPackageVod {
             case manifestName
             case minBufferTimeSeconds
             case profile
+            case scteMarkersSource
             case streamSelection
         }
     }

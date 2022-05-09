@@ -250,7 +250,7 @@ extension CloudWatchEvidently {
             try self.validate(self.metricGoals, name: "metricGoals", parent: name, min: 1)
             try self.validate(self.name, name: "name", parent: name, max: 127)
             try self.validate(self.name, name: "name", parent: name, min: 1)
-            try self.validate(self.name, name: "name", parent: name, pattern: "[-a-zA-Z0-9._]*")
+            try self.validate(self.name, name: "name", parent: name, pattern: "^[-a-zA-Z0-9._]*$")
             try self.onlineAbConfig?.validate(name: "\(name).onlineAbConfig")
             try self.validate(self.project, name: "project", parent: name, max: 2048)
             try self.validate(self.project, name: "project", parent: name, min: 0)
@@ -335,7 +335,7 @@ extension CloudWatchEvidently {
         public func validate(name: String) throws {
             try self.validate(self.defaultVariation, name: "defaultVariation", parent: name, max: 127)
             try self.validate(self.defaultVariation, name: "defaultVariation", parent: name, min: 1)
-            try self.validate(self.defaultVariation, name: "defaultVariation", parent: name, pattern: "[-a-zA-Z0-9._]*")
+            try self.validate(self.defaultVariation, name: "defaultVariation", parent: name, pattern: "^[-a-zA-Z0-9._]*$")
             try self.validate(self.description, name: "description", parent: name, max: 160)
             try self.validate(self.description, name: "description", parent: name, min: 0)
             try self.validate(self.description, name: "description", parent: name, pattern: ".*")
@@ -345,11 +345,11 @@ extension CloudWatchEvidently {
                 try validate($0.key, name: "entityOverrides.key", parent: name, pattern: ".*")
                 try validate($0.value, name: "entityOverrides[\"\($0.key)\"]", parent: name, max: 127)
                 try validate($0.value, name: "entityOverrides[\"\($0.key)\"]", parent: name, min: 1)
-                try validate($0.value, name: "entityOverrides[\"\($0.key)\"]", parent: name, pattern: "[-a-zA-Z0-9._]*")
+                try validate($0.value, name: "entityOverrides[\"\($0.key)\"]", parent: name, pattern: "^[-a-zA-Z0-9._]*$")
             }
             try self.validate(self.name, name: "name", parent: name, max: 127)
             try self.validate(self.name, name: "name", parent: name, min: 1)
-            try self.validate(self.name, name: "name", parent: name, pattern: "[-a-zA-Z0-9._]*")
+            try self.validate(self.name, name: "name", parent: name, pattern: "^[-a-zA-Z0-9._]*$")
             try self.validate(self.project, name: "project", parent: name, max: 2048)
             try self.validate(self.project, name: "project", parent: name, min: 0)
             try self.validate(self.project, name: "project", parent: name, pattern: "([-a-zA-Z0-9._]*)|(arn:[^:]*:[^:]*:[^:]*:[^:]*:project/[-a-zA-Z0-9._]*)")
@@ -440,7 +440,7 @@ extension CloudWatchEvidently {
             try self.validate(self.metricMonitors, name: "metricMonitors", parent: name, min: 0)
             try self.validate(self.name, name: "name", parent: name, max: 127)
             try self.validate(self.name, name: "name", parent: name, min: 1)
-            try self.validate(self.name, name: "name", parent: name, pattern: "[-a-zA-Z0-9._]*")
+            try self.validate(self.name, name: "name", parent: name, pattern: "^[-a-zA-Z0-9._]*$")
             try self.validate(self.project, name: "project", parent: name, max: 2048)
             try self.validate(self.project, name: "project", parent: name, min: 0)
             try self.validate(self.project, name: "project", parent: name, pattern: "([-a-zA-Z0-9._]*)|(arn:[^:]*:[^:]*:[^:]*:[^:]*:project/[-a-zA-Z0-9._]*)")
@@ -505,7 +505,7 @@ extension CloudWatchEvidently {
             try self.validate(self.description, name: "description", parent: name, pattern: ".*")
             try self.validate(self.name, name: "name", parent: name, max: 127)
             try self.validate(self.name, name: "name", parent: name, min: 1)
-            try self.validate(self.name, name: "name", parent: name, pattern: "[-a-zA-Z0-9._]*")
+            try self.validate(self.name, name: "name", parent: name, pattern: "^[-a-zA-Z0-9._]*$")
             try self.tags?.forEach {
                 try validate($0.key, name: "tags.key", parent: name, max: 128)
                 try validate($0.key, name: "tags.key", parent: name, min: 1)
@@ -555,7 +555,7 @@ extension CloudWatchEvidently {
         public func validate(name: String) throws {
             try self.validate(self.experiment, name: "experiment", parent: name, max: 127)
             try self.validate(self.experiment, name: "experiment", parent: name, min: 1)
-            try self.validate(self.experiment, name: "experiment", parent: name, pattern: "[-a-zA-Z0-9._]*")
+            try self.validate(self.experiment, name: "experiment", parent: name, pattern: "^[-a-zA-Z0-9._]*$")
             try self.validate(self.project, name: "project", parent: name, max: 2048)
             try self.validate(self.project, name: "project", parent: name, min: 0)
             try self.validate(self.project, name: "project", parent: name, pattern: "([-a-zA-Z0-9._]*)|(arn:[^:]*:[^:]*:[^:]*:[^:]*:project/[-a-zA-Z0-9._]*)")
@@ -587,7 +587,7 @@ extension CloudWatchEvidently {
         public func validate(name: String) throws {
             try self.validate(self.feature, name: "feature", parent: name, max: 127)
             try self.validate(self.feature, name: "feature", parent: name, min: 1)
-            try self.validate(self.feature, name: "feature", parent: name, pattern: "[-a-zA-Z0-9._]*")
+            try self.validate(self.feature, name: "feature", parent: name, pattern: "^[-a-zA-Z0-9._]*$")
             try self.validate(self.project, name: "project", parent: name, max: 2048)
             try self.validate(self.project, name: "project", parent: name, min: 0)
             try self.validate(self.project, name: "project", parent: name, pattern: "([-a-zA-Z0-9._]*)|(arn:[^:]*:[^:]*:[^:]*:[^:]*:project/[-a-zA-Z0-9._]*)")
@@ -619,7 +619,7 @@ extension CloudWatchEvidently {
         public func validate(name: String) throws {
             try self.validate(self.launch, name: "launch", parent: name, max: 127)
             try self.validate(self.launch, name: "launch", parent: name, min: 1)
-            try self.validate(self.launch, name: "launch", parent: name, pattern: "[-a-zA-Z0-9._]*")
+            try self.validate(self.launch, name: "launch", parent: name, pattern: "^[-a-zA-Z0-9._]*$")
             try self.validate(self.project, name: "project", parent: name, max: 2048)
             try self.validate(self.project, name: "project", parent: name, min: 0)
             try self.validate(self.project, name: "project", parent: name, pattern: "([-a-zA-Z0-9._]*)|(arn:[^:]*:[^:]*:[^:]*:[^:]*:project/[-a-zA-Z0-9._]*)")
@@ -685,7 +685,7 @@ extension CloudWatchEvidently {
             try self.validate(self.entityId, name: "entityId", parent: name, pattern: ".*")
             try self.validate(self.feature, name: "feature", parent: name, max: 127)
             try self.validate(self.feature, name: "feature", parent: name, min: 1)
-            try self.validate(self.feature, name: "feature", parent: name, pattern: "[-a-zA-Z0-9._]*")
+            try self.validate(self.feature, name: "feature", parent: name, pattern: "^[-a-zA-Z0-9._]*$")
             try self.validate(self.project, name: "project", parent: name, max: 2048)
             try self.validate(self.project, name: "project", parent: name, min: 0)
             try self.validate(self.project, name: "project", parent: name, pattern: "([-a-zA-Z0-9._]*)|(arn:[^:]*:[^:]*:[^:]*:[^:]*:project/[-a-zA-Z0-9._]*)")
@@ -742,7 +742,7 @@ extension CloudWatchEvidently {
             try self.validate(self.entityId, name: "entityId", parent: name, pattern: ".*")
             try self.validate(self.feature, name: "feature", parent: name, max: 127)
             try self.validate(self.feature, name: "feature", parent: name, min: 1)
-            try self.validate(self.feature, name: "feature", parent: name, pattern: "[-a-zA-Z0-9._]*")
+            try self.validate(self.feature, name: "feature", parent: name, pattern: "^[-a-zA-Z0-9._]*$")
         }
 
         private enum CodingKeys: String, CodingKey {
@@ -1117,7 +1117,7 @@ extension CloudWatchEvidently {
         public func validate(name: String) throws {
             try self.validate(self.experiment, name: "experiment", parent: name, max: 127)
             try self.validate(self.experiment, name: "experiment", parent: name, min: 1)
-            try self.validate(self.experiment, name: "experiment", parent: name, pattern: "[-a-zA-Z0-9._]*")
+            try self.validate(self.experiment, name: "experiment", parent: name, pattern: "^[-a-zA-Z0-9._]*$")
             try self.validate(self.project, name: "project", parent: name, max: 2048)
             try self.validate(self.project, name: "project", parent: name, min: 0)
             try self.validate(self.project, name: "project", parent: name, pattern: "([-a-zA-Z0-9._]*)|(arn:[^:]*:[^:]*:[^:]*:[^:]*:project/[-a-zA-Z0-9._]*)")
@@ -1182,7 +1182,7 @@ extension CloudWatchEvidently {
         public func validate(name: String) throws {
             try self.validate(self.experiment, name: "experiment", parent: name, max: 127)
             try self.validate(self.experiment, name: "experiment", parent: name, min: 1)
-            try self.validate(self.experiment, name: "experiment", parent: name, pattern: "[-a-zA-Z0-9._]*")
+            try self.validate(self.experiment, name: "experiment", parent: name, pattern: "^[-a-zA-Z0-9._]*$")
             try self.metricNames.forEach {
                 try validate($0, name: "metricNames[]", parent: name, max: 255)
                 try validate($0, name: "metricNames[]", parent: name, min: 1)
@@ -1202,7 +1202,7 @@ extension CloudWatchEvidently {
             try self.treatmentNames.forEach {
                 try validate($0, name: "treatmentNames[]", parent: name, max: 127)
                 try validate($0, name: "treatmentNames[]", parent: name, min: 1)
-                try validate($0, name: "treatmentNames[]", parent: name, pattern: "[-a-zA-Z0-9._]*")
+                try validate($0, name: "treatmentNames[]", parent: name, pattern: "^[-a-zA-Z0-9._]*$")
             }
             try self.validate(self.treatmentNames, name: "treatmentNames", parent: name, max: 5)
             try self.validate(self.treatmentNames, name: "treatmentNames", parent: name, min: 1)
@@ -1260,7 +1260,7 @@ extension CloudWatchEvidently {
         public func validate(name: String) throws {
             try self.validate(self.feature, name: "feature", parent: name, max: 127)
             try self.validate(self.feature, name: "feature", parent: name, min: 1)
-            try self.validate(self.feature, name: "feature", parent: name, pattern: "[-a-zA-Z0-9._]*")
+            try self.validate(self.feature, name: "feature", parent: name, pattern: "^[-a-zA-Z0-9._]*$")
             try self.validate(self.project, name: "project", parent: name, max: 2048)
             try self.validate(self.project, name: "project", parent: name, min: 0)
             try self.validate(self.project, name: "project", parent: name, pattern: "([-a-zA-Z0-9._]*)|(arn:[^:]*:[^:]*:[^:]*:[^:]*:project/[-a-zA-Z0-9._]*)")
@@ -1301,7 +1301,7 @@ extension CloudWatchEvidently {
         public func validate(name: String) throws {
             try self.validate(self.launch, name: "launch", parent: name, max: 127)
             try self.validate(self.launch, name: "launch", parent: name, min: 1)
-            try self.validate(self.launch, name: "launch", parent: name, pattern: "[-a-zA-Z0-9._]*")
+            try self.validate(self.launch, name: "launch", parent: name, pattern: "^[-a-zA-Z0-9._]*$")
             try self.validate(self.project, name: "project", parent: name, max: 2048)
             try self.validate(self.project, name: "project", parent: name, min: 0)
             try self.validate(self.project, name: "project", parent: name, pattern: "([-a-zA-Z0-9._]*)|(arn:[^:]*:[^:]*:[^:]*:[^:]*:project/[-a-zA-Z0-9._]*)")
@@ -1487,13 +1487,13 @@ extension CloudWatchEvidently {
             try self.validate(self.description, name: "description", parent: name, pattern: ".*")
             try self.validate(self.feature, name: "feature", parent: name, max: 127)
             try self.validate(self.feature, name: "feature", parent: name, min: 1)
-            try self.validate(self.feature, name: "feature", parent: name, pattern: "[-a-zA-Z0-9._]*")
+            try self.validate(self.feature, name: "feature", parent: name, pattern: "^[-a-zA-Z0-9._]*$")
             try self.validate(self.name, name: "name", parent: name, max: 127)
             try self.validate(self.name, name: "name", parent: name, min: 1)
-            try self.validate(self.name, name: "name", parent: name, pattern: "[-a-zA-Z0-9._]*")
+            try self.validate(self.name, name: "name", parent: name, pattern: "^[-a-zA-Z0-9._]*$")
             try self.validate(self.variation, name: "variation", parent: name, max: 127)
             try self.validate(self.variation, name: "variation", parent: name, min: 1)
-            try self.validate(self.variation, name: "variation", parent: name, pattern: "[-a-zA-Z0-9._]*")
+            try self.validate(self.variation, name: "variation", parent: name, pattern: "^[-a-zA-Z0-9._]*$")
         }
 
         private enum CodingKeys: String, CodingKey {
@@ -1508,7 +1508,8 @@ extension CloudWatchEvidently {
         public static var _encoding = [
             AWSMemberEncoding(label: "maxResults", location: .querystring(locationName: "maxResults")),
             AWSMemberEncoding(label: "nextToken", location: .querystring(locationName: "nextToken")),
-            AWSMemberEncoding(label: "project", location: .uri(locationName: "project"))
+            AWSMemberEncoding(label: "project", location: .uri(locationName: "project")),
+            AWSMemberEncoding(label: "status", location: .querystring(locationName: "status"))
         ]
 
         /// The maximum number of results to include in the response.
@@ -1517,11 +1518,14 @@ extension CloudWatchEvidently {
         public let nextToken: String?
         /// The name or ARN of the project to return the experiment list from.
         public let project: String
+        /// Use this optional parameter to limit the returned results to only the experiments with the status that you specify here.
+        public let status: ExperimentStatus?
 
-        public init(maxResults: Int? = nil, nextToken: String? = nil, project: String) {
+        public init(maxResults: Int? = nil, nextToken: String? = nil, project: String, status: ExperimentStatus? = nil) {
             self.maxResults = maxResults
             self.nextToken = nextToken
             self.project = project
+            self.status = status
         }
 
         public func validate(name: String) throws {
@@ -1610,7 +1614,8 @@ extension CloudWatchEvidently {
         public static var _encoding = [
             AWSMemberEncoding(label: "maxResults", location: .querystring(locationName: "maxResults")),
             AWSMemberEncoding(label: "nextToken", location: .querystring(locationName: "nextToken")),
-            AWSMemberEncoding(label: "project", location: .uri(locationName: "project"))
+            AWSMemberEncoding(label: "project", location: .uri(locationName: "project")),
+            AWSMemberEncoding(label: "status", location: .querystring(locationName: "status"))
         ]
 
         /// The maximum number of results to include in the response.
@@ -1619,11 +1624,14 @@ extension CloudWatchEvidently {
         public let nextToken: String?
         /// The name or ARN of the project to return the launch list from.
         public let project: String
+        /// Use this optional parameter to limit the returned results to only the launches with the status that you specify here.
+        public let status: LaunchStatus?
 
-        public init(maxResults: Int? = nil, nextToken: String? = nil, project: String) {
+        public init(maxResults: Int? = nil, nextToken: String? = nil, project: String, status: LaunchStatus? = nil) {
             self.maxResults = maxResults
             self.nextToken = nextToken
             self.project = project
+            self.status = status
         }
 
         public func validate(name: String) throws {
@@ -1766,17 +1774,17 @@ extension CloudWatchEvidently {
 
     public struct MetricDefinitionConfig: AWSEncodableShape {
         /// The entity, such as a user or session, that does an action that causes a metric value to be recorded. An example is userDetails.userID.
-        public let entityIdKey: String?
+        public let entityIdKey: String
         /// The EventBridge event pattern that defines how the metric is recorded. For more information about EventBridge event patterns, see Amazon EventBridge event patterns.
         public let eventPattern: String?
         /// A name for the metric.
-        public let name: String?
+        public let name: String
         /// A label for the units that the metric is measuring.
         public let unitLabel: String?
         /// The value that is tracked to produce the metric.
-        public let valueKey: String?
+        public let valueKey: String
 
-        public init(entityIdKey: String? = nil, eventPattern: String? = nil, name: String? = nil, unitLabel: String? = nil, valueKey: String? = nil) {
+        public init(entityIdKey: String, eventPattern: String? = nil, name: String, unitLabel: String? = nil, valueKey: String) {
             self.entityIdKey = entityIdKey
             self.eventPattern = eventPattern
             self.name = name
@@ -1892,11 +1900,11 @@ extension CloudWatchEvidently {
         public func validate(name: String) throws {
             try self.validate(self.controlTreatmentName, name: "controlTreatmentName", parent: name, max: 127)
             try self.validate(self.controlTreatmentName, name: "controlTreatmentName", parent: name, min: 1)
-            try self.validate(self.controlTreatmentName, name: "controlTreatmentName", parent: name, pattern: "[-a-zA-Z0-9._]*")
+            try self.validate(self.controlTreatmentName, name: "controlTreatmentName", parent: name, pattern: "^[-a-zA-Z0-9._]*$")
             try self.treatmentWeights?.forEach {
                 try validate($0.key, name: "treatmentWeights.key", parent: name, max: 127)
                 try validate($0.key, name: "treatmentWeights.key", parent: name, min: 1)
-                try validate($0.key, name: "treatmentWeights.key", parent: name, pattern: "[-a-zA-Z0-9._]*")
+                try validate($0.key, name: "treatmentWeights.key", parent: name, pattern: "^[-a-zA-Z0-9._]*$")
                 try validate($0.value, name: "treatmentWeights[\"\($0.key)\"]", parent: name, max: 100_000)
                 try validate($0.value, name: "treatmentWeights[\"\($0.key)\"]", parent: name, min: 0)
             }
@@ -2223,7 +2231,7 @@ extension CloudWatchEvidently {
             try self.groupWeights.forEach {
                 try validate($0.key, name: "groupWeights.key", parent: name, max: 127)
                 try validate($0.key, name: "groupWeights.key", parent: name, min: 1)
-                try validate($0.key, name: "groupWeights.key", parent: name, pattern: "[-a-zA-Z0-9._]*")
+                try validate($0.key, name: "groupWeights.key", parent: name, pattern: "^[-a-zA-Z0-9._]*$")
                 try validate($0.value, name: "groupWeights[\"\($0.key)\"]", parent: name, max: 100_000)
                 try validate($0.value, name: "groupWeights[\"\($0.key)\"]", parent: name, min: 0)
             }
@@ -2291,7 +2299,7 @@ extension CloudWatchEvidently {
         public func validate(name: String) throws {
             try self.validate(self.experiment, name: "experiment", parent: name, max: 127)
             try self.validate(self.experiment, name: "experiment", parent: name, min: 1)
-            try self.validate(self.experiment, name: "experiment", parent: name, pattern: "[-a-zA-Z0-9._]*")
+            try self.validate(self.experiment, name: "experiment", parent: name, pattern: "^[-a-zA-Z0-9._]*$")
             try self.validate(self.project, name: "project", parent: name, max: 2048)
             try self.validate(self.project, name: "project", parent: name, min: 0)
             try self.validate(self.project, name: "project", parent: name, pattern: "([-a-zA-Z0-9._]*)|(arn:[^:]*:[^:]*:[^:]*:[^:]*:project/[-a-zA-Z0-9._]*)")
@@ -2334,7 +2342,7 @@ extension CloudWatchEvidently {
         public func validate(name: String) throws {
             try self.validate(self.launch, name: "launch", parent: name, max: 127)
             try self.validate(self.launch, name: "launch", parent: name, min: 1)
-            try self.validate(self.launch, name: "launch", parent: name, pattern: "[-a-zA-Z0-9._]*")
+            try self.validate(self.launch, name: "launch", parent: name, pattern: "^[-a-zA-Z0-9._]*$")
             try self.validate(self.project, name: "project", parent: name, max: 2048)
             try self.validate(self.project, name: "project", parent: name, min: 0)
             try self.validate(self.project, name: "project", parent: name, pattern: "([-a-zA-Z0-9._]*)|(arn:[^:]*:[^:]*:[^:]*:[^:]*:project/[-a-zA-Z0-9._]*)")
@@ -2381,7 +2389,7 @@ extension CloudWatchEvidently {
         public func validate(name: String) throws {
             try self.validate(self.experiment, name: "experiment", parent: name, max: 127)
             try self.validate(self.experiment, name: "experiment", parent: name, min: 1)
-            try self.validate(self.experiment, name: "experiment", parent: name, pattern: "[-a-zA-Z0-9._]*")
+            try self.validate(self.experiment, name: "experiment", parent: name, pattern: "^[-a-zA-Z0-9._]*$")
             try self.validate(self.project, name: "project", parent: name, max: 2048)
             try self.validate(self.project, name: "project", parent: name, min: 0)
             try self.validate(self.project, name: "project", parent: name, pattern: "([-a-zA-Z0-9._]*)|(arn:[^:]*:[^:]*:[^:]*:[^:]*:project/[-a-zA-Z0-9._]*)")
@@ -2434,7 +2442,7 @@ extension CloudWatchEvidently {
         public func validate(name: String) throws {
             try self.validate(self.launch, name: "launch", parent: name, max: 127)
             try self.validate(self.launch, name: "launch", parent: name, min: 1)
-            try self.validate(self.launch, name: "launch", parent: name, pattern: "[-a-zA-Z0-9._]*")
+            try self.validate(self.launch, name: "launch", parent: name, pattern: "^[-a-zA-Z0-9._]*$")
             try self.validate(self.project, name: "project", parent: name, max: 2048)
             try self.validate(self.project, name: "project", parent: name, min: 0)
             try self.validate(self.project, name: "project", parent: name, pattern: "([-a-zA-Z0-9._]*)|(arn:[^:]*:[^:]*:[^:]*:[^:]*:project/[-a-zA-Z0-9._]*)")
@@ -2543,13 +2551,13 @@ extension CloudWatchEvidently {
             try self.validate(self.description, name: "description", parent: name, pattern: ".*")
             try self.validate(self.feature, name: "feature", parent: name, max: 127)
             try self.validate(self.feature, name: "feature", parent: name, min: 1)
-            try self.validate(self.feature, name: "feature", parent: name, pattern: "[-a-zA-Z0-9._]*")
+            try self.validate(self.feature, name: "feature", parent: name, pattern: "^[-a-zA-Z0-9._]*$")
             try self.validate(self.name, name: "name", parent: name, max: 127)
             try self.validate(self.name, name: "name", parent: name, min: 1)
-            try self.validate(self.name, name: "name", parent: name, pattern: "[-a-zA-Z0-9._]*")
+            try self.validate(self.name, name: "name", parent: name, pattern: "^[-a-zA-Z0-9._]*$")
             try self.validate(self.variation, name: "variation", parent: name, max: 127)
             try self.validate(self.variation, name: "variation", parent: name, min: 1)
-            try self.validate(self.variation, name: "variation", parent: name, pattern: "[-a-zA-Z0-9._]*")
+            try self.validate(self.variation, name: "variation", parent: name, pattern: "^[-a-zA-Z0-9._]*$")
         }
 
         private enum CodingKeys: String, CodingKey {
@@ -2636,7 +2644,7 @@ extension CloudWatchEvidently {
             try self.validate(self.description, name: "description", parent: name, pattern: ".*")
             try self.validate(self.experiment, name: "experiment", parent: name, max: 127)
             try self.validate(self.experiment, name: "experiment", parent: name, min: 1)
-            try self.validate(self.experiment, name: "experiment", parent: name, pattern: "[-a-zA-Z0-9._]*")
+            try self.validate(self.experiment, name: "experiment", parent: name, pattern: "^[-a-zA-Z0-9._]*$")
             try self.metricGoals?.forEach {
                 try $0.validate(name: "\(name).metricGoals[]")
             }
@@ -2723,7 +2731,7 @@ extension CloudWatchEvidently {
             try self.validate(self.addOrUpdateVariations, name: "addOrUpdateVariations", parent: name, min: 1)
             try self.validate(self.defaultVariation, name: "defaultVariation", parent: name, max: 127)
             try self.validate(self.defaultVariation, name: "defaultVariation", parent: name, min: 1)
-            try self.validate(self.defaultVariation, name: "defaultVariation", parent: name, pattern: "[-a-zA-Z0-9._]*")
+            try self.validate(self.defaultVariation, name: "defaultVariation", parent: name, pattern: "^[-a-zA-Z0-9._]*$")
             try self.validate(self.description, name: "description", parent: name, max: 160)
             try self.validate(self.description, name: "description", parent: name, min: 0)
             try self.validate(self.description, name: "description", parent: name, pattern: ".*")
@@ -2733,18 +2741,18 @@ extension CloudWatchEvidently {
                 try validate($0.key, name: "entityOverrides.key", parent: name, pattern: ".*")
                 try validate($0.value, name: "entityOverrides[\"\($0.key)\"]", parent: name, max: 127)
                 try validate($0.value, name: "entityOverrides[\"\($0.key)\"]", parent: name, min: 1)
-                try validate($0.value, name: "entityOverrides[\"\($0.key)\"]", parent: name, pattern: "[-a-zA-Z0-9._]*")
+                try validate($0.value, name: "entityOverrides[\"\($0.key)\"]", parent: name, pattern: "^[-a-zA-Z0-9._]*$")
             }
             try self.validate(self.feature, name: "feature", parent: name, max: 127)
             try self.validate(self.feature, name: "feature", parent: name, min: 1)
-            try self.validate(self.feature, name: "feature", parent: name, pattern: "[-a-zA-Z0-9._]*")
+            try self.validate(self.feature, name: "feature", parent: name, pattern: "^[-a-zA-Z0-9._]*$")
             try self.validate(self.project, name: "project", parent: name, max: 2048)
             try self.validate(self.project, name: "project", parent: name, min: 0)
             try self.validate(self.project, name: "project", parent: name, pattern: "([-a-zA-Z0-9._]*)|(arn:[^:]*:[^:]*:[^:]*:[^:]*:project/[-a-zA-Z0-9._]*)")
             try self.removeVariations?.forEach {
                 try validate($0, name: "removeVariations[]", parent: name, max: 127)
                 try validate($0, name: "removeVariations[]", parent: name, min: 1)
-                try validate($0, name: "removeVariations[]", parent: name, pattern: "[-a-zA-Z0-9._]*")
+                try validate($0, name: "removeVariations[]", parent: name, pattern: "^[-a-zA-Z0-9._]*$")
             }
             try self.validate(self.removeVariations, name: "removeVariations", parent: name, max: 5)
             try self.validate(self.removeVariations, name: "removeVariations", parent: name, min: 0)
@@ -2815,7 +2823,7 @@ extension CloudWatchEvidently {
             try self.validate(self.groups, name: "groups", parent: name, min: 1)
             try self.validate(self.launch, name: "launch", parent: name, max: 127)
             try self.validate(self.launch, name: "launch", parent: name, min: 1)
-            try self.validate(self.launch, name: "launch", parent: name, pattern: "[-a-zA-Z0-9._]*")
+            try self.validate(self.launch, name: "launch", parent: name, pattern: "^[-a-zA-Z0-9._]*$")
             try self.metricMonitors?.forEach {
                 try $0.validate(name: "\(name).metricMonitors[]")
             }
@@ -3002,7 +3010,7 @@ extension CloudWatchEvidently {
         public func validate(name: String) throws {
             try self.validate(self.name, name: "name", parent: name, max: 127)
             try self.validate(self.name, name: "name", parent: name, min: 1)
-            try self.validate(self.name, name: "name", parent: name, pattern: "[-a-zA-Z0-9._]*")
+            try self.validate(self.name, name: "name", parent: name, pattern: "^[-a-zA-Z0-9._]*$")
             try self.value.validate(name: "\(name).value")
         }
 

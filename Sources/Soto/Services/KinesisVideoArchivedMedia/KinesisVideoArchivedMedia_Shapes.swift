@@ -57,6 +57,17 @@ extension KinesisVideoArchivedMedia {
         public var description: String { return self.rawValue }
     }
 
+    public enum Format: String, CustomStringConvertible, Codable {
+        case jpeg = "JPEG"
+        case png = "PNG"
+        public var description: String { return self.rawValue }
+    }
+
+    public enum FormatConfigKey: String, CustomStringConvertible, Codable {
+        case jpegquality = "JPEGQuality"
+        public var description: String { return self.rawValue }
+    }
+
     public enum FragmentSelectorType: String, CustomStringConvertible, Codable {
         case producerTimestamp = "PRODUCER_TIMESTAMP"
         case serverTimestamp = "SERVER_TIMESTAMP"
@@ -86,6 +97,18 @@ extension KinesisVideoArchivedMedia {
         case live = "LIVE"
         case liveReplay = "LIVE_REPLAY"
         case onDemand = "ON_DEMAND"
+        public var description: String { return self.rawValue }
+    }
+
+    public enum ImageError: String, CustomStringConvertible, Codable {
+        case mediaError = "MEDIA_ERROR"
+        case noMedia = "NO_MEDIA"
+        public var description: String { return self.rawValue }
+    }
+
+    public enum ImageSelectorType: String, CustomStringConvertible, Codable {
+        case producerTimestamp = "PRODUCER_TIMESTAMP"
+        case serverTimestamp = "SERVER_TIMESTAMP"
         public var description: String { return self.rawValue }
     }
 
@@ -398,6 +421,105 @@ extension KinesisVideoArchivedMedia {
         }
     }
 
+    public struct GetImagesInput: AWSEncodableShape {
+        /// The end timestamp for the range of images to be generated.
+        public let endTimestamp: Date
+        /// The format that will be used to encode the image.
+        public let format: Format
+        /// The list of a key-value pair structure that contains extra parameters that can be applied when the image is generated. The FormatConfig key is the JPEGQuality, which indicates the JPEG quality key to be used to generate the image. The FormatConfig value accepts ints from 1 to 100. If the value is 1, the image will be generated with less quality and the best compression. If the value is 100, the image will be generated with the best quality and less compression. If no value is provided, the default value of the JPEGQuality key will be set to 80.
+        public let formatConfig: [FormatConfigKey: String]?
+        /// The height of the output image that is used in conjunction with the WidthPixels parameter. When both HeightPixels and WidthPixels parameters are provided, the image will be stretched to fit the specified aspect ratio. If only the HeightPixels parameter is provided, its original aspect ratio will be used to calculate the WidthPixels ratio. If neither parameter is provided, the original image size will be returned.
+        public let heightPixels: Int?
+        /// The origin of the Server or Producer timestamps to use to generate the images.
+        public let imageSelectorType: ImageSelectorType
+        /// The maximum number of images to be returned by the API.   The default limit is 100 images per API response. The additional results will be paginated.
+        public let maxResults: Int64?
+        /// A token that specifies where to start paginating the next set of Images. This is the GetImages:NextToken from a previously truncated response.
+        public let nextToken: String?
+        /// The time interval in milliseconds (ms) at which the images need to be generated from the stream. The minimum value that can be provided is 3000 ms. If the timestamp range is less than the sampling interval, the Image from the startTimestamp will be returned if available.   The minimum value of 3000 ms is a soft limit. If needed, a lower sampling frequency can be requested.
+        public let samplingInterval: Int
+        /// The starting point from which the images should be generated. This StartTimestamp must be within an inclusive range of timestamps for an image to be returned.
+        public let startTimestamp: Date
+        /// The Amazon Resource Name (ARN) of the stream from which to retrieve the images. You must specify either the StreamName or the StreamARN.
+        public let streamARN: String?
+        /// The name of the stream from which to retrieve the images. You must specify either the StreamName or the StreamARN.
+        public let streamName: String?
+        /// The width of the output image that is used in conjunction with the HeightPixels parameter. When both WidthPixels and HeightPixels parameters are provided, the image will be stretched to fit the specified aspect ratio. If only the WidthPixels parameter is provided or if only the HeightPixels is provided, a ValidationException will be thrown. If neither parameter is provided, the original image size from the stream will be returned.
+        public let widthPixels: Int?
+
+        public init(endTimestamp: Date, format: Format, formatConfig: [FormatConfigKey: String]? = nil, heightPixels: Int? = nil, imageSelectorType: ImageSelectorType, maxResults: Int64? = nil, nextToken: String? = nil, samplingInterval: Int, startTimestamp: Date, streamARN: String? = nil, streamName: String? = nil, widthPixels: Int? = nil) {
+            self.endTimestamp = endTimestamp
+            self.format = format
+            self.formatConfig = formatConfig
+            self.heightPixels = heightPixels
+            self.imageSelectorType = imageSelectorType
+            self.maxResults = maxResults
+            self.nextToken = nextToken
+            self.samplingInterval = samplingInterval
+            self.startTimestamp = startTimestamp
+            self.streamARN = streamARN
+            self.streamName = streamName
+            self.widthPixels = widthPixels
+        }
+
+        public func validate(name: String) throws {
+            try self.formatConfig?.forEach {
+                try validate($0.value, name: "formatConfig[\"\($0.key)\"]", parent: name, max: 256)
+                try validate($0.value, name: "formatConfig[\"\($0.key)\"]", parent: name, min: 0)
+                try validate($0.value, name: "formatConfig[\"\($0.key)\"]", parent: name, pattern: "^[a-zA-Z_0-9]+")
+            }
+            try self.validate(self.heightPixels, name: "heightPixels", parent: name, max: 2160)
+            try self.validate(self.heightPixels, name: "heightPixels", parent: name, min: 1)
+            try self.validate(self.maxResults, name: "maxResults", parent: name, max: 100)
+            try self.validate(self.maxResults, name: "maxResults", parent: name, min: 1)
+            try self.validate(self.nextToken, name: "nextToken", parent: name, max: 4096)
+            try self.validate(self.nextToken, name: "nextToken", parent: name, min: 1)
+            try self.validate(self.nextToken, name: "nextToken", parent: name, pattern: "[a-zA-Z0-9+/]+={0,2}")
+            try self.validate(self.samplingInterval, name: "samplingInterval", parent: name, max: 20000)
+            try self.validate(self.samplingInterval, name: "samplingInterval", parent: name, min: 3000)
+            try self.validate(self.streamARN, name: "streamARN", parent: name, max: 1024)
+            try self.validate(self.streamARN, name: "streamARN", parent: name, min: 1)
+            try self.validate(self.streamARN, name: "streamARN", parent: name, pattern: "arn:[a-z\\d-]+:kinesisvideo:[a-z0-9-]+:[0-9]+:[a-z]+/[a-zA-Z0-9_.-]+/[0-9]+")
+            try self.validate(self.streamName, name: "streamName", parent: name, max: 256)
+            try self.validate(self.streamName, name: "streamName", parent: name, min: 1)
+            try self.validate(self.streamName, name: "streamName", parent: name, pattern: "[a-zA-Z0-9_.-]+")
+            try self.validate(self.widthPixels, name: "widthPixels", parent: name, max: 3840)
+            try self.validate(self.widthPixels, name: "widthPixels", parent: name, min: 1)
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case endTimestamp = "EndTimestamp"
+            case format = "Format"
+            case formatConfig = "FormatConfig"
+            case heightPixels = "HeightPixels"
+            case imageSelectorType = "ImageSelectorType"
+            case maxResults = "MaxResults"
+            case nextToken = "NextToken"
+            case samplingInterval = "SamplingInterval"
+            case startTimestamp = "StartTimestamp"
+            case streamARN = "StreamARN"
+            case streamName = "StreamName"
+            case widthPixels = "WidthPixels"
+        }
+    }
+
+    public struct GetImagesOutput: AWSDecodableShape {
+        /// The list of images generated from the video stream. If there is no media available for the given timestamp, the NO_MEDIA error will be listed in the output. If an error occurs while the image is being generated, the MEDIA_ERROR will be listed in the output as the cause of the missing image.
+        public let images: [Image]?
+        /// The encrypted token that was used in the request to get more images.
+        public let nextToken: String?
+
+        public init(images: [Image]? = nil, nextToken: String? = nil) {
+            self.images = images
+            self.nextToken = nextToken
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case images = "Images"
+            case nextToken = "NextToken"
+        }
+    }
+
     public struct GetMediaForFragmentListInput: AWSEncodableShape {
         /// A list of the numbers of fragments for which to retrieve media. You retrieve these values with ListFragments.
         public let fragments: [String]
@@ -491,6 +613,27 @@ extension KinesisVideoArchivedMedia {
         private enum CodingKeys: String, CodingKey {
             case endTimestamp = "EndTimestamp"
             case startTimestamp = "StartTimestamp"
+        }
+    }
+
+    public struct Image: AWSDecodableShape {
+        /// The error message shown when the image for the provided timestamp was not extracted due to a non-tryable error. An error will be returned if:    There is no media that exists for the specified Timestamp.     The media for the specified time does not allow an image to be extracted. In this case the media is audio only, or the incorrect media has been ingested.
+        public let error: ImageError?
+        /// An attribute of the Image object that is Base64 encoded.
+        public let imageContent: String?
+        /// An attribute of the Image object that is used to extract an image from the video stream. This field is used to manage gaps on images or to better understand the pagination window.
+        public let timeStamp: Date?
+
+        public init(error: ImageError? = nil, imageContent: String? = nil, timeStamp: Date? = nil) {
+            self.error = error
+            self.imageContent = imageContent
+            self.timeStamp = timeStamp
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case error = "Error"
+            case imageContent = "ImageContent"
+            case timeStamp = "TimeStamp"
         }
     }
 

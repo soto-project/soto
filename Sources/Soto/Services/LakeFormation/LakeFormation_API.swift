@@ -167,6 +167,16 @@ public struct LakeFormation: AWSService {
         return self.client.execute(operation: "GetTableObjects", path: "/GetTableObjects", httpMethod: .POST, serviceConfig: self.config, input: input, logger: logger, on: eventLoop)
     }
 
+    /// This API is identical to GetTemporaryTableCredentials except that this is used when the target Data Catalog resource is of type Partition. Lake Formation restricts the permission of the vended credentials with the same scope down policy which restricts access to a single Amazon S3 prefix.
+    public func getTemporaryGluePartitionCredentials(_ input: GetTemporaryGluePartitionCredentialsRequest, logger: Logger = AWSClient.loggingDisabled, on eventLoop: EventLoop? = nil) -> EventLoopFuture<GetTemporaryGluePartitionCredentialsResponse> {
+        return self.client.execute(operation: "GetTemporaryGluePartitionCredentials", path: "/GetTemporaryGluePartitionCredentials", httpMethod: .POST, serviceConfig: self.config, input: input, logger: logger, on: eventLoop)
+    }
+
+    /// Allows a caller in a secure environment to assume a role with permission to access Amazon S3. In order to vend such credentials, Lake Formation assumes the role associated with a registered location, for example an Amazon S3 bucket, with a scope down policy which restricts the access to a single prefix.
+    public func getTemporaryGlueTableCredentials(_ input: GetTemporaryGlueTableCredentialsRequest, logger: Logger = AWSClient.loggingDisabled, on eventLoop: EventLoop? = nil) -> EventLoopFuture<GetTemporaryGlueTableCredentialsResponse> {
+        return self.client.execute(operation: "GetTemporaryGlueTableCredentials", path: "/GetTemporaryGlueTableCredentials", httpMethod: .POST, serviceConfig: self.config, input: input, logger: logger, on: eventLoop)
+    }
+
     /// Returns the work units resulting from the query. Work units can be executed in any order and in parallel.
     public func getWorkUnitResults(_ input: GetWorkUnitResultsRequest, logger: Logger = AWSClient.loggingDisabled, on eventLoop: EventLoop? = nil) -> EventLoopFuture<GetWorkUnitResultsResponse> {
         return self.client.execute(operation: "GetWorkUnitResults", path: "/GetWorkUnitResults", httpMethod: .POST, serviceConfig: self.config, input: input, hostPrefix: "data-", logger: logger, on: eventLoop)

@@ -812,7 +812,7 @@ extension CloudWatch {
     }
 
     public struct Dimension: AWSEncodableShape & AWSDecodableShape {
-        /// The name of the dimension. Dimension names must contain only ASCII characters and must include at least one non-whitespace character.
+        /// The name of the dimension. Dimension names must contain only ASCII characters, must include at least one non-whitespace character, and cannot start with a colon (:).
         public let name: String
         /// The value of the dimension. Dimension values must contain only ASCII characters and must include at least one non-whitespace character.
         public let value: String
@@ -1105,7 +1105,7 @@ extension CloudWatch {
         public let labelOptions: LabelOptions?
         /// The maximum number of data points the request should return before paginating. If you omit this, the default of 100,800 is used.
         public let maxDatapoints: Int?
-        /// The metric queries to be returned. A single GetMetricData call can include as many as 500 MetricDataQuery structures. Each of these structures can specify either a metric to retrieve, or a math expression to perform on retrieved data.
+        /// The metric queries to be returned. A single GetMetricData call can include as many as 500 MetricDataQuery structures. Each of these structures can specify either a metric to retrieve, a Metrics Insights query, or a math expression to perform on retrieved data.
         @CustomCoding<StandardArrayCoder>
         public var metricDataQueries: [MetricDataQuery]
         /// Include this value, if it was returned by the previous GetMetricData operation, to get the next set of data points.
@@ -1286,13 +1286,17 @@ extension CloudWatch {
         public let lastUpdateDate: Date?
         /// The name of the metric stream.
         public let name: String?
+        /// The output format for the stream. Valid values are json and opentelemetry0.7. For more information about metric stream output formats, see  Metric streams output formats.
         public let outputFormat: MetricStreamOutputFormat?
         /// The ARN of the IAM role that is used by this metric stream.
         public let roleArn: String?
         /// The state of the metric stream. The possible values are running and stopped.
         public let state: String?
+        /// Each entry in this array displays information about one or more metrics that include additional statistics in the metric stream. For more information about the additional statistics, see  CloudWatch statistics definitions.
+        @OptionalCustomCoding<StandardArrayCoder>
+        public var statisticsConfigurations: [MetricStreamStatisticsConfiguration]?
 
-        public init(arn: String? = nil, creationDate: Date? = nil, excludeFilters: [MetricStreamFilter]? = nil, firehoseArn: String? = nil, includeFilters: [MetricStreamFilter]? = nil, lastUpdateDate: Date? = nil, name: String? = nil, outputFormat: MetricStreamOutputFormat? = nil, roleArn: String? = nil, state: String? = nil) {
+        public init(arn: String? = nil, creationDate: Date? = nil, excludeFilters: [MetricStreamFilter]? = nil, firehoseArn: String? = nil, includeFilters: [MetricStreamFilter]? = nil, lastUpdateDate: Date? = nil, name: String? = nil, outputFormat: MetricStreamOutputFormat? = nil, roleArn: String? = nil, state: String? = nil, statisticsConfigurations: [MetricStreamStatisticsConfiguration]? = nil) {
             self.arn = arn
             self.creationDate = creationDate
             self.excludeFilters = excludeFilters
@@ -1303,6 +1307,7 @@ extension CloudWatch {
             self.outputFormat = outputFormat
             self.roleArn = roleArn
             self.state = state
+            self.statisticsConfigurations = statisticsConfigurations
         }
 
         private enum CodingKeys: String, CodingKey {
@@ -1316,6 +1321,7 @@ extension CloudWatch {
             case outputFormat = "OutputFormat"
             case roleArn = "RoleArn"
             case state = "State"
+            case statisticsConfigurations = "StatisticsConfigurations"
         }
     }
 
@@ -1742,7 +1748,7 @@ extension CloudWatch {
         public let threshold: Double?
         /// In an alarm based on an anomaly detection model, this is the ID of the ANOMALY_DETECTION_BAND function used as the threshold for the alarm.
         public let thresholdMetricId: String?
-        /// Sets how this alarm is to handle missing data points. If this parameter is omitted, the default behavior of missing is used.
+        /// Sets how this alarm is to handle missing data points. The valid values are breaching, notBreaching, ignore, and missing. For more information, see Configuring how CloudWatch alarms treat missing data. If this parameter is omitted, the default behavior of missing is used.
         public let treatMissingData: String?
         /// The unit of the metric associated with the alarm.
         public let unit: StandardUnit?
@@ -1811,7 +1817,7 @@ extension CloudWatch {
     public struct MetricDataQuery: AWSEncodableShape & AWSDecodableShape {
         /// The ID of the account where the metrics are located, if this is a cross-account alarm. Use this field only for PutMetricAlarm operations. It is not used in GetMetricData operations.
         public let accountId: String?
-        /// The math expression to be performed on the returned data, if this object is performing a math expression. This expression can use the Id of the other metrics to refer to those metrics, and can also use the Id of other expressions to use the result of those expressions. For more information about metric math expressions, see Metric Math Syntax and Functions in the Amazon CloudWatch User Guide. Within each MetricDataQuery object, you must specify either Expression or MetricStat but not both.
+        /// This field can contain either a Metrics Insights query, or a metric math expression to be performed on the returned data. For more information about Metrics Insights queries, see Metrics Insights query components and syntax in the Amazon CloudWatch User Guide. A math expression can use the Id of the other metrics or queries to refer to those metrics, and can also use the Id of other expressions to use the result of those expressions. For more information about metric math expressions, see Metric Math Syntax and Functions in the Amazon CloudWatch User Guide. Within each MetricDataQuery object, you must specify either Expression or MetricStat but not both.
         public let expression: String?
         /// A short name used to tie this object to the results in the response. This name must be unique within a single call to GetMetricData. If you are performing math expressions on this set of data, this name represents that data and can serve as a variable in the mathematical expression. The valid characters are letters, numbers, and underscore. The first character must be a lowercase letter.
         public let id: String
@@ -2052,6 +2058,56 @@ extension CloudWatch {
         }
 
         private enum CodingKeys: String, CodingKey {
+            case namespace = "Namespace"
+        }
+    }
+
+    public struct MetricStreamStatisticsConfiguration: AWSEncodableShape & AWSDecodableShape {
+        /// The list of additional statistics that are to be streamed for the metrics listed in the IncludeMetrics array in this structure. This list can include as many as 20 statistics. If the OutputFormat for the stream is opentelemetry0.7, the only valid values are p??  percentile statistics such as p90, p99 and so on. If the OutputFormat for the stream is json, the valid values include the abbreviations for all of the statistics listed in  CloudWatch statistics definitions. For example, this includes tm98,  wm90, PR(:300), and so on.
+        @CustomCoding<StandardArrayCoder>
+        public var additionalStatistics: [String]
+        /// An array of metric name and namespace pairs that stream the additional statistics listed in the value of the AdditionalStatistics parameter. There can be as many as 100 pairs in the array. All metrics that match the combination of metric name and namespace will be streamed with the additional statistics, no matter their dimensions.
+        @CustomCoding<StandardArrayCoder>
+        public var includeMetrics: [MetricStreamStatisticsMetric]
+
+        public init(additionalStatistics: [String], includeMetrics: [MetricStreamStatisticsMetric]) {
+            self.additionalStatistics = additionalStatistics
+            self.includeMetrics = includeMetrics
+        }
+
+        public func validate(name: String) throws {
+            try self.includeMetrics.forEach {
+                try $0.validate(name: "\(name).includeMetrics[]")
+            }
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case additionalStatistics = "AdditionalStatistics"
+            case includeMetrics = "IncludeMetrics"
+        }
+    }
+
+    public struct MetricStreamStatisticsMetric: AWSEncodableShape & AWSDecodableShape {
+        /// The name of the metric.
+        public let metricName: String
+        /// The namespace of the metric.
+        public let namespace: String
+
+        public init(metricName: String, namespace: String) {
+            self.metricName = metricName
+            self.namespace = namespace
+        }
+
+        public func validate(name: String) throws {
+            try self.validate(self.metricName, name: "metricName", parent: name, max: 255)
+            try self.validate(self.metricName, name: "metricName", parent: name, min: 1)
+            try self.validate(self.namespace, name: "namespace", parent: name, max: 255)
+            try self.validate(self.namespace, name: "namespace", parent: name, min: 1)
+            try self.validate(self.namespace, name: "namespace", parent: name, pattern: "[^:].*")
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case metricName = "MetricName"
             case namespace = "Namespace"
         }
     }
@@ -2307,7 +2363,7 @@ extension CloudWatch {
         public let threshold: Double?
         /// If this is an alarm based on an anomaly detection model, make this value match the ID of the ANOMALY_DETECTION_BAND function. For an example of how to use this parameter, see the Anomaly Detection Model Alarm example on this page. If your alarm uses this parameter, it cannot have Auto Scaling actions.
         public let thresholdMetricId: String?
-        ///  Sets how this alarm is to handle missing data points. If TreatMissingData is omitted, the default behavior of missing is used. For more information, see Configuring How CloudWatch Alarms Treats Missing Data. Valid Values: breaching | notBreaching | ignore | missing
+        ///  Sets how this alarm is to handle missing data points. If TreatMissingData is omitted, the default behavior of missing is used. For more information, see Configuring How CloudWatch Alarms Treats Missing Data. Valid Values: breaching | notBreaching | ignore | missing   Alarms that evaluate metrics in the AWS/DynamoDB namespace always ignore missing data even if you choose a different option for TreatMissingData. When an AWS/DynamoDB metric has missing data, alarms that evaluate that metric remain in their current state.
         public let treatMissingData: String?
         /// The unit of measure for the statistic. For example, the units for the Amazon EC2 NetworkIn metric are Bytes because NetworkIn tracks the number of bytes that an instance receives on all network interfaces. You can also specify a unit when you create a custom metric. Units help provide conceptual meaning to your data. Metric data points that specify a unit of measure, such as Percent, are aggregated separately. If you don't specify Unit, CloudWatch retrieves all unit types that have been published for the metric and attempts to evaluate the alarm. Usually, metrics are published with only one unit, so the alarm works as intended. However, if the metric is published with multiple types of units and you don't specify a unit, the alarm's behavior is not defined and it behaves predictably. We recommend omitting Unit so that you don't inadvertently specify an incorrect unit that is not published for this metric. Doing so causes the alarm to be stuck in the INSUFFICIENT DATA state.
         public let unit: StandardUnit?
@@ -2452,17 +2508,21 @@ extension CloudWatch {
         public let outputFormat: MetricStreamOutputFormat
         /// The ARN of an IAM role that this metric stream will use to access Amazon Kinesis Firehose resources. This IAM role must already exist and must be in the same account as the metric stream. This IAM role must include the following permissions:   firehose:PutRecord   firehose:PutRecordBatch
         public let roleArn: String
+        /// By default, a metric stream always sends the MAX, MIN, SUM, and SAMPLECOUNT statistics for each metric that is streamed. You can use this parameter to have the metric stream also send additional statistics in the stream. This array can have up to 100 members. For each entry in this array, you specify one or more metrics and the list of additional statistics to stream for those metrics. The additional statistics that you can stream depend on the stream's OutputFormat. If the OutputFormat is json, you can stream any additional statistic that is supported by CloudWatch, listed in  CloudWatch statistics definitions. If the OutputFormat is opentelemetry0.7, you can stream percentile statistics such as p95, p99.9 and so on.
+        @OptionalCustomCoding<StandardArrayCoder>
+        public var statisticsConfigurations: [MetricStreamStatisticsConfiguration]?
         /// A list of key-value pairs to associate with the metric stream. You can associate as many as 50 tags with a metric stream. Tags can help you organize and categorize your resources. You can also use them to scope user permissions by granting a user permission to access or change only resources with certain tag values. You can use this parameter only when you are creating a new metric stream. If you are using this operation to update an existing metric stream, any tags you specify in this parameter are ignored. To change the tags of an existing metric stream, use TagResource or UntagResource.
         @OptionalCustomCoding<StandardArrayCoder>
         public var tags: [Tag]?
 
-        public init(excludeFilters: [MetricStreamFilter]? = nil, firehoseArn: String, includeFilters: [MetricStreamFilter]? = nil, name: String, outputFormat: MetricStreamOutputFormat, roleArn: String, tags: [Tag]? = nil) {
+        public init(excludeFilters: [MetricStreamFilter]? = nil, firehoseArn: String, includeFilters: [MetricStreamFilter]? = nil, name: String, outputFormat: MetricStreamOutputFormat, roleArn: String, statisticsConfigurations: [MetricStreamStatisticsConfiguration]? = nil, tags: [Tag]? = nil) {
             self.excludeFilters = excludeFilters
             self.firehoseArn = firehoseArn
             self.includeFilters = includeFilters
             self.name = name
             self.outputFormat = outputFormat
             self.roleArn = roleArn
+            self.statisticsConfigurations = statisticsConfigurations
             self.tags = tags
         }
 
@@ -2479,6 +2539,9 @@ extension CloudWatch {
             try self.validate(self.name, name: "name", parent: name, min: 1)
             try self.validate(self.roleArn, name: "roleArn", parent: name, max: 1024)
             try self.validate(self.roleArn, name: "roleArn", parent: name, min: 1)
+            try self.statisticsConfigurations?.forEach {
+                try $0.validate(name: "\(name).statisticsConfigurations[]")
+            }
             try self.tags?.forEach {
                 try $0.validate(name: "\(name).tags[]")
             }
@@ -2491,6 +2554,7 @@ extension CloudWatch {
             case name = "Name"
             case outputFormat = "OutputFormat"
             case roleArn = "RoleArn"
+            case statisticsConfigurations = "StatisticsConfigurations"
             case tags = "Tags"
         }
     }

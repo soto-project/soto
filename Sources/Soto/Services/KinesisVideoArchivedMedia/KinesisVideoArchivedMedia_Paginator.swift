@@ -19,6 +19,59 @@ import SotoCore
 // MARK: Paginators
 
 extension KinesisVideoArchivedMedia {
+    ///  Retrieves a list of Images corresponding to each timestamp for a given time range, sampling interval, and image format configuration.
+    ///
+    /// Provide paginated results to closure `onPage` for it to combine them into one result.
+    /// This works in a similar manner to `Array.reduce<Result>(_:_:) -> Result`.
+    ///
+    /// Parameters:
+    ///   - input: Input for request
+    ///   - initialValue: The value to use as the initial accumulating value. `initialValue` is passed to `onPage` the first time it is called.
+    ///   - logger: Logger used for logging output
+    ///   - eventLoop: EventLoop to run this process on
+    ///   - onPage: closure called with each paginated response. It combines an accumulating result with the contents of response. This combined result is then returned
+    ///         along with a boolean indicating if the paginate operation should continue.
+    public func getImagesPaginator<Result>(
+        _ input: GetImagesInput,
+        _ initialValue: Result,
+        logger: Logger = AWSClient.loggingDisabled,
+        on eventLoop: EventLoop? = nil,
+        onPage: @escaping (Result, GetImagesOutput, EventLoop) -> EventLoopFuture<(Bool, Result)>
+    ) -> EventLoopFuture<Result> {
+        return client.paginate(
+            input: input,
+            initialValue: initialValue,
+            command: getImages,
+            inputKey: \GetImagesInput.nextToken,
+            outputKey: \GetImagesOutput.nextToken,
+            on: eventLoop,
+            onPage: onPage
+        )
+    }
+
+    /// Provide paginated results to closure `onPage`.
+    ///
+    /// - Parameters:
+    ///   - input: Input for request
+    ///   - logger: Logger used for logging output
+    ///   - eventLoop: EventLoop to run this process on
+    ///   - onPage: closure called with each block of entries. Returns boolean indicating whether we should continue.
+    public func getImagesPaginator(
+        _ input: GetImagesInput,
+        logger: Logger = AWSClient.loggingDisabled,
+        on eventLoop: EventLoop? = nil,
+        onPage: @escaping (GetImagesOutput, EventLoop) -> EventLoopFuture<Bool>
+    ) -> EventLoopFuture<Void> {
+        return client.paginate(
+            input: input,
+            command: getImages,
+            inputKey: \GetImagesInput.nextToken,
+            outputKey: \GetImagesOutput.nextToken,
+            on: eventLoop,
+            onPage: onPage
+        )
+    }
+
     ///  Returns a list of Fragment objects from the specified stream and timestamp range within the archived data. Listing fragments is eventually consistent. This means that even if the producer receives an acknowledgment that a fragment is persisted, the result might not be returned immediately from a request to ListFragments. However, results are typically available in less than one second.  You must first call the GetDataEndpoint API to get an endpoint. Then send the ListFragments requests to this endpoint using the --endpoint-url parameter.    If an error is thrown after invoking a Kinesis Video Streams archived media API, in addition to the HTTP status code and the response body, it includes the following pieces of information:     x-amz-ErrorType HTTP header – contains a more specific error type in addition to what the HTTP status code provides.     x-amz-RequestId HTTP header – if you want to report an issue to AWS, the support team can better diagnose the problem if given the Request Id.   Both the HTTP status code and the ErrorType header can be utilized to make programmatic decisions about whether errors are retry-able and under what conditions, as well as provide information on what actions the client programmer might need to take in order to successfully try again. For more information, see the Errors section at the bottom of this topic, as well as Common Errors.
     ///
     /// Provide paginated results to closure `onPage` for it to combine them into one result.
@@ -69,6 +122,25 @@ extension KinesisVideoArchivedMedia {
             outputKey: \ListFragmentsOutput.nextToken,
             on: eventLoop,
             onPage: onPage
+        )
+    }
+}
+
+extension KinesisVideoArchivedMedia.GetImagesInput: AWSPaginateToken {
+    public func usingPaginationToken(_ token: String) -> KinesisVideoArchivedMedia.GetImagesInput {
+        return .init(
+            endTimestamp: self.endTimestamp,
+            format: self.format,
+            formatConfig: self.formatConfig,
+            heightPixels: self.heightPixels,
+            imageSelectorType: self.imageSelectorType,
+            maxResults: self.maxResults,
+            nextToken: token,
+            samplingInterval: self.samplingInterval,
+            startTimestamp: self.startTimestamp,
+            streamARN: self.streamARN,
+            streamName: self.streamName,
+            widthPixels: self.widthPixels
         )
     }
 }

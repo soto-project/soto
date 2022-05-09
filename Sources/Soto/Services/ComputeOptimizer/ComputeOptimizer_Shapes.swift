@@ -88,7 +88,9 @@ extension ComputeOptimizer {
         case currentvcpus = "CurrentVCpus"
         case effectiverecommendationpreferencescpuvendorarchitectures = "EffectiveRecommendationPreferencesCpuVendorArchitectures"
         case effectiverecommendationpreferencesenhancedinfrastructuremetrics = "EffectiveRecommendationPreferencesEnhancedInfrastructureMetrics"
+        case effectiverecommendationpreferencesinferredworkloadtypes = "EffectiveRecommendationPreferencesInferredWorkloadTypes"
         case finding = "Finding"
+        case inferredworkloadtypes = "InferredWorkloadTypes"
         case lastrefreshtimestamp = "LastRefreshTimestamp"
         case lookbackperiodindays = "LookbackPeriodInDays"
         case recommendationoptionsconfigurationdesiredcapacity = "RecommendationOptionsConfigurationDesiredCapacity"
@@ -98,6 +100,7 @@ extension ComputeOptimizer {
         case recommendationoptionsestimatedmonthlysavingscurrency = "RecommendationOptionsEstimatedMonthlySavingsCurrency"
         case recommendationoptionsestimatedmonthlysavingsvalue = "RecommendationOptionsEstimatedMonthlySavingsValue"
         case recommendationoptionsmemory = "RecommendationOptionsMemory"
+        case recommendationoptionsmigrationeffort = "RecommendationOptionsMigrationEffort"
         case recommendationoptionsnetwork = "RecommendationOptionsNetwork"
         case recommendationoptionsondemandprice = "RecommendationOptionsOnDemandPrice"
         case recommendationoptionsperformancerisk = "RecommendationOptionsPerformanceRisk"
@@ -138,8 +141,10 @@ extension ComputeOptimizer {
         case currentvcpus = "CurrentVCpus"
         case effectiverecommendationpreferencescpuvendorarchitectures = "EffectiveRecommendationPreferencesCpuVendorArchitectures"
         case effectiverecommendationpreferencesenhancedinfrastructuremetrics = "EffectiveRecommendationPreferencesEnhancedInfrastructureMetrics"
+        case effectiverecommendationpreferencesinferredworkloadtypes = "EffectiveRecommendationPreferencesInferredWorkloadTypes"
         case finding = "Finding"
         case findingreasoncodes = "FindingReasonCodes"
+        case inferredworkloadtypes = "InferredWorkloadTypes"
         case instancearn = "InstanceArn"
         case instancename = "InstanceName"
         case lastrefreshtimestamp = "LastRefreshTimestamp"
@@ -148,6 +153,7 @@ extension ComputeOptimizer {
         case recommendationoptionsestimatedmonthlysavingsvalue = "RecommendationOptionsEstimatedMonthlySavingsValue"
         case recommendationoptionsinstancetype = "RecommendationOptionsInstanceType"
         case recommendationoptionsmemory = "RecommendationOptionsMemory"
+        case recommendationoptionsmigrationeffort = "RecommendationOptionsMigrationEffort"
         case recommendationoptionsnetwork = "RecommendationOptionsNetwork"
         case recommendationoptionsondemandprice = "RecommendationOptionsOnDemandPrice"
         case recommendationoptionsperformancerisk = "RecommendationOptionsPerformanceRisk"
@@ -266,6 +272,23 @@ extension ComputeOptimizer {
         public var description: String { return self.rawValue }
     }
 
+    public enum InferredWorkloadType: String, CustomStringConvertible, Codable {
+        case amazonemr = "AmazonEmr"
+        case apachecassandra = "ApacheCassandra"
+        case apachehadoop = "ApacheHadoop"
+        case memcached = "Memcached"
+        case nginx = "Nginx"
+        case postgresql = "PostgreSql"
+        case redis = "Redis"
+        public var description: String { return self.rawValue }
+    }
+
+    public enum InferredWorkloadTypesPreference: String, CustomStringConvertible, Codable {
+        case active = "Active"
+        case inactive = "Inactive"
+        public var description: String { return self.rawValue }
+    }
+
     public enum InstanceRecommendationFindingReasonCode: String, CustomStringConvertible, Codable {
         case cpuoverprovisioned = "CPUOverprovisioned"
         case cpuunderprovisioned = "CPUUnderprovisioned"
@@ -369,6 +392,14 @@ extension ComputeOptimizer {
         public var description: String { return self.rawValue }
     }
 
+    public enum MigrationEffort: String, CustomStringConvertible, Codable {
+        case high = "High"
+        case low = "Low"
+        case medium = "Medium"
+        case verylow = "VeryLow"
+        public var description: String { return self.rawValue }
+    }
+
     public enum PlatformDifference: String, CustomStringConvertible, Codable {
         case architecture = "Architecture"
         case hypervisor = "Hypervisor"
@@ -381,6 +412,7 @@ extension ComputeOptimizer {
 
     public enum RecommendationPreferenceName: String, CustomStringConvertible, Codable {
         case enhancedinfrastructuremetrics = "EnhancedInfrastructureMetrics"
+        case inferredworkloadtypes = "InferredWorkloadTypes"
         public var description: String { return self.rawValue }
     }
 
@@ -397,6 +429,7 @@ extension ComputeOptimizer {
         case ebsvolume = "EbsVolume"
         case ec2instance = "Ec2Instance"
         case lambdafunction = "LambdaFunction"
+        case notapplicable = "NotApplicable"
         public var description: String { return self.rawValue }
     }
 
@@ -482,6 +515,8 @@ extension ComputeOptimizer {
         public let effectiveRecommendationPreferences: EffectiveRecommendationPreferences?
         /// The finding classification of the Auto Scaling group. Findings for Auto Scaling groups include:     NotOptimized —An Auto Scaling group is considered not optimized when Compute Optimizer identifies a recommendation that can provide better performance for your workload.     Optimized —An Auto Scaling group is considered optimized when Compute Optimizer determines that the group is correctly provisioned to run your workload based on the chosen instance type. For optimized resources, Compute Optimizer might recommend a new generation instance type.
         public let finding: Finding?
+        /// The applications that might be running on the instances in the Auto Scaling group as inferred by Compute Optimizer. Compute Optimizer can infer if one of the following applications might be running on the instances:    AmazonEmr - Infers that Amazon EMR might be running on the instances.    ApacheCassandra - Infers that Apache Cassandra might be running on the instances.    ApacheHadoop - Infers that Apache Hadoop might be running on the instances.    Memcached - Infers that Memcached might be running on the instances.    NGINX - Infers that NGINX might be running on the instances.    PostgreSql - Infers that PostgreSQL might be running on the instances.    Redis - Infers that Redis might be running on the instances.
+        public let inferredWorkloadTypes: [InferredWorkloadType]?
         /// The timestamp of when the Auto Scaling group recommendation was last generated.
         public let lastRefreshTimestamp: Date?
         /// The number of days for which utilization metrics were analyzed for the Auto Scaling group.
@@ -491,7 +526,7 @@ extension ComputeOptimizer {
         /// An array of objects that describe the utilization metrics of the Auto Scaling group.
         public let utilizationMetrics: [UtilizationMetric]?
 
-        public init(accountId: String? = nil, autoScalingGroupArn: String? = nil, autoScalingGroupName: String? = nil, currentConfiguration: AutoScalingGroupConfiguration? = nil, currentPerformanceRisk: CurrentPerformanceRisk? = nil, effectiveRecommendationPreferences: EffectiveRecommendationPreferences? = nil, finding: Finding? = nil, lastRefreshTimestamp: Date? = nil, lookBackPeriodInDays: Double? = nil, recommendationOptions: [AutoScalingGroupRecommendationOption]? = nil, utilizationMetrics: [UtilizationMetric]? = nil) {
+        public init(accountId: String? = nil, autoScalingGroupArn: String? = nil, autoScalingGroupName: String? = nil, currentConfiguration: AutoScalingGroupConfiguration? = nil, currentPerformanceRisk: CurrentPerformanceRisk? = nil, effectiveRecommendationPreferences: EffectiveRecommendationPreferences? = nil, finding: Finding? = nil, inferredWorkloadTypes: [InferredWorkloadType]? = nil, lastRefreshTimestamp: Date? = nil, lookBackPeriodInDays: Double? = nil, recommendationOptions: [AutoScalingGroupRecommendationOption]? = nil, utilizationMetrics: [UtilizationMetric]? = nil) {
             self.accountId = accountId
             self.autoScalingGroupArn = autoScalingGroupArn
             self.autoScalingGroupName = autoScalingGroupName
@@ -499,6 +534,7 @@ extension ComputeOptimizer {
             self.currentPerformanceRisk = currentPerformanceRisk
             self.effectiveRecommendationPreferences = effectiveRecommendationPreferences
             self.finding = finding
+            self.inferredWorkloadTypes = inferredWorkloadTypes
             self.lastRefreshTimestamp = lastRefreshTimestamp
             self.lookBackPeriodInDays = lookBackPeriodInDays
             self.recommendationOptions = recommendationOptions
@@ -513,6 +549,7 @@ extension ComputeOptimizer {
             case currentPerformanceRisk
             case effectiveRecommendationPreferences
             case finding
+            case inferredWorkloadTypes
             case lastRefreshTimestamp
             case lookBackPeriodInDays
             case recommendationOptions
@@ -523,6 +560,8 @@ extension ComputeOptimizer {
     public struct AutoScalingGroupRecommendationOption: AWSDecodableShape {
         /// An array of objects that describe an Auto Scaling group configuration.
         public let configuration: AutoScalingGroupConfiguration?
+        /// The level of effort required to migrate from the current instance type to the recommended instance type. For example, the migration effort is Low if Amazon EMR is the inferred workload type and an Amazon Web Services Graviton instance type is recommended. The migration effort is Medium if a workload type couldn't be inferred but an Amazon Web Services Graviton instance type is recommended. The migration effort is VeryLow if both the current and recommended instance types are of the same CPU architecture.
+        public let migrationEffort: MigrationEffort?
         /// The performance risk of the Auto Scaling group configuration recommendation. Performance risk indicates the likelihood of the recommended instance type not meeting the resource needs of your workload. Compute Optimizer calculates an individual performance risk score for each specification of the recommended instance, including CPU, memory, EBS throughput, EBS IOPS, disk throughput, disk IOPS, network throughput, and network PPS. The performance risk of the recommended instance is calculated as the maximum performance risk score across the analyzed resource specifications. The value ranges from 0 - 4, with 0 meaning that the recommended resource is predicted to always provide enough hardware capability. The higher the performance risk is, the more likely you should validate whether the recommendation will meet the performance requirements of your workload before migrating your resource.
         public let performanceRisk: Double?
         /// An array of objects that describe the projected utilization metrics of the Auto Scaling group recommendation option.  The Cpu and Memory metrics are the only projected utilization metrics returned. Additionally, the Memory metric is returned only for resources that have the unified CloudWatch agent installed on them. For more information, see Enabling Memory Utilization with the CloudWatch Agent.
@@ -532,8 +571,9 @@ extension ComputeOptimizer {
         /// An object that describes the savings opportunity for the Auto Scaling group recommendation option. Savings opportunity includes the estimated monthly savings amount and percentage.
         public let savingsOpportunity: SavingsOpportunity?
 
-        public init(configuration: AutoScalingGroupConfiguration? = nil, performanceRisk: Double? = nil, projectedUtilizationMetrics: [UtilizationMetric]? = nil, rank: Int? = nil, savingsOpportunity: SavingsOpportunity? = nil) {
+        public init(configuration: AutoScalingGroupConfiguration? = nil, migrationEffort: MigrationEffort? = nil, performanceRisk: Double? = nil, projectedUtilizationMetrics: [UtilizationMetric]? = nil, rank: Int? = nil, savingsOpportunity: SavingsOpportunity? = nil) {
             self.configuration = configuration
+            self.migrationEffort = migrationEffort
             self.performanceRisk = performanceRisk
             self.projectedUtilizationMetrics = projectedUtilizationMetrics
             self.rank = rank
@@ -542,6 +582,7 @@ extension ComputeOptimizer {
 
         private enum CodingKeys: String, CodingKey {
             case configuration
+            case migrationEffort
             case performanceRisk
             case projectedUtilizationMetrics
             case rank
@@ -682,17 +723,21 @@ extension ComputeOptimizer {
     public struct EffectiveRecommendationPreferences: AWSDecodableShape {
         /// Describes the CPU vendor and architecture for an instance or Auto Scaling group recommendations. For example, when you specify AWS_ARM64 with:   A GetEC2InstanceRecommendations or GetAutoScalingGroupRecommendations request, Compute Optimizer returns recommendations that consist of Graviton2 instance types only.   A GetEC2RecommendationProjectedMetrics request, Compute Optimizer returns projected utilization metrics for Graviton2 instance type recommendations only.   A ExportEC2InstanceRecommendations or ExportAutoScalingGroupRecommendations request, Compute Optimizer exports recommendations that consist of Graviton2 instance types only.
         public let cpuVendorArchitectures: [CpuVendorArchitecture]?
-        /// Describes the activation status of the enhanced infrastructure metrics preference. A status of Active confirms that the preference is applied in the latest recommendation refresh, and a status of Inactive confirms that it's not yet applied.
+        /// Describes the activation status of the enhanced infrastructure metrics preference. A status of Active confirms that the preference is applied in the latest recommendation refresh, and a status of Inactive confirms that it's not yet applied to recommendations. For more information, see Enhanced infrastructure metrics in the Compute Optimizer User Guide.
         public let enhancedInfrastructureMetrics: EnhancedInfrastructureMetrics?
+        /// Describes the activation status of the inferred workload types preference. A status of Active confirms that the preference is applied in the latest recommendation refresh. A status of Inactive confirms that it's not yet applied to recommendations.
+        public let inferredWorkloadTypes: InferredWorkloadTypesPreference?
 
-        public init(cpuVendorArchitectures: [CpuVendorArchitecture]? = nil, enhancedInfrastructureMetrics: EnhancedInfrastructureMetrics? = nil) {
+        public init(cpuVendorArchitectures: [CpuVendorArchitecture]? = nil, enhancedInfrastructureMetrics: EnhancedInfrastructureMetrics? = nil, inferredWorkloadTypes: InferredWorkloadTypesPreference? = nil) {
             self.cpuVendorArchitectures = cpuVendorArchitectures
             self.enhancedInfrastructureMetrics = enhancedInfrastructureMetrics
+            self.inferredWorkloadTypes = inferredWorkloadTypes
         }
 
         private enum CodingKeys: String, CodingKey {
             case cpuVendorArchitectures
             case enhancedInfrastructureMetrics
+            case inferredWorkloadTypes
         }
     }
 
@@ -1182,7 +1227,7 @@ extension ComputeOptimizer {
     }
 
     public struct GetEffectiveRecommendationPreferencesResponse: AWSDecodableShape {
-        /// The status of the enhanced infrastructure metrics recommendation preference. Considers all applicable preferences that you might have set at the resource, account, and organization level. A status of Active confirms that the preference is applied in the latest recommendation refresh, and a status of Inactive confirms that it's not yet applied. To validate whether the preference is applied to your last generated set of recommendations, review the effectiveRecommendationPreferences value in the response of the GetAutoScalingGroupRecommendations and GetEC2InstanceRecommendations actions.
+        /// The status of the enhanced infrastructure metrics recommendation preference. Considers all applicable preferences that you might have set at the resource, account, and organization level. A status of Active confirms that the preference is applied in the latest recommendation refresh, and a status of Inactive confirms that it's not yet applied to recommendations. To validate whether the preference is applied to your last generated set of recommendations, review the effectiveRecommendationPreferences value in the response of the GetAutoScalingGroupRecommendations and GetEC2InstanceRecommendations actions. For more information, see Enhanced infrastructure metrics in the Compute Optimizer User Guide.
         public let enhancedInfrastructureMetrics: EnhancedInfrastructureMetrics?
 
         public init(enhancedInfrastructureMetrics: EnhancedInfrastructureMetrics? = nil) {
@@ -1417,7 +1462,7 @@ extension ComputeOptimizer {
         public let accountId: String?
         /// The instance type of the current instance.
         public let currentInstanceType: String?
-        /// The risk of the current instance not meeting the performance needs of its workloads. The higher the risk, the more likely the current Lambda function requires more memory.
+        /// The risk of the current instance not meeting the performance needs of its workloads. The higher the risk, the more likely the current instance cannot meet the performance requirements of its workload.
         public let currentPerformanceRisk: CurrentPerformanceRisk?
         /// An object that describes the effective recommendation preferences for the instance.
         public let effectiveRecommendationPreferences: EffectiveRecommendationPreferences?
@@ -1425,6 +1470,8 @@ extension ComputeOptimizer {
         public let finding: Finding?
         /// The reason for the finding classification of the instance. Finding reason codes for instances include:     CPUOverprovisioned  — The instance’s CPU configuration can be sized down while still meeting the performance requirements of your workload. This is identified by analyzing the CPUUtilization metric of the current instance during the look-back period.     CPUUnderprovisioned  — The instance’s CPU configuration doesn't meet the performance requirements of your workload and there is an alternative instance type that provides better CPU performance. This is identified by analyzing the CPUUtilization metric of the current instance during the look-back period.     MemoryOverprovisioned  — The instance’s memory configuration can be sized down while still meeting the performance requirements of your workload. This is identified by analyzing the memory utilization metric of the current instance during the look-back period.     MemoryUnderprovisioned  — The instance’s memory configuration doesn't meet the performance requirements of your workload and there is an alternative instance type that provides better memory performance. This is identified by analyzing the memory utilization metric of the current instance during the look-back period.  Memory utilization is analyzed only for resources that have the unified CloudWatch agent installed on them. For more information, see Enabling memory utilization with the Amazon CloudWatch Agent in the Compute Optimizer User Guide. On Linux instances, Compute Optimizer analyses the mem_used_percent metric in the CWAgent namespace, or the legacy MemoryUtilization metric in the System/Linux namespace. On Windows instances, Compute Optimizer analyses the Memory % Committed Bytes In Use metric in the CWAgent namespace.      EBSThroughputOverprovisioned  — The instance’s EBS throughput configuration can be sized down while still meeting the performance requirements of your workload. This is identified by analyzing the VolumeReadOps and VolumeWriteOps metrics of EBS volumes attached to the current instance during the look-back period.     EBSThroughputUnderprovisioned  — The instance’s EBS throughput configuration doesn't meet the performance requirements of your workload and there is an alternative instance type that provides better EBS throughput performance. This is identified by analyzing the VolumeReadOps and VolumeWriteOps metrics of EBS volumes attached to the current instance during the look-back period.     EBSIOPSOverprovisioned  — The instance’s EBS IOPS configuration can be sized down while still meeting the performance requirements of your workload. This is identified by analyzing the VolumeReadBytes and VolumeWriteBytes metric of EBS volumes attached to the current instance during the look-back period.     EBSIOPSUnderprovisioned  — The instance’s EBS IOPS configuration doesn't meet the performance requirements of your workload and there is an alternative instance type that provides better EBS IOPS performance. This is identified by analyzing the VolumeReadBytes and VolumeWriteBytes metric of EBS volumes attached to the current instance during the look-back period.     NetworkBandwidthOverprovisioned  — The instance’s network bandwidth configuration can be sized down while still meeting the performance requirements of your workload. This is identified by analyzing the NetworkIn and NetworkOut metrics of the current instance during the look-back period.     NetworkBandwidthUnderprovisioned  — The instance’s network bandwidth configuration doesn't meet the performance requirements of your workload and there is an alternative instance type that provides better network bandwidth performance. This is identified by analyzing the NetworkIn and NetworkOut metrics of the current instance during the look-back period. This finding reason happens when the NetworkIn or NetworkOut performance of an instance is impacted.     NetworkPPSOverprovisioned  — The instance’s network PPS (packets per second) configuration can be sized down while still meeting the performance requirements of your workload. This is identified by analyzing the NetworkPacketsIn and NetworkPacketsIn metrics of the current instance during the look-back period.     NetworkPPSUnderprovisioned  — The instance’s network PPS (packets per second) configuration doesn't meet the performance requirements of your workload and there is an alternative instance type that provides better network PPS performance. This is identified by analyzing the NetworkPacketsIn and NetworkPacketsIn metrics of the current instance during the look-back period.     DiskIOPSOverprovisioned  — The instance’s disk IOPS configuration can be sized down while still meeting the performance requirements of your workload. This is identified by analyzing the DiskReadOps and DiskWriteOps metrics of the current instance during the look-back period.     DiskIOPSUnderprovisioned  — The instance’s disk IOPS configuration doesn't meet the performance requirements of your workload and there is an alternative instance type that provides better disk IOPS performance. This is identified by analyzing the DiskReadOps and DiskWriteOps metrics of the current instance during the look-back period.     DiskThroughputOverprovisioned  — The instance’s disk throughput configuration can be sized down while still meeting the performance requirements of your workload. This is identified by analyzing the DiskReadBytes and DiskWriteBytes metrics of the current instance during the look-back period.     DiskThroughputUnderprovisioned  — The instance’s disk throughput configuration doesn't meet the performance requirements of your workload and there is an alternative instance type that provides better disk throughput performance. This is identified by analyzing the DiskReadBytes and DiskWriteBytes metrics of the current instance during the look-back period.    For more information about instance metrics, see List the available CloudWatch metrics for your instances in the Amazon Elastic Compute Cloud User Guide. For more information about EBS volume metrics, see Amazon CloudWatch metrics for Amazon EBS in the Amazon Elastic Compute Cloud User Guide.
         public let findingReasonCodes: [InstanceRecommendationFindingReasonCode]?
+        /// The applications that might be running on the instance as inferred by Compute Optimizer. Compute Optimizer can infer if one of the following applications might be running on the instance:    AmazonEmr - Infers that Amazon EMR might be running on the instance.    ApacheCassandra - Infers that Apache Cassandra might be running on the instance.    ApacheHadoop - Infers that Apache Hadoop might be running on the instance.    Memcached - Infers that Memcached might be running on the instance.    NGINX - Infers that NGINX might be running on the instance.    PostgreSql - Infers that PostgreSQL might be running on the instance.    Redis - Infers that Redis might be running on the instance.
+        public let inferredWorkloadTypes: [InferredWorkloadType]?
         /// The Amazon Resource Name (ARN) of the current instance.
         public let instanceArn: String?
         /// The name of the current instance.
@@ -1440,13 +1487,14 @@ extension ComputeOptimizer {
         /// An array of objects that describe the utilization metrics of the instance.
         public let utilizationMetrics: [UtilizationMetric]?
 
-        public init(accountId: String? = nil, currentInstanceType: String? = nil, currentPerformanceRisk: CurrentPerformanceRisk? = nil, effectiveRecommendationPreferences: EffectiveRecommendationPreferences? = nil, finding: Finding? = nil, findingReasonCodes: [InstanceRecommendationFindingReasonCode]? = nil, instanceArn: String? = nil, instanceName: String? = nil, lastRefreshTimestamp: Date? = nil, lookBackPeriodInDays: Double? = nil, recommendationOptions: [InstanceRecommendationOption]? = nil, recommendationSources: [RecommendationSource]? = nil, utilizationMetrics: [UtilizationMetric]? = nil) {
+        public init(accountId: String? = nil, currentInstanceType: String? = nil, currentPerformanceRisk: CurrentPerformanceRisk? = nil, effectiveRecommendationPreferences: EffectiveRecommendationPreferences? = nil, finding: Finding? = nil, findingReasonCodes: [InstanceRecommendationFindingReasonCode]? = nil, inferredWorkloadTypes: [InferredWorkloadType]? = nil, instanceArn: String? = nil, instanceName: String? = nil, lastRefreshTimestamp: Date? = nil, lookBackPeriodInDays: Double? = nil, recommendationOptions: [InstanceRecommendationOption]? = nil, recommendationSources: [RecommendationSource]? = nil, utilizationMetrics: [UtilizationMetric]? = nil) {
             self.accountId = accountId
             self.currentInstanceType = currentInstanceType
             self.currentPerformanceRisk = currentPerformanceRisk
             self.effectiveRecommendationPreferences = effectiveRecommendationPreferences
             self.finding = finding
             self.findingReasonCodes = findingReasonCodes
+            self.inferredWorkloadTypes = inferredWorkloadTypes
             self.instanceArn = instanceArn
             self.instanceName = instanceName
             self.lastRefreshTimestamp = lastRefreshTimestamp
@@ -1463,6 +1511,7 @@ extension ComputeOptimizer {
             case effectiveRecommendationPreferences
             case finding
             case findingReasonCodes
+            case inferredWorkloadTypes
             case instanceArn
             case instanceName
             case lastRefreshTimestamp
@@ -1476,6 +1525,8 @@ extension ComputeOptimizer {
     public struct InstanceRecommendationOption: AWSDecodableShape {
         /// The instance type of the instance recommendation.
         public let instanceType: String?
+        /// The level of effort required to migrate from the current instance type to the recommended instance type. For example, the migration effort is Low if Amazon EMR is the inferred workload type and an Amazon Web Services Graviton instance type is recommended. The migration effort is Medium if a workload type couldn't be inferred but an Amazon Web Services Graviton instance type is recommended. The migration effort is VeryLow if both the current and recommended instance types are of the same CPU architecture.
+        public let migrationEffort: MigrationEffort?
         /// The performance risk of the instance recommendation option. Performance risk indicates the likelihood of the recommended instance type not meeting the resource needs of your workload. Compute Optimizer calculates an individual performance risk score for each specification of the recommended instance, including CPU, memory, EBS throughput, EBS IOPS, disk throughput, disk IOPS, network throughput, and network PPS. The performance risk of the recommended instance is calculated as the maximum performance risk score across the analyzed resource specifications. The value ranges from 0 - 4, with 0 meaning that the recommended resource is predicted to always provide enough hardware capability. The higher the performance risk is, the more likely you should validate whether the recommendation will meet the performance requirements of your workload before migrating your resource.
         public let performanceRisk: Double?
         /// Describes the configuration differences between the current instance and the recommended instance type. You should consider the configuration differences before migrating your workloads from the current instance to the recommended instance type. The Change the instance type guide for Linux and Change the instance type guide for Windows provide general guidance for getting started with an instance migration. Platform differences include:     Hypervisor  — The hypervisor of the recommended instance type is different than that of the current instance. For example, the recommended instance type uses a Nitro hypervisor and the current instance uses a Xen hypervisor. The differences that you should consider between these hypervisors are covered in the Nitro Hypervisor section of the Amazon EC2 frequently asked questions. For more information, see Instances built on the Nitro System in the Amazon EC2 User Guide for Linux, or Instances built on the Nitro System in the Amazon EC2 User Guide for Windows.     NetworkInterface  — The network interface of the recommended instance type is different than that of the current instance. For example, the recommended instance type supports enhanced networking and the current instance might not. To enable enhanced networking for the recommended instance type, you must install the Elastic Network Adapter (ENA) driver or the Intel 82599 Virtual Function driver. For more information, see Networking and storage features and Enhanced networking on Linux in the Amazon EC2 User Guide for Linux, or Networking and storage features and Enhanced networking on Windows in the Amazon EC2 User Guide for Windows.     StorageInterface  — The storage interface of the recommended instance type is different than that of the current instance. For example, the recommended instance type uses an NVMe storage interface and the current instance does not. To access NVMe volumes for the recommended instance type, you will need to install or upgrade the NVMe driver. For more information, see Networking and storage features and Amazon EBS and NVMe on Linux instances in the Amazon EC2 User Guide for Linux, or Networking and storage features and Amazon EBS and NVMe on Windows instances in the Amazon EC2 User Guide for Windows.     InstanceStoreAvailability  — The recommended instance type does not support instance store volumes and the current instance does. Before migrating, you might need to back up the data on your instance store volumes if you want to preserve them. For more information, see How do I back up an instance store volume on my Amazon EC2 instance to Amazon EBS? in the Amazon Web Services Premium Support Knowledge Base. For more information, see Networking and storage features and Amazon EC2 instance store in the Amazon EC2 User Guide for Linux, or see Networking and storage features and Amazon EC2 instance store in the Amazon EC2 User Guide for Windows.     VirtualizationType  — The recommended instance type uses the hardware virtual machine (HVM) virtualization type and the current instance uses the paravirtual (PV) virtualization type. For more information about the differences between these virtualization types, see Linux AMI virtualization types in the Amazon EC2 User Guide for Linux, or Windows AMI virtualization types in the Amazon EC2 User Guide for Windows.     Architecture  — The CPU architecture between the recommended instance type and the current instance is different. For example, the recommended instance type might use an Arm CPU architecture and the current instance type might use a different one, such as x86. Before migrating, you should consider recompiling the software on your instance for the new architecture. Alternatively, you might switch to an Amazon Machine Image (AMI) that supports the new architecture. For more information about the CPU architecture for each instance type, see Amazon EC2 Instance Types.
@@ -1487,8 +1538,9 @@ extension ComputeOptimizer {
         /// An object that describes the savings opportunity for the instance recommendation option. Savings opportunity includes the estimated monthly savings amount and percentage.
         public let savingsOpportunity: SavingsOpportunity?
 
-        public init(instanceType: String? = nil, performanceRisk: Double? = nil, platformDifferences: [PlatformDifference]? = nil, projectedUtilizationMetrics: [UtilizationMetric]? = nil, rank: Int? = nil, savingsOpportunity: SavingsOpportunity? = nil) {
+        public init(instanceType: String? = nil, migrationEffort: MigrationEffort? = nil, performanceRisk: Double? = nil, platformDifferences: [PlatformDifference]? = nil, projectedUtilizationMetrics: [UtilizationMetric]? = nil, rank: Int? = nil, savingsOpportunity: SavingsOpportunity? = nil) {
             self.instanceType = instanceType
+            self.migrationEffort = migrationEffort
             self.performanceRisk = performanceRisk
             self.platformDifferences = platformDifferences
             self.projectedUtilizationMetrics = projectedUtilizationMetrics
@@ -1498,6 +1550,7 @@ extension ComputeOptimizer {
 
         private enum CodingKeys: String, CodingKey {
             case instanceType
+            case migrationEffort
             case performanceRisk
             case platformDifferences
             case projectedUtilizationMetrics
@@ -1574,7 +1627,7 @@ extension ComputeOptimizer {
         public let accountId: String?
         /// The amount of memory, in MB, that's allocated to the current function.
         public let currentMemorySize: Int?
-        /// The risk of the current Lambda function not meeting the performance needs of its workloads. The higher the risk, the more likely the current Lambda function configuration is underperforming in its workload.
+        /// The risk of the current Lambda function not meeting the performance needs of its workloads. The higher the risk, the more likely the current Lambda function requires more memory.
         public let currentPerformanceRisk: CurrentPerformanceRisk?
         /// The finding classification of the function. Findings for functions include:     Optimized  — The function is correctly provisioned to run your workload based on its current configuration and its utilization history. This finding classification does not include finding reason codes.     NotOptimized  — The function is performing at a higher level (over-provisioned) or at a lower level (under-provisioned) than required for your workload because its current configuration is not optimal. Over-provisioned resources might lead to unnecessary infrastructure cost, and under-provisioned resources might lead to poor application performance. This finding classification can include the MemoryUnderprovisioned and MemoryUnderprovisioned finding reason codes.     Unavailable  — Compute Optimizer was unable to generate a recommendation for the function. This could be because the function has not accumulated sufficient metric data, or the function does not qualify for a recommendation. This finding classification can include the InsufficientData and Inconclusive finding reason codes.  Functions with a finding of unavailable are not returned unless you specify the filter parameter with a value of Unavailable in your GetLambdaFunctionRecommendations request.
         public let finding: LambdaFunctionRecommendationFinding?
@@ -1686,21 +1739,25 @@ extension ComputeOptimizer {
     }
 
     public struct PutRecommendationPreferencesRequest: AWSEncodableShape {
-        /// The status of the enhanced infrastructure metrics recommendation preference to create or update. A status of Active confirms that the preference is applied in the latest recommendation refresh, and a status of Inactive confirms that it's not yet applied.
+        /// The status of the enhanced infrastructure metrics recommendation preference to create or update. Specify the Active status to activate the preference, or specify Inactive to deactivate the preference. For more information, see Enhanced infrastructure metrics in the Compute Optimizer User Guide.
         public let enhancedInfrastructureMetrics: EnhancedInfrastructureMetrics?
+        /// The status of the inferred workload types recommendation preference to create or update.  The inferred workload type feature is active by default. To deactivate it, create a recommendation preference.  Specify the Inactive status to deactivate the feature, or specify Active to activate it. For more information, see Inferred workload types in the Compute Optimizer User Guide.
+        public let inferredWorkloadTypes: InferredWorkloadTypesPreference?
         /// The target resource type of the recommendation preference to create. The Ec2Instance option encompasses standalone instances and instances that are part of Auto Scaling groups. The AutoScalingGroup option encompasses only instances that are part of an Auto Scaling group.
         public let resourceType: ResourceType
-        /// An object that describes the scope of the recommendation preference to create. You can create recommendation preferences at the organization level (for management accounts of an organization only), account level, and resource level. For more information, see Activating enhanced infrastructure metrics in the Compute Optimizer User Guide.  You cannot create recommendation preferences for Auto Scaling groups at the organization and account levels. You can create recommendation preferences for Auto Scaling groups only at the resource level by specifying a scope name of ResourceArn and a scope value of the Auto Scaling group Amazon Resource Name (ARN). This will configure the preference for all instances that are part of the specified the Auto Scaling group.
+        /// An object that describes the scope of the recommendation preference to create. You can create recommendation preferences at the organization level (for management accounts of an organization only), account level, and resource level. For more information, see Activating enhanced infrastructure metrics in the Compute Optimizer User Guide.  You cannot create recommendation preferences for Auto Scaling groups at the organization and account levels. You can create recommendation preferences for Auto Scaling groups only at the resource level by specifying a scope name of ResourceArn and a scope value of the Auto Scaling group Amazon Resource Name (ARN). This will configure the preference for all instances that are part of the specified Auto Scaling group. You also cannot create recommendation preferences at the resource level for instances that are part of an Auto Scaling group. You can create recommendation preferences at the resource level only for standalone instances.
         public let scope: Scope?
 
-        public init(enhancedInfrastructureMetrics: EnhancedInfrastructureMetrics? = nil, resourceType: ResourceType, scope: Scope? = nil) {
+        public init(enhancedInfrastructureMetrics: EnhancedInfrastructureMetrics? = nil, inferredWorkloadTypes: InferredWorkloadTypesPreference? = nil, resourceType: ResourceType, scope: Scope? = nil) {
             self.enhancedInfrastructureMetrics = enhancedInfrastructureMetrics
+            self.inferredWorkloadTypes = inferredWorkloadTypes
             self.resourceType = resourceType
             self.scope = scope
         }
 
         private enum CodingKeys: String, CodingKey {
             case enhancedInfrastructureMetrics
+            case inferredWorkloadTypes
             case resourceType
             case scope
         }
@@ -1778,21 +1835,25 @@ extension ComputeOptimizer {
     }
 
     public struct RecommendationPreferencesDetail: AWSDecodableShape {
-        /// The status of the enhanced infrastructure metrics recommendation preference. A status of Active confirms that the preference is applied in the latest recommendation refresh, and a status of Inactive confirms that it's not yet applied.
+        /// The status of the enhanced infrastructure metrics recommendation preference. A status of Active confirms that the preference is applied in the latest recommendation refresh, and a status of Inactive confirms that it's not yet applied to recommendations. For more information, see Enhanced infrastructure metrics in the Compute Optimizer User Guide.
         public let enhancedInfrastructureMetrics: EnhancedInfrastructureMetrics?
+        /// The status of the inferred workload types recommendation preference. A status of Active confirms that the preference is applied in the latest recommendation refresh. A status of Inactive confirms that it's not yet applied to recommendations.
+        public let inferredWorkloadTypes: InferredWorkloadTypesPreference?
         /// The target resource type of the recommendation preference to create. The Ec2Instance option encompasses standalone instances and instances that are part of Auto Scaling groups. The AutoScalingGroup option encompasses only instances that are part of an Auto Scaling group.
         public let resourceType: ResourceType?
         /// An object that describes the scope of the recommendation preference. Recommendation preferences can be created at the organization level (for management accounts of an organization only), account level, and resource level. For more information, see Activating enhanced infrastructure metrics in the Compute Optimizer User Guide.
         public let scope: Scope?
 
-        public init(enhancedInfrastructureMetrics: EnhancedInfrastructureMetrics? = nil, resourceType: ResourceType? = nil, scope: Scope? = nil) {
+        public init(enhancedInfrastructureMetrics: EnhancedInfrastructureMetrics? = nil, inferredWorkloadTypes: InferredWorkloadTypesPreference? = nil, resourceType: ResourceType? = nil, scope: Scope? = nil) {
             self.enhancedInfrastructureMetrics = enhancedInfrastructureMetrics
+            self.inferredWorkloadTypes = inferredWorkloadTypes
             self.resourceType = resourceType
             self.scope = scope
         }
 
         private enum CodingKeys: String, CodingKey {
             case enhancedInfrastructureMetrics
+            case inferredWorkloadTypes
             case resourceType
             case scope
         }
@@ -1904,9 +1965,9 @@ extension ComputeOptimizer {
     }
 
     public struct SavingsOpportunity: AWSDecodableShape {
-        /// An object that describes the estimated monthly savings amount possible based on On-Demand instance pricing.
+        /// An object that describes the estimated monthly savings amount possible, based on On-Demand instance pricing, by adopting Compute Optimizer recommendations for a given resource.
         public let estimatedMonthlySavings: EstimatedMonthlySavings?
-        /// The estimated monthly savings possible as a percentage of monthly cost.
+        /// The estimated monthly savings possible as a percentage of monthly cost by adopting Compute Optimizer recommendations for a given resource.
         public let savingsOpportunityPercentage: Double?
 
         public init(estimatedMonthlySavings: EstimatedMonthlySavings? = nil, savingsOpportunityPercentage: Double? = nil) {

@@ -231,6 +231,59 @@ extension Lambda {
         )
     }
 
+    ///  Returns a list of Lambda function URLs for the specified function.
+    ///
+    /// Provide paginated results to closure `onPage` for it to combine them into one result.
+    /// This works in a similar manner to `Array.reduce<Result>(_:_:) -> Result`.
+    ///
+    /// Parameters:
+    ///   - input: Input for request
+    ///   - initialValue: The value to use as the initial accumulating value. `initialValue` is passed to `onPage` the first time it is called.
+    ///   - logger: Logger used for logging output
+    ///   - eventLoop: EventLoop to run this process on
+    ///   - onPage: closure called with each paginated response. It combines an accumulating result with the contents of response. This combined result is then returned
+    ///         along with a boolean indicating if the paginate operation should continue.
+    public func listFunctionUrlConfigsPaginator<Result>(
+        _ input: ListFunctionUrlConfigsRequest,
+        _ initialValue: Result,
+        logger: Logger = AWSClient.loggingDisabled,
+        on eventLoop: EventLoop? = nil,
+        onPage: @escaping (Result, ListFunctionUrlConfigsResponse, EventLoop) -> EventLoopFuture<(Bool, Result)>
+    ) -> EventLoopFuture<Result> {
+        return client.paginate(
+            input: input,
+            initialValue: initialValue,
+            command: listFunctionUrlConfigs,
+            inputKey: \ListFunctionUrlConfigsRequest.marker,
+            outputKey: \ListFunctionUrlConfigsResponse.nextMarker,
+            on: eventLoop,
+            onPage: onPage
+        )
+    }
+
+    /// Provide paginated results to closure `onPage`.
+    ///
+    /// - Parameters:
+    ///   - input: Input for request
+    ///   - logger: Logger used for logging output
+    ///   - eventLoop: EventLoop to run this process on
+    ///   - onPage: closure called with each block of entries. Returns boolean indicating whether we should continue.
+    public func listFunctionUrlConfigsPaginator(
+        _ input: ListFunctionUrlConfigsRequest,
+        logger: Logger = AWSClient.loggingDisabled,
+        on eventLoop: EventLoop? = nil,
+        onPage: @escaping (ListFunctionUrlConfigsResponse, EventLoop) -> EventLoopFuture<Bool>
+    ) -> EventLoopFuture<Void> {
+        return client.paginate(
+            input: input,
+            command: listFunctionUrlConfigs,
+            inputKey: \ListFunctionUrlConfigsRequest.marker,
+            outputKey: \ListFunctionUrlConfigsResponse.nextMarker,
+            on: eventLoop,
+            onPage: onPage
+        )
+    }
+
     ///  Returns a list of Lambda functions, with the version-specific configuration of each. Lambda returns up to 50 functions per call. Set FunctionVersion to ALL to include all published versions of each function in addition to the unpublished version.   The ListFunctions action returns a subset of the FunctionConfiguration fields. To get the additional fields (State, StateReasonCode, StateReason, LastUpdateStatus, LastUpdateStatusReason, LastUpdateStatusReasonCode) for a function or version, use GetFunction.
     ///
     /// Provide paginated results to closure `onPage` for it to combine them into one result.
@@ -583,6 +636,16 @@ extension Lambda.ListEventSourceMappingsRequest: AWSPaginateToken {
 
 extension Lambda.ListFunctionEventInvokeConfigsRequest: AWSPaginateToken {
     public func usingPaginationToken(_ token: String) -> Lambda.ListFunctionEventInvokeConfigsRequest {
+        return .init(
+            functionName: self.functionName,
+            marker: token,
+            maxItems: self.maxItems
+        )
+    }
+}
+
+extension Lambda.ListFunctionUrlConfigsRequest: AWSPaginateToken {
+    public func usingPaginationToken(_ token: String) -> Lambda.ListFunctionUrlConfigsRequest {
         return .init(
             functionName: self.functionName,
             marker: token,

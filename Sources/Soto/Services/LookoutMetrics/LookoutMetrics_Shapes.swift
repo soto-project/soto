@@ -47,12 +47,22 @@ extension LookoutMetrics {
         public var description: String { return self.rawValue }
     }
 
+    public enum AnomalyDetectorFailureType: String, CustomStringConvertible, Codable {
+        case activationFailure = "ACTIVATION_FAILURE"
+        case backTestActivationFailure = "BACK_TEST_ACTIVATION_FAILURE"
+        case deactivationFailure = "DEACTIVATION_FAILURE"
+        case deletionFailure = "DELETION_FAILURE"
+        public var description: String { return self.rawValue }
+    }
+
     public enum AnomalyDetectorStatus: String, CustomStringConvertible, Codable {
         case activating = "ACTIVATING"
         case active = "ACTIVE"
         case backTestActivating = "BACK_TEST_ACTIVATING"
         case backTestActive = "BACK_TEST_ACTIVE"
         case backTestComplete = "BACK_TEST_COMPLETE"
+        case deactivated = "DEACTIVATED"
+        case deactivating = "DEACTIVATING"
         case deleting = "DELETING"
         case failed = "FAILED"
         case inactive = "INACTIVE"
@@ -62,6 +72,13 @@ extension LookoutMetrics {
 
     public enum CSVFileCompression: String, CustomStringConvertible, Codable {
         case gzip = "GZIP"
+        case none = "NONE"
+        public var description: String { return self.rawValue }
+    }
+
+    public enum Confidence: String, CustomStringConvertible, Codable {
+        case high = "HIGH"
+        case low = "LOW"
         case none = "NONE"
         public var description: String { return self.rawValue }
     }
@@ -426,11 +443,11 @@ extension LookoutMetrics {
 
     public struct AppFlowConfig: AWSEncodableShape & AWSDecodableShape {
         ///  name of the flow.
-        public let flowName: String
+        public let flowName: String?
         /// An IAM role that gives Amazon Lookout for Metrics permission to access the flow.
-        public let roleArn: String
+        public let roleArn: String?
 
-        public init(flowName: String, roleArn: String) {
+        public init(flowName: String? = nil, roleArn: String? = nil) {
             self.flowName = flowName
             self.roleArn = roleArn
         }
@@ -445,6 +462,88 @@ extension LookoutMetrics {
         private enum CodingKeys: String, CodingKey {
             case flowName = "FlowName"
             case roleArn = "RoleArn"
+        }
+    }
+
+    public struct AttributeValue: AWSDecodableShape {
+        /// A binary value.
+        public let b: String?
+        /// A list of binary values.
+        public let bs: [String]?
+        /// A number.
+        public let n: String?
+        /// A list of numbers.
+        public let ns: [String]?
+        /// A string.
+        public let s: String?
+        /// A list of strings.
+        public let ss: [String]?
+
+        public init(b: String? = nil, bs: [String]? = nil, n: String? = nil, ns: [String]? = nil, s: String? = nil, ss: [String]? = nil) {
+            self.b = b
+            self.bs = bs
+            self.n = n
+            self.ns = ns
+            self.s = s
+            self.ss = ss
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case b = "B"
+            case bs = "BS"
+            case n = "N"
+            case ns = "NS"
+            case s = "S"
+            case ss = "SS"
+        }
+    }
+
+    public struct AutoDetectionMetricSource: AWSEncodableShape {
+        /// The source's source config.
+        public let s3SourceConfig: AutoDetectionS3SourceConfig?
+
+        public init(s3SourceConfig: AutoDetectionS3SourceConfig? = nil) {
+            self.s3SourceConfig = s3SourceConfig
+        }
+
+        public func validate(name: String) throws {
+            try self.s3SourceConfig?.validate(name: "\(name).s3SourceConfig")
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case s3SourceConfig = "S3SourceConfig"
+        }
+    }
+
+    public struct AutoDetectionS3SourceConfig: AWSEncodableShape {
+        /// The config's historical data path list.
+        public let historicalDataPathList: [String]?
+        /// The config's templated path list.
+        public let templatedPathList: [String]?
+
+        public init(historicalDataPathList: [String]? = nil, templatedPathList: [String]? = nil) {
+            self.historicalDataPathList = historicalDataPathList
+            self.templatedPathList = templatedPathList
+        }
+
+        public func validate(name: String) throws {
+            try self.historicalDataPathList?.forEach {
+                try validate($0, name: "historicalDataPathList[]", parent: name, max: 1024)
+                try validate($0, name: "historicalDataPathList[]", parent: name, pattern: "^s3://[a-z0-9].+$")
+            }
+            try self.validate(self.historicalDataPathList, name: "historicalDataPathList", parent: name, max: 1)
+            try self.validate(self.historicalDataPathList, name: "historicalDataPathList", parent: name, min: 1)
+            try self.templatedPathList?.forEach {
+                try validate($0, name: "templatedPathList[]", parent: name, max: 1024)
+                try validate($0, name: "templatedPathList[]", parent: name, pattern: "^s3://[a-zA-Z0-9_\\-\\/ {}=]+$")
+            }
+            try self.validate(self.templatedPathList, name: "templatedPathList", parent: name, max: 1)
+            try self.validate(self.templatedPathList, name: "templatedPathList", parent: name, min: 1)
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case historicalDataPathList = "HistoricalDataPathList"
+            case templatedPathList = "TemplatedPathList"
         }
     }
 
@@ -472,9 +571,9 @@ extension LookoutMetrics {
 
     public struct CloudWatchConfig: AWSEncodableShape & AWSDecodableShape {
         /// An IAM role that gives Amazon Lookout for Metrics permission to access data in Amazon CloudWatch.
-        public let roleArn: String
+        public let roleArn: String?
 
-        public init(roleArn: String) {
+        public init(roleArn: String? = nil) {
             self.roleArn = roleArn
         }
 
@@ -769,6 +868,28 @@ extension LookoutMetrics {
         }
     }
 
+    public struct DeactivateAnomalyDetectorRequest: AWSEncodableShape {
+        /// The Amazon Resource Name (ARN) of the anomaly detector.
+        public let anomalyDetectorArn: String
+
+        public init(anomalyDetectorArn: String) {
+            self.anomalyDetectorArn = anomalyDetectorArn
+        }
+
+        public func validate(name: String) throws {
+            try self.validate(self.anomalyDetectorArn, name: "anomalyDetectorArn", parent: name, max: 256)
+            try self.validate(self.anomalyDetectorArn, name: "anomalyDetectorArn", parent: name, pattern: "arn:([a-z\\d-]+):.*:.*:.*:.+")
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case anomalyDetectorArn = "AnomalyDetectorArn"
+        }
+    }
+
+    public struct DeactivateAnomalyDetectorResponse: AWSDecodableShape {
+        public init() {}
+    }
+
     public struct DeleteAlertRequest: AWSEncodableShape {
         /// The ARN of the alert to delete.
         public let alertArn: String
@@ -927,8 +1048,10 @@ extension LookoutMetrics {
         public let anomalyDetectorName: String?
         /// The time at which the detector was created.
         public let creationTime: Date?
-        /// The reason that the detector failed, if any.
+        /// The reason that the detector failed.
         public let failureReason: String?
+        /// The process that caused the detector to fail.
+        public let failureType: AnomalyDetectorFailureType?
         /// The ARN of the KMS key to use to encrypt your data.
         public let kmsKeyArn: String?
         /// The time at which the detector was last modified.
@@ -936,13 +1059,14 @@ extension LookoutMetrics {
         /// The status of the detector.
         public let status: AnomalyDetectorStatus?
 
-        public init(anomalyDetectorArn: String? = nil, anomalyDetectorConfig: AnomalyDetectorConfigSummary? = nil, anomalyDetectorDescription: String? = nil, anomalyDetectorName: String? = nil, creationTime: Date? = nil, failureReason: String? = nil, kmsKeyArn: String? = nil, lastModificationTime: Date? = nil, status: AnomalyDetectorStatus? = nil) {
+        public init(anomalyDetectorArn: String? = nil, anomalyDetectorConfig: AnomalyDetectorConfigSummary? = nil, anomalyDetectorDescription: String? = nil, anomalyDetectorName: String? = nil, creationTime: Date? = nil, failureReason: String? = nil, failureType: AnomalyDetectorFailureType? = nil, kmsKeyArn: String? = nil, lastModificationTime: Date? = nil, status: AnomalyDetectorStatus? = nil) {
             self.anomalyDetectorArn = anomalyDetectorArn
             self.anomalyDetectorConfig = anomalyDetectorConfig
             self.anomalyDetectorDescription = anomalyDetectorDescription
             self.anomalyDetectorName = anomalyDetectorName
             self.creationTime = creationTime
             self.failureReason = failureReason
+            self.failureType = failureType
             self.kmsKeyArn = kmsKeyArn
             self.lastModificationTime = lastModificationTime
             self.status = status
@@ -955,6 +1079,7 @@ extension LookoutMetrics {
             case anomalyDetectorName = "AnomalyDetectorName"
             case creationTime = "CreationTime"
             case failureReason = "FailureReason"
+            case failureType = "FailureType"
             case kmsKeyArn = "KmsKeyArn"
             case lastModificationTime = "LastModificationTime"
             case status = "Status"
@@ -1037,6 +1162,177 @@ extension LookoutMetrics {
             case offset = "Offset"
             case timestampColumn = "TimestampColumn"
             case timezone = "Timezone"
+        }
+    }
+
+    public struct DetectMetricSetConfigRequest: AWSEncodableShape {
+        /// An anomaly detector ARN.
+        public let anomalyDetectorArn: String
+        /// A data source.
+        public let autoDetectionMetricSource: AutoDetectionMetricSource
+
+        public init(anomalyDetectorArn: String, autoDetectionMetricSource: AutoDetectionMetricSource) {
+            self.anomalyDetectorArn = anomalyDetectorArn
+            self.autoDetectionMetricSource = autoDetectionMetricSource
+        }
+
+        public func validate(name: String) throws {
+            try self.validate(self.anomalyDetectorArn, name: "anomalyDetectorArn", parent: name, max: 256)
+            try self.validate(self.anomalyDetectorArn, name: "anomalyDetectorArn", parent: name, pattern: "arn:([a-z\\d-]+):.*:.*:.*:.+")
+            try self.autoDetectionMetricSource.validate(name: "\(name).autoDetectionMetricSource")
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case anomalyDetectorArn = "AnomalyDetectorArn"
+            case autoDetectionMetricSource = "AutoDetectionMetricSource"
+        }
+    }
+
+    public struct DetectMetricSetConfigResponse: AWSDecodableShape {
+        /// The inferred dataset configuration for the datasource.
+        public let detectedMetricSetConfig: DetectedMetricSetConfig?
+
+        public init(detectedMetricSetConfig: DetectedMetricSetConfig? = nil) {
+            self.detectedMetricSetConfig = detectedMetricSetConfig
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case detectedMetricSetConfig = "DetectedMetricSetConfig"
+        }
+    }
+
+    public struct DetectedCsvFormatDescriptor: AWSDecodableShape {
+        /// The format's charset.
+        public let charset: DetectedField?
+        /// Whether the format includes a header.
+        public let containsHeader: DetectedField?
+        /// The format's delimiter.
+        public let delimiter: DetectedField?
+        /// The format's file compression.
+        public let fileCompression: DetectedField?
+        /// The format's header list.
+        public let headerList: DetectedField?
+        /// The format's quote symbol.
+        public let quoteSymbol: DetectedField?
+
+        public init(charset: DetectedField? = nil, containsHeader: DetectedField? = nil, delimiter: DetectedField? = nil, fileCompression: DetectedField? = nil, headerList: DetectedField? = nil, quoteSymbol: DetectedField? = nil) {
+            self.charset = charset
+            self.containsHeader = containsHeader
+            self.delimiter = delimiter
+            self.fileCompression = fileCompression
+            self.headerList = headerList
+            self.quoteSymbol = quoteSymbol
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case charset = "Charset"
+            case containsHeader = "ContainsHeader"
+            case delimiter = "Delimiter"
+            case fileCompression = "FileCompression"
+            case headerList = "HeaderList"
+            case quoteSymbol = "QuoteSymbol"
+        }
+    }
+
+    public struct DetectedField: AWSDecodableShape {
+        /// The field's confidence.
+        public let confidence: Confidence?
+        /// The field's message.
+        public let message: String?
+        /// The field's value.
+        public let value: AttributeValue?
+
+        public init(confidence: Confidence? = nil, message: String? = nil, value: AttributeValue? = nil) {
+            self.confidence = confidence
+            self.message = message
+            self.value = value
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case confidence = "Confidence"
+            case message = "Message"
+            case value = "Value"
+        }
+    }
+
+    public struct DetectedFileFormatDescriptor: AWSDecodableShape {
+        /// Details about a CSV format.
+        public let csvFormatDescriptor: DetectedCsvFormatDescriptor?
+        /// Details about a JSON format.
+        public let jsonFormatDescriptor: DetectedJsonFormatDescriptor?
+
+        public init(csvFormatDescriptor: DetectedCsvFormatDescriptor? = nil, jsonFormatDescriptor: DetectedJsonFormatDescriptor? = nil) {
+            self.csvFormatDescriptor = csvFormatDescriptor
+            self.jsonFormatDescriptor = jsonFormatDescriptor
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case csvFormatDescriptor = "CsvFormatDescriptor"
+            case jsonFormatDescriptor = "JsonFormatDescriptor"
+        }
+    }
+
+    public struct DetectedJsonFormatDescriptor: AWSDecodableShape {
+        /// The format's character set.
+        public let charset: DetectedField?
+        /// The format's file compression.
+        public let fileCompression: DetectedField?
+
+        public init(charset: DetectedField? = nil, fileCompression: DetectedField? = nil) {
+            self.charset = charset
+            self.fileCompression = fileCompression
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case charset = "Charset"
+            case fileCompression = "FileCompression"
+        }
+    }
+
+    public struct DetectedMetricSetConfig: AWSDecodableShape {
+        /// The dataset's interval.
+        public let metricSetFrequency: DetectedField?
+        /// The dataset's data source.
+        public let metricSource: DetectedMetricSource?
+        /// The dataset's offset.
+        public let offset: DetectedField?
+
+        public init(metricSetFrequency: DetectedField? = nil, metricSource: DetectedMetricSource? = nil, offset: DetectedField? = nil) {
+            self.metricSetFrequency = metricSetFrequency
+            self.metricSource = metricSource
+            self.offset = offset
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case metricSetFrequency = "MetricSetFrequency"
+            case metricSource = "MetricSource"
+            case offset = "Offset"
+        }
+    }
+
+    public struct DetectedMetricSource: AWSDecodableShape {
+        /// The data source's source configuration.
+        public let s3SourceConfig: DetectedS3SourceConfig?
+
+        public init(s3SourceConfig: DetectedS3SourceConfig? = nil) {
+            self.s3SourceConfig = s3SourceConfig
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case s3SourceConfig = "S3SourceConfig"
+        }
+    }
+
+    public struct DetectedS3SourceConfig: AWSDecodableShape {
+        /// The source's file format descriptor.
+        public let fileFormatDescriptor: DetectedFileFormatDescriptor?
+
+        public init(fileFormatDescriptor: DetectedFileFormatDescriptor? = nil) {
+            self.fileFormatDescriptor = fileFormatDescriptor
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case fileFormatDescriptor = "FileFormatDescriptor"
         }
     }
 
@@ -1858,23 +2154,23 @@ extension LookoutMetrics {
 
     public struct RDSSourceConfig: AWSEncodableShape & AWSDecodableShape {
         /// The host name of the database.
-        public let databaseHost: String
+        public let databaseHost: String?
         /// The name of the RDS database.
-        public let databaseName: String
+        public let databaseName: String?
         /// The port number where the database can be accessed.
-        public let databasePort: Int
+        public let databasePort: Int?
         /// A string identifying the database instance.
-        public let dBInstanceIdentifier: String
+        public let dBInstanceIdentifier: String?
         /// The Amazon Resource Name (ARN) of the role.
-        public let roleArn: String
+        public let roleArn: String?
         /// The Amazon Resource Name (ARN) of the AWS Secrets Manager role.
-        public let secretManagerArn: String
+        public let secretManagerArn: String?
         /// The name of the table in the database.
-        public let tableName: String
+        public let tableName: String?
         /// An object containing information about the Amazon Virtual Private Cloud (VPC) configuration.
-        public let vpcConfiguration: VpcConfiguration
+        public let vpcConfiguration: VpcConfiguration?
 
-        public init(databaseHost: String, databaseName: String, databasePort: Int, dBInstanceIdentifier: String, roleArn: String, secretManagerArn: String, tableName: String, vpcConfiguration: VpcConfiguration) {
+        public init(databaseHost: String? = nil, databaseName: String? = nil, databasePort: Int? = nil, dBInstanceIdentifier: String? = nil, roleArn: String? = nil, secretManagerArn: String? = nil, tableName: String? = nil, vpcConfiguration: VpcConfiguration? = nil) {
             self.databaseHost = databaseHost
             self.databaseName = databaseName
             self.databasePort = databasePort
@@ -1904,7 +2200,7 @@ extension LookoutMetrics {
             try self.validate(self.tableName, name: "tableName", parent: name, max: 100)
             try self.validate(self.tableName, name: "tableName", parent: name, min: 1)
             try self.validate(self.tableName, name: "tableName", parent: name, pattern: "^[a-zA-Z][a-zA-Z0-9_.]*$")
-            try self.vpcConfiguration.validate(name: "\(name).vpcConfiguration")
+            try self.vpcConfiguration?.validate(name: "\(name).vpcConfiguration")
         }
 
         private enum CodingKeys: String, CodingKey {
@@ -1921,23 +2217,23 @@ extension LookoutMetrics {
 
     public struct RedshiftSourceConfig: AWSEncodableShape & AWSDecodableShape {
         /// A string identifying the Redshift cluster.
-        public let clusterIdentifier: String
+        public let clusterIdentifier: String?
         /// The name of the database host.
-        public let databaseHost: String
+        public let databaseHost: String?
         /// The Redshift database name.
-        public let databaseName: String
+        public let databaseName: String?
         /// The port number where the database can be accessed.
-        public let databasePort: Int
+        public let databasePort: Int?
         /// The Amazon Resource Name (ARN) of the role providing access to the database.
-        public let roleArn: String
+        public let roleArn: String?
         /// The Amazon Resource Name (ARN) of the AWS Secrets Manager role.
-        public let secretManagerArn: String
+        public let secretManagerArn: String?
         /// The table name of the Redshift database.
-        public let tableName: String
+        public let tableName: String?
         /// Contains information about the Amazon Virtual Private Cloud (VPC) configuration.
-        public let vpcConfiguration: VpcConfiguration
+        public let vpcConfiguration: VpcConfiguration?
 
-        public init(clusterIdentifier: String, databaseHost: String, databaseName: String, databasePort: Int, roleArn: String, secretManagerArn: String, tableName: String, vpcConfiguration: VpcConfiguration) {
+        public init(clusterIdentifier: String? = nil, databaseHost: String? = nil, databaseName: String? = nil, databasePort: Int? = nil, roleArn: String? = nil, secretManagerArn: String? = nil, tableName: String? = nil, vpcConfiguration: VpcConfiguration? = nil) {
             self.clusterIdentifier = clusterIdentifier
             self.databaseHost = databaseHost
             self.databaseName = databaseName
@@ -1967,7 +2263,7 @@ extension LookoutMetrics {
             try self.validate(self.tableName, name: "tableName", parent: name, max: 100)
             try self.validate(self.tableName, name: "tableName", parent: name, min: 1)
             try self.validate(self.tableName, name: "tableName", parent: name, pattern: "^[a-zA-Z][a-zA-Z0-9_.]*$")
-            try self.vpcConfiguration.validate(name: "\(name).vpcConfiguration")
+            try self.vpcConfiguration?.validate(name: "\(name).vpcConfiguration")
         }
 
         private enum CodingKeys: String, CodingKey {
@@ -1988,11 +2284,11 @@ extension LookoutMetrics {
         /// A list of paths to the historical data files.
         public let historicalDataPathList: [String]?
         /// The ARN of an IAM role that has read and write access permissions to the source S3 bucket.
-        public let roleArn: String
+        public let roleArn: String?
         /// A list of templated paths to the source files.
         public let templatedPathList: [String]?
 
-        public init(fileFormatDescriptor: FileFormatDescriptor? = nil, historicalDataPathList: [String]? = nil, roleArn: String, templatedPathList: [String]? = nil) {
+        public init(fileFormatDescriptor: FileFormatDescriptor? = nil, historicalDataPathList: [String]? = nil, roleArn: String? = nil, templatedPathList: [String]? = nil) {
             self.fileFormatDescriptor = fileFormatDescriptor
             self.historicalDataPathList = historicalDataPathList
             self.roleArn = roleArn

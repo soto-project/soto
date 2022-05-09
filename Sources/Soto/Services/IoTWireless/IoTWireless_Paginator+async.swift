@@ -132,6 +132,50 @@ extension IoTWireless {
         )
     }
 
+    ///  Lists the network analyzer configurations.
+    /// Return PaginatorSequence for operation.
+    ///
+    /// - Parameters:
+    ///   - input: Input for request
+    ///   - logger: Logger used flot logging
+    ///   - eventLoop: EventLoop to run this process on
+    public func listNetworkAnalyzerConfigurationsPaginator(
+        _ input: ListNetworkAnalyzerConfigurationsRequest,
+        logger: Logger = AWSClient.loggingDisabled,
+        on eventLoop: EventLoop? = nil
+    ) -> AWSClient.PaginatorSequence<ListNetworkAnalyzerConfigurationsRequest, ListNetworkAnalyzerConfigurationsResponse> {
+        return .init(
+            input: input,
+            command: listNetworkAnalyzerConfigurations,
+            inputKey: \ListNetworkAnalyzerConfigurationsRequest.nextToken,
+            outputKey: \ListNetworkAnalyzerConfigurationsResponse.nextToken,
+            logger: logger,
+            on: eventLoop
+        )
+    }
+
+    ///  List queued messages in the downlink queue.
+    /// Return PaginatorSequence for operation.
+    ///
+    /// - Parameters:
+    ///   - input: Input for request
+    ///   - logger: Logger used flot logging
+    ///   - eventLoop: EventLoop to run this process on
+    public func listQueuedMessagesPaginator(
+        _ input: ListQueuedMessagesRequest,
+        logger: Logger = AWSClient.loggingDisabled,
+        on eventLoop: EventLoop? = nil
+    ) -> AWSClient.PaginatorSequence<ListQueuedMessagesRequest, ListQueuedMessagesResponse> {
+        return .init(
+            input: input,
+            command: listQueuedMessages,
+            inputKey: \ListQueuedMessagesRequest.nextToken,
+            outputKey: \ListQueuedMessagesResponse.nextToken,
+            logger: logger,
+            on: eventLoop
+        )
+    }
+
     ///  Lists the service profiles registered to your AWS account.
     /// Return PaginatorSequence for operation.
     ///

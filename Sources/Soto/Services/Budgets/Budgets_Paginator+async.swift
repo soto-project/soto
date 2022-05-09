@@ -88,6 +88,28 @@ extension Budgets {
         )
     }
 
+    ///   Lists the budget names and notifications that are associated with an account.
+    /// Return PaginatorSequence for operation.
+    ///
+    /// - Parameters:
+    ///   - input: Input for request
+    ///   - logger: Logger used flot logging
+    ///   - eventLoop: EventLoop to run this process on
+    public func describeBudgetNotificationsForAccountPaginator(
+        _ input: DescribeBudgetNotificationsForAccountRequest,
+        logger: Logger = AWSClient.loggingDisabled,
+        on eventLoop: EventLoop? = nil
+    ) -> AWSClient.PaginatorSequence<DescribeBudgetNotificationsForAccountRequest, DescribeBudgetNotificationsForAccountResponse> {
+        return .init(
+            input: input,
+            command: describeBudgetNotificationsForAccount,
+            inputKey: \DescribeBudgetNotificationsForAccountRequest.nextToken,
+            outputKey: \DescribeBudgetNotificationsForAccountResponse.nextToken,
+            logger: logger,
+            on: eventLoop
+        )
+    }
+
     ///  Describes the history for DAILY, MONTHLY, and QUARTERLY budgets. Budget history isn't available for ANNUAL budgets.
     /// Return PaginatorSequence for operation.
     ///

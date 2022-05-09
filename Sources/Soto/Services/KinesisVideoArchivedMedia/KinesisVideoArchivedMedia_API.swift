@@ -75,6 +75,11 @@ public struct KinesisVideoArchivedMedia: AWSService {
         return self.client.execute(operation: "GetHLSStreamingSessionURL", path: "/getHLSStreamingSessionURL", httpMethod: .POST, serviceConfig: self.config, input: input, logger: logger, on: eventLoop)
     }
 
+    /// Retrieves a list of Images corresponding to each timestamp for a given time range, sampling interval, and image format configuration.
+    public func getImages(_ input: GetImagesInput, logger: Logger = AWSClient.loggingDisabled, on eventLoop: EventLoop? = nil) -> EventLoopFuture<GetImagesOutput> {
+        return self.client.execute(operation: "GetImages", path: "/getImages", httpMethod: .POST, serviceConfig: self.config, input: input, logger: logger, on: eventLoop)
+    }
+
     /// Gets media for a list of fragments (specified by fragment number) from the archived data in an Amazon Kinesis video stream.  You must first call the GetDataEndpoint API to get an endpoint. Then send the GetMediaForFragmentList requests to this endpoint using the --endpoint-url parameter.   For limits, see Kinesis Video Streams Limits.  If an error is thrown after invoking a Kinesis Video Streams archived media API, in addition to the HTTP status code and the response body, it includes the following pieces of information:     x-amz-ErrorType HTTP header – contains a more specific error type in addition to what the HTTP status code provides.     x-amz-RequestId HTTP header – if you want to report an issue to AWS, the support team can better diagnose the problem if given the Request Id.   Both the HTTP status code and the ErrorType header can be utilized to make programmatic decisions about whether errors are retry-able and under what conditions, as well as provide information on what actions the client programmer might need to take in order to successfully try again. For more information, see the Errors section at the bottom of this topic, as well as Common Errors.
     public func getMediaForFragmentList(_ input: GetMediaForFragmentListInput, logger: Logger = AWSClient.loggingDisabled, on eventLoop: EventLoop? = nil) -> EventLoopFuture<GetMediaForFragmentListOutput> {
         return self.client.execute(operation: "GetMediaForFragmentList", path: "/getMediaForFragmentList", httpMethod: .POST, serviceConfig: self.config, input: input, logger: logger, on: eventLoop)
