@@ -1471,9 +1471,9 @@ extension AuditManager {
 
     public struct CreateAssessmentFrameworkControl: AWSEncodableShape {
         ///  The unique identifier of the control.
-        public let id: String?
+        public let id: String
 
-        public init(id: String? = nil) {
+        public init(id: String) {
             self.id = id
         }
 
@@ -3900,9 +3900,9 @@ extension AuditManager {
     }
 
     public struct SourceKeyword: AWSEncodableShape & AWSDecodableShape {
-        ///  The method of input for the keyword.
+        ///  The input method for the keyword.
         public let keywordInputType: KeywordInputType?
-        ///  The value of the keyword that's used to search CloudTrail logs, Config rules, Security Hub checks, and Amazon Web Services API names when mapping a control data source.
+        ///  The value of the keyword that's used when mapping a control data source. For example, this can be a CloudTrail event name, a rule name for Config, a Security Hub control, or the name of an Amazon Web Services API call.  If you’re mapping a data source to a rule in Config, the keywordValue that you specify depends on the type of rule:   For managed rules, you can use the rule identifier as the keywordValue. You can find the rule identifier from the list of Config managed rules.   Managed rule name: s3-bucket-acl-prohibited   keywordValue: S3_BUCKET_ACL_PROHIBITED      For custom rules, you form the keywordValue by adding the Custom_ prefix to the rule name. This prefix distinguishes the rule from a managed rule.   Custom rule name: my-custom-config-rule  keywordValue: Custom_my-custom-config-rule      For service-linked rules, you form the keywordValue by adding the Custom_ prefix to the rule name. In addition, you remove the suffix ID that appears at the end of the rule name.   Service-linked rule name: CustomRuleForAccount-conformance-pack-szsm1uv0w  keywordValue: Custom_CustomRuleForAccount-conformance-pack    Service-linked rule name: securityhub-api-gw-cache-encrypted-101104e1  keywordValue: Custom_securityhub-api-gw-cache-encrypted    Service-linked rule name: OrgConfigRule-s3-bucket-versioning-enabled-dbgzf8ba  keywordValue: Custom_OrgConfigRule-s3-bucket-versioning-enabled
         public let keywordValue: String?
 
         public init(keywordInputType: KeywordInputType? = nil, keywordValue: String? = nil) {
@@ -4179,20 +4179,20 @@ extension AuditManager {
 
     public struct UpdateAssessmentFrameworkControlSet: AWSEncodableShape {
         ///  The list of controls that are contained within the control set.
-        public let controls: [CreateAssessmentFrameworkControl]?
+        public let controls: [CreateAssessmentFrameworkControl]
         ///  The unique identifier for the control set.
         public let id: String?
         ///  The name of the control set.
         public let name: String
 
-        public init(controls: [CreateAssessmentFrameworkControl]? = nil, id: String? = nil, name: String) {
+        public init(controls: [CreateAssessmentFrameworkControl], id: String? = nil, name: String) {
             self.controls = controls
             self.id = id
             self.name = name
         }
 
         public func validate(name: String) throws {
-            try self.controls?.forEach {
+            try self.controls.forEach {
                 try $0.validate(name: "\(name).controls[]")
             }
             try self.validate(self.controls, name: "controls", parent: name, min: 1)
@@ -4241,6 +4241,7 @@ extension AuditManager {
             try self.controlSets.forEach {
                 try $0.validate(name: "\(name).controlSets[]")
             }
+            try self.validate(self.controlSets, name: "controlSets", parent: name, min: 1)
             try self.validate(self.description, name: "description", parent: name, max: 1000)
             try self.validate(self.description, name: "description", parent: name, min: 1)
             try self.validate(self.description, name: "description", parent: name, pattern: "^[\\w\\W\\s\\S]*$")
@@ -4520,8 +4521,8 @@ extension AuditManager {
             try self.validate(self.kmsKey, name: "kmsKey", parent: name, min: 7)
             try self.validate(self.kmsKey, name: "kmsKey", parent: name, pattern: "^arn:.*:kms:.*|DEFAULT")
             try self.validate(self.snsTopic, name: "snsTopic", parent: name, max: 2048)
-            try self.validate(self.snsTopic, name: "snsTopic", parent: name, min: 20)
-            try self.validate(self.snsTopic, name: "snsTopic", parent: name, pattern: "^arn:.*:sns:.*")
+            try self.validate(self.snsTopic, name: "snsTopic", parent: name, min: 4)
+            try self.validate(self.snsTopic, name: "snsTopic", parent: name, pattern: "^arn:.*:sns:.*|NONE")
         }
 
         private enum CodingKeys: String, CodingKey {

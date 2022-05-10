@@ -284,7 +284,7 @@ extension ChimeSDKMeetings {
         public let clientRequestToken: String
         /// The external meeting ID.
         public let externalMeetingId: String
-        /// The Region in which to create the meeting.  Available values: af-south-1 , ap-northeast-1 , ap-northeast-2 , ap-south-1 , ap-southeast-1 , ap-southeast-2 , ca-central-1 , eu-central-1 , eu-north-1 , eu-south-1 , eu-west-1 , eu-west-2 , eu-west-3 , sa-east-1 , us-east-1 , us-east-2 , us-west-1 , us-west-2 .
+        /// The Region in which to create the meeting.  Available values: af-south-1, ap-northeast-1, ap-northeast-2, ap-south-1, ap-southeast-1, ap-southeast-2, ca-central-1, eu-central-1, eu-north-1, eu-south-1, eu-west-1, eu-west-2, eu-west-3, sa-east-1, us-east-1, us-east-2, us-west-1, us-west-2.  Available values in AWS GovCloud (US) Regions: us-gov-east-1, us-gov-west-1.
         public let mediaRegion: String
         /// Lists the audio and video features enabled for a meeting, such as echo reduction.
         public let meetingFeatures: MeetingFeaturesConfiguration?
@@ -292,14 +292,17 @@ extension ChimeSDKMeetings {
         public let meetingHostId: String?
         /// The configuration for resource targets to receive notifications when meeting and attendee events occur.
         public let notificationsConfiguration: NotificationsConfiguration?
+        /// When specified, replicates the media from the primary meeting to the new meeting.
+        public let primaryMeetingId: String?
 
-        public init(clientRequestToken: String = CreateMeetingRequest.idempotencyToken(), externalMeetingId: String, mediaRegion: String, meetingFeatures: MeetingFeaturesConfiguration? = nil, meetingHostId: String? = nil, notificationsConfiguration: NotificationsConfiguration? = nil) {
+        public init(clientRequestToken: String = CreateMeetingRequest.idempotencyToken(), externalMeetingId: String, mediaRegion: String, meetingFeatures: MeetingFeaturesConfiguration? = nil, meetingHostId: String? = nil, notificationsConfiguration: NotificationsConfiguration? = nil, primaryMeetingId: String? = nil) {
             self.clientRequestToken = clientRequestToken
             self.externalMeetingId = externalMeetingId
             self.mediaRegion = mediaRegion
             self.meetingFeatures = meetingFeatures
             self.meetingHostId = meetingHostId
             self.notificationsConfiguration = notificationsConfiguration
+            self.primaryMeetingId = primaryMeetingId
         }
 
         public func validate(name: String) throws {
@@ -313,6 +316,8 @@ extension ChimeSDKMeetings {
             try self.validate(self.meetingHostId, name: "meetingHostId", parent: name, max: 64)
             try self.validate(self.meetingHostId, name: "meetingHostId", parent: name, min: 2)
             try self.notificationsConfiguration?.validate(name: "\(name).notificationsConfiguration")
+            try self.validate(self.primaryMeetingId, name: "primaryMeetingId", parent: name, max: 64)
+            try self.validate(self.primaryMeetingId, name: "primaryMeetingId", parent: name, min: 2)
         }
 
         private enum CodingKeys: String, CodingKey {
@@ -322,6 +327,7 @@ extension ChimeSDKMeetings {
             case meetingFeatures = "MeetingFeatures"
             case meetingHostId = "MeetingHostId"
             case notificationsConfiguration = "NotificationsConfiguration"
+            case primaryMeetingId = "PrimaryMeetingId"
         }
     }
 
@@ -345,7 +351,7 @@ extension ChimeSDKMeetings {
         public let clientRequestToken: String
         /// The external meeting ID.
         public let externalMeetingId: String
-        /// The Region in which to create the meeting.
+        /// The Region in which to create the meeting.  Available values: af-south-1, ap-northeast-1, ap-northeast-2, ap-south-1, ap-southeast-1, ap-southeast-2, ca-central-1, eu-central-1, eu-north-1, eu-south-1, eu-west-1, eu-west-2, eu-west-3, sa-east-1, us-east-1, us-east-2, us-west-1, us-west-2.  Available values in AWS GovCloud (US) Regions: us-gov-east-1, us-gov-west-1.
         public let mediaRegion: String
         /// Lists the audio and video features enabled for a meeting, such as echo reduction.
         public let meetingFeatures: MeetingFeaturesConfiguration?
@@ -353,8 +359,10 @@ extension ChimeSDKMeetings {
         public let meetingHostId: String?
         /// The configuration for resource targets to receive notifications when meeting and attendee events occur.
         public let notificationsConfiguration: NotificationsConfiguration?
+        /// When specified, replicates the media from the primary meeting to the new meeting.
+        public let primaryMeetingId: String?
 
-        public init(attendees: [CreateAttendeeRequestItem], clientRequestToken: String = CreateMeetingWithAttendeesRequest.idempotencyToken(), externalMeetingId: String, mediaRegion: String, meetingFeatures: MeetingFeaturesConfiguration? = nil, meetingHostId: String? = nil, notificationsConfiguration: NotificationsConfiguration? = nil) {
+        public init(attendees: [CreateAttendeeRequestItem], clientRequestToken: String = CreateMeetingWithAttendeesRequest.idempotencyToken(), externalMeetingId: String, mediaRegion: String, meetingFeatures: MeetingFeaturesConfiguration? = nil, meetingHostId: String? = nil, notificationsConfiguration: NotificationsConfiguration? = nil, primaryMeetingId: String? = nil) {
             self.attendees = attendees
             self.clientRequestToken = clientRequestToken
             self.externalMeetingId = externalMeetingId
@@ -362,6 +370,7 @@ extension ChimeSDKMeetings {
             self.meetingFeatures = meetingFeatures
             self.meetingHostId = meetingHostId
             self.notificationsConfiguration = notificationsConfiguration
+            self.primaryMeetingId = primaryMeetingId
         }
 
         public func validate(name: String) throws {
@@ -380,6 +389,8 @@ extension ChimeSDKMeetings {
             try self.validate(self.meetingHostId, name: "meetingHostId", parent: name, max: 64)
             try self.validate(self.meetingHostId, name: "meetingHostId", parent: name, min: 2)
             try self.notificationsConfiguration?.validate(name: "\(name).notificationsConfiguration")
+            try self.validate(self.primaryMeetingId, name: "primaryMeetingId", parent: name, max: 64)
+            try self.validate(self.primaryMeetingId, name: "primaryMeetingId", parent: name, min: 2)
         }
 
         private enum CodingKeys: String, CodingKey {
@@ -390,6 +401,7 @@ extension ChimeSDKMeetings {
             case meetingFeatures = "MeetingFeatures"
             case meetingHostId = "MeetingHostId"
             case notificationsConfiguration = "NotificationsConfiguration"
+            case primaryMeetingId = "PrimaryMeetingId"
         }
     }
 
@@ -501,14 +513,20 @@ extension ChimeSDKMeetings {
         public let contentRedactionType: TranscribeContentRedactionType?
         /// Generates partial transcription results that are less likely to change as meeting attendees speak. It does so by only allowing the last few words from the partial results to change.
         public let enablePartialResultsStabilization: Bool?
+        /// Automatically identifies the language spoken in media files.
+        public let identifyLanguage: Bool?
         /// The language code specified for the Amazon Transcribe engine.
-        public let languageCode: TranscribeLanguageCode
+        public let languageCode: TranscribeLanguageCode?
         /// The name of the language model used during transcription.
         public let languageModelName: String?
+        /// Language codes for the languages that you want to identify. You must provide at least 2 codes.
+        public let languageOptions: String?
         /// The stabity level of a partial results transcription. Determines how stable you want the transcription results to be. A higher level means the transcription results are less likely to change.
         public let partialResultsStability: TranscribePartialResultsStability?
-        /// Lists the PII entity types you want to identify or redact. To specify entity types, you must enable ContentIdentificationType or ContentRedactionType. PIIEntityTypes must be comma-separated. The available values are: BANK_ACCOUNT_NUMBER, BANK_ROUTING, CREDIT_DEBIT_NUMBER, CREDIT_DEBIT_CVV, CREDIT_DEBIT_EXPIRY, PIN, EMAIL, ADDRESS, NAME, PHONE, SSN, and ALL.  PiiEntityTypes is an optional parameter with a default value of ALL.
+        /// Lists the PII entity types you want to identify or redact. To specify entity types, you must enable ContentIdentificationType or ContentRedactionType.  PIIEntityTypes must be comma-separated. The available values are: BANK_ACCOUNT_NUMBER, BANK_ROUTING, CREDIT_DEBIT_NUMBER, CREDIT_DEBIT_CVV, CREDIT_DEBIT_EXPIRY, PIN, EMAIL, ADDRESS, NAME, PHONE, SSN, and ALL.  PiiEntityTypes is an optional parameter with a default value of ALL.
         public let piiEntityTypes: String?
+        /// Language code for the preferred language.
+        public let preferredLanguage: TranscribeLanguageCode?
         /// The AWS Region passed to Amazon Transcribe. If you don't specify a Region, Amazon Chime uses the meeting's Region.
         public let region: TranscribeRegion?
         /// The filtering method passed to Amazon Transcribe.
@@ -518,14 +536,17 @@ extension ChimeSDKMeetings {
         /// The name of the vocabulary passed to Amazon Transcribe.
         public let vocabularyName: String?
 
-        public init(contentIdentificationType: TranscribeContentIdentificationType? = nil, contentRedactionType: TranscribeContentRedactionType? = nil, enablePartialResultsStabilization: Bool? = nil, languageCode: TranscribeLanguageCode, languageModelName: String? = nil, partialResultsStability: TranscribePartialResultsStability? = nil, piiEntityTypes: String? = nil, region: TranscribeRegion? = nil, vocabularyFilterMethod: TranscribeVocabularyFilterMethod? = nil, vocabularyFilterName: String? = nil, vocabularyName: String? = nil) {
+        public init(contentIdentificationType: TranscribeContentIdentificationType? = nil, contentRedactionType: TranscribeContentRedactionType? = nil, enablePartialResultsStabilization: Bool? = nil, identifyLanguage: Bool? = nil, languageCode: TranscribeLanguageCode? = nil, languageModelName: String? = nil, languageOptions: String? = nil, partialResultsStability: TranscribePartialResultsStability? = nil, piiEntityTypes: String? = nil, preferredLanguage: TranscribeLanguageCode? = nil, region: TranscribeRegion? = nil, vocabularyFilterMethod: TranscribeVocabularyFilterMethod? = nil, vocabularyFilterName: String? = nil, vocabularyName: String? = nil) {
             self.contentIdentificationType = contentIdentificationType
             self.contentRedactionType = contentRedactionType
             self.enablePartialResultsStabilization = enablePartialResultsStabilization
+            self.identifyLanguage = identifyLanguage
             self.languageCode = languageCode
             self.languageModelName = languageModelName
+            self.languageOptions = languageOptions
             self.partialResultsStability = partialResultsStability
             self.piiEntityTypes = piiEntityTypes
+            self.preferredLanguage = preferredLanguage
             self.region = region
             self.vocabularyFilterMethod = vocabularyFilterMethod
             self.vocabularyFilterName = vocabularyFilterName
@@ -536,6 +557,9 @@ extension ChimeSDKMeetings {
             try self.validate(self.languageModelName, name: "languageModelName", parent: name, max: 200)
             try self.validate(self.languageModelName, name: "languageModelName", parent: name, min: 1)
             try self.validate(self.languageModelName, name: "languageModelName", parent: name, pattern: "^[0-9a-zA-Z._-]+")
+            try self.validate(self.languageOptions, name: "languageOptions", parent: name, max: 200)
+            try self.validate(self.languageOptions, name: "languageOptions", parent: name, min: 1)
+            try self.validate(self.languageOptions, name: "languageOptions", parent: name, pattern: "^[a-zA-Z-,]+")
             try self.validate(self.piiEntityTypes, name: "piiEntityTypes", parent: name, max: 300)
             try self.validate(self.piiEntityTypes, name: "piiEntityTypes", parent: name, min: 1)
             try self.validate(self.piiEntityTypes, name: "piiEntityTypes", parent: name, pattern: "^[A-Z_, ]+")
@@ -547,10 +571,13 @@ extension ChimeSDKMeetings {
             case contentIdentificationType = "ContentIdentificationType"
             case contentRedactionType = "ContentRedactionType"
             case enablePartialResultsStabilization = "EnablePartialResultsStabilization"
+            case identifyLanguage = "IdentifyLanguage"
             case languageCode = "LanguageCode"
             case languageModelName = "LanguageModelName"
+            case languageOptions = "LanguageOptions"
             case partialResultsStability = "PartialResultsStability"
             case piiEntityTypes = "PiiEntityTypes"
+            case preferredLanguage = "PreferredLanguage"
             case region = "Region"
             case vocabularyFilterMethod = "VocabularyFilterMethod"
             case vocabularyFilterName = "VocabularyFilterName"
@@ -720,7 +747,7 @@ extension ChimeSDKMeetings {
         public let externalMeetingId: String?
         /// The media placement for the meeting.
         public let mediaPlacement: MediaPlacement?
-        /// The Region in which you create the meeting. Available values: af-south-1, ap-northeast-1, ap-northeast-2, ap-south-1, ap-southeast-1, ap-southeast-2, ca-central-1, eu-central-1, eu-north-1, eu-south-1, eu-west-1, eu-west-2, eu-west-3, sa-east-1, us-east-1, us-east-2, us-west-1, us-west-2.
+        /// The Region in which you create the meeting. Available values: af-south-1, ap-northeast-1, ap-northeast-2, ap-south-1, ap-southeast-1, ap-southeast-2, ca-central-1, eu-central-1, eu-north-1, eu-south-1, eu-west-1, eu-west-2, eu-west-3, sa-east-1, us-east-1, us-east-2, us-west-1, us-west-2. Available values in AWS GovCloud (US) Regions: us-gov-east-1, us-gov-west-1.
         public let mediaRegion: String?
         /// The features available to a meeting, such as Amazon Voice Focus.
         public let meetingFeatures: MeetingFeaturesConfiguration?
@@ -728,14 +755,17 @@ extension ChimeSDKMeetings {
         public let meetingHostId: String?
         /// The Amazon Chime SDK meeting ID.
         public let meetingId: String?
+        /// When specified, replicates the media from the primary meeting to this meeting.
+        public let primaryMeetingId: String?
 
-        public init(externalMeetingId: String? = nil, mediaPlacement: MediaPlacement? = nil, mediaRegion: String? = nil, meetingFeatures: MeetingFeaturesConfiguration? = nil, meetingHostId: String? = nil, meetingId: String? = nil) {
+        public init(externalMeetingId: String? = nil, mediaPlacement: MediaPlacement? = nil, mediaRegion: String? = nil, meetingFeatures: MeetingFeaturesConfiguration? = nil, meetingHostId: String? = nil, meetingId: String? = nil, primaryMeetingId: String? = nil) {
             self.externalMeetingId = externalMeetingId
             self.mediaPlacement = mediaPlacement
             self.mediaRegion = mediaRegion
             self.meetingFeatures = meetingFeatures
             self.meetingHostId = meetingHostId
             self.meetingId = meetingId
+            self.primaryMeetingId = primaryMeetingId
         }
 
         private enum CodingKeys: String, CodingKey {
@@ -745,6 +775,7 @@ extension ChimeSDKMeetings {
             case meetingFeatures = "MeetingFeatures"
             case meetingHostId = "MeetingHostId"
             case meetingId = "MeetingId"
+            case primaryMeetingId = "PrimaryMeetingId"
         }
     }
 

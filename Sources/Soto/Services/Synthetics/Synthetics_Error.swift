@@ -21,6 +21,7 @@ public struct SyntheticsErrorType: AWSErrorType {
     enum Code: String {
         case conflictException = "ConflictException"
         case internalServerException = "InternalServerException"
+        case requestEntityTooLargeException = "RequestEntityTooLargeException"
         case resourceNotFoundException = "ResourceNotFoundException"
         case validationException = "ValidationException"
     }
@@ -47,6 +48,8 @@ public struct SyntheticsErrorType: AWSErrorType {
     public static var conflictException: Self { .init(.conflictException) }
     /// An unknown internal error occurred.
     public static var internalServerException: Self { .init(.internalServerException) }
+    /// One of the input resources is larger than is allowed.
+    public static var requestEntityTooLargeException: Self { .init(.requestEntityTooLargeException) }
     /// One of the specified resources was not found.
     public static var resourceNotFoundException: Self { .init(.resourceNotFoundException) }
     /// A parameter could not be validated.

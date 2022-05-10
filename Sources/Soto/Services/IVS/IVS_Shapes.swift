@@ -39,6 +39,12 @@ extension IVS {
         public var description: String { return self.rawValue }
     }
 
+    public enum RecordingMode: String, CustomStringConvertible, Codable {
+        case disabled = "DISABLED"
+        case interval = "INTERVAL"
+        public var description: String { return self.rawValue }
+    }
+
     public enum StreamHealth: String, CustomStringConvertible, Codable {
         case healthy = "HEALTHY"
         case starving = "STARVING"
@@ -325,11 +331,14 @@ extension IVS {
         public let name: String?
         /// Array of 1-50 maps, each of the form string:string (key:value).
         public let tags: [String: String]?
+        /// A complex type that allows you to enable/disable the recording of thumbnails for a live session and modify the interval at which thumbnails are generated for the live session.
+        public let thumbnailConfiguration: ThumbnailConfiguration?
 
-        public init(destinationConfiguration: DestinationConfiguration, name: String? = nil, tags: [String: String]? = nil) {
+        public init(destinationConfiguration: DestinationConfiguration, name: String? = nil, tags: [String: String]? = nil, thumbnailConfiguration: ThumbnailConfiguration? = nil) {
             self.destinationConfiguration = destinationConfiguration
             self.name = name
             self.tags = tags
+            self.thumbnailConfiguration = thumbnailConfiguration
         }
 
         public func validate(name: String) throws {
@@ -343,12 +352,14 @@ extension IVS {
                 try validate($0.value, name: "tags[\"\($0.key)\"]", parent: name, max: 256)
                 try validate($0.value, name: "tags[\"\($0.key)\"]", parent: name, min: 0)
             }
+            try self.thumbnailConfiguration?.validate(name: "\(name).thumbnailConfiguration")
         }
 
         private enum CodingKeys: String, CodingKey {
             case destinationConfiguration
             case name
             case tags
+            case thumbnailConfiguration
         }
     }
 
@@ -978,6 +989,7 @@ extension IVS {
     public struct ListStreamSessionsResponse: AWSDecodableShape {
         /// If there are more streams than maxResults, use nextToken in the request to get the next set.
         public let nextToken: String?
+        /// List of stream sessions.
         public let streamSessions: [StreamSessionSummary]
 
         public init(nextToken: String? = nil, streamSessions: [StreamSessionSummary]) {
@@ -1150,13 +1162,16 @@ extension IVS {
         public let state: RecordingConfigurationState
         /// Array of 1-50 maps, each of the form string:string (key:value).
         public let tags: [String: String]?
+        /// A complex type that allows you to enable/disable the recording of thumbnails for a live session and modify the interval at which thumbnails are generated for the live session.
+        public let thumbnailConfiguration: ThumbnailConfiguration?
 
-        public init(arn: String, destinationConfiguration: DestinationConfiguration, name: String? = nil, state: RecordingConfigurationState, tags: [String: String]? = nil) {
+        public init(arn: String, destinationConfiguration: DestinationConfiguration, name: String? = nil, state: RecordingConfigurationState, tags: [String: String]? = nil, thumbnailConfiguration: ThumbnailConfiguration? = nil) {
             self.arn = arn
             self.destinationConfiguration = destinationConfiguration
             self.name = name
             self.state = state
             self.tags = tags
+            self.thumbnailConfiguration = thumbnailConfiguration
         }
 
         private enum CodingKeys: String, CodingKey {
@@ -1165,6 +1180,7 @@ extension IVS {
             case name
             case state
             case tags
+            case thumbnailConfiguration
         }
     }
 
@@ -1492,6 +1508,28 @@ extension IVS {
 
     public struct TagResourceResponse: AWSDecodableShape {
         public init() {}
+    }
+
+    public struct ThumbnailConfiguration: AWSEncodableShape & AWSDecodableShape {
+        /// Thumbnail recording mode. Default: INTERVAL.
+        public let recordingMode: RecordingMode?
+        /// The targeted thumbnail-generation interval in seconds. This is configurable (and required) only if recordingMode is INTERVAL. Default: 60.  Important: Setting a value for targetIntervalSeconds does not guarantee that thumbnails are generated at the specified interval. For thumbnails to be generated at the targetIntervalSeconds interval, the IDR/Keyframe value for the input video must be less than the targetIntervalSeconds value. See  Amazon IVS Streaming Configuration for information on setting IDR/Keyframe to the recommended value in video-encoder settings.
+        public let targetIntervalSeconds: Int64?
+
+        public init(recordingMode: RecordingMode? = nil, targetIntervalSeconds: Int64? = nil) {
+            self.recordingMode = recordingMode
+            self.targetIntervalSeconds = targetIntervalSeconds
+        }
+
+        public func validate(name: String) throws {
+            try self.validate(self.targetIntervalSeconds, name: "targetIntervalSeconds", parent: name, max: 60)
+            try self.validate(self.targetIntervalSeconds, name: "targetIntervalSeconds", parent: name, min: 5)
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case recordingMode
+            case targetIntervalSeconds
+        }
     }
 
     public struct UntagResourceRequest: AWSEncodableShape {

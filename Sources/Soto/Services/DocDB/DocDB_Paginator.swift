@@ -19,7 +19,7 @@ import SotoCore
 // MARK: Paginators
 
 extension DocDB {
-    ///  Returns a list of certificate authority (CA) certificates provided by Amazon DocumentDB for this account.
+    ///  Returns a list of certificate authority (CA) certificates provided by Amazon DocumentDB for this Amazon Web Services account.
     ///
     /// Provide paginated results to closure `onPage` for it to combine them into one result.
     /// This works in a similar manner to `Array.reduce<Result>(_:_:) -> Result`.

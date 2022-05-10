@@ -43,6 +43,11 @@ extension LexModelsV2 {
         public var description: String { return self.rawValue }
     }
 
+    public enum AudioRecognitionStrategy: String, CustomStringConvertible, Codable {
+        case useslotvaluesascustomvocabulary = "UseSlotValuesAsCustomVocabulary"
+        public var description: String { return self.rawValue }
+    }
+
     public enum BotAliasStatus: String, CustomStringConvertible, Codable {
         case available = "Available"
         case creating = "Creating"
@@ -133,6 +138,15 @@ extension LexModelsV2 {
         public var description: String { return self.rawValue }
     }
 
+    public enum CustomVocabularyStatus: String, CustomStringConvertible, Codable {
+        case creating = "Creating"
+        case deleting = "Deleting"
+        case exporting = "Exporting"
+        case importing = "Importing"
+        case ready = "Ready"
+        public var description: String { return self.rawValue }
+    }
+
     public enum Effect: String, CustomStringConvertible, Codable {
         case allow = "Allow"
         case deny = "Deny"
@@ -165,6 +179,7 @@ extension LexModelsV2 {
 
     public enum ImportExportFileFormat: String, CustomStringConvertible, Codable {
         case lexjson = "LexJson"
+        case tsv = "TSV"
         public var description: String { return self.rawValue }
     }
 
@@ -176,6 +191,13 @@ extension LexModelsV2 {
     public enum ImportFilterOperator: String, CustomStringConvertible, Codable {
         case co = "CO"
         case eq = "EQ"
+        public var description: String { return self.rawValue }
+    }
+
+    public enum ImportResourceType: String, CustomStringConvertible, Codable {
+        case bot = "Bot"
+        case botlocale = "BotLocale"
+        case customvocabulary = "CustomVocabulary"
         public var description: String { return self.rawValue }
     }
 
@@ -307,6 +329,19 @@ extension LexModelsV2 {
     }
 
     // MARK: Shapes
+
+    public struct AdvancedRecognitionSetting: AWSEncodableShape & AWSDecodableShape {
+        /// Enables using the slot values as a custom vocabulary for recognizing user utterances.
+        public let audioRecognitionStrategy: AudioRecognitionStrategy?
+
+        public init(audioRecognitionStrategy: AudioRecognitionStrategy? = nil) {
+            self.audioRecognitionStrategy = audioRecognitionStrategy
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case audioRecognitionStrategy
+        }
+    }
 
     public struct AggregatedUtterancesFilter: AWSEncodableShape {
         /// The name of the field to filter the utterance list.
@@ -1989,11 +2024,11 @@ extension LexModelsV2 {
         /// The name of the slot. Slot names must be unique within the bot that contains the slot.
         public let slotName: String
         /// The unique identifier for the slot type associated with this slot. The slot type determines the values that can be entered into the slot.
-        public let slotTypeId: String
+        public let slotTypeId: String?
         /// Specifies prompts that Amazon Lex sends to the user to elicit a response that provides the value for the slot.
         public let valueElicitationSetting: SlotValueElicitationSetting
 
-        public init(botId: String, botVersion: String, description: String? = nil, intentId: String, localeId: String, multipleValuesSetting: MultipleValuesSetting? = nil, obfuscationSetting: ObfuscationSetting? = nil, slotName: String, slotTypeId: String, valueElicitationSetting: SlotValueElicitationSetting) {
+        public init(botId: String, botVersion: String, description: String? = nil, intentId: String, localeId: String, multipleValuesSetting: MultipleValuesSetting? = nil, obfuscationSetting: ObfuscationSetting? = nil, slotName: String, slotTypeId: String? = nil, valueElicitationSetting: SlotValueElicitationSetting) {
             self.botId = botId
             self.botVersion = botVersion
             self.description = description
@@ -2255,6 +2290,66 @@ extension LexModelsV2 {
         }
     }
 
+    public struct CustomVocabularyExportSpecification: AWSEncodableShape & AWSDecodableShape {
+        /// The identifier of the bot that contains the custom vocabulary to export.
+        public let botId: String
+        /// The version of the bot that contains the custom vocabulary to export.
+        public let botVersion: String
+        /// The locale of the bot that contains the custom vocabulary to export.
+        public let localeId: String
+
+        public init(botId: String, botVersion: String, localeId: String) {
+            self.botId = botId
+            self.botVersion = botVersion
+            self.localeId = localeId
+        }
+
+        public func validate(name: String) throws {
+            try self.validate(self.botId, name: "botId", parent: name, max: 10)
+            try self.validate(self.botId, name: "botId", parent: name, min: 10)
+            try self.validate(self.botId, name: "botId", parent: name, pattern: "^[0-9a-zA-Z]+$")
+            try self.validate(self.botVersion, name: "botVersion", parent: name, max: 5)
+            try self.validate(self.botVersion, name: "botVersion", parent: name, min: 1)
+            try self.validate(self.botVersion, name: "botVersion", parent: name, pattern: "^(DRAFT|[0-9]+)$")
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case botId
+            case botVersion
+            case localeId
+        }
+    }
+
+    public struct CustomVocabularyImportSpecification: AWSEncodableShape & AWSDecodableShape {
+        /// The identifier of the bot to import the custom vocabulary to.
+        public let botId: String
+        /// The version of the bot to import the custom vocabulary to.
+        public let botVersion: String
+        /// The identifier of the local to import the custom vocabulary to. The value must be en_GB.
+        public let localeId: String
+
+        public init(botId: String, botVersion: String, localeId: String) {
+            self.botId = botId
+            self.botVersion = botVersion
+            self.localeId = localeId
+        }
+
+        public func validate(name: String) throws {
+            try self.validate(self.botId, name: "botId", parent: name, max: 10)
+            try self.validate(self.botId, name: "botId", parent: name, min: 10)
+            try self.validate(self.botId, name: "botId", parent: name, pattern: "^[0-9a-zA-Z]+$")
+            try self.validate(self.botVersion, name: "botVersion", parent: name, max: 5)
+            try self.validate(self.botVersion, name: "botVersion", parent: name, min: 5)
+            try self.validate(self.botVersion, name: "botVersion", parent: name, pattern: "^DRAFT$")
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case botId
+            case botVersion
+            case localeId
+        }
+    }
+
     public struct DataPrivacy: AWSEncodableShape & AWSDecodableShape {
         /// For each Amazon Lex bot created with the Amazon Lex Model Building Service, you must specify whether your use of Amazon Lex is related to a website, program, or other application that is directed or targeted, in whole or in part, to children under age 13 and subject to the Children's Online Privacy Protection Act (COPPA) by specifying true or false in the childDirected field. By specifying true in the childDirected field, you confirm that your use of Amazon Lex is related to a website, program, or other application that is directed or targeted, in whole or in part, to children under age 13 and subject to COPPA. By specifying false in the childDirected field, you confirm that your use of Amazon Lex is not related to a website, program, or other application that is directed or targeted, in whole or in part, to children under age 13 and subject to COPPA. You may not specify a default value for the childDirected field that does not accurately reflect whether your use of Amazon Lex is related to a website, program, or other application that is directed or targeted, in whole or in part, to children under age 13 and subject to COPPA. If your use of Amazon Lex relates to a website, program, or other application that is directed in whole or in part, to children under age 13, you must obtain any required verifiable parental consent under COPPA. For information regarding the use of Amazon Lex in connection with websites, programs, or other applications that are directed or targeted, in whole or in part, to children under age 13, see the Amazon Lex FAQ.
         public let childDirected: Bool
@@ -2487,6 +2582,63 @@ extension LexModelsV2 {
             case botId
             case botStatus
             case botVersion
+        }
+    }
+
+    public struct DeleteCustomVocabularyRequest: AWSEncodableShape {
+        public static var _encoding = [
+            AWSMemberEncoding(label: "botId", location: .uri(locationName: "botId")),
+            AWSMemberEncoding(label: "botVersion", location: .uri(locationName: "botVersion")),
+            AWSMemberEncoding(label: "localeId", location: .uri(locationName: "localeId"))
+        ]
+
+        /// The unique identifier of the bot to remove the custom vocabulary from.
+        public let botId: String
+        /// The version of the bot to remove the custom vocabulary from.
+        public let botVersion: String
+        /// The locale identifier for the locale that contains the custom vocabulary to remove.
+        public let localeId: String
+
+        public init(botId: String, botVersion: String, localeId: String) {
+            self.botId = botId
+            self.botVersion = botVersion
+            self.localeId = localeId
+        }
+
+        public func validate(name: String) throws {
+            try self.validate(self.botId, name: "botId", parent: name, max: 10)
+            try self.validate(self.botId, name: "botId", parent: name, min: 10)
+            try self.validate(self.botId, name: "botId", parent: name, pattern: "^[0-9a-zA-Z]+$")
+            try self.validate(self.botVersion, name: "botVersion", parent: name, max: 5)
+            try self.validate(self.botVersion, name: "botVersion", parent: name, min: 5)
+            try self.validate(self.botVersion, name: "botVersion", parent: name, pattern: "^DRAFT$")
+        }
+
+        private enum CodingKeys: CodingKey {}
+    }
+
+    public struct DeleteCustomVocabularyResponse: AWSDecodableShape {
+        /// The identifier of the bot that the custom vocabulary was removed from.
+        public let botId: String?
+        /// The version of the bot that the custom vocabulary was removed from.
+        public let botVersion: String?
+        /// The status of removing the custom vocabulary.
+        public let customVocabularyStatus: CustomVocabularyStatus?
+        /// The locale identifier for the locale that the custom vocabulary was removed from.
+        public let localeId: String?
+
+        public init(botId: String? = nil, botVersion: String? = nil, customVocabularyStatus: CustomVocabularyStatus? = nil, localeId: String? = nil) {
+            self.botId = botId
+            self.botVersion = botVersion
+            self.customVocabularyStatus = customVocabularyStatus
+            self.localeId = localeId
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case botId
+            case botVersion
+            case customVocabularyStatus
+            case localeId
         }
     }
 
@@ -3249,6 +3401,71 @@ extension LexModelsV2 {
         }
     }
 
+    public struct DescribeCustomVocabularyMetadataRequest: AWSEncodableShape {
+        public static var _encoding = [
+            AWSMemberEncoding(label: "botId", location: .uri(locationName: "botId")),
+            AWSMemberEncoding(label: "botVersion", location: .uri(locationName: "botVersion")),
+            AWSMemberEncoding(label: "localeId", location: .uri(locationName: "localeId"))
+        ]
+
+        /// The unique identifier of the bot that contains the custom vocabulary.
+        public let botId: String
+        /// The bot version of the bot to return metadata for.
+        public let botVersion: String
+        /// The locale to return the custom vocabulary information for. The locale must be en_GB.
+        public let localeId: String
+
+        public init(botId: String, botVersion: String, localeId: String) {
+            self.botId = botId
+            self.botVersion = botVersion
+            self.localeId = localeId
+        }
+
+        public func validate(name: String) throws {
+            try self.validate(self.botId, name: "botId", parent: name, max: 10)
+            try self.validate(self.botId, name: "botId", parent: name, min: 10)
+            try self.validate(self.botId, name: "botId", parent: name, pattern: "^[0-9a-zA-Z]+$")
+            try self.validate(self.botVersion, name: "botVersion", parent: name, max: 5)
+            try self.validate(self.botVersion, name: "botVersion", parent: name, min: 1)
+            try self.validate(self.botVersion, name: "botVersion", parent: name, pattern: "^(DRAFT|[0-9]+)$")
+        }
+
+        private enum CodingKeys: CodingKey {}
+    }
+
+    public struct DescribeCustomVocabularyMetadataResponse: AWSDecodableShape {
+        /// The identifier of the bot that contains the custom vocabulary.
+        public let botId: String?
+        /// The version of the bot that contains the custom vocabulary to describe.
+        public let botVersion: String?
+        /// The date and time that the custom vocabulary was created.
+        public let creationDateTime: Date?
+        /// The status of the custom vocabulary. If the status is Ready the custom vocabulary is ready to use.
+        public let customVocabularyStatus: CustomVocabularyStatus?
+        /// The date and time that the custom vocabulary was last updated.
+        public let lastUpdatedDateTime: Date?
+        /// The locale that contains the custom vocabulary to describe.
+        public let localeId: String?
+
+        public init(botId: String? = nil, botVersion: String? = nil, creationDateTime: Date? = nil, customVocabularyStatus: CustomVocabularyStatus? = nil, lastUpdatedDateTime: Date? = nil, localeId: String? = nil) {
+            self.botId = botId
+            self.botVersion = botVersion
+            self.creationDateTime = creationDateTime
+            self.customVocabularyStatus = customVocabularyStatus
+            self.lastUpdatedDateTime = lastUpdatedDateTime
+            self.localeId = localeId
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case botId
+            case botVersion
+            case creationDateTime
+            case customVocabularyStatus
+            case lastUpdatedDateTime
+            case localeId
+        }
+    }
+
     public struct DescribeExportRequest: AWSEncodableShape {
         public static var _encoding = [
             AWSMemberEncoding(label: "exportId", location: .uri(locationName: "exportId"))
@@ -3281,7 +3498,7 @@ extension LexModelsV2 {
         public let exportStatus: ExportStatus?
         /// If the exportStatus is failed, contains one or more reasons why the export could not be completed.
         public let failureReasons: [String]?
-        /// The file format used in the files that describe the bot or bot locale.
+        /// The file format used in the files that describe the resource.
         public let fileFormat: ImportExportFileFormat?
         /// The last date and time that the export was updated.
         public let lastUpdatedDateTime: Date?
@@ -3349,7 +3566,7 @@ extension LexModelsV2 {
         public let lastUpdatedDateTime: Date?
         /// The strategy used when there was a name conflict between the imported resource and an existing resource. When the merge strategy is FailOnConflict existing resources are not overwritten and the import fails.
         public let mergeStrategy: MergeStrategy?
-        /// The specifications of the imported bot or bot locale.
+        /// The specifications of the imported bot, bot locale, or custom vocabulary.
         public let resourceSpecification: ImportResourceSpecification?
 
         public init(creationDateTime: Date? = nil, failureReasons: [String]? = nil, importedResourceId: String? = nil, importedResourceName: String? = nil, importId: String? = nil, importStatus: ImportStatus? = nil, lastUpdatedDateTime: Date? = nil, mergeStrategy: MergeStrategy? = nil, resourceSpecification: ImportResourceSpecification? = nil) {
@@ -3789,7 +4006,7 @@ extension LexModelsV2 {
         public let name: ExportFilterName
         /// The operator to use for the filter. Specify EQ when the ListExports operation should return only resource types that equal the specified value. Specify CO when the ListExports operation should return resource types that contain the specified value.
         public let `operator`: ExportFilterOperator
-        /// The values to use to filter the response.
+        /// The values to use to filter the response. The values must be Bot, BotLocale, or CustomVocabulary.
         public let values: [String]
 
         public init(name: ExportFilterName, operator: ExportFilterOperator, values: [String]) {
@@ -3820,20 +4037,25 @@ extension LexModelsV2 {
         public let botExportSpecification: BotExportSpecification?
         /// Parameters for exporting a bot locale.
         public let botLocaleExportSpecification: BotLocaleExportSpecification?
+        /// The parameters required to export a custom vocabulary.
+        public let customVocabularyExportSpecification: CustomVocabularyExportSpecification?
 
-        public init(botExportSpecification: BotExportSpecification? = nil, botLocaleExportSpecification: BotLocaleExportSpecification? = nil) {
+        public init(botExportSpecification: BotExportSpecification? = nil, botLocaleExportSpecification: BotLocaleExportSpecification? = nil, customVocabularyExportSpecification: CustomVocabularyExportSpecification? = nil) {
             self.botExportSpecification = botExportSpecification
             self.botLocaleExportSpecification = botLocaleExportSpecification
+            self.customVocabularyExportSpecification = customVocabularyExportSpecification
         }
 
         public func validate(name: String) throws {
             try self.botExportSpecification?.validate(name: "\(name).botExportSpecification")
             try self.botLocaleExportSpecification?.validate(name: "\(name).botLocaleExportSpecification")
+            try self.customVocabularyExportSpecification?.validate(name: "\(name).customVocabularyExportSpecification")
         }
 
         private enum CodingKeys: String, CodingKey {
             case botExportSpecification
             case botLocaleExportSpecification
+            case customVocabularyExportSpecification
         }
     }
 
@@ -4118,7 +4340,7 @@ extension LexModelsV2 {
         public let name: ImportFilterName
         /// The operator to use for the filter. Specify EQ when the ListImports operation should return only resource types that equal the specified value. Specify CO when the ListImports operation should return resource types that contain the specified value.
         public let `operator`: ImportFilterOperator
-        /// The values to use to filter the response.
+        /// The values to use to filter the response. The values must be Bot, BotLocale, or CustomVocabulary.
         public let values: [String]
 
         public init(name: ImportFilterName, operator: ImportFilterOperator, values: [String]) {
@@ -4149,20 +4371,24 @@ extension LexModelsV2 {
         public let botImportSpecification: BotImportSpecification?
         /// Parameters for importing a bot locale.
         public let botLocaleImportSpecification: BotLocaleImportSpecification?
+        public let customVocabularyImportSpecification: CustomVocabularyImportSpecification?
 
-        public init(botImportSpecification: BotImportSpecification? = nil, botLocaleImportSpecification: BotLocaleImportSpecification? = nil) {
+        public init(botImportSpecification: BotImportSpecification? = nil, botLocaleImportSpecification: BotLocaleImportSpecification? = nil, customVocabularyImportSpecification: CustomVocabularyImportSpecification? = nil) {
             self.botImportSpecification = botImportSpecification
             self.botLocaleImportSpecification = botLocaleImportSpecification
+            self.customVocabularyImportSpecification = customVocabularyImportSpecification
         }
 
         public func validate(name: String) throws {
             try self.botImportSpecification?.validate(name: "\(name).botImportSpecification")
             try self.botLocaleImportSpecification?.validate(name: "\(name).botLocaleImportSpecification")
+            try self.customVocabularyImportSpecification?.validate(name: "\(name).customVocabularyImportSpecification")
         }
 
         private enum CodingKeys: String, CodingKey {
             case botImportSpecification
             case botLocaleImportSpecification
+            case customVocabularyImportSpecification
         }
     }
 
@@ -4190,6 +4416,8 @@ extension LexModelsV2 {
         public let importedResourceId: String?
         /// The name that you gave the imported resource.
         public let importedResourceName: String?
+        /// The type of resource that was imported.
+        public let importedResourceType: ImportResourceType?
         /// The unique identifier that Amazon Lex assigned to the import.
         public let importId: String?
         /// The status of the resource. When the status is Completed the resource is ready to build.
@@ -4199,10 +4427,11 @@ extension LexModelsV2 {
         /// The strategy used to merge existing bot or bot locale definitions with the imported definition.
         public let mergeStrategy: MergeStrategy?
 
-        public init(creationDateTime: Date? = nil, importedResourceId: String? = nil, importedResourceName: String? = nil, importId: String? = nil, importStatus: ImportStatus? = nil, lastUpdatedDateTime: Date? = nil, mergeStrategy: MergeStrategy? = nil) {
+        public init(creationDateTime: Date? = nil, importedResourceId: String? = nil, importedResourceName: String? = nil, importedResourceType: ImportResourceType? = nil, importId: String? = nil, importStatus: ImportStatus? = nil, lastUpdatedDateTime: Date? = nil, mergeStrategy: MergeStrategy? = nil) {
             self.creationDateTime = creationDateTime
             self.importedResourceId = importedResourceId
             self.importedResourceName = importedResourceName
+            self.importedResourceType = importedResourceType
             self.importId = importId
             self.importStatus = importStatus
             self.lastUpdatedDateTime = lastUpdatedDateTime
@@ -4213,6 +4442,7 @@ extension LexModelsV2 {
             case creationDateTime
             case importedResourceId
             case importedResourceName
+            case importedResourceType
             case importId
             case importStatus
             case lastUpdatedDateTime
@@ -4832,7 +5062,7 @@ extension LexModelsV2 {
         public let filters: [BotFilter]?
         /// The maximum number of bots to return in each page of results. If there are fewer results than the maximum page size, only the actual number of results are returned.
         public let maxResults: Int?
-        /// If the response from the ListBots operation contains more results than specified in the maxResults parameter, a token is returned in the response. Use that token in the nextToken parameter to return the next page of results.
+        /// If the response from the ListBots operation contains more results than specified in the maxResults parameter, a token is returned in the response.  Use the returned token in the nextToken parameter of a ListBots request to return the next page of results. For a complete set of results, call the ListBots operation until the nextToken returned in the response is null.
         public let nextToken: String?
         /// Specifies sorting parameters for the list of bots. You can specify that the list be sorted by bot name in ascending or descending order.
         public let sortBy: BotSortBy?
@@ -4994,17 +5224,20 @@ extension LexModelsV2 {
         public let botVersion: String?
         /// Provides the specification of a filter used to limit the exports in the response to only those that match the filter specification. You can only specify one filter and one string to filter on.
         public let filters: [ExportFilter]?
+        /// Specifies the resources that should be exported. If you don't specify a resource type in the filters parameter, both bot locales and custom vocabularies are exported.
+        public let localeId: String?
         /// The maximum number of exports to return in each page of results. If there are fewer results than the max page size, only the actual number of results are returned.
         public let maxResults: Int?
-        /// If the response from the ListExports operation contains more results that specified in the maxResults parameter, a token is returned in the response. Use that token in the nextToken parameter to return the next page of results.
+        /// If the response from the ListExports operation contains more results that specified in the maxResults parameter, a token is returned in the response.  Use the returned token in the nextToken parameter of a ListExports request to return the next page of results. For a complete set of results, call the ListExports operation until the nextToken returned in the response is null.
         public let nextToken: String?
         /// Determines the field that the list of exports is sorted by. You can sort by the LastUpdatedDateTime field in ascending or descending order.
         public let sortBy: ExportSortBy?
 
-        public init(botId: String? = nil, botVersion: String? = nil, filters: [ExportFilter]? = nil, maxResults: Int? = nil, nextToken: String? = nil, sortBy: ExportSortBy? = nil) {
+        public init(botId: String? = nil, botVersion: String? = nil, filters: [ExportFilter]? = nil, localeId: String? = nil, maxResults: Int? = nil, nextToken: String? = nil, sortBy: ExportSortBy? = nil) {
             self.botId = botId
             self.botVersion = botVersion
             self.filters = filters
+            self.localeId = localeId
             self.maxResults = maxResults
             self.nextToken = nextToken
             self.sortBy = sortBy
@@ -5030,6 +5263,7 @@ extension LexModelsV2 {
             case botId
             case botVersion
             case filters
+            case localeId
             case maxResults
             case nextToken
             case sortBy
@@ -5043,13 +5277,16 @@ extension LexModelsV2 {
         public let botVersion: String?
         /// Summary information for the exports that meet the filter criteria specified in the request. The length of the list is specified in the maxResults parameter. If there are more exports available, the nextToken field contains a token to get the next page of results.
         public let exportSummaries: [ExportSummary]?
+        /// The locale specified in the request.
+        public let localeId: String?
         /// A token that indicates whether there are more results to return in a response to the ListExports operation. If the nextToken field is present, you send the contents as the nextToken parameter of a ListExports operation request to get the next page of results.
         public let nextToken: String?
 
-        public init(botId: String? = nil, botVersion: String? = nil, exportSummaries: [ExportSummary]? = nil, nextToken: String? = nil) {
+        public init(botId: String? = nil, botVersion: String? = nil, exportSummaries: [ExportSummary]? = nil, localeId: String? = nil, nextToken: String? = nil) {
             self.botId = botId
             self.botVersion = botVersion
             self.exportSummaries = exportSummaries
+            self.localeId = localeId
             self.nextToken = nextToken
         }
 
@@ -5057,6 +5294,7 @@ extension LexModelsV2 {
             case botId
             case botVersion
             case exportSummaries
+            case localeId
             case nextToken
         }
     }
@@ -5068,17 +5306,20 @@ extension LexModelsV2 {
         public let botVersion: String?
         /// Provides the specification of a filter used to limit the bots in the response to only those that match the filter specification. You can only specify one filter and one string to filter on.
         public let filters: [ImportFilter]?
+        /// Specifies the locale that should be present in the list. If you don't specify a resource type in the filters parameter, the list contains both bot locales and custom vocabularies.
+        public let localeId: String?
         /// The maximum number of imports to return in each page of results. If there are fewer results than the max page size, only the actual number of results are returned.
         public let maxResults: Int?
-        /// If the response from the ListImports operation contains more results than specified in the maxResults parameter, a token is returned in the response. Use that token in the nextToken parameter to return the next page of results.
+        /// If the response from the ListImports operation contains more results than specified in the maxResults parameter, a token is returned in the response. Use the returned token in the nextToken parameter of a ListImports request to return the next page of results. For a complete set of results, call the ListImports operation until the nextToken returned in the response is null.
         public let nextToken: String?
         /// Determines the field that the list of imports is sorted by. You can sort by the LastUpdatedDateTime field in ascending or descending order.
         public let sortBy: ImportSortBy?
 
-        public init(botId: String? = nil, botVersion: String? = nil, filters: [ImportFilter]? = nil, maxResults: Int? = nil, nextToken: String? = nil, sortBy: ImportSortBy? = nil) {
+        public init(botId: String? = nil, botVersion: String? = nil, filters: [ImportFilter]? = nil, localeId: String? = nil, maxResults: Int? = nil, nextToken: String? = nil, sortBy: ImportSortBy? = nil) {
             self.botId = botId
             self.botVersion = botVersion
             self.filters = filters
+            self.localeId = localeId
             self.maxResults = maxResults
             self.nextToken = nextToken
             self.sortBy = sortBy
@@ -5104,6 +5345,7 @@ extension LexModelsV2 {
             case botId
             case botVersion
             case filters
+            case localeId
             case maxResults
             case nextToken
             case sortBy
@@ -5117,13 +5359,16 @@ extension LexModelsV2 {
         public let botVersion: String?
         /// Summary information for the imports that meet the filter criteria specified in the request. The length of the list is specified in the maxResults parameter. If there are more imports available, the nextToken field contains a token to get the next page of results.
         public let importSummaries: [ImportSummary]?
+        /// The locale specified in the request.
+        public let localeId: String?
         /// A token that indicates whether there are more results to return in a response to the ListImports operation. If the nextToken field is present, you send the contents as the nextToken parameter of a ListImports operation request to get the next page of results.
         public let nextToken: String?
 
-        public init(botId: String? = nil, botVersion: String? = nil, importSummaries: [ImportSummary]? = nil, nextToken: String? = nil) {
+        public init(botId: String? = nil, botVersion: String? = nil, importSummaries: [ImportSummary]? = nil, localeId: String? = nil, nextToken: String? = nil) {
             self.botId = botId
             self.botVersion = botVersion
             self.importSummaries = importSummaries
+            self.localeId = localeId
             self.nextToken = nextToken
         }
 
@@ -5131,6 +5376,7 @@ extension LexModelsV2 {
             case botId
             case botVersion
             case importSummaries
+            case localeId
             case nextToken
         }
     }
@@ -5152,7 +5398,7 @@ extension LexModelsV2 {
         public let localeId: String
         /// The maximum number of intents to return in each page of results. If there are fewer results than the max page size, only the actual number of results are returned.
         public let maxResults: Int?
-        /// If the response from the ListIntents operation contains more results than specified in the maxResults parameter, a token is returned in the response. Use that token in the nextToken parameter to return the next page of results.
+        /// If the response from the ListIntents operation contains more results than specified in the maxResults parameter, a token is returned in the response. Use the returned token in the nextToken parameter of a ListIntents request to return the next page of results. For a complete set of results, call the ListIntents operation until the nextToken returned in the response is null.
         public let nextToken: String?
         /// Determines the sort order for the response from the ListIntents operation. You can choose to sort by the intent name or last updated date in either ascending or descending order.
         public let sortBy: IntentSortBy?
@@ -6377,12 +6623,15 @@ extension LexModelsV2 {
     }
 
     public struct SlotValueSelectionSetting: AWSEncodableShape & AWSDecodableShape {
+        /// Provides settings that enable advanced recognition settings for slot values.
+        public let advancedRecognitionSetting: AdvancedRecognitionSetting?
         /// A regular expression used to validate the value of a slot.
         public let regexFilter: SlotValueRegexFilter?
         /// Determines the slot resolution strategy that Amazon Lex uses to return slot type values. The field can be set to one of the following values:   OriginalValue - Returns the value entered by the user, if the user value is similar to the slot value.   TopResolution - If there is a resolution list for the slot, return the first value in the resolution list as the slot type value. If there is no resolution list, null is returned.   If you don't specify the valueSelectionStrategy, the default is OriginalValue.
         public let resolutionStrategy: SlotValueResolutionStrategy
 
-        public init(regexFilter: SlotValueRegexFilter? = nil, resolutionStrategy: SlotValueResolutionStrategy) {
+        public init(advancedRecognitionSetting: AdvancedRecognitionSetting? = nil, regexFilter: SlotValueRegexFilter? = nil, resolutionStrategy: SlotValueResolutionStrategy) {
+            self.advancedRecognitionSetting = advancedRecognitionSetting
             self.regexFilter = regexFilter
             self.resolutionStrategy = resolutionStrategy
         }
@@ -6392,6 +6641,7 @@ extension LexModelsV2 {
         }
 
         private enum CodingKeys: String, CodingKey {
+            case advancedRecognitionSetting
             case regexFilter
             case resolutionStrategy
         }
@@ -6482,13 +6732,13 @@ extension LexModelsV2 {
     }
 
     public struct StartImportRequest: AWSEncodableShape {
-        /// The password used to encrypt the zip archive that contains the bot or bot locale definition. You should always encrypt the zip archive to protect it during transit between your site and Amazon Lex.
+        /// The password used to encrypt the zip archive that contains the resource definition. You should always encrypt the zip archive to protect it during transit between your site and Amazon Lex.
         public let filePassword: String?
         /// The unique identifier for the import. It is included in the response from the CreateUploadUrl operation.
         public let importId: String
         /// The strategy to use when there is a name conflict between the imported resource and an existing resource. When the merge strategy is FailOnConflict existing resources are not overwritten and the import fails.
         public let mergeStrategy: MergeStrategy
-        /// Parameters for creating the bot or bot locale.
+        /// Parameters for creating the bot, bot locale or custom vocabulary.
         public let resourceSpecification: ImportResourceSpecification
 
         public init(filePassword: String? = nil, importId: String, mergeStrategy: MergeStrategy, resourceSpecification: ImportResourceSpecification) {
@@ -6520,11 +6770,11 @@ extension LexModelsV2 {
         public let creationDateTime: Date?
         /// A unique identifier for the import.
         public let importId: String?
-        /// The current status of the import. When the status is Complete the bot or bot alias is ready to use.
+        /// The current status of the import. When the status is Complete the bot, bot alias, or custom vocabulary is ready to use.
         public let importStatus: ImportStatus?
         /// The strategy used when there was a name conflict between the imported resource and an existing resource. When the merge strategy is FailOnConflict existing resources are not overwritten and the import fails.
         public let mergeStrategy: MergeStrategy?
-        /// The parameters used when importing the bot or bot locale.
+        /// The parameters used when importing the resource.
         public let resourceSpecification: ImportResourceSpecification?
 
         public init(creationDateTime: Date? = nil, importId: String? = nil, importStatus: ImportStatus? = nil, mergeStrategy: MergeStrategy? = nil, resourceSpecification: ImportResourceSpecification? = nil) {
@@ -7161,7 +7411,7 @@ extension LexModelsV2 {
         public let exportId: String?
         /// The status of the export. When the status is Completed the export archive is available for download.
         public let exportStatus: ExportStatus?
-        /// The file format used for the files that define the resource.
+        /// The file format used for the files that define the resource. The TSV format is required to export a custom vocabulary only; otherwise use LexJson format.
         public let fileFormat: ImportExportFileFormat?
         /// The date and time that the export was last updated.
         public let lastUpdatedDateTime: Date?
@@ -7456,11 +7706,11 @@ extension LexModelsV2 {
         /// The new name for the slot.
         public let slotName: String
         /// The unique identifier of the new slot type to associate with this slot.
-        public let slotTypeId: String
+        public let slotTypeId: String?
         /// A new set of prompts that Amazon Lex sends to the user to elicit a response the provides a value for the slot.
         public let valueElicitationSetting: SlotValueElicitationSetting
 
-        public init(botId: String, botVersion: String, description: String? = nil, intentId: String, localeId: String, multipleValuesSetting: MultipleValuesSetting? = nil, obfuscationSetting: ObfuscationSetting? = nil, slotId: String, slotName: String, slotTypeId: String, valueElicitationSetting: SlotValueElicitationSetting) {
+        public init(botId: String, botVersion: String, description: String? = nil, intentId: String, localeId: String, multipleValuesSetting: MultipleValuesSetting? = nil, obfuscationSetting: ObfuscationSetting? = nil, slotId: String, slotName: String, slotTypeId: String? = nil, valueElicitationSetting: SlotValueElicitationSetting) {
             self.botId = botId
             self.botVersion = botVersion
             self.description = description

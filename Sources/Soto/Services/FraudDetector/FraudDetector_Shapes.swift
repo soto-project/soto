@@ -1484,6 +1484,93 @@ extension FraudDetector {
         }
     }
 
+    public struct EvaluatedExternalModel: AWSDecodableShape {
+        ///  Input variables use for generating predictions.
+        public let inputVariables: [String: String]?
+        ///  The endpoint of the external (Amazon Sagemaker) model.
+        public let modelEndpoint: String?
+        ///  Output variables.
+        public let outputVariables: [String: String]?
+        ///  Indicates whether event variables were used to generate predictions.
+        public let useEventVariables: Bool?
+
+        public init(inputVariables: [String: String]? = nil, modelEndpoint: String? = nil, outputVariables: [String: String]? = nil, useEventVariables: Bool? = nil) {
+            self.inputVariables = inputVariables
+            self.modelEndpoint = modelEndpoint
+            self.outputVariables = outputVariables
+            self.useEventVariables = useEventVariables
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case inputVariables
+            case modelEndpoint
+            case outputVariables
+            case useEventVariables
+        }
+    }
+
+    public struct EvaluatedModelVersion: AWSDecodableShape {
+        ///  Evaluations generated for the model version.
+        public let evaluations: [ModelVersionEvaluation]?
+        ///  The model ID.
+        public let modelId: String?
+        /// The model type.  Valid values: ONLINE_FRAUD_INSIGHTS | TRANSACTION_FRAUD_INSIGHTS
+        public let modelType: String?
+        ///  The model version.
+        public let modelVersion: String?
+
+        public init(evaluations: [ModelVersionEvaluation]? = nil, modelId: String? = nil, modelType: String? = nil, modelVersion: String? = nil) {
+            self.evaluations = evaluations
+            self.modelId = modelId
+            self.modelType = modelType
+            self.modelVersion = modelVersion
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case evaluations
+            case modelId
+            case modelType
+            case modelVersion
+        }
+    }
+
+    public struct EvaluatedRule: AWSDecodableShape {
+        ///  Indicates whether the rule was evaluated.
+        public let evaluated: Bool?
+        ///  The rule expression.
+        public let expression: String?
+        ///  The rule expression value.
+        public let expressionWithValues: String?
+        ///  Indicates whether the rule matched.
+        public let matched: Bool?
+        ///  The rule outcome.
+        public let outcomes: [String]?
+        ///  The rule ID.
+        public let ruleId: String?
+        ///  The rule version.
+        public let ruleVersion: String?
+
+        public init(evaluated: Bool? = nil, expression: String? = nil, expressionWithValues: String? = nil, matched: Bool? = nil, outcomes: [String]? = nil, ruleId: String? = nil, ruleVersion: String? = nil) {
+            self.evaluated = evaluated
+            self.expression = expression
+            self.expressionWithValues = expressionWithValues
+            self.matched = matched
+            self.outcomes = outcomes
+            self.ruleId = ruleId
+            self.ruleVersion = ruleVersion
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case evaluated
+            case expression
+            case expressionWithValues
+            case matched
+            case outcomes
+            case ruleId
+            case ruleVersion
+        }
+    }
+
     public struct Event: AWSDecodableShape {
         /// The label associated with the event.
         public let currentLabel: String?
@@ -1518,6 +1605,39 @@ extension FraudDetector {
             case eventTypeName
             case eventVariables
             case labelTimestamp
+        }
+    }
+
+    public struct EventPredictionSummary: AWSDecodableShape {
+        ///  The detector ID.
+        public let detectorId: String?
+        ///  The detector version ID.
+        public let detectorVersionId: String?
+        ///  The event ID.
+        public let eventId: String?
+        ///  The timestamp of the event.
+        public let eventTimestamp: String?
+        ///  The event type.
+        public let eventTypeName: String?
+        ///  The timestamp when the prediction was generated.
+        public let predictionTimestamp: String?
+
+        public init(detectorId: String? = nil, detectorVersionId: String? = nil, eventId: String? = nil, eventTimestamp: String? = nil, eventTypeName: String? = nil, predictionTimestamp: String? = nil) {
+            self.detectorId = detectorId
+            self.detectorVersionId = detectorVersionId
+            self.eventId = eventId
+            self.eventTimestamp = eventTimestamp
+            self.eventTypeName = eventTypeName
+            self.predictionTimestamp = predictionTimestamp
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case detectorId
+            case detectorVersionId
+            case eventId
+            case eventTimestamp
+            case eventTypeName
+            case predictionTimestamp
         }
     }
 
@@ -1567,6 +1687,27 @@ extension FraudDetector {
             case labels
             case lastUpdatedTime
             case name
+        }
+    }
+
+    public struct EventVariableSummary: AWSDecodableShape {
+        ///  The event variable name.
+        public let name: String?
+        ///  The event variable source.
+        public let source: String?
+        ///  The value of the event variable.
+        public let value: String?
+
+        public init(name: String? = nil, source: String? = nil, value: String? = nil) {
+            self.name = name
+            self.source = source
+            self.value = value
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case name
+            case source
+            case value
         }
     }
 
@@ -1722,6 +1863,25 @@ extension FraudDetector {
             case content
             case title
             case type
+        }
+    }
+
+    public struct FilterCondition: AWSEncodableShape {
+        ///  A statement containing a resource property and a value to specify filter condition.
+        public let value: String?
+
+        public init(value: String? = nil) {
+            self.value = value
+        }
+
+        public func validate(name: String) throws {
+            try self.validate(self.value, name: "value", parent: name, max: 256)
+            try self.validate(self.value, name: "value", parent: name, min: 1)
+            try self.validate(self.value, name: "value", parent: name, pattern: "^[0-9A-Za-z_-]+$")
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case value
         }
     }
 
@@ -2021,6 +2181,121 @@ extension FraudDetector {
         private enum CodingKeys: String, CodingKey {
             case entityTypes
             case nextToken
+        }
+    }
+
+    public struct GetEventPredictionMetadataRequest: AWSEncodableShape {
+        ///  The detector ID.
+        public let detectorId: String
+        ///  The detector version ID.
+        public let detectorVersionId: String
+        ///  The event ID.
+        public let eventId: String
+        ///  The event type associated with the detector specified for the prediction.
+        public let eventTypeName: String
+        ///  The timestamp that defines when the prediction was generated.
+        public let predictionTimestamp: String
+
+        public init(detectorId: String, detectorVersionId: String, eventId: String, eventTypeName: String, predictionTimestamp: String) {
+            self.detectorId = detectorId
+            self.detectorVersionId = detectorVersionId
+            self.eventId = eventId
+            self.eventTypeName = eventTypeName
+            self.predictionTimestamp = predictionTimestamp
+        }
+
+        public func validate(name: String) throws {
+            try self.validate(self.detectorId, name: "detectorId", parent: name, max: 64)
+            try self.validate(self.detectorId, name: "detectorId", parent: name, min: 1)
+            try self.validate(self.detectorId, name: "detectorId", parent: name, pattern: "^[0-9a-z_-]+$")
+            try self.validate(self.detectorVersionId, name: "detectorVersionId", parent: name, max: 5)
+            try self.validate(self.detectorVersionId, name: "detectorVersionId", parent: name, min: 1)
+            try self.validate(self.detectorVersionId, name: "detectorVersionId", parent: name, pattern: "^([1-9][0-9]*)$")
+            try self.validate(self.eventId, name: "eventId", parent: name, max: 64)
+            try self.validate(self.eventId, name: "eventId", parent: name, min: 1)
+            try self.validate(self.eventId, name: "eventId", parent: name, pattern: "^[0-9a-z_-]+$")
+            try self.validate(self.eventTypeName, name: "eventTypeName", parent: name, max: 64)
+            try self.validate(self.eventTypeName, name: "eventTypeName", parent: name, min: 1)
+            try self.validate(self.eventTypeName, name: "eventTypeName", parent: name, pattern: "^[0-9a-z_-]+$")
+            try self.validate(self.predictionTimestamp, name: "predictionTimestamp", parent: name, max: 30)
+            try self.validate(self.predictionTimestamp, name: "predictionTimestamp", parent: name, min: 11)
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case detectorId
+            case detectorVersionId
+            case eventId
+            case eventTypeName
+            case predictionTimestamp
+        }
+    }
+
+    public struct GetEventPredictionMetadataResult: AWSDecodableShape {
+        ///  The detector ID.
+        public let detectorId: String?
+        ///  The detector version ID.
+        public let detectorVersionId: String?
+        ///  The status of the detector version.
+        public let detectorVersionStatus: String?
+        ///  The entity ID.
+        public let entityId: String?
+        ///  The entity type.
+        public let entityType: String?
+        ///  External (Amazon SageMaker) models that were evaluated for generating predictions.
+        public let evaluatedExternalModels: [EvaluatedExternalModel]?
+        ///  Model versions that were evaluated for generating predictions.
+        public let evaluatedModelVersions: [EvaluatedModelVersion]?
+        ///  The event ID.
+        public let eventId: String?
+        ///  The timestamp for when the prediction was generated for the associated event ID.
+        public let eventTimestamp: String?
+        ///  The event type associated with the detector specified for this prediction.
+        public let eventTypeName: String?
+        ///  A list of event variables that influenced the prediction scores.
+        public let eventVariables: [EventVariableSummary]?
+        ///  The outcomes of the matched rule, based on the rule execution mode.
+        public let outcomes: [String]?
+        /// The timestamp that defines when the prediction was generated.
+        public let predictionTimestamp: String?
+        ///  The execution mode of the rule used for evaluating variable values.
+        public let ruleExecutionMode: RuleExecutionMode?
+        ///  List of rules associated with the detector version that were used for evaluating variable values.
+        public let rules: [EvaluatedRule]?
+
+        public init(detectorId: String? = nil, detectorVersionId: String? = nil, detectorVersionStatus: String? = nil, entityId: String? = nil, entityType: String? = nil, evaluatedExternalModels: [EvaluatedExternalModel]? = nil, evaluatedModelVersions: [EvaluatedModelVersion]? = nil, eventId: String? = nil, eventTimestamp: String? = nil, eventTypeName: String? = nil, eventVariables: [EventVariableSummary]? = nil, outcomes: [String]? = nil, predictionTimestamp: String? = nil, ruleExecutionMode: RuleExecutionMode? = nil, rules: [EvaluatedRule]? = nil) {
+            self.detectorId = detectorId
+            self.detectorVersionId = detectorVersionId
+            self.detectorVersionStatus = detectorVersionStatus
+            self.entityId = entityId
+            self.entityType = entityType
+            self.evaluatedExternalModels = evaluatedExternalModels
+            self.evaluatedModelVersions = evaluatedModelVersions
+            self.eventId = eventId
+            self.eventTimestamp = eventTimestamp
+            self.eventTypeName = eventTypeName
+            self.eventVariables = eventVariables
+            self.outcomes = outcomes
+            self.predictionTimestamp = predictionTimestamp
+            self.ruleExecutionMode = ruleExecutionMode
+            self.rules = rules
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case detectorId
+            case detectorVersionId
+            case detectorVersionStatus
+            case entityId
+            case entityType
+            case evaluatedExternalModels
+            case evaluatedModelVersions
+            case eventId
+            case eventTimestamp
+            case eventTypeName
+            case eventVariables
+            case outcomes
+            case predictionTimestamp
+            case ruleExecutionMode
+            case rules
         }
     }
 
@@ -2696,6 +2971,70 @@ extension FraudDetector {
         }
     }
 
+    public struct ListEventPredictionsRequest: AWSEncodableShape {
+        ///  The detector ID.
+        public let detectorId: FilterCondition?
+        ///  The detector version ID.
+        public let detectorVersionId: FilterCondition?
+        ///  The event ID.
+        public let eventId: FilterCondition?
+        ///  The event type associated with the detector.
+        public let eventType: FilterCondition?
+        ///  The maximum number of predictions to return for the request.
+        public let maxResults: Int?
+        ///  Identifies the next page of results to return. Use the token to make the call again to retrieve the next page. Keep all other arguments unchanged. Each pagination token expires after 24 hours.
+        public let nextToken: String?
+        ///  The time period for when the predictions were generated.
+        public let predictionTimeRange: PredictionTimeRange?
+
+        public init(detectorId: FilterCondition? = nil, detectorVersionId: FilterCondition? = nil, eventId: FilterCondition? = nil, eventType: FilterCondition? = nil, maxResults: Int? = nil, nextToken: String? = nil, predictionTimeRange: PredictionTimeRange? = nil) {
+            self.detectorId = detectorId
+            self.detectorVersionId = detectorVersionId
+            self.eventId = eventId
+            self.eventType = eventType
+            self.maxResults = maxResults
+            self.nextToken = nextToken
+            self.predictionTimeRange = predictionTimeRange
+        }
+
+        public func validate(name: String) throws {
+            try self.detectorId?.validate(name: "\(name).detectorId")
+            try self.detectorVersionId?.validate(name: "\(name).detectorVersionId")
+            try self.eventId?.validate(name: "\(name).eventId")
+            try self.eventType?.validate(name: "\(name).eventType")
+            try self.validate(self.maxResults, name: "maxResults", parent: name, max: 100)
+            try self.validate(self.maxResults, name: "maxResults", parent: name, min: 50)
+            try self.predictionTimeRange?.validate(name: "\(name).predictionTimeRange")
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case detectorId
+            case detectorVersionId
+            case eventId
+            case eventType
+            case maxResults
+            case nextToken
+            case predictionTimeRange
+        }
+    }
+
+    public struct ListEventPredictionsResult: AWSDecodableShape {
+        ///  The summary of the past predictions.
+        public let eventPredictionSummaries: [EventPredictionSummary]?
+        ///  Identifies the next page of results to return. Use the token to make the call again to retrieve the next page. Keep all other arguments unchanged. Each pagination token expires after 24 hours.
+        public let nextToken: String?
+
+        public init(eventPredictionSummaries: [EventPredictionSummary]? = nil, nextToken: String? = nil) {
+            self.eventPredictionSummaries = eventPredictionSummaries
+            self.nextToken = nextToken
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case eventPredictionSummaries
+            case nextToken
+        }
+    }
+
     public struct ListTagsForResourceRequest: AWSEncodableShape {
         /// The maximum number of objects to return for the request.
         public let maxResults: Int?
@@ -3018,6 +3357,27 @@ extension FraudDetector {
         }
     }
 
+    public struct ModelVersionEvaluation: AWSDecodableShape {
+        ///  The evaluation score generated for the model version.
+        public let evaluationScore: String?
+        ///  The output variable name.
+        public let outputVariableName: String?
+        ///  The prediction explanations generated for the model version.
+        public let predictionExplanations: PredictionExplanations?
+
+        public init(evaluationScore: String? = nil, outputVariableName: String? = nil, predictionExplanations: PredictionExplanations? = nil) {
+            self.evaluationScore = evaluationScore
+            self.outputVariableName = outputVariableName
+            self.predictionExplanations = predictionExplanations
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case evaluationScore
+            case outputVariableName
+            case predictionExplanations
+        }
+    }
+
     public struct Outcome: AWSDecodableShape {
         /// The outcome ARN.
         public let arn: String?
@@ -3044,6 +3404,43 @@ extension FraudDetector {
             case description
             case lastUpdatedTime
             case name
+        }
+    }
+
+    public struct PredictionExplanations: AWSDecodableShape {
+        ///  The details of the event variable's impact on the prediction score.
+        public let variableImpactExplanations: [VariableImpactExplanation]?
+
+        public init(variableImpactExplanations: [VariableImpactExplanation]? = nil) {
+            self.variableImpactExplanations = variableImpactExplanations
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case variableImpactExplanations
+        }
+    }
+
+    public struct PredictionTimeRange: AWSEncodableShape {
+        ///  The end time of the time period for when the predictions were generated.
+        public let endTime: String
+        ///  The start time of the time period for when the predictions were generated.
+        public let startTime: String
+
+        public init(endTime: String, startTime: String) {
+            self.endTime = endTime
+            self.startTime = startTime
+        }
+
+        public func validate(name: String) throws {
+            try self.validate(self.endTime, name: "endTime", parent: name, max: 30)
+            try self.validate(self.endTime, name: "endTime", parent: name, min: 11)
+            try self.validate(self.startTime, name: "startTime", parent: name, max: 30)
+            try self.validate(self.startTime, name: "startTime", parent: name, min: 11)
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case endTime
+            case startTime
         }
     }
 
@@ -4158,6 +4555,27 @@ extension FraudDetector {
             case description
             case name
             case variableType
+        }
+    }
+
+    public struct VariableImpactExplanation: AWSDecodableShape {
+        ///  The event variable name.
+        public let eventVariableName: String?
+        ///  The raw, uninterpreted value represented as log-odds of the fraud. These values are usually between -10 to +10, but range from - infinity to + infinity.   A positive value indicates that the variable drove the risk score up.   A negative value indicates that the variable drove the risk score down.
+        public let logOddsImpact: Float?
+        ///  The event variable's relative impact in terms of magnitude on the prediction scores. The relative impact values consist of a numerical rating (0-5, 5 being the highest) and direction (increased/decreased) impact of the fraud risk.
+        public let relativeImpact: String?
+
+        public init(eventVariableName: String? = nil, logOddsImpact: Float? = nil, relativeImpact: String? = nil) {
+            self.eventVariableName = eventVariableName
+            self.logOddsImpact = logOddsImpact
+            self.relativeImpact = relativeImpact
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case eventVariableName
+            case logOddsImpact
+            case relativeImpact
         }
     }
 

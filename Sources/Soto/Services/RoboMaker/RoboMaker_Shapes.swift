@@ -1155,7 +1155,7 @@ extension RoboMaker {
             try self.dataSources?.forEach {
                 try $0.validate(name: "\(name).dataSources[]")
             }
-            try self.validate(self.dataSources, name: "dataSources", parent: name, max: 5)
+            try self.validate(self.dataSources, name: "dataSources", parent: name, max: 6)
             try self.validate(self.dataSources, name: "dataSources", parent: name, min: 1)
             try self.validate(self.iamRole, name: "iamRole", parent: name, max: 255)
             try self.validate(self.iamRole, name: "iamRole", parent: name, min: 1)
@@ -3564,16 +3564,7 @@ extension RoboMaker {
     }
 
     public struct LoggingConfig: AWSEncodableShape & AWSDecodableShape {
-        /// A boolean indicating whether to record all ROS topics.
-        public let recordAllRosTopics: Bool
-
-        public init(recordAllRosTopics: Bool) {
-            self.recordAllRosTopics = recordAllRosTopics
-        }
-
-        private enum CodingKeys: String, CodingKey {
-            case recordAllRosTopics
-        }
+        public init() {}
     }
 
     public struct NetworkInterface: AWSDecodableShape {
@@ -3842,19 +3833,13 @@ extension RoboMaker {
         public let tools: [Tool]?
         /// The upload configurations for the robot application.
         public let uploadConfigurations: [UploadConfiguration]?
-        /// A Boolean indicating whether to use default robot application tools. The default tools are rviz, rqt, terminal and rosbag record. The default is False.
-        public let useDefaultTools: Bool?
-        /// A Boolean indicating whether to use default upload configurations. By default, .ros and .gazebo files are uploaded when the application terminates and all ROS topics will be recorded. If you set this value, you must specify an outputLocation.
-        public let useDefaultUploadConfigurations: Bool?
 
-        public init(application: String, applicationVersion: String? = nil, launchConfig: LaunchConfig, tools: [Tool]? = nil, uploadConfigurations: [UploadConfiguration]? = nil, useDefaultTools: Bool? = nil, useDefaultUploadConfigurations: Bool? = nil) {
+        public init(application: String, applicationVersion: String? = nil, launchConfig: LaunchConfig, tools: [Tool]? = nil, uploadConfigurations: [UploadConfiguration]? = nil) {
             self.application = application
             self.applicationVersion = applicationVersion
             self.launchConfig = launchConfig
             self.tools = tools
             self.uploadConfigurations = uploadConfigurations
-            self.useDefaultTools = useDefaultTools
-            self.useDefaultUploadConfigurations = useDefaultUploadConfigurations
         }
 
         public func validate(name: String) throws {
@@ -3883,8 +3868,6 @@ extension RoboMaker {
             case launchConfig
             case tools
             case uploadConfigurations
-            case useDefaultTools
-            case useDefaultUploadConfigurations
         }
     }
 
@@ -4029,21 +4012,15 @@ extension RoboMaker {
         public let tools: [Tool]?
         /// Information about upload configurations for the simulation application.
         public let uploadConfigurations: [UploadConfiguration]?
-        /// A Boolean indicating whether to use default simulation application tools. The default tools are rviz, rqt, terminal and rosbag record. The default is False.
-        public let useDefaultTools: Bool?
-        /// A Boolean indicating whether to use default upload configurations. By default, .ros and .gazebo files are uploaded when the application terminates and all ROS topics will be recorded. If you set this value, you must specify an outputLocation.
-        public let useDefaultUploadConfigurations: Bool?
         /// A list of world configurations.
         public let worldConfigs: [WorldConfig]?
 
-        public init(application: String, applicationVersion: String? = nil, launchConfig: LaunchConfig, tools: [Tool]? = nil, uploadConfigurations: [UploadConfiguration]? = nil, useDefaultTools: Bool? = nil, useDefaultUploadConfigurations: Bool? = nil, worldConfigs: [WorldConfig]? = nil) {
+        public init(application: String, applicationVersion: String? = nil, launchConfig: LaunchConfig, tools: [Tool]? = nil, uploadConfigurations: [UploadConfiguration]? = nil, worldConfigs: [WorldConfig]? = nil) {
             self.application = application
             self.applicationVersion = applicationVersion
             self.launchConfig = launchConfig
             self.tools = tools
             self.uploadConfigurations = uploadConfigurations
-            self.useDefaultTools = useDefaultTools
-            self.useDefaultUploadConfigurations = useDefaultUploadConfigurations
             self.worldConfigs = worldConfigs
         }
 
@@ -4078,8 +4055,6 @@ extension RoboMaker {
             case launchConfig
             case tools
             case uploadConfigurations
-            case useDefaultTools
-            case useDefaultUploadConfigurations
             case worldConfigs
         }
     }
@@ -4290,7 +4265,7 @@ extension RoboMaker {
             try self.dataSources?.forEach {
                 try $0.validate(name: "\(name).dataSources[]")
             }
-            try self.validate(self.dataSources, name: "dataSources", parent: name, max: 5)
+            try self.validate(self.dataSources, name: "dataSources", parent: name, max: 6)
             try self.validate(self.dataSources, name: "dataSources", parent: name, min: 1)
             try self.validate(self.iamRole, name: "iamRole", parent: name, max: 255)
             try self.validate(self.iamRole, name: "iamRole", parent: name, min: 1)
@@ -5162,14 +5137,16 @@ extension RoboMaker {
         public let arn: String?
         /// The time, in milliseconds since the epoch, when the world export job was created.
         public let createdAt: Date?
+        public let outputLocation: OutputLocation?
         /// The status of the world export job.  Pending  The world export job request is pending.  Running  The world export job is running.   Completed  The world export job completed.   Failed  The world export job failed. See failureCode for more information.   Canceled  The world export job was cancelled.  Canceling  The world export job is being cancelled.
         public let status: WorldExportJobStatus?
         /// A list of worlds.
         public let worlds: [String]?
 
-        public init(arn: String? = nil, createdAt: Date? = nil, status: WorldExportJobStatus? = nil, worlds: [String]? = nil) {
+        public init(arn: String? = nil, createdAt: Date? = nil, outputLocation: OutputLocation? = nil, status: WorldExportJobStatus? = nil, worlds: [String]? = nil) {
             self.arn = arn
             self.createdAt = createdAt
+            self.outputLocation = outputLocation
             self.status = status
             self.worlds = worlds
         }
@@ -5177,6 +5154,7 @@ extension RoboMaker {
         private enum CodingKeys: String, CodingKey {
             case arn
             case createdAt
+            case outputLocation
             case status
             case worlds
         }

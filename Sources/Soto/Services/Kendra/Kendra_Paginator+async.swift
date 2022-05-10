@@ -22,6 +22,28 @@ import SotoCore
 
 @available(macOS 12.0, iOS 15.0, watchOS 8.0, tvOS 15.0, *)
 extension Kendra {
+    ///  Retrieves search metrics data. The data provides a snapshot of how your users interact with your search application and how effective the application is.
+    /// Return PaginatorSequence for operation.
+    ///
+    /// - Parameters:
+    ///   - input: Input for request
+    ///   - logger: Logger used flot logging
+    ///   - eventLoop: EventLoop to run this process on
+    public func getSnapshotsPaginator(
+        _ input: GetSnapshotsRequest,
+        logger: Logger = AWSClient.loggingDisabled,
+        on eventLoop: EventLoop? = nil
+    ) -> AWSClient.PaginatorSequence<GetSnapshotsRequest, GetSnapshotsResponse> {
+        return .init(
+            input: input,
+            command: getSnapshots,
+            inputKey: \GetSnapshotsRequest.nextToken,
+            outputKey: \GetSnapshotsResponse.nextToken,
+            logger: logger,
+            on: eventLoop
+        )
+    }
+
     ///  Gets statistics about synchronizing Amazon Kendra with a data source.
     /// Return PaginatorSequence for operation.
     ///
@@ -132,7 +154,51 @@ extension Kendra {
         )
     }
 
-    ///  Lists the Amazon Kendra indexes that you have created.
+    ///  Gets a list of FAQ lists associated with an index.
+    /// Return PaginatorSequence for operation.
+    ///
+    /// - Parameters:
+    ///   - input: Input for request
+    ///   - logger: Logger used flot logging
+    ///   - eventLoop: EventLoop to run this process on
+    public func listFaqsPaginator(
+        _ input: ListFaqsRequest,
+        logger: Logger = AWSClient.loggingDisabled,
+        on eventLoop: EventLoop? = nil
+    ) -> AWSClient.PaginatorSequence<ListFaqsRequest, ListFaqsResponse> {
+        return .init(
+            input: input,
+            command: listFaqs,
+            inputKey: \ListFaqsRequest.nextToken,
+            outputKey: \ListFaqsResponse.nextToken,
+            logger: logger,
+            on: eventLoop
+        )
+    }
+
+    ///  Provides a list of groups that are mapped to users before a given ordering or timestamp identifier.  ListGroupsOlderThanOrderingId is currently not supported in the Amazon Web Services GovCloud (US-West) region.
+    /// Return PaginatorSequence for operation.
+    ///
+    /// - Parameters:
+    ///   - input: Input for request
+    ///   - logger: Logger used flot logging
+    ///   - eventLoop: EventLoop to run this process on
+    public func listGroupsOlderThanOrderingIdPaginator(
+        _ input: ListGroupsOlderThanOrderingIdRequest,
+        logger: Logger = AWSClient.loggingDisabled,
+        on eventLoop: EventLoop? = nil
+    ) -> AWSClient.PaginatorSequence<ListGroupsOlderThanOrderingIdRequest, ListGroupsOlderThanOrderingIdResponse> {
+        return .init(
+            input: input,
+            command: listGroupsOlderThanOrderingId,
+            inputKey: \ListGroupsOlderThanOrderingIdRequest.nextToken,
+            outputKey: \ListGroupsOlderThanOrderingIdResponse.nextToken,
+            logger: logger,
+            on: eventLoop
+        )
+    }
+
+    ///  Lists the Amazon Kendra indexes that you created.
     /// Return PaginatorSequence for operation.
     ///
     /// - Parameters:
@@ -149,6 +215,50 @@ extension Kendra {
             command: listIndices,
             inputKey: \ListIndicesRequest.nextToken,
             outputKey: \ListIndicesResponse.nextToken,
+            logger: logger,
+            on: eventLoop
+        )
+    }
+
+    ///  Lists the block lists used for query suggestions for an index. For information on the current quota limits for block lists, see Quotas for Amazon Kendra.  ListQuerySuggestionsBlockLists is currently not supported in the Amazon Web Services GovCloud (US-West) region.
+    /// Return PaginatorSequence for operation.
+    ///
+    /// - Parameters:
+    ///   - input: Input for request
+    ///   - logger: Logger used flot logging
+    ///   - eventLoop: EventLoop to run this process on
+    public func listQuerySuggestionsBlockListsPaginator(
+        _ input: ListQuerySuggestionsBlockListsRequest,
+        logger: Logger = AWSClient.loggingDisabled,
+        on eventLoop: EventLoop? = nil
+    ) -> AWSClient.PaginatorSequence<ListQuerySuggestionsBlockListsRequest, ListQuerySuggestionsBlockListsResponse> {
+        return .init(
+            input: input,
+            command: listQuerySuggestionsBlockLists,
+            inputKey: \ListQuerySuggestionsBlockListsRequest.nextToken,
+            outputKey: \ListQuerySuggestionsBlockListsResponse.nextToken,
+            logger: logger,
+            on: eventLoop
+        )
+    }
+
+    ///  Lists the Amazon Kendra thesauri associated with an index.
+    /// Return PaginatorSequence for operation.
+    ///
+    /// - Parameters:
+    ///   - input: Input for request
+    ///   - logger: Logger used flot logging
+    ///   - eventLoop: EventLoop to run this process on
+    public func listThesauriPaginator(
+        _ input: ListThesauriRequest,
+        logger: Logger = AWSClient.loggingDisabled,
+        on eventLoop: EventLoop? = nil
+    ) -> AWSClient.PaginatorSequence<ListThesauriRequest, ListThesauriResponse> {
+        return .init(
+            input: input,
+            command: listThesauri,
+            inputKey: \ListThesauriRequest.nextToken,
+            outputKey: \ListThesauriResponse.nextToken,
             logger: logger,
             on: eventLoop
         )

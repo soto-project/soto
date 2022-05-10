@@ -591,6 +591,8 @@ extension AppSync {
         public let description: String?
         /// The version of the request mapping template. Currently, the supported value is 2018-05-29.
         public let functionVersion: String
+        /// The maximum batching size for a resolver.
+        public let maxBatchSize: Int?
         /// The Function name. The function name does not have to be unique.
         public let name: String
         /// The Function request mapping template. Functions support only the 2018-05-29 version of the request mapping template.
@@ -599,11 +601,12 @@ extension AppSync {
         public let responseMappingTemplate: String?
         public let syncConfig: SyncConfig?
 
-        public init(apiId: String, dataSourceName: String, description: String? = nil, functionVersion: String, name: String, requestMappingTemplate: String? = nil, responseMappingTemplate: String? = nil, syncConfig: SyncConfig? = nil) {
+        public init(apiId: String, dataSourceName: String, description: String? = nil, functionVersion: String, maxBatchSize: Int? = nil, name: String, requestMappingTemplate: String? = nil, responseMappingTemplate: String? = nil, syncConfig: SyncConfig? = nil) {
             self.apiId = apiId
             self.dataSourceName = dataSourceName
             self.description = description
             self.functionVersion = functionVersion
+            self.maxBatchSize = maxBatchSize
             self.name = name
             self.requestMappingTemplate = requestMappingTemplate
             self.responseMappingTemplate = responseMappingTemplate
@@ -614,19 +617,24 @@ extension AppSync {
             try self.validate(self.dataSourceName, name: "dataSourceName", parent: name, max: 65536)
             try self.validate(self.dataSourceName, name: "dataSourceName", parent: name, min: 1)
             try self.validate(self.dataSourceName, name: "dataSourceName", parent: name, pattern: "[_A-Za-z][_0-9A-Za-z]*")
+            try self.validate(self.maxBatchSize, name: "maxBatchSize", parent: name, max: 2000)
+            try self.validate(self.maxBatchSize, name: "maxBatchSize", parent: name, min: 0)
             try self.validate(self.name, name: "name", parent: name, max: 65536)
             try self.validate(self.name, name: "name", parent: name, min: 1)
             try self.validate(self.name, name: "name", parent: name, pattern: "[_A-Za-z][_0-9A-Za-z]*")
             try self.validate(self.requestMappingTemplate, name: "requestMappingTemplate", parent: name, max: 65536)
             try self.validate(self.requestMappingTemplate, name: "requestMappingTemplate", parent: name, min: 1)
+            try self.validate(self.requestMappingTemplate, name: "requestMappingTemplate", parent: name, pattern: "^.*$")
             try self.validate(self.responseMappingTemplate, name: "responseMappingTemplate", parent: name, max: 65536)
             try self.validate(self.responseMappingTemplate, name: "responseMappingTemplate", parent: name, min: 1)
+            try self.validate(self.responseMappingTemplate, name: "responseMappingTemplate", parent: name, pattern: "^.*$")
         }
 
         private enum CodingKeys: String, CodingKey {
             case dataSourceName
             case description
             case functionVersion
+            case maxBatchSize
             case name
             case requestMappingTemplate
             case responseMappingTemplate
@@ -689,6 +697,7 @@ extension AppSync {
                 try validate($0.key, name: "tags.key", parent: name, min: 1)
                 try validate($0.key, name: "tags.key", parent: name, pattern: "^(?!aws:)[ a-zA-Z+-=._:/]+$")
                 try validate($0.value, name: "tags[\"\($0.key)\"]", parent: name, max: 256)
+                try validate($0.value, name: "tags[\"\($0.key)\"]", parent: name, pattern: "^[\\s\\w+-=\\.:/@]*$")
             }
         }
 
@@ -734,6 +743,8 @@ extension AppSync {
         public let fieldName: String
         /// The resolver type.    UNIT: A UNIT resolver type. A UNIT resolver is the default resolver type. You can use a UNIT resolver to run a GraphQL query against a single data source.    PIPELINE: A PIPELINE resolver type. You can use a PIPELINE resolver to invoke a series of Function objects in a serial manner. You can use a pipeline resolver to run a GraphQL query against multiple data sources.
         public let kind: ResolverKind?
+        /// The maximum batching size for a resolver.
+        public let maxBatchSize: Int?
         /// The PipelineConfig.
         public let pipelineConfig: PipelineConfig?
         /// The mapping template to use for requests. A resolver uses a request mapping template to convert a GraphQL expression into a format that a data source can understand. Mapping templates are written in Apache Velocity Template Language (VTL). VTL request mapping templates are optional when using an Lambda data source. For all other data sources, VTL request and response mapping templates are required.
@@ -745,12 +756,13 @@ extension AppSync {
         /// The name of the Type.
         public let typeName: String
 
-        public init(apiId: String, cachingConfig: CachingConfig? = nil, dataSourceName: String? = nil, fieldName: String, kind: ResolverKind? = nil, pipelineConfig: PipelineConfig? = nil, requestMappingTemplate: String? = nil, responseMappingTemplate: String? = nil, syncConfig: SyncConfig? = nil, typeName: String) {
+        public init(apiId: String, cachingConfig: CachingConfig? = nil, dataSourceName: String? = nil, fieldName: String, kind: ResolverKind? = nil, maxBatchSize: Int? = nil, pipelineConfig: PipelineConfig? = nil, requestMappingTemplate: String? = nil, responseMappingTemplate: String? = nil, syncConfig: SyncConfig? = nil, typeName: String) {
             self.apiId = apiId
             self.cachingConfig = cachingConfig
             self.dataSourceName = dataSourceName
             self.fieldName = fieldName
             self.kind = kind
+            self.maxBatchSize = maxBatchSize
             self.pipelineConfig = pipelineConfig
             self.requestMappingTemplate = requestMappingTemplate
             self.responseMappingTemplate = responseMappingTemplate
@@ -765,10 +777,14 @@ extension AppSync {
             try self.validate(self.fieldName, name: "fieldName", parent: name, max: 65536)
             try self.validate(self.fieldName, name: "fieldName", parent: name, min: 1)
             try self.validate(self.fieldName, name: "fieldName", parent: name, pattern: "[_A-Za-z][_0-9A-Za-z]*")
+            try self.validate(self.maxBatchSize, name: "maxBatchSize", parent: name, max: 2000)
+            try self.validate(self.maxBatchSize, name: "maxBatchSize", parent: name, min: 0)
             try self.validate(self.requestMappingTemplate, name: "requestMappingTemplate", parent: name, max: 65536)
             try self.validate(self.requestMappingTemplate, name: "requestMappingTemplate", parent: name, min: 1)
+            try self.validate(self.requestMappingTemplate, name: "requestMappingTemplate", parent: name, pattern: "^.*$")
             try self.validate(self.responseMappingTemplate, name: "responseMappingTemplate", parent: name, max: 65536)
             try self.validate(self.responseMappingTemplate, name: "responseMappingTemplate", parent: name, min: 1)
+            try self.validate(self.responseMappingTemplate, name: "responseMappingTemplate", parent: name, pattern: "^.*$")
             try self.validate(self.typeName, name: "typeName", parent: name, max: 65536)
             try self.validate(self.typeName, name: "typeName", parent: name, min: 1)
             try self.validate(self.typeName, name: "typeName", parent: name, pattern: "[_A-Za-z][_0-9A-Za-z]*")
@@ -779,6 +795,7 @@ extension AppSync {
             case dataSourceName
             case fieldName
             case kind
+            case maxBatchSize
             case pipelineConfig
             case requestMappingTemplate
             case responseMappingTemplate
@@ -1249,6 +1266,8 @@ extension AppSync {
         public let functionId: String?
         /// The version of the request mapping template. Currently, only the 2018-05-29 version of the template is supported.
         public let functionVersion: String?
+        /// The maximum batching size for a resolver.
+        public let maxBatchSize: Int?
         /// The name of the Function object.
         public let name: String?
         /// The Function request mapping template. Functions support only the 2018-05-29 version of the request mapping template.
@@ -1257,12 +1276,13 @@ extension AppSync {
         public let responseMappingTemplate: String?
         public let syncConfig: SyncConfig?
 
-        public init(dataSourceName: String? = nil, description: String? = nil, functionArn: String? = nil, functionId: String? = nil, functionVersion: String? = nil, name: String? = nil, requestMappingTemplate: String? = nil, responseMappingTemplate: String? = nil, syncConfig: SyncConfig? = nil) {
+        public init(dataSourceName: String? = nil, description: String? = nil, functionArn: String? = nil, functionId: String? = nil, functionVersion: String? = nil, maxBatchSize: Int? = nil, name: String? = nil, requestMappingTemplate: String? = nil, responseMappingTemplate: String? = nil, syncConfig: SyncConfig? = nil) {
             self.dataSourceName = dataSourceName
             self.description = description
             self.functionArn = functionArn
             self.functionId = functionId
             self.functionVersion = functionVersion
+            self.maxBatchSize = maxBatchSize
             self.name = name
             self.requestMappingTemplate = requestMappingTemplate
             self.responseMappingTemplate = responseMappingTemplate
@@ -1275,6 +1295,7 @@ extension AppSync {
             case functionArn
             case functionId
             case functionVersion
+            case maxBatchSize
             case name
             case requestMappingTemplate
             case responseMappingTemplate
@@ -2324,6 +2345,8 @@ extension AppSync {
         public let fieldName: String?
         /// The resolver type.    UNIT: A UNIT resolver type. A UNIT resolver is the default resolver type. You can use a UNIT resolver to run a GraphQL query against a single data source.    PIPELINE: A PIPELINE resolver type. You can use a PIPELINE resolver to invoke a series of Function objects in a serial manner. You can use a pipeline resolver to run a GraphQL query against multiple data sources.
         public let kind: ResolverKind?
+        /// The maximum batching size for a resolver.
+        public let maxBatchSize: Int?
         /// The PipelineConfig.
         public let pipelineConfig: PipelineConfig?
         /// The request mapping template.
@@ -2337,11 +2360,12 @@ extension AppSync {
         /// The resolver type name.
         public let typeName: String?
 
-        public init(cachingConfig: CachingConfig? = nil, dataSourceName: String? = nil, fieldName: String? = nil, kind: ResolverKind? = nil, pipelineConfig: PipelineConfig? = nil, requestMappingTemplate: String? = nil, resolverArn: String? = nil, responseMappingTemplate: String? = nil, syncConfig: SyncConfig? = nil, typeName: String? = nil) {
+        public init(cachingConfig: CachingConfig? = nil, dataSourceName: String? = nil, fieldName: String? = nil, kind: ResolverKind? = nil, maxBatchSize: Int? = nil, pipelineConfig: PipelineConfig? = nil, requestMappingTemplate: String? = nil, resolverArn: String? = nil, responseMappingTemplate: String? = nil, syncConfig: SyncConfig? = nil, typeName: String? = nil) {
             self.cachingConfig = cachingConfig
             self.dataSourceName = dataSourceName
             self.fieldName = fieldName
             self.kind = kind
+            self.maxBatchSize = maxBatchSize
             self.pipelineConfig = pipelineConfig
             self.requestMappingTemplate = requestMappingTemplate
             self.resolverArn = resolverArn
@@ -2355,6 +2379,7 @@ extension AppSync {
             case dataSourceName
             case fieldName
             case kind
+            case maxBatchSize
             case pipelineConfig
             case requestMappingTemplate
             case resolverArn
@@ -2442,6 +2467,7 @@ extension AppSync {
                 try validate($0.key, name: "tags.key", parent: name, min: 1)
                 try validate($0.key, name: "tags.key", parent: name, pattern: "^(?!aws:)[ a-zA-Z+-=._:/]+$")
                 try validate($0.value, name: "tags[\"\($0.key)\"]", parent: name, max: 256)
+                try validate($0.value, name: "tags[\"\($0.key)\"]", parent: name, pattern: "^[\\s\\w+-=\\.:/@]*$")
             }
         }
 
@@ -2734,6 +2760,8 @@ extension AppSync {
         public let functionId: String
         /// The version of the request mapping template. Currently, the supported value is 2018-05-29.
         public let functionVersion: String
+        /// The maximum batching size for a resolver.
+        public let maxBatchSize: Int?
         /// The Function name.
         public let name: String
         /// The Function request mapping template. Functions support only the 2018-05-29 version of the request mapping template.
@@ -2742,12 +2770,13 @@ extension AppSync {
         public let responseMappingTemplate: String?
         public let syncConfig: SyncConfig?
 
-        public init(apiId: String, dataSourceName: String, description: String? = nil, functionId: String, functionVersion: String, name: String, requestMappingTemplate: String? = nil, responseMappingTemplate: String? = nil, syncConfig: SyncConfig? = nil) {
+        public init(apiId: String, dataSourceName: String, description: String? = nil, functionId: String, functionVersion: String, maxBatchSize: Int? = nil, name: String, requestMappingTemplate: String? = nil, responseMappingTemplate: String? = nil, syncConfig: SyncConfig? = nil) {
             self.apiId = apiId
             self.dataSourceName = dataSourceName
             self.description = description
             self.functionId = functionId
             self.functionVersion = functionVersion
+            self.maxBatchSize = maxBatchSize
             self.name = name
             self.requestMappingTemplate = requestMappingTemplate
             self.responseMappingTemplate = responseMappingTemplate
@@ -2761,19 +2790,24 @@ extension AppSync {
             try self.validate(self.functionId, name: "functionId", parent: name, max: 65536)
             try self.validate(self.functionId, name: "functionId", parent: name, min: 1)
             try self.validate(self.functionId, name: "functionId", parent: name, pattern: "[_A-Za-z][_0-9A-Za-z]*")
+            try self.validate(self.maxBatchSize, name: "maxBatchSize", parent: name, max: 2000)
+            try self.validate(self.maxBatchSize, name: "maxBatchSize", parent: name, min: 0)
             try self.validate(self.name, name: "name", parent: name, max: 65536)
             try self.validate(self.name, name: "name", parent: name, min: 1)
             try self.validate(self.name, name: "name", parent: name, pattern: "[_A-Za-z][_0-9A-Za-z]*")
             try self.validate(self.requestMappingTemplate, name: "requestMappingTemplate", parent: name, max: 65536)
             try self.validate(self.requestMappingTemplate, name: "requestMappingTemplate", parent: name, min: 1)
+            try self.validate(self.requestMappingTemplate, name: "requestMappingTemplate", parent: name, pattern: "^.*$")
             try self.validate(self.responseMappingTemplate, name: "responseMappingTemplate", parent: name, max: 65536)
             try self.validate(self.responseMappingTemplate, name: "responseMappingTemplate", parent: name, min: 1)
+            try self.validate(self.responseMappingTemplate, name: "responseMappingTemplate", parent: name, pattern: "^.*$")
         }
 
         private enum CodingKeys: String, CodingKey {
             case dataSourceName
             case description
             case functionVersion
+            case maxBatchSize
             case name
             case requestMappingTemplate
             case responseMappingTemplate
@@ -2879,6 +2913,8 @@ extension AppSync {
         public let fieldName: String
         /// The resolver type.    UNIT: A UNIT resolver type. A UNIT resolver is the default resolver type. You can use a UNIT resolver to run a GraphQL query against a single data source.    PIPELINE: A PIPELINE resolver type. You can use a PIPELINE resolver to invoke a series of Function objects in a serial manner. You can use a pipeline resolver to run a GraphQL query against multiple data sources.
         public let kind: ResolverKind?
+        /// The maximum batching size for a resolver.
+        public let maxBatchSize: Int?
         /// The PipelineConfig.
         public let pipelineConfig: PipelineConfig?
         /// The new request mapping template. A resolver uses a request mapping template to convert a GraphQL expression into a format that a data source can understand. Mapping templates are written in Apache Velocity Template Language (VTL). VTL request mapping templates are optional when using an Lambda data source. For all other data sources, VTL request and response mapping templates are required.
@@ -2890,12 +2926,13 @@ extension AppSync {
         /// The new type name.
         public let typeName: String
 
-        public init(apiId: String, cachingConfig: CachingConfig? = nil, dataSourceName: String? = nil, fieldName: String, kind: ResolverKind? = nil, pipelineConfig: PipelineConfig? = nil, requestMappingTemplate: String? = nil, responseMappingTemplate: String? = nil, syncConfig: SyncConfig? = nil, typeName: String) {
+        public init(apiId: String, cachingConfig: CachingConfig? = nil, dataSourceName: String? = nil, fieldName: String, kind: ResolverKind? = nil, maxBatchSize: Int? = nil, pipelineConfig: PipelineConfig? = nil, requestMappingTemplate: String? = nil, responseMappingTemplate: String? = nil, syncConfig: SyncConfig? = nil, typeName: String) {
             self.apiId = apiId
             self.cachingConfig = cachingConfig
             self.dataSourceName = dataSourceName
             self.fieldName = fieldName
             self.kind = kind
+            self.maxBatchSize = maxBatchSize
             self.pipelineConfig = pipelineConfig
             self.requestMappingTemplate = requestMappingTemplate
             self.responseMappingTemplate = responseMappingTemplate
@@ -2910,10 +2947,14 @@ extension AppSync {
             try self.validate(self.fieldName, name: "fieldName", parent: name, max: 65536)
             try self.validate(self.fieldName, name: "fieldName", parent: name, min: 1)
             try self.validate(self.fieldName, name: "fieldName", parent: name, pattern: "[_A-Za-z][_0-9A-Za-z]*")
+            try self.validate(self.maxBatchSize, name: "maxBatchSize", parent: name, max: 2000)
+            try self.validate(self.maxBatchSize, name: "maxBatchSize", parent: name, min: 0)
             try self.validate(self.requestMappingTemplate, name: "requestMappingTemplate", parent: name, max: 65536)
             try self.validate(self.requestMappingTemplate, name: "requestMappingTemplate", parent: name, min: 1)
+            try self.validate(self.requestMappingTemplate, name: "requestMappingTemplate", parent: name, pattern: "^.*$")
             try self.validate(self.responseMappingTemplate, name: "responseMappingTemplate", parent: name, max: 65536)
             try self.validate(self.responseMappingTemplate, name: "responseMappingTemplate", parent: name, min: 1)
+            try self.validate(self.responseMappingTemplate, name: "responseMappingTemplate", parent: name, pattern: "^.*$")
             try self.validate(self.typeName, name: "typeName", parent: name, max: 65536)
             try self.validate(self.typeName, name: "typeName", parent: name, min: 1)
             try self.validate(self.typeName, name: "typeName", parent: name, pattern: "[_A-Za-z][_0-9A-Za-z]*")
@@ -2923,6 +2964,7 @@ extension AppSync {
             case cachingConfig
             case dataSourceName
             case kind
+            case maxBatchSize
             case pipelineConfig
             case requestMappingTemplate
             case responseMappingTemplate

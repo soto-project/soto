@@ -93,12 +93,12 @@ public struct LookoutEquipment: AWSService {
         return self.client.execute(operation: "DeleteModel", path: "/", httpMethod: .POST, serviceConfig: self.config, input: input, logger: logger, on: eventLoop)
     }
 
-    /// Provides information on a specific data ingestion job such as creation time, dataset ARN, status, and so on.
+    /// Provides information on a specific data ingestion job such as creation time, dataset ARN, and status.
     public func describeDataIngestionJob(_ input: DescribeDataIngestionJobRequest, logger: Logger = AWSClient.loggingDisabled, on eventLoop: EventLoop? = nil) -> EventLoopFuture<DescribeDataIngestionJobResponse> {
         return self.client.execute(operation: "DescribeDataIngestionJob", path: "/", httpMethod: .POST, serviceConfig: self.config, input: input, logger: logger, on: eventLoop)
     }
 
-    /// Provides a JSON description of the data that is in each time series dataset, including names, column names, and data types.
+    /// Provides a JSON description of the data in each time series dataset, including names, column names, and data types.
     public func describeDataset(_ input: DescribeDatasetRequest, logger: Logger = AWSClient.loggingDisabled, on eventLoop: EventLoop? = nil) -> EventLoopFuture<DescribeDatasetResponse> {
         return self.client.execute(operation: "DescribeDataset", path: "/", httpMethod: .POST, serviceConfig: self.config, input: input, logger: logger, on: eventLoop)
     }
@@ -136,6 +136,11 @@ public struct LookoutEquipment: AWSService {
     /// Generates a list of all models in the account, including model name and ARN, dataset, and status.
     public func listModels(_ input: ListModelsRequest, logger: Logger = AWSClient.loggingDisabled, on eventLoop: EventLoop? = nil) -> EventLoopFuture<ListModelsResponse> {
         return self.client.execute(operation: "ListModels", path: "/", httpMethod: .POST, serviceConfig: self.config, input: input, logger: logger, on: eventLoop)
+    }
+
+    ///  Lists statistics about the data collected for each of the sensors that have been successfully ingested in the particular dataset. Can also be used to retreive Sensor Statistics for a previous ingestion job.
+    public func listSensorStatistics(_ input: ListSensorStatisticsRequest, logger: Logger = AWSClient.loggingDisabled, on eventLoop: EventLoop? = nil) -> EventLoopFuture<ListSensorStatisticsResponse> {
+        return self.client.execute(operation: "ListSensorStatistics", path: "/", httpMethod: .POST, serviceConfig: self.config, input: input, logger: logger, on: eventLoop)
     }
 
     /// Lists all the tags for a specified resource, including key and value.

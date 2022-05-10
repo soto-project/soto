@@ -43,7 +43,7 @@ public struct MWAAErrorType: AWSErrorType {
     /// return error code string
     public var errorCode: String { self.error.rawValue }
 
-    /// Access to the Airflow Web UI or CLI has been Denied. Please follow the MWAA user guide to setup permissions to access the Web UI and CLI functionality.
+    /// Access to the Apache Airflow Web UI or CLI has been denied due to insufficient permissions. To learn more, see Accessing an Amazon MWAA environment.
     public static var accessDeniedException: Self { .init(.accessDeniedException) }
     /// InternalServerException: An internal error has occurred.
     public static var internalServerException: Self { .init(.internalServerException) }

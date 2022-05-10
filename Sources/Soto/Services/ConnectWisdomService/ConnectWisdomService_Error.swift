@@ -58,7 +58,7 @@ public struct ConnectWisdomServiceErrorType: AWSErrorType {
     public static var serviceQuotaExceededException: Self { .init(.serviceQuotaExceededException) }
     /// Amazon Connect Wisdom throws this exception if you have too many tags in your tag set.
     public static var tooManyTagsException: Self { .init(.tooManyTagsException) }
-    /// The input fails to satisfy the constraints specified by an AWS service.
+    /// The input fails to satisfy the constraints specified by a service.
     public static var validationException: Self { .init(.validationException) }
 }
 

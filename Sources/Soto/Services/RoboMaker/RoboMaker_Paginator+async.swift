@@ -22,13 +22,14 @@ import SotoCore
 
 @available(macOS 12.0, iOS 15.0, watchOS 8.0, tvOS 15.0, *)
 extension RoboMaker {
-    ///  Returns a list of deployment jobs for a fleet. You can optionally provide filters to retrieve specific deployment jobs.
+    ///  Returns a list of deployment jobs for a fleet. You can optionally provide filters to retrieve specific deployment jobs.  This API will no longer be supported as of May 2, 2022. Use it to remove resources that were created for Deployment Service.
     /// Return PaginatorSequence for operation.
     ///
     /// - Parameters:
     ///   - input: Input for request
     ///   - logger: Logger used flot logging
     ///   - eventLoop: EventLoop to run this process on
+    @available(*, deprecated, message: "Support for the AWS RoboMaker application deployment feature has ended. For additional information, see https://docs.aws.amazon.com/robomaker/latest/dg/fleets.html.")
     public func listDeploymentJobsPaginator(
         _ input: ListDeploymentJobsRequest,
         logger: Logger = AWSClient.loggingDisabled,
@@ -44,13 +45,14 @@ extension RoboMaker {
         )
     }
 
-    ///  Returns a list of fleets. You can optionally provide filters to retrieve specific fleets.
+    ///  Returns a list of fleets. You can optionally provide filters to retrieve specific fleets.  This API will no longer be supported as of May 2, 2022. Use it to remove resources that were created for Deployment Service.
     /// Return PaginatorSequence for operation.
     ///
     /// - Parameters:
     ///   - input: Input for request
     ///   - logger: Logger used flot logging
     ///   - eventLoop: EventLoop to run this process on
+    @available(*, deprecated, message: "Support for the AWS RoboMaker application deployment feature has ended. For additional information, see https://docs.aws.amazon.com/robomaker/latest/dg/fleets.html.")
     public func listFleetsPaginator(
         _ input: ListFleetsRequest,
         logger: Logger = AWSClient.loggingDisabled,
@@ -88,13 +90,14 @@ extension RoboMaker {
         )
     }
 
-    ///  Returns a list of robots. You can optionally provide filters to retrieve specific robots.
+    ///  Returns a list of robots. You can optionally provide filters to retrieve specific robots.  This API will no longer be supported as of May 2, 2022. Use it to remove resources that were created for Deployment Service.
     /// Return PaginatorSequence for operation.
     ///
     /// - Parameters:
     ///   - input: Input for request
     ///   - logger: Logger used flot logging
     ///   - eventLoop: EventLoop to run this process on
+    @available(*, deprecated, message: "Support for the AWS RoboMaker application deployment feature has ended. For additional information, see https://docs.aws.amazon.com/robomaker/latest/dg/fleets.html.")
     public func listRobotsPaginator(
         _ input: ListRobotsRequest,
         logger: Logger = AWSClient.loggingDisabled,

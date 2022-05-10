@@ -82,6 +82,11 @@ public struct Appflow: AWSService {
         return self.client.execute(operation: "DeleteFlow", path: "/delete-flow", httpMethod: .POST, serviceConfig: self.config, input: input, logger: logger, on: eventLoop)
     }
 
+    /// Describes the given custom connector registered in your Amazon Web Services account. This API can be used for custom connectors that are registered in your account and also for Amazon authored connectors.
+    public func describeConnector(_ input: DescribeConnectorRequest, logger: Logger = AWSClient.loggingDisabled, on eventLoop: EventLoop? = nil) -> EventLoopFuture<DescribeConnectorResponse> {
+        return self.client.execute(operation: "DescribeConnector", path: "/describe-connector", httpMethod: .POST, serviceConfig: self.config, input: input, logger: logger, on: eventLoop)
+    }
+
     ///  Provides details regarding the entity used with the connector, with a description of the data model for each entity.
     public func describeConnectorEntity(_ input: DescribeConnectorEntityRequest, logger: Logger = AWSClient.loggingDisabled, on eventLoop: EventLoop? = nil) -> EventLoopFuture<DescribeConnectorEntityResponse> {
         return self.client.execute(operation: "DescribeConnectorEntity", path: "/describe-connector-entity", httpMethod: .POST, serviceConfig: self.config, input: input, logger: logger, on: eventLoop)
@@ -112,6 +117,11 @@ public struct Appflow: AWSService {
         return self.client.execute(operation: "ListConnectorEntities", path: "/list-connector-entities", httpMethod: .POST, serviceConfig: self.config, input: input, logger: logger, on: eventLoop)
     }
 
+    /// Returns the list of all registered custom connectors in your Amazon Web Services account. This API lists only custom connectors registered in this account, not the Amazon Web Services authored connectors.
+    public func listConnectors(_ input: ListConnectorsRequest, logger: Logger = AWSClient.loggingDisabled, on eventLoop: EventLoop? = nil) -> EventLoopFuture<ListConnectorsResponse> {
+        return self.client.execute(operation: "ListConnectors", path: "/list-connectors", httpMethod: .POST, serviceConfig: self.config, input: input, logger: logger, on: eventLoop)
+    }
+
     ///  Lists all of the flows associated with your account.
     public func listFlows(_ input: ListFlowsRequest, logger: Logger = AWSClient.loggingDisabled, on eventLoop: EventLoop? = nil) -> EventLoopFuture<ListFlowsResponse> {
         return self.client.execute(operation: "ListFlows", path: "/list-flows", httpMethod: .POST, serviceConfig: self.config, input: input, logger: logger, on: eventLoop)
@@ -120,6 +130,11 @@ public struct Appflow: AWSService {
     ///  Retrieves the tags that are associated with a specified flow.
     public func listTagsForResource(_ input: ListTagsForResourceRequest, logger: Logger = AWSClient.loggingDisabled, on eventLoop: EventLoop? = nil) -> EventLoopFuture<ListTagsForResourceResponse> {
         return self.client.execute(operation: "ListTagsForResource", path: "/tags/{resourceArn}", httpMethod: .GET, serviceConfig: self.config, input: input, logger: logger, on: eventLoop)
+    }
+
+    /// Registers a new connector with your Amazon Web Services account. Before you can register the connector, you must deploy lambda in your account.
+    public func registerConnector(_ input: RegisterConnectorRequest, logger: Logger = AWSClient.loggingDisabled, on eventLoop: EventLoop? = nil) -> EventLoopFuture<RegisterConnectorResponse> {
+        return self.client.execute(operation: "RegisterConnector", path: "/register-connector", httpMethod: .POST, serviceConfig: self.config, input: input, logger: logger, on: eventLoop)
     }
 
     ///  Activates an existing flow. For on-demand flows, this operation runs the flow immediately. For schedule and event-triggered flows, this operation activates the flow.
@@ -135,6 +150,11 @@ public struct Appflow: AWSService {
     ///  Applies a tag to the specified flow.
     public func tagResource(_ input: TagResourceRequest, logger: Logger = AWSClient.loggingDisabled, on eventLoop: EventLoop? = nil) -> EventLoopFuture<TagResourceResponse> {
         return self.client.execute(operation: "TagResource", path: "/tags/{resourceArn}", httpMethod: .POST, serviceConfig: self.config, input: input, logger: logger, on: eventLoop)
+    }
+
+    /// Unregisters the custom connector registered in your account that matches the connectorLabel provided in the request.
+    public func unregisterConnector(_ input: UnregisterConnectorRequest, logger: Logger = AWSClient.loggingDisabled, on eventLoop: EventLoop? = nil) -> EventLoopFuture<UnregisterConnectorResponse> {
+        return self.client.execute(operation: "UnregisterConnector", path: "/unregister-connector", httpMethod: .POST, serviceConfig: self.config, input: input, logger: logger, on: eventLoop)
     }
 
     ///  Removes a tag from the specified flow.

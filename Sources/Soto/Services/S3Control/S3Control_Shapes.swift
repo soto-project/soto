@@ -67,6 +67,11 @@ extension S3Control {
         public var description: String { return self.rawValue }
     }
 
+    public enum GeneratedManifestFormat: String, CustomStringConvertible, Codable {
+        case s3inventoryreportCsv20211130 = "S3InventoryReport_CSV_20211130"
+        public var description: String { return self.rawValue }
+    }
+
     public enum JobManifestFieldName: String, CustomStringConvertible, Codable {
         case bucket = "Bucket"
         case ignore = "Ignore"
@@ -145,11 +150,20 @@ extension S3Control {
         case s3putobjectlegalhold = "S3PutObjectLegalHold"
         case s3putobjectretention = "S3PutObjectRetention"
         case s3putobjecttagging = "S3PutObjectTagging"
+        case s3replicateobject = "S3ReplicateObject"
         public var description: String { return self.rawValue }
     }
 
     public enum OutputSchemaVersion: String, CustomStringConvertible, Codable {
         case v1 = "V_1"
+        public var description: String { return self.rawValue }
+    }
+
+    public enum ReplicationStatus: String, CustomStringConvertible, Codable {
+        case completed = "COMPLETED"
+        case failed = "FAILED"
+        case none = "NONE"
+        case replica = "REPLICA"
         public var description: String { return self.rawValue }
     }
 
@@ -167,6 +181,14 @@ extension S3Control {
         case `private`
         case publicRead = "public-read"
         case publicReadWrite = "public-read-write"
+        public var description: String { return self.rawValue }
+    }
+
+    public enum S3ChecksumAlgorithm: String, CustomStringConvertible, Codable {
+        case crc32 = "CRC32"
+        case crc32c = "CRC32C"
+        case sha1 = "SHA1"
+        case sha256 = "SHA256"
         public var description: String { return self.rawValue }
     }
 
@@ -225,6 +247,7 @@ extension S3Control {
     public enum S3StorageClass: String, CustomStringConvertible, Codable {
         case deepArchive = "DEEP_ARCHIVE"
         case glacier = "GLACIER"
+        case glacierIr = "GLACIER_IR"
         case intelligentTiering = "INTELLIGENT_TIERING"
         case onezoneIa = "ONEZONE_IA"
         case standard = "STANDARD"
@@ -699,7 +722,9 @@ extension S3Control {
         /// A description for this job. You can use any string within the permitted length. Descriptions don't need to be unique and can be used for multiple jobs.
         public let description: String?
         /// Configuration parameters for the manifest.
-        public let manifest: JobManifest
+        public let manifest: JobManifest?
+        /// The attribute container for the ManifestGenerator details. Jobs must be created with either a manifest file or a ManifestGenerator, but not both.
+        public let manifestGenerator: JobManifestGenerator?
         /// The action that you want this job to perform on every object listed in the manifest. For more information about the available actions, see Operations in the Amazon S3 User Guide.
         public let operation: JobOperation
         /// The numerical priority for this job. Higher numbers indicate higher priority.
@@ -712,12 +737,13 @@ extension S3Control {
         @OptionalCustomCoding<StandardArrayCoder>
         public var tags: [S3Tag]?
 
-        public init(accountId: String, clientRequestToken: String = CreateJobRequest.idempotencyToken(), confirmationRequired: Bool? = nil, description: String? = nil, manifest: JobManifest, operation: JobOperation, priority: Int, report: JobReport, roleArn: String, tags: [S3Tag]? = nil) {
+        public init(accountId: String, clientRequestToken: String = CreateJobRequest.idempotencyToken(), confirmationRequired: Bool? = nil, description: String? = nil, manifest: JobManifest? = nil, manifestGenerator: JobManifestGenerator? = nil, operation: JobOperation, priority: Int, report: JobReport, roleArn: String, tags: [S3Tag]? = nil) {
             self.accountId = accountId
             self.clientRequestToken = clientRequestToken
             self.confirmationRequired = confirmationRequired
             self.description = description
             self.manifest = manifest
+            self.manifestGenerator = manifestGenerator
             self.operation = operation
             self.priority = priority
             self.report = report
@@ -732,7 +758,8 @@ extension S3Control {
             try self.validate(self.clientRequestToken, name: "clientRequestToken", parent: name, min: 1)
             try self.validate(self.description, name: "description", parent: name, max: 256)
             try self.validate(self.description, name: "description", parent: name, min: 1)
-            try self.manifest.validate(name: "\(name).manifest")
+            try self.manifest?.validate(name: "\(name).manifest")
+            try self.manifestGenerator?.validate(name: "\(name).manifestGenerator")
             try self.operation.validate(name: "\(name).operation")
             try self.validate(self.priority, name: "priority", parent: name, max: 2_147_483_647)
             try self.validate(self.priority, name: "priority", parent: name, min: 0)
@@ -750,6 +777,7 @@ extension S3Control {
             case confirmationRequired = "ConfirmationRequired"
             case description = "Description"
             case manifest = "Manifest"
+            case manifestGenerator = "ManifestGenerator"
             case operation = "Operation"
             case priority = "Priority"
             case report = "Report"
@@ -1372,6 +1400,27 @@ extension S3Control {
         private enum CodingKeys: String, CodingKey {
             case buckets = "Buckets"
             case regions = "Regions"
+        }
+    }
+
+    public struct GeneratedManifestEncryption: AWSEncodableShape & AWSDecodableShape {
+        /// Configuration details on how SSE-KMS is used to encrypt generated manifest objects.
+        public let ssekms: SSEKMSEncryption?
+        /// Specifies the use of SSE-S3 to encrypt generated manifest objects.
+        public let sses3: SSES3Encryption?
+
+        public init(ssekms: SSEKMSEncryption? = nil, sses3: SSES3Encryption? = nil) {
+            self.ssekms = ssekms
+            self.sses3 = sses3
+        }
+
+        public func validate(name: String) throws {
+            try self.ssekms?.validate(name: "\(name).ssekms")
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case ssekms = "SSE-KMS"
+            case sses3 = "SSE-S3"
         }
     }
 
@@ -2206,12 +2255,16 @@ extension S3Control {
         /// If the specified job failed, this field contains information describing the failure.
         @OptionalCustomCoding<StandardArrayCoder>
         public var failureReasons: [JobFailure]?
+        /// The attribute of the JobDescriptor containing details about the job's generated manifest.
+        public let generatedManifestDescriptor: S3GeneratedManifestDescriptor?
         /// The Amazon Resource Name (ARN) for this job.
         public let jobArn: String?
         /// The ID for the specified job.
         public let jobId: String?
         /// The configuration information for the specified job's manifest object.
         public let manifest: JobManifest?
+        /// The manifest generator that was used to generate a job manifest for this job.
+        public let manifestGenerator: JobManifestGenerator?
         /// The operation that the specified job is configured to run on the objects listed in the manifest.
         public let operation: JobOperation?
         /// The priority of the specified job.
@@ -2233,14 +2286,16 @@ extension S3Control {
         /// A timestamp indicating when this job terminated. A job's termination date is the date and time when it succeeded, failed, or was canceled.
         public let terminationDate: Date?
 
-        public init(confirmationRequired: Bool? = nil, creationTime: Date? = nil, description: String? = nil, failureReasons: [JobFailure]? = nil, jobArn: String? = nil, jobId: String? = nil, manifest: JobManifest? = nil, operation: JobOperation? = nil, priority: Int? = nil, progressSummary: JobProgressSummary? = nil, report: JobReport? = nil, roleArn: String? = nil, status: JobStatus? = nil, statusUpdateReason: String? = nil, suspendedCause: String? = nil, suspendedDate: Date? = nil, terminationDate: Date? = nil) {
+        public init(confirmationRequired: Bool? = nil, creationTime: Date? = nil, description: String? = nil, failureReasons: [JobFailure]? = nil, generatedManifestDescriptor: S3GeneratedManifestDescriptor? = nil, jobArn: String? = nil, jobId: String? = nil, manifest: JobManifest? = nil, manifestGenerator: JobManifestGenerator? = nil, operation: JobOperation? = nil, priority: Int? = nil, progressSummary: JobProgressSummary? = nil, report: JobReport? = nil, roleArn: String? = nil, status: JobStatus? = nil, statusUpdateReason: String? = nil, suspendedCause: String? = nil, suspendedDate: Date? = nil, terminationDate: Date? = nil) {
             self.confirmationRequired = confirmationRequired
             self.creationTime = creationTime
             self.description = description
             self.failureReasons = failureReasons
+            self.generatedManifestDescriptor = generatedManifestDescriptor
             self.jobArn = jobArn
             self.jobId = jobId
             self.manifest = manifest
+            self.manifestGenerator = manifestGenerator
             self.operation = operation
             self.priority = priority
             self.progressSummary = progressSummary
@@ -2258,9 +2313,11 @@ extension S3Control {
             case creationTime = "CreationTime"
             case description = "Description"
             case failureReasons = "FailureReasons"
+            case generatedManifestDescriptor = "GeneratedManifestDescriptor"
             case jobArn = "JobArn"
             case jobId = "JobId"
             case manifest = "Manifest"
+            case manifestGenerator = "ManifestGenerator"
             case operation = "Operation"
             case priority = "Priority"
             case progressSummary = "ProgressSummary"
@@ -2353,6 +2410,49 @@ extension S3Control {
         }
     }
 
+    public struct JobManifestGenerator: AWSEncodableShape & AWSDecodableShape {
+        /// The S3 job ManifestGenerator's configuration details.
+        public let s3JobManifestGenerator: S3JobManifestGenerator?
+
+        public init(s3JobManifestGenerator: S3JobManifestGenerator? = nil) {
+            self.s3JobManifestGenerator = s3JobManifestGenerator
+        }
+
+        public func validate(name: String) throws {
+            try self.s3JobManifestGenerator?.validate(name: "\(name).s3JobManifestGenerator")
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case s3JobManifestGenerator = "S3JobManifestGenerator"
+        }
+    }
+
+    public struct JobManifestGeneratorFilter: AWSEncodableShape & AWSDecodableShape {
+        /// If provided, the generated manifest should include only source bucket objects that were created after this time.
+        public let createdAfter: Date?
+        /// If provided, the generated manifest should include only source bucket objects that were created before this time.
+        public let createdBefore: Date?
+        /// Include objects in the generated manifest only if they are eligible for replication according to the Replication configuration on the source bucket.
+        public let eligibleForReplication: Bool?
+        /// If provided, the generated manifest should include only source bucket objects that have one of the specified Replication statuses.
+        @OptionalCustomCoding<StandardArrayCoder>
+        public var objectReplicationStatuses: [ReplicationStatus]?
+
+        public init(createdAfter: Date? = nil, createdBefore: Date? = nil, eligibleForReplication: Bool? = nil, objectReplicationStatuses: [ReplicationStatus]? = nil) {
+            self.createdAfter = createdAfter
+            self.createdBefore = createdBefore
+            self.eligibleForReplication = eligibleForReplication
+            self.objectReplicationStatuses = objectReplicationStatuses
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case createdAfter = "CreatedAfter"
+            case createdBefore = "CreatedBefore"
+            case eligibleForReplication = "EligibleForReplication"
+            case objectReplicationStatuses = "ObjectReplicationStatuses"
+        }
+    }
+
     public struct JobManifestLocation: AWSEncodableShape & AWSDecodableShape {
         /// The ETag for the specified manifest object.
         public let eTag: String
@@ -2417,8 +2517,10 @@ extension S3Control {
         public let s3PutObjectRetention: S3SetObjectRetentionOperation?
         /// Directs the specified job to run a PUT Object tagging call on every object in the manifest.
         public let s3PutObjectTagging: S3SetObjectTaggingOperation?
+        /// Directs the specified job to invoke ReplicateObject on every object in the job's manifest.
+        public let s3ReplicateObject: S3ReplicateObjectOperation?
 
-        public init(lambdaInvoke: LambdaInvokeOperation? = nil, s3DeleteObjectTagging: S3DeleteObjectTaggingOperation? = nil, s3InitiateRestoreObject: S3InitiateRestoreObjectOperation? = nil, s3PutObjectAcl: S3SetObjectAclOperation? = nil, s3PutObjectCopy: S3CopyObjectOperation? = nil, s3PutObjectLegalHold: S3SetObjectLegalHoldOperation? = nil, s3PutObjectRetention: S3SetObjectRetentionOperation? = nil, s3PutObjectTagging: S3SetObjectTaggingOperation? = nil) {
+        public init(lambdaInvoke: LambdaInvokeOperation? = nil, s3DeleteObjectTagging: S3DeleteObjectTaggingOperation? = nil, s3InitiateRestoreObject: S3InitiateRestoreObjectOperation? = nil, s3PutObjectAcl: S3SetObjectAclOperation? = nil, s3PutObjectCopy: S3CopyObjectOperation? = nil, s3PutObjectLegalHold: S3SetObjectLegalHoldOperation? = nil, s3PutObjectRetention: S3SetObjectRetentionOperation? = nil, s3PutObjectTagging: S3SetObjectTaggingOperation? = nil, s3ReplicateObject: S3ReplicateObjectOperation? = nil) {
             self.lambdaInvoke = lambdaInvoke
             self.s3DeleteObjectTagging = s3DeleteObjectTagging
             self.s3InitiateRestoreObject = s3InitiateRestoreObject
@@ -2427,6 +2529,7 @@ extension S3Control {
             self.s3PutObjectLegalHold = s3PutObjectLegalHold
             self.s3PutObjectRetention = s3PutObjectRetention
             self.s3PutObjectTagging = s3PutObjectTagging
+            self.s3ReplicateObject = s3ReplicateObject
         }
 
         public func validate(name: String) throws {
@@ -2446,23 +2549,28 @@ extension S3Control {
             case s3PutObjectLegalHold = "S3PutObjectLegalHold"
             case s3PutObjectRetention = "S3PutObjectRetention"
             case s3PutObjectTagging = "S3PutObjectTagging"
+            case s3ReplicateObject = "S3ReplicateObject"
         }
     }
 
     public struct JobProgressSummary: AWSDecodableShape {
         public let numberOfTasksFailed: Int64?
         public let numberOfTasksSucceeded: Int64?
+        /// The JobTimers attribute of a job's progress summary.
+        public let timers: JobTimers?
         public let totalNumberOfTasks: Int64?
 
-        public init(numberOfTasksFailed: Int64? = nil, numberOfTasksSucceeded: Int64? = nil, totalNumberOfTasks: Int64? = nil) {
+        public init(numberOfTasksFailed: Int64? = nil, numberOfTasksSucceeded: Int64? = nil, timers: JobTimers? = nil, totalNumberOfTasks: Int64? = nil) {
             self.numberOfTasksFailed = numberOfTasksFailed
             self.numberOfTasksSucceeded = numberOfTasksSucceeded
+            self.timers = timers
             self.totalNumberOfTasks = totalNumberOfTasks
         }
 
         private enum CodingKeys: String, CodingKey {
             case numberOfTasksFailed = "NumberOfTasksFailed"
             case numberOfTasksSucceeded = "NumberOfTasksSucceeded"
+            case timers = "Timers"
             case totalNumberOfTasks = "TotalNumberOfTasks"
         }
     }
@@ -2501,6 +2609,19 @@ extension S3Control {
             case format = "Format"
             case prefix = "Prefix"
             case reportScope = "ReportScope"
+        }
+    }
+
+    public struct JobTimers: AWSDecodableShape {
+        /// Indicates the elapsed time in seconds the job has been in the Active job state.
+        public let elapsedTimeInActiveSeconds: Int64?
+
+        public init(elapsedTimeInActiveSeconds: Int64? = nil) {
+            self.elapsedTimeInActiveSeconds = elapsedTimeInActiveSeconds
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case elapsedTimeInActiveSeconds = "ElapsedTimeInActiveSeconds"
         }
     }
 
@@ -2676,7 +2797,7 @@ extension S3Control {
 
         /// The account ID for the account that owns the specified Object Lambda Access Point.
         public let accountId: String
-        /// The maximum number of access points that you want to include in the list. If there are more than this number of access points, then the response will include a continuation token in the NextToken field that you can use to retrieve the next page of access points.
+        /// The maximum number of access points that you want to include in the list. The response may contain fewer access points but will never contain more. If there are more than this number of access points, then the response will include a continuation token in the NextToken field that you can use to retrieve the next page of access points.
         public let maxResults: Int?
         /// If the list has more access points than can be returned in one call to this API, this field contains a continuation token that you can provide in subsequent calls to this API to retrieve additional access points.
         public let nextToken: String?
@@ -3898,8 +4019,11 @@ extension S3Control {
         /// Specifies whether Amazon S3 should use an S3 Bucket Key for object encryption with server-side encryption using Amazon Web Services KMS (SSE-KMS). Setting this header to true causes Amazon S3 to use an S3 Bucket Key for object encryption with SSE-KMS. Specifying this header with an object action doesn’t affect bucket-level settings for S3 Bucket Key.
         public let bucketKeyEnabled: Bool?
         public let cannedAccessControlList: S3CannedAccessControlList?
+        /// Indicates the algorithm you want Amazon S3 to use to create the checksum. For more information see  Checking object integrity in the Amazon S3 User Guide.
+        public let checksumAlgorithm: S3ChecksumAlgorithm?
         public let metadataDirective: S3MetadataDirective?
         public let modifiedSinceConstraint: Date?
+        /// If you don't provide this parameter, Amazon S3 copies all the metadata from the original objects. If you specify an empty set, the new objects will have no tags. Otherwise, Amazon S3 assigns the supplied tags to the new objects.
         public let newObjectMetadata: S3ObjectMetadata?
         @OptionalCustomCoding<StandardArrayCoder>
         public var newObjectTagging: [S3Tag]?
@@ -3914,16 +4038,17 @@ extension S3Control {
         public let requesterPays: Bool?
         public let sSEAwsKmsKeyId: String?
         public let storageClass: S3StorageClass?
-        /// Specifies the folder prefix into which you would like the objects to be copied. For example, to copy objects into a folder named "Folder1" in the destination bucket, set the TargetKeyPrefix to "Folder1/".
+        /// Specifies the folder prefix into which you would like the objects to be copied. For example, to copy objects into a folder named Folder1 in the destination bucket, set the TargetKeyPrefix to Folder1.
         public let targetKeyPrefix: String?
         /// Specifies the destination bucket ARN for the batch copy operation. For example, to copy objects to a bucket named "destinationBucket", set the TargetResource to "arn:aws:s3:::destinationBucket".
         public let targetResource: String?
         public let unModifiedSinceConstraint: Date?
 
-        public init(accessControlGrants: [S3Grant]? = nil, bucketKeyEnabled: Bool? = nil, cannedAccessControlList: S3CannedAccessControlList? = nil, metadataDirective: S3MetadataDirective? = nil, modifiedSinceConstraint: Date? = nil, newObjectMetadata: S3ObjectMetadata? = nil, newObjectTagging: [S3Tag]? = nil, objectLockLegalHoldStatus: S3ObjectLockLegalHoldStatus? = nil, objectLockMode: S3ObjectLockMode? = nil, objectLockRetainUntilDate: Date? = nil, redirectLocation: String? = nil, requesterPays: Bool? = nil, sSEAwsKmsKeyId: String? = nil, storageClass: S3StorageClass? = nil, targetKeyPrefix: String? = nil, targetResource: String? = nil, unModifiedSinceConstraint: Date? = nil) {
+        public init(accessControlGrants: [S3Grant]? = nil, bucketKeyEnabled: Bool? = nil, cannedAccessControlList: S3CannedAccessControlList? = nil, checksumAlgorithm: S3ChecksumAlgorithm? = nil, metadataDirective: S3MetadataDirective? = nil, modifiedSinceConstraint: Date? = nil, newObjectMetadata: S3ObjectMetadata? = nil, newObjectTagging: [S3Tag]? = nil, objectLockLegalHoldStatus: S3ObjectLockLegalHoldStatus? = nil, objectLockMode: S3ObjectLockMode? = nil, objectLockRetainUntilDate: Date? = nil, redirectLocation: String? = nil, requesterPays: Bool? = nil, sSEAwsKmsKeyId: String? = nil, storageClass: S3StorageClass? = nil, targetKeyPrefix: String? = nil, targetResource: String? = nil, unModifiedSinceConstraint: Date? = nil) {
             self.accessControlGrants = accessControlGrants
             self.bucketKeyEnabled = bucketKeyEnabled
             self.cannedAccessControlList = cannedAccessControlList
+            self.checksumAlgorithm = checksumAlgorithm
             self.metadataDirective = metadataDirective
             self.modifiedSinceConstraint = modifiedSinceConstraint
             self.newObjectMetadata = newObjectMetadata
@@ -3963,6 +4088,7 @@ extension S3Control {
             case accessControlGrants = "AccessControlGrants"
             case bucketKeyEnabled = "BucketKeyEnabled"
             case cannedAccessControlList = "CannedAccessControlList"
+            case checksumAlgorithm = "ChecksumAlgorithm"
             case metadataDirective = "MetadataDirective"
             case modifiedSinceConstraint = "ModifiedSinceConstraint"
             case newObjectMetadata = "NewObjectMetadata"
@@ -3982,6 +4108,22 @@ extension S3Control {
 
     public struct S3DeleteObjectTaggingOperation: AWSEncodableShape & AWSDecodableShape {
         public init() {}
+    }
+
+    public struct S3GeneratedManifestDescriptor: AWSDecodableShape {
+        /// The format of the generated manifest.
+        public let format: GeneratedManifestFormat?
+        public let location: JobManifestLocation?
+
+        public init(format: GeneratedManifestFormat? = nil, location: JobManifestLocation? = nil) {
+            self.format = format
+            self.location = location
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case format = "Format"
+            case location = "Location"
+        }
     }
 
     public struct S3Grant: AWSEncodableShape & AWSDecodableShape {
@@ -4029,7 +4171,7 @@ extension S3Control {
     }
 
     public struct S3InitiateRestoreObjectOperation: AWSEncodableShape & AWSDecodableShape {
-        /// This argument specifies how long the S3 Glacier Flexible Retrieval or S3 Glacier Deep Archive object remains available in Amazon S3. S3 Initiate Restore Object jobs that target S3 Glacier Flexible Retrieval and S3 Glacier Deep Archive objects require ExpirationInDays set to 1 or greater. Conversely, do not set ExpirationInDays when creating S3 Initiate Restore Object jobs that target S3 Intelligent-Tiering Archive Access and Deep Archive Access tier objects. Objects in S3 Intelligent-Tiering archive access tiers are not subject to restore expiry, so specifying ExpirationInDays results in restore request failure. S3 Batch Operations jobs can operate either on S3 Glacier Flexible Retrieval and S3 Glacier Deep Archive storage class objects or on S3 Intelligent-Tiering Archive Access and Deep Archive Access storage tier objects, but not both types in the same job. If you need to restore objects of both types you must create separate Batch Operations jobs.
+        /// This argument specifies how long the S3 Glacier or S3 Glacier Deep Archive object remains available in Amazon S3. S3 Initiate Restore Object jobs that target S3 Glacier and S3 Glacier Deep Archive objects require ExpirationInDays set to 1 or greater. Conversely, do not set ExpirationInDays when creating S3 Initiate Restore Object jobs that target S3 Intelligent-Tiering Archive Access and Deep Archive Access tier objects. Objects in S3 Intelligent-Tiering archive access tiers are not subject to restore expiry, so specifying ExpirationInDays results in restore request failure. S3 Batch Operations jobs can operate either on S3 Glacier and S3 Glacier Deep Archive storage class objects or on S3 Intelligent-Tiering Archive Access and Deep Archive Access storage tier objects, but not both types in the same job. If you need to restore objects of both types you must create separate Batch Operations jobs.
         public let expirationInDays: Int?
         /// S3 Batch Operations supports STANDARD and BULK retrieval tiers, but not the EXPEDITED retrieval tier.
         public let glacierJobTier: S3GlacierJobTier?
@@ -4046,6 +4188,84 @@ extension S3Control {
         private enum CodingKeys: String, CodingKey {
             case expirationInDays = "ExpirationInDays"
             case glacierJobTier = "GlacierJobTier"
+        }
+    }
+
+    public struct S3JobManifestGenerator: AWSEncodableShape & AWSDecodableShape {
+        /// Determines whether or not to write the job's generated manifest to a bucket.
+        public let enableManifestOutput: Bool
+        /// The Amazon Web Services account ID that owns the bucket the generated manifest is written to. If provided the generated manifest bucket's owner Amazon Web Services account ID must match this value, else the job fails.
+        public let expectedBucketOwner: String?
+        /// Specifies rules the S3JobManifestGenerator should use to use to decide whether an object in the source bucket should or should not be included in the generated job manifest.
+        public let filter: JobManifestGeneratorFilter?
+        /// Specifies the location the generated manifest will be written to.
+        public let manifestOutputLocation: S3ManifestOutputLocation?
+        /// The source bucket used by the ManifestGenerator.
+        public let sourceBucket: String
+
+        public init(enableManifestOutput: Bool, expectedBucketOwner: String? = nil, filter: JobManifestGeneratorFilter? = nil, manifestOutputLocation: S3ManifestOutputLocation? = nil, sourceBucket: String) {
+            self.enableManifestOutput = enableManifestOutput
+            self.expectedBucketOwner = expectedBucketOwner
+            self.filter = filter
+            self.manifestOutputLocation = manifestOutputLocation
+            self.sourceBucket = sourceBucket
+        }
+
+        public func validate(name: String) throws {
+            try self.validate(self.expectedBucketOwner, name: "expectedBucketOwner", parent: name, max: 64)
+            try self.validate(self.expectedBucketOwner, name: "expectedBucketOwner", parent: name, pattern: "^\\d{12}$")
+            try self.manifestOutputLocation?.validate(name: "\(name).manifestOutputLocation")
+            try self.validate(self.sourceBucket, name: "sourceBucket", parent: name, max: 128)
+            try self.validate(self.sourceBucket, name: "sourceBucket", parent: name, min: 1)
+            try self.validate(self.sourceBucket, name: "sourceBucket", parent: name, pattern: "arn:[^:]+:s3:.*")
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case enableManifestOutput = "EnableManifestOutput"
+            case expectedBucketOwner = "ExpectedBucketOwner"
+            case filter = "Filter"
+            case manifestOutputLocation = "ManifestOutputLocation"
+            case sourceBucket = "SourceBucket"
+        }
+    }
+
+    public struct S3ManifestOutputLocation: AWSEncodableShape & AWSDecodableShape {
+        /// The bucket ARN the generated manifest should be written to.
+        public let bucket: String
+        /// The Account ID that owns the bucket the generated manifest is written to.
+        public let expectedManifestBucketOwner: String?
+        /// Specifies what encryption should be used when the generated manifest objects are written.
+        public let manifestEncryption: GeneratedManifestEncryption?
+        /// The format of the generated manifest.
+        public let manifestFormat: GeneratedManifestFormat
+        /// Prefix identifying one or more objects to which the manifest applies.
+        public let manifestPrefix: String?
+
+        public init(bucket: String, expectedManifestBucketOwner: String? = nil, manifestEncryption: GeneratedManifestEncryption? = nil, manifestFormat: GeneratedManifestFormat, manifestPrefix: String? = nil) {
+            self.bucket = bucket
+            self.expectedManifestBucketOwner = expectedManifestBucketOwner
+            self.manifestEncryption = manifestEncryption
+            self.manifestFormat = manifestFormat
+            self.manifestPrefix = manifestPrefix
+        }
+
+        public func validate(name: String) throws {
+            try self.validate(self.bucket, name: "bucket", parent: name, max: 128)
+            try self.validate(self.bucket, name: "bucket", parent: name, min: 1)
+            try self.validate(self.bucket, name: "bucket", parent: name, pattern: "arn:[^:]+:s3:.*")
+            try self.validate(self.expectedManifestBucketOwner, name: "expectedManifestBucketOwner", parent: name, max: 64)
+            try self.validate(self.expectedManifestBucketOwner, name: "expectedManifestBucketOwner", parent: name, pattern: "^\\d{12}$")
+            try self.manifestEncryption?.validate(name: "\(name).manifestEncryption")
+            try self.validate(self.manifestPrefix, name: "manifestPrefix", parent: name, max: 512)
+            try self.validate(self.manifestPrefix, name: "manifestPrefix", parent: name, min: 1)
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case bucket = "Bucket"
+            case expectedManifestBucketOwner = "ExpectedManifestBucketOwner"
+            case manifestEncryption = "ManifestEncryption"
+            case manifestFormat = "ManifestFormat"
+            case manifestPrefix = "ManifestPrefix"
         }
     }
 
@@ -4146,6 +4366,10 @@ extension S3Control {
             case displayName = "DisplayName"
             case id = "ID"
         }
+    }
+
+    public struct S3ReplicateObjectOperation: AWSEncodableShape & AWSDecodableShape {
+        public init() {}
     }
 
     public struct S3Retention: AWSEncodableShape & AWSDecodableShape {
@@ -4266,7 +4490,29 @@ extension S3Control {
         }
     }
 
+    public struct SSEKMSEncryption: AWSEncodableShape & AWSDecodableShape {
+        /// Specifies the ID of the Amazon Web Services Key Management Service (Amazon Web Services KMS) symmetric customer managed key to use for encrypting generated manifest objects.
+        public let keyId: String
+
+        public init(keyId: String) {
+            self.keyId = keyId
+        }
+
+        public func validate(name: String) throws {
+            try self.validate(self.keyId, name: "keyId", parent: name, max: 2000)
+            try self.validate(self.keyId, name: "keyId", parent: name, min: 1)
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case keyId = "KeyId"
+        }
+    }
+
     public struct SSES3: AWSEncodableShape & AWSDecodableShape {
+        public init() {}
+    }
+
+    public struct SSES3Encryption: AWSEncodableShape & AWSDecodableShape {
         public init() {}
     }
 

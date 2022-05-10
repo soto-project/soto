@@ -19,7 +19,7 @@ import SotoCore
 // MARK: Paginators
 
 extension RoboMaker {
-    ///  Returns a list of deployment jobs for a fleet. You can optionally provide filters to retrieve specific deployment jobs.
+    ///  Returns a list of deployment jobs for a fleet. You can optionally provide filters to retrieve specific deployment jobs.  This API will no longer be supported as of May 2, 2022. Use it to remove resources that were created for Deployment Service.
     ///
     /// Provide paginated results to closure `onPage` for it to combine them into one result.
     /// This works in a similar manner to `Array.reduce<Result>(_:_:) -> Result`.
@@ -31,6 +31,7 @@ extension RoboMaker {
     ///   - eventLoop: EventLoop to run this process on
     ///   - onPage: closure called with each paginated response. It combines an accumulating result with the contents of response. This combined result is then returned
     ///         along with a boolean indicating if the paginate operation should continue.
+    @available(*, deprecated, message: "Support for the AWS RoboMaker application deployment feature has ended. For additional information, see https://docs.aws.amazon.com/robomaker/latest/dg/fleets.html.")
     public func listDeploymentJobsPaginator<Result>(
         _ input: ListDeploymentJobsRequest,
         _ initialValue: Result,
@@ -56,6 +57,7 @@ extension RoboMaker {
     ///   - logger: Logger used for logging output
     ///   - eventLoop: EventLoop to run this process on
     ///   - onPage: closure called with each block of entries. Returns boolean indicating whether we should continue.
+    @available(*, deprecated, message: "Support for the AWS RoboMaker application deployment feature has ended. For additional information, see https://docs.aws.amazon.com/robomaker/latest/dg/fleets.html.")
     public func listDeploymentJobsPaginator(
         _ input: ListDeploymentJobsRequest,
         logger: Logger = AWSClient.loggingDisabled,
@@ -72,7 +74,7 @@ extension RoboMaker {
         )
     }
 
-    ///  Returns a list of fleets. You can optionally provide filters to retrieve specific fleets.
+    ///  Returns a list of fleets. You can optionally provide filters to retrieve specific fleets.  This API will no longer be supported as of May 2, 2022. Use it to remove resources that were created for Deployment Service.
     ///
     /// Provide paginated results to closure `onPage` for it to combine them into one result.
     /// This works in a similar manner to `Array.reduce<Result>(_:_:) -> Result`.
@@ -84,6 +86,7 @@ extension RoboMaker {
     ///   - eventLoop: EventLoop to run this process on
     ///   - onPage: closure called with each paginated response. It combines an accumulating result with the contents of response. This combined result is then returned
     ///         along with a boolean indicating if the paginate operation should continue.
+    @available(*, deprecated, message: "Support for the AWS RoboMaker application deployment feature has ended. For additional information, see https://docs.aws.amazon.com/robomaker/latest/dg/fleets.html.")
     public func listFleetsPaginator<Result>(
         _ input: ListFleetsRequest,
         _ initialValue: Result,
@@ -109,6 +112,7 @@ extension RoboMaker {
     ///   - logger: Logger used for logging output
     ///   - eventLoop: EventLoop to run this process on
     ///   - onPage: closure called with each block of entries. Returns boolean indicating whether we should continue.
+    @available(*, deprecated, message: "Support for the AWS RoboMaker application deployment feature has ended. For additional information, see https://docs.aws.amazon.com/robomaker/latest/dg/fleets.html.")
     public func listFleetsPaginator(
         _ input: ListFleetsRequest,
         logger: Logger = AWSClient.loggingDisabled,
@@ -178,7 +182,7 @@ extension RoboMaker {
         )
     }
 
-    ///  Returns a list of robots. You can optionally provide filters to retrieve specific robots.
+    ///  Returns a list of robots. You can optionally provide filters to retrieve specific robots.  This API will no longer be supported as of May 2, 2022. Use it to remove resources that were created for Deployment Service.
     ///
     /// Provide paginated results to closure `onPage` for it to combine them into one result.
     /// This works in a similar manner to `Array.reduce<Result>(_:_:) -> Result`.
@@ -190,6 +194,7 @@ extension RoboMaker {
     ///   - eventLoop: EventLoop to run this process on
     ///   - onPage: closure called with each paginated response. It combines an accumulating result with the contents of response. This combined result is then returned
     ///         along with a boolean indicating if the paginate operation should continue.
+    @available(*, deprecated, message: "Support for the AWS RoboMaker application deployment feature has ended. For additional information, see https://docs.aws.amazon.com/robomaker/latest/dg/fleets.html.")
     public func listRobotsPaginator<Result>(
         _ input: ListRobotsRequest,
         _ initialValue: Result,
@@ -215,6 +220,7 @@ extension RoboMaker {
     ///   - logger: Logger used for logging output
     ///   - eventLoop: EventLoop to run this process on
     ///   - onPage: closure called with each block of entries. Returns boolean indicating whether we should continue.
+    @available(*, deprecated, message: "Support for the AWS RoboMaker application deployment feature has ended. For additional information, see https://docs.aws.amazon.com/robomaker/latest/dg/fleets.html.")
     public func listRobotsPaginator(
         _ input: ListRobotsRequest,
         logger: Logger = AWSClient.loggingDisabled,

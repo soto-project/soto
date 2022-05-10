@@ -814,6 +814,59 @@ extension EC2 {
         )
     }
 
+    ///  Describe details for Windows AMIs that are configured for faster launching.
+    ///
+    /// Provide paginated results to closure `onPage` for it to combine them into one result.
+    /// This works in a similar manner to `Array.reduce<Result>(_:_:) -> Result`.
+    ///
+    /// Parameters:
+    ///   - input: Input for request
+    ///   - initialValue: The value to use as the initial accumulating value. `initialValue` is passed to `onPage` the first time it is called.
+    ///   - logger: Logger used for logging output
+    ///   - eventLoop: EventLoop to run this process on
+    ///   - onPage: closure called with each paginated response. It combines an accumulating result with the contents of response. This combined result is then returned
+    ///         along with a boolean indicating if the paginate operation should continue.
+    public func describeFastLaunchImagesPaginator<Result>(
+        _ input: DescribeFastLaunchImagesRequest,
+        _ initialValue: Result,
+        logger: Logger = AWSClient.loggingDisabled,
+        on eventLoop: EventLoop? = nil,
+        onPage: @escaping (Result, DescribeFastLaunchImagesResult, EventLoop) -> EventLoopFuture<(Bool, Result)>
+    ) -> EventLoopFuture<Result> {
+        return client.paginate(
+            input: input,
+            initialValue: initialValue,
+            command: describeFastLaunchImages,
+            inputKey: \DescribeFastLaunchImagesRequest.nextToken,
+            outputKey: \DescribeFastLaunchImagesResult.nextToken,
+            on: eventLoop,
+            onPage: onPage
+        )
+    }
+
+    /// Provide paginated results to closure `onPage`.
+    ///
+    /// - Parameters:
+    ///   - input: Input for request
+    ///   - logger: Logger used for logging output
+    ///   - eventLoop: EventLoop to run this process on
+    ///   - onPage: closure called with each block of entries. Returns boolean indicating whether we should continue.
+    public func describeFastLaunchImagesPaginator(
+        _ input: DescribeFastLaunchImagesRequest,
+        logger: Logger = AWSClient.loggingDisabled,
+        on eventLoop: EventLoop? = nil,
+        onPage: @escaping (DescribeFastLaunchImagesResult, EventLoop) -> EventLoopFuture<Bool>
+    ) -> EventLoopFuture<Void> {
+        return client.paginate(
+            input: input,
+            command: describeFastLaunchImages,
+            inputKey: \DescribeFastLaunchImagesRequest.nextToken,
+            outputKey: \DescribeFastLaunchImagesResult.nextToken,
+            on: eventLoop,
+            onPage: onPage
+        )
+    }
+
     ///  Describes the state of fast snapshot restores for your snapshots.
     ///
     /// Provide paginated results to closure `onPage` for it to combine them into one result.
@@ -867,7 +920,7 @@ extension EC2 {
         )
     }
 
-    ///  Describes the specified EC2 Fleets or all of your EC2 Fleets. For more information, see Monitoring your EC2 Fleet in the Amazon EC2 User Guide.
+    ///  Describes the specified EC2 Fleets or all of your EC2 Fleets. For more information, see Monitor your EC2 Fleet in the Amazon EC2 User Guide.
     ///
     /// Provide paginated results to closure `onPage` for it to combine them into one result.
     /// This works in a similar manner to `Array.reduce<Result>(_:_:) -> Result`.
@@ -3729,7 +3782,7 @@ extension EC2 {
         )
     }
 
-    ///  [VPC only] Describes the stale security group rules for security groups in a specified VPC. Rules are stale when they reference a deleted security group in a peer VPC, or a security group in a peer VPC for which the VPC peering connection has been deleted.
+    ///  [VPC only] Describes the stale security group rules for security groups in a specified VPC. Rules are stale when they reference a deleted security group in the same VPC or in a peer VPC, or if they reference a security group in a peer VPC for which the VPC peering connection has been deleted.
     ///
     /// Provide paginated results to closure `onPage` for it to combine them into one result.
     /// This works in a similar manner to `Array.reduce<Result>(_:_:) -> Result`.
@@ -6008,6 +6061,59 @@ extension EC2 {
         )
     }
 
+    ///  Lists one or more AMIs that are currently in the Recycle Bin. For more information, see Recycle Bin in the Amazon Elastic Compute Cloud User Guide.
+    ///
+    /// Provide paginated results to closure `onPage` for it to combine them into one result.
+    /// This works in a similar manner to `Array.reduce<Result>(_:_:) -> Result`.
+    ///
+    /// Parameters:
+    ///   - input: Input for request
+    ///   - initialValue: The value to use as the initial accumulating value. `initialValue` is passed to `onPage` the first time it is called.
+    ///   - logger: Logger used for logging output
+    ///   - eventLoop: EventLoop to run this process on
+    ///   - onPage: closure called with each paginated response. It combines an accumulating result with the contents of response. This combined result is then returned
+    ///         along with a boolean indicating if the paginate operation should continue.
+    public func listImagesInRecycleBinPaginator<Result>(
+        _ input: ListImagesInRecycleBinRequest,
+        _ initialValue: Result,
+        logger: Logger = AWSClient.loggingDisabled,
+        on eventLoop: EventLoop? = nil,
+        onPage: @escaping (Result, ListImagesInRecycleBinResult, EventLoop) -> EventLoopFuture<(Bool, Result)>
+    ) -> EventLoopFuture<Result> {
+        return client.paginate(
+            input: input,
+            initialValue: initialValue,
+            command: listImagesInRecycleBin,
+            inputKey: \ListImagesInRecycleBinRequest.nextToken,
+            outputKey: \ListImagesInRecycleBinResult.nextToken,
+            on: eventLoop,
+            onPage: onPage
+        )
+    }
+
+    /// Provide paginated results to closure `onPage`.
+    ///
+    /// - Parameters:
+    ///   - input: Input for request
+    ///   - logger: Logger used for logging output
+    ///   - eventLoop: EventLoop to run this process on
+    ///   - onPage: closure called with each block of entries. Returns boolean indicating whether we should continue.
+    public func listImagesInRecycleBinPaginator(
+        _ input: ListImagesInRecycleBinRequest,
+        logger: Logger = AWSClient.loggingDisabled,
+        on eventLoop: EventLoop? = nil,
+        onPage: @escaping (ListImagesInRecycleBinResult, EventLoop) -> EventLoopFuture<Bool>
+    ) -> EventLoopFuture<Void> {
+        return client.paginate(
+            input: input,
+            command: listImagesInRecycleBin,
+            inputKey: \ListImagesInRecycleBinRequest.nextToken,
+            outputKey: \ListImagesInRecycleBinResult.nextToken,
+            on: eventLoop,
+            onPage: onPage
+        )
+    }
+
     ///  Lists one or more snapshots that are currently in the Recycle Bin.
     ///
     /// Provide paginated results to closure `onPage` for it to combine them into one result.
@@ -6341,6 +6447,18 @@ extension EC2.DescribeExportImageTasksRequest: AWSPaginateToken {
             dryRun: self.dryRun,
             exportImageTaskIds: self.exportImageTaskIds,
             filters: self.filters,
+            maxResults: self.maxResults,
+            nextToken: token
+        )
+    }
+}
+
+extension EC2.DescribeFastLaunchImagesRequest: AWSPaginateToken {
+    public func usingPaginationToken(_ token: String) -> EC2.DescribeFastLaunchImagesRequest {
+        return .init(
+            dryRun: self.dryRun,
+            filters: self.filters,
+            imageIds: self.imageIds,
             maxResults: self.maxResults,
             nextToken: token
         )
@@ -7545,6 +7663,17 @@ extension EC2.GetVpnConnectionDeviceTypesRequest: AWSPaginateToken {
     public func usingPaginationToken(_ token: String) -> EC2.GetVpnConnectionDeviceTypesRequest {
         return .init(
             dryRun: self.dryRun,
+            maxResults: self.maxResults,
+            nextToken: token
+        )
+    }
+}
+
+extension EC2.ListImagesInRecycleBinRequest: AWSPaginateToken {
+    public func usingPaginationToken(_ token: String) -> EC2.ListImagesInRecycleBinRequest {
+        return .init(
+            dryRun: self.dryRun,
+            imageIds: self.imageIds,
             maxResults: self.maxResults,
             nextToken: token
         )

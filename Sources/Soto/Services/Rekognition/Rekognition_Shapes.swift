@@ -222,12 +222,19 @@ extension Rekognition {
         public var description: String { return self.rawValue }
     }
 
+    public enum StreamProcessorParameterToDelete: String, CustomStringConvertible, Codable {
+        case connectedhomeminconfidence = "ConnectedHomeMinConfidence"
+        case regionsofinterest = "RegionsOfInterest"
+        public var description: String { return self.rawValue }
+    }
+
     public enum StreamProcessorStatus: String, CustomStringConvertible, Codable {
         case failed = "FAILED"
         case running = "RUNNING"
         case starting = "STARTING"
         case stopped = "STOPPED"
         case stopping = "STOPPING"
+        case updating = "UPDATING"
         public var description: String { return self.rawValue }
     }
 
@@ -605,6 +612,54 @@ extension Rekognition {
         }
     }
 
+    public struct ConnectedHomeSettings: AWSEncodableShape & AWSDecodableShape {
+        ///  Specifies what you want to detect in the video, such as people, packages, or pets. The current valid labels you can include in this list are: "PERSON", "PET", "PACKAGE", and "ALL".
+        public let labels: [String]
+        ///  The minimum confidence required to label an object in the video.
+        public let minConfidence: Float?
+
+        public init(labels: [String], minConfidence: Float? = nil) {
+            self.labels = labels
+            self.minConfidence = minConfidence
+        }
+
+        public func validate(name: String) throws {
+            try self.validate(self.labels, name: "labels", parent: name, max: 128)
+            try self.validate(self.labels, name: "labels", parent: name, min: 1)
+            try self.validate(self.minConfidence, name: "minConfidence", parent: name, max: 100)
+            try self.validate(self.minConfidence, name: "minConfidence", parent: name, min: 0)
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case labels = "Labels"
+            case minConfidence = "MinConfidence"
+        }
+    }
+
+    public struct ConnectedHomeSettingsForUpdate: AWSEncodableShape {
+        ///  Specifies what you want to detect in the video, such as people, packages, or pets. The current valid labels you can include in this list are: "PERSON", "PET", "PACKAGE", and "ALL".
+        public let labels: [String]?
+        ///  The minimum confidence required to label an object in the video.
+        public let minConfidence: Float?
+
+        public init(labels: [String]? = nil, minConfidence: Float? = nil) {
+            self.labels = labels
+            self.minConfidence = minConfidence
+        }
+
+        public func validate(name: String) throws {
+            try self.validate(self.labels, name: "labels", parent: name, max: 128)
+            try self.validate(self.labels, name: "labels", parent: name, min: 1)
+            try self.validate(self.minConfidence, name: "minConfidence", parent: name, max: 100)
+            try self.validate(self.minConfidence, name: "minConfidence", parent: name, min: 0)
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case labels = "Labels"
+            case minConfidence = "MinConfidence"
+        }
+    }
+
     public struct ContentModerationDetection: AWSDecodableShape {
         /// The content moderation label detected by in the stored video.
         public let moderationLabel: ModerationLabel?
@@ -673,7 +728,7 @@ extension Rekognition {
     public struct CreateCollectionResponse: AWSDecodableShape {
         /// Amazon Resource Name (ARN) of the collection. You can use this to manage permissions on your resources.
         public let collectionArn: String?
-        /// Latest face model being used with the collection. For more information, see Model versioning.
+        /// Version number of the face detection model associated with the collection you are creating.
         public let faceModelVersion: String?
         /// HTTP status code indicating the result of the operation.
         public let statusCode: Int?
@@ -838,23 +893,34 @@ extension Rekognition {
     }
 
     public struct CreateStreamProcessorRequest: AWSEncodableShape {
-        /// Kinesis video stream stream that provides the source streaming video. If you are using the AWS CLI, the parameter name is StreamProcessorInput.
+        ///  Shows whether you are sharing data with Rekognition to improve model performance. You can choose this option at the account level or on a per-stream basis. Note that if you opt out at the account level this setting is ignored on individual streams.
+        public let dataSharingPreference: StreamProcessorDataSharingPreference?
+        /// Kinesis video stream stream that provides the source streaming video. If you are using the AWS CLI, the parameter name is StreamProcessorInput. This is required for both face search and label detection stream processors.
         public let input: StreamProcessorInput
-        /// An identifier you assign to the stream processor. You can use Name to manage the stream processor. For example, you can get the current status of the stream processor by calling DescribeStreamProcessor. Name is idempotent.
+        ///  The identifier for your AWS Key Management Service key (AWS KMS key). This is an optional parameter for label detection stream processors and should not be used to create a face search stream processor. You can supply the Amazon Resource Name (ARN) of your KMS key, the ID of your KMS key, an alias for your KMS key, or an alias ARN. The key is used to encrypt results and data published to your Amazon S3 bucket, which includes image frames and hero images. Your source images are unaffected.
+        public let kmsKeyId: String?
+        /// An identifier you assign to the stream processor. You can use Name to manage the stream processor. For example, you can get the current status of the stream processor by calling DescribeStreamProcessor. Name is idempotent. This is required for both face search and label detection stream processors.
         public let name: String
-        /// Kinesis data stream stream to which Amazon Rekognition Video puts the analysis results. If you are using the AWS CLI, the parameter name is StreamProcessorOutput.
+        public let notificationChannel: StreamProcessorNotificationChannel?
+        /// Kinesis data stream stream or Amazon S3 bucket location to which Amazon Rekognition Video puts the analysis results. If you are using the AWS CLI, the parameter name is StreamProcessorOutput. This must be a S3Destination of an Amazon S3 bucket that you own for a label detection stream processor or a Kinesis data stream ARN for a face search stream processor.
         public let output: StreamProcessorOutput
-        /// ARN of the IAM role that allows access to the stream processor.
+        ///  Specifies locations in the frames where Amazon Rekognition checks for objects or people. You can specify up to 10 regions of interest. This is an optional parameter for label detection stream processors and should not be used to create a face search stream processor.
+        public let regionsOfInterest: [RegionOfInterest]?
+        /// The Amazon Resource Number (ARN) of the IAM role that allows access to the stream processor. The IAM role provides Rekognition read permissions for a Kinesis stream. It also provides write permissions to an Amazon S3 bucket and Amazon Simple Notification Service topic for a label detection stream processor. This is required for both face search and label detection stream processors.
         public let roleArn: String
-        /// Face recognition input parameters to be used by the stream processor. Includes the collection to use for face recognition and the face attributes to detect.
+        /// Input parameters used in a streaming video analyzed by a stream processor. You can use FaceSearch to recognize faces in a streaming video, or you can use ConnectedHome to detect labels.
         public let settings: StreamProcessorSettings
         ///  A set of tags (key-value pairs) that you want to attach to the stream processor.
         public let tags: [String: String]?
 
-        public init(input: StreamProcessorInput, name: String, output: StreamProcessorOutput, roleArn: String, settings: StreamProcessorSettings, tags: [String: String]? = nil) {
+        public init(dataSharingPreference: StreamProcessorDataSharingPreference? = nil, input: StreamProcessorInput, kmsKeyId: String? = nil, name: String, notificationChannel: StreamProcessorNotificationChannel? = nil, output: StreamProcessorOutput, regionsOfInterest: [RegionOfInterest]? = nil, roleArn: String, settings: StreamProcessorSettings, tags: [String: String]? = nil) {
+            self.dataSharingPreference = dataSharingPreference
             self.input = input
+            self.kmsKeyId = kmsKeyId
             self.name = name
+            self.notificationChannel = notificationChannel
             self.output = output
+            self.regionsOfInterest = regionsOfInterest
             self.roleArn = roleArn
             self.settings = settings
             self.tags = tags
@@ -862,10 +928,16 @@ extension Rekognition {
 
         public func validate(name: String) throws {
             try self.input.validate(name: "\(name).input")
+            try self.validate(self.kmsKeyId, name: "kmsKeyId", parent: name, max: 2048)
+            try self.validate(self.kmsKeyId, name: "kmsKeyId", parent: name, min: 1)
+            try self.validate(self.kmsKeyId, name: "kmsKeyId", parent: name, pattern: "^[A-Za-z0-9][A-Za-z0-9:_/+=,@.-]{0,2048}$")
             try self.validate(self.name, name: "name", parent: name, max: 128)
             try self.validate(self.name, name: "name", parent: name, min: 1)
             try self.validate(self.name, name: "name", parent: name, pattern: "[a-zA-Z0-9_.\\-]+")
+            try self.notificationChannel?.validate(name: "\(name).notificationChannel")
             try self.output.validate(name: "\(name).output")
+            try self.validate(self.regionsOfInterest, name: "regionsOfInterest", parent: name, max: 10)
+            try self.validate(self.regionsOfInterest, name: "regionsOfInterest", parent: name, min: 0)
             try self.validate(self.roleArn, name: "roleArn", parent: name, pattern: "arn:aws:iam::\\d{12}:role/?[a-zA-Z_0-9+=,.@\\-_/]+")
             try self.settings.validate(name: "\(name).settings")
             try self.tags?.forEach {
@@ -879,9 +951,13 @@ extension Rekognition {
         }
 
         private enum CodingKeys: String, CodingKey {
+            case dataSharingPreference = "DataSharingPreference"
             case input = "Input"
+            case kmsKeyId = "KmsKeyId"
             case name = "Name"
+            case notificationChannel = "NotificationChannel"
             case output = "Output"
+            case regionsOfInterest = "RegionsOfInterest"
             case roleArn = "RoleArn"
             case settings = "Settings"
             case tags = "Tags"
@@ -889,7 +965,7 @@ extension Rekognition {
     }
 
     public struct CreateStreamProcessorResponse: AWSDecodableShape {
-        /// ARN for the newly create stream processor.
+        /// Amazon Resource Number for the newly created stream processor.
         public let streamProcessorArn: String?
 
         public init(streamProcessorArn: String? = nil) {
@@ -1297,7 +1373,7 @@ extension Rekognition {
         public let creationTimestamp: Date?
         /// The number of faces that are indexed into the collection. To index faces into a collection, use IndexFaces.
         public let faceCount: Int64?
-        /// The version of the face model that's used by the collection for face detection. For more information, see Model Versioning in the Amazon Rekognition Developer Guide.
+        /// The version of the face model that's used by the collection for face detection. For more information, see Model versioning in the Amazon Rekognition Developer Guide.
         public let faceModelVersion: String?
 
         public init(collectionARN: String? = nil, creationTimestamp: Date? = nil, faceCount: Int64? = nil, faceModelVersion: String? = nil) {
@@ -1478,17 +1554,24 @@ extension Rekognition {
     public struct DescribeStreamProcessorResponse: AWSDecodableShape {
         /// Date and time the stream processor was created
         public let creationTimestamp: Date?
+        ///  Shows whether you are sharing data with Rekognition to improve model performance. You can choose this option at the account level or on a per-stream basis. Note that if you opt out at the account level this setting is ignored on individual streams.
+        public let dataSharingPreference: StreamProcessorDataSharingPreference?
         /// Kinesis video stream that provides the source streaming video.
         public let input: StreamProcessorInput?
+        ///  The identifier for your AWS Key Management Service key (AWS KMS key). This is an optional parameter for label detection stream processors.
+        public let kmsKeyId: String?
         /// The time, in Unix format, the stream processor was last updated. For example, when the stream processor moves from a running state to a failed state, or when the user starts or stops the stream processor.
         public let lastUpdateTimestamp: Date?
         /// Name of the stream processor.
         public let name: String?
+        public let notificationChannel: StreamProcessorNotificationChannel?
         /// Kinesis data stream to which Amazon Rekognition Video puts the analysis results.
         public let output: StreamProcessorOutput?
+        ///  Specifies locations in the frames where Amazon Rekognition checks for objects or people. This is an optional parameter for label detection stream processors.
+        public let regionsOfInterest: [RegionOfInterest]?
         /// ARN of the IAM role that allows access to the stream processor.
         public let roleArn: String?
-        /// Face recognition input parameters that are being used by the stream processor. Includes the collection to use for face recognition and the face attributes to detect.
+        /// Input parameters used in a streaming video analyzed by a stream processor. You can use FaceSearch to recognize faces in a streaming video, or you can use ConnectedHome to detect labels.
         public let settings: StreamProcessorSettings?
         /// Current status of the stream processor.
         public let status: StreamProcessorStatus?
@@ -1497,12 +1580,16 @@ extension Rekognition {
         /// ARN of the stream processor.
         public let streamProcessorArn: String?
 
-        public init(creationTimestamp: Date? = nil, input: StreamProcessorInput? = nil, lastUpdateTimestamp: Date? = nil, name: String? = nil, output: StreamProcessorOutput? = nil, roleArn: String? = nil, settings: StreamProcessorSettings? = nil, status: StreamProcessorStatus? = nil, statusMessage: String? = nil, streamProcessorArn: String? = nil) {
+        public init(creationTimestamp: Date? = nil, dataSharingPreference: StreamProcessorDataSharingPreference? = nil, input: StreamProcessorInput? = nil, kmsKeyId: String? = nil, lastUpdateTimestamp: Date? = nil, name: String? = nil, notificationChannel: StreamProcessorNotificationChannel? = nil, output: StreamProcessorOutput? = nil, regionsOfInterest: [RegionOfInterest]? = nil, roleArn: String? = nil, settings: StreamProcessorSettings? = nil, status: StreamProcessorStatus? = nil, statusMessage: String? = nil, streamProcessorArn: String? = nil) {
             self.creationTimestamp = creationTimestamp
+            self.dataSharingPreference = dataSharingPreference
             self.input = input
+            self.kmsKeyId = kmsKeyId
             self.lastUpdateTimestamp = lastUpdateTimestamp
             self.name = name
+            self.notificationChannel = notificationChannel
             self.output = output
+            self.regionsOfInterest = regionsOfInterest
             self.roleArn = roleArn
             self.settings = settings
             self.status = status
@@ -1512,10 +1599,14 @@ extension Rekognition {
 
         private enum CodingKeys: String, CodingKey {
             case creationTimestamp = "CreationTimestamp"
+            case dataSharingPreference = "DataSharingPreference"
             case input = "Input"
+            case kmsKeyId = "KmsKeyId"
             case lastUpdateTimestamp = "LastUpdateTimestamp"
             case name = "Name"
+            case notificationChannel = "NotificationChannel"
             case output = "Output"
+            case regionsOfInterest = "RegionsOfInterest"
             case roleArn = "RoleArn"
             case settings = "Settings"
             case status = "Status"
@@ -1816,7 +1907,7 @@ extension Rekognition {
         public let minBoundingBoxHeight: Float?
         /// Sets the minimum width of the word bounding box. Words with bounding boxes widths lesser than this value will be excluded from the result. Value is relative to the video frame width.
         public let minBoundingBoxWidth: Float?
-        /// Sets the confidence of word detection. Words with detection confidence below this will be excluded from the result. Values should be between 50 and 100 as Text in Video will not return any result below 50.
+        /// Sets the confidence of word detection. Words with detection confidence below this will be excluded from the result. Values should be between 0 and 100. The default MinConfidence is 80.
         public let minConfidence: Float?
 
         public init(minBoundingBoxHeight: Float? = nil, minBoundingBoxWidth: Float? = nil, minConfidence: Float? = nil) {
@@ -2899,7 +2990,7 @@ extension Rekognition {
     }
 
     public struct IndexFacesResponse: AWSDecodableShape {
-        /// Latest face model being used with the collection. For more information, see Model versioning.
+        /// The version number of the face detection model that's associated with the input collection (CollectionId).
         public let faceModelVersion: String?
         /// An array of faces detected and added to the collection. For more information, see Searching Faces in a Collection in the Amazon Rekognition Developer Guide.
         public let faceRecords: [FaceRecord]?
@@ -2971,6 +3062,30 @@ extension Rekognition {
 
         private enum CodingKeys: String, CodingKey {
             case arn = "Arn"
+        }
+    }
+
+    public struct KinesisVideoStreamStartSelector: AWSEncodableShape {
+        ///  The unique identifier of the fragment. This value monotonically increases based on the ingestion order.
+        public let fragmentNumber: String?
+        ///  The timestamp from the producer corresponding to the fragment.
+        public let producerTimestamp: Int64?
+
+        public init(fragmentNumber: String? = nil, producerTimestamp: Int64? = nil) {
+            self.fragmentNumber = fragmentNumber
+            self.producerTimestamp = producerTimestamp
+        }
+
+        public func validate(name: String) throws {
+            try self.validate(self.fragmentNumber, name: "fragmentNumber", parent: name, max: 128)
+            try self.validate(self.fragmentNumber, name: "fragmentNumber", parent: name, min: 1)
+            try self.validate(self.fragmentNumber, name: "fragmentNumber", parent: name, pattern: "^[0-9]+$")
+            try self.validate(self.producerTimestamp, name: "producerTimestamp", parent: name, min: 0)
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case fragmentNumber = "FragmentNumber"
+            case producerTimestamp = "ProducerTimestamp"
         }
     }
 
@@ -3076,7 +3191,7 @@ extension Rekognition {
     public struct ListCollectionsResponse: AWSDecodableShape {
         /// An array of collection IDs.
         public let collectionIds: [String]?
-        /// Latest face models being used with the corresponding collections in the array. For more information, see Model versioning. For example, the value of FaceModelVersions[2] is the version number for the face detection model used by the collection in CollectionId[2].
+        /// Version numbers of the face detection models associated with the collections in the array CollectionIds. For example, the value of FaceModelVersions[2] is the version number for the face detection model used by the collection in CollectionId[2].
         public let faceModelVersions: [String]?
         /// If the result is truncated, the response provides a NextToken that you can use in the subsequent request to fetch the next set of collection IDs.
         public let nextToken: String?
@@ -3245,7 +3360,7 @@ extension Rekognition {
     }
 
     public struct ListFacesResponse: AWSDecodableShape {
-        /// Latest face model being used with the collection. For more information, see Model versioning.
+        /// Version number of the face detection model associated with the input collection (CollectionId).
         public let faceModelVersion: String?
         /// An array of Face objects.
         public let faces: [Face]?
@@ -3393,7 +3508,7 @@ extension Rekognition {
     public struct NotificationChannel: AWSEncodableShape {
         /// The ARN of an IAM role that gives Amazon Rekognition publishing permissions to the Amazon SNS topic.
         public let roleArn: String
-        /// The Amazon SNS topic to which Amazon Rekognition to posts the completion status.
+        /// The Amazon SNS topic to which Amazon Rekognition posts the completion status.
         public let sNSTopicArn: String
 
         public init(roleArn: String, sNSTopicArn: String) {
@@ -3508,7 +3623,7 @@ extension Rekognition {
         }
     }
 
-    public struct Point: AWSDecodableShape {
+    public struct Point: AWSEncodableShape & AWSDecodableShape {
         /// The value of the X coordinate for a point on a Polygon.
         public let x: Float?
         /// The value of the Y coordinate for a point on a Polygon.
@@ -3759,16 +3874,44 @@ extension Rekognition {
         }
     }
 
-    public struct RegionOfInterest: AWSEncodableShape {
+    public struct RegionOfInterest: AWSEncodableShape & AWSDecodableShape {
         /// The box representing a region of interest on screen.
         public let boundingBox: BoundingBox?
+        ///  Specifies a shape made up of up to 10 Point objects to define a region of interest.
+        public let polygon: [Point]?
 
-        public init(boundingBox: BoundingBox? = nil) {
+        public init(boundingBox: BoundingBox? = nil, polygon: [Point]? = nil) {
             self.boundingBox = boundingBox
+            self.polygon = polygon
         }
 
         private enum CodingKeys: String, CodingKey {
             case boundingBox = "BoundingBox"
+            case polygon = "Polygon"
+        }
+    }
+
+    public struct S3Destination: AWSEncodableShape & AWSDecodableShape {
+        ///  The name of the Amazon S3 bucket you want to associate with the streaming video project. You must be the owner of the Amazon S3 bucket.
+        public let bucket: String?
+        ///  The prefix value of the location within the bucket that you want the information to be published to. For more information, see Using prefixes.
+        public let keyPrefix: String?
+
+        public init(bucket: String? = nil, keyPrefix: String? = nil) {
+            self.bucket = bucket
+            self.keyPrefix = keyPrefix
+        }
+
+        public func validate(name: String) throws {
+            try self.validate(self.bucket, name: "bucket", parent: name, max: 255)
+            try self.validate(self.bucket, name: "bucket", parent: name, min: 3)
+            try self.validate(self.bucket, name: "bucket", parent: name, pattern: "[0-9A-Za-z\\.\\-_]*")
+            try self.validate(self.keyPrefix, name: "keyPrefix", parent: name, max: 1024)
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case bucket = "Bucket"
+            case keyPrefix = "KeyPrefix"
         }
     }
 
@@ -3846,7 +3989,7 @@ extension Rekognition {
     public struct SearchFacesByImageResponse: AWSDecodableShape {
         /// An array of faces that match the input face, along with the confidence in the match.
         public let faceMatches: [FaceMatch]?
-        /// Latest face model being used with the collection. For more information, see Model versioning.
+        /// Version number of the face detection model associated with the input collection (CollectionId).
         public let faceModelVersion: String?
         /// The bounding box around the face in the input image that Amazon Rekognition used for the search.
         public let searchedFaceBoundingBox: BoundingBox?
@@ -3907,7 +4050,7 @@ extension Rekognition {
     public struct SearchFacesResponse: AWSDecodableShape {
         /// An array of faces that matched the input face, along with the confidence in the match.
         public let faceMatches: [FaceMatch]?
-        /// Latest face model being used with the collection. For more information, see Model versioning.
+        /// Version number of the face detection model associated with the input collection (CollectionId).
         public let faceModelVersion: String?
         /// ID of the face that was searched for matches in a collection.
         public let searchedFaceId: String?
@@ -4494,24 +4637,43 @@ extension Rekognition {
     public struct StartStreamProcessorRequest: AWSEncodableShape {
         /// The name of the stream processor to start processing.
         public let name: String
+        ///  Specifies the starting point in the Kinesis stream to start processing. You can use the producer timestamp or the fragment number. For more information, see Fragment.  This is a required parameter for label detection stream processors and should not be used to start a face search stream processor.
+        public let startSelector: StreamProcessingStartSelector?
+        ///  Specifies when to stop processing the stream. You can specify a maximum amount of time to process the video.  This is a required parameter for label detection stream processors and should not be used to start a face search stream processor.
+        public let stopSelector: StreamProcessingStopSelector?
 
-        public init(name: String) {
+        public init(name: String, startSelector: StreamProcessingStartSelector? = nil, stopSelector: StreamProcessingStopSelector? = nil) {
             self.name = name
+            self.startSelector = startSelector
+            self.stopSelector = stopSelector
         }
 
         public func validate(name: String) throws {
             try self.validate(self.name, name: "name", parent: name, max: 128)
             try self.validate(self.name, name: "name", parent: name, min: 1)
             try self.validate(self.name, name: "name", parent: name, pattern: "[a-zA-Z0-9_.\\-]+")
+            try self.startSelector?.validate(name: "\(name).startSelector")
+            try self.stopSelector?.validate(name: "\(name).stopSelector")
         }
 
         private enum CodingKeys: String, CodingKey {
             case name = "Name"
+            case startSelector = "StartSelector"
+            case stopSelector = "StopSelector"
         }
     }
 
     public struct StartStreamProcessorResponse: AWSDecodableShape {
-        public init() {}
+        ///  A unique identifier for the stream processing session.
+        public let sessionId: String?
+
+        public init(sessionId: String? = nil) {
+            self.sessionId = sessionId
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case sessionId = "SessionId"
+        }
     }
 
     public struct StartTechnicalCueDetectionFilter: AWSEncodableShape {
@@ -4667,6 +4829,41 @@ extension Rekognition {
         public init() {}
     }
 
+    public struct StreamProcessingStartSelector: AWSEncodableShape {
+        ///  Specifies the starting point in the stream to start processing. This can be done with a timestamp or a fragment number in a Kinesis stream.
+        public let kVSStreamStartSelector: KinesisVideoStreamStartSelector?
+
+        public init(kVSStreamStartSelector: KinesisVideoStreamStartSelector? = nil) {
+            self.kVSStreamStartSelector = kVSStreamStartSelector
+        }
+
+        public func validate(name: String) throws {
+            try self.kVSStreamStartSelector?.validate(name: "\(name).kVSStreamStartSelector")
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case kVSStreamStartSelector = "KVSStreamStartSelector"
+        }
+    }
+
+    public struct StreamProcessingStopSelector: AWSEncodableShape {
+        ///  Specifies the maximum amount of time in seconds that you want the stream to be processed. The largest amount of time is 2 minutes. The default is 10 seconds.
+        public let maxDurationInSeconds: Int64?
+
+        public init(maxDurationInSeconds: Int64? = nil) {
+            self.maxDurationInSeconds = maxDurationInSeconds
+        }
+
+        public func validate(name: String) throws {
+            try self.validate(self.maxDurationInSeconds, name: "maxDurationInSeconds", parent: name, max: 120)
+            try self.validate(self.maxDurationInSeconds, name: "maxDurationInSeconds", parent: name, min: 1)
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case maxDurationInSeconds = "MaxDurationInSeconds"
+        }
+    }
+
     public struct StreamProcessor: AWSDecodableShape {
         /// Name of the Amazon Rekognition stream processor.
         public let name: String?
@@ -4681,6 +4878,19 @@ extension Rekognition {
         private enum CodingKeys: String, CodingKey {
             case name = "Name"
             case status = "Status"
+        }
+    }
+
+    public struct StreamProcessorDataSharingPreference: AWSEncodableShape & AWSDecodableShape {
+        ///  If this option is set to true, you choose to share data with Rekognition to improve model performance.
+        public let optIn: Bool
+
+        public init(optIn: Bool) {
+            self.optIn = optIn
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case optIn = "OptIn"
         }
     }
 
@@ -4701,37 +4911,80 @@ extension Rekognition {
         }
     }
 
+    public struct StreamProcessorNotificationChannel: AWSEncodableShape & AWSDecodableShape {
+        ///  The Amazon Resource Number (ARN) of the Amazon Amazon Simple Notification Service topic to which Amazon Rekognition posts the completion status.
+        public let sNSTopicArn: String
+
+        public init(sNSTopicArn: String) {
+            self.sNSTopicArn = sNSTopicArn
+        }
+
+        public func validate(name: String) throws {
+            try self.validate(self.sNSTopicArn, name: "sNSTopicArn", parent: name, pattern: "(^arn:aws:sns:.*:\\w{12}:.+$)")
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case sNSTopicArn = "SNSTopicArn"
+        }
+    }
+
     public struct StreamProcessorOutput: AWSEncodableShape & AWSDecodableShape {
         /// The Amazon Kinesis Data Streams stream to which the Amazon Rekognition stream processor streams the analysis results.
         public let kinesisDataStream: KinesisDataStream?
+        ///  The Amazon S3 bucket location to which Amazon Rekognition publishes the detailed inference results of a video analysis operation.
+        public let s3Destination: S3Destination?
 
-        public init(kinesisDataStream: KinesisDataStream? = nil) {
+        public init(kinesisDataStream: KinesisDataStream? = nil, s3Destination: S3Destination? = nil) {
             self.kinesisDataStream = kinesisDataStream
+            self.s3Destination = s3Destination
         }
 
         public func validate(name: String) throws {
             try self.kinesisDataStream?.validate(name: "\(name).kinesisDataStream")
+            try self.s3Destination?.validate(name: "\(name).s3Destination")
         }
 
         private enum CodingKeys: String, CodingKey {
             case kinesisDataStream = "KinesisDataStream"
+            case s3Destination = "S3Destination"
         }
     }
 
     public struct StreamProcessorSettings: AWSEncodableShape & AWSDecodableShape {
+        public let connectedHome: ConnectedHomeSettings?
         /// Face search settings to use on a streaming video.
         public let faceSearch: FaceSearchSettings?
 
-        public init(faceSearch: FaceSearchSettings? = nil) {
+        public init(connectedHome: ConnectedHomeSettings? = nil, faceSearch: FaceSearchSettings? = nil) {
+            self.connectedHome = connectedHome
             self.faceSearch = faceSearch
         }
 
         public func validate(name: String) throws {
+            try self.connectedHome?.validate(name: "\(name).connectedHome")
             try self.faceSearch?.validate(name: "\(name).faceSearch")
         }
 
         private enum CodingKeys: String, CodingKey {
+            case connectedHome = "ConnectedHome"
             case faceSearch = "FaceSearch"
+        }
+    }
+
+    public struct StreamProcessorSettingsForUpdate: AWSEncodableShape {
+        ///  The label detection settings you want to use for your stream processor.
+        public let connectedHomeForUpdate: ConnectedHomeSettingsForUpdate?
+
+        public init(connectedHomeForUpdate: ConnectedHomeSettingsForUpdate? = nil) {
+            self.connectedHomeForUpdate = connectedHomeForUpdate
+        }
+
+        public func validate(name: String) throws {
+            try self.connectedHomeForUpdate?.validate(name: "\(name).connectedHomeForUpdate")
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case connectedHomeForUpdate = "ConnectedHomeForUpdate"
         }
     }
 
@@ -5024,6 +5277,48 @@ extension Rekognition {
     }
 
     public struct UpdateDatasetEntriesResponse: AWSDecodableShape {
+        public init() {}
+    }
+
+    public struct UpdateStreamProcessorRequest: AWSEncodableShape {
+        ///  Shows whether you are sharing data with Rekognition to improve model performance. You can choose this option at the account level or on a per-stream basis. Note that if you opt out at the account level this setting is ignored on individual streams.
+        public let dataSharingPreferenceForUpdate: StreamProcessorDataSharingPreference?
+        ///  Name of the stream processor that you want to update.
+        public let name: String
+        ///  A list of parameters you want to delete from the stream processor.
+        public let parametersToDelete: [StreamProcessorParameterToDelete]?
+        ///  Specifies locations in the frames where Amazon Rekognition checks for objects or people. This is an optional parameter for label detection stream processors.
+        public let regionsOfInterestForUpdate: [RegionOfInterest]?
+        ///  The stream processor settings that you want to update. Label detection settings can be updated to detect different labels with a different minimum confidence.
+        public let settingsForUpdate: StreamProcessorSettingsForUpdate?
+
+        public init(dataSharingPreferenceForUpdate: StreamProcessorDataSharingPreference? = nil, name: String, parametersToDelete: [StreamProcessorParameterToDelete]? = nil, regionsOfInterestForUpdate: [RegionOfInterest]? = nil, settingsForUpdate: StreamProcessorSettingsForUpdate? = nil) {
+            self.dataSharingPreferenceForUpdate = dataSharingPreferenceForUpdate
+            self.name = name
+            self.parametersToDelete = parametersToDelete
+            self.regionsOfInterestForUpdate = regionsOfInterestForUpdate
+            self.settingsForUpdate = settingsForUpdate
+        }
+
+        public func validate(name: String) throws {
+            try self.validate(self.name, name: "name", parent: name, max: 128)
+            try self.validate(self.name, name: "name", parent: name, min: 1)
+            try self.validate(self.name, name: "name", parent: name, pattern: "[a-zA-Z0-9_.\\-]+")
+            try self.validate(self.regionsOfInterestForUpdate, name: "regionsOfInterestForUpdate", parent: name, max: 10)
+            try self.validate(self.regionsOfInterestForUpdate, name: "regionsOfInterestForUpdate", parent: name, min: 0)
+            try self.settingsForUpdate?.validate(name: "\(name).settingsForUpdate")
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case dataSharingPreferenceForUpdate = "DataSharingPreferenceForUpdate"
+            case name = "Name"
+            case parametersToDelete = "ParametersToDelete"
+            case regionsOfInterestForUpdate = "RegionsOfInterestForUpdate"
+            case settingsForUpdate = "SettingsForUpdate"
+        }
+    }
+
+    public struct UpdateStreamProcessorResponse: AWSDecodableShape {
         public init() {}
     }
 

@@ -1140,6 +1140,8 @@ extension Pinpoint {
     public struct ApplicationResponse: AWSDecodableShape {
         /// The Amazon Resource Name (ARN) of the application.
         public let arn: String
+        /// The date and time when the Application was created.
+        public let creationDate: String?
         /// The unique identifier for the application. This identifier is displayed as the Project ID on the Amazon Pinpoint console.
         public let id: String
         /// The display name of the application. This name is displayed as the Project name on the Amazon Pinpoint console.
@@ -1147,8 +1149,9 @@ extension Pinpoint {
         /// A string-to-string map of key-value pairs that identifies the tags that are associated with the application. Each tag consists of a required tag key and an associated tag value.
         public let tags: [String: String]?
 
-        public init(arn: String, id: String, name: String, tags: [String: String]? = nil) {
+        public init(arn: String, creationDate: String? = nil, id: String, name: String, tags: [String: String]? = nil) {
             self.arn = arn
+            self.creationDate = creationDate
             self.id = id
             self.name = name
             self.tags = tags
@@ -1156,6 +1159,7 @@ extension Pinpoint {
 
         private enum CodingKeys: String, CodingKey {
             case arn = "Arn"
+            case creationDate = "CreationDate"
             case id = "Id"
             case name = "Name"
             case tags
@@ -10293,6 +10297,79 @@ extension Pinpoint {
 
         private enum CodingKeys: String, CodingKey {
             case messageBody = "MessageBody"
+        }
+    }
+
+    public struct VerificationResponse: AWSDecodableShape {
+        /// Specifies whether the OTP is valid or not.
+        public let valid: Bool?
+
+        public init(valid: Bool? = nil) {
+            self.valid = valid
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case valid = "Valid"
+        }
+    }
+
+    public struct VerifyOTPMessageRequest: AWSEncodableShape & AWSShapeWithPayload {
+        /// The key for the payload
+        public static let _payloadPath: String = "verifyOTPMessageRequestParameters"
+        public static var _encoding = [
+            AWSMemberEncoding(label: "applicationId", location: .uri(locationName: "application-id")),
+            AWSMemberEncoding(label: "verifyOTPMessageRequestParameters", location: .body(locationName: "VerifyOTPMessageRequestParameters"))
+        ]
+
+        public let applicationId: String
+        public let verifyOTPMessageRequestParameters: VerifyOTPMessageRequestParameters
+
+        public init(applicationId: String, verifyOTPMessageRequestParameters: VerifyOTPMessageRequestParameters) {
+            self.applicationId = applicationId
+            self.verifyOTPMessageRequestParameters = verifyOTPMessageRequestParameters
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case verifyOTPMessageRequestParameters = "VerifyOTPMessageRequestParameters"
+        }
+    }
+
+    public struct VerifyOTPMessageRequestParameters: AWSEncodableShape {
+        /// The destination identity to send OTP to.
+        public let destinationIdentity: String
+        /// The OTP the end user provided for verification.
+        public let otp: String
+        /// The reference identifier provided when the OTP was previously sent.
+        public let referenceId: String
+
+        public init(destinationIdentity: String, otp: String, referenceId: String) {
+            self.destinationIdentity = destinationIdentity
+            self.otp = otp
+            self.referenceId = referenceId
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case destinationIdentity = "DestinationIdentity"
+            case otp = "Otp"
+            case referenceId = "ReferenceId"
+        }
+    }
+
+    public struct VerifyOTPMessageResponse: AWSDecodableShape & AWSShapeWithPayload {
+        /// The key for the payload
+        public static let _payloadPath: String = "verificationResponse"
+        public static var _encoding = [
+            AWSMemberEncoding(label: "verificationResponse", location: .body(locationName: "VerificationResponse"))
+        ]
+
+        public let verificationResponse: VerificationResponse
+
+        public init(verificationResponse: VerificationResponse) {
+            self.verificationResponse = verificationResponse
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case verificationResponse = "VerificationResponse"
         }
     }
 

@@ -25,6 +25,13 @@ extension CloudTrail {
         public var description: String { return self.rawValue }
     }
 
+    public enum EventDataStoreStatus: String, CustomStringConvertible, Codable {
+        case created = "CREATED"
+        case enabled = "ENABLED"
+        case pendingDeletion = "PENDING_DELETION"
+        public var description: String { return self.rawValue }
+    }
+
     public enum InsightType: String, CustomStringConvertible, Codable {
         case apicallrateinsight = "ApiCallRateInsight"
         case apierrorrateinsight = "ApiErrorRateInsight"
@@ -43,6 +50,16 @@ extension CloudTrail {
         public var description: String { return self.rawValue }
     }
 
+    public enum QueryStatus: String, CustomStringConvertible, Codable {
+        case cancelled = "CANCELLED"
+        case failed = "FAILED"
+        case finished = "FINISHED"
+        case queued = "QUEUED"
+        case running = "RUNNING"
+        case timedOut = "TIMED_OUT"
+        public var description: String { return self.rawValue }
+    }
+
     public enum ReadWriteType: String, CustomStringConvertible, Codable {
         case all = "All"
         case readonly = "ReadOnly"
@@ -53,14 +70,21 @@ extension CloudTrail {
     // MARK: Shapes
 
     public struct AddTagsRequest: AWSEncodableShape {
-        /// Specifies the ARN of the trail to which one or more tags will be added. The format of a trail ARN is:  arn:aws:cloudtrail:us-east-2:123456789012:trail/MyTrail
+        /// Specifies the ARN of the trail or event data store to which one or more tags will be added. The format of a trail ARN is:  arn:aws:cloudtrail:us-east-2:123456789012:trail/MyTrail
         public let resourceId: String
         /// Contains a list of tags, up to a limit of 50
-        public let tagsList: [Tag]?
+        public let tagsList: [Tag]
 
-        public init(resourceId: String, tagsList: [Tag]? = nil) {
+        public init(resourceId: String, tagsList: [Tag]) {
             self.resourceId = resourceId
             self.tagsList = tagsList
+        }
+
+        public func validate(name: String) throws {
+            try self.tagsList.forEach {
+                try $0.validate(name: "\(name).tagsList[]")
+            }
+            try self.validate(self.tagsList, name: "tagsList", parent: name, max: 200)
         }
 
         private enum CodingKeys: String, CodingKey {
@@ -105,7 +129,7 @@ extension CloudTrail {
         public let endsWith: [String]?
         ///  An operator that includes events that match the exact value of the event record field specified as the value of Field. This is the only valid operator that you can use with the readOnly, eventCategory, and resources.type fields.
         public let equals: [String]?
-        ///  A field in an event record on which to filter events to be logged. Supported fields include readOnly, eventCategory, eventSource (for management events), eventName, resources.type, and resources.ARN.      readOnly  - Optional. Can be set to Equals a value of true or false. A value of false logs both read and write events.     eventSource  - For filtering management events only. This can be set only to NotEquals kms.amazonaws.com.     eventName  - Can use any operator. You can use it to ﬁlter in or ﬁlter out any data event logged to CloudTrail, such as PutBucket or GetSnapshotBlock. You can have multiple values for this ﬁeld, separated by commas.     eventCategory  - This is required. It must be set to Equals, and the value must be Management or Data.     resources.type  - This ﬁeld is required. resources.type can only use the Equals operator, and the value can be one of the following:    AWS::S3::Object     AWS::Lambda::Function     AWS::DynamoDB::Table     AWS::S3Outposts::Object     AWS::ManagedBlockchain::Node     AWS::S3ObjectLambda::AccessPoint     AWS::EC2::Snapshot     AWS::S3::AccessPoint     AWS::DynamoDB::Stream     You can have only one resources.type ﬁeld per selector. To log data events on more than one resource type, add another selector.     resources.ARN  - You can use any operator with resources.ARN, but if you use Equals or NotEquals, the value must exactly match the ARN of a valid resource of the type you've speciﬁed in the template as the value of resources.type. For example, if resources.type equals AWS::S3::Object, the ARN must be in one of the following formats. To log all data events for all objects in a specific S3 bucket, use the StartsWith operator, and include only the bucket ARN as the matching value. The trailing slash is intentional; do not exclude it. Replace the text between less than and greater than symbols (&lt;&gt;) with resource-specific information.     arn:&lt;partition&gt;:s3:::&lt;bucket_name&gt;/     arn:&lt;partition&gt;:s3:::&lt;bucket_name&gt;/&lt;object_path&gt;/    When resources.type equals AWS::S3::AccessPoint, and the operator is set to Equals or NotEquals, the ARN must be in one of the following formats. To log events on all objects in an S3 access point, we recommend that you use only the access point ARN, don’t include the object path, and use the StartsWith or NotStartsWith operators.    arn:&lt;partition&gt;:s3:&lt;region&gt;:&lt;account_ID&gt;:accesspoint/&lt;access_point_name&gt;     arn:&lt;partition&gt;:s3:&lt;region&gt;:&lt;account_ID&gt;:accesspoint/&lt;access_point_name&gt;/object/&lt;object_path&gt;    When resources.type equals AWS::Lambda::Function, and the operator is set to Equals or NotEquals, the ARN must be in the following format:    arn:&lt;partition&gt;:lambda:&lt;region&gt;:&lt;account_ID&gt;:function:&lt;function_name&gt;    When resources.type equals AWS::DynamoDB::Table, and the operator is set to Equals or NotEquals, the ARN must be in the following format:    arn:&lt;partition&gt;:dynamodb:&lt;region&gt;:&lt;account_ID&gt;:table/&lt;table_name&gt;    When resources.type equals AWS::S3Outposts::Object, and the operator is set to Equals or NotEquals, the ARN must be in the following format:    arn:&lt;partition&gt;:s3-outposts:&lt;region&gt;:&lt;account_ID&gt;:&lt;object_path&gt;    When resources.type equals AWS::ManagedBlockchain::Node, and the operator is set to Equals or NotEquals, the ARN must be in the following format:    arn:&lt;partition&gt;:managedblockchain:&lt;region&gt;:&lt;account_ID&gt;:nodes/&lt;node_ID&gt;    When resources.type equals AWS::S3ObjectLambda::AccessPoint, and the operator is set to Equals or NotEquals, the ARN must be in the following format:    arn:&lt;partition&gt;:s3-object-lambda:&lt;region&gt;:&lt;account_ID&gt;:accesspoint/&lt;access_point_name&gt;    When resources.type equals AWS::EC2::Snapshot, and the operator is set to Equals or NotEquals, the ARN must be in the following format:    arn:&lt;partition&gt;:ec2:&lt;region&gt;::snapshot/&lt;snapshot_ID&gt;    When resources.type equals AWS::DynamoDB::Stream, and the operator is set to Equals or NotEquals, the ARN must be in the following format:    arn:&lt;partition&gt;:dynamodb:&lt;region&gt;:&lt;account_ID&gt;:table/&lt;table_name&gt;/stream/&lt;date_time&gt;
+        ///  A field in an event record on which to filter events to be logged. Supported fields include readOnly, eventCategory, eventSource (for management events), eventName, resources.type, and resources.ARN.      readOnly  - Optional. Can be set to Equals a value of true or false. If you do not add this field, CloudTrail logs both both read and write events. A value of true logs only read events. A value of false logs only write events.     eventSource  - For filtering management events only. This can be set only to NotEquals kms.amazonaws.com.     eventName  - Can use any operator. You can use it to ﬁlter in or ﬁlter out any data event logged to CloudTrail, such as PutBucket or GetSnapshotBlock. You can have multiple values for this ﬁeld, separated by commas.     eventCategory  - This is required. It must be set to Equals, and the value must be Management or Data.     resources.type  - This ﬁeld is required. resources.type can only use the Equals operator, and the value can be one of the following:    AWS::S3::Object     AWS::Lambda::Function     AWS::DynamoDB::Table     AWS::S3Outposts::Object     AWS::ManagedBlockchain::Node     AWS::S3ObjectLambda::AccessPoint     AWS::EC2::Snapshot     AWS::S3::AccessPoint     AWS::DynamoDB::Stream     AWS::Glue::Table     You can have only one resources.type ﬁeld per selector. To log data events on more than one resource type, add another selector.     resources.ARN  - You can use any operator with resources.ARN, but if you use Equals or NotEquals, the value must exactly match the ARN of a valid resource of the type you've speciﬁed in the template as the value of resources.type. For example, if resources.type equals AWS::S3::Object, the ARN must be in one of the following formats. To log all data events for all objects in a specific S3 bucket, use the StartsWith operator, and include only the bucket ARN as the matching value. The trailing slash is intentional; do not exclude it. Replace the text between less than and greater than symbols (&lt;&gt;) with resource-specific information.     arn:&lt;partition&gt;:s3:::&lt;bucket_name&gt;/     arn:&lt;partition&gt;:s3:::&lt;bucket_name&gt;/&lt;object_path&gt;/    When resources.type equals AWS::S3::AccessPoint, and the operator is set to Equals or NotEquals, the ARN must be in one of the following formats. To log events on all objects in an S3 access point, we recommend that you use only the access point ARN, don’t include the object path, and use the StartsWith or NotStartsWith operators.    arn:&lt;partition&gt;:s3:&lt;region&gt;:&lt;account_ID&gt;:accesspoint/&lt;access_point_name&gt;     arn:&lt;partition&gt;:s3:&lt;region&gt;:&lt;account_ID&gt;:accesspoint/&lt;access_point_name&gt;/object/&lt;object_path&gt;    When resources.type equals AWS::Lambda::Function, and the operator is set to Equals or NotEquals, the ARN must be in the following format:    arn:&lt;partition&gt;:lambda:&lt;region&gt;:&lt;account_ID&gt;:function:&lt;function_name&gt;    When resources.type equals AWS::DynamoDB::Table, and the operator is set to Equals or NotEquals, the ARN must be in the following format:    arn:&lt;partition&gt;:dynamodb:&lt;region&gt;:&lt;account_ID&gt;:table/&lt;table_name&gt;    When resources.type equals AWS::S3Outposts::Object, and the operator is set to Equals or NotEquals, the ARN must be in the following format:    arn:&lt;partition&gt;:s3-outposts:&lt;region&gt;:&lt;account_ID&gt;:&lt;object_path&gt;    When resources.type equals AWS::ManagedBlockchain::Node, and the operator is set to Equals or NotEquals, the ARN must be in the following format:    arn:&lt;partition&gt;:managedblockchain:&lt;region&gt;:&lt;account_ID&gt;:nodes/&lt;node_ID&gt;    When resources.type equals AWS::S3ObjectLambda::AccessPoint, and the operator is set to Equals or NotEquals, the ARN must be in the following format:    arn:&lt;partition&gt;:s3-object-lambda:&lt;region&gt;:&lt;account_ID&gt;:accesspoint/&lt;access_point_name&gt;    When resources.type equals AWS::EC2::Snapshot, and the operator is set to Equals or NotEquals, the ARN must be in the following format:    arn:&lt;partition&gt;:ec2:&lt;region&gt;::snapshot/&lt;snapshot_ID&gt;    When resources.type equals AWS::DynamoDB::Stream, and the operator is set to Equals or NotEquals, the ARN must be in the following format:    arn:&lt;partition&gt;:dynamodb:&lt;region&gt;:&lt;account_ID&gt;:table/&lt;table_name&gt;/stream/&lt;date_time&gt;    When resources.type equals AWS::Glue::Table, and the operator is set to Equals or NotEquals, the ARN must be in the following format:    arn:&lt;partition&gt;:glue:&lt;region&gt;:&lt;account_ID&gt;:table/&lt;database_name&gt;/&lt;table_name&gt;
         public let field: String
         ///  An operator that excludes events that match the last few characters of the event record field specified as the value of Field.
         public let notEndsWith: [String]?
@@ -179,6 +203,152 @@ extension CloudTrail {
         }
     }
 
+    public struct CancelQueryRequest: AWSEncodableShape {
+        /// The ARN (or the ID suffix of the ARN) of an event data store on which the specified query is running.
+        public let eventDataStore: String
+        /// The ID of the query that you want to cancel. The QueryId comes from the response of a StartQuery operation.
+        public let queryId: String
+
+        public init(eventDataStore: String, queryId: String) {
+            self.eventDataStore = eventDataStore
+            self.queryId = queryId
+        }
+
+        public func validate(name: String) throws {
+            try self.validate(self.eventDataStore, name: "eventDataStore", parent: name, max: 256)
+            try self.validate(self.eventDataStore, name: "eventDataStore", parent: name, min: 3)
+            try self.validate(self.eventDataStore, name: "eventDataStore", parent: name, pattern: "^[a-zA-Z0-9._/\\-:]+$")
+            try self.validate(self.queryId, name: "queryId", parent: name, max: 36)
+            try self.validate(self.queryId, name: "queryId", parent: name, min: 36)
+            try self.validate(self.queryId, name: "queryId", parent: name, pattern: "^[a-f0-9\\-]+$")
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case eventDataStore = "EventDataStore"
+            case queryId = "QueryId"
+        }
+    }
+
+    public struct CancelQueryResponse: AWSDecodableShape {
+        /// The ID of the canceled query.
+        public let queryId: String
+        /// Shows the status of a query after a CancelQuery request. Typically, the values shown are either RUNNING or CANCELLED.
+        public let queryStatus: QueryStatus
+
+        public init(queryId: String, queryStatus: QueryStatus) {
+            self.queryId = queryId
+            self.queryStatus = queryStatus
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case queryId = "QueryId"
+            case queryStatus = "QueryStatus"
+        }
+    }
+
+    public struct CreateEventDataStoreRequest: AWSEncodableShape {
+        /// The advanced event selectors to use to select the events for the data store. For more information about how to use advanced event selectors, see Log events by using advanced event selectors in the CloudTrail User Guide.
+        public let advancedEventSelectors: [AdvancedEventSelector]?
+        /// Specifies whether the event data store includes events from all regions, or only from the region in which the event data store is created.
+        public let multiRegionEnabled: Bool?
+        /// The name of the event data store.
+        public let name: String
+        /// Specifies whether an event data store collects events logged for an organization in Organizations.
+        public let organizationEnabled: Bool?
+        /// The retention period of the event data store, in days. You can set a retention period of up to 2555 days, the equivalent of seven years.
+        public let retentionPeriod: Int?
+        public let tagsList: [Tag]?
+        /// Specifies whether termination protection is enabled for the event data store. If termination protection is enabled, you cannot delete the event data store until termination protection is disabled.
+        public let terminationProtectionEnabled: Bool?
+
+        public init(advancedEventSelectors: [AdvancedEventSelector]? = nil, multiRegionEnabled: Bool? = nil, name: String, organizationEnabled: Bool? = nil, retentionPeriod: Int? = nil, tagsList: [Tag]? = nil, terminationProtectionEnabled: Bool? = nil) {
+            self.advancedEventSelectors = advancedEventSelectors
+            self.multiRegionEnabled = multiRegionEnabled
+            self.name = name
+            self.organizationEnabled = organizationEnabled
+            self.retentionPeriod = retentionPeriod
+            self.tagsList = tagsList
+            self.terminationProtectionEnabled = terminationProtectionEnabled
+        }
+
+        public func validate(name: String) throws {
+            try self.advancedEventSelectors?.forEach {
+                try $0.validate(name: "\(name).advancedEventSelectors[]")
+            }
+            try self.validate(self.name, name: "name", parent: name, max: 128)
+            try self.validate(self.name, name: "name", parent: name, min: 3)
+            try self.validate(self.name, name: "name", parent: name, pattern: "^[a-zA-Z0-9._\\-]+$")
+            try self.validate(self.retentionPeriod, name: "retentionPeriod", parent: name, max: 2557)
+            try self.validate(self.retentionPeriod, name: "retentionPeriod", parent: name, min: 7)
+            try self.tagsList?.forEach {
+                try $0.validate(name: "\(name).tagsList[]")
+            }
+            try self.validate(self.tagsList, name: "tagsList", parent: name, max: 200)
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case advancedEventSelectors = "AdvancedEventSelectors"
+            case multiRegionEnabled = "MultiRegionEnabled"
+            case name = "Name"
+            case organizationEnabled = "OrganizationEnabled"
+            case retentionPeriod = "RetentionPeriod"
+            case tagsList = "TagsList"
+            case terminationProtectionEnabled = "TerminationProtectionEnabled"
+        }
+    }
+
+    public struct CreateEventDataStoreResponse: AWSDecodableShape {
+        /// The advanced event selectors that were used to select the events for the data store.
+        public let advancedEventSelectors: [AdvancedEventSelector]?
+        /// The timestamp that shows when the event data store was created.
+        public let createdTimestamp: Date?
+        /// The ARN of the event data store.
+        public let eventDataStoreArn: String?
+        /// Indicates whether the event data store collects events from all regions, or only from the region in which it was created.
+        public let multiRegionEnabled: Bool?
+        /// The name of the event data store.
+        public let name: String?
+        /// Indicates whether an event data store is collecting logged events for an organization in Organizations.
+        public let organizationEnabled: Bool?
+        /// The retention period of an event data store, in days.
+        public let retentionPeriod: Int?
+        /// The status of event data store creation.
+        public let status: EventDataStoreStatus?
+        public let tagsList: [Tag]?
+        /// Indicates whether termination protection is enabled for the event data store.
+        public let terminationProtectionEnabled: Bool?
+        /// The timestamp that shows when an event data store was updated, if applicable. UpdatedTimestamp is always either the same or newer than the time shown in CreatedTimestamp.
+        public let updatedTimestamp: Date?
+
+        public init(advancedEventSelectors: [AdvancedEventSelector]? = nil, createdTimestamp: Date? = nil, eventDataStoreArn: String? = nil, multiRegionEnabled: Bool? = nil, name: String? = nil, organizationEnabled: Bool? = nil, retentionPeriod: Int? = nil, status: EventDataStoreStatus? = nil, tagsList: [Tag]? = nil, terminationProtectionEnabled: Bool? = nil, updatedTimestamp: Date? = nil) {
+            self.advancedEventSelectors = advancedEventSelectors
+            self.createdTimestamp = createdTimestamp
+            self.eventDataStoreArn = eventDataStoreArn
+            self.multiRegionEnabled = multiRegionEnabled
+            self.name = name
+            self.organizationEnabled = organizationEnabled
+            self.retentionPeriod = retentionPeriod
+            self.status = status
+            self.tagsList = tagsList
+            self.terminationProtectionEnabled = terminationProtectionEnabled
+            self.updatedTimestamp = updatedTimestamp
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case advancedEventSelectors = "AdvancedEventSelectors"
+            case createdTimestamp = "CreatedTimestamp"
+            case eventDataStoreArn = "EventDataStoreArn"
+            case multiRegionEnabled = "MultiRegionEnabled"
+            case name = "Name"
+            case organizationEnabled = "OrganizationEnabled"
+            case retentionPeriod = "RetentionPeriod"
+            case status = "Status"
+            case tagsList = "TagsList"
+            case terminationProtectionEnabled = "TerminationProtectionEnabled"
+            case updatedTimestamp = "UpdatedTimestamp"
+        }
+    }
+
     public struct CreateTrailRequest: AWSEncodableShape {
         /// Specifies a log group name using an Amazon Resource Name (ARN), a unique identifier that represents the log group to which CloudTrail logs will be delivered. Not required unless you specify CloudWatchLogsRoleArn.
         public let cloudWatchLogsLogGroupArn: String?
@@ -217,6 +387,13 @@ extension CloudTrail {
             self.s3KeyPrefix = s3KeyPrefix
             self.snsTopicName = snsTopicName
             self.tagsList = tagsList
+        }
+
+        public func validate(name: String) throws {
+            try self.tagsList?.forEach {
+                try $0.validate(name: "\(name).tagsList[]")
+            }
+            try self.validate(self.tagsList, name: "tagsList", parent: name, max: 200)
         }
 
         private enum CodingKeys: String, CodingKey {
@@ -293,7 +470,7 @@ extension CloudTrail {
     }
 
     public struct DataResource: AWSEncodableShape & AWSDecodableShape {
-        /// The resource type in which you want to log data events. You can specify the following basic event selector resource types:    AWS::S3::Object     AWS::Lambda::Function     AWS::DynamoDB::Table    The following resource types are also availble through advanced event selectors. Basic event selector resource types are valid in advanced event selectors, but advanced event selector resource types are not valid in basic event selectors. For more information, see AdvancedFieldSelector$Field.    AWS::S3Outposts::Object     AWS::ManagedBlockchain::Node     AWS::S3ObjectLambda::AccessPoint     AWS::EC2::Snapshot     AWS::S3::AccessPoint     AWS::DynamoDB::Stream
+        /// The resource type in which you want to log data events. You can specify the following basic event selector resource types:    AWS::S3::Object     AWS::Lambda::Function     AWS::DynamoDB::Table    The following resource types are also availble through advanced event selectors. Basic event selector resource types are valid in advanced event selectors, but advanced event selector resource types are not valid in basic event selectors. For more information, see AdvancedFieldSelector$Field.    AWS::S3Outposts::Object     AWS::ManagedBlockchain::Node     AWS::S3ObjectLambda::AccessPoint     AWS::EC2::Snapshot     AWS::S3::AccessPoint     AWS::DynamoDB::Stream     AWS::Glue::Table
         public let type: String?
         /// An array of Amazon Resource Name (ARN) strings or partial ARN strings for the specified objects.   To log data events for all objects in all S3 buckets in your Amazon Web Services account, specify the prefix as arn:aws:s3:::.  This also enables logging of data event activity performed by any user or role in your Amazon Web Services account, even if that activity is performed on a bucket that belongs to another Amazon Web Services account.    To log data events for all objects in an S3 bucket, specify the bucket and an empty object prefix such as arn:aws:s3:::bucket-1/. The trail logs data events for all objects in this S3 bucket.   To log data events for specific objects, specify the S3 bucket and object prefix such as arn:aws:s3:::bucket-1/example-images. The trail logs data events for objects in this S3 bucket that match the prefix.   To log data events for all Lambda functions in your Amazon Web Services account, specify the prefix as arn:aws:lambda.  This also enables logging of Invoke activity performed by any user or role in your Amazon Web Services account, even if that activity is performed on a function that belongs to another Amazon Web Services account.     To log data events for a specific Lambda function, specify the function ARN.  Lambda function ARNs are exact. For example, if you specify a function ARN arn:aws:lambda:us-west-2:111111111111:function:helloworld, data events will only be logged for arn:aws:lambda:us-west-2:111111111111:function:helloworld. They will not be logged for arn:aws:lambda:us-west-2:111111111111:function:helloworld2.    To log data events for all DynamoDB tables in your Amazon Web Services account, specify the prefix as arn:aws:dynamodb.
         public let values: [String]?
@@ -307,6 +484,29 @@ extension CloudTrail {
             case type = "Type"
             case values = "Values"
         }
+    }
+
+    public struct DeleteEventDataStoreRequest: AWSEncodableShape {
+        /// The ARN (or the ID suffix of the ARN) of the event data store to delete.
+        public let eventDataStore: String
+
+        public init(eventDataStore: String) {
+            self.eventDataStore = eventDataStore
+        }
+
+        public func validate(name: String) throws {
+            try self.validate(self.eventDataStore, name: "eventDataStore", parent: name, max: 256)
+            try self.validate(self.eventDataStore, name: "eventDataStore", parent: name, min: 3)
+            try self.validate(self.eventDataStore, name: "eventDataStore", parent: name, pattern: "^[a-zA-Z0-9._/\\-:]+$")
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case eventDataStore = "EventDataStore"
+        }
+    }
+
+    public struct DeleteEventDataStoreResponse: AWSDecodableShape {
+        public init() {}
     }
 
     public struct DeleteTrailRequest: AWSEncodableShape {
@@ -324,6 +524,61 @@ extension CloudTrail {
 
     public struct DeleteTrailResponse: AWSDecodableShape {
         public init() {}
+    }
+
+    public struct DescribeQueryRequest: AWSEncodableShape {
+        /// The ARN (or the ID suffix of the ARN) of an event data store on which the specified query was run.
+        public let eventDataStore: String
+        /// The query ID.
+        public let queryId: String
+
+        public init(eventDataStore: String, queryId: String) {
+            self.eventDataStore = eventDataStore
+            self.queryId = queryId
+        }
+
+        public func validate(name: String) throws {
+            try self.validate(self.eventDataStore, name: "eventDataStore", parent: name, max: 256)
+            try self.validate(self.eventDataStore, name: "eventDataStore", parent: name, min: 3)
+            try self.validate(self.eventDataStore, name: "eventDataStore", parent: name, pattern: "^[a-zA-Z0-9._/\\-:]+$")
+            try self.validate(self.queryId, name: "queryId", parent: name, max: 36)
+            try self.validate(self.queryId, name: "queryId", parent: name, min: 36)
+            try self.validate(self.queryId, name: "queryId", parent: name, pattern: "^[a-f0-9\\-]+$")
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case eventDataStore = "EventDataStore"
+            case queryId = "QueryId"
+        }
+    }
+
+    public struct DescribeQueryResponse: AWSDecodableShape {
+        /// The error message returned if a query failed.
+        public let errorMessage: String?
+        /// The ID of the query.
+        public let queryId: String?
+        /// Metadata about a query, including the number of events that were matched, the total number of events scanned, the query run time in milliseconds, and the query's creation time.
+        public let queryStatistics: QueryStatisticsForDescribeQuery?
+        /// The status of a query. Values for QueryStatus include QUEUED, RUNNING, FINISHED, FAILED, TIMED_OUT, or CANCELLED
+        public let queryStatus: QueryStatus?
+        /// The SQL code of a query.
+        public let queryString: String?
+
+        public init(errorMessage: String? = nil, queryId: String? = nil, queryStatistics: QueryStatisticsForDescribeQuery? = nil, queryStatus: QueryStatus? = nil, queryString: String? = nil) {
+            self.errorMessage = errorMessage
+            self.queryId = queryId
+            self.queryStatistics = queryStatistics
+            self.queryStatus = queryStatus
+            self.queryString = queryString
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case errorMessage = "ErrorMessage"
+            case queryId = "QueryId"
+            case queryStatistics = "QueryStatistics"
+            case queryStatus = "QueryStatus"
+            case queryString = "QueryString"
+        }
     }
 
     public struct DescribeTrailsRequest: AWSEncodableShape {
@@ -401,10 +656,27 @@ extension CloudTrail {
         }
     }
 
+    public struct EventDataStore: AWSDecodableShape {
+        /// The ARN of the event data store.
+        public let eventDataStoreArn: String?
+        /// The name of the event data store.
+        public let name: String?
+
+        public init(eventDataStoreArn: String? = nil, name: String? = nil) {
+            self.eventDataStoreArn = eventDataStoreArn
+            self.name = name
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case eventDataStoreArn = "EventDataStoreArn"
+            case name = "Name"
+        }
+    }
+
     public struct EventSelector: AWSEncodableShape & AWSDecodableShape {
         /// CloudTrail supports data event logging for Amazon S3 objects, Lambda functions, and Amazon DynamoDB tables with basic event selectors. You can specify up to 250 resources for an individual event selector, but the total number of data resources cannot exceed 250 across all event selectors in a trail. This limit does not apply if you configure resource logging for all data events. For more information, see Data Events and Limits in CloudTrail in the CloudTrail User Guide.
         public let dataResources: [DataResource]?
-        /// An optional list of service event sources from which you do not want management events to be logged on your trail. In this release, the list can be empty (disables the filter), or it can filter out Key Management Service or Amazon RDS Data API events by containing kms.amazonaws.com or rdsdata.amazonaws.com. By default, ExcludeManagementEventSources is empty, and KMS and Amazon RDS Data API events are logged to your trail.
+        /// An optional list of service event sources from which you do not want management events to be logged on your trail. In this release, the list can be empty (disables the filter), or it can filter out Key Management Service or Amazon RDS Data API events by containing kms.amazonaws.com or rdsdata.amazonaws.com. By default, ExcludeManagementEventSources is empty, and KMS and Amazon RDS Data API events are logged to your trail. You can exclude management event sources only in regions that support the event source.
         public let excludeManagementEventSources: [String]?
         /// Specify if you want your event selector to include management events for your trail.  For more information, see Management Events in the CloudTrail User Guide. By default, the value is true. The first copy of management events is free. You are charged for additional copies of management events that you are logging on any subsequent trail in the same region. For more information about CloudTrail pricing, see CloudTrail Pricing.
         public let includeManagementEvents: Bool?
@@ -423,6 +695,74 @@ extension CloudTrail {
             case excludeManagementEventSources = "ExcludeManagementEventSources"
             case includeManagementEvents = "IncludeManagementEvents"
             case readWriteType = "ReadWriteType"
+        }
+    }
+
+    public struct GetEventDataStoreRequest: AWSEncodableShape {
+        /// The ARN (or ID suffix of the ARN) of the event data store about which you want information.
+        public let eventDataStore: String
+
+        public init(eventDataStore: String) {
+            self.eventDataStore = eventDataStore
+        }
+
+        public func validate(name: String) throws {
+            try self.validate(self.eventDataStore, name: "eventDataStore", parent: name, max: 256)
+            try self.validate(self.eventDataStore, name: "eventDataStore", parent: name, min: 3)
+            try self.validate(self.eventDataStore, name: "eventDataStore", parent: name, pattern: "^[a-zA-Z0-9._/\\-:]+$")
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case eventDataStore = "EventDataStore"
+        }
+    }
+
+    public struct GetEventDataStoreResponse: AWSDecodableShape {
+        /// The advanced event selectors used to select events for the data store.
+        public let advancedEventSelectors: [AdvancedEventSelector]?
+        /// The timestamp of the event data store's creation.
+        public let createdTimestamp: Date?
+        /// The event data store Amazon Resource Number (ARN).
+        public let eventDataStoreArn: String?
+        /// Indicates whether the event data store includes events from all regions, or only from the region in which it was created.
+        public let multiRegionEnabled: Bool?
+        /// The name of the event data store.
+        public let name: String?
+        /// Indicates whether an event data store is collecting logged events for an organization in Organizations.
+        public let organizationEnabled: Bool?
+        /// The retention period of the event data store, in days.
+        public let retentionPeriod: Int?
+        /// The status of an event data store. Values can be ENABLED and PENDING_DELETION.
+        public let status: EventDataStoreStatus?
+        /// Indicates that termination protection is enabled.
+        public let terminationProtectionEnabled: Bool?
+        /// Shows the time that an event data store was updated, if applicable. UpdatedTimestamp is always either the same or newer than the time shown in CreatedTimestamp.
+        public let updatedTimestamp: Date?
+
+        public init(advancedEventSelectors: [AdvancedEventSelector]? = nil, createdTimestamp: Date? = nil, eventDataStoreArn: String? = nil, multiRegionEnabled: Bool? = nil, name: String? = nil, organizationEnabled: Bool? = nil, retentionPeriod: Int? = nil, status: EventDataStoreStatus? = nil, terminationProtectionEnabled: Bool? = nil, updatedTimestamp: Date? = nil) {
+            self.advancedEventSelectors = advancedEventSelectors
+            self.createdTimestamp = createdTimestamp
+            self.eventDataStoreArn = eventDataStoreArn
+            self.multiRegionEnabled = multiRegionEnabled
+            self.name = name
+            self.organizationEnabled = organizationEnabled
+            self.retentionPeriod = retentionPeriod
+            self.status = status
+            self.terminationProtectionEnabled = terminationProtectionEnabled
+            self.updatedTimestamp = updatedTimestamp
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case advancedEventSelectors = "AdvancedEventSelectors"
+            case createdTimestamp = "CreatedTimestamp"
+            case eventDataStoreArn = "EventDataStoreArn"
+            case multiRegionEnabled = "MultiRegionEnabled"
+            case name = "Name"
+            case organizationEnabled = "OrganizationEnabled"
+            case retentionPeriod = "RetentionPeriod"
+            case status = "Status"
+            case terminationProtectionEnabled = "TerminationProtectionEnabled"
+            case updatedTimestamp = "UpdatedTimestamp"
         }
     }
 
@@ -474,7 +814,7 @@ extension CloudTrail {
     }
 
     public struct GetInsightSelectorsResponse: AWSDecodableShape {
-        /// A JSON string that contains the insight types you want to log on a trail. In this release, only ApiCallRateInsight is supported as an insight type.
+        /// A JSON string that contains the insight types you want to log on a trail. In this release, ApiErrorRateInsight and ApiCallRateInsight are supported as insight types.
         public let insightSelectors: [InsightSelector]?
         /// The Amazon Resource Name (ARN) of a trail for which you want to get Insights selectors.
         public let trailARN: String?
@@ -487,6 +827,74 @@ extension CloudTrail {
         private enum CodingKeys: String, CodingKey {
             case insightSelectors = "InsightSelectors"
             case trailARN = "TrailARN"
+        }
+    }
+
+    public struct GetQueryResultsRequest: AWSEncodableShape {
+        /// The ARN (or ID suffix of the ARN) of the event data store against which the query was run.
+        public let eventDataStore: String
+        /// The maximum number of query results to display on a single page.
+        public let maxQueryResults: Int?
+        /// A token you can use to get the next page of query results.
+        public let nextToken: String?
+        /// The ID of the query for which you want to get results.
+        public let queryId: String
+
+        public init(eventDataStore: String, maxQueryResults: Int? = nil, nextToken: String? = nil, queryId: String) {
+            self.eventDataStore = eventDataStore
+            self.maxQueryResults = maxQueryResults
+            self.nextToken = nextToken
+            self.queryId = queryId
+        }
+
+        public func validate(name: String) throws {
+            try self.validate(self.eventDataStore, name: "eventDataStore", parent: name, max: 256)
+            try self.validate(self.eventDataStore, name: "eventDataStore", parent: name, min: 3)
+            try self.validate(self.eventDataStore, name: "eventDataStore", parent: name, pattern: "^[a-zA-Z0-9._/\\-:]+$")
+            try self.validate(self.maxQueryResults, name: "maxQueryResults", parent: name, max: 1000)
+            try self.validate(self.maxQueryResults, name: "maxQueryResults", parent: name, min: 1)
+            try self.validate(self.nextToken, name: "nextToken", parent: name, max: 1000)
+            try self.validate(self.nextToken, name: "nextToken", parent: name, min: 4)
+            try self.validate(self.nextToken, name: "nextToken", parent: name, pattern: ".*")
+            try self.validate(self.queryId, name: "queryId", parent: name, max: 36)
+            try self.validate(self.queryId, name: "queryId", parent: name, min: 36)
+            try self.validate(self.queryId, name: "queryId", parent: name, pattern: "^[a-f0-9\\-]+$")
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case eventDataStore = "EventDataStore"
+            case maxQueryResults = "MaxQueryResults"
+            case nextToken = "NextToken"
+            case queryId = "QueryId"
+        }
+    }
+
+    public struct GetQueryResultsResponse: AWSDecodableShape {
+        /// The error message returned if a query failed.
+        public let errorMessage: String?
+        /// A token you can use to get the next page of query results.
+        public let nextToken: String?
+        /// Contains the individual event results of the query.
+        public let queryResultRows: [[[String: String]]]?
+        /// Shows the count of query results.
+        public let queryStatistics: QueryStatistics?
+        /// The status of the query. Values include QUEUED, RUNNING, FINISHED, FAILED, TIMED_OUT, or CANCELLED.
+        public let queryStatus: QueryStatus?
+
+        public init(errorMessage: String? = nil, nextToken: String? = nil, queryResultRows: [[[String: String]]]? = nil, queryStatistics: QueryStatistics? = nil, queryStatus: QueryStatus? = nil) {
+            self.errorMessage = errorMessage
+            self.nextToken = nextToken
+            self.queryResultRows = queryResultRows
+            self.queryStatistics = queryStatistics
+            self.queryStatus = queryStatus
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case errorMessage = "ErrorMessage"
+            case nextToken = "NextToken"
+            case queryResultRows = "QueryResultRows"
+            case queryStatistics = "QueryStatistics"
+            case queryStatus = "QueryStatus"
         }
     }
 
@@ -606,7 +1014,7 @@ extension CloudTrail {
     }
 
     public struct InsightSelector: AWSEncodableShape & AWSDecodableShape {
-        /// The type of Insights events to log on a trail. The valid Insights type in this release is ApiCallRateInsight.
+        /// The type of insights to log on a trail. ApiCallRateInsight and ApiErrorRateInsight are valid insight types.
         public let insightType: InsightType?
 
         public init(insightType: InsightType? = nil) {
@@ -615,6 +1023,48 @@ extension CloudTrail {
 
         private enum CodingKeys: String, CodingKey {
             case insightType = "InsightType"
+        }
+    }
+
+    public struct ListEventDataStoresRequest: AWSEncodableShape {
+        /// The maximum number of event data stores to display on a single page.
+        public let maxResults: Int?
+        /// A token you can use to get the next page of event data store results.
+        public let nextToken: String?
+
+        public init(maxResults: Int? = nil, nextToken: String? = nil) {
+            self.maxResults = maxResults
+            self.nextToken = nextToken
+        }
+
+        public func validate(name: String) throws {
+            try self.validate(self.maxResults, name: "maxResults", parent: name, max: 1000)
+            try self.validate(self.maxResults, name: "maxResults", parent: name, min: 1)
+            try self.validate(self.nextToken, name: "nextToken", parent: name, max: 1000)
+            try self.validate(self.nextToken, name: "nextToken", parent: name, min: 4)
+            try self.validate(self.nextToken, name: "nextToken", parent: name, pattern: ".*")
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case maxResults = "MaxResults"
+            case nextToken = "NextToken"
+        }
+    }
+
+    public struct ListEventDataStoresResponse: AWSDecodableShape {
+        /// Contains information about event data stores in the account, in the current region.
+        public let eventDataStores: [EventDataStore]?
+        /// A token you can use to get the next page of results.
+        public let nextToken: String?
+
+        public init(eventDataStores: [EventDataStore]? = nil, nextToken: String? = nil) {
+            self.eventDataStores = eventDataStores
+            self.nextToken = nextToken
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case eventDataStores = "EventDataStores"
+            case nextToken = "NextToken"
         }
     }
 
@@ -656,10 +1106,71 @@ extension CloudTrail {
         }
     }
 
+    public struct ListQueriesRequest: AWSEncodableShape {
+        /// Use with StartTime to bound a ListQueries request, and limit its results to only those queries run within a specified time period.
+        public let endTime: Date?
+        /// The ARN (or the ID suffix of the ARN) of an event data store on which queries were run.
+        public let eventDataStore: String
+        /// The maximum number of queries to show on a page.
+        public let maxResults: Int?
+        /// A token you can use to get the next page of results.
+        public let nextToken: String?
+        /// The status of queries that you want to return in results. Valid values for QueryStatus include QUEUED, RUNNING, FINISHED, FAILED, TIMED_OUT, or CANCELLED.
+        public let queryStatus: QueryStatus?
+        /// Use with EndTime to bound a ListQueries request, and limit its results to only those queries run within a specified time period.
+        public let startTime: Date?
+
+        public init(endTime: Date? = nil, eventDataStore: String, maxResults: Int? = nil, nextToken: String? = nil, queryStatus: QueryStatus? = nil, startTime: Date? = nil) {
+            self.endTime = endTime
+            self.eventDataStore = eventDataStore
+            self.maxResults = maxResults
+            self.nextToken = nextToken
+            self.queryStatus = queryStatus
+            self.startTime = startTime
+        }
+
+        public func validate(name: String) throws {
+            try self.validate(self.eventDataStore, name: "eventDataStore", parent: name, max: 256)
+            try self.validate(self.eventDataStore, name: "eventDataStore", parent: name, min: 3)
+            try self.validate(self.eventDataStore, name: "eventDataStore", parent: name, pattern: "^[a-zA-Z0-9._/\\-:]+$")
+            try self.validate(self.maxResults, name: "maxResults", parent: name, max: 1000)
+            try self.validate(self.maxResults, name: "maxResults", parent: name, min: 1)
+            try self.validate(self.nextToken, name: "nextToken", parent: name, max: 1000)
+            try self.validate(self.nextToken, name: "nextToken", parent: name, min: 4)
+            try self.validate(self.nextToken, name: "nextToken", parent: name, pattern: ".*")
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case endTime = "EndTime"
+            case eventDataStore = "EventDataStore"
+            case maxResults = "MaxResults"
+            case nextToken = "NextToken"
+            case queryStatus = "QueryStatus"
+            case startTime = "StartTime"
+        }
+    }
+
+    public struct ListQueriesResponse: AWSDecodableShape {
+        /// A token you can use to get the next page of results.
+        public let nextToken: String?
+        /// Lists matching query results, and shows query ID, status, and creation time of each query.
+        public let queries: [Query]?
+
+        public init(nextToken: String? = nil, queries: [Query]? = nil) {
+            self.nextToken = nextToken
+            self.queries = queries
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case nextToken = "NextToken"
+            case queries = "Queries"
+        }
+    }
+
     public struct ListTagsRequest: AWSEncodableShape {
         /// Reserved for future use.
         public let nextToken: String?
-        /// Specifies a list of trail ARNs whose tags will be listed. The list has a limit of 20 ARNs. The following is the format of a trail ARN.  arn:aws:cloudtrail:us-east-2:123456789012:trail/MyTrail
+        /// Specifies a list of trail and event data store ARNs whose tags will be listed. The list has a limit of 20 ARNs.
         public let resourceIdList: [String]
 
         public init(nextToken: String? = nil, resourceIdList: [String]) {
@@ -866,7 +1377,7 @@ extension CloudTrail {
     }
 
     public struct PutInsightSelectorsRequest: AWSEncodableShape {
-        /// A JSON string that contains the Insights types that you want to log on a trail. The valid Insights type in this release is ApiCallRateInsight.
+        /// A JSON string that contains the insight types you want to log on a trail. ApiCallRateInsight and ApiErrorRateInsight are valid insight types.
         public let insightSelectors: [InsightSelector]
         /// The name of the CloudTrail trail for which you want to change or add Insights selectors.
         public let trailName: String
@@ -883,7 +1394,7 @@ extension CloudTrail {
     }
 
     public struct PutInsightSelectorsResponse: AWSDecodableShape {
-        /// A JSON string that contains the Insights event types that you want to log on a trail. The valid Insights type in this release is ApiCallRateInsight.
+        /// A JSON string that contains the Insights event types that you want to log on a trail. The valid Insights types in this release are ApiErrorRateInsight and ApiCallRateInsight.
         public let insightSelectors: [InsightSelector]?
         /// The Amazon Resource Name (ARN) of a trail for which you want to change or add Insights selectors.
         public let trailARN: String?
@@ -899,15 +1410,93 @@ extension CloudTrail {
         }
     }
 
+    public struct Query: AWSDecodableShape {
+        /// The creation time of a query.
+        public let creationTime: Date?
+        /// The ID of a query.
+        public let queryId: String?
+        /// The status of the query. This can be QUEUED, RUNNING, FINISHED, FAILED, TIMED_OUT, or CANCELLED.
+        public let queryStatus: QueryStatus?
+
+        public init(creationTime: Date? = nil, queryId: String? = nil, queryStatus: QueryStatus? = nil) {
+            self.creationTime = creationTime
+            self.queryId = queryId
+            self.queryStatus = queryStatus
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case creationTime = "CreationTime"
+            case queryId = "QueryId"
+            case queryStatus = "QueryStatus"
+        }
+    }
+
+    public struct QueryStatistics: AWSDecodableShape {
+        /// The total bytes that the query scanned in the event data store. This value matches the number of bytes for which your account is billed for the query, unless the query is still running.
+        public let bytesScanned: Int64?
+        /// The number of results returned.
+        public let resultsCount: Int?
+        /// The total number of results returned by a query.
+        public let totalResultsCount: Int?
+
+        public init(bytesScanned: Int64? = nil, resultsCount: Int? = nil, totalResultsCount: Int? = nil) {
+            self.bytesScanned = bytesScanned
+            self.resultsCount = resultsCount
+            self.totalResultsCount = totalResultsCount
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case bytesScanned = "BytesScanned"
+            case resultsCount = "ResultsCount"
+            case totalResultsCount = "TotalResultsCount"
+        }
+    }
+
+    public struct QueryStatisticsForDescribeQuery: AWSDecodableShape {
+        /// The total bytes that the query scanned in the event data store. This value matches the number of bytes for which your account is billed for the query, unless the query is still running.
+        public let bytesScanned: Int64?
+        /// The creation time of the query.
+        public let creationTime: Date?
+        /// The number of events that matched a query.
+        public let eventsMatched: Int64?
+        /// The number of events that the query scanned in the event data store.
+        public let eventsScanned: Int64?
+        /// The query's run time, in milliseconds.
+        public let executionTimeInMillis: Int?
+
+        public init(bytesScanned: Int64? = nil, creationTime: Date? = nil, eventsMatched: Int64? = nil, eventsScanned: Int64? = nil, executionTimeInMillis: Int? = nil) {
+            self.bytesScanned = bytesScanned
+            self.creationTime = creationTime
+            self.eventsMatched = eventsMatched
+            self.eventsScanned = eventsScanned
+            self.executionTimeInMillis = executionTimeInMillis
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case bytesScanned = "BytesScanned"
+            case creationTime = "CreationTime"
+            case eventsMatched = "EventsMatched"
+            case eventsScanned = "EventsScanned"
+            case executionTimeInMillis = "ExecutionTimeInMillis"
+        }
+    }
+
     public struct RemoveTagsRequest: AWSEncodableShape {
-        /// Specifies the ARN of the trail from which tags should be removed. The format of a trail ARN is:  arn:aws:cloudtrail:us-east-2:123456789012:trail/MyTrail
+        /// Specifies the ARN of the trail or event data store from which tags should be removed.  Example trail ARN format: arn:aws:cloudtrail:us-east-2:123456789012:trail/MyTrail  Example event data store ARN format: arn:aws:cloudtrail:us-east-2:12345678910:eventdatastore/EXAMPLE-f852-4e8f-8bd1-bcf6cEXAMPLE
         public let resourceId: String
         /// Specifies a list of tags to be removed.
-        public let tagsList: [Tag]?
+        public let tagsList: [Tag]
 
-        public init(resourceId: String, tagsList: [Tag]? = nil) {
+        public init(resourceId: String, tagsList: [Tag]) {
             self.resourceId = resourceId
             self.tagsList = tagsList
+        }
+
+        public func validate(name: String) throws {
+            try self.tagsList.forEach {
+                try $0.validate(name: "\(name).tagsList[]")
+            }
+            try self.validate(self.tagsList, name: "tagsList", parent: name, max: 200)
         }
 
         private enum CodingKeys: String, CodingKey {
@@ -954,6 +1543,74 @@ extension CloudTrail {
         }
     }
 
+    public struct RestoreEventDataStoreRequest: AWSEncodableShape {
+        /// The ARN (or the ID suffix of the ARN) of the event data store that you want to restore.
+        public let eventDataStore: String
+
+        public init(eventDataStore: String) {
+            self.eventDataStore = eventDataStore
+        }
+
+        public func validate(name: String) throws {
+            try self.validate(self.eventDataStore, name: "eventDataStore", parent: name, max: 256)
+            try self.validate(self.eventDataStore, name: "eventDataStore", parent: name, min: 3)
+            try self.validate(self.eventDataStore, name: "eventDataStore", parent: name, pattern: "^[a-zA-Z0-9._/\\-:]+$")
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case eventDataStore = "EventDataStore"
+        }
+    }
+
+    public struct RestoreEventDataStoreResponse: AWSDecodableShape {
+        /// The advanced event selectors that were used to select events.
+        public let advancedEventSelectors: [AdvancedEventSelector]?
+        /// The timestamp of an event data store's creation.
+        public let createdTimestamp: Date?
+        /// The event data store ARN.
+        public let eventDataStoreArn: String?
+        /// Indicates whether the event data store is collecting events from all regions, or only from the region in which the event data store was created.
+        public let multiRegionEnabled: Bool?
+        /// The name of the event data store.
+        public let name: String?
+        /// Indicates whether an event data store is collecting logged events for an organization in Organizations.
+        public let organizationEnabled: Bool?
+        /// The retention period, in days.
+        public let retentionPeriod: Int?
+        /// The status of the event data store.
+        public let status: EventDataStoreStatus?
+        /// Indicates that termination protection is enabled and the event data store cannot be automatically deleted.
+        public let terminationProtectionEnabled: Bool?
+        /// The timestamp that shows when an event data store was updated, if applicable. UpdatedTimestamp is always either the same or newer than the time shown in CreatedTimestamp.
+        public let updatedTimestamp: Date?
+
+        public init(advancedEventSelectors: [AdvancedEventSelector]? = nil, createdTimestamp: Date? = nil, eventDataStoreArn: String? = nil, multiRegionEnabled: Bool? = nil, name: String? = nil, organizationEnabled: Bool? = nil, retentionPeriod: Int? = nil, status: EventDataStoreStatus? = nil, terminationProtectionEnabled: Bool? = nil, updatedTimestamp: Date? = nil) {
+            self.advancedEventSelectors = advancedEventSelectors
+            self.createdTimestamp = createdTimestamp
+            self.eventDataStoreArn = eventDataStoreArn
+            self.multiRegionEnabled = multiRegionEnabled
+            self.name = name
+            self.organizationEnabled = organizationEnabled
+            self.retentionPeriod = retentionPeriod
+            self.status = status
+            self.terminationProtectionEnabled = terminationProtectionEnabled
+            self.updatedTimestamp = updatedTimestamp
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case advancedEventSelectors = "AdvancedEventSelectors"
+            case createdTimestamp = "CreatedTimestamp"
+            case eventDataStoreArn = "EventDataStoreArn"
+            case multiRegionEnabled = "MultiRegionEnabled"
+            case name = "Name"
+            case organizationEnabled = "OrganizationEnabled"
+            case retentionPeriod = "RetentionPeriod"
+            case status = "Status"
+            case terminationProtectionEnabled = "TerminationProtectionEnabled"
+            case updatedTimestamp = "UpdatedTimestamp"
+        }
+    }
+
     public struct StartLoggingRequest: AWSEncodableShape {
         /// Specifies the name or the CloudTrail ARN of the trail for which CloudTrail logs Amazon Web Services API calls. The following is the format of a trail ARN.  arn:aws:cloudtrail:us-east-2:123456789012:trail/MyTrail
         public let name: String
@@ -969,6 +1626,38 @@ extension CloudTrail {
 
     public struct StartLoggingResponse: AWSDecodableShape {
         public init() {}
+    }
+
+    public struct StartQueryRequest: AWSEncodableShape {
+        /// The SQL code of your query.
+        public let queryStatement: String
+
+        public init(queryStatement: String) {
+            self.queryStatement = queryStatement
+        }
+
+        public func validate(name: String) throws {
+            try self.validate(self.queryStatement, name: "queryStatement", parent: name, max: 10000)
+            try self.validate(self.queryStatement, name: "queryStatement", parent: name, min: 1)
+            try self.validate(self.queryStatement, name: "queryStatement", parent: name, pattern: "(?s).*")
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case queryStatement = "QueryStatement"
+        }
+    }
+
+    public struct StartQueryResponse: AWSDecodableShape {
+        /// The ID of the started query.
+        public let queryId: String?
+
+        public init(queryId: String? = nil) {
+            self.queryId = queryId
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case queryId = "QueryId"
+        }
     }
 
     public struct StopLoggingRequest: AWSEncodableShape {
@@ -997,6 +1686,13 @@ extension CloudTrail {
         public init(key: String, value: String? = nil) {
             self.key = key
             self.value = value
+        }
+
+        public func validate(name: String) throws {
+            try self.validate(self.key, name: "key", parent: name, max: 128)
+            try self.validate(self.key, name: "key", parent: name, min: 1)
+            try self.validate(self.value, name: "value", parent: name, max: 256)
+            try self.validate(self.value, name: "value", parent: name, min: 1)
         }
 
         private enum CodingKeys: String, CodingKey {
@@ -1092,6 +1788,106 @@ extension CloudTrail {
             case homeRegion = "HomeRegion"
             case name = "Name"
             case trailARN = "TrailARN"
+        }
+    }
+
+    public struct UpdateEventDataStoreRequest: AWSEncodableShape {
+        /// The advanced event selectors used to select events for the event data store.
+        public let advancedEventSelectors: [AdvancedEventSelector]?
+        /// The ARN (or the ID suffix of the ARN) of the event data store that you want to update.
+        public let eventDataStore: String
+        /// Specifies whether an event data store collects events from all regions, or only from the region in which it was created.
+        public let multiRegionEnabled: Bool?
+        /// The event data store name.
+        public let name: String?
+        /// Specifies whether an event data store collects events logged for an organization in Organizations.
+        public let organizationEnabled: Bool?
+        /// The retention period, in days.
+        public let retentionPeriod: Int?
+        /// Indicates that termination protection is enabled and the event data store cannot be automatically deleted.
+        public let terminationProtectionEnabled: Bool?
+
+        public init(advancedEventSelectors: [AdvancedEventSelector]? = nil, eventDataStore: String, multiRegionEnabled: Bool? = nil, name: String? = nil, organizationEnabled: Bool? = nil, retentionPeriod: Int? = nil, terminationProtectionEnabled: Bool? = nil) {
+            self.advancedEventSelectors = advancedEventSelectors
+            self.eventDataStore = eventDataStore
+            self.multiRegionEnabled = multiRegionEnabled
+            self.name = name
+            self.organizationEnabled = organizationEnabled
+            self.retentionPeriod = retentionPeriod
+            self.terminationProtectionEnabled = terminationProtectionEnabled
+        }
+
+        public func validate(name: String) throws {
+            try self.advancedEventSelectors?.forEach {
+                try $0.validate(name: "\(name).advancedEventSelectors[]")
+            }
+            try self.validate(self.eventDataStore, name: "eventDataStore", parent: name, max: 256)
+            try self.validate(self.eventDataStore, name: "eventDataStore", parent: name, min: 3)
+            try self.validate(self.eventDataStore, name: "eventDataStore", parent: name, pattern: "^[a-zA-Z0-9._/\\-:]+$")
+            try self.validate(self.name, name: "name", parent: name, max: 128)
+            try self.validate(self.name, name: "name", parent: name, min: 3)
+            try self.validate(self.name, name: "name", parent: name, pattern: "^[a-zA-Z0-9._\\-]+$")
+            try self.validate(self.retentionPeriod, name: "retentionPeriod", parent: name, max: 2557)
+            try self.validate(self.retentionPeriod, name: "retentionPeriod", parent: name, min: 7)
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case advancedEventSelectors = "AdvancedEventSelectors"
+            case eventDataStore = "EventDataStore"
+            case multiRegionEnabled = "MultiRegionEnabled"
+            case name = "Name"
+            case organizationEnabled = "OrganizationEnabled"
+            case retentionPeriod = "RetentionPeriod"
+            case terminationProtectionEnabled = "TerminationProtectionEnabled"
+        }
+    }
+
+    public struct UpdateEventDataStoreResponse: AWSDecodableShape {
+        /// The advanced event selectors that are applied to the event data store.
+        public let advancedEventSelectors: [AdvancedEventSelector]?
+        /// The timestamp that shows when an event data store was first created.
+        public let createdTimestamp: Date?
+        /// The ARN of the event data store.
+        public let eventDataStoreArn: String?
+        /// Indicates whether the event data store includes events from all regions, or only from the region in which it was created.
+        public let multiRegionEnabled: Bool?
+        /// The name of the event data store.
+        public let name: String?
+        /// Indicates whether an event data store is collecting logged events for an organization in Organizations.
+        public let organizationEnabled: Bool?
+        /// The retention period, in days.
+        public let retentionPeriod: Int?
+        /// The status of an event data store. Values can be ENABLED and PENDING_DELETION.
+        public let status: EventDataStoreStatus?
+        /// Indicates whether termination protection is enabled for the event data store.
+        public let terminationProtectionEnabled: Bool?
+        /// The timestamp that shows when the event data store was last updated. UpdatedTimestamp is always either the same or newer than the time shown in CreatedTimestamp.
+        public let updatedTimestamp: Date?
+
+        public init(advancedEventSelectors: [AdvancedEventSelector]? = nil, createdTimestamp: Date? = nil, eventDataStoreArn: String? = nil, multiRegionEnabled: Bool? = nil, name: String? = nil, organizationEnabled: Bool? = nil, retentionPeriod: Int? = nil, status: EventDataStoreStatus? = nil, terminationProtectionEnabled: Bool? = nil, updatedTimestamp: Date? = nil) {
+            self.advancedEventSelectors = advancedEventSelectors
+            self.createdTimestamp = createdTimestamp
+            self.eventDataStoreArn = eventDataStoreArn
+            self.multiRegionEnabled = multiRegionEnabled
+            self.name = name
+            self.organizationEnabled = organizationEnabled
+            self.retentionPeriod = retentionPeriod
+            self.status = status
+            self.terminationProtectionEnabled = terminationProtectionEnabled
+            self.updatedTimestamp = updatedTimestamp
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case advancedEventSelectors = "AdvancedEventSelectors"
+            case createdTimestamp = "CreatedTimestamp"
+            case eventDataStoreArn = "EventDataStoreArn"
+            case multiRegionEnabled = "MultiRegionEnabled"
+            case name = "Name"
+            case organizationEnabled = "OrganizationEnabled"
+            case retentionPeriod = "RetentionPeriod"
+            case status = "Status"
+            case terminationProtectionEnabled = "TerminationProtectionEnabled"
+            case updatedTimestamp = "UpdatedTimestamp"
         }
     }
 

@@ -41,9 +41,21 @@ extension WorkSpaces {
         public var description: String { return self.rawValue }
     }
 
+    public enum ClientDeviceType: String, CustomStringConvertible, Codable {
+        case devicetypeandroid = "DeviceTypeAndroid"
+        case devicetypeios = "DeviceTypeIos"
+        case devicetypelinux = "DeviceTypeLinux"
+        case devicetypeosx = "DeviceTypeOsx"
+        case devicetypeweb = "DeviceTypeWeb"
+        case devicetypewindows = "DeviceTypeWindows"
+        public var description: String { return self.rawValue }
+    }
+
     public enum Compute: String, CustomStringConvertible, Codable {
         case graphics = "GRAPHICS"
+        case graphicsG4Dn = "GRAPHICS_G4DN"
         case graphicspro = "GRAPHICSPRO"
+        case graphicsproG4Dn = "GRAPHICSPRO_G4DN"
         case performance = "PERFORMANCE"
         case power = "POWER"
         case powerpro = "POWERPRO"
@@ -150,6 +162,7 @@ extension WorkSpaces {
 
     public enum WorkspaceImageIngestionProcess: String, CustomStringConvertible, Codable {
         case byolGraphics = "BYOL_GRAPHICS"
+        case byolGraphicsG4Dn = "BYOL_GRAPHICS_G4DN"
         case byolGraphicspro = "BYOL_GRAPHICSPRO"
         case byolRegular = "BYOL_REGULAR"
         case byolRegularWsp = "BYOL_REGULAR_WSP"
@@ -360,6 +373,31 @@ extension WorkSpaces {
         }
     }
 
+    public struct ConnectClientAddIn: AWSDecodableShape {
+        /// The client add-in identifier.
+        public let addInId: String?
+        /// The name of the client add in.
+        public let name: String?
+        /// The directory identifier for which the client add-in is configured.
+        public let resourceId: String?
+        /// The endpoint URL of the client add-in.
+        public let url: String?
+
+        public init(addInId: String? = nil, name: String? = nil, resourceId: String? = nil, url: String? = nil) {
+            self.addInId = addInId
+            self.name = name
+            self.resourceId = resourceId
+            self.url = url
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case addInId = "AddInId"
+            case name = "Name"
+            case resourceId = "ResourceId"
+            case url = "URL"
+        }
+    }
+
     public struct ConnectionAlias: AWSDecodableShape {
         /// The identifier of the connection alias.
         public let aliasId: String?
@@ -490,6 +528,52 @@ extension WorkSpaces {
 
         private enum CodingKeys: String, CodingKey {
             case imageId = "ImageId"
+        }
+    }
+
+    public struct CreateConnectClientAddInRequest: AWSEncodableShape {
+        /// The name of the client add-in.
+        public let name: String
+        /// The directory identifier for which to configure the client add-in.
+        public let resourceId: String
+        /// The endpoint URL of the Amazon Connect client add-in.
+        public let url: String
+
+        public init(name: String, resourceId: String, url: String) {
+            self.name = name
+            self.resourceId = resourceId
+            self.url = url
+        }
+
+        public func validate(name: String) throws {
+            try self.validate(self.name, name: "name", parent: name, max: 64)
+            try self.validate(self.name, name: "name", parent: name, min: 1)
+            try self.validate(self.name, name: "name", parent: name, pattern: "^.*$")
+            try self.validate(self.resourceId, name: "resourceId", parent: name, max: 65)
+            try self.validate(self.resourceId, name: "resourceId", parent: name, min: 10)
+            try self.validate(self.resourceId, name: "resourceId", parent: name, pattern: "^d-[0-9a-f]{8,63}$")
+            try self.validate(self.url, name: "url", parent: name, max: 1024)
+            try self.validate(self.url, name: "url", parent: name, min: 1)
+            try self.validate(self.url, name: "url", parent: name, pattern: "^(http|https)\\://\\S+")
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case name = "Name"
+            case resourceId = "ResourceId"
+            case url = "URL"
+        }
+    }
+
+    public struct CreateConnectClientAddInResult: AWSDecodableShape {
+        /// The client add-in identifier.
+        public let addInId: String?
+
+        public init(addInId: String? = nil) {
+            self.addInId = addInId
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case addInId = "AddInId"
         }
     }
 
@@ -754,6 +838,86 @@ extension WorkSpaces {
         }
     }
 
+    public struct DefaultClientBrandingAttributes: AWSDecodableShape {
+        /// The forgotten password link. This is the web address that users can go to if they forget the password for their WorkSpace.
+        public let forgotPasswordLink: String?
+        /// The login message. Specified as a key value pair, in which the key is a locale and the value is the localized message for that locale. The only key supported is en_US.
+        public let loginMessage: [String: String]?
+        /// The logo URL. This is the link where users can download the logo image. The only supported image format is .png.
+        public let logoUrl: String?
+        /// The support email. The company's customer support email address.    In each platform type, the SupportEmail and SupportLink parameters are mutually exclusive. You can specify one parameter for each platform type, but not both.   The default email is workspaces-feedback@amazon.com.
+        public let supportEmail: String?
+        /// The support link. The link for the company's customer support page for their WorkSpace.    In each platform type, the SupportEmail and SupportLink parameters are mutually exclusive.You can specify one parameter for each platform type, but not both.   The default support link is workspaces-feedback@amazon.com.
+        public let supportLink: String?
+
+        public init(forgotPasswordLink: String? = nil, loginMessage: [String: String]? = nil, logoUrl: String? = nil, supportEmail: String? = nil, supportLink: String? = nil) {
+            self.forgotPasswordLink = forgotPasswordLink
+            self.loginMessage = loginMessage
+            self.logoUrl = logoUrl
+            self.supportEmail = supportEmail
+            self.supportLink = supportLink
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case forgotPasswordLink = "ForgotPasswordLink"
+            case loginMessage = "LoginMessage"
+            case logoUrl = "LogoUrl"
+            case supportEmail = "SupportEmail"
+            case supportLink = "SupportLink"
+        }
+    }
+
+    public struct DefaultImportClientBrandingAttributes: AWSEncodableShape {
+        /// The forgotten password link. This is the web address that users can go to if they forget the password for their WorkSpace.
+        public let forgotPasswordLink: String?
+        /// The login message. Specified as a key value pair, in which the key is a locale and the value is the localized message for that locale. The only key supported is en_US.
+        public let loginMessage: [String: String]?
+        /// The logo. This is the link where users can download the logo image. The only image format accepted is .png.
+        public let logo: Data?
+        /// The support email. The company's customer support email address.    In each platform type, the SupportEmail and SupportLink parameters are mutually exclusive. You can specify one parameter for each platform type, but not both.   The default email is workspaces-feedback@amazon.com.
+        public let supportEmail: String?
+        /// The support link. The link for the company's customer support page for their WorkSpace.    In each platform type, the SupportEmail and SupportLink parameters are mutually exclusive. You can specify one parameter for each platform type, but not both.   The default support link is workspaces-feedback@amazon.com.
+        public let supportLink: String?
+
+        public init(forgotPasswordLink: String? = nil, loginMessage: [String: String]? = nil, logo: Data? = nil, supportEmail: String? = nil, supportLink: String? = nil) {
+            self.forgotPasswordLink = forgotPasswordLink
+            self.loginMessage = loginMessage
+            self.logo = logo
+            self.supportEmail = supportEmail
+            self.supportLink = supportLink
+        }
+
+        public func validate(name: String) throws {
+            try self.validate(self.forgotPasswordLink, name: "forgotPasswordLink", parent: name, max: 200)
+            try self.validate(self.forgotPasswordLink, name: "forgotPasswordLink", parent: name, min: 1)
+            try self.validate(self.forgotPasswordLink, name: "forgotPasswordLink", parent: name, pattern: "^(http|https)\\://\\S+")
+            try self.loginMessage?.forEach {
+                try validate($0.key, name: "loginMessage.key", parent: name, max: 5)
+                try validate($0.key, name: "loginMessage.key", parent: name, min: 5)
+                try validate($0.key, name: "loginMessage.key", parent: name, pattern: "^[a-z]{2}_[A-Z]{2}$")
+                try validate($0.value, name: "loginMessage[\"\($0.key)\"]", parent: name, max: 600)
+                try validate($0.value, name: "loginMessage[\"\($0.key)\"]", parent: name, min: 0)
+                try validate($0.value, name: "loginMessage[\"\($0.key)\"]", parent: name, pattern: "^.*$")
+            }
+            try self.validate(self.logo, name: "logo", parent: name, max: 1_500_000)
+            try self.validate(self.logo, name: "logo", parent: name, min: 1)
+            try self.validate(self.supportEmail, name: "supportEmail", parent: name, max: 64)
+            try self.validate(self.supportEmail, name: "supportEmail", parent: name, min: 6)
+            try self.validate(self.supportEmail, name: "supportEmail", parent: name, pattern: "^[a-zA-Z0-9._%+-]+@[a-zA-Z0-9.-]+\\.[a-zA-Z]{2,4}$")
+            try self.validate(self.supportLink, name: "supportLink", parent: name, max: 200)
+            try self.validate(self.supportLink, name: "supportLink", parent: name, min: 1)
+            try self.validate(self.supportLink, name: "supportLink", parent: name, pattern: "^(http|https)\\://\\S+")
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case forgotPasswordLink = "ForgotPasswordLink"
+            case loginMessage = "LoginMessage"
+            case logo = "Logo"
+            case supportEmail = "SupportEmail"
+            case supportLink = "SupportLink"
+        }
+    }
+
     public struct DefaultWorkspaceCreationProperties: AWSDecodableShape {
         /// The identifier of the default security group to apply to WorkSpaces when they are created. For more information, see  Security Groups for Your WorkSpaces.
         public let customSecurityGroupId: String?
@@ -785,6 +949,65 @@ extension WorkSpaces {
             case enableWorkDocs = "EnableWorkDocs"
             case userEnabledAsLocalAdministrator = "UserEnabledAsLocalAdministrator"
         }
+    }
+
+    public struct DeleteClientBrandingRequest: AWSEncodableShape {
+        /// The device type for which you want to delete client branding.
+        public let platforms: [ClientDeviceType]
+        /// The directory identifier of the WorkSpace for which you want to delete client branding.
+        public let resourceId: String
+
+        public init(platforms: [ClientDeviceType], resourceId: String) {
+            self.platforms = platforms
+            self.resourceId = resourceId
+        }
+
+        public func validate(name: String) throws {
+            try self.validate(self.platforms, name: "platforms", parent: name, max: 6)
+            try self.validate(self.platforms, name: "platforms", parent: name, min: 1)
+            try self.validate(self.resourceId, name: "resourceId", parent: name, max: 65)
+            try self.validate(self.resourceId, name: "resourceId", parent: name, min: 10)
+            try self.validate(self.resourceId, name: "resourceId", parent: name, pattern: "^d-[0-9a-f]{8,63}$")
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case platforms = "Platforms"
+            case resourceId = "ResourceId"
+        }
+    }
+
+    public struct DeleteClientBrandingResult: AWSDecodableShape {
+        public init() {}
+    }
+
+    public struct DeleteConnectClientAddInRequest: AWSEncodableShape {
+        /// The identifier of the client add-in to delete.
+        public let addInId: String
+        /// The directory identifier for which the client add-in is configured.
+        public let resourceId: String
+
+        public init(addInId: String, resourceId: String) {
+            self.addInId = addInId
+            self.resourceId = resourceId
+        }
+
+        public func validate(name: String) throws {
+            try self.validate(self.addInId, name: "addInId", parent: name, max: 36)
+            try self.validate(self.addInId, name: "addInId", parent: name, min: 36)
+            try self.validate(self.addInId, name: "addInId", parent: name, pattern: "[a-f0-9]{8}-[a-f0-9]{4}-[a-f0-9]{4}-[a-f0-9]{4}-[a-f0-9]{12}")
+            try self.validate(self.resourceId, name: "resourceId", parent: name, max: 65)
+            try self.validate(self.resourceId, name: "resourceId", parent: name, min: 10)
+            try self.validate(self.resourceId, name: "resourceId", parent: name, pattern: "^d-[0-9a-f]{8,63}$")
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case addInId = "AddInId"
+            case resourceId = "ResourceId"
+        }
+    }
+
+    public struct DeleteConnectClientAddInResult: AWSDecodableShape {
+        public init() {}
     }
 
     public struct DeleteConnectionAliasRequest: AWSEncodableShape {
@@ -980,6 +1203,58 @@ extension WorkSpaces {
         }
     }
 
+    public struct DescribeClientBrandingRequest: AWSEncodableShape {
+        /// The directory identifier of the WorkSpace for which you want to view client branding information.
+        public let resourceId: String
+
+        public init(resourceId: String) {
+            self.resourceId = resourceId
+        }
+
+        public func validate(name: String) throws {
+            try self.validate(self.resourceId, name: "resourceId", parent: name, max: 65)
+            try self.validate(self.resourceId, name: "resourceId", parent: name, min: 10)
+            try self.validate(self.resourceId, name: "resourceId", parent: name, pattern: "^d-[0-9a-f]{8,63}$")
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case resourceId = "ResourceId"
+        }
+    }
+
+    public struct DescribeClientBrandingResult: AWSDecodableShape {
+        /// The branding information for Android devices.
+        public let deviceTypeAndroid: DefaultClientBrandingAttributes?
+        /// The branding information for iOS devices.
+        public let deviceTypeIos: IosClientBrandingAttributes?
+        /// The branding information for Linux devices.
+        public let deviceTypeLinux: DefaultClientBrandingAttributes?
+        /// The branding information for macOS devices.
+        public let deviceTypeOsx: DefaultClientBrandingAttributes?
+        /// The branding information for Web access.
+        public let deviceTypeWeb: DefaultClientBrandingAttributes?
+        /// The branding information for Windows devices.
+        public let deviceTypeWindows: DefaultClientBrandingAttributes?
+
+        public init(deviceTypeAndroid: DefaultClientBrandingAttributes? = nil, deviceTypeIos: IosClientBrandingAttributes? = nil, deviceTypeLinux: DefaultClientBrandingAttributes? = nil, deviceTypeOsx: DefaultClientBrandingAttributes? = nil, deviceTypeWeb: DefaultClientBrandingAttributes? = nil, deviceTypeWindows: DefaultClientBrandingAttributes? = nil) {
+            self.deviceTypeAndroid = deviceTypeAndroid
+            self.deviceTypeIos = deviceTypeIos
+            self.deviceTypeLinux = deviceTypeLinux
+            self.deviceTypeOsx = deviceTypeOsx
+            self.deviceTypeWeb = deviceTypeWeb
+            self.deviceTypeWindows = deviceTypeWindows
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case deviceTypeAndroid = "DeviceTypeAndroid"
+            case deviceTypeIos = "DeviceTypeIos"
+            case deviceTypeLinux = "DeviceTypeLinux"
+            case deviceTypeOsx = "DeviceTypeOsx"
+            case deviceTypeWeb = "DeviceTypeWeb"
+            case deviceTypeWindows = "DeviceTypeWindows"
+        }
+    }
+
     public struct DescribeClientPropertiesRequest: AWSEncodableShape {
         /// The resource identifier, in the form of directory IDs.
         public let resourceIds: [String]
@@ -1011,6 +1286,54 @@ extension WorkSpaces {
 
         private enum CodingKeys: String, CodingKey {
             case clientPropertiesList = "ClientPropertiesList"
+        }
+    }
+
+    public struct DescribeConnectClientAddInsRequest: AWSEncodableShape {
+        /// The maximum number of items to return.
+        public let maxResults: Int?
+        /// If you received a NextToken from a previous call that was paginated, provide this token to receive the next set of results.
+        public let nextToken: String?
+        /// The directory identifier for which the client add-in is configured.
+        public let resourceId: String
+
+        public init(maxResults: Int? = nil, nextToken: String? = nil, resourceId: String) {
+            self.maxResults = maxResults
+            self.nextToken = nextToken
+            self.resourceId = resourceId
+        }
+
+        public func validate(name: String) throws {
+            try self.validate(self.maxResults, name: "maxResults", parent: name, max: 25)
+            try self.validate(self.maxResults, name: "maxResults", parent: name, min: 1)
+            try self.validate(self.nextToken, name: "nextToken", parent: name, max: 2048)
+            try self.validate(self.nextToken, name: "nextToken", parent: name, min: 1)
+            try self.validate(self.resourceId, name: "resourceId", parent: name, max: 65)
+            try self.validate(self.resourceId, name: "resourceId", parent: name, min: 10)
+            try self.validate(self.resourceId, name: "resourceId", parent: name, pattern: "^d-[0-9a-f]{8,63}$")
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case maxResults = "MaxResults"
+            case nextToken = "NextToken"
+            case resourceId = "ResourceId"
+        }
+    }
+
+    public struct DescribeConnectClientAddInsResult: AWSDecodableShape {
+        /// Information about client add-ins.
+        public let addIns: [ConnectClientAddIn]?
+        /// The token to use to retrieve the next page of results. This value is null when there are no more results to return.
+        public let nextToken: String?
+
+        public init(addIns: [ConnectClientAddIn]? = nil, nextToken: String? = nil) {
+            self.addIns = addIns
+            self.nextToken = nextToken
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case addIns = "AddIns"
+            case nextToken = "NextToken"
         }
     }
 
@@ -1659,8 +1982,90 @@ extension WorkSpaces {
         }
     }
 
+    public struct ImportClientBrandingRequest: AWSEncodableShape {
+        /// The branding information to import for Android devices.
+        public let deviceTypeAndroid: DefaultImportClientBrandingAttributes?
+        /// The branding information to import for iOS devices.
+        public let deviceTypeIos: IosImportClientBrandingAttributes?
+        /// The branding information to import for Linux devices.
+        public let deviceTypeLinux: DefaultImportClientBrandingAttributes?
+        /// The branding information to import for macOS devices.
+        public let deviceTypeOsx: DefaultImportClientBrandingAttributes?
+        /// The branding information to import for web access.
+        public let deviceTypeWeb: DefaultImportClientBrandingAttributes?
+        /// The branding information to import for Windows devices.
+        public let deviceTypeWindows: DefaultImportClientBrandingAttributes?
+        /// The directory identifier of the WorkSpace for which you want to import client branding.
+        public let resourceId: String
+
+        public init(deviceTypeAndroid: DefaultImportClientBrandingAttributes? = nil, deviceTypeIos: IosImportClientBrandingAttributes? = nil, deviceTypeLinux: DefaultImportClientBrandingAttributes? = nil, deviceTypeOsx: DefaultImportClientBrandingAttributes? = nil, deviceTypeWeb: DefaultImportClientBrandingAttributes? = nil, deviceTypeWindows: DefaultImportClientBrandingAttributes? = nil, resourceId: String) {
+            self.deviceTypeAndroid = deviceTypeAndroid
+            self.deviceTypeIos = deviceTypeIos
+            self.deviceTypeLinux = deviceTypeLinux
+            self.deviceTypeOsx = deviceTypeOsx
+            self.deviceTypeWeb = deviceTypeWeb
+            self.deviceTypeWindows = deviceTypeWindows
+            self.resourceId = resourceId
+        }
+
+        public func validate(name: String) throws {
+            try self.deviceTypeAndroid?.validate(name: "\(name).deviceTypeAndroid")
+            try self.deviceTypeIos?.validate(name: "\(name).deviceTypeIos")
+            try self.deviceTypeLinux?.validate(name: "\(name).deviceTypeLinux")
+            try self.deviceTypeOsx?.validate(name: "\(name).deviceTypeOsx")
+            try self.deviceTypeWeb?.validate(name: "\(name).deviceTypeWeb")
+            try self.deviceTypeWindows?.validate(name: "\(name).deviceTypeWindows")
+            try self.validate(self.resourceId, name: "resourceId", parent: name, max: 65)
+            try self.validate(self.resourceId, name: "resourceId", parent: name, min: 10)
+            try self.validate(self.resourceId, name: "resourceId", parent: name, pattern: "^d-[0-9a-f]{8,63}$")
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case deviceTypeAndroid = "DeviceTypeAndroid"
+            case deviceTypeIos = "DeviceTypeIos"
+            case deviceTypeLinux = "DeviceTypeLinux"
+            case deviceTypeOsx = "DeviceTypeOsx"
+            case deviceTypeWeb = "DeviceTypeWeb"
+            case deviceTypeWindows = "DeviceTypeWindows"
+            case resourceId = "ResourceId"
+        }
+    }
+
+    public struct ImportClientBrandingResult: AWSDecodableShape {
+        /// The branding information configured for Android devices.
+        public let deviceTypeAndroid: DefaultClientBrandingAttributes?
+        /// The branding information configured for iOS devices.
+        public let deviceTypeIos: IosClientBrandingAttributes?
+        /// The branding information configured for Linux devices.
+        public let deviceTypeLinux: DefaultClientBrandingAttributes?
+        /// The branding information configured for macOS devices.
+        public let deviceTypeOsx: DefaultClientBrandingAttributes?
+        /// The branding information configured for web access.
+        public let deviceTypeWeb: DefaultClientBrandingAttributes?
+        /// The branding information configured for Windows devices.
+        public let deviceTypeWindows: DefaultClientBrandingAttributes?
+
+        public init(deviceTypeAndroid: DefaultClientBrandingAttributes? = nil, deviceTypeIos: IosClientBrandingAttributes? = nil, deviceTypeLinux: DefaultClientBrandingAttributes? = nil, deviceTypeOsx: DefaultClientBrandingAttributes? = nil, deviceTypeWeb: DefaultClientBrandingAttributes? = nil, deviceTypeWindows: DefaultClientBrandingAttributes? = nil) {
+            self.deviceTypeAndroid = deviceTypeAndroid
+            self.deviceTypeIos = deviceTypeIos
+            self.deviceTypeLinux = deviceTypeLinux
+            self.deviceTypeOsx = deviceTypeOsx
+            self.deviceTypeWeb = deviceTypeWeb
+            self.deviceTypeWindows = deviceTypeWindows
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case deviceTypeAndroid = "DeviceTypeAndroid"
+            case deviceTypeIos = "DeviceTypeIos"
+            case deviceTypeLinux = "DeviceTypeLinux"
+            case deviceTypeOsx = "DeviceTypeOsx"
+            case deviceTypeWeb = "DeviceTypeWeb"
+            case deviceTypeWindows = "DeviceTypeWindows"
+        }
+    }
+
     public struct ImportWorkspaceImageRequest: AWSEncodableShape {
-        /// If specified, the version of Microsoft Office to subscribe to. Valid only for Windows 10 BYOL images. For more information about subscribing to Office for BYOL images, see  Bring Your Own Windows Desktop Licenses.  Although this parameter is an array, only one item is allowed at this time.
+        /// If specified, the version of Microsoft Office to subscribe to. Valid only for Windows 10 BYOL images. For more information about subscribing to Office for BYOL images, see  Bring Your Own Windows Desktop Licenses.    Although this parameter is an array, only one item is allowed at this time   Microsoft Office 2016 application subscription through AWS is currently not supported for Graphics.g4dn Bring Your Own License (BYOL) images
         public let applications: [Application]?
         /// The identifier of the EC2 image.
         public let ec2ImageId: String
@@ -1668,7 +2073,7 @@ extension WorkSpaces {
         public let imageDescription: String
         /// The name of the WorkSpace image.
         public let imageName: String
-        /// The ingestion process to be used when importing the image, depending on which protocol you want to use for your BYOL Workspace image, either PCoIP or WorkSpaces Streaming Protocol (WSP). To use WSP, specify a value that ends in _WSP. To use PCoIP, specify a value that does not end in _WSP.  For non-GPU-enabled bundles (bundles other than Graphics or GraphicsPro), specify BYOL_REGULAR or BYOL_REGULAR_WSP, depending on the protocol.
+        /// The ingestion process to be used when importing the image, depending on which protocol you want to use for your BYOL Workspace image, either PCoIP or WorkSpaces Streaming Protocol (WSP). To use WSP, specify a value that ends in _WSP. To use PCoIP, specify a value that does not end in _WSP.  For non-GPU-enabled images (bundles other than Graphics.g4dn, GraphicsPro.g4dn, Graphics, or GraphicsPro), specify BYOL_REGULAR or BYOL_REGULAR_WSP, depending on the protocol.  Use BYOL_GRAPHICS_G4DN ingestion for both Graphics.g4dn and GraphicsPro.g4dn.
         public let ingestionProcess: WorkspaceImageIngestionProcess
         /// The tags. Each WorkSpaces resource can have a maximum of 50 tags.
         public let tags: [Tag]?
@@ -1717,6 +2122,106 @@ extension WorkSpaces {
 
         private enum CodingKeys: String, CodingKey {
             case imageId = "ImageId"
+        }
+    }
+
+    public struct IosClientBrandingAttributes: AWSDecodableShape {
+        /// The forgotten password link. This is the web address that users can go to if they forget the password for their WorkSpace.
+        public let forgotPasswordLink: String?
+        /// The login message. Specified as a key value pair, in which the key is a locale and the value is the localized message for that locale. The only key supported is en_US.
+        public let loginMessage: [String: String]?
+        /// The @2x version of the logo. This is the higher resolution display that offers a scale factor of 2.0 (or @2x).   For more information about iOS image size and resolution, see Image Size and Resolution  in the Apple Human Interface Guidelines.
+        public let logo2xUrl: String?
+        /// The @3x version of the logo. This is the higher resolution display that offers a scale factor of 3.0 (or @3x).   For more information about iOS image size and resolution, see Image Size and Resolution  in the Apple Human Interface Guidelines.
+        public let logo3xUrl: String?
+        /// The logo. This is the link where users can download the logo image. This is the standard-resolution display that has a 1:1 pixel density (or @1x), where one pixel is equal to one point.
+        public let logoUrl: String?
+        /// The support email. The company's customer support email address.    In each platform type, the SupportEmail and SupportLink parameters are mutually exclusive. You can specify one parameter for each platform type, but not both.   The default email is workspaces-feedback@amazon.com.
+        public let supportEmail: String?
+        /// The support link. The link for the company's customer support page for their WorkSpace.    In each platform type, the SupportEmail and SupportLink parameters are mutually exclusive. You can specify one parameter for each platform type, but not both.   The default support link is workspaces-feedback@amazon.com.
+        public let supportLink: String?
+
+        public init(forgotPasswordLink: String? = nil, loginMessage: [String: String]? = nil, logo2xUrl: String? = nil, logo3xUrl: String? = nil, logoUrl: String? = nil, supportEmail: String? = nil, supportLink: String? = nil) {
+            self.forgotPasswordLink = forgotPasswordLink
+            self.loginMessage = loginMessage
+            self.logo2xUrl = logo2xUrl
+            self.logo3xUrl = logo3xUrl
+            self.logoUrl = logoUrl
+            self.supportEmail = supportEmail
+            self.supportLink = supportLink
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case forgotPasswordLink = "ForgotPasswordLink"
+            case loginMessage = "LoginMessage"
+            case logo2xUrl = "Logo2xUrl"
+            case logo3xUrl = "Logo3xUrl"
+            case logoUrl = "LogoUrl"
+            case supportEmail = "SupportEmail"
+            case supportLink = "SupportLink"
+        }
+    }
+
+    public struct IosImportClientBrandingAttributes: AWSEncodableShape {
+        /// The forgotten password link. This is the web address that users can go to if they forget the password for their WorkSpace.
+        public let forgotPasswordLink: String?
+        /// The login message. Specified as a key value pair, in which the key is a locale and the value is the localized message for that locale. The only key supported is en_US.
+        public let loginMessage: [String: String]?
+        /// The logo. This is the link where users can download the logo image. This is the standard-resolution display that has a 1:1 pixel density (or @1x), where one pixel is equal to one point.
+        public let logo: Data?
+        /// The @2x version of the logo. This is the higher resolution display that offers a scale factor of 2.0 (or @2x).   For more information about iOS image size and resolution, see Image Size and Resolution  in the Apple Human Interface Guidelines.
+        public let logo2x: Data?
+        /// The @3x version of the logo. This is the higher resolution display that offers a scale factor of 3.0 (or @3x).   For more information about iOS image size and resolution, see Image Size and Resolution  in the Apple Human Interface Guidelines.
+        public let logo3x: Data?
+        /// The support email. The company's customer support email address.    In each platform type, the SupportEmail and SupportLink parameters are mutually exclusive. You can specify one parameter for each platform type, but not both.   The default email is workspaces-feedback@amazon.com.
+        public let supportEmail: String?
+        /// The support link. The link for the company's customer support page for their WorkSpace.    In each platform type, the SupportEmail and SupportLink parameters are mutually exclusive. You can specify one parameter for each platform type, but not both.   The default support link is workspaces-feedback@amazon.com.
+        public let supportLink: String?
+
+        public init(forgotPasswordLink: String? = nil, loginMessage: [String: String]? = nil, logo: Data? = nil, logo2x: Data? = nil, logo3x: Data? = nil, supportEmail: String? = nil, supportLink: String? = nil) {
+            self.forgotPasswordLink = forgotPasswordLink
+            self.loginMessage = loginMessage
+            self.logo = logo
+            self.logo2x = logo2x
+            self.logo3x = logo3x
+            self.supportEmail = supportEmail
+            self.supportLink = supportLink
+        }
+
+        public func validate(name: String) throws {
+            try self.validate(self.forgotPasswordLink, name: "forgotPasswordLink", parent: name, max: 200)
+            try self.validate(self.forgotPasswordLink, name: "forgotPasswordLink", parent: name, min: 1)
+            try self.validate(self.forgotPasswordLink, name: "forgotPasswordLink", parent: name, pattern: "^(http|https)\\://\\S+")
+            try self.loginMessage?.forEach {
+                try validate($0.key, name: "loginMessage.key", parent: name, max: 5)
+                try validate($0.key, name: "loginMessage.key", parent: name, min: 5)
+                try validate($0.key, name: "loginMessage.key", parent: name, pattern: "^[a-z]{2}_[A-Z]{2}$")
+                try validate($0.value, name: "loginMessage[\"\($0.key)\"]", parent: name, max: 600)
+                try validate($0.value, name: "loginMessage[\"\($0.key)\"]", parent: name, min: 0)
+                try validate($0.value, name: "loginMessage[\"\($0.key)\"]", parent: name, pattern: "^.*$")
+            }
+            try self.validate(self.logo, name: "logo", parent: name, max: 447_000)
+            try self.validate(self.logo, name: "logo", parent: name, min: 1)
+            try self.validate(self.logo2x, name: "logo2x", parent: name, max: 1_770_000)
+            try self.validate(self.logo2x, name: "logo2x", parent: name, min: 1)
+            try self.validate(self.logo3x, name: "logo3x", parent: name, max: 1_770_000)
+            try self.validate(self.logo3x, name: "logo3x", parent: name, min: 1)
+            try self.validate(self.supportEmail, name: "supportEmail", parent: name, max: 64)
+            try self.validate(self.supportEmail, name: "supportEmail", parent: name, min: 6)
+            try self.validate(self.supportEmail, name: "supportEmail", parent: name, pattern: "^[a-zA-Z0-9._%+-]+@[a-zA-Z0-9.-]+\\.[a-zA-Z]{2,4}$")
+            try self.validate(self.supportLink, name: "supportLink", parent: name, max: 200)
+            try self.validate(self.supportLink, name: "supportLink", parent: name, min: 1)
+            try self.validate(self.supportLink, name: "supportLink", parent: name, pattern: "^(http|https)\\://\\S+")
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case forgotPasswordLink = "ForgotPasswordLink"
+            case loginMessage = "LoginMessage"
+            case logo = "Logo"
+            case logo2x = "Logo2x"
+            case logo3x = "Logo3x"
+            case supportEmail = "SupportEmail"
+            case supportLink = "SupportLink"
         }
     }
 
@@ -2467,6 +2972,50 @@ extension WorkSpaces {
         private enum CodingKeys: String, CodingKey {
             case failedRequests = "FailedRequests"
         }
+    }
+
+    public struct UpdateConnectClientAddInRequest: AWSEncodableShape {
+        /// The identifier of the client add-in to update.
+        public let addInId: String
+        /// The name of the client add-in.
+        public let name: String?
+        /// The directory identifier for which the client add-in is configured.
+        public let resourceId: String
+        /// The endpoint URL of the Amazon Connect client add-in.
+        public let url: String?
+
+        public init(addInId: String, name: String? = nil, resourceId: String, url: String? = nil) {
+            self.addInId = addInId
+            self.name = name
+            self.resourceId = resourceId
+            self.url = url
+        }
+
+        public func validate(name: String) throws {
+            try self.validate(self.addInId, name: "addInId", parent: name, max: 36)
+            try self.validate(self.addInId, name: "addInId", parent: name, min: 36)
+            try self.validate(self.addInId, name: "addInId", parent: name, pattern: "[a-f0-9]{8}-[a-f0-9]{4}-[a-f0-9]{4}-[a-f0-9]{4}-[a-f0-9]{12}")
+            try self.validate(self.name, name: "name", parent: name, max: 64)
+            try self.validate(self.name, name: "name", parent: name, min: 1)
+            try self.validate(self.name, name: "name", parent: name, pattern: "^.*$")
+            try self.validate(self.resourceId, name: "resourceId", parent: name, max: 65)
+            try self.validate(self.resourceId, name: "resourceId", parent: name, min: 10)
+            try self.validate(self.resourceId, name: "resourceId", parent: name, pattern: "^d-[0-9a-f]{8,63}$")
+            try self.validate(self.url, name: "url", parent: name, max: 1024)
+            try self.validate(self.url, name: "url", parent: name, min: 1)
+            try self.validate(self.url, name: "url", parent: name, pattern: "^(http|https)\\://\\S+")
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case addInId = "AddInId"
+            case name = "Name"
+            case resourceId = "ResourceId"
+            case url = "URL"
+        }
+    }
+
+    public struct UpdateConnectClientAddInResult: AWSDecodableShape {
+        public init() {}
     }
 
     public struct UpdateConnectionAliasPermissionRequest: AWSEncodableShape {

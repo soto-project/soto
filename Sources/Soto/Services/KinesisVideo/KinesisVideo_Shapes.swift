@@ -24,6 +24,7 @@ extension KinesisVideo {
         case getClip = "GET_CLIP"
         case getDashStreamingSessionUrl = "GET_DASH_STREAMING_SESSION_URL"
         case getHlsStreamingSessionUrl = "GET_HLS_STREAMING_SESSION_URL"
+        case getImages = "GET_IMAGES"
         case getMedia = "GET_MEDIA"
         case getMediaForFragmentList = "GET_MEDIA_FOR_FRAGMENT_LIST"
         case listFragments = "LIST_FRAGMENTS"
@@ -44,12 +45,36 @@ extension KinesisVideo {
     }
 
     public enum ChannelType: String, CustomStringConvertible, Codable {
+        case fullMesh = "FULL_MESH"
         case singleMaster = "SINGLE_MASTER"
         public var description: String { return self.rawValue }
     }
 
     public enum ComparisonOperator: String, CustomStringConvertible, Codable {
         case beginsWith = "BEGINS_WITH"
+        public var description: String { return self.rawValue }
+    }
+
+    public enum ConfigurationStatus: String, CustomStringConvertible, Codable {
+        case disabled = "DISABLED"
+        case enabled = "ENABLED"
+        public var description: String { return self.rawValue }
+    }
+
+    public enum Format: String, CustomStringConvertible, Codable {
+        case jpeg = "JPEG"
+        case png = "PNG"
+        public var description: String { return self.rawValue }
+    }
+
+    public enum FormatConfigKey: String, CustomStringConvertible, Codable {
+        case jpegquality = "JPEGQuality"
+        public var description: String { return self.rawValue }
+    }
+
+    public enum ImageSelectorType: String, CustomStringConvertible, Codable {
+        case producerTimestamp = "PRODUCER_TIMESTAMP"
+        case serverTimestamp = "SERVER_TIMESTAMP"
         public var description: String { return self.rawValue }
     }
 
@@ -130,7 +155,7 @@ extension KinesisVideo {
     }
 
     public struct CreateSignalingChannelInput: AWSEncodableShape {
-        /// A name for the signaling channel that you are creating. It must be unique for each AWS account and AWS Region.
+        /// A name for the signaling channel that you are creating. It must be unique for each Amazon Web Services account and Amazon Web Services Region.
         public let channelName: String
         /// A type of the signaling channel that you are creating. Currently, SINGLE_MASTER is the only supported channel type.
         public let channelType: ChannelType?
@@ -184,7 +209,7 @@ extension KinesisVideo {
         public let dataRetentionInHours: Int?
         /// The name of the device that is writing to the stream.   In the current implementation, Kinesis Video Streams does not use this name.
         public let deviceName: String?
-        /// The ID of the AWS Key Management Service (AWS KMS) key that you want Kinesis Video Streams to use to encrypt stream data. If no key ID is specified, the default, Kinesis Video-managed key (aws/kinesisvideo) is used.  For more information, see DescribeKey.
+        /// The ID of the Key Management Service (KMS) key that you want Kinesis Video Streams to use to encrypt stream data. If no key ID is specified, the default, Kinesis Video-managed key (aws/kinesisvideo) is used.  For more information, see DescribeKey.
         public let kmsKeyId: String?
         /// The media type of the stream. Consumers of the stream can use this information when processing the stream. For more information about media types, see Media Types. If you choose to specify the MediaType, see Naming Requirements for guidelines. Example valid values include "video/h264" and "video/h264,audio/aac". This parameter is optional; the default value is null (or empty in JSON).
         public let mediaType: String?
@@ -263,7 +288,7 @@ extension KinesisVideo {
         public func validate(name: String) throws {
             try self.validate(self.channelARN, name: "channelARN", parent: name, max: 1024)
             try self.validate(self.channelARN, name: "channelARN", parent: name, min: 1)
-            try self.validate(self.channelARN, name: "channelARN", parent: name, pattern: "arn:aws:kinesisvideo:[a-z0-9-]+:[0-9]+:[a-z]+/[a-zA-Z0-9_.-]+/[0-9]+")
+            try self.validate(self.channelARN, name: "channelARN", parent: name, pattern: "arn:[a-z\\d-]+:kinesisvideo:[a-z0-9-]+:[0-9]+:[a-z]+/[a-zA-Z0-9_.-]+/[0-9]+")
             try self.validate(self.currentVersion, name: "currentVersion", parent: name, max: 64)
             try self.validate(self.currentVersion, name: "currentVersion", parent: name, min: 1)
             try self.validate(self.currentVersion, name: "currentVersion", parent: name, pattern: "[a-zA-Z0-9]+")
@@ -296,7 +321,7 @@ extension KinesisVideo {
             try self.validate(self.currentVersion, name: "currentVersion", parent: name, pattern: "[a-zA-Z0-9]+")
             try self.validate(self.streamARN, name: "streamARN", parent: name, max: 1024)
             try self.validate(self.streamARN, name: "streamARN", parent: name, min: 1)
-            try self.validate(self.streamARN, name: "streamARN", parent: name, pattern: "arn:aws:kinesisvideo:[a-z0-9-]+:[0-9]+:[a-z]+/[a-zA-Z0-9_.-]+/[0-9]+")
+            try self.validate(self.streamARN, name: "streamARN", parent: name, pattern: "arn:[a-z\\d-]+:kinesisvideo:[a-z0-9-]+:[0-9]+:[a-z]+/[a-zA-Z0-9_.-]+/[0-9]+")
         }
 
         private enum CodingKeys: String, CodingKey {
@@ -307,6 +332,84 @@ extension KinesisVideo {
 
     public struct DeleteStreamOutput: AWSDecodableShape {
         public init() {}
+    }
+
+    public struct DescribeImageGenerationConfigurationInput: AWSEncodableShape {
+        /// The Amazon Resource Name (ARN) of the Kinesis video stream from which to retrieve the image generation configuration. You must specify either the StreamName or the StreamARN.
+        public let streamARN: String?
+        /// The name of the stream from which to retrieve the image generation configuration. You must specify either the StreamName or the StreamARN.
+        public let streamName: String?
+
+        public init(streamARN: String? = nil, streamName: String? = nil) {
+            self.streamARN = streamARN
+            self.streamName = streamName
+        }
+
+        public func validate(name: String) throws {
+            try self.validate(self.streamARN, name: "streamARN", parent: name, max: 1024)
+            try self.validate(self.streamARN, name: "streamARN", parent: name, min: 1)
+            try self.validate(self.streamARN, name: "streamARN", parent: name, pattern: "arn:[a-z\\d-]+:kinesisvideo:[a-z0-9-]+:[0-9]+:[a-z]+/[a-zA-Z0-9_.-]+/[0-9]+")
+            try self.validate(self.streamName, name: "streamName", parent: name, max: 256)
+            try self.validate(self.streamName, name: "streamName", parent: name, min: 1)
+            try self.validate(self.streamName, name: "streamName", parent: name, pattern: "[a-zA-Z0-9_.-]+")
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case streamARN = "StreamARN"
+            case streamName = "StreamName"
+        }
+    }
+
+    public struct DescribeImageGenerationConfigurationOutput: AWSDecodableShape {
+        /// The structure that contains the information required for the Kinesis video stream (KVS) images delivery. If this structure is null, the configuration will be deleted from the stream.
+        public let imageGenerationConfiguration: ImageGenerationConfiguration?
+
+        public init(imageGenerationConfiguration: ImageGenerationConfiguration? = nil) {
+            self.imageGenerationConfiguration = imageGenerationConfiguration
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case imageGenerationConfiguration = "ImageGenerationConfiguration"
+        }
+    }
+
+    public struct DescribeNotificationConfigurationInput: AWSEncodableShape {
+        /// The Amazon Resource Name (ARN) of the Kinesis video stream from where you want to retrieve the notification configuration. You must specify either the StreamName or the StreamARN.
+        public let streamARN: String?
+        /// The name of the stream from which to retrieve the notification configuration. You must specify either the StreamName or the StreamARN.
+        public let streamName: String?
+
+        public init(streamARN: String? = nil, streamName: String? = nil) {
+            self.streamARN = streamARN
+            self.streamName = streamName
+        }
+
+        public func validate(name: String) throws {
+            try self.validate(self.streamARN, name: "streamARN", parent: name, max: 1024)
+            try self.validate(self.streamARN, name: "streamARN", parent: name, min: 1)
+            try self.validate(self.streamARN, name: "streamARN", parent: name, pattern: "arn:[a-z\\d-]+:kinesisvideo:[a-z0-9-]+:[0-9]+:[a-z]+/[a-zA-Z0-9_.-]+/[0-9]+")
+            try self.validate(self.streamName, name: "streamName", parent: name, max: 256)
+            try self.validate(self.streamName, name: "streamName", parent: name, min: 1)
+            try self.validate(self.streamName, name: "streamName", parent: name, pattern: "[a-zA-Z0-9_.-]+")
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case streamARN = "StreamARN"
+            case streamName = "StreamName"
+        }
+    }
+
+    public struct DescribeNotificationConfigurationOutput: AWSDecodableShape {
+        /// The structure that contains the information required for notifications. If the structure is null, the configuration will be deleted from the stream.
+        public let notificationConfiguration: NotificationConfiguration?
+
+        public init(notificationConfiguration: NotificationConfiguration? = nil) {
+            self.notificationConfiguration = notificationConfiguration
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case notificationConfiguration = "NotificationConfiguration"
+        }
     }
 
     public struct DescribeSignalingChannelInput: AWSEncodableShape {
@@ -323,7 +426,7 @@ extension KinesisVideo {
         public func validate(name: String) throws {
             try self.validate(self.channelARN, name: "channelARN", parent: name, max: 1024)
             try self.validate(self.channelARN, name: "channelARN", parent: name, min: 1)
-            try self.validate(self.channelARN, name: "channelARN", parent: name, pattern: "arn:aws:kinesisvideo:[a-z0-9-]+:[0-9]+:[a-z]+/[a-zA-Z0-9_.-]+/[0-9]+")
+            try self.validate(self.channelARN, name: "channelARN", parent: name, pattern: "arn:[a-z\\d-]+:kinesisvideo:[a-z0-9-]+:[0-9]+:[a-z]+/[a-zA-Z0-9_.-]+/[0-9]+")
             try self.validate(self.channelName, name: "channelName", parent: name, max: 256)
             try self.validate(self.channelName, name: "channelName", parent: name, min: 1)
             try self.validate(self.channelName, name: "channelName", parent: name, pattern: "[a-zA-Z0-9_.-]+")
@@ -362,7 +465,7 @@ extension KinesisVideo {
         public func validate(name: String) throws {
             try self.validate(self.streamARN, name: "streamARN", parent: name, max: 1024)
             try self.validate(self.streamARN, name: "streamARN", parent: name, min: 1)
-            try self.validate(self.streamARN, name: "streamARN", parent: name, pattern: "arn:aws:kinesisvideo:[a-z0-9-]+:[0-9]+:[a-z]+/[a-zA-Z0-9_.-]+/[0-9]+")
+            try self.validate(self.streamARN, name: "streamARN", parent: name, pattern: "arn:[a-z\\d-]+:kinesisvideo:[a-z0-9-]+:[0-9]+:[a-z]+/[a-zA-Z0-9_.-]+/[0-9]+")
             try self.validate(self.streamName, name: "streamName", parent: name, max: 256)
             try self.validate(self.streamName, name: "streamName", parent: name, min: 1)
             try self.validate(self.streamName, name: "streamName", parent: name, pattern: "[a-zA-Z0-9_.-]+")
@@ -404,7 +507,7 @@ extension KinesisVideo {
         public func validate(name: String) throws {
             try self.validate(self.streamARN, name: "streamARN", parent: name, max: 1024)
             try self.validate(self.streamARN, name: "streamARN", parent: name, min: 1)
-            try self.validate(self.streamARN, name: "streamARN", parent: name, pattern: "arn:aws:kinesisvideo:[a-z0-9-]+:[0-9]+:[a-z]+/[a-zA-Z0-9_.-]+/[0-9]+")
+            try self.validate(self.streamARN, name: "streamARN", parent: name, pattern: "arn:[a-z\\d-]+:kinesisvideo:[a-z0-9-]+:[0-9]+:[a-z]+/[a-zA-Z0-9_.-]+/[0-9]+")
             try self.validate(self.streamName, name: "streamName", parent: name, max: 256)
             try self.validate(self.streamName, name: "streamName", parent: name, min: 1)
             try self.validate(self.streamName, name: "streamName", parent: name, pattern: "[a-zA-Z0-9_.-]+")
@@ -444,7 +547,7 @@ extension KinesisVideo {
         public func validate(name: String) throws {
             try self.validate(self.channelARN, name: "channelARN", parent: name, max: 1024)
             try self.validate(self.channelARN, name: "channelARN", parent: name, min: 1)
-            try self.validate(self.channelARN, name: "channelARN", parent: name, pattern: "arn:aws:kinesisvideo:[a-z0-9-]+:[0-9]+:[a-z]+/[a-zA-Z0-9_.-]+/[0-9]+")
+            try self.validate(self.channelARN, name: "channelARN", parent: name, pattern: "arn:[a-z\\d-]+:kinesisvideo:[a-z0-9-]+:[0-9]+:[a-z]+/[a-zA-Z0-9_.-]+/[0-9]+")
             try self.singleMasterChannelEndpointConfiguration?.validate(name: "\(name).singleMasterChannelEndpointConfiguration")
         }
 
@@ -464,6 +567,88 @@ extension KinesisVideo {
 
         private enum CodingKeys: String, CodingKey {
             case resourceEndpointList = "ResourceEndpointList"
+        }
+    }
+
+    public struct ImageGenerationConfiguration: AWSEncodableShape & AWSDecodableShape {
+        /// The structure that contains the information required to deliver images to a customer.
+        public let destinationConfig: ImageGenerationDestinationConfig
+        /// The accepted image format.
+        public let format: Format
+        /// The list of a key-value pair structure that contains extra parameters that can be applied when the image is generated. The FormatConfig key is the JPEGQuality, which indicates the JPEG quality key to be used to generate the image. The FormatConfig value accepts ints from 1 to 100. If the value is 1, the image will be generated with less quality and the best compression. If the value is 100, the image will be generated with the best quality and less compression. If no value is provided, the default value of the JPEGQuality key will be set to 80.
+        public let formatConfig: [FormatConfigKey: String]?
+        /// The height of the output image that is used in conjunction with the WidthPixels parameter. When both HeightPixels and WidthPixels parameters are provided, the image will be stretched to fit the specified aspect ratio. If only the HeightPixels parameter is provided, its original aspect ratio will be used to calculate the WidthPixels ratio. If neither parameter is provided, the original image size will be returned.
+        public let heightPixels: Int?
+        /// The origin of the Server or Producer timestamps to use to generate the images.
+        public let imageSelectorType: ImageSelectorType
+        /// The time interval in milliseconds (ms) at which the images need to be generated from the stream. The minimum value that can be provided is 33 ms, because a camera that generates content at 30 FPS would create a frame every 33.3 ms. If the timestamp range is less than the sampling interval, the Image from the StartTimestamp will be returned if available.
+        public let samplingInterval: Int
+        /// Indicates whether the ContinuousImageGenerationConfigurations API is enabled or disabled.
+        public let status: ConfigurationStatus
+        /// The width of the output image that is used in conjunction with the HeightPixels parameter. When both WidthPixels and HeightPixels parameters are provided, the image will be stretched to fit the specified aspect ratio. If only the WidthPixels parameter is provided, its original aspect ratio will be used to calculate the HeightPixels ratio. If neither parameter is provided, the original image size will be returned.
+        public let widthPixels: Int?
+
+        public init(destinationConfig: ImageGenerationDestinationConfig, format: Format, formatConfig: [FormatConfigKey: String]? = nil, heightPixels: Int? = nil, imageSelectorType: ImageSelectorType, samplingInterval: Int, status: ConfigurationStatus, widthPixels: Int? = nil) {
+            self.destinationConfig = destinationConfig
+            self.format = format
+            self.formatConfig = formatConfig
+            self.heightPixels = heightPixels
+            self.imageSelectorType = imageSelectorType
+            self.samplingInterval = samplingInterval
+            self.status = status
+            self.widthPixels = widthPixels
+        }
+
+        public func validate(name: String) throws {
+            try self.destinationConfig.validate(name: "\(name).destinationConfig")
+            try self.formatConfig?.forEach {
+                try validate($0.value, name: "formatConfig[\"\($0.key)\"]", parent: name, max: 256)
+                try validate($0.value, name: "formatConfig[\"\($0.key)\"]", parent: name, min: 0)
+                try validate($0.value, name: "formatConfig[\"\($0.key)\"]", parent: name, pattern: "^[a-zA-Z_0-9]+")
+            }
+            try self.validate(self.heightPixels, name: "heightPixels", parent: name, max: 2160)
+            try self.validate(self.heightPixels, name: "heightPixels", parent: name, min: 1)
+            try self.validate(self.samplingInterval, name: "samplingInterval", parent: name, max: 20000)
+            try self.validate(self.samplingInterval, name: "samplingInterval", parent: name, min: 3000)
+            try self.validate(self.widthPixels, name: "widthPixels", parent: name, max: 3840)
+            try self.validate(self.widthPixels, name: "widthPixels", parent: name, min: 1)
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case destinationConfig = "DestinationConfig"
+            case format = "Format"
+            case formatConfig = "FormatConfig"
+            case heightPixels = "HeightPixels"
+            case imageSelectorType = "ImageSelectorType"
+            case samplingInterval = "SamplingInterval"
+            case status = "Status"
+            case widthPixels = "WidthPixels"
+        }
+    }
+
+    public struct ImageGenerationDestinationConfig: AWSEncodableShape & AWSDecodableShape {
+        /// The AWS Region of the S3 bucket where images will be delivered. This DestinationRegion must match the Region where the stream is located.
+        public let destinationRegion: String
+        /// The Uniform Resource Idenifier (URI) that identifies where the images will be delivered.
+        public let uri: String
+
+        public init(destinationRegion: String, uri: String) {
+            self.destinationRegion = destinationRegion
+            self.uri = uri
+        }
+
+        public func validate(name: String) throws {
+            try self.validate(self.destinationRegion, name: "destinationRegion", parent: name, max: 14)
+            try self.validate(self.destinationRegion, name: "destinationRegion", parent: name, min: 9)
+            try self.validate(self.destinationRegion, name: "destinationRegion", parent: name, pattern: "^[a-z]+(-[a-z]+)?-[a-z]+-[0-9]$")
+            try self.validate(self.uri, name: "uri", parent: name, max: 255)
+            try self.validate(self.uri, name: "uri", parent: name, min: 1)
+            try self.validate(self.uri, name: "uri", parent: name, pattern: "^[a-zA-Z_0-9]+:(//)?([^/]+)/?([^*]*)$")
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case destinationRegion = "DestinationRegion"
+            case uri = "Uri"
         }
     }
 
@@ -578,7 +763,7 @@ extension KinesisVideo {
             try self.validate(self.nextToken, name: "nextToken", parent: name, pattern: "[a-zA-Z0-9+/=]*")
             try self.validate(self.resourceARN, name: "resourceARN", parent: name, max: 1024)
             try self.validate(self.resourceARN, name: "resourceARN", parent: name, min: 1)
-            try self.validate(self.resourceARN, name: "resourceARN", parent: name, pattern: "arn:aws:kinesisvideo:[a-z0-9-]+:[0-9]+:[a-z]+/[a-zA-Z0-9_.-]+/[0-9]+")
+            try self.validate(self.resourceARN, name: "resourceARN", parent: name, pattern: "arn:[a-z\\d-]+:kinesisvideo:[a-z0-9-]+:[0-9]+:[a-z]+/[a-zA-Z0-9_.-]+/[0-9]+")
         }
 
         private enum CodingKeys: String, CodingKey {
@@ -624,7 +809,7 @@ extension KinesisVideo {
             try self.validate(self.nextToken, name: "nextToken", parent: name, pattern: "[a-zA-Z0-9+/=]*")
             try self.validate(self.streamARN, name: "streamARN", parent: name, max: 1024)
             try self.validate(self.streamARN, name: "streamARN", parent: name, min: 1)
-            try self.validate(self.streamARN, name: "streamARN", parent: name, pattern: "arn:aws:kinesisvideo:[a-z0-9-]+:[0-9]+:[a-z]+/[a-zA-Z0-9_.-]+/[0-9]+")
+            try self.validate(self.streamARN, name: "streamARN", parent: name, pattern: "arn:[a-z\\d-]+:kinesisvideo:[a-z0-9-]+:[0-9]+:[a-z]+/[a-zA-Z0-9_.-]+/[0-9]+")
             try self.validate(self.streamName, name: "streamName", parent: name, max: 256)
             try self.validate(self.streamName, name: "streamName", parent: name, min: 1)
             try self.validate(self.streamName, name: "streamName", parent: name, pattern: "[a-zA-Z0-9_.-]+")
@@ -651,6 +836,46 @@ extension KinesisVideo {
         private enum CodingKeys: String, CodingKey {
             case nextToken = "NextToken"
             case tags = "Tags"
+        }
+    }
+
+    public struct NotificationConfiguration: AWSEncodableShape & AWSDecodableShape {
+        /// The destination information required to deliver a notification to a customer.
+        public let destinationConfig: NotificationDestinationConfig
+        /// Indicates if a notification configuration is enabled or disabled.
+        public let status: ConfigurationStatus
+
+        public init(destinationConfig: NotificationDestinationConfig, status: ConfigurationStatus) {
+            self.destinationConfig = destinationConfig
+            self.status = status
+        }
+
+        public func validate(name: String) throws {
+            try self.destinationConfig.validate(name: "\(name).destinationConfig")
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case destinationConfig = "DestinationConfig"
+            case status = "Status"
+        }
+    }
+
+    public struct NotificationDestinationConfig: AWSEncodableShape & AWSDecodableShape {
+        /// The Uniform Resource Idenifier (URI) that identifies where the images will be delivered.
+        public let uri: String
+
+        public init(uri: String) {
+            self.uri = uri
+        }
+
+        public func validate(name: String) throws {
+            try self.validate(self.uri, name: "uri", parent: name, max: 255)
+            try self.validate(self.uri, name: "uri", parent: name, min: 1)
+            try self.validate(self.uri, name: "uri", parent: name, pattern: "^[a-zA-Z_0-9]+:(//)?([^/]+)/?([^*]*)$")
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case uri = "Uri"
         }
     }
 
@@ -694,7 +919,7 @@ extension KinesisVideo {
     }
 
     public struct SingleMasterConfiguration: AWSEncodableShape & AWSDecodableShape {
-        /// The period of time a signaling channel retains underlivered messages before they are discarded.
+        /// The period of time a signaling channel retains undelivered messages before they are discarded.
         public let messageTtlSeconds: Int?
 
         public init(messageTtlSeconds: Int? = nil) {
@@ -718,7 +943,7 @@ extension KinesisVideo {
         public let dataRetentionInHours: Int?
         /// The name of the device that is associated with the stream.
         public let deviceName: String?
-        /// The ID of the AWS Key Management Service (AWS KMS) key that Kinesis Video Streams uses to encrypt data on the stream.
+        /// The ID of the Key Management Service (KMS) key that Kinesis Video Streams uses to encrypt data on the stream.
         public let kmsKeyId: String?
         /// The MediaType of the stream.
         public let mediaType: String?
@@ -819,7 +1044,7 @@ extension KinesisVideo {
         public func validate(name: String) throws {
             try self.validate(self.resourceARN, name: "resourceARN", parent: name, max: 1024)
             try self.validate(self.resourceARN, name: "resourceARN", parent: name, min: 1)
-            try self.validate(self.resourceARN, name: "resourceARN", parent: name, pattern: "arn:aws:kinesisvideo:[a-z0-9-]+:[0-9]+:[a-z]+/[a-zA-Z0-9_.-]+/[0-9]+")
+            try self.validate(self.resourceARN, name: "resourceARN", parent: name, pattern: "arn:[a-z\\d-]+:kinesisvideo:[a-z0-9-]+:[0-9]+:[a-z]+/[a-zA-Z0-9_.-]+/[0-9]+")
             try self.tags.forEach {
                 try $0.validate(name: "\(name).tags[]")
             }
@@ -854,7 +1079,7 @@ extension KinesisVideo {
         public func validate(name: String) throws {
             try self.validate(self.streamARN, name: "streamARN", parent: name, max: 1024)
             try self.validate(self.streamARN, name: "streamARN", parent: name, min: 1)
-            try self.validate(self.streamARN, name: "streamARN", parent: name, pattern: "arn:aws:kinesisvideo:[a-z0-9-]+:[0-9]+:[a-z]+/[a-zA-Z0-9_.-]+/[0-9]+")
+            try self.validate(self.streamARN, name: "streamARN", parent: name, pattern: "arn:[a-z\\d-]+:kinesisvideo:[a-z0-9-]+:[0-9]+:[a-z]+/[a-zA-Z0-9_.-]+/[0-9]+")
             try self.validate(self.streamName, name: "streamName", parent: name, max: 256)
             try self.validate(self.streamName, name: "streamName", parent: name, min: 1)
             try self.validate(self.streamName, name: "streamName", parent: name, pattern: "[a-zA-Z0-9_.-]+")
@@ -893,7 +1118,7 @@ extension KinesisVideo {
         public func validate(name: String) throws {
             try self.validate(self.resourceARN, name: "resourceARN", parent: name, max: 1024)
             try self.validate(self.resourceARN, name: "resourceARN", parent: name, min: 1)
-            try self.validate(self.resourceARN, name: "resourceARN", parent: name, pattern: "arn:aws:kinesisvideo:[a-z0-9-]+:[0-9]+:[a-z]+/[a-zA-Z0-9_.-]+/[0-9]+")
+            try self.validate(self.resourceARN, name: "resourceARN", parent: name, pattern: "arn:[a-z\\d-]+:kinesisvideo:[a-z0-9-]+:[0-9]+:[a-z]+/[a-zA-Z0-9_.-]+/[0-9]+")
             try self.tagKeyList.forEach {
                 try validate($0, name: "tagKeyList[]", parent: name, max: 128)
                 try validate($0, name: "tagKeyList[]", parent: name, min: 1)
@@ -930,7 +1155,7 @@ extension KinesisVideo {
         public func validate(name: String) throws {
             try self.validate(self.streamARN, name: "streamARN", parent: name, max: 1024)
             try self.validate(self.streamARN, name: "streamARN", parent: name, min: 1)
-            try self.validate(self.streamARN, name: "streamARN", parent: name, pattern: "arn:aws:kinesisvideo:[a-z0-9-]+:[0-9]+:[a-z]+/[a-zA-Z0-9_.-]+/[0-9]+")
+            try self.validate(self.streamARN, name: "streamARN", parent: name, pattern: "arn:[a-z\\d-]+:kinesisvideo:[a-z0-9-]+:[0-9]+:[a-z]+/[a-zA-Z0-9_.-]+/[0-9]+")
             try self.validate(self.streamName, name: "streamName", parent: name, max: 256)
             try self.validate(self.streamName, name: "streamName", parent: name, min: 1)
             try self.validate(self.streamName, name: "streamName", parent: name, pattern: "[a-zA-Z0-9_.-]+")
@@ -981,7 +1206,7 @@ extension KinesisVideo {
             try self.validate(self.dataRetentionChangeInHours, name: "dataRetentionChangeInHours", parent: name, min: 1)
             try self.validate(self.streamARN, name: "streamARN", parent: name, max: 1024)
             try self.validate(self.streamARN, name: "streamARN", parent: name, min: 1)
-            try self.validate(self.streamARN, name: "streamARN", parent: name, pattern: "arn:aws:kinesisvideo:[a-z0-9-]+:[0-9]+:[a-z]+/[a-zA-Z0-9_.-]+/[0-9]+")
+            try self.validate(self.streamARN, name: "streamARN", parent: name, pattern: "arn:[a-z\\d-]+:kinesisvideo:[a-z0-9-]+:[0-9]+:[a-z]+/[a-zA-Z0-9_.-]+/[0-9]+")
             try self.validate(self.streamName, name: "streamName", parent: name, max: 256)
             try self.validate(self.streamName, name: "streamName", parent: name, min: 1)
             try self.validate(self.streamName, name: "streamName", parent: name, pattern: "[a-zA-Z0-9_.-]+")
@@ -997,6 +1222,76 @@ extension KinesisVideo {
     }
 
     public struct UpdateDataRetentionOutput: AWSDecodableShape {
+        public init() {}
+    }
+
+    public struct UpdateImageGenerationConfigurationInput: AWSEncodableShape {
+        /// The structure that contains the information required for the KVS images delivery. If the structure is null, the configuration will be deleted from the stream.
+        public let imageGenerationConfiguration: ImageGenerationConfiguration?
+        /// The Amazon Resource Name (ARN) of the Kinesis video stream from where you want to update the image generation configuration. You must specify either the StreamName or the StreamARN.
+        public let streamARN: String?
+        /// The name of the stream from which to update the image generation configuration. You must specify either the StreamName or the StreamARN.
+        public let streamName: String?
+
+        public init(imageGenerationConfiguration: ImageGenerationConfiguration? = nil, streamARN: String? = nil, streamName: String? = nil) {
+            self.imageGenerationConfiguration = imageGenerationConfiguration
+            self.streamARN = streamARN
+            self.streamName = streamName
+        }
+
+        public func validate(name: String) throws {
+            try self.imageGenerationConfiguration?.validate(name: "\(name).imageGenerationConfiguration")
+            try self.validate(self.streamARN, name: "streamARN", parent: name, max: 1024)
+            try self.validate(self.streamARN, name: "streamARN", parent: name, min: 1)
+            try self.validate(self.streamARN, name: "streamARN", parent: name, pattern: "arn:[a-z\\d-]+:kinesisvideo:[a-z0-9-]+:[0-9]+:[a-z]+/[a-zA-Z0-9_.-]+/[0-9]+")
+            try self.validate(self.streamName, name: "streamName", parent: name, max: 256)
+            try self.validate(self.streamName, name: "streamName", parent: name, min: 1)
+            try self.validate(self.streamName, name: "streamName", parent: name, pattern: "[a-zA-Z0-9_.-]+")
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case imageGenerationConfiguration = "ImageGenerationConfiguration"
+            case streamARN = "StreamARN"
+            case streamName = "StreamName"
+        }
+    }
+
+    public struct UpdateImageGenerationConfigurationOutput: AWSDecodableShape {
+        public init() {}
+    }
+
+    public struct UpdateNotificationConfigurationInput: AWSEncodableShape {
+        /// The structure containing the information required for notifications. If the structure is null, the configuration will be deleted from the stream.
+        public let notificationConfiguration: NotificationConfiguration?
+        /// The Amazon Resource Name (ARN) of the Kinesis video stream from where you want to update the notification configuration. You must specify either the StreamName or the StreamARN.
+        public let streamARN: String?
+        /// The name of the stream from which to update the notification configuration. You must specify either the StreamName or the StreamARN.
+        public let streamName: String?
+
+        public init(notificationConfiguration: NotificationConfiguration? = nil, streamARN: String? = nil, streamName: String? = nil) {
+            self.notificationConfiguration = notificationConfiguration
+            self.streamARN = streamARN
+            self.streamName = streamName
+        }
+
+        public func validate(name: String) throws {
+            try self.notificationConfiguration?.validate(name: "\(name).notificationConfiguration")
+            try self.validate(self.streamARN, name: "streamARN", parent: name, max: 1024)
+            try self.validate(self.streamARN, name: "streamARN", parent: name, min: 1)
+            try self.validate(self.streamARN, name: "streamARN", parent: name, pattern: "arn:[a-z\\d-]+:kinesisvideo:[a-z0-9-]+:[0-9]+:[a-z]+/[a-zA-Z0-9_.-]+/[0-9]+")
+            try self.validate(self.streamName, name: "streamName", parent: name, max: 256)
+            try self.validate(self.streamName, name: "streamName", parent: name, min: 1)
+            try self.validate(self.streamName, name: "streamName", parent: name, pattern: "[a-zA-Z0-9_.-]+")
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case notificationConfiguration = "NotificationConfiguration"
+            case streamARN = "StreamARN"
+            case streamName = "StreamName"
+        }
+    }
+
+    public struct UpdateNotificationConfigurationOutput: AWSDecodableShape {
         public init() {}
     }
 
@@ -1017,7 +1312,7 @@ extension KinesisVideo {
         public func validate(name: String) throws {
             try self.validate(self.channelARN, name: "channelARN", parent: name, max: 1024)
             try self.validate(self.channelARN, name: "channelARN", parent: name, min: 1)
-            try self.validate(self.channelARN, name: "channelARN", parent: name, pattern: "arn:aws:kinesisvideo:[a-z0-9-]+:[0-9]+:[a-z]+/[a-zA-Z0-9_.-]+/[0-9]+")
+            try self.validate(self.channelARN, name: "channelARN", parent: name, pattern: "arn:[a-z\\d-]+:kinesisvideo:[a-z0-9-]+:[0-9]+:[a-z]+/[a-zA-Z0-9_.-]+/[0-9]+")
             try self.validate(self.currentVersion, name: "currentVersion", parent: name, max: 64)
             try self.validate(self.currentVersion, name: "currentVersion", parent: name, min: 1)
             try self.validate(self.currentVersion, name: "currentVersion", parent: name, pattern: "[a-zA-Z0-9]+")
@@ -1067,7 +1362,7 @@ extension KinesisVideo {
             try self.validate(self.mediaType, name: "mediaType", parent: name, pattern: "[\\w\\-\\.\\+]+/[\\w\\-\\.\\+]+(,[\\w\\-\\.\\+]+/[\\w\\-\\.\\+]+)*")
             try self.validate(self.streamARN, name: "streamARN", parent: name, max: 1024)
             try self.validate(self.streamARN, name: "streamARN", parent: name, min: 1)
-            try self.validate(self.streamARN, name: "streamARN", parent: name, pattern: "arn:aws:kinesisvideo:[a-z0-9-]+:[0-9]+:[a-z]+/[a-zA-Z0-9_.-]+/[0-9]+")
+            try self.validate(self.streamARN, name: "streamARN", parent: name, pattern: "arn:[a-z\\d-]+:kinesisvideo:[a-z0-9-]+:[0-9]+:[a-z]+/[a-zA-Z0-9_.-]+/[0-9]+")
             try self.validate(self.streamName, name: "streamName", parent: name, max: 256)
             try self.validate(self.streamName, name: "streamName", parent: name, min: 1)
             try self.validate(self.streamName, name: "streamName", parent: name, pattern: "[a-zA-Z0-9_.-]+")

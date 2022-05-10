@@ -85,6 +85,12 @@ extension DevOpsGuru {
         public var description: String { return self.rawValue }
     }
 
+    public enum EventSourceOptInStatus: String, CustomStringConvertible, Codable {
+        case disabled = "DISABLED"
+        case enabled = "ENABLED"
+        public var description: String { return self.rawValue }
+    }
+
     public enum InsightFeedbackOption: String, CustomStringConvertible, Codable {
         case alertTooSensitive = "ALERT_TOO_SENSITIVE"
         case dataIncorrect = "DATA_INCORRECT"
@@ -250,6 +256,19 @@ extension DevOpsGuru {
         }
     }
 
+    public struct AmazonCodeGuruProfilerIntegration: AWSEncodableShape & AWSDecodableShape {
+        /// The status of the CodeGuru Profiler integration. Specifies if DevOps Guru is enabled to consume recommendations that are generated from Amazon CodeGuru Profiler.
+        public let status: EventSourceOptInStatus?
+
+        public init(status: EventSourceOptInStatus? = nil) {
+            self.status = status
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case status = "Status"
+        }
+    }
+
     public struct AnomalyReportedTimeRange: AWSDecodableShape {
         ///  The time when an anomaly is closed.
         public let closeTime: Date?
@@ -298,6 +317,27 @@ extension DevOpsGuru {
         private enum CodingKeys: String, CodingKey {
             case cloudWatchMetrics = "CloudWatchMetrics"
             case performanceInsightsMetrics = "PerformanceInsightsMetrics"
+        }
+    }
+
+    public struct AnomalySourceMetadata: AWSDecodableShape {
+        /// The source of the anomaly.
+        public let source: String?
+        /// The name of the anomaly's resource.
+        public let sourceResourceName: String?
+        /// The anomaly's resource type.
+        public let sourceResourceType: String?
+
+        public init(source: String? = nil, sourceResourceName: String? = nil, sourceResourceType: String? = nil) {
+            self.source = source
+            self.sourceResourceName = sourceResourceName
+            self.sourceResourceType = sourceResourceType
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case source = "Source"
+            case sourceResourceName = "SourceResourceName"
+            case sourceResourceType = "SourceResourceType"
         }
     }
 
@@ -504,6 +544,31 @@ extension DevOpsGuru {
         }
     }
 
+    public struct DeleteInsightRequest: AWSEncodableShape {
+        public static var _encoding = [
+            AWSMemberEncoding(label: "id", location: .uri(locationName: "Id"))
+        ]
+
+        /// The ID of the insight.
+        public let id: String
+
+        public init(id: String) {
+            self.id = id
+        }
+
+        public func validate(name: String) throws {
+            try self.validate(self.id, name: "id", parent: name, max: 100)
+            try self.validate(self.id, name: "id", parent: name, min: 1)
+            try self.validate(self.id, name: "id", parent: name, pattern: "^[\\w-]*$")
+        }
+
+        private enum CodingKeys: CodingKey {}
+    }
+
+    public struct DeleteInsightResponse: AWSDecodableShape {
+        public init() {}
+    }
+
     public struct DescribeAccountHealthRequest: AWSEncodableShape {
         public init() {}
     }
@@ -613,6 +678,23 @@ extension DevOpsGuru {
         private enum CodingKeys: String, CodingKey {
             case proactiveAnomaly = "ProactiveAnomaly"
             case reactiveAnomaly = "ReactiveAnomaly"
+        }
+    }
+
+    public struct DescribeEventSourcesConfigRequest: AWSEncodableShape {
+        public init() {}
+    }
+
+    public struct DescribeEventSourcesConfigResponse: AWSDecodableShape {
+        /// Lists the event sources in the configuration.
+        public let eventSources: EventSourcesConfig?
+
+        public init(eventSources: EventSourcesConfig? = nil) {
+            self.eventSources = eventSources
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case eventSources = "EventSources"
         }
     }
 
@@ -1028,6 +1110,19 @@ extension DevOpsGuru {
             case arn = "Arn"
             case name = "Name"
             case type = "Type"
+        }
+    }
+
+    public struct EventSourcesConfig: AWSEncodableShape & AWSDecodableShape {
+        /// Information about whether DevOps Guru is configured to consume recommendations which are generated from AWS CodeGuru Profiler.
+        public let amazonCodeGuruProfiler: AmazonCodeGuruProfilerIntegration?
+
+        public init(amazonCodeGuruProfiler: AmazonCodeGuruProfilerIntegration? = nil) {
+            self.amazonCodeGuruProfiler = amazonCodeGuruProfiler
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case amazonCodeGuruProfiler = "AmazonCodeGuruProfiler"
         }
     }
 
@@ -1664,7 +1759,7 @@ extension DevOpsGuru {
     }
 
     public struct NotificationChannelConfig: AWSEncodableShape & AWSDecodableShape {
-        ///  Information about a notification channel configured in DevOps Guru to send notifications when insights are created.  If you use an Amazon SNS topic in another account, you must attach a policy to it that grants DevOps Guru permission to it notifications. DevOps Guru adds the required policy on your behalf to send notifications using Amazon SNS in your account. For more information, see Permissions for cross account Amazon SNS topics. If you use an Amazon SNS topic that is encrypted by an Amazon Web Services Key Management Service customer-managed key (CMK), then you must add permissions to the CMK. For more information, see Permissions for Amazon Web Services KMS–encrypted Amazon SNS topics.
+        ///  Information about a notification channel configured in DevOps Guru to send notifications when insights are created.  If you use an Amazon SNS topic in another account, you must attach a policy to it that grants DevOps Guru permission to it notifications. DevOps Guru adds the required policy on your behalf to send notifications using Amazon SNS in your account. DevOps Guru only supports standard SNS topics. For more information, see Permissions for cross account Amazon SNS topics. If you use an Amazon SNS topic in another account, you must attach a policy to it that grants DevOps Guru permission to it notifications. DevOps Guru adds the required policy on your behalf to send notifications using Amazon SNS in your account. For more information, see Permissions for cross account Amazon SNS topics. If you use an Amazon SNS topic that is encrypted by an Amazon Web Services Key Management Service customer-managed key (CMK), then you must add permissions to the CMK. For more information, see Permissions for Amazon Web Services KMS–encrypted Amazon SNS topics.
         public let sns: SnsChannelConfig
 
         public init(sns: SnsChannelConfig) {
@@ -1878,6 +1973,8 @@ extension DevOpsGuru {
     public struct ProactiveAnomaly: AWSDecodableShape {
         ///  An AnomalyReportedTimeRange object that specifies the time range between when the anomaly is opened and the time when it is closed.
         public let anomalyReportedTimeRange: AnomalyReportedTimeRange?
+        /// Information about a resource in which DevOps Guru detected anomalous behavior.
+        public let anomalyResources: [AnomalyResource]?
         public let anomalyTimeRange: AnomalyTimeRange?
         ///  The ID of the insight that contains this anomaly. An insight is composed of related anomalies.
         public let associatedInsightId: String?
@@ -1891,13 +1988,16 @@ extension DevOpsGuru {
         public let severity: AnomalySeverity?
         ///  Details about the source of the analyzed operational data that triggered the anomaly. The one supported source is Amazon CloudWatch metrics.
         public let sourceDetails: AnomalySourceDetails?
+        /// The metadata for the anomaly.
+        public let sourceMetadata: AnomalySourceMetadata?
         ///  The status of a proactive anomaly.
         public let status: AnomalyStatus?
         ///  The time of the anomaly's most recent update.
         public let updateTime: Date?
 
-        public init(anomalyReportedTimeRange: AnomalyReportedTimeRange? = nil, anomalyTimeRange: AnomalyTimeRange? = nil, associatedInsightId: String? = nil, id: String? = nil, limit: Double? = nil, predictionTimeRange: PredictionTimeRange? = nil, resourceCollection: ResourceCollection? = nil, severity: AnomalySeverity? = nil, sourceDetails: AnomalySourceDetails? = nil, status: AnomalyStatus? = nil, updateTime: Date? = nil) {
+        public init(anomalyReportedTimeRange: AnomalyReportedTimeRange? = nil, anomalyResources: [AnomalyResource]? = nil, anomalyTimeRange: AnomalyTimeRange? = nil, associatedInsightId: String? = nil, id: String? = nil, limit: Double? = nil, predictionTimeRange: PredictionTimeRange? = nil, resourceCollection: ResourceCollection? = nil, severity: AnomalySeverity? = nil, sourceDetails: AnomalySourceDetails? = nil, sourceMetadata: AnomalySourceMetadata? = nil, status: AnomalyStatus? = nil, updateTime: Date? = nil) {
             self.anomalyReportedTimeRange = anomalyReportedTimeRange
+            self.anomalyResources = anomalyResources
             self.anomalyTimeRange = anomalyTimeRange
             self.associatedInsightId = associatedInsightId
             self.id = id
@@ -1906,12 +2006,14 @@ extension DevOpsGuru {
             self.resourceCollection = resourceCollection
             self.severity = severity
             self.sourceDetails = sourceDetails
+            self.sourceMetadata = sourceMetadata
             self.status = status
             self.updateTime = updateTime
         }
 
         private enum CodingKeys: String, CodingKey {
             case anomalyReportedTimeRange = "AnomalyReportedTimeRange"
+            case anomalyResources = "AnomalyResources"
             case anomalyTimeRange = "AnomalyTimeRange"
             case associatedInsightId = "AssociatedInsightId"
             case id = "Id"
@@ -1920,6 +2022,7 @@ extension DevOpsGuru {
             case resourceCollection = "ResourceCollection"
             case severity = "Severity"
             case sourceDetails = "SourceDetails"
+            case sourceMetadata = "SourceMetadata"
             case status = "Status"
             case updateTime = "UpdateTime"
         }
@@ -1928,6 +2031,8 @@ extension DevOpsGuru {
     public struct ProactiveAnomalySummary: AWSDecodableShape {
         ///  An AnomalyReportedTimeRange object that specifies the time range between when the anomaly is opened and the time when it is closed.
         public let anomalyReportedTimeRange: AnomalyReportedTimeRange?
+        /// Information about a resource in which DevOps Guru detected anomalous behavior.
+        public let anomalyResources: [AnomalyResource]?
         public let anomalyTimeRange: AnomalyTimeRange?
         ///  The ID of the insight that contains this anomaly. An insight is composed of related anomalies.
         public let associatedInsightId: String?
@@ -1941,13 +2046,16 @@ extension DevOpsGuru {
         public let severity: AnomalySeverity?
         ///  Details about the source of the analyzed operational data that triggered the anomaly. The one supported source is Amazon CloudWatch metrics.
         public let sourceDetails: AnomalySourceDetails?
+        /// The metadata of the source which detects proactive anomalies.
+        public let sourceMetadata: AnomalySourceMetadata?
         /// The status of the anomaly.
         public let status: AnomalyStatus?
         ///  The time of the anomaly's most recent update.
         public let updateTime: Date?
 
-        public init(anomalyReportedTimeRange: AnomalyReportedTimeRange? = nil, anomalyTimeRange: AnomalyTimeRange? = nil, associatedInsightId: String? = nil, id: String? = nil, limit: Double? = nil, predictionTimeRange: PredictionTimeRange? = nil, resourceCollection: ResourceCollection? = nil, severity: AnomalySeverity? = nil, sourceDetails: AnomalySourceDetails? = nil, status: AnomalyStatus? = nil, updateTime: Date? = nil) {
+        public init(anomalyReportedTimeRange: AnomalyReportedTimeRange? = nil, anomalyResources: [AnomalyResource]? = nil, anomalyTimeRange: AnomalyTimeRange? = nil, associatedInsightId: String? = nil, id: String? = nil, limit: Double? = nil, predictionTimeRange: PredictionTimeRange? = nil, resourceCollection: ResourceCollection? = nil, severity: AnomalySeverity? = nil, sourceDetails: AnomalySourceDetails? = nil, sourceMetadata: AnomalySourceMetadata? = nil, status: AnomalyStatus? = nil, updateTime: Date? = nil) {
             self.anomalyReportedTimeRange = anomalyReportedTimeRange
+            self.anomalyResources = anomalyResources
             self.anomalyTimeRange = anomalyTimeRange
             self.associatedInsightId = associatedInsightId
             self.id = id
@@ -1956,12 +2064,14 @@ extension DevOpsGuru {
             self.resourceCollection = resourceCollection
             self.severity = severity
             self.sourceDetails = sourceDetails
+            self.sourceMetadata = sourceMetadata
             self.status = status
             self.updateTime = updateTime
         }
 
         private enum CodingKeys: String, CodingKey {
             case anomalyReportedTimeRange = "AnomalyReportedTimeRange"
+            case anomalyResources = "AnomalyResources"
             case anomalyTimeRange = "AnomalyTimeRange"
             case associatedInsightId = "AssociatedInsightId"
             case id = "Id"
@@ -1970,12 +2080,15 @@ extension DevOpsGuru {
             case resourceCollection = "ResourceCollection"
             case severity = "Severity"
             case sourceDetails = "SourceDetails"
+            case sourceMetadata = "SourceMetadata"
             case status = "Status"
             case updateTime = "UpdateTime"
         }
     }
 
     public struct ProactiveInsight: AWSDecodableShape {
+        /// Describes the proactive insight.
+        public let description: String?
         /// The ID of the proactive insight.
         public let id: String?
         public let insightTimeRange: InsightTimeRange?
@@ -1990,7 +2103,8 @@ extension DevOpsGuru {
         /// The status of the proactive insight.
         public let status: InsightStatus?
 
-        public init(id: String? = nil, insightTimeRange: InsightTimeRange? = nil, name: String? = nil, predictionTimeRange: PredictionTimeRange? = nil, resourceCollection: ResourceCollection? = nil, severity: InsightSeverity? = nil, ssmOpsItemId: String? = nil, status: InsightStatus? = nil) {
+        public init(description: String? = nil, id: String? = nil, insightTimeRange: InsightTimeRange? = nil, name: String? = nil, predictionTimeRange: PredictionTimeRange? = nil, resourceCollection: ResourceCollection? = nil, severity: InsightSeverity? = nil, ssmOpsItemId: String? = nil, status: InsightStatus? = nil) {
+            self.description = description
             self.id = id
             self.insightTimeRange = insightTimeRange
             self.name = name
@@ -2002,6 +2116,7 @@ extension DevOpsGuru {
         }
 
         private enum CodingKeys: String, CodingKey {
+            case description = "Description"
             case id = "Id"
             case insightTimeRange = "InsightTimeRange"
             case name = "Name"
@@ -2240,6 +2355,8 @@ extension DevOpsGuru {
     }
 
     public struct ReactiveInsight: AWSDecodableShape {
+        /// Describes the reactive insight.
+        public let description: String?
         ///  The ID of a reactive insight.
         public let id: String?
         public let insightTimeRange: InsightTimeRange?
@@ -2253,7 +2370,8 @@ extension DevOpsGuru {
         ///  The status of a reactive insight.
         public let status: InsightStatus?
 
-        public init(id: String? = nil, insightTimeRange: InsightTimeRange? = nil, name: String? = nil, resourceCollection: ResourceCollection? = nil, severity: InsightSeverity? = nil, ssmOpsItemId: String? = nil, status: InsightStatus? = nil) {
+        public init(description: String? = nil, id: String? = nil, insightTimeRange: InsightTimeRange? = nil, name: String? = nil, resourceCollection: ResourceCollection? = nil, severity: InsightSeverity? = nil, ssmOpsItemId: String? = nil, status: InsightStatus? = nil) {
+            self.description = description
             self.id = id
             self.insightTimeRange = insightTimeRange
             self.name = name
@@ -2264,6 +2382,7 @@ extension DevOpsGuru {
         }
 
         private enum CodingKeys: String, CodingKey {
+            case description = "Description"
             case id = "Id"
             case insightTimeRange = "InsightTimeRange"
             case name = "Name"
@@ -2356,6 +2475,8 @@ extension DevOpsGuru {
     }
 
     public struct Recommendation: AWSDecodableShape {
+        /// The category type of the recommendation.
+        public let category: String?
         ///  A description of the problem.
         public let description: String?
         ///  A hyperlink to information to help you address the problem.
@@ -2369,7 +2490,8 @@ extension DevOpsGuru {
         ///  Events that are related to the problem. Use these events to learn more about what's happening and to help address the issue.
         public let relatedEvents: [RecommendationRelatedEvent]?
 
-        public init(description: String? = nil, link: String? = nil, name: String? = nil, reason: String? = nil, relatedAnomalies: [RecommendationRelatedAnomaly]? = nil, relatedEvents: [RecommendationRelatedEvent]? = nil) {
+        public init(category: String? = nil, description: String? = nil, link: String? = nil, name: String? = nil, reason: String? = nil, relatedAnomalies: [RecommendationRelatedAnomaly]? = nil, relatedEvents: [RecommendationRelatedEvent]? = nil) {
+            self.category = category
             self.description = description
             self.link = link
             self.name = name
@@ -2379,6 +2501,7 @@ extension DevOpsGuru {
         }
 
         private enum CodingKeys: String, CodingKey {
+            case category = "Category"
             case description = "Description"
             case link = "Link"
             case name = "Name"
@@ -3034,6 +3157,23 @@ extension DevOpsGuru {
         private enum CodingKeys: String, CodingKey {
             case stackNames = "StackNames"
         }
+    }
+
+    public struct UpdateEventSourcesConfigRequest: AWSEncodableShape {
+        /// Configuration information about the integration of DevOps Guru as the Consumer via EventBridge with another AWS Service.
+        public let eventSources: EventSourcesConfig?
+
+        public init(eventSources: EventSourcesConfig? = nil) {
+            self.eventSources = eventSources
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case eventSources = "EventSources"
+        }
+    }
+
+    public struct UpdateEventSourcesConfigResponse: AWSDecodableShape {
+        public init() {}
     }
 
     public struct UpdateResourceCollectionFilter: AWSEncodableShape {

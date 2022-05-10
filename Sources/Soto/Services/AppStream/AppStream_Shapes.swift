@@ -36,6 +36,12 @@ extension AppStream {
         public var description: String { return self.rawValue }
     }
 
+    public enum AppVisibility: String, CustomStringConvertible, Codable {
+        case all = "ALL"
+        case associated = "ASSOCIATED"
+        public var description: String { return self.rawValue }
+    }
+
     public enum ApplicationAttribute: String, CustomStringConvertible, Codable {
         case launchParameters = "LAUNCH_PARAMETERS"
         case workingDirectory = "WORKING_DIRECTORY"
@@ -52,6 +58,7 @@ extension AppStream {
     public enum FleetAttribute: String, CustomStringConvertible, Codable {
         case domainJoinInfo = "DOMAIN_JOIN_INFO"
         case iamRoleArn = "IAM_ROLE_ARN"
+        case sessionScriptS3Location = "SESSION_SCRIPT_S3_LOCATION"
         case usbDeviceFilterStrings = "USB_DEVICE_FILTER_STRINGS"
         case vpcConfiguration = "VPC_CONFIGURATION"
         case vpcConfigurationSecurityGroupIds = "VPC_CONFIGURATION_SECURITY_GROUP_IDS"
@@ -463,6 +470,37 @@ extension AppStream {
         }
     }
 
+    public struct AssociateApplicationToEntitlementRequest: AWSEncodableShape {
+        /// The identifier of the application.
+        public let applicationIdentifier: String
+        /// The name of the entitlement.
+        public let entitlementName: String
+        /// The name of the stack.
+        public let stackName: String
+
+        public init(applicationIdentifier: String, entitlementName: String, stackName: String) {
+            self.applicationIdentifier = applicationIdentifier
+            self.entitlementName = entitlementName
+            self.stackName = stackName
+        }
+
+        public func validate(name: String) throws {
+            try self.validate(self.applicationIdentifier, name: "applicationIdentifier", parent: name, min: 1)
+            try self.validate(self.entitlementName, name: "entitlementName", parent: name, pattern: "^[a-zA-Z0-9][a-zA-Z0-9_.-]{0,100}$")
+            try self.validate(self.stackName, name: "stackName", parent: name, pattern: "^[a-zA-Z0-9][a-zA-Z0-9_.-]{0,100}$")
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case applicationIdentifier = "ApplicationIdentifier"
+            case entitlementName = "EntitlementName"
+            case stackName = "StackName"
+        }
+    }
+
+    public struct AssociateApplicationToEntitlementResult: AWSDecodableShape {
+        public init() {}
+    }
+
     public struct AssociateFleetRequest: AWSEncodableShape {
         /// The name of the fleet.
         public let fleetName: String
@@ -832,6 +870,58 @@ extension AppStream {
         }
     }
 
+    public struct CreateEntitlementRequest: AWSEncodableShape {
+        /// Specifies whether all or selected apps are entitled.
+        public let appVisibility: AppVisibility
+        /// The attributes of the entitlement.
+        public let attributes: [EntitlementAttribute]
+        /// The description of the entitlement.
+        public let description: String?
+        /// The name of the entitlement.
+        public let name: String
+        /// The name of the stack with which the entitlement is associated.
+        public let stackName: String
+
+        public init(appVisibility: AppVisibility, attributes: [EntitlementAttribute], description: String? = nil, name: String, stackName: String) {
+            self.appVisibility = appVisibility
+            self.attributes = attributes
+            self.description = description
+            self.name = name
+            self.stackName = stackName
+        }
+
+        public func validate(name: String) throws {
+            try self.attributes.forEach {
+                try $0.validate(name: "\(name).attributes[]")
+            }
+            try self.validate(self.attributes, name: "attributes", parent: name, min: 1)
+            try self.validate(self.description, name: "description", parent: name, max: 256)
+            try self.validate(self.name, name: "name", parent: name, pattern: "^[a-zA-Z0-9][a-zA-Z0-9_.-]{0,100}$")
+            try self.validate(self.stackName, name: "stackName", parent: name, pattern: "^[a-zA-Z0-9][a-zA-Z0-9_.-]{0,100}$")
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case appVisibility = "AppVisibility"
+            case attributes = "Attributes"
+            case description = "Description"
+            case name = "Name"
+            case stackName = "StackName"
+        }
+    }
+
+    public struct CreateEntitlementResult: AWSDecodableShape {
+        /// The entitlement.
+        public let entitlement: Entitlement?
+
+        public init(entitlement: Entitlement? = nil) {
+            self.entitlement = entitlement
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case entitlement = "Entitlement"
+        }
+    }
+
     public struct CreateFleetRequest: AWSEncodableShape {
         /// The desired capacity for the fleet. This is not allowed for Elastic fleets. For Elastic fleets, specify MaxConcurrentSessions instead.
         public let computeCapacity: ComputeCapacity?
@@ -865,6 +955,8 @@ extension AppStream {
         public let name: String
         /// The fleet platform. WINDOWS_SERVER_2019 and AMAZON_LINUX2 are supported for Elastic fleets.
         public let platform: PlatformType?
+        /// The S3 location of the session scripts configuration zip file. This only applies to Elastic fleets.
+        public let sessionScriptS3Location: S3Location?
         /// The AppStream 2.0 view that is displayed to your users when they stream from the fleet. When APP is specified, only the windows of applications opened by users display. When DESKTOP is specified, the standard desktop that is provided by the operating system displays. The default value is APP.
         public let streamView: StreamView?
         /// The tags to associate with the fleet. A tag is a key-value pair, and the value is optional. For example, Environment=Test. If you do not specify a value, Environment=.  If you do not specify a value, the value is set to an empty string. Generally allowed characters are: letters, numbers, and spaces representable in UTF-8, and the following special characters:  _ . : / = + \ - @ For more information, see Tagging Your Resources in the Amazon AppStream 2.0 Administration Guide.
@@ -874,7 +966,7 @@ extension AppStream {
         /// The VPC configuration for the fleet. This is required for Elastic fleets, but not required for other fleet types. Elastic fleets require that you specify at least two subnets in different availability zones.
         public let vpcConfig: VpcConfig?
 
-        public init(computeCapacity: ComputeCapacity? = nil, description: String? = nil, disconnectTimeoutInSeconds: Int? = nil, displayName: String? = nil, domainJoinInfo: DomainJoinInfo? = nil, enableDefaultInternetAccess: Bool? = nil, fleetType: FleetType? = nil, iamRoleArn: String? = nil, idleDisconnectTimeoutInSeconds: Int? = nil, imageArn: String? = nil, imageName: String? = nil, instanceType: String, maxConcurrentSessions: Int? = nil, maxUserDurationInSeconds: Int? = nil, name: String, platform: PlatformType? = nil, streamView: StreamView? = nil, tags: [String: String]? = nil, usbDeviceFilterStrings: [String]? = nil, vpcConfig: VpcConfig? = nil) {
+        public init(computeCapacity: ComputeCapacity? = nil, description: String? = nil, disconnectTimeoutInSeconds: Int? = nil, displayName: String? = nil, domainJoinInfo: DomainJoinInfo? = nil, enableDefaultInternetAccess: Bool? = nil, fleetType: FleetType? = nil, iamRoleArn: String? = nil, idleDisconnectTimeoutInSeconds: Int? = nil, imageArn: String? = nil, imageName: String? = nil, instanceType: String, maxConcurrentSessions: Int? = nil, maxUserDurationInSeconds: Int? = nil, name: String, platform: PlatformType? = nil, sessionScriptS3Location: S3Location? = nil, streamView: StreamView? = nil, tags: [String: String]? = nil, usbDeviceFilterStrings: [String]? = nil, vpcConfig: VpcConfig? = nil) {
             self.computeCapacity = computeCapacity
             self.description = description
             self.disconnectTimeoutInSeconds = disconnectTimeoutInSeconds
@@ -891,6 +983,7 @@ extension AppStream {
             self.maxUserDurationInSeconds = maxUserDurationInSeconds
             self.name = name
             self.platform = platform
+            self.sessionScriptS3Location = sessionScriptS3Location
             self.streamView = streamView
             self.tags = tags
             self.usbDeviceFilterStrings = usbDeviceFilterStrings
@@ -906,6 +999,7 @@ extension AppStream {
             try self.validate(self.imageName, name: "imageName", parent: name, min: 1)
             try self.validate(self.instanceType, name: "instanceType", parent: name, min: 1)
             try self.validate(self.name, name: "name", parent: name, pattern: "^[a-zA-Z0-9][a-zA-Z0-9_.-]{0,100}$")
+            try self.sessionScriptS3Location?.validate(name: "\(name).sessionScriptS3Location")
             try self.tags?.forEach {
                 try validate($0.key, name: "tags.key", parent: name, max: 128)
                 try validate($0.key, name: "tags.key", parent: name, min: 1)
@@ -939,6 +1033,7 @@ extension AppStream {
             case maxUserDurationInSeconds = "MaxUserDurationInSeconds"
             case name = "Name"
             case platform = "Platform"
+            case sessionScriptS3Location = "SessionScriptS3Location"
             case streamView = "StreamView"
             case tags = "Tags"
             case usbDeviceFilterStrings = "UsbDeviceFilterStrings"
@@ -1443,6 +1538,32 @@ extension AppStream {
         public init() {}
     }
 
+    public struct DeleteEntitlementRequest: AWSEncodableShape {
+        /// The name of the entitlement.
+        public let name: String
+        /// The name of the stack with which the entitlement is associated.
+        public let stackName: String
+
+        public init(name: String, stackName: String) {
+            self.name = name
+            self.stackName = stackName
+        }
+
+        public func validate(name: String) throws {
+            try self.validate(self.name, name: "name", parent: name, pattern: "^[a-zA-Z0-9][a-zA-Z0-9_.-]{0,100}$")
+            try self.validate(self.stackName, name: "stackName", parent: name, pattern: "^[a-zA-Z0-9][a-zA-Z0-9_.-]{0,100}$")
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case name = "Name"
+            case stackName = "StackName"
+        }
+    }
+
+    public struct DeleteEntitlementResult: AWSDecodableShape {
+        public init() {}
+    }
+
     public struct DeleteFleetRequest: AWSEncodableShape {
         /// The name of the fleet.
         public let name: String
@@ -1782,6 +1903,54 @@ extension AppStream {
 
         private enum CodingKeys: String, CodingKey {
             case directoryConfigs = "DirectoryConfigs"
+            case nextToken = "NextToken"
+        }
+    }
+
+    public struct DescribeEntitlementsRequest: AWSEncodableShape {
+        /// The maximum size of each page of results.
+        public let maxResults: Int?
+        /// The name of the entitlement.
+        public let name: String?
+        /// The pagination token used to retrieve the next page of results for this operation.
+        public let nextToken: String?
+        /// The name of the stack with which the entitlement is associated.
+        public let stackName: String
+
+        public init(maxResults: Int? = nil, name: String? = nil, nextToken: String? = nil, stackName: String) {
+            self.maxResults = maxResults
+            self.name = name
+            self.nextToken = nextToken
+            self.stackName = stackName
+        }
+
+        public func validate(name: String) throws {
+            try self.validate(self.name, name: "name", parent: name, pattern: "^[a-zA-Z0-9][a-zA-Z0-9_.-]{0,100}$")
+            try self.validate(self.nextToken, name: "nextToken", parent: name, min: 1)
+            try self.validate(self.stackName, name: "stackName", parent: name, pattern: "^[a-zA-Z0-9][a-zA-Z0-9_.-]{0,100}$")
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case maxResults = "MaxResults"
+            case name = "Name"
+            case nextToken = "NextToken"
+            case stackName = "StackName"
+        }
+    }
+
+    public struct DescribeEntitlementsResult: AWSDecodableShape {
+        /// The entitlements.
+        public let entitlements: [Entitlement]?
+        /// The pagination token used to retrieve the next page of results for this operation.
+        public let nextToken: String?
+
+        public init(entitlements: [Entitlement]? = nil, nextToken: String? = nil) {
+            self.entitlements = entitlements
+            self.nextToken = nextToken
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case entitlements = "Entitlements"
             case nextToken = "NextToken"
         }
     }
@@ -2301,6 +2470,37 @@ extension AppStream {
         public init() {}
     }
 
+    public struct DisassociateApplicationFromEntitlementRequest: AWSEncodableShape {
+        /// The identifier of the application to remove from the entitlement.
+        public let applicationIdentifier: String
+        /// The name of the entitlement.
+        public let entitlementName: String
+        /// The name of the stack with which the entitlement is associated.
+        public let stackName: String
+
+        public init(applicationIdentifier: String, entitlementName: String, stackName: String) {
+            self.applicationIdentifier = applicationIdentifier
+            self.entitlementName = entitlementName
+            self.stackName = stackName
+        }
+
+        public func validate(name: String) throws {
+            try self.validate(self.applicationIdentifier, name: "applicationIdentifier", parent: name, min: 1)
+            try self.validate(self.entitlementName, name: "entitlementName", parent: name, pattern: "^[a-zA-Z0-9][a-zA-Z0-9_.-]{0,100}$")
+            try self.validate(self.stackName, name: "stackName", parent: name, pattern: "^[a-zA-Z0-9][a-zA-Z0-9_.-]{0,100}$")
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case applicationIdentifier = "ApplicationIdentifier"
+            case entitlementName = "EntitlementName"
+            case stackName = "StackName"
+        }
+    }
+
+    public struct DisassociateApplicationFromEntitlementResult: AWSDecodableShape {
+        public init() {}
+    }
+
     public struct DisassociateFleetRequest: AWSEncodableShape {
         /// The name of the fleet.
         public let fleetName: String
@@ -2375,6 +2575,78 @@ extension AppStream {
         public init() {}
     }
 
+    public struct EntitledApplication: AWSDecodableShape {
+        /// The identifier of the application.
+        public let applicationIdentifier: String
+
+        public init(applicationIdentifier: String) {
+            self.applicationIdentifier = applicationIdentifier
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case applicationIdentifier = "ApplicationIdentifier"
+        }
+    }
+
+    public struct Entitlement: AWSDecodableShape {
+        /// Specifies whether all or selected apps are entitled.
+        public let appVisibility: AppVisibility
+        /// The attributes of the entitlement.
+        public let attributes: [EntitlementAttribute]
+        /// The time when the entitlement was created.
+        public let createdTime: Date?
+        /// The description of the entitlement.
+        public let description: String?
+        /// The time when the entitlement was last modified.
+        public let lastModifiedTime: Date?
+        /// The name of the entitlement.
+        public let name: String
+        /// The name of the stack with which the entitlement is associated.
+        public let stackName: String
+
+        public init(appVisibility: AppVisibility, attributes: [EntitlementAttribute], createdTime: Date? = nil, description: String? = nil, lastModifiedTime: Date? = nil, name: String, stackName: String) {
+            self.appVisibility = appVisibility
+            self.attributes = attributes
+            self.createdTime = createdTime
+            self.description = description
+            self.lastModifiedTime = lastModifiedTime
+            self.name = name
+            self.stackName = stackName
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case appVisibility = "AppVisibility"
+            case attributes = "Attributes"
+            case createdTime = "CreatedTime"
+            case description = "Description"
+            case lastModifiedTime = "LastModifiedTime"
+            case name = "Name"
+            case stackName = "StackName"
+        }
+    }
+
+    public struct EntitlementAttribute: AWSEncodableShape & AWSDecodableShape {
+        /// A supported AWS IAM SAML PrincipalTag attribute that is matched to the associated value when a user identity federates into an Amazon AppStream 2.0 SAML application. The following are valid values:   roles   department    organization    groups    title    costCenter    userType
+        public let name: String
+        /// A value that is matched to a supported SAML attribute name when a user identity federates into an Amazon AppStream 2.0 SAML application.
+        public let value: String
+
+        public init(name: String, value: String) {
+            self.name = name
+            self.value = value
+        }
+
+        public func validate(name: String) throws {
+            try self.validate(self.name, name: "name", parent: name, min: 1)
+            try self.validate(self.value, name: "value", parent: name, min: 1)
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case name = "Name"
+            case value = "Value"
+        }
+    }
+
     public struct ExpireSessionRequest: AWSEncodableShape {
         /// The identifier of the streaming session.
         public let sessionId: String
@@ -2435,6 +2707,8 @@ extension AppStream {
         public let name: String
         /// The platform of the fleet.
         public let platform: PlatformType?
+        /// The S3 location of the session scripts configuration zip file. This only applies to Elastic fleets.
+        public let sessionScriptS3Location: S3Location?
         /// The current state for the fleet.
         public let state: FleetState
         /// The AppStream 2.0 view that is displayed to your users when they stream from the fleet. When APP is specified, only the windows of applications opened by users display. When DESKTOP is specified, the standard desktop that is provided by the operating system displays. The default value is APP.
@@ -2444,7 +2718,7 @@ extension AppStream {
         /// The VPC configuration for the fleet.
         public let vpcConfig: VpcConfig?
 
-        public init(arn: String, computeCapacityStatus: ComputeCapacityStatus, createdTime: Date? = nil, description: String? = nil, disconnectTimeoutInSeconds: Int? = nil, displayName: String? = nil, domainJoinInfo: DomainJoinInfo? = nil, enableDefaultInternetAccess: Bool? = nil, fleetErrors: [FleetError]? = nil, fleetType: FleetType? = nil, iamRoleArn: String? = nil, idleDisconnectTimeoutInSeconds: Int? = nil, imageArn: String? = nil, imageName: String? = nil, instanceType: String, maxConcurrentSessions: Int? = nil, maxUserDurationInSeconds: Int? = nil, name: String, platform: PlatformType? = nil, state: FleetState, streamView: StreamView? = nil, usbDeviceFilterStrings: [String]? = nil, vpcConfig: VpcConfig? = nil) {
+        public init(arn: String, computeCapacityStatus: ComputeCapacityStatus, createdTime: Date? = nil, description: String? = nil, disconnectTimeoutInSeconds: Int? = nil, displayName: String? = nil, domainJoinInfo: DomainJoinInfo? = nil, enableDefaultInternetAccess: Bool? = nil, fleetErrors: [FleetError]? = nil, fleetType: FleetType? = nil, iamRoleArn: String? = nil, idleDisconnectTimeoutInSeconds: Int? = nil, imageArn: String? = nil, imageName: String? = nil, instanceType: String, maxConcurrentSessions: Int? = nil, maxUserDurationInSeconds: Int? = nil, name: String, platform: PlatformType? = nil, sessionScriptS3Location: S3Location? = nil, state: FleetState, streamView: StreamView? = nil, usbDeviceFilterStrings: [String]? = nil, vpcConfig: VpcConfig? = nil) {
             self.arn = arn
             self.computeCapacityStatus = computeCapacityStatus
             self.createdTime = createdTime
@@ -2464,6 +2738,7 @@ extension AppStream {
             self.maxUserDurationInSeconds = maxUserDurationInSeconds
             self.name = name
             self.platform = platform
+            self.sessionScriptS3Location = sessionScriptS3Location
             self.state = state
             self.streamView = streamView
             self.usbDeviceFilterStrings = usbDeviceFilterStrings
@@ -2490,6 +2765,7 @@ extension AppStream {
             case maxUserDurationInSeconds = "MaxUserDurationInSeconds"
             case name = "Name"
             case platform = "Platform"
+            case sessionScriptS3Location = "SessionScriptS3Location"
             case state = "State"
             case streamView = "StreamView"
             case usbDeviceFilterStrings = "UsbDeviceFilterStrings"
@@ -2813,6 +3089,54 @@ extension AppStream {
 
         private enum CodingKeys: String, CodingKey {
             case names = "Names"
+            case nextToken = "NextToken"
+        }
+    }
+
+    public struct ListEntitledApplicationsRequest: AWSEncodableShape {
+        /// The name of the entitlement.
+        public let entitlementName: String
+        /// The maximum size of each page of results.
+        public let maxResults: Int?
+        /// The pagination token used to retrieve the next page of results for this operation.
+        public let nextToken: String?
+        /// The name of the stack with which the entitlement is associated.
+        public let stackName: String
+
+        public init(entitlementName: String, maxResults: Int? = nil, nextToken: String? = nil, stackName: String) {
+            self.entitlementName = entitlementName
+            self.maxResults = maxResults
+            self.nextToken = nextToken
+            self.stackName = stackName
+        }
+
+        public func validate(name: String) throws {
+            try self.validate(self.entitlementName, name: "entitlementName", parent: name, pattern: "^[a-zA-Z0-9][a-zA-Z0-9_.-]{0,100}$")
+            try self.validate(self.nextToken, name: "nextToken", parent: name, min: 1)
+            try self.validate(self.stackName, name: "stackName", parent: name, pattern: "^[a-zA-Z0-9][a-zA-Z0-9_.-]{0,100}$")
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case entitlementName = "EntitlementName"
+            case maxResults = "MaxResults"
+            case nextToken = "NextToken"
+            case stackName = "StackName"
+        }
+    }
+
+    public struct ListEntitledApplicationsResult: AWSDecodableShape {
+        /// The entitled applications.
+        public let entitledApplications: [EntitledApplication]?
+        /// The pagination token used to retrieve the next page of results for this operation.
+        public let nextToken: String?
+
+        public init(entitledApplications: [EntitledApplication]? = nil, nextToken: String? = nil) {
+            self.entitledApplications = entitledApplications
+            self.nextToken = nextToken
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case entitledApplications = "EntitledApplications"
             case nextToken = "NextToken"
         }
     }
@@ -3422,6 +3746,58 @@ extension AppStream {
         }
     }
 
+    public struct UpdateEntitlementRequest: AWSEncodableShape {
+        /// Specifies whether all or only selected apps are entitled.
+        public let appVisibility: AppVisibility?
+        /// The attributes of the entitlement.
+        public let attributes: [EntitlementAttribute]?
+        /// The description of the entitlement.
+        public let description: String?
+        /// The name of the entitlement.
+        public let name: String
+        /// The name of the stack with which the entitlement is associated.
+        public let stackName: String
+
+        public init(appVisibility: AppVisibility? = nil, attributes: [EntitlementAttribute]? = nil, description: String? = nil, name: String, stackName: String) {
+            self.appVisibility = appVisibility
+            self.attributes = attributes
+            self.description = description
+            self.name = name
+            self.stackName = stackName
+        }
+
+        public func validate(name: String) throws {
+            try self.attributes?.forEach {
+                try $0.validate(name: "\(name).attributes[]")
+            }
+            try self.validate(self.attributes, name: "attributes", parent: name, min: 1)
+            try self.validate(self.description, name: "description", parent: name, max: 256)
+            try self.validate(self.name, name: "name", parent: name, pattern: "^[a-zA-Z0-9][a-zA-Z0-9_.-]{0,100}$")
+            try self.validate(self.stackName, name: "stackName", parent: name, pattern: "^[a-zA-Z0-9][a-zA-Z0-9_.-]{0,100}$")
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case appVisibility = "AppVisibility"
+            case attributes = "Attributes"
+            case description = "Description"
+            case name = "Name"
+            case stackName = "StackName"
+        }
+    }
+
+    public struct UpdateEntitlementResult: AWSDecodableShape {
+        /// The entitlement.
+        public let entitlement: Entitlement?
+
+        public init(entitlement: Entitlement? = nil) {
+            self.entitlement = entitlement
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case entitlement = "Entitlement"
+        }
+    }
+
     public struct UpdateFleetRequest: AWSEncodableShape {
         /// The fleet attributes to delete.
         public let attributesToDelete: [FleetAttribute]?
@@ -3455,6 +3831,8 @@ extension AppStream {
         public let name: String?
         /// The platform of the fleet. WINDOWS_SERVER_2019 and AMAZON_LINUX2 are supported for Elastic fleets.
         public let platform: PlatformType?
+        /// The S3 location of the session scripts configuration zip file. This only applies to Elastic fleets.
+        public let sessionScriptS3Location: S3Location?
         /// The AppStream 2.0 view that is displayed to your users when they stream from the fleet. When APP is specified, only the windows of applications opened by users display. When DESKTOP is specified, the standard desktop that is provided by the operating system displays. The default value is APP.
         public let streamView: StreamView?
         /// The USB device filter strings that specify which USB devices a user can redirect to the fleet streaming session, when using the Windows native client. This is allowed but not required for Elastic fleets.
@@ -3462,7 +3840,7 @@ extension AppStream {
         /// The VPC configuration for the fleet. This is required for Elastic fleets, but not required for other fleet types. Elastic fleets require that you specify at least two subnets in different availability zones.
         public let vpcConfig: VpcConfig?
 
-        public init(attributesToDelete: [FleetAttribute]? = nil, computeCapacity: ComputeCapacity? = nil, description: String? = nil, disconnectTimeoutInSeconds: Int? = nil, displayName: String? = nil, domainJoinInfo: DomainJoinInfo? = nil, enableDefaultInternetAccess: Bool? = nil, iamRoleArn: String? = nil, idleDisconnectTimeoutInSeconds: Int? = nil, imageArn: String? = nil, imageName: String? = nil, instanceType: String? = nil, maxConcurrentSessions: Int? = nil, maxUserDurationInSeconds: Int? = nil, name: String? = nil, platform: PlatformType? = nil, streamView: StreamView? = nil, usbDeviceFilterStrings: [String]? = nil, vpcConfig: VpcConfig? = nil) {
+        public init(attributesToDelete: [FleetAttribute]? = nil, computeCapacity: ComputeCapacity? = nil, description: String? = nil, disconnectTimeoutInSeconds: Int? = nil, displayName: String? = nil, domainJoinInfo: DomainJoinInfo? = nil, enableDefaultInternetAccess: Bool? = nil, iamRoleArn: String? = nil, idleDisconnectTimeoutInSeconds: Int? = nil, imageArn: String? = nil, imageName: String? = nil, instanceType: String? = nil, maxConcurrentSessions: Int? = nil, maxUserDurationInSeconds: Int? = nil, name: String? = nil, platform: PlatformType? = nil, sessionScriptS3Location: S3Location? = nil, streamView: StreamView? = nil, usbDeviceFilterStrings: [String]? = nil, vpcConfig: VpcConfig? = nil) {
             self.attributesToDelete = attributesToDelete
             self.computeCapacity = computeCapacity
             self.description = description
@@ -3479,6 +3857,7 @@ extension AppStream {
             self.maxUserDurationInSeconds = maxUserDurationInSeconds
             self.name = name
             self.platform = platform
+            self.sessionScriptS3Location = sessionScriptS3Location
             self.streamView = streamView
             self.usbDeviceFilterStrings = usbDeviceFilterStrings
             self.vpcConfig = vpcConfig
@@ -3493,6 +3872,7 @@ extension AppStream {
             try self.validate(self.imageName, name: "imageName", parent: name, min: 1)
             try self.validate(self.instanceType, name: "instanceType", parent: name, min: 1)
             try self.validate(self.name, name: "name", parent: name, min: 1)
+            try self.sessionScriptS3Location?.validate(name: "\(name).sessionScriptS3Location")
             try self.usbDeviceFilterStrings?.forEach {
                 try validate($0, name: "usbDeviceFilterStrings[]", parent: name, max: 100)
                 try validate($0, name: "usbDeviceFilterStrings[]", parent: name, min: 0)
@@ -3518,6 +3898,7 @@ extension AppStream {
             case maxUserDurationInSeconds = "MaxUserDurationInSeconds"
             case name = "Name"
             case platform = "Platform"
+            case sessionScriptS3Location = "SessionScriptS3Location"
             case streamView = "StreamView"
             case usbDeviceFilterStrings = "UsbDeviceFilterStrings"
             case vpcConfig = "VpcConfig"

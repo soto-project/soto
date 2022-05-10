@@ -37,6 +37,7 @@ extension CodeGuruReviewer {
         let waiter = AWSClient.Waiter(
             acceptors: [
                 .init(state: .success, matcher: try! JMESPathMatcher("codeReview.state", expected: "Completed")),
+                .init(state: .failure, matcher: try! JMESPathMatcher("codeReview.state", expected: "Failed")),
                 .init(state: .retry, matcher: try! JMESPathMatcher("codeReview.state", expected: "Pending")),
             ],
             minDelayTime: .seconds(10),
@@ -61,6 +62,7 @@ extension CodeGuruReviewer {
         let waiter = AWSClient.Waiter(
             acceptors: [
                 .init(state: .success, matcher: try! JMESPathMatcher("repositoryAssociation.state", expected: "Associated")),
+                .init(state: .failure, matcher: try! JMESPathMatcher("repositoryAssociation.state", expected: "Failed")),
                 .init(state: .retry, matcher: try! JMESPathMatcher("repositoryAssociation.state", expected: "Associating")),
             ],
             minDelayTime: .seconds(10),

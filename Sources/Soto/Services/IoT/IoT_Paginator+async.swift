@@ -550,6 +550,28 @@ extension IoT {
         )
     }
 
+    ///  Lists the values reported for an IoT Device Defender metric (device-side metric, cloud-side metric, or custom metric) by the given thing during the specified time period.
+    /// Return PaginatorSequence for operation.
+    ///
+    /// - Parameters:
+    ///   - input: Input for request
+    ///   - logger: Logger used flot logging
+    ///   - eventLoop: EventLoop to run this process on
+    public func listMetricValuesPaginator(
+        _ input: ListMetricValuesRequest,
+        logger: Logger = AWSClient.loggingDisabled,
+        on eventLoop: EventLoop? = nil
+    ) -> AWSClient.PaginatorSequence<ListMetricValuesRequest, ListMetricValuesResponse> {
+        return .init(
+            input: input,
+            command: listMetricValues,
+            inputKey: \ListMetricValuesRequest.nextToken,
+            outputKey: \ListMetricValuesResponse.nextToken,
+            logger: logger,
+            on: eventLoop
+        )
+    }
+
     ///  Gets a list of all mitigation actions that match the specified filter criteria. Requires permission to access the ListMitigationActions action.
     /// Return PaginatorSequence for operation.
     ///

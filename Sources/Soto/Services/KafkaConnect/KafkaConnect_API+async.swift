@@ -42,6 +42,11 @@ extension KafkaConnect {
         return try await self.client.execute(operation: "DeleteConnector", path: "/v1/connectors/{connectorArn}", httpMethod: .DELETE, serviceConfig: self.config, input: input, logger: logger, on: eventLoop)
     }
 
+    /// Deletes a custom plugin.
+    public func deleteCustomPlugin(_ input: DeleteCustomPluginRequest, logger: Logger = AWSClient.loggingDisabled, on eventLoop: EventLoop? = nil) async throws -> DeleteCustomPluginResponse {
+        return try await self.client.execute(operation: "DeleteCustomPlugin", path: "/v1/custom-plugins/{customPluginArn}", httpMethod: .DELETE, serviceConfig: self.config, input: input, logger: logger, on: eventLoop)
+    }
+
     /// Returns summary information about the connector.
     public func describeConnector(_ input: DescribeConnectorRequest, logger: Logger = AWSClient.loggingDisabled, on eventLoop: EventLoop? = nil) async throws -> DescribeConnectorResponse {
         return try await self.client.execute(operation: "DescribeConnector", path: "/v1/connectors/{connectorArn}", httpMethod: .GET, serviceConfig: self.config, input: input, logger: logger, on: eventLoop)

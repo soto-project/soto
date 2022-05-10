@@ -53,6 +53,14 @@ extension Amplify {
 
     public enum Platform: String, CustomStringConvertible, Codable {
         case web = "WEB"
+        case webDynamic = "WEB_DYNAMIC"
+        public var description: String { return self.rawValue }
+    }
+
+    public enum RepositoryCloneMethod: String, CustomStringConvertible, Codable {
+        case sigv4 = "SIGV4"
+        case ssh = "SSH"
+        case token = "TOKEN"
         public var description: String { return self.rawValue }
     }
 
@@ -76,7 +84,7 @@ extension Amplify {
         public let autoBranchCreationConfig: AutoBranchCreationConfig?
         ///  Describes the automated branch creation glob patterns for the Amplify app.
         public let autoBranchCreationPatterns: [String]?
-        ///  The basic authorization credentials for branches for the Amplify app.
+        ///  The basic authorization credentials for branches for the Amplify app. You must base64-encode the authorization credentials and provide them in the format user:password.
         public let basicAuthCredentials: String?
         ///  Describes the content of the build specification (build spec) for the Amplify app.
         public let buildSpec: String?
@@ -108,14 +116,16 @@ extension Amplify {
         public let platform: Platform
         ///  Describes the information about a production branch of the Amplify app.
         public let productionBranch: ProductionBranch?
-        ///  The repository for the Amplify app.
+        ///  The Git repository for the Amplify app.
         public let repository: String?
+        ///  This is for internal use.  The Amplify service uses this parameter to specify the authentication protocol to use to access the Git repository for an Amplify app. Amplify specifies TOKEN for a GitHub repository, SIGV4 for an Amazon Web Services CodeCommit repository, and SSH for GitLab and Bitbucket repositories.
+        public let repositoryCloneMethod: RepositoryCloneMethod?
         ///  The tag for the Amplify app.
         public let tags: [String: String]?
         ///  Updates the date and time for the Amplify app.
         public let updateTime: Date
 
-        public init(appArn: String, appId: String, autoBranchCreationConfig: AutoBranchCreationConfig? = nil, autoBranchCreationPatterns: [String]? = nil, basicAuthCredentials: String? = nil, buildSpec: String? = nil, createTime: Date, customHeaders: String? = nil, customRules: [CustomRule]? = nil, defaultDomain: String, description: String? = nil, enableAutoBranchCreation: Bool? = nil, enableBasicAuth: Bool, enableBranchAutoBuild: Bool, enableBranchAutoDeletion: Bool? = nil, environmentVariables: [String: String]? = nil, iamServiceRoleArn: String? = nil, name: String, platform: Platform, productionBranch: ProductionBranch? = nil, repository: String? = nil, tags: [String: String]? = nil, updateTime: Date) {
+        public init(appArn: String, appId: String, autoBranchCreationConfig: AutoBranchCreationConfig? = nil, autoBranchCreationPatterns: [String]? = nil, basicAuthCredentials: String? = nil, buildSpec: String? = nil, createTime: Date, customHeaders: String? = nil, customRules: [CustomRule]? = nil, defaultDomain: String, description: String? = nil, enableAutoBranchCreation: Bool? = nil, enableBasicAuth: Bool, enableBranchAutoBuild: Bool, enableBranchAutoDeletion: Bool? = nil, environmentVariables: [String: String]? = nil, iamServiceRoleArn: String? = nil, name: String, platform: Platform, productionBranch: ProductionBranch? = nil, repository: String? = nil, repositoryCloneMethod: RepositoryCloneMethod? = nil, tags: [String: String]? = nil, updateTime: Date) {
             self.appArn = appArn
             self.appId = appId
             self.autoBranchCreationConfig = autoBranchCreationConfig
@@ -137,6 +147,7 @@ extension Amplify {
             self.platform = platform
             self.productionBranch = productionBranch
             self.repository = repository
+            self.repositoryCloneMethod = repositoryCloneMethod
             self.tags = tags
             self.updateTime = updateTime
         }
@@ -163,6 +174,7 @@ extension Amplify {
             case platform
             case productionBranch
             case repository
+            case repositoryCloneMethod
             case tags
             case updateTime
         }
@@ -186,7 +198,7 @@ extension Amplify {
     }
 
     public struct AutoBranchCreationConfig: AWSEncodableShape & AWSDecodableShape {
-        ///  The basic authorization credentials for the autocreated branch.
+        ///  The basic authorization credentials for the autocreated branch. You must base64-encode the authorization credentials and provide them in the format user:password.
         public let basicAuthCredentials: String?
         ///  The build specification (build spec) for the autocreated branch.
         public let buildSpec: String?
@@ -222,14 +234,20 @@ extension Amplify {
 
         public func validate(name: String) throws {
             try self.validate(self.basicAuthCredentials, name: "basicAuthCredentials", parent: name, max: 2000)
+            try self.validate(self.basicAuthCredentials, name: "basicAuthCredentials", parent: name, pattern: "(?s).*")
             try self.validate(self.buildSpec, name: "buildSpec", parent: name, max: 25000)
             try self.validate(self.buildSpec, name: "buildSpec", parent: name, min: 1)
+            try self.validate(self.buildSpec, name: "buildSpec", parent: name, pattern: "(?s).+")
             try self.environmentVariables?.forEach {
                 try validate($0.key, name: "environmentVariables.key", parent: name, max: 255)
-                try validate($0.value, name: "environmentVariables[\"\($0.key)\"]", parent: name, max: 1000)
+                try validate($0.key, name: "environmentVariables.key", parent: name, pattern: "(?s).*")
+                try validate($0.value, name: "environmentVariables[\"\($0.key)\"]", parent: name, max: 5500)
+                try validate($0.value, name: "environmentVariables[\"\($0.key)\"]", parent: name, pattern: "(?s).*")
             }
             try self.validate(self.framework, name: "framework", parent: name, max: 255)
+            try self.validate(self.framework, name: "framework", parent: name, pattern: "(?s).*")
             try self.validate(self.pullRequestEnvironmentName, name: "pullRequestEnvironmentName", parent: name, max: 20)
+            try self.validate(self.pullRequestEnvironmentName, name: "pullRequestEnvironmentName", parent: name, pattern: "(?s).*")
         }
 
         private enum CodingKeys: String, CodingKey {
@@ -286,7 +304,7 @@ extension Amplify {
         public let associatedResources: [String]?
         ///  The Amazon Resource Name (ARN) for a backend environment that is part of an Amplify app.
         public let backendEnvironmentArn: String?
-        ///  The basic authorization credentials for a branch of an Amplify app.
+        ///  The basic authorization credentials for a branch of an Amplify app. You must base64-encode the authorization credentials and provide them in the format user:password.
         public let basicAuthCredentials: String?
         ///  The Amazon Resource Name (ARN) for a branch that is part of an Amplify app.
         public let branchArn: String
@@ -397,13 +415,13 @@ extension Amplify {
     }
 
     public struct CreateAppRequest: AWSEncodableShape {
-        ///  The personal access token for a third-party source control system for an Amplify app. The personal access token is used to create a webhook and a read-only deploy key. The token is not stored.
+        /// The personal access token for a GitHub repository for an Amplify app. The personal access token is used to authorize access to a GitHub repository using the Amplify GitHub App. The token is not stored. Use accessToken for GitHub repositories only. To authorize access to a repository provider such as Bitbucket or CodeCommit, use oauthToken. You must specify either accessToken or oauthToken when you create a new app. Existing Amplify apps deployed from a GitHub repository using OAuth continue to work with CI/CD. However, we strongly recommend that you migrate these apps to use the GitHub App. For more information, see Migrating an existing OAuth app to the Amplify GitHub App in the Amplify User Guide .
         public let accessToken: String?
         ///  The automated branch creation configuration for an Amplify app.
         public let autoBranchCreationConfig: AutoBranchCreationConfig?
         ///  The automated branch creation glob patterns for an Amplify app.
         public let autoBranchCreationPatterns: [String]?
-        ///  The credentials for basic authorization for an Amplify app.
+        ///  The credentials for basic authorization for an Amplify app. You must base64-encode the authorization credentials and provide them in the format user:password.
         public let basicAuthCredentials: String?
         ///  The build specification (build spec) for an Amplify app.
         public let buildSpec: String?
@@ -427,7 +445,7 @@ extension Amplify {
         public let iamServiceRoleArn: String?
         ///  The name for an Amplify app.
         public let name: String
-        ///  The OAuth token for a third-party source control system for an Amplify app. The OAuth token is used to create a webhook and a read-only deploy key. The OAuth token is not stored.
+        /// The OAuth token for a third-party source control system for an Amplify app. The OAuth token is used to create a webhook and a read-only deploy key using SSH cloning. The OAuth token is not stored. Use oauthToken for repository providers other than GitHub, such as Bitbucket or CodeCommit. To authorize access to GitHub as your repository provider, use accessToken. You must specify either oauthToken or accessToken when you create a new app. Existing Amplify apps deployed from a GitHub repository using OAuth continue to work with CI/CD. However, we strongly recommend that you migrate these apps to use the GitHub App. For more information, see Migrating an existing OAuth app to the Amplify GitHub App in the Amplify User Guide .
         public let oauthToken: String?
         ///  The platform or framework for an Amplify app.
         public let platform: Platform?
@@ -461,35 +479,48 @@ extension Amplify {
         public func validate(name: String) throws {
             try self.validate(self.accessToken, name: "accessToken", parent: name, max: 255)
             try self.validate(self.accessToken, name: "accessToken", parent: name, min: 1)
+            try self.validate(self.accessToken, name: "accessToken", parent: name, pattern: "(?s).+")
             try self.autoBranchCreationConfig?.validate(name: "\(name).autoBranchCreationConfig")
             try self.autoBranchCreationPatterns?.forEach {
                 try validate($0, name: "autoBranchCreationPatterns[]", parent: name, max: 2048)
                 try validate($0, name: "autoBranchCreationPatterns[]", parent: name, min: 1)
+                try validate($0, name: "autoBranchCreationPatterns[]", parent: name, pattern: "(?s).+")
             }
             try self.validate(self.basicAuthCredentials, name: "basicAuthCredentials", parent: name, max: 2000)
+            try self.validate(self.basicAuthCredentials, name: "basicAuthCredentials", parent: name, pattern: "(?s).*")
             try self.validate(self.buildSpec, name: "buildSpec", parent: name, max: 25000)
             try self.validate(self.buildSpec, name: "buildSpec", parent: name, min: 1)
+            try self.validate(self.buildSpec, name: "buildSpec", parent: name, pattern: "(?s).+")
             try self.validate(self.customHeaders, name: "customHeaders", parent: name, max: 25000)
-            try self.validate(self.customHeaders, name: "customHeaders", parent: name, min: 1)
+            try self.validate(self.customHeaders, name: "customHeaders", parent: name, min: 0)
+            try self.validate(self.customHeaders, name: "customHeaders", parent: name, pattern: "(?s).*")
             try self.customRules?.forEach {
                 try $0.validate(name: "\(name).customRules[]")
             }
             try self.validate(self.description, name: "description", parent: name, max: 1000)
+            try self.validate(self.description, name: "description", parent: name, pattern: "(?s).*")
             try self.environmentVariables?.forEach {
                 try validate($0.key, name: "environmentVariables.key", parent: name, max: 255)
-                try validate($0.value, name: "environmentVariables[\"\($0.key)\"]", parent: name, max: 1000)
+                try validate($0.key, name: "environmentVariables.key", parent: name, pattern: "(?s).*")
+                try validate($0.value, name: "environmentVariables[\"\($0.key)\"]", parent: name, max: 5500)
+                try validate($0.value, name: "environmentVariables[\"\($0.key)\"]", parent: name, pattern: "(?s).*")
             }
             try self.validate(self.iamServiceRoleArn, name: "iamServiceRoleArn", parent: name, max: 1000)
-            try self.validate(self.iamServiceRoleArn, name: "iamServiceRoleArn", parent: name, min: 1)
+            try self.validate(self.iamServiceRoleArn, name: "iamServiceRoleArn", parent: name, min: 0)
+            try self.validate(self.iamServiceRoleArn, name: "iamServiceRoleArn", parent: name, pattern: "(?s).*")
             try self.validate(self.name, name: "name", parent: name, max: 255)
             try self.validate(self.name, name: "name", parent: name, min: 1)
+            try self.validate(self.name, name: "name", parent: name, pattern: "(?s).+")
             try self.validate(self.oauthToken, name: "oauthToken", parent: name, max: 1000)
+            try self.validate(self.oauthToken, name: "oauthToken", parent: name, pattern: "(?s).*")
             try self.validate(self.repository, name: "repository", parent: name, max: 1000)
+            try self.validate(self.repository, name: "repository", parent: name, pattern: "(?s).*")
             try self.tags?.forEach {
                 try validate($0.key, name: "tags.key", parent: name, max: 128)
                 try validate($0.key, name: "tags.key", parent: name, min: 1)
                 try validate($0.key, name: "tags.key", parent: name, pattern: "^(?!aws:)[a-zA-Z+-=._:/]+$")
                 try validate($0.value, name: "tags[\"\($0.key)\"]", parent: name, max: 256)
+                try validate($0.value, name: "tags[\"\($0.key)\"]", parent: name, pattern: "^([\\p{L}\\p{Z}\\p{N}_.:/=+\\-@]*)$")
             }
         }
 
@@ -555,10 +586,13 @@ extension Amplify {
             try self.validate(self.appId, name: "appId", parent: name, pattern: "d[a-z0-9]+")
             try self.validate(self.deploymentArtifacts, name: "deploymentArtifacts", parent: name, max: 1000)
             try self.validate(self.deploymentArtifacts, name: "deploymentArtifacts", parent: name, min: 1)
+            try self.validate(self.deploymentArtifacts, name: "deploymentArtifacts", parent: name, pattern: "(?s).+")
             try self.validate(self.environmentName, name: "environmentName", parent: name, max: 255)
             try self.validate(self.environmentName, name: "environmentName", parent: name, min: 1)
+            try self.validate(self.environmentName, name: "environmentName", parent: name, pattern: "(?s).+")
             try self.validate(self.stackName, name: "stackName", parent: name, max: 255)
             try self.validate(self.stackName, name: "stackName", parent: name, min: 1)
+            try self.validate(self.stackName, name: "stackName", parent: name, pattern: "(?s).+")
         }
 
         private enum CodingKeys: String, CodingKey {
@@ -590,7 +624,7 @@ extension Amplify {
         public let appId: String
         ///  The Amazon Resource Name (ARN) for a backend environment that is part of an Amplify app.
         public let backendEnvironmentArn: String?
-        ///  The basic authorization credentials for the branch.
+        ///  The basic authorization credentials for the branch. You must base64-encode the authorization credentials and provide them in the format user:password.
         public let basicAuthCredentials: String?
         ///  The name for the branch.
         public let branchName: String
@@ -649,26 +683,40 @@ extension Amplify {
             try self.validate(self.appId, name: "appId", parent: name, min: 1)
             try self.validate(self.appId, name: "appId", parent: name, pattern: "d[a-z0-9]+")
             try self.validate(self.backendEnvironmentArn, name: "backendEnvironmentArn", parent: name, max: 1000)
-            try self.validate(self.backendEnvironmentArn, name: "backendEnvironmentArn", parent: name, min: 1)
+            try self.validate(self.backendEnvironmentArn, name: "backendEnvironmentArn", parent: name, min: 0)
+            try self.validate(self.backendEnvironmentArn, name: "backendEnvironmentArn", parent: name, pattern: "(?s).*")
             try self.validate(self.basicAuthCredentials, name: "basicAuthCredentials", parent: name, max: 2000)
+            try self.validate(self.basicAuthCredentials, name: "basicAuthCredentials", parent: name, pattern: "(?s).*")
             try self.validate(self.branchName, name: "branchName", parent: name, max: 255)
             try self.validate(self.branchName, name: "branchName", parent: name, min: 1)
+            try self.validate(self.branchName, name: "branchName", parent: name, pattern: "(?s).+")
             try self.validate(self.buildSpec, name: "buildSpec", parent: name, max: 25000)
             try self.validate(self.buildSpec, name: "buildSpec", parent: name, min: 1)
+            try self.validate(self.buildSpec, name: "buildSpec", parent: name, pattern: "(?s).+")
             try self.validate(self.description, name: "description", parent: name, max: 1000)
+            try self.validate(self.description, name: "description", parent: name, pattern: "(?s).*")
             try self.validate(self.displayName, name: "displayName", parent: name, max: 255)
+            try self.validate(self.displayName, name: "displayName", parent: name, pattern: "(?s).*")
             try self.environmentVariables?.forEach {
                 try validate($0.key, name: "environmentVariables.key", parent: name, max: 255)
-                try validate($0.value, name: "environmentVariables[\"\($0.key)\"]", parent: name, max: 1000)
+                try validate($0.key, name: "environmentVariables.key", parent: name, pattern: "(?s).*")
+                try validate($0.value, name: "environmentVariables[\"\($0.key)\"]", parent: name, max: 5500)
+                try validate($0.value, name: "environmentVariables[\"\($0.key)\"]", parent: name, pattern: "(?s).*")
             }
             try self.validate(self.framework, name: "framework", parent: name, max: 255)
+            try self.validate(self.framework, name: "framework", parent: name, pattern: "(?s).*")
             try self.validate(self.pullRequestEnvironmentName, name: "pullRequestEnvironmentName", parent: name, max: 20)
+            try self.validate(self.pullRequestEnvironmentName, name: "pullRequestEnvironmentName", parent: name, pattern: "(?s).*")
             try self.tags?.forEach {
                 try validate($0.key, name: "tags.key", parent: name, max: 128)
                 try validate($0.key, name: "tags.key", parent: name, min: 1)
                 try validate($0.key, name: "tags.key", parent: name, pattern: "^(?!aws:)[a-zA-Z+-=._:/]+$")
                 try validate($0.value, name: "tags[\"\($0.key)\"]", parent: name, max: 256)
+                try validate($0.value, name: "tags[\"\($0.key)\"]", parent: name, pattern: "^([\\p{L}\\p{Z}\\p{N}_.:/=+\\-@]*)$")
             }
+            try self.validate(self.ttl, name: "ttl", parent: name, max: 32)
+            try self.validate(self.ttl, name: "ttl", parent: name, min: 0)
+            try self.validate(self.ttl, name: "ttl", parent: name, pattern: "\\d*")
         }
 
         private enum CodingKeys: String, CodingKey {
@@ -730,9 +778,12 @@ extension Amplify {
             try self.validate(self.appId, name: "appId", parent: name, pattern: "d[a-z0-9]+")
             try self.validate(self.branchName, name: "branchName", parent: name, max: 255)
             try self.validate(self.branchName, name: "branchName", parent: name, min: 1)
+            try self.validate(self.branchName, name: "branchName", parent: name, pattern: "(?s).+")
             try self.fileMap?.forEach {
                 try validate($0.key, name: "fileMap.key", parent: name, max: 255)
+                try validate($0.key, name: "fileMap.key", parent: name, pattern: "(?s).*")
                 try validate($0.value, name: "fileMap[\"\($0.key)\"]", parent: name, max: 32)
+                try validate($0.value, name: "fileMap[\"\($0.key)\"]", parent: name, pattern: "(?s).*")
             }
         }
 
@@ -796,10 +847,12 @@ extension Amplify {
             try self.autoSubDomainCreationPatterns?.forEach {
                 try validate($0, name: "autoSubDomainCreationPatterns[]", parent: name, max: 2048)
                 try validate($0, name: "autoSubDomainCreationPatterns[]", parent: name, min: 1)
+                try validate($0, name: "autoSubDomainCreationPatterns[]", parent: name, pattern: "(?s).+")
             }
             try self.validate(self.autoSubDomainIAMRole, name: "autoSubDomainIAMRole", parent: name, max: 1000)
             try self.validate(self.autoSubDomainIAMRole, name: "autoSubDomainIAMRole", parent: name, pattern: "^$|^arn:aws:iam::\\d{12}:role.+")
-            try self.validate(self.domainName, name: "domainName", parent: name, max: 255)
+            try self.validate(self.domainName, name: "domainName", parent: name, max: 64)
+            try self.validate(self.domainName, name: "domainName", parent: name, pattern: "^(((?!-)[A-Za-z0-9-]{0,62}[A-Za-z0-9])\\.)+((?!-)[A-Za-z0-9-]{1,62}[A-Za-z0-9])(\\.)?$")
             try self.subDomainSettings.forEach {
                 try $0.validate(name: "\(name).subDomainSettings[]")
             }
@@ -852,7 +905,9 @@ extension Amplify {
             try self.validate(self.appId, name: "appId", parent: name, pattern: "d[a-z0-9]+")
             try self.validate(self.branchName, name: "branchName", parent: name, max: 255)
             try self.validate(self.branchName, name: "branchName", parent: name, min: 1)
+            try self.validate(self.branchName, name: "branchName", parent: name, pattern: "(?s).+")
             try self.validate(self.description, name: "description", parent: name, max: 1000)
+            try self.validate(self.description, name: "description", parent: name, pattern: "(?s).*")
         }
 
         private enum CodingKeys: String, CodingKey {
@@ -893,13 +948,17 @@ extension Amplify {
 
         public func validate(name: String) throws {
             try self.validate(self.condition, name: "condition", parent: name, max: 2048)
-            try self.validate(self.condition, name: "condition", parent: name, min: 1)
+            try self.validate(self.condition, name: "condition", parent: name, min: 0)
+            try self.validate(self.condition, name: "condition", parent: name, pattern: "(?s).*")
             try self.validate(self.source, name: "source", parent: name, max: 2048)
             try self.validate(self.source, name: "source", parent: name, min: 1)
+            try self.validate(self.source, name: "source", parent: name, pattern: "(?s).+")
             try self.validate(self.status, name: "status", parent: name, max: 7)
             try self.validate(self.status, name: "status", parent: name, min: 3)
+            try self.validate(self.status, name: "status", parent: name, pattern: ".{3,7}")
             try self.validate(self.target, name: "target", parent: name, max: 2048)
             try self.validate(self.target, name: "target", parent: name, min: 1)
+            try self.validate(self.target, name: "target", parent: name, pattern: "(?s).+")
         }
 
         private enum CodingKeys: String, CodingKey {
@@ -965,6 +1024,7 @@ extension Amplify {
             try self.validate(self.appId, name: "appId", parent: name, pattern: "d[a-z0-9]+")
             try self.validate(self.environmentName, name: "environmentName", parent: name, max: 255)
             try self.validate(self.environmentName, name: "environmentName", parent: name, min: 1)
+            try self.validate(self.environmentName, name: "environmentName", parent: name, pattern: "(?s).+")
         }
 
         private enum CodingKeys: CodingKey {}
@@ -1005,6 +1065,7 @@ extension Amplify {
             try self.validate(self.appId, name: "appId", parent: name, pattern: "d[a-z0-9]+")
             try self.validate(self.branchName, name: "branchName", parent: name, max: 255)
             try self.validate(self.branchName, name: "branchName", parent: name, min: 1)
+            try self.validate(self.branchName, name: "branchName", parent: name, pattern: "(?s).+")
         }
 
         private enum CodingKeys: CodingKey {}
@@ -1043,7 +1104,8 @@ extension Amplify {
             try self.validate(self.appId, name: "appId", parent: name, max: 20)
             try self.validate(self.appId, name: "appId", parent: name, min: 1)
             try self.validate(self.appId, name: "appId", parent: name, pattern: "d[a-z0-9]+")
-            try self.validate(self.domainName, name: "domainName", parent: name, max: 255)
+            try self.validate(self.domainName, name: "domainName", parent: name, max: 64)
+            try self.validate(self.domainName, name: "domainName", parent: name, pattern: "^(((?!-)[A-Za-z0-9-]{0,62}[A-Za-z0-9])\\.)+((?!-)[A-Za-z0-9-]{1,62}[A-Za-z0-9])(\\.)?$")
         }
 
         private enum CodingKeys: CodingKey {}
@@ -1087,7 +1149,9 @@ extension Amplify {
             try self.validate(self.appId, name: "appId", parent: name, pattern: "d[a-z0-9]+")
             try self.validate(self.branchName, name: "branchName", parent: name, max: 255)
             try self.validate(self.branchName, name: "branchName", parent: name, min: 1)
+            try self.validate(self.branchName, name: "branchName", parent: name, pattern: "(?s).+")
             try self.validate(self.jobId, name: "jobId", parent: name, max: 255)
+            try self.validate(self.jobId, name: "jobId", parent: name, pattern: "[0-9]+")
         }
 
         private enum CodingKeys: CodingKey {}
@@ -1119,6 +1183,7 @@ extension Amplify {
 
         public func validate(name: String) throws {
             try self.validate(self.webhookId, name: "webhookId", parent: name, max: 255)
+            try self.validate(self.webhookId, name: "webhookId", parent: name, pattern: "(?s).*")
         }
 
         private enum CodingKeys: CodingKey {}
@@ -1207,7 +1272,8 @@ extension Amplify {
             try self.validate(self.appId, name: "appId", parent: name, max: 20)
             try self.validate(self.appId, name: "appId", parent: name, min: 1)
             try self.validate(self.appId, name: "appId", parent: name, pattern: "d[a-z0-9]+")
-            try self.validate(self.domainName, name: "domainName", parent: name, max: 255)
+            try self.validate(self.domainName, name: "domainName", parent: name, max: 64)
+            try self.validate(self.domainName, name: "domainName", parent: name, pattern: "^(((?!-)[A-Za-z0-9-]{0,62}[A-Za-z0-9])\\.)+((?!-)[A-Za-z0-9-]{1,62}[A-Za-z0-9])(\\.)?$")
         }
 
         private enum CodingKeys: String, CodingKey {
@@ -1277,6 +1343,7 @@ extension Amplify {
 
         public func validate(name: String) throws {
             try self.validate(self.artifactId, name: "artifactId", parent: name, max: 255)
+            try self.validate(self.artifactId, name: "artifactId", parent: name, pattern: "(?s).*")
         }
 
         private enum CodingKeys: CodingKey {}
@@ -1321,6 +1388,7 @@ extension Amplify {
             try self.validate(self.appId, name: "appId", parent: name, pattern: "d[a-z0-9]+")
             try self.validate(self.environmentName, name: "environmentName", parent: name, max: 255)
             try self.validate(self.environmentName, name: "environmentName", parent: name, min: 1)
+            try self.validate(self.environmentName, name: "environmentName", parent: name, pattern: "(?s).+")
         }
 
         private enum CodingKeys: CodingKey {}
@@ -1361,6 +1429,7 @@ extension Amplify {
             try self.validate(self.appId, name: "appId", parent: name, pattern: "d[a-z0-9]+")
             try self.validate(self.branchName, name: "branchName", parent: name, max: 255)
             try self.validate(self.branchName, name: "branchName", parent: name, min: 1)
+            try self.validate(self.branchName, name: "branchName", parent: name, pattern: "(?s).+")
         }
 
         private enum CodingKeys: CodingKey {}
@@ -1398,7 +1467,8 @@ extension Amplify {
             try self.validate(self.appId, name: "appId", parent: name, max: 20)
             try self.validate(self.appId, name: "appId", parent: name, min: 1)
             try self.validate(self.appId, name: "appId", parent: name, pattern: "d[a-z0-9]+")
-            try self.validate(self.domainName, name: "domainName", parent: name, max: 255)
+            try self.validate(self.domainName, name: "domainName", parent: name, max: 64)
+            try self.validate(self.domainName, name: "domainName", parent: name, pattern: "^(((?!-)[A-Za-z0-9-]{0,62}[A-Za-z0-9])\\.)+((?!-)[A-Za-z0-9-]{1,62}[A-Za-z0-9])(\\.)?$")
         }
 
         private enum CodingKeys: CodingKey {}
@@ -1443,7 +1513,9 @@ extension Amplify {
             try self.validate(self.appId, name: "appId", parent: name, pattern: "d[a-z0-9]+")
             try self.validate(self.branchName, name: "branchName", parent: name, max: 255)
             try self.validate(self.branchName, name: "branchName", parent: name, min: 1)
+            try self.validate(self.branchName, name: "branchName", parent: name, pattern: "(?s).+")
             try self.validate(self.jobId, name: "jobId", parent: name, max: 255)
+            try self.validate(self.jobId, name: "jobId", parent: name, pattern: "[0-9]+")
         }
 
         private enum CodingKeys: CodingKey {}
@@ -1475,6 +1547,7 @@ extension Amplify {
 
         public func validate(name: String) throws {
             try self.validate(self.webhookId, name: "webhookId", parent: name, max: 255)
+            try self.validate(self.webhookId, name: "webhookId", parent: name, pattern: "(?s).*")
         }
 
         private enum CodingKeys: CodingKey {}
@@ -1575,6 +1648,7 @@ extension Amplify {
             try self.validate(self.maxResults, name: "maxResults", parent: name, max: 100)
             try self.validate(self.maxResults, name: "maxResults", parent: name, min: 0)
             try self.validate(self.nextToken, name: "nextToken", parent: name, max: 2000)
+            try self.validate(self.nextToken, name: "nextToken", parent: name, pattern: "(?s).*")
         }
 
         private enum CodingKeys: CodingKey {}
@@ -1631,10 +1705,13 @@ extension Amplify {
             try self.validate(self.appId, name: "appId", parent: name, pattern: "d[a-z0-9]+")
             try self.validate(self.branchName, name: "branchName", parent: name, max: 255)
             try self.validate(self.branchName, name: "branchName", parent: name, min: 1)
+            try self.validate(self.branchName, name: "branchName", parent: name, pattern: "(?s).+")
             try self.validate(self.jobId, name: "jobId", parent: name, max: 255)
+            try self.validate(self.jobId, name: "jobId", parent: name, pattern: "[0-9]+")
             try self.validate(self.maxResults, name: "maxResults", parent: name, max: 100)
             try self.validate(self.maxResults, name: "maxResults", parent: name, min: 0)
             try self.validate(self.nextToken, name: "nextToken", parent: name, max: 2000)
+            try self.validate(self.nextToken, name: "nextToken", parent: name, pattern: "(?s).*")
         }
 
         private enum CodingKeys: CodingKey {}
@@ -1687,9 +1764,11 @@ extension Amplify {
             try self.validate(self.appId, name: "appId", parent: name, pattern: "d[a-z0-9]+")
             try self.validate(self.environmentName, name: "environmentName", parent: name, max: 255)
             try self.validate(self.environmentName, name: "environmentName", parent: name, min: 1)
+            try self.validate(self.environmentName, name: "environmentName", parent: name, pattern: "(?s).+")
             try self.validate(self.maxResults, name: "maxResults", parent: name, max: 100)
             try self.validate(self.maxResults, name: "maxResults", parent: name, min: 0)
             try self.validate(self.nextToken, name: "nextToken", parent: name, max: 2000)
+            try self.validate(self.nextToken, name: "nextToken", parent: name, pattern: "(?s).*")
         }
 
         private enum CodingKeys: CodingKey {}
@@ -1739,6 +1818,7 @@ extension Amplify {
             try self.validate(self.maxResults, name: "maxResults", parent: name, max: 100)
             try self.validate(self.maxResults, name: "maxResults", parent: name, min: 0)
             try self.validate(self.nextToken, name: "nextToken", parent: name, max: 2000)
+            try self.validate(self.nextToken, name: "nextToken", parent: name, pattern: "(?s).*")
         }
 
         private enum CodingKeys: CodingKey {}
@@ -1788,6 +1868,7 @@ extension Amplify {
             try self.validate(self.maxResults, name: "maxResults", parent: name, max: 100)
             try self.validate(self.maxResults, name: "maxResults", parent: name, min: 0)
             try self.validate(self.nextToken, name: "nextToken", parent: name, max: 2000)
+            try self.validate(self.nextToken, name: "nextToken", parent: name, pattern: "(?s).*")
         }
 
         private enum CodingKeys: CodingKey {}
@@ -1840,9 +1921,11 @@ extension Amplify {
             try self.validate(self.appId, name: "appId", parent: name, pattern: "d[a-z0-9]+")
             try self.validate(self.branchName, name: "branchName", parent: name, max: 255)
             try self.validate(self.branchName, name: "branchName", parent: name, min: 1)
+            try self.validate(self.branchName, name: "branchName", parent: name, pattern: "(?s).+")
             try self.validate(self.maxResults, name: "maxResults", parent: name, max: 100)
             try self.validate(self.maxResults, name: "maxResults", parent: name, min: 0)
             try self.validate(self.nextToken, name: "nextToken", parent: name, max: 2000)
+            try self.validate(self.nextToken, name: "nextToken", parent: name, pattern: "(?s).*")
         }
 
         private enum CodingKeys: CodingKey {}
@@ -1878,6 +1961,8 @@ extension Amplify {
         }
 
         public func validate(name: String) throws {
+            try self.validate(self.resourceArn, name: "resourceArn", parent: name, max: 2048)
+            try self.validate(self.resourceArn, name: "resourceArn", parent: name, min: 0)
             try self.validate(self.resourceArn, name: "resourceArn", parent: name, pattern: "^arn:aws:amplify:.*")
         }
 
@@ -1924,6 +2009,7 @@ extension Amplify {
             try self.validate(self.maxResults, name: "maxResults", parent: name, max: 100)
             try self.validate(self.maxResults, name: "maxResults", parent: name, min: 0)
             try self.validate(self.nextToken, name: "nextToken", parent: name, max: 2000)
+            try self.validate(self.nextToken, name: "nextToken", parent: name, pattern: "(?s).*")
         }
 
         private enum CodingKeys: CodingKey {}
@@ -1999,8 +2085,11 @@ extension Amplify {
             try self.validate(self.appId, name: "appId", parent: name, pattern: "d[a-z0-9]+")
             try self.validate(self.branchName, name: "branchName", parent: name, max: 255)
             try self.validate(self.branchName, name: "branchName", parent: name, min: 1)
+            try self.validate(self.branchName, name: "branchName", parent: name, pattern: "(?s).+")
             try self.validate(self.jobId, name: "jobId", parent: name, max: 255)
-            try self.validate(self.sourceUrl, name: "sourceUrl", parent: name, max: 1000)
+            try self.validate(self.jobId, name: "jobId", parent: name, pattern: "[0-9]+")
+            try self.validate(self.sourceUrl, name: "sourceUrl", parent: name, max: 3000)
+            try self.validate(self.sourceUrl, name: "sourceUrl", parent: name, pattern: "(?s).*")
         }
 
         private enum CodingKeys: String, CodingKey {
@@ -2062,10 +2151,15 @@ extension Amplify {
             try self.validate(self.appId, name: "appId", parent: name, pattern: "d[a-z0-9]+")
             try self.validate(self.branchName, name: "branchName", parent: name, max: 255)
             try self.validate(self.branchName, name: "branchName", parent: name, min: 1)
+            try self.validate(self.branchName, name: "branchName", parent: name, pattern: "(?s).+")
             try self.validate(self.commitId, name: "commitId", parent: name, max: 255)
+            try self.validate(self.commitId, name: "commitId", parent: name, pattern: "(?s).*")
             try self.validate(self.commitMessage, name: "commitMessage", parent: name, max: 10000)
+            try self.validate(self.commitMessage, name: "commitMessage", parent: name, pattern: "(?s).*")
             try self.validate(self.jobId, name: "jobId", parent: name, max: 255)
+            try self.validate(self.jobId, name: "jobId", parent: name, pattern: "[0-9]+")
             try self.validate(self.jobReason, name: "jobReason", parent: name, max: 255)
+            try self.validate(self.jobReason, name: "jobReason", parent: name, pattern: "(?s).*")
         }
 
         private enum CodingKeys: String, CodingKey {
@@ -2170,7 +2264,9 @@ extension Amplify {
             try self.validate(self.appId, name: "appId", parent: name, pattern: "d[a-z0-9]+")
             try self.validate(self.branchName, name: "branchName", parent: name, max: 255)
             try self.validate(self.branchName, name: "branchName", parent: name, min: 1)
+            try self.validate(self.branchName, name: "branchName", parent: name, pattern: "(?s).+")
             try self.validate(self.jobId, name: "jobId", parent: name, max: 255)
+            try self.validate(self.jobId, name: "jobId", parent: name, pattern: "[0-9]+")
         }
 
         private enum CodingKeys: CodingKey {}
@@ -2224,7 +2320,9 @@ extension Amplify {
         public func validate(name: String) throws {
             try self.validate(self.branchName, name: "branchName", parent: name, max: 255)
             try self.validate(self.branchName, name: "branchName", parent: name, min: 1)
+            try self.validate(self.branchName, name: "branchName", parent: name, pattern: "(?s).+")
             try self.validate(self.prefix, name: "prefix", parent: name, max: 255)
+            try self.validate(self.prefix, name: "prefix", parent: name, pattern: "(?s).*")
         }
 
         private enum CodingKeys: String, CodingKey {
@@ -2249,12 +2347,15 @@ extension Amplify {
         }
 
         public func validate(name: String) throws {
+            try self.validate(self.resourceArn, name: "resourceArn", parent: name, max: 2048)
+            try self.validate(self.resourceArn, name: "resourceArn", parent: name, min: 0)
             try self.validate(self.resourceArn, name: "resourceArn", parent: name, pattern: "^arn:aws:amplify:.*")
             try self.tags.forEach {
                 try validate($0.key, name: "tags.key", parent: name, max: 128)
                 try validate($0.key, name: "tags.key", parent: name, min: 1)
                 try validate($0.key, name: "tags.key", parent: name, pattern: "^(?!aws:)[a-zA-Z+-=._:/]+$")
                 try validate($0.value, name: "tags[\"\($0.key)\"]", parent: name, max: 256)
+                try validate($0.value, name: "tags[\"\($0.key)\"]", parent: name, pattern: "^([\\p{L}\\p{Z}\\p{N}_.:/=+\\-@]*)$")
             }
         }
 
@@ -2284,6 +2385,8 @@ extension Amplify {
         }
 
         public func validate(name: String) throws {
+            try self.validate(self.resourceArn, name: "resourceArn", parent: name, max: 2048)
+            try self.validate(self.resourceArn, name: "resourceArn", parent: name, min: 0)
             try self.validate(self.resourceArn, name: "resourceArn", parent: name, pattern: "^arn:aws:amplify:.*")
             try self.tagKeys.forEach {
                 try validate($0, name: "tagKeys[]", parent: name, max: 128)
@@ -2306,7 +2409,7 @@ extension Amplify {
             AWSMemberEncoding(label: "appId", location: .uri(locationName: "appId"))
         ]
 
-        ///  The personal access token for a third-party source control system for an Amplify app. The token is used to create webhook and a read-only deploy key. The token is not stored.
+        /// The personal access token for a GitHub repository for an Amplify app. The personal access token is used to authorize access to a GitHub repository using the Amplify GitHub App. The token is not stored. Use accessToken for GitHub repositories only. To authorize access to a repository provider such as Bitbucket or CodeCommit, use oauthToken. You must specify either accessToken or oauthToken when you update an app. Existing Amplify apps deployed from a GitHub repository using OAuth continue to work with CI/CD. However, we strongly recommend that you migrate these apps to use the GitHub App. For more information, see Migrating an existing OAuth app to the Amplify GitHub App in the Amplify User Guide .
         public let accessToken: String?
         ///  The unique ID for an Amplify app.
         public let appId: String
@@ -2314,7 +2417,7 @@ extension Amplify {
         public let autoBranchCreationConfig: AutoBranchCreationConfig?
         ///  Describes the automated branch creation glob patterns for an Amplify app.
         public let autoBranchCreationPatterns: [String]?
-        ///  The basic authorization credentials for an Amplify app.
+        ///  The basic authorization credentials for an Amplify app. You must base64-encode the authorization credentials and provide them in the format user:password.
         public let basicAuthCredentials: String?
         ///  The build specification (build spec) for an Amplify app.
         public let buildSpec: String?
@@ -2338,7 +2441,7 @@ extension Amplify {
         public let iamServiceRoleArn: String?
         ///  The name for an Amplify app.
         public let name: String?
-        ///  The OAuth token for a third-party source control system for an Amplify app. The token is used to create a webhook and a read-only deploy key. The OAuth token is not stored.
+        /// The OAuth token for a third-party source control system for an Amplify app. The OAuth token is used to create a webhook and a read-only deploy key using SSH cloning. The OAuth token is not stored. Use oauthToken for repository providers other than GitHub, such as Bitbucket or CodeCommit. To authorize access to GitHub as your repository provider, use accessToken. You must specify either oauthToken or accessToken when you update an app. Existing Amplify apps deployed from a GitHub repository using OAuth continue to work with CI/CD. However, we strongly recommend that you migrate these apps to use the GitHub App. For more information, see Migrating an existing OAuth app to the Amplify GitHub App in the Amplify User Guide .
         public let oauthToken: String?
         ///  The platform for an Amplify app.
         public let platform: Platform?
@@ -2370,6 +2473,7 @@ extension Amplify {
         public func validate(name: String) throws {
             try self.validate(self.accessToken, name: "accessToken", parent: name, max: 255)
             try self.validate(self.accessToken, name: "accessToken", parent: name, min: 1)
+            try self.validate(self.accessToken, name: "accessToken", parent: name, pattern: "(?s).+")
             try self.validate(self.appId, name: "appId", parent: name, max: 20)
             try self.validate(self.appId, name: "appId", parent: name, min: 1)
             try self.validate(self.appId, name: "appId", parent: name, pattern: "d[a-z0-9]+")
@@ -2377,26 +2481,37 @@ extension Amplify {
             try self.autoBranchCreationPatterns?.forEach {
                 try validate($0, name: "autoBranchCreationPatterns[]", parent: name, max: 2048)
                 try validate($0, name: "autoBranchCreationPatterns[]", parent: name, min: 1)
+                try validate($0, name: "autoBranchCreationPatterns[]", parent: name, pattern: "(?s).+")
             }
             try self.validate(self.basicAuthCredentials, name: "basicAuthCredentials", parent: name, max: 2000)
+            try self.validate(self.basicAuthCredentials, name: "basicAuthCredentials", parent: name, pattern: "(?s).*")
             try self.validate(self.buildSpec, name: "buildSpec", parent: name, max: 25000)
             try self.validate(self.buildSpec, name: "buildSpec", parent: name, min: 1)
+            try self.validate(self.buildSpec, name: "buildSpec", parent: name, pattern: "(?s).+")
             try self.validate(self.customHeaders, name: "customHeaders", parent: name, max: 25000)
-            try self.validate(self.customHeaders, name: "customHeaders", parent: name, min: 1)
+            try self.validate(self.customHeaders, name: "customHeaders", parent: name, min: 0)
+            try self.validate(self.customHeaders, name: "customHeaders", parent: name, pattern: "(?s).*")
             try self.customRules?.forEach {
                 try $0.validate(name: "\(name).customRules[]")
             }
             try self.validate(self.description, name: "description", parent: name, max: 1000)
+            try self.validate(self.description, name: "description", parent: name, pattern: "(?s).*")
             try self.environmentVariables?.forEach {
                 try validate($0.key, name: "environmentVariables.key", parent: name, max: 255)
-                try validate($0.value, name: "environmentVariables[\"\($0.key)\"]", parent: name, max: 1000)
+                try validate($0.key, name: "environmentVariables.key", parent: name, pattern: "(?s).*")
+                try validate($0.value, name: "environmentVariables[\"\($0.key)\"]", parent: name, max: 5500)
+                try validate($0.value, name: "environmentVariables[\"\($0.key)\"]", parent: name, pattern: "(?s).*")
             }
             try self.validate(self.iamServiceRoleArn, name: "iamServiceRoleArn", parent: name, max: 1000)
-            try self.validate(self.iamServiceRoleArn, name: "iamServiceRoleArn", parent: name, min: 1)
+            try self.validate(self.iamServiceRoleArn, name: "iamServiceRoleArn", parent: name, min: 0)
+            try self.validate(self.iamServiceRoleArn, name: "iamServiceRoleArn", parent: name, pattern: "(?s).*")
             try self.validate(self.name, name: "name", parent: name, max: 255)
             try self.validate(self.name, name: "name", parent: name, min: 1)
+            try self.validate(self.name, name: "name", parent: name, pattern: "(?s).+")
             try self.validate(self.oauthToken, name: "oauthToken", parent: name, max: 1000)
+            try self.validate(self.oauthToken, name: "oauthToken", parent: name, pattern: "(?s).*")
             try self.validate(self.repository, name: "repository", parent: name, max: 1000)
+            try self.validate(self.repository, name: "repository", parent: name, pattern: "(?s).*")
         }
 
         private enum CodingKeys: String, CodingKey {
@@ -2444,7 +2559,7 @@ extension Amplify {
         public let appId: String
         ///  The Amazon Resource Name (ARN) for a backend environment that is part of an Amplify app.
         public let backendEnvironmentArn: String?
-        ///  The basic authorization credentials for the branch.
+        ///  The basic authorization credentials for the branch. You must base64-encode the authorization credentials and provide them in the format user:password.
         public let basicAuthCredentials: String?
         ///  The name for the branch.
         public let branchName: String
@@ -2500,20 +2615,33 @@ extension Amplify {
             try self.validate(self.appId, name: "appId", parent: name, min: 1)
             try self.validate(self.appId, name: "appId", parent: name, pattern: "d[a-z0-9]+")
             try self.validate(self.backendEnvironmentArn, name: "backendEnvironmentArn", parent: name, max: 1000)
-            try self.validate(self.backendEnvironmentArn, name: "backendEnvironmentArn", parent: name, min: 1)
+            try self.validate(self.backendEnvironmentArn, name: "backendEnvironmentArn", parent: name, min: 0)
+            try self.validate(self.backendEnvironmentArn, name: "backendEnvironmentArn", parent: name, pattern: "(?s).*")
             try self.validate(self.basicAuthCredentials, name: "basicAuthCredentials", parent: name, max: 2000)
+            try self.validate(self.basicAuthCredentials, name: "basicAuthCredentials", parent: name, pattern: "(?s).*")
             try self.validate(self.branchName, name: "branchName", parent: name, max: 255)
             try self.validate(self.branchName, name: "branchName", parent: name, min: 1)
+            try self.validate(self.branchName, name: "branchName", parent: name, pattern: "(?s).+")
             try self.validate(self.buildSpec, name: "buildSpec", parent: name, max: 25000)
             try self.validate(self.buildSpec, name: "buildSpec", parent: name, min: 1)
+            try self.validate(self.buildSpec, name: "buildSpec", parent: name, pattern: "(?s).+")
             try self.validate(self.description, name: "description", parent: name, max: 1000)
+            try self.validate(self.description, name: "description", parent: name, pattern: "(?s).*")
             try self.validate(self.displayName, name: "displayName", parent: name, max: 255)
+            try self.validate(self.displayName, name: "displayName", parent: name, pattern: "(?s).*")
             try self.environmentVariables?.forEach {
                 try validate($0.key, name: "environmentVariables.key", parent: name, max: 255)
-                try validate($0.value, name: "environmentVariables[\"\($0.key)\"]", parent: name, max: 1000)
+                try validate($0.key, name: "environmentVariables.key", parent: name, pattern: "(?s).*")
+                try validate($0.value, name: "environmentVariables[\"\($0.key)\"]", parent: name, max: 5500)
+                try validate($0.value, name: "environmentVariables[\"\($0.key)\"]", parent: name, pattern: "(?s).*")
             }
             try self.validate(self.framework, name: "framework", parent: name, max: 255)
+            try self.validate(self.framework, name: "framework", parent: name, pattern: "(?s).*")
             try self.validate(self.pullRequestEnvironmentName, name: "pullRequestEnvironmentName", parent: name, max: 20)
+            try self.validate(self.pullRequestEnvironmentName, name: "pullRequestEnvironmentName", parent: name, pattern: "(?s).*")
+            try self.validate(self.ttl, name: "ttl", parent: name, max: 32)
+            try self.validate(self.ttl, name: "ttl", parent: name, min: 0)
+            try self.validate(self.ttl, name: "ttl", parent: name, pattern: "\\d*")
         }
 
         private enum CodingKeys: String, CodingKey {
@@ -2565,9 +2693,9 @@ extension Amplify {
         ///  Enables the automated creation of subdomains for branches.
         public let enableAutoSubDomain: Bool?
         ///  Describes the settings for the subdomain.
-        public let subDomainSettings: [SubDomainSetting]
+        public let subDomainSettings: [SubDomainSetting]?
 
-        public init(appId: String, autoSubDomainCreationPatterns: [String]? = nil, autoSubDomainIAMRole: String? = nil, domainName: String, enableAutoSubDomain: Bool? = nil, subDomainSettings: [SubDomainSetting]) {
+        public init(appId: String, autoSubDomainCreationPatterns: [String]? = nil, autoSubDomainIAMRole: String? = nil, domainName: String, enableAutoSubDomain: Bool? = nil, subDomainSettings: [SubDomainSetting]? = nil) {
             self.appId = appId
             self.autoSubDomainCreationPatterns = autoSubDomainCreationPatterns
             self.autoSubDomainIAMRole = autoSubDomainIAMRole
@@ -2583,11 +2711,13 @@ extension Amplify {
             try self.autoSubDomainCreationPatterns?.forEach {
                 try validate($0, name: "autoSubDomainCreationPatterns[]", parent: name, max: 2048)
                 try validate($0, name: "autoSubDomainCreationPatterns[]", parent: name, min: 1)
+                try validate($0, name: "autoSubDomainCreationPatterns[]", parent: name, pattern: "(?s).+")
             }
             try self.validate(self.autoSubDomainIAMRole, name: "autoSubDomainIAMRole", parent: name, max: 1000)
             try self.validate(self.autoSubDomainIAMRole, name: "autoSubDomainIAMRole", parent: name, pattern: "^$|^arn:aws:iam::\\d{12}:role.+")
-            try self.validate(self.domainName, name: "domainName", parent: name, max: 255)
-            try self.subDomainSettings.forEach {
+            try self.validate(self.domainName, name: "domainName", parent: name, max: 64)
+            try self.validate(self.domainName, name: "domainName", parent: name, pattern: "^(((?!-)[A-Za-z0-9-]{0,62}[A-Za-z0-9])\\.)+((?!-)[A-Za-z0-9-]{1,62}[A-Za-z0-9])(\\.)?$")
+            try self.subDomainSettings?.forEach {
                 try $0.validate(name: "\(name).subDomainSettings[]")
             }
             try self.validate(self.subDomainSettings, name: "subDomainSettings", parent: name, max: 255)
@@ -2635,8 +2765,11 @@ extension Amplify {
         public func validate(name: String) throws {
             try self.validate(self.branchName, name: "branchName", parent: name, max: 255)
             try self.validate(self.branchName, name: "branchName", parent: name, min: 1)
+            try self.validate(self.branchName, name: "branchName", parent: name, pattern: "(?s).+")
             try self.validate(self.description, name: "description", parent: name, max: 1000)
+            try self.validate(self.description, name: "description", parent: name, pattern: "(?s).*")
             try self.validate(self.webhookId, name: "webhookId", parent: name, max: 255)
+            try self.validate(self.webhookId, name: "webhookId", parent: name, pattern: "(?s).*")
         }
 
         private enum CodingKeys: String, CodingKey {

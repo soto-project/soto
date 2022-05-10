@@ -64,19 +64,22 @@ extension LakeFormation {
     public enum Permission: String, CustomStringConvertible, Codable {
         case all = "ALL"
         case alter = "ALTER"
-        case alterTag = "ALTER_TAG"
-        case associateTag = "ASSOCIATE_TAG"
+        case associate = "ASSOCIATE"
         case createDatabase = "CREATE_DATABASE"
         case createTable = "CREATE_TABLE"
         case createTag = "CREATE_TAG"
         case dataLocationAccess = "DATA_LOCATION_ACCESS"
         case delete = "DELETE"
-        case deleteTag = "DELETE_TAG"
         case describe = "DESCRIBE"
-        case describeTag = "DESCRIBE_TAG"
         case drop = "DROP"
         case insert = "INSERT"
         case select = "SELECT"
+        public var description: String { return self.rawValue }
+    }
+
+    public enum PermissionType: String, CustomStringConvertible, Codable {
+        case cellFilterPermission = "CELL_FILTER_PERMISSION"
+        case columnPermission = "COLUMN_PERMISSION"
         public var description: String { return self.rawValue }
     }
 
@@ -213,6 +216,25 @@ extension LakeFormation {
 
     public struct AllRowsWildcard: AWSEncodableShape & AWSDecodableShape {
         public init() {}
+    }
+
+    public struct AuditContext: AWSEncodableShape {
+        /// The filter engine can populate the 'AdditionalAuditContext' information with the request ID for you to track. This information will be displayed in CloudTrail log in your account.
+        public let additionalAuditContext: String?
+
+        public init(additionalAuditContext: String? = nil) {
+            self.additionalAuditContext = additionalAuditContext
+        }
+
+        public func validate(name: String) throws {
+            try self.validate(self.additionalAuditContext, name: "additionalAuditContext", parent: name, max: 2048)
+            try self.validate(self.additionalAuditContext, name: "additionalAuditContext", parent: name, min: 0)
+            try self.validate(self.additionalAuditContext, name: "additionalAuditContext", parent: name, pattern: "[\\u0020-\\uD7FF\\uE000-\\uFFFD\\uD800\\uDC00-\\uDBFF\\uDFFF\\t]*")
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case additionalAuditContext = "AdditionalAuditContext"
+        }
     }
 
     public struct BatchGrantPermissionsRequest: AWSEncodableShape {
@@ -508,7 +530,7 @@ extension LakeFormation {
     public struct DataCellsFilter: AWSEncodableShape & AWSDecodableShape {
         /// A list of column names.
         public let columnNames: [String]?
-        /// A wildcard with exclusions.
+        /// A wildcard with exclusions. You must specify either a ColumnNames list or the ColumnWildCard.
         public let columnWildcard: ColumnWildcard?
         /// A database in the Glue Data Catalog.
         public let databaseName: String
@@ -623,23 +645,37 @@ extension LakeFormation {
     }
 
     public struct DataLakeSettings: AWSEncodableShape & AWSDecodableShape {
+        /// Whether to allow Amazon EMR clusters to access data managed by Lake Formation.  If true, you allow Amazon EMR clusters to access data in Amazon S3 locations that are registered with Lake Formation. If false or null, no Amazon EMR clusters will be able to access data in Amazon S3 locations that are registered with Lake Formation. For more information, see (Optional) Allow Data Filtering on Amazon EMR.
+        public let allowExternalDataFiltering: Bool?
+        /// Lake Formation relies on a privileged process secured by Amazon EMR or the third party integrator to tag the user's role while assuming it. Lake Formation will publish the acceptable key-value pair, for example key = "LakeFormationTrustedCaller" and value = "TRUE" and the third party integrator must properly tag the temporary security credentials that will be used to call Lake Formation's administrative APIs.
+        public let authorizedSessionTagValueList: [String]?
         /// Specifies whether access control on newly created database is managed by Lake Formation permissions or exclusively by IAM permissions. You can override this default setting when you create a database. A null value indicates access control by Lake Formation permissions. A value that assigns ALL to IAM_ALLOWED_PRINCIPALS indicates access control by IAM permissions. This is referred to as the setting "Use only IAM access control," and is for backward compatibility with the Glue permission model implemented by IAM permissions. The only permitted values are an empty array or an array that contains a single JSON object that grants ALL to IAM_ALLOWED_PRINCIPALS. For more information, see Changing the Default Security Settings for Your Data Lake.
         public let createDatabaseDefaultPermissions: [PrincipalPermissions]?
         /// Specifies whether access control on newly created table is managed by Lake Formation permissions or exclusively by IAM permissions. A null value indicates access control by Lake Formation permissions. A value that assigns ALL to IAM_ALLOWED_PRINCIPALS indicates access control by IAM permissions. This is referred to as the setting "Use only IAM access control," and is for backward compatibility with the Glue permission model implemented by IAM permissions. The only permitted values are an empty array or an array that contains a single JSON object that grants ALL to IAM_ALLOWED_PRINCIPALS. For more information, see Changing the Default Security Settings for Your Data Lake.
         public let createTableDefaultPermissions: [PrincipalPermissions]?
         /// A list of Lake Formation principals. Supported principals are IAM users or IAM roles.
         public let dataLakeAdmins: [DataLakePrincipal]?
+        /// A list of the account IDs of Amazon Web Services accounts with Amazon EMR clusters that are to perform data filtering.&gt;
+        public let externalDataFilteringAllowList: [DataLakePrincipal]?
         /// A list of the resource-owning account IDs that the caller's account can use to share their user access details (user ARNs). The user ARNs can be logged in the resource owner's CloudTrail log. You may want to specify this property when you are in a high-trust boundary, such as the same team or company.
         public let trustedResourceOwners: [String]?
 
-        public init(createDatabaseDefaultPermissions: [PrincipalPermissions]? = nil, createTableDefaultPermissions: [PrincipalPermissions]? = nil, dataLakeAdmins: [DataLakePrincipal]? = nil, trustedResourceOwners: [String]? = nil) {
+        public init(allowExternalDataFiltering: Bool? = nil, authorizedSessionTagValueList: [String]? = nil, createDatabaseDefaultPermissions: [PrincipalPermissions]? = nil, createTableDefaultPermissions: [PrincipalPermissions]? = nil, dataLakeAdmins: [DataLakePrincipal]? = nil, externalDataFilteringAllowList: [DataLakePrincipal]? = nil, trustedResourceOwners: [String]? = nil) {
+            self.allowExternalDataFiltering = allowExternalDataFiltering
+            self.authorizedSessionTagValueList = authorizedSessionTagValueList
             self.createDatabaseDefaultPermissions = createDatabaseDefaultPermissions
             self.createTableDefaultPermissions = createTableDefaultPermissions
             self.dataLakeAdmins = dataLakeAdmins
+            self.externalDataFilteringAllowList = externalDataFilteringAllowList
             self.trustedResourceOwners = trustedResourceOwners
         }
 
         public func validate(name: String) throws {
+            try self.authorizedSessionTagValueList?.forEach {
+                try validate($0, name: "authorizedSessionTagValueList[]", parent: name, max: 255)
+                try validate($0, name: "authorizedSessionTagValueList[]", parent: name, min: 1)
+                try validate($0, name: "authorizedSessionTagValueList[]", parent: name, pattern: "[\\u0020-\\uD7FF\\uE000-\\uFFFD\\uD800\\uDC00-\\uDBFF\\uDFFF\\t]*")
+            }
             try self.createDatabaseDefaultPermissions?.forEach {
                 try $0.validate(name: "\(name).createDatabaseDefaultPermissions[]")
             }
@@ -651,6 +687,11 @@ extension LakeFormation {
             }
             try self.validate(self.dataLakeAdmins, name: "dataLakeAdmins", parent: name, max: 10)
             try self.validate(self.dataLakeAdmins, name: "dataLakeAdmins", parent: name, min: 0)
+            try self.externalDataFilteringAllowList?.forEach {
+                try $0.validate(name: "\(name).externalDataFilteringAllowList[]")
+            }
+            try self.validate(self.externalDataFilteringAllowList, name: "externalDataFilteringAllowList", parent: name, max: 10)
+            try self.validate(self.externalDataFilteringAllowList, name: "externalDataFilteringAllowList", parent: name, min: 0)
             try self.trustedResourceOwners?.forEach {
                 try validate($0, name: "trustedResourceOwners[]", parent: name, max: 255)
                 try validate($0, name: "trustedResourceOwners[]", parent: name, min: 1)
@@ -659,9 +700,12 @@ extension LakeFormation {
         }
 
         private enum CodingKeys: String, CodingKey {
+            case allowExternalDataFiltering = "AllowExternalDataFiltering"
+            case authorizedSessionTagValueList = "AuthorizedSessionTagValueList"
             case createDatabaseDefaultPermissions = "CreateDatabaseDefaultPermissions"
             case createTableDefaultPermissions = "CreateTableDefaultPermissions"
             case dataLakeAdmins = "DataLakeAdmins"
+            case externalDataFilteringAllowList = "ExternalDataFilteringAllowList"
             case trustedResourceOwners = "TrustedResourceOwners"
         }
     }
@@ -1379,6 +1423,135 @@ extension LakeFormation {
         }
     }
 
+    public struct GetTemporaryGluePartitionCredentialsRequest: AWSEncodableShape {
+        /// A structure representing context to access a resource (column names, query ID, etc).
+        public let auditContext: AuditContext?
+        /// The time period, between 900 and 21,600 seconds, for the timeout of the temporary credentials.
+        public let durationSeconds: Int?
+        /// A list of partition values identifying a single partition.
+        public let partition: PartitionValueList
+        /// Filters the request based on the user having been granted a list of specified permissions on the requested resource(s).
+        public let permissions: [Permission]?
+        /// A list of supported permission types for the partition. Valid values are COLUMN_PERMISSION and CELL_FILTER_PERMISSION.
+        public let supportedPermissionTypes: [PermissionType]
+        /// The ARN of the partitions' table.
+        public let tableArn: String
+
+        public init(auditContext: AuditContext? = nil, durationSeconds: Int? = nil, partition: PartitionValueList, permissions: [Permission]? = nil, supportedPermissionTypes: [PermissionType], tableArn: String) {
+            self.auditContext = auditContext
+            self.durationSeconds = durationSeconds
+            self.partition = partition
+            self.permissions = permissions
+            self.supportedPermissionTypes = supportedPermissionTypes
+            self.tableArn = tableArn
+        }
+
+        public func validate(name: String) throws {
+            try self.auditContext?.validate(name: "\(name).auditContext")
+            try self.validate(self.durationSeconds, name: "durationSeconds", parent: name, max: 43200)
+            try self.validate(self.durationSeconds, name: "durationSeconds", parent: name, min: 900)
+            try self.partition.validate(name: "\(name).partition")
+            try self.validate(self.supportedPermissionTypes, name: "supportedPermissionTypes", parent: name, max: 255)
+            try self.validate(self.supportedPermissionTypes, name: "supportedPermissionTypes", parent: name, min: 1)
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case auditContext = "AuditContext"
+            case durationSeconds = "DurationSeconds"
+            case partition = "Partition"
+            case permissions = "Permissions"
+            case supportedPermissionTypes = "SupportedPermissionTypes"
+            case tableArn = "TableArn"
+        }
+    }
+
+    public struct GetTemporaryGluePartitionCredentialsResponse: AWSDecodableShape {
+        /// The access key ID for the temporary credentials.
+        public let accessKeyId: String?
+        /// The date and time when the temporary credentials expire.
+        public let expiration: Date?
+        /// The secret key for the temporary credentials.
+        public let secretAccessKey: String?
+        /// The session token for the temporary credentials.
+        public let sessionToken: String?
+
+        public init(accessKeyId: String? = nil, expiration: Date? = nil, secretAccessKey: String? = nil, sessionToken: String? = nil) {
+            self.accessKeyId = accessKeyId
+            self.expiration = expiration
+            self.secretAccessKey = secretAccessKey
+            self.sessionToken = sessionToken
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case accessKeyId = "AccessKeyId"
+            case expiration = "Expiration"
+            case secretAccessKey = "SecretAccessKey"
+            case sessionToken = "SessionToken"
+        }
+    }
+
+    public struct GetTemporaryGlueTableCredentialsRequest: AWSEncodableShape {
+        /// A structure representing context to access a resource (column names, query ID, etc).
+        public let auditContext: AuditContext?
+        /// The time period, between 900 and 21,600 seconds, for the timeout of the temporary credentials.
+        public let durationSeconds: Int?
+        /// Filters the request based on the user having been granted a list of specified permissions on the requested resource(s).
+        public let permissions: [Permission]?
+        /// A list of supported permission types for the table. Valid values are COLUMN_PERMISSION and CELL_FILTER_PERMISSION.
+        public let supportedPermissionTypes: [PermissionType]
+        /// The ARN identifying a table in the Data Catalog for the temporary credentials request.
+        public let tableArn: String
+
+        public init(auditContext: AuditContext? = nil, durationSeconds: Int? = nil, permissions: [Permission]? = nil, supportedPermissionTypes: [PermissionType], tableArn: String) {
+            self.auditContext = auditContext
+            self.durationSeconds = durationSeconds
+            self.permissions = permissions
+            self.supportedPermissionTypes = supportedPermissionTypes
+            self.tableArn = tableArn
+        }
+
+        public func validate(name: String) throws {
+            try self.auditContext?.validate(name: "\(name).auditContext")
+            try self.validate(self.durationSeconds, name: "durationSeconds", parent: name, max: 43200)
+            try self.validate(self.durationSeconds, name: "durationSeconds", parent: name, min: 900)
+            try self.validate(self.supportedPermissionTypes, name: "supportedPermissionTypes", parent: name, max: 255)
+            try self.validate(self.supportedPermissionTypes, name: "supportedPermissionTypes", parent: name, min: 1)
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case auditContext = "AuditContext"
+            case durationSeconds = "DurationSeconds"
+            case permissions = "Permissions"
+            case supportedPermissionTypes = "SupportedPermissionTypes"
+            case tableArn = "TableArn"
+        }
+    }
+
+    public struct GetTemporaryGlueTableCredentialsResponse: AWSDecodableShape {
+        /// The access key ID for the temporary credentials.
+        public let accessKeyId: String?
+        /// The date and time when the temporary credentials expire.
+        public let expiration: Date?
+        /// The secret key for the temporary credentials.
+        public let secretAccessKey: String?
+        /// The session token for the temporary credentials.
+        public let sessionToken: String?
+
+        public init(accessKeyId: String? = nil, expiration: Date? = nil, secretAccessKey: String? = nil, sessionToken: String? = nil) {
+            self.accessKeyId = accessKeyId
+            self.expiration = expiration
+            self.secretAccessKey = secretAccessKey
+            self.sessionToken = sessionToken
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case accessKeyId = "AccessKeyId"
+            case expiration = "Expiration"
+            case secretAccessKey = "SecretAccessKey"
+            case sessionToken = "SessionToken"
+        }
+    }
+
     public struct GetWorkUnitResultsRequest: AWSEncodableShape {
         /// The ID of the plan query operation for which to get results.
         public let queryId: String
@@ -2003,6 +2176,23 @@ extension LakeFormation {
         private enum CodingKeys: String, CodingKey {
             case objects = "Objects"
             case partitionValues = "PartitionValues"
+        }
+    }
+
+    public struct PartitionValueList: AWSEncodableShape {
+        /// The list of partition values.
+        public let values: [String]
+
+        public init(values: [String]) {
+            self.values = values
+        }
+
+        public func validate(name: String) throws {
+            try self.validate(self.values, name: "values", parent: name, min: 1)
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case values = "Values"
         }
     }
 
@@ -2821,11 +3011,11 @@ extension LakeFormation {
         /// The governed table to update.
         public let tableName: String
         /// The transaction at which to do the write.
-        public let transactionId: String
+        public let transactionId: String?
         /// A list of WriteOperation objects that define an object to add to or delete from the manifest for a governed table.
         public let writeOperations: [WriteOperation]
 
-        public init(catalogId: String? = nil, databaseName: String, tableName: String, transactionId: String, writeOperations: [WriteOperation]) {
+        public init(catalogId: String? = nil, databaseName: String, tableName: String, transactionId: String? = nil, writeOperations: [WriteOperation]) {
             self.catalogId = catalogId
             self.databaseName = databaseName
             self.tableName = tableName

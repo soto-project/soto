@@ -47,6 +47,11 @@ extension LookoutMetrics {
         return try await self.client.execute(operation: "CreateMetricSet", path: "/CreateMetricSet", httpMethod: .POST, serviceConfig: self.config, input: input, logger: logger, on: eventLoop)
     }
 
+    /// Deactivates an anomaly detector.
+    public func deactivateAnomalyDetector(_ input: DeactivateAnomalyDetectorRequest, logger: Logger = AWSClient.loggingDisabled, on eventLoop: EventLoop? = nil) async throws -> DeactivateAnomalyDetectorResponse {
+        return try await self.client.execute(operation: "DeactivateAnomalyDetector", path: "/DeactivateAnomalyDetector", httpMethod: .POST, serviceConfig: self.config, input: input, logger: logger, on: eventLoop)
+    }
+
     /// Deletes an alert.
     public func deleteAlert(_ input: DeleteAlertRequest, logger: Logger = AWSClient.loggingDisabled, on eventLoop: EventLoop? = nil) async throws -> DeleteAlertResponse {
         return try await self.client.execute(operation: "DeleteAlert", path: "/DeleteAlert", httpMethod: .POST, serviceConfig: self.config, input: input, logger: logger, on: eventLoop)
@@ -75,6 +80,11 @@ extension LookoutMetrics {
     /// Describes a dataset. Amazon Lookout for Metrics API actions are eventually consistent. If you do a read operation on a resource immediately after creating or modifying it, use retries to allow time for the write operation to complete.
     public func describeMetricSet(_ input: DescribeMetricSetRequest, logger: Logger = AWSClient.loggingDisabled, on eventLoop: EventLoop? = nil) async throws -> DescribeMetricSetResponse {
         return try await self.client.execute(operation: "DescribeMetricSet", path: "/DescribeMetricSet", httpMethod: .POST, serviceConfig: self.config, input: input, logger: logger, on: eventLoop)
+    }
+
+    /// Detects an Amazon S3 dataset's file format, interval, and offset.
+    public func detectMetricSetConfig(_ input: DetectMetricSetConfigRequest, logger: Logger = AWSClient.loggingDisabled, on eventLoop: EventLoop? = nil) async throws -> DetectMetricSetConfigResponse {
+        return try await self.client.execute(operation: "DetectMetricSetConfig", path: "/DetectMetricSetConfig", httpMethod: .POST, serviceConfig: self.config, input: input, logger: logger, on: eventLoop)
     }
 
     /// Returns details about a group of anomalous metrics.

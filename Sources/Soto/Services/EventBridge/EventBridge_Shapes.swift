@@ -78,6 +78,17 @@ extension EventBridge {
         public var description: String { return self.rawValue }
     }
 
+    public enum EndpointState: String, CustomStringConvertible, Codable {
+        case active = "ACTIVE"
+        case createFailed = "CREATE_FAILED"
+        case creating = "CREATING"
+        case deleteFailed = "DELETE_FAILED"
+        case deleting = "DELETING"
+        case updateFailed = "UPDATE_FAILED"
+        case updating = "UPDATING"
+        public var description: String { return self.rawValue }
+    }
+
     public enum EventSourceState: String, CustomStringConvertible, Codable {
         case active = "ACTIVE"
         case deleted = "DELETED"
@@ -117,6 +128,12 @@ extension EventBridge {
         case failed = "FAILED"
         case running = "RUNNING"
         case starting = "STARTING"
+        public var description: String { return self.rawValue }
+    }
+
+    public enum ReplicationState: String, CustomStringConvertible, Codable {
+        case disabled = "DISABLED"
+        case enabled = "ENABLED"
         public var description: String { return self.rawValue }
     }
 
@@ -738,6 +755,7 @@ extension EventBridge {
             try self.validate(self.archiveName, name: "archiveName", parent: name, pattern: "[\\.\\-_A-Za-z0-9]+")
             try self.validate(self.description, name: "description", parent: name, max: 512)
             try self.validate(self.description, name: "description", parent: name, pattern: ".*")
+            try self.validate(self.eventPattern, name: "eventPattern", parent: name, max: 4096)
             try self.validate(self.eventSourceArn, name: "eventSourceArn", parent: name, max: 1600)
             try self.validate(self.eventSourceArn, name: "eventSourceArn", parent: name, min: 1)
             try self.validate(self.retentionDays, name: "retentionDays", parent: name, min: 0)
@@ -976,6 +994,93 @@ extension EventBridge {
             case connectionState = "ConnectionState"
             case creationTime = "CreationTime"
             case lastModifiedTime = "LastModifiedTime"
+        }
+    }
+
+    public struct CreateEndpointRequest: AWSEncodableShape {
+        /// A description of the global endpoint.
+        public let description: String?
+        /// Define the event buses used.   The names of the event buses must be identical in each Region.
+        public let eventBuses: [EndpointEventBus]
+        /// The name of the global endpoint. For example, "Name":"us-east-2-custom_bus_A-endpoint".
+        public let name: String
+        /// Enable or disable event replication.
+        public let replicationConfig: ReplicationConfig?
+        /// The ARN of the role used for replication.
+        public let roleArn: String?
+        /// Configure the routing policy, including the health check and secondary Region..
+        public let routingConfig: RoutingConfig
+
+        public init(description: String? = nil, eventBuses: [EndpointEventBus], name: String, replicationConfig: ReplicationConfig? = nil, roleArn: String? = nil, routingConfig: RoutingConfig) {
+            self.description = description
+            self.eventBuses = eventBuses
+            self.name = name
+            self.replicationConfig = replicationConfig
+            self.roleArn = roleArn
+            self.routingConfig = routingConfig
+        }
+
+        public func validate(name: String) throws {
+            try self.validate(self.description, name: "description", parent: name, max: 512)
+            try self.validate(self.description, name: "description", parent: name, pattern: ".*")
+            try self.eventBuses.forEach {
+                try $0.validate(name: "\(name).eventBuses[]")
+            }
+            try self.validate(self.eventBuses, name: "eventBuses", parent: name, max: 2)
+            try self.validate(self.eventBuses, name: "eventBuses", parent: name, min: 2)
+            try self.validate(self.name, name: "name", parent: name, max: 64)
+            try self.validate(self.name, name: "name", parent: name, min: 1)
+            try self.validate(self.name, name: "name", parent: name, pattern: "[\\.\\-_A-Za-z0-9]+")
+            try self.validate(self.roleArn, name: "roleArn", parent: name, max: 256)
+            try self.validate(self.roleArn, name: "roleArn", parent: name, min: 1)
+            try self.validate(self.roleArn, name: "roleArn", parent: name, pattern: "^arn:aws[a-z-]*:iam::\\d{12}:role\\/[\\w+=,.@/-]+$")
+            try self.routingConfig.validate(name: "\(name).routingConfig")
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case description = "Description"
+            case eventBuses = "EventBuses"
+            case name = "Name"
+            case replicationConfig = "ReplicationConfig"
+            case roleArn = "RoleArn"
+            case routingConfig = "RoutingConfig"
+        }
+    }
+
+    public struct CreateEndpointResponse: AWSDecodableShape {
+        /// The ARN of the endpoint that was created by this request.
+        public let arn: String?
+        /// The event buses used by this request.
+        public let eventBuses: [EndpointEventBus]?
+        /// The name of the endpoint that was created by this request.
+        public let name: String?
+        /// Whether event replication was enabled or disabled by this request.
+        public let replicationConfig: ReplicationConfig?
+        /// The ARN of the role used by event replication for this request.
+        public let roleArn: String?
+        /// The routing configuration defined by this request.
+        public let routingConfig: RoutingConfig?
+        /// The state of the endpoint that was created by this request.
+        public let state: EndpointState?
+
+        public init(arn: String? = nil, eventBuses: [EndpointEventBus]? = nil, name: String? = nil, replicationConfig: ReplicationConfig? = nil, roleArn: String? = nil, routingConfig: RoutingConfig? = nil, state: EndpointState? = nil) {
+            self.arn = arn
+            self.eventBuses = eventBuses
+            self.name = name
+            self.replicationConfig = replicationConfig
+            self.roleArn = roleArn
+            self.routingConfig = routingConfig
+            self.state = state
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case arn = "Arn"
+            case eventBuses = "EventBuses"
+            case name = "Name"
+            case replicationConfig = "ReplicationConfig"
+            case roleArn = "RoleArn"
+            case routingConfig = "RoutingConfig"
+            case state = "State"
         }
     }
 
@@ -1241,6 +1346,29 @@ extension EventBridge {
             case lastAuthorizedTime = "LastAuthorizedTime"
             case lastModifiedTime = "LastModifiedTime"
         }
+    }
+
+    public struct DeleteEndpointRequest: AWSEncodableShape {
+        /// The name of the endpoint you want to delete. For example, "Name":"us-east-2-custom_bus_A-endpoint"..
+        public let name: String
+
+        public init(name: String) {
+            self.name = name
+        }
+
+        public func validate(name: String) throws {
+            try self.validate(self.name, name: "name", parent: name, max: 64)
+            try self.validate(self.name, name: "name", parent: name, min: 1)
+            try self.validate(self.name, name: "name", parent: name, pattern: "[\\.\\-_A-Za-z0-9]+")
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case name = "Name"
+        }
+    }
+
+    public struct DeleteEndpointResponse: AWSDecodableShape {
+        public init() {}
     }
 
     public struct DeleteEventBusRequest: AWSEncodableShape {
@@ -1526,6 +1654,93 @@ extension EventBridge {
             case lastModifiedTime = "LastModifiedTime"
             case name = "Name"
             case secretArn = "SecretArn"
+            case stateReason = "StateReason"
+        }
+    }
+
+    public struct DescribeEndpointRequest: AWSEncodableShape {
+        /// The primary Region of the endpoint you want to get information about. For example "HomeRegion": "us-east-1".
+        public let homeRegion: String?
+        /// The name of the endpoint you want to get information about. For example, "Name":"us-east-2-custom_bus_A-endpoint".
+        public let name: String
+
+        public init(homeRegion: String? = nil, name: String) {
+            self.homeRegion = homeRegion
+            self.name = name
+        }
+
+        public func validate(name: String) throws {
+            try self.validate(self.homeRegion, name: "homeRegion", parent: name, max: 20)
+            try self.validate(self.homeRegion, name: "homeRegion", parent: name, min: 9)
+            try self.validate(self.homeRegion, name: "homeRegion", parent: name, pattern: "^[\\-a-z0-9]+$")
+            try self.validate(self.name, name: "name", parent: name, max: 64)
+            try self.validate(self.name, name: "name", parent: name, min: 1)
+            try self.validate(self.name, name: "name", parent: name, pattern: "[\\.\\-_A-Za-z0-9]+")
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case homeRegion = "HomeRegion"
+            case name = "Name"
+        }
+    }
+
+    public struct DescribeEndpointResponse: AWSDecodableShape {
+        /// The ARN of the endpoint you asked for information about.
+        public let arn: String?
+        /// The time the endpoint you asked for information about was created.
+        public let creationTime: Date?
+        /// The description of the endpoint you asked for information about.
+        public let description: String?
+        /// The ID of the endpoint you asked for information about.
+        public let endpointId: String?
+        /// The URL of the endpoint you asked for information about.
+        public let endpointUrl: String?
+        /// The event buses being used by the endpoint you asked for information about.
+        public let eventBuses: [EndpointEventBus]?
+        /// The last time the endpoint you asked for information about was modified.
+        public let lastModifiedTime: Date?
+        /// The name of the endpoint you asked for information about.
+        public let name: String?
+        /// Whether replication is enabled or disabled for the endpoint you asked for information about.
+        public let replicationConfig: ReplicationConfig?
+        /// The ARN of the role used by the endpoint you asked for information about.
+        public let roleArn: String?
+        /// The routing configuration of the endpoint you asked for information about.
+        public let routingConfig: RoutingConfig?
+        /// The current state of the endpoint you asked for information about.
+        public let state: EndpointState?
+        /// The reason the endpoint you asked for information about is in its current state.
+        public let stateReason: String?
+
+        public init(arn: String? = nil, creationTime: Date? = nil, description: String? = nil, endpointId: String? = nil, endpointUrl: String? = nil, eventBuses: [EndpointEventBus]? = nil, lastModifiedTime: Date? = nil, name: String? = nil, replicationConfig: ReplicationConfig? = nil, roleArn: String? = nil, routingConfig: RoutingConfig? = nil, state: EndpointState? = nil, stateReason: String? = nil) {
+            self.arn = arn
+            self.creationTime = creationTime
+            self.description = description
+            self.endpointId = endpointId
+            self.endpointUrl = endpointUrl
+            self.eventBuses = eventBuses
+            self.lastModifiedTime = lastModifiedTime
+            self.name = name
+            self.replicationConfig = replicationConfig
+            self.roleArn = roleArn
+            self.routingConfig = routingConfig
+            self.state = state
+            self.stateReason = stateReason
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case arn = "Arn"
+            case creationTime = "CreationTime"
+            case description = "Description"
+            case endpointId = "EndpointId"
+            case endpointUrl = "EndpointUrl"
+            case eventBuses = "EventBuses"
+            case lastModifiedTime = "LastModifiedTime"
+            case name = "Name"
+            case replicationConfig = "ReplicationConfig"
+            case roleArn = "RoleArn"
+            case routingConfig = "RoutingConfig"
+            case state = "State"
             case stateReason = "StateReason"
         }
     }
@@ -1844,7 +2059,7 @@ extension EventBridge {
         public let enableExecuteCommand: Bool?
         /// Specifies an ECS task group for the task. The maximum length is 255 characters.
         public let group: String?
-        /// Specifies the launch type on which your task is running. The launch type that you specify here must match one of the launch type (compatibilities) of the target task. The FARGATE value is supported only in the Regions where Fargate witt Amazon ECS is supported. For more information, see Fargate on Amazon ECS in the Amazon Elastic Container Service Developer Guide.
+        /// Specifies the launch type on which your task is running. The launch type that you specify here must match one of the launch type (compatibilities) of the target task. The FARGATE value is supported only in the Regions where Fargate with Amazon ECS is supported. For more information, see Fargate on Amazon ECS in the Amazon Elastic Container Service Developer Guide.
         public let launchType: LaunchType?
         /// Use this structure if the Amazon ECS task uses the awsvpc network mode. This structure specifies the VPC subnets and security groups associated with the task, and whether a public IP address is to be used. This structure is required if LaunchType is FARGATE because the awsvpc mode is required for Fargate tasks. If you specify NetworkConfiguration when the target ECS task does not use the awsvpc network mode, the task fails.
         public let networkConfiguration: NetworkConfiguration?
@@ -1948,6 +2163,86 @@ extension EventBridge {
         }
     }
 
+    public struct Endpoint: AWSDecodableShape {
+        /// The ARN of the endpoint.
+        public let arn: String?
+        /// The time the endpoint was created.
+        public let creationTime: Date?
+        /// A description for the endpoint.
+        public let description: String?
+        /// The URL subdomain of the endpoint. For example, if the URL for Endpoint is abcde.veo.endpoints.event.amazonaws.com, then the EndpointId is abcde.veo.
+        public let endpointId: String?
+        /// The URL of the endpoint.
+        public let endpointUrl: String?
+        /// The event buses being used by the endpoint.
+        public let eventBuses: [EndpointEventBus]?
+        /// The last time the endpoint was modified.
+        public let lastModifiedTime: Date?
+        /// The name of the endpoint.
+        public let name: String?
+        /// Whether event replication was enabled or disabled for this endpoint.
+        public let replicationConfig: ReplicationConfig?
+        /// The ARN of the role used by event replication for the endpoint.
+        public let roleArn: String?
+        /// The routing configuration of the endpoint.
+        public let routingConfig: RoutingConfig?
+        /// The current state of the endpoint.
+        public let state: EndpointState?
+        /// The reason the endpoint is in its current state.
+        public let stateReason: String?
+
+        public init(arn: String? = nil, creationTime: Date? = nil, description: String? = nil, endpointId: String? = nil, endpointUrl: String? = nil, eventBuses: [EndpointEventBus]? = nil, lastModifiedTime: Date? = nil, name: String? = nil, replicationConfig: ReplicationConfig? = nil, roleArn: String? = nil, routingConfig: RoutingConfig? = nil, state: EndpointState? = nil, stateReason: String? = nil) {
+            self.arn = arn
+            self.creationTime = creationTime
+            self.description = description
+            self.endpointId = endpointId
+            self.endpointUrl = endpointUrl
+            self.eventBuses = eventBuses
+            self.lastModifiedTime = lastModifiedTime
+            self.name = name
+            self.replicationConfig = replicationConfig
+            self.roleArn = roleArn
+            self.routingConfig = routingConfig
+            self.state = state
+            self.stateReason = stateReason
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case arn = "Arn"
+            case creationTime = "CreationTime"
+            case description = "Description"
+            case endpointId = "EndpointId"
+            case endpointUrl = "EndpointUrl"
+            case eventBuses = "EventBuses"
+            case lastModifiedTime = "LastModifiedTime"
+            case name = "Name"
+            case replicationConfig = "ReplicationConfig"
+            case roleArn = "RoleArn"
+            case routingConfig = "RoutingConfig"
+            case state = "State"
+            case stateReason = "StateReason"
+        }
+    }
+
+    public struct EndpointEventBus: AWSEncodableShape & AWSDecodableShape {
+        /// The ARN of the event bus the endpoint is associated with.
+        public let eventBusArn: String
+
+        public init(eventBusArn: String) {
+            self.eventBusArn = eventBusArn
+        }
+
+        public func validate(name: String) throws {
+            try self.validate(self.eventBusArn, name: "eventBusArn", parent: name, max: 512)
+            try self.validate(self.eventBusArn, name: "eventBusArn", parent: name, min: 1)
+            try self.validate(self.eventBusArn, name: "eventBusArn", parent: name, pattern: "^arn:aws[a-z-]*:events:[a-z]{2}-[a-z-]+-\\d+:\\d{12}:event-bus/[\\w.-]+$")
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case eventBusArn = "EventBusArn"
+        }
+    }
+
     public struct EventBus: AWSDecodableShape {
         /// The ARN of the event bus.
         public let arn: String?
@@ -1999,6 +2294,28 @@ extension EventBridge {
             case expirationTime = "ExpirationTime"
             case name = "Name"
             case state = "State"
+        }
+    }
+
+    public struct FailoverConfig: AWSEncodableShape & AWSDecodableShape {
+        /// The main Region of the endpoint.
+        public let primary: Primary
+        /// The Region that events are routed to when failover is triggered or event replication is enabled.
+        public let secondary: Secondary
+
+        public init(primary: Primary, secondary: Secondary) {
+            self.primary = primary
+            self.secondary = secondary
+        }
+
+        public func validate(name: String) throws {
+            try self.primary.validate(name: "\(name).primary")
+            try self.secondary.validate(name: "\(name).secondary")
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case primary = "Primary"
+            case secondary = "Secondary"
         }
     }
 
@@ -2247,6 +2564,61 @@ extension EventBridge {
 
         private enum CodingKeys: String, CodingKey {
             case connections = "Connections"
+            case nextToken = "NextToken"
+        }
+    }
+
+    public struct ListEndpointsRequest: AWSEncodableShape {
+        /// The primary Region of the endpoints associated with this account. For example "HomeRegion": "us-east-1".
+        public let homeRegion: String?
+        /// The maximum number of results returned by the call.
+        public let maxResults: Int?
+        /// A value that will return a subset of the endpoints associated with this account. For example, "NamePrefix": "ABC" will return all endpoints with "ABC" in the name.
+        public let namePrefix: String?
+        /// If nextToken is returned, there are more results available. The value of nextToken is a unique pagination token for each page. Make the call again using the returned token to retrieve the next page. Keep all other arguments unchanged. Each pagination token expires after 24 hours. Using an expired pagination token will return an HTTP 400 InvalidToken error.
+        public let nextToken: String?
+
+        public init(homeRegion: String? = nil, maxResults: Int? = nil, namePrefix: String? = nil, nextToken: String? = nil) {
+            self.homeRegion = homeRegion
+            self.maxResults = maxResults
+            self.namePrefix = namePrefix
+            self.nextToken = nextToken
+        }
+
+        public func validate(name: String) throws {
+            try self.validate(self.homeRegion, name: "homeRegion", parent: name, max: 20)
+            try self.validate(self.homeRegion, name: "homeRegion", parent: name, min: 9)
+            try self.validate(self.homeRegion, name: "homeRegion", parent: name, pattern: "^[\\-a-z0-9]+$")
+            try self.validate(self.maxResults, name: "maxResults", parent: name, max: 100)
+            try self.validate(self.maxResults, name: "maxResults", parent: name, min: 1)
+            try self.validate(self.namePrefix, name: "namePrefix", parent: name, max: 64)
+            try self.validate(self.namePrefix, name: "namePrefix", parent: name, min: 1)
+            try self.validate(self.namePrefix, name: "namePrefix", parent: name, pattern: "[\\.\\-_A-Za-z0-9]+")
+            try self.validate(self.nextToken, name: "nextToken", parent: name, max: 2048)
+            try self.validate(self.nextToken, name: "nextToken", parent: name, min: 1)
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case homeRegion = "HomeRegion"
+            case maxResults = "MaxResults"
+            case namePrefix = "NamePrefix"
+            case nextToken = "NextToken"
+        }
+    }
+
+    public struct ListEndpointsResponse: AWSDecodableShape {
+        /// The endpoints returned by the call.
+        public let endpoints: [Endpoint]?
+        /// If nextToken is returned, there are more results available. The value of nextToken is a unique pagination token for each page. Make the call again using the returned token to retrieve the next page. Keep all other arguments unchanged. Each pagination token expires after 24 hours. Using an expired pagination token will return an HTTP 400 InvalidToken error.
+        public let nextToken: String?
+
+        public init(endpoints: [Endpoint]? = nil, nextToken: String? = nil) {
+            self.endpoints = endpoints
+            self.nextToken = nextToken
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case endpoints = "Endpoints"
             case nextToken = "NextToken"
         }
     }
@@ -2793,15 +3165,40 @@ extension EventBridge {
         }
     }
 
+    public struct Primary: AWSEncodableShape & AWSDecodableShape {
+        /// The ARN of the health check used by the endpoint to determine whether failover is triggered.
+        public let healthCheck: String
+
+        public init(healthCheck: String) {
+            self.healthCheck = healthCheck
+        }
+
+        public func validate(name: String) throws {
+            try self.validate(self.healthCheck, name: "healthCheck", parent: name, max: 1600)
+            try self.validate(self.healthCheck, name: "healthCheck", parent: name, min: 1)
+            try self.validate(self.healthCheck, name: "healthCheck", parent: name, pattern: "^arn:aws([a-z]|\\-)*:route53:::healthcheck/[\\-a-z0-9]+$")
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case healthCheck = "HealthCheck"
+        }
+    }
+
     public struct PutEventsRequest: AWSEncodableShape {
+        /// The URL subdomain of the endpoint. For example, if the URL for Endpoint is abcde.veo.endpoints.event.amazonaws.com, then the EndpointId is abcde.veo.  When using Java, you must include auth-crt on the class path.
+        public let endpointId: String?
         /// The entry that defines an event in your system. You can specify several parameters for the entry such as the source and type of the event, resources associated with the event, and so on.
         public let entries: [PutEventsRequestEntry]
 
-        public init(entries: [PutEventsRequestEntry]) {
+        public init(endpointId: String? = nil, entries: [PutEventsRequestEntry]) {
+            self.endpointId = endpointId
             self.entries = entries
         }
 
         public func validate(name: String) throws {
+            try self.validate(self.endpointId, name: "endpointId", parent: name, max: 50)
+            try self.validate(self.endpointId, name: "endpointId", parent: name, min: 1)
+            try self.validate(self.endpointId, name: "endpointId", parent: name, pattern: "^[A-Za-z0-9\\-]+[\\.][A-Za-z0-9\\-]+$")
             try self.entries.forEach {
                 try $0.validate(name: "\(name).entries[]")
             }
@@ -2810,16 +3207,17 @@ extension EventBridge {
         }
 
         private enum CodingKeys: String, CodingKey {
+            case endpointId = "EndpointId"
             case entries = "Entries"
         }
     }
 
     public struct PutEventsRequestEntry: AWSEncodableShape {
-        /// A valid JSON string. There is no other schema imposed. The JSON string may contain fields and nested subobjects.
+        /// A valid JSON object. There is no other schema imposed. The JSON object may contain fields and nested subobjects.
         public let detail: String?
         /// Free-form string used to decide what fields to expect in the event detail.
         public let detailType: String?
-        /// The name or ARN of the event bus to receive the event. Only the rules that are associated with this event bus are used to match the event. If you omit this, the default event bus is used.
+        /// The name or ARN of the event bus to receive the event. Only the rules that are associated with this event bus are used to match the event. If you omit this, the default event bus is used.  If you're using a global endpoint with a custom bus, you must enter the name, not the ARN, of the event bus in either the primary or secondary Region here and the corresponding event bus in the other Region will be determined based on the endpoint referenced by the EndpointId.
         public let eventBusName: String?
         /// Amazon Web Services resources, identified by Amazon Resource Name (ARN), which the event primarily concerns. Any number, including zero, may be present.
         public let resources: [String]?
@@ -2827,7 +3225,7 @@ extension EventBridge {
         public let source: String?
         /// The time stamp of the event, per RFC3339. If no time stamp is provided, the time stamp of the PutEvents call is used.
         public let time: Date?
-        /// An X-Ray trade header, which is an http header (X-Amzn-Trace-Id) that contains the trace-id associated with the event. To learn more about X-Ray trace headers, see Tracing header in the X-Ray Developer Guide.
+        /// An X-Ray trace header, which is an http header (X-Amzn-Trace-Id) that contains the trace-id associated with the event. To learn more about X-Ray trace headers, see Tracing header in the X-Ray Developer Guide.
         public let traceHeader: String?
 
         public init(detail: String? = nil, detailType: String? = nil, eventBusName: String? = nil, resources: [String]? = nil, source: String? = nil, time: Date? = nil, traceHeader: String? = nil) {
@@ -2844,6 +3242,9 @@ extension EventBridge {
             try self.validate(self.eventBusName, name: "eventBusName", parent: name, max: 1600)
             try self.validate(self.eventBusName, name: "eventBusName", parent: name, min: 1)
             try self.validate(self.eventBusName, name: "eventBusName", parent: name, pattern: "(arn:aws[\\w-]*:events:[a-z]{2}-[a-z]+-[\\w-]+:[0-9]{12}:event-bus\\/)?[\\.\\-_A-Za-z0-9]+")
+            try self.resources?.forEach {
+                try validate($0, name: "resources[]", parent: name, max: 2048)
+            }
             try self.validate(self.traceHeader, name: "traceHeader", parent: name, max: 500)
             try self.validate(self.traceHeader, name: "traceHeader", parent: name, min: 1)
         }
@@ -2939,6 +3340,9 @@ extension EventBridge {
         }
 
         public func validate(name: String) throws {
+            try self.resources?.forEach {
+                try validate($0, name: "resources[]", parent: name, max: 2048)
+            }
             try self.validate(self.source, name: "source", parent: name, max: 256)
             try self.validate(self.source, name: "source", parent: name, min: 1)
             try self.validate(self.source, name: "source", parent: name, pattern: "aws\\.partner(/[\\.\\-_A-Za-z0-9]+){2,}")
@@ -3002,7 +3406,7 @@ extension EventBridge {
         public let policy: String?
         /// The 12-digit Amazon Web Services account ID that you are permitting to put events to your default event bus. Specify "*" to permit any account to put events to your default event bus. If you specify "*" without specifying Condition, avoid creating rules that may match undesirable events. To create more secure rules, make sure that the event pattern for each rule contains an account field with a specific account ID from which to receive events. Rules with an account field do not match any events sent from other accounts.
         public let principal: String?
-        /// An identifier string for the external account that you are granting permissions to. If you later want to revoke the permission for this external account, specify this StatementId when you run RemovePermission.
+        /// An identifier string for the external account that you are granting permissions to. If you later want to revoke the permission for this external account, specify this StatementId when you run RemovePermission.  Each StatementId must be unique.
         public let statementId: String?
 
         public init(action: String? = nil, condition: Condition? = nil, eventBusName: String? = nil, policy: String? = nil, principal: String? = nil, statementId: String? = nil) {
@@ -3044,7 +3448,7 @@ extension EventBridge {
         public let description: String?
         /// The name or ARN of the event bus to associate with this rule. If you omit this, the default event bus is used.
         public let eventBusName: String?
-        /// The event pattern. For more information, see Events and Event Patterns in the Amazon EventBridge User Guide.
+        /// The event pattern. For more information, see EventBridge event patterns in the Amazon EventBridge User Guide.
         public let eventPattern: String?
         /// The name of the rule that you are creating or updating.
         public let name: String
@@ -3073,6 +3477,7 @@ extension EventBridge {
             try self.validate(self.eventBusName, name: "eventBusName", parent: name, max: 1600)
             try self.validate(self.eventBusName, name: "eventBusName", parent: name, min: 1)
             try self.validate(self.eventBusName, name: "eventBusName", parent: name, pattern: "(arn:aws[\\w-]*:events:[a-z]{2}-[a-z]+-[\\w-]+:[0-9]{12}:event-bus\\/)?[/\\.\\-_A-Za-z0-9]+")
+            try self.validate(self.eventPattern, name: "eventPattern", parent: name, max: 4096)
             try self.validate(self.name, name: "name", parent: name, max: 64)
             try self.validate(self.name, name: "name", parent: name, min: 1)
             try self.validate(self.name, name: "name", parent: name, pattern: "[\\.\\-_A-Za-z0-9]+")
@@ -3409,6 +3814,19 @@ extension EventBridge {
         }
     }
 
+    public struct ReplicationConfig: AWSEncodableShape & AWSDecodableShape {
+        /// The state of event replication.
+        public let state: ReplicationState?
+
+        public init(state: ReplicationState? = nil) {
+            self.state = state
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case state = "State"
+        }
+    }
+
     public struct RetryPolicy: AWSEncodableShape & AWSDecodableShape {
         /// The maximum amount of time, in seconds, to continue to make retry attempts.
         public let maximumEventAgeInSeconds: Int?
@@ -3430,6 +3848,23 @@ extension EventBridge {
         private enum CodingKeys: String, CodingKey {
             case maximumEventAgeInSeconds = "MaximumEventAgeInSeconds"
             case maximumRetryAttempts = "MaximumRetryAttempts"
+        }
+    }
+
+    public struct RoutingConfig: AWSEncodableShape & AWSDecodableShape {
+        /// The failover configuration for an endpoint. This includes what triggers failover and what happens when it's triggered.
+        public let failoverConfig: FailoverConfig
+
+        public init(failoverConfig: FailoverConfig) {
+            self.failoverConfig = failoverConfig
+        }
+
+        public func validate(name: String) throws {
+            try self.failoverConfig.validate(name: "\(name).failoverConfig")
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case failoverConfig = "FailoverConfig"
         }
     }
 
@@ -3573,12 +4008,35 @@ extension EventBridge {
         }
     }
 
+    public struct Secondary: AWSEncodableShape & AWSDecodableShape {
+        /// Defines the secondary Region.
+        public let route: String
+
+        public init(route: String) {
+            self.route = route
+        }
+
+        public func validate(name: String) throws {
+            try self.validate(self.route, name: "route", parent: name, max: 20)
+            try self.validate(self.route, name: "route", parent: name, min: 9)
+            try self.validate(self.route, name: "route", parent: name, pattern: "^[\\-a-z0-9]+$")
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case route = "Route"
+        }
+    }
+
     public struct SqsParameters: AWSEncodableShape & AWSDecodableShape {
         /// The FIFO message group ID to use as the target.
         public let messageGroupId: String?
 
         public init(messageGroupId: String? = nil) {
             self.messageGroupId = messageGroupId
+        }
+
+        public func validate(name: String) throws {
+            try self.validate(self.messageGroupId, name: "messageGroupId", parent: name, max: 100)
         }
 
         private enum CodingKeys: String, CodingKey {
@@ -3719,7 +4177,7 @@ extension EventBridge {
         public let ecsParameters: EcsParameters?
         /// Contains the HTTP parameters to use when the target is a API Gateway REST endpoint or EventBridge ApiDestination. If you specify an API Gateway REST API or EventBridge ApiDestination as a target, you can use this parameter to specify headers, path parameters, and query string keys/values as part of your target invoking request. If you're using ApiDestinations, the corresponding Connection can also have these values configured. In case of any conflicting keys, values from the Connection take precedence.
         public let httpParameters: HttpParameters?
-        /// The ID of the target. We recommend using a memorable and unique string.
+        /// The ID of the target within the specified rule. Use this ID to reference the target when updating the rule. We recommend using a memorable and unique string.
         public let id: String
         /// Valid JSON text passed to the target. In this case, nothing from the event itself is passed to the target. For more information, see The JavaScript Object Notation (JSON) Data Interchange Format.
         public let input: String?
@@ -3780,6 +4238,7 @@ extension EventBridge {
             try self.validate(self.roleArn, name: "roleArn", parent: name, min: 1)
             try self.runCommandParameters?.validate(name: "\(name).runCommandParameters")
             try self.sageMakerPipelineParameters?.validate(name: "\(name).sageMakerPipelineParameters")
+            try self.sqsParameters?.validate(name: "\(name).sqsParameters")
         }
 
         private enum CodingKeys: String, CodingKey {
@@ -3811,6 +4270,10 @@ extension EventBridge {
         public init(event: String, eventPattern: String) {
             self.event = event
             self.eventPattern = eventPattern
+        }
+
+        public func validate(name: String) throws {
+            try self.validate(self.eventPattern, name: "eventPattern", parent: name, max: 4096)
         }
 
         private enum CodingKeys: String, CodingKey {
@@ -3958,6 +4421,7 @@ extension EventBridge {
             try self.validate(self.archiveName, name: "archiveName", parent: name, pattern: "[\\.\\-_A-Za-z0-9]+")
             try self.validate(self.description, name: "description", parent: name, max: 512)
             try self.validate(self.description, name: "description", parent: name, pattern: ".*")
+            try self.validate(self.eventPattern, name: "eventPattern", parent: name, max: 4096)
             try self.validate(self.retentionDays, name: "retentionDays", parent: name, min: 0)
         }
 
@@ -4197,6 +4661,101 @@ extension EventBridge {
             case creationTime = "CreationTime"
             case lastAuthorizedTime = "LastAuthorizedTime"
             case lastModifiedTime = "LastModifiedTime"
+        }
+    }
+
+    public struct UpdateEndpointRequest: AWSEncodableShape {
+        /// A description for the endpoint.
+        public let description: String?
+        /// Define event buses used for replication.
+        public let eventBuses: [EndpointEventBus]?
+        /// The name of the endpoint you want to update.
+        public let name: String
+        /// Whether event replication was enabled or disabled by this request.
+        public let replicationConfig: ReplicationConfig?
+        /// The ARN of the role used by event replication for this request.
+        public let roleArn: String?
+        /// Configure the routing policy, including the health check and secondary Region..
+        public let routingConfig: RoutingConfig?
+
+        public init(description: String? = nil, eventBuses: [EndpointEventBus]? = nil, name: String, replicationConfig: ReplicationConfig? = nil, roleArn: String? = nil, routingConfig: RoutingConfig? = nil) {
+            self.description = description
+            self.eventBuses = eventBuses
+            self.name = name
+            self.replicationConfig = replicationConfig
+            self.roleArn = roleArn
+            self.routingConfig = routingConfig
+        }
+
+        public func validate(name: String) throws {
+            try self.validate(self.description, name: "description", parent: name, max: 512)
+            try self.validate(self.description, name: "description", parent: name, pattern: ".*")
+            try self.eventBuses?.forEach {
+                try $0.validate(name: "\(name).eventBuses[]")
+            }
+            try self.validate(self.eventBuses, name: "eventBuses", parent: name, max: 2)
+            try self.validate(self.eventBuses, name: "eventBuses", parent: name, min: 2)
+            try self.validate(self.name, name: "name", parent: name, max: 64)
+            try self.validate(self.name, name: "name", parent: name, min: 1)
+            try self.validate(self.name, name: "name", parent: name, pattern: "[\\.\\-_A-Za-z0-9]+")
+            try self.validate(self.roleArn, name: "roleArn", parent: name, max: 256)
+            try self.validate(self.roleArn, name: "roleArn", parent: name, min: 1)
+            try self.validate(self.roleArn, name: "roleArn", parent: name, pattern: "^arn:aws[a-z-]*:iam::\\d{12}:role\\/[\\w+=,.@/-]+$")
+            try self.routingConfig?.validate(name: "\(name).routingConfig")
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case description = "Description"
+            case eventBuses = "EventBuses"
+            case name = "Name"
+            case replicationConfig = "ReplicationConfig"
+            case roleArn = "RoleArn"
+            case routingConfig = "RoutingConfig"
+        }
+    }
+
+    public struct UpdateEndpointResponse: AWSDecodableShape {
+        /// The ARN of the endpoint you updated in this request.
+        public let arn: String?
+        /// The ID of the endpoint you updated in this request.
+        public let endpointId: String?
+        /// The URL of the endpoint you updated in this request.
+        public let endpointUrl: String?
+        /// The event buses used for replication for the endpoint you updated in this request.
+        public let eventBuses: [EndpointEventBus]?
+        /// The name of the endpoint you updated in this request.
+        public let name: String?
+        /// Whether event replication was enabled or disabled for the endpoint you updated in this request.
+        public let replicationConfig: ReplicationConfig?
+        /// The ARN of the role used by event replication for the endpoint you updated in this request.
+        public let roleArn: String?
+        /// The routing configuration you updated in this request.
+        public let routingConfig: RoutingConfig?
+        /// The state of the endpoint you updated in this request.
+        public let state: EndpointState?
+
+        public init(arn: String? = nil, endpointId: String? = nil, endpointUrl: String? = nil, eventBuses: [EndpointEventBus]? = nil, name: String? = nil, replicationConfig: ReplicationConfig? = nil, roleArn: String? = nil, routingConfig: RoutingConfig? = nil, state: EndpointState? = nil) {
+            self.arn = arn
+            self.endpointId = endpointId
+            self.endpointUrl = endpointUrl
+            self.eventBuses = eventBuses
+            self.name = name
+            self.replicationConfig = replicationConfig
+            self.roleArn = roleArn
+            self.routingConfig = routingConfig
+            self.state = state
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case arn = "Arn"
+            case endpointId = "EndpointId"
+            case endpointUrl = "EndpointUrl"
+            case eventBuses = "EventBuses"
+            case name = "Name"
+            case replicationConfig = "ReplicationConfig"
+            case roleArn = "RoleArn"
+            case routingConfig = "RoutingConfig"
+            case state = "State"
         }
     }
 }

@@ -840,6 +840,11 @@ public struct IoT: AWSService {
         return self.client.execute(operation: "ListManagedJobTemplates", path: "/managed-job-templates", httpMethod: .GET, serviceConfig: self.config, input: input, logger: logger, on: eventLoop)
     }
 
+    /// Lists the values reported for an IoT Device Defender metric (device-side metric, cloud-side metric, or custom metric) by the given thing during the specified time period.
+    public func listMetricValues(_ input: ListMetricValuesRequest, logger: Logger = AWSClient.loggingDisabled, on eventLoop: EventLoop? = nil) -> EventLoopFuture<ListMetricValuesResponse> {
+        return self.client.execute(operation: "ListMetricValues", path: "/metric-values", httpMethod: .GET, serviceConfig: self.config, input: input, logger: logger, on: eventLoop)
+    }
+
     /// Gets a list of all mitigation actions that match the specified filter criteria. Requires permission to access the ListMitigationActions action.
     public func listMitigationActions(_ input: ListMitigationActionsRequest, logger: Logger = AWSClient.loggingDisabled, on eventLoop: EventLoop? = nil) -> EventLoopFuture<ListMitigationActionsResponse> {
         return self.client.execute(operation: "ListMitigationActions", path: "/mitigationactions/actions", httpMethod: .GET, serviceConfig: self.config, input: input, logger: logger, on: eventLoop)

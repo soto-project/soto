@@ -132,7 +132,7 @@ extension GuardDuty {
         )
     }
 
-    ///  Lists all GuardDuty membership invitations that were sent to the current AWS account.
+    ///  Lists all GuardDuty membership invitations that were sent to the current Amazon Web Services account.
     /// Return PaginatorSequence for operation.
     ///
     /// - Parameters:
@@ -198,7 +198,7 @@ extension GuardDuty {
         )
     }
 
-    ///  Returns a list of publishing destinations associated with the specified dectectorId.
+    ///  Returns a list of publishing destinations associated with the specified detectorId.
     /// Return PaginatorSequence for operation.
     ///
     /// - Parameters:

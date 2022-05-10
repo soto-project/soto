@@ -141,6 +141,12 @@ extension ConfigService {
         public var description: String { return self.rawValue }
     }
 
+    public enum OrganizationConfigRuleTriggerTypeNoSN: String, CustomStringConvertible, Codable {
+        case configurationitemchangenotification = "ConfigurationItemChangeNotification"
+        case oversizedconfigurationitemchangenotification = "OversizedConfigurationItemChangeNotification"
+        public var description: String { return self.rawValue }
+    }
+
     public enum OrganizationResourceDetailedStatus: String, CustomStringConvertible, Codable {
         case createFailed = "CREATE_FAILED"
         case createInProgress = "CREATE_IN_PROGRESS"
@@ -183,6 +189,7 @@ extension ConfigService {
     public enum Owner: String, CustomStringConvertible, Codable {
         case aws = "AWS"
         case customLambda = "CUSTOM_LAMBDA"
+        case customPolicy = "CUSTOM_POLICY"
         public var description: String { return self.rawValue }
     }
 
@@ -240,6 +247,9 @@ extension ConfigService {
         case awsCloudtrailTrail = "AWS::CloudTrail::Trail"
         case awsCloudwatchAlarm = "AWS::CloudWatch::Alarm"
         case awsCodebuildProject = "AWS::CodeBuild::Project"
+        case awsCodedeployApplication = "AWS::CodeDeploy::Application"
+        case awsCodedeployDeploymentconfig = "AWS::CodeDeploy::DeploymentConfig"
+        case awsCodedeployDeploymentgroup = "AWS::CodeDeploy::DeploymentGroup"
         case awsCodepipelinePipeline = "AWS::CodePipeline::Pipeline"
         case awsConfigConformancepackcompliance = "AWS::Config::ConformancePackCompliance"
         case awsConfigResourcecompliance = "AWS::Config::ResourceCompliance"
@@ -251,6 +261,7 @@ extension ConfigService {
         case awsEc2Host = "AWS::EC2::Host"
         case awsEc2Instance = "AWS::EC2::Instance"
         case awsEc2Internetgateway = "AWS::EC2::InternetGateway"
+        case awsEc2Launchtemplate = "AWS::EC2::LaunchTemplate"
         case awsEc2Natgateway = "AWS::EC2::NatGateway"
         case awsEc2Networkacl = "AWS::EC2::NetworkAcl"
         case awsEc2Networkinterface = "AWS::EC2::NetworkInterface"
@@ -258,6 +269,7 @@ extension ConfigService {
         case awsEc2Routetable = "AWS::EC2::RouteTable"
         case awsEc2Securitygroup = "AWS::EC2::SecurityGroup"
         case awsEc2Subnet = "AWS::EC2::Subnet"
+        case awsEc2Transitgateway = "AWS::EC2::TransitGateway"
         case awsEc2Volume = "AWS::EC2::Volume"
         case awsEc2Vpc = "AWS::EC2::VPC"
         case awsEc2Vpcendpoint = "AWS::EC2::VPCEndpoint"
@@ -265,6 +277,7 @@ extension ConfigService {
         case awsEc2Vpcpeeringconnection = "AWS::EC2::VPCPeeringConnection"
         case awsEc2Vpnconnection = "AWS::EC2::VPNConnection"
         case awsEc2Vpngateway = "AWS::EC2::VPNGateway"
+        case awsEcrPublicrepository = "AWS::ECR::PublicRepository"
         case awsEcrRepository = "AWS::ECR::Repository"
         case awsEcsCluster = "AWS::ECS::Cluster"
         case awsEcsService = "AWS::ECS::Service"
@@ -278,10 +291,14 @@ extension ConfigService {
         case awsElasticloadbalancingLoadbalancer = "AWS::ElasticLoadBalancing::LoadBalancer"
         case awsElasticloadbalancingv2Loadbalancer = "AWS::ElasticLoadBalancingV2::LoadBalancer"
         case awsElasticsearchDomain = "AWS::Elasticsearch::Domain"
+        case awsEmrSecurityconfiguration = "AWS::EMR::SecurityConfiguration"
+        case awsGuarddutyDetector = "AWS::GuardDuty::Detector"
         case awsIamGroup = "AWS::IAM::Group"
         case awsIamPolicy = "AWS::IAM::Policy"
         case awsIamRole = "AWS::IAM::Role"
         case awsIamUser = "AWS::IAM::User"
+        case awsKinesisStream = "AWS::Kinesis::Stream"
+        case awsKinesisStreamconsumer = "AWS::Kinesis::StreamConsumer"
         case awsKmsKey = "AWS::KMS::Key"
         case awsLambdaFunction = "AWS::Lambda::Function"
         case awsNetworkfirewallFirewall = "AWS::NetworkFirewall::Firewall"
@@ -304,6 +321,7 @@ extension ConfigService {
         case awsRedshiftEventsubscription = "AWS::Redshift::EventSubscription"
         case awsS3Accountpublicaccessblock = "AWS::S3::AccountPublicAccessBlock"
         case awsS3Bucket = "AWS::S3::Bucket"
+        case awsSagemakerCoderepository = "AWS::SageMaker::CodeRepository"
         case awsSecretsmanagerSecret = "AWS::SecretsManager::Secret"
         case awsServicecatalogCloudformationproduct = "AWS::ServiceCatalog::CloudFormationProduct"
         case awsServicecatalogCloudformationprovisionedproduct = "AWS::ServiceCatalog::CloudFormationProvisionedProduct"
@@ -1112,10 +1130,16 @@ extension ConfigService {
         public let configRuleName: String?
         /// The time that you first activated the Config rule.
         public let firstActivatedTime: Date?
-        /// Indicates whether Config has evaluated your resources against the rule at least once.    true - Config has evaluated your Amazon Web Services resources against the rule at least once.    false - Config has not once finished evaluating your Amazon Web Services resources against the rule.
+        /// Indicates whether Config has evaluated your resources against the rule at least once.    true - Config has evaluated your Amazon Web Services resources against the rule at least once.    false - Config has not finished evaluating your Amazon Web Services resources against the rule at least once.
         public let firstEvaluationStarted: Bool?
         /// The time that you last turned off the Config rule.
         public let lastDeactivatedTime: Date?
+        /// The status of the last attempted delivery of a debug log for your Config Custom Policy rules. Either Successful or Failed.
+        public let lastDebugLogDeliveryStatus: String?
+        /// The reason Config was not able to deliver a debug log. This is for the last failed attempt to retrieve a debug log for your Config Custom Policy rules.
+        public let lastDebugLogDeliveryStatusReason: String?
+        /// The time Config last attempted to deliver a debug log for your Config Custom Policy rules.
+        public let lastDebugLogDeliveryTime: Date?
         /// The error code that Config returned when the rule last failed.
         public let lastErrorCode: String?
         /// The error message that Config returned when the rule last failed.
@@ -1129,13 +1153,16 @@ extension ConfigService {
         /// The time that Config last successfully invoked the Config rule to evaluate your Amazon Web Services resources.
         public let lastSuccessfulInvocationTime: Date?
 
-        public init(configRuleArn: String? = nil, configRuleId: String? = nil, configRuleName: String? = nil, firstActivatedTime: Date? = nil, firstEvaluationStarted: Bool? = nil, lastDeactivatedTime: Date? = nil, lastErrorCode: String? = nil, lastErrorMessage: String? = nil, lastFailedEvaluationTime: Date? = nil, lastFailedInvocationTime: Date? = nil, lastSuccessfulEvaluationTime: Date? = nil, lastSuccessfulInvocationTime: Date? = nil) {
+        public init(configRuleArn: String? = nil, configRuleId: String? = nil, configRuleName: String? = nil, firstActivatedTime: Date? = nil, firstEvaluationStarted: Bool? = nil, lastDeactivatedTime: Date? = nil, lastDebugLogDeliveryStatus: String? = nil, lastDebugLogDeliveryStatusReason: String? = nil, lastDebugLogDeliveryTime: Date? = nil, lastErrorCode: String? = nil, lastErrorMessage: String? = nil, lastFailedEvaluationTime: Date? = nil, lastFailedInvocationTime: Date? = nil, lastSuccessfulEvaluationTime: Date? = nil, lastSuccessfulInvocationTime: Date? = nil) {
             self.configRuleArn = configRuleArn
             self.configRuleId = configRuleId
             self.configRuleName = configRuleName
             self.firstActivatedTime = firstActivatedTime
             self.firstEvaluationStarted = firstEvaluationStarted
             self.lastDeactivatedTime = lastDeactivatedTime
+            self.lastDebugLogDeliveryStatus = lastDebugLogDeliveryStatus
+            self.lastDebugLogDeliveryStatusReason = lastDebugLogDeliveryStatusReason
+            self.lastDebugLogDeliveryTime = lastDebugLogDeliveryTime
             self.lastErrorCode = lastErrorCode
             self.lastErrorMessage = lastErrorMessage
             self.lastFailedEvaluationTime = lastFailedEvaluationTime
@@ -1151,6 +1178,9 @@ extension ConfigService {
             case firstActivatedTime = "FirstActivatedTime"
             case firstEvaluationStarted = "FirstEvaluationStarted"
             case lastDeactivatedTime = "LastDeactivatedTime"
+            case lastDebugLogDeliveryStatus = "LastDebugLogDeliveryStatus"
+            case lastDebugLogDeliveryStatusReason = "LastDebugLogDeliveryStatusReason"
+            case lastDebugLogDeliveryTime = "LastDebugLogDeliveryTime"
             case lastErrorCode = "LastErrorCode"
             case lastErrorMessage = "LastErrorMessage"
             case lastFailedEvaluationTime = "LastFailedEvaluationTime"
@@ -1564,7 +1594,7 @@ extension ConfigService {
     public struct ConformancePackRuleCompliance: AWSDecodableShape {
         /// Compliance of the Config rule. The allowed values are COMPLIANT, NON_COMPLIANT, and INSUFFICIENT_DATA.
         public let complianceType: ConformancePackComplianceType?
-        /// Name of the config rule.
+        /// Name of the Config rule.
         public let configRuleName: String?
         /// Controls for the conformance pack. A control is a process to prevent or detect problems while meeting objectives. A control can align with a specific compliance regime or map to internal controls defined by an organization.
         public let controls: [String]?
@@ -1620,6 +1650,35 @@ extension ConfigService {
             case lastUpdateCompletedTime = "LastUpdateCompletedTime"
             case lastUpdateRequestedTime = "LastUpdateRequestedTime"
             case stackArn = "StackArn"
+        }
+    }
+
+    public struct CustomPolicyDetails: AWSEncodableShape & AWSDecodableShape {
+        /// The boolean expression for enabling debug logging for your Config Custom Policy rule. The default value is false.
+        public let enableDebugLogDelivery: Bool?
+        /// The runtime system for your Config Custom Policy rule. Guard is a policy-as-code language that allows you to write policies that are enforced by Config Custom Policy rules. For more information about Guard, see the Guard GitHub Repository.
+        public let policyRuntime: String
+        /// The policy definition containing the logic for your Config Custom Policy rule.
+        public let policyText: String
+
+        public init(enableDebugLogDelivery: Bool? = nil, policyRuntime: String, policyText: String) {
+            self.enableDebugLogDelivery = enableDebugLogDelivery
+            self.policyRuntime = policyRuntime
+            self.policyText = policyText
+        }
+
+        public func validate(name: String) throws {
+            try self.validate(self.policyRuntime, name: "policyRuntime", parent: name, max: 64)
+            try self.validate(self.policyRuntime, name: "policyRuntime", parent: name, min: 1)
+            try self.validate(self.policyRuntime, name: "policyRuntime", parent: name, pattern: "guard\\-2\\.x\\.x")
+            try self.validate(self.policyText, name: "policyText", parent: name, max: 10000)
+            try self.validate(self.policyText, name: "policyText", parent: name, min: 0)
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case enableDebugLogDelivery = "EnableDebugLogDelivery"
+            case policyRuntime = "PolicyRuntime"
+            case policyText = "PolicyText"
         }
     }
 
@@ -1762,7 +1821,7 @@ extension ConfigService {
     }
 
     public struct DeleteOrganizationConfigRuleRequest: AWSEncodableShape {
-        /// The name of organization config rule that you want to delete.
+        /// The name of organization Config rule that you want to delete.
         public let organizationConfigRuleName: String
 
         public init(organizationConfigRuleName: String) {
@@ -2785,7 +2844,7 @@ extension ConfigService {
         public let limit: Int?
         /// The nextToken string returned on a previous page that you use to get the next page of results in a paginated response.
         public let nextToken: String?
-        /// The names of organization config rules for which you want status details. If you do not specify any names, Config returns details for all your organization Config rules.
+        /// The names of organization Config rules for which you want status details. If you do not specify any names, Config returns details for all your organization Config rules.
         public let organizationConfigRuleNames: [String]?
 
         public init(limit: Int? = nil, nextToken: String? = nil, organizationConfigRuleNames: [String]? = nil) {
@@ -2830,11 +2889,11 @@ extension ConfigService {
     }
 
     public struct DescribeOrganizationConfigRulesRequest: AWSEncodableShape {
-        /// The maximum number of organization config rules returned on each page. If you do no specify a number, Config uses the default. The default is 100.
+        /// The maximum number of organization Config rules returned on each page. If you do no specify a number, Config uses the default. The default is 100.
         public let limit: Int?
         /// The nextToken string returned on a previous page that you use to get the next page of results in a paginated response.
         public let nextToken: String?
-        /// The names of organization config rules for which you want details. If you do not specify any names, Config returns details for all your organization config rules.
+        /// The names of organization Config rules for which you want details. If you do not specify any names, Config returns details for all your organization Config rules.
         public let organizationConfigRuleNames: [String]?
 
         public init(limit: Int? = nil, nextToken: String? = nil, organizationConfigRuleNames: [String]? = nil) {
@@ -3976,6 +4035,38 @@ extension ConfigService {
         }
     }
 
+    public struct GetCustomRulePolicyRequest: AWSEncodableShape {
+        /// The name of your Config Custom Policy rule.
+        public let configRuleName: String?
+
+        public init(configRuleName: String? = nil) {
+            self.configRuleName = configRuleName
+        }
+
+        public func validate(name: String) throws {
+            try self.validate(self.configRuleName, name: "configRuleName", parent: name, max: 128)
+            try self.validate(self.configRuleName, name: "configRuleName", parent: name, min: 1)
+            try self.validate(self.configRuleName, name: "configRuleName", parent: name, pattern: ".*\\S.*")
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case configRuleName = "ConfigRuleName"
+        }
+    }
+
+    public struct GetCustomRulePolicyResponse: AWSDecodableShape {
+        /// The policy definition containing the logic for your Config Custom Policy rule.
+        public let policyText: String?
+
+        public init(policyText: String? = nil) {
+            self.policyText = policyText
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case policyText = "PolicyText"
+        }
+    }
+
     public struct GetDiscoveredResourceCountsRequest: AWSEncodableShape {
         /// The maximum number of ResourceCount objects returned on each page. The default is 100. You cannot specify a number greater than 100. If you specify 0, Config uses the default.
         public let limit: Int?
@@ -4036,7 +4127,7 @@ extension ConfigService {
         public let limit: Int?
         /// The nextToken string returned on a previous page that you use to get the next page of results in a paginated response.
         public let nextToken: String?
-        /// The name of organization config rule for which you want status details for member accounts.
+        /// The name of your organization Config rule for which you want status details for member accounts.
         public let organizationConfigRuleName: String
 
         public init(filters: StatusDetailFilters? = nil, limit: Int? = nil, nextToken: String? = nil, organizationConfigRuleName: String) {
@@ -4128,6 +4219,38 @@ extension ConfigService {
         private enum CodingKeys: String, CodingKey {
             case nextToken = "NextToken"
             case organizationConformancePackDetailedStatuses = "OrganizationConformancePackDetailedStatuses"
+        }
+    }
+
+    public struct GetOrganizationCustomRulePolicyRequest: AWSEncodableShape {
+        /// The name of your organization Config Custom Policy rule.
+        public let organizationConfigRuleName: String
+
+        public init(organizationConfigRuleName: String) {
+            self.organizationConfigRuleName = organizationConfigRuleName
+        }
+
+        public func validate(name: String) throws {
+            try self.validate(self.organizationConfigRuleName, name: "organizationConfigRuleName", parent: name, max: 64)
+            try self.validate(self.organizationConfigRuleName, name: "organizationConfigRuleName", parent: name, min: 1)
+            try self.validate(self.organizationConfigRuleName, name: "organizationConfigRuleName", parent: name, pattern: ".*\\S.*")
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case organizationConfigRuleName = "OrganizationConfigRuleName"
+        }
+    }
+
+    public struct GetOrganizationCustomRulePolicyResponse: AWSDecodableShape {
+        /// The policy definition containing the logic for your organization Config Custom Policy rule.
+        public let policyText: String?
+
+        public init(policyText: String? = nil) {
+            self.policyText = policyText
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case policyText = "PolicyText"
         }
     }
 
@@ -4442,15 +4565,15 @@ extension ConfigService {
     public struct MemberAccountStatus: AWSDecodableShape {
         /// The 12-digit account ID of a member account.
         public let accountId: String
-        /// The name of config rule deployed in the member account.
+        /// The name of Config rule deployed in the member account.
         public let configRuleName: String
-        /// An error code that is returned when config rule creation or deletion failed in the member account.
+        /// An error code that is returned when Config rule creation or deletion failed in the member account.
         public let errorCode: String?
-        /// An error message indicating that config rule account creation or deletion has failed due to an error in the member account.
+        /// An error message indicating that Config rule account creation or deletion has failed due to an error in the member account.
         public let errorMessage: String?
         /// The timestamp of the last status update.
         public let lastUpdateTime: Date?
-        /// Indicates deployment status for config rule in the member account. When master account calls PutOrganizationConfigRule action for the first time, config rule status is created in the member account. When master account calls PutOrganizationConfigRule action for the second time, config rule status is updated in the member account. Config rule status is deleted when the master account deletes OrganizationConfigRule and disables service access for config-multiaccountsetup.amazonaws.com.   Config sets the state of the rule to:    CREATE_SUCCESSFUL when config rule has been created in the member account.     CREATE_IN_PROGRESS when config rule is being created in the member account.    CREATE_FAILED when config rule creation has failed in the member account.    DELETE_FAILED when config rule deletion has failed in the member account.    DELETE_IN_PROGRESS when config rule is being deleted in the member account.    DELETE_SUCCESSFUL when config rule has been deleted in the member account.     UPDATE_SUCCESSFUL when config rule has been updated in the member account.    UPDATE_IN_PROGRESS when config rule is being updated in the member account.    UPDATE_FAILED when config rule deletion has failed in the member account.
+        /// Indicates deployment status for Config rule in the member account. When master account calls PutOrganizationConfigRule action for the first time, Config rule status is created in the member account. When master account calls PutOrganizationConfigRule action for the second time, Config rule status is updated in the member account. Config rule status is deleted when the master account deletes OrganizationConfigRule and disables service access for config-multiaccountsetup.amazonaws.com.   Config sets the state of the rule to:    CREATE_SUCCESSFUL when Config rule has been created in the member account.     CREATE_IN_PROGRESS when Config rule is being created in the member account.    CREATE_FAILED when Config rule creation has failed in the member account.    DELETE_FAILED when Config rule deletion has failed in the member account.    DELETE_IN_PROGRESS when Config rule is being deleted in the member account.    DELETE_SUCCESSFUL when Config rule has been deleted in the member account.     UPDATE_SUCCESSFUL when Config rule has been updated in the member account.    UPDATE_IN_PROGRESS when Config rule is being updated in the member account.    UPDATE_FAILED when Config rule deletion has failed in the member account.
         public let memberAccountRuleStatus: MemberAccountRuleStatus
 
         public init(accountId: String, configRuleName: String, errorCode: String? = nil, errorMessage: String? = nil, lastUpdateTime: Date? = nil, memberAccountRuleStatus: MemberAccountRuleStatus) {
@@ -4498,24 +4621,27 @@ extension ConfigService {
     }
 
     public struct OrganizationConfigRule: AWSDecodableShape {
-        /// A comma-separated list of accounts excluded from organization config rule.
+        /// A comma-separated list of accounts excluded from organization Config rule.
         public let excludedAccounts: [String]?
         /// The timestamp of the last update.
         public let lastUpdateTime: Date?
-        /// Amazon Resource Name (ARN) of organization config rule.
+        /// Amazon Resource Name (ARN) of organization Config rule.
         public let organizationConfigRuleArn: String
-        /// The name that you assign to organization config rule.
+        /// The name that you assign to organization Config rule.
         public let organizationConfigRuleName: String
+        /// An object that specifies metadata for your organization's Config Custom Policy rule. The metadata includes the runtime system in use, which accounts have debug logging enabled, and other custom rule metadata, such as resource type, resource ID of Amazon Web Services resource, and organization trigger types that initiate Config to evaluate Amazon Web Services resources against a rule.
+        public let organizationCustomPolicyRuleMetadata: OrganizationCustomPolicyRuleMetadataNoPolicy?
         /// An OrganizationCustomRuleMetadata object.
         public let organizationCustomRuleMetadata: OrganizationCustomRuleMetadata?
         /// An OrganizationManagedRuleMetadata object.
         public let organizationManagedRuleMetadata: OrganizationManagedRuleMetadata?
 
-        public init(excludedAccounts: [String]? = nil, lastUpdateTime: Date? = nil, organizationConfigRuleArn: String, organizationConfigRuleName: String, organizationCustomRuleMetadata: OrganizationCustomRuleMetadata? = nil, organizationManagedRuleMetadata: OrganizationManagedRuleMetadata? = nil) {
+        public init(excludedAccounts: [String]? = nil, lastUpdateTime: Date? = nil, organizationConfigRuleArn: String, organizationConfigRuleName: String, organizationCustomPolicyRuleMetadata: OrganizationCustomPolicyRuleMetadataNoPolicy? = nil, organizationCustomRuleMetadata: OrganizationCustomRuleMetadata? = nil, organizationManagedRuleMetadata: OrganizationManagedRuleMetadata? = nil) {
             self.excludedAccounts = excludedAccounts
             self.lastUpdateTime = lastUpdateTime
             self.organizationConfigRuleArn = organizationConfigRuleArn
             self.organizationConfigRuleName = organizationConfigRuleName
+            self.organizationCustomPolicyRuleMetadata = organizationCustomPolicyRuleMetadata
             self.organizationCustomRuleMetadata = organizationCustomRuleMetadata
             self.organizationManagedRuleMetadata = organizationManagedRuleMetadata
         }
@@ -4525,21 +4651,22 @@ extension ConfigService {
             case lastUpdateTime = "LastUpdateTime"
             case organizationConfigRuleArn = "OrganizationConfigRuleArn"
             case organizationConfigRuleName = "OrganizationConfigRuleName"
+            case organizationCustomPolicyRuleMetadata = "OrganizationCustomPolicyRuleMetadata"
             case organizationCustomRuleMetadata = "OrganizationCustomRuleMetadata"
             case organizationManagedRuleMetadata = "OrganizationManagedRuleMetadata"
         }
     }
 
     public struct OrganizationConfigRuleStatus: AWSDecodableShape {
-        /// An error code that is returned when organization config rule creation or deletion has failed.
+        /// An error code that is returned when organization Config rule creation or deletion has failed.
         public let errorCode: String?
-        /// An error message indicating that organization config rule creation or deletion failed due to an error.
+        /// An error message indicating that organization Config rule creation or deletion failed due to an error.
         public let errorMessage: String?
         /// The timestamp of the last update.
         public let lastUpdateTime: Date?
-        /// The name that you assign to organization config rule.
+        /// The name that you assign to organization Config rule.
         public let organizationConfigRuleName: String
-        /// Indicates deployment status of an organization config rule. When master account calls PutOrganizationConfigRule action for the first time, config rule status is created in all the member accounts. When master account calls PutOrganizationConfigRule action for the second time, config rule status is updated in all the member accounts. Additionally, config rule status is updated when one or more member accounts join or leave an organization. Config rule status is deleted when the master account deletes OrganizationConfigRule in all the member accounts and disables service access for config-multiaccountsetup.amazonaws.com. Config sets the state of the rule to:    CREATE_SUCCESSFUL when an organization config rule has been successfully created in all the member accounts.     CREATE_IN_PROGRESS when an organization config rule creation is in progress.    CREATE_FAILED when an organization config rule creation failed in one or more member accounts within that organization.    DELETE_FAILED when an organization config rule deletion failed in one or more member accounts within that organization.    DELETE_IN_PROGRESS when an organization config rule deletion is in progress.    DELETE_SUCCESSFUL when an organization config rule has been successfully deleted from all the member accounts.    UPDATE_SUCCESSFUL when an organization config rule has been successfully updated in all the member accounts.    UPDATE_IN_PROGRESS when an organization config rule update is in progress.    UPDATE_FAILED when an organization config rule update failed in one or more member accounts within that organization.
+        /// Indicates deployment status of an organization Config rule. When master account calls PutOrganizationConfigRule action for the first time, Config rule status is created in all the member accounts. When master account calls PutOrganizationConfigRule action for the second time, Config rule status is updated in all the member accounts. Additionally, Config rule status is updated when one or more member accounts join or leave an organization. Config rule status is deleted when the master account deletes OrganizationConfigRule in all the member accounts and disables service access for config-multiaccountsetup.amazonaws.com. Config sets the state of the rule to:    CREATE_SUCCESSFUL when an organization Config rule has been successfully created in all the member accounts.     CREATE_IN_PROGRESS when an organization Config rule creation is in progress.    CREATE_FAILED when an organization Config rule creation failed in one or more member accounts within that organization.    DELETE_FAILED when an organization Config rule deletion failed in one or more member accounts within that organization.    DELETE_IN_PROGRESS when an organization Config rule deletion is in progress.    DELETE_SUCCESSFUL when an organization Config rule has been successfully deleted from all the member accounts.    UPDATE_SUCCESSFUL when an organization Config rule has been successfully updated in all the member accounts.    UPDATE_IN_PROGRESS when an organization Config rule update is in progress.    UPDATE_FAILED when an organization Config rule update failed in one or more member accounts within that organization.
         public let organizationRuleStatus: OrganizationRuleStatus
 
         public init(errorCode: String? = nil, errorMessage: String? = nil, lastUpdateTime: Date? = nil, organizationConfigRuleName: String, organizationRuleStatus: OrganizationRuleStatus) {
@@ -4658,10 +4785,141 @@ extension ConfigService {
         }
     }
 
-    public struct OrganizationCustomRuleMetadata: AWSEncodableShape & AWSDecodableShape {
-        /// The description that you provide for organization config rule.
+    public struct OrganizationCustomPolicyRuleMetadata: AWSEncodableShape {
+        /// A list of accounts that you can enable debug logging for your organization Config Custom Policy rule. List is null when debug logging is enabled for all accounts.
+        public let debugLogDeliveryAccounts: [String]?
+        /// The description that you provide for your organization Config Custom Policy rule.
         public let description: String?
-        /// A string, in JSON format, that is passed to organization config rule Lambda function.
+        /// A string, in JSON format, that is passed to your organization Config Custom Policy rule.
+        public let inputParameters: String?
+        /// The maximum frequency with which Config runs evaluations for a rule. Your Config Custom Policy rule is triggered when Config delivers the configuration snapshot. For more information, see ConfigSnapshotDeliveryProperties.
+        public let maximumExecutionFrequency: MaximumExecutionFrequency?
+        /// The type of notification that initiates Config to run an evaluation for a rule. For Config Custom Policy rules, Config supports change-initiated notification types:    ConfigurationItemChangeNotification - Initiates an evaluation when Config delivers a configuration item as a result of a resource change.    OversizedConfigurationItemChangeNotification - Initiates an evaluation when Config delivers an oversized configuration item. Config may generate this notification type when a resource changes and the notification exceeds the maximum size allowed by Amazon SNS.
+        public let organizationConfigRuleTriggerTypes: [OrganizationConfigRuleTriggerTypeNoSN]?
+        /// The runtime system for your organization Config Custom Policy rules. Guard is a policy-as-code language that allows you to write policies that are enforced by Config Custom Policy rules. For more information about Guard, see the Guard GitHub Repository.
+        public let policyRuntime: String
+        /// The policy definition containing the logic for your organization Config Custom Policy rule.
+        public let policyText: String
+        /// The ID of the Amazon Web Services resource that was evaluated.
+        public let resourceIdScope: String?
+        /// The type of the Amazon Web Services resource that was evaluated.
+        public let resourceTypesScope: [String]?
+        /// One part of a key-value pair that make up a tag. A key is a general label that acts like a category for more specific tag values.
+        public let tagKeyScope: String?
+        /// The optional part of a key-value pair that make up a tag. A value acts as a descriptor within a tag category (key).
+        public let tagValueScope: String?
+
+        public init(debugLogDeliveryAccounts: [String]? = nil, description: String? = nil, inputParameters: String? = nil, maximumExecutionFrequency: MaximumExecutionFrequency? = nil, organizationConfigRuleTriggerTypes: [OrganizationConfigRuleTriggerTypeNoSN]? = nil, policyRuntime: String, policyText: String, resourceIdScope: String? = nil, resourceTypesScope: [String]? = nil, tagKeyScope: String? = nil, tagValueScope: String? = nil) {
+            self.debugLogDeliveryAccounts = debugLogDeliveryAccounts
+            self.description = description
+            self.inputParameters = inputParameters
+            self.maximumExecutionFrequency = maximumExecutionFrequency
+            self.organizationConfigRuleTriggerTypes = organizationConfigRuleTriggerTypes
+            self.policyRuntime = policyRuntime
+            self.policyText = policyText
+            self.resourceIdScope = resourceIdScope
+            self.resourceTypesScope = resourceTypesScope
+            self.tagKeyScope = tagKeyScope
+            self.tagValueScope = tagValueScope
+        }
+
+        public func validate(name: String) throws {
+            try self.debugLogDeliveryAccounts?.forEach {
+                try validate($0, name: "debugLogDeliveryAccounts[]", parent: name, pattern: "\\d{12}")
+            }
+            try self.validate(self.debugLogDeliveryAccounts, name: "debugLogDeliveryAccounts", parent: name, max: 1000)
+            try self.validate(self.debugLogDeliveryAccounts, name: "debugLogDeliveryAccounts", parent: name, min: 0)
+            try self.validate(self.description, name: "description", parent: name, max: 256)
+            try self.validate(self.description, name: "description", parent: name, min: 0)
+            try self.validate(self.inputParameters, name: "inputParameters", parent: name, max: 2048)
+            try self.validate(self.inputParameters, name: "inputParameters", parent: name, min: 1)
+            try self.validate(self.policyRuntime, name: "policyRuntime", parent: name, max: 64)
+            try self.validate(self.policyRuntime, name: "policyRuntime", parent: name, min: 1)
+            try self.validate(self.policyRuntime, name: "policyRuntime", parent: name, pattern: "guard\\-2\\.x\\.x")
+            try self.validate(self.policyText, name: "policyText", parent: name, max: 10000)
+            try self.validate(self.policyText, name: "policyText", parent: name, min: 0)
+            try self.validate(self.resourceIdScope, name: "resourceIdScope", parent: name, max: 768)
+            try self.validate(self.resourceIdScope, name: "resourceIdScope", parent: name, min: 1)
+            try self.resourceTypesScope?.forEach {
+                try validate($0, name: "resourceTypesScope[]", parent: name, max: 256)
+                try validate($0, name: "resourceTypesScope[]", parent: name, min: 1)
+            }
+            try self.validate(self.resourceTypesScope, name: "resourceTypesScope", parent: name, max: 100)
+            try self.validate(self.resourceTypesScope, name: "resourceTypesScope", parent: name, min: 0)
+            try self.validate(self.tagKeyScope, name: "tagKeyScope", parent: name, max: 128)
+            try self.validate(self.tagKeyScope, name: "tagKeyScope", parent: name, min: 1)
+            try self.validate(self.tagValueScope, name: "tagValueScope", parent: name, max: 256)
+            try self.validate(self.tagValueScope, name: "tagValueScope", parent: name, min: 1)
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case debugLogDeliveryAccounts = "DebugLogDeliveryAccounts"
+            case description = "Description"
+            case inputParameters = "InputParameters"
+            case maximumExecutionFrequency = "MaximumExecutionFrequency"
+            case organizationConfigRuleTriggerTypes = "OrganizationConfigRuleTriggerTypes"
+            case policyRuntime = "PolicyRuntime"
+            case policyText = "PolicyText"
+            case resourceIdScope = "ResourceIdScope"
+            case resourceTypesScope = "ResourceTypesScope"
+            case tagKeyScope = "TagKeyScope"
+            case tagValueScope = "TagValueScope"
+        }
+    }
+
+    public struct OrganizationCustomPolicyRuleMetadataNoPolicy: AWSDecodableShape {
+        /// A list of accounts that you can enable debug logging for your organization Config Custom Policy rule. List is null when debug logging is enabled for all accounts.
+        public let debugLogDeliveryAccounts: [String]?
+        /// The description that you provide for your organization Config Custom Policy rule.
+        public let description: String?
+        /// A string, in JSON format, that is passed to your organization Config Custom Policy rule.
+        public let inputParameters: String?
+        /// The maximum frequency with which Config runs evaluations for a rule. Your Config Custom Policy rule is triggered when Config delivers the configuration snapshot. For more information, see ConfigSnapshotDeliveryProperties.
+        public let maximumExecutionFrequency: MaximumExecutionFrequency?
+        /// The type of notification that triggers Config to run an evaluation for a rule. For Config Custom Policy rules, Config supports change triggered notification types:    ConfigurationItemChangeNotification - Triggers an evaluation when Config delivers a configuration item as a result of a resource change.    OversizedConfigurationItemChangeNotification - Triggers an evaluation when Config delivers an oversized configuration item. Config may generate this notification type when a resource changes and the notification exceeds the maximum size allowed by Amazon SNS.
+        public let organizationConfigRuleTriggerTypes: [OrganizationConfigRuleTriggerTypeNoSN]?
+        /// The runtime system for your organization Config Custom Policy rules. Guard is a policy-as-code language that allows you to write policies that are enforced by Config Custom Policy rules. For more information about Guard, see the Guard GitHub Repository.
+        public let policyRuntime: String?
+        /// The ID of the Amazon Web Services resource that was evaluated.
+        public let resourceIdScope: String?
+        /// The type of the Amazon Web Services resource that was evaluated.
+        public let resourceTypesScope: [String]?
+        /// One part of a key-value pair that make up a tag. A key is a general label that acts like a category for more specific tag values.
+        public let tagKeyScope: String?
+        /// The optional part of a key-value pair that make up a tag. A value acts as a descriptor within a tag category (key).
+        public let tagValueScope: String?
+
+        public init(debugLogDeliveryAccounts: [String]? = nil, description: String? = nil, inputParameters: String? = nil, maximumExecutionFrequency: MaximumExecutionFrequency? = nil, organizationConfigRuleTriggerTypes: [OrganizationConfigRuleTriggerTypeNoSN]? = nil, policyRuntime: String? = nil, resourceIdScope: String? = nil, resourceTypesScope: [String]? = nil, tagKeyScope: String? = nil, tagValueScope: String? = nil) {
+            self.debugLogDeliveryAccounts = debugLogDeliveryAccounts
+            self.description = description
+            self.inputParameters = inputParameters
+            self.maximumExecutionFrequency = maximumExecutionFrequency
+            self.organizationConfigRuleTriggerTypes = organizationConfigRuleTriggerTypes
+            self.policyRuntime = policyRuntime
+            self.resourceIdScope = resourceIdScope
+            self.resourceTypesScope = resourceTypesScope
+            self.tagKeyScope = tagKeyScope
+            self.tagValueScope = tagValueScope
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case debugLogDeliveryAccounts = "DebugLogDeliveryAccounts"
+            case description = "Description"
+            case inputParameters = "InputParameters"
+            case maximumExecutionFrequency = "MaximumExecutionFrequency"
+            case organizationConfigRuleTriggerTypes = "OrganizationConfigRuleTriggerTypes"
+            case policyRuntime = "PolicyRuntime"
+            case resourceIdScope = "ResourceIdScope"
+            case resourceTypesScope = "ResourceTypesScope"
+            case tagKeyScope = "TagKeyScope"
+            case tagValueScope = "TagValueScope"
+        }
+    }
+
+    public struct OrganizationCustomRuleMetadata: AWSEncodableShape & AWSDecodableShape {
+        /// The description that you provide for your organization Config rule.
+        public let description: String?
+        /// A string, in JSON format, that is passed to your organization Config rule Lambda function.
         public let inputParameters: String?
         /// The lambda function ARN.
         public let lambdaFunctionArn: String
@@ -4725,9 +4983,9 @@ extension ConfigService {
     }
 
     public struct OrganizationManagedRuleMetadata: AWSEncodableShape & AWSDecodableShape {
-        /// The description that you provide for organization config rule.
+        /// The description that you provide for your organization Config rule.
         public let description: String?
-        /// A string, in JSON format, that is passed to organization config rule Lambda function.
+        /// A string, in JSON format, that is passed to your organization Config rule Lambda function.
         public let inputParameters: String?
         /// The maximum frequency with which Config runs evaluations for a rule. You are using an Config managed rule that is triggered at a periodic frequency.  By default, rules with a periodic trigger are evaluated every 24 hours. To change the frequency, specify a valid value for the MaximumExecutionFrequency parameter.
         public let maximumExecutionFrequency: MaximumExecutionFrequency?
@@ -4976,7 +5234,7 @@ extension ConfigService {
         public let deliveryS3Bucket: String?
         /// The prefix for the Amazon S3 bucket.   This field is optional.
         public let deliveryS3KeyPrefix: String?
-        /// A string containing full conformance pack template body. Structure containing the template body with a minimum length of 1 byte and a maximum length of 51,200 bytes.  You can only use a YAML template with one resource type, that is, config rule and a remediation action.
+        /// A string containing full conformance pack template body. Structure containing the template body with a minimum length of 1 byte and a maximum length of 51,200 bytes.  You can only use a YAML template with two resource types: Config rule (AWS::Config::ConfigRule) and a remediation action (AWS::Config::RemediationConfiguration).
         public let templateBody: String?
         /// Location of file containing the template body (s3://bucketname/prefix). The uri must point to the conformance pack template (max size: 300 KB) that is located in an Amazon S3 bucket in the same region as the conformance pack.   You must have access to read Amazon S3 bucket.
         public let templateS3Uri: String?
@@ -5121,18 +5379,21 @@ extension ConfigService {
     }
 
     public struct PutOrganizationConfigRuleRequest: AWSEncodableShape {
-        /// A comma-separated list of accounts that you want to exclude from an organization config rule.
+        /// A comma-separated list of accounts that you want to exclude from an organization Config rule.
         public let excludedAccounts: [String]?
-        /// The name that you assign to an organization config rule.
+        /// The name that you assign to an organization Config rule.
         public let organizationConfigRuleName: String
+        /// An object that specifies metadata for your organization's Config Custom Policy rule. The metadata includes the runtime system in use, which accounts have debug logging enabled, and other custom rule metadata, such as resource type, resource ID of Amazon Web Services resource, and organization trigger types that initiate Config to evaluate Amazon Web Services resources against a rule.
+        public let organizationCustomPolicyRuleMetadata: OrganizationCustomPolicyRuleMetadata?
         /// An OrganizationCustomRuleMetadata object.
         public let organizationCustomRuleMetadata: OrganizationCustomRuleMetadata?
         /// An OrganizationManagedRuleMetadata object.
         public let organizationManagedRuleMetadata: OrganizationManagedRuleMetadata?
 
-        public init(excludedAccounts: [String]? = nil, organizationConfigRuleName: String, organizationCustomRuleMetadata: OrganizationCustomRuleMetadata? = nil, organizationManagedRuleMetadata: OrganizationManagedRuleMetadata? = nil) {
+        public init(excludedAccounts: [String]? = nil, organizationConfigRuleName: String, organizationCustomPolicyRuleMetadata: OrganizationCustomPolicyRuleMetadata? = nil, organizationCustomRuleMetadata: OrganizationCustomRuleMetadata? = nil, organizationManagedRuleMetadata: OrganizationManagedRuleMetadata? = nil) {
             self.excludedAccounts = excludedAccounts
             self.organizationConfigRuleName = organizationConfigRuleName
+            self.organizationCustomPolicyRuleMetadata = organizationCustomPolicyRuleMetadata
             self.organizationCustomRuleMetadata = organizationCustomRuleMetadata
             self.organizationManagedRuleMetadata = organizationManagedRuleMetadata
         }
@@ -5146,6 +5407,7 @@ extension ConfigService {
             try self.validate(self.organizationConfigRuleName, name: "organizationConfigRuleName", parent: name, max: 64)
             try self.validate(self.organizationConfigRuleName, name: "organizationConfigRuleName", parent: name, min: 1)
             try self.validate(self.organizationConfigRuleName, name: "organizationConfigRuleName", parent: name, pattern: ".*\\S.*")
+            try self.organizationCustomPolicyRuleMetadata?.validate(name: "\(name).organizationCustomPolicyRuleMetadata")
             try self.organizationCustomRuleMetadata?.validate(name: "\(name).organizationCustomRuleMetadata")
             try self.organizationManagedRuleMetadata?.validate(name: "\(name).organizationManagedRuleMetadata")
         }
@@ -5153,13 +5415,14 @@ extension ConfigService {
         private enum CodingKeys: String, CodingKey {
             case excludedAccounts = "ExcludedAccounts"
             case organizationConfigRuleName = "OrganizationConfigRuleName"
+            case organizationCustomPolicyRuleMetadata = "OrganizationCustomPolicyRuleMetadata"
             case organizationCustomRuleMetadata = "OrganizationCustomRuleMetadata"
             case organizationManagedRuleMetadata = "OrganizationManagedRuleMetadata"
         }
     }
 
     public struct PutOrganizationConfigRuleResponse: AWSDecodableShape {
-        /// The Amazon Resource Name (ARN) of an organization config rule.
+        /// The Amazon Resource Name (ARN) of an organization Config rule.
         public let organizationConfigRuleArn: String?
 
         public init(organizationConfigRuleArn: String? = nil) {
@@ -6018,20 +6281,24 @@ extension ConfigService {
     }
 
     public struct Source: AWSEncodableShape & AWSDecodableShape {
-        /// Indicates whether Amazon Web Services or the customer owns and manages the Config rule.
+        /// Provides the runtime system, policy definition, and whether debug logging is enabled. Required when owner is set to CUSTOM_POLICY.
+        public let customPolicyDetails: CustomPolicyDetails?
+        /// Indicates whether Amazon Web Services or the customer owns and manages the Config rule. Config Managed Rules are predefined rules owned by Amazon Web Services. For more information, see Config Managed Rules in the Config developer guide. Config Custom Rules are rules that you can develop either with Guard (CUSTOM_POLICY) or Lambda (CUSTOM_LAMBDA). For more information, see Config Custom Rules  in the Config developer guide.
         public let owner: Owner
-        /// Provides the source and type of the event that causes Config to evaluate your Amazon Web Services resources.
+        /// Provides the source and the message types that cause Config to evaluate your Amazon Web Services resources against a rule. It also provides the frequency with which you want Config to run evaluations for the rule if the trigger type is periodic. If the owner is set to CUSTOM_POLICY, the only acceptable values for the Config rule trigger message type are ConfigurationItemChangeNotification and OversizedConfigurationItemChangeNotification.
         public let sourceDetails: [SourceDetail]?
-        /// For Config managed rules, a predefined identifier from a list. For example, IAM_PASSWORD_POLICY is a managed rule. To reference a managed rule, see Using Config managed rules. For custom rules, the identifier is the Amazon Resource Name (ARN) of the rule's Lambda function, such as arn:aws:lambda:us-east-2:123456789012:function:custom_rule_name.
-        public let sourceIdentifier: String
+        /// For Config Managed rules, a predefined identifier from a list. For example, IAM_PASSWORD_POLICY is a managed rule. To reference a managed rule, see List of Config Managed Rules. For Config Custom Lambda rules, the identifier is the Amazon Resource Name (ARN) of the rule's Lambda function, such as arn:aws:lambda:us-east-2:123456789012:function:custom_rule_name. For Config Custom Policy rules, this field will be ignored.
+        public let sourceIdentifier: String?
 
-        public init(owner: Owner, sourceDetails: [SourceDetail]? = nil, sourceIdentifier: String) {
+        public init(customPolicyDetails: CustomPolicyDetails? = nil, owner: Owner, sourceDetails: [SourceDetail]? = nil, sourceIdentifier: String? = nil) {
+            self.customPolicyDetails = customPolicyDetails
             self.owner = owner
             self.sourceDetails = sourceDetails
             self.sourceIdentifier = sourceIdentifier
         }
 
         public func validate(name: String) throws {
+            try self.customPolicyDetails?.validate(name: "\(name).customPolicyDetails")
             try self.validate(self.sourceDetails, name: "sourceDetails", parent: name, max: 25)
             try self.validate(self.sourceDetails, name: "sourceDetails", parent: name, min: 0)
             try self.validate(self.sourceIdentifier, name: "sourceIdentifier", parent: name, max: 256)
@@ -6039,6 +6306,7 @@ extension ConfigService {
         }
 
         private enum CodingKeys: String, CodingKey {
+            case customPolicyDetails = "CustomPolicyDetails"
             case owner = "Owner"
             case sourceDetails = "SourceDetails"
             case sourceIdentifier = "SourceIdentifier"
@@ -6205,7 +6473,7 @@ extension ConfigService {
     public struct StatusDetailFilters: AWSEncodableShape {
         /// The 12-digit account ID of the member account within an organization.
         public let accountId: String?
-        /// Indicates deployment status for config rule in the member account. When master account calls PutOrganizationConfigRule action for the first time, config rule status is created in the member account. When master account calls PutOrganizationConfigRule action for the second time, config rule status is updated in the member account. Config rule status is deleted when the master account deletes OrganizationConfigRule and disables service access for config-multiaccountsetup.amazonaws.com.  Config sets the state of the rule to:    CREATE_SUCCESSFUL when config rule has been created in the member account.    CREATE_IN_PROGRESS when config rule is being created in the member account.    CREATE_FAILED when config rule creation has failed in the member account.    DELETE_FAILED when config rule deletion has failed in the member account.    DELETE_IN_PROGRESS when config rule is being deleted in the member account.    DELETE_SUCCESSFUL when config rule has been deleted in the member account.    UPDATE_SUCCESSFUL when config rule has been updated in the member account.    UPDATE_IN_PROGRESS when config rule is being updated in the member account.    UPDATE_FAILED when config rule deletion has failed in the member account.
+        /// Indicates deployment status for Config rule in the member account. When master account calls PutOrganizationConfigRule action for the first time, Config rule status is created in the member account. When master account calls PutOrganizationConfigRule action for the second time, Config rule status is updated in the member account. Config rule status is deleted when the master account deletes OrganizationConfigRule and disables service access for config-multiaccountsetup.amazonaws.com.  Config sets the state of the rule to:    CREATE_SUCCESSFUL when Config rule has been created in the member account.    CREATE_IN_PROGRESS when Config rule is being created in the member account.    CREATE_FAILED when Config rule creation has failed in the member account.    DELETE_FAILED when Config rule deletion has failed in the member account.    DELETE_IN_PROGRESS when Config rule is being deleted in the member account.    DELETE_SUCCESSFUL when Config rule has been deleted in the member account.    UPDATE_SUCCESSFUL when Config rule has been updated in the member account.    UPDATE_IN_PROGRESS when Config rule is being updated in the member account.    UPDATE_FAILED when Config rule deletion has failed in the member account.
         public let memberAccountRuleStatus: MemberAccountRuleStatus?
 
         public init(accountId: String? = nil, memberAccountRuleStatus: MemberAccountRuleStatus? = nil) {

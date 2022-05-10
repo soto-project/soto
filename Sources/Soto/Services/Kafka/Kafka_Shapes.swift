@@ -153,16 +153,20 @@ extension Kafka {
     public struct BrokerEBSVolumeInfo: AWSEncodableShape & AWSDecodableShape {
         /// The ID of the broker to update.
         public let kafkaBrokerNodeId: String
+        /// EBS volume provisioned throughput information.
+        public let provisionedThroughput: ProvisionedThroughput?
         ///             Size of the EBS volume to update.
-        public let volumeSizeGB: Int
+        public let volumeSizeGB: Int?
 
-        public init(kafkaBrokerNodeId: String, volumeSizeGB: Int) {
+        public init(kafkaBrokerNodeId: String, provisionedThroughput: ProvisionedThroughput? = nil, volumeSizeGB: Int? = nil) {
             self.kafkaBrokerNodeId = kafkaBrokerNodeId
+            self.provisionedThroughput = provisionedThroughput
             self.volumeSizeGB = volumeSizeGB
         }
 
         private enum CodingKeys: String, CodingKey {
             case kafkaBrokerNodeId
+            case provisionedThroughput
             case volumeSizeGB
         }
     }
@@ -1068,10 +1072,13 @@ extension Kafka {
     }
 
     public struct EBSStorageInfo: AWSEncodableShape & AWSDecodableShape {
+        /// EBS volume provisioned throughput information.
+        public let provisionedThroughput: ProvisionedThroughput?
         /// The size in GiB of the EBS volume for the data drive on each broker node.
         public let volumeSize: Int?
 
-        public init(volumeSize: Int? = nil) {
+        public init(provisionedThroughput: ProvisionedThroughput? = nil, volumeSize: Int? = nil) {
+            self.provisionedThroughput = provisionedThroughput
             self.volumeSize = volumeSize
         }
 
@@ -1081,6 +1088,7 @@ extension Kafka {
         }
 
         private enum CodingKeys: String, CodingKey {
+            case provisionedThroughput
             case volumeSize
         }
     }
@@ -1948,6 +1956,23 @@ extension Kafka {
             case loggingInfo
             case numberOfBrokerNodes
             case openMonitoring
+        }
+    }
+
+    public struct ProvisionedThroughput: AWSEncodableShape & AWSDecodableShape {
+        /// Provisioned throughput is enabled or not.
+        public let enabled: Bool?
+        /// Throughput value of the EBS volumes for the data drive on each kafka broker node in MiB per second.
+        public let volumeThroughput: Int?
+
+        public init(enabled: Bool? = nil, volumeThroughput: Int? = nil) {
+            self.enabled = enabled
+            self.volumeThroughput = volumeThroughput
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case enabled
+            case volumeThroughput
         }
     }
 

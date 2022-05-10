@@ -242,6 +242,28 @@ extension Comprehend {
         )
     }
 
+    ///  Gets a list of targeted sentiment detection jobs that you have submitted.
+    /// Return PaginatorSequence for operation.
+    ///
+    /// - Parameters:
+    ///   - input: Input for request
+    ///   - logger: Logger used flot logging
+    ///   - eventLoop: EventLoop to run this process on
+    public func listTargetedSentimentDetectionJobsPaginator(
+        _ input: ListTargetedSentimentDetectionJobsRequest,
+        logger: Logger = AWSClient.loggingDisabled,
+        on eventLoop: EventLoop? = nil
+    ) -> AWSClient.PaginatorSequence<ListTargetedSentimentDetectionJobsRequest, ListTargetedSentimentDetectionJobsResponse> {
+        return .init(
+            input: input,
+            command: listTargetedSentimentDetectionJobs,
+            inputKey: \ListTargetedSentimentDetectionJobsRequest.nextToken,
+            outputKey: \ListTargetedSentimentDetectionJobsResponse.nextToken,
+            logger: logger,
+            on: eventLoop
+        )
+    }
+
     ///  Gets a list of the topic detection jobs that you have submitted.
     /// Return PaginatorSequence for operation.
     ///

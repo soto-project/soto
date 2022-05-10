@@ -20,6 +20,24 @@ import SotoCore
 extension Honeycode {
     // MARK: Enums
 
+    public enum ErrorCode: String, CustomStringConvertible, Codable {
+        case accessDenied = "ACCESS_DENIED"
+        case fileEmptyError = "FILE_EMPTY_ERROR"
+        case fileNotFoundError = "FILE_NOT_FOUND_ERROR"
+        case fileParsingError = "FILE_PARSING_ERROR"
+        case fileSizeLimitError = "FILE_SIZE_LIMIT_ERROR"
+        case invalidFileTypeError = "INVALID_FILE_TYPE_ERROR"
+        case invalidImportOptionsError = "INVALID_IMPORT_OPTIONS_ERROR"
+        case invalidTableColumnIdError = "INVALID_TABLE_COLUMN_ID_ERROR"
+        case invalidTableIdError = "INVALID_TABLE_ID_ERROR"
+        case invalidUrlError = "INVALID_URL_ERROR"
+        case resourceNotFoundError = "RESOURCE_NOT_FOUND_ERROR"
+        case systemLimitError = "SYSTEM_LIMIT_ERROR"
+        case tableNotFoundError = "TABLE_NOT_FOUND_ERROR"
+        case unknownError = "UNKNOWN_ERROR"
+        public var description: String { return self.rawValue }
+    }
+
     public enum Format: String, CustomStringConvertible, Codable {
         case accounting = "ACCOUNTING"
         case auto = "AUTO"
@@ -30,6 +48,7 @@ extension Honeycode {
         case number = "NUMBER"
         case percentage = "PERCENTAGE"
         case rowlink = "ROWLINK"
+        case rowset = "ROWSET"
         case text = "TEXT"
         case time = "TIME"
         public var description: String { return self.rawValue }
@@ -327,14 +346,17 @@ extension Honeycode {
         public let format: Format?
         ///  The formatted value of the cell. This is the value that you see displayed in the cell in the UI.   Note that the formatted value of a cell is always represented as a string irrespective of the data that is stored in the cell. For example, if a cell contains a date, the formatted value of the cell is the string representation of the formatted date being shown in the cell in the UI. See details in the rawValue field below for how cells of different formats will have different raw and formatted values.
         public let formattedValue: String?
+        ///  A list of formatted values of the cell. This field is only returned when the cell is ROWSET format (aka multi-select or multi-record picklist). Values in the list are always represented as strings. The formattedValue field will be empty if this field is returned.
+        public let formattedValues: [String]?
         ///  The formula contained in the cell. This field is empty if a cell does not have a formula.
         public let formula: String?
-        ///  The raw value of the data contained in the cell. The raw value depends on the format of the data in the cell. However the attribute in the API return value is always a string containing the raw value.   Cells with format DATE, DATE_TIME or TIME have the raw value as a floating point number where the whole number represents the number of days since 1/1/1900 and the fractional part represents the fraction of the day since midnight. For example, a cell with date 11/3/2020 has the raw value "44138". A cell with the time 9:00 AM has the raw value "0.375" and a cell with date/time value of 11/3/2020 9:00 AM has the raw value "44138.375". Notice that even though the raw value is a number in all three cases, it is still represented as a string.   Cells with format NUMBER, CURRENCY, PERCENTAGE and ACCOUNTING have the raw value of the data as the number representing the data being displayed. For example, the number 1.325 with two decimal places in the format will have it's raw value as "1.325" and formatted value as "1.33". A currency value for $10 will have the raw value as "10" and formatted value as "$10.00". A value representing 20% with two decimal places in the format will have its raw value as "0.2" and the formatted value as "20.00%". An accounting value of -$25 will have "-25" as the raw value and "$ (25.00)" as the formatted value.   Cells with format TEXT will have the raw text as the raw value. For example, a cell with text "John Smith" will have "John Smith" as both the raw value and the formatted value.   Cells with format CONTACT will have the name of the contact as a formatted value and the email address of the contact as the raw value. For example, a contact for John Smith will have "John Smith" as the formatted value and "john.smith@example.com" as the raw value.   Cells with format ROWLINK (aka picklist) will have the first column of the linked row as the formatted value and the row id of the linked row as the raw value. For example, a cell containing a picklist to a table that displays task status might have "Completed" as the formatted value and "row:dfcefaee-5b37-4355-8f28-40c3e4ff5dd4/ca432b2f-b8eb-431d-9fb5-cbe0342f9f03" as the raw value.   Cells with format AUTO or cells without any format that are auto-detected as one of the formats above will contain the raw and formatted values as mentioned above, based on the auto-detected formats. If there is no auto-detected format, the raw and formatted values will be the same as the data in the cell.
+        ///  The raw value of the data contained in the cell. The raw value depends on the format of the data in the cell. However the attribute in the API return value is always a string containing the raw value.   Cells with format DATE, DATE_TIME or TIME have the raw value as a floating point number where the whole number represents the number of days since 1/1/1900 and the fractional part represents the fraction of the day since midnight. For example, a cell with date 11/3/2020 has the raw value "44138". A cell with the time 9:00 AM has the raw value "0.375" and a cell with date/time value of 11/3/2020 9:00 AM has the raw value "44138.375". Notice that even though the raw value is a number in all three cases, it is still represented as a string.   Cells with format NUMBER, CURRENCY, PERCENTAGE and ACCOUNTING have the raw value of the data as the number representing the data being displayed. For example, the number 1.325 with two decimal places in the format will have it's raw value as "1.325" and formatted value as "1.33". A currency value for $10 will have the raw value as "10" and formatted value as "$10.00". A value representing 20% with two decimal places in the format will have its raw value as "0.2" and the formatted value as "20.00%". An accounting value of -$25 will have "-25" as the raw value and "$ (25.00)" as the formatted value.   Cells with format TEXT will have the raw text as the raw value. For example, a cell with text "John Smith" will have "John Smith" as both the raw value and the formatted value.   Cells with format CONTACT will have the name of the contact as a formatted value and the email address of the contact as the raw value. For example, a contact for John Smith will have "John Smith" as the formatted value and "john.smith@example.com" as the raw value.   Cells with format ROWLINK (aka picklist) will have the first column of the linked row as the formatted value and the row id of the linked row as the raw value. For example, a cell containing a picklist to a table that displays task status might have "Completed" as the formatted value and "row:dfcefaee-5b37-4355-8f28-40c3e4ff5dd4/ca432b2f-b8eb-431d-9fb5-cbe0342f9f03" as the raw value.   Cells with format ROWSET (aka multi-select or multi-record picklist) will by default have the first column of each of the linked rows as the formatted value in the list, and the rowset id of the linked rows as the raw value. For example, a cell containing a multi-select picklist to a table that contains items might have "Item A", "Item B" in the formatted value list and "rows:b742c1f4-6cb0-4650-a845-35eb86fcc2bb/ [fdea123b-8f68-474a-aa8a-5ff87aa333af,6daf41f0-a138-4eee-89da-123086d36ecf]" as the raw value.   Cells with format ATTACHMENT will have the name of the attachment as the formatted value and the attachment id as the raw value. For example, a cell containing an attachment named "image.jpeg" will have "image.jpeg" as the formatted value and "attachment:ca432b2f-b8eb-431d-9fb5-cbe0342f9f03" as the raw value.   Cells with format AUTO or cells without any format that are auto-detected as one of the formats above will contain the raw and formatted values as mentioned above, based on the auto-detected formats. If there is no auto-detected format, the raw and formatted values will be the same as the data in the cell.
         public let rawValue: String?
 
-        public init(format: Format? = nil, formattedValue: String? = nil, formula: String? = nil, rawValue: String? = nil) {
+        public init(format: Format? = nil, formattedValue: String? = nil, formattedValues: [String]? = nil, formula: String? = nil, rawValue: String? = nil) {
             self.format = format
             self.formattedValue = formattedValue
+            self.formattedValues = formattedValues
             self.formula = formula
             self.rawValue = rawValue
         }
@@ -342,6 +364,7 @@ extension Honeycode {
         private enum CodingKeys: String, CodingKey {
             case format
             case formattedValue
+            case formattedValues
             case formula
             case rawValue
         }
@@ -350,19 +373,30 @@ extension Honeycode {
     public struct CellInput: AWSEncodableShape {
         ///  Fact represents the data that is entered into a cell. This data can be free text or a formula. Formulas need to start with the equals (=) sign.
         public let fact: String?
+        ///  A list representing the values that are entered into a ROWSET cell. Facts list can have either only values or rowIDs, and rowIDs should from the same table.
+        public let facts: [String]?
 
-        public init(fact: String? = nil) {
+        public init(fact: String? = nil, facts: [String]? = nil) {
             self.fact = fact
+            self.facts = facts
         }
 
         public func validate(name: String) throws {
             try self.validate(self.fact, name: "fact", parent: name, max: 8192)
             try self.validate(self.fact, name: "fact", parent: name, min: 0)
             try self.validate(self.fact, name: "fact", parent: name, pattern: "[\\s\\S]*")
+            try self.facts?.forEach {
+                try validate($0, name: "facts[]", parent: name, max: 8192)
+                try validate($0, name: "facts[]", parent: name, min: 0)
+                try validate($0, name: "facts[]", parent: name, pattern: "[\\s\\S]*")
+            }
+            try self.validate(self.facts, name: "facts", parent: name, max: 220)
+            try self.validate(self.facts, name: "facts", parent: name, min: 0)
         }
 
         private enum CodingKeys: String, CodingKey {
             case fact
+            case facts
         }
     }
 
@@ -500,6 +534,8 @@ extension Honeycode {
     }
 
     public struct DescribeTableDataImportJobResult: AWSDecodableShape {
+        ///  If job status is failed, error code to understand reason for the failure.
+        public let errorCode: ErrorCode?
         ///  The metadata about the job that was submitted for import.
         public let jobMetadata: TableDataImportJobMetadata
         ///  The current status of the import job.
@@ -507,13 +543,15 @@ extension Honeycode {
         ///  A message providing more details about the current status of the import job.
         public let message: String
 
-        public init(jobMetadata: TableDataImportJobMetadata, jobStatus: TableDataImportJobStatus, message: String) {
+        public init(errorCode: ErrorCode? = nil, jobMetadata: TableDataImportJobMetadata, jobStatus: TableDataImportJobStatus, message: String) {
+            self.errorCode = errorCode
             self.jobMetadata = jobMetadata
             self.jobStatus = jobStatus
             self.message = message
         }
 
         private enum CodingKeys: String, CodingKey {
+            case errorCode
             case jobMetadata
             case jobStatus
             case message
@@ -586,7 +624,7 @@ extension Honeycode {
     }
 
     public struct GetScreenDataRequest: AWSEncodableShape {
-        /// The ID of the app that contains the screem.
+        /// The ID of the app that contains the screen.
         public let appId: String
         ///  The number of results to be returned on a single page. Specify a number between 1 and 100. The maximum value is 100.   This parameter is optional. If you don't specify this parameter, the default page size is 100.
         public let maxResults: Int?
@@ -621,6 +659,8 @@ extension Honeycode {
             try self.validate(self.screenId, name: "screenId", parent: name, min: 36)
             try self.validate(self.screenId, name: "screenId", parent: name, pattern: "[0-9a-fA-F]{8}-[0-9a-fA-F]{4}-[0-9a-fA-F]{4}-[0-9a-fA-F]{4}-[0-9a-fA-F]{12}")
             try self.variables?.forEach {
+                try validate($0.key, name: "variables.key", parent: name, max: 255)
+                try validate($0.key, name: "variables.key", parent: name, min: 1)
                 try validate($0.key, name: "variables.key", parent: name, pattern: "^(?!\\s*$).+")
                 try $0.value.validate(name: "\(name).variables[\"\($0.key)\"]")
             }
@@ -785,6 +825,8 @@ extension Honeycode {
             try self.validate(self.screenId, name: "screenId", parent: name, min: 36)
             try self.validate(self.screenId, name: "screenId", parent: name, pattern: "[0-9a-fA-F]{8}-[0-9a-fA-F]{4}-[0-9a-fA-F]{4}-[0-9a-fA-F]{4}-[0-9a-fA-F]{12}")
             try self.variables?.forEach {
+                try validate($0.key, name: "variables.key", parent: name, max: 255)
+                try validate($0.key, name: "variables.key", parent: name, min: 1)
                 try validate($0.key, name: "variables.key", parent: name, pattern: "^(?!\\s*$).+")
                 try $0.value.validate(name: "\(name).variables[\"\($0.key)\"]")
             }
@@ -1003,6 +1045,40 @@ extension Honeycode {
             case nextToken
             case tables
             case workbookCursor
+        }
+    }
+
+    public struct ListTagsForResourceRequest: AWSEncodableShape {
+        public static var _encoding = [
+            AWSMemberEncoding(label: "resourceArn", location: .uri(locationName: "resourceArn"))
+        ]
+
+        /// The resource's Amazon Resource Name (ARN).
+        public let resourceArn: String
+
+        public init(resourceArn: String) {
+            self.resourceArn = resourceArn
+        }
+
+        public func validate(name: String) throws {
+            try self.validate(self.resourceArn, name: "resourceArn", parent: name, max: 256)
+            try self.validate(self.resourceArn, name: "resourceArn", parent: name, min: 1)
+            try self.validate(self.resourceArn, name: "resourceArn", parent: name, pattern: "^arn:aws:honeycode:.+:[0-9]{12}:.+:.+$")
+        }
+
+        private enum CodingKeys: CodingKey {}
+    }
+
+    public struct ListTagsForResourceResult: AWSDecodableShape {
+        /// The resource's tags.
+        public let tags: [String: String]?
+
+        public init(tags: [String: String]? = nil) {
+            self.tags = tags
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case tags
         }
     }
 
@@ -1274,6 +1350,79 @@ extension Honeycode {
             case cells
             case rowId
         }
+    }
+
+    public struct TagResourceRequest: AWSEncodableShape {
+        public static var _encoding = [
+            AWSMemberEncoding(label: "resourceArn", location: .uri(locationName: "resourceArn"))
+        ]
+
+        /// The resource's Amazon Resource Name (ARN).
+        public let resourceArn: String
+        /// A list of tags to apply to the resource.
+        public let tags: [String: String]
+
+        public init(resourceArn: String, tags: [String: String]) {
+            self.resourceArn = resourceArn
+            self.tags = tags
+        }
+
+        public func validate(name: String) throws {
+            try self.validate(self.resourceArn, name: "resourceArn", parent: name, max: 256)
+            try self.validate(self.resourceArn, name: "resourceArn", parent: name, min: 1)
+            try self.validate(self.resourceArn, name: "resourceArn", parent: name, pattern: "^arn:aws:honeycode:.+:[0-9]{12}:.+:.+$")
+            try self.tags.forEach {
+                try validate($0.key, name: "tags.key", parent: name, max: 100)
+                try validate($0.key, name: "tags.key", parent: name, min: 1)
+                try validate($0.key, name: "tags.key", parent: name, pattern: "^[^\\n\\r\\x00\\x08\\x0B\\x0C\\x0E\\x1F]*$")
+                try validate($0.value, name: "tags[\"\($0.key)\"]", parent: name, max: 100)
+                try validate($0.value, name: "tags[\"\($0.key)\"]", parent: name, min: 1)
+                try validate($0.value, name: "tags[\"\($0.key)\"]", parent: name, pattern: "^[^\\n\\r\\x00\\x08\\x0B\\x0C\\x0E\\x1F]*$")
+            }
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case tags
+        }
+    }
+
+    public struct TagResourceResult: AWSDecodableShape {
+        public init() {}
+    }
+
+    public struct UntagResourceRequest: AWSEncodableShape {
+        public static var _encoding = [
+            AWSMemberEncoding(label: "resourceArn", location: .uri(locationName: "resourceArn")),
+            AWSMemberEncoding(label: "tagKeys", location: .querystring(locationName: "tagKeys"))
+        ]
+
+        /// The resource's Amazon Resource Name (ARN).
+        public let resourceArn: String
+        /// A list of tag keys to remove from the resource.
+        public let tagKeys: [String]
+
+        public init(resourceArn: String, tagKeys: [String]) {
+            self.resourceArn = resourceArn
+            self.tagKeys = tagKeys
+        }
+
+        public func validate(name: String) throws {
+            try self.validate(self.resourceArn, name: "resourceArn", parent: name, max: 256)
+            try self.validate(self.resourceArn, name: "resourceArn", parent: name, min: 1)
+            try self.validate(self.resourceArn, name: "resourceArn", parent: name, pattern: "^arn:aws:honeycode:.+:[0-9]{12}:.+:.+$")
+            try self.tagKeys.forEach {
+                try validate($0, name: "tagKeys[]", parent: name, max: 100)
+                try validate($0, name: "tagKeys[]", parent: name, min: 1)
+                try validate($0, name: "tagKeys[]", parent: name, pattern: "^[^\\n\\r\\x00\\x08\\x0B\\x0C\\x0E\\x1F]*$")
+            }
+            try self.validate(self.tagKeys, name: "tagKeys", parent: name, max: 100)
+        }
+
+        private enum CodingKeys: CodingKey {}
+    }
+
+    public struct UntagResourceResult: AWSDecodableShape {
+        public init() {}
     }
 
     public struct UpdateRowData: AWSEncodableShape {

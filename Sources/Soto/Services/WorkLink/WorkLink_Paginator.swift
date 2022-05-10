@@ -31,6 +31,7 @@ extension WorkLink {
     ///   - eventLoop: EventLoop to run this process on
     ///   - onPage: closure called with each paginated response. It combines an accumulating result with the contents of response. This combined result is then returned
     ///         along with a boolean indicating if the paginate operation should continue.
+    @available(*, deprecated, message: "Amazon WorkLink is no longer supported. This will be removed in a future version of the SDK.")
     public func listDevicesPaginator<Result>(
         _ input: ListDevicesRequest,
         _ initialValue: Result,
@@ -56,6 +57,7 @@ extension WorkLink {
     ///   - logger: Logger used for logging output
     ///   - eventLoop: EventLoop to run this process on
     ///   - onPage: closure called with each block of entries. Returns boolean indicating whether we should continue.
+    @available(*, deprecated, message: "Amazon WorkLink is no longer supported. This will be removed in a future version of the SDK.")
     public func listDevicesPaginator(
         _ input: ListDevicesRequest,
         logger: Logger = AWSClient.loggingDisabled,
@@ -84,6 +86,7 @@ extension WorkLink {
     ///   - eventLoop: EventLoop to run this process on
     ///   - onPage: closure called with each paginated response. It combines an accumulating result with the contents of response. This combined result is then returned
     ///         along with a boolean indicating if the paginate operation should continue.
+    @available(*, deprecated, message: "Amazon WorkLink is no longer supported. This will be removed in a future version of the SDK.")
     public func listDomainsPaginator<Result>(
         _ input: ListDomainsRequest,
         _ initialValue: Result,
@@ -109,6 +112,7 @@ extension WorkLink {
     ///   - logger: Logger used for logging output
     ///   - eventLoop: EventLoop to run this process on
     ///   - onPage: closure called with each block of entries. Returns boolean indicating whether we should continue.
+    @available(*, deprecated, message: "Amazon WorkLink is no longer supported. This will be removed in a future version of the SDK.")
     public func listDomainsPaginator(
         _ input: ListDomainsRequest,
         logger: Logger = AWSClient.loggingDisabled,
@@ -137,6 +141,7 @@ extension WorkLink {
     ///   - eventLoop: EventLoop to run this process on
     ///   - onPage: closure called with each paginated response. It combines an accumulating result with the contents of response. This combined result is then returned
     ///         along with a boolean indicating if the paginate operation should continue.
+    @available(*, deprecated, message: "Amazon WorkLink is no longer supported. This will be removed in a future version of the SDK.")
     public func listFleetsPaginator<Result>(
         _ input: ListFleetsRequest,
         _ initialValue: Result,
@@ -162,6 +167,7 @@ extension WorkLink {
     ///   - logger: Logger used for logging output
     ///   - eventLoop: EventLoop to run this process on
     ///   - onPage: closure called with each block of entries. Returns boolean indicating whether we should continue.
+    @available(*, deprecated, message: "Amazon WorkLink is no longer supported. This will be removed in a future version of the SDK.")
     public func listFleetsPaginator(
         _ input: ListFleetsRequest,
         logger: Logger = AWSClient.loggingDisabled,
@@ -190,6 +196,7 @@ extension WorkLink {
     ///   - eventLoop: EventLoop to run this process on
     ///   - onPage: closure called with each paginated response. It combines an accumulating result with the contents of response. This combined result is then returned
     ///         along with a boolean indicating if the paginate operation should continue.
+    @available(*, deprecated, message: "Amazon WorkLink is no longer supported. This will be removed in a future version of the SDK.")
     public func listWebsiteAuthorizationProvidersPaginator<Result>(
         _ input: ListWebsiteAuthorizationProvidersRequest,
         _ initialValue: Result,
@@ -215,6 +222,7 @@ extension WorkLink {
     ///   - logger: Logger used for logging output
     ///   - eventLoop: EventLoop to run this process on
     ///   - onPage: closure called with each block of entries. Returns boolean indicating whether we should continue.
+    @available(*, deprecated, message: "Amazon WorkLink is no longer supported. This will be removed in a future version of the SDK.")
     public func listWebsiteAuthorizationProvidersPaginator(
         _ input: ListWebsiteAuthorizationProvidersRequest,
         logger: Logger = AWSClient.loggingDisabled,
@@ -243,6 +251,7 @@ extension WorkLink {
     ///   - eventLoop: EventLoop to run this process on
     ///   - onPage: closure called with each paginated response. It combines an accumulating result with the contents of response. This combined result is then returned
     ///         along with a boolean indicating if the paginate operation should continue.
+    @available(*, deprecated, message: "Amazon WorkLink is no longer supported. This will be removed in a future version of the SDK.")
     public func listWebsiteCertificateAuthoritiesPaginator<Result>(
         _ input: ListWebsiteCertificateAuthoritiesRequest,
         _ initialValue: Result,
@@ -268,6 +277,7 @@ extension WorkLink {
     ///   - logger: Logger used for logging output
     ///   - eventLoop: EventLoop to run this process on
     ///   - onPage: closure called with each block of entries. Returns boolean indicating whether we should continue.
+    @available(*, deprecated, message: "Amazon WorkLink is no longer supported. This will be removed in a future version of the SDK.")
     public func listWebsiteCertificateAuthoritiesPaginator(
         _ input: ListWebsiteCertificateAuthoritiesRequest,
         logger: Logger = AWSClient.loggingDisabled,

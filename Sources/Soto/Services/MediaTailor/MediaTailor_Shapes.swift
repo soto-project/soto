@@ -72,6 +72,12 @@ extension MediaTailor {
         public var description: String { return self.rawValue }
     }
 
+    public enum Tier: String, CustomStringConvertible, Codable {
+        case basic = "BASIC"
+        case standard = "STANDARD"
+        public var description: String { return self.rawValue }
+    }
+
     public enum `Type`: String, CustomStringConvertible, Codable {
         case dash = "DASH"
         case hls = "HLS"
@@ -217,7 +223,7 @@ extension MediaTailor {
     }
 
     public struct CdnConfiguration: AWSEncodableShape & AWSDecodableShape {
-        /// A non-default content delivery network (CDN) to serve ad segments. By default, AWS Elemental MediaTailor uses Amazon CloudFront with default cache settings as its CDN for ad segments. To set up an alternate CDN, create a rule in your CDN for the origin ads.mediatailor.&amp;lt;region&gt;.amazonaws.com. Then specify the rule's name in this AdSegmentUrlPrefix. When AWS Elemental MediaTailor serves a manifest, it reports your CDN as the source for ad segments.
+        /// A non-default content delivery network (CDN) to serve ad segments. By default, AWS Elemental MediaTailor uses Amazon CloudFront with default cache settings as its CDN for ad segments. To set up an alternate CDN, create a rule in your CDN for the origin ads.mediatailor.&amp;lt;region>.amazonaws.com. Then specify the rule's name in this AdSegmentUrlPrefix. When AWS Elemental MediaTailor serves a manifest, it reports your CDN as the source for ad segments.
         public let adSegmentUrlPrefix: String?
         /// A content delivery network (CDN) to cache content segments, so that content requests don’t always have to go to the origin server. First, create a rule in your CDN for the content segment origin server. Then specify the rule's name in this ContentSegmentUrlPrefix. When AWS Elemental MediaTailor serves a manifest, it reports your CDN as the source for content segments.
         public let contentSegmentUrlPrefix: String?
@@ -243,7 +249,7 @@ extension MediaTailor {
         /// The timestamp of when the channel was created.
         @OptionalCustomCoding<UnixEpochDateCoder>
         public var creationTime: Date?
-        /// Contains information about the slate used to fill gaps between programs in the schedule. You must configure FillerSlate if your channel uses an LINEAR PlaybackMode.
+        /// The slate used to fill gaps between programs in the schedule. You must configure filler slate if your channel uses the LINEAR PlaybackMode. MediaTailor doesn't support filler slate for channels using the LOOP PlaybackMode.
         public let fillerSlate: SlateSource?
         /// The timestamp of when the channel was last modified.
         @OptionalCustomCoding<UnixEpochDateCoder>
@@ -254,8 +260,10 @@ extension MediaTailor {
         public let playbackMode: String
         /// The tags to assign to the channel.
         public let tags: [String: String]?
+        /// The tier for this channel. STANDARD tier channels can contain live programs.
+        public let tier: String
 
-        public init(arn: String, channelName: String, channelState: String, creationTime: Date? = nil, fillerSlate: SlateSource? = nil, lastModifiedTime: Date? = nil, outputs: [ResponseOutputItem], playbackMode: String, tags: [String: String]? = nil) {
+        public init(arn: String, channelName: String, channelState: String, creationTime: Date? = nil, fillerSlate: SlateSource? = nil, lastModifiedTime: Date? = nil, outputs: [ResponseOutputItem], playbackMode: String, tags: [String: String]? = nil, tier: String) {
             self.arn = arn
             self.channelName = channelName
             self.channelState = channelState
@@ -265,6 +273,7 @@ extension MediaTailor {
             self.outputs = outputs
             self.playbackMode = playbackMode
             self.tags = tags
+            self.tier = tier
         }
 
         private enum CodingKeys: String, CodingKey {
@@ -277,6 +286,7 @@ extension MediaTailor {
             case outputs = "Outputs"
             case playbackMode = "PlaybackMode"
             case tags
+            case tier = "Tier"
         }
     }
 
@@ -320,7 +330,7 @@ extension MediaTailor {
         ]
 
         public let channelName: String
-        /// The slate used to fill gaps between programs in the schedule. You must configure filler slate if your channel uses a LINEAR PlaybackMode.
+        /// The slate used to fill gaps between programs in the schedule. You must configure filler slate if your channel uses the LINEAR PlaybackMode. MediaTailor doesn't support filler slate for channels using the LOOP PlaybackMode.
         public let fillerSlate: SlateSource?
         /// The channel's output properties.
         public let outputs: [RequestOutputItem]
@@ -328,13 +338,16 @@ extension MediaTailor {
         public let playbackMode: PlaybackMode
         /// The tags to assign to the channel.
         public let tags: [String: String]?
+        /// The tier of the channel.
+        public let tier: Tier?
 
-        public init(channelName: String, fillerSlate: SlateSource? = nil, outputs: [RequestOutputItem], playbackMode: PlaybackMode, tags: [String: String]? = nil) {
+        public init(channelName: String, fillerSlate: SlateSource? = nil, outputs: [RequestOutputItem], playbackMode: PlaybackMode, tags: [String: String]? = nil, tier: Tier? = nil) {
             self.channelName = channelName
             self.fillerSlate = fillerSlate
             self.outputs = outputs
             self.playbackMode = playbackMode
             self.tags = tags
+            self.tier = tier
         }
 
         private enum CodingKeys: String, CodingKey {
@@ -342,6 +355,7 @@ extension MediaTailor {
             case outputs = "Outputs"
             case playbackMode = "PlaybackMode"
             case tags
+            case tier = "Tier"
         }
     }
 
@@ -357,8 +371,9 @@ extension MediaTailor {
         public let outputs: [ResponseOutputItem]?
         public let playbackMode: String?
         public let tags: [String: String]?
+        public let tier: String?
 
-        public init(arn: String? = nil, channelName: String? = nil, channelState: ChannelState? = nil, creationTime: Date? = nil, fillerSlate: SlateSource? = nil, lastModifiedTime: Date? = nil, outputs: [ResponseOutputItem]? = nil, playbackMode: String? = nil, tags: [String: String]? = nil) {
+        public init(arn: String? = nil, channelName: String? = nil, channelState: ChannelState? = nil, creationTime: Date? = nil, fillerSlate: SlateSource? = nil, lastModifiedTime: Date? = nil, outputs: [ResponseOutputItem]? = nil, playbackMode: String? = nil, tags: [String: String]? = nil, tier: String? = nil) {
             self.arn = arn
             self.channelName = channelName
             self.channelState = channelState
@@ -368,6 +383,7 @@ extension MediaTailor {
             self.outputs = outputs
             self.playbackMode = playbackMode
             self.tags = tags
+            self.tier = tier
         }
 
         private enum CodingKeys: String, CodingKey {
@@ -379,6 +395,65 @@ extension MediaTailor {
             case lastModifiedTime = "LastModifiedTime"
             case outputs = "Outputs"
             case playbackMode = "PlaybackMode"
+            case tags
+            case tier = "Tier"
+        }
+    }
+
+    public struct CreateLiveSourceRequest: AWSEncodableShape {
+        public static var _encoding = [
+            AWSMemberEncoding(label: "liveSourceName", location: .uri(locationName: "liveSourceName")),
+            AWSMemberEncoding(label: "sourceLocationName", location: .uri(locationName: "sourceLocationName"))
+        ]
+
+        /// A list of HTTP package configuration parameters for this live source.
+        public let httpPackageConfigurations: [HttpPackageConfiguration]
+        public let liveSourceName: String
+        public let sourceLocationName: String
+        /// The tags to assign to the live source.
+        public let tags: [String: String]?
+
+        public init(httpPackageConfigurations: [HttpPackageConfiguration], liveSourceName: String, sourceLocationName: String, tags: [String: String]? = nil) {
+            self.httpPackageConfigurations = httpPackageConfigurations
+            self.liveSourceName = liveSourceName
+            self.sourceLocationName = sourceLocationName
+            self.tags = tags
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case httpPackageConfigurations = "HttpPackageConfigurations"
+            case tags
+        }
+    }
+
+    public struct CreateLiveSourceResponse: AWSDecodableShape {
+        public let arn: String?
+        @OptionalCustomCoding<UnixEpochDateCoder>
+        public var creationTime: Date?
+        public let httpPackageConfigurations: [HttpPackageConfiguration]?
+        @OptionalCustomCoding<UnixEpochDateCoder>
+        public var lastModifiedTime: Date?
+        public let liveSourceName: String?
+        public let sourceLocationName: String?
+        public let tags: [String: String]?
+
+        public init(arn: String? = nil, creationTime: Date? = nil, httpPackageConfigurations: [HttpPackageConfiguration]? = nil, lastModifiedTime: Date? = nil, liveSourceName: String? = nil, sourceLocationName: String? = nil, tags: [String: String]? = nil) {
+            self.arn = arn
+            self.creationTime = creationTime
+            self.httpPackageConfigurations = httpPackageConfigurations
+            self.lastModifiedTime = lastModifiedTime
+            self.liveSourceName = liveSourceName
+            self.sourceLocationName = sourceLocationName
+            self.tags = tags
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case arn = "Arn"
+            case creationTime = "CreationTime"
+            case httpPackageConfigurations = "HttpPackageConfigurations"
+            case lastModifiedTime = "LastModifiedTime"
+            case liveSourceName = "LiveSourceName"
+            case sourceLocationName = "SourceLocationName"
             case tags
         }
     }
@@ -449,17 +524,20 @@ extension MediaTailor {
         /// The ad break configuration settings.
         public let adBreaks: [AdBreak]?
         public let channelName: String
+        /// The name of the LiveSource for this Program.
+        public let liveSourceName: String?
         public let programName: String
         /// The schedule configuration settings.
         public let scheduleConfiguration: ScheduleConfiguration
         /// The name of the source location.
         public let sourceLocationName: String
         /// The name that's used to refer to a VOD source.
-        public let vodSourceName: String
+        public let vodSourceName: String?
 
-        public init(adBreaks: [AdBreak]? = nil, channelName: String, programName: String, scheduleConfiguration: ScheduleConfiguration, sourceLocationName: String, vodSourceName: String) {
+        public init(adBreaks: [AdBreak]? = nil, channelName: String, liveSourceName: String? = nil, programName: String, scheduleConfiguration: ScheduleConfiguration, sourceLocationName: String, vodSourceName: String? = nil) {
             self.adBreaks = adBreaks
             self.channelName = channelName
+            self.liveSourceName = liveSourceName
             self.programName = programName
             self.scheduleConfiguration = scheduleConfiguration
             self.sourceLocationName = sourceLocationName
@@ -468,6 +546,7 @@ extension MediaTailor {
 
         private enum CodingKeys: String, CodingKey {
             case adBreaks = "AdBreaks"
+            case liveSourceName = "LiveSourceName"
             case scheduleConfiguration = "ScheduleConfiguration"
             case sourceLocationName = "SourceLocationName"
             case vodSourceName = "VodSourceName"
@@ -480,17 +559,19 @@ extension MediaTailor {
         public let channelName: String?
         @OptionalCustomCoding<UnixEpochDateCoder>
         public var creationTime: Date?
+        public let liveSourceName: String?
         public let programName: String?
         @OptionalCustomCoding<UnixEpochDateCoder>
         public var scheduledStartTime: Date?
         public let sourceLocationName: String?
         public let vodSourceName: String?
 
-        public init(adBreaks: [AdBreak]? = nil, arn: String? = nil, channelName: String? = nil, creationTime: Date? = nil, programName: String? = nil, scheduledStartTime: Date? = nil, sourceLocationName: String? = nil, vodSourceName: String? = nil) {
+        public init(adBreaks: [AdBreak]? = nil, arn: String? = nil, channelName: String? = nil, creationTime: Date? = nil, liveSourceName: String? = nil, programName: String? = nil, scheduledStartTime: Date? = nil, sourceLocationName: String? = nil, vodSourceName: String? = nil) {
             self.adBreaks = adBreaks
             self.arn = arn
             self.channelName = channelName
             self.creationTime = creationTime
+            self.liveSourceName = liveSourceName
             self.programName = programName
             self.scheduledStartTime = scheduledStartTime
             self.sourceLocationName = sourceLocationName
@@ -502,6 +583,7 @@ extension MediaTailor {
             case arn = "Arn"
             case channelName = "ChannelName"
             case creationTime = "CreationTime"
+            case liveSourceName = "LiveSourceName"
             case programName = "ProgramName"
             case scheduledStartTime = "ScheduledStartTime"
             case sourceLocationName = "SourceLocationName"
@@ -520,14 +602,17 @@ extension MediaTailor {
         public let defaultSegmentDeliveryConfiguration: DefaultSegmentDeliveryConfiguration?
         /// The source's HTTP package configurations.
         public let httpConfiguration: HttpConfiguration
+        /// A list of the segment delivery configurations associated with this resource.
+        public let segmentDeliveryConfigurations: [SegmentDeliveryConfiguration]?
         public let sourceLocationName: String
         /// The tags to assign to the source location.
         public let tags: [String: String]?
 
-        public init(accessConfiguration: AccessConfiguration? = nil, defaultSegmentDeliveryConfiguration: DefaultSegmentDeliveryConfiguration? = nil, httpConfiguration: HttpConfiguration, sourceLocationName: String, tags: [String: String]? = nil) {
+        public init(accessConfiguration: AccessConfiguration? = nil, defaultSegmentDeliveryConfiguration: DefaultSegmentDeliveryConfiguration? = nil, httpConfiguration: HttpConfiguration, segmentDeliveryConfigurations: [SegmentDeliveryConfiguration]? = nil, sourceLocationName: String, tags: [String: String]? = nil) {
             self.accessConfiguration = accessConfiguration
             self.defaultSegmentDeliveryConfiguration = defaultSegmentDeliveryConfiguration
             self.httpConfiguration = httpConfiguration
+            self.segmentDeliveryConfigurations = segmentDeliveryConfigurations
             self.sourceLocationName = sourceLocationName
             self.tags = tags
         }
@@ -536,6 +621,7 @@ extension MediaTailor {
             case accessConfiguration = "AccessConfiguration"
             case defaultSegmentDeliveryConfiguration = "DefaultSegmentDeliveryConfiguration"
             case httpConfiguration = "HttpConfiguration"
+            case segmentDeliveryConfigurations = "SegmentDeliveryConfigurations"
             case tags
         }
     }
@@ -549,16 +635,18 @@ extension MediaTailor {
         public let httpConfiguration: HttpConfiguration?
         @OptionalCustomCoding<UnixEpochDateCoder>
         public var lastModifiedTime: Date?
+        public let segmentDeliveryConfigurations: [SegmentDeliveryConfiguration]?
         public let sourceLocationName: String?
         public let tags: [String: String]?
 
-        public init(accessConfiguration: AccessConfiguration? = nil, arn: String? = nil, creationTime: Date? = nil, defaultSegmentDeliveryConfiguration: DefaultSegmentDeliveryConfiguration? = nil, httpConfiguration: HttpConfiguration? = nil, lastModifiedTime: Date? = nil, sourceLocationName: String? = nil, tags: [String: String]? = nil) {
+        public init(accessConfiguration: AccessConfiguration? = nil, arn: String? = nil, creationTime: Date? = nil, defaultSegmentDeliveryConfiguration: DefaultSegmentDeliveryConfiguration? = nil, httpConfiguration: HttpConfiguration? = nil, lastModifiedTime: Date? = nil, segmentDeliveryConfigurations: [SegmentDeliveryConfiguration]? = nil, sourceLocationName: String? = nil, tags: [String: String]? = nil) {
             self.accessConfiguration = accessConfiguration
             self.arn = arn
             self.creationTime = creationTime
             self.defaultSegmentDeliveryConfiguration = defaultSegmentDeliveryConfiguration
             self.httpConfiguration = httpConfiguration
             self.lastModifiedTime = lastModifiedTime
+            self.segmentDeliveryConfigurations = segmentDeliveryConfigurations
             self.sourceLocationName = sourceLocationName
             self.tags = tags
         }
@@ -570,6 +658,7 @@ extension MediaTailor {
             case defaultSegmentDeliveryConfiguration = "DefaultSegmentDeliveryConfiguration"
             case httpConfiguration = "HttpConfiguration"
             case lastModifiedTime = "LastModifiedTime"
+            case segmentDeliveryConfigurations = "SegmentDeliveryConfigurations"
             case sourceLocationName = "SourceLocationName"
             case tags
         }
@@ -581,7 +670,7 @@ extension MediaTailor {
             AWSMemberEncoding(label: "vodSourceName", location: .uri(locationName: "vodSourceName"))
         ]
 
-        /// An array of HTTP package configuration parameters for this VOD source.
+        /// A list of HTTP package configuration parameters for this VOD source.
         public let httpPackageConfigurations: [HttpPackageConfiguration]
         public let sourceLocationName: String
         /// The tags to assign to the VOD source.
@@ -745,6 +834,27 @@ extension MediaTailor {
         public init() {}
     }
 
+    public struct DeleteLiveSourceRequest: AWSEncodableShape {
+        public static var _encoding = [
+            AWSMemberEncoding(label: "liveSourceName", location: .uri(locationName: "liveSourceName")),
+            AWSMemberEncoding(label: "sourceLocationName", location: .uri(locationName: "sourceLocationName"))
+        ]
+
+        public let liveSourceName: String
+        public let sourceLocationName: String
+
+        public init(liveSourceName: String, sourceLocationName: String) {
+            self.liveSourceName = liveSourceName
+            self.sourceLocationName = sourceLocationName
+        }
+
+        private enum CodingKeys: CodingKey {}
+    }
+
+    public struct DeleteLiveSourceResponse: AWSDecodableShape {
+        public init() {}
+    }
+
     public struct DeletePlaybackConfigurationRequest: AWSEncodableShape {
         public static var _encoding = [
             AWSMemberEncoding(label: "name", location: .uri(locationName: "Name"))
@@ -879,8 +989,10 @@ extension MediaTailor {
         public let playbackMode: String?
         /// The tags assigned to the channel.
         public let tags: [String: String]?
+        /// The channel's tier.
+        public let tier: String?
 
-        public init(arn: String? = nil, channelName: String? = nil, channelState: ChannelState? = nil, creationTime: Date? = nil, fillerSlate: SlateSource? = nil, lastModifiedTime: Date? = nil, outputs: [ResponseOutputItem]? = nil, playbackMode: String? = nil, tags: [String: String]? = nil) {
+        public init(arn: String? = nil, channelName: String? = nil, channelState: ChannelState? = nil, creationTime: Date? = nil, fillerSlate: SlateSource? = nil, lastModifiedTime: Date? = nil, outputs: [ResponseOutputItem]? = nil, playbackMode: String? = nil, tags: [String: String]? = nil, tier: String? = nil) {
             self.arn = arn
             self.channelName = channelName
             self.channelState = channelState
@@ -890,6 +1002,7 @@ extension MediaTailor {
             self.outputs = outputs
             self.playbackMode = playbackMode
             self.tags = tags
+            self.tier = tier
         }
 
         private enum CodingKeys: String, CodingKey {
@@ -901,6 +1014,63 @@ extension MediaTailor {
             case lastModifiedTime = "LastModifiedTime"
             case outputs = "Outputs"
             case playbackMode = "PlaybackMode"
+            case tags
+            case tier = "Tier"
+        }
+    }
+
+    public struct DescribeLiveSourceRequest: AWSEncodableShape {
+        public static var _encoding = [
+            AWSMemberEncoding(label: "liveSourceName", location: .uri(locationName: "liveSourceName")),
+            AWSMemberEncoding(label: "sourceLocationName", location: .uri(locationName: "sourceLocationName"))
+        ]
+
+        public let liveSourceName: String
+        public let sourceLocationName: String
+
+        public init(liveSourceName: String, sourceLocationName: String) {
+            self.liveSourceName = liveSourceName
+            self.sourceLocationName = sourceLocationName
+        }
+
+        private enum CodingKeys: CodingKey {}
+    }
+
+    public struct DescribeLiveSourceResponse: AWSDecodableShape {
+        /// The ARN of the live source.
+        public let arn: String?
+        /// The timestamp that indicates when the live source was created.
+        @OptionalCustomCoding<UnixEpochDateCoder>
+        public var creationTime: Date?
+        /// The HTTP package configurations.
+        public let httpPackageConfigurations: [HttpPackageConfiguration]?
+        /// The timestamp that indicates when the live source was modified.
+        @OptionalCustomCoding<UnixEpochDateCoder>
+        public var lastModifiedTime: Date?
+        /// The name of the live source.
+        public let liveSourceName: String?
+        /// The name of the source location associated with the VOD source.
+        public let sourceLocationName: String?
+        /// The tags assigned to the live source.
+        public let tags: [String: String]?
+
+        public init(arn: String? = nil, creationTime: Date? = nil, httpPackageConfigurations: [HttpPackageConfiguration]? = nil, lastModifiedTime: Date? = nil, liveSourceName: String? = nil, sourceLocationName: String? = nil, tags: [String: String]? = nil) {
+            self.arn = arn
+            self.creationTime = creationTime
+            self.httpPackageConfigurations = httpPackageConfigurations
+            self.lastModifiedTime = lastModifiedTime
+            self.liveSourceName = liveSourceName
+            self.sourceLocationName = sourceLocationName
+            self.tags = tags
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case arn = "Arn"
+            case creationTime = "CreationTime"
+            case httpPackageConfigurations = "HttpPackageConfigurations"
+            case lastModifiedTime = "LastModifiedTime"
+            case liveSourceName = "LiveSourceName"
+            case sourceLocationName = "SourceLocationName"
             case tags
         }
     }
@@ -932,6 +1102,8 @@ extension MediaTailor {
         /// The timestamp of when the program was created.
         @OptionalCustomCoding<UnixEpochDateCoder>
         public var creationTime: Date?
+        /// The name of the LiveSource for this Program.
+        public let liveSourceName: String?
         /// The name of the program.
         public let programName: String?
         /// The date and time that the program is scheduled to start in ISO 8601 format and Coordinated Universal Time (UTC). For example, the value 2021-03-27T17:48:16.751Z represents March 27, 2021 at 17:48:16.751 UTC.
@@ -942,11 +1114,12 @@ extension MediaTailor {
         /// The name that's used to refer to a VOD source.
         public let vodSourceName: String?
 
-        public init(adBreaks: [AdBreak]? = nil, arn: String? = nil, channelName: String? = nil, creationTime: Date? = nil, programName: String? = nil, scheduledStartTime: Date? = nil, sourceLocationName: String? = nil, vodSourceName: String? = nil) {
+        public init(adBreaks: [AdBreak]? = nil, arn: String? = nil, channelName: String? = nil, creationTime: Date? = nil, liveSourceName: String? = nil, programName: String? = nil, scheduledStartTime: Date? = nil, sourceLocationName: String? = nil, vodSourceName: String? = nil) {
             self.adBreaks = adBreaks
             self.arn = arn
             self.channelName = channelName
             self.creationTime = creationTime
+            self.liveSourceName = liveSourceName
             self.programName = programName
             self.scheduledStartTime = scheduledStartTime
             self.sourceLocationName = sourceLocationName
@@ -958,6 +1131,7 @@ extension MediaTailor {
             case arn = "Arn"
             case channelName = "ChannelName"
             case creationTime = "CreationTime"
+            case liveSourceName = "LiveSourceName"
             case programName = "ProgramName"
             case scheduledStartTime = "ScheduledStartTime"
             case sourceLocationName = "SourceLocationName"
@@ -994,18 +1168,21 @@ extension MediaTailor {
         /// The timestamp that indicates when the source location was last modified.
         @OptionalCustomCoding<UnixEpochDateCoder>
         public var lastModifiedTime: Date?
+        /// A list of the segment delivery configurations associated with this resource.
+        public let segmentDeliveryConfigurations: [SegmentDeliveryConfiguration]?
         /// The name of the source location.
         public let sourceLocationName: String?
         /// The tags assigned to the source location.
         public let tags: [String: String]?
 
-        public init(accessConfiguration: AccessConfiguration? = nil, arn: String? = nil, creationTime: Date? = nil, defaultSegmentDeliveryConfiguration: DefaultSegmentDeliveryConfiguration? = nil, httpConfiguration: HttpConfiguration? = nil, lastModifiedTime: Date? = nil, sourceLocationName: String? = nil, tags: [String: String]? = nil) {
+        public init(accessConfiguration: AccessConfiguration? = nil, arn: String? = nil, creationTime: Date? = nil, defaultSegmentDeliveryConfiguration: DefaultSegmentDeliveryConfiguration? = nil, httpConfiguration: HttpConfiguration? = nil, lastModifiedTime: Date? = nil, segmentDeliveryConfigurations: [SegmentDeliveryConfiguration]? = nil, sourceLocationName: String? = nil, tags: [String: String]? = nil) {
             self.accessConfiguration = accessConfiguration
             self.arn = arn
             self.creationTime = creationTime
             self.defaultSegmentDeliveryConfiguration = defaultSegmentDeliveryConfiguration
             self.httpConfiguration = httpConfiguration
             self.lastModifiedTime = lastModifiedTime
+            self.segmentDeliveryConfigurations = segmentDeliveryConfigurations
             self.sourceLocationName = sourceLocationName
             self.tags = tags
         }
@@ -1017,6 +1194,7 @@ extension MediaTailor {
             case defaultSegmentDeliveryConfiguration = "DefaultSegmentDeliveryConfiguration"
             case httpConfiguration = "HttpConfiguration"
             case lastModifiedTime = "LastModifiedTime"
+            case segmentDeliveryConfigurations = "SegmentDeliveryConfigurations"
             case sourceLocationName = "SourceLocationName"
             case tags
         }
@@ -1047,7 +1225,7 @@ extension MediaTailor {
         public var creationTime: Date?
         /// The HTTP package configurations.
         public let httpPackageConfigurations: [HttpPackageConfiguration]?
-        /// The ARN for the VOD source.
+        /// The last modified time of the VOD source.
         @OptionalCustomCoding<UnixEpochDateCoder>
         public var lastModifiedTime: Date?
         /// The name of the source location associated with the VOD source.
@@ -1134,7 +1312,7 @@ extension MediaTailor {
     }
 
     public struct GetChannelScheduleResponse: AWSDecodableShape {
-        /// An array of schedule entries for the channel.
+        /// A list of schedule entries for the channel.
         public let items: [ScheduleEntry]?
         /// Pagination token from the GET list request. Use the token to fetch the next page of results.
         public let nextToken: String?
@@ -1379,7 +1557,7 @@ extension MediaTailor {
     }
 
     public struct ListAlertsResponse: AWSDecodableShape {
-        /// An array of alerts that are associated with this resource.
+        /// A list of alerts that are associated with this resource.
         public let items: [Alert]?
         /// Pagination token from the list request. Use the token to fetch the next page of results.
         public let nextToken: String?
@@ -1418,12 +1596,54 @@ extension MediaTailor {
     }
 
     public struct ListChannelsResponse: AWSDecodableShape {
-        /// An array of channels that are associated with this account.
+        /// A list of channels that are associated with this account.
         public let items: [Channel]?
         /// Pagination token returned by the list request when results exceed the maximum allowed. Use the token to fetch the next page of results.
         public let nextToken: String?
 
         public init(items: [Channel]? = nil, nextToken: String? = nil) {
+            self.items = items
+            self.nextToken = nextToken
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case items = "Items"
+            case nextToken = "NextToken"
+        }
+    }
+
+    public struct ListLiveSourcesRequest: AWSEncodableShape {
+        public static var _encoding = [
+            AWSMemberEncoding(label: "maxResults", location: .querystring(locationName: "maxResults")),
+            AWSMemberEncoding(label: "nextToken", location: .querystring(locationName: "nextToken")),
+            AWSMemberEncoding(label: "sourceLocationName", location: .uri(locationName: "sourceLocationName"))
+        ]
+
+        public let maxResults: Int?
+        public let nextToken: String?
+        public let sourceLocationName: String
+
+        public init(maxResults: Int? = nil, nextToken: String? = nil, sourceLocationName: String) {
+            self.maxResults = maxResults
+            self.nextToken = nextToken
+            self.sourceLocationName = sourceLocationName
+        }
+
+        public func validate(name: String) throws {
+            try self.validate(self.maxResults, name: "maxResults", parent: name, max: 100)
+            try self.validate(self.maxResults, name: "maxResults", parent: name, min: 1)
+        }
+
+        private enum CodingKeys: CodingKey {}
+    }
+
+    public struct ListLiveSourcesResponse: AWSDecodableShape {
+        /// Lists the live sources.
+        public let items: [LiveSource]?
+        /// Pagination token from the list request. Use the token to fetch the next page of results.
+        public let nextToken: String?
+
+        public init(items: [LiveSource]? = nil, nextToken: String? = nil) {
             self.items = items
             self.nextToken = nextToken
         }
@@ -1545,7 +1765,7 @@ extension MediaTailor {
     }
 
     public struct ListSourceLocationsResponse: AWSDecodableShape {
-        /// An array of source locations.
+        /// A list of source locations.
         public let items: [SourceLocation]?
         /// Pagination token from the list request. Use the token to fetch the next page of results.
         public let nextToken: String?
@@ -1643,6 +1863,45 @@ extension MediaTailor {
         private enum CodingKeys: String, CodingKey {
             case adDecisionServerUrl = "AdDecisionServerUrl"
             case maxDurationSeconds = "MaxDurationSeconds"
+        }
+    }
+
+    public struct LiveSource: AWSDecodableShape {
+        /// The ARN for the live source.
+        public let arn: String
+        /// The timestamp that indicates when the live source was created.
+        @OptionalCustomCoding<UnixEpochDateCoder>
+        public var creationTime: Date?
+        /// The HTTP package configurations for the live source.
+        public let httpPackageConfigurations: [HttpPackageConfiguration]
+        /// The timestamp that indicates when the live source was last modified.
+        @OptionalCustomCoding<UnixEpochDateCoder>
+        public var lastModifiedTime: Date?
+        /// The name that's used to refer to a live source.
+        public let liveSourceName: String
+        /// The name of the source location.
+        public let sourceLocationName: String
+        /// The tags assigned to the live source.
+        public let tags: [String: String]?
+
+        public init(arn: String, creationTime: Date? = nil, httpPackageConfigurations: [HttpPackageConfiguration], lastModifiedTime: Date? = nil, liveSourceName: String, sourceLocationName: String, tags: [String: String]? = nil) {
+            self.arn = arn
+            self.creationTime = creationTime
+            self.httpPackageConfigurations = httpPackageConfigurations
+            self.lastModifiedTime = lastModifiedTime
+            self.liveSourceName = liveSourceName
+            self.sourceLocationName = sourceLocationName
+            self.tags = tags
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case arn = "Arn"
+            case creationTime = "CreationTime"
+            case httpPackageConfigurations = "HttpPackageConfigurations"
+            case lastModifiedTime = "LastModifiedTime"
+            case liveSourceName = "LiveSourceName"
+            case sourceLocationName = "SourceLocationName"
+            case tags
         }
     }
 
@@ -2097,6 +2356,8 @@ extension MediaTailor {
         public let arn: String
         /// The name of the channel that uses this schedule.
         public let channelName: String
+        /// The name of the live source used for the program.
+        public let liveSourceName: String?
         /// The name of the program.
         public let programName: String
         /// The schedule's ad break properties.
@@ -2106,13 +2367,14 @@ extension MediaTailor {
         /// The name of the source location.
         public let sourceLocationName: String
         /// The name of the VOD source.
-        public let vodSourceName: String
+        public let vodSourceName: String?
 
-        public init(approximateDurationSeconds: Int64? = nil, approximateStartTime: Date? = nil, arn: String, channelName: String, programName: String, scheduleAdBreaks: [ScheduleAdBreak]? = nil, scheduleEntryType: ScheduleEntryType? = nil, sourceLocationName: String, vodSourceName: String) {
+        public init(approximateDurationSeconds: Int64? = nil, approximateStartTime: Date? = nil, arn: String, channelName: String, liveSourceName: String? = nil, programName: String, scheduleAdBreaks: [ScheduleAdBreak]? = nil, scheduleEntryType: ScheduleEntryType? = nil, sourceLocationName: String, vodSourceName: String? = nil) {
             self.approximateDurationSeconds = approximateDurationSeconds
             self.approximateStartTime = approximateStartTime
             self.arn = arn
             self.channelName = channelName
+            self.liveSourceName = liveSourceName
             self.programName = programName
             self.scheduleAdBreaks = scheduleAdBreaks
             self.scheduleEntryType = scheduleEntryType
@@ -2125,6 +2387,7 @@ extension MediaTailor {
             case approximateStartTime = "ApproximateStartTime"
             case arn = "Arn"
             case channelName = "ChannelName"
+            case liveSourceName = "LiveSourceName"
             case programName = "ProgramName"
             case scheduleAdBreaks = "ScheduleAdBreaks"
             case scheduleEntryType = "ScheduleEntryType"
@@ -2151,6 +2414,23 @@ extension MediaTailor {
             case headerName = "HeaderName"
             case secretArn = "SecretArn"
             case secretStringKey = "SecretStringKey"
+        }
+    }
+
+    public struct SegmentDeliveryConfiguration: AWSEncodableShape & AWSDecodableShape {
+        /// The base URL of the host or path of the segment delivery server that you're using to serve segments. This is typically a content delivery network (CDN). The URL can be absolute or relative. To use an absolute URL include the protocol, such as https://example.com/some/path. To use a relative URL specify the relative path, such as /some/path*.
+        public let baseUrl: String?
+        /// A unique identifier used to distinguish between multiple segment delivery configurations in a source location.
+        public let name: String?
+
+        public init(baseUrl: String? = nil, name: String? = nil) {
+            self.baseUrl = baseUrl
+            self.name = name
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case baseUrl = "BaseUrl"
+            case name = "Name"
         }
     }
 
@@ -2186,18 +2466,21 @@ extension MediaTailor {
         /// The timestamp that indicates when the source location was last modified.
         @OptionalCustomCoding<UnixEpochDateCoder>
         public var lastModifiedTime: Date?
+        /// The segment delivery configurations for the source location.
+        public let segmentDeliveryConfigurations: [SegmentDeliveryConfiguration]?
         /// The name of the source location.
         public let sourceLocationName: String
         /// The tags assigned to the source location.
         public let tags: [String: String]?
 
-        public init(accessConfiguration: AccessConfiguration? = nil, arn: String, creationTime: Date? = nil, defaultSegmentDeliveryConfiguration: DefaultSegmentDeliveryConfiguration? = nil, httpConfiguration: HttpConfiguration, lastModifiedTime: Date? = nil, sourceLocationName: String, tags: [String: String]? = nil) {
+        public init(accessConfiguration: AccessConfiguration? = nil, arn: String, creationTime: Date? = nil, defaultSegmentDeliveryConfiguration: DefaultSegmentDeliveryConfiguration? = nil, httpConfiguration: HttpConfiguration, lastModifiedTime: Date? = nil, segmentDeliveryConfigurations: [SegmentDeliveryConfiguration]? = nil, sourceLocationName: String, tags: [String: String]? = nil) {
             self.accessConfiguration = accessConfiguration
             self.arn = arn
             self.creationTime = creationTime
             self.defaultSegmentDeliveryConfiguration = defaultSegmentDeliveryConfiguration
             self.httpConfiguration = httpConfiguration
             self.lastModifiedTime = lastModifiedTime
+            self.segmentDeliveryConfigurations = segmentDeliveryConfigurations
             self.sourceLocationName = sourceLocationName
             self.tags = tags
         }
@@ -2209,6 +2492,7 @@ extension MediaTailor {
             case defaultSegmentDeliveryConfiguration = "DefaultSegmentDeliveryConfiguration"
             case httpConfiguration = "HttpConfiguration"
             case lastModifiedTime = "LastModifiedTime"
+            case segmentDeliveryConfigurations = "SegmentDeliveryConfigurations"
             case sourceLocationName = "SourceLocationName"
             case tags
         }
@@ -2294,6 +2578,8 @@ extension MediaTailor {
     }
 
     public struct Transition: AWSEncodableShape {
+        /// The duration of the live program in seconds.
+        public let durationMillis: Int64?
         /// The position where this program will be inserted relative to the RelativePosition.
         public let relativePosition: RelativePosition
         /// The name of the program that this program will be inserted next to, as defined by RelativePosition.
@@ -2303,7 +2589,8 @@ extension MediaTailor {
         /// Defines when the program plays in the schedule. You can set the value to ABSOLUTE or RELATIVE. ABSOLUTE - The program plays at a specific wall clock time. This setting can only be used for channels using the LINEAR PlaybackMode. Note the following considerations when using ABSOLUTE transitions: If the preceding program in the schedule has a duration that extends past the wall clock time, MediaTailor truncates the preceding program on a common segment boundary. If there are gaps in playback, MediaTailor plays the FillerSlate you configured for your linear channel. RELATIVE - The program is inserted into the schedule either before or after a program that you specify via RelativePosition.
         public let type: String
 
-        public init(relativePosition: RelativePosition, relativeProgram: String? = nil, scheduledStartTimeMillis: Int64? = nil, type: String) {
+        public init(durationMillis: Int64? = nil, relativePosition: RelativePosition, relativeProgram: String? = nil, scheduledStartTimeMillis: Int64? = nil, type: String) {
+            self.durationMillis = durationMillis
             self.relativePosition = relativePosition
             self.relativeProgram = relativeProgram
             self.scheduledStartTimeMillis = scheduledStartTimeMillis
@@ -2311,6 +2598,7 @@ extension MediaTailor {
         }
 
         private enum CodingKeys: String, CodingKey {
+            case durationMillis = "DurationMillis"
             case relativePosition = "RelativePosition"
             case relativeProgram = "RelativeProgram"
             case scheduledStartTimeMillis = "ScheduledStartTimeMillis"
@@ -2341,15 +2629,19 @@ extension MediaTailor {
         ]
 
         public let channelName: String
+        /// The slate used to fill gaps between programs in the schedule. You must configure filler slate if your channel uses the LINEAR PlaybackMode. MediaTailor doesn't support filler slate for channels using the LOOP PlaybackMode.
+        public let fillerSlate: SlateSource?
         /// The channel's output properties.
         public let outputs: [RequestOutputItem]
 
-        public init(channelName: String, outputs: [RequestOutputItem]) {
+        public init(channelName: String, fillerSlate: SlateSource? = nil, outputs: [RequestOutputItem]) {
             self.channelName = channelName
+            self.fillerSlate = fillerSlate
             self.outputs = outputs
         }
 
         private enum CodingKeys: String, CodingKey {
+            case fillerSlate = "FillerSlate"
             case outputs = "Outputs"
         }
     }
@@ -2366,8 +2658,9 @@ extension MediaTailor {
         public let outputs: [ResponseOutputItem]?
         public let playbackMode: String?
         public let tags: [String: String]?
+        public let tier: String?
 
-        public init(arn: String? = nil, channelName: String? = nil, channelState: ChannelState? = nil, creationTime: Date? = nil, fillerSlate: SlateSource? = nil, lastModifiedTime: Date? = nil, outputs: [ResponseOutputItem]? = nil, playbackMode: String? = nil, tags: [String: String]? = nil) {
+        public init(arn: String? = nil, channelName: String? = nil, channelState: ChannelState? = nil, creationTime: Date? = nil, fillerSlate: SlateSource? = nil, lastModifiedTime: Date? = nil, outputs: [ResponseOutputItem]? = nil, playbackMode: String? = nil, tags: [String: String]? = nil, tier: String? = nil) {
             self.arn = arn
             self.channelName = channelName
             self.channelState = channelState
@@ -2377,6 +2670,7 @@ extension MediaTailor {
             self.outputs = outputs
             self.playbackMode = playbackMode
             self.tags = tags
+            self.tier = tier
         }
 
         private enum CodingKeys: String, CodingKey {
@@ -2388,6 +2682,61 @@ extension MediaTailor {
             case lastModifiedTime = "LastModifiedTime"
             case outputs = "Outputs"
             case playbackMode = "PlaybackMode"
+            case tags
+            case tier = "Tier"
+        }
+    }
+
+    public struct UpdateLiveSourceRequest: AWSEncodableShape {
+        public static var _encoding = [
+            AWSMemberEncoding(label: "liveSourceName", location: .uri(locationName: "liveSourceName")),
+            AWSMemberEncoding(label: "sourceLocationName", location: .uri(locationName: "sourceLocationName"))
+        ]
+
+        /// A list of HTTP package configurations for the live source on this account.
+        public let httpPackageConfigurations: [HttpPackageConfiguration]
+        public let liveSourceName: String
+        public let sourceLocationName: String
+
+        public init(httpPackageConfigurations: [HttpPackageConfiguration], liveSourceName: String, sourceLocationName: String) {
+            self.httpPackageConfigurations = httpPackageConfigurations
+            self.liveSourceName = liveSourceName
+            self.sourceLocationName = sourceLocationName
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case httpPackageConfigurations = "HttpPackageConfigurations"
+        }
+    }
+
+    public struct UpdateLiveSourceResponse: AWSDecodableShape {
+        public let arn: String?
+        @OptionalCustomCoding<UnixEpochDateCoder>
+        public var creationTime: Date?
+        public let httpPackageConfigurations: [HttpPackageConfiguration]?
+        @OptionalCustomCoding<UnixEpochDateCoder>
+        public var lastModifiedTime: Date?
+        public let liveSourceName: String?
+        public let sourceLocationName: String?
+        public let tags: [String: String]?
+
+        public init(arn: String? = nil, creationTime: Date? = nil, httpPackageConfigurations: [HttpPackageConfiguration]? = nil, lastModifiedTime: Date? = nil, liveSourceName: String? = nil, sourceLocationName: String? = nil, tags: [String: String]? = nil) {
+            self.arn = arn
+            self.creationTime = creationTime
+            self.httpPackageConfigurations = httpPackageConfigurations
+            self.lastModifiedTime = lastModifiedTime
+            self.liveSourceName = liveSourceName
+            self.sourceLocationName = sourceLocationName
+            self.tags = tags
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case arn = "Arn"
+            case creationTime = "CreationTime"
+            case httpPackageConfigurations = "HttpPackageConfigurations"
+            case lastModifiedTime = "LastModifiedTime"
+            case liveSourceName = "LiveSourceName"
+            case sourceLocationName = "SourceLocationName"
             case tags
         }
     }
@@ -2403,12 +2752,15 @@ extension MediaTailor {
         public let defaultSegmentDeliveryConfiguration: DefaultSegmentDeliveryConfiguration?
         /// The HTTP configuration for the source location.
         public let httpConfiguration: HttpConfiguration
+        /// A list of the segment delivery configurations associated with this resource.
+        public let segmentDeliveryConfigurations: [SegmentDeliveryConfiguration]?
         public let sourceLocationName: String
 
-        public init(accessConfiguration: AccessConfiguration? = nil, defaultSegmentDeliveryConfiguration: DefaultSegmentDeliveryConfiguration? = nil, httpConfiguration: HttpConfiguration, sourceLocationName: String) {
+        public init(accessConfiguration: AccessConfiguration? = nil, defaultSegmentDeliveryConfiguration: DefaultSegmentDeliveryConfiguration? = nil, httpConfiguration: HttpConfiguration, segmentDeliveryConfigurations: [SegmentDeliveryConfiguration]? = nil, sourceLocationName: String) {
             self.accessConfiguration = accessConfiguration
             self.defaultSegmentDeliveryConfiguration = defaultSegmentDeliveryConfiguration
             self.httpConfiguration = httpConfiguration
+            self.segmentDeliveryConfigurations = segmentDeliveryConfigurations
             self.sourceLocationName = sourceLocationName
         }
 
@@ -2416,6 +2768,7 @@ extension MediaTailor {
             case accessConfiguration = "AccessConfiguration"
             case defaultSegmentDeliveryConfiguration = "DefaultSegmentDeliveryConfiguration"
             case httpConfiguration = "HttpConfiguration"
+            case segmentDeliveryConfigurations = "SegmentDeliveryConfigurations"
         }
     }
 
@@ -2428,16 +2781,18 @@ extension MediaTailor {
         public let httpConfiguration: HttpConfiguration?
         @OptionalCustomCoding<UnixEpochDateCoder>
         public var lastModifiedTime: Date?
+        public let segmentDeliveryConfigurations: [SegmentDeliveryConfiguration]?
         public let sourceLocationName: String?
         public let tags: [String: String]?
 
-        public init(accessConfiguration: AccessConfiguration? = nil, arn: String? = nil, creationTime: Date? = nil, defaultSegmentDeliveryConfiguration: DefaultSegmentDeliveryConfiguration? = nil, httpConfiguration: HttpConfiguration? = nil, lastModifiedTime: Date? = nil, sourceLocationName: String? = nil, tags: [String: String]? = nil) {
+        public init(accessConfiguration: AccessConfiguration? = nil, arn: String? = nil, creationTime: Date? = nil, defaultSegmentDeliveryConfiguration: DefaultSegmentDeliveryConfiguration? = nil, httpConfiguration: HttpConfiguration? = nil, lastModifiedTime: Date? = nil, segmentDeliveryConfigurations: [SegmentDeliveryConfiguration]? = nil, sourceLocationName: String? = nil, tags: [String: String]? = nil) {
             self.accessConfiguration = accessConfiguration
             self.arn = arn
             self.creationTime = creationTime
             self.defaultSegmentDeliveryConfiguration = defaultSegmentDeliveryConfiguration
             self.httpConfiguration = httpConfiguration
             self.lastModifiedTime = lastModifiedTime
+            self.segmentDeliveryConfigurations = segmentDeliveryConfigurations
             self.sourceLocationName = sourceLocationName
             self.tags = tags
         }
@@ -2449,6 +2804,7 @@ extension MediaTailor {
             case defaultSegmentDeliveryConfiguration = "DefaultSegmentDeliveryConfiguration"
             case httpConfiguration = "HttpConfiguration"
             case lastModifiedTime = "LastModifiedTime"
+            case segmentDeliveryConfigurations = "SegmentDeliveryConfigurations"
             case sourceLocationName = "SourceLocationName"
             case tags
         }
@@ -2460,7 +2816,7 @@ extension MediaTailor {
             AWSMemberEncoding(label: "vodSourceName", location: .uri(locationName: "vodSourceName"))
         ]
 
-        /// An array of HTTP package configurations for the VOD source on this account.
+        /// A list of HTTP package configurations for the VOD source on this account.
         public let httpPackageConfigurations: [HttpPackageConfiguration]
         public let sourceLocationName: String
         public let vodSourceName: String

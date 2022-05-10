@@ -26,6 +26,11 @@ extension Outposts {
         public var description: String { return self.rawValue }
     }
 
+    public enum AssetType: String, CustomStringConvertible, Codable {
+        case compute = "COMPUTE"
+        public var description: String { return self.rawValue }
+    }
+
     public enum CatalogItemClass: String, CustomStringConvertible, Codable {
         case rack = "RACK"
         case server = "SERVER"
@@ -266,6 +271,31 @@ extension Outposts {
         }
     }
 
+    public struct AssetInfo: AWSDecodableShape {
+        ///  The ID of the asset.
+        public let assetId: String?
+        ///  The type of the asset.
+        public let assetType: AssetType?
+        ///  Information about compute hardware assets.
+        public let computeAttributes: ComputeAttributes?
+        ///  The rack ID of the asset.
+        public let rackId: String?
+
+        public init(assetId: String? = nil, assetType: AssetType? = nil, computeAttributes: ComputeAttributes? = nil, rackId: String? = nil) {
+            self.assetId = assetId
+            self.assetType = assetType
+            self.computeAttributes = computeAttributes
+            self.rackId = rackId
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case assetId = "AssetId"
+            case assetType = "AssetType"
+            case computeAttributes = "ComputeAttributes"
+            case rackId = "RackId"
+        }
+    }
+
     public struct CancelOrderInput: AWSEncodableShape {
         public static var _encoding = [
             AWSMemberEncoding(label: "orderId", location: .uri(locationName: "OrderId"))
@@ -325,6 +355,19 @@ extension Outposts {
             case supportedStorage = "SupportedStorage"
             case supportedUplinkGbps = "SupportedUplinkGbps"
             case weightLbs = "WeightLbs"
+        }
+    }
+
+    public struct ComputeAttributes: AWSDecodableShape {
+        ///  The host ID of any Dedicated Hosts on the asset.
+        public let hostId: String?
+
+        public init(hostId: String? = nil) {
+            self.hostId = hostId
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case hostId = "HostId"
         }
     }
 
@@ -880,6 +923,63 @@ extension Outposts {
         }
     }
 
+    public struct ListAssetsInput: AWSEncodableShape {
+        public static var _encoding = [
+            AWSMemberEncoding(label: "hostIdFilter", location: .querystring(locationName: "HostIdFilter")),
+            AWSMemberEncoding(label: "maxResults", location: .querystring(locationName: "MaxResults")),
+            AWSMemberEncoding(label: "nextToken", location: .querystring(locationName: "NextToken")),
+            AWSMemberEncoding(label: "outpostIdentifier", location: .uri(locationName: "OutpostId"))
+        ]
+
+        ///  A filter for the host ID of Dedicated Hosts on the Outpost.  Filter values are case sensitive. If you specify multiple values for a filter, the values are joined with an OR, and the request returns all results that match any of the specified values.
+        public let hostIdFilter: [String]?
+        public let maxResults: Int?
+        public let nextToken: String?
+        ///  The ID or the Amazon Resource Name (ARN) of the Outpost.
+        public let outpostIdentifier: String
+
+        public init(hostIdFilter: [String]? = nil, maxResults: Int? = nil, nextToken: String? = nil, outpostIdentifier: String) {
+            self.hostIdFilter = hostIdFilter
+            self.maxResults = maxResults
+            self.nextToken = nextToken
+            self.outpostIdentifier = outpostIdentifier
+        }
+
+        public func validate(name: String) throws {
+            try self.hostIdFilter?.forEach {
+                try validate($0, name: "hostIdFilter[]", parent: name, max: 50)
+                try validate($0, name: "hostIdFilter[]", parent: name, min: 1)
+                try validate($0, name: "hostIdFilter[]", parent: name, pattern: "^[A-Za-z0-9-]*$")
+            }
+            try self.validate(self.maxResults, name: "maxResults", parent: name, max: 1000)
+            try self.validate(self.maxResults, name: "maxResults", parent: name, min: 1)
+            try self.validate(self.nextToken, name: "nextToken", parent: name, max: 1005)
+            try self.validate(self.nextToken, name: "nextToken", parent: name, min: 1)
+            try self.validate(self.nextToken, name: "nextToken", parent: name, pattern: "^(\\d+)##(\\S+)$")
+            try self.validate(self.outpostIdentifier, name: "outpostIdentifier", parent: name, max: 180)
+            try self.validate(self.outpostIdentifier, name: "outpostIdentifier", parent: name, min: 1)
+            try self.validate(self.outpostIdentifier, name: "outpostIdentifier", parent: name, pattern: "^(arn:aws([a-z-]+)?:outposts:[a-z\\d-]+:\\d{12}:outpost/)?op-[a-f0-9]{17}$")
+        }
+
+        private enum CodingKeys: CodingKey {}
+    }
+
+    public struct ListAssetsOutput: AWSDecodableShape {
+        ///  Information about hardware assets.
+        public let assets: [AssetInfo]?
+        public let nextToken: String?
+
+        public init(assets: [AssetInfo]? = nil, nextToken: String? = nil) {
+            self.assets = assets
+            self.nextToken = nextToken
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case assets = "Assets"
+            case nextToken = "NextToken"
+        }
+    }
+
     public struct ListCatalogItemsInput: AWSEncodableShape {
         public static var _encoding = [
             AWSMemberEncoding(label: "eC2FamilyFilter", location: .querystring(locationName: "EC2FamilyFilter")),
@@ -1062,15 +1162,27 @@ extension Outposts {
     public struct ListSitesInput: AWSEncodableShape {
         public static var _encoding = [
             AWSMemberEncoding(label: "maxResults", location: .querystring(locationName: "MaxResults")),
-            AWSMemberEncoding(label: "nextToken", location: .querystring(locationName: "NextToken"))
+            AWSMemberEncoding(label: "nextToken", location: .querystring(locationName: "NextToken")),
+            AWSMemberEncoding(label: "operatingAddressCityFilter", location: .querystring(locationName: "OperatingAddressCityFilter")),
+            AWSMemberEncoding(label: "operatingAddressCountryCodeFilter", location: .querystring(locationName: "OperatingAddressCountryCodeFilter")),
+            AWSMemberEncoding(label: "operatingAddressStateOrRegionFilter", location: .querystring(locationName: "OperatingAddressStateOrRegionFilter"))
         ]
 
         public let maxResults: Int?
         public let nextToken: String?
+        ///  A filter for the city of the Outpost site.  Filter values are case sensitive. If you specify multiple values for a filter, the values are joined with an OR, and the request returns all results that match any of the specified values.
+        public let operatingAddressCityFilter: [String]?
+        ///  A filter for the country code of the Outpost site.  Filter values are case sensitive. If you specify multiple values for a filter, the values are joined with an OR, and the request returns all results that match any of the specified values.
+        public let operatingAddressCountryCodeFilter: [String]?
+        ///  A filter for the state/region of the Outpost site.  Filter values are case sensitive. If you specify multiple values for a filter, the values are joined with an OR, and the request returns all results that match any of the specified values.
+        public let operatingAddressStateOrRegionFilter: [String]?
 
-        public init(maxResults: Int? = nil, nextToken: String? = nil) {
+        public init(maxResults: Int? = nil, nextToken: String? = nil, operatingAddressCityFilter: [String]? = nil, operatingAddressCountryCodeFilter: [String]? = nil, operatingAddressStateOrRegionFilter: [String]? = nil) {
             self.maxResults = maxResults
             self.nextToken = nextToken
+            self.operatingAddressCityFilter = operatingAddressCityFilter
+            self.operatingAddressCountryCodeFilter = operatingAddressCountryCodeFilter
+            self.operatingAddressStateOrRegionFilter = operatingAddressStateOrRegionFilter
         }
 
         public func validate(name: String) throws {
@@ -1079,6 +1191,21 @@ extension Outposts {
             try self.validate(self.nextToken, name: "nextToken", parent: name, max: 1005)
             try self.validate(self.nextToken, name: "nextToken", parent: name, min: 1)
             try self.validate(self.nextToken, name: "nextToken", parent: name, pattern: "^(\\d+)##(\\S+)$")
+            try self.operatingAddressCityFilter?.forEach {
+                try validate($0, name: "operatingAddressCityFilter[]", parent: name, max: 50)
+                try validate($0, name: "operatingAddressCityFilter[]", parent: name, min: 1)
+                try validate($0, name: "operatingAddressCityFilter[]", parent: name, pattern: "^\\S[\\S ]*$")
+            }
+            try self.operatingAddressCountryCodeFilter?.forEach {
+                try validate($0, name: "operatingAddressCountryCodeFilter[]", parent: name, max: 2)
+                try validate($0, name: "operatingAddressCountryCodeFilter[]", parent: name, min: 2)
+                try validate($0, name: "operatingAddressCountryCodeFilter[]", parent: name, pattern: "^[A-Z]{2}$")
+            }
+            try self.operatingAddressStateOrRegionFilter?.forEach {
+                try validate($0, name: "operatingAddressStateOrRegionFilter[]", parent: name, max: 50)
+                try validate($0, name: "operatingAddressStateOrRegionFilter[]", parent: name, min: 1)
+                try validate($0, name: "operatingAddressStateOrRegionFilter[]", parent: name, pattern: "^\\S[\\S ]*$")
+            }
         }
 
         private enum CodingKeys: CodingKey {}

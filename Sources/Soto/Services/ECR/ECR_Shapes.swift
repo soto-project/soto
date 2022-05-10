@@ -1602,12 +1602,14 @@ extension ECR {
         public let imageSizeInBytes: Int64?
         /// The list of tags associated with this image.
         public let imageTags: [String]?
+        /// The date and time, expressed in standard JavaScript date format, when Amazon ECR recorded the last image pull.  Amazon ECR refreshes the last image pull timestamp at least once every 24 hours. For example, if you pull an image once a day then the lastRecordedPullTime timestamp will indicate the exact time that the image was last pulled. However, if you pull an image once an hour, because Amazon ECR refreshes the lastRecordedPullTime timestamp at least once every 24 hours, the result may not be the exact time that the image was last pulled.
+        public let lastRecordedPullTime: Date?
         /// The Amazon Web Services account ID associated with the registry to which this image belongs.
         public let registryId: String?
         /// The name of the repository to which this image belongs.
         public let repositoryName: String?
 
-        public init(artifactMediaType: String? = nil, imageDigest: String? = nil, imageManifestMediaType: String? = nil, imagePushedAt: Date? = nil, imageScanFindingsSummary: ImageScanFindingsSummary? = nil, imageScanStatus: ImageScanStatus? = nil, imageSizeInBytes: Int64? = nil, imageTags: [String]? = nil, registryId: String? = nil, repositoryName: String? = nil) {
+        public init(artifactMediaType: String? = nil, imageDigest: String? = nil, imageManifestMediaType: String? = nil, imagePushedAt: Date? = nil, imageScanFindingsSummary: ImageScanFindingsSummary? = nil, imageScanStatus: ImageScanStatus? = nil, imageSizeInBytes: Int64? = nil, imageTags: [String]? = nil, lastRecordedPullTime: Date? = nil, registryId: String? = nil, repositoryName: String? = nil) {
             self.artifactMediaType = artifactMediaType
             self.imageDigest = imageDigest
             self.imageManifestMediaType = imageManifestMediaType
@@ -1616,6 +1618,7 @@ extension ECR {
             self.imageScanStatus = imageScanStatus
             self.imageSizeInBytes = imageSizeInBytes
             self.imageTags = imageTags
+            self.lastRecordedPullTime = lastRecordedPullTime
             self.registryId = registryId
             self.repositoryName = repositoryName
         }
@@ -1629,6 +1632,7 @@ extension ECR {
             case imageScanStatus
             case imageSizeInBytes
             case imageTags
+            case lastRecordedPullTime
             case registryId
             case repositoryName
         }
@@ -2378,7 +2382,7 @@ extension ECR {
     public struct PutRegistryScanningConfigurationRequest: AWSEncodableShape {
         /// The scanning rules to use for the registry. A scanning rule is used to determine which repository filters are used and at what frequency scanning will occur.
         public let rules: [RegistryScanningRule]?
-        /// The scanning type to set for the registry. By default, the BASIC scan type is used. When basic scanning is set, you may specify filters to determine which individual repositories, or all repositories, are scanned when new images are pushed. Alternatively, you can do manual scans of images with basic scanning. When the ENHANCED scan type is set, Amazon Inspector provides automated, continuous scanning of all repositories in your registry.
+        /// The scanning type to set for the registry. When a registry scanning configuration is not defined, by default the BASIC scan type is used. When basic scanning is used, you may specify filters to determine which individual repositories, or all repositories, are scanned when new images are pushed to those repositories. Alternatively, you can do manual scans of images with basic scanning. When the ENHANCED scan type is set, Amazon Inspector provides automated vulnerability scanning. You may choose between continuous scanning or scan on push and you may specify filters to determine which individual repositories, or all repositories, are scanned.
         public let scanType: ScanType?
 
         public init(rules: [RegistryScanningRule]? = nil, scanType: ScanType? = nil) {
@@ -2480,7 +2484,7 @@ extension ECR {
     public struct RegistryScanningRule: AWSEncodableShape & AWSDecodableShape {
         /// The repository filters associated with the scanning configuration for a private registry.
         public let repositoryFilters: [ScanningRepositoryFilter]
-        /// The frequency that scans are performed at for a private registry.
+        /// The frequency that scans are performed at for a private registry. When the ENHANCED scan type is specified, the supported scan frequencies are CONTINUOUS_SCAN and SCAN_ON_PUSH. When the BASIC scan type is specified, the SCAN_ON_PUSH and MANUAL scan frequencies are supported.
         public let scanFrequency: ScanFrequency
 
         public init(repositoryFilters: [ScanningRepositoryFilter], scanFrequency: ScanFrequency) {
@@ -2942,7 +2946,7 @@ extension ECR {
     public struct Tag: AWSEncodableShape & AWSDecodableShape {
         /// One part of a key-value pair that make up a tag. A key is a general label that acts like a category for more specific tag values.
         public let key: String?
-        /// The optional part of a key-value pair that make up a tag. A value acts as a descriptor within a tag category (key).
+        /// A value acts as a descriptor within a tag category (key).
         public let value: String?
 
         public init(key: String? = nil, value: String? = nil) {

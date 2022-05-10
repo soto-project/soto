@@ -942,7 +942,7 @@ extension Chime {
         return try await self.client.execute(operation: "UpdateSipMediaApplication", path: "/sip-media-applications/{sipMediaApplicationId}", httpMethod: .PUT, serviceConfig: self.config, input: input, logger: logger, on: eventLoop)
     }
 
-    /// Allows you to trigger a Lambda function at any time while a call is active, and replace the current actions with new actions returned by the invocation.
+    /// Invokes the AWS Lambda function associated with the SIP media application and transaction ID in an update request. The Lambda function can then return a new set of actions.
     public func updateSipMediaApplicationCall(_ input: UpdateSipMediaApplicationCallRequest, logger: Logger = AWSClient.loggingDisabled, on eventLoop: EventLoop? = nil) async throws -> UpdateSipMediaApplicationCallResponse {
         return try await self.client.execute(operation: "UpdateSipMediaApplicationCall", path: "/sip-media-applications/{sipMediaApplicationId}/calls/{transactionId}", httpMethod: .POST, serviceConfig: self.config, input: input, logger: logger, on: eventLoop)
     }

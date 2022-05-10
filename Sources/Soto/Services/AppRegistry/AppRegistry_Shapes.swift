@@ -1183,13 +1183,10 @@ extension AppRegistry {
         public let application: String
         /// The new description of the application.
         public let description: String?
-        /// The new name of the application. The name must be unique in the region in which you are updating the application.
-        public let name: String?
 
-        public init(application: String, description: String? = nil, name: String? = nil) {
+        public init(application: String, description: String? = nil) {
             self.application = application
             self.description = description
-            self.name = name
         }
 
         public func validate(name: String) throws {
@@ -1197,14 +1194,10 @@ extension AppRegistry {
             try self.validate(self.application, name: "application", parent: name, min: 1)
             try self.validate(self.application, name: "application", parent: name, pattern: "[-.\\w]+")
             try self.validate(self.description, name: "description", parent: name, max: 1024)
-            try self.validate(self.name, name: "name", parent: name, max: 256)
-            try self.validate(self.name, name: "name", parent: name, min: 1)
-            try self.validate(self.name, name: "name", parent: name, pattern: "[-.\\w]+")
         }
 
         private enum CodingKeys: String, CodingKey {
             case description
-            case name
         }
     }
 
@@ -1232,14 +1225,11 @@ extension AppRegistry {
         public let attributes: String?
         /// The description of the attribute group that the user provides.
         public let description: String?
-        /// The new name of the attribute group. The name must be unique in the region in which you are updating the attribute group.
-        public let name: String?
 
-        public init(attributeGroup: String, attributes: String? = nil, description: String? = nil, name: String? = nil) {
+        public init(attributeGroup: String, attributes: String? = nil, description: String? = nil) {
             self.attributeGroup = attributeGroup
             self.attributes = attributes
             self.description = description
-            self.name = name
         }
 
         public func validate(name: String) throws {
@@ -1250,15 +1240,11 @@ extension AppRegistry {
             try self.validate(self.attributes, name: "attributes", parent: name, min: 1)
             try self.validate(self.attributes, name: "attributes", parent: name, pattern: "[\\u0009\\u000A\\u000D\\u0020-\\u00FF]+")
             try self.validate(self.description, name: "description", parent: name, max: 1024)
-            try self.validate(self.name, name: "name", parent: name, max: 256)
-            try self.validate(self.name, name: "name", parent: name, min: 1)
-            try self.validate(self.name, name: "name", parent: name, pattern: "[-.\\w]+")
         }
 
         private enum CodingKeys: String, CodingKey {
             case attributes
             case description
-            case name
         }
     }
 

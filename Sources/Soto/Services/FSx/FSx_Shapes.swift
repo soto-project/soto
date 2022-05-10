@@ -105,6 +105,11 @@ extension FSx {
         public var description: String { return self.rawValue }
     }
 
+    public enum DeleteFileSystemOpenZFSOption: String, CustomStringConvertible, Codable {
+        case deleteChildVolumesAndSnapshots = "DELETE_CHILD_VOLUMES_AND_SNAPSHOTS"
+        public var description: String { return self.rawValue }
+    }
+
     public enum DeleteOpenZFSVolumeOption: String, CustomStringConvertible, Codable {
         case deleteChildVolumesAndSnapshots = "DELETE_CHILD_VOLUMES_AND_SNAPSHOTS"
         public var description: String { return self.rawValue }
@@ -135,6 +140,7 @@ extension FSx {
         case deleting = "DELETING"
         case failed = "FAILED"
         case misconfigured = "MISCONFIGURED"
+        case misconfiguredUnavailable = "MISCONFIGURED_UNAVAILABLE"
         case updating = "UPDATING"
         public var description: String { return self.rawValue }
     }
@@ -187,6 +193,7 @@ extension FSx {
 
     public enum OntapDeploymentType: String, CustomStringConvertible, Codable {
         case multiAz1 = "MULTI_AZ_1"
+        case singleAz1 = "SINGLE_AZ_1"
         public var description: String { return self.rawValue }
     }
 
@@ -204,6 +211,7 @@ extension FSx {
     }
 
     public enum OpenZFSDataCompressionType: String, CustomStringConvertible, Codable {
+        case lz4 = "LZ4"
         case none = "NONE"
         case zstd = "ZSTD"
         public var description: String { return self.rawValue }
@@ -798,7 +806,7 @@ extension FSx {
         /// The path to the Amazon S3 data repository that will be linked to the file system. The path can be an S3 bucket or prefix in the format s3://myBucket/myPrefix/. This path specifies where in the S3 data repository files will be imported from or exported to.
         public let dataRepositoryPath: String
         public let fileSystemId: String
-        /// A path on the file system that points to a high-level directory (such as /ns1/) or subdirectory (such as /ns1/subdir/) that will be mapped 1-1 with DataRepositoryPath. The leading forward slash in the name is required. Two data repository associations cannot have overlapping file system paths. For example, if a data repository is associated with file system path /ns1/, then you cannot link another data repository with file system path /ns1/ns2. This path specifies where in your file system files will be exported from or imported to. This file system directory can be linked to only one Amazon S3 bucket, and no other S3 bucket can be linked to the directory.
+        /// A path on the file system that points to a high-level directory (such as /ns1/) or subdirectory (such as /ns1/subdir/) that will be mapped 1-1 with DataRepositoryPath. The leading forward slash in the name is required. Two data repository associations cannot have overlapping file system paths. For example, if a data repository is associated with file system path /ns1/, then you cannot link another data repository with file system path /ns1/ns2. This path specifies where in your file system files will be exported from or imported to. This file system directory can be linked to only one Amazon S3 bucket, and no other S3 bucket can be linked to the directory.  If you specify only a forward slash (/) as the file system path, you can link only 1 data repository to the file system. You can only specify "/" as the file system path for the first data repository associated with a file system.
         public let fileSystemPath: String
         /// For files imported from a data repository, this value determines the stripe count and maximum amount of data per file (in MiB) stored on a single physical disk. The maximum number of disks that a single file can be striped across is limited by the total number of disks that make up the file system. The default chunk size is 1,024 MiB (1 GiB) and can go as high as 512,000 MiB (500 GiB). Amazon S3 objects have a maximum size of 5 TB.
         public let importedFileChunkSize: Int?
@@ -829,7 +837,7 @@ extension FSx {
             try self.validate(self.fileSystemId, name: "fileSystemId", parent: name, pattern: "^(fs-[0-9a-f]{8,})$")
             try self.validate(self.fileSystemPath, name: "fileSystemPath", parent: name, max: 4096)
             try self.validate(self.fileSystemPath, name: "fileSystemPath", parent: name, min: 1)
-            try self.validate(self.fileSystemPath, name: "fileSystemPath", parent: name, pattern: "^[^\\u0000\\u0085\\u2028\\u2029\\r\\n]{3,4096}$")
+            try self.validate(self.fileSystemPath, name: "fileSystemPath", parent: name, pattern: "^[^\\u0000\\u0085\\u2028\\u2029\\r\\n]{1,4096}$")
             try self.validate(self.importedFileChunkSize, name: "importedFileChunkSize", parent: name, max: 512_000)
             try self.validate(self.importedFileChunkSize, name: "importedFileChunkSize", parent: name, min: 1)
             try self.s3?.validate(name: "\(name).s3")
@@ -1028,7 +1036,7 @@ extension FSx {
     }
 
     public struct CreateFileSystemLustreConfiguration: AWSEncodableShape {
-        ///  (Optional) Available with Scratch and Persistent_1 deployment types. When you create your file system, your existing S3 objects appear as file and directory listings. Use this property to choose how Amazon FSx keeps your file and directory listings up to date as you add or modify objects in your linked S3 bucket. AutoImportPolicy can have the following values:    NONE - (Default) AutoImport is off. Amazon FSx only updates file and directory listings from the linked S3 bucket when the file system is created. FSx does not update file and directory listings for any new or changed objects after choosing this option.    NEW - AutoImport is on. Amazon FSx automatically imports directory listings of any new objects added to the linked S3 bucket that do not currently exist in the FSx file system.     NEW_CHANGED - AutoImport is on. Amazon FSx automatically imports file and directory listings of any new objects added to the S3 bucket and any existing objects that are changed in the S3 bucket after you choose this option.    NEW_CHANGED_DELETED - AutoImport is on. Amazon FSx automatically imports file and directory listings of any new objects added to the S3 bucket, any existing objects that are changed in the S3 bucket, and any objects that were deleted in the S3 bucket.   For more information, see  Automatically import updates from your S3 bucket.  This parameter is not supported for file systems with the Persistent_2 deployment type. Instead, use CreateDataRepositoryAssociation" to create a data repository association to link your Lustre file system to a data repository.
+        ///  (Optional) Available with Scratch and Persistent_1 deployment types. When you create your file system, your existing S3 objects appear as file and directory listings. Use this property to choose how Amazon FSx keeps your file and directory listings up to date as you add or modify objects in your linked S3 bucket. AutoImportPolicy can have the following values:    NONE - (Default) AutoImport is off. Amazon FSx only updates file and directory listings from the linked S3 bucket when the file system is created. FSx does not update file and directory listings for any new or changed objects after choosing this option.    NEW - AutoImport is on. Amazon FSx automatically imports directory listings of any new objects added to the linked S3 bucket that do not currently exist in the FSx file system.     NEW_CHANGED - AutoImport is on. Amazon FSx automatically imports file and directory listings of any new objects added to the S3 bucket and any existing objects that are changed in the S3 bucket after you choose this option.    NEW_CHANGED_DELETED - AutoImport is on. Amazon FSx automatically imports file and directory listings of any new objects added to the S3 bucket, any existing objects that are changed in the S3 bucket, and any objects that were deleted in the S3 bucket.   For more information, see  Automatically import updates from your S3 bucket.  This parameter is not supported for file systems with the Persistent_2 deployment type. Instead, use CreateDataRepositoryAssociation to create a data repository association to link your Lustre file system to a data repository.
         public let autoImportPolicy: AutoImportPolicyType?
         public let automaticBackupRetentionDays: Int?
         /// (Optional) Not available for use with file systems that are linked to a data repository. A boolean flag indicating whether tags for the file system should be copied to backups. The default value is false. If CopyTagsToBackups is set to true, all file system tags are copied to all automatic and user-initiated backups when the user doesn't specify any backup-specific tags. If CopyTagsToBackups is set to true and you specify one or more backup tags, only the specified tags are copied to backups. If you specify one or more tags when creating a user-initiated backup, no tags are copied from the file system, regardless of this value. (Default = false) For more information, see  Working with backups in the Amazon FSx for Lustre User Guide.
@@ -1036,7 +1044,7 @@ extension FSx {
         public let dailyAutomaticBackupStartTime: String?
         /// Sets the data compression configuration for the file system. DataCompressionType can have the following values:    NONE - (Default) Data compression is turned off when the file system is created.    LZ4 - Data compression is turned on with the LZ4 algorithm.   For more information, see Lustre data compression in the Amazon FSx for Lustre User Guide.
         public let dataCompressionType: DataCompressionType?
-        /// (Optional) Choose SCRATCH_1 and SCRATCH_2 deployment types when you need temporary storage and shorter-term processing of data. The SCRATCH_2 deployment type provides in-transit encryption of data and higher burst throughput capacity than SCRATCH_1. Choose PERSISTENT_1 for longer-term storage and for throughput-focused workloads that aren’t latency-sensitive. a. PERSISTENT_1 supports encryption of data in transit, and is available in all Amazon Web Services Regions in which FSx for Lustre is available. Choose PERSISTENT_2 for longer-term storage and for latency-sensitive workloads that require the highest levels of IOPS/throughput. PERSISTENT_2 supports SSD storage, and offers higher PerUnitStorageThroughput (up to 1000 MB/s/TiB). PERSISTENT_2 is available in a limited number of Amazon Web Services Regions. For more information, and an up-to-date list of Amazon Web Services Regions in which PERSISTENT_2 is available, see File system deployment options for FSx for Lustre in the Amazon FSx for Lustre User Guide.  If you choose PERSISTENT_2, and you set FileSystemTypeVersion to 2.10, the CreateFileSystem operation fails.  Encryption of data in transit is automatically turned on when you access SCRATCH_2, PERSISTENT_1 and PERSISTENT_2 file systems from Amazon EC2 instances that support automatic encryption in the Amazon Web Services Regions where they are available. For more information about encryption in transit for FSx for Lustre file systems, see Encrypting data in transit in the Amazon FSx for Lustre User Guide.  (Default = SCRATCH_1)
+        /// (Optional) Choose SCRATCH_1 and SCRATCH_2 deployment types when you need temporary storage and shorter-term processing of data. The SCRATCH_2 deployment type provides in-transit encryption of data and higher burst throughput capacity than SCRATCH_1. Choose PERSISTENT_1 for longer-term storage and for throughput-focused workloads that aren’t latency-sensitive. PERSISTENT_1 supports encryption of data in transit, and is available in all Amazon Web Services Regions in which FSx for Lustre is available. Choose PERSISTENT_2 for longer-term storage and for latency-sensitive workloads that require the highest levels of IOPS/throughput. PERSISTENT_2 supports SSD storage, and offers higher PerUnitStorageThroughput (up to 1000 MB/s/TiB). PERSISTENT_2 is available in a limited number of Amazon Web Services Regions. For more information, and an up-to-date list of Amazon Web Services Regions in which PERSISTENT_2 is available, see File system deployment options for FSx for Lustre in the Amazon FSx for Lustre User Guide.  If you choose PERSISTENT_2, and you set FileSystemTypeVersion to 2.10, the CreateFileSystem operation fails.  Encryption of data in transit is automatically turned on when you access SCRATCH_2, PERSISTENT_1 and PERSISTENT_2 file systems from Amazon EC2 instances that support automatic encryption in the Amazon Web Services Regions where they are available. For more information about encryption in transit for FSx for Lustre file systems, see Encrypting data in transit in the Amazon FSx for Lustre User Guide.  (Default = SCRATCH_1)
         public let deploymentType: LustreDeploymentType?
         /// The type of drive cache used by PERSISTENT_1 file systems that are provisioned with HDD storage devices. This parameter is required when storage type is HDD. Set this property to READ to improve the performance for frequently accessed files by caching up to 20% of the total storage capacity of the file system. This parameter is required when StorageType is set to HDD.
         public let driveCacheType: DriveCacheType?
@@ -1111,19 +1119,19 @@ extension FSx {
     public struct CreateFileSystemOntapConfiguration: AWSEncodableShape {
         public let automaticBackupRetentionDays: Int?
         public let dailyAutomaticBackupStartTime: String?
-        /// Specifies the FSx for ONTAP file system deployment type to use in creating the file system. MULTI_AZ_1 is the supported ONTAP deployment type.
+        /// Specifies the FSx for ONTAP file system deployment type to use in creating the file system.     MULTI_AZ_1 - (Default) A high availability file system configured for Multi-AZ redundancy to tolerate temporary Availability Zone (AZ) unavailability.     SINGLE_AZ_1 - A file system configured for Single-AZ redundancy.   For information about the use cases for Multi-AZ and Single-AZ deployments, refer to Choosing Multi-AZ or Single-AZ file system deployment.
         public let deploymentType: OntapDeploymentType
         /// The SSD IOPS configuration for the FSx for ONTAP file system.
         public let diskIopsConfiguration: DiskIopsConfiguration?
-        /// Specifies the IP address range in which the endpoints to access your file system will be created. By default, Amazon FSx selects an unused IP address range for you from the 198.19.* range.
+        /// (Multi-AZ only) Specifies the IP address range in which the endpoints to access your file system will be created. By default, Amazon FSx selects an unused IP address range for you from the 198.19.* range.  The Endpoint IP address range you select for your file system must exist outside the VPC's CIDR range and must be at least /30 or larger.
         public let endpointIpAddressRange: String?
         /// The ONTAP administrative password for the fsxadmin user with which you administer your file system using the NetApp ONTAP CLI and REST API.
         public let fsxAdminPassword: String?
         /// Required when DeploymentType is set to MULTI_AZ_1. This specifies the subnet in which you want the preferred file server to be located.
         public let preferredSubnetId: String?
-        /// Specifies the virtual private cloud (VPC) route tables in which your file system's endpoints will be created. You should specify all VPC route tables associated with the subnets in which your clients are located. By default, Amazon FSx selects your VPC's default route table.
+        /// (Multi-AZ only) Specifies the virtual private cloud (VPC) route tables in which your file system's endpoints will be created. You should specify all VPC route tables associated with the subnets in which your clients are located. By default, Amazon FSx selects your VPC's default route table.
         public let routeTableIds: [String]?
-        /// Sets the throughput capacity for the file system that you're creating. Valid values are 512, 1024, and 2048 MBps.
+        /// Sets the throughput capacity for the file system that you're creating. Valid values are 128, 256, 512, 1024, and 2048 MBps.
         public let throughputCapacity: Int
         public let weeklyMaintenanceStartTime: String?
 
@@ -1190,7 +1198,7 @@ extension FSx {
         /// A Boolean value indicating whether tags for the volume should be copied to snapshots. This value defaults to false. If it's set to true, all tags for the volume are copied to snapshots where the user doesn't specify tags. If this value is true, and you specify one or more tags, only the specified tags are copied to snapshots. If you specify one or more tags when creating the snapshot, no tags are copied from the volume, regardless of this value.
         public let copyTagsToVolumes: Bool?
         public let dailyAutomaticBackupStartTime: String?
-        /// Specifies the file system deployment type. Amazon FSx for OpenZFS supports SINGLE_AZ_1. SINGLE_AZ_1 is a file system configured for a single Availability Zone (AZ) of redundancy.
+        /// Specifies the file system deployment type. Amazon FSx for OpenZFS supports SINGLE_AZ_1. SINGLE_AZ_1 deployment type is configured for redundancy within a single Availability Zone.
         public let deploymentType: OpenZFSDeploymentType
         public let diskIopsConfiguration: DiskIopsConfiguration?
         /// The configuration Amazon FSx uses when creating the root value of the Amazon FSx for OpenZFS file system. All volumes are children of the root volume.
@@ -1255,7 +1263,7 @@ extension FSx {
         public let securityGroupIds: [String]?
         /// Sets the storage capacity of the file system that you're creating, in gibibytes (GiB).  FSx for Lustre file systems - The amount of storage capacity that you can configure depends on the value that you set for StorageType and the Lustre DeploymentType, as follows:   For SCRATCH_2, PERSISTENT_2 and PERSISTENT_1 deployment types using SSD storage type, the valid values are 1200 GiB, 2400 GiB, and increments of 2400 GiB.   For PERSISTENT_1 HDD file systems, valid values are increments of 6000 GiB for 12 MB/s/TiB file systems and increments of 1800 GiB for 40 MB/s/TiB file systems.   For SCRATCH_1 deployment type, valid values are 1200 GiB, 2400 GiB, and increments of 3600 GiB.    FSx for ONTAP file systems - The amount of storage capacity that you can configure is from 1024 GiB up to 196,608 GiB (192 TiB).  FSx for OpenZFS file systems - The amount of storage capacity that you can configure is from 64 GiB up to 524,288 GiB (512 TiB).  FSx for Windows File Server file systems - The amount of storage capacity that you can configure depends on the value that you set for StorageType as follows:   For SSD storage, valid values are 32 GiB-65,536 GiB (64 TiB).   For HDD storage, valid values are 2000 GiB-65,536 GiB (64 TiB).
         public let storageCapacity: Int
-        /// Sets the storage type for the file system that you're creating. Valid values are SSD and HDD.   Set to SSD to use solid state drive storage. SSD is supported on all Windows, Lustre, ONTAP, and OpenZFS deployment types.   Set to HDD to use hard disk drive storage. HDD is supported on SINGLE_AZ_2 and MULTI_AZ_1 Windows file system deployment types, and on PERSISTENT Lustre file system deployment types.    Default value is SSD. For more information, see  Storage type options in the FSx for Windows File Server User Guide and Multiple storage options in the FSx for Lustre User Guide.
+        /// Sets the storage type for the file system that you're creating. Valid values are SSD and HDD.   Set to SSD to use solid state drive storage. SSD is supported on all Windows, Lustre, ONTAP, and OpenZFS deployment types.   Set to HDD to use hard disk drive storage. HDD is supported on SINGLE_AZ_2 and MULTI_AZ_1 Windows file system deployment types, and on PERSISTENT_1 Lustre file system deployment types.    Default value is SSD. For more information, see  Storage type options in the FSx for Windows File Server User Guide and Multiple storage options in the FSx for Lustre User Guide.
         public let storageType: StorageType?
         /// Specifies the IDs of the subnets that the file system will be accessible from. For Windows and ONTAP MULTI_AZ_1 deployment types,provide exactly two subnet IDs, one for the preferred file server and one for the standby file server. You specify one of these subnets as the preferred subnet using the WindowsConfiguration &gt; PreferredSubnetID or OntapConfiguration &gt; PreferredSubnetID properties. For more information about Multi-AZ file system configuration, see  Availability and durability: Single-AZ and Multi-AZ file systems in the Amazon FSx for Windows User Guide and  Availability and durability in the Amazon FSx for ONTAP User Guide. For Windows SINGLE_AZ_1 and SINGLE_AZ_2 and all Lustre deployment types, provide exactly one subnet ID. The file server is launched in that subnet's Availability Zone.
         public let subnetIds: [String]
@@ -1493,30 +1501,33 @@ extension FSx {
     public struct CreateOpenZFSVolumeConfiguration: AWSEncodableShape {
         /// A Boolean value indicating whether tags for the volume should be copied to snapshots. This value defaults to false. If it's set to true, all tags for the volume are copied to snapshots where the user doesn't specify tags. If this value is true, and you specify one or more tags, only the specified tags are copied to snapshots. If you specify one or more tags when creating the snapshot, no tags are copied from the volume, regardless of this value.
         public let copyTagsToSnapshots: Bool?
-        /// Specifies the method used to compress the data on the volume. Unless the compression type is specified, volumes inherit the DataCompressionType value of their parent volume.    NONE - Doesn't compress the data on the volume.    ZSTD - Compresses the data in the volume using the Zstandard (ZSTD) compression algorithm. This algorithm reduces the amount of space used on your volume and has very little impact on compute resources.
+        /// Specifies the method used to compress the data on the volume. The compression type is NONE by default.    NONE - Doesn't compress the data on the volume. NONE is the default.    ZSTD - Compresses the data in the volume using the Zstandard (ZSTD) compression algorithm. ZSTD compression provides a higher level of data compression and higher read throughput performance than LZ4 compression.    LZ4 - Compresses the data in the volume using the LZ4 compression algorithm. LZ4 compression provides a lower level of compression and higher write throughput performance than ZSTD compression.   For more information about volume compression types and the performance of your Amazon FSx for OpenZFS file system, see  Tips for maximizing performance File system and volume settings in the Amazon FSx for OpenZFS User Guide.
         public let dataCompressionType: OpenZFSDataCompressionType?
         /// The configuration object for mounting a Network File System (NFS) file system.
         public let nfsExports: [OpenZFSNfsExport]?
         /// The configuration object that specifies the snapshot to use as the origin of the data for the volume.
         public let originSnapshot: CreateOpenZFSOriginSnapshotConfiguration?
-        /// The ID of the volume to use as the parent volume.
+        /// The ID of the volume to use as the parent volume of the volume that you are creating.
         public let parentVolumeId: String
         /// A Boolean value indicating whether the volume is read-only.
         public let readOnly: Bool?
-        /// The maximum amount of storage in gibibytes (GiB) that the volume can use from its parent. You can specify a quota larger than the storage on the parent volume.
+        /// Specifies the suggested block size for a volume in a ZFS dataset, in kibibytes (KiB). Valid values are 4, 8, 16, 32, 64, 128, 256, 512, or 1024 KiB. The default is 128 KiB. We recommend using the default setting for the majority of use cases. Generally, workloads that write in fixed small or large record sizes may benefit from setting a custom record size, like database workloads (small record size) or media streaming workloads (large record size). For additional guidance on when to set a custom record size, see  ZFS Record size in the Amazon FSx for OpenZFS User Guide.
+        public let recordSizeKiB: Int?
+        /// Sets the maximum storage size in gibibytes (GiB) for the volume. You can specify a quota that is larger than the storage on the parent volume. A volume quota limits the amount of storage that the volume can consume to the configured amount, but does not guarantee the space will be available on the parent volume. To guarantee quota space, you must also set StorageCapacityReservationGiB. To not specify a storage capacity quota, set this to -1.  For more information, see Volume properties in the Amazon FSx for OpenZFS User Guide.
         public let storageCapacityQuotaGiB: Int?
-        /// The amount of storage in gibibytes (GiB) to reserve from the parent volume. You can't reserve more storage than the parent volume has reserved.
+        /// Specifies the amount of storage in gibibytes (GiB) to reserve from the parent volume. Setting StorageCapacityReservationGiB guarantees that the specified amount of storage space on the parent volume will always be available for the volume. You can't reserve more storage than the parent volume has. To not specify a storage capacity reservation, set this to 0 or -1. For more information, see Volume properties in the Amazon FSx for OpenZFS User Guide.
         public let storageCapacityReservationGiB: Int?
         /// An object specifying how much storage users or groups can use on the volume.
         public let userAndGroupQuotas: [OpenZFSUserOrGroupQuota]?
 
-        public init(copyTagsToSnapshots: Bool? = nil, dataCompressionType: OpenZFSDataCompressionType? = nil, nfsExports: [OpenZFSNfsExport]? = nil, originSnapshot: CreateOpenZFSOriginSnapshotConfiguration? = nil, parentVolumeId: String, readOnly: Bool? = nil, storageCapacityQuotaGiB: Int? = nil, storageCapacityReservationGiB: Int? = nil, userAndGroupQuotas: [OpenZFSUserOrGroupQuota]? = nil) {
+        public init(copyTagsToSnapshots: Bool? = nil, dataCompressionType: OpenZFSDataCompressionType? = nil, nfsExports: [OpenZFSNfsExport]? = nil, originSnapshot: CreateOpenZFSOriginSnapshotConfiguration? = nil, parentVolumeId: String, readOnly: Bool? = nil, recordSizeKiB: Int? = nil, storageCapacityQuotaGiB: Int? = nil, storageCapacityReservationGiB: Int? = nil, userAndGroupQuotas: [OpenZFSUserOrGroupQuota]? = nil) {
             self.copyTagsToSnapshots = copyTagsToSnapshots
             self.dataCompressionType = dataCompressionType
             self.nfsExports = nfsExports
             self.originSnapshot = originSnapshot
             self.parentVolumeId = parentVolumeId
             self.readOnly = readOnly
+            self.recordSizeKiB = recordSizeKiB
             self.storageCapacityQuotaGiB = storageCapacityQuotaGiB
             self.storageCapacityReservationGiB = storageCapacityReservationGiB
             self.userAndGroupQuotas = userAndGroupQuotas
@@ -1531,10 +1542,12 @@ extension FSx {
             try self.validate(self.parentVolumeId, name: "parentVolumeId", parent: name, max: 23)
             try self.validate(self.parentVolumeId, name: "parentVolumeId", parent: name, min: 23)
             try self.validate(self.parentVolumeId, name: "parentVolumeId", parent: name, pattern: "^(fsvol-[0-9a-f]{17,})$")
+            try self.validate(self.recordSizeKiB, name: "recordSizeKiB", parent: name, max: 1024)
+            try self.validate(self.recordSizeKiB, name: "recordSizeKiB", parent: name, min: 4)
             try self.validate(self.storageCapacityQuotaGiB, name: "storageCapacityQuotaGiB", parent: name, max: 2_147_483_647)
-            try self.validate(self.storageCapacityQuotaGiB, name: "storageCapacityQuotaGiB", parent: name, min: 0)
+            try self.validate(self.storageCapacityQuotaGiB, name: "storageCapacityQuotaGiB", parent: name, min: -1)
             try self.validate(self.storageCapacityReservationGiB, name: "storageCapacityReservationGiB", parent: name, max: 2_147_483_647)
-            try self.validate(self.storageCapacityReservationGiB, name: "storageCapacityReservationGiB", parent: name, min: 0)
+            try self.validate(self.storageCapacityReservationGiB, name: "storageCapacityReservationGiB", parent: name, min: -1)
             try self.userAndGroupQuotas?.forEach {
                 try $0.validate(name: "\(name).userAndGroupQuotas[]")
             }
@@ -1548,6 +1561,7 @@ extension FSx {
             case originSnapshot = "OriginSnapshot"
             case parentVolumeId = "ParentVolumeId"
             case readOnly = "ReadOnly"
+            case recordSizeKiB = "RecordSizeKiB"
             case storageCapacityQuotaGiB = "StorageCapacityQuotaGiB"
             case storageCapacityReservationGiB = "StorageCapacityReservationGiB"
             case userAndGroupQuotas = "UserAndGroupQuotas"
@@ -1825,7 +1839,7 @@ extension FSx {
         public let dataRepositoryPath: String?
         public let failureDetails: DataRepositoryFailureDetails?
         public let fileSystemId: String?
-        /// A path on the file system that points to a high-level directory (such as /ns1/) or subdirectory (such as /ns1/subdir/) that will be mapped 1-1 with DataRepositoryPath. The leading forward slash in the name is required. Two data repository associations cannot have overlapping file system paths. For example, if a data repository is associated with file system path /ns1/, then you cannot link another data repository with file system path /ns1/ns2. This path specifies where in your file system files will be exported from or imported to. This file system directory can be linked to only one Amazon S3 bucket, and no other S3 bucket can be linked to the directory.
+        /// A path on the file system that points to a high-level directory (such as /ns1/) or subdirectory (such as /ns1/subdir/) that will be mapped 1-1 with DataRepositoryPath. The leading forward slash in the name is required. Two data repository associations cannot have overlapping file system paths. For example, if a data repository is associated with file system path /ns1/, then you cannot link another data repository with file system path /ns1/ns2. This path specifies where in your file system files will be exported from or imported to. This file system directory can be linked to only one Amazon S3 bucket, and no other S3 bucket can be linked to the directory.  If you specify only a forward slash (/) as the file system path, you can link only 1 data repository to the file system. You can only specify "/" as the file system path for the first data repository associated with a file system.
         public let fileSystemPath: String?
         /// For files imported from a data repository, this value determines the stripe count and maximum amount of data per file (in MiB) stored on a single physical disk. The maximum number of disks that a single file can be striped across is limited by the total number of disks that make up the file system. The default chunk size is 1,024 MiB (1 GiB) and can go as high as 512,000 MiB (500 GiB). Amazon S3 objects have a maximum size of 5 TB.
         public let importedFileChunkSize: Int?
@@ -2166,12 +2180,16 @@ extension FSx {
     }
 
     public struct DeleteFileSystemOpenZFSConfiguration: AWSEncodableShape {
+        /// A list of tags to apply to the file system's final backup.
         public let finalBackupTags: [Tag]?
-        /// By default, Amazon FSx for OpenZFS takes a final backup on your behalf when the DeleteFileSystem operation is invoked. Doing this helps protect you from data loss, and we highly recommend taking the final backup. If you want to skip this backup, use this value to do so.
+        /// To delete a file system if there are child volumes present below the root volume, use the string DELETE_CHILD_VOLUMES_AND_SNAPSHOTS. If your file system has child volumes and you don't use this option, the delete request will fail.
+        public let options: [DeleteFileSystemOpenZFSOption]?
+        /// By default, Amazon FSx for OpenZFS takes a final backup on your behalf when the DeleteFileSystem operation is invoked. Doing this helps protect you from data loss, and we highly recommend taking the final backup. If you want to skip taking a final backup, set this value to true.
         public let skipFinalBackup: Bool?
 
-        public init(finalBackupTags: [Tag]? = nil, skipFinalBackup: Bool? = nil) {
+        public init(finalBackupTags: [Tag]? = nil, options: [DeleteFileSystemOpenZFSOption]? = nil, skipFinalBackup: Bool? = nil) {
             self.finalBackupTags = finalBackupTags
+            self.options = options
             self.skipFinalBackup = skipFinalBackup
         }
 
@@ -2181,10 +2199,12 @@ extension FSx {
             }
             try self.validate(self.finalBackupTags, name: "finalBackupTags", parent: name, max: 50)
             try self.validate(self.finalBackupTags, name: "finalBackupTags", parent: name, min: 1)
+            try self.validate(self.options, name: "options", parent: name, max: 1)
         }
 
         private enum CodingKeys: String, CodingKey {
             case finalBackupTags = "FinalBackupTags"
+            case options = "Options"
             case skipFinalBackup = "SkipFinalBackup"
         }
     }
@@ -2436,7 +2456,7 @@ extension FSx {
     }
 
     public struct DeleteVolumeOpenZFSConfiguration: AWSEncodableShape {
-        /// To delete the volume's children and snapshots, use the string DELETE_CHILD_VOLUMES_AND_SNAPSHOTS.
+        /// To delete the volume's child volumes, snapshots, and clones, use the string DELETE_CHILD_VOLUMES_AND_SNAPSHOTS.
         public let options: [DeleteOpenZFSVolumeOption]?
 
         public init(options: [DeleteOpenZFSVolumeOption]? = nil) {
@@ -3042,22 +3062,22 @@ extension FSx {
         public let fileSystemId: String?
         /// The type of Amazon FSx file system, which can be LUSTRE, WINDOWS, ONTAP, or OPENZFS.
         public let fileSystemType: FileSystemType?
-        /// The Lustre version of the Amazon FSx for Lustrefile system, either 2.10 or 2.12.
+        /// The Lustre version of the Amazon FSx for Lustre file system, either 2.10 or 2.12.
         public let fileSystemTypeVersion: String?
-        /// The ID of the Key Management Service (KMS) key used to encrypt the file system's data for Amazon FSx for Windows File Server file systems, Amazon FSx for NetApp ONTAP file systems, and PERSISTENT Amazon FSx for Lustre file systems at rest. If this ID isn't specified, the Amazon FSx-managed key for your account is used. The scratch Amazon FSx for Lustre file systems are always encrypted at rest using the Amazon FSx-managed key for your account. For more information, see Encrypt in the Key Management Service API Reference.
+        /// The ID of the Key Management Service (KMS) key used to encrypt Amazon FSx file system data. Used as follows with Amazon FSx file system types:   Amazon FSx for Lustre PERSISTENT_1 and PERSISTENT_2 deployment types only.  SCRATCH_1 and SCRATCH_2 types are encrypted using the Amazon FSx service KMS key for your account.   Amazon FSx for NetApp ONTAP   Amazon FSx for OpenZFS   Amazon FSx for Windows File Server
         public let kmsKeyId: String?
-        /// The lifecycle status of the file system. The following are the possible values and what they mean:    AVAILABLE - The file system is in a healthy state, and is reachable and available for use.    CREATING - Amazon FSx is creating the new file system.    DELETING - Amazon FSx is deleting an existing file system.    FAILED - An existing file system has experienced an unrecoverable failure. When creating a new file system, Amazon FSx was unable to create the file system.    MISCONFIGURED - The file system is in a failed but recoverable state.    UPDATING - The file system is undergoing a customer-initiated update.
+        /// The lifecycle status of the file system. The following are the possible values and what they mean:    AVAILABLE - The file system is in a healthy state, and is reachable and available for use.    CREATING - Amazon FSx is creating the new file system.    DELETING - Amazon FSx is deleting an existing file system.    FAILED - An existing file system has experienced an unrecoverable failure. When creating a new file system, Amazon FSx was unable to create the file system.    MISCONFIGURED - The file system is in a failed but recoverable state.    MISCONFIGURED_UNAVAILABLE - (Amazon FSx for Windows File Server only) The file system is currently unavailable due to a change in your Active Directory configuration.    UPDATING - The file system is undergoing a customer-initiated update.
         public let lifecycle: FileSystemLifecycle?
         public let lustreConfiguration: LustreFileSystemConfiguration?
         /// The IDs of the elastic network interfaces from which a specific file system is accessible. The elastic network interface is automatically created in the same virtual private cloud (VPC) that the Amazon FSx file system was created in. For more information, see Elastic Network Interfaces in the Amazon EC2 User Guide.  For an Amazon FSx for Windows File Server file system, you can have one network interface ID. For an Amazon FSx for Lustre file system, you can have more than one.
         public let networkInterfaceIds: [String]?
-        /// The configuration for this FSx for ONTAP file system.
+        /// The configuration for this Amazon FSx for NetApp ONTAP file system.
         public let ontapConfiguration: OntapFileSystemConfiguration?
         /// The configuration for this Amazon FSx for OpenZFS file system.
         public let openZFSConfiguration: OpenZFSFileSystemConfiguration?
         /// The Amazon Web Services account that created the file system. If the file system was created by an Identity and Access Management (IAM) user, the Amazon Web Services account to which the IAM user belongs is the owner.
         public let ownerId: String?
-        /// The Amazon Resource Name (ARN) for the file system resource.
+        /// The Amazon Resource Name (ARN) of the file system resource.
         public let resourceARN: String?
         /// The storage capacity of the file system in gibibytes (GiB).
         public let storageCapacity: Int?
@@ -3069,7 +3089,7 @@ extension FSx {
         public let tags: [Tag]?
         /// The ID of the primary virtual private cloud (VPC) for the file system.
         public let vpcId: String?
-        /// The configuration for this FSx for Windows File Server file system.
+        /// The configuration for this Amazon FSx for Windows File Server file system.
         public let windowsConfiguration: WindowsFileSystemConfiguration?
 
         public init(administrativeActions: [AdministrativeAction]? = nil, creationTime: Date? = nil, dNSName: String? = nil, failureDetails: FileSystemFailureDetails? = nil, fileSystemId: String? = nil, fileSystemType: FileSystemType? = nil, fileSystemTypeVersion: String? = nil, kmsKeyId: String? = nil, lifecycle: FileSystemLifecycle? = nil, lustreConfiguration: LustreFileSystemConfiguration? = nil, networkInterfaceIds: [String]? = nil, ontapConfiguration: OntapFileSystemConfiguration? = nil, openZFSConfiguration: OpenZFSFileSystemConfiguration? = nil, ownerId: String? = nil, resourceARN: String? = nil, storageCapacity: Int? = nil, storageType: StorageType? = nil, subnetIds: [String]? = nil, tags: [Tag]? = nil, vpcId: String? = nil, windowsConfiguration: WindowsFileSystemConfiguration? = nil) {
@@ -3347,16 +3367,16 @@ extension FSx {
     public struct OntapFileSystemConfiguration: AWSDecodableShape {
         public let automaticBackupRetentionDays: Int?
         public let dailyAutomaticBackupStartTime: String?
-        /// The ONTAP file system deployment type.
+        /// Specifies the FSx for ONTAP file system deployment type in use in the file system.     MULTI_AZ_1 - (Default) A high availability file system configured for Multi-AZ redundancy to tolerate temporary Availability Zone (AZ) unavailability.     SINGLE_AZ_1 - A file system configured for Single-AZ redundancy.   For information about the use cases for Multi-AZ and Single-AZ deployments, refer to Choosing Multi-AZ or Single-AZ file system deployment.
         public let deploymentType: OntapDeploymentType?
         /// The SSD IOPS configuration for the ONTAP file system, specifying the number of provisioned IOPS and the provision mode.
         public let diskIopsConfiguration: DiskIopsConfiguration?
-        /// The IP address range in which the endpoints to access your file system are created.
+        /// (Multi-AZ only) The IP address range in which the endpoints to access your file system are created.  The Endpoint IP address range you select for your file system must exist outside the VPC's CIDR range and must be at least /30 or larger. If you do not specify this optional parameter, Amazon FSx will automatically select a CIDR block for you.
         public let endpointIpAddressRange: String?
         /// The Management and Intercluster endpoints that are used to access data or to manage the file system using the NetApp ONTAP CLI, REST API, or NetApp SnapMirror.
         public let endpoints: FileSystemEndpoints?
         public let preferredSubnetId: String?
-        /// The VPC route tables in which your file system's endpoints are created.
+        /// (Multi-AZ only) The VPC route tables in which your file system's endpoints are created.
         public let routeTableIds: [String]?
         public let throughputCapacity: Int?
         public let weeklyMaintenanceStartTime: String?
@@ -3438,9 +3458,9 @@ extension FSx {
     }
 
     public struct OpenZFSClientConfiguration: AWSEncodableShape & AWSDecodableShape {
-        /// A value that specifies who can mount the file system. You can provide a wildcard character (*), an IP address (0.0.0.0), or a CIDR address (192.0.2.0/24. By default, Amazon FSx uses the wildcard character when specifying the client.
+        /// A value that specifies who can mount the file system. You can provide a wildcard character (*), an IP address (0.0.0.0), or a CIDR address (192.0.2.0/24). By default, Amazon FSx uses the wildcard character when specifying the client.
         public let clients: String
-        /// The options to use when mounting the file system. For a list of options that you can use with Network File System (NFS), see the exports(5) - Linux man page. When choosing your options, consider the following:    crossmount is used by default. If you don't specify crossmount when changing the client configuration, you won't be able to see or access snapshots in your file system's snapshot directory.    sync is used by default. If you instead specify async, the system acknowledges writes before writing to disk. If the system crashes before the writes are finished, you lose the unwritten data.
+        /// The options to use when mounting the file system. For a list of options that you can use with Network File System (NFS), see the exports(5) - Linux man page. When choosing your options, consider the following:    crossmnt is used by default. If you don't specify crossmnt when changing the client configuration, you won't be able to see or access snapshots in your file system's snapshot directory.    sync is used by default. If you instead specify async, the system acknowledges writes before writing to disk. If the system crashes before the writes are finished, you lose the unwritten data.
         public let options: [String]
 
         public init(clients: String, options: [String]) {
@@ -3468,22 +3488,25 @@ extension FSx {
     }
 
     public struct OpenZFSCreateRootVolumeConfiguration: AWSEncodableShape {
-        /// A Boolean value indicating whether tags for the volume should be copied to snapshots. This value defaults to false. If it's set to true, all tags for the volume are copied to snapshots where the user doesn't specify tags. If this value is true and you specify one or more tags, only the specified tags are copied to snapshots. If you specify one or more tags when creating the snapshot, no tags are copied from the volume, regardless of this value.
+        /// A Boolean value indicating whether tags for the volume should be copied to snapshots of the volume. This value defaults to false. If it's set to true, all tags for the volume are copied to snapshots where the user doesn't specify tags. If this value is true and you specify one or more tags, only the specified tags are copied to snapshots. If you specify one or more tags when creating the snapshot, no tags are copied from the volume, regardless of this value.
         public let copyTagsToSnapshots: Bool?
-        /// Specifies the method used to compress the data on the volume. Unless the compression type is specified, volumes inherit the DataCompressionType value of their parent volume.    NONE - Doesn't compress the data on the volume.    ZSTD - Compresses the data in the volume using the ZStandard (ZSTD) compression algorithm. This algorithm reduces the amount of space used on your volume and has very little impact on compute resources.
+        /// Specifies the method used to compress the data on the volume. The compression type is NONE by default.    NONE - Doesn't compress the data on the volume. NONE is the default.    ZSTD - Compresses the data in the volume using the Zstandard (ZSTD) compression algorithm. Compared to LZ4, Z-Standard provides a better compression ratio to minimize on-disk storage utilization.    LZ4 - Compresses the data in the volume using the LZ4 compression algorithm. Compared to Z-Standard, LZ4 is less compute-intensive and delivers higher write throughput speeds.
         public let dataCompressionType: OpenZFSDataCompressionType?
         /// The configuration object for mounting a file system.
         public let nfsExports: [OpenZFSNfsExport]?
         /// A Boolean value indicating whether the volume is read-only. Setting this value to true can be useful after you have completed changes to a volume and no longer want changes to occur.
         public let readOnly: Bool?
+        /// Specifies the record size of an OpenZFS root volume, in kibibytes (KiB). Valid values are 4, 8, 16, 32, 64, 128, 256, 512, or 1024 KiB. The default is 128 KiB. Most workloads should use the default record size. Database workflows can benefit from a smaller record size, while streaming workflows can benefit from a larger record size. For additional guidance on setting a custom record size, see  Tips for maximizing performance in the Amazon FSx for OpenZFS User Guide.
+        public let recordSizeKiB: Int?
         /// An object specifying how much storage users or groups can use on the volume.
         public let userAndGroupQuotas: [OpenZFSUserOrGroupQuota]?
 
-        public init(copyTagsToSnapshots: Bool? = nil, dataCompressionType: OpenZFSDataCompressionType? = nil, nfsExports: [OpenZFSNfsExport]? = nil, readOnly: Bool? = nil, userAndGroupQuotas: [OpenZFSUserOrGroupQuota]? = nil) {
+        public init(copyTagsToSnapshots: Bool? = nil, dataCompressionType: OpenZFSDataCompressionType? = nil, nfsExports: [OpenZFSNfsExport]? = nil, readOnly: Bool? = nil, recordSizeKiB: Int? = nil, userAndGroupQuotas: [OpenZFSUserOrGroupQuota]? = nil) {
             self.copyTagsToSnapshots = copyTagsToSnapshots
             self.dataCompressionType = dataCompressionType
             self.nfsExports = nfsExports
             self.readOnly = readOnly
+            self.recordSizeKiB = recordSizeKiB
             self.userAndGroupQuotas = userAndGroupQuotas
         }
 
@@ -3492,6 +3515,8 @@ extension FSx {
                 try $0.validate(name: "\(name).nfsExports[]")
             }
             try self.validate(self.nfsExports, name: "nfsExports", parent: name, max: 1)
+            try self.validate(self.recordSizeKiB, name: "recordSizeKiB", parent: name, max: 1024)
+            try self.validate(self.recordSizeKiB, name: "recordSizeKiB", parent: name, min: 4)
             try self.userAndGroupQuotas?.forEach {
                 try $0.validate(name: "\(name).userAndGroupQuotas[]")
             }
@@ -3503,6 +3528,7 @@ extension FSx {
             case dataCompressionType = "DataCompressionType"
             case nfsExports = "NfsExports"
             case readOnly = "ReadOnly"
+            case recordSizeKiB = "RecordSizeKiB"
             case userAndGroupQuotas = "UserAndGroupQuotas"
         }
     }
@@ -3519,7 +3545,7 @@ extension FSx {
         public let diskIopsConfiguration: DiskIopsConfiguration?
         /// The ID of the root volume of the OpenZFS file system.
         public let rootVolumeId: String?
-        /// The throughput of an Amazon FSx file system, measured in megabytes per second (MBps), in 2 to the nth increments, between 2^3 (8) and 2^11 (2048).
+        /// The throughput of an Amazon FSx file system, measured in megabytes per second (MBps). Valid values are 64, 128, 256, 512, 1024, 2048, 3072, or 4096 MB/s.
         public let throughputCapacity: Int?
         public let weeklyMaintenanceStartTime: String?
 
@@ -3615,7 +3641,7 @@ extension FSx {
     public struct OpenZFSVolumeConfiguration: AWSDecodableShape {
         /// A Boolean value indicating whether tags for the volume should be copied to snapshots. This value defaults to false. If it's set to true, all tags for the volume are copied to snapshots where the user doesn't specify tags. If this value is true and you specify one or more tags, only the specified tags are copied to snapshots. If you specify one or more tags when creating the snapshot, no tags are copied from the volume, regardless of this value.
         public let copyTagsToSnapshots: Bool?
-        /// The method used to compress the data on the volume. Unless a compression type is specified, volumes inherit the DataCompressionType value of their parent volume.    NONE - Doesn't compress the data on the volume.    ZSTD - Compresses the data in the volume using the Zstandard (ZSTD) compression algorithm. This algorithm reduces the amount of space used on your volume and has very little impact on compute resources.
+        /// Specifies the method used to compress the data on the volume. The compression type is NONE by default.    NONE - Doesn't compress the data on the volume. NONE is the default.    ZSTD - Compresses the data in the volume using the Zstandard (ZSTD) compression algorithm. Compared to LZ4, Z-Standard provides a better compression ratio to minimize on-disk storage utilization.    LZ4 - Compresses the data in the volume using the LZ4 compression algorithm. Compared to Z-Standard, LZ4 is less compute-intensive and delivers higher write throughput speeds.
         public let dataCompressionType: OpenZFSDataCompressionType?
         /// The configuration object for mounting a Network File System (NFS) file system.
         public let nfsExports: [OpenZFSNfsExport]?
@@ -3625,6 +3651,8 @@ extension FSx {
         public let parentVolumeId: String?
         /// A Boolean value indicating whether the volume is read-only.
         public let readOnly: Bool?
+        /// The record size of an OpenZFS volume, in kibibytes (KiB). Valid values are 4, 8, 16, 32, 64, 128, 256, 512, or 1024 KiB. The default is 128 KiB. Most workloads should use the default record size. For guidance on when to set a custom record size, see the Amazon FSx for OpenZFS User Guide.
+        public let recordSizeKiB: Int?
         /// The maximum amount of storage in gibibtyes (GiB) that the volume can use from its parent. You can specify a quota larger than the storage on the parent volume.
         public let storageCapacityQuotaGiB: Int?
         /// The amount of storage in gibibytes (GiB) to reserve from the parent volume. You can't reserve more storage than the parent volume has reserved.
@@ -3634,13 +3662,14 @@ extension FSx {
         /// The path to the volume from the root volume. For example, fsx/parentVolume/volume1.
         public let volumePath: String?
 
-        public init(copyTagsToSnapshots: Bool? = nil, dataCompressionType: OpenZFSDataCompressionType? = nil, nfsExports: [OpenZFSNfsExport]? = nil, originSnapshot: OpenZFSOriginSnapshotConfiguration? = nil, parentVolumeId: String? = nil, readOnly: Bool? = nil, storageCapacityQuotaGiB: Int? = nil, storageCapacityReservationGiB: Int? = nil, userAndGroupQuotas: [OpenZFSUserOrGroupQuota]? = nil, volumePath: String? = nil) {
+        public init(copyTagsToSnapshots: Bool? = nil, dataCompressionType: OpenZFSDataCompressionType? = nil, nfsExports: [OpenZFSNfsExport]? = nil, originSnapshot: OpenZFSOriginSnapshotConfiguration? = nil, parentVolumeId: String? = nil, readOnly: Bool? = nil, recordSizeKiB: Int? = nil, storageCapacityQuotaGiB: Int? = nil, storageCapacityReservationGiB: Int? = nil, userAndGroupQuotas: [OpenZFSUserOrGroupQuota]? = nil, volumePath: String? = nil) {
             self.copyTagsToSnapshots = copyTagsToSnapshots
             self.dataCompressionType = dataCompressionType
             self.nfsExports = nfsExports
             self.originSnapshot = originSnapshot
             self.parentVolumeId = parentVolumeId
             self.readOnly = readOnly
+            self.recordSizeKiB = recordSizeKiB
             self.storageCapacityQuotaGiB = storageCapacityQuotaGiB
             self.storageCapacityReservationGiB = storageCapacityReservationGiB
             self.userAndGroupQuotas = userAndGroupQuotas
@@ -3654,6 +3683,7 @@ extension FSx {
             case originSnapshot = "OriginSnapshot"
             case parentVolumeId = "ParentVolumeId"
             case readOnly = "ReadOnly"
+            case recordSizeKiB = "RecordSizeKiB"
             case storageCapacityQuotaGiB = "StorageCapacityQuotaGiB"
             case storageCapacityReservationGiB = "StorageCapacityReservationGiB"
             case userAndGroupQuotas = "UserAndGroupQuotas"
@@ -3699,7 +3729,7 @@ extension FSx {
 
     public struct RestoreVolumeFromSnapshotRequest: AWSEncodableShape {
         public let clientRequestToken: String?
-        /// The settings used when restoring the specified volume from snapshot.     DELETE_INTERMEDIATE_SNAPSHOTS - Deletes snapshots between the current state and the specified snapshot. If there are intermediate snapshots and this option isn't used, RestoreVolumeFromSnapshot fails.    DELETE_CLONED_VOLUMES - Deletes any volumes cloned from this volume. If there are any cloned volumes and this option isn't used, RestoreVolumeFromSnapshot fails.
+        /// The settings used when restoring the specified volume from snapshot.     DELETE_INTERMEDIATE_SNAPSHOTS - Deletes snapshots between the current state and the specified snapshot. If there are intermediate snapshots and this option isn't used, RestoreVolumeFromSnapshot fails.    DELETE_CLONED_VOLUMES - Deletes any dependent clone volumes created from intermediate snapshots. If there are any dependent clone volumes and this option isn't used, RestoreVolumeFromSnapshot fails.
         public let options: [RestoreOpenZFSVolumeOption]?
         /// The ID of the source snapshot. Specifies the snapshot that you are restoring from.
         public let snapshotId: String
@@ -3903,6 +3933,7 @@ extension FSx {
         public let creationTime: Date?
         /// The lifecycle status of the snapshot.    PENDING - Amazon FSx hasn't started creating the snapshot.    CREATING - Amazon FSx is creating the snapshot.    DELETING - Amazon FSx is deleting the snapshot.    AVAILABLE - The snapshot is fully available.
         public let lifecycle: SnapshotLifecycle?
+        public let lifecycleTransitionReason: LifecycleTransitionReason?
         /// The name of the snapshot.
         public let name: String?
         public let resourceARN: String?
@@ -3912,10 +3943,11 @@ extension FSx {
         /// The ID of the volume that the snapshot is of.
         public let volumeId: String?
 
-        public init(administrativeActions: [AdministrativeAction]? = nil, creationTime: Date? = nil, lifecycle: SnapshotLifecycle? = nil, name: String? = nil, resourceARN: String? = nil, snapshotId: String? = nil, tags: [Tag]? = nil, volumeId: String? = nil) {
+        public init(administrativeActions: [AdministrativeAction]? = nil, creationTime: Date? = nil, lifecycle: SnapshotLifecycle? = nil, lifecycleTransitionReason: LifecycleTransitionReason? = nil, name: String? = nil, resourceARN: String? = nil, snapshotId: String? = nil, tags: [Tag]? = nil, volumeId: String? = nil) {
             self.administrativeActions = administrativeActions
             self.creationTime = creationTime
             self.lifecycle = lifecycle
+            self.lifecycleTransitionReason = lifecycleTransitionReason
             self.name = name
             self.resourceARN = resourceARN
             self.snapshotId = snapshotId
@@ -3927,6 +3959,7 @@ extension FSx {
             case administrativeActions = "AdministrativeActions"
             case creationTime = "CreationTime"
             case lifecycle = "Lifecycle"
+            case lifecycleTransitionReason = "LifecycleTransitionReason"
             case name = "Name"
             case resourceARN = "ResourceARN"
             case snapshotId = "SnapshotId"
@@ -4310,14 +4343,20 @@ extension FSx {
     public struct UpdateFileSystemOntapConfiguration: AWSEncodableShape {
         public let automaticBackupRetentionDays: Int?
         public let dailyAutomaticBackupStartTime: String?
+        /// The SSD IOPS (input/output operations per second) configuration for an Amazon FSx for NetApp ONTAP file system. The default is 3 IOPS per GB of storage capacity, but you can provision additional IOPS per GB of storage. The configuration consists of an IOPS mode (AUTOMATIC or USER_PROVISIONED), and in the case of USER_PROVISIONED IOPS, the total number of SSD IOPS provisioned.
+        public let diskIopsConfiguration: DiskIopsConfiguration?
         /// The ONTAP administrative password for the fsxadmin user.
         public let fsxAdminPassword: String?
+        /// Specifies the throughput of an FSx for NetApp ONTAP file system, measured in megabytes per second (MBps). Valid values are 128, 256, 512, 1024, or 2048 MB/s.
+        public let throughputCapacity: Int?
         public let weeklyMaintenanceStartTime: String?
 
-        public init(automaticBackupRetentionDays: Int? = nil, dailyAutomaticBackupStartTime: String? = nil, fsxAdminPassword: String? = nil, weeklyMaintenanceStartTime: String? = nil) {
+        public init(automaticBackupRetentionDays: Int? = nil, dailyAutomaticBackupStartTime: String? = nil, diskIopsConfiguration: DiskIopsConfiguration? = nil, fsxAdminPassword: String? = nil, throughputCapacity: Int? = nil, weeklyMaintenanceStartTime: String? = nil) {
             self.automaticBackupRetentionDays = automaticBackupRetentionDays
             self.dailyAutomaticBackupStartTime = dailyAutomaticBackupStartTime
+            self.diskIopsConfiguration = diskIopsConfiguration
             self.fsxAdminPassword = fsxAdminPassword
+            self.throughputCapacity = throughputCapacity
             self.weeklyMaintenanceStartTime = weeklyMaintenanceStartTime
         }
 
@@ -4327,9 +4366,12 @@ extension FSx {
             try self.validate(self.dailyAutomaticBackupStartTime, name: "dailyAutomaticBackupStartTime", parent: name, max: 5)
             try self.validate(self.dailyAutomaticBackupStartTime, name: "dailyAutomaticBackupStartTime", parent: name, min: 5)
             try self.validate(self.dailyAutomaticBackupStartTime, name: "dailyAutomaticBackupStartTime", parent: name, pattern: "^([01]\\d|2[0-3]):?([0-5]\\d)$")
+            try self.diskIopsConfiguration?.validate(name: "\(name).diskIopsConfiguration")
             try self.validate(self.fsxAdminPassword, name: "fsxAdminPassword", parent: name, max: 50)
             try self.validate(self.fsxAdminPassword, name: "fsxAdminPassword", parent: name, min: 8)
             try self.validate(self.fsxAdminPassword, name: "fsxAdminPassword", parent: name, pattern: "^[^\\u0000\\u0085\\u2028\\u2029\\r\\n]{8,50}$")
+            try self.validate(self.throughputCapacity, name: "throughputCapacity", parent: name, max: 4096)
+            try self.validate(self.throughputCapacity, name: "throughputCapacity", parent: name, min: 8)
             try self.validate(self.weeklyMaintenanceStartTime, name: "weeklyMaintenanceStartTime", parent: name, max: 7)
             try self.validate(self.weeklyMaintenanceStartTime, name: "weeklyMaintenanceStartTime", parent: name, min: 7)
             try self.validate(self.weeklyMaintenanceStartTime, name: "weeklyMaintenanceStartTime", parent: name, pattern: "^[1-7]:([01]\\d|2[0-3]):?([0-5]\\d)$")
@@ -4338,7 +4380,9 @@ extension FSx {
         private enum CodingKeys: String, CodingKey {
             case automaticBackupRetentionDays = "AutomaticBackupRetentionDays"
             case dailyAutomaticBackupStartTime = "DailyAutomaticBackupStartTime"
+            case diskIopsConfiguration = "DiskIopsConfiguration"
             case fsxAdminPassword = "FsxAdminPassword"
+            case throughputCapacity = "ThroughputCapacity"
             case weeklyMaintenanceStartTime = "WeeklyMaintenanceStartTime"
         }
     }
@@ -4351,7 +4395,7 @@ extension FSx {
         public let copyTagsToVolumes: Bool?
         public let dailyAutomaticBackupStartTime: String?
         public let diskIopsConfiguration: DiskIopsConfiguration?
-        /// The throughput of an Amazon FSx file system, measured in megabytes per second (MBps), in 2 to the nth increments, between 2^3 (8) and 2^11 (2048).
+        /// The throughput of an Amazon FSx file system, measured in megabytes per second (MBps). Valid values are 64, 128, 256, 512, 1024, 2048, 3072, or 4096 MB/s.
         public let throughputCapacity: Int?
         public let weeklyMaintenanceStartTime: String?
 
@@ -4399,7 +4443,7 @@ extension FSx {
         public let ontapConfiguration: UpdateFileSystemOntapConfiguration?
         /// The configuration updates for an Amazon FSx for OpenZFS file system.
         public let openZFSConfiguration: UpdateFileSystemOpenZFSConfiguration?
-        /// Use this parameter to increase the storage capacity of an Amazon FSx for Windows File Server or Amazon FSx for Lustre file system. Specifies the storage capacity target value, in GiB, to increase the storage capacity for the file system that you're updating.   You can't make a storage capacity increase request if there is an existing storage capacity increase request in progress.  For Windows file systems, the storage capacity target value must be at least 10 percent greater than the current storage capacity value. To increase storage capacity, the file system must have at least 16 MBps of throughput capacity. For Lustre file systems, the storage capacity target value can be the following:   For SCRATCH_2 and PERSISTENT_1 SSD deployment types, valid values are in multiples of 2400 GiB. The value must be greater than the current storage capacity.   For PERSISTENT HDD file systems, valid values are multiples of 6000 GiB for 12-MBps throughput per TiB file systems and multiples of 1800 GiB for 40-MBps throughput per TiB file systems. The values must be greater than the current storage capacity.   For SCRATCH_1 file systems, you can't increase the storage capacity.   For OpenZFS file systems, the input/output operations per second (IOPS) automatically scale with increases to the storage capacity if IOPS is configured for automatic scaling. If the storage capacity increase would result in less than 3 IOPS per GiB of storage, this operation returns an error.  For more information, see Managing storage capacity in the Amazon FSx for Windows File Server User Guide, Managing storage and throughput capacity in the Amazon FSx for Lustre User Guide, and Managing storage capacity in the Amazon FSx for OpenZFS User Guide.
+        /// Use this parameter to increase the storage capacity of an Amazon FSx for Windows File Server, Amazon FSx for Lustre, or Amazon FSx for NetApp ONTAP file system. Specifies the storage capacity target value, in GiB, to increase the storage capacity for the file system that you're updating.   You can't make a storage capacity increase request if there is an existing storage capacity increase request in progress.  For Windows file systems, the storage capacity target value must be at least 10 percent greater than the current storage capacity value. To increase storage capacity, the file system must have at least 16 MBps of throughput capacity. For more information, see Managing storage capacity in the Amazon FSx for Windows File Server User Guide. For Lustre file systems, the storage capacity target value can be the following:   For SCRATCH_2, PERSISTENT_1, and PERSISTENT_2 SSD deployment types, valid values are in multiples of 2400 GiB. The value must be greater than the current storage capacity.   For PERSISTENT HDD file systems, valid values are multiples of 6000 GiB for 12-MBps throughput per TiB file systems and multiples of 1800 GiB for 40-MBps throughput per TiB file systems. The values must be greater than the current storage capacity.   For SCRATCH_1 file systems, you can't increase the storage capacity.   For more information, see Managing storage and throughput capacity in the Amazon FSx for Lustre User Guide. For ONTAP file systems, the storage capacity target value must be at least 10 percent greater than the current storage capacity value. For more information, see Managing storage capacity and provisioned IOPS in the Amazon FSx for NetApp ONTAP User Guide.
         public let storageCapacity: Int?
         /// The configuration updates for an Amazon FSx for Windows File Server file system.
         public let windowsConfiguration: UpdateFileSystemWindowsConfiguration?
@@ -4540,23 +4584,26 @@ extension FSx {
     }
 
     public struct UpdateOpenZFSVolumeConfiguration: AWSEncodableShape {
-        ///  Specifies the method used to compress the data on the volume. Unless the compression type is specified, volumes inherit the DataCompressionType value of their parent volume.    NONE - Doesn't compress the data on the volume.    ZSTD - Compresses the data in the volume using the Zstandard (ZSTD) compression algorithm. This algorithm reduces the amount of space used on your volume and has very little impact on compute resources.
+        /// Specifies the method used to compress the data on the volume. The compression type is NONE by default.    NONE - Doesn't compress the data on the volume. NONE is the default.    ZSTD - Compresses the data in the volume using the Zstandard (ZSTD) compression algorithm. Compared to LZ4, Z-Standard provides a better compression ratio to minimize on-disk storage utilization.    LZ4 - Compresses the data in the volume using the LZ4 compression algorithm. Compared to Z-Standard, LZ4 is less compute-intensive and delivers higher write throughput speeds.
         public let dataCompressionType: OpenZFSDataCompressionType?
         /// The configuration object for mounting a Network File System (NFS) file system.
         public let nfsExports: [OpenZFSNfsExport]?
         /// A Boolean value indicating whether the volume is read-only.
         public let readOnly: Bool?
-        ///  The maximum amount of storage in gibibytes (GiB) that the volume can use from its parent. You can specify a quota larger than the storage on the parent volume.
+        /// Specifies the record size of an OpenZFS volume, in kibibytes (KiB). Valid values are 4, 8, 16, 32, 64, 128, 256, 512, or 1024 KiB. The default is 128 KiB. Most workloads should use the default record size. Database workflows can benefit from a smaller record size, while streaming workflows can benefit from a larger record size. For additional guidance on when to set a custom record size, see  Tips for maximizing performance in the Amazon FSx for OpenZFS User Guide.
+        public let recordSizeKiB: Int?
+        /// The maximum amount of storage in gibibytes (GiB) that the volume can use from its parent. You can specify a quota larger than the storage on the parent volume. You can specify a value of -1 to unset a volume's storage capacity quota.
         public let storageCapacityQuotaGiB: Int?
-        /// The amount of storage in gibibytes (GiB) to reserve from the parent volume. You can't reserve more storage than the parent volume has reserved.
+        /// The amount of storage in gibibytes (GiB) to reserve from the parent volume. You can't reserve more storage than the parent volume has reserved. You can specify a value of -1 to unset a volume's storage capacity reservation.
         public let storageCapacityReservationGiB: Int?
         /// An object specifying how much storage users or groups can use on the volume.
         public let userAndGroupQuotas: [OpenZFSUserOrGroupQuota]?
 
-        public init(dataCompressionType: OpenZFSDataCompressionType? = nil, nfsExports: [OpenZFSNfsExport]? = nil, readOnly: Bool? = nil, storageCapacityQuotaGiB: Int? = nil, storageCapacityReservationGiB: Int? = nil, userAndGroupQuotas: [OpenZFSUserOrGroupQuota]? = nil) {
+        public init(dataCompressionType: OpenZFSDataCompressionType? = nil, nfsExports: [OpenZFSNfsExport]? = nil, readOnly: Bool? = nil, recordSizeKiB: Int? = nil, storageCapacityQuotaGiB: Int? = nil, storageCapacityReservationGiB: Int? = nil, userAndGroupQuotas: [OpenZFSUserOrGroupQuota]? = nil) {
             self.dataCompressionType = dataCompressionType
             self.nfsExports = nfsExports
             self.readOnly = readOnly
+            self.recordSizeKiB = recordSizeKiB
             self.storageCapacityQuotaGiB = storageCapacityQuotaGiB
             self.storageCapacityReservationGiB = storageCapacityReservationGiB
             self.userAndGroupQuotas = userAndGroupQuotas
@@ -4567,10 +4614,12 @@ extension FSx {
                 try $0.validate(name: "\(name).nfsExports[]")
             }
             try self.validate(self.nfsExports, name: "nfsExports", parent: name, max: 1)
+            try self.validate(self.recordSizeKiB, name: "recordSizeKiB", parent: name, max: 1024)
+            try self.validate(self.recordSizeKiB, name: "recordSizeKiB", parent: name, min: 4)
             try self.validate(self.storageCapacityQuotaGiB, name: "storageCapacityQuotaGiB", parent: name, max: 2_147_483_647)
-            try self.validate(self.storageCapacityQuotaGiB, name: "storageCapacityQuotaGiB", parent: name, min: 0)
+            try self.validate(self.storageCapacityQuotaGiB, name: "storageCapacityQuotaGiB", parent: name, min: -1)
             try self.validate(self.storageCapacityReservationGiB, name: "storageCapacityReservationGiB", parent: name, max: 2_147_483_647)
-            try self.validate(self.storageCapacityReservationGiB, name: "storageCapacityReservationGiB", parent: name, min: 0)
+            try self.validate(self.storageCapacityReservationGiB, name: "storageCapacityReservationGiB", parent: name, min: -1)
             try self.userAndGroupQuotas?.forEach {
                 try $0.validate(name: "\(name).userAndGroupQuotas[]")
             }
@@ -4581,6 +4630,7 @@ extension FSx {
             case dataCompressionType = "DataCompressionType"
             case nfsExports = "NfsExports"
             case readOnly = "ReadOnly"
+            case recordSizeKiB = "RecordSizeKiB"
             case storageCapacityQuotaGiB = "StorageCapacityQuotaGiB"
             case storageCapacityReservationGiB = "StorageCapacityReservationGiB"
             case userAndGroupQuotas = "UserAndGroupQuotas"

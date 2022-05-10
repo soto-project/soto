@@ -29,6 +29,7 @@ extension WorkLink {
     ///   - input: Input for request
     ///   - logger: Logger used flot logging
     ///   - eventLoop: EventLoop to run this process on
+    @available(*, deprecated, message: "Amazon WorkLink is no longer supported. This will be removed in a future version of the SDK.")
     public func listDevicesPaginator(
         _ input: ListDevicesRequest,
         logger: Logger = AWSClient.loggingDisabled,
@@ -51,6 +52,7 @@ extension WorkLink {
     ///   - input: Input for request
     ///   - logger: Logger used flot logging
     ///   - eventLoop: EventLoop to run this process on
+    @available(*, deprecated, message: "Amazon WorkLink is no longer supported. This will be removed in a future version of the SDK.")
     public func listDomainsPaginator(
         _ input: ListDomainsRequest,
         logger: Logger = AWSClient.loggingDisabled,
@@ -73,6 +75,7 @@ extension WorkLink {
     ///   - input: Input for request
     ///   - logger: Logger used flot logging
     ///   - eventLoop: EventLoop to run this process on
+    @available(*, deprecated, message: "Amazon WorkLink is no longer supported. This will be removed in a future version of the SDK.")
     public func listFleetsPaginator(
         _ input: ListFleetsRequest,
         logger: Logger = AWSClient.loggingDisabled,
@@ -95,6 +98,7 @@ extension WorkLink {
     ///   - input: Input for request
     ///   - logger: Logger used flot logging
     ///   - eventLoop: EventLoop to run this process on
+    @available(*, deprecated, message: "Amazon WorkLink is no longer supported. This will be removed in a future version of the SDK.")
     public func listWebsiteAuthorizationProvidersPaginator(
         _ input: ListWebsiteAuthorizationProvidersRequest,
         logger: Logger = AWSClient.loggingDisabled,
@@ -117,6 +121,7 @@ extension WorkLink {
     ///   - input: Input for request
     ///   - logger: Logger used flot logging
     ///   - eventLoop: EventLoop to run this process on
+    @available(*, deprecated, message: "Amazon WorkLink is no longer supported. This will be removed in a future version of the SDK.")
     public func listWebsiteCertificateAuthoritiesPaginator(
         _ input: ListWebsiteCertificateAuthoritiesRequest,
         logger: Logger = AWSClient.loggingDisabled,

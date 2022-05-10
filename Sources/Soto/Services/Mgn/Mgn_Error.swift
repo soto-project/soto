@@ -59,7 +59,7 @@ public struct MgnErrorType: AWSErrorType {
     public static var serviceQuotaExceededException: Self { .init(.serviceQuotaExceededException) }
     /// Reached throttling quota exception.
     public static var throttlingException: Self { .init(.throttlingException) }
-    /// Unitialized account exception.
+    /// Uninitialized account exception.
     public static var uninitializedAccountException: Self { .init(.uninitializedAccountException) }
     /// Validate exception.
     public static var validationException: Self { .init(.validationException) }

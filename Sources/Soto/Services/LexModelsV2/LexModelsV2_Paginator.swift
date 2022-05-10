@@ -443,7 +443,7 @@ extension LexModelsV2 {
         )
     }
 
-    ///  Lists the exports for a bot or bot locale. Exports are kept in the list for 7 days.
+    ///  Lists the exports for a bot, bot locale, or custom vocabulary. Exports are kept in the list for 7 days.
     ///
     /// Provide paginated results to closure `onPage` for it to combine them into one result.
     /// This works in a similar manner to `Array.reduce<Result>(_:_:) -> Result`.
@@ -496,7 +496,7 @@ extension LexModelsV2 {
         )
     }
 
-    ///  Lists the imports for a bot or bot locale. Imports are kept in the list for 7 days.
+    ///  Lists the imports for a bot, bot locale, or custom vocabulary. Imports are kept in the list for 7 days.
     ///
     /// Provide paginated results to closure `onPage` for it to combine them into one result.
     /// This works in a similar manner to `Array.reduce<Result>(_:_:) -> Result`.
@@ -863,6 +863,7 @@ extension LexModelsV2.ListExportsRequest: AWSPaginateToken {
             botId: self.botId,
             botVersion: self.botVersion,
             filters: self.filters,
+            localeId: self.localeId,
             maxResults: self.maxResults,
             nextToken: token,
             sortBy: self.sortBy
@@ -876,6 +877,7 @@ extension LexModelsV2.ListImportsRequest: AWSPaginateToken {
             botId: self.botId,
             botVersion: self.botVersion,
             filters: self.filters,
+            localeId: self.localeId,
             maxResults: self.maxResults,
             nextToken: token,
             sortBy: self.sortBy

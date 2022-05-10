@@ -141,6 +141,11 @@ public struct LexModelsV2: AWSService {
         return self.client.execute(operation: "DeleteBotVersion", path: "/bots/{botId}/botversions/{botVersion}/", httpMethod: .DELETE, serviceConfig: self.config, input: input, logger: logger, on: eventLoop)
     }
 
+    /// Removes a custom vocabulary from the specified locale in the specified bot.
+    public func deleteCustomVocabulary(_ input: DeleteCustomVocabularyRequest, logger: Logger = AWSClient.loggingDisabled, on eventLoop: EventLoop? = nil) -> EventLoopFuture<DeleteCustomVocabularyResponse> {
+        return self.client.execute(operation: "DeleteCustomVocabulary", path: "/bots/{botId}/botversions/{botVersion}/botlocales/{localeId}/customvocabulary", httpMethod: .DELETE, serviceConfig: self.config, input: input, logger: logger, on: eventLoop)
+    }
+
     /// Removes a previous export and the associated files stored in an S3 bucket.
     public func deleteExport(_ input: DeleteExportRequest, logger: Logger = AWSClient.loggingDisabled, on eventLoop: EventLoop? = nil) -> EventLoopFuture<DeleteExportResponse> {
         return self.client.execute(operation: "DeleteExport", path: "/exports/{exportId}/", httpMethod: .DELETE, serviceConfig: self.config, input: input, logger: logger, on: eventLoop)
@@ -204,6 +209,11 @@ public struct LexModelsV2: AWSService {
     /// Provides metadata about a version of a bot.
     public func describeBotVersion(_ input: DescribeBotVersionRequest, logger: Logger = AWSClient.loggingDisabled, on eventLoop: EventLoop? = nil) -> EventLoopFuture<DescribeBotVersionResponse> {
         return self.client.execute(operation: "DescribeBotVersion", path: "/bots/{botId}/botversions/{botVersion}/", httpMethod: .GET, serviceConfig: self.config, input: input, logger: logger, on: eventLoop)
+    }
+
+    /// Provides metadata information about a custom vocabulary.
+    public func describeCustomVocabularyMetadata(_ input: DescribeCustomVocabularyMetadataRequest, logger: Logger = AWSClient.loggingDisabled, on eventLoop: EventLoop? = nil) -> EventLoopFuture<DescribeCustomVocabularyMetadataResponse> {
+        return self.client.execute(operation: "DescribeCustomVocabularyMetadata", path: "/bots/{botId}/botversions/{botVersion}/botlocales/{localeId}/customvocabulary/DEFAULT/metadata", httpMethod: .GET, serviceConfig: self.config, input: input, logger: logger, on: eventLoop)
     }
 
     /// Gets information about a specific export.
@@ -276,12 +286,12 @@ public struct LexModelsV2: AWSService {
         return self.client.execute(operation: "ListBuiltInSlotTypes", path: "/builtins/locales/{localeId}/slottypes/", httpMethod: .POST, serviceConfig: self.config, input: input, logger: logger, on: eventLoop)
     }
 
-    /// Lists the exports for a bot or bot locale. Exports are kept in the list for 7 days.
+    /// Lists the exports for a bot, bot locale, or custom vocabulary. Exports are kept in the list for 7 days.
     public func listExports(_ input: ListExportsRequest, logger: Logger = AWSClient.loggingDisabled, on eventLoop: EventLoop? = nil) -> EventLoopFuture<ListExportsResponse> {
         return self.client.execute(operation: "ListExports", path: "/exports/", httpMethod: .POST, serviceConfig: self.config, input: input, logger: logger, on: eventLoop)
     }
 
-    /// Lists the imports for a bot or bot locale. Imports are kept in the list for 7 days.
+    /// Lists the imports for a bot, bot locale, or custom vocabulary. Imports are kept in the list for 7 days.
     public func listImports(_ input: ListImportsRequest, logger: Logger = AWSClient.loggingDisabled, on eventLoop: EventLoop? = nil) -> EventLoopFuture<ListImportsResponse> {
         return self.client.execute(operation: "ListImports", path: "/imports/", httpMethod: .POST, serviceConfig: self.config, input: input, logger: logger, on: eventLoop)
     }
@@ -321,7 +331,7 @@ public struct LexModelsV2: AWSService {
         return self.client.execute(operation: "StartBotRecommendation", path: "/bots/{botId}/botversions/{botVersion}/botlocales/{localeId}/botrecommendations/", httpMethod: .PUT, serviceConfig: self.config, input: input, logger: logger, on: eventLoop)
     }
 
-    /// Starts importing a bot or bot locale from a zip archive that you uploaded to an S3 bucket.
+    /// Starts importing a bot, bot locale, or custom vocabulary from a zip archive that you uploaded to an S3 bucket.
     public func startImport(_ input: StartImportRequest, logger: Logger = AWSClient.loggingDisabled, on eventLoop: EventLoop? = nil) -> EventLoopFuture<StartImportResponse> {
         return self.client.execute(operation: "StartImport", path: "/imports/", httpMethod: .PUT, serviceConfig: self.config, input: input, logger: logger, on: eventLoop)
     }

@@ -516,18 +516,25 @@ extension DataExchange {
         public let dataSetId: String?
         public let finalized: Bool?
         public let id: String?
+        public let revocationComment: String?
+        public let revoked: Bool?
+        @OptionalCustomCoding<ISO8601DateCoder>
+        public var revokedAt: Date?
         public let sourceId: String?
         public let tags: [String: String]?
         @OptionalCustomCoding<ISO8601DateCoder>
         public var updatedAt: Date?
 
-        public init(arn: String? = nil, comment: String? = nil, createdAt: Date? = nil, dataSetId: String? = nil, finalized: Bool? = nil, id: String? = nil, sourceId: String? = nil, tags: [String: String]? = nil, updatedAt: Date? = nil) {
+        public init(arn: String? = nil, comment: String? = nil, createdAt: Date? = nil, dataSetId: String? = nil, finalized: Bool? = nil, id: String? = nil, revocationComment: String? = nil, revoked: Bool? = nil, revokedAt: Date? = nil, sourceId: String? = nil, tags: [String: String]? = nil, updatedAt: Date? = nil) {
             self.arn = arn
             self.comment = comment
             self.createdAt = createdAt
             self.dataSetId = dataSetId
             self.finalized = finalized
             self.id = id
+            self.revocationComment = revocationComment
+            self.revoked = revoked
+            self.revokedAt = revokedAt
             self.sourceId = sourceId
             self.tags = tags
             self.updatedAt = updatedAt
@@ -540,6 +547,9 @@ extension DataExchange {
             case dataSetId = "DataSetId"
             case finalized = "Finalized"
             case id = "Id"
+            case revocationComment = "RevocationComment"
+            case revoked = "Revoked"
+            case revokedAt = "RevokedAt"
             case sourceId = "SourceId"
             case tags = "Tags"
             case updatedAt = "UpdatedAt"
@@ -1127,18 +1137,25 @@ extension DataExchange {
         public let dataSetId: String?
         public let finalized: Bool?
         public let id: String?
+        public let revocationComment: String?
+        public let revoked: Bool?
+        @OptionalCustomCoding<ISO8601DateCoder>
+        public var revokedAt: Date?
         public let sourceId: String?
         public let tags: [String: String]?
         @OptionalCustomCoding<ISO8601DateCoder>
         public var updatedAt: Date?
 
-        public init(arn: String? = nil, comment: String? = nil, createdAt: Date? = nil, dataSetId: String? = nil, finalized: Bool? = nil, id: String? = nil, sourceId: String? = nil, tags: [String: String]? = nil, updatedAt: Date? = nil) {
+        public init(arn: String? = nil, comment: String? = nil, createdAt: Date? = nil, dataSetId: String? = nil, finalized: Bool? = nil, id: String? = nil, revocationComment: String? = nil, revoked: Bool? = nil, revokedAt: Date? = nil, sourceId: String? = nil, tags: [String: String]? = nil, updatedAt: Date? = nil) {
             self.arn = arn
             self.comment = comment
             self.createdAt = createdAt
             self.dataSetId = dataSetId
             self.finalized = finalized
             self.id = id
+            self.revocationComment = revocationComment
+            self.revoked = revoked
+            self.revokedAt = revokedAt
             self.sourceId = sourceId
             self.tags = tags
             self.updatedAt = updatedAt
@@ -1151,6 +1168,9 @@ extension DataExchange {
             case dataSetId = "DataSetId"
             case finalized = "Finalized"
             case id = "Id"
+            case revocationComment = "RevocationComment"
+            case revoked = "Revoked"
+            case revokedAt = "RevokedAt"
             case sourceId = "SourceId"
             case tags = "Tags"
             case updatedAt = "UpdatedAt"
@@ -1889,19 +1909,29 @@ extension DataExchange {
         public let finalized: Bool?
         /// The unique identifier for the revision.
         public let id: String
+        /// A required comment to inform subscribers of the reason their access to the revision was revoked.
+        public let revocationComment: String?
+        /// A status indicating that subscribers' access to the revision was revoked.
+        public let revoked: Bool?
+        /// The date and time that the revision was revoked, in ISO 8601 format.
+        @OptionalCustomCoding<ISO8601DateCoder>
+        public var revokedAt: Date?
         /// The revision ID of the owned revision corresponding to the entitled revision being viewed. This parameter is returned when a revision owner is viewing the entitled copy of its owned revision.
         public let sourceId: String?
         /// The date and time that the revision was last updated, in ISO 8601 format.
         @CustomCoding<ISO8601DateCoder>
         public var updatedAt: Date
 
-        public init(arn: String, comment: String? = nil, createdAt: Date, dataSetId: String, finalized: Bool? = nil, id: String, sourceId: String? = nil, updatedAt: Date) {
+        public init(arn: String, comment: String? = nil, createdAt: Date, dataSetId: String, finalized: Bool? = nil, id: String, revocationComment: String? = nil, revoked: Bool? = nil, revokedAt: Date? = nil, sourceId: String? = nil, updatedAt: Date) {
             self.arn = arn
             self.comment = comment
             self.createdAt = createdAt
             self.dataSetId = dataSetId
             self.finalized = finalized
             self.id = id
+            self.revocationComment = revocationComment
+            self.revoked = revoked
+            self.revokedAt = revokedAt
             self.sourceId = sourceId
             self.updatedAt = updatedAt
         }
@@ -1913,6 +1943,9 @@ extension DataExchange {
             case dataSetId = "DataSetId"
             case finalized = "Finalized"
             case id = "Id"
+            case revocationComment = "RevocationComment"
+            case revoked = "Revoked"
+            case revokedAt = "RevokedAt"
             case sourceId = "SourceId"
             case updatedAt = "UpdatedAt"
         }
@@ -1928,6 +1961,78 @@ extension DataExchange {
 
         private enum CodingKeys: String, CodingKey {
             case dataSetId = "DataSetId"
+        }
+    }
+
+    public struct RevokeRevisionRequest: AWSEncodableShape {
+        public static var _encoding = [
+            AWSMemberEncoding(label: "dataSetId", location: .uri(locationName: "DataSetId")),
+            AWSMemberEncoding(label: "revisionId", location: .uri(locationName: "RevisionId"))
+        ]
+
+        public let dataSetId: String
+        public let revisionId: String
+        /// A required comment to inform subscribers of the reason their access to the revision was revoked.
+        public let revocationComment: String
+
+        public init(dataSetId: String, revisionId: String, revocationComment: String) {
+            self.dataSetId = dataSetId
+            self.revisionId = revisionId
+            self.revocationComment = revocationComment
+        }
+
+        public func validate(name: String) throws {
+            try self.validate(self.revocationComment, name: "revocationComment", parent: name, max: 512)
+            try self.validate(self.revocationComment, name: "revocationComment", parent: name, min: 10)
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case revocationComment = "RevocationComment"
+        }
+    }
+
+    public struct RevokeRevisionResponse: AWSDecodableShape {
+        public let arn: String?
+        public let comment: String?
+        @OptionalCustomCoding<ISO8601DateCoder>
+        public var createdAt: Date?
+        public let dataSetId: String?
+        public let finalized: Bool?
+        public let id: String?
+        public let revocationComment: String?
+        public let revoked: Bool?
+        @OptionalCustomCoding<ISO8601DateCoder>
+        public var revokedAt: Date?
+        public let sourceId: String?
+        @OptionalCustomCoding<ISO8601DateCoder>
+        public var updatedAt: Date?
+
+        public init(arn: String? = nil, comment: String? = nil, createdAt: Date? = nil, dataSetId: String? = nil, finalized: Bool? = nil, id: String? = nil, revocationComment: String? = nil, revoked: Bool? = nil, revokedAt: Date? = nil, sourceId: String? = nil, updatedAt: Date? = nil) {
+            self.arn = arn
+            self.comment = comment
+            self.createdAt = createdAt
+            self.dataSetId = dataSetId
+            self.finalized = finalized
+            self.id = id
+            self.revocationComment = revocationComment
+            self.revoked = revoked
+            self.revokedAt = revokedAt
+            self.sourceId = sourceId
+            self.updatedAt = updatedAt
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case arn = "Arn"
+            case comment = "Comment"
+            case createdAt = "CreatedAt"
+            case dataSetId = "DataSetId"
+            case finalized = "Finalized"
+            case id = "Id"
+            case revocationComment = "RevocationComment"
+            case revoked = "Revoked"
+            case revokedAt = "RevokedAt"
+            case sourceId = "SourceId"
+            case updatedAt = "UpdatedAt"
         }
     }
 
@@ -2277,17 +2382,24 @@ extension DataExchange {
         public let dataSetId: String?
         public let finalized: Bool?
         public let id: String?
+        public let revocationComment: String?
+        public let revoked: Bool?
+        @OptionalCustomCoding<ISO8601DateCoder>
+        public var revokedAt: Date?
         public let sourceId: String?
         @OptionalCustomCoding<ISO8601DateCoder>
         public var updatedAt: Date?
 
-        public init(arn: String? = nil, comment: String? = nil, createdAt: Date? = nil, dataSetId: String? = nil, finalized: Bool? = nil, id: String? = nil, sourceId: String? = nil, updatedAt: Date? = nil) {
+        public init(arn: String? = nil, comment: String? = nil, createdAt: Date? = nil, dataSetId: String? = nil, finalized: Bool? = nil, id: String? = nil, revocationComment: String? = nil, revoked: Bool? = nil, revokedAt: Date? = nil, sourceId: String? = nil, updatedAt: Date? = nil) {
             self.arn = arn
             self.comment = comment
             self.createdAt = createdAt
             self.dataSetId = dataSetId
             self.finalized = finalized
             self.id = id
+            self.revocationComment = revocationComment
+            self.revoked = revoked
+            self.revokedAt = revokedAt
             self.sourceId = sourceId
             self.updatedAt = updatedAt
         }
@@ -2299,6 +2411,9 @@ extension DataExchange {
             case dataSetId = "DataSetId"
             case finalized = "Finalized"
             case id = "Id"
+            case revocationComment = "RevocationComment"
+            case revoked = "Revoked"
+            case revokedAt = "RevokedAt"
             case sourceId = "SourceId"
             case updatedAt = "UpdatedAt"
         }

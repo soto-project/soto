@@ -1091,6 +1091,66 @@ extension LexRuntimeV2 {
         }
     }
 
+    public struct RuntimeHintDetails: AWSEncodableShape & AWSDecodableShape {
+        /// One or more strings that Amazon Lex V2 should look for in the input to the bot. Each phrase is given preference when deciding on slot values.
+        public let runtimeHintValues: [RuntimeHintValue]
+
+        public init(runtimeHintValues: [RuntimeHintValue]) {
+            self.runtimeHintValues = runtimeHintValues
+        }
+
+        public func validate(name: String) throws {
+            try self.runtimeHintValues.forEach {
+                try $0.validate(name: "\(name).runtimeHintValues[]")
+            }
+            try self.validate(self.runtimeHintValues, name: "runtimeHintValues", parent: name, max: 100)
+            try self.validate(self.runtimeHintValues, name: "runtimeHintValues", parent: name, min: 1)
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case runtimeHintValues
+        }
+    }
+
+    public struct RuntimeHintValue: AWSEncodableShape & AWSDecodableShape {
+        /// The phrase that Amazon Lex V2 should look for in the user's input to the bot.
+        public let phrase: String
+
+        public init(phrase: String) {
+            self.phrase = phrase
+        }
+
+        public func validate(name: String) throws {
+            try self.validate(self.phrase, name: "phrase", parent: name, max: 140)
+            try self.validate(self.phrase, name: "phrase", parent: name, min: 1)
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case phrase
+        }
+    }
+
+    public struct RuntimeHints: AWSEncodableShape & AWSDecodableShape {
+        /// A list of the slots in the intent that should have runtime hints added, and the phrases that should be added for each slot. The first level of the slotHints map is the name of the intent. The second level is the name of the slot within the intent. For more information, see Using hints to improve accuracy. The intent name and slot name must exist.
+        public let slotHints: [String: [String: RuntimeHintDetails]]?
+
+        public init(slotHints: [String: [String: RuntimeHintDetails]]? = nil) {
+            self.slotHints = slotHints
+        }
+
+        public func validate(name: String) throws {
+            try self.slotHints?.forEach {
+                try validate($0.key, name: "slotHints.key", parent: name, max: 100)
+                try validate($0.key, name: "slotHints.key", parent: name, min: 1)
+                try validate($0.key, name: "slotHints.key", parent: name, pattern: "^([0-9a-zA-Z][_-]?)+$")
+            }
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case slotHints
+        }
+    }
+
     public struct SentimentResponse: AWSDecodableShape {
         /// The overall sentiment expressed in the user's response. This is the sentiment most likely expressed by the user based on the analysis by Amazon Comprehend.
         public let sentiment: SentimentType?
@@ -1139,15 +1199,19 @@ extension LexRuntimeV2 {
         public let dialogAction: DialogAction?
         /// The active intent that Amazon Lex V2 is processing.
         public let intent: Intent?
+        /// A unique identifier for a specific request.
         public let originatingRequestId: String?
+        /// Hints for phrases that a customer is likely to use for a slot. Amazon Lex V2 uses the hints to help determine the correct value of a slot.
+        public let runtimeHints: RuntimeHints?
         /// Map of key/value pairs representing session-specific context information. It contains application information passed between Amazon Lex V2 and a client application.
         public let sessionAttributes: [String: String]?
 
-        public init(activeContexts: [ActiveContext]? = nil, dialogAction: DialogAction? = nil, intent: Intent? = nil, originatingRequestId: String? = nil, sessionAttributes: [String: String]? = nil) {
+        public init(activeContexts: [ActiveContext]? = nil, dialogAction: DialogAction? = nil, intent: Intent? = nil, originatingRequestId: String? = nil, runtimeHints: RuntimeHints? = nil, sessionAttributes: [String: String]? = nil) {
             self.activeContexts = activeContexts
             self.dialogAction = dialogAction
             self.intent = intent
             self.originatingRequestId = originatingRequestId
+            self.runtimeHints = runtimeHints
             self.sessionAttributes = sessionAttributes
         }
 
@@ -1160,6 +1224,7 @@ extension LexRuntimeV2 {
             try self.dialogAction?.validate(name: "\(name).dialogAction")
             try self.intent?.validate(name: "\(name).intent")
             try self.validate(self.originatingRequestId, name: "originatingRequestId", parent: name, min: 1)
+            try self.runtimeHints?.validate(name: "\(name).runtimeHints")
             try self.sessionAttributes?.forEach {
                 try validate($0.key, name: "sessionAttributes.key", parent: name, min: 1)
             }
@@ -1170,6 +1235,7 @@ extension LexRuntimeV2 {
             case dialogAction
             case intent
             case originatingRequestId
+            case runtimeHints
             case sessionAttributes
         }
     }

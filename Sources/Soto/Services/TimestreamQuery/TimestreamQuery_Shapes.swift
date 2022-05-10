@@ -44,6 +44,7 @@ extension TimestreamQuery {
         case bigint = "BIGINT"
         case boolean = "BOOLEAN"
         case double = "DOUBLE"
+        case timestamp = "TIMESTAMP"
         case varchar = "VARCHAR"
         public var description: String { return self.rawValue }
     }

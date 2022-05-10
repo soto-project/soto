@@ -44,7 +44,7 @@ extension MigrationHubRefactorSpaces {
         )
     }
 
-    ///  Lists all the virtual private clouds (VPCs) that are part of an Amazon Web Services Migration Hub Refactor Spaces environment.
+    ///  Lists all Amazon Web Services Migration Hub Refactor Spaces service virtual private clouds (VPCs) that are part of the environment.
     /// Return PaginatorSequence for operation.
     ///
     /// - Parameters:

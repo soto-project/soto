@@ -29,6 +29,7 @@ extension Panorama {
 
     public enum ApplicationInstanceStatus: String, CustomStringConvertible, Codable {
         case deploymentError = "DEPLOYMENT_ERROR"
+        case deploymentFailed = "DEPLOYMENT_FAILED"
         case deploymentInProgress = "DEPLOYMENT_IN_PROGRESS"
         case deploymentPending = "DEPLOYMENT_PENDING"
         case deploymentRequested = "DEPLOYMENT_REQUESTED"
@@ -44,6 +45,12 @@ extension Panorama {
     public enum ConnectionType: String, CustomStringConvertible, Codable {
         case dhcp = "DHCP"
         case staticIp = "STATIC_IP"
+        public var description: String { return self.rawValue }
+    }
+
+    public enum DeviceBrand: String, CustomStringConvertible, Codable {
+        case awsPanorama = "AWS_PANORAMA"
+        case lenovo = "LENOVO"
         public var description: String { return self.rawValue }
     }
 
@@ -84,6 +91,7 @@ extension Panorama {
 
     public enum NetworkConnectionStatus: String, CustomStringConvertible, Codable {
         case connected = "CONNECTED"
+        case connecting = "CONNECTING"
         case notConnected = "NOT_CONNECTED"
         public var description: String { return self.rawValue }
     }
@@ -118,6 +126,7 @@ extension Panorama {
     }
 
     public enum PackageImportJobType: String, CustomStringConvertible, Codable {
+        case marketplaceNodePackageVersion = "MARKETPLACE_NODE_PACKAGE_VERSION"
         case nodePackageVersion = "NODE_PACKAGE_VERSION"
         public var description: String { return self.rawValue }
     }
@@ -141,6 +150,7 @@ extension Panorama {
 
     public enum StatusFilter: String, CustomStringConvertible, Codable {
         case deploymentError = "DEPLOYMENT_ERROR"
+        case deploymentFailed = "DEPLOYMENT_FAILED"
         case deploymentSucceeded = "DEPLOYMENT_SUCCEEDED"
         case processingDeployment = "PROCESSING_DEPLOYMENT"
         case processingRemoval = "PROCESSING_REMOVAL"
@@ -166,6 +176,19 @@ extension Panorama {
     }
 
     // MARK: Shapes
+
+    public struct AlternateSoftwareMetadata: AWSDecodableShape {
+        /// The appliance software version.
+        public let version: String?
+
+        public init(version: String? = nil) {
+            self.version = version
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case version = "Version"
+        }
+    }
 
     public struct ApplicationInstance: AWSDecodableShape {
         /// The application instance's ID.
@@ -646,7 +669,7 @@ extension Panorama {
 
     public struct DescribeApplicationInstanceDetailsRequest: AWSEncodableShape {
         public static var _encoding = [
-            AWSMemberEncoding(label: "applicationInstanceId", location: .uri(locationName: "applicationInstanceId"))
+            AWSMemberEncoding(label: "applicationInstanceId", location: .uri(locationName: "ApplicationInstanceId"))
         ]
 
         /// The application instance's ID.
@@ -708,7 +731,7 @@ extension Panorama {
 
     public struct DescribeApplicationInstanceRequest: AWSEncodableShape {
         public static var _encoding = [
-            AWSMemberEncoding(label: "applicationInstanceId", location: .uri(locationName: "applicationInstanceId"))
+            AWSMemberEncoding(label: "applicationInstanceId", location: .uri(locationName: "ApplicationInstanceId"))
         ]
 
         /// The application instance's ID.
@@ -876,8 +899,12 @@ extension Panorama {
     }
 
     public struct DescribeDeviceResponse: AWSDecodableShape {
+        /// Beta software releases available for the device.
+        public let alternateSoftwares: [AlternateSoftwareMetadata]?
         /// The device's ARN.
         public let arn: String?
+        /// The device's maker.
+        public let brand: DeviceBrand?
         /// When the device was created.
         public let createdTime: Date?
         /// The device's networking status.
@@ -890,6 +917,8 @@ extension Panorama {
         public let deviceConnectionStatus: DeviceConnectionStatus?
         /// The device's ID.
         public let deviceId: String?
+        /// The most recent beta software release.
+        public let latestAlternateSoftware: String?
         /// The latest software version available for the device.
         public let latestSoftware: String?
         /// The device's lease expiration time.
@@ -907,14 +936,17 @@ extension Panorama {
         /// The device's type.
         public let type: DeviceType?
 
-        public init(arn: String? = nil, createdTime: Date? = nil, currentNetworkingStatus: NetworkStatus? = nil, currentSoftware: String? = nil, description: String? = nil, deviceConnectionStatus: DeviceConnectionStatus? = nil, deviceId: String? = nil, latestSoftware: String? = nil, leaseExpirationTime: Date? = nil, name: String? = nil, networkingConfiguration: NetworkPayload? = nil, provisioningStatus: DeviceStatus? = nil, serialNumber: String? = nil, tags: [String: String]? = nil, type: DeviceType? = nil) {
+        public init(alternateSoftwares: [AlternateSoftwareMetadata]? = nil, arn: String? = nil, brand: DeviceBrand? = nil, createdTime: Date? = nil, currentNetworkingStatus: NetworkStatus? = nil, currentSoftware: String? = nil, description: String? = nil, deviceConnectionStatus: DeviceConnectionStatus? = nil, deviceId: String? = nil, latestAlternateSoftware: String? = nil, latestSoftware: String? = nil, leaseExpirationTime: Date? = nil, name: String? = nil, networkingConfiguration: NetworkPayload? = nil, provisioningStatus: DeviceStatus? = nil, serialNumber: String? = nil, tags: [String: String]? = nil, type: DeviceType? = nil) {
+            self.alternateSoftwares = alternateSoftwares
             self.arn = arn
+            self.brand = brand
             self.createdTime = createdTime
             self.currentNetworkingStatus = currentNetworkingStatus
             self.currentSoftware = currentSoftware
             self.description = description
             self.deviceConnectionStatus = deviceConnectionStatus
             self.deviceId = deviceId
+            self.latestAlternateSoftware = latestAlternateSoftware
             self.latestSoftware = latestSoftware
             self.leaseExpirationTime = leaseExpirationTime
             self.name = name
@@ -926,13 +958,16 @@ extension Panorama {
         }
 
         private enum CodingKeys: String, CodingKey {
+            case alternateSoftwares = "AlternateSoftwares"
             case arn = "Arn"
+            case brand = "Brand"
             case createdTime = "CreatedTime"
             case currentNetworkingStatus = "CurrentNetworkingStatus"
             case currentSoftware = "CurrentSoftware"
             case description = "Description"
             case deviceConnectionStatus = "DeviceConnectionStatus"
             case deviceId = "DeviceId"
+            case latestAlternateSoftware = "LatestAlternateSoftware"
             case latestSoftware = "LatestSoftware"
             case leaseExpirationTime = "LeaseExpirationTime"
             case name = "Name"
@@ -1343,6 +1378,8 @@ extension Panorama {
     }
 
     public struct Device: AWSDecodableShape {
+        /// The device's maker.
+        public let brand: DeviceBrand?
         /// When the device was created.
         public let createdTime: Date?
         /// The device's ID.
@@ -1356,7 +1393,8 @@ extension Panorama {
         /// The device's provisioning status.
         public let provisioningStatus: DeviceStatus?
 
-        public init(createdTime: Date? = nil, deviceId: String? = nil, lastUpdatedTime: Date? = nil, leaseExpirationTime: Date? = nil, name: String? = nil, provisioningStatus: DeviceStatus? = nil) {
+        public init(brand: DeviceBrand? = nil, createdTime: Date? = nil, deviceId: String? = nil, lastUpdatedTime: Date? = nil, leaseExpirationTime: Date? = nil, name: String? = nil, provisioningStatus: DeviceStatus? = nil) {
+            self.brand = brand
             self.createdTime = createdTime
             self.deviceId = deviceId
             self.lastUpdatedTime = lastUpdatedTime
@@ -1366,6 +1404,7 @@ extension Panorama {
         }
 
         private enum CodingKeys: String, CodingKey {
+            case brand = "Brand"
             case createdTime = "CreatedTime"
             case deviceId = "DeviceId"
             case lastUpdatedTime = "LastUpdatedTime"
@@ -1506,7 +1545,7 @@ extension Panorama {
 
     public struct ListApplicationInstanceDependenciesRequest: AWSEncodableShape {
         public static var _encoding = [
-            AWSMemberEncoding(label: "applicationInstanceId", location: .uri(locationName: "applicationInstanceId")),
+            AWSMemberEncoding(label: "applicationInstanceId", location: .uri(locationName: "ApplicationInstanceId")),
             AWSMemberEncoding(label: "maxResults", location: .querystring(locationName: "maxResults")),
             AWSMemberEncoding(label: "nextToken", location: .querystring(locationName: "nextToken"))
         ]
@@ -1557,7 +1596,7 @@ extension Panorama {
 
     public struct ListApplicationInstanceNodeInstancesRequest: AWSEncodableShape {
         public static var _encoding = [
-            AWSMemberEncoding(label: "applicationInstanceId", location: .uri(locationName: "applicationInstanceId")),
+            AWSMemberEncoding(label: "applicationInstanceId", location: .uri(locationName: "ApplicationInstanceId")),
             AWSMemberEncoding(label: "maxResults", location: .querystring(locationName: "maxResults")),
             AWSMemberEncoding(label: "nextToken", location: .querystring(locationName: "nextToken"))
         ]
@@ -2041,20 +2080,25 @@ extension Panorama {
         public let ethernet0: EthernetPayload?
         /// Settings for Ethernet port 1.
         public let ethernet1: EthernetPayload?
+        /// Network time protocol (NTP) server settings.
+        public let ntp: NtpPayload?
 
-        public init(ethernet0: EthernetPayload? = nil, ethernet1: EthernetPayload? = nil) {
+        public init(ethernet0: EthernetPayload? = nil, ethernet1: EthernetPayload? = nil, ntp: NtpPayload? = nil) {
             self.ethernet0 = ethernet0
             self.ethernet1 = ethernet1
+            self.ntp = ntp
         }
 
         public func validate(name: String) throws {
             try self.ethernet0?.validate(name: "\(name).ethernet0")
             try self.ethernet1?.validate(name: "\(name).ethernet1")
+            try self.ntp?.validate(name: "\(name).ntp")
         }
 
         private enum CodingKeys: String, CodingKey {
             case ethernet0 = "Ethernet0"
             case ethernet1 = "Ethernet1"
+            case ntp = "Ntp"
         }
     }
 
@@ -2063,15 +2107,23 @@ extension Panorama {
         public let ethernet0Status: EthernetStatus?
         /// The status of Ethernet port 1.
         public let ethernet1Status: EthernetStatus?
+        /// When the network status changed.
+        public let lastUpdatedTime: Date?
+        /// Details about a network time protocol (NTP) server connection.
+        public let ntpStatus: NtpStatus?
 
-        public init(ethernet0Status: EthernetStatus? = nil, ethernet1Status: EthernetStatus? = nil) {
+        public init(ethernet0Status: EthernetStatus? = nil, ethernet1Status: EthernetStatus? = nil, lastUpdatedTime: Date? = nil, ntpStatus: NtpStatus? = nil) {
             self.ethernet0Status = ethernet0Status
             self.ethernet1Status = ethernet1Status
+            self.lastUpdatedTime = lastUpdatedTime
+            self.ntpStatus = ntpStatus
         }
 
         private enum CodingKeys: String, CodingKey {
             case ethernet0Status = "Ethernet0Status"
             case ethernet1Status = "Ethernet1Status"
+            case lastUpdatedTime = "LastUpdatedTime"
+            case ntpStatus = "NtpStatus"
         }
     }
 
@@ -2262,6 +2314,50 @@ extension Panorama {
             case description = "Description"
             case name = "Name"
             case type = "Type"
+        }
+    }
+
+    public struct NtpPayload: AWSEncodableShape & AWSDecodableShape {
+        /// NTP servers to use, in order of preference.
+        public let ntpServers: [String]
+
+        public init(ntpServers: [String]) {
+            self.ntpServers = ntpServers
+        }
+
+        public func validate(name: String) throws {
+            try self.ntpServers.forEach {
+                try validate($0, name: "ntpServers[]", parent: name, max: 255)
+                try validate($0, name: "ntpServers[]", parent: name, min: 1)
+                try validate($0, name: "ntpServers[]", parent: name, pattern: "(^([a-z0-9]+(-[a-z0-9]+)*\\.)+[a-z]{2,}$)|(^((25[0-5]|2[0-4]\\d|1\\d\\d|[1-9]?\\d)\\.(25[0-5]|2[0-4]\\d|1\\d\\d|[1-9]?\\d)\\.(25[0-5]|2[0-4]\\d|1\\d\\d|[1-9]?\\d)\\.(25[0-5]|2[0-4]\\d|1\\d\\d|[1-9]?\\d))(:(6553[0-5]|655[0-2]\\d|65[0-4]\\d{2}|6[0-4]\\d{3}|[1-5]\\d{4}|[1-9]\\d{0,3}))?$)")
+            }
+            try self.validate(self.ntpServers, name: "ntpServers", parent: name, max: 5)
+            try self.validate(self.ntpServers, name: "ntpServers", parent: name, min: 0)
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case ntpServers = "NtpServers"
+        }
+    }
+
+    public struct NtpStatus: AWSDecodableShape {
+        /// The connection's status.
+        public let connectionStatus: NetworkConnectionStatus?
+        /// The IP address of the server.
+        public let ipAddress: String?
+        /// The domain name of the server.
+        public let ntpServerName: String?
+
+        public init(connectionStatus: NetworkConnectionStatus? = nil, ipAddress: String? = nil, ntpServerName: String? = nil) {
+            self.connectionStatus = connectionStatus
+            self.ipAddress = ipAddress
+            self.ntpServerName = ntpServerName
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case connectionStatus = "ConnectionStatus"
+            case ipAddress = "IpAddress"
+            case ntpServerName = "NtpServerName"
         }
     }
 
@@ -2615,7 +2711,7 @@ extension Panorama {
 
     public struct RemoveApplicationInstanceRequest: AWSEncodableShape {
         public static var _encoding = [
-            AWSMemberEncoding(label: "applicationInstanceId", location: .uri(locationName: "applicationInstanceId"))
+            AWSMemberEncoding(label: "applicationInstanceId", location: .uri(locationName: "ApplicationInstanceId"))
         ]
 
         /// An application instance ID.

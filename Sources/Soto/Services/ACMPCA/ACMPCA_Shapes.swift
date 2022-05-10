@@ -153,6 +153,8 @@ extension ACMPCA {
         public let commonName: String?
         /// Two-digit code that specifies the country in which the certificate subject located.
         public let country: String?
+        ///  Contains a sequence of one or more X.500 relative distinguished names (RDNs), each of which consists of an object identifier (OID) and a value. For more information, see NIST’s definition of Object Identifier (OID).  Custom attributes cannot be used in combination with standard attributes.
+        public let customAttributes: [CustomAttribute]?
         /// Disambiguating information for the certificate subject.
         public let distinguishedNameQualifier: String?
         /// Typically a qualifier appended to the name of an individual. Examples include Jr. for junior, Sr. for senior, and III for third.
@@ -178,9 +180,10 @@ extension ACMPCA {
         /// A title such as Mr. or Ms., which is pre-pended to the name to refer formally to the certificate subject.
         public let title: String?
 
-        public init(commonName: String? = nil, country: String? = nil, distinguishedNameQualifier: String? = nil, generationQualifier: String? = nil, givenName: String? = nil, initials: String? = nil, locality: String? = nil, organization: String? = nil, organizationalUnit: String? = nil, pseudonym: String? = nil, serialNumber: String? = nil, state: String? = nil, surname: String? = nil, title: String? = nil) {
+        public init(commonName: String? = nil, country: String? = nil, customAttributes: [CustomAttribute]? = nil, distinguishedNameQualifier: String? = nil, generationQualifier: String? = nil, givenName: String? = nil, initials: String? = nil, locality: String? = nil, organization: String? = nil, organizationalUnit: String? = nil, pseudonym: String? = nil, serialNumber: String? = nil, state: String? = nil, surname: String? = nil, title: String? = nil) {
             self.commonName = commonName
             self.country = country
+            self.customAttributes = customAttributes
             self.distinguishedNameQualifier = distinguishedNameQualifier
             self.generationQualifier = generationQualifier
             self.givenName = givenName
@@ -201,6 +204,11 @@ extension ACMPCA {
             try self.validate(self.country, name: "country", parent: name, max: 2)
             try self.validate(self.country, name: "country", parent: name, min: 2)
             try self.validate(self.country, name: "country", parent: name, pattern: "[A-Za-z]{2}")
+            try self.customAttributes?.forEach {
+                try $0.validate(name: "\(name).customAttributes[]")
+            }
+            try self.validate(self.customAttributes, name: "customAttributes", parent: name, max: 30)
+            try self.validate(self.customAttributes, name: "customAttributes", parent: name, min: 1)
             try self.validate(self.distinguishedNameQualifier, name: "distinguishedNameQualifier", parent: name, max: 64)
             try self.validate(self.distinguishedNameQualifier, name: "distinguishedNameQualifier", parent: name, min: 0)
             try self.validate(self.distinguishedNameQualifier, name: "distinguishedNameQualifier", parent: name, pattern: "[a-zA-Z0-9'()+-.?:/= ]*")
@@ -232,6 +240,7 @@ extension ACMPCA {
         private enum CodingKeys: String, CodingKey {
             case commonName = "CommonName"
             case country = "Country"
+            case customAttributes = "CustomAttributes"
             case distinguishedNameQualifier = "DistinguishedNameQualifier"
             case generationQualifier = "GenerationQualifier"
             case givenName = "GivenName"
@@ -322,7 +331,7 @@ extension ACMPCA {
         public let createdAt: Date?
         /// Reason the request to create your private CA failed.
         public let failureReason: FailureReason?
-        /// Defines a cryptographic key management compliance standard used for handling CA keys.  Default: FIPS_140_2_LEVEL_3_OR_HIGHER Note: AWS Region ap-northeast-3 supports only FIPS_140_2_LEVEL_2_OR_HIGHER. You must explicitly specify this parameter and value when creating a CA in that Region. Specifying a different value (or no value) results in an InvalidArgsException with the message "A certificate authority cannot be created in this region with the specified security standard."
+        /// Defines a cryptographic key management compliance standard used for handling CA keys.  Default: FIPS_140_2_LEVEL_3_OR_HIGHER Note: Amazon Web Services Region ap-northeast-3 supports only FIPS_140_2_LEVEL_2_OR_HIGHER. You must explicitly specify this parameter and value when creating a CA in that Region. Specifying a different value (or no value) results in an InvalidArgsException with the message "A certificate authority cannot be created in this region with the specified security standard."
         public let keyStorageSecurityStandard: KeyStorageSecurityStandard?
         /// Date and time at which your private CA was last updated.
         public let lastStateChangeAt: Date?
@@ -330,7 +339,7 @@ extension ACMPCA {
         public let notAfter: Date?
         /// Date and time before which your private CA certificate is not valid.
         public let notBefore: Date?
-        /// The AWS account ID that owns the certificate authority.
+        /// The Amazon Web Services account ID that owns the certificate authority.
         public let ownerAccount: String?
         /// The period during which a deleted CA can be restored. For more information, see the PermanentDeletionTimeInDays parameter of the DeleteCertificateAuthorityRequest action.
         public let restorableUntil: Date?
@@ -514,11 +523,11 @@ extension ACMPCA {
     }
 
     public struct CreatePermissionRequest: AWSEncodableShape {
-        /// The actions that the specified AWS service principal can use. These include IssueCertificate, GetCertificate, and ListPermissions.
+        /// The actions that the specified Amazon Web Services service principal can use. These include IssueCertificate, GetCertificate, and ListPermissions.
         public let actions: [ActionType]
         /// The Amazon Resource Name (ARN) of the CA that grants the permissions. You can find the ARN by calling the ListCertificateAuthorities action. This must have the following form:   arn:aws:acm-pca:region:account:certificate-authority/12345678-1234-1234-1234-123456789012 .
         public let certificateAuthorityArn: String
-        /// The AWS service or identity that receives the permission. At this time, the only valid principal is acm.amazonaws.com.
+        /// The Amazon Web Services service or identity that receives the permission. At this time, the only valid principal is acm.amazonaws.com.
         public let principal: String
         /// The ID of the calling account.
         public let sourceAccount: String?
@@ -613,6 +622,61 @@ extension ACMPCA {
         }
     }
 
+    public struct CustomAttribute: AWSEncodableShape & AWSDecodableShape {
+        /// Specifies the object identifier (OID) of the attribute type of the relative distinguished name (RDN).
+        public let objectIdentifier: String
+        ///  Specifies the attribute value of relative distinguished name (RDN).
+        public let value: String
+
+        public init(objectIdentifier: String, value: String) {
+            self.objectIdentifier = objectIdentifier
+            self.value = value
+        }
+
+        public func validate(name: String) throws {
+            try self.validate(self.objectIdentifier, name: "objectIdentifier", parent: name, max: 64)
+            try self.validate(self.objectIdentifier, name: "objectIdentifier", parent: name, min: 0)
+            try self.validate(self.objectIdentifier, name: "objectIdentifier", parent: name, pattern: "^([0-2])\\.([0-9]|([0-3][0-9]))((\\.([0-9]+)){0,126})$")
+            try self.validate(self.value, name: "value", parent: name, max: 256)
+            try self.validate(self.value, name: "value", parent: name, min: 1)
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case objectIdentifier = "ObjectIdentifier"
+            case value = "Value"
+        }
+    }
+
+    public struct CustomExtension: AWSEncodableShape {
+        ///  Specifies the critical flag of the X.509 extension.
+        public let critical: Bool?
+        ///  Specifies the object identifier (OID) of the X.509 extension. For more information, see the Global OID reference database.
+        public let objectIdentifier: String
+        ///  Specifies the base64-encoded value of the X.509 extension.
+        public let value: String
+
+        public init(critical: Bool? = nil, objectIdentifier: String, value: String) {
+            self.critical = critical
+            self.objectIdentifier = objectIdentifier
+            self.value = value
+        }
+
+        public func validate(name: String) throws {
+            try self.validate(self.objectIdentifier, name: "objectIdentifier", parent: name, max: 64)
+            try self.validate(self.objectIdentifier, name: "objectIdentifier", parent: name, min: 0)
+            try self.validate(self.objectIdentifier, name: "objectIdentifier", parent: name, pattern: "^([0-2])\\.([0-9]|([0-3][0-9]))((\\.([0-9]+)){0,126})$")
+            try self.validate(self.value, name: "value", parent: name, max: 4096)
+            try self.validate(self.value, name: "value", parent: name, min: 1)
+            try self.validate(self.value, name: "value", parent: name, pattern: "^(?:[A-Za-z0-9+/]{4})*(?:[A-Za-z0-9+/]{2}==|[A-Za-z0-9+/]{3}=)?$")
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case critical = "Critical"
+            case objectIdentifier = "ObjectIdentifier"
+            case value = "Value"
+        }
+    }
+
     public struct DeleteCertificateAuthorityRequest: AWSEncodableShape {
         /// The Amazon Resource Name (ARN) that was returned when you called CreateCertificateAuthority. This must have the following form:   arn:aws:acm-pca:region:account:certificate-authority/12345678-1234-1234-1234-123456789012 .
         public let certificateAuthorityArn: String
@@ -641,9 +705,9 @@ extension ACMPCA {
     public struct DeletePermissionRequest: AWSEncodableShape {
         /// The Amazon Resource Number (ARN) of the private CA that issued the permissions. You can find the CA's ARN by calling the ListCertificateAuthorities action. This must have the following form:   arn:aws:acm-pca:region:account:certificate-authority/12345678-1234-1234-1234-123456789012 .
         public let certificateAuthorityArn: String
-        /// The AWS service or identity that will have its CA permissions revoked. At this time, the only valid service principal is acm.amazonaws.com
+        /// The Amazon Web Services service or identity that will have its CA permissions revoked. At this time, the only valid service principal is acm.amazonaws.com
         public let principal: String
-        /// The AWS account that calls this action.
+        /// The Amazon Web Services account that calls this action.
         public let sourceAccount: String?
 
         public init(certificateAuthorityArn: String, principal: String, sourceAccount: String? = nil) {
@@ -823,14 +887,17 @@ extension ACMPCA {
     public struct Extensions: AWSEncodableShape {
         /// Contains a sequence of one or more policy information terms, each of which consists of an object identifier (OID) and optional qualifiers. For more information, see NIST's definition of Object Identifier (OID). In an end-entity certificate, these terms indicate the policy under which the certificate was issued and the purposes for which it may be used. In a CA certificate, these terms limit the set of policies for certification paths that include this certificate.
         public let certificatePolicies: [PolicyInformation]?
+        ///  Contains a sequence of one or more X.509 extensions, each of which consists of an object identifier (OID), a base64-encoded value, and the critical flag. For more information, see the Global OID reference database.   The OID value of a CustomExtension must not match the OID of a predefined extension.
+        public let customExtensions: [CustomExtension]?
         /// Specifies additional purposes for which the certified public key may be used other than basic purposes indicated in the KeyUsage extension.
         public let extendedKeyUsage: [ExtendedKeyUsage]?
         public let keyUsage: KeyUsage?
         /// The subject alternative name extension allows identities to be bound to the subject of the certificate. These identities may be included in addition to or in place of the identity in the subject field of the certificate.
         public let subjectAlternativeNames: [GeneralName]?
 
-        public init(certificatePolicies: [PolicyInformation]? = nil, extendedKeyUsage: [ExtendedKeyUsage]? = nil, keyUsage: KeyUsage? = nil, subjectAlternativeNames: [GeneralName]? = nil) {
+        public init(certificatePolicies: [PolicyInformation]? = nil, customExtensions: [CustomExtension]? = nil, extendedKeyUsage: [ExtendedKeyUsage]? = nil, keyUsage: KeyUsage? = nil, subjectAlternativeNames: [GeneralName]? = nil) {
             self.certificatePolicies = certificatePolicies
+            self.customExtensions = customExtensions
             self.extendedKeyUsage = extendedKeyUsage
             self.keyUsage = keyUsage
             self.subjectAlternativeNames = subjectAlternativeNames
@@ -842,6 +909,11 @@ extension ACMPCA {
             }
             try self.validate(self.certificatePolicies, name: "certificatePolicies", parent: name, max: 20)
             try self.validate(self.certificatePolicies, name: "certificatePolicies", parent: name, min: 1)
+            try self.customExtensions?.forEach {
+                try $0.validate(name: "\(name).customExtensions[]")
+            }
+            try self.validate(self.customExtensions, name: "customExtensions", parent: name, max: 20)
+            try self.validate(self.customExtensions, name: "customExtensions", parent: name, min: 1)
             try self.extendedKeyUsage?.forEach {
                 try $0.validate(name: "\(name).extendedKeyUsage[]")
             }
@@ -856,6 +928,7 @@ extension ACMPCA {
 
         private enum CodingKeys: String, CodingKey {
             case certificatePolicies = "CertificatePolicies"
+            case customExtensions = "CustomExtensions"
             case extendedKeyUsage = "ExtendedKeyUsage"
             case keyUsage = "KeyUsage"
             case subjectAlternativeNames = "SubjectAlternativeNames"
@@ -1098,11 +1171,11 @@ extension ACMPCA {
         public let apiPassthrough: ApiPassthrough?
         /// The Amazon Resource Name (ARN) that was returned when you called CreateCertificateAuthority. This must be of the form:  arn:aws:acm-pca:region:account:certificate-authority/12345678-1234-1234-1234-123456789012
         public let certificateAuthorityArn: String
-        /// The certificate signing request (CSR) for the certificate you want to issue. As an example, you can use the following OpenSSL command to create the CSR and a 2048 bit RSA private key.   openssl req -new -newkey rsa:2048 -days 365 -keyout private/test_cert_priv_key.pem -out csr/test_cert_.csr  If you have a configuration file, you can then use the following OpenSSL command. The usr_cert block in the configuration file contains your X509 version 3 extensions.   openssl req -new -config openssl_rsa.cnf -extensions usr_cert -newkey rsa:2048 -days -365 -keyout private/test_cert_priv_key.pem -out csr/test_cert_.csr  Note: A CSR must provide either a subject name or a subject alternative name or the request will be rejected.
+        /// The certificate signing request (CSR) for the certificate you want to issue. As an example, you can use the following OpenSSL command to create the CSR and a 2048 bit RSA private key.   openssl req -new -newkey rsa:2048 -days 365 -keyout private/test_cert_priv_key.pem -out csr/test_cert_.csr  If you have a configuration file, you can then use the following OpenSSL command. The usr_cert block in the configuration file contains your X509 version 3 extensions.   openssl req -new -config openssl_rsa.cnf -extensions usr_cert -newkey rsa:2048 -days 365 -keyout private/test_cert_priv_key.pem -out csr/test_cert_.csr  Note: A CSR must provide either a subject name or a subject alternative name or the request will be rejected.
         public let csr: Data
         /// Alphanumeric string that can be used to distinguish between calls to the IssueCertificate action. Idempotency tokens for IssueCertificate time out after one minute. Therefore, if you call IssueCertificate multiple times with the same idempotency token within one minute, ACM Private CA recognizes that you are requesting only one certificate and will issue only one. If you change the idempotency token for each call, PCA recognizes that you are requesting multiple certificates.
         public let idempotencyToken: String?
-        /// The name of the algorithm that will be used to sign the certificate to be issued.  This parameter should not be confused with the SigningAlgorithm parameter used to sign a CSR in the CreateCertificateAuthority action.
+        /// The name of the algorithm that will be used to sign the certificate to be issued.  This parameter should not be confused with the SigningAlgorithm parameter used to sign a CSR in the CreateCertificateAuthority action.  The specified signing algorithm family (RSA or ECDSA) much match the algorithm family of the CA's secret key.
         public let signingAlgorithm: SigningAlgorithm
         /// Specifies a custom configuration template to use when issuing a certificate. If this parameter is not provided, ACM Private CA defaults to the EndEntityCertificate/V1 template. For CA certificates, you should choose the shortest path length that meets your needs. The path length is indicated by the PathLenN portion of the ARN, where N is the CA depth. Note: The CA depth configured on a subordinate CA certificate must not exceed the limit set by its parents in the CA hierarchy. For a list of TemplateArn values supported by ACM Private CA, see Understanding Certificate Templates.
         public let templateArn: String?
@@ -1353,7 +1426,7 @@ extension ACMPCA {
     public struct OcspConfiguration: AWSEncodableShape & AWSDecodableShape {
         /// Flag enabling use of the Online Certificate Status Protocol (OCSP) for validating certificate revocation status.
         public let enabled: Bool
-        /// By default, ACM Private CA injects an AWS domain into certificates being validated by the Online Certificate Status Protocol (OCSP). A customer can alternatively use this object to define a CNAME specifying a customized OCSP domain. Note: The value of the CNAME must not include a protocol prefix such as "http://" or "https://". For more information, see Customizing Online Certificate Status Protocol (OCSP)  in the AWS Certificate Manager Private Certificate Authority (PCA) User Guide.
+        /// By default, ACM Private CA injects an Amazon Web Services domain into certificates being validated by the Online Certificate Status Protocol (OCSP). A customer can alternatively use this object to define a CNAME specifying a customized OCSP domain. Note: The value of the CNAME must not include a protocol prefix such as "http://" or "https://". For more information, see Customizing Online Certificate Status Protocol (OCSP)  in the Certificate Manager Private Certificate Authority (PCA) User Guide.
         public let ocspCustomCname: String?
 
         public init(enabled: Bool, ocspCustomCname: String? = nil) {
@@ -1398,7 +1471,7 @@ extension ACMPCA {
     }
 
     public struct Permission: AWSDecodableShape {
-        /// The private CA actions that can be performed by the designated AWS service.
+        /// The private CA actions that can be performed by the designated Amazon Web Services service.
         public let actions: [ActionType]?
         /// The Amazon Resource Number (ARN) of the private CA from which the permission was issued.
         public let certificateAuthorityArn: String?
@@ -1406,7 +1479,7 @@ extension ACMPCA {
         public let createdAt: Date?
         /// The name of the policy that is associated with the permission.
         public let policy: String?
-        /// The AWS service or entity that holds the permission. At this time, the only valid principal is acm.amazonaws.com.
+        /// The Amazon Web Services service or entity that holds the permission. At this time, the only valid principal is acm.amazonaws.com.
         public let principal: String?
         /// The ID of the account that assigned the permission.
         public let sourceAccount: String?
@@ -1567,7 +1640,7 @@ extension ACMPCA {
     public struct RevokeCertificateRequest: AWSEncodableShape {
         /// Amazon Resource Name (ARN) of the private CA that issued the certificate to be revoked. This must be of the form:  arn:aws:acm-pca:region:account:certificate-authority/12345678-1234-1234-1234-123456789012
         public let certificateAuthorityArn: String
-        /// Serial number of the certificate to be revoked. This must be in hexadecimal format. You can retrieve the serial number by calling GetCertificate with the Amazon Resource Name (ARN) of the certificate you want and the ARN of your private CA. The GetCertificate action retrieves the certificate in the PEM format. You can use the following OpenSSL command to list the certificate in text format and copy the hexadecimal serial number.   openssl x509 -in file_path -text -noout  You can also copy the serial number from the console or use the DescribeCertificate action in the AWS Certificate Manager API Reference.
+        /// Serial number of the certificate to be revoked. This must be in hexadecimal format. You can retrieve the serial number by calling GetCertificate with the Amazon Resource Name (ARN) of the certificate you want and the ARN of your private CA. The GetCertificate action retrieves the certificate in the PEM format. You can use the following OpenSSL command to list the certificate in text format and copy the hexadecimal serial number.   openssl x509 -in file_path -text -noout  You can also copy the serial number from the console or use the DescribeCertificate action in the Certificate Manager API Reference.
         public let certificateSerial: String
         /// Specifies why you revoked the certificate.
         public let revocationReason: RevocationReason

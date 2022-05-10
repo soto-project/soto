@@ -443,6 +443,59 @@ extension Connect {
         )
     }
 
+    ///  Lists the default vocabularies for the specified Amazon Connect instance.
+    ///
+    /// Provide paginated results to closure `onPage` for it to combine them into one result.
+    /// This works in a similar manner to `Array.reduce<Result>(_:_:) -> Result`.
+    ///
+    /// Parameters:
+    ///   - input: Input for request
+    ///   - initialValue: The value to use as the initial accumulating value. `initialValue` is passed to `onPage` the first time it is called.
+    ///   - logger: Logger used for logging output
+    ///   - eventLoop: EventLoop to run this process on
+    ///   - onPage: closure called with each paginated response. It combines an accumulating result with the contents of response. This combined result is then returned
+    ///         along with a boolean indicating if the paginate operation should continue.
+    public func listDefaultVocabulariesPaginator<Result>(
+        _ input: ListDefaultVocabulariesRequest,
+        _ initialValue: Result,
+        logger: Logger = AWSClient.loggingDisabled,
+        on eventLoop: EventLoop? = nil,
+        onPage: @escaping (Result, ListDefaultVocabulariesResponse, EventLoop) -> EventLoopFuture<(Bool, Result)>
+    ) -> EventLoopFuture<Result> {
+        return client.paginate(
+            input: input,
+            initialValue: initialValue,
+            command: listDefaultVocabularies,
+            inputKey: \ListDefaultVocabulariesRequest.nextToken,
+            outputKey: \ListDefaultVocabulariesResponse.nextToken,
+            on: eventLoop,
+            onPage: onPage
+        )
+    }
+
+    /// Provide paginated results to closure `onPage`.
+    ///
+    /// - Parameters:
+    ///   - input: Input for request
+    ///   - logger: Logger used for logging output
+    ///   - eventLoop: EventLoop to run this process on
+    ///   - onPage: closure called with each block of entries. Returns boolean indicating whether we should continue.
+    public func listDefaultVocabulariesPaginator(
+        _ input: ListDefaultVocabulariesRequest,
+        logger: Logger = AWSClient.loggingDisabled,
+        on eventLoop: EventLoop? = nil,
+        onPage: @escaping (ListDefaultVocabulariesResponse, EventLoop) -> EventLoopFuture<Bool>
+    ) -> EventLoopFuture<Void> {
+        return client.paginate(
+            input: input,
+            command: listDefaultVocabularies,
+            inputKey: \ListDefaultVocabulariesRequest.nextToken,
+            outputKey: \ListDefaultVocabulariesResponse.nextToken,
+            on: eventLoop,
+            onPage: onPage
+        )
+    }
+
     ///  Provides information about the hours of operation for the specified Amazon Connect instance. For more information about hours of operation, see Set the Hours of Operation for a Queue in the Amazon Connect Administrator Guide.
     ///
     /// Provide paginated results to closure `onPage` for it to combine them into one result.
@@ -655,7 +708,7 @@ extension Connect {
         )
     }
 
-    ///  Provides summary information about the AWS resource associations for the specified Amazon Connect instance.
+    ///  Provides summary information about the Amazon Web Services resource associations for the specified Amazon Connect instance.
     ///
     /// Provide paginated results to closure `onPage` for it to combine them into one result.
     /// This works in a similar manner to `Array.reduce<Result>(_:_:) -> Result`.
@@ -862,6 +915,59 @@ extension Connect {
             command: listPhoneNumbers,
             inputKey: \ListPhoneNumbersRequest.nextToken,
             outputKey: \ListPhoneNumbersResponse.nextToken,
+            on: eventLoop,
+            onPage: onPage
+        )
+    }
+
+    ///  Lists phone numbers claimed to your Amazon Connect instance.  For more information about phone numbers, see Set Up Phone Numbers for Your Contact Center in the Amazon Connect Administrator Guide.
+    ///
+    /// Provide paginated results to closure `onPage` for it to combine them into one result.
+    /// This works in a similar manner to `Array.reduce<Result>(_:_:) -> Result`.
+    ///
+    /// Parameters:
+    ///   - input: Input for request
+    ///   - initialValue: The value to use as the initial accumulating value. `initialValue` is passed to `onPage` the first time it is called.
+    ///   - logger: Logger used for logging output
+    ///   - eventLoop: EventLoop to run this process on
+    ///   - onPage: closure called with each paginated response. It combines an accumulating result with the contents of response. This combined result is then returned
+    ///         along with a boolean indicating if the paginate operation should continue.
+    public func listPhoneNumbersV2Paginator<Result>(
+        _ input: ListPhoneNumbersV2Request,
+        _ initialValue: Result,
+        logger: Logger = AWSClient.loggingDisabled,
+        on eventLoop: EventLoop? = nil,
+        onPage: @escaping (Result, ListPhoneNumbersV2Response, EventLoop) -> EventLoopFuture<(Bool, Result)>
+    ) -> EventLoopFuture<Result> {
+        return client.paginate(
+            input: input,
+            initialValue: initialValue,
+            command: listPhoneNumbersV2,
+            inputKey: \ListPhoneNumbersV2Request.nextToken,
+            outputKey: \ListPhoneNumbersV2Response.nextToken,
+            on: eventLoop,
+            onPage: onPage
+        )
+    }
+
+    /// Provide paginated results to closure `onPage`.
+    ///
+    /// - Parameters:
+    ///   - input: Input for request
+    ///   - logger: Logger used for logging output
+    ///   - eventLoop: EventLoop to run this process on
+    ///   - onPage: closure called with each block of entries. Returns boolean indicating whether we should continue.
+    public func listPhoneNumbersV2Paginator(
+        _ input: ListPhoneNumbersV2Request,
+        logger: Logger = AWSClient.loggingDisabled,
+        on eventLoop: EventLoop? = nil,
+        onPage: @escaping (ListPhoneNumbersV2Response, EventLoop) -> EventLoopFuture<Bool>
+    ) -> EventLoopFuture<Void> {
+        return client.paginate(
+            input: input,
+            command: listPhoneNumbersV2,
+            inputKey: \ListPhoneNumbersV2Request.nextToken,
+            outputKey: \ListPhoneNumbersV2Response.nextToken,
             on: eventLoop,
             onPage: onPage
         )
@@ -1502,6 +1608,165 @@ extension Connect {
             onPage: onPage
         )
     }
+
+    ///  Searches for available phone numbers that you can claim to your Amazon Connect instance.
+    ///
+    /// Provide paginated results to closure `onPage` for it to combine them into one result.
+    /// This works in a similar manner to `Array.reduce<Result>(_:_:) -> Result`.
+    ///
+    /// Parameters:
+    ///   - input: Input for request
+    ///   - initialValue: The value to use as the initial accumulating value. `initialValue` is passed to `onPage` the first time it is called.
+    ///   - logger: Logger used for logging output
+    ///   - eventLoop: EventLoop to run this process on
+    ///   - onPage: closure called with each paginated response. It combines an accumulating result with the contents of response. This combined result is then returned
+    ///         along with a boolean indicating if the paginate operation should continue.
+    public func searchAvailablePhoneNumbersPaginator<Result>(
+        _ input: SearchAvailablePhoneNumbersRequest,
+        _ initialValue: Result,
+        logger: Logger = AWSClient.loggingDisabled,
+        on eventLoop: EventLoop? = nil,
+        onPage: @escaping (Result, SearchAvailablePhoneNumbersResponse, EventLoop) -> EventLoopFuture<(Bool, Result)>
+    ) -> EventLoopFuture<Result> {
+        return client.paginate(
+            input: input,
+            initialValue: initialValue,
+            command: searchAvailablePhoneNumbers,
+            inputKey: \SearchAvailablePhoneNumbersRequest.nextToken,
+            outputKey: \SearchAvailablePhoneNumbersResponse.nextToken,
+            on: eventLoop,
+            onPage: onPage
+        )
+    }
+
+    /// Provide paginated results to closure `onPage`.
+    ///
+    /// - Parameters:
+    ///   - input: Input for request
+    ///   - logger: Logger used for logging output
+    ///   - eventLoop: EventLoop to run this process on
+    ///   - onPage: closure called with each block of entries. Returns boolean indicating whether we should continue.
+    public func searchAvailablePhoneNumbersPaginator(
+        _ input: SearchAvailablePhoneNumbersRequest,
+        logger: Logger = AWSClient.loggingDisabled,
+        on eventLoop: EventLoop? = nil,
+        onPage: @escaping (SearchAvailablePhoneNumbersResponse, EventLoop) -> EventLoopFuture<Bool>
+    ) -> EventLoopFuture<Void> {
+        return client.paginate(
+            input: input,
+            command: searchAvailablePhoneNumbers,
+            inputKey: \SearchAvailablePhoneNumbersRequest.nextToken,
+            outputKey: \SearchAvailablePhoneNumbersResponse.nextToken,
+            on: eventLoop,
+            onPage: onPage
+        )
+    }
+
+    ///  Searches users in an Amazon Connect instance, with optional filtering.
+    ///
+    /// Provide paginated results to closure `onPage` for it to combine them into one result.
+    /// This works in a similar manner to `Array.reduce<Result>(_:_:) -> Result`.
+    ///
+    /// Parameters:
+    ///   - input: Input for request
+    ///   - initialValue: The value to use as the initial accumulating value. `initialValue` is passed to `onPage` the first time it is called.
+    ///   - logger: Logger used for logging output
+    ///   - eventLoop: EventLoop to run this process on
+    ///   - onPage: closure called with each paginated response. It combines an accumulating result with the contents of response. This combined result is then returned
+    ///         along with a boolean indicating if the paginate operation should continue.
+    public func searchUsersPaginator<Result>(
+        _ input: SearchUsersRequest,
+        _ initialValue: Result,
+        logger: Logger = AWSClient.loggingDisabled,
+        on eventLoop: EventLoop? = nil,
+        onPage: @escaping (Result, SearchUsersResponse, EventLoop) -> EventLoopFuture<(Bool, Result)>
+    ) -> EventLoopFuture<Result> {
+        return client.paginate(
+            input: input,
+            initialValue: initialValue,
+            command: searchUsers,
+            inputKey: \SearchUsersRequest.nextToken,
+            outputKey: \SearchUsersResponse.nextToken,
+            on: eventLoop,
+            onPage: onPage
+        )
+    }
+
+    /// Provide paginated results to closure `onPage`.
+    ///
+    /// - Parameters:
+    ///   - input: Input for request
+    ///   - logger: Logger used for logging output
+    ///   - eventLoop: EventLoop to run this process on
+    ///   - onPage: closure called with each block of entries. Returns boolean indicating whether we should continue.
+    public func searchUsersPaginator(
+        _ input: SearchUsersRequest,
+        logger: Logger = AWSClient.loggingDisabled,
+        on eventLoop: EventLoop? = nil,
+        onPage: @escaping (SearchUsersResponse, EventLoop) -> EventLoopFuture<Bool>
+    ) -> EventLoopFuture<Void> {
+        return client.paginate(
+            input: input,
+            command: searchUsers,
+            inputKey: \SearchUsersRequest.nextToken,
+            outputKey: \SearchUsersResponse.nextToken,
+            on: eventLoop,
+            onPage: onPage
+        )
+    }
+
+    ///  Searches for vocabularies within a specific Amazon Connect instance using State, NameStartsWith, and LanguageCode.
+    ///
+    /// Provide paginated results to closure `onPage` for it to combine them into one result.
+    /// This works in a similar manner to `Array.reduce<Result>(_:_:) -> Result`.
+    ///
+    /// Parameters:
+    ///   - input: Input for request
+    ///   - initialValue: The value to use as the initial accumulating value. `initialValue` is passed to `onPage` the first time it is called.
+    ///   - logger: Logger used for logging output
+    ///   - eventLoop: EventLoop to run this process on
+    ///   - onPage: closure called with each paginated response. It combines an accumulating result with the contents of response. This combined result is then returned
+    ///         along with a boolean indicating if the paginate operation should continue.
+    public func searchVocabulariesPaginator<Result>(
+        _ input: SearchVocabulariesRequest,
+        _ initialValue: Result,
+        logger: Logger = AWSClient.loggingDisabled,
+        on eventLoop: EventLoop? = nil,
+        onPage: @escaping (Result, SearchVocabulariesResponse, EventLoop) -> EventLoopFuture<(Bool, Result)>
+    ) -> EventLoopFuture<Result> {
+        return client.paginate(
+            input: input,
+            initialValue: initialValue,
+            command: searchVocabularies,
+            inputKey: \SearchVocabulariesRequest.nextToken,
+            outputKey: \SearchVocabulariesResponse.nextToken,
+            on: eventLoop,
+            onPage: onPage
+        )
+    }
+
+    /// Provide paginated results to closure `onPage`.
+    ///
+    /// - Parameters:
+    ///   - input: Input for request
+    ///   - logger: Logger used for logging output
+    ///   - eventLoop: EventLoop to run this process on
+    ///   - onPage: closure called with each block of entries. Returns boolean indicating whether we should continue.
+    public func searchVocabulariesPaginator(
+        _ input: SearchVocabulariesRequest,
+        logger: Logger = AWSClient.loggingDisabled,
+        on eventLoop: EventLoop? = nil,
+        onPage: @escaping (SearchVocabulariesResponse, EventLoop) -> EventLoopFuture<Bool>
+    ) -> EventLoopFuture<Void> {
+        return client.paginate(
+            input: input,
+            command: searchVocabularies,
+            inputKey: \SearchVocabulariesRequest.nextToken,
+            outputKey: \SearchVocabulariesResponse.nextToken,
+            on: eventLoop,
+            onPage: onPage
+        )
+    }
 }
 
 extension Connect.GetCurrentMetricDataRequest: AWSPaginateToken {
@@ -1597,6 +1862,17 @@ extension Connect.ListContactReferencesRequest: AWSPaginateToken {
     }
 }
 
+extension Connect.ListDefaultVocabulariesRequest: AWSPaginateToken {
+    public func usingPaginationToken(_ token: String) -> Connect.ListDefaultVocabulariesRequest {
+        return .init(
+            instanceId: self.instanceId,
+            languageCode: self.languageCode,
+            maxResults: self.maxResults,
+            nextToken: token
+        )
+    }
+}
+
 extension Connect.ListHoursOfOperationsRequest: AWSPaginateToken {
     public func usingPaginationToken(_ token: String) -> Connect.ListHoursOfOperationsRequest {
         return .init(
@@ -1676,6 +1952,19 @@ extension Connect.ListPhoneNumbersRequest: AWSPaginateToken {
             nextToken: token,
             phoneNumberCountryCodes: self.phoneNumberCountryCodes,
             phoneNumberTypes: self.phoneNumberTypes
+        )
+    }
+}
+
+extension Connect.ListPhoneNumbersV2Request: AWSPaginateToken {
+    public func usingPaginationToken(_ token: String) -> Connect.ListPhoneNumbersV2Request {
+        return .init(
+            maxResults: self.maxResults,
+            nextToken: token,
+            phoneNumberCountryCodes: self.phoneNumberCountryCodes,
+            phoneNumberPrefix: self.phoneNumberPrefix,
+            phoneNumberTypes: self.phoneNumberTypes,
+            targetArn: self.targetArn
         )
     }
 }
@@ -1802,6 +2091,44 @@ extension Connect.ListUsersRequest: AWSPaginateToken {
             instanceId: self.instanceId,
             maxResults: self.maxResults,
             nextToken: token
+        )
+    }
+}
+
+extension Connect.SearchAvailablePhoneNumbersRequest: AWSPaginateToken {
+    public func usingPaginationToken(_ token: String) -> Connect.SearchAvailablePhoneNumbersRequest {
+        return .init(
+            maxResults: self.maxResults,
+            nextToken: token,
+            phoneNumberCountryCode: self.phoneNumberCountryCode,
+            phoneNumberPrefix: self.phoneNumberPrefix,
+            phoneNumberType: self.phoneNumberType,
+            targetArn: self.targetArn
+        )
+    }
+}
+
+extension Connect.SearchUsersRequest: AWSPaginateToken {
+    public func usingPaginationToken(_ token: String) -> Connect.SearchUsersRequest {
+        return .init(
+            instanceId: self.instanceId,
+            maxResults: self.maxResults,
+            nextToken: token,
+            searchCriteria: self.searchCriteria,
+            searchFilter: self.searchFilter
+        )
+    }
+}
+
+extension Connect.SearchVocabulariesRequest: AWSPaginateToken {
+    public func usingPaginationToken(_ token: String) -> Connect.SearchVocabulariesRequest {
+        return .init(
+            instanceId: self.instanceId,
+            languageCode: self.languageCode,
+            maxResults: self.maxResults,
+            nameStartsWith: self.nameStartsWith,
+            nextToken: token,
+            state: self.state
         )
     }
 }

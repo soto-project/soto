@@ -96,7 +96,7 @@ public struct ConfigServiceErrorType: AWSErrorType {
     public static var conformancePackTemplateValidationException: Self { .init(.conformancePackTemplateValidationException) }
     /// Your Amazon S3 bucket policy does not permit Config to write to it.
     public static var insufficientDeliveryPolicyException: Self { .init(.insufficientDeliveryPolicyException) }
-    /// Indicates one of the following errors:   For PutConfigRule, the rule cannot be created because the IAM role assigned to Config lacks permissions to perform the config:Put* action.   For PutConfigRule, the Lambda function cannot be invoked. Check the function ARN, and check the function's permissions.   For PutOrganizationConfigRule, organization config rule cannot be created because you do not have permissions to call IAM GetRole action or create a service linked role.   For PutConformancePack and PutOrganizationConformancePack, a conformance pack cannot be created because you do not have permissions:    To call IAM GetRole action or create a service linked role.   To read Amazon S3 bucket.
+    /// Indicates one of the following errors:   For PutConfigRule, the rule cannot be created because the IAM role assigned to Config lacks permissions to perform the config:Put* action.   For PutConfigRule, the Lambda function cannot be invoked. Check the function ARN, and check the function's permissions.   For PutOrganizationConfigRule, organization Config rule cannot be created because you do not have permissions to call IAM GetRole action or create a service linked role.   For PutConformancePack and PutOrganizationConformancePack, a conformance pack cannot be created because you do not have permissions:    To call IAM GetRole action or create a service linked role.   To read Amazon S3 bucket.
     public static var insufficientPermissionsException: Self { .init(.insufficientPermissionsException) }
     /// You have provided a configuration recorder name that is not valid.
     public static var invalidConfigurationRecorderNameException: Self { .init(.invalidConfigurationRecorderNameException) }
@@ -138,7 +138,7 @@ public struct ConfigServiceErrorType: AWSErrorType {
     public static var maxNumberOfConformancePacksExceededException: Self { .init(.maxNumberOfConformancePacksExceededException) }
     /// You have reached the limit of the number of delivery channels you can create.
     public static var maxNumberOfDeliveryChannelsExceededException: Self { .init(.maxNumberOfDeliveryChannelsExceededException) }
-    /// You have reached the limit of the number of organization config rules you can create.
+    /// You have reached the limit of the number of organization Config rules you can create.
     public static var maxNumberOfOrganizationConfigRulesExceededException: Self { .init(.maxNumberOfOrganizationConfigRulesExceededException) }
     /// You have reached the limit (6) of the number of organization conformance packs in an account (6 conformance pack with 25 Config rules per pack per account).
     public static var maxNumberOfOrganizationConformancePacksExceededException: Self { .init(.maxNumberOfOrganizationConformancePacksExceededException) }
@@ -154,7 +154,7 @@ public struct ConfigServiceErrorType: AWSErrorType {
     public static var noRunningConfigurationRecorderException: Self { .init(.noRunningConfigurationRecorderException) }
     /// The specified Amazon S3 bucket does not exist.
     public static var noSuchBucketException: Self { .init(.noSuchBucketException) }
-    /// One or more Config rules in the request are invalid. Verify that the rule names are correct and try again.
+    /// The Config rule in the request is not valid. Verify that the rule is an Config Custom Policy rule, that the rule name is correct, and that valid Amazon Resouce Names (ARNs) are used before trying again.
     public static var noSuchConfigRuleException: Self { .init(.noSuchConfigRuleException) }
     /// Config rule that you passed in the filter does not exist.
     public static var noSuchConfigRuleInConformancePackException: Self { .init(.noSuchConfigRuleInConformancePackException) }
@@ -166,7 +166,7 @@ public struct ConfigServiceErrorType: AWSErrorType {
     public static var noSuchConformancePackException: Self { .init(.noSuchConformancePackException) }
     /// You have specified a delivery channel that does not exist.
     public static var noSuchDeliveryChannelException: Self { .init(.noSuchDeliveryChannelException) }
-    /// You specified one or more organization config rules that do not exist.
+    /// The Config rule in the request is not valid. Verify that the rule is an organization Config Custom Policy rule, that the rule name is correct, and that valid Amazon Resouce Names (ARNs) are used before trying again.
     public static var noSuchOrganizationConfigRuleException: Self { .init(.noSuchOrganizationConfigRuleException) }
     /// Config organization conformance pack that you passed in the filter does not exist. For DeleteOrganizationConformancePack, you tried to delete an organization conformance pack that does not exist.
     public static var noSuchOrganizationConformancePackException: Self { .init(.noSuchOrganizationConformancePackException) }
@@ -188,7 +188,7 @@ public struct ConfigServiceErrorType: AWSErrorType {
     public static var remediationInProgressException: Self { .init(.remediationInProgressException) }
     /// Two users are trying to modify the same query at the same time. Wait for a moment and try again.
     public static var resourceConcurrentModificationException: Self { .init(.resourceConcurrentModificationException) }
-    /// You see this exception in the following cases:    For DeleteConfigRule, Config is deleting this rule. Try your request again later.   For DeleteConfigRule, the rule is deleting your evaluation results. Try your request again later.   For DeleteConfigRule, a remediation action is associated with the rule and Config cannot delete this rule. Delete the remediation action associated with the rule before deleting the rule and try your request again later.   For PutConfigOrganizationRule, organization config rule deletion is in progress. Try your request again later.   For DeleteOrganizationConfigRule, organization config rule creation is in progress. Try your request again later.   For PutConformancePack and PutOrganizationConformancePack, a conformance pack creation, update, and deletion is in progress. Try your request again later.   For DeleteConformancePack, a conformance pack creation, update, and deletion is in progress. Try your request again later.
+    /// You see this exception in the following cases:    For DeleteConfigRule, Config is deleting this rule. Try your request again later.   For DeleteConfigRule, the rule is deleting your evaluation results. Try your request again later.   For DeleteConfigRule, a remediation action is associated with the rule and Config cannot delete this rule. Delete the remediation action associated with the rule before deleting the rule and try your request again later.   For PutConfigOrganizationRule, organization Config rule deletion is in progress. Try your request again later.   For DeleteOrganizationConfigRule, organization Config rule creation is in progress. Try your request again later.   For PutConformancePack and PutOrganizationConformancePack, a conformance pack creation, update, and deletion is in progress. Try your request again later.   For DeleteConformancePack, a conformance pack creation, update, and deletion is in progress. Try your request again later.
     public static var resourceInUseException: Self { .init(.resourceInUseException) }
     /// You have specified a resource that is either unknown or has not been discovered.
     public static var resourceNotDiscoveredException: Self { .init(.resourceNotDiscoveredException) }

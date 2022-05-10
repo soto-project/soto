@@ -973,6 +973,58 @@ extension Glue {
         )
     }
 
+    ///
+    /// Provide paginated results to closure `onPage` for it to combine them into one result.
+    /// This works in a similar manner to `Array.reduce<Result>(_:_:) -> Result`.
+    ///
+    /// Parameters:
+    ///   - input: Input for request
+    ///   - initialValue: The value to use as the initial accumulating value. `initialValue` is passed to `onPage` the first time it is called.
+    ///   - logger: Logger used for logging output
+    ///   - eventLoop: EventLoop to run this process on
+    ///   - onPage: closure called with each paginated response. It combines an accumulating result with the contents of response. This combined result is then returned
+    ///         along with a boolean indicating if the paginate operation should continue.
+    public func getUnfilteredPartitionsMetadataPaginator<Result>(
+        _ input: GetUnfilteredPartitionsMetadataRequest,
+        _ initialValue: Result,
+        logger: Logger = AWSClient.loggingDisabled,
+        on eventLoop: EventLoop? = nil,
+        onPage: @escaping (Result, GetUnfilteredPartitionsMetadataResponse, EventLoop) -> EventLoopFuture<(Bool, Result)>
+    ) -> EventLoopFuture<Result> {
+        return client.paginate(
+            input: input,
+            initialValue: initialValue,
+            command: getUnfilteredPartitionsMetadata,
+            inputKey: \GetUnfilteredPartitionsMetadataRequest.nextToken,
+            outputKey: \GetUnfilteredPartitionsMetadataResponse.nextToken,
+            on: eventLoop,
+            onPage: onPage
+        )
+    }
+
+    /// Provide paginated results to closure `onPage`.
+    ///
+    /// - Parameters:
+    ///   - input: Input for request
+    ///   - logger: Logger used for logging output
+    ///   - eventLoop: EventLoop to run this process on
+    ///   - onPage: closure called with each block of entries. Returns boolean indicating whether we should continue.
+    public func getUnfilteredPartitionsMetadataPaginator(
+        _ input: GetUnfilteredPartitionsMetadataRequest,
+        logger: Logger = AWSClient.loggingDisabled,
+        on eventLoop: EventLoop? = nil,
+        onPage: @escaping (GetUnfilteredPartitionsMetadataResponse, EventLoop) -> EventLoopFuture<Bool>
+    ) -> EventLoopFuture<Void> {
+        return client.paginate(
+            input: input,
+            command: getUnfilteredPartitionsMetadata,
+            inputKey: \GetUnfilteredPartitionsMetadataRequest.nextToken,
+            outputKey: \GetUnfilteredPartitionsMetadataResponse.nextToken,
+            on: eventLoop,
+            onPage: onPage
+        )
+    }
+
     ///  Retrieves multiple function definitions from the Data Catalog.
     ///
     /// Provide paginated results to closure `onPage` for it to combine them into one result.
@@ -1180,6 +1232,59 @@ extension Glue {
             command: listCrawlers,
             inputKey: \ListCrawlersRequest.nextToken,
             outputKey: \ListCrawlersResponse.nextToken,
+            on: eventLoop,
+            onPage: onPage
+        )
+    }
+
+    ///  Lists all the custom patterns that have been created.
+    ///
+    /// Provide paginated results to closure `onPage` for it to combine them into one result.
+    /// This works in a similar manner to `Array.reduce<Result>(_:_:) -> Result`.
+    ///
+    /// Parameters:
+    ///   - input: Input for request
+    ///   - initialValue: The value to use as the initial accumulating value. `initialValue` is passed to `onPage` the first time it is called.
+    ///   - logger: Logger used for logging output
+    ///   - eventLoop: EventLoop to run this process on
+    ///   - onPage: closure called with each paginated response. It combines an accumulating result with the contents of response. This combined result is then returned
+    ///         along with a boolean indicating if the paginate operation should continue.
+    public func listCustomEntityTypesPaginator<Result>(
+        _ input: ListCustomEntityTypesRequest,
+        _ initialValue: Result,
+        logger: Logger = AWSClient.loggingDisabled,
+        on eventLoop: EventLoop? = nil,
+        onPage: @escaping (Result, ListCustomEntityTypesResponse, EventLoop) -> EventLoopFuture<(Bool, Result)>
+    ) -> EventLoopFuture<Result> {
+        return client.paginate(
+            input: input,
+            initialValue: initialValue,
+            command: listCustomEntityTypes,
+            inputKey: \ListCustomEntityTypesRequest.nextToken,
+            outputKey: \ListCustomEntityTypesResponse.nextToken,
+            on: eventLoop,
+            onPage: onPage
+        )
+    }
+
+    /// Provide paginated results to closure `onPage`.
+    ///
+    /// - Parameters:
+    ///   - input: Input for request
+    ///   - logger: Logger used for logging output
+    ///   - eventLoop: EventLoop to run this process on
+    ///   - onPage: closure called with each block of entries. Returns boolean indicating whether we should continue.
+    public func listCustomEntityTypesPaginator(
+        _ input: ListCustomEntityTypesRequest,
+        logger: Logger = AWSClient.loggingDisabled,
+        on eventLoop: EventLoop? = nil,
+        onPage: @escaping (ListCustomEntityTypesResponse, EventLoop) -> EventLoopFuture<Bool>
+    ) -> EventLoopFuture<Void> {
+        return client.paginate(
+            input: input,
+            command: listCustomEntityTypes,
+            inputKey: \ListCustomEntityTypesRequest.nextToken,
+            outputKey: \ListCustomEntityTypesResponse.nextToken,
             on: eventLoop,
             onPage: onPage
         )
@@ -1498,6 +1603,59 @@ extension Glue {
             command: listSchemas,
             inputKey: \ListSchemasInput.nextToken,
             outputKey: \ListSchemasResponse.nextToken,
+            on: eventLoop,
+            onPage: onPage
+        )
+    }
+
+    ///  Retrieve a session..
+    ///
+    /// Provide paginated results to closure `onPage` for it to combine them into one result.
+    /// This works in a similar manner to `Array.reduce<Result>(_:_:) -> Result`.
+    ///
+    /// Parameters:
+    ///   - input: Input for request
+    ///   - initialValue: The value to use as the initial accumulating value. `initialValue` is passed to `onPage` the first time it is called.
+    ///   - logger: Logger used for logging output
+    ///   - eventLoop: EventLoop to run this process on
+    ///   - onPage: closure called with each paginated response. It combines an accumulating result with the contents of response. This combined result is then returned
+    ///         along with a boolean indicating if the paginate operation should continue.
+    public func listSessionsPaginator<Result>(
+        _ input: ListSessionsRequest,
+        _ initialValue: Result,
+        logger: Logger = AWSClient.loggingDisabled,
+        on eventLoop: EventLoop? = nil,
+        onPage: @escaping (Result, ListSessionsResponse, EventLoop) -> EventLoopFuture<(Bool, Result)>
+    ) -> EventLoopFuture<Result> {
+        return client.paginate(
+            input: input,
+            initialValue: initialValue,
+            command: listSessions,
+            inputKey: \ListSessionsRequest.nextToken,
+            outputKey: \ListSessionsResponse.nextToken,
+            on: eventLoop,
+            onPage: onPage
+        )
+    }
+
+    /// Provide paginated results to closure `onPage`.
+    ///
+    /// - Parameters:
+    ///   - input: Input for request
+    ///   - logger: Logger used for logging output
+    ///   - eventLoop: EventLoop to run this process on
+    ///   - onPage: closure called with each block of entries. Returns boolean indicating whether we should continue.
+    public func listSessionsPaginator(
+        _ input: ListSessionsRequest,
+        logger: Logger = AWSClient.loggingDisabled,
+        on eventLoop: EventLoop? = nil,
+        onPage: @escaping (ListSessionsResponse, EventLoop) -> EventLoopFuture<Bool>
+    ) -> EventLoopFuture<Void> {
+        return client.paginate(
+            input: input,
+            command: listSessions,
+            inputKey: \ListSessionsRequest.nextToken,
+            outputKey: \ListSessionsResponse.nextToken,
             on: eventLoop,
             onPage: onPage
         )
@@ -1857,6 +2015,22 @@ extension Glue.GetTriggersRequest: AWSPaginateToken {
     }
 }
 
+extension Glue.GetUnfilteredPartitionsMetadataRequest: AWSPaginateToken {
+    public func usingPaginationToken(_ token: String) -> Glue.GetUnfilteredPartitionsMetadataRequest {
+        return .init(
+            auditContext: self.auditContext,
+            catalogId: self.catalogId,
+            databaseName: self.databaseName,
+            expression: self.expression,
+            maxResults: self.maxResults,
+            nextToken: token,
+            segment: self.segment,
+            supportedPermissionTypes: self.supportedPermissionTypes,
+            tableName: self.tableName
+        )
+    }
+}
+
 extension Glue.GetUserDefinedFunctionsRequest: AWSPaginateToken {
     public func usingPaginationToken(_ token: String) -> Glue.GetUserDefinedFunctionsRequest {
         return .init(
@@ -1896,6 +2070,15 @@ extension Glue.ListCrawlersRequest: AWSPaginateToken {
             maxResults: self.maxResults,
             nextToken: token,
             tags: self.tags
+        )
+    }
+}
+
+extension Glue.ListCustomEntityTypesRequest: AWSPaginateToken {
+    public func usingPaginationToken(_ token: String) -> Glue.ListCustomEntityTypesRequest {
+        return .init(
+            maxResults: self.maxResults,
+            nextToken: token
         )
     }
 }
@@ -1957,6 +2140,17 @@ extension Glue.ListSchemasInput: AWSPaginateToken {
             maxResults: self.maxResults,
             nextToken: token,
             registryId: self.registryId
+        )
+    }
+}
+
+extension Glue.ListSessionsRequest: AWSPaginateToken {
+    public func usingPaginationToken(_ token: String) -> Glue.ListSessionsRequest {
+        return .init(
+            maxResults: self.maxResults,
+            nextToken: token,
+            requestOrigin: self.requestOrigin,
+            tags: self.tags
         )
     }
 }

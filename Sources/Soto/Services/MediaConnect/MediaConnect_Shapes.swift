@@ -76,6 +76,17 @@ extension MediaConnect {
         public var description: String { return self.rawValue }
     }
 
+    public enum MaintenanceDay: String, CustomStringConvertible, Codable {
+        case friday = "Friday"
+        case monday = "Monday"
+        case saturday = "Saturday"
+        case sunday = "Sunday"
+        case thursday = "Thursday"
+        case tuesday = "Tuesday"
+        case wednesday = "Wednesday"
+        public var description: String { return self.rawValue }
+    }
+
     public enum MediaStreamType: String, CustomStringConvertible, Codable {
         case ancillaryData = "ancillary-data"
         case audio
@@ -316,6 +327,23 @@ extension MediaConnect {
         }
     }
 
+    public struct AddMaintenance: AWSEncodableShape {
+        /// A day of a week when the maintenance will happen. Use Monday/Tuesday/Wednesday/Thursday/Friday/Saturday/Sunday.
+        public let maintenanceDay: MaintenanceDay
+        /// UTC time when the maintenance will happen. Use 24-hour HH:MM format. Minutes must be 00. Example: 13:00. The default value is 02:00.
+        public let maintenanceStartHour: String
+
+        public init(maintenanceDay: MaintenanceDay, maintenanceStartHour: String) {
+            self.maintenanceDay = maintenanceDay
+            self.maintenanceStartHour = maintenanceStartHour
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case maintenanceDay
+            case maintenanceStartHour
+        }
+    }
+
     public struct AddMediaStreamRequest: AWSEncodableShape {
         /// The attributes that you want to assign to the new media stream.
         public let attributes: MediaStreamAttributesRequest?
@@ -427,6 +455,7 @@ extension MediaConnect {
         public let availabilityZone: String?
         /// The entitlements that you want to grant on a flow.
         public let entitlements: [GrantEntitlementRequest]?
+        public let maintenance: AddMaintenance?
         /// The media streams that you want to add to the flow. You can associate these media streams with sources and outputs on the flow.
         public let mediaStreams: [AddMediaStreamRequest]?
         /// The name of the flow.
@@ -439,9 +468,10 @@ extension MediaConnect {
         /// The VPC interfaces you want on the flow.
         public let vpcInterfaces: [VpcInterfaceRequest]?
 
-        public init(availabilityZone: String? = nil, entitlements: [GrantEntitlementRequest]? = nil, mediaStreams: [AddMediaStreamRequest]? = nil, name: String, outputs: [AddOutputRequest]? = nil, source: SetSourceRequest? = nil, sourceFailoverConfig: FailoverConfig? = nil, sources: [SetSourceRequest]? = nil, vpcInterfaces: [VpcInterfaceRequest]? = nil) {
+        public init(availabilityZone: String? = nil, entitlements: [GrantEntitlementRequest]? = nil, maintenance: AddMaintenance? = nil, mediaStreams: [AddMediaStreamRequest]? = nil, name: String, outputs: [AddOutputRequest]? = nil, source: SetSourceRequest? = nil, sourceFailoverConfig: FailoverConfig? = nil, sources: [SetSourceRequest]? = nil, vpcInterfaces: [VpcInterfaceRequest]? = nil) {
             self.availabilityZone = availabilityZone
             self.entitlements = entitlements
+            self.maintenance = maintenance
             self.mediaStreams = mediaStreams
             self.name = name
             self.outputs = outputs
@@ -454,6 +484,7 @@ extension MediaConnect {
         private enum CodingKeys: String, CodingKey {
             case availabilityZone
             case entitlements
+            case maintenance
             case mediaStreams
             case name
             case outputs
@@ -785,6 +816,7 @@ extension MediaConnect {
         public let entitlements: [Entitlement]
         /// The Amazon Resource Name (ARN), a unique identifier for any AWS resource, of the flow.
         public let flowArn: String
+        public let maintenance: Maintenance?
         /// The media streams that are associated with the flow. After you associate a media stream with a source, you can also associate it with outputs on the flow.
         public let mediaStreams: [MediaStream]?
         /// The name of the flow.
@@ -799,12 +831,13 @@ extension MediaConnect {
         /// The VPC Interfaces for this flow.
         public let vpcInterfaces: [VpcInterface]?
 
-        public init(availabilityZone: String, description: String? = nil, egressIp: String? = nil, entitlements: [Entitlement], flowArn: String, mediaStreams: [MediaStream]? = nil, name: String, outputs: [Output], source: Source, sourceFailoverConfig: FailoverConfig? = nil, sources: [Source]? = nil, status: Status, vpcInterfaces: [VpcInterface]? = nil) {
+        public init(availabilityZone: String, description: String? = nil, egressIp: String? = nil, entitlements: [Entitlement], flowArn: String, maintenance: Maintenance? = nil, mediaStreams: [MediaStream]? = nil, name: String, outputs: [Output], source: Source, sourceFailoverConfig: FailoverConfig? = nil, sources: [Source]? = nil, status: Status, vpcInterfaces: [VpcInterface]? = nil) {
             self.availabilityZone = availabilityZone
             self.description = description
             self.egressIp = egressIp
             self.entitlements = entitlements
             self.flowArn = flowArn
+            self.maintenance = maintenance
             self.mediaStreams = mediaStreams
             self.name = name
             self.outputs = outputs
@@ -821,6 +854,7 @@ extension MediaConnect {
             case egressIp
             case entitlements
             case flowArn
+            case maintenance
             case mediaStreams
             case name
             case outputs
@@ -1250,6 +1284,7 @@ extension MediaConnect {
         public let description: String
         /// The ARN of the flow.
         public let flowArn: String
+        public let maintenance: Maintenance?
         /// The name of the flow.
         public let name: String
         /// The type of source. This value is either owned (originated somewhere other than an AWS Elemental MediaConnect flow owned by another AWS account) or entitled (originated at an AWS Elemental MediaConnect flow owned by another AWS account).
@@ -1257,10 +1292,11 @@ extension MediaConnect {
         /// The current status of the flow.
         public let status: Status
 
-        public init(availabilityZone: String, description: String, flowArn: String, name: String, sourceType: SourceType, status: Status) {
+        public init(availabilityZone: String, description: String, flowArn: String, maintenance: Maintenance? = nil, name: String, sourceType: SourceType, status: Status) {
             self.availabilityZone = availabilityZone
             self.description = description
             self.flowArn = flowArn
+            self.maintenance = maintenance
             self.name = name
             self.sourceType = sourceType
             self.status = status
@@ -1270,9 +1306,35 @@ extension MediaConnect {
             case availabilityZone
             case description
             case flowArn
+            case maintenance
             case name
             case sourceType
             case status
+        }
+    }
+
+    public struct Maintenance: AWSDecodableShape {
+        /// A day of a week when the maintenance will happen. Use Monday/Tuesday/Wednesday/Thursday/Friday/Saturday/Sunday.
+        public let maintenanceDay: MaintenanceDay?
+        /// The Maintenance has to be performed before this deadline in ISO UTC format. Example: 2021-01-30T08:30:00Z.
+        public let maintenanceDeadline: String?
+        /// A scheduled date in ISO UTC format when the maintenance will happen. Use YYYY-MM-DD format. Example: 2021-01-30.
+        public let maintenanceScheduledDate: String?
+        /// UTC time when the maintenance will happen. Use 24-hour HH:MM format. Minutes must be 00. Example: 13:00. The default value is 02:00.
+        public let maintenanceStartHour: String?
+
+        public init(maintenanceDay: MaintenanceDay? = nil, maintenanceDeadline: String? = nil, maintenanceScheduledDate: String? = nil, maintenanceStartHour: String? = nil) {
+            self.maintenanceDay = maintenanceDay
+            self.maintenanceDeadline = maintenanceDeadline
+            self.maintenanceScheduledDate = maintenanceScheduledDate
+            self.maintenanceStartHour = maintenanceStartHour
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case maintenanceDay
+            case maintenanceDeadline
+            case maintenanceScheduledDate
+            case maintenanceStartHour
         }
     }
 
@@ -2423,14 +2485,17 @@ extension MediaConnect {
         ]
 
         public let flowArn: String
+        public let maintenance: UpdateMaintenance?
         public let sourceFailoverConfig: UpdateFailoverConfig?
 
-        public init(flowArn: String, sourceFailoverConfig: UpdateFailoverConfig? = nil) {
+        public init(flowArn: String, maintenance: UpdateMaintenance? = nil, sourceFailoverConfig: UpdateFailoverConfig? = nil) {
             self.flowArn = flowArn
+            self.maintenance = maintenance
             self.sourceFailoverConfig = sourceFailoverConfig
         }
 
         private enum CodingKeys: String, CodingKey {
+            case maintenance
             case sourceFailoverConfig
         }
     }
@@ -2538,6 +2603,27 @@ extension MediaConnect {
         private enum CodingKeys: String, CodingKey {
             case flowArn
             case source
+        }
+    }
+
+    public struct UpdateMaintenance: AWSEncodableShape {
+        /// A day of a week when the maintenance will happen. use Monday/Tuesday/Wednesday/Thursday/Friday/Saturday/Sunday.
+        public let maintenanceDay: MaintenanceDay?
+        /// A scheduled date in ISO UTC format when the maintenance will happen. Use YYYY-MM-DD format. Example: 2021-01-30.
+        public let maintenanceScheduledDate: String?
+        /// UTC time when the maintenance will happen. Use 24-hour HH:MM format. Minutes must be 00. Example: 13:00. The default value is 02:00.
+        public let maintenanceStartHour: String?
+
+        public init(maintenanceDay: MaintenanceDay? = nil, maintenanceScheduledDate: String? = nil, maintenanceStartHour: String? = nil) {
+            self.maintenanceDay = maintenanceDay
+            self.maintenanceScheduledDate = maintenanceScheduledDate
+            self.maintenanceStartHour = maintenanceStartHour
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case maintenanceDay
+            case maintenanceScheduledDate
+            case maintenanceStartHour
         }
     }
 

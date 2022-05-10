@@ -761,7 +761,7 @@ extension Backup {
         )
     }
 
-    ///  Returns a list of key-value pairs assigned to a target recovery point, backup plan, or backup vault.   ListTags are currently only supported with Amazon EFS backups.
+    ///  Returns a list of key-value pairs assigned to a target recovery point, backup plan, or backup vault.  ListTags only works for resource types that support full Backup management of their backups. Those resource types are listed in the "Full Backup management" section of the  Feature availability by resource table.
     ///
     /// Provide paginated results to closure `onPage` for it to combine them into one result.
     /// This works in a similar manner to `Array.reduce<Result>(_:_:) -> Result`.
@@ -820,6 +820,8 @@ extension Backup.ListBackupJobsInput: AWSPaginateToken {
         return .init(
             byAccountId: self.byAccountId,
             byBackupVaultName: self.byBackupVaultName,
+            byCompleteAfter: self.byCompleteAfter,
+            byCompleteBefore: self.byCompleteBefore,
             byCreatedAfter: self.byCreatedAfter,
             byCreatedBefore: self.byCreatedBefore,
             byResourceArn: self.byResourceArn,
@@ -883,6 +885,8 @@ extension Backup.ListCopyJobsInput: AWSPaginateToken {
     public func usingPaginationToken(_ token: String) -> Backup.ListCopyJobsInput {
         return .init(
             byAccountId: self.byAccountId,
+            byCompleteAfter: self.byCompleteAfter,
+            byCompleteBefore: self.byCompleteBefore,
             byCreatedAfter: self.byCreatedAfter,
             byCreatedBefore: self.byCreatedBefore,
             byDestinationVaultArn: self.byDestinationVaultArn,
@@ -964,6 +968,8 @@ extension Backup.ListRestoreJobsInput: AWSPaginateToken {
     public func usingPaginationToken(_ token: String) -> Backup.ListRestoreJobsInput {
         return .init(
             byAccountId: self.byAccountId,
+            byCompleteAfter: self.byCompleteAfter,
+            byCompleteBefore: self.byCompleteBefore,
             byCreatedAfter: self.byCreatedAfter,
             byCreatedBefore: self.byCreatedBefore,
             byStatus: self.byStatus,

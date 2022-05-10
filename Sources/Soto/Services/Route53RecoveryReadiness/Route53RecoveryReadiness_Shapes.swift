@@ -31,14 +31,15 @@ extension Route53RecoveryReadiness {
     // MARK: Shapes
 
     public struct CellOutput: AWSDecodableShape {
-        /// The arn for the Cell
+        /// The Amazon Resource Name (ARN) for the cell.
         public let cellArn: String
-        /// The name of the Cell
+        /// The name of the cell.
         public let cellName: String
-        /// A list of Cell arns
+        /// A list of cell ARNs.
         public let cells: [String]
-        /// A list of Cell ARNs and/or RecoveryGroup ARNs
+        /// The readiness scope for the cell, which can be a cell Amazon Resource Name (ARN) or a recovery group ARN. This is a list but currently can have only one element.
         public let parentReadinessScopes: [String]
+        /// Tags on the resources.
         public let tags: [String: String]?
 
         public init(cellArn: String, cellName: String, cells: [String], parentReadinessScopes: [String], tags: [String: String]? = nil) {
@@ -252,14 +253,15 @@ extension Route53RecoveryReadiness {
     }
 
     public struct DNSTargetResource: AWSEncodableShape & AWSDecodableShape {
-        /// The DNS Name that acts as ingress point to a portion of application
+        /// The domain name that acts as an ingress point to a portion of the customer application.
         public let domainName: String?
-        /// The Hosted Zone ARN that contains the DNS record with the provided name of target resource.
+        /// The hosted zone Amazon Resource Name (ARN) that contains the DNS record with the provided name of the target resource.
         public let hostedZoneArn: String?
-        /// The R53 Set Id to uniquely identify a record given a Name and a Type
+        /// The Route 53 record set ID that uniquely identifies a DNS record, given a name and a type.
         public let recordSetId: String?
-        /// The Type of DNS Record of target resource
+        /// The type of DNS record of the target resource.
         public let recordType: String?
+        /// The target resource of the DNS target resource.
         public let targetResource: TargetResource?
 
         public init(domainName: String? = nil, hostedZoneArn: String? = nil, recordSetId: String? = nil, recordType: String? = nil, targetResource: TargetResource? = nil) {
@@ -907,11 +909,11 @@ extension Route53RecoveryReadiness {
     }
 
     public struct ListRulesOutput: AWSDecodableShape {
-        /// The resource type the rule applies to.
+        /// The resource type that the readiness rule applies to.
         public let resourceType: String
-        /// A description of the rule
+        /// The description of a readiness rule.
         public let ruleDescription: String
-        /// The Rule's ID.
+        /// The ID for the readiness rule.
         public let ruleId: String
 
         public init(resourceType: String, ruleDescription: String, ruleId: String) {
@@ -994,7 +996,7 @@ extension Route53RecoveryReadiness {
     }
 
     public struct Message: AWSDecodableShape {
-        /// The text of a readiness check message
+        /// The text of a readiness check message.
         public let messageText: String?
 
         public init(messageText: String? = nil) {
@@ -1007,7 +1009,7 @@ extension Route53RecoveryReadiness {
     }
 
     public struct NLBResource: AWSEncodableShape & AWSDecodableShape {
-        /// An NLB resource arn
+        /// The Network Load Balancer resource Amazon Resource Name (ARN).
         public let arn: String?
 
         public init(arn: String? = nil) {
@@ -1020,9 +1022,9 @@ extension Route53RecoveryReadiness {
     }
 
     public struct R53ResourceRecord: AWSEncodableShape & AWSDecodableShape {
-        /// The DNS target name
+        /// The DNS target domain name.
         public let domainName: String?
-        /// The Resource Record set id
+        /// The Route 53 Resource Record Set ID.
         public let recordSetId: String?
 
         public init(domainName: String? = nil, recordSetId: String? = nil) {
@@ -1037,11 +1039,11 @@ extension Route53RecoveryReadiness {
     }
 
     public struct ReadinessCheckOutput: AWSDecodableShape {
-        /// Arn associated with ReadinessCheck
+        /// The Amazon Resource Name (ARN) associated with a readiness check.
         public let readinessCheckArn: String
-        /// Name for a ReadinessCheck
+        /// Name of a readiness check.
         public let readinessCheckName: String?
-        /// Name of the ResourceSet to be checked
+        /// Name of the resource set to be checked.
         public let resourceSet: String
         public let tags: [String: String]?
 
@@ -1061,9 +1063,9 @@ extension Route53RecoveryReadiness {
     }
 
     public struct ReadinessCheckSummary: AWSDecodableShape {
-        /// The readiness of this ReadinessCheck
+        /// The readiness status of this readiness check.
         public let readiness: Readiness?
-        /// The name of a ReadinessCheck which is part of the given RecoveryGroup or Cell
+        /// The name of a readiness check.
         public let readinessCheckName: String?
 
         public init(readiness: Readiness? = nil, readinessCheckName: String? = nil) {
@@ -1078,7 +1080,7 @@ extension Route53RecoveryReadiness {
     }
 
     public struct Recommendation: AWSDecodableShape {
-        /// Guidance text for recommendation
+        /// Text of the recommendations that are provided to make an application more recovery resilient.
         public let recommendationText: String
 
         public init(recommendationText: String) {
@@ -1091,12 +1093,13 @@ extension Route53RecoveryReadiness {
     }
 
     public struct RecoveryGroupOutput: AWSDecodableShape {
-        /// A list of Cell arns
+        /// A list of a cell's Amazon Resource Names (ARNs).
         public let cells: [String]
-        /// The arn for the RecoveryGroup
+        /// The Amazon Resource Name (ARN) for the recovery group.
         public let recoveryGroupArn: String
-        /// The name of the RecoveryGroup
+        /// The name of the recovery group.
         public let recoveryGroupName: String
+        /// The tags associated with the recovery group.
         public let tags: [String: String]?
 
         public init(cells: [String], recoveryGroupArn: String, recoveryGroupName: String, tags: [String: String]? = nil) {
@@ -1115,12 +1118,13 @@ extension Route53RecoveryReadiness {
     }
 
     public struct Resource: AWSEncodableShape & AWSDecodableShape {
-        /// The component id of the resource, generated by the service when dnsTargetResource is used
+        /// The component identifier of the resource, generated when DNS target resource is used.
         public let componentId: String?
+        /// The DNS target resource.
         public let dnsTargetResource: DNSTargetResource?
-        /// A list of RecoveryGroup ARNs and/or Cell ARNs that this resource is contained within.
+        /// A list of recovery group Amazon Resource Names (ARNs) and cell ARNs that this resource is contained within.
         public let readinessScopes: [String]?
-        /// The ARN of the AWS resource, can be skipped if dnsTargetResource is used
+        /// The Amazon Resource Name (ARN) of the Amazon Web Services resource.
         public let resourceArn: String?
 
         public init(componentId: String? = nil, dnsTargetResource: DNSTargetResource? = nil, readinessScopes: [String]? = nil, resourceArn: String? = nil) {
@@ -1139,14 +1143,14 @@ extension Route53RecoveryReadiness {
     }
 
     public struct ResourceResult: AWSDecodableShape {
-        /// The component id of the resource
+        /// The component id of the resource.
         public let componentId: String?
-        /// The time the resource was last checked for readiness, in ISO-8601 format, UTC.
+        /// The time (UTC) that the resource was last checked for readiness, in ISO-8601 format.
         @CustomCoding<ISO8601DateCoder>
         public var lastCheckedTimestamp: Date
-        /// The readiness of the resource.
+        /// The readiness of a resource.
         public let readiness: Readiness
-        /// The ARN of the resource
+        /// The Amazon Resource Name (ARN) of the resource.
         public let resourceArn: String?
 
         public init(componentId: String? = nil, lastCheckedTimestamp: Date, readiness: Readiness, resourceArn: String? = nil) {
@@ -1165,13 +1169,13 @@ extension Route53RecoveryReadiness {
     }
 
     public struct ResourceSetOutput: AWSDecodableShape {
-        /// A list of Resource objects
+        /// A list of resource objects.
         public let resources: [Resource]
-        /// The arn for the ResourceSet
+        /// The Amazon Resource Name (ARN) for the resource set.
         public let resourceSetArn: String
-        /// The name of the ResourceSet
+        /// The name of the resource set.
         public let resourceSetName: String
-        /// AWS Resource Type of the resources in the ResourceSet
+        /// The resource type of the resources in the resource set. Enter one of the following values for resource type: AWS::ApiGateway::Stage, AWS::ApiGatewayV2::Stage, AWS::AutoScaling::AutoScalingGroup, AWS::CloudWatch::Alarm, AWS::EC2::CustomerGateway, AWS::DynamoDB::Table, AWS::EC2::Volume, AWS::ElasticLoadBalancing::LoadBalancer, AWS::ElasticLoadBalancingV2::LoadBalancer, AWS::Lambda::Function, AWS::MSK::Cluster, AWS::RDS::DBCluster, AWS::Route53::HealthCheck, AWS::SQS::Queue, AWS::SNS::Topic, AWS::SNS::Subscription, AWS::EC2::VPC, AWS::EC2::VPNConnection, AWS::EC2::VPNGateway, AWS::Route53RecoveryReadiness::DNSTargetResource
         public let resourceSetType: String
         public let tags: [String: String]?
 
@@ -1196,7 +1200,7 @@ extension Route53RecoveryReadiness {
         /// The time the resource was last checked for readiness, in ISO-8601 format, UTC.
         @CustomCoding<ISO8601DateCoder>
         public var lastCheckedTimestamp: Date
-        /// Details about the resource's readiness
+        /// Details about the resource's readiness.
         public let messages: [Message]
         /// The readiness at rule level.
         public let readiness: Readiness
@@ -1241,7 +1245,9 @@ extension Route53RecoveryReadiness {
     }
 
     public struct TargetResource: AWSEncodableShape & AWSDecodableShape {
+        /// The Network Load Balancer Resource.
         public let nLBResource: NLBResource?
+        /// The Route 53 resource.
         public let r53Resource: R53ResourceRecord?
 
         public init(nLBResource: NLBResource? = nil, r53Resource: R53ResourceRecord? = nil) {
