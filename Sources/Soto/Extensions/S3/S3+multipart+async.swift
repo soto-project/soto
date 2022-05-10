@@ -14,7 +14,15 @@
 
 #if compiler(>=5.5.2) && canImport(_Concurrency)
 
-import NIO
+#if compiler(>=5.6)
+@preconcurrency import Logging
+@preconcurrency import NIOCore
+@preconcurrency import NIOPosix
+#else
+import Logging
+import NIOCore
+import NIOPosix
+#endif
 import SotoCore
 
 @available(macOS 10.15, iOS 13.0, tvOS 13.0, watchOS 6.0, *)
@@ -668,6 +676,12 @@ extension S3 {
 
 @available(macOS 10.15, iOS 13.0, tvOS 13.0, watchOS 6.0, *)
 extension Sequence {
+    #if compiler(>=5.6)
+    public typealias ConcurrentMapTransform<T> = @Sendable (Element) async throws -> T
+    #else
+    public typealias ConcurrentMapTransform<T> = (Element) async throws -> T
+    #endif
+
     /// Returns an array containing the results of mapping the given async closure over
     /// the sequence’s elements.
     ///
@@ -681,7 +695,7 @@ extension Sequence {
     ///     element of this sequence as its parameter and returns a transformed value of
     ///     the same or of a different type.
     /// - Returns: An array containing the transformed elements of this sequence.
-    public func concurrentMap<T>(priority: TaskPriority? = nil, _ transform: @escaping (Element) async throws -> T) async rethrows -> [T] {
+    public func concurrentMap<T: _SotoSendable>(priority: TaskPriority? = nil, _ transform: @escaping ConcurrentMapTransform<T>) async rethrows -> [T] where Element: _SotoSendable {
         try await withThrowingTaskGroup(of: (Int, T).self) { group in
             self.enumerated().forEach { element in
                 group.addTask(priority: priority) {
