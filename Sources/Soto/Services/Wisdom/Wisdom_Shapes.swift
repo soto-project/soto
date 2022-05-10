@@ -78,6 +78,23 @@ extension Wisdom {
         public var description: String { return self.rawValue }
     }
 
+    public enum RecommendationSourceType: String, CustomStringConvertible, Codable {
+        case issueDetection = "ISSUE_DETECTION"
+        case other = "OTHER"
+        case ruleEvaluation = "RULE_EVALUATION"
+        public var description: String { return self.rawValue }
+    }
+
+    public enum RecommendationTriggerType: String, CustomStringConvertible, Codable {
+        case query = "QUERY"
+        public var description: String { return self.rawValue }
+    }
+
+    public enum RecommendationType: String, CustomStringConvertible, Codable {
+        case knowledgeContent = "KNOWLEDGE_CONTENT"
+        public var description: String { return self.rawValue }
+    }
+
     public enum RelevanceLevel: String, CustomStringConvertible, Codable {
         case high = "HIGH"
         case low = "LOW"
@@ -90,7 +107,7 @@ extension Wisdom {
     public struct AppIntegrationsConfiguration: AWSEncodableShape & AWSDecodableShape {
         /// The Amazon Resource Name (ARN) of the AppIntegrations DataIntegration to use for ingesting content.
         public let appIntegrationArn: String
-        /// The fields from the source that are made available to your agents in Wisdom.    For  Salesforce, you must include at least Id, ArticleNumber, VersionNumber, Title, PublishStatus, and IsDeleted.    For  ServiceNow, you must include at least number, short_description, sys_mod_count, workflow_state, and active.    Make sure to include additional field(s); these are indexed and used to source recommendations.
+        /// The fields from the source that are made available to your agents in Wisdom.    For  Salesforce, you must include at least Id, ArticleNumber, VersionNumber, Title, PublishStatus, and IsDeleted.    For  ServiceNow, you must include at least number, short_description, sys_mod_count, workflow_state, and active.    Make sure to include additional fields. These fields are indexed and used to source recommendations.
         public let objectFields: [String]
 
         public init(appIntegrationArn: String, objectFields: [String]) {
@@ -117,7 +134,7 @@ extension Wisdom {
     }
 
     public struct AssistantAssociationData: AWSDecodableShape {
-        /// The Amazon Resource Name (ARN) of the Wisdom assistant
+        /// The Amazon Resource Name (ARN) of the Wisdom assistant.
         public let assistantArn: String
         /// The Amazon Resource Name (ARN) of the assistant association.
         public let assistantAssociationArn: String
@@ -154,7 +171,7 @@ extension Wisdom {
     }
 
     public struct AssistantAssociationSummary: AWSDecodableShape {
-        /// The Amazon Resource Name (ARN) of the Wisdom assistant
+        /// The Amazon Resource Name (ARN) of the Wisdom assistant.
         public let assistantArn: String
         /// The Amazon Resource Name (ARN) of the assistant association.
         public let assistantAssociationArn: String
@@ -191,7 +208,7 @@ extension Wisdom {
     }
 
     public struct AssistantData: AWSDecodableShape {
-        /// The Amazon Resource Name (ARN) of the Wisdom assistant
+        /// The Amazon Resource Name (ARN) of the Wisdom assistant.
         public let assistantArn: String
         /// The identifier of the Wisdom assistant.
         public let assistantId: String
@@ -232,7 +249,7 @@ extension Wisdom {
     }
 
     public struct AssistantSummary: AWSDecodableShape {
-        /// The Amazon Resource Name (ARN) of the Wisdom assistant
+        /// The Amazon Resource Name (ARN) of the Wisdom assistant.
         public let assistantArn: String
         /// The identifier of the Wisdom assistant.
         public let assistantId: String
@@ -281,7 +298,7 @@ extension Wisdom {
         public let contentType: String
         /// The Amazon Resource Name (ARN) of the knowledge base.
         public let knowledgeBaseArn: String
-        /// The the identifier of the knowledge base.
+        /// The identifier of the knowledge base.
         public let knowledgeBaseId: String
         /// The URI of the content.
         public let linkOutUri: String?
@@ -345,7 +362,7 @@ extension Wisdom {
         public let contentId: String?
         /// The Amazon Resource Name (ARN) of the knowledge base.
         public let knowledgeBaseArn: String?
-        /// The the identifier of the knowledge base.
+        /// The identifier of the knowledge base.
         public let knowledgeBaseId: String?
 
         public init(contentArn: String? = nil, contentId: String? = nil, knowledgeBaseArn: String? = nil, knowledgeBaseId: String? = nil) {
@@ -372,7 +389,7 @@ extension Wisdom {
         public let contentType: String
         /// The Amazon Resource Name (ARN) of the knowledge base.
         public let knowledgeBaseArn: String
-        /// The the identifier of the knowledge base.
+        /// The identifier of the knowledge base.
         public let knowledgeBaseId: String
         /// A key/value map to store attributes without affecting tagging or recommendations.
         /// For example, when synchronizing data between an external system and Wisdom, you can store an external version identifier as metadata to utilize for determining drift.
@@ -548,7 +565,7 @@ extension Wisdom {
 
         /// A unique, case-sensitive identifier that you provide to ensure the idempotency of the request.
         public let clientToken: String?
-        /// The the identifier of the knowledge base. Can be either the ID or the ARN. URLs cannot contain the ARN.
+        /// The identifier of the knowledge base. Can be either the ID or the ARN. URLs cannot contain the ARN.
         public let knowledgeBaseId: String
         /// A key/value map to store attributes without affecting tagging or recommendations.
         /// For example, when synchronizing data between an external system and Wisdom, you can store an external version identifier as metadata to utilize for determining drift.
@@ -585,6 +602,7 @@ extension Wisdom {
                 try validate($0.value, name: "metadata[\"\($0.key)\"]", parent: name, max: 4096)
                 try validate($0.value, name: "metadata[\"\($0.key)\"]", parent: name, min: 1)
             }
+            try self.validate(self.metadata, name: "metadata", parent: name, max: 10)
             try self.validate(self.name, name: "name", parent: name, max: 255)
             try self.validate(self.name, name: "name", parent: name, min: 1)
             try self.validate(self.name, name: "name", parent: name, pattern: "^[a-zA-Z0-9\\s_.,-]+")
@@ -825,7 +843,7 @@ extension Wisdom {
 
         /// The identifier of the content. Can be either the ID or the ARN. URLs cannot contain the ARN.
         public let contentId: String
-        /// The the identifier of the knowledge base. Can be either the ID or the ARN. URLs cannot contain the ARN.
+        /// The identifier of the knowledge base. Can be either the ID or the ARN. URLs cannot contain the ARN.
         public let knowledgeBaseId: String
 
         public init(contentId: String, knowledgeBaseId: String) {
@@ -1009,7 +1027,7 @@ extension Wisdom {
 
         /// The identifier of the content. Can be either the ID or the ARN. URLs cannot contain the ARN.
         public let contentId: String
-        /// The the identifier of the knowledge base. Can be either the ID or the ARN. URLs cannot contain the ARN.
+        /// The identifier of the knowledge base. Can be either the ID or the ARN. URLs cannot contain the ARN.
         public let knowledgeBaseId: String
 
         public init(contentId: String, knowledgeBaseId: String) {
@@ -1046,7 +1064,7 @@ extension Wisdom {
 
         /// The identifier of the content. Can be either the ID or the ARN. URLs cannot contain the ARN.
         public let contentId: String
-        /// The the identifier of the knowledge base. Can be either the ID or the ARN. URLs cannot contain the ARN.
+        /// The identifier of the knowledge base. Can be either the ID or the ARN. URLs cannot contain the ARN.
         public let knowledgeBaseId: String
 
         public init(contentId: String, knowledgeBaseId: String) {
@@ -1080,7 +1098,7 @@ extension Wisdom {
             AWSMemberEncoding(label: "knowledgeBaseId", location: .uri("knowledgeBaseId"))
         ]
 
-        /// The the identifier of the knowledge base. Can be either the ID or the ARN. URLs cannot contain the ARN.
+        /// The identifier of the knowledge base. Can be either the ID or the ARN. URLs cannot contain the ARN.
         public let knowledgeBaseId: String
 
         public init(knowledgeBaseId: String) {
@@ -1146,13 +1164,17 @@ extension Wisdom {
     public struct GetRecommendationsResponse: AWSDecodableShape {
         /// The recommendations.
         public let recommendations: [RecommendationData]
+        /// The triggers corresponding to recommendations.
+        public let triggers: [RecommendationTrigger]?
 
-        public init(recommendations: [RecommendationData]) {
+        public init(recommendations: [RecommendationData], triggers: [RecommendationTrigger]? = nil) {
             self.recommendations = recommendations
+            self.triggers = triggers
         }
 
         private enum CodingKeys: String, CodingKey {
             case recommendations
+            case triggers
         }
     }
 
@@ -1213,7 +1235,7 @@ extension Wisdom {
     public struct KnowledgeBaseAssociationData: AWSDecodableShape {
         /// The Amazon Resource Name (ARN) of the knowledge base.
         public let knowledgeBaseArn: String?
-        /// The the identifier of the knowledge base.
+        /// The identifier of the knowledge base.
         public let knowledgeBaseId: String?
 
         public init(knowledgeBaseArn: String? = nil, knowledgeBaseId: String? = nil) {
@@ -1232,7 +1254,7 @@ extension Wisdom {
         public let description: String?
         /// The Amazon Resource Name (ARN) of the knowledge base.
         public let knowledgeBaseArn: String
-        /// The the identifier of the knowledge base.
+        /// The identifier of the knowledge base.
         public let knowledgeBaseId: String
         /// The type of knowledge base.
         public let knowledgeBaseType: KnowledgeBaseType
@@ -1285,7 +1307,7 @@ extension Wisdom {
         public let description: String?
         /// The Amazon Resource Name (ARN) of the knowledge base.
         public let knowledgeBaseArn: String
-        /// The the identifier of the knowledge base.
+        /// The identifier of the knowledge base.
         public let knowledgeBaseId: String
         /// The type of knowledge base.
         public let knowledgeBaseType: KnowledgeBaseType
@@ -1295,7 +1317,7 @@ extension Wisdom {
         public let renderingConfiguration: RenderingConfiguration?
         /// The KMS key used for encryption.
         public let serverSideEncryptionConfiguration: ServerSideEncryptionConfiguration?
-        /// [KEVIN]
+        /// Configuration information about the external data source.
         public let sourceConfiguration: SourceConfiguration?
         /// The status of the knowledge base summary.
         public let status: KnowledgeBaseStatus
@@ -1429,7 +1451,7 @@ extension Wisdom {
             AWSMemberEncoding(label: "nextToken", location: .querystring("nextToken"))
         ]
 
-        /// The the identifier of the knowledge base. Can be either the ID or the ARN. URLs cannot contain the ARN.
+        /// The identifier of the knowledge base. Can be either the ID or the ARN. URLs cannot contain the ARN.
         public let knowledgeBaseId: String
         /// The maximum number of results to return per page.
         public let maxResults: Int?
@@ -1664,6 +1686,19 @@ extension Wisdom {
         }
     }
 
+    public struct QueryRecommendationTriggerData: AWSDecodableShape {
+        /// The text associated with the recommendation trigger.
+        public let text: String?
+
+        public init(text: String? = nil) {
+            self.text = text
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case text
+        }
+    }
+
     public struct RecommendationData: AWSDecodableShape {
         /// The recommended document.
         public let document: Document
@@ -1673,12 +1708,15 @@ extension Wisdom {
         public let relevanceLevel: RelevanceLevel?
         /// The relevance score of the recommendation.
         public let relevanceScore: Double?
+        /// The type of recommendation.
+        public let type: RecommendationType?
 
-        public init(document: Document, recommendationId: String, relevanceLevel: RelevanceLevel? = nil, relevanceScore: Double? = nil) {
+        public init(document: Document, recommendationId: String, relevanceLevel: RelevanceLevel? = nil, relevanceScore: Double? = nil, type: RecommendationType? = nil) {
             self.document = document
             self.recommendationId = recommendationId
             self.relevanceLevel = relevanceLevel
             self.relevanceScore = relevanceScore
+            self.type = type
         }
 
         private enum CodingKeys: String, CodingKey {
@@ -1686,6 +1724,36 @@ extension Wisdom {
             case recommendationId
             case relevanceLevel
             case relevanceScore
+            case type
+        }
+    }
+
+    public struct RecommendationTrigger: AWSDecodableShape {
+        /// A union type containing information related to the trigger.
+        public let data: RecommendationTriggerData
+        /// The identifier of the recommendation trigger.
+        public let id: String
+        /// The identifiers of the recommendations.
+        public let recommendationIds: [String]
+        /// The source of the recommendation trigger.   ISSUE_DETECTION: The corresponding recommendations were triggered by a Contact Lens issue.   RULE_EVALUATION: The corresponding recommendations were triggered by a Contact Lens rule.
+        public let source: RecommendationSourceType
+        /// The type of recommendation trigger.
+        public let type: RecommendationTriggerType
+
+        public init(data: RecommendationTriggerData, id: String, recommendationIds: [String], source: RecommendationSourceType, type: RecommendationTriggerType) {
+            self.data = data
+            self.id = id
+            self.recommendationIds = recommendationIds
+            self.source = source
+            self.type = type
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case data
+            case id
+            case recommendationIds
+            case source
+            case type
         }
     }
 
@@ -1694,7 +1762,7 @@ extension Wisdom {
             AWSMemberEncoding(label: "knowledgeBaseId", location: .uri("knowledgeBaseId"))
         ]
 
-        /// The the identifier of the knowledge base. Can be either the ID or the ARN. URLs cannot contain the ARN.
+        /// The identifier of the knowledge base. Can be either the ID or the ARN. URLs cannot contain the ARN.
         public let knowledgeBaseId: String
 
         public init(knowledgeBaseId: String) {
@@ -1759,7 +1827,7 @@ extension Wisdom {
             AWSMemberEncoding(label: "nextToken", location: .querystring("nextToken"))
         ]
 
-        /// The the identifier of the knowledge base. Can be either the ID or the ARN. URLs cannot contain the ARN.
+        /// The identifier of the knowledge base. Can be either the ID or the ARN. URLs cannot contain the ARN.
         public let knowledgeBaseId: String
         /// The maximum number of results to return per page.
         public let maxResults: Int?
@@ -1882,7 +1950,7 @@ extension Wisdom {
     }
 
     public struct ServerSideEncryptionConfiguration: AWSEncodableShape & AWSDecodableShape {
-        /// The KMS key. For information about valid ID values, see Key identifiers (KeyId) in the AWS Key Management Service Developer Guide.
+        /// The KMS key. For information about valid ID values, see Key identifiers (KeyId).
         public let kmsKeyId: String?
 
         public init(kmsKeyId: String? = nil) {
@@ -1929,7 +1997,7 @@ extension Wisdom {
     }
 
     public struct SessionSummary: AWSDecodableShape {
-        /// The Amazon Resource Name (ARN) of the Wisdom assistant
+        /// The Amazon Resource Name (ARN) of the Wisdom assistant.
         public let assistantArn: String
         /// The identifier of the Wisdom assistant.
         public let assistantId: String
@@ -1960,7 +2028,7 @@ extension Wisdom {
 
         /// The type of content to upload.
         public let contentType: String
-        /// The the identifier of the knowledge base. Can be either the ID or the ARN. URLs cannot contain the ARN.
+        /// The identifier of the knowledge base. Can be either the ID or the ARN. URLs cannot contain the ARN.
         public let knowledgeBaseId: String
 
         public init(contentType: String, knowledgeBaseId: String) {
@@ -1969,7 +2037,7 @@ extension Wisdom {
         }
 
         public func validate(name: String) throws {
-            try self.validate(self.contentType, name: "contentType", parent: name, pattern: "^(text/(plain|html))|(application/x\\.wisdom-json;source=(salesforce|servicenow))$")
+            try self.validate(self.contentType, name: "contentType", parent: name, pattern: "^(text/(plain|html))|(application/x\\.wisdom-json;source=(salesforce|servicenow|zendesk))$")
             try self.validate(self.knowledgeBaseId, name: "knowledgeBaseId", parent: name, pattern: "^[a-f0-9]{8}-[a-f0-9]{4}-[a-f0-9]{4}-[a-f0-9]{4}-[a-f0-9]{12}$|^arn:[a-z-]*?:wisdom:[a-z0-9-]*?:[0-9]{12}:[a-z-]*?/[a-f0-9]{8}-[a-f0-9]{4}-[a-f0-9]{4}-[a-f0-9]{4}-[a-f0-9]{12}(?:/[a-f0-9]{8}-[a-f0-9]{4}-[a-f0-9]{4}-[a-f0-9]{4}-[a-f0-9]{12})?$")
         }
 
@@ -2080,7 +2148,7 @@ extension Wisdom {
 
         /// The identifier of the content. Can be either the ID or the ARN. URLs cannot contain the ARN.
         public let contentId: String
-        /// The the identifier of the knowledge base. Can be either the ID or the ARN
+        /// The identifier of the knowledge base. Can be either the ID or the ARN
         public let knowledgeBaseId: String
         /// A key/value map to store attributes without affecting tagging or recommendations. For example, when synchronizing data between an external system and Wisdom, you can store an external version identifier as metadata to utilize for determining drift.
         public let metadata: [String: String]?
@@ -2115,6 +2183,7 @@ extension Wisdom {
                 try validate($0.value, name: "metadata[\"\($0.key)\"]", parent: name, max: 4096)
                 try validate($0.value, name: "metadata[\"\($0.key)\"]", parent: name, min: 1)
             }
+            try self.validate(self.metadata, name: "metadata", parent: name, max: 10)
             try self.validate(self.overrideLinkOutUri, name: "overrideLinkOutUri", parent: name, max: 4096)
             try self.validate(self.overrideLinkOutUri, name: "overrideLinkOutUri", parent: name, min: 1)
             try self.validate(self.revisionId, name: "revisionId", parent: name, max: 4096)
@@ -2153,7 +2222,7 @@ extension Wisdom {
             AWSMemberEncoding(label: "knowledgeBaseId", location: .uri("knowledgeBaseId"))
         ]
 
-        /// The the identifier of the knowledge base. Can be either the ID or the ARN. URLs cannot contain the ARN.
+        /// The identifier of the knowledge base. Can be either the ID or the ARN. URLs cannot contain the ARN.
         public let knowledgeBaseId: String
         /// The template URI to update.
         public let templateUri: String
@@ -2188,7 +2257,7 @@ extension Wisdom {
     }
 
     public struct AssistantAssociationInputData: AWSEncodableShape {
-        /// The the identifier of the knowledge base.
+        /// The identifier of the knowledge base.
         public let knowledgeBaseId: String?
 
         public init(knowledgeBaseId: String? = nil) {
@@ -2214,6 +2283,19 @@ extension Wisdom {
 
         private enum CodingKeys: String, CodingKey {
             case knowledgeBaseAssociation
+        }
+    }
+
+    public struct RecommendationTriggerData: AWSDecodableShape {
+        /// Data associated with the QUERY RecommendationTriggerType.
+        public let query: QueryRecommendationTriggerData?
+
+        public init(query: QueryRecommendationTriggerData? = nil) {
+            self.query = query
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case query
         }
     }
 

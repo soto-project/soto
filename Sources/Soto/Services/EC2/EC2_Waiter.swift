@@ -317,6 +317,23 @@ extension EC2 {
         return self.client.waitUntil(input, waiter: waiter, maxWaitTime: maxWaitTime, logger: logger, on: eventLoop)
     }
 
+    public func waitUntilNatGatewayDeleted(
+        _ input: DescribeNatGatewaysRequest,
+        maxWaitTime: TimeAmount? = nil,
+        logger: Logger = AWSClient.loggingDisabled,
+        on eventLoop: EventLoop? = nil
+    ) -> EventLoopFuture<Void> {
+        let waiter = AWSClient.Waiter(
+            acceptors: [
+                .init(state: .success, matcher: try! JMESAllPathMatcher("natGateways[].state", expected: "deleted")),
+                .init(state: .success, matcher: AWSErrorCodeMatcher("NatGatewayNotFound")),
+            ],
+            minDelayTime: .seconds(15),
+            command: describeNatGateways
+        )
+        return self.client.waitUntil(input, waiter: waiter, maxWaitTime: maxWaitTime, logger: logger, on: eventLoop)
+    }
+
     public func waitUntilNetworkInterfaceAvailable(
         _ input: DescribeNetworkInterfacesRequest,
         maxWaitTime: TimeAmount? = nil,

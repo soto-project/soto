@@ -23,7 +23,7 @@ import SotoCore
 
 @available(macOS 10.15, iOS 13.0, tvOS 13.0, watchOS 6.0, *)
 extension DocDB {
-    ///  Returns a list of certificate authority (CA) certificates provided by Amazon DocumentDB for this account.
+    ///  Returns a list of certificate authority (CA) certificates provided by Amazon DocumentDB for this Amazon Web Services account.
     /// Return PaginatorSequence for operation.
     ///
     /// - Parameters:

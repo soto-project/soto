@@ -70,6 +70,9 @@
                     "target": "com.amazonaws.glue#BatchGetCrawlers"
                 },
                 {
+                    "target": "com.amazonaws.glue#BatchGetCustomEntityTypes"
+                },
+                {
                     "target": "com.amazonaws.glue#BatchGetDevEndpoints"
                 },
                 {
@@ -110,6 +113,9 @@
                 },
                 {
                     "target": "com.amazonaws.glue#CreateCrawler"
+                },
+                {
+                    "target": "com.amazonaws.glue#CreateCustomEntityType"
                 },
                 {
                     "target": "com.amazonaws.glue#CreateDatabase"
@@ -173,6 +179,9 @@
                 },
                 {
                     "target": "com.amazonaws.glue#DeleteCrawler"
+                },
+                {
+                    "target": "com.amazonaws.glue#DeleteCustomEntityType"
                 },
                 {
                     "target": "com.amazonaws.glue#DeleteDatabase"
@@ -263,6 +272,9 @@
                 },
                 {
                     "target": "com.amazonaws.glue#GetCrawlers"
+                },
+                {
+                    "target": "com.amazonaws.glue#GetCustomEntityType"
                 },
                 {
                     "target": "com.amazonaws.glue#GetDatabase"
@@ -413,6 +425,9 @@
                 },
                 {
                     "target": "com.amazonaws.glue#ListCrawlers"
+                },
+                {
+                    "target": "com.amazonaws.glue#ListCustomEntityTypes"
                 },
                 {
                     "target": "com.amazonaws.glue#ListDevEndpoints"
@@ -1287,6 +1302,58 @@
                     "target": "com.amazonaws.glue#CrawlerNameList",
                     "traits": {
                         "smithy.api#documentation": "<p>A list of names of crawlers that were not found.</p>"
+                    }
+                }
+            }
+        },
+        "com.amazonaws.glue#BatchGetCustomEntityTypes": {
+            "type": "operation",
+            "input": {
+                "target": "com.amazonaws.glue#BatchGetCustomEntityTypesRequest"
+            },
+            "output": {
+                "target": "com.amazonaws.glue#BatchGetCustomEntityTypesResponse"
+            },
+            "errors": [
+                {
+                    "target": "com.amazonaws.glue#InternalServiceException"
+                },
+                {
+                    "target": "com.amazonaws.glue#InvalidInputException"
+                },
+                {
+                    "target": "com.amazonaws.glue#OperationTimeoutException"
+                }
+            ],
+            "traits": {
+                "smithy.api#documentation": "<p>Retrieves the details for the custom patterns specified by a list of names.</p>"
+            }
+        },
+        "com.amazonaws.glue#BatchGetCustomEntityTypesRequest": {
+            "type": "structure",
+            "members": {
+                "Names": {
+                    "target": "com.amazonaws.glue#CustomEntityTypeNames",
+                    "traits": {
+                        "smithy.api#documentation": "<p>A list of names of the custom patterns that you want to retrieve.</p>",
+                        "smithy.api#required": {}
+                    }
+                }
+            }
+        },
+        "com.amazonaws.glue#BatchGetCustomEntityTypesResponse": {
+            "type": "structure",
+            "members": {
+                "CustomEntityTypes": {
+                    "target": "com.amazonaws.glue#CustomEntityTypes",
+                    "traits": {
+                        "smithy.api#documentation": "<p>A list of <code>CustomEntityType</code> objects representing the custom patterns that have been created.</p>"
+                    }
+                },
+                "CustomEntityTypesNotFound": {
+                    "target": "com.amazonaws.glue#CustomEntityTypeNames",
+                    "traits": {
+                        "smithy.api#documentation": "<p>A list of the names of custom patterns that were not found.</p>"
                     }
                 }
             }
@@ -3575,6 +3642,18 @@
                 "smithy.api#documentation": "<p>Specifies the connections used by a job.</p>"
             }
         },
+        "com.amazonaws.glue#ContextWords": {
+            "type": "list",
+            "member": {
+                "target": "com.amazonaws.glue#NameString"
+            },
+            "traits": {
+                "smithy.api#length": {
+                    "min": 1,
+                    "max": 20
+                }
+            }
+        },
         "com.amazonaws.glue#Crawl": {
             "type": "structure",
             "members": {
@@ -3770,7 +3849,10 @@
                     }
                 },
                 "LakeFormationConfiguration": {
-                    "target": "com.amazonaws.glue#LakeFormationConfiguration"
+                    "target": "com.amazonaws.glue#LakeFormationConfiguration",
+                    "traits": {
+                        "smithy.api#documentation": "<p>Specifies whether the crawler should use AWS Lake Formation credentials for the crawler instead of the IAM role credentials.</p>"
+                    }
                 }
             },
             "traits": {
@@ -4364,6 +4446,77 @@
             },
             "traits": {
                 "smithy.api#documentation": "<p>Specifies a custom CSV classifier for <code>CreateClassifier</code> to create.</p>"
+            }
+        },
+        "com.amazonaws.glue#CreateCustomEntityType": {
+            "type": "operation",
+            "input": {
+                "target": "com.amazonaws.glue#CreateCustomEntityTypeRequest"
+            },
+            "output": {
+                "target": "com.amazonaws.glue#CreateCustomEntityTypeResponse"
+            },
+            "errors": [
+                {
+                    "target": "com.amazonaws.glue#AccessDeniedException"
+                },
+                {
+                    "target": "com.amazonaws.glue#AlreadyExistsException"
+                },
+                {
+                    "target": "com.amazonaws.glue#IdempotentParameterMismatchException"
+                },
+                {
+                    "target": "com.amazonaws.glue#InternalServiceException"
+                },
+                {
+                    "target": "com.amazonaws.glue#InvalidInputException"
+                },
+                {
+                    "target": "com.amazonaws.glue#OperationTimeoutException"
+                },
+                {
+                    "target": "com.amazonaws.glue#ResourceNumberLimitExceededException"
+                }
+            ],
+            "traits": {
+                "smithy.api#documentation": "<p>Creates a custom pattern that is used to detect sensitive data across the columns and rows of your structured data.</p>\n\t\n\t        <p>Each custom pattern you create specifies a regular expression and an optional list of context words. If no context words are passed only a regular expression is checked.</p>"
+            }
+        },
+        "com.amazonaws.glue#CreateCustomEntityTypeRequest": {
+            "type": "structure",
+            "members": {
+                "Name": {
+                    "target": "com.amazonaws.glue#NameString",
+                    "traits": {
+                        "smithy.api#documentation": "<p>A name for the custom pattern that allows it to be retrieved or deleted later. This name must be unique per Amazon Web Services account.</p>",
+                        "smithy.api#required": {}
+                    }
+                },
+                "RegexString": {
+                    "target": "com.amazonaws.glue#NameString",
+                    "traits": {
+                        "smithy.api#documentation": "<p>A regular expression string that is used for detecting sensitive data in a custom pattern.</p>",
+                        "smithy.api#required": {}
+                    }
+                },
+                "ContextWords": {
+                    "target": "com.amazonaws.glue#ContextWords",
+                    "traits": {
+                        "smithy.api#documentation": "<p>A list of context words. If none of these context words are found within the vicinity of the regular expression the data will not be detected as sensitive data.</p>\n\t\n\t        <p>If no context words are passed only a regular expression is checked.</p>"
+                    }
+                }
+            }
+        },
+        "com.amazonaws.glue#CreateCustomEntityTypeResponse": {
+            "type": "structure",
+            "members": {
+                "Name": {
+                    "target": "com.amazonaws.glue#NameString",
+                    "traits": {
+                        "smithy.api#documentation": "<p>The name of the custom pattern you created.</p>"
+                    }
+                }
             }
         },
         "com.amazonaws.glue#CreateDatabase": {
@@ -6206,6 +6359,52 @@
                 "smithy.api#pattern": "^[^\\r\\n]$"
             }
         },
+        "com.amazonaws.glue#CustomEntityType": {
+            "type": "structure",
+            "members": {
+                "Name": {
+                    "target": "com.amazonaws.glue#NameString",
+                    "traits": {
+                        "smithy.api#documentation": "<p>A name for the custom pattern that allows it to be retrieved or deleted later. This name must be unique per Amazon Web Services account.</p>",
+                        "smithy.api#required": {}
+                    }
+                },
+                "RegexString": {
+                    "target": "com.amazonaws.glue#NameString",
+                    "traits": {
+                        "smithy.api#documentation": "<p>A regular expression string that is used for detecting sensitive data in a custom pattern.</p>",
+                        "smithy.api#required": {}
+                    }
+                },
+                "ContextWords": {
+                    "target": "com.amazonaws.glue#ContextWords",
+                    "traits": {
+                        "smithy.api#documentation": "<p>A list of context words. If none of these context words are found within the vicinity of the regular expression the data will not be detected as sensitive data.</p>\n\t\n\t        <p>If no context words are passed only a regular expression is checked.</p>"
+                    }
+                }
+            },
+            "traits": {
+                "smithy.api#documentation": "<p>An object representing a custom pattern for detecting sensitive data across the columns and rows of your structured data.</p>"
+            }
+        },
+        "com.amazonaws.glue#CustomEntityTypeNames": {
+            "type": "list",
+            "member": {
+                "target": "com.amazonaws.glue#NameString"
+            },
+            "traits": {
+                "smithy.api#length": {
+                    "min": 1,
+                    "max": 50
+                }
+            }
+        },
+        "com.amazonaws.glue#CustomEntityTypes": {
+            "type": "list",
+            "member": {
+                "target": "com.amazonaws.glue#CustomEntityType"
+            }
+        },
         "com.amazonaws.glue#CustomPatterns": {
             "type": "string",
             "traits": {
@@ -6844,6 +7043,58 @@
         "com.amazonaws.glue#DeleteCrawlerResponse": {
             "type": "structure",
             "members": {}
+        },
+        "com.amazonaws.glue#DeleteCustomEntityType": {
+            "type": "operation",
+            "input": {
+                "target": "com.amazonaws.glue#DeleteCustomEntityTypeRequest"
+            },
+            "output": {
+                "target": "com.amazonaws.glue#DeleteCustomEntityTypeResponse"
+            },
+            "errors": [
+                {
+                    "target": "com.amazonaws.glue#AccessDeniedException"
+                },
+                {
+                    "target": "com.amazonaws.glue#EntityNotFoundException"
+                },
+                {
+                    "target": "com.amazonaws.glue#InternalServiceException"
+                },
+                {
+                    "target": "com.amazonaws.glue#InvalidInputException"
+                },
+                {
+                    "target": "com.amazonaws.glue#OperationTimeoutException"
+                }
+            ],
+            "traits": {
+                "smithy.api#documentation": "<p>Deletes a custom pattern by specifying its name.</p>"
+            }
+        },
+        "com.amazonaws.glue#DeleteCustomEntityTypeRequest": {
+            "type": "structure",
+            "members": {
+                "Name": {
+                    "target": "com.amazonaws.glue#NameString",
+                    "traits": {
+                        "smithy.api#documentation": "<p>The name of the custom pattern that you want to delete.</p>",
+                        "smithy.api#required": {}
+                    }
+                }
+            }
+        },
+        "com.amazonaws.glue#DeleteCustomEntityTypeResponse": {
+            "type": "structure",
+            "members": {
+                "Name": {
+                    "target": "com.amazonaws.glue#NameString",
+                    "traits": {
+                        "smithy.api#documentation": "<p>The name of the custom pattern you deleted.</p>"
+                    }
+                }
+            }
         },
         "com.amazonaws.glue#DeleteDatabase": {
             "type": "operation",
@@ -9337,6 +9588,70 @@
                     "target": "com.amazonaws.glue#Token",
                     "traits": {
                         "smithy.api#documentation": "<p>A continuation token, if the returned list has not reached the end\n      of those defined in this customer account.</p>"
+                    }
+                }
+            }
+        },
+        "com.amazonaws.glue#GetCustomEntityType": {
+            "type": "operation",
+            "input": {
+                "target": "com.amazonaws.glue#GetCustomEntityTypeRequest"
+            },
+            "output": {
+                "target": "com.amazonaws.glue#GetCustomEntityTypeResponse"
+            },
+            "errors": [
+                {
+                    "target": "com.amazonaws.glue#AccessDeniedException"
+                },
+                {
+                    "target": "com.amazonaws.glue#EntityNotFoundException"
+                },
+                {
+                    "target": "com.amazonaws.glue#InternalServiceException"
+                },
+                {
+                    "target": "com.amazonaws.glue#InvalidInputException"
+                },
+                {
+                    "target": "com.amazonaws.glue#OperationTimeoutException"
+                }
+            ],
+            "traits": {
+                "smithy.api#documentation": "<p>Retrieves the details of a custom pattern by specifying its name.</p>"
+            }
+        },
+        "com.amazonaws.glue#GetCustomEntityTypeRequest": {
+            "type": "structure",
+            "members": {
+                "Name": {
+                    "target": "com.amazonaws.glue#NameString",
+                    "traits": {
+                        "smithy.api#documentation": "<p>The name of the custom pattern that you want to retrieve.</p>",
+                        "smithy.api#required": {}
+                    }
+                }
+            }
+        },
+        "com.amazonaws.glue#GetCustomEntityTypeResponse": {
+            "type": "structure",
+            "members": {
+                "Name": {
+                    "target": "com.amazonaws.glue#NameString",
+                    "traits": {
+                        "smithy.api#documentation": "<p>The name of the custom pattern that you retrieved.</p>"
+                    }
+                },
+                "RegexString": {
+                    "target": "com.amazonaws.glue#NameString",
+                    "traits": {
+                        "smithy.api#documentation": "<p>A regular expression string that is used for detecting sensitive data in a custom pattern.</p>"
+                    }
+                },
+                "ContextWords": {
+                    "target": "com.amazonaws.glue#ContextWords",
+                    "traits": {
+                        "smithy.api#documentation": "<p>A list of context words if specified when you created the custom pattern. If none of these context words are found within the vicinity of the regular expression the data will not be detected as sensitive data.</p>"
                     }
                 }
             }
@@ -13646,6 +13961,12 @@
                     "traits": {
                         "smithy.api#documentation": "<p>Glue version determines the versions of Apache Spark and Python that Glue supports. The Python version indicates the version supported for jobs of type Spark. </p>\n \n         <p>For more information about the available Glue versions and corresponding Spark and Python versions, see <a href=\"https://docs.aws.amazon.com/glue/latest/dg/add-job.html\">Glue version</a> in the developer guide.</p>\n\t  \n\t        <p>Jobs that are created without specifying a Glue version default to Glue 0.9.</p>"
                     }
+                },
+                "DPUSeconds": {
+                    "target": "com.amazonaws.glue#NullableDouble",
+                    "traits": {
+                        "smithy.api#documentation": "<p>This field populates only when an Auto Scaling job run completes, and represents the total time each executor ran during the lifecycle of a job run in seconds, multiplied by a DPU factor (1 for <code>G.1X</code> and 2 for <code>G.2X</code> workers). This value may be different than the <code>executionEngineRuntime</code> * <code>MaxCapacity</code> as in the case of Auto Scaling jobs, as the number of executors running at a given time may be less than the <code>MaxCapacity</code>. Therefore, it is possible that the value of <code>DPUSeconds</code> is less than <code>executionEngineRuntime</code> * <code>MaxCapacity</code>.</p>"
+                    }
                 }
             },
             "traits": {
@@ -13933,11 +14254,20 @@
             "type": "structure",
             "members": {
                 "UseLakeFormationCredentials": {
-                    "target": "com.amazonaws.glue#NullableBoolean"
+                    "target": "com.amazonaws.glue#NullableBoolean",
+                    "traits": {
+                        "smithy.api#documentation": "<p>Specifies whether to use AWS Lake Formation credentials for the crawler instead of the IAM role credentials.</p>"
+                    }
                 },
                 "AccountId": {
-                    "target": "com.amazonaws.glue#AccountId"
+                    "target": "com.amazonaws.glue#AccountId",
+                    "traits": {
+                        "smithy.api#documentation": "<p>Required for cross account crawls. For same account crawls as the target data, this can be left as null.</p>"
+                    }
                 }
+            },
+            "traits": {
+                "smithy.api#documentation": "<p>Specifies AWS Lake Formation configuration settings for the crawler.</p>"
             }
         },
         "com.amazonaws.glue#Language": {
@@ -14199,6 +14529,68 @@
                     "target": "com.amazonaws.glue#Token",
                     "traits": {
                         "smithy.api#documentation": "<p>A continuation token, if the returned list does not contain the\n      last metric available.</p>"
+                    }
+                }
+            }
+        },
+        "com.amazonaws.glue#ListCustomEntityTypes": {
+            "type": "operation",
+            "input": {
+                "target": "com.amazonaws.glue#ListCustomEntityTypesRequest"
+            },
+            "output": {
+                "target": "com.amazonaws.glue#ListCustomEntityTypesResponse"
+            },
+            "errors": [
+                {
+                    "target": "com.amazonaws.glue#InternalServiceException"
+                },
+                {
+                    "target": "com.amazonaws.glue#InvalidInputException"
+                },
+                {
+                    "target": "com.amazonaws.glue#OperationTimeoutException"
+                }
+            ],
+            "traits": {
+                "smithy.api#documentation": "<p>Lists all the custom patterns that have been created.</p>",
+                "smithy.api#paginated": {
+                    "inputToken": "NextToken",
+                    "outputToken": "NextToken",
+                    "pageSize": "MaxResults"
+                }
+            }
+        },
+        "com.amazonaws.glue#ListCustomEntityTypesRequest": {
+            "type": "structure",
+            "members": {
+                "NextToken": {
+                    "target": "com.amazonaws.glue#PaginationToken",
+                    "traits": {
+                        "smithy.api#documentation": "<p>A paginated token to offset the results.</p>"
+                    }
+                },
+                "MaxResults": {
+                    "target": "com.amazonaws.glue#PageSize",
+                    "traits": {
+                        "smithy.api#documentation": "<p>The maximum number of results to return.</p>"
+                    }
+                }
+            }
+        },
+        "com.amazonaws.glue#ListCustomEntityTypesResponse": {
+            "type": "structure",
+            "members": {
+                "CustomEntityTypes": {
+                    "target": "com.amazonaws.glue#CustomEntityTypes",
+                    "traits": {
+                        "smithy.api#documentation": "<p>A list of <code>CustomEntityType</code> objects representing custom patterns.</p>"
+                    }
+                },
+                "NextToken": {
+                    "target": "com.amazonaws.glue#PaginationToken",
+                    "traits": {
+                        "smithy.api#documentation": "<p>A pagination token, if more results are available.</p>"
                     }
                 }
             }

@@ -23,8 +23,9 @@ import SotoCore
 
 @available(macOS 10.15, iOS 13.0, tvOS 13.0, watchOS 6.0, *)
 extension IoTSecureTunneling {
-    ///  List all tunnels for an AWS account. Tunnels are listed by creation time in
+    ///  List all tunnels for an Amazon Web Services account. Tunnels are listed by creation time in
     ///  			descending order, newer tunnels will be listed before older tunnels.
+    ///  		       Requires permission to access the ListTunnels action.
     /// Return PaginatorSequence for operation.
     ///
     /// - Parameters:

@@ -59,6 +59,7 @@ extension AppStream {
     public enum FleetAttribute: String, CustomStringConvertible, Codable {
         case domainJoinInfo = "DOMAIN_JOIN_INFO"
         case iamRoleArn = "IAM_ROLE_ARN"
+        case sessionScriptS3Location = "SESSION_SCRIPT_S3_LOCATION"
         case usbDeviceFilterStrings = "USB_DEVICE_FILTER_STRINGS"
         case vpcConfiguration = "VPC_CONFIGURATION"
         case vpcConfigurationSecurityGroupIds = "VPC_CONFIGURATION_SECURITY_GROUP_IDS"
@@ -957,6 +958,8 @@ extension AppStream {
         public let name: String
         /// The fleet platform. WINDOWS_SERVER_2019 and AMAZON_LINUX2 are supported for Elastic fleets.
         public let platform: PlatformType?
+        /// The S3 location of the session scripts configuration zip file. This only applies to Elastic fleets.
+        public let sessionScriptS3Location: S3Location?
         /// The AppStream 2.0 view that is displayed to your users when they stream from the fleet. When APP is specified, only the windows of applications opened by users display. When DESKTOP is specified, the standard desktop that is provided by the operating system displays.  The default value is APP.
         public let streamView: StreamView?
         /// The tags to associate with the fleet. A tag is a key-value pair, and the value is optional. For example, Environment=Test. If you do not specify a value, Environment=.   If you do not specify a value, the value is set to an empty string.  Generally allowed characters are: letters, numbers, and spaces representable in UTF-8, and the following special characters:  _ . : / = + \ - @  For more information, see Tagging Your Resources in the Amazon AppStream 2.0 Administration Guide.
@@ -966,7 +969,7 @@ extension AppStream {
         /// The VPC configuration for the fleet. This is required for Elastic fleets, but not required for other fleet types. Elastic fleets require that you specify at least two subnets in different availability zones.
         public let vpcConfig: VpcConfig?
 
-        public init(computeCapacity: ComputeCapacity? = nil, description: String? = nil, disconnectTimeoutInSeconds: Int? = nil, displayName: String? = nil, domainJoinInfo: DomainJoinInfo? = nil, enableDefaultInternetAccess: Bool? = nil, fleetType: FleetType? = nil, iamRoleArn: String? = nil, idleDisconnectTimeoutInSeconds: Int? = nil, imageArn: String? = nil, imageName: String? = nil, instanceType: String, maxConcurrentSessions: Int? = nil, maxUserDurationInSeconds: Int? = nil, name: String, platform: PlatformType? = nil, streamView: StreamView? = nil, tags: [String: String]? = nil, usbDeviceFilterStrings: [String]? = nil, vpcConfig: VpcConfig? = nil) {
+        public init(computeCapacity: ComputeCapacity? = nil, description: String? = nil, disconnectTimeoutInSeconds: Int? = nil, displayName: String? = nil, domainJoinInfo: DomainJoinInfo? = nil, enableDefaultInternetAccess: Bool? = nil, fleetType: FleetType? = nil, iamRoleArn: String? = nil, idleDisconnectTimeoutInSeconds: Int? = nil, imageArn: String? = nil, imageName: String? = nil, instanceType: String, maxConcurrentSessions: Int? = nil, maxUserDurationInSeconds: Int? = nil, name: String, platform: PlatformType? = nil, sessionScriptS3Location: S3Location? = nil, streamView: StreamView? = nil, tags: [String: String]? = nil, usbDeviceFilterStrings: [String]? = nil, vpcConfig: VpcConfig? = nil) {
             self.computeCapacity = computeCapacity
             self.description = description
             self.disconnectTimeoutInSeconds = disconnectTimeoutInSeconds
@@ -983,6 +986,7 @@ extension AppStream {
             self.maxUserDurationInSeconds = maxUserDurationInSeconds
             self.name = name
             self.platform = platform
+            self.sessionScriptS3Location = sessionScriptS3Location
             self.streamView = streamView
             self.tags = tags
             self.usbDeviceFilterStrings = usbDeviceFilterStrings
@@ -998,6 +1002,7 @@ extension AppStream {
             try self.validate(self.imageName, name: "imageName", parent: name, min: 1)
             try self.validate(self.instanceType, name: "instanceType", parent: name, min: 1)
             try self.validate(self.name, name: "name", parent: name, pattern: "^[a-zA-Z0-9][a-zA-Z0-9_.-]{0,100}$")
+            try self.sessionScriptS3Location?.validate(name: "\(name).sessionScriptS3Location")
             try self.tags?.forEach {
                 try validate($0.key, name: "tags.key", parent: name, max: 128)
                 try validate($0.key, name: "tags.key", parent: name, min: 1)
@@ -1031,6 +1036,7 @@ extension AppStream {
             case maxUserDurationInSeconds = "MaxUserDurationInSeconds"
             case name = "Name"
             case platform = "Platform"
+            case sessionScriptS3Location = "SessionScriptS3Location"
             case streamView = "StreamView"
             case tags = "Tags"
             case usbDeviceFilterStrings = "UsbDeviceFilterStrings"
@@ -2707,6 +2713,8 @@ extension AppStream {
         public let name: String
         /// The platform of the fleet.
         public let platform: PlatformType?
+        /// The S3 location of the session scripts configuration zip file. This only applies to Elastic fleets.
+        public let sessionScriptS3Location: S3Location?
         /// The current state for the fleet.
         public let state: FleetState
         /// The AppStream 2.0 view that is displayed to your users when they stream from the fleet. When APP is specified, only the windows of applications opened by users display. When DESKTOP is specified, the standard desktop that is provided by the operating system displays.  The default value is APP.
@@ -2716,7 +2724,7 @@ extension AppStream {
         /// The VPC configuration for the fleet.
         public let vpcConfig: VpcConfig?
 
-        public init(arn: String, computeCapacityStatus: ComputeCapacityStatus, createdTime: Date? = nil, description: String? = nil, disconnectTimeoutInSeconds: Int? = nil, displayName: String? = nil, domainJoinInfo: DomainJoinInfo? = nil, enableDefaultInternetAccess: Bool? = nil, fleetErrors: [FleetError]? = nil, fleetType: FleetType? = nil, iamRoleArn: String? = nil, idleDisconnectTimeoutInSeconds: Int? = nil, imageArn: String? = nil, imageName: String? = nil, instanceType: String, maxConcurrentSessions: Int? = nil, maxUserDurationInSeconds: Int? = nil, name: String, platform: PlatformType? = nil, state: FleetState, streamView: StreamView? = nil, usbDeviceFilterStrings: [String]? = nil, vpcConfig: VpcConfig? = nil) {
+        public init(arn: String, computeCapacityStatus: ComputeCapacityStatus, createdTime: Date? = nil, description: String? = nil, disconnectTimeoutInSeconds: Int? = nil, displayName: String? = nil, domainJoinInfo: DomainJoinInfo? = nil, enableDefaultInternetAccess: Bool? = nil, fleetErrors: [FleetError]? = nil, fleetType: FleetType? = nil, iamRoleArn: String? = nil, idleDisconnectTimeoutInSeconds: Int? = nil, imageArn: String? = nil, imageName: String? = nil, instanceType: String, maxConcurrentSessions: Int? = nil, maxUserDurationInSeconds: Int? = nil, name: String, platform: PlatformType? = nil, sessionScriptS3Location: S3Location? = nil, state: FleetState, streamView: StreamView? = nil, usbDeviceFilterStrings: [String]? = nil, vpcConfig: VpcConfig? = nil) {
             self.arn = arn
             self.computeCapacityStatus = computeCapacityStatus
             self.createdTime = createdTime
@@ -2736,6 +2744,7 @@ extension AppStream {
             self.maxUserDurationInSeconds = maxUserDurationInSeconds
             self.name = name
             self.platform = platform
+            self.sessionScriptS3Location = sessionScriptS3Location
             self.state = state
             self.streamView = streamView
             self.usbDeviceFilterStrings = usbDeviceFilterStrings
@@ -2762,6 +2771,7 @@ extension AppStream {
             case maxUserDurationInSeconds = "MaxUserDurationInSeconds"
             case name = "Name"
             case platform = "Platform"
+            case sessionScriptS3Location = "SessionScriptS3Location"
             case state = "State"
             case streamView = "StreamView"
             case usbDeviceFilterStrings = "UsbDeviceFilterStrings"
@@ -3830,6 +3840,8 @@ extension AppStream {
         public let name: String?
         /// The platform of the fleet. WINDOWS_SERVER_2019 and AMAZON_LINUX2 are supported for Elastic fleets.
         public let platform: PlatformType?
+        /// The S3 location of the session scripts configuration zip file. This only applies to Elastic fleets.
+        public let sessionScriptS3Location: S3Location?
         /// The AppStream 2.0 view that is displayed to your users when they stream from the fleet. When APP is specified, only the windows of applications opened by users display. When DESKTOP is specified, the standard desktop that is provided by the operating system displays.  The default value is APP.
         public let streamView: StreamView?
         /// The USB device filter strings that specify which USB devices a user can redirect to the fleet streaming session, when using the Windows native client. This is allowed but not required for Elastic fleets.
@@ -3837,7 +3849,7 @@ extension AppStream {
         /// The VPC configuration for the fleet. This is required for Elastic fleets, but not required for other fleet types. Elastic fleets require that you specify at least two subnets in different availability zones.
         public let vpcConfig: VpcConfig?
 
-        public init(attributesToDelete: [FleetAttribute]? = nil, computeCapacity: ComputeCapacity? = nil, description: String? = nil, disconnectTimeoutInSeconds: Int? = nil, displayName: String? = nil, domainJoinInfo: DomainJoinInfo? = nil, enableDefaultInternetAccess: Bool? = nil, iamRoleArn: String? = nil, idleDisconnectTimeoutInSeconds: Int? = nil, imageArn: String? = nil, imageName: String? = nil, instanceType: String? = nil, maxConcurrentSessions: Int? = nil, maxUserDurationInSeconds: Int? = nil, name: String? = nil, platform: PlatformType? = nil, streamView: StreamView? = nil, usbDeviceFilterStrings: [String]? = nil, vpcConfig: VpcConfig? = nil) {
+        public init(attributesToDelete: [FleetAttribute]? = nil, computeCapacity: ComputeCapacity? = nil, description: String? = nil, disconnectTimeoutInSeconds: Int? = nil, displayName: String? = nil, domainJoinInfo: DomainJoinInfo? = nil, enableDefaultInternetAccess: Bool? = nil, iamRoleArn: String? = nil, idleDisconnectTimeoutInSeconds: Int? = nil, imageArn: String? = nil, imageName: String? = nil, instanceType: String? = nil, maxConcurrentSessions: Int? = nil, maxUserDurationInSeconds: Int? = nil, name: String? = nil, platform: PlatformType? = nil, sessionScriptS3Location: S3Location? = nil, streamView: StreamView? = nil, usbDeviceFilterStrings: [String]? = nil, vpcConfig: VpcConfig? = nil) {
             self.attributesToDelete = attributesToDelete
             self.computeCapacity = computeCapacity
             self.deleteVpcConfig = nil
@@ -3855,13 +3867,14 @@ extension AppStream {
             self.maxUserDurationInSeconds = maxUserDurationInSeconds
             self.name = name
             self.platform = platform
+            self.sessionScriptS3Location = sessionScriptS3Location
             self.streamView = streamView
             self.usbDeviceFilterStrings = usbDeviceFilterStrings
             self.vpcConfig = vpcConfig
         }
 
         @available(*, deprecated, message: "Members deleteVpcConfig have been deprecated")
-        public init(attributesToDelete: [FleetAttribute]? = nil, computeCapacity: ComputeCapacity? = nil, deleteVpcConfig: Bool? = nil, description: String? = nil, disconnectTimeoutInSeconds: Int? = nil, displayName: String? = nil, domainJoinInfo: DomainJoinInfo? = nil, enableDefaultInternetAccess: Bool? = nil, iamRoleArn: String? = nil, idleDisconnectTimeoutInSeconds: Int? = nil, imageArn: String? = nil, imageName: String? = nil, instanceType: String? = nil, maxConcurrentSessions: Int? = nil, maxUserDurationInSeconds: Int? = nil, name: String? = nil, platform: PlatformType? = nil, streamView: StreamView? = nil, usbDeviceFilterStrings: [String]? = nil, vpcConfig: VpcConfig? = nil) {
+        public init(attributesToDelete: [FleetAttribute]? = nil, computeCapacity: ComputeCapacity? = nil, deleteVpcConfig: Bool? = nil, description: String? = nil, disconnectTimeoutInSeconds: Int? = nil, displayName: String? = nil, domainJoinInfo: DomainJoinInfo? = nil, enableDefaultInternetAccess: Bool? = nil, iamRoleArn: String? = nil, idleDisconnectTimeoutInSeconds: Int? = nil, imageArn: String? = nil, imageName: String? = nil, instanceType: String? = nil, maxConcurrentSessions: Int? = nil, maxUserDurationInSeconds: Int? = nil, name: String? = nil, platform: PlatformType? = nil, sessionScriptS3Location: S3Location? = nil, streamView: StreamView? = nil, usbDeviceFilterStrings: [String]? = nil, vpcConfig: VpcConfig? = nil) {
             self.attributesToDelete = attributesToDelete
             self.computeCapacity = computeCapacity
             self.deleteVpcConfig = deleteVpcConfig
@@ -3879,6 +3892,7 @@ extension AppStream {
             self.maxUserDurationInSeconds = maxUserDurationInSeconds
             self.name = name
             self.platform = platform
+            self.sessionScriptS3Location = sessionScriptS3Location
             self.streamView = streamView
             self.usbDeviceFilterStrings = usbDeviceFilterStrings
             self.vpcConfig = vpcConfig
@@ -3893,6 +3907,7 @@ extension AppStream {
             try self.validate(self.imageName, name: "imageName", parent: name, min: 1)
             try self.validate(self.instanceType, name: "instanceType", parent: name, min: 1)
             try self.validate(self.name, name: "name", parent: name, min: 1)
+            try self.sessionScriptS3Location?.validate(name: "\(name).sessionScriptS3Location")
             try self.usbDeviceFilterStrings?.forEach {
                 try validate($0, name: "usbDeviceFilterStrings[]", parent: name, max: 100)
                 try validate($0, name: "usbDeviceFilterStrings[]", parent: name, pattern: "^((\\w*)\\s*(\\w*)\\s*\\,\\s*(\\w*)\\s*\\,\\s*\\*?(\\w*)\\s*\\,\\s*\\*?(\\w*)\\s*\\,\\s*\\*?\\d*\\s*\\,\\s*\\*?\\d*\\s*\\,\\s*[0-1]\\s*\\,\\s*[0-1]\\s*)$")
@@ -3918,6 +3933,7 @@ extension AppStream {
             case maxUserDurationInSeconds = "MaxUserDurationInSeconds"
             case name = "Name"
             case platform = "Platform"
+            case sessionScriptS3Location = "SessionScriptS3Location"
             case streamView = "StreamView"
             case usbDeviceFilterStrings = "UsbDeviceFilterStrings"
             case vpcConfig = "VpcConfig"

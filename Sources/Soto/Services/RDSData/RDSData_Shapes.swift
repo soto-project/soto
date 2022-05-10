@@ -27,6 +27,18 @@ extension RDSData {
         public var description: String { return self.rawValue }
     }
 
+    public enum LongReturnType: String, CustomStringConvertible, Codable {
+        case long = "LONG"
+        case string = "STRING"
+        public var description: String { return self.rawValue }
+    }
+
+    public enum RecordsFormatType: String, CustomStringConvertible, Codable {
+        case json = "JSON"
+        case none = "NONE"
+        public var description: String { return self.rawValue }
+    }
+
     public enum TypeHint: String, CustomStringConvertible, Codable {
         case date = "DATE"
         case decimal = "DECIMAL"
@@ -42,9 +54,9 @@ extension RDSData {
         case arrayValues([ArrayValue])
         /// An array of Boolean values.
         case booleanValues([Bool])
-        /// An array of integers.
+        /// An array of floating-point numbers.
         case doubleValues([Double])
-        /// An array of floating point numbers.
+        /// An array of integers.
         case longValues([Int64])
         /// An array of strings.
         case stringValues([String])
@@ -536,6 +548,8 @@ extension RDSData {
         public let continueAfterTimeout: Bool?
         /// The name of the database.
         public let database: String?
+        /// A value that indicates whether to format the result set as a single JSON string. This parameter only applies to SELECT statements and is ignored for other types of statements. Allowed values are NONE and JSON. The default value is NONE. The result is returned in the formattedRecords field. For usage information about the JSON format for result sets, see Using the Data API in the Amazon Aurora User Guide.
+        public let formatRecordsAs: RecordsFormatType?
         /// A value that indicates whether to include metadata in the results.
         public let includeResultMetadata: Bool?
         /// The parameters for the SQL statement.  Array parameters are not supported.
@@ -553,9 +567,10 @@ extension RDSData {
         /// The identifier of a transaction that was started by using the BeginTransaction operation. Specify the transaction ID of the transaction that you want to include the SQL statement in. If the SQL statement is not part of a transaction, don't set this parameter.
         public let transactionId: String?
 
-        public init(continueAfterTimeout: Bool? = nil, database: String? = nil, includeResultMetadata: Bool? = nil, parameters: [SqlParameter]? = nil, resourceArn: String, resultSetOptions: ResultSetOptions? = nil, schema: String? = nil, secretArn: String, sql: String, transactionId: String? = nil) {
+        public init(continueAfterTimeout: Bool? = nil, database: String? = nil, formatRecordsAs: RecordsFormatType? = nil, includeResultMetadata: Bool? = nil, parameters: [SqlParameter]? = nil, resourceArn: String, resultSetOptions: ResultSetOptions? = nil, schema: String? = nil, secretArn: String, sql: String, transactionId: String? = nil) {
             self.continueAfterTimeout = continueAfterTimeout
             self.database = database
+            self.formatRecordsAs = formatRecordsAs
             self.includeResultMetadata = includeResultMetadata
             self.parameters = parameters
             self.resourceArn = resourceArn
@@ -580,6 +595,7 @@ extension RDSData {
         private enum CodingKeys: String, CodingKey {
             case continueAfterTimeout
             case database
+            case formatRecordsAs
             case includeResultMetadata
             case parameters
             case resourceArn
@@ -592,17 +608,20 @@ extension RDSData {
     }
 
     public struct ExecuteStatementResponse: AWSDecodableShape {
-        /// Metadata for the columns included in the results.
+        /// Metadata for the columns included in the results. This field is blank if the formatRecordsAs parameter is set to JSON.
         public let columnMetadata: [ColumnMetadata]?
-        /// Values for fields generated during the request.   The generatedFields data isn't supported by Aurora PostgreSQL. To get the values of generated fields, use the RETURNING clause. For more information, see Returning Data From Modified Rows in the PostgreSQL documentation.
+        /// A string value that represents the result set of a SELECT statement in JSON format. This value is only present when the formatRecordsAs parameter is set to JSON. The size limit for this field is currently 10 MB. If the JSON-formatted string representing the result set requires more than 10 MB, the call returns an error.
+        public let formattedRecords: String?
+        /// Values for fields generated during a DML request.   The generatedFields data isn't supported by Aurora PostgreSQL. To get the values of generated fields, use the RETURNING clause. For more information, see Returning Data From Modified Rows in the PostgreSQL documentation.
         public let generatedFields: [Field]?
         /// The number of records updated by the request.
         public let numberOfRecordsUpdated: Int64?
-        /// The records returned by the SQL statement.
+        /// The records returned by the SQL statement. This field is blank if the formatRecordsAs parameter is set to JSON.
         public let records: [[Field]]?
 
-        public init(columnMetadata: [ColumnMetadata]? = nil, generatedFields: [Field]? = nil, numberOfRecordsUpdated: Int64? = nil, records: [[Field]]? = nil) {
+        public init(columnMetadata: [ColumnMetadata]? = nil, formattedRecords: String? = nil, generatedFields: [Field]? = nil, numberOfRecordsUpdated: Int64? = nil, records: [[Field]]? = nil) {
             self.columnMetadata = columnMetadata
+            self.formattedRecords = formattedRecords
             self.generatedFields = generatedFields
             self.numberOfRecordsUpdated = numberOfRecordsUpdated
             self.records = records
@@ -610,6 +629,7 @@ extension RDSData {
 
         private enum CodingKeys: String, CodingKey {
             case columnMetadata
+            case formattedRecords
             case generatedFields
             case numberOfRecordsUpdated
             case records
@@ -666,13 +686,17 @@ extension RDSData {
     public struct ResultSetOptions: AWSEncodableShape {
         /// A value that indicates how a field of DECIMAL type is represented in the response. The value of STRING, the default, specifies that it is converted to a String value. The value of DOUBLE_OR_LONG specifies that it is converted to a Long value if its scale is 0, or to a Double value otherwise.  Conversion to Double or Long can result in roundoff errors due to precision loss. We recommend converting to String, especially when working with currency values.
         public let decimalReturnType: DecimalReturnType?
+        /// A value that indicates how a field of LONG type is represented. Allowed values are LONG and STRING. The default is LONG. Specify STRING if the length or precision of numeric values might cause truncation or rounding errors.
+        public let longReturnType: LongReturnType?
 
-        public init(decimalReturnType: DecimalReturnType? = nil) {
+        public init(decimalReturnType: DecimalReturnType? = nil, longReturnType: LongReturnType? = nil) {
             self.decimalReturnType = decimalReturnType
+            self.longReturnType = longReturnType
         }
 
         private enum CodingKeys: String, CodingKey {
             case decimalReturnType
+            case longReturnType
         }
     }
 

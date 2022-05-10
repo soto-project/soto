@@ -64,7 +64,7 @@ extension ACMPCA {
     ///  			the ACM certificate owner must set up a resource-based policy to enable
     ///  			cross-account issuance and renewals. For more information, see
     ///  			Using a Resource
-    ///  			Based Policy with Amazon Web Services Private CA.
+    ///  			Based Policy with ACM Private CA.
     ///
     /// Return PaginatorSequence for operation.
     ///

@@ -859,7 +859,7 @@ extension SageMaker {
         )
     }
 
-    ///  Returns a list of the Amazon SageMaker notebook instances in the requester's account in an Amazon Web Services Region.
+    ///  Returns a list of the SageMaker notebook instances in the requester's account in an Amazon Web Services Region.
     /// Return PaginatorSequence for operation.
     ///
     /// - Parameters:
@@ -1057,7 +1057,7 @@ extension SageMaker {
         )
     }
 
-    ///  Returns the tags for the specified Amazon SageMaker resource.
+    ///  Returns the tags for the specified SageMaker resource.
     /// Return PaginatorSequence for operation.
     ///
     /// - Parameters:

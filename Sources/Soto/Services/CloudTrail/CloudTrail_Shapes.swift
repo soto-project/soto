@@ -71,7 +71,7 @@ extension CloudTrail {
     // MARK: Shapes
 
     public struct AddTagsRequest: AWSEncodableShape {
-        /// Specifies the ARN of the trail to which one or more tags will be added. The format of a trail ARN is:  arn:aws:cloudtrail:us-east-2:123456789012:trail/MyTrail
+        /// Specifies the ARN of the trail or event data store to which one or more tags will be added. The format of a trail ARN is:  arn:aws:cloudtrail:us-east-2:123456789012:trail/MyTrail
         public let resourceId: String
         /// Contains a list of tags, up to a limit of 50
         public let tagsList: [Tag]
@@ -278,7 +278,7 @@ extension CloudTrail {
             try self.validate(self.name, name: "name", parent: name, max: 128)
             try self.validate(self.name, name: "name", parent: name, min: 3)
             try self.validate(self.name, name: "name", parent: name, pattern: "^[a-zA-Z0-9._\\-]+$")
-            try self.validate(self.retentionPeriod, name: "retentionPeriod", parent: name, max: 2555)
+            try self.validate(self.retentionPeriod, name: "retentionPeriod", parent: name, max: 2557)
             try self.validate(self.retentionPeriod, name: "retentionPeriod", parent: name, min: 7)
             try self.tagsList?.forEach {
                 try $0.validate(name: "\(name).tagsList[]")
@@ -679,27 +679,41 @@ extension CloudTrail {
     }
 
     public struct EventDataStore: AWSDecodableShape {
-        /// The advanced event selectors that were used to select events for the data store.
+        /// This field is being deprecated. The advanced event selectors that were used to select events for the data store.
         public let advancedEventSelectors: [AdvancedEventSelector]?
-        /// The timestamp of the event data store's creation.
+        /// This field is being deprecated. The timestamp of the event data store's creation.
         public let createdTimestamp: Date?
         /// The ARN of the event data store.
         public let eventDataStoreArn: String?
-        /// Indicates whether the event data store includes events from all regions, or only from the region in which it was created.
+        /// This field is being deprecated. Indicates whether the event data store includes events from all regions, or only from the region in which it was created.
         public let multiRegionEnabled: Bool?
         /// The name of the event data store.
         public let name: String?
-        /// Indicates that an event data store is collecting logged events for an organization.
+        /// This field is being deprecated. Indicates that an event data store is collecting logged events for an organization.
         public let organizationEnabled: Bool?
-        /// The retention period, in days.
+        /// This field is being deprecated. The retention period, in days.
         public let retentionPeriod: Int?
-        /// The status of an event data store. Values are ENABLED and PENDING_DELETION.
+        /// This field is being deprecated. The status of an event data store. Values are ENABLED and PENDING_DELETION.
         public let status: EventDataStoreStatus?
-        /// Indicates whether the event data store is protected from termination.
+        /// This field is being deprecated. Indicates whether the event data store is protected from termination.
         public let terminationProtectionEnabled: Bool?
-        /// The timestamp showing when an event data store was updated, if applicable. UpdatedTimestamp is always either the same or newer than the time shown in CreatedTimestamp.
+        /// This field is being deprecated. The timestamp showing when an event data store was updated, if applicable. UpdatedTimestamp is always either the same or newer than the time shown in CreatedTimestamp.
         public let updatedTimestamp: Date?
 
+        public init(eventDataStoreArn: String? = nil, name: String? = nil) {
+            self.advancedEventSelectors = nil
+            self.createdTimestamp = nil
+            self.eventDataStoreArn = eventDataStoreArn
+            self.multiRegionEnabled = nil
+            self.name = name
+            self.organizationEnabled = nil
+            self.retentionPeriod = nil
+            self.status = nil
+            self.terminationProtectionEnabled = nil
+            self.updatedTimestamp = nil
+        }
+
+        @available(*, deprecated, message: "Members advancedEventSelectors, createdTimestamp, multiRegionEnabled, organizationEnabled, retentionPeriod, status, terminationProtectionEnabled, updatedTimestamp have been deprecated")
         public init(advancedEventSelectors: [AdvancedEventSelector]? = nil, createdTimestamp: Date? = nil, eventDataStoreArn: String? = nil, multiRegionEnabled: Bool? = nil, name: String? = nil, organizationEnabled: Bool? = nil, retentionPeriod: Int? = nil, status: EventDataStoreStatus? = nil, terminationProtectionEnabled: Bool? = nil, updatedTimestamp: Date? = nil) {
             self.advancedEventSelectors = advancedEventSelectors
             self.createdTimestamp = createdTimestamp
@@ -1224,7 +1238,7 @@ extension CloudTrail {
     public struct ListTagsRequest: AWSEncodableShape {
         /// Reserved for future use.
         public let nextToken: String?
-        /// Specifies a list of trail ARNs whose tags will be listed. The list has a limit of 20 ARNs. The following is the format of  a trail ARN.  arn:aws:cloudtrail:us-east-2:123456789012:trail/MyTrail
+        /// Specifies a list of trail and event data store ARNs whose tags will be listed. The list  has a limit of 20 ARNs.
         public let resourceIdList: [String]
 
         public init(nextToken: String? = nil, resourceIdList: [String]) {
@@ -1536,7 +1550,7 @@ extension CloudTrail {
     }
 
     public struct RemoveTagsRequest: AWSEncodableShape {
-        /// Specifies the ARN of the trail from which tags should be removed. The format of a trail ARN is:  arn:aws:cloudtrail:us-east-2:123456789012:trail/MyTrail
+        /// Specifies the ARN of the trail or event data store from which tags should be removed.  Example trail ARN format: arn:aws:cloudtrail:us-east-2:123456789012:trail/MyTrail  Example event data store ARN format: arn:aws:cloudtrail:us-east-2:12345678910:eventdatastore/EXAMPLE-f852-4e8f-8bd1-bcf6cEXAMPLE
         public let resourceId: String
         /// Specifies a list of tags to be removed.
         public let tagsList: [Tag]
@@ -1905,7 +1919,7 @@ extension CloudTrail {
             try self.validate(self.name, name: "name", parent: name, max: 128)
             try self.validate(self.name, name: "name", parent: name, min: 3)
             try self.validate(self.name, name: "name", parent: name, pattern: "^[a-zA-Z0-9._\\-]+$")
-            try self.validate(self.retentionPeriod, name: "retentionPeriod", parent: name, max: 2555)
+            try self.validate(self.retentionPeriod, name: "retentionPeriod", parent: name, max: 2557)
             try self.validate(self.retentionPeriod, name: "retentionPeriod", parent: name, min: 7)
         }
 

@@ -83,6 +83,11 @@ extension LookoutMetrics {
         return try await self.client.execute(operation: "DescribeMetricSet", path: "/DescribeMetricSet", httpMethod: .POST, serviceConfig: self.config, input: input, logger: logger, on: eventLoop)
     }
 
+    /// Detects an Amazon S3 dataset's file format, interval, and offset.
+    public func detectMetricSetConfig(_ input: DetectMetricSetConfigRequest, logger: Logger = AWSClient.loggingDisabled, on eventLoop: EventLoop? = nil) async throws -> DetectMetricSetConfigResponse {
+        return try await self.client.execute(operation: "DetectMetricSetConfig", path: "/DetectMetricSetConfig", httpMethod: .POST, serviceConfig: self.config, input: input, logger: logger, on: eventLoop)
+    }
+
     /// Returns details about a group of anomalous metrics.
     public func getAnomalyGroup(_ input: GetAnomalyGroupRequest, logger: Logger = AWSClient.loggingDisabled, on eventLoop: EventLoop? = nil) async throws -> GetAnomalyGroupResponse {
         return try await self.client.execute(operation: "GetAnomalyGroup", path: "/GetAnomalyGroup", httpMethod: .POST, serviceConfig: self.config, input: input, logger: logger, on: eventLoop)

@@ -137,7 +137,7 @@ extension EFS {
     }
 
     public struct BackupPolicy: AWSEncodableShape & AWSDecodableShape {
-        /// Describes the status of the file system's backup policy.     ENABLED - EFS is automatically backing up the file system.     ENABLING - EFS is turning on automatic backups for the file system.     DISABLED - automatic back ups are turned off for the file system.     DISABLING - EFS is turning off automatic backups for the file system.
+        /// Describes the status of the file system's backup policy.     ENABLED - EFS is automatically backing up the file system.     ENABLING - EFS is turning on automatic backups for the file system.     DISABLED - Automatic back ups are turned off for the file system.     DISABLING - EFS is turning off automatic backups for the file system.
         public let status: Status
 
         public init(status: Status) {
@@ -150,7 +150,7 @@ extension EFS {
     }
 
     public struct BackupPolicyDescription: AWSDecodableShape {
-        /// Describes the file system's backup policy, indicating whether automatic backups are turned on or off..
+        /// Describes the file system's backup policy, indicating whether automatic backups are turned on or off.
         public let backupPolicy: BackupPolicy?
 
         public init(backupPolicy: BackupPolicy? = nil) {
@@ -169,7 +169,7 @@ extension EFS {
         public let fileSystemId: String
         /// The operating system user and group applied to all file system requests made using the access point.
         public let posixUser: PosixUser?
-        /// Specifies the directory on the Amazon EFS file system that the access point exposes as the root directory of your file system to NFS clients using the access point.  The clients using the access point can only access the root directory and below.  If the RootDirectory > Path specified does not exist,  EFS creates it and applies the CreationInfo settings when a client connects to an access point.  When specifying a RootDirectory, you need to provide the Path, and the CreationInfo. Amazon EFS creates a root directory only if you have provided the  CreationInfo: OwnUid, OwnGID, and permissions for the directory.  If  you do not provide this information, Amazon EFS does not create the root directory. If the root directory does not exist, attempts to mount  using the access point will fail.
+        /// Specifies the directory on the Amazon EFS file system that the access point exposes as the root directory of your file system to NFS clients using the access point. The clients using the access point can only access the root directory and below. If the RootDirectory > Path specified does not exist, EFS creates it and applies the CreationInfo settings when a client connects to an access point. When specifying a RootDirectory, you must provide the Path, and the CreationInfo. Amazon EFS creates a root directory only if you have provided the  CreationInfo: OwnUid, OwnGID, and permissions for the directory.  If  you do not provide this information, Amazon EFS does not create the root directory. If the root directory does not exist, attempts to mount  using the access point will fail.
         public let rootDirectory: RootDirectory?
         /// Creates tags associated with the access point. Each tag is a key-value pair, each key must be unique. For more  information, see Tagging Amazon Web Services resources in the Amazon Web Services General Reference Guide.
         public let tags: [Tag]?
@@ -213,7 +213,7 @@ extension EFS {
         public let creationToken: String
         /// A Boolean value that, if true, creates an encrypted file system. When creating an encrypted file system, you have the option of specifying an existing Key Management Service key (KMS key). If you don't specify a KMS key, then the default KMS key for Amazon EFS, /aws/elasticfilesystem, is used to protect the encrypted file system.
         public let encrypted: Bool?
-        /// The ID of the KMS key that you want to use to protect the encrypted file system. This parameter is only required if you want to use a non-default KMS key. If this parameter is not specified, the default KMS key for Amazon EFS is used. You can specify a KMS key  ID using the following formats:   Key ID - A unique identifier of the key, for example 1234abcd-12ab-34cd-56ef-1234567890ab.   ARN - An Amazon Resource Name (ARN) for the key, for example arn:aws:kms:us-west-2:111122223333:key/1234abcd-12ab-34cd-56ef-1234567890ab.   Key alias - A previously created display name for a key, for example alias/projectKey1.   Key alias ARN - An ARN for a key alias, for example arn:aws:kms:us-west-2:444455556666:alias/projectKey1.   If you use KmsKeyId, you must set the CreateFileSystemRequest$Encrypted  parameter to true.  EFS accepts only symmetric KMS keys. You cannot use asymmetric  KMS keys with Amazon EFS file systems.
+        /// The ID of the KMS key that you want to use to protect the encrypted file system. This parameter is required only if you want to use a non-default KMS key. If this parameter is not specified, the default KMS key for Amazon EFS is used. You can specify a KMS key ID using the following formats:   Key ID - A unique identifier of the key, for example 1234abcd-12ab-34cd-56ef-1234567890ab.   ARN - An Amazon Resource Name (ARN) for the key, for example arn:aws:kms:us-west-2:111122223333:key/1234abcd-12ab-34cd-56ef-1234567890ab.   Key alias - A previously created display name for a key, for example alias/projectKey1.   Key alias ARN - An ARN for a key alias, for example arn:aws:kms:us-west-2:444455556666:alias/projectKey1.   If you use KmsKeyId, you must set the CreateFileSystemRequest$Encrypted  parameter to true.  EFS accepts only symmetric KMS keys. You cannot use asymmetric  KMS keys with Amazon EFS file systems.
         public let kmsKeyId: String?
         /// The performance mode of the file system. We recommend generalPurpose performance mode for most file systems. File systems using the maxIO performance mode can scale to higher levels of aggregate throughput and operations per second with a tradeoff of slightly higher latencies for most file operations. The performance mode can't be changed after the file system has been created.  The maxIO mode is not supported on file systems using One Zone storage classes.
         public let performanceMode: PerformanceMode?
@@ -849,11 +849,11 @@ extension EFS {
             AWSMemberEncoding(label: "nextToken", location: .querystring("NextToken"))
         ]
 
-        /// You can retrieve replication configurations for a specific file system by providing a file system ID.
+        /// You can retrieve the replication configuration for a specific file system by providing its file system ID.
         public let fileSystemId: String?
-        /// (Optional) You can optionally specify the MaxItems parameter  to limit the number of objects returned in a response. The default value is 100.
+        /// (Optional) To limit the number of objects returned in a response, you can specify the MaxItems parameter. The default value is 100.
         public let maxResults: Int?
-        ///  NextToken is present if the response is paginated. You can use  NextMarker in a subsequent request to fetch the next page of output.
+        ///  NextToken is present if the response is paginated. You can use NextToken in a subsequent request to fetch the next page of output.
         public let nextToken: String?
 
         public init(fileSystemId: String? = nil, maxResults: Int? = nil, nextToken: String? = nil) {
@@ -877,7 +877,7 @@ extension EFS {
     public struct DescribeReplicationConfigurationsResponse: AWSDecodableShape {
         /// You can use the NextToken from the previous response in a subsequent  request to fetch the additional descriptions.
         public let nextToken: String?
-        /// The collection of replication configurations returned.
+        /// The collection of replication configurations that is returned.
         public let replications: [ReplicationConfigurationDescription]?
 
         public init(nextToken: String? = nil, replications: [ReplicationConfigurationDescription]? = nil) {
@@ -947,11 +947,11 @@ extension EFS {
     public struct Destination: AWSDecodableShape {
         /// The ID of the destination Amazon EFS file system.
         public let fileSystemId: String
-        /// The time when the most recent sync successfully completed on the destination file system.  Any changes to data on the source file system that occurred prior to this time were successfully  replicated to the destination file system. Any changes that occurred after this time might not be  fully replicated.
+        /// The time when the most recent sync was successfully completed on the destination file system. Any changes to data on the source file system that occurred before this time have been successfully replicated to the destination file system. Any changes that occurred after this time might not be fully replicated.
         public let lastReplicatedTimestamp: Date?
         /// The Amazon Web Services Region in which the destination file system is located.
         public let region: String
-        /// Describes the status of the destination Amazon EFS file system.
+        /// Describes the status of the destination Amazon EFS file system. If the status is ERROR, the destination file system in the replication configuration is in a failed state and is unrecoverable. To access the file system data, restore a backup of the failed file system to a new file system.
         public let status: ReplicationStatus
 
         public init(fileSystemId: String, lastReplicatedTimestamp: Date? = nil, region: String, status: ReplicationStatus) {
@@ -970,11 +970,11 @@ extension EFS {
     }
 
     public struct DestinationToCreate: AWSEncodableShape {
-        /// To create a file system that uses One Zone storage, specify the name of the  Availability Zone in which to create the destination file system.
+        /// To create a file system that uses EFS One Zone storage, specify the name of the Availability Zone in which to create the destination file system.
         public let availabilityZoneName: String?
-        /// Specifies the KMS key you want to use to encrypt the destination file system. If you do not  specify a KMS key, EFS uses your default KMS key for Amazon EFS,  /aws/elasticfilesystem. This ID can be in one of the following formats:   Key ID - A unique identifier of the key, for example 1234abcd-12ab-34cd-56ef-1234567890ab.   ARN - An Amazon Resource Name (ARN) for the key, for example arn:aws:kms:us-west-2:111122223333:key/1234abcd-12ab-34cd-56ef-1234567890ab.   Key alias - A previously created display name for a key, for example alias/projectKey1.   Key alias ARN - An ARN for a key alias, for example arn:aws:kms:us-west-2:444455556666:alias/projectKey1.
+        /// Specifies the Key Management Service (KMS) key that you want to use to encrypt the destination file system. If you do not specify a KMS key, Amazon EFS uses your default KMS key for Amazon EFS, /aws/elasticfilesystem. This ID can be in one of the following formats:   Key ID - The unique identifier of the key, for example 1234abcd-12ab-34cd-56ef-1234567890ab.   ARN - The Amazon Resource Name (ARN) for the key, for example arn:aws:kms:us-west-2:111122223333:key/1234abcd-12ab-34cd-56ef-1234567890ab.   Key alias - A previously created display name for a key, for example alias/projectKey1.   Key alias ARN - The ARN for a key alias, for example arn:aws:kms:us-west-2:444455556666:alias/projectKey1.
         public let kmsKeyId: String?
-        /// To create a file system that uses regional storage, specify the Amazon Web Services Region in which to create the destination file system.
+        /// To create a file system that uses Regional storage, specify the Amazon Web Services Region in which to create the destination file system.
         public let region: String?
 
         public init(availabilityZoneName: String? = nil, kmsKeyId: String? = nil, region: String? = nil) {
@@ -1314,7 +1314,7 @@ extension EFS {
     }
 
     public struct PutAccountPreferencesRequest: AWSEncodableShape {
-        /// Specifies the EFS resource ID preference to set for the user's Amazon Web Services account,  in the current Amazon Web Services Region, either LONG_ID (17 characters), or  SHORT_ID (8 characters).  Starting in October, 2021, you will receive an error when setting the account  preference to SHORT_ID. Contact Amazon Web Services support if you receive an  error and need to use short IDs for file system and mount target resources.
+        /// Specifies the EFS resource ID preference to set for the user's Amazon Web Services account,  in the current Amazon Web Services Region, either LONG_ID (17 characters), or  SHORT_ID (8 characters).  Starting in October, 2021, you will receive an error when setting the account preference to SHORT_ID. Contact Amazon Web Services support if you receive an error and must use short IDs for file system and mount target resources.
         public let resourceIdType: ResourceIdType
 
         public init(resourceIdType: ResourceIdType) {
@@ -1368,7 +1368,7 @@ extension EFS {
             AWSMemberEncoding(label: "fileSystemId", location: .uri("FileSystemId"))
         ]
 
-        /// (Optional) A flag to indicate whether to bypass the FileSystemPolicy lockout safety check. The policy lockout safety check  determines whether the policy in the request will prevent the principal making the request will be locked out from making future PutFileSystemPolicy requests on the file system. Set BypassPolicyLockoutSafetyCheck to True only when you intend to prevent  the principal that is making the request from making a subsequent PutFileSystemPolicy request on the file system.  The default value is False.
+        /// (Optional) A boolean that specifies whether or not to bypass the FileSystemPolicy lockout safety check. The lockout safety check  determines whether the policy in the request will lock out, or prevent, the IAM principal that is making the request from making future PutFileSystemPolicy requests on this file system. Set BypassPolicyLockoutSafetyCheck to True only when you intend to prevent  the IAM principal that is making the request from making subsequent PutFileSystemPolicy requests on this file system.  The default value is False.
         public let bypassPolicyLockoutSafetyCheck: Bool?
         /// The ID of the EFS file system that you want to create or update the FileSystemPolicy for.
         public let fileSystemId: String
@@ -1402,7 +1402,7 @@ extension EFS {
 
         /// The ID of the file system for which you are creating the LifecycleConfiguration object (String).
         public let fileSystemId: String
-        /// An array of LifecyclePolicy objects that define the file system's LifecycleConfiguration object. A LifecycleConfiguration object informs EFS lifecycle management and intelligent tiering of the following:   When to move files in the file system from primary storage to the IA storage class.   When to move files that are in IA storage to primary storage.    When using the put-lifecycle-configuration CLI command or the PutLifecycleConfiguration API action,  Amazon EFS requires that each LifecyclePolicy  object have only a single transition. This means that in a request body, LifecyclePolicies needs to be structured as an array of LifecyclePolicy objects, one object for each transition, TransitionToIA, TransitionToPrimaryStorageClass.  See the example requests in the following section for more information.
+        /// An array of LifecyclePolicy objects that define the file system's LifecycleConfiguration object. A LifecycleConfiguration object informs EFS lifecycle management and EFS Intelligent-Tiering of the following:   When to move files in the file system from primary storage to the IA storage class.   When to move files that are in IA storage to primary storage.    When using the put-lifecycle-configuration CLI command or the PutLifecycleConfiguration API action, Amazon EFS requires that each LifecyclePolicy object have only a single transition. This means that in a request body, LifecyclePolicies must be structured as an array of LifecyclePolicy objects, one object for each transition, TransitionToIA, TransitionToPrimaryStorageClass. See the example requests in the following section for more information.
         public let lifecyclePolicies: [LifecyclePolicy]
 
         public init(fileSystemId: String, lifecyclePolicies: [LifecyclePolicy]) {
@@ -1424,11 +1424,11 @@ extension EFS {
     public struct ReplicationConfigurationDescription: AWSDecodableShape {
         /// Describes when the replication configuration was created.
         public let creationTime: Date
-        /// Array of destination objects. Only one destination object is supported.
+        /// An array of destination objects. Only one destination object is supported.
         public let destinations: [Destination]
         /// The Amazon Resource Name (ARN) of the original source Amazon EFS  file system in the replication configuration.
         public let originalSourceFileSystemArn: String
-        /// The ARN of the current source file system in the replication configuration.
+        /// The Amazon Resource Name (ARN) of the current source file system in the replication configuration.
         public let sourceFileSystemArn: String
         /// The ID of the source Amazon EFS file system that is being replicated.
         public let sourceFileSystemId: String

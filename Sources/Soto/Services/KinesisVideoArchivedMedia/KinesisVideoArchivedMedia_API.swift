@@ -81,6 +81,11 @@ public struct KinesisVideoArchivedMedia: AWSService {
         return self.client.execute(operation: "GetHLSStreamingSessionURL", path: "/getHLSStreamingSessionURL", httpMethod: .POST, serviceConfig: self.config, input: input, logger: logger, on: eventLoop)
     }
 
+    /// Retrieves a list of Images corresponding to each timestamp for a given time range, sampling interval, and image format configuration.
+    public func getImages(_ input: GetImagesInput, logger: Logger = AWSClient.loggingDisabled, on eventLoop: EventLoop? = nil) -> EventLoopFuture<GetImagesOutput> {
+        return self.client.execute(operation: "GetImages", path: "/getImages", httpMethod: .POST, serviceConfig: self.config, input: input, logger: logger, on: eventLoop)
+    }
+
     /// Gets media for a list of fragments (specified by fragment number) from the archived data in an Amazon Kinesis video stream.
     ///   You must first call the GetDataEndpoint API to get an endpoint. Then send the GetMediaForFragmentList requests to this endpoint using the --endpoint-url parameter.
     ///  For limits, see Kinesis Video Streams Limits.

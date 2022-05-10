@@ -609,20 +609,20 @@ extension Mgn {
 
     public struct DescribeJobsRequest: AWSEncodableShape {
         /// Request to describe Job log filters.
-        public let filters: DescribeJobsRequestFilters
+        public let filters: DescribeJobsRequestFilters?
         /// Request to describe job log items by max results.
         public let maxResults: Int?
         /// Request to describe job log items by next token.
         public let nextToken: String?
 
-        public init(filters: DescribeJobsRequestFilters, maxResults: Int? = nil, nextToken: String? = nil) {
+        public init(filters: DescribeJobsRequestFilters? = nil, maxResults: Int? = nil, nextToken: String? = nil) {
             self.filters = filters
             self.maxResults = maxResults
             self.nextToken = nextToken
         }
 
         public func validate(name: String) throws {
-            try self.filters.validate(name: "\(name).filters")
+            try self.filters?.validate(name: "\(name).filters")
             try self.validate(self.maxResults, name: "maxResults", parent: name, min: 1)
             try self.validate(self.nextToken, name: "nextToken", parent: name, max: 2048)
         }
@@ -693,9 +693,9 @@ extension Mgn {
         /// Request to describe Replication Configuration template by next token.
         public let nextToken: String?
         /// Request to describe Replication Configuration template by template IDs.
-        public let replicationConfigurationTemplateIDs: [String]
+        public let replicationConfigurationTemplateIDs: [String]?
 
-        public init(maxResults: Int? = nil, nextToken: String? = nil, replicationConfigurationTemplateIDs: [String]) {
+        public init(maxResults: Int? = nil, nextToken: String? = nil, replicationConfigurationTemplateIDs: [String]? = nil) {
             self.maxResults = maxResults
             self.nextToken = nextToken
             self.replicationConfigurationTemplateIDs = replicationConfigurationTemplateIDs
@@ -704,7 +704,7 @@ extension Mgn {
         public func validate(name: String) throws {
             try self.validate(self.maxResults, name: "maxResults", parent: name, min: 1)
             try self.validate(self.nextToken, name: "nextToken", parent: name, max: 2048)
-            try self.replicationConfigurationTemplateIDs.forEach {
+            try self.replicationConfigurationTemplateIDs?.forEach {
                 try validate($0, name: "replicationConfigurationTemplateIDs[]", parent: name, max: 21)
                 try validate($0, name: "replicationConfigurationTemplateIDs[]", parent: name, min: 21)
                 try validate($0, name: "replicationConfigurationTemplateIDs[]", parent: name, pattern: "^rct-[0-9a-zA-Z]{17}$")
@@ -738,20 +738,20 @@ extension Mgn {
 
     public struct DescribeSourceServersRequest: AWSEncodableShape {
         /// Request to filter Source Servers list.
-        public let filters: DescribeSourceServersRequestFilters
+        public let filters: DescribeSourceServersRequestFilters?
         /// Request to filter Source Servers list by maximum results.
         public let maxResults: Int?
         /// Request to filter Source Servers list by next token.
         public let nextToken: String?
 
-        public init(filters: DescribeSourceServersRequestFilters, maxResults: Int? = nil, nextToken: String? = nil) {
+        public init(filters: DescribeSourceServersRequestFilters? = nil, maxResults: Int? = nil, nextToken: String? = nil) {
             self.filters = filters
             self.maxResults = maxResults
             self.nextToken = nextToken
         }
 
         public func validate(name: String) throws {
-            try self.filters.validate(name: "\(name).filters")
+            try self.filters?.validate(name: "\(name).filters")
             try self.validate(self.maxResults, name: "maxResults", parent: name, min: 1)
             try self.validate(self.nextToken, name: "nextToken", parent: name, max: 2048)
         }

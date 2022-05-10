@@ -4000,7 +4000,7 @@ extension S3Control {
         public let requesterPays: Bool?
         public let sseAwsKmsKeyId: String?
         public let storageClass: S3StorageClass?
-        /// Specifies the folder prefix into which you would like the objects to be copied. For example, to copy objects into a folder named "Folder1" in the destination bucket, set the TargetKeyPrefix to "Folder1/".
+        /// Specifies the folder prefix into which you would like the objects to be copied. For example, to copy objects into a folder named Folder1 in the destination bucket, set the TargetKeyPrefix to Folder1.
         public let targetKeyPrefix: String?
         /// Specifies the destination bucket ARN for the batch copy operation. For example, to copy objects to a bucket named "destinationBucket", set the TargetResource to "arn:aws:s3:::destinationBucket".
         public let targetResource: String?

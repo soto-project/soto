@@ -48,7 +48,7 @@ public struct SageMakerErrorType: AWSErrorType {
     public static var conflictException: Self { .init(.conflictException) }
     /// Resource being accessed is in use.
     public static var resourceInUse: Self { .init(.resourceInUse) }
-    ///  You have exceeded an Amazon SageMaker resource limit. For example, you might have too many training jobs created.
+    ///  You have exceeded an SageMaker resource limit. For example, you might have too many training jobs created.
     public static var resourceLimitExceeded: Self { .init(.resourceLimitExceeded) }
     /// Resource being access is not found.
     public static var resourceNotFound: Self { .init(.resourceNotFound) }

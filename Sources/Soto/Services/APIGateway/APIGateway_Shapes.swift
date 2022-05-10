@@ -3442,7 +3442,7 @@ extension APIGateway {
 
     public struct PutIntegrationRequest: AWSEncodableShape {
         public static var _encoding = [
-            AWSMemberEncoding(label: "httpMethod", location: .uri("httpMethod")),
+            AWSMemberEncoding(label: "httpMethod", location: .uri("requestHttpMethod")),
             AWSMemberEncoding(label: "resourceId", location: .uri("resourceId")),
             AWSMemberEncoding(label: "restApiId", location: .uri("restApiId"))
         ]

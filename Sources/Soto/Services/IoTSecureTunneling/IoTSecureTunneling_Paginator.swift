@@ -20,8 +20,9 @@ import SotoCore
 // MARK: Paginators
 
 extension IoTSecureTunneling {
-    ///  List all tunnels for an AWS account. Tunnels are listed by creation time in
+    ///  List all tunnels for an Amazon Web Services account. Tunnels are listed by creation time in
     ///  			descending order, newer tunnels will be listed before older tunnels.
+    ///  		       Requires permission to access the ListTunnels action.
     ///
     /// Provide paginated results to closure `onPage` for it to combine them into one result.
     /// This works in a similar manner to `Array.reduce<Result>(_:_:) -> Result`.

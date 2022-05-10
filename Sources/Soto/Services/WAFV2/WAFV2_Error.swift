@@ -21,6 +21,7 @@ import SotoCore
 public struct WAFV2ErrorType: AWSErrorType {
     enum Code: String {
         case wafAssociatedItemException = "WAFAssociatedItemException"
+        case wafConfigurationWarningException = "WAFConfigurationWarningException"
         case wafDuplicateItemException = "WAFDuplicateItemException"
         case wafExpiredManagedRuleGroupVersionException = "WAFExpiredManagedRuleGroupVersionException"
         case wafInternalErrorException = "WAFInternalErrorException"
@@ -57,8 +58,10 @@ public struct WAFV2ErrorType: AWSErrorType {
     /// return error code string
     public var errorCode: String { self.error.rawValue }
 
-    /// WAF couldn’t perform the operation because your resource is being used by another resource or it’s associated with another resource.
+    /// WAF couldn’t perform the operation because your resource is being used by another resource or it’s associated with another resource.  For DeleteWebACL, you will only get this exception if the web ACL is still associated with  a regional resource. Deleting a web ACL that is still associated with an Amazon CloudFront distribution won't get this exception.
     public static var wafAssociatedItemException: Self { .init(.wafAssociatedItemException) }
+    /// The operation failed because you are inspecting the web request body, headers, or cookies without specifying how to handle oversize components.  Rules that inspect the body must either provide an OversizeHandling configuration or they must   be preceded by a SizeConstraintStatement that blocks the body content from being too large.  Rules that inspect the headers or cookies must provide an OversizeHandling configuration.  Provide the handling configuration and retry your operation. Alternately, you can suppress this warning by adding the following tag to the resource that you provide to this operation: Tag (key:WAF:OversizeFieldsHandlingConstraintOptOut, value:true).
+    public static var wafConfigurationWarningException: Self { .init(.wafConfigurationWarningException) }
     /// WAF couldn’t perform the operation because the resource that you tried to save is a duplicate of an existing one.
     public static var wafDuplicateItemException: Self { .init(.wafDuplicateItemException) }
     /// The operation failed because the specified version for the managed rule group has expired. You can retrieve the available versions for the managed rule group by calling ListAvailableManagedRuleGroupVersions.
@@ -69,7 +72,7 @@ public struct WAFV2ErrorType: AWSErrorType {
     public static var wafInvalidOperationException: Self { .init(.wafInvalidOperationException) }
     /// The operation failed because WAF didn't recognize a parameter in the request. For example:    You specified a parameter name or value that isn't valid.   Your nested statement isn't valid. You might have tried to nest a statement that can’t be nested.    You tried to update a WebACL with a DefaultAction that isn't among the types available at DefaultAction.   Your request references an ARN that is malformed, or corresponds to a resource with which a web ACL can't be associated.
     public static var wafInvalidParameterException: Self { .init(.wafInvalidParameterException) }
-    /// The operation failed because the specified policy isn't in the proper format.   The policy specifications must conform to the following:   The policy must be composed using IAM Policy version 2012-10-17 or version 2015-01-01.   The policy must include specifications for Effect, Action, and Principal.    Effect must specify Allow.    Action must specify wafv2:CreateWebACL, wafv2:UpdateWebACL, and wafv2:PutFirewallManagerRuleGroups. WAF rejects any extra actions or wildcard actions in the policy.   The policy must not include a Resource parameter.   For more information, see IAM Policies.
+    /// The operation failed because the specified policy isn't in the proper format.   The policy specifications must conform to the following:   The policy must be composed using IAM Policy version 2012-10-17 or version 2015-01-01.   The policy must include specifications for Effect, Action, and Principal.    Effect must specify Allow.    Action must specify wafv2:CreateWebACL, wafv2:UpdateWebACL, and  wafv2:PutFirewallManagerRuleGroups and may optionally specify wafv2:GetRuleGroup.  WAF rejects any extra actions or wildcard actions in the policy.   The policy must not include a Resource parameter.   For more information, see IAM Policies.
     public static var wafInvalidPermissionPolicyException: Self { .init(.wafInvalidPermissionPolicyException) }
     /// WAF couldn’t perform the operation because the resource that you requested isn’t valid. Check the resource, and try again.
     public static var wafInvalidResourceException: Self { .init(.wafInvalidResourceException) }
@@ -87,9 +90,9 @@ public struct WAFV2ErrorType: AWSErrorType {
     public static var wafSubscriptionNotFoundException: Self { .init(.wafSubscriptionNotFoundException) }
     /// An error occurred during the tagging operation. Retry your request.
     public static var wafTagOperationException: Self { .init(.wafTagOperationException) }
-    /// WAF couldn’t perform your tagging operation because of an internal error. Retry your request.
+    /// WAF couldn’t perform your tagging operation because of an internal error. Retry ybjectNoteWebRequestComponentour request.
     public static var wafTagOperationInternalErrorException: Self { .init(.wafTagOperationInternalErrorException) }
-    /// WAF couldn’t retrieve the resource that you requested. Retry your request.
+    /// WAF couldn’t retrieve a resource that you specified for this operation. Verify the resources that you are specifying in your request parameters and then retry the operation.
     public static var wafUnavailableEntityException: Self { .init(.wafUnavailableEntityException) }
 }
 

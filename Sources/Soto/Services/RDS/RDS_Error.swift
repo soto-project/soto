@@ -25,9 +25,7 @@ public struct RDSErrorType: AWSErrorType {
         case authorizationQuotaExceededFault = "AuthorizationQuotaExceeded"
         case backupPolicyNotFoundFault = "BackupPolicyNotFoundFault"
         case certificateNotFoundFault = "CertificateNotFound"
-        case customAvailabilityZoneAlreadyExistsFault = "CustomAvailabilityZoneAlreadyExists"
         case customAvailabilityZoneNotFoundFault = "CustomAvailabilityZoneNotFound"
-        case customAvailabilityZoneQuotaExceededFault = "CustomAvailabilityZoneQuotaExceeded"
         case customDBEngineVersionAlreadyExistsFault = "CustomDBEngineVersionAlreadyExistsFault"
         case customDBEngineVersionNotFoundFault = "CustomDBEngineVersionNotFoundFault"
         case customDBEngineVersionQuotaExceededFault = "CustomDBEngineVersionQuotaExceededFault"
@@ -86,8 +84,6 @@ public struct RDSErrorType: AWSErrorType {
         case globalClusterQuotaExceededFault = "GlobalClusterQuotaExceededFault"
         case iamRoleMissingPermissionsFault = "IamRoleMissingPermissions"
         case iamRoleNotFoundFault = "IamRoleNotFound"
-        case installationMediaAlreadyExistsFault = "InstallationMediaAlreadyExists"
-        case installationMediaNotFoundFault = "InstallationMediaNotFound"
         case instanceQuotaExceededFault = "InstanceQuotaExceeded"
         case insufficientAvailableIPsInSubnetFault = "InsufficientAvailableIPsInSubnetFault"
         case insufficientDBClusterCapacityFault = "InsufficientDBClusterCapacityFault"
@@ -119,6 +115,7 @@ public struct RDSErrorType: AWSErrorType {
         case invalidSubnet = "InvalidSubnet"
         case invalidVPCNetworkStateFault = "InvalidVPCNetworkStateFault"
         case kmsKeyNotAccessibleFault = "KMSKeyNotAccessibleFault"
+        case networkTypeNotSupported = "NetworkTypeNotSupported"
         case optionGroupAlreadyExistsFault = "OptionGroupAlreadyExistsFault"
         case optionGroupNotFoundFault = "OptionGroupNotFoundFault"
         case optionGroupQuotaExceededFault = "OptionGroupQuotaExceededFault"
@@ -170,12 +167,8 @@ public struct RDSErrorType: AWSErrorType {
     public static var backupPolicyNotFoundFault: Self { .init(.backupPolicyNotFoundFault) }
     ///  CertificateIdentifier doesn't refer to an existing certificate.
     public static var certificateNotFoundFault: Self { .init(.certificateNotFoundFault) }
-    ///  CustomAvailabilityZoneName is already used by an existing custom Availability Zone.
-    public static var customAvailabilityZoneAlreadyExistsFault: Self { .init(.customAvailabilityZoneAlreadyExistsFault) }
     ///  CustomAvailabilityZoneId doesn't refer to an existing custom Availability Zone identifier.
     public static var customAvailabilityZoneNotFoundFault: Self { .init(.customAvailabilityZoneNotFoundFault) }
-    /// You have exceeded the maximum number of custom Availability Zones.
-    public static var customAvailabilityZoneQuotaExceededFault: Self { .init(.customAvailabilityZoneQuotaExceededFault) }
     /// A CEV with the specified name already exists.
     public static var customDBEngineVersionAlreadyExistsFault: Self { .init(.customDBEngineVersionAlreadyExistsFault) }
     /// The specified CEV was not found.
@@ -292,10 +285,6 @@ public struct RDSErrorType: AWSErrorType {
     public static var iamRoleMissingPermissionsFault: Self { .init(.iamRoleMissingPermissionsFault) }
     /// The IAM role is missing for exporting to an Amazon S3 bucket.
     public static var iamRoleNotFoundFault: Self { .init(.iamRoleNotFoundFault) }
-    /// The specified installation medium has already been imported.
-    public static var installationMediaAlreadyExistsFault: Self { .init(.installationMediaAlreadyExistsFault) }
-    ///  InstallationMediaID doesn't refer to an existing installation medium.
-    public static var installationMediaNotFoundFault: Self { .init(.installationMediaNotFoundFault) }
     /// The request would result in the user exceeding the allowed number of DB instances.
     public static var instanceQuotaExceededFault: Self { .init(.instanceQuotaExceededFault) }
     /// The requested operation can't be performed because there aren't enough available IP addresses  in the proxy's subnets. Add more CIDR blocks to the VPC or remove IP address that aren't required  from the subnets.
@@ -358,6 +347,8 @@ public struct RDSErrorType: AWSErrorType {
     public static var invalidVPCNetworkStateFault: Self { .init(.invalidVPCNetworkStateFault) }
     /// An error occurred accessing an Amazon Web Services KMS key.
     public static var kmsKeyNotAccessibleFault: Self { .init(.kmsKeyNotAccessibleFault) }
+    /// The network type is invalid for the DB instance. Valid nework type values are IPV4 and DUAL.
+    public static var networkTypeNotSupported: Self { .init(.networkTypeNotSupported) }
     /// The option group you are trying to create already exists.
     public static var optionGroupAlreadyExistsFault: Self { .init(.optionGroupAlreadyExistsFault) }
     /// The specified option group could not be found.

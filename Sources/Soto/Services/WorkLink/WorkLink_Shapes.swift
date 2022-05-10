@@ -79,7 +79,7 @@ extension WorkLink {
         }
 
         public func validate(name: String) throws {
-            try self.validate(self.acmCertificateArn, name: "acmCertificateArn", parent: name, pattern: "arn:[\\w+=/,.@-]+:[\\w+=/,.@-]+:[\\w+=/,.@-]*:[0-9]+:[\\w+=,.@-]+(/[\\w+=/,.@-]+)*")
+            try self.validate(self.acmCertificateArn, name: "acmCertificateArn", parent: name, pattern: "^arn:[\\w+=/,.@-]+:[\\w+=/,.@-]+:[\\w+=/,.@-]*:[0-9]+:[\\w+=,.@-]+(/[\\w+=/,.@-]+)*$")
             try self.validate(self.displayName, name: "displayName", parent: name, max: 100)
             try self.validate(self.domainName, name: "domainName", parent: name, max: 253)
             try self.validate(self.domainName, name: "domainName", parent: name, min: 1)
@@ -159,7 +159,7 @@ extension WorkLink {
         public func validate(name: String) throws {
             try self.validate(self.certificate, name: "certificate", parent: name, max: 8192)
             try self.validate(self.certificate, name: "certificate", parent: name, min: 1)
-            try self.validate(self.certificate, name: "certificate", parent: name, pattern: "-{5}BEGIN CERTIFICATE-{5}\\u000D?\\u000A([A-Za-z0-9/+]{64}\\u000D?\\u000A)*[A-Za-z0-9/+]{1,64}={0,2}\\u000D?\\u000A-{5}END CERTIFICATE-{5}(\\u000D?\\u000A)?")
+            try self.validate(self.certificate, name: "certificate", parent: name, pattern: "^-{5}BEGIN CERTIFICATE-{5}\\u000D?\\u000A([A-Za-z0-9/+]{64}\\u000D?\\u000A)*[A-Za-z0-9/+]{1,64}={0,2}\\u000D?\\u000A-{5}END CERTIFICATE-{5}(\\u000D?\\u000A)?$")
             try self.validate(self.displayName, name: "displayName", parent: name, max: 100)
             try self.validate(self.fleetArn, name: "fleetArn", parent: name, max: 2048)
             try self.validate(self.fleetArn, name: "fleetArn", parent: name, min: 20)
@@ -815,7 +815,7 @@ extension WorkLink {
             try self.validate(self.maxResults, name: "maxResults", parent: name, min: 1)
             try self.validate(self.nextToken, name: "nextToken", parent: name, max: 4096)
             try self.validate(self.nextToken, name: "nextToken", parent: name, min: 1)
-            try self.validate(self.nextToken, name: "nextToken", parent: name, pattern: "[\\w\\-]+")
+            try self.validate(self.nextToken, name: "nextToken", parent: name, pattern: "^[\\w\\-]+$")
         }
 
         private enum CodingKeys: String, CodingKey {
@@ -862,7 +862,7 @@ extension WorkLink {
             try self.validate(self.maxResults, name: "maxResults", parent: name, min: 1)
             try self.validate(self.nextToken, name: "nextToken", parent: name, max: 4096)
             try self.validate(self.nextToken, name: "nextToken", parent: name, min: 1)
-            try self.validate(self.nextToken, name: "nextToken", parent: name, pattern: "[\\w\\-]+")
+            try self.validate(self.nextToken, name: "nextToken", parent: name, pattern: "^[\\w\\-]+$")
         }
 
         private enum CodingKeys: String, CodingKey {
@@ -904,7 +904,7 @@ extension WorkLink {
             try self.validate(self.maxResults, name: "maxResults", parent: name, min: 1)
             try self.validate(self.nextToken, name: "nextToken", parent: name, max: 4096)
             try self.validate(self.nextToken, name: "nextToken", parent: name, min: 1)
-            try self.validate(self.nextToken, name: "nextToken", parent: name, pattern: "[\\w\\-]+")
+            try self.validate(self.nextToken, name: "nextToken", parent: name, pattern: "^[\\w\\-]+$")
         }
 
         private enum CodingKeys: String, CodingKey {
@@ -983,7 +983,7 @@ extension WorkLink {
             try self.validate(self.maxResults, name: "maxResults", parent: name, min: 1)
             try self.validate(self.nextToken, name: "nextToken", parent: name, max: 4096)
             try self.validate(self.nextToken, name: "nextToken", parent: name, min: 1)
-            try self.validate(self.nextToken, name: "nextToken", parent: name, pattern: "[\\w\\-]+")
+            try self.validate(self.nextToken, name: "nextToken", parent: name, pattern: "^[\\w\\-]+$")
         }
 
         private enum CodingKeys: String, CodingKey {
@@ -1030,7 +1030,7 @@ extension WorkLink {
             try self.validate(self.maxResults, name: "maxResults", parent: name, min: 1)
             try self.validate(self.nextToken, name: "nextToken", parent: name, max: 4096)
             try self.validate(self.nextToken, name: "nextToken", parent: name, min: 1)
-            try self.validate(self.nextToken, name: "nextToken", parent: name, pattern: "[\\w\\-]+")
+            try self.validate(self.nextToken, name: "nextToken", parent: name, pattern: "^[\\w\\-]+$")
         }
 
         private enum CodingKeys: String, CodingKey {
@@ -1298,7 +1298,7 @@ extension WorkLink {
         public func validate(name: String) throws {
             try self.validate(self.deviceCaCertificate, name: "deviceCaCertificate", parent: name, max: 32768)
             try self.validate(self.deviceCaCertificate, name: "deviceCaCertificate", parent: name, min: 1)
-            try self.validate(self.deviceCaCertificate, name: "deviceCaCertificate", parent: name, pattern: "(-{5}BEGIN CERTIFICATE-{5}\\u000D?\\u000A([A-Za-z0-9/+]{64}\\u000D?\\u000A)*[A-Za-z0-9/+]{1,64}={0,2}\\u000D?\\u000A-{5}END CERTIFICATE-{5}\\u000D?\\u000A)*-{5}BEGIN CERTIFICATE-{5}\\u000D?\\u000A([A-Za-z0-9/+]{64}\\u000D?\\u000A)*[A-Za-z0-9/+]{1,64}={0,2}\\u000D?\\u000A-{5}END CERTIFICATE-{5}(\\u000D?\\u000A)?")
+            try self.validate(self.deviceCaCertificate, name: "deviceCaCertificate", parent: name, pattern: "^(-{5}BEGIN CERTIFICATE-{5}\\u000D?\\u000A([A-Za-z0-9/+]{64}\\u000D?\\u000A)*[A-Za-z0-9/+]{1,64}={0,2}\\u000D?\\u000A-{5}END CERTIFICATE-{5}\\u000D?\\u000A)*-{5}BEGIN CERTIFICATE-{5}\\u000D?\\u000A([A-Za-z0-9/+]{64}\\u000D?\\u000A)*[A-Za-z0-9/+]{1,64}={0,2}\\u000D?\\u000A-{5}END CERTIFICATE-{5}(\\u000D?\\u000A)?$")
             try self.validate(self.fleetArn, name: "fleetArn", parent: name, max: 2048)
             try self.validate(self.fleetArn, name: "fleetArn", parent: name, min: 20)
         }

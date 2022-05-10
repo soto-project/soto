@@ -609,9 +609,9 @@ extension GameLift {
     }
 
     public struct AwsCredentials: AWSDecodableShape {
-        /// Temporary key allowing access to the Amazon Web Services S3 account.
+        /// Temporary key allowing access to the Amazon GameLift S3 account.
         public let accessKeyId: String?
-        /// Temporary secret key allowing access to the Amazon Web Services S3 account.
+        /// Temporary secret key allowing access to the Amazon GameLift S3 account.
         public let secretAccessKey: String?
         /// Token used to associate a specific build ID with the files uploaded using these credentials.
         public let sessionToken: String?
@@ -785,7 +785,7 @@ extension GameLift {
         public let name: String?
         /// The operating system that the game server binaries are built to run on. This value determines the type of fleet resources that you can use for this build. If your game build contains multiple executables, they all must run on the same operating system. If an operating system is not specified when creating a build, Amazon GameLift uses the default value (WINDOWS_2012). This value cannot be changed later.
         public let operatingSystem: OperatingSystem?
-        /// Information indicating where your game build files are stored. Use this parameter only when creating a build with files stored in an Amazon S3 bucket that you own. The storage location must specify an Amazon S3 bucket name and key. The location must also specify a role ARN that you set up to allow Amazon Web Services to access your Amazon S3 bucket. The S3 bucket and your new build must be in the same Region. If a StorageLocation is specified, the size of your file can be found in your Amazon S3 bucket. Amazon Web Services will report a SizeOnDisk of 0.
+        /// Information indicating where your game build files are stored. Use this parameter only when creating a build with files stored in an Amazon S3 bucket that you own. The storage location must specify an Amazon S3 bucket name and key. The location must also specify a role ARN that you set up to allow Amazon GameLift to access your Amazon S3 bucket. The S3 bucket and your new build must be in the same Region. If a StorageLocation is specified, the size of your file can be found in your Amazon S3 bucket. Amazon GameLift will report a SizeOnDisk of 0.
         public let storageLocation: S3Location?
         /// A list of labels to assign to the new build resource. Tags are developer-defined  key-value pairs. Tagging Amazon Web Services resources are useful for resource management, access management and cost allocation. For more information, see  Tagging Amazon Web Services Resources in the Amazon Web Services General Reference. Once the resource is created, you can use TagResource, UntagResource, and  ListTagsForResource to add, remove, and view tags. The maximum tag limit may be lower than stated. See the Amazon Web Services General Reference for actual  tagging limits.
         public let tags: [Tag]?
@@ -826,7 +826,7 @@ extension GameLift {
         public let build: Build?
         /// Amazon S3 location for your game build file, including bucket name and key.
         public let storageLocation: S3Location?
-        /// This element is returned only when the operation is called without a storage location. It contains credentials to use when you are uploading a build file to an Amazon S3 bucket that is owned by Amazon Web Services. Credentials have a limited life span. To refresh these credentials, call RequestUploadCredentials.
+        /// This element is returned only when the operation is called without a storage location. It contains credentials to use when you are uploading a build file to an Amazon S3 bucket that is owned by Amazon GameLift. Credentials have a limited life span. To refresh these credentials, call RequestUploadCredentials.
         public let uploadCredentials: AwsCredentials?
 
         public init(build: Build? = nil, storageLocation: S3Location? = nil, uploadCredentials: AwsCredentials? = nil) {
@@ -1056,7 +1056,7 @@ extension GameLift {
         public let maxSize: Int
         /// The minimum number of instances allowed in the Amazon EC2 Auto Scaling group. During automatic scaling events, GameLift FleetIQ and Amazon EC2 do not scale down the group below this minimum. In production, this value should be set to at least 1. After the Auto Scaling group is created, update this value directly in the Auto Scaling group using the Amazon Web Services console or APIs.
         public let minSize: Int
-        /// The Amazon Resource Name (ARN) for an IAM role that allows Amazon Web Services to access your Amazon EC2 Auto Scaling groups.
+        /// The Amazon Resource Name (ARN) for an IAM role that allows Amazon GameLift to access your Amazon EC2 Auto Scaling groups.
         public let roleArn: String
         /// A list of labels to assign to the new game server group resource. Tags are developer-defined key-value pairs. Tagging Amazon Web Services resources is useful for resource management, access management, and cost allocation. For more information, see  Tagging Amazon Web Services Resources in the Amazon Web Services General Reference. Once the resource is created, you can use TagResource, UntagResource, and ListTagsForResource to add, remove, and view tags, respectively. The maximum tag limit may be lower than stated. See the Amazon Web Services General Reference for actual tagging limits.
         public let tags: [Tag]?
@@ -1509,7 +1509,7 @@ extension GameLift {
     public struct CreatePlayerSessionsInput: AWSEncodableShape {
         /// A unique identifier for the game session to add players to.
         public let gameSessionId: String
-        /// Map of string pairs, each specifying a player ID and a set of developer-defined information related to the player. Amazon Web Services does not use this data, so it can be formatted as needed for use in the game. Any player data strings for player IDs that are not included in the PlayerIds parameter are ignored.
+        /// Map of string pairs, each specifying a player ID and a set of developer-defined information related to the player. Amazon GameLift does not use this data, so it can be formatted as needed for use in the game. Any player data strings for player IDs that are not included in the PlayerIds parameter are ignored.
         public let playerDataMap: [String: String]?
         /// List of unique identifiers for the players to be added.
         public let playerIds: [String]
@@ -1561,7 +1561,7 @@ extension GameLift {
     public struct CreateScriptInput: AWSEncodableShape {
         /// A descriptive label that is associated with a script. Script names do not need to be unique. You can use UpdateScript to change this value later.
         public let name: String?
-        /// The location of the Amazon S3 bucket where a zipped file containing your Realtime scripts is stored. The storage location must specify the Amazon S3 bucket name, the zip file name (the "key"), and a role ARN that allows Amazon Web Services to access the Amazon S3 storage location. The S3 bucket must be in the same Region where you want to create a new script. By default, Amazon Web Services uploads the latest version of the zip file; if you have S3 object versioning turned on, you can use the ObjectVersion parameter to specify an earlier version.
+        /// The location of the Amazon S3 bucket where a zipped file containing your Realtime scripts is stored. The storage location must specify the Amazon S3 bucket name, the zip file name (the "key"), and a role ARN that allows Amazon GameLift to access the Amazon S3 storage location. The S3 bucket must be in the same Region where you want to create a new script. By default, Amazon GameLift uploads the latest version of the zip file; if you have S3 object versioning turned on, you can use the ObjectVersion parameter to specify an earlier version.
         public let storageLocation: S3Location?
         /// A list of labels to assign to the new script resource. Tags are developer-defined  key-value pairs. Tagging Amazon Web Services resources are useful for resource management, access management and cost allocation. For more information, see  Tagging Amazon Web Services Resources in the Amazon Web Services General Reference. Once the resource is created, you can use TagResource, UntagResource, and  ListTagsForResource to add, remove, and view tags. The maximum tag limit may be lower than stated. See the Amazon Web Services General Reference for actual  tagging limits.
         public let tags: [Tag]?
@@ -1601,7 +1601,7 @@ extension GameLift {
     }
 
     public struct CreateScriptOutput: AWSDecodableShape {
-        /// The newly created script record with a unique script ID and ARN. The new script's storage location reflects an Amazon S3 location: (1) If the script was uploaded from an S3 bucket under your account, the storage location reflects the information that was provided in the CreateScript request; (2) If the script file was uploaded from a local zip file, the storage location reflects an S3 location controls by the Amazon Web Services service.
+        /// The newly created script record with a unique script ID and ARN. The new script's storage location reflects an Amazon S3 location: (1) If the script was uploaded from an S3 bucket under your account, the storage location reflects the information that was provided in the CreateScript request; (2) If the script file was uploaded from a local zip file, the storage location reflects an S3 location controls by the Amazon GameLift service.
         public let script: Script?
 
         public init(script: Script? = nil) {
@@ -1651,9 +1651,9 @@ extension GameLift {
     }
 
     public struct CreateVpcPeeringConnectionInput: AWSEncodableShape {
-        /// A unique identifier for the fleet. You can use either the fleet ID or ARN value. This tells Amazon Web Services which GameLift VPC to peer with.
+        /// A unique identifier for the fleet. You can use either the fleet ID or ARN value. This tells Amazon GameLift which GameLift VPC to peer with.
         public let fleetId: String
-        /// A unique identifier for the Amazon Web Services account with the VPC that you want to peer your Amazon Web Services fleet with. You can find your Account ID in the Amazon Web Services Management Console under account settings.
+        /// A unique identifier for the Amazon Web Services account with the VPC that you want to peer your Amazon GameLift fleet with. You can find your Account ID in the Amazon Web Services Management Console under account settings.
         public let peerVpcAwsAccountId: String
         /// A unique identifier for a VPC with resources to be accessed by your GameLift fleet. The VPC must be in the same Region as your fleet. To look up a VPC ID, use the  VPC Dashboard in the Amazon Web Services Management Console.  Learn more about VPC peering in VPC Peering with GameLift Fleets.
         public let peerVpcId: String
@@ -3671,7 +3671,7 @@ extension GameLift {
         public let instanceDefinitions: [InstanceDefinition]?
         /// A timestamp that indicates when this game server group was last updated.
         public let lastUpdatedTime: Date?
-        /// The Amazon Resource Name (ARN) for an IAM role that allows Amazon Web Services to access your Amazon EC2 Auto Scaling groups.
+        /// The Amazon Resource Name (ARN) for an IAM role that allows Amazon GameLift to access your Amazon EC2 Auto Scaling groups.
         public let roleArn: String?
         /// The current status of the game server group. Possible statuses include:    NEW - GameLift FleetIQ has validated the CreateGameServerGroup() request.     ACTIVATING - GameLift FleetIQ is setting up a game server group, which includes creating an Auto Scaling group in your Amazon Web Services account.     ACTIVE - The game server group has been successfully created.     DELETE_SCHEDULED - A request to delete the game server group has been received.     DELETING - GameLift FleetIQ has received a valid DeleteGameServerGroup() request and is processing it. GameLift FleetIQ must first complete and release hosts before it deletes the Auto Scaling group and the game server group.     DELETED - The game server group has been successfully deleted.     ERROR - The asynchronous processes of activating or deleting a game server group has failed, resulting in an error state.
         public let status: GameServerGroupStatus?
@@ -4220,13 +4220,13 @@ extension GameLift {
     }
 
     public struct IpPermission: AWSEncodableShape & AWSDecodableShape {
-        /// A starting value for a range of allowed port numbers. For fleets using Linux builds, only port 22, 443, 1026-60000 are valid. For fleets using Windows builds, only port 443, 1026-60000 are valid.
+        /// A starting value for a range of allowed port numbers. For fleets using Windows and Linux builds, only ports 1026-60000 are valid.
         public let fromPort: Int
         /// A range of allowed IP addresses. This value must be expressed in CIDR notation. Example: "000.000.000.000/[subnet mask]" or optionally the shortened version "0.0.0.0/[subnet mask]".
         public let ipRange: String
         /// The network communication protocol used by the fleet.
         public let `protocol`: IpProtocol
-        /// An ending value for a range of allowed port numbers. Port numbers are end-inclusive. This value must be higher than FromPort. For fleets using Linux builds, only port 22, 443, 1026-60000 are valid. For fleets using Windows builds, only port 443, 1026-60000 are valid.
+        /// An ending value for a range of allowed port numbers. Port numbers are end-inclusive. This value must be higher than FromPort. For fleets using Windows and Linux builds, only ports 1026-60000 are valid.
         public let toPort: Int
 
         public init(fromPort: Int, ipRange: String, protocol: IpProtocol, toPort: Int) {
@@ -4257,7 +4257,7 @@ extension GameLift {
         public let launchTemplateId: String?
         /// A readable identifier for an existing Amazon EC2 launch template.
         public let launchTemplateName: String?
-        /// The version of the Amazon EC2 launch template to use. If no version is specified, the default version will be used. With Amazon Elastic Compute Cloud, you can specify a default version for a launch template. If none is set, the default is the first version created.
+        /// The version of the Amazon EC2 launch template to use. If no version is specified, the default version will be used. With Amazon EC2, you can specify a default version for a launch template. If none is set, the default is the first version created.
         public let version: String?
 
         public init(launchTemplateId: String? = nil, launchTemplateName: String? = nil, version: String? = nil) {
@@ -4943,7 +4943,7 @@ extension GameLift {
         public let playerId: String?
         /// A unique identifier for a player session.
         public let playerSessionId: String?
-        /// Port number for the game session. To connect to a Amazon Web Services server process, an app needs both the IP address and port number.
+        /// Port number for the game session. To connect to a Amazon GameLift server process, an app needs both the IP address and port number.
         public let port: Int?
         /// Current status of the player session. Possible player session statuses include the following:    RESERVED -- The player session request has been received, but the player has not yet connected to the server process and/or been validated.     ACTIVE -- The player has been validated by the server process and is currently connected.    COMPLETED -- The player connection has been dropped.    TIMEDOUT -- A player session request was received, but the player did not connect and/or was not validated within the timeout limit (60 seconds).
         public let status: PlayerSessionStatus?
@@ -5017,7 +5017,7 @@ extension GameLift {
         public let evaluationPeriods: Int?
         /// A unique identifier for the fleet to apply this policy to. You can use either the fleet ID or ARN value. The fleet cannot be in any of the following statuses: ERROR or DELETING.
         public let fleetId: String
-        /// Name of the Amazon Web Services-defined metric that is used to trigger a scaling adjustment. For detailed descriptions of fleet metrics, see Monitor Amazon Web Services with Amazon CloudWatch.     ActivatingGameSessions -- Game sessions in the process of being created.    ActiveGameSessions -- Game sessions that are currently running.    ActiveInstances -- Fleet instances that are currently running at least one game session.    AvailableGameSessions -- Additional game sessions that fleet could host simultaneously, given current capacity.    AvailablePlayerSessions -- Empty player slots in currently active game sessions. This includes game sessions that are not currently accepting players. Reserved player slots are not included.    CurrentPlayerSessions -- Player slots in active game sessions that are being used by a player or are reserved for a player.     IdleInstances -- Active instances that are currently hosting zero game sessions.     PercentAvailableGameSessions -- Unused percentage of the total number of game sessions that a fleet could host simultaneously, given current capacity. Use this metric for a target-based scaling policy.    PercentIdleInstances -- Percentage of the total number of active instances that are hosting zero game sessions.    QueueDepth -- Pending game session placement requests, in any queue, where the current fleet is the top-priority destination.    WaitTime -- Current wait time for pending game session placement requests, in any queue, where the current fleet is the top-priority destination.
+        /// Name of the Amazon GameLift-defined metric that is used to trigger a scaling adjustment. For detailed descriptions of fleet metrics, see Monitor Amazon GameLift with Amazon CloudWatch.     ActivatingGameSessions -- Game sessions in the process of being created.    ActiveGameSessions -- Game sessions that are currently running.    ActiveInstances -- Fleet instances that are currently running at least one game session.    AvailableGameSessions -- Additional game sessions that fleet could host simultaneously, given current capacity.    AvailablePlayerSessions -- Empty player slots in currently active game sessions. This includes game sessions that are not currently accepting players. Reserved player slots are not included.    CurrentPlayerSessions -- Player slots in active game sessions that are being used by a player or are reserved for a player.     IdleInstances -- Active instances that are currently hosting zero game sessions.     PercentAvailableGameSessions -- Unused percentage of the total number of game sessions that a fleet could host simultaneously, given current capacity. Use this metric for a target-based scaling policy.    PercentIdleInstances -- Percentage of the total number of active instances that are hosting zero game sessions.    QueueDepth -- Pending game session placement requests, in any queue, where the current fleet is the top-priority destination.    WaitTime -- Current wait time for pending game session placement requests, in any queue, where the current fleet is the top-priority destination.
         public let metricName: MetricName
         /// A descriptive label that is associated with a fleet's scaling policy. Policy names do not need to be unique. A fleet can have only one scaling policy with the same name.
         public let name: String
@@ -5330,9 +5330,9 @@ extension GameLift {
         public let bucket: String?
         /// The name of the zip file that contains the build files or script files.
         public let key: String?
-        /// The version of the file, if object versioning is turned on for the bucket. Amazon Web Services uses this information when retrieving files from an S3 bucket that you own. Use this parameter to specify a specific version of the file. If not set, the latest version of the file is retrieved.
+        /// The version of the file, if object versioning is turned on for the bucket. Amazon GameLift uses this information when retrieving files from an S3 bucket that you own. Use this parameter to specify a specific version of the file. If not set, the latest version of the file is retrieved.
         public let objectVersion: String?
-        /// The Amazon Resource Name (ARN) for an IAM role that allows Amazon Web Services to access the S3 bucket.
+        /// The Amazon Resource Name (ARN) for an IAM role that allows Amazon GameLift to access the S3 bucket.
         public let roleArn: String?
 
         public init(bucket: String? = nil, key: String? = nil, objectVersion: String? = nil, roleArn: String? = nil) {
@@ -5368,7 +5368,7 @@ extension GameLift {
         public let fleetId: String?
         ///  The fleet location.
         public let location: String?
-        /// Name of the Amazon Web Services-defined metric that is used to trigger a scaling adjustment. For detailed descriptions of fleet metrics, see Monitor Amazon Web Services with Amazon CloudWatch.     ActivatingGameSessions -- Game sessions in the process of being created.    ActiveGameSessions -- Game sessions that are currently running.    ActiveInstances -- Fleet instances that are currently running at least one game session.    AvailableGameSessions -- Additional game sessions that fleet could host simultaneously, given current capacity.    AvailablePlayerSessions -- Empty player slots in currently active game sessions. This includes game sessions that are not currently accepting players. Reserved player slots are not included.    CurrentPlayerSessions -- Player slots in active game sessions that are being used by a player or are reserved for a player.     IdleInstances -- Active instances that are currently hosting zero game sessions.     PercentAvailableGameSessions -- Unused percentage of the total number of game sessions that a fleet could host simultaneously, given current capacity. Use this metric for a target-based scaling policy.    PercentIdleInstances -- Percentage of the total number of active instances that are hosting zero game sessions.    QueueDepth -- Pending game session placement requests, in any queue, where the current fleet is the top-priority destination.    WaitTime -- Current wait time for pending game session placement requests, in any queue, where the current fleet is the top-priority destination.
+        /// Name of the Amazon GameLift-defined metric that is used to trigger a scaling adjustment. For detailed descriptions of fleet metrics, see Monitor Amazon GameLift with Amazon CloudWatch.     ActivatingGameSessions -- Game sessions in the process of being created.    ActiveGameSessions -- Game sessions that are currently running.    ActiveInstances -- Fleet instances that are currently running at least one game session.    AvailableGameSessions -- Additional game sessions that fleet could host simultaneously, given current capacity.    AvailablePlayerSessions -- Empty player slots in currently active game sessions. This includes game sessions that are not currently accepting players. Reserved player slots are not included.    CurrentPlayerSessions -- Player slots in active game sessions that are being used by a player or are reserved for a player.     IdleInstances -- Active instances that are currently hosting zero game sessions.     PercentAvailableGameSessions -- Unused percentage of the total number of game sessions that a fleet could host simultaneously, given current capacity. Use this metric for a target-based scaling policy.    PercentIdleInstances -- Percentage of the total number of active instances that are hosting zero game sessions.    QueueDepth -- Pending game session placement requests, in any queue, where the current fleet is the top-priority destination.    WaitTime -- Current wait time for pending game session placement requests, in any queue, where the current fleet is the top-priority destination.
         public let metricName: MetricName?
         /// A descriptive label that is associated with a fleet's scaling policy. Policy names do not need to be unique.
         public let name: String?
@@ -5690,7 +5690,7 @@ extension GameLift {
         public let gameSessionArn: String?
         /// Match information on all players that are currently assigned to the game session. This information is used by the matchmaker to find new players and add them to the existing game.   PlayerID, PlayerAttributes, Team -- This information is maintained in the GameSession object, MatchmakerData property, for all players who are currently assigned to the game session. The matchmaker data is in JSON syntax, formatted as a string. For more details, see  Match Data.  The backfill request must specify the team membership for every player.  Do not specify team if you are not using backfill.   LatencyInMs -- If the matchmaker uses player latency, include a latency value, in milliseconds, for the Region that the game session is currently in. Do not include latency values for any other Region.
         public let players: [Player]
-        /// A unique identifier for a matchmaking ticket. If no ticket ID is specified here, Amazon Web Services will generate one in the form of a UUID. Use this identifier to track the match backfill ticket status and retrieve match results.
+        /// A unique identifier for a matchmaking ticket. If no ticket ID is specified here, Amazon GameLift will generate one in the form of a UUID. Use this identifier to track the match backfill ticket status and retrieve match results.
         public let ticketId: String?
 
         public init(configurationName: String, gameSessionArn: String? = nil, players: [Player], ticketId: String? = nil) {
@@ -5740,7 +5740,7 @@ extension GameLift {
         public let configurationName: String
         /// Information on each player to be matched. This information must include a player ID, and may contain player attributes and latency data to be used in the matchmaking process. After a successful match, Player objects contain the name of the team the player is assigned to.
         public let players: [Player]
-        /// A unique identifier for a matchmaking ticket. If no ticket ID is specified here, Amazon Web Services will generate one in the form of a UUID. Use this identifier to track the matchmaking ticket status and retrieve match results.
+        /// A unique identifier for a matchmaking ticket. If no ticket ID is specified here, Amazon GameLift will generate one in the form of a UUID. Use this identifier to track the matchmaking ticket status and retrieve match results.
         public let ticketId: String?
 
         public init(configurationName: String, players: [Player], ticketId: String? = nil) {
@@ -6298,7 +6298,7 @@ extension GameLift {
         public let gameServerProtectionPolicy: GameServerProtectionPolicy?
         /// An updated list of Amazon EC2 instance types to use in the Auto Scaling group. The instance definitions must specify at least two different instance types that are supported by GameLift FleetIQ. This updated list replaces the entire current list of instance definitions for the game server group. For more information on instance types, see EC2 Instance Types in the Amazon EC2 User Guide. You can optionally specify capacity weighting for each instance type. If no weight value is specified for an instance type, it is set to the default value "1". For more information about capacity weighting, see  Instance Weighting for Amazon EC2 Auto Scaling in the Amazon EC2 Auto Scaling User Guide.
         public let instanceDefinitions: [InstanceDefinition]?
-        /// The Amazon Resource Name (ARN) for an IAM role that allows Amazon Web Services to access your Amazon EC2 Auto Scaling groups.
+        /// The Amazon Resource Name (ARN) for an IAM role that allows Amazon GameLift to access your Amazon EC2 Auto Scaling groups.
         public let roleArn: String?
 
         public init(balancingStrategy: BalancingStrategy? = nil, gameServerGroupName: String, gameServerProtectionPolicy: GameServerProtectionPolicy? = nil, instanceDefinitions: [InstanceDefinition]? = nil, roleArn: String? = nil) {
@@ -6671,7 +6671,7 @@ extension GameLift {
         public let name: String?
         /// A unique identifier for the Realtime script to update. You can use either the script ID or ARN value.
         public let scriptId: String
-        /// The location of the Amazon S3 bucket where a zipped file containing your Realtime scripts is stored. The storage location must specify the Amazon S3 bucket name, the zip file name (the "key"), and a role ARN that allows Amazon Web Services to access the Amazon S3 storage location. The S3 bucket must be in the same Region where you want to create a new script. By default, Amazon Web Services uploads the latest version of the zip file; if you have S3 object versioning turned on, you can use the ObjectVersion parameter to specify an earlier version.
+        /// The location of the Amazon S3 bucket where a zipped file containing your Realtime scripts is stored. The storage location must specify the Amazon S3 bucket name, the zip file name (the "key"), and a role ARN that allows Amazon GameLift to access the Amazon S3 storage location. The S3 bucket must be in the same Region where you want to create a new script. By default, Amazon GameLift uploads the latest version of the zip file; if you have S3 object versioning turned on, you can use the ObjectVersion parameter to specify an earlier version.
         public let storageLocation: S3Location?
         /// Version information that is associated with a build or script. Version strings do not need to be unique.
         public let version: String?
@@ -6706,7 +6706,7 @@ extension GameLift {
     }
 
     public struct UpdateScriptOutput: AWSDecodableShape {
-        /// The newly created script record with a unique script ID. The new script's storage location reflects an Amazon S3 location: (1) If the script was uploaded from an S3 bucket under your account, the storage location reflects the information that was provided in the CreateScript request; (2) If the script file was uploaded from a local zip file, the storage location reflects an S3 location controls by the Amazon Web Services service.
+        /// The newly created script record with a unique script ID. The new script's storage location reflects an Amazon S3 location: (1) If the script was uploaded from an S3 bucket under your account, the storage location reflects the information that was provided in the CreateScript request; (2) If the script file was uploaded from a local zip file, the storage location reflects an S3 location controls by the Amazon GameLift service.
         public let script: Script?
 
         public init(script: Script? = nil) {
@@ -6780,9 +6780,9 @@ extension GameLift {
     public struct VpcPeeringConnection: AWSDecodableShape {
         ///  The Amazon Resource Name (ARN) associated with the GameLift fleet resource for this connection.
         public let fleetArn: String?
-        /// A unique identifier for the fleet. This ID determines the ID of the Amazon Web Services VPC for your fleet.
+        /// A unique identifier for the fleet. This ID determines the ID of the Amazon GameLift VPC for your fleet.
         public let fleetId: String?
-        /// A unique identifier for the VPC that contains the Amazon Web Services fleet for this connection. This VPC is managed by Amazon Web Services and does not appear in your Amazon Web Services account.
+        /// A unique identifier for the VPC that contains the Amazon GameLift fleet for this connection. This VPC is managed by Amazon GameLift and does not appear in your Amazon Web Services account.
         public let gameLiftVpcId: String?
         /// CIDR block of IPv4 addresses assigned to the VPC peering connection for the GameLift VPC. The peered VPC also has an IPv4 CIDR block associated with it; these blocks cannot overlap or the peering connection cannot be created.
         public let ipV4CidrBlock: String?

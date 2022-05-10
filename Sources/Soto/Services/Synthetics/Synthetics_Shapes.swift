@@ -48,7 +48,18 @@ extension Synthetics {
     }
 
     public enum CanaryStateReasonCode: String, CustomStringConvertible, Codable {
+        case createFailed = "CREATE_FAILED"
+        case createInProgress = "CREATE_IN_PROGRESS"
+        case createPending = "CREATE_PENDING"
+        case deleteFailed = "DELETE_FAILED"
+        case deleteInProgress = "DELETE_IN_PROGRESS"
         case invalidPermissions = "INVALID_PERMISSIONS"
+        case rollbackComplete = "ROLLBACK_COMPLETE"
+        case rollbackFailed = "ROLLBACK_FAILED"
+        case syncDeleteInProgress = "SYNC_DELETE_IN_PROGRESS"
+        case updateComplete = "UPDATE_COMPLETE"
+        case updateInProgress = "UPDATE_IN_PROGRESS"
+        case updatePending = "UPDATE_PENDING"
         public var description: String { return self.rawValue }
     }
 
@@ -580,13 +591,17 @@ extension Synthetics {
 
     public struct DeleteCanaryRequest: AWSEncodableShape {
         public static var _encoding = [
+            AWSMemberEncoding(label: "deleteLambda", location: .querystring("deleteLambda")),
             AWSMemberEncoding(label: "name", location: .uri("Name"))
         ]
 
+        /// Specifies whether to also delete the Lambda functions and layers used by this canary. The default is false. Type: Boolean
+        public let deleteLambda: Bool?
         /// The name of the canary that you want to delete. To find the names of your canaries, use DescribeCanaries.
         public let name: String
 
-        public init(name: String) {
+        public init(deleteLambda: Bool? = nil, name: String) {
+            self.deleteLambda = deleteLambda
             self.name = name
         }
 

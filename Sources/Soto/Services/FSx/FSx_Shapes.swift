@@ -141,6 +141,7 @@ extension FSx {
         case deleting = "DELETING"
         case failed = "FAILED"
         case misconfigured = "MISCONFIGURED"
+        case misconfiguredUnavailable = "MISCONFIGURED_UNAVAILABLE"
         case updating = "UPDATING"
         public var description: String { return self.rawValue }
     }
@@ -193,6 +194,7 @@ extension FSx {
 
     public enum OntapDeploymentType: String, CustomStringConvertible, Codable {
         case multiAz1 = "MULTI_AZ_1"
+        case singleAz1 = "SINGLE_AZ_1"
         public var description: String { return self.rawValue }
     }
 
@@ -1118,19 +1120,19 @@ extension FSx {
     public struct CreateFileSystemOntapConfiguration: AWSEncodableShape {
         public let automaticBackupRetentionDays: Int?
         public let dailyAutomaticBackupStartTime: String?
-        /// Specifies the FSx for ONTAP file system deployment type to use in creating the file system.  MULTI_AZ_1 is the supported ONTAP deployment type.
+        /// Specifies the FSx for ONTAP file system deployment type to use in creating the file system.      MULTI_AZ_1 - (Default) A high availability file system configured for Multi-AZ redundancy to tolerate temporary Availability Zone (AZ) unavailability.      SINGLE_AZ_1 - A file system configured for Single-AZ redundancy.   For information about the use cases for Multi-AZ and Single-AZ deployments, refer to Choosing Multi-AZ or Single-AZ file system deployment.
         public let deploymentType: OntapDeploymentType
         /// The SSD IOPS configuration for the FSx for ONTAP file system.
         public let diskIopsConfiguration: DiskIopsConfiguration?
-        /// Specifies the IP address range in which the endpoints to access your file system will be created. By default, Amazon FSx selects an unused IP address range for you from the 198.19.* range.  The Endpoint IP address range you select for your file system must exist outside the VPC's CIDR range and must be at least /30 or larger.
+        /// (Multi-AZ only) Specifies the IP address range in which the endpoints to access your file system will be created. By default, Amazon FSx selects an unused IP address range for you from the 198.19.* range.  The Endpoint IP address range you select for your file system must exist outside the VPC's CIDR range and must be at least /30 or larger.
         public let endpointIpAddressRange: String?
         /// The ONTAP administrative password for the fsxadmin user with which you administer your file system using the NetApp ONTAP CLI and REST API.
         public let fsxAdminPassword: String?
-        /// Required when DeploymentType is set to MULTI_AZ_1. This specifies the subnet  in which you want the preferred file server to be located.
+        /// Required when DeploymentType is set to MULTI_AZ_1. This specifies the subnet in which you want the preferred file server to be located.
         public let preferredSubnetId: String?
-        /// Specifies the virtual private cloud (VPC) route tables in which your file system's endpoints will be created. You should specify all VPC route tables associated with the subnets in which your clients are located. By default, Amazon FSx selects your VPC's default route table.
+        /// (Multi-AZ only) Specifies the virtual private cloud (VPC) route tables in which your file system's endpoints will be created. You should specify all VPC route tables associated with the subnets in which your clients are located. By default, Amazon FSx selects your VPC's default route table.
         public let routeTableIds: [String]?
-        /// Sets the throughput capacity for the file system that you're creating.  Valid values are 128, 256, 512, 1024, and 2048 MBps.
+        /// Sets the throughput capacity for the file system that you're creating. Valid values are 128, 256, 512, 1024, and 2048 MBps.
         public let throughputCapacity: Int
         public let weeklyMaintenanceStartTime: String?
 
@@ -3065,21 +3067,21 @@ extension FSx {
         public let fileSystemType: FileSystemType?
         /// The Lustre version of the Amazon FSx for Lustre file system, either 2.10 or 2.12.
         public let fileSystemTypeVersion: String?
-        /// The ID of the Key Management Service (KMS) key used to encrypt the file system's data for Amazon FSx for Windows File Server file systems, Amazon FSx for NetApp ONTAP file systems, and PERSISTENT Amazon FSx for Lustre file systems at rest. If this ID isn't specified, the Amazon FSx-managed key for your account is used. The scratch Amazon FSx for Lustre file systems are always encrypted at rest using the Amazon FSx-managed key for your account. For more information, see Encrypt in the Key Management Service API Reference.
+        /// The ID of the Key Management Service (KMS) key used to encrypt Amazon FSx file system data. Used as follows with Amazon FSx file system types:   Amazon FSx for Lustre PERSISTENT_1 and PERSISTENT_2 deployment types only.  SCRATCH_1 and SCRATCH_2 types are encrypted using  the Amazon FSx service KMS key for your account.   Amazon FSx for NetApp ONTAP   Amazon FSx for OpenZFS   Amazon FSx for Windows File Server
         public let kmsKeyId: String?
-        /// The lifecycle status of the file system. The following are the possible values and what they mean:     AVAILABLE - The file system is in a healthy state, and is reachable and available for use.    CREATING - Amazon FSx is creating the new file system.    DELETING - Amazon FSx is deleting an existing file system.    FAILED - An existing file system has experienced an unrecoverable failure.  When creating a new file system, Amazon FSx was unable to create the file system.    MISCONFIGURED - The file system is in a failed but recoverable state.    UPDATING - The file system is undergoing a customer-initiated update.
+        /// The lifecycle status of the file system. The following are the possible values and what they mean:     AVAILABLE - The file system is in a healthy state, and is reachable and available for use.    CREATING - Amazon FSx is creating the new file system.    DELETING - Amazon FSx is deleting an existing file system.    FAILED - An existing file system has experienced an unrecoverable failure.  When creating a new file system, Amazon FSx was unable to create the file system.    MISCONFIGURED - The file system is in a failed but recoverable state.    MISCONFIGURED_UNAVAILABLE - (Amazon FSx for Windows File Server only) The file system is currently unavailable due to a change in your Active Directory configuration.    UPDATING - The file system is undergoing a customer-initiated update.
         public let lifecycle: FileSystemLifecycle?
         public let lustreConfiguration: LustreFileSystemConfiguration?
         /// The IDs of the elastic network interfaces from which a specific file system is accessible. The elastic network interface is automatically created in the same virtual private cloud (VPC) that the Amazon FSx file system was created in. For more information, see Elastic Network Interfaces in the Amazon EC2 User Guide.
         ///  For an Amazon FSx for Windows File Server file system, you can have one network interface ID. For an Amazon FSx for Lustre file system, you can have more than one.
         public let networkInterfaceIds: [String]?
-        /// The configuration for this FSx for ONTAP file system.
+        /// The configuration for this Amazon FSx for NetApp ONTAP file system.
         public let ontapConfiguration: OntapFileSystemConfiguration?
         /// The configuration for this Amazon FSx for OpenZFS file system.
         public let openZFSConfiguration: OpenZFSFileSystemConfiguration?
         /// The Amazon Web Services account that created the file system. If the file system was created by an Identity and Access Management (IAM) user, the Amazon Web Services account to which the IAM user belongs is the owner.
         public let ownerId: String?
-        /// The Amazon Resource Name (ARN) for the file system resource.
+        /// The Amazon Resource Name (ARN) of the file system resource.
         public let resourceARN: String?
         /// The storage capacity of the file system in gibibytes (GiB).
         public let storageCapacity: Int?
@@ -3091,7 +3093,7 @@ extension FSx {
         public let tags: [Tag]?
         /// The ID of the primary virtual private cloud (VPC) for the file system.
         public let vpcId: String?
-        /// The configuration for this FSx for Windows File Server file system.
+        /// The configuration for this Amazon FSx for Windows File Server file system.
         public let windowsConfiguration: WindowsFileSystemConfiguration?
 
         public init(administrativeActions: [AdministrativeAction]? = nil, creationTime: Date? = nil, dnsName: String? = nil, failureDetails: FileSystemFailureDetails? = nil, fileSystemId: String? = nil, fileSystemType: FileSystemType? = nil, fileSystemTypeVersion: String? = nil, kmsKeyId: String? = nil, lifecycle: FileSystemLifecycle? = nil, lustreConfiguration: LustreFileSystemConfiguration? = nil, networkInterfaceIds: [String]? = nil, ontapConfiguration: OntapFileSystemConfiguration? = nil, openZFSConfiguration: OpenZFSFileSystemConfiguration? = nil, ownerId: String? = nil, resourceARN: String? = nil, storageCapacity: Int? = nil, storageType: StorageType? = nil, subnetIds: [String]? = nil, tags: [Tag]? = nil, vpcId: String? = nil, windowsConfiguration: WindowsFileSystemConfiguration? = nil) {
@@ -3369,16 +3371,16 @@ extension FSx {
     public struct OntapFileSystemConfiguration: AWSDecodableShape {
         public let automaticBackupRetentionDays: Int?
         public let dailyAutomaticBackupStartTime: String?
-        /// The ONTAP file system deployment type.
+        /// Specifies the FSx for ONTAP file system deployment type in use in the file system.     MULTI_AZ_1 - (Default) A high availability file system configured for Multi-AZ redundancy to tolerate temporary Availability Zone (AZ) unavailability.     SINGLE_AZ_1 - A file system configured for Single-AZ redundancy.   For information about the use cases for Multi-AZ and Single-AZ deployments, refer to Choosing Multi-AZ or Single-AZ file system deployment.
         public let deploymentType: OntapDeploymentType?
         /// The SSD IOPS configuration for the ONTAP file system, specifying the number of provisioned IOPS and the provision mode.
         public let diskIopsConfiguration: DiskIopsConfiguration?
-        /// The IP address range in which the endpoints to access your file system are created.  The Endpoint IP address range you select for your file system must exist outside the VPC's CIDR range and must be at least /30 or larger. If you do not specify this optional parameter, Amazon FSx will automatically select a CIDR block for you.
+        /// (Multi-AZ only) The IP address range in which the endpoints to access your file system are created.  The Endpoint IP address range you select for your file system must exist outside the VPC's CIDR range and must be at least /30 or larger. If you do not specify this optional parameter, Amazon FSx will automatically select a CIDR block for you.
         public let endpointIpAddressRange: String?
         /// The Management and Intercluster endpoints that are used to access data or to manage the file system using the NetApp ONTAP CLI, REST API, or NetApp SnapMirror.
         public let endpoints: FileSystemEndpoints?
         public let preferredSubnetId: String?
-        /// The VPC route tables in which your file system's endpoints are created.
+        /// (Multi-AZ only) The VPC route tables in which your file system's endpoints are created.
         public let routeTableIds: [String]?
         public let throughputCapacity: Int?
         public let weeklyMaintenanceStartTime: String?
@@ -3731,7 +3733,7 @@ extension FSx {
 
     public struct RestoreVolumeFromSnapshotRequest: AWSEncodableShape {
         public let clientRequestToken: String?
-        /// The settings used when restoring the specified volume from snapshot.     DELETE_INTERMEDIATE_SNAPSHOTS - Deletes snapshots between the current state and the specified snapshot. If there are intermediate snapshots and this option isn't used, RestoreVolumeFromSnapshot fails.    DELETE_CLONED_VOLUMES - Deletes any volumes cloned from this volume. If there are any cloned volumes and this option isn't used, RestoreVolumeFromSnapshot fails.
+        /// The settings used when restoring the specified volume from snapshot.     DELETE_INTERMEDIATE_SNAPSHOTS - Deletes snapshots between the current state and the specified snapshot. If there are intermediate snapshots and this option isn't used, RestoreVolumeFromSnapshot fails.    DELETE_CLONED_VOLUMES - Deletes any dependent clone volumes  created from intermediate snapshots. If there are any dependent clone volumes and this  option isn't used, RestoreVolumeFromSnapshot fails.
         public let options: [RestoreOpenZFSVolumeOption]?
         /// The ID of the source snapshot. Specifies the snapshot that you are restoring from.
         public let snapshotId: String
@@ -4348,13 +4350,16 @@ extension FSx {
         public let diskIopsConfiguration: DiskIopsConfiguration?
         /// The ONTAP administrative password for the fsxadmin user.
         public let fsxAdminPassword: String?
+        /// Specifies the throughput of an FSx for NetApp ONTAP file system, measured in megabytes per second (MBps). Valid values are 128, 256, 512, 1024, or 2048 MB/s.
+        public let throughputCapacity: Int?
         public let weeklyMaintenanceStartTime: String?
 
-        public init(automaticBackupRetentionDays: Int? = nil, dailyAutomaticBackupStartTime: String? = nil, diskIopsConfiguration: DiskIopsConfiguration? = nil, fsxAdminPassword: String? = nil, weeklyMaintenanceStartTime: String? = nil) {
+        public init(automaticBackupRetentionDays: Int? = nil, dailyAutomaticBackupStartTime: String? = nil, diskIopsConfiguration: DiskIopsConfiguration? = nil, fsxAdminPassword: String? = nil, throughputCapacity: Int? = nil, weeklyMaintenanceStartTime: String? = nil) {
             self.automaticBackupRetentionDays = automaticBackupRetentionDays
             self.dailyAutomaticBackupStartTime = dailyAutomaticBackupStartTime
             self.diskIopsConfiguration = diskIopsConfiguration
             self.fsxAdminPassword = fsxAdminPassword
+            self.throughputCapacity = throughputCapacity
             self.weeklyMaintenanceStartTime = weeklyMaintenanceStartTime
         }
 
@@ -4368,6 +4373,8 @@ extension FSx {
             try self.validate(self.fsxAdminPassword, name: "fsxAdminPassword", parent: name, max: 50)
             try self.validate(self.fsxAdminPassword, name: "fsxAdminPassword", parent: name, min: 8)
             try self.validate(self.fsxAdminPassword, name: "fsxAdminPassword", parent: name, pattern: "^[^\\u0000\\u0085\\u2028\\u2029\\r\\n]{8,50}$")
+            try self.validate(self.throughputCapacity, name: "throughputCapacity", parent: name, max: 4096)
+            try self.validate(self.throughputCapacity, name: "throughputCapacity", parent: name, min: 8)
             try self.validate(self.weeklyMaintenanceStartTime, name: "weeklyMaintenanceStartTime", parent: name, max: 7)
             try self.validate(self.weeklyMaintenanceStartTime, name: "weeklyMaintenanceStartTime", parent: name, min: 7)
             try self.validate(self.weeklyMaintenanceStartTime, name: "weeklyMaintenanceStartTime", parent: name, pattern: "^[1-7]:([01]\\d|2[0-3]):?([0-5]\\d)$")
@@ -4378,6 +4385,7 @@ extension FSx {
             case dailyAutomaticBackupStartTime = "DailyAutomaticBackupStartTime"
             case diskIopsConfiguration = "DiskIopsConfiguration"
             case fsxAdminPassword = "FsxAdminPassword"
+            case throughputCapacity = "ThroughputCapacity"
             case weeklyMaintenanceStartTime = "WeeklyMaintenanceStartTime"
         }
     }

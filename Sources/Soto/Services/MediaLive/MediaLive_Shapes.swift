@@ -1309,6 +1309,17 @@ extension MediaLive {
         public var description: String { return self.rawValue }
     }
 
+    public enum MaintenanceDay: String, CustomStringConvertible, Codable {
+        case friday = "FRIDAY"
+        case monday = "MONDAY"
+        case saturday = "SATURDAY"
+        case sunday = "SUNDAY"
+        case thursday = "THURSDAY"
+        case tuesday = "TUESDAY"
+        case wednesday = "WEDNESDAY"
+        public var description: String { return self.rawValue }
+    }
+
     public enum MotionGraphicsInsertion: String, CustomStringConvertible, Codable {
         case disabled = "DISABLED"
         case enabled = "ENABLED"
@@ -3071,6 +3082,8 @@ extension MediaLive {
         public let inputSpecification: InputSpecification?
         /// The log level being written to CloudWatch Logs.
         public let logLevel: LogLevel?
+        /// Maintenance settings for this channel.
+        public let maintenance: MaintenanceStatus?
         /// The name of the channel. (user-mutable)
         public let name: String?
         /// Runtime details for the pipelines of a running channel.
@@ -3085,7 +3098,7 @@ extension MediaLive {
         /// Settings for VPC output
         public let vpc: VpcOutputSettingsDescription?
 
-        public init(arn: String? = nil, cdiInputSpecification: CdiInputSpecification? = nil, channelClass: ChannelClass? = nil, destinations: [OutputDestination]? = nil, egressEndpoints: [ChannelEgressEndpoint]? = nil, encoderSettings: EncoderSettings? = nil, id: String? = nil, inputAttachments: [InputAttachment]? = nil, inputSpecification: InputSpecification? = nil, logLevel: LogLevel? = nil, name: String? = nil, pipelineDetails: [PipelineDetail]? = nil, pipelinesRunningCount: Int? = nil, roleArn: String? = nil, state: ChannelState? = nil, tags: [String: String]? = nil, vpc: VpcOutputSettingsDescription? = nil) {
+        public init(arn: String? = nil, cdiInputSpecification: CdiInputSpecification? = nil, channelClass: ChannelClass? = nil, destinations: [OutputDestination]? = nil, egressEndpoints: [ChannelEgressEndpoint]? = nil, encoderSettings: EncoderSettings? = nil, id: String? = nil, inputAttachments: [InputAttachment]? = nil, inputSpecification: InputSpecification? = nil, logLevel: LogLevel? = nil, maintenance: MaintenanceStatus? = nil, name: String? = nil, pipelineDetails: [PipelineDetail]? = nil, pipelinesRunningCount: Int? = nil, roleArn: String? = nil, state: ChannelState? = nil, tags: [String: String]? = nil, vpc: VpcOutputSettingsDescription? = nil) {
             self.arn = arn
             self.cdiInputSpecification = cdiInputSpecification
             self.channelClass = channelClass
@@ -3096,6 +3109,7 @@ extension MediaLive {
             self.inputAttachments = inputAttachments
             self.inputSpecification = inputSpecification
             self.logLevel = logLevel
+            self.maintenance = maintenance
             self.name = name
             self.pipelineDetails = pipelineDetails
             self.pipelinesRunningCount = pipelinesRunningCount
@@ -3116,6 +3130,7 @@ extension MediaLive {
             case inputAttachments
             case inputSpecification
             case logLevel
+            case maintenance
             case name
             case pipelineDetails
             case pipelinesRunningCount
@@ -3160,6 +3175,8 @@ extension MediaLive {
         public let inputSpecification: InputSpecification?
         /// The log level being written to CloudWatch Logs.
         public let logLevel: LogLevel?
+        /// Maintenance settings for this channel.
+        public let maintenance: MaintenanceStatus?
         /// The name of the channel. (user-mutable)
         public let name: String?
         /// The number of currently healthy pipelines.
@@ -3172,7 +3189,7 @@ extension MediaLive {
         /// Settings for any VPC outputs.
         public let vpc: VpcOutputSettingsDescription?
 
-        public init(arn: String? = nil, cdiInputSpecification: CdiInputSpecification? = nil, channelClass: ChannelClass? = nil, destinations: [OutputDestination]? = nil, egressEndpoints: [ChannelEgressEndpoint]? = nil, id: String? = nil, inputAttachments: [InputAttachment]? = nil, inputSpecification: InputSpecification? = nil, logLevel: LogLevel? = nil, name: String? = nil, pipelinesRunningCount: Int? = nil, roleArn: String? = nil, state: ChannelState? = nil, tags: [String: String]? = nil, vpc: VpcOutputSettingsDescription? = nil) {
+        public init(arn: String? = nil, cdiInputSpecification: CdiInputSpecification? = nil, channelClass: ChannelClass? = nil, destinations: [OutputDestination]? = nil, egressEndpoints: [ChannelEgressEndpoint]? = nil, id: String? = nil, inputAttachments: [InputAttachment]? = nil, inputSpecification: InputSpecification? = nil, logLevel: LogLevel? = nil, maintenance: MaintenanceStatus? = nil, name: String? = nil, pipelinesRunningCount: Int? = nil, roleArn: String? = nil, state: ChannelState? = nil, tags: [String: String]? = nil, vpc: VpcOutputSettingsDescription? = nil) {
             self.arn = arn
             self.cdiInputSpecification = cdiInputSpecification
             self.channelClass = channelClass
@@ -3182,6 +3199,7 @@ extension MediaLive {
             self.inputAttachments = inputAttachments
             self.inputSpecification = inputSpecification
             self.logLevel = logLevel
+            self.maintenance = maintenance
             self.name = name
             self.pipelinesRunningCount = pipelinesRunningCount
             self.roleArn = roleArn
@@ -3200,6 +3218,7 @@ extension MediaLive {
             case inputAttachments
             case inputSpecification
             case logLevel
+            case maintenance
             case name
             case pipelinesRunningCount
             case roleArn
@@ -3243,6 +3262,8 @@ extension MediaLive {
         public let inputSpecification: InputSpecification?
         /// The log level to write to CloudWatch Logs.
         public let logLevel: LogLevel?
+        /// Maintenance settings for this channel.
+        public let maintenance: MaintenanceCreateSettings?
         /// Name of channel.
         public let name: String?
         /// Unique request ID to be specified. This is needed to prevent retries from
@@ -3257,7 +3278,7 @@ extension MediaLive {
         /// Settings for the VPC outputs
         public let vpc: VpcOutputSettings?
 
-        public init(cdiInputSpecification: CdiInputSpecification? = nil, channelClass: ChannelClass? = nil, destinations: [OutputDestination]? = nil, encoderSettings: EncoderSettings? = nil, inputAttachments: [InputAttachment]? = nil, inputSpecification: InputSpecification? = nil, logLevel: LogLevel? = nil, name: String? = nil, requestId: String? = CreateChannelRequest.idempotencyToken(), roleArn: String? = nil, tags: [String: String]? = nil, vpc: VpcOutputSettings? = nil) {
+        public init(cdiInputSpecification: CdiInputSpecification? = nil, channelClass: ChannelClass? = nil, destinations: [OutputDestination]? = nil, encoderSettings: EncoderSettings? = nil, inputAttachments: [InputAttachment]? = nil, inputSpecification: InputSpecification? = nil, logLevel: LogLevel? = nil, maintenance: MaintenanceCreateSettings? = nil, name: String? = nil, requestId: String? = CreateChannelRequest.idempotencyToken(), roleArn: String? = nil, tags: [String: String]? = nil, vpc: VpcOutputSettings? = nil) {
             self.cdiInputSpecification = cdiInputSpecification
             self.channelClass = channelClass
             self.destinations = destinations
@@ -3265,6 +3286,7 @@ extension MediaLive {
             self.inputAttachments = inputAttachments
             self.inputSpecification = inputSpecification
             self.logLevel = logLevel
+            self.maintenance = maintenance
             self.name = name
             self.requestId = requestId
             self.reserved = nil
@@ -3274,7 +3296,7 @@ extension MediaLive {
         }
 
         @available(*, deprecated, message: "Members reserved have been deprecated")
-        public init(cdiInputSpecification: CdiInputSpecification? = nil, channelClass: ChannelClass? = nil, destinations: [OutputDestination]? = nil, encoderSettings: EncoderSettings? = nil, inputAttachments: [InputAttachment]? = nil, inputSpecification: InputSpecification? = nil, logLevel: LogLevel? = nil, name: String? = nil, requestId: String? = CreateChannelRequest.idempotencyToken(), reserved: String? = nil, roleArn: String? = nil, tags: [String: String]? = nil, vpc: VpcOutputSettings? = nil) {
+        public init(cdiInputSpecification: CdiInputSpecification? = nil, channelClass: ChannelClass? = nil, destinations: [OutputDestination]? = nil, encoderSettings: EncoderSettings? = nil, inputAttachments: [InputAttachment]? = nil, inputSpecification: InputSpecification? = nil, logLevel: LogLevel? = nil, maintenance: MaintenanceCreateSettings? = nil, name: String? = nil, requestId: String? = CreateChannelRequest.idempotencyToken(), reserved: String? = nil, roleArn: String? = nil, tags: [String: String]? = nil, vpc: VpcOutputSettings? = nil) {
             self.cdiInputSpecification = cdiInputSpecification
             self.channelClass = channelClass
             self.destinations = destinations
@@ -3282,6 +3304,7 @@ extension MediaLive {
             self.inputAttachments = inputAttachments
             self.inputSpecification = inputSpecification
             self.logLevel = logLevel
+            self.maintenance = maintenance
             self.name = name
             self.requestId = requestId
             self.reserved = reserved
@@ -3298,6 +3321,7 @@ extension MediaLive {
             try self.inputAttachments?.forEach {
                 try $0.validate(name: "\(name).inputAttachments[]")
             }
+            try self.maintenance?.validate(name: "\(name).maintenance")
         }
 
         private enum CodingKeys: String, CodingKey {
@@ -3308,6 +3332,7 @@ extension MediaLive {
             case inputAttachments
             case inputSpecification
             case logLevel
+            case maintenance
             case name
             case requestId
             case reserved
@@ -3611,6 +3636,8 @@ extension MediaLive {
         public let inputSpecification: InputSpecification?
         /// The log level being written to CloudWatch Logs.
         public let logLevel: LogLevel?
+        /// Maintenance settings for this channel.
+        public let maintenance: MaintenanceStatus?
         /// The name of the channel. (user-mutable)
         public let name: String?
         /// Runtime details for the pipelines of a running channel.
@@ -3625,7 +3652,7 @@ extension MediaLive {
         /// Settings for VPC output
         public let vpc: VpcOutputSettingsDescription?
 
-        public init(arn: String? = nil, cdiInputSpecification: CdiInputSpecification? = nil, channelClass: ChannelClass? = nil, destinations: [OutputDestination]? = nil, egressEndpoints: [ChannelEgressEndpoint]? = nil, encoderSettings: EncoderSettings? = nil, id: String? = nil, inputAttachments: [InputAttachment]? = nil, inputSpecification: InputSpecification? = nil, logLevel: LogLevel? = nil, name: String? = nil, pipelineDetails: [PipelineDetail]? = nil, pipelinesRunningCount: Int? = nil, roleArn: String? = nil, state: ChannelState? = nil, tags: [String: String]? = nil, vpc: VpcOutputSettingsDescription? = nil) {
+        public init(arn: String? = nil, cdiInputSpecification: CdiInputSpecification? = nil, channelClass: ChannelClass? = nil, destinations: [OutputDestination]? = nil, egressEndpoints: [ChannelEgressEndpoint]? = nil, encoderSettings: EncoderSettings? = nil, id: String? = nil, inputAttachments: [InputAttachment]? = nil, inputSpecification: InputSpecification? = nil, logLevel: LogLevel? = nil, maintenance: MaintenanceStatus? = nil, name: String? = nil, pipelineDetails: [PipelineDetail]? = nil, pipelinesRunningCount: Int? = nil, roleArn: String? = nil, state: ChannelState? = nil, tags: [String: String]? = nil, vpc: VpcOutputSettingsDescription? = nil) {
             self.arn = arn
             self.cdiInputSpecification = cdiInputSpecification
             self.channelClass = channelClass
@@ -3636,6 +3663,7 @@ extension MediaLive {
             self.inputAttachments = inputAttachments
             self.inputSpecification = inputSpecification
             self.logLevel = logLevel
+            self.maintenance = maintenance
             self.name = name
             self.pipelineDetails = pipelineDetails
             self.pipelinesRunningCount = pipelinesRunningCount
@@ -3656,6 +3684,7 @@ extension MediaLive {
             case inputAttachments
             case inputSpecification
             case logLevel
+            case maintenance
             case name
             case pipelineDetails
             case pipelinesRunningCount
@@ -3986,6 +4015,8 @@ extension MediaLive {
         public let inputSpecification: InputSpecification?
         /// The log level being written to CloudWatch Logs.
         public let logLevel: LogLevel?
+        /// Maintenance settings for this channel.
+        public let maintenance: MaintenanceStatus?
         /// The name of the channel. (user-mutable)
         public let name: String?
         /// Runtime details for the pipelines of a running channel.
@@ -4000,7 +4031,7 @@ extension MediaLive {
         /// Settings for VPC output
         public let vpc: VpcOutputSettingsDescription?
 
-        public init(arn: String? = nil, cdiInputSpecification: CdiInputSpecification? = nil, channelClass: ChannelClass? = nil, destinations: [OutputDestination]? = nil, egressEndpoints: [ChannelEgressEndpoint]? = nil, encoderSettings: EncoderSettings? = nil, id: String? = nil, inputAttachments: [InputAttachment]? = nil, inputSpecification: InputSpecification? = nil, logLevel: LogLevel? = nil, name: String? = nil, pipelineDetails: [PipelineDetail]? = nil, pipelinesRunningCount: Int? = nil, roleArn: String? = nil, state: ChannelState? = nil, tags: [String: String]? = nil, vpc: VpcOutputSettingsDescription? = nil) {
+        public init(arn: String? = nil, cdiInputSpecification: CdiInputSpecification? = nil, channelClass: ChannelClass? = nil, destinations: [OutputDestination]? = nil, egressEndpoints: [ChannelEgressEndpoint]? = nil, encoderSettings: EncoderSettings? = nil, id: String? = nil, inputAttachments: [InputAttachment]? = nil, inputSpecification: InputSpecification? = nil, logLevel: LogLevel? = nil, maintenance: MaintenanceStatus? = nil, name: String? = nil, pipelineDetails: [PipelineDetail]? = nil, pipelinesRunningCount: Int? = nil, roleArn: String? = nil, state: ChannelState? = nil, tags: [String: String]? = nil, vpc: VpcOutputSettingsDescription? = nil) {
             self.arn = arn
             self.cdiInputSpecification = cdiInputSpecification
             self.channelClass = channelClass
@@ -4011,6 +4042,7 @@ extension MediaLive {
             self.inputAttachments = inputAttachments
             self.inputSpecification = inputSpecification
             self.logLevel = logLevel
+            self.maintenance = maintenance
             self.name = name
             self.pipelineDetails = pipelineDetails
             self.pipelinesRunningCount = pipelinesRunningCount
@@ -4031,6 +4063,7 @@ extension MediaLive {
             case inputAttachments
             case inputSpecification
             case logLevel
+            case maintenance
             case name
             case pipelineDetails
             case pipelinesRunningCount
@@ -4918,7 +4951,7 @@ extension MediaLive {
     }
 
     public struct EbuTtDDestinationSettings: AWSEncodableShape & AWSDecodableShape {
-        /// Applies only if you plan to convert these source captions to EBU-TT-D or TTML in an output. Complete this field if you want to include the name of the copyright holder in the copyright metadata tag in the TTML
+        /// Complete this field if you want to include the name of the copyright holder in the copyright tag in the captions metadata.
         public let copyrightHolder: String?
         /// Specifies how to handle the gap between the lines (in multi-line captions).
         /// - enabled: Fill with the captions background color (as specified in the input captions).
@@ -7883,6 +7916,77 @@ extension MediaLive {
         }
     }
 
+    public struct MaintenanceCreateSettings: AWSEncodableShape {
+        /// Choose one day of the week for maintenance. The chosen day is used for all future maintenance windows.
+        public let maintenanceDay: MaintenanceDay?
+        /// Choose the hour that maintenance will start. The chosen time is used for all future maintenance windows.
+        public let maintenanceStartTime: String?
+
+        public init(maintenanceDay: MaintenanceDay? = nil, maintenanceStartTime: String? = nil) {
+            self.maintenanceDay = maintenanceDay
+            self.maintenanceStartTime = maintenanceStartTime
+        }
+
+        public func validate(name: String) throws {
+            try self.validate(self.maintenanceStartTime, name: "maintenanceStartTime", parent: name, pattern: "^([0,1]?[0-9]|2[0-3]):00$")
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case maintenanceDay
+            case maintenanceStartTime
+        }
+    }
+
+    public struct MaintenanceStatus: AWSDecodableShape {
+        /// The currently selected maintenance day.
+        public let maintenanceDay: MaintenanceDay?
+        /// Maintenance is required by the displayed date and time. Date and time is in ISO.
+        public let maintenanceDeadline: String?
+        /// The currently scheduled maintenance date and time. Date and time is in ISO.
+        public let maintenanceScheduledDate: String?
+        /// The currently selected maintenance start time. Time is in UTC.
+        public let maintenanceStartTime: String?
+
+        public init(maintenanceDay: MaintenanceDay? = nil, maintenanceDeadline: String? = nil, maintenanceScheduledDate: String? = nil, maintenanceStartTime: String? = nil) {
+            self.maintenanceDay = maintenanceDay
+            self.maintenanceDeadline = maintenanceDeadline
+            self.maintenanceScheduledDate = maintenanceScheduledDate
+            self.maintenanceStartTime = maintenanceStartTime
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case maintenanceDay
+            case maintenanceDeadline
+            case maintenanceScheduledDate
+            case maintenanceStartTime
+        }
+    }
+
+    public struct MaintenanceUpdateSettings: AWSEncodableShape {
+        /// Choose one day of the week for maintenance. The chosen day is used for all future maintenance windows.
+        public let maintenanceDay: MaintenanceDay?
+        /// Choose a specific date for maintenance to occur. The chosen date is used for the next maintenance window only.
+        public let maintenanceScheduledDate: String?
+        /// Choose the hour that maintenance will start. The chosen time is used for all future maintenance windows.
+        public let maintenanceStartTime: String?
+
+        public init(maintenanceDay: MaintenanceDay? = nil, maintenanceScheduledDate: String? = nil, maintenanceStartTime: String? = nil) {
+            self.maintenanceDay = maintenanceDay
+            self.maintenanceScheduledDate = maintenanceScheduledDate
+            self.maintenanceStartTime = maintenanceStartTime
+        }
+
+        public func validate(name: String) throws {
+            try self.validate(self.maintenanceStartTime, name: "maintenanceStartTime", parent: name, pattern: "^([0,1]?[0-9]|2[0-3]):00$")
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case maintenanceDay
+            case maintenanceScheduledDate
+            case maintenanceStartTime
+        }
+    }
+
     public struct MediaConnectFlow: AWSDecodableShape {
         /// The unique ARN of the MediaConnect Flow being used as a source.
         public let flowArn: String?
@@ -8946,7 +9050,7 @@ extension MediaLive {
     }
 
     public struct OutputGroup: AWSEncodableShape & AWSDecodableShape {
-        /// Custom output group name optionally defined by the user.  Only letters, numbers, and the underscore character allowed; only 32 characters allowed.
+        /// Custom output group name optionally defined by the user.
         public let name: String?
         /// Settings associated with the output group.
         public let outputGroupSettings: OutputGroupSettings
@@ -9908,6 +10012,8 @@ extension MediaLive {
         public let inputSpecification: InputSpecification?
         /// The log level being written to CloudWatch Logs.
         public let logLevel: LogLevel?
+        /// Maintenance settings for this channel.
+        public let maintenance: MaintenanceStatus?
         /// The name of the channel. (user-mutable)
         public let name: String?
         /// Runtime details for the pipelines of a running channel.
@@ -9922,7 +10028,7 @@ extension MediaLive {
         /// Settings for VPC output
         public let vpc: VpcOutputSettingsDescription?
 
-        public init(arn: String? = nil, cdiInputSpecification: CdiInputSpecification? = nil, channelClass: ChannelClass? = nil, destinations: [OutputDestination]? = nil, egressEndpoints: [ChannelEgressEndpoint]? = nil, encoderSettings: EncoderSettings? = nil, id: String? = nil, inputAttachments: [InputAttachment]? = nil, inputSpecification: InputSpecification? = nil, logLevel: LogLevel? = nil, name: String? = nil, pipelineDetails: [PipelineDetail]? = nil, pipelinesRunningCount: Int? = nil, roleArn: String? = nil, state: ChannelState? = nil, tags: [String: String]? = nil, vpc: VpcOutputSettingsDescription? = nil) {
+        public init(arn: String? = nil, cdiInputSpecification: CdiInputSpecification? = nil, channelClass: ChannelClass? = nil, destinations: [OutputDestination]? = nil, egressEndpoints: [ChannelEgressEndpoint]? = nil, encoderSettings: EncoderSettings? = nil, id: String? = nil, inputAttachments: [InputAttachment]? = nil, inputSpecification: InputSpecification? = nil, logLevel: LogLevel? = nil, maintenance: MaintenanceStatus? = nil, name: String? = nil, pipelineDetails: [PipelineDetail]? = nil, pipelinesRunningCount: Int? = nil, roleArn: String? = nil, state: ChannelState? = nil, tags: [String: String]? = nil, vpc: VpcOutputSettingsDescription? = nil) {
             self.arn = arn
             self.cdiInputSpecification = cdiInputSpecification
             self.channelClass = channelClass
@@ -9933,6 +10039,7 @@ extension MediaLive {
             self.inputAttachments = inputAttachments
             self.inputSpecification = inputSpecification
             self.logLevel = logLevel
+            self.maintenance = maintenance
             self.name = name
             self.pipelineDetails = pipelineDetails
             self.pipelinesRunningCount = pipelinesRunningCount
@@ -9953,6 +10060,7 @@ extension MediaLive {
             case inputAttachments
             case inputSpecification
             case logLevel
+            case maintenance
             case name
             case pipelineDetails
             case pipelinesRunningCount
@@ -10185,6 +10293,8 @@ extension MediaLive {
         public let inputSpecification: InputSpecification?
         /// The log level being written to CloudWatch Logs.
         public let logLevel: LogLevel?
+        /// Maintenance settings for this channel.
+        public let maintenance: MaintenanceStatus?
         /// The name of the channel. (user-mutable)
         public let name: String?
         /// Runtime details for the pipelines of a running channel.
@@ -10199,7 +10309,7 @@ extension MediaLive {
         /// Settings for VPC output
         public let vpc: VpcOutputSettingsDescription?
 
-        public init(arn: String? = nil, cdiInputSpecification: CdiInputSpecification? = nil, channelClass: ChannelClass? = nil, destinations: [OutputDestination]? = nil, egressEndpoints: [ChannelEgressEndpoint]? = nil, encoderSettings: EncoderSettings? = nil, id: String? = nil, inputAttachments: [InputAttachment]? = nil, inputSpecification: InputSpecification? = nil, logLevel: LogLevel? = nil, name: String? = nil, pipelineDetails: [PipelineDetail]? = nil, pipelinesRunningCount: Int? = nil, roleArn: String? = nil, state: ChannelState? = nil, tags: [String: String]? = nil, vpc: VpcOutputSettingsDescription? = nil) {
+        public init(arn: String? = nil, cdiInputSpecification: CdiInputSpecification? = nil, channelClass: ChannelClass? = nil, destinations: [OutputDestination]? = nil, egressEndpoints: [ChannelEgressEndpoint]? = nil, encoderSettings: EncoderSettings? = nil, id: String? = nil, inputAttachments: [InputAttachment]? = nil, inputSpecification: InputSpecification? = nil, logLevel: LogLevel? = nil, maintenance: MaintenanceStatus? = nil, name: String? = nil, pipelineDetails: [PipelineDetail]? = nil, pipelinesRunningCount: Int? = nil, roleArn: String? = nil, state: ChannelState? = nil, tags: [String: String]? = nil, vpc: VpcOutputSettingsDescription? = nil) {
             self.arn = arn
             self.cdiInputSpecification = cdiInputSpecification
             self.channelClass = channelClass
@@ -10210,6 +10320,7 @@ extension MediaLive {
             self.inputAttachments = inputAttachments
             self.inputSpecification = inputSpecification
             self.logLevel = logLevel
+            self.maintenance = maintenance
             self.name = name
             self.pipelineDetails = pipelineDetails
             self.pipelinesRunningCount = pipelinesRunningCount
@@ -10230,6 +10341,7 @@ extension MediaLive {
             case inputAttachments
             case inputSpecification
             case logLevel
+            case maintenance
             case name
             case pipelineDetails
             case pipelinesRunningCount
@@ -10444,7 +10556,7 @@ extension MediaLive {
     }
 
     public struct TtmlDestinationSettings: AWSEncodableShape & AWSDecodableShape {
-        /// When set to passthrough, passes through style and position information from a TTML-like input source (TTML, SMPTE-TT, CFF-TT) to the CFF-TT output or TTML output.
+        /// This field is not currently supported and will not affect the output styling. Leave the default value.
         public let styleControl: TtmlDestinationStyleControl?
 
         public init(styleControl: TtmlDestinationStyleControl? = nil) {
@@ -10588,12 +10700,14 @@ extension MediaLive {
         public let inputSpecification: InputSpecification?
         /// The log level to write to CloudWatch Logs.
         public let logLevel: LogLevel?
+        /// Maintenance settings for this channel.
+        public let maintenance: MaintenanceUpdateSettings?
         /// The name of the channel.
         public let name: String?
         /// An optional Amazon Resource Name (ARN) of the role to assume when running the Channel. If you do not specify this on an update call but the role was previously set that role will be removed.
         public let roleArn: String?
 
-        public init(cdiInputSpecification: CdiInputSpecification? = nil, channelId: String, destinations: [OutputDestination]? = nil, encoderSettings: EncoderSettings? = nil, inputAttachments: [InputAttachment]? = nil, inputSpecification: InputSpecification? = nil, logLevel: LogLevel? = nil, name: String? = nil, roleArn: String? = nil) {
+        public init(cdiInputSpecification: CdiInputSpecification? = nil, channelId: String, destinations: [OutputDestination]? = nil, encoderSettings: EncoderSettings? = nil, inputAttachments: [InputAttachment]? = nil, inputSpecification: InputSpecification? = nil, logLevel: LogLevel? = nil, maintenance: MaintenanceUpdateSettings? = nil, name: String? = nil, roleArn: String? = nil) {
             self.cdiInputSpecification = cdiInputSpecification
             self.channelId = channelId
             self.destinations = destinations
@@ -10601,6 +10715,7 @@ extension MediaLive {
             self.inputAttachments = inputAttachments
             self.inputSpecification = inputSpecification
             self.logLevel = logLevel
+            self.maintenance = maintenance
             self.name = name
             self.roleArn = roleArn
         }
@@ -10613,6 +10728,7 @@ extension MediaLive {
             try self.inputAttachments?.forEach {
                 try $0.validate(name: "\(name).inputAttachments[]")
             }
+            try self.maintenance?.validate(name: "\(name).maintenance")
         }
 
         private enum CodingKeys: String, CodingKey {
@@ -10622,6 +10738,7 @@ extension MediaLive {
             case inputAttachments
             case inputSpecification
             case logLevel
+            case maintenance
             case name
             case roleArn
         }

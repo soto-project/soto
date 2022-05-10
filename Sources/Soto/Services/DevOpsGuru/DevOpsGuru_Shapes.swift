@@ -263,7 +263,8 @@ extension DevOpsGuru {
     }
 
     public struct AmazonCodeGuruProfilerIntegration: AWSEncodableShape & AWSDecodableShape {
-        /// The status of the CodeGuru Profiler integration.
+        /// The status of the CodeGuru Profiler integration. Specifies if DevOps Guru is enabled to
+        /// 			consume recommendations that are generated from Amazon CodeGuru Profiler.
         public let status: EventSourceOptInStatus?
 
         public init(status: EventSourceOptInStatus? = nil) {
@@ -570,6 +571,31 @@ extension DevOpsGuru {
         }
     }
 
+    public struct DeleteInsightRequest: AWSEncodableShape {
+        public static var _encoding = [
+            AWSMemberEncoding(label: "id", location: .uri("Id"))
+        ]
+
+        /// The ID of the insight.
+        public let id: String
+
+        public init(id: String) {
+            self.id = id
+        }
+
+        public func validate(name: String) throws {
+            try self.validate(self.id, name: "id", parent: name, max: 100)
+            try self.validate(self.id, name: "id", parent: name, min: 1)
+            try self.validate(self.id, name: "id", parent: name, pattern: "^[\\w-]*$")
+        }
+
+        private enum CodingKeys: CodingKey {}
+    }
+
+    public struct DeleteInsightResponse: AWSDecodableShape {
+        public init() {}
+    }
+
     public struct DescribeAccountHealthRequest: AWSEncodableShape {
         public init() {}
     }
@@ -698,7 +724,7 @@ extension DevOpsGuru {
     }
 
     public struct DescribeEventSourcesConfigResponse: AWSDecodableShape {
-        /// The name of the event source.
+        /// Lists the event sources in the configuration.
         public let eventSources: EventSourcesConfig?
 
         public init(eventSources: EventSourcesConfig? = nil) {
@@ -1163,6 +1189,8 @@ extension DevOpsGuru {
     }
 
     public struct EventSourcesConfig: AWSEncodableShape & AWSDecodableShape {
+        /// Information about whether DevOps Guru is configured to consume recommendations which
+        /// 			are generated from AWS CodeGuru Profiler.
         public let amazonCodeGuruProfiler: AmazonCodeGuruProfilerIntegration?
 
         public init(amazonCodeGuruProfiler: AmazonCodeGuruProfilerIntegration? = nil) {
@@ -1837,9 +1865,10 @@ extension DevOpsGuru {
     public struct NotificationChannelConfig: AWSEncodableShape & AWSDecodableShape {
         ///  Information about a notification channel configured in DevOps Guru to send notifications
         /// 			when insights are created.   If you use an Amazon SNS topic in another account, you must attach a policy to it that grants DevOps Guru permission
-        /// 				to it notifications. DevOps Guru adds the required policy on your behalf to send notifications using Amazon SNS in your account.
+        /// 				to it notifications. DevOps Guru adds the required policy on your behalf to send notifications using Amazon SNS in your account. DevOps Guru only supports standard SNS topics.
         /// 				For more information, see Permissions
         /// 				for cross account Amazon SNS topics.
+        /// 				     If you use an Amazon SNS topic in another account, you must attach a policy to it that grants DevOps Guru permission to it notifications. DevOps Guru adds the required policy on your behalf to send notifications using Amazon SNS in your account. For more information, see Permissions for cross account Amazon SNS topics.
         /// 				     If you use an Amazon SNS topic that is encrypted by an Amazon Web Services Key Management Service customer-managed key (CMK), then you must add permissions
         /// 				to the CMK. For more information, see Permissions for
         /// 				Amazon Web Services KMS–encrypted Amazon SNS topics.
@@ -2286,7 +2315,7 @@ extension DevOpsGuru {
         ///  Details about the source of the analyzed operational data that triggered the anomaly.
         /// 			The one supported source is Amazon CloudWatch metrics.
         public let sourceDetails: AnomalySourceDetails?
-        /// Returns the metadata of the source.
+        /// The metadata of the source which detects proactive anomalies.
         public let sourceMetadata: AnomalySourceMetadata?
         /// The status of the anomaly.
         public let status: AnomalyStatus?
@@ -3544,7 +3573,8 @@ extension DevOpsGuru {
     }
 
     public struct UpdateEventSourcesConfigRequest: AWSEncodableShape {
-        /// The name of the event source.
+        /// Configuration information about the integration of DevOps Guru as the Consumer via
+        /// 			EventBridge with another AWS Service.
         public let eventSources: EventSourcesConfig?
 
         public init(eventSources: EventSourcesConfig? = nil) {

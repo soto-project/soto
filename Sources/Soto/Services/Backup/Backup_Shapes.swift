@@ -1887,7 +1887,7 @@ extension Backup {
         public let controlInputParameters: [ControlInputParameter]?
         /// The name of a control. This name is between 1 and 256 characters.
         public let controlName: String
-        /// The scope of a control. The control scope defines what the control will evaluate. Three examples of control scopes are: a specific backup plan, all backup plans with a specific tag, or all backup plans. For more information, see ControlScope.
+        /// The scope of a control. The control scope defines what the control will evaluate. Three examples of control scopes are: a specific backup plan, all backup plans with a specific tag, or all backup plans. For more information, see  ControlScope.
         public let controlScope: ControlScope?
 
         public init(controlInputParameters: [ControlInputParameter]? = nil, controlName: String, controlScope: ControlScope? = nil) {
@@ -2235,6 +2235,8 @@ extension Backup {
         public static var _encoding = [
             AWSMemberEncoding(label: "byAccountId", location: .querystring("accountId")),
             AWSMemberEncoding(label: "byBackupVaultName", location: .querystring("backupVaultName")),
+            AWSMemberEncoding(label: "byCompleteAfter", location: .querystring("completeAfter")),
+            AWSMemberEncoding(label: "byCompleteBefore", location: .querystring("completeBefore")),
             AWSMemberEncoding(label: "byCreatedAfter", location: .querystring("createdAfter")),
             AWSMemberEncoding(label: "byCreatedBefore", location: .querystring("createdBefore")),
             AWSMemberEncoding(label: "byResourceArn", location: .querystring("resourceArn")),
@@ -2248,6 +2250,10 @@ extension Backup {
         public let byAccountId: String?
         /// Returns only backup jobs that will be stored in the specified backup vault. Backup vaults are identified by names that are unique to the account used to create them and the Amazon Web Services Region where they are created. They consist of lowercase letters, numbers, and hyphens.
         public let byBackupVaultName: String?
+        /// Returns only backup jobs completed after a date expressed in Unix format and Coordinated Universal Time (UTC).
+        public let byCompleteAfter: Date?
+        /// Returns only backup jobs completed before a date expressed in Unix format and Coordinated Universal Time (UTC).
+        public let byCompleteBefore: Date?
         /// Returns only backup jobs that were created after the specified date.
         public let byCreatedAfter: Date?
         /// Returns only backup jobs that were created before the specified date.
@@ -2263,9 +2269,11 @@ extension Backup {
         /// The next item following a partial list of returned items. For example, if a request is made to return maxResults number of items, NextToken allows you to return more items in your list starting at the location pointed to by the next token.
         public let nextToken: String?
 
-        public init(byAccountId: String? = nil, byBackupVaultName: String? = nil, byCreatedAfter: Date? = nil, byCreatedBefore: Date? = nil, byResourceArn: String? = nil, byResourceType: String? = nil, byState: BackupJobState? = nil, maxResults: Int? = nil, nextToken: String? = nil) {
+        public init(byAccountId: String? = nil, byBackupVaultName: String? = nil, byCompleteAfter: Date? = nil, byCompleteBefore: Date? = nil, byCreatedAfter: Date? = nil, byCreatedBefore: Date? = nil, byResourceArn: String? = nil, byResourceType: String? = nil, byState: BackupJobState? = nil, maxResults: Int? = nil, nextToken: String? = nil) {
             self.byAccountId = byAccountId
             self.byBackupVaultName = byBackupVaultName
+            self.byCompleteAfter = byCompleteAfter
+            self.byCompleteBefore = byCompleteBefore
             self.byCreatedAfter = byCreatedAfter
             self.byCreatedBefore = byCreatedBefore
             self.byResourceArn = byResourceArn
@@ -2523,6 +2531,8 @@ extension Backup {
     public struct ListCopyJobsInput: AWSEncodableShape {
         public static var _encoding = [
             AWSMemberEncoding(label: "byAccountId", location: .querystring("accountId")),
+            AWSMemberEncoding(label: "byCompleteAfter", location: .querystring("completeAfter")),
+            AWSMemberEncoding(label: "byCompleteBefore", location: .querystring("completeBefore")),
             AWSMemberEncoding(label: "byCreatedAfter", location: .querystring("createdAfter")),
             AWSMemberEncoding(label: "byCreatedBefore", location: .querystring("createdBefore")),
             AWSMemberEncoding(label: "byDestinationVaultArn", location: .querystring("destinationVaultArn")),
@@ -2535,6 +2545,10 @@ extension Backup {
 
         /// The account ID to list the jobs from. Returns only copy jobs associated with the specified account ID.
         public let byAccountId: String?
+        /// Returns only copy jobs completed after a date expressed in Unix format and Coordinated Universal Time (UTC).
+        public let byCompleteAfter: Date?
+        /// Returns only copy jobs completed before a date expressed in Unix format and Coordinated Universal Time (UTC).
+        public let byCompleteBefore: Date?
         /// Returns only copy jobs that were created after the specified date.
         public let byCreatedAfter: Date?
         /// Returns only copy jobs that were created before the specified date.
@@ -2552,8 +2566,10 @@ extension Backup {
         /// The next item following a partial list of returned items. For example, if a request is made to return maxResults number of items, NextToken allows you to return more items in your list starting at the location pointed to by the next token.
         public let nextToken: String?
 
-        public init(byAccountId: String? = nil, byCreatedAfter: Date? = nil, byCreatedBefore: Date? = nil, byDestinationVaultArn: String? = nil, byResourceArn: String? = nil, byResourceType: String? = nil, byState: CopyJobState? = nil, maxResults: Int? = nil, nextToken: String? = nil) {
+        public init(byAccountId: String? = nil, byCompleteAfter: Date? = nil, byCompleteBefore: Date? = nil, byCreatedAfter: Date? = nil, byCreatedBefore: Date? = nil, byDestinationVaultArn: String? = nil, byResourceArn: String? = nil, byResourceType: String? = nil, byState: CopyJobState? = nil, maxResults: Int? = nil, nextToken: String? = nil) {
             self.byAccountId = byAccountId
+            self.byCompleteAfter = byCompleteAfter
+            self.byCompleteBefore = byCompleteBefore
             self.byCreatedAfter = byCreatedAfter
             self.byCreatedBefore = byCreatedBefore
             self.byDestinationVaultArn = byDestinationVaultArn
@@ -2889,6 +2905,8 @@ extension Backup {
     public struct ListRestoreJobsInput: AWSEncodableShape {
         public static var _encoding = [
             AWSMemberEncoding(label: "byAccountId", location: .querystring("accountId")),
+            AWSMemberEncoding(label: "byCompleteAfter", location: .querystring("completeAfter")),
+            AWSMemberEncoding(label: "byCompleteBefore", location: .querystring("completeBefore")),
             AWSMemberEncoding(label: "byCreatedAfter", location: .querystring("createdAfter")),
             AWSMemberEncoding(label: "byCreatedBefore", location: .querystring("createdBefore")),
             AWSMemberEncoding(label: "byStatus", location: .querystring("status")),
@@ -2898,6 +2916,10 @@ extension Backup {
 
         /// The account ID to list the jobs from. Returns only restore jobs associated with the specified account ID.
         public let byAccountId: String?
+        /// Returns only copy jobs completed after a date expressed in Unix format and Coordinated Universal Time (UTC).
+        public let byCompleteAfter: Date?
+        /// Returns only copy jobs completed before a date expressed in Unix format and Coordinated Universal Time (UTC).
+        public let byCompleteBefore: Date?
         /// Returns only restore jobs that were created after the specified date.
         public let byCreatedAfter: Date?
         /// Returns only restore jobs that were created before the specified date.
@@ -2909,8 +2931,10 @@ extension Backup {
         /// The next item following a partial list of returned items. For example, if a request is made to return maxResults number of items, NextToken allows you to return more items in your list starting at the location pointed to by the next token.
         public let nextToken: String?
 
-        public init(byAccountId: String? = nil, byCreatedAfter: Date? = nil, byCreatedBefore: Date? = nil, byStatus: RestoreJobStatus? = nil, maxResults: Int? = nil, nextToken: String? = nil) {
+        public init(byAccountId: String? = nil, byCompleteAfter: Date? = nil, byCompleteBefore: Date? = nil, byCreatedAfter: Date? = nil, byCreatedBefore: Date? = nil, byStatus: RestoreJobStatus? = nil, maxResults: Int? = nil, nextToken: String? = nil) {
             self.byAccountId = byAccountId
+            self.byCompleteAfter = byCompleteAfter
+            self.byCompleteBefore = byCompleteBefore
             self.byCreatedAfter = byCreatedAfter
             self.byCreatedBefore = byCreatedBefore
             self.byStatus = byStatus

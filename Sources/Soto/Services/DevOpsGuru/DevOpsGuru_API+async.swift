@@ -26,14 +26,20 @@ extension DevOpsGuru {
     ///  Adds a notification channel to DevOps Guru. A notification channel is used to notify you
     /// 			about important DevOps Guru events, such as when an insight is generated.
     /// 		       If you use an Amazon SNS topic in another account, you must attach a policy to it that grants DevOps Guru permission
-    /// 				to it notifications. DevOps Guru adds the required policy on your behalf to send notifications using Amazon SNS in your account.
+    /// 				to it notifications. DevOps Guru adds the required policy on your behalf to send notifications using Amazon SNS in your account. DevOps Guru only supports standard SNS topics.
     /// 				For more information, see Permissions
     /// 				for cross account Amazon SNS topics.
+    /// 				     If you use an Amazon SNS topic in another account, you must attach a policy to it that grants DevOps Guru permission to it notifications. DevOps Guru adds the required policy on your behalf to send notifications using Amazon SNS in your account. For more information, see Permissions for cross account Amazon SNS topics.
     /// 				     If you use an Amazon SNS topic that is encrypted by an Amazon Web Services Key Management Service customer-managed key (CMK), then you must add permissions
     /// 				to the CMK. For more information, see Permissions for
     /// 				Amazon Web Services KMS–encrypted Amazon SNS topics.
     public func addNotificationChannel(_ input: AddNotificationChannelRequest, logger: Logger = AWSClient.loggingDisabled, on eventLoop: EventLoop? = nil) async throws -> AddNotificationChannelResponse {
         return try await self.client.execute(operation: "AddNotificationChannel", path: "/channels", httpMethod: .PUT, serviceConfig: self.config, input: input, logger: logger, on: eventLoop)
+    }
+
+    /// Deletes the insight along with the associated anomalies, events and recommendations.
+    public func deleteInsight(_ input: DeleteInsightRequest, logger: Logger = AWSClient.loggingDisabled, on eventLoop: EventLoop? = nil) async throws -> DeleteInsightResponse {
+        return try await self.client.execute(operation: "DeleteInsight", path: "/insights/{Id}", httpMethod: .DELETE, serviceConfig: self.config, input: input, logger: logger, on: eventLoop)
     }
 
     ///  Returns the number of open reactive insights, the number of open proactive insights,
@@ -55,7 +61,10 @@ extension DevOpsGuru {
         return try await self.client.execute(operation: "DescribeAnomaly", path: "/anomalies/{Id}", httpMethod: .GET, serviceConfig: self.config, input: input, logger: logger, on: eventLoop)
     }
 
-    /// This operation lists details about a DevOps Guru event source that is shared with your  account.
+    /// Returns the integration status of services that are integrated with DevOps Guru as Consumer
+    /// 			via EventBridge. The one service that can be integrated with DevOps Guru is Amazon CodeGuru
+    /// 			Profiler, which can produce proactive recommendations which can be stored and viewed in
+    /// 			DevOps Guru.
     public func describeEventSourcesConfig(_ input: DescribeEventSourcesConfigRequest, logger: Logger = AWSClient.loggingDisabled, on eventLoop: EventLoop? = nil) async throws -> DescribeEventSourcesConfigResponse {
         return try await self.client.execute(operation: "DescribeEventSourcesConfig", path: "/event-sources", httpMethod: .POST, serviceConfig: self.config, input: input, logger: logger, on: eventLoop)
     }
@@ -197,7 +206,9 @@ extension DevOpsGuru {
         return try await self.client.execute(operation: "StartCostEstimation", path: "/cost-estimation", httpMethod: .PUT, serviceConfig: self.config, input: input, logger: logger, on: eventLoop)
     }
 
-    /// Updates the event source configuration.
+    /// Enables or disables integration with a service that can be integrated with DevOps Guru. The
+    /// 			one service that can be integrated with DevOps Guru is Amazon CodeGuru Profiler, which
+    /// 			can produce proactive recommendations which can be stored and viewed in DevOps Guru.
     public func updateEventSourcesConfig(_ input: UpdateEventSourcesConfigRequest, logger: Logger = AWSClient.loggingDisabled, on eventLoop: EventLoop? = nil) async throws -> UpdateEventSourcesConfigResponse {
         return try await self.client.execute(operation: "UpdateEventSourcesConfig", path: "/event-sources", httpMethod: .PUT, serviceConfig: self.config, input: input, logger: logger, on: eventLoop)
     }

@@ -45,28 +45,6 @@ extension RDS {
         )
     }
 
-    ///  Returns information about custom Availability Zones (AZs). A custom AZ is an on-premises AZ that is integrated with a VMware vSphere cluster. For more information about RDS on VMware, see the   RDS on VMware User Guide.
-    /// Return PaginatorSequence for operation.
-    ///
-    /// - Parameters:
-    ///   - input: Input for request
-    ///   - logger: Logger used flot logging
-    ///   - eventLoop: EventLoop to run this process on
-    public func describeCustomAvailabilityZonesPaginator(
-        _ input: DescribeCustomAvailabilityZonesMessage,
-        logger: Logger = AWSClient.loggingDisabled,
-        on eventLoop: EventLoop? = nil
-    ) -> AWSClient.PaginatorSequence<DescribeCustomAvailabilityZonesMessage, CustomAvailabilityZoneMessage> {
-        return .init(
-            input: input,
-            command: describeCustomAvailabilityZones,
-            inputKey: \DescribeCustomAvailabilityZonesMessage.marker,
-            outputKey: \CustomAvailabilityZoneMessage.marker,
-            logger: logger,
-            on: eventLoop
-        )
-    }
-
     ///  Returns information about backtracks for a DB cluster. For more information on Amazon Aurora, see   What is Amazon Aurora? in the Amazon Aurora User Guide.  This action only applies to Aurora MySQL DB clusters.
     /// Return PaginatorSequence for operation.
     ///
@@ -590,28 +568,6 @@ extension RDS {
             command: describeGlobalClusters,
             inputKey: \DescribeGlobalClustersMessage.marker,
             outputKey: \GlobalClustersMessage.marker,
-            logger: logger,
-            on: eventLoop
-        )
-    }
-
-    ///  Describes the available installation media for a DB engine that requires an  on-premises customer provided license, such as Microsoft SQL Server.
-    /// Return PaginatorSequence for operation.
-    ///
-    /// - Parameters:
-    ///   - input: Input for request
-    ///   - logger: Logger used flot logging
-    ///   - eventLoop: EventLoop to run this process on
-    public func describeInstallationMediaPaginator(
-        _ input: DescribeInstallationMediaMessage,
-        logger: Logger = AWSClient.loggingDisabled,
-        on eventLoop: EventLoop? = nil
-    ) -> AWSClient.PaginatorSequence<DescribeInstallationMediaMessage, InstallationMediaMessage> {
-        return .init(
-            input: input,
-            command: describeInstallationMedia,
-            inputKey: \DescribeInstallationMediaMessage.marker,
-            outputKey: \InstallationMediaMessage.marker,
             logger: logger,
             on: eventLoop
         )

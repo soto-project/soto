@@ -63,13 +63,13 @@ public struct CloudControlErrorType: AWSErrorType {
 
     /// The resource with the name requested already exists.
     public static var alreadyExistsException: Self { .init(.alreadyExistsException) }
-    /// The specified client token has already been used in another resource request. It is best practice for client tokens to be unique for each resource operation request. However, client token expire after 36 hours.
+    /// The specified client token has already been used in another resource request. It's best practice for client tokens to be unique for each resource operation request. However, client token expire after 36 hours.
     public static var clientTokenConflictException: Self { .init(.clientTokenConflictException) }
     /// The resource is currently being modified by another operation.
     public static var concurrentModificationException: Self { .init(.concurrentModificationException) }
     /// Another resource operation is currently being performed on this resource.
     public static var concurrentOperationException: Self { .init(.concurrentOperationException) }
-    /// The resource handler has returned that the downstream service generated an error that does not map to any other handler error code.
+    /// The resource handler has returned that the downstream service generated an error that doesn't map to any other handler error code.
     public static var generalServiceException: Self { .init(.generalServiceException) }
     /// The resource handler has failed without a returning a more specific error code. This can include timeouts.
     public static var handlerFailureException: Self { .init(.handlerFailureException) }
@@ -79,19 +79,19 @@ public struct CloudControlErrorType: AWSErrorType {
     public static var invalidCredentialsException: Self { .init(.invalidCredentialsException) }
     /// The resource handler has returned that invalid input from the user has generated a generic exception.
     public static var invalidRequestException: Self { .init(.invalidRequestException) }
-    /// The resource handler has returned that the request could not be completed due to networking issues, such as a failure to receive a response from the server.
+    /// The resource handler has returned that the request couldn't be completed due to networking issues, such as a failure to receive a response from the server.
     public static var networkFailureException: Self { .init(.networkFailureException) }
     /// The resource handler has returned that the downstream resource failed to complete all of its ready-state checks.
     public static var notStabilizedException: Self { .init(.notStabilizedException) }
-    /// One or more properties included in this resource operation are defined as create-only, and therefore cannot be updated.
+    /// One or more properties included in this resource operation are defined as create-only, and therefore can't be updated.
     public static var notUpdatableException: Self { .init(.notUpdatableException) }
-    /// Cloud Control API has not received a valid response from the resource handler, due to a configuration error. This includes issues such as the resource handler returning an invalid response, or timing out.
+    /// Cloud Control API hasn't received a valid response from the resource handler, due to a configuration error. This includes issues such as the resource handler returning an invalid response, or timing out.
     public static var privateTypeException: Self { .init(.privateTypeException) }
-    /// A resource operation with the specified request token cannot be found.
+    /// A resource operation with the specified request token can't be found.
     public static var requestTokenNotFoundException: Self { .init(.requestTokenNotFoundException) }
-    /// The resource is temporarily unavailable to be acted upon. For example, if the resource is currently undergoing an operation and cannot be acted upon until that operation is finished.
+    /// The resource is temporarily unavailable to be acted upon. For example, if the resource is currently undergoing an operation and can't be acted upon until that operation is finished.
     public static var resourceConflictException: Self { .init(.resourceConflictException) }
-    /// A resource with the specified identifier cannot be found.
+    /// A resource with the specified identifier can't be found.
     public static var resourceNotFoundException: Self { .init(.resourceNotFoundException) }
     /// The resource handler has returned that the downstream service returned an internal error, typically with a 5XX HTTP status code.
     public static var serviceInternalErrorException: Self { .init(.serviceInternalErrorException) }
@@ -99,9 +99,9 @@ public struct CloudControlErrorType: AWSErrorType {
     public static var serviceLimitExceededException: Self { .init(.serviceLimitExceededException) }
     /// The request was denied due to request throttling.
     public static var throttlingException: Self { .init(.throttlingException) }
-    /// The specified extension does not exist in the CloudFormation registry.
+    /// The specified extension doesn't exist in the CloudFormation registry.
     public static var typeNotFoundException: Self { .init(.typeNotFoundException) }
-    /// The specified resource does not support this resource operation.
+    /// The specified resource doesn't support this resource operation.
     public static var unsupportedActionException: Self { .init(.unsupportedActionException) }
 }
 

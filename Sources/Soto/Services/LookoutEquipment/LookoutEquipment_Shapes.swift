@@ -66,6 +66,19 @@ extension LookoutEquipment {
         public var description: String { return self.rawValue }
     }
 
+    public enum Monotonicity: String, CustomStringConvertible, Codable {
+        case decreasing = "DECREASING"
+        case increasing = "INCREASING"
+        case `static` = "STATIC"
+        public var description: String { return self.rawValue }
+    }
+
+    public enum StatisticalIssueStatus: String, CustomStringConvertible, Codable {
+        case noIssueDetected = "NO_ISSUE_DETECTED"
+        case potentialIssueDetected = "POTENTIAL_ISSUE_DETECTED"
+        public var description: String { return self.rawValue }
+    }
+
     public enum TargetSamplingRate: String, CustomStringConvertible, Codable {
         case pt10m = "PT10M"
         case pt10s = "PT10S"
@@ -83,19 +96,53 @@ extension LookoutEquipment {
 
     // MARK: Shapes
 
+    public struct CategoricalValues: AWSDecodableShape {
+        /// Indicates the number of categories in the data.
+        public let numberOfCategory: Int?
+        /// Indicates whether there is a potential data issue related to categorical values.
+        public let status: StatisticalIssueStatus
+
+        public init(numberOfCategory: Int? = nil, status: StatisticalIssueStatus) {
+            self.numberOfCategory = numberOfCategory
+            self.status = status
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case numberOfCategory = "NumberOfCategory"
+            case status = "Status"
+        }
+    }
+
+    public struct CountPercent: AWSDecodableShape {
+        /// Indicates the count of occurences of the given statistic.
+        public let count: Int
+        /// Indicates the percentage of occurances of the given statistic.
+        public let percentage: Float
+
+        public init(count: Int, percentage: Float) {
+            self.count = count
+            self.percentage = percentage
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case count = "Count"
+            case percentage = "Percentage"
+        }
+    }
+
     public struct CreateDatasetRequest: AWSEncodableShape {
         ///  A unique identifier for the request. If you do not set the client request token, Amazon Lookout for Equipment generates one.
         public let clientToken: String
         /// The name of the dataset being created.
         public let datasetName: String
         /// A JSON description of the data that is in each time series dataset, including names, column names, and data types.
-        public let datasetSchema: DatasetSchema
+        public let datasetSchema: DatasetSchema?
         /// Provides the identifier of the KMS key used to encrypt dataset data by Amazon Lookout for Equipment.
         public let serverSideKmsKeyId: String?
         /// Any tags associated with the ingested data described in the dataset.
         public let tags: [Tag]?
 
-        public init(clientToken: String = CreateDatasetRequest.idempotencyToken(), datasetName: String, datasetSchema: DatasetSchema, serverSideKmsKeyId: String? = nil, tags: [Tag]? = nil) {
+        public init(clientToken: String = CreateDatasetRequest.idempotencyToken(), datasetName: String, datasetSchema: DatasetSchema? = nil, serverSideKmsKeyId: String? = nil, tags: [Tag]? = nil) {
             self.clientToken = clientToken
             self.datasetName = datasetName
             self.datasetSchema = datasetSchema
@@ -110,7 +157,7 @@ extension LookoutEquipment {
             try self.validate(self.datasetName, name: "datasetName", parent: name, max: 200)
             try self.validate(self.datasetName, name: "datasetName", parent: name, min: 1)
             try self.validate(self.datasetName, name: "datasetName", parent: name, pattern: "^[0-9a-zA-Z_-]{1,200}$")
-            try self.datasetSchema.validate(name: "\(name).datasetSchema")
+            try self.datasetSchema?.validate(name: "\(name).datasetSchema")
             try self.validate(self.serverSideKmsKeyId, name: "serverSideKmsKeyId", parent: name, max: 2048)
             try self.validate(self.serverSideKmsKeyId, name: "serverSideKmsKeyId", parent: name, min: 1)
             try self.validate(self.serverSideKmsKeyId, name: "serverSideKmsKeyId", parent: name, pattern: "^[A-Za-z0-9][A-Za-z0-9:_/+=,@.-]{0,2048}$")
@@ -359,7 +406,7 @@ extension LookoutEquipment {
         public let datasetArn: String?
         /// The name of the dataset used for the data ingestion job.
         public let datasetName: String?
-        ///  Specifies information for the input data for the data inference job, including data S3 location parameters.
+        ///  Specifies information for the input data for the data inference job, including data Amazon S3 location parameters.
         public let ingestionInputConfiguration: IngestionInputConfiguration?
         /// Indicates the job ID of the data ingestion job.
         public let jobId: String?
@@ -393,6 +440,35 @@ extension LookoutEquipment {
 
         private enum CodingKeys: String, CodingKey {
             case targetSamplingRate = "TargetSamplingRate"
+        }
+    }
+
+    public struct DataQualitySummary: AWSDecodableShape {
+        /// Parameter that gives information about duplicate timestamps in the input data.
+        public let duplicateTimestamps: DuplicateTimestamps
+        /// Parameter that gives information about insufficient data for sensors in the dataset. This includes information about those sensors that have complete data missing and those with a short date range.
+        public let insufficientSensorData: InsufficientSensorData
+        /// Parameter that gives information about data that is invalid over all the sensors in the input data.
+        public let invalidSensorData: InvalidSensorData
+        /// Parameter that gives information about data that is missing over all the sensors in the input data.
+        public let missingSensorData: MissingSensorData
+        /// Parameter that gives information about unsupported timestamps in the input data.
+        public let unsupportedTimestamps: UnsupportedTimestamps
+
+        public init(duplicateTimestamps: DuplicateTimestamps, insufficientSensorData: InsufficientSensorData, invalidSensorData: InvalidSensorData, missingSensorData: MissingSensorData, unsupportedTimestamps: UnsupportedTimestamps) {
+            self.duplicateTimestamps = duplicateTimestamps
+            self.insufficientSensorData = insufficientSensorData
+            self.invalidSensorData = invalidSensorData
+            self.missingSensorData = missingSensorData
+            self.unsupportedTimestamps = unsupportedTimestamps
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case duplicateTimestamps = "DuplicateTimestamps"
+            case insufficientSensorData = "InsufficientSensorData"
+            case invalidSensorData = "InvalidSensorData"
+            case missingSensorData = "MissingSensorData"
+            case unsupportedTimestamps = "UnsupportedTimestamps"
         }
     }
 
@@ -517,10 +593,19 @@ extension LookoutEquipment {
     public struct DescribeDataIngestionJobResponse: AWSDecodableShape {
         /// The time at which the data ingestion job was created.
         public let createdAt: Date?
+        ///  Indicates the latest timestamp corresponding to data that was successfully ingested during this specific ingestion job.
+        public let dataEndTime: Date?
+        /// Gives statistics about a completed ingestion job. These statistics primarily relate to quantifying incorrect data such as MissingCompleteSensorData, MissingSensorData, UnsupportedDateFormats, InsufficientSensorData, and DuplicateTimeStamps.
+        public let dataQualitySummary: DataQualitySummary?
         /// The Amazon Resource Name (ARN) of the dataset being used in the data ingestion job.
         public let datasetArn: String?
+        ///  Indicates the earliest timestamp corresponding to data that was successfully ingested during this specific ingestion job.
+        public let dataStartTime: Date?
         /// Specifies the reason for failure when a data ingestion job has failed.
         public let failedReason: String?
+        ///  Indicates the size of the ingested dataset.
+        public let ingestedDataSize: Int64?
+        public let ingestedFilesSummary: IngestedFilesSummary?
         /// Specifies the S3 location configuration for the data input for the data ingestion job.
         public let ingestionInputConfiguration: IngestionInputConfiguration?
         /// Indicates the job ID of the data ingestion job.
@@ -529,25 +614,39 @@ extension LookoutEquipment {
         public let roleArn: String?
         /// Indicates the status of the DataIngestionJob operation.
         public let status: IngestionJobStatus?
+        ///  Provides details about status of the ingestion job that is currently in progress.
+        public let statusDetail: String?
 
-        public init(createdAt: Date? = nil, datasetArn: String? = nil, failedReason: String? = nil, ingestionInputConfiguration: IngestionInputConfiguration? = nil, jobId: String? = nil, roleArn: String? = nil, status: IngestionJobStatus? = nil) {
+        public init(createdAt: Date? = nil, dataEndTime: Date? = nil, dataQualitySummary: DataQualitySummary? = nil, datasetArn: String? = nil, dataStartTime: Date? = nil, failedReason: String? = nil, ingestedDataSize: Int64? = nil, ingestedFilesSummary: IngestedFilesSummary? = nil, ingestionInputConfiguration: IngestionInputConfiguration? = nil, jobId: String? = nil, roleArn: String? = nil, status: IngestionJobStatus? = nil, statusDetail: String? = nil) {
             self.createdAt = createdAt
+            self.dataEndTime = dataEndTime
+            self.dataQualitySummary = dataQualitySummary
             self.datasetArn = datasetArn
+            self.dataStartTime = dataStartTime
             self.failedReason = failedReason
+            self.ingestedDataSize = ingestedDataSize
+            self.ingestedFilesSummary = ingestedFilesSummary
             self.ingestionInputConfiguration = ingestionInputConfiguration
             self.jobId = jobId
             self.roleArn = roleArn
             self.status = status
+            self.statusDetail = statusDetail
         }
 
         private enum CodingKeys: String, CodingKey {
             case createdAt = "CreatedAt"
+            case dataEndTime = "DataEndTime"
+            case dataQualitySummary = "DataQualitySummary"
             case datasetArn = "DatasetArn"
+            case dataStartTime = "DataStartTime"
             case failedReason = "FailedReason"
+            case ingestedDataSize = "IngestedDataSize"
+            case ingestedFilesSummary = "IngestedFilesSummary"
             case ingestionInputConfiguration = "IngestionInputConfiguration"
             case jobId = "JobId"
             case roleArn = "RoleArn"
             case status = "Status"
+            case statusDetail = "StatusDetail"
         }
     }
 
@@ -573,14 +672,24 @@ extension LookoutEquipment {
     public struct DescribeDatasetResponse: AWSDecodableShape {
         /// Specifies the time the dataset was created in Amazon Lookout for Equipment.
         public let createdAt: Date?
+        ///  Indicates the latest timestamp corresponding to data that was successfully ingested during the most recent ingestion of this particular dataset.
+        public let dataEndTime: Date?
+        /// Gives statistics associated with the given dataset for the latest successful associated ingestion job id. These statistics primarily relate to quantifying incorrect data such as MissingCompleteSensorData, MissingSensorData, UnsupportedDateFormats, InsufficientSensorData, and DuplicateTimeStamps.
+        public let dataQualitySummary: DataQualitySummary?
         /// The Amazon Resource Name (ARN) of the dataset being described.
         public let datasetArn: String?
         /// The name of the dataset being described.
         public let datasetName: String?
+        ///  Indicates the earliest timestamp corresponding to data that was successfully ingested during the most recent ingestion of this particular dataset.
+        public let dataStartTime: Date?
+        /// IngestedFilesSummary associated with the given dataset for the latest successful associated ingestion job id.
+        public let ingestedFilesSummary: IngestedFilesSummary?
         /// Specifies the S3 location configuration for the data input for the data ingestion job.
         public let ingestionInputConfiguration: IngestionInputConfiguration?
         /// Specifies the time the dataset was last updated, if it was.
         public let lastUpdatedAt: Date?
+        ///  The Amazon Resource Name (ARN) of the IAM role that you are using for this the data ingestion job.
+        public let roleArn: String?
         /// A JSON description of the data that is in each time series dataset, including names, column names, and data types.
         public let schema: String?
         /// Provides the identifier of the KMS key used to encrypt dataset data by Amazon Lookout for Equipment.
@@ -588,12 +697,17 @@ extension LookoutEquipment {
         /// Indicates the status of the dataset.
         public let status: DatasetStatus?
 
-        public init(createdAt: Date? = nil, datasetArn: String? = nil, datasetName: String? = nil, ingestionInputConfiguration: IngestionInputConfiguration? = nil, lastUpdatedAt: Date? = nil, schema: String? = nil, serverSideKmsKeyId: String? = nil, status: DatasetStatus? = nil) {
+        public init(createdAt: Date? = nil, dataEndTime: Date? = nil, dataQualitySummary: DataQualitySummary? = nil, datasetArn: String? = nil, datasetName: String? = nil, dataStartTime: Date? = nil, ingestedFilesSummary: IngestedFilesSummary? = nil, ingestionInputConfiguration: IngestionInputConfiguration? = nil, lastUpdatedAt: Date? = nil, roleArn: String? = nil, schema: String? = nil, serverSideKmsKeyId: String? = nil, status: DatasetStatus? = nil) {
             self.createdAt = createdAt
+            self.dataEndTime = dataEndTime
+            self.dataQualitySummary = dataQualitySummary
             self.datasetArn = datasetArn
             self.datasetName = datasetName
+            self.dataStartTime = dataStartTime
+            self.ingestedFilesSummary = ingestedFilesSummary
             self.ingestionInputConfiguration = ingestionInputConfiguration
             self.lastUpdatedAt = lastUpdatedAt
+            self.roleArn = roleArn
             self.schema = schema
             self.serverSideKmsKeyId = serverSideKmsKeyId
             self.status = status
@@ -601,10 +715,15 @@ extension LookoutEquipment {
 
         private enum CodingKeys: String, CodingKey {
             case createdAt = "CreatedAt"
+            case dataEndTime = "DataEndTime"
+            case dataQualitySummary = "DataQualitySummary"
             case datasetArn = "DatasetArn"
             case datasetName = "DatasetName"
+            case dataStartTime = "DataStartTime"
+            case ingestedFilesSummary = "IngestedFilesSummary"
             case ingestionInputConfiguration = "IngestionInputConfiguration"
             case lastUpdatedAt = "LastUpdatedAt"
+            case roleArn = "RoleArn"
             case schema = "Schema"
             case serverSideKmsKeyId = "ServerSideKmsKeyId"
             case status = "Status"
@@ -803,6 +922,19 @@ extension LookoutEquipment {
         }
     }
 
+    public struct DuplicateTimestamps: AWSDecodableShape {
+        /// Indicates the total number of duplicate timestamps.
+        public let totalNumberOfDuplicateTimestamps: Int
+
+        public init(totalNumberOfDuplicateTimestamps: Int) {
+            self.totalNumberOfDuplicateTimestamps = totalNumberOfDuplicateTimestamps
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case totalNumberOfDuplicateTimestamps = "TotalNumberOfDuplicateTimestamps"
+        }
+    }
+
     public struct InferenceExecutionSummary: AWSDecodableShape {
         ///
         public let customerResultObject: S3Object?
@@ -810,7 +942,7 @@ extension LookoutEquipment {
         public let dataEndTime: Date?
         ///  Specifies configuration information for the input data for the inference scheduler, including delimiter, format, and dataset location.
         public let dataInputConfiguration: InferenceInputConfiguration?
-        ///  Specifies configuration information for the output results from for the inference execution, including the output S3 location.
+        ///  Specifies configuration information for the output results from for the inference execution, including the output Amazon S3 location.
         public let dataOutputConfiguration: InferenceOutputConfiguration?
         /// Indicates the time reference in the dataset at which the inference execution began.
         public let dataStartTime: Date?
@@ -863,9 +995,9 @@ extension LookoutEquipment {
     public struct InferenceInputConfiguration: AWSEncodableShape & AWSDecodableShape {
         /// Specifies configuration information for the input data for the inference, including timestamp format and delimiter.
         public let inferenceInputNameConfiguration: InferenceInputNameConfiguration?
-        /// Indicates the difference between your time zone and Greenwich Mean Time (GMT).
+        /// Indicates the difference between your time zone and Coordinated Universal Time (UTC).
         public let inputTimeZoneOffset: String?
-        ///  Specifies configuration information for the input data for the inference, including S3 location of input data..
+        ///  Specifies configuration information for the input data for the inference, including Amazon S3 location of input data.
         public let s3InputConfiguration: InferenceS3InputConfiguration?
 
         public init(inferenceInputNameConfiguration: InferenceInputNameConfiguration? = nil, inputTimeZoneOffset: String? = nil, s3InputConfiguration: InferenceS3InputConfiguration? = nil) {
@@ -1021,6 +1153,27 @@ extension LookoutEquipment {
         }
     }
 
+    public struct IngestedFilesSummary: AWSDecodableShape {
+        /// Indicates the number of files that were discarded. A file could be discarded because its format is invalid (for example, a jpg or pdf) or not readable.
+        public let discardedFiles: [S3Object]?
+        /// Indicates the number of files that were successfully ingested.
+        public let ingestedNumberOfFiles: Int
+        /// Indicates the total number of files that were submitted for ingestion.
+        public let totalNumberOfFiles: Int
+
+        public init(discardedFiles: [S3Object]? = nil, ingestedNumberOfFiles: Int, totalNumberOfFiles: Int) {
+            self.discardedFiles = discardedFiles
+            self.ingestedNumberOfFiles = ingestedNumberOfFiles
+            self.totalNumberOfFiles = totalNumberOfFiles
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case discardedFiles = "DiscardedFiles"
+            case ingestedNumberOfFiles = "IngestedNumberOfFiles"
+            case totalNumberOfFiles = "TotalNumberOfFiles"
+        }
+    }
+
     public struct IngestionInputConfiguration: AWSEncodableShape & AWSDecodableShape {
         /// The location information for the S3 bucket used for input data for the data ingestion.
         public let s3InputConfiguration: IngestionS3InputConfiguration
@@ -1041,11 +1194,15 @@ extension LookoutEquipment {
     public struct IngestionS3InputConfiguration: AWSEncodableShape & AWSDecodableShape {
         /// The name of the S3 bucket used for the input data for the data ingestion.
         public let bucket: String
+        /// Pattern for matching the Amazon S3 files which will be used for ingestion.
+        /// If no KeyPattern is provided, we will use the default hierarchy file structure, which is same as KeyPattern {prefix}/{component_name}/*
+        public let keyPattern: String?
         /// The prefix for the S3 location being used for the input data for the data ingestion.
         public let prefix: String?
 
-        public init(bucket: String, prefix: String? = nil) {
+        public init(bucket: String, keyPattern: String? = nil, prefix: String? = nil) {
             self.bucket = bucket
+            self.keyPattern = keyPattern
             self.prefix = prefix
         }
 
@@ -1053,13 +1210,50 @@ extension LookoutEquipment {
             try self.validate(self.bucket, name: "bucket", parent: name, max: 63)
             try self.validate(self.bucket, name: "bucket", parent: name, min: 3)
             try self.validate(self.bucket, name: "bucket", parent: name, pattern: "^[a-z0-9][\\.\\-a-z0-9]{1,61}[a-z0-9]$")
+            try self.validate(self.keyPattern, name: "keyPattern", parent: name, max: 2048)
+            try self.validate(self.keyPattern, name: "keyPattern", parent: name, min: 1)
             try self.validate(self.prefix, name: "prefix", parent: name, max: 1024)
             try self.validate(self.prefix, name: "prefix", parent: name, pattern: "^(^$)|([\\P{M}\\p{M}]{1,1023}/$)$")
         }
 
         private enum CodingKeys: String, CodingKey {
             case bucket = "Bucket"
+            case keyPattern = "KeyPattern"
             case prefix = "Prefix"
+        }
+    }
+
+    public struct InsufficientSensorData: AWSDecodableShape {
+        /// Parameter that describes the total number of sensors that have data completely missing for it.
+        public let missingCompleteSensorData: MissingCompleteSensorData
+        /// Parameter that describes the total number of sensors that have a short date range of less than 90 days of data overall.
+        public let sensorsWithShortDateRange: SensorsWithShortDateRange
+
+        public init(missingCompleteSensorData: MissingCompleteSensorData, sensorsWithShortDateRange: SensorsWithShortDateRange) {
+            self.missingCompleteSensorData = missingCompleteSensorData
+            self.sensorsWithShortDateRange = sensorsWithShortDateRange
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case missingCompleteSensorData = "MissingCompleteSensorData"
+            case sensorsWithShortDateRange = "SensorsWithShortDateRange"
+        }
+    }
+
+    public struct InvalidSensorData: AWSDecodableShape {
+        /// Indicates the number of sensors that have at least some invalid values.
+        public let affectedSensorCount: Int
+        /// Indicates the total number of invalid values across all the sensors.
+        public let totalNumberOfInvalidValues: Int
+
+        public init(affectedSensorCount: Int, totalNumberOfInvalidValues: Int) {
+            self.affectedSensorCount = affectedSensorCount
+            self.totalNumberOfInvalidValues = totalNumberOfInvalidValues
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case affectedSensorCount = "AffectedSensorCount"
+            case totalNumberOfInvalidValues = "TotalNumberOfInvalidValues"
         }
     }
 
@@ -1102,6 +1296,27 @@ extension LookoutEquipment {
         private enum CodingKeys: String, CodingKey {
             case bucket = "Bucket"
             case prefix = "Prefix"
+        }
+    }
+
+    public struct LargeTimestampGaps: AWSDecodableShape {
+        /// Indicates the size of the largest timestamp gap, in days.
+        public let maxTimestampGapInDays: Int?
+        /// Indicates the number of large timestamp gaps, if there are any.
+        public let numberOfLargeTimestampGaps: Int?
+        /// Indicates whether there is a potential data issue related to large gaps in timestamps.
+        public let status: StatisticalIssueStatus
+
+        public init(maxTimestampGapInDays: Int? = nil, numberOfLargeTimestampGaps: Int? = nil, status: StatisticalIssueStatus) {
+            self.maxTimestampGapInDays = maxTimestampGapInDays
+            self.numberOfLargeTimestampGaps = numberOfLargeTimestampGaps
+            self.status = status
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case maxTimestampGapInDays = "MaxTimestampGapInDays"
+            case numberOfLargeTimestampGaps = "NumberOfLargeTimestampGaps"
+            case status = "Status"
         }
     }
 
@@ -1379,6 +1594,60 @@ extension LookoutEquipment {
         }
     }
 
+    public struct ListSensorStatisticsRequest: AWSEncodableShape {
+        /// The name of the dataset associated with the list of Sensor Statistics.
+        public let datasetName: String
+        /// The ingestion job id associated with the list of Sensor Statistics. To get sensor statistics for a particular ingestion job id, both dataset name and ingestion job id must be submitted as inputs.
+        public let ingestionJobId: String?
+        /// Specifies the maximum number of sensors for which to retrieve statistics.
+        public let maxResults: Int?
+        /// An opaque pagination token indicating where to continue the listing of sensor statistics.
+        public let nextToken: String?
+
+        public init(datasetName: String, ingestionJobId: String? = nil, maxResults: Int? = nil, nextToken: String? = nil) {
+            self.datasetName = datasetName
+            self.ingestionJobId = ingestionJobId
+            self.maxResults = maxResults
+            self.nextToken = nextToken
+        }
+
+        public func validate(name: String) throws {
+            try self.validate(self.datasetName, name: "datasetName", parent: name, max: 200)
+            try self.validate(self.datasetName, name: "datasetName", parent: name, min: 1)
+            try self.validate(self.datasetName, name: "datasetName", parent: name, pattern: "^[0-9a-zA-Z_-]{1,200}$")
+            try self.validate(self.ingestionJobId, name: "ingestionJobId", parent: name, max: 32)
+            try self.validate(self.ingestionJobId, name: "ingestionJobId", parent: name, pattern: "^[A-Fa-f0-9]{0,32}$")
+            try self.validate(self.maxResults, name: "maxResults", parent: name, max: 500)
+            try self.validate(self.maxResults, name: "maxResults", parent: name, min: 1)
+            try self.validate(self.nextToken, name: "nextToken", parent: name, max: 8192)
+            try self.validate(self.nextToken, name: "nextToken", parent: name, pattern: "^\\p{ASCII}{0,8192}$")
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case datasetName = "DatasetName"
+            case ingestionJobId = "IngestionJobId"
+            case maxResults = "MaxResults"
+            case nextToken = "NextToken"
+        }
+    }
+
+    public struct ListSensorStatisticsResponse: AWSDecodableShape {
+        /// An opaque pagination token indicating where to continue the listing of sensor statistics.
+        public let nextToken: String?
+        /// Provides ingestion-based statistics regarding the specified sensor with respect to various validation types, such as whether data exists, the number and percentage of missing values, and the number and percentage of duplicate timestamps.
+        public let sensorStatisticsSummaries: [SensorStatisticsSummary]?
+
+        public init(nextToken: String? = nil, sensorStatisticsSummaries: [SensorStatisticsSummary]? = nil) {
+            self.nextToken = nextToken
+            self.sensorStatisticsSummaries = sensorStatisticsSummaries
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case nextToken = "NextToken"
+            case sensorStatisticsSummaries = "SensorStatisticsSummaries"
+        }
+    }
+
     public struct ListTagsForResourceRequest: AWSEncodableShape {
         /// The Amazon Resource Name (ARN) of the resource (such as the dataset or model) that is the focus of the ListTagsForResource operation.
         public let resourceArn: String
@@ -1407,6 +1676,36 @@ extension LookoutEquipment {
 
         private enum CodingKeys: String, CodingKey {
             case tags = "Tags"
+        }
+    }
+
+    public struct MissingCompleteSensorData: AWSDecodableShape {
+        /// Indicates the number of sensors that have data missing completely.
+        public let affectedSensorCount: Int
+
+        public init(affectedSensorCount: Int) {
+            self.affectedSensorCount = affectedSensorCount
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case affectedSensorCount = "AffectedSensorCount"
+        }
+    }
+
+    public struct MissingSensorData: AWSDecodableShape {
+        /// Indicates the number of sensors that have atleast some data missing.
+        public let affectedSensorCount: Int
+        /// Indicates the total number of missing values across all the sensors.
+        public let totalNumberOfMissingValues: Int
+
+        public init(affectedSensorCount: Int, totalNumberOfMissingValues: Int) {
+            self.affectedSensorCount = affectedSensorCount
+            self.totalNumberOfMissingValues = totalNumberOfMissingValues
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case affectedSensorCount = "AffectedSensorCount"
+            case totalNumberOfMissingValues = "TotalNumberOfMissingValues"
         }
     }
 
@@ -1443,6 +1742,36 @@ extension LookoutEquipment {
         }
     }
 
+    public struct MonotonicValues: AWSDecodableShape {
+        /// Indicates the monotonicity of values. Can be INCREASING, DECREASING, or STATIC.
+        public let monotonicity: Monotonicity?
+        /// Indicates whether there is a potential data issue related to having monotonic values.
+        public let status: StatisticalIssueStatus
+
+        public init(monotonicity: Monotonicity? = nil, status: StatisticalIssueStatus) {
+            self.monotonicity = monotonicity
+            self.status = status
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case monotonicity = "Monotonicity"
+            case status = "Status"
+        }
+    }
+
+    public struct MultipleOperatingModes: AWSDecodableShape {
+        ///  Indicates whether there is a potential data issue related to having multiple operating modes.
+        public let status: StatisticalIssueStatus
+
+        public init(status: StatisticalIssueStatus) {
+            self.status = status
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case status = "Status"
+        }
+    }
+
     public struct S3Object: AWSDecodableShape {
         /// The name of the specific S3 bucket.
         public let bucket: String
@@ -1457,6 +1786,80 @@ extension LookoutEquipment {
         private enum CodingKeys: String, CodingKey {
             case bucket = "Bucket"
             case key = "Key"
+        }
+    }
+
+    public struct SensorStatisticsSummary: AWSDecodableShape {
+        /// Parameter that describes potential risk about whether data associated with the sensor is categorical.
+        public let categoricalValues: CategoricalValues?
+        /// Name of the component to which the particular sensor belongs for which the statistics belong to.
+        public let componentName: String?
+        /// Indicates the time reference to indicate the end of valid data associated with the sensor that the statistics belong to.
+        public let dataEndTime: Date?
+        /// Parameter that indicates whether data exists for the sensor that the statistics belong to.
+        public let dataExists: Bool?
+        /// Indicates the time reference to indicate the beginning of valid data associated with the sensor that the statistics belong to.
+        public let dataStartTime: Date?
+        /// Parameter that describes the total number of duplicate timestamp records associated with the sensor that the statistics belong to.
+        public let duplicateTimestamps: CountPercent?
+        /// Parameter that describes the total number of invalid date entries associated with the sensor that the statistics belong to.
+        public let invalidDateEntries: CountPercent?
+        /// Parameter that describes the total number of, and percentage of, values that are invalid for the sensor that the statistics belong to.
+        public let invalidValues: CountPercent?
+        /// Parameter that describes potential risk about whether data associated with the sensor contains one or more large gaps between consecutive timestamps.
+        public let largeTimestampGaps: LargeTimestampGaps?
+        /// Parameter that describes the total number of, and percentage of, values that are missing for the sensor that the statistics belong to.
+        public let missingValues: CountPercent?
+        /// Parameter that describes potential risk about whether data associated with the sensor is mostly monotonic.
+        public let monotonicValues: MonotonicValues?
+        /// Parameter that describes potential risk about whether data associated with the sensor has more than one operating mode.
+        public let multipleOperatingModes: MultipleOperatingModes?
+        /// Name of the sensor that the statistics belong to.
+        public let sensorName: String?
+
+        public init(categoricalValues: CategoricalValues? = nil, componentName: String? = nil, dataEndTime: Date? = nil, dataExists: Bool? = nil, dataStartTime: Date? = nil, duplicateTimestamps: CountPercent? = nil, invalidDateEntries: CountPercent? = nil, invalidValues: CountPercent? = nil, largeTimestampGaps: LargeTimestampGaps? = nil, missingValues: CountPercent? = nil, monotonicValues: MonotonicValues? = nil, multipleOperatingModes: MultipleOperatingModes? = nil, sensorName: String? = nil) {
+            self.categoricalValues = categoricalValues
+            self.componentName = componentName
+            self.dataEndTime = dataEndTime
+            self.dataExists = dataExists
+            self.dataStartTime = dataStartTime
+            self.duplicateTimestamps = duplicateTimestamps
+            self.invalidDateEntries = invalidDateEntries
+            self.invalidValues = invalidValues
+            self.largeTimestampGaps = largeTimestampGaps
+            self.missingValues = missingValues
+            self.monotonicValues = monotonicValues
+            self.multipleOperatingModes = multipleOperatingModes
+            self.sensorName = sensorName
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case categoricalValues = "CategoricalValues"
+            case componentName = "ComponentName"
+            case dataEndTime = "DataEndTime"
+            case dataExists = "DataExists"
+            case dataStartTime = "DataStartTime"
+            case duplicateTimestamps = "DuplicateTimestamps"
+            case invalidDateEntries = "InvalidDateEntries"
+            case invalidValues = "InvalidValues"
+            case largeTimestampGaps = "LargeTimestampGaps"
+            case missingValues = "MissingValues"
+            case monotonicValues = "MonotonicValues"
+            case multipleOperatingModes = "MultipleOperatingModes"
+            case sensorName = "SensorName"
+        }
+    }
+
+    public struct SensorsWithShortDateRange: AWSDecodableShape {
+        /// Indicates the number of sensors that have less than 90 days of data.
+        public let affectedSensorCount: Int
+
+        public init(affectedSensorCount: Int) {
+            self.affectedSensorCount = affectedSensorCount
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case affectedSensorCount = "AffectedSensorCount"
         }
     }
 
@@ -1664,6 +2067,19 @@ extension LookoutEquipment {
 
     public struct TagResourceResponse: AWSDecodableShape {
         public init() {}
+    }
+
+    public struct UnsupportedTimestamps: AWSDecodableShape {
+        /// Indicates the total number of unsupported timestamps across the ingested data.
+        public let totalNumberOfUnsupportedTimestamps: Int
+
+        public init(totalNumberOfUnsupportedTimestamps: Int) {
+            self.totalNumberOfUnsupportedTimestamps = totalNumberOfUnsupportedTimestamps
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case totalNumberOfUnsupportedTimestamps = "TotalNumberOfUnsupportedTimestamps"
+        }
     }
 
     public struct UntagResourceRequest: AWSEncodableShape {

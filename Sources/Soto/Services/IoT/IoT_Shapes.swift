@@ -2823,11 +2823,11 @@ extension IoT {
 
         /// Each custom metric must have a unique client request token. If you try to create a new custom metric that already exists with a different token, an exception occurs. If you omit this value, Amazon Web Services SDKs will automatically generate a unique client request.
         public let clientRequestToken: String
-        ///  Field represents a friendly name in the console for the custom metric; it doesn't have to be unique. Don't use this name as the metric identifier in the device metric report. Can be updated once defined.
+        ///  The friendly name in the console for the custom metric. This name doesn't have to be unique. Don't use this name as the metric identifier in the device metric report. You can update the friendly name after you define it.
         public let displayName: String?
-        ///  The name of the custom metric. This will be used in the metric report submitted from the device/thing. Shouldn't begin with aws:. Cannot be updated once defined.
+        ///  The name of the custom metric. This will be used in the metric report submitted from the device/thing. The name can't begin with aws:. You can't change the name after you define it.
         public let metricName: String
-        ///  The type of the custom metric. Types include string-list, ip-address-list, number-list, and number.
+        ///  The type of the custom metric.   The type number only takes a single metric value as an input, but when you submit the metrics value in the DeviceMetrics report, you must pass it as an array with a single value.
         public let metricType: CustomMetricType
         ///  Metadata that can be used to manage the custom metric.
         public let tags: [Tag]?
@@ -2863,7 +2863,7 @@ extension IoT {
     }
 
     public struct CreateCustomMetricResponse: AWSDecodableShape {
-        ///  The Amazon Resource Number (ARN) of the custom metric, e.g. arn:aws-partition:iot:region:accountId:custommetric/metricName
+        ///  The Amazon Resource Number (ARN) of the custom metric. For example, arn:aws-partition:iot:region:accountId:custommetric/metricName
         public let metricArn: String?
         ///  The name of the custom metric to be used in the metric report.
         public let metricName: String?
@@ -3935,7 +3935,7 @@ extension IoT {
             AWSMemberEncoding(label: "roleAlias", location: .uri("roleAlias"))
         ]
 
-        /// How long (in seconds) the credentials will be valid. The default value is 3,600 seconds.
+        /// How long (in seconds) the credentials will be valid. The default value is 3,600 seconds. This value must be less than or equal to the maximum session duration of the IAM role that the role alias references.
         public let credentialDurationSeconds: Int?
         /// The role alias that points to a role ARN. This allows you to change the role without having to update the device.
         public let roleAlias: String
@@ -5731,7 +5731,7 @@ extension IoT {
         public let metricArn: String?
         ///  The name of the custom metric.
         public let metricName: String?
-        ///  The type of the custom metric. Types include string-list, ip-address-list, number-list, and number.
+        ///  The type of the custom metric.   The type number only takes a single metric value as an input, but while submitting the metrics value in the DeviceMetrics report, it must be passed as an array with a single value.
         public let metricType: CustomMetricType?
 
         public init(creationDate: Date? = nil, displayName: String? = nil, lastModifiedDate: Date? = nil, metricArn: String? = nil, metricName: String? = nil, metricType: CustomMetricType? = nil) {
@@ -8538,6 +8538,7 @@ extension IoT {
         public let documentParameters: [String: String]?
         /// Will be true if the job was canceled with the optional force parameter set to  true.
         public let forceCanceled: Bool?
+        public let isConcurrent: Bool?
         /// An ARN identifying the job with format "arn:aws:iot:region:account:job/jobId".
         public let jobArn: String?
         /// The configuration for the criteria to retry the job.
@@ -8567,7 +8568,7 @@ extension IoT {
         /// Specifies the amount of time each device has to finish its execution of the job.  A timer  is started when the job execution status is set to IN_PROGRESS. If the job  execution status is not set to another terminal state before the timer expires, it will be automatically set to TIMED_OUT.
         public let timeoutConfig: TimeoutConfig?
 
-        public init(abortConfig: AbortConfig? = nil, comment: String? = nil, completedAt: Date? = nil, createdAt: Date? = nil, description: String? = nil, documentParameters: [String: String]? = nil, forceCanceled: Bool? = nil, jobArn: String? = nil, jobExecutionsRetryConfig: JobExecutionsRetryConfig? = nil, jobExecutionsRolloutConfig: JobExecutionsRolloutConfig? = nil, jobId: String? = nil, jobProcessDetails: JobProcessDetails? = nil, jobTemplateArn: String? = nil, lastUpdatedAt: Date? = nil, namespaceId: String? = nil, presignedUrlConfig: PresignedUrlConfig? = nil, reasonCode: String? = nil, status: JobStatus? = nil, targets: [String]? = nil, targetSelection: TargetSelection? = nil, timeoutConfig: TimeoutConfig? = nil) {
+        public init(abortConfig: AbortConfig? = nil, comment: String? = nil, completedAt: Date? = nil, createdAt: Date? = nil, description: String? = nil, documentParameters: [String: String]? = nil, forceCanceled: Bool? = nil, isConcurrent: Bool? = nil, jobArn: String? = nil, jobExecutionsRetryConfig: JobExecutionsRetryConfig? = nil, jobExecutionsRolloutConfig: JobExecutionsRolloutConfig? = nil, jobId: String? = nil, jobProcessDetails: JobProcessDetails? = nil, jobTemplateArn: String? = nil, lastUpdatedAt: Date? = nil, namespaceId: String? = nil, presignedUrlConfig: PresignedUrlConfig? = nil, reasonCode: String? = nil, status: JobStatus? = nil, targets: [String]? = nil, targetSelection: TargetSelection? = nil, timeoutConfig: TimeoutConfig? = nil) {
             self.abortConfig = abortConfig
             self.comment = comment
             self.completedAt = completedAt
@@ -8575,6 +8576,7 @@ extension IoT {
             self.description = description
             self.documentParameters = documentParameters
             self.forceCanceled = forceCanceled
+            self.isConcurrent = isConcurrent
             self.jobArn = jobArn
             self.jobExecutionsRetryConfig = jobExecutionsRetryConfig
             self.jobExecutionsRolloutConfig = jobExecutionsRolloutConfig
@@ -8599,6 +8601,7 @@ extension IoT {
             case description
             case documentParameters
             case forceCanceled
+            case isConcurrent
             case jobArn
             case jobExecutionsRetryConfig
             case jobExecutionsRolloutConfig
@@ -8842,6 +8845,7 @@ extension IoT {
         public let completedAt: Date?
         /// The time, in seconds since the epoch, when the job was created.
         public let createdAt: Date?
+        public let isConcurrent: Bool?
         /// The job ARN.
         public let jobArn: String?
         /// The unique identifier you assigned to this job when it was created.
@@ -8855,9 +8859,10 @@ extension IoT {
         /// The ID of the thing group.
         public let thingGroupId: String?
 
-        public init(completedAt: Date? = nil, createdAt: Date? = nil, jobArn: String? = nil, jobId: String? = nil, lastUpdatedAt: Date? = nil, status: JobStatus? = nil, targetSelection: TargetSelection? = nil, thingGroupId: String? = nil) {
+        public init(completedAt: Date? = nil, createdAt: Date? = nil, isConcurrent: Bool? = nil, jobArn: String? = nil, jobId: String? = nil, lastUpdatedAt: Date? = nil, status: JobStatus? = nil, targetSelection: TargetSelection? = nil, thingGroupId: String? = nil) {
             self.completedAt = completedAt
             self.createdAt = createdAt
+            self.isConcurrent = isConcurrent
             self.jobArn = jobArn
             self.jobId = jobId
             self.lastUpdatedAt = lastUpdatedAt
@@ -8869,6 +8874,7 @@ extension IoT {
         private enum CodingKeys: String, CodingKey {
             case completedAt
             case createdAt
+            case isConcurrent
             case jobArn
             case jobId
             case lastUpdatedAt
@@ -10250,6 +10256,76 @@ extension IoT {
 
         private enum CodingKeys: String, CodingKey {
             case managedJobTemplates
+            case nextToken
+        }
+    }
+
+    public struct ListMetricValuesRequest: AWSEncodableShape {
+        public static var _encoding = [
+            AWSMemberEncoding(label: "dimensionName", location: .querystring("dimensionName")),
+            AWSMemberEncoding(label: "dimensionValueOperator", location: .querystring("dimensionValueOperator")),
+            AWSMemberEncoding(label: "endTime", location: .querystring("endTime")),
+            AWSMemberEncoding(label: "maxResults", location: .querystring("maxResults")),
+            AWSMemberEncoding(label: "metricName", location: .querystring("metricName")),
+            AWSMemberEncoding(label: "nextToken", location: .querystring("nextToken")),
+            AWSMemberEncoding(label: "startTime", location: .querystring("startTime")),
+            AWSMemberEncoding(label: "thingName", location: .querystring("thingName"))
+        ]
+
+        /// The dimension name.
+        public let dimensionName: String?
+        /// The dimension value operator.
+        public let dimensionValueOperator: DimensionValueOperator?
+        /// The end of the time period for which metric values are returned.
+        public let endTime: Date
+        /// The maximum number of results to return at one time.
+        public let maxResults: Int?
+        /// The name of the security profile metric for which values are returned.
+        public let metricName: String
+        /// The token for the next set of results.
+        public let nextToken: String?
+        /// The start of the time period for which metric values are returned.
+        public let startTime: Date
+        /// The name of the thing for which security profile metric values are returned.
+        public let thingName: String
+
+        public init(dimensionName: String? = nil, dimensionValueOperator: DimensionValueOperator? = nil, endTime: Date, maxResults: Int? = nil, metricName: String, nextToken: String? = nil, startTime: Date, thingName: String) {
+            self.dimensionName = dimensionName
+            self.dimensionValueOperator = dimensionValueOperator
+            self.endTime = endTime
+            self.maxResults = maxResults
+            self.metricName = metricName
+            self.nextToken = nextToken
+            self.startTime = startTime
+            self.thingName = thingName
+        }
+
+        public func validate(name: String) throws {
+            try self.validate(self.dimensionName, name: "dimensionName", parent: name, max: 128)
+            try self.validate(self.dimensionName, name: "dimensionName", parent: name, min: 1)
+            try self.validate(self.dimensionName, name: "dimensionName", parent: name, pattern: "^[a-zA-Z0-9:_-]+$")
+            try self.validate(self.maxResults, name: "maxResults", parent: name, max: 250)
+            try self.validate(self.maxResults, name: "maxResults", parent: name, min: 1)
+            try self.validate(self.thingName, name: "thingName", parent: name, max: 128)
+            try self.validate(self.thingName, name: "thingName", parent: name, min: 1)
+        }
+
+        private enum CodingKeys: CodingKey {}
+    }
+
+    public struct ListMetricValuesResponse: AWSDecodableShape {
+        /// The data the thing reports for the metric during the specified time period.
+        public let metricDatumList: [MetricDatum]?
+        /// A token that can be used to retrieve the next set of results, or null  if there are no additional results.
+        public let nextToken: String?
+
+        public init(metricDatumList: [MetricDatum]? = nil, nextToken: String? = nil) {
+            self.metricDatumList = metricDatumList
+            self.nextToken = nextToken
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case metricDatumList
             case nextToken
         }
     }
@@ -11875,6 +11951,23 @@ extension IoT {
         }
     }
 
+    public struct MetricDatum: AWSDecodableShape {
+        /// The time the metric value was reported.
+        public let timestamp: Date?
+        /// The value reported for the metric.
+        public let value: MetricValue?
+
+        public init(timestamp: Date? = nil, value: MetricValue? = nil) {
+            self.timestamp = timestamp
+            self.value = value
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case timestamp
+            case value
+        }
+    }
+
     public struct MetricDimension: AWSEncodableShape & AWSDecodableShape {
         /// A unique identifier for the dimension.
         public let dimensionName: String
@@ -12575,7 +12668,7 @@ extension IoT {
 
         public func validate(name: String) throws {
             try self.validate(self.verificationStateDescription, name: "verificationStateDescription", parent: name, max: 1000)
-            try self.validate(self.verificationStateDescription, name: "verificationStateDescription", parent: name, pattern: "^[\\p{Graph}\\x20]*$")
+            try self.validate(self.verificationStateDescription, name: "verificationStateDescription", parent: name, pattern: "^[^\\p{Cntrl}]*$")
             try self.validate(self.violationId, name: "violationId", parent: name, max: 128)
             try self.validate(self.violationId, name: "violationId", parent: name, min: 1)
             try self.validate(self.violationId, name: "violationId", parent: name, pattern: "^[a-zA-Z0-9\\-]+$")
@@ -12625,7 +12718,7 @@ extension IoT {
         public let caCertificate: String
         /// Information about the registration configuration.
         public let registrationConfig: RegistrationConfig?
-        /// A boolean value that specifies if the CA certificate is set to active.
+        /// A boolean value that specifies if the CA certificate is set to active. Valid values: ACTIVE | INACTIVE
         public let setAsActive: Bool?
         /// Metadata which can be used to manage the CA certificate.  For URI Request parameters use format: ...key1=value1&key2=value2... For the CLI command-line parameter use format: &&tags "key1=value1&key2=value2..." For the cli-input-json file use format: "tags": "key1=value1&key2=value2..."
         public let tags: [Tag]?
@@ -12688,9 +12781,9 @@ extension IoT {
         public let caCertificatePem: String?
         /// The certificate data, in PEM format.
         public let certificatePem: String
-        /// A boolean value that specifies if the certificate is set to active.
+        /// A boolean value that specifies if the certificate is set to active. Valid values: ACTIVE | INACTIVE
         public let setAsActive: Bool?
-        /// The status of the register certificate request.
+        /// The status of the register certificate request. Valid values that you can use include  ACTIVE, INACTIVE, and REVOKED.
         public let status: CertificateStatus?
 
         public init(caCertificatePem: String? = nil, certificatePem: String, status: CertificateStatus? = nil) {
@@ -15349,7 +15442,7 @@ extension IoT {
         public let metricArn: String?
         ///  The name of the custom metric.
         public let metricName: String?
-        ///  The type of the custom metric. Types include string-list, ip-address-list, number-list, and number.
+        ///  The type of the custom metric.   The type number only takes a single metric value as an input, but while submitting the metrics value in the DeviceMetrics report, it must be passed as an array with a single value.
         public let metricType: CustomMetricType?
 
         public init(creationDate: Date? = nil, displayName: String? = nil, lastModifiedDate: Date? = nil, metricArn: String? = nil, metricName: String? = nil, metricType: CustomMetricType? = nil) {
@@ -15842,7 +15935,7 @@ extension IoT {
             AWSMemberEncoding(label: "roleAlias", location: .uri("roleAlias"))
         ]
 
-        /// The number of seconds the credential will be valid.
+        /// The number of seconds the credential will be valid. This value must be less than or equal to the maximum session duration of the IAM role that the role alias references.
         public let credentialDurationSeconds: Int?
         /// The role alias to update.
         public let roleAlias: String

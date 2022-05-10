@@ -46,6 +46,7 @@ public struct KMSErrorType: AWSErrorType {
         case invalidMarkerException = "InvalidMarkerException"
         case keyUnavailableException = "KeyUnavailableException"
         case kmsInternalException = "KMSInternalException"
+        case kmsInvalidMacException = "KMSInvalidMacException"
         case kmsInvalidSignatureException = "KMSInvalidSignatureException"
         case kmsInvalidStateException = "KMSInvalidStateException"
         case limitExceededException = "LimitExceededException"
@@ -118,7 +119,7 @@ public struct KMSErrorType: AWSErrorType {
     public static var invalidGrantTokenException: Self { .init(.invalidGrantTokenException) }
     /// The request was rejected because the provided import token is invalid or is associated with a different KMS key.
     public static var invalidImportTokenException: Self { .init(.invalidImportTokenException) }
-    /// The request was rejected for one of the following reasons:    The KeyUsage value of the KMS key is incompatible with the API operation.   The encryption algorithm or signing algorithm specified for the operation is incompatible with the type of key material in the KMS key (KeySpec).   For encrypting, decrypting, re-encrypting, and generating data keys, the KeyUsage must be ENCRYPT_DECRYPT. For signing and verifying, the KeyUsage must be SIGN_VERIFY. To find the KeyUsage of a KMS key, use the DescribeKey operation. To find the encryption or signing algorithms supported for a particular KMS key, use the DescribeKey operation.
+    /// The request was rejected for one of the following reasons:    The KeyUsage value of the KMS key is incompatible with the API operation.   The encryption algorithm or signing algorithm specified for the operation is incompatible with the type of key material in the KMS key (KeySpec).   For encrypting, decrypting, re-encrypting, and generating data keys, the KeyUsage must be ENCRYPT_DECRYPT. For signing and verifying messages, the KeyUsage must be SIGN_VERIFY. For generating and verifying message authentication codes (MACs), the KeyUsage must be GENERATE_VERIFY_MAC. To find the KeyUsage of a KMS key, use the DescribeKey operation. To find the encryption or signing algorithms supported for a particular KMS key, use the DescribeKey operation.
     public static var invalidKeyUsageException: Self { .init(.invalidKeyUsageException) }
     /// The request was rejected because the marker that specifies where pagination should next begin is not valid.
     public static var invalidMarkerException: Self { .init(.invalidMarkerException) }
@@ -126,9 +127,11 @@ public struct KMSErrorType: AWSErrorType {
     public static var keyUnavailableException: Self { .init(.keyUnavailableException) }
     /// The request was rejected because an internal exception occurred. The request can be retried.
     public static var kmsInternalException: Self { .init(.kmsInternalException) }
+    /// The request was rejected because the HMAC verification failed. HMAC verification fails when the HMAC computed by using the specified message, HMAC KMS key, and MAC algorithm does not match the HMAC specified in the request.
+    public static var kmsInvalidMacException: Self { .init(.kmsInvalidMacException) }
     /// The request was rejected because the signature verification failed. Signature verification fails when it cannot confirm that signature was produced by signing the specified message with the specified KMS key and signing algorithm.
     public static var kmsInvalidSignatureException: Self { .init(.kmsInvalidSignatureException) }
-    /// The request was rejected because the state of the specified resource is not valid for this request. For more information about how key state affects the use of a KMS key, see Key state: Effect on your KMS key in the  Key Management Service Developer Guide .
+    /// The request was rejected because the state of the specified resource is not valid for this request. For more information about how key state affects the use of a KMS key, see Key states of KMS keys in the  Key Management Service Developer Guide .
     public static var kmsInvalidStateException: Self { .init(.kmsInvalidStateException) }
     /// The request was rejected because a quota was exceeded. For more information, see Quotas in the Key Management Service Developer Guide.
     public static var limitExceededException: Self { .init(.limitExceededException) }

@@ -291,7 +291,7 @@ extension IoTTwinMaker.GetPropertyValueHistoryRequest: AWSPaginateToken {
         return .init(
             componentName: self.componentName,
             componentTypeId: self.componentTypeId,
-            endDateTime: self.endDateTime,
+            endTime: self.endTime,
             entityId: self.entityId,
             interpolation: self.interpolation,
             maxResults: self.maxResults,
@@ -299,7 +299,7 @@ extension IoTTwinMaker.GetPropertyValueHistoryRequest: AWSPaginateToken {
             orderByTime: self.orderByTime,
             propertyFilters: self.propertyFilters,
             selectedProperties: self.selectedProperties,
-            startDateTime: self.startDateTime,
+            startTime: self.startTime,
             workspaceId: self.workspaceId
         )
     }

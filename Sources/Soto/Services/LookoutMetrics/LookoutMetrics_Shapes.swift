@@ -77,6 +77,13 @@ extension LookoutMetrics {
         public var description: String { return self.rawValue }
     }
 
+    public enum Confidence: String, CustomStringConvertible, Codable {
+        case high = "HIGH"
+        case low = "LOW"
+        case none = "NONE"
+        public var description: String { return self.rawValue }
+    }
+
     public enum Frequency: String, CustomStringConvertible, Codable {
         case p1d = "P1D"
         case pt10m = "PT10M"
@@ -456,6 +463,88 @@ extension LookoutMetrics {
         private enum CodingKeys: String, CodingKey {
             case flowName = "FlowName"
             case roleArn = "RoleArn"
+        }
+    }
+
+    public struct AttributeValue: AWSDecodableShape {
+        /// A binary value.
+        public let b: String?
+        /// A list of binary values.
+        public let bs: [String]?
+        /// A number.
+        public let n: String?
+        /// A list of numbers.
+        public let ns: [String]?
+        /// A string.
+        public let s: String?
+        /// A list of strings.
+        public let ss: [String]?
+
+        public init(b: String? = nil, bs: [String]? = nil, n: String? = nil, ns: [String]? = nil, s: String? = nil, ss: [String]? = nil) {
+            self.b = b
+            self.bs = bs
+            self.n = n
+            self.ns = ns
+            self.s = s
+            self.ss = ss
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case b = "B"
+            case bs = "BS"
+            case n = "N"
+            case ns = "NS"
+            case s = "S"
+            case ss = "SS"
+        }
+    }
+
+    public struct AutoDetectionMetricSource: AWSEncodableShape {
+        /// The source's source config.
+        public let s3SourceConfig: AutoDetectionS3SourceConfig?
+
+        public init(s3SourceConfig: AutoDetectionS3SourceConfig? = nil) {
+            self.s3SourceConfig = s3SourceConfig
+        }
+
+        public func validate(name: String) throws {
+            try self.s3SourceConfig?.validate(name: "\(name).s3SourceConfig")
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case s3SourceConfig = "S3SourceConfig"
+        }
+    }
+
+    public struct AutoDetectionS3SourceConfig: AWSEncodableShape {
+        /// The config's historical data path list.
+        public let historicalDataPathList: [String]?
+        /// The config's templated path list.
+        public let templatedPathList: [String]?
+
+        public init(historicalDataPathList: [String]? = nil, templatedPathList: [String]? = nil) {
+            self.historicalDataPathList = historicalDataPathList
+            self.templatedPathList = templatedPathList
+        }
+
+        public func validate(name: String) throws {
+            try self.historicalDataPathList?.forEach {
+                try validate($0, name: "historicalDataPathList[]", parent: name, max: 1024)
+                try validate($0, name: "historicalDataPathList[]", parent: name, pattern: "^s3://[a-z0-9].+$")
+            }
+            try self.validate(self.historicalDataPathList, name: "historicalDataPathList", parent: name, max: 1)
+            try self.validate(self.historicalDataPathList, name: "historicalDataPathList", parent: name, min: 1)
+            try self.templatedPathList?.forEach {
+                try validate($0, name: "templatedPathList[]", parent: name, max: 1024)
+                try validate($0, name: "templatedPathList[]", parent: name, pattern: "^s3://[a-zA-Z0-9_\\-\\/ {}=]+$")
+            }
+            try self.validate(self.templatedPathList, name: "templatedPathList", parent: name, max: 1)
+            try self.validate(self.templatedPathList, name: "templatedPathList", parent: name, min: 1)
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case historicalDataPathList = "HistoricalDataPathList"
+            case templatedPathList = "TemplatedPathList"
         }
     }
 
@@ -1080,6 +1169,177 @@ extension LookoutMetrics {
             case offset = "Offset"
             case timestampColumn = "TimestampColumn"
             case timezone = "Timezone"
+        }
+    }
+
+    public struct DetectMetricSetConfigRequest: AWSEncodableShape {
+        /// An anomaly detector ARN.
+        public let anomalyDetectorArn: String
+        /// A data source.
+        public let autoDetectionMetricSource: AutoDetectionMetricSource
+
+        public init(anomalyDetectorArn: String, autoDetectionMetricSource: AutoDetectionMetricSource) {
+            self.anomalyDetectorArn = anomalyDetectorArn
+            self.autoDetectionMetricSource = autoDetectionMetricSource
+        }
+
+        public func validate(name: String) throws {
+            try self.validate(self.anomalyDetectorArn, name: "anomalyDetectorArn", parent: name, max: 256)
+            try self.validate(self.anomalyDetectorArn, name: "anomalyDetectorArn", parent: name, pattern: "^arn:([a-z\\d-]+):.*:.*:.*:.+$")
+            try self.autoDetectionMetricSource.validate(name: "\(name).autoDetectionMetricSource")
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case anomalyDetectorArn = "AnomalyDetectorArn"
+            case autoDetectionMetricSource = "AutoDetectionMetricSource"
+        }
+    }
+
+    public struct DetectMetricSetConfigResponse: AWSDecodableShape {
+        /// The inferred dataset configuration for the datasource.
+        public let detectedMetricSetConfig: DetectedMetricSetConfig?
+
+        public init(detectedMetricSetConfig: DetectedMetricSetConfig? = nil) {
+            self.detectedMetricSetConfig = detectedMetricSetConfig
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case detectedMetricSetConfig = "DetectedMetricSetConfig"
+        }
+    }
+
+    public struct DetectedCsvFormatDescriptor: AWSDecodableShape {
+        /// The format's charset.
+        public let charset: DetectedField?
+        /// Whether the format includes a header.
+        public let containsHeader: DetectedField?
+        /// The format's delimiter.
+        public let delimiter: DetectedField?
+        /// The format's file compression.
+        public let fileCompression: DetectedField?
+        /// The format's header list.
+        public let headerList: DetectedField?
+        /// The format's quote symbol.
+        public let quoteSymbol: DetectedField?
+
+        public init(charset: DetectedField? = nil, containsHeader: DetectedField? = nil, delimiter: DetectedField? = nil, fileCompression: DetectedField? = nil, headerList: DetectedField? = nil, quoteSymbol: DetectedField? = nil) {
+            self.charset = charset
+            self.containsHeader = containsHeader
+            self.delimiter = delimiter
+            self.fileCompression = fileCompression
+            self.headerList = headerList
+            self.quoteSymbol = quoteSymbol
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case charset = "Charset"
+            case containsHeader = "ContainsHeader"
+            case delimiter = "Delimiter"
+            case fileCompression = "FileCompression"
+            case headerList = "HeaderList"
+            case quoteSymbol = "QuoteSymbol"
+        }
+    }
+
+    public struct DetectedField: AWSDecodableShape {
+        /// The field's confidence.
+        public let confidence: Confidence?
+        /// The field's message.
+        public let message: String?
+        /// The field's value.
+        public let value: AttributeValue?
+
+        public init(confidence: Confidence? = nil, message: String? = nil, value: AttributeValue? = nil) {
+            self.confidence = confidence
+            self.message = message
+            self.value = value
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case confidence = "Confidence"
+            case message = "Message"
+            case value = "Value"
+        }
+    }
+
+    public struct DetectedFileFormatDescriptor: AWSDecodableShape {
+        /// Details about a CSV format.
+        public let csvFormatDescriptor: DetectedCsvFormatDescriptor?
+        /// Details about a JSON format.
+        public let jsonFormatDescriptor: DetectedJsonFormatDescriptor?
+
+        public init(csvFormatDescriptor: DetectedCsvFormatDescriptor? = nil, jsonFormatDescriptor: DetectedJsonFormatDescriptor? = nil) {
+            self.csvFormatDescriptor = csvFormatDescriptor
+            self.jsonFormatDescriptor = jsonFormatDescriptor
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case csvFormatDescriptor = "CsvFormatDescriptor"
+            case jsonFormatDescriptor = "JsonFormatDescriptor"
+        }
+    }
+
+    public struct DetectedJsonFormatDescriptor: AWSDecodableShape {
+        /// The format's character set.
+        public let charset: DetectedField?
+        /// The format's file compression.
+        public let fileCompression: DetectedField?
+
+        public init(charset: DetectedField? = nil, fileCompression: DetectedField? = nil) {
+            self.charset = charset
+            self.fileCompression = fileCompression
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case charset = "Charset"
+            case fileCompression = "FileCompression"
+        }
+    }
+
+    public struct DetectedMetricSetConfig: AWSDecodableShape {
+        /// The dataset's interval.
+        public let metricSetFrequency: DetectedField?
+        /// The dataset's data source.
+        public let metricSource: DetectedMetricSource?
+        /// The dataset's offset.
+        public let offset: DetectedField?
+
+        public init(metricSetFrequency: DetectedField? = nil, metricSource: DetectedMetricSource? = nil, offset: DetectedField? = nil) {
+            self.metricSetFrequency = metricSetFrequency
+            self.metricSource = metricSource
+            self.offset = offset
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case metricSetFrequency = "MetricSetFrequency"
+            case metricSource = "MetricSource"
+            case offset = "Offset"
+        }
+    }
+
+    public struct DetectedMetricSource: AWSDecodableShape {
+        /// The data source's source configuration.
+        public let s3SourceConfig: DetectedS3SourceConfig?
+
+        public init(s3SourceConfig: DetectedS3SourceConfig? = nil) {
+            self.s3SourceConfig = s3SourceConfig
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case s3SourceConfig = "S3SourceConfig"
+        }
+    }
+
+    public struct DetectedS3SourceConfig: AWSDecodableShape {
+        /// The source's file format descriptor.
+        public let fileFormatDescriptor: DetectedFileFormatDescriptor?
+
+        public init(fileFormatDescriptor: DetectedFileFormatDescriptor? = nil) {
+            self.fileFormatDescriptor = fileFormatDescriptor
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case fileFormatDescriptor = "FileFormatDescriptor"
         }
     }
 

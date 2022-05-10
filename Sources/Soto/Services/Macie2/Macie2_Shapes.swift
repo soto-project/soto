@@ -219,6 +219,11 @@ extension Macie2 {
         public var description: String { return self.rawValue }
     }
 
+    public enum OriginType: String, CustomStringConvertible, Codable {
+        case sensitiveDataDiscoveryJob = "SENSITIVE_DATA_DISCOVERY_JOB"
+        public var description: String { return self.rawValue }
+    }
+
     public enum RelationshipStatus: String, CustomStringConvertible, Codable {
         case accountSuspended = "AccountSuspended"
         case created = "Created"
@@ -1015,13 +1020,16 @@ extension Macie2 {
         public let jobArn: String?
         /// The unique identifier for the classification job that produced the finding.
         public let jobId: String?
+        /// Specifies how Amazon Macie found the sensitive data that produced the finding: SENSITIVE_DATA_DISCOVERY_JOB, for a classification job.
+        public let originType: OriginType?
         /// The status and other details of the finding.
         public let result: ClassificationResult?
 
-        public init(detailedResultsLocation: String? = nil, jobArn: String? = nil, jobId: String? = nil, result: ClassificationResult? = nil) {
+        public init(detailedResultsLocation: String? = nil, jobArn: String? = nil, jobId: String? = nil, originType: OriginType? = nil, result: ClassificationResult? = nil) {
             self.detailedResultsLocation = detailedResultsLocation
             self.jobArn = jobArn
             self.jobId = jobId
+            self.originType = originType
             self.result = result
         }
 
@@ -1029,6 +1037,7 @@ extension Macie2 {
             case detailedResultsLocation
             case jobArn
             case jobId
+            case originType
             case result
         }
     }
@@ -2429,7 +2438,7 @@ extension Macie2 {
     }
 
     public struct GetFindingsRequest: AWSEncodableShape {
-        /// An array of strings that lists the unique identifiers for the findings to retrieve.
+        /// An array of strings that lists the unique identifiers for the findings to retrieve. You can specify as many as 50 unique identifiers in this array.
         public let findingIds: [String]
         /// The criteria for sorting the results of the request.
         public let sortCriteria: SortCriteria?
@@ -4575,7 +4584,7 @@ extension Macie2 {
 
         /// The Amazon Resource Name (ARN) of the classification job, custom data identifier, findings filter, or member account.
         public let resourceArn: String
-        /// The key of the tag to remove from the resource. To remove multiple tags, append the tagKeys parameter and argument for each additional tag to remove, separated by an ampersand (&amp;).
+        /// One or more tags (keys) to remove from the resource. In an HTTP request to remove multiple tags, append the tagKeys parameter and argument for each tag to remove, and separate them with an ampersand (&amp;).
         public let tagKeys: [String]
 
         public init(resourceArn: String, tagKeys: [String]) {

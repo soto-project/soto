@@ -232,7 +232,7 @@ extension CloudTrail {
         )
     }
 
-    ///  Lists the tags for the trail in the current region.
+    ///  Lists the tags for the trail or event data store in the current region.
     ///
     /// Provide paginated results to closure `onPage` for it to combine them into one result.
     /// This works in a similar manner to `Array.reduce<Result>(_:_:) -> Result`.

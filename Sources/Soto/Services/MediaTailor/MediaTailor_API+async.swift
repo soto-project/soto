@@ -33,6 +33,11 @@ extension MediaTailor {
         return try await self.client.execute(operation: "CreateChannel", path: "/channel/{ChannelName}", httpMethod: .POST, serviceConfig: self.config, input: input, logger: logger, on: eventLoop)
     }
 
+    /// Creates name for a specific live source in a source location.
+    public func createLiveSource(_ input: CreateLiveSourceRequest, logger: Logger = AWSClient.loggingDisabled, on eventLoop: EventLoop? = nil) async throws -> CreateLiveSourceResponse {
+        return try await self.client.execute(operation: "CreateLiveSource", path: "/sourceLocation/{SourceLocationName}/liveSource/{LiveSourceName}", httpMethod: .POST, serviceConfig: self.config, input: input, logger: logger, on: eventLoop)
+    }
+
     /// Creates a new prefetch schedule for the specified playback configuration.
     public func createPrefetchSchedule(_ input: CreatePrefetchScheduleRequest, logger: Logger = AWSClient.loggingDisabled, on eventLoop: EventLoop? = nil) async throws -> CreatePrefetchScheduleResponse {
         return try await self.client.execute(operation: "CreatePrefetchSchedule", path: "/prefetchSchedule/{PlaybackConfigurationName}/{Name}", httpMethod: .POST, serviceConfig: self.config, input: input, logger: logger, on: eventLoop)
@@ -63,6 +68,11 @@ extension MediaTailor {
         return try await self.client.execute(operation: "DeleteChannelPolicy", path: "/channel/{ChannelName}/policy", httpMethod: .DELETE, serviceConfig: self.config, input: input, logger: logger, on: eventLoop)
     }
 
+    /// Deletes a specific live source in a specific source location.
+    public func deleteLiveSource(_ input: DeleteLiveSourceRequest, logger: Logger = AWSClient.loggingDisabled, on eventLoop: EventLoop? = nil) async throws -> DeleteLiveSourceResponse {
+        return try await self.client.execute(operation: "DeleteLiveSource", path: "/sourceLocation/{SourceLocationName}/liveSource/{LiveSourceName}", httpMethod: .DELETE, serviceConfig: self.config, input: input, logger: logger, on: eventLoop)
+    }
+
     /// Deletes the playback configuration for the specified name.
     public func deletePlaybackConfiguration(_ input: DeletePlaybackConfigurationRequest, logger: Logger = AWSClient.loggingDisabled, on eventLoop: EventLoop? = nil) async throws -> DeletePlaybackConfigurationResponse {
         return try await self.client.execute(operation: "DeletePlaybackConfiguration", path: "/playbackConfiguration/{Name}", httpMethod: .DELETE, serviceConfig: self.config, input: input, logger: logger, on: eventLoop)
@@ -91,6 +101,11 @@ extension MediaTailor {
     /// Describes the properties of a specific channel.
     public func describeChannel(_ input: DescribeChannelRequest, logger: Logger = AWSClient.loggingDisabled, on eventLoop: EventLoop? = nil) async throws -> DescribeChannelResponse {
         return try await self.client.execute(operation: "DescribeChannel", path: "/channel/{ChannelName}", httpMethod: .GET, serviceConfig: self.config, input: input, logger: logger, on: eventLoop)
+    }
+
+    /// Provides details about a specific live source in a specific source location.
+    public func describeLiveSource(_ input: DescribeLiveSourceRequest, logger: Logger = AWSClient.loggingDisabled, on eventLoop: EventLoop? = nil) async throws -> DescribeLiveSourceResponse {
+        return try await self.client.execute(operation: "DescribeLiveSource", path: "/sourceLocation/{SourceLocationName}/liveSource/{LiveSourceName}", httpMethod: .GET, serviceConfig: self.config, input: input, logger: logger, on: eventLoop)
     }
 
     /// Retrieves the properties of the requested program.
@@ -136,6 +151,11 @@ extension MediaTailor {
     /// Retrieves a list of channels that are associated with this account.
     public func listChannels(_ input: ListChannelsRequest, logger: Logger = AWSClient.loggingDisabled, on eventLoop: EventLoop? = nil) async throws -> ListChannelsResponse {
         return try await self.client.execute(operation: "ListChannels", path: "/channels", httpMethod: .GET, serviceConfig: self.config, input: input, logger: logger, on: eventLoop)
+    }
+
+    /// lists all the live sources in a source location.
+    public func listLiveSources(_ input: ListLiveSourcesRequest, logger: Logger = AWSClient.loggingDisabled, on eventLoop: EventLoop? = nil) async throws -> ListLiveSourcesResponse {
+        return try await self.client.execute(operation: "ListLiveSources", path: "/sourceLocation/{SourceLocationName}/liveSources", httpMethod: .GET, serviceConfig: self.config, input: input, logger: logger, on: eventLoop)
     }
 
     /// Returns a list of the playback configurations defined in AWS Elemental MediaTailor. You can specify a maximum number of configurations to return at a time. The default maximum is 50. Results are returned in pagefuls. If MediaTailor has more configurations than the specified maximum, it provides parameters in the response that you can use to retrieve the next pageful.
@@ -196,6 +216,11 @@ extension MediaTailor {
     /// Updates an existing channel.
     public func updateChannel(_ input: UpdateChannelRequest, logger: Logger = AWSClient.loggingDisabled, on eventLoop: EventLoop? = nil) async throws -> UpdateChannelResponse {
         return try await self.client.execute(operation: "UpdateChannel", path: "/channel/{ChannelName}", httpMethod: .PUT, serviceConfig: self.config, input: input, logger: logger, on: eventLoop)
+    }
+
+    /// Updates a specific live source in a specific source location.
+    public func updateLiveSource(_ input: UpdateLiveSourceRequest, logger: Logger = AWSClient.loggingDisabled, on eventLoop: EventLoop? = nil) async throws -> UpdateLiveSourceResponse {
+        return try await self.client.execute(operation: "UpdateLiveSource", path: "/sourceLocation/{SourceLocationName}/liveSource/{LiveSourceName}", httpMethod: .PUT, serviceConfig: self.config, input: input, logger: logger, on: eventLoop)
     }
 
     /// Updates a source location on a specific channel.

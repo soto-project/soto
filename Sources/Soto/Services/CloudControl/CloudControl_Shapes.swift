@@ -93,9 +93,9 @@ extension CloudControl {
     public struct CreateResourceInput: AWSEncodableShape {
         /// A unique identifier to ensure the idempotency of the resource request. As a best practice, specify this token to ensure idempotency, so that Amazon Web Services Cloud Control API can accurately distinguish between request retries and new resource requests. You might retry a resource request to ensure that it was successfully received. A client token is valid for 36 hours once used. After that, a resource request with the same client token is treated as a new request. If you do not specify a client token, one is generated for inclusion in the request. For more information, see Ensuring resource operation requests are unique in the Amazon Web Services Cloud Control API User Guide.
         public let clientToken: String?
-        /// Structured data format representing the desired state of the resource, consisting of that resource's properties and their desired values.   Cloud Control API currently supports JSON as a structured data format.   Specify the desired state as one of the following:   A JSON blob   A local path containing the desired state in JSON data format   For more information, see Composing the desired state of the resource in the Amazon Web Services Cloud Control API User Guide. For more information about the properties of a specific resource, refer to the related topic for the resource in the Resource and property types reference in the Amazon Web Services CloudFormation Users Guide.
+        /// Structured data format representing the desired state of the resource, consisting of that resource's properties and their desired values.  Cloud Control API currently supports JSON as a structured data format.   Specify the desired state as one of the following:   A JSON blob   A local path containing the desired state in JSON data format   For more information, see Composing the desired state of the resource in the Amazon Web Services Cloud Control API User Guide. For more information about the properties of a specific resource, refer to the related topic for the resource in the Resource and property types reference in the CloudFormation Users Guide.
         public let desiredState: String
-        /// The Amazon Resource Name (ARN) of the Identity and Access Management (IAM) for Cloud Control API to use when performing this resource operation. The role specified must have the permissions required for this operation. The necessary permissions for each event handler are defined in the  handlers section of the resource type definition schema. If you do not specify a role, Cloud Control API uses a temporary session created using your Amazon Web Services user credentials. For more information, see Specifying credentials in the Amazon Web Services Cloud Control API User Guide.
+        /// The Amazon Resource Name (ARN) of the Identity and Access Management (IAM) role for Cloud Control API to use when performing this resource operation. The role specified must have the permissions required for this operation. The necessary permissions for each event handler are defined in the  handlers section of the resource type definition schema. If you do not specify a role, Cloud Control API uses a temporary session created using your Amazon Web Services user credentials. For more information, see Specifying credentials in the Amazon Web Services Cloud Control API User Guide.
         public let roleArn: String?
         /// The name of the resource type.
         public let typeName: String
@@ -116,7 +116,6 @@ extension CloudControl {
             try self.validate(self.clientToken, name: "clientToken", parent: name, pattern: "^[-A-Za-z0-9+/=]+$")
             try self.validate(self.desiredState, name: "desiredState", parent: name, max: 16384)
             try self.validate(self.desiredState, name: "desiredState", parent: name, min: 1)
-            try self.validate(self.desiredState, name: "desiredState", parent: name, pattern: "^(.|\\s)*$")
             try self.validate(self.roleArn, name: "roleArn", parent: name, max: 2048)
             try self.validate(self.roleArn, name: "roleArn", parent: name, min: 20)
             try self.validate(self.roleArn, name: "roleArn", parent: name, pattern: "^arn:.+:iam::[0-9]{12}:role/.+$")
@@ -153,9 +152,9 @@ extension CloudControl {
     public struct DeleteResourceInput: AWSEncodableShape {
         /// A unique identifier to ensure the idempotency of the resource request. As a best practice, specify this token to ensure idempotency, so that Amazon Web Services Cloud Control API can accurately distinguish between request retries and new resource requests. You might retry a resource request to ensure that it was successfully received. A client token is valid for 36 hours once used. After that, a resource request with the same client token is treated as a new request. If you do not specify a client token, one is generated for inclusion in the request. For more information, see Ensuring resource operation requests are unique in the Amazon Web Services Cloud Control API User Guide.
         public let clientToken: String?
-        /// The identifier for the resource. You can specify the primary identifier, or any secondary identifier defined for the resource type in its resource schema. You can only specify one identifier. Primary identifiers can be specified as a string or JSON; secondary identifiers must be specified as JSON. For compound primary identifiers (that is, one that consists of multiple resource properties strung together), to specify the primary identifier as a string, list the property values in the order they are specified in the primary identifier definition, separated by |.  For more information, see Identifying resources in the Amazon Web Services Cloud Control API User Guide.
+        /// The identifier for the resource. You can specify the primary identifier, or any secondary identifier defined for the resource type in its resource schema. You can only specify one identifier. Primary identifiers can be specified as a string or JSON; secondary identifiers must be specified as JSON. For compound primary identifiers (that is, one that consists of multiple resource properties strung together), to specify the primary identifier as a string, list the property values in the order they are specified in the primary identifier definition, separated by |. For more information, see Identifying resources in the Amazon Web Services Cloud Control API User Guide.
         public let identifier: String
-        /// The Amazon Resource Name (ARN) of the Identity and Access Management (IAM) for Cloud Control API to use when performing this resource operation. The role specified must have the permissions required for this operation. The necessary permissions for each event handler are defined in the  handlers section of the resource type definition schema. If you do not specify a role, Cloud Control API uses a temporary session created using your Amazon Web Services user credentials. For more information, see Specifying credentials in the Amazon Web Services Cloud Control API User Guide.
+        /// The Amazon Resource Name (ARN) of the Identity and Access Management (IAM) role for Cloud Control API to use when performing this resource operation. The role specified must have the permissions required for this operation. The necessary permissions for each event handler are defined in the  handlers section of the resource type definition schema. If you do not specify a role, Cloud Control API uses a temporary session created using your Amazon Web Services user credentials. For more information, see Specifying credentials in the Amazon Web Services Cloud Control API User Guide.
         public let roleArn: String?
         /// The name of the resource type.
         public let typeName: String
@@ -211,9 +210,9 @@ extension CloudControl {
     }
 
     public struct GetResourceInput: AWSEncodableShape {
-        /// The identifier for the resource. You can specify the primary identifier, or any secondary identifier defined for the resource type in its resource schema. You can only specify one identifier. Primary identifiers can be specified as a string or JSON; secondary identifiers must be specified as JSON. For compound primary identifiers (that is, one that consists of multiple resource properties strung together), to specify the primary identifier as a string, list the property values in the order they are specified in the primary identifier definition, separated by |.  For more information, see Identifying resources in the Amazon Web Services Cloud Control API User Guide.
+        /// The identifier for the resource. You can specify the primary identifier, or any secondary identifier defined for the resource type in its resource schema. You can only specify one identifier. Primary identifiers can be specified as a string or JSON; secondary identifiers must be specified as JSON. For compound primary identifiers (that is, one that consists of multiple resource properties strung together), to specify the primary identifier as a string, list the property values in the order they are specified in the primary identifier definition, separated by |. For more information, see Identifying resources in the Amazon Web Services Cloud Control API User Guide.
         public let identifier: String
-        /// The Amazon Resource Name (ARN) of the Identity and Access Management (IAM) for Cloud Control API to use when performing this resource operation. The role specified must have the permissions required for this operation. The necessary permissions for each event handler are defined in the  handlers section of the resource type definition schema. If you do not specify a role, Cloud Control API uses a temporary session created using your Amazon Web Services user credentials. For more information, see Specifying credentials in the Amazon Web Services Cloud Control API User Guide.
+        /// The Amazon Resource Name (ARN) of the Identity and Access Management (IAM) role for Cloud Control API to use when performing this resource operation. The role specified must have the permissions required for this operation. The necessary permissions for each event handler are defined in the  handlers section of the resource type definition schema. If you do not specify a role, Cloud Control API uses a temporary session created using your Amazon Web Services user credentials. For more information, see Specifying credentials in the Amazon Web Services Cloud Control API User Guide.
         public let roleArn: String?
         /// The name of the resource type.
         public let typeName: String
@@ -345,13 +344,13 @@ extension CloudControl {
     }
 
     public struct ListResourcesInput: AWSEncodableShape {
-        /// The maximum number of results to be returned with a single call. If the number of available results exceeds this maximum, the response includes a NextToken value that you can assign to the NextToken request parameter to get the next set of results. The default is 20.
+        /// Reserved.
         public let maxResults: Int?
         /// If the previous paginated request didn't return all of the remaining results, the response object's NextToken parameter value is set to a token. To retrieve the next set of results, call this action again and assign that token to the request object's NextToken parameter. If there are no remaining results, the previous response object's NextToken parameter is set to null.
         public let nextToken: String?
         /// The resource model to use to select the resources to return.
         public let resourceModel: String?
-        /// The Amazon Resource Name (ARN) of the Identity and Access Management (IAM) for Cloud Control API to use when performing this resource operation. The role specified must have the permissions required for this operation. The necessary permissions for each event handler are defined in the  handlers section of the resource type definition schema. If you do not specify a role, Cloud Control API uses a temporary session created using your Amazon Web Services user credentials. For more information, see Specifying credentials in the Amazon Web Services Cloud Control API User Guide.
+        /// The Amazon Resource Name (ARN) of the Identity and Access Management (IAM) role for Cloud Control API to use when performing this resource operation. The role specified must have the permissions required for this operation. The necessary permissions for each event handler are defined in the  handlers section of the resource type definition schema. If you do not specify a role, Cloud Control API uses a temporary session created using your Amazon Web Services user credentials. For more information, see Specifying credentials in the Amazon Web Services Cloud Control API User Guide.
         public let roleArn: String?
         /// The name of the resource type.
         public let typeName: String
@@ -375,7 +374,6 @@ extension CloudControl {
             try self.validate(self.nextToken, name: "nextToken", parent: name, pattern: "^.+$")
             try self.validate(self.resourceModel, name: "resourceModel", parent: name, max: 16384)
             try self.validate(self.resourceModel, name: "resourceModel", parent: name, min: 1)
-            try self.validate(self.resourceModel, name: "resourceModel", parent: name, pattern: "^(.|\\s)*$")
             try self.validate(self.roleArn, name: "roleArn", parent: name, max: 2048)
             try self.validate(self.roleArn, name: "roleArn", parent: name, min: 20)
             try self.validate(self.roleArn, name: "roleArn", parent: name, pattern: "^arn:.+:iam::[0-9]{12}:role/.+$")
@@ -427,7 +425,7 @@ extension CloudControl {
         public let identifier: String?
         /// The resource operation type.
         public let operation: Operation?
-        /// The current status of the resource operation request.    PENDING: The resource operation has not yet started.    IN_PROGRESS: The resource operation is currently in progress.    SUCCESS: The resource operation has successfully completed.    FAILED: The resource operation has failed. Refer to the error code and status message for more information.    CANCEL_IN_PROGRESS: The resource operation is in the process of being canceled.    CANCEL_COMPLETE: The resource operation has been canceled.
+        /// The current status of the resource operation request.    PENDING: The resource operation hasn't yet started.    IN_PROGRESS: The resource operation is currently in progress.    SUCCESS: The resource operation has successfully completed.    FAILED: The resource operation has failed. Refer to the error code and status message for more information.    CANCEL_IN_PROGRESS: The resource operation is in the process of being canceled.    CANCEL_COMPLETE: The resource operation has been canceled.
         public let operationStatus: OperationStatus?
         /// The unique token representing this resource operation request. Use the RequestToken with GetResourceRequestStatus to return the current status of a resource operation request.
         public let requestToken: String?
@@ -487,7 +485,7 @@ extension CloudControl {
     public struct ResourceRequestStatusFilter: AWSEncodableShape {
         /// The operation types to include in the filter.
         public let operations: [Operation]?
-        /// The operation statuses to include in the filter.    PENDING: The operation has been requested, but not yet initiated.    IN_PROGRESS: The operation is currently in progress.    SUCCESS: The operation has successfully completed.    FAILED: The operation has failed.    CANCEL_IN_PROGRESS: The operation is currently in the process of being canceled.    CANCEL_COMPLETE: The operation has been canceled.
+        /// The operation statuses to include in the filter.    PENDING: The operation has been requested, but not yet initiated.    IN_PROGRESS: The operation is in progress.    SUCCESS: The operation completed.    FAILED: The operation failed.    CANCEL_IN_PROGRESS: The operation is in the process of being canceled.    CANCEL_COMPLETE: The operation has been canceled.
         public let operationStatuses: [OperationStatus]?
 
         public init(operations: [Operation]? = nil, operationStatuses: [OperationStatus]? = nil) {
@@ -504,11 +502,11 @@ extension CloudControl {
     public struct UpdateResourceInput: AWSEncodableShape {
         /// A unique identifier to ensure the idempotency of the resource request. As a best practice, specify this token to ensure idempotency, so that Amazon Web Services Cloud Control API can accurately distinguish between request retries and new resource requests. You might retry a resource request to ensure that it was successfully received. A client token is valid for 36 hours once used. After that, a resource request with the same client token is treated as a new request. If you do not specify a client token, one is generated for inclusion in the request. For more information, see Ensuring resource operation requests are unique in the Amazon Web Services Cloud Control API User Guide.
         public let clientToken: String?
-        /// The identifier for the resource. You can specify the primary identifier, or any secondary identifier defined for the resource type in its resource schema. You can only specify one identifier. Primary identifiers can be specified as a string or JSON; secondary identifiers must be specified as JSON. For compound primary identifiers (that is, one that consists of multiple resource properties strung together), to specify the primary identifier as a string, list the property values in the order they are specified in the primary identifier definition, separated by |.  For more information, see Identifying resources in the Amazon Web Services Cloud Control API User Guide.
+        /// The identifier for the resource. You can specify the primary identifier, or any secondary identifier defined for the resource type in its resource schema. You can only specify one identifier. Primary identifiers can be specified as a string or JSON; secondary identifiers must be specified as JSON. For compound primary identifiers (that is, one that consists of multiple resource properties strung together), to specify the primary identifier as a string, list the property values in the order they are specified in the primary identifier definition, separated by |. For more information, see Identifying resources in the Amazon Web Services Cloud Control API User Guide.
         public let identifier: String
         /// A JavaScript Object Notation (JSON) document listing the patch operations that represent the updates to apply to the current resource properties. For details, see Composing the patch document in the Amazon Web Services Cloud Control API User Guide.
         public let patchDocument: String
-        /// The Amazon Resource Name (ARN) of the Identity and Access Management (IAM) for Cloud Control API to use when performing this resource operation. The role specified must have the permissions required for this operation. The necessary permissions for each event handler are defined in the  handlers section of the resource type definition schema. If you do not specify a role, Cloud Control API uses a temporary session created using your Amazon Web Services user credentials. For more information, see Specifying credentials in the Amazon Web Services Cloud Control API User Guide.
+        /// The Amazon Resource Name (ARN) of the Identity and Access Management (IAM) role for Cloud Control API to use when performing this resource operation. The role specified must have the permissions required for this operation. The necessary permissions for each event handler are defined in the  handlers section of the resource type definition schema. If you do not specify a role, Cloud Control API uses a temporary session created using your Amazon Web Services user credentials. For more information, see Specifying credentials in the Amazon Web Services Cloud Control API User Guide.
         public let roleArn: String?
         /// The name of the resource type.
         public let typeName: String
@@ -533,7 +531,6 @@ extension CloudControl {
             try self.validate(self.identifier, name: "identifier", parent: name, pattern: "^.+$")
             try self.validate(self.patchDocument, name: "patchDocument", parent: name, max: 65536)
             try self.validate(self.patchDocument, name: "patchDocument", parent: name, min: 1)
-            try self.validate(self.patchDocument, name: "patchDocument", parent: name, pattern: "^(.|\\s)*$")
             try self.validate(self.roleArn, name: "roleArn", parent: name, max: 2048)
             try self.validate(self.roleArn, name: "roleArn", parent: name, min: 20)
             try self.validate(self.roleArn, name: "roleArn", parent: name, pattern: "^arn:.+:iam::[0-9]{12}:role/.+$")

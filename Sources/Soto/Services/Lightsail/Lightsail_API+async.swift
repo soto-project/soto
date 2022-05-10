@@ -28,7 +28,7 @@ extension Lightsail {
         return try await self.client.execute(operation: "AllocateStaticIp", path: "/ls/api/2016-11-28/AllocateStaticIp", httpMethod: .POST, serviceConfig: self.config, input: input, logger: logger, on: eventLoop)
     }
 
-    /// Attaches an SSL/TLS certificate to your Amazon Lightsail content delivery network (CDN) distribution. After the certificate is attached, your distribution accepts HTTPS traffic for all of the domains that are associated with the certificate. Use the CreateCertificate action to create a certificate that you can attach to your distribution.  Only certificates created in the us-east-1 AWS Region can be attached to Lightsail distributions. Lightsail distributions are global resources that can reference an origin in any AWS Region, and distribute its content globally. However, all distributions are located in the us-east-1 Region.
+    /// Attaches an SSL/TLS certificate to your Amazon Lightsail content delivery network (CDN) distribution. After the certificate is attached, your distribution accepts HTTPS traffic for all of the domains that are associated with the certificate. Use the CreateCertificate action to create a certificate that you can attach to your distribution.  Only certificates created in the us-east-1 Amazon Web Services Region can be attached to Lightsail distributions. Lightsail distributions are global resources that can reference an origin in any Amazon Web Services Region, and distribute its content globally. However, all distributions are located in the us-east-1 Region.
     public func attachCertificateToDistribution(_ input: AttachCertificateToDistributionRequest, logger: Logger = AWSClient.loggingDisabled, on eventLoop: EventLoop? = nil) async throws -> AttachCertificateToDistributionResult {
         return try await self.client.execute(operation: "AttachCertificateToDistribution", path: "/ls/api/2016-11-28/AttachCertificateToDistribution", httpMethod: .POST, serviceConfig: self.config, input: input, logger: logger, on: eventLoop)
     }
@@ -58,7 +58,7 @@ extension Lightsail {
         return try await self.client.execute(operation: "CloseInstancePublicPorts", path: "/ls/api/2016-11-28/CloseInstancePublicPorts", httpMethod: .POST, serviceConfig: self.config, input: input, logger: logger, on: eventLoop)
     }
 
-    /// Copies a manual snapshot of an instance or disk as another manual snapshot, or copies an automatic snapshot of an instance or disk as a manual snapshot. This operation can also be used to copy a manual or automatic snapshot of an instance or a disk from one AWS Region to another in Amazon Lightsail. When copying a manual snapshot, be sure to define the source region, source snapshot name, and target snapshot name parameters. When copying an automatic snapshot, be sure to define the source region, source resource name, target snapshot name, and either the restore date or the use latest restorable auto snapshot parameters.
+    /// Copies a manual snapshot of an instance or disk as another manual snapshot, or copies an automatic snapshot of an instance or disk as a manual snapshot. This operation can also be used to copy a manual or automatic snapshot of an instance or a disk from one Amazon Web Services Region to another in Amazon Lightsail. When copying a manual snapshot, be sure to define the source region, source snapshot name, and target snapshot name parameters. When copying an automatic snapshot, be sure to define the source region, source resource name, target snapshot name, and either the restore date or the use latest restorable auto snapshot parameters.
     public func copySnapshot(_ input: CopySnapshotRequest, logger: Logger = AWSClient.loggingDisabled, on eventLoop: EventLoop? = nil) async throws -> CopySnapshotResult {
         return try await self.client.execute(operation: "CopySnapshot", path: "/ls/api/2016-11-28/CopySnapshot", httpMethod: .POST, serviceConfig: self.config, input: input, logger: logger, on: eventLoop)
     }
@@ -76,7 +76,7 @@ extension Lightsail {
         return try await self.client.execute(operation: "CreateBucketAccessKey", path: "/ls/api/2016-11-28/CreateBucketAccessKey", httpMethod: .POST, serviceConfig: self.config, input: input, logger: logger, on: eventLoop)
     }
 
-    /// Creates an SSL/TLS certificate for an Amazon Lightsail content delivery network (CDN) distribution and a container service. After the certificate is valid, use the AttachCertificateToDistribution action to use the certificate and its domains with your distribution. Or use the UpdateContainerService action to use the certificate and its domains with your container service.  Only certificates created in the us-east-1 AWS Region can be attached to Lightsail distributions. Lightsail distributions are global resources that can reference an origin in any AWS Region, and distribute its content globally. However, all distributions are located in the us-east-1 Region.
+    /// Creates an SSL/TLS certificate for an Amazon Lightsail content delivery network (CDN) distribution and a container service. After the certificate is valid, use the AttachCertificateToDistribution action to use the certificate and its domains with your distribution. Or use the UpdateContainerService action to use the certificate and its domains with your container service.  Only certificates created in the us-east-1 Amazon Web Services Region can be attached to Lightsail distributions. Lightsail distributions are global resources that can reference an origin in any Amazon Web Services Region, and distribute its content globally. However, all distributions are located in the us-east-1 Region.
     public func createCertificate(_ input: CreateCertificateRequest, logger: Logger = AWSClient.loggingDisabled, on eventLoop: EventLoop? = nil) async throws -> CreateCertificateResult {
         return try await self.client.execute(operation: "CreateCertificate", path: "/ls/api/2016-11-28/CreateCertificate", httpMethod: .POST, serviceConfig: self.config, input: input, logger: logger, on: eventLoop)
     }
@@ -86,7 +86,7 @@ extension Lightsail {
         return try await self.client.execute(operation: "CreateCloudFormationStack", path: "/ls/api/2016-11-28/CreateCloudFormationStack", httpMethod: .POST, serviceConfig: self.config, input: input, logger: logger, on: eventLoop)
     }
 
-    /// Creates an email or SMS text message contact method. A contact method is used to send you notifications about your Amazon Lightsail resources. You can add one email address and one mobile phone number contact method in each AWS Region. However, SMS text messaging is not supported in some AWS Regions, and SMS text messages cannot be sent to some countries/regions. For more information, see Notifications in Amazon Lightsail.
+    /// Creates an email or SMS text message contact method. A contact method is used to send you notifications about your Amazon Lightsail resources. You can add one email address and one mobile phone number contact method in each Amazon Web Services Region. However, SMS text messaging is not supported in some Amazon Web Services Regions, and SMS text messages cannot be sent to some countries/regions. For more information, see Notifications in Amazon Lightsail.
     public func createContactMethod(_ input: CreateContactMethodRequest, logger: Logger = AWSClient.loggingDisabled, on eventLoop: EventLoop? = nil) async throws -> CreateContactMethodResult {
         return try await self.client.execute(operation: "CreateContactMethod", path: "/ls/api/2016-11-28/CreateContactMethod", httpMethod: .POST, serviceConfig: self.config, input: input, logger: logger, on: eventLoop)
     }
@@ -99,7 +99,7 @@ extension Lightsail {
 
     /// Creates a deployment for your Amazon Lightsail container service.
     ///  A deployment specifies the containers that will be launched on the container service and their settings, such as the ports to open, the environment variables to apply, and the launch command to run. It also specifies the container that will serve as the public endpoint of the deployment and its settings, such as the HTTP or HTTPS port to use, and the health check configuration.
-    ///  You can deploy containers to your container service using container images from a public registry like Docker Hub, or from your local machine. For more information, see Creating container images for your Amazon Lightsail container services in the Amazon Lightsail Developer Guide.
+    ///  You can deploy containers to your container service using container images from a public registry such as Amazon ECR Public, or from your local machine. For more information, see Creating container images for your Amazon Lightsail container services in the Amazon Lightsail Developer Guide.
     public func createContainerServiceDeployment(_ input: CreateContainerServiceDeploymentRequest, logger: Logger = AWSClient.loggingDisabled, on eventLoop: EventLoop? = nil) async throws -> CreateContainerServiceDeploymentResult {
         return try await self.client.execute(operation: "CreateContainerServiceDeployment", path: "/ls/api/2016-11-28/container-services/{serviceName}/deployments", httpMethod: .POST, serviceConfig: self.config, input: input, logger: logger, on: eventLoop)
     }
@@ -199,7 +199,7 @@ extension Lightsail {
     }
 
     /// Deletes a Amazon Lightsail bucket.
-    ///   When you delete your bucket, the bucket name is released and can be reused for a new bucket in your account or another AWS account.
+    ///   When you delete your bucket, the bucket name is released and can be reused for a new bucket in your account or another Amazon Web Services account.
     public func deleteBucket(_ input: DeleteBucketRequest, logger: Logger = AWSClient.loggingDisabled, on eventLoop: EventLoop? = nil) async throws -> DeleteBucketResult {
         return try await self.client.execute(operation: "DeleteBucket", path: "/ls/api/2016-11-28/DeleteBucket", httpMethod: .POST, serviceConfig: self.config, input: input, logger: logger, on: eventLoop)
     }
@@ -216,7 +216,7 @@ extension Lightsail {
         return try await self.client.execute(operation: "DeleteCertificate", path: "/ls/api/2016-11-28/DeleteCertificate", httpMethod: .POST, serviceConfig: self.config, input: input, logger: logger, on: eventLoop)
     }
 
-    /// Deletes a contact method. A contact method is used to send you notifications about your Amazon Lightsail resources. You can add one email address and one mobile phone number contact method in each AWS Region. However, SMS text messaging is not supported in some AWS Regions, and SMS text messages cannot be sent to some countries/regions. For more information, see Notifications in Amazon Lightsail.
+    /// Deletes a contact method. A contact method is used to send you notifications about your Amazon Lightsail resources. You can add one email address and one mobile phone number contact method in each Amazon Web Services Region. However, SMS text messaging is not supported in some Amazon Web Services Regions, and SMS text messages cannot be sent to some countries/regions. For more information, see Notifications in Amazon Lightsail.
     public func deleteContactMethod(_ input: DeleteContactMethodRequest, logger: Logger = AWSClient.loggingDisabled, on eventLoop: EventLoop? = nil) async throws -> DeleteContactMethodResult {
         return try await self.client.execute(operation: "DeleteContactMethod", path: "/ls/api/2016-11-28/DeleteContactMethod", httpMethod: .POST, serviceConfig: self.config, input: input, logger: logger, on: eventLoop)
     }
@@ -376,8 +376,8 @@ extension Lightsail {
         return try await self.client.execute(operation: "GetBucketMetricData", path: "/ls/api/2016-11-28/GetBucketMetricData", httpMethod: .POST, serviceConfig: self.config, input: input, logger: logger, on: eventLoop)
     }
 
-    /// Returns information about one or more Amazon Lightsail buckets.
-    ///  For more information about buckets, see Buckets in Amazon Lightsail in the Amazon Lightsail Developer Guide..
+    /// Returns information about one or more Amazon Lightsail buckets. The information returned includes the synchronization status of the Amazon Simple Storage Service (Amazon S3) account-level block public access feature for your Lightsail buckets.
+    ///  For more information about buckets, see Buckets in Amazon Lightsail in the Amazon Lightsail Developer Guide.
     public func getBuckets(_ input: GetBucketsRequest, logger: Logger = AWSClient.loggingDisabled, on eventLoop: EventLoop? = nil) async throws -> GetBucketsResult {
         return try await self.client.execute(operation: "GetBuckets", path: "/ls/api/2016-11-28/GetBuckets", httpMethod: .POST, serviceConfig: self.config, input: input, logger: logger, on: eventLoop)
     }
@@ -397,7 +397,7 @@ extension Lightsail {
         return try await self.client.execute(operation: "GetCloudFormationStackRecords", path: "/ls/api/2016-11-28/GetCloudFormationStackRecords", httpMethod: .POST, serviceConfig: self.config, input: input, logger: logger, on: eventLoop)
     }
 
-    /// Returns information about the configured contact methods. Specify a protocol in your request to return information about a specific contact method. A contact method is used to send you notifications about your Amazon Lightsail resources. You can add one email address and one mobile phone number contact method in each AWS Region. However, SMS text messaging is not supported in some AWS Regions, and SMS text messages cannot be sent to some countries/regions. For more information, see Notifications in Amazon Lightsail.
+    /// Returns information about the configured contact methods. Specify a protocol in your request to return information about a specific contact method. A contact method is used to send you notifications about your Amazon Lightsail resources. You can add one email address and one mobile phone number contact method in each Amazon Web Services Region. However, SMS text messaging is not supported in some Amazon Web Services Regions, and SMS text messages cannot be sent to some countries/regions. For more information, see Notifications in Amazon Lightsail.
     public func getContactMethods(_ input: GetContactMethodsRequest, logger: Logger = AWSClient.loggingDisabled, on eventLoop: EventLoop? = nil) async throws -> GetContactMethodsResult {
         return try await self.client.execute(operation: "GetContactMethods", path: "/ls/api/2016-11-28/GetContactMethods", httpMethod: .GET, serviceConfig: self.config, input: input, logger: logger, on: eventLoop)
     }
@@ -465,7 +465,7 @@ extension Lightsail {
         return try await self.client.execute(operation: "GetDisks", path: "/ls/api/2016-11-28/GetDisks", httpMethod: .POST, serviceConfig: self.config, input: input, logger: logger, on: eventLoop)
     }
 
-    /// Returns the bundles that can be applied to your Amazon Lightsail content delivery network (CDN) distributions. A distribution bundle specifies the monthly network transfer quota and monthly cost of your dsitribution.
+    /// Returns the bundles that can be applied to your Amazon Lightsail content delivery network (CDN) distributions. A distribution bundle specifies the monthly network transfer quota and monthly cost of your distribution.
     public func getDistributionBundles(_ input: GetDistributionBundlesRequest, logger: Logger = AWSClient.loggingDisabled, on eventLoop: EventLoop? = nil) async throws -> GetDistributionBundlesResult {
         return try await self.client.execute(operation: "GetDistributionBundles", path: "/ls/api/2016-11-28/GetDistributionBundles", httpMethod: .POST, serviceConfig: self.config, input: input, logger: logger, on: eventLoop)
     }
@@ -563,6 +563,12 @@ extension Lightsail {
     /// Returns information about the TLS certificates that are associated with the specified Lightsail load balancer. TLS is just an updated, more secure version of Secure Socket Layer (SSL). You can have a maximum of 2 certificates associated with a Lightsail load balancer. One is active and the other is inactive.
     public func getLoadBalancerTlsCertificates(_ input: GetLoadBalancerTlsCertificatesRequest, logger: Logger = AWSClient.loggingDisabled, on eventLoop: EventLoop? = nil) async throws -> GetLoadBalancerTlsCertificatesResult {
         return try await self.client.execute(operation: "GetLoadBalancerTlsCertificates", path: "/ls/api/2016-11-28/GetLoadBalancerTlsCertificates", httpMethod: .POST, serviceConfig: self.config, input: input, logger: logger, on: eventLoop)
+    }
+
+    /// Returns a list of TLS security policies that you can apply to Lightsail load balancers.
+    ///  For more information about load balancer TLS security policies, see Configuring TLS security policies on your Amazon Lightsail load balancers in the Amazon Lightsail Developer Guide.
+    public func getLoadBalancerTlsPolicies(_ input: GetLoadBalancerTlsPoliciesRequest, logger: Logger = AWSClient.loggingDisabled, on eventLoop: EventLoop? = nil) async throws -> GetLoadBalancerTlsPoliciesResult {
+        return try await self.client.execute(operation: "GetLoadBalancerTlsPolicies", path: "/ls/api/2016-11-28/GetLoadBalancerTlsPolicies", httpMethod: .POST, serviceConfig: self.config, input: input, logger: logger, on: eventLoop)
     }
 
     /// Returns information about all load balancers in an account.
@@ -716,7 +722,7 @@ extension Lightsail {
         return try await self.client.execute(operation: "ResetDistributionCache", path: "/ls/api/2016-11-28/ResetDistributionCache", httpMethod: .POST, serviceConfig: self.config, input: input, logger: logger, on: eventLoop)
     }
 
-    /// Sends a verification request to an email contact method to ensure it's owned by the requester. SMS contact methods don't need to be verified. A contact method is used to send you notifications about your Amazon Lightsail resources. You can add one email address and one mobile phone number contact method in each AWS Region. However, SMS text messaging is not supported in some AWS Regions, and SMS text messages cannot be sent to some countries/regions. For more information, see Notifications in Amazon Lightsail. A verification request is sent to the contact method when you initially create it. Use this action to send another verification request if a previous verification request was deleted, or has expired.  Notifications are not sent to an email contact method until after it is verified, and confirmed as valid.
+    /// Sends a verification request to an email contact method to ensure it's owned by the requester. SMS contact methods don't need to be verified. A contact method is used to send you notifications about your Amazon Lightsail resources. You can add one email address and one mobile phone number contact method in each Amazon Web Services Region. However, SMS text messaging is not supported in some Amazon Web Services Regions, and SMS text messages cannot be sent to some countries/regions. For more information, see Notifications in Amazon Lightsail. A verification request is sent to the contact method when you initially create it. Use this action to send another verification request if a previous verification request was deleted, or has expired.  Notifications are not sent to an email contact method until after it is verified, and confirmed as valid.
     public func sendContactMethodVerification(_ input: SendContactMethodVerificationRequest, logger: Logger = AWSClient.loggingDisabled, on eventLoop: EventLoop? = nil) async throws -> SendContactMethodVerificationResult {
         return try await self.client.execute(operation: "SendContactMethodVerification", path: "/ls/api/2016-11-28/SendContactMethodVerification", httpMethod: .POST, serviceConfig: self.config, input: input, logger: logger, on: eventLoop)
     }
@@ -728,7 +734,7 @@ extension Lightsail {
     }
 
     /// Sets the Amazon Lightsail resources that can access the specified Lightsail bucket.
-    ///  Lightsail buckets currently support setting access for Lightsail instances in the same AWS Region.
+    ///  Lightsail buckets currently support setting access for Lightsail instances in the same Amazon Web Services Region.
     public func setResourceAccessForBucket(_ input: SetResourceAccessForBucketRequest, logger: Logger = AWSClient.loggingDisabled, on eventLoop: EventLoop? = nil) async throws -> SetResourceAccessForBucketResult {
         return try await self.client.execute(operation: "SetResourceAccessForBucket", path: "/ls/api/2016-11-28/SetResourceAccessForBucket", httpMethod: .POST, serviceConfig: self.config, input: input, logger: logger, on: eventLoop)
     }
@@ -774,7 +780,7 @@ extension Lightsail {
     }
 
     /// Updates an existing Amazon Lightsail bucket.
-    ///  Use this action to update the configuration of an existing bucket, such as versioning, public accessibility, and the AWS accounts that can access the bucket.
+    ///  Use this action to update the configuration of an existing bucket, such as versioning, public accessibility, and the Amazon Web Services accounts that can access the bucket.
     public func updateBucket(_ input: UpdateBucketRequest, logger: Logger = AWSClient.loggingDisabled, on eventLoop: EventLoop? = nil) async throws -> UpdateBucketResult {
         return try await self.client.execute(operation: "UpdateBucket", path: "/ls/api/2016-11-28/UpdateBucket", httpMethod: .POST, serviceConfig: self.config, input: input, logger: logger, on: eventLoop)
     }
@@ -796,7 +802,7 @@ extension Lightsail {
         return try await self.client.execute(operation: "UpdateDistribution", path: "/ls/api/2016-11-28/UpdateDistribution", httpMethod: .POST, serviceConfig: self.config, input: input, logger: logger, on: eventLoop)
     }
 
-    /// Updates the bundle of your Amazon Lightsail content delivery network (CDN) distribution. A distribution bundle specifies the monthly network transfer quota and monthly cost of your dsitribution. Update your distribution's bundle if your distribution is going over its monthly network transfer quota and is incurring an overage fee. You can update your distribution's bundle only one time within your monthly AWS billing cycle. To determine if you can update your distribution's bundle, use the GetDistributions action. The ableToUpdateBundle parameter in the result will indicate whether you can currently update your distribution's bundle.
+    /// Updates the bundle of your Amazon Lightsail content delivery network (CDN) distribution. A distribution bundle specifies the monthly network transfer quota and monthly cost of your distribution. Update your distribution's bundle if your distribution is going over its monthly network transfer quota and is incurring an overage fee. You can update your distribution's bundle only one time within your monthly AWS billing cycle. To determine if you can update your distribution's bundle, use the GetDistributions action. The ableToUpdateBundle parameter in the result will indicate whether you can currently update your distribution's bundle.
     public func updateDistributionBundle(_ input: UpdateDistributionBundleRequest, logger: Logger = AWSClient.loggingDisabled, on eventLoop: EventLoop? = nil) async throws -> UpdateDistributionBundleResult {
         return try await self.client.execute(operation: "UpdateDistributionBundle", path: "/ls/api/2016-11-28/UpdateDistributionBundle", httpMethod: .POST, serviceConfig: self.config, input: input, logger: logger, on: eventLoop)
     }

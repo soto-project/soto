@@ -132,6 +132,28 @@ extension FMS {
             on: eventLoop
         )
     }
+
+    ///  Retrieves a list of all of the third-party firewall policies that are associated with the third-party firewall administrator's account.
+    /// Return PaginatorSequence for operation.
+    ///
+    /// - Parameters:
+    ///   - input: Input for request
+    ///   - logger: Logger used flot logging
+    ///   - eventLoop: EventLoop to run this process on
+    public func listThirdPartyFirewallFirewallPoliciesPaginator(
+        _ input: ListThirdPartyFirewallFirewallPoliciesRequest,
+        logger: Logger = AWSClient.loggingDisabled,
+        on eventLoop: EventLoop? = nil
+    ) -> AWSClient.PaginatorSequence<ListThirdPartyFirewallFirewallPoliciesRequest, ListThirdPartyFirewallFirewallPoliciesResponse> {
+        return .init(
+            input: input,
+            command: listThirdPartyFirewallFirewallPolicies,
+            inputKey: \ListThirdPartyFirewallFirewallPoliciesRequest.nextToken,
+            outputKey: \ListThirdPartyFirewallFirewallPoliciesResponse.nextToken,
+            logger: logger,
+            on: eventLoop
+        )
+    }
 }
 
 #endif // compiler(>=5.5.2) && canImport(_Concurrency)

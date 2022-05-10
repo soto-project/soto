@@ -534,6 +534,7 @@ extension Location.ListGeofencesRequest: AWSPaginateToken {
     public func usingPaginationToken(_ token: String) -> Location.ListGeofencesRequest {
         return .init(
             collectionName: self.collectionName,
+            maxResults: self.maxResults,
             nextToken: token
         )
     }

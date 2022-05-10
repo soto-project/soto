@@ -30,6 +30,7 @@ extension MQ {
     public enum BrokerState: String, CustomStringConvertible, Codable {
         case creationFailed = "CREATION_FAILED"
         case creationInProgress = "CREATION_IN_PROGRESS"
+        case criticalActionRequired = "CRITICAL_ACTION_REQUIRED"
         case deletionInProgress = "DELETION_IN_PROGRESS"
         case rebootInProgress = "REBOOT_IN_PROGRESS"
         case running = "RUNNING"
@@ -81,6 +82,23 @@ extension MQ {
     }
 
     // MARK: Shapes
+
+    public struct ActionRequired: AWSDecodableShape {
+        /// The code you can use to resolve your broker issue when the broker is in a CRITICAL_ACTION_REQUIRED state. You can find instructions by choosing the link for your code from the list of action required codes in Amazon MQ action required codes. Each code references a topic with detailed information, instructions, and recommendations for how to resolve the issue and prevent future occurrences.
+        public let actionRequiredCode: String?
+        /// Information about the action required to resolve your broker issue when the broker is in a CRITICAL_ACTION_REQUIRED state.
+        public let actionRequiredInfo: String?
+
+        public init(actionRequiredCode: String? = nil, actionRequiredInfo: String? = nil) {
+            self.actionRequiredCode = actionRequiredCode
+            self.actionRequiredInfo = actionRequiredInfo
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case actionRequiredCode
+            case actionRequiredInfo
+        }
+    }
 
     public struct AvailabilityZone: AWSDecodableShape {
         /// Id for the availability zone.
@@ -731,6 +749,8 @@ extension MQ {
     }
 
     public struct DescribeBrokerResponse: AWSDecodableShape {
+        /// A list of actions required for a broker.
+        public let actionsRequired: [ActionRequired]?
         /// The authentication strategy used to secure the broker. The default is SIMPLE.
         public let authenticationStrategy: AuthenticationStrategy?
         /// Enables automatic upgrades to new minor versions for brokers, as new versions are released and supported by Amazon MQ. Automatic upgrades occur during the scheduled maintenance window of the broker or after a manual broker reboot.
@@ -789,7 +809,8 @@ extension MQ {
         /// The list of all broker usernames for the specified broker.
         public let users: [UserSummary]?
 
-        public init(authenticationStrategy: AuthenticationStrategy? = nil, autoMinorVersionUpgrade: Bool? = nil, brokerArn: String? = nil, brokerId: String? = nil, brokerInstances: [BrokerInstance]? = nil, brokerName: String? = nil, brokerState: BrokerState? = nil, configurations: Configurations? = nil, created: Date? = nil, deploymentMode: DeploymentMode? = nil, encryptionOptions: EncryptionOptions? = nil, engineType: EngineType? = nil, engineVersion: String? = nil, hostInstanceType: String? = nil, ldapServerMetadata: LdapServerMetadataOutput? = nil, logs: LogsSummary? = nil, maintenanceWindowStartTime: WeeklyStartTime? = nil, pendingAuthenticationStrategy: AuthenticationStrategy? = nil, pendingEngineVersion: String? = nil, pendingHostInstanceType: String? = nil, pendingLdapServerMetadata: LdapServerMetadataOutput? = nil, pendingSecurityGroups: [String]? = nil, publiclyAccessible: Bool? = nil, securityGroups: [String]? = nil, storageType: BrokerStorageType? = nil, subnetIds: [String]? = nil, tags: [String: String]? = nil, users: [UserSummary]? = nil) {
+        public init(actionsRequired: [ActionRequired]? = nil, authenticationStrategy: AuthenticationStrategy? = nil, autoMinorVersionUpgrade: Bool? = nil, brokerArn: String? = nil, brokerId: String? = nil, brokerInstances: [BrokerInstance]? = nil, brokerName: String? = nil, brokerState: BrokerState? = nil, configurations: Configurations? = nil, created: Date? = nil, deploymentMode: DeploymentMode? = nil, encryptionOptions: EncryptionOptions? = nil, engineType: EngineType? = nil, engineVersion: String? = nil, hostInstanceType: String? = nil, ldapServerMetadata: LdapServerMetadataOutput? = nil, logs: LogsSummary? = nil, maintenanceWindowStartTime: WeeklyStartTime? = nil, pendingAuthenticationStrategy: AuthenticationStrategy? = nil, pendingEngineVersion: String? = nil, pendingHostInstanceType: String? = nil, pendingLdapServerMetadata: LdapServerMetadataOutput? = nil, pendingSecurityGroups: [String]? = nil, publiclyAccessible: Bool? = nil, securityGroups: [String]? = nil, storageType: BrokerStorageType? = nil, subnetIds: [String]? = nil, tags: [String: String]? = nil, users: [UserSummary]? = nil) {
+            self.actionsRequired = actionsRequired
             self.authenticationStrategy = authenticationStrategy
             self.autoMinorVersionUpgrade = autoMinorVersionUpgrade
             self.brokerArn = brokerArn
@@ -821,6 +842,7 @@ extension MQ {
         }
 
         private enum CodingKeys: String, CodingKey {
+            case actionsRequired
             case authenticationStrategy
             case autoMinorVersionUpgrade
             case brokerArn

@@ -23,7 +23,7 @@ import SotoCore
 extension WorkSpaces {
     // MARK: Async API Calls
 
-    /// Associates the specified connection alias with the specified directory to enable cross-Region redirection.  For more information, see  Cross-Region Redirection for Amazon WorkSpaces.   Before performing this operation, call  DescribeConnectionAliases to make sure that the current state of the connection alias is CREATED.
+    /// Associates the specified connection alias with the specified directory to enable cross-Region redirection. For more information, see  Cross-Region Redirection for Amazon WorkSpaces.  Before performing this operation, call  DescribeConnectionAliases to make sure that the current state of the connection alias is CREATED.
     public func associateConnectionAlias(_ input: AssociateConnectionAliasRequest, logger: Logger = AWSClient.loggingDisabled, on eventLoop: EventLoop? = nil) async throws -> AssociateConnectionAliasResult {
         return try await self.client.execute(operation: "AssociateConnectionAlias", path: "/", httpMethod: .POST, serviceConfig: self.config, input: input, logger: logger, on: eventLoop)
     }
@@ -38,23 +38,22 @@ extension WorkSpaces {
         return try await self.client.execute(operation: "AuthorizeIpRules", path: "/", httpMethod: .POST, serviceConfig: self.config, input: input, logger: logger, on: eventLoop)
     }
 
-    /// Copies the specified image from the specified Region to the current Region.  For more information about copying images, see   Copy a Custom WorkSpaces Image.  In the China (Ningxia) Region, you can copy images only within the same Region.  In Amazon Web Services GovCloud (US), to copy images to and from other Regions, contact Amazon Web Services Support.   Before copying a shared image, be sure to verify that it has been shared from the correct Amazon Web Services account. To determine if an image has been shared and to see the  ID of the Amazon Web Services account that owns an image, use the DescribeWorkSpaceImages and DescribeWorkspaceImagePermissions API operations.
+    /// Copies the specified image from the specified Region to the current Region. For more information about copying images, see  Copy a Custom WorkSpaces Image. In the China (Ningxia) Region, you can copy images only within the same Region. In Amazon Web Services GovCloud (US), to copy images to and from other Regions, contact Amazon Web Services Support.  Before copying a shared image, be sure to verify that it has been shared from the correct Amazon Web Services account. To determine if an image has been shared and to see the ID of the Amazon Web Services account that owns an image, use the DescribeWorkSpaceImages and DescribeWorkspaceImagePermissions API operations.
     public func copyWorkspaceImage(_ input: CopyWorkspaceImageRequest, logger: Logger = AWSClient.loggingDisabled, on eventLoop: EventLoop? = nil) async throws -> CopyWorkspaceImageResult {
         return try await self.client.execute(operation: "CopyWorkspaceImage", path: "/", httpMethod: .POST, serviceConfig: self.config, input: input, logger: logger, on: eventLoop)
     }
 
-    /// Creates a client-add-in for Amazon Connect within a directory. You can create only one Amazon Connect client add-in within a directory.  This client add-in allows WorkSpaces users to seamlessly connect to Amazon Connect.
+    /// Creates a client-add-in for Amazon Connect within a directory. You can create only one Amazon Connect client add-in within a directory. This client add-in allows WorkSpaces users to seamlessly connect to Amazon Connect.
     public func createConnectClientAddIn(_ input: CreateConnectClientAddInRequest, logger: Logger = AWSClient.loggingDisabled, on eventLoop: EventLoop? = nil) async throws -> CreateConnectClientAddInResult {
         return try await self.client.execute(operation: "CreateConnectClientAddIn", path: "/", httpMethod: .POST, serviceConfig: self.config, input: input, logger: logger, on: eventLoop)
     }
 
-    /// Creates the specified connection alias for use with cross-Region redirection. For more information, see   Cross-Region Redirection for Amazon WorkSpaces.
+    /// Creates the specified connection alias for use with cross-Region redirection. For more information, see  Cross-Region Redirection for Amazon WorkSpaces.
     public func createConnectionAlias(_ input: CreateConnectionAliasRequest, logger: Logger = AWSClient.loggingDisabled, on eventLoop: EventLoop? = nil) async throws -> CreateConnectionAliasResult {
         return try await self.client.execute(operation: "CreateConnectionAlias", path: "/", httpMethod: .POST, serviceConfig: self.config, input: input, logger: logger, on: eventLoop)
     }
 
-    /// Creates an IP access control group. An IP access control group provides you with the ability to control the IP addresses from which users are allowed to access their WorkSpaces. To specify the CIDR address ranges, add rules to your IP access control group and then associate the group with your directory. You can add rules when you create the group or at any time using AuthorizeIpRules.
-    ///  There is a default IP access control group associated with your directory. If you don't associate an IP access control group with your directory, the default group is used. The default group includes a default rule that allows users to access their WorkSpaces from anywhere. You cannot modify the default IP access control group for your directory.
+    /// Creates an IP access control group. An IP access control group provides you with the ability to control the IP addresses from which users are allowed to access their WorkSpaces. To specify the CIDR address ranges, add rules to your IP access control group and then associate the group with your directory. You can add rules when you create the group or at any time using AuthorizeIpRules. There is a default IP access control group associated with your directory. If you don't associate an IP access control group with your directory, the default group is used. The default group includes a default rule that allows users to access their WorkSpaces from anywhere. You cannot modify the default IP access control group for your directory.
     public func createIpGroup(_ input: CreateIpGroupRequest, logger: Logger = AWSClient.loggingDisabled, on eventLoop: EventLoop? = nil) async throws -> CreateIpGroupResult {
         return try await self.client.execute(operation: "CreateIpGroup", path: "/", httpMethod: .POST, serviceConfig: self.config, input: input, logger: logger, on: eventLoop)
     }
@@ -64,7 +63,7 @@ extension WorkSpaces {
         return try await self.client.execute(operation: "CreateTags", path: "/", httpMethod: .POST, serviceConfig: self.config, input: input, logger: logger, on: eventLoop)
     }
 
-    /// Creates a new updated WorkSpace image based on the specified source image. The  new updated WorkSpace image has the latest drivers and other updates required by  the Amazon WorkSpaces components.  To determine which WorkSpace images need to be updated with the latest Amazon  WorkSpaces requirements, use   DescribeWorkspaceImages.     Only Windows 10, Windows Sever 2016, and Windows Server 2019 WorkSpace images can be programmatically updated at this time.   Microsoft Windows updates and other application updates are not included  in the update process.   The source WorkSpace image is not deleted. You can delete the source image after you've  verified your new updated image and created a new bundle.
+    /// Creates a new updated WorkSpace image based on the specified source image. The new updated WorkSpace image has the latest drivers and other updates required by the Amazon WorkSpaces components. To determine which WorkSpace images need to be updated with the latest Amazon WorkSpaces requirements, use  DescribeWorkspaceImages.    Only Windows 10, Windows Sever 2016, and Windows Server 2019 WorkSpace images can be programmatically updated at this time.   Microsoft Windows updates and other application updates are not included in the update process.   The source WorkSpace image is not deleted. You can delete the source image after you've verified your new updated image and created a new bundle.
     public func createUpdatedWorkspaceImage(_ input: CreateUpdatedWorkspaceImageRequest, logger: Logger = AWSClient.loggingDisabled, on eventLoop: EventLoop? = nil) async throws -> CreateUpdatedWorkspaceImageResult {
         return try await self.client.execute(operation: "CreateUpdatedWorkspaceImage", path: "/", httpMethod: .POST, serviceConfig: self.config, input: input, logger: logger, on: eventLoop)
     }
@@ -79,12 +78,17 @@ extension WorkSpaces {
         return try await self.client.execute(operation: "CreateWorkspaces", path: "/", httpMethod: .POST, serviceConfig: self.config, input: input, logger: logger, on: eventLoop)
     }
 
+    /// Deletes customized client branding. Client branding allows you to customize your WorkSpace's client login portal. You can tailor your login portal company logo, the support email address, support link, link to reset password, and a custom message for users trying to sign in. After you delete your customized client branding, your login portal reverts to the default client branding.
+    public func deleteClientBranding(_ input: DeleteClientBrandingRequest, logger: Logger = AWSClient.loggingDisabled, on eventLoop: EventLoop? = nil) async throws -> DeleteClientBrandingResult {
+        return try await self.client.execute(operation: "DeleteClientBranding", path: "/", httpMethod: .POST, serviceConfig: self.config, input: input, logger: logger, on: eventLoop)
+    }
+
     /// Deletes a client-add-in for Amazon Connect that is configured within a directory.
     public func deleteConnectClientAddIn(_ input: DeleteConnectClientAddInRequest, logger: Logger = AWSClient.loggingDisabled, on eventLoop: EventLoop? = nil) async throws -> DeleteConnectClientAddInResult {
         return try await self.client.execute(operation: "DeleteConnectClientAddIn", path: "/", httpMethod: .POST, serviceConfig: self.config, input: input, logger: logger, on: eventLoop)
     }
 
-    /// Deletes the specified connection alias. For more information, see  Cross-Region Redirection for Amazon WorkSpaces.    If you will no longer be using a fully qualified domain name (FQDN) as the registration code  for your WorkSpaces users, you must take certain precautions to prevent potential security issues.  For more information, see   Security Considerations if You Stop Using Cross-Region Redirection.    To delete a connection alias that has been shared, the shared account must first disassociate the connection alias  from any directories it has been associated with. Then you must unshare the connection alias from the account it has  been shared with. You can delete a connection alias only after it is no longer shared with any accounts or  associated with any directories.
+    /// Deletes the specified connection alias. For more information, see  Cross-Region Redirection for Amazon WorkSpaces.   If you will no longer be using a fully qualified domain name (FQDN) as the registration code for your WorkSpaces users, you must take certain precautions to prevent potential security issues. For more information, see  Security Considerations if You Stop Using Cross-Region Redirection.   To delete a connection alias that has been shared, the shared account must first disassociate the connection alias from any directories it has been associated with. Then you must unshare the connection alias from the account it has been shared with. You can delete a connection alias only after it is no longer shared with any accounts or associated with any directories.
     public func deleteConnectionAlias(_ input: DeleteConnectionAliasRequest, logger: Logger = AWSClient.loggingDisabled, on eventLoop: EventLoop? = nil) async throws -> DeleteConnectionAliasResult {
         return try await self.client.execute(operation: "DeleteConnectionAlias", path: "/", httpMethod: .POST, serviceConfig: self.config, input: input, logger: logger, on: eventLoop)
     }
@@ -109,7 +113,7 @@ extension WorkSpaces {
         return try await self.client.execute(operation: "DeleteWorkspaceImage", path: "/", httpMethod: .POST, serviceConfig: self.config, input: input, logger: logger, on: eventLoop)
     }
 
-    /// Deregisters the specified directory. This operation is asynchronous  and returns before the WorkSpace directory is deregistered. If any WorkSpaces are registered to this directory, you must remove them before you can deregister the directory.   Simple AD and AD Connector are made available to you free of charge to use with WorkSpaces.  If there are no WorkSpaces being used with your Simple AD or AD Connector directory for 30  consecutive days, this directory will be automatically deregistered for use with Amazon WorkSpaces,  and you will be charged for this directory as per the  Directory Service pricing terms.  To delete empty directories, see   Delete the Directory for Your WorkSpaces. If you delete your  Simple AD or AD Connector directory, you can always create a new one when you want to start using  WorkSpaces again.
+    /// Deregisters the specified directory. This operation is asynchronous and returns before the WorkSpace directory is deregistered. If any WorkSpaces are registered to this directory, you must remove them before you can deregister the directory.  Simple AD and AD Connector are made available to you free of charge to use with WorkSpaces. If there are no WorkSpaces being used with your Simple AD or AD Connector directory for 30 consecutive days, this directory will be automatically deregistered for use with Amazon WorkSpaces, and you will be charged for this directory as per the Directory Service pricing terms. To delete empty directories, see  Delete the Directory for Your WorkSpaces. If you delete your Simple AD or AD Connector directory, you can always create a new one when you want to start using WorkSpaces again.
     public func deregisterWorkspaceDirectory(_ input: DeregisterWorkspaceDirectoryRequest, logger: Logger = AWSClient.loggingDisabled, on eventLoop: EventLoop? = nil) async throws -> DeregisterWorkspaceDirectoryResult {
         return try await self.client.execute(operation: "DeregisterWorkspaceDirectory", path: "/", httpMethod: .POST, serviceConfig: self.config, input: input, logger: logger, on: eventLoop)
     }
@@ -124,6 +128,11 @@ extension WorkSpaces {
         return try await self.client.execute(operation: "DescribeAccountModifications", path: "/", httpMethod: .POST, serviceConfig: self.config, input: input, logger: logger, on: eventLoop)
     }
 
+    /// Describes the specified client branding. Client branding allows you to customize the log in page of various device types for your users. You can add your company logo, the support email address, support link, link to reset password, and a custom message for users trying to sign in.  Only device types that have branding information configured will be shown in the response.
+    public func describeClientBranding(_ input: DescribeClientBrandingRequest, logger: Logger = AWSClient.loggingDisabled, on eventLoop: EventLoop? = nil) async throws -> DescribeClientBrandingResult {
+        return try await self.client.execute(operation: "DescribeClientBranding", path: "/", httpMethod: .POST, serviceConfig: self.config, input: input, logger: logger, on: eventLoop)
+    }
+
     /// Retrieves a list that describes one or more specified Amazon WorkSpaces clients.
     public func describeClientProperties(_ input: DescribeClientPropertiesRequest, logger: Logger = AWSClient.loggingDisabled, on eventLoop: EventLoop? = nil) async throws -> DescribeClientPropertiesResult {
         return try await self.client.execute(operation: "DescribeClientProperties", path: "/", httpMethod: .POST, serviceConfig: self.config, input: input, logger: logger, on: eventLoop)
@@ -134,12 +143,12 @@ extension WorkSpaces {
         return try await self.client.execute(operation: "DescribeConnectClientAddIns", path: "/", httpMethod: .POST, serviceConfig: self.config, input: input, logger: logger, on: eventLoop)
     }
 
-    /// Describes the permissions that the owner of a connection alias has granted to another Amazon Web Services account for  the specified connection alias. For more information, see  Cross-Region Redirection for Amazon WorkSpaces.
+    /// Describes the permissions that the owner of a connection alias has granted to another Amazon Web Services account for the specified connection alias. For more information, see Cross-Region Redirection for Amazon WorkSpaces.
     public func describeConnectionAliasPermissions(_ input: DescribeConnectionAliasPermissionsRequest, logger: Logger = AWSClient.loggingDisabled, on eventLoop: EventLoop? = nil) async throws -> DescribeConnectionAliasPermissionsResult {
         return try await self.client.execute(operation: "DescribeConnectionAliasPermissions", path: "/", httpMethod: .POST, serviceConfig: self.config, input: input, logger: logger, on: eventLoop)
     }
 
-    /// Retrieves a list that describes the connection aliases used for cross-Region redirection. For more information, see   Cross-Region Redirection for Amazon WorkSpaces.
+    /// Retrieves a list that describes the connection aliases used for cross-Region redirection. For more information, see  Cross-Region Redirection for Amazon WorkSpaces.
     public func describeConnectionAliases(_ input: DescribeConnectionAliasesRequest, logger: Logger = AWSClient.loggingDisabled, on eventLoop: EventLoop? = nil) async throws -> DescribeConnectionAliasesResult {
         return try await self.client.execute(operation: "DescribeConnectionAliases", path: "/", httpMethod: .POST, serviceConfig: self.config, input: input, logger: logger, on: eventLoop)
     }
@@ -164,7 +173,7 @@ extension WorkSpaces {
         return try await self.client.execute(operation: "DescribeWorkspaceDirectories", path: "/", httpMethod: .POST, serviceConfig: self.config, input: input, logger: logger, on: eventLoop)
     }
 
-    /// Describes the permissions that the owner of an image has granted to other  Amazon Web Services accounts for an image.
+    /// Describes the permissions that the owner of an image has granted to other Amazon Web Services accounts for an image.
     public func describeWorkspaceImagePermissions(_ input: DescribeWorkspaceImagePermissionsRequest, logger: Logger = AWSClient.loggingDisabled, on eventLoop: EventLoop? = nil) async throws -> DescribeWorkspaceImagePermissionsResult {
         return try await self.client.execute(operation: "DescribeWorkspaceImagePermissions", path: "/", httpMethod: .POST, serviceConfig: self.config, input: input, logger: logger, on: eventLoop)
     }
@@ -189,7 +198,7 @@ extension WorkSpaces {
         return try await self.client.execute(operation: "DescribeWorkspacesConnectionStatus", path: "/", httpMethod: .POST, serviceConfig: self.config, input: input, logger: logger, on: eventLoop)
     }
 
-    /// Disassociates a connection alias from a directory. Disassociating a connection alias disables cross-Region  redirection between two directories in different Regions. For more information, see   Cross-Region Redirection for Amazon WorkSpaces.   Before performing this operation, call  DescribeConnectionAliases to make sure that the current state of the connection alias is CREATED.
+    /// Disassociates a connection alias from a directory. Disassociating a connection alias disables cross-Region redirection between two directories in different Regions. For more information, see  Cross-Region Redirection for Amazon WorkSpaces.  Before performing this operation, call  DescribeConnectionAliases to make sure that the current state of the connection alias is CREATED.
     public func disassociateConnectionAlias(_ input: DisassociateConnectionAliasRequest, logger: Logger = AWSClient.loggingDisabled, on eventLoop: EventLoop? = nil) async throws -> DisassociateConnectionAliasResult {
         return try await self.client.execute(operation: "DisassociateConnectionAlias", path: "/", httpMethod: .POST, serviceConfig: self.config, input: input, logger: logger, on: eventLoop)
     }
@@ -199,17 +208,22 @@ extension WorkSpaces {
         return try await self.client.execute(operation: "DisassociateIpGroups", path: "/", httpMethod: .POST, serviceConfig: self.config, input: input, logger: logger, on: eventLoop)
     }
 
-    /// Imports the specified Windows 10 Bring Your Own License (BYOL) image into Amazon WorkSpaces. The image must be an already licensed Amazon EC2 image that is in your  Amazon Web Services account, and you must own the image. For more information about creating BYOL images, see  Bring Your Own Windows Desktop Licenses.
+    /// Imports client branding. Client branding allows you to customize your WorkSpace's client login portal. You can tailor your login portal company logo, the support email address, support link, link to reset password, and a custom message for users trying to sign in. After you import client branding, the default branding experience for the specified platform type is replaced with the imported experience    You must specify at least one platform type when importing client branding.   You can import up to 6 MB of data with each request. If your request exceeds this limit, you can import client branding for different platform types using separate requests.   In each platform type, the SupportEmail and SupportLink parameters are mutually exclusive. You can specify only one parameter for each platform type, but not both.   Imported data can take up to a minute to appear in the WorkSpaces client.
+    public func importClientBranding(_ input: ImportClientBrandingRequest, logger: Logger = AWSClient.loggingDisabled, on eventLoop: EventLoop? = nil) async throws -> ImportClientBrandingResult {
+        return try await self.client.execute(operation: "ImportClientBranding", path: "/", httpMethod: .POST, serviceConfig: self.config, input: input, logger: logger, on: eventLoop)
+    }
+
+    /// Imports the specified Windows 10 Bring Your Own License (BYOL) image into Amazon WorkSpaces. The image must be an already licensed Amazon EC2 image that is in your Amazon Web Services account, and you must own the image. For more information about creating BYOL images, see  Bring Your Own Windows Desktop Licenses.
     public func importWorkspaceImage(_ input: ImportWorkspaceImageRequest, logger: Logger = AWSClient.loggingDisabled, on eventLoop: EventLoop? = nil) async throws -> ImportWorkspaceImageResult {
         return try await self.client.execute(operation: "ImportWorkspaceImage", path: "/", httpMethod: .POST, serviceConfig: self.config, input: input, logger: logger, on: eventLoop)
     }
 
-    /// Retrieves a list of IP address ranges, specified as IPv4 CIDR blocks, that you can use for the network management interface when you enable Bring Your Own License (BYOL).   This operation can be run only by Amazon Web Services accounts that are enabled for BYOL. If your account  isn't enabled for BYOL, you'll receive an AccessDeniedException error.  The management network interface is connected to a secure Amazon WorkSpaces management network. It is used for interactive streaming of the WorkSpace desktop to Amazon WorkSpaces clients, and to allow Amazon WorkSpaces to manage the WorkSpace.
+    /// Retrieves a list of IP address ranges, specified as IPv4 CIDR blocks, that you can use for the network management interface when you enable Bring Your Own License (BYOL).  This operation can be run only by Amazon Web Services accounts that are enabled for BYOL. If your account isn't enabled for BYOL, you'll receive an AccessDeniedException error. The management network interface is connected to a secure Amazon WorkSpaces management network. It is used for interactive streaming of the WorkSpace desktop to Amazon WorkSpaces clients, and to allow Amazon WorkSpaces to manage the WorkSpace.
     public func listAvailableManagementCidrRanges(_ input: ListAvailableManagementCidrRangesRequest, logger: Logger = AWSClient.loggingDisabled, on eventLoop: EventLoop? = nil) async throws -> ListAvailableManagementCidrRangesResult {
         return try await self.client.execute(operation: "ListAvailableManagementCidrRanges", path: "/", httpMethod: .POST, serviceConfig: self.config, input: input, logger: logger, on: eventLoop)
     }
 
-    /// Migrates a WorkSpace from one operating system or bundle type to another, while retaining the data on the user volume.  The migration process recreates the WorkSpace by using a new root volume from the target bundle image and the user volume  from the last available snapshot of the original WorkSpace. During migration, the original D:\Users\%USERNAME%  user profile folder is renamed to D:\Users\%USERNAME%MMddyyTHHmmss%.NotMigrated. A new D:\Users\%USERNAME%\  folder is generated by the new OS. Certain files in the old user profile are moved to the new user profile.  For available migration scenarios, details about what happens during migration, and best practices, see  Migrate a WorkSpace.
+    /// Migrates a WorkSpace from one operating system or bundle type to another, while retaining the data on the user volume. The migration process recreates the WorkSpace by using a new root volume from the target bundle image and the user volume from the last available snapshot of the original WorkSpace. During migration, the original D:\Users\%USERNAME% user profile folder is renamed to D:\Users\%USERNAME%MMddyyTHHmmss%.NotMigrated. A new D:\Users\%USERNAME%\ folder is generated by the new OS. Certain files in the old user profile are moved to the new user profile. For available migration scenarios, details about what happens during migration, and best practices, see Migrate a WorkSpace.
     public func migrateWorkspace(_ input: MigrateWorkspaceRequest, logger: Logger = AWSClient.loggingDisabled, on eventLoop: EventLoop? = nil) async throws -> MigrateWorkspaceResult {
         return try await self.client.execute(operation: "MigrateWorkspace", path: "/", httpMethod: .POST, serviceConfig: self.config, input: input, logger: logger, on: eventLoop)
     }
@@ -239,7 +253,7 @@ extension WorkSpaces {
         return try await self.client.execute(operation: "ModifyWorkspaceCreationProperties", path: "/", httpMethod: .POST, serviceConfig: self.config, input: input, logger: logger, on: eventLoop)
     }
 
-    /// Modifies the specified WorkSpace properties. For important information about how  to modify the size of the root and user volumes, see   Modify a WorkSpace.
+    /// Modifies the specified WorkSpace properties. For important information about how to modify the size of the root and user volumes, see  Modify a WorkSpace.
     public func modifyWorkspaceProperties(_ input: ModifyWorkspacePropertiesRequest, logger: Logger = AWSClient.loggingDisabled, on eventLoop: EventLoop? = nil) async throws -> ModifyWorkspacePropertiesResult {
         return try await self.client.execute(operation: "ModifyWorkspaceProperties", path: "/", httpMethod: .POST, serviceConfig: self.config, input: input, logger: logger, on: eventLoop)
     }
@@ -259,7 +273,7 @@ extension WorkSpaces {
         return try await self.client.execute(operation: "RebuildWorkspaces", path: "/", httpMethod: .POST, serviceConfig: self.config, input: input, logger: logger, on: eventLoop)
     }
 
-    /// Registers the specified directory. This operation is asynchronous  and returns before the WorkSpace directory is registered. If this is the first time you are  registering a directory, you will need to create the workspaces_DefaultRole role before you can  register a directory. For more information, see  Creating the workspaces_DefaultRole Role.
+    /// Registers the specified directory. This operation is asynchronous and returns before the WorkSpace directory is registered. If this is the first time you are registering a directory, you will need to create the workspaces_DefaultRole role before you can register a directory. For more information, see  Creating the workspaces_DefaultRole Role.
     public func registerWorkspaceDirectory(_ input: RegisterWorkspaceDirectoryRequest, logger: Logger = AWSClient.loggingDisabled, on eventLoop: EventLoop? = nil) async throws -> RegisterWorkspaceDirectoryResult {
         return try await self.client.execute(operation: "RegisterWorkspaceDirectory", path: "/", httpMethod: .POST, serviceConfig: self.config, input: input, logger: logger, on: eventLoop)
     }
@@ -284,8 +298,7 @@ extension WorkSpaces {
         return try await self.client.execute(operation: "StopWorkspaces", path: "/", httpMethod: .POST, serviceConfig: self.config, input: input, logger: logger, on: eventLoop)
     }
 
-    /// Terminates the specified WorkSpaces.   Terminating a WorkSpace is a permanent action and cannot be undone. The user's data is destroyed. If you need to archive any user data, contact Amazon Web Services Support before terminating the WorkSpace.
-    ///  You can terminate a WorkSpace that is in any state except SUSPENDED. This operation is asynchronous and returns before the WorkSpaces have been completely terminated. After a WorkSpace is terminated, the TERMINATED state is returned  only briefly before the WorkSpace directory metadata is cleaned up, so this state is rarely  returned. To confirm that a WorkSpace is terminated, check for the WorkSpace ID by using   DescribeWorkSpaces. If the WorkSpace ID isn't returned, then the WorkSpace has  been successfully terminated.         Simple AD and AD Connector are made available to you free of charge to use with WorkSpaces.  If there are no WorkSpaces being used with your Simple AD or AD Connector directory for 30  consecutive days, this directory will be automatically deregistered for use with Amazon WorkSpaces,  and you will be charged for this directory as per the  Directory Service pricing terms.  To delete empty directories, see   Delete the Directory for Your WorkSpaces. If you delete your  Simple AD or AD Connector directory, you can always create a new one when you want to start using  WorkSpaces again.
+    /// Terminates the specified WorkSpaces.  Terminating a WorkSpace is a permanent action and cannot be undone. The user's data is destroyed. If you need to archive any user data, contact Amazon Web Services Support before terminating the WorkSpace.  You can terminate a WorkSpace that is in any state except SUSPENDED. This operation is asynchronous and returns before the WorkSpaces have been completely terminated. After a WorkSpace is terminated, the TERMINATED state is returned only briefly before the WorkSpace directory metadata is cleaned up, so this state is rarely returned. To confirm that a WorkSpace is terminated, check for the WorkSpace ID by using  DescribeWorkSpaces. If the WorkSpace ID isn't returned, then the WorkSpace has been successfully terminated.  Simple AD and AD Connector are made available to you free of charge to use with WorkSpaces. If there are no WorkSpaces being used with your Simple AD or AD Connector directory for 30 consecutive days, this directory will be automatically deregistered for use with Amazon WorkSpaces, and you will be charged for this directory as per the Directory Service pricing terms. To delete empty directories, see  Delete the Directory for Your WorkSpaces. If you delete your Simple AD or AD Connector directory, you can always create a new one when you want to start using WorkSpaces again.
     public func terminateWorkspaces(_ input: TerminateWorkspacesRequest, logger: Logger = AWSClient.loggingDisabled, on eventLoop: EventLoop? = nil) async throws -> TerminateWorkspacesResult {
         return try await self.client.execute(operation: "TerminateWorkspaces", path: "/", httpMethod: .POST, serviceConfig: self.config, input: input, logger: logger, on: eventLoop)
     }
@@ -295,7 +308,7 @@ extension WorkSpaces {
         return try await self.client.execute(operation: "UpdateConnectClientAddIn", path: "/", httpMethod: .POST, serviceConfig: self.config, input: input, logger: logger, on: eventLoop)
     }
 
-    /// Shares or unshares a connection alias with one account by specifying whether that account has permission to  associate the connection alias with a directory. If the association permission is granted, the connection alias  is shared with that account. If the association permission is revoked, the connection alias is unshared with the  account. For more information, see  Cross-Region Redirection for Amazon WorkSpaces.     Before performing this operation, call  DescribeConnectionAliases to make sure that the current state of the connection alias is CREATED.   To delete a connection alias that has been shared, the shared account must first disassociate the  connection alias from any directories it has been associated with. Then you must unshare the connection  alias from the account it has been shared with. You can delete a connection alias only after it is no  longer shared with any accounts or associated with any directories.
+    /// Shares or unshares a connection alias with one account by specifying whether that account has permission to associate the connection alias with a directory. If the association permission is granted, the connection alias is shared with that account. If the association permission is revoked, the connection alias is unshared with the account. For more information, see  Cross-Region Redirection for Amazon WorkSpaces.    Before performing this operation, call  DescribeConnectionAliases to make sure that the current state of the connection alias is CREATED.   To delete a connection alias that has been shared, the shared account must first disassociate the connection alias from any directories it has been associated with. Then you must unshare the connection alias from the account it has been shared with. You can delete a connection alias only after it is no longer shared with any accounts or associated with any directories.
     public func updateConnectionAliasPermission(_ input: UpdateConnectionAliasPermissionRequest, logger: Logger = AWSClient.loggingDisabled, on eventLoop: EventLoop? = nil) async throws -> UpdateConnectionAliasPermissionResult {
         return try await self.client.execute(operation: "UpdateConnectionAliasPermission", path: "/", httpMethod: .POST, serviceConfig: self.config, input: input, logger: logger, on: eventLoop)
     }
@@ -310,7 +323,7 @@ extension WorkSpaces {
         return try await self.client.execute(operation: "UpdateWorkspaceBundle", path: "/", httpMethod: .POST, serviceConfig: self.config, input: input, logger: logger, on: eventLoop)
     }
 
-    /// Shares or unshares an image with one account in the same Amazon Web Services Region by specifying whether that account has  permission to copy the image. If the copy image permission is granted, the image is shared with that account.  If the copy image permission is revoked, the image is unshared with the account.  After an image has been shared, the recipient account can copy the image to other Regions as needed.  In the China (Ningxia) Region, you can copy images only within the same Region.  In Amazon Web Services GovCloud (US), to copy images to and from other Regions, contact Amazon Web Services Support.  For more information about sharing images, see   Share or Unshare a Custom WorkSpaces Image.     To delete an image that has been shared, you must unshare the image before you delete it.   Sharing Bring Your Own License (BYOL) images across Amazon Web Services accounts isn't supported at  this time in Amazon Web Services GovCloud (US). To share BYOL images across accounts in  Amazon Web Services GovCloud (US), contact Amazon Web Services Support.
+    /// Shares or unshares an image with one account in the same Amazon Web Services Region by specifying whether that account has permission to copy the image. If the copy image permission is granted, the image is shared with that account. If the copy image permission is revoked, the image is unshared with the account. After an image has been shared, the recipient account can copy the image to other Regions as needed. In the China (Ningxia) Region, you can copy images only within the same Region. In Amazon Web Services GovCloud (US), to copy images to and from other Regions, contact Amazon Web Services Support. For more information about sharing images, see  Share or Unshare a Custom WorkSpaces Image.    To delete an image that has been shared, you must unshare the image before you delete it.   Sharing Bring Your Own License (BYOL) images across Amazon Web Services accounts isn't supported at this time in Amazon Web Services GovCloud (US). To share BYOL images across accounts in Amazon Web Services GovCloud (US), contact Amazon Web Services Support.
     public func updateWorkspaceImagePermission(_ input: UpdateWorkspaceImagePermissionRequest, logger: Logger = AWSClient.loggingDisabled, on eventLoop: EventLoop? = nil) async throws -> UpdateWorkspaceImagePermissionResult {
         return try await self.client.execute(operation: "UpdateWorkspaceImagePermission", path: "/", httpMethod: .POST, serviceConfig: self.config, input: input, logger: logger, on: eventLoop)
     }

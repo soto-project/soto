@@ -106,7 +106,7 @@ public struct CloudTrailErrorType: AWSErrorType {
     public static var cloudTrailInvalidClientTokenIdException: Self { .init(.cloudTrailInvalidClientTokenIdException) }
     /// Cannot set a CloudWatch Logs delivery for this region.
     public static var cloudWatchLogsDeliveryUnavailableException: Self { .init(.cloudWatchLogsDeliveryUnavailableException) }
-    /// This exception is thrown when the specified resource is not ready for an operation.  This can occur when you try to run an operation on a trail before CloudTrail has time to fully load the trail.  If this exception occurs, wait a few minutes, and then try the operation again.
+    /// This exception is thrown when the specified resource is not ready for an operation.  This can occur when you try to run an operation on a resource before CloudTrail has time to fully load the resource.  If this exception occurs, wait a few minutes, and then try the operation again.
     public static var conflictException: Self { .init(.conflictException) }
     /// The specified event data store ARN is not valid or does not map to an event data store in your account.
     public static var eventDataStoreARNInvalidException: Self { .init(.eventDataStoreARNInvalidException) }
@@ -118,13 +118,13 @@ public struct CloudTrailErrorType: AWSErrorType {
     public static var eventDataStoreNotFoundException: Self { .init(.eventDataStoreNotFoundException) }
     /// The event data store cannot be deleted because termination protection is enabled for it.
     public static var eventDataStoreTerminationProtectedException: Self { .init(.eventDataStoreTerminationProtectedException) }
-    /// The event data store against which you ran your query is inactive.
+    /// The event data store is inactive.
     public static var inactiveEventDataStoreException: Self { .init(.inactiveEventDataStoreException) }
     /// The specified query cannot be canceled because it is in the FINISHED, FAILED, TIMED_OUT, or CANCELLED state.
     public static var inactiveQueryException: Self { .init(.inactiveQueryException) }
     /// If you run GetInsightSelectors on a trail that does not have Insights events enabled, the operation throws the exception InsightNotEnabledException.
     public static var insightNotEnabledException: Self { .init(.insightNotEnabledException) }
-    /// This exception is thrown when the IAM user or role that is used to create the organization trail is lacking one or more required permissions for  creating an organization trail in a required service. For more information, see  Prepare For Creating a Trail For Your Organization.
+    /// This exception is thrown when the IAM user or role that is used to create  the organization resource lacks one or more required permissions for  creating an organization resource in a required service.
     public static var insufficientDependencyServiceAccessPermissionException: Self { .init(.insufficientDependencyServiceAccessPermissionException) }
     /// This exception is thrown when the policy on the S3 bucket or KMS key is not sufficient.
     public static var insufficientEncryptionPolicyException: Self { .init(.insufficientEncryptionPolicyException) }
@@ -136,7 +136,7 @@ public struct CloudTrailErrorType: AWSErrorType {
     public static var invalidCloudWatchLogsLogGroupArnException: Self { .init(.invalidCloudWatchLogsLogGroupArnException) }
     /// This exception is thrown when the provided role is not valid.
     public static var invalidCloudWatchLogsRoleArnException: Self { .init(.invalidCloudWatchLogsRoleArnException) }
-    /// A date range for the query was specified that is not valid. For more information  about writing a query, see Create  or edit a query in the CloudTrail User Guide.
+    /// A date range for the query was specified that is not valid. Be sure that the start time is chronologically   before the end time. For more information  about writing a query, see Create  or edit a query in the CloudTrail User Guide.
     public static var invalidDateRangeException: Self { .init(.invalidDateRangeException) }
     /// Occurs if an event category that is not valid is specified as a value of EventCategory.
     public static var invalidEventCategoryException: Self { .init(.invalidEventCategoryException) }
@@ -188,11 +188,11 @@ public struct CloudTrailErrorType: AWSErrorType {
     public static var maxConcurrentQueriesException: Self { .init(.maxConcurrentQueriesException) }
     /// This exception is thrown when the maximum number of trails is reached.
     public static var maximumNumberOfTrailsExceededException: Self { .init(.maximumNumberOfTrailsExceededException) }
-    /// This exception is thrown when the Amazon Web Services account making the request to create or update an organization trail is not the management account for an  organization in Organizations. For more information, see  Prepare For Creating a Trail For Your Organization.
+    /// This exception is thrown when the Amazon Web Services account making the request to create  or update an organization trail or event data store is not the management account for an  organization in Organizations. For more information, see  Prepare For Creating a Trail For Your Organization or Create an event data store.
     public static var notOrganizationMasterAccountException: Self { .init(.notOrganizationMasterAccountException) }
     /// This exception is thrown when the requested operation is not permitted.
     public static var operationNotPermittedException: Self { .init(.operationNotPermittedException) }
-    /// This exception is thrown when Organizations is not configured to support all features. All features must be enabled in Organizations to support creating an organization trail. For more information, see  Prepare For Creating a Trail For Your Organization.
+    /// This exception is thrown when Organizations is not configured to support all  features. All features must be enabled in Organizations to support creating an organization trail or event data store.
     public static var organizationNotInAllFeaturesModeException: Self { .init(.organizationNotInAllFeaturesModeException) }
     /// This exception is thrown when the request is made from an Amazon Web Services account that is not a member of an organization.  To make this request, sign in using the credentials of an account that belongs to an organization.
     public static var organizationsNotInUseException: Self { .init(.organizationsNotInUseException) }

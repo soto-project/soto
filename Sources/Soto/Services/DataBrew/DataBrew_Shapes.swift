@@ -55,6 +55,7 @@ extension DataBrew {
         case csv = "CSV"
         case excel = "EXCEL"
         case json = "JSON"
+        case orc = "ORC"
         case parquet = "PARQUET"
         public var description: String { return self.rawValue }
     }
@@ -2053,7 +2054,7 @@ extension DataBrew {
     public struct FilesLimit: AWSEncodableShape & AWSDecodableShape {
         /// The number of Amazon S3 files to select.
         public let maxFiles: Int
-        /// A criteria to use for Amazon S3 files sorting before their selection. By default uses DESCENDING order,  i.e. most recent files are selected first. Anotherpossible value is ASCENDING.
+        /// A criteria to use for Amazon S3 files sorting before their selection. By default uses DESCENDING order, i.e. most recent files are selected first. Another possible value is ASCENDING.
         public let order: Order?
         /// A criteria to use for Amazon S3 files sorting before their selection. By default uses LAST_MODIFIED_DATE as  a sorting criteria. Currently it's the only allowed value.
         public let orderedBy: OrderedBy?
@@ -3217,7 +3218,7 @@ extension DataBrew {
     }
 
     public struct Rule: AWSEncodableShape & AWSDecodableShape {
-        /// The expression which includes column references, condition names followed by  variable references, possibly grouped and combined with other conditions. For  example, (:col1 starts_with :prefix1 or :col1 starts_with :prefix2) and  (:col1 ends_with :suffix1 or :col1 ends_with :suffix2). Column and value  references are substitution variables that should start with the ':' symbol. Depending on the context, substitution variables' values can be either an actual  value or a column name. These values are defined in the SubstitutionMap. If a CheckExpression starts with a column reference, then ColumnSelectors in the  rule should be null. If ColumnSelectors has been defined, then there should be no columnn reference in the left side of a condition, for example,  is_between :val1 and :val2. For more information, see Available checks
+        /// The expression which includes column references, condition names followed by variable references, possibly grouped and combined with other conditions. For example, (:col1 starts_with :prefix1 or :col1 starts_with :prefix2) and (:col1 ends_with :suffix1 or :col1 ends_with :suffix2). Column and value references are substitution variables that should start with the ':' symbol. Depending on the context, substitution variables' values can be either an actual value or a column name. These values are defined in the SubstitutionMap. If a CheckExpression starts with a column reference, then ColumnSelectors in the rule should be null. If ColumnSelectors has been defined, then there should be no column reference in the left side of a condition, for example, is_between :val1 and :val2. For more information, see Available checks
         public let checkExpression: String
         /// List of column selectors. Selectors can be used to select columns using a name or regular  expression from the dataset. Rule will be applied to selected columns.
         public let columnSelectors: [ColumnSelector]?

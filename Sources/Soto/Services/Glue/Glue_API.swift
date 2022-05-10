@@ -99,6 +99,11 @@ public struct Glue: AWSService {
         return self.client.execute(operation: "BatchGetCrawlers", path: "/", httpMethod: .POST, serviceConfig: self.config, input: input, logger: logger, on: eventLoop)
     }
 
+    /// Retrieves the details for the custom patterns specified by a list of names.
+    public func batchGetCustomEntityTypes(_ input: BatchGetCustomEntityTypesRequest, logger: Logger = AWSClient.loggingDisabled, on eventLoop: EventLoop? = nil) -> EventLoopFuture<BatchGetCustomEntityTypesResponse> {
+        return self.client.execute(operation: "BatchGetCustomEntityTypes", path: "/", httpMethod: .POST, serviceConfig: self.config, input: input, logger: logger, on: eventLoop)
+    }
+
     /// Returns a list of resource metadata for a given list of development endpoint names. After calling the ListDevEndpoints operation, you can call this operation to access the data to which you have been granted permissions. This operation supports all IAM permissions, including permission conditions that uses tags.
     public func batchGetDevEndpoints(_ input: BatchGetDevEndpointsRequest, logger: Logger = AWSClient.loggingDisabled, on eventLoop: EventLoop? = nil) -> EventLoopFuture<BatchGetDevEndpointsResponse> {
         return self.client.execute(operation: "BatchGetDevEndpoints", path: "/", httpMethod: .POST, serviceConfig: self.config, input: input, logger: logger, on: eventLoop)
@@ -167,6 +172,13 @@ public struct Glue: AWSService {
     /// Creates a new crawler with specified targets, role, configuration, and optional schedule. At least one crawl target must be specified, in the s3Targets field, the jdbcTargets field, or the DynamoDBTargets field.
     public func createCrawler(_ input: CreateCrawlerRequest, logger: Logger = AWSClient.loggingDisabled, on eventLoop: EventLoop? = nil) -> EventLoopFuture<CreateCrawlerResponse> {
         return self.client.execute(operation: "CreateCrawler", path: "/", httpMethod: .POST, serviceConfig: self.config, input: input, logger: logger, on: eventLoop)
+    }
+
+    /// Creates a custom pattern that is used to detect sensitive data across the columns and rows of your structured data.
+    ///
+    /// 	        Each custom pattern you create specifies a regular expression and an optional list of context words. If no context words are passed only a regular expression is checked.
+    public func createCustomEntityType(_ input: CreateCustomEntityTypeRequest, logger: Logger = AWSClient.loggingDisabled, on eventLoop: EventLoop? = nil) -> EventLoopFuture<CreateCustomEntityTypeResponse> {
+        return self.client.execute(operation: "CreateCustomEntityType", path: "/", httpMethod: .POST, serviceConfig: self.config, input: input, logger: logger, on: eventLoop)
     }
 
     /// Creates a new database in a Data Catalog.
@@ -279,6 +291,11 @@ public struct Glue: AWSService {
     /// Removes a specified crawler from the Glue Data Catalog, unless the crawler state is RUNNING.
     public func deleteCrawler(_ input: DeleteCrawlerRequest, logger: Logger = AWSClient.loggingDisabled, on eventLoop: EventLoop? = nil) -> EventLoopFuture<DeleteCrawlerResponse> {
         return self.client.execute(operation: "DeleteCrawler", path: "/", httpMethod: .POST, serviceConfig: self.config, input: input, logger: logger, on: eventLoop)
+    }
+
+    /// Deletes a custom pattern by specifying its name.
+    public func deleteCustomEntityType(_ input: DeleteCustomEntityTypeRequest, logger: Logger = AWSClient.loggingDisabled, on eventLoop: EventLoop? = nil) -> EventLoopFuture<DeleteCustomEntityTypeResponse> {
+        return self.client.execute(operation: "DeleteCustomEntityType", path: "/", httpMethod: .POST, serviceConfig: self.config, input: input, logger: logger, on: eventLoop)
     }
 
     /// Removes a specified database from a Data Catalog.  After completing this operation, you no longer have access to the tables (and all table versions and partitions that might belong to the tables) and the user-defined functions in the deleted database. Glue deletes these "orphaned" resources asynchronously in a timely manner, at the discretion of the service. To ensure the immediate deletion of all related resources, before calling DeleteDatabase, use DeleteTableVersion or BatchDeleteTableVersion, DeletePartition or BatchDeletePartition, DeleteUserDefinedFunction, and DeleteTable or BatchDeleteTable, to delete any resources that belong to the database.
@@ -432,6 +449,11 @@ public struct Glue: AWSService {
     /// Retrieves metadata for all crawlers defined in the customer account.
     public func getCrawlers(_ input: GetCrawlersRequest, logger: Logger = AWSClient.loggingDisabled, on eventLoop: EventLoop? = nil) -> EventLoopFuture<GetCrawlersResponse> {
         return self.client.execute(operation: "GetCrawlers", path: "/", httpMethod: .POST, serviceConfig: self.config, input: input, logger: logger, on: eventLoop)
+    }
+
+    /// Retrieves the details of a custom pattern by specifying its name.
+    public func getCustomEntityType(_ input: GetCustomEntityTypeRequest, logger: Logger = AWSClient.loggingDisabled, on eventLoop: EventLoop? = nil) -> EventLoopFuture<GetCustomEntityTypeResponse> {
+        return self.client.execute(operation: "GetCustomEntityType", path: "/", httpMethod: .POST, serviceConfig: self.config, input: input, logger: logger, on: eventLoop)
     }
 
     /// Retrieves the security configuration for a specified catalog.
@@ -682,6 +704,11 @@ public struct Glue: AWSService {
     ///  This operation takes the optional Tags field, which you can use as a filter on the response so that tagged resources can be retrieved as a group. If you choose to use tags filtering, only resources with the tag are retrieved.
     public func listCrawlers(_ input: ListCrawlersRequest, logger: Logger = AWSClient.loggingDisabled, on eventLoop: EventLoop? = nil) -> EventLoopFuture<ListCrawlersResponse> {
         return self.client.execute(operation: "ListCrawlers", path: "/", httpMethod: .POST, serviceConfig: self.config, input: input, logger: logger, on: eventLoop)
+    }
+
+    /// Lists all the custom patterns that have been created.
+    public func listCustomEntityTypes(_ input: ListCustomEntityTypesRequest, logger: Logger = AWSClient.loggingDisabled, on eventLoop: EventLoop? = nil) -> EventLoopFuture<ListCustomEntityTypesResponse> {
+        return self.client.execute(operation: "ListCustomEntityTypes", path: "/", httpMethod: .POST, serviceConfig: self.config, input: input, logger: logger, on: eventLoop)
     }
 
     /// Retrieves the names of all DevEndpoint resources in this Amazon Web Services account, or the resources with the specified tag. This operation allows you to see which resources are available in your account, and their names.

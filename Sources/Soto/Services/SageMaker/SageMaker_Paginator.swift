@@ -2034,7 +2034,7 @@ extension SageMaker {
         )
     }
 
-    ///  Returns a list of the Amazon SageMaker notebook instances in the requester's account in an Amazon Web Services Region.
+    ///  Returns a list of the SageMaker notebook instances in the requester's account in an Amazon Web Services Region.
     ///
     /// Provide paginated results to closure `onPage` for it to combine them into one result.
     /// This works in a similar manner to `Array.reduce<Result>(_:_:) -> Result`.
@@ -2511,7 +2511,7 @@ extension SageMaker {
         )
     }
 
-    ///  Returns the tags for the specified Amazon SageMaker resource.
+    ///  Returns the tags for the specified SageMaker resource.
     ///
     /// Provide paginated results to closure `onPage` for it to combine them into one result.
     /// This works in a similar manner to `Array.reduce<Result>(_:_:) -> Result`.

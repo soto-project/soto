@@ -52,7 +52,7 @@ public struct NetworkFirewallErrorType: AWSErrorType {
     /// return error code string
     public var errorCode: String { self.error.rawValue }
 
-    /// AWS doesn't currently have enough available capacity to fulfill your request. Try your request later.
+    /// Amazon Web Services doesn't currently have enough available capacity to fulfill your request. Try your request later.
     public static var insufficientCapacityException: Self { .init(.insufficientCapacityException) }
     /// Your request is valid, but Network Firewall couldn’t perform the operation because of a system problem. Retry your request.
     public static var internalServerError: Self { .init(.internalServerError) }

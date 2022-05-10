@@ -43,6 +43,21 @@ extension IoTSiteWise {
         return try await self.client.execute(operation: "BatchDisassociateProjectAssets", path: "/projects/{projectId}/assets/disassociate", httpMethod: .POST, serviceConfig: self.config, input: input, hostPrefix: "monitor.", logger: logger, on: eventLoop)
     }
 
+    /// Gets aggregated values (for example, average, minimum, and maximum) for one or more asset properties.  For more information, see Querying aggregates in the IoT SiteWise User Guide.
+    public func batchGetAssetPropertyAggregates(_ input: BatchGetAssetPropertyAggregatesRequest, logger: Logger = AWSClient.loggingDisabled, on eventLoop: EventLoop? = nil) async throws -> BatchGetAssetPropertyAggregatesResponse {
+        return try await self.client.execute(operation: "BatchGetAssetPropertyAggregates", path: "/properties/batch/aggregates", httpMethod: .POST, serviceConfig: self.config, input: input, hostPrefix: "data.", logger: logger, on: eventLoop)
+    }
+
+    /// Gets the current value for one or more asset properties. For more information, see Querying current values in the IoT SiteWise User Guide.
+    public func batchGetAssetPropertyValue(_ input: BatchGetAssetPropertyValueRequest, logger: Logger = AWSClient.loggingDisabled, on eventLoop: EventLoop? = nil) async throws -> BatchGetAssetPropertyValueResponse {
+        return try await self.client.execute(operation: "BatchGetAssetPropertyValue", path: "/properties/batch/latest", httpMethod: .POST, serviceConfig: self.config, input: input, hostPrefix: "data.", logger: logger, on: eventLoop)
+    }
+
+    /// Gets the historical values for one or more asset properties. For more information, see Querying historical values in the IoT SiteWise User Guide.
+    public func batchGetAssetPropertyValueHistory(_ input: BatchGetAssetPropertyValueHistoryRequest, logger: Logger = AWSClient.loggingDisabled, on eventLoop: EventLoop? = nil) async throws -> BatchGetAssetPropertyValueHistoryResponse {
+        return try await self.client.execute(operation: "BatchGetAssetPropertyValueHistory", path: "/properties/batch/history", httpMethod: .POST, serviceConfig: self.config, input: input, hostPrefix: "data.", logger: logger, on: eventLoop)
+    }
+
     /// Sends a list of asset property values to IoT SiteWise. Each value is a timestamp-quality-value (TQV) data point. For more information, see Ingesting data using the API in the IoT SiteWise User Guide. To identify an asset property, you must specify one of the following:   The assetId and propertyId of an asset property.   A propertyAlias, which is a data stream alias (for example, /company/windfarm/3/turbine/7/temperature). To define an asset property's alias, see UpdateAssetProperty.    With respect to Unix epoch time, IoT SiteWise accepts only TQVs that have a timestamp of no more than 7 days in the past and no more than 10 minutes in the future. IoT SiteWise rejects timestamps outside of the inclusive range of [-7 days, +10 minutes] and returns a TimestampOutOfRangeException error. For each asset property, IoT SiteWise overwrites TQVs with duplicate timestamps unless the newer TQV has a different quality. For example, if you store a TQV {T1, GOOD, V1}, then storing {T1, GOOD, V2} replaces the existing TQV.  IoT SiteWise authorizes access to each BatchPutAssetPropertyValue entry individually. For more information, see BatchPutAssetPropertyValue authorization in the IoT SiteWise User Guide.
     public func batchPutAssetPropertyValue(_ input: BatchPutAssetPropertyValueRequest, logger: Logger = AWSClient.loggingDisabled, on eventLoop: EventLoop? = nil) async throws -> BatchPutAssetPropertyValueResponse {
         return try await self.client.execute(operation: "BatchPutAssetPropertyValue", path: "/properties", httpMethod: .POST, serviceConfig: self.config, input: input, hostPrefix: "data.", logger: logger, on: eventLoop)

@@ -226,13 +226,16 @@ extension AmplifyUIBuilder {
         public let name: String
         /// Describes the properties of the child component. You can't specify tags as a valid property for properties.
         public let properties: [String: ComponentProperty]
+        /// The unique ID of the child component in its original source system, such as Figma.
+        public let sourceId: String?
 
-        public init(children: [ComponentChild]? = nil, componentType: String, events: [String: ComponentEvent]? = nil, name: String, properties: [String: ComponentProperty]) {
+        public init(children: [ComponentChild]? = nil, componentType: String, events: [String: ComponentEvent]? = nil, name: String, properties: [String: ComponentProperty], sourceId: String? = nil) {
             self.children = children
             self.componentType = componentType
             self.events = events
             self.name = name
             self.properties = properties
+            self.sourceId = sourceId
         }
 
         private enum CodingKeys: String, CodingKey {
@@ -241,6 +244,7 @@ extension AmplifyUIBuilder {
             case events
             case name
             case properties
+            case sourceId
         }
     }
 
@@ -309,16 +313,20 @@ extension AmplifyUIBuilder {
     public struct ComponentEvent: AWSEncodableShape & AWSDecodableShape {
         /// The action to perform when a specific event is raised.
         public let action: String?
+        /// Binds an event to an action on a component. When you specify a bindingEvent, the event is called when the action is performed.
+        public let bindingEvent: String?
         /// Describes information about the action.
         public let parameters: ActionParameters?
 
-        public init(action: String? = nil, parameters: ActionParameters? = nil) {
+        public init(action: String? = nil, bindingEvent: String? = nil, parameters: ActionParameters? = nil) {
             self.action = action
+            self.bindingEvent = bindingEvent
             self.parameters = parameters
         }
 
         private enum CodingKeys: String, CodingKey {
             case action
+            case bindingEvent
             case parameters
         }
     }

@@ -191,6 +191,12 @@ extension Appflow {
         public var description: String { return self.rawValue }
     }
 
+    public enum OAuth2CustomPropType: String, CustomStringConvertible, Codable {
+        case authUrl = "AUTH_URL"
+        case tokenUrl = "TOKEN_URL"
+        public var description: String { return self.rawValue }
+    }
+
     public enum OAuth2GrantType: String, CustomStringConvertible, Codable {
         case authorizationCode = "AUTHORIZATION_CODE"
         case clientCredentials = "CLIENT_CREDENTIALS"
@@ -1066,7 +1072,7 @@ extension Appflow {
         }
 
         public func validate(name: String) throws {
-            try self.validate(self.authCode, name: "authCode", parent: name, max: 512)
+            try self.validate(self.authCode, name: "authCode", parent: name, max: 2048)
             try self.validate(self.authCode, name: "authCode", parent: name, pattern: "^\\S+$")
             try self.validate(self.redirectUri, name: "redirectUri", parent: name, max: 512)
             try self.validate(self.redirectUri, name: "redirectUri", parent: name, pattern: "^\\S+$")
@@ -3294,9 +3300,48 @@ extension Appflow {
         }
     }
 
+    public struct OAuth2CustomParameter: AWSDecodableShape {
+        /// Contains default values for this authentication parameter that are supplied by the connector.
+        public let connectorSuppliedValues: [String]?
+        /// A description about the custom parameter used for OAuth 2.0 authentication.
+        public let description: String?
+        /// Indicates whether the custom parameter for OAuth 2.0 authentication is required.
+        public let isRequired: Bool?
+        /// Indicates whether this authentication custom parameter is a sensitive field.
+        public let isSensitiveField: Bool?
+        /// The key of the custom parameter required for OAuth 2.0 authentication.
+        public let key: String?
+        /// The label of the custom parameter used for OAuth 2.0 authentication.
+        public let label: String?
+        /// Indicates whether custom parameter is used with TokenUrl or AuthUrl.
+        public let type: OAuth2CustomPropType?
+
+        public init(connectorSuppliedValues: [String]? = nil, description: String? = nil, isRequired: Bool? = nil, isSensitiveField: Bool? = nil, key: String? = nil, label: String? = nil, type: OAuth2CustomPropType? = nil) {
+            self.connectorSuppliedValues = connectorSuppliedValues
+            self.description = description
+            self.isRequired = isRequired
+            self.isSensitiveField = isSensitiveField
+            self.key = key
+            self.label = label
+            self.type = type
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case connectorSuppliedValues
+            case description
+            case isRequired
+            case isSensitiveField
+            case key
+            case label
+            case type
+        }
+    }
+
     public struct OAuth2Defaults: AWSDecodableShape {
         /// Auth code URLs that can be used for OAuth 2.0 authentication.
         public let authCodeUrls: [String]?
+        /// List of custom parameters required for OAuth 2.0 authentication.
+        public let oauth2CustomProperties: [OAuth2CustomParameter]?
         /// OAuth 2.0 grant types supported by the connector.
         public let oauth2GrantTypesSupported: [OAuth2GrantType]?
         /// OAuth 2.0 scopes that the connector supports.
@@ -3304,8 +3349,9 @@ extension Appflow {
         /// Token URLs that can be used for OAuth 2.0 authentication.
         public let tokenUrls: [String]?
 
-        public init(authCodeUrls: [String]? = nil, oauth2GrantTypesSupported: [OAuth2GrantType]? = nil, oauthScopes: [String]? = nil, tokenUrls: [String]? = nil) {
+        public init(authCodeUrls: [String]? = nil, oauth2CustomProperties: [OAuth2CustomParameter]? = nil, oauth2GrantTypesSupported: [OAuth2GrantType]? = nil, oauthScopes: [String]? = nil, tokenUrls: [String]? = nil) {
             self.authCodeUrls = authCodeUrls
+            self.oauth2CustomProperties = oauth2CustomProperties
             self.oauth2GrantTypesSupported = oauth2GrantTypesSupported
             self.oauthScopes = oauthScopes
             self.tokenUrls = tokenUrls
@@ -3313,6 +3359,7 @@ extension Appflow {
 
         private enum CodingKeys: String, CodingKey {
             case authCodeUrls
+            case oauth2CustomProperties
             case oauth2GrantTypesSupported
             case oauthScopes
             case tokenUrls
@@ -3324,20 +3371,32 @@ extension Appflow {
         public let oAuth2GrantType: OAuth2GrantType
         /// The token URL required for OAuth 2.0 authentication.
         public let tokenUrl: String
+        /// Associates your token URL with a map of properties that you define. Use this parameter to provide any additional details that the connector requires to authenticate your request.
+        public let tokenUrlCustomProperties: [String: String]?
 
-        public init(oAuth2GrantType: OAuth2GrantType, tokenUrl: String) {
+        public init(oAuth2GrantType: OAuth2GrantType, tokenUrl: String, tokenUrlCustomProperties: [String: String]? = nil) {
             self.oAuth2GrantType = oAuth2GrantType
             self.tokenUrl = tokenUrl
+            self.tokenUrlCustomProperties = tokenUrlCustomProperties
         }
 
         public func validate(name: String) throws {
             try self.validate(self.tokenUrl, name: "tokenUrl", parent: name, max: 256)
             try self.validate(self.tokenUrl, name: "tokenUrl", parent: name, pattern: "^(https?)://[-a-zA-Z0-9+&@#/%?=~_|!:,.;]*[-a-zA-Z0-9+&@#/%=~_|]$")
+            try self.tokenUrlCustomProperties?.forEach {
+                try validate($0.key, name: "tokenUrlCustomProperties.key", parent: name, max: 128)
+                try validate($0.key, name: "tokenUrlCustomProperties.key", parent: name, min: 1)
+                try validate($0.key, name: "tokenUrlCustomProperties.key", parent: name, pattern: "^[\\w]+$")
+                try validate($0.value, name: "tokenUrlCustomProperties[\"\($0.key)\"]", parent: name, max: 2048)
+                try validate($0.value, name: "tokenUrlCustomProperties[\"\($0.key)\"]", parent: name, pattern: "^\\S+$")
+            }
+            try self.validate(self.tokenUrlCustomProperties, name: "tokenUrlCustomProperties", parent: name, max: 50)
         }
 
         private enum CodingKeys: String, CodingKey {
             case oAuth2GrantType
             case tokenUrl
+            case tokenUrlCustomProperties
         }
     }
 

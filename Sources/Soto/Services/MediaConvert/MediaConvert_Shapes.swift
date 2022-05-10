@@ -604,6 +604,12 @@ extension MediaConvert {
         public var description: String { return self.rawValue }
     }
 
+    public enum CmfcKlvMetadata: String, CustomStringConvertible, Codable {
+        case none = "NONE"
+        case passthrough = "PASSTHROUGH"
+        public var description: String { return self.rawValue }
+    }
+
     public enum CmfcScte35Esam: String, CustomStringConvertible, Codable {
         case insert = "INSERT"
         case none = "NONE"
@@ -781,8 +787,15 @@ extension MediaConvert {
         public var description: String { return self.rawValue }
     }
 
+    public enum DolbyVisionMapping: String, CustomStringConvertible, Codable {
+        case hdr101000 = "HDR10_1000"
+        case hdr10Nomap = "HDR10_NOMAP"
+        public var description: String { return self.rawValue }
+    }
+
     public enum DolbyVisionProfile: String, CustomStringConvertible, Codable {
         case profile5 = "PROFILE_5"
+        case profile81 = "PROFILE_8_1"
         public var description: String { return self.rawValue }
     }
 
@@ -1959,6 +1972,12 @@ extension MediaConvert {
         public var description: String { return self.rawValue }
     }
 
+    public enum M2tsKlvMetadata: String, CustomStringConvertible, Codable {
+        case none = "NONE"
+        case passthrough = "PASSTHROUGH"
+        public var description: String { return self.rawValue }
+    }
+
     public enum M2tsNielsenId3: String, CustomStringConvertible, Codable {
         case insert = "INSERT"
         case none = "NONE"
@@ -2110,6 +2129,12 @@ extension MediaConvert {
     public enum MpdCaptionContainerType: String, CustomStringConvertible, Codable {
         case fragmentedMp4 = "FRAGMENTED_MP4"
         case raw = "RAW"
+        public var description: String { return self.rawValue }
+    }
+
+    public enum MpdKlvMetadata: String, CustomStringConvertible, Codable {
+        case none = "NONE"
+        case passthrough = "PASSTHROUGH"
         public var description: String { return self.rawValue }
     }
 
@@ -2361,6 +2386,12 @@ extension MediaConvert {
         case sdtFollowIfPresent = "SDT_FOLLOW_IF_PRESENT"
         case sdtManual = "SDT_MANUAL"
         case sdtNone = "SDT_NONE"
+        public var description: String { return self.rawValue }
+    }
+
+    public enum PadVideo: String, CustomStringConvertible, Codable {
+        case black = "BLACK"
+        case disabled = "DISABLED"
         public var description: String { return self.rawValue }
     }
 
@@ -2738,6 +2769,7 @@ extension MediaConvert {
     public enum WebvttStylePassthrough: String, CustomStringConvertible, Codable {
         case disabled = "DISABLED"
         case enabled = "ENABLED"
+        case strict = "STRICT"
         public var description: String { return self.rawValue }
     }
 
@@ -4205,6 +4237,8 @@ extension MediaConvert {
         public let descriptiveVideoServiceFlag: CmfcDescriptiveVideoServiceFlag?
         /// Choose Include (INCLUDE) to have MediaConvert generate an HLS child manifest that lists only the I-frames for this rendition, in addition to your regular manifest for this rendition. You might use this manifest as part of a workflow that creates preview functions for your video. MediaConvert adds both the I-frame only child manifest and the regular child manifest to the parent manifest. When you don't need the I-frame only child manifest, keep the default value Exclude (EXCLUDE).
         public let iFrameOnlyManifest: CmfcIFrameOnlyManifest?
+        /// Applies to CMAF outputs. Use this setting to specify whether the service inserts the KLV metadata from the input in this output.
+        public let klvMetadata: CmfcKlvMetadata?
         /// Use this setting only when you specify SCTE-35 markers from ESAM. Choose INSERT to put SCTE-35 markers in this output at the insertion points that you specify in an ESAM XML document. Provide the document in the setting SCC XML (sccXml).
         public let scte35Esam: CmfcScte35Esam?
         /// Ignore this setting unless you have SCTE-35 markers in your input video file. Choose Passthrough (PASSTHROUGH) if you want SCTE-35 markers that appear in your input to also appear in this output. Choose None (NONE) if you don't want those SCTE-35 markers in this output.
@@ -4212,13 +4246,14 @@ extension MediaConvert {
         /// To include ID3 metadata in this output: Set ID3 metadata (timedMetadata) to Passthrough (PASSTHROUGH). Specify this ID3 metadata in Custom ID3 metadata inserter (timedMetadataInsertion). MediaConvert writes each instance of ID3 metadata in a separate Event Message (eMSG) box. To exclude this ID3 metadata: Set ID3 metadata to None (NONE) or leave blank.
         public let timedMetadata: CmfcTimedMetadata?
 
-        public init(audioDuration: CmfcAudioDuration? = nil, audioGroupId: String? = nil, audioRenditionSets: String? = nil, audioTrackType: CmfcAudioTrackType? = nil, descriptiveVideoServiceFlag: CmfcDescriptiveVideoServiceFlag? = nil, iFrameOnlyManifest: CmfcIFrameOnlyManifest? = nil, scte35Esam: CmfcScte35Esam? = nil, scte35Source: CmfcScte35Source? = nil, timedMetadata: CmfcTimedMetadata? = nil) {
+        public init(audioDuration: CmfcAudioDuration? = nil, audioGroupId: String? = nil, audioRenditionSets: String? = nil, audioTrackType: CmfcAudioTrackType? = nil, descriptiveVideoServiceFlag: CmfcDescriptiveVideoServiceFlag? = nil, iFrameOnlyManifest: CmfcIFrameOnlyManifest? = nil, klvMetadata: CmfcKlvMetadata? = nil, scte35Esam: CmfcScte35Esam? = nil, scte35Source: CmfcScte35Source? = nil, timedMetadata: CmfcTimedMetadata? = nil) {
             self.audioDuration = audioDuration
             self.audioGroupId = audioGroupId
             self.audioRenditionSets = audioRenditionSets
             self.audioTrackType = audioTrackType
             self.descriptiveVideoServiceFlag = descriptiveVideoServiceFlag
             self.iFrameOnlyManifest = iFrameOnlyManifest
+            self.klvMetadata = klvMetadata
             self.scte35Esam = scte35Esam
             self.scte35Source = scte35Source
             self.timedMetadata = timedMetadata
@@ -4231,6 +4266,7 @@ extension MediaConvert {
             case audioTrackType
             case descriptiveVideoServiceFlag
             case iFrameOnlyManifest
+            case klvMetadata
             case scte35Esam
             case scte35Source
             case timedMetadata
@@ -4935,12 +4971,15 @@ extension MediaConvert {
         public let l6Metadata: DolbyVisionLevel6Metadata?
         /// Use Dolby Vision Mode to choose how the service will handle Dolby Vision MaxCLL and MaxFALL properies.
         public let l6Mode: DolbyVisionLevel6Mode?
-        /// In the current MediaConvert implementation, the Dolby Vision profile is always 5 (PROFILE_5). Therefore, all of your inputs must contain Dolby Vision frame interleaved data.
+        /// Required when you set Dolby Vision Profile (Profile) to Profile 8.1 (PROFILE_8_1). When you set Content mapping (Mapping) to None (HDR10_NOMAP), content mapping is not applied to the HDR10-compatible signal. Depending on the source peak nit level, clipping might occur on HDR devices without Dolby Vision. When you set Content mapping to Static (HDR10_1000), the transcoder creates a 1,000 nits peak HDR10-compatible signal by applying static content mapping to the source. This mode is speed-optimized for PQ10 sources with metadata that is created from analysis. For graded Dolby Vision content, be aware that creative intent might not be guaranteed with extreme 1,000 nits trims.
+        public let mapping: DolbyVisionMapping?
+        /// Required when you use Dolby Vision (DolbyVision) processing. Set Profile (DolbyVisionProfile) to Profile 5 (Profile_5) to only include frame-interleaved Dolby Vision metadata in your output. Set Profile to Profile 8.1 (Profile_8_1) to include both frame-interleaved Dolby Vision metadata and HDR10 metadata in your output.
         public let profile: DolbyVisionProfile?
 
-        public init(l6Metadata: DolbyVisionLevel6Metadata? = nil, l6Mode: DolbyVisionLevel6Mode? = nil, profile: DolbyVisionProfile? = nil) {
+        public init(l6Metadata: DolbyVisionLevel6Metadata? = nil, l6Mode: DolbyVisionLevel6Mode? = nil, mapping: DolbyVisionMapping? = nil, profile: DolbyVisionProfile? = nil) {
             self.l6Metadata = l6Metadata
             self.l6Mode = l6Mode
+            self.mapping = mapping
             self.profile = profile
         }
 
@@ -4951,6 +4990,7 @@ extension MediaConvert {
         private enum CodingKeys: String, CodingKey {
             case l6Metadata
             case l6Mode
+            case mapping
             case profile
         }
     }
@@ -6856,10 +6896,12 @@ extension MediaConvert {
         public let timecodeSource: InputTimecodeSource?
         /// Specify the timecode that you want the service to use for this input's initial frame. To use this setting, you must set the Timecode source setting, located under the input settings (InputTimecodeSource), to Specified start (SPECIFIEDSTART). For more information about timecodes, see https://docs.aws.amazon.com/console/mediaconvert/timecode.
         public let timecodeStart: String?
+        /// Use this setting if you do not have a video input or if you want to add black video frames before, or after, other inputs. When you include Video generator, MediaConvert creates a video input with black frames and without an audio track. You can specify a value for Video generator, or you can specify an Input file, but you cannot specify both.
+        public let videoGenerator: InputVideoGenerator?
         /// Input video selectors contain the video settings for the input. Each of your inputs can have up to one video selector.
         public let videoSelector: VideoSelector?
 
-        public init(audioSelectorGroups: [String: AudioSelectorGroup]? = nil, audioSelectors: [String: AudioSelector]? = nil, captionSelectors: [String: CaptionSelector]? = nil, crop: Rectangle? = nil, deblockFilter: InputDeblockFilter? = nil, decryptionSettings: InputDecryptionSettings? = nil, denoiseFilter: InputDenoiseFilter? = nil, dolbyVisionMetadataXml: String? = nil, fileInput: String? = nil, filterEnable: InputFilterEnable? = nil, filterStrength: Int? = nil, imageInserter: ImageInserter? = nil, inputClippings: [InputClipping]? = nil, inputScanType: InputScanType? = nil, position: Rectangle? = nil, programNumber: Int? = nil, psiControl: InputPsiControl? = nil, supplementalImps: [String]? = nil, timecodeSource: InputTimecodeSource? = nil, timecodeStart: String? = nil, videoSelector: VideoSelector? = nil) {
+        public init(audioSelectorGroups: [String: AudioSelectorGroup]? = nil, audioSelectors: [String: AudioSelector]? = nil, captionSelectors: [String: CaptionSelector]? = nil, crop: Rectangle? = nil, deblockFilter: InputDeblockFilter? = nil, decryptionSettings: InputDecryptionSettings? = nil, denoiseFilter: InputDenoiseFilter? = nil, dolbyVisionMetadataXml: String? = nil, fileInput: String? = nil, filterEnable: InputFilterEnable? = nil, filterStrength: Int? = nil, imageInserter: ImageInserter? = nil, inputClippings: [InputClipping]? = nil, inputScanType: InputScanType? = nil, position: Rectangle? = nil, programNumber: Int? = nil, psiControl: InputPsiControl? = nil, supplementalImps: [String]? = nil, timecodeSource: InputTimecodeSource? = nil, timecodeStart: String? = nil, videoGenerator: InputVideoGenerator? = nil, videoSelector: VideoSelector? = nil) {
             self.audioSelectorGroups = audioSelectorGroups
             self.audioSelectors = audioSelectors
             self.captionSelectors = captionSelectors
@@ -6880,6 +6922,7 @@ extension MediaConvert {
             self.supplementalImps = supplementalImps
             self.timecodeSource = timecodeSource
             self.timecodeStart = timecodeStart
+            self.videoGenerator = videoGenerator
             self.videoSelector = videoSelector
         }
 
@@ -6913,6 +6956,7 @@ extension MediaConvert {
             try self.validate(self.timecodeStart, name: "timecodeStart", parent: name, max: 11)
             try self.validate(self.timecodeStart, name: "timecodeStart", parent: name, min: 11)
             try self.validate(self.timecodeStart, name: "timecodeStart", parent: name, pattern: "^((([0-1]\\d)|(2[0-3]))(:[0-5]\\d){2}([:;][0-5]\\d))$")
+            try self.videoGenerator?.validate(name: "\(name).videoGenerator")
             try self.videoSelector?.validate(name: "\(name).videoSelector")
         }
 
@@ -6937,6 +6981,7 @@ extension MediaConvert {
             case supplementalImps
             case timecodeSource
             case timecodeStart
+            case videoGenerator
             case videoSelector
         }
     }
@@ -7106,6 +7151,24 @@ extension MediaConvert {
             case timecodeSource
             case timecodeStart
             case videoSelector
+        }
+    }
+
+    public struct InputVideoGenerator: AWSEncodableShape & AWSDecodableShape {
+        /// Specify an integer value for Black video duration from 50 to 86400000 to generate a black video input for that many milliseconds. Required when you include Video generator.
+        public let duration: Int?
+
+        public init(duration: Int? = nil) {
+            self.duration = duration
+        }
+
+        public func validate(name: String) throws {
+            try self.validate(self.duration, name: "duration", parent: name, max: 86_400_000)
+            try self.validate(self.duration, name: "duration", parent: name, min: 50)
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case duration
         }
     }
 
@@ -7905,6 +7968,8 @@ extension MediaConvert {
         public let forceTsVideoEbpOrder: M2tsForceTsVideoEbpOrder?
         /// The length, in seconds, of each fragment. Only used with EBP markers.
         public let fragmentTime: Double?
+        /// Applies to MPEG-TS outputs. Use this setting to specify whether the service inserts the KLV metadata from the input in this output.
+        public let klvMetadata: M2tsKlvMetadata?
         /// Specify the maximum time, in milliseconds, between Program Clock References (PCRs) inserted into the transport stream.
         public let maxPcrInterval: Int?
         /// When set, enforces that Encoder Boundary Points do not come within the specified time interval of each other by looking ahead at input video. If another EBP is going to come in within the specified time interval, the current EBP is not emitted, and the segment is "stretched" to the next marker. The lookahead value does not add latency to the system. The Live Event must be configured elsewhere to create sufficient latency to make the lookahead accurate.
@@ -7948,7 +8013,7 @@ extension MediaConvert {
         /// Specify the packet identifier (PID) of the elementary video stream in the transport stream.
         public let videoPid: Int?
 
-        public init(audioBufferModel: M2tsAudioBufferModel? = nil, audioDuration: M2tsAudioDuration? = nil, audioFramesPerPes: Int? = nil, audioPids: [Int]? = nil, bitrate: Int? = nil, bufferModel: M2tsBufferModel? = nil, dataPTSControl: M2tsDataPtsControl? = nil, dvbNitSettings: DvbNitSettings? = nil, dvbSdtSettings: DvbSdtSettings? = nil, dvbSubPids: [Int]? = nil, dvbTdtSettings: DvbTdtSettings? = nil, dvbTeletextPid: Int? = nil, ebpAudioInterval: M2tsEbpAudioInterval? = nil, ebpPlacement: M2tsEbpPlacement? = nil, esRateInPes: M2tsEsRateInPes? = nil, forceTsVideoEbpOrder: M2tsForceTsVideoEbpOrder? = nil, fragmentTime: Double? = nil, maxPcrInterval: Int? = nil, minEbpInterval: Int? = nil, nielsenId3: M2tsNielsenId3? = nil, nullPacketBitrate: Double? = nil, patInterval: Int? = nil, pcrControl: M2tsPcrControl? = nil, pcrPid: Int? = nil, pmtInterval: Int? = nil, pmtPid: Int? = nil, privateMetadataPid: Int? = nil, programNumber: Int? = nil, rateMode: M2tsRateMode? = nil, scte35Esam: M2tsScte35Esam? = nil, scte35Pid: Int? = nil, scte35Source: M2tsScte35Source? = nil, segmentationMarkers: M2tsSegmentationMarkers? = nil, segmentationStyle: M2tsSegmentationStyle? = nil, segmentationTime: Double? = nil, timedMetadataPid: Int? = nil, transportStreamId: Int? = nil, videoPid: Int? = nil) {
+        public init(audioBufferModel: M2tsAudioBufferModel? = nil, audioDuration: M2tsAudioDuration? = nil, audioFramesPerPes: Int? = nil, audioPids: [Int]? = nil, bitrate: Int? = nil, bufferModel: M2tsBufferModel? = nil, dataPTSControl: M2tsDataPtsControl? = nil, dvbNitSettings: DvbNitSettings? = nil, dvbSdtSettings: DvbSdtSettings? = nil, dvbSubPids: [Int]? = nil, dvbTdtSettings: DvbTdtSettings? = nil, dvbTeletextPid: Int? = nil, ebpAudioInterval: M2tsEbpAudioInterval? = nil, ebpPlacement: M2tsEbpPlacement? = nil, esRateInPes: M2tsEsRateInPes? = nil, forceTsVideoEbpOrder: M2tsForceTsVideoEbpOrder? = nil, fragmentTime: Double? = nil, klvMetadata: M2tsKlvMetadata? = nil, maxPcrInterval: Int? = nil, minEbpInterval: Int? = nil, nielsenId3: M2tsNielsenId3? = nil, nullPacketBitrate: Double? = nil, patInterval: Int? = nil, pcrControl: M2tsPcrControl? = nil, pcrPid: Int? = nil, pmtInterval: Int? = nil, pmtPid: Int? = nil, privateMetadataPid: Int? = nil, programNumber: Int? = nil, rateMode: M2tsRateMode? = nil, scte35Esam: M2tsScte35Esam? = nil, scte35Pid: Int? = nil, scte35Source: M2tsScte35Source? = nil, segmentationMarkers: M2tsSegmentationMarkers? = nil, segmentationStyle: M2tsSegmentationStyle? = nil, segmentationTime: Double? = nil, timedMetadataPid: Int? = nil, transportStreamId: Int? = nil, videoPid: Int? = nil) {
             self.audioBufferModel = audioBufferModel
             self.audioDuration = audioDuration
             self.audioFramesPerPes = audioFramesPerPes
@@ -7966,6 +8031,7 @@ extension MediaConvert {
             self.esRateInPes = esRateInPes
             self.forceTsVideoEbpOrder = forceTsVideoEbpOrder
             self.fragmentTime = fragmentTime
+            self.klvMetadata = klvMetadata
             self.maxPcrInterval = maxPcrInterval
             self.minEbpInterval = minEbpInterval
             self.nielsenId3 = nielsenId3
@@ -8052,6 +8118,7 @@ extension MediaConvert {
             case esRateInPes
             case forceTsVideoEbpOrder
             case fragmentTime
+            case klvMetadata
             case maxPcrInterval
             case minEbpInterval
             case nielsenId3
@@ -8427,6 +8494,8 @@ extension MediaConvert {
         public let audioDuration: MpdAudioDuration?
         /// Use this setting only in DASH output groups that include sidecar TTML or IMSC captions.  You specify sidecar captions in a separate output from your audio and video. Choose Raw (RAW) for captions in a single XML file in a raw container. Choose Fragmented MPEG-4 (FRAGMENTED_MP4) for captions in XML format contained within fragmented MP4 files. This set of fragmented MP4 files is separate from your video and audio fragmented MP4 files.
         public let captionContainerType: MpdCaptionContainerType?
+        /// Applies to DASH ISO outputs. Use this setting to specify whether the service inserts the KLV metadata from the input in this output.
+        public let klvMetadata: MpdKlvMetadata?
         /// Use this setting only when you specify SCTE-35 markers from ESAM. Choose INSERT to put SCTE-35 markers in this output at the insertion points that you specify in an ESAM XML document. Provide the document in the setting SCC XML (sccXml).
         public let scte35Esam: MpdScte35Esam?
         /// Ignore this setting unless you have SCTE-35 markers in your input video file. Choose Passthrough (PASSTHROUGH) if you want SCTE-35 markers that appear in your input to also appear in this output. Choose None (NONE) if you don't want those SCTE-35 markers in this output.
@@ -8434,10 +8503,11 @@ extension MediaConvert {
         /// To include ID3 metadata in this output: Set ID3 metadata (timedMetadata) to Passthrough (PASSTHROUGH). Specify this ID3 metadata in Custom ID3 metadata inserter (timedMetadataInsertion). MediaConvert writes each instance of ID3 metadata in a separate Event Message (eMSG) box. To exclude this ID3 metadata: Set ID3 metadata to None (NONE) or leave blank.
         public let timedMetadata: MpdTimedMetadata?
 
-        public init(accessibilityCaptionHints: MpdAccessibilityCaptionHints? = nil, audioDuration: MpdAudioDuration? = nil, captionContainerType: MpdCaptionContainerType? = nil, scte35Esam: MpdScte35Esam? = nil, scte35Source: MpdScte35Source? = nil, timedMetadata: MpdTimedMetadata? = nil) {
+        public init(accessibilityCaptionHints: MpdAccessibilityCaptionHints? = nil, audioDuration: MpdAudioDuration? = nil, captionContainerType: MpdCaptionContainerType? = nil, klvMetadata: MpdKlvMetadata? = nil, scte35Esam: MpdScte35Esam? = nil, scte35Source: MpdScte35Source? = nil, timedMetadata: MpdTimedMetadata? = nil) {
             self.accessibilityCaptionHints = accessibilityCaptionHints
             self.audioDuration = audioDuration
             self.captionContainerType = captionContainerType
+            self.klvMetadata = klvMetadata
             self.scte35Esam = scte35Esam
             self.scte35Source = scte35Source
             self.timedMetadata = timedMetadata
@@ -8447,6 +8517,7 @@ extension MediaConvert {
             case accessibilityCaptionHints
             case audioDuration
             case captionContainerType
+            case klvMetadata
             case scte35Esam
             case scte35Source
             case timedMetadata
@@ -10512,6 +10583,8 @@ extension MediaConvert {
         public let embeddedTimecodeOverride: EmbeddedTimecodeOverride?
         /// Use these settings to provide HDR 10 metadata that is missing or inaccurate in your input video. Appropriate values vary depending on the input video and must be provided by a color grader. The color grader generates these values during the HDR 10 mastering process. The valid range for each of these settings is 0 to 50,000. Each increment represents 0.00002 in CIE1931 color coordinate. Related settings - When you specify these values, you must also set Color space (ColorSpace) to HDR 10 (HDR10). To specify whether the the values you specify here take precedence over the values in the metadata of your input file, set Color space usage (ColorSpaceUsage). To specify whether color metadata is included in an output, set Color metadata (ColorMetadata). For more information about MediaConvert HDR jobs, see https://docs.aws.amazon.com/console/mediaconvert/hdr.
         public let hdr10Metadata: Hdr10Metadata?
+        /// Use this setting if your input has video and audio durations that don't align, and your output or player has strict alignment requirements. Examples: Input audio track has a delayed start. Input video track ends before audio ends. When you set Pad video (padVideo) to Black (BLACK), MediaConvert generates black video frames so that output video and audio durations match. Black video frames are added at the beginning or end, depending on your input. To keep the default behavior and not generate black video, set Pad video to Disabled (DISABLED) or leave blank.
+        public let padVideo: PadVideo?
         /// Use PID (Pid) to select specific video data from an input file. Specify this value as an integer; the system automatically converts it to the hexidecimal value. For example, 257 selects PID 0x101. A PID, or packet identifier, is an identifier for a set of data in an MPEG-2 transport stream container.
         public let pid: Int?
         /// Selects a specific program from within a multi-program transport stream. Note that Quad 4K is not currently supported.
@@ -10521,12 +10594,13 @@ extension MediaConvert {
         /// If the sample range metadata in your input video is accurate, or if you don't know about sample range, keep the default value, Follow (FOLLOW), for this setting. When you do, the service automatically detects your input sample range. If your input video has metadata indicating the wrong sample range, specify the accurate sample range here. When you do, MediaConvert ignores any sample range information in the input metadata. Regardless of whether MediaConvert uses the input sample range or the sample range that you specify, MediaConvert uses the sample range for transcoding and also writes it to the output metadata.
         public let sampleRange: InputSampleRange?
 
-        public init(alphaBehavior: AlphaBehavior? = nil, colorSpace: ColorSpace? = nil, colorSpaceUsage: ColorSpaceUsage? = nil, embeddedTimecodeOverride: EmbeddedTimecodeOverride? = nil, hdr10Metadata: Hdr10Metadata? = nil, pid: Int? = nil, programNumber: Int? = nil, rotate: InputRotate? = nil, sampleRange: InputSampleRange? = nil) {
+        public init(alphaBehavior: AlphaBehavior? = nil, colorSpace: ColorSpace? = nil, colorSpaceUsage: ColorSpaceUsage? = nil, embeddedTimecodeOverride: EmbeddedTimecodeOverride? = nil, hdr10Metadata: Hdr10Metadata? = nil, padVideo: PadVideo? = nil, pid: Int? = nil, programNumber: Int? = nil, rotate: InputRotate? = nil, sampleRange: InputSampleRange? = nil) {
             self.alphaBehavior = alphaBehavior
             self.colorSpace = colorSpace
             self.colorSpaceUsage = colorSpaceUsage
             self.embeddedTimecodeOverride = embeddedTimecodeOverride
             self.hdr10Metadata = hdr10Metadata
+            self.padVideo = padVideo
             self.pid = pid
             self.programNumber = programNumber
             self.rotate = rotate
@@ -10547,6 +10621,7 @@ extension MediaConvert {
             case colorSpaceUsage
             case embeddedTimecodeOverride
             case hdr10Metadata
+            case padVideo
             case pid
             case programNumber
             case rotate
@@ -10777,7 +10852,7 @@ extension MediaConvert {
     public struct WebvttDestinationSettings: AWSEncodableShape & AWSDecodableShape {
         /// Set Accessibility subtitles (Accessibility) to Enabled (ENABLED) if the ISMC or WebVTT captions track is intended to provide accessibility for people who are deaf or hard of hearing. When you enable this feature, MediaConvert adds the following attributes under EXT-X-MEDIA in the HLS or CMAF manifest for this track: CHARACTERISTICS="public.accessibility.describes-spoken-dialog,public.accessibility.describes-music-and-sound" and AUTOSELECT="YES". Keep the default value, Disabled (DISABLED), if the captions track is not intended to provide such accessibility. MediaConvert will not add the above attributes.
         public let accessibility: WebvttAccessibilitySubs?
-        /// Set Style passthrough (StylePassthrough) to ENABLED to use the available style, color, and position information from your input captions. MediaConvert uses default settings for any missing style and position information in your input captions. Set Style passthrough to DISABLED, or leave blank, to ignore the style and position information from your input captions and use simplified output captions.
+        /// To use the available style, color, and position information from your input captions: Set Style passthrough (stylePassthrough) to Enabled (ENABLED). MediaConvert uses default settings when style and position information is missing from your input captions. To recreate the input captions exactly: Set Style passthrough to Strict (STRICT). MediaConvert automatically applies timing adjustments, including adjustments for frame rate conversion, ad avails, and input clipping. Your input captions format must be WebVTT. To ignore the style and position information from your input captions and use simplified output captions: Set Style passthrough to Disabled (DISABLED), or leave blank.
         public let stylePassthrough: WebvttStylePassthrough?
 
         public init(accessibility: WebvttAccessibilitySubs? = nil, stylePassthrough: WebvttStylePassthrough? = nil) {

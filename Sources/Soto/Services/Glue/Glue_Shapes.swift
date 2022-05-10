@@ -910,6 +910,46 @@ extension Glue {
         }
     }
 
+    public struct BatchGetCustomEntityTypesRequest: AWSEncodableShape {
+        /// A list of names of the custom patterns that you want to retrieve.
+        public let names: [String]
+
+        public init(names: [String]) {
+            self.names = names
+        }
+
+        public func validate(name: String) throws {
+            try self.names.forEach {
+                try validate($0, name: "names[]", parent: name, max: 255)
+                try validate($0, name: "names[]", parent: name, min: 1)
+                try validate($0, name: "names[]", parent: name, pattern: "^[\\u0020-\\uD7FF\\uE000-\\uFFFD\\uD800\\uDC00-\\uDBFF\\uDFFF\\t]*$")
+            }
+            try self.validate(self.names, name: "names", parent: name, max: 50)
+            try self.validate(self.names, name: "names", parent: name, min: 1)
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case names = "Names"
+        }
+    }
+
+    public struct BatchGetCustomEntityTypesResponse: AWSDecodableShape {
+        /// A list of CustomEntityType objects representing the custom patterns that have been created.
+        public let customEntityTypes: [CustomEntityType]?
+        /// A list of the names of custom patterns that were not found.
+        public let customEntityTypesNotFound: [String]?
+
+        public init(customEntityTypes: [CustomEntityType]? = nil, customEntityTypesNotFound: [String]? = nil) {
+            self.customEntityTypes = customEntityTypes
+            self.customEntityTypesNotFound = customEntityTypesNotFound
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case customEntityTypes = "CustomEntityTypes"
+            case customEntityTypesNotFound = "CustomEntityTypesNotFound"
+        }
+    }
+
     public struct BatchGetDevEndpointsRequest: AWSEncodableShape {
         /// The list of DevEndpoint names, which might be the names returned from the ListDevEndpoint operation.
         public let devEndpointNames: [String]
@@ -2247,6 +2287,7 @@ extension Glue {
         public let databaseName: String?
         /// A description of the crawler.
         public let description: String?
+        /// Specifies whether the crawler should use AWS Lake Formation credentials for the crawler instead of the IAM role credentials.
         public let lakeFormationConfiguration: LakeFormationConfiguration?
         /// The status of the last crawl, and potentially error information if an error occurred.
         public let lastCrawl: LastCrawlInfo?
@@ -2688,6 +2729,58 @@ extension Glue {
             case header = "Header"
             case name = "Name"
             case quoteSymbol = "QuoteSymbol"
+        }
+    }
+
+    public struct CreateCustomEntityTypeRequest: AWSEncodableShape {
+        /// A list of context words. If none of these context words are found within the vicinity of the regular expression the data will not be detected as sensitive data.
+        ///
+        /// 	        If no context words are passed only a regular expression is checked.
+        public let contextWords: [String]?
+        /// A name for the custom pattern that allows it to be retrieved or deleted later. This name must be unique per Amazon Web Services account.
+        public let name: String
+        /// A regular expression string that is used for detecting sensitive data in a custom pattern.
+        public let regexString: String
+
+        public init(contextWords: [String]? = nil, name: String, regexString: String) {
+            self.contextWords = contextWords
+            self.name = name
+            self.regexString = regexString
+        }
+
+        public func validate(name: String) throws {
+            try self.contextWords?.forEach {
+                try validate($0, name: "contextWords[]", parent: name, max: 255)
+                try validate($0, name: "contextWords[]", parent: name, min: 1)
+                try validate($0, name: "contextWords[]", parent: name, pattern: "^[\\u0020-\\uD7FF\\uE000-\\uFFFD\\uD800\\uDC00-\\uDBFF\\uDFFF\\t]*$")
+            }
+            try self.validate(self.contextWords, name: "contextWords", parent: name, max: 20)
+            try self.validate(self.contextWords, name: "contextWords", parent: name, min: 1)
+            try self.validate(self.name, name: "name", parent: name, max: 255)
+            try self.validate(self.name, name: "name", parent: name, min: 1)
+            try self.validate(self.name, name: "name", parent: name, pattern: "^[\\u0020-\\uD7FF\\uE000-\\uFFFD\\uD800\\uDC00-\\uDBFF\\uDFFF\\t]*$")
+            try self.validate(self.regexString, name: "regexString", parent: name, max: 255)
+            try self.validate(self.regexString, name: "regexString", parent: name, min: 1)
+            try self.validate(self.regexString, name: "regexString", parent: name, pattern: "^[\\u0020-\\uD7FF\\uE000-\\uFFFD\\uD800\\uDC00-\\uDBFF\\uDFFF\\t]*$")
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case contextWords = "ContextWords"
+            case name = "Name"
+            case regexString = "RegexString"
+        }
+    }
+
+    public struct CreateCustomEntityTypeResponse: AWSDecodableShape {
+        /// The name of the custom pattern you created.
+        public let name: String?
+
+        public init(name: String? = nil) {
+            self.name = name
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case name = "Name"
         }
     }
 
@@ -3999,6 +4092,29 @@ extension Glue {
         }
     }
 
+    public struct CustomEntityType: AWSDecodableShape {
+        /// A list of context words. If none of these context words are found within the vicinity of the regular expression the data will not be detected as sensitive data.
+        ///
+        /// 	        If no context words are passed only a regular expression is checked.
+        public let contextWords: [String]?
+        /// A name for the custom pattern that allows it to be retrieved or deleted later. This name must be unique per Amazon Web Services account.
+        public let name: String
+        /// A regular expression string that is used for detecting sensitive data in a custom pattern.
+        public let regexString: String
+
+        public init(contextWords: [String]? = nil, name: String, regexString: String) {
+            self.contextWords = contextWords
+            self.name = name
+            self.regexString = regexString
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case contextWords = "ContextWords"
+            case name = "Name"
+            case regexString = "RegexString"
+        }
+    }
+
     public struct DataCatalogEncryptionSettings: AWSEncodableShape & AWSDecodableShape {
         /// When connection password protection is enabled, the Data Catalog uses a customer-provided key to encrypt the password as part of CreateConnection or UpdateConnection and store it in the ENCRYPTED_PASSWORD field in the connection properties. You can enable catalog encryption or only password encryption.
         public let connectionPasswordEncryption: ConnectionPasswordEncryption?
@@ -4438,6 +4554,38 @@ extension Glue {
 
     public struct DeleteCrawlerResponse: AWSDecodableShape {
         public init() {}
+    }
+
+    public struct DeleteCustomEntityTypeRequest: AWSEncodableShape {
+        /// The name of the custom pattern that you want to delete.
+        public let name: String
+
+        public init(name: String) {
+            self.name = name
+        }
+
+        public func validate(name: String) throws {
+            try self.validate(self.name, name: "name", parent: name, max: 255)
+            try self.validate(self.name, name: "name", parent: name, min: 1)
+            try self.validate(self.name, name: "name", parent: name, pattern: "^[\\u0020-\\uD7FF\\uE000-\\uFFFD\\uD800\\uDC00-\\uDBFF\\uDFFF\\t]*$")
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case name = "Name"
+        }
+    }
+
+    public struct DeleteCustomEntityTypeResponse: AWSDecodableShape {
+        /// The name of the custom pattern you deleted.
+        public let name: String?
+
+        public init(name: String? = nil) {
+            self.name = name
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case name = "Name"
+        }
     }
 
     public struct DeleteDatabaseRequest: AWSEncodableShape {
@@ -6112,6 +6260,46 @@ extension Glue {
         private enum CodingKeys: String, CodingKey {
             case crawlers = "Crawlers"
             case nextToken = "NextToken"
+        }
+    }
+
+    public struct GetCustomEntityTypeRequest: AWSEncodableShape {
+        /// The name of the custom pattern that you want to retrieve.
+        public let name: String
+
+        public init(name: String) {
+            self.name = name
+        }
+
+        public func validate(name: String) throws {
+            try self.validate(self.name, name: "name", parent: name, max: 255)
+            try self.validate(self.name, name: "name", parent: name, min: 1)
+            try self.validate(self.name, name: "name", parent: name, pattern: "^[\\u0020-\\uD7FF\\uE000-\\uFFFD\\uD800\\uDC00-\\uDBFF\\uDFFF\\t]*$")
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case name = "Name"
+        }
+    }
+
+    public struct GetCustomEntityTypeResponse: AWSDecodableShape {
+        /// A list of context words if specified when you created the custom pattern. If none of these context words are found within the vicinity of the regular expression the data will not be detected as sensitive data.
+        public let contextWords: [String]?
+        /// The name of the custom pattern that you retrieved.
+        public let name: String?
+        /// A regular expression string that is used for detecting sensitive data in a custom pattern.
+        public let regexString: String?
+
+        public init(contextWords: [String]? = nil, name: String? = nil, regexString: String? = nil) {
+            self.contextWords = contextWords
+            self.name = name
+            self.regexString = regexString
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case contextWords = "ContextWords"
+            case name = "Name"
+            case regexString = "RegexString"
         }
     }
 
@@ -8848,6 +9036,8 @@ extension Glue {
         public let attempt: Int?
         /// The date and time that this job run completed.
         public let completedOn: Date?
+        /// This field populates only when an Auto Scaling job run completes, and represents the total time each executor ran during the lifecycle of a job run in seconds, multiplied by a DPU factor (1 for G.1X and 2 for G.2X workers). This value may be different than the executionEngineRuntime * MaxCapacity as in the case of Auto Scaling jobs, as the number of executors running at a given time may be less than the MaxCapacity. Therefore, it is possible that the value of DPUSeconds is less than executionEngineRuntime * MaxCapacity.
+        public let dpuSeconds: Double?
         /// An error message associated with this job run.
         public let errorMessage: String?
         /// The amount of time (in seconds) that the job run consumed resources.
@@ -8890,11 +9080,12 @@ extension Glue {
         /// The type of predefined worker that is allocated when a job runs. Accepts a value of Standard, G.1X, or G.2X.   For the Standard worker type, each worker provides 4 vCPU, 16 GB of memory and a 50GB disk, and 2 executors per worker.   For the G.1X worker type, each worker provides 4 vCPU, 16 GB of memory and a 64GB disk, and 1 executor per worker.   For the G.2X worker type, each worker provides 8 vCPU, 32 GB of memory and a 128GB disk, and 1 executor per worker.
         public let workerType: WorkerType?
 
-        public init(arguments: [String: String]? = nil, attempt: Int? = nil, completedOn: Date? = nil, errorMessage: String? = nil, executionTime: Int? = nil, glueVersion: String? = nil, id: String? = nil, jobName: String? = nil, jobRunState: JobRunState? = nil, lastModifiedOn: Date? = nil, logGroupName: String? = nil, maxCapacity: Double? = nil, notificationProperty: NotificationProperty? = nil, numberOfWorkers: Int? = nil, predecessorRuns: [Predecessor]? = nil, previousRunId: String? = nil, securityConfiguration: String? = nil, startedOn: Date? = nil, timeout: Int? = nil, triggerName: String? = nil, workerType: WorkerType? = nil) {
+        public init(arguments: [String: String]? = nil, attempt: Int? = nil, completedOn: Date? = nil, dpuSeconds: Double? = nil, errorMessage: String? = nil, executionTime: Int? = nil, glueVersion: String? = nil, id: String? = nil, jobName: String? = nil, jobRunState: JobRunState? = nil, lastModifiedOn: Date? = nil, logGroupName: String? = nil, maxCapacity: Double? = nil, notificationProperty: NotificationProperty? = nil, numberOfWorkers: Int? = nil, predecessorRuns: [Predecessor]? = nil, previousRunId: String? = nil, securityConfiguration: String? = nil, startedOn: Date? = nil, timeout: Int? = nil, triggerName: String? = nil, workerType: WorkerType? = nil) {
             self.allocatedCapacity = nil
             self.arguments = arguments
             self.attempt = attempt
             self.completedOn = completedOn
+            self.dpuSeconds = dpuSeconds
             self.errorMessage = errorMessage
             self.executionTime = executionTime
             self.glueVersion = glueVersion
@@ -8916,11 +9107,12 @@ extension Glue {
         }
 
         @available(*, deprecated, message: "Members allocatedCapacity have been deprecated")
-        public init(allocatedCapacity: Int? = nil, arguments: [String: String]? = nil, attempt: Int? = nil, completedOn: Date? = nil, errorMessage: String? = nil, executionTime: Int? = nil, glueVersion: String? = nil, id: String? = nil, jobName: String? = nil, jobRunState: JobRunState? = nil, lastModifiedOn: Date? = nil, logGroupName: String? = nil, maxCapacity: Double? = nil, notificationProperty: NotificationProperty? = nil, numberOfWorkers: Int? = nil, predecessorRuns: [Predecessor]? = nil, previousRunId: String? = nil, securityConfiguration: String? = nil, startedOn: Date? = nil, timeout: Int? = nil, triggerName: String? = nil, workerType: WorkerType? = nil) {
+        public init(allocatedCapacity: Int? = nil, arguments: [String: String]? = nil, attempt: Int? = nil, completedOn: Date? = nil, dpuSeconds: Double? = nil, errorMessage: String? = nil, executionTime: Int? = nil, glueVersion: String? = nil, id: String? = nil, jobName: String? = nil, jobRunState: JobRunState? = nil, lastModifiedOn: Date? = nil, logGroupName: String? = nil, maxCapacity: Double? = nil, notificationProperty: NotificationProperty? = nil, numberOfWorkers: Int? = nil, predecessorRuns: [Predecessor]? = nil, previousRunId: String? = nil, securityConfiguration: String? = nil, startedOn: Date? = nil, timeout: Int? = nil, triggerName: String? = nil, workerType: WorkerType? = nil) {
             self.allocatedCapacity = allocatedCapacity
             self.arguments = arguments
             self.attempt = attempt
             self.completedOn = completedOn
+            self.dpuSeconds = dpuSeconds
             self.errorMessage = errorMessage
             self.executionTime = executionTime
             self.glueVersion = glueVersion
@@ -8946,6 +9138,7 @@ extension Glue {
             case arguments = "Arguments"
             case attempt = "Attempt"
             case completedOn = "CompletedOn"
+            case dpuSeconds = "DPUSeconds"
             case errorMessage = "ErrorMessage"
             case executionTime = "ExecutionTime"
             case glueVersion = "GlueVersion"
@@ -9145,7 +9338,9 @@ extension Glue {
     }
 
     public struct LakeFormationConfiguration: AWSEncodableShape & AWSDecodableShape {
+        /// Required for cross account crawls. For same account crawls as the target data, this can be left as null.
         public let accountId: String?
+        /// Specifies whether to use AWS Lake Formation credentials for the crawler instead of the IAM role credentials.
         public let useLakeFormationCredentials: Bool?
 
         public init(accountId: String? = nil, useLakeFormationCredentials: Bool? = nil) {
@@ -9334,6 +9529,45 @@ extension Glue {
 
         private enum CodingKeys: String, CodingKey {
             case crawlerNames = "CrawlerNames"
+            case nextToken = "NextToken"
+        }
+    }
+
+    public struct ListCustomEntityTypesRequest: AWSEncodableShape {
+        /// The maximum number of results to return.
+        public let maxResults: Int?
+        /// A paginated token to offset the results.
+        public let nextToken: String?
+
+        public init(maxResults: Int? = nil, nextToken: String? = nil) {
+            self.maxResults = maxResults
+            self.nextToken = nextToken
+        }
+
+        public func validate(name: String) throws {
+            try self.validate(self.maxResults, name: "maxResults", parent: name, max: 1000)
+            try self.validate(self.maxResults, name: "maxResults", parent: name, min: 1)
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case maxResults = "MaxResults"
+            case nextToken = "NextToken"
+        }
+    }
+
+    public struct ListCustomEntityTypesResponse: AWSDecodableShape {
+        /// A list of CustomEntityType objects representing custom patterns.
+        public let customEntityTypes: [CustomEntityType]?
+        /// A pagination token, if more results are available.
+        public let nextToken: String?
+
+        public init(customEntityTypes: [CustomEntityType]? = nil, nextToken: String? = nil) {
+            self.customEntityTypes = customEntityTypes
+            self.nextToken = nextToken
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case customEntityTypes = "CustomEntityTypes"
             case nextToken = "NextToken"
         }
     }

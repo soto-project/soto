@@ -20,6 +20,7 @@ import SotoCore
 /// Error enum for RDSData
 public struct RDSDataErrorType: AWSErrorType {
     enum Code: String {
+        case accessDeniedException = "AccessDeniedException"
         case badRequestException = "BadRequestException"
         case forbiddenException = "ForbiddenException"
         case internalServerErrorException = "InternalServerErrorException"
@@ -46,6 +47,8 @@ public struct RDSDataErrorType: AWSErrorType {
     /// return error code string
     public var errorCode: String { self.error.rawValue }
 
+    /// You do not have sufficient access to perform this action.
+    public static var accessDeniedException: Self { .init(.accessDeniedException) }
     /// There is an error in the call or in a SQL statement.
     public static var badRequestException: Self { .init(.badRequestException) }
     /// There are insufficient privileges to make the call.

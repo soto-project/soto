@@ -168,7 +168,7 @@ public struct GuardDuty: AWSService {
         return self.client.execute(operation: "DisassociateFromMasterAccount", path: "/detector/{DetectorId}/master/disassociate", httpMethod: .POST, serviceConfig: self.config, input: input, logger: logger, on: eventLoop)
     }
 
-    /// Disassociates GuardDuty member accounts (to the current GuardDuty administrator account) specified by the account IDs.
+    /// Disassociates GuardDuty member accounts (to the current GuardDuty administrator account)  specified by the account IDs. Member accounts added through Invitation get deleted from the  current GuardDuty administrator account after 30 days of disassociation.
     public func disassociateMembers(_ input: DisassociateMembersRequest, logger: Logger = AWSClient.loggingDisabled, on eventLoop: EventLoop? = nil) -> EventLoopFuture<DisassociateMembersResponse> {
         return self.client.execute(operation: "DisassociateMembers", path: "/detector/{DetectorId}/member/disassociate", httpMethod: .POST, serviceConfig: self.config, input: input, logger: logger, on: eventLoop)
     }

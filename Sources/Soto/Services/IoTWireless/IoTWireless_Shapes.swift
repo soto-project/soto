@@ -62,6 +62,13 @@ extension IoTWireless {
         public var description: String { return self.rawValue }
     }
 
+    public enum EventNotificationResourceType: String, CustomStringConvertible, Codable {
+        case sidewalkAccount = "SidewalkAccount"
+        case wirelessDevice = "WirelessDevice"
+        case wirelessGateway = "WirelessGateway"
+        public var description: String { return self.rawValue }
+    }
+
     public enum EventNotificationTopicStatus: String, CustomStringConvertible, Codable {
         case disabled = "Disabled"
         case enabled = "Enabled"
@@ -99,7 +106,11 @@ extension IoTWireless {
     }
 
     public enum IdentifierType: String, CustomStringConvertible, Codable {
+        case devEui = "DevEui"
+        case gatewayEui = "GatewayEui"
         case partnerAccountId = "PartnerAccountId"
+        case wirelessDeviceId = "WirelessDeviceId"
+        case wirelessGatewayId = "WirelessGatewayId"
         public var description: String { return self.rawValue }
     }
 
@@ -210,21 +221,27 @@ extension IoTWireless {
     public struct AbpV10X: AWSEncodableShape & AWSDecodableShape {
         /// The DevAddr value.
         public let devAddr: String?
+        /// The FCnt init value.
+        public let fCntStart: Int?
         /// Session keys for ABP v1.0.x
         public let sessionKeys: SessionKeysAbpV10X?
 
-        public init(devAddr: String? = nil, sessionKeys: SessionKeysAbpV10X? = nil) {
+        public init(devAddr: String? = nil, fCntStart: Int? = nil, sessionKeys: SessionKeysAbpV10X? = nil) {
             self.devAddr = devAddr
+            self.fCntStart = fCntStart
             self.sessionKeys = sessionKeys
         }
 
         public func validate(name: String) throws {
             try self.validate(self.devAddr, name: "devAddr", parent: name, pattern: "^[a-fA-F0-9]{8}$")
+            try self.validate(self.fCntStart, name: "fCntStart", parent: name, max: 65535)
+            try self.validate(self.fCntStart, name: "fCntStart", parent: name, min: 0)
             try self.sessionKeys?.validate(name: "\(name).sessionKeys")
         }
 
         private enum CodingKeys: String, CodingKey {
             case devAddr = "DevAddr"
+            case fCntStart = "FCntStart"
             case sessionKeys = "SessionKeys"
         }
     }
@@ -232,21 +249,27 @@ extension IoTWireless {
     public struct AbpV11: AWSEncodableShape & AWSDecodableShape {
         /// The DevAddr value.
         public let devAddr: String?
+        /// The FCnt init value.
+        public let fCntStart: Int?
         /// Session keys for ABP v1.1
         public let sessionKeys: SessionKeysAbpV11?
 
-        public init(devAddr: String? = nil, sessionKeys: SessionKeysAbpV11? = nil) {
+        public init(devAddr: String? = nil, fCntStart: Int? = nil, sessionKeys: SessionKeysAbpV11? = nil) {
             self.devAddr = devAddr
+            self.fCntStart = fCntStart
             self.sessionKeys = sessionKeys
         }
 
         public func validate(name: String) throws {
             try self.validate(self.devAddr, name: "devAddr", parent: name, pattern: "^[a-fA-F0-9]{8}$")
+            try self.validate(self.fCntStart, name: "fCntStart", parent: name, max: 65535)
+            try self.validate(self.fCntStart, name: "fCntStart", parent: name, min: 0)
             try self.sessionKeys?.validate(name: "\(name).sessionKeys")
         }
 
         private enum CodingKeys: String, CodingKey {
             case devAddr = "DevAddr"
+            case fCntStart = "FCntStart"
             case sessionKeys = "SessionKeys"
         }
     }
@@ -515,6 +538,36 @@ extension IoTWireless {
         }
     }
 
+    public struct ConnectionStatusEventConfiguration: AWSEncodableShape & AWSDecodableShape {
+        /// Connection status event configuration object for enabling or disabling LoRaWAN related event topics.
+        public let loRaWAN: LoRaWANConnectionStatusEventNotificationConfigurations?
+        /// Enum to denote whether the wireless gateway id connection status event topic is enabled or disabled .
+        public let wirelessGatewayIdEventTopic: EventNotificationTopicStatus?
+
+        public init(loRaWAN: LoRaWANConnectionStatusEventNotificationConfigurations? = nil, wirelessGatewayIdEventTopic: EventNotificationTopicStatus? = nil) {
+            self.loRaWAN = loRaWAN
+            self.wirelessGatewayIdEventTopic = wirelessGatewayIdEventTopic
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case loRaWAN = "LoRaWAN"
+            case wirelessGatewayIdEventTopic = "WirelessGatewayIdEventTopic"
+        }
+    }
+
+    public struct ConnectionStatusResourceTypeEventConfiguration: AWSEncodableShape & AWSDecodableShape {
+        /// Connection status resource type event configuration object for enabling or disabling LoRaWAN related event topics.
+        public let loRaWAN: LoRaWANConnectionStatusResourceTypeEventConfiguration?
+
+        public init(loRaWAN: LoRaWANConnectionStatusResourceTypeEventConfiguration? = nil) {
+            self.loRaWAN = loRaWAN
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case loRaWAN = "LoRaWAN"
+        }
+    }
+
     public struct CreateDestinationRequest: AWSEncodableShape {
         /// Each resource must have a unique client request token. If you try to create a new resource with the same token as a resource that already exists, an exception occurs. If you omit this value, AWS SDKs will automatically generate a unique client request.
         public let clientRequestToken: String?
@@ -750,6 +803,75 @@ extension IoTWireless {
         private enum CodingKeys: String, CodingKey {
             case arn = "Arn"
             case id = "Id"
+        }
+    }
+
+    public struct CreateNetworkAnalyzerConfigurationRequest: AWSEncodableShape {
+        public let clientRequestToken: String?
+        public let description: String?
+        public let name: String
+        public let tags: [Tag]?
+        public let traceContent: TraceContent?
+        /// Wireless device resources to add to the network analyzer configuration. Provide the WirelessDeviceId of the resource to add in the input array.
+        public let wirelessDevices: [String]?
+        /// Wireless gateway resources to add to the network analyzer configuration. Provide the WirelessGatewayId of the resource to add in the input array.
+        public let wirelessGateways: [String]?
+
+        public init(clientRequestToken: String? = CreateNetworkAnalyzerConfigurationRequest.idempotencyToken(), description: String? = nil, name: String, tags: [Tag]? = nil, traceContent: TraceContent? = nil, wirelessDevices: [String]? = nil, wirelessGateways: [String]? = nil) {
+            self.clientRequestToken = clientRequestToken
+            self.description = description
+            self.name = name
+            self.tags = tags
+            self.traceContent = traceContent
+            self.wirelessDevices = wirelessDevices
+            self.wirelessGateways = wirelessGateways
+        }
+
+        public func validate(name: String) throws {
+            try self.validate(self.clientRequestToken, name: "clientRequestToken", parent: name, max: 64)
+            try self.validate(self.clientRequestToken, name: "clientRequestToken", parent: name, min: 1)
+            try self.validate(self.clientRequestToken, name: "clientRequestToken", parent: name, pattern: "^[a-zA-Z0-9-_]+$")
+            try self.validate(self.description, name: "description", parent: name, max: 2048)
+            try self.validate(self.name, name: "name", parent: name, max: 1024)
+            try self.validate(self.name, name: "name", parent: name, min: 1)
+            try self.validate(self.name, name: "name", parent: name, pattern: "^[a-zA-Z0-9-_]+$")
+            try self.tags?.forEach {
+                try $0.validate(name: "\(name).tags[]")
+            }
+            try self.validate(self.tags, name: "tags", parent: name, max: 200)
+            try self.wirelessDevices?.forEach {
+                try validate($0, name: "wirelessDevices[]", parent: name, max: 256)
+            }
+            try self.validate(self.wirelessDevices, name: "wirelessDevices", parent: name, max: 250)
+            try self.wirelessGateways?.forEach {
+                try validate($0, name: "wirelessGateways[]", parent: name, max: 256)
+            }
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case clientRequestToken = "ClientRequestToken"
+            case description = "Description"
+            case name = "Name"
+            case tags = "Tags"
+            case traceContent = "TraceContent"
+            case wirelessDevices = "WirelessDevices"
+            case wirelessGateways = "WirelessGateways"
+        }
+    }
+
+    public struct CreateNetworkAnalyzerConfigurationResponse: AWSDecodableShape {
+        /// The Amazon Resource Name of the new resource.
+        public let arn: String?
+        public let name: String?
+
+        public init(arn: String? = nil, name: String? = nil) {
+            self.arn = arn
+            self.name = name
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case arn = "Arn"
+            case name = "Name"
         }
     }
 
@@ -1127,6 +1249,30 @@ extension IoTWireless {
         public init() {}
     }
 
+    public struct DeleteNetworkAnalyzerConfigurationRequest: AWSEncodableShape {
+        public static var _encoding = [
+            AWSMemberEncoding(label: "configurationName", location: .uri("ConfigurationName"))
+        ]
+
+        public let configurationName: String
+
+        public init(configurationName: String) {
+            self.configurationName = configurationName
+        }
+
+        public func validate(name: String) throws {
+            try self.validate(self.configurationName, name: "configurationName", parent: name, max: 1024)
+            try self.validate(self.configurationName, name: "configurationName", parent: name, min: 1)
+            try self.validate(self.configurationName, name: "configurationName", parent: name, pattern: "^[a-zA-Z0-9-_]+$")
+        }
+
+        private enum CodingKeys: CodingKey {}
+    }
+
+    public struct DeleteNetworkAnalyzerConfigurationResponse: AWSDecodableShape {
+        public init() {}
+    }
+
     public struct DeleteQueuedMessagesRequest: AWSEncodableShape {
         public static var _encoding = [
             AWSMemberEncoding(label: "id", location: .uri("Id")),
@@ -1134,11 +1280,11 @@ extension IoTWireless {
             AWSMemberEncoding(label: "wirelessDeviceType", location: .querystring("WirelessDeviceType"))
         ]
 
-        /// Id of a given wireless device which messages will be deleted
+        /// The ID of a given wireless device for which downlink messages will be deleted.
         public let id: String
-        /// if messageID=="*", the queue for a particular wireless deviceId will be purged, otherwise, the specific message with messageId will be deleted
+        /// If message ID is "*", it cleares the entire downlink queue for a given device, specified by the wireless device ID. Otherwise, the downlink message with the specified message ID will be deleted.
         public let messageId: String
-        /// The wireless device type, it is either Sidewalk or LoRaWAN.
+        /// The wireless device type, which can be either Sidewalk or LoRaWAN.
         public let wirelessDeviceType: WirelessDeviceType?
 
         public init(id: String, messageId: String, wirelessDeviceType: WirelessDeviceType? = nil) {
@@ -1331,8 +1477,25 @@ extension IoTWireless {
     public struct DeviceRegistrationStateEventConfiguration: AWSEncodableShape & AWSDecodableShape {
         /// Device registration state event configuration object for enabling or disabling Sidewalk related event topics.
         public let sidewalk: SidewalkEventNotificationConfigurations?
+        /// Enum to denote whether the wireless device id device registration state event topic is enabled or disabled.
+        public let wirelessDeviceIdEventTopic: EventNotificationTopicStatus?
 
-        public init(sidewalk: SidewalkEventNotificationConfigurations? = nil) {
+        public init(sidewalk: SidewalkEventNotificationConfigurations? = nil, wirelessDeviceIdEventTopic: EventNotificationTopicStatus? = nil) {
+            self.sidewalk = sidewalk
+            self.wirelessDeviceIdEventTopic = wirelessDeviceIdEventTopic
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case sidewalk = "Sidewalk"
+            case wirelessDeviceIdEventTopic = "WirelessDeviceIdEventTopic"
+        }
+    }
+
+    public struct DeviceRegistrationStateResourceTypeEventConfiguration: AWSEncodableShape & AWSDecodableShape {
+        /// Device registration resource type state event configuration object for enabling or disabling Sidewalk related event topics.
+        public let sidewalk: SidewalkResourceTypeEventConfiguration?
+
+        public init(sidewalk: SidewalkResourceTypeEventConfiguration? = nil) {
             self.sidewalk = sidewalk
         }
 
@@ -1517,11 +1680,11 @@ extension IoTWireless {
 
     public struct DownlinkQueueMessage: AWSDecodableShape {
         public let loRaWAN: LoRaWANSendDataToDevice?
-        ///  The messageId allocated by IoT Wireless for tracing purpose
+        ///  The message ID assigned by IoT Wireless to each downlink message, which helps identify the message.
         public let messageId: String?
-        /// The timestamp that Iot Wireless received the message.
+        /// The time at which Iot Wireless received the downlink message.
         public let receivedAt: String?
-        /// The transmit mode to use to send data to the wireless device. Can be: 0 for UM (unacknowledge mode) or 1 for AM (acknowledge mode).
+        /// The transmit mode to use for sending data to the wireless device. This can be 0 for UM (unacknowledge mode) or 1 for AM (acknowledge mode).
         public let transmitMode: Int?
 
         public init(loRaWAN: LoRaWANSendDataToDevice? = nil, messageId: String? = nil, receivedAt: String? = nil, transmitMode: Int? = nil) {
@@ -1536,6 +1699,55 @@ extension IoTWireless {
             case messageId = "MessageId"
             case receivedAt = "ReceivedAt"
             case transmitMode = "TransmitMode"
+        }
+    }
+
+    public struct EventConfigurationItem: AWSDecodableShape {
+        public let events: EventNotificationItemConfigurations?
+        /// Resource identifier opted in for event messaging.
+        public let identifier: String?
+        /// Identifier type of the particular resource identifier for event configuration.
+        public let identifierType: IdentifierType?
+        /// Partner type of the resource if the identifier type is PartnerAccountId.
+        public let partnerType: EventNotificationPartnerType?
+
+        public init(events: EventNotificationItemConfigurations? = nil, identifier: String? = nil, identifierType: IdentifierType? = nil, partnerType: EventNotificationPartnerType? = nil) {
+            self.events = events
+            self.identifier = identifier
+            self.identifierType = identifierType
+            self.partnerType = partnerType
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case events = "Events"
+            case identifier = "Identifier"
+            case identifierType = "IdentifierType"
+            case partnerType = "PartnerType"
+        }
+    }
+
+    public struct EventNotificationItemConfigurations: AWSDecodableShape {
+        /// Connection status event configuration for an event configuration item.
+        public let connectionStatus: ConnectionStatusEventConfiguration?
+        /// Device registration state event configuration for an event configuration item.
+        public let deviceRegistrationState: DeviceRegistrationStateEventConfiguration?
+        /// Join event configuration for an event configuration item.
+        public let join: JoinEventConfiguration?
+        /// Proximity event configuration for an event configuration item.
+        public let proximity: ProximityEventConfiguration?
+
+        public init(connectionStatus: ConnectionStatusEventConfiguration? = nil, deviceRegistrationState: DeviceRegistrationStateEventConfiguration? = nil, join: JoinEventConfiguration? = nil, proximity: ProximityEventConfiguration? = nil) {
+            self.connectionStatus = connectionStatus
+            self.deviceRegistrationState = deviceRegistrationState
+            self.join = join
+            self.proximity = proximity
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case connectionStatus = "ConnectionStatus"
+            case deviceRegistrationState = "DeviceRegistrationState"
+            case join = "Join"
+            case proximity = "Proximity"
         }
     }
 
@@ -1678,6 +1890,35 @@ extension IoTWireless {
             case id = "Id"
             case loRaWAN = "LoRaWAN"
             case name = "Name"
+        }
+    }
+
+    public struct GetEventConfigurationByResourceTypesRequest: AWSEncodableShape {
+        public init() {}
+    }
+
+    public struct GetEventConfigurationByResourceTypesResponse: AWSDecodableShape {
+        /// Resource type event configuration for the connection status event
+        public let connectionStatus: ConnectionStatusResourceTypeEventConfiguration?
+        /// Resource type event configuration for the device registration state event
+        public let deviceRegistrationState: DeviceRegistrationStateResourceTypeEventConfiguration?
+        /// Resource type event configuration for the join event
+        public let join: JoinResourceTypeEventConfiguration?
+        /// Resource type event configuration for the proximity event
+        public let proximity: ProximityResourceTypeEventConfiguration?
+
+        public init(connectionStatus: ConnectionStatusResourceTypeEventConfiguration? = nil, deviceRegistrationState: DeviceRegistrationStateResourceTypeEventConfiguration? = nil, join: JoinResourceTypeEventConfiguration? = nil, proximity: ProximityResourceTypeEventConfiguration? = nil) {
+            self.connectionStatus = connectionStatus
+            self.deviceRegistrationState = deviceRegistrationState
+            self.join = join
+            self.proximity = proximity
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case connectionStatus = "ConnectionStatus"
+            case deviceRegistrationState = "DeviceRegistrationState"
+            case join = "Join"
+            case proximity = "Proximity"
         }
     }
 
@@ -1849,26 +2090,36 @@ extension IoTWireless {
         public func validate(name: String) throws {
             try self.validate(self.configurationName, name: "configurationName", parent: name, max: 1024)
             try self.validate(self.configurationName, name: "configurationName", parent: name, min: 1)
-            try self.validate(self.configurationName, name: "configurationName", parent: name, pattern: "^NetworkAnalyzerConfig_Default$")
+            try self.validate(self.configurationName, name: "configurationName", parent: name, pattern: "^[a-zA-Z0-9-_]+$")
         }
 
         private enum CodingKeys: CodingKey {}
     }
 
     public struct GetNetworkAnalyzerConfigurationResponse: AWSDecodableShape {
+        /// The Amazon Resource Name of the new resource.
+        public let arn: String?
+        public let description: String?
+        public let name: String?
         public let traceContent: TraceContent?
-        /// List of WirelessDevices in the NetworkAnalyzerConfiguration.
+        /// List of wireless gateway resources that have been added to the network analyzer configuration.
         public let wirelessDevices: [String]?
-        /// List of WirelessGateways in the NetworkAnalyzerConfiguration.
+        /// List of wireless gateway resources that have been added to the network analyzer configuration.
         public let wirelessGateways: [String]?
 
-        public init(traceContent: TraceContent? = nil, wirelessDevices: [String]? = nil, wirelessGateways: [String]? = nil) {
+        public init(arn: String? = nil, description: String? = nil, name: String? = nil, traceContent: TraceContent? = nil, wirelessDevices: [String]? = nil, wirelessGateways: [String]? = nil) {
+            self.arn = arn
+            self.description = description
+            self.name = name
             self.traceContent = traceContent
             self.wirelessDevices = wirelessDevices
             self.wirelessGateways = wirelessGateways
         }
 
         private enum CodingKeys: String, CodingKey {
+            case arn = "Arn"
+            case description = "Description"
+            case name = "Name"
             case traceContent = "TraceContent"
             case wirelessDevices = "WirelessDevices"
             case wirelessGateways = "WirelessGateways"
@@ -1943,18 +2194,26 @@ extension IoTWireless {
     }
 
     public struct GetResourceEventConfigurationResponse: AWSDecodableShape {
+        /// Event configuration for the connection status event.
+        public let connectionStatus: ConnectionStatusEventConfiguration?
         /// Event configuration for the device registration state event
         public let deviceRegistrationState: DeviceRegistrationStateEventConfiguration?
+        /// Event configuration for the join event.
+        public let join: JoinEventConfiguration?
         /// Event configuration for the Proximity event
         public let proximity: ProximityEventConfiguration?
 
-        public init(deviceRegistrationState: DeviceRegistrationStateEventConfiguration? = nil, proximity: ProximityEventConfiguration? = nil) {
+        public init(connectionStatus: ConnectionStatusEventConfiguration? = nil, deviceRegistrationState: DeviceRegistrationStateEventConfiguration? = nil, join: JoinEventConfiguration? = nil, proximity: ProximityEventConfiguration? = nil) {
+            self.connectionStatus = connectionStatus
             self.deviceRegistrationState = deviceRegistrationState
+            self.join = join
             self.proximity = proximity
         }
 
         private enum CodingKeys: String, CodingKey {
+            case connectionStatus = "ConnectionStatus"
             case deviceRegistrationState = "DeviceRegistrationState"
+            case join = "Join"
             case proximity = "Proximity"
         }
     }
@@ -1998,7 +2257,7 @@ extension IoTWireless {
             AWSMemberEncoding(label: "serviceType", location: .querystring("serviceType"))
         ]
 
-        /// The service type for which to get endpoint information about. Can be CUPS for the Configuration and Update Server endpoint, or LNS for the LoRaWAN Network Server endpoint.
+        /// The service type for which to get endpoint information about. Can be CUPS for the Configuration and Update Server endpoint, or LNS for the LoRaWAN Network Server endpoint or CLAIM for the global endpoint.
         public let serviceType: WirelessGatewayServiceType?
 
         public init(serviceType: WirelessGatewayServiceType? = nil) {
@@ -2450,6 +2709,36 @@ extension IoTWireless {
         }
     }
 
+    public struct JoinEventConfiguration: AWSEncodableShape & AWSDecodableShape {
+        /// Join event configuration object for enabling or disabling LoRaWAN related event topics.
+        public let loRaWAN: LoRaWANJoinEventNotificationConfigurations?
+        /// Enum to denote whether the wireless device id join event topic is enabled or disabled.
+        public let wirelessDeviceIdEventTopic: EventNotificationTopicStatus?
+
+        public init(loRaWAN: LoRaWANJoinEventNotificationConfigurations? = nil, wirelessDeviceIdEventTopic: EventNotificationTopicStatus? = nil) {
+            self.loRaWAN = loRaWAN
+            self.wirelessDeviceIdEventTopic = wirelessDeviceIdEventTopic
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case loRaWAN = "LoRaWAN"
+            case wirelessDeviceIdEventTopic = "WirelessDeviceIdEventTopic"
+        }
+    }
+
+    public struct JoinResourceTypeEventConfiguration: AWSEncodableShape & AWSDecodableShape {
+        /// Join resource type event configuration object for enabling or disabling LoRaWAN related event topics.
+        public let loRaWAN: LoRaWANJoinResourceTypeEventConfiguration?
+
+        public init(loRaWAN: LoRaWANJoinResourceTypeEventConfiguration? = nil) {
+            self.loRaWAN = loRaWAN
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case loRaWAN = "LoRaWAN"
+        }
+    }
+
     public struct ListDestinationsRequest: AWSEncodableShape {
         public static var _encoding = [
             AWSMemberEncoding(label: "maxResults", location: .querystring("maxResults")),
@@ -2530,6 +2819,51 @@ extension IoTWireless {
 
         private enum CodingKeys: String, CodingKey {
             case deviceProfileList = "DeviceProfileList"
+            case nextToken = "NextToken"
+        }
+    }
+
+    public struct ListEventConfigurationsRequest: AWSEncodableShape {
+        public static var _encoding = [
+            AWSMemberEncoding(label: "maxResults", location: .querystring("maxResults")),
+            AWSMemberEncoding(label: "nextToken", location: .querystring("nextToken")),
+            AWSMemberEncoding(label: "resourceType", location: .querystring("resourceType"))
+        ]
+
+        public let maxResults: Int?
+        /// To retrieve the next set of results, the nextToken value from a previous response; otherwise null to receive the first set of results.
+        public let nextToken: String?
+        /// Resource type to filter event configurations.
+        public let resourceType: EventNotificationResourceType
+
+        public init(maxResults: Int? = nil, nextToken: String? = nil, resourceType: EventNotificationResourceType) {
+            self.maxResults = maxResults
+            self.nextToken = nextToken
+            self.resourceType = resourceType
+        }
+
+        public func validate(name: String) throws {
+            try self.validate(self.maxResults, name: "maxResults", parent: name, max: 250)
+            try self.validate(self.maxResults, name: "maxResults", parent: name, min: 0)
+            try self.validate(self.nextToken, name: "nextToken", parent: name, max: 4096)
+        }
+
+        private enum CodingKeys: CodingKey {}
+    }
+
+    public struct ListEventConfigurationsResponse: AWSDecodableShape {
+        /// Event configurations of all events for a single resource.
+        public let eventConfigurationsList: [EventConfigurationItem]?
+        /// To retrieve the next set of results, the nextToken value from a previous response; otherwise null to receive the first set of results.
+        public let nextToken: String?
+
+        public init(eventConfigurationsList: [EventConfigurationItem]? = nil, nextToken: String? = nil) {
+            self.eventConfigurationsList = eventConfigurationsList
+            self.nextToken = nextToken
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case eventConfigurationsList = "EventConfigurationsList"
             case nextToken = "NextToken"
         }
     }
@@ -2658,6 +2992,47 @@ extension IoTWireless {
         }
     }
 
+    public struct ListNetworkAnalyzerConfigurationsRequest: AWSEncodableShape {
+        public static var _encoding = [
+            AWSMemberEncoding(label: "maxResults", location: .querystring("maxResults")),
+            AWSMemberEncoding(label: "nextToken", location: .querystring("nextToken"))
+        ]
+
+        public let maxResults: Int?
+        /// To retrieve the next set of results, the nextToken value from a previous response; otherwise null to receive the first set of results.
+        public let nextToken: String?
+
+        public init(maxResults: Int? = nil, nextToken: String? = nil) {
+            self.maxResults = maxResults
+            self.nextToken = nextToken
+        }
+
+        public func validate(name: String) throws {
+            try self.validate(self.maxResults, name: "maxResults", parent: name, max: 250)
+            try self.validate(self.maxResults, name: "maxResults", parent: name, min: 0)
+            try self.validate(self.nextToken, name: "nextToken", parent: name, max: 4096)
+        }
+
+        private enum CodingKeys: CodingKey {}
+    }
+
+    public struct ListNetworkAnalyzerConfigurationsResponse: AWSDecodableShape {
+        /// The list of network analyzer configurations.
+        public let networkAnalyzerConfigurationList: [NetworkAnalyzerConfigurations]?
+        /// The token to use to get the next set of results, or null if there are no additional results.
+        public let nextToken: String?
+
+        public init(networkAnalyzerConfigurationList: [NetworkAnalyzerConfigurations]? = nil, nextToken: String? = nil) {
+            self.networkAnalyzerConfigurationList = networkAnalyzerConfigurationList
+            self.nextToken = nextToken
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case networkAnalyzerConfigurationList = "NetworkAnalyzerConfigurationList"
+            case nextToken = "NextToken"
+        }
+    }
+
     public struct ListPartnerAccountsRequest: AWSEncodableShape {
         public static var _encoding = [
             AWSMemberEncoding(label: "maxResults", location: .querystring("maxResults")),
@@ -2708,13 +3083,13 @@ extension IoTWireless {
             AWSMemberEncoding(label: "wirelessDeviceType", location: .querystring("WirelessDeviceType"))
         ]
 
-        /// Id of a given wireless device which the downlink packets are targeted
+        /// The ID of a given wireless device which the downlink message packets are being sent.
         public let id: String
         /// The maximum number of results to return in this operation.
         public let maxResults: Int?
-        /// To retrieve the next set of results, the nextToken value from a previous response; otherwise null to receive the first set of results.
+        /// To retrieve the next set of results, the nextToken value from a previous response; otherwise  null to receive the first set of results.
         public let nextToken: String?
-        /// The wireless device type, it is either Sidewalk or LoRaWAN.
+        /// The wireless device type, whic can be either Sidewalk or LoRaWAN.
         public let wirelessDeviceType: WirelessDeviceType?
 
         public init(id: String, maxResults: Int? = nil, nextToken: String? = nil, wirelessDeviceType: WirelessDeviceType? = nil) {
@@ -2735,9 +3110,9 @@ extension IoTWireless {
     }
 
     public struct ListQueuedMessagesResponse: AWSDecodableShape {
-        /// The messages in downlink queue.
+        /// The messages in the downlink queue.
         public let downlinkQueueMessagesList: [DownlinkQueueMessage]?
-        /// To retrieve the next set of results, the nextToken value from a previous response; otherwise null to receive the first set of results.
+        /// To retrieve the next set of results, the nextToken value from a previous response;  otherwise null to receive the first set of results.
         public let nextToken: String?
 
         public init(downlinkQueueMessagesList: [DownlinkQueueMessage]? = nil, nextToken: String? = nil) {
@@ -2981,6 +3356,32 @@ extension IoTWireless {
         private enum CodingKeys: String, CodingKey {
             case nextToken = "NextToken"
             case wirelessGatewayList = "WirelessGatewayList"
+        }
+    }
+
+    public struct LoRaWANConnectionStatusEventNotificationConfigurations: AWSEncodableShape & AWSDecodableShape {
+        /// Enum to denote whether the gateway eui connection status event topic is enabled or disabled.
+        public let gatewayEuiEventTopic: EventNotificationTopicStatus?
+
+        public init(gatewayEuiEventTopic: EventNotificationTopicStatus? = nil) {
+            self.gatewayEuiEventTopic = gatewayEuiEventTopic
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case gatewayEuiEventTopic = "GatewayEuiEventTopic"
+        }
+    }
+
+    public struct LoRaWANConnectionStatusResourceTypeEventConfiguration: AWSEncodableShape & AWSDecodableShape {
+        /// Enum to denote whether the wireless gateway connection status event topic is enabled or disabled.
+        public let wirelessGatewayEventTopic: EventNotificationTopicStatus?
+
+        public init(wirelessGatewayEventTopic: EventNotificationTopicStatus? = nil) {
+            self.wirelessGatewayEventTopic = wirelessGatewayEventTopic
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case wirelessGatewayEventTopic = "WirelessGatewayEventTopic"
         }
     }
 
@@ -3408,6 +3809,32 @@ extension IoTWireless {
         }
     }
 
+    public struct LoRaWANJoinEventNotificationConfigurations: AWSEncodableShape & AWSDecodableShape {
+        /// Enum to denote whether the dev eui join event topic is enabled or disabled.
+        public let devEuiEventTopic: EventNotificationTopicStatus?
+
+        public init(devEuiEventTopic: EventNotificationTopicStatus? = nil) {
+            self.devEuiEventTopic = devEuiEventTopic
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case devEuiEventTopic = "DevEuiEventTopic"
+        }
+    }
+
+    public struct LoRaWANJoinResourceTypeEventConfiguration: AWSEncodableShape & AWSDecodableShape {
+        /// Enum to denote whether the wireless device join event topic is enabled or disabled.
+        public let wirelessDeviceEventTopic: EventNotificationTopicStatus?
+
+        public init(wirelessDeviceEventTopic: EventNotificationTopicStatus? = nil) {
+            self.wirelessDeviceEventTopic = wirelessDeviceEventTopic
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case wirelessDeviceEventTopic = "WirelessDeviceEventTopic"
+        }
+    }
+
     public struct LoRaWANListDevice: AWSDecodableShape {
         /// The DevEUI value.
         public let devEui: String?
@@ -3549,22 +3976,32 @@ extension IoTWireless {
     }
 
     public struct LoRaWANUpdateDevice: AWSEncodableShape {
+        /// ABP device object for update APIs for v1.0.x
+        public let abpV10X: UpdateAbpV10X?
+        /// ABP device object for update APIs for v1.1
+        public let abpV11: UpdateAbpV11?
         /// The ID of the device profile for the wireless device.
         public let deviceProfileId: String?
         /// The ID of the service profile.
         public let serviceProfileId: String?
 
-        public init(deviceProfileId: String? = nil, serviceProfileId: String? = nil) {
+        public init(abpV10X: UpdateAbpV10X? = nil, abpV11: UpdateAbpV11? = nil, deviceProfileId: String? = nil, serviceProfileId: String? = nil) {
+            self.abpV10X = abpV10X
+            self.abpV11 = abpV11
             self.deviceProfileId = deviceProfileId
             self.serviceProfileId = serviceProfileId
         }
 
         public func validate(name: String) throws {
+            try self.abpV10X?.validate(name: "\(name).abpV10X")
+            try self.abpV11?.validate(name: "\(name).abpV11")
             try self.validate(self.deviceProfileId, name: "deviceProfileId", parent: name, max: 256)
             try self.validate(self.serviceProfileId, name: "serviceProfileId", parent: name, max: 256)
         }
 
         private enum CodingKeys: String, CodingKey {
+            case abpV10X = "AbpV1_0_x"
+            case abpV11 = "AbpV1_1"
             case deviceProfileId = "DeviceProfileId"
             case serviceProfileId = "ServiceProfileId"
         }
@@ -3667,6 +4104,22 @@ extension IoTWireless {
         }
     }
 
+    public struct NetworkAnalyzerConfigurations: AWSDecodableShape {
+        /// The Amazon Resource Name of the new resource.
+        public let arn: String?
+        public let name: String?
+
+        public init(arn: String? = nil, name: String? = nil) {
+            self.arn = arn
+            self.name = name
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case arn = "Arn"
+            case name = "Name"
+        }
+    }
+
     public struct OtaaV10X: AWSEncodableShape & AWSDecodableShape {
         /// The AppEUI value.
         public let appEui: String?
@@ -3724,8 +4177,25 @@ extension IoTWireless {
     public struct ProximityEventConfiguration: AWSEncodableShape & AWSDecodableShape {
         /// Proximity event configuration object for enabling or disabling Sidewalk related event topics.
         public let sidewalk: SidewalkEventNotificationConfigurations?
+        /// Enum to denote whether the wireless device id proximity event topic is enabled or disabled.
+        public let wirelessDeviceIdEventTopic: EventNotificationTopicStatus?
 
-        public init(sidewalk: SidewalkEventNotificationConfigurations? = nil) {
+        public init(sidewalk: SidewalkEventNotificationConfigurations? = nil, wirelessDeviceIdEventTopic: EventNotificationTopicStatus? = nil) {
+            self.sidewalk = sidewalk
+            self.wirelessDeviceIdEventTopic = wirelessDeviceIdEventTopic
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case sidewalk = "Sidewalk"
+            case wirelessDeviceIdEventTopic = "WirelessDeviceIdEventTopic"
+        }
+    }
+
+    public struct ProximityResourceTypeEventConfiguration: AWSEncodableShape & AWSDecodableShape {
+        /// Proximity resource type event configuration object for enabling and disabling wireless device topic.
+        public let sidewalk: SidewalkResourceTypeEventConfiguration?
+
+        public init(sidewalk: SidewalkResourceTypeEventConfiguration? = nil) {
             self.sidewalk = sidewalk
         }
 
@@ -4094,6 +4564,19 @@ extension IoTWireless {
         }
     }
 
+    public struct SidewalkResourceTypeEventConfiguration: AWSEncodableShape & AWSDecodableShape {
+        /// Enum to denote whether the wireless device join event topic is enabled or disabled.
+        public let wirelessDeviceEventTopic: EventNotificationTopicStatus?
+
+        public init(wirelessDeviceEventTopic: EventNotificationTopicStatus? = nil) {
+            self.wirelessDeviceEventTopic = wirelessDeviceEventTopic
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case wirelessDeviceEventTopic = "WirelessDeviceEventTopic"
+        }
+    }
+
     public struct SidewalkSendDataToDevice: AWSEncodableShape {
         public let messageType: MessageType?
         /// The sequence number.
@@ -4391,6 +4874,42 @@ extension IoTWireless {
         public init() {}
     }
 
+    public struct UpdateAbpV10X: AWSEncodableShape {
+        /// The FCnt init value.
+        public let fCntStart: Int?
+
+        public init(fCntStart: Int? = nil) {
+            self.fCntStart = fCntStart
+        }
+
+        public func validate(name: String) throws {
+            try self.validate(self.fCntStart, name: "fCntStart", parent: name, max: 65535)
+            try self.validate(self.fCntStart, name: "fCntStart", parent: name, min: 0)
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case fCntStart = "FCntStart"
+        }
+    }
+
+    public struct UpdateAbpV11: AWSEncodableShape {
+        /// The FCnt init value.
+        public let fCntStart: Int?
+
+        public init(fCntStart: Int? = nil) {
+            self.fCntStart = fCntStart
+        }
+
+        public func validate(name: String) throws {
+            try self.validate(self.fCntStart, name: "fCntStart", parent: name, max: 65535)
+            try self.validate(self.fCntStart, name: "fCntStart", parent: name, min: 0)
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case fCntStart = "FCntStart"
+        }
+    }
+
     public struct UpdateDestinationRequest: AWSEncodableShape {
         public static var _encoding = [
             AWSMemberEncoding(label: "name", location: .uri("Name"))
@@ -4433,6 +4952,35 @@ extension IoTWireless {
     }
 
     public struct UpdateDestinationResponse: AWSDecodableShape {
+        public init() {}
+    }
+
+    public struct UpdateEventConfigurationByResourceTypesRequest: AWSEncodableShape {
+        /// Connection status resource type event configuration object for enabling and disabling wireless gateway topic.
+        public let connectionStatus: ConnectionStatusResourceTypeEventConfiguration?
+        /// Device registration state resource type event configuration object for enabling and disabling wireless gateway topic.
+        public let deviceRegistrationState: DeviceRegistrationStateResourceTypeEventConfiguration?
+        /// Join resource type event configuration object for enabling and disabling wireless device topic.
+        public let join: JoinResourceTypeEventConfiguration?
+        /// Proximity resource type event configuration object for enabling and disabling wireless gateway topic.
+        public let proximity: ProximityResourceTypeEventConfiguration?
+
+        public init(connectionStatus: ConnectionStatusResourceTypeEventConfiguration? = nil, deviceRegistrationState: DeviceRegistrationStateResourceTypeEventConfiguration? = nil, join: JoinResourceTypeEventConfiguration? = nil, proximity: ProximityResourceTypeEventConfiguration? = nil) {
+            self.connectionStatus = connectionStatus
+            self.deviceRegistrationState = deviceRegistrationState
+            self.join = join
+            self.proximity = proximity
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case connectionStatus = "ConnectionStatus"
+            case deviceRegistrationState = "DeviceRegistrationState"
+            case join = "Join"
+            case proximity = "Proximity"
+        }
+    }
+
+    public struct UpdateEventConfigurationByResourceTypesResponse: AWSDecodableShape {
         public init() {}
     }
 
@@ -4542,18 +5090,20 @@ extension IoTWireless {
         ]
 
         public let configurationName: String
+        public let description: String?
         public let traceContent: TraceContent?
-        /// WirelessDevices to add into NetworkAnalyzerConfiguration.
+        /// Wireless device resources to add to the network analyzer configuration. Provide the  WirelessDeviceId of the resource to add in the input array.
         public let wirelessDevicesToAdd: [String]?
-        /// WirelessDevices to remove from NetworkAnalyzerConfiguration.
+        /// Wireless device resources to remove from the network analyzer configuration. Provide the  WirelessDeviceId of the resources to remove in the input array.
         public let wirelessDevicesToRemove: [String]?
-        /// WirelessGateways to add into NetworkAnalyzerConfiguration.
+        /// Wireless gateway resources to add to the network analyzer configuration. Provide the  WirelessGatewayId of the resource to add in the input array.
         public let wirelessGatewaysToAdd: [String]?
-        /// WirelessGateways to remove from NetworkAnalyzerConfiguration.
+        /// Wireless gateway resources to remove from the network analyzer configuration. Provide the  WirelessGatewayId of the resources to remove in the input array.
         public let wirelessGatewaysToRemove: [String]?
 
-        public init(configurationName: String, traceContent: TraceContent? = nil, wirelessDevicesToAdd: [String]? = nil, wirelessDevicesToRemove: [String]? = nil, wirelessGatewaysToAdd: [String]? = nil, wirelessGatewaysToRemove: [String]? = nil) {
+        public init(configurationName: String, description: String? = nil, traceContent: TraceContent? = nil, wirelessDevicesToAdd: [String]? = nil, wirelessDevicesToRemove: [String]? = nil, wirelessGatewaysToAdd: [String]? = nil, wirelessGatewaysToRemove: [String]? = nil) {
             self.configurationName = configurationName
+            self.description = description
             self.traceContent = traceContent
             self.wirelessDevicesToAdd = wirelessDevicesToAdd
             self.wirelessDevicesToRemove = wirelessDevicesToRemove
@@ -4564,7 +5114,8 @@ extension IoTWireless {
         public func validate(name: String) throws {
             try self.validate(self.configurationName, name: "configurationName", parent: name, max: 1024)
             try self.validate(self.configurationName, name: "configurationName", parent: name, min: 1)
-            try self.validate(self.configurationName, name: "configurationName", parent: name, pattern: "^NetworkAnalyzerConfig_Default$")
+            try self.validate(self.configurationName, name: "configurationName", parent: name, pattern: "^[a-zA-Z0-9-_]+$")
+            try self.validate(self.description, name: "description", parent: name, max: 2048)
             try self.wirelessDevicesToAdd?.forEach {
                 try validate($0, name: "wirelessDevicesToAdd[]", parent: name, max: 256)
             }
@@ -4582,6 +5133,7 @@ extension IoTWireless {
         }
 
         private enum CodingKeys: String, CodingKey {
+            case description = "Description"
             case traceContent = "TraceContent"
             case wirelessDevicesToAdd = "WirelessDevicesToAdd"
             case wirelessDevicesToRemove = "WirelessDevicesToRemove"
@@ -4634,21 +5186,27 @@ extension IoTWireless {
             AWSMemberEncoding(label: "partnerType", location: .querystring("partnerType"))
         ]
 
+        /// Event configuration for the connection status event
+        public let connectionStatus: ConnectionStatusEventConfiguration?
         /// Event configuration for the device registration state event
         public let deviceRegistrationState: DeviceRegistrationStateEventConfiguration?
         /// Resource identifier to opt in for event messaging.
         public let identifier: String
         /// Identifier type of the particular resource identifier for event configuration.
         public let identifierType: IdentifierType
+        /// Event configuration for the join event
+        public let join: JoinEventConfiguration?
         /// Partner type of the resource if the identifier type is PartnerAccountId
         public let partnerType: EventNotificationPartnerType?
         /// Event configuration for the Proximity event
         public let proximity: ProximityEventConfiguration?
 
-        public init(deviceRegistrationState: DeviceRegistrationStateEventConfiguration? = nil, identifier: String, identifierType: IdentifierType, partnerType: EventNotificationPartnerType? = nil, proximity: ProximityEventConfiguration? = nil) {
+        public init(connectionStatus: ConnectionStatusEventConfiguration? = nil, deviceRegistrationState: DeviceRegistrationStateEventConfiguration? = nil, identifier: String, identifierType: IdentifierType, join: JoinEventConfiguration? = nil, partnerType: EventNotificationPartnerType? = nil, proximity: ProximityEventConfiguration? = nil) {
+            self.connectionStatus = connectionStatus
             self.deviceRegistrationState = deviceRegistrationState
             self.identifier = identifier
             self.identifierType = identifierType
+            self.join = join
             self.partnerType = partnerType
             self.proximity = proximity
         }
@@ -4658,7 +5216,9 @@ extension IoTWireless {
         }
 
         private enum CodingKeys: String, CodingKey {
+            case connectionStatus = "ConnectionStatus"
             case deviceRegistrationState = "DeviceRegistrationState"
+            case join = "Join"
             case proximity = "Proximity"
         }
     }

@@ -111,7 +111,7 @@ extension CloudTrail {
         )
     }
 
-    ///  Lists the tags for the trail in the current region.
+    ///  Lists the tags for the trail or event data store in the current region.
     /// Return PaginatorSequence for operation.
     ///
     /// - Parameters:

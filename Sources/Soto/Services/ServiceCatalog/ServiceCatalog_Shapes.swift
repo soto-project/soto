@@ -2141,6 +2141,8 @@ extension ServiceCatalog {
     public struct DescribeProvisioningParametersOutput: AWSDecodableShape {
         /// Information about the constraints used to provision the product.
         public let constraintSummaries: [ConstraintSummary]?
+        /// A list of the keys and descriptions of the outputs. These outputs can be referenced from a provisioned product launched from this provisioning artifact.
+        public let provisioningArtifactOutputKeys: [ProvisioningArtifactOutput]?
         /// The output of the provisioning artifact.
         public let provisioningArtifactOutputs: [ProvisioningArtifactOutput]?
         /// Information about the parameters used to provision the product.
@@ -2152,8 +2154,20 @@ extension ServiceCatalog {
         /// Any additional metadata specifically related to the provisioning of the product. For example, see the Version field of the CloudFormation template.
         public let usageInstructions: [UsageInstruction]?
 
-        public init(constraintSummaries: [ConstraintSummary]? = nil, provisioningArtifactOutputs: [ProvisioningArtifactOutput]? = nil, provisioningArtifactParameters: [ProvisioningArtifactParameter]? = nil, provisioningArtifactPreferences: ProvisioningArtifactPreferences? = nil, tagOptions: [TagOptionSummary]? = nil, usageInstructions: [UsageInstruction]? = nil) {
+        public init(constraintSummaries: [ConstraintSummary]? = nil, provisioningArtifactOutputKeys: [ProvisioningArtifactOutput]? = nil, provisioningArtifactParameters: [ProvisioningArtifactParameter]? = nil, provisioningArtifactPreferences: ProvisioningArtifactPreferences? = nil, tagOptions: [TagOptionSummary]? = nil, usageInstructions: [UsageInstruction]? = nil) {
             self.constraintSummaries = constraintSummaries
+            self.provisioningArtifactOutputKeys = provisioningArtifactOutputKeys
+            self.provisioningArtifactOutputs = nil
+            self.provisioningArtifactParameters = provisioningArtifactParameters
+            self.provisioningArtifactPreferences = provisioningArtifactPreferences
+            self.tagOptions = tagOptions
+            self.usageInstructions = usageInstructions
+        }
+
+        @available(*, deprecated, message: "Members provisioningArtifactOutputs have been deprecated")
+        public init(constraintSummaries: [ConstraintSummary]? = nil, provisioningArtifactOutputKeys: [ProvisioningArtifactOutput]? = nil, provisioningArtifactOutputs: [ProvisioningArtifactOutput]? = nil, provisioningArtifactParameters: [ProvisioningArtifactParameter]? = nil, provisioningArtifactPreferences: ProvisioningArtifactPreferences? = nil, tagOptions: [TagOptionSummary]? = nil, usageInstructions: [UsageInstruction]? = nil) {
+            self.constraintSummaries = constraintSummaries
+            self.provisioningArtifactOutputKeys = provisioningArtifactOutputKeys
             self.provisioningArtifactOutputs = provisioningArtifactOutputs
             self.provisioningArtifactParameters = provisioningArtifactParameters
             self.provisioningArtifactPreferences = provisioningArtifactPreferences
@@ -2163,6 +2177,7 @@ extension ServiceCatalog {
 
         private enum CodingKeys: String, CodingKey {
             case constraintSummaries = "ConstraintSummaries"
+            case provisioningArtifactOutputKeys = "ProvisioningArtifactOutputKeys"
             case provisioningArtifactOutputs = "ProvisioningArtifactOutputs"
             case provisioningArtifactParameters = "ProvisioningArtifactParameters"
             case provisioningArtifactPreferences = "ProvisioningArtifactPreferences"

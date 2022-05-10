@@ -24,7 +24,9 @@ public struct ChimeSDKMeetingsErrorType: AWSErrorType {
         case forbiddenException = "ForbiddenException"
         case limitExceededException = "LimitExceededException"
         case notFoundException = "NotFoundException"
+        case serviceFailureException = "ServiceFailureException"
         case serviceUnavailableException = "ServiceUnavailableException"
+        case throttlingException = "ThrottlingException"
         case unauthorizedException = "UnauthorizedException"
         case unprocessableEntityException = "UnprocessableEntityException"
     }
@@ -55,8 +57,12 @@ public struct ChimeSDKMeetingsErrorType: AWSErrorType {
     public static var limitExceededException: Self { .init(.limitExceededException) }
     /// One or more of the resources in the request does not exist in the system.
     public static var notFoundException: Self { .init(.notFoundException) }
+    /// The service encountered an unexpected error.
+    public static var serviceFailureException: Self { .init(.serviceFailureException) }
     /// The service is currently unavailable.
     public static var serviceUnavailableException: Self { .init(.serviceUnavailableException) }
+    /// The number of customer requests exceeds the request rate limit.
+    public static var throttlingException: Self { .init(.throttlingException) }
     /// The user isn't authorized to request a resource.
     public static var unauthorizedException: Self { .init(.unauthorizedException) }
     /// The request was well-formed but was unable to be followed due to semantic errors.

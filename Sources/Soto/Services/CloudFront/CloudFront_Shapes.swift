@@ -1835,6 +1835,10 @@ extension CloudFront {
             self.responseHeadersPolicyConfig = responseHeadersPolicyConfig
         }
 
+        public func validate(name: String) throws {
+            try self.responseHeadersPolicyConfig.validate(name: "\(name).responseHeadersPolicyConfig")
+        }
+
         private enum CodingKeys: String, CodingKey {
             case responseHeadersPolicyConfig = "ResponseHeadersPolicyConfig"
         }
@@ -7039,13 +7043,21 @@ extension CloudFront {
         public let name: String
         /// A configuration for a set of security-related HTTP response headers.
         public let securityHeadersConfig: ResponseHeadersPolicySecurityHeadersConfig?
+        /// A configuration for enabling the Server-Timing header in HTTP responses
+        /// 			sent from CloudFront.
+        public let serverTimingHeadersConfig: ResponseHeadersPolicyServerTimingHeadersConfig?
 
-        public init(comment: String? = nil, corsConfig: ResponseHeadersPolicyCorsConfig? = nil, customHeadersConfig: ResponseHeadersPolicyCustomHeadersConfig? = nil, name: String, securityHeadersConfig: ResponseHeadersPolicySecurityHeadersConfig? = nil) {
+        public init(comment: String? = nil, corsConfig: ResponseHeadersPolicyCorsConfig? = nil, customHeadersConfig: ResponseHeadersPolicyCustomHeadersConfig? = nil, name: String, securityHeadersConfig: ResponseHeadersPolicySecurityHeadersConfig? = nil, serverTimingHeadersConfig: ResponseHeadersPolicyServerTimingHeadersConfig? = nil) {
             self.comment = comment
             self.corsConfig = corsConfig
             self.customHeadersConfig = customHeadersConfig
             self.name = name
             self.securityHeadersConfig = securityHeadersConfig
+            self.serverTimingHeadersConfig = serverTimingHeadersConfig
+        }
+
+        public func validate(name: String) throws {
+            try self.serverTimingHeadersConfig?.validate(name: "\(name).serverTimingHeadersConfig")
         }
 
         private enum CodingKeys: String, CodingKey {
@@ -7054,6 +7066,7 @@ extension CloudFront {
             case customHeadersConfig = "CustomHeadersConfig"
             case name = "Name"
             case securityHeadersConfig = "SecurityHeadersConfig"
+            case serverTimingHeadersConfig = "ServerTimingHeadersConfig"
         }
     }
 
@@ -7327,6 +7340,36 @@ extension CloudFront {
             case referrerPolicy = "ReferrerPolicy"
             case strictTransportSecurity = "StrictTransportSecurity"
             case xssProtection = "XSSProtection"
+        }
+    }
+
+    public struct ResponseHeadersPolicyServerTimingHeadersConfig: AWSEncodableShape & AWSDecodableShape {
+        /// A Boolean that determines whether CloudFront adds the Server-Timing header to HTTP
+        /// 			responses that it sends in response to requests that match a cache behavior that's
+        /// 			associated with this response headers policy.
+        public let enabled: Bool
+        /// A number 0–100 (inclusive) that specifies the percentage of responses that you want CloudFront to
+        /// 			add the Server-Timing header to. When you set the sampling rate to 100,
+        /// 			CloudFront adds the Server-Timing header to the HTTP response for every request
+        /// 			that matches the cache behavior that this response headers policy is attached to. When
+        /// 			you set it to 50, CloudFront adds the header to 50% of the responses for requests that match
+        /// 			the cache behavior. You can set the sampling rate to any number 0–100 with up to four
+        /// 			decimal places.
+        public let samplingRate: Double?
+
+        public init(enabled: Bool, samplingRate: Double? = nil) {
+            self.enabled = enabled
+            self.samplingRate = samplingRate
+        }
+
+        public func validate(name: String) throws {
+            try self.validate(self.samplingRate, name: "samplingRate", parent: name, max: 100.0)
+            try self.validate(self.samplingRate, name: "samplingRate", parent: name, min: 0.0)
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case enabled = "Enabled"
+            case samplingRate = "SamplingRate"
         }
     }
 
@@ -8637,6 +8680,10 @@ extension CloudFront {
             self.id = id
             self.ifMatch = ifMatch
             self.responseHeadersPolicyConfig = responseHeadersPolicyConfig
+        }
+
+        public func validate(name: String) throws {
+            try self.responseHeadersPolicyConfig.validate(name: "\(name).responseHeadersPolicyConfig")
         }
 
         private enum CodingKeys: String, CodingKey {

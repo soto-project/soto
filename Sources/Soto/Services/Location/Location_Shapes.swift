@@ -603,12 +603,12 @@ extension Location {
         public let carModeOptions: CalculateRouteCarModeOptions?
         /// Sets the time of departure as the current time. Uses the current time to calculate the route matrix. You can't set both DepartureTime and DepartNow. If neither is set, the best time of day to travel with the best traffic conditions is used to calculate the route matrix. Default Value: false  Valid Values: false | true
         public let departNow: Bool?
-        /// The list of departure (origin) positions for the route matrix. An array of points, each of which is itself a 2-value array defined in WGS 84 format: [longitude, latitude]. For example, [-123.115, 49.285].  Depending on the data provider selected in the route calculator resource there may be additional restrictions on the inputs you can choose. See  Position restrictions in the Amazon Location Service Developer Guide.   For route calculators that use Esri as the data provider, if you specify a  departure that's not located on a road, Amazon Location  moves the position  to the nearest road. The snapped value is available in the result in  SnappedDeparturePositions.  Valid Values: [-180 to 180,-90 to 90]
+        /// The list of departure (origin) positions for the route matrix. An array of points, each of which is itself a 2-value array defined in WGS 84 format: [longitude, latitude]. For example, [-123.115, 49.285].  Depending on the data provider selected in the route calculator resource there may be additional restrictions on the inputs you can choose. See  Position restrictions in the Amazon Location Service Developer Guide.   For route calculators that use Esri as the data provider, if you specify a departure that's not located on a road, Amazon Location  moves the position to the nearest road. The snapped value is available in the result in SnappedDeparturePositions.  Valid Values: [-180 to 180,-90 to 90]
         public let departurePositions: [[Double]]
         /// Specifies the desired time of departure. Uses the given time to calculate the route matrix. You can't set both DepartureTime and DepartNow. If neither is set, the best time of day to travel with the best traffic conditions is used to calculate the route matrix.  Setting a departure time in the past returns a 400 ValidationException error.    In ISO 8601 format: YYYY-MM-DDThh:mm:ss.sssZ. For example, 2020–07-2T12:15:20.000Z+01:00
         @OptionalCustomCoding<ISO8601DateCoder>
         public var departureTime: Date?
-        /// The list of destination positions for the route matrix. An array of points, each of which is itself a 2-value array defined in WGS 84 format: [longitude, latitude]. For example, [-122.339, 47.615]   Depending on the data provider selected in the route calculator resource there may be additional restrictions on the inputs you can choose. See  Position restrictions in the Amazon Location Service Developer Guide.   For route calculators that use Esri as the data provider, if you specify a  destination that's not located on a road, Amazon Location  moves the position  to the nearest road. The snapped value is available in the result in  SnappedDestinationPositions.  Valid Values: [-180 to 180,-90 to 90]
+        /// The list of destination positions for the route matrix. An array of points, each of which is itself a 2-value array defined in WGS 84 format: [longitude, latitude]. For example, [-122.339, 47.615]   Depending on the data provider selected in the route calculator resource there may be additional restrictions on the inputs you can choose. See  Position restrictions in the Amazon Location Service Developer Guide.   For route calculators that use Esri as the data provider, if you specify a destination that's not located on a road, Amazon Location  moves the position to the nearest road. The snapped value is available in the result in SnappedDestinationPositions.  Valid Values: [-180 to 180,-90 to 90]
         public let destinationPositions: [[Double]]
         /// Set the unit system to specify the distance. Default Value: Kilometers
         public let distanceUnit: DistanceUnit?
@@ -656,9 +656,9 @@ extension Location {
     }
 
     public struct CalculateRouteMatrixResponse: AWSDecodableShape {
-        /// The calculated route matrix containing the results for all pairs of  DeparturePositions to DestinationPositions.  Each row corresponds to one entry in DeparturePositions. Each entry in the row corresponds to the route from that entry in DeparturePositions to an entry in DestinationPositions.
+        /// The calculated route matrix containing the results for all pairs of DeparturePositions to DestinationPositions. Each row corresponds to one entry in DeparturePositions. Each entry in the row corresponds to the route from that entry in DeparturePositions to an entry in DestinationPositions.
         public let routeMatrix: [[RouteMatrixEntry]]
-        /// For routes calculated using an Esri route calculator resource, departure positions  are snapped to the closest road. For Esri route calculator resources, this returns  the list of departure/origin positions used for calculation of the  RouteMatrix.
+        /// For routes calculated using an Esri route calculator resource, departure positions are snapped to the closest road. For Esri route calculator resources, this returns the list of departure/origin positions used for calculation of the RouteMatrix.
         public let snappedDeparturePositions: [[Double]]?
         /// The list of destination positions for the route matrix used for calculation of the RouteMatrix.
         public let snappedDestinationPositions: [[Double]]?
@@ -716,12 +716,12 @@ extension Location {
         public let carModeOptions: CalculateRouteCarModeOptions?
         /// Sets the time of departure as the current time. Uses the current time to calculate a route. Otherwise, the best time of day to travel with the best traffic conditions is used to calculate the route. Default Value: false  Valid Values: false | true
         public let departNow: Bool?
-        /// The start position for the route. Defined in WGS 84 format: [longitude, latitude].   For example, [-123.115, 49.285]     If you specify a departure that's not located on a road, Amazon Location moves the position to the nearest road. If Esri is the provider for your route calculator,  specifying a route that is longer than 400 km returns a 400 RoutesValidationException error.  Valid Values: [-180 to 180,-90 to 90]
+        /// The start position for the route. Defined in World Geodetic System (WGS 84) format: [longitude, latitude].   For example, [-123.115, 49.285]     If you specify a departure that's not located on a road, Amazon Location moves the position to the nearest road. If Esri is the provider for your route calculator, specifying a route that is longer than 400 km returns a 400 RoutesValidationException error.  Valid Values: [-180 to 180,-90 to 90]
         public let departurePosition: [Double]
         /// Specifies the desired time of departure. Uses the given time to calculate the route. Otherwise, the best time of day to travel with the best traffic conditions is used to calculate the route.  Setting a departure time in the past returns a 400 ValidationException error.    In ISO 8601 format: YYYY-MM-DDThh:mm:ss.sssZ. For example, 2020–07-2T12:15:20.000Z+01:00
         @OptionalCustomCoding<ISO8601DateCoder>
         public var departureTime: Date?
-        /// The finish position for the route. Defined in WGS 84 format: [longitude, latitude].   For example, [-122.339, 47.615]     If you specify a destination that's not located on a road, Amazon Location moves the position to the nearest road.   Valid Values: [-180 to 180,-90 to 90]
+        /// The finish position for the route. Defined in World Geodetic System (WGS 84) format: [longitude, latitude].   For example, [-122.339, 47.615]     If you specify a destination that's not located on a road, Amazon Location moves the position to the nearest road.   Valid Values: [-180 to 180,-90 to 90]
         public let destinationPosition: [Double]
         /// Set the unit system to specify the distance. Default Value: Kilometers
         public let distanceUnit: DistanceUnit?
@@ -731,7 +731,7 @@ extension Location {
         public let travelMode: TravelMode?
         /// Specifies route preferences when traveling by Truck, such as avoiding routes that use ferries or tolls, and truck specifications to consider when choosing an optimal road. Requirements: TravelMode must be specified as Truck.
         public let truckModeOptions: CalculateRouteTruckModeOptions?
-        /// Specifies an ordered list of up to 23 intermediate positions to include along a route between the departure position and destination position.    For example, from the DeparturePosition [-123.115, 49.285], the route follows the order that the waypoint positions are given [[-122.757, 49.0021],[-122.349, 47.620]]     If you specify a waypoint position that's not located on a road, Amazon Location moves the position to the nearest road.  Specifying more than 23 waypoints returns a 400 ValidationException error. If Esri is the provider for your route calculator, specifying a  route that is longer than 400 km returns a 400 RoutesValidationException error.  Valid Values: [-180 to 180,-90 to 90]
+        /// Specifies an ordered list of up to 23 intermediate positions to include along a route between the departure position and destination position.    For example, from the DeparturePosition [-123.115, 49.285], the route follows the order that the waypoint positions are given [[-122.757, 49.0021],[-122.349, 47.620]]     If you specify a waypoint position that's not located on a road, Amazon Location moves the position to the nearest road.  Specifying more than 23 waypoints returns a 400 ValidationException error. If Esri is the provider for your route calculator, specifying a route that is longer than 400 km returns a 400 RoutesValidationException error.  Valid Values: [-180 to 180,-90 to 90]
         public let waypointPositions: [[Double]]?
 
         public init(calculatorName: String, carModeOptions: CalculateRouteCarModeOptions? = nil, departNow: Bool? = nil, departurePosition: [Double], departureTime: Date? = nil, destinationPosition: [Double], distanceUnit: DistanceUnit? = nil, includeLegGeometry: Bool? = nil, travelMode: TravelMode? = nil, truckModeOptions: CalculateRouteTruckModeOptions? = nil, waypointPositions: [[Double]]? = nil) {
@@ -796,7 +796,7 @@ extension Location {
     public struct CalculateRouteSummary: AWSDecodableShape {
         /// The data provider of traffic and road network data used to calculate the route. Indicates one of the available providers:    Esri     Here    For more information about data providers, see Amazon Location Service data providers.
         public let dataSource: String
-        /// The total distance covered by the route. The sum of the distance travelled between every stop on the route.  If Esri is the data source for the route calculator, the route distance can’t  be greater than 400 km. If the route exceeds 400 km, the response is a  400 RoutesValidationException error.
+        /// The total distance covered by the route. The sum of the distance travelled between every stop on the route.  If Esri is the data source for the route calculator, the route distance can’t be greater than 400 km. If the route exceeds 400 km, the response is a 400 RoutesValidationException error.
         public let distance: Double
         /// The unit of measurement for route distances.
         public let distanceUnit: DistanceUnit
@@ -855,7 +855,7 @@ extension Location {
         /// A key identifier for an AWS KMS customer managed key. Enter a key ID, key ARN, alias name, or alias ARN.
         ///
         public let kmsKeyId: String?
-        /// No longer used. If included, the only allowed value is  RequestBasedUsage.
+        /// No longer used. If included, the only allowed value is RequestBasedUsage.
         public let pricingPlan: PricingPlan?
         /// This parameter is no longer used.
         public let pricingPlanDataSource: String?
@@ -1015,7 +1015,7 @@ extension Location {
         public let description: String?
         /// The name of the place index resource.  Requirements:   Contain only alphanumeric characters (A–Z, a–z, 0–9), hyphens (-), periods (.), and underscores (_).   Must be a unique place index resource name.   No spaces allowed. For example, ExamplePlaceIndex.
         public let indexName: String
-        /// No longer used. If included, the only allowed value is  RequestBasedUsage.
+        /// No longer used. If included, the only allowed value is RequestBasedUsage.
         public let pricingPlan: PricingPlan?
         /// Applies one or more tags to the place index resource. A tag is a key-value pair that helps you manage, identify, search, and filter your resources. Format: "key" : "value"  Restrictions:   Maximum 50 tags per resource.   Each tag key must be unique and must have exactly one associated value.   Maximum key length: 128 Unicode characters in UTF-8.   Maximum value length: 256 Unicode characters in UTF-8.   Can use alphanumeric characters (A–Z, a–z, 0–9), and the following characters: + - = . _ : / @   Cannot use "aws:" as a prefix for a key.
         public let tags: [String: String]?
@@ -1089,11 +1089,11 @@ extension Location {
     public struct CreateRouteCalculatorRequest: AWSEncodableShape {
         /// The name of the route calculator resource.  Requirements:   Can use alphanumeric characters (A–Z, a–z, 0–9) , hyphens (-), periods (.), and underscores (_).   Must be a unique Route calculator resource name.   No spaces allowed. For example, ExampleRouteCalculator.
         public let calculatorName: String
-        /// Specifies the data provider of traffic and road network data.  This field is case-sensitive. Enter the valid values as shown. For example, entering HERE returns an error. Route calculators that use Esri as a data source  only calculate routes that are shorter than 400 km.  Valid values include:    Esri – For additional information about Esri's coverage in your region of interest, see Esri details on street networks and traffic coverage.    Here – For additional information about HERE Technologies' coverage in your region of interest, see HERE car routing coverage and HERE truck routing coverage.   For additional information , see Data providers on the Amazon Location Service Developer Guide.
+        /// Specifies the data provider of traffic and road network data.  This field is case-sensitive. Enter the valid values as shown. For example, entering HERE returns an error. Route calculators that use Esri as a data source only calculate routes that are shorter than 400 km.  Valid values include:    Esri – For additional information about Esri's coverage in your region of interest, see Esri details on street networks and traffic coverage.    Here – For additional information about HERE Technologies' coverage in your region of interest, see HERE car routing coverage and HERE truck routing coverage.   For additional information , see Data providers on the Amazon Location Service Developer Guide.
         public let dataSource: String
         /// The optional description for the route calculator resource.
         public let description: String?
-        /// No longer used. If included, the only allowed value is  RequestBasedUsage.
+        /// No longer used. If included, the only allowed value is RequestBasedUsage.
         public let pricingPlan: PricingPlan?
         /// Applies one or more tags to the route calculator resource. A tag is a key-value pair helps manage, identify, search, and filter your resources by labelling them.   For example: { "tag1" : "value1", "tag2" : "value2"}   Format: "key" : "value"  Restrictions:   Maximum 50 tags per resource   Each resource tag must be unique with a maximum of one value.   Maximum key length: 128 Unicode characters in UTF-8   Maximum value length: 256 Unicode characters in UTF-8   Can use alphanumeric characters (A–Z, a–z, 0–9), and the following characters: + - = . _ : / @.    Cannot use "aws:" as a prefix for a key.
         public let tags: [String: String]?
@@ -2559,11 +2559,14 @@ extension Location {
 
         /// The name of the geofence collection storing the list of geofences.
         public let collectionName: String
+        /// An optional limit for the number of geofences returned in a single call.  Default value: 100
+        public let maxResults: Int?
         /// The pagination token specifying which page of results to return in the response. If no token is provided, the default page is the first page.  Default value: null
         public let nextToken: String?
 
-        public init(collectionName: String, nextToken: String? = nil) {
+        public init(collectionName: String, maxResults: Int? = nil, nextToken: String? = nil) {
             self.collectionName = collectionName
+            self.maxResults = maxResults
             self.nextToken = nextToken
         }
 
@@ -2576,6 +2579,7 @@ extension Location {
         }
 
         private enum CodingKeys: String, CodingKey {
+            case maxResults = "MaxResults"
             case nextToken = "NextToken"
         }
     }
@@ -3042,7 +3046,7 @@ extension Location {
         /// A country/region specified using ISO 3166 3-digit country/region code. For example, CAN.
         public let country: String?
         public let geometry: PlaceGeometry
-        ///  True if the result is interpolated from other known places.  False if the Place is a known place. Not returned when the partner does not provide the information. For example, returns False for an address location that is found in the  partner data, but returns True if an address does not exist in the partner data and its location is calculated by interpolating between other known addresses.
+        ///  True if the result is interpolated from other known places.  False if the Place is a known place. Not returned when the partner does not provide the information. For example, returns False for an address location that is found in the partner data, but returns True if an address does not exist in the partner data and its location is calculated by interpolating between other known addresses.
         public let interpolated: Bool?
         /// The full name and address of the point of interest such as a city, region, or country. For example, 123 Any Street, Any Town, USA.
         public let label: String?
@@ -3056,9 +3060,9 @@ extension Location {
         public let region: String?
         /// The name for a street or a road to identify a location. For example, Main Street.
         public let street: String?
-        /// A country, or an area that's part of a larger region.  For example, Metro Vancouver.
+        /// A country, or an area that's part of a larger region. For example, Metro Vancouver.
         public let subRegion: String?
-        /// The time zone in which the Place is located. Returned only when using  Here as the selected partner.
+        /// The time zone in which the Place is located. Returned only when using Here as the selected partner.
         public let timeZone: TimeZone?
 
         public init(addressNumber: String? = nil, country: String? = nil, geometry: PlaceGeometry, interpolated: Bool? = nil, label: String? = nil, municipality: String? = nil, neighborhood: String? = nil, postalCode: String? = nil, region: String? = nil, street: String? = nil, subRegion: String? = nil, timeZone: TimeZone? = nil) {
@@ -3180,7 +3184,7 @@ extension Location {
         public let distance: Double?
         /// The expected duration of travel for the route.
         public let durationSeconds: Double?
-        /// An error corresponding to the calculation of a route between the  DeparturePosition and DestinationPosition.
+        /// An error corresponding to the calculation of a route between the DeparturePosition and DestinationPosition.
         public let error: RouteMatrixEntryError?
 
         public init(distance: Double? = nil, durationSeconds: Double? = nil, error: RouteMatrixEntryError? = nil) {
@@ -3214,7 +3218,7 @@ extension Location {
     }
 
     public struct SearchForPositionResult: AWSDecodableShape {
-        /// The distance in meters of a great-circle arc between the query position and the  result.  A great-circle arc is the shortest path on a sphere, in this case the  Earth. This returns the shortest distance between two locations.
+        /// The distance in meters of a great-circle arc between the query position and the result.  A great-circle arc is the shortest path on a sphere, in this case the Earth. This returns the shortest distance between two locations.
         public let distance: Double
         /// Details about the search result, such as its address and position.
         public let place: Place
@@ -3244,11 +3248,11 @@ extension Location {
     }
 
     public struct SearchForTextResult: AWSDecodableShape {
-        /// The distance in meters of a great-circle arc between the bias position specified  and the result. Distance will be returned only if a bias position was  specified in the query.  A great-circle arc is the shortest path on a sphere, in this case the  Earth. This returns the shortest distance between two locations.
+        /// The distance in meters of a great-circle arc between the bias position specified and the result. Distance will be returned only if a bias position was specified in the query.  A great-circle arc is the shortest path on a sphere, in this case the Earth. This returns the shortest distance between two locations.
         public let distance: Double?
         /// Details about the search result, such as its address and position.
         public let place: Place
-        /// The relative confidence in the match for a result among the results returned. For  example, if more fields for an address match (including house number, street, city,  country/region, and postal code), the relevance score is closer to 1. Returned only when the partner selected is Esri.
+        /// The relative confidence in the match for a result among the results returned. For example, if more fields for an address match (including house number, street, city, country/region, and postal code), the relevance score is closer to 1. Returned only when the partner selected is Esri.
         public let relevance: Double?
 
         public init(distance: Double? = nil, place: Place, relevance: Double? = nil) {
@@ -3271,11 +3275,11 @@ extension Location {
 
         /// The name of the place index resource you want to use for the search.
         public let indexName: String
-        /// The preferred language used to return results. The value must be a valid BCP 47 language tag, for example, en for English.  This setting affects the languages used in the results. It does not change which  results are returned. If the language is not specified, or not supported for a  particular result, the partner automatically chooses a language for the result.
+        /// The preferred language used to return results. The value must be a valid BCP 47 language tag, for example, en for English. This setting affects the languages used in the results, but not the results themselves. If no language is specified, or not supported for a particular result, the partner automatically chooses a language for the result. For an example, we'll use the Greek language. You search for a location around Athens, Greece, with the language parameter set to en. The city in the results will most likely be returned as Athens. If you set the language parameter to el, for Greek, then the city in the results will more likely be returned as Αθήνα. If the data provider does not have a value for Greek, the result will be in a language that the provider does support.
         public let language: String?
         /// An optional parameter. The maximum number of results returned per request. Default value: 50
         public let maxResults: Int?
-        /// Specifies the longitude and latitude of the position to query.  This parameter must contain a pair of numbers. The first number represents the X coordinate, or longitude;  the second number represents the Y coordinate, or latitude. For example, [-123.1174, 49.2847] represents a position with longitude -123.1174 and latitude 49.2847.
+        /// Specifies the longitude and latitude of the position to query. This parameter must contain a pair of numbers. The first number represents the X coordinate, or longitude; the second number represents the Y coordinate, or latitude. For example, [-123.1174, 49.2847] represents a position with longitude -123.1174 and latitude 49.2847.
         public let position: [Double]
 
         public init(indexName: String, language: String? = nil, maxResults: Int? = nil, position: [Double]) {
@@ -3324,7 +3328,7 @@ extension Location {
     public struct SearchPlaceIndexForPositionSummary: AWSDecodableShape {
         /// The geospatial data provider attached to the place index resource specified in the request. Values can be one of the following:   Esri   Here   For more information about data providers, see Amazon Location Service data providers.
         public let dataSource: String
-        /// The preferred language used to return results. Matches the language in the request.  The value is a valid BCP 47 language tag, for example, en for English.
+        /// The preferred language used to return results. Matches the language in the request. The value is a valid BCP 47 language tag, for example, en for English.
         public let language: String?
         /// Contains the optional result count limit that is specified in the request. Default value: 50
         public let maxResults: Int?
@@ -3351,15 +3355,15 @@ extension Location {
             AWSMemberEncoding(label: "indexName", location: .uri("IndexName"))
         ]
 
-        /// An optional parameter that indicates a preference for place suggestions that are closer to a specified position.  If provided, this parameter must contain a pair of numbers. The first number represents the X coordinate, or longitude;  the second number represents the Y coordinate, or latitude. For example, [-123.1174, 49.2847] represents the position with longitude -123.1174 and latitude 49.2847.   BiasPosition and FilterBBox are mutually exclusive. Specifying both options results in an error.
+        /// An optional parameter that indicates a preference for place suggestions that are closer to a specified position. If provided, this parameter must contain a pair of numbers. The first number represents the X coordinate, or longitude; the second number represents the Y coordinate, or latitude. For example, [-123.1174, 49.2847] represents the position with longitude -123.1174 and latitude 49.2847.   BiasPosition and FilterBBox are mutually exclusive. Specifying both options results in an error.
         public let biasPosition: [Double]?
-        /// An optional parameter that limits the search results by returning only suggestions within a specified bounding box.  If provided, this parameter must contain a total of four consecutive numbers in two pairs. The first pair of numbers represents the X and Y coordinates (longitude and latitude, respectively) of the southwest corner of the bounding box; the second pair of numbers represents the X and Y coordinates (longitude and latitude, respectively) of the northeast corner of the bounding box. For example, [-12.7935, -37.4835, -12.0684, -36.9542] represents a bounding box where the southwest corner has longitude -12.7935 and latitude -37.4835,  and the northeast corner has longitude -12.0684 and latitude -36.9542.   FilterBBox and BiasPosition are mutually exclusive. Specifying both options results in an error.
+        /// An optional parameter that limits the search results by returning only suggestions within a specified bounding box. If provided, this parameter must contain a total of four consecutive numbers in two pairs. The first pair of numbers represents the X and Y coordinates (longitude and latitude, respectively) of the southwest corner of the bounding box; the second pair of numbers represents the X and Y coordinates (longitude and latitude, respectively) of the northeast corner of the bounding box. For example, [-12.7935, -37.4835, -12.0684, -36.9542] represents a bounding box where the southwest corner has longitude -12.7935 and latitude -37.4835, and the northeast corner has longitude -12.0684 and latitude -36.9542.   FilterBBox and BiasPosition are mutually exclusive. Specifying both options results in an error.
         public let filterBBox: [Double]?
         /// An optional parameter that limits the search results by returning only suggestions within the provided list of countries.   Use the ISO 3166 3-digit country code. For example, Australia uses three upper-case characters: AUS.
         public let filterCountries: [String]?
         /// The name of the place index resource you want to use for the search.
         public let indexName: String
-        /// The preferred language used to return results. The value must be a valid BCP 47 language tag, for example, en for English.  This setting affects the languages used in the results. It does not change which  results are returned. If the language is not specified, or not supported for a  particular result, the partner automatically chooses a language for the result. Used only when the partner selected is Here.
+        /// The preferred language used to return results. The value must be a valid BCP 47 language tag, for example, en for English. This setting affects the languages used in the results. If no language is specified, or not supported for a particular result, the partner automatically chooses a language for the result. For an example, we'll use the Greek language. You search for Athens, Gr to get suggestions with the language parameter set to en. The results found will most likely be returned as Athens, Greece. If you set the language parameter to el, for Greek, then the result found will more likely be returned as Αθήνα, Ελλάδα. If the data provider does not have a value for Greek, the result will be in a language that the provider does support.
         public let language: String?
         /// An optional parameter. The maximum number of results returned per request.  The default: 5
         public let maxResults: Int?
@@ -3421,7 +3425,7 @@ extension Location {
     }
 
     public struct SearchPlaceIndexForSuggestionsSummary: AWSDecodableShape {
-        /// Contains the coordinates for the optional bias position specified in the request. This parameter contains a pair of numbers. The first number represents the X  coordinate, or longitude; the second number represents the Y coordinate, or latitude. For example, [-123.1174, 49.2847] represents the position with longitude -123.1174 and latitude 49.2847.
+        /// Contains the coordinates for the optional bias position specified in the request. This parameter contains a pair of numbers. The first number represents the X coordinate, or longitude; the second number represents the Y coordinate, or latitude. For example, [-123.1174, 49.2847] represents the position with longitude -123.1174 and latitude 49.2847.
         public let biasPosition: [Double]?
         /// The geospatial data provider attached to the place index resource specified in the request. Values can be one of the following:   Esri   Here   For more information about data providers, see Amazon Location Service data providers.
         public let dataSource: String
@@ -3429,7 +3433,7 @@ extension Location {
         public let filterBBox: [Double]?
         /// Contains the optional country filter specified in the request.
         public let filterCountries: [String]?
-        /// The preferred language used to return results. Matches the language in the request.  The value is a valid BCP 47 language tag, for example, en for English.
+        /// The preferred language used to return results. Matches the language in the request. The value is a valid BCP 47 language tag, for example, en for English.
         public let language: String?
         /// Contains the optional result count limit specified in the request.
         public let maxResults: Int?
@@ -3462,15 +3466,15 @@ extension Location {
             AWSMemberEncoding(label: "indexName", location: .uri("IndexName"))
         ]
 
-        /// An optional parameter that indicates a preference for places that are closer to a specified position.  If provided, this parameter must contain a pair of numbers. The first number represents the X coordinate, or longitude; the  second number represents the Y coordinate, or latitude. For example, [-123.1174, 49.2847] represents the position with longitude -123.1174 and latitude 49.2847.   BiasPosition and FilterBBox are mutually exclusive. Specifying both options  results in an error.
+        /// An optional parameter that indicates a preference for places that are closer to a specified position. If provided, this parameter must contain a pair of numbers. The first number represents the X coordinate, or longitude; the second number represents the Y coordinate, or latitude. For example, [-123.1174, 49.2847] represents the position with longitude -123.1174 and latitude 49.2847.   BiasPosition and FilterBBox are mutually exclusive. Specifying both options results in an error.
         public let biasPosition: [Double]?
-        /// An optional parameter that limits the search results by returning only places that are within the provided bounding box.  If provided, this parameter must contain a total of four consecutive numbers in two pairs. The first pair of numbers represents the X and Y coordinates (longitude and latitude, respectively) of the southwest corner of the bounding box; the second pair of numbers represents the X and Y coordinates (longitude and latitude, respectively) of the northeast corner of the bounding box. For example, [-12.7935, -37.4835, -12.0684, -36.9542] represents a bounding box where the southwest corner has longitude -12.7935 and latitude -37.4835,  and the northeast corner has longitude -12.0684 and latitude -36.9542.   FilterBBox and BiasPosition are mutually exclusive. Specifying both options results in an error.
+        /// An optional parameter that limits the search results by returning only places that are within the provided bounding box. If provided, this parameter must contain a total of four consecutive numbers in two pairs. The first pair of numbers represents the X and Y coordinates (longitude and latitude, respectively) of the southwest corner of the bounding box; the second pair of numbers represents the X and Y coordinates (longitude and latitude, respectively) of the northeast corner of the bounding box. For example, [-12.7935, -37.4835, -12.0684, -36.9542] represents a bounding box where the southwest corner has longitude -12.7935 and latitude -37.4835, and the northeast corner has longitude -12.0684 and latitude -36.9542.   FilterBBox and BiasPosition are mutually exclusive. Specifying both options results in an error.
         public let filterBBox: [Double]?
         /// An optional parameter that limits the search results by returning only places that are in a specified list of countries.   Valid values include ISO 3166 3-digit country codes. For example, Australia uses three upper-case characters: AUS.
         public let filterCountries: [String]?
         /// The name of the place index resource you want to use for the search.
         public let indexName: String
-        /// The preferred language used to return results. The value must be a valid BCP 47 language tag, for example, en for English.  This setting affects the languages used in the results. It does not change which  results are returned. If the language is not specified, or not supported for a  particular result, the partner automatically chooses a language for the result.
+        /// The preferred language used to return results. The value must be a valid BCP 47 language tag, for example, en for English. This setting affects the languages used in the results, but not the results themselves. If no language is specified, or not supported for a particular result, the partner automatically chooses a language for the result. For an example, we'll use the Greek language. You search for Athens, Greece, with the language parameter set to en. The result found will most likely be returned as Athens. If you set the language parameter to el, for Greek, then the result found will more likely be returned as Αθήνα. If the data provider does not have a value for Greek, the result will be in a language that the provider does support.
         public let language: String?
         /// An optional parameter. The maximum number of results returned per request.  The default: 50
         public let maxResults: Int?
@@ -3517,7 +3521,7 @@ extension Location {
     }
 
     public struct SearchPlaceIndexForTextResponse: AWSDecodableShape {
-        /// A list of Places matching the input text. Each result contains additional information about the specific point of interest.
+        /// A list of Places matching the input text. Each result contains additional information about the specific point of interest.  Not all response properties are included with all responses. Some properties may  only be returned by specific data partners.
         public let results: [SearchForTextResult]
         /// Contains a summary of the request. Echoes the input values for BiasPosition, FilterBBox, FilterCountries, Language, MaxResults, and Text. Also includes the DataSource of the place index and the bounding box, ResultBBox, which surrounds the search results.
         public let summary: SearchPlaceIndexForTextSummary
@@ -3534,7 +3538,7 @@ extension Location {
     }
 
     public struct SearchPlaceIndexForTextSummary: AWSDecodableShape {
-        /// Contains the coordinates for the optional bias position specified in the request. This parameter contains a pair of numbers. The first number represents the X  coordinate, or longitude; the second number represents the Y coordinate, or latitude. For example, [-123.1174, 49.2847] represents the position with longitude -123.1174 and latitude 49.2847.
+        /// Contains the coordinates for the optional bias position specified in the request. This parameter contains a pair of numbers. The first number represents the X coordinate, or longitude; the second number represents the Y coordinate, or latitude. For example, [-123.1174, 49.2847] represents the position with longitude -123.1174 and latitude 49.2847.
         public let biasPosition: [Double]?
         /// The geospatial data provider attached to the place index resource specified in the request. Values can be one of the following:   Esri   Here   For more information about data providers, see Amazon Location Service data providers.
         public let dataSource: String
@@ -3542,11 +3546,11 @@ extension Location {
         public let filterBBox: [Double]?
         /// Contains the optional country filter specified in the request.
         public let filterCountries: [String]?
-        /// The preferred language used to return results. Matches the language in the request.  The value is a valid BCP 47 language tag, for example, en for English.
+        /// The preferred language used to return results. Matches the language in the request. The value is a valid BCP 47 language tag, for example, en for English.
         public let language: String?
         /// Contains the optional result count limit specified in the request.
         public let maxResults: Int?
-        /// The bounding box that fully contains all search results.  If you specified the optional FilterBBox parameter in the request, ResultBBox  is contained within FilterBBox.
+        /// The bounding box that fully contains all search results.  If you specified the optional FilterBBox parameter in the request, ResultBBox is contained within FilterBBox.
         public let resultBBox: [Double]?
         /// The search text specified in the request.
         public let text: String
@@ -3740,7 +3744,7 @@ extension Location {
         public let collectionName: String
         /// Updates the description for the geofence collection.
         public let description: String?
-        /// No longer used. If included, the only allowed value is  RequestBasedUsage.
+        /// No longer used. If included, the only allowed value is RequestBasedUsage.
         public let pricingPlan: PricingPlan?
         /// This parameter is no longer used.
         public let pricingPlanDataSource: String?
@@ -3867,7 +3871,7 @@ extension Location {
         public let description: String?
         /// The name of the place index resource to update.
         public let indexName: String
-        /// No longer used. If included, the only allowed value is  RequestBasedUsage.
+        /// No longer used. If included, the only allowed value is RequestBasedUsage.
         public let pricingPlan: PricingPlan?
 
         public init(dataSourceConfiguration: DataSourceConfiguration? = nil, description: String? = nil, indexName: String) {
@@ -3930,7 +3934,7 @@ extension Location {
         public let calculatorName: String
         /// Updates the description for the route calculator resource.
         public let description: String?
-        /// No longer used. If included, the only allowed value is  RequestBasedUsage.
+        /// No longer used. If included, the only allowed value is RequestBasedUsage.
         public let pricingPlan: PricingPlan?
 
         public init(calculatorName: String, description: String? = nil) {

@@ -30,6 +30,7 @@ extension Panorama {
 
     public enum ApplicationInstanceStatus: String, CustomStringConvertible, Codable {
         case deploymentError = "DEPLOYMENT_ERROR"
+        case deploymentFailed = "DEPLOYMENT_FAILED"
         case deploymentInProgress = "DEPLOYMENT_IN_PROGRESS"
         case deploymentPending = "DEPLOYMENT_PENDING"
         case deploymentRequested = "DEPLOYMENT_REQUESTED"
@@ -45,6 +46,12 @@ extension Panorama {
     public enum ConnectionType: String, CustomStringConvertible, Codable {
         case dhcp = "DHCP"
         case staticIp = "STATIC_IP"
+        public var description: String { return self.rawValue }
+    }
+
+    public enum DeviceBrand: String, CustomStringConvertible, Codable {
+        case awsPanorama = "AWS_PANORAMA"
+        case lenovo = "LENOVO"
         public var description: String { return self.rawValue }
     }
 
@@ -144,6 +151,7 @@ extension Panorama {
 
     public enum StatusFilter: String, CustomStringConvertible, Codable {
         case deploymentError = "DEPLOYMENT_ERROR"
+        case deploymentFailed = "DEPLOYMENT_FAILED"
         case deploymentSucceeded = "DEPLOYMENT_SUCCEEDED"
         case processingDeployment = "PROCESSING_DEPLOYMENT"
         case processingRemoval = "PROCESSING_REMOVAL"
@@ -894,6 +902,8 @@ extension Panorama {
         public let alternateSoftwares: [AlternateSoftwareMetadata]?
         /// The device's ARN.
         public let arn: String?
+        /// The device's maker.
+        public let brand: DeviceBrand?
         /// When the device was created.
         public let createdTime: Date?
         /// The device's networking status.
@@ -925,9 +935,10 @@ extension Panorama {
         /// The device's type.
         public let type: DeviceType?
 
-        public init(alternateSoftwares: [AlternateSoftwareMetadata]? = nil, arn: String? = nil, createdTime: Date? = nil, currentNetworkingStatus: NetworkStatus? = nil, currentSoftware: String? = nil, description: String? = nil, deviceConnectionStatus: DeviceConnectionStatus? = nil, deviceId: String? = nil, latestAlternateSoftware: String? = nil, latestSoftware: String? = nil, leaseExpirationTime: Date? = nil, name: String? = nil, networkingConfiguration: NetworkPayload? = nil, provisioningStatus: DeviceStatus? = nil, serialNumber: String? = nil, tags: [String: String]? = nil, type: DeviceType? = nil) {
+        public init(alternateSoftwares: [AlternateSoftwareMetadata]? = nil, arn: String? = nil, brand: DeviceBrand? = nil, createdTime: Date? = nil, currentNetworkingStatus: NetworkStatus? = nil, currentSoftware: String? = nil, description: String? = nil, deviceConnectionStatus: DeviceConnectionStatus? = nil, deviceId: String? = nil, latestAlternateSoftware: String? = nil, latestSoftware: String? = nil, leaseExpirationTime: Date? = nil, name: String? = nil, networkingConfiguration: NetworkPayload? = nil, provisioningStatus: DeviceStatus? = nil, serialNumber: String? = nil, tags: [String: String]? = nil, type: DeviceType? = nil) {
             self.alternateSoftwares = alternateSoftwares
             self.arn = arn
+            self.brand = brand
             self.createdTime = createdTime
             self.currentNetworkingStatus = currentNetworkingStatus
             self.currentSoftware = currentSoftware
@@ -948,6 +959,7 @@ extension Panorama {
         private enum CodingKeys: String, CodingKey {
             case alternateSoftwares = "AlternateSoftwares"
             case arn = "Arn"
+            case brand = "Brand"
             case createdTime = "CreatedTime"
             case currentNetworkingStatus = "CurrentNetworkingStatus"
             case currentSoftware = "CurrentSoftware"
@@ -1365,6 +1377,8 @@ extension Panorama {
     }
 
     public struct Device: AWSDecodableShape {
+        /// The device's maker.
+        public let brand: DeviceBrand?
         /// When the device was created.
         public let createdTime: Date?
         /// The device's ID.
@@ -1378,7 +1392,8 @@ extension Panorama {
         /// The device's provisioning status.
         public let provisioningStatus: DeviceStatus?
 
-        public init(createdTime: Date? = nil, deviceId: String? = nil, lastUpdatedTime: Date? = nil, leaseExpirationTime: Date? = nil, name: String? = nil, provisioningStatus: DeviceStatus? = nil) {
+        public init(brand: DeviceBrand? = nil, createdTime: Date? = nil, deviceId: String? = nil, lastUpdatedTime: Date? = nil, leaseExpirationTime: Date? = nil, name: String? = nil, provisioningStatus: DeviceStatus? = nil) {
+            self.brand = brand
             self.createdTime = createdTime
             self.deviceId = deviceId
             self.lastUpdatedTime = lastUpdatedTime
@@ -1388,6 +1403,7 @@ extension Panorama {
         }
 
         private enum CodingKeys: String, CodingKey {
+            case brand = "Brand"
             case createdTime = "CreatedTime"
             case deviceId = "DeviceId"
             case lastUpdatedTime = "LastUpdatedTime"

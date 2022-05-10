@@ -73,6 +73,7 @@ extension MediaPackage {
     }
 
     public enum Profile: String, CustomStringConvertible, Codable {
+        case dvbDash2014 = "DVB_DASH_2014"
         case hbbtv15 = "HBBTV_1_5"
         case hybridcast = "HYBRIDCAST"
         case none = "NONE"
@@ -103,6 +104,7 @@ extension MediaPackage {
     public enum UtcTiming: String, CustomStringConvertible, Codable {
         case httpHead = "HTTP-HEAD"
         case httpIso = "HTTP-ISO"
+        case httpXsdate = "HTTP-XSDATE"
         case none = "NONE"
         public var description: String { return self.rawValue }
     }
@@ -608,7 +610,7 @@ extension MediaPackage {
         /// be partitioned into more than one period. If the list contains "ADS", new periods will be created where
         /// the Channel source contains SCTE-35 ad markers.
         public let periodTriggers: [PeriodTriggersElement]?
-        /// The Dynamic Adaptive Streaming over HTTP (DASH) profile type.  When set to "HBBTV_1_5", HbbTV 1.5 compliant output is enabled.
+        /// The Dynamic Adaptive Streaming over HTTP (DASH) profile type.  When set to "HBBTV_1_5", HbbTV 1.5 compliant output is enabled. When set to "DVB-DASH_2014", DVB-DASH 2014 compliant output is enabled.
         public let profile: Profile?
         /// Duration (in seconds) of each segment. Actual segments will be
         /// rounded to the nearest multiple of the source segment duration.
@@ -620,7 +622,7 @@ extension MediaPackage {
         public let suggestedPresentationDelaySeconds: Int?
         /// Determines the type of UTCTiming included in the Media Presentation Description (MPD)
         public let utcTiming: UtcTiming?
-        /// Specifies the value attribute of the UTCTiming field when utcTiming is set to HTTP-ISO or HTTP-HEAD
+        /// Specifies the value attribute of the UTCTiming field when utcTiming is set to HTTP-ISO, HTTP-HEAD or HTTP-XSDATE
         public let utcTimingUri: String?
 
         public init(adsOnDeliveryRestrictions: AdsOnDeliveryRestrictions? = nil, adTriggers: [AdTriggersElement]? = nil, encryption: DashEncryption? = nil, manifestLayout: ManifestLayout? = nil, manifestWindowSeconds: Int? = nil, minBufferTimeSeconds: Int? = nil, minUpdatePeriodSeconds: Int? = nil, periodTriggers: [PeriodTriggersElement]? = nil, profile: Profile? = nil, segmentDurationSeconds: Int? = nil, segmentTemplateFormat: SegmentTemplateFormat? = nil, streamSelection: StreamSelection? = nil, suggestedPresentationDelaySeconds: Int? = nil, utcTiming: UtcTiming? = nil, utcTimingUri: String? = nil) {

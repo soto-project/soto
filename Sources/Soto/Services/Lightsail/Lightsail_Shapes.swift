@@ -33,6 +33,14 @@ extension Lightsail {
         public var description: String { return self.rawValue }
     }
 
+    public enum AccountLevelBpaSyncStatus: String, CustomStringConvertible, Codable {
+        case defaulted = "Defaulted"
+        case failed = "Failed"
+        case inSync = "InSync"
+        case neverSynced = "NeverSynced"
+        public var description: String { return self.rawValue }
+    }
+
     public enum AddOnType: String, CustomStringConvertible, Codable {
         case autoSnapshot = "AutoSnapshot"
         public var description: String { return self.rawValue }
@@ -50,6 +58,14 @@ extension Lightsail {
         case inProgress = "InProgress"
         case notFound = "NotFound"
         case success = "Success"
+        public var description: String { return self.rawValue }
+    }
+
+    public enum BPAStatusMessage: String, CustomStringConvertible, Codable {
+        case defaultedForSlrMissing = "DEFAULTED_FOR_SLR_MISSING"
+        case defaultedForSlrMissingOnHold = "DEFAULTED_FOR_SLR_MISSING_ON_HOLD"
+        case syncOnHold = "SYNC_ON_HOLD"
+        case unknown = "Unknown"
         public var description: String { return self.rawValue }
     }
 
@@ -292,8 +308,10 @@ extension Lightsail {
 
     public enum LoadBalancerAttributeName: String, CustomStringConvertible, Codable {
         case healthCheckPath = "HealthCheckPath"
+        case httpsRedirectionEnabled = "HttpsRedirectionEnabled"
         case sessionStickinessEnabled = "SessionStickinessEnabled"
         case sessionStickinessLBCookiedurationseconds = "SessionStickiness_LB_CookieDurationSeconds"
+        case tlsPolicyName = "TlsPolicyName"
         public var description: String { return self.rawValue }
     }
 
@@ -747,6 +765,33 @@ extension Lightsail {
         private enum CodingKeys: String, CodingKey {
             case allowPublicOverrides
             case getObject
+        }
+    }
+
+    public struct AccountLevelBpaSync: AWSDecodableShape {
+        /// A Boolean value that indicates whether account-level block public access is affecting your Lightsail buckets.
+        public let bpaImpactsLightsail: Bool?
+        /// The timestamp of when the account-level BPA configuration was last synchronized. This value is null when the account-level BPA configuration has not been synchronized.
+        public let lastSyncedAt: Date?
+        /// A message that provides a reason for a Failed or Defaulted synchronization status.
+        ///  The following messages are possible:    SYNC_ON_HOLD - The synchronization has not yet happened. This status message occurs immediately after you create your first Lightsail bucket. This status message should change after the first synchronization happens, approximately 1 hour after the first bucket is created.    DEFAULTED_FOR_SLR_MISSING - The synchronization failed because the required service-linked role is missing from your Amazon Web Services account. The account-level BPA configuration for your Lightsail buckets is defaulted to active until the synchronization can occur. This means that all your buckets are private and not publicly accessible. For more information about how to create the required service-linked role to allow synchronization, see Using Service-Linked Roles for Amazon Lightsail in the Amazon Lightsail Developer Guide.    DEFAULTED_FOR_SLR_MISSING_ON_HOLD - The synchronization failed because the required service-linked role is missing from your Amazon Web Services account. Account-level BPA is not yet configured for your Lightsail buckets. Therefore, only the bucket access permissions and individual object access permissions apply to your Lightsail buckets. For more information about how to create the required service-linked role to allow synchronization, see Using Service-Linked Roles for Amazon Lightsail in the Amazon Lightsail Developer Guide.    Unknown - The reason that synchronization failed is unknown. Contact Amazon Web Services Support for more information.
+        public let message: BPAStatusMessage?
+        /// The status of the account-level BPA synchronization.
+        ///  The following statuses are possible:    InSync - Account-level BPA is synchronized. The Amazon S3 account-level BPA configuration applies to your Lightsail buckets.    NeverSynced - Synchronization has not yet happened. The Amazon S3 account-level BPA configuration does not apply to your Lightsail buckets.    Failed - Synchronization failed. The Amazon S3 account-level BPA configuration does not apply to your Lightsail buckets.    Defaulted - Synchronization failed and account-level BPA for your Lightsail buckets is defaulted to active.    You might need to complete further actions if the status is Failed or Defaulted. The message parameter provides more information for those statuses.
+        public let status: AccountLevelBpaSyncStatus?
+
+        public init(bpaImpactsLightsail: Bool? = nil, lastSyncedAt: Date? = nil, message: BPAStatusMessage? = nil, status: AccountLevelBpaSyncStatus? = nil) {
+            self.bpaImpactsLightsail = bpaImpactsLightsail
+            self.lastSyncedAt = lastSyncedAt
+            self.message = message
+            self.status = status
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case bpaImpactsLightsail
+            case lastSyncedAt
+            case message
+            case status
         }
     }
 
@@ -1232,7 +1277,7 @@ extension Lightsail {
 
     public struct Bucket: AWSDecodableShape {
         /// Indicates whether the bundle that is currently applied to a bucket can be changed to another bundle.
-        ///  You can update a bucket's bundle only one time within a monthly AWS billing cycle.
+        ///  You can update a bucket's bundle only one time within a monthly Amazon Web Services billing cycle.
         ///  Use the UpdateBucketBundle action to change a bucket's bundle.
         public let ableToUpdateBundle: Bool?
         /// An object that describes the access log configuration for the bucket.
@@ -1247,13 +1292,14 @@ extension Lightsail {
         public let bundleId: String?
         /// The timestamp when the distribution was created.
         public let createdAt: Date?
+        /// An object that describes the location of the bucket, such as the Amazon Web Services Region and Availability Zone.
         public let location: ResourceLocation?
         /// The name of the bucket.
         public let name: String?
         /// Indicates whether object versioning is enabled for the bucket.
         ///  The following options can be configured:    Enabled - Object versioning is enabled.    Suspended - Object versioning was previously enabled but is currently suspended. Existing object versions are retained.    NeverEnabled - Object versioning has never been enabled.
         public let objectVersioning: String?
-        /// An array of strings that specify the AWS account IDs that have read-only access to the bucket.
+        /// An array of strings that specify the Amazon Web Services account IDs that have read-only access to the bucket.
         public let readonlyAccessAccounts: [String]?
         /// An array of objects that describe Lightsail instances that have access to the bucket.
         ///  Use the SetResourceAccessForBucket action to update the instances that have access to a bucket.
@@ -1309,7 +1355,7 @@ extension Lightsail {
     }
 
     public struct BucketAccessLogConfig: AWSEncodableShape & AWSDecodableShape {
-        /// The name of the bucket where the access is saved. The destination can be a Lightsail bucket in the same account, and in the same AWS Region as the source bucket.  This parameter is required when enabling the access log for a bucket, and should be omitted when disabling the access log.
+        /// The name of the bucket where the access logs are saved. The destination can be a Lightsail bucket in the same account, and in the same Amazon Web Services Region as the source bucket.  This parameter is required when enabling the access log for a bucket, and should be omitted when disabling the access log.
         public let destination: String?
         /// A Boolean value that indicates whether bucket access logging is enabled for the bucket.
         public let enabled: Bool
@@ -1683,7 +1729,7 @@ extension Lightsail {
         public let createdAt: Date?
         /// A list of objects describing the destination service, which is AWS CloudFormation, and the Amazon Resource Name (ARN) of the AWS CloudFormation stack.
         public let destinationInfo: DestinationInfo?
-        /// A list of objects describing the Availability Zone and AWS Region of the CloudFormation stack record.
+        /// A list of objects describing the Availability Zone and Amazon Web Services Region of the CloudFormation stack record.
         public let location: ResourceLocation?
         /// The name of the CloudFormation stack record. It starts with CloudFormationStackRecord followed by a GUID.
         public let name: String?
@@ -1745,6 +1791,7 @@ extension Lightsail {
         public let contactEndpoint: String?
         /// The timestamp when the contact method was created.
         public let createdAt: Date?
+        /// An object that describes the location of the contact method, such as the Amazon Web Services Region and Availability Zone.
         public let location: ResourceLocation?
         /// The name of the contact method.
         public let name: String?
@@ -1841,7 +1888,7 @@ extension Lightsail {
         public let currentDeployment: ContainerServiceDeployment?
         /// A Boolean value indicating whether the container service is disabled.
         public let isDisabled: Bool?
-        /// An object that describes the location of the container service, such as the AWS Region and Availability Zone.
+        /// An object that describes the location of the container service, such as the Amazon Web Services Region and Availability Zone.
         public let location: ResourceLocation?
         /// An object that describes the next deployment of the container service.
         ///  This value is null when there is no deployment in a pending state.
@@ -1852,7 +1899,7 @@ extension Lightsail {
         /// The ID of the power of the container service.
         public let powerId: String?
         /// The principal ARN of the container service.
-        ///  The principal ARN can be used to create a trust relationship between your standard AWS account and your Lightsail container service. This allows you to give your service permission to access resources in your standard AWS account.
+        ///  The principal ARN can be used to create a trust relationship between your standard Amazon Web Services account and your Lightsail container service. This allows you to give your service permission to access resources in your standard Amazon Web Services account.
         public let principalArn: String?
         /// The private domain name of the container service.
         ///  The private domain name is accessible only by other resources within the default virtual private cloud (VPC) of your Lightsail account.
@@ -2156,7 +2203,7 @@ extension Lightsail {
     public struct CopySnapshotRequest: AWSEncodableShape {
         /// The date of the source automatic snapshot to copy. Use the get auto snapshots operation to identify the dates of the available automatic snapshots. Constraints:   Must be specified in YYYY-MM-DD format.   This parameter cannot be defined together with the use latest restorable auto snapshot parameter. The restore date and use latest restorable auto snapshot parameters are mutually exclusive.   Define this parameter only when copying an automatic snapshot as a manual snapshot. For more information, see the Amazon Lightsail Developer Guide.
         public let restoreDate: String?
-        /// The AWS Region where the source manual or automatic snapshot is located.
+        /// The Amazon Web Services Region where the source manual or automatic snapshot is located.
         public let sourceRegion: RegionName
         /// The name of the source instance or disk from which the source automatic snapshot was created. Constraint:   Define this parameter only when copying an automatic snapshot as a manual snapshot. For more information, see the Amazon Lightsail Developer Guide.
         public let sourceResourceName: String?
@@ -2372,7 +2419,7 @@ extension Lightsail {
     public struct CreateContactMethodRequest: AWSEncodableShape {
         /// The destination of the contact method, such as an email address or a mobile phone number. Use the E.164 format when specifying a mobile phone number. E.164 is a standard for the phone number structure used for international telecommunication. Phone numbers that follow this format can have a maximum of 15 digits, and they are prefixed with the plus character (+) and the country code. For example, a U.S. phone number in E.164 format would be specified as +1XXX5550100. For more information, see E.164 on Wikipedia.
         public let contactEndpoint: String
-        /// The protocol of the contact method, such as Email or SMS (text messaging). The SMS protocol is supported only in the following AWS Regions.   US East (N. Virginia) (us-east-1)   US West (Oregon) (us-west-2)   Europe (Ireland) (eu-west-1)   Asia Pacific (Tokyo) (ap-northeast-1)   Asia Pacific (Singapore) (ap-southeast-1)   Asia Pacific (Sydney) (ap-southeast-2)   For a list of countries/regions where SMS text messages can be sent, and the latest AWS Regions where SMS text messaging is supported, see Supported Regions and Countries in the Amazon SNS Developer Guide. For more information about notifications in Amazon Lightsail, see Notifications in Amazon Lightsail.
+        /// The protocol of the contact method, such as Email or SMS (text messaging). The SMS protocol is supported only in the following Amazon Web Services Regions.   US East (N. Virginia) (us-east-1)   US West (Oregon) (us-west-2)   Europe (Ireland) (eu-west-1)   Asia Pacific (Tokyo) (ap-northeast-1)   Asia Pacific (Singapore) (ap-southeast-1)   Asia Pacific (Sydney) (ap-southeast-2)   For a list of countries/regions where SMS text messages can be sent, and the latest Amazon Web Services Regions where SMS text messaging is supported, see Supported Regions and Countries in the Amazon SNS Developer Guide. For more information about notifications in Amazon Lightsail, see Notifications in Amazon Lightsail.
         public let `protocol`: ContactProtocol
 
         public init(contactEndpoint: String, protocol: ContactProtocol) {
@@ -2489,7 +2536,7 @@ extension Lightsail {
         /// The name for the container service.
         ///  The name that you specify for your container service will make up part of its default domain. The default domain of a container service is typically https://...cs.amazonlightsail.com. If the name of your container service is container-service-1, and it's located in the US East (Ohio) AWS region (us-east-2), then the domain for your container service will be like the following example: https://container-service-1.ur4EXAMPLE2uq.us-east-2.cs.amazonlightsail.com
         ///  The following are the requirements for container service names:
-        ///    Must be unique within each AWS Region in your Lightsail account.   Must contain 1 to 63 characters.   Must contain only alphanumeric characters and hyphens.   A hyphen (-) can separate words but cannot be at the start or end of the name.
+        ///    Must be unique within each Amazon Web Services Region in your Lightsail account.   Must contain 1 to 63 characters.   Must contain only alphanumeric characters and hyphens.   A hyphen (-) can separate words but cannot be at the start or end of the name.
         public let serviceName: String
         /// The tag keys and optional values to add to the container service during create. Use the TagResource action to tag a resource after it's created. For more information about tags in Lightsail, see the Amazon Lightsail Developer Guide.
         public let tags: [Tag]?
@@ -3106,8 +3153,12 @@ extension Lightsail {
         public let loadBalancerName: String
         /// The tag keys and optional values to add to the resource during create. Use the TagResource action to tag a resource after it's created.
         public let tags: [Tag]?
+        /// The name of the TLS policy to apply to the load balancer.
+        ///  Use the GetLoadBalancerTlsPolicies action to get a list of TLS policy names that you can specify.
+        ///  For more information about load balancer TLS policies, see Configuring TLS security policies on your Amazon Lightsail load balancers in the Amazon Lightsail Developer Guide.
+        public let tlsPolicyName: String?
 
-        public init(certificateAlternativeNames: [String]? = nil, certificateDomainName: String? = nil, certificateName: String? = nil, healthCheckPath: String? = nil, instancePort: Int, ipAddressType: IpAddressType? = nil, loadBalancerName: String, tags: [Tag]? = nil) {
+        public init(certificateAlternativeNames: [String]? = nil, certificateDomainName: String? = nil, certificateName: String? = nil, healthCheckPath: String? = nil, instancePort: Int, ipAddressType: IpAddressType? = nil, loadBalancerName: String, tags: [Tag]? = nil, tlsPolicyName: String? = nil) {
             self.certificateAlternativeNames = certificateAlternativeNames
             self.certificateDomainName = certificateDomainName
             self.certificateName = certificateName
@@ -3116,6 +3167,7 @@ extension Lightsail {
             self.ipAddressType = ipAddressType
             self.loadBalancerName = loadBalancerName
             self.tags = tags
+            self.tlsPolicyName = tlsPolicyName
         }
 
         public func validate(name: String) throws {
@@ -3134,6 +3186,7 @@ extension Lightsail {
             case ipAddressType
             case loadBalancerName
             case tags
+            case tlsPolicyName
         }
     }
 
@@ -5044,7 +5097,7 @@ extension Lightsail {
 
     public struct GetBucketsRequest: AWSEncodableShape {
         /// The name of the bucket for which to return information.
-        ///  When omitted, the response includes all of your buckets in the AWS Region where the request is made.
+        ///  When omitted, the response includes all of your buckets in the Amazon Web Services Region where the request is made.
         public let bucketName: String?
         /// A Boolean value that indicates whether to include Lightsail instances that were given access to the bucket using the SetResourceAccessForBucket action.
         public let includeConnectedResources: Bool?
@@ -5072,6 +5125,9 @@ extension Lightsail {
     }
 
     public struct GetBucketsResult: AWSDecodableShape {
+        /// An object that describes the synchronization status of the Amazon S3 account-level block public access feature for your Lightsail buckets.
+        ///  For more information about this feature and how it affects Lightsail buckets, see Block public access for buckets in Amazon Lightsail.
+        public let accountLevelBpaSync: AccountLevelBpaSync?
         /// An array of objects that describe buckets.
         public let buckets: [Bucket]?
         /// The token to advance to the next page of results from your request.
@@ -5079,12 +5135,14 @@ extension Lightsail {
         ///  To get the next page of results, perform another GetBuckets request and specify the next page token using the pageToken parameter.
         public let nextPageToken: String?
 
-        public init(buckets: [Bucket]? = nil, nextPageToken: String? = nil) {
+        public init(accountLevelBpaSync: AccountLevelBpaSync? = nil, buckets: [Bucket]? = nil, nextPageToken: String? = nil) {
+            self.accountLevelBpaSync = accountLevelBpaSync
             self.buckets = buckets
             self.nextPageToken = nextPageToken
         }
 
         private enum CodingKeys: String, CodingKey {
+            case accountLevelBpaSync
             case buckets
             case nextPageToken
         }
@@ -5125,9 +5183,9 @@ extension Lightsail {
     }
 
     public struct GetCertificatesRequest: AWSEncodableShape {
-        /// The name for the certificate for which to return information. When omitted, the response includes all of your certificates in the AWS Region where the request is made.
+        /// The name for the certificate for which to return information. When omitted, the response includes all of your certificates in the Amazon Web Services Region where the request is made.
         public let certificateName: String?
-        /// The status of the certificates for which to return information. For example, specify ISSUED to return only certificates with an ISSUED status. When omitted, the response includes all of your certificates in the AWS Region where the request is made, regardless of their current status.
+        /// The status of the certificates for which to return information. For example, specify ISSUED to return only certificates with an ISSUED status. When omitted, the response includes all of your certificates in the Amazon Web Services Region where the request is made, regardless of their current status.
         public let certificateStatuses: [CertificateStatus]?
         /// Indicates whether to include detailed information about the certificates in the response. When omitted, the response includes only the certificate names, Amazon Resource Names (ARNs), domain names, and tags.
         public let includeCertificateDetails: Bool?
@@ -5457,7 +5515,7 @@ extension Lightsail {
         ]
 
         /// The name of the container service for which to return information.
-        ///  When omitted, the response includes all of your container services in the AWS Region where the request is made.
+        ///  When omitted, the response includes all of your container services in the Amazon Web Services Region where the request is made.
         public let serviceName: String?
 
         public init(serviceName: String? = nil) {
@@ -5705,7 +5763,7 @@ extension Lightsail {
     }
 
     public struct GetDistributionsRequest: AWSEncodableShape {
-        /// The name of the distribution for which to return information.  When omitted, the response includes all of your distributions in the AWS Region where the request is made.
+        /// The name of the distribution for which to return information.  When omitted, the response includes all of your distributions in the Amazon Web Services Region where the request is made.
         public let distributionName: String?
         /// The token to advance to the next page of results from your request. To get a page token, perform an initial GetDistributions request. If your results are paginated, the response will return a next page token that you can specify as the page token in a subsequent request.
         public let pageToken: String?
@@ -6283,6 +6341,39 @@ extension Lightsail {
 
         private enum CodingKeys: String, CodingKey {
             case tlsCertificates
+        }
+    }
+
+    public struct GetLoadBalancerTlsPoliciesRequest: AWSEncodableShape {
+        /// The token to advance to the next page of results from your request.
+        ///  To get a page token, perform an initial GetLoadBalancerTlsPolicies request. If your results are paginated, the response will return a next page token that you can specify as the page token in a subsequent request.
+        public let pageToken: String?
+
+        public init(pageToken: String? = nil) {
+            self.pageToken = pageToken
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case pageToken
+        }
+    }
+
+    public struct GetLoadBalancerTlsPoliciesResult: AWSDecodableShape {
+        /// The token to advance to the next page of results from your request.
+        ///  A next page token is not returned if there are no more results to display.
+        ///  To get the next page of results, perform another GetLoadBalancerTlsPolicies request and specify the next page token using the pageToken parameter.
+        public let nextPageToken: String?
+        /// An array of objects that describe the TLS security policies that are available.
+        public let tlsPolicies: [LoadBalancerTlsPolicy]?
+
+        public init(nextPageToken: String? = nil, tlsPolicies: [LoadBalancerTlsPolicy]? = nil) {
+            self.nextPageToken = nextPageToken
+            self.tlsPolicies = tlsPolicies
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case nextPageToken
+            case tlsPolicies
         }
     }
 
@@ -7591,7 +7682,7 @@ extension Lightsail {
         public let ipAddressType: IpAddressType?
         /// Indicates whether the distribution is enabled.
         public let isEnabled: Bool?
-        /// An object that describes the location of the distribution, such as the AWS Region and Availability Zone.  Lightsail distributions are global resources that can reference an origin in any AWS Region, and distribute its content globally. However, all distributions are located in the us-east-1 Region.
+        /// An object that describes the location of the distribution, such as the Amazon Web Services Region and Availability Zone.  Lightsail distributions are global resources that can reference an origin in any Amazon Web Services Region, and distribute its content globally. However, all distributions are located in the us-east-1 Region.
         public let location: ResourceLocation?
         /// The name of the distribution.
         public let name: String?
@@ -7666,6 +7757,8 @@ extension Lightsail {
         public let dnsName: String?
         /// The path you specified to perform your health checks. If no path is specified, the load balancer tries to make a request to the default (root) page.
         public let healthCheckPath: String?
+        /// A Boolean value that indicates whether HTTPS redirection is enabled for the load balancer.
+        public let httpsRedirectionEnabled: Bool?
         /// An array of InstanceHealthSummary objects describing the health of the load balancer.
         public let instanceHealthSummary: [InstanceHealthSummary]?
         /// The port where the load balancer will direct traffic to your Lightsail instances. For HTTP traffic, it's port 80. For HTTPS traffic, it's port 443.
@@ -7691,13 +7784,16 @@ extension Lightsail {
         public let tags: [Tag]?
         /// An array of LoadBalancerTlsCertificateSummary objects that provide additional information about the SSL/TLS certificates. For example, if true, the certificate is attached to the load balancer.
         public let tlsCertificateSummaries: [LoadBalancerTlsCertificateSummary]?
+        /// The name of the TLS security policy for the load balancer.
+        public let tlsPolicyName: String?
 
-        public init(arn: String? = nil, configurationOptions: [LoadBalancerAttributeName: String]? = nil, createdAt: Date? = nil, dnsName: String? = nil, healthCheckPath: String? = nil, instanceHealthSummary: [InstanceHealthSummary]? = nil, instancePort: Int? = nil, ipAddressType: IpAddressType? = nil, location: ResourceLocation? = nil, name: String? = nil, protocol: LoadBalancerProtocol? = nil, publicPorts: [Int]? = nil, resourceType: ResourceType? = nil, state: LoadBalancerState? = nil, supportCode: String? = nil, tags: [Tag]? = nil, tlsCertificateSummaries: [LoadBalancerTlsCertificateSummary]? = nil) {
+        public init(arn: String? = nil, configurationOptions: [LoadBalancerAttributeName: String]? = nil, createdAt: Date? = nil, dnsName: String? = nil, healthCheckPath: String? = nil, httpsRedirectionEnabled: Bool? = nil, instanceHealthSummary: [InstanceHealthSummary]? = nil, instancePort: Int? = nil, ipAddressType: IpAddressType? = nil, location: ResourceLocation? = nil, name: String? = nil, protocol: LoadBalancerProtocol? = nil, publicPorts: [Int]? = nil, resourceType: ResourceType? = nil, state: LoadBalancerState? = nil, supportCode: String? = nil, tags: [Tag]? = nil, tlsCertificateSummaries: [LoadBalancerTlsCertificateSummary]? = nil, tlsPolicyName: String? = nil) {
             self.arn = arn
             self.configurationOptions = configurationOptions
             self.createdAt = createdAt
             self.dnsName = dnsName
             self.healthCheckPath = healthCheckPath
+            self.httpsRedirectionEnabled = httpsRedirectionEnabled
             self.instanceHealthSummary = instanceHealthSummary
             self.instancePort = instancePort
             self.ipAddressType = ipAddressType
@@ -7710,6 +7806,7 @@ extension Lightsail {
             self.supportCode = supportCode
             self.tags = tags
             self.tlsCertificateSummaries = tlsCertificateSummaries
+            self.tlsPolicyName = tlsPolicyName
         }
 
         private enum CodingKeys: String, CodingKey {
@@ -7718,6 +7815,7 @@ extension Lightsail {
             case createdAt
             case dnsName
             case healthCheckPath
+            case httpsRedirectionEnabled
             case instanceHealthSummary
             case instancePort
             case ipAddressType
@@ -7730,6 +7828,7 @@ extension Lightsail {
             case supportCode
             case tags
             case tlsCertificateSummaries
+            case tlsPolicyName
         }
     }
 
@@ -7923,6 +8022,35 @@ extension Lightsail {
         }
     }
 
+    public struct LoadBalancerTlsPolicy: AWSDecodableShape {
+        /// The ciphers used by the TLS security policy. The ciphers are listed in order of preference.
+        public let ciphers: [String]?
+        /// The description of the TLS security policy.
+        public let description: String?
+        /// A Boolean value that indicates whether the TLS security policy is the default.
+        public let isDefault: Bool?
+        /// The name of the TLS security policy.
+        public let name: String?
+        /// The protocols used in a given TLS security policy.
+        public let protocols: [String]?
+
+        public init(ciphers: [String]? = nil, description: String? = nil, isDefault: Bool? = nil, name: String? = nil, protocols: [String]? = nil) {
+            self.ciphers = ciphers
+            self.description = description
+            self.isDefault = isDefault
+            self.name = name
+            self.protocols = protocols
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case ciphers
+            case description
+            case isDefault
+            case name
+            case protocols
+        }
+    }
+
     public struct LogEvent: AWSDecodableShape {
         /// The timestamp when the database log event was created.
         public let createdAt: Date?
@@ -8057,7 +8185,7 @@ extension Lightsail {
         public let id: String?
         /// A Boolean value indicating whether the operation is terminal.
         public let isTerminal: Bool?
-        /// The AWS Region and Availability Zone.
+        /// The Amazon Web Services Region and Availability Zone.
         public let location: ResourceLocation?
         /// Details about the operation (e.g., Debian-1GB-Ohio-1).
         public let operationDetails: String?
@@ -8249,7 +8377,7 @@ extension Lightsail {
         public let alarmName: String
         /// The arithmetic operation to use when comparing the specified statistic to the threshold. The specified statistic value is used as the first operand.
         public let comparisonOperator: ComparisonOperator
-        /// The contact protocols to use for the alarm, such as Email, SMS (text messaging), or both. A notification is sent via the specified contact protocol if notifications are enabled for the alarm, and when the alarm is triggered. A notification is not sent if a contact protocol is not specified, if the specified contact protocol is not configured in the AWS Region, or if notifications are not enabled for the alarm using the notificationEnabled paramater. Use the CreateContactMethod action to configure a contact protocol in an AWS Region.
+        /// The contact protocols to use for the alarm, such as Email, SMS (text messaging), or both. A notification is sent via the specified contact protocol if notifications are enabled for the alarm, and when the alarm is triggered. A notification is not sent if a contact protocol is not specified, if the specified contact protocol is not configured in the Amazon Web Services Region, or if notifications are not enabled for the alarm using the notificationEnabled paramater. Use the CreateContactMethod action to configure a contact protocol in an Amazon Web Services Region.
         public let contactProtocols: [ContactProtocol]?
         /// The number of data points that must be not within the specified threshold to trigger the alarm. If you are setting an "M out of N" alarm, this value (datapointsToAlarm) is the M.
         public let datapointsToAlarm: Int?
@@ -8500,6 +8628,7 @@ extension Lightsail {
     }
 
     public struct RegisterContainerImageResult: AWSDecodableShape {
+        /// An object that describes a container image that is registered to a Lightsail container service
         public let containerImage: ContainerImage?
 
         public init(containerImage: ContainerImage? = nil) {
@@ -9055,7 +9184,7 @@ extension Lightsail {
         public let ipAddressType: IpAddressType
         /// The name of the resource for which to set the IP address type.
         public let resourceName: String
-        /// The resource type. The possible values are Distribution, Instance, and LoadBalancer.  Distribution-related APIs are available only in the N. Virginia (us-east-1) AWS Region. Set your AWS Region configuration to us-east-1 to create, view, or edit distributions.
+        /// The resource type. The possible values are Distribution, Instance, and LoadBalancer.  Distribution-related APIs are available only in the N. Virginia (us-east-1) Amazon Web Services Region. Set your Amazon Web Services Region configuration to us-east-1 to create, view, or edit distributions.
         public let resourceType: ResourceType
 
         public init(ipAddressType: IpAddressType, resourceName: String, resourceType: ResourceType) {
@@ -9496,8 +9625,8 @@ extension Lightsail {
         public let accessRules: AccessRules?
         /// The name of the bucket to update.
         public let bucketName: String
-        /// An array of strings to specify the AWS account IDs that can access the bucket.
-        ///  You can give a maximum of 10 AWS accounts access to a bucket.
+        /// An array of strings to specify the Amazon Web Services account IDs that can access the bucket.
+        ///  You can give a maximum of 10 Amazon Web Services accounts access to a bucket.
         public let readonlyAccessAccounts: [String]?
         /// Specifies whether to enable or suspend versioning of objects in the bucket.
         ///  The following options can be specified:    Enabled - Enables versioning of objects in the specified bucket.    Suspended - Suspends versioning of objects in the specified bucket. Existing object versions are retained.
@@ -9631,6 +9760,7 @@ extension Lightsail {
     }
 
     public struct UpdateDistributionBundleResult: AWSDecodableShape {
+        /// An object that describes the result of the action, such as the status of the request, the timestamp of the request, and the resources affected by the request.
         public let operation: Operation?
 
         public init(operation: Operation? = nil) {
@@ -9729,9 +9859,9 @@ extension Lightsail {
     }
 
     public struct UpdateLoadBalancerAttributeRequest: AWSEncodableShape {
-        /// The name of the attribute you want to update. Valid values are below.
+        /// The name of the attribute you want to update.
         public let attributeName: LoadBalancerAttributeName
-        /// The value that you want to specify for the attribute name.
+        /// The value that you want to specify for the attribute name. The following values are supported depending on what you specify for the attributeName request parameter:   If you specify HealthCheckPath for the attributeName request parameter, then the attributeValue request parameter must be the path to ping on the target (for example, /weather/us/wa/seattle).   If you specify SessionStickinessEnabled for the attributeName request parameter, then the attributeValue request parameter must be true to activate session stickiness or false to deactivate session stickiness.   If you specify SessionStickiness_LB_CookieDurationSeconds for the attributeName request parameter, then the attributeValue request parameter must be an interger that represents the cookie duration in seconds.   If you specify HttpsRedirectionEnabled for the attributeName request parameter, then the attributeValue request parameter must be true to activate HTTP to HTTPS redirection or false to deactivate HTTP to HTTPS redirection.   If you specify TlsPolicyName for the attributeName request parameter, then the attributeValue request parameter must be the name of the TLS policy. Use the GetLoadBalancerTlsPolicies action to get a list of TLS policy names that you can specify.
         public let attributeValue: String
         /// The name of the load balancer that you want to modify (e.g., my-load-balancer.
         public let loadBalancerName: String

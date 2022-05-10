@@ -816,7 +816,7 @@ extension SSM {
     }
 
     public struct AddTagsToResourceRequest: AWSEncodableShape {
-        /// The resource ID you want to tag. Use the ID of the resource. Here are some examples:  MaintenanceWindow: mw-012345abcde   PatchBaseline: pb-012345abcde   OpsMetadata object: ResourceID for tagging is created from the Amazon Resource Name (ARN) for the object. Specifically, ResourceID is created from the strings that come after the word opsmetadata in the ARN. For example, an OpsMetadata object with an ARN of arn:aws:ssm:us-east-2:1234567890:opsmetadata/aws/ssm/MyGroup/appmanager has a ResourceID of either aws/ssm/MyGroup/appmanager or /aws/ssm/MyGroup/appmanager. For the Document and Parameter values, use the name of the resource.  ManagedInstance: mi-012345abcde   The ManagedInstance type for this API operation is only for on-premises managed nodes. You must specify the name of the managed node in the following format: mi-ID_number . For example, mi-1a2b3c4d5e6f.
+        /// The resource ID you want to tag. Use the ID of the resource. Here are some examples:  MaintenanceWindow: mw-012345abcde   PatchBaseline: pb-012345abcde   Automation: example-c160-4567-8519-012345abcde   OpsMetadata object: ResourceID for tagging is created from the Amazon Resource Name (ARN) for the object. Specifically, ResourceID is created from the strings that come after the word opsmetadata in the ARN. For example, an OpsMetadata object with an ARN of arn:aws:ssm:us-east-2:1234567890:opsmetadata/aws/ssm/MyGroup/appmanager has a ResourceID of either aws/ssm/MyGroup/appmanager or /aws/ssm/MyGroup/appmanager. For the Document and Parameter values, use the name of the resource.  ManagedInstance: mi-012345abcde   The ManagedInstance type for this API operation is only for on-premises managed nodes. You must specify the name of the managed node in the following format: mi-ID_number . For example, mi-1a2b3c4d5e6f.
         public let resourceId: String
         /// Specifies the type of resource you are tagging.  The ManagedInstance type for this API operation is for on-premises managed nodes. You must specify the name of the managed node in the following format: mi-ID_number . For example, mi-1a2b3c4d5e6f.
         public let resourceType: ResourceTypeForTagging
@@ -909,10 +909,14 @@ extension SSM {
         public let overview: AssociationOverview?
         /// A cron expression that specifies a schedule when the association runs. The schedule runs in Coordinated Universal Time (UTC).
         public let scheduleExpression: String?
+        /// Number of days to wait after the scheduled day to run an association.
+        public let scheduleOffset: Int?
+        /// A key-value mapping of document parameters to target resources. Both Targets and TargetMaps can't be specified together.
+        public let targetMaps: [[String: [String]]]?
         /// The managed nodes targeted by the request to create an association. You can target all managed nodes in an Amazon Web Services account by specifying the InstanceIds key with a value of *.
         public let targets: [Target]?
 
-        public init(associationId: String? = nil, associationName: String? = nil, associationVersion: String? = nil, documentVersion: String? = nil, instanceId: String? = nil, lastExecutionDate: Date? = nil, name: String? = nil, overview: AssociationOverview? = nil, scheduleExpression: String? = nil, targets: [Target]? = nil) {
+        public init(associationId: String? = nil, associationName: String? = nil, associationVersion: String? = nil, documentVersion: String? = nil, instanceId: String? = nil, lastExecutionDate: Date? = nil, name: String? = nil, overview: AssociationOverview? = nil, scheduleExpression: String? = nil, scheduleOffset: Int? = nil, targetMaps: [[String: [String]]]? = nil, targets: [Target]? = nil) {
             self.associationId = associationId
             self.associationName = associationName
             self.associationVersion = associationVersion
@@ -922,6 +926,8 @@ extension SSM {
             self.name = name
             self.overview = overview
             self.scheduleExpression = scheduleExpression
+            self.scheduleOffset = scheduleOffset
+            self.targetMaps = targetMaps
             self.targets = targets
         }
 
@@ -935,6 +941,8 @@ extension SSM {
             case name = "Name"
             case overview = "Overview"
             case scheduleExpression = "ScheduleExpression"
+            case scheduleOffset = "ScheduleOffset"
+            case targetMaps = "TargetMaps"
             case targets = "Targets"
         }
     }
@@ -980,16 +988,20 @@ extension SSM {
         public let parameters: [String: [String]]?
         /// A cron expression that specifies a schedule when the association runs.
         public let scheduleExpression: String?
+        /// Number of days to wait after the scheduled day to run an association.
+        public let scheduleOffset: Int?
         /// The association status.
         public let status: AssociationStatus?
         /// The mode for generating association compliance. You can specify AUTO or MANUAL. In AUTO mode, the system uses the status of the association execution to determine the compliance status. If the association execution runs successfully, then the association is COMPLIANT. If the association execution doesn't run successfully, the association is NON-COMPLIANT. In MANUAL mode, you must specify the AssociationId as a parameter for the PutComplianceItems API operation. In this case, compliance data isn't managed by State Manager, a capability of Amazon Web Services Systems Manager. It is managed by your direct call to the PutComplianceItems API operation. By default, all associations use AUTO mode.
         public let syncCompliance: AssociationSyncCompliance?
         /// The combination of Amazon Web Services Regions and Amazon Web Services accounts where you want to run the association.
         public let targetLocations: [TargetLocation]?
+        /// A key-value mapping of document parameters to target resources. Both Targets and TargetMaps can't be specified together.
+        public let targetMaps: [[String: [String]]]?
         /// The managed nodes targeted by the request.
         public let targets: [Target]?
 
-        public init(applyOnlyAtCronInterval: Bool? = nil, associationId: String? = nil, associationName: String? = nil, associationVersion: String? = nil, automationTargetParameterName: String? = nil, calendarNames: [String]? = nil, complianceSeverity: AssociationComplianceSeverity? = nil, date: Date? = nil, documentVersion: String? = nil, instanceId: String? = nil, lastExecutionDate: Date? = nil, lastSuccessfulExecutionDate: Date? = nil, lastUpdateAssociationDate: Date? = nil, maxConcurrency: String? = nil, maxErrors: String? = nil, name: String? = nil, outputLocation: InstanceAssociationOutputLocation? = nil, overview: AssociationOverview? = nil, parameters: [String: [String]]? = nil, scheduleExpression: String? = nil, status: AssociationStatus? = nil, syncCompliance: AssociationSyncCompliance? = nil, targetLocations: [TargetLocation]? = nil, targets: [Target]? = nil) {
+        public init(applyOnlyAtCronInterval: Bool? = nil, associationId: String? = nil, associationName: String? = nil, associationVersion: String? = nil, automationTargetParameterName: String? = nil, calendarNames: [String]? = nil, complianceSeverity: AssociationComplianceSeverity? = nil, date: Date? = nil, documentVersion: String? = nil, instanceId: String? = nil, lastExecutionDate: Date? = nil, lastSuccessfulExecutionDate: Date? = nil, lastUpdateAssociationDate: Date? = nil, maxConcurrency: String? = nil, maxErrors: String? = nil, name: String? = nil, outputLocation: InstanceAssociationOutputLocation? = nil, overview: AssociationOverview? = nil, parameters: [String: [String]]? = nil, scheduleExpression: String? = nil, scheduleOffset: Int? = nil, status: AssociationStatus? = nil, syncCompliance: AssociationSyncCompliance? = nil, targetLocations: [TargetLocation]? = nil, targetMaps: [[String: [String]]]? = nil, targets: [Target]? = nil) {
             self.applyOnlyAtCronInterval = applyOnlyAtCronInterval
             self.associationId = associationId
             self.associationName = associationName
@@ -1010,9 +1022,11 @@ extension SSM {
             self.overview = overview
             self.parameters = parameters
             self.scheduleExpression = scheduleExpression
+            self.scheduleOffset = scheduleOffset
             self.status = status
             self.syncCompliance = syncCompliance
             self.targetLocations = targetLocations
+            self.targetMaps = targetMaps
             self.targets = targets
         }
 
@@ -1037,9 +1051,11 @@ extension SSM {
             case overview = "Overview"
             case parameters = "Parameters"
             case scheduleExpression = "ScheduleExpression"
+            case scheduleOffset = "ScheduleOffset"
             case status = "Status"
             case syncCompliance = "SyncCompliance"
             case targetLocations = "TargetLocations"
+            case targetMaps = "TargetMaps"
             case targets = "Targets"
         }
     }
@@ -1278,14 +1294,18 @@ extension SSM {
         public let parameters: [String: [String]]?
         /// The cron or rate schedule specified for the association when the association version was created.
         public let scheduleExpression: String?
+        /// Number of days to wait after the scheduled day to run an association.
+        public let scheduleOffset: Int?
         /// The mode for generating association compliance. You can specify AUTO or MANUAL. In AUTO mode, the system uses the status of the association execution to determine the compliance status. If the association execution runs successfully, then the association is COMPLIANT. If the association execution doesn't run successfully, the association is NON-COMPLIANT. In MANUAL mode, you must specify the AssociationId as a parameter for the PutComplianceItems API operation. In this case, compliance data isn't managed by State Manager, a capability of Amazon Web Services Systems Manager. It is managed by your direct call to the PutComplianceItems API operation. By default, all associations use AUTO mode.
         public let syncCompliance: AssociationSyncCompliance?
         /// The combination of Amazon Web Services Regions and Amazon Web Services accounts where you wanted to run the association when this association version was created.
         public let targetLocations: [TargetLocation]?
+        /// A key-value mapping of document parameters to target resources. Both Targets and TargetMaps can't be specified together.
+        public let targetMaps: [[String: [String]]]?
         /// The targets specified for the association when the association version was created.
         public let targets: [Target]?
 
-        public init(applyOnlyAtCronInterval: Bool? = nil, associationId: String? = nil, associationName: String? = nil, associationVersion: String? = nil, calendarNames: [String]? = nil, complianceSeverity: AssociationComplianceSeverity? = nil, createdDate: Date? = nil, documentVersion: String? = nil, maxConcurrency: String? = nil, maxErrors: String? = nil, name: String? = nil, outputLocation: InstanceAssociationOutputLocation? = nil, parameters: [String: [String]]? = nil, scheduleExpression: String? = nil, syncCompliance: AssociationSyncCompliance? = nil, targetLocations: [TargetLocation]? = nil, targets: [Target]? = nil) {
+        public init(applyOnlyAtCronInterval: Bool? = nil, associationId: String? = nil, associationName: String? = nil, associationVersion: String? = nil, calendarNames: [String]? = nil, complianceSeverity: AssociationComplianceSeverity? = nil, createdDate: Date? = nil, documentVersion: String? = nil, maxConcurrency: String? = nil, maxErrors: String? = nil, name: String? = nil, outputLocation: InstanceAssociationOutputLocation? = nil, parameters: [String: [String]]? = nil, scheduleExpression: String? = nil, scheduleOffset: Int? = nil, syncCompliance: AssociationSyncCompliance? = nil, targetLocations: [TargetLocation]? = nil, targetMaps: [[String: [String]]]? = nil, targets: [Target]? = nil) {
             self.applyOnlyAtCronInterval = applyOnlyAtCronInterval
             self.associationId = associationId
             self.associationName = associationName
@@ -1300,8 +1320,10 @@ extension SSM {
             self.outputLocation = outputLocation
             self.parameters = parameters
             self.scheduleExpression = scheduleExpression
+            self.scheduleOffset = scheduleOffset
             self.syncCompliance = syncCompliance
             self.targetLocations = targetLocations
+            self.targetMaps = targetMaps
             self.targets = targets
         }
 
@@ -1320,8 +1342,10 @@ extension SSM {
             case outputLocation = "OutputLocation"
             case parameters = "Parameters"
             case scheduleExpression = "ScheduleExpression"
+            case scheduleOffset = "ScheduleOffset"
             case syncCompliance = "SyncCompliance"
             case targetLocations = "TargetLocations"
+            case targetMaps = "TargetMaps"
             case targets = "Targets"
         }
     }
@@ -2374,14 +2398,18 @@ extension SSM {
         public let parameters: [String: [String]]?
         /// A cron expression that specifies a schedule when the association runs.
         public let scheduleExpression: String?
+        /// Number of days to wait after the scheduled day to run an association.
+        public let scheduleOffset: Int?
         /// The mode for generating association compliance. You can specify AUTO or MANUAL. In AUTO mode, the system uses the status of the association execution to determine the compliance status. If the association execution runs successfully, then the association is COMPLIANT. If the association execution doesn't run successfully, the association is NON-COMPLIANT.  In MANUAL mode, you must specify the AssociationId as a parameter for the PutComplianceItems API operation. In this case, compliance data isn't managed by State Manager, a capability of Amazon Web Services Systems Manager. It is managed by your direct call to the PutComplianceItems API operation. By default, all associations use AUTO mode.
         public let syncCompliance: AssociationSyncCompliance?
         /// Use this action to create an association in multiple Regions and multiple accounts.
         public let targetLocations: [TargetLocation]?
+        /// A key-value mapping of document parameters to target resources. Both Targets and TargetMaps can't be specified together.
+        public let targetMaps: [[String: [String]]]?
         /// The managed nodes targeted by the request.
         public let targets: [Target]?
 
-        public init(applyOnlyAtCronInterval: Bool? = nil, associationName: String? = nil, automationTargetParameterName: String? = nil, calendarNames: [String]? = nil, complianceSeverity: AssociationComplianceSeverity? = nil, documentVersion: String? = nil, instanceId: String? = nil, maxConcurrency: String? = nil, maxErrors: String? = nil, name: String, outputLocation: InstanceAssociationOutputLocation? = nil, parameters: [String: [String]]? = nil, scheduleExpression: String? = nil, syncCompliance: AssociationSyncCompliance? = nil, targetLocations: [TargetLocation]? = nil, targets: [Target]? = nil) {
+        public init(applyOnlyAtCronInterval: Bool? = nil, associationName: String? = nil, automationTargetParameterName: String? = nil, calendarNames: [String]? = nil, complianceSeverity: AssociationComplianceSeverity? = nil, documentVersion: String? = nil, instanceId: String? = nil, maxConcurrency: String? = nil, maxErrors: String? = nil, name: String, outputLocation: InstanceAssociationOutputLocation? = nil, parameters: [String: [String]]? = nil, scheduleExpression: String? = nil, scheduleOffset: Int? = nil, syncCompliance: AssociationSyncCompliance? = nil, targetLocations: [TargetLocation]? = nil, targetMaps: [[String: [String]]]? = nil, targets: [Target]? = nil) {
             self.applyOnlyAtCronInterval = applyOnlyAtCronInterval
             self.associationName = associationName
             self.automationTargetParameterName = automationTargetParameterName
@@ -2395,8 +2423,10 @@ extension SSM {
             self.outputLocation = outputLocation
             self.parameters = parameters
             self.scheduleExpression = scheduleExpression
+            self.scheduleOffset = scheduleOffset
             self.syncCompliance = syncCompliance
             self.targetLocations = targetLocations
+            self.targetMaps = targetMaps
             self.targets = targets
         }
 
@@ -2416,11 +2446,18 @@ extension SSM {
             try self.outputLocation?.validate(name: "\(name).outputLocation")
             try self.validate(self.scheduleExpression, name: "scheduleExpression", parent: name, max: 256)
             try self.validate(self.scheduleExpression, name: "scheduleExpression", parent: name, min: 1)
+            try self.validate(self.scheduleOffset, name: "scheduleOffset", parent: name, max: 6)
+            try self.validate(self.scheduleOffset, name: "scheduleOffset", parent: name, min: 1)
             try self.targetLocations?.forEach {
                 try $0.validate(name: "\(name).targetLocations[]")
             }
             try self.validate(self.targetLocations, name: "targetLocations", parent: name, max: 100)
             try self.validate(self.targetLocations, name: "targetLocations", parent: name, min: 1)
+            try self.targetMaps?.forEach {
+                try validate($0, name: "targetMaps[]", parent: name, max: 20)
+                try validate($0, name: "targetMaps[]", parent: name, min: 1)
+            }
+            try self.validate(self.targetMaps, name: "targetMaps", parent: name, max: 300)
             try self.targets?.forEach {
                 try $0.validate(name: "\(name).targets[]")
             }
@@ -2441,8 +2478,10 @@ extension SSM {
             case outputLocation = "OutputLocation"
             case parameters = "Parameters"
             case scheduleExpression = "ScheduleExpression"
+            case scheduleOffset = "ScheduleOffset"
             case syncCompliance = "SyncCompliance"
             case targetLocations = "TargetLocations"
+            case targetMaps = "TargetMaps"
             case targets = "Targets"
         }
     }
@@ -2491,14 +2530,18 @@ extension SSM {
         public let parameters: [String: [String]]?
         /// A cron expression when the association will be applied to the target(s).
         public let scheduleExpression: String?
+        /// Number of days to wait after the scheduled day to run an association. For example, if you specified a cron schedule of cron(0 0 ? * THU#2 *), you could specify an offset of 3 to run the association each Sunday after the second Thursday of the month. For more information about cron schedules for associations, see Reference: Cron and rate expressions for Systems Manager in the Amazon Web Services Systems Manager User Guide.   To use offsets, you must specify the ApplyOnlyAtCronInterval parameter. This option tells the system not to run an association immediately after you create it.
+        public let scheduleOffset: Int?
         /// The mode for generating association compliance. You can specify AUTO or MANUAL. In AUTO mode, the system uses the status of the association execution to determine the compliance status. If the association execution runs successfully, then the association is COMPLIANT. If the association execution doesn't run successfully, the association is NON-COMPLIANT. In MANUAL mode, you must specify the AssociationId as a parameter for the PutComplianceItems API operation. In this case, compliance data isn't managed by State Manager. It is managed by your direct call to the PutComplianceItems API operation. By default, all associations use AUTO mode.
         public let syncCompliance: AssociationSyncCompliance?
         /// A location is a combination of Amazon Web Services Regions and Amazon Web Services accounts where you want to run the association. Use this action to create an association in multiple Regions and multiple accounts.
         public let targetLocations: [TargetLocation]?
+        /// A key-value mapping of document parameters to target resources. Both Targets and TargetMaps can't be specified together.
+        public let targetMaps: [[String: [String]]]?
         /// The targets for the association. You can target managed nodes by using tags, Amazon Web Services resource groups, all managed nodes in an Amazon Web Services account, or individual managed node IDs. You can target all managed nodes in an Amazon Web Services account by specifying the InstanceIds key with a value of *. For more information about choosing targets for an association, see Using targets and rate controls with State Manager associations in the Amazon Web Services Systems Manager User Guide.
         public let targets: [Target]?
 
-        public init(applyOnlyAtCronInterval: Bool? = nil, associationName: String? = nil, automationTargetParameterName: String? = nil, calendarNames: [String]? = nil, complianceSeverity: AssociationComplianceSeverity? = nil, documentVersion: String? = nil, instanceId: String? = nil, maxConcurrency: String? = nil, maxErrors: String? = nil, name: String, outputLocation: InstanceAssociationOutputLocation? = nil, parameters: [String: [String]]? = nil, scheduleExpression: String? = nil, syncCompliance: AssociationSyncCompliance? = nil, targetLocations: [TargetLocation]? = nil, targets: [Target]? = nil) {
+        public init(applyOnlyAtCronInterval: Bool? = nil, associationName: String? = nil, automationTargetParameterName: String? = nil, calendarNames: [String]? = nil, complianceSeverity: AssociationComplianceSeverity? = nil, documentVersion: String? = nil, instanceId: String? = nil, maxConcurrency: String? = nil, maxErrors: String? = nil, name: String, outputLocation: InstanceAssociationOutputLocation? = nil, parameters: [String: [String]]? = nil, scheduleExpression: String? = nil, scheduleOffset: Int? = nil, syncCompliance: AssociationSyncCompliance? = nil, targetLocations: [TargetLocation]? = nil, targetMaps: [[String: [String]]]? = nil, targets: [Target]? = nil) {
             self.applyOnlyAtCronInterval = applyOnlyAtCronInterval
             self.associationName = associationName
             self.automationTargetParameterName = automationTargetParameterName
@@ -2512,8 +2555,10 @@ extension SSM {
             self.outputLocation = outputLocation
             self.parameters = parameters
             self.scheduleExpression = scheduleExpression
+            self.scheduleOffset = scheduleOffset
             self.syncCompliance = syncCompliance
             self.targetLocations = targetLocations
+            self.targetMaps = targetMaps
             self.targets = targets
         }
 
@@ -2533,11 +2578,18 @@ extension SSM {
             try self.outputLocation?.validate(name: "\(name).outputLocation")
             try self.validate(self.scheduleExpression, name: "scheduleExpression", parent: name, max: 256)
             try self.validate(self.scheduleExpression, name: "scheduleExpression", parent: name, min: 1)
+            try self.validate(self.scheduleOffset, name: "scheduleOffset", parent: name, max: 6)
+            try self.validate(self.scheduleOffset, name: "scheduleOffset", parent: name, min: 1)
             try self.targetLocations?.forEach {
                 try $0.validate(name: "\(name).targetLocations[]")
             }
             try self.validate(self.targetLocations, name: "targetLocations", parent: name, max: 100)
             try self.validate(self.targetLocations, name: "targetLocations", parent: name, min: 1)
+            try self.targetMaps?.forEach {
+                try validate($0, name: "targetMaps[]", parent: name, max: 20)
+                try validate($0, name: "targetMaps[]", parent: name, min: 1)
+            }
+            try self.validate(self.targetMaps, name: "targetMaps", parent: name, max: 300)
             try self.targets?.forEach {
                 try $0.validate(name: "\(name).targets[]")
             }
@@ -2558,8 +2610,10 @@ extension SSM {
             case outputLocation = "OutputLocation"
             case parameters = "Parameters"
             case scheduleExpression = "ScheduleExpression"
+            case scheduleOffset = "ScheduleOffset"
             case syncCompliance = "SyncCompliance"
             case targetLocations = "TargetLocations"
+            case targetMaps = "TargetMaps"
             case targets = "Targets"
         }
     }
@@ -5792,7 +5846,7 @@ extension SSM {
         public let commandId: String
         /// (Required) The ID of the managed node targeted by the command. A managed node can be an Amazon Elastic Compute Cloud (Amazon EC2) instance, edge device, and on-premises server or VM in your hybrid environment that is configured for Amazon Web Services Systems Manager.
         public let instanceId: String
-        /// The name of the plugin for which you want detailed results. If the document contains only one plugin, you can omit the name and details for that plugin. If the document contains more than one plugin, you must specify the name of the plugin for which you want to view details. Plugin names are also referred to as step names in Systems Manager documents (SSM documents). For example, aws:RunShellScript is a plugin. To find the PluginName, check the document content and find the name of the plugin. Alternatively, use ListCommandInvocations with the CommandId and Details parameters. The PluginName is the Name attribute of the CommandPlugin object in the CommandPlugins list.
+        /// The name of the step for which you want detailed results. If the document contains only one step, you can omit the name and details for that step. If the document contains more than one step, you must specify the name of the step for which you want to view details. Be sure to specify the name of the step, not the name of a plugin like aws:RunShellScript. To find the PluginName, check the document content and find the name of the step you want details for. Alternatively, use ListCommandInvocations with the CommandId and Details parameters. The PluginName is the Name attribute of the CommandPlugin object in the CommandPlugins list.
         public let pluginName: String?
 
         public init(commandId: String, instanceId: String, pluginName: String? = nil) {
@@ -11086,7 +11140,7 @@ extension SSM {
     }
 
     public struct RemoveTagsFromResourceRequest: AWSEncodableShape {
-        /// The ID of the resource from which you want to remove tags. For example: ManagedInstance: mi-012345abcde MaintenanceWindow: mw-012345abcde PatchBaseline: pb-012345abcde OpsMetadata object: ResourceID for tagging is created from the Amazon Resource Name (ARN) for the object. Specifically, ResourceID is created from the strings that come after the word opsmetadata in the ARN. For example, an OpsMetadata object with an ARN of arn:aws:ssm:us-east-2:1234567890:opsmetadata/aws/ssm/MyGroup/appmanager has a ResourceID of either aws/ssm/MyGroup/appmanager or /aws/ssm/MyGroup/appmanager. For the Document and Parameter values, use the name of the resource.  The ManagedInstance type for this API operation is only for on-premises managed nodes. Specify the name of the managed node in the following format: mi-ID_number. For example, mi-1a2b3c4d5e6f.
+        /// The ID of the resource from which you want to remove tags. For example: ManagedInstance: mi-012345abcde MaintenanceWindow: mw-012345abcde  Automation: example-c160-4567-8519-012345abcde  PatchBaseline: pb-012345abcde OpsMetadata object: ResourceID for tagging is created from the Amazon Resource Name (ARN) for the object. Specifically, ResourceID is created from the strings that come after the word opsmetadata in the ARN. For example, an OpsMetadata object with an ARN of arn:aws:ssm:us-east-2:1234567890:opsmetadata/aws/ssm/MyGroup/appmanager has a ResourceID of either aws/ssm/MyGroup/appmanager or /aws/ssm/MyGroup/appmanager. For the Document and Parameter values, use the name of the resource.  The ManagedInstance type for this API operation is only for on-premises managed nodes. Specify the name of the managed node in the following format: mi-ID_number. For example, mi-1a2b3c4d5e6f.
         public let resourceId: String
         /// The type of resource from which you want to remove a tag.  The ManagedInstance type for this API operation is only for on-premises managed nodes. Specify the name of the managed node in the following format: mi-ID_number . For example, mi-1a2b3c4d5e6f.
         public let resourceType: ResourceTypeForTagging
@@ -11532,18 +11586,21 @@ extension SSM {
         public let parameters: [String: [String]]?
         /// Information about the Amazon Web Services Regions and Amazon Web Services accounts targeted by the current Runbook operation.
         public let targetLocations: [TargetLocation]?
+        /// A key-value mapping of runbook parameters to target resources. Both Targets and TargetMaps can't be specified together.
+        public let targetMaps: [[String: [String]]]?
         /// The name of the parameter used as the target resource for the rate-controlled runbook workflow. Required if you specify Targets.
         public let targetParameterName: String?
         /// A key-value mapping to target resources that the runbook operation performs tasks on. Required if you specify TargetParameterName.
         public let targets: [Target]?
 
-        public init(documentName: String, documentVersion: String? = nil, maxConcurrency: String? = nil, maxErrors: String? = nil, parameters: [String: [String]]? = nil, targetLocations: [TargetLocation]? = nil, targetParameterName: String? = nil, targets: [Target]? = nil) {
+        public init(documentName: String, documentVersion: String? = nil, maxConcurrency: String? = nil, maxErrors: String? = nil, parameters: [String: [String]]? = nil, targetLocations: [TargetLocation]? = nil, targetMaps: [[String: [String]]]? = nil, targetParameterName: String? = nil, targets: [Target]? = nil) {
             self.documentName = documentName
             self.documentVersion = documentVersion
             self.maxConcurrency = maxConcurrency
             self.maxErrors = maxErrors
             self.parameters = parameters
             self.targetLocations = targetLocations
+            self.targetMaps = targetMaps
             self.targetParameterName = targetParameterName
             self.targets = targets
         }
@@ -11569,6 +11626,11 @@ extension SSM {
             }
             try self.validate(self.targetLocations, name: "targetLocations", parent: name, max: 100)
             try self.validate(self.targetLocations, name: "targetLocations", parent: name, min: 1)
+            try self.targetMaps?.forEach {
+                try validate($0, name: "targetMaps[]", parent: name, max: 20)
+                try validate($0, name: "targetMaps[]", parent: name, min: 1)
+            }
+            try self.validate(self.targetMaps, name: "targetMaps", parent: name, max: 300)
             try self.validate(self.targetParameterName, name: "targetParameterName", parent: name, max: 50)
             try self.validate(self.targetParameterName, name: "targetParameterName", parent: name, min: 1)
             try self.targets?.forEach {
@@ -11584,6 +11646,7 @@ extension SSM {
             case maxErrors = "MaxErrors"
             case parameters = "Parameters"
             case targetLocations = "TargetLocations"
+            case targetMaps = "TargetMaps"
             case targetParameterName = "TargetParameterName"
             case targets = "Targets"
         }
@@ -12006,7 +12069,7 @@ extension SSM {
         public let mode: ExecutionMode?
         /// A key-value map of execution parameters, which match the declared parameters in the Automation runbook.
         public let parameters: [String: [String]]?
-        /// Optional metadata that you assign to a resource. You can specify a maximum of five tags for an automation. Tags enable you to categorize a resource in different ways, such as by purpose, owner, or environment. For example, you might want to tag an automation to identify an environment or operating system. In this case, you could specify the following key-value pairs:    Key=environment,Value=test     Key=OS,Value=Windows     To add tags to an existing patch baseline, use the AddTagsToResource operation.
+        /// Optional metadata that you assign to a resource. You can specify a maximum of five tags for an automation. Tags enable you to categorize a resource in different ways, such as by purpose, owner, or environment. For example, you might want to tag an automation to identify an environment or operating system. In this case, you could specify the following key-value pairs:    Key=environment,Value=test     Key=OS,Value=Windows     To add tags to an existing automation, use the AddTagsToResource operation.
         public let tags: [Tag]?
         /// A location is a combination of Amazon Web Services Regions and/or Amazon Web Services accounts where you want to run the automation. Use this operation to start an automation in multiple Amazon Web Services Regions and multiple Amazon Web Services accounts. For more information, see Running Automation workflows in multiple Amazon Web Services Regions and Amazon Web Services accounts in the Amazon Web Services Systems Manager User Guide.
         public let targetLocations: [TargetLocation]?
@@ -12611,14 +12674,18 @@ extension SSM {
         public let parameters: [String: [String]]?
         /// The cron expression used to schedule the association that you want to update.
         public let scheduleExpression: String?
+        /// Number of days to wait after the scheduled day to run an association. For example, if you specified a cron schedule of cron(0 0 ? * THU#2 *), you could specify an offset of 3 to run the association each Sunday after the second Thursday of the month. For more information about cron schedules for associations, see Reference: Cron and rate expressions for Systems Manager in the Amazon Web Services Systems Manager User Guide.   To use offsets, you must specify the ApplyOnlyAtCronInterval parameter. This option tells the system not to run an association immediately after you create it.
+        public let scheduleOffset: Int?
         /// The mode for generating association compliance. You can specify AUTO or MANUAL. In AUTO mode, the system uses the status of the association execution to determine the compliance status. If the association execution runs successfully, then the association is COMPLIANT. If the association execution doesn't run successfully, the association is NON-COMPLIANT. In MANUAL mode, you must specify the AssociationId as a parameter for the PutComplianceItems API operation. In this case, compliance data isn't managed by State Manager, a capability of Amazon Web Services Systems Manager. It is managed by your direct call to the PutComplianceItems API operation. By default, all associations use AUTO mode.
         public let syncCompliance: AssociationSyncCompliance?
         /// A location is a combination of Amazon Web Services Regions and Amazon Web Services accounts where you want to run the association. Use this action to update an association in multiple Regions and multiple accounts.
         public let targetLocations: [TargetLocation]?
+        /// A key-value mapping of document parameters to target resources. Both Targets and TargetMaps can't be specified together.
+        public let targetMaps: [[String: [String]]]?
         /// The targets of the association.
         public let targets: [Target]?
 
-        public init(applyOnlyAtCronInterval: Bool? = nil, associationId: String, associationName: String? = nil, associationVersion: String? = nil, automationTargetParameterName: String? = nil, calendarNames: [String]? = nil, complianceSeverity: AssociationComplianceSeverity? = nil, documentVersion: String? = nil, maxConcurrency: String? = nil, maxErrors: String? = nil, name: String? = nil, outputLocation: InstanceAssociationOutputLocation? = nil, parameters: [String: [String]]? = nil, scheduleExpression: String? = nil, syncCompliance: AssociationSyncCompliance? = nil, targetLocations: [TargetLocation]? = nil, targets: [Target]? = nil) {
+        public init(applyOnlyAtCronInterval: Bool? = nil, associationId: String, associationName: String? = nil, associationVersion: String? = nil, automationTargetParameterName: String? = nil, calendarNames: [String]? = nil, complianceSeverity: AssociationComplianceSeverity? = nil, documentVersion: String? = nil, maxConcurrency: String? = nil, maxErrors: String? = nil, name: String? = nil, outputLocation: InstanceAssociationOutputLocation? = nil, parameters: [String: [String]]? = nil, scheduleExpression: String? = nil, scheduleOffset: Int? = nil, syncCompliance: AssociationSyncCompliance? = nil, targetLocations: [TargetLocation]? = nil, targetMaps: [[String: [String]]]? = nil, targets: [Target]? = nil) {
             self.applyOnlyAtCronInterval = applyOnlyAtCronInterval
             self.associationId = associationId
             self.associationName = associationName
@@ -12633,8 +12700,10 @@ extension SSM {
             self.outputLocation = outputLocation
             self.parameters = parameters
             self.scheduleExpression = scheduleExpression
+            self.scheduleOffset = scheduleOffset
             self.syncCompliance = syncCompliance
             self.targetLocations = targetLocations
+            self.targetMaps = targetMaps
             self.targets = targets
         }
 
@@ -12655,11 +12724,18 @@ extension SSM {
             try self.outputLocation?.validate(name: "\(name).outputLocation")
             try self.validate(self.scheduleExpression, name: "scheduleExpression", parent: name, max: 256)
             try self.validate(self.scheduleExpression, name: "scheduleExpression", parent: name, min: 1)
+            try self.validate(self.scheduleOffset, name: "scheduleOffset", parent: name, max: 6)
+            try self.validate(self.scheduleOffset, name: "scheduleOffset", parent: name, min: 1)
             try self.targetLocations?.forEach {
                 try $0.validate(name: "\(name).targetLocations[]")
             }
             try self.validate(self.targetLocations, name: "targetLocations", parent: name, max: 100)
             try self.validate(self.targetLocations, name: "targetLocations", parent: name, min: 1)
+            try self.targetMaps?.forEach {
+                try validate($0, name: "targetMaps[]", parent: name, max: 20)
+                try validate($0, name: "targetMaps[]", parent: name, min: 1)
+            }
+            try self.validate(self.targetMaps, name: "targetMaps", parent: name, max: 300)
             try self.targets?.forEach {
                 try $0.validate(name: "\(name).targets[]")
             }
@@ -12681,8 +12757,10 @@ extension SSM {
             case outputLocation = "OutputLocation"
             case parameters = "Parameters"
             case scheduleExpression = "ScheduleExpression"
+            case scheduleOffset = "ScheduleOffset"
             case syncCompliance = "SyncCompliance"
             case targetLocations = "TargetLocations"
+            case targetMaps = "TargetMaps"
             case targets = "Targets"
         }
     }

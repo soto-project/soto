@@ -129,12 +129,14 @@ extension Kendra {
     }
 
     public enum DataSourceType: String, CustomStringConvertible, Codable {
+        case box = "BOX"
         case confluence = "CONFLUENCE"
         case custom = "CUSTOM"
         case database = "DATABASE"
         case fsx = "FSX"
         case googledrive = "GOOGLEDRIVE"
         case onedrive = "ONEDRIVE"
+        case quip = "QUIP"
         case s3 = "S3"
         case salesforce = "SALESFORCE"
         case servicenow = "SERVICENOW"
@@ -942,6 +944,107 @@ extension Kendra {
         }
     }
 
+    public struct BoxConfiguration: AWSEncodableShape & AWSDecodableShape {
+        /// A list of DataSourceToIndexFieldMapping objects that map attributes  or field names of Box comments to Amazon Kendra index field names. To create  custom fields, use the UpdateIndex API before you map to Box fields.  For more information, see Mapping data source fields.  The Box field names must exist in your Box custom metadata.
+        public let commentFieldMappings: [DataSourceToIndexFieldMapping]?
+        ///  TRUE to index comments.
+        public let crawlComments: Bool?
+        ///  TRUE to index the contents of tasks.
+        public let crawlTasks: Bool?
+        ///  TRUE to index web links.
+        public let crawlWebLinks: Bool?
+        /// The identifier of the Box Enterprise platform. You can find the enterprise  ID in the Box Developer Console settings or when you create an app in Box and  download your authentication credentials. For example, 801234567.
+        public let enterpriseId: String
+        /// A list of regular expression patterns to exclude certain files and folders from  your Box platform. Files and folders that match the patterns are excluded from the  index.Files and folders that don't match the patterns are included in the index.  If a file or folder matches both an inclusion and exclusion pattern, the exclusion  pattern takes precedence and the file or folder isn't included in the index.
+        public let exclusionPatterns: [String]?
+        /// A list of DataSourceToIndexFieldMapping objects that map attributes or  field names of Box files to Amazon Kendra index field names. To create custom  fields, use the UpdateIndex API before you map to Box fields. For more  information, see Mapping data source fields.  The Box field names must exist in your Box custom metadata.
+        public let fileFieldMappings: [DataSourceToIndexFieldMapping]?
+        /// A list of regular expression patterns to include certain files and folders in your  Box platform. Files and folders that match the patterns are included in the index.  Files and folders that don't match the patterns are excluded from the index. If a  file or folder matches both an inclusion and exclusion pattern, the exclusion pattern  takes precedence and the file or folder isn't included in the index.
+        public let inclusionPatterns: [String]?
+        /// The Amazon Resource Name (ARN) of an Secrets Manager secret that contains  the key-value pairs required to connect to your Box platform. The secret must  contain a JSON structure with the following keys:   clientID—The identifier of the client OAuth 2.0 authentication application created in Box.   clientSecret—A set of characters known only to the OAuth 2.0 authentication application created in Box.   publicKeyId—The identifier of the public key contained within an identity certificate.   privateKey—A set of characters that make up an encryption key.   passphrase—A set of characters that act like a password.   You create an application in Box to generate the keys or credentials required  for the secret. For more information, see Authentication  for a Box data source.
+        public let secretArn: String
+        /// A list of DataSourceToIndexFieldMapping objects that map attributes  or field names of Box tasks to Amazon Kendra index field names. To create  custom fields, use the UpdateIndex API before you map to Box fields.  For more information, see Mapping data source fields.  The Box field names must exist in your Box custom metadata.
+        public let taskFieldMappings: [DataSourceToIndexFieldMapping]?
+        ///  TRUE to use the Slack change log to determine which documents require updating in the index. Depending on the data source change log's size, it may take longer for Amazon Kendra to use the change log than to scan all of your documents.
+        public let useChangeLog: Bool?
+        /// Configuration information for an Amazon VPC to connect to your Box. For  more information, see Configuring a VPC.
+        public let vpcConfiguration: DataSourceVpcConfiguration?
+        /// A list of DataSourceToIndexFieldMapping objects that map attributes  or field names of Box web links to Amazon Kendra index field names. To create  custom fields, use the UpdateIndex API before you map to Box fields.  For more information, see Mapping data source fields.  The Box field names must exist in your Box custom metadata.
+        public let webLinkFieldMappings: [DataSourceToIndexFieldMapping]?
+
+        public init(commentFieldMappings: [DataSourceToIndexFieldMapping]? = nil, crawlComments: Bool? = nil, crawlTasks: Bool? = nil, crawlWebLinks: Bool? = nil, enterpriseId: String, exclusionPatterns: [String]? = nil, fileFieldMappings: [DataSourceToIndexFieldMapping]? = nil, inclusionPatterns: [String]? = nil, secretArn: String, taskFieldMappings: [DataSourceToIndexFieldMapping]? = nil, useChangeLog: Bool? = nil, vpcConfiguration: DataSourceVpcConfiguration? = nil, webLinkFieldMappings: [DataSourceToIndexFieldMapping]? = nil) {
+            self.commentFieldMappings = commentFieldMappings
+            self.crawlComments = crawlComments
+            self.crawlTasks = crawlTasks
+            self.crawlWebLinks = crawlWebLinks
+            self.enterpriseId = enterpriseId
+            self.exclusionPatterns = exclusionPatterns
+            self.fileFieldMappings = fileFieldMappings
+            self.inclusionPatterns = inclusionPatterns
+            self.secretArn = secretArn
+            self.taskFieldMappings = taskFieldMappings
+            self.useChangeLog = useChangeLog
+            self.vpcConfiguration = vpcConfiguration
+            self.webLinkFieldMappings = webLinkFieldMappings
+        }
+
+        public func validate(name: String) throws {
+            try self.commentFieldMappings?.forEach {
+                try $0.validate(name: "\(name).commentFieldMappings[]")
+            }
+            try self.validate(self.commentFieldMappings, name: "commentFieldMappings", parent: name, max: 100)
+            try self.validate(self.commentFieldMappings, name: "commentFieldMappings", parent: name, min: 1)
+            try self.validate(self.enterpriseId, name: "enterpriseId", parent: name, max: 64)
+            try self.validate(self.enterpriseId, name: "enterpriseId", parent: name, min: 1)
+            try self.validate(self.enterpriseId, name: "enterpriseId", parent: name, pattern: "^[A-Z0-9]*$")
+            try self.exclusionPatterns?.forEach {
+                try validate($0, name: "exclusionPatterns[]", parent: name, max: 150)
+                try validate($0, name: "exclusionPatterns[]", parent: name, min: 1)
+            }
+            try self.validate(self.exclusionPatterns, name: "exclusionPatterns", parent: name, max: 100)
+            try self.fileFieldMappings?.forEach {
+                try $0.validate(name: "\(name).fileFieldMappings[]")
+            }
+            try self.validate(self.fileFieldMappings, name: "fileFieldMappings", parent: name, max: 100)
+            try self.validate(self.fileFieldMappings, name: "fileFieldMappings", parent: name, min: 1)
+            try self.inclusionPatterns?.forEach {
+                try validate($0, name: "inclusionPatterns[]", parent: name, max: 150)
+                try validate($0, name: "inclusionPatterns[]", parent: name, min: 1)
+            }
+            try self.validate(self.inclusionPatterns, name: "inclusionPatterns", parent: name, max: 100)
+            try self.validate(self.secretArn, name: "secretArn", parent: name, max: 1284)
+            try self.validate(self.secretArn, name: "secretArn", parent: name, min: 1)
+            try self.validate(self.secretArn, name: "secretArn", parent: name, pattern: "^arn:[a-z0-9-\\.]{1,63}:[a-z0-9-\\.]{0,63}:[a-z0-9-\\.]{0,63}:[a-z0-9-\\.]{0,63}:[^/].{0,1023}$")
+            try self.taskFieldMappings?.forEach {
+                try $0.validate(name: "\(name).taskFieldMappings[]")
+            }
+            try self.validate(self.taskFieldMappings, name: "taskFieldMappings", parent: name, max: 100)
+            try self.validate(self.taskFieldMappings, name: "taskFieldMappings", parent: name, min: 1)
+            try self.vpcConfiguration?.validate(name: "\(name).vpcConfiguration")
+            try self.webLinkFieldMappings?.forEach {
+                try $0.validate(name: "\(name).webLinkFieldMappings[]")
+            }
+            try self.validate(self.webLinkFieldMappings, name: "webLinkFieldMappings", parent: name, max: 100)
+            try self.validate(self.webLinkFieldMappings, name: "webLinkFieldMappings", parent: name, min: 1)
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case commentFieldMappings = "CommentFieldMappings"
+            case crawlComments = "CrawlComments"
+            case crawlTasks = "CrawlTasks"
+            case crawlWebLinks = "CrawlWebLinks"
+            case enterpriseId = "EnterpriseId"
+            case exclusionPatterns = "ExclusionPatterns"
+            case fileFieldMappings = "FileFieldMappings"
+            case inclusionPatterns = "InclusionPatterns"
+            case secretArn = "SecretArn"
+            case taskFieldMappings = "TaskFieldMappings"
+            case useChangeLog = "UseChangeLog"
+            case vpcConfiguration = "VpcConfiguration"
+            case webLinkFieldMappings = "WebLinkFieldMappings"
+        }
+    }
+
     public struct CapacityUnitsConfiguration: AWSEncodableShape & AWSDecodableShape {
         /// The amount of extra query capacity for an index and  GetQuerySuggestions  capacity. A single extra capacity unit for an index provides 0.1 queries per second or approximately  8,000 queries per day.  GetQuerySuggestions capacity is five times the  provisioned query capacity for an index, or the base capacity of 2.5 calls per second,  whichever is higher. For example, the base capacity for an index is 0.1 queries per  second, and GetQuerySuggestions capacity has a base of 2.5 calls per second.  If you add another 0.1 queries per second to total 0.2 queries per second for an index, the  GetQuerySuggestions capacity is 2.5 calls per second  (higher than five times 0.2 queries per second).
         public let queryCapacityUnits: Int
@@ -1717,9 +1820,9 @@ extension Kendra {
         public let edition: IndexEdition?
         /// The name for the new index.
         public let name: String
-        /// An Identity and Access Management(IAM) role that gives Amazon Kendra permissions to access your Amazon CloudWatch logs and metrics. This is also the role used when you use the BatchPutDocument API to index documents from an Amazon S3 bucket.
+        /// An Identity and Access Management (IAM) role that gives Amazon Kendra permissions to access your Amazon CloudWatch logs and metrics. This is also the role you use when you call the BatchPutDocument API to index documents from an Amazon S3 bucket.
         public let roleArn: String
-        /// The identifier of the KMScustomer managed key (CMK) to use to encrypt data indexed by Amazon Kendra. Amazon Kendra doesn't support asymmetric CMKs.
+        /// The identifier of the KMS customer managed key (CMK) that's  used to encrypt data indexed by Amazon Kendra. Amazon Kendra doesn't support asymmetric CMKs.
         public let serverSideEncryptionConfiguration: ServerSideEncryptionConfiguration?
         /// A list of key-value pairs that identify the index. You can use the tags to identify and organize your resources and to control access to resources.
         public let tags: [Tag]?
@@ -1968,6 +2071,8 @@ extension Kendra {
     }
 
     public struct DataSourceConfiguration: AWSEncodableShape & AWSDecodableShape {
+        /// Provides the configuration information to connect to Box as your data source.
+        public let boxConfiguration: BoxConfiguration?
         /// Provides the configuration information to connect to Confluence  as your data source.
         public let confluenceConfiguration: ConfluenceConfiguration?
         /// Provides the configuration information to connect to a database as  your data source.
@@ -1978,6 +2083,8 @@ extension Kendra {
         public let googleDriveConfiguration: GoogleDriveConfiguration?
         /// Provides the configuration information to connect to Microsoft OneDrive as your data source.
         public let oneDriveConfiguration: OneDriveConfiguration?
+        /// Provides the configuration information to connect to Quip as your  data source.
+        public let quipConfiguration: QuipConfiguration?
         /// Provides the configuration information to connect to an Amazon S3  bucket as your data source.
         public let s3Configuration: S3DataSourceConfiguration?
         /// Provides the configuration information to connect to  Salesforce as your data source.
@@ -1992,12 +2099,14 @@ extension Kendra {
         /// Provides the configuration information to connect to Amazon WorkDocs  as your data source.
         public let workDocsConfiguration: WorkDocsConfiguration?
 
-        public init(confluenceConfiguration: ConfluenceConfiguration? = nil, databaseConfiguration: DatabaseConfiguration? = nil, fsxConfiguration: FsxConfiguration? = nil, googleDriveConfiguration: GoogleDriveConfiguration? = nil, oneDriveConfiguration: OneDriveConfiguration? = nil, s3Configuration: S3DataSourceConfiguration? = nil, salesforceConfiguration: SalesforceConfiguration? = nil, serviceNowConfiguration: ServiceNowConfiguration? = nil, sharePointConfiguration: SharePointConfiguration? = nil, slackConfiguration: SlackConfiguration? = nil, webCrawlerConfiguration: WebCrawlerConfiguration? = nil, workDocsConfiguration: WorkDocsConfiguration? = nil) {
+        public init(boxConfiguration: BoxConfiguration? = nil, confluenceConfiguration: ConfluenceConfiguration? = nil, databaseConfiguration: DatabaseConfiguration? = nil, fsxConfiguration: FsxConfiguration? = nil, googleDriveConfiguration: GoogleDriveConfiguration? = nil, oneDriveConfiguration: OneDriveConfiguration? = nil, quipConfiguration: QuipConfiguration? = nil, s3Configuration: S3DataSourceConfiguration? = nil, salesforceConfiguration: SalesforceConfiguration? = nil, serviceNowConfiguration: ServiceNowConfiguration? = nil, sharePointConfiguration: SharePointConfiguration? = nil, slackConfiguration: SlackConfiguration? = nil, webCrawlerConfiguration: WebCrawlerConfiguration? = nil, workDocsConfiguration: WorkDocsConfiguration? = nil) {
+            self.boxConfiguration = boxConfiguration
             self.confluenceConfiguration = confluenceConfiguration
             self.databaseConfiguration = databaseConfiguration
             self.fsxConfiguration = fsxConfiguration
             self.googleDriveConfiguration = googleDriveConfiguration
             self.oneDriveConfiguration = oneDriveConfiguration
+            self.quipConfiguration = quipConfiguration
             self.s3Configuration = s3Configuration
             self.salesforceConfiguration = salesforceConfiguration
             self.serviceNowConfiguration = serviceNowConfiguration
@@ -2008,11 +2117,13 @@ extension Kendra {
         }
 
         public func validate(name: String) throws {
+            try self.boxConfiguration?.validate(name: "\(name).boxConfiguration")
             try self.confluenceConfiguration?.validate(name: "\(name).confluenceConfiguration")
             try self.databaseConfiguration?.validate(name: "\(name).databaseConfiguration")
             try self.fsxConfiguration?.validate(name: "\(name).fsxConfiguration")
             try self.googleDriveConfiguration?.validate(name: "\(name).googleDriveConfiguration")
             try self.oneDriveConfiguration?.validate(name: "\(name).oneDriveConfiguration")
+            try self.quipConfiguration?.validate(name: "\(name).quipConfiguration")
             try self.s3Configuration?.validate(name: "\(name).s3Configuration")
             try self.salesforceConfiguration?.validate(name: "\(name).salesforceConfiguration")
             try self.serviceNowConfiguration?.validate(name: "\(name).serviceNowConfiguration")
@@ -2023,11 +2134,13 @@ extension Kendra {
         }
 
         private enum CodingKeys: String, CodingKey {
+            case boxConfiguration = "BoxConfiguration"
             case confluenceConfiguration = "ConfluenceConfiguration"
             case databaseConfiguration = "DatabaseConfiguration"
             case fsxConfiguration = "FsxConfiguration"
             case googleDriveConfiguration = "GoogleDriveConfiguration"
             case oneDriveConfiguration = "OneDriveConfiguration"
+            case quipConfiguration = "QuipConfiguration"
             case s3Configuration = "S3Configuration"
             case salesforceConfiguration = "SalesforceConfiguration"
             case serviceNowConfiguration = "ServiceNowConfiguration"
@@ -2748,7 +2861,7 @@ extension Kendra {
     }
 
     public struct DescribeIndexRequest: AWSEncodableShape {
-        /// The name of the index to describe.
+        /// The identifier of the index to describe.
         public let id: String
 
         public init(id: String) {
@@ -2767,19 +2880,19 @@ extension Kendra {
     }
 
     public struct DescribeIndexResponse: AWSDecodableShape {
-        /// For Enterprise edition indexes, you can choose to use additional capacity to meet the needs of your application. This contains the capacity units used for the index. A 0 for the query capacity or the storage capacity indicates that the index is using the default capacity for the index.
+        /// For Enterprise Edition indexes, you can choose to use additional capacity to meet the needs of your application. This contains the capacity units used for the index. A query or document storage capacity of zero indicates that the index is using the default capacity. For more information  on the default capacity for an index and adjusting this, see  Adjusting  capacity.
         public let capacityUnits: CapacityUnitsConfiguration?
         /// The Unix datetime that the index was created.
         public let createdAt: Date?
-        /// The description of the index.
+        /// The description for the index.
         public let description: String?
         /// Configuration settings for any metadata applied to the documents in the index.
         public let documentMetadataConfigurations: [DocumentMetadataConfiguration]?
         /// The Amazon Kendra edition used for the index. You decide the edition when you create the index.
         public let edition: IndexEdition?
-        /// When th eStatus field value is FAILED, the ErrorMessage field contains a message that explains why.
+        /// When the Status field value is FAILED, the ErrorMessage field contains a message that explains why.
         public let errorMessage: String?
-        /// The name of the index.
+        /// The identifier of the index.
         public let id: String?
         /// Provides information about the number of FAQ questions and answers and the number of text documents indexed.
         public let indexStatistics: IndexStatistics?
@@ -2787,7 +2900,7 @@ extension Kendra {
         public let name: String?
         /// The Amazon Resource Name (ARN) of the IAM role that gives Amazon Kendra permission to write to your Amazon Cloudwatch logs.
         public let roleArn: String?
-        /// The identifier of the KMScustomer master key (CMK) used to encrypt your data. Amazon Kendra doesn't support asymmetric CMKs.
+        /// The identifier of the KMScustomer master key (CMK)  that is used to encrypt your data. Amazon Kendra doesn't support  asymmetric CMKs.
         public let serverSideEncryptionConfiguration: ServerSideEncryptionConfiguration?
         /// The current status of the index. When the value is ACTIVE, the index is ready for use. If the Status field value is FAILED, the ErrorMessage field contains a message that explains why.
         public let status: IndexStatus?
@@ -3402,17 +3515,21 @@ extension Kendra {
     public struct DocumentAttributeValueCountPair: AWSDecodableShape {
         /// The number of documents in the response that have the attribute value for the key.
         public let count: Int?
-        /// The value of the attribute. For example, "HR."
+        /// The value of the attribute. For example, "HR".
         public let documentAttributeValue: DocumentAttributeValue?
+        /// Contains the results of a document attribute that is a nested facet.  A FacetResult contains the counts for each facet nested  within a facet. For example, the document attribute or facet "Department" includes a  value called "Engineering". In addition, the document attribute  or facet "SubDepartment" includes the values "Frontend" and "Backend"  for documents assigned to "Engineering". You can display nested facets  in the search results so that documents can be searched not only by  department but also by a sub department within a department. The counts  for documents that belong to "Frontend" and "Backend" within "Engineering"  are returned for a query.
+        public let facetResults: [FacetResult]?
 
-        public init(count: Int? = nil, documentAttributeValue: DocumentAttributeValue? = nil) {
+        public init(count: Int? = nil, documentAttributeValue: DocumentAttributeValue? = nil, facetResults: [FacetResult]? = nil) {
             self.count = count
             self.documentAttributeValue = documentAttributeValue
+            self.facetResults = facetResults
         }
 
         private enum CodingKeys: String, CodingKey {
             case count = "Count"
             case documentAttributeValue = "DocumentAttributeValue"
+            case facetResults = "FacetResults"
         }
     }
 
@@ -3676,22 +3793,35 @@ extension Kendra {
         }
     }
 
-    public struct Facet: AWSEncodableShape {
+    public final class Facet: AWSEncodableShape {
         /// The unique key for the document attribute.
         public let documentAttributeKey: String?
+        /// An array of document attributes that are nested facets within a facet. For example, the document attribute or facet "Department" includes a  value called "Engineering". In addition, the document attribute or  facet "SubDepartment" includes the values "Frontend" and "Backend" for documents  assigned to "Engineering". You can display nested facets in the search results  so that documents can be searched not only by department but also by a sub  department within a department. This helps your users further narrow their  search. You can only have one nested facet within a facet. If you want to increase  this limit, contact Support.
+        public let facets: [Facet]?
+        /// Maximum number of facet values per facet. The default is 10. You can use  this to limit the number of facet values to less than 10. If you want to  increase the default, contact Support.
+        public let maxResults: Int?
 
-        public init(documentAttributeKey: String? = nil) {
+        public init(documentAttributeKey: String? = nil, facets: [Facet]? = nil, maxResults: Int? = nil) {
             self.documentAttributeKey = documentAttributeKey
+            self.facets = facets
+            self.maxResults = maxResults
         }
 
         public func validate(name: String) throws {
             try self.validate(self.documentAttributeKey, name: "documentAttributeKey", parent: name, max: 200)
             try self.validate(self.documentAttributeKey, name: "documentAttributeKey", parent: name, min: 1)
             try self.validate(self.documentAttributeKey, name: "documentAttributeKey", parent: name, pattern: "^[a-zA-Z0-9_][a-zA-Z0-9_-]*$")
+            try self.facets?.forEach {
+                try $0.validate(name: "\(name).facets[]")
+            }
+            try self.validate(self.maxResults, name: "maxResults", parent: name, max: 5000)
+            try self.validate(self.maxResults, name: "maxResults", parent: name, min: 0)
         }
 
         private enum CodingKeys: String, CodingKey {
             case documentAttributeKey = "DocumentAttributeKey"
+            case facets = "Facets"
+            case maxResults = "MaxResults"
         }
     }
 
@@ -4191,7 +4321,7 @@ extension Kendra {
         public let edition: IndexEdition?
         /// A unique identifier for the index. Use this to identify the index when you are using APIs such as Query, DescribeIndex, UpdateIndex, and DeleteIndex.
         public let id: String?
-        /// The name of the index.
+        /// The identifier of the index.
         public let name: String?
         /// The current status of the index. When the status is ACTIVE, the index is ready to search.
         public let status: IndexStatus
@@ -5162,7 +5292,7 @@ extension Kendra {
         public let attributeFilter: AttributeFilter?
         /// Overrides relevance tuning configurations of fields or attributes set at the index level. If you use this API to override the relevance tuning configured at the index  level, but there is no relevance tuning configured at the index level, then Amazon Kendra does not apply any relevance tuning. If there is relevance tuning configured at the index level, but you do not use this API  to override any relevance tuning in the index, then Amazon Kendra uses the relevance tuning that is configured at the index level. If there is relevance tuning configured for fields at the index level,  but you use this API to override only some of these fields, then for the fields you did not override, the importance is set to 1.
         public let documentRelevanceOverrideConfigurations: [DocumentRelevanceConfiguration]?
-        /// An array of documents attributes. Amazon Kendra returns a count for each attribute key specified. You can use this information to help narrow the search for your user.
+        /// An array of documents attributes. Amazon Kendra returns a count for each attribute key specified. This helps your users narrow their search.
         public let facets: [Facet]?
         /// The unique identifier of the index to search. The identifier is returned in the response from the CreateIndex API.
         public let indexId: String
@@ -5174,7 +5304,7 @@ extension Kendra {
         public let queryResultTypeFilter: QueryResultType?
         /// The text to search for.
         public let queryText: String?
-        /// An array of document attributes to include in the response. No other document attributes are included in the response. By default all document attributes are included in the response.
+        /// An array of document attributes to include in the response.  You can limit the response to include certain document attributes.  By default all document attributes are included in the response.
         public let requestedDocumentAttributes: [String]?
         /// Provides information that determines how the results of the query are sorted. You can set the field that Amazon Kendra should sort the results on, and specify whether the results should be sorted in ascending or descending order. In the case of ties in sorting the results, the results are sorted by relevance. If you don't provide sorting configuration, the results are sorted by the relevance that Amazon Kendra determines for the result.
         public let sortingConfiguration: SortingConfiguration?
@@ -5282,7 +5412,7 @@ extension Kendra {
     public struct QueryResultItem: AWSDecodableShape {
         /// One or more additional attributes associated with the query result.
         public let additionalAttributes: [AdditionalResultAttribute]?
-        /// An array of document attributes for the document that the query result maps to. For example, the document author (Author) or the source URI (SourceUri) of the document.
+        /// An array of document attributes assigned to a document in  the search results. For example, the document author (_author)  or the source URI (_source_uri) of the document.
         public let documentAttributes: [DocumentAttribute]?
         /// An extract of the text in the document. Contains information about highlighting the relevant terms in the excerpt.
         public let documentExcerpt: TextWithHighlights?
@@ -5358,6 +5488,102 @@ extension Kendra {
             case name = "Name"
             case status = "Status"
             case updatedAt = "UpdatedAt"
+        }
+    }
+
+    public struct QuipConfiguration: AWSEncodableShape & AWSDecodableShape {
+        /// A list of DataSourceToIndexFieldMapping objects that map  attributes or field names of Quip attachments to Amazon Kendra index  field names. To create custom fields, use the UpdateIndex  API before you map to Quip fields. For more information, see  Mapping  data source fields. The Quip field names must exist in your  Quip custom metadata.
+        public let attachmentFieldMappings: [DataSourceToIndexFieldMapping]?
+        /// Specify whether to crawl attachments in Quip.  You can specify one or more of these options.
+        public let crawlAttachments: Bool?
+        /// Specify whether to crawl chat rooms in Quip.  You can specify one or more of these options.
+        public let crawlChatRooms: Bool?
+        /// Specify whether to crawl file comments in Quip.  You can specify one or more of these options.
+        public let crawlFileComments: Bool?
+        /// The Quip site domain.
+        public let domain: String
+        /// A list of regular expression patterns to exclude certain files in your Quip file system. Files that match the patterns are excluded from the index. Files that don’t match the patterns are included in the index. If a file matches both an inclusion pattern and an exclusion pattern, the exclusion pattern takes precedence, and the file isn't included in the index.
+        public let exclusionPatterns: [String]?
+        /// The identifier of the Quip folder IDs to index.
+        public let folderIds: [String]?
+        /// A list of regular expression patterns to include certain files in your Quip file system. Files that match the patterns are included in the index. Files that don't match the patterns are excluded from the index. If a file matches both an inclusion pattern and an exclusion pattern, the exclusion pattern takes precedence, and the file isn't included in the index.
+        public let inclusionPatterns: [String]?
+        /// A list of DataSourceToIndexFieldMapping objects that map  attributes or field names of Quip messages to Amazon Kendra index  field names. To create custom fields, use the UpdateIndex  API before you map to Quip fields. For more information, see  Mapping  data source fields. The Quip field names must exist in your  Quip custom metadata.
+        public let messageFieldMappings: [DataSourceToIndexFieldMapping]?
+        /// The Amazon Resource Name (ARN) of an Secrets Manager secret  that contains the key-value pairs that are required to connect to your  Quip. The secret must contain a JSON structure with the following keys:   accessToken—The token created in Quip. For more information,  see Authentication  for a Quip data source.
+        public let secretArn: String
+        /// A list of DataSourceToIndexFieldMapping objects that map  attributes or field names of Quip threads to Amazon Kendra index  field names. To create custom fields, use the UpdateIndex  API before you map to Quip fields. For more information, see  Mapping  data source fields. The Quip field names must exist in your  Quip custom metadata.
+        public let threadFieldMappings: [DataSourceToIndexFieldMapping]?
+        /// Configuration information for an Amazon Virtual Private Cloud (VPC) to connect to your Quip. For more information, see  Configuring  a VPC.
+        public let vpcConfiguration: DataSourceVpcConfiguration?
+
+        public init(attachmentFieldMappings: [DataSourceToIndexFieldMapping]? = nil, crawlAttachments: Bool? = nil, crawlChatRooms: Bool? = nil, crawlFileComments: Bool? = nil, domain: String, exclusionPatterns: [String]? = nil, folderIds: [String]? = nil, inclusionPatterns: [String]? = nil, messageFieldMappings: [DataSourceToIndexFieldMapping]? = nil, secretArn: String, threadFieldMappings: [DataSourceToIndexFieldMapping]? = nil, vpcConfiguration: DataSourceVpcConfiguration? = nil) {
+            self.attachmentFieldMappings = attachmentFieldMappings
+            self.crawlAttachments = crawlAttachments
+            self.crawlChatRooms = crawlChatRooms
+            self.crawlFileComments = crawlFileComments
+            self.domain = domain
+            self.exclusionPatterns = exclusionPatterns
+            self.folderIds = folderIds
+            self.inclusionPatterns = inclusionPatterns
+            self.messageFieldMappings = messageFieldMappings
+            self.secretArn = secretArn
+            self.threadFieldMappings = threadFieldMappings
+            self.vpcConfiguration = vpcConfiguration
+        }
+
+        public func validate(name: String) throws {
+            try self.attachmentFieldMappings?.forEach {
+                try $0.validate(name: "\(name).attachmentFieldMappings[]")
+            }
+            try self.validate(self.attachmentFieldMappings, name: "attachmentFieldMappings", parent: name, max: 100)
+            try self.validate(self.attachmentFieldMappings, name: "attachmentFieldMappings", parent: name, min: 1)
+            try self.validate(self.domain, name: "domain", parent: name, max: 63)
+            try self.validate(self.domain, name: "domain", parent: name, min: 1)
+            try self.validate(self.domain, name: "domain", parent: name, pattern: "^(?!-)[A-Za-z0-9-].*(?<!-)$")
+            try self.exclusionPatterns?.forEach {
+                try validate($0, name: "exclusionPatterns[]", parent: name, max: 150)
+                try validate($0, name: "exclusionPatterns[]", parent: name, min: 1)
+            }
+            try self.validate(self.exclusionPatterns, name: "exclusionPatterns", parent: name, max: 100)
+            try self.folderIds?.forEach {
+                try validate($0, name: "folderIds[]", parent: name, max: 500)
+                try validate($0, name: "folderIds[]", parent: name, min: 1)
+            }
+            try self.inclusionPatterns?.forEach {
+                try validate($0, name: "inclusionPatterns[]", parent: name, max: 150)
+                try validate($0, name: "inclusionPatterns[]", parent: name, min: 1)
+            }
+            try self.validate(self.inclusionPatterns, name: "inclusionPatterns", parent: name, max: 100)
+            try self.messageFieldMappings?.forEach {
+                try $0.validate(name: "\(name).messageFieldMappings[]")
+            }
+            try self.validate(self.messageFieldMappings, name: "messageFieldMappings", parent: name, max: 100)
+            try self.validate(self.messageFieldMappings, name: "messageFieldMappings", parent: name, min: 1)
+            try self.validate(self.secretArn, name: "secretArn", parent: name, max: 1284)
+            try self.validate(self.secretArn, name: "secretArn", parent: name, min: 1)
+            try self.validate(self.secretArn, name: "secretArn", parent: name, pattern: "^arn:[a-z0-9-\\.]{1,63}:[a-z0-9-\\.]{0,63}:[a-z0-9-\\.]{0,63}:[a-z0-9-\\.]{0,63}:[^/].{0,1023}$")
+            try self.threadFieldMappings?.forEach {
+                try $0.validate(name: "\(name).threadFieldMappings[]")
+            }
+            try self.validate(self.threadFieldMappings, name: "threadFieldMappings", parent: name, max: 100)
+            try self.validate(self.threadFieldMappings, name: "threadFieldMappings", parent: name, min: 1)
+            try self.vpcConfiguration?.validate(name: "\(name).vpcConfiguration")
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case attachmentFieldMappings = "AttachmentFieldMappings"
+            case crawlAttachments = "CrawlAttachments"
+            case crawlChatRooms = "CrawlChatRooms"
+            case crawlFileComments = "CrawlFileComments"
+            case domain = "Domain"
+            case exclusionPatterns = "ExclusionPatterns"
+            case folderIds = "FolderIds"
+            case inclusionPatterns = "InclusionPatterns"
+            case messageFieldMappings = "MessageFieldMappings"
+            case secretArn = "SecretArn"
+            case threadFieldMappings = "ThreadFieldMappings"
+            case vpcConfiguration = "VpcConfiguration"
         }
     }
 
@@ -6798,7 +7024,7 @@ extension Kendra {
     }
 
     public struct UpdateIndexRequest: AWSEncodableShape {
-        /// Sets the number of additional storage and query capacity units that should be used by the index. You can change the capacity of the index up to 5 times per day. If you are using extra storage units, you can't reduce the storage capacity below that required to meet the storage needs for your index.
+        /// Sets the number of additional document storage and query capacity  units that should be used by the index. You can change the capacity of  the index up to 5 times per day, or make 5 API calls. If you are using extra storage units, you can't reduce the storage capacity below what is required to meet the storage needs for your  index.
         public let capacityUnits: CapacityUnitsConfiguration?
         /// A new description for the index.
         public let description: String?

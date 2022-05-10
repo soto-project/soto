@@ -119,7 +119,7 @@ extension Amplify {
         public let productionBranch: ProductionBranch?
         ///  The Git repository for the Amplify app.
         public let repository: String?
-        /// The authentication protocol to use to access the Git repository for an Amplify app. For a GitHub repository, specify TOKEN. For an Amazon Web Services CodeCommit repository, specify SIGV4. For GitLab and Bitbucket repositories, specify SSH.
+        ///  This is for internal use.  The Amplify service uses this parameter to specify the authentication protocol to use to access the Git repository for an Amplify app. Amplify specifies TOKEN for a GitHub repository, SIGV4 for an Amazon Web Services CodeCommit repository, and SSH for GitLab and Bitbucket repositories.
         public let repositoryCloneMethod: RepositoryCloneMethod?
         ///  The tag for the Amplify app.
         public let tags: [String: String]?
@@ -416,7 +416,7 @@ extension Amplify {
     }
 
     public struct CreateAppRequest: AWSEncodableShape {
-        ///  The personal access token for a third-party source control system for an Amplify app. The personal access token is used to create a webhook and a read-only deploy key. The token is not stored.
+        /// The personal access token for a GitHub repository for an Amplify app. The personal access token is used to authorize access to a GitHub repository using the Amplify GitHub App. The token is not stored. Use accessToken for GitHub repositories only. To authorize access to a repository provider such as Bitbucket or CodeCommit, use oauthToken. You must specify either accessToken or oauthToken when you create a new app. Existing Amplify apps deployed from a GitHub repository using OAuth continue to work with CI/CD. However, we strongly recommend that you migrate these apps to use the GitHub App. For more information, see Migrating an existing OAuth app to the Amplify GitHub App in the Amplify User Guide .
         public let accessToken: String?
         ///  The automated branch creation configuration for an Amplify app.
         public let autoBranchCreationConfig: AutoBranchCreationConfig?
@@ -446,7 +446,7 @@ extension Amplify {
         public let iamServiceRoleArn: String?
         ///  The name for an Amplify app.
         public let name: String
-        ///  The OAuth token for a third-party source control system for an Amplify app. The OAuth token is used to create a webhook and a read-only deploy key. The OAuth token is not stored.
+        /// The OAuth token for a third-party source control system for an Amplify app. The OAuth token is used to create a webhook and a read-only deploy key using SSH cloning. The OAuth token is not stored. Use oauthToken for repository providers other than GitHub, such as Bitbucket or CodeCommit. To authorize access to GitHub as your repository provider, use accessToken. You must specify either oauthToken or accessToken when you create a new app. Existing Amplify apps deployed from a GitHub repository using OAuth continue to work with CI/CD. However, we strongly recommend that you migrate these apps to use the GitHub App. For more information, see Migrating an existing OAuth app to the Amplify GitHub App in the Amplify User Guide .
         public let oauthToken: String?
         ///  The platform or framework for an Amplify app.
         public let platform: Platform?
@@ -2406,7 +2406,7 @@ extension Amplify {
             AWSMemberEncoding(label: "appId", location: .uri("appId"))
         ]
 
-        ///  The personal access token for a third-party source control system for an Amplify app. The token is used to create webhook and a read-only deploy key. The token is not stored.
+        /// The personal access token for a GitHub repository for an Amplify app. The personal access token is used to authorize access to a GitHub repository using the Amplify GitHub App. The token is not stored. Use accessToken for GitHub repositories only. To authorize access to a repository provider such as Bitbucket or CodeCommit, use oauthToken. You must specify either accessToken or oauthToken when you update an app. Existing Amplify apps deployed from a GitHub repository using OAuth continue to work with CI/CD. However, we strongly recommend that you migrate these apps to use the GitHub App. For more information, see Migrating an existing OAuth app to the Amplify GitHub App in the Amplify User Guide .
         public let accessToken: String?
         ///  The unique ID for an Amplify app.
         public let appId: String
@@ -2438,7 +2438,7 @@ extension Amplify {
         public let iamServiceRoleArn: String?
         ///  The name for an Amplify app.
         public let name: String?
-        ///  The OAuth token for a third-party source control system for an Amplify app. The token is used to create a webhook and a read-only deploy key. The OAuth token is not stored.
+        /// The OAuth token for a third-party source control system for an Amplify app. The OAuth token is used to create a webhook and a read-only deploy key using SSH cloning. The OAuth token is not stored. Use oauthToken for repository providers other than GitHub, such as Bitbucket or CodeCommit. To authorize access to GitHub as your repository provider, use accessToken. You must specify either oauthToken or accessToken when you update an app. Existing Amplify apps deployed from a GitHub repository using OAuth continue to work with CI/CD. However, we strongly recommend that you migrate these apps to use the GitHub App. For more information, see Migrating an existing OAuth app to the Amplify GitHub App in the Amplify User Guide .
         public let oauthToken: String?
         ///  The platform for an Amplify app.
         public let platform: Platform?

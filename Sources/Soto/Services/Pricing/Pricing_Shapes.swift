@@ -74,7 +74,7 @@ extension Pricing {
     public struct DescribeServicesResponse: AWSDecodableShape {
         /// The format version of the response. For example, aws_v1.
         public let formatVersion: String?
-        /// The pagination token for the next set of retreivable results.
+        /// The pagination token for the next set of retrievable results.
         public let nextToken: String?
         /// The service metadata for the service or services in the response.
         public let services: [Service]?

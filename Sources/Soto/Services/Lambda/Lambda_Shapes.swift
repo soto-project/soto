@@ -50,6 +50,12 @@ extension Lambda {
         public var description: String { return self.rawValue }
     }
 
+    public enum FunctionUrlAuthType: String, CustomStringConvertible, Codable {
+        case awsIam = "AWS_IAM"
+        case none = "NONE"
+        public var description: String { return self.rawValue }
+    }
+
     public enum FunctionVersion: String, CustomStringConvertible, Codable {
         case all = "ALL"
         public var description: String { return self.rawValue }
@@ -306,6 +312,8 @@ extension Lambda {
         public let eventSourceToken: String?
         /// The name of the Lambda function, version, or alias.  Name formats     Function name - my-function (name-only), my-function:v1 (with alias).    Function ARN - arn:aws:lambda:us-west-2:123456789012:function:my-function.    Partial ARN - 123456789012:function:my-function.   You can append a version number or alias to any of the formats. The length constraint applies only to the full ARN. If you specify only the function name, it is limited to 64 characters in length.
         public let functionName: String
+        /// The type of authentication that your function URL uses. Set to AWS_IAM if you want to restrict access to authenticated IAM users only. Set to NONE if you want to bypass IAM authentication to create a public endpoint. For more information, see  Security and auth model for Lambda function URLs.
+        public let functionUrlAuthType: FunctionUrlAuthType?
         /// The Amazon Web Services service or account that invokes the function. If you specify a service, use SourceArn or SourceAccount to limit who can invoke the function through that service.
         public let principal: String
         /// The identifier for your organization in Organizations. Use this to grant permissions to all the Amazon Web Services accounts under this organization.
@@ -321,10 +329,11 @@ extension Lambda {
         /// A statement identifier that differentiates the statement from others in the same policy.
         public let statementId: String
 
-        public init(action: String, eventSourceToken: String? = nil, functionName: String, principal: String, principalOrgID: String? = nil, qualifier: String? = nil, revisionId: String? = nil, sourceAccount: String? = nil, sourceArn: String? = nil, statementId: String) {
+        public init(action: String, eventSourceToken: String? = nil, functionName: String, functionUrlAuthType: FunctionUrlAuthType? = nil, principal: String, principalOrgID: String? = nil, qualifier: String? = nil, revisionId: String? = nil, sourceAccount: String? = nil, sourceArn: String? = nil, statementId: String) {
             self.action = action
             self.eventSourceToken = eventSourceToken
             self.functionName = functionName
+            self.functionUrlAuthType = functionUrlAuthType
             self.principal = principal
             self.principalOrgID = principalOrgID
             self.qualifier = qualifier
@@ -359,6 +368,7 @@ extension Lambda {
         private enum CodingKeys: String, CodingKey {
             case action = "Action"
             case eventSourceToken = "EventSourceToken"
+            case functionUrlAuthType = "FunctionUrlAuthType"
             case principal = "Principal"
             case principalOrgID = "PrincipalOrgID"
             case revisionId = "RevisionId"
@@ -514,6 +524,65 @@ extension Lambda {
 
         private enum CodingKeys: String, CodingKey {
             case reservedConcurrentExecutions = "ReservedConcurrentExecutions"
+        }
+    }
+
+    public struct Cors: AWSEncodableShape & AWSDecodableShape {
+        /// Whether to allow cookies or other credentials in requests to your function URL. The default is false.
+        public let allowCredentials: Bool?
+        /// The HTTP headers that origins can include in requests to your function URL. For example: Date, Keep-Alive, X-Custom-Header.
+        public let allowHeaders: [String]?
+        /// The HTTP methods that are allowed when calling your function URL. For example: GET, POST, DELETE, or the wildcard character (*).
+        public let allowMethods: [String]?
+        /// The origins that can access your function URL. You can list any number of specific origins, separated by a comma. For example: https://www.example.com, http://localhost:60905. Alternatively, you can grant access to all origins using the wildcard character (*).
+        public let allowOrigins: [String]?
+        /// The HTTP headers in your function response that you want to expose to origins that call your function URL. For example: Date, Keep-Alive, X-Custom-Header.
+        public let exposeHeaders: [String]?
+        /// The maximum amount of time, in seconds, that web browsers can cache results of a preflight request. By default, this is set to 0, which means that the browser doesn't cache results.
+        public let maxAge: Int?
+
+        public init(allowCredentials: Bool? = nil, allowHeaders: [String]? = nil, allowMethods: [String]? = nil, allowOrigins: [String]? = nil, exposeHeaders: [String]? = nil, maxAge: Int? = nil) {
+            self.allowCredentials = allowCredentials
+            self.allowHeaders = allowHeaders
+            self.allowMethods = allowMethods
+            self.allowOrigins = allowOrigins
+            self.exposeHeaders = exposeHeaders
+            self.maxAge = maxAge
+        }
+
+        public func validate(name: String) throws {
+            try self.allowHeaders?.forEach {
+                try validate($0, name: "allowHeaders[]", parent: name, max: 1024)
+                try validate($0, name: "allowHeaders[]", parent: name, pattern: ".*")
+            }
+            try self.validate(self.allowHeaders, name: "allowHeaders", parent: name, max: 100)
+            try self.allowMethods?.forEach {
+                try validate($0, name: "allowMethods[]", parent: name, max: 6)
+                try validate($0, name: "allowMethods[]", parent: name, pattern: ".*")
+            }
+            try self.validate(self.allowMethods, name: "allowMethods", parent: name, max: 6)
+            try self.allowOrigins?.forEach {
+                try validate($0, name: "allowOrigins[]", parent: name, max: 253)
+                try validate($0, name: "allowOrigins[]", parent: name, min: 1)
+                try validate($0, name: "allowOrigins[]", parent: name, pattern: ".*")
+            }
+            try self.validate(self.allowOrigins, name: "allowOrigins", parent: name, max: 100)
+            try self.exposeHeaders?.forEach {
+                try validate($0, name: "exposeHeaders[]", parent: name, max: 1024)
+                try validate($0, name: "exposeHeaders[]", parent: name, pattern: ".*")
+            }
+            try self.validate(self.exposeHeaders, name: "exposeHeaders", parent: name, max: 100)
+            try self.validate(self.maxAge, name: "maxAge", parent: name, max: 86400)
+            try self.validate(self.maxAge, name: "maxAge", parent: name, min: 0)
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case allowCredentials = "AllowCredentials"
+            case allowHeaders = "AllowHeaders"
+            case allowMethods = "AllowMethods"
+            case allowOrigins = "AllowOrigins"
+            case exposeHeaders = "ExposeHeaders"
+            case maxAge = "MaxAge"
         }
     }
 
@@ -861,6 +930,73 @@ extension Lambda {
         }
     }
 
+    public struct CreateFunctionUrlConfigRequest: AWSEncodableShape {
+        public static var _encoding = [
+            AWSMemberEncoding(label: "functionName", location: .uri("FunctionName")),
+            AWSMemberEncoding(label: "qualifier", location: .querystring("Qualifier"))
+        ]
+
+        /// The type of authentication that your function URL uses. Set to AWS_IAM if you want to restrict access to authenticated IAM users only. Set to NONE if you want to bypass IAM authentication to create a public endpoint. For more information, see  Security and auth model for Lambda function URLs.
+        public let authType: FunctionUrlAuthType
+        /// The cross-origin resource sharing (CORS) settings for your function URL.
+        public let cors: Cors?
+        /// The name of the Lambda function.  Name formats     Function name - my-function.    Function ARN - arn:aws:lambda:us-west-2:123456789012:function:my-function.    Partial ARN - 123456789012:function:my-function.   The length constraint applies only to the full ARN. If you specify only the function name, it is limited to 64 characters in length.
+        public let functionName: String
+        /// The alias name.
+        public let qualifier: String?
+
+        public init(authType: FunctionUrlAuthType, cors: Cors? = nil, functionName: String, qualifier: String? = nil) {
+            self.authType = authType
+            self.cors = cors
+            self.functionName = functionName
+            self.qualifier = qualifier
+        }
+
+        public func validate(name: String) throws {
+            try self.cors?.validate(name: "\(name).cors")
+            try self.validate(self.functionName, name: "functionName", parent: name, max: 140)
+            try self.validate(self.functionName, name: "functionName", parent: name, min: 1)
+            try self.validate(self.functionName, name: "functionName", parent: name, pattern: "^(arn:(aws[a-zA-Z-]*)?:lambda:)?([a-z]{2}(-gov)?-[a-z]+-\\d{1}:)?(\\d{12}:)?(function:)?([a-zA-Z0-9-_]+)(:(\\$LATEST|[a-zA-Z0-9-_]+))?$")
+            try self.validate(self.qualifier, name: "qualifier", parent: name, max: 128)
+            try self.validate(self.qualifier, name: "qualifier", parent: name, min: 1)
+            try self.validate(self.qualifier, name: "qualifier", parent: name, pattern: "^(^\\$LATEST$)|((?!^[0-9]+$)([a-zA-Z0-9-_]+))$")
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case authType = "AuthType"
+            case cors = "Cors"
+        }
+    }
+
+    public struct CreateFunctionUrlConfigResponse: AWSDecodableShape {
+        /// The type of authentication that your function URL uses. Set to AWS_IAM if you want to restrict access to authenticated IAM users only. Set to NONE if you want to bypass IAM authentication to create a public endpoint. For more information, see  Security and auth model for Lambda function URLs.
+        public let authType: FunctionUrlAuthType
+        /// The cross-origin resource sharing (CORS) settings for your function URL.
+        public let cors: Cors?
+        /// When the function URL was created, in ISO-8601 format (YYYY-MM-DDThh:mm:ss.sTZD).
+        public let creationTime: String
+        /// The Amazon Resource Name (ARN) of your function.
+        public let functionArn: String
+        /// The HTTP URL endpoint for your function.
+        public let functionUrl: String
+
+        public init(authType: FunctionUrlAuthType, cors: Cors? = nil, creationTime: String, functionArn: String, functionUrl: String) {
+            self.authType = authType
+            self.cors = cors
+            self.creationTime = creationTime
+            self.functionArn = functionArn
+            self.functionUrl = functionUrl
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case authType = "AuthType"
+            case cors = "Cors"
+            case creationTime = "CreationTime"
+            case functionArn = "FunctionArn"
+            case functionUrl = "FunctionUrl"
+        }
+    }
+
     public struct DeadLetterConfig: AWSEncodableShape & AWSDecodableShape {
         /// The Amazon Resource Name (ARN) of an Amazon SQS queue or Amazon SNS topic.
         public let targetArn: String?
@@ -1038,6 +1174,34 @@ extension Lambda {
             try self.validate(self.qualifier, name: "qualifier", parent: name, max: 128)
             try self.validate(self.qualifier, name: "qualifier", parent: name, min: 1)
             try self.validate(self.qualifier, name: "qualifier", parent: name, pattern: "^(|[a-zA-Z0-9$_-]+)$")
+        }
+
+        private enum CodingKeys: CodingKey {}
+    }
+
+    public struct DeleteFunctionUrlConfigRequest: AWSEncodableShape {
+        public static var _encoding = [
+            AWSMemberEncoding(label: "functionName", location: .uri("FunctionName")),
+            AWSMemberEncoding(label: "qualifier", location: .querystring("Qualifier"))
+        ]
+
+        /// The name of the Lambda function.  Name formats     Function name - my-function.    Function ARN - arn:aws:lambda:us-west-2:123456789012:function:my-function.    Partial ARN - 123456789012:function:my-function.   The length constraint applies only to the full ARN. If you specify only the function name, it is limited to 64 characters in length.
+        public let functionName: String
+        /// The alias name.
+        public let qualifier: String?
+
+        public init(functionName: String, qualifier: String? = nil) {
+            self.functionName = functionName
+            self.qualifier = qualifier
+        }
+
+        public func validate(name: String) throws {
+            try self.validate(self.functionName, name: "functionName", parent: name, max: 140)
+            try self.validate(self.functionName, name: "functionName", parent: name, min: 1)
+            try self.validate(self.functionName, name: "functionName", parent: name, pattern: "^(arn:(aws[a-zA-Z-]*)?:lambda:)?([a-z]{2}(-gov)?-[a-z]+-\\d{1}:)?(\\d{12}:)?(function:)?([a-zA-Z0-9-_]+)(:(\\$LATEST|[a-zA-Z0-9-_]+))?$")
+            try self.validate(self.qualifier, name: "qualifier", parent: name, max: 128)
+            try self.validate(self.qualifier, name: "qualifier", parent: name, min: 1)
+            try self.validate(self.qualifier, name: "qualifier", parent: name, pattern: "^(^\\$LATEST$)|((?!^[0-9]+$)([a-zA-Z0-9-_]+))$")
         }
 
         private enum CodingKeys: CodingKey {}
@@ -1587,6 +1751,39 @@ extension Lambda {
         }
     }
 
+    public struct FunctionUrlConfig: AWSDecodableShape {
+        /// The type of authentication that your function URL uses. Set to AWS_IAM if you want to restrict access to authenticated IAM users only. Set to NONE if you want to bypass IAM authentication to create a public endpoint. For more information, see  Security and auth model for Lambda function URLs.
+        public let authType: FunctionUrlAuthType
+        /// The cross-origin resource sharing (CORS) settings for your function URL.
+        public let cors: Cors?
+        /// When the function URL was created, in ISO-8601 format (YYYY-MM-DDThh:mm:ss.sTZD).
+        public let creationTime: String
+        /// The Amazon Resource Name (ARN) of your function.
+        public let functionArn: String
+        /// The HTTP URL endpoint for your function.
+        public let functionUrl: String
+        /// When the function URL configuration was last updated, in ISO-8601 format (YYYY-MM-DDThh:mm:ss.sTZD).
+        public let lastModifiedTime: String
+
+        public init(authType: FunctionUrlAuthType, cors: Cors? = nil, creationTime: String, functionArn: String, functionUrl: String, lastModifiedTime: String) {
+            self.authType = authType
+            self.cors = cors
+            self.creationTime = creationTime
+            self.functionArn = functionArn
+            self.functionUrl = functionUrl
+            self.lastModifiedTime = lastModifiedTime
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case authType = "AuthType"
+            case cors = "Cors"
+            case creationTime = "CreationTime"
+            case functionArn = "FunctionArn"
+            case functionUrl = "FunctionUrl"
+            case lastModifiedTime = "LastModifiedTime"
+        }
+    }
+
     public struct GetAccountSettingsRequest: AWSEncodableShape {
         public init() {}
     }
@@ -1862,6 +2059,67 @@ extension Lambda {
             case concurrency = "Concurrency"
             case configuration = "Configuration"
             case tags = "Tags"
+        }
+    }
+
+    public struct GetFunctionUrlConfigRequest: AWSEncodableShape {
+        public static var _encoding = [
+            AWSMemberEncoding(label: "functionName", location: .uri("FunctionName")),
+            AWSMemberEncoding(label: "qualifier", location: .querystring("Qualifier"))
+        ]
+
+        /// The name of the Lambda function.  Name formats     Function name - my-function.    Function ARN - arn:aws:lambda:us-west-2:123456789012:function:my-function.    Partial ARN - 123456789012:function:my-function.   The length constraint applies only to the full ARN. If you specify only the function name, it is limited to 64 characters in length.
+        public let functionName: String
+        /// The alias name.
+        public let qualifier: String?
+
+        public init(functionName: String, qualifier: String? = nil) {
+            self.functionName = functionName
+            self.qualifier = qualifier
+        }
+
+        public func validate(name: String) throws {
+            try self.validate(self.functionName, name: "functionName", parent: name, max: 140)
+            try self.validate(self.functionName, name: "functionName", parent: name, min: 1)
+            try self.validate(self.functionName, name: "functionName", parent: name, pattern: "^(arn:(aws[a-zA-Z-]*)?:lambda:)?([a-z]{2}(-gov)?-[a-z]+-\\d{1}:)?(\\d{12}:)?(function:)?([a-zA-Z0-9-_]+)(:(\\$LATEST|[a-zA-Z0-9-_]+))?$")
+            try self.validate(self.qualifier, name: "qualifier", parent: name, max: 128)
+            try self.validate(self.qualifier, name: "qualifier", parent: name, min: 1)
+            try self.validate(self.qualifier, name: "qualifier", parent: name, pattern: "^(^\\$LATEST$)|((?!^[0-9]+$)([a-zA-Z0-9-_]+))$")
+        }
+
+        private enum CodingKeys: CodingKey {}
+    }
+
+    public struct GetFunctionUrlConfigResponse: AWSDecodableShape {
+        /// The type of authentication that your function URL uses. Set to AWS_IAM if you want to restrict access to authenticated IAM users only. Set to NONE if you want to bypass IAM authentication to create a public endpoint. For more information, see  Security and auth model for Lambda function URLs.
+        public let authType: FunctionUrlAuthType
+        /// The cross-origin resource sharing (CORS) settings for your function URL.
+        public let cors: Cors?
+        /// When the function URL was created, in ISO-8601 format (YYYY-MM-DDThh:mm:ss.sTZD).
+        public let creationTime: String
+        /// The Amazon Resource Name (ARN) of your function.
+        public let functionArn: String
+        /// The HTTP URL endpoint for your function.
+        public let functionUrl: String
+        /// When the function URL configuration was last updated, in ISO-8601 format (YYYY-MM-DDThh:mm:ss.sTZD).
+        public let lastModifiedTime: String
+
+        public init(authType: FunctionUrlAuthType, cors: Cors? = nil, creationTime: String, functionArn: String, functionUrl: String, lastModifiedTime: String) {
+            self.authType = authType
+            self.cors = cors
+            self.creationTime = creationTime
+            self.functionArn = functionArn
+            self.functionUrl = functionUrl
+            self.lastModifiedTime = lastModifiedTime
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case authType = "AuthType"
+            case cors = "Cors"
+            case creationTime = "CreationTime"
+            case functionArn = "FunctionArn"
+            case functionUrl = "FunctionUrl"
+            case lastModifiedTime = "LastModifiedTime"
         }
     }
 
@@ -2636,6 +2894,54 @@ extension Lambda {
 
         private enum CodingKeys: String, CodingKey {
             case functionEventInvokeConfigs = "FunctionEventInvokeConfigs"
+            case nextMarker = "NextMarker"
+        }
+    }
+
+    public struct ListFunctionUrlConfigsRequest: AWSEncodableShape {
+        public static var _encoding = [
+            AWSMemberEncoding(label: "functionName", location: .uri("FunctionName")),
+            AWSMemberEncoding(label: "marker", location: .querystring("Marker")),
+            AWSMemberEncoding(label: "maxItems", location: .querystring("MaxItems"))
+        ]
+
+        /// The name of the Lambda function.  Name formats     Function name - my-function.    Function ARN - arn:aws:lambda:us-west-2:123456789012:function:my-function.    Partial ARN - 123456789012:function:my-function.   The length constraint applies only to the full ARN. If you specify only the function name, it is limited to 64 characters in length.
+        public let functionName: String
+        /// Specify the pagination token that's returned by a previous request to retrieve the next page of results.
+        public let marker: String?
+        /// The maximum number of function URLs to return in the response. Note that ListFunctionUrlConfigs returns a maximum of 50 items in each response, even if you set the number higher.
+        public let maxItems: Int?
+
+        public init(functionName: String, marker: String? = nil, maxItems: Int? = nil) {
+            self.functionName = functionName
+            self.marker = marker
+            self.maxItems = maxItems
+        }
+
+        public func validate(name: String) throws {
+            try self.validate(self.functionName, name: "functionName", parent: name, max: 140)
+            try self.validate(self.functionName, name: "functionName", parent: name, min: 1)
+            try self.validate(self.functionName, name: "functionName", parent: name, pattern: "^(arn:(aws[a-zA-Z-]*)?:lambda:)?([a-z]{2}(-gov)?-[a-z]+-\\d{1}:)?(\\d{12}:)?(function:)?([a-zA-Z0-9-_]+)(:(\\$LATEST|[a-zA-Z0-9-_]+))?$")
+            try self.validate(self.maxItems, name: "maxItems", parent: name, max: 50)
+            try self.validate(self.maxItems, name: "maxItems", parent: name, min: 1)
+        }
+
+        private enum CodingKeys: CodingKey {}
+    }
+
+    public struct ListFunctionUrlConfigsResponse: AWSDecodableShape {
+        /// A list of function URL configurations.
+        public let functionUrlConfigs: [FunctionUrlConfig]
+        /// The pagination token that's included if more results are available.
+        public let nextMarker: String?
+
+        public init(functionUrlConfigs: [FunctionUrlConfig], nextMarker: String? = nil) {
+            self.functionUrlConfigs = functionUrlConfigs
+            self.nextMarker = nextMarker
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case functionUrlConfigs = "FunctionUrlConfigs"
             case nextMarker = "NextMarker"
         }
     }
@@ -3964,6 +4270,77 @@ extension Lambda {
             case destinationConfig = "DestinationConfig"
             case maximumEventAgeInSeconds = "MaximumEventAgeInSeconds"
             case maximumRetryAttempts = "MaximumRetryAttempts"
+        }
+    }
+
+    public struct UpdateFunctionUrlConfigRequest: AWSEncodableShape {
+        public static var _encoding = [
+            AWSMemberEncoding(label: "functionName", location: .uri("FunctionName")),
+            AWSMemberEncoding(label: "qualifier", location: .querystring("Qualifier"))
+        ]
+
+        /// The type of authentication that your function URL uses. Set to AWS_IAM if you want to restrict access to authenticated IAM users only. Set to NONE if you want to bypass IAM authentication to create a public endpoint. For more information, see  Security and auth model for Lambda function URLs.
+        public let authType: FunctionUrlAuthType?
+        /// The cross-origin resource sharing (CORS) settings for your function URL.
+        public let cors: Cors?
+        /// The name of the Lambda function.  Name formats     Function name - my-function.    Function ARN - arn:aws:lambda:us-west-2:123456789012:function:my-function.    Partial ARN - 123456789012:function:my-function.   The length constraint applies only to the full ARN. If you specify only the function name, it is limited to 64 characters in length.
+        public let functionName: String
+        /// The alias name.
+        public let qualifier: String?
+
+        public init(authType: FunctionUrlAuthType? = nil, cors: Cors? = nil, functionName: String, qualifier: String? = nil) {
+            self.authType = authType
+            self.cors = cors
+            self.functionName = functionName
+            self.qualifier = qualifier
+        }
+
+        public func validate(name: String) throws {
+            try self.cors?.validate(name: "\(name).cors")
+            try self.validate(self.functionName, name: "functionName", parent: name, max: 140)
+            try self.validate(self.functionName, name: "functionName", parent: name, min: 1)
+            try self.validate(self.functionName, name: "functionName", parent: name, pattern: "^(arn:(aws[a-zA-Z-]*)?:lambda:)?([a-z]{2}(-gov)?-[a-z]+-\\d{1}:)?(\\d{12}:)?(function:)?([a-zA-Z0-9-_]+)(:(\\$LATEST|[a-zA-Z0-9-_]+))?$")
+            try self.validate(self.qualifier, name: "qualifier", parent: name, max: 128)
+            try self.validate(self.qualifier, name: "qualifier", parent: name, min: 1)
+            try self.validate(self.qualifier, name: "qualifier", parent: name, pattern: "^(^\\$LATEST$)|((?!^[0-9]+$)([a-zA-Z0-9-_]+))$")
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case authType = "AuthType"
+            case cors = "Cors"
+        }
+    }
+
+    public struct UpdateFunctionUrlConfigResponse: AWSDecodableShape {
+        /// The type of authentication that your function URL uses. Set to AWS_IAM if you want to restrict access to authenticated IAM users only. Set to NONE if you want to bypass IAM authentication to create a public endpoint. For more information, see  Security and auth model for Lambda function URLs.
+        public let authType: FunctionUrlAuthType
+        /// The cross-origin resource sharing (CORS) settings for your function URL.
+        public let cors: Cors?
+        /// When the function URL was created, in ISO-8601 format (YYYY-MM-DDThh:mm:ss.sTZD).
+        public let creationTime: String
+        /// The Amazon Resource Name (ARN) of your function.
+        public let functionArn: String
+        /// The HTTP URL endpoint for your function.
+        public let functionUrl: String
+        /// When the function URL configuration was last updated, in ISO-8601 format (YYYY-MM-DDThh:mm:ss.sTZD).
+        public let lastModifiedTime: String
+
+        public init(authType: FunctionUrlAuthType, cors: Cors? = nil, creationTime: String, functionArn: String, functionUrl: String, lastModifiedTime: String) {
+            self.authType = authType
+            self.cors = cors
+            self.creationTime = creationTime
+            self.functionArn = functionArn
+            self.functionUrl = functionUrl
+            self.lastModifiedTime = lastModifiedTime
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case authType = "AuthType"
+            case cors = "Cors"
+            case creationTime = "CreationTime"
+            case functionArn = "FunctionArn"
+            case functionUrl = "FunctionUrl"
+            case lastModifiedTime = "LastModifiedTime"
         }
     }
 

@@ -132,6 +132,28 @@ extension LookoutEquipment {
             on: eventLoop
         )
     }
+
+    ///  Lists statistics about the data collected for each of the sensors that have been successfully ingested in the particular dataset. Can also be used to retreive Sensor Statistics for a previous ingestion job.
+    /// Return PaginatorSequence for operation.
+    ///
+    /// - Parameters:
+    ///   - input: Input for request
+    ///   - logger: Logger used flot logging
+    ///   - eventLoop: EventLoop to run this process on
+    public func listSensorStatisticsPaginator(
+        _ input: ListSensorStatisticsRequest,
+        logger: Logger = AWSClient.loggingDisabled,
+        on eventLoop: EventLoop? = nil
+    ) -> AWSClient.PaginatorSequence<ListSensorStatisticsRequest, ListSensorStatisticsResponse> {
+        return .init(
+            input: input,
+            command: listSensorStatistics,
+            inputKey: \ListSensorStatisticsRequest.nextToken,
+            outputKey: \ListSensorStatisticsResponse.nextToken,
+            logger: logger,
+            on: eventLoop
+        )
+    }
 }
 
 #endif // compiler(>=5.5.2) && canImport(_Concurrency)

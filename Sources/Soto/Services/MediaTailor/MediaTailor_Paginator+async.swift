@@ -89,6 +89,28 @@ extension MediaTailor {
         )
     }
 
+    ///  lists all the live sources in a source location.
+    /// Return PaginatorSequence for operation.
+    ///
+    /// - Parameters:
+    ///   - input: Input for request
+    ///   - logger: Logger used flot logging
+    ///   - eventLoop: EventLoop to run this process on
+    public func listLiveSourcesPaginator(
+        _ input: ListLiveSourcesRequest,
+        logger: Logger = AWSClient.loggingDisabled,
+        on eventLoop: EventLoop? = nil
+    ) -> AWSClient.PaginatorSequence<ListLiveSourcesRequest, ListLiveSourcesResponse> {
+        return .init(
+            input: input,
+            command: listLiveSources,
+            inputKey: \ListLiveSourcesRequest.nextToken,
+            outputKey: \ListLiveSourcesResponse.nextToken,
+            logger: logger,
+            on: eventLoop
+        )
+    }
+
     ///  Returns a list of the playback configurations defined in AWS Elemental MediaTailor. You can specify a maximum number of configurations to return at a time. The default maximum is 50. Results are returned in pagefuls. If MediaTailor has more configurations than the specified maximum, it provides parameters in the response that you can use to retrieve the next pageful.
     /// Return PaginatorSequence for operation.
     ///

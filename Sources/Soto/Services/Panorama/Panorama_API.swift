@@ -19,7 +19,7 @@
 
 /// Service object for interacting with AWS Panorama service.
 ///
-/// AWS Panorama  Overview  This is the AWS Panorama API Reference. For an introduction to the service, see  What is AWS Panorama?  in the AWS Panorama Developer Guide.
+/// AWS Panorama  Overview  This is the AWS Panorama API Reference. For an introduction to the service, see What is AWS Panorama? in the AWS Panorama Developer Guide.
 public struct Panorama: AWSService {
     // MARK: Member variables
 
@@ -198,7 +198,7 @@ public struct Panorama: AWSService {
         return self.client.execute(operation: "ListTagsForResource", path: "/tags/{ResourceArn}", httpMethod: .GET, serviceConfig: self.config, input: input, logger: logger, on: eventLoop)
     }
 
-    /// Creates a device and returns a configuration archive. The configuration archive is a ZIP file that contains a provisioning certificate that is valid for 5 minutes. Transfer the configuration archive to the device with the included USB storage device within 5 minutes.
+    /// Creates a device and returns a configuration archive. The configuration archive is a ZIP file that contains a provisioning certificate that is valid for 5 minutes. Name the configuration archive certificates-omni_device-name.zip and transfer it to the device within 5 minutes. Use the included USB storage device and connect it to the USB 3.0 port next to the HDMI output.
     public func provisionDevice(_ input: ProvisionDeviceRequest, logger: Logger = AWSClient.loggingDisabled, on eventLoop: EventLoop? = nil) -> EventLoopFuture<ProvisionDeviceResponse> {
         return self.client.execute(operation: "ProvisionDevice", path: "/devices", httpMethod: .POST, serviceConfig: self.config, input: input, logger: logger, on: eventLoop)
     }

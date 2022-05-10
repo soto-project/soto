@@ -174,7 +174,7 @@ public struct Kendra: AWSService {
         return self.client.execute(operation: "DescribeFaq", path: "/", httpMethod: .POST, serviceConfig: self.config, input: input, logger: logger, on: eventLoop)
     }
 
-    /// Describes an existing Amazon Kendra index
+    /// Describes an existing Amazon Kendra index.
     public func describeIndex(_ input: DescribeIndexRequest, logger: Logger = AWSClient.loggingDisabled, on eventLoop: EventLoop? = nil) -> EventLoopFuture<DescribeIndexResponse> {
         return self.client.execute(operation: "DescribeIndex", path: "/", httpMethod: .POST, serviceConfig: self.config, input: input, logger: logger, on: eventLoop)
     }
@@ -254,7 +254,7 @@ public struct Kendra: AWSService {
         return self.client.execute(operation: "ListGroupsOlderThanOrderingId", path: "/", httpMethod: .POST, serviceConfig: self.config, input: input, logger: logger, on: eventLoop)
     }
 
-    /// Lists the Amazon Kendra indexes that you have created.
+    /// Lists the Amazon Kendra indexes that you created.
     public func listIndices(_ input: ListIndicesRequest, logger: Logger = AWSClient.loggingDisabled, on eventLoop: EventLoop? = nil) -> EventLoopFuture<ListIndicesResponse> {
         return self.client.execute(operation: "ListIndices", path: "/", httpMethod: .POST, serviceConfig: self.config, input: input, logger: logger, on: eventLoop)
     }

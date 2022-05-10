@@ -94,6 +94,11 @@ public struct Lambda: AWSService {
         return self.client.execute(operation: "CreateFunction", path: "/2015-03-31/functions", httpMethod: .POST, serviceConfig: self.config, input: input, logger: logger, on: eventLoop)
     }
 
+    /// Creates a Lambda function URL with the specified configuration parameters. A function URL is a dedicated HTTP(S) endpoint that you can use to invoke your function.
+    public func createFunctionUrlConfig(_ input: CreateFunctionUrlConfigRequest, logger: Logger = AWSClient.loggingDisabled, on eventLoop: EventLoop? = nil) -> EventLoopFuture<CreateFunctionUrlConfigResponse> {
+        return self.client.execute(operation: "CreateFunctionUrlConfig", path: "/2021-10-31/functions/{FunctionName}/url", httpMethod: .POST, serviceConfig: self.config, input: input, logger: logger, on: eventLoop)
+    }
+
     /// Deletes a Lambda function alias.
     @discardableResult public func deleteAlias(_ input: DeleteAliasRequest, logger: Logger = AWSClient.loggingDisabled, on eventLoop: EventLoop? = nil) -> EventLoopFuture<Void> {
         return self.client.execute(operation: "DeleteAlias", path: "/2015-03-31/functions/{FunctionName}/aliases/{Name}", httpMethod: .DELETE, serviceConfig: self.config, input: input, logger: logger, on: eventLoop)
@@ -127,6 +132,11 @@ public struct Lambda: AWSService {
     /// Deletes the configuration for asynchronous invocation for a function, version, or alias.  To configure options for asynchronous invocation, use PutFunctionEventInvokeConfig.
     @discardableResult public func deleteFunctionEventInvokeConfig(_ input: DeleteFunctionEventInvokeConfigRequest, logger: Logger = AWSClient.loggingDisabled, on eventLoop: EventLoop? = nil) -> EventLoopFuture<Void> {
         return self.client.execute(operation: "DeleteFunctionEventInvokeConfig", path: "/2019-09-25/functions/{FunctionName}/event-invoke-config", httpMethod: .DELETE, serviceConfig: self.config, input: input, logger: logger, on: eventLoop)
+    }
+
+    /// Deletes a Lambda function URL. When you delete a function URL, you can't recover it. Creating a new function URL results in a different URL address.
+    @discardableResult public func deleteFunctionUrlConfig(_ input: DeleteFunctionUrlConfigRequest, logger: Logger = AWSClient.loggingDisabled, on eventLoop: EventLoop? = nil) -> EventLoopFuture<Void> {
+        return self.client.execute(operation: "DeleteFunctionUrlConfig", path: "/2021-10-31/functions/{FunctionName}/url", httpMethod: .DELETE, serviceConfig: self.config, input: input, logger: logger, on: eventLoop)
     }
 
     /// Deletes a version of an Lambda layer. Deleted versions can no longer be viewed or added to functions. To avoid breaking functions, a copy of the version remains in Lambda until no functions refer to it.
@@ -184,6 +194,11 @@ public struct Lambda: AWSService {
         return self.client.execute(operation: "GetFunctionEventInvokeConfig", path: "/2019-09-25/functions/{FunctionName}/event-invoke-config", httpMethod: .GET, serviceConfig: self.config, input: input, logger: logger, on: eventLoop)
     }
 
+    /// Returns details about a Lambda function URL.
+    public func getFunctionUrlConfig(_ input: GetFunctionUrlConfigRequest, logger: Logger = AWSClient.loggingDisabled, on eventLoop: EventLoop? = nil) -> EventLoopFuture<GetFunctionUrlConfigResponse> {
+        return self.client.execute(operation: "GetFunctionUrlConfig", path: "/2021-10-31/functions/{FunctionName}/url", httpMethod: .GET, serviceConfig: self.config, input: input, logger: logger, on: eventLoop)
+    }
+
     /// Returns information about a version of an Lambda layer, with a link to download the layer archive that's valid for 10 minutes.
     public func getLayerVersion(_ input: GetLayerVersionRequest, logger: Logger = AWSClient.loggingDisabled, on eventLoop: EventLoop? = nil) -> EventLoopFuture<GetLayerVersionResponse> {
         return self.client.execute(operation: "GetLayerVersion", path: "/2018-10-31/layers/{LayerName}/versions/{VersionNumber}", httpMethod: .GET, serviceConfig: self.config, input: input, logger: logger, on: eventLoop)
@@ -237,6 +252,11 @@ public struct Lambda: AWSService {
     /// Retrieves a list of configurations for asynchronous invocation for a function.  To configure options for asynchronous invocation, use PutFunctionEventInvokeConfig.
     public func listFunctionEventInvokeConfigs(_ input: ListFunctionEventInvokeConfigsRequest, logger: Logger = AWSClient.loggingDisabled, on eventLoop: EventLoop? = nil) -> EventLoopFuture<ListFunctionEventInvokeConfigsResponse> {
         return self.client.execute(operation: "ListFunctionEventInvokeConfigs", path: "/2019-09-25/functions/{FunctionName}/event-invoke-config/list", httpMethod: .GET, serviceConfig: self.config, input: input, logger: logger, on: eventLoop)
+    }
+
+    /// Returns a list of Lambda function URLs for the specified function.
+    public func listFunctionUrlConfigs(_ input: ListFunctionUrlConfigsRequest, logger: Logger = AWSClient.loggingDisabled, on eventLoop: EventLoop? = nil) -> EventLoopFuture<ListFunctionUrlConfigsResponse> {
+        return self.client.execute(operation: "ListFunctionUrlConfigs", path: "/2021-10-31/functions/{FunctionName}/urls", httpMethod: .GET, serviceConfig: self.config, input: input, logger: logger, on: eventLoop)
     }
 
     /// Returns a list of Lambda functions, with the version-specific configuration of each. Lambda returns up to 50 functions per call. Set FunctionVersion to ALL to include all published versions of each function in addition to the unpublished version.   The ListFunctions action returns a subset of the FunctionConfiguration fields. To get the additional fields (State, StateReasonCode, StateReason, LastUpdateStatus, LastUpdateStatusReason, LastUpdateStatusReasonCode) for a function or version, use GetFunction.
@@ -352,6 +372,11 @@ public struct Lambda: AWSService {
     /// Updates the configuration for asynchronous invocation for a function, version, or alias.  To configure options for asynchronous invocation, use PutFunctionEventInvokeConfig.
     public func updateFunctionEventInvokeConfig(_ input: UpdateFunctionEventInvokeConfigRequest, logger: Logger = AWSClient.loggingDisabled, on eventLoop: EventLoop? = nil) -> EventLoopFuture<FunctionEventInvokeConfig> {
         return self.client.execute(operation: "UpdateFunctionEventInvokeConfig", path: "/2019-09-25/functions/{FunctionName}/event-invoke-config", httpMethod: .POST, serviceConfig: self.config, input: input, logger: logger, on: eventLoop)
+    }
+
+    /// Updates the configuration for a Lambda function URL.
+    public func updateFunctionUrlConfig(_ input: UpdateFunctionUrlConfigRequest, logger: Logger = AWSClient.loggingDisabled, on eventLoop: EventLoop? = nil) -> EventLoopFuture<UpdateFunctionUrlConfigResponse> {
+        return self.client.execute(operation: "UpdateFunctionUrlConfig", path: "/2021-10-31/functions/{FunctionName}/url", httpMethod: .PUT, serviceConfig: self.config, input: input, logger: logger, on: eventLoop)
     }
 }
 

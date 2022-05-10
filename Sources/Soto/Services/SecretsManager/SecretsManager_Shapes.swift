@@ -47,7 +47,7 @@ extension SecretsManager {
     // MARK: Shapes
 
     public struct CancelRotateSecretRequest: AWSEncodableShape {
-        /// The ARN or name of the secret.  For an ARN, we recommend that you specify a complete ARN rather  than a partial ARN.
+        /// The ARN or name of the secret.  For an ARN, we recommend that you specify a complete ARN rather  than a partial ARN. See Finding a secret from a partial ARN.
         public let secretId: String
 
         public init(secretId: String) {
@@ -174,7 +174,7 @@ extension SecretsManager {
     }
 
     public struct DeleteResourcePolicyRequest: AWSEncodableShape {
-        /// The ARN or name of the secret to delete the attached resource-based policy for. For an ARN, we recommend that you specify a complete ARN rather  than a partial ARN.
+        /// The ARN or name of the secret to delete the attached resource-based policy for. For an ARN, we recommend that you specify a complete ARN rather  than a partial ARN. See Finding a secret from a partial ARN.
         public let secretId: String
 
         public init(secretId: String) {
@@ -213,7 +213,7 @@ extension SecretsManager {
         public let forceDeleteWithoutRecovery: Bool?
         /// The number of days from 7 to 30 that Secrets Manager waits before permanently deleting the secret. You can't use both this parameter and ForceDeleteWithoutRecovery in the same call. If you don't use either, then Secrets Manager defaults to a 30 day recovery window.
         public let recoveryWindowInDays: Int64?
-        /// The ARN or name of the secret to delete. For an ARN, we recommend that you specify a complete ARN rather  than a partial ARN.
+        /// The ARN or name of the secret to delete. For an ARN, we recommend that you specify a complete ARN rather  than a partial ARN. See Finding a secret from a partial ARN.
         public let secretId: String
 
         public init(forceDeleteWithoutRecovery: Bool? = nil, recoveryWindowInDays: Int64? = nil, secretId: String) {
@@ -256,7 +256,7 @@ extension SecretsManager {
     }
 
     public struct DescribeSecretRequest: AWSEncodableShape {
-        /// The ARN or name of the secret.  For an ARN, we recommend that you specify a complete ARN rather  than a partial ARN.
+        /// The ARN or name of the secret.  For an ARN, we recommend that you specify a complete ARN rather  than a partial ARN. See Finding a secret from a partial ARN.
         public let secretId: String
 
         public init(secretId: String) {
@@ -437,7 +437,7 @@ extension SecretsManager {
     }
 
     public struct GetResourcePolicyRequest: AWSEncodableShape {
-        /// The ARN or name of the secret to retrieve the attached resource-based policy for. For an ARN, we recommend that you specify a complete ARN rather  than a partial ARN.
+        /// The ARN or name of the secret to retrieve the attached resource-based policy for. For an ARN, we recommend that you specify a complete ARN rather  than a partial ARN. See Finding a secret from a partial ARN.
         public let secretId: String
 
         public init(secretId: String) {
@@ -476,7 +476,7 @@ extension SecretsManager {
     }
 
     public struct GetSecretValueRequest: AWSEncodableShape {
-        /// The ARN or name of the secret to retrieve. For an ARN, we recommend that you specify a complete ARN rather  than a partial ARN.
+        /// The ARN or name of the secret to retrieve. For an ARN, we recommend that you specify a complete ARN rather  than a partial ARN. See Finding a secret from a partial ARN.
         public let secretId: String
         /// The unique identifier of the version of the secret to retrieve. If you include both this parameter and VersionStage, the two parameters must refer to the same secret version. If you don't specify either a VersionStage or VersionId, then Secrets Manager returns the AWSCURRENT version. This value is typically a UUID-type value with 32 hexadecimal digits.
         public let versionId: String?
@@ -549,7 +549,7 @@ extension SecretsManager {
         public let maxResults: Int?
         /// A token that indicates where the output should continue from, if a previous call  did not show all results. To get the next results, call ListSecretVersionIds again with  this value.
         public let nextToken: String?
-        /// The ARN or name of the secret whose versions you want to list. For an ARN, we recommend that you specify a complete ARN rather  than a partial ARN.
+        /// The ARN or name of the secret whose versions you want to list. For an ARN, we recommend that you specify a complete ARN rather  than a partial ARN. See Finding a secret from a partial ARN.
         public let secretId: String
 
         public init(includeDeprecated: Bool? = nil, maxResults: Int? = nil, nextToken: String? = nil, secretId: String) {
@@ -659,7 +659,7 @@ extension SecretsManager {
         public let blockPublicPolicy: Bool?
         /// A JSON-formatted string for an Amazon Web Services resource-based policy. For example policies, see Permissions  policy examples.
         public let resourcePolicy: String
-        /// The ARN or name of the secret to attach the resource-based policy. For an ARN, we recommend that you specify a complete ARN rather  than a partial ARN.
+        /// The ARN or name of the secret to attach the resource-based policy. For an ARN, we recommend that you specify a complete ARN rather  than a partial ARN. See Finding a secret from a partial ARN.
         public let secretId: String
 
         public init(blockPublicPolicy: Bool? = nil, resourcePolicy: String, secretId: String) {
@@ -704,7 +704,7 @@ extension SecretsManager {
         public let clientRequestToken: String?
         /// The binary data to encrypt and store in the new version of the secret. To use this parameter in the command-line tools, we recommend that you store your binary data in a file and then pass the contents of the file as a parameter.  You must include SecretBinary or SecretString, but not both. You can't access this value from the Secrets Manager console.
         public let secretBinary: Data?
-        /// The ARN or name of the secret to add a new version to. For an ARN, we recommend that you specify a complete ARN rather  than a partial ARN.  If the secret doesn't already exist, use CreateSecret instead.
+        /// The ARN or name of the secret to add a new version to. For an ARN, we recommend that you specify a complete ARN rather  than a partial ARN. See Finding a secret from a partial ARN.  If the secret doesn't already exist, use CreateSecret instead.
         public let secretId: String
         /// The text to encrypt and store in the new version of the secret.  You must include SecretBinary or SecretString, but not both. We recommend you create the secret string as JSON key/value pairs, as shown in the example.
         public let secretString: String?
@@ -914,7 +914,7 @@ extension SecretsManager {
     }
 
     public struct RestoreSecretRequest: AWSEncodableShape {
-        /// The ARN or name of the secret to restore. For an ARN, we recommend that you specify a complete ARN rather  than a partial ARN.
+        /// The ARN or name of the secret to restore. For an ARN, we recommend that you specify a complete ARN rather  than a partial ARN. See Finding a secret from a partial ARN.
         public let secretId: String
 
         public init(secretId: String) {
@@ -957,7 +957,7 @@ extension SecretsManager {
         public let rotationLambdaARN: String?
         /// A structure that defines the rotation configuration for this secret.
         public let rotationRules: RotationRulesType?
-        /// The ARN or name of the secret to rotate. For an ARN, we recommend that you specify a complete ARN rather  than a partial ARN.
+        /// The ARN or name of the secret to rotate. For an ARN, we recommend that you specify a complete ARN rather  than a partial ARN. See Finding a secret from a partial ARN.
         public let secretId: String
 
         public init(clientRequestToken: String? = RotateSecretRequest.idempotencyToken(), rotateImmediately: Bool? = nil, rotationLambdaARN: String? = nil, rotationRules: RotationRulesType? = nil, secretId: String) {
@@ -1196,7 +1196,7 @@ extension SecretsManager {
     }
 
     public struct TagResourceRequest: AWSEncodableShape {
-        /// The identifier for the secret to attach tags to. You can specify either the Amazon Resource Name (ARN) or the friendly name of the secret.  For an ARN, we recommend that you specify a complete ARN rather  than a partial ARN.
+        /// The identifier for the secret to attach tags to. You can specify either the Amazon Resource Name (ARN) or the friendly name of the secret.  For an ARN, we recommend that you specify a complete ARN rather  than a partial ARN. See Finding a secret from a partial ARN.
         public let secretId: String
         /// The tags to attach to the secret as a JSON text string argument. Each element in the list consists of a Key and a Value.
         ///  For storing multiple values, we recommend that you use a JSON text  string argument and specify key/value pairs. For more information, see Specifying parameter values for the Amazon Web Services CLI in the Amazon Web Services CLI User Guide.
@@ -1222,7 +1222,7 @@ extension SecretsManager {
     }
 
     public struct UntagResourceRequest: AWSEncodableShape {
-        /// The ARN or name of the secret. For an ARN, we recommend that you specify a complete ARN rather  than a partial ARN.
+        /// The ARN or name of the secret. For an ARN, we recommend that you specify a complete ARN rather  than a partial ARN. See Finding a secret from a partial ARN.
         public let secretId: String
         /// A list of tag key names to remove from the secret. You don't specify the value. Both the key and its associated value are removed. This parameter requires a JSON text string argument. For storing multiple values, we recommend that you use a JSON text  string argument and specify key/value pairs. For more information, see Specifying parameter values for the Amazon Web Services CLI in the Amazon Web Services CLI User Guide.
         public let tagKeys: [String]
@@ -1256,7 +1256,7 @@ extension SecretsManager {
         public let kmsKeyId: String?
         /// The binary data to encrypt and store in the new version of the secret. We recommend that you store your binary data in a file and then pass the contents of the file as a parameter.  Either SecretBinary or SecretString must have a value, but not both. You can't access this parameter in the Secrets Manager console.
         public let secretBinary: Data?
-        /// The ARN or name of the secret.  For an ARN, we recommend that you specify a complete ARN rather  than a partial ARN.
+        /// The ARN or name of the secret.  For an ARN, we recommend that you specify a complete ARN rather  than a partial ARN. See Finding a secret from a partial ARN.
         public let secretId: String
         /// The text data to encrypt and store in the new version of the secret. We recommend you use a JSON structure of key/value pairs for your secret value.  Either SecretBinary or SecretString must have a value, but not both.
         public let secretString: String?
@@ -1317,7 +1317,7 @@ extension SecretsManager {
         public let moveToVersionId: String?
         /// The ID of the version that the staging label is to be removed from. If the staging label you are trying to attach to one version is already attached to a different version, then you must include this parameter and specify the version that the label is to be removed from. If the label is attached and you either do not specify this parameter, or the version ID does not match, then the operation fails.
         public let removeFromVersionId: String?
-        /// The ARN or the name of the secret with the version and staging labelsto modify.  For an ARN, we recommend that you specify a complete ARN rather  than a partial ARN.
+        /// The ARN or the name of the secret with the version and staging labelsto modify.  For an ARN, we recommend that you specify a complete ARN rather  than a partial ARN. See Finding a secret from a partial ARN.
         public let secretId: String
         /// The staging label to add to this version.
         public let versionStage: String

@@ -88,11 +88,6 @@ extension RDS {
         return try await self.client.execute(operation: "CopyOptionGroup", path: "/", httpMethod: .POST, serviceConfig: self.config, input: input, logger: logger, on: eventLoop)
     }
 
-    /// Creates a custom Availability Zone (AZ). A custom AZ is an on-premises AZ that is integrated with a VMware vSphere cluster. For more information about RDS on VMware, see the   RDS on VMware User Guide.
-    public func createCustomAvailabilityZone(_ input: CreateCustomAvailabilityZoneMessage, logger: Logger = AWSClient.loggingDisabled, on eventLoop: EventLoop? = nil) async throws -> CreateCustomAvailabilityZoneResult {
-        return try await self.client.execute(operation: "CreateCustomAvailabilityZone", path: "/", httpMethod: .POST, serviceConfig: self.config, input: input, logger: logger, on: eventLoop)
-    }
-
     /// Creates a custom DB engine version (CEV). A CEV is a binary volume snapshot of a database engine and specific AMI. The supported engines are the following:   Oracle Database 12.1 Enterprise Edition with the January 2021 or later RU/RUR   Oracle Database 19c Enterprise Edition with the January 2021 or later RU/RUR   Amazon RDS, which is a fully managed service, supplies the Amazon Machine Image (AMI) and database software. The Amazon RDS database software is preinstalled, so you need only select a DB engine and version, and create your database. With Amazon RDS Custom for Oracle, you upload your database installation files in Amazon S3. When you create a custom engine version, you specify the files in a JSON document called a CEV manifest.  This document describes installation .zip files stored in Amazon S3. RDS Custom creates your CEV from  the installation files that you provided. This service model is called Bring Your Own Media (BYOM). Creation takes approximately two hours. If creation fails, RDS Custom issues RDS-EVENT-0196 with  the message Creation failed for custom engine version, and includes details about the failure.  For example, the event prints missing files. After you create the CEV, it is available for use. You can create multiple CEVs, and create multiple  RDS Custom instances from any CEV. You can also change the status of a CEV to make it available or inactive.  The MediaImport service that imports files from Amazon S3 to create CEVs isn't integrated with  Amazon Web Services CloudTrail. If you turn on data logging for Amazon RDS in CloudTrail, calls to the  CreateCustomDbEngineVersion event aren't logged. However, you might see calls from the  API gateway that accesses your Amazon S3 bucket. These calls originate from the MediaImport service for  the CreateCustomDbEngineVersion event.  For more information, see  Creating a CEV in the Amazon RDS User Guide.
     public func createCustomDBEngineVersion(_ input: CreateCustomDBEngineVersionMessage, logger: Logger = AWSClient.loggingDisabled, on eventLoop: EventLoop? = nil) async throws -> DBEngineVersion {
         return try await self.client.execute(operation: "CreateCustomDBEngineVersion", path: "/", httpMethod: .POST, serviceConfig: self.config, input: input, logger: logger, on: eventLoop)
@@ -173,11 +168,6 @@ extension RDS {
         return try await self.client.execute(operation: "CreateOptionGroup", path: "/", httpMethod: .POST, serviceConfig: self.config, input: input, logger: logger, on: eventLoop)
     }
 
-    /// Deletes a custom Availability Zone (AZ). A custom AZ is an on-premises AZ that is integrated with a VMware vSphere cluster. For more information about RDS on VMware, see the   RDS on VMware User Guide.
-    public func deleteCustomAvailabilityZone(_ input: DeleteCustomAvailabilityZoneMessage, logger: Logger = AWSClient.loggingDisabled, on eventLoop: EventLoop? = nil) async throws -> DeleteCustomAvailabilityZoneResult {
-        return try await self.client.execute(operation: "DeleteCustomAvailabilityZone", path: "/", httpMethod: .POST, serviceConfig: self.config, input: input, logger: logger, on: eventLoop)
-    }
-
     /// Deletes a custom engine version. To run this command, make sure you meet the following prerequisites:   The CEV must not be the default for RDS Custom. If it is, change the default  before running this command.   The CEV must not be associated with an RDS Custom DB instance, RDS Custom instance snapshot,  or automated backup of your RDS Custom instance.   Typically, deletion takes a few minutes.  The MediaImport service that imports files from Amazon S3 to create CEVs isn't integrated with  Amazon Web Services CloudTrail. If you turn on data logging for Amazon RDS in CloudTrail, calls to the  DeleteCustomDbEngineVersion event aren't logged. However, you might see calls from the  API gateway that accesses your Amazon S3 bucket. These calls originate from the MediaImport service for  the DeleteCustomDbEngineVersion event.  For more information, see  Deleting a CEV in the Amazon RDS User Guide.
     public func deleteCustomDBEngineVersion(_ input: DeleteCustomDBEngineVersionMessage, logger: Logger = AWSClient.loggingDisabled, on eventLoop: EventLoop? = nil) async throws -> DBEngineVersion {
         return try await self.client.execute(operation: "DeleteCustomDBEngineVersion", path: "/", httpMethod: .POST, serviceConfig: self.config, input: input, logger: logger, on: eventLoop)
@@ -253,11 +243,6 @@ extension RDS {
         return try await self.client.execute(operation: "DeleteGlobalCluster", path: "/", httpMethod: .POST, serviceConfig: self.config, input: input, logger: logger, on: eventLoop)
     }
 
-    /// Deletes the installation medium for a DB engine that requires an on-premises customer provided license, such as Microsoft SQL Server.
-    public func deleteInstallationMedia(_ input: DeleteInstallationMediaMessage, logger: Logger = AWSClient.loggingDisabled, on eventLoop: EventLoop? = nil) async throws -> InstallationMedia {
-        return try await self.client.execute(operation: "DeleteInstallationMedia", path: "/", httpMethod: .POST, serviceConfig: self.config, input: input, logger: logger, on: eventLoop)
-    }
-
     /// Deletes an existing option group.
     public func deleteOptionGroup(_ input: DeleteOptionGroupMessage, logger: Logger = AWSClient.loggingDisabled, on eventLoop: EventLoop? = nil) async throws {
         return try await self.client.execute(operation: "DeleteOptionGroup", path: "/", httpMethod: .POST, serviceConfig: self.config, input: input, logger: logger, on: eventLoop)
@@ -276,11 +261,6 @@ extension RDS {
     /// Lists the set of CA certificates provided by Amazon RDS for this Amazon Web Services account.
     public func describeCertificates(_ input: DescribeCertificatesMessage, logger: Logger = AWSClient.loggingDisabled, on eventLoop: EventLoop? = nil) async throws -> CertificateMessage {
         return try await self.client.execute(operation: "DescribeCertificates", path: "/", httpMethod: .POST, serviceConfig: self.config, input: input, logger: logger, on: eventLoop)
-    }
-
-    /// Returns information about custom Availability Zones (AZs). A custom AZ is an on-premises AZ that is integrated with a VMware vSphere cluster. For more information about RDS on VMware, see the   RDS on VMware User Guide.
-    public func describeCustomAvailabilityZones(_ input: DescribeCustomAvailabilityZonesMessage, logger: Logger = AWSClient.loggingDisabled, on eventLoop: EventLoop? = nil) async throws -> CustomAvailabilityZoneMessage {
-        return try await self.client.execute(operation: "DescribeCustomAvailabilityZones", path: "/", httpMethod: .POST, serviceConfig: self.config, input: input, logger: logger, on: eventLoop)
     }
 
     /// Returns information about backtracks for a DB cluster. For more information on Amazon Aurora, see   What is Amazon Aurora? in the Amazon Aurora User Guide.  This action only applies to Aurora MySQL DB clusters.
@@ -423,11 +403,6 @@ extension RDS {
         return try await self.client.execute(operation: "DescribeGlobalClusters", path: "/", httpMethod: .POST, serviceConfig: self.config, input: input, logger: logger, on: eventLoop)
     }
 
-    /// Describes the available installation media for a DB engine that requires an  on-premises customer provided license, such as Microsoft SQL Server.
-    public func describeInstallationMedia(_ input: DescribeInstallationMediaMessage, logger: Logger = AWSClient.loggingDisabled, on eventLoop: EventLoop? = nil) async throws -> InstallationMediaMessage {
-        return try await self.client.execute(operation: "DescribeInstallationMedia", path: "/", httpMethod: .POST, serviceConfig: self.config, input: input, logger: logger, on: eventLoop)
-    }
-
     /// Describes all available options.
     public func describeOptionGroupOptions(_ input: DescribeOptionGroupOptionsMessage, logger: Logger = AWSClient.loggingDisabled, on eventLoop: EventLoop? = nil) async throws -> OptionGroupOptionsMessage {
         return try await self.client.execute(operation: "DescribeOptionGroupOptions", path: "/", httpMethod: .POST, serviceConfig: self.config, input: input, logger: logger, on: eventLoop)
@@ -483,17 +458,12 @@ extension RDS {
         return try await self.client.execute(operation: "FailoverGlobalCluster", path: "/", httpMethod: .POST, serviceConfig: self.config, input: input, logger: logger, on: eventLoop)
     }
 
-    /// Imports the installation media for a DB engine that requires an on-premises  customer provided license, such as SQL Server.
-    public func importInstallationMedia(_ input: ImportInstallationMediaMessage, logger: Logger = AWSClient.loggingDisabled, on eventLoop: EventLoop? = nil) async throws -> InstallationMedia {
-        return try await self.client.execute(operation: "ImportInstallationMedia", path: "/", httpMethod: .POST, serviceConfig: self.config, input: input, logger: logger, on: eventLoop)
-    }
-
     /// Lists all tags on an Amazon RDS resource. For an overview on tagging an Amazon RDS resource,  see Tagging Amazon RDS Resources  in the Amazon RDS User Guide.
     public func listTagsForResource(_ input: ListTagsForResourceMessage, logger: Logger = AWSClient.loggingDisabled, on eventLoop: EventLoop? = nil) async throws -> TagListMessage {
         return try await self.client.execute(operation: "ListTagsForResource", path: "/", httpMethod: .POST, serviceConfig: self.config, input: input, logger: logger, on: eventLoop)
     }
 
-    /// Override the system-default Secure Sockets Layer/Transport Layer Security (SSL/TLS) certificate for Amazon RDS for new DB instances temporarily, or remove the override. By using this operation, you can specify an RDS-approved SSL/TLS certificate for new DB instances that is different from the default certificate provided by RDS. You can also use this operation to remove the override, so that new DB instances use the default certificate provided by RDS. You might need to override the default certificate in the following situations:   You already migrated your applications to support the latest certificate authority (CA) certificate, but the new CA certificate is not yet  the RDS default CA certificate for the specified Amazon Web Services Region.   RDS has already moved to a new default CA certificate for the specified Amazon Web Services Region, but you are still in the process of supporting the new CA certificate. In this case, you temporarily need additional time to finish your application changes.   For more information about rotating your SSL/TLS certificate for RDS DB engines, see   Rotating Your SSL/TLS Certificate in the Amazon RDS User Guide. For more information about rotating your SSL/TLS certificate for Aurora DB engines, see   Rotating Your SSL/TLS Certificate in the Amazon Aurora User Guide.
+    /// Override the system-default Secure Sockets Layer/Transport Layer Security (SSL/TLS) certificate for Amazon RDS for new DB instances, or remove the override. By using this operation, you can specify an RDS-approved SSL/TLS certificate for new DB instances that is different from the default certificate provided by RDS. You can also use this operation to remove the override, so that new DB instances use the default certificate provided by RDS. You might need to override the default certificate in the following situations:   You already migrated your applications to support the latest certificate authority (CA) certificate, but the new CA certificate is not yet  the RDS default CA certificate for the specified Amazon Web Services Region.   RDS has already moved to a new default CA certificate for the specified Amazon Web Services Region, but you are still in the process of supporting the new CA certificate. In this case, you temporarily need additional time to finish your application changes.   For more information about rotating your SSL/TLS certificate for RDS DB engines, see   Rotating Your SSL/TLS Certificate in the Amazon RDS User Guide. For more information about rotating your SSL/TLS certificate for Aurora DB engines, see   Rotating Your SSL/TLS Certificate in the Amazon Aurora User Guide.
     public func modifyCertificates(_ input: ModifyCertificatesMessage, logger: Logger = AWSClient.loggingDisabled, on eventLoop: EventLoop? = nil) async throws -> ModifyCertificatesResult {
         return try await self.client.execute(operation: "ModifyCertificates", path: "/", httpMethod: .POST, serviceConfig: self.config, input: input, logger: logger, on: eventLoop)
     }

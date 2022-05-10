@@ -179,7 +179,7 @@ extension NetworkFirewall {
         )
     }
 
-    ///  Retrieves the tags associated with the specified resource. Tags are key:value pairs that you can use to categorize and manage your resources, for purposes like billing. For example, you might set the tag key to "customer" and the value to the customer name or ID. You can specify one or more tags to add to each AWS resource, up to 50 tags for a resource. You can tag the AWS resources that you manage through AWS Network Firewall: firewalls, firewall policies, and rule groups.
+    ///  Retrieves the tags associated with the specified resource. Tags are key:value pairs that you can use to categorize and manage your resources, for purposes like billing. For example, you might set the tag key to "customer" and the value to the customer name or ID. You can specify one or more tags to add to each Amazon Web Services resource, up to 50 tags for a resource. You can tag the Amazon Web Services resources that you manage through Network Firewall: firewalls, firewall policies, and rule groups.
     ///
     /// Provide paginated results to closure `onPage` for it to combine them into one result.
     /// This works in a similar manner to `Array.reduce<Result>(_:_:) -> Result`.
@@ -255,9 +255,11 @@ extension NetworkFirewall.ListFirewallsRequest: AWSPaginateToken {
 extension NetworkFirewall.ListRuleGroupsRequest: AWSPaginateToken {
     public func usingPaginationToken(_ token: String) -> NetworkFirewall.ListRuleGroupsRequest {
         return .init(
+            managedType: self.managedType,
             maxResults: self.maxResults,
             nextToken: token,
-            scope: self.scope
+            scope: self.scope,
+            type: self.type
         )
     }
 }

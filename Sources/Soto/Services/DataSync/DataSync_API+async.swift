@@ -44,6 +44,11 @@ extension DataSync {
         return try await self.client.execute(operation: "CreateLocationFsxLustre", path: "/", httpMethod: .POST, serviceConfig: self.config, input: input, logger: logger, on: eventLoop)
     }
 
+    /// Creates an endpoint for an Amazon FSx for OpenZFS file system.
+    public func createLocationFsxOpenZfs(_ input: CreateLocationFsxOpenZfsRequest, logger: Logger = AWSClient.loggingDisabled, on eventLoop: EventLoop? = nil) async throws -> CreateLocationFsxOpenZfsResponse {
+        return try await self.client.execute(operation: "CreateLocationFsxOpenZfs", path: "/", httpMethod: .POST, serviceConfig: self.config, input: input, logger: logger, on: eventLoop)
+    }
+
     /// Creates an endpoint for an Amazon FSx for Windows File Server file system.
     public func createLocationFsxWindows(_ input: CreateLocationFsxWindowsRequest, logger: Logger = AWSClient.loggingDisabled, on eventLoop: EventLoop? = nil) async throws -> CreateLocationFsxWindowsResponse {
         return try await self.client.execute(operation: "CreateLocationFsxWindows", path: "/", httpMethod: .POST, serviceConfig: self.config, input: input, logger: logger, on: eventLoop)
@@ -105,12 +110,17 @@ extension DataSync {
         return try await self.client.execute(operation: "DescribeLocationEfs", path: "/", httpMethod: .POST, serviceConfig: self.config, input: input, logger: logger, on: eventLoop)
     }
 
-    /// Returns metadata, such as the path information about an Amazon FSx for Lustre location.
+    /// Returns metadata about an Amazon FSx for Lustre location, such as information about its path.
     public func describeLocationFsxLustre(_ input: DescribeLocationFsxLustreRequest, logger: Logger = AWSClient.loggingDisabled, on eventLoop: EventLoop? = nil) async throws -> DescribeLocationFsxLustreResponse {
         return try await self.client.execute(operation: "DescribeLocationFsxLustre", path: "/", httpMethod: .POST, serviceConfig: self.config, input: input, logger: logger, on: eventLoop)
     }
 
-    /// Returns metadata, such as the path information about an Amazon FSx for Windows File Server location.
+    /// Returns metadata about an Amazon FSx for OpenZFS location, such as information about its path.
+    public func describeLocationFsxOpenZfs(_ input: DescribeLocationFsxOpenZfsRequest, logger: Logger = AWSClient.loggingDisabled, on eventLoop: EventLoop? = nil) async throws -> DescribeLocationFsxOpenZfsResponse {
+        return try await self.client.execute(operation: "DescribeLocationFsxOpenZfs", path: "/", httpMethod: .POST, serviceConfig: self.config, input: input, logger: logger, on: eventLoop)
+    }
+
+    /// Returns metadata about an Amazon FSx for Windows File Server location, such as information about its path.
     public func describeLocationFsxWindows(_ input: DescribeLocationFsxWindowsRequest, logger: Logger = AWSClient.loggingDisabled, on eventLoop: EventLoop? = nil) async throws -> DescribeLocationFsxWindowsResponse {
         return try await self.client.execute(operation: "DescribeLocationFsxWindows", path: "/", httpMethod: .POST, serviceConfig: self.config, input: input, logger: logger, on: eventLoop)
     }

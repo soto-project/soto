@@ -94,6 +94,7 @@ public struct SSMErrorType: AWSErrorType {
         case invalidRole = "InvalidRole"
         case invalidSchedule = "InvalidSchedule"
         case invalidTarget = "InvalidTarget"
+        case invalidTargetMaps = "InvalidTargetMaps"
         case invalidTypeNameException = "InvalidTypeNameException"
         case invalidUpdate = "InvalidUpdate"
         case invocationDoesNotExist = "InvocationDoesNotExist"
@@ -310,6 +311,8 @@ public struct SSMErrorType: AWSErrorType {
     public static var invalidSchedule: Self { .init(.invalidSchedule) }
     /// The target isn't valid or doesn't exist. It might not be configured for Systems Manager or you might not have permission to perform the operation.
     public static var invalidTarget: Self { .init(.invalidTarget) }
+    /// TargetMap parameter isn't valid.
+    public static var invalidTargetMaps: Self { .init(.invalidTargetMaps) }
     /// The parameter type name isn't valid.
     public static var invalidTypeNameException: Self { .init(.invalidTypeNameException) }
     /// The update isn't valid.

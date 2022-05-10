@@ -42,9 +42,21 @@ extension WorkSpaces {
         public var description: String { return self.rawValue }
     }
 
+    public enum ClientDeviceType: String, CustomStringConvertible, Codable {
+        case deviceTypeAndroid = "DeviceTypeAndroid"
+        case deviceTypeIos = "DeviceTypeIos"
+        case deviceTypeLinux = "DeviceTypeLinux"
+        case deviceTypeOsx = "DeviceTypeOsx"
+        case deviceTypeWeb = "DeviceTypeWeb"
+        case deviceTypeWindows = "DeviceTypeWindows"
+        public var description: String { return self.rawValue }
+    }
+
     public enum Compute: String, CustomStringConvertible, Codable {
         case graphics = "GRAPHICS"
         case graphicspro = "GRAPHICSPRO"
+        case graphicsproG4Dn = "GRAPHICSPRO_G4DN"
+        case graphicsG4Dn = "GRAPHICS_G4DN"
         case performance = "PERFORMANCE"
         case power = "POWER"
         case powerpro = "POWERPRO"
@@ -152,6 +164,7 @@ extension WorkSpaces {
     public enum WorkspaceImageIngestionProcess: String, CustomStringConvertible, Codable {
         case byolGraphics = "BYOL_GRAPHICS"
         case byolGraphicspro = "BYOL_GRAPHICSPRO"
+        case byolGraphicsG4Dn = "BYOL_GRAPHICS_G4DN"
         case byolRegular = "BYOL_REGULAR"
         case byolRegularWsp = "BYOL_REGULAR_WSP"
         public var description: String { return self.rawValue }
@@ -251,7 +264,7 @@ extension WorkSpaces {
     }
 
     public struct AssociateConnectionAliasResult: AWSDecodableShape {
-        /// The identifier of the connection alias association. You use the connection identifier in the DNS TXT record when  you're configuring your DNS routing policies.
+        /// The identifier of the connection alias association. You use the connection identifier in the DNS TXT record when you're configuring your DNS routing policies.
         public let connectionIdentifier: String?
 
         public init(connectionIdentifier: String? = nil) {
@@ -391,7 +404,7 @@ extension WorkSpaces {
         public let aliasId: String?
         /// The association status of the connection alias.
         public let associations: [ConnectionAliasAssociation]?
-        /// The connection string specified for the connection alias. The connection string must be in the form of  a fully qualified domain name (FQDN), such as www.example.com.
+        /// The connection string specified for the connection alias. The connection string must be in the form of a fully qualified domain name (FQDN), such as www.example.com.
         public let connectionString: String?
         /// The identifier of the Amazon Web Services account that owns the connection alias.
         public let ownerAccountId: String?
@@ -420,7 +433,7 @@ extension WorkSpaces {
         public let associatedAccountId: String?
         /// The association status of the connection alias.
         public let associationStatus: AssociationStatus?
-        /// The identifier of the connection alias association. You use the connection identifier in the DNS TXT record when  you're configuring your DNS routing policies.
+        /// The identifier of the connection alias association. You use the connection identifier in the DNS TXT record when you're configuring your DNS routing policies.
         public let connectionIdentifier: String?
         /// The identifier of the directory associated with a connection alias.
         public let resourceId: String?
@@ -566,7 +579,7 @@ extension WorkSpaces {
     }
 
     public struct CreateConnectionAliasRequest: AWSEncodableShape {
-        /// A connection string in the form of a fully qualified domain name (FQDN), such as www.example.com.   After you create a connection string, it is always associated to your Amazon Web Services account. You cannot recreate the same  connection string with a different account, even if you delete all instances of it from the original account. The  connection string is globally reserved for your account.
+        /// A connection string in the form of a fully qualified domain name (FQDN), such as www.example.com.  After you create a connection string, it is always associated to your Amazon Web Services account. You cannot recreate the same connection string with a different account, even if you delete all instances of it from the original account. The connection string is globally reserved for your account.
         public let connectionString: String
         /// The tags to associate with the connection alias.
         public let tags: [Tag]?
@@ -683,7 +696,7 @@ extension WorkSpaces {
         public let name: String
         /// The identifier of the source WorkSpace image.
         public let sourceImageId: String
-        /// The tags that you want to add to the new updated WorkSpace image.   To add tags at the same time when you're creating the updated image, you must create  an IAM policy that grants your IAM user permissions to use workspaces:CreateTags.
+        /// The tags that you want to add to the new updated WorkSpace image.  To add tags at the same time when you're creating the updated image, you must create an IAM policy that grants your IAM user permissions to use workspaces:CreateTags.
         public let tags: [Tag]?
 
         public init(description: String, name: String, sourceImageId: String, tags: [Tag]? = nil) {
@@ -826,12 +839,91 @@ extension WorkSpaces {
         }
     }
 
+    public struct DefaultClientBrandingAttributes: AWSDecodableShape {
+        /// The forgotten password link. This is the web address that users can go to if they forget the password for their WorkSpace.
+        public let forgotPasswordLink: String?
+        /// The login message. Specified as a key value pair, in which the key is a locale and the value is the localized message for that locale. The only key supported is en_US.
+        public let loginMessage: [String: String]?
+        /// The logo URL. This is the link where users can download the logo image. The only supported image format is .png.
+        public let logoUrl: String?
+        /// The support email. The company's customer support email address.    In each platform type, the SupportEmail and SupportLink parameters are mutually exclusive. You can specify one parameter for each platform type, but not both.   The default email is workspaces-feedback@amazon.com.
+        public let supportEmail: String?
+        /// The support link. The link for the company's customer support page for their WorkSpace.    In each platform type, the SupportEmail and SupportLink parameters are mutually exclusive.You can specify one parameter for each platform type, but not both.   The default support link is workspaces-feedback@amazon.com.
+        public let supportLink: String?
+
+        public init(forgotPasswordLink: String? = nil, loginMessage: [String: String]? = nil, logoUrl: String? = nil, supportEmail: String? = nil, supportLink: String? = nil) {
+            self.forgotPasswordLink = forgotPasswordLink
+            self.loginMessage = loginMessage
+            self.logoUrl = logoUrl
+            self.supportEmail = supportEmail
+            self.supportLink = supportLink
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case forgotPasswordLink = "ForgotPasswordLink"
+            case loginMessage = "LoginMessage"
+            case logoUrl = "LogoUrl"
+            case supportEmail = "SupportEmail"
+            case supportLink = "SupportLink"
+        }
+    }
+
+    public struct DefaultImportClientBrandingAttributes: AWSEncodableShape {
+        /// The forgotten password link. This is the web address that users can go to if they forget the password for their WorkSpace.
+        public let forgotPasswordLink: String?
+        /// The login message. Specified as a key value pair, in which the key is a locale and the value is the localized message for that locale. The only key supported is en_US.
+        public let loginMessage: [String: String]?
+        /// The logo. This is the link where users can download the logo image. The only image format accepted is .png.
+        public let logo: Data?
+        /// The support email. The company's customer support email address.    In each platform type, the SupportEmail and SupportLink parameters are mutually exclusive. You can specify one parameter for each platform type, but not both.   The default email is workspaces-feedback@amazon.com.
+        public let supportEmail: String?
+        /// The support link. The link for the company's customer support page for their WorkSpace.    In each platform type, the SupportEmail and SupportLink parameters are mutually exclusive. You can specify one parameter for each platform type, but not both.   The default support link is workspaces-feedback@amazon.com.
+        public let supportLink: String?
+
+        public init(forgotPasswordLink: String? = nil, loginMessage: [String: String]? = nil, logo: Data? = nil, supportEmail: String? = nil, supportLink: String? = nil) {
+            self.forgotPasswordLink = forgotPasswordLink
+            self.loginMessage = loginMessage
+            self.logo = logo
+            self.supportEmail = supportEmail
+            self.supportLink = supportLink
+        }
+
+        public func validate(name: String) throws {
+            try self.validate(self.forgotPasswordLink, name: "forgotPasswordLink", parent: name, max: 200)
+            try self.validate(self.forgotPasswordLink, name: "forgotPasswordLink", parent: name, min: 1)
+            try self.validate(self.forgotPasswordLink, name: "forgotPasswordLink", parent: name, pattern: "^(http|https)\\://\\S+$")
+            try self.loginMessage?.forEach {
+                try validate($0.key, name: "loginMessage.key", parent: name, max: 5)
+                try validate($0.key, name: "loginMessage.key", parent: name, min: 5)
+                try validate($0.key, name: "loginMessage.key", parent: name, pattern: "^[a-z]{2}_[A-Z]{2}$")
+                try validate($0.value, name: "loginMessage[\"\($0.key)\"]", parent: name, max: 600)
+                try validate($0.value, name: "loginMessage[\"\($0.key)\"]", parent: name, pattern: "^.*$")
+            }
+            try self.validate(self.logo, name: "logo", parent: name, max: 1_500_000)
+            try self.validate(self.logo, name: "logo", parent: name, min: 1)
+            try self.validate(self.supportEmail, name: "supportEmail", parent: name, max: 64)
+            try self.validate(self.supportEmail, name: "supportEmail", parent: name, min: 6)
+            try self.validate(self.supportEmail, name: "supportEmail", parent: name, pattern: "^[a-zA-Z0-9._%+-]+@[a-zA-Z0-9.-]+\\.[a-zA-Z]{2,4}$")
+            try self.validate(self.supportLink, name: "supportLink", parent: name, max: 200)
+            try self.validate(self.supportLink, name: "supportLink", parent: name, min: 1)
+            try self.validate(self.supportLink, name: "supportLink", parent: name, pattern: "^(http|https)\\://\\S+$")
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case forgotPasswordLink = "ForgotPasswordLink"
+            case loginMessage = "LoginMessage"
+            case logo = "Logo"
+            case supportEmail = "SupportEmail"
+            case supportLink = "SupportLink"
+        }
+    }
+
     public struct DefaultWorkspaceCreationProperties: AWSDecodableShape {
-        /// The identifier of the default security group to apply to WorkSpaces when they are created.  For more information, see   Security Groups for Your WorkSpaces.
+        /// The identifier of the default security group to apply to WorkSpaces when they are created. For more information, see  Security Groups for Your WorkSpaces.
         public let customSecurityGroupId: String?
         /// The organizational unit (OU) in the directory for the WorkSpace machine accounts.
         public let defaultOu: String?
-        /// Specifies whether to automatically assign an Elastic public IP address to WorkSpaces in this directory by default.  If enabled, the Elastic public IP address allows outbound internet access from your WorkSpaces when you’re using an  internet gateway in the Amazon VPC in which your WorkSpaces are located. If you're using a Network Address  Translation (NAT) gateway for outbound internet access from your VPC, or if your WorkSpaces are in public  subnets and you manually assign them Elastic IP addresses, you should disable this setting. This setting  applies to new WorkSpaces that you launch or to existing WorkSpaces that you rebuild. For more information,  see  Configure a VPC for Amazon WorkSpaces.
+        /// Specifies whether to automatically assign an Elastic public IP address to WorkSpaces in this directory by default. If enabled, the Elastic public IP address allows outbound internet access from your WorkSpaces when you’re using an internet gateway in the Amazon VPC in which your WorkSpaces are located. If you're using a Network Address Translation (NAT) gateway for outbound internet access from your VPC, or if your WorkSpaces are in public subnets and you manually assign them Elastic IP addresses, you should disable this setting. This setting applies to new WorkSpaces that you launch or to existing WorkSpaces that you rebuild. For more information, see  Configure a VPC for Amazon WorkSpaces.
         public let enableInternetAccess: Bool?
         /// Specifies whether maintenance mode is enabled for WorkSpaces. For more information, see WorkSpace Maintenance.
         public let enableMaintenanceMode: Bool?
@@ -857,6 +949,35 @@ extension WorkSpaces {
             case enableWorkDocs = "EnableWorkDocs"
             case userEnabledAsLocalAdministrator = "UserEnabledAsLocalAdministrator"
         }
+    }
+
+    public struct DeleteClientBrandingRequest: AWSEncodableShape {
+        /// The device type for which you want to delete client branding.
+        public let platforms: [ClientDeviceType]
+        /// The directory identifier of the WorkSpace for which you want to delete client branding.
+        public let resourceId: String
+
+        public init(platforms: [ClientDeviceType], resourceId: String) {
+            self.platforms = platforms
+            self.resourceId = resourceId
+        }
+
+        public func validate(name: String) throws {
+            try self.validate(self.platforms, name: "platforms", parent: name, max: 6)
+            try self.validate(self.platforms, name: "platforms", parent: name, min: 1)
+            try self.validate(self.resourceId, name: "resourceId", parent: name, max: 65)
+            try self.validate(self.resourceId, name: "resourceId", parent: name, min: 10)
+            try self.validate(self.resourceId, name: "resourceId", parent: name, pattern: "^d-[0-9a-f]{8,63}$")
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case platforms = "Platforms"
+            case resourceId = "ResourceId"
+        }
+    }
+
+    public struct DeleteClientBrandingResult: AWSDecodableShape {
+        public init() {}
     }
 
     public struct DeleteConnectClientAddInRequest: AWSEncodableShape {
@@ -1004,7 +1125,7 @@ extension WorkSpaces {
     }
 
     public struct DeregisterWorkspaceDirectoryRequest: AWSEncodableShape {
-        /// The identifier of the directory. If any WorkSpaces are registered to this directory, you must  remove them before you deregister the directory, or you will receive an OperationNotSupportedException  error.
+        /// The identifier of the directory. If any WorkSpaces are registered to this directory, you must remove them before you deregister the directory, or you will receive an OperationNotSupportedException error.
         public let directoryId: String
 
         public init(directoryId: String) {
@@ -1047,7 +1168,7 @@ extension WorkSpaces {
     public struct DescribeAccountModificationsResult: AWSDecodableShape {
         /// The list of modifications to the configuration of BYOL.
         public let accountModifications: [AccountModification]?
-        /// The token to use to retrieve the next page of results. This value is null when there  are no more results to return.
+        /// The token to use to retrieve the next page of results. This value is null when there are no more results to return.
         public let nextToken: String?
 
         public init(accountModifications: [AccountModification]? = nil, nextToken: String? = nil) {
@@ -1079,6 +1200,58 @@ extension WorkSpaces {
         private enum CodingKeys: String, CodingKey {
             case dedicatedTenancyManagementCidrRange = "DedicatedTenancyManagementCidrRange"
             case dedicatedTenancySupport = "DedicatedTenancySupport"
+        }
+    }
+
+    public struct DescribeClientBrandingRequest: AWSEncodableShape {
+        /// The directory identifier of the WorkSpace for which you want to view client branding information.
+        public let resourceId: String
+
+        public init(resourceId: String) {
+            self.resourceId = resourceId
+        }
+
+        public func validate(name: String) throws {
+            try self.validate(self.resourceId, name: "resourceId", parent: name, max: 65)
+            try self.validate(self.resourceId, name: "resourceId", parent: name, min: 10)
+            try self.validate(self.resourceId, name: "resourceId", parent: name, pattern: "^d-[0-9a-f]{8,63}$")
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case resourceId = "ResourceId"
+        }
+    }
+
+    public struct DescribeClientBrandingResult: AWSDecodableShape {
+        /// The branding information for Android devices.
+        public let deviceTypeAndroid: DefaultClientBrandingAttributes?
+        /// The branding information for iOS devices.
+        public let deviceTypeIos: IosClientBrandingAttributes?
+        /// The branding information for Linux devices.
+        public let deviceTypeLinux: DefaultClientBrandingAttributes?
+        /// The branding information for macOS devices.
+        public let deviceTypeOsx: DefaultClientBrandingAttributes?
+        /// The branding information for Web access.
+        public let deviceTypeWeb: DefaultClientBrandingAttributes?
+        /// The branding information for Windows devices.
+        public let deviceTypeWindows: DefaultClientBrandingAttributes?
+
+        public init(deviceTypeAndroid: DefaultClientBrandingAttributes? = nil, deviceTypeIos: IosClientBrandingAttributes? = nil, deviceTypeLinux: DefaultClientBrandingAttributes? = nil, deviceTypeOsx: DefaultClientBrandingAttributes? = nil, deviceTypeWeb: DefaultClientBrandingAttributes? = nil, deviceTypeWindows: DefaultClientBrandingAttributes? = nil) {
+            self.deviceTypeAndroid = deviceTypeAndroid
+            self.deviceTypeIos = deviceTypeIos
+            self.deviceTypeLinux = deviceTypeLinux
+            self.deviceTypeOsx = deviceTypeOsx
+            self.deviceTypeWeb = deviceTypeWeb
+            self.deviceTypeWindows = deviceTypeWindows
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case deviceTypeAndroid = "DeviceTypeAndroid"
+            case deviceTypeIos = "DeviceTypeIos"
+            case deviceTypeLinux = "DeviceTypeLinux"
+            case deviceTypeOsx = "DeviceTypeOsx"
+            case deviceTypeWeb = "DeviceTypeWeb"
+            case deviceTypeWindows = "DeviceTypeWindows"
         }
     }
 
@@ -1169,7 +1342,7 @@ extension WorkSpaces {
         public let aliasId: String
         /// The maximum number of results to return.
         public let maxResults: Int?
-        /// If you received a NextToken from a previous call that was paginated, provide this token to receive the  next set of results.
+        /// If you received a NextToken from a previous call that was paginated, provide this token to receive the next set of results.
         public let nextToken: String?
 
         public init(aliasId: String, maxResults: Int? = nil, nextToken: String? = nil) {
@@ -1221,7 +1394,7 @@ extension WorkSpaces {
         public let aliasIds: [String]?
         /// The maximum number of connection aliases to return.
         public let limit: Int?
-        /// If you received a NextToken from a previous call that was paginated, provide this token to receive the  next set of results.
+        /// If you received a NextToken from a previous call that was paginated, provide this token to receive the next set of results.
         public let nextToken: String?
         /// The identifier of the directory associated with the connection alias.
         public let resourceId: String?
@@ -1456,7 +1629,7 @@ extension WorkSpaces {
         public let imageId: String
         /// The maximum number of items to return.
         public let maxResults: Int?
-        /// If you received a NextToken from a previous call that was paginated,  provide this token to receive the next set of results.
+        /// If you received a NextToken from a previous call that was paginated, provide this token to receive the next set of results.
         public let nextToken: String?
 
         public init(imageId: String, maxResults: Int? = nil, nextToken: String? = nil) {
@@ -1809,8 +1982,90 @@ extension WorkSpaces {
         }
     }
 
+    public struct ImportClientBrandingRequest: AWSEncodableShape {
+        /// The branding information to import for Android devices.
+        public let deviceTypeAndroid: DefaultImportClientBrandingAttributes?
+        /// The branding information to import for iOS devices.
+        public let deviceTypeIos: IosImportClientBrandingAttributes?
+        /// The branding information to import for Linux devices.
+        public let deviceTypeLinux: DefaultImportClientBrandingAttributes?
+        /// The branding information to import for macOS devices.
+        public let deviceTypeOsx: DefaultImportClientBrandingAttributes?
+        /// The branding information to import for web access.
+        public let deviceTypeWeb: DefaultImportClientBrandingAttributes?
+        /// The branding information to import for Windows devices.
+        public let deviceTypeWindows: DefaultImportClientBrandingAttributes?
+        /// The directory identifier of the WorkSpace for which you want to import client branding.
+        public let resourceId: String
+
+        public init(deviceTypeAndroid: DefaultImportClientBrandingAttributes? = nil, deviceTypeIos: IosImportClientBrandingAttributes? = nil, deviceTypeLinux: DefaultImportClientBrandingAttributes? = nil, deviceTypeOsx: DefaultImportClientBrandingAttributes? = nil, deviceTypeWeb: DefaultImportClientBrandingAttributes? = nil, deviceTypeWindows: DefaultImportClientBrandingAttributes? = nil, resourceId: String) {
+            self.deviceTypeAndroid = deviceTypeAndroid
+            self.deviceTypeIos = deviceTypeIos
+            self.deviceTypeLinux = deviceTypeLinux
+            self.deviceTypeOsx = deviceTypeOsx
+            self.deviceTypeWeb = deviceTypeWeb
+            self.deviceTypeWindows = deviceTypeWindows
+            self.resourceId = resourceId
+        }
+
+        public func validate(name: String) throws {
+            try self.deviceTypeAndroid?.validate(name: "\(name).deviceTypeAndroid")
+            try self.deviceTypeIos?.validate(name: "\(name).deviceTypeIos")
+            try self.deviceTypeLinux?.validate(name: "\(name).deviceTypeLinux")
+            try self.deviceTypeOsx?.validate(name: "\(name).deviceTypeOsx")
+            try self.deviceTypeWeb?.validate(name: "\(name).deviceTypeWeb")
+            try self.deviceTypeWindows?.validate(name: "\(name).deviceTypeWindows")
+            try self.validate(self.resourceId, name: "resourceId", parent: name, max: 65)
+            try self.validate(self.resourceId, name: "resourceId", parent: name, min: 10)
+            try self.validate(self.resourceId, name: "resourceId", parent: name, pattern: "^d-[0-9a-f]{8,63}$")
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case deviceTypeAndroid = "DeviceTypeAndroid"
+            case deviceTypeIos = "DeviceTypeIos"
+            case deviceTypeLinux = "DeviceTypeLinux"
+            case deviceTypeOsx = "DeviceTypeOsx"
+            case deviceTypeWeb = "DeviceTypeWeb"
+            case deviceTypeWindows = "DeviceTypeWindows"
+            case resourceId = "ResourceId"
+        }
+    }
+
+    public struct ImportClientBrandingResult: AWSDecodableShape {
+        /// The branding information configured for Android devices.
+        public let deviceTypeAndroid: DefaultClientBrandingAttributes?
+        /// The branding information configured for iOS devices.
+        public let deviceTypeIos: IosClientBrandingAttributes?
+        /// The branding information configured for Linux devices.
+        public let deviceTypeLinux: DefaultClientBrandingAttributes?
+        /// The branding information configured for macOS devices.
+        public let deviceTypeOsx: DefaultClientBrandingAttributes?
+        /// The branding information configured for web access.
+        public let deviceTypeWeb: DefaultClientBrandingAttributes?
+        /// The branding information configured for Windows devices.
+        public let deviceTypeWindows: DefaultClientBrandingAttributes?
+
+        public init(deviceTypeAndroid: DefaultClientBrandingAttributes? = nil, deviceTypeIos: IosClientBrandingAttributes? = nil, deviceTypeLinux: DefaultClientBrandingAttributes? = nil, deviceTypeOsx: DefaultClientBrandingAttributes? = nil, deviceTypeWeb: DefaultClientBrandingAttributes? = nil, deviceTypeWindows: DefaultClientBrandingAttributes? = nil) {
+            self.deviceTypeAndroid = deviceTypeAndroid
+            self.deviceTypeIos = deviceTypeIos
+            self.deviceTypeLinux = deviceTypeLinux
+            self.deviceTypeOsx = deviceTypeOsx
+            self.deviceTypeWeb = deviceTypeWeb
+            self.deviceTypeWindows = deviceTypeWindows
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case deviceTypeAndroid = "DeviceTypeAndroid"
+            case deviceTypeIos = "DeviceTypeIos"
+            case deviceTypeLinux = "DeviceTypeLinux"
+            case deviceTypeOsx = "DeviceTypeOsx"
+            case deviceTypeWeb = "DeviceTypeWeb"
+            case deviceTypeWindows = "DeviceTypeWindows"
+        }
+    }
+
     public struct ImportWorkspaceImageRequest: AWSEncodableShape {
-        /// If specified, the version of Microsoft Office to subscribe to. Valid only for Windows 10  BYOL images. For more information about subscribing to Office for BYOL images, see   Bring Your Own Windows Desktop Licenses.   Although this parameter is an array, only one item is allowed at this time.
+        /// If specified, the version of Microsoft Office to subscribe to. Valid only for Windows 10 BYOL images. For more information about subscribing to Office for BYOL images, see  Bring Your Own Windows Desktop Licenses.    Although this parameter is an array, only one item is allowed at this time   Microsoft Office 2016 application subscription through AWS is currently not supported  for Graphics.g4dn Bring Your Own License (BYOL) images
         public let applications: [Application]?
         /// The identifier of the EC2 image.
         public let ec2ImageId: String
@@ -1818,7 +2073,7 @@ extension WorkSpaces {
         public let imageDescription: String
         /// The name of the WorkSpace image.
         public let imageName: String
-        /// The ingestion process to be used when importing the image, depending on which protocol  you want to use for your BYOL Workspace image, either PCoIP or WorkSpaces Streaming Protocol  (WSP). To use WSP, specify a value that ends in _WSP. To use PCoIP, specify a value  that does not end in _WSP.   For non-GPU-enabled bundles (bundles other than Graphics or GraphicsPro), specify  BYOL_REGULAR or BYOL_REGULAR_WSP, depending on the protocol.
+        /// The ingestion process to be used when importing the image, depending on which protocol  you want to use for your BYOL Workspace image, either PCoIP or WorkSpaces Streaming Protocol  (WSP). To use WSP, specify a value that ends in _WSP. To use PCoIP, specify a value  that does not end in _WSP.   For non-GPU-enabled images (bundles other than Graphics.g4dn, GraphicsPro.g4dn, Graphics,  or GraphicsPro), specify BYOL_REGULAR or BYOL_REGULAR_WSP, depending on the protocol.  Use BYOL_GRAPHICS_G4DN ingestion for both Graphics.g4dn and GraphicsPro.g4dn.
         public let ingestionProcess: WorkspaceImageIngestionProcess
         /// The tags. Each WorkSpaces resource can have a maximum of 50 tags.
         public let tags: [Tag]?
@@ -1867,6 +2122,105 @@ extension WorkSpaces {
 
         private enum CodingKeys: String, CodingKey {
             case imageId = "ImageId"
+        }
+    }
+
+    public struct IosClientBrandingAttributes: AWSDecodableShape {
+        /// The forgotten password link. This is the web address that users can go to if they forget the password for their WorkSpace.
+        public let forgotPasswordLink: String?
+        /// The login message. Specified as a key value pair, in which the key is a locale and the value is the localized message for that locale. The only key supported is en_US.
+        public let loginMessage: [String: String]?
+        /// The @2x version of the logo. This is the higher resolution display that offers a scale factor of 2.0 (or @2x).  For more information about iOS image size and resolution, see Image Size and Resolution  in the Apple Human Interface Guidelines.
+        public let logo2xUrl: String?
+        /// The @3x version of the logo. This is the higher resolution display that offers a scale factor of 3.0 (or @3x).  For more information about iOS image size and resolution, see Image Size and Resolution  in the Apple Human Interface Guidelines.
+        public let logo3xUrl: String?
+        /// The logo. This is the link where users can download the logo image. This is the standard-resolution display that has a 1:1 pixel density (or @1x), where one pixel is equal to one point.
+        public let logoUrl: String?
+        /// The support email. The company's customer support email address.    In each platform type, the SupportEmail and SupportLink parameters are mutually exclusive. You can specify one parameter for each platform type, but not both.   The default email is workspaces-feedback@amazon.com.
+        public let supportEmail: String?
+        /// The support link. The link for the company's customer support page for their WorkSpace.    In each platform type, the SupportEmail and SupportLink parameters are mutually exclusive. You can specify one parameter for each platform type, but not both.   The default support link is workspaces-feedback@amazon.com.
+        public let supportLink: String?
+
+        public init(forgotPasswordLink: String? = nil, loginMessage: [String: String]? = nil, logo2xUrl: String? = nil, logo3xUrl: String? = nil, logoUrl: String? = nil, supportEmail: String? = nil, supportLink: String? = nil) {
+            self.forgotPasswordLink = forgotPasswordLink
+            self.loginMessage = loginMessage
+            self.logo2xUrl = logo2xUrl
+            self.logo3xUrl = logo3xUrl
+            self.logoUrl = logoUrl
+            self.supportEmail = supportEmail
+            self.supportLink = supportLink
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case forgotPasswordLink = "ForgotPasswordLink"
+            case loginMessage = "LoginMessage"
+            case logo2xUrl = "Logo2xUrl"
+            case logo3xUrl = "Logo3xUrl"
+            case logoUrl = "LogoUrl"
+            case supportEmail = "SupportEmail"
+            case supportLink = "SupportLink"
+        }
+    }
+
+    public struct IosImportClientBrandingAttributes: AWSEncodableShape {
+        /// The forgotten password link. This is the web address that users can go to if they forget the password for their WorkSpace.
+        public let forgotPasswordLink: String?
+        /// The login message. Specified as a key value pair, in which the key is a locale and the value is the localized message for that locale. The only key supported is en_US.
+        public let loginMessage: [String: String]?
+        /// The logo. This is the link where users can download the logo image. This is the standard-resolution display that has a 1:1 pixel density (or @1x), where one pixel is equal to one point.
+        public let logo: Data?
+        /// The @2x version of the logo. This is the higher resolution display that offers a scale factor of 2.0 (or @2x).  For more information about iOS image size and resolution, see Image Size and Resolution  in the Apple Human Interface Guidelines.
+        public let logo2x: Data?
+        /// The @3x version of the logo. This is the higher resolution display that offers a scale factor of 3.0 (or @3x).  For more information about iOS image size and resolution, see Image Size and Resolution  in the Apple Human Interface Guidelines.
+        public let logo3x: Data?
+        /// The support email. The company's customer support email address.    In each platform type, the SupportEmail and SupportLink parameters are mutually exclusive. You can specify one parameter for each platform type, but not both.   The default email is workspaces-feedback@amazon.com.
+        public let supportEmail: String?
+        /// The support link. The link for the company's customer support page for their WorkSpace.    In each platform type, the SupportEmail and SupportLink parameters are mutually exclusive. You can specify one parameter for each platform type, but not both.   The default support link is workspaces-feedback@amazon.com.
+        public let supportLink: String?
+
+        public init(forgotPasswordLink: String? = nil, loginMessage: [String: String]? = nil, logo: Data? = nil, logo2x: Data? = nil, logo3x: Data? = nil, supportEmail: String? = nil, supportLink: String? = nil) {
+            self.forgotPasswordLink = forgotPasswordLink
+            self.loginMessage = loginMessage
+            self.logo = logo
+            self.logo2x = logo2x
+            self.logo3x = logo3x
+            self.supportEmail = supportEmail
+            self.supportLink = supportLink
+        }
+
+        public func validate(name: String) throws {
+            try self.validate(self.forgotPasswordLink, name: "forgotPasswordLink", parent: name, max: 200)
+            try self.validate(self.forgotPasswordLink, name: "forgotPasswordLink", parent: name, min: 1)
+            try self.validate(self.forgotPasswordLink, name: "forgotPasswordLink", parent: name, pattern: "^(http|https)\\://\\S+$")
+            try self.loginMessage?.forEach {
+                try validate($0.key, name: "loginMessage.key", parent: name, max: 5)
+                try validate($0.key, name: "loginMessage.key", parent: name, min: 5)
+                try validate($0.key, name: "loginMessage.key", parent: name, pattern: "^[a-z]{2}_[A-Z]{2}$")
+                try validate($0.value, name: "loginMessage[\"\($0.key)\"]", parent: name, max: 600)
+                try validate($0.value, name: "loginMessage[\"\($0.key)\"]", parent: name, pattern: "^.*$")
+            }
+            try self.validate(self.logo, name: "logo", parent: name, max: 447_000)
+            try self.validate(self.logo, name: "logo", parent: name, min: 1)
+            try self.validate(self.logo2x, name: "logo2x", parent: name, max: 1_770_000)
+            try self.validate(self.logo2x, name: "logo2x", parent: name, min: 1)
+            try self.validate(self.logo3x, name: "logo3x", parent: name, max: 1_770_000)
+            try self.validate(self.logo3x, name: "logo3x", parent: name, min: 1)
+            try self.validate(self.supportEmail, name: "supportEmail", parent: name, max: 64)
+            try self.validate(self.supportEmail, name: "supportEmail", parent: name, min: 6)
+            try self.validate(self.supportEmail, name: "supportEmail", parent: name, pattern: "^[a-zA-Z0-9._%+-]+@[a-zA-Z0-9.-]+\\.[a-zA-Z]{2,4}$")
+            try self.validate(self.supportLink, name: "supportLink", parent: name, max: 200)
+            try self.validate(self.supportLink, name: "supportLink", parent: name, min: 1)
+            try self.validate(self.supportLink, name: "supportLink", parent: name, pattern: "^(http|https)\\://\\S+$")
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case forgotPasswordLink = "ForgotPasswordLink"
+            case loginMessage = "LoginMessage"
+            case logo = "Logo"
+            case logo2x = "Logo2x"
+            case logo3x = "Logo3x"
+            case supportEmail = "SupportEmail"
+            case supportLink = "SupportLink"
         }
     }
 
@@ -1958,7 +2312,7 @@ extension WorkSpaces {
     public struct MigrateWorkspaceResult: AWSDecodableShape {
         /// The original identifier of the WorkSpace that is being migrated.
         public let sourceWorkspaceId: String?
-        /// The new identifier of the WorkSpace that is being migrated. If the migration does not succeed,  the target WorkSpace ID will not be used, and the WorkSpace will still have the original WorkSpace ID.
+        /// The new identifier of the WorkSpace that is being migrated. If the migration does not succeed, the target WorkSpace ID will not be used, and the WorkSpace will still have the original WorkSpace ID.
         public let targetWorkspaceId: String?
 
         public init(sourceWorkspaceId: String? = nil, targetWorkspaceId: String? = nil) {
@@ -2287,17 +2641,17 @@ extension WorkSpaces {
     }
 
     public struct RegisterWorkspaceDirectoryRequest: AWSEncodableShape {
-        /// The identifier of the directory. You cannot register a directory if it does not have a status  of Active. If the directory does not have a status of Active, you will receive an  InvalidResourceStateException error. If you have already registered the maximum number of directories  that you can register with Amazon WorkSpaces, you will receive a ResourceLimitExceededException error.  Deregister directories that you are not using for WorkSpaces, and try again.
+        /// The identifier of the directory. You cannot register a directory if it does not have a status of Active. If the directory does not have a status of Active, you will receive an InvalidResourceStateException error. If you have already registered the maximum number of directories that you can register with Amazon WorkSpaces, you will receive a ResourceLimitExceededException error. Deregister directories that you are not using for WorkSpaces, and try again.
         public let directoryId: String
         /// Indicates whether self-service capabilities are enabled or disabled.
         public let enableSelfService: Bool?
-        /// Indicates whether Amazon WorkDocs is enabled or disabled. If you have enabled this parameter and  WorkDocs is not available in the Region, you will receive an OperationNotSupportedException error. Set  EnableWorkDocs to disabled, and try again.
+        /// Indicates whether Amazon WorkDocs is enabled or disabled. If you have enabled this parameter and WorkDocs is not available in the Region, you will receive an OperationNotSupportedException error. Set EnableWorkDocs to disabled, and try again.
         public let enableWorkDocs: Bool
-        /// The identifiers of the subnets for your virtual private cloud (VPC). Make sure that the subnets  are in supported Availability Zones. The subnets must also be in separate Availability Zones. If these  conditions are not met, you will receive an OperationNotSupportedException error.
+        /// The identifiers of the subnets for your virtual private cloud (VPC). Make sure that the subnets are in supported Availability Zones. The subnets must also be in separate Availability Zones. If these conditions are not met, you will receive an OperationNotSupportedException error.
         public let subnetIds: [String]?
         /// The tags associated with the directory.
         public let tags: [Tag]?
-        /// Indicates whether your WorkSpace directory is dedicated or shared. To use Bring Your Own License (BYOL) images, this value must be set to DEDICATED and your Amazon Web Services account must be  enabled for BYOL. If your account has not been enabled for BYOL, you will receive an  InvalidParameterValuesException error. For more information about BYOL images, see Bring Your Own Windows Desktop Images.
+        /// Indicates whether your WorkSpace directory is dedicated or shared. To use Bring Your Own License (BYOL) images, this value must be set to DEDICATED and your Amazon Web Services account must be enabled for BYOL. If your account has not been enabled for BYOL, you will receive an InvalidParameterValuesException error. For more information about BYOL images, see Bring Your Own Windows Desktop Images.
         public let tenancy: Tenancy?
 
         public init(directoryId: String, enableSelfService: Bool? = nil, enableWorkDocs: Bool, subnetIds: [String]? = nil, tags: [Tag]? = nil, tenancy: Tenancy? = nil) {
@@ -2760,11 +3114,11 @@ extension WorkSpaces {
     }
 
     public struct UpdateWorkspaceImagePermissionRequest: AWSEncodableShape {
-        /// The permission to copy the image. This permission can be revoked only after an image  has been shared.
+        /// The permission to copy the image. This permission can be revoked only after an image has been shared.
         public let allowCopyImage: Bool
         /// The identifier of the image.
         public let imageId: String
-        /// The identifier of the Amazon Web Services account to share or unshare the image with.   Before sharing the image, confirm that you are sharing to the correct Amazon Web Services account ID.
+        /// The identifier of the Amazon Web Services account to share or unshare the image with.  Before sharing the image, confirm that you are sharing to the correct Amazon Web Services account ID.
         public let sharedAccountId: String
 
         public init(allowCopyImage: Bool, imageId: String, sharedAccountId: String) {
@@ -2809,7 +3163,7 @@ extension WorkSpaces {
     public struct Workspace: AWSDecodableShape {
         /// The identifier of the bundle used to create the WorkSpace.
         public let bundleId: String?
-        /// The name of the WorkSpace, as seen by the operating system. The format of this name varies.  For more information, see  Launch a WorkSpace.
+        /// The name of the WorkSpace, as seen by the operating system. The format of this name varies. For more information, see  Launch a WorkSpace.
         public let computerName: String?
         /// The identifier of the Directory Service directory for the WorkSpace.
         public let directoryId: String?
@@ -2823,7 +3177,7 @@ extension WorkSpaces {
         public let modificationStates: [ModificationState]?
         /// Indicates whether the data stored on the root volume is encrypted.
         public let rootVolumeEncryptionEnabled: Bool?
-        /// The operational state of the WorkSpace.   After a WorkSpace is terminated, the TERMINATED state is returned  only briefly before the WorkSpace directory metadata is cleaned up, so this state is rarely  returned. To confirm that a WorkSpace is terminated, check for the WorkSpace ID by using   DescribeWorkSpaces. If the WorkSpace ID isn't returned, then the WorkSpace has  been successfully terminated.
+        /// The operational state of the WorkSpace.  After a WorkSpace is terminated, the TERMINATED state is returned only briefly before the WorkSpace directory metadata is cleaned up, so this state is rarely returned. To confirm that a WorkSpace is terminated, check for the WorkSpace ID by using  DescribeWorkSpaces. If the WorkSpace ID isn't returned, then the WorkSpace has been successfully terminated.
         public let state: WorkspaceState?
         /// The identifier of the subnet for the WorkSpace.
         public let subnetId: String?
@@ -2831,7 +3185,7 @@ extension WorkSpaces {
         public let userName: String?
         /// Indicates whether the data stored on the user volume is encrypted.
         public let userVolumeEncryptionEnabled: Bool?
-        /// The symmetric KMS key used to encrypt data stored on your WorkSpace.  Amazon WorkSpaces does not support asymmetric KMS keys.
+        /// The symmetric KMS key used to encrypt data stored on your WorkSpace. Amazon WorkSpaces does not support asymmetric KMS keys.
         public let volumeEncryptionKey: String?
         /// The identifier of the WorkSpace.
         public let workspaceId: String?
@@ -2876,7 +3230,7 @@ extension WorkSpaces {
     }
 
     public struct WorkspaceAccessProperties: AWSEncodableShape & AWSDecodableShape {
-        /// Indicates whether users can use Android and Android-compatible Chrome OS devices  to access their WorkSpaces.
+        /// Indicates whether users can use Android and Android-compatible Chrome OS devices to access their WorkSpaces.
         public let deviceTypeAndroid: AccessPropertyValue?
         /// Indicates whether users can use Chromebooks to access their WorkSpaces.
         public let deviceTypeChromeOs: AccessPropertyValue?
@@ -2993,13 +3347,13 @@ extension WorkSpaces {
     public struct WorkspaceCreationProperties: AWSEncodableShape {
         /// The identifier of your custom security group.
         public let customSecurityGroupId: String?
-        /// The default organizational unit (OU) for your WorkSpaces directories. This string must be the full Lightweight  Directory Access Protocol (LDAP) distinguished name for the target domain and OU. It must be in the form  "OU=value,DC=value,DC=value",  where value is any string of characters, and the number of domain components (DCs) is  two or more. For example, OU=WorkSpaces_machines,DC=machines,DC=example,DC=com.      To avoid errors, certain characters in the distinguished name must be escaped. For more information,  see  Distinguished Names in the Microsoft documentation.   The API doesn't validate whether the OU exists.
+        /// The default organizational unit (OU) for your WorkSpaces directories. This string must be the full Lightweight Directory Access Protocol (LDAP) distinguished name for the target domain and OU. It must be in the form "OU=value,DC=value,DC=value", where value is any string of characters, and the number of domain components (DCs) is two or more. For example, OU=WorkSpaces_machines,DC=machines,DC=example,DC=com.     To avoid errors, certain characters in the distinguished name must be escaped. For more information, see  Distinguished Names in the Microsoft documentation.   The API doesn't validate whether the OU exists.
         public let defaultOu: String?
         /// Indicates whether internet access is enabled for your WorkSpaces.
         public let enableInternetAccess: Bool?
         /// Indicates whether maintenance mode is enabled for your WorkSpaces. For more information, see WorkSpace Maintenance.
         public let enableMaintenanceMode: Bool?
-        /// Indicates whether Amazon WorkDocs is enabled for your WorkSpaces.   If WorkDocs is already enabled for a WorkSpaces directory and you disable it, new WorkSpaces launched in the  directory will not have WorkDocs enabled. However, WorkDocs remains enabled for any existing WorkSpaces, unless  you either disable users' access to WorkDocs or you delete the WorkDocs site. To disable users' access to WorkDocs,  see Disabling Users in the  Amazon WorkDocs Administration Guide. To delete a WorkDocs site, see  Deleting a Site in the  Amazon WorkDocs Administration Guide.  If you enable WorkDocs on a directory that already has existing WorkSpaces, the existing WorkSpaces and any  new WorkSpaces that are launched in the directory will have WorkDocs enabled.
+        /// Indicates whether Amazon WorkDocs is enabled for your WorkSpaces.  If WorkDocs is already enabled for a WorkSpaces directory and you disable it, new WorkSpaces launched in the directory will not have WorkDocs enabled. However, WorkDocs remains enabled for any existing WorkSpaces, unless you either disable users' access to WorkDocs or you delete the WorkDocs site. To disable users' access to WorkDocs, see Disabling Users in the Amazon WorkDocs Administration Guide. To delete a WorkDocs site, see Deleting a Site in the Amazon WorkDocs Administration Guide. If you enable WorkDocs on a directory that already has existing WorkSpaces, the existing WorkSpaces and any new WorkSpaces that are launched in the directory will have WorkDocs enabled.
         public let enableWorkDocs: Bool?
         /// Indicates whether users are local administrators of their WorkSpaces.
         public let userEnabledAsLocalAdministrator: Bool?
@@ -3050,7 +3404,7 @@ extension WorkSpaces {
         public let registrationCode: String?
         /// The default self-service permissions for WorkSpaces in the directory.
         public let selfservicePermissions: SelfservicePermissions?
-        /// The state of the directory's registration with Amazon WorkSpaces. After a directory is  deregistered, the DEREGISTERED state is returned very briefly before the directory  metadata is cleaned up, so this state is rarely returned. To confirm that a directory is deregistered,  check for the directory ID by using   DescribeWorkspaceDirectories. If the directory ID isn't returned, then the directory has been  successfully deregistered.
+        /// The state of the directory's registration with Amazon WorkSpaces. After a directory is deregistered, the DEREGISTERED state is returned very briefly before the directory metadata is cleaned up, so this state is rarely returned. To confirm that a directory is deregistered, check for the directory ID by using  DescribeWorkspaceDirectories. If the directory ID isn't returned, then the directory has been successfully deregistered.
         public let state: WorkspaceDirectoryState?
         /// The identifiers of the subnets used with the directory.
         public let subnetIds: [String]?
@@ -3103,7 +3457,7 @@ extension WorkSpaces {
     }
 
     public struct WorkspaceImage: AWSDecodableShape {
-        /// The date when the image was created. If the image has been shared, the Amazon Web Services account  that the image has been shared with sees the original creation date of the image.
+        /// The date when the image was created. If the image has been shared, the Amazon Web Services account that the image has been shared with sees the original creation date of the image.
         public let created: Date?
         /// The description of the image.
         public let description: String?
@@ -3158,13 +3512,13 @@ extension WorkSpaces {
     public struct WorkspaceProperties: AWSEncodableShape & AWSDecodableShape {
         /// The compute type. For more information, see Amazon WorkSpaces Bundles.
         public let computeTypeName: Compute?
-        /// The size of the root volume. For important information about how to modify the size of the root and user volumes, see  Modify a WorkSpace.
+        /// The size of the root volume. For important information about how to modify the size of the root and user volumes, see Modify a WorkSpace.
         public let rootVolumeSizeGib: Int?
         /// The running mode. For more information, see Manage the WorkSpace Running Mode.
         public let runningMode: RunningMode?
         /// The time after a user logs off when WorkSpaces are automatically stopped. Configured in 60-minute intervals.
         public let runningModeAutoStopTimeoutInMinutes: Int?
-        /// The size of the user storage. For important information about how to modify the size of the root and user volumes, see  Modify a WorkSpace.
+        /// The size of the user storage. For important information about how to modify the size of the root and user volumes, see Modify a WorkSpace.
         public let userVolumeSizeGib: Int?
 
         public init(computeTypeName: Compute? = nil, rootVolumeSizeGib: Int? = nil, runningMode: RunningMode? = nil, runningModeAutoStopTimeoutInMinutes: Int? = nil, userVolumeSizeGib: Int? = nil) {
@@ -3197,7 +3551,7 @@ extension WorkSpaces {
         public let userName: String
         /// Indicates whether the data stored on the user volume is encrypted.
         public let userVolumeEncryptionEnabled: Bool?
-        /// The symmetric KMS key used to encrypt data stored on your WorkSpace.  Amazon WorkSpaces does not support asymmetric KMS keys.
+        /// The symmetric KMS key used to encrypt data stored on your WorkSpace. Amazon WorkSpaces does not support asymmetric KMS keys.
         public let volumeEncryptionKey: String?
         /// The WorkSpace properties.
         public let workspaceProperties: WorkspaceProperties?

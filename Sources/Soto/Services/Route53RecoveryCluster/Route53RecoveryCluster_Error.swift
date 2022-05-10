@@ -25,6 +25,7 @@ public struct Route53RecoveryClusterErrorType: AWSErrorType {
         case endpointTemporarilyUnavailableException = "EndpointTemporarilyUnavailableException"
         case internalServerException = "InternalServerException"
         case resourceNotFoundException = "ResourceNotFoundException"
+        case serviceLimitExceededException = "ServiceLimitExceededException"
         case throttlingException = "ThrottlingException"
         case validationException = "ValidationException"
     }
@@ -47,7 +48,7 @@ public struct Route53RecoveryClusterErrorType: AWSErrorType {
     /// return error code string
     public var errorCode: String { self.error.rawValue }
 
-    /// You don't have sufficient permissions to query the routing control state.
+    /// You don't have sufficient permissions to perform this action.
     public static var accessDeniedException: Self { .init(.accessDeniedException) }
     /// There was a conflict with this request. Try again.
     public static var conflictException: Self { .init(.conflictException) }
@@ -55,8 +56,10 @@ public struct Route53RecoveryClusterErrorType: AWSErrorType {
     public static var endpointTemporarilyUnavailableException: Self { .init(.endpointTemporarilyUnavailableException) }
     /// There was an unexpected error during processing of the request.
     public static var internalServerException: Self { .init(.internalServerException) }
-    /// The request references a routing control that was not found.
+    /// The request references a routing control or control panel that was not found.
     public static var resourceNotFoundException: Self { .init(.resourceNotFoundException) }
+    /// The request can't update that many routing control states at the same time. Try again with fewer routing control states.
+    public static var serviceLimitExceededException: Self { .init(.serviceLimitExceededException) }
     /// The request was denied because of request throttling.
     public static var throttlingException: Self { .init(.throttlingException) }
     /// There was a validation error on the request.

@@ -292,6 +292,7 @@ extension WAFV2 {
         case vu = "VU"
         case wf = "WF"
         case ws = "WS"
+        case xk = "XK"
         case ye = "YE"
         case yt = "YT"
         case za = "ZA"
@@ -347,6 +348,20 @@ extension WAFV2 {
     public enum LabelMatchScope: String, CustomStringConvertible, Codable {
         case label = "LABEL"
         case namespace = "NAMESPACE"
+        public var description: String { return self.rawValue }
+    }
+
+    public enum MapMatchScope: String, CustomStringConvertible, Codable {
+        case all = "ALL"
+        case key = "KEY"
+        case value = "VALUE"
+        public var description: String { return self.rawValue }
+    }
+
+    public enum OversizeHandling: String, CustomStringConvertible, Codable {
+        case `continue` = "CONTINUE"
+        case match = "MATCH"
+        case noMatch = "NO_MATCH"
         public var description: String { return self.rawValue }
     }
 
@@ -529,13 +544,22 @@ extension WAFV2 {
     }
 
     public struct Body: AWSEncodableShape & AWSDecodableShape {
-        public init() {}
+        /// What WAF should do if the body is larger than WAF can inspect.  WAF does not support inspecting the entire contents of the body of a web request when the body exceeds 8 KB (8192 bytes). Only the first 8 KB of the request body are forwarded to WAF by the underlying host service.  The options for oversize handling are the following:    CONTINUE - Inspect the body normally, according to the rule inspection criteria.     MATCH - Treat the web request as matching the rule statement. WAF applies the rule action to the request.    NO_MATCH - Treat the web request as not matching the rule statement.   You can combine the MATCH or NO_MATCH settings for oversize handling with your rule and web ACL action settings, so that you block any request whose body is over 8 KB.  Default: CONTINUE
+        public let oversizeHandling: OversizeHandling?
+
+        public init(oversizeHandling: OversizeHandling? = nil) {
+            self.oversizeHandling = oversizeHandling
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case oversizeHandling = "OversizeHandling"
+        }
     }
 
     public struct ByteMatchStatement: AWSEncodableShape & AWSDecodableShape {
-        /// The part of a web request that you want WAF to inspect. For more information, see FieldToMatch.
+        /// The part of the web request that you want WAF to inspect. For more information, see FieldToMatch.
         public let fieldToMatch: FieldToMatch
-        /// The area within the portion of a web request that you want WAF to search for SearchString. Valid values include the following:  CONTAINS  The specified part of the web request must include the value of SearchString, but the location doesn't matter.  CONTAINS_WORD  The specified part of the web request must include the value of SearchString, and SearchString must contain only alphanumeric characters or underscore (A-Z, a-z, 0-9, or _). In addition, SearchString must be a word, which means that both of the following are true:    SearchString is at the beginning of the specified part of the web request or is preceded by a character other than an alphanumeric character or underscore (_). Examples include the value of a header and ;BadBot.    SearchString is at the end of the specified part of the web request or is followed by a character other than an alphanumeric character or underscore (_), for example, BadBot; and -BadBot;.    EXACTLY  The value of the specified part of the web request must exactly match the value of SearchString.  STARTS_WITH  The value of SearchString must appear at the beginning of the specified part of the web request.  ENDS_WITH  The value of SearchString must appear at the end of the specified part of the web request.
+        /// The area within the portion of the web request that you want WAF to search for SearchString. Valid values include the following:  CONTAINS  The specified part of the web request must include the value of SearchString, but the location doesn't matter.  CONTAINS_WORD  The specified part of the web request must include the value of SearchString, and SearchString must contain only alphanumeric characters or underscore (A-Z, a-z, 0-9, or _). In addition, SearchString must be a word, which means that both of the following are true:    SearchString is at the beginning of the specified part of the web request or is preceded by a character other than an alphanumeric character or underscore (_). Examples include the value of a header and ;BadBot.    SearchString is at the end of the specified part of the web request or is followed by a character other than an alphanumeric character or underscore (_), for example, BadBot; and -BadBot;.    EXACTLY  The value of the specified part of the web request must exactly match the value of SearchString.  STARTS_WITH  The value of SearchString must appear at the beginning of the specified part of the web request.  ENDS_WITH  The value of SearchString must appear at the end of the specified part of the web request.
         public let positionalConstraint: PositionalConstraint
         /// A string value that you want WAF to search for. WAF searches only in the part of web requests that you designate for inspection in FieldToMatch. The maximum length of the value is 50 bytes. Valid values depend on the component that you specify for inspection in FieldToMatch:    Method: The HTTP method that you want WAF to search for. This indicates the type of operation specified in the request.     UriPath: The value that you want WAF to search for in the URI path, for example, /images/daily-ad.jpg.    If SearchString includes alphabetic characters A-Z and a-z, note that the value is case sensitive.  If you're using the WAF API  Specify a base64-encoded version of the value. The maximum length of the value before you base64-encode it is 50 bytes. For example, suppose the value of Type is HEADER and the value of Data is User-Agent. If you want to search the User-Agent header for the value BadBot, you base64-encode BadBot using MIME base64-encoding and include the resulting value, QmFkQm90, in the value of SearchString.  If you're using the CLI or one of the Amazon Web Services SDKs  The value that you want WAF to search for. The SDK automatically base64 encodes the value.
         public let searchString: Data
@@ -674,6 +698,69 @@ extension WAFV2 {
         private enum CodingKeys: String, CodingKey {
             case actionCondition = "ActionCondition"
             case labelNameCondition = "LabelNameCondition"
+        }
+    }
+
+    public struct CookieMatchPattern: AWSEncodableShape & AWSDecodableShape {
+        /// Inspect all cookies.
+        public let all: All?
+        /// Inspect only the cookies whose keys don't match any of the strings specified here.
+        public let excludedCookies: [String]?
+        /// Inspect only the cookies that have a key that matches one of the strings specified here.
+        public let includedCookies: [String]?
+
+        public init(all: All? = nil, excludedCookies: [String]? = nil, includedCookies: [String]? = nil) {
+            self.all = all
+            self.excludedCookies = excludedCookies
+            self.includedCookies = includedCookies
+        }
+
+        public func validate(name: String) throws {
+            try self.excludedCookies?.forEach {
+                try validate($0, name: "excludedCookies[]", parent: name, max: 60)
+                try validate($0, name: "excludedCookies[]", parent: name, min: 1)
+                try validate($0, name: "excludedCookies[]", parent: name, pattern: "\\S")
+            }
+            try self.validate(self.excludedCookies, name: "excludedCookies", parent: name, max: 199)
+            try self.validate(self.excludedCookies, name: "excludedCookies", parent: name, min: 1)
+            try self.includedCookies?.forEach {
+                try validate($0, name: "includedCookies[]", parent: name, max: 60)
+                try validate($0, name: "includedCookies[]", parent: name, min: 1)
+                try validate($0, name: "includedCookies[]", parent: name, pattern: "\\S")
+            }
+            try self.validate(self.includedCookies, name: "includedCookies", parent: name, max: 199)
+            try self.validate(self.includedCookies, name: "includedCookies", parent: name, min: 1)
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case all = "All"
+            case excludedCookies = "ExcludedCookies"
+            case includedCookies = "IncludedCookies"
+        }
+    }
+
+    public struct Cookies: AWSEncodableShape & AWSDecodableShape {
+        /// The filter to use to identify the subset of cookies to inspect in a web request.  You must specify exactly one setting: either All, IncludedCookies, or ExcludedCookies. Example JSON: "CookieMatchPattern": { "IncludedCookies": {"KeyToInclude1", "KeyToInclude2", "KeyToInclude3"} }
+        public let matchPattern: CookieMatchPattern
+        /// The parts of the cookies to inspect with the rule inspection criteria. If you specify All, WAF inspects both keys and values.
+        public let matchScope: MapMatchScope
+        /// What WAF should do if the cookies of the request are larger than WAF can inspect.  WAF does not support inspecting the entire contents of request cookies  when they exceed 8 KB (8192 bytes) or 200 total cookies. The underlying host service forwards a maximum of 200 cookies and at most 8 KB of cookie contents to WAF.  The options for oversize handling are the following:    CONTINUE - Inspect the cookies normally, according to the rule inspection criteria.     MATCH - Treat the web request as matching the rule statement. WAF applies the rule action to the request.    NO_MATCH - Treat the web request as not matching the rule statement.
+        public let oversizeHandling: OversizeHandling
+
+        public init(matchPattern: CookieMatchPattern, matchScope: MapMatchScope, oversizeHandling: OversizeHandling) {
+            self.matchPattern = matchPattern
+            self.matchScope = matchScope
+            self.oversizeHandling = oversizeHandling
+        }
+
+        public func validate(name: String) throws {
+            try self.matchPattern.validate(name: "\(name).matchPattern")
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case matchPattern = "MatchPattern"
+            case matchScope = "MatchScope"
+            case oversizeHandling = "OversizeHandling"
         }
     }
 
@@ -1472,24 +1559,30 @@ extension WAFV2 {
     public struct FieldToMatch: AWSEncodableShape & AWSDecodableShape {
         /// Inspect all query arguments.
         public let allQueryArguments: AllQueryArguments?
-        /// Inspect the request body as plain text. The request body immediately follows the request headers. This is the part of a request that contains any additional data that you want to send to your web server as the HTTP request body, such as data from a form.  Note that only the first 8 KB (8192 bytes) of the request body are forwarded to WAF for inspection by the underlying host service. If you don't need to inspect more than 8 KB, you can guarantee that you don't allow additional bytes in by combining a statement that inspects the body of the web request, such as ByteMatchStatement or RegexPatternSetReferenceStatement, with a SizeConstraintStatement that enforces an 8 KB size limit on the body of the request. WAF doesn't support inspecting the entire contents of web requests whose bodies exceed the 8 KB limit.
+        /// Inspect the request body as plain text. The request body immediately follows the request headers. This is the part of a request that contains any additional data that you want to send to your web server as the HTTP request body, such as data from a form.  Only the first 8 KB (8192 bytes) of the request body are forwarded to WAF for inspection by the underlying host service. For information about how to  handle oversized request bodies, see the Body object configuration.
         public let body: Body?
-        /// Inspect the request body as JSON. The request body immediately follows the request headers. This is the part of a request that contains any additional data that you want to send to your web server as the HTTP request body, such as data from a form.  Note that only the first 8 KB (8192 bytes) of the request body are forwarded to WAF for inspection by the underlying host service. If you don't need to inspect more than 8 KB, you can guarantee that you don't allow additional bytes in by combining a statement that inspects the body of the web request, such as ByteMatchStatement or RegexPatternSetReferenceStatement, with a SizeConstraintStatement that enforces an 8 KB size limit on the body of the request. WAF doesn't support inspecting the entire contents of web requests whose bodies exceed the 8 KB limit.
+        /// Inspect the request cookies. You must configure scope and pattern matching filters  in the Cookies object, to define the set of cookies and the parts of the cookies that WAF inspects.  Only the first 8 KB (8192 bytes) of a request's cookies and only the first 200 cookies are forwarded to WAF for inspection by the underlying host service. You must configure  how to handle any oversize cookie content in the Cookies object. WAF applies the pattern matching filters  to the cookies that it receives from the underlying host service.
+        public let cookies: Cookies?
+        /// Inspect the request headers. You must configure scope and pattern matching filters  in the Headers object, to define the set of headers to and the parts of the headers that WAF inspects.  Only the first 8 KB (8192 bytes) of a request's headers and only the first 200 headers are forwarded to WAF for inspection by the underlying host service. You must configure  how to handle any oversize header content in the Headers object. WAF applies the pattern matching filters  to the headers that it receives from the underlying host service.
+        public let headers: Headers?
+        /// Inspect the request body as JSON. The request body immediately follows the request headers. This is the part of a request that contains any additional data that you want to send to your web server as the HTTP request body, such as data from a form.  Only the first 8 KB (8192 bytes) of the request body are forwarded to WAF for inspection by the underlying host service. For information about how to  handle oversized request bodies, see the JsonBody object configuration.
         public let jsonBody: JsonBody?
         /// Inspect the HTTP method. The method indicates the type of operation that the request is asking the origin to perform.
         public let method: Method?
         /// Inspect the query string. This is the part of a URL that appears after a ? character, if any.
         public let queryString: QueryString?
-        /// Inspect a single header. Provide the name of the header to inspect, for example, User-Agent or Referer. This setting isn't case sensitive. Example JSON: "SingleHeader": { "Name": "haystack" }
+        /// Inspect a single header. Provide the name of the header to inspect, for example, User-Agent or Referer. This setting isn't case sensitive. Example JSON: "SingleHeader": { "Name": "haystack" }  Alternately, you can filter and inspect all headers with the Headers  FieldToMatch setting.
         public let singleHeader: SingleHeader?
-        /// Inspect a single query argument. Provide the name of the query argument to inspect, such as UserName or SalesRegion. The name can be up to 30 characters long and isn't case sensitive.  This is used only to indicate the web request component for WAF to inspect, in the FieldToMatch specification.   Example JSON: "SingleQueryArgument": { "Name": "myArgument" }
+        /// Inspect a single query argument. Provide the name of the query argument to inspect, such as UserName or SalesRegion. The name can be up to 30 characters long and isn't case sensitive.  Example JSON: "SingleQueryArgument": { "Name": "myArgument" }
         public let singleQueryArgument: SingleQueryArgument?
-        /// Inspect the request URI path. This is the part of a web request that identifies a resource, for example, /images/daily-ad.jpg.
+        /// Inspect the request URI path. This is the part of the web request that identifies a resource, for example, /images/daily-ad.jpg.
         public let uriPath: UriPath?
 
-        public init(allQueryArguments: AllQueryArguments? = nil, body: Body? = nil, jsonBody: JsonBody? = nil, method: Method? = nil, queryString: QueryString? = nil, singleHeader: SingleHeader? = nil, singleQueryArgument: SingleQueryArgument? = nil, uriPath: UriPath? = nil) {
+        public init(allQueryArguments: AllQueryArguments? = nil, body: Body? = nil, cookies: Cookies? = nil, headers: Headers? = nil, jsonBody: JsonBody? = nil, method: Method? = nil, queryString: QueryString? = nil, singleHeader: SingleHeader? = nil, singleQueryArgument: SingleQueryArgument? = nil, uriPath: UriPath? = nil) {
             self.allQueryArguments = allQueryArguments
             self.body = body
+            self.cookies = cookies
+            self.headers = headers
             self.jsonBody = jsonBody
             self.method = method
             self.queryString = queryString
@@ -1499,6 +1592,8 @@ extension WAFV2 {
         }
 
         public func validate(name: String) throws {
+            try self.cookies?.validate(name: "\(name).cookies")
+            try self.headers?.validate(name: "\(name).headers")
             try self.jsonBody?.validate(name: "\(name).jsonBody")
             try self.singleHeader?.validate(name: "\(name).singleHeader")
             try self.singleQueryArgument?.validate(name: "\(name).singleQueryArgument")
@@ -1507,6 +1602,8 @@ extension WAFV2 {
         private enum CodingKeys: String, CodingKey {
             case allQueryArguments = "AllQueryArguments"
             case body = "Body"
+            case cookies = "Cookies"
+            case headers = "Headers"
             case jsonBody = "JsonBody"
             case method = "Method"
             case queryString = "QueryString"
@@ -2219,6 +2316,69 @@ extension WAFV2 {
         }
     }
 
+    public struct HeaderMatchPattern: AWSEncodableShape & AWSDecodableShape {
+        /// Inspect all headers.
+        public let all: All?
+        /// Inspect only the headers whose keys don't match any of the strings specified here.
+        public let excludedHeaders: [String]?
+        /// Inspect only the headers that have a key that matches one of the strings specified here.
+        public let includedHeaders: [String]?
+
+        public init(all: All? = nil, excludedHeaders: [String]? = nil, includedHeaders: [String]? = nil) {
+            self.all = all
+            self.excludedHeaders = excludedHeaders
+            self.includedHeaders = includedHeaders
+        }
+
+        public func validate(name: String) throws {
+            try self.excludedHeaders?.forEach {
+                try validate($0, name: "excludedHeaders[]", parent: name, max: 64)
+                try validate($0, name: "excludedHeaders[]", parent: name, min: 1)
+                try validate($0, name: "excludedHeaders[]", parent: name, pattern: "\\S")
+            }
+            try self.validate(self.excludedHeaders, name: "excludedHeaders", parent: name, max: 199)
+            try self.validate(self.excludedHeaders, name: "excludedHeaders", parent: name, min: 1)
+            try self.includedHeaders?.forEach {
+                try validate($0, name: "includedHeaders[]", parent: name, max: 64)
+                try validate($0, name: "includedHeaders[]", parent: name, min: 1)
+                try validate($0, name: "includedHeaders[]", parent: name, pattern: "\\S")
+            }
+            try self.validate(self.includedHeaders, name: "includedHeaders", parent: name, max: 199)
+            try self.validate(self.includedHeaders, name: "includedHeaders", parent: name, min: 1)
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case all = "All"
+            case excludedHeaders = "ExcludedHeaders"
+            case includedHeaders = "IncludedHeaders"
+        }
+    }
+
+    public struct Headers: AWSEncodableShape & AWSDecodableShape {
+        /// The filter to use to identify the subset of headers to inspect in a web request.  You must specify exactly one setting: either All, IncludedHeaders, or ExcludedHeaders. Example JSON: "HeaderMatchPattern": { "ExcludedHeaders": {"KeyToExclude1", "KeyToExclude2"} }
+        public let matchPattern: HeaderMatchPattern
+        /// The parts of the headers to match with the rule inspection criteria. If you specify All, WAF inspects both keys and values.
+        public let matchScope: MapMatchScope
+        /// What WAF should do if the headers of the request are larger than WAF can inspect.  WAF does not support inspecting the entire contents of request headers  when they exceed 8 KB (8192 bytes) or 200 total headers. The underlying host service forwards a maximum of 200 headers and at most 8 KB of header contents to WAF.  The options for oversize handling are the following:    CONTINUE - Inspect the headers normally, according to the rule inspection criteria.     MATCH - Treat the web request as matching the rule statement. WAF applies the rule action to the request.    NO_MATCH - Treat the web request as not matching the rule statement.
+        public let oversizeHandling: OversizeHandling
+
+        public init(matchPattern: HeaderMatchPattern, matchScope: MapMatchScope, oversizeHandling: OversizeHandling) {
+            self.matchPattern = matchPattern
+            self.matchScope = matchScope
+            self.oversizeHandling = oversizeHandling
+        }
+
+        public func validate(name: String) throws {
+            try self.matchPattern.validate(name: "\(name).matchPattern")
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case matchPattern = "MatchPattern"
+            case matchScope = "MatchScope"
+            case oversizeHandling = "OversizeHandling"
+        }
+    }
+
     public struct IPSet: AWSDecodableShape {
         /// Contains an array of strings that specifies zero or more IP addresses or blocks of IP addresses in Classless Inter-Domain Routing (CIDR) notation. WAF supports all IPv4 and IPv6 CIDR ranges except for /0.  Example address strings:    To configure WAF to allow, block, or count requests that originated from the IP address 192.0.2.44, specify 192.0.2.44/32.   To configure WAF to allow, block, or count requests that originated from IP addresses from 192.0.2.0 to 192.0.2.255, specify  192.0.2.0/24.   To configure WAF to allow, block, or count requests that originated from the IP address 1111:0000:0000:0000:0000:0000:0000:0111, specify 1111:0000:0000:0000:0000:0000:0000:0111/128.   To configure WAF to allow, block, or count requests that originated from IP addresses 1111:0000:0000:0000:0000:0000:0000:0000 to 1111:0000:0000:0000:ffff:ffff:ffff:ffff, specify 1111:0000:0000:0000:0000:0000:0000:0000/64.   For more information about CIDR notation, see the Wikipedia entry Classless Inter-Domain Routing.  Example JSON Addresses specifications:    Empty array: "Addresses": []     Array with one address: "Addresses": ["192.0.2.44/32"]     Array with three addresses: "Addresses": ["192.0.2.44/32", "192.0.2.0/24", "192.0.0.0/16"]     INVALID specification: "Addresses": [""] INVALID
         public let addresses: [String]
@@ -2357,11 +2517,14 @@ extension WAFV2 {
         public let matchPattern: JsonMatchPattern
         /// The parts of the JSON to match against using the MatchPattern. If you specify All, WAF matches against keys and values.
         public let matchScope: JsonMatchScope
+        /// What WAF should do if the body is larger than WAF can inspect.  WAF does not support inspecting the entire contents of the body of a web request when the body exceeds 8 KB (8192 bytes). Only the first 8 KB of the request body are forwarded to WAF by the underlying host service.  The options for oversize handling are the following:    CONTINUE - Inspect the body normally, according to the rule inspection criteria.     MATCH - Treat the web request as matching the rule statement. WAF applies the rule action to the request.    NO_MATCH - Treat the web request as not matching the rule statement.   You can combine the MATCH or NO_MATCH settings for oversize handling with your rule and web ACL action settings, so that you block any request whose body is over 8 KB.  Default: CONTINUE
+        public let oversizeHandling: OversizeHandling?
 
-        public init(invalidFallbackBehavior: BodyParsingFallbackBehavior? = nil, matchPattern: JsonMatchPattern, matchScope: JsonMatchScope) {
+        public init(invalidFallbackBehavior: BodyParsingFallbackBehavior? = nil, matchPattern: JsonMatchPattern, matchScope: JsonMatchScope, oversizeHandling: OversizeHandling? = nil) {
             self.invalidFallbackBehavior = invalidFallbackBehavior
             self.matchPattern = matchPattern
             self.matchScope = matchScope
+            self.oversizeHandling = oversizeHandling
         }
 
         public func validate(name: String) throws {
@@ -2372,6 +2535,7 @@ extension WAFV2 {
             case invalidFallbackBehavior = "InvalidFallbackBehavior"
             case matchPattern = "MatchPattern"
             case matchScope = "MatchScope"
+            case oversizeHandling = "OversizeHandling"
         }
     }
 
@@ -2519,17 +2683,21 @@ extension WAFV2 {
     }
 
     public struct ListAvailableManagedRuleGroupVersionsResponse: AWSDecodableShape {
+        /// The name of the version that's currently set as the default.
+        public let currentDefaultVersion: String?
         /// When you request a list of objects with a Limit setting, if the number of objects that are still available for retrieval exceeds the limit, WAF returns a NextMarker  value in the response. To retrieve the next batch of objects, provide the marker from the prior call in your next request.
         public let nextMarker: String?
         /// The versions that are currently available for the specified managed rule group.
         public let versions: [ManagedRuleGroupVersion]?
 
-        public init(nextMarker: String? = nil, versions: [ManagedRuleGroupVersion]? = nil) {
+        public init(currentDefaultVersion: String? = nil, nextMarker: String? = nil, versions: [ManagedRuleGroupVersion]? = nil) {
+            self.currentDefaultVersion = currentDefaultVersion
             self.nextMarker = nextMarker
             self.versions = versions
         }
 
         private enum CodingKeys: String, CodingKey {
+            case currentDefaultVersion = "CurrentDefaultVersion"
             case nextMarker = "NextMarker"
             case versions = "Versions"
         }
@@ -3090,7 +3258,7 @@ extension WAFV2 {
     public final class ManagedRuleGroupStatement: AWSEncodableShape & AWSDecodableShape {
         /// The rules in the referenced rule group whose actions are set to Count.   When you exclude a rule, WAF evaluates it exactly as it would if the rule action setting were Count.  This is a useful option for testing the rules in a rule group without modifying how they handle your web traffic.
         public let excludedRules: [ExcludedRule]?
-        /// Additional information that's used by a managed rule group. Most managed rule groups don't require this. Use this for the account takeover prevention managed rule group  AWSManagedRulesATPRuleSet, to provide information about the sign-in page of your application.
+        /// Additional information that's used by a managed rule group. Most managed rule groups don't require this. Use this for the account takeover prevention managed rule group  AWSManagedRulesATPRuleSet, to provide information about the sign-in page of your application.   You can provide multiple individual ManagedRuleGroupConfig objects for any rule group configuration, for example UsernameField and PasswordField. The configuration that you provide depends on the needs of the managed rule group. For the ATP managed rule group, you provide the following individual configuration objects: LoginPath, PasswordField, PayloadType and UsernameField.
         public let managedRuleGroupConfigs: [ManagedRuleGroupConfig]?
         /// The name of the managed rule group. You use this, along with the vendor name, to identify the rule group.
         public let name: String
@@ -3114,6 +3282,7 @@ extension WAFV2 {
             try self.excludedRules?.forEach {
                 try $0.validate(name: "\(name).excludedRules[]")
             }
+            try self.validate(self.excludedRules, name: "excludedRules", parent: name, max: 100)
             try self.managedRuleGroupConfigs?.forEach {
                 try $0.validate(name: "\(name).managedRuleGroupConfigs[]")
             }
@@ -3147,17 +3316,21 @@ extension WAFV2 {
         public let name: String?
         /// The name of the managed rule group vendor. You use this, along with the rule group name, to identify the rule group.
         public let vendorName: String?
+        /// Indicates whether the managed rule group is versioned. If it is, you can retrieve the versions list by calling ListAvailableManagedRuleGroupVersions.
+        public let versioningSupported: Bool?
 
-        public init(description: String? = nil, name: String? = nil, vendorName: String? = nil) {
+        public init(description: String? = nil, name: String? = nil, vendorName: String? = nil, versioningSupported: Bool? = nil) {
             self.description = description
             self.name = name
             self.vendorName = vendorName
+            self.versioningSupported = versioningSupported
         }
 
         private enum CodingKeys: String, CodingKey {
             case description = "Description"
             case name = "Name"
             case vendorName = "VendorName"
+            case versioningSupported = "VersioningSupported"
         }
     }
 
@@ -3488,7 +3661,7 @@ extension WAFV2 {
     }
 
     public struct PutPermissionPolicyRequest: AWSEncodableShape {
-        /// The policy to attach to the specified rule group.   The policy specifications must conform to the following:   The policy must be composed using IAM Policy version 2012-10-17 or version 2015-01-01.   The policy must include specifications for Effect, Action, and Principal.    Effect must specify Allow.    Action must specify wafv2:CreateWebACL, wafv2:UpdateWebACL, and wafv2:PutFirewallManagerRuleGroups. WAF rejects any extra actions or wildcard actions in the policy.   The policy must not include a Resource parameter.   For more information, see IAM Policies.
+        /// The policy to attach to the specified rule group.   The policy specifications must conform to the following:   The policy must be composed using IAM Policy version 2012-10-17 or version 2015-01-01.   The policy must include specifications for Effect, Action, and Principal.    Effect must specify Allow.    Action must specify wafv2:CreateWebACL, wafv2:UpdateWebACL, and  wafv2:PutFirewallManagerRuleGroups and may optionally specify wafv2:GetRuleGroup.  WAF rejects any extra actions or wildcard actions in the policy.   The policy must not include a Resource parameter.   For more information, see IAM Policies.
         public let policy: String
         /// The Amazon Resource Name (ARN) of the RuleGroup to which you want to attach the policy.
         public let resourceArn: String
@@ -3590,7 +3763,7 @@ extension WAFV2 {
     }
 
     public struct RegexMatchStatement: AWSEncodableShape & AWSDecodableShape {
-        /// The part of a web request that you want WAF to inspect. For more information, see FieldToMatch.
+        /// The part of the web request that you want WAF to inspect. For more information, see FieldToMatch.
         public let fieldToMatch: FieldToMatch
         /// The string representing the regular expression.
         public let regexString: String
@@ -3653,7 +3826,7 @@ extension WAFV2 {
     public struct RegexPatternSetReferenceStatement: AWSEncodableShape & AWSDecodableShape {
         /// The Amazon Resource Name (ARN) of the RegexPatternSet that this statement references.
         public let arn: String
-        /// The part of a web request that you want WAF to inspect. For more information, see FieldToMatch.
+        /// The part of the web request that you want WAF to inspect. For more information, see FieldToMatch.
         public let fieldToMatch: FieldToMatch
         /// Text transformations eliminate some of the unusual formatting that attackers use in web requests in an effort to bypass detection.  If you specify one or more transformations in a rule statement, WAF performs all transformations on the  content of the request component identified by FieldToMatch, starting from the lowest priority setting, before inspecting the content for a match.
         public let textTransformations: [TextTransformation]
@@ -3889,6 +4062,7 @@ extension WAFV2 {
             try self.excludedRules?.forEach {
                 try $0.validate(name: "\(name).excludedRules[]")
             }
+            try self.validate(self.excludedRules, name: "excludedRules", parent: name, max: 100)
         }
 
         private enum CodingKeys: String, CodingKey {
@@ -4029,7 +4203,7 @@ extension WAFV2 {
     public struct SizeConstraintStatement: AWSEncodableShape & AWSDecodableShape {
         /// The operator to use to compare the request part to the size setting.
         public let comparisonOperator: ComparisonOperator
-        /// The part of a web request that you want WAF to inspect. For more information, see FieldToMatch.
+        /// The part of the web request that you want WAF to inspect. For more information, see FieldToMatch.
         public let fieldToMatch: FieldToMatch
         /// The size, in byte, to compare to the request part, after any transformations.
         public let size: Int64
@@ -4062,7 +4236,7 @@ extension WAFV2 {
     }
 
     public struct SqliMatchStatement: AWSEncodableShape & AWSDecodableShape {
-        /// The part of a web request that you want WAF to inspect. For more information, see FieldToMatch.
+        /// The part of the web request that you want WAF to inspect. For more information, see FieldToMatch.
         public let fieldToMatch: FieldToMatch
         /// Text transformations eliminate some of the unusual formatting that attackers use in web requests in an effort to bypass detection.  If you specify one or more transformations in a rule statement, WAF performs all transformations on the  content of the request component identified by FieldToMatch, starting from the lowest priority setting, before inspecting the content for a match.
         public let textTransformations: [TextTransformation]
@@ -4856,7 +5030,7 @@ extension WAFV2 {
     }
 
     public struct XssMatchStatement: AWSEncodableShape & AWSDecodableShape {
-        /// The part of a web request that you want WAF to inspect. For more information, see FieldToMatch.
+        /// The part of the web request that you want WAF to inspect. For more information, see FieldToMatch.
         public let fieldToMatch: FieldToMatch
         /// Text transformations eliminate some of the unusual formatting that attackers use in web requests in an effort to bypass detection.  If you specify one or more transformations in a rule statement, WAF performs all transformations on the  content of the request component identified by FieldToMatch, starting from the lowest priority setting, before inspecting the content for a match.
         public let textTransformations: [TextTransformation]

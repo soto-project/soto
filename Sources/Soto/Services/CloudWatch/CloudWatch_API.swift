@@ -222,13 +222,21 @@ public struct CloudWatch: AWSService {
         return self.client.execute(operation: "GetInsightRuleReport", path: "/", httpMethod: .POST, serviceConfig: self.config, input: input, logger: logger, on: eventLoop)
     }
 
-    /// You can use the GetMetricData API to retrieve as many as 500 different
+    /// You can use the GetMetricData API to retrieve CloudWatch metric values. The operation
+    /// 			can also include a CloudWatch Metrics Insights query, and one or more metric math functions.
+    /// 		       A GetMetricData operation that does not include a query can retrieve as many as 500 different
     /// 			metrics in a single request, with a total of as many as 100,800 data points. You can also
-    /// 			optionally perform math expressions on the values of the returned statistics, to create
+    /// 			optionally perform metric math expressions on the values of the returned statistics, to create
     /// 			new time series that represent new insights into your data. For example, using Lambda
     /// 			metrics, you could divide the Errors metric by the Invocations metric to get an error
     /// 			rate time series. For more information about metric math expressions, see Metric Math Syntax and Functions in the Amazon CloudWatch User
-    /// 				Guide.
+    /// 					Guide.
+    ///
+    ///
+    /// 		       If you include a Metrics Insights query, each GetMetricData operation can include only one
+    /// 			query. But the same GetMetricData operation can also retrieve other metrics. Metrics Insights queries
+    /// 		can query only the most recent three hours of metric data. For more information about Metrics Insights,
+    /// 		see Query your metrics with CloudWatch Metrics Insights.
     ///
     /// 		       Calls to the GetMetricData API have a different pricing structure than
     /// 			calls to GetMetricStatistics. For more information about pricing, see
@@ -244,6 +252,14 @@ public struct CloudWatch: AWSService {
     /// 		       If you omit Unit in your request, all data that was collected with any unit is returned, along with the corresponding units that were specified
     /// 			when the data was reported to CloudWatch. If you specify a unit, the operation returns only data that was collected with that unit specified.
     /// 			If you specify a unit that does not match the data collected, the results of the operation are null. CloudWatch does not perform unit conversions.
+    ///
+    /// 		        Using Metrics Insights queries with metric math
+    /// 		       You can't mix a Metric Insights query and metric math syntax in the same expression, but
+    /// 			you can reference results from a Metrics Insights query within other Metric math expressions. A Metrics Insights
+    /// 			query without a GROUP BY clause returns a single time-series (TS),
+    /// 			and can be used as input for a metric math expression that expects a single time series. A Metrics Insights
+    /// 			query with a GROUP BY clause returns an array of time-series (TS[]),
+    /// 			and can be used as input for a metric math expression that expects an array of time series.
     public func getMetricData(_ input: GetMetricDataInput, logger: Logger = AWSClient.loggingDisabled, on eventLoop: EventLoop? = nil) -> EventLoopFuture<GetMetricDataOutput> {
         return self.client.execute(operation: "GetMetricData", path: "/", httpMethod: .POST, serviceConfig: self.config, input: input, logger: logger, on: eventLoop)
     }
@@ -354,7 +370,8 @@ public struct CloudWatch: AWSService {
     /// 			states of other alarms that you have created. The composite alarm goes into ALARM state
     /// 			only if all conditions of the rule are met.
     /// 		       The alarms specified in a composite alarm's rule expression can include metric alarms
-    /// 			and other composite alarms.
+    /// 			and other composite alarms. The rule expression of a composite alarm can include as many as 100 underlying alarms.
+    /// 			Any single alarm can be included in the rule expressions of as many as 150 composite alarms.
     /// 		       Using composite alarms can reduce
     /// 			alarm noise. You can create multiple metric alarms,
     /// 			and also create a composite alarm and
@@ -526,6 +543,12 @@ public struct CloudWatch: AWSService {
     /// 		         Stream metrics from all metric namespaces in the account.   Stream metrics from all metric namespaces in the account, except
     /// 				for the namespaces that you list in ExcludeFilters.   Stream metrics from only the metric namespaces that you list in
     /// 				IncludeFilters.
+    ///
+    /// 		       By default, a metric stream always sends the MAX, MIN, SUM,
+    /// 			and SAMPLECOUNT statistics for each metric that is streamed. You can use the
+    /// 			StatisticsConfigurations parameter to have
+    /// 			the metric stream also send additional statistics in the stream. Streaming additional statistics incurs
+    /// 			additional costs. For more information, see Amazon CloudWatch Pricing.
     ///
     /// 		       When you use PutMetricStream to create a new metric stream, the stream
     /// 		is created in the running state. If you use it to update an existing stream,

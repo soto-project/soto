@@ -69,6 +69,11 @@ public struct FMS: AWSService {
         return self.client.execute(operation: "AssociateAdminAccount", path: "/", httpMethod: .POST, serviceConfig: self.config, input: input, logger: logger, on: eventLoop)
     }
 
+    /// Sets the Firewall Manager policy administrator as a tenant administrator of a third-party firewall service. A tenant is an instance of the third-party firewall service that's associated with your Amazon Web Services customer account.
+    public func associateThirdPartyFirewall(_ input: AssociateThirdPartyFirewallRequest, logger: Logger = AWSClient.loggingDisabled, on eventLoop: EventLoop? = nil) -> EventLoopFuture<AssociateThirdPartyFirewallResponse> {
+        return self.client.execute(operation: "AssociateThirdPartyFirewall", path: "/", httpMethod: .POST, serviceConfig: self.config, input: input, logger: logger, on: eventLoop)
+    }
+
     /// Permanently deletes an Firewall Manager applications list.
     @discardableResult public func deleteAppsList(_ input: DeleteAppsListRequest, logger: Logger = AWSClient.loggingDisabled, on eventLoop: EventLoop? = nil) -> EventLoopFuture<Void> {
         return self.client.execute(operation: "DeleteAppsList", path: "/", httpMethod: .POST, serviceConfig: self.config, input: input, logger: logger, on: eventLoop)
@@ -92,6 +97,11 @@ public struct FMS: AWSService {
     /// Disassociates the account that has been set as the Firewall Manager administrator account. To set a different account as the administrator account, you must submit an AssociateAdminAccount request.
     @discardableResult public func disassociateAdminAccount(_ input: DisassociateAdminAccountRequest, logger: Logger = AWSClient.loggingDisabled, on eventLoop: EventLoop? = nil) -> EventLoopFuture<Void> {
         return self.client.execute(operation: "DisassociateAdminAccount", path: "/", httpMethod: .POST, serviceConfig: self.config, input: input, logger: logger, on: eventLoop)
+    }
+
+    /// Disassociates a Firewall Manager policy administrator from a third-party firewall tenant. When you call DisassociateThirdPartyFirewall, the third-party firewall vendor deletes all of the firewalls that are associated with the account.
+    public func disassociateThirdPartyFirewall(_ input: DisassociateThirdPartyFirewallRequest, logger: Logger = AWSClient.loggingDisabled, on eventLoop: EventLoop? = nil) -> EventLoopFuture<DisassociateThirdPartyFirewallResponse> {
+        return self.client.execute(operation: "DisassociateThirdPartyFirewall", path: "/", httpMethod: .POST, serviceConfig: self.config, input: input, logger: logger, on: eventLoop)
     }
 
     /// Returns the Organizations account that is associated with Firewall Manager as the Firewall Manager administrator.
@@ -129,6 +139,11 @@ public struct FMS: AWSService {
         return self.client.execute(operation: "GetProtocolsList", path: "/", httpMethod: .POST, serviceConfig: self.config, input: input, logger: logger, on: eventLoop)
     }
 
+    /// The onboarding status of a Firewall Manager admin account to third-party firewall vendor tenant.
+    public func getThirdPartyFirewallAssociationStatus(_ input: GetThirdPartyFirewallAssociationStatusRequest, logger: Logger = AWSClient.loggingDisabled, on eventLoop: EventLoop? = nil) -> EventLoopFuture<GetThirdPartyFirewallAssociationStatusResponse> {
+        return self.client.execute(operation: "GetThirdPartyFirewallAssociationStatus", path: "/", httpMethod: .POST, serviceConfig: self.config, input: input, logger: logger, on: eventLoop)
+    }
+
     /// Retrieves violations for a resource based on the specified Firewall Manager policy and Amazon Web Services account.
     public func getViolationDetails(_ input: GetViolationDetailsRequest, logger: Logger = AWSClient.loggingDisabled, on eventLoop: EventLoop? = nil) -> EventLoopFuture<GetViolationDetailsResponse> {
         return self.client.execute(operation: "GetViolationDetails", path: "/", httpMethod: .POST, serviceConfig: self.config, input: input, logger: logger, on: eventLoop)
@@ -162,6 +177,11 @@ public struct FMS: AWSService {
     /// Retrieves the list of tags for the specified Amazon Web Services resource.
     public func listTagsForResource(_ input: ListTagsForResourceRequest, logger: Logger = AWSClient.loggingDisabled, on eventLoop: EventLoop? = nil) -> EventLoopFuture<ListTagsForResourceResponse> {
         return self.client.execute(operation: "ListTagsForResource", path: "/", httpMethod: .POST, serviceConfig: self.config, input: input, logger: logger, on: eventLoop)
+    }
+
+    /// Retrieves a list of all of the third-party firewall policies that are associated with the third-party firewall administrator's account.
+    public func listThirdPartyFirewallFirewallPolicies(_ input: ListThirdPartyFirewallFirewallPoliciesRequest, logger: Logger = AWSClient.loggingDisabled, on eventLoop: EventLoop? = nil) -> EventLoopFuture<ListThirdPartyFirewallFirewallPoliciesResponse> {
+        return self.client.execute(operation: "ListThirdPartyFirewallFirewallPolicies", path: "/", httpMethod: .POST, serviceConfig: self.config, input: input, logger: logger, on: eventLoop)
     }
 
     /// Creates an Firewall Manager applications list.

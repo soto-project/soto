@@ -52,6 +52,7 @@ extension IoTTwinMaker {
     }
 
     public enum PropertyUpdateType: String, CustomStringConvertible, Codable {
+        case create = "CREATE"
         case delete = "DELETE"
         case update = "UPDATE"
         public var description: String { return self.rawValue }
@@ -129,6 +130,8 @@ extension IoTTwinMaker {
     public enum ListEntitiesFilter: AWSEncodableShape {
         /// The ID of the component type in the entities in the list.
         case componentTypeId(String)
+        /// The external-Id property of a component. The external-Id property is the primary key of an external storage system.
+        case externalId(String)
         /// The parent of the entities in the list.
         case parentEntityId(String)
 
@@ -137,6 +140,8 @@ extension IoTTwinMaker {
             switch self {
             case .componentTypeId(let value):
                 try container.encode(value, forKey: .componentTypeId)
+            case .externalId(let value):
+                try container.encode(value, forKey: .externalId)
             case .parentEntityId(let value):
                 try container.encode(value, forKey: .parentEntityId)
             }
@@ -148,6 +153,10 @@ extension IoTTwinMaker {
                 try self.validate(value, name: "componentTypeId", parent: name, max: 256)
                 try self.validate(value, name: "componentTypeId", parent: name, min: 1)
                 try self.validate(value, name: "componentTypeId", parent: name, pattern: "^[a-zA-Z_\\.\\-0-9:]+$")
+            case .externalId(let value):
+                try self.validate(value, name: "externalId", parent: name, max: 256)
+                try self.validate(value, name: "externalId", parent: name, min: 1)
+                try self.validate(value, name: "externalId", parent: name, pattern: ".*")
             case .parentEntityId(let value):
                 try self.validate(value, name: "parentEntityId", parent: name, max: 128)
                 try self.validate(value, name: "parentEntityId", parent: name, min: 1)
@@ -157,6 +166,7 @@ extension IoTTwinMaker {
 
         private enum CodingKeys: String, CodingKey {
             case componentTypeId
+            case externalId
             case parentEntityId
         }
     }
@@ -690,6 +700,8 @@ extension IoTTwinMaker {
             try self.validate(self.role, name: "role", parent: name, max: 2048)
             try self.validate(self.role, name: "role", parent: name, min: 20)
             try self.validate(self.role, name: "role", parent: name, pattern: "^arn:((aws)|(aws-cn)|(aws-us-gov)):iam::[0-9]{12}:role/")
+            try self.validate(self.s3Location, name: "s3Location", parent: name, max: 1024)
+            try self.validate(self.s3Location, name: "s3Location", parent: name, pattern: "(^arn:((aws)|(aws-cn)|(aws-us-gov)):s3:::)([a-zA-Z0-9_-]+$)")
             try self.tags?.forEach {
                 try validate($0.key, name: "tags.key", parent: name, max: 128)
                 try validate($0.key, name: "tags.key", parent: name, min: 1)
@@ -730,7 +742,7 @@ extension IoTTwinMaker {
     }
 
     public struct DataConnector: AWSEncodableShape & AWSDecodableShape {
-        /// A Boolean value that specifies whether the data connector is native to TwinMaker.
+        /// A Boolean value that specifies whether the data connector is native to IoT TwinMaker.
         public let isNative: Bool?
         /// The Lambda function associated with this data connector.
         public let lambda: LambdaFunction?
@@ -1342,7 +1354,9 @@ extension IoTTwinMaker {
         /// The ID of the component type.
         public let componentTypeId: String?
         /// The date and time of the latest property value to return.
-        public let endDateTime: Date
+        public let endDateTime: Date?
+        /// The ISO8601 DateTime of the latest property value to return. For more information about the ISO8601 DateTime format, see the data type PropertyValue.
+        public let endTime: String?
         /// The ID of the entity.
         public let entityId: String?
         /// An object that specifies the interpolation type and the interval over which to interpolate data.
@@ -1358,14 +1372,35 @@ extension IoTTwinMaker {
         /// A list of properties whose value histories the request retrieves.
         public let selectedProperties: [String]
         /// The date and time of the earliest property value to return.
-        public let startDateTime: Date
+        public let startDateTime: Date?
+        /// The ISO8601 DateTime of the earliest property value to return. For more information about the ISO8601 DateTime format, see the data type PropertyValue.
+        public let startTime: String?
         /// The ID of the workspace.
         public let workspaceId: String
 
-        public init(componentName: String? = nil, componentTypeId: String? = nil, endDateTime: Date, entityId: String? = nil, interpolation: InterpolationParameters? = nil, maxResults: Int? = nil, nextToken: String? = nil, orderByTime: OrderByTime? = nil, propertyFilters: [PropertyFilter]? = nil, selectedProperties: [String], startDateTime: Date, workspaceId: String) {
+        public init(componentName: String? = nil, componentTypeId: String? = nil, endTime: String? = nil, entityId: String? = nil, interpolation: InterpolationParameters? = nil, maxResults: Int? = nil, nextToken: String? = nil, orderByTime: OrderByTime? = nil, propertyFilters: [PropertyFilter]? = nil, selectedProperties: [String], startTime: String? = nil, workspaceId: String) {
+            self.componentName = componentName
+            self.componentTypeId = componentTypeId
+            self.endDateTime = nil
+            self.endTime = endTime
+            self.entityId = entityId
+            self.interpolation = interpolation
+            self.maxResults = maxResults
+            self.nextToken = nextToken
+            self.orderByTime = orderByTime
+            self.propertyFilters = propertyFilters
+            self.selectedProperties = selectedProperties
+            self.startDateTime = nil
+            self.startTime = startTime
+            self.workspaceId = workspaceId
+        }
+
+        @available(*, deprecated, message: "Members endDateTime, startDateTime have been deprecated")
+        public init(componentName: String? = nil, componentTypeId: String? = nil, endDateTime: Date? = nil, endTime: String? = nil, entityId: String? = nil, interpolation: InterpolationParameters? = nil, maxResults: Int? = nil, nextToken: String? = nil, orderByTime: OrderByTime? = nil, propertyFilters: [PropertyFilter]? = nil, selectedProperties: [String], startDateTime: Date? = nil, startTime: String? = nil, workspaceId: String) {
             self.componentName = componentName
             self.componentTypeId = componentTypeId
             self.endDateTime = endDateTime
+            self.endTime = endTime
             self.entityId = entityId
             self.interpolation = interpolation
             self.maxResults = maxResults
@@ -1374,6 +1409,7 @@ extension IoTTwinMaker {
             self.propertyFilters = propertyFilters
             self.selectedProperties = selectedProperties
             self.startDateTime = startDateTime
+            self.startTime = startTime
             self.workspaceId = workspaceId
         }
 
@@ -1384,6 +1420,8 @@ extension IoTTwinMaker {
             try self.validate(self.componentTypeId, name: "componentTypeId", parent: name, max: 256)
             try self.validate(self.componentTypeId, name: "componentTypeId", parent: name, min: 1)
             try self.validate(self.componentTypeId, name: "componentTypeId", parent: name, pattern: "^[a-zA-Z_\\.\\-0-9:]+$")
+            try self.validate(self.endTime, name: "endTime", parent: name, max: 35)
+            try self.validate(self.endTime, name: "endTime", parent: name, min: 20)
             try self.validate(self.entityId, name: "entityId", parent: name, max: 128)
             try self.validate(self.entityId, name: "entityId", parent: name, min: 1)
             try self.validate(self.entityId, name: "entityId", parent: name, pattern: "^[0-9a-f]{8}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{12}|^[a-zA-Z0-9][a-zA-Z_\\-0-9.:]*[a-zA-Z0-9]+$")
@@ -1403,6 +1441,8 @@ extension IoTTwinMaker {
             }
             try self.validate(self.selectedProperties, name: "selectedProperties", parent: name, max: 10)
             try self.validate(self.selectedProperties, name: "selectedProperties", parent: name, min: 1)
+            try self.validate(self.startTime, name: "startTime", parent: name, max: 35)
+            try self.validate(self.startTime, name: "startTime", parent: name, min: 20)
             try self.validate(self.workspaceId, name: "workspaceId", parent: name, max: 128)
             try self.validate(self.workspaceId, name: "workspaceId", parent: name, min: 1)
             try self.validate(self.workspaceId, name: "workspaceId", parent: name, pattern: "^[a-zA-Z_0-9][a-zA-Z_\\-0-9]*[a-zA-Z0-9]+$")
@@ -1412,6 +1452,7 @@ extension IoTTwinMaker {
             case componentName
             case componentTypeId
             case endDateTime
+            case endTime
             case entityId
             case interpolation
             case maxResults
@@ -1420,6 +1461,7 @@ extension IoTTwinMaker {
             case propertyFilters
             case selectedProperties
             case startDateTime
+            case startTime
         }
     }
 
@@ -1591,7 +1633,7 @@ extension IoTTwinMaker {
         public func validate(name: String) throws {
             try self.validate(self.workspaceId, name: "workspaceId", parent: name, max: 2048)
             try self.validate(self.workspaceId, name: "workspaceId", parent: name, min: 1)
-            try self.validate(self.workspaceId, name: "workspaceId", parent: name, pattern: "^[a-zA-Z][a-zA-Z_\\-0-9]*[a-zA-Z0-9]+$|^arn:((aws)|(aws-cn)|(aws-us-gov)):iottwinmaker:[a-z0-9-]+:[0-9]{12}:[\\/a-zA-Z0-9_-]+$")
+            try self.validate(self.workspaceId, name: "workspaceId", parent: name, pattern: "^[a-zA-Z_0-9][a-zA-Z_\\-0-9]*[a-zA-Z0-9]+$|^arn:((aws)|(aws-cn)|(aws-us-gov)):iottwinmaker:[a-z0-9-]+:[0-9]{12}:[\\/a-zA-Z0-9_-]+$")
         }
 
         private enum CodingKeys: CodingKey {}
@@ -1741,7 +1783,7 @@ extension IoTTwinMaker {
             AWSMemberEncoding(label: "workspaceId", location: .uri("workspaceId"))
         ]
 
-        /// A list of objects that filter the request.
+        /// A list of objects that filter the request.  Only one object is accepted as a valid input.
         public let filters: [ListEntitiesFilter]?
         /// The maximum number of results to display.
         public let maxResults: Int?
@@ -1988,9 +2030,7 @@ extension IoTTwinMaker {
                 try validate($0.key, name: "configuration.key", parent: name, max: 256)
                 try validate($0.key, name: "configuration.key", parent: name, min: 1)
                 try validate($0.key, name: "configuration.key", parent: name, pattern: "^[a-zA-Z_\\-0-9]+$")
-                try validate($0.value, name: "configuration[\"\($0.key)\"]", parent: name, max: 256)
-                try validate($0.value, name: "configuration[\"\($0.key)\"]", parent: name, min: 1)
-                try validate($0.value, name: "configuration[\"\($0.key)\"]", parent: name, pattern: "^[a-zA-Z_\\-0-9]+$")
+                try validate($0.value, name: "configuration[\"\($0.key)\"]", parent: name, pattern: ".*")
             }
             try self.dataType?.validate(name: "\(name).dataType")
             try self.defaultValue?.validate(name: "\(name).defaultValue")
@@ -2148,21 +2188,34 @@ extension IoTTwinMaker {
     }
 
     public struct PropertyValue: AWSEncodableShape & AWSDecodableShape {
+        /// ISO8601 DateTime of a value for a time series property. The time for when the property value was recorded in ISO 8601 format: YYYY-MM-DDThh:mm:ss[.SSSSSSSSS][Z/±HH:mm].     [YYYY]: year    [MM]: month    [DD]: day    [hh]: hour    [mm]: minute    [ss]: seconds    [.SSSSSSSSS]: additional precision, where precedence is maintained. For example: [.573123] is equal to 573123000 nanoseconds.    Z: default timezone UTC    ± HH:mm: time zone offset in Hours and Minutes.    Required sub-fields: YYYY-MM-DDThh:mm:ss and [Z/±HH:mm]
+        public let time: String?
         /// The timestamp of a value for a time series property.
-        public let timestamp: Date
+        public let timestamp: Date?
         /// An object that specifies a value for a time series property.
         public let value: DataValue
 
-        public init(timestamp: Date, value: DataValue) {
+        public init(time: String? = nil, value: DataValue) {
+            self.time = time
+            self.timestamp = nil
+            self.value = value
+        }
+
+        @available(*, deprecated, message: "Members timestamp have been deprecated")
+        public init(time: String? = nil, timestamp: Date? = nil, value: DataValue) {
+            self.time = time
             self.timestamp = timestamp
             self.value = value
         }
 
         public func validate(name: String) throws {
+            try self.validate(self.time, name: "time", parent: name, max: 35)
+            try self.validate(self.time, name: "time", parent: name, min: 20)
             try self.value.validate(name: "\(name).value")
         }
 
         private enum CodingKeys: String, CodingKey {
+            case time
             case timestamp
             case value
         }

@@ -73,59 +73,6 @@ extension RDS {
         )
     }
 
-    ///  Returns information about custom Availability Zones (AZs). A custom AZ is an on-premises AZ that is integrated with a VMware vSphere cluster. For more information about RDS on VMware, see the   RDS on VMware User Guide.
-    ///
-    /// Provide paginated results to closure `onPage` for it to combine them into one result.
-    /// This works in a similar manner to `Array.reduce<Result>(_:_:) -> Result`.
-    ///
-    /// Parameters:
-    ///   - input: Input for request
-    ///   - initialValue: The value to use as the initial accumulating value. `initialValue` is passed to `onPage` the first time it is called.
-    ///   - logger: Logger used flot logging
-    ///   - eventLoop: EventLoop to run this process on
-    ///   - onPage: closure called with each paginated response. It combines an accumulating result with the contents of response. This combined result is then returned
-    ///         along with a boolean indicating if the paginate operation should continue.
-    public func describeCustomAvailabilityZonesPaginator<Result>(
-        _ input: DescribeCustomAvailabilityZonesMessage,
-        _ initialValue: Result,
-        logger: Logger = AWSClient.loggingDisabled,
-        on eventLoop: EventLoop? = nil,
-        onPage: @escaping (Result, CustomAvailabilityZoneMessage, EventLoop) -> EventLoopFuture<(Bool, Result)>
-    ) -> EventLoopFuture<Result> {
-        return client.paginate(
-            input: input,
-            initialValue: initialValue,
-            command: describeCustomAvailabilityZones,
-            inputKey: \DescribeCustomAvailabilityZonesMessage.marker,
-            outputKey: \CustomAvailabilityZoneMessage.marker,
-            on: eventLoop,
-            onPage: onPage
-        )
-    }
-
-    /// Provide paginated results to closure `onPage`.
-    ///
-    /// - Parameters:
-    ///   - input: Input for request
-    ///   - logger: Logger used flot logging
-    ///   - eventLoop: EventLoop to run this process on
-    ///   - onPage: closure called with each block of entries. Returns boolean indicating whether we should continue.
-    public func describeCustomAvailabilityZonesPaginator(
-        _ input: DescribeCustomAvailabilityZonesMessage,
-        logger: Logger = AWSClient.loggingDisabled,
-        on eventLoop: EventLoop? = nil,
-        onPage: @escaping (CustomAvailabilityZoneMessage, EventLoop) -> EventLoopFuture<Bool>
-    ) -> EventLoopFuture<Void> {
-        return client.paginate(
-            input: input,
-            command: describeCustomAvailabilityZones,
-            inputKey: \DescribeCustomAvailabilityZonesMessage.marker,
-            outputKey: \CustomAvailabilityZoneMessage.marker,
-            on: eventLoop,
-            onPage: onPage
-        )
-    }
-
     ///  Returns information about backtracks for a DB cluster. For more information on Amazon Aurora, see   What is Amazon Aurora? in the Amazon Aurora User Guide.  This action only applies to Aurora MySQL DB clusters.
     ///
     /// Provide paginated results to closure `onPage` for it to combine them into one result.
@@ -1398,59 +1345,6 @@ extension RDS {
         )
     }
 
-    ///  Describes the available installation media for a DB engine that requires an  on-premises customer provided license, such as Microsoft SQL Server.
-    ///
-    /// Provide paginated results to closure `onPage` for it to combine them into one result.
-    /// This works in a similar manner to `Array.reduce<Result>(_:_:) -> Result`.
-    ///
-    /// Parameters:
-    ///   - input: Input for request
-    ///   - initialValue: The value to use as the initial accumulating value. `initialValue` is passed to `onPage` the first time it is called.
-    ///   - logger: Logger used flot logging
-    ///   - eventLoop: EventLoop to run this process on
-    ///   - onPage: closure called with each paginated response. It combines an accumulating result with the contents of response. This combined result is then returned
-    ///         along with a boolean indicating if the paginate operation should continue.
-    public func describeInstallationMediaPaginator<Result>(
-        _ input: DescribeInstallationMediaMessage,
-        _ initialValue: Result,
-        logger: Logger = AWSClient.loggingDisabled,
-        on eventLoop: EventLoop? = nil,
-        onPage: @escaping (Result, InstallationMediaMessage, EventLoop) -> EventLoopFuture<(Bool, Result)>
-    ) -> EventLoopFuture<Result> {
-        return client.paginate(
-            input: input,
-            initialValue: initialValue,
-            command: describeInstallationMedia,
-            inputKey: \DescribeInstallationMediaMessage.marker,
-            outputKey: \InstallationMediaMessage.marker,
-            on: eventLoop,
-            onPage: onPage
-        )
-    }
-
-    /// Provide paginated results to closure `onPage`.
-    ///
-    /// - Parameters:
-    ///   - input: Input for request
-    ///   - logger: Logger used flot logging
-    ///   - eventLoop: EventLoop to run this process on
-    ///   - onPage: closure called with each block of entries. Returns boolean indicating whether we should continue.
-    public func describeInstallationMediaPaginator(
-        _ input: DescribeInstallationMediaMessage,
-        logger: Logger = AWSClient.loggingDisabled,
-        on eventLoop: EventLoop? = nil,
-        onPage: @escaping (InstallationMediaMessage, EventLoop) -> EventLoopFuture<Bool>
-    ) -> EventLoopFuture<Void> {
-        return client.paginate(
-            input: input,
-            command: describeInstallationMedia,
-            inputKey: \DescribeInstallationMediaMessage.marker,
-            outputKey: \InstallationMediaMessage.marker,
-            on: eventLoop,
-            onPage: onPage
-        )
-    }
-
     ///  Describes all available options.
     ///
     /// Provide paginated results to closure `onPage` for it to combine them into one result.
@@ -1887,17 +1781,6 @@ extension RDS.DescribeCertificatesMessage: AWSPaginateToken {
     }
 }
 
-extension RDS.DescribeCustomAvailabilityZonesMessage: AWSPaginateToken {
-    public func usingPaginationToken(_ token: String) -> RDS.DescribeCustomAvailabilityZonesMessage {
-        return .init(
-            customAvailabilityZoneId: self.customAvailabilityZoneId,
-            filters: self.filters,
-            marker: token,
-            maxRecords: self.maxRecords
-        )
-    }
-}
-
 extension RDS.DescribeDBClusterBacktracksMessage: AWSPaginateToken {
     public func usingPaginationToken(_ token: String) -> RDS.DescribeDBClusterBacktracksMessage {
         return .init(
@@ -2190,17 +2073,6 @@ extension RDS.DescribeGlobalClustersMessage: AWSPaginateToken {
         return .init(
             filters: self.filters,
             globalClusterIdentifier: self.globalClusterIdentifier,
-            marker: token,
-            maxRecords: self.maxRecords
-        )
-    }
-}
-
-extension RDS.DescribeInstallationMediaMessage: AWSPaginateToken {
-    public func usingPaginationToken(_ token: String) -> RDS.DescribeInstallationMediaMessage {
-        return .init(
-            filters: self.filters,
-            installationMediaId: self.installationMediaId,
             marker: token,
             maxRecords: self.maxRecords
         )
