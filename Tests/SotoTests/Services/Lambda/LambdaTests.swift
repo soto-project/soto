@@ -120,7 +120,7 @@ class LambdaTests: XCTestCase {
         Self.iam = IAM(
             client: Self.client,
             endpoint: TestEnvironment.getEndPoint(environment: "LOCALSTACK_ENDPOINT")
-        )
+        ).with(middlewares: TestEnvironment.middlewares)
 
         // create an IAM role
         let response = Self.createIAMRole()
