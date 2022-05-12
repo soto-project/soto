@@ -622,7 +622,7 @@ extension _DynamoDBDecoder {
 
     func unbox(_ attribute: DynamoDB.AttributeValue, as type: AWSBlob.Type) throws -> AWSBlob {
         guard case .b(let value) = attribute else {
-            throw DecodingError.typeMismatch(Data.self, .init(codingPath: self.codingPath, debugDescription: "Cannot convert from \(attribute)"))
+            throw DecodingError.typeMismatch(AWSBlob.self, .init(codingPath: self.codingPath, debugDescription: "Cannot convert from \(attribute)"))
         }
         return value
     }
@@ -632,8 +632,8 @@ extension _DynamoDBDecoder {
     }
 
     func unbox_(_ attribute: DynamoDB.AttributeValue, as type: Decodable.Type) throws -> Any {
-        if type == Data.self {
-            return try self.unbox(attribute, as: Data.self)
+        if type == AWSBlob.self {
+            return try self.unbox(attribute, as: AWSBlob.self)
         } else {
             self.storage.pushAttribute(attribute)
             defer { self.storage.popAttribute() }
