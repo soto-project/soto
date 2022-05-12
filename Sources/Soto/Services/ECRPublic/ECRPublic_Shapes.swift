@@ -1238,13 +1238,13 @@ extension ECRPublic {
         /// A short description of the contents of the repository. This text appears in both the image details and also when searching for repositories on the Amazon ECR Public Gallery.
         public let description: String?
         /// The base64-encoded repository logo payload.  The repository logo is only publicly visible in the Amazon ECR Public Gallery for verified accounts.
-        public let logoImageBlob: AWSBlob?
+        public let logoImageBlob: AWSBase64Data?
         /// The operating systems that the images in the repository are compatible with. On the Amazon ECR Public Gallery, the following supported operating systems will appear as badges on the repository and are used as search filters.    ARM     ARM 64     x86     x86-64     If an unsupported tag is added to your repository catalog data, it will be associated with the repository and can be retrieved using the API but will not be discoverable in the Amazon ECR Public Gallery.
         public let operatingSystems: [String]?
         /// Detailed information on how to use the contents of the repository. It is publicly visible in the Amazon ECR Public Gallery. The usage text provides context, support information, and additional usage details for users of the repository. The text must be in markdown format.
         public let usageText: String?
 
-        public init(aboutText: String? = nil, architectures: [String]? = nil, description: String? = nil, logoImageBlob: AWSBlob? = nil, operatingSystems: [String]? = nil, usageText: String? = nil) {
+        public init(aboutText: String? = nil, architectures: [String]? = nil, description: String? = nil, logoImageBlob: AWSBase64Data? = nil, operatingSystems: [String]? = nil, usageText: String? = nil) {
             self.aboutText = aboutText
             self.architectures = architectures
             self.description = description
@@ -1416,7 +1416,7 @@ extension ECRPublic {
 
     public struct UploadLayerPartRequest: AWSEncodableShape {
         /// The base64-encoded layer part payload.
-        public let layerPartBlob: AWSBlob
+        public let layerPartBlob: AWSBase64Data
         /// The position of the first byte of the layer part witin the overall image layer.
         public let partFirstByte: Int64
         /// The position of the last byte of the layer part within the overall image layer.
@@ -1428,7 +1428,7 @@ extension ECRPublic {
         /// The upload ID from a previous InitiateLayerUpload operation to associate with the layer part upload.
         public let uploadId: String
 
-        public init(layerPartBlob: AWSBlob, partFirstByte: Int64, partLastByte: Int64, registryId: String? = nil, repositoryName: String, uploadId: String) {
+        public init(layerPartBlob: AWSBase64Data, partFirstByte: Int64, partLastByte: Int64, registryId: String? = nil, repositoryName: String, uploadId: String) {
             self.layerPartBlob = layerPartBlob
             self.partFirstByte = partFirstByte
             self.partLastByte = partLastByte

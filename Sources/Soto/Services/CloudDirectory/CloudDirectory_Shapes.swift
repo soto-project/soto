@@ -106,7 +106,7 @@ extension CloudDirectory {
 
     public enum TypedAttributeValue: AWSEncodableShape & AWSDecodableShape, _SotoSendable {
         /// A binary data value.
-        case binaryValue(AWSBlob)
+        case binaryValue(AWSBase64Data)
         /// A Boolean data value.
         case booleanValue(Bool)
         /// A date and time value.
@@ -127,7 +127,7 @@ extension CloudDirectory {
             }
             switch key {
             case .binaryValue:
-                let value = try container.decode(AWSBlob.self, forKey: .binaryValue)
+                let value = try container.decode(AWSBase64Data.self, forKey: .binaryValue)
                 self = .binaryValue(value)
             case .booleanValue:
                 let value = try container.decode(Bool.self, forKey: .booleanValue)

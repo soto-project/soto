@@ -42,11 +42,11 @@ extension QLDBSession {
 
     public struct CommitTransactionRequest: AWSEncodableShape {
         /// Specifies the commit digest for the transaction to commit. For every active transaction, the commit digest must be passed. QLDB validates CommitDigest and rejects the commit with an error if the digest computed on the client does not match the digest computed by QLDB. The purpose of the CommitDigest parameter is to ensure that QLDB commits a transaction if and only if the server has processed the exact set of statements sent by the client, in the same order that client sent them, and with no duplicates.
-        public let commitDigest: AWSBlob
+        public let commitDigest: AWSBase64Data
         /// Specifies the transaction ID of the transaction to commit.
         public let transactionId: String
 
-        public init(commitDigest: AWSBlob, transactionId: String) {
+        public init(commitDigest: AWSBase64Data, transactionId: String) {
             self.commitDigest = commitDigest
             self.transactionId = transactionId
         }
@@ -65,7 +65,7 @@ extension QLDBSession {
 
     public struct CommitTransactionResult: AWSDecodableShape {
         /// The commit digest of the committed transaction.
-        public let commitDigest: AWSBlob?
+        public let commitDigest: AWSBase64Data?
         /// Contains metrics about the number of I/O requests that were consumed.
         public let consumedIOs: IOUsage?
         /// Contains server-side performance information for the command.
@@ -73,7 +73,7 @@ extension QLDBSession {
         /// The transaction ID of the committed transaction.
         public let transactionId: String?
 
-        public init(commitDigest: AWSBlob? = nil, consumedIOs: IOUsage? = nil, timingInformation: TimingInformation? = nil, transactionId: String? = nil) {
+        public init(commitDigest: AWSBase64Data? = nil, consumedIOs: IOUsage? = nil, timingInformation: TimingInformation? = nil, transactionId: String? = nil) {
             self.commitDigest = commitDigest
             self.consumedIOs = consumedIOs
             self.timingInformation = timingInformation
@@ -399,11 +399,11 @@ extension QLDBSession {
 
     public struct ValueHolder: AWSEncodableShape & AWSDecodableShape {
         /// An Amazon Ion binary value contained in a ValueHolder structure.
-        public let ionBinary: AWSBlob?
+        public let ionBinary: AWSBase64Data?
         /// An Amazon Ion plaintext value contained in a ValueHolder structure.
         public let ionText: String?
 
-        public init(ionBinary: AWSBlob? = nil, ionText: String? = nil) {
+        public init(ionBinary: AWSBase64Data? = nil, ionText: String? = nil) {
             self.ionBinary = ionBinary
             self.ionText = ionText
         }

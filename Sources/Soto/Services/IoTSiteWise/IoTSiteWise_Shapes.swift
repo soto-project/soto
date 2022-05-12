@@ -4108,11 +4108,11 @@ extension IoTSiteWise {
 
     public struct ImageFile: AWSEncodableShape {
         /// The image file contents, represented as a base64-encoded string. The file size must be less than 1 MB.
-        public let data: AWSBlob
+        public let data: AWSBase64Data
         /// The file type of the image.
         public let type: ImageFileType
 
-        public init(data: AWSBlob, type: ImageFileType) {
+        public init(data: AWSBase64Data, type: ImageFileType) {
             self.data = data
             self.type = type
         }

@@ -225,9 +225,9 @@ extension TranscribeStreaming {
 
     public struct AudioEvent: AWSEncodableShape {
         /// An audio blob that contains the next part of the audio that you want to transcribe. The maximum audio chunk size is 32 KB.
-        public let audioChunk: AWSBlob?
+        public let audioChunk: AWSBase64Data?
 
-        public init(audioChunk: AWSBlob? = nil) {
+        public init(audioChunk: AWSBase64Data? = nil) {
             self.audioChunk = audioChunk
         }
 

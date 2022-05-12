@@ -97,11 +97,11 @@ extension Support {
 
     public struct Attachment: AWSEncodableShape & AWSDecodableShape {
         /// The content of the attachment file.
-        public let data: AWSBlob?
+        public let data: AWSBase64Data?
         /// The name of the attachment file.
         public let fileName: String?
 
-        public init(data: AWSBlob? = nil, fileName: String? = nil) {
+        public init(data: AWSBase64Data? = nil, fileName: String? = nil) {
             self.data = data
             self.fileName = fileName
         }

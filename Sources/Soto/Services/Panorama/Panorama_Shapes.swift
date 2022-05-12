@@ -2592,7 +2592,7 @@ extension Panorama {
         /// The device's ARN.
         public let arn: String
         /// The device's configuration bundle.
-        public let certificates: AWSBlob?
+        public let certificates: AWSBase64Data?
         /// The device's ID.
         public let deviceId: String?
         /// The device's IoT thing name.
@@ -2600,7 +2600,7 @@ extension Panorama {
         /// The device's status.
         public let status: DeviceStatus
 
-        public init(arn: String, certificates: AWSBlob? = nil, deviceId: String? = nil, iotThingName: String? = nil, status: DeviceStatus) {
+        public init(arn: String, certificates: AWSBase64Data? = nil, deviceId: String? = nil, iotThingName: String? = nil, status: DeviceStatus) {
             self.arn = arn
             self.certificates = certificates
             self.deviceId = deviceId

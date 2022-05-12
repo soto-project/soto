@@ -2228,13 +2228,13 @@ extension IAM {
 
     public struct GetCredentialReportResponse: AWSDecodableShape {
         /// Contains the credential report. The report is Base64-encoded.
-        public let content: AWSBlob?
+        public let content: AWSBase64Data?
         ///  The date and time when the credential report was created, in ISO 8601 date-time format.
         public let generatedTime: Date?
         /// The format (MIME type) of the credential report.
         public let reportFormat: ReportFormatType?
 
-        public init(content: AWSBlob? = nil, generatedTime: Date? = nil, reportFormat: ReportFormatType? = nil) {
+        public init(content: AWSBase64Data? = nil, generatedTime: Date? = nil, reportFormat: ReportFormatType? = nil) {
             self.content = content
             self.generatedTime = generatedTime
             self.reportFormat = reportFormat
@@ -7644,11 +7644,11 @@ extension IAM {
 
     public struct VirtualMFADevice: AWSDecodableShape {
         ///  The base32 seed defined as specified in RFC3548. The Base32StringSeed is base64-encoded.
-        public let base32StringSeed: AWSBlob?
+        public let base32StringSeed: AWSBase64Data?
         /// The date and time on which the virtual MFA device was enabled.
         public let enableDate: Date?
         ///  A QR code PNG image that encodes otpauth://totp/$virtualMFADeviceName@$AccountName?secret=$Base32String where $virtualMFADeviceName is one of the create call arguments. AccountName is the user name if set (otherwise, the account ID otherwise), and Base32String is the seed in base32 format. The Base32String value is base64-encoded.
-        public let qrCodePNG: AWSBlob?
+        public let qrCodePNG: AWSBase64Data?
         /// The serial number associated with VirtualMFADevice.
         public let serialNumber: String
         /// A list of tags that are attached to the virtual MFA device. For more information about tagging, see Tagging IAM resources in the IAM User Guide.
@@ -7657,7 +7657,7 @@ extension IAM {
         /// The IAM user associated with this virtual MFA device.
         public let user: User?
 
-        public init(base32StringSeed: AWSBlob? = nil, enableDate: Date? = nil, qrCodePNG: AWSBlob? = nil, serialNumber: String, tags: [Tag]? = nil, user: User? = nil) {
+        public init(base32StringSeed: AWSBase64Data? = nil, enableDate: Date? = nil, qrCodePNG: AWSBase64Data? = nil, serialNumber: String, tags: [Tag]? = nil, user: User? = nil) {
             self.base32StringSeed = base32StringSeed
             self.enableDate = enableDate
             self.qrCodePNG = qrCodePNG

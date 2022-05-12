@@ -73,13 +73,13 @@ extension Amp {
         /// The time when the alert manager definition was created.
         public let createdAt: Date
         /// The alert manager definition.
-        public let data: AWSBlob
+        public let data: AWSBase64Data
         /// The time when the alert manager definition was modified.
         public let modifiedAt: Date
         /// The status of alert manager definition.
         public let status: AlertManagerDefinitionStatus
 
-        public init(createdAt: Date, data: AWSBlob, modifiedAt: Date, status: AlertManagerDefinitionStatus) {
+        public init(createdAt: Date, data: AWSBase64Data, modifiedAt: Date, status: AlertManagerDefinitionStatus) {
             self.createdAt = createdAt
             self.data = data
             self.modifiedAt = modifiedAt
@@ -119,11 +119,11 @@ extension Amp {
         /// Optional, unique, case-sensitive, user-provided identifier to ensure the idempotency of the request.
         public let clientToken: String?
         /// The alert manager definition data.
-        public let data: AWSBlob
+        public let data: AWSBase64Data
         /// The ID of the workspace in which to create the alert manager definition.
         public let workspaceId: String
 
-        public init(clientToken: String? = CreateAlertManagerDefinitionRequest.idempotencyToken(), data: AWSBlob, workspaceId: String) {
+        public init(clientToken: String? = CreateAlertManagerDefinitionRequest.idempotencyToken(), data: AWSBase64Data, workspaceId: String) {
             self.clientToken = clientToken
             self.data = data
             self.workspaceId = workspaceId
@@ -165,7 +165,7 @@ extension Amp {
         /// Optional, unique, case-sensitive, user-provided identifier to ensure the idempotency of the request.
         public let clientToken: String?
         /// The namespace data that define the rule groups.
-        public let data: AWSBlob
+        public let data: AWSBase64Data
         /// The rule groups namespace name.
         public let name: String
         /// Optional, user-provided tags for this rule groups namespace.
@@ -173,7 +173,7 @@ extension Amp {
         /// The ID of the workspace in which to create the rule group namespace.
         public let workspaceId: String
 
-        public init(clientToken: String? = CreateRuleGroupsNamespaceRequest.idempotencyToken(), data: AWSBlob, name: String, tags: [String: String]? = nil, workspaceId: String) {
+        public init(clientToken: String? = CreateRuleGroupsNamespaceRequest.idempotencyToken(), data: AWSBase64Data, name: String, tags: [String: String]? = nil, workspaceId: String) {
             self.clientToken = clientToken
             self.data = data
             self.name = name
@@ -629,11 +629,11 @@ extension Amp {
         /// Optional, unique, case-sensitive, user-provided identifier to ensure the idempotency of the request.
         public let clientToken: String?
         /// The alert manager definition data.
-        public let data: AWSBlob
+        public let data: AWSBase64Data
         /// The ID of the workspace in which to update the alert manager definition.
         public let workspaceId: String
 
-        public init(clientToken: String? = PutAlertManagerDefinitionRequest.idempotencyToken(), data: AWSBlob, workspaceId: String) {
+        public init(clientToken: String? = PutAlertManagerDefinitionRequest.idempotencyToken(), data: AWSBase64Data, workspaceId: String) {
             self.clientToken = clientToken
             self.data = data
             self.workspaceId = workspaceId
@@ -676,13 +676,13 @@ extension Amp {
         /// Optional, unique, case-sensitive, user-provided identifier to ensure the idempotency of the request.
         public let clientToken: String?
         /// The namespace data that define the rule groups.
-        public let data: AWSBlob
+        public let data: AWSBase64Data
         /// The rule groups namespace name.
         public let name: String
         /// The ID of the workspace in which to update the rule group namespace.
         public let workspaceId: String
 
-        public init(clientToken: String? = PutRuleGroupsNamespaceRequest.idempotencyToken(), data: AWSBlob, name: String, workspaceId: String) {
+        public init(clientToken: String? = PutRuleGroupsNamespaceRequest.idempotencyToken(), data: AWSBase64Data, name: String, workspaceId: String) {
             self.clientToken = clientToken
             self.data = data
             self.name = name
@@ -738,7 +738,7 @@ extension Amp {
         /// The time when the rule groups namespace was created.
         public let createdAt: Date
         /// The rule groups namespace data.
-        public let data: AWSBlob
+        public let data: AWSBase64Data
         /// The time when the rule groups namespace was modified.
         public let modifiedAt: Date
         /// The rule groups namespace name.
@@ -748,7 +748,7 @@ extension Amp {
         /// The tags of this rule groups namespace.
         public let tags: [String: String]?
 
-        public init(arn: String, createdAt: Date, data: AWSBlob, modifiedAt: Date, name: String, status: RuleGroupsNamespaceStatus, tags: [String: String]? = nil) {
+        public init(arn: String, createdAt: Date, data: AWSBase64Data, modifiedAt: Date, name: String, status: RuleGroupsNamespaceStatus, tags: [String: String]? = nil) {
             self.arn = arn
             self.createdAt = createdAt
             self.data = data

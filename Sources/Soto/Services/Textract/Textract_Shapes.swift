@@ -375,11 +375,11 @@ extension Textract {
 
     public struct Document: AWSEncodableShape {
         /// A blob of base64-encoded document bytes. The maximum size of a document that's provided in a blob of bytes is 5 MB. The document bytes must be in PNG or JPEG format. If you're using an AWS SDK to call Amazon Textract, you might not need to base64-encode image bytes passed using the Bytes field.
-        public let bytes: AWSBlob?
+        public let bytes: AWSBase64Data?
         /// Identifies an S3 object as the document source. The maximum size of a document that's stored in an S3 bucket is 5 MB.
         public let s3Object: S3Object?
 
-        public init(bytes: AWSBlob? = nil, s3Object: S3Object? = nil) {
+        public init(bytes: AWSBase64Data? = nil, s3Object: S3Object? = nil) {
             self.bytes = bytes
             self.s3Object = s3Object
         }

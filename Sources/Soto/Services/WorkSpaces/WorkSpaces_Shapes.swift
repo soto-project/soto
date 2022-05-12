@@ -874,13 +874,13 @@ extension WorkSpaces {
         /// The login message. Specified as a key value pair, in which the key is a locale and the value is the localized message for that locale. The only key supported is en_US.
         public let loginMessage: [String: String]?
         /// The logo. This is the link where users can download the logo image. The only image format accepted is .png.
-        public let logo: AWSBlob?
+        public let logo: AWSBase64Data?
         /// The support email. The company's customer support email address.    In each platform type, the SupportEmail and SupportLink parameters are mutually exclusive. You can specify one parameter for each platform type, but not both.   The default email is workspaces-feedback@amazon.com.
         public let supportEmail: String?
         /// The support link. The link for the company's customer support page for their WorkSpace.    In each platform type, the SupportEmail and SupportLink parameters are mutually exclusive. You can specify one parameter for each platform type, but not both.   The default support link is workspaces-feedback@amazon.com.
         public let supportLink: String?
 
-        public init(forgotPasswordLink: String? = nil, loginMessage: [String: String]? = nil, logo: AWSBlob? = nil, supportEmail: String? = nil, supportLink: String? = nil) {
+        public init(forgotPasswordLink: String? = nil, loginMessage: [String: String]? = nil, logo: AWSBase64Data? = nil, supportEmail: String? = nil, supportLink: String? = nil) {
             self.forgotPasswordLink = forgotPasswordLink
             self.loginMessage = loginMessage
             self.logo = logo
@@ -2168,17 +2168,17 @@ extension WorkSpaces {
         /// The login message. Specified as a key value pair, in which the key is a locale and the value is the localized message for that locale. The only key supported is en_US.
         public let loginMessage: [String: String]?
         /// The logo. This is the link where users can download the logo image. This is the standard-resolution display that has a 1:1 pixel density (or @1x), where one pixel is equal to one point.
-        public let logo: AWSBlob?
+        public let logo: AWSBase64Data?
         /// The @2x version of the logo. This is the higher resolution display that offers a scale factor of 2.0 (or @2x).  For more information about iOS image size and resolution, see Image Size and Resolution  in the Apple Human Interface Guidelines.
-        public let logo2x: AWSBlob?
+        public let logo2x: AWSBase64Data?
         /// The @3x version of the logo. This is the higher resolution display that offers a scale factor of 3.0 (or @3x).  For more information about iOS image size and resolution, see Image Size and Resolution  in the Apple Human Interface Guidelines.
-        public let logo3x: AWSBlob?
+        public let logo3x: AWSBase64Data?
         /// The support email. The company's customer support email address.    In each platform type, the SupportEmail and SupportLink parameters are mutually exclusive. You can specify one parameter for each platform type, but not both.   The default email is workspaces-feedback@amazon.com.
         public let supportEmail: String?
         /// The support link. The link for the company's customer support page for their WorkSpace.    In each platform type, the SupportEmail and SupportLink parameters are mutually exclusive. You can specify one parameter for each platform type, but not both.   The default support link is workspaces-feedback@amazon.com.
         public let supportLink: String?
 
-        public init(forgotPasswordLink: String? = nil, loginMessage: [String: String]? = nil, logo: AWSBlob? = nil, logo2x: AWSBlob? = nil, logo3x: AWSBlob? = nil, supportEmail: String? = nil, supportLink: String? = nil) {
+        public init(forgotPasswordLink: String? = nil, loginMessage: [String: String]? = nil, logo: AWSBase64Data? = nil, logo2x: AWSBase64Data? = nil, logo3x: AWSBase64Data? = nil, supportEmail: String? = nil, supportLink: String? = nil) {
             self.forgotPasswordLink = forgotPasswordLink
             self.loginMessage = loginMessage
             self.logo = logo

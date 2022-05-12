@@ -1479,14 +1479,14 @@ extension CloudFront {
     public struct CreateFunctionRequest: AWSEncodableShape {
         /// The function code. For more information about writing a CloudFront function, see Writing function
         /// 			code for CloudFront Functions in the Amazon CloudFront Developer Guide.
-        public let functionCode: AWSBlob
+        public let functionCode: AWSBase64Data
         /// Configuration information about the function, including an optional comment and the
         /// 			function’s runtime.
         public let functionConfig: FunctionConfig
         /// A name to identify the function.
         public let name: String
 
-        public init(functionCode: AWSBlob, functionConfig: FunctionConfig, name: String) {
+        public init(functionCode: AWSBase64Data, functionConfig: FunctionConfig, name: String) {
             self.functionCode = functionCode
             self.functionConfig = functionConfig
             self.name = name
@@ -7956,7 +7956,7 @@ extension CloudFront {
 
         /// The event object to test the function with. For more information about the structure of the
         /// 			event object, see Testing functions in the Amazon CloudFront Developer Guide.
-        public let eventObject: AWSBlob
+        public let eventObject: AWSBase64Data
         /// The current version (ETag value) of the function that you are testing, which
         /// 			you can get using DescribeFunction.
         public let ifMatch: String
@@ -7966,7 +7966,7 @@ extension CloudFront {
         /// 			LIVE.
         public let stage: FunctionStage?
 
-        public init(eventObject: AWSBlob, ifMatch: String, name: String, stage: FunctionStage? = nil) {
+        public init(eventObject: AWSBase64Data, ifMatch: String, name: String, stage: FunctionStage? = nil) {
             self.eventObject = eventObject
             self.ifMatch = ifMatch
             self.name = name
@@ -8397,7 +8397,7 @@ extension CloudFront {
 
         /// The function code. For more information about writing a CloudFront function, see Writing function
         /// 			code for CloudFront Functions in the Amazon CloudFront Developer Guide.
-        public let functionCode: AWSBlob
+        public let functionCode: AWSBase64Data
         /// Configuration information about the function.
         public let functionConfig: FunctionConfig
         /// The current version (ETag value) of the function that you are updating, which
@@ -8406,7 +8406,7 @@ extension CloudFront {
         /// The name of the function that you are updating.
         public let name: String
 
-        public init(functionCode: AWSBlob, functionConfig: FunctionConfig, ifMatch: String, name: String) {
+        public init(functionCode: AWSBase64Data, functionConfig: FunctionConfig, ifMatch: String, name: String) {
             self.functionCode = functionCode
             self.functionConfig = functionConfig
             self.ifMatch = ifMatch

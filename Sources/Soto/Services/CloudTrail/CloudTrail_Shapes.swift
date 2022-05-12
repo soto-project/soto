@@ -1379,9 +1379,9 @@ extension CloudTrail {
         /// The starting time of validity of the public key.
         public let validityStartTime: Date?
         /// The DER encoded public key value in PKCS#1 format.
-        public let value: AWSBlob?
+        public let value: AWSBase64Data?
 
-        public init(fingerprint: String? = nil, validityEndTime: Date? = nil, validityStartTime: Date? = nil, value: AWSBlob? = nil) {
+        public init(fingerprint: String? = nil, validityEndTime: Date? = nil, validityStartTime: Date? = nil, value: AWSBase64Data? = nil) {
             self.fingerprint = fingerprint
             self.validityEndTime = validityEndTime
             self.validityStartTime = validityStartTime

@@ -342,7 +342,7 @@ extension DatabaseMigrationService {
         /// The contents of a .pem file, which contains an X.509 certificate.
         public let certificatePem: String?
         /// The location of an imported Oracle Wallet certificate for use with SSL. Example: filebase64("${path.root}/rds-ca-2019-root.sso")
-        public let certificateWallet: AWSBlob?
+        public let certificateWallet: AWSBase64Data?
         /// The key length of the cryptographic algorithm being used.
         public let keyLength: Int?
         /// The signing algorithm for the certificate.
@@ -352,7 +352,7 @@ extension DatabaseMigrationService {
         /// The final date that the certificate is valid.
         public let validToDate: Date?
 
-        public init(certificateArn: String? = nil, certificateCreationDate: Date? = nil, certificateIdentifier: String? = nil, certificateOwner: String? = nil, certificatePem: String? = nil, certificateWallet: AWSBlob? = nil, keyLength: Int? = nil, signingAlgorithm: String? = nil, validFromDate: Date? = nil, validToDate: Date? = nil) {
+        public init(certificateArn: String? = nil, certificateCreationDate: Date? = nil, certificateIdentifier: String? = nil, certificateOwner: String? = nil, certificatePem: String? = nil, certificateWallet: AWSBase64Data? = nil, keyLength: Int? = nil, signingAlgorithm: String? = nil, validFromDate: Date? = nil, validToDate: Date? = nil) {
             self.certificateArn = certificateArn
             self.certificateCreationDate = certificateCreationDate
             self.certificateIdentifier = certificateIdentifier
@@ -2405,11 +2405,11 @@ extension DatabaseMigrationService {
         /// The contents of a .pem file, which contains an X.509 certificate.
         public let certificatePem: String?
         /// The location of an imported Oracle Wallet certificate for use with SSL. Provide the name of a .sso file using the fileb:// prefix. You can't provide the certificate inline.  Example: filebase64("${path.root}/rds-ca-2019-root.sso")
-        public let certificateWallet: AWSBlob?
+        public let certificateWallet: AWSBase64Data?
         /// The tags associated with the certificate.
         public let tags: [Tag]?
 
-        public init(certificateIdentifier: String, certificatePem: String? = nil, certificateWallet: AWSBlob? = nil, tags: [Tag]? = nil) {
+        public init(certificateIdentifier: String, certificatePem: String? = nil, certificateWallet: AWSBase64Data? = nil, tags: [Tag]? = nil) {
             self.certificateIdentifier = certificateIdentifier
             self.certificatePem = certificatePem
             self.certificateWallet = certificateWallet

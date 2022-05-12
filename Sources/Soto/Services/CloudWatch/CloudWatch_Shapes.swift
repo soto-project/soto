@@ -1630,9 +1630,9 @@ extension CloudWatch {
 
     public struct GetMetricWidgetImageOutput: AWSDecodableShape {
         /// The image of the graph, in the output format specified. The output is base64-encoded.
-        public let metricWidgetImage: AWSBlob?
+        public let metricWidgetImage: AWSBase64Data?
 
-        public init(metricWidgetImage: AWSBlob? = nil) {
+        public init(metricWidgetImage: AWSBase64Data? = nil) {
             self.metricWidgetImage = metricWidgetImage
         }
 

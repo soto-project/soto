@@ -1958,9 +1958,9 @@ extension CodeCommit {
 
     public struct GetBlobOutput: AWSDecodableShape {
         /// The content of the blob, usually a file.
-        public let content: AWSBlob
+        public let content: AWSBase64Data
 
-        public init(content: AWSBlob) {
+        public init(content: AWSBase64Data) {
             self.content = content
         }
 
@@ -2312,7 +2312,7 @@ extension CodeCommit {
         /// The full commit ID of the commit that contains the content returned by GetFile.
         public let commitId: String
         /// The base-64 encoded binary data object that represents the content of the file.
-        public let fileContent: AWSBlob
+        public let fileContent: AWSBase64Data
         /// The extrapolated file mode permissions of the blob. Valid values include strings such as EXECUTABLE and not numeric values.  The file mode permissions returned by this API are not the standard file mode permission values, such as 100644, but rather extrapolated values. See the supported return values.
         public let fileMode: FileModeTypeEnum
         /// The fully qualified path to the specified file. Returns the name and extension of the file.
@@ -2320,7 +2320,7 @@ extension CodeCommit {
         /// The size of the contents of the file, in bytes.
         public let fileSize: Int64
 
-        public init(blobId: String, commitId: String, fileContent: AWSBlob, fileMode: FileModeTypeEnum, filePath: String, fileSize: Int64) {
+        public init(blobId: String, commitId: String, fileContent: AWSBase64Data, fileMode: FileModeTypeEnum, filePath: String, fileSize: Int64) {
             self.blobId = blobId
             self.commitId = commitId
             self.fileContent = fileContent
@@ -4059,7 +4059,7 @@ extension CodeCommit {
 
     public struct PutFileEntry: AWSEncodableShape {
         /// The content of the file, if a source file is not specified.
-        public let fileContent: AWSBlob?
+        public let fileContent: AWSBase64Data?
         /// The extrapolated file mode permissions for the file. Valid values include EXECUTABLE and NORMAL.
         public let fileMode: FileModeTypeEnum?
         /// The full path to the file in the repository, including the name of the file.
@@ -4067,7 +4067,7 @@ extension CodeCommit {
         /// The name and full path of the file that contains the changes you want to make as part of the commit,  if you are not providing the file content directly.
         public let sourceFile: SourceFileSpecifier?
 
-        public init(fileContent: AWSBlob? = nil, fileMode: FileModeTypeEnum? = nil, filePath: String, sourceFile: SourceFileSpecifier? = nil) {
+        public init(fileContent: AWSBase64Data? = nil, fileMode: FileModeTypeEnum? = nil, filePath: String, sourceFile: SourceFileSpecifier? = nil) {
             self.fileContent = fileContent
             self.fileMode = fileMode
             self.filePath = filePath
@@ -4094,7 +4094,7 @@ extension CodeCommit {
         /// An email address for the person adding or updating the file.
         public let email: String?
         /// The content of the file, in binary object format.
-        public let fileContent: AWSBlob
+        public let fileContent: AWSBase64Data
         /// The file mode permissions of the blob. Valid file mode permissions are listed here.
         public let fileMode: FileModeTypeEnum?
         /// The name of the file you want to add or update, including the relative path to the file in the repository.  If the path does not currently exist in the repository, the path is created as part of adding the file.
@@ -4106,7 +4106,7 @@ extension CodeCommit {
         /// The name of the repository where you want to add or update the file.
         public let repositoryName: String
 
-        public init(branchName: String, commitMessage: String? = nil, email: String? = nil, fileContent: AWSBlob, fileMode: FileModeTypeEnum? = nil, filePath: String, name: String? = nil, parentCommitId: String? = nil, repositoryName: String) {
+        public init(branchName: String, commitMessage: String? = nil, email: String? = nil, fileContent: AWSBase64Data, fileMode: FileModeTypeEnum? = nil, filePath: String, name: String? = nil, parentCommitId: String? = nil, repositoryName: String) {
             self.branchName = branchName
             self.commitMessage = commitMessage
             self.email = email
@@ -4244,7 +4244,7 @@ extension CodeCommit {
 
     public struct ReplaceContentEntry: AWSEncodableShape {
         /// The base-64 encoded content to use when the replacement type is USE_NEW_CONTENT.
-        public let content: AWSBlob?
+        public let content: AWSBase64Data?
         /// The file mode to apply during conflict resoltion.
         public let fileMode: FileModeTypeEnum?
         /// The path of the conflicting file.
@@ -4252,7 +4252,7 @@ extension CodeCommit {
         /// The replacement type to use when determining how to resolve the conflict.
         public let replacementType: ReplacementTypeEnum
 
-        public init(content: AWSBlob? = nil, fileMode: FileModeTypeEnum? = nil, filePath: String, replacementType: ReplacementTypeEnum) {
+        public init(content: AWSBase64Data? = nil, fileMode: FileModeTypeEnum? = nil, filePath: String, replacementType: ReplacementTypeEnum) {
             self.content = content
             self.fileMode = fileMode
             self.filePath = filePath

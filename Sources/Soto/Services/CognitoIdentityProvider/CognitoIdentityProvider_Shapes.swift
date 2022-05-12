@@ -5226,11 +5226,11 @@ extension CognitoIdentityProvider {
         /// The CSS values in the UI customization.
         public let css: String?
         /// The uploaded logo image for the UI customization.
-        public let imageFile: AWSBlob?
+        public let imageFile: AWSBase64Data?
         /// The user pool ID for the user pool.
         public let userPoolId: String
 
-        public init(clientId: String? = nil, css: String? = nil, imageFile: AWSBlob? = nil, userPoolId: String) {
+        public init(clientId: String? = nil, css: String? = nil, imageFile: AWSBase64Data? = nil, userPoolId: String) {
             self.clientId = clientId
             self.css = css
             self.imageFile = imageFile

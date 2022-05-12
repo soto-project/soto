@@ -2399,9 +2399,9 @@ extension AppSync {
         /// The API ID.
         public let apiId: String
         /// The schema definition, in GraphQL schema language format.
-        public let definition: AWSBlob
+        public let definition: AWSBase64Data
 
-        public init(apiId: String, definition: AWSBlob) {
+        public init(apiId: String, definition: AWSBase64Data) {
             self.apiId = apiId
             self.definition = definition
         }

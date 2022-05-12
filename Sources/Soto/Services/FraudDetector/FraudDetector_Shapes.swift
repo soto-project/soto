@@ -3168,11 +3168,11 @@ extension FraudDetector {
 
     public struct ModelEndpointDataBlob: AWSEncodableShape {
         /// The byte buffer of the Amazon SageMaker model endpoint input data blob.
-        public let byteBuffer: AWSBlob?
+        public let byteBuffer: AWSBase64Data?
         /// The content type of the Amazon SageMaker model endpoint input data blob.
         public let contentType: String?
 
-        public init(byteBuffer: AWSBlob? = nil, contentType: String? = nil) {
+        public init(byteBuffer: AWSBase64Data? = nil, contentType: String? = nil) {
             self.byteBuffer = byteBuffer
             self.contentType = contentType
         }

@@ -39,9 +39,9 @@ class LambdaTests: XCTestCase {
 
      */
     class func createLambdaFunction(roleArn: String) -> EventLoopFuture<Void> {
-        // Zipped version of "exports.handler = async (event) => { return \"hello world\" };"
+        // Base64 and Zipped version of "exports.handler = async (event) => { return \"hello world\" };"
         let code = "UEsDBAoAAAAAAPFWXFGfGXl5PQAAAD0AAAAJABwAbGFtYmRhLmpzVVQJAAMVQJlfuD+ZX3V4CwABBC8Om1YEzHsDcWV4cG9ydHMuaGFuZGxlciA9IGFzeW5jIChldmVudCkgPT4geyByZXR1cm4gImhlbGxvIHdvcmxkIiB9OwpQSwECHgMKAAAAAADxVlxRnxl5eT0AAAA9AAAACQAYAAAAAAABAAAApIEAAAAAbGFtYmRhLmpzVVQFAAMVQJlfdXgLAAEELw6bVgTMewNxUEsFBgAAAAABAAEATwAAAIAAAAAAAA=="
-        let functionCode = Lambda.FunctionCode(zipFile: .string(code))
+        let functionCode = Lambda.FunctionCode(zipFile: .base64(code))
         let functionRuntime = Lambda.Runtime.nodejs12X
         let functionHandler = "lambda.handler"
         let cfr = Lambda.CreateFunctionRequest(

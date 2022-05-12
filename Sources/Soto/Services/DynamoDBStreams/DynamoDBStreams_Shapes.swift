@@ -60,11 +60,11 @@ extension DynamoDBStreams {
 
     public enum AttributeValue: AWSDecodableShape, _SotoSendable {
         /// An attribute of type Binary.  For example:  "B": "dGhpcyB0ZXh0IGlzIGJhc2U2NC1lbmNvZGVk"
-        case b(AWSBlob)
+        case b(AWSBase64Data)
         /// An attribute of type Boolean.  For example:  "BOOL": true
         case bool(Bool)
         /// An attribute of type Binary Set.  For example:  "BS": ["U3Vubnk=", "UmFpbnk=", "U25vd3k="]
-        case bs([AWSBlob])
+        case bs([AWSBase64Data])
         /// An attribute of type List.  For example:  "L": [ {"S": "Cookies"} , {"S": "Coffee"}, {"N", "3.14159"}]
         case l([AttributeValue])
         /// An attribute of type Map.  For example:  "M": {"Name": {"S": "Joe"}, "Age": {"N": "35"}}
@@ -91,13 +91,13 @@ extension DynamoDBStreams {
             }
             switch key {
             case .b:
-                let value = try container.decode(AWSBlob.self, forKey: .b)
+                let value = try container.decode(AWSBase64Data.self, forKey: .b)
                 self = .b(value)
             case .bool:
                 let value = try container.decode(Bool.self, forKey: .bool)
                 self = .bool(value)
             case .bs:
-                let value = try container.decode([AWSBlob].self, forKey: .bs)
+                let value = try container.decode([AWSBase64Data].self, forKey: .bs)
                 self = .bs(value)
             case .l:
                 let value = try container.decode([AttributeValue].self, forKey: .l)

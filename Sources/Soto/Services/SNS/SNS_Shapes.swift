@@ -854,13 +854,13 @@ extension SNS {
 
     public struct MessageAttributeValue: AWSEncodableShape {
         /// Binary type attributes can store any binary data, for example, compressed data, encrypted data, or images.
-        public let binaryValue: AWSBlob?
+        public let binaryValue: AWSBase64Data?
         /// Amazon SNS supports the following logical data types: String, String.Array, Number, and Binary. For more information, see Message Attribute Data Types.
         public let dataType: String
         /// Strings are Unicode with UTF8 binary encoding. For a list of code values, see ASCII Printable Characters.
         public let stringValue: String?
 
-        public init(binaryValue: AWSBlob? = nil, dataType: String, stringValue: String? = nil) {
+        public init(binaryValue: AWSBase64Data? = nil, dataType: String, stringValue: String? = nil) {
             self.binaryValue = binaryValue
             self.dataType = dataType
             self.stringValue = stringValue

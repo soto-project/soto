@@ -118,7 +118,7 @@ extension RDSData {
         /// An array of values.
         case arrayValue(ArrayValue)
         /// A value of BLOB data type.
-        case blobValue(AWSBlob)
+        case blobValue(AWSBase64Data)
         /// A value of Boolean data type.
         case booleanValue(Bool)
         /// A value of double data type.
@@ -144,7 +144,7 @@ extension RDSData {
                 let value = try container.decode(ArrayValue.self, forKey: .arrayValue)
                 self = .arrayValue(value)
             case .blobValue:
-                let value = try container.decode(AWSBlob.self, forKey: .blobValue)
+                let value = try container.decode(AWSBase64Data.self, forKey: .blobValue)
                 self = .blobValue(value)
             case .booleanValue:
                 let value = try container.decode(Bool.self, forKey: .booleanValue)
@@ -203,7 +203,7 @@ extension RDSData {
         /// A value for a column of BIT data type.
         case bitValue(Bool)
         /// A value for a column of BLOB data type.
-        case blobValue(AWSBlob)
+        case blobValue(AWSBase64Data)
         /// A value for a column of double data type.
         case doubleValue(Double)
         /// A value for a column of integer data type.
@@ -237,7 +237,7 @@ extension RDSData {
                 let value = try container.decode(Bool.self, forKey: .bitValue)
                 self = .bitValue(value)
             case .blobValue:
-                let value = try container.decode(AWSBlob.self, forKey: .blobValue)
+                let value = try container.decode(AWSBase64Data.self, forKey: .blobValue)
                 self = .blobValue(value)
             case .doubleValue:
                 let value = try container.decode(Double.self, forKey: .doubleValue)

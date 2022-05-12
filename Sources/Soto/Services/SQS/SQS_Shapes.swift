@@ -562,9 +562,9 @@ extension SQS {
 
     public struct MessageAttributeValue: AWSEncodableShape & AWSDecodableShape {
         /// Not implemented. Reserved for future use.
-        public let binaryListValues: [AWSBlob]?
+        public let binaryListValues: [AWSBase64Data]?
         /// Binary type attributes can store any binary data, such as compressed data, encrypted data, or images.
-        public let binaryValue: AWSBlob?
+        public let binaryValue: AWSBase64Data?
         /// Amazon SQS supports the following logical data types: String, Number, and Binary. For the Number data type, you must use StringValue. You can also append custom labels. For more information, see Amazon SQS Message Attributes in the Amazon SQS Developer Guide.
         public let dataType: String
         /// Not implemented. Reserved for future use.
@@ -572,7 +572,7 @@ extension SQS {
         /// Strings are Unicode with UTF-8 binary encoding. For a list of code values, see ASCII Printable Characters.
         public let stringValue: String?
 
-        public init(binaryListValues: [AWSBlob]? = nil, binaryValue: AWSBlob? = nil, dataType: String, stringListValues: [String]? = nil, stringValue: String? = nil) {
+        public init(binaryListValues: [AWSBase64Data]? = nil, binaryValue: AWSBase64Data? = nil, dataType: String, stringListValues: [String]? = nil, stringValue: String? = nil) {
             self.binaryListValues = binaryListValues
             self.binaryValue = binaryValue
             self.dataType = dataType
@@ -591,9 +591,9 @@ extension SQS {
 
     public struct MessageSystemAttributeValue: AWSEncodableShape {
         /// Not implemented. Reserved for future use.
-        public let binaryListValues: [AWSBlob]?
+        public let binaryListValues: [AWSBase64Data]?
         /// Binary type attributes can store any binary data, such as compressed data, encrypted data, or images.
-        public let binaryValue: AWSBlob?
+        public let binaryValue: AWSBase64Data?
         /// Amazon SQS supports the following logical data types: String, Number, and Binary. For the Number data type, you must use StringValue. You can also append custom labels. For more information, see Amazon SQS Message Attributes in the Amazon SQS Developer Guide.
         public let dataType: String
         /// Not implemented. Reserved for future use.
@@ -601,7 +601,7 @@ extension SQS {
         /// Strings are Unicode with UTF-8 binary encoding. For a list of code values, see ASCII Printable Characters.
         public let stringValue: String?
 
-        public init(binaryListValues: [AWSBlob]? = nil, binaryValue: AWSBlob? = nil, dataType: String, stringListValues: [String]? = nil, stringValue: String? = nil) {
+        public init(binaryListValues: [AWSBase64Data]? = nil, binaryValue: AWSBase64Data? = nil, dataType: String, stringListValues: [String]? = nil, stringValue: String? = nil) {
             self.binaryListValues = binaryListValues
             self.binaryValue = binaryValue
             self.dataType = dataType

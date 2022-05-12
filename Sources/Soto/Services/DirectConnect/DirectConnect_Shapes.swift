@@ -2236,11 +2236,11 @@ extension DirectConnect {
 
     public struct Loa: AWSDecodableShape {
         /// The binary contents of the LOA-CFA document.
-        public let loaContent: AWSBlob?
+        public let loaContent: AWSBase64Data?
         /// The standard media type for the LOA-CFA document. The only supported value is application/pdf.
         public let loaContentType: LoaContentType?
 
-        public init(loaContent: AWSBlob? = nil, loaContentType: LoaContentType? = nil) {
+        public init(loaContent: AWSBase64Data? = nil, loaContentType: LoaContentType? = nil) {
             self.loaContent = loaContent
             self.loaContentType = loaContentType
         }

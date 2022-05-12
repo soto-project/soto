@@ -200,7 +200,7 @@ class DynamoDBTests: XCTestCase {
 extension DynamoDB.AttributeValue {
     init(any: Any) {
         switch any {
-        case let data as AWSBlob:
+        case let data as AWSBase64Data:
             self = .b(data) // self.init(b: data)
         case let bool as Bool:
             self = .bool(bool) // self.init(bool: bool)

@@ -453,14 +453,14 @@ extension _DynamoDBEncoder: SingleValueEncodingContainer {
 }
 
 extension _DynamoDBEncoder {
-    func box(_ data: AWSBlob) throws -> DynamoDB.AttributeValue {
+    func box(_ data: AWSBase64Data) throws -> DynamoDB.AttributeValue {
         return .b(data)
     }
 
     func box(_ value: Encodable) throws -> DynamoDB.AttributeValue {
         let type = Swift.type(of: value)
-        if type == AWSBlob.self {
-            return try self.box(value as! AWSBlob)
+        if type == AWSBase64Data.self {
+            return try self.box(value as! AWSBase64Data)
         } else {
             try value.encode(to: self)
             return self.storage.popContainer().attribute

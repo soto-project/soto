@@ -5021,9 +5021,9 @@ extension EC2 {
     }
 
     public struct BlobAttributeValue: AWSEncodableShape {
-        public let value: AWSBlob?
+        public let value: AWSBase64Data?
 
-        public init(value: AWSBlob? = nil) {
+        public init(value: AWSBase64Data? = nil) {
             self.value = value
         }
 
@@ -27469,12 +27469,12 @@ extension EC2 {
         /// A unique name for the key pair.
         public let keyName: String
         /// The public key. For API calls, the text must be base64-encoded. For command line tools, base64 encoding is performed for you.
-        public let publicKeyMaterial: AWSBlob
+        public let publicKeyMaterial: AWSBase64Data
         /// The tags to apply to the imported key pair.
         @OptionalCustomCoding<ArrayCoder<_TagSpecificationsEncoding, TagSpecification>>
         public var tagSpecifications: [TagSpecification]?
 
-        public init(dryRun: Bool? = nil, keyName: String, publicKeyMaterial: AWSBlob, tagSpecifications: [TagSpecification]? = nil) {
+        public init(dryRun: Bool? = nil, keyName: String, publicKeyMaterial: AWSBase64Data, tagSpecifications: [TagSpecification]? = nil) {
             self.dryRun = dryRun
             self.keyName = keyName
             self.publicKeyMaterial = publicKeyMaterial
@@ -40478,11 +40478,11 @@ extension EC2 {
         /// The beginning of the file name of the AMI.
         public let prefix: String?
         /// An Amazon S3 upload policy that gives Amazon EC2 permission to upload items into Amazon S3 on your behalf.
-        public let uploadPolicy: AWSBlob?
+        public let uploadPolicy: AWSBase64Data?
         /// The signature of the JSON document.
         public let uploadPolicySignature: String?
 
-        public init(awsAccessKeyId: String? = nil, bucket: String? = nil, prefix: String? = nil, uploadPolicy: AWSBlob? = nil, uploadPolicySignature: String? = nil) {
+        public init(awsAccessKeyId: String? = nil, bucket: String? = nil, prefix: String? = nil, uploadPolicy: AWSBase64Data? = nil, uploadPolicySignature: String? = nil) {
             self.awsAccessKeyId = awsAccessKeyId
             self.bucket = bucket
             self.prefix = prefix

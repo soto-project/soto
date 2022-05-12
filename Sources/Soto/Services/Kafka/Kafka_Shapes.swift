@@ -795,9 +795,9 @@ extension Kafka {
         /// The name of the configuration.
         public let name: String
         /// Contents of the server.properties file. When using the API, you must ensure that the contents of the file are base64 encoded.  When using the AWS Management Console, the SDK, or the AWS CLI, the contents of server.properties can be in plaintext.
-        public let serverProperties: AWSBlob
+        public let serverProperties: AWSBase64Data
 
-        public init(description: String? = nil, kafkaVersions: [String]? = nil, name: String, serverProperties: AWSBlob) {
+        public init(description: String? = nil, kafkaVersions: [String]? = nil, name: String, serverProperties: AWSBase64Data) {
             self.description = description
             self.kafkaVersions = kafkaVersions
             self.name = name
@@ -1077,9 +1077,9 @@ extension Kafka {
         /// The revision number.
         public let revision: Int64?
         /// Contents of the server.properties file. When using the API, you must ensure that the contents of the file are base64 encoded.  When using the AWS Management Console, the SDK, or the AWS CLI, the contents of server.properties can be in plaintext.
-        public let serverProperties: AWSBlob?
+        public let serverProperties: AWSBase64Data?
 
-        public init(arn: String? = nil, creationTime: Date? = nil, description: String? = nil, revision: Int64? = nil, serverProperties: AWSBlob? = nil) {
+        public init(arn: String? = nil, creationTime: Date? = nil, description: String? = nil, revision: Int64? = nil, serverProperties: AWSBase64Data? = nil) {
             self.arn = arn
             self.creationTime = creationTime
             self.description = description
@@ -2520,9 +2520,9 @@ extension Kafka {
         /// The description of the configuration revision.
         public let description: String?
         /// Contents of the server.properties file. When using the API, you must ensure that the contents of the file are base64 encoded.  When using the AWS Management Console, the SDK, or the AWS CLI, the contents of server.properties can be in plaintext.
-        public let serverProperties: AWSBlob
+        public let serverProperties: AWSBase64Data
 
-        public init(arn: String, description: String? = nil, serverProperties: AWSBlob) {
+        public init(arn: String, description: String? = nil, serverProperties: AWSBase64Data) {
             self.arn = arn
             self.description = description
             self.serverProperties = serverProperties

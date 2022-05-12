@@ -4340,9 +4340,9 @@ extension Glue {
         /// The scale that determines where the decimal point falls in the unscaled value.
         public let scale: Int
         /// The unscaled numeric value.
-        public let unscaledValue: AWSBlob
+        public let unscaledValue: AWSBase64Data
 
-        public init(scale: Int, unscaledValue: AWSBlob) {
+        public init(scale: Int, unscaledValue: AWSBase64Data) {
             self.scale = scale
             self.unscaledValue = unscaledValue
         }

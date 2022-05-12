@@ -212,9 +212,9 @@ extension Synthetics {
         /// The S3 version ID of your script.
         public let s3Version: String?
         /// If you input your canary script directly into the canary instead of referring to an S3 location, the value of this parameter is the base64-encoded contents of the .zip file that  contains the script. It must be smaller than 225 Kb. For large canary scripts, we recommend that you use an S3 location instead of inputting it  directly with this parameter.
-        public let zipFile: AWSBlob?
+        public let zipFile: AWSBase64Data?
 
-        public init(handler: String, s3Bucket: String? = nil, s3Key: String? = nil, s3Version: String? = nil, zipFile: AWSBlob? = nil) {
+        public init(handler: String, s3Bucket: String? = nil, s3Key: String? = nil, s3Version: String? = nil, zipFile: AWSBase64Data? = nil) {
             self.handler = handler
             self.s3Bucket = s3Bucket
             self.s3Key = s3Key

@@ -87,13 +87,13 @@ extension IoTDataPlane {
         /// The Epoch date and time, in milliseconds, when the retained message was stored by IoT.
         public let lastModifiedTime: Int64?
         /// The Base64-encoded message payload of the retained message body.
-        public let payload: AWSBlob?
+        public let payload: AWSBase64Data?
         /// The quality of service (QoS) level used to publish the retained message.
         public let qos: Int?
         /// The topic name to which the retained message was published.
         public let topic: String?
 
-        public init(lastModifiedTime: Int64? = nil, payload: AWSBlob? = nil, qos: Int? = nil, topic: String? = nil) {
+        public init(lastModifiedTime: Int64? = nil, payload: AWSBase64Data? = nil, qos: Int? = nil, topic: String? = nil) {
             self.lastModifiedTime = lastModifiedTime
             self.payload = payload
             self.qos = qos

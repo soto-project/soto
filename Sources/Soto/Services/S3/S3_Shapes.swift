@@ -7698,9 +7698,9 @@ extension S3 {
 
     public struct RecordsEvent: AWSDecodableShape {
         /// The byte array of partial, one or more result records.
-        public let payload: AWSBlob?
+        public let payload: AWSBase64Data?
 
-        public init(payload: AWSBlob? = nil) {
+        public init(payload: AWSBase64Data? = nil) {
             self.payload = payload
         }
 

@@ -2538,9 +2538,9 @@ extension IoT {
 
     public struct CodeSigningSignature: AWSEncodableShape & AWSDecodableShape {
         /// A base64 encoded binary representation of the code signing signature.
-        public let inlineDocument: AWSBlob?
+        public let inlineDocument: AWSBase64Data?
 
-        public init(inlineDocument: AWSBlob? = nil) {
+        public init(inlineDocument: AWSBase64Data? = nil) {
             self.inlineDocument = inlineDocument
         }
 
@@ -12147,11 +12147,11 @@ extension IoT {
         /// The value of the clientId key in an MQTT authorization request.
         public let clientId: String?
         /// The value of the password key in an MQTT authorization request.
-        public let password: AWSBlob?
+        public let password: AWSBase64Data?
         /// The value of the username key in an MQTT authorization request.
         public let username: String?
 
-        public init(clientId: String? = nil, password: AWSBlob? = nil, username: String? = nil) {
+        public init(clientId: String? = nil, password: AWSBase64Data? = nil, username: String? = nil) {
             self.clientId = clientId
             self.password = password
             self.username = username

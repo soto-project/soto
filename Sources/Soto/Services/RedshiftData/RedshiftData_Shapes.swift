@@ -44,7 +44,7 @@ extension RedshiftData {
 
     public enum Field: AWSDecodableShape, _SotoSendable {
         /// A value of the BLOB data type.
-        case blobValue(AWSBlob)
+        case blobValue(AWSBase64Data)
         /// A value of the Boolean data type.
         case booleanValue(Bool)
         /// A value of the double data type.
@@ -67,7 +67,7 @@ extension RedshiftData {
             }
             switch key {
             case .blobValue:
-                let value = try container.decode(AWSBlob.self, forKey: .blobValue)
+                let value = try container.decode(AWSBase64Data.self, forKey: .blobValue)
                 self = .blobValue(value)
             case .booleanValue:
                 let value = try container.decode(Bool.self, forKey: .booleanValue)

@@ -1103,9 +1103,9 @@ extension KinesisAnalyticsV2 {
         /// The text-format code for a Flink-based Kinesis Data Analytics application.
         public let textContent: String?
         /// The zip-format code for a Flink-based Kinesis Data Analytics application.
-        public let zipFileContent: AWSBlob?
+        public let zipFileContent: AWSBase64Data?
 
-        public init(s3ContentLocation: S3ContentLocation? = nil, textContent: String? = nil, zipFileContent: AWSBlob? = nil) {
+        public init(s3ContentLocation: S3ContentLocation? = nil, textContent: String? = nil, zipFileContent: AWSBase64Data? = nil) {
             self.s3ContentLocation = s3ContentLocation
             self.textContent = textContent
             self.zipFileContent = zipFileContent
@@ -1155,9 +1155,9 @@ extension KinesisAnalyticsV2 {
         /// Describes an update to the text code for an application.
         public let textContentUpdate: String?
         /// Describes an update to the zipped code for an application.
-        public let zipFileContentUpdate: AWSBlob?
+        public let zipFileContentUpdate: AWSBase64Data?
 
-        public init(s3ContentLocationUpdate: S3ContentLocationUpdate? = nil, textContentUpdate: String? = nil, zipFileContentUpdate: AWSBlob? = nil) {
+        public init(s3ContentLocationUpdate: S3ContentLocationUpdate? = nil, textContentUpdate: String? = nil, zipFileContentUpdate: AWSBase64Data? = nil) {
             self.s3ContentLocationUpdate = s3ContentLocationUpdate
             self.textContentUpdate = textContentUpdate
             self.zipFileContentUpdate = zipFileContentUpdate

@@ -491,11 +491,11 @@ extension QLDB {
 
     public struct GetDigestResponse: AWSDecodableShape {
         /// The 256-bit hash value representing the digest returned by a GetDigest request.
-        public let digest: AWSBlob
+        public let digest: AWSBase64Data
         /// The latest block location covered by the digest that you requested. An address is an Amazon Ion structure that has two fields: strandId and sequenceNo.
         public let digestTipAddress: ValueHolder
 
-        public init(digest: AWSBlob, digestTipAddress: ValueHolder) {
+        public init(digest: AWSBase64Data, digestTipAddress: ValueHolder) {
             self.digest = digest
             self.digestTipAddress = digestTipAddress
         }

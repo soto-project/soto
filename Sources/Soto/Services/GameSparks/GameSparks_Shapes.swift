@@ -1047,9 +1047,9 @@ extension GameSparks {
 
     public struct ImportGameConfigurationSource: AWSEncodableShape {
         /// The JSON string containing the configuration sections.
-        public let file: AWSBlob
+        public let file: AWSBase64Data
 
-        public init(file: AWSBlob) {
+        public init(file: AWSBase64Data) {
             self.file = file
         }
 

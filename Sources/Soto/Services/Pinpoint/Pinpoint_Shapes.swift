@@ -8075,9 +8075,9 @@ extension Pinpoint {
 
     public struct RawEmail: AWSEncodableShape {
         /// The email message, represented as a raw MIME message. The entire message must be base64 encoded.
-        public let data: AWSBlob?
+        public let data: AWSBase64Data?
 
-        public init(data: AWSBlob? = nil) {
+        public init(data: AWSBase64Data? = nil) {
             self.data = data
         }
 

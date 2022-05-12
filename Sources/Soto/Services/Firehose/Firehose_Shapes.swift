@@ -2257,9 +2257,9 @@ extension Firehose {
 
     public struct Record: AWSEncodableShape {
         /// The data blob, which is base64-encoded when the blob is serialized. The maximum size of the data blob, before base64-encoding, is 1,000 KiB.
-        public let data: AWSBlob
+        public let data: AWSBase64Data
 
-        public init(data: AWSBlob) {
+        public init(data: AWSBase64Data) {
             self.data = data
         }
 

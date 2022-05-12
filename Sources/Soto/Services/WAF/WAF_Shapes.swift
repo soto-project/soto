@@ -544,7 +544,7 @@ extension WAF {
         /// 		       For example, suppose the value of Type is HEADER and the value of Data is User-Agent. If you want to search the User-Agent header for the value BadBot, you base64-encode BadBot using MIME base64-encoding and include the resulting value, QmFkQm90, in the value of TargetString.
         /// 		        If you're using the AWS CLI or one of the AWS SDKs
         /// 		       The value that you want AWS WAF to search for. The SDK automatically base64 encodes the value.
-        public let targetString: AWSBlob
+        public let targetString: AWSBase64Data
         /// Text transformations eliminate some of the unusual formatting that attackers use in web requests in an effort to bypass AWS WAF.
         /// 			If you specify a transformation, AWS WAF performs the transformation on FieldToMatch before inspecting it for a match. You can only specify a single type of TextTransformation.
         /// 		        CMD_LINE
@@ -569,7 +569,7 @@ extension WAF {
         /// 		       Specify NONE if you don't want to perform any text transformations.
         public let textTransformation: TextTransformation
 
-        public init(fieldToMatch: FieldToMatch, positionalConstraint: PositionalConstraint, targetString: AWSBlob, textTransformation: TextTransformation) {
+        public init(fieldToMatch: FieldToMatch, positionalConstraint: PositionalConstraint, targetString: AWSBase64Data, textTransformation: TextTransformation) {
             self.fieldToMatch = fieldToMatch
             self.positionalConstraint = positionalConstraint
             self.targetString = targetString

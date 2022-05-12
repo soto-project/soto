@@ -1033,11 +1033,11 @@ extension IoTEventsData {
         /// The ID to assign to the message. Within each batch sent, each "messageId" must be unique.
         public let messageId: String
         /// The payload of the message. This can be a JSON string or a Base-64-encoded string representing binary data (in which case you must decode it).
-        public let payload: AWSBlob
+        public let payload: AWSBase64Data
         /// The timestamp associated with the message.
         public let timestamp: TimestampValue?
 
-        public init(inputName: String, messageId: String, payload: AWSBlob, timestamp: TimestampValue? = nil) {
+        public init(inputName: String, messageId: String, payload: AWSBase64Data, timestamp: TimestampValue? = nil) {
             self.inputName = inputName
             self.messageId = messageId
             self.payload = payload

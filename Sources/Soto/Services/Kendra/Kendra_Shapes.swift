@@ -3347,7 +3347,7 @@ extension Kendra {
         /// Custom attributes to apply to the document. Use the custom attributes to provide additional information for searching, to provide facets for refining searches, and to provide additional information in the query response. For example, 'DataSourceId' and 'DataSourceSyncJobId' are custom  attributes that provide information on the synchronization  of documents running on a data source. Note,  'DataSourceSyncJobId' could be an optional custom attribute  as Amazon Kendra will use the ID of a running sync job.
         public let attributes: [DocumentAttribute]?
         /// The contents of the document.  Documents passed to the Blob parameter must be base64 encoded. Your code might not need to encode the document file bytes if you're using an Amazon Web Services SDK to call Amazon Kendra APIs. If you are calling the Amazon Kendra endpoint directly using REST, you must base64 encode the contents before sending.
-        public let blob: AWSBlob?
+        public let blob: AWSBase64Data?
         /// The file type of the document in the Blob field.
         public let contentType: ContentType?
         /// The list of principal lists  that define the hierarchy for which documents users should have access to.
@@ -3358,7 +3358,7 @@ extension Kendra {
         /// The title of the document.
         public let title: String?
 
-        public init(accessControlList: [Principal]? = nil, attributes: [DocumentAttribute]? = nil, blob: AWSBlob? = nil, contentType: ContentType? = nil, hierarchicalAccessControlList: [HierarchicalPrincipal]? = nil, id: String, s3Path: S3Path? = nil, title: String? = nil) {
+        public init(accessControlList: [Principal]? = nil, attributes: [DocumentAttribute]? = nil, blob: AWSBase64Data? = nil, contentType: ContentType? = nil, hierarchicalAccessControlList: [HierarchicalPrincipal]? = nil, id: String, s3Path: S3Path? = nil, title: String? = nil) {
             self.accessControlList = accessControlList
             self.attributes = attributes
             self.blob = blob
