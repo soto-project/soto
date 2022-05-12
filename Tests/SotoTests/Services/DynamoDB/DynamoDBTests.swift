@@ -143,7 +143,7 @@ class DynamoDBTests: XCTestCase {
             }
             .map { response -> Void in
                 XCTAssertEqual(response.item?["ID"], .s("1"))
-                XCTAssertEqual(response.item?["data"], .b(data))
+                XCTAssertEqual(response.item?["data"], .b(.data(data)))
             }
             .flatAlways { _ in
                 return self.deleteTable(name: tableName)
@@ -200,7 +200,7 @@ class DynamoDBTests: XCTestCase {
 extension DynamoDB.AttributeValue {
     init(any: Any) {
         switch any {
-        case let data as Data:
+        case let data as AWSBlob:
             self = .b(data) // self.init(b: data)
         case let bool as Bool:
             self = .bool(bool) // self.init(bool: bool)

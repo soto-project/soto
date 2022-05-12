@@ -41,7 +41,7 @@ class LambdaTests: XCTestCase {
     class func createLambdaFunction(roleArn: String) -> EventLoopFuture<Void> {
         // Zipped version of "exports.handler = async (event) => { return \"hello world\" };"
         let code = "UEsDBAoAAAAAAPFWXFGfGXl5PQAAAD0AAAAJABwAbGFtYmRhLmpzVVQJAAMVQJlfuD+ZX3V4CwABBC8Om1YEzHsDcWV4cG9ydHMuaGFuZGxlciA9IGFzeW5jIChldmVudCkgPT4geyByZXR1cm4gImhlbGxvIHdvcmxkIiB9OwpQSwECHgMKAAAAAADxVlxRnxl5eT0AAAA9AAAACQAYAAAAAAABAAAApIEAAAAAbGFtYmRhLmpzVVQFAAMVQJlfdXgLAAEELw6bVgTMewNxUEsFBgAAAAABAAEATwAAAIAAAAAAAA=="
-        let functionCode = Lambda.FunctionCode(zipFile: Data(base64Encoded: code))
+        let functionCode = Lambda.FunctionCode(zipFile: .string(code))
         let functionRuntime = Lambda.Runtime.nodejs12X
         let functionHandler = "lambda.handler"
         let cfr = Lambda.CreateFunctionRequest(
@@ -116,7 +116,7 @@ class LambdaTests: XCTestCase {
             client: LambdaTests.client,
             region: .euwest1,
             endpoint: TestEnvironment.getEndPoint(environment: "LOCALSTACK_ENDPOINT")
-        )
+        ).with(middlewares: TestEnvironment.middlewares)
         Self.iam = IAM(
             client: Self.client,
             endpoint: TestEnvironment.getEndPoint(environment: "LOCALSTACK_ENDPOINT")
