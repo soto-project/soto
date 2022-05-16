@@ -92,7 +92,7 @@ extension CloudControlApi {
     public struct CreateResourceInput: AWSEncodableShape {
         /// A unique identifier to ensure the idempotency of the resource request. As a best practice, specify this token to ensure idempotency, so that Amazon Web Services Cloud Control API can accurately distinguish between request retries and new resource requests. You might retry a resource request to ensure that it was successfully received. A client token is valid for 36 hours once used. After that, a resource request with the same client token is treated as a new request. If you do not specify a client token, one is generated for inclusion in the request. For more information, see Ensuring resource operation requests are unique in the Amazon Web Services Cloud Control API User Guide.
         public let clientToken: String?
-        /// Structured data format representing the desired state of the resource, consisting of that resource's properties and their desired values.  Cloud Control API currently supports JSON as a structured data format.  Specify the desired state as one of the following:   A JSON blob   A local path containing the desired state in JSON data format   For more information, see Composing the desired state of the resource in the Amazon Web Services Cloud Control API User Guide. For more information about the properties of a specific resource, refer to the related topic for the resource in the Resource and property types reference in the CloudFormation Users Guide.
+        /// Structured data format representing the desired state of the resource, consisting of that resource's properties and their desired values.  Cloud Control API currently supports JSON as a structured data format.   &lt;p&gt;Specify the desired state as one of the following:&lt;/p&gt; &lt;ul&gt; &lt;li&gt; &lt;p&gt;A JSON blob&lt;/p&gt; &lt;/li&gt; &lt;li&gt; &lt;p&gt;A local path containing the desired state in JSON data format&lt;/p&gt; &lt;/li&gt; &lt;/ul&gt; &lt;p&gt;For more information, see &lt;a href=&quot;https://docs.aws.amazon.com/cloudcontrolapi/latest/userguide/resource-operations-create.html#resource-operations-create-desiredstate&quot;&gt;Composing the desired state of the resource&lt;/a&gt; in the &lt;i&gt;Amazon Web Services Cloud Control API User Guide&lt;/i&gt;.&lt;/p&gt; &lt;p&gt;For more information about the properties of a specific resource, refer to the related topic for the resource in the &lt;a href=&quot;https://docs.aws.amazon.com/AWSCloudFormation/latest/UserGuide/aws-template-resource-type-ref.html&quot;&gt;Resource and property types reference&lt;/a&gt; in the &lt;i&gt;CloudFormation Users Guide&lt;/i&gt;.&lt;/p&gt;
         public let desiredState: String
         /// The Amazon Resource Name (ARN) of the Identity and Access Management (IAM) role for Cloud Control API to use when performing this resource operation. The role specified must have the permissions required for this operation. The necessary permissions for each event handler are defined in the  handlers  section of the resource type definition schema. If you do not specify a role, Cloud Control API uses a temporary session created using your Amazon Web Services user credentials. For more information, see Specifying credentials in the Amazon Web Services Cloud Control API User Guide.
         public let roleArn: String?
@@ -113,8 +113,9 @@ extension CloudControlApi {
             try self.validate(self.clientToken, name: "clientToken", parent: name, max: 128)
             try self.validate(self.clientToken, name: "clientToken", parent: name, min: 1)
             try self.validate(self.clientToken, name: "clientToken", parent: name, pattern: "[-A-Za-z0-9+/=]+")
-            try self.validate(self.desiredState, name: "desiredState", parent: name, max: 16384)
+            try self.validate(self.desiredState, name: "desiredState", parent: name, max: 65536)
             try self.validate(self.desiredState, name: "desiredState", parent: name, min: 1)
+            try self.validate(self.desiredState, name: "desiredState", parent: name, pattern: "[\\s\\S]*")
             try self.validate(self.roleArn, name: "roleArn", parent: name, max: 2048)
             try self.validate(self.roleArn, name: "roleArn", parent: name, min: 20)
             try self.validate(self.roleArn, name: "roleArn", parent: name, pattern: "arn:.+:iam::[0-9]{12}:role/.+")
@@ -371,8 +372,9 @@ extension CloudControlApi {
             try self.validate(self.nextToken, name: "nextToken", parent: name, max: 2048)
             try self.validate(self.nextToken, name: "nextToken", parent: name, min: 1)
             try self.validate(self.nextToken, name: "nextToken", parent: name, pattern: ".+")
-            try self.validate(self.resourceModel, name: "resourceModel", parent: name, max: 16384)
+            try self.validate(self.resourceModel, name: "resourceModel", parent: name, max: 65536)
             try self.validate(self.resourceModel, name: "resourceModel", parent: name, min: 1)
+            try self.validate(self.resourceModel, name: "resourceModel", parent: name, pattern: "[\\s\\S]*")
             try self.validate(self.roleArn, name: "roleArn", parent: name, max: 2048)
             try self.validate(self.roleArn, name: "roleArn", parent: name, min: 20)
             try self.validate(self.roleArn, name: "roleArn", parent: name, pattern: "arn:.+:iam::[0-9]{12}:role/.+")
@@ -530,6 +532,7 @@ extension CloudControlApi {
             try self.validate(self.identifier, name: "identifier", parent: name, pattern: ".+")
             try self.validate(self.patchDocument, name: "patchDocument", parent: name, max: 65536)
             try self.validate(self.patchDocument, name: "patchDocument", parent: name, min: 1)
+            try self.validate(self.patchDocument, name: "patchDocument", parent: name, pattern: "[\\s\\S]*")
             try self.validate(self.roleArn, name: "roleArn", parent: name, max: 2048)
             try self.validate(self.roleArn, name: "roleArn", parent: name, min: 20)
             try self.validate(self.roleArn, name: "roleArn", parent: name, pattern: "arn:.+:iam::[0-9]{12}:role/.+")

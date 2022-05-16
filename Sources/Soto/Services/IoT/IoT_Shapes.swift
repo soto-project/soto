@@ -3153,7 +3153,7 @@ extension IoT {
         public let description: String?
         /// The job document. Required if you don't specify a value for documentSource.
         public let document: String?
-        /// Parameters of a managed template that you can specify to create the job document.
+        /// Parameters of an Amazon Web Services managed template that you can specify to create the job document.   documentParameters can only be used when creating jobs from Amazon Web Services managed templates. This parameter can't be used with custom job templates or to create jobs from them.
         public let documentParameters: [String: String]?
         /// An S3 link to the job document. Required if you don't specify a value for document.  If the job document resides in an S3 bucket, you must use a placeholder link when specifying the document. The placeholder link is of the following form:  ${aws:iot:s3-presigned-url:https://s3.amazonaws.com/bucket/key}  where bucket is your bucket name and key is the object in the bucket to which you are linking.
         public let documentSource: String?
@@ -3173,7 +3173,7 @@ extension IoT {
         public let tags: [Tag]?
         /// A list of things and thing groups to which the job should be sent.
         public let targets: [String]
-        /// Specifies whether the job will continue to run (CONTINUOUS), or will be complete after all those things specified as targets have completed the job (SNAPSHOT). If continuous, the job may also be run on a thing when a change is detected in a target. For example, a job will run on a thing when the thing is added to a target group, even after the job was completed by all things originally in the group.
+        /// Specifies whether the job will continue to run (CONTINUOUS), or will be complete after all those things specified as targets have completed the job (SNAPSHOT). If continuous, the job may also be run on a thing when a change is detected in a target. For example, a job will run on a thing when the thing is added to a target group, even after the job was completed by all things originally in the group.  We recommend that you use continuous jobs instead of snapshot jobs for dynamic thing group targets. By using continuous jobs, devices that join the group receive the job execution even after the job has been created.
         public let targetSelection: TargetSelection?
         /// Specifies the amount of time each device has to finish its execution of the job. The timer is started when the job execution status is set to IN_PROGRESS. If the job execution status is not set to another terminal state before the time expires, it will be automatically set to TIMED_OUT.
         public let timeoutConfig: TimeoutConfig?
@@ -4385,11 +4385,11 @@ extension IoT {
     public struct CustomCodeSigning: AWSEncodableShape & AWSDecodableShape {
         /// The certificate chain.
         public let certificateChain: CodeSigningCertificateChain?
-        /// The hash algorithm used to code sign the file.
+        /// The hash algorithm used to code sign the file. You can use a string as the algorithm name if the target over-the-air (OTA) update devices are able to verify the signature that was generated using the same signature algorithm. For example, FreeRTOS uses SHA256 or SHA1, so you can pass either of them based on which was used for generating the signature.
         public let hashAlgorithm: String?
         /// The signature for the file.
         public let signature: CodeSigningSignature?
-        /// The signature algorithm used to code sign the file.
+        /// The signature algorithm used to code sign the file. You can use a string as the algorithm name if the target over-the-air (OTA) update devices are able to verify the signature that was generated using the same signature algorithm. For example, FreeRTOS uses ECDSA or RSA, so you can pass either of them based on which was used for generating the signature.
         public let signatureAlgorithm: String?
 
         public init(certificateChain: CodeSigningCertificateChain? = nil, hashAlgorithm: String? = nil, signature: CodeSigningSignature? = nil, signatureAlgorithm: String? = nil) {
@@ -6203,7 +6203,7 @@ extension IoT {
         public let description: String?
         /// The document schema for a managed job template.
         public let document: String?
-        /// A map of key-value pairs that you can use as guidance to specify the inputs for creating a job from a managed template.
+        /// A map of key-value pairs that you can use as guidance to specify the inputs for creating a job from a managed template.   documentParameters can only be used when creating jobs from Amazon Web Services managed templates. This parameter can't be used with custom job templates or to create jobs from them.
         public let documentParameters: [DocumentParameter]?
         /// A list of environments that are supported with the managed job template.
         public let environments: [String]?
@@ -8418,7 +8418,7 @@ extension IoT {
         public let createdAt: Date?
         /// A short text description of the job.
         public let description: String?
-        /// A key-value map that pairs the patterns that need to be replaced in a managed template job document schema. You can use the description of each key as a guidance to specify the inputs during runtime when creating a job.
+        /// A key-value map that pairs the patterns that need to be replaced in a managed template job document schema. You can use the description of each key as a guidance to specify the inputs during runtime when creating a job.   documentParameters can only be used when creating jobs from Amazon Web Services managed templates. This parameter can't be used with custom job templates or to create jobs from them.
         public let documentParameters: [String: String]?
         /// Will be true if the job was canceled with the optional force parameter set to true.
         public let forceCanceled: Bool?
@@ -8447,7 +8447,7 @@ extension IoT {
         public let status: JobStatus?
         /// A list of IoT things and thing groups to which the job should be sent.
         public let targets: [String]?
-        /// Specifies whether the job will continue to run (CONTINUOUS), or will be complete after all those things specified as targets have completed the job (SNAPSHOT). If continuous, the job may also be run on a thing when a change is detected in a target. For example, a job will run on a device when the thing representing the device is added to a target group, even after the job was completed by all things originally in the group.
+        /// Specifies whether the job will continue to run (CONTINUOUS), or will be complete after all those things specified as targets have completed the job (SNAPSHOT). If continuous, the job may also be run on a thing when a change is detected in a target. For example, a job will run on a device when the thing representing the device is added to a target group, even after the job was completed by all things originally in the group.   We recommend that you use continuous jobs instead of snapshot jobs for dynamic thing group targets. By using continuous jobs, devices that join the group receive the job execution even after the job has been created.
         public let targetSelection: TargetSelection?
         /// Specifies the amount of time each device has to finish its execution of the job. A timer is started when the job execution status is set to IN_PROGRESS. If the job execution status is not set to another terminal state before the timer expires, it will be automatically set to TIMED_OUT.
         public let timeoutConfig: TimeoutConfig?
@@ -8738,7 +8738,7 @@ extension IoT {
         public let lastUpdatedAt: Date?
         /// The job summary status.
         public let status: JobStatus?
-        /// Specifies whether the job will continue to run (CONTINUOUS), or will be complete after all those things specified as targets have completed the job (SNAPSHOT). If continuous, the job may also be run on a thing when a change is detected in a target. For example, a job will run on a thing when the thing is added to a target group, even after the job was completed by all things originally in the group.
+        /// Specifies whether the job will continue to run (CONTINUOUS), or will be complete after all those things specified as targets have completed the job (SNAPSHOT). If continuous, the job may also be run on a thing when a change is detected in a target. For example, a job will run on a thing when the thing is added to a target group, even after the job was completed by all things originally in the group.  We recommend that you use continuous jobs instead of snapshot jobs for dynamic thing group targets. By using continuous jobs, devices that join the group receive the job execution even after the job has been created.
         public let targetSelection: TargetSelection?
         /// The ID of the thing group.
         public let thingGroupId: String?
@@ -10044,7 +10044,7 @@ extension IoT {
         public let nextToken: String?
         /// An optional filter that lets you search for jobs that have the specified status.
         public let status: JobStatus?
-        /// Specifies whether the job will continue to run (CONTINUOUS), or will be complete after all those things specified as targets have completed the job (SNAPSHOT). If continuous, the job may also be run on a thing when a change is detected in a target. For example, a job will run on a thing when the thing is added to a target group, even after the job was completed by all things originally in the group.
+        /// Specifies whether the job will continue to run (CONTINUOUS), or will be complete after all those things specified as targets have completed the job (SNAPSHOT). If continuous, the job may also be run on a thing when a change is detected in a target. For example, a job will run on a thing when the thing is added to a target group, even after the job was completed by all things originally in the group.   We recommend that you use continuous jobs instead of snapshot jobs for dynamic thing group targets. By using continuous jobs, devices that join the group receive the job execution even after the job has been created.
         public let targetSelection: TargetSelection?
         /// A filter that limits the returned jobs to those for the specified group.
         public let thingGroupId: String?

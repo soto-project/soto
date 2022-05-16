@@ -1147,7 +1147,7 @@ extension CloudWatchEvidently {
 
         /// The statistic used to calculate experiment results. Currently the only valid value is mean, which uses the mean of the collected values as the statistic.
         public let baseStat: ExperimentBaseStat?
-        /// The date and time that the experiment ended, if it is completed.
+        /// The date and time that the experiment ended, if it is completed. This must be no longer than 30 days after the experiment start time.
         public let endTime: Date?
         /// The name of the experiment to retrieve the results of.
         public let experiment: String
@@ -1221,6 +1221,8 @@ extension CloudWatchEvidently {
     }
 
     public struct GetExperimentResultsResponse: AWSDecodableShape {
+        /// If the experiment doesn't yet have enough events to provide valid results, this field is returned with the message Not enough events to generate results. If there are enough events to provide valid results, this field is not returned.
+        public let details: String?
         /// An array of structures that include the reports that you requested.
         public let reports: [ExperimentReport]?
         /// An array of structures that include experiment results including metric names and values.
@@ -1228,13 +1230,15 @@ extension CloudWatchEvidently {
         /// The timestamps of each result returned.
         public let timestamps: [Date]?
 
-        public init(reports: [ExperimentReport]? = nil, resultsData: [ExperimentResultsData]? = nil, timestamps: [Date]? = nil) {
+        public init(details: String? = nil, reports: [ExperimentReport]? = nil, resultsData: [ExperimentResultsData]? = nil, timestamps: [Date]? = nil) {
+            self.details = details
             self.reports = reports
             self.resultsData = resultsData
             self.timestamps = timestamps
         }
 
         private enum CodingKeys: String, CodingKey {
+            case details
             case reports
             case resultsData
             case timestamps
@@ -2283,7 +2287,7 @@ extension CloudWatchEvidently {
             AWSMemberEncoding(label: "project", location: .uri(locationName: "project"))
         ]
 
-        /// The date and time to end the experiment.
+        /// The date and time to end the experiment. This must be no more than 30 days after the experiment starts.
         public let analysisCompleteTime: Date
         /// The name of the experiment to start.
         public let experiment: String

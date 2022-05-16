@@ -4802,7 +4802,7 @@ extension Lightsail {
     }
 
     public struct GetBlueprintsRequest: AWSEncodableShape {
-        /// A Boolean value indicating whether to include inactive results in your request.
+        /// A Boolean value that indicates whether to include inactive (unavailable) blueprints in the response of your request.
         public let includeInactive: Bool?
         /// The token to advance to the next page of results from your request. To get a page token, perform an initial GetBlueprints request. If your results are paginated, the response will return a next page token that you can specify as the page token in a subsequent request.
         public let pageToken: String?
@@ -4868,7 +4868,7 @@ extension Lightsail {
     }
 
     public struct GetBucketBundlesRequest: AWSEncodableShape {
-        /// A Boolean value that indicates whether to include inactive (unavailable) bundles in the response.
+        /// A Boolean value that indicates whether to include inactive (unavailable) bundles in the response of your request.
         public let includeInactive: Bool?
 
         public init(includeInactive: Bool? = nil) {
@@ -5004,7 +5004,7 @@ extension Lightsail {
     }
 
     public struct GetBundlesRequest: AWSEncodableShape {
-        /// A Boolean value that indicates whether to include inactive bundle results in your request.
+        /// A Boolean value that indicates whether to include inactive (unavailable) bundles in the response of your request.
         public let includeInactive: Bool?
         /// The token to advance to the next page of results from your request. To get a page token, perform an initial GetBundles request. If your results are paginated, the response will return a next page token that you can specify as the page token in a subsequent request.
         public let pageToken: String?
@@ -6390,14 +6390,18 @@ extension Lightsail {
     }
 
     public struct GetRelationalDatabaseBundlesRequest: AWSEncodableShape {
+        /// A Boolean value that indicates whether to include inactive (unavailable) bundles in the response of your request.
+        public let includeInactive: Bool?
         /// The token to advance to the next page of results from your request. To get a page token, perform an initial GetRelationalDatabaseBundles request. If your results are paginated, the response will return a next page token that you can specify as the page token in a subsequent request.
         public let pageToken: String?
 
-        public init(pageToken: String? = nil) {
+        public init(includeInactive: Bool? = nil, pageToken: String? = nil) {
+            self.includeInactive = includeInactive
             self.pageToken = pageToken
         }
 
         private enum CodingKeys: String, CodingKey {
+            case includeInactive
             case pageToken
         }
     }

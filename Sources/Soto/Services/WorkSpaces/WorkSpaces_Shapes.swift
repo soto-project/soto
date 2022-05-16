@@ -895,7 +895,7 @@ extension WorkSpaces {
                 try validate($0.key, name: "loginMessage.key", parent: name, max: 5)
                 try validate($0.key, name: "loginMessage.key", parent: name, min: 5)
                 try validate($0.key, name: "loginMessage.key", parent: name, pattern: "^[a-z]{2}_[A-Z]{2}$")
-                try validate($0.value, name: "loginMessage[\"\($0.key)\"]", parent: name, max: 600)
+                try validate($0.value, name: "loginMessage[\"\($0.key)\"]", parent: name, max: 850)
                 try validate($0.value, name: "loginMessage[\"\($0.key)\"]", parent: name, min: 0)
                 try validate($0.value, name: "loginMessage[\"\($0.key)\"]", parent: name, pattern: "^.*$")
             }
@@ -2196,7 +2196,7 @@ extension WorkSpaces {
                 try validate($0.key, name: "loginMessage.key", parent: name, max: 5)
                 try validate($0.key, name: "loginMessage.key", parent: name, min: 5)
                 try validate($0.key, name: "loginMessage.key", parent: name, pattern: "^[a-z]{2}_[A-Z]{2}$")
-                try validate($0.value, name: "loginMessage[\"\($0.key)\"]", parent: name, max: 600)
+                try validate($0.value, name: "loginMessage[\"\($0.key)\"]", parent: name, max: 850)
                 try validate($0.value, name: "loginMessage[\"\($0.key)\"]", parent: name, min: 0)
                 try validate($0.value, name: "loginMessage[\"\($0.key)\"]", parent: name, pattern: "^.*$")
             }
