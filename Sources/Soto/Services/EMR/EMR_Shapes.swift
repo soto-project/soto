@@ -256,6 +256,12 @@ extension EMR {
         public var description: String { return self.rawValue }
     }
 
+    public enum ReconfigurationType: String, CustomStringConvertible, Codable {
+        case merge = "MERGE"
+        case overwrite = "OVERWRITE"
+        public var description: String { return self.rawValue }
+    }
+
     public enum RepoUpgradeOnBoot: String, CustomStringConvertible, Codable {
         case none = "NONE"
         case security = "SECURITY"
@@ -847,6 +853,8 @@ extension EMR {
         public let name: String?
         /// An approximation of the cost of the cluster, represented in m1.small/hours. This value is incremented one time for every hour an m1.small instance runs. Larger instances are weighted more, so an EC2 instance that is roughly four times more expensive would result in the normalized instance hours being incremented by four. This result is only an approximation and does not reflect the actual billing rate.
         public let normalizedInstanceHours: Int?
+        /// The Amazon Linux release specified in a cluster launch RunJobFlow request. If no Amazon Linux release was specified, the default Amazon Linux release is shown in the response.
+        public let oSReleaseLabel: String?
         ///  The Amazon Resource Name (ARN) of the Outpost where the cluster is launched.
         public let outpostArn: String?
         /// Placement group configured for an Amazon EMR cluster.
@@ -876,7 +884,7 @@ extension EMR {
         /// Indicates whether the cluster is visible to IAM principals in the Amazon Web Services account associated with the cluster. When true, IAM principals in the Amazon Web Services account can perform EMR cluster actions on the cluster that their IAM policies allow. When false, only the IAM principal that created the cluster and the Amazon Web Services account root user can perform EMR actions, regardless of IAM permissions policies attached to other IAM principals. The default value is true if a value is not provided when creating a cluster using the EMR API RunJobFlow command, the CLI create-cluster command, or the Amazon Web Services Management Console.
         public let visibleToAllUsers: Bool?
 
-        public init(applications: [Application]? = nil, autoScalingRole: String? = nil, autoTerminate: Bool? = nil, clusterArn: String? = nil, configurations: [Configuration]? = nil, customAmiId: String? = nil, ebsRootVolumeSize: Int? = nil, ec2InstanceAttributes: Ec2InstanceAttributes? = nil, id: String? = nil, instanceCollectionType: InstanceCollectionType? = nil, kerberosAttributes: KerberosAttributes? = nil, logEncryptionKmsKeyId: String? = nil, logUri: String? = nil, masterPublicDnsName: String? = nil, name: String? = nil, normalizedInstanceHours: Int? = nil, outpostArn: String? = nil, placementGroups: [PlacementGroupConfig]? = nil, releaseLabel: String? = nil, repoUpgradeOnBoot: RepoUpgradeOnBoot? = nil, requestedAmiVersion: String? = nil, runningAmiVersion: String? = nil, scaleDownBehavior: ScaleDownBehavior? = nil, securityConfiguration: String? = nil, serviceRole: String? = nil, status: ClusterStatus? = nil, stepConcurrencyLevel: Int? = nil, tags: [Tag]? = nil, terminationProtected: Bool? = nil, visibleToAllUsers: Bool? = nil) {
+        public init(applications: [Application]? = nil, autoScalingRole: String? = nil, autoTerminate: Bool? = nil, clusterArn: String? = nil, configurations: [Configuration]? = nil, customAmiId: String? = nil, ebsRootVolumeSize: Int? = nil, ec2InstanceAttributes: Ec2InstanceAttributes? = nil, id: String? = nil, instanceCollectionType: InstanceCollectionType? = nil, kerberosAttributes: KerberosAttributes? = nil, logEncryptionKmsKeyId: String? = nil, logUri: String? = nil, masterPublicDnsName: String? = nil, name: String? = nil, normalizedInstanceHours: Int? = nil, oSReleaseLabel: String? = nil, outpostArn: String? = nil, placementGroups: [PlacementGroupConfig]? = nil, releaseLabel: String? = nil, repoUpgradeOnBoot: RepoUpgradeOnBoot? = nil, requestedAmiVersion: String? = nil, runningAmiVersion: String? = nil, scaleDownBehavior: ScaleDownBehavior? = nil, securityConfiguration: String? = nil, serviceRole: String? = nil, status: ClusterStatus? = nil, stepConcurrencyLevel: Int? = nil, tags: [Tag]? = nil, terminationProtected: Bool? = nil, visibleToAllUsers: Bool? = nil) {
             self.applications = applications
             self.autoScalingRole = autoScalingRole
             self.autoTerminate = autoTerminate
@@ -893,6 +901,7 @@ extension EMR {
             self.masterPublicDnsName = masterPublicDnsName
             self.name = name
             self.normalizedInstanceHours = normalizedInstanceHours
+            self.oSReleaseLabel = oSReleaseLabel
             self.outpostArn = outpostArn
             self.placementGroups = placementGroups
             self.releaseLabel = releaseLabel
@@ -926,6 +935,7 @@ extension EMR {
             case masterPublicDnsName = "MasterPublicDnsName"
             case name = "Name"
             case normalizedInstanceHours = "NormalizedInstanceHours"
+            case oSReleaseLabel = "OSReleaseLabel"
             case outpostArn = "OutpostArn"
             case placementGroups = "PlacementGroups"
             case releaseLabel = "ReleaseLabel"
@@ -1513,19 +1523,23 @@ extension EMR {
     public struct DescribeReleaseLabelOutput: AWSDecodableShape {
         /// The list of applications available for the target release label. Name is the name of the application. Version is the concise version of the application.
         public let applications: [SimplifiedApplication]?
+        /// The list of available Amazon Linux release versions for an Amazon EMR release. Contains a Label field that is formatted as shown in  Amazon Linux 2 Release Notes . For example, 2.0.20220218.1.
+        public let availableOSReleases: [OSRelease]?
         /// The pagination token. Reserved for future use. Currently set to null.
         public let nextToken: String?
         /// The target release label described in the response.
         public let releaseLabel: String?
 
-        public init(applications: [SimplifiedApplication]? = nil, nextToken: String? = nil, releaseLabel: String? = nil) {
+        public init(applications: [SimplifiedApplication]? = nil, availableOSReleases: [OSRelease]? = nil, nextToken: String? = nil, releaseLabel: String? = nil) {
             self.applications = applications
+            self.availableOSReleases = availableOSReleases
             self.nextToken = nextToken
             self.releaseLabel = releaseLabel
         }
 
         private enum CodingKeys: String, CodingKey {
             case applications = "Applications"
+            case availableOSReleases = "AvailableOSReleases"
             case nextToken = "NextToken"
             case releaseLabel = "ReleaseLabel"
         }
@@ -2477,14 +2491,17 @@ extension EMR {
         public let instanceCount: Int?
         /// Unique ID of the instance group to modify.
         public let instanceGroupId: String
+        /// Type of reconfiguration requested. Valid values are MERGE and OVERWRITE.
+        public let reconfigurationType: ReconfigurationType?
         /// Policy for customizing shrink operations.
         public let shrinkPolicy: ShrinkPolicy?
 
-        public init(configurations: [Configuration]? = nil, eC2InstanceIdsToTerminate: [String]? = nil, instanceCount: Int? = nil, instanceGroupId: String, shrinkPolicy: ShrinkPolicy? = nil) {
+        public init(configurations: [Configuration]? = nil, eC2InstanceIdsToTerminate: [String]? = nil, instanceCount: Int? = nil, instanceGroupId: String, reconfigurationType: ReconfigurationType? = nil, shrinkPolicy: ShrinkPolicy? = nil) {
             self.configurations = configurations
             self.eC2InstanceIdsToTerminate = eC2InstanceIdsToTerminate
             self.instanceCount = instanceCount
             self.instanceGroupId = instanceGroupId
+            self.reconfigurationType = reconfigurationType
             self.shrinkPolicy = shrinkPolicy
         }
 
@@ -2499,6 +2516,7 @@ extension EMR {
             case eC2InstanceIdsToTerminate = "EC2InstanceIdsToTerminate"
             case instanceCount = "InstanceCount"
             case instanceGroupId = "InstanceGroupId"
+            case reconfigurationType = "ReconfigurationType"
             case shrinkPolicy = "ShrinkPolicy"
         }
     }
@@ -3741,6 +3759,19 @@ extension EMR {
         }
     }
 
+    public struct OSRelease: AWSDecodableShape {
+        /// The Amazon Linux release specified for a cluster in the RunJobFlow request. The format is as shown in  Amazon Linux 2 Release Notes . For example, 2.0.20220218.1.
+        public let label: String?
+
+        public init(label: String? = nil) {
+            self.label = label
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case label = "Label"
+        }
+    }
+
     public struct OnDemandCapacityReservationOptions: AWSEncodableShape & AWSDecodableShape {
         /// Indicates the instance's Capacity Reservation preferences. Possible preferences include:    open - The instance can run in any open Capacity Reservation that has matching attributes (instance type, platform, Availability Zone).    none - The instance avoids running in a Capacity Reservation even if one is available. The instance runs as an On-Demand Instance.
         public let capacityReservationPreference: OnDemandCapacityReservationPreference?
@@ -4098,6 +4129,8 @@ extension EMR {
         public let name: String
         ///  For Amazon EMR releases 3.x and 2.x. For Amazon EMR releases 4.x and later, use Applications.  A list of strings that indicates third-party software to use with the job flow that accepts a user argument list. EMR accepts and forwards the argument list to the corresponding installation script as bootstrap action arguments. For more information, see "Launch a Job Flow on the MapR Distribution for Hadoop" in the Amazon EMR Developer Guide. Supported values are:   "mapr-m3" - launch the cluster using MapR M3 Edition.   "mapr-m5" - launch the cluster using MapR M5 Edition.   "mapr" with the user arguments specifying "--edition,m3" or "--edition,m5" - launch the job flow using MapR M3 or M5 Edition respectively.   "mapr-m7" - launch the cluster using MapR M7 Edition.   "hunk" - launch the cluster with the Hunk Big Data Analytics Platform.   "hue"- launch the cluster with Hue installed.   "spark" - launch the cluster with Apache Spark installed.   "ganglia" - launch the cluster with the Ganglia Monitoring System installed.
         public let newSupportedProducts: [SupportedProductConfig]?
+        /// Specifies a particular Amazon Linux release for all nodes in a cluster launch RunJobFlow request. If a release is not specified, Amazon EMR uses the latest validated Amazon Linux release for cluster launch.
+        public let oSReleaseLabel: String?
         /// The specified placement group configuration for an Amazon EMR cluster.
         public let placementGroupConfigs: [PlacementGroupConfig]?
         /// The Amazon EMR release label, which determines the version of open-source application packages installed on the cluster. Release labels are in the form emr-x.x.x, where x.x.x is an Amazon EMR release version such as emr-5.14.0. For more information about Amazon EMR release versions and included application versions and features, see https://docs.aws.amazon.com/emr/latest/ReleaseGuide/. The release label applies only to Amazon EMR releases version 4.0 and later. Earlier versions use AmiVersion.
@@ -4121,7 +4154,7 @@ extension EMR {
         ///  The VisibleToAllUsers parameter is no longer supported. By default, the value is set to true. Setting it to false now has no effect.  Set this value to true so that IAM principals in the Amazon Web Services account associated with the cluster can perform EMR actions on the cluster that their IAM policies allow. This value defaults to true for clusters created using the EMR API or the CLI create-cluster command. When set to false, only the IAM principal that created the cluster and the Amazon Web Services account root user can perform EMR actions for the cluster, regardless of the IAM permissions policies attached to other IAM principals. For more information, see Understanding the EMR Cluster VisibleToAllUsers Setting in the Amazon EMRManagement Guide.
         public let visibleToAllUsers: Bool?
 
-        public init(additionalInfo: String? = nil, amiVersion: String? = nil, applications: [Application]? = nil, autoScalingRole: String? = nil, autoTerminationPolicy: AutoTerminationPolicy? = nil, bootstrapActions: [BootstrapActionConfig]? = nil, configurations: [Configuration]? = nil, customAmiId: String? = nil, ebsRootVolumeSize: Int? = nil, instances: JobFlowInstancesConfig, jobFlowRole: String? = nil, kerberosAttributes: KerberosAttributes? = nil, logEncryptionKmsKeyId: String? = nil, logUri: String? = nil, managedScalingPolicy: ManagedScalingPolicy? = nil, name: String, newSupportedProducts: [SupportedProductConfig]? = nil, placementGroupConfigs: [PlacementGroupConfig]? = nil, releaseLabel: String? = nil, repoUpgradeOnBoot: RepoUpgradeOnBoot? = nil, scaleDownBehavior: ScaleDownBehavior? = nil, securityConfiguration: String? = nil, serviceRole: String? = nil, stepConcurrencyLevel: Int? = nil, steps: [StepConfig]? = nil, supportedProducts: [String]? = nil, tags: [Tag]? = nil, visibleToAllUsers: Bool? = nil) {
+        public init(additionalInfo: String? = nil, amiVersion: String? = nil, applications: [Application]? = nil, autoScalingRole: String? = nil, autoTerminationPolicy: AutoTerminationPolicy? = nil, bootstrapActions: [BootstrapActionConfig]? = nil, configurations: [Configuration]? = nil, customAmiId: String? = nil, ebsRootVolumeSize: Int? = nil, instances: JobFlowInstancesConfig, jobFlowRole: String? = nil, kerberosAttributes: KerberosAttributes? = nil, logEncryptionKmsKeyId: String? = nil, logUri: String? = nil, managedScalingPolicy: ManagedScalingPolicy? = nil, name: String, newSupportedProducts: [SupportedProductConfig]? = nil, oSReleaseLabel: String? = nil, placementGroupConfigs: [PlacementGroupConfig]? = nil, releaseLabel: String? = nil, repoUpgradeOnBoot: RepoUpgradeOnBoot? = nil, scaleDownBehavior: ScaleDownBehavior? = nil, securityConfiguration: String? = nil, serviceRole: String? = nil, stepConcurrencyLevel: Int? = nil, steps: [StepConfig]? = nil, supportedProducts: [String]? = nil, tags: [Tag]? = nil, visibleToAllUsers: Bool? = nil) {
             self.additionalInfo = additionalInfo
             self.amiVersion = amiVersion
             self.applications = applications
@@ -4139,6 +4172,7 @@ extension EMR {
             self.managedScalingPolicy = managedScalingPolicy
             self.name = name
             self.newSupportedProducts = newSupportedProducts
+            self.oSReleaseLabel = oSReleaseLabel
             self.placementGroupConfigs = placementGroupConfigs
             self.releaseLabel = releaseLabel
             self.repoUpgradeOnBoot = repoUpgradeOnBoot
@@ -4185,6 +4219,9 @@ extension EMR {
             try self.newSupportedProducts?.forEach {
                 try $0.validate(name: "\(name).newSupportedProducts[]")
             }
+            try self.validate(self.oSReleaseLabel, name: "oSReleaseLabel", parent: name, max: 256)
+            try self.validate(self.oSReleaseLabel, name: "oSReleaseLabel", parent: name, min: 0)
+            try self.validate(self.oSReleaseLabel, name: "oSReleaseLabel", parent: name, pattern: "[\\u0020-\\uD7FF\\uE000-\\uFFFD\\uD800\\uDC00-\\uDBFF\\uDFFF\\r\\n\\t]*")
             try self.validate(self.releaseLabel, name: "releaseLabel", parent: name, max: 256)
             try self.validate(self.releaseLabel, name: "releaseLabel", parent: name, min: 0)
             try self.validate(self.releaseLabel, name: "releaseLabel", parent: name, pattern: "[\\u0020-\\uD7FF\\uE000-\\uFFFD\\uD800\\uDC00-\\uDBFF\\uDFFF\\r\\n\\t]*")
@@ -4222,6 +4259,7 @@ extension EMR {
             case managedScalingPolicy = "ManagedScalingPolicy"
             case name = "Name"
             case newSupportedProducts = "NewSupportedProducts"
+            case oSReleaseLabel = "OSReleaseLabel"
             case placementGroupConfigs = "PlacementGroupConfigs"
             case releaseLabel = "ReleaseLabel"
             case repoUpgradeOnBoot = "RepoUpgradeOnBoot"

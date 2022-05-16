@@ -501,6 +501,14 @@ extension EC2 {
         public var description: String { return self.rawValue }
     }
 
+    public enum DnsRecordIpType: String, CustomStringConvertible, Codable {
+        case dualstack
+        case ipv4
+        case ipv6
+        case serviceDefined = "service-defined"
+        public var description: String { return self.rawValue }
+    }
+
     public enum DnsSupportValue: String, CustomStringConvertible, Codable {
         case disable
         case enable
@@ -789,6 +797,8 @@ extension EC2 {
         case productcodes = "productCodes"
         case ramdisk
         case sriovnetsupport = "sriovNetSupport"
+        case tpmsupport = "tpmSupport"
+        case uefidata = "uefiData"
         public var description: String { return self.rawValue }
     }
 
@@ -1461,6 +1471,13 @@ extension EC2 {
         public var description: String { return self.rawValue }
     }
 
+    public enum IpAddressType: String, CustomStringConvertible, Codable {
+        case dualstack
+        case ipv4
+        case ipv6
+        public var description: String { return self.rawValue }
+    }
+
     public enum IpamAddressHistoryResourceType: String, CustomStringConvertible, Codable {
         case eip
         case instance
@@ -2116,6 +2133,12 @@ extension EC2 {
         public var description: String { return self.rawValue }
     }
 
+    public enum ServiceConnectivityType: String, CustomStringConvertible, Codable {
+        case ipv4
+        case ipv6
+        public var description: String { return self.rawValue }
+    }
+
     public enum ServiceState: String, CustomStringConvertible, Codable {
         case available = "Available"
         case deleted = "Deleted"
@@ -2296,6 +2319,11 @@ extension EC2 {
         public var description: String { return self.rawValue }
     }
 
+    public enum TpmSupportValues: String, CustomStringConvertible, Codable {
+        case v20 = "v2.0"
+        public var description: String { return self.rawValue }
+    }
+
     public enum TrafficDirection: String, CustomStringConvertible, Codable {
         case egress
         case ingress
@@ -2329,6 +2357,7 @@ extension EC2 {
     }
 
     public enum TrafficMirrorTargetType: String, CustomStringConvertible, Codable {
+        case gatewayLoadBalancerEndpoint = "gateway-load-balancer-endpoint"
         case networkInterface = "network-interface"
         case networkLoadBalancer = "network-load-balancer"
         public var description: String { return self.rawValue }
@@ -9720,6 +9749,8 @@ extension EC2 {
         public let description: String?
         /// Checks whether you have the required permissions for the action, without actually making the request, and provides an error response. If you have the required permissions, the error response is DryRunOperation. Otherwise, it is UnauthorizedOperation.
         public let dryRun: Bool?
+        /// The ID of the Gateway Load Balancer endpoint.
+        public let gatewayLoadBalancerEndpointId: String?
         /// The network interface ID that is associated with the target.
         public let networkInterfaceId: String?
         /// The Amazon Resource Name (ARN) of the Network Load Balancer that is associated with the target.
@@ -9728,10 +9759,11 @@ extension EC2 {
         @OptionalCustomCoding<ArrayCoder<_TagSpecificationsEncoding, TagSpecification>>
         public var tagSpecifications: [TagSpecification]?
 
-        public init(clientToken: String? = CreateTrafficMirrorTargetRequest.idempotencyToken(), description: String? = nil, dryRun: Bool? = nil, networkInterfaceId: String? = nil, networkLoadBalancerArn: String? = nil, tagSpecifications: [TagSpecification]? = nil) {
+        public init(clientToken: String? = CreateTrafficMirrorTargetRequest.idempotencyToken(), description: String? = nil, dryRun: Bool? = nil, gatewayLoadBalancerEndpointId: String? = nil, networkInterfaceId: String? = nil, networkLoadBalancerArn: String? = nil, tagSpecifications: [TagSpecification]? = nil) {
             self.clientToken = clientToken
             self.description = description
             self.dryRun = dryRun
+            self.gatewayLoadBalancerEndpointId = gatewayLoadBalancerEndpointId
             self.networkInterfaceId = networkInterfaceId
             self.networkLoadBalancerArn = networkLoadBalancerArn
             self.tagSpecifications = tagSpecifications
@@ -9741,6 +9773,7 @@ extension EC2 {
             case clientToken = "ClientToken"
             case description = "Description"
             case dryRun = "DryRun"
+            case gatewayLoadBalancerEndpointId = "GatewayLoadBalancerEndpointId"
             case networkInterfaceId = "NetworkInterfaceId"
             case networkLoadBalancerArn = "NetworkLoadBalancerArn"
             case tagSpecifications = "TagSpecification"
@@ -10382,8 +10415,12 @@ extension EC2 {
 
         /// Unique, case-sensitive identifier that you provide to ensure the idempotency of the request. For more information, see How to ensure idempotency.
         public let clientToken: String?
+        /// The DNS options for the endpoint.
+        public let dnsOptions: DnsOptionsSpecification?
         /// Checks whether you have the required permissions for the action, without actually making the request, and provides an error response. If you have the required permissions, the error response is DryRunOperation. Otherwise, it is UnauthorizedOperation.
         public let dryRun: Bool?
+        /// The IP address type for the endpoint.
+        public let ipAddressType: IpAddressType?
         /// (Interface and gateway endpoints) A policy to attach to the endpoint that controls access to the service. The policy must be in valid JSON format. If this parameter is not specified, we attach a default policy that allows full access to the service.
         public let policyDocument: String?
         /// (Interface endpoint) Indicates whether to associate a private hosted zone with the specified VPC. The private hosted zone contains a record set for the default public DNS name for the service for the Region (for example, kinesis.us-east-1.amazonaws.com), which resolves to the private IP addresses of the endpoint network interfaces in the VPC. This enables you to make requests to the default public DNS name for the service instead of the public DNS names that are automatically generated by the VPC endpoint service. To use a private hosted zone, you must set the following VPC attributes to true: enableDnsHostnames and enableDnsSupport. Use ModifyVpcAttribute to set the VPC attributes. Default: true
@@ -10407,9 +10444,11 @@ extension EC2 {
         /// The ID of the VPC in which the endpoint will be used.
         public let vpcId: String
 
-        public init(clientToken: String? = nil, dryRun: Bool? = nil, policyDocument: String? = nil, privateDnsEnabled: Bool? = nil, routeTableIds: [String]? = nil, securityGroupIds: [String]? = nil, serviceName: String, subnetIds: [String]? = nil, tagSpecifications: [TagSpecification]? = nil, vpcEndpointType: VpcEndpointType? = nil, vpcId: String) {
+        public init(clientToken: String? = nil, dnsOptions: DnsOptionsSpecification? = nil, dryRun: Bool? = nil, ipAddressType: IpAddressType? = nil, policyDocument: String? = nil, privateDnsEnabled: Bool? = nil, routeTableIds: [String]? = nil, securityGroupIds: [String]? = nil, serviceName: String, subnetIds: [String]? = nil, tagSpecifications: [TagSpecification]? = nil, vpcEndpointType: VpcEndpointType? = nil, vpcId: String) {
             self.clientToken = clientToken
+            self.dnsOptions = dnsOptions
             self.dryRun = dryRun
+            self.ipAddressType = ipAddressType
             self.policyDocument = policyDocument
             self.privateDnsEnabled = privateDnsEnabled
             self.routeTableIds = routeTableIds
@@ -10423,7 +10462,9 @@ extension EC2 {
 
         private enum CodingKeys: String, CodingKey {
             case clientToken = "ClientToken"
+            case dnsOptions = "DnsOptions"
             case dryRun = "DryRun"
+            case ipAddressType = "IpAddressType"
             case policyDocument = "PolicyDocument"
             case privateDnsEnabled = "PrivateDnsEnabled"
             case routeTableIds = "RouteTableId"
@@ -10456,6 +10497,7 @@ extension EC2 {
     public struct CreateVpcEndpointServiceConfigurationRequest: AWSEncodableShape {
         public struct _GatewayLoadBalancerArnsEncoding: ArrayCoderProperties { public static let member = "item" }
         public struct _NetworkLoadBalancerArnsEncoding: ArrayCoderProperties { public static let member = "item" }
+        public struct _SupportedIpAddressTypesEncoding: ArrayCoderProperties { public static let member = "item" }
         public struct _TagSpecificationsEncoding: ArrayCoderProperties { public static let member = "item" }
 
         /// Indicates whether requests from service consumers to create an endpoint to your service must be accepted manually.
@@ -10472,17 +10514,21 @@ extension EC2 {
         public var networkLoadBalancerArns: [String]?
         /// (Interface endpoint configuration) The private DNS name to assign to the VPC endpoint service.
         public let privateDnsName: String?
+        /// The supported IP address types. The possible values are ipv4 and ipv6.
+        @OptionalCustomCoding<ArrayCoder<_SupportedIpAddressTypesEncoding, String>>
+        public var supportedIpAddressTypes: [String]?
         /// The tags to associate with the service.
         @OptionalCustomCoding<ArrayCoder<_TagSpecificationsEncoding, TagSpecification>>
         public var tagSpecifications: [TagSpecification]?
 
-        public init(acceptanceRequired: Bool? = nil, clientToken: String? = nil, dryRun: Bool? = nil, gatewayLoadBalancerArns: [String]? = nil, networkLoadBalancerArns: [String]? = nil, privateDnsName: String? = nil, tagSpecifications: [TagSpecification]? = nil) {
+        public init(acceptanceRequired: Bool? = nil, clientToken: String? = nil, dryRun: Bool? = nil, gatewayLoadBalancerArns: [String]? = nil, networkLoadBalancerArns: [String]? = nil, privateDnsName: String? = nil, supportedIpAddressTypes: [String]? = nil, tagSpecifications: [TagSpecification]? = nil) {
             self.acceptanceRequired = acceptanceRequired
             self.clientToken = clientToken
             self.dryRun = dryRun
             self.gatewayLoadBalancerArns = gatewayLoadBalancerArns
             self.networkLoadBalancerArns = networkLoadBalancerArns
             self.privateDnsName = privateDnsName
+            self.supportedIpAddressTypes = supportedIpAddressTypes
             self.tagSpecifications = tagSpecifications
         }
 
@@ -10493,6 +10539,7 @@ extension EC2 {
             case gatewayLoadBalancerArns = "GatewayLoadBalancerArn"
             case networkLoadBalancerArns = "NetworkLoadBalancerArn"
             case privateDnsName = "PrivateDnsName"
+            case supportedIpAddressTypes = "SupportedIpAddressType"
             case tagSpecifications = "TagSpecification"
         }
     }
@@ -19859,7 +19906,7 @@ extension EC2 {
 
         /// Checks whether you have the required permissions for the action, without actually making the request, and provides an error response. If you have the required permissions, the error response is DryRunOperation. Otherwise, it is UnauthorizedOperation.
         public let dryRun: Bool?
-        /// One or more filters.    service-id - The ID of the service.    vpc-endpoint-owner - The ID of the Amazon Web Services account ID that owns the endpoint.    vpc-endpoint-state - The state of the endpoint (pendingAcceptance | pending | available | deleting | deleted | rejected | failed).    vpc-endpoint-id - The ID of the endpoint.
+        /// One or more filters.    ip-address-type - The IP address type (ipv4 | ipv6).    service-id - The ID of the service.    vpc-endpoint-owner - The ID of the Amazon Web Services account ID that owns the endpoint.    vpc-endpoint-state - The state of the endpoint (pendingAcceptance | pending | available | deleting | deleted | rejected | failed).    vpc-endpoint-id - The ID of the endpoint.
         @OptionalCustomCoding<ArrayCoder<_FiltersEncoding, Filter>>
         public var filters: [Filter]?
         /// The maximum number of results to return for the request in a single page. The remaining results of the initial request can be seen by sending another request with the returned NextToken value. This value can be between 5 and 1,000; if MaxResults is given a value larger than 1,000, only 1,000 results are returned.
@@ -19908,7 +19955,7 @@ extension EC2 {
 
         /// Checks whether you have the required permissions for the action, without actually making the request, and provides an error response. If you have the required permissions, the error response is DryRunOperation. Otherwise, it is UnauthorizedOperation.
         public let dryRun: Bool?
-        /// One or more filters.    service-name - The name of the service.    service-id - The ID of the service.    service-state - The state of the service (Pending | Available | Deleting | Deleted | Failed).     tag:&lt;key&gt; - The key/value combination of a tag assigned to the resource. Use the tag key in the filter name and the tag value as the filter value. For example, to find all resources that have a tag with the key Owner and the value TeamA, specify tag:Owner for the filter name and TeamA for the filter value.    tag-key - The key of a tag assigned to the resource. Use this filter to find all resources assigned a tag with a specific key, regardless of the tag value.
+        /// One or more filters.    service-name - The name of the service.    service-id - The ID of the service.    service-state - The state of the service (Pending | Available | Deleting | Deleted | Failed).     supported-ip-address-types - The IP address type (ipv4 | ipv6).    tag:&lt;key&gt; - The key/value combination of a tag assigned to the resource. Use the tag key in the filter name and the tag value as the filter value. For example, to find all resources that have a tag with the key Owner and the value TeamA, specify tag:Owner for the filter name and TeamA for the filter value.    tag-key - The key of a tag assigned to the resource. Use this filter to find all resources assigned a tag with a specific key, regardless of the tag value.
         @OptionalCustomCoding<ArrayCoder<_FiltersEncoding, Filter>>
         public var filters: [Filter]?
         /// The maximum number of results to return for the request in a single page. The remaining results of the initial request can be seen by sending another request with the returned NextToken value. This value can be between 5 and 1,000; if MaxResults is given a value larger than 1,000, only 1,000 results are returned.
@@ -20014,7 +20061,7 @@ extension EC2 {
 
         /// Checks whether you have the required permissions for the action, without actually making the request, and provides an error response. If you have the required permissions, the error response is DryRunOperation. Otherwise, it is UnauthorizedOperation.
         public let dryRun: Bool?
-        /// One or more filters.    service-name - The name of the service.    service-type - The type of service (Interface | Gateway).    tag:&lt;key&gt; - The key/value combination of a tag assigned to the resource. Use the tag key in the filter name and the tag value as the filter value. For example, to find all resources that have a tag with the key Owner and the value TeamA, specify tag:Owner for the filter name and TeamA for the filter value.    tag-key - The key of a tag assigned to the resource. Use this filter to find all resources assigned a tag with a specific key, regardless of the tag value.
+        /// One or more filters.    service-name - The name of the service.    service-type - The type of service (Interface | Gateway).    supported-ip-address-types - The IP address type (ipv4 | ipv6).    tag:&lt;key&gt; - The key/value combination of a tag assigned to the resource. Use the tag key in the filter name and the tag value as the filter value. For example, to find all resources that have a tag with the key Owner and the value TeamA, specify tag:Owner for the filter name and TeamA for the filter value.    tag-key - The key of a tag assigned to the resource. Use this filter to find all resources assigned a tag with a specific key, regardless of the tag value.
         @OptionalCustomCoding<ArrayCoder<_FiltersEncoding, Filter>>
         public var filters: [Filter]?
         /// The maximum number of items to return for this request. The request returns a token that you can specify in a subsequent call to get the next set of results. Constraint: If the value is greater than 1,000, we return only 1,000 items.
@@ -20074,7 +20121,7 @@ extension EC2 {
 
         /// Checks whether you have the required permissions for the action, without actually making the request, and provides an error response. If you have the required permissions, the error response is DryRunOperation. Otherwise, it is UnauthorizedOperation.
         public let dryRun: Bool?
-        /// One or more filters.    service-name - The name of the service.    vpc-id - The ID of the VPC in which the endpoint resides.    vpc-endpoint-id - The ID of the endpoint.    vpc-endpoint-state - The state of the endpoint (pendingAcceptance | pending | available | deleting | deleted | rejected | failed).    vpc-endpoint-type - The type of VPC endpoint (Interface | Gateway | GatewayLoadBalancer).    tag:&lt;key&gt; - The key/value combination of a tag assigned to the resource. Use the tag key in the filter name and the tag value as the filter value. For example, to find all resources that have a tag with the key Owner and the value TeamA, specify tag:Owner for the filter name and TeamA for the filter value.    tag-key - The key of a tag assigned to the resource. Use this filter to find all resources assigned a tag with a specific key, regardless of the tag value.
+        /// One or more filters.    ip-address-type - The IP address type (ipv4 | ipv6).    service-name - The name of the service.    vpc-id - The ID of the VPC in which the endpoint resides.    vpc-endpoint-id - The ID of the endpoint.    vpc-endpoint-state - The state of the endpoint (pendingAcceptance | pending | available | deleting | deleted | rejected | failed).    vpc-endpoint-type - The type of VPC endpoint (Interface | Gateway | GatewayLoadBalancer).    tag:&lt;key&gt; - The key/value combination of a tag assigned to the resource. Use the tag key in the filter name and the tag value as the filter value. For example, to find all resources that have a tag with the key Owner and the value TeamA, specify tag:Owner for the filter name and TeamA for the filter value.    tag-key - The key of a tag assigned to the resource. Use this filter to find all resources assigned a tag with a specific key, regardless of the tag value.
         @OptionalCustomCoding<ArrayCoder<_FiltersEncoding, Filter>>
         public var filters: [Filter]?
         /// The maximum number of items to return for this request. The request returns a token that you can specify in a subsequent call to get the next set of results. Constraint: If the value is greater than 1,000, we return only 1,000 items.
@@ -21485,6 +21532,32 @@ extension EC2 {
         private enum CodingKeys: String, CodingKey {
             case dnsName
             case hostedZoneId
+        }
+    }
+
+    public struct DnsOptions: AWSDecodableShape {
+        /// The DNS records created for the endpoint.
+        public let dnsRecordIpType: DnsRecordIpType?
+
+        public init(dnsRecordIpType: DnsRecordIpType? = nil) {
+            self.dnsRecordIpType = dnsRecordIpType
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case dnsRecordIpType
+        }
+    }
+
+    public struct DnsOptionsSpecification: AWSEncodableShape {
+        /// The DNS records created for the endpoint.
+        public let dnsRecordIpType: DnsRecordIpType?
+
+        public init(dnsRecordIpType: DnsRecordIpType? = nil) {
+            self.dnsRecordIpType = dnsRecordIpType
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case dnsRecordIpType = "DnsRecordIpType"
         }
     }
 
@@ -24355,6 +24428,40 @@ extension EC2 {
         }
     }
 
+    public struct GetInstanceUefiDataRequest: AWSEncodableShape {
+        /// Checks whether you have the required permissions for the action, without actually making the request, and provides an error response. If you have the required permissions, the error response is DryRunOperation. Otherwise, it is UnauthorizedOperation.
+        public let dryRun: Bool?
+        /// The ID of the instance from which to retrieve the UEFI data.
+        public let instanceId: String
+
+        public init(dryRun: Bool? = nil, instanceId: String) {
+            self.dryRun = dryRun
+            self.instanceId = instanceId
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case dryRun = "DryRun"
+            case instanceId = "InstanceId"
+        }
+    }
+
+    public struct GetInstanceUefiDataResult: AWSDecodableShape {
+        /// The ID of the instance from which to retrieve the UEFI data.
+        public let instanceId: String?
+        /// Base64 representation of the non-volatile UEFI variable store.
+        public let uefiData: String?
+
+        public init(instanceId: String? = nil, uefiData: String? = nil) {
+            self.instanceId = instanceId
+            self.uefiData = uefiData
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case instanceId
+            case uefiData
+        }
+    }
+
     public struct GetIpamAddressHistoryRequest: AWSEncodableShape {
         /// The CIDR you want the history of. The CIDR can be an IPv4 or IPv6 IP address range. If you enter a /16 IPv4 CIDR, you will get records that match it exactly. You will not get records for any subnets within the /16 CIDR.
         public let cidr: String
@@ -26061,12 +26168,14 @@ extension EC2 {
         /// Any tags assigned to the image.
         @OptionalCustomCoding<ArrayCoder<_TagsEncoding, Tag>>
         public var tags: [Tag]?
+        /// If the image is configured for NitroTPM support, the value is v2.0. For more information, see NitroTPM in the Amazon Elastic Compute Cloud User Guide.
+        public let tpmSupport: TpmSupportValues?
         /// The operation of the Amazon EC2 instance and the billing code that is associated with the AMI. usageOperation corresponds to the lineitem/Operation column on your Amazon Web Services Cost and Usage Report and in the Amazon Web Services Price List API. You can view these fields on the Instances or AMIs pages in the Amazon EC2 console, or in the responses that are returned by the DescribeImages command in the Amazon EC2 API, or the describe-images command in the CLI.
         public let usageOperation: String?
         /// The type of virtualization of the AMI.
         public let virtualizationType: VirtualizationType?
 
-        public init(architecture: ArchitectureValues? = nil, blockDeviceMappings: [BlockDeviceMapping]? = nil, bootMode: BootModeValues? = nil, creationDate: String? = nil, deprecationTime: String? = nil, description: String? = nil, enaSupport: Bool? = nil, hypervisor: HypervisorType? = nil, imageId: String? = nil, imageLocation: String? = nil, imageOwnerAlias: String? = nil, imageType: ImageTypeValues? = nil, kernelId: String? = nil, name: String? = nil, ownerId: String? = nil, platform: PlatformValues? = nil, platformDetails: String? = nil, productCodes: [ProductCode]? = nil, public: Bool? = nil, ramdiskId: String? = nil, rootDeviceName: String? = nil, rootDeviceType: DeviceType? = nil, sriovNetSupport: String? = nil, state: ImageState? = nil, stateReason: StateReason? = nil, tags: [Tag]? = nil, usageOperation: String? = nil, virtualizationType: VirtualizationType? = nil) {
+        public init(architecture: ArchitectureValues? = nil, blockDeviceMappings: [BlockDeviceMapping]? = nil, bootMode: BootModeValues? = nil, creationDate: String? = nil, deprecationTime: String? = nil, description: String? = nil, enaSupport: Bool? = nil, hypervisor: HypervisorType? = nil, imageId: String? = nil, imageLocation: String? = nil, imageOwnerAlias: String? = nil, imageType: ImageTypeValues? = nil, kernelId: String? = nil, name: String? = nil, ownerId: String? = nil, platform: PlatformValues? = nil, platformDetails: String? = nil, productCodes: [ProductCode]? = nil, public: Bool? = nil, ramdiskId: String? = nil, rootDeviceName: String? = nil, rootDeviceType: DeviceType? = nil, sriovNetSupport: String? = nil, state: ImageState? = nil, stateReason: StateReason? = nil, tags: [Tag]? = nil, tpmSupport: TpmSupportValues? = nil, usageOperation: String? = nil, virtualizationType: VirtualizationType? = nil) {
             self.architecture = architecture
             self.blockDeviceMappings = blockDeviceMappings
             self.bootMode = bootMode
@@ -26093,6 +26202,7 @@ extension EC2 {
             self.state = state
             self.stateReason = stateReason
             self.tags = tags
+            self.tpmSupport = tpmSupport
             self.usageOperation = usageOperation
             self.virtualizationType = virtualizationType
         }
@@ -26124,6 +26234,7 @@ extension EC2 {
             case state = "imageState"
             case stateReason
             case tags = "tagSet"
+            case tpmSupport
             case usageOperation
             case virtualizationType
         }
@@ -26157,8 +26268,12 @@ extension EC2 {
         public let ramdiskId: AttributeValue?
         /// Indicates whether enhanced networking with the Intel 82599 Virtual Function interface is enabled.
         public let sriovNetSupport: AttributeValue?
+        /// If the image is configured for NitroTPM support, the value is v2.0.
+        public let tpmSupport: AttributeValue?
+        /// Base64 representation of the non-volatile UEFI variable store. To retrieve the UEFI data, use the GetInstanceUefiData command. You can inspect and modify the UEFI data by using the python-uefivars tool on GitHub. For more information, see UEFI Secure Boot in the Amazon Elastic Compute Cloud User Guide.
+        public let uefiData: AttributeValue?
 
-        public init(blockDeviceMappings: [BlockDeviceMapping]? = nil, bootMode: AttributeValue? = nil, description: AttributeValue? = nil, imageId: String? = nil, kernelId: AttributeValue? = nil, lastLaunchedTime: AttributeValue? = nil, launchPermissions: [LaunchPermission]? = nil, productCodes: [ProductCode]? = nil, ramdiskId: AttributeValue? = nil, sriovNetSupport: AttributeValue? = nil) {
+        public init(blockDeviceMappings: [BlockDeviceMapping]? = nil, bootMode: AttributeValue? = nil, description: AttributeValue? = nil, imageId: String? = nil, kernelId: AttributeValue? = nil, lastLaunchedTime: AttributeValue? = nil, launchPermissions: [LaunchPermission]? = nil, productCodes: [ProductCode]? = nil, ramdiskId: AttributeValue? = nil, sriovNetSupport: AttributeValue? = nil, tpmSupport: AttributeValue? = nil, uefiData: AttributeValue? = nil) {
             self.blockDeviceMappings = blockDeviceMappings
             self.bootMode = bootMode
             self.description = description
@@ -26169,6 +26284,8 @@ extension EC2 {
             self.productCodes = productCodes
             self.ramdiskId = ramdiskId
             self.sriovNetSupport = sriovNetSupport
+            self.tpmSupport = tpmSupport
+            self.uefiData = uefiData
         }
 
         private enum CodingKeys: String, CodingKey {
@@ -26182,6 +26299,8 @@ extension EC2 {
             case productCodes
             case ramdiskId = "ramdisk"
             case sriovNetSupport
+            case tpmSupport
+            case uefiData
         }
     }
 
@@ -27103,6 +27222,8 @@ extension EC2 {
         /// Any tags assigned to the instance.
         @OptionalCustomCoding<ArrayCoder<_TagsEncoding, Tag>>
         public var tags: [Tag]?
+        /// If the instance is configured for NitroTPM support, the value is v2.0. For more information, see NitroTPM in the Amazon EC2 User Guide.
+        public let tpmSupport: String?
         /// The usage operation value for the instance. For more information, see AMI billing information fields in the Amazon EC2 User Guide.
         public let usageOperation: String?
         /// The time that the usage operation was last updated.
@@ -27112,7 +27233,7 @@ extension EC2 {
         /// [EC2-VPC] The ID of the VPC in which the instance is running.
         public let vpcId: String?
 
-        public init(amiLaunchIndex: Int? = nil, architecture: ArchitectureValues? = nil, blockDeviceMappings: [InstanceBlockDeviceMapping]? = nil, bootMode: BootModeValues? = nil, capacityReservationId: String? = nil, capacityReservationSpecification: CapacityReservationSpecificationResponse? = nil, clientToken: String? = nil, cpuOptions: CpuOptions? = nil, ebsOptimized: Bool? = nil, elasticGpuAssociations: [ElasticGpuAssociation]? = nil, elasticInferenceAcceleratorAssociations: [ElasticInferenceAcceleratorAssociation]? = nil, enaSupport: Bool? = nil, enclaveOptions: EnclaveOptions? = nil, hibernationOptions: HibernationOptions? = nil, hypervisor: HypervisorType? = nil, iamInstanceProfile: IamInstanceProfile? = nil, imageId: String? = nil, instanceId: String? = nil, instanceLifecycle: InstanceLifecycleType? = nil, instanceType: InstanceType? = nil, ipv6Address: String? = nil, kernelId: String? = nil, keyName: String? = nil, launchTime: Date? = nil, licenses: [LicenseConfiguration]? = nil, maintenanceOptions: InstanceMaintenanceOptions? = nil, metadataOptions: InstanceMetadataOptionsResponse? = nil, monitoring: Monitoring? = nil, networkInterfaces: [InstanceNetworkInterface]? = nil, outpostArn: String? = nil, placement: Placement? = nil, platform: PlatformValues? = nil, platformDetails: String? = nil, privateDnsName: String? = nil, privateDnsNameOptions: PrivateDnsNameOptionsResponse? = nil, privateIpAddress: String? = nil, productCodes: [ProductCode]? = nil, publicDnsName: String? = nil, publicIpAddress: String? = nil, ramdiskId: String? = nil, rootDeviceName: String? = nil, rootDeviceType: DeviceType? = nil, securityGroups: [GroupIdentifier]? = nil, sourceDestCheck: Bool? = nil, spotInstanceRequestId: String? = nil, sriovNetSupport: String? = nil, state: InstanceState? = nil, stateReason: StateReason? = nil, stateTransitionReason: String? = nil, subnetId: String? = nil, tags: [Tag]? = nil, usageOperation: String? = nil, usageOperationUpdateTime: Date? = nil, virtualizationType: VirtualizationType? = nil, vpcId: String? = nil) {
+        public init(amiLaunchIndex: Int? = nil, architecture: ArchitectureValues? = nil, blockDeviceMappings: [InstanceBlockDeviceMapping]? = nil, bootMode: BootModeValues? = nil, capacityReservationId: String? = nil, capacityReservationSpecification: CapacityReservationSpecificationResponse? = nil, clientToken: String? = nil, cpuOptions: CpuOptions? = nil, ebsOptimized: Bool? = nil, elasticGpuAssociations: [ElasticGpuAssociation]? = nil, elasticInferenceAcceleratorAssociations: [ElasticInferenceAcceleratorAssociation]? = nil, enaSupport: Bool? = nil, enclaveOptions: EnclaveOptions? = nil, hibernationOptions: HibernationOptions? = nil, hypervisor: HypervisorType? = nil, iamInstanceProfile: IamInstanceProfile? = nil, imageId: String? = nil, instanceId: String? = nil, instanceLifecycle: InstanceLifecycleType? = nil, instanceType: InstanceType? = nil, ipv6Address: String? = nil, kernelId: String? = nil, keyName: String? = nil, launchTime: Date? = nil, licenses: [LicenseConfiguration]? = nil, maintenanceOptions: InstanceMaintenanceOptions? = nil, metadataOptions: InstanceMetadataOptionsResponse? = nil, monitoring: Monitoring? = nil, networkInterfaces: [InstanceNetworkInterface]? = nil, outpostArn: String? = nil, placement: Placement? = nil, platform: PlatformValues? = nil, platformDetails: String? = nil, privateDnsName: String? = nil, privateDnsNameOptions: PrivateDnsNameOptionsResponse? = nil, privateIpAddress: String? = nil, productCodes: [ProductCode]? = nil, publicDnsName: String? = nil, publicIpAddress: String? = nil, ramdiskId: String? = nil, rootDeviceName: String? = nil, rootDeviceType: DeviceType? = nil, securityGroups: [GroupIdentifier]? = nil, sourceDestCheck: Bool? = nil, spotInstanceRequestId: String? = nil, sriovNetSupport: String? = nil, state: InstanceState? = nil, stateReason: StateReason? = nil, stateTransitionReason: String? = nil, subnetId: String? = nil, tags: [Tag]? = nil, tpmSupport: String? = nil, usageOperation: String? = nil, usageOperationUpdateTime: Date? = nil, virtualizationType: VirtualizationType? = nil, vpcId: String? = nil) {
             self.amiLaunchIndex = amiLaunchIndex
             self.architecture = architecture
             self.blockDeviceMappings = blockDeviceMappings
@@ -27164,6 +27285,7 @@ extension EC2 {
             self.stateTransitionReason = stateTransitionReason
             self.subnetId = subnetId
             self.tags = tags
+            self.tpmSupport = tpmSupport
             self.usageOperation = usageOperation
             self.usageOperationUpdateTime = usageOperationUpdateTime
             self.virtualizationType = virtualizationType
@@ -27222,6 +27344,7 @@ extension EC2 {
             case stateTransitionReason = "reason"
             case subnetId
             case tags = "tagSet"
+            case tpmSupport
             case usageOperation
             case usageOperationUpdateTime
             case virtualizationType
@@ -33595,8 +33718,12 @@ extension EC2 {
         /// (Interface and Gateway Load Balancer endpoints) One or more subnet IDs in which to serve the endpoint. For a Gateway Load Balancer endpoint, you can specify only one subnet.
         @OptionalCustomCoding<ArrayCoder<_AddSubnetIdsEncoding, String>>
         public var addSubnetIds: [String]?
+        /// The DNS options for the endpoint.
+        public let dnsOptions: DnsOptionsSpecification?
         /// Checks whether you have the required permissions for the action, without actually making the request, and provides an error response. If you have the required permissions, the error response is DryRunOperation. Otherwise, it is UnauthorizedOperation.
         public let dryRun: Bool?
+        /// The IP address type for the endpoint.
+        public let ipAddressType: IpAddressType?
         /// (Interface and gateway endpoints) A policy to attach to the endpoint that controls access to the service. The policy must be in valid JSON format.
         public let policyDocument: String?
         /// (Interface endpoint) Indicates whether a private hosted zone is associated with the VPC.
@@ -33615,11 +33742,13 @@ extension EC2 {
         /// The ID of the endpoint.
         public let vpcEndpointId: String
 
-        public init(addRouteTableIds: [String]? = nil, addSecurityGroupIds: [String]? = nil, addSubnetIds: [String]? = nil, dryRun: Bool? = nil, policyDocument: String? = nil, privateDnsEnabled: Bool? = nil, removeRouteTableIds: [String]? = nil, removeSecurityGroupIds: [String]? = nil, removeSubnetIds: [String]? = nil, resetPolicy: Bool? = nil, vpcEndpointId: String) {
+        public init(addRouteTableIds: [String]? = nil, addSecurityGroupIds: [String]? = nil, addSubnetIds: [String]? = nil, dnsOptions: DnsOptionsSpecification? = nil, dryRun: Bool? = nil, ipAddressType: IpAddressType? = nil, policyDocument: String? = nil, privateDnsEnabled: Bool? = nil, removeRouteTableIds: [String]? = nil, removeSecurityGroupIds: [String]? = nil, removeSubnetIds: [String]? = nil, resetPolicy: Bool? = nil, vpcEndpointId: String) {
             self.addRouteTableIds = addRouteTableIds
             self.addSecurityGroupIds = addSecurityGroupIds
             self.addSubnetIds = addSubnetIds
+            self.dnsOptions = dnsOptions
             self.dryRun = dryRun
+            self.ipAddressType = ipAddressType
             self.policyDocument = policyDocument
             self.privateDnsEnabled = privateDnsEnabled
             self.removeRouteTableIds = removeRouteTableIds
@@ -33633,7 +33762,9 @@ extension EC2 {
             case addRouteTableIds = "AddRouteTableId"
             case addSecurityGroupIds = "AddSecurityGroupId"
             case addSubnetIds = "AddSubnetId"
+            case dnsOptions = "DnsOptions"
             case dryRun = "DryRun"
+            case ipAddressType = "IpAddressType"
             case policyDocument = "PolicyDocument"
             case privateDnsEnabled = "PrivateDnsEnabled"
             case removeRouteTableIds = "RemoveRouteTableId"
@@ -33660,8 +33791,10 @@ extension EC2 {
     public struct ModifyVpcEndpointServiceConfigurationRequest: AWSEncodableShape {
         public struct _AddGatewayLoadBalancerArnsEncoding: ArrayCoderProperties { public static let member = "item" }
         public struct _AddNetworkLoadBalancerArnsEncoding: ArrayCoderProperties { public static let member = "item" }
+        public struct _AddSupportedIpAddressTypesEncoding: ArrayCoderProperties { public static let member = "item" }
         public struct _RemoveGatewayLoadBalancerArnsEncoding: ArrayCoderProperties { public static let member = "item" }
         public struct _RemoveNetworkLoadBalancerArnsEncoding: ArrayCoderProperties { public static let member = "item" }
+        public struct _RemoveSupportedIpAddressTypesEncoding: ArrayCoderProperties { public static let member = "item" }
 
         /// Indicates whether requests to create an endpoint to your service must be accepted.
         public let acceptanceRequired: Bool?
@@ -33671,6 +33804,9 @@ extension EC2 {
         /// The Amazon Resource Names (ARNs) of Network Load Balancers to add to your service configuration.
         @OptionalCustomCoding<ArrayCoder<_AddNetworkLoadBalancerArnsEncoding, String>>
         public var addNetworkLoadBalancerArns: [String]?
+        /// The IP address types to add to your service configuration.
+        @OptionalCustomCoding<ArrayCoder<_AddSupportedIpAddressTypesEncoding, String>>
+        public var addSupportedIpAddressTypes: [String]?
         /// Checks whether you have the required permissions for the action, without actually making the request, and provides an error response. If you have the required permissions, the error response is DryRunOperation. Otherwise, it is UnauthorizedOperation.
         public let dryRun: Bool?
         /// (Interface endpoint configuration) The private DNS name to assign to the endpoint service.
@@ -33683,18 +33819,23 @@ extension EC2 {
         public var removeNetworkLoadBalancerArns: [String]?
         /// (Interface endpoint configuration) Removes the private DNS name of the endpoint service.
         public let removePrivateDnsName: Bool?
+        /// The IP address types to remove from your service configuration.
+        @OptionalCustomCoding<ArrayCoder<_RemoveSupportedIpAddressTypesEncoding, String>>
+        public var removeSupportedIpAddressTypes: [String]?
         /// The ID of the service.
         public let serviceId: String
 
-        public init(acceptanceRequired: Bool? = nil, addGatewayLoadBalancerArns: [String]? = nil, addNetworkLoadBalancerArns: [String]? = nil, dryRun: Bool? = nil, privateDnsName: String? = nil, removeGatewayLoadBalancerArns: [String]? = nil, removeNetworkLoadBalancerArns: [String]? = nil, removePrivateDnsName: Bool? = nil, serviceId: String) {
+        public init(acceptanceRequired: Bool? = nil, addGatewayLoadBalancerArns: [String]? = nil, addNetworkLoadBalancerArns: [String]? = nil, addSupportedIpAddressTypes: [String]? = nil, dryRun: Bool? = nil, privateDnsName: String? = nil, removeGatewayLoadBalancerArns: [String]? = nil, removeNetworkLoadBalancerArns: [String]? = nil, removePrivateDnsName: Bool? = nil, removeSupportedIpAddressTypes: [String]? = nil, serviceId: String) {
             self.acceptanceRequired = acceptanceRequired
             self.addGatewayLoadBalancerArns = addGatewayLoadBalancerArns
             self.addNetworkLoadBalancerArns = addNetworkLoadBalancerArns
+            self.addSupportedIpAddressTypes = addSupportedIpAddressTypes
             self.dryRun = dryRun
             self.privateDnsName = privateDnsName
             self.removeGatewayLoadBalancerArns = removeGatewayLoadBalancerArns
             self.removeNetworkLoadBalancerArns = removeNetworkLoadBalancerArns
             self.removePrivateDnsName = removePrivateDnsName
+            self.removeSupportedIpAddressTypes = removeSupportedIpAddressTypes
             self.serviceId = serviceId
         }
 
@@ -33702,11 +33843,13 @@ extension EC2 {
             case acceptanceRequired = "AcceptanceRequired"
             case addGatewayLoadBalancerArns = "AddGatewayLoadBalancerArn"
             case addNetworkLoadBalancerArns = "AddNetworkLoadBalancerArn"
+            case addSupportedIpAddressTypes = "AddSupportedIpAddressType"
             case dryRun = "DryRun"
             case privateDnsName = "PrivateDnsName"
             case removeGatewayLoadBalancerArns = "RemoveGatewayLoadBalancerArn"
             case removeNetworkLoadBalancerArns = "RemoveNetworkLoadBalancerArn"
             case removePrivateDnsName = "RemovePrivateDnsName"
+            case removeSupportedIpAddressTypes = "RemoveSupportedIpAddressType"
             case serviceId = "ServiceId"
         }
     }
@@ -36732,10 +36875,14 @@ extension EC2 {
         public let rootDeviceName: String?
         /// Set to simple to enable enhanced networking with the Intel 82599 Virtual Function interface for the AMI and any instances that you launch from the AMI. There is no way to disable sriovNetSupport at this time. This option is supported only for HVM AMIs. Specifying this option with a PV AMI can make instances launched from the AMI unreachable.
         public let sriovNetSupport: String?
+        /// Set to v2.0 to enable Trusted Platform Module (TPM) support. For more information, see NitroTPM in the Amazon Elastic Compute Cloud User Guide.
+        public let tpmSupport: TpmSupportValues?
+        /// Base64 representation of the non-volatile UEFI variable store. To retrieve the UEFI data, use the GetInstanceUefiData command. You can inspect and modify the UEFI data by using the python-uefivars tool on GitHub. For more information, see UEFI Secure Boot in the Amazon Elastic Compute Cloud User Guide.
+        public let uefiData: String?
         /// The type of virtualization (hvm | paravirtual). Default: paravirtual
         public let virtualizationType: String?
 
-        public init(architecture: ArchitectureValues? = nil, billingProducts: [String]? = nil, blockDeviceMappings: [BlockDeviceMapping]? = nil, bootMode: BootModeValues? = nil, description: String? = nil, dryRun: Bool? = nil, enaSupport: Bool? = nil, imageLocation: String? = nil, kernelId: String? = nil, name: String, ramdiskId: String? = nil, rootDeviceName: String? = nil, sriovNetSupport: String? = nil, virtualizationType: String? = nil) {
+        public init(architecture: ArchitectureValues? = nil, billingProducts: [String]? = nil, blockDeviceMappings: [BlockDeviceMapping]? = nil, bootMode: BootModeValues? = nil, description: String? = nil, dryRun: Bool? = nil, enaSupport: Bool? = nil, imageLocation: String? = nil, kernelId: String? = nil, name: String, ramdiskId: String? = nil, rootDeviceName: String? = nil, sriovNetSupport: String? = nil, tpmSupport: TpmSupportValues? = nil, uefiData: String? = nil, virtualizationType: String? = nil) {
             self.architecture = architecture
             self.billingProducts = billingProducts
             self.blockDeviceMappings = blockDeviceMappings
@@ -36749,7 +36896,14 @@ extension EC2 {
             self.ramdiskId = ramdiskId
             self.rootDeviceName = rootDeviceName
             self.sriovNetSupport = sriovNetSupport
+            self.tpmSupport = tpmSupport
+            self.uefiData = uefiData
             self.virtualizationType = virtualizationType
+        }
+
+        public func validate(name: String) throws {
+            try self.validate(self.uefiData, name: "uefiData", parent: name, max: 64000)
+            try self.validate(self.uefiData, name: "uefiData", parent: name, min: 0)
         }
 
         private enum CodingKeys: String, CodingKey {
@@ -36766,6 +36920,8 @@ extension EC2 {
             case ramdiskId
             case rootDeviceName
             case sriovNetSupport
+            case tpmSupport = "TpmSupport"
+            case uefiData = "UefiData"
             case virtualizationType
         }
     }
@@ -40518,6 +40674,7 @@ extension EC2 {
         public struct _GatewayLoadBalancerArnsEncoding: ArrayCoderProperties { public static let member = "item" }
         public struct _NetworkLoadBalancerArnsEncoding: ArrayCoderProperties { public static let member = "item" }
         public struct _ServiceTypeEncoding: ArrayCoderProperties { public static let member = "item" }
+        public struct _SupportedIpAddressTypesEncoding: ArrayCoderProperties { public static let member = "item" }
         public struct _TagsEncoding: ArrayCoderProperties { public static let member = "item" }
 
         /// Indicates whether requests from other Amazon Web Services accounts to create an endpoint to the service must first be accepted.
@@ -40551,11 +40708,14 @@ extension EC2 {
         /// The type of service.
         @OptionalCustomCoding<ArrayCoder<_ServiceTypeEncoding, ServiceTypeDetail>>
         public var serviceType: [ServiceTypeDetail]?
+        /// The supported IP address types.
+        @OptionalCustomCoding<ArrayCoder<_SupportedIpAddressTypesEncoding, ServiceConnectivityType>>
+        public var supportedIpAddressTypes: [ServiceConnectivityType]?
         /// Any tags assigned to the service.
         @OptionalCustomCoding<ArrayCoder<_TagsEncoding, Tag>>
         public var tags: [Tag]?
 
-        public init(acceptanceRequired: Bool? = nil, availabilityZones: [String]? = nil, baseEndpointDnsNames: [String]? = nil, gatewayLoadBalancerArns: [String]? = nil, managesVpcEndpoints: Bool? = nil, networkLoadBalancerArns: [String]? = nil, payerResponsibility: PayerResponsibility? = nil, privateDnsName: String? = nil, privateDnsNameConfiguration: PrivateDnsNameConfiguration? = nil, serviceId: String? = nil, serviceName: String? = nil, serviceState: ServiceState? = nil, serviceType: [ServiceTypeDetail]? = nil, tags: [Tag]? = nil) {
+        public init(acceptanceRequired: Bool? = nil, availabilityZones: [String]? = nil, baseEndpointDnsNames: [String]? = nil, gatewayLoadBalancerArns: [String]? = nil, managesVpcEndpoints: Bool? = nil, networkLoadBalancerArns: [String]? = nil, payerResponsibility: PayerResponsibility? = nil, privateDnsName: String? = nil, privateDnsNameConfiguration: PrivateDnsNameConfiguration? = nil, serviceId: String? = nil, serviceName: String? = nil, serviceState: ServiceState? = nil, serviceType: [ServiceTypeDetail]? = nil, supportedIpAddressTypes: [ServiceConnectivityType]? = nil, tags: [Tag]? = nil) {
             self.acceptanceRequired = acceptanceRequired
             self.availabilityZones = availabilityZones
             self.baseEndpointDnsNames = baseEndpointDnsNames
@@ -40569,6 +40729,7 @@ extension EC2 {
             self.serviceName = serviceName
             self.serviceState = serviceState
             self.serviceType = serviceType
+            self.supportedIpAddressTypes = supportedIpAddressTypes
             self.tags = tags
         }
 
@@ -40586,6 +40747,7 @@ extension EC2 {
             case serviceName
             case serviceState
             case serviceType
+            case supportedIpAddressTypes = "supportedIpAddressTypeSet"
             case tags = "tagSet"
         }
     }
@@ -40595,6 +40757,7 @@ extension EC2 {
         public struct _BaseEndpointDnsNamesEncoding: ArrayCoderProperties { public static let member = "item" }
         public struct _PrivateDnsNamesEncoding: ArrayCoderProperties { public static let member = "item" }
         public struct _ServiceTypeEncoding: ArrayCoderProperties { public static let member = "item" }
+        public struct _SupportedIpAddressTypesEncoding: ArrayCoderProperties { public static let member = "item" }
         public struct _TagsEncoding: ArrayCoderProperties { public static let member = "item" }
 
         /// Indicates whether VPC endpoint connection requests to the service must be accepted by the service owner.
@@ -40625,13 +40788,16 @@ extension EC2 {
         /// The type of service.
         @OptionalCustomCoding<ArrayCoder<_ServiceTypeEncoding, ServiceTypeDetail>>
         public var serviceType: [ServiceTypeDetail]?
+        /// The supported IP address types.
+        @OptionalCustomCoding<ArrayCoder<_SupportedIpAddressTypesEncoding, ServiceConnectivityType>>
+        public var supportedIpAddressTypes: [ServiceConnectivityType]?
         /// Any tags assigned to the service.
         @OptionalCustomCoding<ArrayCoder<_TagsEncoding, Tag>>
         public var tags: [Tag]?
         /// Indicates whether the service supports endpoint policies.
         public let vpcEndpointPolicySupported: Bool?
 
-        public init(acceptanceRequired: Bool? = nil, availabilityZones: [String]? = nil, baseEndpointDnsNames: [String]? = nil, managesVpcEndpoints: Bool? = nil, owner: String? = nil, payerResponsibility: PayerResponsibility? = nil, privateDnsName: String? = nil, privateDnsNames: [PrivateDnsDetails]? = nil, privateDnsNameVerificationState: DnsNameState? = nil, serviceId: String? = nil, serviceName: String? = nil, serviceType: [ServiceTypeDetail]? = nil, tags: [Tag]? = nil, vpcEndpointPolicySupported: Bool? = nil) {
+        public init(acceptanceRequired: Bool? = nil, availabilityZones: [String]? = nil, baseEndpointDnsNames: [String]? = nil, managesVpcEndpoints: Bool? = nil, owner: String? = nil, payerResponsibility: PayerResponsibility? = nil, privateDnsName: String? = nil, privateDnsNames: [PrivateDnsDetails]? = nil, privateDnsNameVerificationState: DnsNameState? = nil, serviceId: String? = nil, serviceName: String? = nil, serviceType: [ServiceTypeDetail]? = nil, supportedIpAddressTypes: [ServiceConnectivityType]? = nil, tags: [Tag]? = nil, vpcEndpointPolicySupported: Bool? = nil) {
             self.acceptanceRequired = acceptanceRequired
             self.availabilityZones = availabilityZones
             self.baseEndpointDnsNames = baseEndpointDnsNames
@@ -40644,6 +40810,7 @@ extension EC2 {
             self.serviceId = serviceId
             self.serviceName = serviceName
             self.serviceType = serviceType
+            self.supportedIpAddressTypes = supportedIpAddressTypes
             self.tags = tags
             self.vpcEndpointPolicySupported = vpcEndpointPolicySupported
         }
@@ -40661,6 +40828,7 @@ extension EC2 {
             case serviceId
             case serviceName
             case serviceType
+            case supportedIpAddressTypes = "supportedIpAddressTypeSet"
             case tags = "tagSet"
             case vpcEndpointPolicySupported
         }
@@ -42912,6 +43080,8 @@ extension EC2 {
 
         /// Information about the Traffic Mirror target.
         public let description: String?
+        /// The ID of the Gateway Load Balancer endpoint.
+        public let gatewayLoadBalancerEndpointId: String?
         /// The network interface ID that is attached to the target.
         public let networkInterfaceId: String?
         /// The Amazon Resource Name (ARN) of the Network Load Balancer.
@@ -42926,8 +43096,9 @@ extension EC2 {
         /// The type of Traffic Mirror target.
         public let type: TrafficMirrorTargetType?
 
-        public init(description: String? = nil, networkInterfaceId: String? = nil, networkLoadBalancerArn: String? = nil, ownerId: String? = nil, tags: [Tag]? = nil, trafficMirrorTargetId: String? = nil, type: TrafficMirrorTargetType? = nil) {
+        public init(description: String? = nil, gatewayLoadBalancerEndpointId: String? = nil, networkInterfaceId: String? = nil, networkLoadBalancerArn: String? = nil, ownerId: String? = nil, tags: [Tag]? = nil, trafficMirrorTargetId: String? = nil, type: TrafficMirrorTargetType? = nil) {
             self.description = description
+            self.gatewayLoadBalancerEndpointId = gatewayLoadBalancerEndpointId
             self.networkInterfaceId = networkInterfaceId
             self.networkLoadBalancerArn = networkLoadBalancerArn
             self.ownerId = ownerId
@@ -42938,6 +43109,7 @@ extension EC2 {
 
         private enum CodingKeys: String, CodingKey {
             case description
+            case gatewayLoadBalancerEndpointId
             case networkInterfaceId
             case networkLoadBalancerArn
             case ownerId
@@ -45150,51 +45322,57 @@ extension EC2 {
         public struct _SubnetIdsEncoding: ArrayCoderProperties { public static let member = "item" }
         public struct _TagsEncoding: ArrayCoderProperties { public static let member = "item" }
 
-        /// The date and time that the VPC endpoint was created.
+        /// The date and time that the endpoint was created.
         public let creationTimestamp: Date?
         /// (Interface endpoint) The DNS entries for the endpoint.
         @OptionalCustomCoding<ArrayCoder<_DnsEntriesEncoding, DnsEntry>>
         public var dnsEntries: [DnsEntry]?
+        /// The DNS options for the endpoint.
+        public let dnsOptions: DnsOptions?
         /// (Interface endpoint) Information about the security groups that are associated with the network interface.
         @OptionalCustomCoding<ArrayCoder<_GroupsEncoding, SecurityGroupIdentifier>>
         public var groups: [SecurityGroupIdentifier]?
-        /// The last error that occurred for VPC endpoint.
+        /// The IP address type for the endpoint.
+        public let ipAddressType: IpAddressType?
+        /// The last error that occurred for endpoint.
         public let lastError: LastError?
         /// (Interface endpoint) One or more network interfaces for the endpoint.
         @OptionalCustomCoding<ArrayCoder<_NetworkInterfaceIdsEncoding, String>>
         public var networkInterfaceIds: [String]?
-        /// The ID of the Amazon Web Services account that owns the VPC endpoint.
+        /// The ID of the Amazon Web Services account that owns the endpoint.
         public let ownerId: String?
         /// The policy document associated with the endpoint, if applicable.
         public let policyDocument: String?
         /// (Interface endpoint) Indicates whether the VPC is associated with a private hosted zone.
         public let privateDnsEnabled: Bool?
-        /// Indicates whether the VPC endpoint is being managed by its service.
+        /// Indicates whether the endpoint is being managed by its service.
         public let requesterManaged: Bool?
         /// (Gateway endpoint) One or more route tables associated with the endpoint.
         @OptionalCustomCoding<ArrayCoder<_RouteTableIdsEncoding, String>>
         public var routeTableIds: [String]?
         /// The name of the service to which the endpoint is associated.
         public let serviceName: String?
-        /// The state of the VPC endpoint.
+        /// The state of the endpoint.
         public let state: State?
-        /// (Interface endpoint) One or more subnets in which the endpoint is located.
+        /// (Interface endpoint) The subnets for the endpoint.
         @OptionalCustomCoding<ArrayCoder<_SubnetIdsEncoding, String>>
         public var subnetIds: [String]?
-        /// Any tags assigned to the VPC endpoint.
+        /// Any tags assigned to the endpoint.
         @OptionalCustomCoding<ArrayCoder<_TagsEncoding, Tag>>
         public var tags: [Tag]?
-        /// The ID of the VPC endpoint.
+        /// The ID of the endpoint.
         public let vpcEndpointId: String?
         /// The type of endpoint.
         public let vpcEndpointType: VpcEndpointType?
         /// The ID of the VPC to which the endpoint is associated.
         public let vpcId: String?
 
-        public init(creationTimestamp: Date? = nil, dnsEntries: [DnsEntry]? = nil, groups: [SecurityGroupIdentifier]? = nil, lastError: LastError? = nil, networkInterfaceIds: [String]? = nil, ownerId: String? = nil, policyDocument: String? = nil, privateDnsEnabled: Bool? = nil, requesterManaged: Bool? = nil, routeTableIds: [String]? = nil, serviceName: String? = nil, state: State? = nil, subnetIds: [String]? = nil, tags: [Tag]? = nil, vpcEndpointId: String? = nil, vpcEndpointType: VpcEndpointType? = nil, vpcId: String? = nil) {
+        public init(creationTimestamp: Date? = nil, dnsEntries: [DnsEntry]? = nil, dnsOptions: DnsOptions? = nil, groups: [SecurityGroupIdentifier]? = nil, ipAddressType: IpAddressType? = nil, lastError: LastError? = nil, networkInterfaceIds: [String]? = nil, ownerId: String? = nil, policyDocument: String? = nil, privateDnsEnabled: Bool? = nil, requesterManaged: Bool? = nil, routeTableIds: [String]? = nil, serviceName: String? = nil, state: State? = nil, subnetIds: [String]? = nil, tags: [Tag]? = nil, vpcEndpointId: String? = nil, vpcEndpointType: VpcEndpointType? = nil, vpcId: String? = nil) {
             self.creationTimestamp = creationTimestamp
             self.dnsEntries = dnsEntries
+            self.dnsOptions = dnsOptions
             self.groups = groups
+            self.ipAddressType = ipAddressType
             self.lastError = lastError
             self.networkInterfaceIds = networkInterfaceIds
             self.ownerId = ownerId
@@ -45214,7 +45392,9 @@ extension EC2 {
         private enum CodingKeys: String, CodingKey {
             case creationTimestamp
             case dnsEntries = "dnsEntrySet"
+            case dnsOptions
             case groups = "groupSet"
+            case ipAddressType
             case lastError
             case networkInterfaceIds = "networkInterfaceIdSet"
             case ownerId
@@ -45245,6 +45425,8 @@ extension EC2 {
         /// The Amazon Resource Names (ARNs) of the Gateway Load Balancers for the service.
         @OptionalCustomCoding<ArrayCoder<_GatewayLoadBalancerArnsEncoding, String>>
         public var gatewayLoadBalancerArns: [String]?
+        /// The IP address type for the endpoint.
+        public let ipAddressType: IpAddressType?
         /// The Amazon Resource Names (ARNs) of the network load balancers for the service.
         @OptionalCustomCoding<ArrayCoder<_NetworkLoadBalancerArnsEncoding, String>>
         public var networkLoadBalancerArns: [String]?
@@ -45257,10 +45439,11 @@ extension EC2 {
         /// The state of the VPC endpoint.
         public let vpcEndpointState: State?
 
-        public init(creationTimestamp: Date? = nil, dnsEntries: [DnsEntry]? = nil, gatewayLoadBalancerArns: [String]? = nil, networkLoadBalancerArns: [String]? = nil, serviceId: String? = nil, vpcEndpointId: String? = nil, vpcEndpointOwner: String? = nil, vpcEndpointState: State? = nil) {
+        public init(creationTimestamp: Date? = nil, dnsEntries: [DnsEntry]? = nil, gatewayLoadBalancerArns: [String]? = nil, ipAddressType: IpAddressType? = nil, networkLoadBalancerArns: [String]? = nil, serviceId: String? = nil, vpcEndpointId: String? = nil, vpcEndpointOwner: String? = nil, vpcEndpointState: State? = nil) {
             self.creationTimestamp = creationTimestamp
             self.dnsEntries = dnsEntries
             self.gatewayLoadBalancerArns = gatewayLoadBalancerArns
+            self.ipAddressType = ipAddressType
             self.networkLoadBalancerArns = networkLoadBalancerArns
             self.serviceId = serviceId
             self.vpcEndpointId = vpcEndpointId
@@ -45272,6 +45455,7 @@ extension EC2 {
             case creationTimestamp
             case dnsEntries = "dnsEntrySet"
             case gatewayLoadBalancerArns = "gatewayLoadBalancerArnSet"
+            case ipAddressType
             case networkLoadBalancerArns = "networkLoadBalancerArnSet"
             case serviceId
             case vpcEndpointId

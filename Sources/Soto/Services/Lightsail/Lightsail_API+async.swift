@@ -362,7 +362,7 @@ extension Lightsail {
         return try await self.client.execute(operation: "GetBuckets", path: "/", httpMethod: .POST, serviceConfig: self.config, input: input, logger: logger, on: eventLoop)
     }
 
-    /// Returns the list of bundles that are available for purchase. A bundle describes the specs for your virtual private server (or instance).
+    /// Returns the bundles that you can apply to an Amazon Lightsail instance when you create it. A bundle describes the specifications of an instance, such as the monthly cost, amount of memory, the number of vCPUs, amount of storage space, and monthly network data transfer quota.  Bundles are referred to as instance plans in the Lightsail console.
     public func getBundles(_ input: GetBundlesRequest, logger: Logger = AWSClient.loggingDisabled, on eventLoop: EventLoop? = nil) async throws -> GetBundlesResult {
         return try await self.client.execute(operation: "GetBundles", path: "/", httpMethod: .POST, serviceConfig: self.config, input: input, logger: logger, on: eventLoop)
     }

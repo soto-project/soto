@@ -3333,6 +3333,15 @@
       "input":{"shape":"GetInstanceTypesFromInstanceRequirementsRequest"},
       "output":{"shape":"GetInstanceTypesFromInstanceRequirementsResult"}
     },
+    "GetInstanceUefiData":{
+      "name":"GetInstanceUefiData",
+      "http":{
+        "method":"POST",
+        "requestUri":"/"
+      },
+      "input":{"shape":"GetInstanceUefiDataRequest"},
+      "output":{"shape":"GetInstanceUefiDataResult"}
+    },
     "GetIpamAddressHistory":{
       "name":"GetIpamAddressHistory",
       "http":{
@@ -10140,15 +10149,15 @@
         "ReservationType"
       ],
       "members":{
-        "TagSpecifications":{
-          "shape":"TagSpecificationList",
-          "locationName":"TagSpecification"
-        },
         "SubnetId":{"shape":"SubnetId"},
         "Cidr":{"shape":"String"},
         "ReservationType":{"shape":"SubnetCidrReservationType"},
         "Description":{"shape":"String"},
-        "DryRun":{"shape":"Boolean"}
+        "DryRun":{"shape":"Boolean"},
+        "TagSpecifications":{
+          "shape":"TagSpecificationList",
+          "locationName":"TagSpecification"
+        }
       }
     },
     "CreateSubnetCidrReservationResult":{
@@ -10334,7 +10343,8 @@
         "ClientToken":{
           "shape":"String",
           "idempotencyToken":true
-        }
+        },
+        "GatewayLoadBalancerEndpointId":{"shape":"VpcEndpointId"}
       }
     },
     "CreateTrafficMirrorTargetResult":{
@@ -10698,6 +10708,8 @@
           "shape":"VpcEndpointSecurityGroupIdList",
           "locationName":"SecurityGroupId"
         },
+        "IpAddressType":{"shape":"IpAddressType"},
+        "DnsOptions":{"shape":"DnsOptionsSpecification"},
         "ClientToken":{"shape":"String"},
         "PrivateDnsEnabled":{"shape":"Boolean"},
         "TagSpecifications":{
@@ -10732,6 +10744,10 @@
         "GatewayLoadBalancerArns":{
           "shape":"ValueStringList",
           "locationName":"GatewayLoadBalancerArn"
+        },
+        "SupportedIpAddressTypes":{
+          "shape":"ValueStringList",
+          "locationName":"SupportedIpAddressType"
         },
         "ClientToken":{"shape":"String"},
         "TagSpecifications":{
@@ -17532,6 +17548,30 @@
         "failed"
       ]
     },
+    "DnsOptions":{
+      "type":"structure",
+      "members":{
+        "DnsRecordIpType":{
+          "shape":"DnsRecordIpType",
+          "locationName":"dnsRecordIpType"
+        }
+      }
+    },
+    "DnsOptionsSpecification":{
+      "type":"structure",
+      "members":{
+        "DnsRecordIpType":{"shape":"DnsRecordIpType"}
+      }
+    },
+    "DnsRecordIpType":{
+      "type":"string",
+      "enum":[
+        "ipv4",
+        "dualstack",
+        "ipv6",
+        "service-defined"
+      ]
+    },
     "DnsServersOptionsModifyStructure":{
       "type":"structure",
       "members":{
@@ -20099,6 +20139,27 @@
         }
       }
     },
+    "GetInstanceUefiDataRequest":{
+      "type":"structure",
+      "required":["InstanceId"],
+      "members":{
+        "InstanceId":{"shape":"InstanceId"},
+        "DryRun":{"shape":"Boolean"}
+      }
+    },
+    "GetInstanceUefiDataResult":{
+      "type":"structure",
+      "members":{
+        "InstanceId":{
+          "shape":"InstanceId",
+          "locationName":"instanceId"
+        },
+        "UefiData":{
+          "shape":"String",
+          "locationName":"uefiData"
+        }
+      }
+    },
     "GetIpamAddressHistoryRequest":{
       "type":"structure",
       "required":[
@@ -21391,6 +21452,10 @@
           "shape":"BootModeValues",
           "locationName":"bootMode"
         },
+        "TpmSupport":{
+          "shape":"TpmSupportValues",
+          "locationName":"tpmSupport"
+        },
         "DeprecationTime":{
           "shape":"String",
           "locationName":"deprecationTime"
@@ -21436,6 +21501,14 @@
           "shape":"AttributeValue",
           "locationName":"bootMode"
         },
+        "TpmSupport":{
+          "shape":"AttributeValue",
+          "locationName":"tpmSupport"
+        },
+        "UefiData":{
+          "shape":"AttributeValue",
+          "locationName":"uefiData"
+        },
         "LastLaunchedTime":{
           "shape":"AttributeValue",
           "locationName":"lastLaunchedTime"
@@ -21453,6 +21526,8 @@
         "blockDeviceMapping",
         "sriovNetSupport",
         "bootMode",
+        "tpmSupport",
+        "uefiData",
         "lastLaunchedTime"
       ]
     },
@@ -22371,6 +22446,10 @@
         "Ipv6Address":{
           "shape":"String",
           "locationName":"ipv6Address"
+        },
+        "TpmSupport":{
+          "shape":"String",
+          "locationName":"tpmSupport"
         },
         "MaintenanceOptions":{
           "shape":"InstanceMaintenanceOptions",
@@ -24451,6 +24530,14 @@
         "shape":"IpAddress",
         "locationName":"item"
       }
+    },
+    "IpAddressType":{
+      "type":"string",
+      "enum":[
+        "ipv4",
+        "dualstack",
+        "ipv6"
+      ]
     },
     "IpPermission":{
       "type":"structure",
@@ -28268,6 +28355,8 @@
           "shape":"VpcEndpointSecurityGroupIdList",
           "locationName":"RemoveSecurityGroupId"
         },
+        "IpAddressType":{"shape":"IpAddressType"},
+        "DnsOptions":{"shape":"DnsOptionsSpecification"},
         "PrivateDnsEnabled":{"shape":"Boolean"}
       }
     },
@@ -28304,6 +28393,14 @@
         "RemoveGatewayLoadBalancerArns":{
           "shape":"ValueStringList",
           "locationName":"RemoveGatewayLoadBalancerArn"
+        },
+        "AddSupportedIpAddressTypes":{
+          "shape":"ValueStringList",
+          "locationName":"AddSupportedIpAddressType"
+        },
+        "RemoveSupportedIpAddressTypes":{
+          "shape":"ValueStringList",
+          "locationName":"RemoveSupportedIpAddressType"
         }
       }
     },
@@ -31307,7 +31404,9 @@
           "shape":"String",
           "locationName":"virtualizationType"
         },
-        "BootMode":{"shape":"BootModeValues"}
+        "BootMode":{"shape":"BootModeValues"},
+        "TpmSupport":{"shape":"TpmSupportValues"},
+        "UefiData":{"shape":"StringType"}
       }
     },
     "RegisterImageResult":{
@@ -34365,6 +34464,10 @@
           "shape":"ValueStringList",
           "locationName":"gatewayLoadBalancerArnSet"
         },
+        "SupportedIpAddressTypes":{
+          "shape":"SupportedIpAddressTypes",
+          "locationName":"supportedIpAddressTypeSet"
+        },
         "BaseEndpointDnsNames":{
           "shape":"ValueStringList",
           "locationName":"baseEndpointDnsNameSet"
@@ -34393,6 +34496,13 @@
         "shape":"ServiceConfiguration",
         "locationName":"item"
       }
+    },
+    "ServiceConnectivityType":{
+      "type":"string",
+      "enum":[
+        "ipv4",
+        "ipv6"
+      ]
     },
     "ServiceDetail":{
       "type":"structure",
@@ -34452,6 +34562,10 @@
         "PrivateDnsNameVerificationState":{
           "shape":"DnsNameState",
           "locationName":"privateDnsNameVerificationState"
+        },
+        "SupportedIpAddressTypes":{
+          "shape":"SupportedIpAddressTypes",
+          "locationName":"supportedIpAddressTypeSet"
         }
       }
     },
@@ -35820,6 +35934,11 @@
         "locationName":"item"
       }
     },
+    "StringType":{
+      "type":"string",
+      "max":64000,
+      "min":0
+    },
     "Subnet":{
       "type":"structure",
       "members":{
@@ -36089,6 +36208,15 @@
         "not-applicable",
         "initializing"
       ]
+    },
+    "SupportedIpAddressTypes":{
+      "type":"list",
+      "member":{
+        "shape":"ServiceConnectivityType",
+        "locationName":"item"
+      },
+      "max":2,
+      "min":0
     },
     "Tag":{
       "type":"structure",
@@ -36478,6 +36606,10 @@
         "Max":{"shape":"Double"}
       }
     },
+    "TpmSupportValues":{
+      "type":"string",
+      "enum":["v2.0"]
+    },
     "TrafficDirection":{
       "type":"string",
       "enum":[
@@ -36739,6 +36871,10 @@
         "Tags":{
           "shape":"TagList",
           "locationName":"tagSet"
+        },
+        "GatewayLoadBalancerEndpointId":{
+          "shape":"String",
+          "locationName":"gatewayLoadBalancerEndpointId"
         }
       }
     },
@@ -36761,7 +36897,8 @@
       "type":"string",
       "enum":[
         "network-interface",
-        "network-load-balancer"
+        "network-load-balancer",
+        "gateway-load-balancer-endpoint"
       ]
     },
     "TrafficMirroringMaxResults":{
@@ -39168,6 +39305,14 @@
           "shape":"GroupIdentifierSet",
           "locationName":"groupSet"
         },
+        "IpAddressType":{
+          "shape":"IpAddressType",
+          "locationName":"ipAddressType"
+        },
+        "DnsOptions":{
+          "shape":"DnsOptions",
+          "locationName":"dnsOptions"
+        },
         "PrivateDnsEnabled":{
           "shape":"Boolean",
           "locationName":"privateDnsEnabled"
@@ -39236,6 +39381,10 @@
         "GatewayLoadBalancerArns":{
           "shape":"ValueStringList",
           "locationName":"gatewayLoadBalancerArnSet"
+        },
+        "IpAddressType":{
+          "shape":"IpAddressType",
+          "locationName":"ipAddressType"
         }
       }
     },

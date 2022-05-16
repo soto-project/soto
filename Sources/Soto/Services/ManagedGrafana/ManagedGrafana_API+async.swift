@@ -32,9 +32,19 @@ extension ManagedGrafana {
         return try await self.client.execute(operation: "CreateWorkspace", path: "/workspaces", httpMethod: .POST, serviceConfig: self.config, input: input, logger: logger, on: eventLoop)
     }
 
+    /// Creates an API key for the workspace. This key can be used to authenticate requests sent to the workspace's HTTP API. See  https://docs.aws.amazon.com/grafana/latest/userguide/Using-Grafana-APIs.html for available APIs and example requests.
+    public func createWorkspaceApiKey(_ input: CreateWorkspaceApiKeyRequest, logger: Logger = AWSClient.loggingDisabled, on eventLoop: EventLoop? = nil) async throws -> CreateWorkspaceApiKeyResponse {
+        return try await self.client.execute(operation: "CreateWorkspaceApiKey", path: "/workspaces/{workspaceId}/apikeys", httpMethod: .POST, serviceConfig: self.config, input: input, logger: logger, on: eventLoop)
+    }
+
     /// Deletes an Amazon Managed Grafana workspace.
     public func deleteWorkspace(_ input: DeleteWorkspaceRequest, logger: Logger = AWSClient.loggingDisabled, on eventLoop: EventLoop? = nil) async throws -> DeleteWorkspaceResponse {
         return try await self.client.execute(operation: "DeleteWorkspace", path: "/workspaces/{workspaceId}", httpMethod: .DELETE, serviceConfig: self.config, input: input, logger: logger, on: eventLoop)
+    }
+
+    /// Deletes an API key for a workspace.
+    public func deleteWorkspaceApiKey(_ input: DeleteWorkspaceApiKeyRequest, logger: Logger = AWSClient.loggingDisabled, on eventLoop: EventLoop? = nil) async throws -> DeleteWorkspaceApiKeyResponse {
+        return try await self.client.execute(operation: "DeleteWorkspaceApiKey", path: "/workspaces/{workspaceId}/apikeys/{keyName}", httpMethod: .DELETE, serviceConfig: self.config, input: input, logger: logger, on: eventLoop)
     }
 
     /// Displays information about one Amazon Managed Grafana workspace.

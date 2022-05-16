@@ -31,6 +31,7 @@ extension SSMIncidents {
         case attachment = "ATTACHMENT"
         case automation = "AUTOMATION"
         case incident = "INCIDENT"
+        case involvedResource = "INVOLVED_RESOURCE"
         case metric = "METRIC"
         case other = "OTHER"
         case parent = "PARENT"
@@ -68,6 +69,12 @@ extension SSMIncidents {
 
     public enum TimelineEventSort: String, CustomStringConvertible, Codable {
         case eventTime = "EVENT_TIME"
+        public var description: String { return self.rawValue }
+    }
+
+    public enum VariableType: String, CustomStringConvertible, Codable {
+        case incidentRecordArn = "INCIDENT_RECORD_ARN"
+        case involvedResources = "INVOLVED_RESOURCES"
         public var description: String { return self.rawValue }
     }
 
@@ -289,7 +296,7 @@ extension SSMIncidents {
             try self.engagements?.forEach {
                 try validate($0, name: "engagements[]", parent: name, max: 2048)
                 try validate($0, name: "engagements[]", parent: name, min: 0)
-                try validate($0, name: "engagements[]", parent: name, pattern: "^arn:[-\\w+=/,.@]+:ssm-contacts:[-\\w+=/,.@]*:[0-9]+:([\\w+=/,.@:-]+)*$")
+                try validate($0, name: "engagements[]", parent: name, pattern: "^arn:aws(-cn|-us-gov)?:ssm-contacts:[a-z0-9-]*:([0-9]{12}):contact/[a-z0-9_-]+$")
             }
             try self.validate(self.engagements, name: "engagements", parent: name, max: 5)
             try self.validate(self.engagements, name: "engagements", parent: name, min: 0)
@@ -335,7 +342,7 @@ extension SSMIncidents {
     public struct CreateTimelineEventInput: AWSEncodableShape {
         /// A token ensuring that the action is called only once with the specified details.
         public let clientToken: String?
-        /// A short description of the event as a valid JSON string. There is no other schema imposed.
+        /// A short description of the event.
         public let eventData: String
         /// The time that the event occurred.
         public let eventTime: Date
@@ -535,6 +542,19 @@ extension SSMIncidents {
 
     public struct DeleteTimelineEventOutput: AWSDecodableShape {
         public init() {}
+    }
+
+    public struct DynamicSsmParameterValue: AWSEncodableShape & AWSDecodableShape {
+        /// Variable dynamic parameters. A parameter value is determined when an incident is created.
+        public let variable: VariableType?
+
+        public init(variable: VariableType? = nil) {
+            self.variable = variable
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case variable
+        }
     }
 
     public struct EmptyChatChannel: AWSEncodableShape & AWSDecodableShape {
@@ -878,7 +898,7 @@ extension SSMIncidents {
     public struct IncidentRecordSource: AWSDecodableShape {
         /// The principal that started the incident.
         public let createdBy: String
-        /// The principal the assumed the role specified of the createdBy.
+        /// The service principal that assumed the role specified in createdBy. If no service principal assumed the role this will be left blank.
         public let invokedBy: String?
         /// The resource that caused the incident to be created.
         public let resourceArn: String?
@@ -983,7 +1003,7 @@ extension SSMIncidents {
     }
 
     public struct ItemIdentifier: AWSEncodableShape & AWSDecodableShape {
-        /// The type of related item. Incident Manager supports the following types:    ANALYSIS     INCIDENT     METRIC     PARENT     ATTACHMENT     OTHER
+        /// The type of related item.
         public let type: ItemType
         /// Details about the related item.
         public let value: ItemValue
@@ -1540,6 +1560,8 @@ extension SSMIncidents {
         public let documentName: String
         /// The automation document's version to use when running.
         public let documentVersion: String?
+        /// The key-value pair to resolve dynamic parameter values when processing a Systems Manager Automation runbook.
+        public let dynamicParameters: [String: DynamicSsmParameterValue]?
         /// The key-value pair parameters to use when running the automation document.
         public let parameters: [String: [String]]?
         /// The Amazon Resource Name (ARN) of the role that the automation document will assume when running commands.
@@ -1547,9 +1569,10 @@ extension SSMIncidents {
         /// The account that the automation document will be run in. This can be in either the management account or an application account.
         public let targetAccount: SsmTargetAccount?
 
-        public init(documentName: String, documentVersion: String? = nil, parameters: [String: [String]]? = nil, roleArn: String, targetAccount: SsmTargetAccount? = nil) {
+        public init(documentName: String, documentVersion: String? = nil, dynamicParameters: [String: DynamicSsmParameterValue]? = nil, parameters: [String: [String]]? = nil, roleArn: String, targetAccount: SsmTargetAccount? = nil) {
             self.documentName = documentName
             self.documentVersion = documentVersion
+            self.dynamicParameters = dynamicParameters
             self.parameters = parameters
             self.roleArn = roleArn
             self.targetAccount = targetAccount
@@ -1559,6 +1582,10 @@ extension SSMIncidents {
             try self.validate(self.documentName, name: "documentName", parent: name, pattern: "^[a-zA-Z0-9_\\-.:/]{3,128}$")
             try self.validate(self.documentVersion, name: "documentVersion", parent: name, max: 128)
             try self.validate(self.documentVersion, name: "documentVersion", parent: name, min: 0)
+            try self.dynamicParameters?.forEach {
+                try validate($0.key, name: "dynamicParameters.key", parent: name, max: 50)
+                try validate($0.key, name: "dynamicParameters.key", parent: name, min: 1)
+            }
             try self.parameters?.forEach {
                 try validate($0.key, name: "parameters.key", parent: name, max: 50)
                 try validate($0.key, name: "parameters.key", parent: name, min: 1)
@@ -1573,6 +1600,7 @@ extension SSMIncidents {
         private enum CodingKeys: String, CodingKey {
             case documentName
             case documentVersion
+            case dynamicParameters
             case parameters
             case roleArn
             case targetAccount
@@ -2026,7 +2054,7 @@ extension SSMIncidents {
             try self.engagements?.forEach {
                 try validate($0, name: "engagements[]", parent: name, max: 2048)
                 try validate($0, name: "engagements[]", parent: name, min: 0)
-                try validate($0, name: "engagements[]", parent: name, pattern: "^arn:[-\\w+=/,.@]+:ssm-contacts:[-\\w+=/,.@]*:[0-9]+:([\\w+=/,.@:-]+)*$")
+                try validate($0, name: "engagements[]", parent: name, pattern: "^arn:aws(-cn|-us-gov)?:ssm-contacts:[a-z0-9-]*:([0-9]{12}):contact/[a-z0-9_-]+$")
             }
             try self.validate(self.engagements, name: "engagements", parent: name, max: 5)
             try self.validate(self.engagements, name: "engagements", parent: name, min: 0)

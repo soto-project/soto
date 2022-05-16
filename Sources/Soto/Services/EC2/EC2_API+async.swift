@@ -512,7 +512,7 @@ extension EC2 {
         return try await self.client.execute(operation: "CreateTrafficMirrorSession", path: "/", httpMethod: .POST, serviceConfig: self.config, input: input, logger: logger, on: eventLoop)
     }
 
-    /// Creates a target for your Traffic Mirror session. A Traffic Mirror target is the destination for mirrored traffic. The Traffic Mirror source and the Traffic Mirror target (monitoring appliances) can be in the same VPC, or in different VPCs connected via VPC peering or a transit gateway. A Traffic Mirror target can be a network interface, or a Network Load Balancer. To use the target in a Traffic Mirror session, use CreateTrafficMirrorSession.
+    /// Creates a target for your Traffic Mirror session. A Traffic Mirror target is the destination for mirrored traffic. The Traffic Mirror source and the Traffic Mirror target (monitoring appliances) can be in the same VPC, or in different VPCs connected via VPC peering or a transit gateway. A Traffic Mirror target can be a network interface, a Network Load Balancer, or a Gateway Load Balancer endpoint. To use the target in a Traffic Mirror session, use CreateTrafficMirrorSession.
     public func createTrafficMirrorTarget(_ input: CreateTrafficMirrorTargetRequest, logger: Logger = AWSClient.loggingDisabled, on eventLoop: EventLoop? = nil) async throws -> CreateTrafficMirrorTargetResult {
         return try await self.client.execute(operation: "CreateTrafficMirrorTarget", path: "/", httpMethod: .POST, serviceConfig: self.config, input: input, logger: logger, on: eventLoop)
     }
@@ -1885,6 +1885,11 @@ extension EC2 {
     /// Returns a list of instance types with the specified instance attributes. You can use the response to preview the instance types without launching instances. Note that the response does not consider capacity. When you specify multiple parameters, you get instance types that satisfy all of the specified parameters. If you specify multiple values for a parameter, you get instance types that satisfy any of the specified values. For more information, see Preview instance types with specified attributes, Attribute-based instance type selection for EC2 Fleet, Attribute-based instance type selection for Spot Fleet, and Spot placement score in the Amazon EC2 User Guide, and Creating an Auto Scaling group using attribute-based instance type selection in the Amazon EC2 Auto Scaling User Guide.
     public func getInstanceTypesFromInstanceRequirements(_ input: GetInstanceTypesFromInstanceRequirementsRequest, logger: Logger = AWSClient.loggingDisabled, on eventLoop: EventLoop? = nil) async throws -> GetInstanceTypesFromInstanceRequirementsResult {
         return try await self.client.execute(operation: "GetInstanceTypesFromInstanceRequirements", path: "/", httpMethod: .POST, serviceConfig: self.config, input: input, logger: logger, on: eventLoop)
+    }
+
+    /// A binary representation of the UEFI variable store. Only non-volatile variables are stored. This is a base64 encoded and zlib compressed binary value that must be properly encoded. When you use register-image to create an AMI, you can create an exact copy of your variable store by passing the UEFI data in the UefiData parameter. You can modify the UEFI data by using the python-uefivars tool on GitHub. You can use the tool to convert the UEFI data into a human-readable format (JSON), which you can inspect and modify, and then convert back into the binary format to use with register-image. For more information, see UEFI Secure Boot in the Amazon EC2 User Guide.
+    public func getInstanceUefiData(_ input: GetInstanceUefiDataRequest, logger: Logger = AWSClient.loggingDisabled, on eventLoop: EventLoop? = nil) async throws -> GetInstanceUefiDataResult {
+        return try await self.client.execute(operation: "GetInstanceUefiData", path: "/", httpMethod: .POST, serviceConfig: self.config, input: input, logger: logger, on: eventLoop)
     }
 
     /// Retrieve historical information about a CIDR within an IPAM scope. For more information, see View the history of IP addresses in the Amazon VPC IPAM User Guide.
