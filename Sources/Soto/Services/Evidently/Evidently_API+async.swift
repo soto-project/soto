@@ -78,7 +78,7 @@ extension Evidently {
         return try await self.client.execute(operation: "GetExperiment", path: "/projects/{project}/experiments/{experiment}", httpMethod: .GET, serviceConfig: self.config, input: input, logger: logger, on: eventLoop)
     }
 
-    /// Retrieves the results of a running or completed experiment.
+    /// Retrieves the results of a running or completed experiment. No results are available until there have been 100 events for each variation and at least 10 minutes have passed since the start of the experiment. Experiment results are available up to 63 days after the start of the experiment. They are not available after that because of CloudWatch data retention policies.
     public func getExperimentResults(_ input: GetExperimentResultsRequest, logger: Logger = AWSClient.loggingDisabled, on eventLoop: EventLoop? = nil) async throws -> GetExperimentResultsResponse {
         return try await self.client.execute(operation: "GetExperimentResults", path: "/projects/{project}/experiments/{experiment}/results", httpMethod: .POST, serviceConfig: self.config, input: input, logger: logger, on: eventLoop)
     }

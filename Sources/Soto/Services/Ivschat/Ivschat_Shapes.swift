@@ -101,7 +101,7 @@ extension Ivschat {
     public struct CreateRoomRequest: AWSEncodableShape {
         /// Maximum number of characters in a single message. Messages are expected to be UTF-8 encoded and this limit applies specifically to rune/code-point count, not number of bytes. Default: 500.
         public let maximumMessageLength: Int?
-        /// Maximum number of messages per second that a client can send to the room. Default: 10.
+        /// Maximum number of messages per second that can be sent to the room (by all clients). Default: 10.
         public let maximumMessageRatePerSecond: Int?
         /// Configuration information for optional review of messages.
         public let messageReviewHandler: MessageReviewHandler?
@@ -153,7 +153,7 @@ extension Ivschat {
         public let id: String?
         /// Maximum number of characters in a single message, from the request.
         public let maximumMessageLength: Int?
-        /// Maximum number of messages per second that a client can send to the room, from the request.
+        /// Maximum number of messages per second that can be sent to the room (by all clients), from the request.
         public let maximumMessageRatePerSecond: Int?
         /// Configuration information for optional review of messages.
         public let messageReviewHandler: MessageReviewHandler?
@@ -318,7 +318,7 @@ extension Ivschat {
         public let id: String?
         /// Maximum number of characters in a single message. Messages are expected to be UTF-8 encoded and this limit applies specifically to rune/code-point count, not number of bytes. Default: 500.
         public let maximumMessageLength: Int?
-        /// Maximum number of messages per second that a client can send to the room. Default: 10.
+        /// Maximum number of messages per second that can be sent to the room (by all clients). Default: 10.
         public let maximumMessageRatePerSecond: Int?
         /// Configuration information for optional review of messages.
         public let messageReviewHandler: MessageReviewHandler?
@@ -619,7 +619,7 @@ extension Ivschat {
         public let identifier: String
         /// The maximum number of characters in a single message. Messages are expected to be UTF-8 encoded and this limit applies specifically to rune/code-point count, not number of bytes. Default: 500.
         public let maximumMessageLength: Int?
-        /// The maximum number of messages per second that a client can send to the room. Default: 10.
+        /// Maximum number of messages per second that can be sent to the room (by all clients).  Default: 10.
         public let maximumMessageRatePerSecond: Int?
         /// Configuration information for optional review of messages. Specify an empty uri string to disassociate a message review handler from the specified room.
         public let messageReviewHandler: MessageReviewHandler?
@@ -666,7 +666,7 @@ extension Ivschat {
         public let id: String?
         /// Maximum number of characters in a single message, from the request.
         public let maximumMessageLength: Int?
-        /// Maximum number of messages per second that a client can send to the room, from the request.
+        /// Maximum number of messages per second that can be sent to the room (by all clients), from the request.
         public let maximumMessageRatePerSecond: Int?
         /// Configuration information for optional review of messages.
         public let messageReviewHandler: MessageReviewHandler?

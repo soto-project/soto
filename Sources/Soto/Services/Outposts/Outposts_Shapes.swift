@@ -423,7 +423,7 @@ extension Outposts {
         public let availabilityZoneId: String?
         public let description: String?
         public let name: String
-        ///  The ID or the Amazon Resource Name (ARN) of the site.
+        ///  The ID or the Amazon Resource Name (ARN) of the site.   In requests, Amazon Web Services Outposts accepts the Amazon Resource Name (ARN) or an ID for Outposts and sites throughout the Outposts Query API. To address backwards compatibility, the parameter names OutpostID or SiteID remain in use. Despite the parameter name,  you can make the request with an ARN.
         public let siteId: String
         ///  The type of hardware for this Outpost.
         public let supportedHardwareType: SupportedHardwareType?
@@ -564,7 +564,7 @@ extension Outposts {
             AWSMemberEncoding(label: "outpostId", location: .uri("OutpostId"))
         ]
 
-        ///  The ID or the Amazon Resource Name (ARN) of the Outpost.
+        ///  The ID or the Amazon Resource Name (ARN) of the Outpost.   In requests, Amazon Web Services Outposts accepts the Amazon Resource Name (ARN) or an ID for Outposts and sites throughout the Outposts Query API. To address backwards compatibility, the parameter names OutpostID or SiteID remain in use. Despite the parameter name,  you can make the request with an ARN.
         public let outpostId: String
 
         public init(outpostId: String) {
@@ -589,7 +589,7 @@ extension Outposts {
             AWSMemberEncoding(label: "siteId", location: .uri("SiteId"))
         ]
 
-        ///  The ID or the Amazon Resource Name (ARN) of the site.
+        ///  The ID or the Amazon Resource Name (ARN) of the site.   In requests, Amazon Web Services Outposts accepts the Amazon Resource Name (ARN) or an ID for Outposts and sites throughout the Outposts Query API. To address backwards compatibility, the parameter names OutpostID or SiteID remain in use. Despite the parameter name,  you can make the request with an ARN.
         public let siteId: String
 
         public init(siteId: String) {
@@ -702,7 +702,7 @@ extension Outposts {
             AWSMemberEncoding(label: "outpostId", location: .uri("OutpostId"))
         ]
 
-        ///  The ID or the Amazon Resource Name (ARN) of the Outpost.
+        ///  The ID or the Amazon Resource Name (ARN) of the Outpost.   In requests, Amazon Web Services Outposts accepts the Amazon Resource Name (ARN) or an ID for Outposts and sites throughout the Outposts Query API. To address backwards compatibility, the parameter names OutpostID or SiteID remain in use. Despite the parameter name,  you can make the request with an ARN.
         public let outpostId: String
 
         public init(outpostId: String) {
@@ -727,7 +727,7 @@ extension Outposts {
 
         public let maxResults: Int?
         public let nextToken: String?
-        ///  The ID or the Amazon Resource Name (ARN) of the Outpost.
+        ///  The ID or the Amazon Resource Name (ARN) of the Outpost.   In requests, Amazon Web Services Outposts accepts the Amazon Resource Name (ARN) or an ID for Outposts and sites throughout the Outposts Query API. To address backwards compatibility, the parameter names OutpostID or SiteID remain in use. Despite the parameter name,  you can make the request with an ARN.
         public let outpostId: String
 
         public init(maxResults: Int? = nil, nextToken: String? = nil, outpostId: String) {
@@ -754,7 +754,7 @@ extension Outposts {
         public let instanceTypes: [InstanceTypeItem]?
         public let nextToken: String?
         public let outpostArn: String?
-        ///  The ID of the Outpost.
+        ///  The ID of the Outpost.   In requests, Amazon Web Services Outposts accepts the Amazon Resource Name (ARN) or an ID for Outposts and sites throughout the Outposts Query API. To address backwards compatibility, the parameter names OutpostID or SiteID remain in use. Despite the parameter name,  you can make the request with an ARN.
         public let outpostId: String?
 
         public init(instanceTypes: [InstanceTypeItem]? = nil, nextToken: String? = nil, outpostArn: String? = nil, outpostId: String? = nil) {
@@ -792,7 +792,7 @@ extension Outposts {
 
         ///  The type of the address you request.
         public let addressType: AddressType
-        ///  The ID or the Amazon Resource Name (ARN) of the site.
+        ///  The ID or the Amazon Resource Name (ARN) of the site.   In requests, Amazon Web Services Outposts accepts the Amazon Resource Name (ARN) or an ID for Outposts and sites throughout the Outposts Query API. To address backwards compatibility, the parameter names OutpostID or SiteID remain in use. Despite the parameter name,  you can make the request with an ARN.
         public let siteId: String
 
         public init(addressType: AddressType, siteId: String) {
@@ -834,7 +834,7 @@ extension Outposts {
             AWSMemberEncoding(label: "siteId", location: .uri("SiteId"))
         ]
 
-        ///  The ID or the Amazon Resource Name (ARN) of the site.
+        ///  The ID or the Amazon Resource Name (ARN) of the site.   In requests, Amazon Web Services Outposts accepts the Amazon Resource Name (ARN) or an ID for Outposts and sites throughout the Outposts Query API. To address backwards compatibility, the parameter names OutpostID or SiteID remain in use. Despite the parameter name,  you can make the request with an ARN.
         public let siteId: String
 
         public init(siteId: String) {
@@ -1555,7 +1555,7 @@ extension Outposts {
 
         public let description: String?
         public let name: String?
-        ///  The ID or the Amazon Resource Name (ARN) of the Outpost.
+        ///  The ID or the Amazon Resource Name (ARN) of the Outpost.   In requests, Amazon Web Services Outposts accepts the Amazon Resource Name (ARN) or an ID for Outposts and sites throughout the Outposts Query API. To address backwards compatibility, the parameter names OutpostID or SiteID remain in use. Despite the parameter name,  you can make the request with an ARN.
         public let outpostId: String
         ///  The type of hardware for this Outpost.
         public let supportedHardwareType: SupportedHardwareType?
@@ -1606,7 +1606,7 @@ extension Outposts {
         public let address: Address
         ///  The type of the address.
         public let addressType: AddressType
-        ///  The ID or the Amazon Resource Name (ARN) of the site.
+        ///  The ID or the Amazon Resource Name (ARN) of the site.   In requests, Amazon Web Services Outposts accepts the Amazon Resource Name (ARN) or an ID for Outposts and sites throughout the Outposts Query API. To address backwards compatibility, the parameter names OutpostID or SiteID remain in use. Despite the parameter name,  you can make the request with an ARN.
         public let siteId: String
 
         public init(address: Address, addressType: AddressType, siteId: String) {
@@ -1654,7 +1654,7 @@ extension Outposts {
         public let name: String?
         ///  Notes about a site.
         public let notes: String?
-        ///  The ID or the Amazon Resource Name (ARN) of the site.
+        ///  The ID or the Amazon Resource Name (ARN) of the site.   In requests, Amazon Web Services Outposts accepts the Amazon Resource Name (ARN) or an ID for Outposts and sites throughout the Outposts Query API. To address backwards compatibility, the parameter names OutpostID or SiteID remain in use. Despite the parameter name,  you can make the request with an ARN.
         public let siteId: String
 
         public init(description: String? = nil, name: String? = nil, notes: String? = nil, siteId: String) {
@@ -1717,7 +1717,7 @@ extension Outposts {
         public let powerFeedDrop: PowerFeedDrop?
         ///  Specify the power option that you can provide for hardware.    Single-phase AC feed: 200 V to 277 V, 50 Hz or 60 Hz   Three-phase AC feed: 346 V to 480 V, 50 Hz or 60 Hz
         public let powerPhase: PowerPhase?
-        ///  The ID or the Amazon Resource Name (ARN) of the site.
+        ///  The ID or the Amazon Resource Name (ARN) of the site.   In requests, Amazon Web Services Outposts accepts the Amazon Resource Name (ARN) or an ID for Outposts and sites throughout the Outposts Query API. To address backwards compatibility, the parameter names OutpostID or SiteID remain in use. Despite the parameter name,  you can make the request with an ARN.
         public let siteId: String
         /// Racks come with two Outpost network devices. Depending on the supported uplink speed at the site, the Outpost network devices provide a variable number of uplinks. Specify the number of uplinks for each Outpost network device that you intend to use to connect the rack to your network. Note the correlation between UplinkGbps and UplinkCount.    1Gbps - Uplinks available: 1, 2, 4, 6, 8   10Gbps - Uplinks available: 1, 2, 4, 8, 12, 16   40 and 100 Gbps- Uplinks available: 1, 2, 4
         public let uplinkCount: UplinkCount?

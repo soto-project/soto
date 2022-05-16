@@ -84,6 +84,8 @@ extension Grafana {
         case admin = "ADMIN"
         /// Role Editor.
         case editor = "EDITOR"
+        /// Role Viewer.
+        case viewer = "VIEWER"
         public var description: String { return self.rawValue }
     }
 
@@ -325,6 +327,61 @@ extension Grafana {
         }
     }
 
+    public struct CreateWorkspaceApiKeyRequest: AWSEncodableShape {
+        public static var _encoding = [
+            AWSMemberEncoding(label: "workspaceId", location: .uri("workspaceId"))
+        ]
+
+        /// Specifies the name of the key to create.  Key names must be unique to the workspace.
+        public let keyName: String
+        /// Specifies the permission level of the key. Valid Values: VIEWER | EDITOR | ADMIN
+        public let keyRole: String
+        /// Specifies the time in seconds until the key expires.  Keys can be valid for up to 30 days.
+        public let secondsToLive: Int
+        /// The ID of the workspace in which to create an API key.
+        public let workspaceId: String
+
+        public init(keyName: String, keyRole: String, secondsToLive: Int, workspaceId: String) {
+            self.keyName = keyName
+            self.keyRole = keyRole
+            self.secondsToLive = secondsToLive
+            self.workspaceId = workspaceId
+        }
+
+        public func validate(name: String) throws {
+            try self.validate(self.keyName, name: "keyName", parent: name, max: 100)
+            try self.validate(self.keyName, name: "keyName", parent: name, min: 1)
+            try self.validate(self.workspaceId, name: "workspaceId", parent: name, pattern: "^g-[0-9a-f]{10}$")
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case keyName
+            case keyRole
+            case secondsToLive
+        }
+    }
+
+    public struct CreateWorkspaceApiKeyResponse: AWSDecodableShape {
+        /// The key token that was created.  Use this value as a bearer token to  authenticate HTTP requests to the workspace.
+        public let key: String
+        /// The name of the key that was created.
+        public let keyName: String
+        /// The ID of the workspace that the key is valid for.
+        public let workspaceId: String
+
+        public init(key: String, keyName: String, workspaceId: String) {
+            self.key = key
+            self.keyName = keyName
+            self.workspaceId = workspaceId
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case key
+            case keyName
+            case workspaceId
+        }
+    }
+
     public struct CreateWorkspaceRequest: AWSEncodableShape {
         /// Specifies whether the workspace can access Amazon Web Services resources in this Amazon Web Services account only, or whether it can also access Amazon Web Services resources in other accounts in the same organization. If you specify ORGANIZATION, you must specify which organizational units the workspace can access in the workspaceOrganizationalUnits parameter.
         public let accountAccessType: AccountAccessType
@@ -412,6 +469,48 @@ extension Grafana {
 
         private enum CodingKeys: String, CodingKey {
             case workspace
+        }
+    }
+
+    public struct DeleteWorkspaceApiKeyRequest: AWSEncodableShape {
+        public static var _encoding = [
+            AWSMemberEncoding(label: "keyName", location: .uri("keyName")),
+            AWSMemberEncoding(label: "workspaceId", location: .uri("workspaceId"))
+        ]
+
+        /// The name of the API key to delete.
+        public let keyName: String
+        /// The ID of the workspace to delete.
+        public let workspaceId: String
+
+        public init(keyName: String, workspaceId: String) {
+            self.keyName = keyName
+            self.workspaceId = workspaceId
+        }
+
+        public func validate(name: String) throws {
+            try self.validate(self.keyName, name: "keyName", parent: name, max: 100)
+            try self.validate(self.keyName, name: "keyName", parent: name, min: 1)
+            try self.validate(self.workspaceId, name: "workspaceId", parent: name, pattern: "^g-[0-9a-f]{10}$")
+        }
+
+        private enum CodingKeys: CodingKey {}
+    }
+
+    public struct DeleteWorkspaceApiKeyResponse: AWSDecodableShape {
+        /// The name of the API key that was deleted.
+        public let keyName: String
+        /// The ID of the workspace where the key was deleted.
+        public let workspaceId: String
+
+        public init(keyName: String, workspaceId: String) {
+            self.keyName = keyName
+            self.workspaceId = workspaceId
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case keyName
+            case workspaceId
         }
     }
 
