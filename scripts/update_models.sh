@@ -118,7 +118,7 @@ do
 done
 
 
-trap cleanup EXIT
+trap cleanup EXIT $?
 
 check_for_local_changes
 
