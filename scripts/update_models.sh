@@ -134,7 +134,11 @@ AWS_SDK_GO_MODELS=$AWS_SDK_GO/models
 TARGET_MODELS=models
 copy_model_files "$AWS_SDK_GO_MODELS" "$TARGET_MODELS"
 
+echo "Building Service files"
 build_files
+echo "Building Package.swift"
+./scripts/generate-package.swift
+
 if [ -n "$COMPILE_FILES" ]; then
     compile_files
 fi
