@@ -108,7 +108,7 @@ extension EKS {
         return try await self.client.execute(operation: "DescribeNodegroup", path: "/clusters/{clusterName}/node-groups/{nodegroupName}", httpMethod: .GET, serviceConfig: self.config, input: input, logger: logger, on: eventLoop)
     }
 
-    /// Returns descriptive information about an update against your Amazon EKS cluster or associated managed node group. When the status of the update is Succeeded, the update is complete. If an update fails, the status is Failed, and an error detail explains the reason for the failure.
+    /// Returns descriptive information about an update against your Amazon EKS cluster or associated managed node group or Amazon EKS add-on. When the status of the update is Succeeded, the update is complete. If an update fails, the status is Failed, and an error detail explains the reason for the failure.
     public func describeUpdate(_ input: DescribeUpdateRequest, logger: Logger = AWSClient.loggingDisabled, on eventLoop: EventLoop? = nil) async throws -> DescribeUpdateResponse {
         return try await self.client.execute(operation: "DescribeUpdate", path: "/clusters/{name}/updates/{updateId}", httpMethod: .GET, serviceConfig: self.config, input: input, logger: logger, on: eventLoop)
     }

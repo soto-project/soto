@@ -19,7 +19,7 @@
 
 /// Service object for interacting with AWS MigrationHubRefactorSpaces service.
 ///
-/// Amazon Web Services Migration Hub Refactor Spaces  This API reference provides descriptions, syntax, and other details about each of the actions and data types for Amazon Web Services Migration Hub Refactor Spaces (Refactor Spaces). The topic for each action shows the API request parameters and the response. Alternatively, you can use one of the Amazon Web Services SDKs to access an API that is tailored to the programming language or platform that you're using. For more information, see Amazon Web Services SDKs.  To share Refactor Spaces environments with other Amazon Web Services accounts or with Organizations and their OUs, use Resource Access Manager's CreateResourceShare API. See CreateResourceShare in the Amazon Web Services RAM API Reference.
+/// Amazon Web Services Migration Hub Refactor Spaces  This API reference provides descriptions, syntax, and other details about each of the actions and data types for Amazon Web Services Migration Hub Refactor Spaces (Refactor Spaces). The topic for each action shows the API request parameters and the response. Alternatively, you can use one of the Amazon Web Services SDKs to access an API that is tailored to the programming language or platform that you're using. For more information, see Amazon Web Services SDKs. To share Refactor Spaces environments with other Amazon Web Services accounts or with Organizations and their OUs, use Resource Access Manager's CreateResourceShare API. See CreateResourceShare in the Amazon Web Services RAM API Reference.
 public struct MigrationHubRefactorSpaces: AWSService {
     // MARK: Member variables
 

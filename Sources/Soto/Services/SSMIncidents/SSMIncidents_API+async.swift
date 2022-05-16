@@ -118,7 +118,7 @@ extension SSMIncidents {
         return try await self.client.execute(operation: "ListTimelineEvents", path: "/listTimelineEvents", httpMethod: .POST, serviceConfig: self.config, input: input, logger: logger, on: eventLoop)
     }
 
-    /// Adds a resource policy to the specified response plan.
+    /// Adds a resource policy to the specified response plan. The resource policy is used to share the response plan using Resource Access Manager (RAM). For more information about cross-account sharing, see Setting up cross-account functionality.
     public func putResourcePolicy(_ input: PutResourcePolicyInput, logger: Logger = AWSClient.loggingDisabled, on eventLoop: EventLoop? = nil) async throws -> PutResourcePolicyOutput {
         return try await self.client.execute(operation: "PutResourcePolicy", path: "/putResourcePolicy", httpMethod: .POST, serviceConfig: self.config, input: input, logger: logger, on: eventLoop)
     }

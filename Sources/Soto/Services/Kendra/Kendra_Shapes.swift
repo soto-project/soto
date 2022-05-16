@@ -135,6 +135,7 @@ extension Kendra {
         case database = "DATABASE"
         case fsx = "FSX"
         case googledrive = "GOOGLEDRIVE"
+        case jira = "JIRA"
         case onedrive = "ONEDRIVE"
         case quip = "QUIP"
         case s3 = "S3"
@@ -248,6 +249,13 @@ extension Kendra {
         case thisWeek = "THIS_WEEK"
         case twoMonthsAgo = "TWO_MONTHS_AGO"
         case twoWeeksAgo = "TWO_WEEKS_AGO"
+        public var description: String { return self.rawValue }
+    }
+
+    public enum IssueSubEntity: String, CustomStringConvertible, Codable, _SotoSendable {
+        case attachments = "ATTACHMENTS"
+        case comments = "COMMENTS"
+        case worklogs = "WORKLOGS"
         public var description: String { return self.rawValue }
     }
 
@@ -2081,6 +2089,8 @@ extension Kendra {
         public let fsxConfiguration: FsxConfiguration?
         /// Provides the configuration information to connect to Google Drive as your data source.
         public let googleDriveConfiguration: GoogleDriveConfiguration?
+        /// Provides the configuration information to connect to Jira as your  data source.
+        public let jiraConfiguration: JiraConfiguration?
         /// Provides the configuration information to connect to Microsoft OneDrive as your data source.
         public let oneDriveConfiguration: OneDriveConfiguration?
         /// Provides the configuration information to connect to Quip as your  data source.
@@ -2099,12 +2109,13 @@ extension Kendra {
         /// Provides the configuration information to connect to Amazon WorkDocs  as your data source.
         public let workDocsConfiguration: WorkDocsConfiguration?
 
-        public init(boxConfiguration: BoxConfiguration? = nil, confluenceConfiguration: ConfluenceConfiguration? = nil, databaseConfiguration: DatabaseConfiguration? = nil, fsxConfiguration: FsxConfiguration? = nil, googleDriveConfiguration: GoogleDriveConfiguration? = nil, oneDriveConfiguration: OneDriveConfiguration? = nil, quipConfiguration: QuipConfiguration? = nil, s3Configuration: S3DataSourceConfiguration? = nil, salesforceConfiguration: SalesforceConfiguration? = nil, serviceNowConfiguration: ServiceNowConfiguration? = nil, sharePointConfiguration: SharePointConfiguration? = nil, slackConfiguration: SlackConfiguration? = nil, webCrawlerConfiguration: WebCrawlerConfiguration? = nil, workDocsConfiguration: WorkDocsConfiguration? = nil) {
+        public init(boxConfiguration: BoxConfiguration? = nil, confluenceConfiguration: ConfluenceConfiguration? = nil, databaseConfiguration: DatabaseConfiguration? = nil, fsxConfiguration: FsxConfiguration? = nil, googleDriveConfiguration: GoogleDriveConfiguration? = nil, jiraConfiguration: JiraConfiguration? = nil, oneDriveConfiguration: OneDriveConfiguration? = nil, quipConfiguration: QuipConfiguration? = nil, s3Configuration: S3DataSourceConfiguration? = nil, salesforceConfiguration: SalesforceConfiguration? = nil, serviceNowConfiguration: ServiceNowConfiguration? = nil, sharePointConfiguration: SharePointConfiguration? = nil, slackConfiguration: SlackConfiguration? = nil, webCrawlerConfiguration: WebCrawlerConfiguration? = nil, workDocsConfiguration: WorkDocsConfiguration? = nil) {
             self.boxConfiguration = boxConfiguration
             self.confluenceConfiguration = confluenceConfiguration
             self.databaseConfiguration = databaseConfiguration
             self.fsxConfiguration = fsxConfiguration
             self.googleDriveConfiguration = googleDriveConfiguration
+            self.jiraConfiguration = jiraConfiguration
             self.oneDriveConfiguration = oneDriveConfiguration
             self.quipConfiguration = quipConfiguration
             self.s3Configuration = s3Configuration
@@ -2122,6 +2133,7 @@ extension Kendra {
             try self.databaseConfiguration?.validate(name: "\(name).databaseConfiguration")
             try self.fsxConfiguration?.validate(name: "\(name).fsxConfiguration")
             try self.googleDriveConfiguration?.validate(name: "\(name).googleDriveConfiguration")
+            try self.jiraConfiguration?.validate(name: "\(name).jiraConfiguration")
             try self.oneDriveConfiguration?.validate(name: "\(name).oneDriveConfiguration")
             try self.quipConfiguration?.validate(name: "\(name).quipConfiguration")
             try self.s3Configuration?.validate(name: "\(name).s3Configuration")
@@ -2139,6 +2151,7 @@ extension Kendra {
             case databaseConfiguration = "DatabaseConfiguration"
             case fsxConfiguration = "FsxConfiguration"
             case googleDriveConfiguration = "GoogleDriveConfiguration"
+            case jiraConfiguration = "JiraConfiguration"
             case oneDriveConfiguration = "OneDriveConfiguration"
             case quipConfiguration = "QuipConfiguration"
             case s3Configuration = "S3Configuration"
@@ -4387,6 +4400,133 @@ extension Kendra {
             case condition = "Condition"
             case documentContentDeletion = "DocumentContentDeletion"
             case target = "Target"
+        }
+    }
+
+    public struct JiraConfiguration: AWSEncodableShape & AWSDecodableShape {
+        /// A list of DataSourceToIndexFieldMapping objects that map attributes  or field names of Jira attachments to Amazon Kendra index field names.  To create custom fields, use the UpdateIndex API before you map to Jira  fields. For more information, see  Mapping data source fields. The Jira data source field names  must exist in your Jira custom metadata.
+        public let attachmentFieldMappings: [DataSourceToIndexFieldMapping]?
+        /// A list of DataSourceToIndexFieldMapping objects that map attributes  or field names of Jira comments to Amazon Kendra index field names.  To create custom fields, use the UpdateIndex API before you map to Jira  fields. For more information, see  Mapping data source fields. The Jira data source field names  must exist in your Jira custom metadata.
+        public let commentFieldMappings: [DataSourceToIndexFieldMapping]?
+        /// A list of regular expression patterns to exclude certain file paths, file names, and file types in your Jira data source. Files that match the patterns  are excluded from the index. Files that don’t match the patterns are  included in the index. If a file matches both an inclusion pattern  and an exclusion pattern, the exclusion pattern takes precedence  and the file isn't included in the index.
+        public let exclusionPatterns: [String]?
+        /// A list of regular expression patterns to include certain file paths, file names, and file types in your Jira data source. Files that match the patterns are included in the index. Files that don't match the patterns are excluded from the index. If a file matches both an inclusion pattern and an exclusion pattern, the exclusion pattern takes precedence and the file isn't included in the index.
+        public let inclusionPatterns: [String]?
+        /// A list of DataSourceToIndexFieldMapping objects that map attributes  or field names of Jira issues to Amazon Kendra index field names.  To create custom fields, use the UpdateIndex API before you map to Jira  fields. For more information, see  Mapping data source fields. The Jira data source field names  must exist in your Jira custom metadata.
+        public let issueFieldMappings: [DataSourceToIndexFieldMapping]?
+        /// Specify whether to crawl comments, attachments, and work logs. You can specify one or more of these options.
+        public let issueSubEntityFilter: [IssueSubEntity]?
+        /// Specify which issue types to crawl in your Jira data source.  You can specify one or more of these options to crawl.
+        public let issueType: [String]?
+        /// The URL of the Jira account. For example, company.attlassian.net or  https://jira.company.com. You can find your Jira account URL in the URL of  your profile page for Jira desktop.
+        public let jiraAccountUrl: String
+        /// Specify which projects to crawl in your Jira data source. You can specify  one or more Jira project IDs.
+        public let project: [String]?
+        /// A list of DataSourceToIndexFieldMapping objects that map attributes  or field names of Jira projects to Amazon Kendra index field names.  To create custom fields, use the UpdateIndex API before you map to Jira  fields. For more information, see  Mapping data source fields. The Jira data source field names  must exist in your Jira custom metadata.
+        public let projectFieldMappings: [DataSourceToIndexFieldMapping]?
+        /// The Amazon Resource Name (ARN) of an Secrets Manager secret that  contains the key-value pairs required to connect to your Jira  data source. The secret must  contain a JSON structure with the following keys:   jira-id—The Active Directory user name, along with the  Domain Name System (DNS) domain name. For example,  user@corp.example.com.   jiraCredentials—The password of the Jira account user.
+        public let secretArn: String
+        /// Specify which statuses to crawl in your Jira data source.  You can specify one or more of these options to crawl.
+        public let status: [String]?
+        /// Specify to use the change log option to update your index.
+        public let useChangeLog: Bool?
+        /// Configuration information for an  Amazon Virtual Private Cloud to connect to your Jira. Your Jira  account must reside inside your VPC.
+        public let vpcConfiguration: DataSourceVpcConfiguration?
+        /// A list of DataSourceToIndexFieldMapping objects that map attributes  or field names of Jira work logs to Amazon Kendra index field names.  To create custom fields, use the UpdateIndex API before you map to Jira  fields. For more information, see  Mapping data source fields. The Jira data source field names  must exist in your Jira custom metadata.
+        public let workLogFieldMappings: [DataSourceToIndexFieldMapping]?
+
+        public init(attachmentFieldMappings: [DataSourceToIndexFieldMapping]? = nil, commentFieldMappings: [DataSourceToIndexFieldMapping]? = nil, exclusionPatterns: [String]? = nil, inclusionPatterns: [String]? = nil, issueFieldMappings: [DataSourceToIndexFieldMapping]? = nil, issueSubEntityFilter: [IssueSubEntity]? = nil, issueType: [String]? = nil, jiraAccountUrl: String, project: [String]? = nil, projectFieldMappings: [DataSourceToIndexFieldMapping]? = nil, secretArn: String, status: [String]? = nil, useChangeLog: Bool? = nil, vpcConfiguration: DataSourceVpcConfiguration? = nil, workLogFieldMappings: [DataSourceToIndexFieldMapping]? = nil) {
+            self.attachmentFieldMappings = attachmentFieldMappings
+            self.commentFieldMappings = commentFieldMappings
+            self.exclusionPatterns = exclusionPatterns
+            self.inclusionPatterns = inclusionPatterns
+            self.issueFieldMappings = issueFieldMappings
+            self.issueSubEntityFilter = issueSubEntityFilter
+            self.issueType = issueType
+            self.jiraAccountUrl = jiraAccountUrl
+            self.project = project
+            self.projectFieldMappings = projectFieldMappings
+            self.secretArn = secretArn
+            self.status = status
+            self.useChangeLog = useChangeLog
+            self.vpcConfiguration = vpcConfiguration
+            self.workLogFieldMappings = workLogFieldMappings
+        }
+
+        public func validate(name: String) throws {
+            try self.attachmentFieldMappings?.forEach {
+                try $0.validate(name: "\(name).attachmentFieldMappings[]")
+            }
+            try self.validate(self.attachmentFieldMappings, name: "attachmentFieldMappings", parent: name, max: 100)
+            try self.validate(self.attachmentFieldMappings, name: "attachmentFieldMappings", parent: name, min: 1)
+            try self.commentFieldMappings?.forEach {
+                try $0.validate(name: "\(name).commentFieldMappings[]")
+            }
+            try self.validate(self.commentFieldMappings, name: "commentFieldMappings", parent: name, max: 100)
+            try self.validate(self.commentFieldMappings, name: "commentFieldMappings", parent: name, min: 1)
+            try self.exclusionPatterns?.forEach {
+                try validate($0, name: "exclusionPatterns[]", parent: name, max: 150)
+                try validate($0, name: "exclusionPatterns[]", parent: name, min: 1)
+            }
+            try self.validate(self.exclusionPatterns, name: "exclusionPatterns", parent: name, max: 100)
+            try self.inclusionPatterns?.forEach {
+                try validate($0, name: "inclusionPatterns[]", parent: name, max: 150)
+                try validate($0, name: "inclusionPatterns[]", parent: name, min: 1)
+            }
+            try self.validate(self.inclusionPatterns, name: "inclusionPatterns", parent: name, max: 100)
+            try self.issueFieldMappings?.forEach {
+                try $0.validate(name: "\(name).issueFieldMappings[]")
+            }
+            try self.validate(self.issueFieldMappings, name: "issueFieldMappings", parent: name, max: 100)
+            try self.validate(self.issueFieldMappings, name: "issueFieldMappings", parent: name, min: 1)
+            try self.validate(self.issueSubEntityFilter, name: "issueSubEntityFilter", parent: name, max: 3)
+            try self.issueType?.forEach {
+                try validate($0, name: "issueType[]", parent: name, max: 2048)
+                try validate($0, name: "issueType[]", parent: name, min: 1)
+            }
+            try self.validate(self.jiraAccountUrl, name: "jiraAccountUrl", parent: name, max: 2048)
+            try self.validate(self.jiraAccountUrl, name: "jiraAccountUrl", parent: name, min: 1)
+            try self.validate(self.jiraAccountUrl, name: "jiraAccountUrl", parent: name, pattern: "^https:\\/\\/[a-zA-Z0-9_\\-\\.]+(\\.atlassian\\.net\\/)$")
+            try self.project?.forEach {
+                try validate($0, name: "project[]", parent: name, max: 2048)
+                try validate($0, name: "project[]", parent: name, min: 1)
+            }
+            try self.projectFieldMappings?.forEach {
+                try $0.validate(name: "\(name).projectFieldMappings[]")
+            }
+            try self.validate(self.projectFieldMappings, name: "projectFieldMappings", parent: name, max: 100)
+            try self.validate(self.projectFieldMappings, name: "projectFieldMappings", parent: name, min: 1)
+            try self.validate(self.secretArn, name: "secretArn", parent: name, max: 1284)
+            try self.validate(self.secretArn, name: "secretArn", parent: name, min: 1)
+            try self.validate(self.secretArn, name: "secretArn", parent: name, pattern: "^arn:[a-z0-9-\\.]{1,63}:[a-z0-9-\\.]{0,63}:[a-z0-9-\\.]{0,63}:[a-z0-9-\\.]{0,63}:[^/].{0,1023}$")
+            try self.status?.forEach {
+                try validate($0, name: "status[]", parent: name, max: 2048)
+                try validate($0, name: "status[]", parent: name, min: 1)
+            }
+            try self.vpcConfiguration?.validate(name: "\(name).vpcConfiguration")
+            try self.workLogFieldMappings?.forEach {
+                try $0.validate(name: "\(name).workLogFieldMappings[]")
+            }
+            try self.validate(self.workLogFieldMappings, name: "workLogFieldMappings", parent: name, max: 100)
+            try self.validate(self.workLogFieldMappings, name: "workLogFieldMappings", parent: name, min: 1)
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case attachmentFieldMappings = "AttachmentFieldMappings"
+            case commentFieldMappings = "CommentFieldMappings"
+            case exclusionPatterns = "ExclusionPatterns"
+            case inclusionPatterns = "InclusionPatterns"
+            case issueFieldMappings = "IssueFieldMappings"
+            case issueSubEntityFilter = "IssueSubEntityFilter"
+            case issueType = "IssueType"
+            case jiraAccountUrl = "JiraAccountUrl"
+            case project = "Project"
+            case projectFieldMappings = "ProjectFieldMappings"
+            case secretArn = "SecretArn"
+            case status = "Status"
+            case useChangeLog = "UseChangeLog"
+            case vpcConfiguration = "VpcConfiguration"
+            case workLogFieldMappings = "WorkLogFieldMappings"
         }
     }
 
