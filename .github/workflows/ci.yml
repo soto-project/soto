@@ -53,4 +53,4 @@ jobs:
         echo AWS_TEST_RESOURCE_PREFIX=$(cat /dev/urandom | tr -dc 'a-z' | head -c 8) >> $GITHUB_ENV
     - name: Test
       run: |
-        swift test --enable-test-discovery
+        swift test --enable-test-discovery --parallel

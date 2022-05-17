@@ -122,6 +122,9 @@ class LambdaTests: XCTestCase {
             endpoint: TestEnvironment.getEndPoint(environment: "LOCALSTACK_ENDPOINT")
         ).with(middlewares: TestEnvironment.middlewares)
 
+        // This doesnt work with LocalStack
+        guard !TestEnvironment.isUsingLocalstack else { return }
+
         // create an IAM role
         let response = Self.createIAMRole()
             .flatMap { response -> EventLoopFuture<Void> in
@@ -141,13 +144,15 @@ class LambdaTests: XCTestCase {
     }
 
     override class func tearDown() {
-        let response = Self.deleteIAMRole()
-            .flatMap { _ -> EventLoopFuture<Void> in
-                Self.deleteLambdaFunction()
-            }
+        // Role and lambda function are not created with Localstack
+        if !TestEnvironment.isUsingLocalstack {
+            let response = Self.deleteIAMRole()
+                .flatMap { _ -> EventLoopFuture<Void> in
+                    Self.deleteLambdaFunction()
+                }
 
-        XCTAssertNoThrow(try response.wait())
-
+            XCTAssertNoThrow(try response.wait())
+        }
         XCTAssertNoThrow(try Self.client.syncShutdown())
     }
 

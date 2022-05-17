@@ -179,7 +179,7 @@ class S3ExtensionTests: XCTestCase {
         let s3 = Self.s3.with(timeout: .minutes(2))
         let data = S3Tests.createRandomBuffer(size: 11 * 1024 * 1024)
         let name = TestEnvironment.generateResourceName()
-        let filename = "S3MultipartUploadTest"
+        let filename = "testResumeMultiPartUpload"
 
         XCTAssertNoThrow(try data.write(to: URL(fileURLWithPath: filename)))
         defer {
@@ -282,12 +282,12 @@ class S3ExtensionTests: XCTestCase {
     }
 
     func testMultipartCopy() {
-        let s3 = Self.s3.with(timeout: .minutes(2))
+        let s3 = Self.s3.with(timeout: .minutes(5))
         let data = S3Tests.createRandomBuffer(size: 6 * 1024 * 1024)
         let name = TestEnvironment.generateResourceName()
         let name2 = name + "2"
-        let filename = "S3MultipartUploadTest"
-        let filename2 = "S3MultipartUploadTest2"
+        let filename = "testMultipartCopy"
+        let filename2 = "testMultipartCopy2"
 
         XCTAssertNoThrow(try data.write(to: URL(fileURLWithPath: filename)))
         defer {
@@ -296,7 +296,8 @@ class S3ExtensionTests: XCTestCase {
         let s3Euwest2 = S3(
             client: S3ExtensionTests.client,
             region: .useast1,
-            endpoint: TestEnvironment.getEndPoint(environment: "LOCALSTACK_ENDPOINT")
+            endpoint: TestEnvironment.getEndPoint(environment: "LOCALSTACK_ENDPOINT"),
+            timeout: .minutes(5)
         )
         let response = S3Tests.createBucket(name: name, s3: s3)
             .and(S3Tests.createBucket(name: name2, s3: s3Euwest2))

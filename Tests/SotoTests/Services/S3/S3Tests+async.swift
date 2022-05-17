@@ -510,7 +510,7 @@ class S3AsyncTests: XCTestCase {
     }
 
     /// test S3 control host is prefixed with account id
-    func testS3ControlPrefix() async throws {
+    func testS3ControlPrefixAsync() async throws {
         // don't actually want to make this API call so once I've checked the host is correct
         // I will throw an error in the request middleware
         struct CancelError: Error {}
@@ -527,14 +527,14 @@ class S3AsyncTests: XCTestCase {
         } catch is CancelError {}
     }
 
-    func testMultiPartDownload() async throws {
+    func testMultiPartDownloadAsync() async throws {
         // doesnt work with LocalStack
         try XCTSkipIf(TestEnvironment.isUsingLocalstack)
 
         let s3 = Self.s3.with(timeout: .minutes(2))
         let data = S3Tests.createRandomBuffer(size: 10 * 1024 * 1028)
         let name = TestEnvironment.generateResourceName()
-        let filename = "S3MultipartDownloadTest"
+        let filename = "testMultiPartDownloadAsync"
 
         try await self.s3Test(bucket: name) {
             var buffer = ByteBuffer(data: data)
@@ -555,11 +555,11 @@ class S3AsyncTests: XCTestCase {
         }
     }
 
-    func testMultiPartUpload() async throws {
+    func testMultiPartUploadAsync() async throws {
         let s3 = Self.s3.with(timeout: .minutes(2))
         let data = S3Tests.createRandomBuffer(size: 11 * 1024 * 1024)
         let name = TestEnvironment.generateResourceName()
-        let filename = "S3MultipartUploadTest"
+        let filename = "testMultiPartUploadAsync"
 
         XCTAssertNoThrow(try data.write(to: URL(fileURLWithPath: filename)))
         defer {
@@ -578,12 +578,12 @@ class S3AsyncTests: XCTestCase {
         }
     }
 
-    func testResumeMultiPartUpload() async throws {
+    func testResumeMultiPartUploadAsync() async throws {
         struct CancelError: Error {}
         let s3 = Self.s3.with(timeout: .minutes(2))
         let data = S3Tests.createRandomBuffer(size: 11 * 1024 * 1024)
         let name = TestEnvironment.generateResourceName()
-        let filename = "S3MultipartUploadTest"
+        let filename = "testResumeMultiPartUploadAsync"
 
         XCTAssertNoThrow(try data.write(to: URL(fileURLWithPath: filename)))
         defer {
@@ -622,13 +622,13 @@ class S3AsyncTests: XCTestCase {
         }
     }
 
-    func testMultipartCopy() async throws {
+    func testMultipartCopyAsync() async throws {
         let s3 = Self.s3.with(timeout: .minutes(2))
         let data = S3Tests.createRandomBuffer(size: 6 * 1024 * 1024)
         let name = TestEnvironment.generateResourceName()
         let name2 = name + "2"
-        let filename = "S3MultipartUploadTest"
-        let filename2 = "S3MultipartUploadTest2"
+        let filename = "testMultipartCopyAsync"
+        let filename2 = "testMultipartCopyAsync2"
 
         XCTAssertNoThrow(try data.write(to: URL(fileURLWithPath: filename)))
         defer {
@@ -639,7 +639,8 @@ class S3AsyncTests: XCTestCase {
             let s3Euwest2 = S3(
                 client: Self.client,
                 region: .useast1,
-                endpoint: TestEnvironment.getEndPoint(environment: "LOCALSTACK_ENDPOINT")
+                endpoint: TestEnvironment.getEndPoint(environment: "LOCALSTACK_ENDPOINT"),
+                timeout: .minutes(5)
             )
             try await self.s3Test(bucket: name2, s3: s3Euwest2) {
                 // upload to bucket
