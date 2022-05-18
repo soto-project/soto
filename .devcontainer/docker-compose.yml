@@ -1,0 +1,18 @@
+# run this with docker-compose -f docker/docker-compose.yml run test
+version: "3.3"
+
+services:
+  app:
+    image: swift:5.6-focal
+    volumes:
+      - ..:/workspace
+    depends_on:
+      - localstack
+    environment:
+      - LOCALSTACK_ENDPOINT=http://localstack:4566
+    command: sleep infinity
+
+  localstack:
+    image: localstack/localstack
+    ports:
+      - "4566:4566"
