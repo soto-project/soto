@@ -4,6 +4,7 @@ on:
   push:
     branches:
     - main
+    - 6.x.x
     paths:
     - '**.swift'
   pull_request:
