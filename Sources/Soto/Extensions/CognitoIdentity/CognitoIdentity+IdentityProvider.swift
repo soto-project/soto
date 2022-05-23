@@ -14,10 +14,11 @@
 
 #if compiler(>=5.6)
 @preconcurrency import Logging
+@preconcurrency import NIOCore
 #else
 import Logging
-#endif
 import NIOCore
+#endif
 import SotoCore
 
 /// Protocol providing a Cognito Identity id and tokens
@@ -53,7 +54,7 @@ public struct IdentityProviderFactory {
 }
 
 extension CognitoIdentity {
-    public struct IdentityParams {
+    public struct IdentityParams: _SotoSendable {
         let id: String
         let logins: [String: String]?
 
@@ -108,7 +109,7 @@ extension CognitoIdentity {
         typealias LoginProvider = (Context) -> EventLoopFuture<[String: String]>
         #endif
         /// The context passed to the logins provider closure
-        public struct Context {
+        public struct Context: _SotoSendable {
             public let client: AWSClient
             public let region: Region
             public let identityPoolId: String
