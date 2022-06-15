@@ -390,8 +390,12 @@ class S3ExtensionTests: XCTestCase {
                     switch eventStream {
                     case .records(let records):
                         if let payload = records.payload {
-                            returnedSize += payload.base64count
-                            print("Record size: \(payload.base64count)")
+                            if let decodedCount = payload.decoded()?.count {
+                                returnedSize += decodedCount
+                                print("Record size: \(decodedCount)")
+                            } else {
+                                XCTFail("Failed to decode Base64 data in payload")
+                            }
                         }
                     case .stats(let stats):
                         if let details = stats.details {
