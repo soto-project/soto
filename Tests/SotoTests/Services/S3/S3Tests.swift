@@ -165,6 +165,13 @@ class S3Tests: XCTestCase {
                 XCTAssertEqual(response.body?.asString(), contents)
                 XCTAssertNotNil(response.lastModified)
             }
+            .flatMap { _ -> EventLoopFuture<S3.ListObjectsV2Output> in
+                return Self.s3.listObjectsV2(.init(bucket: name))
+            }
+            .map { result in
+                let contents = result.contents
+                XCTAssertNotNil(contents?.first(where: { $0.key == filename }))
+            }
             .flatAlways { _ in
                 return Self.deleteBucket(name: name, s3: Self.s3)
             }
