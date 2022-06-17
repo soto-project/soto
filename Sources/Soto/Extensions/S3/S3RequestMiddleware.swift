@@ -101,10 +101,10 @@ public struct S3RequestMiddleware: AWSServiceMiddleware {
         }
     }
 
-    static let pathAllowedCharacters = CharacterSet.urlPathAllowed.subtracting(.init(charactersIn: "+"))
+    static let s3PathAllowedCharacters = CharacterSet.urlPathAllowed.subtracting(.init(charactersIn: "+@()&$=:,'!*"))
     /// percent encode path value.
     private static func urlEncodePath(_ value: String) -> String {
-        return value.addingPercentEncoding(withAllowedCharacters: Self.pathAllowedCharacters) ?? value
+        return value.addingPercentEncoding(withAllowedCharacters: Self.s3PathAllowedCharacters) ?? value
     }
 
     func createBucketFixup(request: inout AWSRequest) {
