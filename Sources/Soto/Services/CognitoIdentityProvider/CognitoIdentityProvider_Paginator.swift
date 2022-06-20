@@ -179,7 +179,7 @@ extension CognitoIdentityProvider {
         )
     }
 
-    ///  Lists information about all identity providers for a user pool.
+    ///  Lists information about all IdPs for a user pool.
     ///
     /// Provide paginated results to closure `onPage` for it to combine them into one result.
     /// This works in a similar manner to `Array.reduce<Result>(_:_:) -> Result`.

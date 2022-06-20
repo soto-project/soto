@@ -65,7 +65,7 @@ extension DynamoDBStreams {
         case bool(Bool)
         /// An attribute of type Binary Set.  For example:  "BS": ["U3Vubnk=", "UmFpbnk=", "U25vd3k="]
         case bs([AWSBase64Data])
-        /// An attribute of type List.  For example:  "L": [ {"S": "Cookies"} , {"S": "Coffee"}, {"N", "3.14159"}]
+        /// An attribute of type List.  For example:  "L": [ {"S": "Cookies"} , {"S": "Coffee"}, {"N": "3.14159"}]
         case l([AttributeValue])
         /// An attribute of type Map.  For example:  "M": {"Name": {"S": "Joe"}, "Age": {"N": "35"}}
         case m([String: AttributeValue])
@@ -322,7 +322,7 @@ extension DynamoDBStreams {
             try self.validate(self.limit, name: "limit", parent: name, min: 1)
             try self.validate(self.tableName, name: "tableName", parent: name, max: 255)
             try self.validate(self.tableName, name: "tableName", parent: name, min: 3)
-            try self.validate(self.tableName, name: "tableName", parent: name, pattern: "[a-zA-Z0-9_.-]+")
+            try self.validate(self.tableName, name: "tableName", parent: name, pattern: "^[a-zA-Z0-9_.-]+$")
         }
 
         private enum CodingKeys: String, CodingKey {

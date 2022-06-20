@@ -102,6 +102,17 @@ extension ChimeSDKMessaging {
         public var description: String { return self.rawValue }
     }
 
+    public enum SearchFieldKey: String, CustomStringConvertible, Codable, _SotoSendable {
+        case members = "MEMBERS"
+        public var description: String { return self.rawValue }
+    }
+
+    public enum SearchFieldOperator: String, CustomStringConvertible, Codable, _SotoSendable {
+        case equals = "EQUALS"
+        case includes = "INCLUDES"
+        public var description: String { return self.rawValue }
+    }
+
     public enum SortOrder: String, CustomStringConvertible, Codable, _SotoSendable {
         case ascending = "ASCENDING"
         case descending = "DESCENDING"
@@ -111,7 +122,7 @@ extension ChimeSDKMessaging {
     // MARK: Shapes
 
     public struct AppInstanceUserMembershipSummary: AWSDecodableShape {
-        /// The time at which a message was last read.
+        /// The time at which an AppInstanceUser last marked a channel as read.
         public let readMarkerTimestamp: Date?
         /// The type of ChannelMembership.
         public let type: ChannelMembershipType?
@@ -1065,14 +1076,20 @@ extension ChimeSDKMessaging {
 
         /// The ARN of the channel request.
         public let appInstanceArn: String
+        /// The ID of the channel in the request.
+        public let channelId: String?
         /// The AppInstanceUserArn of the user that makes the API call.
         public let chimeBearer: String
         /// The client token for the request. An Idempotency token.
         public let clientRequestToken: String
+        /// The ARNs of the channel members in the request.
+        public let memberArns: [String]?
         /// The metadata of the creation request. Limited to 1KB and UTF-8.
         public let metadata: String?
         /// The channel mode: UNRESTRICTED or RESTRICTED. Administrators, moderators, and channel members can add themselves and other members to unrestricted channels. Only administrators and moderators can add members to restricted channels.
         public let mode: ChannelMode?
+        /// The ARNs of the channel moderators in the request.
+        public let moderatorArns: [String]?
         /// The name of the channel.
         public let name: String
         /// The channel's privacy level: PUBLIC or PRIVATE. Private channels aren't discoverable by users outside the channel. Public channels are discoverable by anyone in the AppInstance.
@@ -1080,12 +1097,15 @@ extension ChimeSDKMessaging {
         /// The tags for the creation request.
         public let tags: [Tag]?
 
-        public init(appInstanceArn: String, chimeBearer: String, clientRequestToken: String = CreateChannelRequest.idempotencyToken(), metadata: String? = nil, mode: ChannelMode? = nil, name: String, privacy: ChannelPrivacy? = nil, tags: [Tag]? = nil) {
+        public init(appInstanceArn: String, channelId: String? = nil, chimeBearer: String, clientRequestToken: String = CreateChannelRequest.idempotencyToken(), memberArns: [String]? = nil, metadata: String? = nil, mode: ChannelMode? = nil, moderatorArns: [String]? = nil, name: String, privacy: ChannelPrivacy? = nil, tags: [Tag]? = nil) {
             self.appInstanceArn = appInstanceArn
+            self.channelId = channelId
             self.chimeBearer = chimeBearer
             self.clientRequestToken = clientRequestToken
+            self.memberArns = memberArns
             self.metadata = metadata
             self.mode = mode
+            self.moderatorArns = moderatorArns
             self.name = name
             self.privacy = privacy
             self.tags = tags
@@ -1095,14 +1115,31 @@ extension ChimeSDKMessaging {
             try self.validate(self.appInstanceArn, name: "appInstanceArn", parent: name, max: 1600)
             try self.validate(self.appInstanceArn, name: "appInstanceArn", parent: name, min: 5)
             try self.validate(self.appInstanceArn, name: "appInstanceArn", parent: name, pattern: "^arn:[a-z0-9-\\.]{1,63}:[a-z0-9-\\.]{0,63}:[a-z0-9-\\.]{0,63}:[a-z0-9-\\.]{0,63}:[^/].{0,1023}$")
+            try self.validate(self.channelId, name: "channelId", parent: name, max: 64)
+            try self.validate(self.channelId, name: "channelId", parent: name, min: 1)
+            try self.validate(self.channelId, name: "channelId", parent: name, pattern: "^[A-Za-z0-9]([A-Za-z0-9\\:\\-\\_\\.\\@]{0,62}[A-Za-z0-9])?$")
             try self.validate(self.chimeBearer, name: "chimeBearer", parent: name, max: 1600)
             try self.validate(self.chimeBearer, name: "chimeBearer", parent: name, min: 5)
             try self.validate(self.chimeBearer, name: "chimeBearer", parent: name, pattern: "^arn:[a-z0-9-\\.]{1,63}:[a-z0-9-\\.]{0,63}:[a-z0-9-\\.]{0,63}:[a-z0-9-\\.]{0,63}:[^/].{0,1023}$")
             try self.validate(self.clientRequestToken, name: "clientRequestToken", parent: name, max: 64)
             try self.validate(self.clientRequestToken, name: "clientRequestToken", parent: name, min: 2)
             try self.validate(self.clientRequestToken, name: "clientRequestToken", parent: name, pattern: "^[-_a-zA-Z0-9]*$")
+            try self.memberArns?.forEach {
+                try validate($0, name: "memberArns[]", parent: name, max: 1600)
+                try validate($0, name: "memberArns[]", parent: name, min: 5)
+                try validate($0, name: "memberArns[]", parent: name, pattern: "^arn:[a-z0-9-\\.]{1,63}:[a-z0-9-\\.]{0,63}:[a-z0-9-\\.]{0,63}:[a-z0-9-\\.]{0,63}:[^/].{0,1023}$")
+            }
+            try self.validate(self.memberArns, name: "memberArns", parent: name, max: 10)
+            try self.validate(self.memberArns, name: "memberArns", parent: name, min: 1)
             try self.validate(self.metadata, name: "metadata", parent: name, max: 1024)
             try self.validate(self.metadata, name: "metadata", parent: name, pattern: ".*")
+            try self.moderatorArns?.forEach {
+                try validate($0, name: "moderatorArns[]", parent: name, max: 1600)
+                try validate($0, name: "moderatorArns[]", parent: name, min: 5)
+                try validate($0, name: "moderatorArns[]", parent: name, pattern: "^arn:[a-z0-9-\\.]{1,63}:[a-z0-9-\\.]{0,63}:[a-z0-9-\\.]{0,63}:[a-z0-9-\\.]{0,63}:[^/].{0,1023}$")
+            }
+            try self.validate(self.moderatorArns, name: "moderatorArns", parent: name, max: 10)
+            try self.validate(self.moderatorArns, name: "moderatorArns", parent: name, min: 1)
             try self.validate(self.name, name: "name", parent: name, max: 256)
             try self.validate(self.name, name: "name", parent: name, min: 1)
             try self.validate(self.name, name: "name", parent: name, pattern: "^[\\u0009\\u000A\\u000D\\u0020-\\u007E\\u0085\\u00A0-\\uD7FF\\uE000-\\uFFFD\\u10000-\\u10FFFF]*$")
@@ -1115,9 +1152,12 @@ extension ChimeSDKMessaging {
 
         private enum CodingKeys: String, CodingKey {
             case appInstanceArn = "AppInstanceArn"
+            case channelId = "ChannelId"
             case clientRequestToken = "ClientRequestToken"
+            case memberArns = "MemberArns"
             case metadata = "Metadata"
             case mode = "Mode"
+            case moderatorArns = "ModeratorArns"
             case name = "Name"
             case privacy = "Privacy"
             case tags = "Tags"
@@ -1714,6 +1754,7 @@ extension ChimeSDKMessaging {
     public struct GetChannelMembershipPreferencesResponse: AWSDecodableShape {
         /// The ARN of the channel.
         public let channelArn: String?
+        /// The details of a user.
         public let member: Identity?
         /// The channel membership preferences for an AppInstanceUser .
         public let preferences: ChannelMembershipPreferences?
@@ -2036,7 +2077,7 @@ extension ChimeSDKMessaging {
     }
 
     public struct ListChannelMembershipsForAppInstanceUserResponse: AWSDecodableShape {
-        /// The token passed by previous API calls until all requested users are returned.
+        /// The information for the requested channel memberships.
         public let channelMemberships: [ChannelMembershipForAppInstanceUserSummary]?
         /// The token passed by previous API calls until all requested users are returned.
         public let nextToken: String?
@@ -2569,7 +2610,7 @@ extension ChimeSDKMessaging {
     public struct PushNotificationPreferences: AWSEncodableShape & AWSDecodableShape {
         /// Enum value that indicates which push notifications to send to the requested member of a channel. ALL sends all push notifications, NONE sends no push notifications, FILTERED sends only filtered push notifications.
         public let allowNotifications: AllowNotifications
-        /// The simple JSON object used to send a subset of a push notification to the requsted member.
+        /// The simple JSON object used to send a subset of a push notification to the requested member.
         public let filterRule: String?
 
         public init(allowNotifications: AllowNotifications, filterRule: String? = nil) {
@@ -2632,6 +2673,7 @@ extension ChimeSDKMessaging {
     public struct PutChannelMembershipPreferencesResponse: AWSDecodableShape {
         /// The ARN of the channel.
         public let channelArn: String?
+        /// The details of a user.
         public let member: Identity?
         /// The ARN and metadata of the member being added.
         public let preferences: ChannelMembershipPreferences?
@@ -2698,6 +2740,97 @@ extension ChimeSDKMessaging {
         private enum CodingKeys: String, CodingKey {
             case channelArn = "ChannelArn"
             case messageId = "MessageId"
+        }
+    }
+
+    public struct SearchChannelsRequest: AWSEncodableShape {
+        public static var _encoding = [
+            AWSMemberEncoding(label: "chimeBearer", location: .header("x-amz-chime-bearer")),
+            AWSMemberEncoding(label: "maxResults", location: .querystring("max-results")),
+            AWSMemberEncoding(label: "nextToken", location: .querystring("next-token"))
+        ]
+
+        /// The AppInstanceUserArn of the user making the API call.
+        public let chimeBearer: String?
+        /// A list of the Field objects in the channel being searched.
+        public let fields: [SearchField]
+        /// The maximum number of channels that you want returned.
+        public let maxResults: Int?
+        /// The token returned from previous API requests until the number of channels is reached.
+        public let nextToken: String?
+
+        public init(chimeBearer: String? = nil, fields: [SearchField], maxResults: Int? = nil, nextToken: String? = nil) {
+            self.chimeBearer = chimeBearer
+            self.fields = fields
+            self.maxResults = maxResults
+            self.nextToken = nextToken
+        }
+
+        public func validate(name: String) throws {
+            try self.validate(self.chimeBearer, name: "chimeBearer", parent: name, max: 1600)
+            try self.validate(self.chimeBearer, name: "chimeBearer", parent: name, min: 5)
+            try self.validate(self.chimeBearer, name: "chimeBearer", parent: name, pattern: "^arn:[a-z0-9-\\.]{1,63}:[a-z0-9-\\.]{0,63}:[a-z0-9-\\.]{0,63}:[a-z0-9-\\.]{0,63}:[^/].{0,1023}$")
+            try self.fields.forEach {
+                try $0.validate(name: "\(name).fields[]")
+            }
+            try self.validate(self.fields, name: "fields", parent: name, max: 20)
+            try self.validate(self.fields, name: "fields", parent: name, min: 1)
+            try self.validate(self.maxResults, name: "maxResults", parent: name, max: 50)
+            try self.validate(self.maxResults, name: "maxResults", parent: name, min: 1)
+            try self.validate(self.nextToken, name: "nextToken", parent: name, max: 2048)
+            try self.validate(self.nextToken, name: "nextToken", parent: name, pattern: ".*")
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case fields = "Fields"
+        }
+    }
+
+    public struct SearchChannelsResponse: AWSDecodableShape {
+        /// A list of the channels in the request.
+        public let channels: [ChannelSummary]?
+        /// The token returned from previous API responses until the number of channels is reached.
+        public let nextToken: String?
+
+        public init(channels: [ChannelSummary]? = nil, nextToken: String? = nil) {
+            self.channels = channels
+            self.nextToken = nextToken
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case channels = "Channels"
+            case nextToken = "NextToken"
+        }
+    }
+
+    public struct SearchField: AWSEncodableShape {
+        /// An enum value that indicates the key to search the channel on. MEMBERS allows you to search channels based on memberships. You can use it with the EQUALS  operator to get channels whose memberships are equal to the specified values, and with the INCLUDES  operator to get channels whose memberships include the specified values.
+        public let key: SearchFieldKey
+        /// The operator used to compare field values, currently EQUALS or INCLUDES.  Use the EQUALS operator to find channels whose memberships equal the specified values.  Use the INCLUDES operator to find channels whose memberships include the specified values.
+        public let `operator`: SearchFieldOperator
+        /// The values that you want to search for, a list of strings. The values must be AppInstanceUserArns specified as a list of strings.  This operation isn't supported for AppInstanceUsers with large number of memberships.
+        public let values: [String]
+
+        public init(key: SearchFieldKey, operator: SearchFieldOperator, values: [String]) {
+            self.key = key
+            self.`operator` = `operator`
+            self.values = values
+        }
+
+        public func validate(name: String) throws {
+            try self.values.forEach {
+                try validate($0, name: "values[]", parent: name, max: 512)
+                try validate($0, name: "values[]", parent: name, min: 1)
+                try validate($0, name: "values[]", parent: name, pattern: "^[\\s\\S]*$")
+            }
+            try self.validate(self.values, name: "values", parent: name, max: 20)
+            try self.validate(self.values, name: "values", parent: name, min: 1)
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case key = "Key"
+            case `operator` = "Operator"
+            case values = "Values"
         }
     }
 
@@ -3048,11 +3181,11 @@ extension ChimeSDKMessaging {
         /// The metadata for the update request.
         public let metadata: String?
         /// The mode of the update request.
-        public let mode: ChannelMode
+        public let mode: ChannelMode?
         /// The name of the channel.
-        public let name: String
+        public let name: String?
 
-        public init(channelArn: String, chimeBearer: String, metadata: String? = nil, mode: ChannelMode, name: String) {
+        public init(channelArn: String, chimeBearer: String, metadata: String? = nil, mode: ChannelMode? = nil, name: String? = nil) {
             self.channelArn = channelArn
             self.chimeBearer = chimeBearer
             self.metadata = metadata

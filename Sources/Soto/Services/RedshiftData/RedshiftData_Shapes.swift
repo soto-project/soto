@@ -114,8 +114,10 @@ extension RedshiftData {
         public let statementName: String?
         /// A value that indicates whether to send an event to the Amazon EventBridge event bus after the SQL statements run.
         public let withEvent: Bool?
+        /// The serverless workgroup name. This parameter is required when connecting to a serverless workgroup and authenticating using either Secrets Manager or temporary credentials.
+        public let workgroupName: String?
 
-        public init(clusterIdentifier: String? = nil, database: String, dbUser: String? = nil, secretArn: String? = nil, sqls: [String], statementName: String? = nil, withEvent: Bool? = nil) {
+        public init(clusterIdentifier: String? = nil, database: String, dbUser: String? = nil, secretArn: String? = nil, sqls: [String], statementName: String? = nil, withEvent: Bool? = nil, workgroupName: String? = nil) {
             self.clusterIdentifier = clusterIdentifier
             self.database = database
             self.dbUser = dbUser
@@ -123,12 +125,16 @@ extension RedshiftData {
             self.sqls = sqls
             self.statementName = statementName
             self.withEvent = withEvent
+            self.workgroupName = workgroupName
         }
 
         public func validate(name: String) throws {
             try self.validate(self.sqls, name: "sqls", parent: name, max: 40)
             try self.validate(self.sqls, name: "sqls", parent: name, min: 1)
             try self.validate(self.statementName, name: "statementName", parent: name, max: 500)
+            try self.validate(self.workgroupName, name: "workgroupName", parent: name, max: 64)
+            try self.validate(self.workgroupName, name: "workgroupName", parent: name, min: 3)
+            try self.validate(self.workgroupName, name: "workgroupName", parent: name, pattern: "^[a-z0-9-]+$")
         }
 
         private enum CodingKeys: String, CodingKey {
@@ -139,11 +145,12 @@ extension RedshiftData {
             case sqls = "Sqls"
             case statementName = "StatementName"
             case withEvent = "WithEvent"
+            case workgroupName = "WorkgroupName"
         }
     }
 
     public struct BatchExecuteStatementOutput: AWSDecodableShape {
-        /// The cluster identifier. This parameter is not returned when connecting to a serverless endpoint.
+        /// The cluster identifier. This element is not returned when connecting to a serverless workgroup.
         public let clusterIdentifier: String?
         /// The date and time (UTC) the statement was created.
         public let createdAt: Date?
@@ -155,14 +162,17 @@ extension RedshiftData {
         public let id: String?
         /// The name or ARN of the secret that enables access to the database.
         public let secretArn: String?
+        /// The serverless workgroup name. This element is not returned when connecting to a provisioned cluster.
+        public let workgroupName: String?
 
-        public init(clusterIdentifier: String? = nil, createdAt: Date? = nil, database: String? = nil, dbUser: String? = nil, id: String? = nil, secretArn: String? = nil) {
+        public init(clusterIdentifier: String? = nil, createdAt: Date? = nil, database: String? = nil, dbUser: String? = nil, id: String? = nil, secretArn: String? = nil, workgroupName: String? = nil) {
             self.clusterIdentifier = clusterIdentifier
             self.createdAt = createdAt
             self.database = database
             self.dbUser = dbUser
             self.id = id
             self.secretArn = secretArn
+            self.workgroupName = workgroupName
         }
 
         private enum CodingKeys: String, CodingKey {
@@ -172,6 +182,7 @@ extension RedshiftData {
             case dbUser = "DbUser"
             case id = "Id"
             case secretArn = "SecretArn"
+            case workgroupName = "WorkgroupName"
         }
     }
 
@@ -320,8 +331,10 @@ extension RedshiftData {
         public let subStatements: [SubStatementData]?
         /// The date and time (UTC) that the metadata for the SQL statement was last updated. An example is the time the status last changed.
         public let updatedAt: Date?
+        /// The serverless workgroup name.
+        public let workgroupName: String?
 
-        public init(clusterIdentifier: String? = nil, createdAt: Date? = nil, database: String? = nil, dbUser: String? = nil, duration: Int64? = nil, error: String? = nil, hasResultSet: Bool? = nil, id: String, queryParameters: [SqlParameter]? = nil, queryString: String? = nil, redshiftPid: Int64? = nil, redshiftQueryId: Int64? = nil, resultRows: Int64? = nil, resultSize: Int64? = nil, secretArn: String? = nil, status: StatusString? = nil, subStatements: [SubStatementData]? = nil, updatedAt: Date? = nil) {
+        public init(clusterIdentifier: String? = nil, createdAt: Date? = nil, database: String? = nil, dbUser: String? = nil, duration: Int64? = nil, error: String? = nil, hasResultSet: Bool? = nil, id: String, queryParameters: [SqlParameter]? = nil, queryString: String? = nil, redshiftPid: Int64? = nil, redshiftQueryId: Int64? = nil, resultRows: Int64? = nil, resultSize: Int64? = nil, secretArn: String? = nil, status: StatusString? = nil, subStatements: [SubStatementData]? = nil, updatedAt: Date? = nil, workgroupName: String? = nil) {
             self.clusterIdentifier = clusterIdentifier
             self.createdAt = createdAt
             self.database = database
@@ -340,6 +353,7 @@ extension RedshiftData {
             self.status = status
             self.subStatements = subStatements
             self.updatedAt = updatedAt
+            self.workgroupName = workgroupName
         }
 
         private enum CodingKeys: String, CodingKey {
@@ -361,6 +375,7 @@ extension RedshiftData {
             case status = "Status"
             case subStatements = "SubStatements"
             case updatedAt = "UpdatedAt"
+            case workgroupName = "WorkgroupName"
         }
     }
 
@@ -383,8 +398,10 @@ extension RedshiftData {
         public let secretArn: String?
         /// The table name. If no table is specified, then all tables for all matching schemas are returned.  If no table and no schema is specified, then all tables for all schemas in the database are returned
         public let table: String?
+        /// The serverless workgroup name. This parameter is required when connecting to a serverless workgroup and authenticating using either Secrets Manager or temporary credentials.
+        public let workgroupName: String?
 
-        public init(clusterIdentifier: String? = nil, connectedDatabase: String? = nil, database: String, dbUser: String? = nil, maxResults: Int? = nil, nextToken: String? = nil, schema: String? = nil, secretArn: String? = nil, table: String? = nil) {
+        public init(clusterIdentifier: String? = nil, connectedDatabase: String? = nil, database: String, dbUser: String? = nil, maxResults: Int? = nil, nextToken: String? = nil, schema: String? = nil, secretArn: String? = nil, table: String? = nil, workgroupName: String? = nil) {
             self.clusterIdentifier = clusterIdentifier
             self.connectedDatabase = connectedDatabase
             self.database = database
@@ -394,11 +411,15 @@ extension RedshiftData {
             self.schema = schema
             self.secretArn = secretArn
             self.table = table
+            self.workgroupName = workgroupName
         }
 
         public func validate(name: String) throws {
             try self.validate(self.maxResults, name: "maxResults", parent: name, max: 1000)
             try self.validate(self.maxResults, name: "maxResults", parent: name, min: 0)
+            try self.validate(self.workgroupName, name: "workgroupName", parent: name, max: 64)
+            try self.validate(self.workgroupName, name: "workgroupName", parent: name, min: 3)
+            try self.validate(self.workgroupName, name: "workgroupName", parent: name, pattern: "^[a-z0-9-]+$")
         }
 
         private enum CodingKeys: String, CodingKey {
@@ -411,6 +432,7 @@ extension RedshiftData {
             case schema = "Schema"
             case secretArn = "SecretArn"
             case table = "Table"
+            case workgroupName = "WorkgroupName"
         }
     }
 
@@ -452,8 +474,10 @@ extension RedshiftData {
         public let statementName: String?
         /// A value that indicates whether to send an event to the Amazon EventBridge event bus after the SQL statement runs.
         public let withEvent: Bool?
+        /// The serverless workgroup name. This parameter is required when connecting to a serverless workgroup and authenticating using either Secrets Manager or temporary credentials.
+        public let workgroupName: String?
 
-        public init(clusterIdentifier: String? = nil, database: String, dbUser: String? = nil, parameters: [SqlParameter]? = nil, secretArn: String? = nil, sql: String, statementName: String? = nil, withEvent: Bool? = nil) {
+        public init(clusterIdentifier: String? = nil, database: String, dbUser: String? = nil, parameters: [SqlParameter]? = nil, secretArn: String? = nil, sql: String, statementName: String? = nil, withEvent: Bool? = nil, workgroupName: String? = nil) {
             self.clusterIdentifier = clusterIdentifier
             self.database = database
             self.dbUser = dbUser
@@ -462,6 +486,7 @@ extension RedshiftData {
             self.sql = sql
             self.statementName = statementName
             self.withEvent = withEvent
+            self.workgroupName = workgroupName
         }
 
         public func validate(name: String) throws {
@@ -470,6 +495,9 @@ extension RedshiftData {
             }
             try self.validate(self.parameters, name: "parameters", parent: name, min: 1)
             try self.validate(self.statementName, name: "statementName", parent: name, max: 500)
+            try self.validate(self.workgroupName, name: "workgroupName", parent: name, max: 64)
+            try self.validate(self.workgroupName, name: "workgroupName", parent: name, min: 3)
+            try self.validate(self.workgroupName, name: "workgroupName", parent: name, pattern: "^[a-z0-9-]+$")
         }
 
         private enum CodingKeys: String, CodingKey {
@@ -481,11 +509,12 @@ extension RedshiftData {
             case sql = "Sql"
             case statementName = "StatementName"
             case withEvent = "WithEvent"
+            case workgroupName = "WorkgroupName"
         }
     }
 
     public struct ExecuteStatementOutput: AWSDecodableShape {
-        /// The cluster identifier. This parameter is not returned when connecting to a serverless endpoint.
+        /// The cluster identifier. This element is not returned when connecting to a serverless workgroup.
         public let clusterIdentifier: String?
         /// The date and time (UTC) the statement was created.
         public let createdAt: Date?
@@ -497,14 +526,17 @@ extension RedshiftData {
         public let id: String?
         /// The name or ARN of the secret that enables access to the database.
         public let secretArn: String?
+        /// The serverless workgroup name. This element is not returned when connecting to a provisioned cluster.
+        public let workgroupName: String?
 
-        public init(clusterIdentifier: String? = nil, createdAt: Date? = nil, database: String? = nil, dbUser: String? = nil, id: String? = nil, secretArn: String? = nil) {
+        public init(clusterIdentifier: String? = nil, createdAt: Date? = nil, database: String? = nil, dbUser: String? = nil, id: String? = nil, secretArn: String? = nil, workgroupName: String? = nil) {
             self.clusterIdentifier = clusterIdentifier
             self.createdAt = createdAt
             self.database = database
             self.dbUser = dbUser
             self.id = id
             self.secretArn = secretArn
+            self.workgroupName = workgroupName
         }
 
         private enum CodingKeys: String, CodingKey {
@@ -514,6 +546,7 @@ extension RedshiftData {
             case dbUser = "DbUser"
             case id = "Id"
             case secretArn = "SecretArn"
+            case workgroupName = "WorkgroupName"
         }
     }
 
@@ -576,19 +609,25 @@ extension RedshiftData {
         public let nextToken: String?
         /// The name or ARN of the secret that enables access to the database. This parameter is required when authenticating using Secrets Manager.
         public let secretArn: String?
+        /// The serverless workgroup name. This parameter is required when connecting to a serverless workgroup and authenticating using either Secrets Manager or temporary credentials.
+        public let workgroupName: String?
 
-        public init(clusterIdentifier: String? = nil, database: String, dbUser: String? = nil, maxResults: Int? = nil, nextToken: String? = nil, secretArn: String? = nil) {
+        public init(clusterIdentifier: String? = nil, database: String, dbUser: String? = nil, maxResults: Int? = nil, nextToken: String? = nil, secretArn: String? = nil, workgroupName: String? = nil) {
             self.clusterIdentifier = clusterIdentifier
             self.database = database
             self.dbUser = dbUser
             self.maxResults = maxResults
             self.nextToken = nextToken
             self.secretArn = secretArn
+            self.workgroupName = workgroupName
         }
 
         public func validate(name: String) throws {
             try self.validate(self.maxResults, name: "maxResults", parent: name, max: 1000)
             try self.validate(self.maxResults, name: "maxResults", parent: name, min: 0)
+            try self.validate(self.workgroupName, name: "workgroupName", parent: name, max: 64)
+            try self.validate(self.workgroupName, name: "workgroupName", parent: name, min: 3)
+            try self.validate(self.workgroupName, name: "workgroupName", parent: name, pattern: "^[a-z0-9-]+$")
         }
 
         private enum CodingKeys: String, CodingKey {
@@ -598,6 +637,7 @@ extension RedshiftData {
             case maxResults = "MaxResults"
             case nextToken = "NextToken"
             case secretArn = "SecretArn"
+            case workgroupName = "WorkgroupName"
         }
     }
 
@@ -635,8 +675,10 @@ extension RedshiftData {
         public let schemaPattern: String?
         /// The name or ARN of the secret that enables access to the database. This parameter is required when authenticating using Secrets Manager.
         public let secretArn: String?
+        /// The serverless workgroup name. This parameter is required when connecting to a serverless workgroup and authenticating using either Secrets Manager or temporary credentials.
+        public let workgroupName: String?
 
-        public init(clusterIdentifier: String? = nil, connectedDatabase: String? = nil, database: String, dbUser: String? = nil, maxResults: Int? = nil, nextToken: String? = nil, schemaPattern: String? = nil, secretArn: String? = nil) {
+        public init(clusterIdentifier: String? = nil, connectedDatabase: String? = nil, database: String, dbUser: String? = nil, maxResults: Int? = nil, nextToken: String? = nil, schemaPattern: String? = nil, secretArn: String? = nil, workgroupName: String? = nil) {
             self.clusterIdentifier = clusterIdentifier
             self.connectedDatabase = connectedDatabase
             self.database = database
@@ -645,11 +687,15 @@ extension RedshiftData {
             self.nextToken = nextToken
             self.schemaPattern = schemaPattern
             self.secretArn = secretArn
+            self.workgroupName = workgroupName
         }
 
         public func validate(name: String) throws {
             try self.validate(self.maxResults, name: "maxResults", parent: name, max: 1000)
             try self.validate(self.maxResults, name: "maxResults", parent: name, min: 0)
+            try self.validate(self.workgroupName, name: "workgroupName", parent: name, max: 64)
+            try self.validate(self.workgroupName, name: "workgroupName", parent: name, min: 3)
+            try self.validate(self.workgroupName, name: "workgroupName", parent: name, pattern: "^[a-z0-9-]+$")
         }
 
         private enum CodingKeys: String, CodingKey {
@@ -661,6 +707,7 @@ extension RedshiftData {
             case nextToken = "NextToken"
             case schemaPattern = "SchemaPattern"
             case secretArn = "SecretArn"
+            case workgroupName = "WorkgroupName"
         }
     }
 
@@ -752,8 +799,10 @@ extension RedshiftData {
         public let secretArn: String?
         /// A pattern to filter results by table name. Within a table pattern, "%" means match any substring of 0 or more characters and "_" means match any one character. Only table name entries matching the search pattern are returned. If TablePattern is not specified, then all tables that match  SchemaPatternare returned.   If neither SchemaPattern or TablePattern are specified, then all tables are returned.
         public let tablePattern: String?
+        /// The serverless workgroup name. This parameter is required when connecting to a serverless workgroup and authenticating using either Secrets Manager or temporary credentials.
+        public let workgroupName: String?
 
-        public init(clusterIdentifier: String? = nil, connectedDatabase: String? = nil, database: String, dbUser: String? = nil, maxResults: Int? = nil, nextToken: String? = nil, schemaPattern: String? = nil, secretArn: String? = nil, tablePattern: String? = nil) {
+        public init(clusterIdentifier: String? = nil, connectedDatabase: String? = nil, database: String, dbUser: String? = nil, maxResults: Int? = nil, nextToken: String? = nil, schemaPattern: String? = nil, secretArn: String? = nil, tablePattern: String? = nil, workgroupName: String? = nil) {
             self.clusterIdentifier = clusterIdentifier
             self.connectedDatabase = connectedDatabase
             self.database = database
@@ -763,11 +812,15 @@ extension RedshiftData {
             self.schemaPattern = schemaPattern
             self.secretArn = secretArn
             self.tablePattern = tablePattern
+            self.workgroupName = workgroupName
         }
 
         public func validate(name: String) throws {
             try self.validate(self.maxResults, name: "maxResults", parent: name, max: 1000)
             try self.validate(self.maxResults, name: "maxResults", parent: name, min: 0)
+            try self.validate(self.workgroupName, name: "workgroupName", parent: name, max: 64)
+            try self.validate(self.workgroupName, name: "workgroupName", parent: name, min: 3)
+            try self.validate(self.workgroupName, name: "workgroupName", parent: name, pattern: "^[a-z0-9-]+$")
         }
 
         private enum CodingKeys: String, CodingKey {
@@ -780,6 +833,7 @@ extension RedshiftData {
             case schemaPattern = "SchemaPattern"
             case secretArn = "SecretArn"
             case tablePattern = "TablePattern"
+            case workgroupName = "WorkgroupName"
         }
     }
 

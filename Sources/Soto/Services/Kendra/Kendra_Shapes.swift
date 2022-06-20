@@ -134,6 +134,7 @@ extension Kendra {
         case custom = "CUSTOM"
         case database = "DATABASE"
         case fsx = "FSX"
+        case github = "GITHUB"
         case googledrive = "GOOGLEDRIVE"
         case jira = "JIRA"
         case onedrive = "ONEDRIVE"
@@ -432,6 +433,12 @@ extension Kendra {
         case deleting = "DELETING"
         case failed = "FAILED"
         case updating = "UPDATING"
+        public var description: String { return self.rawValue }
+    }
+
+    public enum `Type`: String, CustomStringConvertible, Codable, _SotoSendable {
+        case onPremise = "ON_PREMISE"
+        case saas = "SAAS"
         public var description: String { return self.rawValue }
     }
 
@@ -2087,6 +2094,8 @@ extension Kendra {
         public let databaseConfiguration: DatabaseConfiguration?
         /// Provides the configuration information to connect to Amazon FSx as  your data source.
         public let fsxConfiguration: FsxConfiguration?
+        /// Provides the configuration information to connect to GitHub as  your data source.
+        public let gitHubConfiguration: GitHubConfiguration?
         /// Provides the configuration information to connect to Google Drive as your data source.
         public let googleDriveConfiguration: GoogleDriveConfiguration?
         /// Provides the configuration information to connect to Jira as your  data source.
@@ -2109,11 +2118,12 @@ extension Kendra {
         /// Provides the configuration information to connect to Amazon WorkDocs  as your data source.
         public let workDocsConfiguration: WorkDocsConfiguration?
 
-        public init(boxConfiguration: BoxConfiguration? = nil, confluenceConfiguration: ConfluenceConfiguration? = nil, databaseConfiguration: DatabaseConfiguration? = nil, fsxConfiguration: FsxConfiguration? = nil, googleDriveConfiguration: GoogleDriveConfiguration? = nil, jiraConfiguration: JiraConfiguration? = nil, oneDriveConfiguration: OneDriveConfiguration? = nil, quipConfiguration: QuipConfiguration? = nil, s3Configuration: S3DataSourceConfiguration? = nil, salesforceConfiguration: SalesforceConfiguration? = nil, serviceNowConfiguration: ServiceNowConfiguration? = nil, sharePointConfiguration: SharePointConfiguration? = nil, slackConfiguration: SlackConfiguration? = nil, webCrawlerConfiguration: WebCrawlerConfiguration? = nil, workDocsConfiguration: WorkDocsConfiguration? = nil) {
+        public init(boxConfiguration: BoxConfiguration? = nil, confluenceConfiguration: ConfluenceConfiguration? = nil, databaseConfiguration: DatabaseConfiguration? = nil, fsxConfiguration: FsxConfiguration? = nil, gitHubConfiguration: GitHubConfiguration? = nil, googleDriveConfiguration: GoogleDriveConfiguration? = nil, jiraConfiguration: JiraConfiguration? = nil, oneDriveConfiguration: OneDriveConfiguration? = nil, quipConfiguration: QuipConfiguration? = nil, s3Configuration: S3DataSourceConfiguration? = nil, salesforceConfiguration: SalesforceConfiguration? = nil, serviceNowConfiguration: ServiceNowConfiguration? = nil, sharePointConfiguration: SharePointConfiguration? = nil, slackConfiguration: SlackConfiguration? = nil, webCrawlerConfiguration: WebCrawlerConfiguration? = nil, workDocsConfiguration: WorkDocsConfiguration? = nil) {
             self.boxConfiguration = boxConfiguration
             self.confluenceConfiguration = confluenceConfiguration
             self.databaseConfiguration = databaseConfiguration
             self.fsxConfiguration = fsxConfiguration
+            self.gitHubConfiguration = gitHubConfiguration
             self.googleDriveConfiguration = googleDriveConfiguration
             self.jiraConfiguration = jiraConfiguration
             self.oneDriveConfiguration = oneDriveConfiguration
@@ -2132,6 +2142,7 @@ extension Kendra {
             try self.confluenceConfiguration?.validate(name: "\(name).confluenceConfiguration")
             try self.databaseConfiguration?.validate(name: "\(name).databaseConfiguration")
             try self.fsxConfiguration?.validate(name: "\(name).fsxConfiguration")
+            try self.gitHubConfiguration?.validate(name: "\(name).gitHubConfiguration")
             try self.googleDriveConfiguration?.validate(name: "\(name).googleDriveConfiguration")
             try self.jiraConfiguration?.validate(name: "\(name).jiraConfiguration")
             try self.oneDriveConfiguration?.validate(name: "\(name).oneDriveConfiguration")
@@ -2150,6 +2161,7 @@ extension Kendra {
             case confluenceConfiguration = "ConfluenceConfiguration"
             case databaseConfiguration = "DatabaseConfiguration"
             case fsxConfiguration = "FsxConfiguration"
+            case gitHubConfiguration = "GitHubConfiguration"
             case googleDriveConfiguration = "GoogleDriveConfiguration"
             case jiraConfiguration = "JiraConfiguration"
             case oneDriveConfiguration = "OneDriveConfiguration"
@@ -3365,7 +3377,7 @@ extension Kendra {
         public let contentType: ContentType?
         /// The list of principal lists  that define the hierarchy for which documents users should have access to.
         public let hierarchicalAccessControlList: [HierarchicalPrincipal]?
-        /// A unique identifier of the document in the index.
+        /// A unique identifier of the document in the index. Note, each document ID must be unique per index. You cannot create a data source  to index your documents with their unique IDs and then use the  BatchPutDocument API to index the same documents, or vice versa. You  can delete a data source and then use the BatchPutDocument API to index  the same documents, or vice versa.
         public let id: String
         public let s3Path: S3Path?
         /// The title of the document.
@@ -4095,6 +4107,218 @@ extension Kendra {
         }
     }
 
+    public struct GitHubConfiguration: AWSEncodableShape & AWSDecodableShape {
+        /// A list of regular expression patterns to exclude certain file names in your GitHub repository or repositories. File names that match the patterns are excluded from the index. File names that don't match the patterns are included in the index. If a file matches both an exclusion and inclusion pattern, the exclusion pattern takes precedence and the file isn't included in the index.
+        public let exclusionFileNamePatterns: [String]?
+        /// A list of regular expression patterns to exclude certain file types in your GitHub repository or repositories. File types that match the patterns are excluded from the index. File types that don't match the patterns are included in the index. If a file matches both an exclusion and inclusion pattern, the exclusion pattern takes precedence and the file isn't included in the index.
+        public let exclusionFileTypePatterns: [String]?
+        /// A list of regular expression patterns to exclude certain folder names in your GitHub repository or repositories. Folder names that match the patterns are excluded from the index. Folder names that don't match the patterns are included in the index. If a folder matches both an exclusion and inclusion pattern, the exclusion pattern takes precedence and the folder isn't included in the index.
+        public let exclusionFolderNamePatterns: [String]?
+        /// A list of DataSourceToIndexFieldMapping objects that map attributes or field names of GitHub commits to Amazon Kendra index field names.  To create custom fields, use the UpdateIndex API before you map to GitHub fields. For more information, see Mapping data source fields. The GitHub data source field names must exist in your GitHub custom metadata.
+        public let gitHubCommitConfigurationFieldMappings: [DataSourceToIndexFieldMapping]?
+        /// Configuration information to include certain types of GitHub content. You can configure to index repository files only, or also include issues and pull requests, comments, and comment attachments.
+        public let gitHubDocumentCrawlProperties: GitHubDocumentCrawlProperties?
+        /// A list of DataSourceToIndexFieldMapping objects that map attributes or field names of GitHub issue attachments to Amazon Kendra index field names. To create custom fields, use the UpdateIndex API before you map to GitHub fields. For more information, see Mapping data source fields. The GitHub data source field names must exist in your GitHub custom metadata.
+        public let gitHubIssueAttachmentConfigurationFieldMappings: [DataSourceToIndexFieldMapping]?
+        /// A list of DataSourceToIndexFieldMapping objects that map attributes or field names of GitHub issue comments to Amazon Kendra index field names. To create custom fields, use the UpdateIndex API before you map to GitHub fields. For more information, see Mapping data source fields. The GitHub data source field names must exist in your GitHub custom metadata.
+        public let gitHubIssueCommentConfigurationFieldMappings: [DataSourceToIndexFieldMapping]?
+        /// A list of DataSourceToIndexFieldMapping objects that map attributes or field names of GitHub issues to Amazon Kendra index field names. To create custom fields, use the UpdateIndex API before you map to GitHub fields. For more information, see Mapping data source fields. The GitHub data source field names must exist in your GitHub custom metadata.
+        public let gitHubIssueDocumentConfigurationFieldMappings: [DataSourceToIndexFieldMapping]?
+        /// A list of DataSourceToIndexFieldMapping objects that map attributes or field names of GitHub pull request comments to Amazon Kendra index field names. To create custom fields, use the UpdateIndex API before you map to GitHub fields. For more information, see Mapping data source fields. The GitHub data source field names must exist in your GitHub custom metadata.
+        public let gitHubPullRequestCommentConfigurationFieldMappings: [DataSourceToIndexFieldMapping]?
+        /// A list of DataSourceToIndexFieldMapping objects that map attributes or field names of GitHub pull request attachments to Amazon Kendra index field names. To create custom fields, use the UpdateIndex API before you map to GitHub fields. For more information, see Mapping data source fields. The GitHub data source field names must exist in your GitHub custom metadata.
+        public let gitHubPullRequestDocumentAttachmentConfigurationFieldMappings: [DataSourceToIndexFieldMapping]?
+        /// A list of DataSourceToIndexFieldMapping objects that map attributes or field names of GitHub pull requests to Amazon Kendra index field names. To create custom fields, use the UpdateIndex API before you map to GitHub fields. For more information, see Mapping data source fields. The GitHub data source field names must exist in your GitHub custom metadata.
+        public let gitHubPullRequestDocumentConfigurationFieldMappings: [DataSourceToIndexFieldMapping]?
+        /// A list of DataSourceToIndexFieldMapping objects that map GitHub repository attributes or field names to Amazon Kendra index field names. To create custom fields, use the UpdateIndex API before you map to GitHub fields. For more information, see Mapping data source fields. The GitHub data source field names must exist in your GitHub custom metadata.
+        public let gitHubRepositoryConfigurationFieldMappings: [DataSourceToIndexFieldMapping]?
+        /// A list of regular expression patterns to include certain file names in your GitHub repository or repositories. File names that match the patterns are included in the index. File names that don't match the patterns are excluded from the index. If a file matches both an inclusion and exclusion pattern, the exclusion pattern takes precedence and the file isn't included in the index.
+        public let inclusionFileNamePatterns: [String]?
+        /// A list of regular expression patterns to include certain file types in your GitHub repository or repositories. File types that match the patterns are included in the index. File types that don't match the patterns are excluded from the index. If a file matches both an inclusion and exclusion pattern, the exclusion pattern takes precedence and the file isn't included in the index.
+        public let inclusionFileTypePatterns: [String]?
+        /// A list of regular expression patterns to include certain folder names in your GitHub repository or repositories. Folder names that match the patterns are included in the index. Folder names that don't match the patterns are excluded from the index. If a folder matches both an inclusion and exclusion pattern, the exclusion pattern takes precedence and the folder isn't included in the index.
+        public let inclusionFolderNamePatterns: [String]?
+        /// Configuration information to connect to GitHub Enterprise Server (on premises).
+        public let onPremiseConfiguration: OnPremiseConfiguration?
+        /// A list of names of the specific repositories you want to index.
+        public let repositoryFilter: [String]?
+        /// Configuration information to connect to GitHub Enterprise Cloud (SaaS).
+        public let saaSConfiguration: SaaSConfiguration?
+        /// The Amazon Resource Name (ARN) of an Secrets Manager secret that contains the key-value pairs required to connect to your GitHub. The secret must contain a JSON structure with the following keys:   githubToken—The access token created in GitHub. For more information on creating a token in GitHub, see Authentication for a GitHub data source.
+        public let secretArn: String
+        /// The type of GitHub service you want to connect to—GitHub Enterprise Cloud (SaaS) or GitHub Enterprise Server (on premises).
+        public let type: `Type`?
+        ///  TRUE to use the GitHub change log to determine which documents require updating in the index. Depending on the GitHub change log's size, it may take longer for Amazon Kendra to use the change log than to scan all of your documents in GitHub.
+        public let useChangeLog: Bool?
+        /// Configuration information of an Amazon Virtual Private Cloud to connect to your GitHub. For more information, see Configuring a VPC.
+        public let vpcConfiguration: DataSourceVpcConfiguration?
+
+        public init(exclusionFileNamePatterns: [String]? = nil, exclusionFileTypePatterns: [String]? = nil, exclusionFolderNamePatterns: [String]? = nil, gitHubCommitConfigurationFieldMappings: [DataSourceToIndexFieldMapping]? = nil, gitHubDocumentCrawlProperties: GitHubDocumentCrawlProperties? = nil, gitHubIssueAttachmentConfigurationFieldMappings: [DataSourceToIndexFieldMapping]? = nil, gitHubIssueCommentConfigurationFieldMappings: [DataSourceToIndexFieldMapping]? = nil, gitHubIssueDocumentConfigurationFieldMappings: [DataSourceToIndexFieldMapping]? = nil, gitHubPullRequestCommentConfigurationFieldMappings: [DataSourceToIndexFieldMapping]? = nil, gitHubPullRequestDocumentAttachmentConfigurationFieldMappings: [DataSourceToIndexFieldMapping]? = nil, gitHubPullRequestDocumentConfigurationFieldMappings: [DataSourceToIndexFieldMapping]? = nil, gitHubRepositoryConfigurationFieldMappings: [DataSourceToIndexFieldMapping]? = nil, inclusionFileNamePatterns: [String]? = nil, inclusionFileTypePatterns: [String]? = nil, inclusionFolderNamePatterns: [String]? = nil, onPremiseConfiguration: OnPremiseConfiguration? = nil, repositoryFilter: [String]? = nil, saaSConfiguration: SaaSConfiguration? = nil, secretArn: String, type: `Type`? = nil, useChangeLog: Bool? = nil, vpcConfiguration: DataSourceVpcConfiguration? = nil) {
+            self.exclusionFileNamePatterns = exclusionFileNamePatterns
+            self.exclusionFileTypePatterns = exclusionFileTypePatterns
+            self.exclusionFolderNamePatterns = exclusionFolderNamePatterns
+            self.gitHubCommitConfigurationFieldMappings = gitHubCommitConfigurationFieldMappings
+            self.gitHubDocumentCrawlProperties = gitHubDocumentCrawlProperties
+            self.gitHubIssueAttachmentConfigurationFieldMappings = gitHubIssueAttachmentConfigurationFieldMappings
+            self.gitHubIssueCommentConfigurationFieldMappings = gitHubIssueCommentConfigurationFieldMappings
+            self.gitHubIssueDocumentConfigurationFieldMappings = gitHubIssueDocumentConfigurationFieldMappings
+            self.gitHubPullRequestCommentConfigurationFieldMappings = gitHubPullRequestCommentConfigurationFieldMappings
+            self.gitHubPullRequestDocumentAttachmentConfigurationFieldMappings = gitHubPullRequestDocumentAttachmentConfigurationFieldMappings
+            self.gitHubPullRequestDocumentConfigurationFieldMappings = gitHubPullRequestDocumentConfigurationFieldMappings
+            self.gitHubRepositoryConfigurationFieldMappings = gitHubRepositoryConfigurationFieldMappings
+            self.inclusionFileNamePatterns = inclusionFileNamePatterns
+            self.inclusionFileTypePatterns = inclusionFileTypePatterns
+            self.inclusionFolderNamePatterns = inclusionFolderNamePatterns
+            self.onPremiseConfiguration = onPremiseConfiguration
+            self.repositoryFilter = repositoryFilter
+            self.saaSConfiguration = saaSConfiguration
+            self.secretArn = secretArn
+            self.type = type
+            self.useChangeLog = useChangeLog
+            self.vpcConfiguration = vpcConfiguration
+        }
+
+        public func validate(name: String) throws {
+            try self.exclusionFileNamePatterns?.forEach {
+                try validate($0, name: "exclusionFileNamePatterns[]", parent: name, max: 2048)
+                try validate($0, name: "exclusionFileNamePatterns[]", parent: name, min: 1)
+            }
+            try self.exclusionFileTypePatterns?.forEach {
+                try validate($0, name: "exclusionFileTypePatterns[]", parent: name, max: 2048)
+                try validate($0, name: "exclusionFileTypePatterns[]", parent: name, min: 1)
+            }
+            try self.exclusionFolderNamePatterns?.forEach {
+                try validate($0, name: "exclusionFolderNamePatterns[]", parent: name, max: 2048)
+                try validate($0, name: "exclusionFolderNamePatterns[]", parent: name, min: 1)
+            }
+            try self.gitHubCommitConfigurationFieldMappings?.forEach {
+                try $0.validate(name: "\(name).gitHubCommitConfigurationFieldMappings[]")
+            }
+            try self.validate(self.gitHubCommitConfigurationFieldMappings, name: "gitHubCommitConfigurationFieldMappings", parent: name, max: 100)
+            try self.validate(self.gitHubCommitConfigurationFieldMappings, name: "gitHubCommitConfigurationFieldMappings", parent: name, min: 1)
+            try self.gitHubIssueAttachmentConfigurationFieldMappings?.forEach {
+                try $0.validate(name: "\(name).gitHubIssueAttachmentConfigurationFieldMappings[]")
+            }
+            try self.validate(self.gitHubIssueAttachmentConfigurationFieldMappings, name: "gitHubIssueAttachmentConfigurationFieldMappings", parent: name, max: 100)
+            try self.validate(self.gitHubIssueAttachmentConfigurationFieldMappings, name: "gitHubIssueAttachmentConfigurationFieldMappings", parent: name, min: 1)
+            try self.gitHubIssueCommentConfigurationFieldMappings?.forEach {
+                try $0.validate(name: "\(name).gitHubIssueCommentConfigurationFieldMappings[]")
+            }
+            try self.validate(self.gitHubIssueCommentConfigurationFieldMappings, name: "gitHubIssueCommentConfigurationFieldMappings", parent: name, max: 100)
+            try self.validate(self.gitHubIssueCommentConfigurationFieldMappings, name: "gitHubIssueCommentConfigurationFieldMappings", parent: name, min: 1)
+            try self.gitHubIssueDocumentConfigurationFieldMappings?.forEach {
+                try $0.validate(name: "\(name).gitHubIssueDocumentConfigurationFieldMappings[]")
+            }
+            try self.validate(self.gitHubIssueDocumentConfigurationFieldMappings, name: "gitHubIssueDocumentConfigurationFieldMappings", parent: name, max: 100)
+            try self.validate(self.gitHubIssueDocumentConfigurationFieldMappings, name: "gitHubIssueDocumentConfigurationFieldMappings", parent: name, min: 1)
+            try self.gitHubPullRequestCommentConfigurationFieldMappings?.forEach {
+                try $0.validate(name: "\(name).gitHubPullRequestCommentConfigurationFieldMappings[]")
+            }
+            try self.validate(self.gitHubPullRequestCommentConfigurationFieldMappings, name: "gitHubPullRequestCommentConfigurationFieldMappings", parent: name, max: 100)
+            try self.validate(self.gitHubPullRequestCommentConfigurationFieldMappings, name: "gitHubPullRequestCommentConfigurationFieldMappings", parent: name, min: 1)
+            try self.gitHubPullRequestDocumentAttachmentConfigurationFieldMappings?.forEach {
+                try $0.validate(name: "\(name).gitHubPullRequestDocumentAttachmentConfigurationFieldMappings[]")
+            }
+            try self.validate(self.gitHubPullRequestDocumentAttachmentConfigurationFieldMappings, name: "gitHubPullRequestDocumentAttachmentConfigurationFieldMappings", parent: name, max: 100)
+            try self.validate(self.gitHubPullRequestDocumentAttachmentConfigurationFieldMappings, name: "gitHubPullRequestDocumentAttachmentConfigurationFieldMappings", parent: name, min: 1)
+            try self.gitHubPullRequestDocumentConfigurationFieldMappings?.forEach {
+                try $0.validate(name: "\(name).gitHubPullRequestDocumentConfigurationFieldMappings[]")
+            }
+            try self.validate(self.gitHubPullRequestDocumentConfigurationFieldMappings, name: "gitHubPullRequestDocumentConfigurationFieldMappings", parent: name, max: 100)
+            try self.validate(self.gitHubPullRequestDocumentConfigurationFieldMappings, name: "gitHubPullRequestDocumentConfigurationFieldMappings", parent: name, min: 1)
+            try self.gitHubRepositoryConfigurationFieldMappings?.forEach {
+                try $0.validate(name: "\(name).gitHubRepositoryConfigurationFieldMappings[]")
+            }
+            try self.validate(self.gitHubRepositoryConfigurationFieldMappings, name: "gitHubRepositoryConfigurationFieldMappings", parent: name, max: 100)
+            try self.validate(self.gitHubRepositoryConfigurationFieldMappings, name: "gitHubRepositoryConfigurationFieldMappings", parent: name, min: 1)
+            try self.inclusionFileNamePatterns?.forEach {
+                try validate($0, name: "inclusionFileNamePatterns[]", parent: name, max: 2048)
+                try validate($0, name: "inclusionFileNamePatterns[]", parent: name, min: 1)
+            }
+            try self.inclusionFileTypePatterns?.forEach {
+                try validate($0, name: "inclusionFileTypePatterns[]", parent: name, max: 2048)
+                try validate($0, name: "inclusionFileTypePatterns[]", parent: name, min: 1)
+            }
+            try self.inclusionFolderNamePatterns?.forEach {
+                try validate($0, name: "inclusionFolderNamePatterns[]", parent: name, max: 2048)
+                try validate($0, name: "inclusionFolderNamePatterns[]", parent: name, min: 1)
+            }
+            try self.onPremiseConfiguration?.validate(name: "\(name).onPremiseConfiguration")
+            try self.repositoryFilter?.forEach {
+                try validate($0, name: "repositoryFilter[]", parent: name, max: 64)
+                try validate($0, name: "repositoryFilter[]", parent: name, min: 1)
+                try validate($0, name: "repositoryFilter[]", parent: name, pattern: "^[A-Za-z0-9_.-]+$")
+            }
+            try self.saaSConfiguration?.validate(name: "\(name).saaSConfiguration")
+            try self.validate(self.secretArn, name: "secretArn", parent: name, max: 1284)
+            try self.validate(self.secretArn, name: "secretArn", parent: name, min: 1)
+            try self.validate(self.secretArn, name: "secretArn", parent: name, pattern: "^arn:[a-z0-9-\\.]{1,63}:[a-z0-9-\\.]{0,63}:[a-z0-9-\\.]{0,63}:[a-z0-9-\\.]{0,63}:[^/].{0,1023}$")
+            try self.vpcConfiguration?.validate(name: "\(name).vpcConfiguration")
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case exclusionFileNamePatterns = "ExclusionFileNamePatterns"
+            case exclusionFileTypePatterns = "ExclusionFileTypePatterns"
+            case exclusionFolderNamePatterns = "ExclusionFolderNamePatterns"
+            case gitHubCommitConfigurationFieldMappings = "GitHubCommitConfigurationFieldMappings"
+            case gitHubDocumentCrawlProperties = "GitHubDocumentCrawlProperties"
+            case gitHubIssueAttachmentConfigurationFieldMappings = "GitHubIssueAttachmentConfigurationFieldMappings"
+            case gitHubIssueCommentConfigurationFieldMappings = "GitHubIssueCommentConfigurationFieldMappings"
+            case gitHubIssueDocumentConfigurationFieldMappings = "GitHubIssueDocumentConfigurationFieldMappings"
+            case gitHubPullRequestCommentConfigurationFieldMappings = "GitHubPullRequestCommentConfigurationFieldMappings"
+            case gitHubPullRequestDocumentAttachmentConfigurationFieldMappings = "GitHubPullRequestDocumentAttachmentConfigurationFieldMappings"
+            case gitHubPullRequestDocumentConfigurationFieldMappings = "GitHubPullRequestDocumentConfigurationFieldMappings"
+            case gitHubRepositoryConfigurationFieldMappings = "GitHubRepositoryConfigurationFieldMappings"
+            case inclusionFileNamePatterns = "InclusionFileNamePatterns"
+            case inclusionFileTypePatterns = "InclusionFileTypePatterns"
+            case inclusionFolderNamePatterns = "InclusionFolderNamePatterns"
+            case onPremiseConfiguration = "OnPremiseConfiguration"
+            case repositoryFilter = "RepositoryFilter"
+            case saaSConfiguration = "SaaSConfiguration"
+            case secretArn = "SecretArn"
+            case type = "Type"
+            case useChangeLog = "UseChangeLog"
+            case vpcConfiguration = "VpcConfiguration"
+        }
+    }
+
+    public struct GitHubDocumentCrawlProperties: AWSEncodableShape & AWSDecodableShape {
+        ///  TRUE to index all issues within a repository.
+        public let crawlIssue: Bool?
+        ///  TRUE to index all comments on issues.
+        public let crawlIssueComment: Bool?
+        ///  TRUE to include all comment attachments for issues.
+        public let crawlIssueCommentAttachment: Bool?
+        ///  TRUE to index all pull requests within a repository.
+        public let crawlPullRequest: Bool?
+        ///  TRUE to index all comments on pull requests.
+        public let crawlPullRequestComment: Bool?
+        ///  TRUE to include all comment attachments for pull requests.
+        public let crawlPullRequestCommentAttachment: Bool?
+        ///  TRUE to index all files with a repository.
+        public let crawlRepositoryDocuments: Bool?
+
+        public init(crawlIssue: Bool? = nil, crawlIssueComment: Bool? = nil, crawlIssueCommentAttachment: Bool? = nil, crawlPullRequest: Bool? = nil, crawlPullRequestComment: Bool? = nil, crawlPullRequestCommentAttachment: Bool? = nil, crawlRepositoryDocuments: Bool? = nil) {
+            self.crawlIssue = crawlIssue
+            self.crawlIssueComment = crawlIssueComment
+            self.crawlIssueCommentAttachment = crawlIssueCommentAttachment
+            self.crawlPullRequest = crawlPullRequest
+            self.crawlPullRequestComment = crawlPullRequestComment
+            self.crawlPullRequestCommentAttachment = crawlPullRequestCommentAttachment
+            self.crawlRepositoryDocuments = crawlRepositoryDocuments
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case crawlIssue = "CrawlIssue"
+            case crawlIssueComment = "CrawlIssueComment"
+            case crawlIssueCommentAttachment = "CrawlIssueCommentAttachment"
+            case crawlPullRequest = "CrawlPullRequest"
+            case crawlPullRequestComment = "CrawlPullRequestComment"
+            case crawlPullRequestCommentAttachment = "CrawlPullRequestCommentAttachment"
+            case crawlRepositoryDocuments = "CrawlRepositoryDocuments"
+        }
+    }
+
     public struct GoogleDriveConfiguration: AWSEncodableShape & AWSDecodableShape {
         /// A list of MIME types to exclude from the index. All documents matching the specified MIME type are excluded.  For a list of MIME types, see Using a Google Workspace Drive data source.
         public let excludeMimeTypes: [String]?
@@ -4424,7 +4648,7 @@ extension Kendra {
         public let project: [String]?
         /// A list of DataSourceToIndexFieldMapping objects that map attributes  or field names of Jira projects to Amazon Kendra index field names.  To create custom fields, use the UpdateIndex API before you map to Jira  fields. For more information, see  Mapping data source fields. The Jira data source field names  must exist in your Jira custom metadata.
         public let projectFieldMappings: [DataSourceToIndexFieldMapping]?
-        /// The Amazon Resource Name (ARN) of an Secrets Manager secret that  contains the key-value pairs required to connect to your Jira  data source. The secret must  contain a JSON structure with the following keys:   jira-id—The Active Directory user name, along with the  Domain Name System (DNS) domain name. For example,  user@corp.example.com.   jiraCredentials—The password of the Jira account user.
+        /// The Amazon Resource Name (ARN) of an Secrets Manager secret that  contains the key-value pairs required to connect to your Jira  data source. The secret must  contain a JSON structure with the following keys:   jira-id—The ID of the Jira account.   jiraCredentials—The password of the Jira account user.
         public let secretArn: String
         /// Specify which statuses to crawl in your Jira data source.  You can specify one or more of these options to crawl.
         public let status: [String]?
@@ -5196,6 +5420,37 @@ extension Kendra {
         }
     }
 
+    public struct OnPremiseConfiguration: AWSEncodableShape & AWSDecodableShape {
+        /// The GitHub host URL or API endpoint URL. For example, https://on-prem-host-url/api/v3/
+        public let hostUrl: String
+        /// The name of the organization of the GitHub Enterprise Server (in-premise) account you want to connect to. You can find your organization name by logging into GitHub desktop and selecting Your organizations under your profile picture dropdown.
+        public let organizationName: String
+        /// Information required to find a specific file in an Amazon S3 bucket.
+        public let sslCertificateS3Path: S3Path
+
+        public init(hostUrl: String, organizationName: String, sslCertificateS3Path: S3Path) {
+            self.hostUrl = hostUrl
+            self.organizationName = organizationName
+            self.sslCertificateS3Path = sslCertificateS3Path
+        }
+
+        public func validate(name: String) throws {
+            try self.validate(self.hostUrl, name: "hostUrl", parent: name, max: 2048)
+            try self.validate(self.hostUrl, name: "hostUrl", parent: name, min: 1)
+            try self.validate(self.hostUrl, name: "hostUrl", parent: name, pattern: "^(https?|ftp|file):\\/\\/([^\\s]*)$")
+            try self.validate(self.organizationName, name: "organizationName", parent: name, max: 60)
+            try self.validate(self.organizationName, name: "organizationName", parent: name, min: 1)
+            try self.validate(self.organizationName, name: "organizationName", parent: name, pattern: "^[A-Za-z0-9_.-]+$")
+            try self.sslCertificateS3Path.validate(name: "\(name).sslCertificateS3Path")
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case hostUrl = "HostUrl"
+            case organizationName = "OrganizationName"
+            case sslCertificateS3Path = "SslCertificateS3Path"
+        }
+    }
+
     public struct OneDriveConfiguration: AWSEncodableShape & AWSDecodableShape {
         /// A Boolean value that specifies whether local groups are disabled (True) or enabled (False).
         public let disableLocalGroups: Bool?
@@ -5872,6 +6127,32 @@ extension Kendra {
         }
     }
 
+    public struct SaaSConfiguration: AWSEncodableShape & AWSDecodableShape {
+        /// The GitHub host URL or API endpoint URL. For example,  https://api.github.com.
+        public let hostUrl: String
+        /// The name of the organization of the GitHub Enterprise Cloud (SaaS) account you want to connect to. You can find your organization name by logging into GitHub desktop and selecting Your organizations under your profile picture dropdown.
+        public let organizationName: String
+
+        public init(hostUrl: String, organizationName: String) {
+            self.hostUrl = hostUrl
+            self.organizationName = organizationName
+        }
+
+        public func validate(name: String) throws {
+            try self.validate(self.hostUrl, name: "hostUrl", parent: name, max: 2048)
+            try self.validate(self.hostUrl, name: "hostUrl", parent: name, min: 1)
+            try self.validate(self.hostUrl, name: "hostUrl", parent: name, pattern: "^(https?|ftp|file):\\/\\/([^\\s]*)$")
+            try self.validate(self.organizationName, name: "organizationName", parent: name, max: 60)
+            try self.validate(self.organizationName, name: "organizationName", parent: name, min: 1)
+            try self.validate(self.organizationName, name: "organizationName", parent: name, pattern: "^[A-Za-z0-9_.-]+$")
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case hostUrl = "HostUrl"
+            case organizationName = "OrganizationName"
+        }
+    }
+
     public struct SalesforceChatterFeedConfiguration: AWSEncodableShape & AWSDecodableShape {
         /// The name of the column in the Salesforce FeedItem table that contains the content to index. Typically this is the Body column.
         public let documentDataFieldName: String
@@ -6226,7 +6507,7 @@ extension Kendra {
     }
 
     public struct ServerSideEncryptionConfiguration: AWSEncodableShape & AWSDecodableShape {
-        /// The identifier of the KMScustomer master key (CMK). Amazon Kendra doesn't support asymmetric CMKs.
+        /// The identifier of the KMS key. Amazon Kendra doesn't support asymmetric keys.
         public let kmsKeyId: String?
 
         public init(kmsKeyId: String? = nil) {

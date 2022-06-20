@@ -53,6 +53,12 @@ extension DatabaseMigrationService {
         public var description: String { return self.rawValue }
     }
 
+    public enum CollectorStatus: String, CustomStringConvertible, Codable, _SotoSendable {
+        case active = "ACTIVE"
+        case unregistered = "UNREGISTERED"
+        public var description: String { return self.rawValue }
+    }
+
     public enum CompressionTypeValue: String, CustomStringConvertible, Codable, _SotoSendable {
         case gzip
         case none
@@ -210,6 +216,13 @@ extension DatabaseMigrationService {
     public enum TargetDbType: String, CustomStringConvertible, Codable, _SotoSendable {
         case multipleDatabases = "multiple-databases"
         case specificDatabase = "specific-database"
+        public var description: String { return self.rawValue }
+    }
+
+    public enum VersionStatus: String, CustomStringConvertible, Codable, _SotoSendable {
+        case outdated = "OUTDATED"
+        case unsupported = "UNSUPPORTED"
+        case upToDate = "UP_TO_DATE"
         public var description: String { return self.rawValue }
     }
 
@@ -379,6 +392,107 @@ extension DatabaseMigrationService {
         }
     }
 
+    public struct CollectorHealthCheck: AWSDecodableShape {
+        /// The status of the Fleet Advisor collector.
+        public let collectorStatus: CollectorStatus?
+        /// Whether the local collector can access its Amazon S3 bucket.
+        public let localCollectorS3Access: Bool?
+        /// Whether the role that you provided when creating the Fleet Advisor collector has sufficient permissions to access the Fleet Advisor web collector.
+        public let webCollectorGrantedRoleBasedAccess: Bool?
+        /// Whether the web collector can access its Amazon S3 bucket.
+        public let webCollectorS3Access: Bool?
+
+        public init(collectorStatus: CollectorStatus? = nil, localCollectorS3Access: Bool? = nil, webCollectorGrantedRoleBasedAccess: Bool? = nil, webCollectorS3Access: Bool? = nil) {
+            self.collectorStatus = collectorStatus
+            self.localCollectorS3Access = localCollectorS3Access
+            self.webCollectorGrantedRoleBasedAccess = webCollectorGrantedRoleBasedAccess
+            self.webCollectorS3Access = webCollectorS3Access
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case collectorStatus = "CollectorStatus"
+            case localCollectorS3Access = "LocalCollectorS3Access"
+            case webCollectorGrantedRoleBasedAccess = "WebCollectorGrantedRoleBasedAccess"
+            case webCollectorS3Access = "WebCollectorS3Access"
+        }
+    }
+
+    public struct CollectorResponse: AWSDecodableShape {
+        public let collectorHealthCheck: CollectorHealthCheck?
+        /// The name of the Fleet Advisor collector .
+        public let collectorName: String?
+        /// The reference ID of the Fleet Advisor collector.
+        public let collectorReferencedId: String?
+        /// The version of your Fleet Advisor collector, in semantic versioning format, for example 1.0.2
+        public let collectorVersion: String?
+        /// The timestamp when you created the collector, in the following format: 2022-01-24T19:04:02.596113Z
+        public let createdDate: String?
+        /// A summary description of the Fleet Advisor collector.
+        public let description: String?
+        public let inventoryData: InventoryData?
+        /// The timestamp of the last time the collector received data, in the following format: 2022-01-24T19:04:02.596113Z
+        public let lastDataReceived: String?
+        /// The timestamp when DMS last modified the collector, in the following format: 2022-01-24T19:04:02.596113Z
+        public let modifiedDate: String?
+        /// The timestamp when DMS registered the collector, in the following format: 2022-01-24T19:04:02.596113Z
+        public let registeredDate: String?
+        /// The Amazon S3 bucket that the Fleet Advisor collector uses to store inventory metadata.
+        public let s3BucketName: String?
+        /// The IAM role that grants permissions to access the specified Amazon S3 bucket.
+        public let serviceAccessRoleArn: String?
+        /// Whether the collector version is up to date.
+        public let versionStatus: VersionStatus?
+
+        public init(collectorHealthCheck: CollectorHealthCheck? = nil, collectorName: String? = nil, collectorReferencedId: String? = nil, collectorVersion: String? = nil, createdDate: String? = nil, description: String? = nil, inventoryData: InventoryData? = nil, lastDataReceived: String? = nil, modifiedDate: String? = nil, registeredDate: String? = nil, s3BucketName: String? = nil, serviceAccessRoleArn: String? = nil, versionStatus: VersionStatus? = nil) {
+            self.collectorHealthCheck = collectorHealthCheck
+            self.collectorName = collectorName
+            self.collectorReferencedId = collectorReferencedId
+            self.collectorVersion = collectorVersion
+            self.createdDate = createdDate
+            self.description = description
+            self.inventoryData = inventoryData
+            self.lastDataReceived = lastDataReceived
+            self.modifiedDate = modifiedDate
+            self.registeredDate = registeredDate
+            self.s3BucketName = s3BucketName
+            self.serviceAccessRoleArn = serviceAccessRoleArn
+            self.versionStatus = versionStatus
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case collectorHealthCheck = "CollectorHealthCheck"
+            case collectorName = "CollectorName"
+            case collectorReferencedId = "CollectorReferencedId"
+            case collectorVersion = "CollectorVersion"
+            case createdDate = "CreatedDate"
+            case description = "Description"
+            case inventoryData = "InventoryData"
+            case lastDataReceived = "LastDataReceived"
+            case modifiedDate = "ModifiedDate"
+            case registeredDate = "RegisteredDate"
+            case s3BucketName = "S3BucketName"
+            case serviceAccessRoleArn = "ServiceAccessRoleArn"
+            case versionStatus = "VersionStatus"
+        }
+    }
+
+    public struct CollectorShortInfoResponse: AWSDecodableShape {
+        /// The name of the Fleet Advisor collector.
+        public let collectorName: String?
+        /// The reference ID of the Fleet Advisor collector.
+        public let collectorReferencedId: String?
+
+        public init(collectorName: String? = nil, collectorReferencedId: String? = nil) {
+            self.collectorName = collectorName
+            self.collectorReferencedId = collectorReferencedId
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case collectorName = "CollectorName"
+            case collectorReferencedId = "CollectorReferencedId"
+        }
+    }
+
     public struct Connection: AWSDecodableShape {
         /// The ARN string that uniquely identifies the endpoint.
         public let endpointArn: String?
@@ -415,7 +529,7 @@ extension DatabaseMigrationService {
     public struct CreateEndpointMessage: AWSEncodableShape {
         /// The Amazon Resource Name (ARN) for the certificate.
         public let certificateArn: String?
-        /// The name of the endpoint database. For a MySQL source or target endpoint, do not specify DatabaseName.
+        /// The name of the endpoint database. For a MySQL source or target endpoint, do not specify DatabaseName. To migrate to a specific database, use this setting and targetDbType.
         public let databaseName: String?
         /// The settings in JSON format for the DMS transfer type of source endpoint.  Possible settings include the following:    ServiceAccessRoleArn - The Amazon Resource Name (ARN) used by the service access IAM role. The role must allow the iam:PassRole action.    BucketName - The name of the S3 bucket to use.   Shorthand syntax for these settings is as follows: ServiceAccessRoleArn=string,BucketName=string  JSON syntax for these settings is as follows: { "ServiceAccessRoleArn": "string", "BucketName": "string", }
         public let dmsTransferSettings: DmsTransferSettings?
@@ -618,6 +732,60 @@ extension DatabaseMigrationService {
         }
     }
 
+    public struct CreateFleetAdvisorCollectorRequest: AWSEncodableShape {
+        /// The name of your Fleet Advisor collector (for example, sample-collector).
+        public let collectorName: String
+        /// A summary description of your Fleet Advisor collector.
+        public let description: String?
+        /// The Amazon S3 bucket that the Fleet Advisor collector uses to store inventory metadata.
+        public let s3BucketName: String
+        /// The IAM role that grants permissions to access the specified Amazon S3 bucket.
+        public let serviceAccessRoleArn: String
+
+        public init(collectorName: String, description: String? = nil, s3BucketName: String, serviceAccessRoleArn: String) {
+            self.collectorName = collectorName
+            self.description = description
+            self.s3BucketName = s3BucketName
+            self.serviceAccessRoleArn = serviceAccessRoleArn
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case collectorName = "CollectorName"
+            case description = "Description"
+            case s3BucketName = "S3BucketName"
+            case serviceAccessRoleArn = "ServiceAccessRoleArn"
+        }
+    }
+
+    public struct CreateFleetAdvisorCollectorResponse: AWSDecodableShape {
+        /// The name of the new Fleet Advisor collector.
+        public let collectorName: String?
+        /// The unique ID of the new Fleet Advisor collector, for example: 22fda70c-40d5-4acf-b233-a495bd8eb7f5
+        public let collectorReferencedId: String?
+        /// A summary description of the Fleet Advisor collector.
+        public let description: String?
+        /// The Amazon S3 bucket that the collector uses to store inventory metadata.
+        public let s3BucketName: String?
+        /// The IAM role that grants permissions to access the specified Amazon S3 bucket.
+        public let serviceAccessRoleArn: String?
+
+        public init(collectorName: String? = nil, collectorReferencedId: String? = nil, description: String? = nil, s3BucketName: String? = nil, serviceAccessRoleArn: String? = nil) {
+            self.collectorName = collectorName
+            self.collectorReferencedId = collectorReferencedId
+            self.description = description
+            self.s3BucketName = s3BucketName
+            self.serviceAccessRoleArn = serviceAccessRoleArn
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case collectorName = "CollectorName"
+            case collectorReferencedId = "CollectorReferencedId"
+            case description = "Description"
+            case s3BucketName = "S3BucketName"
+            case serviceAccessRoleArn = "ServiceAccessRoleArn"
+        }
+    }
+
     public struct CreateReplicationInstanceMessage: AWSEncodableShape {
         /// The amount of storage (in gigabytes) to be initially allocated for the replication instance.
         public let allocatedStorage: Int?
@@ -812,6 +980,105 @@ extension DatabaseMigrationService {
         }
     }
 
+    public struct DatabaseInstanceSoftwareDetailsResponse: AWSDecodableShape {
+        /// The database engine of a database in a Fleet Advisor collector inventory, for example Microsoft SQL Server.
+        public let engine: String?
+        /// The database engine edition of a database in a Fleet Advisor collector inventory, for example Express.
+        public let engineEdition: String?
+        /// The database engine version of a database in a Fleet Advisor collector inventory, for example 2019.
+        public let engineVersion: String?
+        /// The operating system architecture of the database.
+        public let osArchitecture: Int?
+        /// The service pack level of the database.
+        public let servicePack: String?
+        /// The support level of the database, for example Mainstream support.
+        public let supportLevel: String?
+        /// Information about the database engine software, for example Mainstream support ends on November 14th, 2024.
+        public let tooltip: String?
+
+        public init(engine: String? = nil, engineEdition: String? = nil, engineVersion: String? = nil, osArchitecture: Int? = nil, servicePack: String? = nil, supportLevel: String? = nil, tooltip: String? = nil) {
+            self.engine = engine
+            self.engineEdition = engineEdition
+            self.engineVersion = engineVersion
+            self.osArchitecture = osArchitecture
+            self.servicePack = servicePack
+            self.supportLevel = supportLevel
+            self.tooltip = tooltip
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case engine = "Engine"
+            case engineEdition = "EngineEdition"
+            case engineVersion = "EngineVersion"
+            case osArchitecture = "OsArchitecture"
+            case servicePack = "ServicePack"
+            case supportLevel = "SupportLevel"
+            case tooltip = "Tooltip"
+        }
+    }
+
+    public struct DatabaseResponse: AWSDecodableShape {
+        /// A list of collectors associated with the database.
+        public let collectors: [CollectorShortInfoResponse]?
+        /// The ID of a database in a Fleet Advisor collector inventory.
+        public let databaseId: String?
+        /// The name of a database in a Fleet Advisor collector inventory.
+        public let databaseName: String?
+        /// The IP address of a database in a Fleet Advisor collector inventory.
+        public let ipAddress: String?
+        /// The number of schemas in a Fleet Advisor collector inventory database.
+        public let numberOfSchemas: Int64?
+        /// The server name of a database in a Fleet Advisor collector inventory.
+        public let server: ServerShortInfoResponse?
+        /// The software details of a database in a Fleet Advisor collector inventory, such as database engine and version.
+        public let softwareDetails: DatabaseInstanceSoftwareDetailsResponse?
+
+        public init(collectors: [CollectorShortInfoResponse]? = nil, databaseId: String? = nil, databaseName: String? = nil, ipAddress: String? = nil, numberOfSchemas: Int64? = nil, server: ServerShortInfoResponse? = nil, softwareDetails: DatabaseInstanceSoftwareDetailsResponse? = nil) {
+            self.collectors = collectors
+            self.databaseId = databaseId
+            self.databaseName = databaseName
+            self.ipAddress = ipAddress
+            self.numberOfSchemas = numberOfSchemas
+            self.server = server
+            self.softwareDetails = softwareDetails
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case collectors = "Collectors"
+            case databaseId = "DatabaseId"
+            case databaseName = "DatabaseName"
+            case ipAddress = "IpAddress"
+            case numberOfSchemas = "NumberOfSchemas"
+            case server = "Server"
+            case softwareDetails = "SoftwareDetails"
+        }
+    }
+
+    public struct DatabaseShortInfoResponse: AWSDecodableShape {
+        /// The database engine of a database in a Fleet Advisor collector inventory, for example PostgreSQL.
+        public let databaseEngine: String?
+        /// The ID of a database in a Fleet Advisor collector inventory.
+        public let databaseId: String?
+        /// The IP address of a database in a Fleet Advisor collector inventory.
+        public let databaseIpAddress: String?
+        /// The name of a database in a Fleet Advisor collector inventory.
+        public let databaseName: String?
+
+        public init(databaseEngine: String? = nil, databaseId: String? = nil, databaseIpAddress: String? = nil, databaseName: String? = nil) {
+            self.databaseEngine = databaseEngine
+            self.databaseId = databaseId
+            self.databaseIpAddress = databaseIpAddress
+            self.databaseName = databaseName
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case databaseEngine = "DatabaseEngine"
+            case databaseId = "DatabaseId"
+            case databaseIpAddress = "DatabaseIpAddress"
+            case databaseName = "DatabaseName"
+        }
+    }
+
     public struct DeleteCertificateMessage: AWSEncodableShape {
         /// The Amazon Resource Name (ARN) of the certificate.
         public let certificateArn: String
@@ -835,6 +1102,19 @@ extension DatabaseMigrationService {
 
         private enum CodingKeys: String, CodingKey {
             case certificate = "Certificate"
+        }
+    }
+
+    public struct DeleteCollectorRequest: AWSEncodableShape {
+        /// The reference ID of the Fleet Advisor collector to delete.
+        public let collectorReferencedId: String
+
+        public init(collectorReferencedId: String) {
+            self.collectorReferencedId = collectorReferencedId
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case collectorReferencedId = "CollectorReferencedId"
         }
     }
 
@@ -917,6 +1197,32 @@ extension DatabaseMigrationService {
 
         private enum CodingKeys: String, CodingKey {
             case eventSubscription = "EventSubscription"
+        }
+    }
+
+    public struct DeleteFleetAdvisorDatabasesRequest: AWSEncodableShape {
+        /// The IDs of the Fleet Advisor collector databases to delete.
+        public let databaseIds: [String]
+
+        public init(databaseIds: [String]) {
+            self.databaseIds = databaseIds
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case databaseIds = "DatabaseIds"
+        }
+    }
+
+    public struct DeleteFleetAdvisorDatabasesResponse: AWSDecodableShape {
+        /// The IDs of the databases that the operation deleted.
+        public let databaseIds: [String]?
+
+        public init(databaseIds: [String]? = nil) {
+            self.databaseIds = databaseIds
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case databaseIds = "DatabaseIds"
         }
     }
 
@@ -1411,6 +1717,192 @@ extension DatabaseMigrationService {
         private enum CodingKeys: String, CodingKey {
             case events = "Events"
             case marker = "Marker"
+        }
+    }
+
+    public struct DescribeFleetAdvisorCollectorsRequest: AWSEncodableShape {
+        ///  If you specify any of the following filters, the output includes information for only those collectors that meet the filter criteria:     collector-referenced-id – The ID of the collector agent, for example d4610ac5-e323-4ad9-bc50-eaf7249dfe9d.    collector-name – The name of the collector agent.    An example is: describe-fleet-advisor-collectors --filter Name="collector-referenced-id",Values="d4610ac5-e323-4ad9-bc50-eaf7249dfe9d"
+        public let filters: [Filter]?
+        /// Sets the maximum number of records returned in the response.
+        public let maxRecords: Int?
+        /// If NextToken is returned by a previous response, there are more results available. The value of  NextToken is a unique pagination token for each page. Make the call again using the returned  token to retrieve the next page. Keep all other arguments unchanged.
+        public let nextToken: String?
+
+        public init(filters: [Filter]? = nil, maxRecords: Int? = nil, nextToken: String? = nil) {
+            self.filters = filters
+            self.maxRecords = maxRecords
+            self.nextToken = nextToken
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case filters = "Filters"
+            case maxRecords = "MaxRecords"
+            case nextToken = "NextToken"
+        }
+    }
+
+    public struct DescribeFleetAdvisorCollectorsResponse: AWSDecodableShape {
+        /// Provides descriptions of the Fleet Advisor collectors, including the collectors' name and ID, and the latest inventory data.
+        public let collectors: [CollectorResponse]?
+        /// If NextToken is returned, there are more results available. The value of  NextToken is a unique pagination token for each page. Make the call again using the returned  token to retrieve the next page. Keep all other arguments unchanged.
+        public let nextToken: String?
+
+        public init(collectors: [CollectorResponse]? = nil, nextToken: String? = nil) {
+            self.collectors = collectors
+            self.nextToken = nextToken
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case collectors = "Collectors"
+            case nextToken = "NextToken"
+        }
+    }
+
+    public struct DescribeFleetAdvisorDatabasesRequest: AWSEncodableShape {
+        ///  If you specify any of the following filters, the output includes information for only those databases that meet the filter criteria:      database-id – The ID of the database, for example d4610ac5-e323-4ad9-bc50-eaf7249dfe9d.    database-name – The name of the database.    database-engine – The name of the database engine.    server-ip-address – The IP address of the database server.    database-ip-address – The IP address of the database.    collector-name – The name of the associated Fleet Advisor collector.    An example is: describe-fleet-advisor-databases --filter Name="database-id",Values="d4610ac5-e323-4ad9-bc50-eaf7249dfe9d"
+        public let filters: [Filter]?
+        /// Sets the maximum number of records returned in the response.
+        public let maxRecords: Int?
+        /// If NextToken is returned by a previous response, there are more results available. The value of  NextToken is a unique pagination token for each page. Make the call again using the returned  token to retrieve the next page. Keep all other arguments unchanged.
+        public let nextToken: String?
+
+        public init(filters: [Filter]? = nil, maxRecords: Int? = nil, nextToken: String? = nil) {
+            self.filters = filters
+            self.maxRecords = maxRecords
+            self.nextToken = nextToken
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case filters = "Filters"
+            case maxRecords = "MaxRecords"
+            case nextToken = "NextToken"
+        }
+    }
+
+    public struct DescribeFleetAdvisorDatabasesResponse: AWSDecodableShape {
+        /// Provides descriptions of the Fleet Advisor collector databases, including the database's collector, ID, and name.
+        public let databases: [DatabaseResponse]?
+        /// If NextToken is returned, there are more results available. The value of  NextToken is a unique pagination token for each page. Make the call again using the returned  token to retrieve the next page. Keep all other arguments unchanged.
+        public let nextToken: String?
+
+        public init(databases: [DatabaseResponse]? = nil, nextToken: String? = nil) {
+            self.databases = databases
+            self.nextToken = nextToken
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case databases = "Databases"
+            case nextToken = "NextToken"
+        }
+    }
+
+    public struct DescribeFleetAdvisorLsaAnalysisRequest: AWSEncodableShape {
+        /// Sets the maximum number of records returned in the response.
+        public let maxRecords: Int?
+        /// If NextToken is returned by a previous response, there are more results available. The value of  NextToken is a unique pagination token for each page. Make the call again using the returned  token to retrieve the next page. Keep all other arguments unchanged.
+        public let nextToken: String?
+
+        public init(maxRecords: Int? = nil, nextToken: String? = nil) {
+            self.maxRecords = maxRecords
+            self.nextToken = nextToken
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case maxRecords = "MaxRecords"
+            case nextToken = "NextToken"
+        }
+    }
+
+    public struct DescribeFleetAdvisorLsaAnalysisResponse: AWSDecodableShape {
+        /// A list of FleetAdvisorLsaAnalysisResponse objects.
+        public let analysis: [FleetAdvisorLsaAnalysisResponse]?
+        /// If NextToken is returned, there are more results available. The value of  NextToken is a unique pagination token for each page. Make the call again using the returned  token to retrieve the next page. Keep all other arguments unchanged.
+        public let nextToken: String?
+
+        public init(analysis: [FleetAdvisorLsaAnalysisResponse]? = nil, nextToken: String? = nil) {
+            self.analysis = analysis
+            self.nextToken = nextToken
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case analysis = "Analysis"
+            case nextToken = "NextToken"
+        }
+    }
+
+    public struct DescribeFleetAdvisorSchemaObjectSummaryRequest: AWSEncodableShape {
+        ///  If you specify any of the following filters, the output includes information for only those schema objects that meet the filter criteria:     schema-id – The ID of the schema, for example d4610ac5-e323-4ad9-bc50-eaf7249dfe9d.    Example: describe-fleet-advisor-schema-object-summary --filter Name="schema-id",Values="50"
+        public let filters: [Filter]?
+        /// Sets the maximum number of records returned in the response.
+        public let maxRecords: Int?
+        /// If NextToken is returned by a previous response, there are more results available. The value of  NextToken is a unique pagination token for each page. Make the call again using the returned  token to retrieve the next page. Keep all other arguments unchanged.
+        public let nextToken: String?
+
+        public init(filters: [Filter]? = nil, maxRecords: Int? = nil, nextToken: String? = nil) {
+            self.filters = filters
+            self.maxRecords = maxRecords
+            self.nextToken = nextToken
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case filters = "Filters"
+            case maxRecords = "MaxRecords"
+            case nextToken = "NextToken"
+        }
+    }
+
+    public struct DescribeFleetAdvisorSchemaObjectSummaryResponse: AWSDecodableShape {
+        /// A collection of FleetAdvisorSchemaObjectResponse objects.
+        public let fleetAdvisorSchemaObjects: [FleetAdvisorSchemaObjectResponse]?
+        /// If NextToken is returned, there are more results available. The value of  NextToken is a unique pagination token for each page. Make the call again using the returned  token to retrieve the next page. Keep all other arguments unchanged.
+        public let nextToken: String?
+
+        public init(fleetAdvisorSchemaObjects: [FleetAdvisorSchemaObjectResponse]? = nil, nextToken: String? = nil) {
+            self.fleetAdvisorSchemaObjects = fleetAdvisorSchemaObjects
+            self.nextToken = nextToken
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case fleetAdvisorSchemaObjects = "FleetAdvisorSchemaObjects"
+            case nextToken = "NextToken"
+        }
+    }
+
+    public struct DescribeFleetAdvisorSchemasRequest: AWSEncodableShape {
+        ///  If you specify any of the following filters, the output includes information for only those schemas that meet the filter criteria:     complexity – The schema's complexity, for example Simple.    database-id – The ID of the schema's database.    database-ip-address – The IP address of the schema's database.    database-name – The name of the schema's database.    database-engine – The name of the schema database's engine.    original-schema-name – The name of the schema's database's main schema.    schema-id – The ID of the schema, for example 15.    schema-name – The name of the schema.    server-ip-address – The IP address of the schema database's server.    An example is: describe-fleet-advisor-schemas --filter Name="schema-id",Values="50"
+        public let filters: [Filter]?
+        /// Sets the maximum number of records returned in the response.
+        public let maxRecords: Int?
+        /// If NextToken is returned by a previous response, there are more results available. The value of  NextToken is a unique pagination token for each page. Make the call again using the returned  token to retrieve the next page. Keep all other arguments unchanged.
+        public let nextToken: String?
+
+        public init(filters: [Filter]? = nil, maxRecords: Int? = nil, nextToken: String? = nil) {
+            self.filters = filters
+            self.maxRecords = maxRecords
+            self.nextToken = nextToken
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case filters = "Filters"
+            case maxRecords = "MaxRecords"
+            case nextToken = "NextToken"
+        }
+    }
+
+    public struct DescribeFleetAdvisorSchemasResponse: AWSDecodableShape {
+        /// A collection of SchemaResponse objects.
+        public let fleetAdvisorSchemas: [SchemaResponse]?
+        /// If NextToken is returned, there are more results available. The value of  NextToken is a unique pagination token for each page. Make the call again using the returned  token to retrieve the next page. Keep all other arguments unchanged.
+        public let nextToken: String?
+
+        public init(fleetAdvisorSchemas: [SchemaResponse]? = nil, nextToken: String? = nil) {
+            self.fleetAdvisorSchemas = fleetAdvisorSchemas
+            self.nextToken = nextToken
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case fleetAdvisorSchemas = "FleetAdvisorSchemas"
+            case nextToken = "NextToken"
         }
     }
 
@@ -2286,6 +2778,52 @@ extension DatabaseMigrationService {
         }
     }
 
+    public struct FleetAdvisorLsaAnalysisResponse: AWSDecodableShape {
+        /// The ID of an LSA analysis run by a Fleet Advisor collector.
+        public let lsaAnalysisId: String?
+        /// The status of an LSA analysis run by a Fleet Advisor collector.
+        public let status: String?
+
+        public init(lsaAnalysisId: String? = nil, status: String? = nil) {
+            self.lsaAnalysisId = lsaAnalysisId
+            self.status = status
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case lsaAnalysisId = "LsaAnalysisId"
+            case status = "Status"
+        }
+    }
+
+    public struct FleetAdvisorSchemaObjectResponse: AWSDecodableShape {
+        /// The number of lines of code in a schema object in a Fleet Advisor collector inventory.
+        public let codeLineCount: Int64?
+        /// The size level of the code in a schema object in a Fleet Advisor collector inventory.
+        public let codeSize: Int64?
+        /// The number of objects in a schema object in a Fleet Advisor collector inventory.
+        public let numberOfObjects: Int64?
+        /// The type of the schema object, as reported by the database engine. Examples include the following:    function     trigger     SYSTEM_TABLE     QUEUE
+        public let objectType: String?
+        /// The ID of a schema object in a Fleet Advisor collector inventory.
+        public let schemaId: String?
+
+        public init(codeLineCount: Int64? = nil, codeSize: Int64? = nil, numberOfObjects: Int64? = nil, objectType: String? = nil, schemaId: String? = nil) {
+            self.codeLineCount = codeLineCount
+            self.codeSize = codeSize
+            self.numberOfObjects = numberOfObjects
+            self.objectType = objectType
+            self.schemaId = schemaId
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case codeLineCount = "CodeLineCount"
+            case codeSize = "CodeSize"
+            case numberOfObjects = "NumberOfObjects"
+            case objectType = "ObjectType"
+            case schemaId = "SchemaId"
+        }
+    }
+
     public struct GcpMySQLSettings: AWSEncodableShape & AWSDecodableShape {
         /// Specifies a script to run immediately after DMS connects to the endpoint.  The migration task continues running regardless if the SQL statement succeeds or fails.  For this parameter, provide the code of the script itself, not the name of a file containing the script.
         public let afterConnectScript: String?
@@ -2434,6 +2972,23 @@ extension DatabaseMigrationService {
 
         private enum CodingKeys: String, CodingKey {
             case certificate = "Certificate"
+        }
+    }
+
+    public struct InventoryData: AWSDecodableShape {
+        /// The number of databases in the Fleet Advisor collector inventory.
+        public let numberOfDatabases: Int?
+        /// The number of schemas in the Fleet Advisor collector inventory.
+        public let numberOfSchemas: Int?
+
+        public init(numberOfDatabases: Int? = nil, numberOfSchemas: Int? = nil) {
+            self.numberOfDatabases = numberOfDatabases
+            self.numberOfSchemas = numberOfSchemas
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case numberOfDatabases = "NumberOfDatabases"
+            case numberOfSchemas = "NumberOfSchemas"
         }
     }
 
@@ -3135,7 +3690,7 @@ extension DatabaseMigrationService {
         public let serverName: String?
         /// Specifies the time zone for the source MySQL database. Example: serverTimezone=US/Pacific;  Note: Do not enclose time zones in single quotes.
         public let serverTimezone: String?
-        /// Specifies where to migrate source tables on the target, either to a single database or multiple databases. Example: targetDbType=MULTIPLE_DATABASES
+        /// Specifies where to migrate source tables on the target, either to a single database or multiple databases. If you specify SPECIFIC_DATABASE, specify the database name using the DatabaseName parameter of the Endpoint object. Example: targetDbType=MULTIPLE_DATABASES
         public let targetDbType: TargetDbType?
         /// Endpoint connection user name.
         public let username: String?
@@ -4352,6 +4907,23 @@ extension DatabaseMigrationService {
         }
     }
 
+    public struct RunFleetAdvisorLsaAnalysisResponse: AWSDecodableShape {
+        /// The ID of the LSA analysis run.
+        public let lsaAnalysisId: String?
+        /// The status of the LSA analysis, for example COMPLETED.
+        public let status: String?
+
+        public init(lsaAnalysisId: String? = nil, status: String? = nil) {
+            self.lsaAnalysisId = lsaAnalysisId
+            self.status = status
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case lsaAnalysisId = "LsaAnalysisId"
+            case status = "Status"
+        }
+    }
+
     public struct S3Settings: AWSEncodableShape & AWSDecodableShape {
         /// An optional parameter that, when set to true or y, you can use to add column name information to the .csv output file. The default value is false. Valid values are true, false, y, and n.
         public let addColumnName: Bool?
@@ -4518,6 +5090,100 @@ extension DatabaseMigrationService {
             case timestampColumnName = "TimestampColumnName"
             case useCsvNoSupValue = "UseCsvNoSupValue"
             case useTaskStartTimeForFullLoadTimestamp = "UseTaskStartTimeForFullLoadTimestamp"
+        }
+    }
+
+    public struct SchemaResponse: AWSDecodableShape {
+        /// The number of lines of code in a schema in a Fleet Advisor collector inventory.
+        public let codeLineCount: Int64?
+        /// The size level of the code in a schema in a Fleet Advisor collector inventory.
+        public let codeSize: Int64?
+        /// The complexity level of the code in a schema in a Fleet Advisor collector inventory.
+        public let complexity: String?
+        /// The database for a schema in a Fleet Advisor collector inventory.
+        public let databaseInstance: DatabaseShortInfoResponse?
+        public let originalSchema: SchemaShortInfoResponse?
+        /// The ID of a schema in a Fleet Advisor collector inventory.
+        public let schemaId: String?
+        /// The name of a schema in a Fleet Advisor collector inventory.
+        public let schemaName: String?
+        /// The database server for a schema in a Fleet Advisor collector inventory.
+        public let server: ServerShortInfoResponse?
+        /// The similarity value for a schema in a Fleet Advisor collector inventory. A higher similarity value indicates that a schema is likely to be a duplicate.
+        public let similarity: Double?
+
+        public init(codeLineCount: Int64? = nil, codeSize: Int64? = nil, complexity: String? = nil, databaseInstance: DatabaseShortInfoResponse? = nil, originalSchema: SchemaShortInfoResponse? = nil, schemaId: String? = nil, schemaName: String? = nil, server: ServerShortInfoResponse? = nil, similarity: Double? = nil) {
+            self.codeLineCount = codeLineCount
+            self.codeSize = codeSize
+            self.complexity = complexity
+            self.databaseInstance = databaseInstance
+            self.originalSchema = originalSchema
+            self.schemaId = schemaId
+            self.schemaName = schemaName
+            self.server = server
+            self.similarity = similarity
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case codeLineCount = "CodeLineCount"
+            case codeSize = "CodeSize"
+            case complexity = "Complexity"
+            case databaseInstance = "DatabaseInstance"
+            case originalSchema = "OriginalSchema"
+            case schemaId = "SchemaId"
+            case schemaName = "SchemaName"
+            case server = "Server"
+            case similarity = "Similarity"
+        }
+    }
+
+    public struct SchemaShortInfoResponse: AWSDecodableShape {
+        /// The ID of a database in a Fleet Advisor collector inventory.
+        public let databaseId: String?
+        /// The IP address of a database in a Fleet Advisor collector inventory.
+        public let databaseIpAddress: String?
+        /// The name of a database in a Fleet Advisor collector inventory.
+        public let databaseName: String?
+        /// The ID of a schema in a Fleet Advisor collector inventory.
+        public let schemaId: String?
+        /// The name of a schema in a Fleet Advisor collector inventory.
+        public let schemaName: String?
+
+        public init(databaseId: String? = nil, databaseIpAddress: String? = nil, databaseName: String? = nil, schemaId: String? = nil, schemaName: String? = nil) {
+            self.databaseId = databaseId
+            self.databaseIpAddress = databaseIpAddress
+            self.databaseName = databaseName
+            self.schemaId = schemaId
+            self.schemaName = schemaName
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case databaseId = "DatabaseId"
+            case databaseIpAddress = "DatabaseIpAddress"
+            case databaseName = "DatabaseName"
+            case schemaId = "SchemaId"
+            case schemaName = "SchemaName"
+        }
+    }
+
+    public struct ServerShortInfoResponse: AWSDecodableShape {
+        /// The IP address of a server in a Fleet Advisor collector inventory.
+        public let ipAddress: String?
+        /// The ID of a server in a Fleet Advisor collector inventory.
+        public let serverId: String?
+        /// The name address of a server in a Fleet Advisor collector inventory.
+        public let serverName: String?
+
+        public init(ipAddress: String? = nil, serverId: String? = nil, serverName: String? = nil) {
+            self.ipAddress = ipAddress
+            self.serverId = serverId
+            self.serverName = serverName
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case ipAddress = "IpAddress"
+            case serverId = "ServerId"
+            case serverName = "ServerName"
         }
     }
 

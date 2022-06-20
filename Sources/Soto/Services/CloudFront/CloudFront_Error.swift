@@ -97,6 +97,7 @@ public struct CloudFrontErrorType: AWSErrorType {
         case streamingDistributionAlreadyExists = "StreamingDistributionAlreadyExists"
         case streamingDistributionNotDisabled = "StreamingDistributionNotDisabled"
         case testFunctionFailed = "TestFunctionFailed"
+        case tooLongCSPInResponseHeadersPolicy = "TooLongCSPInResponseHeadersPolicy"
         case tooManyCacheBehaviors = "TooManyCacheBehaviors"
         case tooManyCachePolicies = "TooManyCachePolicies"
         case tooManyCertificates = "TooManyCertificates"
@@ -350,6 +351,11 @@ public struct CloudFrontErrorType: AWSErrorType {
     public static var streamingDistributionNotDisabled: Self { .init(.streamingDistributionNotDisabled) }
     /// The CloudFront function failed.
     public static var testFunctionFailed: Self { .init(.testFunctionFailed) }
+    /// The length of the Content-Security-Policy header value in the response headers
+    /// 			policy exceeds the maximum.
+    /// 		       For more information, see Quotas (formerly known as limits) in the
+    /// 				Amazon CloudFront Developer Guide.
+    public static var tooLongCSPInResponseHeadersPolicy: Self { .init(.tooLongCSPInResponseHeadersPolicy) }
     /// You cannot create more cache behaviors for the distribution.
     public static var tooManyCacheBehaviors: Self { .init(.tooManyCacheBehaviors) }
     /// You have reached the maximum number of cache policies for this Amazon Web Services account. For more

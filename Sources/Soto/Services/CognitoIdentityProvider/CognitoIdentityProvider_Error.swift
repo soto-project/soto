@@ -80,7 +80,7 @@ public struct CognitoIdentityProviderErrorType: AWSErrorType {
     /// return error code string
     public var errorCode: String { self.error.rawValue }
 
-    /// This exception is thrown when a user tries to confirm the account with an email or phone number that has already been supplied as an alias from a different account. This exception  tells user that an account with this email or phone already exists.
+    /// This exception is thrown when a user tries to confirm the account with an email address or phone number that has already been supplied as an alias for a different user profile. This exception indicates that an account with this email address or phone already exists in a user pool that you've configured to use email address or phone number as a sign-in alias.
     public static var aliasExistsException: Self { .init(.aliasExistsException) }
     /// This exception is thrown when a verification code fails to deliver successfully.
     public static var codeDeliveryFailureException: Self { .init(.codeDeliveryFailureException) }
@@ -110,7 +110,7 @@ public struct CognitoIdentityProviderErrorType: AWSErrorType {
     public static var invalidPasswordException: Self { .init(.invalidPasswordException) }
     /// This exception is returned when the role provided for SMS configuration doesn't have permission to publish using Amazon SNS.
     public static var invalidSmsRoleAccessPolicyException: Self { .init(.invalidSmsRoleAccessPolicyException) }
-    /// This exception is thrown when the trust relationship is not valid for the role provided for SMS configuration. This can happen if you don't trust cognito-idp.amazonaws.com or the  external ID provided in the role does not match what is provided in the SMS configuration for the user pool.
+    /// This exception is thrown when the trust relationship is not valid for the role provided for SMS configuration. This can happen if you don't trust cognito-idp.amazonaws.com or the external ID provided in the role does not match what is provided in the SMS configuration for the user pool.
     public static var invalidSmsRoleTrustRelationshipException: Self { .init(.invalidSmsRoleTrustRelationshipException) }
     /// This exception is thrown when the user pool configuration is not valid.
     public static var invalidUserPoolConfigurationException: Self { .init(.invalidUserPoolConfigurationException) }

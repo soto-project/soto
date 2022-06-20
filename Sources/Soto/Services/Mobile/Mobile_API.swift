@@ -51,7 +51,7 @@ public struct Mobile: AWSService {
             region: region,
             partition: region?.partition ?? partition,
             service: "mobile",
-            signingName: "awsmobilehubservice",
+            signingName: "AWSMobileHubService",
             serviceProtocol: .restjson,
             apiVersion: "2017-07-01",
             endpoint: endpoint,

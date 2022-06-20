@@ -98,6 +98,11 @@ extension ServiceCatalogAppRegistry {
         return try await self.client.execute(operation: "ListAttributeGroups", path: "/attribute-groups", httpMethod: .GET, serviceConfig: self.config, input: input, logger: logger, on: eventLoop)
     }
 
+    /// Lists the details of all attribute groups associated with a specific application. The results display in pages.
+    public func listAttributeGroupsForApplication(_ input: ListAttributeGroupsForApplicationRequest, logger: Logger = AWSClient.loggingDisabled, on eventLoop: EventLoop? = nil) async throws -> ListAttributeGroupsForApplicationResponse {
+        return try await self.client.execute(operation: "ListAttributeGroupsForApplication", path: "/applications/{application}/attribute-group-details", httpMethod: .GET, serviceConfig: self.config, input: input, logger: logger, on: eventLoop)
+    }
+
     /// Lists all of the tags on the resource.
     public func listTagsForResource(_ input: ListTagsForResourceRequest, logger: Logger = AWSClient.loggingDisabled, on eventLoop: EventLoop? = nil) async throws -> ListTagsForResourceResponse {
         return try await self.client.execute(operation: "ListTagsForResource", path: "/tags/{resourceArn}", httpMethod: .GET, serviceConfig: self.config, input: input, logger: logger, on: eventLoop)

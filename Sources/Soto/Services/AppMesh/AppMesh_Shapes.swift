@@ -80,6 +80,14 @@ extension AppMesh {
         public var description: String { return self.rawValue }
     }
 
+    public enum IpPreference: String, CustomStringConvertible, Codable, _SotoSendable {
+        case iPv4ONLY = "IPv4_ONLY"
+        case iPv4PREFERRED = "IPv4_PREFERRED"
+        case iPv6ONLY = "IPv6_ONLY"
+        case iPv6PREFERRED = "IPv6_PREFERRED"
+        public var description: String { return self.rawValue }
+    }
+
     public enum ListenerTlsMode: String, CustomStringConvertible, Codable, _SotoSendable {
         case disabled = "DISABLED"
         case permissive = "PERMISSIVE"
@@ -528,7 +536,7 @@ extension AppMesh {
     }
 
     public enum ListenerTlsCertificate: AWSEncodableShape & AWSDecodableShape, _SotoSendable {
-        /// A reference to an object that represents an AWS Certicate Manager (ACM) certificate.
+        /// A reference to an object that represents an Certificate Manager certificate.
         case acm(ListenerTlsAcmCertificate)
         /// A reference to an object that represents a local file certificate.
         case file(ListenerTlsFileCertificate)
@@ -1174,13 +1182,16 @@ extension AppMesh {
     public struct AwsCloudMapServiceDiscovery: AWSEncodableShape & AWSDecodableShape {
         /// A string map that contains attributes with values that you can use to filter instances by any custom attribute that you specified when you registered the instance. Only instances that match all of the specified key/value pairs will be returned.
         public let attributes: [AwsCloudMapInstanceAttribute]?
+        /// The IP version to use to control traffic within the mesh.
+        public let ipPreference: IpPreference?
         /// The name of the Cloud Map namespace to use.
         public let namespaceName: String
         /// The name of the Cloud Map service to use.
         public let serviceName: String
 
-        public init(attributes: [AwsCloudMapInstanceAttribute]? = nil, namespaceName: String, serviceName: String) {
+        public init(attributes: [AwsCloudMapInstanceAttribute]? = nil, ipPreference: IpPreference? = nil, namespaceName: String, serviceName: String) {
             self.attributes = attributes
+            self.ipPreference = ipPreference
             self.namespaceName = namespaceName
             self.serviceName = serviceName
         }
@@ -1197,6 +1208,7 @@ extension AppMesh {
 
         private enum CodingKeys: String, CodingKey {
             case attributes
+            case ipPreference
             case namespaceName
             case serviceName
         }
@@ -1284,7 +1296,7 @@ extension AppMesh {
         public let gatewayRouteName: String
         /// The name of the service mesh to create the gateway route in.
         public let meshName: String
-        /// The AWS IAM account ID of the service mesh owner. If the account ID is not your own, then the account that you specify must share the mesh with your account before you can create  the resource in the service mesh. For more information about mesh sharing, see Working with shared meshes.
+        /// The Amazon Web Services IAM account ID of the service mesh owner. If the account ID is not your own, then the account that you specify must share the mesh with your account before you can create  the resource in the service mesh. For more information about mesh sharing, see Working with shared meshes.
         public let meshOwner: String?
         /// The gateway route specification to apply.
         public let spec: GatewayRouteSpec
@@ -1406,7 +1418,7 @@ extension AppMesh {
         public let clientToken: String?
         /// The name of the service mesh to create the route in.
         public let meshName: String
-        /// The AWS IAM account ID of the service mesh owner. If the account ID is not your own, then the account that you specify must share the mesh with your account before you can create  the resource in the service mesh. For more information about mesh sharing, see Working with shared meshes.
+        /// The Amazon Web Services IAM account ID of the service mesh owner. If the account ID is not your own, then the account that you specify must share the mesh with your account before you can create  the resource in the service mesh. For more information about mesh sharing, see Working with shared meshes.
         public let meshOwner: String?
         /// The name to use for the route.
         public let routeName: String
@@ -1478,7 +1490,7 @@ extension AppMesh {
         public let clientToken: String?
         /// The name of the service mesh to create the virtual gateway in.
         public let meshName: String
-        /// The AWS IAM account ID of the service mesh owner. If the account ID is not your own, then the account that you specify must share the mesh with your account before you can create  the resource in the service mesh. For more information about mesh sharing, see Working with shared meshes.
+        /// The Amazon Web Services IAM account ID of the service mesh owner. If the account ID is not your own, then the account that you specify must share the mesh with your account before you can create  the resource in the service mesh. For more information about mesh sharing, see Working with shared meshes.
         public let meshOwner: String?
         /// The virtual gateway specification to apply.
         public let spec: VirtualGatewaySpec
@@ -1545,7 +1557,7 @@ extension AppMesh {
         public let clientToken: String?
         /// The name of the service mesh to create the virtual node in.
         public let meshName: String
-        /// The AWS IAM account ID of the service mesh owner. If the account ID is not your own, then the account that you specify must share the mesh with your account before you can create  the resource in the service mesh. For more information about mesh sharing, see Working with shared meshes.
+        /// The Amazon Web Services IAM account ID of the service mesh owner. If the account ID is not your own, then the account that you specify must share the mesh with your account before you can create  the resource in the service mesh. For more information about mesh sharing, see Working with shared meshes.
         public let meshOwner: String?
         /// The virtual node specification to apply.
         public let spec: VirtualNodeSpec
@@ -1612,7 +1624,7 @@ extension AppMesh {
         public let clientToken: String?
         /// The name of the service mesh to create the virtual router in.
         public let meshName: String
-        /// The AWS IAM account ID of the service mesh owner. If the account ID is not your own, then the account that you specify must share the mesh with your account before you can create  the resource in the service mesh. For more information about mesh sharing, see Working with shared meshes.
+        /// The Amazon Web Services IAM account ID of the service mesh owner. If the account ID is not your own, then the account that you specify must share the mesh with your account before you can create  the resource in the service mesh. For more information about mesh sharing, see Working with shared meshes.
         public let meshOwner: String?
         /// The virtual router specification to apply.
         public let spec: VirtualRouterSpec
@@ -1679,7 +1691,7 @@ extension AppMesh {
         public let clientToken: String?
         /// The name of the service mesh to create the virtual service in.
         public let meshName: String
-        /// The AWS IAM account ID of the service mesh owner. If the account ID is not your own, then the account that you specify must share the mesh with your account before you can create  the resource in the service mesh. For more information about mesh sharing, see Working with shared meshes.
+        /// The Amazon Web Services IAM account ID of the service mesh owner. If the account ID is not your own, then the account that you specify must share the mesh with your account before you can create  the resource in the service mesh. For more information about mesh sharing, see Working with shared meshes.
         public let meshOwner: String?
         /// The virtual service specification to apply.
         public let spec: VirtualServiceSpec
@@ -1745,7 +1757,7 @@ extension AppMesh {
         public let gatewayRouteName: String
         /// The name of the service mesh to delete the gateway route from.
         public let meshName: String
-        /// The AWS IAM account ID of the service mesh owner. If the account ID is not your own, then it's the ID of the account that shared the mesh with your account. For more information about mesh sharing, see Working with shared meshes.
+        /// The Amazon Web Services IAM account ID of the service mesh owner. If the account ID is not your own, then it's the ID of the account that shared the mesh with your account. For more information about mesh sharing, see Working with shared meshes.
         public let meshOwner: String?
         /// The name of the virtual gateway to delete the route from.
         public let virtualGatewayName: String
@@ -1833,7 +1845,7 @@ extension AppMesh {
 
         /// The name of the service mesh to delete the route in.
         public let meshName: String
-        /// The AWS IAM account ID of the service mesh owner. If the account ID is not your own, then it's the ID of the account that shared the mesh with your account. For more information about mesh sharing, see Working with shared meshes.
+        /// The Amazon Web Services IAM account ID of the service mesh owner. If the account ID is not your own, then it's the ID of the account that shared the mesh with your account. For more information about mesh sharing, see Working with shared meshes.
         public let meshOwner: String?
         /// The name of the route to delete.
         public let routeName: String
@@ -1886,7 +1898,7 @@ extension AppMesh {
 
         /// The name of the service mesh to delete the virtual gateway from.
         public let meshName: String
-        /// The AWS IAM account ID of the service mesh owner. If the account ID is not your own, then it's the ID of the account that shared the mesh with your account. For more information about mesh sharing, see Working with shared meshes.
+        /// The Amazon Web Services IAM account ID of the service mesh owner. If the account ID is not your own, then it's the ID of the account that shared the mesh with your account. For more information about mesh sharing, see Working with shared meshes.
         public let meshOwner: String?
         /// The name of the virtual gateway to delete.
         public let virtualGatewayName: String
@@ -1934,7 +1946,7 @@ extension AppMesh {
 
         /// The name of the service mesh to delete the virtual node in.
         public let meshName: String
-        /// The AWS IAM account ID of the service mesh owner. If the account ID is not your own, then it's the ID of the account that shared the mesh with your account. For more information about mesh sharing, see Working with shared meshes.
+        /// The Amazon Web Services IAM account ID of the service mesh owner. If the account ID is not your own, then it's the ID of the account that shared the mesh with your account. For more information about mesh sharing, see Working with shared meshes.
         public let meshOwner: String?
         /// The name of the virtual node to delete.
         public let virtualNodeName: String
@@ -1982,7 +1994,7 @@ extension AppMesh {
 
         /// The name of the service mesh to delete the virtual router in.
         public let meshName: String
-        /// The AWS IAM account ID of the service mesh owner. If the account ID is not your own, then it's the ID of the account that shared the mesh with your account. For more information about mesh sharing, see Working with shared meshes.
+        /// The Amazon Web Services IAM account ID of the service mesh owner. If the account ID is not your own, then it's the ID of the account that shared the mesh with your account. For more information about mesh sharing, see Working with shared meshes.
         public let meshOwner: String?
         /// The name of the virtual router to delete.
         public let virtualRouterName: String
@@ -2030,7 +2042,7 @@ extension AppMesh {
 
         /// The name of the service mesh to delete the virtual service in.
         public let meshName: String
-        /// The AWS IAM account ID of the service mesh owner. If the account ID is not your own, then it's the ID of the account that shared the mesh with your account. For more information about mesh sharing, see Working with shared meshes.
+        /// The Amazon Web Services IAM account ID of the service mesh owner. If the account ID is not your own, then it's the ID of the account that shared the mesh with your account. For more information about mesh sharing, see Working with shared meshes.
         public let meshOwner: String?
         /// The name of the virtual service to delete.
         public let virtualServiceName: String
@@ -2079,7 +2091,7 @@ extension AppMesh {
         public let gatewayRouteName: String
         /// The name of the service mesh that the gateway route resides in.
         public let meshName: String
-        /// The AWS IAM account ID of the service mesh owner. If the account ID is not your own, then it's the ID of the account that shared the mesh with your account. For more information about mesh sharing, see Working with shared meshes.
+        /// The Amazon Web Services IAM account ID of the service mesh owner. If the account ID is not your own, then it's the ID of the account that shared the mesh with your account. For more information about mesh sharing, see Working with shared meshes.
         public let meshOwner: String?
         /// The name of the virtual gateway that the gateway route is associated with.
         public let virtualGatewayName: String
@@ -2129,7 +2141,7 @@ extension AppMesh {
 
         /// The name of the service mesh to describe.
         public let meshName: String
-        /// The AWS IAM account ID of the service mesh owner. If the account ID is not your own, then it's the ID of the account that shared the mesh with your account. For more information about mesh sharing, see Working with shared meshes.
+        /// The Amazon Web Services IAM account ID of the service mesh owner. If the account ID is not your own, then it's the ID of the account that shared the mesh with your account. For more information about mesh sharing, see Working with shared meshes.
         public let meshOwner: String?
 
         public init(meshName: String, meshOwner: String? = nil) {
@@ -2173,7 +2185,7 @@ extension AppMesh {
 
         /// The name of the service mesh that the route resides in.
         public let meshName: String
-        /// The AWS IAM account ID of the service mesh owner. If the account ID is not your own, then it's the ID of the account that shared the mesh with your account. For more information about mesh sharing, see Working with shared meshes.
+        /// The Amazon Web Services IAM account ID of the service mesh owner. If the account ID is not your own, then it's the ID of the account that shared the mesh with your account. For more information about mesh sharing, see Working with shared meshes.
         public let meshOwner: String?
         /// The name of the route to describe.
         public let routeName: String
@@ -2226,7 +2238,7 @@ extension AppMesh {
 
         /// The name of the service mesh that the gateway route resides in.
         public let meshName: String
-        /// The AWS IAM account ID of the service mesh owner. If the account ID is not your own, then it's the ID of the account that shared the mesh with your account. For more information about mesh sharing, see Working with shared meshes.
+        /// The Amazon Web Services IAM account ID of the service mesh owner. If the account ID is not your own, then it's the ID of the account that shared the mesh with your account. For more information about mesh sharing, see Working with shared meshes.
         public let meshOwner: String?
         /// The name of the virtual gateway to describe.
         public let virtualGatewayName: String
@@ -2274,7 +2286,7 @@ extension AppMesh {
 
         /// The name of the service mesh that the virtual node resides in.
         public let meshName: String
-        /// The AWS IAM account ID of the service mesh owner. If the account ID is not your own, then it's the ID of the account that shared the mesh with your account. For more information about mesh sharing, see Working with shared meshes.
+        /// The Amazon Web Services IAM account ID of the service mesh owner. If the account ID is not your own, then it's the ID of the account that shared the mesh with your account. For more information about mesh sharing, see Working with shared meshes.
         public let meshOwner: String?
         /// The name of the virtual node to describe.
         public let virtualNodeName: String
@@ -2322,7 +2334,7 @@ extension AppMesh {
 
         /// The name of the service mesh that the virtual router resides in.
         public let meshName: String
-        /// The AWS IAM account ID of the service mesh owner. If the account ID is not your own, then it's the ID of the account that shared the mesh with your account. For more information about mesh sharing, see Working with shared meshes.
+        /// The Amazon Web Services IAM account ID of the service mesh owner. If the account ID is not your own, then it's the ID of the account that shared the mesh with your account. For more information about mesh sharing, see Working with shared meshes.
         public let meshOwner: String?
         /// The name of the virtual router to describe.
         public let virtualRouterName: String
@@ -2370,7 +2382,7 @@ extension AppMesh {
 
         /// The name of the service mesh that the virtual service resides in.
         public let meshName: String
-        /// The AWS IAM account ID of the service mesh owner. If the account ID is not your own, then it's the ID of the account that shared the mesh with your account. For more information about mesh sharing, see Working with shared meshes.
+        /// The Amazon Web Services IAM account ID of the service mesh owner. If the account ID is not your own, then it's the ID of the account that shared the mesh with your account. For more information about mesh sharing, see Working with shared meshes.
         public let meshOwner: String?
         /// The name of the virtual service to describe.
         public let virtualServiceName: String
@@ -2410,16 +2422,20 @@ extension AppMesh {
     public struct DnsServiceDiscovery: AWSEncodableShape & AWSDecodableShape {
         /// Specifies the DNS service discovery hostname for the virtual node.
         public let hostname: String
+        /// The IP version to use to control traffic within the mesh.
+        public let ipPreference: IpPreference?
         /// Specifies the DNS response type for the virtual node.
         public let responseType: DnsResponseType?
 
-        public init(hostname: String, responseType: DnsResponseType? = nil) {
+        public init(hostname: String, ipPreference: IpPreference? = nil, responseType: DnsResponseType? = nil) {
             self.hostname = hostname
+            self.ipPreference = ipPreference
             self.responseType = responseType
         }
 
         private enum CodingKeys: String, CodingKey {
             case hostname
+            case ipPreference
             case responseType
         }
     }
@@ -2556,9 +2572,9 @@ extension AppMesh {
         public let lastUpdatedAt: Date
         /// The name of the service mesh that the resource resides in.
         public let meshName: String
-        /// The AWS IAM account ID of the service mesh owner. If the account ID is not your own, then it's the ID of the account that shared the mesh with your account. For more information about mesh sharing, see Working with shared meshes.
+        /// The Amazon Web Services IAM account ID of the service mesh owner. If the account ID is not your own, then it's the ID of the account that shared the mesh with your account. For more information about mesh sharing, see Working with shared meshes.
         public let meshOwner: String
-        /// The AWS IAM account ID of the resource owner. If the account ID is not your own, then it's the ID of the mesh owner or of another account that the mesh is shared with. For more information about mesh sharing, see Working with shared meshes.
+        /// The Amazon Web Services IAM account ID of the resource owner. If the account ID is not your own, then it's the ID of the mesh owner or of another account that the mesh is shared with. For more information about mesh sharing, see Working with shared meshes.
         public let resourceOwner: String
         /// The version of the resource. Resources are created at version 1, and this version is incremented each time that they're updated.
         public let version: Int64
@@ -2787,7 +2803,7 @@ extension AppMesh {
     public struct GrpcRetryPolicy: AWSEncodableShape & AWSDecodableShape {
         /// Specify at least one of the valid values.
         public let grpcRetryEvents: [GrpcRetryPolicyEvent]?
-        /// Specify at least one of the following values.     server-error – HTTP status codes 500, 501, 502, 503, 504, 505, 506, 507, 508, 510, and 511    gateway-error – HTTP status codes 502, 503, and 504    client-error – HTTP status code 409    stream-error – Retry on refused stream
+        /// Specify at least one of the following values.    server-error – HTTP status codes 500, 501, 502, 503, 504, 505, 506, 507, 508, 510, and 511    gateway-error – HTTP status codes 502, 503, and 504    client-error – HTTP status code 409    stream-error – Retry on refused stream
         public let httpRetryEvents: [String]?
         /// The maximum number of retry attempts.
         public let maxRetries: Int64
@@ -3058,6 +3074,7 @@ extension AppMesh {
     public struct HttpGatewayRouteHeader: AWSEncodableShape & AWSDecodableShape {
         /// Specify True to match anything except the match criteria. The default value is False.
         public let invert: Bool?
+        /// An object that represents the method and value to match with the header value sent in a request. Specify one match method.
         public let match: HeaderMatchMethod?
         /// A name for the HTTP header in the gateway route that will be matched on.
         public let name: String
@@ -3234,7 +3251,7 @@ extension AppMesh {
     }
 
     public struct HttpRetryPolicy: AWSEncodableShape & AWSDecodableShape {
-        /// Specify at least one of the following values.     server-error – HTTP status codes 500, 501, 502, 503, 504, 505, 506, 507, 508, 510, and 511    gateway-error – HTTP status codes 502, 503, and 504    client-error – HTTP status code 409    stream-error – Retry on refused stream
+        /// Specify at least one of the following values.    server-error – HTTP status codes 500, 501, 502, 503, 504, 505, 506, 507, 508, 510, and 511    gateway-error – HTTP status codes 502, 503, and 504    client-error – HTTP status code 409    stream-error – Retry on refused stream
         public let httpRetryEvents: [String]?
         /// The maximum number of retry attempts.
         public let maxRetries: Int64
@@ -3430,7 +3447,7 @@ extension AppMesh {
         public let limit: Int?
         /// The name of the service mesh to list gateway routes in.
         public let meshName: String
-        /// The AWS IAM account ID of the service mesh owner. If the account ID is not your own, then it's the ID of the account that shared the mesh with your account. For more information about mesh sharing, see Working with shared meshes.
+        /// The Amazon Web Services IAM account ID of the service mesh owner. If the account ID is not your own, then it's the ID of the account that shared the mesh with your account. For more information about mesh sharing, see Working with shared meshes.
         public let meshOwner: String?
         /// The nextToken value returned from a previous paginated ListGatewayRoutes request where limit was used and the results exceeded the value of that parameter. Pagination continues from the end of the previous results that returned the nextToken value.
         public let nextToken: String?
@@ -3484,7 +3501,7 @@ extension AppMesh {
 
         /// The maximum number of results returned by ListMeshes in paginated output. When you use this parameter, ListMeshes returns only limit results in a single page along with a nextToken response element. You can see the remaining results of the initial request by sending another ListMeshes request with the returned nextToken value. This value can be between 1 and 100. If you don't use this parameter, ListMeshes returns up to 100 results and a nextToken value if applicable.
         public let limit: Int?
-        /// The nextToken value returned from a previous paginated ListMeshes request where limit was used and the results exceeded the value of that parameter. Pagination continues from the end of the previous results that returned the nextToken value.   This token should be treated as an opaque identifier that is used only to retrieve the next items in a list and not for other programmatic purposes.
+        /// The nextToken value returned from a previous paginated ListMeshes request where limit was used and the results exceeded the value of that parameter. Pagination continues from the end of the previous results that returned the nextToken value.  This token should be treated as an opaque identifier that is used only to retrieve the next items in a list and not for other programmatic purposes.
         public let nextToken: String?
 
         public init(limit: Int? = nil, nextToken: String? = nil) {
@@ -3530,7 +3547,7 @@ extension AppMesh {
         public let limit: Int?
         /// The name of the service mesh to list routes in.
         public let meshName: String
-        /// The AWS IAM account ID of the service mesh owner. If the account ID is not your own, then it's the ID of the account that shared the mesh with your account. For more information about mesh sharing, see Working with shared meshes.
+        /// The Amazon Web Services IAM account ID of the service mesh owner. If the account ID is not your own, then it's the ID of the account that shared the mesh with your account. For more information about mesh sharing, see Working with shared meshes.
         public let meshOwner: String?
         /// The nextToken value returned from a previous paginated ListRoutes request where limit was used and the results exceeded the value of that parameter. Pagination continues from the end of the previous results that returned the nextToken value.
         public let nextToken: String?
@@ -3633,7 +3650,7 @@ extension AppMesh {
         public let limit: Int?
         /// The name of the service mesh to list virtual gateways in.
         public let meshName: String
-        /// The AWS IAM account ID of the service mesh owner. If the account ID is not your own, then it's the ID of the account that shared the mesh with your account. For more information about mesh sharing, see Working with shared meshes.
+        /// The Amazon Web Services IAM account ID of the service mesh owner. If the account ID is not your own, then it's the ID of the account that shared the mesh with your account. For more information about mesh sharing, see Working with shared meshes.
         public let meshOwner: String?
         /// The nextToken value returned from a previous paginated ListVirtualGateways request where limit was used and the results exceeded the value of that parameter. Pagination continues from the end of the previous results that returned the nextToken value.
         public let nextToken: String?
@@ -3686,7 +3703,7 @@ extension AppMesh {
         public let limit: Int?
         /// The name of the service mesh to list virtual nodes in.
         public let meshName: String
-        /// The AWS IAM account ID of the service mesh owner. If the account ID is not your own, then it's the ID of the account that shared the mesh with your account. For more information about mesh sharing, see Working with shared meshes.
+        /// The Amazon Web Services IAM account ID of the service mesh owner. If the account ID is not your own, then it's the ID of the account that shared the mesh with your account. For more information about mesh sharing, see Working with shared meshes.
         public let meshOwner: String?
         /// The nextToken value returned from a previous paginated ListVirtualNodes request where limit was used and the results exceeded the value of that parameter. Pagination continues from the end of the previous results that returned the nextToken value.
         public let nextToken: String?
@@ -3739,7 +3756,7 @@ extension AppMesh {
         public let limit: Int?
         /// The name of the service mesh to list virtual routers in.
         public let meshName: String
-        /// The AWS IAM account ID of the service mesh owner. If the account ID is not your own, then it's the ID of the account that shared the mesh with your account. For more information about mesh sharing, see Working with shared meshes.
+        /// The Amazon Web Services IAM account ID of the service mesh owner. If the account ID is not your own, then it's the ID of the account that shared the mesh with your account. For more information about mesh sharing, see Working with shared meshes.
         public let meshOwner: String?
         /// The nextToken value returned from a previous paginated ListVirtualRouters request where limit was used and the results exceeded the value of that parameter. Pagination continues from the end of the previous results that returned the nextToken value.
         public let nextToken: String?
@@ -3792,7 +3809,7 @@ extension AppMesh {
         public let limit: Int?
         /// The name of the service mesh to list virtual services in.
         public let meshName: String
-        /// The AWS IAM account ID of the service mesh owner. If the account ID is not your own, then it's the ID of the account that shared the mesh with your account. For more information about mesh sharing, see Working with shared meshes.
+        /// The Amazon Web Services IAM account ID of the service mesh owner. If the account ID is not your own, then it's the ID of the account that shared the mesh with your account. For more information about mesh sharing, see Working with shared meshes.
         public let meshOwner: String?
         /// The nextToken value returned from a previous paginated ListVirtualServices request where limit was used and the results exceeded the value of that parameter. Pagination continues from the end of the previous results that returned the nextToken value.
         public let nextToken: String?
@@ -4041,9 +4058,9 @@ extension AppMesh {
         public let lastUpdatedAt: Date
         /// The name of the service mesh.
         public let meshName: String
-        /// The AWS IAM account ID of the service mesh owner. If the account ID is not your own, then it's the ID of the account that shared the mesh with your account. For more information about mesh sharing, see Working with shared meshes.
+        /// The Amazon Web Services IAM account ID of the service mesh owner. If the account ID is not your own, then it's the ID of the account that shared the mesh with your account. For more information about mesh sharing, see Working with shared meshes.
         public let meshOwner: String
-        /// The AWS IAM account ID of the resource owner. If the account ID is not your own, then it's the ID of the mesh owner or of another account that the mesh is shared with. For more information about mesh sharing, see Working with shared meshes.
+        /// The Amazon Web Services IAM account ID of the resource owner. If the account ID is not your own, then it's the ID of the mesh owner or of another account that the mesh is shared with. For more information about mesh sharing, see Working with shared meshes.
         public let resourceOwner: String
         /// The version of the resource. Resources are created at version 1, and this version is incremented each time that they're updated.
         public let version: Int64
@@ -4069,16 +4086,32 @@ extension AppMesh {
         }
     }
 
+    public struct MeshServiceDiscovery: AWSEncodableShape & AWSDecodableShape {
+        /// The IP version to use to control traffic within the mesh.
+        public let ipPreference: IpPreference?
+
+        public init(ipPreference: IpPreference? = nil) {
+            self.ipPreference = ipPreference
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case ipPreference
+        }
+    }
+
     public struct MeshSpec: AWSEncodableShape & AWSDecodableShape {
         /// The egress filter rules for the service mesh.
         public let egressFilter: EgressFilter?
+        public let serviceDiscovery: MeshServiceDiscovery?
 
-        public init(egressFilter: EgressFilter? = nil) {
+        public init(egressFilter: EgressFilter? = nil, serviceDiscovery: MeshServiceDiscovery? = nil) {
             self.egressFilter = egressFilter
+            self.serviceDiscovery = serviceDiscovery
         }
 
         private enum CodingKeys: String, CodingKey {
             case egressFilter
+            case serviceDiscovery
         }
     }
 
@@ -4170,9 +4203,9 @@ extension AppMesh {
         public let createdAt: Date
         /// The Unix epoch timestamp in seconds for when the resource was last updated.
         public let lastUpdatedAt: Date
-        /// The AWS IAM account ID of the service mesh owner. If the account ID is not your own, then it's the ID of the account that shared the mesh with your account. For more information about mesh sharing, see Working with shared meshes.
+        /// The Amazon Web Services IAM account ID of the service mesh owner. If the account ID is not your own, then it's the ID of the account that shared the mesh with your account. For more information about mesh sharing, see Working with shared meshes.
         public let meshOwner: String
-        /// The AWS IAM account ID of the resource owner. If the account ID is not your own, then it's the ID of the mesh owner or of another account that the mesh is shared with. For more information about mesh sharing, see Working with shared meshes.
+        /// The Amazon Web Services IAM account ID of the resource owner. If the account ID is not your own, then it's the ID of the mesh owner or of another account that the mesh is shared with. For more information about mesh sharing, see Working with shared meshes.
         public let resourceOwner: String
         /// The unique identifier for the resource.
         public let uid: String
@@ -4242,9 +4275,9 @@ extension AppMesh {
         public let lastUpdatedAt: Date
         /// The name of the service mesh that the route resides in.
         public let meshName: String
-        /// The AWS IAM account ID of the service mesh owner. If the account ID is not your own, then it's the ID of the account that shared the mesh with your account. For more information about mesh sharing, see Working with shared meshes.
+        /// The Amazon Web Services IAM account ID of the service mesh owner. If the account ID is not your own, then it's the ID of the account that shared the mesh with your account. For more information about mesh sharing, see Working with shared meshes.
         public let meshOwner: String
-        /// The AWS IAM account ID of the resource owner. If the account ID is not your own, then it's the ID of the mesh owner or of another account that the mesh is shared with. For more information about mesh sharing, see Working with shared meshes.
+        /// The Amazon Web Services IAM account ID of the resource owner. If the account ID is not your own, then it's the ID of the mesh owner or of another account that the mesh is shared with. For more information about mesh sharing, see Working with shared meshes.
         public let resourceOwner: String
         /// The name of the route.
         public let routeName: String
@@ -4598,7 +4631,7 @@ extension AppMesh {
         public let gatewayRouteName: String
         /// The name of the service mesh that the gateway route resides in.
         public let meshName: String
-        /// The AWS IAM account ID of the service mesh owner. If the account ID is not your own, then it's the ID of the account that shared the mesh with your account. For more information about mesh sharing, see Working with shared meshes.
+        /// The Amazon Web Services IAM account ID of the service mesh owner. If the account ID is not your own, then it's the ID of the account that shared the mesh with your account. For more information about mesh sharing, see Working with shared meshes.
         public let meshOwner: String?
         /// The new gateway route specification to apply. This overwrites the existing data.
         public let spec: GatewayRouteSpec
@@ -4706,7 +4739,7 @@ extension AppMesh {
         public let clientToken: String?
         /// The name of the service mesh that the route resides in.
         public let meshName: String
-        /// The AWS IAM account ID of the service mesh owner. If the account ID is not your own, then it's the ID of the account that shared the mesh with your account. For more information about mesh sharing, see Working with shared meshes.
+        /// The Amazon Web Services IAM account ID of the service mesh owner. If the account ID is not your own, then it's the ID of the account that shared the mesh with your account. For more information about mesh sharing, see Working with shared meshes.
         public let meshOwner: String?
         /// The name of the route to update.
         public let routeName: String
@@ -4770,7 +4803,7 @@ extension AppMesh {
         public let clientToken: String?
         /// The name of the service mesh that the virtual gateway resides in.
         public let meshName: String
-        /// The AWS IAM account ID of the service mesh owner. If the account ID is not your own, then it's the ID of the account that shared the mesh with your account. For more information about mesh sharing, see Working with shared meshes.
+        /// The Amazon Web Services IAM account ID of the service mesh owner. If the account ID is not your own, then it's the ID of the account that shared the mesh with your account. For more information about mesh sharing, see Working with shared meshes.
         public let meshOwner: String?
         /// The new virtual gateway specification to apply. This overwrites the existing data.
         public let spec: VirtualGatewaySpec
@@ -4829,7 +4862,7 @@ extension AppMesh {
         public let clientToken: String?
         /// The name of the service mesh that the virtual node resides in.
         public let meshName: String
-        /// The AWS IAM account ID of the service mesh owner. If the account ID is not your own, then it's the ID of the account that shared the mesh with your account. For more information about mesh sharing, see Working with shared meshes.
+        /// The Amazon Web Services IAM account ID of the service mesh owner. If the account ID is not your own, then it's the ID of the account that shared the mesh with your account. For more information about mesh sharing, see Working with shared meshes.
         public let meshOwner: String?
         /// The new virtual node specification to apply. This overwrites the existing data.
         public let spec: VirtualNodeSpec
@@ -4888,7 +4921,7 @@ extension AppMesh {
         public let clientToken: String?
         /// The name of the service mesh that the virtual router resides in.
         public let meshName: String
-        /// The AWS IAM account ID of the service mesh owner. If the account ID is not your own, then it's the ID of the account that shared the mesh with your account. For more information about mesh sharing, see Working with shared meshes.
+        /// The Amazon Web Services IAM account ID of the service mesh owner. If the account ID is not your own, then it's the ID of the account that shared the mesh with your account. For more information about mesh sharing, see Working with shared meshes.
         public let meshOwner: String?
         /// The new virtual router specification to apply. This overwrites the existing data.
         public let spec: VirtualRouterSpec
@@ -4947,7 +4980,7 @@ extension AppMesh {
         public let clientToken: String?
         /// The name of the service mesh that the virtual service resides in.
         public let meshName: String
-        /// The AWS IAM account ID of the service mesh owner. If the account ID is not your own, then it's the ID of the account that shared the mesh with your account. For more information about mesh sharing, see Working with shared meshes.
+        /// The Amazon Web Services IAM account ID of the service mesh owner. If the account ID is not your own, then it's the ID of the account that shared the mesh with your account. For more information about mesh sharing, see Working with shared meshes.
         public let meshOwner: String?
         /// The new virtual service specification to apply. This overwrites the existing data.
         public let spec: VirtualServiceSpec
@@ -5390,9 +5423,9 @@ extension AppMesh {
         public let lastUpdatedAt: Date
         /// The name of the service mesh that the resource resides in.
         public let meshName: String
-        /// The AWS IAM account ID of the service mesh owner. If the account ID is not your own, then it's the ID of the account that shared the mesh with your account. For more information about mesh sharing, see Working with shared meshes.
+        /// The Amazon Web Services IAM account ID of the service mesh owner. If the account ID is not your own, then it's the ID of the account that shared the mesh with your account. For more information about mesh sharing, see Working with shared meshes.
         public let meshOwner: String
-        /// The AWS IAM account ID of the resource owner. If the account ID is not your own, then it's the ID of the mesh owner or of another account that the mesh is shared with. For more information about mesh sharing, see Working with shared meshes.
+        /// The Amazon Web Services IAM account ID of the resource owner. If the account ID is not your own, then it's the ID of the mesh owner or of another account that the mesh is shared with. For more information about mesh sharing, see Working with shared meshes.
         public let resourceOwner: String
         /// The version of the resource. Resources are created at version 1, and this version is incremented each time that they're updated.
         public let version: Int64
@@ -5440,7 +5473,6 @@ extension AppMesh {
             try self.listeners.forEach {
                 try $0.validate(name: "\(name).listeners[]")
             }
-            try self.validate(self.listeners, name: "listeners", parent: name, max: 1)
             try self.logging?.validate(name: "\(name).logging")
         }
 
@@ -5629,9 +5661,9 @@ extension AppMesh {
         public let lastUpdatedAt: Date
         /// The name of the service mesh that the virtual node resides in.
         public let meshName: String
-        /// The AWS IAM account ID of the service mesh owner. If the account ID is not your own, then it's the ID of the account that shared the mesh with your account. For more information about mesh sharing, see Working with shared meshes.
+        /// The Amazon Web Services IAM account ID of the service mesh owner. If the account ID is not your own, then it's the ID of the account that shared the mesh with your account. For more information about mesh sharing, see Working with shared meshes.
         public let meshOwner: String
-        /// The AWS IAM account ID of the resource owner. If the account ID is not your own, then it's the ID of the mesh owner or of another account that the mesh is shared with. For more information about mesh sharing, see Working with shared meshes.
+        /// The Amazon Web Services IAM account ID of the resource owner. If the account ID is not your own, then it's the ID of the mesh owner or of another account that the mesh is shared with. For more information about mesh sharing, see Working with shared meshes.
         public let resourceOwner: String
         /// The version of the resource. Resources are created at version 1, and this version is incremented each time that they're updated.
         public let version: Int64
@@ -5707,7 +5739,6 @@ extension AppMesh {
             try self.listeners?.forEach {
                 try $0.validate(name: "\(name).listeners[]")
             }
-            try self.validate(self.listeners, name: "listeners", parent: name, max: 1)
             try self.logging?.validate(name: "\(name).logging")
             try self.serviceDiscovery?.validate(name: "\(name).serviceDiscovery")
         }
@@ -5805,9 +5836,9 @@ extension AppMesh {
         public let lastUpdatedAt: Date
         /// The name of the service mesh that the virtual router resides in.
         public let meshName: String
-        /// The AWS IAM account ID of the service mesh owner. If the account ID is not your own, then it's the ID of the account that shared the mesh with your account. For more information about mesh sharing, see Working with shared meshes.
+        /// The Amazon Web Services IAM account ID of the service mesh owner. If the account ID is not your own, then it's the ID of the account that shared the mesh with your account. For more information about mesh sharing, see Working with shared meshes.
         public let meshOwner: String
-        /// The AWS IAM account ID of the resource owner. If the account ID is not your own, then it's the ID of the mesh owner or of another account that the mesh is shared with. For more information about mesh sharing, see Working with shared meshes.
+        /// The Amazon Web Services IAM account ID of the resource owner. If the account ID is not your own, then it's the ID of the mesh owner or of another account that the mesh is shared with. For more information about mesh sharing, see Working with shared meshes.
         public let resourceOwner: String
         /// The version of the resource. Resources are created at version 1, and this version is incremented each time that they're updated.
         public let version: Int64
@@ -5867,8 +5898,6 @@ extension AppMesh {
             try self.listeners?.forEach {
                 try $0.validate(name: "\(name).listeners[]")
             }
-            try self.validate(self.listeners, name: "listeners", parent: name, max: 1)
-            try self.validate(self.listeners, name: "listeners", parent: name, min: 1)
         }
 
         private enum CodingKeys: String, CodingKey {
@@ -5947,9 +5976,9 @@ extension AppMesh {
         public let lastUpdatedAt: Date
         /// The name of the service mesh that the virtual service resides in.
         public let meshName: String
-        /// The AWS IAM account ID of the service mesh owner. If the account ID is not your own, then it's the ID of the account that shared the mesh with your account. For more information about mesh sharing, see Working with shared meshes.
+        /// The Amazon Web Services IAM account ID of the service mesh owner. If the account ID is not your own, then it's the ID of the account that shared the mesh with your account. For more information about mesh sharing, see Working with shared meshes.
         public let meshOwner: String
-        /// The AWS IAM account ID of the resource owner. If the account ID is not your own, then it's the ID of the mesh owner or of another account that the mesh is shared with. For more information about mesh sharing, see Working with shared meshes.
+        /// The Amazon Web Services IAM account ID of the resource owner. If the account ID is not your own, then it's the ID of the mesh owner or of another account that the mesh is shared with. For more information about mesh sharing, see Working with shared meshes.
         public let resourceOwner: String
         /// The version of the resource. Resources are created at version 1, and this version is incremented each time that they're updated.
         public let version: Int64

@@ -19,7 +19,7 @@
 
 /// Service object for interacting with AWS Budgets service.
 ///
-/// The Amazon Web Services Budgets API enables you to use Amazon Web Services Budgets to plan your service usage, service costs, and instance reservations. The API reference provides descriptions, syntax, and usage examples for each of the actions and data types for Amazon Web Services Budgets.
+/// Use the Amazon Web Services Budgets API to plan your service usage, service costs, and instance reservations. This API reference provides descriptions, syntax, and usage examples for each of the actions and data types for the Amazon Web Services Budgets feature.
 /// 		       Budgets provide you with a way to see the following information:
 ///
 /// 				           How close your plan is to your budgeted amount or to the free tier limits
@@ -41,11 +41,11 @@
 /// 				            RI coverage budgets - Define a coverage threshold, and receive alerts when the number of your instance hours that are covered by RIs fall below that threshold. This lets you see how much of your instance usage is covered by a reservation.
 ///
 /// 		       Service Endpoint
-/// 		       The Amazon Web Services Budgets API provides the following endpoint:
+/// 	        The Amazon Web Services Budgets API provides the following endpoint:
 ///
 /// 				           https://budgets.amazonaws.com
 ///
-/// 		       For information about costs that are associated with the Amazon Web Services Budgets API, see Amazon Web Services Cost Management Pricing.
+/// 	        For information about costs that are associated with the Amazon Web Services Budgets API, see Amazon Web Services Cost Management Pricing.
 public struct Budgets: AWSService {
     // MARK: Member variables
 

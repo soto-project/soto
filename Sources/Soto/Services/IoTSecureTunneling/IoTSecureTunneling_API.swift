@@ -56,7 +56,7 @@ public struct IoTSecureTunneling: AWSService {
             partition: region?.partition ?? partition,
             amzTarget: "IoTSecuredTunneling",
             service: "api.tunneling.iot",
-            signingName: "iotsecuredtunneling",
+            signingName: "IoTSecuredTunneling",
             serviceProtocol: .json(version: "1.1"),
             apiVersion: "2018-10-05",
             endpoint: endpoint,

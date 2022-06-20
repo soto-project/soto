@@ -1796,6 +1796,143 @@ extension SecurityHub {
         }
     }
 
+    public struct AwsCloudFormationStackDetails: AWSEncodableShape & AWSDecodableShape {
+        /// The capabilities allowed in the stack.
+        public let capabilities: [String]?
+        /// The time at which the stack was created.
+        public let creationTime: String?
+        /// A user-defined description associated with the stack.
+        public let description: String?
+        /// Boolean to enable or disable rollback on stack creation failures.
+        public let disableRollback: Bool?
+        /// Information about whether a stack's actual configuration differs, or has drifted, from its expected
+        /// configuration, as defined in the stack template and any values specified as template parameters.
+        public let driftInformation: AwsCloudFormationStackDriftInformationDetails?
+        /// Whether termination protection is enabled for the stack.
+        public let enableTerminationProtection: Bool?
+        /// The time the nested stack was last updated. This field will only be returned if the stack has been
+        /// updated at least once.
+        public let lastUpdatedTime: String?
+        /// The Amazon Resource Names (ARNs) of the Amazon SNS topic to which stack-related events are published.
+        public let notificationArns: [String]?
+        /// A list of output structures.
+        public let outputs: [AwsCloudFormationStackOutputsDetails]?
+        /// The ARN of an IAM role that's associated with the stack.
+        public let roleArn: String?
+        /// Unique identifier of the stack.
+        public let stackId: String?
+        /// The name associated with the stack.
+        public let stackName: String?
+        /// Current status of the stack.
+        public let stackStatus: String?
+        /// Success or failure message associated with the stack status.
+        public let stackStatusReason: String?
+        /// The length of time, in minutes, that CloudFormation waits for the nested stack to reach
+        /// the CREATE_COMPLETE state.
+        public let timeoutInMinutes: Int?
+
+        public init(capabilities: [String]? = nil, creationTime: String? = nil, description: String? = nil, disableRollback: Bool? = nil, driftInformation: AwsCloudFormationStackDriftInformationDetails? = nil, enableTerminationProtection: Bool? = nil, lastUpdatedTime: String? = nil, notificationArns: [String]? = nil, outputs: [AwsCloudFormationStackOutputsDetails]? = nil, roleArn: String? = nil, stackId: String? = nil, stackName: String? = nil, stackStatus: String? = nil, stackStatusReason: String? = nil, timeoutInMinutes: Int? = nil) {
+            self.capabilities = capabilities
+            self.creationTime = creationTime
+            self.description = description
+            self.disableRollback = disableRollback
+            self.driftInformation = driftInformation
+            self.enableTerminationProtection = enableTerminationProtection
+            self.lastUpdatedTime = lastUpdatedTime
+            self.notificationArns = notificationArns
+            self.outputs = outputs
+            self.roleArn = roleArn
+            self.stackId = stackId
+            self.stackName = stackName
+            self.stackStatus = stackStatus
+            self.stackStatusReason = stackStatusReason
+            self.timeoutInMinutes = timeoutInMinutes
+        }
+
+        public func validate(name: String) throws {
+            try self.capabilities?.forEach {
+                try validate($0, name: "capabilities[]", parent: name, pattern: "\\S")
+            }
+            try self.validate(self.creationTime, name: "creationTime", parent: name, pattern: "\\S")
+            try self.validate(self.description, name: "description", parent: name, pattern: "\\S")
+            try self.driftInformation?.validate(name: "\(name).driftInformation")
+            try self.validate(self.lastUpdatedTime, name: "lastUpdatedTime", parent: name, pattern: "\\S")
+            try self.notificationArns?.forEach {
+                try validate($0, name: "notificationArns[]", parent: name, pattern: "\\S")
+            }
+            try self.outputs?.forEach {
+                try $0.validate(name: "\(name).outputs[]")
+            }
+            try self.validate(self.roleArn, name: "roleArn", parent: name, pattern: "\\S")
+            try self.validate(self.stackId, name: "stackId", parent: name, pattern: "\\S")
+            try self.validate(self.stackName, name: "stackName", parent: name, pattern: "\\S")
+            try self.validate(self.stackStatus, name: "stackStatus", parent: name, pattern: "\\S")
+            try self.validate(self.stackStatusReason, name: "stackStatusReason", parent: name, pattern: "\\S")
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case capabilities = "Capabilities"
+            case creationTime = "CreationTime"
+            case description = "Description"
+            case disableRollback = "DisableRollback"
+            case driftInformation = "DriftInformation"
+            case enableTerminationProtection = "EnableTerminationProtection"
+            case lastUpdatedTime = "LastUpdatedTime"
+            case notificationArns = "NotificationArns"
+            case outputs = "Outputs"
+            case roleArn = "RoleArn"
+            case stackId = "StackId"
+            case stackName = "StackName"
+            case stackStatus = "StackStatus"
+            case stackStatusReason = "StackStatusReason"
+            case timeoutInMinutes = "TimeoutInMinutes"
+        }
+    }
+
+    public struct AwsCloudFormationStackDriftInformationDetails: AWSEncodableShape & AWSDecodableShape {
+        /// Status of the stack's actual configuration compared to its expected template configuration.
+        public let stackDriftStatus: String?
+
+        public init(stackDriftStatus: String? = nil) {
+            self.stackDriftStatus = stackDriftStatus
+        }
+
+        public func validate(name: String) throws {
+            try self.validate(self.stackDriftStatus, name: "stackDriftStatus", parent: name, pattern: "\\S")
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case stackDriftStatus = "StackDriftStatus"
+        }
+    }
+
+    public struct AwsCloudFormationStackOutputsDetails: AWSEncodableShape & AWSDecodableShape {
+        /// A user-defined description associated with the output.
+        public let description: String?
+        /// The key associated with the output.
+        public let outputKey: String?
+        /// The value associated with the output.
+        public let outputValue: String?
+
+        public init(description: String? = nil, outputKey: String? = nil, outputValue: String? = nil) {
+            self.description = description
+            self.outputKey = outputKey
+            self.outputValue = outputValue
+        }
+
+        public func validate(name: String) throws {
+            try self.validate(self.description, name: "description", parent: name, pattern: "\\S")
+            try self.validate(self.outputKey, name: "outputKey", parent: name, pattern: "\\S")
+            try self.validate(self.outputValue, name: "outputValue", parent: name, pattern: "\\S")
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case description = "Description"
+            case outputKey = "OutputKey"
+            case outputValue = "OutputValue"
+        }
+    }
+
     public struct AwsCloudFrontDistributionCacheBehavior: AWSEncodableShape & AWSDecodableShape {
         /// The protocol that viewers can use to access the files in an origin. You can specify the following options:    allow-all - Viewers can use HTTP or HTTPS.    redirect-to-https - CloudFront responds to HTTP requests with an HTTP status code of 301 (Moved Permanently) and the HTTPS URL. The viewer then uses the new URL to resubmit.    https-only - CloudFront responds to HTTP request with an HTTP status code of 403 (Forbidden).
         public let viewerProtocolPolicy: String?
@@ -1950,6 +2087,44 @@ extension SecurityHub {
         }
     }
 
+    public struct AwsCloudFrontDistributionOriginCustomOriginConfig: AWSEncodableShape & AWSDecodableShape {
+        /// The HTTP port that CloudFront uses to connect to the origin.
+        public let httpPort: Int?
+        /// The HTTPS port that CloudFront uses to connect to the origin.
+        public let httpsPort: Int?
+        /// Specifies how long, in seconds, CloudFront persists its connection to the origin.
+        public let originKeepaliveTimeout: Int?
+        /// Specifies the protocol (HTTP or HTTPS) that CloudFront uses to connect to the origin.
+        public let originProtocolPolicy: String?
+        /// Specifies how long, in seconds, CloudFront waits for a response from the origin.
+        public let originReadTimeout: Int?
+        /// Specifies the minimum SSL/TLS protocol that CloudFront uses when connecting to your origin over HTTPS.
+        public let originSslProtocols: AwsCloudFrontDistributionOriginSslProtocols?
+
+        public init(httpPort: Int? = nil, httpsPort: Int? = nil, originKeepaliveTimeout: Int? = nil, originProtocolPolicy: String? = nil, originReadTimeout: Int? = nil, originSslProtocols: AwsCloudFrontDistributionOriginSslProtocols? = nil) {
+            self.httpPort = httpPort
+            self.httpsPort = httpsPort
+            self.originKeepaliveTimeout = originKeepaliveTimeout
+            self.originProtocolPolicy = originProtocolPolicy
+            self.originReadTimeout = originReadTimeout
+            self.originSslProtocols = originSslProtocols
+        }
+
+        public func validate(name: String) throws {
+            try self.validate(self.originProtocolPolicy, name: "originProtocolPolicy", parent: name, pattern: "\\S")
+            try self.originSslProtocols?.validate(name: "\(name).originSslProtocols")
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case httpPort = "HttpPort"
+            case httpsPort = "HttpsPort"
+            case originKeepaliveTimeout = "OriginKeepaliveTimeout"
+            case originProtocolPolicy = "OriginProtocolPolicy"
+            case originReadTimeout = "OriginReadTimeout"
+            case originSslProtocols = "OriginSslProtocols"
+        }
+    }
+
     public struct AwsCloudFrontDistributionOriginGroup: AWSEncodableShape & AWSDecodableShape {
         /// Provides the criteria for an origin group to fail over.
         public let failoverCriteria: AwsCloudFrontDistributionOriginGroupFailover?
@@ -2007,6 +2182,10 @@ extension SecurityHub {
     }
 
     public struct AwsCloudFrontDistributionOriginItem: AWSEncodableShape & AWSDecodableShape {
+        /// An origin that is not an Amazon S3 bucket, with one exception.
+        /// If the Amazon S3 bucket is configured with static website hosting, use this attribute.
+        /// If the Amazon S3 bucket is not configured with static website hosting, use the S3OriginConfig type instead.
+        public let customOriginConfig: AwsCloudFrontDistributionOriginCustomOriginConfig?
         /// Amazon S3 origins: The DNS name of the S3 bucket from which you want CloudFront to get objects for this origin.
         public let domainName: String?
         /// A unique identifier for the origin or origin group.
@@ -2016,7 +2195,8 @@ extension SecurityHub {
         /// An origin that is an S3 bucket that is not configured with static website hosting.
         public let s3OriginConfig: AwsCloudFrontDistributionOriginS3OriginConfig?
 
-        public init(domainName: String? = nil, id: String? = nil, originPath: String? = nil, s3OriginConfig: AwsCloudFrontDistributionOriginS3OriginConfig? = nil) {
+        public init(customOriginConfig: AwsCloudFrontDistributionOriginCustomOriginConfig? = nil, domainName: String? = nil, id: String? = nil, originPath: String? = nil, s3OriginConfig: AwsCloudFrontDistributionOriginS3OriginConfig? = nil) {
+            self.customOriginConfig = customOriginConfig
             self.domainName = domainName
             self.id = id
             self.originPath = originPath
@@ -2024,6 +2204,7 @@ extension SecurityHub {
         }
 
         public func validate(name: String) throws {
+            try self.customOriginConfig?.validate(name: "\(name).customOriginConfig")
             try self.validate(self.domainName, name: "domainName", parent: name, pattern: "\\S")
             try self.validate(self.id, name: "id", parent: name, pattern: "\\S")
             try self.validate(self.originPath, name: "originPath", parent: name, pattern: "\\S")
@@ -2031,6 +2212,7 @@ extension SecurityHub {
         }
 
         private enum CodingKeys: String, CodingKey {
+            case customOriginConfig = "CustomOriginConfig"
             case domainName = "DomainName"
             case id = "Id"
             case originPath = "OriginPath"
@@ -2052,6 +2234,30 @@ extension SecurityHub {
 
         private enum CodingKeys: String, CodingKey {
             case originAccessIdentity = "OriginAccessIdentity"
+        }
+    }
+
+    public struct AwsCloudFrontDistributionOriginSslProtocols: AWSEncodableShape & AWSDecodableShape {
+        /// A list that contains allowed SSL/TLS protocols for this distribution.
+        public let items: [String]?
+        /// The number of SSL/TLS protocols that you want to allow CloudFront to use when establishing
+        /// an HTTPS connection with this origin.
+        public let quantity: Int?
+
+        public init(items: [String]? = nil, quantity: Int? = nil) {
+            self.items = items
+            self.quantity = quantity
+        }
+
+        public func validate(name: String) throws {
+            try self.items?.forEach {
+                try validate($0, name: "items[]", parent: name, pattern: "\\S")
+            }
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case items = "Items"
+            case quantity = "Quantity"
         }
     }
 
@@ -2199,6 +2405,163 @@ extension SecurityHub {
             case snsTopicArn = "SnsTopicArn"
             case snsTopicName = "SnsTopicName"
             case trailArn = "TrailArn"
+        }
+    }
+
+    public struct AwsCloudWatchAlarmDetails: AWSEncodableShape & AWSDecodableShape {
+        /// Indicates whether actions should be executed during any changes to the alarm state.
+        public let actionsEnabled: Bool?
+        /// The list of actions, specified as Amazon Resource Names (ARNs) to execute when this alarm transitions into an ALARM state from any other state.
+        public let alarmActions: [String]?
+        /// The ARN of the alarm.
+        public let alarmArn: String?
+        /// The time stamp of the last update to the alarm configuration.
+        public let alarmConfigurationUpdatedTimestamp: String?
+        /// The description of the alarm.
+        public let alarmDescription: String?
+        /// The name of the alarm. If you don't specify a name, CloudFront generates a unique physical ID
+        /// and uses that ID for the alarm name.
+        public let alarmName: String?
+        /// The arithmetic operation to use when comparing the specified statistic and threshold. The specified
+        /// statistic value is used as the first operand.
+        public let comparisonOperator: String?
+        /// The number of datapoints that must be breaching to trigger the alarm.
+        public let datapointsToAlarm: Int?
+        /// The dimensions for the metric associated with the alarm.
+        public let dimensions: [AwsCloudWatchAlarmDimensionsDetails]?
+        /// Used only for alarms based on percentiles. If ignore, the alarm state does not change during
+        /// periods with too few data points to be statistically significant. If evaluate or this parameter is not used,
+        /// the alarm is always evaluated and possibly changes state no matter how many data points are available.
+        public let evaluateLowSampleCountPercentile: String?
+        /// The number of periods over which data is compared to the specified threshold.
+        public let evaluationPeriods: Int?
+        /// The percentile statistic for the metric associated with the alarm.
+        public let extendedStatistic: String?
+        /// The actions to execute when this alarm transitions to the INSUFFICIENT_DATA state from
+        /// any other state. Each action is specified as an ARN.
+        public let insufficientDataActions: [String]?
+        /// The name of the metric associated with the alarm. This is required for an alarm based on a metric.
+        /// For an alarm based on a math expression, you use Metrics instead and you can't specify MetricName.
+        public let metricName: String?
+        /// The namespace of the metric associated with the alarm. This is required for an alarm based on a
+        /// metric. For an alarm based on a math expression, you can't specify Namespace and you use
+        /// Metrics instead.
+        public let namespace: String?
+        /// The actions to execute when this alarm transitions to the OK state from any other state.
+        /// Each action is specified as an ARN.
+        public let okActions: [String]?
+        /// The period, in seconds, over which the statistic is applied. This is required for an alarm based on a
+        /// metric.
+        public let period: Int?
+        /// The statistic for the metric associated with the alarm, other than percentile. For percentile statistics, use ExtendedStatistic. For an alarm based on a metric, you must specify either Statistic or ExtendedStatistic but not both. For an alarm based on a math expression, you can't specify Statistic. Instead, you use Metrics.
+        public let statistic: String?
+        /// The value to compare with the specified statistic.
+        public let threshold: Double?
+        /// n an alarm based on an anomaly detection model, this is the ID of the ANOMALY_DETECTION_BAND function used as the threshold for the alarm.
+        public let thresholdMetricId: String?
+        /// Sets how this alarm is to handle missing data points.
+        public let treatMissingData: String?
+        /// The unit of the metric associated with the alarm.
+        public let unit: String?
+
+        public init(actionsEnabled: Bool? = nil, alarmActions: [String]? = nil, alarmArn: String? = nil, alarmConfigurationUpdatedTimestamp: String? = nil, alarmDescription: String? = nil, alarmName: String? = nil, comparisonOperator: String? = nil, datapointsToAlarm: Int? = nil, dimensions: [AwsCloudWatchAlarmDimensionsDetails]? = nil, evaluateLowSampleCountPercentile: String? = nil, evaluationPeriods: Int? = nil, extendedStatistic: String? = nil, insufficientDataActions: [String]? = nil, metricName: String? = nil, namespace: String? = nil, okActions: [String]? = nil, period: Int? = nil, statistic: String? = nil, threshold: Double? = nil, thresholdMetricId: String? = nil, treatMissingData: String? = nil, unit: String? = nil) {
+            self.actionsEnabled = actionsEnabled
+            self.alarmActions = alarmActions
+            self.alarmArn = alarmArn
+            self.alarmConfigurationUpdatedTimestamp = alarmConfigurationUpdatedTimestamp
+            self.alarmDescription = alarmDescription
+            self.alarmName = alarmName
+            self.comparisonOperator = comparisonOperator
+            self.datapointsToAlarm = datapointsToAlarm
+            self.dimensions = dimensions
+            self.evaluateLowSampleCountPercentile = evaluateLowSampleCountPercentile
+            self.evaluationPeriods = evaluationPeriods
+            self.extendedStatistic = extendedStatistic
+            self.insufficientDataActions = insufficientDataActions
+            self.metricName = metricName
+            self.namespace = namespace
+            self.okActions = okActions
+            self.period = period
+            self.statistic = statistic
+            self.threshold = threshold
+            self.thresholdMetricId = thresholdMetricId
+            self.treatMissingData = treatMissingData
+            self.unit = unit
+        }
+
+        public func validate(name: String) throws {
+            try self.alarmActions?.forEach {
+                try validate($0, name: "alarmActions[]", parent: name, pattern: "\\S")
+            }
+            try self.validate(self.alarmArn, name: "alarmArn", parent: name, pattern: "\\S")
+            try self.validate(self.alarmConfigurationUpdatedTimestamp, name: "alarmConfigurationUpdatedTimestamp", parent: name, pattern: "\\S")
+            try self.validate(self.alarmDescription, name: "alarmDescription", parent: name, pattern: "\\S")
+            try self.validate(self.alarmName, name: "alarmName", parent: name, pattern: "\\S")
+            try self.validate(self.comparisonOperator, name: "comparisonOperator", parent: name, pattern: "\\S")
+            try self.dimensions?.forEach {
+                try $0.validate(name: "\(name).dimensions[]")
+            }
+            try self.validate(self.evaluateLowSampleCountPercentile, name: "evaluateLowSampleCountPercentile", parent: name, pattern: "\\S")
+            try self.validate(self.extendedStatistic, name: "extendedStatistic", parent: name, pattern: "\\S")
+            try self.insufficientDataActions?.forEach {
+                try validate($0, name: "insufficientDataActions[]", parent: name, pattern: "\\S")
+            }
+            try self.validate(self.metricName, name: "metricName", parent: name, pattern: "\\S")
+            try self.validate(self.namespace, name: "namespace", parent: name, pattern: "\\S")
+            try self.okActions?.forEach {
+                try validate($0, name: "okActions[]", parent: name, pattern: "\\S")
+            }
+            try self.validate(self.statistic, name: "statistic", parent: name, pattern: "\\S")
+            try self.validate(self.thresholdMetricId, name: "thresholdMetricId", parent: name, pattern: "\\S")
+            try self.validate(self.treatMissingData, name: "treatMissingData", parent: name, pattern: "\\S")
+            try self.validate(self.unit, name: "unit", parent: name, pattern: "\\S")
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case actionsEnabled = "ActionsEnabled"
+            case alarmActions = "AlarmActions"
+            case alarmArn = "AlarmArn"
+            case alarmConfigurationUpdatedTimestamp = "AlarmConfigurationUpdatedTimestamp"
+            case alarmDescription = "AlarmDescription"
+            case alarmName = "AlarmName"
+            case comparisonOperator = "ComparisonOperator"
+            case datapointsToAlarm = "DatapointsToAlarm"
+            case dimensions = "Dimensions"
+            case evaluateLowSampleCountPercentile = "EvaluateLowSampleCountPercentile"
+            case evaluationPeriods = "EvaluationPeriods"
+            case extendedStatistic = "ExtendedStatistic"
+            case insufficientDataActions = "InsufficientDataActions"
+            case metricName = "MetricName"
+            case namespace = "Namespace"
+            case okActions = "OkActions"
+            case period = "Period"
+            case statistic = "Statistic"
+            case threshold = "Threshold"
+            case thresholdMetricId = "ThresholdMetricId"
+            case treatMissingData = "TreatMissingData"
+            case unit = "Unit"
+        }
+    }
+
+    public struct AwsCloudWatchAlarmDimensionsDetails: AWSEncodableShape & AWSDecodableShape {
+        /// The name of a dimension.
+        public let name: String?
+        /// The value of a dimension.
+        public let value: String?
+
+        public init(name: String? = nil, value: String? = nil) {
+            self.name = name
+            self.value = value
+        }
+
+        public func validate(name: String) throws {
+            try self.validate(self.name, name: "name", parent: name, pattern: "\\S")
+            try self.validate(self.value, name: "value", parent: name, pattern: "\\S")
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case name = "Name"
+            case value = "Value"
         }
     }
 
@@ -3159,25 +3522,31 @@ extension SecurityHub {
         public let keyName: String?
         /// Indicates when the instance was launched. Uses the date-time format specified in RFC 3339 section 5.6, Internet Date/Time Format. The value cannot contain spaces. For example, 2020-03-22T13:22:13.933Z.
         public let launchedAt: String?
+        /// Details about the metadata options for the Amazon EC2 instance.
+        public let metadataOptions: AwsEc2InstanceMetadataOptions?
         /// The identifiers of the network interfaces for the EC2 instance. The details for each network interface are in a corresponding AwsEc2NetworkInterfacesDetails object.
         public let networkInterfaces: [AwsEc2InstanceNetworkInterfacesDetails]?
         /// The identifier of the subnet that the instance was launched in.
         public let subnetId: String?
         /// The instance type of the instance.
         public let type: String?
+        /// The virtualization type of the Amazon Machine Image (AMI) required to launch the instance.
+        public let virtualizationType: String?
         /// The identifier of the VPC that the instance was launched in.
         public let vpcId: String?
 
-        public init(iamInstanceProfileArn: String? = nil, imageId: String? = nil, ipV4Addresses: [String]? = nil, ipV6Addresses: [String]? = nil, keyName: String? = nil, launchedAt: String? = nil, networkInterfaces: [AwsEc2InstanceNetworkInterfacesDetails]? = nil, subnetId: String? = nil, type: String? = nil, vpcId: String? = nil) {
+        public init(iamInstanceProfileArn: String? = nil, imageId: String? = nil, ipV4Addresses: [String]? = nil, ipV6Addresses: [String]? = nil, keyName: String? = nil, launchedAt: String? = nil, metadataOptions: AwsEc2InstanceMetadataOptions? = nil, networkInterfaces: [AwsEc2InstanceNetworkInterfacesDetails]? = nil, subnetId: String? = nil, type: String? = nil, virtualizationType: String? = nil, vpcId: String? = nil) {
             self.iamInstanceProfileArn = iamInstanceProfileArn
             self.imageId = imageId
             self.ipV4Addresses = ipV4Addresses
             self.ipV6Addresses = ipV6Addresses
             self.keyName = keyName
             self.launchedAt = launchedAt
+            self.metadataOptions = metadataOptions
             self.networkInterfaces = networkInterfaces
             self.subnetId = subnetId
             self.type = type
+            self.virtualizationType = virtualizationType
             self.vpcId = vpcId
         }
 
@@ -3192,11 +3561,13 @@ extension SecurityHub {
             }
             try self.validate(self.keyName, name: "keyName", parent: name, pattern: "\\S")
             try self.validate(self.launchedAt, name: "launchedAt", parent: name, pattern: "\\S")
+            try self.metadataOptions?.validate(name: "\(name).metadataOptions")
             try self.networkInterfaces?.forEach {
                 try $0.validate(name: "\(name).networkInterfaces[]")
             }
             try self.validate(self.subnetId, name: "subnetId", parent: name, pattern: "\\S")
             try self.validate(self.type, name: "type", parent: name, pattern: "\\S")
+            try self.validate(self.virtualizationType, name: "virtualizationType", parent: name, pattern: "\\S")
             try self.validate(self.vpcId, name: "vpcId", parent: name, pattern: "\\S")
         }
 
@@ -3207,10 +3578,48 @@ extension SecurityHub {
             case ipV6Addresses = "IpV6Addresses"
             case keyName = "KeyName"
             case launchedAt = "LaunchedAt"
+            case metadataOptions = "MetadataOptions"
             case networkInterfaces = "NetworkInterfaces"
             case subnetId = "SubnetId"
             case type = "Type"
+            case virtualizationType = "VirtualizationType"
             case vpcId = "VpcId"
+        }
+    }
+
+    public struct AwsEc2InstanceMetadataOptions: AWSEncodableShape & AWSDecodableShape {
+        /// Enables or disables the HTTP metadata endpoint on the instance.
+        public let httpEndpoint: String?
+        /// Enables or disables the IPv6 endpoint for the instance metadata service.
+        public let httpProtocolIpv6: String?
+        /// The desired HTTP PUT response hop limit for instance metadata requests.  The larger the number, the further instance metadata requests can travel.
+        public let httpPutResponseHopLimit: Int?
+        /// The state of token usage for your instance metadata requests.
+        public let httpTokens: String?
+        /// Specifies whether to allow access to instance tags from the instance metadata.
+        public let instanceMetadataTags: String?
+
+        public init(httpEndpoint: String? = nil, httpProtocolIpv6: String? = nil, httpPutResponseHopLimit: Int? = nil, httpTokens: String? = nil, instanceMetadataTags: String? = nil) {
+            self.httpEndpoint = httpEndpoint
+            self.httpProtocolIpv6 = httpProtocolIpv6
+            self.httpPutResponseHopLimit = httpPutResponseHopLimit
+            self.httpTokens = httpTokens
+            self.instanceMetadataTags = instanceMetadataTags
+        }
+
+        public func validate(name: String) throws {
+            try self.validate(self.httpEndpoint, name: "httpEndpoint", parent: name, pattern: "\\S")
+            try self.validate(self.httpProtocolIpv6, name: "httpProtocolIpv6", parent: name, pattern: "\\S")
+            try self.validate(self.httpTokens, name: "httpTokens", parent: name, pattern: "\\S")
+            try self.validate(self.instanceMetadataTags, name: "instanceMetadataTags", parent: name, pattern: "\\S")
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case httpEndpoint = "HttpEndpoint"
+            case httpProtocolIpv6 = "HttpProtocolIpv6"
+            case httpPutResponseHopLimit = "HttpPutResponseHopLimit"
+            case httpTokens = "HttpTokens"
+            case instanceMetadataTags = "InstanceMetadataTags"
         }
     }
 
@@ -3781,6 +4190,79 @@ extension SecurityHub {
         }
     }
 
+    public struct AwsEc2TransitGatewayDetails: AWSEncodableShape & AWSDecodableShape {
+        /// A private Autonomous System Number (ASN) for the Amazon side of a BGP session.
+        public let amazonSideAsn: Int?
+        /// The ID of the default association route table.
+        public let associationDefaultRouteTableId: String?
+        /// Turn on or turn off automatic acceptance of attachment requests.
+        public let autoAcceptSharedAttachments: String?
+        /// Turn on or turn off automatic association with the default association route table.
+        public let defaultRouteTableAssociation: String?
+        /// Turn on or turn off automatic propagation of routes to the default propagation route table.
+        public let defaultRouteTablePropagation: String?
+        /// The description of the transit gateway.
+        public let description: String?
+        /// Turn on or turn off DNS support.
+        public let dnsSupport: String?
+        /// The ID of the transit gateway.
+        public let id: String?
+        /// Indicates whether multicast is supported on the transit gateway.
+        public let multicastSupport: String?
+        /// The ID of the default propagation route table.
+        public let propagationDefaultRouteTableId: String?
+        /// The transit gateway Classless Inter-Domain Routing (CIDR) blocks.
+        public let transitGatewayCidrBlocks: [String]?
+        /// Turn on or turn off Equal Cost Multipath Protocol (ECMP) support.
+        public let vpnEcmpSupport: String?
+
+        public init(amazonSideAsn: Int? = nil, associationDefaultRouteTableId: String? = nil, autoAcceptSharedAttachments: String? = nil, defaultRouteTableAssociation: String? = nil, defaultRouteTablePropagation: String? = nil, description: String? = nil, dnsSupport: String? = nil, id: String? = nil, multicastSupport: String? = nil, propagationDefaultRouteTableId: String? = nil, transitGatewayCidrBlocks: [String]? = nil, vpnEcmpSupport: String? = nil) {
+            self.amazonSideAsn = amazonSideAsn
+            self.associationDefaultRouteTableId = associationDefaultRouteTableId
+            self.autoAcceptSharedAttachments = autoAcceptSharedAttachments
+            self.defaultRouteTableAssociation = defaultRouteTableAssociation
+            self.defaultRouteTablePropagation = defaultRouteTablePropagation
+            self.description = description
+            self.dnsSupport = dnsSupport
+            self.id = id
+            self.multicastSupport = multicastSupport
+            self.propagationDefaultRouteTableId = propagationDefaultRouteTableId
+            self.transitGatewayCidrBlocks = transitGatewayCidrBlocks
+            self.vpnEcmpSupport = vpnEcmpSupport
+        }
+
+        public func validate(name: String) throws {
+            try self.validate(self.associationDefaultRouteTableId, name: "associationDefaultRouteTableId", parent: name, pattern: "\\S")
+            try self.validate(self.autoAcceptSharedAttachments, name: "autoAcceptSharedAttachments", parent: name, pattern: "\\S")
+            try self.validate(self.defaultRouteTableAssociation, name: "defaultRouteTableAssociation", parent: name, pattern: "\\S")
+            try self.validate(self.defaultRouteTablePropagation, name: "defaultRouteTablePropagation", parent: name, pattern: "\\S")
+            try self.validate(self.description, name: "description", parent: name, pattern: "\\S")
+            try self.validate(self.dnsSupport, name: "dnsSupport", parent: name, pattern: "\\S")
+            try self.validate(self.id, name: "id", parent: name, pattern: "\\S")
+            try self.validate(self.multicastSupport, name: "multicastSupport", parent: name, pattern: "\\S")
+            try self.validate(self.propagationDefaultRouteTableId, name: "propagationDefaultRouteTableId", parent: name, pattern: "\\S")
+            try self.transitGatewayCidrBlocks?.forEach {
+                try validate($0, name: "transitGatewayCidrBlocks[]", parent: name, pattern: "\\S")
+            }
+            try self.validate(self.vpnEcmpSupport, name: "vpnEcmpSupport", parent: name, pattern: "\\S")
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case amazonSideAsn = "AmazonSideAsn"
+            case associationDefaultRouteTableId = "AssociationDefaultRouteTableId"
+            case autoAcceptSharedAttachments = "AutoAcceptSharedAttachments"
+            case defaultRouteTableAssociation = "DefaultRouteTableAssociation"
+            case defaultRouteTablePropagation = "DefaultRouteTablePropagation"
+            case description = "Description"
+            case dnsSupport = "DnsSupport"
+            case id = "Id"
+            case multicastSupport = "MulticastSupport"
+            case propagationDefaultRouteTableId = "PropagationDefaultRouteTableId"
+            case transitGatewayCidrBlocks = "TransitGatewayCidrBlocks"
+            case vpnEcmpSupport = "VpnEcmpSupport"
+        }
+    }
+
     public struct AwsEc2VolumeAttachment: AWSEncodableShape & AWSDecodableShape {
         /// The datetime when the attachment initiated.
         public let attachTime: String?
@@ -3817,7 +4299,9 @@ extension SecurityHub {
         public let attachments: [AwsEc2VolumeAttachment]?
         /// Indicates when the volume was created. Uses the date-time format specified in RFC 3339 section 5.6, Internet Date/Time Format. The value cannot contain spaces. For example, 2020-03-22T13:22:13.933Z.
         public let createTime: String?
-        /// Whether the volume is encrypted.
+        /// The device name for the volume that is attached to the instance.
+        public let deviceName: String?
+        /// Specifies whether the volume is encrypted.
         public let encrypted: Bool?
         /// The ARN of the KMS key that was used to protect the volume encryption key for the volume.
         public let kmsKeyId: String?
@@ -3827,15 +4311,25 @@ extension SecurityHub {
         public let snapshotId: String?
         /// The volume state.
         public let status: String?
+        /// The ID of the volume.
+        public let volumeId: String?
+        /// Indicates whether the volume was scanned or skipped.
+        public let volumeScanStatus: String?
+        /// The volume type.
+        public let volumeType: String?
 
-        public init(attachments: [AwsEc2VolumeAttachment]? = nil, createTime: String? = nil, encrypted: Bool? = nil, kmsKeyId: String? = nil, size: Int? = nil, snapshotId: String? = nil, status: String? = nil) {
+        public init(attachments: [AwsEc2VolumeAttachment]? = nil, createTime: String? = nil, deviceName: String? = nil, encrypted: Bool? = nil, kmsKeyId: String? = nil, size: Int? = nil, snapshotId: String? = nil, status: String? = nil, volumeId: String? = nil, volumeScanStatus: String? = nil, volumeType: String? = nil) {
             self.attachments = attachments
             self.createTime = createTime
+            self.deviceName = deviceName
             self.encrypted = encrypted
             self.kmsKeyId = kmsKeyId
             self.size = size
             self.snapshotId = snapshotId
             self.status = status
+            self.volumeId = volumeId
+            self.volumeScanStatus = volumeScanStatus
+            self.volumeType = volumeType
         }
 
         public func validate(name: String) throws {
@@ -3843,19 +4337,27 @@ extension SecurityHub {
                 try $0.validate(name: "\(name).attachments[]")
             }
             try self.validate(self.createTime, name: "createTime", parent: name, pattern: "\\S")
+            try self.validate(self.deviceName, name: "deviceName", parent: name, pattern: "\\S")
             try self.validate(self.kmsKeyId, name: "kmsKeyId", parent: name, pattern: "\\S")
             try self.validate(self.snapshotId, name: "snapshotId", parent: name, pattern: "\\S")
             try self.validate(self.status, name: "status", parent: name, pattern: "\\S")
+            try self.validate(self.volumeId, name: "volumeId", parent: name, pattern: "\\S")
+            try self.validate(self.volumeScanStatus, name: "volumeScanStatus", parent: name, pattern: "\\S")
+            try self.validate(self.volumeType, name: "volumeType", parent: name, pattern: "\\S")
         }
 
         private enum CodingKeys: String, CodingKey {
             case attachments = "Attachments"
             case createTime = "CreateTime"
+            case deviceName = "DeviceName"
             case encrypted = "Encrypted"
             case kmsKeyId = "KmsKeyId"
             case size = "Size"
             case snapshotId = "SnapshotId"
             case status = "Status"
+            case volumeId = "VolumeId"
+            case volumeScanStatus = "VolumeScanStatus"
+            case volumeType = "VolumeType"
         }
     }
 
@@ -3984,6 +4486,115 @@ extension SecurityHub {
 
         private enum CodingKeys: String, CodingKey {
             case serviceType = "ServiceType"
+        }
+    }
+
+    public struct AwsEc2VpcPeeringConnectionDetails: AWSEncodableShape & AWSDecodableShape {
+        /// Information about the accepter VPC.
+        public let accepterVpcInfo: AwsEc2VpcPeeringConnectionVpcInfoDetails?
+        /// The time at which an unaccepted VPC peering connection will expire.
+        public let expirationTime: String?
+        /// Information about the requester VPC.
+        public let requesterVpcInfo: AwsEc2VpcPeeringConnectionVpcInfoDetails?
+        /// The status of the VPC peering connection.
+        public let status: AwsEc2VpcPeeringConnectionStatusDetails?
+        /// The ID of the VPC peering connection.
+        public let vpcPeeringConnectionId: String?
+
+        public init(accepterVpcInfo: AwsEc2VpcPeeringConnectionVpcInfoDetails? = nil, expirationTime: String? = nil, requesterVpcInfo: AwsEc2VpcPeeringConnectionVpcInfoDetails? = nil, status: AwsEc2VpcPeeringConnectionStatusDetails? = nil, vpcPeeringConnectionId: String? = nil) {
+            self.accepterVpcInfo = accepterVpcInfo
+            self.expirationTime = expirationTime
+            self.requesterVpcInfo = requesterVpcInfo
+            self.status = status
+            self.vpcPeeringConnectionId = vpcPeeringConnectionId
+        }
+
+        public func validate(name: String) throws {
+            try self.accepterVpcInfo?.validate(name: "\(name).accepterVpcInfo")
+            try self.validate(self.expirationTime, name: "expirationTime", parent: name, pattern: "\\S")
+            try self.requesterVpcInfo?.validate(name: "\(name).requesterVpcInfo")
+            try self.status?.validate(name: "\(name).status")
+            try self.validate(self.vpcPeeringConnectionId, name: "vpcPeeringConnectionId", parent: name, pattern: "\\S")
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case accepterVpcInfo = "AccepterVpcInfo"
+            case expirationTime = "ExpirationTime"
+            case requesterVpcInfo = "RequesterVpcInfo"
+            case status = "Status"
+            case vpcPeeringConnectionId = "VpcPeeringConnectionId"
+        }
+    }
+
+    public struct AwsEc2VpcPeeringConnectionStatusDetails: AWSEncodableShape & AWSDecodableShape {
+        /// The status of the VPC peering connection.
+        public let code: String?
+        /// A message that provides more information about the status, if applicable.
+        public let message: String?
+
+        public init(code: String? = nil, message: String? = nil) {
+            self.code = code
+            self.message = message
+        }
+
+        public func validate(name: String) throws {
+            try self.validate(self.code, name: "code", parent: name, pattern: "\\S")
+            try self.validate(self.message, name: "message", parent: name, pattern: "\\S")
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case code = "Code"
+            case message = "Message"
+        }
+    }
+
+    public struct AwsEc2VpcPeeringConnectionVpcInfoDetails: AWSEncodableShape & AWSDecodableShape {
+        /// The IPv4 CIDR block for the VPC.
+        public let cidrBlock: String?
+        /// Information about the IPv4 CIDR blocks for the VPC.
+        public let cidrBlockSet: [VpcInfoCidrBlockSetDetails]?
+        /// The IPv6 CIDR block for the VPC.
+        public let ipv6CidrBlockSet: [VpcInfoIpv6CidrBlockSetDetails]?
+        /// The ID of the Amazon Web Services account that owns the VPC.
+        public let ownerId: String?
+        /// Information about the VPC peering connection options for the accepter or requester VPC.
+        public let peeringOptions: VpcInfoPeeringOptionsDetails?
+        /// The Amazon Web Services Region in which the VPC is located.
+        public let region: String?
+        /// The ID of the VPC.
+        public let vpcId: String?
+
+        public init(cidrBlock: String? = nil, cidrBlockSet: [VpcInfoCidrBlockSetDetails]? = nil, ipv6CidrBlockSet: [VpcInfoIpv6CidrBlockSetDetails]? = nil, ownerId: String? = nil, peeringOptions: VpcInfoPeeringOptionsDetails? = nil, region: String? = nil, vpcId: String? = nil) {
+            self.cidrBlock = cidrBlock
+            self.cidrBlockSet = cidrBlockSet
+            self.ipv6CidrBlockSet = ipv6CidrBlockSet
+            self.ownerId = ownerId
+            self.peeringOptions = peeringOptions
+            self.region = region
+            self.vpcId = vpcId
+        }
+
+        public func validate(name: String) throws {
+            try self.validate(self.cidrBlock, name: "cidrBlock", parent: name, pattern: "\\S")
+            try self.cidrBlockSet?.forEach {
+                try $0.validate(name: "\(name).cidrBlockSet[]")
+            }
+            try self.ipv6CidrBlockSet?.forEach {
+                try $0.validate(name: "\(name).ipv6CidrBlockSet[]")
+            }
+            try self.validate(self.ownerId, name: "ownerId", parent: name, pattern: "\\S")
+            try self.validate(self.region, name: "region", parent: name, pattern: "\\S")
+            try self.validate(self.vpcId, name: "vpcId", parent: name, pattern: "\\S")
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case cidrBlock = "CidrBlock"
+            case cidrBlockSet = "CidrBlockSet"
+            case ipv6CidrBlockSet = "Ipv6CidrBlockSet"
+            case ownerId = "OwnerId"
+            case peeringOptions = "PeeringOptions"
+            case region = "Region"
+            case vpcId = "VpcId"
         }
     }
 
@@ -4485,26 +5096,46 @@ extension SecurityHub {
     }
 
     public struct AwsEcsClusterDetails: AWSEncodableShape & AWSDecodableShape {
+        /// The number of services that are running on the cluster in an ACTIVE state. You can view these services with the Amazon ECS  ListServices API operation.
+        public let activeServicesCount: Int?
         /// The short name of one or more capacity providers to associate with the cluster.
         public let capacityProviders: [String]?
+        /// The Amazon Resource Name (ARN) that identifies the cluster.
+        public let clusterArn: String?
+        /// A name that you use to identify your cluster.
+        public let clusterName: String?
         /// The setting to use to create the cluster. Specifically used to configure whether to enable CloudWatch Container Insights for the cluster.
         public let clusterSettings: [AwsEcsClusterClusterSettingsDetails]?
         /// The run command configuration for the cluster.
         public let configuration: AwsEcsClusterConfigurationDetails?
         /// The default capacity provider strategy for the cluster. The default capacity provider strategy is used when services or tasks are run without a specified launch type or capacity provider strategy.
         public let defaultCapacityProviderStrategy: [AwsEcsClusterDefaultCapacityProviderStrategyDetails]?
+        /// The number of container instances registered into the cluster. This includes container instances in both ACTIVE and DRAINING status.
+        public let registeredContainerInstancesCount: Int?
+        /// The number of tasks in the cluster that are in the RUNNING state.
+        public let runningTasksCount: Int?
+        /// The status of the cluster.
+        public let status: String?
 
-        public init(capacityProviders: [String]? = nil, clusterSettings: [AwsEcsClusterClusterSettingsDetails]? = nil, configuration: AwsEcsClusterConfigurationDetails? = nil, defaultCapacityProviderStrategy: [AwsEcsClusterDefaultCapacityProviderStrategyDetails]? = nil) {
+        public init(activeServicesCount: Int? = nil, capacityProviders: [String]? = nil, clusterArn: String? = nil, clusterName: String? = nil, clusterSettings: [AwsEcsClusterClusterSettingsDetails]? = nil, configuration: AwsEcsClusterConfigurationDetails? = nil, defaultCapacityProviderStrategy: [AwsEcsClusterDefaultCapacityProviderStrategyDetails]? = nil, registeredContainerInstancesCount: Int? = nil, runningTasksCount: Int? = nil, status: String? = nil) {
+            self.activeServicesCount = activeServicesCount
             self.capacityProviders = capacityProviders
+            self.clusterArn = clusterArn
+            self.clusterName = clusterName
             self.clusterSettings = clusterSettings
             self.configuration = configuration
             self.defaultCapacityProviderStrategy = defaultCapacityProviderStrategy
+            self.registeredContainerInstancesCount = registeredContainerInstancesCount
+            self.runningTasksCount = runningTasksCount
+            self.status = status
         }
 
         public func validate(name: String) throws {
             try self.capacityProviders?.forEach {
                 try validate($0, name: "capacityProviders[]", parent: name, pattern: "\\S")
             }
+            try self.validate(self.clusterArn, name: "clusterArn", parent: name, pattern: "\\S")
+            try self.validate(self.clusterName, name: "clusterName", parent: name, pattern: "\\S")
             try self.clusterSettings?.forEach {
                 try $0.validate(name: "\(name).clusterSettings[]")
             }
@@ -4512,13 +5143,54 @@ extension SecurityHub {
             try self.defaultCapacityProviderStrategy?.forEach {
                 try $0.validate(name: "\(name).defaultCapacityProviderStrategy[]")
             }
+            try self.validate(self.status, name: "status", parent: name, pattern: "\\S")
         }
 
         private enum CodingKeys: String, CodingKey {
+            case activeServicesCount = "ActiveServicesCount"
             case capacityProviders = "CapacityProviders"
+            case clusterArn = "ClusterArn"
+            case clusterName = "ClusterName"
             case clusterSettings = "ClusterSettings"
             case configuration = "Configuration"
             case defaultCapacityProviderStrategy = "DefaultCapacityProviderStrategy"
+            case registeredContainerInstancesCount = "RegisteredContainerInstancesCount"
+            case runningTasksCount = "RunningTasksCount"
+            case status = "Status"
+        }
+    }
+
+    public struct AwsEcsContainerDetails: AWSEncodableShape & AWSDecodableShape {
+        /// The image used for the container.
+        public let image: String?
+        /// The mount points for data volumes in your container.
+        public let mountPoints: [AwsMountPoint]?
+        /// The name of the container.
+        public let name: String?
+        /// When this parameter is true, the container is given elevated privileges on the host container instance
+        /// (similar to the root user).
+        public let privileged: Bool?
+
+        public init(image: String? = nil, mountPoints: [AwsMountPoint]? = nil, name: String? = nil, privileged: Bool? = nil) {
+            self.image = image
+            self.mountPoints = mountPoints
+            self.name = name
+            self.privileged = privileged
+        }
+
+        public func validate(name: String) throws {
+            try self.validate(self.image, name: "image", parent: name, pattern: "\\S")
+            try self.mountPoints?.forEach {
+                try $0.validate(name: "\(name).mountPoints[]")
+            }
+            try self.validate(self.name, name: "name", parent: name, pattern: "\\S")
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case image = "Image"
+            case mountPoints = "MountPoints"
+            case name = "Name"
+            case privileged = "Privileged"
         }
     }
 
@@ -5960,6 +6632,235 @@ extension SecurityHub {
 
         private enum CodingKeys: String, CodingKey {
             case sourcePath = "SourcePath"
+        }
+    }
+
+    public struct AwsEcsTaskDetails: AWSEncodableShape & AWSDecodableShape {
+        /// The Amazon Resource Name (ARN) of the cluster that hosts the task.
+        public let clusterArn: String?
+        /// The containers that are associated with the task.
+        public let containers: [AwsEcsContainerDetails]?
+        /// The Unix timestamp for the time when the task was created. More specifically, it's for the time when
+        /// the task entered the PENDING state.
+        public let createdAt: String?
+        /// The name of the task group that's associated with the task.
+        public let group: String?
+        /// The Unix timestamp for the time when the task started. More specifically, it's for the time when the  task transitioned from the PENDING state to the RUNNING state.
+        public let startedAt: String?
+        /// The tag specified when a task is started. If an Amazon ECS service started the task, the  startedBy parameter contains the deployment ID of that service.
+        public let startedBy: String?
+        /// The ARN of the task definition that creates the task.
+        public let taskDefinitionArn: String?
+        /// The version counter for the task.
+        public let version: String?
+        /// Details about the data volume that is used in a task definition.
+        public let volumes: [AwsEcsTaskVolumeDetails]?
+
+        public init(clusterArn: String? = nil, containers: [AwsEcsContainerDetails]? = nil, createdAt: String? = nil, group: String? = nil, startedAt: String? = nil, startedBy: String? = nil, taskDefinitionArn: String? = nil, version: String? = nil, volumes: [AwsEcsTaskVolumeDetails]? = nil) {
+            self.clusterArn = clusterArn
+            self.containers = containers
+            self.createdAt = createdAt
+            self.group = group
+            self.startedAt = startedAt
+            self.startedBy = startedBy
+            self.taskDefinitionArn = taskDefinitionArn
+            self.version = version
+            self.volumes = volumes
+        }
+
+        public func validate(name: String) throws {
+            try self.validate(self.clusterArn, name: "clusterArn", parent: name, pattern: "\\S")
+            try self.containers?.forEach {
+                try $0.validate(name: "\(name).containers[]")
+            }
+            try self.validate(self.createdAt, name: "createdAt", parent: name, pattern: "\\S")
+            try self.validate(self.group, name: "group", parent: name, pattern: "\\S")
+            try self.validate(self.startedAt, name: "startedAt", parent: name, pattern: "\\S")
+            try self.validate(self.startedBy, name: "startedBy", parent: name, pattern: "\\S")
+            try self.validate(self.taskDefinitionArn, name: "taskDefinitionArn", parent: name, pattern: "\\S")
+            try self.validate(self.version, name: "version", parent: name, pattern: "\\S")
+            try self.volumes?.forEach {
+                try $0.validate(name: "\(name).volumes[]")
+            }
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case clusterArn = "ClusterArn"
+            case containers = "Containers"
+            case createdAt = "CreatedAt"
+            case group = "Group"
+            case startedAt = "StartedAt"
+            case startedBy = "StartedBy"
+            case taskDefinitionArn = "TaskDefinitionArn"
+            case version = "Version"
+            case volumes = "Volumes"
+        }
+    }
+
+    public struct AwsEcsTaskVolumeDetails: AWSEncodableShape & AWSDecodableShape {
+        /// This parameter is specified when you use bind mount host volumes. The contents of the host parameter
+        /// determine whether your bind mount host volume persists on the host container instance and where it's stored.
+        public let host: AwsEcsTaskVolumeHostDetails?
+        /// The name of the volume. Up to 255 letters (uppercase and lowercase), numbers, underscores, and
+        /// hyphens are allowed. This name is referenced in the sourceVolume parameter of container definition mountPoints.
+        public let name: String?
+
+        public init(host: AwsEcsTaskVolumeHostDetails? = nil, name: String? = nil) {
+            self.host = host
+            self.name = name
+        }
+
+        public func validate(name: String) throws {
+            try self.host?.validate(name: "\(name).host")
+            try self.validate(self.name, name: "name", parent: name, pattern: "\\S")
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case host = "Host"
+            case name = "Name"
+        }
+    }
+
+    public struct AwsEcsTaskVolumeHostDetails: AWSEncodableShape & AWSDecodableShape {
+        /// When the host parameter is used, specify a sourcePath to declare the path
+        /// on the host container instance that's presented to the container.
+        public let sourcePath: String?
+
+        public init(sourcePath: String? = nil) {
+            self.sourcePath = sourcePath
+        }
+
+        public func validate(name: String) throws {
+            try self.validate(self.sourcePath, name: "sourcePath", parent: name, pattern: "\\S")
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case sourcePath = "SourcePath"
+        }
+    }
+
+    public struct AwsEfsAccessPointDetails: AWSEncodableShape & AWSDecodableShape {
+        /// The ID of the Amazon EFS access point.
+        public let accessPointId: String?
+        /// The Amazon Resource Name (ARN) of the Amazon EFS access point.
+        public let arn: String?
+        /// The opaque string specified in the request to ensure idempotent creation.
+        public let clientToken: String?
+        /// The ID of the Amazon EFS file system that the access point applies to.
+        public let fileSystemId: String?
+        /// The full POSIX identity, including the user ID, group ID, and secondary group IDs on the access point,
+        /// that is used for all file operations by NFS clients using the access point.
+        public let posixUser: AwsEfsAccessPointPosixUserDetails?
+        /// The directory on the Amazon EFS file system that the access point exposes as the root
+        /// directory to NFS clients using the access point.
+        public let rootDirectory: AwsEfsAccessPointRootDirectoryDetails?
+
+        public init(accessPointId: String? = nil, arn: String? = nil, clientToken: String? = nil, fileSystemId: String? = nil, posixUser: AwsEfsAccessPointPosixUserDetails? = nil, rootDirectory: AwsEfsAccessPointRootDirectoryDetails? = nil) {
+            self.accessPointId = accessPointId
+            self.arn = arn
+            self.clientToken = clientToken
+            self.fileSystemId = fileSystemId
+            self.posixUser = posixUser
+            self.rootDirectory = rootDirectory
+        }
+
+        public func validate(name: String) throws {
+            try self.validate(self.accessPointId, name: "accessPointId", parent: name, pattern: "\\S")
+            try self.validate(self.arn, name: "arn", parent: name, pattern: "\\S")
+            try self.validate(self.clientToken, name: "clientToken", parent: name, pattern: "\\S")
+            try self.validate(self.fileSystemId, name: "fileSystemId", parent: name, pattern: "\\S")
+            try self.posixUser?.validate(name: "\(name).posixUser")
+            try self.rootDirectory?.validate(name: "\(name).rootDirectory")
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case accessPointId = "AccessPointId"
+            case arn = "Arn"
+            case clientToken = "ClientToken"
+            case fileSystemId = "FileSystemId"
+            case posixUser = "PosixUser"
+            case rootDirectory = "RootDirectory"
+        }
+    }
+
+    public struct AwsEfsAccessPointPosixUserDetails: AWSEncodableShape & AWSDecodableShape {
+        /// The POSIX group ID used for all file system operations using this access point.
+        public let gid: String?
+        /// Secondary POSIX group IDs used for all file system operations using this access point.
+        public let secondaryGids: [String]?
+        /// The POSIX user ID used for all file system operations using this access point.
+        public let uid: String?
+
+        public init(gid: String? = nil, secondaryGids: [String]? = nil, uid: String? = nil) {
+            self.gid = gid
+            self.secondaryGids = secondaryGids
+            self.uid = uid
+        }
+
+        public func validate(name: String) throws {
+            try self.validate(self.gid, name: "gid", parent: name, pattern: "\\S")
+            try self.secondaryGids?.forEach {
+                try validate($0, name: "secondaryGids[]", parent: name, pattern: "\\S")
+            }
+            try self.validate(self.uid, name: "uid", parent: name, pattern: "\\S")
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case gid = "Gid"
+            case secondaryGids = "SecondaryGids"
+            case uid = "Uid"
+        }
+    }
+
+    public struct AwsEfsAccessPointRootDirectoryCreationInfoDetails: AWSEncodableShape & AWSDecodableShape {
+        /// Specifies the POSIX group ID to apply to the root directory.
+        public let ownerGid: String?
+        /// Specifies the POSIX user ID to apply to the root directory.
+        public let ownerUid: String?
+        /// Specifies the POSIX permissions to apply to the root directory, in the format of an octal number
+        /// representing the file's mode bits.
+        public let permissions: String?
+
+        public init(ownerGid: String? = nil, ownerUid: String? = nil, permissions: String? = nil) {
+            self.ownerGid = ownerGid
+            self.ownerUid = ownerUid
+            self.permissions = permissions
+        }
+
+        public func validate(name: String) throws {
+            try self.validate(self.ownerGid, name: "ownerGid", parent: name, pattern: "\\S")
+            try self.validate(self.ownerUid, name: "ownerUid", parent: name, pattern: "\\S")
+            try self.validate(self.permissions, name: "permissions", parent: name, pattern: "\\S")
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case ownerGid = "OwnerGid"
+            case ownerUid = "OwnerUid"
+            case permissions = "Permissions"
+        }
+    }
+
+    public struct AwsEfsAccessPointRootDirectoryDetails: AWSEncodableShape & AWSDecodableShape {
+        /// Specifies the POSIX IDs and permissions to apply to the access point's root directory.
+        public let creationInfo: AwsEfsAccessPointRootDirectoryCreationInfoDetails?
+        /// Specifies the path on the Amazon EFS file system to expose as the root directory to NFS clients
+        /// using the access point to access the EFS file system. A path can have up to four subdirectories. If the specified
+        /// path does not exist, you are required to provide CreationInfo.
+        public let path: String?
+
+        public init(creationInfo: AwsEfsAccessPointRootDirectoryCreationInfoDetails? = nil, path: String? = nil) {
+            self.creationInfo = creationInfo
+            self.path = path
+        }
+
+        public func validate(name: String) throws {
+            try self.creationInfo?.validate(name: "\(name).creationInfo")
+            try self.validate(self.path, name: "path", parent: name, pattern: "\\S")
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case creationInfo = "CreationInfo"
+            case path = "Path"
         }
     }
 
@@ -7745,12 +8646,71 @@ extension SecurityHub {
         }
     }
 
+    public struct AwsKinesisStreamDetails: AWSEncodableShape & AWSDecodableShape {
+        /// The Amazon Resource Name (ARN) of the Kinesis data stream.
+        public let arn: String?
+        /// The name of the Kinesis stream. If you don't specify a name, CloudFront generates a unique
+        /// physical ID and uses that ID for the stream name.
+        public let name: String?
+        /// The number of hours for the data records that are stored in shards to remain accessible.
+        public let retentionPeriodHours: Int?
+        /// The number of shards that the stream uses.
+        public let shardCount: Int?
+        /// When specified, enables or updates server-side encryption using an KMS key for a specified stream.
+        /// Removing this property from your stack template and updating your stack disables encryption.
+        public let streamEncryption: AwsKinesisStreamStreamEncryptionDetails?
+
+        public init(arn: String? = nil, name: String? = nil, retentionPeriodHours: Int? = nil, shardCount: Int? = nil, streamEncryption: AwsKinesisStreamStreamEncryptionDetails? = nil) {
+            self.arn = arn
+            self.name = name
+            self.retentionPeriodHours = retentionPeriodHours
+            self.shardCount = shardCount
+            self.streamEncryption = streamEncryption
+        }
+
+        public func validate(name: String) throws {
+            try self.validate(self.arn, name: "arn", parent: name, pattern: "\\S")
+            try self.validate(self.name, name: "name", parent: name, pattern: "\\S")
+            try self.streamEncryption?.validate(name: "\(name).streamEncryption")
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case arn = "Arn"
+            case name = "Name"
+            case retentionPeriodHours = "RetentionPeriodHours"
+            case shardCount = "ShardCount"
+            case streamEncryption = "StreamEncryption"
+        }
+    }
+
+    public struct AwsKinesisStreamStreamEncryptionDetails: AWSEncodableShape & AWSDecodableShape {
+        /// The encryption type to use.
+        public let encryptionType: String?
+        /// The globally unique identifier for the customer-managed KMS key to use for encryption.
+        public let keyId: String?
+
+        public init(encryptionType: String? = nil, keyId: String? = nil) {
+            self.encryptionType = encryptionType
+            self.keyId = keyId
+        }
+
+        public func validate(name: String) throws {
+            try self.validate(self.encryptionType, name: "encryptionType", parent: name, pattern: "\\S")
+            try self.validate(self.keyId, name: "keyId", parent: name, pattern: "\\S")
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case encryptionType = "EncryptionType"
+            case keyId = "KeyId"
+        }
+    }
+
     public struct AwsKmsKeyDetails: AWSEncodableShape & AWSDecodableShape {
         /// The twelve-digit account ID of the Amazon Web Services account that owns the KMS key.
         public let awsAccountId: String?
         /// Indicates when the KMS key was created. Uses the date-time format specified in RFC 3339 section 5.6, Internet Date/Time Format. The value cannot contain spaces. For example, 2020-03-22T13:22:13.933Z.
         public let creationDate: Double?
-        /// A description of the key.
+        /// A description of the KMS key.
         public let description: String?
         /// The globally unique identifier for the KMS key.
         public let keyId: String?
@@ -8090,6 +9050,29 @@ extension SecurityHub {
         }
     }
 
+    public struct AwsMountPoint: AWSEncodableShape & AWSDecodableShape {
+        /// The path on the container to mount the host volume at.
+        public let containerPath: String?
+        /// The name of the volume to mount. Must be a volume name referenced in the name parameter
+        /// of task definition volume.
+        public let sourceVolume: String?
+
+        public init(containerPath: String? = nil, sourceVolume: String? = nil) {
+            self.containerPath = containerPath
+            self.sourceVolume = sourceVolume
+        }
+
+        public func validate(name: String) throws {
+            try self.validate(self.containerPath, name: "containerPath", parent: name, pattern: "\\S")
+            try self.validate(self.sourceVolume, name: "sourceVolume", parent: name, pattern: "\\S")
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case containerPath = "ContainerPath"
+            case sourceVolume = "SourceVolume"
+        }
+    }
+
     public struct AwsNetworkFirewallFirewallDetails: AWSEncodableShape & AWSDecodableShape {
         /// Whether the firewall is protected from deletion. If set to true, then the firewall cannot be deleted.
         public let deleteProtection: Bool?
@@ -8251,6 +9234,31 @@ extension SecurityHub {
         }
     }
 
+    public struct AwsOpenSearchServiceDomainAdvancedSecurityOptionsDetails: AWSEncodableShape & AWSDecodableShape {
+        /// Enables fine-grained access control.
+        public let enabled: Bool?
+        /// Enables the internal user database.
+        public let internalUserDatabaseEnabled: Bool?
+        /// Specifies information about the master user of the domain.
+        public let masterUserOptions: AwsOpenSearchServiceDomainMasterUserOptionsDetails?
+
+        public init(enabled: Bool? = nil, internalUserDatabaseEnabled: Bool? = nil, masterUserOptions: AwsOpenSearchServiceDomainMasterUserOptionsDetails? = nil) {
+            self.enabled = enabled
+            self.internalUserDatabaseEnabled = internalUserDatabaseEnabled
+            self.masterUserOptions = masterUserOptions
+        }
+
+        public func validate(name: String) throws {
+            try self.masterUserOptions?.validate(name: "\(name).masterUserOptions")
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case enabled = "Enabled"
+            case internalUserDatabaseEnabled = "InternalUserDatabaseEnabled"
+            case masterUserOptions = "MasterUserOptions"
+        }
+    }
+
     public struct AwsOpenSearchServiceDomainClusterConfigDetails: AWSEncodableShape & AWSDecodableShape {
         /// The number of instances to use for the master node. If this attribute is specified, then DedicatedMasterEnabled must be true.
         public let dedicatedMasterCount: Int?
@@ -8322,6 +9330,8 @@ extension SecurityHub {
     public struct AwsOpenSearchServiceDomainDetails: AWSEncodableShape & AWSDecodableShape {
         /// IAM policy document that specifies the access policies for the OpenSearch Service domain.
         public let accessPolicies: String?
+        /// Specifies options for fine-grained access control.
+        public let advancedSecurityOptions: AwsOpenSearchServiceDomainAdvancedSecurityOptionsDetails?
         /// The ARN of the OpenSearch Service domain.
         public let arn: String?
         /// Details about the configuration of an OpenSearch cluster.
@@ -8349,8 +9359,9 @@ extension SecurityHub {
         /// Information that OpenSearch Service derives based on VPCOptions for the domain.
         public let vpcOptions: AwsOpenSearchServiceDomainVpcOptionsDetails?
 
-        public init(accessPolicies: String? = nil, arn: String? = nil, clusterConfig: AwsOpenSearchServiceDomainClusterConfigDetails? = nil, domainEndpoint: String? = nil, domainEndpointOptions: AwsOpenSearchServiceDomainDomainEndpointOptionsDetails? = nil, domainEndpoints: [String: String]? = nil, domainName: String? = nil, encryptionAtRestOptions: AwsOpenSearchServiceDomainEncryptionAtRestOptionsDetails? = nil, engineVersion: String? = nil, id: String? = nil, logPublishingOptions: AwsOpenSearchServiceDomainLogPublishingOptionsDetails? = nil, nodeToNodeEncryptionOptions: AwsOpenSearchServiceDomainNodeToNodeEncryptionOptionsDetails? = nil, serviceSoftwareOptions: AwsOpenSearchServiceDomainServiceSoftwareOptionsDetails? = nil, vpcOptions: AwsOpenSearchServiceDomainVpcOptionsDetails? = nil) {
+        public init(accessPolicies: String? = nil, advancedSecurityOptions: AwsOpenSearchServiceDomainAdvancedSecurityOptionsDetails? = nil, arn: String? = nil, clusterConfig: AwsOpenSearchServiceDomainClusterConfigDetails? = nil, domainEndpoint: String? = nil, domainEndpointOptions: AwsOpenSearchServiceDomainDomainEndpointOptionsDetails? = nil, domainEndpoints: [String: String]? = nil, domainName: String? = nil, encryptionAtRestOptions: AwsOpenSearchServiceDomainEncryptionAtRestOptionsDetails? = nil, engineVersion: String? = nil, id: String? = nil, logPublishingOptions: AwsOpenSearchServiceDomainLogPublishingOptionsDetails? = nil, nodeToNodeEncryptionOptions: AwsOpenSearchServiceDomainNodeToNodeEncryptionOptionsDetails? = nil, serviceSoftwareOptions: AwsOpenSearchServiceDomainServiceSoftwareOptionsDetails? = nil, vpcOptions: AwsOpenSearchServiceDomainVpcOptionsDetails? = nil) {
             self.accessPolicies = accessPolicies
+            self.advancedSecurityOptions = advancedSecurityOptions
             self.arn = arn
             self.clusterConfig = clusterConfig
             self.domainEndpoint = domainEndpoint
@@ -8368,6 +9379,7 @@ extension SecurityHub {
 
         public func validate(name: String) throws {
             try self.validate(self.accessPolicies, name: "accessPolicies", parent: name, pattern: "\\S")
+            try self.advancedSecurityOptions?.validate(name: "\(name).advancedSecurityOptions")
             try self.validate(self.arn, name: "arn", parent: name, pattern: "\\S")
             try self.clusterConfig?.validate(name: "\(name).clusterConfig")
             try self.validate(self.domainEndpoint, name: "domainEndpoint", parent: name, pattern: "\\S")
@@ -8387,6 +9399,7 @@ extension SecurityHub {
 
         private enum CodingKeys: String, CodingKey {
             case accessPolicies = "AccessPolicies"
+            case advancedSecurityOptions = "AdvancedSecurityOptions"
             case arn = "Arn"
             case clusterConfig = "ClusterConfig"
             case domainEndpoint = "DomainEndpoint"
@@ -8504,6 +9517,33 @@ extension SecurityHub {
             case auditLogs = "AuditLogs"
             case indexSlowLogs = "IndexSlowLogs"
             case searchSlowLogs = "SearchSlowLogs"
+        }
+    }
+
+    public struct AwsOpenSearchServiceDomainMasterUserOptionsDetails: AWSEncodableShape & AWSDecodableShape {
+        /// The Amazon Resource Name (ARN) for the master user.
+        public let masterUserArn: String?
+        /// The username for the master user.
+        public let masterUserName: String?
+        /// The password for the master user.
+        public let masterUserPassword: String?
+
+        public init(masterUserArn: String? = nil, masterUserName: String? = nil, masterUserPassword: String? = nil) {
+            self.masterUserArn = masterUserArn
+            self.masterUserName = masterUserName
+            self.masterUserPassword = masterUserPassword
+        }
+
+        public func validate(name: String) throws {
+            try self.validate(self.masterUserArn, name: "masterUserArn", parent: name, pattern: "\\S")
+            try self.validate(self.masterUserName, name: "masterUserName", parent: name, pattern: "\\S")
+            try self.validate(self.masterUserPassword, name: "masterUserPassword", parent: name, pattern: "\\S")
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case masterUserArn = "MasterUserArn"
+            case masterUserName = "MasterUserName"
+            case masterUserPassword = "MasterUserPassword"
         }
     }
 
@@ -11547,6 +12587,8 @@ extension SecurityHub {
         public let sourceUrl: String?
         /// Threat intelligence details related to a finding.
         public let threatIntelIndicators: [ThreatIntelIndicator]?
+        /// Details about the threat detected in a security finding and the file paths that were affected by the threat.
+        public let threats: [Threat]?
         /// A finding's title.  In this release, Title is a required property.
         public let title: String
         /// One or more finding types in the format of namespace/category/classifier that classify a finding. Valid namespace values are: Software and Configuration Checks | TTPs | Effects | Unusual Behaviors | Sensitive Data Identifications
@@ -11564,7 +12606,7 @@ extension SecurityHub {
         /// The workflow state of a finding.
         public let workflowState: WorkflowState?
 
-        public init(action: Action? = nil, awsAccountId: String, companyName: String? = nil, compliance: Compliance? = nil, confidence: Int? = nil, createdAt: String, criticality: Int? = nil, description: String, findingProviderFields: FindingProviderFields? = nil, firstObservedAt: String? = nil, generatorId: String, id: String, lastObservedAt: String? = nil, malware: [Malware]? = nil, network: Network? = nil, networkPath: [NetworkPathComponent]? = nil, note: Note? = nil, patchSummary: PatchSummary? = nil, process: ProcessDetails? = nil, productArn: String, productFields: [String: String]? = nil, productName: String? = nil, recordState: RecordState? = nil, region: String? = nil, relatedFindings: [RelatedFinding]? = nil, remediation: Remediation? = nil, resources: [Resource], sample: Bool? = nil, schemaVersion: String, severity: Severity? = nil, sourceUrl: String? = nil, threatIntelIndicators: [ThreatIntelIndicator]? = nil, title: String, types: [String]? = nil, updatedAt: String, userDefinedFields: [String: String]? = nil, verificationState: VerificationState? = nil, vulnerabilities: [Vulnerability]? = nil, workflow: Workflow? = nil, workflowState: WorkflowState? = nil) {
+        public init(action: Action? = nil, awsAccountId: String, companyName: String? = nil, compliance: Compliance? = nil, confidence: Int? = nil, createdAt: String, criticality: Int? = nil, description: String, findingProviderFields: FindingProviderFields? = nil, firstObservedAt: String? = nil, generatorId: String, id: String, lastObservedAt: String? = nil, malware: [Malware]? = nil, network: Network? = nil, networkPath: [NetworkPathComponent]? = nil, note: Note? = nil, patchSummary: PatchSummary? = nil, process: ProcessDetails? = nil, productArn: String, productFields: [String: String]? = nil, productName: String? = nil, recordState: RecordState? = nil, region: String? = nil, relatedFindings: [RelatedFinding]? = nil, remediation: Remediation? = nil, resources: [Resource], sample: Bool? = nil, schemaVersion: String, severity: Severity? = nil, sourceUrl: String? = nil, threatIntelIndicators: [ThreatIntelIndicator]? = nil, threats: [Threat]? = nil, title: String, types: [String]? = nil, updatedAt: String, userDefinedFields: [String: String]? = nil, verificationState: VerificationState? = nil, vulnerabilities: [Vulnerability]? = nil, workflow: Workflow? = nil, workflowState: WorkflowState? = nil) {
             self.action = action
             self.awsAccountId = awsAccountId
             self.companyName = companyName
@@ -11597,6 +12639,7 @@ extension SecurityHub {
             self.severity = severity
             self.sourceUrl = sourceUrl
             self.threatIntelIndicators = threatIntelIndicators
+            self.threats = threats
             self.title = title
             self.types = types
             self.updatedAt = updatedAt
@@ -11649,6 +12692,9 @@ extension SecurityHub {
             try self.threatIntelIndicators?.forEach {
                 try $0.validate(name: "\(name).threatIntelIndicators[]")
             }
+            try self.threats?.forEach {
+                try $0.validate(name: "\(name).threats[]")
+            }
             try self.validate(self.title, name: "title", parent: name, pattern: "\\S")
             try self.types?.forEach {
                 try validate($0, name: "types[]", parent: name, pattern: "\\S")
@@ -11696,6 +12742,7 @@ extension SecurityHub {
             case severity = "Severity"
             case sourceUrl = "SourceUrl"
             case threatIntelIndicators = "ThreatIntelIndicators"
+            case threats = "Threats"
             case title = "Title"
             case types = "Types"
             case updatedAt = "UpdatedAt"
@@ -12473,25 +13520,53 @@ extension SecurityHub {
     }
 
     public struct AwsSnsTopicDetails: AWSEncodableShape & AWSDecodableShape {
+        /// Indicates failed message delivery status for an Amazon SNS topic that is subscribed to a platform application endpoint.
+        public let applicationSuccessFeedbackRoleArn: String?
+        /// Indicates failed message delivery status for an Amazon SNS topic that is subscribed to an Amazon Kinesis Data Firehose endpoint.
+        public let firehoseFailureFeedbackRoleArn: String?
+        /// Indicates successful message delivery status for an Amazon SNS topic that is subscribed to an Amazon Kinesis Data Firehose endpoint.
+        public let firehoseSuccessFeedbackRoleArn: String?
+        /// Indicates failed message delivery status for an Amazon SNS topic that is subscribed to an HTTP endpoint.
+        public let httpFailureFeedbackRoleArn: String?
+        /// Indicates successful message delivery status for an Amazon SNS topic that is subscribed to an HTTP endpoint.
+        public let httpSuccessFeedbackRoleArn: String?
         /// The ID of an Amazon Web Services managed key for Amazon SNS or a customer managed key.
         public let kmsMasterKeyId: String?
         /// The subscription's owner.
         public let owner: String?
-        /// Subscription is an embedded property that describes the subscription endpoints of an SNS topic.
+        /// Indicates failed message delivery status for an Amazon SNS topic that is subscribed to an Amazon SQS endpoint.
+        public let sqsFailureFeedbackRoleArn: String?
+        /// Indicates successful message delivery status for an Amazon SNS topic that is subscribed to an Amazon SQS endpoint.
+        public let sqsSuccessFeedbackRoleArn: String?
+        /// Subscription is an embedded property that describes the subscription endpoints of an Amazon SNS topic.
         public let subscription: [AwsSnsTopicSubscription]?
-        /// The name of the topic.
+        /// The name of the Amazon SNS topic.
         public let topicName: String?
 
-        public init(kmsMasterKeyId: String? = nil, owner: String? = nil, subscription: [AwsSnsTopicSubscription]? = nil, topicName: String? = nil) {
+        public init(applicationSuccessFeedbackRoleArn: String? = nil, firehoseFailureFeedbackRoleArn: String? = nil, firehoseSuccessFeedbackRoleArn: String? = nil, httpFailureFeedbackRoleArn: String? = nil, httpSuccessFeedbackRoleArn: String? = nil, kmsMasterKeyId: String? = nil, owner: String? = nil, sqsFailureFeedbackRoleArn: String? = nil, sqsSuccessFeedbackRoleArn: String? = nil, subscription: [AwsSnsTopicSubscription]? = nil, topicName: String? = nil) {
+            self.applicationSuccessFeedbackRoleArn = applicationSuccessFeedbackRoleArn
+            self.firehoseFailureFeedbackRoleArn = firehoseFailureFeedbackRoleArn
+            self.firehoseSuccessFeedbackRoleArn = firehoseSuccessFeedbackRoleArn
+            self.httpFailureFeedbackRoleArn = httpFailureFeedbackRoleArn
+            self.httpSuccessFeedbackRoleArn = httpSuccessFeedbackRoleArn
             self.kmsMasterKeyId = kmsMasterKeyId
             self.owner = owner
+            self.sqsFailureFeedbackRoleArn = sqsFailureFeedbackRoleArn
+            self.sqsSuccessFeedbackRoleArn = sqsSuccessFeedbackRoleArn
             self.subscription = subscription
             self.topicName = topicName
         }
 
         public func validate(name: String) throws {
+            try self.validate(self.applicationSuccessFeedbackRoleArn, name: "applicationSuccessFeedbackRoleArn", parent: name, pattern: "\\S")
+            try self.validate(self.firehoseFailureFeedbackRoleArn, name: "firehoseFailureFeedbackRoleArn", parent: name, pattern: "\\S")
+            try self.validate(self.firehoseSuccessFeedbackRoleArn, name: "firehoseSuccessFeedbackRoleArn", parent: name, pattern: "\\S")
+            try self.validate(self.httpFailureFeedbackRoleArn, name: "httpFailureFeedbackRoleArn", parent: name, pattern: "\\S")
+            try self.validate(self.httpSuccessFeedbackRoleArn, name: "httpSuccessFeedbackRoleArn", parent: name, pattern: "\\S")
             try self.validate(self.kmsMasterKeyId, name: "kmsMasterKeyId", parent: name, pattern: "\\S")
             try self.validate(self.owner, name: "owner", parent: name, pattern: "\\S")
+            try self.validate(self.sqsFailureFeedbackRoleArn, name: "sqsFailureFeedbackRoleArn", parent: name, pattern: "\\S")
+            try self.validate(self.sqsSuccessFeedbackRoleArn, name: "sqsSuccessFeedbackRoleArn", parent: name, pattern: "\\S")
             try self.subscription?.forEach {
                 try $0.validate(name: "\(name).subscription[]")
             }
@@ -12499,8 +13574,15 @@ extension SecurityHub {
         }
 
         private enum CodingKeys: String, CodingKey {
+            case applicationSuccessFeedbackRoleArn = "ApplicationSuccessFeedbackRoleArn"
+            case firehoseFailureFeedbackRoleArn = "FirehoseFailureFeedbackRoleArn"
+            case firehoseSuccessFeedbackRoleArn = "FirehoseSuccessFeedbackRoleArn"
+            case httpFailureFeedbackRoleArn = "HttpFailureFeedbackRoleArn"
+            case httpSuccessFeedbackRoleArn = "HttpSuccessFeedbackRoleArn"
             case kmsMasterKeyId = "KmsMasterKeyId"
             case owner = "Owner"
+            case sqsFailureFeedbackRoleArn = "SqsFailureFeedbackRoleArn"
+            case sqsSuccessFeedbackRoleArn = "SqsSuccessFeedbackRoleArn"
             case subscription = "Subscription"
             case topicName = "TopicName"
         }
@@ -12821,14 +13903,412 @@ extension SecurityHub {
         }
     }
 
-    public struct AwsWafWebAclDetails: AWSEncodableShape & AWSDecodableShape {
-        /// The action to perform if none of the rules contained in the WebACL match.
-        public let defaultAction: String?
-        /// A friendly name or description of the WebACL. You can't change the name of a WebACL after you create it.
+    public struct AwsWafRegionalRuleDetails: AWSEncodableShape & AWSDecodableShape {
+        /// A name for the metrics for the rule.
+        public let metricName: String?
+        /// A descriptive name for the rule.
         public let name: String?
-        /// An array that contains the action for each rule in a WebACL, the priority of the rule, and the ID of the rule.
+        /// Specifies the ByteMatchSet, IPSet, SqlInjectionMatchSet, XssMatchSet, RegexMatchSet, GeoMatchSet, and SizeConstraintSet objects that you want to add to a rule and, for each object, indicates whether you want to negate the settings.
+        public let predicateList: [AwsWafRegionalRulePredicateListDetails]?
+        /// The ID of the rule.
+        public let ruleId: String?
+
+        public init(metricName: String? = nil, name: String? = nil, predicateList: [AwsWafRegionalRulePredicateListDetails]? = nil, ruleId: String? = nil) {
+            self.metricName = metricName
+            self.name = name
+            self.predicateList = predicateList
+            self.ruleId = ruleId
+        }
+
+        public func validate(name: String) throws {
+            try self.validate(self.metricName, name: "metricName", parent: name, pattern: "\\S")
+            try self.validate(self.name, name: "name", parent: name, pattern: "\\S")
+            try self.predicateList?.forEach {
+                try $0.validate(name: "\(name).predicateList[]")
+            }
+            try self.validate(self.ruleId, name: "ruleId", parent: name, pattern: "\\S")
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case metricName = "MetricName"
+            case name = "Name"
+            case predicateList = "PredicateList"
+            case ruleId = "RuleId"
+        }
+    }
+
+    public struct AwsWafRegionalRuleGroupDetails: AWSEncodableShape & AWSDecodableShape {
+        /// A name for the metrics for this rule group.
+        public let metricName: String?
+        /// The descriptive name of the rule group.
+        public let name: String?
+        /// The ID of the rule group.
+        public let ruleGroupId: String?
+        /// Provides information about the rule statements used to identify the web requests that you want to allow, block, or
+        /// count.
+        public let rules: [AwsWafRegionalRuleGroupRulesDetails]?
+
+        public init(metricName: String? = nil, name: String? = nil, ruleGroupId: String? = nil, rules: [AwsWafRegionalRuleGroupRulesDetails]? = nil) {
+            self.metricName = metricName
+            self.name = name
+            self.ruleGroupId = ruleGroupId
+            self.rules = rules
+        }
+
+        public func validate(name: String) throws {
+            try self.validate(self.metricName, name: "metricName", parent: name, pattern: "\\S")
+            try self.validate(self.name, name: "name", parent: name, pattern: "\\S")
+            try self.validate(self.ruleGroupId, name: "ruleGroupId", parent: name, pattern: "\\S")
+            try self.rules?.forEach {
+                try $0.validate(name: "\(name).rules[]")
+            }
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case metricName = "MetricName"
+            case name = "Name"
+            case ruleGroupId = "RuleGroupId"
+            case rules = "Rules"
+        }
+    }
+
+    public struct AwsWafRegionalRuleGroupRulesActionDetails: AWSEncodableShape & AWSDecodableShape {
+        /// Specifies the ByteMatchSet, IPSet, SqlInjectionMatchSet, XssMatchSet, RegexMatchSet,
+        /// GeoMatchSet, and SizeConstraintSet objects that you want to add to a rule and, for each object, indicates whether you want to negate the settings.
+        public let type: String?
+
+        public init(type: String? = nil) {
+            self.type = type
+        }
+
+        public func validate(name: String) throws {
+            try self.validate(self.type, name: "type", parent: name, pattern: "\\S")
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case type = "Type"
+        }
+    }
+
+    public struct AwsWafRegionalRuleGroupRulesDetails: AWSEncodableShape & AWSDecodableShape {
+        /// The action that WAF should take on a web request when it matches the criteria defined in the rule.
+        public let action: AwsWafRegionalRuleGroupRulesActionDetails?
+        /// If you define more than one rule in a web ACL, WAF evaluates each request against the rules in order based on the value of Priority.
+        public let priority: Int?
+        /// The ID for a rule.
+        public let ruleId: String?
+        /// The type of rule in the rule group.
+        public let type: String?
+
+        public init(action: AwsWafRegionalRuleGroupRulesActionDetails? = nil, priority: Int? = nil, ruleId: String? = nil, type: String? = nil) {
+            self.action = action
+            self.priority = priority
+            self.ruleId = ruleId
+            self.type = type
+        }
+
+        public func validate(name: String) throws {
+            try self.action?.validate(name: "\(name).action")
+            try self.validate(self.ruleId, name: "ruleId", parent: name, pattern: "\\S")
+            try self.validate(self.type, name: "type", parent: name, pattern: "\\S")
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case action = "Action"
+            case priority = "Priority"
+            case ruleId = "RuleId"
+            case type = "Type"
+        }
+    }
+
+    public struct AwsWafRegionalRulePredicateListDetails: AWSEncodableShape & AWSDecodableShape {
+        /// A unique identifier for a predicate in a rule, such as ByteMatchSetId or IPSetId.
+        public let dataId: String?
+        /// Specifies if you want WAF to allow, block, or count requests based on the settings in the  ByteMatchSet, IPSet, SqlInjectionMatchSet, XssMatchSet,  RegexMatchSet, GeoMatchSet, or SizeConstraintSet.
+        public let negated: Bool?
+        /// The type of predicate in a rule, such as ByteMatch or IPSet.
+        public let type: String?
+
+        public init(dataId: String? = nil, negated: Bool? = nil, type: String? = nil) {
+            self.dataId = dataId
+            self.negated = negated
+            self.type = type
+        }
+
+        public func validate(name: String) throws {
+            try self.validate(self.dataId, name: "dataId", parent: name, pattern: "\\S")
+            try self.validate(self.type, name: "type", parent: name, pattern: "\\S")
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case dataId = "DataId"
+            case negated = "Negated"
+            case type = "Type"
+        }
+    }
+
+    public struct AwsWafRegionalWebAclDetails: AWSEncodableShape & AWSDecodableShape {
+        /// The action to perform if none of the rules contained in the web ACL match.
+        public let defaultAction: String?
+        /// A name for the metrics for this web ACL.
+        public let metricName: String?
+        /// A descriptive name for the web ACL.
+        public let name: String?
+        /// An array that contains the action for each rule in a web ACL, the priority of the rule, and the ID of
+        /// the rule.
+        public let rulesList: [AwsWafRegionalWebAclRulesListDetails]?
+        /// The ID of the web ACL.
+        public let webAclId: String?
+
+        public init(defaultAction: String? = nil, metricName: String? = nil, name: String? = nil, rulesList: [AwsWafRegionalWebAclRulesListDetails]? = nil, webAclId: String? = nil) {
+            self.defaultAction = defaultAction
+            self.metricName = metricName
+            self.name = name
+            self.rulesList = rulesList
+            self.webAclId = webAclId
+        }
+
+        public func validate(name: String) throws {
+            try self.validate(self.defaultAction, name: "defaultAction", parent: name, pattern: "\\S")
+            try self.validate(self.metricName, name: "metricName", parent: name, pattern: "\\S")
+            try self.validate(self.name, name: "name", parent: name, pattern: "\\S")
+            try self.rulesList?.forEach {
+                try $0.validate(name: "\(name).rulesList[]")
+            }
+            try self.validate(self.webAclId, name: "webAclId", parent: name, pattern: "\\S")
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case defaultAction = "DefaultAction"
+            case metricName = "MetricName"
+            case name = "Name"
+            case rulesList = "RulesList"
+            case webAclId = "WebAclId"
+        }
+    }
+
+    public struct AwsWafRegionalWebAclRulesListActionDetails: AWSEncodableShape & AWSDecodableShape {
+        /// For actions that are associated with a rule, the action that WAF takes when a web request matches all conditions in a rule.
+        public let type: String?
+
+        public init(type: String? = nil) {
+            self.type = type
+        }
+
+        public func validate(name: String) throws {
+            try self.validate(self.type, name: "type", parent: name, pattern: "\\S")
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case type = "Type"
+        }
+    }
+
+    public struct AwsWafRegionalWebAclRulesListDetails: AWSEncodableShape & AWSDecodableShape {
+        /// The action that AWS WAF takes when a web request matches all conditions in the rule, such as allow,  block, or count the request.
+        public let action: AwsWafRegionalWebAclRulesListActionDetails?
+        /// Overrides the rule evaluation result in the rule group.
+        public let overrideAction: AwsWafRegionalWebAclRulesListOverrideActionDetails?
+        /// The order in which WAF evaluates the rules in a web ACL.
+        public let priority: Int?
+        /// The ID of an WAF Regional rule to associate with a web ACL.
+        public let ruleId: String?
+        /// For actions that are associated with a rule, the action that WAF takes when a web
+        /// request matches all conditions in a rule.
+        public let type: String?
+
+        public init(action: AwsWafRegionalWebAclRulesListActionDetails? = nil, overrideAction: AwsWafRegionalWebAclRulesListOverrideActionDetails? = nil, priority: Int? = nil, ruleId: String? = nil, type: String? = nil) {
+            self.action = action
+            self.overrideAction = overrideAction
+            self.priority = priority
+            self.ruleId = ruleId
+            self.type = type
+        }
+
+        public func validate(name: String) throws {
+            try self.action?.validate(name: "\(name).action")
+            try self.overrideAction?.validate(name: "\(name).overrideAction")
+            try self.validate(self.ruleId, name: "ruleId", parent: name, pattern: "\\S")
+            try self.validate(self.type, name: "type", parent: name, pattern: "\\S")
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case action = "Action"
+            case overrideAction = "OverrideAction"
+            case priority = "Priority"
+            case ruleId = "RuleId"
+            case type = "Type"
+        }
+    }
+
+    public struct AwsWafRegionalWebAclRulesListOverrideActionDetails: AWSEncodableShape & AWSDecodableShape {
+        /// Overrides the rule evaluation result in the rule group.
+        public let type: String?
+
+        public init(type: String? = nil) {
+            self.type = type
+        }
+
+        public func validate(name: String) throws {
+            try self.validate(self.type, name: "type", parent: name, pattern: "\\S")
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case type = "Type"
+        }
+    }
+
+    public struct AwsWafRuleDetails: AWSEncodableShape & AWSDecodableShape {
+        /// The name of the metrics for this rule.
+        public let metricName: String?
+        /// A descriptive name for the rule.
+        public let name: String?
+        /// Specifies the ByteMatchSet, IPSet, SqlInjectionMatchSet, XssMatchSet,  RegexMatchSet, GeoMatchSet, and SizeConstraintSet objects that you want to add to a rule and,  for each object, indicates whether you want to negate the settings.
+        public let predicateList: [AwsWafRulePredicateListDetails]?
+        /// The ID of the WAF rule.
+        public let ruleId: String?
+
+        public init(metricName: String? = nil, name: String? = nil, predicateList: [AwsWafRulePredicateListDetails]? = nil, ruleId: String? = nil) {
+            self.metricName = metricName
+            self.name = name
+            self.predicateList = predicateList
+            self.ruleId = ruleId
+        }
+
+        public func validate(name: String) throws {
+            try self.validate(self.metricName, name: "metricName", parent: name, pattern: "\\S")
+            try self.validate(self.name, name: "name", parent: name, pattern: "\\S")
+            try self.predicateList?.forEach {
+                try $0.validate(name: "\(name).predicateList[]")
+            }
+            try self.validate(self.ruleId, name: "ruleId", parent: name, pattern: "\\S")
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case metricName = "MetricName"
+            case name = "Name"
+            case predicateList = "PredicateList"
+            case ruleId = "RuleId"
+        }
+    }
+
+    public struct AwsWafRuleGroupDetails: AWSEncodableShape & AWSDecodableShape {
+        /// The name of the metrics for this rule group.
+        public let metricName: String?
+        /// The name of the rule group.
+        public let name: String?
+        /// The ID of the rule group.
+        public let ruleGroupId: String?
+        /// Provides information about the rules attached to the rule group. These rules identify the web requests that you want to
+        /// allow, block, or count.
+        public let rules: [AwsWafRuleGroupRulesDetails]?
+
+        public init(metricName: String? = nil, name: String? = nil, ruleGroupId: String? = nil, rules: [AwsWafRuleGroupRulesDetails]? = nil) {
+            self.metricName = metricName
+            self.name = name
+            self.ruleGroupId = ruleGroupId
+            self.rules = rules
+        }
+
+        public func validate(name: String) throws {
+            try self.validate(self.metricName, name: "metricName", parent: name, pattern: "\\S")
+            try self.validate(self.name, name: "name", parent: name, pattern: "\\S")
+            try self.validate(self.ruleGroupId, name: "ruleGroupId", parent: name, pattern: "\\S")
+            try self.rules?.forEach {
+                try $0.validate(name: "\(name).rules[]")
+            }
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case metricName = "MetricName"
+            case name = "Name"
+            case ruleGroupId = "RuleGroupId"
+            case rules = "Rules"
+        }
+    }
+
+    public struct AwsWafRuleGroupRulesActionDetails: AWSEncodableShape & AWSDecodableShape {
+        /// The action that WAF should take on a web request when it matches the rule's statement.
+        public let type: String?
+
+        public init(type: String? = nil) {
+            self.type = type
+        }
+
+        public func validate(name: String) throws {
+            try self.validate(self.type, name: "type", parent: name, pattern: "\\S")
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case type = "Type"
+        }
+    }
+
+    public struct AwsWafRuleGroupRulesDetails: AWSEncodableShape & AWSDecodableShape {
+        /// Provides information about what action WAF should take on a web request when it matches the criteria defined in the rule.
+        public let action: AwsWafRuleGroupRulesActionDetails?
+        /// If you define more than one rule in a web ACL, WAF evaluates each request against the rules in order based on the value of Priority.
+        public let priority: Int?
+        /// The rule ID for a rule.
+        public let ruleId: String?
+        /// The type of rule.
+        public let type: String?
+
+        public init(action: AwsWafRuleGroupRulesActionDetails? = nil, priority: Int? = nil, ruleId: String? = nil, type: String? = nil) {
+            self.action = action
+            self.priority = priority
+            self.ruleId = ruleId
+            self.type = type
+        }
+
+        public func validate(name: String) throws {
+            try self.action?.validate(name: "\(name).action")
+            try self.validate(self.ruleId, name: "ruleId", parent: name, pattern: "\\S")
+            try self.validate(self.type, name: "type", parent: name, pattern: "\\S")
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case action = "Action"
+            case priority = "Priority"
+            case ruleId = "RuleId"
+            case type = "Type"
+        }
+    }
+
+    public struct AwsWafRulePredicateListDetails: AWSEncodableShape & AWSDecodableShape {
+        /// A unique identifier for a predicate in a rule, such as ByteMatchSetId or IPSetId.
+        public let dataId: String?
+        /// Specifies if you want WAF to allow, block, or count requests based on the settings in the  ByteMatchSet, IPSet, SqlInjectionMatchSet, XssMatchSet,  RegexMatchSet, GeoMatchSet, or SizeConstraintSet.
+        public let negated: Bool?
+        /// The type of predicate in a rule, such as ByteMatch or IPSet.
+        public let type: String?
+
+        public init(dataId: String? = nil, negated: Bool? = nil, type: String? = nil) {
+            self.dataId = dataId
+            self.negated = negated
+            self.type = type
+        }
+
+        public func validate(name: String) throws {
+            try self.validate(self.dataId, name: "dataId", parent: name, pattern: "\\S")
+            try self.validate(self.type, name: "type", parent: name, pattern: "\\S")
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case dataId = "DataId"
+            case negated = "Negated"
+            case type = "Type"
+        }
+    }
+
+    public struct AwsWafWebAclDetails: AWSEncodableShape & AWSDecodableShape {
+        /// The action to perform if none of the rules contained in the web ACL match.
+        public let defaultAction: String?
+        /// A friendly name or description of the web ACL. You can't change the name of a web ACL  after you create it.
+        public let name: String?
+        /// An array that contains the action for each rule in a web ACL, the priority of the rule, and the ID of the rule.
         public let rules: [AwsWafWebAclRule]?
-        /// A unique identifier for a WebACL.
+        /// A unique identifier for a web ACL.
         public let webAclId: String?
 
         public init(defaultAction: String? = nil, name: String? = nil, rules: [AwsWafWebAclRule]? = nil, webAclId: String? = nil) {
@@ -12860,9 +14340,9 @@ extension SecurityHub {
         public let action: WafAction?
         /// Rules to exclude from a rule group.
         public let excludedRules: [WafExcludedRule]?
-        /// Use the OverrideAction to test your RuleGroup. Any rule in a RuleGroup can potentially block a request. If you set the OverrideAction to None, the RuleGroup blocks a request if any individual rule in the RuleGroup matches the request and is configured to block that request. However, if you first want to test the RuleGroup, set the OverrideAction to Count. The RuleGroup then overrides any block action specified by individual rules contained within the group. Instead of blocking matching requests, those requests are counted.  ActivatedRule|OverrideAction applies only when updating or adding a RuleGroup to a WebACL. In this case you do not use ActivatedRule|Action. For all other update requests, ActivatedRule|Action is used instead of ActivatedRule|OverrideAction.
+        /// Use the OverrideAction to test your RuleGroup. Any rule in a RuleGroup can potentially block a request. If you set the OverrideAction to None, the RuleGroup blocks a request if any individual rule in the RuleGroup matches the request and is configured to block that request. However, if you first want to test the RuleGroup, set the OverrideAction to Count. The RuleGroup then overrides any block action specified by individual rules contained within the group. Instead of blocking matching requests, those requests are counted.  ActivatedRule|OverrideAction applies only when updating or adding a RuleGroup to a web ACL. In this case you do not use ActivatedRule  Action. For all other update requests, ActivatedRule  Action is used instead of ActivatedRule  OverrideAction.
         public let overrideAction: WafOverrideAction?
-        /// Specifies the order in which the rules in a WebACL are evaluated. Rules with a lower value for Priority are evaluated before rules with a higher value. The value must be a unique integer. If you add multiple rules to a WebACL, the values do not need to be consecutive.
+        /// Specifies the order in which the rules in a web ACL are evaluated. Rules with a lower value for Priority are evaluated before rules with a higher value. The value must be a unique integer. If you add multiple rules to a web ACL, the values do not need to be consecutive.
         public let priority: Int?
         /// The identifier for a rule.
         public let ruleId: String?
@@ -13325,34 +14805,51 @@ extension SecurityHub {
     }
 
     public struct ContainerDetails: AWSEncodableShape & AWSDecodableShape {
-        /// The identifier of the image related to a finding.
+        /// The runtime of the container.
+        public let containerRuntime: String?
+        /// The identifier of the container image related to a finding.
         public let imageId: String?
-        /// The name of the image related to a finding.
+        /// The name of the container image related to a finding.
         public let imageName: String?
         /// Indicates when the container started. Uses the date-time format specified in RFC 3339 section 5.6, Internet Date/Time Format. The value cannot contain spaces. For example, 2020-03-22T13:22:13.933Z.
         public let launchedAt: String?
         /// The name of the container related to a finding.
         public let name: String?
+        /// When this parameter is true, the container is given elevated privileges on the host
+        /// container instance (similar to the root user).
+        public let privileged: Bool?
+        /// Provides information about the mounting of a volume in a container.
+        public let volumeMounts: [VolumeMount]?
 
-        public init(imageId: String? = nil, imageName: String? = nil, launchedAt: String? = nil, name: String? = nil) {
+        public init(containerRuntime: String? = nil, imageId: String? = nil, imageName: String? = nil, launchedAt: String? = nil, name: String? = nil, privileged: Bool? = nil, volumeMounts: [VolumeMount]? = nil) {
+            self.containerRuntime = containerRuntime
             self.imageId = imageId
             self.imageName = imageName
             self.launchedAt = launchedAt
             self.name = name
+            self.privileged = privileged
+            self.volumeMounts = volumeMounts
         }
 
         public func validate(name: String) throws {
+            try self.validate(self.containerRuntime, name: "containerRuntime", parent: name, pattern: "\\S")
             try self.validate(self.imageId, name: "imageId", parent: name, pattern: "\\S")
             try self.validate(self.imageName, name: "imageName", parent: name, pattern: "\\S")
             try self.validate(self.launchedAt, name: "launchedAt", parent: name, pattern: "\\S")
             try self.validate(self.name, name: "name", parent: name, pattern: "\\S")
+            try self.volumeMounts?.forEach {
+                try $0.validate(name: "\(name).volumeMounts[]")
+            }
         }
 
         private enum CodingKeys: String, CodingKey {
+            case containerRuntime = "ContainerRuntime"
             case imageId = "ImageId"
             case imageName = "ImageName"
             case launchedAt = "LaunchedAt"
             case name = "Name"
+            case privileged = "Privileged"
+            case volumeMounts = "VolumeMounts"
         }
     }
 
@@ -14321,6 +15818,42 @@ extension SecurityHub {
 
     public struct EnableSecurityHubResponse: AWSDecodableShape {
         public init() {}
+    }
+
+    public struct FilePaths: AWSEncodableShape & AWSDecodableShape {
+        /// The name of the infected or suspicious file corresponding to the hash.
+        ///
+        public let fileName: String?
+        /// Path to the infected or suspicious file on the resource it was detected on.
+        ///
+        public let filePath: String?
+        /// The hash value for the infected or suspicious file.
+        ///
+        public let hash: String?
+        /// The Amazon Resource Name (ARN) of the resource on which the threat was detected.
+        ///
+        public let resourceId: String?
+
+        public init(fileName: String? = nil, filePath: String? = nil, hash: String? = nil, resourceId: String? = nil) {
+            self.fileName = fileName
+            self.filePath = filePath
+            self.hash = hash
+            self.resourceId = resourceId
+        }
+
+        public func validate(name: String) throws {
+            try self.validate(self.fileName, name: "fileName", parent: name, pattern: "\\S")
+            try self.validate(self.filePath, name: "filePath", parent: name, pattern: "\\S")
+            try self.validate(self.hash, name: "hash", parent: name, pattern: "\\S")
+            try self.validate(self.resourceId, name: "resourceId", parent: name, pattern: "\\S")
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case fileName = "FileName"
+            case filePath = "FilePath"
+            case hash = "Hash"
+            case resourceId = "ResourceId"
+        }
     }
 
     public struct FindingAggregator: AWSDecodableShape {
@@ -16173,10 +17706,14 @@ extension SecurityHub {
         public let awsAutoScalingLaunchConfiguration: AwsAutoScalingLaunchConfigurationDetails?
         /// Provides details about an Certificate Manager certificate.
         public let awsCertificateManagerCertificate: AwsCertificateManagerCertificateDetails?
+        /// Details about an CloudFormation stack. A stack is a collection of Amazon Web Services resources that you can manage as a single unit.
+        public let awsCloudFormationStack: AwsCloudFormationStackDetails?
         /// Details about a CloudFront distribution.
         public let awsCloudFrontDistribution: AwsCloudFrontDistributionDetails?
         /// Provides details about a CloudTrail trail.
         public let awsCloudTrailTrail: AwsCloudTrailTrailDetails?
+        /// Details about an Amazon CloudWatch alarm. An alarm allows you to monitor and receive alerts about your Amazon Web Services resources and applications across multiple Regions.
+        public let awsCloudWatchAlarm: AwsCloudWatchAlarmDetails?
         /// Details for an CodeBuild project.
         public let awsCodeBuildProject: AwsCodeBuildProjectDetails?
         /// Details about a DynamoDB table.
@@ -16193,24 +17730,35 @@ extension SecurityHub {
         public let awsEc2SecurityGroup: AwsEc2SecurityGroupDetails?
         /// Details about a subnet in Amazon EC2.
         public let awsEc2Subnet: AwsEc2SubnetDetails?
-        /// Details for an EC2 volume.
+        /// Details about an Amazon EC2 transit gateway that interconnects your virtual private clouds (VPC) and on-premises networks.
+        public let awsEc2TransitGateway: AwsEc2TransitGatewayDetails?
+        /// Details for an Amazon EC2 volume.
         public let awsEc2Volume: AwsEc2VolumeDetails?
-        /// Details for an EC2 VPC.
+        /// Details for an Amazon EC2 VPC.
         public let awsEc2Vpc: AwsEc2VpcDetails?
         /// Details about the service configuration for a VPC endpoint service.
         public let awsEc2VpcEndpointService: AwsEc2VpcEndpointServiceDetails?
-        /// Details about an EC2 VPN connection.
+        /// Details about an Amazon EC2 VPC peering connection. A VPC peering connection is a networking connection between two VPCs that enables you to route traffic between them privately.
+        public let awsEc2VpcPeeringConnection: AwsEc2VpcPeeringConnectionDetails?
+        /// Details about an Amazon EC2 VPN connection.
         public let awsEc2VpnConnection: AwsEc2VpnConnectionDetails?
         /// Information about an Amazon ECR image.
         public let awsEcrContainerImage: AwsEcrContainerImageDetails?
         /// Information about an Amazon Elastic Container Registry repository.
         public let awsEcrRepository: AwsEcrRepositoryDetails?
-        /// Details about an ECS cluster.
+        /// Details about an Amazon ECS cluster.
         public let awsEcsCluster: AwsEcsClusterDetails?
+        /// Provides information about a Docker container that's part of a task.
+        public let awsEcsContainer: AwsEcsContainerDetails?
         /// Details about a service within an ECS cluster.
         public let awsEcsService: AwsEcsServiceDetails?
+        /// Details about a task in a cluster.
+        public let awsEcsTask: AwsEcsTaskDetails?
         /// Details about a task definition. A task definition describes the container and volume definitions of an Amazon Elastic Container Service task.
         public let awsEcsTaskDefinition: AwsEcsTaskDefinitionDetails?
+        /// Details about an Amazon EFS access point. An access point is an application-specific view into an EFS file system that
+        /// applies an operating system user and group, and a file system path, to any file system request made through the access point.
+        public let awsEfsAccessPoint: AwsEfsAccessPointDetails?
         /// Details about an Amazon EKS cluster.
         public let awsEksCluster: AwsEksClusterDetails?
         /// Details about an Elastic Beanstalk environment.
@@ -16231,6 +17779,8 @@ extension SecurityHub {
         public let awsIamRole: AwsIamRoleDetails?
         /// Details about an IAM user.
         public let awsIamUser: AwsIamUserDetails?
+        /// Details about an Amazon Kinesis data stream.
+        public let awsKinesisStream: AwsKinesisStreamDetails?
         /// Details about an KMS key.
         public let awsKmsKey: AwsKmsKeyDetails?
         /// Details about a Lambda function.
@@ -16277,7 +17827,17 @@ extension SecurityHub {
         public let awsWafRateBasedRule: AwsWafRateBasedRuleDetails?
         /// Details about a rate-based rule for Regional resources.
         public let awsWafRegionalRateBasedRule: AwsWafRegionalRateBasedRuleDetails?
-        /// Details for an WAF WebACL.
+        /// Details about an WAF rule for Regional resources.
+        public let awsWafRegionalRule: AwsWafRegionalRuleDetails?
+        /// Details about an WAF rule group for Regional resources.
+        public let awsWafRegionalRuleGroup: AwsWafRegionalRuleGroupDetails?
+        /// Details about an WAF web access control list (web ACL) for Regional resources.
+        public let awsWafRegionalWebAcl: AwsWafRegionalWebAclDetails?
+        /// Details about an WAF rule for global resources.
+        public let awsWafRule: AwsWafRuleDetails?
+        /// Details about an WAF rule group for global resources.
+        public let awsWafRuleGroup: AwsWafRuleGroupDetails?
+        /// Details for an WAF web ACL.
         public let awsWafWebAcl: AwsWafWebAclDetails?
         /// Information about the encryption configuration for X-Ray.
         public let awsXrayEncryptionConfig: AwsXrayEncryptionConfigDetails?
@@ -16286,7 +17846,7 @@ extension SecurityHub {
         /// Details about a resource that are not available in a type-specific details object. Use the Other object in the following cases.   The type-specific object does not contain all of the fields that you want to populate. In this case, first use the type-specific object to populate those fields. Use the Other object to populate the fields that are missing from the type-specific object.   The resource type does not have a corresponding object. This includes resources for which the type is Other.
         public let other: [String: String]?
 
-        public init(awsApiGatewayRestApi: AwsApiGatewayRestApiDetails? = nil, awsApiGatewayStage: AwsApiGatewayStageDetails? = nil, awsApiGatewayV2Api: AwsApiGatewayV2ApiDetails? = nil, awsApiGatewayV2Stage: AwsApiGatewayV2StageDetails? = nil, awsAutoScalingAutoScalingGroup: AwsAutoScalingAutoScalingGroupDetails? = nil, awsAutoScalingLaunchConfiguration: AwsAutoScalingLaunchConfigurationDetails? = nil, awsCertificateManagerCertificate: AwsCertificateManagerCertificateDetails? = nil, awsCloudFrontDistribution: AwsCloudFrontDistributionDetails? = nil, awsCloudTrailTrail: AwsCloudTrailTrailDetails? = nil, awsCodeBuildProject: AwsCodeBuildProjectDetails? = nil, awsDynamoDbTable: AwsDynamoDbTableDetails? = nil, awsEc2Eip: AwsEc2EipDetails? = nil, awsEc2Instance: AwsEc2InstanceDetails? = nil, awsEc2NetworkAcl: AwsEc2NetworkAclDetails? = nil, awsEc2NetworkInterface: AwsEc2NetworkInterfaceDetails? = nil, awsEc2SecurityGroup: AwsEc2SecurityGroupDetails? = nil, awsEc2Subnet: AwsEc2SubnetDetails? = nil, awsEc2Volume: AwsEc2VolumeDetails? = nil, awsEc2Vpc: AwsEc2VpcDetails? = nil, awsEc2VpcEndpointService: AwsEc2VpcEndpointServiceDetails? = nil, awsEc2VpnConnection: AwsEc2VpnConnectionDetails? = nil, awsEcrContainerImage: AwsEcrContainerImageDetails? = nil, awsEcrRepository: AwsEcrRepositoryDetails? = nil, awsEcsCluster: AwsEcsClusterDetails? = nil, awsEcsService: AwsEcsServiceDetails? = nil, awsEcsTaskDefinition: AwsEcsTaskDefinitionDetails? = nil, awsEksCluster: AwsEksClusterDetails? = nil, awsElasticBeanstalkEnvironment: AwsElasticBeanstalkEnvironmentDetails? = nil, awsElasticsearchDomain: AwsElasticsearchDomainDetails? = nil, awsElbLoadBalancer: AwsElbLoadBalancerDetails? = nil, awsElbv2LoadBalancer: AwsElbv2LoadBalancerDetails? = nil, awsIamAccessKey: AwsIamAccessKeyDetails? = nil, awsIamGroup: AwsIamGroupDetails? = nil, awsIamPolicy: AwsIamPolicyDetails? = nil, awsIamRole: AwsIamRoleDetails? = nil, awsIamUser: AwsIamUserDetails? = nil, awsKmsKey: AwsKmsKeyDetails? = nil, awsLambdaFunction: AwsLambdaFunctionDetails? = nil, awsLambdaLayerVersion: AwsLambdaLayerVersionDetails? = nil, awsNetworkFirewallFirewall: AwsNetworkFirewallFirewallDetails? = nil, awsNetworkFirewallFirewallPolicy: AwsNetworkFirewallFirewallPolicyDetails? = nil, awsNetworkFirewallRuleGroup: AwsNetworkFirewallRuleGroupDetails? = nil, awsOpenSearchServiceDomain: AwsOpenSearchServiceDomainDetails? = nil, awsRdsDbCluster: AwsRdsDbClusterDetails? = nil, awsRdsDbClusterSnapshot: AwsRdsDbClusterSnapshotDetails? = nil, awsRdsDbInstance: AwsRdsDbInstanceDetails? = nil, awsRdsDbSecurityGroup: AwsRdsDbSecurityGroupDetails? = nil, awsRdsDbSnapshot: AwsRdsDbSnapshotDetails? = nil, awsRdsEventSubscription: AwsRdsEventSubscriptionDetails? = nil, awsRedshiftCluster: AwsRedshiftClusterDetails? = nil, awsS3AccountPublicAccessBlock: AwsS3AccountPublicAccessBlockDetails? = nil, awsS3Bucket: AwsS3BucketDetails? = nil, awsS3Object: AwsS3ObjectDetails? = nil, awsSecretsManagerSecret: AwsSecretsManagerSecretDetails? = nil, awsSnsTopic: AwsSnsTopicDetails? = nil, awsSqsQueue: AwsSqsQueueDetails? = nil, awsSsmPatchCompliance: AwsSsmPatchComplianceDetails? = nil, awsWafRateBasedRule: AwsWafRateBasedRuleDetails? = nil, awsWafRegionalRateBasedRule: AwsWafRegionalRateBasedRuleDetails? = nil, awsWafWebAcl: AwsWafWebAclDetails? = nil, awsXrayEncryptionConfig: AwsXrayEncryptionConfigDetails? = nil, container: ContainerDetails? = nil, other: [String: String]? = nil) {
+        public init(awsApiGatewayRestApi: AwsApiGatewayRestApiDetails? = nil, awsApiGatewayStage: AwsApiGatewayStageDetails? = nil, awsApiGatewayV2Api: AwsApiGatewayV2ApiDetails? = nil, awsApiGatewayV2Stage: AwsApiGatewayV2StageDetails? = nil, awsAutoScalingAutoScalingGroup: AwsAutoScalingAutoScalingGroupDetails? = nil, awsAutoScalingLaunchConfiguration: AwsAutoScalingLaunchConfigurationDetails? = nil, awsCertificateManagerCertificate: AwsCertificateManagerCertificateDetails? = nil, awsCloudFormationStack: AwsCloudFormationStackDetails? = nil, awsCloudFrontDistribution: AwsCloudFrontDistributionDetails? = nil, awsCloudTrailTrail: AwsCloudTrailTrailDetails? = nil, awsCloudWatchAlarm: AwsCloudWatchAlarmDetails? = nil, awsCodeBuildProject: AwsCodeBuildProjectDetails? = nil, awsDynamoDbTable: AwsDynamoDbTableDetails? = nil, awsEc2Eip: AwsEc2EipDetails? = nil, awsEc2Instance: AwsEc2InstanceDetails? = nil, awsEc2NetworkAcl: AwsEc2NetworkAclDetails? = nil, awsEc2NetworkInterface: AwsEc2NetworkInterfaceDetails? = nil, awsEc2SecurityGroup: AwsEc2SecurityGroupDetails? = nil, awsEc2Subnet: AwsEc2SubnetDetails? = nil, awsEc2TransitGateway: AwsEc2TransitGatewayDetails? = nil, awsEc2Volume: AwsEc2VolumeDetails? = nil, awsEc2Vpc: AwsEc2VpcDetails? = nil, awsEc2VpcEndpointService: AwsEc2VpcEndpointServiceDetails? = nil, awsEc2VpcPeeringConnection: AwsEc2VpcPeeringConnectionDetails? = nil, awsEc2VpnConnection: AwsEc2VpnConnectionDetails? = nil, awsEcrContainerImage: AwsEcrContainerImageDetails? = nil, awsEcrRepository: AwsEcrRepositoryDetails? = nil, awsEcsCluster: AwsEcsClusterDetails? = nil, awsEcsContainer: AwsEcsContainerDetails? = nil, awsEcsService: AwsEcsServiceDetails? = nil, awsEcsTask: AwsEcsTaskDetails? = nil, awsEcsTaskDefinition: AwsEcsTaskDefinitionDetails? = nil, awsEfsAccessPoint: AwsEfsAccessPointDetails? = nil, awsEksCluster: AwsEksClusterDetails? = nil, awsElasticBeanstalkEnvironment: AwsElasticBeanstalkEnvironmentDetails? = nil, awsElasticsearchDomain: AwsElasticsearchDomainDetails? = nil, awsElbLoadBalancer: AwsElbLoadBalancerDetails? = nil, awsElbv2LoadBalancer: AwsElbv2LoadBalancerDetails? = nil, awsIamAccessKey: AwsIamAccessKeyDetails? = nil, awsIamGroup: AwsIamGroupDetails? = nil, awsIamPolicy: AwsIamPolicyDetails? = nil, awsIamRole: AwsIamRoleDetails? = nil, awsIamUser: AwsIamUserDetails? = nil, awsKinesisStream: AwsKinesisStreamDetails? = nil, awsKmsKey: AwsKmsKeyDetails? = nil, awsLambdaFunction: AwsLambdaFunctionDetails? = nil, awsLambdaLayerVersion: AwsLambdaLayerVersionDetails? = nil, awsNetworkFirewallFirewall: AwsNetworkFirewallFirewallDetails? = nil, awsNetworkFirewallFirewallPolicy: AwsNetworkFirewallFirewallPolicyDetails? = nil, awsNetworkFirewallRuleGroup: AwsNetworkFirewallRuleGroupDetails? = nil, awsOpenSearchServiceDomain: AwsOpenSearchServiceDomainDetails? = nil, awsRdsDbCluster: AwsRdsDbClusterDetails? = nil, awsRdsDbClusterSnapshot: AwsRdsDbClusterSnapshotDetails? = nil, awsRdsDbInstance: AwsRdsDbInstanceDetails? = nil, awsRdsDbSecurityGroup: AwsRdsDbSecurityGroupDetails? = nil, awsRdsDbSnapshot: AwsRdsDbSnapshotDetails? = nil, awsRdsEventSubscription: AwsRdsEventSubscriptionDetails? = nil, awsRedshiftCluster: AwsRedshiftClusterDetails? = nil, awsS3AccountPublicAccessBlock: AwsS3AccountPublicAccessBlockDetails? = nil, awsS3Bucket: AwsS3BucketDetails? = nil, awsS3Object: AwsS3ObjectDetails? = nil, awsSecretsManagerSecret: AwsSecretsManagerSecretDetails? = nil, awsSnsTopic: AwsSnsTopicDetails? = nil, awsSqsQueue: AwsSqsQueueDetails? = nil, awsSsmPatchCompliance: AwsSsmPatchComplianceDetails? = nil, awsWafRateBasedRule: AwsWafRateBasedRuleDetails? = nil, awsWafRegionalRateBasedRule: AwsWafRegionalRateBasedRuleDetails? = nil, awsWafRegionalRule: AwsWafRegionalRuleDetails? = nil, awsWafRegionalRuleGroup: AwsWafRegionalRuleGroupDetails? = nil, awsWafRegionalWebAcl: AwsWafRegionalWebAclDetails? = nil, awsWafRule: AwsWafRuleDetails? = nil, awsWafRuleGroup: AwsWafRuleGroupDetails? = nil, awsWafWebAcl: AwsWafWebAclDetails? = nil, awsXrayEncryptionConfig: AwsXrayEncryptionConfigDetails? = nil, container: ContainerDetails? = nil, other: [String: String]? = nil) {
             self.awsApiGatewayRestApi = awsApiGatewayRestApi
             self.awsApiGatewayStage = awsApiGatewayStage
             self.awsApiGatewayV2Api = awsApiGatewayV2Api
@@ -16294,8 +17854,10 @@ extension SecurityHub {
             self.awsAutoScalingAutoScalingGroup = awsAutoScalingAutoScalingGroup
             self.awsAutoScalingLaunchConfiguration = awsAutoScalingLaunchConfiguration
             self.awsCertificateManagerCertificate = awsCertificateManagerCertificate
+            self.awsCloudFormationStack = awsCloudFormationStack
             self.awsCloudFrontDistribution = awsCloudFrontDistribution
             self.awsCloudTrailTrail = awsCloudTrailTrail
+            self.awsCloudWatchAlarm = awsCloudWatchAlarm
             self.awsCodeBuildProject = awsCodeBuildProject
             self.awsDynamoDbTable = awsDynamoDbTable
             self.awsEc2Eip = awsEc2Eip
@@ -16304,15 +17866,20 @@ extension SecurityHub {
             self.awsEc2NetworkInterface = awsEc2NetworkInterface
             self.awsEc2SecurityGroup = awsEc2SecurityGroup
             self.awsEc2Subnet = awsEc2Subnet
+            self.awsEc2TransitGateway = awsEc2TransitGateway
             self.awsEc2Volume = awsEc2Volume
             self.awsEc2Vpc = awsEc2Vpc
             self.awsEc2VpcEndpointService = awsEc2VpcEndpointService
+            self.awsEc2VpcPeeringConnection = awsEc2VpcPeeringConnection
             self.awsEc2VpnConnection = awsEc2VpnConnection
             self.awsEcrContainerImage = awsEcrContainerImage
             self.awsEcrRepository = awsEcrRepository
             self.awsEcsCluster = awsEcsCluster
+            self.awsEcsContainer = awsEcsContainer
             self.awsEcsService = awsEcsService
+            self.awsEcsTask = awsEcsTask
             self.awsEcsTaskDefinition = awsEcsTaskDefinition
+            self.awsEfsAccessPoint = awsEfsAccessPoint
             self.awsEksCluster = awsEksCluster
             self.awsElasticBeanstalkEnvironment = awsElasticBeanstalkEnvironment
             self.awsElasticsearchDomain = awsElasticsearchDomain
@@ -16323,6 +17890,7 @@ extension SecurityHub {
             self.awsIamPolicy = awsIamPolicy
             self.awsIamRole = awsIamRole
             self.awsIamUser = awsIamUser
+            self.awsKinesisStream = awsKinesisStream
             self.awsKmsKey = awsKmsKey
             self.awsLambdaFunction = awsLambdaFunction
             self.awsLambdaLayerVersion = awsLambdaLayerVersion
@@ -16346,6 +17914,11 @@ extension SecurityHub {
             self.awsSsmPatchCompliance = awsSsmPatchCompliance
             self.awsWafRateBasedRule = awsWafRateBasedRule
             self.awsWafRegionalRateBasedRule = awsWafRegionalRateBasedRule
+            self.awsWafRegionalRule = awsWafRegionalRule
+            self.awsWafRegionalRuleGroup = awsWafRegionalRuleGroup
+            self.awsWafRegionalWebAcl = awsWafRegionalWebAcl
+            self.awsWafRule = awsWafRule
+            self.awsWafRuleGroup = awsWafRuleGroup
             self.awsWafWebAcl = awsWafWebAcl
             self.awsXrayEncryptionConfig = awsXrayEncryptionConfig
             self.container = container
@@ -16360,8 +17933,10 @@ extension SecurityHub {
             try self.awsAutoScalingAutoScalingGroup?.validate(name: "\(name).awsAutoScalingAutoScalingGroup")
             try self.awsAutoScalingLaunchConfiguration?.validate(name: "\(name).awsAutoScalingLaunchConfiguration")
             try self.awsCertificateManagerCertificate?.validate(name: "\(name).awsCertificateManagerCertificate")
+            try self.awsCloudFormationStack?.validate(name: "\(name).awsCloudFormationStack")
             try self.awsCloudFrontDistribution?.validate(name: "\(name).awsCloudFrontDistribution")
             try self.awsCloudTrailTrail?.validate(name: "\(name).awsCloudTrailTrail")
+            try self.awsCloudWatchAlarm?.validate(name: "\(name).awsCloudWatchAlarm")
             try self.awsCodeBuildProject?.validate(name: "\(name).awsCodeBuildProject")
             try self.awsDynamoDbTable?.validate(name: "\(name).awsDynamoDbTable")
             try self.awsEc2Eip?.validate(name: "\(name).awsEc2Eip")
@@ -16370,15 +17945,20 @@ extension SecurityHub {
             try self.awsEc2NetworkInterface?.validate(name: "\(name).awsEc2NetworkInterface")
             try self.awsEc2SecurityGroup?.validate(name: "\(name).awsEc2SecurityGroup")
             try self.awsEc2Subnet?.validate(name: "\(name).awsEc2Subnet")
+            try self.awsEc2TransitGateway?.validate(name: "\(name).awsEc2TransitGateway")
             try self.awsEc2Volume?.validate(name: "\(name).awsEc2Volume")
             try self.awsEc2Vpc?.validate(name: "\(name).awsEc2Vpc")
             try self.awsEc2VpcEndpointService?.validate(name: "\(name).awsEc2VpcEndpointService")
+            try self.awsEc2VpcPeeringConnection?.validate(name: "\(name).awsEc2VpcPeeringConnection")
             try self.awsEc2VpnConnection?.validate(name: "\(name).awsEc2VpnConnection")
             try self.awsEcrContainerImage?.validate(name: "\(name).awsEcrContainerImage")
             try self.awsEcrRepository?.validate(name: "\(name).awsEcrRepository")
             try self.awsEcsCluster?.validate(name: "\(name).awsEcsCluster")
+            try self.awsEcsContainer?.validate(name: "\(name).awsEcsContainer")
             try self.awsEcsService?.validate(name: "\(name).awsEcsService")
+            try self.awsEcsTask?.validate(name: "\(name).awsEcsTask")
             try self.awsEcsTaskDefinition?.validate(name: "\(name).awsEcsTaskDefinition")
+            try self.awsEfsAccessPoint?.validate(name: "\(name).awsEfsAccessPoint")
             try self.awsEksCluster?.validate(name: "\(name).awsEksCluster")
             try self.awsElasticBeanstalkEnvironment?.validate(name: "\(name).awsElasticBeanstalkEnvironment")
             try self.awsElasticsearchDomain?.validate(name: "\(name).awsElasticsearchDomain")
@@ -16389,6 +17969,7 @@ extension SecurityHub {
             try self.awsIamPolicy?.validate(name: "\(name).awsIamPolicy")
             try self.awsIamRole?.validate(name: "\(name).awsIamRole")
             try self.awsIamUser?.validate(name: "\(name).awsIamUser")
+            try self.awsKinesisStream?.validate(name: "\(name).awsKinesisStream")
             try self.awsKmsKey?.validate(name: "\(name).awsKmsKey")
             try self.awsLambdaFunction?.validate(name: "\(name).awsLambdaFunction")
             try self.awsLambdaLayerVersion?.validate(name: "\(name).awsLambdaLayerVersion")
@@ -16411,6 +17992,11 @@ extension SecurityHub {
             try self.awsSsmPatchCompliance?.validate(name: "\(name).awsSsmPatchCompliance")
             try self.awsWafRateBasedRule?.validate(name: "\(name).awsWafRateBasedRule")
             try self.awsWafRegionalRateBasedRule?.validate(name: "\(name).awsWafRegionalRateBasedRule")
+            try self.awsWafRegionalRule?.validate(name: "\(name).awsWafRegionalRule")
+            try self.awsWafRegionalRuleGroup?.validate(name: "\(name).awsWafRegionalRuleGroup")
+            try self.awsWafRegionalWebAcl?.validate(name: "\(name).awsWafRegionalWebAcl")
+            try self.awsWafRule?.validate(name: "\(name).awsWafRule")
+            try self.awsWafRuleGroup?.validate(name: "\(name).awsWafRuleGroup")
             try self.awsWafWebAcl?.validate(name: "\(name).awsWafWebAcl")
             try self.awsXrayEncryptionConfig?.validate(name: "\(name).awsXrayEncryptionConfig")
             try self.container?.validate(name: "\(name).container")
@@ -16428,8 +18014,10 @@ extension SecurityHub {
             case awsAutoScalingAutoScalingGroup = "AwsAutoScalingAutoScalingGroup"
             case awsAutoScalingLaunchConfiguration = "AwsAutoScalingLaunchConfiguration"
             case awsCertificateManagerCertificate = "AwsCertificateManagerCertificate"
+            case awsCloudFormationStack = "AwsCloudFormationStack"
             case awsCloudFrontDistribution = "AwsCloudFrontDistribution"
             case awsCloudTrailTrail = "AwsCloudTrailTrail"
+            case awsCloudWatchAlarm = "AwsCloudWatchAlarm"
             case awsCodeBuildProject = "AwsCodeBuildProject"
             case awsDynamoDbTable = "AwsDynamoDbTable"
             case awsEc2Eip = "AwsEc2Eip"
@@ -16438,15 +18026,20 @@ extension SecurityHub {
             case awsEc2NetworkInterface = "AwsEc2NetworkInterface"
             case awsEc2SecurityGroup = "AwsEc2SecurityGroup"
             case awsEc2Subnet = "AwsEc2Subnet"
+            case awsEc2TransitGateway = "AwsEc2TransitGateway"
             case awsEc2Volume = "AwsEc2Volume"
             case awsEc2Vpc = "AwsEc2Vpc"
             case awsEc2VpcEndpointService = "AwsEc2VpcEndpointService"
+            case awsEc2VpcPeeringConnection = "AwsEc2VpcPeeringConnection"
             case awsEc2VpnConnection = "AwsEc2VpnConnection"
             case awsEcrContainerImage = "AwsEcrContainerImage"
             case awsEcrRepository = "AwsEcrRepository"
             case awsEcsCluster = "AwsEcsCluster"
+            case awsEcsContainer = "AwsEcsContainer"
             case awsEcsService = "AwsEcsService"
+            case awsEcsTask = "AwsEcsTask"
             case awsEcsTaskDefinition = "AwsEcsTaskDefinition"
+            case awsEfsAccessPoint = "AwsEfsAccessPoint"
             case awsEksCluster = "AwsEksCluster"
             case awsElasticBeanstalkEnvironment = "AwsElasticBeanstalkEnvironment"
             case awsElasticsearchDomain = "AwsElasticsearchDomain"
@@ -16457,6 +18050,7 @@ extension SecurityHub {
             case awsIamPolicy = "AwsIamPolicy"
             case awsIamRole = "AwsIamRole"
             case awsIamUser = "AwsIamUser"
+            case awsKinesisStream = "AwsKinesisStream"
             case awsKmsKey = "AwsKmsKey"
             case awsLambdaFunction = "AwsLambdaFunction"
             case awsLambdaLayerVersion = "AwsLambdaLayerVersion"
@@ -16480,6 +18074,11 @@ extension SecurityHub {
             case awsSsmPatchCompliance = "AwsSsmPatchCompliance"
             case awsWafRateBasedRule = "AwsWafRateBasedRule"
             case awsWafRegionalRateBasedRule = "AwsWafRegionalRateBasedRule"
+            case awsWafRegionalRule = "AwsWafRegionalRule"
+            case awsWafRegionalRuleGroup = "AwsWafRegionalRuleGroup"
+            case awsWafRegionalWebAcl = "AwsWafRegionalWebAcl"
+            case awsWafRule = "AwsWafRule"
+            case awsWafRuleGroup = "AwsWafRuleGroup"
             case awsWafWebAcl = "AwsWafWebAcl"
             case awsXrayEncryptionConfig = "AwsXrayEncryptionConfig"
             case container = "Container"
@@ -17429,6 +19028,43 @@ extension SecurityHub {
         public init() {}
     }
 
+    public struct Threat: AWSEncodableShape & AWSDecodableShape {
+        /// Provides information about the file paths that were affected by the threat.
+        ///
+        public let filePaths: [FilePaths]?
+        /// This total number of items in which the threat has been detected.
+        ///
+        public let itemCount: Int?
+        /// The name of the threat.
+        ///
+        public let name: String?
+        /// The severity of the threat.
+        ///
+        public let severity: String?
+
+        public init(filePaths: [FilePaths]? = nil, itemCount: Int? = nil, name: String? = nil, severity: String? = nil) {
+            self.filePaths = filePaths
+            self.itemCount = itemCount
+            self.name = name
+            self.severity = severity
+        }
+
+        public func validate(name: String) throws {
+            try self.filePaths?.forEach {
+                try $0.validate(name: "\(name).filePaths[]")
+            }
+            try self.validate(self.name, name: "name", parent: name, pattern: "\\S")
+            try self.validate(self.severity, name: "severity", parent: name, pattern: "\\S")
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case filePaths = "FilePaths"
+            case itemCount = "ItemCount"
+            case name = "Name"
+            case severity = "Severity"
+        }
+    }
+
     public struct ThreatIntelIndicator: AWSEncodableShape & AWSDecodableShape {
         /// The category of a threat intelligence indicator.
         public let category: ThreatIntelIndicatorCategory?
@@ -17731,6 +19367,83 @@ extension SecurityHub {
         public init() {}
     }
 
+    public struct VolumeMount: AWSEncodableShape & AWSDecodableShape {
+        /// The path in the container at which the volume should be mounted.
+        public let mountPath: String?
+        /// The name of the volume.
+        public let name: String?
+
+        public init(mountPath: String? = nil, name: String? = nil) {
+            self.mountPath = mountPath
+            self.name = name
+        }
+
+        public func validate(name: String) throws {
+            try self.validate(self.mountPath, name: "mountPath", parent: name, pattern: "\\S")
+            try self.validate(self.name, name: "name", parent: name, pattern: "\\S")
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case mountPath = "MountPath"
+            case name = "Name"
+        }
+    }
+
+    public struct VpcInfoCidrBlockSetDetails: AWSEncodableShape & AWSDecodableShape {
+        /// The IPv4 CIDR block for the VPC.
+        public let cidrBlock: String?
+
+        public init(cidrBlock: String? = nil) {
+            self.cidrBlock = cidrBlock
+        }
+
+        public func validate(name: String) throws {
+            try self.validate(self.cidrBlock, name: "cidrBlock", parent: name, pattern: "\\S")
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case cidrBlock = "CidrBlock"
+        }
+    }
+
+    public struct VpcInfoIpv6CidrBlockSetDetails: AWSEncodableShape & AWSDecodableShape {
+        /// The IPv6 CIDR block for the VPC.
+        public let ipv6CidrBlock: String?
+
+        public init(ipv6CidrBlock: String? = nil) {
+            self.ipv6CidrBlock = ipv6CidrBlock
+        }
+
+        public func validate(name: String) throws {
+            try self.validate(self.ipv6CidrBlock, name: "ipv6CidrBlock", parent: name, pattern: "\\S")
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case ipv6CidrBlock = "Ipv6CidrBlock"
+        }
+    }
+
+    public struct VpcInfoPeeringOptionsDetails: AWSEncodableShape & AWSDecodableShape {
+        /// Indicates whether a local VPC can resolve public DNS hostnames to private IP addresses when queried from instances in a peer VPC.
+        public let allowDnsResolutionFromRemoteVpc: Bool?
+        /// Indicates whether a local ClassicLink connection can communicate with the peer VPC over the VPC peering connection.
+        public let allowEgressFromLocalClassicLinkToRemoteVpc: Bool?
+        /// Indicates whether a local VPC can communicate with a ClassicLink connection in the peer VPC over the VPC peering connection.
+        public let allowEgressFromLocalVpcToRemoteClassicLink: Bool?
+
+        public init(allowDnsResolutionFromRemoteVpc: Bool? = nil, allowEgressFromLocalClassicLinkToRemoteVpc: Bool? = nil, allowEgressFromLocalVpcToRemoteClassicLink: Bool? = nil) {
+            self.allowDnsResolutionFromRemoteVpc = allowDnsResolutionFromRemoteVpc
+            self.allowEgressFromLocalClassicLinkToRemoteVpc = allowEgressFromLocalClassicLinkToRemoteVpc
+            self.allowEgressFromLocalVpcToRemoteClassicLink = allowEgressFromLocalVpcToRemoteClassicLink
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case allowDnsResolutionFromRemoteVpc = "AllowDnsResolutionFromRemoteVpc"
+            case allowEgressFromLocalClassicLinkToRemoteVpc = "AllowEgressFromLocalClassicLinkToRemoteVpc"
+            case allowEgressFromLocalVpcToRemoteClassicLink = "AllowEgressFromLocalVpcToRemoteClassicLink"
+        }
+    }
+
     public struct Vulnerability: AWSEncodableShape & AWSDecodableShape {
         /// CVSS scores from the advisory related to the vulnerability.
         public let cvss: [Cvss]?
@@ -17819,7 +19532,7 @@ extension SecurityHub {
     }
 
     public struct WafAction: AWSEncodableShape & AWSDecodableShape {
-        /// Specifies how you want WAF to respond to requests that match the settings in a rule. Valid settings include the following:    ALLOW - WAF allows requests    BLOCK - WAF blocks requests    COUNT - WAF increments a counter of the requests that match all of the conditions in the rule. WAF then continues to inspect the web request based on the remaining rules in the web ACL. You can't specify COUNT for the default action for a WebACL.
+        /// Specifies how you want WAF to respond to requests that match the settings in a rule. Valid settings include the following:    ALLOW - WAF allows requests    BLOCK - WAF blocks requests    COUNT - WAF increments a counter of the requests that match all of the conditions in the rule. WAF then continues to inspect the web request based on the remaining rules in the web ACL. You can't specify COUNT for the default action for a web ACL.
         public let type: String?
 
         public init(type: String? = nil) {

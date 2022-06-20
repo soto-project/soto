@@ -195,6 +195,12 @@
                     "traits": {
                         "smithy.api#documentation": "<p>The time at which the alert was created.</p>"
                     }
+                },
+                "AlertFilters": {
+                    "target": "com.amazonaws.lookoutmetrics#AlertFilters",
+                    "traits": {
+                        "smithy.api#documentation": "<p>The configuration of the alert filters, containing MetricList and DimensionFilter.</p>"
+                    }
                 }
             },
             "traits": {
@@ -209,6 +215,26 @@
                     "max": 256
                 },
                 "smithy.api#pattern": "\\S"
+            }
+        },
+        "com.amazonaws.lookoutmetrics#AlertFilters": {
+            "type": "structure",
+            "members": {
+                "MetricList": {
+                    "target": "com.amazonaws.lookoutmetrics#MetricNameList",
+                    "traits": {
+                        "smithy.api#documentation": "<p>The list of measures that you want to get alerts for.</p>"
+                    }
+                },
+                "DimensionFilterList": {
+                    "target": "com.amazonaws.lookoutmetrics#DimensionFilterList",
+                    "traits": {
+                        "smithy.api#documentation": "<p>The list of DimensionFilter objects that are used for dimension-based filtering.</p>"
+                    }
+                }
+            },
+            "traits": {
+                "smithy.api#documentation": "<p>The configuration of the alert filters.</p>"
             }
         },
         "com.amazonaws.lookoutmetrics#AlertName": {
@@ -728,6 +754,106 @@
                 "smithy.api#pattern": "^arn:([a-z\\d-]+):.*:.*:.*:.+$"
             }
         },
+        "com.amazonaws.lookoutmetrics#AthenaDataCatalog": {
+            "type": "string",
+            "traits": {
+                "smithy.api#length": {
+                    "min": 1,
+                    "max": 256
+                },
+                "smithy.api#pattern": "^[\\u0020-\\uD7FF\\uE000-\\uFFFD\\uD800\\uDC00-\\uDBFF\\uDFFF\\t]*$"
+            }
+        },
+        "com.amazonaws.lookoutmetrics#AthenaDatabaseName": {
+            "type": "string",
+            "traits": {
+                "smithy.api#length": {
+                    "min": 1,
+                    "max": 255
+                },
+                "smithy.api#pattern": "^[a-zA-Z0-9_]+$"
+            }
+        },
+        "com.amazonaws.lookoutmetrics#AthenaS3ResultsPath": {
+            "type": "string",
+            "traits": {
+                "smithy.api#length": {
+                    "min": 0,
+                    "max": 1024
+                },
+                "smithy.api#pattern": "^s3://[a-z0-9].+$"
+            }
+        },
+        "com.amazonaws.lookoutmetrics#AthenaSourceConfig": {
+            "type": "structure",
+            "members": {
+                "RoleArn": {
+                    "target": "com.amazonaws.lookoutmetrics#Arn",
+                    "traits": {
+                        "smithy.api#documentation": "<p>An IAM role that gives Amazon Lookout for Metrics permission to access the data.</p>"
+                    }
+                },
+                "DatabaseName": {
+                    "target": "com.amazonaws.lookoutmetrics#AthenaDatabaseName",
+                    "traits": {
+                        "smithy.api#documentation": "<p>The database's name.</p>"
+                    }
+                },
+                "DataCatalog": {
+                    "target": "com.amazonaws.lookoutmetrics#AthenaDataCatalog",
+                    "traits": {
+                        "smithy.api#documentation": "<p>The database's data catalog.</p>"
+                    }
+                },
+                "TableName": {
+                    "target": "com.amazonaws.lookoutmetrics#AthenaTableName",
+                    "traits": {
+                        "smithy.api#documentation": "<p>The database's table name.</p>"
+                    }
+                },
+                "WorkGroupName": {
+                    "target": "com.amazonaws.lookoutmetrics#AthenaWorkGroupName",
+                    "traits": {
+                        "smithy.api#documentation": "<p>The database's work group name.</p>"
+                    }
+                },
+                "S3ResultsPath": {
+                    "target": "com.amazonaws.lookoutmetrics#AthenaS3ResultsPath",
+                    "traits": {
+                        "smithy.api#documentation": "<p>The database's results path.</p>"
+                    }
+                },
+                "BackTestConfiguration": {
+                    "target": "com.amazonaws.lookoutmetrics#BackTestConfiguration",
+                    "traits": {
+                        "smithy.api#documentation": "<p>Settings for backtest mode.</p>"
+                    }
+                }
+            },
+            "traits": {
+                "smithy.api#documentation": "<p>Details about an Amazon Athena datasource.</p>"
+            }
+        },
+        "com.amazonaws.lookoutmetrics#AthenaTableName": {
+            "type": "string",
+            "traits": {
+                "smithy.api#length": {
+                    "min": 1,
+                    "max": 128
+                },
+                "smithy.api#pattern": "^[a-zA-Z0-9_]+$"
+            }
+        },
+        "com.amazonaws.lookoutmetrics#AthenaWorkGroupName": {
+            "type": "string",
+            "traits": {
+                "smithy.api#length": {
+                    "min": 1,
+                    "max": 128
+                },
+                "smithy.api#pattern": "^[a-zA-Z0-9._-]{1,128}$"
+            }
+        },
         "com.amazonaws.lookoutmetrics#AttributeValue": {
             "type": "structure",
             "members": {
@@ -856,6 +982,21 @@
             "type": "structure",
             "members": {}
         },
+        "com.amazonaws.lookoutmetrics#BackTestConfiguration": {
+            "type": "structure",
+            "members": {
+                "RunBackTestMode": {
+                    "target": "com.amazonaws.lookoutmetrics#Boolean",
+                    "traits": {
+                        "smithy.api#documentation": "<p>Run a backtest instead of monitoring new data.</p>",
+                        "smithy.api#required": {}
+                    }
+                }
+            },
+            "traits": {
+                "smithy.api#documentation": "<p>Settings for backtest mode.</p>"
+            }
+        },
         "com.amazonaws.lookoutmetrics#BinaryAttributeValue": {
             "type": "string"
         },
@@ -903,6 +1044,12 @@
                     "target": "com.amazonaws.lookoutmetrics#Arn",
                     "traits": {
                         "smithy.api#documentation": "<p>An IAM role that gives Amazon Lookout for Metrics permission to access data in Amazon CloudWatch.</p>"
+                    }
+                },
+                "BackTestConfiguration": {
+                    "target": "com.amazonaws.lookoutmetrics#BackTestConfiguration",
+                    "traits": {
+                        "smithy.api#documentation": "<p>Settings for backtest mode.</p>"
                     }
                 }
             },
@@ -1034,8 +1181,7 @@
                 "AlertSensitivityThreshold": {
                     "target": "com.amazonaws.lookoutmetrics#SensitivityThreshold",
                     "traits": {
-                        "smithy.api#documentation": "<p>An integer from 0 to 100 specifying the alert sensitivity threshold.</p>",
-                        "smithy.api#required": {}
+                        "smithy.api#documentation": "<p>An integer from 0 to 100 specifying the alert sensitivity threshold.</p>"
                     }
                 },
                 "AlertDescription": {
@@ -1062,6 +1208,12 @@
                     "target": "com.amazonaws.lookoutmetrics#TagMap",
                     "traits": {
                         "smithy.api#documentation": "<p>A list of <a href=\"https://docs.aws.amazon.com/lookoutmetrics/latest/dev/detectors-tags.html\">tags</a> to apply to the alert.</p>"
+                    }
+                },
+                "AlertFilters": {
+                    "target": "com.amazonaws.lookoutmetrics#AlertFilters",
+                    "traits": {
+                        "smithy.api#documentation": "<p>The configuration of the alert filters, containing MetricList and DimensionFilterList.</p>"
                     }
                 }
             }
@@ -2170,6 +2322,38 @@
                 "target": "com.amazonaws.lookoutmetrics#DimensionContribution"
             }
         },
+        "com.amazonaws.lookoutmetrics#DimensionFilter": {
+            "type": "structure",
+            "members": {
+                "DimensionName": {
+                    "target": "com.amazonaws.lookoutmetrics#ColumnName",
+                    "traits": {
+                        "smithy.api#documentation": "<p>The name of the dimension to filter on.</p>"
+                    }
+                },
+                "DimensionValueList": {
+                    "target": "com.amazonaws.lookoutmetrics#DimensionValueList",
+                    "traits": {
+                        "smithy.api#documentation": "<p>The list of values for the dimension specified in DimensionName that you want to filter on.</p>"
+                    }
+                }
+            },
+            "traits": {
+                "smithy.api#documentation": "<p>The dimension filter, containing DimensionName and DimensionValueList.</p>"
+            }
+        },
+        "com.amazonaws.lookoutmetrics#DimensionFilterList": {
+            "type": "list",
+            "member": {
+                "target": "com.amazonaws.lookoutmetrics#DimensionFilter"
+            },
+            "traits": {
+                "smithy.api#length": {
+                    "min": 1,
+                    "max": 5
+                }
+            }
+        },
         "com.amazonaws.lookoutmetrics#DimensionList": {
             "type": "list",
             "member": {
@@ -2236,6 +2420,18 @@
             "type": "list",
             "member": {
                 "target": "com.amazonaws.lookoutmetrics#DimensionValueContribution"
+            }
+        },
+        "com.amazonaws.lookoutmetrics#DimensionValueList": {
+            "type": "list",
+            "member": {
+                "target": "com.amazonaws.lookoutmetrics#DimensionValue"
+            },
+            "traits": {
+                "smithy.api#length": {
+                    "min": 1,
+                    "max": 10
+                }
             }
         },
         "com.amazonaws.lookoutmetrics#ErrorMessage": {
@@ -3423,6 +3619,9 @@
                     "target": "com.amazonaws.lookoutmetrics#UntagResource"
                 },
                 {
+                    "target": "com.amazonaws.lookoutmetrics#UpdateAlert"
+                },
+                {
                     "target": "com.amazonaws.lookoutmetrics#UpdateAnomalyDetector"
                 },
                 {
@@ -3533,6 +3732,18 @@
                 "smithy.api#pattern": "^[a-zA-Z0-9][a-zA-Z0-9\\-_]*$"
             }
         },
+        "com.amazonaws.lookoutmetrics#MetricNameList": {
+            "type": "list",
+            "member": {
+                "target": "com.amazonaws.lookoutmetrics#MetricName"
+            },
+            "traits": {
+                "smithy.api#length": {
+                    "min": 1,
+                    "max": 5
+                }
+            }
+        },
         "com.amazonaws.lookoutmetrics#MetricSetDescription": {
             "type": "string",
             "traits": {
@@ -3618,30 +3829,36 @@
                 "AppFlowConfig": {
                     "target": "com.amazonaws.lookoutmetrics#AppFlowConfig",
                     "traits": {
-                        "smithy.api#documentation": "<p>An object containing information about the AppFlow configuration.</p>"
+                        "smithy.api#documentation": "<p>Details about an AppFlow datasource.</p>"
                     }
                 },
                 "CloudWatchConfig": {
                     "target": "com.amazonaws.lookoutmetrics#CloudWatchConfig",
                     "traits": {
-                        "smithy.api#documentation": "<p>An object containing information about the Amazon CloudWatch monitoring configuration.</p>"
+                        "smithy.api#documentation": "<p>Details about an Amazon CloudWatch monitoring datasource.</p>"
                     }
                 },
                 "RDSSourceConfig": {
                     "target": "com.amazonaws.lookoutmetrics#RDSSourceConfig",
                     "traits": {
-                        "smithy.api#documentation": "<p>An object containing information about the Amazon Relational Database Service (RDS) configuration.</p>"
+                        "smithy.api#documentation": "<p>Details about an Amazon Relational Database Service (RDS) datasource.</p>"
                     }
                 },
                 "RedshiftSourceConfig": {
                     "target": "com.amazonaws.lookoutmetrics#RedshiftSourceConfig",
                     "traits": {
-                        "smithy.api#documentation": "<p>An object containing information about the Amazon Redshift database configuration.</p>"
+                        "smithy.api#documentation": "<p>Details about an Amazon Redshift database datasource.</p>"
+                    }
+                },
+                "AthenaSourceConfig": {
+                    "target": "com.amazonaws.lookoutmetrics#AthenaSourceConfig",
+                    "traits": {
+                        "smithy.api#documentation": "<p>Details about an Amazon Athena datasource.</p>"
                     }
                 }
             },
             "traits": {
-                "smithy.api#documentation": "<p>Contains information about source data used to generate a metric.</p>"
+                "smithy.api#documentation": "<p>Contains information about source data used to generate metrics.</p>"
             }
         },
         "com.amazonaws.lookoutmetrics#MetricValue": {
@@ -4025,6 +4242,12 @@
                         "smithy.api#documentation": "<p>The ARN of the target SNS topic.</p>",
                         "smithy.api#required": {}
                     }
+                },
+                "SnsFormat": {
+                    "target": "com.amazonaws.lookoutmetrics#SnsFormat",
+                    "traits": {
+                        "smithy.api#documentation": "<p>The format of the SNS topic.</p>\n         <ul>\n            <li>\n               <p>\n                  <code>JSON</code> – Send JSON alerts with an anomaly ID and a link to the anomaly detail page. This is the default.</p>\n            </li>\n            <li>\n               <p>\n                  <code>LONG_TEXT</code> – Send human-readable alerts with information about the impacted timeseries and a link to the anomaly detail page. We recommend this for email.</p>\n            </li>\n            <li>\n               <p>\n                  <code>SHORT_TEXT</code> – Send human-readable alerts with a link to the anomaly detail page. We recommend this for SMS.</p>\n            </li>\n         </ul>"
+                    }
                 }
             },
             "traits": {
@@ -4152,6 +4375,25 @@
                 "smithy.api#documentation": "<p>The request exceeded the service's quotas. Check the service quotas and try again.</p>",
                 "smithy.api#error": "client",
                 "smithy.api#httpError": 402
+            }
+        },
+        "com.amazonaws.lookoutmetrics#SnsFormat": {
+            "type": "string",
+            "traits": {
+                "smithy.api#enum": [
+                    {
+                        "value": "LONG_TEXT",
+                        "name": "LONG_TEXT"
+                    },
+                    {
+                        "value": "SHORT_TEXT",
+                        "name": "SHORT_TEXT"
+                    },
+                    {
+                        "value": "JSON",
+                        "name": "JSON"
+                    }
+                ]
             }
         },
         "com.amazonaws.lookoutmetrics#StringAttributeValue": {
@@ -4510,6 +4752,87 @@
         "com.amazonaws.lookoutmetrics#UntagResourceResponse": {
             "type": "structure",
             "members": {}
+        },
+        "com.amazonaws.lookoutmetrics#UpdateAlert": {
+            "type": "operation",
+            "input": {
+                "target": "com.amazonaws.lookoutmetrics#UpdateAlertRequest"
+            },
+            "output": {
+                "target": "com.amazonaws.lookoutmetrics#UpdateAlertResponse"
+            },
+            "errors": [
+                {
+                    "target": "com.amazonaws.lookoutmetrics#AccessDeniedException"
+                },
+                {
+                    "target": "com.amazonaws.lookoutmetrics#InternalServerException"
+                },
+                {
+                    "target": "com.amazonaws.lookoutmetrics#ResourceNotFoundException"
+                },
+                {
+                    "target": "com.amazonaws.lookoutmetrics#TooManyRequestsException"
+                },
+                {
+                    "target": "com.amazonaws.lookoutmetrics#ValidationException"
+                }
+            ],
+            "traits": {
+                "smithy.api#documentation": "<p>Make changes to an existing alert.</p>",
+                "smithy.api#http": {
+                    "method": "POST",
+                    "uri": "/UpdateAlert",
+                    "code": 200
+                }
+            }
+        },
+        "com.amazonaws.lookoutmetrics#UpdateAlertRequest": {
+            "type": "structure",
+            "members": {
+                "AlertArn": {
+                    "target": "com.amazonaws.lookoutmetrics#Arn",
+                    "traits": {
+                        "smithy.api#documentation": "<p>The ARN of the alert to update.</p>",
+                        "smithy.api#required": {}
+                    }
+                },
+                "AlertDescription": {
+                    "target": "com.amazonaws.lookoutmetrics#AlertDescription",
+                    "traits": {
+                        "smithy.api#documentation": "<p>A description of the alert.</p>"
+                    }
+                },
+                "AlertSensitivityThreshold": {
+                    "target": "com.amazonaws.lookoutmetrics#SensitivityThreshold",
+                    "traits": {
+                        "smithy.api#documentation": "<p>An integer from 0 to 100 specifying the alert sensitivity threshold.</p>"
+                    }
+                },
+                "Action": {
+                    "target": "com.amazonaws.lookoutmetrics#Action",
+                    "traits": {
+                        "smithy.api#documentation": "<p>Action that will be triggered when there is an alert.</p>"
+                    }
+                },
+                "AlertFilters": {
+                    "target": "com.amazonaws.lookoutmetrics#AlertFilters",
+                    "traits": {
+                        "smithy.api#documentation": "<p>The configuration of the alert filters, containing MetricList and DimensionFilterList.</p>"
+                    }
+                }
+            }
+        },
+        "com.amazonaws.lookoutmetrics#UpdateAlertResponse": {
+            "type": "structure",
+            "members": {
+                "AlertArn": {
+                    "target": "com.amazonaws.lookoutmetrics#Arn",
+                    "traits": {
+                        "smithy.api#documentation": "<p>The ARN of the updated alert.</p>"
+                    }
+                }
+            }
         },
         "com.amazonaws.lookoutmetrics#UpdateAnomalyDetector": {
             "type": "operation",

@@ -422,6 +422,7 @@ extension S3 {
         case glacier = "GLACIER"
         case glacierIr = "GLACIER_IR"
         case intelligentTiering = "INTELLIGENT_TIERING"
+        case none = "NONE"
         case onezoneIa = "ONEZONE_IA"
         case outposts = "OUTPOSTS"
         case reducedRedundancy = "REDUCED_REDUNDANCY"

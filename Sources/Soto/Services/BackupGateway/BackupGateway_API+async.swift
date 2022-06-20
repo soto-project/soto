@@ -48,6 +48,11 @@ extension BackupGateway {
         return try await self.client.execute(operation: "DisassociateGatewayFromServer", path: "/", httpMethod: .POST, serviceConfig: self.config, input: input, logger: logger, on: eventLoop)
     }
 
+    /// By providing the ARN (Amazon Resource Name), this API returns the gateway.
+    public func getGateway(_ input: GetGatewayInput, logger: Logger = AWSClient.loggingDisabled, on eventLoop: EventLoop? = nil) async throws -> GetGatewayOutput {
+        return try await self.client.execute(operation: "GetGateway", path: "/", httpMethod: .POST, serviceConfig: self.config, input: input, logger: logger, on: eventLoop)
+    }
+
     /// Connect to a hypervisor by importing its configuration.
     public func importHypervisorConfiguration(_ input: ImportHypervisorConfigurationInput, logger: Logger = AWSClient.loggingDisabled, on eventLoop: EventLoop? = nil) async throws -> ImportHypervisorConfigurationOutput {
         return try await self.client.execute(operation: "ImportHypervisorConfiguration", path: "/", httpMethod: .POST, serviceConfig: self.config, input: input, logger: logger, on: eventLoop)
@@ -96,6 +101,11 @@ extension BackupGateway {
     /// Updates a gateway's name. Specify which gateway to update using the Amazon Resource Name (ARN) of the gateway in your request.
     public func updateGatewayInformation(_ input: UpdateGatewayInformationInput, logger: Logger = AWSClient.loggingDisabled, on eventLoop: EventLoop? = nil) async throws -> UpdateGatewayInformationOutput {
         return try await self.client.execute(operation: "UpdateGatewayInformation", path: "/", httpMethod: .POST, serviceConfig: self.config, input: input, logger: logger, on: eventLoop)
+    }
+
+    /// Updates the gateway virtual machine (VM) software.  The request immediately triggers the software update.  When you make this request, you get a 200 OK success response immediately. However, it might take some  time for the update to complete.
+    public func updateGatewaySoftwareNow(_ input: UpdateGatewaySoftwareNowInput, logger: Logger = AWSClient.loggingDisabled, on eventLoop: EventLoop? = nil) async throws -> UpdateGatewaySoftwareNowOutput {
+        return try await self.client.execute(operation: "UpdateGatewaySoftwareNow", path: "/", httpMethod: .POST, serviceConfig: self.config, input: input, logger: logger, on: eventLoop)
     }
 
     /// Updates a hypervisor metadata, including its host, username, and password. Specify which hypervisor to update using the Amazon Resource Name (ARN) of the hypervisor in your request.

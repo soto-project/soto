@@ -23,6 +23,42 @@ import SotoCore
 
 @available(macOS 10.15, iOS 13.0, tvOS 13.0, watchOS 6.0, *)
 extension Proton {
+    public func waitUntilComponentDeleted(
+        _ input: GetComponentInput,
+        maxWaitTime: TimeAmount? = nil,
+        logger: Logger = AWSClient.loggingDisabled,
+        on eventLoop: EventLoop? = nil
+    ) async throws {
+        let waiter = AWSClient.Waiter(
+            acceptors: [
+                .init(state: .success, matcher: AWSErrorCodeMatcher("ResourceNotFoundException")),
+                .init(state: .failure, matcher: try! JMESPathMatcher("component.deploymentStatus", expected: "DELETE_FAILED")),
+            ],
+            minDelayTime: .seconds(5),
+            maxDelayTime: .seconds(4999),
+            command: getComponent
+        )
+        return try await self.client.waitUntil(input, waiter: waiter, maxWaitTime: maxWaitTime, logger: logger, on: eventLoop)
+    }
+
+    public func waitUntilComponentDeployed(
+        _ input: GetComponentInput,
+        maxWaitTime: TimeAmount? = nil,
+        logger: Logger = AWSClient.loggingDisabled,
+        on eventLoop: EventLoop? = nil
+    ) async throws {
+        let waiter = AWSClient.Waiter(
+            acceptors: [
+                .init(state: .success, matcher: try! JMESPathMatcher("component.deploymentStatus", expected: "SUCCEEDED")),
+                .init(state: .failure, matcher: try! JMESPathMatcher("component.deploymentStatus", expected: "FAILED")),
+            ],
+            minDelayTime: .seconds(5),
+            maxDelayTime: .seconds(4999),
+            command: getComponent
+        )
+        return try await self.client.waitUntil(input, waiter: waiter, maxWaitTime: maxWaitTime, logger: logger, on: eventLoop)
+    }
+
     public func waitUntilEnvironmentDeployed(
         _ input: GetEnvironmentInput,
         maxWaitTime: TimeAmount? = nil,

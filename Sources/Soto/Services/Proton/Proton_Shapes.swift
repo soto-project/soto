@@ -21,6 +21,12 @@ import SotoCore
 extension Proton {
     // MARK: Enums
 
+    public enum ComponentDeploymentUpdateType: String, CustomStringConvertible, Codable, _SotoSendable {
+        case currentVersion = "CURRENT_VERSION"
+        case none = "NONE"
+        public var description: String { return self.rawValue }
+    }
+
     public enum DeploymentStatus: String, CustomStringConvertible, Codable, _SotoSendable {
         case cancelled = "CANCELLED"
         case cancelling = "CANCELLING"
@@ -123,6 +129,11 @@ extension Proton {
         public var description: String { return self.rawValue }
     }
 
+    public enum ServiceTemplateSupportedComponentSourceType: String, CustomStringConvertible, Codable, _SotoSendable {
+        case directlyDefined = "DIRECTLY_DEFINED"
+        public var description: String { return self.rawValue }
+    }
+
     public enum SyncType: String, CustomStringConvertible, Codable, _SotoSendable {
         case templateSync = "TEMPLATE_SYNC"
         public var description: String { return self.rawValue }
@@ -188,6 +199,38 @@ extension Proton {
         private enum CodingKeys: String, CodingKey {
             case pipelineProvisioningRepository
             case pipelineServiceRoleArn
+        }
+    }
+
+    public struct CancelComponentDeploymentInput: AWSEncodableShape {
+        /// The name of the component with the deployment to cancel.
+        public let componentName: String
+
+        public init(componentName: String) {
+            self.componentName = componentName
+        }
+
+        public func validate(name: String) throws {
+            try self.validate(self.componentName, name: "componentName", parent: name, max: 100)
+            try self.validate(self.componentName, name: "componentName", parent: name, min: 1)
+            try self.validate(self.componentName, name: "componentName", parent: name, pattern: "^[0-9A-Za-z]+[0-9A-Za-z_\\-]*$")
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case componentName
+        }
+    }
+
+    public struct CancelComponentDeploymentOutput: AWSDecodableShape {
+        /// The detailed data of the component with the deployment that is being canceled.
+        public let component: Component
+
+        public init(component: Component) {
+            self.component = component
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case component
         }
     }
 
@@ -337,9 +380,209 @@ extension Proton {
         }
     }
 
+    public struct Component: AWSDecodableShape {
+        /// The Amazon Resource Name (ARN) of the component.
+        public let arn: String
+        /// The time when the component was created.
+        public let createdAt: Date
+        /// The component deployment status.
+        public let deploymentStatus: DeploymentStatus
+        /// The message associated with the component deployment status.
+        public let deploymentStatusMessage: String?
+        /// A description of the component.
+        public let description: String?
+        /// The name of the Proton environment that this component is associated with.
+        public let environmentName: String
+        /// The time when a deployment of the component was last attempted.
+        public let lastDeploymentAttemptedAt: Date?
+        /// The time when the component was last deployed successfully.
+        public let lastDeploymentSucceededAt: Date?
+        /// The time when the component was last modified.
+        public let lastModifiedAt: Date
+        /// The name of the component.
+        public let name: String
+        /// The name of the service instance that this component is attached to. Provided when a component is attached to a service instance.
+        public let serviceInstanceName: String?
+        /// The name of the service that serviceInstanceName is associated with. Provided when a component is attached to a service instance.
+        public let serviceName: String?
+        /// The service spec that the component uses to access service inputs. Provided when a component is attached to a service instance.
+        public let serviceSpec: String?
+
+        public init(arn: String, createdAt: Date, deploymentStatus: DeploymentStatus, deploymentStatusMessage: String? = nil, description: String? = nil, environmentName: String, lastDeploymentAttemptedAt: Date? = nil, lastDeploymentSucceededAt: Date? = nil, lastModifiedAt: Date, name: String, serviceInstanceName: String? = nil, serviceName: String? = nil, serviceSpec: String? = nil) {
+            self.arn = arn
+            self.createdAt = createdAt
+            self.deploymentStatus = deploymentStatus
+            self.deploymentStatusMessage = deploymentStatusMessage
+            self.description = description
+            self.environmentName = environmentName
+            self.lastDeploymentAttemptedAt = lastDeploymentAttemptedAt
+            self.lastDeploymentSucceededAt = lastDeploymentSucceededAt
+            self.lastModifiedAt = lastModifiedAt
+            self.name = name
+            self.serviceInstanceName = serviceInstanceName
+            self.serviceName = serviceName
+            self.serviceSpec = serviceSpec
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case arn
+            case createdAt
+            case deploymentStatus
+            case deploymentStatusMessage
+            case description
+            case environmentName
+            case lastDeploymentAttemptedAt
+            case lastDeploymentSucceededAt
+            case lastModifiedAt
+            case name
+            case serviceInstanceName
+            case serviceName
+            case serviceSpec
+        }
+    }
+
+    public struct ComponentSummary: AWSDecodableShape {
+        /// The Amazon Resource Name (ARN) of the component.
+        public let arn: String
+        /// The time when the component was created.
+        public let createdAt: Date
+        /// The component deployment status.
+        public let deploymentStatus: DeploymentStatus
+        /// The message associated with the component deployment status.
+        public let deploymentStatusMessage: String?
+        /// The name of the Proton environment that this component is associated with.
+        public let environmentName: String
+        /// The time when a deployment of the component was last attempted.
+        public let lastDeploymentAttemptedAt: Date?
+        /// The time when the component was last deployed successfully.
+        public let lastDeploymentSucceededAt: Date?
+        /// The time when the component was last modified.
+        public let lastModifiedAt: Date
+        /// The name of the component.
+        public let name: String
+        /// The name of the service instance that this component is attached to. Provided when a component is attached to a service instance.
+        public let serviceInstanceName: String?
+        /// The name of the service that serviceInstanceName is associated with. Provided when a component is attached to a service instance.
+        public let serviceName: String?
+
+        public init(arn: String, createdAt: Date, deploymentStatus: DeploymentStatus, deploymentStatusMessage: String? = nil, environmentName: String, lastDeploymentAttemptedAt: Date? = nil, lastDeploymentSucceededAt: Date? = nil, lastModifiedAt: Date, name: String, serviceInstanceName: String? = nil, serviceName: String? = nil) {
+            self.arn = arn
+            self.createdAt = createdAt
+            self.deploymentStatus = deploymentStatus
+            self.deploymentStatusMessage = deploymentStatusMessage
+            self.environmentName = environmentName
+            self.lastDeploymentAttemptedAt = lastDeploymentAttemptedAt
+            self.lastDeploymentSucceededAt = lastDeploymentSucceededAt
+            self.lastModifiedAt = lastModifiedAt
+            self.name = name
+            self.serviceInstanceName = serviceInstanceName
+            self.serviceName = serviceName
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case arn
+            case createdAt
+            case deploymentStatus
+            case deploymentStatusMessage
+            case environmentName
+            case lastDeploymentAttemptedAt
+            case lastDeploymentSucceededAt
+            case lastModifiedAt
+            case name
+            case serviceInstanceName
+            case serviceName
+        }
+    }
+
+    public struct CreateComponentInput: AWSEncodableShape {
+        /// An optional customer-provided description of the component.
+        public let description: String?
+        /// The name of the Proton environment that you want to associate this component with. You must specify this when you don't specify serviceInstanceName and serviceName.
+        public let environmentName: String?
+        /// A path to a manifest file that lists the Infrastructure as Code (IaC) file, template language, and rendering engine for infrastructure that a custom component provisions.
+        public let manifest: String
+        /// The customer-provided name of the component.
+        public let name: String
+        /// The name of the service instance that you want to attach this component to. If you don't specify this, the component isn't attached to any service instance. Specify both serviceInstanceName and serviceName or neither of them.
+        public let serviceInstanceName: String?
+        /// The name of the service that serviceInstanceName is associated with. If you don't specify this, the component isn't attached to any service instance. Specify both serviceInstanceName and serviceName or neither of them.
+        public let serviceName: String?
+        /// The service spec that you want the component to use to access service inputs. Set this only when you attach the component to a service instance.
+        public let serviceSpec: String?
+        /// An optional list of metadata items that you can associate with the Proton component. A tag is a key-value pair. For more information, see Proton resources and tagging in the Proton Administrator Guide or Proton User Guide.
+        public let tags: [Tag]?
+        /// A path to the Infrastructure as Code (IaC) file describing infrastructure that a custom component provisions.  Components support a single IaC file, even if you use Terraform as your template language.
+        public let templateFile: String
+
+        public init(description: String? = nil, environmentName: String? = nil, manifest: String, name: String, serviceInstanceName: String? = nil, serviceName: String? = nil, serviceSpec: String? = nil, tags: [Tag]? = nil, templateFile: String) {
+            self.description = description
+            self.environmentName = environmentName
+            self.manifest = manifest
+            self.name = name
+            self.serviceInstanceName = serviceInstanceName
+            self.serviceName = serviceName
+            self.serviceSpec = serviceSpec
+            self.tags = tags
+            self.templateFile = templateFile
+        }
+
+        public func validate(name: String) throws {
+            try self.validate(self.description, name: "description", parent: name, max: 500)
+            try self.validate(self.environmentName, name: "environmentName", parent: name, max: 100)
+            try self.validate(self.environmentName, name: "environmentName", parent: name, min: 1)
+            try self.validate(self.environmentName, name: "environmentName", parent: name, pattern: "^[0-9A-Za-z]+[0-9A-Za-z_\\-]*$")
+            try self.validate(self.manifest, name: "manifest", parent: name, max: 1024)
+            try self.validate(self.manifest, name: "manifest", parent: name, min: 1)
+            try self.validate(self.name, name: "name", parent: name, max: 100)
+            try self.validate(self.name, name: "name", parent: name, min: 1)
+            try self.validate(self.name, name: "name", parent: name, pattern: "^[0-9A-Za-z]+[0-9A-Za-z_\\-]*$")
+            try self.validate(self.serviceInstanceName, name: "serviceInstanceName", parent: name, max: 100)
+            try self.validate(self.serviceInstanceName, name: "serviceInstanceName", parent: name, min: 1)
+            try self.validate(self.serviceInstanceName, name: "serviceInstanceName", parent: name, pattern: "^[0-9A-Za-z]+[0-9A-Za-z_\\-]*$")
+            try self.validate(self.serviceName, name: "serviceName", parent: name, max: 100)
+            try self.validate(self.serviceName, name: "serviceName", parent: name, min: 1)
+            try self.validate(self.serviceName, name: "serviceName", parent: name, pattern: "^[0-9A-Za-z]+[0-9A-Za-z_\\-]*$")
+            try self.validate(self.serviceSpec, name: "serviceSpec", parent: name, max: 51200)
+            try self.validate(self.serviceSpec, name: "serviceSpec", parent: name, min: 1)
+            try self.tags?.forEach {
+                try $0.validate(name: "\(name).tags[]")
+            }
+            try self.validate(self.tags, name: "tags", parent: name, max: 50)
+            try self.validate(self.templateFile, name: "templateFile", parent: name, max: 51200)
+            try self.validate(self.templateFile, name: "templateFile", parent: name, min: 1)
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case description
+            case environmentName
+            case manifest
+            case name
+            case serviceInstanceName
+            case serviceName
+            case serviceSpec
+            case tags
+            case templateFile
+        }
+    }
+
+    public struct CreateComponentOutput: AWSDecodableShape {
+        /// The detailed data of the created component.
+        public let component: Component
+
+        public init(component: Component) {
+            self.component = component
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case component
+        }
+    }
+
     public struct CreateEnvironmentAccountConnectionInput: AWSEncodableShape {
         /// When included, if two identical requests are made with the same client token, Proton returns the environment account connection that the first request created.
         public let clientToken: String?
+        /// The Amazon Resource Name (ARN) of the IAM service role that Proton uses when provisioning directly defined components in the associated environment account. It determines the scope of infrastructure that a component can provision in the account. You must specify componentRoleArn to allow directly defined components to be associated with any environments running in this account. For more information about components, see Proton components in the Proton Administrator Guide.
+        public let componentRoleArn: String?
         /// The name of the Proton environment that's created in the associated management account.
         public let environmentName: String
         /// The ID of the management account that accepts or rejects the environment account connection. You create and manage the Proton environment in this account. If the management account accepts the environment account connection, Proton can use the associated IAM role to provision environment infrastructure resources in the associated environment account.
@@ -349,8 +592,9 @@ extension Proton {
         /// An optional list of metadata items that you can associate with the Proton environment account connection. A tag is a key-value pair. For more information, see Proton resources and tagging in the Proton Administrator Guide.
         public let tags: [Tag]?
 
-        public init(clientToken: String? = CreateEnvironmentAccountConnectionInput.idempotencyToken(), environmentName: String, managementAccountId: String, roleArn: String, tags: [Tag]? = nil) {
+        public init(clientToken: String? = CreateEnvironmentAccountConnectionInput.idempotencyToken(), componentRoleArn: String? = nil, environmentName: String, managementAccountId: String, roleArn: String, tags: [Tag]? = nil) {
             self.clientToken = clientToken
+            self.componentRoleArn = componentRoleArn
             self.environmentName = environmentName
             self.managementAccountId = managementAccountId
             self.roleArn = roleArn
@@ -360,6 +604,8 @@ extension Proton {
         public func validate(name: String) throws {
             try self.validate(self.clientToken, name: "clientToken", parent: name, max: 64)
             try self.validate(self.clientToken, name: "clientToken", parent: name, pattern: "^[!-~]*$")
+            try self.validate(self.componentRoleArn, name: "componentRoleArn", parent: name, max: 200)
+            try self.validate(self.componentRoleArn, name: "componentRoleArn", parent: name, min: 1)
             try self.validate(self.environmentName, name: "environmentName", parent: name, max: 100)
             try self.validate(self.environmentName, name: "environmentName", parent: name, min: 1)
             try self.validate(self.environmentName, name: "environmentName", parent: name, pattern: "^[0-9A-Za-z]+[0-9A-Za-z_\\-]*$")
@@ -374,6 +620,7 @@ extension Proton {
 
         private enum CodingKeys: String, CodingKey {
             case clientToken
+            case componentRoleArn
             case environmentName
             case managementAccountId
             case roleArn
@@ -395,6 +642,8 @@ extension Proton {
     }
 
     public struct CreateEnvironmentInput: AWSEncodableShape {
+        /// The Amazon Resource Name (ARN) of the IAM service role that Proton uses when provisioning directly defined components in this environment. It determines the scope of infrastructure that a component can provision. You must specify componentRoleArn to allow directly defined components to be associated with this environment. For more information about components, see Proton components in the Proton Administrator Guide.
+        public let componentRoleArn: String?
         /// A description of the environment that's being created and deployed.
         public let description: String?
         /// The ID of the environment account connection that you provide if you're provisioning your environment infrastructure resources to an environment account. For more information, see Environment account connections in the Proton Administrator guide. To use Amazon Web Services-managed provisioning for the environment, specify either the environmentAccountConnectionId or protonServiceRoleArn parameter and omit the provisioningRepository parameter.
@@ -416,7 +665,8 @@ extension Proton {
         /// The name of the environment template. For more information, see Environment Templates in the Proton Administrator Guide.
         public let templateName: String
 
-        public init(description: String? = nil, environmentAccountConnectionId: String? = nil, name: String, protonServiceRoleArn: String? = nil, provisioningRepository: RepositoryBranchInput? = nil, spec: String, tags: [Tag]? = nil, templateMajorVersion: String, templateMinorVersion: String? = nil, templateName: String) {
+        public init(componentRoleArn: String? = nil, description: String? = nil, environmentAccountConnectionId: String? = nil, name: String, protonServiceRoleArn: String? = nil, provisioningRepository: RepositoryBranchInput? = nil, spec: String, tags: [Tag]? = nil, templateMajorVersion: String, templateMinorVersion: String? = nil, templateName: String) {
+            self.componentRoleArn = componentRoleArn
             self.description = description
             self.environmentAccountConnectionId = environmentAccountConnectionId
             self.name = name
@@ -430,6 +680,8 @@ extension Proton {
         }
 
         public func validate(name: String) throws {
+            try self.validate(self.componentRoleArn, name: "componentRoleArn", parent: name, max: 200)
+            try self.validate(self.componentRoleArn, name: "componentRoleArn", parent: name, min: 1)
             try self.validate(self.description, name: "description", parent: name, max: 500)
             try self.validate(self.environmentAccountConnectionId, name: "environmentAccountConnectionId", parent: name, pattern: "^[0-9a-f]{8}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{12}$")
             try self.validate(self.name, name: "name", parent: name, max: 100)
@@ -456,6 +708,7 @@ extension Proton {
         }
 
         private enum CodingKeys: String, CodingKey {
+            case componentRoleArn
             case description
             case environmentAccountConnectionId
             case name
@@ -816,7 +1069,7 @@ extension Proton {
     public struct CreateServiceTemplateVersionInput: AWSEncodableShape {
         /// When included, if two identical requests are made with the same client token, Proton returns the service template version that the first request created.
         public let clientToken: String?
-        /// An array of compatible environment template objects for the new version of a service template.
+        /// An array of environment template objects that are compatible with the new service template version. A service instance based on this service template version can run in environments based on compatible templates.
         public let compatibleEnvironmentTemplates: [CompatibleEnvironmentTemplateInput]
         /// A description of the new version of a service template.
         public let description: String?
@@ -824,17 +1077,20 @@ extension Proton {
         public let majorVersion: String?
         /// An object that includes the template bundle S3 bucket path and name for the new version of a service template.
         public let source: TemplateVersionSourceInput
+        /// An array of supported component sources. Components with supported sources can be attached to service instances based on this service template version. For more information about components, see Proton components in the Proton Administrator Guide.
+        public let supportedComponentSources: [ServiceTemplateSupportedComponentSourceType]?
         /// An optional list of metadata items that you can associate with the Proton service template version. A tag is a key-value pair. For more information, see Proton resources and tagging in the Proton Administrator Guide or Proton User Guide.
         public let tags: [Tag]?
         /// The name of the service template.
         public let templateName: String
 
-        public init(clientToken: String? = CreateServiceTemplateVersionInput.idempotencyToken(), compatibleEnvironmentTemplates: [CompatibleEnvironmentTemplateInput], description: String? = nil, majorVersion: String? = nil, source: TemplateVersionSourceInput, tags: [Tag]? = nil, templateName: String) {
+        public init(clientToken: String? = CreateServiceTemplateVersionInput.idempotencyToken(), compatibleEnvironmentTemplates: [CompatibleEnvironmentTemplateInput], description: String? = nil, majorVersion: String? = nil, source: TemplateVersionSourceInput, supportedComponentSources: [ServiceTemplateSupportedComponentSourceType]? = nil, tags: [Tag]? = nil, templateName: String) {
             self.clientToken = clientToken
             self.compatibleEnvironmentTemplates = compatibleEnvironmentTemplates
             self.description = description
             self.majorVersion = majorVersion
             self.source = source
+            self.supportedComponentSources = supportedComponentSources
             self.tags = tags
             self.templateName = templateName
         }
@@ -867,6 +1123,7 @@ extension Proton {
             case description
             case majorVersion
             case source
+            case supportedComponentSources
             case tags
             case templateName
         }
@@ -944,6 +1201,38 @@ extension Proton {
         }
     }
 
+    public struct DeleteComponentInput: AWSEncodableShape {
+        /// The name of the component to delete.
+        public let name: String
+
+        public init(name: String) {
+            self.name = name
+        }
+
+        public func validate(name: String) throws {
+            try self.validate(self.name, name: "name", parent: name, max: 100)
+            try self.validate(self.name, name: "name", parent: name, min: 1)
+            try self.validate(self.name, name: "name", parent: name, pattern: "^[0-9A-Za-z]+[0-9A-Za-z_\\-]*$")
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case name
+        }
+    }
+
+    public struct DeleteComponentOutput: AWSDecodableShape {
+        /// The detailed data of the component being deleted.
+        public let component: Component?
+
+        public init(component: Component? = nil) {
+            self.component = component
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case component
+        }
+    }
+
     public struct DeleteEnvironmentAccountConnectionInput: AWSEncodableShape {
         /// The ID of the environment account connection to delete.
         public let id: String
@@ -962,7 +1251,7 @@ extension Proton {
     }
 
     public struct DeleteEnvironmentAccountConnectionOutput: AWSDecodableShape {
-        /// The environment account connection detail data that's returned by Proton.
+        /// The detailed data of the environment account connection being deleted.
         public let environmentAccountConnection: EnvironmentAccountConnection?
 
         public init(environmentAccountConnection: EnvironmentAccountConnection? = nil) {
@@ -994,7 +1283,7 @@ extension Proton {
     }
 
     public struct DeleteEnvironmentOutput: AWSDecodableShape {
-        /// The environment detail data that's returned by Proton.
+        /// The detailed data of the environment being deleted.
         public let environment: Environment?
 
         public init(environment: Environment? = nil) {
@@ -1026,7 +1315,7 @@ extension Proton {
     }
 
     public struct DeleteEnvironmentTemplateOutput: AWSDecodableShape {
-        /// The environment template detail data that's returned by Proton.
+        /// The detailed data of the environment template being deleted.
         public let environmentTemplate: EnvironmentTemplate?
 
         public init(environmentTemplate: EnvironmentTemplate? = nil) {
@@ -1072,7 +1361,7 @@ extension Proton {
     }
 
     public struct DeleteEnvironmentTemplateVersionOutput: AWSDecodableShape {
-        /// The environment template version detail data that's returned by Proton.
+        /// The detailed data of the environment template version being deleted.
         public let environmentTemplateVersion: EnvironmentTemplateVersion?
 
         public init(environmentTemplateVersion: EnvironmentTemplateVersion? = nil) {
@@ -1140,7 +1429,7 @@ extension Proton {
     }
 
     public struct DeleteServiceOutput: AWSDecodableShape {
-        /// The service detail data that's returned by Proton.
+        /// The detailed data of the service being deleted.
         public let service: Service?
 
         public init(service: Service? = nil) {
@@ -1172,7 +1461,7 @@ extension Proton {
     }
 
     public struct DeleteServiceTemplateOutput: AWSDecodableShape {
-        /// The service template detail data that's returned by Proton.
+        /// The detailed data of the service template being deleted.
         public let serviceTemplate: ServiceTemplate?
 
         public init(serviceTemplate: ServiceTemplate? = nil) {
@@ -1218,7 +1507,7 @@ extension Proton {
     }
 
     public struct DeleteServiceTemplateVersionOutput: AWSDecodableShape {
-        /// The service template version detail data that's returned by Proton.
+        /// The detailed data of the service template version being deleted.
         public let serviceTemplateVersion: ServiceTemplateVersion?
 
         public init(serviceTemplateVersion: ServiceTemplateVersion? = nil) {
@@ -1269,6 +1558,8 @@ extension Proton {
     public struct Environment: AWSDecodableShape {
         /// The Amazon Resource Name (ARN) of the environment.
         public let arn: String
+        /// The Amazon Resource Name (ARN) of the IAM service role that Proton uses when provisioning directly defined components in this environment. It determines the scope of infrastructure that a component can provision. The environment must have a componentRoleArn to allow directly defined components to be associated with the environment. For more information about components, see Proton components in the Proton Administrator Guide.
+        public let componentRoleArn: String?
         /// The time when the environment was created.
         public let createdAt: Date
         /// The environment deployment status.
@@ -1302,8 +1593,9 @@ extension Proton {
         /// The Amazon Resource Name (ARN) of the environment template.
         public let templateName: String
 
-        public init(arn: String, createdAt: Date, deploymentStatus: DeploymentStatus, deploymentStatusMessage: String? = nil, description: String? = nil, environmentAccountConnectionId: String? = nil, environmentAccountId: String? = nil, lastDeploymentAttemptedAt: Date, lastDeploymentSucceededAt: Date, name: String, protonServiceRoleArn: String? = nil, provisioning: Provisioning? = nil, provisioningRepository: RepositoryBranch? = nil, spec: String? = nil, templateMajorVersion: String, templateMinorVersion: String, templateName: String) {
+        public init(arn: String, componentRoleArn: String? = nil, createdAt: Date, deploymentStatus: DeploymentStatus, deploymentStatusMessage: String? = nil, description: String? = nil, environmentAccountConnectionId: String? = nil, environmentAccountId: String? = nil, lastDeploymentAttemptedAt: Date, lastDeploymentSucceededAt: Date, name: String, protonServiceRoleArn: String? = nil, provisioning: Provisioning? = nil, provisioningRepository: RepositoryBranch? = nil, spec: String? = nil, templateMajorVersion: String, templateMinorVersion: String, templateName: String) {
             self.arn = arn
+            self.componentRoleArn = componentRoleArn
             self.createdAt = createdAt
             self.deploymentStatus = deploymentStatus
             self.deploymentStatusMessage = deploymentStatusMessage
@@ -1324,6 +1616,7 @@ extension Proton {
 
         private enum CodingKeys: String, CodingKey {
             case arn
+            case componentRoleArn
             case createdAt
             case deploymentStatus
             case deploymentStatusMessage
@@ -1346,6 +1639,8 @@ extension Proton {
     public struct EnvironmentAccountConnection: AWSDecodableShape {
         /// The Amazon Resource Name (ARN) of the environment account connection.
         public let arn: String
+        /// The Amazon Resource Name (ARN) of the IAM service role that Proton uses when provisioning directly defined components in the associated environment account. It determines the scope of infrastructure that a component can provision in the account. The environment account connection must have a componentRoleArn to allow directly defined components to be associated with any environments running in the account. For more information about components, see Proton components in the Proton Administrator Guide.
+        public let componentRoleArn: String?
         /// The environment account that's connected to the environment account connection.
         public let environmentAccountId: String
         /// The name of the environment that's associated with the environment account connection.
@@ -1363,8 +1658,9 @@ extension Proton {
         /// The status of the environment account connection.
         public let status: EnvironmentAccountConnectionStatus
 
-        public init(arn: String, environmentAccountId: String, environmentName: String, id: String, lastModifiedAt: Date, managementAccountId: String, requestedAt: Date, roleArn: String, status: EnvironmentAccountConnectionStatus) {
+        public init(arn: String, componentRoleArn: String? = nil, environmentAccountId: String, environmentName: String, id: String, lastModifiedAt: Date, managementAccountId: String, requestedAt: Date, roleArn: String, status: EnvironmentAccountConnectionStatus) {
             self.arn = arn
+            self.componentRoleArn = componentRoleArn
             self.environmentAccountId = environmentAccountId
             self.environmentName = environmentName
             self.id = id
@@ -1377,6 +1673,7 @@ extension Proton {
 
         private enum CodingKeys: String, CodingKey {
             case arn
+            case componentRoleArn
             case environmentAccountId
             case environmentName
             case id
@@ -1391,6 +1688,8 @@ extension Proton {
     public struct EnvironmentAccountConnectionSummary: AWSDecodableShape {
         /// The Amazon Resource Name (ARN) of the environment account connection.
         public let arn: String
+        /// The Amazon Resource Name (ARN) of the IAM service role that Proton uses when provisioning directly defined components in the associated environment account. It determines the scope of infrastructure that a component can provision in the account. The environment account connection must have a componentRoleArn to allow directly defined components to be associated with any environments running in the account. For more information about components, see Proton components in the Proton Administrator Guide.
+        public let componentRoleArn: String?
         /// The ID of the environment account that's connected to the environment account connection.
         public let environmentAccountId: String
         /// The name of the environment that's associated with the environment account connection.
@@ -1408,8 +1707,9 @@ extension Proton {
         /// The status of the environment account connection.
         public let status: EnvironmentAccountConnectionStatus
 
-        public init(arn: String, environmentAccountId: String, environmentName: String, id: String, lastModifiedAt: Date, managementAccountId: String, requestedAt: Date, roleArn: String, status: EnvironmentAccountConnectionStatus) {
+        public init(arn: String, componentRoleArn: String? = nil, environmentAccountId: String, environmentName: String, id: String, lastModifiedAt: Date, managementAccountId: String, requestedAt: Date, roleArn: String, status: EnvironmentAccountConnectionStatus) {
             self.arn = arn
+            self.componentRoleArn = componentRoleArn
             self.environmentAccountId = environmentAccountId
             self.environmentName = environmentName
             self.id = id
@@ -1422,6 +1722,7 @@ extension Proton {
 
         private enum CodingKeys: String, CodingKey {
             case arn
+            case componentRoleArn
             case environmentAccountId
             case environmentName
             case id
@@ -1436,6 +1737,8 @@ extension Proton {
     public struct EnvironmentSummary: AWSDecodableShape {
         /// The Amazon Resource Name (ARN) of the environment.
         public let arn: String
+        /// The Amazon Resource Name (ARN) of the IAM service role that Proton uses when provisioning directly defined components in this environment. It determines the scope of infrastructure that a component can provision. The environment must have a componentRoleArn to allow directly defined components to be associated with the environment. For more information about components, see Proton components in the Proton Administrator Guide.
+        public let componentRoleArn: String?
         /// The time when the environment was created.
         public let createdAt: Date
         /// The environment deployment status.
@@ -1465,8 +1768,9 @@ extension Proton {
         /// The name of the environment template.
         public let templateName: String
 
-        public init(arn: String, createdAt: Date, deploymentStatus: DeploymentStatus, deploymentStatusMessage: String? = nil, description: String? = nil, environmentAccountConnectionId: String? = nil, environmentAccountId: String? = nil, lastDeploymentAttemptedAt: Date, lastDeploymentSucceededAt: Date, name: String, protonServiceRoleArn: String? = nil, provisioning: Provisioning? = nil, templateMajorVersion: String, templateMinorVersion: String, templateName: String) {
+        public init(arn: String, componentRoleArn: String? = nil, createdAt: Date, deploymentStatus: DeploymentStatus, deploymentStatusMessage: String? = nil, description: String? = nil, environmentAccountConnectionId: String? = nil, environmentAccountId: String? = nil, lastDeploymentAttemptedAt: Date, lastDeploymentSucceededAt: Date, name: String, protonServiceRoleArn: String? = nil, provisioning: Provisioning? = nil, templateMajorVersion: String, templateMinorVersion: String, templateName: String) {
             self.arn = arn
+            self.componentRoleArn = componentRoleArn
             self.createdAt = createdAt
             self.deploymentStatus = deploymentStatus
             self.deploymentStatusMessage = deploymentStatusMessage
@@ -1485,6 +1789,7 @@ extension Proton {
 
         private enum CodingKeys: String, CodingKey {
             case arn
+            case componentRoleArn
             case createdAt
             case deploymentStatus
             case deploymentStatusMessage
@@ -1733,8 +2038,40 @@ extension Proton {
         }
     }
 
+    public struct GetComponentInput: AWSEncodableShape {
+        /// The name of the component that you want to get the detailed data for.
+        public let name: String
+
+        public init(name: String) {
+            self.name = name
+        }
+
+        public func validate(name: String) throws {
+            try self.validate(self.name, name: "name", parent: name, max: 100)
+            try self.validate(self.name, name: "name", parent: name, min: 1)
+            try self.validate(self.name, name: "name", parent: name, pattern: "^[0-9A-Za-z]+[0-9A-Za-z_\\-]*$")
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case name
+        }
+    }
+
+    public struct GetComponentOutput: AWSDecodableShape {
+        /// The detailed data of the requested component.
+        public let component: Component?
+
+        public init(component: Component? = nil) {
+            self.component = component
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case component
+        }
+    }
+
     public struct GetEnvironmentAccountConnectionInput: AWSEncodableShape {
-        /// The ID of the environment account connection.
+        /// The ID of the environment account connection that you want to get the detailed data for.
         public let id: String
 
         public init(id: String) {
@@ -1751,7 +2088,7 @@ extension Proton {
     }
 
     public struct GetEnvironmentAccountConnectionOutput: AWSDecodableShape {
-        /// The environment account connection detail data that's returned by Proton.
+        /// The detailed data of the requested environment account connection.
         public let environmentAccountConnection: EnvironmentAccountConnection
 
         public init(environmentAccountConnection: EnvironmentAccountConnection) {
@@ -1764,7 +2101,7 @@ extension Proton {
     }
 
     public struct GetEnvironmentInput: AWSEncodableShape {
-        /// The name of the environment that you want to get the detail data for.
+        /// The name of the environment that you want to get the detailed data for.
         public let name: String
 
         public init(name: String) {
@@ -1783,7 +2120,7 @@ extension Proton {
     }
 
     public struct GetEnvironmentOutput: AWSDecodableShape {
-        /// The environment detail data that's returned by Proton.
+        /// The detailed data of the requested environment.
         public let environment: Environment
 
         public init(environment: Environment) {
@@ -1796,7 +2133,7 @@ extension Proton {
     }
 
     public struct GetEnvironmentTemplateInput: AWSEncodableShape {
-        /// The name of the environment template that you want to get the detail data for.
+        /// The name of the environment template that you want to get the detailed data for.
         public let name: String
 
         public init(name: String) {
@@ -1815,7 +2152,7 @@ extension Proton {
     }
 
     public struct GetEnvironmentTemplateOutput: AWSDecodableShape {
-        /// The environment template detail data that's returned by Proton.
+        /// The detailed data of the requested environment template.
         public let environmentTemplate: EnvironmentTemplate
 
         public init(environmentTemplate: EnvironmentTemplate) {
@@ -1828,11 +2165,11 @@ extension Proton {
     }
 
     public struct GetEnvironmentTemplateVersionInput: AWSEncodableShape {
-        /// To view environment template major version detail data, include major Version.
+        /// To get environment template major version detail data, include major Version.
         public let majorVersion: String
-        /// To view environment template minor version detail data, include minorVersion.
+        /// To get environment template minor version detail data, include minorVersion.
         public let minorVersion: String
-        /// The name of the environment template.
+        /// The name of the environment template a version of which you want to get detailed data for..
         public let templateName: String
 
         public init(majorVersion: String, minorVersion: String, templateName: String) {
@@ -1861,7 +2198,7 @@ extension Proton {
     }
 
     public struct GetEnvironmentTemplateVersionOutput: AWSDecodableShape {
-        /// The environment template version detail data that's returned by Proton.
+        /// The detailed data of the requested environment template version.
         public let environmentTemplateVersion: EnvironmentTemplateVersion
 
         public init(environmentTemplateVersion: EnvironmentTemplateVersion) {
@@ -1956,7 +2293,7 @@ extension Proton {
     }
 
     public struct GetServiceInput: AWSEncodableShape {
-        /// The name of the service that you want to get the detail data for.
+        /// The name of the service that you want to get the detailed data for.
         public let name: String
 
         public init(name: String) {
@@ -1975,7 +2312,7 @@ extension Proton {
     }
 
     public struct GetServiceInstanceInput: AWSEncodableShape {
-        /// The name of a service instance that you want to get the detail data for.
+        /// The name of a service instance that you want to get the detailed data for.
         public let name: String
         /// The name of the service that the service instance belongs to.
         public let serviceName: String
@@ -2001,7 +2338,7 @@ extension Proton {
     }
 
     public struct GetServiceInstanceOutput: AWSDecodableShape {
-        /// The service instance detail data that's returned by Proton.
+        /// The detailed data of the requested service instance.
         public let serviceInstance: ServiceInstance
 
         public init(serviceInstance: ServiceInstance) {
@@ -2014,7 +2351,7 @@ extension Proton {
     }
 
     public struct GetServiceOutput: AWSDecodableShape {
-        /// The service detail data that's returned by Proton.
+        /// The detailed data of the requested service.
         public let service: Service?
 
         public init(service: Service? = nil) {
@@ -2027,7 +2364,7 @@ extension Proton {
     }
 
     public struct GetServiceTemplateInput: AWSEncodableShape {
-        /// The name of the service template that you want to get detail data for.
+        /// The name of the service template that you want to get detailed data for.
         public let name: String
 
         public init(name: String) {
@@ -2046,7 +2383,7 @@ extension Proton {
     }
 
     public struct GetServiceTemplateOutput: AWSDecodableShape {
-        /// The service template detail data that's returned by Proton.
+        /// The detailed data of the requested service template.
         public let serviceTemplate: ServiceTemplate
 
         public init(serviceTemplate: ServiceTemplate) {
@@ -2059,11 +2396,11 @@ extension Proton {
     }
 
     public struct GetServiceTemplateVersionInput: AWSEncodableShape {
-        /// To view service template major version detail data, include major Version.
+        /// To get service template major version detail data, include major Version.
         public let majorVersion: String
-        /// To view service template minor version detail data, include minorVersion.
+        /// To get service template minor version detail data, include minorVersion.
         public let minorVersion: String
-        /// The name of the service template.
+        /// The name of the service template a version of which you want to get detailed data for.
         public let templateName: String
 
         public init(majorVersion: String, minorVersion: String, templateName: String) {
@@ -2092,7 +2429,7 @@ extension Proton {
     }
 
     public struct GetServiceTemplateVersionOutput: AWSDecodableShape {
-        /// The service template version detail data that's returned by Proton.
+        /// The detailed data of the requested service template version.
         public let serviceTemplateVersion: ServiceTemplateVersion
 
         public init(serviceTemplateVersion: ServiceTemplateVersion) {
@@ -2188,6 +2525,149 @@ extension Proton {
             case desiredState
             case latestSuccessfulSync
             case latestSync
+        }
+    }
+
+    public struct ListComponentOutputsInput: AWSEncodableShape {
+        /// The name of the component whose outputs you want.
+        public let componentName: String
+        /// A token that indicates the location of the next output in the array of outputs, after the list of outputs that was previously requested.
+        public let nextToken: String?
+
+        public init(componentName: String, nextToken: String? = nil) {
+            self.componentName = componentName
+            self.nextToken = nextToken
+        }
+
+        public func validate(name: String) throws {
+            try self.validate(self.componentName, name: "componentName", parent: name, max: 100)
+            try self.validate(self.componentName, name: "componentName", parent: name, min: 1)
+            try self.validate(self.componentName, name: "componentName", parent: name, pattern: "^[0-9A-Za-z]+[0-9A-Za-z_\\-]*$")
+            try self.validate(self.nextToken, name: "nextToken", parent: name, max: 0)
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case componentName
+            case nextToken
+        }
+    }
+
+    public struct ListComponentOutputsOutput: AWSDecodableShape {
+        /// A token that indicates the location of the next output in the array of outputs, after the list of outputs that was previously requested.
+        public let nextToken: String?
+        /// An array of component Infrastructure as Code (IaC) outputs.
+        public let outputs: [Output]
+
+        public init(nextToken: String? = nil, outputs: [Output]) {
+            self.nextToken = nextToken
+            self.outputs = outputs
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case nextToken
+            case outputs
+        }
+    }
+
+    public struct ListComponentProvisionedResourcesInput: AWSEncodableShape {
+        /// The name of the component whose provisioned resources you want.
+        public let componentName: String
+        /// A token that indicates the location of the next provisioned resource in the array of provisioned resources, after the list of provisioned resources that was previously requested.
+        public let nextToken: String?
+
+        public init(componentName: String, nextToken: String? = nil) {
+            self.componentName = componentName
+            self.nextToken = nextToken
+        }
+
+        public func validate(name: String) throws {
+            try self.validate(self.componentName, name: "componentName", parent: name, max: 100)
+            try self.validate(self.componentName, name: "componentName", parent: name, min: 1)
+            try self.validate(self.componentName, name: "componentName", parent: name, pattern: "^[0-9A-Za-z]+[0-9A-Za-z_\\-]*$")
+            try self.validate(self.nextToken, name: "nextToken", parent: name, max: 0)
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case componentName
+            case nextToken
+        }
+    }
+
+    public struct ListComponentProvisionedResourcesOutput: AWSDecodableShape {
+        /// A token that indicates the location of the next provisioned resource in the array of provisioned resources, after the current requested list of provisioned resources.
+        public let nextToken: String?
+        /// An array of provisioned resources for a component.
+        public let provisionedResources: [ProvisionedResource]
+
+        public init(nextToken: String? = nil, provisionedResources: [ProvisionedResource]) {
+            self.nextToken = nextToken
+            self.provisionedResources = provisionedResources
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case nextToken
+            case provisionedResources
+        }
+    }
+
+    public struct ListComponentsInput: AWSEncodableShape {
+        /// The name of an environment for result list filtering. Proton returns components associated with the environment or attached to service instances running in it.
+        public let environmentName: String?
+        /// The maximum number of components to list.
+        public let maxResults: Int?
+        /// A token that indicates the location of the next component in the array of components, after the list of components that was previously requested.
+        public let nextToken: String?
+        /// The name of a service instance for result list filtering. Proton returns the component attached to the service instance, if any.
+        public let serviceInstanceName: String?
+        /// The name of a service for result list filtering. Proton returns components attached to service instances of the service.
+        public let serviceName: String?
+
+        public init(environmentName: String? = nil, maxResults: Int? = nil, nextToken: String? = nil, serviceInstanceName: String? = nil, serviceName: String? = nil) {
+            self.environmentName = environmentName
+            self.maxResults = maxResults
+            self.nextToken = nextToken
+            self.serviceInstanceName = serviceInstanceName
+            self.serviceName = serviceName
+        }
+
+        public func validate(name: String) throws {
+            try self.validate(self.environmentName, name: "environmentName", parent: name, max: 100)
+            try self.validate(self.environmentName, name: "environmentName", parent: name, min: 1)
+            try self.validate(self.environmentName, name: "environmentName", parent: name, pattern: "^[0-9A-Za-z]+[0-9A-Za-z_\\-]*$")
+            try self.validate(self.maxResults, name: "maxResults", parent: name, max: 100)
+            try self.validate(self.maxResults, name: "maxResults", parent: name, min: 1)
+            try self.validate(self.nextToken, name: "nextToken", parent: name, pattern: "^[A-Za-z0-9+=/]+$")
+            try self.validate(self.serviceInstanceName, name: "serviceInstanceName", parent: name, max: 100)
+            try self.validate(self.serviceInstanceName, name: "serviceInstanceName", parent: name, min: 1)
+            try self.validate(self.serviceInstanceName, name: "serviceInstanceName", parent: name, pattern: "^[0-9A-Za-z]+[0-9A-Za-z_\\-]*$")
+            try self.validate(self.serviceName, name: "serviceName", parent: name, max: 100)
+            try self.validate(self.serviceName, name: "serviceName", parent: name, min: 1)
+            try self.validate(self.serviceName, name: "serviceName", parent: name, pattern: "^[0-9A-Za-z]+[0-9A-Za-z_\\-]*$")
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case environmentName
+            case maxResults
+            case nextToken
+            case serviceInstanceName
+            case serviceName
+        }
+    }
+
+    public struct ListComponentsOutput: AWSDecodableShape {
+        /// An array of components with summary data.
+        public let components: [ComponentSummary]
+        /// A token that indicates the location of the next component in the array of components, after the current requested list of components.
+        public let nextToken: String?
+
+        public init(components: [ComponentSummary], nextToken: String? = nil) {
+            self.components = components
+            self.nextToken = nextToken
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case components
+            case nextToken
         }
     }
 
@@ -2561,9 +3041,9 @@ extension Proton {
     public struct ListServiceInstanceOutputsInput: AWSEncodableShape {
         /// A token that indicates the location of the next output in the array of outputs, after the list of outputs that was previously requested.
         public let nextToken: String?
-        /// The service instance name.
+        /// The name of the service instance whose outputs you want.
         public let serviceInstanceName: String
-        /// The service name.
+        /// The name of the service that serviceInstanceName is associated to.
         public let serviceName: String
 
         public init(nextToken: String? = nil, serviceInstanceName: String, serviceName: String) {
@@ -2592,7 +3072,7 @@ extension Proton {
     public struct ListServiceInstanceOutputsOutput: AWSDecodableShape {
         /// A token that indicates the location of the next output in the array of outputs, after the current requested list of outputs.
         public let nextToken: String?
-        /// An array of service instance infrastructure as code outputs.
+        /// An array of service instance Infrastructure as Code (IaC) outputs.
         public let outputs: [Output]
 
         public init(nextToken: String? = nil, outputs: [Output]) {
@@ -2609,9 +3089,9 @@ extension Proton {
     public struct ListServiceInstanceProvisionedResourcesInput: AWSEncodableShape {
         /// A token that indicates the location of the next provisioned resource in the array of provisioned resources, after the list of provisioned resources that was previously requested.
         public let nextToken: String?
-        /// The service instance name.
+        /// The name of the service instance whose provisioned resources you want.
         public let serviceInstanceName: String
-        /// The service name.
+        /// The name of the service that serviceInstanceName is associated to.
         public let serviceName: String
 
         public init(nextToken: String? = nil, serviceInstanceName: String, serviceName: String) {
@@ -2687,7 +3167,7 @@ extension Proton {
     public struct ListServiceInstancesOutput: AWSDecodableShape {
         /// A token that indicates the location of the next service instance in the array of service instances, after the current requested list of service instances.
         public let nextToken: String?
-        /// An array of service instances with summaries of detail data.
+        /// An array of service instances with summary data.
         public let serviceInstances: [ServiceInstanceSummary]
 
         public init(nextToken: String? = nil, serviceInstances: [ServiceInstanceSummary]) {
@@ -2704,7 +3184,7 @@ extension Proton {
     public struct ListServicePipelineOutputsInput: AWSEncodableShape {
         /// A token that indicates the location of the next output in the array of outputs, after the list of outputs that was previously requested.
         public let nextToken: String?
-        /// The service name.
+        /// The name of the service whose pipeline's outputs you want.
         public let serviceName: String
 
         public init(nextToken: String? = nil, serviceName: String) {
@@ -2728,7 +3208,7 @@ extension Proton {
     public struct ListServicePipelineOutputsOutput: AWSDecodableShape {
         /// A token that indicates the location of the next output in the array of outputs, after the current requested list of outputs.
         public let nextToken: String?
-        /// An array of outputs.
+        /// An array of service pipeline Infrastructure as Code (IaC) outputs.
         public let outputs: [Output]
 
         public init(nextToken: String? = nil, outputs: [Output]) {
@@ -2745,7 +3225,7 @@ extension Proton {
     public struct ListServicePipelineProvisionedResourcesInput: AWSEncodableShape {
         /// A token that indicates the location of the next provisioned resource in the array of provisioned resources, after the list of provisioned resources that was previously requested.
         public let nextToken: String?
-        /// The service name.
+        /// The name of the service whose pipeline's provisioned resources you want.
         public let serviceName: String
 
         public init(nextToken: String? = nil, serviceName: String) {
@@ -3375,7 +3855,7 @@ extension Proton {
         public let branchName: String?
         /// The time when the service was created.
         public let createdAt: Date
-        /// A description of a service.
+        /// A description of the service.
         public let description: String?
         /// The time when the service was last modified.
         public let lastModifiedAt: Date
@@ -3436,7 +3916,7 @@ extension Proton {
         public let createdAt: Date
         /// The service instance deployment status.
         public let deploymentStatus: DeploymentStatus
-        /// A service instance deployment status message.
+        /// The message associated with the service instance deployment status.
         public let deploymentStatusMessage: String?
         /// The name of the environment that the service instance was deployed into.
         public let environmentName: String
@@ -3746,10 +4226,12 @@ extension Proton {
         public let status: TemplateVersionStatus
         /// A service template version status message.
         public let statusMessage: String?
+        /// An array of supported component sources. Components with supported sources can be attached to service instances based on this service template version. For more information about components, see Proton components in the Proton Administrator Guide.
+        public let supportedComponentSources: [ServiceTemplateSupportedComponentSourceType]?
         /// The name of the version of a service template.
         public let templateName: String
 
-        public init(arn: String, compatibleEnvironmentTemplates: [CompatibleEnvironmentTemplate], createdAt: Date, description: String? = nil, lastModifiedAt: Date, majorVersion: String, minorVersion: String, recommendedMinorVersion: String? = nil, schema: String? = nil, status: TemplateVersionStatus, statusMessage: String? = nil, templateName: String) {
+        public init(arn: String, compatibleEnvironmentTemplates: [CompatibleEnvironmentTemplate], createdAt: Date, description: String? = nil, lastModifiedAt: Date, majorVersion: String, minorVersion: String, recommendedMinorVersion: String? = nil, schema: String? = nil, status: TemplateVersionStatus, statusMessage: String? = nil, supportedComponentSources: [ServiceTemplateSupportedComponentSourceType]? = nil, templateName: String) {
             self.arn = arn
             self.compatibleEnvironmentTemplates = compatibleEnvironmentTemplates
             self.createdAt = createdAt
@@ -3761,6 +4243,7 @@ extension Proton {
             self.schema = schema
             self.status = status
             self.statusMessage = statusMessage
+            self.supportedComponentSources = supportedComponentSources
             self.templateName = templateName
         }
 
@@ -3776,6 +4259,7 @@ extension Proton {
             case schema
             case status
             case statusMessage
+            case supportedComponentSources
             case templateName
         }
     }
@@ -3988,24 +4472,95 @@ extension Proton {
         }
     }
 
+    public struct UpdateComponentInput: AWSEncodableShape {
+        /// The deployment type. It defines the mode for updating a component, as follows:     NONE  In this mode, a deployment doesn't occur. Only the requested metadata parameters are updated. You can only specify description in this mode.     CURRENT_VERSION  In this mode, the component is deployed and updated with the new serviceSpec, templateSource, and/or type that you provide. Only requested parameters are updated.
+        public let deploymentType: ComponentDeploymentUpdateType
+        /// An optional customer-provided description of the component.
+        public let description: String?
+        /// The name of the component to update.
+        public let name: String
+        /// The name of the service instance that you want to attach this component to. Don't specify to keep the component's current service instance attachment. Specify an empty string to detach the component from the service instance it's attached to. Specify non-empty values for both serviceInstanceName and serviceName or for neither of them.
+        public let serviceInstanceName: String?
+        /// The name of the service that serviceInstanceName is associated with. Don't specify to keep the component's current service instance attachment. Specify an empty string to detach the component from the service instance it's attached to. Specify non-empty values for both serviceInstanceName and serviceName or for neither of them.
+        public let serviceName: String?
+        /// The service spec that you want the component to use to access service inputs. Set this only when the component is attached to a service instance.
+        public let serviceSpec: String?
+        /// A path to the Infrastructure as Code (IaC) file describing infrastructure that a custom component provisions.  Components support a single IaC file, even if you use Terraform as your template language.
+        public let templateFile: String?
+
+        public init(deploymentType: ComponentDeploymentUpdateType, description: String? = nil, name: String, serviceInstanceName: String? = nil, serviceName: String? = nil, serviceSpec: String? = nil, templateFile: String? = nil) {
+            self.deploymentType = deploymentType
+            self.description = description
+            self.name = name
+            self.serviceInstanceName = serviceInstanceName
+            self.serviceName = serviceName
+            self.serviceSpec = serviceSpec
+            self.templateFile = templateFile
+        }
+
+        public func validate(name: String) throws {
+            try self.validate(self.description, name: "description", parent: name, max: 500)
+            try self.validate(self.name, name: "name", parent: name, max: 100)
+            try self.validate(self.name, name: "name", parent: name, min: 1)
+            try self.validate(self.name, name: "name", parent: name, pattern: "^[0-9A-Za-z]+[0-9A-Za-z_\\-]*$")
+            try self.validate(self.serviceInstanceName, name: "serviceInstanceName", parent: name, max: 100)
+            try self.validate(self.serviceInstanceName, name: "serviceInstanceName", parent: name, pattern: "(^$)|^[0-9A-Za-z]+[0-9A-Za-z_\\-]*$")
+            try self.validate(self.serviceName, name: "serviceName", parent: name, max: 100)
+            try self.validate(self.serviceName, name: "serviceName", parent: name, pattern: "(^$)|^[0-9A-Za-z]+[0-9A-Za-z_\\-]*$")
+            try self.validate(self.serviceSpec, name: "serviceSpec", parent: name, max: 51200)
+            try self.validate(self.serviceSpec, name: "serviceSpec", parent: name, min: 1)
+            try self.validate(self.templateFile, name: "templateFile", parent: name, max: 51200)
+            try self.validate(self.templateFile, name: "templateFile", parent: name, min: 1)
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case deploymentType
+            case description
+            case name
+            case serviceInstanceName
+            case serviceName
+            case serviceSpec
+            case templateFile
+        }
+    }
+
+    public struct UpdateComponentOutput: AWSDecodableShape {
+        /// The detailed data of the updated component.
+        public let component: Component
+
+        public init(component: Component) {
+            self.component = component
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case component
+        }
+    }
+
     public struct UpdateEnvironmentAccountConnectionInput: AWSEncodableShape {
+        /// The Amazon Resource Name (ARN) of the IAM service role that Proton uses when provisioning directly defined components in the associated environment account. It determines the scope of infrastructure that a component can provision in the account. The environment account connection must have a componentRoleArn to allow directly defined components to be associated with any environments running in the account. For more information about components, see Proton components in the Proton Administrator Guide.
+        public let componentRoleArn: String?
         /// The ID of the environment account connection to update.
         public let id: String
         /// The Amazon Resource Name (ARN) of the IAM service role that's associated with the environment account connection to update.
-        public let roleArn: String
+        public let roleArn: String?
 
-        public init(id: String, roleArn: String) {
+        public init(componentRoleArn: String? = nil, id: String, roleArn: String? = nil) {
+            self.componentRoleArn = componentRoleArn
             self.id = id
             self.roleArn = roleArn
         }
 
         public func validate(name: String) throws {
+            try self.validate(self.componentRoleArn, name: "componentRoleArn", parent: name, max: 200)
+            try self.validate(self.componentRoleArn, name: "componentRoleArn", parent: name, min: 1)
             try self.validate(self.id, name: "id", parent: name, pattern: "^[0-9a-f]{8}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{12}$")
             try self.validate(self.roleArn, name: "roleArn", parent: name, max: 200)
             try self.validate(self.roleArn, name: "roleArn", parent: name, min: 1)
         }
 
         private enum CodingKeys: String, CodingKey {
+            case componentRoleArn
             case id
             case roleArn
         }
@@ -4025,6 +4580,8 @@ extension Proton {
     }
 
     public struct UpdateEnvironmentInput: AWSEncodableShape {
+        /// The Amazon Resource Name (ARN) of the IAM service role that Proton uses when provisioning directly defined components in this environment. It determines the scope of infrastructure that a component can provision. The environment must have a componentRoleArn to allow directly defined components to be associated with the environment. For more information about components, see Proton components in the Proton Administrator Guide.
+        public let componentRoleArn: String?
         /// There are four modes for updating an environment. The deploymentType field defines the mode.     NONE  In this mode, a deployment doesn't occur. Only the requested metadata parameters are updated.     CURRENT_VERSION  In this mode, the environment is deployed and updated with the new spec that you provide. Only requested parameters are updated. Don’t include major or minor version parameters when you use this deployment-type.     MINOR_VERSION  In this mode, the environment is deployed and updated with the published, recommended (latest) minor version of the current major version in use, by default. You can also specify a different minor version of the current major version in use.     MAJOR_VERSION  In this mode, the environment is deployed and updated with the published, recommended (latest) major and minor version of the current template, by default. You can also specify a different major version that is higher than the major version in use and a minor version (optional).
         public let deploymentType: DeploymentUpdateType
         /// A description of the environment update.
@@ -4044,7 +4601,8 @@ extension Proton {
         /// The minor version of the environment to update.
         public let templateMinorVersion: String?
 
-        public init(deploymentType: DeploymentUpdateType, description: String? = nil, environmentAccountConnectionId: String? = nil, name: String, protonServiceRoleArn: String? = nil, provisioningRepository: RepositoryBranchInput? = nil, spec: String? = nil, templateMajorVersion: String? = nil, templateMinorVersion: String? = nil) {
+        public init(componentRoleArn: String? = nil, deploymentType: DeploymentUpdateType, description: String? = nil, environmentAccountConnectionId: String? = nil, name: String, protonServiceRoleArn: String? = nil, provisioningRepository: RepositoryBranchInput? = nil, spec: String? = nil, templateMajorVersion: String? = nil, templateMinorVersion: String? = nil) {
+            self.componentRoleArn = componentRoleArn
             self.deploymentType = deploymentType
             self.description = description
             self.environmentAccountConnectionId = environmentAccountConnectionId
@@ -4057,6 +4615,8 @@ extension Proton {
         }
 
         public func validate(name: String) throws {
+            try self.validate(self.componentRoleArn, name: "componentRoleArn", parent: name, max: 200)
+            try self.validate(self.componentRoleArn, name: "componentRoleArn", parent: name, min: 1)
             try self.validate(self.description, name: "description", parent: name, max: 500)
             try self.validate(self.environmentAccountConnectionId, name: "environmentAccountConnectionId", parent: name, pattern: "^[0-9a-f]{8}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{12}$")
             try self.validate(self.name, name: "name", parent: name, max: 100)
@@ -4076,6 +4636,7 @@ extension Proton {
         }
 
         private enum CodingKeys: String, CodingKey {
+            case componentRoleArn
             case deploymentType
             case description
             case environmentAccountConnectionId
@@ -4230,7 +4791,7 @@ extension Proton {
     }
 
     public struct UpdateServiceInstanceInput: AWSEncodableShape {
-        /// The deployment type. There are four modes for updating a service instance. The deploymentType field defines the mode.     NONE  In this mode, a deployment doesn't occur. Only the requested metadata parameters are updated.     CURRENT_VERSION  In this mode, the service instance is deployed and updated with the new spec that you provide. Only requested parameters are updated. Don’t include major or minor version parameters when you use this deployment-type.     MINOR_VERSION  In this mode, the service instance is deployed and updated with the published, recommended (latest) minor version of the current major version in use, by default. You can also specify a different minor version of the current major version in use.     MAJOR_VERSION  In this mode, the service instance is deployed and updated with the published, recommended (latest) major and minor version of the current template, by default. You can specify a different major version that's higher than the major version in use and a minor version.
+        /// The deployment type. It defines the mode for updating a service instance, as follows:     NONE  In this mode, a deployment doesn't occur. Only the requested metadata parameters are updated.     CURRENT_VERSION  In this mode, the service instance is deployed and updated with the new spec that you provide. Only requested parameters are updated. Don’t include major or minor version parameters when you use this deployment type.     MINOR_VERSION  In this mode, the service instance is deployed and updated with the published, recommended (latest) minor version of the current major version in use, by default. You can also specify a different minor version of the current major version in use.     MAJOR_VERSION  In this mode, the service instance is deployed and updated with the published, recommended (latest) major and minor version of the current template, by default. You can specify a different major version that's higher than the major version in use and a minor version.
         public let deploymentType: DeploymentUpdateType
         /// The name of the service instance to update.
         public let name: String
@@ -4405,7 +4966,7 @@ extension Proton {
     }
 
     public struct UpdateServiceTemplateVersionInput: AWSEncodableShape {
-        /// An array of compatible environment names for a service template major or minor version to update.
+        /// An array of environment template objects that are compatible with this service template version. A service instance based on this service template version can run in environments based on compatible templates.
         public let compatibleEnvironmentTemplates: [CompatibleEnvironmentTemplateInput]?
         /// A description of a service template version to update.
         public let description: String?
@@ -4415,15 +4976,18 @@ extension Proton {
         public let minorVersion: String
         /// The status of the service template minor version to update.
         public let status: TemplateVersionStatus?
+        /// An array of supported component sources. Components with supported sources can be attached to service instances based on this service template version.  A change to supportedComponentSources doesn't impact existing component attachments to instances based on this template version. A change only affects later associations.  For more information about components, see Proton components in the Proton Administrator Guide.
+        public let supportedComponentSources: [ServiceTemplateSupportedComponentSourceType]?
         /// The name of the service template.
         public let templateName: String
 
-        public init(compatibleEnvironmentTemplates: [CompatibleEnvironmentTemplateInput]? = nil, description: String? = nil, majorVersion: String, minorVersion: String, status: TemplateVersionStatus? = nil, templateName: String) {
+        public init(compatibleEnvironmentTemplates: [CompatibleEnvironmentTemplateInput]? = nil, description: String? = nil, majorVersion: String, minorVersion: String, status: TemplateVersionStatus? = nil, supportedComponentSources: [ServiceTemplateSupportedComponentSourceType]? = nil, templateName: String) {
             self.compatibleEnvironmentTemplates = compatibleEnvironmentTemplates
             self.description = description
             self.majorVersion = majorVersion
             self.minorVersion = minorVersion
             self.status = status
+            self.supportedComponentSources = supportedComponentSources
             self.templateName = templateName
         }
 
@@ -4451,6 +5015,7 @@ extension Proton {
             case majorVersion
             case minorVersion
             case status
+            case supportedComponentSources
             case templateName
         }
     }

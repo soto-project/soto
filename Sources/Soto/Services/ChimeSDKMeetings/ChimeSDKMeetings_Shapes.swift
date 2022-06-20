@@ -21,6 +21,14 @@ import SotoCore
 extension ChimeSDKMeetings {
     // MARK: Enums
 
+    public enum MediaCapabilities: String, CustomStringConvertible, Codable, _SotoSendable {
+        case none = "None"
+        case receive = "Receive"
+        case send = "Send"
+        case sendReceive = "SendReceive"
+        public var description: String { return self.rawValue }
+    }
+
     public enum MeetingFeatureStatus: String, CustomStringConvertible, Codable, _SotoSendable {
         case available = "AVAILABLE"
         case unavailable = "UNAVAILABLE"
@@ -109,6 +117,7 @@ extension ChimeSDKMeetings {
         case saEast1 = "sa-east-1"
         case usEast1 = "us-east-1"
         case usEast2 = "us-east-2"
+        case usGovWest1 = "us-gov-west-1"
         case usWest2 = "us-west-2"
         public var description: String { return self.rawValue }
     }
@@ -125,21 +134,63 @@ extension ChimeSDKMeetings {
     public struct Attendee: AWSDecodableShape {
         /// The Amazon Chime SDK attendee ID.
         public let attendeeId: String?
+        /// The capabilities (audio, video, or content) assigned to an attendee.
+        public let capabilities: AttendeeCapabilities?
         /// The Amazon Chime SDK external user ID. An idempotency token. Links the attendee to an identity managed by a builder application.
         public let externalUserId: String?
         /// The join token used by the Amazon Chime SDK attendee.
         public let joinToken: String?
 
-        public init(attendeeId: String? = nil, externalUserId: String? = nil, joinToken: String? = nil) {
+        public init(attendeeId: String? = nil, capabilities: AttendeeCapabilities? = nil, externalUserId: String? = nil, joinToken: String? = nil) {
             self.attendeeId = attendeeId
+            self.capabilities = capabilities
             self.externalUserId = externalUserId
             self.joinToken = joinToken
         }
 
         private enum CodingKeys: String, CodingKey {
             case attendeeId = "AttendeeId"
+            case capabilities = "Capabilities"
             case externalUserId = "ExternalUserId"
             case joinToken = "JoinToken"
+        }
+    }
+
+    public struct AttendeeCapabilities: AWSEncodableShape & AWSDecodableShape {
+        /// The audio capability assigned to an attendee.
+        public let audio: MediaCapabilities
+        /// The content capability assigned to an attendee.
+        public let content: MediaCapabilities
+        /// The video capability assigned to an attendee.
+        public let video: MediaCapabilities
+
+        public init(audio: MediaCapabilities, content: MediaCapabilities, video: MediaCapabilities) {
+            self.audio = audio
+            self.content = content
+            self.video = video
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case audio = "Audio"
+            case content = "Content"
+            case video = "Video"
+        }
+    }
+
+    public struct AttendeeIdItem: AWSEncodableShape {
+        /// A list of one or more attendee IDs.
+        public let attendeeId: String
+
+        public init(attendeeId: String) {
+            self.attendeeId = attendeeId
+        }
+
+        public func validate(name: String) throws {
+            try self.validate(self.attendeeId, name: "attendeeId", parent: name, pattern: "^[a-fA-F0-9]{8}(?:-[a-fA-F0-9]{4}){3}-[a-fA-F0-9]{12}$")
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case attendeeId = "AttendeeId"
         }
     }
 
@@ -202,6 +253,39 @@ extension ChimeSDKMeetings {
         }
     }
 
+    public struct BatchUpdateAttendeeCapabilitiesExceptRequest: AWSEncodableShape {
+        public static var _encoding = [
+            AWSMemberEncoding(label: "meetingId", location: .uri("MeetingId"))
+        ]
+
+        /// The capabilities (audio, video, or content) that you want to update.
+        public let capabilities: AttendeeCapabilities
+        /// The AttendeeIDs that you want to exclude from one or more capabilities.
+        public let excludedAttendeeIds: [AttendeeIdItem]
+        /// The ID of the meeting associated with the update request.
+        public let meetingId: String
+
+        public init(capabilities: AttendeeCapabilities, excludedAttendeeIds: [AttendeeIdItem], meetingId: String) {
+            self.capabilities = capabilities
+            self.excludedAttendeeIds = excludedAttendeeIds
+            self.meetingId = meetingId
+        }
+
+        public func validate(name: String) throws {
+            try self.excludedAttendeeIds.forEach {
+                try $0.validate(name: "\(name).excludedAttendeeIds[]")
+            }
+            try self.validate(self.excludedAttendeeIds, name: "excludedAttendeeIds", parent: name, max: 250)
+            try self.validate(self.excludedAttendeeIds, name: "excludedAttendeeIds", parent: name, min: 1)
+            try self.validate(self.meetingId, name: "meetingId", parent: name, pattern: "^[a-fA-F0-9]{8}(?:-[a-fA-F0-9]{4}){3}-[a-fA-F0-9]{12}$")
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case capabilities = "Capabilities"
+            case excludedAttendeeIds = "ExcludedAttendeeIds"
+        }
+    }
+
     public struct CreateAttendeeError: AWSDecodableShape {
         /// The error code.
         public let errorCode: String?
@@ -228,12 +312,15 @@ extension ChimeSDKMeetings {
             AWSMemberEncoding(label: "meetingId", location: .uri("MeetingId"))
         ]
 
+        /// The capabilities (audio, video, or content) that you want to grant an attendee. If you don't specify capabilities, all users have send and receive capabilities on  all media channels by default.
+        public let capabilities: AttendeeCapabilities?
         /// The Amazon Chime SDK external user ID. An idempotency token. Links the attendee to an identity managed by a builder application.
         public let externalUserId: String
         /// The unique ID of the meeting.
         public let meetingId: String
 
-        public init(externalUserId: String, meetingId: String) {
+        public init(capabilities: AttendeeCapabilities? = nil, externalUserId: String, meetingId: String) {
+            self.capabilities = capabilities
             self.externalUserId = externalUserId
             self.meetingId = meetingId
         }
@@ -245,15 +332,19 @@ extension ChimeSDKMeetings {
         }
 
         private enum CodingKeys: String, CodingKey {
+            case capabilities = "Capabilities"
             case externalUserId = "ExternalUserId"
         }
     }
 
     public struct CreateAttendeeRequestItem: AWSEncodableShape {
+        /// A list of one or more capabilities.
+        public let capabilities: AttendeeCapabilities?
         /// The Amazon Chime SDK external user ID. An idempotency token. Links the attendee to an identity managed by a builder application.
         public let externalUserId: String
 
-        public init(externalUserId: String) {
+        public init(capabilities: AttendeeCapabilities? = nil, externalUserId: String) {
+            self.capabilities = capabilities
             self.externalUserId = externalUserId
         }
 
@@ -263,6 +354,7 @@ extension ChimeSDKMeetings {
         }
 
         private enum CodingKeys: String, CodingKey {
+            case capabilities = "Capabilities"
             case externalUserId = "ExternalUserId"
         }
     }
@@ -889,6 +981,47 @@ extension ChimeSDKMeetings {
         private enum CodingKeys: String, CodingKey {
             case engineTranscribeMedicalSettings = "EngineTranscribeMedicalSettings"
             case engineTranscribeSettings = "EngineTranscribeSettings"
+        }
+    }
+
+    public struct UpdateAttendeeCapabilitiesRequest: AWSEncodableShape {
+        public static var _encoding = [
+            AWSMemberEncoding(label: "attendeeId", location: .uri("AttendeeId")),
+            AWSMemberEncoding(label: "meetingId", location: .uri("MeetingId"))
+        ]
+
+        /// The ID of the attendee associated with the update request.
+        public let attendeeId: String
+        /// The capabilties that you want to update.
+        public let capabilities: AttendeeCapabilities
+        /// The ID of the meeting associated with the update request.
+        public let meetingId: String
+
+        public init(attendeeId: String, capabilities: AttendeeCapabilities, meetingId: String) {
+            self.attendeeId = attendeeId
+            self.capabilities = capabilities
+            self.meetingId = meetingId
+        }
+
+        public func validate(name: String) throws {
+            try self.validate(self.attendeeId, name: "attendeeId", parent: name, pattern: "^[a-fA-F0-9]{8}(?:-[a-fA-F0-9]{4}){3}-[a-fA-F0-9]{12}$")
+            try self.validate(self.meetingId, name: "meetingId", parent: name, pattern: "^[a-fA-F0-9]{8}(?:-[a-fA-F0-9]{4}){3}-[a-fA-F0-9]{12}$")
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case capabilities = "Capabilities"
+        }
+    }
+
+    public struct UpdateAttendeeCapabilitiesResponse: AWSDecodableShape {
+        public let attendee: Attendee?
+
+        public init(attendee: Attendee? = nil) {
+            self.attendee = attendee
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case attendee = "Attendee"
         }
     }
 }

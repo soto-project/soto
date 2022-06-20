@@ -48,6 +48,18 @@ extension CostExplorer {
         public var description: String { return self.rawValue }
     }
 
+    public enum CostAllocationTagStatus: String, CustomStringConvertible, Codable, _SotoSendable {
+        case active = "Active"
+        case inactive = "Inactive"
+        public var description: String { return self.rawValue }
+    }
+
+    public enum CostAllocationTagType: String, CustomStringConvertible, Codable, _SotoSendable {
+        case awsGenerated = "AWSGenerated"
+        case userDefined = "UserDefined"
+        public var description: String { return self.rawValue }
+    }
+
     public enum CostCategoryInheritedValueDimensionName: String, CustomStringConvertible, Codable, _SotoSendable {
         case linkedAccountName = "LINKED_ACCOUNT_NAME"
         case tag = "TAG"
@@ -295,7 +307,7 @@ extension CostExplorer {
         public let anomalyScore: AnomalyScore
         /// The first day the anomaly is detected.
         public let anomalyStartDate: String?
-        /// The dimension for the anomaly (for example, an Amazon Web Services service in a service monitor).
+        /// The dimension for the anomaly (for example, an Amazon Web Service in a service monitor).
         public let dimensionValue: String?
         /// The feedback value.
         public let feedback: AnomalyFeedbackType?
@@ -486,11 +498,54 @@ extension CostExplorer {
         }
     }
 
+    public struct CostAllocationTag: AWSDecodableShape {
+        /// The status of a cost allocation tag.
+        public let status: CostAllocationTagStatus
+        /// The key for the cost allocation tag.
+        public let tagKey: String
+        /// The type of cost allocation tag. You can use AWSGenerated or UserDefined type tags. AWSGenerated type tags are tags that Amazon Web Services defines and applies to support Amazon Web Services resources for cost allocation purposes. UserDefined type tags are tags that you define, create, and apply to resources.
+        public let type: CostAllocationTagType
+
+        public init(status: CostAllocationTagStatus, tagKey: String, type: CostAllocationTagType) {
+            self.status = status
+            self.tagKey = tagKey
+            self.type = type
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case status = "Status"
+            case tagKey = "TagKey"
+            case type = "Type"
+        }
+    }
+
+    public struct CostAllocationTagStatusEntry: AWSEncodableShape {
+        /// The status of a cost allocation tag.
+        public let status: CostAllocationTagStatus
+        /// The key for the cost allocation tag.
+        public let tagKey: String
+
+        public init(status: CostAllocationTagStatus, tagKey: String) {
+            self.status = status
+            self.tagKey = tagKey
+        }
+
+        public func validate(name: String) throws {
+            try self.validate(self.tagKey, name: "tagKey", parent: name, max: 1024)
+            try self.validate(self.tagKey, name: "tagKey", parent: name, pattern: "^[\\S\\s]*$")
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case status = "Status"
+            case tagKey = "TagKey"
+        }
+    }
+
     public struct CostCategory: AWSDecodableShape {
         /// The unique identifier for your Cost Category.
         public let costCategoryArn: String
         public let defaultValue: String?
-        ///  The effective end data of your Cost Category.
+        /// The effective end data of your Cost Category.
         public let effectiveEnd: String?
         /// The effective state data of your Cost Category.
         public let effectiveStart: String
@@ -531,7 +586,7 @@ extension CostExplorer {
     public struct CostCategoryInheritedValueDimension: AWSEncodableShape & AWSDecodableShape {
         /// The key to extract cost category values.
         public let dimensionKey: String?
-        /// The name of the dimension that's used to group costs. If you specify LINKED_ACCOUNT_NAME, the cost category value is based on account name. If you specify TAG, the cost category value will be based on the value of the specified tag key.
+        /// The name of the dimension that's used to group costs. If you specify LINKED_ACCOUNT_NAME, the cost category value is based on account name. If you specify TAG, the cost category value is based on the value of the specified tag key.
         public let dimensionName: CostCategoryInheritedValueDimensionName?
 
         public init(dimensionKey: String? = nil, dimensionName: CostCategoryInheritedValueDimensionName? = nil) {
@@ -611,7 +666,7 @@ extension CostExplorer {
         public let inheritedValue: CostCategoryInheritedValueDimension?
         /// An Expression object used to categorize costs. This supports dimensions, tags, and nested expressions. Currently the only dimensions supported are LINKED_ACCOUNT, SERVICE_CODE, RECORD_TYPE, and LINKED_ACCOUNT_NAME. Root level OR isn't supported. We recommend that you create a separate rule instead.  RECORD_TYPE is a dimension used for Cost Explorer APIs, and is also supported for Cost Category expressions. This dimension uses different terms, depending on whether you're using the console or API/JSON editor. For a detailed comparison, see Term Comparisons in the Billing and Cost Management User Guide.
         public let rule: Expression?
-        /// You can define the CostCategoryRule rule type as either REGULAR or INHERITED_VALUE. The INHERITED_VALUE rule type adds the flexibility of defining a rule that dynamically inherits the cost category value from the dimension value defined by CostCategoryInheritedValueDimension. For example, if you want to dynamically group costs based on the value of a specific tag key, first choose an inherited value rule type, then choose the tag dimension and specify the tag key to use.
+        /// You can define the CostCategoryRule rule type as either REGULAR or INHERITED_VALUE. The INHERITED_VALUE rule type adds the flexibility to define a rule that dynamically inherits the cost category value. This value is from the dimension value that's defined by CostCategoryInheritedValueDimension. For example, suppose that you want to costs to be dynamically grouped based on the value of a specific tag key. First, choose an inherited value rule type, and then choose the tag dimension and specify the tag key to use.
         public let type: CostCategoryRuleType?
         public let value: String?
 
@@ -843,7 +898,7 @@ extension CostExplorer {
     public struct CreateAnomalyMonitorRequest: AWSEncodableShape {
         /// The cost anomaly detection monitor object that you want to create.
         public let anomalyMonitor: AnomalyMonitor
-        ///  An optional list of tags to associate with the specified  AnomalyMonitor . You can use resource tags to control access to your monitor using IAM policies. Each tag consists of a key and a value, and each key must be unique for the resource. The following restrictions apply to resource tags:   Although the maximum number of array members is 200, you can assign a maximum of 50 user-tags to one resource. The remaining are reserved for Amazon Web Services use   The maximum length of a key is 128 characters   The maximum length of a value is 256 characters   Valid characters for keys and values are: A-Z, a-z, spaces, _.:/=+-    Keys and values are case sensitive   Keys and values are trimmed for any leading or trailing whitespaces   Don’t use aws: as a prefix for your keys. This prefix is reserved for Amazon Web Services use
+        /// An optional list of tags to associate with the specified  AnomalyMonitor . You can use resource tags to control access to your monitor using IAM policies. Each tag consists of a key and a value, and each key must be unique for the resource. The following restrictions apply to resource tags:   Although the maximum number of array members is 200, you can assign a maximum of 50 user-tags to one resource. The remaining are reserved for Amazon Web Services use   The maximum length of a key is 128 characters   The maximum length of a value is 256 characters   Keys and values can only contain alphanumeric characters, spaces, and any of the following: _.:/=+@-    Keys and values are case sensitive   Keys and values are trimmed for any leading or trailing whitespaces   Don’t use aws: as a prefix for your keys. This prefix is reserved for Amazon Web Services use
         public let resourceTags: [ResourceTag]?
 
         public init(anomalyMonitor: AnomalyMonitor, resourceTags: [ResourceTag]? = nil) {
@@ -881,7 +936,7 @@ extension CostExplorer {
     public struct CreateAnomalySubscriptionRequest: AWSEncodableShape {
         /// The cost anomaly subscription object that you want to create.
         public let anomalySubscription: AnomalySubscription
-        ///  An optional list of tags to associate with the specified  AnomalySubscription . You can use resource tags to control access to your subscription using IAM policies. Each tag consists of a key and a value, and each key must be unique for the resource. The following restrictions apply to resource tags:   Although the maximum number of array members is 200, you can assign a maximum of 50 user-tags to one resource. The remaining are reserved for Amazon Web Services use   The maximum length of a key is 128 characters   The maximum length of a value is 256 characters   Valid characters for keys and values are: A-Z, a-z, spaces, _.:/=+-    Keys and values are case sensitive   Keys and values are trimmed for any leading or trailing whitespaces   Don’t use aws: as a prefix for your keys. This prefix is reserved for Amazon Web Services use
+        /// An optional list of tags to associate with the specified  AnomalySubscription . You can use resource tags to control access to your subscription using IAM policies. Each tag consists of a key and a value, and each key must be unique for the resource. The following restrictions apply to resource tags:   Although the maximum number of array members is 200, you can assign a maximum of 50 user-tags to one resource. The remaining are reserved for Amazon Web Services use   The maximum length of a key is 128 characters   The maximum length of a value is 256 characters   Keys and values can only contain alphanumeric characters, spaces, and any of the following: _.:/=+@-    Keys and values are case sensitive   Keys and values are trimmed for any leading or trailing whitespaces   Don’t use aws: as a prefix for your keys. This prefix is reserved for Amazon Web Services use
         public let resourceTags: [ResourceTag]?
 
         public init(anomalySubscription: AnomalySubscription, resourceTags: [ResourceTag]? = nil) {
@@ -919,7 +974,7 @@ extension CostExplorer {
     public struct CreateCostCategoryDefinitionRequest: AWSEncodableShape {
         public let defaultValue: String?
         public let name: String
-        ///  An optional list of tags to associate with the specified  CostCategory . You can use resource tags to control access to your cost category using IAM policies. Each tag consists of a key and a value, and each key must be unique for the resource. The following restrictions apply to resource tags:   Although the maximum number of array members is 200, you can assign a maximum of 50 user-tags to one resource. The remaining are reserved for Amazon Web Services use   The maximum length of a key is 128 characters   The maximum length of a value is 256 characters   Valid characters for keys and values are: A-Z, a-z, spaces, _.:/=+-    Keys and values are case sensitive   Keys and values are trimmed for any leading or trailing whitespaces   Don’t use aws: as a prefix for your keys. This prefix is reserved for Amazon Web Services use
+        /// An optional list of tags to associate with the specified  CostCategory . You can use resource tags to control access to your cost category using IAM policies. Each tag consists of a key and a value, and each key must be unique for the resource. The following restrictions apply to resource tags:   Although the maximum number of array members is 200, you can assign a maximum of 50 user-tags to one resource. The remaining are reserved for Amazon Web Services use   The maximum length of a key is 128 characters   The maximum length of a value is 256 characters   Keys and values can only contain alphanumeric characters, spaces, and any of the following: _.:/=+@-    Keys and values are case sensitive   Keys and values are trimmed for any leading or trailing whitespaces   Don’t use aws: as a prefix for your keys. This prefix is reserved for Amazon Web Services use
         public let resourceTags: [ResourceTag]?
         /// The Cost Category rules used to categorize costs. For more information, see CostCategoryRule.
         public let rules: [CostCategoryRule]
@@ -970,9 +1025,9 @@ extension CostExplorer {
     }
 
     public struct CreateCostCategoryDefinitionResponse: AWSDecodableShape {
-        ///  The unique identifier for your newly created Cost Category.
+        /// The unique identifier for your newly created Cost Category.
         public let costCategoryArn: String?
-        ///  The Cost Category's effective start date.
+        /// The Cost Category's effective start date.
         public let effectiveStart: String?
 
         public init(costCategoryArn: String? = nil, effectiveStart: String? = nil) {
@@ -987,15 +1042,15 @@ extension CostExplorer {
     }
 
     public struct CurrentInstance: AWSDecodableShape {
-        ///  The currency code that Amazon Web Services used to calculate the costs for this instance.
+        /// The currency code that Amazon Web Services used to calculate the costs for this instance.
         public let currencyCode: String?
         /// The name that you given an instance. This field shows as blank if you haven't given the instance a name.
         public let instanceName: String?
         /// The current On-Demand cost of operating this instance on a monthly basis.
         public let monthlyCost: String?
-        ///  The number of hours during the lookback period that's billed at On-Demand rates.
+        /// The number of hours during the lookback period that's billed at On-Demand rates.
         public let onDemandHoursInLookbackPeriod: String?
-        ///  The number of hours during the lookback period that's covered by reservations.
+        /// The number of hours during the lookback period that's covered by reservations.
         public let reservationCoveredHoursInLookbackPeriod: String?
         /// Details about the resource and utilization.
         public let resourceDetails: ResourceDetails?
@@ -1108,7 +1163,7 @@ extension CostExplorer {
     }
 
     public struct DeleteCostCategoryDefinitionRequest: AWSEncodableShape {
-        ///  The unique identifier for your Cost Category.
+        /// The unique identifier for your Cost Category.
         public let costCategoryArn: String
 
         public init(costCategoryArn: String) {
@@ -1127,9 +1182,9 @@ extension CostExplorer {
     }
 
     public struct DeleteCostCategoryDefinitionResponse: AWSDecodableShape {
-        ///  The unique identifier for your Cost Category.
+        /// The unique identifier for your Cost Category.
         public let costCategoryArn: String?
-        ///  The effective end date of the Cost Category as a result of deleting it. No costs after this date will be categorized by the deleted Cost Category.
+        /// The effective end date of the Cost Category as a result of deleting it. No costs after this date is categorized by the deleted Cost Category.
         public let effectiveEnd: String?
 
         public init(costCategoryArn: String? = nil, effectiveEnd: String? = nil) {
@@ -1144,9 +1199,9 @@ extension CostExplorer {
     }
 
     public struct DescribeCostCategoryDefinitionRequest: AWSEncodableShape {
-        ///  The unique identifier for your Cost Category.
+        /// The unique identifier for your Cost Category.
         public let costCategoryArn: String
-        ///  The date when the Cost Category was effective.
+        /// The date when the Cost Category was effective.
         public let effectiveOn: String?
 
         public init(costCategoryArn: String, effectiveOn: String? = nil) {
@@ -1227,13 +1282,13 @@ extension CostExplorer {
     }
 
     public struct DiskResourceUtilization: AWSDecodableShape {
-        ///  The maximum read throughput operations per second.
+        /// The maximum read throughput operations per second.
         public let diskReadBytesPerSecond: String?
-        ///  The maximum number of read operations per second.
+        /// The maximum number of read operations per second.
         public let diskReadOpsPerSecond: String?
-        ///  The maximum write throughput operations per second.
+        /// The maximum write throughput operations per second.
         public let diskWriteBytesPerSecond: String?
-        ///  The maximum number of write operations per second.
+        /// The maximum number of write operations per second.
         public let diskWriteOpsPerSecond: String?
 
         public init(diskReadBytesPerSecond: String? = nil, diskReadOpsPerSecond: String? = nil, diskWriteBytesPerSecond: String? = nil, diskWriteOpsPerSecond: String? = nil) {
@@ -1334,7 +1389,7 @@ extension CostExplorer {
         public let sku: String?
         /// The disk storage of the Amazon Web Services instance. This doesn't include EBS storage.
         public let storage: String?
-        ///  The number of VCPU cores in the Amazon Web Services instance type.
+        /// The number of VCPU cores in the Amazon Web Services instance type.
         public let vcpu: String?
 
         public init(hourlyOnDemandRate: String? = nil, instanceType: String? = nil, memory: String? = nil, networkPerformance: String? = nil, platform: String? = nil, region: String? = nil, sku: String? = nil, storage: String? = nil, vcpu: String? = nil) {
@@ -1363,17 +1418,17 @@ extension CostExplorer {
     }
 
     public struct EC2ResourceUtilization: AWSDecodableShape {
-        ///  The field that contains a list of disk (local storage) metrics that are associated with the current instance.
+        /// The field that contains a list of disk (local storage) metrics that are associated with the current instance.
         public let diskResourceUtilization: DiskResourceUtilization?
         /// The EBS field that contains a list of EBS metrics that are associated with the current instance.
         public let ebsResourceUtilization: EBSResourceUtilization?
-        ///  The maximum observed or expected CPU utilization of the instance.
+        /// The maximum observed or expected CPU utilization of the instance.
         public let maxCpuUtilizationPercentage: String?
-        ///  The maximum observed or expected memory utilization of the instance.
+        /// The maximum observed or expected memory utilization of the instance.
         public let maxMemoryUtilizationPercentage: String?
-        ///  The maximum observed or expected storage utilization of the instance. This doesn't include EBS storage.
+        /// The maximum observed or expected storage utilization of the instance. This doesn't include EBS storage.
         public let maxStorageUtilizationPercentage: String?
-        ///  The network field that contains a list of network metrics that are associated with the current instance.
+        /// The network field that contains a list of network metrics that are associated with the current instance.
         public let networkResourceUtilization: NetworkResourceUtilization?
 
         public init(diskResourceUtilization: DiskResourceUtilization? = nil, ebsResourceUtilization: EBSResourceUtilization? = nil, maxCpuUtilizationPercentage: String? = nil, maxMemoryUtilizationPercentage: String? = nil, maxStorageUtilizationPercentage: String? = nil, networkResourceUtilization: NetworkResourceUtilization? = nil) {
@@ -1798,7 +1853,7 @@ extension CostExplorer {
         public let granularity: Granularity
         /// You can group Amazon Web Services costs using up to two different groups: DIMENSION, TAG, COST_CATEGORY.
         public let groupBy: [GroupDefinition]?
-        /// Which metrics are returned in the query. For more information about blended and unblended rates, see Why does the "blended" annotation appear on some line items in my bill?.  Valid values are AmortizedCost, BlendedCost, NetAmortizedCost, NetUnblendedCost, NormalizedUsageAmount, UnblendedCost, and UsageQuantity.   If you return the UsageQuantity metric, the service aggregates all usage numbers without taking the units into account. For example, if you aggregate usageQuantity across all of Amazon EC2, the results aren't meaningful because Amazon EC2 compute hours and data transfer are measured in different units (for example, hours vs. GB). To get more meaningful UsageQuantity metrics, filter by UsageType or UsageTypeGroups.    Metrics is required for GetCostAndUsageWithResources requests.
+        /// Which metrics are returned in the query. For more information about blended and unblended rates, see Why does the "blended" annotation appear on some line items in my bill?.  Valid values are AmortizedCost, BlendedCost, NetAmortizedCost, NetUnblendedCost, NormalizedUsageAmount, UnblendedCost, and UsageQuantity.   If you return the UsageQuantity metric, the service aggregates all usage numbers without taking the units into account. For example, if you aggregate usageQuantity across all of Amazon EC2, the results aren't meaningful because Amazon EC2 compute hours and data transfer are measured in different units (for example, hour or GB). To get more meaningful UsageQuantity metrics, filter by UsageType or UsageTypeGroups.    Metrics is required for GetCostAndUsageWithResources requests.
         public let metrics: [String]?
         /// The token to retrieve the next set of results. Amazon Web Services provides the token when the response from a previous call has more results than the maximum page size.
         public let nextPageToken: String?
@@ -1845,7 +1900,7 @@ extension CostExplorer {
         public let groupDefinitions: [GroupDefinition]?
         /// The token for the next set of retrievable results. Amazon Web Services provides the token when the response from a previous call has more results than the maximum page size.
         public let nextPageToken: String?
-        /// The time period that is covered by the results in the response.
+        /// The time period that's covered by the results in the response.
         public let resultsByTime: [ResultByTime]?
 
         public init(dimensionValueAttributes: [DimensionValuesWithAttributes]? = nil, groupDefinitions: [GroupDefinition]? = nil, nextPageToken: String? = nil, resultsByTime: [ResultByTime]? = nil) {
@@ -1866,13 +1921,13 @@ extension CostExplorer {
     public struct GetCostCategoriesRequest: AWSEncodableShape {
         public let costCategoryName: String?
         public let filter: Expression?
-        /// This field is only used when SortBy is provided in the request. The maximum number of objects that to be returned for this request.  If MaxResults is not specified with SortBy, the request will return 1000 results as the default value for this parameter. For GetCostCategories, MaxResults has an upper limit of 1000.
+        /// This field is only used when the SortBy value is provided in the request. The maximum number of objects that are returned for this request. If MaxResults isn't specified with the SortBy value, the request returns 1000 results as the default value for this parameter. For GetCostCategories, MaxResults has an upper quota of 1000.
         public let maxResults: Int?
-        /// If the number of objects that are still available for retrieval exceeds the limit, Amazon Web Services returns a NextPageToken value in the response. To retrieve the next batch of objects, provide the NextPageToken from the prior call in your next request.
+        /// If the number of objects that are still available for retrieval exceeds the quota, Amazon Web Services returns a NextPageToken value in the response. To retrieve the next batch of objects, provide the NextPageToken from the previous call in your next request.
         public let nextPageToken: String?
-        /// The value that you want to search the filter values for. If you do not specify a CostCategoryName, SearchString will be used to filter Cost Category names that match the SearchString pattern. If you do specifiy a CostCategoryName, SearchString will be used to filter Cost Category values that match the SearchString pattern.
+        /// The value that you want to search the filter values for. If you don't specify a CostCategoryName, SearchString is used to filter Cost Category names that match the SearchString pattern. If you specify a CostCategoryName, SearchString is used to filter Cost Category values that match the SearchString pattern.
         public let searchString: String?
-        /// The value by which you want to sort the data. The key represents cost and usage metrics. The following values are supported:    BlendedCost     UnblendedCost     AmortizedCost     NetAmortizedCost     NetUnblendedCost     UsageQuantity     NormalizedUsageAmount    Supported values for SortOrder are ASCENDING or DESCENDING. When using SortBy, NextPageToken and SearchString are not supported.
+        /// The value that you sort the data by. The key represents the cost and usage metrics. The following values are supported:    BlendedCost     UnblendedCost     AmortizedCost     NetAmortizedCost     NetUnblendedCost     UsageQuantity     NormalizedUsageAmount    The supported key values for the SortOrder value are ASCENDING and DESCENDING. When you use the SortBy value, the NextPageToken and SearchString key values aren't supported.
         public let sortBy: [SortDefinition]?
         public let timePeriod: DateInterval
 
@@ -1916,11 +1971,11 @@ extension CostExplorer {
     public struct GetCostCategoriesResponse: AWSDecodableShape {
         /// The names of the Cost Categories.
         public let costCategoryNames: [String]?
-        /// The Cost Category values.  CostCategoryValues are not returned if CostCategoryName is not specified in the request.
+        /// The Cost Category values. If the CostCategoryName key isn't specified in the request, the CostCategoryValues fields aren't returned.
         public let costCategoryValues: [String]?
-        /// If the number of objects that are still available for retrieval exceeds the limit, Amazon Web Services returns a NextPageToken value in the response. To retrieve the next batch of objects, provide the marker from the prior call in your next request.
+        /// If the number of objects that are still available for retrieval exceeds the quota, Amazon Web Services returns a NextPageToken value in the response. To retrieve the next batch of objects, provide the marker from the prior call in your next request.
         public let nextPageToken: String?
-        /// The number of objects returned.
+        /// The number of objects that are returned.
         public let returnSize: Int
         /// The total number of objects.
         public let totalSize: Int
@@ -2020,7 +2075,7 @@ extension CostExplorer {
         /// 			The default value is COST_AND_USAGE. If the context is set to RESERVATIONS, the resulting dimension values
         /// 			can be used in the GetReservationUtilization operation. If the context is set to COST_AND_USAGE,
         /// 			the resulting dimension values can be used in the GetCostAndUsage operation.
-        /// 		       If you set the context to COST_AND_USAGE, you can use the following  dimensions for searching:   AZ - The Availability Zone. An example is us-east-1a.   BILLING_ENTITY - The Amazon Web Services seller that your account is with. Possible values are the following: - Amazon Web Services(Amazon Web Services): The entity that sells Amazon Web Services services. - AISPL (Amazon Internet Services Pvt. Ltd.): The local Indian entity that is an acting reseller for Amazon Web Services services in India. - Amazon Web Services Marketplace: The entity that supports the sale of solutions built on Amazon Web Services by third-party software providers.   CACHE_ENGINE - The Amazon ElastiCache operating system. Examples are Windows or Linux.   DEPLOYMENT_OPTION - The scope of Amazon Relational Database Service deployments. Valid values are SingleAZ and MultiAZ.   DATABASE_ENGINE - The Amazon Relational Database Service database. Examples are Aurora or MySQL.   INSTANCE_TYPE - The type of Amazon EC2 instance. An example is m4.xlarge.   INSTANCE_TYPE_FAMILY - A family of instance types optimized to fit different use cases. Examples are Compute Optimized (C4, C5, C6g, C7g etc.), Memory Optimization (R4, R5n, R5b, R6g etc).   INVOICING_ENTITY - The name of the entity issuing the Amazon Web Services invoice.   LEGAL_ENTITY_NAME - The name of the organization that sells you Amazon Web Services services, such as Amazon Web Services.   LINKED_ACCOUNT - The description in the attribute map that includes the full name of the member account. The value  field contains the Amazon Web Services ID of the member account.   OPERATING_SYSTEM - The operating system. Examples are Windows or Linux.   OPERATION - The action performed. Examples include RunInstance and CreateBucket.   PLATFORM - The Amazon EC2 operating system. Examples are Windows or Linux.   PURCHASE_TYPE - The reservation type of the purchase to which this usage is related. Examples include On-Demand  Instances and Standard Reserved Instances.   RESERVATION_ID - The unique identifier for an Amazon Web Services Reservation Instance.   SAVINGS_PLAN_ARN - The unique identifier for your Savings Plans.   SAVINGS_PLANS_TYPE - Type of Savings Plans (EC2 Instance or Compute).   SERVICE - The Amazon Web Services service such as Amazon DynamoDB.   TENANCY - The tenancy of a resource. Examples are shared or dedicated.   USAGE_TYPE - The type of usage. An example is DataTransfer-In-Bytes. The response for the GetDimensionValues operation includes a unit attribute. Examples include GB and Hrs.   USAGE_TYPE_GROUP - The grouping of common usage types. An example is Amazon EC2: CloudWatch – Alarms. The response for this  operation includes a unit attribute.   REGION - The Amazon Web Services Region.   RECORD_TYPE - The different types of charges such as RI fees, usage costs, tax refunds, and credits.   RESOURCE_ID - The unique identifier of the resource. ResourceId is an opt-in feature only available for last 14 days for EC2-Compute Service.   If you set the context to RESERVATIONS, you can use the following  dimensions for searching:   AZ - The Availability Zone. An example is us-east-1a.   CACHE_ENGINE - The Amazon ElastiCache operating system. Examples are Windows or Linux.   DEPLOYMENT_OPTION - The scope of Amazon Relational Database Service deployments. Valid values are SingleAZ and MultiAZ.   INSTANCE_TYPE - The type of Amazon EC2 instance. An example is m4.xlarge.   LINKED_ACCOUNT - The description in the attribute map that includes the full name of the member account. The value  field contains the Amazon Web Services ID of the member account.   PLATFORM - The Amazon EC2 operating system. Examples are Windows or Linux.   REGION - The Amazon Web Services Region.   SCOPE (Utilization only) - The scope of a Reserved Instance (RI). Values are regional or a single Availability Zone.   TAG (Coverage only) - The tags that are associated with a Reserved Instance (RI).   TENANCY - The tenancy of a resource. Examples are shared or dedicated.   If you set the context to SAVINGS_PLANS, you can use the following dimensions for searching:   SAVINGS_PLANS_TYPE - Type of Savings Plans (EC2 Instance or Compute)   PAYMENT_OPTION - Payment option for the given Savings Plans (for example, All Upfront)   REGION - The Amazon Web Services Region.   INSTANCE_TYPE_FAMILY - The family of instances (For example, m5)   LINKED_ACCOUNT - The description in the attribute map that includes the full name of the member account. The value  field contains the Amazon Web Services ID of the member account.   SAVINGS_PLAN_ARN - The unique identifier for your Savings Plans.
+        /// 		       If you set the context to COST_AND_USAGE, you can use the following  dimensions for searching:   AZ - The Availability Zone. An example is us-east-1a.   BILLING_ENTITY - The Amazon Web Services seller that your account is with. Possible values are the following: - Amazon Web Services(Amazon Web Services): The entity that sells Amazon Web Services. - AISPL (Amazon Internet Services Pvt. Ltd.): The local Indian entity that's an acting reseller for Amazon Web Services in India. - Amazon Web Services Marketplace: The entity that supports the sale of solutions that are built on Amazon Web Services by third-party software providers.   CACHE_ENGINE - The Amazon ElastiCache operating system. Examples are Windows or Linux.   DEPLOYMENT_OPTION - The scope of Amazon Relational Database Service deployments. Valid values are SingleAZ and MultiAZ.   DATABASE_ENGINE - The Amazon Relational Database Service database. Examples are Aurora or MySQL.   INSTANCE_TYPE - The type of Amazon EC2 instance. An example is m4.xlarge.   INSTANCE_TYPE_FAMILY - A family of instance types optimized to fit different use cases. Examples are Compute Optimized (for example, C4, C5, C6g, and C7g), Memory Optimization (for example, R4, R5n, R5b, and R6g).   INVOICING_ENTITY - The name of the entity that issues the Amazon Web Services invoice.   LEGAL_ENTITY_NAME - The name of the organization that sells you Amazon Web Services services, such as Amazon Web Services.   LINKED_ACCOUNT - The description in the attribute map that includes the full name of the member account. The value  field contains the Amazon Web Services ID of the member account.   OPERATING_SYSTEM - The operating system. Examples are Windows or Linux.   OPERATION - The action performed. Examples include RunInstance and CreateBucket.   PLATFORM - The Amazon EC2 operating system. Examples are Windows or Linux.   PURCHASE_TYPE - The reservation type of the purchase that this usage is related to. Examples include On-Demand Instances and Standard Reserved Instances.   RESERVATION_ID - The unique identifier for an Amazon Web Services Reservation Instance.   SAVINGS_PLAN_ARN - The unique identifier for your Savings Plans.   SAVINGS_PLANS_TYPE - Type of Savings Plans (EC2 Instance or Compute).   SERVICE - The Amazon Web Services service such as Amazon DynamoDB.   TENANCY - The tenancy of a resource. Examples are shared or dedicated.   USAGE_TYPE - The type of usage. An example is DataTransfer-In-Bytes. The response for the GetDimensionValues operation includes a unit attribute. Examples include GB and Hrs.   USAGE_TYPE_GROUP - The grouping of common usage types. An example is Amazon EC2: CloudWatch – Alarms. The response for this  operation includes a unit attribute.   REGION - The Amazon Web Services Region.   RECORD_TYPE - The different types of charges such as Reserved Instance (RI) fees, usage costs, tax refunds, and credits.   RESOURCE_ID - The unique identifier of the resource. ResourceId is an opt-in feature only available for last 14 days for EC2-Compute Service.   If you set the context to RESERVATIONS, you can use the following  dimensions for searching:   AZ - The Availability Zone. An example is us-east-1a.   CACHE_ENGINE - The Amazon ElastiCache operating system. Examples are Windows or Linux.   DEPLOYMENT_OPTION - The scope of Amazon Relational Database Service deployments. Valid values are SingleAZ and MultiAZ.   INSTANCE_TYPE - The type of Amazon EC2 instance. An example is m4.xlarge.   LINKED_ACCOUNT - The description in the attribute map that includes the full name of the member account. The value  field contains the Amazon Web Services ID of the member account.   PLATFORM - The Amazon EC2 operating system. Examples are Windows or Linux.   REGION - The Amazon Web Services Region.   SCOPE (Utilization only) - The scope of a Reserved Instance (RI). Values are regional or a single Availability Zone.   TAG (Coverage only) - The tags that are associated with a Reserved Instance (RI).   TENANCY - The tenancy of a resource. Examples are shared or dedicated.   If you set the context to SAVINGS_PLANS, you can use the following dimensions for searching:   SAVINGS_PLANS_TYPE - Type of Savings Plans (EC2 Instance or Compute)   PAYMENT_OPTION - The payment option for the given Savings Plans (for example, All Upfront)   REGION - The Amazon Web Services Region.   INSTANCE_TYPE_FAMILY - The family of instances (For example, m5)   LINKED_ACCOUNT - The description in the attribute map that includes the full name of the member account. The value  field contains the Amazon Web Services ID of the member account.   SAVINGS_PLAN_ARN - The unique identifier for your Savings Plans.
         public let context: Context?
         /// The name of the dimension. Each Dimension is available for a different Context.
         /// 			For more information, see Context.
@@ -2028,13 +2083,13 @@ extension CostExplorer {
         ///
         public let dimension: Dimension
         public let filter: Expression?
-        /// This field is only used when SortBy is provided in the request. The maximum number of objects that to be returned for this request. If MaxResults is not specified with SortBy, the request will return 1000 results as the default value for this parameter. For GetDimensionValues, MaxResults has an upper limit of 1000.
+        /// This field is only used when SortBy is provided in the request. The maximum number of objects that are returned for this request. If MaxResults isn't specified with SortBy, the request returns 1000 results as the default value for this parameter. For GetDimensionValues, MaxResults has an upper limit of 1000.
         public let maxResults: Int?
         /// The token to retrieve the next set of results. Amazon Web Services provides the token when the response from a previous call has more results than the maximum page size.
         public let nextPageToken: String?
         /// The value that you want to search the filter values for.
         public let searchString: String?
-        /// The value by which you want to sort the data. The key represents cost and usage metrics. The following values are supported:    BlendedCost     UnblendedCost     AmortizedCost     NetAmortizedCost     NetUnblendedCost     UsageQuantity     NormalizedUsageAmount    Supported values for SortOrder are ASCENDING or DESCENDING. When you specify a SortBy paramater, the context must be COST_AND_USAGE. Further, when using SortBy, NextPageToken and SearchString are not supported.
+        /// The value that you want to sort the data by. The key represents cost and usage metrics. The following values are supported:    BlendedCost     UnblendedCost     AmortizedCost     NetAmortizedCost     NetUnblendedCost     UsageQuantity     NormalizedUsageAmount    The supported values for the SortOrder key are ASCENDING or DESCENDING. When you specify a SortBy paramater, the context must be COST_AND_USAGE. Further, when using SortBy, NextPageToken and SearchString aren't supported.
         public let sortBy: [SortDefinition]?
         /// The start date and end date for retrieving the dimension values. The start date is inclusive, but the end date is exclusive. For example, if start is 2017-01-01 and end is 2017-05-01, then the cost and usage data is retrieved from 2017-01-01 up to and including 2017-04-30 but not including 2017-05-01.
         public let timePeriod: DateInterval
@@ -2193,7 +2248,7 @@ extension CostExplorer {
     }
 
     public struct GetReservationPurchaseRecommendationRequest: AWSEncodableShape {
-        /// The account ID that is associated with the recommendation.
+        /// The account ID that's associated with the recommendation.
         public let accountId: String?
         /// The account scope that you want your recommendations for. Amazon Web Services calculates recommendations including the management account and member accounts if the value is set to PAYER. If the value is LINKED, recommendations are calculated for individual member accounts only.
         public let accountScope: AccountScope?
@@ -2291,9 +2346,9 @@ extension CostExplorer {
         public let maxResults: Int?
         /// The token to retrieve the next set of results. Amazon Web Services provides the token when the response from a previous call has more results than the maximum page size.
         public let nextPageToken: String?
-        /// The value by which you want to sort the data.  The following values are supported for Key:    UtilizationPercentage     UtilizationPercentageInUnits     PurchasedHours     PurchasedUnits     TotalActualHours     TotalActualUnits     UnusedHours     UnusedUnits     OnDemandCostOfRIHoursUsed     NetRISavings     TotalPotentialRISavings     AmortizedUpfrontFee     AmortizedRecurringFee     TotalAmortizedFee     RICostForUnusedHours     RealizedSavings     UnrealizedSavings     Supported values for SortOrder are ASCENDING or DESCENDING.
+        /// The value that you want to sort the data by.  The following values are supported for Key:    UtilizationPercentage     UtilizationPercentageInUnits     PurchasedHours     PurchasedUnits     TotalActualHours     TotalActualUnits     UnusedHours     UnusedUnits     OnDemandCostOfRIHoursUsed     NetRISavings     TotalPotentialRISavings     AmortizedUpfrontFee     AmortizedRecurringFee     TotalAmortizedFee     RICostForUnusedHours     RealizedSavings     UnrealizedSavings     The supported values for SortOrder are ASCENDING and DESCENDING.
         public let sortBy: SortDefinition?
-        /// Sets the start and end dates for retrieving RI utilization. The start date is inclusive,  but the end date is exclusive. For example, if start is 2017-01-01 and end is 2017-05-01, then the cost and usage data is   retrieved from 2017-01-01 up to and including 2017-04-30 but not including 2017-05-01.
+        /// Sets the start and end dates for retrieving Reserved Instance (RI) utilization. The start date is inclusive, but the end date is exclusive. For example, if start is 2017-01-01 and end is 2017-05-01, then the cost and usage data is retrieved from 2017-01-01 up to and including 2017-04-30 but not including 2017-05-01.
         public let timePeriod: DateInterval
 
         public init(filter: Expression? = nil, granularity: Granularity? = nil, groupBy: [GroupDefinition]? = nil, maxResults: Int? = nil, nextPageToken: String? = nil, sortBy: SortDefinition? = nil, timePeriod: DateInterval) {
@@ -2332,9 +2387,9 @@ extension CostExplorer {
     public struct GetReservationUtilizationResponse: AWSDecodableShape {
         /// The token for the next set of retrievable results. Amazon Web Services provides the token when the response from a previous call has more results than the maximum page size.
         public let nextPageToken: String?
-        /// The total amount of time that you used your RIs.
+        /// The total amount of time that you used your Reserved Instances (RIs).
         public let total: ReservationAggregates?
-        /// The amount of time that you used your RIs.
+        /// The amount of time that you used your Reserved Instances (RIs).
         public let utilizationsByTime: [UtilizationByTime]
 
         public init(nextPageToken: String? = nil, total: ReservationAggregates? = nil, utilizationsByTime: [UtilizationByTime]) {
@@ -2351,7 +2406,7 @@ extension CostExplorer {
     }
 
     public struct GetRightsizingRecommendationRequest: AWSEncodableShape {
-        ///  Enables you to customize recommendations across two attributes. You can choose to view recommendations for instances within the same instance families or across different instance families. You can also choose to view your estimated savings associated with recommendations with consideration of existing Savings Plans or RI benefits, or neither.
+        /// You can use Configuration to customize recommendations across two attributes. You can choose to view recommendations for instances within the same instance families or across different instance families. You can also choose to view your estimated savings that are associated with recommendations with consideration of existing Savings Plans or RI benefits, or neither.
         public let configuration: RightsizingRecommendationConfiguration?
         public let filter: Expression?
         /// The pagination token that indicates the next set of results that you want to retrieve.
@@ -2388,7 +2443,7 @@ extension CostExplorer {
     }
 
     public struct GetRightsizingRecommendationResponse: AWSDecodableShape {
-        ///  Enables you to customize recommendations across two attributes. You can choose to view recommendations for instances within the same instance families or across different instance families. You can also choose to view your estimated savings associated with recommendations with consideration of existing Savings Plans or RI benefits, or neither.
+        /// You can use Configuration to customize recommendations across two attributes. You can choose to view recommendations for instances within the same instance families or across different instance families. You can also choose to view your estimated savings that are associated with recommendations with consideration of existing Savings Plans or RI benefits, or neither.
         public let configuration: RightsizingRecommendationConfiguration?
         /// Information regarding this specific recommendation set.
         public let metadata: RightsizingRecommendationMetadata?
@@ -2430,7 +2485,7 @@ extension CostExplorer {
         public let metrics: [String]?
         /// The token to retrieve the next set of results. Amazon Web Services provides the token when the response from a previous call has more results than the maximum page size.
         public let nextToken: String?
-        /// The value by which you want to sort the data. The following values are supported for Key:    SpendCoveredBySavingsPlan     OnDemandCost     CoveragePercentage     TotalCost     InstanceFamily     Region     Service     Supported values for SortOrder are ASCENDING or DESCENDING.
+        /// The value that you want to sort the data by. The following values are supported for Key:    SpendCoveredBySavingsPlan     OnDemandCost     CoveragePercentage     TotalCost     InstanceFamily     Region     Service     The supported values for SortOrder are ASCENDING and DESCENDING.
         public let sortBy: SortDefinition?
         /// The time period that you want the usage and costs for. The Start date must be within 13 months. The End date must be after the Start date, and before the current date. Future dates can't be used as an End date.
         public let timePeriod: DateInterval
@@ -2494,19 +2549,19 @@ extension CostExplorer {
     public struct GetSavingsPlansPurchaseRecommendationRequest: AWSEncodableShape {
         /// The account scope that you want your recommendations for. Amazon Web Services calculates recommendations including the management account and member accounts if the value is set to PAYER. If the value is LINKED, recommendations are calculated for individual member accounts only.
         public let accountScope: AccountScope?
-        /// You can filter your recommendations by Account ID with the LINKED_ACCOUNT dimension. To filter your recommendations by Account ID, specify Key as LINKED_ACCOUNT and Value as the comma-separated Acount ID(s) for which you want to see Savings Plans purchase recommendations. For GetSavingsPlansPurchaseRecommendation, the Filter does not include CostCategories or Tags. It only includes Dimensions. With Dimensions, Key must be LINKED_ACCOUNT and Value can be a single Account ID or multiple comma-separated Account IDs for which you want to see Savings Plans Purchase Recommendations. AND and OR operators are not supported.
+        /// You can filter your recommendations by Account ID with the LINKED_ACCOUNT dimension. To filter your recommendations by Account ID, specify Key as LINKED_ACCOUNT and Value as the comma-separated Acount ID(s) that you want to see Savings Plans purchase recommendations for. For GetSavingsPlansPurchaseRecommendation, the Filter doesn't include CostCategories or Tags. It only includes Dimensions. With Dimensions, Key must be LINKED_ACCOUNT and Value can be a single Account ID or multiple comma-separated Account IDs that you want to see Savings Plans Purchase Recommendations for. AND and OR operators are not supported.
         public let filter: Expression?
-        /// The lookback period used to generate the recommendation.
+        /// The lookback period that's used to generate the recommendation.
         public let lookbackPeriodInDays: LookbackPeriodInDays
         /// The token to retrieve the next set of results. Amazon Web Services provides the token when the response from a previous call has more results than the maximum page size.
         public let nextPageToken: String?
         /// The number of recommendations that you want returned in a single response object.
         public let pageSize: Int?
-        /// The payment option used to generate these recommendations.
+        /// The payment option that's used to generate these recommendations.
         public let paymentOption: PaymentOption
-        /// The Savings Plans recommendation type requested.
+        /// The Savings Plans recommendation type that's requested.
         public let savingsPlansType: SupportedSavingsPlansType
-        /// The savings plan recommendation term used to generate these recommendations.
+        /// The savings plan recommendation term that's used to generate these recommendations.
         public let termInYears: TermInYears
 
         public init(accountScope: AccountScope? = nil, filter: Expression? = nil, lookbackPeriodInDays: LookbackPeriodInDays, nextPageToken: String? = nil, pageSize: Int? = nil, paymentOption: PaymentOption, savingsPlansType: SupportedSavingsPlansType, termInYears: TermInYears) {
@@ -2540,7 +2595,7 @@ extension CostExplorer {
     }
 
     public struct GetSavingsPlansPurchaseRecommendationResponse: AWSDecodableShape {
-        /// Information regarding this specific recommendation set.
+        /// Information that regards this specific recommendation set.
         public let metadata: SavingsPlansPurchaseRecommendationMetadata?
         /// The token for the next set of retrievable results. Amazon Web Services provides the token when the response from a previous call has more results than the maximum page size.
         public let nextPageToken: String?
@@ -2569,7 +2624,7 @@ extension CostExplorer {
         public let maxResults: Int?
         /// The token to retrieve the next set of results. Amazon Web Services provides the token when the response from a previous call has more results than the maximum page size.
         public let nextToken: String?
-        /// The value by which you want to sort the data.  The following values are supported for Key:    UtilizationPercentage     TotalCommitment     UsedCommitment     UnusedCommitment     NetSavings     AmortizedRecurringCommitment     AmortizedUpfrontCommitment     Supported values for SortOrder are ASCENDING or DESCENDING.
+        /// The value that you want to sort the data by.  The following values are supported for Key:    UtilizationPercentage     TotalCommitment     UsedCommitment     UnusedCommitment     NetSavings     AmortizedRecurringCommitment     AmortizedUpfrontCommitment     The supported values for SortOrder are ASCENDING and DESCENDING.
         public let sortBy: SortDefinition?
         /// The time period that you want the usage and costs for. The Start date must be within 13 months. The End date must be after the Start date, and before the current date. Future dates can't be used as an End date.
         public let timePeriod: DateInterval
@@ -2632,7 +2687,7 @@ extension CostExplorer {
         /// The granularity of the Amazon Web Services utillization data for your Savings Plans.
         /// 	        The GetSavingsPlansUtilization operation supports only DAILY and MONTHLY granularities.
         public let granularity: Granularity?
-        /// The value by which you want to sort the data. The following values are supported for Key:    UtilizationPercentage     TotalCommitment     UsedCommitment     UnusedCommitment     NetSavings     Supported values for SortOrder are ASCENDING or DESCENDING.
+        /// The value that you want to sort the data by. The following values are supported for Key:    UtilizationPercentage     TotalCommitment     UsedCommitment     UnusedCommitment     NetSavings     The supported values for SortOrder are ASCENDING and DESCENDING.
         public let sortBy: SortDefinition?
         /// The time period that you want the usage and costs for. The Start date must be within 13 months. The End date must be after the Start date, and before the current date. Future dates can't be used as an End date.
         public let timePeriod: DateInterval
@@ -2659,7 +2714,7 @@ extension CostExplorer {
     }
 
     public struct GetSavingsPlansUtilizationResponse: AWSDecodableShape {
-        /// The amount of cost/commitment you used your Savings Plans. This allows you to specify date ranges.
+        /// The amount of cost/commitment that you used your Savings Plans. You can use it to specify date ranges.
         public let savingsPlansUtilizationsByTime: [SavingsPlansUtilizationByTime]?
         /// The total amount of cost/commitment that you used your Savings Plans, regardless of date ranges.
         public let total: SavingsPlansUtilizationAggregates
@@ -2677,13 +2732,13 @@ extension CostExplorer {
 
     public struct GetTagsRequest: AWSEncodableShape {
         public let filter: Expression?
-        /// This field is only used when SortBy is provided in the request. The maximum number of objects that to be returned for this request. If MaxResults is not specified with SortBy, the request will return 1000 results as the default value for this parameter. For GetTags, MaxResults has an upper limit of 1000.
+        /// This field is only used when SortBy is provided in the request. The maximum number of objects that are returned for this request. If MaxResults isn't specified with SortBy, the request returns 1000 results as the default value for this parameter. For GetTags, MaxResults has an upper quota of 1000.
         public let maxResults: Int?
         /// The token to retrieve the next set of results. Amazon Web Services provides the token when the response from a previous call has more results than the maximum page size.
         public let nextPageToken: String?
         /// The value that you want to search for.
         public let searchString: String?
-        /// The value by which you want to sort the data. The key represents cost and usage metrics. The following values are supported:    BlendedCost     UnblendedCost     AmortizedCost     NetAmortizedCost     NetUnblendedCost     UsageQuantity     NormalizedUsageAmount    Supported values for SortOrder are ASCENDING or DESCENDING. When using SortBy, NextPageToken and SearchString are not supported.
+        /// The value that you want to sort the data by. The key represents cost and usage metrics. The following values are supported:    BlendedCost     UnblendedCost     AmortizedCost     NetAmortizedCost     NetUnblendedCost     UsageQuantity     NormalizedUsageAmount    The supported values for SortOrder are ASCENDING and DESCENDING. When you use SortBy, NextPageToken and SearchString aren't supported.
         public let sortBy: [SortDefinition]?
         /// The key of the tag that you want to return values for.
         public let tagKey: String?
@@ -2767,12 +2822,11 @@ extension CostExplorer {
         /// 				           NORMALIZED_USAGE_AMOUNT
         ///
         public let metric: Metric
-        /// Cost Explorer always returns the mean forecast as a single point. You can request a prediction interval around the mean
+        /// Amazon Web Services Cost Explorer always returns the mean forecast as a single point. You can request a prediction interval around the mean
         /// 			by specifying a confidence level. The higher the confidence level, the more confident Cost Explorer is about the actual value
         /// 			falling in the prediction interval. Higher confidence levels result in wider prediction intervals.
         public let predictionIntervalLevel: Int?
-        /// The start and end dates of the period that you want to retrieve usage forecast for. The start date is inclusive,  but the end date is exclusive. For example, if start is 2017-01-01 and end is 2017-05-01, then the cost and usage data is
-        /// 		  retrieved from 2017-01-01 up to and including 2017-04-30 but not including 2017-05-01. The start date must be equal to or later than the current date to avoid a validation error.
+        /// The start and end dates of the period that you want to retrieve usage forecast for. The start date is included in the period, but the end date isn't included in the period. For example, if start is 2017-01-01 and end is 2017-05-01, then the cost and usage data is retrieved from 2017-01-01 up to and including 2017-04-30 but not including 2017-05-01. The start date must be equal to or later than the current date to avoid a validation error.
         public let timePeriod: DateInterval
 
         public init(filter: Expression? = nil, granularity: Granularity, metric: Metric, predictionIntervalLevel: Int? = nil, timePeriod: DateInterval) {
@@ -2902,12 +2956,71 @@ extension CostExplorer {
         }
     }
 
-    public struct ListCostCategoryDefinitionsRequest: AWSEncodableShape {
-        ///  The date when the Cost Category was effective.
-        public let effectiveOn: String?
-        ///  The number of entries a paginated response contains.
+    public struct ListCostAllocationTagsRequest: AWSEncodableShape {
+        /// The maximum number of objects that are returned for this request. By default, the request returns 100 results.
         public let maxResults: Int?
-        ///  The token to retrieve the next set of results. Amazon Web Services provides the token when the response from a previous call has more results than the maximum page size.
+        /// The token to retrieve the next set of results. Amazon Web Services provides the token when the response from a previous call has more results than the maximum page size.
+        public let nextToken: String?
+        /// The status of cost allocation tag keys that are returned for this request.
+        public let status: CostAllocationTagStatus?
+        /// The list of cost allocation tag keys that are returned for this request.
+        public let tagKeys: [String]?
+        /// The type of CostAllocationTag object that are returned for this request. The AWSGenerated type tags are tags that Amazon Web Services defines and applies to support Amazon Web Services resources for cost allocation purposes. The UserDefined type tags are tags that you define, create, and apply to resources.
+        public let type: CostAllocationTagType?
+
+        public init(maxResults: Int? = nil, nextToken: String? = nil, status: CostAllocationTagStatus? = nil, tagKeys: [String]? = nil, type: CostAllocationTagType? = nil) {
+            self.maxResults = maxResults
+            self.nextToken = nextToken
+            self.status = status
+            self.tagKeys = tagKeys
+            self.type = type
+        }
+
+        public func validate(name: String) throws {
+            try self.validate(self.maxResults, name: "maxResults", parent: name, max: 1000)
+            try self.validate(self.maxResults, name: "maxResults", parent: name, min: 1)
+            try self.validate(self.nextToken, name: "nextToken", parent: name, max: 8192)
+            try self.validate(self.nextToken, name: "nextToken", parent: name, pattern: "^[\\S\\s]*$")
+            try self.tagKeys?.forEach {
+                try validate($0, name: "tagKeys[]", parent: name, max: 1024)
+                try validate($0, name: "tagKeys[]", parent: name, pattern: "^[\\S\\s]*$")
+            }
+            try self.validate(self.tagKeys, name: "tagKeys", parent: name, max: 100)
+            try self.validate(self.tagKeys, name: "tagKeys", parent: name, min: 1)
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case maxResults = "MaxResults"
+            case nextToken = "NextToken"
+            case status = "Status"
+            case tagKeys = "TagKeys"
+            case type = "Type"
+        }
+    }
+
+    public struct ListCostAllocationTagsResponse: AWSDecodableShape {
+        /// A list of cost allocation tags that includes the detailed metadata for each one.
+        public let costAllocationTags: [CostAllocationTag]?
+        /// The token to retrieve the next set of results. Amazon Web Services provides the token when the response from a previous call has more results than the maximum page size.
+        public let nextToken: String?
+
+        public init(costAllocationTags: [CostAllocationTag]? = nil, nextToken: String? = nil) {
+            self.costAllocationTags = costAllocationTags
+            self.nextToken = nextToken
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case costAllocationTags = "CostAllocationTags"
+            case nextToken = "NextToken"
+        }
+    }
+
+    public struct ListCostCategoryDefinitionsRequest: AWSEncodableShape {
+        /// The date when the Cost Category was effective.
+        public let effectiveOn: String?
+        /// The number of entries a paginated response contains.
+        public let maxResults: Int?
+        /// The token to retrieve the next set of results. Amazon Web Services provides the token when the response from a previous call has more results than the maximum page size.
         public let nextToken: String?
 
         public init(effectiveOn: String? = nil, maxResults: Int? = nil, nextToken: String? = nil) {
@@ -2934,9 +3047,9 @@ extension CostExplorer {
     }
 
     public struct ListCostCategoryDefinitionsResponse: AWSDecodableShape {
-        ///  A reference to a Cost Category containing enough information to identify the Cost Category.
+        /// A reference to a Cost Category that contains enough information to identify the Cost Category.
         public let costCategoryReferences: [CostCategoryReference]?
-        ///  The token to retrieve the next set of results. Amazon Web Services provides the token when the response from a previous call has more results than the maximum page size.
+        /// The token to retrieve the next set of results. Amazon Web Services provides the token when the response from a previous call has more results than the maximum page size.
         public let nextToken: String?
 
         public init(costCategoryReferences: [CostCategoryReference]? = nil, nextToken: String? = nil) {
@@ -2970,7 +3083,7 @@ extension CostExplorer {
     }
 
     public struct ListTagsForResourceResponse: AWSDecodableShape {
-        /// A list of tag key value pairs that are associated with the response.
+        /// A list of tag key value pairs that are associated with the resource.
         public let resourceTags: [ResourceTag]?
 
         public init(resourceTags: [ResourceTag]? = nil) {
@@ -3013,13 +3126,13 @@ extension CostExplorer {
     }
 
     public struct NetworkResourceUtilization: AWSDecodableShape {
-        ///  The network inbound throughput utilization measured in Bytes per second.
+        /// The network inbound throughput utilization measured in Bytes per second (Bps).
         public let networkInBytesPerSecond: String?
-        ///  The network outbound throughput utilization measured in Bytes per second.
+        /// The network outbound throughput utilization measured in Bytes per second (Bps).
         public let networkOutBytesPerSecond: String?
-        ///  The network ingress packets that are measured in packets per second.
+        /// The network inbound packets that are measured in packets per second.
         public let networkPacketsInPerSecond: String?
-        ///  The network outgress packets that are measured in packets per second.
+        /// The network outbound packets that are measured in packets per second.
         public let networkPacketsOutPerSecond: String?
 
         public init(networkInBytesPerSecond: String? = nil, networkOutBytesPerSecond: String? = nil, networkPacketsInPerSecond: String? = nil, networkPacketsOutPerSecond: String? = nil) {
@@ -3278,7 +3391,7 @@ extension CostExplorer {
     }
 
     public struct ReservationPurchaseRecommendationDetail: AWSDecodableShape {
-        /// The account that this RI recommendation is for.
+        /// The account that this Reserved Instance (RI) recommendation is for.
         public let accountId: String?
         /// The average number of normalized units that you used in an hour during the historical period. Amazon Web Services uses this to calculate your recommended reservation purchases.
         public let averageNormalizedUnitsUsedPerHour: String?
@@ -3292,11 +3405,11 @@ extension CostExplorer {
         public let estimatedBreakEvenInMonths: String?
         /// How much Amazon Web Services estimates that you spend on On-Demand Instances in a month.
         public let estimatedMonthlyOnDemandCost: String?
-        /// How much Amazon Web Services estimates that this specific recommendation could save you in a month.
+        /// How much Amazon Web Services estimates that this specific recommendation might save you in a month.
         public let estimatedMonthlySavingsAmount: String?
-        /// How much Amazon Web Services estimates that this specific recommendation could save you in a month, as a percentage of your overall costs.
+        /// How much Amazon Web Services estimates that this specific recommendation might save you in a month, as a percentage of your overall costs.
         public let estimatedMonthlySavingsPercentage: String?
-        /// How much Amazon Web Services estimates that you would have spent for all usage during the specified historical period if you had a reservation.
+        /// How much Amazon Web Services estimates that you might spend for all usage during the specified historical period if you had a reservation.
         public let estimatedReservationCostForLookbackPeriod: String?
         /// Details about the instances that Amazon Web Services recommends that you purchase.
         public let instanceDetails: InstanceDetails?
@@ -3426,7 +3539,7 @@ extension CostExplorer {
     }
 
     public struct ResourceDetails: AWSDecodableShape {
-        /// Details on the Amazon EC2 resource.
+        /// Details for the Amazon EC2 resource.
         public let ec2ResourceDetails: EC2ResourceDetails?
 
         public init(ec2ResourceDetails: EC2ResourceDetails? = nil) {
@@ -3439,9 +3552,9 @@ extension CostExplorer {
     }
 
     public struct ResourceTag: AWSEncodableShape & AWSDecodableShape {
-        ///  The key that is associated with the tag.
+        /// The key that's associated with the tag.
         public let key: String
-        ///  The value that is associated with the tag.
+        /// The value that's associated with the tag.
         public let value: String
 
         public init(key: String, value: String) {
@@ -3506,7 +3619,7 @@ extension CostExplorer {
         public let accountId: String?
         /// Context regarding the current instance.
         public let currentInstance: CurrentInstance?
-        ///  The list of possible reasons why the recommendation is generated such as under or over utilization of specific metrics (for example, CPU, Memory, Network).
+        /// The list of possible reasons why the recommendation is generated, such as under- or over-utilization of specific metrics (for example, CPU, Memory, Network).
         public let findingReasonCodes: [FindingReasonCode]?
         /// The details for the modification recommendations.
         public let modifyRecommendationDetail: ModifyRecommendationDetail?
@@ -3606,7 +3719,7 @@ extension CostExplorer {
         public let linkedAccount: String?
         /// The Amazon Web Services Region that's associated with the cost anomaly.
         public let region: String?
-        /// The Amazon Web Services service name that's associated with the cost anomaly.
+        /// The Amazon Web Service name that's associated with the cost anomaly.
         public let service: String?
         /// The UsageType value that's associated with the cost anomaly.
         public let usageType: String?
@@ -3672,7 +3785,7 @@ extension CostExplorer {
         public let coveragePercentage: String?
         /// The cost of your Amazon Web Services usage at the public On-Demand rate.
         public let onDemandCost: String?
-        /// The amount of your Amazon Web Services usage that is covered by a Savings Plans.
+        /// The amount of your Amazon Web Services usage that's covered by a Savings Plans.
         public let spendCoveredBySavingsPlans: String?
         /// The total cost of your Amazon Web Services usage, regardless of your purchase option.
         public let totalCost: String?
@@ -3716,11 +3829,11 @@ extension CostExplorer {
     public struct SavingsPlansPurchaseRecommendation: AWSDecodableShape {
         /// The account scope that you want your recommendations for. Amazon Web Services calculates recommendations that include the management account and member accounts if the value is set to PAYER. If the value is LINKED, recommendations are calculated for individual member accounts only.
         public let accountScope: AccountScope?
-        /// The lookback period in days, used to generate the recommendation.
+        /// The lookback period in days that's used to generate the recommendation.
         public let lookbackPeriodInDays: LookbackPeriodInDays?
-        /// The payment option used to generate the recommendation.
+        /// The payment option that's used to generate the recommendation.
         public let paymentOption: PaymentOption?
-        /// Details for the Savings Plans we recommend that you purchase to cover existing Savings Plans eligible workloads.
+        /// Details for the Savings Plans that we recommend that you purchase to cover existing Savings Plans eligible workloads.
         public let savingsPlansPurchaseRecommendationDetails: [SavingsPlansPurchaseRecommendationDetail]?
         /// Summary metrics for your Savings Plans Recommendations.
         public let savingsPlansPurchaseRecommendationSummary: SavingsPlansPurchaseRecommendationSummary?
@@ -3767,7 +3880,7 @@ extension CostExplorer {
         public let estimatedMonthlySavingsAmount: String?
         /// The remaining On-Demand cost estimated to not be covered by the recommended Savings Plans, over the length of the lookback period.
         public let estimatedOnDemandCost: String?
-        ///  The estimated On-Demand costs you would expect with no additional commitment, based on your usage of the selected time period and the Savings Plans you own.
+        ///  The estimated On-Demand costs you expect with no additional commitment, based on your usage of the selected time period and the Savings Plans you own.
         public let estimatedOnDemandCostWithCurrentCommitment: String?
         /// The estimated return on investment that's based on the recommended Savings Plans that you purchased. This is calculated as estimatedSavingsAmount/ estimatedSPCost*100.
         public let estimatedROI: String?
@@ -3826,7 +3939,7 @@ extension CostExplorer {
     public struct SavingsPlansPurchaseRecommendationMetadata: AWSDecodableShape {
         /// Additional metadata that might be applicable to the recommendation.
         public let additionalMetadata: String?
-        /// The timestamp showing when the recommendations were generated.
+        /// The timestamp that shows when the recommendations were generated.
         public let generationTimestamp: String?
         /// The unique identifier for the recommendation set.
         public let recommendationId: String?
@@ -3853,7 +3966,7 @@ extension CostExplorer {
         public let dailyCommitmentToPurchase: String?
         /// The estimated monthly savings amount that's based on the recommended Savings Plans purchase.
         public let estimatedMonthlySavingsAmount: String?
-        ///  The estimated On-Demand costs you would expect with no additional commitment. It's based on your usage of the selected time period and the Savings Plans you own.
+        /// The estimated On-Demand costs you expect with no additional commitment. It's based on your usage of the selected time period and the Savings Plans you own.
         public let estimatedOnDemandCostWithCurrentCommitment: String?
         /// The estimated return on investment that's based on the recommended Savings Plans and estimated savings.
         public let estimatedROI: String?
@@ -3942,7 +4055,7 @@ extension CostExplorer {
     public struct SavingsPlansUtilizationAggregates: AWSDecodableShape {
         /// The total amortized commitment for a Savings Plans. This includes the sum of the upfront and recurring Savings Plans fees.
         public let amortizedCommitment: SavingsPlansAmortizedCommitment?
-        /// The amount saved by using existing Savings Plans. Savings returns both net savings from Savings Plans, as well as the onDemandCostEquivalent of the Savings Plans when considering the utilization rate.
+        /// The amount that's saved by using existing Savings Plans. Savings returns both net savings from Savings Plans and also the onDemandCostEquivalent of the Savings Plans when considering the utilization rate.
         public let savings: SavingsPlansSavings?
         /// A ratio of your effectiveness of using existing Savings Plans to apply to workloads that are Savings Plans eligible.
         public let utilization: SavingsPlansUtilization
@@ -3963,7 +4076,7 @@ extension CostExplorer {
     public struct SavingsPlansUtilizationByTime: AWSDecodableShape {
         /// The total amortized commitment for a Savings Plans. This includes the sum of the upfront and recurring Savings Plans fees.
         public let amortizedCommitment: SavingsPlansAmortizedCommitment?
-        /// The amount saved by using existing Savings Plans. Savings returns both net savings from Savings Plans as well as the onDemandCostEquivalent of the Savings Plans when considering the utilization rate.
+        /// The amount that's saved by using existing Savings Plans. Savings returns both net savings from Savings Plans and also the onDemandCostEquivalent of the Savings Plans when considering the utilization rate.
         public let savings: SavingsPlansSavings?
         public let timePeriod: DateInterval
         /// A ratio of your effectiveness of using existing Savings Plans to apply to workloads that are Savings Plans eligible.
@@ -3989,7 +4102,7 @@ extension CostExplorer {
         public let amortizedCommitment: SavingsPlansAmortizedCommitment?
         /// The attribute that applies to a specific Dimension.
         public let attributes: [String: String]?
-        /// The amount saved by using existing Savings Plans. Savings returns both net savings from savings plans as well as the onDemandCostEquivalent of the Savings Plans when considering the utilization rate.
+        /// The amount saved by using existing Savings Plans. Savings returns both net savings from savings plans and also the onDemandCostEquivalent of the Savings Plans when considering the utilization rate.
         public let savings: SavingsPlansSavings?
         /// The unique Amazon Resource Name (ARN) for a particular Savings Plan.
         public let savingsPlanArn: String?
@@ -4078,7 +4191,7 @@ extension CostExplorer {
     public struct TagResourceRequest: AWSEncodableShape {
         /// The Amazon Resource Name (ARN) of the resource. For a list of supported resources, see ResourceTag.
         public let resourceArn: String
-        ///  A list of tag key-value pairs to be added to the resource. Each tag consists of a key and a value, and each key must be unique for the resource. The following restrictions apply to resource tags:   Although the maximum number of array members is 200, you can assign a maximum of 50 user-tags to one resource. The remaining are reserved for Amazon Web Services use   The maximum length of a key is 128 characters   The maximum length of a value is 256 characters   Valid characters for keys and values are: A-Z, a-z, spaces, _.:/=+-    Keys and values are case sensitive   Keys and values are trimmed for any leading or trailing whitespaces   Don’t use aws: as a prefix for your keys. This prefix is reserved for Amazon Web Services use
+        ///  A list of tag key-value pairs to be added to the resource. Each tag consists of a key and a value, and each key must be unique for the resource. The following restrictions apply to resource tags:   Although the maximum number of array members is 200, you can assign a maximum of 50 user-tags to one resource. The remaining are reserved for Amazon Web Services use   The maximum length of a key is 128 characters   The maximum length of a value is 256 characters   Keys and values can only contain alphanumeric characters, spaces, and any of the following: _.:/=+@-    Keys and values are case sensitive   Keys and values are trimmed for any leading or trailing whitespaces   Don’t use aws: as a prefix for your keys. This prefix is reserved for Amazon Web Services use
         public let resourceTags: [ResourceTag]
 
         public init(resourceArn: String, resourceTags: [ResourceTag]) {
@@ -4147,7 +4260,7 @@ extension CostExplorer {
         public let estimatedMonthlySavings: String?
         /// The expected utilization metrics for target instance type.
         public let expectedResourceUtilization: ResourceUtilization?
-        ///  Explains the actions you might need to take in order to successfully migrate your workloads from the current instance type to the recommended instance type.
+        /// Explains the actions that you might need to take to successfully migrate your workloads from the current instance type to the recommended instance type.
         public let platformDifferences: [PlatformDifference]?
         /// Details on the target instance type.
         public let resourceDetails: ResourceDetails?
@@ -4212,9 +4325,9 @@ extension CostExplorer {
     }
 
     public struct UntagResourceRequest: AWSEncodableShape {
-        ///  The Amazon Resource Name (ARN) of the resource. For a list of supported resources, see ResourceTag.
+        /// The Amazon Resource Name (ARN) of the resource. For a list of supported resources, see ResourceTag.
         public let resourceArn: String
-        ///  A list of tag keys associated with tags that need to be removed from the resource. If you specify a tag key that does not exist, it is ignored. Although the maximum number of array members is 200, user-tag maximum is 50. The remaining are reserved for Amazon Web Services use.
+        /// A list of tag keys associated with tags that need to be removed from the resource. If you specify a tag key that doesn't exist, it's ignored. Although the maximum number of array members is 200, user-tag maximum is 50. The remaining are reserved for Amazon Web Services use.
         public let resourceTagKeys: [String]
 
         public init(resourceArn: String, resourceTagKeys: [String]) {
@@ -4343,6 +4456,61 @@ extension CostExplorer {
         }
     }
 
+    public struct UpdateCostAllocationTagsStatusError: AWSDecodableShape {
+        /// An error code representing why the action failed on this entry.
+        public let code: String?
+        /// A message explaining why the action failed on this entry.
+        public let message: String?
+        /// The key for the cost allocation tag.
+        public let tagKey: String?
+
+        public init(code: String? = nil, message: String? = nil, tagKey: String? = nil) {
+            self.code = code
+            self.message = message
+            self.tagKey = tagKey
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case code = "Code"
+            case message = "Message"
+            case tagKey = "TagKey"
+        }
+    }
+
+    public struct UpdateCostAllocationTagsStatusRequest: AWSEncodableShape {
+        /// The list of CostAllocationTagStatusEntry objects that are used to update cost allocation tags status for this request.
+        public let costAllocationTagsStatus: [CostAllocationTagStatusEntry]
+
+        public init(costAllocationTagsStatus: [CostAllocationTagStatusEntry]) {
+            self.costAllocationTagsStatus = costAllocationTagsStatus
+        }
+
+        public func validate(name: String) throws {
+            try self.costAllocationTagsStatus.forEach {
+                try $0.validate(name: "\(name).costAllocationTagsStatus[]")
+            }
+            try self.validate(self.costAllocationTagsStatus, name: "costAllocationTagsStatus", parent: name, max: 20)
+            try self.validate(self.costAllocationTagsStatus, name: "costAllocationTagsStatus", parent: name, min: 1)
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case costAllocationTagsStatus = "CostAllocationTagsStatus"
+        }
+    }
+
+    public struct UpdateCostAllocationTagsStatusResponse: AWSDecodableShape {
+        /// A list of UpdateCostAllocationTagsStatusError objects with error details about each cost allocation tag that can't be updated. If there's no failure, an empty array returns.
+        public let errors: [UpdateCostAllocationTagsStatusError]?
+
+        public init(errors: [UpdateCostAllocationTagsStatusError]? = nil) {
+            self.errors = errors
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case errors = "Errors"
+        }
+    }
+
     public struct UpdateCostCategoryDefinitionRequest: AWSEncodableShape {
         /// The unique identifier for your Cost Category.
         public let costCategoryArn: String
@@ -4390,9 +4558,9 @@ extension CostExplorer {
     }
 
     public struct UpdateCostCategoryDefinitionResponse: AWSDecodableShape {
-        ///  The unique identifier for your Cost Category.
+        /// The unique identifier for your Cost Category.
         public let costCategoryArn: String?
-        ///  The Cost Category's effective start date.
+        /// The Cost Category's effective start date.
         public let effectiveStart: String?
 
         public init(costCategoryArn: String? = nil, effectiveStart: String? = nil) {

@@ -203,13 +203,13 @@ extension Transcribe {
     }
 
     public enum Rule: AWSEncodableShape & AWSDecodableShape, _SotoSendable {
-        /// A condition for a time period when either the customer or agent was interrupting the other person.
+        /// Flag the presence or absence of interruptions in your Call Analytics transcription output. Refer to  for more detail.
         case interruptionFilter(InterruptionFilter)
-        /// A condition for a time period when neither the customer nor the agent was talking.
+        /// Flag the presence or absence of periods of silence in your Call Analytics transcription  output. Refer to  for more detail.
         case nonTalkTimeFilter(NonTalkTimeFilter)
-        /// A condition that is applied to a particular customer sentiment.
+        /// Flag the presence or absence of specific sentiments in your Call Analytics transcription output.  Refer to  for more detail.
         case sentimentFilter(SentimentFilter)
-        /// A condition that catches particular words or phrases based on a exact match. For  example, if you set the phrase "I want to speak to the manager", only that exact phrase will be returned.
+        /// Flag the presence or absence of specific words or phrases in your Call Analytics transcription  output. Refer to  for more detail.
         case transcriptFilter(TranscriptFilter)
 
         public init(from decoder: Decoder) throws {
@@ -275,13 +275,13 @@ extension Transcribe {
     // MARK: Shapes
 
     public struct AbsoluteTimeRange: AWSEncodableShape & AWSDecodableShape {
-        /// A value that indicates the end of the time range in milliseconds. To set absolute time  range, you must specify a start time and an end time. For example, if you specify the following values:   StartTime - 10000   Endtime - 50000   The time range is set between 10,000 milliseconds and 50,000 milliseconds into the  call.
+        /// The time, in milliseconds, when Amazon Transcribe stops searching for the specified criteria in your audio. If you include EndTime in your request, you must also include StartTime.
         public let endTime: Int64?
-        /// A time range from the beginning of the call to the value that you've specified. For example,  if you specify 100000, the time range is set to the first 100,000 milliseconds of the call.
+        /// The time, in milliseconds, from the start of your media file until the value you specify in which Amazon Transcribe searches for your specified criteria.
         public let first: Int64?
-        /// A time range from the value that you've specified to the end of the call. For example, if you specify 100000, the time range is set to the last 100,000 milliseconds of the call.
+        /// The time, in milliseconds, from the value you specify until the end of your media file in which Amazon Transcribe searches for your specified criteria.
         public let last: Int64?
-        /// A value that indicates the beginning of the time range in seconds. To set absolute time range, you must specify a start time and an end time. For example, if you specify the following values:    StartTime - 10000   Endtime - 50000   The time range is set between 10,000 milliseconds and 50,000 milliseconds into the call.
+        /// The time, in milliseconds, when Amazon Transcribe starts searching for the specified  criteria in your audio. If you include StartTime in your request, you must also  include EndTime.
         public let startTime: Int64?
 
         public init(endTime: Int64? = nil, first: Int64? = nil, last: Int64? = nil, startTime: Int64? = nil) {
@@ -311,32 +311,32 @@ extension Transcribe {
     }
 
     public struct CallAnalyticsJob: AWSDecodableShape {
-        /// The name of the call analytics job.
+        /// The name of the Call Analytics job. Job names are case sensitive and must be unique  within an Amazon Web Services account.
         public let callAnalyticsJobName: String?
-        /// The status of the analytics job.
+        /// Provides the status of the specified Call Analytics job. If the status is COMPLETED, the job is finished and you can find the results at the location specified in TranscriptFileUri (or RedactedTranscriptFileUri, if you requested transcript redaction). If the status is  FAILED, FailureReason provides details on why your transcription job failed.
         public let callAnalyticsJobStatus: CallAnalyticsJobStatus?
-        /// Shows numeric values to indicate the channel assigned to the agent's audio and the channel assigned to the customer's audio.
+        /// Allows you to specify which speaker is on which channel in your Call Analytics job request. For example, if your agent is the first participant to speak, you would set  ChannelId to 0 (to indicate the first channel) and  ParticipantRole to AGENT (to indicate that it's the agent  speaking).
         public let channelDefinitions: [ChannelDefinition]?
-        /// A timestamp that shows when the analytics job was completed.
+        /// The date and time the specified Call Analytics job finished processing. Timestamps are in the format YYYY-MM-DD'T'HH:MM:SS.SSSSSS-UTC. For example, 2022-05-04T12:33:13.922000-07:00 represents a transcription job that started processing at 12:33 PM UTC-7 on May 4, 2022.
         public let completionTime: Date?
-        /// A timestamp that shows when the analytics job was created.
+        /// The date and time the specified Call Analytics job request was made. Timestamps are in the format YYYY-MM-DD'T'HH:MM:SS.SSSSSS-UTC. For example, 2022-05-04T12:32:58.761000-07:00 represents a transcription job that started processing at 12:32 PM UTC-7 on May 4, 2022.
         public let creationTime: Date?
-        /// The Amazon Resource Number (ARN) that you use to access the analytics job. ARNs  have the format arn:partition:service:region:account-id:resource-type/resource-id.
+        /// The Amazon Resource Name (ARN) of an IAM role that has permissions to access the Amazon S3 bucket that contains your input files. If the role you specify doesn’t  have the appropriate permissions to access the specified Amazon S3 location, your request  fails.         IAM role ARNs have the format arn:partition:iam::account:role/role-name-with-path. For example: arn:aws:iam::111122223333:role/Admin. For more information, see IAM ARNs.
         public let dataAccessRoleArn: String?
-        /// If the AnalyticsJobStatus is FAILED, this field contains  information about why the job failed. The FailureReason field can contain one of the following values:    Unsupported media format: The media format specified in the MediaFormat field of the request isn't valid. See the description of the MediaFormat field for a list of valid values.    The media format provided does not match the detected media  format: The media format of the audio file doesn't match the format specified  in the MediaFormat field in the request. Check the media format of your media file and make sure the two values match.    Invalid sample rate for audio file: The sample rate specified in the MediaSampleRateHertz of the request isn't valid. The sample rate must be between 8,000 and 48,000 Hertz.    The sample rate provided does not match the detected sample rate: The sample rate in the audio file doesn't match the sample rate specified in  the MediaSampleRateHertz field in the request. Check the sample rate of  your media file and make sure that the two values match.    Invalid file size: file size too large: The size of your audio file is larger than what Amazon Transcribe Medical can process. For more information, see Guidelines and Quotas in the Amazon Transcribe Medical Guide.    Invalid number of channels: number of channels too large: Your  audio contains more channels than Amazon Transcribe Medical is configured to process. To request additional channels, see Amazon Transcribe Medical Endpoints and Quotas in the Amazon Web  Services General Reference.
+        /// If CallAnalyticsJobStatus is FAILED,  FailureReason contains information about why the Call Analytics job request failed. The FailureReason field contains one of the following values:    Unsupported media format. The media format specified in MediaFormat isn't valid. Refer to MediaFormat for a list of supported formats.    The media format provided does not match the detected media  format. The media format specified in MediaFormat doesn't match the  format of the input file. Check the media format of your media file and correct the  specified value.    Invalid sample rate for audio file. The sample rate specified in MediaSampleRateHertz isn't valid. The sample rate must be between 8,000 and 48,000 Hertz.    The sample rate provided does not match the detected sample  rate. The sample rate specified in MediaSampleRateHertz doesn't  match the sample rate detected in your input media file. Check the sample rate of  your media file and correct the specified value.    Invalid file size: file size too large. The size of your media file is larger than what Amazon Transcribe can process.  For more information, refer to Guidelines and quotas.    Invalid number of channels: number of channels too large. Your audio contains more channels than Amazon Transcribe is able to process.  For more information, refer to Guidelines and  quotas.
         public let failureReason: String?
-        /// A value between zero and one that Amazon Transcribe assigned to the language that it identified in  the source audio. This value appears only when you don't provide a single language code.  Larger values indicate that Amazon Transcribe has higher confidence in the language that it identified.
+        /// The confidence score associated with the language identified in your media file. Confidence scores are values between 0 and 1; a larger value indicates a higher  probability that the identified language correctly matches the language spoken in your media.
         public let identifiedLanguageScore: Float?
-        /// If you know the language spoken between the customer and the agent, specify a  language code for this field. If you don't know the language, you can leave this field blank, and Amazon Transcribe will use machine  learning to automatically identify the language. To improve the accuracy of language  identification, you can provide an array containing the possible language codes for the  language spoken in your audio. Refer to Supported languages for additional information.
+        /// The language code used to create your Call Analytics job. For a list of supported languages and their associated language codes, refer to the  Supported languages table. If you don't know the language spoken in your media file, you can omit this field and let Amazon Transcribe automatically identify the language of your media. To improve the accuracy  of language identification, you can include several language codes and Amazon Transcribe chooses the closest match for your transcription.
         public let languageCode: LanguageCode?
         public let media: Media?
-        /// The format of the input audio file. Note: for call analytics jobs, only the following media  formats are supported: MP3, MP4, WAV, FLAC, OGG, and WebM.
+        /// The format of the input media file.
         public let mediaFormat: MediaFormat?
-        /// The sample rate, in Hertz, of the input audio.
+        /// The sample rate, in Hertz, of the audio track in your input media file.
         public let mediaSampleRateHertz: Int?
-        /// Provides information about the settings used to run a transcription job.
+        /// Allows additional optional settings in your   request, including content redaction; allows you to apply custom language models, vocabulary filters, and custom vocabularies to your Call Analytics job.
         public let settings: CallAnalyticsJobSettings?
-        /// A timestamp that shows when the analytics job started processing.
+        /// The date and time the specified Call Analytics job began processing. Timestamps are in the format YYYY-MM-DD'T'HH:MM:SS.SSSSSS-UTC. For example, 2022-05-04T12:32:58.789000-07:00 represents a transcription job that started processing at 12:32 PM UTC-7 on May 4, 2022.
         public let startTime: Date?
         public let transcript: Transcript?
 
@@ -379,17 +379,17 @@ extension Transcribe {
 
     public struct CallAnalyticsJobSettings: AWSEncodableShape & AWSDecodableShape {
         public let contentRedaction: ContentRedaction?
-        /// The language identification settings associated with your call analytics job. These settings  include VocabularyName, VocabularyFilterName, and LanguageModelName.
+        /// If using automatic language identification (IdentifyLanguage) in your request  and you want to apply a custom language model, a custom vocabulary, or a custom vocabulary filter, include LanguageIdSettings with the relevant sub-parameters  (VocabularyName, LanguageModelName, and  VocabularyFilterName). You can specify two or more language codes that represent the languages you think may  be present in your media; including more than five is not recommended. Each language code you include can have an associated custom language model, custom vocabulary, and custom  vocabulary filter. The languages you specify must match the languages of the specified custom language models, custom vocabularies, and custom vocabulary filters. To include language options using IdentifyLanguage  without including a custom language model, a custom  vocabulary, or a custom vocabulary filter, use LanguageOptions instead of LanguageIdSettings. Including language options can improve the accuracy of  automatic language identification. If you want to include a custom language model with your request but  do not want to use automatic language identification, use instead the  parameter with the LanguageModelName sub-parameter. If you want to include a custom vocabulary or a custom vocabulary filter (or both) with your request but do not want to use automatic  language identification, use instead the   parameter with the VocabularyName or  VocabularyFilterName (or both) sub-parameter.
         public let languageIdSettings: [LanguageCode: LanguageIdSettings]?
-        /// The structure used to describe a custom language model.
+        /// The name of the custom language model you want to use when processing your  Call Analytics job. Note that language model names are case sensitive. The language of the specified language model must match the language code you specify in your transcription request. If the languages don't match, the language model isn't applied.  There are no errors or warnings associated with a language mismatch.
         public let languageModelName: String?
-        /// When you run a call analytics job, you can specify the language spoken in the audio, or you can have Amazon Transcribe identify the language for you. To specify a language, specify an array with one language code. If you don't know the  language, you can leave this field blank and Amazon Transcribe will use machine learning to identify the  language for you. To improve the ability of Amazon Transcribe to correctly identify the language, you can  provide an array of the languages that can be present in the audio. Refer to  Supported languages for additional information.
+        /// You can specify two or more language codes that represent the languages you think may  be present in your media; including more than five is not recommended. If you're unsure what languages are present, do not include this parameter. Including language options can improve the accuracy of language identification. For a list of languages supported with Call Analytics, refer to the Supported languages table.
         public let languageOptions: [LanguageCode]?
-        /// Set to mask to remove filtered text from the transcript and replace it with three  asterisks ("***") as placeholder text. Set to remove to remove filtered text  from the transcript without using placeholder text. Set to tag to mark the word  in the transcription output that matches the vocabulary filter. When you set the filter method to tag, the words matching your vocabulary filter are not masked or  removed.
+        /// Specify how you want your vocabulary filter applied to your transcript. To replace words with ***, choose mask. To delete words, choose remove. To flag words without changing them, choose tag.
         public let vocabularyFilterMethod: VocabularyFilterMethod?
-        /// The name of the vocabulary filter to use when running a call analytics job. The filter that you specify must have the same language code as the analytics job.
+        /// The name of the custom vocabulary filter you want to include in your Call Analytics  transcription request. Vocabulary filter names are case sensitive. Note that if you include VocabularyFilterName in your request, you must  also include VocabularyFilterMethod.
         public let vocabularyFilterName: String?
-        /// The name of a vocabulary to use when processing the call analytics job.
+        /// The name of the custom vocabulary you want to include in your Call Analytics  transcription request. Vocabulary names are case sensitive.
         public let vocabularyName: String?
 
         public init(contentRedaction: ContentRedaction? = nil, languageIdSettings: [LanguageCode: LanguageIdSettings]? = nil, languageModelName: String? = nil, languageOptions: [LanguageCode]? = nil, vocabularyFilterMethod: VocabularyFilterMethod? = nil, vocabularyFilterName: String? = nil, vocabularyName: String? = nil) {
@@ -433,19 +433,19 @@ extension Transcribe {
     }
 
     public struct CallAnalyticsJobSummary: AWSDecodableShape {
-        /// The name of the call analytics job.
+        /// The name of the Call Analytics job. Job names are case sensitive and must be unique  within an Amazon Web Services account.
         public let callAnalyticsJobName: String?
-        /// The status of the call analytics job.
+        /// Provides the status of your Call Analytics job.         If the status is COMPLETED, the job is finished and you can find the results at the location specified in TranscriptFileUri (or RedactedTranscriptFileUri, if you requested transcript redaction). If the status is  FAILED, FailureReason provides details on why your transcription job failed.
         public let callAnalyticsJobStatus: CallAnalyticsJobStatus?
-        /// A timestamp that shows when the job was completed.
+        /// The date and time the specified Call Analytics job finished processing. Timestamps are in the format YYYY-MM-DD'T'HH:MM:SS.SSSSSS-UTC. For example, 2022-05-04T12:33:13.922000-07:00 represents a transcription job that started processing at 12:33 PM UTC-7 on May 4, 2022.
         public let completionTime: Date?
-        /// A timestamp that shows when the call analytics job was created.
+        /// The date and time the specified Call Analytics job request was made. Timestamps are in the format YYYY-MM-DD'T'HH:MM:SS.SSSSSS-UTC. For example, 2022-05-04T12:32:58.761000-07:00 represents a transcription job that started processing at 12:32 PM UTC-7 on May 4, 2022.
         public let creationTime: Date?
-        /// If the CallAnalyticsJobStatus is FAILED, a description of  the error.
+        /// If CallAnalyticsJobStatus is FAILED,  FailureReason contains information about why the Call Analytics job  failed. See also: Common Errors.
         public let failureReason: String?
-        /// The language of the transcript in the source audio file.
+        /// The language code used to create your Call Analytics transcription.
         public let languageCode: LanguageCode?
-        /// A timestamp that shows when the job began processing.
+        /// The date and time your Call Analytics job began processing. Timestamps are in the format YYYY-MM-DD'T'HH:MM:SS.SSSSSS-UTC. For example, 2022-05-04T12:32:58.789000-07:00 represents a transcription job that started processing at 12:32 PM UTC-7 on May 4, 2022.
         public let startTime: Date?
 
         public init(callAnalyticsJobName: String? = nil, callAnalyticsJobStatus: CallAnalyticsJobStatus? = nil, completionTime: Date? = nil, creationTime: Date? = nil, failureReason: String? = nil, languageCode: LanguageCode? = nil, startTime: Date? = nil) {
@@ -470,13 +470,13 @@ extension Transcribe {
     }
 
     public struct CategoryProperties: AWSDecodableShape {
-        /// The name of the call analytics category.
+        /// The name of the Call Analytics category. Category names are case sensitive and must be  unique within an Amazon Web Services account.
         public let categoryName: String?
-        /// A timestamp that shows when the call analytics category was created.
+        /// The date and time the specified Call Analytics category was created. Timestamps are in the format YYYY-MM-DD'T'HH:MM:SS.SSSSSS-UTC. For example, 2022-05-04T12:32:58.761000-07:00 represents 12:32 PM UTC-7  on May 4, 2022.
         public let createTime: Date?
-        /// A timestamp that shows when the call analytics category was most recently  updated.
+        /// The date and time the specified Call Analytics category was last updated. Timestamps are in the format YYYY-MM-DD'T'HH:MM:SS.SSSSSS-UTC. For example, 2022-05-05T12:45:32.691000-07:00 represents 12:45 PM UTC-7  on May 5, 2022.
         public let lastUpdateTime: Date?
-        /// The rules used to create a call analytics category.
+        /// The rules used to define a Call Analytics category. Each category can have between 1 and 20  rules.
         public let rules: [Rule]?
 
         public init(categoryName: String? = nil, createTime: Date? = nil, lastUpdateTime: Date? = nil, rules: [Rule]? = nil) {
@@ -495,9 +495,9 @@ extension Transcribe {
     }
 
     public struct ChannelDefinition: AWSEncodableShape & AWSDecodableShape {
-        /// A value that indicates the audio channel.
+        /// Specify the audio channel you want to define.
         public let channelId: Int?
-        /// Indicates whether the person speaking on the audio channel is the agent or  customer.
+        /// Specify the speaker you want to define. Omitting this parameter is equivalent to specifying both participants.
         public let participantRole: ParticipantRole?
 
         public init(channelId: Int? = nil, participantRole: ParticipantRole? = nil) {
@@ -517,11 +517,11 @@ extension Transcribe {
     }
 
     public struct ContentRedaction: AWSEncodableShape & AWSDecodableShape {
-        /// The types of personally identifiable information (PII) you want to redact in your transcript.
+        /// Specify which types of personally identifiable information (PII) you want to redact in your transcript. You can include as many types as you'd like, or you can select  ALL.
         public let piiEntityTypes: [PiiEntityType]?
-        /// The output transcript file stored in either the default S3 bucket or in a bucket you specify. When you choose redacted Amazon Transcribe outputs only the redacted  transcript. When you choose redacted_and_unredacted Amazon Transcribe outputs both the  redacted and unredacted transcripts.
+        /// Specify if you want only a redacted transcript, or if you want a redacted and an unredacted transcript. When you choose redacted Amazon Transcribe creates only a redacted  transcript. When you choose redacted_and_unredacted Amazon Transcribe creates  a redacted and an unredacted transcript (as two separate files).
         public let redactionOutput: RedactionOutput
-        /// Request parameter that defines the entities to be redacted. The only accepted value is PII.
+        /// Specify the category of information you want to redact; PII (personally  identifiable information) is the only valid value. You can use PiiEntityTypes to  choose which types of PII you want to redact.
         public let redactionType: RedactionType
 
         public init(piiEntityTypes: [PiiEntityType]? = nil, redactionOutput: RedactionOutput, redactionType: RedactionType) {
@@ -546,9 +546,9 @@ extension Transcribe {
             AWSMemberEncoding(label: "categoryName", location: .uri("CategoryName"))
         ]
 
-        /// A unique name, chosen by you, for your call analytics category. For example,  sentiment-positive-last30seconds.
+        /// A unique name, chosen by you, for your Call Analytics category. It's helpful to use a detailed naming system that will make sense to you in the future. For example, it's better to use  sentiment-positive-last30seconds for a category over a generic name like  test-category. Category names are case sensitive.
         public let categoryName: String
-        /// Rules make up a call analytics category. When creating a call analytics category, you must create between 1 and 20 rules for your category. For each rule, you  specify a filter you want applied to the attributes of a call. For example, you can choose a sentiment filter that detects if a customer's sentiment was positive during the last 30 seconds of the call.
+        /// Rules define a Call Analytics category. When creating a new Call Analytics category, you must  create between 1 and 20 rules for that category. For each rule, you specify a filter you want  applied to the attributes of a call. For example, you can choose a sentiment filter that detects if a customer's sentiment was positive during the last 30 seconds of the call.
         public let rules: [Rule]
 
         public init(categoryName: String, rules: [Rule]) {
@@ -573,7 +573,7 @@ extension Transcribe {
     }
 
     public struct CreateCallAnalyticsCategoryResponse: AWSDecodableShape {
-        /// If your audio matches one of your categories, this field contains data on that  category and its associated rules. This parameter shows which category is flagged (CategoryName) along with metadata for the rules that match your  audio. Metadata includes the rule filter (such as InterruptionFilter, NonTalkTimeFilter, SentimentFilter, and  TranscriptFilter) and where in your audio (StartTime and EndTime) the rule has a match.
+        /// Provides you with the properties of your new category, including its associated rules.
         public let categoryProperties: CategoryProperties?
 
         public init(categoryProperties: CategoryProperties? = nil) {
@@ -590,15 +590,15 @@ extension Transcribe {
             AWSMemberEncoding(label: "modelName", location: .uri("ModelName"))
         ]
 
-        /// The Amazon Transcribe standard language model, or base model, used to create your  custom language model. Amazon Transcribe offers two options for base models: Wideband and Narrowband. If the audio you want to transcribe has a sample rate of 16,000 Hz or greater,  choose WideBand. To transcribe audio with a sample rate less than 16,000 Hz, choose NarrowBand.
+        /// The Amazon Transcribe standard language model, or base model, used to create your custom language model. Amazon Transcribe offers two options for base models: Wideband and  Narrowband. If the audio you want to transcribe has a sample rate of 16,000 Hz or greater, choose  WideBand. To transcribe audio with a sample rate less than 16,000 Hz, choose NarrowBand.
         public let baseModelName: BaseModelName
-        /// Contains your data access role ARN (Amazon Resource Name) and the Amazon S3  locations of your training (S3Uri) and tuning  (TuningDataS3Uri) data.
+        /// Contains the Amazon S3 location of the training data you want to use to create a new  custom language model, and permissions to access this location. When using InputDataConfig, you must include these sub-parameters: S3Uri, which is the Amazon S3 location of your training data, and  DataAccessRoleArn, which is the Amazon Resource Name (ARN) of the role that  has permission to access your specified Amazon S3 location. You can optionally include  TuningDataS3Uri, which is the Amazon S3 location of your tuning data. If  you specify different Amazon S3 locations for training and tuning data, the ARN you use  must have permissions to access both locations.
         public let inputDataConfig: InputDataConfig
-        /// The language of your custom language model; note that the language code you select must match the language of your training and tuning data.
+        /// The language code that represents the language of your model. Each language model must contain terms in only one language, and the language you select for your model must match the  language of your training and tuning data. For a list of supported languages and their associated language codes, refer to the  Supported languages table. Note that U.S. English (en-US) is the only language   supported with Amazon Transcribe Medical. A custom language model can only be used to transcribe files in the same language as the  model. For example, if you create a language model using US English (en-US), you can only apply this model to files that contain English audio.
         public let languageCode: CLMLanguageCode
-        /// The name of your new custom language model. This name is case sensitive, cannot contain spaces, and must be unique within an  Amazon Web Services account. If you try to create a language model with the same name as a previous language model, you get a ConflictException error.
+        /// A unique name, chosen by you, for your custom language model. This name is case sensitive, cannot contain spaces, and must be unique within an  Amazon Web Services account. If you try to create a new language model with the same name  as an existing language model, you get a ConflictException error.
         public let modelName: String
-        /// Optionally add tags, each in the form of a key:value pair, to your new language model. See also: .
+        /// Adds one or more custom tags, each in the form of a key:value pair, to a new custom language model at the time you create this new model. To learn more about using tags with Amazon Transcribe, refer to Tagging resources.
         public let tags: [Tag]?
 
         public init(baseModelName: BaseModelName, inputDataConfig: InputDataConfig, languageCode: CLMLanguageCode, modelName: String, tags: [Tag]? = nil) {
@@ -630,15 +630,15 @@ extension Transcribe {
     }
 
     public struct CreateLanguageModelResponse: AWSDecodableShape {
-        /// The Amazon Transcribe standard language model, or base model, you used when creating your custom language model. If your audio has a sample rate of 16,000 Hz or greater, this value should be WideBand. If your audio has a sample rate of less than 16,000 Hz, this value should be NarrowBand.
+        /// The Amazon Transcribe standard language model, or base model, you specified when creating  your custom language model.
         public let baseModelName: BaseModelName?
-        /// Lists your data access role ARN (Amazon Resource Name) and the Amazon S3  locations your provided for your training (S3Uri) and tuning  (TuningDataS3Uri) data.
+        /// Lists your data access role ARN (Amazon Resource Name) and the Amazon S3  locations you provided for your training (S3Uri) and tuning  (TuningDataS3Uri) data.
         public let inputDataConfig: InputDataConfig?
         /// The language code you selected for your custom language model.
         public let languageCode: CLMLanguageCode?
-        /// The unique name you chose for your custom language model.
+        /// The name of your custom language model.
         public let modelName: String?
-        /// The status of your custom language model. When the status shows as  COMPLETED, your model is ready to use.
+        /// The status of your custom language model. When the status displays as  COMPLETED, your model is ready to use.
         public let modelStatus: ModelStatus?
 
         public init(baseModelName: BaseModelName? = nil, inputDataConfig: InputDataConfig? = nil, languageCode: CLMLanguageCode? = nil, modelName: String? = nil, modelStatus: ModelStatus? = nil) {
@@ -663,13 +663,13 @@ extension Transcribe {
             AWSMemberEncoding(label: "vocabularyName", location: .uri("VocabularyName"))
         ]
 
-        /// The language code that represents the language of the entries in your custom vocabulary. Note that U.S. English (en-US) is the only language   supported with Amazon Transcribe Medical.
+        /// The language code that represents the language of the entries in your custom vocabulary. US English (en-US) is the only language supported with  Amazon Transcribe Medical.
         public let languageCode: LanguageCode
-        /// Adds one or more tags, each in the form of a key:value pair, to a new medical  vocabulary at the time you create the new vocabulary. To learn more about using tags with Amazon Transcribe, refer to Tagging resources.
+        /// Adds one or more custom tags, each in the form of a key:value pair, to a new medical  vocabulary at the time you create this new vocabulary. To learn more about using tags with Amazon Transcribe, refer to Tagging resources.
         public let tags: [Tag]?
-        /// The Amazon S3 location (URI) of the text file that contains your custom vocabulary.  The URI must be in the same Amazon Web Services Region as the resource that you're  calling.  Here's an example URI path:          https://s3.us-east-1.amazonaws.com/my-s3-bucket/my-vocab-file.txt
+        /// The Amazon S3 location (URI) of the text file that contains your custom medical  vocabulary. The URI must be in the same Amazon Web Services Region as the resource you're calling.  Here's an example URI path:  s3://DOC-EXAMPLE-BUCKET/my-vocab-file.txt
         public let vocabularyFileUri: String
-        /// The name of your new vocabulary. This name is case sensitive, cannot contain spaces, and must be unique within an  Amazon Web Services account. If you try to create a vocabulary with the same name as a previous vocabulary, you get a ConflictException error.
+        /// A unique name, chosen by you, for your new custom medical vocabulary.         This name is case sensitive, cannot contain spaces, and must be unique within an  Amazon Web Services account. If you try to create a new medical vocabulary with the same name as an existing medical vocabulary, you get a ConflictException error.
         public let vocabularyName: String
 
         public init(languageCode: LanguageCode, tags: [Tag]? = nil, vocabularyFileUri: String, vocabularyName: String) {
@@ -701,15 +701,15 @@ extension Transcribe {
     }
 
     public struct CreateMedicalVocabularyResponse: AWSDecodableShape {
-        /// If the VocabularyState field is FAILED, FailureReason contains information about why the job failed.
+        /// If VocabularyState is FAILED,  FailureReason contains information about why the medical transcription job request failed. See also: Common Errors.
         public let failureReason: String?
-        /// The language code you selected for your medical vocabulary. Note that U.S. English (en-US) is the only language supported with Amazon Transcribe Medical.
+        /// The language code you selected for your medical vocabulary. US English  (en-US) is the only language supported with Amazon Transcribe Medical.
         public let languageCode: LanguageCode?
-        /// The date and time you created your custom medical vocabulary.
+        /// The date and time you created your custom medical vocabulary. Timestamps are in the format YYYY-MM-DD'T'HH:MM:SS.SSSSSS-UTC. For example, 2022-05-04T12:32:58.761000-07:00 represents 12:32 PM UTC-7  on May 4, 2022.
         public let lastModifiedTime: Date?
-        /// The name you chose for your vocabulary.
+        /// The name you chose for your custom medical vocabulary.
         public let vocabularyName: String?
-        /// The processing state of your custom medical vocabulary. If the state is  READY, you can use the vocabulary in a  StartMedicalTranscriptionJob request.
+        /// The processing state of your custom medical vocabulary. If the state is  READY, you can use the vocabulary in a   StartMedicalTranscriptionJob request.
         public let vocabularyState: VocabularyState?
 
         public init(failureReason: String? = nil, languageCode: LanguageCode? = nil, lastModifiedTime: Date? = nil, vocabularyName: String? = nil, vocabularyState: VocabularyState? = nil) {
@@ -734,15 +734,15 @@ extension Transcribe {
             AWSMemberEncoding(label: "vocabularyFilterName", location: .uri("VocabularyFilterName"))
         ]
 
-        /// The language code of the words in the vocabulary filter. All words in the filter must be in the same language. The vocabulary filter can only be used with transcription jobs in the  specified language.
+        /// The language code that represents the language of the entries in your vocabulary  filter. Each vocabulary filter must contain terms in only one language. A vocabulary filter can only be used to transcribe files in the same language as the  filter. For example, if you create a vocabulary filter using US English (en-US), you can only apply this filter to files that contain English audio. For a list of supported languages and their associated language codes, refer to the  Supported languages table.
         public let languageCode: LanguageCode
-        /// Adds one or more tags, each in the form of a key:value pair, to a new vocabulary filter at the time you create this new vocabulary filter.
+        /// Adds one or more custom tags, each in the form of a key:value pair, to a new custom  vocabulary filter at the time you create this new filter. To learn more about using tags with Amazon Transcribe, refer to Tagging resources.
         public let tags: [Tag]?
-        /// The Amazon S3 location of a text file used as input to create the vocabulary filter. Only  use characters from the character set defined for custom vocabularies. For a list of  character sets, see Character Sets for Custom Vocabularies. Your vocabulary filter file must be less than 50 KB in size. Note that if you include VocabularyFilterFileUri in your request, you  cannot use Words; you must choose one or the other.
+        /// The Amazon S3 location of the text file that contains your custom vocabulary filter  terms. The URI must be located in the same Amazon Web Services Region as the resource you're  calling. Here's an example URI path: s3://DOC-EXAMPLE-BUCKET/my-vocab-filter-file.txt  Note that if you include VocabularyFilterFileUri in your request, you  cannot use Words; you must choose one or the other.
         public let vocabularyFilterFileUri: String?
-        /// The name of your new vocabulary filter. This name is case sensitive, cannot contain spaces, and must be unique within an         Amazon Web Services account. If you try to create a vocabulary filter with the same name  as a previous vocabulary filter, you get a ConflictException error.
+        /// A unique name, chosen by you, for your new custom vocabulary filter.         This name is case sensitive, cannot contain spaces, and must be unique within an  Amazon Web Services account. If you try to create a new vocabulary filter with the same name as an existing vocabulary filter, you get a ConflictException error.
         public let vocabularyFilterName: String
-        /// The words you want in your vocabulary filter. Only use characters specified in the Character sets for the language you're transcribing. Note that if you include Words in your request, you cannot use VocabularyFilterFileUri; you must choose one or the other.
+        /// Use this parameter if you want to create your vocabulary filter by including all desired terms,  as comma-separated values, within your request. The other option for creating your vocabulary  filter is to save your entries in a text file and upload them to an Amazon S3 bucket, then specify the location of your file using the VocabularyFilterFileUri  parameter. Note that if you include Words in your request, you cannot use VocabularyFilterFileUri; you must choose one or the other.         Each language has a character set that contains all allowed characters for that specific  language. If you use unsupported characters, your vocabulary filter request fails. Refer to  Character Sets for  Custom Vocabularies to get the character set for your language.
         public let words: [String]?
 
         public init(languageCode: LanguageCode, tags: [Tag]? = nil, vocabularyFilterFileUri: String? = nil, vocabularyFilterName: String, words: [String]? = nil) {
@@ -781,11 +781,11 @@ extension Transcribe {
     }
 
     public struct CreateVocabularyFilterResponse: AWSDecodableShape {
-        /// The language code associated with your vocabulary filter.
+        /// The language code you selected for your vocabulary filter.
         public let languageCode: LanguageCode?
-        /// The date and time the vocabulary filter was modified.
+        /// The date and time you created your vocabulary filter. Timestamps are in the format YYYY-MM-DD'T'HH:MM:SS.SSSSSS-UTC. For example, 2022-05-04T12:32:58.761000-07:00 represents 12:32 PM UTC-7  on May 4, 2022.
         public let lastModifiedTime: Date?
-        /// The name of the vocabulary filter.
+        /// The name you chose for your custom vocabulary filter.
         public let vocabularyFilterName: String?
 
         public init(languageCode: LanguageCode? = nil, lastModifiedTime: Date? = nil, vocabularyFilterName: String? = nil) {
@@ -806,15 +806,15 @@ extension Transcribe {
             AWSMemberEncoding(label: "vocabularyName", location: .uri("VocabularyName"))
         ]
 
-        /// The language code that represents the language of the entries in your custom vocabulary. Each vocabulary must contain terms in only one language. For a list of  languages and their corresponding language codes, see Supported  languages.
+        /// The language code that represents the language of the entries in your custom vocabulary. Each vocabulary must contain terms in only one language. A custom vocabulary can only be used to transcribe files in the same language as the  vocabulary. For example, if you create a vocabulary using US English (en-US),  you can only apply this vocabulary to files that contain English audio. For a list of supported languages and their associated language codes, refer to the  Supported languages table.
         public let languageCode: LanguageCode
-        /// Use this flag to include a list of terms within your request. Note that if you include Phrases in your request, you cannot use VocabularyFileUri; you must choose one or the other.
+        /// Use this parameter if you want to create your vocabulary by including all desired terms, as comma-separated values, within your request. The other option for creating your vocabulary is to save your entries in a text file and upload them to an Amazon S3 bucket, then specify  the location of your file using the VocabularyFileUri parameter. Note that if you include Phrases in your request, you cannot use VocabularyFileUri; you must choose one or the other.         Each language has a character set that contains all allowed characters for that specific  language. If you use unsupported characters, your vocabulary filter request fails. Refer to  Character Sets for  Custom Vocabularies to get the character set for your language.
         public let phrases: [String]?
-        /// Adds one or more tags, each in the form of a key:value pair, to a new  custom vocabulary at the time you create this new vocabulary.
+        /// Adds one or more custom tags, each in the form of a key:value pair, to a new custom  vocabulary at the time you create this new vocabulary. To learn more about using tags with Amazon Transcribe, refer to Tagging resources.
         public let tags: [Tag]?
-        /// The S3 location of the text file that contains your custom vocabulary. The URI must be located in the same region as the API endpoint you're calling. Here's an example URI path:          https://s3.us-east-1.amazonaws.com/my-s3-bucket/my-vocab-file.txt  Note that if you include VocabularyFileUri in your request, you  cannot use the Phrases flag; you must choose one or the other.
+        /// The Amazon S3 location of the text file that contains your custom vocabulary. The URI must be located in the same Amazon Web Services Region as the resource you're  calling. Here's an example URI path: s3://DOC-EXAMPLE-BUCKET/my-vocab-file.txt  Note that if you include VocabularyFileUri in your request, you  cannot use the Phrases flag; you must choose one or the other.
         public let vocabularyFileUri: String?
-        /// The name of your new vocabulary. This name is case sensitive, cannot contain spaces, and must be unique within an  Amazon Web Services account. If you try to create a vocabulary with the same name as a previous vocabulary, you get a ConflictException error.
+        /// A unique name, chosen by you, for your new custom vocabulary.         This name is case sensitive, cannot contain spaces, and must be unique within an  Amazon Web Services account. If you try to create a new vocabulary with the same name as an existing vocabulary, you get a ConflictException error.
         public let vocabularyName: String
 
         public init(languageCode: LanguageCode, phrases: [String]? = nil, tags: [Tag]? = nil, vocabularyFileUri: String? = nil, vocabularyName: String) {
@@ -852,15 +852,15 @@ extension Transcribe {
     }
 
     public struct CreateVocabularyResponse: AWSDecodableShape {
-        /// If the VocabularyState field is FAILED, FailureReason contains information about why the job failed.
+        /// If VocabularyState is FAILED, FailureReason contains information about why the vocabulary request failed. See also: Common Errors.
         public let failureReason: String?
-        /// The language code you selected for your vocabulary.
+        /// The language code you selected for your custom vocabulary.
         public let languageCode: LanguageCode?
-        /// The date and time you created your custom vocabulary.
+        /// The date and time you created your custom vocabulary. Timestamps are in the format YYYY-MM-DD'T'HH:MM:SS.SSSSSS-UTC. For example, 2022-05-04T12:32:58.761000-07:00 represents 12:32 PM UTC-7  on May 4, 2022.
         public let lastModifiedTime: Date?
-        /// The name you chose for your vocabulary.
+        /// The name you chose for your custom vocabulary.
         public let vocabularyName: String?
-        /// The processing state of your vocabulary. If the state is READY, you can use the vocabulary in a StartTranscriptionJob request.
+        /// The processing state of your custom vocabulary. If the state is READY, you can use the vocabulary in a StartTranscriptionJob request.
         public let vocabularyState: VocabularyState?
 
         public init(failureReason: String? = nil, languageCode: LanguageCode? = nil, lastModifiedTime: Date? = nil, vocabularyName: String? = nil, vocabularyState: VocabularyState? = nil) {
@@ -885,7 +885,7 @@ extension Transcribe {
             AWSMemberEncoding(label: "categoryName", location: .uri("CategoryName"))
         ]
 
-        /// The name of the call analytics category you want to delete. Category names are case-sensitive.
+        /// The name of the Call Analytics category you want to delete. Category names are case sensitive.
         public let categoryName: String
 
         public init(categoryName: String) {
@@ -910,7 +910,7 @@ extension Transcribe {
             AWSMemberEncoding(label: "callAnalyticsJobName", location: .uri("CallAnalyticsJobName"))
         ]
 
-        /// The name of the call analytics job you want to delete. Job names are case-sensitive.
+        /// The name of the Call Analytics job you want to delete. Job names are case sensitive.
         public let callAnalyticsJobName: String
 
         public init(callAnalyticsJobName: String) {
@@ -935,7 +935,7 @@ extension Transcribe {
             AWSMemberEncoding(label: "modelName", location: .uri("ModelName"))
         ]
 
-        /// The name of the model you want to delete. Model names are case-sensitive.
+        /// The name of the custom language model you want to delete. Model names are  case sensitive.
         public let modelName: String
 
         public init(modelName: String) {
@@ -956,7 +956,7 @@ extension Transcribe {
             AWSMemberEncoding(label: "medicalTranscriptionJobName", location: .uri("MedicalTranscriptionJobName"))
         ]
 
-        /// The name of the medical transcription job you want to delete. Job names are case-sensitive.
+        /// The name of the medical transcription job you want to delete. Job names are case  sensitive.
         public let medicalTranscriptionJobName: String
 
         public init(medicalTranscriptionJobName: String) {
@@ -977,7 +977,7 @@ extension Transcribe {
             AWSMemberEncoding(label: "vocabularyName", location: .uri("VocabularyName"))
         ]
 
-        /// The name of the vocabulary that you want to delete. Vocabulary names are case-sensitive.
+        /// The name of the custom medical vocabulary you want to delete. Vocabulary names are case sensitive.
         public let vocabularyName: String
 
         public init(vocabularyName: String) {
@@ -998,7 +998,7 @@ extension Transcribe {
             AWSMemberEncoding(label: "transcriptionJobName", location: .uri("TranscriptionJobName"))
         ]
 
-        /// The name of the transcription job you want to delete. Job names are case-sensitive.
+        /// The name of the transcription job you want to delete. Job names are case sensitive.
         public let transcriptionJobName: String
 
         public init(transcriptionJobName: String) {
@@ -1019,7 +1019,7 @@ extension Transcribe {
             AWSMemberEncoding(label: "vocabularyFilterName", location: .uri("VocabularyFilterName"))
         ]
 
-        /// The name of the vocabulary filter you want to delete. Vocabulary filter names are case-sensitive.
+        /// The name of the custom vocabulary filter you want to delete. Vocabulary filter names  are case sensitive.
         public let vocabularyFilterName: String
 
         public init(vocabularyFilterName: String) {
@@ -1040,7 +1040,7 @@ extension Transcribe {
             AWSMemberEncoding(label: "vocabularyName", location: .uri("VocabularyName"))
         ]
 
-        /// The name of the vocabulary you want to delete. Vocabulary names are case-sensitive.
+        /// The name of the custom vocabulary you want to delete. Vocabulary names are case sensitive.
         public let vocabularyName: String
 
         public init(vocabularyName: String) {
@@ -1061,7 +1061,7 @@ extension Transcribe {
             AWSMemberEncoding(label: "modelName", location: .uri("ModelName"))
         ]
 
-        /// The name of the custom language model you want described. Model names are case-sensitive.
+        /// The name of the custom language model you want information about. Model names are case sensitive.
         public let modelName: String
 
         public init(modelName: String) {
@@ -1078,7 +1078,7 @@ extension Transcribe {
     }
 
     public struct DescribeLanguageModelResponse: AWSDecodableShape {
-        /// The name of the custom language model you requested more information about.
+        /// Provides information about the specified custom language model. This parameter also shows if the base language model you used to create your custom language model has been updated. If Amazon Transcribe has updated the base model, you can  create a new custom language model using the updated base model. If you tried to create a new custom language model and the request wasn't successful, you can use this DescribeLanguageModel to help identify the reason for this  failure.
         public let languageModel: LanguageModel?
 
         public init(languageModel: LanguageModel? = nil) {
@@ -1095,7 +1095,7 @@ extension Transcribe {
             AWSMemberEncoding(label: "categoryName", location: .uri("CategoryName"))
         ]
 
-        /// The name of the category you want information about. Category names are case sensitive.
+        /// The name of the Call Analytics category you want information about. Category names are  case sensitive.
         public let categoryName: String
 
         public init(categoryName: String) {
@@ -1112,7 +1112,7 @@ extension Transcribe {
     }
 
     public struct GetCallAnalyticsCategoryResponse: AWSDecodableShape {
-        /// Provides you with the rules associated with the category you specified in your GetCallAnalyticsCategory request.
+        /// Provides you with the properties of the Call Analytics category you specified in your GetCallAnalyticsCategory request.
         public let categoryProperties: CategoryProperties?
 
         public init(categoryProperties: CategoryProperties? = nil) {
@@ -1129,7 +1129,7 @@ extension Transcribe {
             AWSMemberEncoding(label: "callAnalyticsJobName", location: .uri("CallAnalyticsJobName"))
         ]
 
-        /// The name of the analytics job you want information about. This value is case sensitive.
+        /// The name of the Call Analytics job you want information about. Job names are case  sensitive.
         public let callAnalyticsJobName: String
 
         public init(callAnalyticsJobName: String) {
@@ -1146,7 +1146,7 @@ extension Transcribe {
     }
 
     public struct GetCallAnalyticsJobResponse: AWSDecodableShape {
-        /// An object that contains detailed information about your call analytics job. Returned fields include: CallAnalyticsJobName, CallAnalyticsJobStatus, ChannelDefinitions, CompletionTime, CreationTime, DataAccessRoleArn, FailureReason, IdentifiedLanguageScore,  LanguageCode, Media, MediaFormat, MediaSampleRateHertz, Settings, StartTime, and Transcript.
+        /// Provides detailed information about the specified Call Analytics job, including job status and, if applicable, failure reason.
         public let callAnalyticsJob: CallAnalyticsJob?
 
         public init(callAnalyticsJob: CallAnalyticsJob? = nil) {
@@ -1163,7 +1163,7 @@ extension Transcribe {
             AWSMemberEncoding(label: "medicalTranscriptionJobName", location: .uri("MedicalTranscriptionJobName"))
         ]
 
-        /// The name of the medical transcription job you want information about. This value is case sensitive.
+        /// The name of the medical transcription job you want information about. Job names are case sensitive.
         public let medicalTranscriptionJobName: String
 
         public init(medicalTranscriptionJobName: String) {
@@ -1180,7 +1180,7 @@ extension Transcribe {
     }
 
     public struct GetMedicalTranscriptionJobResponse: AWSDecodableShape {
-        /// An object that contains detailed information about your medical transcription job. Returned fields include: CompletionTime, ContentIdentificationType, CreationTime, FailureReason, LanguageCode, Media, MediaFormat, MediaSampleRateHertz,  MedicalTranscriptionJobName, Settings, Specialty, StartTime, Tags, Transcript, TranscriptionJobStatus, and Type.
+        /// Provides detailed information about the specified medical transcription job, including job status and, if applicable, failure reason.
         public let medicalTranscriptionJob: MedicalTranscriptionJob?
 
         public init(medicalTranscriptionJob: MedicalTranscriptionJob? = nil) {
@@ -1197,7 +1197,7 @@ extension Transcribe {
             AWSMemberEncoding(label: "vocabularyName", location: .uri("VocabularyName"))
         ]
 
-        /// The name of the medical vocabulary you want information about. This value is case  sensitive.
+        /// The name of the custom medical vocabulary you want information about. Vocabulary names are case sensitive.
         public let vocabularyName: String
 
         public init(vocabularyName: String) {
@@ -1214,17 +1214,17 @@ extension Transcribe {
     }
 
     public struct GetMedicalVocabularyResponse: AWSDecodableShape {
-        /// The S3 location where the vocabulary is stored; use this URI to view or download the vocabulary.
+        /// The S3 location where the specified medical vocabulary is stored; use this URI to view or  download the vocabulary.
         public let downloadUri: String?
-        /// If your request returns a VocabularyState that is FAILED, the FailureReason field contains information about why the request  failed. For more information, refer to the Common Errors section.
+        /// If VocabularyState is FAILED,  FailureReason contains information about why the medical vocabulary  request failed. See also: Common Errors.
         public let failureReason: String?
-        /// The valid language code for your vocabulary entries.
+        /// The language code you selected for your medical vocabulary. US English  (en-US) is the only language supported with Amazon Transcribe Medical.
         public let languageCode: LanguageCode?
-        /// The date and time that the vocabulary was last modified with a text file different from the one that was  previously used.
+        /// The date and time the specified custom medical vocabulary was last modified. Timestamps are in the format YYYY-MM-DD'T'HH:MM:SS.SSSSSS-UTC. For example, 2022-05-04T12:32:58.761000-07:00 represents 12:32 PM UTC-7  on May 4, 2022.
         public let lastModifiedTime: Date?
-        /// The name of the vocabulary returned by Amazon Transcribe Medical.
+        /// The name of the custom medical vocabulary you requested information about.
         public let vocabularyName: String?
-        /// The processing state of the vocabulary. If the VocabularyState is READY  then you can use it in the StartMedicalTranscriptionJob operation.
+        /// The processing state of your custom medical vocabulary. If the state is  READY, you can use the vocabulary in a   StartMedicalTranscriptionJob request.
         public let vocabularyState: VocabularyState?
 
         public init(downloadUri: String? = nil, failureReason: String? = nil, languageCode: LanguageCode? = nil, lastModifiedTime: Date? = nil, vocabularyName: String? = nil, vocabularyState: VocabularyState? = nil) {
@@ -1251,7 +1251,7 @@ extension Transcribe {
             AWSMemberEncoding(label: "transcriptionJobName", location: .uri("TranscriptionJobName"))
         ]
 
-        /// The name of the job.
+        /// The name of the transcription job you want information about. Job names are case sensitive.
         public let transcriptionJobName: String
 
         public init(transcriptionJobName: String) {
@@ -1268,7 +1268,7 @@ extension Transcribe {
     }
 
     public struct GetTranscriptionJobResponse: AWSDecodableShape {
-        /// An object that contains the results of the transcription job.
+        /// Provides detailed information about the specified transcription job, including job status and, if applicable, failure reason.
         public let transcriptionJob: TranscriptionJob?
 
         public init(transcriptionJob: TranscriptionJob? = nil) {
@@ -1285,7 +1285,7 @@ extension Transcribe {
             AWSMemberEncoding(label: "vocabularyFilterName", location: .uri("VocabularyFilterName"))
         ]
 
-        /// The name of the vocabulary filter for which to return information.
+        /// The name of the custom vocabulary filter you want information about. Vocabulary filter  names are case sensitive.
         public let vocabularyFilterName: String
 
         public init(vocabularyFilterName: String) {
@@ -1302,13 +1302,13 @@ extension Transcribe {
     }
 
     public struct GetVocabularyFilterResponse: AWSDecodableShape {
-        /// The URI of the list of words in the vocabulary filter. You can use this URI to get the list of words.
+        /// The Amazon S3 location where the vocabulary filter is stored; use this URI to view or  download the vocabulary filter.
         public let downloadUri: String?
-        /// The language code of the words in the vocabulary filter.
+        /// The language code you selected for your vocabulary filter.
         public let languageCode: LanguageCode?
-        /// The date and time that the contents of the vocabulary filter were updated.
+        /// The date and time the specified vocabulary filter was last modified. Timestamps are in the format YYYY-MM-DD'T'HH:MM:SS.SSSSSS-UTC. For example, 2022-05-04T12:32:58.761000-07:00 represents 12:32 PM UTC-7  on May 4, 2022.
         public let lastModifiedTime: Date?
-        /// The name of the vocabulary filter.
+        /// The name of the custom vocabulary filter you requested information about.
         public let vocabularyFilterName: String?
 
         public init(downloadUri: String? = nil, languageCode: LanguageCode? = nil, lastModifiedTime: Date? = nil, vocabularyFilterName: String? = nil) {
@@ -1331,7 +1331,7 @@ extension Transcribe {
             AWSMemberEncoding(label: "vocabularyName", location: .uri("VocabularyName"))
         ]
 
-        /// The name of the vocabulary to return information about. The name is case sensitive.
+        /// The name of the custom vocabulary you want information about. Vocabulary names are case sensitive.
         public let vocabularyName: String
 
         public init(vocabularyName: String) {
@@ -1348,17 +1348,17 @@ extension Transcribe {
     }
 
     public struct GetVocabularyResponse: AWSDecodableShape {
-        /// The S3 location where the vocabulary is stored. Use this URI to get the contents of the vocabulary. The URI is available for a limited time.
+        /// The S3 location where the vocabulary is stored; use this URI to view or download the  vocabulary.
         public let downloadUri: String?
-        /// If the VocabularyState field is FAILED, this field contains information about why the job failed.
+        /// If VocabularyState is FAILED,  FailureReason contains information about why the vocabulary request failed. See also: Common Errors.
         public let failureReason: String?
-        /// The language code of the vocabulary entries.
+        /// The language code you selected for your custom vocabulary.
         public let languageCode: LanguageCode?
-        /// The date and time that the vocabulary was last modified.
+        /// The date and time the specified vocabulary was last modified. Timestamps are in the format YYYY-MM-DD'T'HH:MM:SS.SSSSSS-UTC. For example, 2022-05-04T12:32:58.761000-07:00 represents 12:32 PM UTC-7  on May 4, 2022.
         public let lastModifiedTime: Date?
-        /// The name of the vocabulary to return.
+        /// The name of the custom vocabulary you requested information about.
         public let vocabularyName: String?
-        /// The processing state of the vocabulary.
+        /// The processing state of your custom vocabulary. If the state is READY, you can use the vocabulary in a StartTranscriptionJob request.
         public let vocabularyState: VocabularyState?
 
         public init(downloadUri: String? = nil, failureReason: String? = nil, languageCode: LanguageCode? = nil, lastModifiedTime: Date? = nil, vocabularyName: String? = nil, vocabularyState: VocabularyState? = nil) {
@@ -1381,11 +1381,11 @@ extension Transcribe {
     }
 
     public struct InputDataConfig: AWSEncodableShape & AWSDecodableShape {
-        /// The Amazon Resource Name (ARN) that uniquely identifies the permissions you've given Amazon Transcribe to access your Amazon S3 buckets containing your media files or text data. ARNs have the format arn:partition:service:region:account-id:resource-type/resource-id.
+        /// The Amazon Resource Name (ARN) of an IAM role that has permissions to access the Amazon S3 bucket that contains your input files. If the role you specify doesn’t  have the appropriate permissions to access the specified Amazon S3 location, your request fails.         IAM role ARNs have the format arn:partition:iam::account:role/role-name-with-path. For example: arn:aws:iam::111122223333:role/Admin. For more information, see IAM ARNs.
         public let dataAccessRoleArn: String
-        /// The Amazon S3 prefix you specify to access the plain text files that you use to train your  custom language model.
+        /// The Amazon S3 location (URI) of the text files you want to use to train your custom language model. Here's an example URI path:  s3://DOC-EXAMPLE-BUCKET/my-model-training-data/
         public let s3Uri: String
-        /// The Amazon S3 prefix you specify to access the plain text files that you use to tune your  custom language model.
+        /// The Amazon S3 location (URI) of the text files you want to use to tune your custom language model. Here's an example URI path:  s3://DOC-EXAMPLE-BUCKET/my-model-tuning-data/
         public let tuningDataS3Uri: String?
 
         public init(dataAccessRoleArn: String, s3Uri: String, tuningDataS3Uri: String? = nil) {
@@ -1414,15 +1414,15 @@ extension Transcribe {
     }
 
     public struct InterruptionFilter: AWSEncodableShape & AWSDecodableShape {
-        /// An object you can use to specify a time range (in milliseconds) for when you'd want to  find the interruption. For example, you could search for an interruption between the 30,000  millisecond mark and the 45,000 millisecond mark. You could also specify the time period as  the first 15,000 milliseconds or the last 15,000 milliseconds.
+        /// Allows you to specify a time range (in milliseconds) in your audio, during which you want to search for an interruption. See  for more  detail.
         public let absoluteTimeRange: AbsoluteTimeRange?
-        /// Set to TRUE to look for a time period where there was no interruption.
+        /// Set to TRUE to flag speech that does not contain interruptions. Set to  FALSE to flag speech that contains interruptions.
         public let negate: Bool?
-        /// Indicates whether the caller or customer was interrupting.
+        /// Specify the interrupter you want to flag. Omitting this parameter is equivalent to specifying  both participants.
         public let participantRole: ParticipantRole?
-        /// An object that allows percentages to specify the proportion of the call where there was a interruption. For example, you can specify the first half of the call. You can also specify the period of time between halfway through to three-quarters of the way through the call.  Because the length of conversation can vary between calls, you can apply relative time  ranges across all calls.
+        /// Allows you to specify a time range (in percentage) in your media file, during which you want to search for an interruption. See  for more  detail.
         public let relativeTimeRange: RelativeTimeRange?
-        /// The duration of the interruption.
+        /// Specify the duration of the interruptions in milliseconds. For example, you can flag speech that  contains more than 10000 milliseconds of interruptions.
         public let threshold: Int64?
 
         public init(absoluteTimeRange: AbsoluteTimeRange? = nil, negate: Bool? = nil, participantRole: ParticipantRole? = nil, relativeTimeRange: RelativeTimeRange? = nil, threshold: Int64? = nil) {
@@ -1450,9 +1450,9 @@ extension Transcribe {
     }
 
     public struct JobExecutionSettings: AWSEncodableShape & AWSDecodableShape {
-        /// Indicates whether a job should be queued by Amazon Transcribe when the concurrent execution limit  is exceeded. When the AllowDeferredExecution field is true, jobs are queued and executed when the number of executing jobs falls below the concurrent execution limit. If the field is false, Amazon Transcribe returns a LimitExceededException exception. Note that job queuing is enabled by default for call analytics jobs. If you specify the AllowDeferredExecution field, you must specify the  DataAccessRoleArn field.
+        /// Allows you to enable job queuing when your concurrent request limit is exceeded. When  AllowDeferredExecution is set to true, transcription job requests are placed in a queue until the number of jobs falls below the concurrent request limit. If AllowDeferredExecution is set to false and the number of transcription job requests exceed the concurrent request limit, you get a LimitExceededException  error. Note that job queuing is enabled by default for Call Analytics jobs. If you include AllowDeferredExecution in your request, you must also include DataAccessRoleArn.
         public let allowDeferredExecution: Bool?
-        /// The Amazon Resource Name (ARN), in the form arn:partition:service:region:account-id:resource-type/resource-id, of a role  that has access to the S3 bucket that contains the input files. Amazon Transcribe assumes this role to  read queued media files. If you have specified an output S3 bucket for the transcription  results, this role should have access to the output bucket as well.       If you specify the AllowDeferredExecution field, you must specify the DataAccessRoleArn field.
+        /// The Amazon Resource Name (ARN) of an IAM role that has permissions to access the Amazon S3 bucket that contains your input files. If the role you specify doesn’t  have the appropriate permissions to access the specified Amazon S3 location, your request  fails.         IAM role ARNs have the format arn:partition:iam::account:role/role-name-with-path. For example: arn:aws:iam::111122223333:role/Admin. For more information, see  IAM ARNs. Note that if you include DataAccessRoleArn in your request, you must also include AllowDeferredExecution.
         public let dataAccessRoleArn: String?
 
         public init(allowDeferredExecution: Bool? = nil, dataAccessRoleArn: String? = nil) {
@@ -1472,12 +1472,29 @@ extension Transcribe {
         }
     }
 
+    public struct LanguageCodeItem: AWSDecodableShape {
+        /// Provides the total time, in seconds, each identified language is spoken in your media.
+        public let durationInSeconds: Float?
+        /// Provides the language code for each language identified in your media.
+        public let languageCode: LanguageCode?
+
+        public init(durationInSeconds: Float? = nil, languageCode: LanguageCode? = nil) {
+            self.durationInSeconds = durationInSeconds
+            self.languageCode = languageCode
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case durationInSeconds = "DurationInSeconds"
+            case languageCode = "LanguageCode"
+        }
+    }
+
     public struct LanguageIdSettings: AWSEncodableShape & AWSDecodableShape {
-        /// The name of the language model you want to use when transcribing your audio. The  model you specify must have the same language codes as the transcription job; if the  languages don't match, the language model isn't be applied.
+        /// The name of the custom language model you want to use when processing your  transcription job. Note that language model names are case sensitive. The language of the specified language model must match the language code you specify in your transcription request. If the languages don't match, the language model isn't applied.  There are no errors or warnings associated with a language mismatch.
         public let languageModelName: String?
-        /// The name of the vocabulary filter you want to use when transcribing your audio. The filter you specify must have the same language codes as the transcription job; if the languages  don't match, the vocabulary filter isn't be applied.
+        /// The name of the custom vocabulary filter you want to use when processing your  transcription job. Vocabulary filter names are case sensitive. The language of the specified vocabulary filter must match the language code you specify in your transcription request. If the languages don't match, the vocabulary filter isn't applied.  There are no errors or warnings associated with a language mismatch. Note that if you include VocabularyFilterName in your request, you must  also include VocabularyFilterMethod.
         public let vocabularyFilterName: String?
-        /// The name of the vocabulary you want to use when processing your transcription job. The  vocabulary you specify must have the same language codes as the transcription job; if the languages don't match, the vocabulary isn't applied.
+        /// The name of the custom vocabulary you want to use when processing your transcription job.  Vocabulary names are case sensitive. The language of the specified vocabulary must match the language code you specify in your transcription request. If the languages don't match, the vocabulary isn't applied. There are no errors or warnings associated with a language mismatch.
         public let vocabularyName: String?
 
         public init(languageModelName: String? = nil, vocabularyFilterName: String? = nil, vocabularyName: String? = nil) {
@@ -1506,23 +1523,23 @@ extension Transcribe {
     }
 
     public struct LanguageModel: AWSDecodableShape {
-        /// The Amazon Transcribe standard language model, or base model used to create the custom language model.
+        /// The Amazon Transcribe standard language model, or base model, used to create your custom language model.
         public let baseModelName: BaseModelName?
-        /// The time the custom language model was created.
+        /// The date and time the specified custom language model was created. Timestamps are in the format YYYY-MM-DD'T'HH:MM:SS.SSSSSS-UTC. For example, 2022-05-04T12:32:58.761000-07:00 represents 12:32 PM UTC-7  on May 4, 2022.
         public let createTime: Date?
-        /// The reason why the custom language model couldn't be created.
+        /// If ModelStatus is FAILED, FailureReason contains information about why the custom language model request failed. See also:  Common Errors.
         public let failureReason: String?
-        /// The data access role and Amazon S3 prefixes for the input files used to train the custom language model.
+        /// The Amazon S3 location of the input files used to train and tune your custom language  model, in addition to the data access role ARN (Amazon Resource Name) that has permissions to  access these data.
         public let inputDataConfig: InputDataConfig?
-        /// The language code you used to create your custom language model.
+        /// The language code used to create your custom language model. Each language model must contain terms in only one language, and the language you select for your model must match  the language of your training and tuning data. For a list of supported languages and their associated language codes, refer to the  Supported languages table. Note that U.S. English (en-US) is the only language   supported with Amazon Transcribe Medical.
         public let languageCode: CLMLanguageCode?
-        /// The most recent time the custom language model was modified.
+        /// The date and time the specified language model was last modified. Timestamps are in the format YYYY-MM-DD'T'HH:MM:SS.SSSSSS-UTC. For example, 2022-05-04T12:32:58.761000-07:00 represents 12:32 PM UTC-7  on May 4, 2022.
         public let lastModifiedTime: Date?
-        /// The name of the custom language model.
+        /// A unique name, chosen by you, for your custom language model. This name is case sensitive, cannot contain spaces, and must be unique within an  Amazon Web Services account.
         public let modelName: String?
-        /// The creation status of a custom language model. When the status is  COMPLETED the model is ready for use.
+        /// The status of the specified custom language model. When the status displays as  COMPLETED the model is ready for use.
         public let modelStatus: ModelStatus?
-        /// Whether the base model used for the custom language model is up to date. If this field  is false then you are running the most up-to-date version of the base model  in your custom language model.
+        /// Shows if a more current base model is available for use with the specified custom language  model.  If false, your language model is using the most up-to-date base model. If true, there is a newer base model available than the one your language  model is using. Note that to update a base model, you must recreate the custom language model using the new base model. Base model upgrades for existing custom language models are not  supported.
         public let upgradeAvailability: Bool?
 
         public init(baseModelName: BaseModelName? = nil, createTime: Date? = nil, failureReason: String? = nil, inputDataConfig: InputDataConfig? = nil, languageCode: CLMLanguageCode? = nil, lastModifiedTime: Date? = nil, modelName: String? = nil, modelStatus: ModelStatus? = nil, upgradeAvailability: Bool? = nil) {
@@ -1556,9 +1573,9 @@ extension Transcribe {
             AWSMemberEncoding(label: "nextToken", location: .querystring("NextToken"))
         ]
 
-        /// The maximum number of categories to return in each page of results. If there are fewer  results than the value you specify, only the actual results are returned. If you do not specify a value, the default of 5 is used.
+        /// The maximum number of Call Analytics categories to return in each page of results. If there are fewer results than the value you specify, only the actual results are returned. If you don't  specify a value, a default of 5 is used.
         public let maxResults: Int?
-        /// When included, NextTokenfetches the next set of categories if the result  of the previous request was truncated.
+        /// If your ListCallAnalyticsCategories request returns more results than can  be displayed, NextToken is displayed in the response with an associated string. To get the next page of results, copy this string and repeat your request, including  NextToken with the value of the copied string. Repeat as needed to view all your  results.
         public let nextToken: String?
 
         public init(maxResults: Int? = nil, nextToken: String? = nil) {
@@ -1577,9 +1594,9 @@ extension Transcribe {
     }
 
     public struct ListCallAnalyticsCategoriesResponse: AWSDecodableShape {
-        /// A list of objects containing information about analytics categories.
+        /// Provides detailed information about your Call Analytics categories, including all the rules  associated with each category.
         public let categories: [CategoryProperties]?
-        /// The  operation returns a page of jobs at a time. The maximum size of the list is set by the MaxResults parameter. If  there are more categories in the list than the page size, Amazon Transcribe returns the  NextPage token. Include the token in the next request to the  operation to return the next page of analytics categories.
+        /// If NextToken is present in your response, it indicates that not all results are displayed. To view the next set of results, copy the string associated with the  NextToken parameter in your results output, then run your request again  including NextToken with the value of the copied string. Repeat as needed to  view all your results.
         public let nextToken: String?
 
         public init(categories: [CategoryProperties]? = nil, nextToken: String? = nil) {
@@ -1601,13 +1618,13 @@ extension Transcribe {
             AWSMemberEncoding(label: "status", location: .querystring("Status"))
         ]
 
-        /// When specified, the jobs returned in the list are limited to jobs whose name contains the specified string.
+        /// Returns only the Call Analytics jobs that contain the specified string. The search is not case sensitive.
         public let jobNameContains: String?
-        ///   The maximum number of call analytics jobs to return in each page of results. If there  are fewer results than the value you specify, only the actual results are returned. If you do  not specify a value, the default of 5 is used.
+        /// The maximum number of Call Analytics jobs to return in each page of results. If there are fewer results than the value you specify, only the actual results are returned. If you don't  specify a value, a default of 5 is used.
         public let maxResults: Int?
-        /// If you receive a truncated result in the previous request of  , include NextToken to fetch the  next set of jobs.
+        /// If your ListCallAnalyticsJobs request returns more results than can be  displayed, NextToken is displayed in the response with an associated string. To  get the next page of results, copy this string and repeat your request, including  NextToken with the value of the copied string. Repeat as needed to view all your  results.
         public let nextToken: String?
-        /// When specified, returns only call analytics jobs with the specified status. Jobs are ordered by creation date, with the most recent jobs returned first. If you don't specify a status, Amazon Transcribe  returns all analytics jobs ordered by creation date.
+        /// Returns only Call Analytics jobs with the specified status. Jobs are ordered by creation  date, with the newest job first. If you don't include Status, all Call Analytics jobs are returned.
         public let status: CallAnalyticsJobStatus?
 
         public init(jobNameContains: String? = nil, maxResults: Int? = nil, nextToken: String? = nil, status: CallAnalyticsJobStatus? = nil) {
@@ -1631,11 +1648,11 @@ extension Transcribe {
     }
 
     public struct ListCallAnalyticsJobsResponse: AWSDecodableShape {
-        /// A list of objects containing summary information for a transcription job.
+        /// Provides a summary of information about each result.
         public let callAnalyticsJobSummaries: [CallAnalyticsJobSummary]?
-        /// The  operation returns a page of jobs at a time. The maximum size of the page is set by the MaxResults parameter. If there are more jobs in the list than the page size, Amazon Transcribe returns the NextPage token.  Include the token in your next request to the   operation to return next page of jobs.
+        /// If NextToken is present in your response, it indicates that not all results are displayed. To view the next set of results, copy the string associated with the  NextToken parameter in your results output, then run your request again  including NextToken with the value of the copied string. Repeat as needed to  view all your results.
         public let nextToken: String?
-        /// When specified, returns only call analytics jobs with that status. Jobs are ordered by creation date, with the most recent jobs returned first. If you don't specify a status, Amazon Transcribe returns all transcription jobs ordered by creation date.
+        /// Lists all Call Analytics jobs that have the status specified in your request. Jobs are ordered by creation date, with the newest job first.
         public let status: CallAnalyticsJobStatus?
 
         public init(callAnalyticsJobSummaries: [CallAnalyticsJobSummary]? = nil, nextToken: String? = nil, status: CallAnalyticsJobStatus? = nil) {
@@ -1659,13 +1676,13 @@ extension Transcribe {
             AWSMemberEncoding(label: "statusEquals", location: .querystring("         StatusEquals"))
         ]
 
-        ///  The maximum number of language models to return in each page of results. If there are fewer results than the value you specify, only the actual results are returned. If you do not  specify a value, the default of 5 is used.
+        /// The maximum number of custom language models to return in each page of results. If there are fewer results than the value you specify, only the actual results are returned. If you don't  specify a value, a default of 5 is used.
         public let maxResults: Int?
-        /// When specified, the custom language model names returned contain the substring you've specified.
+        /// Returns only the custom language models that contain the specified string. The search  is not case sensitive.
         public let nameContains: String?
-        /// When included, fetches the next set of jobs if the result of the previous request was truncated.
+        /// If your ListLanguageModels request returns more results than can be  displayed, NextToken is displayed in the response with an associated string. To get the next page of results, copy this string and repeat your request, including  NextToken with the value of the copied string. Repeat as needed to view all your  results.
         public let nextToken: String?
-        /// When specified, returns only custom language models with the specified status. Language models are ordered by creation date, with the newest models first. If you don't specify a  status, Amazon Transcribe returns all custom language models ordered by date.
+        /// Returns only custom language models with the specified status. Language models are ordered by creation date, with the newest model first. If you don't include StatusEquals, all custom language models are returned.
         public let statusEquals: ModelStatus?
 
         public init(maxResults: Int? = nil, nameContains: String? = nil, nextToken: String? = nil, statusEquals: ModelStatus? = nil) {
@@ -1689,9 +1706,9 @@ extension Transcribe {
     }
 
     public struct ListLanguageModelsResponse: AWSDecodableShape {
-        /// A list of objects containing information about custom language models.
+        /// Provides information about the custom language models that match the criteria specified in your request.
         public let models: [LanguageModel]?
-        /// The  operation returns a page of jobs at a  time. The maximum size of the list is set by the MaxResults parameter. If there are more  language models in the list than the page size, Amazon Transcribe returns the NextPage  token. Include the token in the next request to the  operation to return the next page of language  models.
+        /// If NextToken is present in your response, it indicates that not all results are displayed. To view the next set of results, copy the string associated with the  NextToken parameter in your results output, then run your request again  including NextToken with the value of the copied string.  Repeat as needed to view all your results.
         public let nextToken: String?
 
         public init(models: [LanguageModel]? = nil, nextToken: String? = nil) {
@@ -1713,13 +1730,13 @@ extension Transcribe {
             AWSMemberEncoding(label: "status", location: .querystring("Status"))
         ]
 
-        /// When specified, the jobs returned in the list are limited to jobs whose name contains the  specified string.
+        /// Returns only the medical transcription jobs that contain the specified string. The search  is not case sensitive.
         public let jobNameContains: String?
-        ///  The maximum number of medical transcription jobs to return in each page of results. If  there are fewer results than the value you specify, only the actual results are returned. If you  do not specify a value, the default of 5 is used.
+        /// The maximum number of medical transcription jobs to return in each page of results. If there are fewer results than the value you specify, only the actual results are returned. If you don't  specify a value, a default of 5 is used.
         public let maxResults: Int?
-        /// If you a receive a truncated result in the previous request of ListMedicalTranscriptionJobs, include NextToken to fetch the  next set of jobs.
+        /// If your ListMedicalTranscriptionJobs request returns more results than can  be displayed, NextToken is displayed in the response with an associated string.  To get the next page of results, copy this string and repeat your request, including  NextToken with the value of the copied string. Repeat as needed to view all your  results.
         public let nextToken: String?
-        /// When specified, returns only medical transcription jobs with the specified status. Jobs  are ordered by creation date, with the newest jobs returned first. If you don't specify a status, Amazon Transcribe Medical returns all transcription jobs ordered by creation date.
+        /// Returns only medical transcription jobs with the specified status. Jobs are ordered by  creation date, with the newest job first. If you don't include Status, all medical transcription jobs are returned.
         public let status: TranscriptionJobStatus?
 
         public init(jobNameContains: String? = nil, maxResults: Int? = nil, nextToken: String? = nil, status: TranscriptionJobStatus? = nil) {
@@ -1743,11 +1760,11 @@ extension Transcribe {
     }
 
     public struct ListMedicalTranscriptionJobsResponse: AWSDecodableShape {
-        /// A list of objects containing summary information for a transcription job.
+        /// Provides a summary of information about each result.
         public let medicalTranscriptionJobSummaries: [MedicalTranscriptionJobSummary]?
-        /// The ListMedicalTranscriptionJobs operation returns a page of jobs at a time. The maximum size of the page is set by the MaxResults parameter. If the number of jobs exceeds what can fit on a page, Amazon Transcribe Medical returns the  NextPage token. Include the token in the next request to the ListMedicalTranscriptionJobs operation to return in the next page of  jobs.
+        /// If NextToken is present in your response, it indicates that not all results are displayed. To view the next set of results, copy the string associated with the  NextToken parameter in your results output, then run your request again  including NextToken with the value of the copied string. Repeat as needed to  view all your results.
         public let nextToken: String?
-        /// The requested status of the medical transcription jobs returned.
+        /// Lists all medical transcription jobs that have the status specified in your request. Jobs are ordered by creation date, with the newest job first.
         public let status: TranscriptionJobStatus?
 
         public init(medicalTranscriptionJobSummaries: [MedicalTranscriptionJobSummary]? = nil, nextToken: String? = nil, status: TranscriptionJobStatus? = nil) {
@@ -1771,13 +1788,13 @@ extension Transcribe {
             AWSMemberEncoding(label: "stateEquals", location: .querystring("StateEquals"))
         ]
 
-        /// The maximum number of vocabularies to return in each page of results. If there are fewer results than the value you specify, only the actual results are returned. If you do not specify a value, the default of 5 is used.
+        /// The maximum number of custom medical vocabularies to return in each page of results. If  there are fewer results than the value you specify, only the actual results are returned. If you  don't specify a value, a default of 5 is used.
         public let maxResults: Int?
-        /// Returns vocabularies whose names contain the specified string. The search is not case  sensitive. ListMedicalVocabularies returns both  "vocabularyname" and "VocabularyName".
+        /// Returns only the custom medical vocabularies that contain the specified string. The search  is not case sensitive.
         public let nameContains: String?
-        /// If the result of your previous request to ListMedicalVocabularies was truncated, include the NextToken to fetch the next set of vocabularies.
+        /// If your ListMedicalVocabularies request returns more results than can be  displayed, NextToken is displayed in the response with an associated string. To get the next page of results, copy this string and repeat your request, including  NextToken with the value of the copied string. Repeat as needed to view all your  results.
         public let nextToken: String?
-        /// When specified, returns only vocabularies with the VocabularyState equal to the specified vocabulary state. Use this field to see which vocabularies are ready for your medical transcription jobs.
+        /// Returns only custom medical vocabularies with the specified state. Vocabularies are  ordered by creation date, with the newest vocabulary first. If you don't include  StateEquals, all custom medical vocabularies are returned.
         public let stateEquals: VocabularyState?
 
         public init(maxResults: Int? = nil, nameContains: String? = nil, nextToken: String? = nil, stateEquals: VocabularyState? = nil) {
@@ -1801,11 +1818,11 @@ extension Transcribe {
     }
 
     public struct ListMedicalVocabulariesResponse: AWSDecodableShape {
-        /// The ListMedicalVocabularies operation returns a page of vocabularies at  a time. You set the maximum number of vocabularies to return on a page with the MaxResults parameter. If there are more jobs in the list will fit on a page,  Amazon Transcribe Medical returns the NextPage token. To return the next page of vocabularies, include the token in the next request to the ListMedicalVocabularies  operation.
+        /// If NextToken is present in your response, it indicates that not all results are displayed. To view the next set of results, copy the string associated with the  NextToken parameter in your results output, then run your request again  including NextToken with the value of the copied string. Repeat as needed to view all your results.
         public let nextToken: String?
-        /// The requested vocabulary state.
+        /// Lists all custom medical vocabularies that have the status specified in your request.  Vocabularies are ordered by creation date, with the newest vocabulary first.
         public let status: VocabularyState?
-        /// A list of objects that describe the vocabularies that match your search criteria.
+        /// Provides information about the custom medical vocabularies that match the criteria specified in your request.
         public let vocabularies: [VocabularyInfo]?
 
         public init(nextToken: String? = nil, status: VocabularyState? = nil, vocabularies: [VocabularyInfo]? = nil) {
@@ -1826,7 +1843,7 @@ extension Transcribe {
             AWSMemberEncoding(label: "resourceArn", location: .uri("ResourceArn"))
         ]
 
-        /// Lists all tags associated with a given Amazon Resource Name (ARN). ARNs have the format arn:partition:service:region:account-id:resource-type/resource-id (for example, arn:aws:transcribe:us-east-1:account-id:transcription-job/your-job-name). Valid  values for resource-type are: transcription-job, medical-transcription-job, vocabulary,  medical-vocabulary, vocabulary-filter, and  language-model.
+        /// Returns a list of all tags associated with the specified Amazon Resource Name (ARN). ARNs  have the format arn:partition:service:region:account-id:resource-type/resource-id. For example,  arn:aws:transcribe:us-west-2:account-id:transcription-job/transcription-job-name. Valid values for resource-type are: transcription-job, medical-transcription-job, vocabulary,  medical-vocabulary, vocabulary-filter, and  language-model.
         public let resourceArn: String
 
         public init(resourceArn: String) {
@@ -1843,9 +1860,9 @@ extension Transcribe {
     }
 
     public struct ListTagsForResourceResponse: AWSDecodableShape {
-        /// Lists all tags associated with the given Amazon Resource Name (ARN).
+        /// The Amazon Resource Name (ARN) specified in your request.
         public let resourceArn: String?
-        /// Lists all tags associated with the given transcription job, vocabulary, or resource.
+        /// Lists all tags associated with the given transcription job, vocabulary, model, or  resource.
         public let tags: [Tag]?
 
         public init(resourceArn: String? = nil, tags: [Tag]? = nil) {
@@ -1867,13 +1884,13 @@ extension Transcribe {
             AWSMemberEncoding(label: "status", location: .querystring("Status"))
         ]
 
-        /// When specified, the jobs returned in the list are limited to jobs whose name contains the specified string.
+        /// Returns only the transcription jobs that contain the specified string. The search is not case sensitive.
         public let jobNameContains: String?
-        /// The maximum number of jobs to return in each page of results. If there are fewer results than the value you specify, only the actual results are returned. If you do not specify a value, the default of 5 is used.
+        /// The maximum number of transcription jobs to return in each page of results. If there are fewer results than the value you specify, only the actual results are returned. If you don't  specify a value, a default of 5 is used.
         public let maxResults: Int?
-        /// If the result of the previous request to ListTranscriptionJobs is truncated,  include the NextToken to fetch the next set of jobs.
+        /// If your ListTranscriptionJobs request returns more results than can be  displayed, NextToken is displayed in the response with an associated string. To  get the next page of results, copy this string and repeat your request, including  NextToken with the value of the copied string. Repeat as needed to view all your  results.
         public let nextToken: String?
-        /// When specified, returns only transcription jobs with the specified status. Jobs are ordered by creation date, with the newest jobs returned first. If you don’t specify a status, Amazon Transcribe  returns all transcription jobs ordered by creation date.
+        /// Returns only transcription jobs with the specified status. Jobs are ordered by creation  date, with the newest job first. If you don't include Status, all transcription  jobs are returned.
         public let status: TranscriptionJobStatus?
 
         public init(jobNameContains: String? = nil, maxResults: Int? = nil, nextToken: String? = nil, status: TranscriptionJobStatus? = nil) {
@@ -1897,11 +1914,11 @@ extension Transcribe {
     }
 
     public struct ListTranscriptionJobsResponse: AWSDecodableShape {
-        /// The ListTranscriptionJobs operation returns a page of jobs at a time. The maximum size of the page is set by the MaxResults parameter. If there are more jobs in the list than the page size, Amazon Transcribe returns the NextPage token.  Include the token in the next request to the ListTranscriptionJobs operation to  return in the next page of jobs.
+        /// If NextToken is present in your response, it indicates that not all results are displayed. To view the next set of results, copy the string associated with the  NextToken parameter in your results output, then run your request again  including NextToken with the value of the copied string. Repeat as needed to  view all your results.
         public let nextToken: String?
-        /// The requested status of the jobs returned.
+        /// Lists all transcription jobs that have the status specified in your request. Jobs are ordered by creation date, with the newest job first.
         public let status: TranscriptionJobStatus?
-        /// A list of objects containing summary information for a transcription job.
+        /// Provides a summary of information about each result.
         public let transcriptionJobSummaries: [TranscriptionJobSummary]?
 
         public init(nextToken: String? = nil, status: TranscriptionJobStatus? = nil, transcriptionJobSummaries: [TranscriptionJobSummary]? = nil) {
@@ -1925,13 +1942,13 @@ extension Transcribe {
             AWSMemberEncoding(label: "stateEquals", location: .querystring("StateEquals"))
         ]
 
-        /// The maximum number of vocabularies to return in each page of results. If there are fewer  results than the value you specify, only the actual results are returned. If you do not specify a  value, the default of 5 is used.
+        /// The maximum number of custom vocabularies to return in each page of results. If there  are fewer results than the value you specify, only the actual results are returned. If you  don't specify a value, a default of 5 is used.
         public let maxResults: Int?
-        /// When specified, the vocabularies returned in the list are limited to vocabularies whose  name contains the specified string. The search is not case sensitive,  ListVocabularies returns both "vocabularyname" and "VocabularyName" in the response list.
+        /// Returns only the custom vocabularies that contain the specified string. The search is not case sensitive.
         public let nameContains: String?
-        /// If the result of the previous request to ListVocabularies was truncated,  include the NextToken to fetch the next set of jobs.
+        /// If your ListVocabularies request returns more results than can be displayed, NextToken is displayed in the response with an associated string. To get the  next page of results, copy this string and repeat your request, including  NextToken with the value of the copied string. Repeat as needed to view all your  results.
         public let nextToken: String?
-        /// When specified, only returns vocabularies with the VocabularyState field  equal to the specified state.
+        /// Returns only custom vocabularies with the specified state. Vocabularies are ordered by creation date, with the newest vocabulary first. If you don't include  StateEquals, all custom medical vocabularies are returned.
         public let stateEquals: VocabularyState?
 
         public init(maxResults: Int? = nil, nameContains: String? = nil, nextToken: String? = nil, stateEquals: VocabularyState? = nil) {
@@ -1955,11 +1972,11 @@ extension Transcribe {
     }
 
     public struct ListVocabulariesResponse: AWSDecodableShape {
-        /// The ListVocabularies operation returns a page of vocabularies at a time.  The maximum size of the page is set in the MaxResults parameter. If there are more jobs in the list than will fit on the page, Amazon Transcribe returns the NextPage token. To return in the next page of jobs, include the token in the next request to the ListVocabularies operation.
+        /// If NextToken is present in your response, it indicates that not all results are displayed. To view the next set of results, copy the string associated with the  NextToken parameter in your results output, then run your request again  including NextToken with the value of the copied string. Repeat as needed to  view all your results.
         public let nextToken: String?
-        /// The requested vocabulary state.
+        /// Lists all custom vocabularies that have the status specified in your request. Vocabularies  are ordered by creation date, with the newest vocabulary first.
         public let status: VocabularyState?
-        /// A list of objects that describe the vocabularies that match the search criteria in the request.
+        /// Provides information about the custom vocabularies that match the criteria specified in your request.
         public let vocabularies: [VocabularyInfo]?
 
         public init(nextToken: String? = nil, status: VocabularyState? = nil, vocabularies: [VocabularyInfo]? = nil) {
@@ -1982,11 +1999,11 @@ extension Transcribe {
             AWSMemberEncoding(label: "nextToken", location: .querystring("NextToken"))
         ]
 
-        /// The maximum number of filters to return in each page of results. If there are fewer  results than the value you specify, only the actual results are returned. If you do not specify  a value, the default of 5 is used.
+        /// The maximum number of custom vocabulary filters to return in each page of results. If  there are fewer results than the value you specify, only the actual results are returned. If you  don't specify a value, a default of 5 is used.
         public let maxResults: Int?
-        /// Filters the response so that it only contains vocabulary filters whose name contains the  specified string.
+        /// Returns only the custom vocabulary filters that contain the specified string. The search  is not case sensitive.
         public let nameContains: String?
-        /// If the result of the previous request to ListVocabularyFilters was truncated,  include the NextToken to fetch the next set of collections.
+        /// If your ListVocabularyFilters request returns more results than can  be displayed, NextToken is displayed in the response with an associated string.  To get the next page of results, copy this string and repeat your request, including  NextToken with the value of the copied string. Repeat as needed to view all your  results.
         public let nextToken: String?
 
         public init(maxResults: Int? = nil, nameContains: String? = nil, nextToken: String? = nil) {
@@ -2009,9 +2026,9 @@ extension Transcribe {
     }
 
     public struct ListVocabularyFiltersResponse: AWSDecodableShape {
-        /// The ListVocabularyFilters operation returns a page of collections at a time. The maximum size of the page is set by the MaxResults parameter. If there  are more jobs in the list than the page size, Amazon Transcribe returns the NextPage token. Include the token in the next request to the ListVocabularyFilters operation to  return in the next page of jobs.
+        /// If NextToken is present in your response, it indicates that not all results are displayed. To view the next set of results, copy the string associated with the  NextToken parameter in your results output, then run your request again  including NextToken with the value of the copied string. Repeat as needed to  view all your results.
         public let nextToken: String?
-        /// The list of vocabulary filters. It contains at most MaxResults number of  filters. If there are more filters, call the ListVocabularyFilters operation again  with the NextToken parameter in the request set to the value of the NextToken field in the response.
+        /// Provides information about the custom vocabulary filters that match the criteria specified in your request.
         public let vocabularyFilters: [VocabularyFilterInfo]?
 
         public init(nextToken: String? = nil, vocabularyFilters: [VocabularyFilterInfo]? = nil) {
@@ -2026,9 +2043,9 @@ extension Transcribe {
     }
 
     public struct Media: AWSEncodableShape & AWSDecodableShape {
-        /// The S3 object location of the input media file. The URI must be in the same region as  the API endpoint that you are calling. The general form is:  s3://DOC-EXAMPLE-BUCKET/keyprefix/objectkey  For example:  s3://DOC-EXAMPLE-BUCKET/example.flac   s3://DOC-EXAMPLE-BUCKET/mediafiles/example.flac  For more information about S3 object names, see Object Keys in the Amazon S3 Developer Guide.
+        /// The Amazon S3 location of the media file you want to transcribe. For example:    s3://DOC-EXAMPLE-BUCKET/my-media-file.flac     s3://DOC-EXAMPLE-BUCKET/media-files/my-media-file.flac    Note that the Amazon S3 bucket that contains your input media must be located in the same Amazon Web Services Region where you're making your transcription  request.
         public let mediaFileUri: String?
-        /// The S3 object location for your redacted output media file. This is only supported for  call analytics jobs.
+        /// The Amazon S3 location of the media file you want to redact. For example:    s3://DOC-EXAMPLE-BUCKET/my-media-file.flac     s3://DOC-EXAMPLE-BUCKET/media-files/my-media-file.flac    Note that the Amazon S3 bucket that contains your input media must be located in the same Amazon Web Services Region where you're making your transcription  request.   RedactedMediaFileUri is only supported for Call Analytics (StartCallAnalyticsJob) transcription requests.
         public let redactedMediaFileUri: String?
 
         public init(mediaFileUri: String? = nil, redactedMediaFileUri: String? = nil) {
@@ -2052,7 +2069,7 @@ extension Transcribe {
     }
 
     public struct MedicalTranscript: AWSDecodableShape {
-        /// The S3 object location of the medical transcript. Use this URI to access the medical transcript. This URI points to the S3 bucket you created  to store the medical transcript.
+        /// The Amazon S3 location of your transcript. You can use this URI to access or  download your transcript. If you included OutputBucketName in your transcription job request, this is  the URI of that bucket. If you also included OutputKey in your request, your  output is located in the path you specified in your request. If you didn't include OutputBucketName in your transcription job request, your transcript is stored in a service-managed bucket, and TranscriptFileUri provides you with a temporary URI you can use for secure access to your transcript.  Temporary URIs for service-managed Amazon S3 buckets are only valid for 15  minutes. If you get an AccesDenied error, you can get a new temporary  URI by running a GetTranscriptionJob or  ListTranscriptionJob request.
         public let transcriptFileUri: String?
 
         public init(transcriptFileUri: String? = nil) {
@@ -2065,36 +2082,36 @@ extension Transcribe {
     }
 
     public struct MedicalTranscriptionJob: AWSDecodableShape {
-        /// A timestamp that shows when the job was completed.
+        /// The date and time the specified medical transcription job finished processing. Timestamps are in the format YYYY-MM-DD'T'HH:MM:SS.SSSSSS-UTC. For example, 2022-05-04T12:33:13.922000-07:00 represents a transcription job that started processing at 12:33 PM UTC-7 on May 4, 2022.
         public let completionTime: Date?
-        /// Shows the type of content that you've configured Amazon Transcribe Medical to identify in a transcription job. If the value is PHI, you've configured the job to identify personal health information (PHI) in the transcription output.
+        /// Labels all personal health information (PHI) identified in your transcript. For more information,  see Identifying personal health  information (PHI) in a transcription.
         public let contentIdentificationType: MedicalContentIdentificationType?
-        /// A timestamp that shows when the job was created.
+        /// The date and time the specified medical transcription job request was made. Timestamps are in the format YYYY-MM-DD'T'HH:MM:SS.SSSSSS-UTC. For example, 2022-05-04T12:32:58.761000-07:00 represents a transcription job that started processing at 12:32 PM UTC-7 on May 4, 2022.
         public let creationTime: Date?
-        /// If the TranscriptionJobStatus field is FAILED, this field  contains information about why the job failed. The FailureReason field contains one of the following values:    Unsupported media format- The media format specified in the MediaFormat field of the request isn't valid. See the description of the  MediaFormat field for a list of valid values.    The media format provided does not match the detected media  format- The media format of the audio file doesn't match the format specified  in the MediaFormat field in the request. Check the media format of  your media file and make sure the two values match.    Invalid sample rate for audio file- The sample rate specified in the  MediaSampleRateHertz of the request isn't valid. The sample rate must be between 8,000 and 48,000 Hertz.    The sample rate provided does not match the detected sample  rate- The sample rate in the audio file doesn't match the sample rate specified in the MediaSampleRateHertz field in the request. Check the sample rate of your media file and make sure that the two values match.    Invalid file size: file size too large- The size of your audio file is  larger than what Amazon Transcribe Medical can process. For more information, see  Guidelines and Quotas in the Amazon Transcribe Medical Guide.    Invalid number of channels: number of channels too large- Your  audio contains more channels than Amazon Transcribe Medical is configured to process. To request additional channels, see Amazon Transcribe Medical Endpoints and  Quotas in the Amazon Web Services General Reference.
+        /// If TranscriptionJobStatus is FAILED,  FailureReason contains information about why the transcription job request failed. The FailureReason field contains one of the following values:    Unsupported media format. The media format specified in MediaFormat isn't valid. Refer to MediaFormat for a list of supported formats.    The media format provided does not match the detected media  format. The media format specified in MediaFormat doesn't match the  format of the input file. Check the media format of your media file and correct the  specified value.    Invalid sample rate for audio file. The sample rate specified in MediaSampleRateHertz isn't valid. The sample rate must be between 16,000 and 48,000 Hertz.    The sample rate provided does not match the detected sample  rate. The sample rate specified in MediaSampleRateHertz doesn't  match the sample rate detected in your input media file. Check the sample rate of  your media file and correct the specified value.    Invalid file size: file size too large. The size of your media file is larger than what Amazon Transcribe can process.  For more information, refer to Guidelines and quotas.    Invalid number of channels: number of channels too large. Your audio contains more channels than Amazon Transcribe is able to process.  For more information, refer to Guidelines and  quotas.
         public let failureReason: String?
-        /// The language code for the language spoken in the source audio file. US English (en-US)  is the only supported language for medical transcriptions. Any other value you enter for  language code results in a BadRequestException error.
+        /// The language code used to create your medical transcription job. US English  (en-US) is the only supported language for medical transcriptions.
         public let languageCode: LanguageCode?
         public let media: Media?
         /// The format of the input media file.
         public let mediaFormat: MediaFormat?
-        /// The sample rate, in Hertz, of the source audio containing medical information. If you don't specify the sample rate, Amazon Transcribe Medical determines it for you. If you choose to  specify the sample rate, it must match the rate detected by Amazon Transcribe Medical.
+        /// The sample rate, in Hertz, of the audio track in your input media file.
         public let mediaSampleRateHertz: Int?
-        /// The name for a given medical transcription job.
+        /// The name of the medical transcription job. Job names are case sensitive and must be unique  within an Amazon Web Services account.
         public let medicalTranscriptionJobName: String?
-        /// Object that contains  object.
+        /// Specify additional optional settings in your   request, including channel identification, alternative transcriptions, and speaker labeling; allows  you to apply custom vocabularies to your medical transcription job.
         public let settings: MedicalTranscriptionSetting?
-        /// The medical specialty of any clinicians providing a dictation or having a conversation.  Refer to Transcribing a medical conversationfor a list of supported specialties.
+        /// Describes the medical specialty represented in your media.
         public let specialty: Specialty?
-        /// A timestamp that shows when the job started processing.
+        /// The date and time the specified medical transcription job began processing. Timestamps are in the format YYYY-MM-DD'T'HH:MM:SS.SSSSSS-UTC. For example, 2022-05-04T12:32:58.789000-07:00 represents a transcription job that started processing at 12:32 PM UTC-7 on May 4, 2022.
         public let startTime: Date?
-        /// A key:value pair assigned to a given medical transcription job.
+        /// The tags, each in the form of a key:value pair, assigned to the specified medical transcription job.
         public let tags: [Tag]?
-        /// An object that contains the MedicalTranscript. The MedicalTranscript contains the TranscriptFileUri.
+        /// Provides you with the Amazon S3 URI you can use to access your transcript.
         public let transcript: MedicalTranscript?
-        /// The completion status of a medical transcription job.
+        /// Provides the status of the specified medical transcription job. If the status is COMPLETED, the job is finished and you can find the results at the location specified in TranscriptFileUri. If the status is  FAILED, FailureReason provides details on why your transcription job failed.
         public let transcriptionJobStatus: TranscriptionJobStatus?
-        /// The type of speech in the transcription job. CONVERSATION is generally used for patient-physician dialogues. DICTATION is the setting for physicians speaking their notes after seeing a patient. For more information, see  What  is Amazon Transcribe Medical?.
+        /// Indicates whether the input media is a dictation or a conversation, as specified in the  StartMedicalTranscriptionJob request.
         public let type: `Type`?
 
         public init(completionTime: Date? = nil, contentIdentificationType: MedicalContentIdentificationType? = nil, creationTime: Date? = nil, failureReason: String? = nil, languageCode: LanguageCode? = nil, media: Media? = nil, mediaFormat: MediaFormat? = nil, mediaSampleRateHertz: Int? = nil, medicalTranscriptionJobName: String? = nil, settings: MedicalTranscriptionSetting? = nil, specialty: Specialty? = nil, startTime: Date? = nil, tags: [Tag]? = nil, transcript: MedicalTranscript? = nil, transcriptionJobStatus: TranscriptionJobStatus? = nil, type: `Type`? = nil) {
@@ -2137,27 +2154,27 @@ extension Transcribe {
     }
 
     public struct MedicalTranscriptionJobSummary: AWSDecodableShape {
-        /// A timestamp that shows when the job was completed.
+        /// The date and time the specified medical transcription job finished processing. Timestamps are in the format YYYY-MM-DD'T'HH:MM:SS.SSSSSS-UTC. For example, 2022-05-04T12:33:13.922000-07:00 represents a transcription job that started processing at 12:33 PM UTC-7 on May 4, 2022.
         public let completionTime: Date?
-        /// Shows the type of information you've configured Amazon Transcribe Medical to identify in a transcription job. If the value is PHI, you've configured the transcription job to identify personal health information (PHI).
+        /// Labels all personal health information (PHI) identified in your transcript. For more information,  see Identifying personal health  information (PHI) in a transcription.
         public let contentIdentificationType: MedicalContentIdentificationType?
-        /// A timestamp that shows when the medical transcription job was created.
+        /// The date and time the specified medical transcription job request was made. Timestamps are in the format YYYY-MM-DD'T'HH:MM:SS.SSSSSS-UTC. For example, 2022-05-04T12:32:58.761000-07:00 represents a transcription job that started processing at 12:32 PM UTC-7 on May 4, 2022.
         public let creationTime: Date?
-        /// If the TranscriptionJobStatus field is FAILED, a description  of the error.
+        /// If TranscriptionJobStatus is FAILED, FailureReason contains information about why the transcription job  failed. See also: Common Errors.
         public let failureReason: String?
-        /// The language of the transcript in the source audio file.
+        /// The language code used to create your medical transcription. US English  (en-US) is the only supported language for medical transcriptions.
         public let languageCode: LanguageCode?
-        /// The name of a medical transcription job.
+        /// The name of the medical transcription job. Job names are case sensitive and must be unique  within an Amazon Web Services account.
         public let medicalTranscriptionJobName: String?
-        /// Indicates the location of the transcription job's output. This field must be the path of an S3 bucket; if you don't already have an S3 bucket, one is created based on the path you  add.
+        /// Indicates where the specified medical transcription output is stored. If the value is CUSTOMER_BUCKET, the location is the Amazon S3 bucket you specified using the OutputBucketName parameter in your  request. If you also included  OutputKey in your request, your output is located in the path you specified in your request. If the value is SERVICE_BUCKET, the location is a service-managed  Amazon S3 bucket. To access a transcript stored in a service-managed bucket, use the URI shown in the TranscriptFileUri field.
         public let outputLocationType: OutputLocationType?
-        /// The medical specialty of the transcription job. Refer to Transcribing a medical conversationfor a list of supported specialties.
+        /// Provides the medical specialty represented in your media.
         public let specialty: Specialty?
-        /// A timestamp that shows when the job began processing.
+        /// The date and time your medical transcription job began processing. Timestamps are in the format YYYY-MM-DD'T'HH:MM:SS.SSSSSS-UTC. For example, 2022-05-04T12:32:58.789000-07:00 represents a transcription job that started processing at 12:32 PM UTC-7 on May 4, 2022.
         public let startTime: Date?
-        /// The status of the medical transcription job.
+        /// Provides the status of your medical transcription job. If the status is COMPLETED, the job is finished and you can find the results at the location specified in TranscriptFileUri. If the status is  FAILED, FailureReason provides details on why your transcription job failed.
         public let transcriptionJobStatus: TranscriptionJobStatus?
-        /// The speech of the clinician in the input audio.
+        /// Indicates whether the input media is a dictation or a conversation, as specified in the  StartMedicalTranscriptionJob request.
         public let type: `Type`?
 
         public init(completionTime: Date? = nil, contentIdentificationType: MedicalContentIdentificationType? = nil, creationTime: Date? = nil, failureReason: String? = nil, languageCode: LanguageCode? = nil, medicalTranscriptionJobName: String? = nil, outputLocationType: OutputLocationType? = nil, specialty: Specialty? = nil, startTime: Date? = nil, transcriptionJobStatus: TranscriptionJobStatus? = nil, type: `Type`? = nil) {
@@ -2190,17 +2207,17 @@ extension Transcribe {
     }
 
     public struct MedicalTranscriptionSetting: AWSEncodableShape & AWSDecodableShape {
-        /// Instructs Amazon Transcribe Medical to process each audio channel separately and then merge the  transcription output of each channel into a single transcription. Amazon Transcribe Medical also produces a transcription of each item detected on an audio channel, including the start time and end time of the item and alternative transcriptions of item.  The alternative transcriptions also come with confidence scores provided by Amazon Transcribe Medical. You can't set both ShowSpeakerLabels and  ChannelIdentification in the same request. If you set both, your request  returns a BadRequestException.
+        /// Enables channel identification in multi-channel audio. Channel identification transcribes the audio on each channel independently, then appends the  output for each channel into one transcript. If you have multi-channel audio and do not enable channel identification, your audio is  transcribed in a continuous manner and your transcript does not separate the speech by channel. You can't include both ShowSpeakerLabels and  ChannelIdentification in the same request. Including both parameters  returns a BadRequestException. For more information, see Transcribing multi-channel audio.
         public let channelIdentification: Bool?
-        /// The maximum number of alternatives that you tell the service to return. If you specify the MaxAlternatives field, you must set the ShowAlternatives  field to true.
+        /// Indicate the maximum number of alternative transcriptions you want Amazon Transcribe  Medical to include in your transcript. If you select a number greater than the number of alternative transcriptions generated by  Amazon Transcribe Medical, only the actual number of alternative transcriptions are included. If you include MaxAlternatives in your request, you must also include ShowAlternatives with a value of true. For more information, see Alternative transcriptions.
         public let maxAlternatives: Int?
-        /// The maximum number of speakers to identify in the input audio. If there are more  speakers in the audio than this number, multiple speakers are identified as a single speaker.  If you specify the MaxSpeakerLabels field, you must set the ShowSpeakerLabels field to true.
+        /// Specify the maximum number of speakers you want to identify in your media. Note that if your media contains more speakers than the specified number, multiple speakers will be identified as a single speaker. If you specify the MaxSpeakerLabels field, you must set the ShowSpeakerLabels field to true.
         public let maxSpeakerLabels: Int?
-        /// Determines whether alternative transcripts are generated along with the transcript that  has the highest confidence. If you set ShowAlternatives field to true, you must also set the maximum number of alternatives to return in the MaxAlternatives field.
+        /// To include alternative transcriptions within your transcription output, include ShowAlternatives in your transcription request. If you include ShowAlternatives, you must also include  MaxAlternatives, which is the maximum number of alternative transcriptions  you want Amazon Transcribe Medical to generate. For more information, see Alternative transcriptions.
         public let showAlternatives: Bool?
-        /// Determines whether the transcription job uses speaker recognition to identify different  speakers in the input audio. Speaker recognition labels individual speakers in the audio file.  If you set the ShowSpeakerLabels field to true, you must also set the  maximum number of speaker labels in the MaxSpeakerLabels field. You can't set both ShowSpeakerLabels and  ChannelIdentification in the same request. If you set both, your request  returns a BadRequestException.
+        /// Enables speaker identification (diarization) in your transcription output. Speaker identification  labels the speech from individual speakers in your media file.  If you enable ShowSpeakerLabels in your request, you must also include MaxSpeakerLabels. You can't include both ShowSpeakerLabels and  ChannelIdentification in the same request. Including both parameters  returns a BadRequestException. For more information, see Identifying speakers (diarization).
         public let showSpeakerLabels: Bool?
-        /// The name of the vocabulary to use when processing a medical transcription job.
+        /// The name of the custom vocabulary you want to use when processing your medical  transcription job. Vocabulary names are case sensitive. The language of the specified vocabulary must match the language code you specify in your transcription request. If the languages don't match, the vocabulary isn't applied. There are no errors or warnings associated with a language mismatch. US English  (en-US) is the only valid language for Amazon Transcribe Medical.
         public let vocabularyName: String?
 
         public init(channelIdentification: Bool? = nil, maxAlternatives: Int? = nil, maxSpeakerLabels: Int? = nil, showAlternatives: Bool? = nil, showSpeakerLabels: Bool? = nil, vocabularyName: String? = nil) {
@@ -2233,7 +2250,7 @@ extension Transcribe {
     }
 
     public struct ModelSettings: AWSEncodableShape & AWSDecodableShape {
-        /// The name of your custom language model.
+        /// The name of the custom language model you want to use when processing your  transcription job. Note that language model names are case sensitive. The language of the specified language model must match the language code you specify in your transcription request. If the languages don't match, the language model isn't applied.  There are no errors or warnings associated with a language mismatch.
         public let languageModelName: String?
 
         public init(languageModelName: String? = nil) {
@@ -2252,13 +2269,13 @@ extension Transcribe {
     }
 
     public struct NonTalkTimeFilter: AWSEncodableShape & AWSDecodableShape {
-        /// An object you can use to specify a time range (in milliseconds) for when no one is talking. For example, you could specify a time period between the 30,000 millisecond mark and the 45,000 millisecond mark. You could also specify the time period as the first 15,000 milliseconds or the last 15,000 milliseconds.
+        /// Allows you to specify a time range (in milliseconds) in your audio, during which you want  to search for a period of silence. See  for more  detail.
         public let absoluteTimeRange: AbsoluteTimeRange?
-        /// Set to TRUE to look for a time period when people were talking.
+        /// Set to TRUE to flag periods of speech. Set to FALSE to flag  periods of silence
         public let negate: Bool?
-        /// An object that allows percentages to specify the proportion of the call where there was silence. For example, you can specify the first half of the call. You can also specify  the period of time between halfway through to three-quarters of the way through the call.  Because the length of conversation can vary between calls, you can apply relative time ranges across all calls.
+        /// Allows you to specify a time range (in percentage) in your media file, during which you want to search for a period of silence. See  for more detail.
         public let relativeTimeRange: RelativeTimeRange?
-        /// The duration of the period when neither the customer nor agent was talking.
+        /// Specify the duration, in milliseconds, of the period of silence you want to flag. For  example, you can flag a silent period that lasts 30000 milliseconds.
         public let threshold: Int64?
 
         public init(absoluteTimeRange: AbsoluteTimeRange? = nil, negate: Bool? = nil, relativeTimeRange: RelativeTimeRange? = nil, threshold: Int64? = nil) {
@@ -2284,13 +2301,13 @@ extension Transcribe {
     }
 
     public struct RelativeTimeRange: AWSEncodableShape & AWSDecodableShape {
-        /// A value that indicates the percentage of the end of the time range. To set a relative time range, you must specify a start percentage and an end percentage. For example, if you specify the following values:   StartPercentage - 10   EndPercentage - 50   This looks at the time range starting from 10% of the way into the call to 50% of the  way through the call. For a call that lasts 100,000 milliseconds, this example range would  apply from the 10,000 millisecond mark to the 50,000 millisecond mark.
+        /// The time, in percentage, when Amazon Transcribe stops searching for the specified criteria in your media file. If you include EndPercentage in your request, you must also include StartPercentage.
         public let endPercentage: Int?
-        /// A range that takes the portion of the call up to the time in milliseconds set by the  value that you've specified. For example, if you specify 120000, the time  range is set for the first 120,000 milliseconds of the call.
+        /// The time, in percentage, from the start of your media file until the value you specify in which Amazon Transcribe searches for your specified criteria.
         public let first: Int?
-        /// A range that takes the portion of the call from the time in milliseconds set by the value that you've specified to the end of the call. For example, if you specify  120000, the time range is set for the last 120,000 milliseconds of the  call.
+        /// The time, in percentage, from the value you specify until the end of your media file in which Amazon Transcribe searches for your specified criteria.
         public let last: Int?
-        /// A value that indicates the percentage of the beginning of the time range. To set a relative time range, you must specify a start percentage and an end percentage. For  example, if you specify the following values:          StartPercentage - 10   EndPercentage - 50   This looks at the time range starting from 10% of the way into the call to 50% of  the way through the call. For a call that lasts 100,000 milliseconds, this example range  would apply from the 10,000 millisecond mark to the 50,000 millisecond mark.
+        /// The time, in percentage, when Amazon Transcribe starts searching for the specified  criteria in your media file. If you include StartPercentage in your request, you must also include EndPercentage.
         public let startPercentage: Int?
 
         public init(endPercentage: Int? = nil, first: Int? = nil, last: Int? = nil, startPercentage: Int? = nil) {
@@ -2320,15 +2337,15 @@ extension Transcribe {
     }
 
     public struct SentimentFilter: AWSEncodableShape & AWSDecodableShape {
-        /// The time range, measured in seconds, of the sentiment.
+        /// Allows you to specify a time range (in milliseconds) in your audio, during which you want to search for the specified sentiments. See  for more detail.
         public let absoluteTimeRange: AbsoluteTimeRange?
-        /// Set to TRUE to look for sentiments that weren't specified in the request.
+        /// Set to TRUE to flag the sentiments you didn't include in your request. Set to FALSE to flag the sentiments you specified in your request.
         public let negate: Bool?
-        /// A value that determines whether the sentiment belongs to the customer or the agent.
+        /// Specify the participant you want to flag. Omitting this parameter is equivalent to specifying both participants.
         public let participantRole: ParticipantRole?
-        /// The time range, set in percentages, that correspond to proportion of the call.
+        /// Allows you to specify a time range (in percentage) in your media file, during which you want to search for the specified sentiments. See   for more detail.
         public let relativeTimeRange: RelativeTimeRange?
-        /// An array that enables you to specify sentiments for the customer or agent. You can  specify one or more values.
+        /// Specify the sentiments you want to flag.
         public let sentiments: [SentimentValue]
 
         public init(absoluteTimeRange: AbsoluteTimeRange? = nil, negate: Bool? = nil, participantRole: ParticipantRole? = nil, relativeTimeRange: RelativeTimeRange? = nil, sentiments: [SentimentValue]) {
@@ -2355,21 +2372,21 @@ extension Transcribe {
     }
 
     public struct Settings: AWSEncodableShape & AWSDecodableShape {
-        /// Instructs Amazon Transcribe to process each audio channel separately and then merge the  transcription output of each channel into a single transcription. Amazon Transcribe also produces a transcription of each item detected on an audio channel,  including the start time and end time of the item and alternative transcriptions of the item including the confidence that Amazon Transcribe has in the transcription. You can't set both ShowSpeakerLabels and  ChannelIdentification in the same request. If you set both, your request  returns a BadRequestException.
+        /// Enables channel identification in multi-channel audio. Channel identification transcribes the audio on each channel independently, then appends the  output for each channel into one transcript. You can't include both ShowSpeakerLabels and  ChannelIdentification in the same request. Including both parameters  returns a BadRequestException. For more information, see Transcribing multi-channel audio.
         public let channelIdentification: Bool?
-        /// The number of alternative transcriptions that the service should return. If you specify  the MaxAlternatives field, you must set the ShowAlternatives  field to true.
+        /// Indicate the maximum number of alternative transcriptions you want Amazon Transcribe  to include in your transcript. If you select a number greater than the number of alternative transcriptions generated by  Amazon Transcribe, only the actual number of alternative transcriptions are included. If you include MaxAlternatives in your request, you must also include ShowAlternatives with a value of true. For more information, see Alternative transcriptions.
         public let maxAlternatives: Int?
-        /// The maximum number of speakers to identify in the input audio. If there are more  speakers in the audio than this number, multiple speakers are identified as a single speaker.  If you specify the MaxSpeakerLabels field, you must set the ShowSpeakerLabels field to true.
+        /// Specify the maximum number of speakers you want to identify in your media. Note that if your media contains more speakers than the specified number, multiple speakers will be identified as a single speaker. If you specify the MaxSpeakerLabels field, you must set the ShowSpeakerLabels field to true.
         public let maxSpeakerLabels: Int?
-        /// Determines whether the transcription contains alternative transcriptions. If you set the  ShowAlternatives field to true, you must also set the maximum number of alternatives to return in the MaxAlternatives field.
+        /// To include alternative transcriptions within your transcription output, include ShowAlternatives in your transcription request.            If you have multi-channel audio and do not enable channel identification, your audio is  transcribed in a continuous manner and your transcript does not separate the speech by channel. If you include ShowAlternatives, you must also include  MaxAlternatives, which is the maximum number of alternative transcriptions you want Amazon Transcribe to generate. For more information, see Alternative transcriptions.
         public let showAlternatives: Bool?
-        /// Determines whether the transcription job uses speaker recognition to identify different  speakers in the input audio. Speaker recognition labels individual speakers in the audio file.  If you set the ShowSpeakerLabels field to true, you must also set the maximum number of speaker labels MaxSpeakerLabels field. You can't set both ShowSpeakerLabels and  ChannelIdentification in the same request. If you set both, your request returns a BadRequestException.
+        /// Enables speaker identification (diarization) in your transcription output. Speaker identification  labels the speech from individual speakers in your media file. If you enable ShowSpeakerLabels in your request, you must also include MaxSpeakerLabels. You can't include both ShowSpeakerLabels and  ChannelIdentification in the same request. Including both parameters  returns a BadRequestException. For more information, see Identifying speakers (diarization).
         public let showSpeakerLabels: Bool?
-        /// Set to mask to remove filtered text from the transcript and replace it  with three asterisks ("***") as placeholder text. Set to remove to remove  filtered text from the transcript without using placeholder text. Set to tag to mark the word in the transcription output that matches the vocabulary filter. When you set  the filter method to tag, the words matching your vocabulary filter are not masked or removed.
+        /// Specify how you want your vocabulary filter applied to your transcript. To replace words with ***, choose mask. To delete words, choose remove. To flag words without changing them, choose tag.
         public let vocabularyFilterMethod: VocabularyFilterMethod?
-        /// The name of the vocabulary filter to use when transcribing the audio. The filter that you specify must have the same language code as the transcription job.
+        /// The name of the custom vocabulary filter you want to use in your transcription job request. This name is case sensitive, cannot contain spaces, and must be unique within an  Amazon Web Services account.    Note that if you include VocabularyFilterName in your request, you must  also include VocabularyFilterMethod.
         public let vocabularyFilterName: String?
-        /// The name of a vocabulary to use when processing the transcription job.
+        /// The name of the custom vocabulary you want to use in your transcription job request. This  name is case sensitive, cannot contain spaces, and must be unique within an  Amazon Web Services account.
         public let vocabularyName: String?
 
         public init(channelIdentification: Bool? = nil, maxAlternatives: Int? = nil, maxSpeakerLabels: Int? = nil, showAlternatives: Bool? = nil, showSpeakerLabels: Bool? = nil, vocabularyFilterMethod: VocabularyFilterMethod? = nil, vocabularyFilterName: String? = nil, vocabularyName: String? = nil) {
@@ -2413,21 +2430,21 @@ extension Transcribe {
             AWSMemberEncoding(label: "callAnalyticsJobName", location: .uri("CallAnalyticsJobName"))
         ]
 
-        /// The name of the call analytics job. You can't use the string "." or ".." by themselves as the job name. The name must also be unique within an Amazon Web Services account. If you  try to create a call analytics job with the same name as a previous call analytics job, you get a ConflictException error.
+        /// A unique name, chosen by you, for your Call Analytics job. This name is case sensitive, cannot contain spaces, and must be unique within an  Amazon Web Services account. If you try to create a new job with the same name as an  existing job, you get a ConflictException error.
         public let callAnalyticsJobName: String
-        /// When you start a call analytics job, you must pass an array that maps the agent and the customer to specific audio channels. The values you can assign to a channel are 0 and 1. The  agent and the customer must each have their own channel. You can't assign more than one  channel to an agent or customer.
+        /// Allows you to specify which speaker is on which channel. For example, if your agent is the  first participant to speak, you would set ChannelId to 0 (to indicate the first channel) and ParticipantRole to AGENT (to  indicate that it's the agent speaking).
         public let channelDefinitions: [ChannelDefinition]?
-        /// The Amazon Resource Name (ARN) of a role that has access to the S3 bucket that contains your input files. Amazon Transcribe assumes this role to read queued audio files. If you have  specified an output S3 bucket for your transcription results, this role should have access to  the output bucket as well.
-        public let dataAccessRoleArn: String
+        /// The Amazon Resource Name (ARN) of an IAM role that has permissions to access the Amazon S3 bucket that contains your input files. If the role you specify doesn’t  have the appropriate permissions to access the specified Amazon S3 location, your request  fails.         IAM role ARNs have the format arn:partition:iam::account:role/role-name-with-path. For example: arn:aws:iam::111122223333:role/Admin. For more information, see IAM ARNs.
+        public let dataAccessRoleArn: String?
         public let media: Media
-        /// The Amazon Resource Name (ARN) of the Amazon Web Services Key Management Service  key used to encrypt the output of the call analytics job. The user calling the  operation must have permission to use the  specified KMS key. You use either of the following to identify an Amazon Web Services KMS key in the current account:   KMS Key ID: "1234abcd-12ab-34cd-56ef-1234567890ab"   KMS Key Alias: "alias/ExampleAlias"   You can use either of the following to identify a KMS key in the current account or  another account:   Amazon Resource Name (ARN) of a KMS key in the current account or  another account:  "arn:aws:kms:region:account ID:key/1234abcd-12ab-34cd-56ef1234567890ab"   ARN of a KMS Key Alias: "arn:aws:kms:region:accountID:alias/ExampleAlias"   If you don't specify an encryption key, the output of the call analytics job is encrypted  with the default Amazon S3 key (SSE-S3).  If you specify a KMS key to encrypt your output, you must also specify an output location  in the OutputLocation parameter.
+        /// The KMS key you want to use to encrypt your Call Analytics output. If using a key located in the current  Amazon Web Services account, you can specify your KMS key in one of  four ways:   Use the KMS key ID itself. For example,  1234abcd-12ab-34cd-56ef-1234567890ab.   Use an alias for the KMS key ID. For example, alias/ExampleAlias.   Use the Amazon Resource Name (ARN) for the KMS key ID. For  example, arn:aws:kms:region:account-ID:key/1234abcd-12ab-34cd-56ef-1234567890ab.   Use the ARN for the KMS key alias. For example,  arn:aws:kms:region:account-ID:alias/ExampleAlias.   If using a key located in a different  Amazon Web Services account than the current Amazon Web Services account, you can  specify your KMS key in one of two ways:   Use the ARN for the KMS key ID. For example,  arn:aws:kms:region:account-ID:key/1234abcd-12ab-34cd-56ef-1234567890ab.               Use the ARN for the KMS key alias. For example,  arn:aws:kms:region:account-ID:alias/ExampleAlias.   If you don't specify an encryption key, your output is encrypted with the default  Amazon S3 key (SSE-S3).  If you specify a KMS key to encrypt your output, you must also specify  an output location using the OutputLocation parameter. Note that the user making the   request must have permission to use the specified KMS key.
         public let outputEncryptionKMSKeyId: String?
-        /// The Amazon S3 location where the output of the call analytics job is stored. You can  provide the following location types to store the output of call analytics job:   s3://DOC-EXAMPLE-BUCKET1 If you specify a bucket, Amazon Transcribe saves the output of the analytics job as a JSON file  at the root level of the bucket.   s3://DOC-EXAMPLE-BUCKET1/folder/ f you specify a path, Amazon Transcribe saves the output of the analytics job as s3://DOC-EXAMPLE-BUCKET1/folder/your-transcription-job-name.json. If you specify a folder, you must provide a trailing slash.   s3://DOC-EXAMPLE-BUCKET1/folder/filename.json. If you provide a path that has the filename specified, Amazon Transcribe saves the output of  the analytics job as s3://DOC-EXAMPLEBUCKET1/folder/filename.json.   You can specify an Amazon Web Services Key Management Service (KMS) key to encrypt  the output of our analytics job using the OutputEncryptionKMSKeyId parameter.  If you don't specify a KMS key, Amazon Transcribe uses the default Amazon S3 key for server-side encryption  of the analytics job output that is placed in your S3 bucket.
+        /// The Amazon S3 location where you want your Call Analytics transcription output  stored. You can use any of the following formats to specify the output location:   s3://DOC-EXAMPLE-BUCKET   s3://DOC-EXAMPLE-BUCKET/my-output-folder/   s3://DOC-EXAMPLE-BUCKET/my-output-folder/my-call-analytics-job.json   Unless you specify a file name (option 3), the name of your output file has a default  value that matches the name you specified for your transcription job using the  CallAnalyticsJobName parameter. You can specify a KMS key to encrypt your output using the OutputEncryptionKMSKeyId parameter. If you don't specify a  KMS key, Amazon Transcribe uses the default Amazon S3 key for  server-side encryption. If you don't specify OutputLocation, your transcript is placed in a  service-managed Amazon S3 bucket and you are provided with a URI to access your  transcript.
         public let outputLocation: String?
-        /// A Settings object that provides optional settings for a call analytics  job.
+        /// Specify additional optional settings in your   request, including content redaction; allows you to apply custom language models, vocabulary  filters, and custom vocabularies to your Call Analytics job.
         public let settings: CallAnalyticsJobSettings?
 
-        public init(callAnalyticsJobName: String, channelDefinitions: [ChannelDefinition]? = nil, dataAccessRoleArn: String, media: Media, outputEncryptionKMSKeyId: String? = nil, outputLocation: String? = nil, settings: CallAnalyticsJobSettings? = nil) {
+        public init(callAnalyticsJobName: String, channelDefinitions: [ChannelDefinition]? = nil, dataAccessRoleArn: String? = nil, media: Media, outputEncryptionKMSKeyId: String? = nil, outputLocation: String? = nil, settings: CallAnalyticsJobSettings? = nil) {
             self.callAnalyticsJobName = callAnalyticsJobName
             self.channelDefinitions = channelDefinitions
             self.dataAccessRoleArn = dataAccessRoleArn
@@ -2470,7 +2487,7 @@ extension Transcribe {
     }
 
     public struct StartCallAnalyticsJobResponse: AWSDecodableShape {
-        /// An object containing the details of the asynchronous call analytics job.
+        /// Provides detailed information about the current Call Analytics job, including job status and, if applicable, failure reason.
         public let callAnalyticsJob: CallAnalyticsJob?
 
         public init(callAnalyticsJob: CallAnalyticsJob? = nil) {
@@ -2487,32 +2504,32 @@ extension Transcribe {
             AWSMemberEncoding(label: "medicalTranscriptionJobName", location: .uri("MedicalTranscriptionJobName"))
         ]
 
-        /// You can configure Amazon Transcribe Medical to label content in the transcription output. If you specify PHI, Amazon Transcribe Medical labels the personal health information (PHI) that it identifies in the transcription output.
+        /// Labels all personal health information (PHI) identified in your transcript. For more information,  see Identifying personal health  information (PHI) in a transcription.
         public let contentIdentificationType: MedicalContentIdentificationType?
-        /// A map of plain text, non-secret key:value pairs, known as encryption context pairs, that  provide an added layer of security for your data.
+        /// A map of plain text, non-secret key:value pairs, known as encryption context pairs, that  provide an added layer of security for your data. For more information, see  KMS  encryption context and Asymmetric keys in  KMS.
         public let kmsEncryptionContext: [String: String]?
-        /// The language code for the language spoken in the input media file. US English (en-US) is  the valid value for medical transcription jobs. Any other value you enter for language code  results in a BadRequestException error.
+        /// The language code that represents the language spoken in the input media file. US English (en-US) is the only valid value for medical transcription jobs. Any other value  you enter for language code results in a BadRequestException error.
         public let languageCode: LanguageCode
         public let media: Media
-        /// The audio format of the input media file.
+        /// Specify the format of your input media file.
         public let mediaFormat: MediaFormat?
-        /// The sample rate, in Hertz, of the audio track in the input media file. If you do not specify the media sample rate, Amazon Transcribe Medical determines the sample rate. If you  specify the sample rate, it must match the rate detected by Amazon Transcribe Medical. In most cases, you should leave the MediaSampleRateHertz field blank and let Amazon Transcribe Medical determine the sample rate.
+        /// The sample rate, in Hertz, of the audio track in your input media file. If you don't specify the media sample rate, Amazon Transcribe Medical determines it for you. If you specify the sample rate, it must match the rate detected by Amazon Transcribe  Medical; if there's a mismatch between the value you specify and the value detected, your job  fails. Therefore, in most cases, it's advised to omit MediaSampleRateHertz and let Amazon Transcribe Medical determine the sample rate.
         public let mediaSampleRateHertz: Int?
-        /// The name of the medical transcription job. You can't use the strings "."  or ".." by themselves as the job name. The name must also be unique within an Amazon Web Services account. If you try to create a medical transcription job with the same name as a previous medical transcription job, you get a ConflictException  error.
+        /// A unique name, chosen by you, for your medical transcription job. The name you specify is  also used as the default name of your transcription output file. If you want to specify a different  name for your transcription output, use the OutputKey parameter. This name is case sensitive, cannot contain spaces, and must be unique within an  Amazon Web Services account. If you try to create a new job with the same name as an  existing job, you get a ConflictException error.
         public let medicalTranscriptionJobName: String
-        /// The Amazon S3 location where the transcription is stored. You must set OutputBucketName for Amazon Transcribe Medical to store the transcription  results. Your transcript appears in the S3 location you specify. When you call the  GetMedicalTranscriptionJob, the operation returns this location in the TranscriptFileUri field. The S3 bucket must have permissions that allow Amazon Transcribe Medical to put files in the bucket. For more information, see Permissions Required for IAM User Roles. You can specify an Amazon Web Services Key Management Service (KMS) key to encrypt the output of your transcription using the OutputEncryptionKMSKeyId parameter.  If you don't specify a KMS key, Amazon Transcribe Medical uses the default Amazon S3 key for server-side  encryption of transcripts that are placed in your S3 bucket.
+        /// The name of the Amazon S3 bucket where you want your medical transcription  output stored. Do not include the S3:// prefix of the specified bucket. If you want your output to go to a sub-folder of this bucket, specify it using the OutputKey parameter; OutputBucketName only accepts the  name of a bucket. For example, if you want your output stored in S3://DOC-EXAMPLE-BUCKET, set OutputBucketName to DOC-EXAMPLE-BUCKET. However, if  you want your output stored in S3://DOC-EXAMPLE-BUCKET/test-files/, set OutputBucketName to DOC-EXAMPLE-BUCKET and OutputKey to test-files/. Note that Amazon Transcribe must have permission to use the specified location. You can change Amazon S3 permissions using the Amazon Web Services Management Console. See also Permissions Required for IAM User Roles. If you don't specify OutputBucketName, your transcript is placed in a  service-managed Amazon S3 bucket and you are provided with a URI to access your  transcript.
         public let outputBucketName: String
-        /// The Amazon Resource Name (ARN) of the Amazon Web Services Key Management Service (KMS) key used to encrypt the output of the transcription job. The user calling the  StartMedicalTranscriptionJob operation must have permission to use the  specified KMS key. You use either of the following to identify a KMS key in the current account:   KMS Key ID: "1234abcd-12ab-34cd-56ef-1234567890ab"   KMS Key Alias: "alias/ExampleAlias"   You can use either of the following to identify a KMS key in the current account or  another account:   Amazon Resource Name (ARN) of a KMS key in the current account or another account: "arn:aws:kms:region:account-ID:key/1234abcd-12ab-34cd-56ef-1234567890ab"   ARN of a KMS Key Alias: "arn:aws:kms:region:account ID:alias/ExampleAlias"   If you don't specify an encryption key, the output of the medical transcription job is  encrypted with the default Amazon S3 key (SSE-S3). If you specify a KMS key to encrypt your output, you must also specify an output location  in the OutputBucketName parameter.
+        /// The KMS key you want to use to encrypt your medical transcription output. If using a key located in the current  Amazon Web Services account, you can specify your KMS key in one of  four ways:   Use the KMS key ID itself. For example,  1234abcd-12ab-34cd-56ef-1234567890ab.   Use an alias for the KMS key ID. For example, alias/ExampleAlias.   Use the Amazon Resource Name (ARN) for the KMS key ID. For  example,                    arn:aws:kms:region:account-ID:key/1234abcd-12ab-34cd-56ef-1234567890ab.   Use the ARN for the KMS key alias. For example,  arn:aws:kms:region:account-ID:alias/ExampleAlias.   If using a key located in a different  Amazon Web Services account than the current Amazon Web Services account, you can  specify your KMS key in one of two ways:   Use the ARN for the KMS key ID. For example,                     arn:aws:kms:region:account-ID:key/1234abcd-12ab-34cd-56ef-1234567890ab.   Use the ARN for the KMS key alias. For example,  arn:aws:kms:region:account-ID:alias/ExampleAlias.   If you don't specify an encryption key, your output is encrypted with the default  Amazon S3 key (SSE-S3).  If you specify a KMS key to encrypt your output, you must also specify  an output location using the OutputLocation parameter. Note that the user making the   request must have permission to use the specified KMS key.
         public let outputEncryptionKMSKeyId: String?
-        /// You can specify a location in an Amazon S3 bucket to store the output of your medical  transcription job. If you don't specify an output key, Amazon Transcribe Medical stores the output of your transcription job in the Amazon S3 bucket you specified. By default, the object key is  "your-transcription-job-name.json". You can use output keys to specify the Amazon S3 prefix and file name of the transcription  output. For example, specifying the Amazon S3 prefix, "folder1/folder2/", as an output key would  lead to the output being stored as "folder1/folder2/your-transcription-job-name.json". If you  specify "my-other-job-name.json" as the output key, the object key is changed to "my-other-job-name.json". You can use an output key to change both the prefix and the file name, for example "folder/my-other-job-name.json". If you specify an output key, you must also specify an S3 bucket in the OutputBucketName parameter.
+        /// Use in combination with OutputBucketName to specify the output location of your transcript and, optionally, a unique name for your output file. The default name for your  transcription output is the same as the name you specified for your medical transcription job  (MedicalTranscriptionJobName). Here are some examples of how you can use OutputKey:   If you specify 'DOC-EXAMPLE-BUCKET' as the OutputBucketName and 'my-transcript.json' as the OutputKey, your transcription output  path is s3://DOC-EXAMPLE-BUCKET/my-transcript.json.      If you specify 'my-first-transcription' as the MedicalTranscriptionJobName, 'DOC-EXAMPLE-BUCKET' as the OutputBucketName, and  'my-transcript' as the OutputKey, your transcription output path is  s3://DOC-EXAMPLE-BUCKET/my-transcript/my-first-transcription.json.      If you specify 'DOC-EXAMPLE-BUCKET' as the OutputBucketName and 'test-files/my-transcript.json' as the OutputKey, your transcription output  path is s3://DOC-EXAMPLE-BUCKET/test-files/my-transcript.json.      If you specify 'my-first-transcription' as the MedicalTranscriptionJobName, 'DOC-EXAMPLE-BUCKET' as the OutputBucketName, and  'test-files/my-transcript' as the OutputKey, your transcription output path is  s3://DOC-EXAMPLE-BUCKET/test-files/my-transcript/my-first-transcription.json.    If you specify the name of an Amazon S3 bucket sub-folder that doesn't exist, one is  created for you.
         public let outputKey: String?
-        /// Optional settings for the medical transcription job.
+        /// Specify additional optional settings in your   request, including channel identification, alternative transcriptions, and speaker labeling; allows  you to apply custom vocabularies to your transcription job.
         public let settings: MedicalTranscriptionSetting?
-        /// The medical specialty of any clinician speaking in the input media.
+        /// Specify the predominant medical specialty represented in your media. For batch  transcriptions, PRIMARYCARE is the only valid value. If you require additional  specialties, refer to .
         public let specialty: Specialty
-        /// Add tags to an Amazon Transcribe Medical transcription job.
+        /// Adds one or more custom tags, each in the form of a key:value pair, to a new medical  transcription job at the time you start this new job. To learn more about using tags with Amazon Transcribe, refer to Tagging resources.
         public let tags: [Tag]?
-        /// The type of speech in the input audio. CONVERSATION refers to  conversations between two or more speakers, e.g., a conversations between doctors and  patients. DICTATION refers to single-speaker dictated speech, such as clinical notes.
+        /// Specify whether your input media contains only one person (DICTATION) or  contains a conversation between two people (CONVERSATION). For example, DICTATION could be used for a medical professional wanting to transcribe voice memos; CONVERSATION could be used for transcribing the  doctor-patient dialogue during the patient's office visit.
         public let type: `Type`
 
         public init(contentIdentificationType: MedicalContentIdentificationType? = nil, kmsEncryptionContext: [String: String]? = nil, languageCode: LanguageCode, media: Media, mediaFormat: MediaFormat? = nil, mediaSampleRateHertz: Int? = nil, medicalTranscriptionJobName: String, outputBucketName: String, outputEncryptionKMSKeyId: String? = nil, outputKey: String? = nil, settings: MedicalTranscriptionSetting? = nil, specialty: Specialty, tags: [Tag]? = nil, type: `Type`) {
@@ -2583,7 +2600,7 @@ extension Transcribe {
     }
 
     public struct StartMedicalTranscriptionJobResponse: AWSDecodableShape {
-        /// A batch job submitted to transcribe medical speech to text.
+        /// Provides detailed information about the current medical transcription job, including job status and, if applicable, failure reason.
         public let medicalTranscriptionJob: MedicalTranscriptionJob?
 
         public init(medicalTranscriptionJob: MedicalTranscriptionJob? = nil) {
@@ -2600,46 +2617,49 @@ extension Transcribe {
             AWSMemberEncoding(label: "transcriptionJobName", location: .uri("TranscriptionJobName"))
         ]
 
-        /// An object that contains the request parameters for content redaction.
+        /// Allows you to redact or flag specified personally identifiable information (PII) in your transcript. If  you use ContentRedaction, you must also include the sub-parameters: PiiEntityTypes, RedactionOutput, and  RedactionType.
         public let contentRedaction: ContentRedaction?
-        /// Set this field to true to enable automatic language identification.  Automatic language identification is disabled by default. You receive a BadRequestException error if you enter a value for a LanguageCode. You must include either LanguageCode or  IdentifyLanguage in your request.
+        /// Enables automatic language identification in your transcription job request. If you include IdentifyLanguage, you can optionally include a list of  language codes, using LanguageOptions, that you think may be present in  your media file. Including language options can improve transcription accuracy. If you want to apply a custom language model, a custom vocabulary, or a custom  vocabulary filter to your automatic language identification request, include LanguageIdSettings with the relevant sub-parameters  (VocabularyName, LanguageModelName, and  VocabularyFilterName). Note that you must include one of LanguageCode,  IdentifyLanguage, or IdentifyMultipleLanguages in your  request. If you include more than one of these parameters, your transcription job  fails.
         public let identifyLanguage: Bool?
-        /// Provides information about how a transcription job is executed. Use this field to indicate that the job can be queued for deferred execution if the concurrency limit is reached and there are no slots available to immediately run the job.
+        /// Enables automatic multi-language identification in your transcription job request. Use this parameter if your media file contains more than one language. If you include IdentifyMultipleLanguages, you can optionally include a list  of language codes, using LanguageOptions, that you think may be present in  your media file. Including language options can improve transcription accuracy. If you want to apply a custom vocabulary or a custom vocabulary filter to your automatic language identification request, include LanguageIdSettings with the relevant sub-parameters (VocabularyName and  VocabularyFilterName). Note that you must include one of LanguageCode,  IdentifyLanguage, or IdentifyMultipleLanguages in your  request. If you include more than one of these parameters, your transcription job fails.
+        public let identifyMultipleLanguages: Bool?
+        /// Allows you to control how your transcription job is processed. Currently, the only JobExecutionSettings modification you can choose is enabling job queueing using  the AllowDeferredExecution sub-parameter. If you include JobExecutionSettings in your request, you must also include the sub-parameters: AllowDeferredExecution and  DataAccessRoleArn.
         public let jobExecutionSettings: JobExecutionSettings?
-        /// A map of plain text, non-secret key:value pairs, known as encryption context pairs, that  provide an added layer of security for your data.
+        /// A map of plain text, non-secret key:value pairs, known as encryption context pairs, that  provide an added layer of security for your data. For more information, see  KMS  encryption context and Asymmetric keys in  KMS.
         public let kmsEncryptionContext: [String: String]?
-        /// The language code for the language used in the input media file. You must include  either LanguageCode or IdentifyLanguage in your  request. To transcribe speech in Modern Standard Arabic (ar-SA), your audio or video file must  be encoded at a sample rate of 16,000 Hz or higher.
+        /// The language code that represents the language spoken in the input media file. If you're unsure of the language spoken in your media file, consider using  IdentifyLanguage or IdentifyMultipleLanguages to enable  automatic language identification. Note that you must include one of LanguageCode,  IdentifyLanguage, or IdentifyMultipleLanguages in your  request. If you include more than one of these parameters, your transcription job  fails. For a list of supported languages and their associated language codes, refer to the  Supported languages table.    To transcribe speech in Modern Standard Arabic (ar-SA), your media file  must be encoded at a sample rate of 16,000 Hz or higher.
         public let languageCode: LanguageCode?
-        /// The language identification settings associated with your transcription job. These  settings include VocabularyName, VocabularyFilterName,  and LanguageModelName.
+        /// If using automatic language identification (IdentifyLanguage) in your request  and you want to apply a custom language model, a custom vocabulary, or a custom vocabulary filter, include LanguageIdSettings with the relevant sub-parameters  (VocabularyName, LanguageModelName, and  VocabularyFilterName). You can specify two or more language codes that represent the languages you think may be  present in your media; including more than five is not recommended. Each language code you  include can have an associated custom language model, custom vocabulary, and custom  vocabulary filter. The languages you specify must match the languages of the specified custom language models, custom vocabularies, and custom vocabulary filters. To include language options using IdentifyLanguage  without including a custom language model, a custom  vocabulary, or a custom vocabulary filter, use LanguageOptions instead of LanguageIdSettings. Including language options can improve the accuracy of  automatic language identification. If you want to include a custom language model with your request but  do not want to use automatic language identification, use instead the  parameter with the LanguageModelName sub-parameter. If you want to include a custom vocabulary or a custom vocabulary filter (or both) with your request but do not want to use automatic  language identification, use instead the   parameter with the VocabularyName or  VocabularyFilterName (or both) sub-parameter.
         public let languageIdSettings: [LanguageCode: LanguageIdSettings]?
-        /// An object containing a list of languages that might be present in your collection of  audio files. Automatic language identification chooses a language that best matches the  source audio from that list. To transcribe speech in Modern Standard Arabic (ar-SA), your audio or video file must  be encoded at a sample rate of 16,000 Hz or higher.
+        /// You can specify two or more language codes that represent the languages you think may  be present in your media; including more than five is not recommended. If you're unsure what languages are present, do not include this parameter. If you include LanguageOptions in your request, you must also include  IdentifyLanguage. For more information, refer to Supported languages. To transcribe speech in Modern Standard Arabic (ar-SA), your media file  must be encoded at a sample rate of 16,000 Hz or higher.
         public let languageOptions: [LanguageCode]?
-        /// An object that describes the input media for a transcription job.
+        /// Describes the Amazon S3 location of the media file you want to use in your  request.
         public let media: Media
-        /// The format of the input media file.
+        /// Specify the format of your input media file.
         public let mediaFormat: MediaFormat?
-        /// The sample rate, in Hertz, of the audio track in the input media file.  If you do not specify the media sample rate, Amazon Transcribe determines the sample rate. If you  specify the sample rate, it must match the sample rate detected by Amazon Transcribe. In most cases, you should leave the MediaSampleRateHertz field blank and let Amazon Transcribe  determine the sample rate.
+        /// The sample rate, in Hertz, of the audio track in your input media file. If you don't specify the media sample rate, Amazon Transcribe determines it for you. If you specify the sample rate, it must match the rate detected by Amazon Transcribe; if there's a mismatch between the value you specify and the value detected, your job fails. Therefore, in most  cases, it's advised to omit MediaSampleRateHertz and let Amazon Transcribe  determine the sample rate.
         public let mediaSampleRateHertz: Int?
-        /// Choose the custom language model you use for your transcription job in this  parameter.
+        /// Specify the custom language model you want to include with your transcription job. If you  include ModelSettings in your request, you must include the  LanguageModelName sub-parameter. For more information, see Custom language  models.
         public let modelSettings: ModelSettings?
-        /// The location where the transcription is stored. If you set the OutputBucketName, Amazon Transcribe puts the transcript in the  specified S3 bucket. When you call the GetTranscriptionJob operation, the operation returns this location in the TranscriptFileUri field. If you enable  content redaction, the redacted transcript appears in RedactedTranscriptFileUri. If you enable content redaction and choose to  output an unredacted transcript, that transcript's location still appears in the TranscriptFileUri. The S3 bucket must have permissions that allow Amazon Transcribe to  put files in the bucket. For more information, see Permissions Required for IAM User Roles. You can specify an Amazon Web Services Key Management Service (KMS) key to encrypt  the output of your transcription using the OutputEncryptionKMSKeyId  parameter. If you don't specify a KMS key, Amazon Transcribe uses the default Amazon S3 key for  server-side encryption of transcripts that are placed in your S3 bucket. If you don't set the OutputBucketName, Amazon Transcribe generates a pre-signed URL, a shareable URL that provides secure access to your transcription, and returns it in the TranscriptFileUri field. Use this URL to download the transcription.
+        /// The name of the Amazon S3 bucket where you want your transcription output  stored. Do not include the S3:// prefix of the specified bucket. If you want your output to go to a sub-folder of this bucket, specify it using the OutputKey parameter; OutputBucketName only accepts the  name of a bucket. For example, if you want your output stored in S3://DOC-EXAMPLE-BUCKET, set OutputBucketName to DOC-EXAMPLE-BUCKET. However, if  you want your output stored in S3://DOC-EXAMPLE-BUCKET/test-files/, set OutputBucketName to DOC-EXAMPLE-BUCKET and OutputKey to test-files/. Note that Amazon Transcribe must have permission to use the specified location. You can change Amazon S3 permissions using the Amazon Web Services Management Console. See also Permissions Required for IAM User Roles. If you don't specify OutputBucketName, your transcript is placed in a  service-managed Amazon S3 bucket and you are provided with a URI to access your  transcript.
         public let outputBucketName: String?
-        /// The Amazon Resource Name (ARN) of the Amazon Web Services Key Management  Service (KMS) key used to encrypt the output of the transcription job. The user calling the StartTranscriptionJob operation must have permission to use the specified KMS key. You can use either of the following to identify a KMS key in the current account:   KMS Key ID: "1234abcd-12ab-34cd-56ef-1234567890ab"   KMS Key Alias: "alias/ExampleAlias"   You can use either of the following to identify a KMS key in the current account or  another account:   Amazon Resource Name (ARN) of a KMS Key: "arn:aws:kms:region:account ID:key/1234abcd-12ab-34cd-56ef-1234567890ab"   ARN of a KMS Key Alias: "arn:aws:kms:region:account-ID:alias/ExampleAlias"   If you don't specify an encryption key, the output of the transcription job is encrypted  with the default Amazon S3 key (SSE-S3). If you specify a KMS key to encrypt your output, you must also specify an output location in the OutputBucketName parameter.
+        /// The KMS key you want to use to encrypt your transcription output. If using a key located in the current  Amazon Web Services account, you can specify your KMS key in one of  four ways:   Use the KMS key ID itself. For example,  1234abcd-12ab-34cd-56ef-1234567890ab.   Use an alias for the KMS key ID. For example, alias/ExampleAlias.   Use the Amazon Resource Name (ARN) for the KMS key ID. For  example,                    arn:aws:kms:region:account-ID:key/1234abcd-12ab-34cd-56ef-1234567890ab.   Use the ARN for the KMS key alias. For example,  arn:aws:kms:region:account-ID:alias/ExampleAlias.   If using a key located in a different  Amazon Web Services account than the current Amazon Web Services account, you can  specify your KMS key in one of two ways:   Use the ARN for the KMS key ID. For example,                     arn:aws:kms:region:account-ID:key/1234abcd-12ab-34cd-56ef-1234567890ab.     Use the ARN for the KMS key alias. For example,  arn:aws:kms:region:account-ID:alias/ExampleAlias.   If you don't specify an encryption key, your output is encrypted with the default  Amazon S3 key (SSE-S3).  If you specify a KMS key to encrypt your output, you must also specify  an output location using the OutputLocation parameter. Note that the user making the   request must have permission to use the specified KMS key.
         public let outputEncryptionKMSKeyId: String?
-        /// You can specify a location in an Amazon S3 bucket to store the output of your transcription job. If you don't specify an output key, Amazon Transcribe stores the output of your transcription job in  the Amazon S3 bucket you specified. By default, the object key is "your-transcription-job-name.json". You can use output keys to specify the Amazon S3 prefix and file name of the transcription  output. For example, specifying the Amazon S3 prefix, "folder1/folder2/", as an output key would  lead to the output being stored as "folder1/folder2/your-transcription-job-name.json". If you  specify "my-other-job-name.json" as the output key, the object key is changed to "my-other-job-name.json". You can use an output key to change both the prefix and the file  name, for example "folder/my-other-job-name.json". If you specify an output key, you must also specify an S3 bucket in the OutputBucketName parameter.
+        /// Use in combination with OutputBucketName to specify the output location of your transcript and, optionally, a unique name for your output file. The default name for your  transcription output is the same as the name you specified for your transcription job  (TranscriptionJobName). Here are some examples of how you can use OutputKey:   If you specify 'DOC-EXAMPLE-BUCKET' as the OutputBucketName and 'my-transcript.json' as the OutputKey, your transcription output  path is s3://DOC-EXAMPLE-BUCKET/my-transcript.json.      If you specify 'my-first-transcription' as the TranscriptionJobName, 'DOC-EXAMPLE-BUCKET' as the OutputBucketName, and  'my-transcript' as the OutputKey, your transcription output path is  s3://DOC-EXAMPLE-BUCKET/my-transcript/my-first-transcription.json.      If you specify 'DOC-EXAMPLE-BUCKET' as the OutputBucketName and 'test-files/my-transcript.json' as the OutputKey, your transcription  output path is  s3://DOC-EXAMPLE-BUCKET/test-files/my-transcript.json.      If you specify 'my-first-transcription' as the TranscriptionJobName, 'DOC-EXAMPLE-BUCKET' as the OutputBucketName, and  'test-files/my-transcript' as the OutputKey, your transcription output  path is  s3://DOC-EXAMPLE-BUCKET/test-files/my-transcript/my-first-transcription.json.   If you specify the name of an Amazon S3 bucket sub-folder that doesn't exist, one is  created for you.
         public let outputKey: String?
-        /// A Settings object that provides optional settings for a transcription  job.
+        /// Specify additional optional settings in your   request, including channel identification, alternative transcriptions, speaker labeling; allows  you to apply custom vocabularies and vocabulary filters. If you want to include a custom vocabulary or a custom vocabulary filter (or both) with  your request but do not want to use automatic language identification, use Settings with the VocabularyName or VocabularyFilterName (or both) sub-parameter. If you're using automatic language identification with your request and want to include a custom language model, a custom vocabulary, or a custom vocabulary filter, use instead the  parameter with the LanguageModelName, VocabularyName  or VocabularyFilterName sub-parameters.
         public let settings: Settings?
-        /// Add subtitles to your batch transcription job.
+        /// Produces subtitle files for your input media. You can specify WebVTT (*.vtt) and SubRip (*.srt) formats.
         public let subtitles: Subtitles?
-        /// Add tags to an Amazon Transcribe transcription job.
+        /// Adds one or more custom tags, each in the form of a key:value pair, to a new transcription  job at the time you start this new job. To learn more about using tags with Amazon Transcribe, refer to Tagging resources.
         public let tags: [Tag]?
-        /// The name of the job. You can't use the strings "." or ".." by themselves as the job name. The name must also be unique within an Amazon Web Services account. If you try to create a transcription job with the same name as a previous  transcription job, you get a ConflictException error.
+        /// A unique name, chosen by you, for your transcription job. The name you specify is  also used as the default name of your transcription output file. If you want to specify a different  name for your transcription output, use the OutputKey parameter. This name is case sensitive, cannot contain spaces, and must be unique within an  Amazon Web Services account. If you try to create a new job with the same name as an  existing job, you get a ConflictException error.
         public let transcriptionJobName: String
 
-        public init(contentRedaction: ContentRedaction? = nil, identifyLanguage: Bool? = nil, jobExecutionSettings: JobExecutionSettings? = nil, kmsEncryptionContext: [String: String]? = nil, languageCode: LanguageCode? = nil, languageIdSettings: [LanguageCode: LanguageIdSettings]? = nil, languageOptions: [LanguageCode]? = nil, media: Media, mediaFormat: MediaFormat? = nil, mediaSampleRateHertz: Int? = nil, modelSettings: ModelSettings? = nil, outputBucketName: String? = nil, outputEncryptionKMSKeyId: String? = nil, outputKey: String? = nil, settings: Settings? = nil, subtitles: Subtitles? = nil, tags: [Tag]? = nil, transcriptionJobName: String) {
+        public init(contentRedaction: ContentRedaction? = nil, identifyLanguage: Bool? = nil, identifyMultipleLanguages: Bool? = nil, jobExecutionSettings: JobExecutionSettings? = nil, kmsEncryptionContext: [String: String]? = nil, languageCode: LanguageCode? = nil, languageIdSettings: [LanguageCode: LanguageIdSettings]? = nil, languageOptions: [LanguageCode]? = nil, media: Media, mediaFormat: MediaFormat? = nil, mediaSampleRateHertz: Int? = nil, modelSettings: ModelSettings? = nil, outputBucketName: String? = nil, outputEncryptionKMSKeyId: String? = nil, outputKey: String? = nil, settings: Settings? = nil, subtitles: Subtitles? = nil, tags: [Tag]? = nil, transcriptionJobName: String) {
             self.contentRedaction = contentRedaction
             self.identifyLanguage = identifyLanguage
+            self.identifyMultipleLanguages = identifyMultipleLanguages
             self.jobExecutionSettings = jobExecutionSettings
             self.kmsEncryptionContext = kmsEncryptionContext
             self.languageCode = languageCode
@@ -2704,6 +2724,7 @@ extension Transcribe {
         private enum CodingKeys: String, CodingKey {
             case contentRedaction = "ContentRedaction"
             case identifyLanguage = "IdentifyLanguage"
+            case identifyMultipleLanguages = "IdentifyMultipleLanguages"
             case jobExecutionSettings = "JobExecutionSettings"
             case kmsEncryptionContext = "KMSEncryptionContext"
             case languageCode = "LanguageCode"
@@ -2723,7 +2744,7 @@ extension Transcribe {
     }
 
     public struct StartTranscriptionJobResponse: AWSDecodableShape {
-        /// Provides information about your asynchronous transcription job.
+        /// Provides detailed information about the current transcription job, including job status and, if applicable, failure reason.
         public let transcriptionJob: TranscriptionJob?
 
         public init(transcriptionJob: TranscriptionJob? = nil) {
@@ -2736,9 +2757,9 @@ extension Transcribe {
     }
 
     public struct Subtitles: AWSEncodableShape {
-        /// Specify the output format for your subtitle file; if you select both srt and vtt formats, two output files are generated.
+        /// Specify the output format for your subtitle file; if you select both WebVTT  (vtt) and SubRip (srt) formats, two output files are  generated.
         public let formats: [SubtitleFormat]?
-        /// Defines the starting value that is assigned to the first subtitle segment. The default start index for Amazon Transcribe is 0, which differs from the more widely used standard of 1. If you're uncertain which value to use, we recommend choosing 1, as this may improve compatibility with other services.
+        /// Specify the starting value that is assigned to the first subtitle segment. The default start index for Amazon Transcribe is 0, which differs from the more widely used standard of 1. If you're uncertain which value to use, we recommend choosing 1, as this may improve compatibility with other services.
         public let outputStartIndex: Int?
 
         public init(formats: [SubtitleFormat]? = nil, outputStartIndex: Int? = nil) {
@@ -2758,11 +2779,11 @@ extension Transcribe {
     }
 
     public struct SubtitlesOutput: AWSDecodableShape {
-        /// The format of your subtitle files. If your request specified both srt and vtt formats, both formats are shown.
+        /// Provides the format of your subtitle files. If your request included both WebVTT  (vtt) and SubRip (srt) formats, both formats are  shown.
         public let formats: [SubtitleFormat]?
-        /// Shows the output start index value for your subtitle files. If you did not specify a value in your request, the default value of 0 is used.
+        /// Provides the start index value for your subtitle files. If you did not specify a value in your request, the default value of 0 is used.
         public let outputStartIndex: Int?
-        /// Contains the output location for your subtitle file. This location must be an S3  bucket.
+        /// The Amazon S3 location of your transcript. You can use this URI to access or  download your subtitle file. Your subtitle file is stored in the same location as your  transcript. If you specified both WebVTT and SubRip subtitle formats, two URIs are  provided. If you included OutputBucketName in your transcription job request, this is the URI of that bucket. If you also included OutputKey in your request, your  output is located in the path you specified in your request. If you didn't include OutputBucketName in your transcription job request, your subtitle file is stored in a service-managed bucket, and TranscriptFileUri provides you with a temporary URI you can use for secure access to your subtitle file.  Temporary URIs for service-managed Amazon S3 buckets are only valid for 15  minutes. If you get an AccesDenied error, you can get a new temporary  URI by running a GetTranscriptionJob or  ListTranscriptionJob request.
         public let subtitleFileUris: [String]?
 
         public init(formats: [SubtitleFormat]? = nil, outputStartIndex: Int? = nil, subtitleFileUris: [String]? = nil) {
@@ -2779,9 +2800,9 @@ extension Transcribe {
     }
 
     public struct Tag: AWSEncodableShape & AWSDecodableShape {
-        /// The first part of a key:value pair that forms a tag associated with a given resource. For example, in the tag ‘Department’:’Sales’, the key is 'Department'.
+        /// The first part of a key:value pair that forms a tag associated with a given resource. For example, in the tag Department:Sales, the key is 'Department'.
         public let key: String
-        /// The second part of a key:value pair that forms a tag associated with a given resource. For example, in the tag ‘Department’:’Sales’, the value is 'Sales'.
+        /// The second part of a key:value pair that forms a tag associated with a given resource. For example, in the tag Department:Sales, the value is 'Sales'. Note that you can set the value of a tag to an empty string, but you can't set the value of a tag to null. Omitting the tag value is the same as using an empty string.
         public let value: String
 
         public init(key: String, value: String) {
@@ -2806,9 +2827,9 @@ extension Transcribe {
             AWSMemberEncoding(label: "resourceArn", location: .uri("ResourceArn"))
         ]
 
-        /// The Amazon Resource Name (ARN) of the Amazon Transcribe resource you want to tag. ARNs have  the format arn:partition:service:region:account-id:resource-type/resource-id  (for example,  arn:aws:transcribe:us-east-1:account-id:transcription-job/your-job-name).  Valid values for resource-type are: transcription-job, medical-transcription-job, vocabulary,  medical-vocabulary, vocabulary-filter, and  language-model.
+        /// The Amazon Resource Name (ARN) of the resource you want to tag. ARNs have the format arn:partition:service:region:account-id:resource-type/resource-id. For example,  arn:aws:transcribe:us-west-2:account-id:transcription-job/transcription-job-name. Valid values for resource-type are: transcription-job, medical-transcription-job, vocabulary,  medical-vocabulary, vocabulary-filter, and  language-model.
         public let resourceArn: String
-        /// The tags you are assigning to a given Amazon Transcribe resource.
+        /// Adds one or more custom tags, each in the form of a key:value pair, to the specified  resource. To learn more about using tags with Amazon Transcribe, refer to Tagging resources.
         public let tags: [Tag]
 
         public init(resourceArn: String, tags: [Tag]) {
@@ -2837,9 +2858,9 @@ extension Transcribe {
     }
 
     public struct Transcript: AWSDecodableShape {
-        /// The S3 object location of the redacted transcript. Use this URI to access the redacted transcript. If you specified an S3 bucket in the  OutputBucketName field when you created the job, this is the URI of that  bucket. If you chose to store the transcript in Amazon Transcribe, this is a shareable URL that provides  secure access to that location.
+        /// The Amazon S3 location of your redacted transcript. You can use this URI to access or download your transcript. If you included OutputBucketName in your transcription job request, this is the URI of that bucket. If you also included OutputKey in your request, your  output is located in the path you specified in your request. If you didn't include OutputBucketName in your transcription job request, your transcript is stored in a service-managed bucket, and  RedactedTranscriptFileUri provides you with a temporary URI you can use for  secure access to your transcript.  Temporary URIs for service-managed Amazon S3 buckets are only valid for 15  minutes. If you get an AccesDenied error, you can get a new temporary  URI by running a GetTranscriptionJob or  ListTranscriptionJob request.
         public let redactedTranscriptFileUri: String?
-        /// The S3 object location of the transcript. Use this URI to access the transcript. If you specified an S3 bucket in the OutputBucketName field when you created the job, this is the URI of that  bucket. If you chose to store the transcript in Amazon Transcribe, this is a shareable URL that provides  secure access to that location.
+        /// The Amazon S3 location of your transcript. You can use this URI to access or  download your transcript. If you included OutputBucketName in your transcription job request, this is the URI of that bucket. If you also included OutputKey in your request, your  output is located in the path you specified in your request. If you didn't include OutputBucketName in your transcription job request, your transcript is stored in a service-managed bucket, and TranscriptFileUri provides you with a temporary URI you can use for secure access to your transcript.  Temporary URIs for service-managed Amazon S3 buckets are only valid for 15  minutes. If you get an AccesDenied error, you can get a new temporary  URI by running a GetTranscriptionJob or  ListTranscriptionJob request.
         public let transcriptFileUri: String?
 
         public init(redactedTranscriptFileUri: String? = nil, transcriptFileUri: String? = nil) {
@@ -2854,17 +2875,17 @@ extension Transcribe {
     }
 
     public struct TranscriptFilter: AWSEncodableShape & AWSDecodableShape {
-        /// A time range, set in seconds, between two points in the call.
+        /// Allows you to specify a time range (in milliseconds) in your audio, during which you want to search for the specified key words or phrases. See   for more detail.
         public let absoluteTimeRange: AbsoluteTimeRange?
-        /// If TRUE, the rule that you specify is applied to everything except for the  phrases that you specify.
+        /// Set to TRUE to flag the absence of the phrase you specified in your request. Set to FALSE to flag the presence of the phrase you specified in your request.
         public let negate: Bool?
-        /// Determines whether the customer or the agent is speaking the phrases that you've specified.
+        /// Specify the participant you want to flag. Omitting this parameter is equivalent to specifying both participants.
         public let participantRole: ParticipantRole?
-        /// An object that allows percentages to specify the proportion of the call where you would  like to apply a filter. For example, you can specify the first half of the call. You can also  specify the period of time between halfway through to three-quarters of the way through  the call. Because the length of conversation can vary between calls, you can apply relative time ranges across all calls.
+        /// Allows you to specify a time range (in percentage) in your media file, during which you want to search for the specified key words or phrases. See  for more detail.
         public let relativeTimeRange: RelativeTimeRange?
-        /// The phrases that you're specifying for the transcript filter to match.
+        /// Specify the phrases you want to flag.
         public let targets: [String]
-        /// Matches the phrase to the transcription output in a word for word fashion. For example, if you specify the phrase "I want to speak to the manager." Amazon Transcribe attempts to match that specific phrase to the transcription.
+        /// Flag the presence or absence of an exact match to the phrases you specify. For example, if you specify the phrase "speak to a manager" as your Targets value, only that exact phrase is flagged. Note that semantic matching is not supported. For example, if your customer says "speak to  the manager", instead of "speak to a manager", your content is not flagged.
         public let transcriptFilterType: TranscriptFilterType
 
         public init(absoluteTimeRange: AbsoluteTimeRange? = nil, negate: Bool? = nil, participantRole: ParticipantRole? = nil, relativeTimeRange: RelativeTimeRange? = nil, targets: [String], transcriptFilterType: TranscriptFilterType) {
@@ -2898,58 +2919,64 @@ extension Transcribe {
     }
 
     public struct TranscriptionJob: AWSDecodableShape {
-        /// A timestamp that shows when the job completed.
+        /// The date and time the specified transcription job finished processing. Timestamps are in the format YYYY-MM-DD'T'HH:MM:SS.SSSSSS-UTC. For example, 2022-05-04T12:33:13.922000-07:00 represents a transcription job that started processing at 12:33 PM UTC-7 on May 4, 2022.
         public let completionTime: Date?
-        /// An object that describes content redaction settings for the transcription job.
+        /// Redacts or flags specified personally identifiable information (PII) in your transcript.
         public let contentRedaction: ContentRedaction?
-        /// A timestamp that shows when the job was created.
+        /// The date and time the specified transcription job request was made. Timestamps are in the format YYYY-MM-DD'T'HH:MM:SS.SSSSSS-UTC. For example, 2022-05-04T12:32:58.761000-07:00 represents a transcription job that started processing at 12:32 PM UTC-7 on May 4, 2022.
         public let creationTime: Date?
-        /// If the TranscriptionJobStatus field is FAILED, this field  contains information about why the job failed. The FailureReason field can contain one of the following values:    Unsupported media format - The media format specified in the MediaFormat field of the request isn't valid. See the description of the MediaFormat field for a list of valid values.    The media format provided does not match the detected media  format - The media format of the audio file doesn't match the format specified  in the MediaFormat field in the request. Check the media format of  your media file and make sure that the two values match.    Invalid sample rate for audio file - The sample rate specified in the  MediaSampleRateHertz of the request isn't valid. The sample rate must  be between 8,000 and 48,000 Hertz.    The sample rate provided does not match the detected sample  rate - The sample rate in the audio file doesn't match the sample rate  specified in the MediaSampleRateHertz field in the request. Check the sample rate of your media file and make sure that the two values match.    Invalid file size: file size too large - The size of your audio file is  larger than Amazon Transcribe can process. For more information, see Limits in the Amazon Transcribe Developer Guide.    Invalid number of channels: number of channels too large - Your  audio contains more channels than Amazon Transcribe is configured to process. To request additional channels, see Amazon Transcribe Limits in the Amazon Web Services General Reference.
+        /// If TranscriptionJobStatus is FAILED,  FailureReason contains information about why the transcription job request failed. The FailureReason field contains one of the following values:    Unsupported media format. The media format specified in MediaFormat isn't valid. Refer to MediaFormat for a list of supported formats.    The media format provided does not match the detected media  format. The media format specified in MediaFormat doesn't match the  format of the input file. Check the media format of your media file and correct the  specified value.    Invalid sample rate for audio file. The sample rate specified in MediaSampleRateHertz isn't valid. The sample rate must be between 8,000 and 48,000 Hertz.    The sample rate provided does not match the detected sample  rate. The sample rate specified in MediaSampleRateHertz doesn't  match the sample rate detected in your input media file. Check the sample rate of  your media file and correct the specified value.    Invalid file size: file size too large. The size of your media file is larger than what Amazon Transcribe can process.  For more information, refer to Guidelines and quotas.    Invalid number of channels: number of channels too large. Your audio contains more channels than Amazon Transcribe is able to process.  For more information, refer to Guidelines and  quotas.
         public let failureReason: String?
-        /// A value between zero and one that Amazon Transcribe assigned to the language that it identified in the source audio. Larger values indicate that Amazon Transcribe has higher confidence in the language it identified.
+        /// The confidence score associated with the language identified in your media file. Confidence scores are values between 0 and 1; a larger value indicates a higher  probability that the identified language correctly matches the language spoken in your media.
         public let identifiedLanguageScore: Float?
-        /// A value that shows if automatic language identification was enabled for a transcription  job.
+        /// Indicates whether automatic language identification was enabled (TRUE) for the specified transcription job.
         public let identifyLanguage: Bool?
-        /// Provides information about how a transcription job is executed.
+        /// Indicates whether automatic multi-language identification was enabled  (TRUE) for the specified transcription job.
+        public let identifyMultipleLanguages: Bool?
+        /// Provides information about how your transcription job is being processed. This parameter shows  if your request is queued and what data access role is being used.
         public let jobExecutionSettings: JobExecutionSettings?
-        /// The language code for the input speech.
+        /// The language code used to create your transcription job. For a list of supported languages and their associated language codes, refer to the Supported languages table. Note that you must include one of LanguageCode,  IdentifyLanguage, or IdentifyMultipleLanguages in your  request. If you include more than one of these parameters, your transcription job  fails.
         public let languageCode: LanguageCode?
-        /// Language-specific settings that can be specified when language identification is enabled for your transcription job. These settings include VocabularyName, VocabularyFilterName, and LanguageModelName.
+        /// The language codes used to create your transcription job. This parameter is used with multi-language identification. For single-language identification requests, refer to the singular  version of this parameter, LanguageCode. For a list of supported languages and their associated language codes, refer to the  Supported languages table.
+        public let languageCodes: [LanguageCodeItem]?
+        /// If using automatic language identification (IdentifyLanguage) in your request  and you want to apply a custom language model, a custom vocabulary, or a custom vocabulary filter, include LanguageIdSettings with the relevant sub-parameters  (VocabularyName, LanguageModelName, and  VocabularyFilterName). You can specify two or more language codes that represent the languages you think may be  present in your media; including more than five is not recommended. Each language code you include can have an associated custom language model, custom vocabulary, and custom  vocabulary filter. The languages you specify must match the languages of the specified custom language models, custom vocabularies, and custom vocabulary filters. To include language options using IdentifyLanguage  without including a custom language model, a custom  vocabulary, or a custom vocabulary filter, use LanguageOptions instead of LanguageIdSettings. Including language options can improve the accuracy of  automatic language identification. If you want to include a custom language model with your request but  do not want to use automatic language identification, use instead the  parameter with the LanguageModelName sub-parameter. If you want to include a custom vocabulary or a custom vocabulary filter (or both) with your request but do not want to use automatic  language identification, use instead the   parameter with the VocabularyName or  VocabularyFilterName (or both) sub-parameter.
         public let languageIdSettings: [LanguageCode: LanguageIdSettings]?
-        /// An object that shows the optional array of languages inputted for transcription jobs with automatic language identification enabled.
+        /// You can specify two or more language codes that represent the languages you think may  be present in your media; including more than five is not recommended. If you're unsure what languages are present, do not include this parameter. If you include LanguageOptions in your request, you must also include  IdentifyLanguage. For more information, refer to Supported languages. To transcribe speech in Modern Standard Arabic (ar-SA), your media file  must be encoded at a sample rate of 16,000 Hz or higher.
         public let languageOptions: [LanguageCode]?
-        /// An object that describes the input media for the transcription job.
+        /// Describes the Amazon S3 location of the media file you want to use in your  request.
         public let media: Media?
         /// The format of the input media file.
         public let mediaFormat: MediaFormat?
-        /// The sample rate, in Hertz (Hz), of the audio track in the input media file.
+        /// The sample rate, in Hertz, of the audio track in your input media file.
         public let mediaSampleRateHertz: Int?
-        /// An object containing the details of your custom language model.
+        /// The custom language model you want to include with your transcription job. If you include ModelSettings in your request, you must include the  LanguageModelName sub-parameter.
         public let modelSettings: ModelSettings?
-        /// Optional settings for the transcription job. Use these settings to turn on speaker  recognition, to set the maximum number of speakers that should be identified and to specify  a custom vocabulary to use when processing the transcription job.
+        /// Specify additional optional settings in your   request, including channel identification, alternative transcriptions, speaker labeling; allows you to apply custom vocabularies and vocabulary filters.         If you want to include a custom vocabulary or a custom vocabulary filter (or both) with  your request but do not want to use automatic language identification, use Settings with the VocabularyName or VocabularyFilterName (or both) sub-parameter. If you're using automatic language identification with your request and want to include a custom language model, a custom vocabulary, or a custom vocabulary filter, do not use the  Settings parameter; use instead the   parameter with the LanguageModelName, VocabularyName  or VocabularyFilterName sub-parameters.
         public let settings: Settings?
-        /// A timestamp that shows when the job started processing.
+        /// The date and time the specified transcription job began processing. Timestamps are in the format YYYY-MM-DD'T'HH:MM:SS.SSSSSS-UTC. For example, 2022-05-04T12:32:58.789000-07:00 represents a transcription job that started processing at 12:32 PM UTC-7 on May 4, 2022.
         public let startTime: Date?
-        /// Generate subtitles for your batch transcription job.
+        /// Generate subtitles for your media file with your transcription request.
         public let subtitles: SubtitlesOutput?
-        /// A key:value pair assigned to a given transcription job.
+        /// Adds one or more custom tags, each in the form of a key:value pair, to a new transcription job at the time you start this new job. To learn more about using tags with Amazon Transcribe, refer to Tagging resources.
         public let tags: [Tag]?
-        /// An object that describes the output of the transcription job.
+        /// Provides you with the Amazon S3 URI you can use to access your transcript.
         public let transcript: Transcript?
-        /// The name of the transcription job.
+        /// The name of the transcription job. Job names are case sensitive and must be unique  within an Amazon Web Services account.
         public let transcriptionJobName: String?
-        /// The status of the transcription job.
+        /// Provides the status of the specified transcription job. If the status is COMPLETED, the job is finished and you can find the results at the location specified in TranscriptFileUri (or RedactedTranscriptFileUri, if you requested transcript redaction). If the status is  FAILED, FailureReason provides details on why your transcription job failed.
         public let transcriptionJobStatus: TranscriptionJobStatus?
 
-        public init(completionTime: Date? = nil, contentRedaction: ContentRedaction? = nil, creationTime: Date? = nil, failureReason: String? = nil, identifiedLanguageScore: Float? = nil, identifyLanguage: Bool? = nil, jobExecutionSettings: JobExecutionSettings? = nil, languageCode: LanguageCode? = nil, languageIdSettings: [LanguageCode: LanguageIdSettings]? = nil, languageOptions: [LanguageCode]? = nil, media: Media? = nil, mediaFormat: MediaFormat? = nil, mediaSampleRateHertz: Int? = nil, modelSettings: ModelSettings? = nil, settings: Settings? = nil, startTime: Date? = nil, subtitles: SubtitlesOutput? = nil, tags: [Tag]? = nil, transcript: Transcript? = nil, transcriptionJobName: String? = nil, transcriptionJobStatus: TranscriptionJobStatus? = nil) {
+        public init(completionTime: Date? = nil, contentRedaction: ContentRedaction? = nil, creationTime: Date? = nil, failureReason: String? = nil, identifiedLanguageScore: Float? = nil, identifyLanguage: Bool? = nil, identifyMultipleLanguages: Bool? = nil, jobExecutionSettings: JobExecutionSettings? = nil, languageCode: LanguageCode? = nil, languageCodes: [LanguageCodeItem]? = nil, languageIdSettings: [LanguageCode: LanguageIdSettings]? = nil, languageOptions: [LanguageCode]? = nil, media: Media? = nil, mediaFormat: MediaFormat? = nil, mediaSampleRateHertz: Int? = nil, modelSettings: ModelSettings? = nil, settings: Settings? = nil, startTime: Date? = nil, subtitles: SubtitlesOutput? = nil, tags: [Tag]? = nil, transcript: Transcript? = nil, transcriptionJobName: String? = nil, transcriptionJobStatus: TranscriptionJobStatus? = nil) {
             self.completionTime = completionTime
             self.contentRedaction = contentRedaction
             self.creationTime = creationTime
             self.failureReason = failureReason
             self.identifiedLanguageScore = identifiedLanguageScore
             self.identifyLanguage = identifyLanguage
+            self.identifyMultipleLanguages = identifyMultipleLanguages
             self.jobExecutionSettings = jobExecutionSettings
             self.languageCode = languageCode
+            self.languageCodes = languageCodes
             self.languageIdSettings = languageIdSettings
             self.languageOptions = languageOptions
             self.media = media
@@ -2972,8 +2999,10 @@ extension Transcribe {
             case failureReason = "FailureReason"
             case identifiedLanguageScore = "IdentifiedLanguageScore"
             case identifyLanguage = "IdentifyLanguage"
+            case identifyMultipleLanguages = "IdentifyMultipleLanguages"
             case jobExecutionSettings = "JobExecutionSettings"
             case languageCode = "LanguageCode"
+            case languageCodes = "LanguageCodes"
             case languageIdSettings = "LanguageIdSettings"
             case languageOptions = "LanguageOptions"
             case media = "Media"
@@ -2991,38 +3020,44 @@ extension Transcribe {
     }
 
     public struct TranscriptionJobSummary: AWSDecodableShape {
-        /// A timestamp that shows when the job was completed.
+        /// The date and time the specified transcription job finished processing. Timestamps are in the format YYYY-MM-DD'T'HH:MM:SS.SSSSSS-UTC. For example, 2022-05-04T12:33:13.922000-07:00 represents a transcription job that started processing at 12:33 PM UTC-7 on May 4, 2022.
         public let completionTime: Date?
         /// The content redaction settings of the transcription job.
         public let contentRedaction: ContentRedaction?
-        /// A timestamp that shows when the job was created.
+        /// The date and time the specified transcription job request was made. Timestamps are in the format YYYY-MM-DD'T'HH:MM:SS.SSSSSS-UTC. For example, 2022-05-04T12:32:58.761000-07:00 represents a transcription job that started processing at 12:32 PM UTC-7 on May 4, 2022.
         public let creationTime: Date?
-        /// If the TranscriptionJobStatus field is FAILED, a  description of the error.
+        /// If TranscriptionJobStatus is FAILED, FailureReason contains information about why the transcription job  failed. See also: Common Errors.
         public let failureReason: String?
-        /// A value between zero and one that Amazon Transcribe assigned to the language it identified in  the source audio. A higher score indicates that Amazon Transcribe is more confident in the language it identified.
+        /// The confidence score associated with the language identified in your media file. Confidence scores are values between 0 and 1; a larger value indicates a higher  probability that the identified language correctly matches the language spoken in your media.
         public let identifiedLanguageScore: Float?
-        /// Whether automatic language identification was enabled for a transcription job.
+        /// Indicates whether automatic language identification was enabled (TRUE) for the specified transcription job.
         public let identifyLanguage: Bool?
-        /// The language code for the input speech.
+        /// Indicates whether automatic multi-language identification was enabled  (TRUE) for the specified transcription job.
+        public let identifyMultipleLanguages: Bool?
+        /// The language code used to create your transcription.
         public let languageCode: LanguageCode?
+        /// The language codes used to create your transcription job. This parameter is used with multi-language identification. For single-language identification, the singular version of this  parameter, LanguageCode, is present.
+        public let languageCodes: [LanguageCodeItem]?
         public let modelSettings: ModelSettings?
-        /// Indicates the location of the output of the transcription job. If the value is CUSTOMER_BUCKET then the location is the S3 bucket specified in the outputBucketName field when the transcription job was  started with the StartTranscriptionJob operation. If the value is SERVICE_BUCKET then the output is stored by Amazon Transcribe and  can be retrieved using the URI in the GetTranscriptionJob response's TranscriptFileUri field.
+        /// Indicates where the specified transcription output is stored. If the value is CUSTOMER_BUCKET, the location is the Amazon S3 bucket you specified using the OutputBucketName parameter in your  request. If you also included  OutputKey in your request, your output is located in the path you specified in your request. If the value is SERVICE_BUCKET, the location is a service-managed  Amazon S3 bucket. To access a transcript stored in a service-managed bucket, use the URI shown in the TranscriptFileUri or RedactedTranscriptFileUri  field.
         public let outputLocationType: OutputLocationType?
-        /// A timestamp that shows when the job started processing.
+        /// The date and time your transcription job began processing. Timestamps are in the format YYYY-MM-DD'T'HH:MM:SS.SSSSSS-UTC. For example, 2022-05-04T12:32:58.789000-07:00 represents a transcription job that started processing at 12:32 PM UTC-7 on May 4, 2022.
         public let startTime: Date?
-        /// The name of the transcription job.
+        /// The name of the transcription job. Job names are case sensitive and must be unique  within an Amazon Web Services account.
         public let transcriptionJobName: String?
-        /// The status of the transcription job. When the status is COMPLETED, use the GetTranscriptionJob operation to get the results of the  transcription.
+        /// Provides the status of your transcription job. If the status is COMPLETED, the job is finished and you can find the results at the location specified in TranscriptFileUri (or RedactedTranscriptFileUri, if you requested transcript redaction). If the status is  FAILED, FailureReason provides details on why your transcription job failed.
         public let transcriptionJobStatus: TranscriptionJobStatus?
 
-        public init(completionTime: Date? = nil, contentRedaction: ContentRedaction? = nil, creationTime: Date? = nil, failureReason: String? = nil, identifiedLanguageScore: Float? = nil, identifyLanguage: Bool? = nil, languageCode: LanguageCode? = nil, modelSettings: ModelSettings? = nil, outputLocationType: OutputLocationType? = nil, startTime: Date? = nil, transcriptionJobName: String? = nil, transcriptionJobStatus: TranscriptionJobStatus? = nil) {
+        public init(completionTime: Date? = nil, contentRedaction: ContentRedaction? = nil, creationTime: Date? = nil, failureReason: String? = nil, identifiedLanguageScore: Float? = nil, identifyLanguage: Bool? = nil, identifyMultipleLanguages: Bool? = nil, languageCode: LanguageCode? = nil, languageCodes: [LanguageCodeItem]? = nil, modelSettings: ModelSettings? = nil, outputLocationType: OutputLocationType? = nil, startTime: Date? = nil, transcriptionJobName: String? = nil, transcriptionJobStatus: TranscriptionJobStatus? = nil) {
             self.completionTime = completionTime
             self.contentRedaction = contentRedaction
             self.creationTime = creationTime
             self.failureReason = failureReason
             self.identifiedLanguageScore = identifiedLanguageScore
             self.identifyLanguage = identifyLanguage
+            self.identifyMultipleLanguages = identifyMultipleLanguages
             self.languageCode = languageCode
+            self.languageCodes = languageCodes
             self.modelSettings = modelSettings
             self.outputLocationType = outputLocationType
             self.startTime = startTime
@@ -3037,7 +3072,9 @@ extension Transcribe {
             case failureReason = "FailureReason"
             case identifiedLanguageScore = "IdentifiedLanguageScore"
             case identifyLanguage = "IdentifyLanguage"
+            case identifyMultipleLanguages = "IdentifyMultipleLanguages"
             case languageCode = "LanguageCode"
+            case languageCodes = "LanguageCodes"
             case modelSettings = "ModelSettings"
             case outputLocationType = "OutputLocationType"
             case startTime = "StartTime"
@@ -3051,9 +3088,9 @@ extension Transcribe {
             AWSMemberEncoding(label: "resourceArn", location: .uri("ResourceArn"))
         ]
 
-        /// The Amazon Resource Name (ARN) of the Amazon Transcribe resource you want to remove tags from. ARNs have the format arn:partition:service:region:account-id:resource-type/resource-id (for example, arn:aws:transcribe:us-east-1:account-id:transcription-job/your-job-name).  Valid values for resource-type are: transcription-job, medical-transcription-job, vocabulary,  medical-vocabulary, vocabulary-filter, and  language-model.
+        /// The Amazon Resource Name (ARN) of the Amazon Transcribe resource you want to remove tags from. ARNs have the format arn:partition:service:region:account-id:resource-type/resource-id. For example,  arn:aws:transcribe:us-west-2:account-id:transcription-job/transcription-job-name. Valid values for resource-type are: transcription-job, medical-transcription-job, vocabulary,  medical-vocabulary, vocabulary-filter, and  language-model.
         public let resourceArn: String
-        /// A list of tag keys you want to remove from a specified Amazon Transcribe resource.
+        /// Removes the specified tag keys from the specified Amazon Transcribe resource.
         public let tagKeys: [String]
 
         public init(resourceArn: String, tagKeys: [String]) {
@@ -3087,9 +3124,9 @@ extension Transcribe {
             AWSMemberEncoding(label: "categoryName", location: .uri("CategoryName"))
         ]
 
-        /// The name of the analytics category to update. The name is case sensitive. If you try to update a call analytics category with the same name as a previous category you will  receive a ConflictException error.
+        /// The name of the Call Analytics category you want to update. Category names are case sensitive.
         public let categoryName: String
-        /// The rules used for the updated analytics category. The rules that you provide in this  field replace the ones that are currently being used.
+        /// The rules used for the updated Call Analytics category. The rules you provide in this field replace the ones that are currently being used in the specified category.
         public let rules: [Rule]
 
         public init(categoryName: String, rules: [Rule]) {
@@ -3114,7 +3151,7 @@ extension Transcribe {
     }
 
     public struct UpdateCallAnalyticsCategoryResponse: AWSDecodableShape {
-        /// The attributes describing the analytics category. You can see information such as the  rules that you've used to update the category and when the category was originally  created.
+        /// Provides you with the properties of the Call Analytics category you specified in your UpdateCallAnalyticsCategory request.
         public let categoryProperties: CategoryProperties?
 
         public init(categoryProperties: CategoryProperties? = nil) {
@@ -3131,11 +3168,11 @@ extension Transcribe {
             AWSMemberEncoding(label: "vocabularyName", location: .uri("VocabularyName"))
         ]
 
-        /// The language code of the language used for the entries in the updated vocabulary.  U.S. English (en-US) is the only valid language code in Amazon Transcribe Medical.
+        /// The language code that represents the language of the entries in the custom vocabulary  you want to update. US English (en-US) is the only language supported with  Amazon Transcribe Medical.
         public let languageCode: LanguageCode
-        /// The location in Amazon S3 of the text file that contains your custom vocabulary. The URI must be in the same Amazon Web Services Region as the resource that you are calling. The following is the format for a URI:  https://s3.aws-region.amazonaws.com/bucket-name/keyprefix/objectkey  For example:  https://s3.us-east-1.amazonaws.com/DOC-EXAMPLE-BUCKET/vocab.txt  For more information about Amazon S3 object names, see Object Keys in the Amazon S3 Developer Guide. For more information about custom vocabularies in Amazon Transcribe Medical, see Medical Custom Vocabularies.
+        /// The Amazon S3 location of the text file that contains your custom medical  vocabulary. The URI must be located in the same Amazon Web Services Region as the resource  you're calling. Here's an example URI path: s3://DOC-EXAMPLE-BUCKET/my-vocab-file.txt
         public let vocabularyFileUri: String?
-        /// The name of the vocabulary to update. The name is case sensitive. If you try to update a vocabulary with the same name as a vocabulary you've already made, you get a ConflictException error.
+        /// The name of the custom medical vocabulary you want to update. Vocabulary names are case sensitive.
         public let vocabularyName: String
 
         public init(languageCode: LanguageCode, vocabularyFileUri: String? = nil, vocabularyName: String) {
@@ -3160,13 +3197,13 @@ extension Transcribe {
     }
 
     public struct UpdateMedicalVocabularyResponse: AWSDecodableShape {
-        /// The language code for the language of the text file used to update the custom  vocabulary. US English (en-US) is the only language supported in Amazon Transcribe Medical.
+        /// The language code you selected for your medical vocabulary. US English  (en-US) is the only language supported with Amazon Transcribe Medical.
         public let languageCode: LanguageCode?
-        /// The date and time that the vocabulary was updated.
+        /// The date and time the specified custom medical vocabulary was last updated. Timestamps are in the format YYYY-MM-DD'T'HH:MM:SS.SSSSSS-UTC. For example, 2022-05-04T12:32:58.761000-07:00 represents 12:32 PM UTC-7  on May 4, 2022.
         public let lastModifiedTime: Date?
-        /// The name of the updated vocabulary.
+        /// The name of the updated custom medical vocabulary.
         public let vocabularyName: String?
-        /// The processing state of the update to the vocabulary. When the  VocabularyState field is READY, the vocabulary is ready to  be used in a StartMedicalTranscriptionJob request.
+        /// The processing state of your custom medical vocabulary. If the state is  READY, you can use the vocabulary in a   StartMedicalTranscriptionJob request.
         public let vocabularyState: VocabularyState?
 
         public init(languageCode: LanguageCode? = nil, lastModifiedTime: Date? = nil, vocabularyName: String? = nil, vocabularyState: VocabularyState? = nil) {
@@ -3189,11 +3226,11 @@ extension Transcribe {
             AWSMemberEncoding(label: "vocabularyFilterName", location: .uri("VocabularyFilterName"))
         ]
 
-        /// The Amazon S3 location of a text file used as input to create the vocabulary filter. Only use characters from the character set defined for custom vocabularies. For a list of  character sets, see Character Sets for Custom Vocabularies. The specified file must be less than 50 KB of UTF-8 characters. If you provide the location of a list of words in the VocabularyFilterFileUri parameter, you can't use the Words parameter.
+        /// The Amazon S3 location of the text file that contains your custom vocabulary filter  terms. The URI must be located in the same Amazon Web Services Region as the resource you're  calling. Here's an example URI path: s3://DOC-EXAMPLE-BUCKET/my-vocab-filter-file.txt  Note that if you include VocabularyFilterFileUri in your request, you  cannot use Words; you must choose one or the other.
         public let vocabularyFilterFileUri: String?
-        /// The name of the vocabulary filter to update. If you try to update a vocabulary filter with the same name as another vocabulary filter, you get a ConflictException  error.
+        /// The name of the custom vocabulary filter you want to update. Vocabulary filter names  are case sensitive.
         public let vocabularyFilterName: String
-        /// The words to use in the vocabulary filter. Only use characters from the character  set defined for custom vocabularies. For a list of character sets, see  Character Sets for Custom Vocabularies. If you provide a list of words in the Words parameter, you can't use the  VocabularyFilterFileUri parameter.
+        /// Use this parameter if you want to update your vocabulary filter by including all desired terms,  as comma-separated values, within your request. The other option for updating your vocabulary  filter is to save your entries in a text file and upload them to an Amazon S3 bucket, then specify the location of your file using the VocabularyFilterFileUri  parameter. Note that if you include Words in your request, you cannot use VocabularyFilterFileUri; you must choose one or the other.         Each language has a character set that contains all allowed characters for that specific  language. If you use unsupported characters, your vocabulary filter request fails. Refer to  Character Sets for  Custom Vocabularies to get the character set for your language.
         public let words: [String]?
 
         public init(vocabularyFilterFileUri: String? = nil, vocabularyFilterName: String, words: [String]? = nil) {
@@ -3223,11 +3260,11 @@ extension Transcribe {
     }
 
     public struct UpdateVocabularyFilterResponse: AWSDecodableShape {
-        /// The language code of the words in the vocabulary filter.
+        /// The language code you selected for your vocabulary filter.
         public let languageCode: LanguageCode?
-        /// The date and time that the vocabulary filter was updated.
+        /// The date and time the specified vocabulary filter was last updated. Timestamps are in the format YYYY-MM-DD'T'HH:MM:SS.SSSSSS-UTC. For example, 2022-05-04T12:32:58.761000-07:00 represents 12:32 PM UTC-7  on May 4, 2022.
         public let lastModifiedTime: Date?
-        /// The name of the updated vocabulary filter.
+        /// The name of the updated custom vocabulary filter.
         public let vocabularyFilterName: String?
 
         public init(languageCode: LanguageCode? = nil, lastModifiedTime: Date? = nil, vocabularyFilterName: String? = nil) {
@@ -3248,13 +3285,13 @@ extension Transcribe {
             AWSMemberEncoding(label: "vocabularyName", location: .uri("VocabularyName"))
         ]
 
-        /// The language code of the vocabulary entries. For a list of languages and their  corresponding language codes, see Supported languages.
+        /// The language code that represents the language of the entries in the custom vocabulary  you want to update. Each vocabulary must contain terms in only one language. A custom vocabulary can only be used to transcribe files in the same language as the  vocabulary. For example, if you create a vocabulary using US English (en-US),  you can only apply this vocabulary to files that contain English audio. For a list of supported languages and their associated language codes, refer to the  Supported languages table.
         public let languageCode: LanguageCode
-        /// An array of strings containing the vocabulary entries.
+        /// Use this parameter if you want to update your vocabulary by including all desired terms, as comma-separated values, within your request. The other option for updating your vocabulary is to save your entries in a text file and upload them to an Amazon S3 bucket, then specify  the location of your file using the VocabularyFileUri parameter. Note that if you include Phrases in your request, you cannot use VocabularyFileUri; you must choose one or the other.         Each language has a character set that contains all allowed characters for that specific  language. If you use unsupported characters, your vocabulary filter request fails. Refer to  Character Sets for  Custom Vocabularies to get the character set for your language.
         public let phrases: [String]?
-        /// The S3 location of the text file that contains the definition of the custom vocabulary.  The URI must be in the same region as the API endpoint that you are calling. The general form is:  https://s3.aws-region.amazonaws.com/bucket-name/keyprefix/objectkey  For example:  https://s3.us-east-1.amazonaws.com/DOC-EXAMPLE-BUCKET/vocab.txt  For more information about S3 object names, see Object Keys in the Amazon S3 Developer Guide. For more information about custom vocabularies, see Custom  Vocabularies.
+        /// The Amazon S3 location of the text file that contains your custom vocabulary. The URI must be located in the same Amazon Web Services Region as the resource you're  calling. Here's an example URI path: s3://DOC-EXAMPLE-BUCKET/my-vocab-file.txt  Note that if you include VocabularyFileUri in your request, you  cannot use the Phrases flag; you must choose one or the other.
         public let vocabularyFileUri: String?
-        /// The name of the vocabulary to update. The name is case sensitive. If you try to update a vocabulary with the same name as a previous vocabulary you will receive a ConflictException error.
+        /// The name of the custom vocabulary you want to update. Vocabulary names are case sensitive.
         public let vocabularyName: String
 
         public init(languageCode: LanguageCode, phrases: [String]? = nil, vocabularyFileUri: String? = nil, vocabularyName: String) {
@@ -3285,13 +3322,13 @@ extension Transcribe {
     }
 
     public struct UpdateVocabularyResponse: AWSDecodableShape {
-        /// The language code of the vocabulary entries.
+        /// The language code you selected for your custom vocabulary.
         public let languageCode: LanguageCode?
-        /// The date and time that the vocabulary was updated.
+        /// The date and time the specified vocabulary was last updated. Timestamps are in the format YYYY-MM-DD'T'HH:MM:SS.SSSSSS-UTC. For example, 2022-05-04T12:32:58.761000-07:00 represents 12:32 PM UTC-7  on May 4, 2022.
         public let lastModifiedTime: Date?
-        /// The name of the vocabulary that was updated.
+        /// The name of the updated custom vocabulary.
         public let vocabularyName: String?
-        /// The processing state of the vocabulary. When the VocabularyState  field contains READY the vocabulary is ready to be used in a StartTranscriptionJob request.
+        /// The processing state of your custom vocabulary. If the state is READY, you can use the vocabulary in a StartTranscriptionJob request.
         public let vocabularyState: VocabularyState?
 
         public init(languageCode: LanguageCode? = nil, lastModifiedTime: Date? = nil, vocabularyName: String? = nil, vocabularyState: VocabularyState? = nil) {
@@ -3310,11 +3347,11 @@ extension Transcribe {
     }
 
     public struct VocabularyFilterInfo: AWSDecodableShape {
-        /// The language code of the words in the vocabulary filter.
+        /// The language code that represents the language of the entries in your vocabulary  filter. Each vocabulary filter must contain terms in only one language. A vocabulary filter can only be used to transcribe files in the same language as the  filter. For example, if you create a vocabulary filter using US English (en-US), you can only apply this filter to files that contain English audio.     For a list of supported languages and their associated language codes, refer to the  Supported languages table.
         public let languageCode: LanguageCode?
-        /// The date and time that the vocabulary was last updated.
+        /// The date and time the specified vocabulary filter was last modified. Timestamps are in the format YYYY-MM-DD'T'HH:MM:SS.SSSSSS-UTC. For example, 2022-05-04T12:32:58.761000-07:00 represents 12:32 PM UTC-7  on May 4, 2022.
         public let lastModifiedTime: Date?
-        /// The name of the vocabulary filter. The name must be unique in the account that holds the filter.
+        /// A unique name, chosen by you, for your custom vocabulary filter. This name is case  sensitive, cannot contain spaces, and must be unique within an  Amazon Web Services account.
         public let vocabularyFilterName: String?
 
         public init(languageCode: LanguageCode? = nil, lastModifiedTime: Date? = nil, vocabularyFilterName: String? = nil) {
@@ -3331,13 +3368,13 @@ extension Transcribe {
     }
 
     public struct VocabularyInfo: AWSDecodableShape {
-        /// The language code of the vocabulary entries.
+        /// The language code used to create your custom vocabulary. Each vocabulary must contain terms in only one language. A custom vocabulary can only be used to transcribe files in the same language as the  vocabulary. For example, if you create a vocabulary using US English (en-US),  you can only apply this vocabulary to files that contain English audio.
         public let languageCode: LanguageCode?
-        /// The date and time that the vocabulary was last modified.
+        /// The date and time the specified vocabulary was last modified. Timestamps are in the format YYYY-MM-DD'T'HH:MM:SS.SSSSSS-UTC. For example, 2022-05-04T12:32:58.761000-07:00 represents 12:32 PM UTC-7  on May 4, 2022.
         public let lastModifiedTime: Date?
-        /// The name of the vocabulary.
+        /// A unique name, chosen by you, for your custom vocabulary. This name is case sensitive,  cannot contain spaces, and must be unique within an Amazon Web Services account.
         public let vocabularyName: String?
-        /// The processing state of the vocabulary. If the state is READY you  can use the vocabulary in a StartTranscriptionJob request.
+        /// The processing state of your custom vocabulary. If the state is READY, you can use the vocabulary in a StartTranscriptionJob request.
         public let vocabularyState: VocabularyState?
 
         public init(languageCode: LanguageCode? = nil, lastModifiedTime: Date? = nil, vocabularyName: String? = nil, vocabularyState: VocabularyState? = nil) {

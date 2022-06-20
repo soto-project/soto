@@ -33,7 +33,7 @@ extension NetworkManager {
         return try await self.client.execute(operation: "AssociateConnectPeer", path: "/global-networks/{GlobalNetworkId}/connect-peer-associations", httpMethod: .POST, serviceConfig: self.config, input: input, logger: logger, on: eventLoop)
     }
 
-    /// Associates a customer gateway with a device and optionally, with a link. If you specify a link, it must be associated with the specified device.  You can only associate customer gateways that are connected to a VPN attachment on a transit gateway. The transit gateway must be registered in your global network. When you register a transit gateway, customer gateways that are connected to the transit gateway are automatically included in the global network. To list customer gateways that are connected to a transit gateway, use the DescribeVpnConnections EC2 API and filter by transit-gateway-id. You cannot associate a customer gateway with more than one device and link.
+    /// Associates a customer gateway with a device and optionally, with a link. If you specify a link, it must be associated with the specified device.  You can only associate customer gateways that are connected to a VPN attachment on a transit gateway or core network registered in your global network. When you register a transit gateway or core network, customer gateways that are connected to the transit gateway are automatically included in the global network. To list customer gateways that are connected to a transit gateway, use the DescribeVpnConnections EC2 API and filter by transit-gateway-id. You cannot associate a customer gateway with more than one device and link.
     public func associateCustomerGateway(_ input: AssociateCustomerGatewayRequest, logger: Logger = AWSClient.loggingDisabled, on eventLoop: EventLoop? = nil) async throws -> AssociateCustomerGatewayResponse {
         return try await self.client.execute(operation: "AssociateCustomerGateway", path: "/global-networks/{GlobalNetworkId}/customer-gateway-associations", httpMethod: .POST, serviceConfig: self.config, input: input, logger: logger, on: eventLoop)
     }
@@ -53,7 +53,7 @@ extension NetworkManager {
         return try await self.client.execute(operation: "CreateConnectAttachment", path: "/connect-attachments", httpMethod: .POST, serviceConfig: self.config, input: input, logger: logger, on: eventLoop)
     }
 
-    /// Creates a core network connect peer for a specified core network connect attachment between a core network and an appliance. The peer address and transit gateway address must be the same IP address family (IPv4 or IPv6).
+    /// Creates a core network Connect peer for a specified core network connect attachment between a core network and an appliance. The peer address and transit gateway address must be the same IP address family (IPv4 or IPv6).
     public func createConnectPeer(_ input: CreateConnectPeerRequest, logger: Logger = AWSClient.loggingDisabled, on eventLoop: EventLoop? = nil) async throws -> CreateConnectPeerResponse {
         return try await self.client.execute(operation: "CreateConnectPeer", path: "/connect-peers", httpMethod: .POST, serviceConfig: self.config, input: input, logger: logger, on: eventLoop)
     }
@@ -88,7 +88,7 @@ extension NetworkManager {
         return try await self.client.execute(operation: "CreateSite", path: "/global-networks/{GlobalNetworkId}/sites", httpMethod: .POST, serviceConfig: self.config, input: input, logger: logger, on: eventLoop)
     }
 
-    /// Creates a site-to-site VPN attachment on an edge location of a core network.
+    /// Creates an Amazon Web Services site-to-site VPN attachment on an edge location of a core network.
     public func createSiteToSiteVpnAttachment(_ input: CreateSiteToSiteVpnAttachmentRequest, logger: Logger = AWSClient.loggingDisabled, on eventLoop: EventLoop? = nil) async throws -> CreateSiteToSiteVpnAttachmentResponse {
         return try await self.client.execute(operation: "CreateSiteToSiteVpnAttachment", path: "/site-to-site-vpn-attachments", httpMethod: .POST, serviceConfig: self.config, input: input, logger: logger, on: eventLoop)
     }
@@ -128,7 +128,7 @@ extension NetworkManager {
         return try await self.client.execute(operation: "DeleteDevice", path: "/global-networks/{GlobalNetworkId}/devices/{DeviceId}", httpMethod: .DELETE, serviceConfig: self.config, input: input, logger: logger, on: eventLoop)
     }
 
-    /// Deletes an existing global network. You must first delete all global network objects (devices, links, and sites) and deregister all transit gateways.
+    /// Deletes an existing global network. You must first delete all global network objects (devices, links, and sites), deregister all transit gateways, and delete any core networks.
     public func deleteGlobalNetwork(_ input: DeleteGlobalNetworkRequest, logger: Logger = AWSClient.loggingDisabled, on eventLoop: EventLoop? = nil) async throws -> DeleteGlobalNetworkResponse {
         return try await self.client.execute(operation: "DeleteGlobalNetwork", path: "/global-networks/{GlobalNetworkId}", httpMethod: .DELETE, serviceConfig: self.config, input: input, logger: logger, on: eventLoop)
     }
@@ -203,7 +203,7 @@ extension NetworkManager {
         return try await self.client.execute(operation: "GetConnections", path: "/global-networks/{GlobalNetworkId}/connections", httpMethod: .GET, serviceConfig: self.config, input: input, logger: logger, on: eventLoop)
     }
 
-    /// Returns information about a core network. By default it returns the LIVE policy.
+    /// Returns information about the LIVE policy for a core network.
     public func getCoreNetwork(_ input: GetCoreNetworkRequest, logger: Logger = AWSClient.loggingDisabled, on eventLoop: EventLoop? = nil) async throws -> GetCoreNetworkResponse {
         return try await self.client.execute(operation: "GetCoreNetwork", path: "/core-networks/{CoreNetworkId}", httpMethod: .GET, serviceConfig: self.config, input: input, logger: logger, on: eventLoop)
     }
@@ -318,6 +318,10 @@ extension NetworkManager {
         return try await self.client.execute(operation: "ListCoreNetworks", path: "/core-networks", httpMethod: .GET, serviceConfig: self.config, input: input, logger: logger, on: eventLoop)
     }
 
+    public func listOrganizationServiceAccessStatus(_ input: ListOrganizationServiceAccessStatusRequest, logger: Logger = AWSClient.loggingDisabled, on eventLoop: EventLoop? = nil) async throws -> ListOrganizationServiceAccessStatusResponse {
+        return try await self.client.execute(operation: "ListOrganizationServiceAccessStatus", path: "/organizations/service-access", httpMethod: .GET, serviceConfig: self.config, input: input, logger: logger, on: eventLoop)
+    }
+
     /// Lists the tags for a specified resource.
     public func listTagsForResource(_ input: ListTagsForResourceRequest, logger: Logger = AWSClient.loggingDisabled, on eventLoop: EventLoop? = nil) async throws -> ListTagsForResourceResponse {
         return try await self.client.execute(operation: "ListTagsForResource", path: "/tags/{ResourceArn}", httpMethod: .GET, serviceConfig: self.config, input: input, logger: logger, on: eventLoop)
@@ -346,6 +350,10 @@ extension NetworkManager {
     /// Restores a previous policy version as a new, immutable version of a core network policy. A subsequent change set is created showing the differences between the LIVE policy and restored policy.
     public func restoreCoreNetworkPolicyVersion(_ input: RestoreCoreNetworkPolicyVersionRequest, logger: Logger = AWSClient.loggingDisabled, on eventLoop: EventLoop? = nil) async throws -> RestoreCoreNetworkPolicyVersionResponse {
         return try await self.client.execute(operation: "RestoreCoreNetworkPolicyVersion", path: "/core-networks/{CoreNetworkId}/core-network-policy-versions/{PolicyVersionId}/restore", httpMethod: .POST, serviceConfig: self.config, input: input, logger: logger, on: eventLoop)
+    }
+
+    public func startOrganizationServiceAccessUpdate(_ input: StartOrganizationServiceAccessUpdateRequest, logger: Logger = AWSClient.loggingDisabled, on eventLoop: EventLoop? = nil) async throws -> StartOrganizationServiceAccessUpdateResponse {
+        return try await self.client.execute(operation: "StartOrganizationServiceAccessUpdate", path: "/organizations/service-access", httpMethod: .POST, serviceConfig: self.config, input: input, logger: logger, on: eventLoop)
     }
 
     /// Starts analyzing the routing path between the specified source and destination. For more information,  see Route Analyzer.

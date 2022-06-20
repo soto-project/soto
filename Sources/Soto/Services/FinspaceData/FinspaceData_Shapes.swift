@@ -114,6 +114,13 @@ extension FinspaceData {
         public var description: String { return self.rawValue }
     }
 
+    public enum PermissionGroupMembershipStatus: String, CustomStringConvertible, Codable, _SotoSendable {
+        case additionInProgress = "ADDITION_IN_PROGRESS"
+        case additionSuccess = "ADDITION_SUCCESS"
+        case removalInProgress = "REMOVAL_IN_PROGRESS"
+        public var description: String { return self.rawValue }
+    }
+
     public enum UserStatus: String, CustomStringConvertible, Codable, _SotoSendable {
         case creating = "CREATING"
         case disabled = "DISABLED"
@@ -134,6 +141,59 @@ extension FinspaceData {
     }
 
     // MARK: Shapes
+
+    public struct AssociateUserToPermissionGroupRequest: AWSEncodableShape {
+        public static var _encoding = [
+            AWSMemberEncoding(label: "permissionGroupId", location: .uri("permissionGroupId")),
+            AWSMemberEncoding(label: "userId", location: .uri("userId"))
+        ]
+
+        /// A token that ensures idempotency. This token expires in 10 minutes.
+        public let clientToken: String?
+        /// The unique identifier for the permission group.
+        public let permissionGroupId: String
+        /// The unique identifier for the user.
+        public let userId: String
+
+        public init(clientToken: String? = AssociateUserToPermissionGroupRequest.idempotencyToken(), permissionGroupId: String, userId: String) {
+            self.clientToken = clientToken
+            self.permissionGroupId = permissionGroupId
+            self.userId = userId
+        }
+
+        public func validate(name: String) throws {
+            try self.validate(self.clientToken, name: "clientToken", parent: name, max: 128)
+            try self.validate(self.clientToken, name: "clientToken", parent: name, min: 1)
+            try self.validate(self.clientToken, name: "clientToken", parent: name, pattern: "\\S")
+            try self.validate(self.permissionGroupId, name: "permissionGroupId", parent: name, max: 26)
+            try self.validate(self.permissionGroupId, name: "permissionGroupId", parent: name, min: 1)
+            try self.validate(self.permissionGroupId, name: "permissionGroupId", parent: name, pattern: "\\S")
+            try self.validate(self.userId, name: "userId", parent: name, max: 26)
+            try self.validate(self.userId, name: "userId", parent: name, min: 1)
+            try self.validate(self.userId, name: "userId", parent: name, pattern: "\\S")
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case clientToken
+        }
+    }
+
+    public struct AssociateUserToPermissionGroupResponse: AWSDecodableShape {
+        public static var _encoding = [
+            AWSMemberEncoding(label: "statusCode", location: .statusCode)
+        ]
+
+        /// The returned status code of the response.
+        public let statusCode: Int?
+
+        public init(statusCode: Int? = nil) {
+            self.statusCode = statusCode
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case statusCode
+        }
+    }
 
     public struct ChangesetErrorInfo: AWSDecodableShape {
         /// The category of the error.    VALIDATION – The inputs to this request are invalid.    SERVICE_QUOTA_EXCEEDED – Service quotas have been exceeded. Please contact AWS support to increase quotas.    ACCESS_DENIED – Missing required permission to perform this request.    RESOURCE_NOT_FOUND – One or more inputs to this request were not found.    THROTTLING – The system temporarily lacks sufficient resources to process the request.    INTERNAL_SERVICE_EXCEPTION – An internal service error has occurred.    CANCELLED – Cancelled.    USER_RECOVERABLE – A user recoverable error has occurred.
@@ -229,7 +289,7 @@ extension FinspaceData {
 
         public func validate(name: String) throws {
             try self.validate(self.columnDescription, name: "columnDescription", parent: name, max: 512)
-            try self.validate(self.columnDescription, name: "columnDescription", parent: name, pattern: "^[\\s\\S]*\\S[\\s\\S]*$")
+            try self.validate(self.columnDescription, name: "columnDescription", parent: name, pattern: "^[\\s\\S]*$")
             try self.validate(self.columnName, name: "columnName", parent: name, max: 126)
             try self.validate(self.columnName, name: "columnName", parent: name, pattern: "\\S")
         }
@@ -423,8 +483,7 @@ extension FinspaceData {
             try self.validate(self.clientToken, name: "clientToken", parent: name, min: 1)
             try self.validate(self.clientToken, name: "clientToken", parent: name, pattern: "\\S")
             try self.validate(self.datasetDescription, name: "datasetDescription", parent: name, max: 1000)
-            try self.validate(self.datasetDescription, name: "datasetDescription", parent: name, min: 1)
-            try self.validate(self.datasetDescription, name: "datasetDescription", parent: name, pattern: "^[\\s\\S]*\\S[\\s\\S]*$")
+            try self.validate(self.datasetDescription, name: "datasetDescription", parent: name, pattern: "^[\\s\\S]*$")
             try self.validate(self.datasetTitle, name: "datasetTitle", parent: name, max: 255)
             try self.validate(self.datasetTitle, name: "datasetTitle", parent: name, min: 1)
             try self.validate(self.datasetTitle, name: "datasetTitle", parent: name, pattern: "\\S")
@@ -481,7 +540,7 @@ extension FinspaceData {
             try self.validate(self.clientToken, name: "clientToken", parent: name, pattern: "\\S")
             try self.validate(self.description, name: "description", parent: name, max: 4000)
             try self.validate(self.description, name: "description", parent: name, min: 1)
-            try self.validate(self.description, name: "description", parent: name, pattern: "\\S")
+            try self.validate(self.description, name: "description", parent: name, pattern: "^[\\s\\S]*$")
             try self.validate(self.name, name: "name", parent: name, max: 255)
             try self.validate(self.name, name: "name", parent: name, min: 1)
             try self.validate(self.name, name: "name", parent: name, pattern: "\\S")
@@ -600,7 +659,7 @@ extension FinspaceData {
     public struct DataViewDestinationTypeParams: AWSEncodableShape & AWSDecodableShape {
         /// Destination type for a Dataview.    GLUE_TABLE – Glue table destination type.    S3 – S3 destination type.
         public let destinationType: String
-        /// Data view export file format.    PARQUET – Parquet export file format.    DELIMITED_TEXT – Delimited text export file format.
+        /// Dataview export file format.    PARQUET – Parquet export file format.    DELIMITED_TEXT – Delimited text export file format.
         public let s3DestinationExportFileFormat: ExportFileFormat?
         /// Format Options for S3 Destination type. Here is an example of how you could specify the s3DestinationExportFileFormatOptions     { "header": "true", "delimiter": ",", "compression": "gzip" }
         public let s3DestinationExportFileFormatOptions: [String: String]?
@@ -906,6 +965,58 @@ extension FinspaceData {
         }
     }
 
+    public struct DisassociateUserFromPermissionGroupRequest: AWSEncodableShape {
+        public static var _encoding = [
+            AWSMemberEncoding(label: "clientToken", location: .querystring("clientToken")),
+            AWSMemberEncoding(label: "permissionGroupId", location: .uri("permissionGroupId")),
+            AWSMemberEncoding(label: "userId", location: .uri("userId"))
+        ]
+
+        /// A token that ensures idempotency. This token expires in 10 minutes.
+        public let clientToken: String?
+        /// The unique identifier for the permission group.
+        public let permissionGroupId: String
+        /// The unique identifier for the user.
+        public let userId: String
+
+        public init(clientToken: String? = DisassociateUserFromPermissionGroupRequest.idempotencyToken(), permissionGroupId: String, userId: String) {
+            self.clientToken = clientToken
+            self.permissionGroupId = permissionGroupId
+            self.userId = userId
+        }
+
+        public func validate(name: String) throws {
+            try self.validate(self.clientToken, name: "clientToken", parent: name, max: 128)
+            try self.validate(self.clientToken, name: "clientToken", parent: name, min: 1)
+            try self.validate(self.clientToken, name: "clientToken", parent: name, pattern: "\\S")
+            try self.validate(self.permissionGroupId, name: "permissionGroupId", parent: name, max: 26)
+            try self.validate(self.permissionGroupId, name: "permissionGroupId", parent: name, min: 1)
+            try self.validate(self.permissionGroupId, name: "permissionGroupId", parent: name, pattern: "\\S")
+            try self.validate(self.userId, name: "userId", parent: name, max: 26)
+            try self.validate(self.userId, name: "userId", parent: name, min: 1)
+            try self.validate(self.userId, name: "userId", parent: name, pattern: "\\S")
+        }
+
+        private enum CodingKeys: CodingKey {}
+    }
+
+    public struct DisassociateUserFromPermissionGroupResponse: AWSDecodableShape {
+        public static var _encoding = [
+            AWSMemberEncoding(label: "statusCode", location: .statusCode)
+        ]
+
+        /// The returned status code of the response.
+        public let statusCode: Int?
+
+        public init(statusCode: Int? = nil) {
+            self.statusCode = statusCode
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case statusCode
+        }
+    }
+
     public struct EnableUserRequest: AWSEncodableShape {
         public static var _encoding = [
             AWSMemberEncoding(label: "userId", location: .uri("userId"))
@@ -1188,6 +1299,39 @@ extension FinspaceData {
         }
     }
 
+    public struct GetPermissionGroupRequest: AWSEncodableShape {
+        public static var _encoding = [
+            AWSMemberEncoding(label: "permissionGroupId", location: .uri("permissionGroupId"))
+        ]
+
+        /// The unique identifier for the permission group.
+        public let permissionGroupId: String
+
+        public init(permissionGroupId: String) {
+            self.permissionGroupId = permissionGroupId
+        }
+
+        public func validate(name: String) throws {
+            try self.validate(self.permissionGroupId, name: "permissionGroupId", parent: name, max: 26)
+            try self.validate(self.permissionGroupId, name: "permissionGroupId", parent: name, min: 1)
+            try self.validate(self.permissionGroupId, name: "permissionGroupId", parent: name, pattern: "\\S")
+        }
+
+        private enum CodingKeys: CodingKey {}
+    }
+
+    public struct GetPermissionGroupResponse: AWSDecodableShape {
+        public let permissionGroup: PermissionGroup?
+
+        public init(permissionGroup: PermissionGroup? = nil) {
+            self.permissionGroup = permissionGroup
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case permissionGroup
+        }
+    }
+
     public struct GetProgrammaticAccessCredentialsRequest: AWSEncodableShape {
         public static var _encoding = [
             AWSMemberEncoding(label: "durationInMinutes", location: .querystring("durationInMinutes")),
@@ -1275,7 +1419,7 @@ extension FinspaceData {
         public let lastName: String?
         /// The current status of the user account.     CREATING – The user account creation is in progress.    ENABLED – The user account is created and is currently active.    DISABLED – The user account is currently inactive.
         public let status: UserStatus?
-        /// Indicates the type of user.      SUPER_USER – A user with permission to all the functionality and data in FinSpace.      APP_USER – A user with specific permissions in FinSpace. The users are assigned permissions by adding them to a permissions group.
+        /// Indicates the type of user.      SUPER_USER – A user with permission to all the functionality and data in FinSpace.      APP_USER – A user with specific permissions in FinSpace. The users are assigned permissions by adding them to a permission group.
         public let type: UserType?
         /// The unique identifier for the user account that is retrieved.
         public let userId: String?
@@ -1482,6 +1626,54 @@ extension FinspaceData {
         }
     }
 
+    public struct ListPermissionGroupsByUserRequest: AWSEncodableShape {
+        public static var _encoding = [
+            AWSMemberEncoding(label: "maxResults", location: .querystring("maxResults")),
+            AWSMemberEncoding(label: "nextToken", location: .querystring("nextToken")),
+            AWSMemberEncoding(label: "userId", location: .uri("userId"))
+        ]
+
+        /// The maximum number of results per page.
+        public let maxResults: Int
+        /// A token that indicates where a results page should begin.
+        public let nextToken: String?
+        /// The unique identifier for the user.
+        public let userId: String
+
+        public init(maxResults: Int, nextToken: String? = nil, userId: String) {
+            self.maxResults = maxResults
+            self.nextToken = nextToken
+            self.userId = userId
+        }
+
+        public func validate(name: String) throws {
+            try self.validate(self.maxResults, name: "maxResults", parent: name, max: 100)
+            try self.validate(self.maxResults, name: "maxResults", parent: name, min: 1)
+            try self.validate(self.userId, name: "userId", parent: name, max: 26)
+            try self.validate(self.userId, name: "userId", parent: name, min: 1)
+            try self.validate(self.userId, name: "userId", parent: name, pattern: "\\S")
+        }
+
+        private enum CodingKeys: CodingKey {}
+    }
+
+    public struct ListPermissionGroupsByUserResponse: AWSDecodableShape {
+        /// A token that indicates where a results page should begin.
+        public let nextToken: String?
+        /// A list of returned permission groups.
+        public let permissionGroups: [PermissionGroupByUser]?
+
+        public init(nextToken: String? = nil, permissionGroups: [PermissionGroupByUser]? = nil) {
+            self.nextToken = nextToken
+            self.permissionGroups = permissionGroups
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case nextToken
+            case permissionGroups
+        }
+    }
+
     public struct ListPermissionGroupsRequest: AWSEncodableShape {
         public static var _encoding = [
             AWSMemberEncoding(label: "maxResults", location: .querystring("maxResults")),
@@ -1520,6 +1712,54 @@ extension FinspaceData {
         private enum CodingKeys: String, CodingKey {
             case nextToken
             case permissionGroups
+        }
+    }
+
+    public struct ListUsersByPermissionGroupRequest: AWSEncodableShape {
+        public static var _encoding = [
+            AWSMemberEncoding(label: "maxResults", location: .querystring("maxResults")),
+            AWSMemberEncoding(label: "nextToken", location: .querystring("nextToken")),
+            AWSMemberEncoding(label: "permissionGroupId", location: .uri("permissionGroupId"))
+        ]
+
+        /// The maximum number of results per page.
+        public let maxResults: Int
+        /// A token that indicates where a results page should begin.
+        public let nextToken: String?
+        /// The unique identifier for the permission group.
+        public let permissionGroupId: String
+
+        public init(maxResults: Int, nextToken: String? = nil, permissionGroupId: String) {
+            self.maxResults = maxResults
+            self.nextToken = nextToken
+            self.permissionGroupId = permissionGroupId
+        }
+
+        public func validate(name: String) throws {
+            try self.validate(self.maxResults, name: "maxResults", parent: name, max: 100)
+            try self.validate(self.maxResults, name: "maxResults", parent: name, min: 1)
+            try self.validate(self.permissionGroupId, name: "permissionGroupId", parent: name, max: 26)
+            try self.validate(self.permissionGroupId, name: "permissionGroupId", parent: name, min: 1)
+            try self.validate(self.permissionGroupId, name: "permissionGroupId", parent: name, pattern: "\\S")
+        }
+
+        private enum CodingKeys: CodingKey {}
+    }
+
+    public struct ListUsersByPermissionGroupResponse: AWSDecodableShape {
+        /// A token that indicates where a results page should begin.
+        public let nextToken: String?
+        /// Lists details of all users in a specific permission group.
+        public let users: [UserByPermissionGroup]?
+
+        public init(nextToken: String? = nil, users: [UserByPermissionGroup]? = nil) {
+            self.nextToken = nextToken
+            self.users = users
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case nextToken
+            case users
         }
     }
 
@@ -1573,16 +1813,19 @@ extension FinspaceData {
         public let description: String?
         /// Describes the last time the permission group was updated. The value is determined as epoch time in milliseconds.
         public let lastModifiedTime: Int64?
+        /// Indicates the status of the user account within a permission group.    ADDITION_IN_PROGRESS – The user account is currently being added to the permission group.    ADDITION_SUCCESS – The user account is successfully added to the permission group.    REMOVAL_IN_PROGRESS – The user is currently being removed from the permission group.
+        public let membershipStatus: PermissionGroupMembershipStatus?
         /// The name of the permission group.
         public let name: String?
         ///  The unique identifier for the permission group.
         public let permissionGroupId: String?
 
-        public init(applicationPermissions: [ApplicationPermission]? = nil, createTime: Int64? = nil, description: String? = nil, lastModifiedTime: Int64? = nil, name: String? = nil, permissionGroupId: String? = nil) {
+        public init(applicationPermissions: [ApplicationPermission]? = nil, createTime: Int64? = nil, description: String? = nil, lastModifiedTime: Int64? = nil, membershipStatus: PermissionGroupMembershipStatus? = nil, name: String? = nil, permissionGroupId: String? = nil) {
             self.applicationPermissions = applicationPermissions
             self.createTime = createTime
             self.description = description
             self.lastModifiedTime = lastModifiedTime
+            self.membershipStatus = membershipStatus
             self.name = name
             self.permissionGroupId = permissionGroupId
         }
@@ -1592,6 +1835,28 @@ extension FinspaceData {
             case createTime
             case description
             case lastModifiedTime
+            case membershipStatus
+            case name
+            case permissionGroupId
+        }
+    }
+
+    public struct PermissionGroupByUser: AWSDecodableShape {
+        /// Indicates the status of the user account within a permission group.    ADDITION_IN_PROGRESS – The user account is currently being added to the permission group.    ADDITION_SUCCESS – The user account is successfully added to the permission group.    REMOVAL_IN_PROGRESS – The user is currently being removed from the permission group.
+        public let membershipStatus: PermissionGroupMembershipStatus?
+        /// The name of the permission group.
+        public let name: String?
+        /// The unique identifier for the permission group.
+        public let permissionGroupId: String?
+
+        public init(membershipStatus: PermissionGroupMembershipStatus? = nil, name: String? = nil, permissionGroupId: String? = nil) {
+            self.membershipStatus = membershipStatus
+            self.name = name
+            self.permissionGroupId = permissionGroupId
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case membershipStatus
             case name
             case permissionGroupId
         }
@@ -1841,8 +2106,7 @@ extension FinspaceData {
             try self.validate(self.clientToken, name: "clientToken", parent: name, min: 1)
             try self.validate(self.clientToken, name: "clientToken", parent: name, pattern: "\\S")
             try self.validate(self.datasetDescription, name: "datasetDescription", parent: name, max: 1000)
-            try self.validate(self.datasetDescription, name: "datasetDescription", parent: name, min: 1)
-            try self.validate(self.datasetDescription, name: "datasetDescription", parent: name, pattern: "^[\\s\\S]*\\S[\\s\\S]*$")
+            try self.validate(self.datasetDescription, name: "datasetDescription", parent: name, pattern: "^[\\s\\S]*$")
             try self.validate(self.datasetId, name: "datasetId", parent: name, max: 26)
             try self.validate(self.datasetId, name: "datasetId", parent: name, min: 1)
             try self.validate(self.datasetTitle, name: "datasetTitle", parent: name, max: 255)
@@ -1904,7 +2168,7 @@ extension FinspaceData {
             try self.validate(self.clientToken, name: "clientToken", parent: name, pattern: "\\S")
             try self.validate(self.description, name: "description", parent: name, max: 4000)
             try self.validate(self.description, name: "description", parent: name, min: 1)
-            try self.validate(self.description, name: "description", parent: name, pattern: "\\S")
+            try self.validate(self.description, name: "description", parent: name, pattern: "^[\\s\\S]*$")
             try self.validate(self.name, name: "name", parent: name, max: 255)
             try self.validate(self.name, name: "name", parent: name, min: 1)
             try self.validate(self.name, name: "name", parent: name, pattern: "\\S")
@@ -1949,7 +2213,7 @@ extension FinspaceData {
         public let firstName: String?
         /// The last name of the user.
         public let lastName: String?
-        /// The option to indicate the type of user.    SUPER_USER– A user with permission to all the functionality and data in FinSpace.    APP_USER – A user with specific permissions in FinSpace. The users are assigned permissions by adding them to a permissions group.
+        /// The option to indicate the type of user.    SUPER_USER– A user with permission to all the functionality and data in FinSpace.    APP_USER – A user with specific permissions in FinSpace. The users are assigned permissions by adding them to a permission group.
         public let type: UserType?
         /// The unique identifier for the user account to update.
         public let userId: String
@@ -2028,7 +2292,7 @@ extension FinspaceData {
         public let lastName: String?
         /// The current status of the user account.     CREATING – The user account creation is in progress.    ENABLED – The user account is created and is currently active.    DISABLED – The user account is currently inactive.
         public let status: UserStatus?
-        ///  Indicates the type of user.    SUPER_USER – A user with permission to all the functionality and data in FinSpace.    APP_USER – A user with specific permissions in FinSpace. The users are assigned permissions by adding them to a permissions group.
+        ///  Indicates the type of user.    SUPER_USER – A user with permission to all the functionality and data in FinSpace.    APP_USER – A user with specific permissions in FinSpace. The users are assigned permissions by adding them to a permission group.
         public let type: UserType?
         /// The unique identifier for the user.
         public let userId: String?
@@ -2060,6 +2324,51 @@ extension FinspaceData {
             case lastLoginTime
             case lastModifiedTime
             case lastName
+            case status
+            case type
+            case userId
+        }
+    }
+
+    public struct UserByPermissionGroup: AWSDecodableShape {
+        /// Indicates whether the user can access FinSpace API operations.    ENABLED – The user has permissions to use the API operations.    DISABLED –  The user does not have permissions to use any API operations.
+        public let apiAccess: ApiAccess?
+        /// The IAM ARN identifier that is attached to FinSpace API calls.
+        public let apiAccessPrincipalArn: String?
+        /// The email address of the user. The email address serves as a unique identifier for each user and cannot be changed after it's created.
+        public let emailAddress: String?
+        /// The first name of the user.
+        public let firstName: String?
+        /// The last name of the user.
+        public let lastName: String?
+        /// Indicates the status of the user account within a permission group.    ADDITION_IN_PROGRESS – The user account is currently being added to the permission group.    ADDITION_SUCCESS – The user account is successfully added to the permission group.    REMOVAL_IN_PROGRESS – The user is currently being removed from the permission group.
+        public let membershipStatus: PermissionGroupMembershipStatus?
+        /// The current status of the user account.     CREATING – The user account creation is in progress.    ENABLED – The user account is created and is currently active.    DISABLED – The user account is currently inactive.
+        public let status: UserStatus?
+        ///  Indicates the type of user.    SUPER_USER – A user with permission to all the functionality and data in FinSpace.    APP_USER – A user with specific permissions in FinSpace. The users are assigned permissions by adding them to a permission group.
+        public let type: UserType?
+        /// The unique identifier for the user.
+        public let userId: String?
+
+        public init(apiAccess: ApiAccess? = nil, apiAccessPrincipalArn: String? = nil, emailAddress: String? = nil, firstName: String? = nil, lastName: String? = nil, membershipStatus: PermissionGroupMembershipStatus? = nil, status: UserStatus? = nil, type: UserType? = nil, userId: String? = nil) {
+            self.apiAccess = apiAccess
+            self.apiAccessPrincipalArn = apiAccessPrincipalArn
+            self.emailAddress = emailAddress
+            self.firstName = firstName
+            self.lastName = lastName
+            self.membershipStatus = membershipStatus
+            self.status = status
+            self.type = type
+            self.userId = userId
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case apiAccess
+            case apiAccessPrincipalArn
+            case emailAddress
+            case firstName
+            case lastName
+            case membershipStatus
             case status
             case type
             case userId

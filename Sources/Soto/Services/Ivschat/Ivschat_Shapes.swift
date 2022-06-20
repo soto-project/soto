@@ -442,7 +442,7 @@ extension Ivschat {
     }
 
     public struct MessageReviewHandler: AWSEncodableShape & AWSDecodableShape {
-        /// Specifies the fallback behavior (whether the message is allowed or denied) if the handler does not return a valid response, encounters an error or times out. If allowed, the message is delivered with returned content to all users connected to the room. If denied, the message is not delivered to any user. Default: ALLOW.
+        /// Specifies the fallback behavior (whether the message is allowed or denied) if the handler does not return a valid response, encounters an error, or times out. (For the timeout period, see  Service Quotas.) If allowed, the message is delivered with returned content to all users connected to the room. If denied, the message is not delivered to any user. Default: ALLOW.
         public let fallbackResult: FallbackResult?
         /// Identifier of the message review handler. Currently this must be an ARN of a lambda function.
         public let uri: String?

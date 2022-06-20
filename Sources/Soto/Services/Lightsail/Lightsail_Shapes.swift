@@ -1904,6 +1904,9 @@ extension Lightsail {
         /// The private domain name of the container service.
         ///  The private domain name is accessible only by other resources within the default virtual private cloud (VPC) of your Lightsail account.
         public let privateDomainName: String?
+        /// An object that describes the configuration for the container service to access private container image repositories, such as Amazon Elastic Container Registry (Amazon ECR) private repositories.
+        ///  For more information, see Configuring access to an Amazon ECR private repository for an Amazon Lightsail container service in the Amazon Lightsail Developer Guide.
+        public let privateRegistryAccess: PrivateRegistryAccess?
         /// The public domain name of the container service, such as example.com and www.example.com.
         ///  You can specify up to four public domain names for a container service. The domain names that you specify are used when you create a deployment with a container configured as the public endpoint of your container service.
         ///  If you don't specify public domain names, then you can use the default domain of the container service.
@@ -1925,7 +1928,7 @@ extension Lightsail {
         ///  If no public endpoint is specified in the currentDeployment, this URL returns a 404 response.
         public let url: String?
 
-        public init(arn: String? = nil, containerServiceName: String? = nil, createdAt: Date? = nil, currentDeployment: ContainerServiceDeployment? = nil, isDisabled: Bool? = nil, location: ResourceLocation? = nil, nextDeployment: ContainerServiceDeployment? = nil, power: ContainerServicePowerName? = nil, powerId: String? = nil, principalArn: String? = nil, privateDomainName: String? = nil, publicDomainNames: [String: [String]]? = nil, resourceType: ResourceType? = nil, scale: Int? = nil, state: ContainerServiceState? = nil, stateDetail: ContainerServiceStateDetail? = nil, tags: [Tag]? = nil, url: String? = nil) {
+        public init(arn: String? = nil, containerServiceName: String? = nil, createdAt: Date? = nil, currentDeployment: ContainerServiceDeployment? = nil, isDisabled: Bool? = nil, location: ResourceLocation? = nil, nextDeployment: ContainerServiceDeployment? = nil, power: ContainerServicePowerName? = nil, powerId: String? = nil, principalArn: String? = nil, privateDomainName: String? = nil, privateRegistryAccess: PrivateRegistryAccess? = nil, publicDomainNames: [String: [String]]? = nil, resourceType: ResourceType? = nil, scale: Int? = nil, state: ContainerServiceState? = nil, stateDetail: ContainerServiceStateDetail? = nil, tags: [Tag]? = nil, url: String? = nil) {
             self.arn = arn
             self.containerServiceName = containerServiceName
             self.createdAt = createdAt
@@ -1937,6 +1940,7 @@ extension Lightsail {
             self.powerId = powerId
             self.principalArn = principalArn
             self.privateDomainName = privateDomainName
+            self.privateRegistryAccess = privateRegistryAccess
             self.publicDomainNames = publicDomainNames
             self.resourceType = resourceType
             self.scale = scale
@@ -1958,6 +1962,7 @@ extension Lightsail {
             case powerId
             case principalArn
             case privateDomainName
+            case privateRegistryAccess
             case publicDomainNames
             case resourceType
             case scale
@@ -2020,6 +2025,36 @@ extension Lightsail {
         private enum CodingKeys: String, CodingKey {
             case containers
             case publicEndpoint
+        }
+    }
+
+    public struct ContainerServiceECRImagePullerRole: AWSDecodableShape {
+        /// A Boolean value that indicates whether the role is activated.
+        public let isActive: Bool?
+        /// The Amazon Resource Name (ARN) of the role, if it is activated.
+        public let principalArn: String?
+
+        public init(isActive: Bool? = nil, principalArn: String? = nil) {
+            self.isActive = isActive
+            self.principalArn = principalArn
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case isActive
+            case principalArn
+        }
+    }
+
+    public struct ContainerServiceECRImagePullerRoleRequest: AWSEncodableShape {
+        /// A Boolean value that indicates whether to activate the role.
+        public let isActive: Bool?
+
+        public init(isActive: Bool? = nil) {
+            self.isActive = isActive
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case isActive
         }
     }
 
@@ -2524,6 +2559,9 @@ extension Lightsail {
         ///  The power specifies the amount of memory, vCPUs, and base monthly cost of each node of the container service. The power and scale of a container service makes up its configured capacity. To determine the monthly price of your container service, multiply the base price of the power with the scale (the number of nodes) of the service.
         ///  Use the GetContainerServicePowers action to get a list of power options that you can specify using this parameter, and their base monthly cost.
         public let power: ContainerServicePowerName
+        /// An object to describe the configuration for the container service to access private container image repositories, such as Amazon Elastic Container Registry (Amazon ECR) private repositories.
+        ///  For more information, see Configuring access to an Amazon ECR private repository for an Amazon Lightsail container service in the Amazon Lightsail Developer Guide.
+        public let privateRegistryAccess: PrivateRegistryAccessRequest?
         /// The public domain names to use with the container service, such as example.com and www.example.com.
         ///  You can specify up to four public domain names for a container service. The domain names that you specify are used when you create a deployment with a container configured as the public endpoint of your container service.
         ///  If you don't specify public domain names, then you can use the default domain of the container service.
@@ -2541,9 +2579,10 @@ extension Lightsail {
         /// The tag keys and optional values to add to the container service during create. Use the TagResource action to tag a resource after it's created. For more information about tags in Lightsail, see the Amazon Lightsail Developer Guide.
         public let tags: [Tag]?
 
-        public init(deployment: ContainerServiceDeploymentRequest? = nil, power: ContainerServicePowerName, publicDomainNames: [String: [String]]? = nil, scale: Int, serviceName: String, tags: [Tag]? = nil) {
+        public init(deployment: ContainerServiceDeploymentRequest? = nil, power: ContainerServicePowerName, privateRegistryAccess: PrivateRegistryAccessRequest? = nil, publicDomainNames: [String: [String]]? = nil, scale: Int, serviceName: String, tags: [Tag]? = nil) {
             self.deployment = deployment
             self.power = power
+            self.privateRegistryAccess = privateRegistryAccess
             self.publicDomainNames = publicDomainNames
             self.scale = scale
             self.serviceName = serviceName
@@ -2562,6 +2601,7 @@ extension Lightsail {
         private enum CodingKeys: String, CodingKey {
             case deployment
             case power
+            case privateRegistryAccess
             case publicDomainNames
             case scale
             case serviceName
@@ -8376,6 +8416,32 @@ extension Lightsail {
         }
     }
 
+    public struct PrivateRegistryAccess: AWSDecodableShape {
+        /// An object that describes the activation status of the role that you can use to grant a Lightsail container service access to Amazon ECR private repositories. If the role is activated, the Amazon Resource Name (ARN) of the role is also listed.
+        public let ecrImagePullerRole: ContainerServiceECRImagePullerRole?
+
+        public init(ecrImagePullerRole: ContainerServiceECRImagePullerRole? = nil) {
+            self.ecrImagePullerRole = ecrImagePullerRole
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case ecrImagePullerRole
+        }
+    }
+
+    public struct PrivateRegistryAccessRequest: AWSEncodableShape {
+        /// An object to describe a request to activate or deactivate the role that you can use to grant an Amazon Lightsail container service access to Amazon Elastic Container Registry (Amazon ECR) private repositories.
+        public let ecrImagePullerRole: ContainerServiceECRImagePullerRoleRequest?
+
+        public init(ecrImagePullerRole: ContainerServiceECRImagePullerRoleRequest? = nil) {
+            self.ecrImagePullerRole = ecrImagePullerRole
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case ecrImagePullerRole
+        }
+    }
+
     public struct PutAlarmRequest: AWSEncodableShape {
         /// The name for the alarm. Specify the name of an existing alarm to update, and overwrite the previous configuration of the alarm.
         public let alarmName: String
@@ -9693,6 +9759,9 @@ extension Lightsail {
         ///  The power specifies the amount of memory, vCPUs, and base monthly cost of each node of the container service. The power and scale of a container service makes up its configured capacity. To determine the monthly price of your container service, multiply the base price of the power with the scale (the number of nodes) of the service.
         ///  Use the GetContainerServicePowers action to view the specifications of each power option.
         public let power: ContainerServicePowerName?
+        /// An object to describe the configuration for the container service to access private container image repositories, such as Amazon Elastic Container Registry (Amazon ECR) private repositories.
+        ///  For more information, see Configuring access to an Amazon ECR private repository for an Amazon Lightsail container service in the Amazon Lightsail Developer Guide.
+        public let privateRegistryAccess: PrivateRegistryAccessRequest?
         /// The public domain names to use with the container service, such as example.com and www.example.com.
         ///  You can specify up to four public domain names for a container service. The domain names that you specify are used when you create a deployment with a container configured as the public endpoint of your container service.
         ///  If you don't specify public domain names, then you can use the default domain of the container service.
@@ -9705,9 +9774,10 @@ extension Lightsail {
         /// The name of the container service to update.
         public let serviceName: String
 
-        public init(isDisabled: Bool? = nil, power: ContainerServicePowerName? = nil, publicDomainNames: [String: [String]]? = nil, scale: Int? = nil, serviceName: String) {
+        public init(isDisabled: Bool? = nil, power: ContainerServicePowerName? = nil, privateRegistryAccess: PrivateRegistryAccessRequest? = nil, publicDomainNames: [String: [String]]? = nil, scale: Int? = nil, serviceName: String) {
             self.isDisabled = isDisabled
             self.power = power
+            self.privateRegistryAccess = privateRegistryAccess
             self.publicDomainNames = publicDomainNames
             self.scale = scale
             self.serviceName = serviceName
@@ -9724,6 +9794,7 @@ extension Lightsail {
         private enum CodingKeys: String, CodingKey {
             case isDisabled
             case power
+            case privateRegistryAccess
             case publicDomainNames
             case scale
         }

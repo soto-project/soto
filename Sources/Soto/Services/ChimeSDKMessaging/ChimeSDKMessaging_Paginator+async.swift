@@ -226,6 +226,28 @@ extension ChimeSDKMessaging {
             on: eventLoop
         )
     }
+
+    ///  Allows an AppInstanceUser to search the channels that they belong to. The AppInstanceUser can search by membership or external ID.  An AppInstanceAdmin can search across all channels within the AppInstance.
+    /// Return PaginatorSequence for operation.
+    ///
+    /// - Parameters:
+    ///   - input: Input for request
+    ///   - logger: Logger used flot logging
+    ///   - eventLoop: EventLoop to run this process on
+    public func searchChannelsPaginator(
+        _ input: SearchChannelsRequest,
+        logger: Logger = AWSClient.loggingDisabled,
+        on eventLoop: EventLoop? = nil
+    ) -> AWSClient.PaginatorSequence<SearchChannelsRequest, SearchChannelsResponse> {
+        return .init(
+            input: input,
+            command: searchChannels,
+            inputKey: \SearchChannelsRequest.nextToken,
+            outputKey: \SearchChannelsResponse.nextToken,
+            logger: logger,
+            on: eventLoop
+        )
+    }
 }
 
 #endif // compiler(>=5.5.2) && canImport(_Concurrency)

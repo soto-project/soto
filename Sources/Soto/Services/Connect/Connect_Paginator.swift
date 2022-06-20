@@ -73,6 +73,59 @@ extension Connect {
         )
     }
 
+    ///  Gets the real-time active user data from the specified Amazon Connect instance.
+    ///
+    /// Provide paginated results to closure `onPage` for it to combine them into one result.
+    /// This works in a similar manner to `Array.reduce<Result>(_:_:) -> Result`.
+    ///
+    /// Parameters:
+    ///   - input: Input for request
+    ///   - initialValue: The value to use as the initial accumulating value. `initialValue` is passed to `onPage` the first time it is called.
+    ///   - logger: Logger used flot logging
+    ///   - eventLoop: EventLoop to run this process on
+    ///   - onPage: closure called with each paginated response. It combines an accumulating result with the contents of response. This combined result is then returned
+    ///         along with a boolean indicating if the paginate operation should continue.
+    public func getCurrentUserDataPaginator<Result>(
+        _ input: GetCurrentUserDataRequest,
+        _ initialValue: Result,
+        logger: Logger = AWSClient.loggingDisabled,
+        on eventLoop: EventLoop? = nil,
+        onPage: @escaping (Result, GetCurrentUserDataResponse, EventLoop) -> EventLoopFuture<(Bool, Result)>
+    ) -> EventLoopFuture<Result> {
+        return client.paginate(
+            input: input,
+            initialValue: initialValue,
+            command: getCurrentUserData,
+            inputKey: \GetCurrentUserDataRequest.nextToken,
+            outputKey: \GetCurrentUserDataResponse.nextToken,
+            on: eventLoop,
+            onPage: onPage
+        )
+    }
+
+    /// Provide paginated results to closure `onPage`.
+    ///
+    /// - Parameters:
+    ///   - input: Input for request
+    ///   - logger: Logger used flot logging
+    ///   - eventLoop: EventLoop to run this process on
+    ///   - onPage: closure called with each block of entries. Returns boolean indicating whether we should continue.
+    public func getCurrentUserDataPaginator(
+        _ input: GetCurrentUserDataRequest,
+        logger: Logger = AWSClient.loggingDisabled,
+        on eventLoop: EventLoop? = nil,
+        onPage: @escaping (GetCurrentUserDataResponse, EventLoop) -> EventLoopFuture<Bool>
+    ) -> EventLoopFuture<Void> {
+        return client.paginate(
+            input: input,
+            command: getCurrentUserData,
+            inputKey: \GetCurrentUserDataRequest.nextToken,
+            outputKey: \GetCurrentUserDataResponse.nextToken,
+            on: eventLoop,
+            onPage: onPage
+        )
+    }
+
     ///  Gets historical metric data from the specified Amazon Connect instance.
     ///   For a description of each historical metric, see Historical Metrics Definitions in the Amazon Connect Administrator Guide.
     ///
@@ -1453,6 +1506,59 @@ extension Connect {
         )
     }
 
+    ///  Lists task templates for the specified Amazon Connect instance.
+    ///
+    /// Provide paginated results to closure `onPage` for it to combine them into one result.
+    /// This works in a similar manner to `Array.reduce<Result>(_:_:) -> Result`.
+    ///
+    /// Parameters:
+    ///   - input: Input for request
+    ///   - initialValue: The value to use as the initial accumulating value. `initialValue` is passed to `onPage` the first time it is called.
+    ///   - logger: Logger used flot logging
+    ///   - eventLoop: EventLoop to run this process on
+    ///   - onPage: closure called with each paginated response. It combines an accumulating result with the contents of response. This combined result is then returned
+    ///         along with a boolean indicating if the paginate operation should continue.
+    public func listTaskTemplatesPaginator<Result>(
+        _ input: ListTaskTemplatesRequest,
+        _ initialValue: Result,
+        logger: Logger = AWSClient.loggingDisabled,
+        on eventLoop: EventLoop? = nil,
+        onPage: @escaping (Result, ListTaskTemplatesResponse, EventLoop) -> EventLoopFuture<(Bool, Result)>
+    ) -> EventLoopFuture<Result> {
+        return client.paginate(
+            input: input,
+            initialValue: initialValue,
+            command: listTaskTemplates,
+            inputKey: \ListTaskTemplatesRequest.nextToken,
+            outputKey: \ListTaskTemplatesResponse.nextToken,
+            on: eventLoop,
+            onPage: onPage
+        )
+    }
+
+    /// Provide paginated results to closure `onPage`.
+    ///
+    /// - Parameters:
+    ///   - input: Input for request
+    ///   - logger: Logger used flot logging
+    ///   - eventLoop: EventLoop to run this process on
+    ///   - onPage: closure called with each block of entries. Returns boolean indicating whether we should continue.
+    public func listTaskTemplatesPaginator(
+        _ input: ListTaskTemplatesRequest,
+        logger: Logger = AWSClient.loggingDisabled,
+        on eventLoop: EventLoop? = nil,
+        onPage: @escaping (ListTaskTemplatesResponse, EventLoop) -> EventLoopFuture<Bool>
+    ) -> EventLoopFuture<Void> {
+        return client.paginate(
+            input: input,
+            command: listTaskTemplates,
+            inputKey: \ListTaskTemplatesRequest.nextToken,
+            outputKey: \ListTaskTemplatesResponse.nextToken,
+            on: eventLoop,
+            onPage: onPage
+        )
+    }
+
     ///  Lists the use cases for the integration association.
     ///
     /// Provide paginated results to closure `onPage` for it to combine them into one result.
@@ -1785,6 +1891,17 @@ extension Connect.GetCurrentMetricDataRequest: AWSPaginateToken {
     }
 }
 
+extension Connect.GetCurrentUserDataRequest: AWSPaginateToken {
+    public func usingPaginationToken(_ token: String) -> Connect.GetCurrentUserDataRequest {
+        return .init(
+            filters: self.filters,
+            instanceId: self.instanceId,
+            maxResults: self.maxResults,
+            nextToken: token
+        )
+    }
+}
+
 extension Connect.GetMetricDataRequest: AWSPaginateToken {
     public func usingPaginationToken(_ token: String) -> Connect.GetMetricDataRequest {
         return .init(
@@ -2063,6 +2180,18 @@ extension Connect.ListSecurityProfilesRequest: AWSPaginateToken {
             instanceId: self.instanceId,
             maxResults: self.maxResults,
             nextToken: token
+        )
+    }
+}
+
+extension Connect.ListTaskTemplatesRequest: AWSPaginateToken {
+    public func usingPaginationToken(_ token: String) -> Connect.ListTaskTemplatesRequest {
+        return .init(
+            instanceId: self.instanceId,
+            maxResults: self.maxResults,
+            name: self.name,
+            nextToken: token,
+            status: self.status
         )
     }
 }

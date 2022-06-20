@@ -51,7 +51,7 @@ public struct CodeArtifactErrorType: AWSErrorType {
     public static var accessDeniedException: Self { .init(.accessDeniedException) }
     ///  The operation did not succeed because prerequisites are not met.
     public static var conflictException: Self { .init(.conflictException) }
-    ///  The operation did not succeed because of an error that occurred inside AWS CodeArtifact.
+    ///  The operation did not succeed because of an error that occurred inside CodeArtifact.
     public static var internalServerException: Self { .init(.internalServerException) }
     ///  The operation did not succeed because the resource requested is not found in the service.
     public static var resourceNotFoundException: Self { .init(.resourceNotFoundException) }

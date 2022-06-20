@@ -199,6 +199,116 @@ extension DatabaseMigrationService {
         )
     }
 
+    ///  Returns a list of the Fleet Advisor collectors in your account.
+    /// Return PaginatorSequence for operation.
+    ///
+    /// - Parameters:
+    ///   - input: Input for request
+    ///   - logger: Logger used flot logging
+    ///   - eventLoop: EventLoop to run this process on
+    public func describeFleetAdvisorCollectorsPaginator(
+        _ input: DescribeFleetAdvisorCollectorsRequest,
+        logger: Logger = AWSClient.loggingDisabled,
+        on eventLoop: EventLoop? = nil
+    ) -> AWSClient.PaginatorSequence<DescribeFleetAdvisorCollectorsRequest, DescribeFleetAdvisorCollectorsResponse> {
+        return .init(
+            input: input,
+            command: describeFleetAdvisorCollectors,
+            inputKey: \DescribeFleetAdvisorCollectorsRequest.nextToken,
+            outputKey: \DescribeFleetAdvisorCollectorsResponse.nextToken,
+            logger: logger,
+            on: eventLoop
+        )
+    }
+
+    ///  Returns a list of Fleet Advisor databases in your account.
+    /// Return PaginatorSequence for operation.
+    ///
+    /// - Parameters:
+    ///   - input: Input for request
+    ///   - logger: Logger used flot logging
+    ///   - eventLoop: EventLoop to run this process on
+    public func describeFleetAdvisorDatabasesPaginator(
+        _ input: DescribeFleetAdvisorDatabasesRequest,
+        logger: Logger = AWSClient.loggingDisabled,
+        on eventLoop: EventLoop? = nil
+    ) -> AWSClient.PaginatorSequence<DescribeFleetAdvisorDatabasesRequest, DescribeFleetAdvisorDatabasesResponse> {
+        return .init(
+            input: input,
+            command: describeFleetAdvisorDatabases,
+            inputKey: \DescribeFleetAdvisorDatabasesRequest.nextToken,
+            outputKey: \DescribeFleetAdvisorDatabasesResponse.nextToken,
+            logger: logger,
+            on: eventLoop
+        )
+    }
+
+    ///  Provides descriptions of large-scale assessment (LSA) analyses produced by your Fleet Advisor collectors.
+    /// Return PaginatorSequence for operation.
+    ///
+    /// - Parameters:
+    ///   - input: Input for request
+    ///   - logger: Logger used flot logging
+    ///   - eventLoop: EventLoop to run this process on
+    public func describeFleetAdvisorLsaAnalysisPaginator(
+        _ input: DescribeFleetAdvisorLsaAnalysisRequest,
+        logger: Logger = AWSClient.loggingDisabled,
+        on eventLoop: EventLoop? = nil
+    ) -> AWSClient.PaginatorSequence<DescribeFleetAdvisorLsaAnalysisRequest, DescribeFleetAdvisorLsaAnalysisResponse> {
+        return .init(
+            input: input,
+            command: describeFleetAdvisorLsaAnalysis,
+            inputKey: \DescribeFleetAdvisorLsaAnalysisRequest.nextToken,
+            outputKey: \DescribeFleetAdvisorLsaAnalysisResponse.nextToken,
+            logger: logger,
+            on: eventLoop
+        )
+    }
+
+    ///  Provides descriptions of the schemas discovered by your Fleet Advisor collectors.
+    /// Return PaginatorSequence for operation.
+    ///
+    /// - Parameters:
+    ///   - input: Input for request
+    ///   - logger: Logger used flot logging
+    ///   - eventLoop: EventLoop to run this process on
+    public func describeFleetAdvisorSchemaObjectSummaryPaginator(
+        _ input: DescribeFleetAdvisorSchemaObjectSummaryRequest,
+        logger: Logger = AWSClient.loggingDisabled,
+        on eventLoop: EventLoop? = nil
+    ) -> AWSClient.PaginatorSequence<DescribeFleetAdvisorSchemaObjectSummaryRequest, DescribeFleetAdvisorSchemaObjectSummaryResponse> {
+        return .init(
+            input: input,
+            command: describeFleetAdvisorSchemaObjectSummary,
+            inputKey: \DescribeFleetAdvisorSchemaObjectSummaryRequest.nextToken,
+            outputKey: \DescribeFleetAdvisorSchemaObjectSummaryResponse.nextToken,
+            logger: logger,
+            on: eventLoop
+        )
+    }
+
+    ///  Returns a list of schemas detected by Fleet Advisor Collectors in your account.
+    /// Return PaginatorSequence for operation.
+    ///
+    /// - Parameters:
+    ///   - input: Input for request
+    ///   - logger: Logger used flot logging
+    ///   - eventLoop: EventLoop to run this process on
+    public func describeFleetAdvisorSchemasPaginator(
+        _ input: DescribeFleetAdvisorSchemasRequest,
+        logger: Logger = AWSClient.loggingDisabled,
+        on eventLoop: EventLoop? = nil
+    ) -> AWSClient.PaginatorSequence<DescribeFleetAdvisorSchemasRequest, DescribeFleetAdvisorSchemasResponse> {
+        return .init(
+            input: input,
+            command: describeFleetAdvisorSchemas,
+            inputKey: \DescribeFleetAdvisorSchemasRequest.nextToken,
+            outputKey: \DescribeFleetAdvisorSchemasResponse.nextToken,
+            logger: logger,
+            on: eventLoop
+        )
+    }
+
     ///  Returns information about the replication instance types that can be created in the specified region.
     /// Return PaginatorSequence for operation.
     ///

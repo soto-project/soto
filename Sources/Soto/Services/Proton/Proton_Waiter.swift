@@ -22,6 +22,44 @@ import SotoCore
 // MARK: Waiters
 
 extension Proton {
+    /// Wait until a Component is deleted. Use this after invoking DeleteComponent
+    public func waitUntilComponentDeleted(
+        _ input: GetComponentInput,
+        maxWaitTime: TimeAmount? = nil,
+        logger: Logger = AWSClient.loggingDisabled,
+        on eventLoop: EventLoop? = nil
+    ) -> EventLoopFuture<Void> {
+        let waiter = AWSClient.Waiter(
+            acceptors: [
+                .init(state: .success, matcher: AWSErrorCodeMatcher("ResourceNotFoundException")),
+                .init(state: .failure, matcher: try! JMESPathMatcher("component.deploymentStatus", expected: "DELETE_FAILED")),
+            ],
+            minDelayTime: .seconds(5),
+            maxDelayTime: .seconds(4999),
+            command: getComponent
+        )
+        return self.client.waitUntil(input, waiter: waiter, maxWaitTime: maxWaitTime, logger: logger, on: eventLoop)
+    }
+
+    /// Wait until a Component is deployed. Use this after invoking CreateComponent or UpdateComponent
+    public func waitUntilComponentDeployed(
+        _ input: GetComponentInput,
+        maxWaitTime: TimeAmount? = nil,
+        logger: Logger = AWSClient.loggingDisabled,
+        on eventLoop: EventLoop? = nil
+    ) -> EventLoopFuture<Void> {
+        let waiter = AWSClient.Waiter(
+            acceptors: [
+                .init(state: .success, matcher: try! JMESPathMatcher("component.deploymentStatus", expected: "SUCCEEDED")),
+                .init(state: .failure, matcher: try! JMESPathMatcher("component.deploymentStatus", expected: "FAILED")),
+            ],
+            minDelayTime: .seconds(5),
+            maxDelayTime: .seconds(4999),
+            command: getComponent
+        )
+        return self.client.waitUntil(input, waiter: waiter, maxWaitTime: maxWaitTime, logger: logger, on: eventLoop)
+    }
+
     /// Wait until an Environment is deployed. Use this after invoking CreateEnvironment or UpdateEnvironment
     public func waitUntilEnvironmentDeployed(
         _ input: GetEnvironmentInput,

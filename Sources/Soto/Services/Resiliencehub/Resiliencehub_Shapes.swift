@@ -30,6 +30,12 @@ extension Resiliencehub {
         public var description: String { return self.rawValue }
     }
 
+    public enum AppAssessmentScheduleType: String, CustomStringConvertible, Codable, _SotoSendable {
+        case daily = "Daily"
+        case disabled = "Disabled"
+        public var description: String { return self.rawValue }
+    }
+
     public enum AppComplianceStatusType: String, CustomStringConvertible, Codable, _SotoSendable {
         case changesDetected = "ChangesDetected"
         case notAssessed = "NotAssessed"
@@ -163,6 +169,7 @@ extension Resiliencehub {
         case cfnStack = "CfnStack"
         case resource = "Resource"
         case resourceGroup = "ResourceGroup"
+        case terraform = "Terraform"
         public var description: String { return self.rawValue }
     }
 
@@ -204,7 +211,7 @@ extension Resiliencehub {
 
     public struct AddDraftAppVersionResourceMappingsRequest: AWSEncodableShape {
         /// The Amazon Resource Name (ARN) of the application. The format for this ARN is:
-        /// arn:partition:dcps:region:account:app/app-id. For more information about ARNs,
+        /// arn:partition:resiliencehub:region:account:app/app-id. For more information about ARNs,
         /// see  Amazon Resource Names (ARNs) in the  AWS General Reference.
         public let appArn: String
         ///  Mappings used to map logical resources from the template to physical resources. You can use the mapping type CFN_STACK if the application template uses a logical stack name. Or you can map individual resources by using the mapping type RESOURCE. We recommend using the mapping type CFN_STACK if the application is backed by a CloudFormation stack.
@@ -230,7 +237,7 @@ extension Resiliencehub {
 
     public struct AddDraftAppVersionResourceMappingsResponse: AWSDecodableShape {
         ///  The Amazon Resource Name (ARN) of the application. The format for this ARN is:
-        /// arn:partition:dcps:region:account:app/app-id. For more information about ARNs,
+        /// arn:partition:resiliencehub:region:account:app/app-id. For more information about ARNs,
         /// see  Amazon Resource Names (ARNs) in the  AWS General Reference.
         public let appArn: String
         /// The version of the application.
@@ -294,9 +301,11 @@ extension Resiliencehub {
 
     public struct App: AWSDecodableShape {
         /// The Amazon Resource Name (ARN) of the application. The format for this ARN is:
-        /// arn:partition:dcps:region:account:app/app-id. For more information about ARNs,
+        /// arn:partition:resiliencehub:region:account:app/app-id. For more information about ARNs,
         /// see  Amazon Resource Names (ARNs) in the  AWS General Reference.
         public let appArn: String
+        ///  Assessment execution schedule with 'Daily' or 'Disabled' values.
+        public let assessmentSchedule: AppAssessmentScheduleType?
         /// The current status of compliance for the resiliency policy.
         public let complianceStatus: AppComplianceStatusType?
         /// The timestamp for when the app was created.
@@ -310,7 +319,7 @@ extension Resiliencehub {
         /// The name for the application.
         public let name: String
         /// The Amazon Resource Name (ARN) of the resiliency policy. The format for this ARN is:
-        /// arn:partition:dcps:region:account:resiliency-policy/policy-id. For more information about ARNs,
+        /// arn:partition:resiliencehub:region:account:resiliency-policy/policy-id. For more information about ARNs,
         /// see  Amazon Resource Names (ARNs) in the  AWS General Reference.
         public let policyArn: String?
         /// The current resiliency score for the application.
@@ -321,8 +330,9 @@ extension Resiliencehub {
         /// Each tag consists of a key/value pair.
         public let tags: [String: String]?
 
-        public init(appArn: String, complianceStatus: AppComplianceStatusType? = nil, creationTime: Date, description: String? = nil, lastAppComplianceEvaluationTime: Date? = nil, lastResiliencyScoreEvaluationTime: Date? = nil, name: String, policyArn: String? = nil, resiliencyScore: Double? = nil, status: AppStatusType? = nil, tags: [String: String]? = nil) {
+        public init(appArn: String, assessmentSchedule: AppAssessmentScheduleType? = nil, complianceStatus: AppComplianceStatusType? = nil, creationTime: Date, description: String? = nil, lastAppComplianceEvaluationTime: Date? = nil, lastResiliencyScoreEvaluationTime: Date? = nil, name: String, policyArn: String? = nil, resiliencyScore: Double? = nil, status: AppStatusType? = nil, tags: [String: String]? = nil) {
             self.appArn = appArn
+            self.assessmentSchedule = assessmentSchedule
             self.complianceStatus = complianceStatus
             self.creationTime = creationTime
             self.description = description
@@ -337,6 +347,7 @@ extension Resiliencehub {
 
         private enum CodingKeys: String, CodingKey {
             case appArn
+            case assessmentSchedule
             case complianceStatus
             case creationTime
             case description
@@ -352,13 +363,13 @@ extension Resiliencehub {
 
     public struct AppAssessment: AWSDecodableShape {
         /// The Amazon Resource Name (ARN) of the application. The format for this ARN is:
-        /// arn:partition:dcps:region:account:app/app-id. For more information about ARNs,
+        /// arn:partition:resiliencehub:region:account:app/app-id. For more information about ARNs,
         /// see  Amazon Resource Names (ARNs) in the  AWS General Reference.
         public let appArn: String?
         /// The version of the application.
         public let appVersion: String?
         /// The Amazon Resource Name (ARN) of the assessment. The format for this ARN is:
-        /// arn:partition:dcps:region:account:app-assessment/app-id. For more information about ARNs,
+        /// arn:partition:resiliencehub:region:account:app-assessment/app-id. For more information about ARNs,
         /// see  Amazon Resource Names (ARNs) in the  AWS General Reference.
         public let assessmentArn: String
         /// The name of the assessment.
@@ -381,13 +392,15 @@ extension Resiliencehub {
         public let policy: ResiliencyPolicy?
         /// The current resiliency score for the application.
         public let resiliencyScore: ResiliencyScore?
+        ///  A resource error object containing a list of errors retrieving an application's resources.
+        public let resourceErrorsDetails: ResourceErrorsDetails?
         /// The starting time for the action.
         public let startTime: Date?
         /// The tags assigned to the resource. A tag is a label that you assign to an Amazon Web Services resource.
         /// Each tag consists of a key/value pair.
         public let tags: [String: String]?
 
-        public init(appArn: String? = nil, appVersion: String? = nil, assessmentArn: String, assessmentName: String? = nil, assessmentStatus: AssessmentStatus, compliance: [DisruptionType: DisruptionCompliance]? = nil, complianceStatus: ComplianceStatus? = nil, cost: Cost? = nil, endTime: Date? = nil, invoker: AssessmentInvoker, message: String? = nil, policy: ResiliencyPolicy? = nil, resiliencyScore: ResiliencyScore? = nil, startTime: Date? = nil, tags: [String: String]? = nil) {
+        public init(appArn: String? = nil, appVersion: String? = nil, assessmentArn: String, assessmentName: String? = nil, assessmentStatus: AssessmentStatus, compliance: [DisruptionType: DisruptionCompliance]? = nil, complianceStatus: ComplianceStatus? = nil, cost: Cost? = nil, endTime: Date? = nil, invoker: AssessmentInvoker, message: String? = nil, policy: ResiliencyPolicy? = nil, resiliencyScore: ResiliencyScore? = nil, resourceErrorsDetails: ResourceErrorsDetails? = nil, startTime: Date? = nil, tags: [String: String]? = nil) {
             self.appArn = appArn
             self.appVersion = appVersion
             self.assessmentArn = assessmentArn
@@ -401,6 +414,7 @@ extension Resiliencehub {
             self.message = message
             self.policy = policy
             self.resiliencyScore = resiliencyScore
+            self.resourceErrorsDetails = resourceErrorsDetails
             self.startTime = startTime
             self.tags = tags
         }
@@ -419,6 +433,7 @@ extension Resiliencehub {
             case message
             case policy
             case resiliencyScore
+            case resourceErrorsDetails
             case startTime
             case tags
         }
@@ -426,13 +441,13 @@ extension Resiliencehub {
 
     public struct AppAssessmentSummary: AWSDecodableShape {
         /// The Amazon Resource Name (ARN) of the application. The format for this ARN is:
-        /// arn:partition:dcps:region:account:app/app-id. For more information about ARNs,
+        /// arn:partition:resiliencehub:region:account:app/app-id. For more information about ARNs,
         /// see  Amazon Resource Names (ARNs) in the  AWS General Reference.
         public let appArn: String?
         /// The version of the application.
         public let appVersion: String?
         /// The Amazon Resource Name (ARN) of the assessment. The format for this ARN is:
-        /// arn:partition:dcps:region:account:app-assessment/app-id. For more information about ARNs,
+        /// arn:partition:resiliencehub:region:account:app-assessment/app-id. For more information about ARNs,
         /// see  Amazon Resource Names (ARNs) in the  AWS General Reference.
         public let assessmentArn: String
         /// The name of the assessment.
@@ -537,9 +552,11 @@ extension Resiliencehub {
 
     public struct AppSummary: AWSDecodableShape {
         /// The Amazon Resource Name (ARN) of the application. The format for this ARN is:
-        /// arn:partition:dcps:region:account:app/app-id. For more information about ARNs,
+        /// arn:partition:resiliencehub:region:account:app/app-id. For more information about ARNs,
         /// see  Amazon Resource Names (ARNs) in the  AWS General Reference.
         public let appArn: String
+        ///  Assessment execution schedule with 'Daily' or 'Disabled' values.
+        public let assessmentSchedule: AppAssessmentScheduleType?
         /// The current status of compliance for the resiliency policy.
         public let complianceStatus: AppComplianceStatusType?
         /// The timestamp for when the app was created.
@@ -551,8 +568,9 @@ extension Resiliencehub {
         /// The current resiliency score for the application.
         public let resiliencyScore: Double?
 
-        public init(appArn: String, complianceStatus: AppComplianceStatusType? = nil, creationTime: Date, description: String? = nil, name: String, resiliencyScore: Double? = nil) {
+        public init(appArn: String, assessmentSchedule: AppAssessmentScheduleType? = nil, complianceStatus: AppComplianceStatusType? = nil, creationTime: Date, description: String? = nil, name: String, resiliencyScore: Double? = nil) {
             self.appArn = appArn
+            self.assessmentSchedule = assessmentSchedule
             self.complianceStatus = complianceStatus
             self.creationTime = creationTime
             self.description = description
@@ -562,6 +580,7 @@ extension Resiliencehub {
 
         private enum CodingKeys: String, CodingKey {
             case appArn
+            case assessmentSchedule
             case complianceStatus
             case creationTime
             case description
@@ -675,6 +694,8 @@ extension Resiliencehub {
     }
 
     public struct CreateAppRequest: AWSEncodableShape {
+        ///  Assessment execution schedule with 'Daily' or 'Disabled' values.
+        public let assessmentSchedule: AppAssessmentScheduleType?
         /// Used for an idempotency token. A client token is a unique, case-sensitive string of up to 64 ASCII characters.
         /// You should not reuse the same client token for other API requests.
         public let clientToken: String?
@@ -683,14 +704,15 @@ extension Resiliencehub {
         /// The name for the application.
         public let name: String
         /// The Amazon Resource Name (ARN) of the resiliency policy. The format for this ARN is:
-        /// arn:partition:dcps:region:account:resiliency-policy/policy-id. For more information about ARNs,
+        /// arn:partition:resiliencehub:region:account:resiliency-policy/policy-id. For more information about ARNs,
         /// see  Amazon Resource Names (ARNs) in the  AWS General Reference.
         public let policyArn: String?
         /// The tags assigned to the resource. A tag is a label that you assign to an Amazon Web Services resource.
         /// Each tag consists of a key/value pair.
         public let tags: [String: String]?
 
-        public init(clientToken: String? = CreateAppRequest.idempotencyToken(), description: String? = nil, name: String, policyArn: String? = nil, tags: [String: String]? = nil) {
+        public init(assessmentSchedule: AppAssessmentScheduleType? = nil, clientToken: String? = CreateAppRequest.idempotencyToken(), description: String? = nil, name: String, policyArn: String? = nil, tags: [String: String]? = nil) {
+            self.assessmentSchedule = assessmentSchedule
             self.clientToken = clientToken
             self.description = description
             self.name = name
@@ -708,14 +730,16 @@ extension Resiliencehub {
             try self.tags?.forEach {
                 try validate($0.key, name: "tags.key", parent: name, max: 128)
                 try validate($0.key, name: "tags.key", parent: name, min: 1)
-                try validate($0.key, name: "tags.key", parent: name, pattern: "^(?!aws:).+$")
+                try validate($0.key, name: "tags.key", parent: name, pattern: "^(?!aws:)[^\\x00-\\x1f\\x22]+$")
                 try validate($0.value, name: "tags[\"\($0.key)\"]", parent: name, max: 256)
+                try validate($0.value, name: "tags[\"\($0.key)\"]", parent: name, pattern: "^[^\\x00-\\x1f\\x22]*$")
             }
             try self.validate(self.tags, name: "tags", parent: name, max: 50)
             try self.validate(self.tags, name: "tags", parent: name, min: 1)
         }
 
         private enum CodingKeys: String, CodingKey {
+            case assessmentSchedule
             case clientToken
             case description
             case name
@@ -739,7 +763,7 @@ extension Resiliencehub {
 
     public struct CreateRecommendationTemplateRequest: AWSEncodableShape {
         /// The Amazon Resource Name (ARN) of the assessment. The format for this ARN is:
-        /// arn:partition:dcps:region:account:app-assessment/app-id. For more information about ARNs,
+        /// arn:partition:resiliencehub:region:account:app-assessment/app-id. For more information about ARNs,
         /// see  Amazon Resource Names (ARNs) in the  AWS General Reference.
         public let assessmentArn: String
         /// The name of the Amazon S3 bucket that will contain the recommendation template.
@@ -787,8 +811,9 @@ extension Resiliencehub {
             try self.tags?.forEach {
                 try validate($0.key, name: "tags.key", parent: name, max: 128)
                 try validate($0.key, name: "tags.key", parent: name, min: 1)
-                try validate($0.key, name: "tags.key", parent: name, pattern: "^(?!aws:).+$")
+                try validate($0.key, name: "tags.key", parent: name, pattern: "^(?!aws:)[^\\x00-\\x1f\\x22]+$")
                 try validate($0.value, name: "tags[\"\($0.key)\"]", parent: name, max: 256)
+                try validate($0.value, name: "tags[\"\($0.key)\"]", parent: name, pattern: "^[^\\x00-\\x1f\\x22]*$")
             }
             try self.validate(self.tags, name: "tags", parent: name, max: 50)
             try self.validate(self.tags, name: "tags", parent: name, min: 1)
@@ -859,8 +884,9 @@ extension Resiliencehub {
             try self.tags?.forEach {
                 try validate($0.key, name: "tags.key", parent: name, max: 128)
                 try validate($0.key, name: "tags.key", parent: name, min: 1)
-                try validate($0.key, name: "tags.key", parent: name, pattern: "^(?!aws:).+$")
+                try validate($0.key, name: "tags.key", parent: name, pattern: "^(?!aws:)[^\\x00-\\x1f\\x22]+$")
                 try validate($0.value, name: "tags[\"\($0.key)\"]", parent: name, max: 256)
+                try validate($0.value, name: "tags[\"\($0.key)\"]", parent: name, pattern: "^[^\\x00-\\x1f\\x22]*$")
             }
             try self.validate(self.tags, name: "tags", parent: name, max: 50)
             try self.validate(self.tags, name: "tags", parent: name, min: 1)
@@ -892,7 +918,7 @@ extension Resiliencehub {
 
     public struct DeleteAppAssessmentRequest: AWSEncodableShape {
         /// The Amazon Resource Name (ARN) of the assessment. The format for this ARN is:
-        /// arn:partition:dcps:region:account:app-assessment/app-id. For more information about ARNs,
+        /// arn:partition:resiliencehub:region:account:app-assessment/app-id. For more information about ARNs,
         /// see  Amazon Resource Names (ARNs) in the  AWS General Reference.
         public let assessmentArn: String
         /// Used for an idempotency token. A client token is a unique, case-sensitive string of up to 64 ASCII characters.
@@ -919,7 +945,7 @@ extension Resiliencehub {
 
     public struct DeleteAppAssessmentResponse: AWSDecodableShape {
         /// The Amazon Resource Name (ARN) of the assessment. The format for this ARN is:
-        /// arn:partition:dcps:region:account:app-assessment/app-id. For more information about ARNs,
+        /// arn:partition:resiliencehub:region:account:app-assessment/app-id. For more information about ARNs,
         /// see  Amazon Resource Names (ARNs) in the  AWS General Reference.
         public let assessmentArn: String
         /// The current status of the assessment for the resiliency policy.
@@ -938,7 +964,7 @@ extension Resiliencehub {
 
     public struct DeleteAppRequest: AWSEncodableShape {
         /// The Amazon Resource Name (ARN) of the application. The format for this ARN is:
-        /// arn:partition:dcps:region:account:app/app-id. For more information about ARNs,
+        /// arn:partition:resiliencehub:region:account:app/app-id. For more information about ARNs,
         /// see  Amazon Resource Names (ARNs) in the  AWS General Reference.
         public let appArn: String
         /// Used for an idempotency token. A client token is a unique, case-sensitive string of up to 64 ASCII characters.
@@ -969,7 +995,7 @@ extension Resiliencehub {
 
     public struct DeleteAppResponse: AWSDecodableShape {
         /// The Amazon Resource Name (ARN) of the application. The format for this ARN is:
-        /// arn:partition:dcps:region:account:app/app-id. For more information about ARNs,
+        /// arn:partition:resiliencehub:region:account:app/app-id. For more information about ARNs,
         /// see  Amazon Resource Names (ARNs) in the  AWS General Reference.
         public let appArn: String
 
@@ -1029,7 +1055,7 @@ extension Resiliencehub {
         /// You should not reuse the same client token for other API requests.
         public let clientToken: String?
         /// The Amazon Resource Name (ARN) of the resiliency policy. The format for this ARN is:
-        /// arn:partition:dcps:region:account:resiliency-policy/policy-id. For more information about ARNs,
+        /// arn:partition:resiliencehub:region:account:resiliency-policy/policy-id. For more information about ARNs,
         /// see  Amazon Resource Names (ARNs) in the  AWS General Reference.
         public let policyArn: String
 
@@ -1053,7 +1079,7 @@ extension Resiliencehub {
 
     public struct DeleteResiliencyPolicyResponse: AWSDecodableShape {
         /// The Amazon Resource Name (ARN) of the resiliency policy. The format for this ARN is:
-        /// arn:partition:dcps:region:account:resiliency-policy/policy-id. For more information about ARNs,
+        /// arn:partition:resiliencehub:region:account:resiliency-policy/policy-id. For more information about ARNs,
         /// see  Amazon Resource Names (ARNs) in the  AWS General Reference.
         public let policyArn: String
 
@@ -1068,7 +1094,7 @@ extension Resiliencehub {
 
     public struct DescribeAppAssessmentRequest: AWSEncodableShape {
         /// The Amazon Resource Name (ARN) of the assessment. The format for this ARN is:
-        /// arn:partition:dcps:region:account:app-assessment/app-id. For more information about ARNs,
+        /// arn:partition:resiliencehub:region:account:app-assessment/app-id. For more information about ARNs,
         /// see  Amazon Resource Names (ARNs) in the  AWS General Reference.
         public let assessmentArn: String
 
@@ -1100,7 +1126,7 @@ extension Resiliencehub {
 
     public struct DescribeAppRequest: AWSEncodableShape {
         /// The Amazon Resource Name (ARN) of the application. The format for this ARN is:
-        /// arn:partition:dcps:region:account:app/app-id. For more information about ARNs,
+        /// arn:partition:resiliencehub:region:account:app/app-id. For more information about ARNs,
         /// see  Amazon Resource Names (ARNs) in the  AWS General Reference.
         public let appArn: String
 
@@ -1132,7 +1158,7 @@ extension Resiliencehub {
 
     public struct DescribeAppVersionResourcesResolutionStatusRequest: AWSEncodableShape {
         /// The Amazon Resource Name (ARN) of the application. The format for this ARN is:
-        /// arn:partition:dcps:region:account:app/app-id. For more information about ARNs,
+        /// arn:partition:resiliencehub:region:account:app/app-id. For more information about ARNs,
         /// see  Amazon Resource Names (ARNs) in the  AWS General Reference.
         public let appArn: String
         /// The version of the application.
@@ -1162,7 +1188,7 @@ extension Resiliencehub {
 
     public struct DescribeAppVersionResourcesResolutionStatusResponse: AWSDecodableShape {
         /// The Amazon Resource Name (ARN) of the application. The format for this ARN is:
-        /// arn:partition:dcps:region:account:app/app-id. For more information about ARNs,
+        /// arn:partition:resiliencehub:region:account:app/app-id. For more information about ARNs,
         /// see  Amazon Resource Names (ARNs) in the  AWS General Reference.
         public let appArn: String
         /// The version of the application.
@@ -1193,7 +1219,7 @@ extension Resiliencehub {
 
     public struct DescribeAppVersionTemplateRequest: AWSEncodableShape {
         /// The Amazon Resource Name (ARN) of the application. The format for this ARN is:
-        /// arn:partition:dcps:region:account:app/app-id. For more information about ARNs,
+        /// arn:partition:resiliencehub:region:account:app/app-id. For more information about ARNs,
         /// see  Amazon Resource Names (ARNs) in the  AWS General Reference.
         public let appArn: String
         /// The version of the application.
@@ -1217,7 +1243,7 @@ extension Resiliencehub {
 
     public struct DescribeAppVersionTemplateResponse: AWSDecodableShape {
         /// The Amazon Resource Name (ARN) of the application. The format for this ARN is:
-        /// arn:partition:dcps:region:account:app/app-id. For more information about ARNs,
+        /// arn:partition:resiliencehub:region:account:app/app-id. For more information about ARNs,
         /// see  Amazon Resource Names (ARNs) in the  AWS General Reference.
         public let appArn: String
         /// The body of the template.
@@ -1240,7 +1266,7 @@ extension Resiliencehub {
 
     public struct DescribeDraftAppVersionResourcesImportStatusRequest: AWSEncodableShape {
         /// The Amazon Resource Name (ARN) of the application. The format for this ARN is:
-        /// arn:partition:dcps:region:account:app/app-id. For more information about ARNs,
+        /// arn:partition:resiliencehub:region:account:app/app-id. For more information about ARNs,
         /// see  Amazon Resource Names (ARNs) in the  AWS General Reference.
         public let appArn: String
 
@@ -1259,7 +1285,7 @@ extension Resiliencehub {
 
     public struct DescribeDraftAppVersionResourcesImportStatusResponse: AWSDecodableShape {
         /// The Amazon Resource Name (ARN) of the application. The format for this ARN is:
-        /// arn:partition:dcps:region:account:app/app-id. For more information about ARNs,
+        /// arn:partition:resiliencehub:region:account:app/app-id. For more information about ARNs,
         /// see  Amazon Resource Names (ARNs) in the  AWS General Reference.
         public let appArn: String
         /// The version of the application.
@@ -1290,7 +1316,7 @@ extension Resiliencehub {
 
     public struct DescribeResiliencyPolicyRequest: AWSEncodableShape {
         /// The Amazon Resource Name (ARN) of the resiliency policy. The format for this ARN is:
-        /// arn:partition:dcps:region:account:resiliency-policy/policy-id. For more information about ARNs,
+        /// arn:partition:resiliencehub:region:account:resiliency-policy/policy-id. For more information about ARNs,
         /// see  Amazon Resource Names (ARNs) in the  AWS General Reference.
         public let policyArn: String
 
@@ -1393,47 +1419,57 @@ extension Resiliencehub {
 
     public struct ImportResourcesToDraftAppVersionRequest: AWSEncodableShape {
         /// The Amazon Resource Name (ARN) of the application. The format for this ARN is:
-        /// arn:partition:dcps:region:account:app/app-id. For more information about ARNs,
+        /// arn:partition:resiliencehub:region:account:app/app-id. For more information about ARNs,
         /// see  Amazon Resource Names (ARNs) in the  AWS General Reference.
         public let appArn: String
         /// The Amazon Resource Names (ARNs) for the resources that you want to import.
-        public let sourceArns: [String]
+        public let sourceArns: [String]?
+        ///  A list of terraform file s3 URLs you need to import.
+        public let terraformSources: [TerraformSource]?
 
-        public init(appArn: String, sourceArns: [String]) {
+        public init(appArn: String, sourceArns: [String]? = nil, terraformSources: [TerraformSource]? = nil) {
             self.appArn = appArn
             self.sourceArns = sourceArns
+            self.terraformSources = terraformSources
         }
 
         public func validate(name: String) throws {
             try self.validate(self.appArn, name: "appArn", parent: name, pattern: "^arn:(aws|aws-cn|aws-iso|aws-iso-[a-z]{1}|aws-us-gov):[A-Za-z0-9][A-Za-z0-9_/.-]{0,62}:([a-z]{2}-((iso[a-z]{0,1}-)|(gov-)){0,1}[a-z]+-[0-9]):[0-9]{12}:[A-Za-z0-9/][A-Za-z0-9:_/+=,@.-]{0,1023}$")
-            try self.sourceArns.forEach {
+            try self.sourceArns?.forEach {
                 try validate($0, name: "sourceArns[]", parent: name, pattern: "^arn:(aws|aws-cn|aws-iso|aws-iso-[a-z]{1}|aws-us-gov):[A-Za-z0-9][A-Za-z0-9_/.-]{0,62}:([a-z]{2}-((iso[a-z]{0,1}-)|(gov-)){0,1}[a-z]+-[0-9]):[0-9]{12}:[A-Za-z0-9/][A-Za-z0-9:_/+=,@.-]{0,1023}$")
+            }
+            try self.terraformSources?.forEach {
+                try $0.validate(name: "\(name).terraformSources[]")
             }
         }
 
         private enum CodingKeys: String, CodingKey {
             case appArn
             case sourceArns
+            case terraformSources
         }
     }
 
     public struct ImportResourcesToDraftAppVersionResponse: AWSDecodableShape {
         /// The Amazon Resource Name (ARN) of the application. The format for this ARN is:
-        /// arn:partition:dcps:region:account:app/app-id. For more information about ARNs,
+        /// arn:partition:resiliencehub:region:account:app/app-id. For more information about ARNs,
         /// see  Amazon Resource Names (ARNs) in the  AWS General Reference.
         public let appArn: String
         /// The version of the application.
         public let appVersion: String
         /// The Amazon Resource Names (ARNs) for the resources that you imported.
-        public let sourceArns: [String]
+        public let sourceArns: [String]?
         /// The status of the action.
         public let status: ResourceImportStatusType
+        ///  A list of terraform file s3 URLs you need to import.
+        public let terraformSources: [TerraformSource]?
 
-        public init(appArn: String, appVersion: String, sourceArns: [String], status: ResourceImportStatusType) {
+        public init(appArn: String, appVersion: String, sourceArns: [String]? = nil, status: ResourceImportStatusType, terraformSources: [TerraformSource]? = nil) {
             self.appArn = appArn
             self.appVersion = appVersion
             self.sourceArns = sourceArns
             self.status = status
+            self.terraformSources = terraformSources
         }
 
         private enum CodingKeys: String, CodingKey {
@@ -1441,12 +1477,13 @@ extension Resiliencehub {
             case appVersion
             case sourceArns
             case status
+            case terraformSources
         }
     }
 
     public struct ListAlarmRecommendationsRequest: AWSEncodableShape {
         /// The Amazon Resource Name (ARN) of the assessment. The format for this ARN is:
-        /// arn:partition:dcps:region:account:app-assessment/app-id. For more information about ARNs,
+        /// arn:partition:resiliencehub:region:account:app-assessment/app-id. For more information about ARNs,
         /// see  Amazon Resource Names (ARNs) in the  AWS General Reference.
         public let assessmentArn: String
         /// The maximum number of results to include in the response. If more results exist than the specified
@@ -1505,7 +1542,7 @@ extension Resiliencehub {
         ]
 
         /// The Amazon Resource Name (ARN) of the application. The format for this ARN is:
-        /// arn:partition:dcps:region:account:app/app-id. For more information about ARNs,
+        /// arn:partition:resiliencehub:region:account:app/app-id. For more information about ARNs,
         /// see  Amazon Resource Names (ARNs) in the  AWS General Reference.
         public let appArn: String?
         /// The name for the assessment.
@@ -1568,7 +1605,7 @@ extension Resiliencehub {
 
     public struct ListAppComponentCompliancesRequest: AWSEncodableShape {
         /// The Amazon Resource Name (ARN) of the assessment. The format for this ARN is:
-        /// arn:partition:dcps:region:account:app-assessment/app-id. For more information about ARNs,
+        /// arn:partition:resiliencehub:region:account:app-assessment/app-id. For more information about ARNs,
         /// see  Amazon Resource Names (ARNs) in the  AWS General Reference.
         public let assessmentArn: String
         /// The maximum number of results to include in the response. If more results exist than the specified
@@ -1616,7 +1653,7 @@ extension Resiliencehub {
 
     public struct ListAppComponentRecommendationsRequest: AWSEncodableShape {
         /// The Amazon Resource Name (ARN) of the assessment. The format for this ARN is:
-        /// arn:partition:dcps:region:account:app-assessment/app-id. For more information about ARNs,
+        /// arn:partition:resiliencehub:region:account:app-assessment/app-id. For more information about ARNs,
         /// see  Amazon Resource Names (ARNs) in the  AWS General Reference.
         public let assessmentArn: String
         /// The maximum number of results to include in the response. If more results exist than the specified
@@ -1664,7 +1701,7 @@ extension Resiliencehub {
 
     public struct ListAppVersionResourceMappingsRequest: AWSEncodableShape {
         /// The Amazon Resource Name (ARN) of the application. The format for this ARN is:
-        /// arn:partition:dcps:region:account:app/app-id. For more information about ARNs,
+        /// arn:partition:resiliencehub:region:account:app/app-id. For more information about ARNs,
         /// see  Amazon Resource Names (ARNs) in the  AWS General Reference.
         public let appArn: String
         /// The version of the application.
@@ -1717,7 +1754,7 @@ extension Resiliencehub {
 
     public struct ListAppVersionResourcesRequest: AWSEncodableShape {
         /// The Amazon Resource Name (ARN) of the application. The format for this ARN is:
-        /// arn:partition:dcps:region:account:app/app-id. For more information about ARNs,
+        /// arn:partition:resiliencehub:region:account:app/app-id. For more information about ARNs,
         /// see  Amazon Resource Names (ARNs) in the  AWS General Reference.
         public let appArn: String
         /// The version of the application.
@@ -1780,7 +1817,7 @@ extension Resiliencehub {
 
     public struct ListAppVersionsRequest: AWSEncodableShape {
         /// The Amazon Resource Name (ARN) of the application. The format for this ARN is:
-        /// arn:partition:dcps:region:account:app/app-id. For more information about ARNs,
+        /// arn:partition:resiliencehub:region:account:app/app-id. For more information about ARNs,
         /// see  Amazon Resource Names (ARNs) in the  AWS General Reference.
         public let appArn: String
         /// The maximum number of results to include in the response. If more results exist than the specified
@@ -1835,7 +1872,7 @@ extension Resiliencehub {
         ]
 
         /// The Amazon Resource Name (ARN) of the application. The format for this ARN is:
-        /// arn:partition:dcps:region:account:app/app-id. For more information about ARNs,
+        /// arn:partition:resiliencehub:region:account:app/app-id. For more information about ARNs,
         /// see  Amazon Resource Names (ARNs) in the  AWS General Reference.
         public let appArn: String?
         /// The maximum number of results to include in the response. If more results exist than the specified
@@ -1893,7 +1930,7 @@ extension Resiliencehub {
         ]
 
         /// The Amazon Resource Name (ARN) of the assessment. The format for this ARN is:
-        /// arn:partition:dcps:region:account:app-assessment/app-id. For more information about ARNs,
+        /// arn:partition:resiliencehub:region:account:app-assessment/app-id. For more information about ARNs,
         /// see  Amazon Resource Names (ARNs) in the  AWS General Reference.
         public let assessmentArn: String
         /// The maximum number of results to include in the response. If more results exist than the specified
@@ -2002,7 +2039,7 @@ extension Resiliencehub {
 
     public struct ListSopRecommendationsRequest: AWSEncodableShape {
         /// The Amazon Resource Name (ARN) of the assessment. The format for this ARN is:
-        /// arn:partition:dcps:region:account:app-assessment/app-id. For more information about ARNs,
+        /// arn:partition:resiliencehub:region:account:app-assessment/app-id. For more information about ARNs,
         /// see  Amazon Resource Names (ARNs) in the  AWS General Reference.
         public let assessmentArn: String
         /// The maximum number of results to include in the response. If more results exist than the specified
@@ -2126,7 +2163,7 @@ extension Resiliencehub {
 
     public struct ListTestRecommendationsRequest: AWSEncodableShape {
         /// The Amazon Resource Name (ARN) of the assessment. The format for this ARN is:
-        /// arn:partition:dcps:region:account:app-assessment/app-id. For more information about ARNs,
+        /// arn:partition:resiliencehub:region:account:app-assessment/app-id. For more information about ARNs,
         /// see  Amazon Resource Names (ARNs) in the  AWS General Reference.
         public let assessmentArn: String
         /// The maximum number of results to include in the response. If more results exist than the specified
@@ -2174,7 +2211,7 @@ extension Resiliencehub {
 
     public struct ListUnsupportedAppVersionResourcesRequest: AWSEncodableShape {
         /// The Amazon Resource Name (ARN) of the application. The format for this ARN is:
-        /// arn:partition:dcps:region:account:app/app-id. For more information about ARNs,
+        /// arn:partition:resiliencehub:region:account:app/app-id. For more information about ARNs,
         /// see  Amazon Resource Names (ARNs) in the  AWS General Reference.
         public let appArn: String
         /// The version of the application.
@@ -2242,17 +2279,21 @@ extension Resiliencehub {
         public let logicalStackName: String?
         /// The name of the resource group that this resource belongs to.
         public let resourceGroupName: String?
+        ///  The name of the Terraform S3 state file this resource belongs to.
+        public let terraformSourceName: String?
 
-        public init(identifier: String, logicalStackName: String? = nil, resourceGroupName: String? = nil) {
+        public init(identifier: String, logicalStackName: String? = nil, resourceGroupName: String? = nil, terraformSourceName: String? = nil) {
             self.identifier = identifier
             self.logicalStackName = logicalStackName
             self.resourceGroupName = resourceGroupName
+            self.terraformSourceName = terraformSourceName
         }
 
         private enum CodingKeys: String, CodingKey {
             case identifier
             case logicalStackName
             case resourceGroupName
+            case terraformSourceName
         }
     }
 
@@ -2319,7 +2360,7 @@ extension Resiliencehub {
 
     public struct PublishAppVersionRequest: AWSEncodableShape {
         /// The Amazon Resource Name (ARN) of the application. The format for this ARN is:
-        /// arn:partition:dcps:region:account:app/app-id. For more information about ARNs,
+        /// arn:partition:resiliencehub:region:account:app/app-id. For more information about ARNs,
         /// see  Amazon Resource Names (ARNs) in the  AWS General Reference.
         public let appArn: String
 
@@ -2338,7 +2379,7 @@ extension Resiliencehub {
 
     public struct PublishAppVersionResponse: AWSDecodableShape {
         /// The Amazon Resource Name (ARN) of the application. The format for this ARN is:
-        /// arn:partition:dcps:region:account:app/app-id. For more information about ARNs,
+        /// arn:partition:resiliencehub:region:account:app/app-id. For more information about ARNs,
         /// see  Amazon Resource Names (ARNs) in the  AWS General Reference.
         public let appArn: String
         /// The version of the application.
@@ -2357,7 +2398,7 @@ extension Resiliencehub {
 
     public struct PutDraftAppVersionTemplateRequest: AWSEncodableShape {
         /// The Amazon Resource Name (ARN) of the application. The format for this ARN is:
-        /// arn:partition:dcps:region:account:app/app-id. For more information about ARNs,
+        /// arn:partition:resiliencehub:region:account:app/app-id. For more information about ARNs,
         /// see  Amazon Resource Names (ARNs) in the  AWS General Reference.
         public let appArn: String
         /// A JSON string that contains the body of the app template.
@@ -2370,7 +2411,7 @@ extension Resiliencehub {
 
         public func validate(name: String) throws {
             try self.validate(self.appArn, name: "appArn", parent: name, pattern: "^arn:(aws|aws-cn|aws-iso|aws-iso-[a-z]{1}|aws-us-gov):[A-Za-z0-9][A-Za-z0-9_/.-]{0,62}:([a-z]{2}-((iso[a-z]{0,1}-)|(gov-)){0,1}[a-z]+-[0-9]):[0-9]{12}:[A-Za-z0-9/][A-Za-z0-9:_/+=,@.-]{0,1023}$")
-            try self.validate(self.appTemplateBody, name: "appTemplateBody", parent: name, max: 5000)
+            try self.validate(self.appTemplateBody, name: "appTemplateBody", parent: name, max: 51200)
             try self.validate(self.appTemplateBody, name: "appTemplateBody", parent: name, pattern: "^[\\w\\s:,-\\.'{}\\[\\]:\"]+$")
         }
 
@@ -2382,7 +2423,7 @@ extension Resiliencehub {
 
     public struct PutDraftAppVersionTemplateResponse: AWSDecodableShape {
         /// The Amazon Resource Name (ARN) of the application. The format for this ARN is:
-        /// arn:partition:dcps:region:account:app/app-id. For more information about ARNs,
+        /// arn:partition:resiliencehub:region:account:app/app-id. For more information about ARNs,
         /// see  Amazon Resource Names (ARNs) in the  AWS General Reference.
         public let appArn: String?
         /// The version of the application.
@@ -2455,11 +2496,11 @@ extension Resiliencehub {
 
     public struct RecommendationTemplate: AWSDecodableShape {
         /// The Amazon Resource Name (ARN) of the application. The format for this ARN is:
-        /// arn:partition:dcps:region:account:app/app-id. For more information about ARNs,
+        /// arn:partition:resiliencehub:region:account:app/app-id. For more information about ARNs,
         /// see  Amazon Resource Names (ARNs) in the  AWS General Reference.
         public let appArn: String?
         /// The Amazon Resource Name (ARN) of the assessment. The format for this ARN is:
-        /// arn:partition:dcps:region:account:app-assessment/app-id. For more information about ARNs,
+        /// arn:partition:resiliencehub:region:account:app-assessment/app-id. For more information about ARNs,
         /// see  Amazon Resource Names (ARNs) in the  AWS General Reference.
         public let assessmentArn: String
         /// The end time for the action.
@@ -2525,7 +2566,7 @@ extension Resiliencehub {
 
     public struct RemoveDraftAppVersionResourceMappingsRequest: AWSEncodableShape {
         /// The Amazon Resource Name (ARN) of the application. The format for this ARN is:
-        /// arn:partition:dcps:region:account:app/app-id. For more information about ARNs,
+        /// arn:partition:resiliencehub:region:account:app/app-id. For more information about ARNs,
         /// see  Amazon Resource Names (ARNs) in the  AWS General Reference.
         public let appArn: String
         /// The names of the registered applications to remove from the resource mappings.
@@ -2536,13 +2577,16 @@ extension Resiliencehub {
         public let resourceGroupNames: [String]?
         /// The names of the resources to remove from the resource mappings.
         public let resourceNames: [String]?
+        ///
+        public let terraformSourceNames: [String]?
 
-        public init(appArn: String, appRegistryAppNames: [String]? = nil, logicalStackNames: [String]? = nil, resourceGroupNames: [String]? = nil, resourceNames: [String]? = nil) {
+        public init(appArn: String, appRegistryAppNames: [String]? = nil, logicalStackNames: [String]? = nil, resourceGroupNames: [String]? = nil, resourceNames: [String]? = nil, terraformSourceNames: [String]? = nil) {
             self.appArn = appArn
             self.appRegistryAppNames = appRegistryAppNames
             self.logicalStackNames = logicalStackNames
             self.resourceGroupNames = resourceGroupNames
             self.resourceNames = resourceNames
+            self.terraformSourceNames = terraformSourceNames
         }
 
         public func validate(name: String) throws {
@@ -2560,6 +2604,10 @@ extension Resiliencehub {
             try self.resourceNames?.forEach {
                 try validate($0, name: "resourceNames[]", parent: name, pattern: "^[A-Za-z0-9][A-Za-z0-9_\\-]{1,59}$")
             }
+            try self.terraformSourceNames?.forEach {
+                try validate($0, name: "terraformSourceNames[]", parent: name, max: 255)
+                try validate($0, name: "terraformSourceNames[]", parent: name, min: 1)
+            }
         }
 
         private enum CodingKeys: String, CodingKey {
@@ -2568,12 +2616,13 @@ extension Resiliencehub {
             case logicalStackNames
             case resourceGroupNames
             case resourceNames
+            case terraformSourceNames
         }
     }
 
     public struct RemoveDraftAppVersionResourceMappingsResponse: AWSDecodableShape {
         /// The Amazon Resource Name (ARN) of the application. The format for this ARN is:
-        /// arn:partition:dcps:region:account:app/app-id. For more information about ARNs,
+        /// arn:partition:resiliencehub:region:account:app/app-id. For more information about ARNs,
         /// see  Amazon Resource Names (ARNs) in the  AWS General Reference.
         public let appArn: String?
         /// The version of the application.
@@ -2600,7 +2649,7 @@ extension Resiliencehub {
         /// The resiliency policy.
         public let policy: [DisruptionType: FailurePolicy]?
         /// The Amazon Resource Name (ARN) of the resiliency policy. The format for this ARN is:
-        /// arn:partition:dcps:region:account:resiliency-policy/policy-id. For more information about ARNs,
+        /// arn:partition:resiliencehub:region:account:resiliency-policy/policy-id. For more information about ARNs,
         /// see  Amazon Resource Names (ARNs) in the  AWS General Reference.
         public let policyArn: String?
         /// The description for the policy.
@@ -2657,7 +2706,7 @@ extension Resiliencehub {
 
     public struct ResolveAppVersionResourcesRequest: AWSEncodableShape {
         /// The Amazon Resource Name (ARN) of the application. The format for this ARN is:
-        /// arn:partition:dcps:region:account:app/app-id. For more information about ARNs,
+        /// arn:partition:resiliencehub:region:account:app/app-id. For more information about ARNs,
         /// see  Amazon Resource Names (ARNs) in the  AWS General Reference.
         public let appArn: String
         /// The version of the application.
@@ -2681,7 +2730,7 @@ extension Resiliencehub {
 
     public struct ResolveAppVersionResourcesResponse: AWSDecodableShape {
         /// The Amazon Resource Name (ARN) of the application. The format for this ARN is:
-        /// arn:partition:dcps:region:account:app/app-id. For more information about ARNs,
+        /// arn:partition:resiliencehub:region:account:app/app-id. For more information about ARNs,
         /// see  Amazon Resource Names (ARNs) in the  AWS General Reference.
         public let appArn: String
         /// The version of the application.
@@ -2706,6 +2755,44 @@ extension Resiliencehub {
         }
     }
 
+    public struct ResourceError: AWSDecodableShape {
+        ///  This is the identifier of the resource.
+        public let logicalResourceId: String?
+        ///  This is the identifier of the physical resource.
+        public let physicalResourceId: String?
+        ///  This is the error message.
+        public let reason: String?
+
+        public init(logicalResourceId: String? = nil, physicalResourceId: String? = nil, reason: String? = nil) {
+            self.logicalResourceId = logicalResourceId
+            self.physicalResourceId = physicalResourceId
+            self.reason = reason
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case logicalResourceId
+            case physicalResourceId
+            case reason
+        }
+    }
+
+    public struct ResourceErrorsDetails: AWSDecodableShape {
+        ///  This indicates if there are more errors not listed in the resourceErrors list.
+        public let hasMoreErrors: Bool?
+        ///  A list of errors retrieving an application's resources.
+        public let resourceErrors: [ResourceError]?
+
+        public init(hasMoreErrors: Bool? = nil, resourceErrors: [ResourceError]? = nil) {
+            self.hasMoreErrors = hasMoreErrors
+            self.resourceErrors = resourceErrors
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case hasMoreErrors
+            case resourceErrors
+        }
+    }
+
     public struct ResourceMapping: AWSEncodableShape & AWSDecodableShape {
         /// The name of the application this resource is mapped to.
         public let appRegistryAppName: String?
@@ -2719,14 +2806,17 @@ extension Resiliencehub {
         public let resourceGroupName: String?
         /// The name of the resource this resource is mapped to.
         public let resourceName: String?
+        ///  The short name of the Terraform source.
+        public let terraformSourceName: String?
 
-        public init(appRegistryAppName: String? = nil, logicalStackName: String? = nil, mappingType: ResourceMappingType, physicalResourceId: PhysicalResourceId, resourceGroupName: String? = nil, resourceName: String? = nil) {
+        public init(appRegistryAppName: String? = nil, logicalStackName: String? = nil, mappingType: ResourceMappingType, physicalResourceId: PhysicalResourceId, resourceGroupName: String? = nil, resourceName: String? = nil, terraformSourceName: String? = nil) {
             self.appRegistryAppName = appRegistryAppName
             self.logicalStackName = logicalStackName
             self.mappingType = mappingType
             self.physicalResourceId = physicalResourceId
             self.resourceGroupName = resourceGroupName
             self.resourceName = resourceName
+            self.terraformSourceName = terraformSourceName
         }
 
         public func validate(name: String) throws {
@@ -2736,6 +2826,8 @@ extension Resiliencehub {
             try self.physicalResourceId.validate(name: "\(name).physicalResourceId")
             try self.validate(self.resourceGroupName, name: "resourceGroupName", parent: name, pattern: "^[A-Za-z0-9][A-Za-z0-9_\\-]{1,59}$")
             try self.validate(self.resourceName, name: "resourceName", parent: name, pattern: "^[A-Za-z0-9][A-Za-z0-9_\\-]{1,59}$")
+            try self.validate(self.terraformSourceName, name: "terraformSourceName", parent: name, max: 255)
+            try self.validate(self.terraformSourceName, name: "terraformSourceName", parent: name, min: 1)
         }
 
         private enum CodingKeys: String, CodingKey {
@@ -2745,6 +2837,7 @@ extension Resiliencehub {
             case physicalResourceId
             case resourceGroupName
             case resourceName
+            case terraformSourceName
         }
     }
 
@@ -2808,7 +2901,7 @@ extension Resiliencehub {
 
     public struct StartAppAssessmentRequest: AWSEncodableShape {
         /// The Amazon Resource Name (ARN) of the application. The format for this ARN is:
-        /// arn:partition:dcps:region:account:app/app-id. For more information about ARNs,
+        /// arn:partition:resiliencehub:region:account:app/app-id. For more information about ARNs,
         /// see  Amazon Resource Names (ARNs) in the  AWS General Reference.
         public let appArn: String
         /// The version of the application.
@@ -2840,8 +2933,9 @@ extension Resiliencehub {
             try self.tags?.forEach {
                 try validate($0.key, name: "tags.key", parent: name, max: 128)
                 try validate($0.key, name: "tags.key", parent: name, min: 1)
-                try validate($0.key, name: "tags.key", parent: name, pattern: "^(?!aws:).+$")
+                try validate($0.key, name: "tags.key", parent: name, pattern: "^(?!aws:)[^\\x00-\\x1f\\x22]+$")
                 try validate($0.value, name: "tags[\"\($0.key)\"]", parent: name, max: 256)
+                try validate($0.value, name: "tags[\"\($0.key)\"]", parent: name, pattern: "^[^\\x00-\\x1f\\x22]*$")
             }
             try self.validate(self.tags, name: "tags", parent: name, max: 50)
             try self.validate(self.tags, name: "tags", parent: name, min: 1)
@@ -2889,8 +2983,9 @@ extension Resiliencehub {
             try self.tags.forEach {
                 try validate($0.key, name: "tags.key", parent: name, max: 128)
                 try validate($0.key, name: "tags.key", parent: name, min: 1)
-                try validate($0.key, name: "tags.key", parent: name, pattern: "^(?!aws:).+$")
+                try validate($0.key, name: "tags.key", parent: name, pattern: "^(?!aws:)[^\\x00-\\x1f\\x22]+$")
                 try validate($0.value, name: "tags[\"\($0.key)\"]", parent: name, max: 256)
+                try validate($0.value, name: "tags[\"\($0.key)\"]", parent: name, pattern: "^[^\\x00-\\x1f\\x22]*$")
             }
             try self.validate(self.tags, name: "tags", parent: name, max: 50)
             try self.validate(self.tags, name: "tags", parent: name, min: 1)
@@ -2905,9 +3000,29 @@ extension Resiliencehub {
         public init() {}
     }
 
+    public struct TerraformSource: AWSEncodableShape & AWSDecodableShape {
+        ///  The Terraform s3 state file you need to import.
+        public let s3StateFileUrl: String
+
+        public init(s3StateFileUrl: String) {
+            self.s3StateFileUrl = s3StateFileUrl
+        }
+
+        public func validate(name: String) throws {
+            try self.validate(self.s3StateFileUrl, name: "s3StateFileUrl", parent: name, max: 2000)
+            try self.validate(self.s3StateFileUrl, name: "s3StateFileUrl", parent: name, pattern: "^((https://([^/]+)\\.s3((-|\\.)[^/]+)?\\.amazonaws\\.com(.cn)?)|(s3://([^/]+)))/\\S{1,2000}$")
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case s3StateFileUrl
+        }
+    }
+
     public struct TestRecommendation: AWSDecodableShape {
         /// The name of the application component.
         public let appComponentName: String?
+        ///  A list of recommended alarms that are used in the test and must be exported before or with the test.
+        public let dependsOnAlarms: [String]?
         /// The description for the test recommendation.
         public let description: String?
         /// The intent of the test recommendation.
@@ -2927,8 +3042,9 @@ extension Resiliencehub {
         /// The type of test recommendation.
         public let type: TestType?
 
-        public init(appComponentName: String? = nil, description: String? = nil, intent: String? = nil, items: [RecommendationItem]? = nil, name: String? = nil, prerequisite: String? = nil, recommendationId: String? = nil, referenceId: String, risk: TestRisk? = nil, type: TestType? = nil) {
+        public init(appComponentName: String? = nil, dependsOnAlarms: [String]? = nil, description: String? = nil, intent: String? = nil, items: [RecommendationItem]? = nil, name: String? = nil, prerequisite: String? = nil, recommendationId: String? = nil, referenceId: String, risk: TestRisk? = nil, type: TestType? = nil) {
             self.appComponentName = appComponentName
+            self.dependsOnAlarms = dependsOnAlarms
             self.description = description
             self.intent = intent
             self.items = items
@@ -2942,6 +3058,7 @@ extension Resiliencehub {
 
         private enum CodingKeys: String, CodingKey {
             case appComponentName
+            case dependsOnAlarms
             case description
             case intent
             case items
@@ -2996,7 +3113,7 @@ extension Resiliencehub {
             try self.tagKeys.forEach {
                 try validate($0, name: "tagKeys[]", parent: name, max: 128)
                 try validate($0, name: "tagKeys[]", parent: name, min: 1)
-                try validate($0, name: "tagKeys[]", parent: name, pattern: "^(?!aws:).+$")
+                try validate($0, name: "tagKeys[]", parent: name, pattern: "^(?!aws:)[^\\x00-\\x1f\\x22]+$")
             }
             try self.validate(self.tagKeys, name: "tagKeys", parent: name, max: 50)
             try self.validate(self.tagKeys, name: "tagKeys", parent: name, min: 1)
@@ -3011,20 +3128,23 @@ extension Resiliencehub {
 
     public struct UpdateAppRequest: AWSEncodableShape {
         /// The Amazon Resource Name (ARN) of the application. The format for this ARN is:
-        /// arn:partition:dcps:region:account:app/app-id. For more information about ARNs,
+        /// arn:partition:resiliencehub:region:account:app/app-id. For more information about ARNs,
         /// see  Amazon Resource Names (ARNs) in the  AWS General Reference.
         public let appArn: String
+        ///  Assessment execution schedule with 'Daily' or 'Disabled' values.
+        public let assessmentSchedule: AppAssessmentScheduleType?
         /// Specifies if the resiliency policy ARN should be cleared.
         public let clearResiliencyPolicyArn: Bool?
         /// The optional description for an app.
         public let description: String?
         /// The Amazon Resource Name (ARN) of the resiliency policy. The format for this ARN is:
-        /// arn:partition:dcps:region:account:resiliency-policy/policy-id. For more information about ARNs,
+        /// arn:partition:resiliencehub:region:account:resiliency-policy/policy-id. For more information about ARNs,
         /// see  Amazon Resource Names (ARNs) in the  AWS General Reference.
         public let policyArn: String?
 
-        public init(appArn: String, clearResiliencyPolicyArn: Bool? = nil, description: String? = nil, policyArn: String? = nil) {
+        public init(appArn: String, assessmentSchedule: AppAssessmentScheduleType? = nil, clearResiliencyPolicyArn: Bool? = nil, description: String? = nil, policyArn: String? = nil) {
             self.appArn = appArn
+            self.assessmentSchedule = assessmentSchedule
             self.clearResiliencyPolicyArn = clearResiliencyPolicyArn
             self.description = description
             self.policyArn = policyArn
@@ -3038,6 +3158,7 @@ extension Resiliencehub {
 
         private enum CodingKeys: String, CodingKey {
             case appArn
+            case assessmentSchedule
             case clearResiliencyPolicyArn
             case description
             case policyArn
@@ -3063,7 +3184,7 @@ extension Resiliencehub {
         /// The type of resiliency policy to be created, including the recovery time objective (RTO) and recovery point objective (RPO) in seconds.
         public let policy: [DisruptionType: FailurePolicy]?
         /// The Amazon Resource Name (ARN) of the resiliency policy. The format for this ARN is:
-        /// arn:partition:dcps:region:account:resiliency-policy/policy-id. For more information about ARNs,
+        /// arn:partition:resiliencehub:region:account:resiliency-policy/policy-id. For more information about ARNs,
         /// see  Amazon Resource Names (ARNs) in the  AWS General Reference.
         public let policyArn: String
         /// The description for the policy.

@@ -87,6 +87,19 @@ extension Connect {
         public var description: String { return self.rawValue }
     }
 
+    public enum ContactState: String, CustomStringConvertible, Codable, _SotoSendable {
+        case connected = "CONNECTED"
+        case connectedOnhold = "CONNECTED_ONHOLD"
+        case connecting = "CONNECTING"
+        case ended = "ENDED"
+        case error = "ERROR"
+        case incoming = "INCOMING"
+        case missed = "MISSED"
+        case pending = "PENDING"
+        case rejected = "REJECTED"
+        public var description: String { return self.rawValue }
+    }
+
     public enum CurrentMetricName: String, CustomStringConvertible, Codable, _SotoSendable {
         case agentsAfterContactWork = "AGENTS_AFTER_CONTACT_WORK"
         case agentsAvailable = "AGENTS_AVAILABLE"
@@ -173,6 +186,7 @@ extension Connect {
         case contactflowLogs = "CONTACTFLOW_LOGS"
         case contactLens = "CONTACT_LENS"
         case earlyMedia = "EARLY_MEDIA"
+        case highVolumeOutbound = "HIGH_VOLUME_OUTBOUND"
         case inboundCalls = "INBOUND_CALLS"
         case multiPartyConference = "MULTI_PARTY_CONFERENCE"
         case outboundCalls = "OUTBOUND_CALLS"
@@ -500,6 +514,10 @@ extension Connect {
 
     public enum ReferenceType: String, CustomStringConvertible, Codable, _SotoSendable {
         case attachment = "ATTACHMENT"
+        case date = "DATE"
+        case email = "EMAIL"
+        case number = "NUMBER"
+        case string = "STRING"
         case url = "URL"
         public var description: String { return self.rawValue }
     }
@@ -529,6 +547,28 @@ extension Connect {
         case contains = "CONTAINS"
         case exact = "EXACT"
         case startsWith = "STARTS_WITH"
+        public var description: String { return self.rawValue }
+    }
+
+    public enum TaskTemplateFieldType: String, CustomStringConvertible, Codable, _SotoSendable {
+        case boolean = "BOOLEAN"
+        case dateTime = "DATE_TIME"
+        case description = "DESCRIPTION"
+        case email = "EMAIL"
+        case name = "NAME"
+        case number = "NUMBER"
+        case quickConnect = "QUICK_CONNECT"
+        case scheduledTime = "SCHEDULED_TIME"
+        case singleSelect = "SINGLE_SELECT"
+        case text = "TEXT"
+        case textArea = "TEXT_AREA"
+        case url = "URL"
+        public var description: String { return self.rawValue }
+    }
+
+    public enum TaskTemplateStatus: String, CustomStringConvertible, Codable, _SotoSendable {
+        case active = "ACTIVE"
+        case inactive = "INACTIVE"
         public var description: String { return self.rawValue }
     }
 
@@ -592,9 +632,17 @@ extension Connect {
     }
 
     public enum ReferenceSummary: AWSDecodableShape, _SotoSendable {
-        /// Information about the attachment reference if the referenceType is ATTACHMENT. Otherwise, null.
+        /// Information about the reference when the referenceType is ATTACHMENT. Otherwise, null.
         case attachment(AttachmentReference)
-        /// Information about the URL reference if the referenceType is URL. Otherwise, null.
+        /// Information about a reference when the referenceType is DATE. Otherwise, null.
+        case date(DateReference)
+        /// Information about a reference when the referenceType is EMAIL. Otherwise, null.
+        case email(EmailReference)
+        /// Information about a reference when the referenceType is NUMBER. Otherwise, null.
+        case number(NumberReference)
+        /// Information about a reference when the referenceType is STRING. Otherwise, null.
+        case string(StringReference)
+        /// Information about the reference when the referenceType is URL. Otherwise, null.
         case url(UrlReference)
 
         public init(from decoder: Decoder) throws {
@@ -610,6 +658,18 @@ extension Connect {
             case .attachment:
                 let value = try container.decode(AttachmentReference.self, forKey: .attachment)
                 self = .attachment(value)
+            case .date:
+                let value = try container.decode(DateReference.self, forKey: .date)
+                self = .date(value)
+            case .email:
+                let value = try container.decode(EmailReference.self, forKey: .email)
+                self = .email(value)
+            case .number:
+                let value = try container.decode(NumberReference.self, forKey: .number)
+                self = .number(value)
+            case .string:
+                let value = try container.decode(StringReference.self, forKey: .string)
+                self = .string(value)
             case .url:
                 let value = try container.decode(UrlReference.self, forKey: .url)
                 self = .url(value)
@@ -618,11 +678,51 @@ extension Connect {
 
         private enum CodingKeys: String, CodingKey {
             case attachment = "Attachment"
+            case date = "Date"
+            case email = "Email"
+            case number = "Number"
+            case string = "String"
             case url = "Url"
         }
     }
 
     // MARK: Shapes
+
+    public struct AgentContactReference: AWSDecodableShape {
+        /// The state of the contact.
+        public let agentContactState: ContactState?
+        /// The channel of the contact.
+        public let channel: Channel?
+        /// The time at which the contact was connected to an agent.
+        public let connectedToAgentTimestamp: Date?
+        /// The identifier of the contact in this instance of Amazon Connect.
+        public let contactId: String?
+        /// How the contact was initiated.
+        public let initiationMethod: ContactInitiationMethod?
+        public let queue: QueueReference?
+        /// The epoch timestamp when the contact state started.
+        public let stateStartTimestamp: Date?
+
+        public init(agentContactState: ContactState? = nil, channel: Channel? = nil, connectedToAgentTimestamp: Date? = nil, contactId: String? = nil, initiationMethod: ContactInitiationMethod? = nil, queue: QueueReference? = nil, stateStartTimestamp: Date? = nil) {
+            self.agentContactState = agentContactState
+            self.channel = channel
+            self.connectedToAgentTimestamp = connectedToAgentTimestamp
+            self.contactId = contactId
+            self.initiationMethod = initiationMethod
+            self.queue = queue
+            self.stateStartTimestamp = stateStartTimestamp
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case agentContactState = "AgentContactState"
+            case channel = "Channel"
+            case connectedToAgentTimestamp = "ConnectedToAgentTimestamp"
+            case contactId = "ContactId"
+            case initiationMethod = "InitiationMethod"
+            case queue = "Queue"
+            case stateStartTimestamp = "StateStartTimestamp"
+        }
+    }
 
     public struct AgentInfo: AWSDecodableShape {
         /// The timestamp when the contact was connected to the agent.
@@ -679,6 +779,23 @@ extension Connect {
             case state = "State"
             case tags = "Tags"
             case type = "Type"
+        }
+    }
+
+    public struct AgentStatusReference: AWSDecodableShape {
+        /// The Amazon Resource Name (ARN) of the agent's status.
+        public let statusArn: String?
+        /// The start timestamp of the agent's status.
+        public let statusStartTimestamp: Date?
+
+        public init(statusArn: String? = nil, statusStartTimestamp: Date? = nil) {
+            self.statusArn = statusArn
+            self.statusStartTimestamp = statusStartTimestamp
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case statusArn = "StatusArn"
+            case statusStartTimestamp = "StatusStartTimestamp"
         }
     }
 
@@ -1050,9 +1167,9 @@ extension Connect {
     public struct AttachmentReference: AWSDecodableShape {
         /// Identifier of the attachment reference.
         public let name: String?
-        /// Status of an attachment reference type.
+        /// Status of the attachment reference type.
         public let status: ReferenceStatus?
-        /// Contains the location path of the attachment reference.
+        /// The location path of the attachment reference.
         public let value: String?
 
         public init(name: String? = nil, status: ReferenceStatus? = nil, value: String? = nil) {
@@ -1316,6 +1433,23 @@ extension Connect {
             case previousContactId = "PreviousContactId"
             case queueInfo = "QueueInfo"
             case scheduledTimestamp = "ScheduledTimestamp"
+        }
+    }
+
+    public struct ContactFilter: AWSEncodableShape {
+        /// A list of up to 9 contact states.
+        public let contactStates: [ContactState]?
+
+        public init(contactStates: [ContactState]? = nil) {
+            self.contactStates = contactStates
+        }
+
+        public func validate(name: String) throws {
+            try self.validate(self.contactStates, name: "contactStates", parent: name, max: 9)
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case contactStates = "ContactStates"
         }
     }
 
@@ -2197,6 +2331,89 @@ extension Connect {
         }
     }
 
+    public struct CreateTaskTemplateRequest: AWSEncodableShape {
+        public static var _encoding = [
+            AWSMemberEncoding(label: "instanceId", location: .uri("InstanceId"))
+        ]
+
+        /// A unique, case-sensitive identifier that you provide to ensure the idempotency of the request.
+        public let clientToken: String?
+        /// Constraints that are applicable to the fields listed.
+        public let constraints: TaskTemplateConstraints?
+        /// The identifier of the flow that runs by default when a task is created by referencing this template.
+        public let contactFlowId: String?
+        /// The default values for fields when a task is created by referencing this template.
+        public let defaults: TaskTemplateDefaults?
+        /// The description of the task template.
+        public let description: String?
+        /// Fields that are part of the template.
+        public let fields: [TaskTemplateField]
+        /// The identifier of the Amazon Connect instance. You can find the instanceId in the ARN of the instance.
+        public let instanceId: String
+        /// The name of the task template.
+        public let name: String
+        /// Marks a template as ACTIVE or INACTIVE for a task to refer to it.
+        /// Tasks can only be created from ACTIVE templates.
+        /// If a template is marked as INACTIVE, then a task that refers to this template cannot be created.
+        public let status: TaskTemplateStatus?
+
+        public init(clientToken: String? = CreateTaskTemplateRequest.idempotencyToken(), constraints: TaskTemplateConstraints? = nil, contactFlowId: String? = nil, defaults: TaskTemplateDefaults? = nil, description: String? = nil, fields: [TaskTemplateField], instanceId: String, name: String, status: TaskTemplateStatus? = nil) {
+            self.clientToken = clientToken
+            self.constraints = constraints
+            self.contactFlowId = contactFlowId
+            self.defaults = defaults
+            self.description = description
+            self.fields = fields
+            self.instanceId = instanceId
+            self.name = name
+            self.status = status
+        }
+
+        public func validate(name: String) throws {
+            try self.validate(self.clientToken, name: "clientToken", parent: name, max: 500)
+            try self.constraints?.validate(name: "\(name).constraints")
+            try self.validate(self.contactFlowId, name: "contactFlowId", parent: name, max: 500)
+            try self.defaults?.validate(name: "\(name).defaults")
+            try self.validate(self.description, name: "description", parent: name, max: 255)
+            try self.validate(self.description, name: "description", parent: name, min: 1)
+            try self.fields.forEach {
+                try $0.validate(name: "\(name).fields[]")
+            }
+            try self.validate(self.instanceId, name: "instanceId", parent: name, max: 100)
+            try self.validate(self.instanceId, name: "instanceId", parent: name, min: 1)
+            try self.validate(self.name, name: "name", parent: name, max: 100)
+            try self.validate(self.name, name: "name", parent: name, min: 1)
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case clientToken = "ClientToken"
+            case constraints = "Constraints"
+            case contactFlowId = "ContactFlowId"
+            case defaults = "Defaults"
+            case description = "Description"
+            case fields = "Fields"
+            case name = "Name"
+            case status = "Status"
+        }
+    }
+
+    public struct CreateTaskTemplateResponse: AWSDecodableShape {
+        /// The Amazon Resource Name (ARN) for the task template resource.
+        public let arn: String
+        /// The identifier of the task template resource.
+        public let id: String
+
+        public init(arn: String, id: String) {
+            self.arn = arn
+            self.id = id
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case arn = "Arn"
+            case id = "Id"
+        }
+    }
+
     public struct CreateUseCaseRequest: AWSEncodableShape {
         public static var _encoding = [
             AWSMemberEncoding(label: "instanceId", location: .uri("InstanceId")),
@@ -2557,6 +2774,23 @@ extension Connect {
         }
     }
 
+    public struct DateReference: AWSDecodableShape {
+        /// Identifier of the date reference.
+        public let name: String?
+        /// A valid date.
+        public let value: String?
+
+        public init(name: String? = nil, value: String? = nil) {
+            self.name = name
+            self.value = value
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case name = "Name"
+            case value = "Value"
+        }
+    }
+
     public struct DefaultVocabulary: AWSDecodableShape {
         /// The identifier of the Amazon Connect instance. You can find the instanceId in the ARN of the instance.
         public let instanceId: String
@@ -2754,6 +2988,36 @@ extension Connect {
         }
 
         private enum CodingKeys: CodingKey {}
+    }
+
+    public struct DeleteTaskTemplateRequest: AWSEncodableShape {
+        public static var _encoding = [
+            AWSMemberEncoding(label: "instanceId", location: .uri("InstanceId")),
+            AWSMemberEncoding(label: "taskTemplateId", location: .uri("TaskTemplateId"))
+        ]
+
+        /// The identifier of the Amazon Connect instance. You can find the instanceId in the ARN of the instance.
+        public let instanceId: String
+        /// A unique identifier for the task template.
+        public let taskTemplateId: String
+
+        public init(instanceId: String, taskTemplateId: String) {
+            self.instanceId = instanceId
+            self.taskTemplateId = taskTemplateId
+        }
+
+        public func validate(name: String) throws {
+            try self.validate(self.instanceId, name: "instanceId", parent: name, max: 100)
+            try self.validate(self.instanceId, name: "instanceId", parent: name, min: 1)
+            try self.validate(self.taskTemplateId, name: "taskTemplateId", parent: name, max: 500)
+            try self.validate(self.taskTemplateId, name: "taskTemplateId", parent: name, min: 1)
+        }
+
+        private enum CodingKeys: CodingKey {}
+    }
+
+    public struct DeleteTaskTemplateResponse: AWSDecodableShape {
+        public init() {}
     }
 
     public struct DeleteUseCaseRequest: AWSEncodableShape {
@@ -3776,6 +4040,23 @@ extension Connect {
         private enum CodingKeys: CodingKey {}
     }
 
+    public struct EmailReference: AWSDecodableShape {
+        /// Identifier of the email reference.
+        public let name: String?
+        /// A valid email address.
+        public let value: String?
+
+        public init(name: String? = nil, value: String? = nil) {
+            self.name = name
+            self.value = value
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case name = "Name"
+            case value = "Value"
+        }
+    }
+
     public struct EncryptionConfig: AWSEncodableShape & AWSDecodableShape {
         /// The type of encryption.
         public let encryptionType: EncryptionType
@@ -3929,6 +4210,60 @@ extension Connect {
         }
     }
 
+    public struct GetCurrentUserDataRequest: AWSEncodableShape {
+        public static var _encoding = [
+            AWSMemberEncoding(label: "instanceId", location: .uri("InstanceId"))
+        ]
+
+        /// Filters up to 100 Queues, or up to 9 ContactStates. The user data is retrieved only for those users who are associated with the queues and have contacts that are in the specified ContactState.
+        public let filters: UserDataFilters
+        /// The identifier of the Amazon Connect instance. You can find the instanceId in the ARN of the instance.
+        public let instanceId: String
+        /// The maximum number of results to return per page.
+        public let maxResults: Int?
+        /// The token for the next set of results. Use the value returned in the previous
+        /// response in the next request to retrieve the next set of results.
+        public let nextToken: String?
+
+        public init(filters: UserDataFilters, instanceId: String, maxResults: Int? = nil, nextToken: String? = nil) {
+            self.filters = filters
+            self.instanceId = instanceId
+            self.maxResults = maxResults
+            self.nextToken = nextToken
+        }
+
+        public func validate(name: String) throws {
+            try self.filters.validate(name: "\(name).filters")
+            try self.validate(self.instanceId, name: "instanceId", parent: name, max: 100)
+            try self.validate(self.instanceId, name: "instanceId", parent: name, min: 1)
+            try self.validate(self.maxResults, name: "maxResults", parent: name, max: 100)
+            try self.validate(self.maxResults, name: "maxResults", parent: name, min: 1)
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case filters = "Filters"
+            case maxResults = "MaxResults"
+            case nextToken = "NextToken"
+        }
+    }
+
+    public struct GetCurrentUserDataResponse: AWSDecodableShape {
+        /// If there are additional results, this is the token for the next set of results.
+        public let nextToken: String?
+        /// A list of the user data that is returned.
+        public let userDataList: [UserData]?
+
+        public init(nextToken: String? = nil, userDataList: [UserData]? = nil) {
+            self.nextToken = nextToken
+            self.userDataList = userDataList
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case nextToken = "NextToken"
+            case userDataList = "UserDataList"
+        }
+    }
+
     public struct GetFederationTokenRequest: AWSEncodableShape {
         public static var _encoding = [
             AWSMemberEncoding(label: "instanceId", location: .uri("InstanceId"))
@@ -4035,6 +4370,99 @@ extension Connect {
         }
     }
 
+    public struct GetTaskTemplateRequest: AWSEncodableShape {
+        public static var _encoding = [
+            AWSMemberEncoding(label: "instanceId", location: .uri("InstanceId")),
+            AWSMemberEncoding(label: "snapshotVersion", location: .querystring("snapshotVersion")),
+            AWSMemberEncoding(label: "taskTemplateId", location: .uri("TaskTemplateId"))
+        ]
+
+        /// The identifier of the Amazon Connect instance. You can find the instanceId in the ARN of the instance.
+        public let instanceId: String
+        /// The system generated version of a task template that is associated with a task, when the task is created.
+        public let snapshotVersion: String?
+        /// A unique identifier for the task template.
+        public let taskTemplateId: String
+
+        public init(instanceId: String, snapshotVersion: String? = nil, taskTemplateId: String) {
+            self.instanceId = instanceId
+            self.snapshotVersion = snapshotVersion
+            self.taskTemplateId = taskTemplateId
+        }
+
+        public func validate(name: String) throws {
+            try self.validate(self.instanceId, name: "instanceId", parent: name, max: 100)
+            try self.validate(self.instanceId, name: "instanceId", parent: name, min: 1)
+            try self.validate(self.taskTemplateId, name: "taskTemplateId", parent: name, max: 500)
+            try self.validate(self.taskTemplateId, name: "taskTemplateId", parent: name, min: 1)
+        }
+
+        private enum CodingKeys: CodingKey {}
+    }
+
+    public struct GetTaskTemplateResponse: AWSDecodableShape {
+        /// The Amazon Resource Name (ARN).
+        public let arn: String
+        /// Constraints that are applicable to the fields listed.
+        public let constraints: TaskTemplateConstraints?
+        /// The identifier of the flow that runs by default when a task is created by referencing this template.
+        public let contactFlowId: String?
+        /// The timestamp when the task template was created.
+        public let createdTime: Date?
+        /// The default values for fields when a task is created by referencing this template.
+        public let defaults: TaskTemplateDefaults?
+        /// The description of the task template.
+        public let description: String?
+        /// Fields that are part of the template.
+        public let fields: [TaskTemplateField]?
+        /// A unique identifier for the task template.
+        public let id: String
+        /// The identifier of the Amazon Connect instance. You can find the instanceId in the ARN of the instance.
+        public let instanceId: String?
+        /// The timestamp when the task template was last modified.
+        public let lastModifiedTime: Date?
+        /// The name of the task template.
+        public let name: String
+        /// Marks a template as ACTIVE or INACTIVE for a task to refer to it.
+        /// Tasks can only be created from ACTIVE templates.
+        /// If a template is marked as INACTIVE, then a task that refers to this template cannot be created.
+        public let status: TaskTemplateStatus?
+        /// The tags used to organize, track, or control access for this resource.
+        public let tags: [String: String]?
+
+        public init(arn: String, constraints: TaskTemplateConstraints? = nil, contactFlowId: String? = nil, createdTime: Date? = nil, defaults: TaskTemplateDefaults? = nil, description: String? = nil, fields: [TaskTemplateField]? = nil, id: String, instanceId: String? = nil, lastModifiedTime: Date? = nil, name: String, status: TaskTemplateStatus? = nil, tags: [String: String]? = nil) {
+            self.arn = arn
+            self.constraints = constraints
+            self.contactFlowId = contactFlowId
+            self.createdTime = createdTime
+            self.defaults = defaults
+            self.description = description
+            self.fields = fields
+            self.id = id
+            self.instanceId = instanceId
+            self.lastModifiedTime = lastModifiedTime
+            self.name = name
+            self.status = status
+            self.tags = tags
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case arn = "Arn"
+            case constraints = "Constraints"
+            case contactFlowId = "ContactFlowId"
+            case createdTime = "CreatedTime"
+            case defaults = "Defaults"
+            case description = "Description"
+            case fields = "Fields"
+            case id = "Id"
+            case instanceId = "InstanceId"
+            case lastModifiedTime = "LastModifiedTime"
+            case name = "Name"
+            case status = "Status"
+            case tags = "Tags"
+        }
+    }
+
     public struct HierarchyGroup: AWSDecodableShape {
         /// The Amazon Resource Name (ARN) of the hierarchy group.
         public let arn: String?
@@ -4106,6 +4534,23 @@ extension Connect {
         }
     }
 
+    public struct HierarchyGroupSummaryReference: AWSDecodableShape {
+        /// The Amazon Resource Name (ARN) for the hierarchy group.
+        public let arn: String?
+        /// The unique identifier for the hierarchy group.
+        public let id: String?
+
+        public init(arn: String? = nil, id: String? = nil) {
+            self.arn = arn
+            self.id = id
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case arn = "Arn"
+            case id = "Id"
+        }
+    }
+
     public struct HierarchyLevel: AWSDecodableShape {
         /// The Amazon Resource Name (ARN) of the hierarchy level.
         public let arn: String?
@@ -4153,6 +4598,35 @@ extension Connect {
         public let levelTwo: HierarchyGroupSummary?
 
         public init(levelFive: HierarchyGroupSummary? = nil, levelFour: HierarchyGroupSummary? = nil, levelOne: HierarchyGroupSummary? = nil, levelThree: HierarchyGroupSummary? = nil, levelTwo: HierarchyGroupSummary? = nil) {
+            self.levelFive = levelFive
+            self.levelFour = levelFour
+            self.levelOne = levelOne
+            self.levelThree = levelThree
+            self.levelTwo = levelTwo
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case levelFive = "LevelFive"
+            case levelFour = "LevelFour"
+            case levelOne = "LevelOne"
+            case levelThree = "LevelThree"
+            case levelTwo = "LevelTwo"
+        }
+    }
+
+    public struct HierarchyPathReference: AWSDecodableShape {
+        /// Information about level five.
+        public let levelFive: HierarchyGroupSummaryReference?
+        /// Information about level four.
+        public let levelFour: HierarchyGroupSummaryReference?
+        /// Information about level one.
+        public let levelOne: HierarchyGroupSummaryReference?
+        /// Information about level three.
+        public let levelThree: HierarchyGroupSummaryReference?
+        /// Information about level two.
+        public let levelTwo: HierarchyGroupSummaryReference?
+
+        public init(levelFive: HierarchyGroupSummaryReference? = nil, levelFour: HierarchyGroupSummaryReference? = nil, levelOne: HierarchyGroupSummaryReference? = nil, levelThree: HierarchyGroupSummaryReference? = nil, levelTwo: HierarchyGroupSummaryReference? = nil) {
             self.levelFive = levelFive
             self.levelFour = levelFour
             self.levelOne = levelOne
@@ -4582,6 +5056,23 @@ extension Connect {
         }
     }
 
+    public struct InvisibleFieldInfo: AWSEncodableShape & AWSDecodableShape {
+        /// Identifier of the invisible field.
+        public let id: TaskTemplateFieldIdentifier?
+
+        public init(id: TaskTemplateFieldIdentifier? = nil) {
+            self.id = id
+        }
+
+        public func validate(name: String) throws {
+            try self.id?.validate(name: "\(name).id")
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case id = "Id"
+        }
+    }
+
     public struct KinesisFirehoseConfig: AWSEncodableShape & AWSDecodableShape {
         /// The Amazon Resource Name (ARN) of the delivery stream.
         public let firehoseArn: String
@@ -4981,7 +5472,7 @@ extension Connect {
             try self.validate(self.contactId, name: "contactId", parent: name, min: 1)
             try self.validate(self.instanceId, name: "instanceId", parent: name, max: 100)
             try self.validate(self.instanceId, name: "instanceId", parent: name, min: 1)
-            try self.validate(self.referenceTypes, name: "referenceTypes", parent: name, max: 2)
+            try self.validate(self.referenceTypes, name: "referenceTypes", parent: name, max: 6)
         }
 
         private enum CodingKeys: CodingKey {}
@@ -6032,6 +6523,66 @@ extension Connect {
         }
     }
 
+    public struct ListTaskTemplatesRequest: AWSEncodableShape {
+        public static var _encoding = [
+            AWSMemberEncoding(label: "instanceId", location: .uri("InstanceId")),
+            AWSMemberEncoding(label: "maxResults", location: .querystring("maxResults")),
+            AWSMemberEncoding(label: "name", location: .querystring("name")),
+            AWSMemberEncoding(label: "nextToken", location: .querystring("nextToken")),
+            AWSMemberEncoding(label: "status", location: .querystring("status"))
+        ]
+
+        /// The identifier of the Amazon Connect instance. You can find the instanceId in the ARN of the instance.
+        public let instanceId: String
+        /// The maximum number of results to return per page.  It is not expected that you set this.
+        public let maxResults: Int?
+        /// The name of the task template.
+        public let name: String?
+        /// The token for the next set of results. Use the value returned in the previous
+        /// response in the next request to retrieve the next set of results.  It is not expected that you set this because the value returned in the previous response is always null.
+        public let nextToken: String?
+        /// Marks a template as ACTIVE or INACTIVE for a task to refer to it.
+        /// Tasks can only be created from ACTIVE templates.
+        /// If a template is marked as INACTIVE, then a task that refers to this template cannot be created.
+        public let status: TaskTemplateStatus?
+
+        public init(instanceId: String, maxResults: Int? = nil, name: String? = nil, nextToken: String? = nil, status: TaskTemplateStatus? = nil) {
+            self.instanceId = instanceId
+            self.maxResults = maxResults
+            self.name = name
+            self.nextToken = nextToken
+            self.status = status
+        }
+
+        public func validate(name: String) throws {
+            try self.validate(self.instanceId, name: "instanceId", parent: name, max: 100)
+            try self.validate(self.instanceId, name: "instanceId", parent: name, min: 1)
+            try self.validate(self.maxResults, name: "maxResults", parent: name, max: 100)
+            try self.validate(self.maxResults, name: "maxResults", parent: name, min: 1)
+            try self.validate(self.name, name: "name", parent: name, max: 100)
+            try self.validate(self.name, name: "name", parent: name, min: 1)
+        }
+
+        private enum CodingKeys: CodingKey {}
+    }
+
+    public struct ListTaskTemplatesResponse: AWSDecodableShape {
+        /// If there are additional results, this is the token for the next set of results.  This is always returned as a null in the response.
+        public let nextToken: String?
+        /// Provides details about a list of task templates belonging to an instance.
+        public let taskTemplates: [TaskTemplateMetadata]?
+
+        public init(nextToken: String? = nil, taskTemplates: [TaskTemplateMetadata]? = nil) {
+            self.nextToken = nextToken
+            self.taskTemplates = taskTemplates
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case nextToken = "NextToken"
+            case taskTemplates = "TaskTemplates"
+        }
+    }
+
     public struct ListUseCasesRequest: AWSEncodableShape {
         public static var _encoding = [
             AWSMemberEncoding(label: "instanceId", location: .uri("InstanceId")),
@@ -6201,6 +6752,23 @@ extension Connect {
         private enum CodingKeys: String, CodingKey {
             case channel = "Channel"
             case concurrency = "Concurrency"
+        }
+    }
+
+    public struct NumberReference: AWSDecodableShape {
+        /// Identifier of the number reference.
+        public let name: String?
+        /// A valid number.
+        public let value: String?
+
+        public init(name: String? = nil, value: String? = nil) {
+            self.name = name
+            self.value = value
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case name = "Name"
+            case value = "Value"
         }
     }
 
@@ -6580,8 +7148,25 @@ extension Connect {
         }
     }
 
+    public struct ReadOnlyFieldInfo: AWSEncodableShape & AWSDecodableShape {
+        /// Identifier of the read-only field.
+        public let id: TaskTemplateFieldIdentifier?
+
+        public init(id: TaskTemplateFieldIdentifier? = nil) {
+            self.id = id
+        }
+
+        public func validate(name: String) throws {
+            try self.id?.validate(name: "\(name).id")
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case id = "Id"
+        }
+    }
+
     public struct Reference: AWSEncodableShape {
-        /// The type of the reference. Only URL type can be added or updated on a contact.
+        /// The type of the reference.
         public let type: ReferenceType
         /// A valid value for the reference. For example, for a URL reference, a formatted URL that is displayed to an agent in the Contact Control Panel (CCP).
         public let value: String
@@ -6622,6 +7207,23 @@ extension Connect {
         }
 
         private enum CodingKeys: CodingKey {}
+    }
+
+    public struct RequiredFieldInfo: AWSEncodableShape & AWSDecodableShape {
+        /// The unique identifier for the field.
+        public let id: TaskTemplateFieldIdentifier?
+
+        public init(id: TaskTemplateFieldIdentifier? = nil) {
+            self.id = id
+        }
+
+        public func validate(name: String) throws {
+            try self.id?.validate(name: "\(name).id")
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case id = "Id"
+        }
     }
 
     public struct ResumeContactRecordingRequest: AWSEncodableShape {
@@ -6774,6 +7376,23 @@ extension Connect {
         private enum CodingKeys: String, CodingKey {
             case channel = "Channel"
             case queueId = "QueueId"
+        }
+    }
+
+    public struct RoutingProfileReference: AWSDecodableShape {
+        /// The Amazon Resource Name (ARN) of the routing profile.
+        public let arn: String?
+        /// The identifier of the routing profile.
+        public let id: String?
+
+        public init(arn: String? = nil, id: String? = nil) {
+            self.arn = arn
+            self.id = id
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case arn = "Arn"
+            case id = "Id"
         }
     }
 
@@ -7091,7 +7710,7 @@ extension Connect {
     public struct StartChatContactRequest: AWSEncodableShape {
         /// A custom key-value pair using an attribute map. The attributes are standard Amazon Connect attributes. They can be accessed in contact flows just like any other contact attributes.  There can be up to 32,768 UTF-8 bytes across all key-value pairs per contact. Attribute keys can include only alphanumeric, dash, and underscore characters.
         public let attributes: [String: String]?
-        /// The total duration of the newly started chat session. If not specified, the chat session duration defaults to 25 hour.  The minumum configurable time is 60 minutes. The maximum configurable time is 10,080 minutes (7 days).
+        /// The total duration of the newly started chat session. If not specified, the chat session duration defaults to 25 hour. The minumum configurable time is 60 minutes. The maximum configurable time is 10,080 minutes (7 days).
         public let chatDurationInMinutes: Int?
         /// A unique, case-sensitive identifier that you provide to ensure the idempotency of the request.
         public let clientToken: String?
@@ -7339,7 +7958,7 @@ extension Connect {
         /// A unique, case-sensitive identifier that you provide to ensure the idempotency of the request.
         public let clientToken: String?
         /// The identifier of the contact flow for initiating the tasks. To see the ContactFlowId in the Amazon Connect console user interface, on the navigation menu go to Routing, Contact Flows. Choose the contact flow. On the contact flow page, under the name of the contact flow, choose Show additional flow information. The ContactFlowId is the last part of the ARN, shown here in bold:  arn:aws:connect:us-west-2:xxxxxxxxxxxx:instance/xxxxxxxx-xxxx-xxxx-xxxx-xxxxxxxxxxxx/contact-flow/846ec553-a005-41c0-8341-xxxxxxxxxxxx
-        public let contactFlowId: String
+        public let contactFlowId: String?
         /// A description of the task that is shown to an agent in the Contact Control Panel (CCP).
         public let description: String?
         /// The identifier of the Amazon Connect instance. You can find the instanceId in the ARN of the instance.
@@ -7348,12 +7967,16 @@ extension Connect {
         public let name: String
         /// The identifier of the previous chat, voice, or task contact.
         public let previousContactId: String?
+        /// The identifier for the quick connect.
+        public let quickConnectId: String?
         /// A formatted URL that is shown to an agent in the Contact Control Panel (CCP).
         public let references: [String: Reference]?
         /// The timestamp, in Unix Epoch seconds format, at which to start running the inbound contact flow. The scheduled time cannot be in the past. It must be within up to 6 days in future.
         public let scheduledTime: Date?
+        /// A unique identifier for the task template.
+        public let taskTemplateId: String?
 
-        public init(attributes: [String: String]? = nil, clientToken: String? = StartTaskContactRequest.idempotencyToken(), contactFlowId: String, description: String? = nil, instanceId: String, name: String, previousContactId: String? = nil, references: [String: Reference]? = nil, scheduledTime: Date? = nil) {
+        public init(attributes: [String: String]? = nil, clientToken: String? = StartTaskContactRequest.idempotencyToken(), contactFlowId: String? = nil, description: String? = nil, instanceId: String, name: String, previousContactId: String? = nil, quickConnectId: String? = nil, references: [String: Reference]? = nil, scheduledTime: Date? = nil, taskTemplateId: String? = nil) {
             self.attributes = attributes
             self.clientToken = clientToken
             self.contactFlowId = contactFlowId
@@ -7361,8 +7984,10 @@ extension Connect {
             self.instanceId = instanceId
             self.name = name
             self.previousContactId = previousContactId
+            self.quickConnectId = quickConnectId
             self.references = references
             self.scheduledTime = scheduledTime
+            self.taskTemplateId = taskTemplateId
         }
 
         public func validate(name: String) throws {
@@ -7384,6 +8009,8 @@ extension Connect {
                 try validate($0.key, name: "references.key", parent: name, min: 1)
                 try $0.value.validate(name: "\(name).references[\"\($0.key)\"]")
             }
+            try self.validate(self.taskTemplateId, name: "taskTemplateId", parent: name, max: 500)
+            try self.validate(self.taskTemplateId, name: "taskTemplateId", parent: name, min: 1)
         }
 
         private enum CodingKeys: String, CodingKey {
@@ -7394,8 +8021,10 @@ extension Connect {
             case instanceId = "InstanceId"
             case name = "Name"
             case previousContactId = "PreviousContactId"
+            case quickConnectId = "QuickConnectId"
             case references = "References"
             case scheduledTime = "ScheduledTime"
+            case taskTemplateId = "TaskTemplateId"
         }
     }
 
@@ -7529,6 +8158,23 @@ extension Connect {
         }
     }
 
+    public struct StringReference: AWSDecodableShape {
+        /// Identifier of the string reference.
+        public let name: String?
+        /// A valid string.
+        public let value: String?
+
+        public init(name: String? = nil, value: String? = nil) {
+            self.name = name
+            self.value = value
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case name = "Name"
+            case value = "Value"
+        }
+    }
+
     public struct SuspendContactRecordingRequest: AWSEncodableShape {
         /// The identifier of the contact.
         public let contactId: String
@@ -7611,6 +8257,172 @@ extension Connect {
         }
     }
 
+    public struct TaskTemplateConstraints: AWSEncodableShape & AWSDecodableShape {
+        /// Lists the fields that are invisible to agents.
+        public let invisibleFields: [InvisibleFieldInfo]?
+        /// Lists the fields that are read-only to agents, and cannot be edited.
+        public let readOnlyFields: [ReadOnlyFieldInfo]?
+        /// Lists the fields that are required to be filled by agents.
+        public let requiredFields: [RequiredFieldInfo]?
+
+        public init(invisibleFields: [InvisibleFieldInfo]? = nil, readOnlyFields: [ReadOnlyFieldInfo]? = nil, requiredFields: [RequiredFieldInfo]? = nil) {
+            self.invisibleFields = invisibleFields
+            self.readOnlyFields = readOnlyFields
+            self.requiredFields = requiredFields
+        }
+
+        public func validate(name: String) throws {
+            try self.invisibleFields?.forEach {
+                try $0.validate(name: "\(name).invisibleFields[]")
+            }
+            try self.readOnlyFields?.forEach {
+                try $0.validate(name: "\(name).readOnlyFields[]")
+            }
+            try self.requiredFields?.forEach {
+                try $0.validate(name: "\(name).requiredFields[]")
+            }
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case invisibleFields = "InvisibleFields"
+            case readOnlyFields = "ReadOnlyFields"
+            case requiredFields = "RequiredFields"
+        }
+    }
+
+    public struct TaskTemplateDefaultFieldValue: AWSEncodableShape & AWSDecodableShape {
+        /// Default value for the field.
+        public let defaultValue: String?
+        /// Identifier of a field.
+        public let id: TaskTemplateFieldIdentifier?
+
+        public init(defaultValue: String? = nil, id: TaskTemplateFieldIdentifier? = nil) {
+            self.defaultValue = defaultValue
+            self.id = id
+        }
+
+        public func validate(name: String) throws {
+            try self.validate(self.defaultValue, name: "defaultValue", parent: name, max: 4096)
+            try self.id?.validate(name: "\(name).id")
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case defaultValue = "DefaultValue"
+            case id = "Id"
+        }
+    }
+
+    public struct TaskTemplateDefaults: AWSEncodableShape & AWSDecodableShape {
+        /// Default value for the field.
+        public let defaultFieldValues: [TaskTemplateDefaultFieldValue]?
+
+        public init(defaultFieldValues: [TaskTemplateDefaultFieldValue]? = nil) {
+            self.defaultFieldValues = defaultFieldValues
+        }
+
+        public func validate(name: String) throws {
+            try self.defaultFieldValues?.forEach {
+                try $0.validate(name: "\(name).defaultFieldValues[]")
+            }
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case defaultFieldValues = "DefaultFieldValues"
+        }
+    }
+
+    public struct TaskTemplateField: AWSEncodableShape & AWSDecodableShape {
+        /// The description of the field.
+        public let description: String?
+        /// The unique identifier for the field.
+        public let id: TaskTemplateFieldIdentifier
+        /// A list of options for a single select field.
+        public let singleSelectOptions: [String]?
+        /// Indicates the type of field.
+        public let type: TaskTemplateFieldType?
+
+        public init(description: String? = nil, id: TaskTemplateFieldIdentifier, singleSelectOptions: [String]? = nil, type: TaskTemplateFieldType? = nil) {
+            self.description = description
+            self.id = id
+            self.singleSelectOptions = singleSelectOptions
+            self.type = type
+        }
+
+        public func validate(name: String) throws {
+            try self.validate(self.description, name: "description", parent: name, max: 255)
+            try self.validate(self.description, name: "description", parent: name, min: 1)
+            try self.id.validate(name: "\(name).id")
+            try self.singleSelectOptions?.forEach {
+                try validate($0, name: "singleSelectOptions[]", parent: name, max: 100)
+                try validate($0, name: "singleSelectOptions[]", parent: name, min: 1)
+            }
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case description = "Description"
+            case id = "Id"
+            case singleSelectOptions = "SingleSelectOptions"
+            case type = "Type"
+        }
+    }
+
+    public struct TaskTemplateFieldIdentifier: AWSEncodableShape & AWSDecodableShape {
+        /// The name of the task template field.
+        public let name: String?
+
+        public init(name: String? = nil) {
+            self.name = name
+        }
+
+        public func validate(name: String) throws {
+            try self.validate(self.name, name: "name", parent: name, max: 100)
+            try self.validate(self.name, name: "name", parent: name, min: 1)
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case name = "Name"
+        }
+    }
+
+    public struct TaskTemplateMetadata: AWSDecodableShape {
+        /// The Amazon Resource Name (ARN) of the task template.
+        public let arn: String?
+        /// The timestamp when the task template was created.
+        public let createdTime: Date?
+        /// The description of the task template.
+        public let description: String?
+        /// A unique identifier for the task template.
+        public let id: String?
+        /// The timestamp when the task template was last modified.
+        public let lastModifiedTime: Date?
+        /// The name of the task template.
+        public let name: String?
+        /// Marks a template as ACTIVE or INACTIVE for a task to refer to it.
+        /// Tasks can only be created from ACTIVE templates.
+        /// If a template is marked as INACTIVE, then a task that refers to this template cannot be created.
+        public let status: TaskTemplateStatus?
+
+        public init(arn: String? = nil, createdTime: Date? = nil, description: String? = nil, id: String? = nil, lastModifiedTime: Date? = nil, name: String? = nil, status: TaskTemplateStatus? = nil) {
+            self.arn = arn
+            self.createdTime = createdTime
+            self.description = description
+            self.id = id
+            self.lastModifiedTime = lastModifiedTime
+            self.name = name
+            self.status = status
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case arn = "Arn"
+            case createdTime = "CreatedTime"
+            case description = "Description"
+            case id = "Id"
+            case lastModifiedTime = "LastModifiedTime"
+            case name = "Name"
+            case status = "Status"
+        }
+    }
+
     public struct Threshold: AWSEncodableShape & AWSDecodableShape {
         /// The type of comparison. Only "less than" (LT) comparisons are supported.
         public let comparison: Comparison?
@@ -7625,6 +8437,67 @@ extension Connect {
         private enum CodingKeys: String, CodingKey {
             case comparison = "Comparison"
             case thresholdValue = "ThresholdValue"
+        }
+    }
+
+    public struct TransferContactRequest: AWSEncodableShape {
+        /// A unique, case-sensitive identifier that you provide to ensure the idempotency of the request.
+        public let clientToken: String?
+        /// The identifier of the contact flow.
+        public let contactFlowId: String
+        /// The identifier of the contact in this instance of Amazon Connect.
+        public let contactId: String
+        /// The identifier of the Amazon Connect instance. You can find the instanceId in the ARN of the instance.
+        public let instanceId: String
+        /// The identifier for the queue.
+        public let queueId: String?
+        /// The identifier for the user.
+        public let userId: String?
+
+        public init(clientToken: String? = TransferContactRequest.idempotencyToken(), contactFlowId: String, contactId: String, instanceId: String, queueId: String? = nil, userId: String? = nil) {
+            self.clientToken = clientToken
+            self.contactFlowId = contactFlowId
+            self.contactId = contactId
+            self.instanceId = instanceId
+            self.queueId = queueId
+            self.userId = userId
+        }
+
+        public func validate(name: String) throws {
+            try self.validate(self.clientToken, name: "clientToken", parent: name, max: 500)
+            try self.validate(self.contactFlowId, name: "contactFlowId", parent: name, max: 500)
+            try self.validate(self.contactId, name: "contactId", parent: name, max: 256)
+            try self.validate(self.contactId, name: "contactId", parent: name, min: 1)
+            try self.validate(self.instanceId, name: "instanceId", parent: name, max: 100)
+            try self.validate(self.instanceId, name: "instanceId", parent: name, min: 1)
+            try self.validate(self.userId, name: "userId", parent: name, max: 256)
+            try self.validate(self.userId, name: "userId", parent: name, min: 1)
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case clientToken = "ClientToken"
+            case contactFlowId = "ContactFlowId"
+            case contactId = "ContactId"
+            case instanceId = "InstanceId"
+            case queueId = "QueueId"
+            case userId = "UserId"
+        }
+    }
+
+    public struct TransferContactResponse: AWSDecodableShape {
+        /// The Amazon Resource Name (ARN) of the contact.
+        public let contactArn: String?
+        /// The identifier of the contact in this instance of Amazon Connect.
+        public let contactId: String?
+
+        public init(contactArn: String? = nil, contactId: String? = nil) {
+            self.contactArn = contactArn
+            self.contactId = contactId
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case contactArn = "ContactArn"
+            case contactId = "ContactId"
         }
     }
 
@@ -7947,7 +8820,7 @@ extension Connect {
         public let instanceId: String
         /// The name of the contact.
         public let name: String?
-        /// A formatted URL that is shown to an agent in the Contact Control Panel (CCP).
+        /// Well-formed data on contact, shown to agents on Contact Control Panel (CCP).
         public let references: [String: Reference]?
 
         public init(contactId: String, description: String? = nil, instanceId: String, name: String? = nil, references: [String: Reference]? = nil) {
@@ -8566,6 +9439,132 @@ extension Connect {
         }
     }
 
+    public struct UpdateTaskTemplateRequest: AWSEncodableShape {
+        public static var _encoding = [
+            AWSMemberEncoding(label: "instanceId", location: .uri("InstanceId")),
+            AWSMemberEncoding(label: "taskTemplateId", location: .uri("TaskTemplateId"))
+        ]
+
+        /// Constraints that are applicable to the fields listed.
+        public let constraints: TaskTemplateConstraints?
+        /// The identifier of the flow that runs by default when a task is created by referencing this template.
+        public let contactFlowId: String?
+        /// The default values for fields when a task is created by referencing this template.
+        public let defaults: TaskTemplateDefaults?
+        /// The description of the task template.
+        public let description: String?
+        /// Fields that are part of the template.
+        public let fields: [TaskTemplateField]?
+        /// The identifier of the Amazon Connect instance. You can find the instanceId in the ARN of the instance.
+        public let instanceId: String
+        /// The name of the task template.
+        public let name: String?
+        /// Marks a template as ACTIVE or INACTIVE for a task to refer to it.
+        /// Tasks can only be created from ACTIVE templates.
+        /// If a template is marked as INACTIVE, then a task that refers to this template cannot be created.
+        public let status: TaskTemplateStatus?
+        /// A unique identifier for the task template.
+        public let taskTemplateId: String
+
+        public init(constraints: TaskTemplateConstraints? = nil, contactFlowId: String? = nil, defaults: TaskTemplateDefaults? = nil, description: String? = nil, fields: [TaskTemplateField]? = nil, instanceId: String, name: String? = nil, status: TaskTemplateStatus? = nil, taskTemplateId: String) {
+            self.constraints = constraints
+            self.contactFlowId = contactFlowId
+            self.defaults = defaults
+            self.description = description
+            self.fields = fields
+            self.instanceId = instanceId
+            self.name = name
+            self.status = status
+            self.taskTemplateId = taskTemplateId
+        }
+
+        public func validate(name: String) throws {
+            try self.constraints?.validate(name: "\(name).constraints")
+            try self.validate(self.contactFlowId, name: "contactFlowId", parent: name, max: 500)
+            try self.defaults?.validate(name: "\(name).defaults")
+            try self.validate(self.description, name: "description", parent: name, max: 255)
+            try self.validate(self.description, name: "description", parent: name, min: 1)
+            try self.fields?.forEach {
+                try $0.validate(name: "\(name).fields[]")
+            }
+            try self.validate(self.instanceId, name: "instanceId", parent: name, max: 100)
+            try self.validate(self.instanceId, name: "instanceId", parent: name, min: 1)
+            try self.validate(self.name, name: "name", parent: name, max: 100)
+            try self.validate(self.name, name: "name", parent: name, min: 1)
+            try self.validate(self.taskTemplateId, name: "taskTemplateId", parent: name, max: 500)
+            try self.validate(self.taskTemplateId, name: "taskTemplateId", parent: name, min: 1)
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case constraints = "Constraints"
+            case contactFlowId = "ContactFlowId"
+            case defaults = "Defaults"
+            case description = "Description"
+            case fields = "Fields"
+            case name = "Name"
+            case status = "Status"
+        }
+    }
+
+    public struct UpdateTaskTemplateResponse: AWSDecodableShape {
+        /// The Amazon Resource Name (ARN) for the task template resource.
+        public let arn: String?
+        /// Constraints that are applicable to the fields listed.
+        public let constraints: TaskTemplateConstraints?
+        /// The identifier of the flow that runs by default when a task is created by referencing this template.
+        public let contactFlowId: String?
+        /// The timestamp when the task template was created.
+        public let createdTime: Date?
+        /// The default values for fields when a task is created by referencing this template.
+        public let defaults: TaskTemplateDefaults?
+        /// The description of the task template.
+        public let description: String?
+        /// Fields that are part of the template.
+        public let fields: [TaskTemplateField]?
+        /// The identifier of the task template resource.
+        public let id: String?
+        /// The identifier of the Amazon Connect instance. You can find the instanceId in the ARN of the instance.
+        public let instanceId: String?
+        /// The timestamp when the task template was last modified.
+        public let lastModifiedTime: Date?
+        /// The name of the task template.
+        public let name: String?
+        /// Marks a template as ACTIVE or INACTIVE for a task to refer to it.
+        /// Tasks can only be created from ACTIVE templates.
+        /// If a template is marked as INACTIVE, then a task that refers to this template cannot be created.
+        public let status: TaskTemplateStatus?
+
+        public init(arn: String? = nil, constraints: TaskTemplateConstraints? = nil, contactFlowId: String? = nil, createdTime: Date? = nil, defaults: TaskTemplateDefaults? = nil, description: String? = nil, fields: [TaskTemplateField]? = nil, id: String? = nil, instanceId: String? = nil, lastModifiedTime: Date? = nil, name: String? = nil, status: TaskTemplateStatus? = nil) {
+            self.arn = arn
+            self.constraints = constraints
+            self.contactFlowId = contactFlowId
+            self.createdTime = createdTime
+            self.defaults = defaults
+            self.description = description
+            self.fields = fields
+            self.id = id
+            self.instanceId = instanceId
+            self.lastModifiedTime = lastModifiedTime
+            self.name = name
+            self.status = status
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case arn = "Arn"
+            case constraints = "Constraints"
+            case contactFlowId = "ContactFlowId"
+            case createdTime = "CreatedTime"
+            case defaults = "Defaults"
+            case description = "Description"
+            case fields = "Fields"
+            case id = "Id"
+            case instanceId = "InstanceId"
+            case lastModifiedTime = "LastModifiedTime"
+            case name = "Name"
+            case status = "Status"
+        }
+    }
+
     public struct UpdateUserHierarchyGroupNameRequest: AWSEncodableShape {
         public static var _encoding = [
             AWSMemberEncoding(label: "hierarchyGroupId", location: .uri("HierarchyGroupId")),
@@ -8856,6 +9855,70 @@ extension Connect {
         }
     }
 
+    public struct UserData: AWSDecodableShape {
+        ///  A map of active slots by channel. The key is a channel name. The value is an integer: the number of active slots.
+        public let activeSlotsByChannel: [Channel: Int]?
+        /// A map of available slots by channel. The key is a channel name. The value is an integer: the available number of slots.
+        public let availableSlotsByChannel: [Channel: Int]?
+        /// A list of contact reference information.
+        public let contacts: [AgentContactReference]?
+        /// Contains information about the levels of a hierarchy group assigned to a user.
+        public let hierarchyPath: HierarchyPathReference?
+        /// A map of maximum slots by channel. The key is a channel name. The value is an integer: the maximum number of slots. This is calculated from MediaConcurrency of the RoutingProfile assigned to the agent.
+        public let maxSlotsByChannel: [Channel: Int]?
+        /// Information about the routing profile that is assigned to the user.
+        public let routingProfile: RoutingProfileReference?
+        /// The status of the agent that they manually set in their Contact Control Panel (CCP), or that the supervisor manually changes in the real-time metrics report.
+        public let status: AgentStatusReference?
+        /// Information about the user for the data that is returned. It contains resourceId and ARN of the user.
+        public let user: UserReference?
+
+        public init(activeSlotsByChannel: [Channel: Int]? = nil, availableSlotsByChannel: [Channel: Int]? = nil, contacts: [AgentContactReference]? = nil, hierarchyPath: HierarchyPathReference? = nil, maxSlotsByChannel: [Channel: Int]? = nil, routingProfile: RoutingProfileReference? = nil, status: AgentStatusReference? = nil, user: UserReference? = nil) {
+            self.activeSlotsByChannel = activeSlotsByChannel
+            self.availableSlotsByChannel = availableSlotsByChannel
+            self.contacts = contacts
+            self.hierarchyPath = hierarchyPath
+            self.maxSlotsByChannel = maxSlotsByChannel
+            self.routingProfile = routingProfile
+            self.status = status
+            self.user = user
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case activeSlotsByChannel = "ActiveSlotsByChannel"
+            case availableSlotsByChannel = "AvailableSlotsByChannel"
+            case contacts = "Contacts"
+            case hierarchyPath = "HierarchyPath"
+            case maxSlotsByChannel = "MaxSlotsByChannel"
+            case routingProfile = "RoutingProfile"
+            case status = "Status"
+            case user = "User"
+        }
+    }
+
+    public struct UserDataFilters: AWSEncodableShape {
+        /// A filter for the user data based on the contact information that is associated to the user. It contains a list of contact states.
+        public let contactFilter: ContactFilter?
+        /// Contains information about a queue resource for which metrics are returned.
+        public let queues: [String]?
+
+        public init(contactFilter: ContactFilter? = nil, queues: [String]? = nil) {
+            self.contactFilter = contactFilter
+            self.queues = queues
+        }
+
+        public func validate(name: String) throws {
+            try self.contactFilter?.validate(name: "\(name).contactFilter")
+            try self.validate(self.queues, name: "queues", parent: name, max: 100)
+            try self.validate(self.queues, name: "queues", parent: name, min: 1)
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case contactFilter = "ContactFilter"
+            case queues = "Queues"
+        }
+    }
+
     public struct UserIdentityInfo: AWSEncodableShape & AWSDecodableShape {
         /// The email address. If you are using SAML for identity management and include this parameter, an error is returned.
         public let email: String?
@@ -8949,6 +10012,23 @@ extension Connect {
         private enum CodingKeys: String, CodingKey {
             case contactFlowId = "ContactFlowId"
             case userId = "UserId"
+        }
+    }
+
+    public struct UserReference: AWSDecodableShape {
+        /// The Amazon Resource Name (ARN) for the user.
+        public let arn: String?
+        /// The unique identifier for the user.
+        public let id: String?
+
+        public init(arn: String? = nil, id: String? = nil) {
+            self.arn = arn
+            self.id = id
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case arn = "Arn"
+            case id = "Id"
         }
     }
 

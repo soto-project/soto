@@ -19,7 +19,7 @@
 
 /// Service object for interacting with AWS ChimeSDKMessaging service.
 ///
-/// The Amazon Chime SDK Messaging APIs in this section allow software developers to send and receive messages in custom messaging applications. These APIs depend on the frameworks provided by the Amazon Chime SDK Identity APIs. For more information about the messaging APIs, see Amazon Chime SDK messaging
+/// The Amazon Chime SDK Messaging APIs in this section allow software developers to send and receive messages in custom messaging applications. These APIs depend on the frameworks provided by the Amazon Chime SDK Identity APIs. For more information about the messaging APIs, see Amazon Chime SDK messaging.
 public struct ChimeSDKMessaging: AWSService {
     // MARK: Member variables
 
@@ -280,6 +280,11 @@ public struct ChimeSDKMessaging: AWSService {
     ///   The x-amz-chime-bearer request header is mandatory. Use the AppInstanceUserArn of the user that makes the API call as the value in the header.
     public func redactChannelMessage(_ input: RedactChannelMessageRequest, logger: Logger = AWSClient.loggingDisabled, on eventLoop: EventLoop? = nil) -> EventLoopFuture<RedactChannelMessageResponse> {
         return self.client.execute(operation: "RedactChannelMessage", path: "/channels/{ChannelArn}/messages/{MessageId}?operation=redact", httpMethod: .POST, serviceConfig: self.config, input: input, logger: logger, on: eventLoop)
+    }
+
+    /// Allows an AppInstanceUser to search the channels that they belong to. The AppInstanceUser can search by membership or external ID.  An AppInstanceAdmin can search across all channels within the AppInstance.
+    public func searchChannels(_ input: SearchChannelsRequest, logger: Logger = AWSClient.loggingDisabled, on eventLoop: EventLoop? = nil) -> EventLoopFuture<SearchChannelsResponse> {
+        return self.client.execute(operation: "SearchChannels", path: "/channels?operation=search", httpMethod: .POST, serviceConfig: self.config, input: input, logger: logger, on: eventLoop)
     }
 
     /// Sends a message to a particular channel that the member is a part of.

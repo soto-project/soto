@@ -50,6 +50,9 @@ public struct NeptuneErrorType: AWSErrorType {
         case dbUpgradeDependencyFailureFault = "DBUpgradeDependencyFailure"
         case domainNotFoundFault = "DomainNotFoundFault"
         case eventSubscriptionQuotaExceededFault = "EventSubscriptionQuotaExceeded"
+        case globalClusterAlreadyExistsFault = "GlobalClusterAlreadyExistsFault"
+        case globalClusterNotFoundFault = "GlobalClusterNotFoundFault"
+        case globalClusterQuotaExceededFault = "GlobalClusterQuotaExceededFault"
         case instanceQuotaExceededFault = "InstanceQuotaExceeded"
         case insufficientDBClusterCapacityFault = "InsufficientDBClusterCapacityFault"
         case insufficientDBInstanceCapacityFault = "InsufficientDBInstanceCapacity"
@@ -64,6 +67,7 @@ public struct NeptuneErrorType: AWSErrorType {
         case invalidDBSubnetGroupStateFault = "InvalidDBSubnetGroupStateFault"
         case invalidDBSubnetStateFault = "InvalidDBSubnetStateFault"
         case invalidEventSubscriptionStateFault = "InvalidEventSubscriptionState"
+        case invalidGlobalClusterStateFault = "InvalidGlobalClusterStateFault"
         case invalidRestoreFault = "InvalidRestoreFault"
         case invalidSubnet = "InvalidSubnet"
         case invalidVPCNetworkStateFault = "InvalidVPCNetworkStateFault"
@@ -163,6 +167,12 @@ public struct NeptuneErrorType: AWSErrorType {
     public static var domainNotFoundFault: Self { .init(.domainNotFoundFault) }
     /// You have exceeded the number of events you can subscribe to.
     public static var eventSubscriptionQuotaExceededFault: Self { .init(.eventSubscriptionQuotaExceededFault) }
+    /// The GlobalClusterIdentifier already exists. Choose a new global database identifier (unique name) to create a new global database cluster.
+    public static var globalClusterAlreadyExistsFault: Self { .init(.globalClusterAlreadyExistsFault) }
+    /// The GlobalClusterIdentifier doesn't refer to an existing global database cluster.
+    public static var globalClusterNotFoundFault: Self { .init(.globalClusterNotFoundFault) }
+    /// The number of global database clusters for this account is already at the maximum allowed.
+    public static var globalClusterQuotaExceededFault: Self { .init(.globalClusterQuotaExceededFault) }
     /// Request would result in user exceeding the allowed number of DB instances.
     public static var instanceQuotaExceededFault: Self { .init(.instanceQuotaExceededFault) }
     /// The DB cluster does not have enough capacity for the current operation.
@@ -191,6 +201,8 @@ public struct NeptuneErrorType: AWSErrorType {
     public static var invalidDBSubnetStateFault: Self { .init(.invalidDBSubnetStateFault) }
     /// The event subscription is in an invalid state.
     public static var invalidEventSubscriptionStateFault: Self { .init(.invalidEventSubscriptionStateFault) }
+    /// The global cluster is in an invalid state and can't perform the requested operation.
+    public static var invalidGlobalClusterStateFault: Self { .init(.invalidGlobalClusterStateFault) }
     /// Cannot restore from vpc backup to non-vpc DB instance.
     public static var invalidRestoreFault: Self { .init(.invalidRestoreFault) }
     /// The requested subnet is invalid, or multiple subnets were requested that are not all in a common VPC.

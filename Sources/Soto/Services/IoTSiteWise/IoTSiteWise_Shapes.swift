@@ -843,6 +843,8 @@ extension IoTSiteWise {
         public let assetModelId: String
         /// The date the asset was created, in Unix epoch time.
         public let creationDate: Date
+        /// A description for the asset.
+        public let description: String?
         /// A list of asset hierarchies that each contain a hierarchyId. A hierarchy specifies allowed parent/child asset relationships.
         public let hierarchies: [AssetHierarchy]
         /// The ID of the asset.
@@ -854,10 +856,11 @@ extension IoTSiteWise {
         /// The current status of the asset.
         public let status: AssetStatus
 
-        public init(arn: String, assetModelId: String, creationDate: Date, hierarchies: [AssetHierarchy], id: String, lastUpdateDate: Date, name: String, status: AssetStatus) {
+        public init(arn: String, assetModelId: String, creationDate: Date, description: String? = nil, hierarchies: [AssetHierarchy], id: String, lastUpdateDate: Date, name: String, status: AssetStatus) {
             self.arn = arn
             self.assetModelId = assetModelId
             self.creationDate = creationDate
+            self.description = description
             self.hierarchies = hierarchies
             self.id = id
             self.lastUpdateDate = lastUpdateDate
@@ -869,6 +872,7 @@ extension IoTSiteWise {
             case arn
             case assetModelId
             case creationDate
+            case description
             case hierarchies
             case id
             case lastUpdateDate
@@ -969,6 +973,8 @@ extension IoTSiteWise {
         public let assetModelId: String
         /// The date the asset was created, in Unix epoch time.
         public let creationDate: Date
+        /// A description for the asset.
+        public let description: String?
         /// A list of asset hierarchies that each contain a hierarchyId. A hierarchy specifies allowed parent/child asset relationships.
         public let hierarchies: [AssetHierarchy]
         /// The ID of the asset.
@@ -980,10 +986,11 @@ extension IoTSiteWise {
         /// The current status of the asset.
         public let status: AssetStatus
 
-        public init(arn: String, assetModelId: String, creationDate: Date, hierarchies: [AssetHierarchy], id: String, lastUpdateDate: Date, name: String, status: AssetStatus) {
+        public init(arn: String, assetModelId: String, creationDate: Date, description: String? = nil, hierarchies: [AssetHierarchy], id: String, lastUpdateDate: Date, name: String, status: AssetStatus) {
             self.arn = arn
             self.assetModelId = assetModelId
             self.creationDate = creationDate
+            self.description = description
             self.hierarchies = hierarchies
             self.id = id
             self.lastUpdateDate = lastUpdateDate
@@ -995,6 +1002,7 @@ extension IoTSiteWise {
             case arn
             case assetModelId
             case creationDate
+            case description
             case hierarchies
             case id
             case lastUpdateDate
@@ -1958,6 +1966,8 @@ extension IoTSiteWise {
     }
 
     public struct CreateAssetRequest: AWSEncodableShape {
+        /// A description for the asset.
+        public let assetDescription: String?
         /// The ID of the asset model from which to create the asset.
         public let assetModelId: String
         /// A unique, friendly name for the asset.
@@ -1967,7 +1977,8 @@ extension IoTSiteWise {
         /// A list of key-value pairs that contain metadata for the asset. For more information, see Tagging your IoT SiteWise resources in the IoT SiteWise User Guide.
         public let tags: [String: String]?
 
-        public init(assetModelId: String, assetName: String, clientToken: String? = CreateAssetRequest.idempotencyToken(), tags: [String: String]? = nil) {
+        public init(assetDescription: String? = nil, assetModelId: String, assetName: String, clientToken: String? = CreateAssetRequest.idempotencyToken(), tags: [String: String]? = nil) {
+            self.assetDescription = assetDescription
             self.assetModelId = assetModelId
             self.assetName = assetName
             self.clientToken = clientToken
@@ -1975,6 +1986,9 @@ extension IoTSiteWise {
         }
 
         public func validate(name: String) throws {
+            try self.validate(self.assetDescription, name: "assetDescription", parent: name, max: 2048)
+            try self.validate(self.assetDescription, name: "assetDescription", parent: name, min: 1)
+            try self.validate(self.assetDescription, name: "assetDescription", parent: name, pattern: "^[^\\u0000-\\u001F\\u007F]+$")
             try self.validate(self.assetModelId, name: "assetModelId", parent: name, max: 36)
             try self.validate(self.assetModelId, name: "assetModelId", parent: name, min: 36)
             try self.validate(self.assetModelId, name: "assetModelId", parent: name, pattern: "^[0-9a-f]{8}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{12}$")
@@ -1994,6 +2008,7 @@ extension IoTSiteWise {
         }
 
         private enum CodingKeys: String, CodingKey {
+            case assetDescription
             case assetModelId
             case assetName
             case clientToken
@@ -2874,6 +2889,8 @@ extension IoTSiteWise {
         public let assetCompositeModels: [AssetCompositeModel]?
         /// The date the asset was created, in Unix epoch time.
         public let assetCreationDate: Date
+        /// A description for the asset.
+        public let assetDescription: String?
         /// A list of asset hierarchies that each contain a hierarchyId. A hierarchy specifies allowed parent/child asset relationships.
         public let assetHierarchies: [AssetHierarchy]
         /// The ID of the asset.
@@ -2889,10 +2906,11 @@ extension IoTSiteWise {
         /// The current status of the asset, which contains a state and any error message.
         public let assetStatus: AssetStatus
 
-        public init(assetArn: String, assetCompositeModels: [AssetCompositeModel]? = nil, assetCreationDate: Date, assetHierarchies: [AssetHierarchy], assetId: String, assetLastUpdateDate: Date, assetModelId: String, assetName: String, assetProperties: [AssetProperty], assetStatus: AssetStatus) {
+        public init(assetArn: String, assetCompositeModels: [AssetCompositeModel]? = nil, assetCreationDate: Date, assetDescription: String? = nil, assetHierarchies: [AssetHierarchy], assetId: String, assetLastUpdateDate: Date, assetModelId: String, assetName: String, assetProperties: [AssetProperty], assetStatus: AssetStatus) {
             self.assetArn = assetArn
             self.assetCompositeModels = assetCompositeModels
             self.assetCreationDate = assetCreationDate
+            self.assetDescription = assetDescription
             self.assetHierarchies = assetHierarchies
             self.assetId = assetId
             self.assetLastUpdateDate = assetLastUpdateDate
@@ -2906,6 +2924,7 @@ extension IoTSiteWise {
             case assetArn
             case assetCompositeModels
             case assetCreationDate
+            case assetDescription
             case assetHierarchies
             case assetId
             case assetLastUpdateDate
@@ -3293,7 +3312,7 @@ extension IoTSiteWise {
         public let multiLayerStorage: MultiLayerStorage?
         /// How many days your data is kept in the hot tier. By default, your data is kept indefinitely in the hot tier.
         public let retentionPeriod: RetentionPeriod?
-        /// The storage tier that you specified for your data.  The storageType parameter can be one of the following values:    SITEWISE_DEFAULT_STORAGE – IoT SiteWise saves your data into the hot tier.  The hot tier is a service-managed database.    MULTI_LAYER_STORAGE – IoT SiteWise saves your data in both the cold tier and the cold tier.  The cold tier is a customer-managed Amazon S3 bucket.
+        /// The storage tier that you specified for your data.  The storageType parameter can be one of the following values:    SITEWISE_DEFAULT_STORAGE – IoT SiteWise saves your data into the hot tier.  The hot tier is a service-managed database.    MULTI_LAYER_STORAGE – IoT SiteWise saves your data in both the cold tier and the hot tier.  The cold tier is a customer-managed Amazon S3 bucket.
         public let storageType: StorageType
 
         public init(configurationStatus: ConfigurationStatus, disassociatedDataStorage: DisassociatedDataStorageState? = nil, lastUpdateDate: Date? = nil, multiLayerStorage: MultiLayerStorage? = nil, retentionPeriod: RetentionPeriod? = nil, storageType: StorageType) {
@@ -5243,7 +5262,7 @@ extension IoTSiteWise {
         /// Identifies a storage destination. If you specified MULTI_LAYER_STORAGE for the storage type,  you must specify a MultiLayerStorage object.
         public let multiLayerStorage: MultiLayerStorage?
         public let retentionPeriod: RetentionPeriod?
-        /// The storage tier that you specified for your data.  The storageType parameter can be one of the following values:    SITEWISE_DEFAULT_STORAGE – IoT SiteWise saves your data into the hot tier.  The hot tier is a service-managed database.    MULTI_LAYER_STORAGE – IoT SiteWise saves your data in both the cold tier and the cold tier.  The cold tier is a customer-managed Amazon S3 bucket.
+        /// The storage tier that you specified for your data.  The storageType parameter can be one of the following values:    SITEWISE_DEFAULT_STORAGE – IoT SiteWise saves your data into the hot tier.  The hot tier is a service-managed database.    MULTI_LAYER_STORAGE – IoT SiteWise saves your data in both the cold tier and the hot tier.  The cold tier is a customer-managed Amazon S3 bucket.
         public let storageType: StorageType
 
         public init(disassociatedDataStorage: DisassociatedDataStorageState? = nil, multiLayerStorage: MultiLayerStorage? = nil, retentionPeriod: RetentionPeriod? = nil, storageType: StorageType) {
@@ -5273,7 +5292,7 @@ extension IoTSiteWise {
         /// Contains information about the storage destination.
         public let multiLayerStorage: MultiLayerStorage?
         public let retentionPeriod: RetentionPeriod?
-        /// The storage tier that you specified for your data.  The storageType parameter can be one of the following values:    SITEWISE_DEFAULT_STORAGE – IoT SiteWise saves your data into the hot tier.  The hot tier is a service-managed database.    MULTI_LAYER_STORAGE – IoT SiteWise saves your data in both the cold tier and the cold tier.  The cold tier is a customer-managed Amazon S3 bucket.
+        /// The storage tier that you specified for your data.  The storageType parameter can be one of the following values:    SITEWISE_DEFAULT_STORAGE – IoT SiteWise saves your data into the hot tier.  The hot tier is a service-managed database.    MULTI_LAYER_STORAGE – IoT SiteWise saves your data in both the cold tier and the hot tier.  The cold tier is a customer-managed Amazon S3 bucket.
         public let storageType: StorageType
 
         public init(configurationStatus: ConfigurationStatus, disassociatedDataStorage: DisassociatedDataStorageState? = nil, multiLayerStorage: MultiLayerStorage? = nil, retentionPeriod: RetentionPeriod? = nil, storageType: StorageType) {
@@ -5714,6 +5733,8 @@ extension IoTSiteWise {
             AWSMemberEncoding(label: "assetId", location: .uri("assetId"))
         ]
 
+        /// A description for the asset.
+        public let assetDescription: String?
         /// The ID of the asset to update.
         public let assetId: String
         /// A unique, friendly name for the asset.
@@ -5721,13 +5742,17 @@ extension IoTSiteWise {
         /// A unique case-sensitive identifier that you can provide to ensure the idempotency of the request. Don't reuse this client token if a new idempotent request is required.
         public let clientToken: String?
 
-        public init(assetId: String, assetName: String, clientToken: String? = UpdateAssetRequest.idempotencyToken()) {
+        public init(assetDescription: String? = nil, assetId: String, assetName: String, clientToken: String? = UpdateAssetRequest.idempotencyToken()) {
+            self.assetDescription = assetDescription
             self.assetId = assetId
             self.assetName = assetName
             self.clientToken = clientToken
         }
 
         public func validate(name: String) throws {
+            try self.validate(self.assetDescription, name: "assetDescription", parent: name, max: 2048)
+            try self.validate(self.assetDescription, name: "assetDescription", parent: name, min: 1)
+            try self.validate(self.assetDescription, name: "assetDescription", parent: name, pattern: "^[^\\u0000-\\u001F\\u007F]+$")
             try self.validate(self.assetId, name: "assetId", parent: name, max: 36)
             try self.validate(self.assetId, name: "assetId", parent: name, min: 36)
             try self.validate(self.assetId, name: "assetId", parent: name, pattern: "^[0-9a-f]{8}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{12}$")
@@ -5740,6 +5765,7 @@ extension IoTSiteWise {
         }
 
         private enum CodingKeys: String, CodingKey {
+            case assetDescription
             case assetName
             case clientToken
         }

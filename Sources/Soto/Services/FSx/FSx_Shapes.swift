@@ -1059,10 +1059,12 @@ extension FSx {
         public let logConfiguration: LustreLogCreateConfiguration?
         /// Required with PERSISTENT_1 and PERSISTENT_2 deployment types, provisions the amount of read and write throughput for each 1 tebibyte (TiB) of file system storage capacity, in MB/s/TiB. File system throughput capacity is calculated by multiplying ﬁle system storage capacity (TiB) by the PerUnitStorageThroughput (MB/s/TiB). For a 2.4-TiB ﬁle system, provisioning 50 MB/s/TiB of PerUnitStorageThroughput yields 120 MB/s of ﬁle system throughput. You pay for the amount of throughput that you provision.  Valid values:   For PERSISTENT_1 SSD storage: 50, 100, 200 MB/s/TiB.   For PERSISTENT_1 HDD storage: 12, 40 MB/s/TiB.   For PERSISTENT_2 SSD storage: 125, 250, 500, 1000 MB/s/TiB.
         public let perUnitStorageThroughput: Int?
+        /// The Lustre root squash configuration used when creating an Amazon FSx for Lustre file system. When enabled, root squash restricts root-level access from clients that try to access your file system as a root user.
+        public let rootSquashConfiguration: LustreRootSquashConfiguration?
         /// (Optional) The preferred start time to perform weekly maintenance, formatted d:HH:MM in the UTC time zone, where d is the weekday number, from 1 through 7, beginning with Monday and ending with Sunday.
         public let weeklyMaintenanceStartTime: String?
 
-        public init(autoImportPolicy: AutoImportPolicyType? = nil, automaticBackupRetentionDays: Int? = nil, copyTagsToBackups: Bool? = nil, dailyAutomaticBackupStartTime: String? = nil, dataCompressionType: DataCompressionType? = nil, deploymentType: LustreDeploymentType? = nil, driveCacheType: DriveCacheType? = nil, exportPath: String? = nil, importedFileChunkSize: Int? = nil, importPath: String? = nil, logConfiguration: LustreLogCreateConfiguration? = nil, perUnitStorageThroughput: Int? = nil, weeklyMaintenanceStartTime: String? = nil) {
+        public init(autoImportPolicy: AutoImportPolicyType? = nil, automaticBackupRetentionDays: Int? = nil, copyTagsToBackups: Bool? = nil, dailyAutomaticBackupStartTime: String? = nil, dataCompressionType: DataCompressionType? = nil, deploymentType: LustreDeploymentType? = nil, driveCacheType: DriveCacheType? = nil, exportPath: String? = nil, importedFileChunkSize: Int? = nil, importPath: String? = nil, logConfiguration: LustreLogCreateConfiguration? = nil, perUnitStorageThroughput: Int? = nil, rootSquashConfiguration: LustreRootSquashConfiguration? = nil, weeklyMaintenanceStartTime: String? = nil) {
             self.autoImportPolicy = autoImportPolicy
             self.automaticBackupRetentionDays = automaticBackupRetentionDays
             self.copyTagsToBackups = copyTagsToBackups
@@ -1075,6 +1077,7 @@ extension FSx {
             self.importPath = importPath
             self.logConfiguration = logConfiguration
             self.perUnitStorageThroughput = perUnitStorageThroughput
+            self.rootSquashConfiguration = rootSquashConfiguration
             self.weeklyMaintenanceStartTime = weeklyMaintenanceStartTime
         }
 
@@ -1095,6 +1098,7 @@ extension FSx {
             try self.logConfiguration?.validate(name: "\(name).logConfiguration")
             try self.validate(self.perUnitStorageThroughput, name: "perUnitStorageThroughput", parent: name, max: 1000)
             try self.validate(self.perUnitStorageThroughput, name: "perUnitStorageThroughput", parent: name, min: 12)
+            try self.rootSquashConfiguration?.validate(name: "\(name).rootSquashConfiguration")
             try self.validate(self.weeklyMaintenanceStartTime, name: "weeklyMaintenanceStartTime", parent: name, max: 7)
             try self.validate(self.weeklyMaintenanceStartTime, name: "weeklyMaintenanceStartTime", parent: name, min: 7)
             try self.validate(self.weeklyMaintenanceStartTime, name: "weeklyMaintenanceStartTime", parent: name, pattern: "^[1-7]:([01]\\d|2[0-3]):?([0-5]\\d)$")
@@ -1113,6 +1117,7 @@ extension FSx {
             case importPath = "ImportPath"
             case logConfiguration = "LogConfiguration"
             case perUnitStorageThroughput = "PerUnitStorageThroughput"
+            case rootSquashConfiguration = "RootSquashConfiguration"
             case weeklyMaintenanceStartTime = "WeeklyMaintenanceStartTime"
         }
     }
@@ -1120,7 +1125,7 @@ extension FSx {
     public struct CreateFileSystemOntapConfiguration: AWSEncodableShape {
         public let automaticBackupRetentionDays: Int?
         public let dailyAutomaticBackupStartTime: String?
-        /// Specifies the FSx for ONTAP file system deployment type to use in creating the file system.      MULTI_AZ_1 - (Default) A high availability file system configured for Multi-AZ redundancy to tolerate temporary Availability Zone (AZ) unavailability.      SINGLE_AZ_1 - A file system configured for Single-AZ redundancy.   For information about the use cases for Multi-AZ and Single-AZ deployments, refer to Choosing Multi-AZ or Single-AZ file system deployment.
+        /// Specifies the FSx for ONTAP file system deployment type to use in creating the file system.      MULTI_AZ_1 - (Default) A high availability file system configured for Multi-AZ redundancy to tolerate temporary Availability Zone (AZ) unavailability.      SINGLE_AZ_1 - A file system configured for Single-AZ redundancy.   For information about the use cases for Multi-AZ and Single-AZ deployments, refer to Choosing a file system deployment type.
         public let deploymentType: OntapDeploymentType
         /// The SSD IOPS configuration for the FSx for ONTAP file system.
         public let diskIopsConfiguration: DiskIopsConfiguration?
@@ -3296,10 +3301,12 @@ extension FSx {
         public let mountName: String?
         /// Per unit storage throughput represents the megabytes per second of read or write throughput per 1 tebibyte of storage provisioned. File system throughput capacity is equal to Storage capacity (TiB) * PerUnitStorageThroughput (MB/s/TiB). This option is only valid for PERSISTENT_1 and PERSISTENT_2 deployment types.  Valid values:   For PERSISTENT_1 SSD storage: 50, 100, 200.   For PERSISTENT_1 HDD storage: 12, 40.   For PERSISTENT_2 SSD storage: 125, 250, 500, 1000.
         public let perUnitStorageThroughput: Int?
+        /// The Lustre root squash configuration for an Amazon FSx for Lustre file system. When enabled, root squash restricts root-level access from clients that try to access your file system as a root user.
+        public let rootSquashConfiguration: LustreRootSquashConfiguration?
         /// The preferred start time to perform weekly maintenance, formatted d:HH:MM in the UTC time zone. Here, d is the weekday number, from 1 through 7, beginning with Monday and ending with Sunday.
         public let weeklyMaintenanceStartTime: String?
 
-        public init(automaticBackupRetentionDays: Int? = nil, copyTagsToBackups: Bool? = nil, dailyAutomaticBackupStartTime: String? = nil, dataCompressionType: DataCompressionType? = nil, dataRepositoryConfiguration: DataRepositoryConfiguration? = nil, deploymentType: LustreDeploymentType? = nil, driveCacheType: DriveCacheType? = nil, logConfiguration: LustreLogConfiguration? = nil, mountName: String? = nil, perUnitStorageThroughput: Int? = nil, weeklyMaintenanceStartTime: String? = nil) {
+        public init(automaticBackupRetentionDays: Int? = nil, copyTagsToBackups: Bool? = nil, dailyAutomaticBackupStartTime: String? = nil, dataCompressionType: DataCompressionType? = nil, dataRepositoryConfiguration: DataRepositoryConfiguration? = nil, deploymentType: LustreDeploymentType? = nil, driveCacheType: DriveCacheType? = nil, logConfiguration: LustreLogConfiguration? = nil, mountName: String? = nil, perUnitStorageThroughput: Int? = nil, rootSquashConfiguration: LustreRootSquashConfiguration? = nil, weeklyMaintenanceStartTime: String? = nil) {
             self.automaticBackupRetentionDays = automaticBackupRetentionDays
             self.copyTagsToBackups = copyTagsToBackups
             self.dailyAutomaticBackupStartTime = dailyAutomaticBackupStartTime
@@ -3310,6 +3317,7 @@ extension FSx {
             self.logConfiguration = logConfiguration
             self.mountName = mountName
             self.perUnitStorageThroughput = perUnitStorageThroughput
+            self.rootSquashConfiguration = rootSquashConfiguration
             self.weeklyMaintenanceStartTime = weeklyMaintenanceStartTime
         }
 
@@ -3324,6 +3332,7 @@ extension FSx {
             case logConfiguration = "LogConfiguration"
             case mountName = "MountName"
             case perUnitStorageThroughput = "PerUnitStorageThroughput"
+            case rootSquashConfiguration = "RootSquashConfiguration"
             case weeklyMaintenanceStartTime = "WeeklyMaintenanceStartTime"
         }
     }
@@ -3365,6 +3374,35 @@ extension FSx {
         private enum CodingKeys: String, CodingKey {
             case destination = "Destination"
             case level = "Level"
+        }
+    }
+
+    public struct LustreRootSquashConfiguration: AWSEncodableShape & AWSDecodableShape {
+        /// When root squash is enabled, you can optionally specify an array of NIDs of clients for which root squash does not apply. A client NID is a Lustre Network Identifier used to uniquely identify a client. You can specify the NID as either a single address or a range of addresses:   A single address is described in standard Lustre NID format by specifying the client’s IP address followed by the Lustre network ID (for example, 10.0.1.6@tcp).   An address range is described using a dash to separate the range (for example, 10.0.[2-10].[1-255]@tcp).
+        public let noSquashNids: [String]?
+        /// You enable root squash by setting a user ID (UID) and group ID (GID) for the file system in the format UID:GID (for example, 365534:65534). The UID and GID values can range from 0 to 4294967294:   A non-zero value for UID and GID enables root squash. The UID and GID values can be different, but each must be a non-zero value.   A value of 0 (zero) for UID and GID indicates root, and therefore disables root squash.   When root squash is enabled, the user ID and group ID of a root user accessing the file system are re-mapped to the UID and GID you provide.
+        public let rootSquash: String?
+
+        public init(noSquashNids: [String]? = nil, rootSquash: String? = nil) {
+            self.noSquashNids = noSquashNids
+            self.rootSquash = rootSquash
+        }
+
+        public func validate(name: String) throws {
+            try self.noSquashNids?.forEach {
+                try validate($0, name: "noSquashNids[]", parent: name, max: 43)
+                try validate($0, name: "noSquashNids[]", parent: name, min: 11)
+                try validate($0, name: "noSquashNids[]", parent: name, pattern: "^([0-9\\[\\]\\-]*\\.){3}([0-9\\[\\]\\-]*)@tcp$")
+            }
+            try self.validate(self.noSquashNids, name: "noSquashNids", parent: name, max: 64)
+            try self.validate(self.rootSquash, name: "rootSquash", parent: name, max: 21)
+            try self.validate(self.rootSquash, name: "rootSquash", parent: name, min: 3)
+            try self.validate(self.rootSquash, name: "rootSquash", parent: name, pattern: "^([0-9]{1,10}):([0-9]{1,10})$")
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case noSquashNids = "NoSquashNids"
+            case rootSquash = "RootSquash"
         }
     }
 
@@ -4309,15 +4347,18 @@ extension FSx {
         public let dataCompressionType: DataCompressionType?
         /// The Lustre logging configuration used when updating an Amazon FSx for Lustre file system. When logging is enabled, Lustre logs error and warning events for data repositories associated with your file system to Amazon CloudWatch Logs.
         public let logConfiguration: LustreLogCreateConfiguration?
+        /// The Lustre root squash configuration used when updating an Amazon FSx for Lustre file system. When enabled, root squash restricts root-level access from clients that try to access your file system as a root user.
+        public let rootSquashConfiguration: LustreRootSquashConfiguration?
         /// (Optional) The preferred start time to perform weekly maintenance, formatted d:HH:MM in the UTC time zone. d is the weekday number, from 1 through 7, beginning with Monday and ending with Sunday.
         public let weeklyMaintenanceStartTime: String?
 
-        public init(autoImportPolicy: AutoImportPolicyType? = nil, automaticBackupRetentionDays: Int? = nil, dailyAutomaticBackupStartTime: String? = nil, dataCompressionType: DataCompressionType? = nil, logConfiguration: LustreLogCreateConfiguration? = nil, weeklyMaintenanceStartTime: String? = nil) {
+        public init(autoImportPolicy: AutoImportPolicyType? = nil, automaticBackupRetentionDays: Int? = nil, dailyAutomaticBackupStartTime: String? = nil, dataCompressionType: DataCompressionType? = nil, logConfiguration: LustreLogCreateConfiguration? = nil, rootSquashConfiguration: LustreRootSquashConfiguration? = nil, weeklyMaintenanceStartTime: String? = nil) {
             self.autoImportPolicy = autoImportPolicy
             self.automaticBackupRetentionDays = automaticBackupRetentionDays
             self.dailyAutomaticBackupStartTime = dailyAutomaticBackupStartTime
             self.dataCompressionType = dataCompressionType
             self.logConfiguration = logConfiguration
+            self.rootSquashConfiguration = rootSquashConfiguration
             self.weeklyMaintenanceStartTime = weeklyMaintenanceStartTime
         }
 
@@ -4328,6 +4369,7 @@ extension FSx {
             try self.validate(self.dailyAutomaticBackupStartTime, name: "dailyAutomaticBackupStartTime", parent: name, min: 5)
             try self.validate(self.dailyAutomaticBackupStartTime, name: "dailyAutomaticBackupStartTime", parent: name, pattern: "^([01]\\d|2[0-3]):?([0-5]\\d)$")
             try self.logConfiguration?.validate(name: "\(name).logConfiguration")
+            try self.rootSquashConfiguration?.validate(name: "\(name).rootSquashConfiguration")
             try self.validate(self.weeklyMaintenanceStartTime, name: "weeklyMaintenanceStartTime", parent: name, max: 7)
             try self.validate(self.weeklyMaintenanceStartTime, name: "weeklyMaintenanceStartTime", parent: name, min: 7)
             try self.validate(self.weeklyMaintenanceStartTime, name: "weeklyMaintenanceStartTime", parent: name, pattern: "^[1-7]:([01]\\d|2[0-3]):?([0-5]\\d)$")
@@ -4339,6 +4381,7 @@ extension FSx {
             case dailyAutomaticBackupStartTime = "DailyAutomaticBackupStartTime"
             case dataCompressionType = "DataCompressionType"
             case logConfiguration = "LogConfiguration"
+            case rootSquashConfiguration = "RootSquashConfiguration"
             case weeklyMaintenanceStartTime = "WeeklyMaintenanceStartTime"
         }
     }

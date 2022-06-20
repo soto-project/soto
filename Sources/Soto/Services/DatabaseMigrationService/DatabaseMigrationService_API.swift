@@ -90,6 +90,11 @@ public struct DatabaseMigrationService: AWSService {
         return self.client.execute(operation: "CreateEventSubscription", path: "/", httpMethod: .POST, serviceConfig: self.config, input: input, logger: logger, on: eventLoop)
     }
 
+    /// Creates a Fleet Advisor collector using the specified parameters.
+    public func createFleetAdvisorCollector(_ input: CreateFleetAdvisorCollectorRequest, logger: Logger = AWSClient.loggingDisabled, on eventLoop: EventLoop? = nil) -> EventLoopFuture<CreateFleetAdvisorCollectorResponse> {
+        return self.client.execute(operation: "CreateFleetAdvisorCollector", path: "/", httpMethod: .POST, serviceConfig: self.config, input: input, logger: logger, on: eventLoop)
+    }
+
     /// Creates the replication instance using the specified parameters. DMS requires that your account have certain roles with appropriate permissions before you can create a replication instance. For information on the required roles, see Creating the IAM Roles to Use With the CLI and DMS API. For information on the required permissions, see  IAM Permissions Needed to Use DMS.
     public func createReplicationInstance(_ input: CreateReplicationInstanceMessage, logger: Logger = AWSClient.loggingDisabled, on eventLoop: EventLoop? = nil) -> EventLoopFuture<CreateReplicationInstanceResponse> {
         return self.client.execute(operation: "CreateReplicationInstance", path: "/", httpMethod: .POST, serviceConfig: self.config, input: input, logger: logger, on: eventLoop)
@@ -123,6 +128,16 @@ public struct DatabaseMigrationService: AWSService {
     ///  Deletes an DMS event subscription.
     public func deleteEventSubscription(_ input: DeleteEventSubscriptionMessage, logger: Logger = AWSClient.loggingDisabled, on eventLoop: EventLoop? = nil) -> EventLoopFuture<DeleteEventSubscriptionResponse> {
         return self.client.execute(operation: "DeleteEventSubscription", path: "/", httpMethod: .POST, serviceConfig: self.config, input: input, logger: logger, on: eventLoop)
+    }
+
+    /// Deletes the specified Fleet Advisor collector.
+    @discardableResult public func deleteFleetAdvisorCollector(_ input: DeleteCollectorRequest, logger: Logger = AWSClient.loggingDisabled, on eventLoop: EventLoop? = nil) -> EventLoopFuture<Void> {
+        return self.client.execute(operation: "DeleteFleetAdvisorCollector", path: "/", httpMethod: .POST, serviceConfig: self.config, input: input, logger: logger, on: eventLoop)
+    }
+
+    /// Deletes the specified Fleet Advisor collector databases.
+    public func deleteFleetAdvisorDatabases(_ input: DeleteFleetAdvisorDatabasesRequest, logger: Logger = AWSClient.loggingDisabled, on eventLoop: EventLoop? = nil) -> EventLoopFuture<DeleteFleetAdvisorDatabasesResponse> {
+        return self.client.execute(operation: "DeleteFleetAdvisorDatabases", path: "/", httpMethod: .POST, serviceConfig: self.config, input: input, logger: logger, on: eventLoop)
     }
 
     /// Deletes the specified replication instance.  You must delete any migration tasks that are associated with the replication instance before you can delete it.
@@ -193,6 +208,31 @@ public struct DatabaseMigrationService: AWSService {
     ///  Lists events for a given source identifier and source type. You can also specify a start and end time. For more information on DMS events, see Working with Events and Notifications in the Database Migration Service User Guide.
     public func describeEvents(_ input: DescribeEventsMessage, logger: Logger = AWSClient.loggingDisabled, on eventLoop: EventLoop? = nil) -> EventLoopFuture<DescribeEventsResponse> {
         return self.client.execute(operation: "DescribeEvents", path: "/", httpMethod: .POST, serviceConfig: self.config, input: input, logger: logger, on: eventLoop)
+    }
+
+    /// Returns a list of the Fleet Advisor collectors in your account.
+    public func describeFleetAdvisorCollectors(_ input: DescribeFleetAdvisorCollectorsRequest, logger: Logger = AWSClient.loggingDisabled, on eventLoop: EventLoop? = nil) -> EventLoopFuture<DescribeFleetAdvisorCollectorsResponse> {
+        return self.client.execute(operation: "DescribeFleetAdvisorCollectors", path: "/", httpMethod: .POST, serviceConfig: self.config, input: input, logger: logger, on: eventLoop)
+    }
+
+    /// Returns a list of Fleet Advisor databases in your account.
+    public func describeFleetAdvisorDatabases(_ input: DescribeFleetAdvisorDatabasesRequest, logger: Logger = AWSClient.loggingDisabled, on eventLoop: EventLoop? = nil) -> EventLoopFuture<DescribeFleetAdvisorDatabasesResponse> {
+        return self.client.execute(operation: "DescribeFleetAdvisorDatabases", path: "/", httpMethod: .POST, serviceConfig: self.config, input: input, logger: logger, on: eventLoop)
+    }
+
+    /// Provides descriptions of large-scale assessment (LSA) analyses produced by your Fleet Advisor collectors.
+    public func describeFleetAdvisorLsaAnalysis(_ input: DescribeFleetAdvisorLsaAnalysisRequest, logger: Logger = AWSClient.loggingDisabled, on eventLoop: EventLoop? = nil) -> EventLoopFuture<DescribeFleetAdvisorLsaAnalysisResponse> {
+        return self.client.execute(operation: "DescribeFleetAdvisorLsaAnalysis", path: "/", httpMethod: .POST, serviceConfig: self.config, input: input, logger: logger, on: eventLoop)
+    }
+
+    /// Provides descriptions of the schemas discovered by your Fleet Advisor collectors.
+    public func describeFleetAdvisorSchemaObjectSummary(_ input: DescribeFleetAdvisorSchemaObjectSummaryRequest, logger: Logger = AWSClient.loggingDisabled, on eventLoop: EventLoop? = nil) -> EventLoopFuture<DescribeFleetAdvisorSchemaObjectSummaryResponse> {
+        return self.client.execute(operation: "DescribeFleetAdvisorSchemaObjectSummary", path: "/", httpMethod: .POST, serviceConfig: self.config, input: input, logger: logger, on: eventLoop)
+    }
+
+    /// Returns a list of schemas detected by Fleet Advisor Collectors in your account.
+    public func describeFleetAdvisorSchemas(_ input: DescribeFleetAdvisorSchemasRequest, logger: Logger = AWSClient.loggingDisabled, on eventLoop: EventLoop? = nil) -> EventLoopFuture<DescribeFleetAdvisorSchemasResponse> {
+        return self.client.execute(operation: "DescribeFleetAdvisorSchemas", path: "/", httpMethod: .POST, serviceConfig: self.config, input: input, logger: logger, on: eventLoop)
     }
 
     /// Returns information about the replication instance types that can be created in the specified region.
@@ -315,6 +355,11 @@ public struct DatabaseMigrationService: AWSService {
     /// Removes metadata tags from an DMS resource, including replication instance,  endpoint, security group, and migration task. For more information, see   Tag  data type description.
     public func removeTagsFromResource(_ input: RemoveTagsFromResourceMessage, logger: Logger = AWSClient.loggingDisabled, on eventLoop: EventLoop? = nil) -> EventLoopFuture<RemoveTagsFromResourceResponse> {
         return self.client.execute(operation: "RemoveTagsFromResource", path: "/", httpMethod: .POST, serviceConfig: self.config, input: input, logger: logger, on: eventLoop)
+    }
+
+    /// Runs large-scale assessment (LSA) analysis on every Fleet Advisor collector in your account.
+    public func runFleetAdvisorLsaAnalysis(logger: Logger = AWSClient.loggingDisabled, on eventLoop: EventLoop? = nil) -> EventLoopFuture<RunFleetAdvisorLsaAnalysisResponse> {
+        return self.client.execute(operation: "RunFleetAdvisorLsaAnalysis", path: "/", httpMethod: .POST, serviceConfig: self.config, logger: logger, on: eventLoop)
     }
 
     /// Starts the replication task. For more information about DMS tasks, see Working with Migration Tasks  in the Database Migration Service User Guide.
