@@ -337,6 +337,112 @@ extension Drs {
             onPage: onPage
         )
     }
+
+    ///  Returns a list of source servers on a staging account that are extensible, which means that: a. The source server is not already extended into this Account. b. The source server on the Account we’re reading from is not an extension of another source server.
+    ///
+    /// Provide paginated results to closure `onPage` for it to combine them into one result.
+    /// This works in a similar manner to `Array.reduce<Result>(_:_:) -> Result`.
+    ///
+    /// Parameters:
+    ///   - input: Input for request
+    ///   - initialValue: The value to use as the initial accumulating value. `initialValue` is passed to `onPage` the first time it is called.
+    ///   - logger: Logger used flot logging
+    ///   - eventLoop: EventLoop to run this process on
+    ///   - onPage: closure called with each paginated response. It combines an accumulating result with the contents of response. This combined result is then returned
+    ///         along with a boolean indicating if the paginate operation should continue.
+    public func listExtensibleSourceServersPaginator<Result>(
+        _ input: ListExtensibleSourceServersRequest,
+        _ initialValue: Result,
+        logger: Logger = AWSClient.loggingDisabled,
+        on eventLoop: EventLoop? = nil,
+        onPage: @escaping (Result, ListExtensibleSourceServersResponse, EventLoop) -> EventLoopFuture<(Bool, Result)>
+    ) -> EventLoopFuture<Result> {
+        return client.paginate(
+            input: input,
+            initialValue: initialValue,
+            command: listExtensibleSourceServers,
+            inputKey: \ListExtensibleSourceServersRequest.nextToken,
+            outputKey: \ListExtensibleSourceServersResponse.nextToken,
+            on: eventLoop,
+            onPage: onPage
+        )
+    }
+
+    /// Provide paginated results to closure `onPage`.
+    ///
+    /// - Parameters:
+    ///   - input: Input for request
+    ///   - logger: Logger used flot logging
+    ///   - eventLoop: EventLoop to run this process on
+    ///   - onPage: closure called with each block of entries. Returns boolean indicating whether we should continue.
+    public func listExtensibleSourceServersPaginator(
+        _ input: ListExtensibleSourceServersRequest,
+        logger: Logger = AWSClient.loggingDisabled,
+        on eventLoop: EventLoop? = nil,
+        onPage: @escaping (ListExtensibleSourceServersResponse, EventLoop) -> EventLoopFuture<Bool>
+    ) -> EventLoopFuture<Void> {
+        return client.paginate(
+            input: input,
+            command: listExtensibleSourceServers,
+            inputKey: \ListExtensibleSourceServersRequest.nextToken,
+            outputKey: \ListExtensibleSourceServersResponse.nextToken,
+            on: eventLoop,
+            onPage: onPage
+        )
+    }
+
+    ///  Returns an array of staging accounts for existing extended source servers.
+    ///
+    /// Provide paginated results to closure `onPage` for it to combine them into one result.
+    /// This works in a similar manner to `Array.reduce<Result>(_:_:) -> Result`.
+    ///
+    /// Parameters:
+    ///   - input: Input for request
+    ///   - initialValue: The value to use as the initial accumulating value. `initialValue` is passed to `onPage` the first time it is called.
+    ///   - logger: Logger used flot logging
+    ///   - eventLoop: EventLoop to run this process on
+    ///   - onPage: closure called with each paginated response. It combines an accumulating result with the contents of response. This combined result is then returned
+    ///         along with a boolean indicating if the paginate operation should continue.
+    public func listStagingAccountsPaginator<Result>(
+        _ input: ListStagingAccountsRequest,
+        _ initialValue: Result,
+        logger: Logger = AWSClient.loggingDisabled,
+        on eventLoop: EventLoop? = nil,
+        onPage: @escaping (Result, ListStagingAccountsResponse, EventLoop) -> EventLoopFuture<(Bool, Result)>
+    ) -> EventLoopFuture<Result> {
+        return client.paginate(
+            input: input,
+            initialValue: initialValue,
+            command: listStagingAccounts,
+            inputKey: \ListStagingAccountsRequest.nextToken,
+            outputKey: \ListStagingAccountsResponse.nextToken,
+            on: eventLoop,
+            onPage: onPage
+        )
+    }
+
+    /// Provide paginated results to closure `onPage`.
+    ///
+    /// - Parameters:
+    ///   - input: Input for request
+    ///   - logger: Logger used flot logging
+    ///   - eventLoop: EventLoop to run this process on
+    ///   - onPage: closure called with each block of entries. Returns boolean indicating whether we should continue.
+    public func listStagingAccountsPaginator(
+        _ input: ListStagingAccountsRequest,
+        logger: Logger = AWSClient.loggingDisabled,
+        on eventLoop: EventLoop? = nil,
+        onPage: @escaping (ListStagingAccountsResponse, EventLoop) -> EventLoopFuture<Bool>
+    ) -> EventLoopFuture<Void> {
+        return client.paginate(
+            input: input,
+            command: listStagingAccounts,
+            inputKey: \ListStagingAccountsRequest.nextToken,
+            outputKey: \ListStagingAccountsResponse.nextToken,
+            on: eventLoop,
+            onPage: onPage
+        )
+    }
 }
 
 extension Drs.DescribeJobLogItemsRequest: AWSPaginateToken {
@@ -395,6 +501,25 @@ extension Drs.DescribeSourceServersRequest: AWSPaginateToken {
     public func usingPaginationToken(_ token: String) -> Drs.DescribeSourceServersRequest {
         return .init(
             filters: self.filters,
+            maxResults: self.maxResults,
+            nextToken: token
+        )
+    }
+}
+
+extension Drs.ListExtensibleSourceServersRequest: AWSPaginateToken {
+    public func usingPaginationToken(_ token: String) -> Drs.ListExtensibleSourceServersRequest {
+        return .init(
+            maxResults: self.maxResults,
+            nextToken: token,
+            stagingAccountID: self.stagingAccountID
+        )
+    }
+}
+
+extension Drs.ListStagingAccountsRequest: AWSPaginateToken {
+    public func usingPaginationToken(_ token: String) -> Drs.ListStagingAccountsRequest {
+        return .init(
             maxResults: self.maxResults,
             nextToken: token
         )

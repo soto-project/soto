@@ -68,6 +68,14 @@ extension SageMaker {
         case mlG4Dn4Xlarge = "ml.g4dn.4xlarge"
         case mlG4Dn8Xlarge = "ml.g4dn.8xlarge"
         case mlG4DnXlarge = "ml.g4dn.xlarge"
+        case mlG512Xlarge = "ml.g5.12xlarge"
+        case mlG516Xlarge = "ml.g5.16xlarge"
+        case mlG524Xlarge = "ml.g5.24xlarge"
+        case mlG52Xlarge = "ml.g5.2xlarge"
+        case mlG548Xlarge = "ml.g5.48xlarge"
+        case mlG54Xlarge = "ml.g5.4xlarge"
+        case mlG58Xlarge = "ml.g5.8xlarge"
+        case mlG5Xlarge = "ml.g5.xlarge"
         case mlM512Xlarge = "ml.m5.12xlarge"
         case mlM516Xlarge = "ml.m5.16xlarge"
         case mlM524Xlarge = "ml.m5.24xlarge"
@@ -2004,13 +2012,13 @@ extension SageMaker {
     }
 
     public struct AlgorithmSpecification: AWSEncodableShape & AWSDecodableShape {
-        /// The name of the algorithm resource to use for the training job. This must be an algorithm resource that you created or subscribe to on Amazon Web Services Marketplace. If you specify a value for this parameter, you can't specify a value for TrainingImage.
+        /// The name of the algorithm resource to use for the training job. This must be an algorithm resource that you created or subscribe to on Amazon Web Services Marketplace.  You must specify either the algorithm name to the AlgorithmName parameter  or the image URI of the algorithm container  to the TrainingImage parameter. Note that the AlgorithmName parameter is mutually exclusive  with the TrainingImage parameter.  If you specify a value for the AlgorithmName parameter, you can't specify a value for TrainingImage, and vice versa. If you specify values for both parameters, the training job might break; if you don't specify any value for both parameters, the training job might raise a null error.
         public let algorithmName: String?
         /// To generate and save time-series metrics during training, set to true. The default is false and time-series metrics aren't generated except in the following cases:   You use one of the SageMaker built-in algorithms   You use one of the following Prebuilt SageMaker Docker Images:   Tensorflow (version >= 1.15)   MXNet (version >= 1.6)   PyTorch (version >= 1.3)     You specify at least one MetricDefinition
         public let enableSageMakerMetricsTimeSeries: Bool?
         /// A list of metric definition objects. Each object specifies the metric name and regular expressions used to parse algorithm logs. SageMaker publishes each metric to Amazon CloudWatch.
         public let metricDefinitions: [MetricDefinition]?
-        /// The registry path of the Docker image that contains the training algorithm. For information about docker registry paths for built-in algorithms, see Algorithms Provided by Amazon SageMaker: Common Parameters. SageMaker supports both registry/repository[:tag] and registry/repository[@digest] image path formats. For more information, see Using Your Own Algorithms with Amazon SageMaker.
+        /// The registry path of the Docker image that contains the training algorithm. For information about docker registry paths for SageMaker built-in algorithms, see Docker Registry Paths and Example Code in the Amazon SageMaker developer guide.  SageMaker supports both registry/repository[:tag] and registry/repository[@digest] image path formats. For more information about using your custom training container, see Using Your Own Algorithms with Amazon SageMaker.  You must specify either the algorithm name to the AlgorithmName parameter  or the image URI of the algorithm container  to the TrainingImage parameter. For more information, see the note in the AlgorithmName parameter description.
         public let trainingImage: String?
         public let trainingInputMode: TrainingInputMode
 
@@ -2652,6 +2660,24 @@ extension SageMaker {
         }
     }
 
+    public struct AutoMLCandidateGenerationConfig: AWSEncodableShape & AWSDecodableShape {
+        /// A URL to the Amazon S3 data source containing selected features from the input data source to run an Autopilot job (optional). This file should be in json format as shown below:   { "FeatureAttributeNames":["col1", "col2", ...] }. The key name FeatureAttributeNames is fixed. The values listed in ["col1", "col2", ...] is case sensitive and should be a list of strings containing unique values that are a subset of the column names in the input data. The list of columns provided must not include the target column.
+        public let featureSpecificationS3Uri: String?
+
+        public init(featureSpecificationS3Uri: String? = nil) {
+            self.featureSpecificationS3Uri = featureSpecificationS3Uri
+        }
+
+        public func validate(name: String) throws {
+            try self.validate(self.featureSpecificationS3Uri, name: "featureSpecificationS3Uri", parent: name, max: 1024)
+            try self.validate(self.featureSpecificationS3Uri, name: "featureSpecificationS3Uri", parent: name, pattern: "^(https|s3)://([^/]+)/?(.*)$")
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case featureSpecificationS3Uri = "FeatureSpecificationS3Uri"
+        }
+    }
+
     public struct AutoMLCandidateStep: AWSDecodableShape {
         /// The ARN for the candidate's step.
         public let candidateStepArn: String
@@ -2674,7 +2700,7 @@ extension SageMaker {
     }
 
     public struct AutoMLChannel: AWSEncodableShape & AWSDecodableShape {
-        /// The channel type (optional) is an enum string. The default value is training. Channels for training and validation must share the same ContentType and TargetAttributeName.
+        /// The channel type (optional) is an enum string. The default value is training. Channels for training and validation must share the same ContentType and TargetAttributeName. For information on specifying training and validation channel types, see  How to specify training and validation datasets .
         public let channelType: AutoMLChannelType?
         /// You can use Gzip or None. The default value is None.
         public let compressionType: CompressionType?
@@ -2748,7 +2774,7 @@ extension SageMaker {
     }
 
     public struct AutoMLDataSplitConfig: AWSEncodableShape & AWSDecodableShape {
-        /// The validation fraction (optional) is a float that specifies the portion of the training dataset to be used for validation. The default value is 0.2, and values can range from 0 to 1. We recommend setting this value to be less than 0.5.
+        /// The validation fraction (optional) is a float that specifies the portion of the training dataset to be used for validation. The default value is 0.2, and values must be greater than 0 and less than 1. We recommend setting this value to be less than 0.5.
         public let validationFraction: Float?
 
         public init(validationFraction: Float? = nil) {
@@ -2810,6 +2836,8 @@ extension SageMaker {
     }
 
     public struct AutoMLJobConfig: AWSEncodableShape & AWSDecodableShape {
+        /// The configuration for generating a candidate for an AutoML job (optional).
+        public let candidateGenerationConfig: AutoMLCandidateGenerationConfig?
         /// How long an AutoML job is allowed to run, or how many candidates a job is allowed to generate.
         public let completionCriteria: AutoMLJobCompletionCriteria?
         /// The configuration for splitting the input training dataset. Type: AutoMLDataSplitConfig
@@ -2817,19 +2845,22 @@ extension SageMaker {
         /// The security configuration for traffic encryption or Amazon VPC settings.
         public let securityConfig: AutoMLSecurityConfig?
 
-        public init(completionCriteria: AutoMLJobCompletionCriteria? = nil, dataSplitConfig: AutoMLDataSplitConfig? = nil, securityConfig: AutoMLSecurityConfig? = nil) {
+        public init(candidateGenerationConfig: AutoMLCandidateGenerationConfig? = nil, completionCriteria: AutoMLJobCompletionCriteria? = nil, dataSplitConfig: AutoMLDataSplitConfig? = nil, securityConfig: AutoMLSecurityConfig? = nil) {
+            self.candidateGenerationConfig = candidateGenerationConfig
             self.completionCriteria = completionCriteria
             self.dataSplitConfig = dataSplitConfig
             self.securityConfig = securityConfig
         }
 
         public func validate(name: String) throws {
+            try self.candidateGenerationConfig?.validate(name: "\(name).candidateGenerationConfig")
             try self.completionCriteria?.validate(name: "\(name).completionCriteria")
             try self.dataSplitConfig?.validate(name: "\(name).dataSplitConfig")
             try self.securityConfig?.validate(name: "\(name).securityConfig")
         }
 
         private enum CodingKeys: String, CodingKey {
+            case candidateGenerationConfig = "CandidateGenerationConfig"
             case completionCriteria = "CompletionCriteria"
             case dataSplitConfig = "DataSplitConfig"
             case securityConfig = "SecurityConfig"
@@ -3240,7 +3271,9 @@ extension SageMaker {
     }
 
     public struct CaptureContentTypeHeader: AWSEncodableShape & AWSDecodableShape {
+        /// The list of all content type headers that SageMaker will treat as CSV and capture accordingly.
         public let csvContentTypes: [String]?
+        /// The list of all content type headers that SageMaker will treat as JSON and capture accordingly.
         public let jsonContentTypes: [String]?
 
         public init(csvContentTypes: [String]? = nil, jsonContentTypes: [String]? = nil) {
@@ -3272,6 +3305,7 @@ extension SageMaker {
     }
 
     public struct CaptureOption: AWSEncodableShape & AWSDecodableShape {
+        /// Specify the boundary of data to capture.
         public let captureMode: CaptureMode
 
         public init(captureMode: CaptureMode) {
@@ -4196,7 +4230,7 @@ extension SageMaker {
     }
 
     public struct CreateAutoMLJobRequest: AWSEncodableShape {
-        /// Contains CompletionCriteria and SecurityConfig settings for the AutoML job.
+        /// A collection of settings used to configure an AutoML job.
         public let autoMLJobConfig: AutoMLJobConfig?
         /// Identifies an Autopilot job. The name must be unique to your account and is case-insensitive.
         public let autoMLJobName: String
@@ -4204,13 +4238,13 @@ extension SageMaker {
         public let autoMLJobObjective: AutoMLJobObjective?
         /// Generates possible candidates without training the models. A candidate is a combination of data preprocessors, algorithms, and algorithm parameter settings.
         public let generateCandidateDefinitionsOnly: Bool?
-        /// An array of channel objects that describes the input data and its location. Each channel is a named input source. Similar to InputDataConfig supported by . Format(s) supported: CSV. Minimum of 500 rows.
+        /// An array of channel objects that describes the input data and its location. Each channel is a named input source. Similar to InputDataConfig supported by . Format(s) supported: CSV, Parquet. A minimum of 500 rows is required for the training dataset. There is not a minimum number of rows required for the validation dataset.
         public let inputDataConfig: [AutoMLChannel]
         /// Specifies how to generate the endpoint name for an automatic one-click Autopilot model deployment.
         public let modelDeployConfig: ModelDeployConfig?
         /// Provides information about encryption and the Amazon S3 output path needed to store artifacts from an AutoML job. Format(s) supported: CSV.
         public let outputDataConfig: AutoMLOutputDataConfig
-        /// Defines the type of supervised learning available for the candidates. Options include: BinaryClassification, MulticlassClassification, and Regression. For more information, see  Amazon SageMaker Autopilot problem types and algorithm support.
+        /// Defines the type of supervised learning available for the candidates. For more information, see  Amazon SageMaker Autopilot problem types and algorithm support.
         public let problemType: ProblemType?
         /// The ARN of the role that is used to access the data.
         public let roleArn: String
@@ -4238,7 +4272,7 @@ extension SageMaker {
             try self.inputDataConfig.forEach {
                 try $0.validate(name: "\(name).inputDataConfig[]")
             }
-            try self.validate(self.inputDataConfig, name: "inputDataConfig", parent: name, max: 20)
+            try self.validate(self.inputDataConfig, name: "inputDataConfig", parent: name, max: 2)
             try self.validate(self.inputDataConfig, name: "inputDataConfig", parent: name, min: 1)
             try self.modelDeployConfig?.validate(name: "\(name).modelDeployConfig")
             try self.outputDataConfig.validate(name: "\(name).outputDataConfig")
@@ -5762,7 +5796,7 @@ extension SageMaker {
         public let sourceAlgorithmSpecification: SourceAlgorithmSpecification?
         /// A list of key value pairs associated with the model. For more information, see Tagging Amazon Web Services resources in the Amazon Web Services General Reference Guide.
         public let tags: [Tag]?
-        /// The machine learning task your model package accomplishes. Common machine  learning tasks include object detection and image classification.
+        /// The machine learning task your model package accomplishes. Common machine  learning tasks include object detection and image classification. The following  tasks are supported by Inference Recommender:  "IMAGE_CLASSIFICATION" | "OBJECT_DETECTION" | "TEXT_GENERATION" |"IMAGE_SEGMENTATION" |  "FILL_MASK" | "CLASSIFICATION" | "REGRESSION" | "OTHER". Specify "OTHER" if none of the tasks listed fit your use case.
         public let task: String?
         /// Specifies configurations for one or more transform jobs that SageMaker runs to test the model package.
         public let validationSpecification: ModelPackageValidationSpecification?
@@ -5997,6 +6031,8 @@ extension SageMaker {
         public let defaultCodeRepository: String?
         /// Sets whether SageMaker provides internet access to the notebook instance. If you set this to Disabled this notebook instance is able to access resources only in your VPC, and is not be able to connect to SageMaker training and endpoint services unless you configure a NAT Gateway in your VPC. For more information, see Notebook Instances Are Internet-Enabled by Default. You can set the value of this parameter to Disabled only if you set a value for the SubnetId parameter.
         public let directInternetAccess: DirectInternetAccess?
+        /// Information on the IMDS configuration of the notebook instance
+        public let instanceMetadataServiceConfiguration: InstanceMetadataServiceConfiguration?
         /// The type of ML compute instance to launch for the notebook instance.
         public let instanceType: InstanceType
         /// The Amazon Resource Name (ARN) of a Amazon Web Services Key Management Service key that SageMaker uses to encrypt data on the storage volume attached to your notebook instance. The KMS key you provide must be enabled. For information, see Enabling and Disabling Keys in the Amazon Web Services Key Management Service Developer Guide.
@@ -6020,11 +6056,12 @@ extension SageMaker {
         /// The size, in GB, of the ML storage volume to attach to the notebook instance. The default value is 5 GB.
         public let volumeSizeInGB: Int?
 
-        public init(acceleratorTypes: [NotebookInstanceAcceleratorType]? = nil, additionalCodeRepositories: [String]? = nil, defaultCodeRepository: String? = nil, directInternetAccess: DirectInternetAccess? = nil, instanceType: InstanceType, kmsKeyId: String? = nil, lifecycleConfigName: String? = nil, notebookInstanceName: String, platformIdentifier: String? = nil, roleArn: String, rootAccess: RootAccess? = nil, securityGroupIds: [String]? = nil, subnetId: String? = nil, tags: [Tag]? = nil, volumeSizeInGB: Int? = nil) {
+        public init(acceleratorTypes: [NotebookInstanceAcceleratorType]? = nil, additionalCodeRepositories: [String]? = nil, defaultCodeRepository: String? = nil, directInternetAccess: DirectInternetAccess? = nil, instanceMetadataServiceConfiguration: InstanceMetadataServiceConfiguration? = nil, instanceType: InstanceType, kmsKeyId: String? = nil, lifecycleConfigName: String? = nil, notebookInstanceName: String, platformIdentifier: String? = nil, roleArn: String, rootAccess: RootAccess? = nil, securityGroupIds: [String]? = nil, subnetId: String? = nil, tags: [Tag]? = nil, volumeSizeInGB: Int? = nil) {
             self.acceleratorTypes = acceleratorTypes
             self.additionalCodeRepositories = additionalCodeRepositories
             self.defaultCodeRepository = defaultCodeRepository
             self.directInternetAccess = directInternetAccess
+            self.instanceMetadataServiceConfiguration = instanceMetadataServiceConfiguration
             self.instanceType = instanceType
             self.kmsKeyId = kmsKeyId
             self.lifecycleConfigName = lifecycleConfigName
@@ -6048,6 +6085,7 @@ extension SageMaker {
             try self.validate(self.defaultCodeRepository, name: "defaultCodeRepository", parent: name, max: 1024)
             try self.validate(self.defaultCodeRepository, name: "defaultCodeRepository", parent: name, min: 1)
             try self.validate(self.defaultCodeRepository, name: "defaultCodeRepository", parent: name, pattern: "^https://([^/]+)/?(.*)$|^[a-zA-Z0-9](-*[a-zA-Z0-9])*$")
+            try self.instanceMetadataServiceConfiguration?.validate(name: "\(name).instanceMetadataServiceConfiguration")
             try self.validate(self.kmsKeyId, name: "kmsKeyId", parent: name, max: 2048)
             try self.validate(self.kmsKeyId, name: "kmsKeyId", parent: name, pattern: ".*")
             try self.validate(self.lifecycleConfigName, name: "lifecycleConfigName", parent: name, max: 63)
@@ -6055,7 +6093,7 @@ extension SageMaker {
             try self.validate(self.notebookInstanceName, name: "notebookInstanceName", parent: name, max: 63)
             try self.validate(self.notebookInstanceName, name: "notebookInstanceName", parent: name, pattern: "^[a-zA-Z0-9](-*[a-zA-Z0-9])*$")
             try self.validate(self.platformIdentifier, name: "platformIdentifier", parent: name, max: 15)
-            try self.validate(self.platformIdentifier, name: "platformIdentifier", parent: name, pattern: "^(notebook-al1-v1|notebook-al2-v1)$")
+            try self.validate(self.platformIdentifier, name: "platformIdentifier", parent: name, pattern: "^(notebook-al1-v1|notebook-al2-v1|notebook-al2-v2)$")
             try self.validate(self.roleArn, name: "roleArn", parent: name, max: 2048)
             try self.validate(self.roleArn, name: "roleArn", parent: name, min: 20)
             try self.validate(self.roleArn, name: "roleArn", parent: name, pattern: "^arn:aws[a-z\\-]*:iam::\\d{12}:role/?[a-zA-Z_0-9+=,.@\\-_/]+$")
@@ -6079,6 +6117,7 @@ extension SageMaker {
             case additionalCodeRepositories = "AdditionalCodeRepositories"
             case defaultCodeRepository = "DefaultCodeRepository"
             case directInternetAccess = "DirectInternetAccess"
+            case instanceMetadataServiceConfiguration = "InstanceMetadataServiceConfiguration"
             case instanceType = "InstanceType"
             case kmsKeyId = "KmsKeyId"
             case lifecycleConfigName = "LifecycleConfigName"
@@ -7142,11 +7181,17 @@ extension SageMaker {
     }
 
     public struct DataCaptureConfig: AWSEncodableShape & AWSDecodableShape {
+        /// Configuration specifying how to treat different headers. If no headers are specified SageMaker will  by default base64 encode when capturing the data.
         public let captureContentTypeHeader: CaptureContentTypeHeader?
+        /// Specifies data Model Monitor will capture. You can configure whether to  collect only input, only output, or both
         public let captureOptions: [CaptureOption]
+        /// The Amazon S3 location used to capture the data.
         public let destinationS3Uri: String
+        /// Whether data capture should be enabled or disabled (defaults to enabled).
         public let enableCapture: Bool?
+        /// The percentage of requests SageMaker will capture. A lower value is recommended for  Endpoints with high traffic.
         public let initialSamplingPercentage: Int
+        /// The Amazon Resource Name (ARN) of a Amazon Web Services Key Management Service key that SageMaker uses to encrypt data on the storage volume attached to the ML compute instance that hosts the endpoint. The KmsKeyId can be any of the following formats:    Key ID: 1234abcd-12ab-34cd-56ef-1234567890ab    Key ARN: arn:aws:kms:us-west-2:111122223333:key/1234abcd-12ab-34cd-56ef-1234567890ab    Alias name: alias/ExampleAlias    Alias name ARN: arn:aws:kms:us-west-2:111122223333:alias/ExampleAlias
         public let kmsKeyId: String?
 
         public init(captureContentTypeHeader: CaptureContentTypeHeader? = nil, captureOptions: [CaptureOption], destinationS3Uri: String, enableCapture: Bool? = nil, initialSamplingPercentage: Int, kmsKeyId: String? = nil) {
@@ -7181,10 +7226,15 @@ extension SageMaker {
     }
 
     public struct DataCaptureConfigSummary: AWSDecodableShape {
+        /// Whether data capture is currently functional.
         public let captureStatus: CaptureStatus
+        /// The percentage of requests being captured by your Endpoint.
         public let currentSamplingPercentage: Int
+        /// The Amazon S3 location being used to capture the data.
         public let destinationS3Uri: String
+        /// Whether data capture is enabled or disabled.
         public let enableCapture: Bool
+        /// The KMS key being used to encrypt the data in Amazon S3.
         public let kmsKeyId: String
 
         public init(captureStatus: CaptureStatus, currentSamplingPercentage: Int, destinationS3Uri: String, enableCapture: Bool, kmsKeyId: String) {
@@ -11095,6 +11145,8 @@ extension SageMaker {
         public let directInternetAccess: DirectInternetAccess?
         /// If status is Failed, the reason it failed.
         public let failureReason: String?
+        /// Information on the IMDS configuration of the notebook instance
+        public let instanceMetadataServiceConfiguration: InstanceMetadataServiceConfiguration?
         /// The type of ML compute instance running on the notebook instance.
         public let instanceType: InstanceType?
         /// The Amazon Web Services KMS key ID SageMaker uses to encrypt data when storing it on the ML storage volume attached to the instance.
@@ -11126,13 +11178,14 @@ extension SageMaker {
         /// The size, in GB, of the ML storage volume attached to the notebook instance.
         public let volumeSizeInGB: Int?
 
-        public init(acceleratorTypes: [NotebookInstanceAcceleratorType]? = nil, additionalCodeRepositories: [String]? = nil, creationTime: Date? = nil, defaultCodeRepository: String? = nil, directInternetAccess: DirectInternetAccess? = nil, failureReason: String? = nil, instanceType: InstanceType? = nil, kmsKeyId: String? = nil, lastModifiedTime: Date? = nil, networkInterfaceId: String? = nil, notebookInstanceArn: String? = nil, notebookInstanceLifecycleConfigName: String? = nil, notebookInstanceName: String? = nil, notebookInstanceStatus: NotebookInstanceStatus? = nil, platformIdentifier: String? = nil, roleArn: String? = nil, rootAccess: RootAccess? = nil, securityGroups: [String]? = nil, subnetId: String? = nil, url: String? = nil, volumeSizeInGB: Int? = nil) {
+        public init(acceleratorTypes: [NotebookInstanceAcceleratorType]? = nil, additionalCodeRepositories: [String]? = nil, creationTime: Date? = nil, defaultCodeRepository: String? = nil, directInternetAccess: DirectInternetAccess? = nil, failureReason: String? = nil, instanceMetadataServiceConfiguration: InstanceMetadataServiceConfiguration? = nil, instanceType: InstanceType? = nil, kmsKeyId: String? = nil, lastModifiedTime: Date? = nil, networkInterfaceId: String? = nil, notebookInstanceArn: String? = nil, notebookInstanceLifecycleConfigName: String? = nil, notebookInstanceName: String? = nil, notebookInstanceStatus: NotebookInstanceStatus? = nil, platformIdentifier: String? = nil, roleArn: String? = nil, rootAccess: RootAccess? = nil, securityGroups: [String]? = nil, subnetId: String? = nil, url: String? = nil, volumeSizeInGB: Int? = nil) {
             self.acceleratorTypes = acceleratorTypes
             self.additionalCodeRepositories = additionalCodeRepositories
             self.creationTime = creationTime
             self.defaultCodeRepository = defaultCodeRepository
             self.directInternetAccess = directInternetAccess
             self.failureReason = failureReason
+            self.instanceMetadataServiceConfiguration = instanceMetadataServiceConfiguration
             self.instanceType = instanceType
             self.kmsKeyId = kmsKeyId
             self.lastModifiedTime = lastModifiedTime
@@ -11157,6 +11210,7 @@ extension SageMaker {
             case defaultCodeRepository = "DefaultCodeRepository"
             case directInternetAccess = "DirectInternetAccess"
             case failureReason = "FailureReason"
+            case instanceMetadataServiceConfiguration = "InstanceMetadataServiceConfiguration"
             case instanceType = "InstanceType"
             case kmsKeyId = "KmsKeyId"
             case lastModifiedTime = "LastModifiedTime"
@@ -14683,6 +14737,24 @@ extension SageMaker {
             case framework = "Framework"
             case frameworkVersion = "FrameworkVersion"
             case s3Uri = "S3Uri"
+        }
+    }
+
+    public struct InstanceMetadataServiceConfiguration: AWSEncodableShape & AWSDecodableShape {
+        /// Indicates the minimum IMDS version that the notebook instance supports. When passed as part of CreateNotebookInstance, if no value is selected, then it defaults to IMDSv1. This means that both IMDSv1 and IMDSv2 are supported. If passed as part of UpdateNotebookInstance, there is no default.
+        public let minimumInstanceMetadataServiceVersion: String
+
+        public init(minimumInstanceMetadataServiceVersion: String) {
+            self.minimumInstanceMetadataServiceVersion = minimumInstanceMetadataServiceVersion
+        }
+
+        public func validate(name: String) throws {
+            try self.validate(self.minimumInstanceMetadataServiceVersion, name: "minimumInstanceMetadataServiceVersion", parent: name, max: 1)
+            try self.validate(self.minimumInstanceMetadataServiceVersion, name: "minimumInstanceMetadataServiceVersion", parent: name, pattern: "^1|2$")
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case minimumInstanceMetadataServiceVersion = "MinimumInstanceMetadataServiceVersion"
         }
     }
 
@@ -19164,7 +19236,7 @@ extension SageMaker {
         public let metricName: AutoMLMetricEnum?
         /// The dataset split from which the AutoML job produced the metric.
         public let set: MetricSetSource?
-        /// The name of the standard metric.
+        /// The name of the standard metric.   For definitions of the standard metrics, see  Autopilot candidate metrics .
         public let standardMetricName: AutoMLMetricExtendedEnum?
         /// The value of the metric.
         public let value: Float?
@@ -25336,7 +25408,9 @@ extension SageMaker {
         public let accept: String?
         /// Defines how to assemble the results of the transform job as a single S3 object. Choose a format that is most convenient to you. To concatenate the results in binary format, specify None. To add a newline character at the end of every transformed record, specify Line.
         public let assembleWith: AssemblyType?
-        /// The Amazon Web Services Key Management Service (Amazon Web Services KMS) key that Amazon SageMaker uses to encrypt the model artifacts at rest using Amazon S3 server-side encryption. The KmsKeyId can be any of the following formats:    Key ID: 1234abcd-12ab-34cd-56ef-1234567890ab    Key ARN: arn:aws:kms:us-west-2:111122223333:key/1234abcd-12ab-34cd-56ef-1234567890ab    Alias name: alias/ExampleAlias    Alias name ARN: arn:aws:kms:us-west-2:111122223333:alias/ExampleAlias      If you don't provide a KMS key ID, Amazon SageMaker uses the default KMS key for Amazon S3 for your role's account. For more information, see KMS-Managed Encryption Keys in the Amazon Simple Storage Service Developer Guide.  The KMS key policy must grant permission to the IAM role that you specify in your CreateModel request. For more information, see Using Key Policies in Amazon Web Services KMS in the Amazon Web Services Key Management Service Developer Guide.
+        /// The Amazon Web Services Key Management Service (Amazon Web Services KMS) key that Amazon SageMaker uses to encrypt the model artifacts at rest using Amazon S3 server-side encryption. The KmsKeyId can be any of the following formats:    Key ID: 1234abcd-12ab-34cd-56ef-1234567890ab    Key ARN: arn:aws:kms:us-west-2:111122223333:key/1234abcd-12ab-34cd-56ef-1234567890ab    Alias name: alias/ExampleAlias    Alias name ARN: arn:aws:kms:us-west-2:111122223333:alias/ExampleAlias      If you don't provide a KMS key ID, Amazon SageMaker uses the default KMS key for Amazon S3 for your role's account. For more information, see KMS-Managed Encryption Keys in the Amazon Simple Storage Service Developer Guide.  The KMS key policy must grant permission to the IAM role that you specify in your
+        /// 	CreateModel
+        /// 		request. For more information, see Using Key Policies in Amazon Web Services KMS in the Amazon Web Services Key Management Service Developer Guide.
         public let kmsKeyId: String?
         /// The Amazon S3 path where you want Amazon SageMaker to store the results of the transform job. For example, s3://bucket-name/key-name-prefix. For every S3 object used as input for the transform job, batch transform stores the transformed data with an .out suffix in a corresponding subfolder in the location in the output prefix. For example, for the input data stored at s3://bucket-name/input-name-prefix/dataset01/data.csv, batch transform stores the transformed data at s3://bucket-name/output-name-prefix/input-name-prefix/data.csv.out. Batch transform doesn't upload partially processed objects. For an input S3 object that contains multiple records, it creates an .out file only if the transform job succeeds on the entire file. When the input contains multiple S3 objects, the batch transform job processes the listed S3 objects and uploads only the output for successfully processed objects. If any object fails in the transform job batch transform marks the job as failed to prompt investigation.
         public let s3OutputPath: String
@@ -26615,6 +26689,8 @@ extension SageMaker {
         public let disassociateDefaultCodeRepository: Bool?
         /// Set to true to remove the notebook instance lifecycle configuration currently associated with the notebook instance. This operation is idempotent. If you specify a lifecycle configuration that is not associated with the notebook instance when you call this method, it does not throw an error.
         public let disassociateLifecycleConfig: Bool?
+        /// Information on the IMDS configuration of the notebook instance
+        public let instanceMetadataServiceConfiguration: InstanceMetadataServiceConfiguration?
         /// The Amazon ML compute instance type.
         public let instanceType: InstanceType?
         /// The name of a lifecycle configuration to associate with the notebook instance. For information about lifestyle configurations, see Step 2.1: (Optional) Customize a Notebook Instance.
@@ -26628,7 +26704,7 @@ extension SageMaker {
         /// The size, in GB, of the ML storage volume to attach to the notebook instance. The default value is 5 GB. ML storage volumes are encrypted, so SageMaker can't determine the amount of available free space on the volume. Because of this, you can increase the volume size when you update a notebook instance, but you can't decrease the volume size. If you want to decrease the size of the ML storage volume in use, create a new notebook instance with the desired size.
         public let volumeSizeInGB: Int?
 
-        public init(acceleratorTypes: [NotebookInstanceAcceleratorType]? = nil, additionalCodeRepositories: [String]? = nil, defaultCodeRepository: String? = nil, disassociateAcceleratorTypes: Bool? = nil, disassociateAdditionalCodeRepositories: Bool? = nil, disassociateDefaultCodeRepository: Bool? = nil, disassociateLifecycleConfig: Bool? = nil, instanceType: InstanceType? = nil, lifecycleConfigName: String? = nil, notebookInstanceName: String, roleArn: String? = nil, rootAccess: RootAccess? = nil, volumeSizeInGB: Int? = nil) {
+        public init(acceleratorTypes: [NotebookInstanceAcceleratorType]? = nil, additionalCodeRepositories: [String]? = nil, defaultCodeRepository: String? = nil, disassociateAcceleratorTypes: Bool? = nil, disassociateAdditionalCodeRepositories: Bool? = nil, disassociateDefaultCodeRepository: Bool? = nil, disassociateLifecycleConfig: Bool? = nil, instanceMetadataServiceConfiguration: InstanceMetadataServiceConfiguration? = nil, instanceType: InstanceType? = nil, lifecycleConfigName: String? = nil, notebookInstanceName: String, roleArn: String? = nil, rootAccess: RootAccess? = nil, volumeSizeInGB: Int? = nil) {
             self.acceleratorTypes = acceleratorTypes
             self.additionalCodeRepositories = additionalCodeRepositories
             self.defaultCodeRepository = defaultCodeRepository
@@ -26636,6 +26712,7 @@ extension SageMaker {
             self.disassociateAdditionalCodeRepositories = disassociateAdditionalCodeRepositories
             self.disassociateDefaultCodeRepository = disassociateDefaultCodeRepository
             self.disassociateLifecycleConfig = disassociateLifecycleConfig
+            self.instanceMetadataServiceConfiguration = instanceMetadataServiceConfiguration
             self.instanceType = instanceType
             self.lifecycleConfigName = lifecycleConfigName
             self.notebookInstanceName = notebookInstanceName
@@ -26654,6 +26731,7 @@ extension SageMaker {
             try self.validate(self.defaultCodeRepository, name: "defaultCodeRepository", parent: name, max: 1024)
             try self.validate(self.defaultCodeRepository, name: "defaultCodeRepository", parent: name, min: 1)
             try self.validate(self.defaultCodeRepository, name: "defaultCodeRepository", parent: name, pattern: "^https://([^/]+)/?(.*)$|^[a-zA-Z0-9](-*[a-zA-Z0-9])*$")
+            try self.instanceMetadataServiceConfiguration?.validate(name: "\(name).instanceMetadataServiceConfiguration")
             try self.validate(self.lifecycleConfigName, name: "lifecycleConfigName", parent: name, max: 63)
             try self.validate(self.lifecycleConfigName, name: "lifecycleConfigName", parent: name, pattern: "^[a-zA-Z0-9](-*[a-zA-Z0-9])*$")
             try self.validate(self.notebookInstanceName, name: "notebookInstanceName", parent: name, max: 63)
@@ -26673,6 +26751,7 @@ extension SageMaker {
             case disassociateAdditionalCodeRepositories = "DisassociateAdditionalCodeRepositories"
             case disassociateDefaultCodeRepository = "DisassociateDefaultCodeRepository"
             case disassociateLifecycleConfig = "DisassociateLifecycleConfig"
+            case instanceMetadataServiceConfiguration = "InstanceMetadataServiceConfiguration"
             case instanceType = "InstanceType"
             case lifecycleConfigName = "LifecycleConfigName"
             case notebookInstanceName = "NotebookInstanceName"

@@ -395,7 +395,7 @@ extension Batch {
         public let spotIamFleetRole: String?
         /// The VPC subnets where the compute resources are launched. These subnets must be within the same VPC. Fargate compute resources can contain up to 16 subnets. For more information, see VPCs and subnets in the Amazon VPC User Guide.
         public let subnets: [String]
-        /// Key-value pair tags to be applied to EC2 resources that are launched in the compute environment. For Batch, these take the form of "String1": "String2", where String1 is the tag key and String2 is the tag value−for example, { "Name": "Batch Instance - C4OnDemand" }. This is helpful for recognizing your Batch instances in the Amazon EC2 console. These tags can't be updated or removed after the compute environment is created. Any changes to these tags require that you create a new compute environment and remove the old compute environment. These tags aren't seen when using the Batch ListTagsForResource API operation.  This parameter isn't applicable to jobs that are running on Fargate resources, and shouldn't be specified.
+        /// Key-value pair tags to be applied to EC2 resources that are launched in the compute environment. For Batch, these take the form of "String1": "String2", where String1 is the tag key and String2 is the tag value−for example, { "Name": "Batch Instance - C4OnDemand" }. This is helpful for recognizing your Batch instances in the Amazon EC2 console. Updating these tags requires an infrastructure update to the compute environment. For more information, see Updating compute environments in the Batch User Guide. These tags aren't seen when using the Batch ListTagsForResource API operation.  This parameter isn't applicable to jobs that are running on Fargate resources, and shouldn't be specified.
         public let tags: [String: String]?
         /// The type of compute environment: EC2, SPOT, FARGATE, or FARGATE_SPOT. For more information, see Compute environments in the Batch User Guide. If you choose SPOT, you must also specify an Amazon EC2 Spot Fleet role with the spotIamFleetRole parameter. For more information, see Amazon EC2 spot fleet role in the Batch User Guide.
         public let type: CRType
@@ -2320,7 +2320,7 @@ extension Batch {
         public let retryStrategy: RetryStrategy?
         /// The scheduling priority for the job. This will only affect jobs in job queues with a fair share policy. Jobs with a higher scheduling priority will be scheduled before jobs with a lower scheduling priority. This will override any scheduling priority in the job definition. The minimum supported value is 0 and the maximum supported value is 9999.
         public let schedulingPriorityOverride: Int?
-        /// The share identifier for the job.
+        /// The share identifier for the job. If the job queue does not have a scheduling policy, then this parameter must not be specified. If the job queue has a scheduling policy, then this parameter must be specified.
         public let shareIdentifier: String?
         /// The tags that you apply to the job request to help you categorize and organize your resources. Each tag consists of a key and an optional value. For more information, see Tagging Amazon Web Services Resources in Amazon Web Services General Reference.
         public let tags: [String: String]?

@@ -88,6 +88,13 @@ extension Drs {
         public var description: String { return self.rawValue }
     }
 
+    public enum ExtensionStatus: String, CustomStringConvertible, Codable, _SotoSendable {
+        case extended = "EXTENDED"
+        case extensionError = "EXTENSION_ERROR"
+        case notExtended = "NOT_EXTENDED"
+        public var description: String { return self.rawValue }
+    }
+
     public enum FailbackReplicationError: String, CustomStringConvertible, Codable, _SotoSendable {
         case agentNotSeen = "AGENT_NOT_SEEN"
         case failbackClientNotSeen = "FAILBACK_CLIENT_NOT_SEEN"
@@ -115,6 +122,7 @@ extension Drs {
         case failback = "FAILBACK"
         case startDrill = "START_DRILL"
         case startRecovery = "START_RECOVERY"
+        case targetAccount = "TARGET_ACCOUNT"
         case terminateRecoveryInstances = "TERMINATE_RECOVERY_INSTANCES"
         public var description: String { return self.rawValue }
     }
@@ -148,6 +156,7 @@ extension Drs {
     }
 
     public enum JobType: String, CustomStringConvertible, Codable, _SotoSendable {
+        case createConvertedSnapshot = "CREATE_CONVERTED_SNAPSHOT"
         case launch = "LAUNCH"
         case terminate = "TERMINATE"
         public var description: String { return self.rawValue }
@@ -267,6 +276,19 @@ extension Drs {
 
     // MARK: Shapes
 
+    public struct Account: AWSDecodableShape {
+        /// Account ID of AWS account.
+        public let accountID: String?
+
+        public init(accountID: String? = nil) {
+            self.accountID = accountID
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case accountID
+        }
+    }
+
     public struct CPU: AWSDecodableShape {
         /// The number of CPU cores.
         public let cores: Int64?
@@ -281,6 +303,75 @@ extension Drs {
         private enum CodingKeys: String, CodingKey {
             case cores
             case modelName
+        }
+    }
+
+    public struct ConversionProperties: AWSDecodableShape {
+        /// The timestamp of when the snapshot being converted was taken
+        public let dataTimestamp: String?
+        /// Whether the volume being converted uses UEFI or not
+        public let forceUefi: Bool?
+        /// The root volume name of a conversion job
+        public let rootVolumeName: String?
+        /// A mapping between the volumes being converted and the converted snapshot ids
+        public let volumeToConversionMap: [String: [String: String]]?
+        /// A mapping between the volumes and their sizes
+        public let volumeToVolumeSize: [String: Int64]?
+
+        public init(dataTimestamp: String? = nil, forceUefi: Bool? = nil, rootVolumeName: String? = nil, volumeToConversionMap: [String: [String: String]]? = nil, volumeToVolumeSize: [String: Int64]? = nil) {
+            self.dataTimestamp = dataTimestamp
+            self.forceUefi = forceUefi
+            self.rootVolumeName = rootVolumeName
+            self.volumeToConversionMap = volumeToConversionMap
+            self.volumeToVolumeSize = volumeToVolumeSize
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case dataTimestamp
+            case forceUefi
+            case rootVolumeName
+            case volumeToConversionMap
+            case volumeToVolumeSize
+        }
+    }
+
+    public struct CreateExtendedSourceServerRequest: AWSEncodableShape {
+        /// This defines the ARN of the source server in staging Account based on which you want to create an extended source server.
+        public let sourceServerArn: String
+        /// A list of tags associated with the extended source server.
+        public let tags: [String: String]?
+
+        public init(sourceServerArn: String, tags: [String: String]? = nil) {
+            self.sourceServerArn = sourceServerArn
+            self.tags = tags
+        }
+
+        public func validate(name: String) throws {
+            try self.validate(self.sourceServerArn, name: "sourceServerArn", parent: name, max: 2048)
+            try self.validate(self.sourceServerArn, name: "sourceServerArn", parent: name, min: 20)
+            try self.validate(self.sourceServerArn, name: "sourceServerArn", parent: name, pattern: "^arn:(?:[0-9a-zA-Z_-]+:){3}([0-9]{12,}):source-server/(s-[0-9a-zA-Z]{17})$")
+            try self.tags?.forEach {
+                try validate($0.key, name: "tags.key", parent: name, max: 256)
+                try validate($0.value, name: "tags[\"\($0.key)\"]", parent: name, max: 256)
+            }
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case sourceServerArn
+            case tags
+        }
+    }
+
+    public struct CreateExtendedSourceServerResponse: AWSDecodableShape {
+        /// Created extended source server.
+        public let sourceServer: SourceServer?
+
+        public init(sourceServer: SourceServer? = nil) {
+            self.sourceServer = sourceServer
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case sourceServer
         }
     }
 
@@ -630,20 +721,20 @@ extension Drs {
 
     public struct DescribeJobsRequest: AWSEncodableShape {
         /// A set of filters by which to return Jobs.
-        public let filters: DescribeJobsRequestFilters
+        public let filters: DescribeJobsRequestFilters?
         /// Maximum number of Jobs to retrieve.
         public let maxResults: Int?
         /// The token of the next Job to retrieve.
         public let nextToken: String?
 
-        public init(filters: DescribeJobsRequestFilters, maxResults: Int? = nil, nextToken: String? = nil) {
+        public init(filters: DescribeJobsRequestFilters? = nil, maxResults: Int? = nil, nextToken: String? = nil) {
             self.filters = filters
             self.maxResults = maxResults
             self.nextToken = nextToken
         }
 
         public func validate(name: String) throws {
-            try self.filters.validate(name: "\(name).filters")
+            try self.filters?.validate(name: "\(name).filters")
             try self.validate(self.maxResults, name: "maxResults", parent: name, min: 1)
             try self.validate(self.nextToken, name: "nextToken", parent: name, max: 2048)
         }
@@ -710,20 +801,20 @@ extension Drs {
 
     public struct DescribeRecoveryInstancesRequest: AWSEncodableShape {
         /// A set of filters by which to return Recovery Instances.
-        public let filters: DescribeRecoveryInstancesRequestFilters
+        public let filters: DescribeRecoveryInstancesRequestFilters?
         /// Maximum number of Recovery Instances to retrieve.
         public let maxResults: Int?
         /// The token of the next Recovery Instance to retrieve.
         public let nextToken: String?
 
-        public init(filters: DescribeRecoveryInstancesRequestFilters, maxResults: Int? = nil, nextToken: String? = nil) {
+        public init(filters: DescribeRecoveryInstancesRequestFilters? = nil, maxResults: Int? = nil, nextToken: String? = nil) {
             self.filters = filters
             self.maxResults = maxResults
             self.nextToken = nextToken
         }
 
         public func validate(name: String) throws {
-            try self.filters.validate(name: "\(name).filters")
+            try self.filters?.validate(name: "\(name).filters")
             try self.validate(self.maxResults, name: "maxResults", parent: name, min: 1)
             try self.validate(self.nextToken, name: "nextToken", parent: name, max: 2048)
         }
@@ -870,9 +961,9 @@ extension Drs {
         /// The token of the next Replication Configuration Template to retrieve.
         public let nextToken: String?
         /// The IDs of the Replication Configuration Templates to retrieve. An empty list means all Replication Configuration Templates.
-        public let replicationConfigurationTemplateIDs: [String]
+        public let replicationConfigurationTemplateIDs: [String]?
 
-        public init(maxResults: Int? = nil, nextToken: String? = nil, replicationConfigurationTemplateIDs: [String]) {
+        public init(maxResults: Int? = nil, nextToken: String? = nil, replicationConfigurationTemplateIDs: [String]? = nil) {
             self.maxResults = maxResults
             self.nextToken = nextToken
             self.replicationConfigurationTemplateIDs = replicationConfigurationTemplateIDs
@@ -881,7 +972,7 @@ extension Drs {
         public func validate(name: String) throws {
             try self.validate(self.maxResults, name: "maxResults", parent: name, min: 1)
             try self.validate(self.nextToken, name: "nextToken", parent: name, max: 2048)
-            try self.replicationConfigurationTemplateIDs.forEach {
+            try self.replicationConfigurationTemplateIDs?.forEach {
                 try validate($0, name: "replicationConfigurationTemplateIDs[]", parent: name, max: 21)
                 try validate($0, name: "replicationConfigurationTemplateIDs[]", parent: name, min: 21)
                 try validate($0, name: "replicationConfigurationTemplateIDs[]", parent: name, pattern: "^rct-[0-9a-zA-Z]{17}$")
@@ -915,20 +1006,20 @@ extension Drs {
 
     public struct DescribeSourceServersRequest: AWSEncodableShape {
         /// A set of filters by which to return Source Servers.
-        public let filters: DescribeSourceServersRequestFilters
+        public let filters: DescribeSourceServersRequestFilters?
         /// Maximum number of Source Servers to retrieve.
         public let maxResults: Int?
         /// The token of the next Source Server to retrieve.
         public let nextToken: String?
 
-        public init(filters: DescribeSourceServersRequestFilters, maxResults: Int? = nil, nextToken: String? = nil) {
+        public init(filters: DescribeSourceServersRequestFilters? = nil, maxResults: Int? = nil, nextToken: String? = nil) {
             self.filters = filters
             self.maxResults = maxResults
             self.nextToken = nextToken
         }
 
         public func validate(name: String) throws {
-            try self.filters.validate(name: "\(name).filters")
+            try self.filters?.validate(name: "\(name).filters")
             try self.validate(self.maxResults, name: "maxResults", parent: name, min: 1)
             try self.validate(self.nextToken, name: "nextToken", parent: name, max: 2048)
         }
@@ -945,10 +1036,13 @@ extension Drs {
         public let hardwareId: String?
         /// An array of Source Servers IDs that should be returned. An empty array means all Source Servers.
         public let sourceServerIDs: [String]?
+        /// An array of staging account IDs that extended source servers belong to. An empty array means all source servers will be shown.
+        public let stagingAccountIDs: [String]?
 
-        public init(hardwareId: String? = nil, sourceServerIDs: [String]? = nil) {
+        public init(hardwareId: String? = nil, sourceServerIDs: [String]? = nil, stagingAccountIDs: [String]? = nil) {
             self.hardwareId = hardwareId
             self.sourceServerIDs = sourceServerIDs
+            self.stagingAccountIDs = stagingAccountIDs
         }
 
         public func validate(name: String) throws {
@@ -959,11 +1053,18 @@ extension Drs {
                 try validate($0, name: "sourceServerIDs[]", parent: name, pattern: "^s-[0-9a-zA-Z]{17}$")
             }
             try self.validate(self.sourceServerIDs, name: "sourceServerIDs", parent: name, max: 200)
+            try self.stagingAccountIDs?.forEach {
+                try validate($0, name: "stagingAccountIDs[]", parent: name, max: 12)
+                try validate($0, name: "stagingAccountIDs[]", parent: name, min: 12)
+                try validate($0, name: "stagingAccountIDs[]", parent: name, pattern: "[0-9]{12,}")
+            }
+            try self.validate(self.stagingAccountIDs, name: "stagingAccountIDs", parent: name, max: 200)
         }
 
         private enum CodingKeys: String, CodingKey {
             case hardwareId
             case sourceServerIDs
+            case stagingAccountIDs
         }
     }
 
@@ -1221,6 +1322,8 @@ extension Drs {
     }
 
     public struct JobLogEventData: AWSDecodableShape {
+        /// Properties of a conversion job
+        public let conversionProperties: ConversionProperties?
         /// The ID of a conversion server.
         public let conversionServerID: String?
         /// A string representing a job error.
@@ -1230,7 +1333,8 @@ extension Drs {
         /// The ID of a Recovery Instance.
         public let targetInstanceID: String?
 
-        public init(conversionServerID: String? = nil, rawError: String? = nil, sourceServerID: String? = nil, targetInstanceID: String? = nil) {
+        public init(conversionProperties: ConversionProperties? = nil, conversionServerID: String? = nil, rawError: String? = nil, sourceServerID: String? = nil, targetInstanceID: String? = nil) {
+            self.conversionProperties = conversionProperties
             self.conversionServerID = conversionServerID
             self.rawError = rawError
             self.sourceServerID = sourceServerID
@@ -1238,6 +1342,7 @@ extension Drs {
         }
 
         private enum CodingKeys: String, CodingKey {
+            case conversionProperties
             case conversionServerID
             case rawError
             case sourceServerID
@@ -1359,6 +1464,93 @@ extension Drs {
             case apiCallDateTime
             case jobID
             case type
+        }
+    }
+
+    public struct ListExtensibleSourceServersRequest: AWSEncodableShape {
+        /// The maximum number of extensible source servers to retrieve.
+        public let maxResults: Int?
+        /// The token of the next extensible source server to retrieve.
+        public let nextToken: String?
+        /// The Id of the staging Account to retrieve extensible source servers from.
+        public let stagingAccountID: String
+
+        public init(maxResults: Int? = nil, nextToken: String? = nil, stagingAccountID: String) {
+            self.maxResults = maxResults
+            self.nextToken = nextToken
+            self.stagingAccountID = stagingAccountID
+        }
+
+        public func validate(name: String) throws {
+            try self.validate(self.maxResults, name: "maxResults", parent: name, max: 300)
+            try self.validate(self.maxResults, name: "maxResults", parent: name, min: 1)
+            try self.validate(self.nextToken, name: "nextToken", parent: name, max: 2048)
+            try self.validate(self.stagingAccountID, name: "stagingAccountID", parent: name, max: 12)
+            try self.validate(self.stagingAccountID, name: "stagingAccountID", parent: name, min: 12)
+            try self.validate(self.stagingAccountID, name: "stagingAccountID", parent: name, pattern: "[0-9]{12,}")
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case maxResults
+            case nextToken
+            case stagingAccountID
+        }
+    }
+
+    public struct ListExtensibleSourceServersResponse: AWSDecodableShape {
+        /// A list of source servers on a staging Account that are extensible.
+        public let items: [StagingSourceServer]?
+        /// The token of the next extensible source server to retrieve.
+        public let nextToken: String?
+
+        public init(items: [StagingSourceServer]? = nil, nextToken: String? = nil) {
+            self.items = items
+            self.nextToken = nextToken
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case items
+            case nextToken
+        }
+    }
+
+    public struct ListStagingAccountsRequest: AWSEncodableShape {
+        public static var _encoding = [
+            AWSMemberEncoding(label: "maxResults", location: .querystring("maxResults")),
+            AWSMemberEncoding(label: "nextToken", location: .querystring("nextToken"))
+        ]
+
+        /// The maximum number of staging Accounts to retrieve.
+        public let maxResults: Int?
+        /// The token of the next staging Account to retrieve.
+        public let nextToken: String?
+
+        public init(maxResults: Int? = nil, nextToken: String? = nil) {
+            self.maxResults = maxResults
+            self.nextToken = nextToken
+        }
+
+        public func validate(name: String) throws {
+            try self.validate(self.nextToken, name: "nextToken", parent: name, max: 2048)
+        }
+
+        private enum CodingKeys: CodingKey {}
+    }
+
+    public struct ListStagingAccountsResponse: AWSDecodableShape {
+        /// An array of staging AWS Accounts.
+        public let accounts: [Account]?
+        /// The token of the next staging Account to retrieve.
+        public let nextToken: String?
+
+        public init(accounts: [Account]? = nil, nextToken: String? = nil) {
+            self.accounts = accounts
+            self.nextToken = nextToken
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case accounts
+            case nextToken
         }
     }
 
@@ -2044,10 +2236,12 @@ extension Drs {
         public let sourceProperties: SourceProperties?
         /// The ID of the Source Server.
         public let sourceServerID: String?
+        /// The staging area of the source server.
+        public let stagingArea: StagingArea?
         /// The tags associated with the Source Server.
         public let tags: [String: String]?
 
-        public init(arn: String? = nil, dataReplicationInfo: DataReplicationInfo? = nil, lastLaunchResult: LastLaunchResult? = nil, lifeCycle: LifeCycle? = nil, recoveryInstanceId: String? = nil, sourceProperties: SourceProperties? = nil, sourceServerID: String? = nil, tags: [String: String]? = nil) {
+        public init(arn: String? = nil, dataReplicationInfo: DataReplicationInfo? = nil, lastLaunchResult: LastLaunchResult? = nil, lifeCycle: LifeCycle? = nil, recoveryInstanceId: String? = nil, sourceProperties: SourceProperties? = nil, sourceServerID: String? = nil, stagingArea: StagingArea? = nil, tags: [String: String]? = nil) {
             self.arn = arn
             self.dataReplicationInfo = dataReplicationInfo
             self.lastLaunchResult = lastLaunchResult
@@ -2055,6 +2249,7 @@ extension Drs {
             self.recoveryInstanceId = recoveryInstanceId
             self.sourceProperties = sourceProperties
             self.sourceServerID = sourceServerID
+            self.stagingArea = stagingArea
             self.tags = tags
         }
 
@@ -2066,6 +2261,53 @@ extension Drs {
             case recoveryInstanceId
             case sourceProperties
             case sourceServerID
+            case stagingArea
+            case tags
+        }
+    }
+
+    public struct StagingArea: AWSDecodableShape {
+        /// Shows an error message that occurred when DRS tried to access the staging source server. In this case StagingArea$status will have value EXTENSION_ERROR
+        public let errorMessage: String?
+        /// Account ID of the account to which source server belongs. If this source server is extended - shows Account ID of staging source server.
+        public let stagingAccountID: String?
+        /// Arn of the staging source server if this source server is extended
+        public let stagingSourceServerArn: String?
+        /// Status of Source server extension. Possible values: (a) NOT_EXTENDED - This is a source server that is replicating in the current account. (b) EXTENDED - Source server is extended from a staging source server. In this case, the value of stagingSourceServerArn is pointing to the Arn of the source server in the staging account. (c) EXTENSION_ERROR - Some issue occurred when accessing staging source server. In this case, errorMessage field will contain an error message that explains what happened.
+        public let status: ExtensionStatus?
+
+        public init(errorMessage: String? = nil, stagingAccountID: String? = nil, stagingSourceServerArn: String? = nil, status: ExtensionStatus? = nil) {
+            self.errorMessage = errorMessage
+            self.stagingAccountID = stagingAccountID
+            self.stagingSourceServerArn = stagingSourceServerArn
+            self.status = status
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case errorMessage
+            case stagingAccountID
+            case stagingSourceServerArn
+            case status
+        }
+    }
+
+    public struct StagingSourceServer: AWSDecodableShape {
+        /// The ARN of the source server.
+        public let arn: String?
+        /// Hostname of staging source server.
+        public let hostname: String?
+        /// A list of tags associated with the staging source server.
+        public let tags: [String: String]?
+
+        public init(arn: String? = nil, hostname: String? = nil, tags: [String: String]? = nil) {
+            self.arn = arn
+            self.hostname = hostname
+            self.tags = tags
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case arn
+            case hostname
             case tags
         }
     }

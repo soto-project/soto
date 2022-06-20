@@ -355,11 +355,11 @@ extension APIGateway {
         public let authType: String?
         /// The identifier for the authorizer resource.
         public let id: String?
-        /// The identity source for which authorization is requested. For a TOKEN or COGNITO_USER_POOLS authorizer, this is required and specifies the request header mapping expression for the custom header holding the authorization token submitted by the client. For example, if the token header name is Auth, the header mapping expression is  method.request.header.Auth.For the REQUEST authorizer, this is required when authorization caching is enabled. The value is a comma-separated string of one or more mapping expressions of the specified request parameters. For example, if an Auth header, a Name query string parameter are defined as identity sources, this value is method.request.header.Auth, method.request.querystring.Name.  These parameters will be used to derive the authorization caching key and to perform runtime validation of the REQUEST authorizer by verifying all of the identity-related request parameters are present, not null and non-empty. Only when this is true does the authorizer invoke the authorizer Lambda function, otherwise, it returns a 401 Unauthorized response without calling the Lambda function. The valid value is a string of comma-separated mapping expressions of the specified request parameters. When the authorization caching is not enabled, this property is optional.
+        /// The identity source for which authorization is requested. For a TOKEN or COGNITO_USER_POOLS authorizer, this is required and specifies the request header mapping expression for the custom header holding the authorization token submitted by the client. For example, if the token header name is Auth, the header mapping expression is method.request.header.Auth. For the REQUEST authorizer, this is required when authorization caching is enabled. The value is a comma-separated string of one or more mapping expressions of the specified request parameters. For example, if an Auth header, a Name query string parameter are defined as identity sources, this value is method.request.header.Auth, method.request.querystring.Name. These parameters will be used to derive the authorization caching key and to perform runtime validation of the REQUEST authorizer by verifying all of the identity-related request parameters are present, not null and non-empty. Only when this is true does the authorizer invoke the authorizer Lambda function, otherwise, it returns a 401 Unauthorized response without calling the Lambda function. The valid value is a string of comma-separated mapping expressions of the specified request parameters. When the authorization caching is not enabled, this property is optional.
         public let identitySource: String?
         /// A validation expression for the incoming identity token. For TOKEN authorizers, this value is a regular expression. For COGNITO_USER_POOLS authorizers, API Gateway will match the aud field of the incoming token from the client against the specified regular expression. It will invoke the authorizer's Lambda function when there is a match. Otherwise, it will return a 401 Unauthorized response without calling the Lambda function. The validation expression does not apply to the REQUEST authorizer.
         public let identityValidationExpression: String?
-        /// [Required] The name of the authorizer.
+        /// The name of the authorizer.
         public let name: String?
         /// A list of the Amazon Cognito user pool ARNs for the COGNITO_USER_POOLS authorizer. Each element is of this format: arn:aws:cognito-idp:{region}:{account_id}:userpool/{user_pool_id}. For a TOKEN or REQUEST authorizer, this is not defined.
         public let providerARNs: [String]?
@@ -589,17 +589,17 @@ extension APIGateway {
         public let authorizerUri: String?
         /// Optional customer-defined field, used in OpenAPI imports and exports without functional impact.
         public let authType: String?
-        /// The identity source for which authorization is requested. For a TOKEN or COGNITO_USER_POOLS authorizer, this is required and specifies the request header mapping expression for the custom header holding the authorization token submitted by the client. For example, if the token header name is Auth, the header mapping expression is  method.request.header.Auth.For the REQUEST authorizer, this is required when authorization caching is enabled. The value is a comma-separated string of one or more mapping expressions of the specified request parameters. For example, if an Auth header, a Name query string parameter are defined as identity sources, this value is method.request.header.Auth, method.request.querystring.Name.  These parameters will be used to derive the authorization caching key and to perform runtime validation of the REQUEST authorizer by verifying all of the identity-related request parameters are present, not null and non-empty. Only when this is true does the authorizer invoke the authorizer Lambda function, otherwise, it returns a 401 Unauthorized response without calling the Lambda function. The valid value is a string of comma-separated mapping expressions of the specified request parameters. When the authorization caching is not enabled, this property is optional.
+        /// The identity source for which authorization is requested. For a TOKEN or COGNITO_USER_POOLS authorizer, this is required and specifies the request header mapping expression for the custom header holding the authorization token submitted by the client. For example, if the token header name is Auth, the header mapping expression is method.request.header.Auth. For the REQUEST authorizer, this is required when authorization caching is enabled. The value is a comma-separated string of one or more mapping expressions of the specified request parameters. For example, if an Auth header, a Name query string parameter are defined as identity sources, this value is method.request.header.Auth, method.request.querystring.Name. These parameters will be used to derive the authorization caching key and to perform runtime validation of the REQUEST authorizer by verifying all of the identity-related request parameters are present, not null and non-empty. Only when this is true does the authorizer invoke the authorizer Lambda function, otherwise, it returns a 401 Unauthorized response without calling the Lambda function. The valid value is a string of comma-separated mapping expressions of the specified request parameters. When the authorization caching is not enabled, this property is optional.
         public let identitySource: String?
         /// A validation expression for the incoming identity token. For TOKEN authorizers, this value is a regular expression. For COGNITO_USER_POOLS authorizers, API Gateway will match the aud field of the incoming token from the client against the specified regular expression. It will invoke the authorizer's Lambda function when there is a match. Otherwise, it will return a 401 Unauthorized response without calling the Lambda function. The validation expression does not apply to the REQUEST authorizer.
         public let identityValidationExpression: String?
-        /// [Required] The name of the authorizer.
+        /// The name of the authorizer.
         public let name: String
         /// A list of the Amazon Cognito user pool ARNs for the COGNITO_USER_POOLS authorizer. Each element is of this format: arn:aws:cognito-idp:{region}:{account_id}:userpool/{user_pool_id}. For a TOKEN or REQUEST authorizer, this is not defined.
         public let providerARNs: [String]?
-        /// [Required] The string identifier of the associated RestApi.
+        /// The string identifier of the associated RestApi.
         public let restApiId: String
-        /// [Required] The authorizer type. Valid values are TOKEN for a Lambda function using a single authorization token submitted in a custom header, REQUEST for a Lambda function using incoming request parameters, and COGNITO_USER_POOLS for using an Amazon Cognito user pool.
+        /// The authorizer type. Valid values are TOKEN for a Lambda function using a single authorization token submitted in a custom header, REQUEST for a Lambda function using incoming request parameters, and COGNITO_USER_POOLS for using an Amazon Cognito user pool.
         public let type: AuthorizerType
 
         public init(authorizerCredentials: String? = nil, authorizerResultTtlInSeconds: Int? = nil, authorizerUri: String? = nil, authType: String? = nil, identitySource: String? = nil, identityValidationExpression: String? = nil, name: String, providerARNs: [String]? = nil, restApiId: String, type: AuthorizerType) {
@@ -635,9 +635,9 @@ extension APIGateway {
 
         /// The base path name that callers of the API must provide as part of the URL after the domain name. This value must be unique for all of the mappings across a single API. Specify '(none)' if you do not want callers to specify a base path name after the domain name.
         public let basePath: String?
-        /// [Required] The domain name of the BasePathMapping resource to create.
+        /// The domain name of the BasePathMapping resource to create.
         public let domainName: String
-        /// [Required] The string identifier of the associated RestApi.
+        /// The string identifier of the associated RestApi.
         public let restApiId: String
         /// The name of the API's stage that you want to use for this mapping. Specify '(none)' if you want callers to explicitly specify the stage name after any base path name.
         public let stage: String?
@@ -669,7 +669,7 @@ extension APIGateway {
         public let canarySettings: DeploymentCanarySettings?
         /// The description for the Deployment resource to create.
         public let description: String?
-        /// [Required] The string identifier of the associated RestApi.
+        /// The string identifier of the associated RestApi.
         public let restApiId: String
         /// The description of the Stage resource for the Deployment resource to create.
         public let stageDescription: String?
@@ -709,11 +709,11 @@ extension APIGateway {
             AWSMemberEncoding(label: "restApiId", location: .uri("restApiId"))
         ]
 
-        /// [Required] The location of the targeted API entity of the to-be-created documentation part.
+        /// The location of the targeted API entity of the to-be-created documentation part.
         public let location: DocumentationPartLocation
-        /// [Required] The new documentation content map of the targeted API entity. Enclosed key-value pairs are API-specific, but only OpenAPI-compliant key-value pairs can be exported and, hence, published.
+        /// The new documentation content map of the targeted API entity. Enclosed key-value pairs are API-specific, but only OpenAPI-compliant key-value pairs can be exported and, hence, published.
         public let properties: String
-        /// [Required] The string identifier of the associated RestApi.
+        /// The string identifier of the associated RestApi.
         public let restApiId: String
 
         public init(location: DocumentationPartLocation, properties: String, restApiId: String) {
@@ -739,9 +739,9 @@ extension APIGateway {
 
         /// A description about the new documentation snapshot.
         public let description: String?
-        /// [Required] The version identifier of the new snapshot.
+        /// The version identifier of the new snapshot.
         public let documentationVersion: String
-        /// [Required] The string identifier of the associated RestApi.
+        /// The string identifier of the associated RestApi.
         public let restApiId: String
         /// The stage name to be associated with the new documentation snapshot.
         public let stageName: String?
@@ -771,7 +771,7 @@ extension APIGateway {
         public let certificateName: String?
         /// [Deprecated] Your edge-optimized endpoint's domain name certificate's private key.
         public let certificatePrivateKey: String?
-        /// [Required] The name of the DomainName resource.
+        /// The name of the DomainName resource.
         public let domainName: String
         /// The endpoint configuration of this DomainName showing the endpoint types of the domain name.
         public let endpointConfiguration: EndpointConfiguration?
@@ -825,13 +825,13 @@ extension APIGateway {
             AWSMemberEncoding(label: "restApiId", location: .uri("restApiId"))
         ]
 
-        /// [Required] The content-type for the model.
+        /// The content-type for the model.
         public let contentType: String
         /// The description of the model.
         public let description: String?
-        /// [Required] The name of the model. Must be alphanumeric.
+        /// The name of the model. Must be alphanumeric.
         public let name: String
-        /// [Required] The RestApi identifier under which the Model will be created.
+        /// The RestApi identifier under which the Model will be created.
         public let restApiId: String
         /// The schema for the model. For application/json models, this should be JSON schema draft 4 model.
         public let schema: String?
@@ -859,7 +859,7 @@ extension APIGateway {
 
         /// The name of the to-be-created RequestValidator.
         public let name: String?
-        /// [Required] The string identifier of the associated RestApi.
+        /// The string identifier of the associated RestApi.
         public let restApiId: String
         /// A Boolean flag to indicate whether to validate request body according to the configured model schema for the method (true) or not (false).
         public let validateRequestBody: Bool?
@@ -886,11 +886,11 @@ extension APIGateway {
             AWSMemberEncoding(label: "restApiId", location: .uri("restApiId"))
         ]
 
-        /// [Required] The parent resource's identifier.
+        /// The parent resource's identifier.
         public let parentId: String
         /// The last path segment for this resource.
         public let pathPart: String
-        /// [Required] The string identifier of the associated RestApi.
+        /// The string identifier of the associated RestApi.
         public let restApiId: String
 
         public init(parentId: String, pathPart: String, restApiId: String) {
@@ -905,7 +905,7 @@ extension APIGateway {
     }
 
     public struct CreateRestApiRequest: AWSEncodableShape {
-        /// The source of the API key for metering requests according to a usage plan. Valid values are: HEADER to read the API key from the X-API-Key header of a request. AUTHORIZER to read the API key from the UsageIdentifierKey from a custom authorizer.
+        /// The source of the API key for metering requests according to a usage plan. Valid values are: >HEADER to read the API key from the X-API-Key header of a request. AUTHORIZER to read the API key from the UsageIdentifierKey from a custom authorizer.
         public let apiKeySource: ApiKeySourceType?
         /// The list of binary media types supported by the RestApi. By default, the RestApi supports only UTF-8-encoded text payloads.
         public let binaryMediaTypes: [String]?
@@ -913,13 +913,13 @@ extension APIGateway {
         public let cloneFrom: String?
         /// The description of the RestApi.
         public let description: String?
-        /// Specifies whether clients can invoke your API by using the default execute-api endpoint. By default, clients can invoke your API with the default https://{api_id}.execute-api.{region}.amazonaws.com endpoint. To require that clients use a custom domain name to invoke your API, disable the default endpoint.
+        /// Specifies whether clients can invoke your API by using the default execute-api endpoint. By default, clients can invoke your API with the default https://{api_id}.execute-api.{region}.amazonaws.com endpoint. To require that clients use a custom domain name to invoke your API, disable the default endpoint
         public let disableExecuteApiEndpoint: Bool?
         /// The endpoint configuration of this RestApi showing the endpoint types of the API.
         public let endpointConfiguration: EndpointConfiguration?
         /// A nullable integer that is used to enable compression (with non-negative between 0 and 10485760 (10M) bytes, inclusive) or disable compression (with a null value) on an API. When compression is enabled, compression or decompression is not applied on the payload if the payload size is smaller than this value. Setting it to zero allows compression for any payload size.
         public let minimumCompressionSize: Int?
-        /// [Required] The name of the RestApi.
+        /// The name of the RestApi.
         public let name: String
         /// A stringified JSON policy document that applies to this RestApi regardless of the caller and Method configuration.
         public let policy: String?
@@ -968,15 +968,15 @@ extension APIGateway {
         public let cacheClusterSize: CacheClusterSize?
         /// The canary deployment settings of this stage.
         public let canarySettings: CanarySettings?
-        /// [Required] The identifier of the Deployment resource for the Stage resource.
+        /// The identifier of the Deployment resource for the Stage resource.
         public let deploymentId: String
         /// The description of the Stage resource.
         public let description: String?
         /// The version of the associated API documentation.
         public let documentationVersion: String?
-        /// [Required] The string identifier of the associated RestApi.
+        /// The string identifier of the associated RestApi.
         public let restApiId: String
-        /// [Required] The name for the Stage resource. Stage names can only contain alphanumeric characters, hyphens, and underscores. Maximum length is 128 characters.
+        /// The name for the Stage resource. Stage names can only contain alphanumeric characters, hyphens, and underscores. Maximum length is 128 characters.
         public let stageName: String
         /// The key-value map of strings. The valid character set is [a-zA-Z+-=._:/]. The tag key can be up to 128 characters and must not start with aws:. The tag value can be up to 256 characters.
         public let tags: [String: String]?
@@ -1018,11 +1018,11 @@ extension APIGateway {
             AWSMemberEncoding(label: "usagePlanId", location: .uri("usagePlanId"))
         ]
 
-        /// [Required] The identifier of a UsagePlanKey resource for a plan customer.
+        /// The identifier of a UsagePlanKey resource for a plan customer.
         public let keyId: String
-        /// [Required] The type of a UsagePlanKey resource for a plan customer.
+        /// The type of a UsagePlanKey resource for a plan customer.
         public let keyType: String
-        /// [Required] The Id of the UsagePlan resource representing the usage plan containing the to-be-created UsagePlanKey resource representing a plan customer.
+        /// The Id of the UsagePlan resource representing the usage plan containing the to-be-created UsagePlanKey resource representing a plan customer.
         public let usagePlanId: String
 
         public init(keyId: String, keyType: String, usagePlanId: String) {
@@ -1042,7 +1042,7 @@ extension APIGateway {
         public let apiStages: [ApiStage]?
         /// The description of the usage plan.
         public let description: String?
-        /// [Required] The name of the usage plan.
+        /// The name of the usage plan.
         public let name: String
         /// The quota of the usage plan.
         public let quota: QuotaSettings?
@@ -1073,11 +1073,11 @@ extension APIGateway {
     public struct CreateVpcLinkRequest: AWSEncodableShape {
         /// The description of the VPC link.
         public let description: String?
-        /// [Required] The name used to label and identify the VPC link.
+        /// The name used to label and identify the VPC link.
         public let name: String
         /// The key-value map of strings. The valid character set is [a-zA-Z+-=._:/]. The tag key can be up to 128 characters and must not start with aws:. The tag value can be up to 256 characters.
         public let tags: [String: String]?
-        /// [Required] The ARN of the network load balancer of the VPC targeted by the VPC link. The network load balancer must be owned by the same AWS account of the API owner.
+        /// The ARN of the network load balancer of the VPC targeted by the VPC link. The network load balancer must be owned by the same AWS account of the API owner.
         public let targetArns: [String]
 
         public init(description: String? = nil, name: String, tags: [String: String]? = nil, targetArns: [String]) {
@@ -1100,7 +1100,7 @@ extension APIGateway {
             AWSMemberEncoding(label: "apiKey", location: .uri("apiKey"))
         ]
 
-        /// [Required] The identifier of the ApiKey resource to be deleted.
+        /// The identifier of the ApiKey resource to be deleted.
         public let apiKey: String
 
         public init(apiKey: String) {
@@ -1116,9 +1116,9 @@ extension APIGateway {
             AWSMemberEncoding(label: "restApiId", location: .uri("restApiId"))
         ]
 
-        /// [Required] The identifier of the Authorizer resource.
+        /// The identifier of the Authorizer resource.
         public let authorizerId: String
-        /// [Required] The string identifier of the associated RestApi.
+        /// The string identifier of the associated RestApi.
         public let restApiId: String
 
         public init(authorizerId: String, restApiId: String) {
@@ -1135,9 +1135,9 @@ extension APIGateway {
             AWSMemberEncoding(label: "domainName", location: .uri("domainName"))
         ]
 
-        /// [Required] The base path name of the BasePathMapping resource to delete. To specify an empty base path, set this parameter to '(none)'.
+        /// The base path name of the BasePathMapping resource to delete. To specify an empty base path, set this parameter to '(none)'.
         public let basePath: String
-        /// [Required] The domain name of the BasePathMapping resource to delete.
+        /// The domain name of the BasePathMapping resource to delete.
         public let domainName: String
 
         public init(basePath: String, domainName: String) {
@@ -1153,7 +1153,7 @@ extension APIGateway {
             AWSMemberEncoding(label: "clientCertificateId", location: .uri("clientCertificateId"))
         ]
 
-        /// [Required] The identifier of the ClientCertificate resource to be deleted.
+        /// The identifier of the ClientCertificate resource to be deleted.
         public let clientCertificateId: String
 
         public init(clientCertificateId: String) {
@@ -1169,9 +1169,9 @@ extension APIGateway {
             AWSMemberEncoding(label: "restApiId", location: .uri("restApiId"))
         ]
 
-        /// [Required] The identifier of the Deployment resource to delete.
+        /// The identifier of the Deployment resource to delete.
         public let deploymentId: String
-        /// [Required] The string identifier of the associated RestApi.
+        /// The string identifier of the associated RestApi.
         public let restApiId: String
 
         public init(deploymentId: String, restApiId: String) {
@@ -1188,9 +1188,9 @@ extension APIGateway {
             AWSMemberEncoding(label: "restApiId", location: .uri("restApiId"))
         ]
 
-        /// [Required] The identifier of the to-be-deleted documentation part.
+        /// The identifier of the to-be-deleted documentation part.
         public let documentationPartId: String
-        /// [Required] The string identifier of the associated RestApi.
+        /// The string identifier of the associated RestApi.
         public let restApiId: String
 
         public init(documentationPartId: String, restApiId: String) {
@@ -1207,9 +1207,9 @@ extension APIGateway {
             AWSMemberEncoding(label: "restApiId", location: .uri("restApiId"))
         ]
 
-        /// [Required] The version identifier of a to-be-deleted documentation snapshot.
+        /// The version identifier of a to-be-deleted documentation snapshot.
         public let documentationVersion: String
-        /// [Required] The string identifier of the associated RestApi.
+        /// The string identifier of the associated RestApi.
         public let restApiId: String
 
         public init(documentationVersion: String, restApiId: String) {
@@ -1225,7 +1225,7 @@ extension APIGateway {
             AWSMemberEncoding(label: "domainName", location: .uri("domainName"))
         ]
 
-        /// [Required] The name of the DomainName resource to be deleted.
+        /// The name of the DomainName resource to be deleted.
         public let domainName: String
 
         public init(domainName: String) {
@@ -1241,9 +1241,9 @@ extension APIGateway {
             AWSMemberEncoding(label: "restApiId", location: .uri("restApiId"))
         ]
 
-        /// [Required] The response type of the associated GatewayResponse.
+        /// The response type of the associated GatewayResponse.
         public let responseType: GatewayResponseType
-        /// [Required] The string identifier of the associated RestApi.
+        /// The string identifier of the associated RestApi.
         public let restApiId: String
 
         public init(responseType: GatewayResponseType, restApiId: String) {
@@ -1261,11 +1261,11 @@ extension APIGateway {
             AWSMemberEncoding(label: "restApiId", location: .uri("restApiId"))
         ]
 
-        /// [Required] Specifies a delete integration request's HTTP method.
+        /// Specifies a delete integration request's HTTP method.
         public let httpMethod: String
-        /// [Required] Specifies a delete integration request's resource identifier.
+        /// Specifies a delete integration request's resource identifier.
         public let resourceId: String
-        /// [Required] The string identifier of the associated RestApi.
+        /// The string identifier of the associated RestApi.
         public let restApiId: String
 
         public init(httpMethod: String, resourceId: String, restApiId: String) {
@@ -1285,13 +1285,13 @@ extension APIGateway {
             AWSMemberEncoding(label: "statusCode", location: .uri("statusCode"))
         ]
 
-        /// [Required] Specifies a delete integration response request's HTTP method.
+        /// Specifies a delete integration response request's HTTP method.
         public let httpMethod: String
-        /// [Required] Specifies a delete integration response request's resource identifier.
+        /// Specifies a delete integration response request's resource identifier.
         public let resourceId: String
-        /// [Required] The string identifier of the associated RestApi.
+        /// The string identifier of the associated RestApi.
         public let restApiId: String
-        /// [Required] Specifies a delete integration response request's status code.
+        /// Specifies a delete integration response request's status code.
         public let statusCode: String
 
         public init(httpMethod: String, resourceId: String, restApiId: String, statusCode: String) {
@@ -1315,11 +1315,11 @@ extension APIGateway {
             AWSMemberEncoding(label: "restApiId", location: .uri("restApiId"))
         ]
 
-        /// [Required] The HTTP verb of the Method resource.
+        /// The HTTP verb of the Method resource.
         public let httpMethod: String
-        /// [Required] The Resource identifier for the Method resource.
+        /// The Resource identifier for the Method resource.
         public let resourceId: String
-        /// [Required] The string identifier of the associated RestApi.
+        /// The string identifier of the associated RestApi.
         public let restApiId: String
 
         public init(httpMethod: String, resourceId: String, restApiId: String) {
@@ -1339,13 +1339,13 @@ extension APIGateway {
             AWSMemberEncoding(label: "statusCode", location: .uri("statusCode"))
         ]
 
-        /// [Required] The HTTP verb of the Method resource.
+        /// The HTTP verb of the Method resource.
         public let httpMethod: String
-        /// [Required] The Resource identifier for the MethodResponse resource.
+        /// The Resource identifier for the MethodResponse resource.
         public let resourceId: String
-        /// [Required] The string identifier of the associated RestApi.
+        /// The string identifier of the associated RestApi.
         public let restApiId: String
-        /// [Required] The status code identifier for the MethodResponse resource.
+        /// The status code identifier for the MethodResponse resource.
         public let statusCode: String
 
         public init(httpMethod: String, resourceId: String, restApiId: String, statusCode: String) {
@@ -1368,9 +1368,9 @@ extension APIGateway {
             AWSMemberEncoding(label: "restApiId", location: .uri("restApiId"))
         ]
 
-        /// [Required] The name of the model to delete.
+        /// The name of the model to delete.
         public let modelName: String
-        /// [Required] The string identifier of the associated RestApi.
+        /// The string identifier of the associated RestApi.
         public let restApiId: String
 
         public init(modelName: String, restApiId: String) {
@@ -1387,9 +1387,9 @@ extension APIGateway {
             AWSMemberEncoding(label: "restApiId", location: .uri("restApiId"))
         ]
 
-        /// [Required] The identifier of the RequestValidator to be deleted.
+        /// The identifier of the RequestValidator to be deleted.
         public let requestValidatorId: String
-        /// [Required] The string identifier of the associated RestApi.
+        /// The string identifier of the associated RestApi.
         public let restApiId: String
 
         public init(requestValidatorId: String, restApiId: String) {
@@ -1406,9 +1406,9 @@ extension APIGateway {
             AWSMemberEncoding(label: "restApiId", location: .uri("restApiId"))
         ]
 
-        /// [Required] The identifier of the Resource resource.
+        /// The identifier of the Resource resource.
         public let resourceId: String
-        /// [Required] The string identifier of the associated RestApi.
+        /// The string identifier of the associated RestApi.
         public let restApiId: String
 
         public init(resourceId: String, restApiId: String) {
@@ -1424,7 +1424,7 @@ extension APIGateway {
             AWSMemberEncoding(label: "restApiId", location: .uri("restApiId"))
         ]
 
-        /// [Required] The string identifier of the associated RestApi.
+        /// The string identifier of the associated RestApi.
         public let restApiId: String
 
         public init(restApiId: String) {
@@ -1440,9 +1440,9 @@ extension APIGateway {
             AWSMemberEncoding(label: "stageName", location: .uri("stageName"))
         ]
 
-        /// [Required] The string identifier of the associated RestApi.
+        /// The string identifier of the associated RestApi.
         public let restApiId: String
-        /// [Required] The name of the Stage resource to delete.
+        /// The name of the Stage resource to delete.
         public let stageName: String
 
         public init(restApiId: String, stageName: String) {
@@ -1459,9 +1459,9 @@ extension APIGateway {
             AWSMemberEncoding(label: "usagePlanId", location: .uri("usagePlanId"))
         ]
 
-        /// [Required] The Id of the UsagePlanKey resource to be deleted.
+        /// The Id of the UsagePlanKey resource to be deleted.
         public let keyId: String
-        /// [Required] The Id of the UsagePlan resource representing the usage plan containing the to-be-deleted UsagePlanKey resource representing a plan customer.
+        /// The Id of the UsagePlan resource representing the usage plan containing the to-be-deleted UsagePlanKey resource representing a plan customer.
         public let usagePlanId: String
 
         public init(keyId: String, usagePlanId: String) {
@@ -1477,7 +1477,7 @@ extension APIGateway {
             AWSMemberEncoding(label: "usagePlanId", location: .uri("usagePlanId"))
         ]
 
-        /// [Required] The Id of the to-be-deleted usage plan.
+        /// The Id of the to-be-deleted usage plan.
         public let usagePlanId: String
 
         public init(usagePlanId: String) {
@@ -1492,7 +1492,7 @@ extension APIGateway {
             AWSMemberEncoding(label: "vpcLinkId", location: .uri("vpcLinkId"))
         ]
 
-        /// [Required] The identifier of the  VpcLink. It is used in an Integration to reference this VpcLink.
+        /// The identifier of the  VpcLink. It is used in an Integration to reference this VpcLink.
         public let vpcLinkId: String
 
         public init(vpcLinkId: String) {
@@ -1616,7 +1616,7 @@ extension APIGateway {
         public let path: String?
         /// The HTTP status code of a response. It is a valid field for the API entity types of RESPONSE, RESPONSE_HEADER, and RESPONSE_BODY. The default value is * for any status code. When an applicable child  entity inherits the content of an entity of the same type with more general specifications of the other location attributes, the child entity's statusCode attribute must match that of the parent entity exactly.
         public let statusCode: String?
-        /// [Required] The type of API entity to which the documentation content applies. Valid values are API, AUTHORIZER, MODEL, RESOURCE, METHOD, PATH_PARAMETER, QUERY_PARAMETER, REQUEST_HEADER,  REQUEST_BODY, RESPONSE, RESPONSE_HEADER, and RESPONSE_BODY. Content inheritance does not apply to any entity of the API, AUTHORIZER, METHOD,  MODEL, REQUEST_BODY, or RESOURCE type.
+        /// The type of API entity to which the documentation content applies. Valid values are API, AUTHORIZER, MODEL, RESOURCE, METHOD, PATH_PARAMETER, QUERY_PARAMETER, REQUEST_HEADER,  REQUEST_BODY, RESPONSE, RESPONSE_HEADER, and RESPONSE_BODY. Content inheritance does not apply to any entity of the API, AUTHORIZER, METHOD,  MODEL, REQUEST_BODY, or RESOURCE type.
         public let type: DocumentationPartType
 
         public init(method: String? = nil, name: String? = nil, path: String? = nil, statusCode: String? = nil, type: DocumentationPartType) {
@@ -1716,7 +1716,7 @@ extension APIGateway {
         public let distributionHostedZoneId: String?
         /// The custom domain name as an API host name, for example, my-api.example.com.
         public let domainName: String?
-        /// The status of the DomainName migration. The valid values are AVAILABLE, UPDATING, PENDING_CERTIFICATE_REIMPORT, and PENDING_OWNERSHIP_VERIFICATION. If the status is UPDATING, the domain cannot be modified further until the existing operation is complete. If it is AVAILABLE, the domain can be updated.
+        /// The status of the DomainName migration. The valid values are AVAILABLE and UPDATING. If the status is UPDATING, the domain cannot be modified further until the existing operation is complete. If it is AVAILABLE, the domain can be updated.
         public let domainNameStatus: DomainNameStatus?
         /// An optional text message containing detailed information about status of the DomainName migration.
         public let domainNameStatusMessage: String?
@@ -1732,7 +1732,7 @@ extension APIGateway {
         public let regionalCertificateName: String?
         /// The domain name associated with the regional endpoint for this custom domain name. You set up this association by adding a DNS record that points the custom domain name to this regional domain name. The regional domain name is returned by API Gateway when you create a regional endpoint.
         public let regionalDomainName: String?
-        /// The region-specific Amazon Route 53 Hosted Zone ID of the regional endpoint. For more information, see Set up a Regional Custom Domain Name and  AWS Regions and Endpoints for API Gateway.
+        /// The region-specific Amazon Route 53 Hosted Zone ID of the regional endpoint. For more information, see Set up a Regional Custom Domain Name and AWS Regions and Endpoints for API Gateway.
         public let regionalHostedZoneId: String?
         /// The Transport Layer Security (TLS) version + cipher suite for this DomainName. The valid values are TLS_1_0 and TLS_1_2.
         public let securityPolicy: SecurityPolicy?
@@ -1872,9 +1872,9 @@ extension APIGateway {
             AWSMemberEncoding(label: "stageName", location: .uri("stageName"))
         ]
 
-        /// [Required] The string identifier of the associated RestApi.
+        /// The string identifier of the associated RestApi.
         public let restApiId: String
-        /// [Required] The name of the stage to flush its cache.
+        /// The name of the stage to flush its cache.
         public let stageName: String
 
         public init(restApiId: String, stageName: String) {
@@ -1888,7 +1888,7 @@ extension APIGateway {
     public struct GatewayResponse: AWSDecodableShape {
         /// A Boolean flag to indicate whether this GatewayResponse is the default gateway response (true) or not (false). A default gateway response is one generated by API Gateway without any customization by an API developer.
         public let defaultResponse: Bool?
-        /// Response parameters (paths, query strings and headers) of the GatewayResponse as a string-to-string map of key-value  pairs.
+        /// Response parameters (paths, query strings and headers) of the GatewayResponse as a string-to-string map of key-value pairs.
         public let responseParameters: [String: String]?
         /// Response templates of the GatewayResponse as a string-to-string map of key-value pairs.
         public let responseTemplates: [String: String]?
@@ -1962,7 +1962,7 @@ extension APIGateway {
             AWSMemberEncoding(label: "includeValue", location: .querystring("includeValue"))
         ]
 
-        /// [Required] The identifier of the ApiKey resource.
+        /// The identifier of the ApiKey resource.
         public let apiKey: String
         /// A boolean flag to specify whether (true) or not (false) the result contains the key value.
         public let includeValue: Bool?
@@ -2012,9 +2012,9 @@ extension APIGateway {
             AWSMemberEncoding(label: "restApiId", location: .uri("restApiId"))
         ]
 
-        /// [Required] The identifier of the Authorizer resource.
+        /// The identifier of the Authorizer resource.
         public let authorizerId: String
-        /// [Required] The string identifier of the associated RestApi.
+        /// The string identifier of the associated RestApi.
         public let restApiId: String
 
         public init(authorizerId: String, restApiId: String) {
@@ -2036,7 +2036,7 @@ extension APIGateway {
         public let limit: Int?
         /// The current pagination position in the paged result set.
         public let position: String?
-        /// [Required] The string identifier of the associated RestApi.
+        /// The string identifier of the associated RestApi.
         public let restApiId: String
 
         public init(limit: Int? = nil, position: String? = nil, restApiId: String) {
@@ -2054,9 +2054,9 @@ extension APIGateway {
             AWSMemberEncoding(label: "domainName", location: .uri("domainName"))
         ]
 
-        /// [Required] The base path name that callers of the API must provide as part of the URL after the domain name. This value must be unique for all of the mappings across a single API. Specify '(none)' if you do not want callers to specify any base path name after the domain name.
+        /// The base path name that callers of the API must provide as part of the URL after the domain name. This value must be unique for all of the mappings across a single API. Specify '(none)' if you do not want callers to specify any base path name after the domain name.
         public let basePath: String
-        /// [Required] The domain name of the BasePathMapping resource to be described.
+        /// The domain name of the BasePathMapping resource to be described.
         public let domainName: String
 
         public init(basePath: String, domainName: String) {
@@ -2074,7 +2074,7 @@ extension APIGateway {
             AWSMemberEncoding(label: "position", location: .querystring("position"))
         ]
 
-        /// [Required] The domain name of a BasePathMapping resource.
+        /// The domain name of a BasePathMapping resource.
         public let domainName: String
         /// The maximum number of returned results per page. The default value is 25 and the maximum value is 500.
         public let limit: Int?
@@ -2095,7 +2095,7 @@ extension APIGateway {
             AWSMemberEncoding(label: "clientCertificateId", location: .uri("clientCertificateId"))
         ]
 
-        /// [Required] The identifier of the ClientCertificate resource to be described.
+        /// The identifier of the ClientCertificate resource to be described.
         public let clientCertificateId: String
 
         public init(clientCertificateId: String) {
@@ -2131,11 +2131,11 @@ extension APIGateway {
             AWSMemberEncoding(label: "restApiId", location: .uri("restApiId"))
         ]
 
-        /// [Required] The identifier of the Deployment resource to get information about.
+        /// The identifier of the Deployment resource to get information about.
         public let deploymentId: String
         /// A query parameter to retrieve the specified embedded resources of the returned Deployment resource in the response. In a REST API call, this embed parameter value is a list of comma-separated strings, as in  GET /restapis/{restapi_id}/deployments/{deployment_id}?embed=var1,var2. The SDK and other platform-dependent libraries might use a different format for the list. Currently, this request supports only retrieval of the embedded API summary this way. Hence, the parameter value must be a single-valued list containing only the "apisummary" string.  For example, GET /restapis/{restapi_id}/deployments/{deployment_id}?embed=apisummary.
         public let embed: [String]?
-        /// [Required] The string identifier of the associated RestApi.
+        /// The string identifier of the associated RestApi.
         public let restApiId: String
 
         public init(deploymentId: String, embed: [String]? = nil, restApiId: String) {
@@ -2158,7 +2158,7 @@ extension APIGateway {
         public let limit: Int?
         /// The current pagination position in the paged result set.
         public let position: String?
-        /// [Required] The string identifier of the associated RestApi.
+        /// The string identifier of the associated RestApi.
         public let restApiId: String
 
         public init(limit: Int? = nil, position: String? = nil, restApiId: String) {
@@ -2176,9 +2176,9 @@ extension APIGateway {
             AWSMemberEncoding(label: "restApiId", location: .uri("restApiId"))
         ]
 
-        /// [Required] The string identifier of the associated RestApi.
+        /// The string identifier of the associated RestApi.
         public let documentationPartId: String
-        /// [Required] The string identifier of the associated RestApi.
+        /// The string identifier of the associated RestApi.
         public let restApiId: String
 
         public init(documentationPartId: String, restApiId: String) {
@@ -2210,7 +2210,7 @@ extension APIGateway {
         public let path: String?
         /// The current pagination position in the paged result set.
         public let position: String?
-        /// [Required] The string identifier of the associated RestApi.
+        /// The string identifier of the associated RestApi.
         public let restApiId: String
         /// The type of API entities of the to-be-retrieved documentation parts.
         public let type: DocumentationPartType?
@@ -2234,9 +2234,9 @@ extension APIGateway {
             AWSMemberEncoding(label: "restApiId", location: .uri("restApiId"))
         ]
 
-        /// [Required] The version identifier of the to-be-retrieved documentation snapshot.
+        /// The version identifier of the to-be-retrieved documentation snapshot.
         public let documentationVersion: String
-        /// [Required] The string identifier of the associated RestApi.
+        /// The string identifier of the associated RestApi.
         public let restApiId: String
 
         public init(documentationVersion: String, restApiId: String) {
@@ -2258,7 +2258,7 @@ extension APIGateway {
         public let limit: Int?
         /// The current pagination position in the paged result set.
         public let position: String?
-        /// [Required] The string identifier of the associated RestApi.
+        /// The string identifier of the associated RestApi.
         public let restApiId: String
 
         public init(limit: Int? = nil, position: String? = nil, restApiId: String) {
@@ -2275,7 +2275,7 @@ extension APIGateway {
             AWSMemberEncoding(label: "domainName", location: .uri("domainName"))
         ]
 
-        /// [Required] The name of the DomainName resource.
+        /// The name of the DomainName resource.
         public let domainName: String
 
         public init(domainName: String) {
@@ -2314,13 +2314,13 @@ extension APIGateway {
 
         /// The content-type of the export, for example application/json. Currently application/json and application/yaml are supported for exportType ofoas30 and swagger. This should be specified in the Accept header for direct API requests.
         public let accepts: String?
-        /// [Required] The type of export. Acceptable values are 'oas30' for OpenAPI 3.0.x and 'swagger' for Swagger/OpenAPI 2.0.
+        /// The type of export. Acceptable values are 'oas30' for OpenAPI 3.0.x and 'swagger' for Swagger/OpenAPI 2.0.
         public let exportType: String
-        /// A key-value map of query string parameters that specify properties of the export, depending on the requested exportType. For exportType oas30 and swagger, any combination of the following parameters are supported: extensions='integrations' or extensions='apigateway' will export the API with x-amazon-apigateway-integration extensions. extensions='authorizers' will export the API with  x-amazon-apigateway-authorizer extensions. postman will export the API with Postman extensions, allowing for import to the Postman tool
+        /// A key-value map of query string parameters that specify properties of the export, depending on the requested exportType. For exportType  oas30 and swagger, any combination of the following parameters are supported: extensions='integrations' or extensions='apigateway' will export the API with x-amazon-apigateway-integration extensions. extensions='authorizers' will export the API with  x-amazon-apigateway-authorizer extensions. postman will export the API with Postman extensions, allowing for import to the Postman tool
         public let parameters: [String: String]?
-        /// [Required] The string identifier of the associated RestApi.
+        /// The string identifier of the associated RestApi.
         public let restApiId: String
-        /// [Required] The name of the Stage that will be exported.
+        /// The name of the Stage that will be exported.
         public let stageName: String
 
         public init(accepts: String? = nil, exportType: String, parameters: [String: String]? = nil, restApiId: String, stageName: String) {
@@ -2342,9 +2342,9 @@ extension APIGateway {
             AWSMemberEncoding(label: "restApiId", location: .uri("restApiId"))
         ]
 
-        /// [Required] The response type of the associated GatewayResponse.
+        /// The response type of the associated GatewayResponse.
         public let responseType: GatewayResponseType
-        /// [Required] The string identifier of the associated RestApi.
+        /// The string identifier of the associated RestApi.
         public let restApiId: String
 
         public init(responseType: GatewayResponseType, restApiId: String) {
@@ -2366,7 +2366,7 @@ extension APIGateway {
         public let limit: Int?
         /// The current pagination position in the paged result set. The GatewayResponse collection does not support pagination and the position does not apply here.
         public let position: String?
-        /// [Required] The string identifier of the associated RestApi.
+        /// The string identifier of the associated RestApi.
         public let restApiId: String
 
         public init(limit: Int? = nil, position: String? = nil, restApiId: String) {
@@ -2385,11 +2385,11 @@ extension APIGateway {
             AWSMemberEncoding(label: "restApiId", location: .uri("restApiId"))
         ]
 
-        /// [Required] Specifies a get integration request's HTTP method.
+        /// Specifies a get integration request's HTTP method.
         public let httpMethod: String
-        /// [Required] Specifies a get integration request's resource identifier
+        /// Specifies a get integration request's resource identifier
         public let resourceId: String
-        /// [Required] The string identifier of the associated RestApi.
+        /// The string identifier of the associated RestApi.
         public let restApiId: String
 
         public init(httpMethod: String, resourceId: String, restApiId: String) {
@@ -2409,13 +2409,13 @@ extension APIGateway {
             AWSMemberEncoding(label: "statusCode", location: .uri("statusCode"))
         ]
 
-        /// [Required] Specifies a get integration response request's HTTP method.
+        /// Specifies a get integration response request's HTTP method.
         public let httpMethod: String
-        /// [Required] Specifies a get integration response request's resource identifier.
+        /// Specifies a get integration response request's resource identifier.
         public let resourceId: String
-        /// [Required] The string identifier of the associated RestApi.
+        /// The string identifier of the associated RestApi.
         public let restApiId: String
-        /// [Required] Specifies a get integration response request's status code.
+        /// Specifies a get integration response request's status code.
         public let statusCode: String
 
         public init(httpMethod: String, resourceId: String, restApiId: String, statusCode: String) {
@@ -2439,11 +2439,11 @@ extension APIGateway {
             AWSMemberEncoding(label: "restApiId", location: .uri("restApiId"))
         ]
 
-        /// [Required] Specifies the method request's HTTP method type.
+        /// Specifies the method request's HTTP method type.
         public let httpMethod: String
-        /// [Required] The Resource identifier for the Method resource.
+        /// The Resource identifier for the Method resource.
         public let resourceId: String
-        /// [Required] The string identifier of the associated RestApi.
+        /// The string identifier of the associated RestApi.
         public let restApiId: String
 
         public init(httpMethod: String, resourceId: String, restApiId: String) {
@@ -2463,13 +2463,13 @@ extension APIGateway {
             AWSMemberEncoding(label: "statusCode", location: .uri("statusCode"))
         ]
 
-        /// [Required] The HTTP verb of the Method resource.
+        /// The HTTP verb of the Method resource.
         public let httpMethod: String
-        /// [Required] The Resource identifier for the MethodResponse resource.
+        /// The Resource identifier for the MethodResponse resource.
         public let resourceId: String
-        /// [Required] The string identifier of the associated RestApi.
+        /// The string identifier of the associated RestApi.
         public let restApiId: String
-        /// [Required] The status code for the MethodResponse resource.
+        /// The status code for the MethodResponse resource.
         public let statusCode: String
 
         public init(httpMethod: String, resourceId: String, restApiId: String, statusCode: String) {
@@ -2495,9 +2495,9 @@ extension APIGateway {
 
         /// A query parameter of a Boolean value to resolve (true) all external model references and returns a flattened model schema or not (false) The default is false.
         public let flatten: Bool?
-        /// [Required] The name of the model as an identifier.
+        /// The name of the model as an identifier.
         public let modelName: String
-        /// [Required] The RestApi identifier under which the Model exists.
+        /// The RestApi identifier under which the Model exists.
         public let restApiId: String
 
         public init(flatten: Bool? = nil, modelName: String, restApiId: String) {
@@ -2515,9 +2515,9 @@ extension APIGateway {
             AWSMemberEncoding(label: "restApiId", location: .uri("restApiId"))
         ]
 
-        /// [Required] The name of the model for which to generate a template.
+        /// The name of the model for which to generate a template.
         public let modelName: String
-        /// [Required] The string identifier of the associated RestApi.
+        /// The string identifier of the associated RestApi.
         public let restApiId: String
 
         public init(modelName: String, restApiId: String) {
@@ -2539,7 +2539,7 @@ extension APIGateway {
         public let limit: Int?
         /// The current pagination position in the paged result set.
         public let position: String?
-        /// [Required] The string identifier of the associated RestApi.
+        /// The string identifier of the associated RestApi.
         public let restApiId: String
 
         public init(limit: Int? = nil, position: String? = nil, restApiId: String) {
@@ -2557,9 +2557,9 @@ extension APIGateway {
             AWSMemberEncoding(label: "restApiId", location: .uri("restApiId"))
         ]
 
-        /// [Required] The identifier of the RequestValidator to be retrieved.
+        /// The identifier of the RequestValidator to be retrieved.
         public let requestValidatorId: String
-        /// [Required] The string identifier of the associated RestApi.
+        /// The string identifier of the associated RestApi.
         public let restApiId: String
 
         public init(requestValidatorId: String, restApiId: String) {
@@ -2581,7 +2581,7 @@ extension APIGateway {
         public let limit: Int?
         /// The current pagination position in the paged result set.
         public let position: String?
-        /// [Required] The string identifier of the associated RestApi.
+        /// The string identifier of the associated RestApi.
         public let restApiId: String
 
         public init(limit: Int? = nil, position: String? = nil, restApiId: String) {
@@ -2602,9 +2602,9 @@ extension APIGateway {
 
         /// A query parameter to retrieve the specified resources embedded in the returned Resource representation in the response. This embed parameter value is a list of comma-separated strings. Currently, the request supports only retrieval of the embedded Method resources this way. The query parameter value must be a single-valued list and contain the "methods" string. For example, GET /restapis/{restapi_id}/resources/{resource_id}?embed=methods.
         public let embed: [String]?
-        /// [Required] The identifier for the Resource resource.
+        /// The identifier for the Resource resource.
         public let resourceId: String
-        /// [Required] The string identifier of the associated RestApi.
+        /// The string identifier of the associated RestApi.
         public let restApiId: String
 
         public init(embed: [String]? = nil, resourceId: String, restApiId: String) {
@@ -2630,7 +2630,7 @@ extension APIGateway {
         public let limit: Int?
         /// The current pagination position in the paged result set.
         public let position: String?
-        /// [Required] The string identifier of the associated RestApi.
+        /// The string identifier of the associated RestApi.
         public let restApiId: String
 
         public init(embed: [String]? = nil, limit: Int? = nil, position: String? = nil, restApiId: String) {
@@ -2648,7 +2648,7 @@ extension APIGateway {
             AWSMemberEncoding(label: "restApiId", location: .uri("restApiId"))
         ]
 
-        /// [Required] The string identifier of the associated RestApi.
+        /// The string identifier of the associated RestApi.
         public let restApiId: String
 
         public init(restApiId: String) {
@@ -2686,11 +2686,11 @@ extension APIGateway {
 
         /// A string-to-string key-value map of query parameters sdkType-dependent properties of the SDK. For sdkType of objectivec or swift,  a parameter named classPrefix is required. For sdkType of android, parameters named groupId, artifactId, artifactVersion, and invokerPackage are required. For sdkType of java, parameters named serviceName and javaPackageName are required.
         public let parameters: [String: String]?
-        /// [Required] The string identifier of the associated RestApi.
+        /// The string identifier of the associated RestApi.
         public let restApiId: String
-        /// [Required] The language for the generated SDK. Currently java, javascript, android, objectivec (for iOS), swift (for iOS), and ruby  are supported.
+        /// The language for the generated SDK. Currently java, javascript, android, objectivec (for iOS), swift (for iOS), and ruby  are supported.
         public let sdkType: String
-        /// [Required] The name of the Stage that the SDK will use.
+        /// The name of the Stage that the SDK will use.
         public let stageName: String
 
         public init(parameters: [String: String]? = nil, restApiId: String, sdkType: String, stageName: String) {
@@ -2710,7 +2710,7 @@ extension APIGateway {
             AWSMemberEncoding(label: "id", location: .uri("id"))
         ]
 
-        /// [Required] The identifier of the queried SdkType instance.
+        /// The identifier of the queried SdkType instance.
         public let id: String
 
         public init(id: String) {
@@ -2745,9 +2745,9 @@ extension APIGateway {
             AWSMemberEncoding(label: "stageName", location: .uri("stageName"))
         ]
 
-        /// [Required] The string identifier of the associated RestApi.
+        /// The string identifier of the associated RestApi.
         public let restApiId: String
-        /// [Required] The name of the Stage resource to get information about.
+        /// The name of the Stage resource to get information about.
         public let stageName: String
 
         public init(restApiId: String, stageName: String) {
@@ -2766,7 +2766,7 @@ extension APIGateway {
 
         /// The stages' deployment identifiers.
         public let deploymentId: String?
-        /// [Required] The string identifier of the associated RestApi.
+        /// The string identifier of the associated RestApi.
         public let restApiId: String
 
         public init(deploymentId: String? = nil, restApiId: String) {
@@ -2788,7 +2788,7 @@ extension APIGateway {
         public let limit: Int?
         /// (Not currently supported) The current pagination position in the paged result set.
         public let position: String?
-        /// [Required] The ARN of a resource that can be tagged.
+        /// The ARN of a resource that can be tagged.
         public let resourceArn: String
 
         public init(limit: Int? = nil, position: String? = nil, resourceArn: String) {
@@ -2806,9 +2806,9 @@ extension APIGateway {
             AWSMemberEncoding(label: "usagePlanId", location: .uri("usagePlanId"))
         ]
 
-        /// [Required] The key Id of the to-be-retrieved UsagePlanKey resource representing a plan customer.
+        /// The key Id of the to-be-retrieved UsagePlanKey resource representing a plan customer.
         public let keyId: String
-        /// [Required] The Id of the UsagePlan resource representing the usage plan containing the to-be-retrieved UsagePlanKey resource representing a plan customer.
+        /// The Id of the UsagePlan resource representing the usage plan containing the to-be-retrieved UsagePlanKey resource representing a plan customer.
         public let usagePlanId: String
 
         public init(keyId: String, usagePlanId: String) {
@@ -2833,7 +2833,7 @@ extension APIGateway {
         public let nameQuery: String?
         /// The current pagination position in the paged result set.
         public let position: String?
-        /// [Required] The Id of the UsagePlan resource representing the usage plan containing the to-be-retrieved UsagePlanKey resource representing a plan customer.
+        /// The Id of the UsagePlan resource representing the usage plan containing the to-be-retrieved UsagePlanKey resource representing a plan customer.
         public let usagePlanId: String
 
         public init(limit: Int? = nil, nameQuery: String? = nil, position: String? = nil, usagePlanId: String) {
@@ -2851,7 +2851,7 @@ extension APIGateway {
             AWSMemberEncoding(label: "usagePlanId", location: .uri("usagePlanId"))
         ]
 
-        /// [Required] The identifier of the UsagePlan resource to be retrieved.
+        /// The identifier of the UsagePlan resource to be retrieved.
         public let usagePlanId: String
 
         public init(usagePlanId: String) {
@@ -2894,7 +2894,7 @@ extension APIGateway {
             AWSMemberEncoding(label: "usagePlanId", location: .uri("usagePlanId"))
         ]
 
-        /// [Required] The ending date (e.g., 2016-12-31) of the usage data.
+        /// The ending date (e.g., 2016-12-31) of the usage data.
         public let endDate: String
         /// The Id of the API key associated with the resultant usage data.
         public let keyId: String?
@@ -2902,9 +2902,9 @@ extension APIGateway {
         public let limit: Int?
         /// The current pagination position in the paged result set.
         public let position: String?
-        /// [Required] The starting date (e.g., 2016-01-01) of the usage data.
+        /// The starting date (e.g., 2016-01-01) of the usage data.
         public let startDate: String
-        /// [Required] The Id of the usage plan associated with the usage data.
+        /// The Id of the usage plan associated with the usage data.
         public let usagePlanId: String
 
         public init(endDate: String, keyId: String? = nil, limit: Int? = nil, position: String? = nil, startDate: String, usagePlanId: String) {
@@ -2924,7 +2924,7 @@ extension APIGateway {
             AWSMemberEncoding(label: "vpcLinkId", location: .uri("vpcLinkId"))
         ]
 
-        /// [Required] The identifier of the  VpcLink. It is used in an Integration to reference this VpcLink.
+        /// The identifier of the  VpcLink. It is used in an Integration to reference this VpcLink.
         public let vpcLinkId: String
 
         public init(vpcLinkId: String) {
@@ -2988,13 +2988,13 @@ extension APIGateway {
             AWSMemberEncoding(label: "restApiId", location: .uri("restApiId"))
         ]
 
-        /// [Required] Raw byte array representing the to-be-imported documentation parts. To import from an OpenAPI file, this is a JSON object.
+        /// Raw byte array representing the to-be-imported documentation parts. To import from an OpenAPI file, this is a JSON object.
         public let body: AWSPayload
         /// A query parameter to specify whether to rollback the documentation importation (true) or not (false) when a warning is encountered. The default value is false.
         public let failOnWarnings: Bool?
         /// A query parameter to indicate whether to overwrite (OVERWRITE) any existing DocumentationParts definition or to merge (MERGE) the new definition into the existing one. The default value is MERGE.
         public let mode: PutMode?
-        /// [Required] The string identifier of the associated RestApi.
+        /// The string identifier of the associated RestApi.
         public let restApiId: String
 
         public init(body: AWSPayload, failOnWarnings: Bool? = nil, mode: PutMode? = nil, restApiId: String) {
@@ -3015,11 +3015,11 @@ extension APIGateway {
             AWSMemberEncoding(label: "failOnWarnings", location: .querystring("failonwarnings"))
         ]
 
-        /// [Required] The POST request body containing external API definitions. Currently, only OpenAPI definition JSON/YAML files are supported. The maximum size of the API definition file is 6MB.
+        /// The POST request body containing external API definitions. Currently, only OpenAPI definition JSON/YAML files are supported. The maximum size of the API definition file is 6MB.
         public let body: AWSPayload
         /// A query parameter to indicate whether to rollback the API creation (true) or not (false) when a warning is encountered. The default value is false.
         public let failOnWarnings: Bool?
-        /// A key-value map of context-specific query string parameters specifying the behavior of different API importing operations. The following shows operation-specific parameters and their supported values. To exclude DocumentationParts from the import, set parameters as ignore=documentation. To configure the endpoint type, set parameters as endpointConfigurationTypes=EDGE, endpointConfigurationTypes=REGIONAL, or endpointConfigurationTypes=PRIVATE. The default endpoint type is EDGE. To handle imported basepath, set parameters as basepath=ignore, basepath=prepend or basepath=split. For example, the AWS CLI command to exclude documentation from the imported API is:  aws apigateway import-rest-api --parameters ignore=documentation --body 'file:///path/to/imported-api-body.json' The AWS CLI command to set the regional endpoint on the imported API is: aws apigateway import-rest-api --parameters endpointConfigurationTypes=REGIONAL --body 'file:///path/to/imported-api-body.json'
+        /// A key-value map of context-specific query string parameters specifying the behavior of different API importing operations. The following shows operation-specific parameters and their supported values. To exclude DocumentationParts from the import, set parameters as ignore=documentation. To configure the endpoint type, set parameters as endpointConfigurationTypes=EDGE, endpointConfigurationTypes=REGIONAL, or endpointConfigurationTypes=PRIVATE. The default endpoint type is EDGE. To handle imported basepath, set parameters as basepath=ignore, basepath=prepend or basepath=split. For example, the AWS CLI command to exclude documentation from the imported API is:  The AWS CLI command to set the regional endpoint on the imported API is:
         public let parameters: [String: String]?
 
         public init(body: AWSPayload, failOnWarnings: Bool? = nil, parameters: [String: String]? = nil) {
@@ -3038,25 +3038,19 @@ extension APIGateway {
         public let cacheKeyParameters: [String]?
         /// Specifies a group of related cached parameters. By default, API Gateway uses the resource ID as the cacheNamespace. You can specify the same cacheNamespace across resources to return the same cached data for requests to different resources.
         public let cacheNamespace: String?
-        /// The (id) of the VpcLink used for the integration when connectionType=VPC_LINK and undefined, otherwise.
+        /// The ID of the VpcLink used for the integration when connectionType=VPC_LINK and undefined, otherwise.
         public let connectionId: String?
         /// The type of the network connection to the integration endpoint. The valid value is INTERNET for connections through the public routable internet or VPC_LINK for private connections between API Gateway and a network load balancer in a VPC. The default value is INTERNET.
         public let connectionType: ConnectionType?
-        /// Specifies how to handle request payload content type conversions. Supported values are CONVERT_TO_BINARY and CONVERT_TO_TEXT, with the following behaviors:  CONVERT_TO_BINARY: Converts a request payload from a Base64-encoded string to the corresponding binary blob. CONVERT_TO_TEXT: Converts a request payload from a binary blob to a Base64-encoded string.  If this property is not defined, the request payload will be passed through from the method request to integration request without modification, provided that the passthroughBehavior is configured to support payload pass-through.
+        /// Specifies how to handle request payload content type conversions. Supported values are CONVERT_TO_BINARY and CONVERT_TO_TEXT, with the following behaviors:  If this property is not defined, the request payload will be passed through from the method request to integration request without modification, provided that the passthroughBehavior is configured to support payload pass-through.
         public let contentHandling: ContentHandlingStrategy?
         /// Specifies the credentials required for the integration, if any. For AWS integrations, three options are available. To specify an IAM Role for API Gateway to assume, use the role's Amazon Resource Name (ARN). To require that the caller's identity be passed through from the request, specify the string arn:aws:iam::\*:user/\*. To use resource-based permissions on supported AWS services, specify null.
         public let credentials: String?
         /// Specifies the integration's HTTP method type.
         public let httpMethod: String?
-        /// Specifies the integration's responses.   Example: Get integration responses of a method Request  GET /restapis/fugvjdxtri/resources/3kzxbg5sa2/methods/GET/integration/responses/200 HTTP/1.1
-        /// Content-Type: application/json
-        /// Host: apigateway.us-east-1.amazonaws.com
-        /// X-Amz-Date: 20160607T191449Z
-        /// Authorization: AWS4-HMAC-SHA256 Credential={access_key_ID}/20160607/us-east-1/apigateway/aws4_request, SignedHeaders=content-type;host;x-amz-date, Signature={sig4_hash}
-        ///  Response The successful response returns 200 OK status and a payload as follows: { "_links": { "curies": { "href": "https://docs.aws.amazon.com/apigateway/latest/developerguide/restapi-integration-response-{rel}.html", "name": "integrationresponse", "templated": true }, "self": { "href": "/restapis/fugvjdxtri/resources/3kzxbg5sa2/methods/GET/integration/responses/200", "title": "200" }, "integrationresponse:delete": { "href": "/restapis/fugvjdxtri/resources/3kzxbg5sa2/methods/GET/integration/responses/200" }, "integrationresponse:update": { "href": "/restapis/fugvjdxtri/resources/3kzxbg5sa2/methods/GET/integration/responses/200" } }, "responseParameters": { "method.response.header.Content-Type": "'application/xml'" }, "responseTemplates": { "application/json": "$util.urlDecode(\"%3CkinesisStreams%3E#foreach($stream in $input.path('$.StreamNames'))%3Cstream%3E%3Cname%3E$stream%3C/name%3E%3C/stream%3E#end%3C/kinesisStreams%3E\")\n" }, "statusCode": "200"
-        /// }    Creating an API
+        /// Specifies the integration's responses.
         public let integrationResponses: [String: IntegrationResponse]?
-        ///   Specifies how the method request body of an unmapped content type will be passed through the integration request to the back end without transformation. A content type is unmapped if no mapping template is defined in the integration or the content type does not match any of the mapped content types, as specified in requestTemplates. The valid value is one of the following:    WHEN_NO_MATCH: passes the method request body through the integration request to the back end without transformation when the method request content type does not match any content type associated with the mapping templates defined in the integration request.   WHEN_NO_TEMPLATES: passes the method request body through the integration request to the back end without transformation when no mapping template is defined in the integration request. If a template is defined when this option is selected, the method request of an unmapped content-type will be rejected with an HTTP 415 Unsupported Media Type response.   NEVER: rejects the method request with an HTTP 415 Unsupported Media Type response when either the method request content type does not match any content type associated with the mapping templates defined in the integration request or no mapping template is defined in the integration request.
+        /// Specifies how the method request body of an unmapped content type will be passed through the integration request to the back end without transformation. A content type is unmapped if no mapping template is defined in the integration or the content type does not match any of the mapped content types, as specified in requestTemplates. The valid value is one of the following: WHEN_NO_MATCH: passes the method request body through the integration request to the back end without transformation when the method request content type does not match any content type associated with the mapping templates defined in the integration request. WHEN_NO_TEMPLATES: passes the method request body through the integration request to the back end without transformation when no mapping template is defined in the integration request. If a template is defined when this option is selected, the method request of an unmapped content-type will be rejected with an HTTP 415 Unsupported Media Type response. NEVER: rejects the method request with an HTTP 415 Unsupported Media Type response when either the method request content type does not match any content type associated with the mapping templates defined in the integration request or no mapping template is defined in the integration request.
         public let passthroughBehavior: String?
         /// A key-value map specifying request parameters that are passed from the method request to the back end. The key is an integration request parameter name and the associated value is a method request parameter value or static value that must be enclosed within single quotes and pre-encoded as required by the back end. The method request parameter value must match the pattern of  method.request.{location}.{name}, where location is querystring, path, or header and name must be a valid and unique method request parameter name.
         public let requestParameters: [String: String]?
@@ -3066,11 +3060,9 @@ extension APIGateway {
         public let timeoutInMillis: Int?
         /// Specifies the TLS configuration for an integration.
         public let tlsConfig: TlsConfig?
-        /// Specifies an API method integration type. The valid value is one of the following:  AWS: for integrating the API method request with an AWS service action, including the Lambda function-invoking action. With the Lambda function-invoking action, this is referred to as the Lambda custom integration. With any other AWS service action, this is known as AWS integration. AWS_PROXY: for integrating the API method request with the Lambda function-invoking action with the client request passed through as-is. This integration is also referred to as the Lambda proxy integration. HTTP: for integrating the API method request with an HTTP endpoint, including a private HTTP endpoint within a VPC. This integration is also referred to as the HTTP custom integration. HTTP_PROXY: for integrating the API method request with an HTTP endpoint, including a private HTTP endpoint within a VPC, with the client request passed through as-is. This is also referred to as the HTTP proxy integration. MOCK: for integrating the API method request with API Gateway as a "loop-back" endpoint without invoking any backend.  For the HTTP and HTTP proxy integrations, each integration can specify a protocol (http/https), port and path. Standard 80 and 443 ports are supported as well as custom ports above 1024. An HTTP or HTTP proxy integration with a connectionType of VPC_LINK is referred to as a private integration and uses a VpcLink to connect API Gateway to a network load balancer of a VPC.
+        /// Specifies an API method integration type. The valid value is one of the following:  For the HTTP and HTTP proxy integrations, each integration can specify a protocol (http/https), port and path. Standard 80 and 443 ports are supported as well as custom ports above 1024. An HTTP or HTTP proxy integration with a connectionType of VPC_LINK is referred to as a private integration and uses a VpcLink to connect API Gateway to a network load balancer of a VPC.
         public let type: IntegrationType?
-        /// Specifies Uniform Resource Identifier (URI) of the integration endpoint.
-        ///  For HTTP or HTTP_PROXY integrations, the URI must be a fully formed, encoded HTTP(S) URL according to the RFC-3986 specification, for either standard integration, where connectionType is not VPC_LINK, or private integration, where connectionType is VPC_LINK. For a private HTTP integration, the URI is not used for routing.
-        ///  For AWS or AWS_PROXY integrations, the URI is of the form arn:aws:apigateway:{region}:{subdomain.service|service}:path|action/{service_api}. Here, {Region} is the API Gateway region (e.g., us-east-1); {service} is the name of the integrated AWS service (e.g., s3); and {subdomain} is a designated subdomain supported by certain AWS service for fast host-name lookup. action can be used for an AWS service action-based API, using an Action={name}&{p1}={v1}&p2={v2}... query string. The ensuing {service_api} refers to a supported action {name} plus any required input parameters. Alternatively, path can be used for an AWS service path-based API. The ensuing  service_api refers to the path to an AWS service resource, including the region of the integrated AWS service, if applicable. For example, for integration with the S3 API of GetObject, the uri can be either arn:aws:apigateway:us-west-2:s3:action/GetObject&Bucket={bucket}&Key={key} or  arn:aws:apigateway:us-west-2:s3:path/{bucket}/{key}
+        /// Specifies Uniform Resource Identifier (URI) of the integration endpoint. For HTTP or HTTP_PROXY integrations, the URI must be a fully formed, encoded HTTP(S) URL according to the RFC-3986 specification, for either standard integration, where connectionType is not VPC_LINK, or private integration, where connectionType is VPC_LINK. For a private HTTP integration, the URI is not used for routing. For AWS or AWS_PROXY integrations, the URI is of the form arn:aws:apigateway:{region}:{subdomain.service|service}:path|action/{service_api}. Here, {Region} is the API Gateway region (e.g., us-east-1); {service} is the name of the integrated Amazon Web Services service (e.g., s3); and {subdomain} is a designated subdomain supported by certain Amazon Web Services  service for fast host-name lookup. action can be used for an Amazon Web Services  service action-based API, using an Action={name}&{p1}={v1}&p2={v2}... query string. The ensuing {service_api} refers to a supported action {name} plus any required input parameters. Alternatively, path can be used for an AWS service path-based API. The ensuing service_api refers to the path to an Amazon Web Services  service resource, including the region of the integrated Amazon Web Services  service, if applicable. For example, for integration with the S3 API of GetObject, the uri can be either arn:aws:apigateway:us-west-2:s3:action/GetObject&Bucket={bucket}&Key={key} or arn:aws:apigateway:us-west-2:s3:path/{bucket}/{key}
         public let uri: String?
 
         public init(cacheKeyParameters: [String]? = nil, cacheNamespace: String? = nil, connectionId: String? = nil, connectionType: ConnectionType? = nil, contentHandling: ContentHandlingStrategy? = nil, credentials: String? = nil, httpMethod: String? = nil, integrationResponses: [String: IntegrationResponse]? = nil, passthroughBehavior: String? = nil, requestParameters: [String: String]? = nil, requestTemplates: [String: String]? = nil, timeoutInMillis: Int? = nil, tlsConfig: TlsConfig? = nil, type: IntegrationType? = nil, uri: String? = nil) {
@@ -3111,7 +3103,7 @@ extension APIGateway {
     }
 
     public struct IntegrationResponse: AWSDecodableShape {
-        /// Specifies how to handle response payload content type conversions. Supported values are CONVERT_TO_BINARY and CONVERT_TO_TEXT, with the following behaviors:  CONVERT_TO_BINARY: Converts a response payload from a Base64-encoded string to the corresponding binary blob. CONVERT_TO_TEXT: Converts a response payload from a binary blob to a Base64-encoded string.  If this property is not defined, the response payload will be passed through from the integration response to the method response without modification.
+        /// Specifies how to handle response payload content type conversions. Supported values are CONVERT_TO_BINARY and CONVERT_TO_TEXT, with the following behaviors:  If this property is not defined, the response payload will be passed through from the integration response to the method response without modification.
         public let contentHandling: ContentHandlingStrategy?
         /// A key-value map specifying response parameters that are passed to the method response from the back end. The key is a method response header parameter name and the mapped value is an integration response header value, a static value enclosed within a pair of single quotes, or a JSON expression from the integration response body. The mapping key must match the pattern of method.response.header.{name}, where name is a valid and unique header name. The mapped non-static value must match the pattern of integration.response.header.{name} or integration.response.body.{JSON-expression}, where name is a valid and unique response header name and JSON-expression is a valid JSON expression without the $ prefix.
         public let responseParameters: [String: String]?
@@ -3150,21 +3142,9 @@ extension APIGateway {
         public let authorizerId: String?
         /// The method's HTTP verb.
         public let httpMethod: String?
-        /// Gets the method's integration responsible for passing the client-submitted request to the back end and performing necessary transformations to make the request compliant with the back end.   Example:  Request  GET /restapis/uojnr9hd57/resources/0cjtch/methods/GET/integration HTTP/1.1
-        /// Content-Type: application/json
-        /// Host: apigateway.us-east-1.amazonaws.com
-        /// Content-Length: 117
-        /// X-Amz-Date: 20160613T213210Z
-        /// Authorization: AWS4-HMAC-SHA256 Credential={access_key_ID}/20160613/us-east-1/apigateway/aws4_request, SignedHeaders=content-type;host;x-amz-date, Signature={sig4_hash} Response The successful response returns a 200 OK status code and a payload similar to the following: { "_links": { "curies": [ { "href": "https://docs.aws.amazon.com/apigateway/latest/developerguide/restapi-integration-{rel}.html", "name": "integration", "templated": true }, { "href": "https://docs.aws.amazon.com/apigateway/latest/developerguide/restapi-integration-response-{rel}.html", "name": "integrationresponse", "templated": true } ], "self": { "href": "/restapis/uojnr9hd57/resources/0cjtch/methods/GET/integration" }, "integration:delete": { "href": "/restapis/uojnr9hd57/resources/0cjtch/methods/GET/integration" }, "integration:responses": { "href": "/restapis/uojnr9hd57/resources/0cjtch/methods/GET/integration/responses/200", "name": "200", "title": "200" }, "integration:update": { "href": "/restapis/uojnr9hd57/resources/0cjtch/methods/GET/integration" }, "integrationresponse:put": { "href": "/restapis/uojnr9hd57/resources/0cjtch/methods/GET/integration/responses/{status_code}", "templated": true } }, "cacheKeyParameters": [], "cacheNamespace": "0cjtch", "credentials": "arn:aws:iam::123456789012:role/apigAwsProxyRole", "httpMethod": "POST", "passthroughBehavior": "WHEN_NO_MATCH", "requestTemplates": { "application/json": "{\n    \"a\":  \"$input.params('operand1')\",\n    \"b\":  \"$input.params('operand2')\", \n    \"op\": \"$input.params('operator')\"   \n}" }, "type": "AWS", "uri": "arn:aws:apigateway:us-west-2:lambda:path//2015-03-31/functions/arn:aws:lambda:us-west-2:123456789012:function:Calc/invocations", "_embedded": { "integration:responses": { "_links": { "self": { "href": "/restapis/uojnr9hd57/resources/0cjtch/methods/GET/integration/responses/200", "name": "200", "title": "200" }, "integrationresponse:delete": { "href": "/restapis/uojnr9hd57/resources/0cjtch/methods/GET/integration/responses/200" }, "integrationresponse:update": { "href": "/restapis/uojnr9hd57/resources/0cjtch/methods/GET/integration/responses/200" } }, "responseParameters": { "method.response.header.operator": "integration.response.body.op", "method.response.header.operand_2": "integration.response.body.b", "method.response.header.operand_1": "integration.response.body.a" }, "responseTemplates": { "application/json": "#set($res = $input.path('$'))\n{\n    \"result\": \"$res.a, $res.b, $res.op => $res.c\",\n  \"a\" : \"$res.a\",\n  \"b\" : \"$res.b\",\n  \"op\" : \"$res.op\",\n  \"c\" : \"$res.c\"\n}" }, "selectionPattern": "", "statusCode": "200" } }
-        /// }    AWS CLI
+        /// Gets the method's integration responsible for passing the client-submitted request to the back end and performing necessary transformations to make the request compliant with the back end.
         public let methodIntegration: Integration?
-        /// Gets a method response associated with a given HTTP status code.   The collection of method responses are encapsulated in a key-value map, where the key is a response's HTTP status code and the value is a MethodResponse resource that specifies the response returned to the caller from the back end through the integration response. Example: Get a 200 OK response of a GET method Request  GET /restapis/uojnr9hd57/resources/0cjtch/methods/GET/responses/200 HTTP/1.1
-        /// Content-Type: application/json
-        /// Host: apigateway.us-east-1.amazonaws.com
-        /// Content-Length: 117
-        /// X-Amz-Date: 20160613T215008Z
-        /// Authorization: AWS4-HMAC-SHA256 Credential={access_key_ID}/20160613/us-east-1/apigateway/aws4_request, SignedHeaders=content-type;host;x-amz-date, Signature={sig4_hash} Response The successful response returns a 200 OK status code and a payload similar to the following: { "_links": { "curies": { "href": "https://docs.aws.amazon.com/apigateway/latest/developerguide/restapi-method-response-{rel}.html", "name": "methodresponse", "templated": true }, "self": { "href": "/restapis/uojnr9hd57/resources/0cjtch/methods/GET/responses/200", "title": "200" }, "methodresponse:delete": { "href": "/restapis/uojnr9hd57/resources/0cjtch/methods/GET/responses/200" }, "methodresponse:update": { "href": "/restapis/uojnr9hd57/resources/0cjtch/methods/GET/responses/200" } }, "responseModels": { "application/json": "Empty" }, "responseParameters": { "method.response.header.operator": false, "method.response.header.operand_2": false, "method.response.header.operand_1": false }, "statusCode": "200"
-        /// }    AWS CLI
+        /// Gets a method response associated with a given HTTP status code.
         public let methodResponses: [String: MethodResponse]?
         /// A human-friendly operation identifier for the method. For example, you can assign the operationName of ListPets for the GET /pets method in the PetStore example.
         public let operationName: String?
@@ -3232,7 +3212,7 @@ extension APIGateway {
         public let cacheTtlInSeconds: Int?
         /// Specifies whether responses should be cached and returned for requests. A cache cluster must be enabled on the stage for responses to be cached. The PATCH path for this setting is /{method_setting_key}/caching/enabled, and the value is a Boolean.
         public let cachingEnabled: Bool?
-        /// Specifies whether full requests and responses are logged for this method, which affects the log entries pushed to Amazon CloudWatch Logs. This can be useful to troubleshoot APIs, but can result in logging sensitive data. We recommend that you don't enable this option for production APIs. The PATCH path for this setting is /{method_setting_key}/logging/dataTrace, and the value is a Boolean.
+        /// Specifies whether data trace logging is enabled for this method, which affects the log entries pushed to Amazon CloudWatch Logs. The PATCH path for this setting is /{method_setting_key}/logging/dataTrace, and the value is a Boolean.
         public let dataTraceEnabled: Bool?
         /// Specifies the logging level for this method, which affects the log entries pushed to Amazon CloudWatch Logs. The PATCH path for this setting is /{method_setting_key}/logging/loglevel, and the available levels are OFF, ERROR, and INFO. Choose ERROR to write only error-level entries to CloudWatch Logs, or choose INFO to include all ERROR events as well as extra informational events.
         public let loggingLevel: String?
@@ -3363,9 +3343,9 @@ extension APIGateway {
     }
 
     public struct MutualTlsAuthenticationInput: AWSEncodableShape {
-        /// An Amazon S3 resource ARN that specifies the truststore for mutual TLS authentication, for example, s3://bucket-name/key-name. The truststore can contain certificates from public or private certificate authorities. To update the truststore, upload a new version to S3, and then update your custom domain name to use the new version. To update the truststore, you must have permissions to access the S3 object.
+        /// An Amazon S3 URL that specifies the truststore for mutual TLS authentication, for example s3://bucket-name/key-name. The truststore can contain certificates from public or private certificate authorities. To update the truststore, upload a new version to S3, and then update your custom domain name to use the new version. To update the truststore, you must have permissions to access the S3 object.
         public let truststoreUri: String?
-        /// The version of the S3 object that contains your truststore. To specify a version, you must have versioning enabled for the S3 bucket.
+        /// The version of the S3 object that contains your truststore. To specify a version, you must have versioning enabled for the S3 bucket
         public let truststoreVersion: String?
 
         public init(truststoreUri: String? = nil, truststoreVersion: String? = nil) {
@@ -3382,11 +3362,11 @@ extension APIGateway {
     public struct PatchOperation: AWSEncodableShape {
         /// The copy update operation's source as identified by a JSON-Pointer value referencing the location within the targeted resource to copy the value from. For example, to promote a canary deployment, you copy the canary deployment ID to the affiliated deployment ID by calling a PATCH request on a Stage resource with "op":"copy", "from":"/canarySettings/deploymentId" and "path":"/deploymentId".
         public let from: String?
-        ///  An update operation to be performed with this PATCH request. The valid value can be add, remove,  replace or copy. Not all valid operations are supported for a given resource. Support of the operations depends on specific operational contexts. Attempts to apply an unsupported operation on a resource will return an error message.
+        /// An update operation to be performed with this PATCH request. The valid value can be add, remove, replace or copy. Not all valid operations are supported for a given resource. Support of the operations depends on specific operational contexts. Attempts to apply an unsupported operation on a resource will return an error message..
         public let op: Op?
         /// The op operation's target, as identified by a JSON Pointer value that references a location within the targeted resource. For example, if the target resource has an updateable property of {"name":"value"}, the path for this property is /name. If the name property value is a JSON object (e.g., {"name": {"child/name": "child-value"}}), the path for the child/name property will be /name/child~1name. Any slash ("/") character appearing in path names must be escaped with "~1", as shown in the example above. Each op operation can have only one path associated with it.
         public let path: String?
-        /// The new target value of the update operation. It is applicable for the add or replace operation. When using AWS CLI to update a property of a JSON value, enclose the JSON object with a pair of single quotes in a Linux shell, e.g., '{"a": ...}'. In a Windows shell, see Using JSON for Parameters.
+        /// The new target value of the update operation. It is applicable for the add or replace operation. When using AWS CLI to update a property of a JSON value, enclose the JSON object with a pair of single quotes in a Linux shell, e.g., '{"a": ...}'.
         public let value: String?
 
         public init(from: String? = nil, op: Op? = nil, path: String? = nil, value: String? = nil) {
@@ -3414,9 +3394,9 @@ extension APIGateway {
         public let responseParameters: [String: String]?
         /// Response templates of the GatewayResponse as a string-to-string map of key-value pairs.
         public let responseTemplates: [String: String]?
-        /// [Required] The response type of the associated GatewayResponse.
+        /// The response type of the associated GatewayResponse
         public let responseType: GatewayResponseType
-        /// [Required] The string identifier of the associated RestApi.
+        /// The string identifier of the associated RestApi.
         public let restApiId: String
         /// The HTTP status code of the GatewayResponse.
         public let statusCode: String?
@@ -3451,36 +3431,34 @@ extension APIGateway {
         public let cacheKeyParameters: [String]?
         /// Specifies a group of related cached parameters. By default, API Gateway uses the resource ID as the cacheNamespace. You can specify the same cacheNamespace across resources to return the same cached data for requests to different resources.
         public let cacheNamespace: String?
-        /// The (id) of the VpcLink used for the integration when connectionType=VPC_LINK and undefined, otherwise.
+        /// The ID of the VpcLink used for the integration. Specify this value only if you specify VPC_LINK as the connection type.
         public let connectionId: String?
         /// The type of the network connection to the integration endpoint. The valid value is INTERNET for connections through the public routable internet or VPC_LINK for private connections between API Gateway and a network load balancer in a VPC. The default value is INTERNET.
         public let connectionType: ConnectionType?
-        /// Specifies how to handle request payload content type conversions. Supported values are CONVERT_TO_BINARY and CONVERT_TO_TEXT, with the following behaviors:  CONVERT_TO_BINARY: Converts a request payload from a Base64-encoded string to the corresponding binary blob. CONVERT_TO_TEXT: Converts a request payload from a binary blob to a Base64-encoded string.  If this property is not defined, the request payload will be passed through from the method request to integration request without modification, provided that the passthroughBehavior is configured to support payload pass-through.
+        /// Specifies how to handle request payload content type conversions. Supported values are CONVERT_TO_BINARY and CONVERT_TO_TEXT, with the following behaviors:  If this property is not defined, the request payload will be passed through from the method request to integration request without modification, provided that the passthroughBehavior is configured to support payload pass-through.
         public let contentHandling: ContentHandlingStrategy?
         /// Specifies whether credentials are required for a put integration.
         public let credentials: String?
-        /// [Required] Specifies a put integration request's HTTP method.
+        /// Specifies the HTTP method for the integration.
         public let httpMethod: String
-        /// Specifies a put integration HTTP method. When the integration type is HTTP or AWS, this field is required.
+        /// The HTTP method for the integration.
         public let integrationHttpMethod: String?
-        /// Specifies the pass-through behavior for incoming requests based on the Content-Type header in the request, and the available mapping templates specified as the requestTemplates property on the Integration resource. There are three valid values:  WHEN_NO_MATCH, WHEN_NO_TEMPLATES, and NEVER.   WHEN_NO_MATCH passes the request body for unmapped content types through to the integration back end without transformation. NEVER rejects unmapped content types with an HTTP 415 'Unsupported Media Type' response. WHEN_NO_TEMPLATES allows pass-through when the integration has NO content types mapped to templates. However if there is at least one content type defined, unmapped content types will be rejected with the same 415 response.
+        /// Specifies the pass-through behavior for incoming requests based on the Content-Type header in the request, and the available mapping templates specified as the requestTemplates property on the Integration resource. There are three valid values:  WHEN_NO_MATCH, WHEN_NO_TEMPLATES, and NEVER.
         public let passthroughBehavior: String?
         /// A key-value map specifying request parameters that are passed from the method request to the back end. The key is an integration request parameter name and the associated value is a method request parameter value or static value that must be enclosed within single quotes and pre-encoded as required by the back end. The method request parameter value must match the pattern of  method.request.{location}.{name}, where location is querystring, path, or header and name must be a valid and unique method request parameter name.
         public let requestParameters: [String: String]?
         /// Represents a map of Velocity templates that are applied on the request payload based on the value of the Content-Type header sent by the client. The content type value is the key in this map, and the template (as a String) is the value.
         public let requestTemplates: [String: String]?
-        /// [Required] Specifies a put integration request's resource ID.
+        /// Specifies a put integration request's resource ID.
         public let resourceId: String
-        /// [Required] The string identifier of the associated RestApi.
+        /// The string identifier of the associated RestApi.
         public let restApiId: String
         /// Custom timeout between 50 and 29,000 milliseconds. The default value is 29,000 milliseconds or 29 seconds.
         public let timeoutInMillis: Int?
         public let tlsConfig: TlsConfig?
-        /// [Required] Specifies a put integration input's type.
+        /// Specifies a put integration input's type.
         public let type: IntegrationType
-        /// Specifies Uniform Resource Identifier (URI) of the integration endpoint.
-        ///  For HTTP or HTTP_PROXY integrations, the URI must be a fully formed, encoded HTTP(S) URL according to the RFC-3986 specification, for either standard integration, where connectionType is not VPC_LINK, or private integration, where connectionType is VPC_LINK. For a private HTTP integration, the URI is not used for routing.
-        ///  For AWS or AWS_PROXY integrations, the URI is of the form arn:aws:apigateway:{region}:{subdomain.service|service}:path|action/{service_api}. Here, {Region} is the API Gateway region (e.g., us-east-1); {service} is the name of the integrated AWS service (e.g., s3); and {subdomain} is a designated subdomain supported by certain AWS service for fast host-name lookup. action can be used for an AWS service action-based API, using an Action={name}&{p1}={v1}&p2={v2}... query string. The ensuing {service_api} refers to a supported action {name} plus any required input parameters. Alternatively, path can be used for an AWS service path-based API. The ensuing  service_api refers to the path to an AWS service resource, including the region of the integrated AWS service, if applicable. For example, for integration with the S3 API of GetObject, the uri can be either arn:aws:apigateway:us-west-2:s3:action/GetObject&Bucket={bucket}&Key={key} or  arn:aws:apigateway:us-west-2:s3:path/{bucket}/{key}
+        /// Specifies Uniform Resource Identifier (URI) of the integration endpoint. For HTTP or HTTP_PROXY integrations, the URI must be a fully formed, encoded HTTP(S) URL according to the RFC-3986 specification, for either standard integration, where connectionType is not VPC_LINK, or private integration, where connectionType is VPC_LINK. For a private HTTP integration, the URI is not used for routing. For AWS or AWS_PROXY integrations, the URI is of the form arn:aws:apigateway:{region}:{subdomain.service|service}:path|action/{service_api}. Here, {Region} is the API Gateway region (e.g., us-east-1); {service} is the name of the integrated Amazon Web Services service (e.g., s3); and {subdomain} is a designated subdomain supported by certain Amazon Web Services service for fast host-name lookup. action can be used for an Amazon Web Services service action-based API, using an Action={name}&{p1}={v1}&p2={v2}... query string. The ensuing {service_api} refers to a supported action {name} plus any required input parameters. Alternatively, path can be used for an Amazon Web Services service path-based API. The ensuing service_api refers to the path to an Amazon Web Services service resource, including the region of the integrated Amazon Web Services service, if applicable. For example, for integration with the S3 API of GetObject, the uri can be either arn:aws:apigateway:us-west-2:s3:action/GetObject&Bucket={bucket}&Key={key} or arn:aws:apigateway:us-west-2:s3:path/{bucket}/{key}.
         public let uri: String?
 
         public init(cacheKeyParameters: [String]? = nil, cacheNamespace: String? = nil, connectionId: String? = nil, connectionType: ConnectionType? = nil, contentHandling: ContentHandlingStrategy? = nil, credentials: String? = nil, httpMethod: String, integrationHttpMethod: String? = nil, passthroughBehavior: String? = nil, requestParameters: [String: String]? = nil, requestTemplates: [String: String]? = nil, resourceId: String, restApiId: String, timeoutInMillis: Int? = nil, tlsConfig: TlsConfig? = nil, type: IntegrationType, uri: String? = nil) {
@@ -3529,21 +3507,21 @@ extension APIGateway {
             AWSMemberEncoding(label: "statusCode", location: .uri("statusCode"))
         ]
 
-        /// Specifies how to handle response payload content type conversions. Supported values are CONVERT_TO_BINARY and CONVERT_TO_TEXT, with the following behaviors:  CONVERT_TO_BINARY: Converts a response payload from a Base64-encoded string to the corresponding binary blob. CONVERT_TO_TEXT: Converts a response payload from a binary blob to a Base64-encoded string.  If this property is not defined, the response payload will be passed through from the integration response to the method response without modification.
+        /// Specifies how to handle response payload content type conversions. Supported values are CONVERT_TO_BINARY and CONVERT_TO_TEXT, with the following behaviors:  If this property is not defined, the response payload will be passed through from the integration response to the method response without modification.
         public let contentHandling: ContentHandlingStrategy?
-        /// [Required] Specifies a put integration response request's HTTP method.
+        /// Specifies a put integration response request's HTTP method.
         public let httpMethod: String
-        /// [Required] Specifies a put integration response request's resource identifier.
+        /// Specifies a put integration response request's resource identifier.
         public let resourceId: String
         /// A key-value map specifying response parameters that are passed to the method response from the back end. The key is a method response header parameter name and the mapped value is an integration response header value, a static value enclosed within a pair of single quotes, or a JSON expression from the integration response body. The mapping key must match the pattern of method.response.header.{name}, where name is a valid and unique header name. The mapped non-static value must match the pattern of integration.response.header.{name} or integration.response.body.{JSON-expression}, where name must be a valid and unique response header name and JSON-expression a valid JSON expression without the $ prefix.
         public let responseParameters: [String: String]?
         /// Specifies a put integration response's templates.
         public let responseTemplates: [String: String]?
-        /// [Required] The string identifier of the associated RestApi.
+        /// The string identifier of the associated RestApi.
         public let restApiId: String
         /// Specifies the selection pattern of a put integration response.
         public let selectionPattern: String?
-        /// [Required] Specifies the status code that is used to map the integration response to an existing MethodResponse.
+        /// Specifies the status code that is used to map the integration response to an existing MethodResponse.
         public let statusCode: String
 
         public init(contentHandling: ContentHandlingStrategy? = nil, httpMethod: String, resourceId: String, responseParameters: [String: String]? = nil, responseTemplates: [String: String]? = nil, restApiId: String, selectionPattern: String? = nil, statusCode: String) {
@@ -3580,11 +3558,11 @@ extension APIGateway {
         public let apiKeyRequired: Bool?
         /// A list of authorization scopes configured on the method. The scopes are used with a COGNITO_USER_POOLS authorizer to authorize the method invocation. The authorization works by matching the method scopes against the scopes parsed from the access token in the incoming request. The method invocation is authorized if any method scopes matches a claimed scope in the access token. Otherwise, the invocation is not authorized. When the method scope is configured, the client must provide an access token instead of an identity token for authorization purposes.
         public let authorizationScopes: [String]?
-        /// [Required] The method's authorization type. Valid values are NONE for open access, AWS_IAM for using AWS IAM permissions, CUSTOM for using a custom authorizer, or COGNITO_USER_POOLS for using a Cognito user pool.
+        /// The method's authorization type. Valid values are NONE for open access, AWS_IAM for using AWS IAM permissions, CUSTOM for using a custom authorizer, or COGNITO_USER_POOLS for using a Cognito user pool.
         public let authorizationType: String
         /// Specifies the identifier of an Authorizer to use on this Method, if the type is CUSTOM or COGNITO_USER_POOLS. The authorizer identifier is generated by API Gateway when you created the authorizer.
         public let authorizerId: String?
-        /// [Required] Specifies the method request's HTTP method type.
+        /// Specifies the method request's HTTP method type.
         public let httpMethod: String
         /// A human-friendly operation identifier for the method. For example, you can assign the operationName of ListPets for the GET /pets method in the PetStore example.
         public let operationName: String?
@@ -3594,9 +3572,9 @@ extension APIGateway {
         public let requestParameters: [String: Bool]?
         /// The identifier of a RequestValidator for validating the method request.
         public let requestValidatorId: String?
-        /// [Required] The Resource identifier for the new Method resource.
+        /// The Resource identifier for the new Method resource.
         public let resourceId: String
-        /// [Required] The string identifier of the associated RestApi.
+        /// The string identifier of the associated RestApi.
         public let restApiId: String
 
         public init(apiKeyRequired: Bool? = nil, authorizationScopes: [String]? = nil, authorizationType: String, authorizerId: String? = nil, httpMethod: String, operationName: String? = nil, requestModels: [String: String]? = nil, requestParameters: [String: Bool]? = nil, requestValidatorId: String? = nil, resourceId: String, restApiId: String) {
@@ -3633,17 +3611,17 @@ extension APIGateway {
             AWSMemberEncoding(label: "statusCode", location: .uri("statusCode"))
         ]
 
-        /// [Required] The HTTP verb of the Method resource.
+        /// The HTTP verb of the Method resource.
         public let httpMethod: String
-        /// [Required] The Resource identifier for the Method resource.
+        /// The Resource identifier for the Method resource.
         public let resourceId: String
         /// Specifies the Model resources used for the response's content type. Response models are represented as a key/value map, with a content type as the key and a Model name as the value.
         public let responseModels: [String: String]?
         /// A key-value map specifying required or optional response parameters that API Gateway can send back to the caller. A key defines a method response header name and the associated value is a Boolean flag indicating whether the method response parameter is required or not. The method response header names must match the pattern of method.response.header.{name}, where name is a valid and unique header name. The response parameter names defined here are available in the integration response to be mapped from an integration response header expressed in integration.response.header.{name}, a static value enclosed within a pair of single quotes (e.g., 'application/json'), or a JSON expression from the back-end response payload in the form of integration.response.body.{JSON-expression}, where JSON-expression is a valid JSON expression without the $ prefix.)
         public let responseParameters: [String: Bool]?
-        /// [Required] The string identifier of the associated RestApi.
+        /// The string identifier of the associated RestApi.
         public let restApiId: String
-        /// [Required] The method response's status code.
+        /// The method response's status code.
         public let statusCode: String
 
         public init(httpMethod: String, resourceId: String, responseModels: [String: String]? = nil, responseParameters: [String: Bool]? = nil, restApiId: String, statusCode: String) {
@@ -3675,7 +3653,7 @@ extension APIGateway {
             AWSMemberEncoding(label: "restApiId", location: .uri("restApiId"))
         ]
 
-        /// [Required] The PUT request body containing external API definitions. Currently, only OpenAPI definition JSON/YAML files are supported. The maximum size of the API definition file is 6MB.
+        /// The PUT request body containing external API definitions. Currently, only OpenAPI definition JSON/YAML files are supported. The maximum size of the API definition file is 6MB.
         public let body: AWSPayload
         /// A query parameter to indicate whether to rollback the API update (true) or not (false) when a warning is encountered. The default value is false.
         public let failOnWarnings: Bool?
@@ -3683,7 +3661,7 @@ extension APIGateway {
         public let mode: PutMode?
         /// Custom header parameters as part of the request. For example, to exclude DocumentationParts from an imported API, set ignore=documentation as a parameters value, as in the AWS CLI command of aws apigateway import-rest-api --parameters ignore=documentation --body 'file:///path/to/imported-api-body.json'.
         public let parameters: [String: String]?
-        /// [Required] The string identifier of the associated RestApi.
+        /// The string identifier of the associated RestApi.
         public let restApiId: String
 
         public init(body: AWSPayload, failOnWarnings: Bool? = nil, mode: PutMode? = nil, parameters: [String: String]? = nil, restApiId: String) {
@@ -3702,7 +3680,7 @@ extension APIGateway {
     public struct QuotaSettings: AWSEncodableShape & AWSDecodableShape {
         /// The target maximum number of requests that can be made in a given time period.
         public let limit: Int?
-        /// The day that a time period starts. For example, with a time period of WEEK, an offset of 0 starts on Sunday, and an offset of 1 starts on Monday.
+        /// The number of requests subtracted from the given limit in the initial time period.
         public let offset: Int?
         /// The time period in which the limit applies. Valid values are "DAY", "WEEK" or "MONTH".
         public let period: QuotaPeriodType?
@@ -3775,12 +3753,7 @@ extension APIGateway {
         public let path: String?
         /// The last path segment for this resource.
         public let pathPart: String?
-        /// Gets an API resource's method of a given HTTP verb.  The resource methods are a map of methods indexed by methods' HTTP verbs enabled on the resource. This method map is included in the 200 OK response of the GET /restapis/{restapi_id}/resources/{resource_id} or GET /restapis/{restapi_id}/resources/{resource_id}?embed=methods request. Example: Get the GET method of an API resource Request GET /restapis/fugvjdxtri/resources/3kzxbg5sa2/methods/GET HTTP/1.1
-        /// Content-Type: application/json
-        /// Host: apigateway.us-east-1.amazonaws.com
-        /// X-Amz-Date: 20170223T031827Z
-        /// Authorization: AWS4-HMAC-SHA256 Credential={access_key_ID}/20170223/us-east-1/apigateway/aws4_request, SignedHeaders=content-type;host;x-amz-date, Signature={sig4_hash} Response { "_links": { "curies": [ { "href": "https://docs.aws.amazon.com/apigateway/latest/developerguide/restapi-integration-{rel}.html", "name": "integration", "templated": true }, { "href": "https://docs.aws.amazon.com/apigateway/latest/developerguide/restapi-integration-response-{rel}.html", "name": "integrationresponse", "templated": true }, { "href": "https://docs.aws.amazon.com/apigateway/latest/developerguide/restapi-method-{rel}.html", "name": "method", "templated": true }, { "href": "https://docs.aws.amazon.com/apigateway/latest/developerguide/restapi-method-response-{rel}.html", "name": "methodresponse", "templated": true } ], "self": { "href": "/restapis/fugvjdxtri/resources/3kzxbg5sa2/methods/GET", "name": "GET", "title": "GET" }, "integration:put": { "href": "/restapis/fugvjdxtri/resources/3kzxbg5sa2/methods/GET/integration" }, "method:delete": { "href": "/restapis/fugvjdxtri/resources/3kzxbg5sa2/methods/GET" }, "method:integration": { "href": "/restapis/fugvjdxtri/resources/3kzxbg5sa2/methods/GET/integration" }, "method:responses": { "href": "/restapis/fugvjdxtri/resources/3kzxbg5sa2/methods/GET/responses/200", "name": "200", "title": "200" }, "method:update": { "href": "/restapis/fugvjdxtri/resources/3kzxbg5sa2/methods/GET" }, "methodresponse:put": { "href": "/restapis/fugvjdxtri/resources/3kzxbg5sa2/methods/GET/responses/{status_code}", "templated": true } }, "apiKeyRequired": false, "authorizationType": "NONE", "httpMethod": "GET", "_embedded": { "method:integration": { "_links": { "self": { "href": "/restapis/fugvjdxtri/resources/3kzxbg5sa2/methods/GET/integration" }, "integration:delete": { "href": "/restapis/fugvjdxtri/resources/3kzxbg5sa2/methods/GET/integration" }, "integration:responses": { "href": "/restapis/fugvjdxtri/resources/3kzxbg5sa2/methods/GET/integration/responses/200", "name": "200", "title": "200" }, "integration:update": { "href": "/restapis/fugvjdxtri/resources/3kzxbg5sa2/methods/GET/integration" }, "integrationresponse:put": { "href": "/restapis/fugvjdxtri/resources/3kzxbg5sa2/methods/GET/integration/responses/{status_code}", "templated": true } }, "cacheKeyParameters": [], "cacheNamespace": "3kzxbg5sa2", "credentials": "arn:aws:iam::123456789012:role/apigAwsProxyRole", "httpMethod": "POST", "passthroughBehavior": "WHEN_NO_MATCH", "requestParameters": { "integration.request.header.Content-Type": "'application/x-amz-json-1.1'" }, "requestTemplates": { "application/json": "{\n}" }, "type": "AWS", "uri": "arn:aws:apigateway:us-east-1:kinesis:action/ListStreams", "_embedded": { "integration:responses": { "_links": { "self": { "href": "/restapis/fugvjdxtri/resources/3kzxbg5sa2/methods/GET/integration/responses/200", "name": "200", "title": "200" }, "integrationresponse:delete": { "href": "/restapis/fugvjdxtri/resources/3kzxbg5sa2/methods/GET/integration/responses/200" }, "integrationresponse:update": { "href": "/restapis/fugvjdxtri/resources/3kzxbg5sa2/methods/GET/integration/responses/200" } }, "responseParameters": { "method.response.header.Content-Type": "'application/xml'" }, "responseTemplates": { "application/json": "$util.urlDecode(\"%3CkinesisStreams%3E#foreach($stream in $input.path('$.StreamNames'))%3Cstream%3E%3Cname%3E$stream%3C/name%3E%3C/stream%3E#end%3C/kinesisStreams%3E\")\n" }, "statusCode": "200" } } }, "method:responses": { "_links": { "self": { "href": "/restapis/fugvjdxtri/resources/3kzxbg5sa2/methods/GET/responses/200", "name": "200", "title": "200" }, "methodresponse:delete": { "href": "/restapis/fugvjdxtri/resources/3kzxbg5sa2/methods/GET/responses/200" }, "methodresponse:update": { "href": "/restapis/fugvjdxtri/resources/3kzxbg5sa2/methods/GET/responses/200" } }, "responseModels": { "application/json": "Empty" }, "responseParameters": { "method.response.header.Content-Type": false }, "statusCode": "200" } }
-        /// } If the OPTIONS is enabled on the resource, you can follow the example here to get that method. Just replace the GET of the last path segment in the request URL with OPTIONS.
+        /// Gets an API resource's method of a given HTTP verb.
         public let resourceMethods: [String: Method]?
 
         public init(id: String? = nil, parentId: String? = nil, path: String? = nil, pathPart: String? = nil, resourceMethods: [String: Method]? = nil) {
@@ -3822,7 +3795,7 @@ extension APIGateway {
     }
 
     public struct RestApi: AWSDecodableShape {
-        /// The source of the API key for metering requests according to a usage plan. Valid values are: HEADER to read the API key from the X-API-Key header of a request. AUTHORIZER to read the API key from the UsageIdentifierKey from a custom authorizer.
+        /// The source of the API key for metering requests according to a usage plan. Valid values are: >HEADER to read the API key from the X-API-Key header of a request. AUTHORIZER to read the API key from the UsageIdentifierKey from a custom authorizer.
         public let apiKeySource: ApiKeySourceType?
         /// The list of binary media types supported by the RestApi. By default, the RestApi supports only UTF-8-encoded text payloads.
         public let binaryMediaTypes: [String]?
@@ -4022,7 +3995,7 @@ extension APIGateway {
         public let documentationVersion: String?
         /// The timestamp when the stage last updated.
         public let lastUpdatedDate: Date?
-        /// A map that defines the method settings for a Stage resource. Keys (designated as /{method_setting_key below) are method paths defined as {resource_path}/{http_method} for an individual method override, or /\*/\* for overriding all methods in the stage.  resource_path part must be encoded as "~1" as in, for example, ~1resource~1sub-resource/GET.-->
+        /// A map that defines the method settings for a Stage resource. Keys (designated as /{method_setting_key below) are method paths defined as {resource_path}/{http_method} for an individual method override, or /\*/\* for overriding all methods in the stage.
         public let methodSettings: [String: MethodSetting]?
         /// The name of the stage is the first path segment in the Uniform Resource Identifier (URI) of a call to API Gateway. Stage names can only contain alphanumeric characters, hyphens, and underscores. Maximum length is 128 characters.
         public let stageName: String?
@@ -4111,9 +4084,9 @@ extension APIGateway {
             AWSMemberEncoding(label: "resourceArn", location: .uri("resourceArn"))
         ]
 
-        /// [Required] The ARN of a resource that can be tagged.
+        /// The ARN of a resource that can be tagged.
         public let resourceArn: String
-        /// [Required] The key-value map of strings. The valid character set is [a-zA-Z+-=._:/]. The tag key can be up to 128 characters and must not start with aws:. The tag value can be up to 256 characters.
+        /// The key-value map of strings. The valid character set is [a-zA-Z+-=._:/]. The tag key can be up to 128 characters and must not start with aws:. The tag value can be up to 256 characters.
         public let tags: [String: String]
 
         public init(resourceArn: String, tags: [String: String]) {
@@ -4158,19 +4131,19 @@ extension APIGateway {
             AWSMemberEncoding(label: "restApiId", location: .uri("restApiId"))
         ]
 
-        /// [Optional] A key-value map of additional context variables.
+        /// A key-value map of additional context variables.
         public let additionalContext: [String: String]?
-        /// [Required] Specifies a test invoke authorizer request's Authorizer ID.
+        /// Specifies a test invoke authorizer request's Authorizer ID.
         public let authorizerId: String
-        /// [Optional] The simulated request body of an incoming invocation request.
+        /// The simulated request body of an incoming invocation request.
         public let body: String?
-        /// [Required] A key-value map of headers to simulate an incoming invocation request. This is where the incoming authorization token, or identity source, should be specified.
+        /// A key-value map of headers to simulate an incoming invocation request. This is where the incoming authorization token, or identity source, should be specified.
         public let headers: [String: String]?
-        /// [Optional] The headers as a map from string to list of values to simulate an incoming invocation request. This is where the incoming authorization token, or identity source, may be specified.
+        /// The headers as a map from string to list of values to simulate an incoming invocation request. This is where the incoming authorization token, or identity source, may be specified.
         public let multiValueHeaders: [String: [String]]?
-        /// [Optional] The URI path, including query string, of the simulated invocation request. Use this to specify path parameters and query string parameters.
+        /// The URI path, including query string, of the simulated invocation request. Use this to specify path parameters and query string parameters.
         public let pathWithQueryString: String?
-        /// [Required] The string identifier of the associated RestApi.
+        /// The string identifier of the associated RestApi.
         public let restApiId: String
         /// A key-value map of stage variables to simulate an invocation on a deployed Stage.
         public let stageVariables: [String: String]?
@@ -4197,6 +4170,7 @@ extension APIGateway {
     }
 
     public struct TestInvokeAuthorizerResponse: AWSDecodableShape {
+        /// The authorization response.
         public let authorization: [String: [String]]?
         /// The open identity claims, with any supported custom attributes, returned from the Cognito Your User Pool configured for the API.
         public let claims: [String: String]?
@@ -4245,15 +4219,15 @@ extension APIGateway {
         public let clientCertificateId: String?
         /// A key-value map of headers to simulate an incoming invocation request.
         public let headers: [String: String]?
-        /// [Required] Specifies a test invoke method request's HTTP method.
+        /// Specifies a test invoke method request's HTTP method.
         public let httpMethod: String
         /// The headers as a map from string to list of values to simulate an incoming invocation request.
         public let multiValueHeaders: [String: [String]]?
         /// The URI path, including query string, of the simulated invocation request. Use this to specify path parameters and query string parameters.
         public let pathWithQueryString: String?
-        /// [Required] Specifies a test invoke method request's resource ID.
+        /// Specifies a test invoke method request's resource ID.
         public let resourceId: String
-        /// [Required] The string identifier of the associated RestApi.
+        /// The string identifier of the associated RestApi.
         public let restApiId: String
         /// A key-value map of stage variables to simulate an invocation on a deployed Stage.
         public let stageVariables: [String: String]?
@@ -4349,9 +4323,9 @@ extension APIGateway {
             AWSMemberEncoding(label: "tagKeys", location: .querystring("tagKeys"))
         ]
 
-        /// [Required] The ARN of a resource that can be tagged.
+        /// The ARN of a resource that can be tagged.
         public let resourceArn: String
-        /// [Required] The Tag keys to delete.
+        /// The Tag keys to delete.
         public let tagKeys: [String]
 
         public init(resourceArn: String, tagKeys: [String]) {
@@ -4363,7 +4337,7 @@ extension APIGateway {
     }
 
     public struct UpdateAccountRequest: AWSEncodableShape {
-        /// A list of update operations to be applied to the specified resource and in the order specified in this list.
+        /// For more information about supported patch operations, see Patch Operations.
         public let patchOperations: [PatchOperation]?
 
         public init(patchOperations: [PatchOperation]? = nil) {
@@ -4380,9 +4354,9 @@ extension APIGateway {
             AWSMemberEncoding(label: "apiKey", location: .uri("apiKey"))
         ]
 
-        /// [Required] The identifier of the ApiKey resource to be updated.
+        /// The identifier of the ApiKey resource to be updated.
         public let apiKey: String
-        /// A list of update operations to be applied to the specified resource and in the order specified in this list.
+        /// For more information about supported patch operations, see Patch Operations.
         public let patchOperations: [PatchOperation]?
 
         public init(apiKey: String, patchOperations: [PatchOperation]? = nil) {
@@ -4401,11 +4375,11 @@ extension APIGateway {
             AWSMemberEncoding(label: "restApiId", location: .uri("restApiId"))
         ]
 
-        /// [Required] The identifier of the Authorizer resource.
+        /// The identifier of the Authorizer resource.
         public let authorizerId: String
-        /// A list of update operations to be applied to the specified resource and in the order specified in this list.
+        /// For more information about supported patch operations, see Patch Operations.
         public let patchOperations: [PatchOperation]?
-        /// [Required] The string identifier of the associated RestApi.
+        /// The string identifier of the associated RestApi.
         public let restApiId: String
 
         public init(authorizerId: String, patchOperations: [PatchOperation]? = nil, restApiId: String) {
@@ -4425,11 +4399,11 @@ extension APIGateway {
             AWSMemberEncoding(label: "domainName", location: .uri("domainName"))
         ]
 
-        /// [Required] The base path of the BasePathMapping resource to change. To specify an empty base path, set this parameter to '(none)'.
+        /// The base path of the BasePathMapping resource to change. To specify an empty base path, set this parameter to '(none)'.
         public let basePath: String
-        /// [Required] The domain name of the BasePathMapping resource to change.
+        /// The domain name of the BasePathMapping resource to change.
         public let domainName: String
-        /// A list of update operations to be applied to the specified resource and in the order specified in this list.
+        /// For more information about supported patch operations, see Patch Operations.
         public let patchOperations: [PatchOperation]?
 
         public init(basePath: String, domainName: String, patchOperations: [PatchOperation]? = nil) {
@@ -4448,9 +4422,9 @@ extension APIGateway {
             AWSMemberEncoding(label: "clientCertificateId", location: .uri("clientCertificateId"))
         ]
 
-        /// [Required] The identifier of the ClientCertificate resource to be updated.
+        /// The identifier of the ClientCertificate resource to be updated.
         public let clientCertificateId: String
-        /// A list of update operations to be applied to the specified resource and in the order specified in this list.
+        /// For more information about supported patch operations, see Patch Operations.
         public let patchOperations: [PatchOperation]?
 
         public init(clientCertificateId: String, patchOperations: [PatchOperation]? = nil) {
@@ -4471,9 +4445,9 @@ extension APIGateway {
 
         /// The replacement identifier for the Deployment resource to change information about.
         public let deploymentId: String
-        /// A list of update operations to be applied to the specified resource and in the order specified in this list.
+        /// For more information about supported patch operations, see Patch Operations.
         public let patchOperations: [PatchOperation]?
-        /// [Required] The string identifier of the associated RestApi.
+        /// The string identifier of the associated RestApi.
         public let restApiId: String
 
         public init(deploymentId: String, patchOperations: [PatchOperation]? = nil, restApiId: String) {
@@ -4493,11 +4467,11 @@ extension APIGateway {
             AWSMemberEncoding(label: "restApiId", location: .uri("restApiId"))
         ]
 
-        /// [Required] The identifier of the to-be-updated documentation part.
+        /// The identifier of the to-be-updated documentation part.
         public let documentationPartId: String
-        /// A list of update operations to be applied to the specified resource and in the order specified in this list.
+        /// For more information about supported patch operations, see Patch Operations.
         public let patchOperations: [PatchOperation]?
-        /// [Required] The string identifier of the associated RestApi.
+        /// The string identifier of the associated RestApi.
         public let restApiId: String
 
         public init(documentationPartId: String, patchOperations: [PatchOperation]? = nil, restApiId: String) {
@@ -4517,11 +4491,11 @@ extension APIGateway {
             AWSMemberEncoding(label: "restApiId", location: .uri("restApiId"))
         ]
 
-        /// [Required] The version identifier of the to-be-updated documentation version.
+        /// The version identifier of the to-be-updated documentation version.
         public let documentationVersion: String
-        /// A list of update operations to be applied to the specified resource and in the order specified in this list.
+        /// For more information about supported patch operations, see Patch Operations.
         public let patchOperations: [PatchOperation]?
-        /// [Required] The string identifier of the associated RestApi..
+        /// The string identifier of the associated RestApi..
         public let restApiId: String
 
         public init(documentationVersion: String, patchOperations: [PatchOperation]? = nil, restApiId: String) {
@@ -4540,9 +4514,9 @@ extension APIGateway {
             AWSMemberEncoding(label: "domainName", location: .uri("domainName"))
         ]
 
-        /// [Required] The name of the DomainName resource to be changed.
+        /// The name of the DomainName resource to be changed.
         public let domainName: String
-        /// A list of update operations to be applied to the specified resource and in the order specified in this list.
+        /// For more information about supported patch operations, see Patch Operations.
         public let patchOperations: [PatchOperation]?
 
         public init(domainName: String, patchOperations: [PatchOperation]? = nil) {
@@ -4561,11 +4535,11 @@ extension APIGateway {
             AWSMemberEncoding(label: "restApiId", location: .uri("restApiId"))
         ]
 
-        /// A list of update operations to be applied to the specified resource and in the order specified in this list.
+        /// For more information about supported patch operations, see Patch Operations.
         public let patchOperations: [PatchOperation]?
-        /// [Required] The response type of the associated GatewayResponse.
+        /// The response type of the associated GatewayResponse.
         public let responseType: GatewayResponseType
-        /// [Required] The string identifier of the associated RestApi.
+        /// The string identifier of the associated RestApi.
         public let restApiId: String
 
         public init(patchOperations: [PatchOperation]? = nil, responseType: GatewayResponseType, restApiId: String) {
@@ -4586,13 +4560,13 @@ extension APIGateway {
             AWSMemberEncoding(label: "restApiId", location: .uri("restApiId"))
         ]
 
-        /// [Required] Represents an update integration request's HTTP method.
+        /// Represents an update integration request's HTTP method.
         public let httpMethod: String
-        /// A list of update operations to be applied to the specified resource and in the order specified in this list.
+        /// For more information about supported patch operations, see Patch Operations.
         public let patchOperations: [PatchOperation]?
-        /// [Required] Represents an update integration request's resource identifier.
+        /// Represents an update integration request's resource identifier.
         public let resourceId: String
-        /// [Required] The string identifier of the associated RestApi.
+        /// The string identifier of the associated RestApi.
         public let restApiId: String
 
         public init(httpMethod: String, patchOperations: [PatchOperation]? = nil, resourceId: String, restApiId: String) {
@@ -4615,15 +4589,15 @@ extension APIGateway {
             AWSMemberEncoding(label: "statusCode", location: .uri("statusCode"))
         ]
 
-        /// [Required] Specifies an update integration response request's HTTP method.
+        /// Specifies an update integration response request's HTTP method.
         public let httpMethod: String
-        /// A list of update operations to be applied to the specified resource and in the order specified in this list.
+        /// For more information about supported patch operations, see Patch Operations.
         public let patchOperations: [PatchOperation]?
-        /// [Required] Specifies an update integration response request's resource identifier.
+        /// Specifies an update integration response request's resource identifier.
         public let resourceId: String
-        /// [Required] The string identifier of the associated RestApi.
+        /// The string identifier of the associated RestApi.
         public let restApiId: String
-        /// [Required] Specifies an update integration response request's status code.
+        /// Specifies an update integration response request's status code.
         public let statusCode: String
 
         public init(httpMethod: String, patchOperations: [PatchOperation]? = nil, resourceId: String, restApiId: String, statusCode: String) {
@@ -4650,13 +4624,13 @@ extension APIGateway {
             AWSMemberEncoding(label: "restApiId", location: .uri("restApiId"))
         ]
 
-        /// [Required] The HTTP verb of the Method resource.
+        /// The HTTP verb of the Method resource.
         public let httpMethod: String
-        /// A list of update operations to be applied to the specified resource and in the order specified in this list.
+        /// For more information about supported patch operations, see Patch Operations.
         public let patchOperations: [PatchOperation]?
-        /// [Required] The Resource identifier for the Method resource.
+        /// The Resource identifier for the Method resource.
         public let resourceId: String
-        /// [Required] The string identifier of the associated RestApi.
+        /// The string identifier of the associated RestApi.
         public let restApiId: String
 
         public init(httpMethod: String, patchOperations: [PatchOperation]? = nil, resourceId: String, restApiId: String) {
@@ -4679,15 +4653,15 @@ extension APIGateway {
             AWSMemberEncoding(label: "statusCode", location: .uri("statusCode"))
         ]
 
-        /// [Required] The HTTP verb of the Method resource.
+        /// The HTTP verb of the Method resource.
         public let httpMethod: String
-        /// A list of update operations to be applied to the specified resource and in the order specified in this list.
+        /// For more information about supported patch operations, see Patch Operations.
         public let patchOperations: [PatchOperation]?
-        /// [Required] The Resource identifier for the MethodResponse resource.
+        /// The Resource identifier for the MethodResponse resource.
         public let resourceId: String
-        /// [Required] The string identifier of the associated RestApi.
+        /// The string identifier of the associated RestApi.
         public let restApiId: String
-        /// [Required] The status code for the MethodResponse resource.
+        /// The status code for the MethodResponse resource.
         public let statusCode: String
 
         public init(httpMethod: String, patchOperations: [PatchOperation]? = nil, resourceId: String, restApiId: String, statusCode: String) {
@@ -4713,11 +4687,11 @@ extension APIGateway {
             AWSMemberEncoding(label: "restApiId", location: .uri("restApiId"))
         ]
 
-        /// [Required] The name of the model to update.
+        /// The name of the model to update.
         public let modelName: String
-        /// A list of update operations to be applied to the specified resource and in the order specified in this list.
+        /// For more information about supported patch operations, see Patch Operations.
         public let patchOperations: [PatchOperation]?
-        /// [Required] The string identifier of the associated RestApi.
+        /// The string identifier of the associated RestApi.
         public let restApiId: String
 
         public init(modelName: String, patchOperations: [PatchOperation]? = nil, restApiId: String) {
@@ -4737,11 +4711,11 @@ extension APIGateway {
             AWSMemberEncoding(label: "restApiId", location: .uri("restApiId"))
         ]
 
-        /// A list of update operations to be applied to the specified resource and in the order specified in this list.
+        /// For more information about supported patch operations, see Patch Operations.
         public let patchOperations: [PatchOperation]?
-        /// [Required] The identifier of RequestValidator to be updated.
+        /// The identifier of RequestValidator to be updated.
         public let requestValidatorId: String
-        /// [Required] The string identifier of the associated RestApi.
+        /// The string identifier of the associated RestApi.
         public let restApiId: String
 
         public init(patchOperations: [PatchOperation]? = nil, requestValidatorId: String, restApiId: String) {
@@ -4761,11 +4735,11 @@ extension APIGateway {
             AWSMemberEncoding(label: "restApiId", location: .uri("restApiId"))
         ]
 
-        /// A list of update operations to be applied to the specified resource and in the order specified in this list.
+        /// For more information about supported patch operations, see Patch Operations.
         public let patchOperations: [PatchOperation]?
-        /// [Required] The identifier of the Resource resource.
+        /// The identifier of the Resource resource.
         public let resourceId: String
-        /// [Required] The string identifier of the associated RestApi.
+        /// The string identifier of the associated RestApi.
         public let restApiId: String
 
         public init(patchOperations: [PatchOperation]? = nil, resourceId: String, restApiId: String) {
@@ -4784,9 +4758,9 @@ extension APIGateway {
             AWSMemberEncoding(label: "restApiId", location: .uri("restApiId"))
         ]
 
-        /// A list of update operations to be applied to the specified resource and in the order specified in this list.
+        /// For more information about supported patch operations, see Patch Operations.
         public let patchOperations: [PatchOperation]?
-        /// [Required] The string identifier of the associated RestApi.
+        /// The string identifier of the associated RestApi.
         public let restApiId: String
 
         public init(patchOperations: [PatchOperation]? = nil, restApiId: String) {
@@ -4805,11 +4779,11 @@ extension APIGateway {
             AWSMemberEncoding(label: "stageName", location: .uri("stageName"))
         ]
 
-        /// A list of update operations to be applied to the specified resource and in the order specified in this list.
+        /// For more information about supported patch operations, see Patch Operations.
         public let patchOperations: [PatchOperation]?
-        /// [Required] The string identifier of the associated RestApi.
+        /// The string identifier of the associated RestApi.
         public let restApiId: String
-        /// [Required] The name of the Stage resource to change information about.
+        /// The name of the Stage resource to change information about.
         public let stageName: String
 
         public init(patchOperations: [PatchOperation]? = nil, restApiId: String, stageName: String) {
@@ -4828,9 +4802,9 @@ extension APIGateway {
             AWSMemberEncoding(label: "usagePlanId", location: .uri("usagePlanId"))
         ]
 
-        /// A list of update operations to be applied to the specified resource and in the order specified in this list.
+        /// For more information about supported patch operations, see Patch Operations.
         public let patchOperations: [PatchOperation]?
-        /// [Required] The Id of the to-be-updated usage plan.
+        /// The Id of the to-be-updated usage plan.
         public let usagePlanId: String
 
         public init(patchOperations: [PatchOperation]? = nil, usagePlanId: String) {
@@ -4849,11 +4823,11 @@ extension APIGateway {
             AWSMemberEncoding(label: "usagePlanId", location: .uri("usagePlanId"))
         ]
 
-        /// [Required] The identifier of the API key associated with the usage plan in which a temporary extension is granted to the remaining quota.
+        /// The identifier of the API key associated with the usage plan in which a temporary extension is granted to the remaining quota.
         public let keyId: String
-        /// A list of update operations to be applied to the specified resource and in the order specified in this list.
+        /// For more information about supported patch operations, see Patch Operations.
         public let patchOperations: [PatchOperation]?
-        /// [Required] The Id of the usage plan associated with the usage data.
+        /// The Id of the usage plan associated with the usage data.
         public let usagePlanId: String
 
         public init(keyId: String, patchOperations: [PatchOperation]? = nil, usagePlanId: String) {
@@ -4872,9 +4846,9 @@ extension APIGateway {
             AWSMemberEncoding(label: "vpcLinkId", location: .uri("vpcLinkId"))
         ]
 
-        /// A list of update operations to be applied to the specified resource and in the order specified in this list.
+        /// For more information about supported patch operations, see Patch Operations.
         public let patchOperations: [PatchOperation]?
-        /// [Required] The identifier of the  VpcLink. It is used in an Integration to reference this VpcLink.
+        /// The identifier of the  VpcLink. It is used in an Integration to reference this VpcLink.
         public let vpcLinkId: String
 
         public init(patchOperations: [PatchOperation]? = nil, vpcLinkId: String) {
@@ -4935,7 +4909,7 @@ extension APIGateway {
         public let quota: QuotaSettings?
         /// The collection of tags. Each tag element is associated with a given resource.
         public let tags: [String: String]?
-        /// Map containing method level throttling information for API stage in a usage plan.
+        /// A map containing method level throttling information for API stage in a usage plan.
         public let throttle: ThrottleSettings?
 
         public init(apiStages: [ApiStage]? = nil, description: String? = nil, id: String? = nil, name: String? = nil, productCode: String? = nil, quota: QuotaSettings? = nil, tags: [String: String]? = nil, throttle: ThrottleSettings? = nil) {

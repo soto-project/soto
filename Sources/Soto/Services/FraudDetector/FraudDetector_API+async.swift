@@ -78,7 +78,7 @@ extension FraudDetector {
         return try await self.client.execute(operation: "CreateVariable", path: "/", httpMethod: .POST, serviceConfig: self.config, input: input, logger: logger, on: eventLoop)
     }
 
-    /// Deletes data that was batch imported to Amazon Fraud Detector.
+    /// Deletes the specified batch import job ID record. This action does not delete the data that was batch imported.
     public func deleteBatchImportJob(_ input: DeleteBatchImportJobRequest, logger: Logger = AWSClient.loggingDisabled, on eventLoop: EventLoop? = nil) async throws -> DeleteBatchImportJobResult {
         return try await self.client.execute(operation: "DeleteBatchImportJob", path: "/", httpMethod: .POST, serviceConfig: self.config, input: input, logger: logger, on: eventLoop)
     }
@@ -365,7 +365,7 @@ extension FraudDetector {
         return try await self.client.execute(operation: "UpdateModelVersion", path: "/", httpMethod: .POST, serviceConfig: self.config, input: input, logger: logger, on: eventLoop)
     }
 
-    /// Updates the status of a model version. You can perform the following status updates:    Change the TRAINING_COMPLETE status to ACTIVE.   Change ACTIVE to INACTIVE.
+    /// Updates the status of a model version. You can perform the following status updates:    Change the TRAINING_IN_PROGRESS status to TRAINING_CANCELLED.   Change the TRAINING_COMPLETE status to ACTIVE.   Change ACTIVE to INACTIVE.
     public func updateModelVersionStatus(_ input: UpdateModelVersionStatusRequest, logger: Logger = AWSClient.loggingDisabled, on eventLoop: EventLoop? = nil) async throws -> UpdateModelVersionStatusResult {
         return try await self.client.execute(operation: "UpdateModelVersionStatus", path: "/", httpMethod: .POST, serviceConfig: self.config, input: input, logger: logger, on: eventLoop)
     }

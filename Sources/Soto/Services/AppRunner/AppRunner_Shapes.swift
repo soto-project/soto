@@ -382,7 +382,7 @@ extension AppRunner {
     }
 
     public struct CodeRepository: AWSEncodableShape & AWSDecodableShape {
-        /// Configuration for building and running the service from a source code repository.
+        /// Configuration for building and running the service from a source code repository.   CodeConfiguration is required only for CreateService request.
         public let codeConfiguration: CodeConfiguration?
         /// The location of the repository that contains the source code.
         public let repositoryUrl: String
@@ -693,7 +693,7 @@ extension AppRunner {
     public struct CreateVpcConnectorRequest: AWSEncodableShape {
         /// A list of IDs of security groups that App Runner should use for access to Amazon Web Services resources under the specified subnets. If not specified, App Runner uses the default security group of the Amazon VPC. The default security group allows all outbound traffic.
         public let securityGroups: [String]?
-        /// A list of IDs of subnets that App Runner should use when it associates your service with a custom Amazon VPC. Specify IDs of subnets of a single Amazon VPC. App Runner determines the Amazon VPC from the subnets you specify.
+        /// A list of IDs of subnets that App Runner should use when it associates your service with a custom Amazon VPC. Specify IDs of subnets of a single Amazon VPC. App Runner determines the Amazon VPC from the subnets you specify.   App Runner currently only provides support for IPv4.
         public let subnets: [String]
         /// A list of metadata items that you can associate with your VPC connector resource. A tag is a key-value pair.
         public let tags: [Tag]?

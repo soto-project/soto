@@ -241,6 +241,11 @@ extension ChimeSDKMessaging {
         return try await self.client.execute(operation: "RedactChannelMessage", path: "/channels/{ChannelArn}/messages/{MessageId}?operation=redact", httpMethod: .POST, serviceConfig: self.config, input: input, logger: logger, on: eventLoop)
     }
 
+    /// Allows an AppInstanceUser to search the channels that they belong to. The AppInstanceUser can search by membership or external ID.  An AppInstanceAdmin can search across all channels within the AppInstance.
+    public func searchChannels(_ input: SearchChannelsRequest, logger: Logger = AWSClient.loggingDisabled, on eventLoop: EventLoop? = nil) async throws -> SearchChannelsResponse {
+        return try await self.client.execute(operation: "SearchChannels", path: "/channels?operation=search", httpMethod: .POST, serviceConfig: self.config, input: input, logger: logger, on: eventLoop)
+    }
+
     /// Sends a message to a particular channel that the member is a part of.
     ///   The x-amz-chime-bearer request header is mandatory. Use the AppInstanceUserArn of the user that makes the API call as the value in the header.
     ///  Also, STANDARD messages can contain 4KB of data and the 1KB of metadata. CONTROL messages can contain 30 bytes of data and no metadata.

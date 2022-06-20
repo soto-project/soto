@@ -126,7 +126,7 @@ extension ServiceCatalog {
         )
     }
 
-    ///  Lists all portfolios for which sharing was accepted by this account.
+    ///  Lists all imported portfolios for which account-to-account shares were accepted by this account. By specifying the PortfolioShareType, you can list portfolios for which organizational shares were accepted by this account.
     ///
     /// Provide paginated results to closure `onPage` for it to combine them into one result.
     /// This works in a similar manner to `Array.reduce<Result>(_:_:) -> Result`.

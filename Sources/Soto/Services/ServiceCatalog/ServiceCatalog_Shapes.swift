@@ -2862,7 +2862,7 @@ extension ServiceCatalog {
         public let constraintSummaries: [ConstraintSummary]?
         /// The identifier of the product path.
         public let id: String?
-        /// The name of the portfolio to which the user was assigned.
+        /// The name of the portfolio that contains the product.
         public let name: String?
         /// The tags associated with this product path.
         public let tags: [Tag]?
@@ -2889,7 +2889,7 @@ extension ServiceCatalog {
         public let pageSize: Int?
         /// The page token for the next set of results. To retrieve the first set of results, use null.
         public let pageToken: String?
-        /// The type of shared portfolios to list. The default is to list imported portfolios.    AWS_ORGANIZATIONS - List portfolios shared by the management account of your organization    AWS_SERVICECATALOG - List default portfolios    IMPORTED - List imported portfolios
+        /// The type of shared portfolios to list. The default is to list imported portfolios.    AWS_ORGANIZATIONS - List portfolios accepted and shared via organizational sharing by the management account or delegated administrator of your organization.    AWS_SERVICECATALOG - Deprecated type.    IMPORTED - List imported portfolios that have been accepted and shared through account-to-account sharing.
         public let portfolioShareType: PortfolioShareType?
 
         public init(acceptLanguage: String? = nil, pageSize: Int? = nil, pageToken: String? = nil, portfolioShareType: PortfolioShareType? = nil) {

@@ -19,7 +19,7 @@
 
 /// Service object for interacting with AWS RedshiftData service.
 ///
-/// You can use the Amazon Redshift Data API to run queries on Amazon Redshift tables. You can run SQL statements, which are committed if the statement succeeds.  For more information about the Amazon Redshift Data API, see  Using the Amazon Redshift Data API in the  Amazon Redshift Cluster Management Guide.
+/// You can use the Amazon Redshift Data API to run queries on Amazon Redshift tables. You can run SQL statements, which are committed if the statement succeeds.  For more information about the Amazon Redshift Data API and CLI usage examples, see  Using the Amazon Redshift Data API in the  Amazon Redshift Cluster Management Guide.
 public struct RedshiftData: AWSService {
     // MARK: Member variables
 
@@ -65,9 +65,9 @@ public struct RedshiftData: AWSService {
     // MARK: API Calls
 
     /// Runs one or more SQL statements, which can be data manipulation language (DML) or data definition language (DDL).  Depending on the authorization method, use one of the following combinations of request parameters:    Secrets Manager - when connecting to a cluster, specify the Amazon Resource Name (ARN) of the secret, the database name, and the cluster identifier that matches the cluster in the secret.
-    /// When connecting to a serverless endpoint, specify the Amazon Resource Name (ARN) of the secret and the database name.    Temporary credentials - when connecting to a cluster, specify the cluster identifier, the database name, and the database user name.
+    /// When connecting to a serverless workgroup, specify the Amazon Resource Name (ARN) of the secret and the database name.    Temporary credentials - when connecting to a cluster, specify the cluster identifier, the database name, and the database user name.
     /// Also, permission to call the redshift:GetClusterCredentials operation is required.
-    /// When connecting to a serverless endpoint, specify the database name.
+    /// When connecting to a serverless workgroup, specify the workgroup name and database name. Also, permission to call the redshift-serverless:GetCredentials operation is required.
     public func batchExecuteStatement(_ input: BatchExecuteStatementInput, logger: Logger = AWSClient.loggingDisabled, on eventLoop: EventLoop? = nil) -> EventLoopFuture<BatchExecuteStatementOutput> {
         return self.client.execute(operation: "BatchExecuteStatement", path: "/", httpMethod: .POST, serviceConfig: self.config, input: input, logger: logger, on: eventLoop)
     }
@@ -83,17 +83,17 @@ public struct RedshiftData: AWSService {
     }
 
     /// Describes the detailed information about a table from metadata in the cluster. The information includes its columns.  A token is returned to page through the column list. Depending on the authorization method, use one of the following combinations of request parameters:    Secrets Manager - when connecting to a cluster, specify the Amazon Resource Name (ARN) of the secret, the database name, and the cluster identifier that matches the cluster in the secret.
-    /// When connecting to a serverless endpoint, specify the Amazon Resource Name (ARN) of the secret and the database name.    Temporary credentials - when connecting to a cluster, specify the cluster identifier, the database name, and the database user name.
+    /// When connecting to a serverless workgroup, specify the Amazon Resource Name (ARN) of the secret and the database name.    Temporary credentials - when connecting to a cluster, specify the cluster identifier, the database name, and the database user name.
     /// Also, permission to call the redshift:GetClusterCredentials operation is required.
-    /// When connecting to a serverless endpoint, specify the database name.
+    /// When connecting to a serverless workgroup, specify the workgroup name and database name. Also, permission to call the redshift-serverless:GetCredentials operation is required.
     public func describeTable(_ input: DescribeTableRequest, logger: Logger = AWSClient.loggingDisabled, on eventLoop: EventLoop? = nil) -> EventLoopFuture<DescribeTableResponse> {
         return self.client.execute(operation: "DescribeTable", path: "/", httpMethod: .POST, serviceConfig: self.config, input: input, logger: logger, on: eventLoop)
     }
 
     /// Runs an SQL statement, which can be data manipulation language (DML) or data definition language (DDL). This statement must be a single SQL statement.  Depending on the authorization method, use one of the following combinations of request parameters:    Secrets Manager - when connecting to a cluster, specify the Amazon Resource Name (ARN) of the secret, the database name, and the cluster identifier that matches the cluster in the secret.
-    /// When connecting to a serverless endpoint, specify the Amazon Resource Name (ARN) of the secret and the database name.    Temporary credentials - when connecting to a cluster, specify the cluster identifier, the database name, and the database user name.
+    /// When connecting to a serverless workgroup, specify the Amazon Resource Name (ARN) of the secret and the database name.    Temporary credentials - when connecting to a cluster, specify the cluster identifier, the database name, and the database user name.
     /// Also, permission to call the redshift:GetClusterCredentials operation is required.
-    /// When connecting to a serverless endpoint, specify the database name.
+    /// When connecting to a serverless workgroup, specify the workgroup name and database name. Also, permission to call the redshift-serverless:GetCredentials operation is required.
     public func executeStatement(_ input: ExecuteStatementInput, logger: Logger = AWSClient.loggingDisabled, on eventLoop: EventLoop? = nil) -> EventLoopFuture<ExecuteStatementOutput> {
         return self.client.execute(operation: "ExecuteStatement", path: "/", httpMethod: .POST, serviceConfig: self.config, input: input, logger: logger, on: eventLoop)
     }
@@ -104,17 +104,17 @@ public struct RedshiftData: AWSService {
     }
 
     /// List the databases in a cluster.  A token is returned to page through the database list. Depending on the authorization method, use one of the following combinations of request parameters:    Secrets Manager - when connecting to a cluster, specify the Amazon Resource Name (ARN) of the secret, the database name, and the cluster identifier that matches the cluster in the secret.
-    /// When connecting to a serverless endpoint, specify the Amazon Resource Name (ARN) of the secret and the database name.    Temporary credentials - when connecting to a cluster, specify the cluster identifier, the database name, and the database user name.
+    /// When connecting to a serverless workgroup, specify the Amazon Resource Name (ARN) of the secret and the database name.    Temporary credentials - when connecting to a cluster, specify the cluster identifier, the database name, and the database user name.
     /// Also, permission to call the redshift:GetClusterCredentials operation is required.
-    /// When connecting to a serverless endpoint, specify the database name.
+    /// When connecting to a serverless workgroup, specify the workgroup name and database name. Also, permission to call the redshift-serverless:GetCredentials operation is required.
     public func listDatabases(_ input: ListDatabasesRequest, logger: Logger = AWSClient.loggingDisabled, on eventLoop: EventLoop? = nil) -> EventLoopFuture<ListDatabasesResponse> {
         return self.client.execute(operation: "ListDatabases", path: "/", httpMethod: .POST, serviceConfig: self.config, input: input, logger: logger, on: eventLoop)
     }
 
     /// Lists the schemas in a database.  A token is returned to page through the schema list.  Depending on the authorization method, use one of the following combinations of request parameters:    Secrets Manager - when connecting to a cluster, specify the Amazon Resource Name (ARN) of the secret, the database name, and the cluster identifier that matches the cluster in the secret.
-    /// When connecting to a serverless endpoint, specify the Amazon Resource Name (ARN) of the secret and the database name.    Temporary credentials - when connecting to a cluster, specify the cluster identifier, the database name, and the database user name.
+    /// When connecting to a serverless workgroup, specify the Amazon Resource Name (ARN) of the secret and the database name.    Temporary credentials - when connecting to a cluster, specify the cluster identifier, the database name, and the database user name.
     /// Also, permission to call the redshift:GetClusterCredentials operation is required.
-    /// When connecting to a serverless endpoint, specify the database name.
+    /// When connecting to a serverless workgroup, specify the workgroup name and database name. Also, permission to call the redshift-serverless:GetCredentials operation is required.
     public func listSchemas(_ input: ListSchemasRequest, logger: Logger = AWSClient.loggingDisabled, on eventLoop: EventLoop? = nil) -> EventLoopFuture<ListSchemasResponse> {
         return self.client.execute(operation: "ListSchemas", path: "/", httpMethod: .POST, serviceConfig: self.config, input: input, logger: logger, on: eventLoop)
     }
@@ -125,9 +125,9 @@ public struct RedshiftData: AWSService {
     }
 
     /// List the tables in a database. If neither SchemaPattern nor TablePattern are specified, then  all tables in the database are returned. A token is returned to page through the table list.  Depending on the authorization method, use one of the following combinations of request parameters:    Secrets Manager - when connecting to a cluster, specify the Amazon Resource Name (ARN) of the secret, the database name, and the cluster identifier that matches the cluster in the secret.
-    /// When connecting to a serverless endpoint, specify the Amazon Resource Name (ARN) of the secret and the database name.    Temporary credentials - when connecting to a cluster, specify the cluster identifier, the database name, and the database user name.
+    /// When connecting to a serverless workgroup, specify the Amazon Resource Name (ARN) of the secret and the database name.    Temporary credentials - when connecting to a cluster, specify the cluster identifier, the database name, and the database user name.
     /// Also, permission to call the redshift:GetClusterCredentials operation is required.
-    /// When connecting to a serverless endpoint, specify the database name.
+    /// When connecting to a serverless workgroup, specify the workgroup name and database name. Also, permission to call the redshift-serverless:GetCredentials operation is required.
     public func listTables(_ input: ListTablesRequest, logger: Logger = AWSClient.loggingDisabled, on eventLoop: EventLoop? = nil) -> EventLoopFuture<ListTablesResponse> {
         return self.client.execute(operation: "ListTables", path: "/", httpMethod: .POST, serviceConfig: self.config, input: input, logger: logger, on: eventLoop)
     }

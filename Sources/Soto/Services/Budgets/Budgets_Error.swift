@@ -29,6 +29,7 @@ public struct BudgetsErrorType: AWSErrorType {
         case invalidParameterException = "InvalidParameterException"
         case notFoundException = "NotFoundException"
         case resourceLockedException = "ResourceLockedException"
+        case throttlingException = "ThrottlingException"
     }
 
     private let error: Code
@@ -67,6 +68,8 @@ public struct BudgetsErrorType: AWSErrorType {
     public static var notFoundException: Self { .init(.notFoundException) }
     ///  The request was received and recognized by the server, but the server rejected that particular method for the requested resource.
     public static var resourceLockedException: Self { .init(.resourceLockedException) }
+    ///  The number of API requests has exceeded the maximum allowed API request throttling limit for the account.
+    public static var throttlingException: Self { .init(.throttlingException) }
 }
 
 extension BudgetsErrorType: Equatable {

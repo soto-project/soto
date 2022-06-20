@@ -21,6 +21,25 @@ import SotoCore
 extension Glue {
     // MARK: Enums
 
+    public enum AggFunction: String, CustomStringConvertible, Codable, _SotoSendable {
+        case avg
+        case count
+        case countDistinct
+        case first
+        case kurtosis
+        case last
+        case max
+        case min
+        case skewness
+        case stddevPop = "stddev_pop"
+        case stddevSamp = "stddev_samp"
+        case sum
+        case sumDistinct
+        case varPop = "var_pop"
+        case varSamp = "var_samp"
+        public var description: String { return self.rawValue }
+    }
+
     public enum BackfillErrorCode: String, CustomStringConvertible, Codable, _SotoSendable {
         case encryptedPartitionError = "ENCRYPTED_PARTITION_ERROR"
         case internalError = "INTERNAL_ERROR"
@@ -87,6 +106,12 @@ extension Glue {
         case full = "FULL"
         case fullAll = "FULL_ALL"
         case none = "NONE"
+        public var description: String { return self.rawValue }
+    }
+
+    public enum CompressionType: String, CustomStringConvertible, Codable, _SotoSendable {
+        case bzip2
+        case gzip
         public var description: String { return self.rawValue }
     }
 
@@ -191,6 +216,86 @@ extension Glue {
         public var description: String { return self.rawValue }
     }
 
+    public enum FilterLogicalOperator: String, CustomStringConvertible, Codable, _SotoSendable {
+        case and = "AND"
+        case or = "OR"
+        public var description: String { return self.rawValue }
+    }
+
+    public enum FilterOperation: String, CustomStringConvertible, Codable, _SotoSendable {
+        case eq = "EQ"
+        case gt = "GT"
+        case gte = "GTE"
+        case isnull = "ISNULL"
+        case lt = "LT"
+        case lte = "LTE"
+        case regex = "REGEX"
+        public var description: String { return self.rawValue }
+    }
+
+    public enum FilterValueType: String, CustomStringConvertible, Codable, _SotoSendable {
+        case columnextracted = "COLUMNEXTRACTED"
+        case constant = "CONSTANT"
+        public var description: String { return self.rawValue }
+    }
+
+    public enum GlueRecordType: String, CustomStringConvertible, Codable, _SotoSendable {
+        case bigdecimal = "BIGDECIMAL"
+        case byte = "BYTE"
+        case date = "DATE"
+        case double = "DOUBLE"
+        case float = "FLOAT"
+        case int = "INT"
+        case long = "LONG"
+        case short = "SHORT"
+        case string = "STRING"
+        case timestamp = "TIMESTAMP"
+        public var description: String { return self.rawValue }
+    }
+
+    public enum JDBCDataType: String, CustomStringConvertible, Codable, _SotoSendable {
+        case array = "ARRAY"
+        case bigint = "BIGINT"
+        case binary = "BINARY"
+        case bit = "BIT"
+        case blob = "BLOB"
+        case boolean = "BOOLEAN"
+        case char = "CHAR"
+        case clob = "CLOB"
+        case datalink = "DATALINK"
+        case date = "DATE"
+        case decimal = "DECIMAL"
+        case distinct = "DISTINCT"
+        case double = "DOUBLE"
+        case float = "FLOAT"
+        case integer = "INTEGER"
+        case javaObject = "JAVA_OBJECT"
+        case longnvarchar = "LONGNVARCHAR"
+        case longvarbinary = "LONGVARBINARY"
+        case longvarchar = "LONGVARCHAR"
+        case nchar = "NCHAR"
+        case nclob = "NCLOB"
+        case null = "NULL"
+        case numeric = "NUMERIC"
+        case nvarchar = "NVARCHAR"
+        case other = "OTHER"
+        case real = "REAL"
+        case ref = "REF"
+        case refCursor = "REF_CURSOR"
+        case rowid = "ROWID"
+        case smallint = "SMALLINT"
+        case sqlxml = "SQLXML"
+        case `struct` = "STRUCT"
+        case time = "TIME"
+        case timestamp = "TIMESTAMP"
+        case timestampWithTimezone = "TIMESTAMP_WITH_TIMEZONE"
+        case timeWithTimezone = "TIME_WITH_TIMEZONE"
+        case tinyint = "TINYINT"
+        case varbinary = "VARBINARY"
+        case varchar = "VARCHAR"
+        public var description: String { return self.rawValue }
+    }
+
     public enum JobBookmarksEncryptionMode: String, CustomStringConvertible, Codable, _SotoSendable {
         case cseKms = "CSE-KMS"
         case disabled = "DISABLED"
@@ -205,6 +310,16 @@ extension Glue {
         case stopping = "STOPPING"
         case succeeded = "SUCCEEDED"
         case timeout = "TIMEOUT"
+        public var description: String { return self.rawValue }
+    }
+
+    public enum JoinType: String, CustomStringConvertible, Codable, _SotoSendable {
+        case equijoin
+        case left
+        case leftanti
+        case leftsemi
+        case outer
+        case right
         public var description: String { return self.rawValue }
     }
 
@@ -245,6 +360,15 @@ extension Glue {
         public var description: String { return self.rawValue }
     }
 
+    public enum ParquetCompressionType: String, CustomStringConvertible, Codable, _SotoSendable {
+        case gzip
+        case lzo
+        case none
+        case snappy
+        case uncompressed
+        public var description: String { return self.rawValue }
+    }
+
     public enum PartitionIndexStatus: String, CustomStringConvertible, Codable, _SotoSendable {
         case active = "ACTIVE"
         case creating = "CREATING"
@@ -272,10 +396,26 @@ extension Glue {
         public var description: String { return self.rawValue }
     }
 
+    public enum PiiType: String, CustomStringConvertible, Codable, _SotoSendable {
+        case columnAudit = "ColumnAudit"
+        case columnMasking = "ColumnMasking"
+        case rowAudit = "RowAudit"
+        case rowMasking = "RowMasking"
+        public var description: String { return self.rawValue }
+    }
+
     public enum PrincipalType: String, CustomStringConvertible, Codable, _SotoSendable {
         case group = "GROUP"
         case role = "ROLE"
         case user = "USER"
+        public var description: String { return self.rawValue }
+    }
+
+    public enum QuoteChar: String, CustomStringConvertible, Codable, _SotoSendable {
+        case disabled
+        case quillemet
+        case quote
+        case singleQuote = "single_quote"
         public var description: String { return self.rawValue }
     }
 
@@ -339,6 +479,15 @@ extension Glue {
         public var description: String { return self.rawValue }
     }
 
+    public enum Separator: String, CustomStringConvertible, Codable, _SotoSendable {
+        case comma
+        case ctrla
+        case pipe
+        case semicolon
+        case tab
+        public var description: String { return self.rawValue }
+    }
+
     public enum SessionStatus: String, CustomStringConvertible, Codable, _SotoSendable {
         case failed = "FAILED"
         case provisioning = "PROVISIONING"
@@ -361,6 +510,13 @@ extension Glue {
         public var description: String { return self.rawValue }
     }
 
+    public enum StartingPosition: String, CustomStringConvertible, Codable, _SotoSendable {
+        case earliest
+        case latest
+        case trimHorizon = "trim_horizon"
+        public var description: String { return self.rawValue }
+    }
+
     public enum StatementState: String, CustomStringConvertible, Codable, _SotoSendable {
         case available = "AVAILABLE"
         case cancelled = "CANCELLED"
@@ -368,6 +524,15 @@ extension Glue {
         case error = "ERROR"
         case running = "RUNNING"
         case waiting = "WAITING"
+        public var description: String { return self.rawValue }
+    }
+
+    public enum TargetFormat: String, CustomStringConvertible, Codable, _SotoSendable {
+        case avro
+        case csv
+        case json
+        case orc
+        case parquet
         public var description: String { return self.rawValue }
     }
 
@@ -439,7 +604,19 @@ extension Glue {
         public var description: String { return self.rawValue }
     }
 
+    public enum UnionType: String, CustomStringConvertible, Codable, _SotoSendable {
+        case all = "ALL"
+        case distinct = "DISTINCT"
+        public var description: String { return self.rawValue }
+    }
+
     public enum UpdateBehavior: String, CustomStringConvertible, Codable, _SotoSendable {
+        case log = "LOG"
+        case updateInDatabase = "UPDATE_IN_DATABASE"
+        public var description: String { return self.rawValue }
+    }
+
+    public enum UpdateCatalogBehavior: String, CustomStringConvertible, Codable, _SotoSendable {
         case log = "LOG"
         case updateInDatabase = "UPDATE_IN_DATABASE"
         public var description: String { return self.rawValue }
@@ -510,6 +687,150 @@ extension Glue {
         }
     }
 
+    public struct Aggregate: AWSEncodableShape & AWSDecodableShape {
+        /// Specifies the aggregate functions to be performed on specified fields.
+        public let aggs: [AggregateOperation]
+        /// Specifies the fields to group by.
+        public let groups: [[String]]
+        /// Specifies the fields and rows to use as inputs for the aggregate transform.
+        public let inputs: [String]
+        /// The name of the transform node.
+        public let name: String
+
+        public init(aggs: [AggregateOperation], groups: [[String]], inputs: [String], name: String) {
+            self.aggs = aggs
+            self.groups = groups
+            self.inputs = inputs
+            self.name = name
+        }
+
+        public func validate(name: String) throws {
+            try self.aggs.forEach {
+                try $0.validate(name: "\(name).aggs[]")
+            }
+            try self.validate(self.aggs, name: "aggs", parent: name, max: 30)
+            try self.validate(self.aggs, name: "aggs", parent: name, min: 1)
+            try self.inputs.forEach {
+                try validate($0, name: "inputs[]", parent: name, pattern: "^[A-Za-z0-9_-]*$")
+            }
+            try self.validate(self.inputs, name: "inputs", parent: name, max: 1)
+            try self.validate(self.inputs, name: "inputs", parent: name, min: 1)
+            try self.validate(self.name, name: "name", parent: name, pattern: "^([\\u0020-\\uD7FF\\uE000-\\uFFFD\\uD800\\uDC00-\\uDBFF\\uDFFF]|[^\\r\\n])*$")
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case aggs = "Aggs"
+            case groups = "Groups"
+            case inputs = "Inputs"
+            case name = "Name"
+        }
+    }
+
+    public struct AggregateOperation: AWSEncodableShape & AWSDecodableShape {
+        /// Specifies the aggregation function to apply. Possible aggregation functions include: avg countDistinct, count, first, last, kurtosis, max, min, skewness,  stddev_samp, stddev_pop, sum, sumDistinct, var_samp, var_pop
+        public let aggFunc: AggFunction
+        /// Specifies the column on the data set on which the aggregation function will be applied.
+        public let column: [String]
+
+        public init(aggFunc: AggFunction, column: [String]) {
+            self.aggFunc = aggFunc
+            self.column = column
+        }
+
+        public func validate(name: String) throws {
+            try self.column.forEach {
+                try validate($0, name: "column[]", parent: name, pattern: "^([\\u0020-\\uD7FF\\uE000-\\uFFFD\\uD800\\uDC00-\\uDBFF\\uDFFF]|[^\\S\\r\\n\"'])*$")
+            }
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case aggFunc = "AggFunc"
+            case column = "Column"
+        }
+    }
+
+    public struct ApplyMapping: AWSEncodableShape & AWSDecodableShape {
+        /// The data inputs identified by their node names.
+        public let inputs: [String]
+        /// Specifies the mapping of data property keys in the data source to data property keys in the data target.
+        public let mapping: [Mapping]
+        /// The name of the transform node.
+        public let name: String
+
+        public init(inputs: [String], mapping: [Mapping], name: String) {
+            self.inputs = inputs
+            self.mapping = mapping
+            self.name = name
+        }
+
+        public func validate(name: String) throws {
+            try self.inputs.forEach {
+                try validate($0, name: "inputs[]", parent: name, pattern: "^[A-Za-z0-9_-]*$")
+            }
+            try self.validate(self.inputs, name: "inputs", parent: name, max: 1)
+            try self.validate(self.inputs, name: "inputs", parent: name, min: 1)
+            try self.mapping.forEach {
+                try $0.validate(name: "\(name).mapping[]")
+            }
+            try self.validate(self.name, name: "name", parent: name, pattern: "^([\\u0020-\\uD7FF\\uE000-\\uFFFD\\uD800\\uDC00-\\uDBFF\\uDFFF]|[^\\r\\n])*$")
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case inputs = "Inputs"
+            case mapping = "Mapping"
+            case name = "Name"
+        }
+    }
+
+    public struct AthenaConnectorSource: AWSEncodableShape & AWSDecodableShape {
+        /// The name of the connection that is associated with the connector.
+        public let connectionName: String
+        /// The name of the table in the data source.
+        public let connectionTable: String?
+        /// The type of connection, such as marketplace.athena or custom.athena, designating a connection to an Amazon Athena data store.
+        public let connectionType: String
+        /// The name of a connector that assists with accessing the data store in Glue Studio.
+        public let connectorName: String
+        /// The name of the data source.
+        public let name: String
+        /// Specifies the data schema for the custom Athena source.
+        public let outputSchemas: [GlueSchema]?
+        /// The name of the Cloudwatch log group to read from. For example, /aws-glue/jobs/output.
+        public let schemaName: String
+
+        public init(connectionName: String, connectionTable: String? = nil, connectionType: String, connectorName: String, name: String, outputSchemas: [GlueSchema]? = nil, schemaName: String) {
+            self.connectionName = connectionName
+            self.connectionTable = connectionTable
+            self.connectionType = connectionType
+            self.connectorName = connectorName
+            self.name = name
+            self.outputSchemas = outputSchemas
+            self.schemaName = schemaName
+        }
+
+        public func validate(name: String) throws {
+            try self.validate(self.connectionName, name: "connectionName", parent: name, pattern: "^([\\u0020-\\uD7FF\\uE000-\\uFFFD\\uD800\\uDC00-\\uDBFF\\uDFFF]|[^\\S\\r\\n\"'])*$")
+            try self.validate(self.connectionTable, name: "connectionTable", parent: name, pattern: "^([\\u0020-\\uD7FF\\uE000-\\uFFFD\\uD800\\uDC00-\\uDBFF\\uDFFF]|[^\\S\\r\\n])*$")
+            try self.validate(self.connectionType, name: "connectionType", parent: name, pattern: "^([\\u0020-\\uD7FF\\uE000-\\uFFFD\\uD800\\uDC00-\\uDBFF\\uDFFF]|[^\\S\\r\\n\"'])*$")
+            try self.validate(self.connectorName, name: "connectorName", parent: name, pattern: "^([\\u0020-\\uD7FF\\uE000-\\uFFFD\\uD800\\uDC00-\\uDBFF\\uDFFF]|[^\\S\\r\\n\"'])*$")
+            try self.validate(self.name, name: "name", parent: name, pattern: "^([\\u0020-\\uD7FF\\uE000-\\uFFFD\\uD800\\uDC00-\\uDBFF\\uDFFF]|[^\\r\\n])*$")
+            try self.outputSchemas?.forEach {
+                try $0.validate(name: "\(name).outputSchemas[]")
+            }
+            try self.validate(self.schemaName, name: "schemaName", parent: name, pattern: "^([\\u0020-\\uD7FF\\uE000-\\uFFFD\\uD800\\uDC00-\\uDBFF\\uDFFF]|[^\\S\\r\\n\"'])*$")
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case connectionName = "ConnectionName"
+            case connectionTable = "ConnectionTable"
+            case connectionType = "ConnectionType"
+            case connectorName = "ConnectorName"
+            case name = "Name"
+            case outputSchemas = "OutputSchemas"
+            case schemaName = "SchemaName"
+        }
+    }
+
     public struct AuditContext: AWSEncodableShape {
         /// The context for the audit..
         public let additionalAuditContext: String?
@@ -554,6 +875,42 @@ extension Glue {
         private enum CodingKeys: String, CodingKey {
             case code = "Code"
             case partitions = "Partitions"
+        }
+    }
+
+    public struct BasicCatalogTarget: AWSEncodableShape & AWSDecodableShape {
+        /// The database that contains the table you want to use as the target. This database must already exist in the Data Catalog.
+        public let database: String
+        /// The nodes that are inputs to the data target.
+        public let inputs: [String]
+        /// The name of your data target.
+        public let name: String
+        /// The table that defines the schema of your output data. This table must already exist in the Data Catalog.
+        public let table: String
+
+        public init(database: String, inputs: [String], name: String, table: String) {
+            self.database = database
+            self.inputs = inputs
+            self.name = name
+            self.table = table
+        }
+
+        public func validate(name: String) throws {
+            try self.validate(self.database, name: "database", parent: name, pattern: "^([\\u0020-\\uD7FF\\uE000-\\uFFFD\\uD800\\uDC00-\\uDBFF\\uDFFF]|[^\\S\\r\\n\"'])*$")
+            try self.inputs.forEach {
+                try validate($0, name: "inputs[]", parent: name, pattern: "^[A-Za-z0-9_-]*$")
+            }
+            try self.validate(self.inputs, name: "inputs", parent: name, max: 1)
+            try self.validate(self.inputs, name: "inputs", parent: name, min: 1)
+            try self.validate(self.name, name: "name", parent: name, pattern: "^([\\u0020-\\uD7FF\\uE000-\\uFFFD\\uD800\\uDC00-\\uDBFF\\uDFFF]|[^\\r\\n])*$")
+            try self.validate(self.table, name: "table", parent: name, pattern: "^([\\u0020-\\uD7FF\\uE000-\\uFFFD\\uD800\\uDC00-\\uDBFF\\uDFFF]|[^\\S\\r\\n\"'])*$")
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case database = "Database"
+            case inputs = "Inputs"
+            case name = "Name"
+            case table = "Table"
         }
     }
 
@@ -1646,6 +2003,142 @@ extension Glue {
         }
     }
 
+    public struct CatalogKafkaSource: AWSEncodableShape & AWSDecodableShape {
+        /// The name of the database to read from.
+        public let database: String
+        /// Specifies options related to data preview for viewing a sample of your data.
+        public let dataPreviewOptions: StreamingDataPreviewOptions?
+        /// Whether to automatically determine the schema from the incoming data.
+        public let detectSchema: Bool?
+        /// The name of the data store.
+        public let name: String
+        /// Specifies the streaming options.
+        public let streamingOptions: KafkaStreamingSourceOptions?
+        /// The name of the table in the database to read from.
+        public let table: String
+        /// The amount of time to spend processing each micro batch.
+        public let windowSize: Int?
+
+        public init(database: String, dataPreviewOptions: StreamingDataPreviewOptions? = nil, detectSchema: Bool? = nil, name: String, streamingOptions: KafkaStreamingSourceOptions? = nil, table: String, windowSize: Int? = nil) {
+            self.database = database
+            self.dataPreviewOptions = dataPreviewOptions
+            self.detectSchema = detectSchema
+            self.name = name
+            self.streamingOptions = streamingOptions
+            self.table = table
+            self.windowSize = windowSize
+        }
+
+        public func validate(name: String) throws {
+            try self.validate(self.database, name: "database", parent: name, pattern: "^([\\u0020-\\uD7FF\\uE000-\\uFFFD\\uD800\\uDC00-\\uDBFF\\uDFFF]|[^\\S\\r\\n\"'])*$")
+            try self.dataPreviewOptions?.validate(name: "\(name).dataPreviewOptions")
+            try self.validate(self.name, name: "name", parent: name, pattern: "^([\\u0020-\\uD7FF\\uE000-\\uFFFD\\uD800\\uDC00-\\uDBFF\\uDFFF]|[^\\r\\n])*$")
+            try self.streamingOptions?.validate(name: "\(name).streamingOptions")
+            try self.validate(self.table, name: "table", parent: name, pattern: "^([\\u0020-\\uD7FF\\uE000-\\uFFFD\\uD800\\uDC00-\\uDBFF\\uDFFF]|[^\\S\\r\\n\"'])*$")
+            try self.validate(self.windowSize, name: "windowSize", parent: name, min: 0)
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case database = "Database"
+            case dataPreviewOptions = "DataPreviewOptions"
+            case detectSchema = "DetectSchema"
+            case name = "Name"
+            case streamingOptions = "StreamingOptions"
+            case table = "Table"
+            case windowSize = "WindowSize"
+        }
+    }
+
+    public struct CatalogKinesisSource: AWSEncodableShape & AWSDecodableShape {
+        /// The name of the database to read from.
+        public let database: String
+        /// Additional options for data preview.
+        public let dataPreviewOptions: StreamingDataPreviewOptions?
+        /// Whether to automatically determine the schema from the incoming data.
+        public let detectSchema: Bool?
+        /// The name of the data source.
+        public let name: String
+        /// Additional options for the Kinesis streaming data source.
+        public let streamingOptions: KinesisStreamingSourceOptions?
+        /// The name of the table in the database to read from.
+        public let table: String
+        /// The amount of time to spend processing each micro batch.
+        public let windowSize: Int?
+
+        public init(database: String, dataPreviewOptions: StreamingDataPreviewOptions? = nil, detectSchema: Bool? = nil, name: String, streamingOptions: KinesisStreamingSourceOptions? = nil, table: String, windowSize: Int? = nil) {
+            self.database = database
+            self.dataPreviewOptions = dataPreviewOptions
+            self.detectSchema = detectSchema
+            self.name = name
+            self.streamingOptions = streamingOptions
+            self.table = table
+            self.windowSize = windowSize
+        }
+
+        public func validate(name: String) throws {
+            try self.validate(self.database, name: "database", parent: name, pattern: "^([\\u0020-\\uD7FF\\uE000-\\uFFFD\\uD800\\uDC00-\\uDBFF\\uDFFF]|[^\\S\\r\\n\"'])*$")
+            try self.dataPreviewOptions?.validate(name: "\(name).dataPreviewOptions")
+            try self.validate(self.name, name: "name", parent: name, pattern: "^([\\u0020-\\uD7FF\\uE000-\\uFFFD\\uD800\\uDC00-\\uDBFF\\uDFFF]|[^\\r\\n])*$")
+            try self.streamingOptions?.validate(name: "\(name).streamingOptions")
+            try self.validate(self.table, name: "table", parent: name, pattern: "^([\\u0020-\\uD7FF\\uE000-\\uFFFD\\uD800\\uDC00-\\uDBFF\\uDFFF]|[^\\S\\r\\n\"'])*$")
+            try self.validate(self.windowSize, name: "windowSize", parent: name, min: 0)
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case database = "Database"
+            case dataPreviewOptions = "DataPreviewOptions"
+            case detectSchema = "DetectSchema"
+            case name = "Name"
+            case streamingOptions = "StreamingOptions"
+            case table = "Table"
+            case windowSize = "WindowSize"
+        }
+    }
+
+    public struct CatalogSchemaChangePolicy: AWSEncodableShape & AWSDecodableShape {
+        /// Whether to use the specified update behavior when the crawler finds a changed schema.
+        public let enableUpdateCatalog: Bool?
+        /// The update behavior when the crawler finds a changed schema.
+        public let updateBehavior: UpdateCatalogBehavior?
+
+        public init(enableUpdateCatalog: Bool? = nil, updateBehavior: UpdateCatalogBehavior? = nil) {
+            self.enableUpdateCatalog = enableUpdateCatalog
+            self.updateBehavior = updateBehavior
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case enableUpdateCatalog = "EnableUpdateCatalog"
+            case updateBehavior = "UpdateBehavior"
+        }
+    }
+
+    public struct CatalogSource: AWSEncodableShape & AWSDecodableShape {
+        /// The name of the database to read from.
+        public let database: String
+        /// The name of the data store.
+        public let name: String
+        /// The name of the table in the database to read from.
+        public let table: String
+
+        public init(database: String, name: String, table: String) {
+            self.database = database
+            self.name = name
+            self.table = table
+        }
+
+        public func validate(name: String) throws {
+            try self.validate(self.database, name: "database", parent: name, pattern: "^([\\u0020-\\uD7FF\\uE000-\\uFFFD\\uD800\\uDC00-\\uDBFF\\uDFFF]|[^\\S\\r\\n\"'])*$")
+            try self.validate(self.name, name: "name", parent: name, pattern: "^([\\u0020-\\uD7FF\\uE000-\\uFFFD\\uD800\\uDC00-\\uDBFF\\uDFFF]|[^\\r\\n])*$")
+            try self.validate(self.table, name: "table", parent: name, pattern: "^([\\u0020-\\uD7FF\\uE000-\\uFFFD\\uD800\\uDC00-\\uDBFF\\uDFFF]|[^\\S\\r\\n\"'])*$")
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case database = "Database"
+            case name = "Name"
+            case table = "Table"
+        }
+    }
+
     public struct CatalogTarget: AWSEncodableShape & AWSDecodableShape {
         /// The name of the connection for an Amazon S3-backed Data Catalog table to be a target of the crawl when using a Catalog connection type paired with a NETWORK Connection type.
         public let connectionName: String?
@@ -1762,6 +2255,266 @@ extension Glue {
         private enum CodingKeys: String, CodingKey {
             case cloudWatchEncryptionMode = "CloudWatchEncryptionMode"
             case kmsKeyArn = "KmsKeyArn"
+        }
+    }
+
+    public struct CodeGenConfigurationNode: AWSEncodableShape & AWSDecodableShape {
+        /// Specifies a transform that groups rows by chosen fields and computes the aggregated value by specified function.
+        public let aggregate: Aggregate?
+        /// Specifies a transform that maps data property keys in the data source to data property keys in the data target. You can rename keys, modify the data types for keys, and choose which keys to drop from the dataset.
+        public let applyMapping: ApplyMapping?
+        /// Specifies a connector to an Amazon Athena data source.
+        public let athenaConnectorSource: AthenaConnectorSource?
+        /// Specifies an Apache Kafka data store in the Data Catalog.
+        public let catalogKafkaSource: CatalogKafkaSource?
+        /// Specifies a Kinesis data source in the Glue Data Catalog.
+        public let catalogKinesisSource: CatalogKinesisSource?
+        /// Specifies a data store in the Glue Data Catalog.
+        public let catalogSource: CatalogSource?
+        /// Specifies a target that uses a Glue Data Catalog table.
+        public let catalogTarget: BasicCatalogTarget?
+        /// Specifies a transform that uses custom code you provide to perform the data transformation. The output is a collection of DynamicFrames.
+        public let customCode: CustomCode?
+        /// Specifies an Apache Kafka data store.
+        public let directKafkaSource: DirectKafkaSource?
+        /// Specifies a direct Amazon Kinesis data source.
+        public let directKinesisSource: DirectKinesisSource?
+        /// Specifies a transform that removes rows of repeating data from a data set.
+        public let dropDuplicates: DropDuplicates?
+        /// Specifies a transform that chooses the data property keys that you want to drop.
+        public let dropFields: DropFields?
+        /// Specifies a transform that removes columns from the dataset if all values in the column are 'null'. By default, Glue Studio will recognize null objects, but some values such as empty strings, strings that are "null", -1 integers or other placeholders such as zeros, are not automatically recognized as nulls.
+        public let dropNullFields: DropNullFields?
+        public let dynamoDBCatalogSource: DynamoDBCatalogSource?
+        /// Specifies a transform that locates records in the dataset that have missing values and adds a new field with a value determined by imputation. The input data set is used to train the machine learning model that determines what the missing value should be.
+        public let fillMissingValues: FillMissingValues?
+        /// Specifies a transform that splits a dataset into two, based on a filter condition.
+        public let filter: Filter?
+        /// Specifies a data source in a goverened Data Catalog.
+        public let governedCatalogSource: GovernedCatalogSource?
+        /// Specifies a data target that writes to a goverened catalog.
+        public let governedCatalogTarget: GovernedCatalogTarget?
+        /// Specifies a connector to a JDBC data source.
+        public let jdbcConnectorSource: JDBCConnectorSource?
+        /// Specifies a data target that writes to Amazon S3 in Apache Parquet columnar storage.
+        public let jdbcConnectorTarget: JDBCConnectorTarget?
+        /// Specifies a transform that joins two datasets into one dataset using a comparison phrase on the specified data property keys. You can use inner, outer, left, right, left semi, and left anti joins.
+        public let join: Join?
+        /// Specifies a transform that merges a DynamicFrame with a staging DynamicFrame based on the specified primary keys to identify records. Duplicate records (records with the same primary keys) are not de-duplicated.
+        public let merge: Merge?
+        /// Specifies a Microsoft SQL server data source in the Glue Data Catalog.
+        public let microsoftSQLServerCatalogSource: MicrosoftSQLServerCatalogSource?
+        /// Specifies a target that uses Microsoft SQL.
+        public let microsoftSQLServerCatalogTarget: MicrosoftSQLServerCatalogTarget?
+        /// Specifies a MySQL data source in the Glue Data Catalog.
+        public let mySQLCatalogSource: MySQLCatalogSource?
+        /// Specifies a target that uses MySQL.
+        public let mySQLCatalogTarget: MySQLCatalogTarget?
+        /// Specifies an Oracle data source in the Glue Data Catalog.
+        public let oracleSQLCatalogSource: OracleSQLCatalogSource?
+        /// Specifies a target that uses Oracle SQL.
+        public let oracleSQLCatalogTarget: OracleSQLCatalogTarget?
+        /// Specifies a transform that identifies, removes or masks PII data.
+        public let piiDetection: PIIDetection?
+        /// Specifies a PostgresSQL data source in the Glue Data Catalog.
+        public let postgreSQLCatalogSource: PostgreSQLCatalogSource?
+        /// Specifies a target that uses Postgres SQL.
+        public let postgreSQLCatalogTarget: PostgreSQLCatalogTarget?
+        /// Specifies an Amazon Redshift data store.
+        public let redshiftSource: RedshiftSource?
+        /// Specifies a target that uses Amazon Redshift.
+        public let redshiftTarget: RedshiftTarget?
+        public let relationalCatalogSource: RelationalCatalogSource?
+        /// Specifies a transform that renames a single data property key.
+        public let renameField: RenameField?
+        /// Specifies an Amazon S3 data store in the Glue Data Catalog.
+        public let s3CatalogSource: S3CatalogSource?
+        /// Specifies a data target that writes to Amazon S3 using the Glue Data Catalog.
+        public let s3CatalogTarget: S3CatalogTarget?
+        /// Specifies a command-separated value (CSV) data store stored in Amazon S3.
+        public let s3CsvSource: S3CsvSource?
+        /// Specifies a data target that writes to Amazon S3.
+        public let s3DirectTarget: S3DirectTarget?
+        /// Specifies a data target that writes to Amazon S3 in Apache Parquet columnar storage.
+        public let s3GlueParquetTarget: S3GlueParquetTarget?
+        /// Specifies a JSON data store stored in Amazon S3.
+        public let s3JsonSource: S3JsonSource?
+        /// Specifies an Apache Parquet data store stored in Amazon S3.
+        public let s3ParquetSource: S3ParquetSource?
+        /// Specifies a transform that chooses the data property keys that you want to keep.
+        public let selectFields: SelectFields?
+        /// Specifies a transform that chooses one DynamicFrame from a collection of DynamicFrames. The output is the selected DynamicFrame
+        public let selectFromCollection: SelectFromCollection?
+        /// Specifies a connector to an Apache Spark data source.
+        public let sparkConnectorSource: SparkConnectorSource?
+        /// Specifies a target that uses an Apache Spark connector.
+        public let sparkConnectorTarget: SparkConnectorTarget?
+        /// Specifies a transform where you enter a SQL query using Spark SQL syntax to transform the data. The output is a single DynamicFrame.
+        public let sparkSQL: SparkSQL?
+        /// Specifies a transform that writes samples of the data to an Amazon S3 bucket.
+        public let spigot: Spigot?
+        /// Specifies a transform that splits data property keys into two DynamicFrames. The output is a collection of DynamicFrames: one with selected data property keys, and one with the remaining data property keys.
+        public let splitFields: SplitFields?
+        /// Specifies a transform that combines the rows from two or more datasets into a single result.
+        public let union: Union?
+
+        public init(aggregate: Aggregate? = nil, applyMapping: ApplyMapping? = nil, athenaConnectorSource: AthenaConnectorSource? = nil, catalogKafkaSource: CatalogKafkaSource? = nil, catalogKinesisSource: CatalogKinesisSource? = nil, catalogSource: CatalogSource? = nil, catalogTarget: BasicCatalogTarget? = nil, customCode: CustomCode? = nil, directKafkaSource: DirectKafkaSource? = nil, directKinesisSource: DirectKinesisSource? = nil, dropDuplicates: DropDuplicates? = nil, dropFields: DropFields? = nil, dropNullFields: DropNullFields? = nil, dynamoDBCatalogSource: DynamoDBCatalogSource? = nil, fillMissingValues: FillMissingValues? = nil, filter: Filter? = nil, governedCatalogSource: GovernedCatalogSource? = nil, governedCatalogTarget: GovernedCatalogTarget? = nil, jdbcConnectorSource: JDBCConnectorSource? = nil, jdbcConnectorTarget: JDBCConnectorTarget? = nil, join: Join? = nil, merge: Merge? = nil, microsoftSQLServerCatalogSource: MicrosoftSQLServerCatalogSource? = nil, microsoftSQLServerCatalogTarget: MicrosoftSQLServerCatalogTarget? = nil, mySQLCatalogSource: MySQLCatalogSource? = nil, mySQLCatalogTarget: MySQLCatalogTarget? = nil, oracleSQLCatalogSource: OracleSQLCatalogSource? = nil, oracleSQLCatalogTarget: OracleSQLCatalogTarget? = nil, piiDetection: PIIDetection? = nil, postgreSQLCatalogSource: PostgreSQLCatalogSource? = nil, postgreSQLCatalogTarget: PostgreSQLCatalogTarget? = nil, redshiftSource: RedshiftSource? = nil, redshiftTarget: RedshiftTarget? = nil, relationalCatalogSource: RelationalCatalogSource? = nil, renameField: RenameField? = nil, s3CatalogSource: S3CatalogSource? = nil, s3CatalogTarget: S3CatalogTarget? = nil, s3CsvSource: S3CsvSource? = nil, s3DirectTarget: S3DirectTarget? = nil, s3GlueParquetTarget: S3GlueParquetTarget? = nil, s3JsonSource: S3JsonSource? = nil, s3ParquetSource: S3ParquetSource? = nil, selectFields: SelectFields? = nil, selectFromCollection: SelectFromCollection? = nil, sparkConnectorSource: SparkConnectorSource? = nil, sparkConnectorTarget: SparkConnectorTarget? = nil, sparkSQL: SparkSQL? = nil, spigot: Spigot? = nil, splitFields: SplitFields? = nil, union: Union? = nil) {
+            self.aggregate = aggregate
+            self.applyMapping = applyMapping
+            self.athenaConnectorSource = athenaConnectorSource
+            self.catalogKafkaSource = catalogKafkaSource
+            self.catalogKinesisSource = catalogKinesisSource
+            self.catalogSource = catalogSource
+            self.catalogTarget = catalogTarget
+            self.customCode = customCode
+            self.directKafkaSource = directKafkaSource
+            self.directKinesisSource = directKinesisSource
+            self.dropDuplicates = dropDuplicates
+            self.dropFields = dropFields
+            self.dropNullFields = dropNullFields
+            self.dynamoDBCatalogSource = dynamoDBCatalogSource
+            self.fillMissingValues = fillMissingValues
+            self.filter = filter
+            self.governedCatalogSource = governedCatalogSource
+            self.governedCatalogTarget = governedCatalogTarget
+            self.jdbcConnectorSource = jdbcConnectorSource
+            self.jdbcConnectorTarget = jdbcConnectorTarget
+            self.join = join
+            self.merge = merge
+            self.microsoftSQLServerCatalogSource = microsoftSQLServerCatalogSource
+            self.microsoftSQLServerCatalogTarget = microsoftSQLServerCatalogTarget
+            self.mySQLCatalogSource = mySQLCatalogSource
+            self.mySQLCatalogTarget = mySQLCatalogTarget
+            self.oracleSQLCatalogSource = oracleSQLCatalogSource
+            self.oracleSQLCatalogTarget = oracleSQLCatalogTarget
+            self.piiDetection = piiDetection
+            self.postgreSQLCatalogSource = postgreSQLCatalogSource
+            self.postgreSQLCatalogTarget = postgreSQLCatalogTarget
+            self.redshiftSource = redshiftSource
+            self.redshiftTarget = redshiftTarget
+            self.relationalCatalogSource = relationalCatalogSource
+            self.renameField = renameField
+            self.s3CatalogSource = s3CatalogSource
+            self.s3CatalogTarget = s3CatalogTarget
+            self.s3CsvSource = s3CsvSource
+            self.s3DirectTarget = s3DirectTarget
+            self.s3GlueParquetTarget = s3GlueParquetTarget
+            self.s3JsonSource = s3JsonSource
+            self.s3ParquetSource = s3ParquetSource
+            self.selectFields = selectFields
+            self.selectFromCollection = selectFromCollection
+            self.sparkConnectorSource = sparkConnectorSource
+            self.sparkConnectorTarget = sparkConnectorTarget
+            self.sparkSQL = sparkSQL
+            self.spigot = spigot
+            self.splitFields = splitFields
+            self.union = union
+        }
+
+        public func validate(name: String) throws {
+            try self.aggregate?.validate(name: "\(name).aggregate")
+            try self.applyMapping?.validate(name: "\(name).applyMapping")
+            try self.athenaConnectorSource?.validate(name: "\(name).athenaConnectorSource")
+            try self.catalogKafkaSource?.validate(name: "\(name).catalogKafkaSource")
+            try self.catalogKinesisSource?.validate(name: "\(name).catalogKinesisSource")
+            try self.catalogSource?.validate(name: "\(name).catalogSource")
+            try self.catalogTarget?.validate(name: "\(name).catalogTarget")
+            try self.customCode?.validate(name: "\(name).customCode")
+            try self.directKafkaSource?.validate(name: "\(name).directKafkaSource")
+            try self.directKinesisSource?.validate(name: "\(name).directKinesisSource")
+            try self.dropDuplicates?.validate(name: "\(name).dropDuplicates")
+            try self.dropFields?.validate(name: "\(name).dropFields")
+            try self.dropNullFields?.validate(name: "\(name).dropNullFields")
+            try self.dynamoDBCatalogSource?.validate(name: "\(name).dynamoDBCatalogSource")
+            try self.fillMissingValues?.validate(name: "\(name).fillMissingValues")
+            try self.filter?.validate(name: "\(name).filter")
+            try self.governedCatalogSource?.validate(name: "\(name).governedCatalogSource")
+            try self.governedCatalogTarget?.validate(name: "\(name).governedCatalogTarget")
+            try self.jdbcConnectorSource?.validate(name: "\(name).jdbcConnectorSource")
+            try self.jdbcConnectorTarget?.validate(name: "\(name).jdbcConnectorTarget")
+            try self.join?.validate(name: "\(name).join")
+            try self.merge?.validate(name: "\(name).merge")
+            try self.microsoftSQLServerCatalogSource?.validate(name: "\(name).microsoftSQLServerCatalogSource")
+            try self.microsoftSQLServerCatalogTarget?.validate(name: "\(name).microsoftSQLServerCatalogTarget")
+            try self.mySQLCatalogSource?.validate(name: "\(name).mySQLCatalogSource")
+            try self.mySQLCatalogTarget?.validate(name: "\(name).mySQLCatalogTarget")
+            try self.oracleSQLCatalogSource?.validate(name: "\(name).oracleSQLCatalogSource")
+            try self.oracleSQLCatalogTarget?.validate(name: "\(name).oracleSQLCatalogTarget")
+            try self.piiDetection?.validate(name: "\(name).piiDetection")
+            try self.postgreSQLCatalogSource?.validate(name: "\(name).postgreSQLCatalogSource")
+            try self.postgreSQLCatalogTarget?.validate(name: "\(name).postgreSQLCatalogTarget")
+            try self.redshiftSource?.validate(name: "\(name).redshiftSource")
+            try self.redshiftTarget?.validate(name: "\(name).redshiftTarget")
+            try self.relationalCatalogSource?.validate(name: "\(name).relationalCatalogSource")
+            try self.renameField?.validate(name: "\(name).renameField")
+            try self.s3CatalogSource?.validate(name: "\(name).s3CatalogSource")
+            try self.s3CatalogTarget?.validate(name: "\(name).s3CatalogTarget")
+            try self.s3CsvSource?.validate(name: "\(name).s3CsvSource")
+            try self.s3DirectTarget?.validate(name: "\(name).s3DirectTarget")
+            try self.s3GlueParquetTarget?.validate(name: "\(name).s3GlueParquetTarget")
+            try self.s3JsonSource?.validate(name: "\(name).s3JsonSource")
+            try self.s3ParquetSource?.validate(name: "\(name).s3ParquetSource")
+            try self.selectFields?.validate(name: "\(name).selectFields")
+            try self.selectFromCollection?.validate(name: "\(name).selectFromCollection")
+            try self.sparkConnectorSource?.validate(name: "\(name).sparkConnectorSource")
+            try self.sparkConnectorTarget?.validate(name: "\(name).sparkConnectorTarget")
+            try self.sparkSQL?.validate(name: "\(name).sparkSQL")
+            try self.spigot?.validate(name: "\(name).spigot")
+            try self.splitFields?.validate(name: "\(name).splitFields")
+            try self.union?.validate(name: "\(name).union")
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case aggregate = "Aggregate"
+            case applyMapping = "ApplyMapping"
+            case athenaConnectorSource = "AthenaConnectorSource"
+            case catalogKafkaSource = "CatalogKafkaSource"
+            case catalogKinesisSource = "CatalogKinesisSource"
+            case catalogSource = "CatalogSource"
+            case catalogTarget = "CatalogTarget"
+            case customCode = "CustomCode"
+            case directKafkaSource = "DirectKafkaSource"
+            case directKinesisSource = "DirectKinesisSource"
+            case dropDuplicates = "DropDuplicates"
+            case dropFields = "DropFields"
+            case dropNullFields = "DropNullFields"
+            case dynamoDBCatalogSource = "DynamoDBCatalogSource"
+            case fillMissingValues = "FillMissingValues"
+            case filter = "Filter"
+            case governedCatalogSource = "GovernedCatalogSource"
+            case governedCatalogTarget = "GovernedCatalogTarget"
+            case jdbcConnectorSource = "JDBCConnectorSource"
+            case jdbcConnectorTarget = "JDBCConnectorTarget"
+            case join = "Join"
+            case merge = "Merge"
+            case microsoftSQLServerCatalogSource = "MicrosoftSQLServerCatalogSource"
+            case microsoftSQLServerCatalogTarget = "MicrosoftSQLServerCatalogTarget"
+            case mySQLCatalogSource = "MySQLCatalogSource"
+            case mySQLCatalogTarget = "MySQLCatalogTarget"
+            case oracleSQLCatalogSource = "OracleSQLCatalogSource"
+            case oracleSQLCatalogTarget = "OracleSQLCatalogTarget"
+            case piiDetection = "PIIDetection"
+            case postgreSQLCatalogSource = "PostgreSQLCatalogSource"
+            case postgreSQLCatalogTarget = "PostgreSQLCatalogTarget"
+            case redshiftSource = "RedshiftSource"
+            case redshiftTarget = "RedshiftTarget"
+            case relationalCatalogSource = "RelationalCatalogSource"
+            case renameField = "RenameField"
+            case s3CatalogSource = "S3CatalogSource"
+            case s3CatalogTarget = "S3CatalogTarget"
+            case s3CsvSource = "S3CsvSource"
+            case s3DirectTarget = "S3DirectTarget"
+            case s3GlueParquetTarget = "S3GlueParquetTarget"
+            case s3JsonSource = "S3JsonSource"
+            case s3ParquetSource = "S3ParquetSource"
+            case selectFields = "SelectFields"
+            case selectFromCollection = "SelectFromCollection"
+            case sparkConnectorSource = "SparkConnectorSource"
+            case sparkConnectorTarget = "SparkConnectorTarget"
+            case sparkSQL = "SparkSQL"
+            case spigot = "Spigot"
+            case splitFields = "SplitFields"
+            case union = "Union"
         }
     }
 
@@ -3036,6 +3789,8 @@ extension Glue {
         /// This parameter is deprecated. Use MaxCapacity instead.
         /// 	 The number of Glue data processing units (DPUs) to allocate to this Job. You can allocate from 2 to 100 DPUs; the default is 10. A DPU is a relative measure of processing power that consists of 4 vCPUs of compute capacity and 16 GB of memory. For more information, see the Glue pricing page.
         public let allocatedCapacity: Int?
+        /// The representation of a directed acyclic graph on which both the Glue Studio visual component and Glue Studio code generation is based.
+        public let codeGenConfigurationNodes: [String: CodeGenConfigurationNode]?
         /// The JobCommand that runs this job.
         public let command: JobCommand
         /// The connections used for this job.
@@ -3080,8 +3835,9 @@ extension Glue {
         /// 	          For the Standard worker type, each worker provides 4 vCPU, 16 GB of memory and a 50GB disk, and 2 executors per worker.   For the G.1X worker type, each worker maps to 1 DPU (4 vCPU, 16 GB of memory, 64 GB disk), and provides 1 executor per worker. We recommend this worker type for memory-intensive jobs.   For the G.2X worker type, each worker maps to 2 DPU (8 vCPU, 32 GB of memory, 128 GB disk), and provides 1 executor per worker. We recommend this worker type for memory-intensive jobs.
         public let workerType: WorkerType?
 
-        public init(command: JobCommand, connections: ConnectionsList? = nil, defaultArguments: [String: String]? = nil, description: String? = nil, executionProperty: ExecutionProperty? = nil, glueVersion: String? = nil, logUri: String? = nil, maxCapacity: Double? = nil, maxRetries: Int? = nil, name: String, nonOverridableArguments: [String: String]? = nil, notificationProperty: NotificationProperty? = nil, numberOfWorkers: Int? = nil, role: String, securityConfiguration: String? = nil, tags: [String: String]? = nil, timeout: Int? = nil, workerType: WorkerType? = nil) {
+        public init(codeGenConfigurationNodes: [String: CodeGenConfigurationNode]? = nil, command: JobCommand, connections: ConnectionsList? = nil, defaultArguments: [String: String]? = nil, description: String? = nil, executionProperty: ExecutionProperty? = nil, glueVersion: String? = nil, logUri: String? = nil, maxCapacity: Double? = nil, maxRetries: Int? = nil, name: String, nonOverridableArguments: [String: String]? = nil, notificationProperty: NotificationProperty? = nil, numberOfWorkers: Int? = nil, role: String, securityConfiguration: String? = nil, tags: [String: String]? = nil, timeout: Int? = nil, workerType: WorkerType? = nil) {
             self.allocatedCapacity = nil
+            self.codeGenConfigurationNodes = codeGenConfigurationNodes
             self.command = command
             self.connections = connections
             self.defaultArguments = defaultArguments
@@ -3103,8 +3859,9 @@ extension Glue {
         }
 
         @available(*, deprecated, message: "Members allocatedCapacity have been deprecated")
-        public init(allocatedCapacity: Int? = nil, command: JobCommand, connections: ConnectionsList? = nil, defaultArguments: [String: String]? = nil, description: String? = nil, executionProperty: ExecutionProperty? = nil, glueVersion: String? = nil, logUri: String? = nil, maxCapacity: Double? = nil, maxRetries: Int? = nil, name: String, nonOverridableArguments: [String: String]? = nil, notificationProperty: NotificationProperty? = nil, numberOfWorkers: Int? = nil, role: String, securityConfiguration: String? = nil, tags: [String: String]? = nil, timeout: Int? = nil, workerType: WorkerType? = nil) {
+        public init(allocatedCapacity: Int? = nil, codeGenConfigurationNodes: [String: CodeGenConfigurationNode]? = nil, command: JobCommand, connections: ConnectionsList? = nil, defaultArguments: [String: String]? = nil, description: String? = nil, executionProperty: ExecutionProperty? = nil, glueVersion: String? = nil, logUri: String? = nil, maxCapacity: Double? = nil, maxRetries: Int? = nil, name: String, nonOverridableArguments: [String: String]? = nil, notificationProperty: NotificationProperty? = nil, numberOfWorkers: Int? = nil, role: String, securityConfiguration: String? = nil, tags: [String: String]? = nil, timeout: Int? = nil, workerType: WorkerType? = nil) {
             self.allocatedCapacity = allocatedCapacity
+            self.codeGenConfigurationNodes = codeGenConfigurationNodes
             self.command = command
             self.connections = connections
             self.defaultArguments = defaultArguments
@@ -3126,6 +3883,10 @@ extension Glue {
         }
 
         public func validate(name: String) throws {
+            try self.codeGenConfigurationNodes?.forEach {
+                try validate($0.key, name: "codeGenConfigurationNodes.key", parent: name, pattern: "^[A-Za-z0-9_-]*$")
+                try $0.value.validate(name: "\(name).codeGenConfigurationNodes[\"\($0.key)\"]")
+            }
             try self.command.validate(name: "\(name).command")
             try self.validate(self.description, name: "description", parent: name, max: 2048)
             try self.validate(self.description, name: "description", parent: name, pattern: "^[\\u0020-\\uD7FF\\uE000-\\uFFFD\\uD800\\uDC00-\\uDBFF\\uDFFF\\r\\n\\t]*$")
@@ -3150,6 +3911,7 @@ extension Glue {
 
         private enum CodingKeys: String, CodingKey {
             case allocatedCapacity = "AllocatedCapacity"
+            case codeGenConfigurationNodes = "CodeGenConfigurationNodes"
             case command = "Command"
             case connections = "Connections"
             case defaultArguments = "DefaultArguments"
@@ -4092,6 +4854,48 @@ extension Glue {
         }
     }
 
+    public struct CustomCode: AWSEncodableShape & AWSDecodableShape {
+        /// The name defined for the custom code node class.
+        public let className: String
+        /// The custom code that is used to perform the data transformation.
+        public let code: String
+        /// The data inputs identified by their node names.
+        public let inputs: [String]
+        /// The name of the transform node.
+        public let name: String
+        /// Specifies the data schema for the custom code transform.
+        public let outputSchemas: [GlueSchema]?
+
+        public init(className: String, code: String, inputs: [String], name: String, outputSchemas: [GlueSchema]? = nil) {
+            self.className = className
+            self.code = code
+            self.inputs = inputs
+            self.name = name
+            self.outputSchemas = outputSchemas
+        }
+
+        public func validate(name: String) throws {
+            try self.validate(self.className, name: "className", parent: name, pattern: "^([\\u0020-\\uD7FF\\uE000-\\uFFFD\\uD800\\uDC00-\\uDBFF\\uDFFF]|[^\\S\\r\\n\"'])*$")
+            try self.validate(self.code, name: "code", parent: name, pattern: "^[\\s\\S]*$")
+            try self.inputs.forEach {
+                try validate($0, name: "inputs[]", parent: name, pattern: "^[A-Za-z0-9_-]*$")
+            }
+            try self.validate(self.inputs, name: "inputs", parent: name, min: 1)
+            try self.validate(self.name, name: "name", parent: name, pattern: "^([\\u0020-\\uD7FF\\uE000-\\uFFFD\\uD800\\uDC00-\\uDBFF\\uDFFF]|[^\\r\\n])*$")
+            try self.outputSchemas?.forEach {
+                try $0.validate(name: "\(name).outputSchemas[]")
+            }
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case className = "ClassName"
+            case code = "Code"
+            case inputs = "Inputs"
+            case name = "Name"
+            case outputSchemas = "OutputSchemas"
+        }
+    }
+
     public struct CustomEntityType: AWSDecodableShape {
         /// A list of context words. If none of these context words are found within the vicinity of the regular expression the data will not be detected as sensitive data.
         ///
@@ -4273,6 +5077,28 @@ extension Glue {
             case name = "Name"
             case parameters = "Parameters"
             case targetDatabase = "TargetDatabase"
+        }
+    }
+
+    public struct Datatype: AWSEncodableShape & AWSDecodableShape {
+        /// The datatype of the value.
+        public let id: String
+        /// A label assigned to the datatype.
+        public let label: String
+
+        public init(id: String, label: String) {
+            self.id = id
+            self.label = label
+        }
+
+        public func validate(name: String) throws {
+            try self.validate(self.id, name: "id", parent: name, pattern: "^[A-Za-z0-9_-]*$")
+            try self.validate(self.label, name: "label", parent: name, pattern: "^[A-Za-z0-9_-]*$")
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case id = "Id"
+            case label = "Label"
         }
     }
 
@@ -5340,6 +6166,108 @@ extension Glue {
         }
     }
 
+    public struct DirectKafkaSource: AWSEncodableShape & AWSDecodableShape {
+        /// Specifies options related to data preview for viewing a sample of your data.
+        public let dataPreviewOptions: StreamingDataPreviewOptions?
+        /// Whether to automatically determine the schema from the incoming data.
+        public let detectSchema: Bool?
+        /// The name of the data store.
+        public let name: String
+        /// Specifies the streaming options.
+        public let streamingOptions: KafkaStreamingSourceOptions?
+        /// The amount of time to spend processing each micro batch.
+        public let windowSize: Int?
+
+        public init(dataPreviewOptions: StreamingDataPreviewOptions? = nil, detectSchema: Bool? = nil, name: String, streamingOptions: KafkaStreamingSourceOptions? = nil, windowSize: Int? = nil) {
+            self.dataPreviewOptions = dataPreviewOptions
+            self.detectSchema = detectSchema
+            self.name = name
+            self.streamingOptions = streamingOptions
+            self.windowSize = windowSize
+        }
+
+        public func validate(name: String) throws {
+            try self.dataPreviewOptions?.validate(name: "\(name).dataPreviewOptions")
+            try self.validate(self.name, name: "name", parent: name, pattern: "^([\\u0020-\\uD7FF\\uE000-\\uFFFD\\uD800\\uDC00-\\uDBFF\\uDFFF]|[^\\r\\n])*$")
+            try self.streamingOptions?.validate(name: "\(name).streamingOptions")
+            try self.validate(self.windowSize, name: "windowSize", parent: name, min: 0)
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case dataPreviewOptions = "DataPreviewOptions"
+            case detectSchema = "DetectSchema"
+            case name = "Name"
+            case streamingOptions = "StreamingOptions"
+            case windowSize = "WindowSize"
+        }
+    }
+
+    public struct DirectKinesisSource: AWSEncodableShape & AWSDecodableShape {
+        /// Additional options for data preview.
+        public let dataPreviewOptions: StreamingDataPreviewOptions?
+        /// Whether to automatically determine the schema from the incoming data.
+        public let detectSchema: Bool?
+        /// The name of the data source.
+        public let name: String
+        /// Additional options for the Kinesis streaming data source.
+        public let streamingOptions: KinesisStreamingSourceOptions?
+        /// The amount of time to spend processing each micro batch.
+        public let windowSize: Int?
+
+        public init(dataPreviewOptions: StreamingDataPreviewOptions? = nil, detectSchema: Bool? = nil, name: String, streamingOptions: KinesisStreamingSourceOptions? = nil, windowSize: Int? = nil) {
+            self.dataPreviewOptions = dataPreviewOptions
+            self.detectSchema = detectSchema
+            self.name = name
+            self.streamingOptions = streamingOptions
+            self.windowSize = windowSize
+        }
+
+        public func validate(name: String) throws {
+            try self.dataPreviewOptions?.validate(name: "\(name).dataPreviewOptions")
+            try self.validate(self.name, name: "name", parent: name, pattern: "^([\\u0020-\\uD7FF\\uE000-\\uFFFD\\uD800\\uDC00-\\uDBFF\\uDFFF]|[^\\r\\n])*$")
+            try self.streamingOptions?.validate(name: "\(name).streamingOptions")
+            try self.validate(self.windowSize, name: "windowSize", parent: name, min: 0)
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case dataPreviewOptions = "DataPreviewOptions"
+            case detectSchema = "DetectSchema"
+            case name = "Name"
+            case streamingOptions = "StreamingOptions"
+            case windowSize = "WindowSize"
+        }
+    }
+
+    public struct DirectSchemaChangePolicy: AWSEncodableShape & AWSDecodableShape {
+        /// Specifies the database that the schema change policy applies to.
+        public let database: String?
+        /// Whether to use the specified update behavior when the crawler finds a changed schema.
+        public let enableUpdateCatalog: Bool?
+        /// Specifies the table in the database that the schema change policy applies to.
+        public let table: String?
+        /// The update behavior when the crawler finds a changed schema.
+        public let updateBehavior: UpdateCatalogBehavior?
+
+        public init(database: String? = nil, enableUpdateCatalog: Bool? = nil, table: String? = nil, updateBehavior: UpdateCatalogBehavior? = nil) {
+            self.database = database
+            self.enableUpdateCatalog = enableUpdateCatalog
+            self.table = table
+            self.updateBehavior = updateBehavior
+        }
+
+        public func validate(name: String) throws {
+            try self.validate(self.database, name: "database", parent: name, pattern: "^([\\u0020-\\uD7FF\\uE000-\\uFFFD\\uD800\\uDC00-\\uDBFF\\uDFFF]|[^\\S\\r\\n\"'])*$")
+            try self.validate(self.table, name: "table", parent: name, pattern: "^([\\u0020-\\uD7FF\\uE000-\\uFFFD\\uD800\\uDC00-\\uDBFF\\uDFFF]|[^\\S\\r\\n\"'])*$")
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case database = "Database"
+            case enableUpdateCatalog = "EnableUpdateCatalog"
+            case table = "Table"
+            case updateBehavior = "UpdateBehavior"
+        }
+    }
+
     public struct DoubleColumnStatisticsData: AWSEncodableShape & AWSDecodableShape {
         /// The highest value in the column.
         public let maximumValue: Double?
@@ -5367,6 +6295,132 @@ extension Glue {
             case minimumValue = "MinimumValue"
             case numberOfDistinctValues = "NumberOfDistinctValues"
             case numberOfNulls = "NumberOfNulls"
+        }
+    }
+
+    public struct DropDuplicates: AWSEncodableShape & AWSDecodableShape {
+        /// The name of the columns to be merged or removed if repeating.
+        public let columns: [[String]]?
+        /// The data inputs identified by their node names.
+        public let inputs: [String]
+        /// The name of the transform node.
+        public let name: String
+
+        public init(columns: [[String]]? = nil, inputs: [String], name: String) {
+            self.columns = columns
+            self.inputs = inputs
+            self.name = name
+        }
+
+        public func validate(name: String) throws {
+            try self.inputs.forEach {
+                try validate($0, name: "inputs[]", parent: name, pattern: "^[A-Za-z0-9_-]*$")
+            }
+            try self.validate(self.inputs, name: "inputs", parent: name, max: 1)
+            try self.validate(self.inputs, name: "inputs", parent: name, min: 1)
+            try self.validate(self.name, name: "name", parent: name, pattern: "^([\\u0020-\\uD7FF\\uE000-\\uFFFD\\uD800\\uDC00-\\uDBFF\\uDFFF]|[^\\r\\n])*$")
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case columns = "Columns"
+            case inputs = "Inputs"
+            case name = "Name"
+        }
+    }
+
+    public struct DropFields: AWSEncodableShape & AWSDecodableShape {
+        /// The data inputs identified by their node names.
+        public let inputs: [String]
+        /// The name of the transform node.
+        public let name: String
+        /// A JSON path to a variable in the data structure.
+        public let paths: [[String]]
+
+        public init(inputs: [String], name: String, paths: [[String]]) {
+            self.inputs = inputs
+            self.name = name
+            self.paths = paths
+        }
+
+        public func validate(name: String) throws {
+            try self.inputs.forEach {
+                try validate($0, name: "inputs[]", parent: name, pattern: "^[A-Za-z0-9_-]*$")
+            }
+            try self.validate(self.inputs, name: "inputs", parent: name, max: 1)
+            try self.validate(self.inputs, name: "inputs", parent: name, min: 1)
+            try self.validate(self.name, name: "name", parent: name, pattern: "^([\\u0020-\\uD7FF\\uE000-\\uFFFD\\uD800\\uDC00-\\uDBFF\\uDFFF]|[^\\r\\n])*$")
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case inputs = "Inputs"
+            case name = "Name"
+            case paths = "Paths"
+        }
+    }
+
+    public struct DropNullFields: AWSEncodableShape & AWSDecodableShape {
+        /// The data inputs identified by their node names.
+        public let inputs: [String]
+        /// The name of the transform node.
+        public let name: String
+        /// A structure that represents whether certain values are recognized as null values for removal.
+        public let nullCheckBoxList: NullCheckBoxList?
+        /// A structure that specifies a list of NullValueField structures that represent a custom null value such as zero or other value being used as a null placeholder unique to the dataset.
+        ///  The DropNullFields transform removes custom null values only if both the value of the null placeholder and the datatype match the data.
+        public let nullTextList: [NullValueField]?
+
+        public init(inputs: [String], name: String, nullCheckBoxList: NullCheckBoxList? = nil, nullTextList: [NullValueField]? = nil) {
+            self.inputs = inputs
+            self.name = name
+            self.nullCheckBoxList = nullCheckBoxList
+            self.nullTextList = nullTextList
+        }
+
+        public func validate(name: String) throws {
+            try self.inputs.forEach {
+                try validate($0, name: "inputs[]", parent: name, pattern: "^[A-Za-z0-9_-]*$")
+            }
+            try self.validate(self.inputs, name: "inputs", parent: name, max: 1)
+            try self.validate(self.inputs, name: "inputs", parent: name, min: 1)
+            try self.validate(self.name, name: "name", parent: name, pattern: "^([\\u0020-\\uD7FF\\uE000-\\uFFFD\\uD800\\uDC00-\\uDBFF\\uDFFF]|[^\\r\\n])*$")
+            try self.nullTextList?.forEach {
+                try $0.validate(name: "\(name).nullTextList[]")
+            }
+            try self.validate(self.nullTextList, name: "nullTextList", parent: name, max: 50)
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case inputs = "Inputs"
+            case name = "Name"
+            case nullCheckBoxList = "NullCheckBoxList"
+            case nullTextList = "NullTextList"
+        }
+    }
+
+    public struct DynamoDBCatalogSource: AWSEncodableShape & AWSDecodableShape {
+        /// The name of the database to read from.
+        public let database: String
+        /// The name of the data source.
+        public let name: String
+        /// The name of the table in the database to read from.
+        public let table: String
+
+        public init(database: String, name: String, table: String) {
+            self.database = database
+            self.name = name
+            self.table = table
+        }
+
+        public func validate(name: String) throws {
+            try self.validate(self.database, name: "database", parent: name, pattern: "^([\\u0020-\\uD7FF\\uE000-\\uFFFD\\uD800\\uDC00-\\uDBFF\\uDFFF]|[^\\S\\r\\n\"'])*$")
+            try self.validate(self.name, name: "name", parent: name, pattern: "^([\\u0020-\\uD7FF\\uE000-\\uFFFD\\uD800\\uDC00-\\uDBFF\\uDFFF]|[^\\r\\n])*$")
+            try self.validate(self.table, name: "table", parent: name, pattern: "^([\\u0020-\\uD7FF\\uE000-\\uFFFD\\uD800\\uDC00-\\uDBFF\\uDFFF]|[^\\S\\r\\n\"'])*$")
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case database = "Database"
+            case name = "Name"
+            case table = "Table"
         }
     }
 
@@ -5562,6 +6616,129 @@ extension Glue {
 
         private enum CodingKeys: String, CodingKey {
             case outputS3Path = "OutputS3Path"
+        }
+    }
+
+    public struct FillMissingValues: AWSEncodableShape & AWSDecodableShape {
+        /// A JSON path to a variable in the data structure for the dataset that is filled.
+        public let filledPath: String?
+        /// A JSON path to a variable in the data structure for the dataset that is imputed.
+        public let imputedPath: String
+        /// The data inputs identified by their node names.
+        public let inputs: [String]
+        /// The name of the transform node.
+        public let name: String
+
+        public init(filledPath: String? = nil, imputedPath: String, inputs: [String], name: String) {
+            self.filledPath = filledPath
+            self.imputedPath = imputedPath
+            self.inputs = inputs
+            self.name = name
+        }
+
+        public func validate(name: String) throws {
+            try self.validate(self.filledPath, name: "filledPath", parent: name, pattern: "^([\\u0020-\\uD7FF\\uE000-\\uFFFD\\uD800\\uDC00-\\uDBFF\\uDFFF]|[^\\S\\r\\n\"'])*$")
+            try self.validate(self.imputedPath, name: "imputedPath", parent: name, pattern: "^([\\u0020-\\uD7FF\\uE000-\\uFFFD\\uD800\\uDC00-\\uDBFF\\uDFFF]|[^\\S\\r\\n\"'])*$")
+            try self.inputs.forEach {
+                try validate($0, name: "inputs[]", parent: name, pattern: "^[A-Za-z0-9_-]*$")
+            }
+            try self.validate(self.inputs, name: "inputs", parent: name, max: 1)
+            try self.validate(self.inputs, name: "inputs", parent: name, min: 1)
+            try self.validate(self.name, name: "name", parent: name, pattern: "^([\\u0020-\\uD7FF\\uE000-\\uFFFD\\uD800\\uDC00-\\uDBFF\\uDFFF]|[^\\r\\n])*$")
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case filledPath = "FilledPath"
+            case imputedPath = "ImputedPath"
+            case inputs = "Inputs"
+            case name = "Name"
+        }
+    }
+
+    public struct Filter: AWSEncodableShape & AWSDecodableShape {
+        /// Specifies a filter expression.
+        public let filters: [FilterExpression]
+        /// The data inputs identified by their node names.
+        public let inputs: [String]
+        /// The operator used to filter rows by comparing the key value to a specified value.
+        public let logicalOperator: FilterLogicalOperator
+        /// The name of the transform node.
+        public let name: String
+
+        public init(filters: [FilterExpression], inputs: [String], logicalOperator: FilterLogicalOperator, name: String) {
+            self.filters = filters
+            self.inputs = inputs
+            self.logicalOperator = logicalOperator
+            self.name = name
+        }
+
+        public func validate(name: String) throws {
+            try self.filters.forEach {
+                try $0.validate(name: "\(name).filters[]")
+            }
+            try self.inputs.forEach {
+                try validate($0, name: "inputs[]", parent: name, pattern: "^[A-Za-z0-9_-]*$")
+            }
+            try self.validate(self.inputs, name: "inputs", parent: name, max: 1)
+            try self.validate(self.inputs, name: "inputs", parent: name, min: 1)
+            try self.validate(self.name, name: "name", parent: name, pattern: "^([\\u0020-\\uD7FF\\uE000-\\uFFFD\\uD800\\uDC00-\\uDBFF\\uDFFF]|[^\\r\\n])*$")
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case filters = "Filters"
+            case inputs = "Inputs"
+            case logicalOperator = "LogicalOperator"
+            case name = "Name"
+        }
+    }
+
+    public struct FilterExpression: AWSEncodableShape & AWSDecodableShape {
+        /// Whether the expression is to be negated.
+        public let negated: Bool?
+        /// The type of operation to perform in the expression.
+        public let operation: FilterOperation
+        /// A list of filter values.
+        public let values: [FilterValue]
+
+        public init(negated: Bool? = nil, operation: FilterOperation, values: [FilterValue]) {
+            self.negated = negated
+            self.operation = operation
+            self.values = values
+        }
+
+        public func validate(name: String) throws {
+            try self.values.forEach {
+                try $0.validate(name: "\(name).values[]")
+            }
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case negated = "Negated"
+            case operation = "Operation"
+            case values = "Values"
+        }
+    }
+
+    public struct FilterValue: AWSEncodableShape & AWSDecodableShape {
+        /// The type of filter value.
+        public let type: FilterValueType
+        /// The value to be associated.
+        public let value: [String]
+
+        public init(type: FilterValueType, value: [String]) {
+            self.type = type
+            self.value = value
+        }
+
+        public func validate(name: String) throws {
+            try self.value.forEach {
+                try validate($0, name: "value[]", parent: name, pattern: "^([\\u0020-\\uD7FF\\uE000-\\uFFFD\\uD800\\uDC00-\\uDBFF\\uDFFF]|[^\\S\\r\\n\"'])*$")
+            }
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case type = "Type"
+            case value = "Value"
         }
     }
 
@@ -8667,6 +9844,49 @@ extension Glue {
         }
     }
 
+    public struct GlueSchema: AWSEncodableShape & AWSDecodableShape {
+        /// Specifies the column definitions that make up a Glue schema.
+        public let columns: [GlueStudioSchemaColumn]?
+
+        public init(columns: [GlueStudioSchemaColumn]? = nil) {
+            self.columns = columns
+        }
+
+        public func validate(name: String) throws {
+            try self.columns?.forEach {
+                try $0.validate(name: "\(name).columns[]")
+            }
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case columns = "Columns"
+        }
+    }
+
+    public struct GlueStudioSchemaColumn: AWSEncodableShape & AWSDecodableShape {
+        /// The name of the column in the Glue Studio schema.
+        public let name: String
+        /// The hive type for this column in the Glue Studio schema.
+        public let type: String?
+
+        public init(name: String, type: String? = nil) {
+            self.name = name
+            self.type = type
+        }
+
+        public func validate(name: String) throws {
+            try self.validate(self.name, name: "name", parent: name, max: 1024)
+            try self.validate(self.name, name: "name", parent: name, pattern: "^[\\u0020-\\uD7FF\\uE000-\\uFFFD\\uD800\\uDC00-\\uDBFF\\uDFFF\\t]*$")
+            try self.validate(self.type, name: "type", parent: name, max: 131_072)
+            try self.validate(self.type, name: "type", parent: name, pattern: "^[\\u0020-\\uD7FF\\uE000-\\uFFFD\\uD800\\uDC00-\\uDBFF\\uDFFF\\t]*$")
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case name = "Name"
+            case type = "Type"
+        }
+    }
+
     public struct GlueTable: AWSEncodableShape & AWSDecodableShape {
         /// A unique identifier for the Glue Data Catalog.
         public let catalogId: String?
@@ -8704,6 +9924,86 @@ extension Glue {
             case connectionName = "ConnectionName"
             case databaseName = "DatabaseName"
             case tableName = "TableName"
+        }
+    }
+
+    public struct GovernedCatalogSource: AWSEncodableShape & AWSDecodableShape {
+        /// Specifies additional connection options.
+        public let additionalOptions: S3SourceAdditionalOptions?
+        /// The database to read from.
+        public let database: String
+        /// The name of the data store.
+        public let name: String
+        /// Partitions satisfying this predicate are deleted. Files within the retention period in these partitions are not deleted. Set to "" – empty by default.
+        public let partitionPredicate: String?
+        /// The database table to read from.
+        public let table: String
+
+        public init(additionalOptions: S3SourceAdditionalOptions? = nil, database: String, name: String, partitionPredicate: String? = nil, table: String) {
+            self.additionalOptions = additionalOptions
+            self.database = database
+            self.name = name
+            self.partitionPredicate = partitionPredicate
+            self.table = table
+        }
+
+        public func validate(name: String) throws {
+            try self.validate(self.database, name: "database", parent: name, pattern: "^([\\u0020-\\uD7FF\\uE000-\\uFFFD\\uD800\\uDC00-\\uDBFF\\uDFFF]|[^\\S\\r\\n\"'])*$")
+            try self.validate(self.name, name: "name", parent: name, pattern: "^([\\u0020-\\uD7FF\\uE000-\\uFFFD\\uD800\\uDC00-\\uDBFF\\uDFFF]|[^\\r\\n])*$")
+            try self.validate(self.partitionPredicate, name: "partitionPredicate", parent: name, pattern: "^([\\u0020-\\uD7FF\\uE000-\\uFFFD\\uD800\\uDC00-\\uDBFF\\uDFFF]|[^\\S\\r\\n\"'])*$")
+            try self.validate(self.table, name: "table", parent: name, pattern: "^([\\u0020-\\uD7FF\\uE000-\\uFFFD\\uD800\\uDC00-\\uDBFF\\uDFFF]|[^\\S\\r\\n\"'])*$")
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case additionalOptions = "AdditionalOptions"
+            case database = "Database"
+            case name = "Name"
+            case partitionPredicate = "PartitionPredicate"
+            case table = "Table"
+        }
+    }
+
+    public struct GovernedCatalogTarget: AWSEncodableShape & AWSDecodableShape {
+        /// The name of the database to write to.
+        public let database: String
+        /// The nodes that are inputs to the data target.
+        public let inputs: [String]
+        /// The name of the data target.
+        public let name: String
+        /// Specifies native partitioning using a sequence of keys.
+        public let partitionKeys: [[String]]?
+        /// A policy that specifies update behavior for the governed catalog.
+        public let schemaChangePolicy: CatalogSchemaChangePolicy?
+        /// The name of the table in the database to write to.
+        public let table: String
+
+        public init(database: String, inputs: [String], name: String, partitionKeys: [[String]]? = nil, schemaChangePolicy: CatalogSchemaChangePolicy? = nil, table: String) {
+            self.database = database
+            self.inputs = inputs
+            self.name = name
+            self.partitionKeys = partitionKeys
+            self.schemaChangePolicy = schemaChangePolicy
+            self.table = table
+        }
+
+        public func validate(name: String) throws {
+            try self.validate(self.database, name: "database", parent: name, pattern: "^([\\u0020-\\uD7FF\\uE000-\\uFFFD\\uD800\\uDC00-\\uDBFF\\uDFFF]|[^\\S\\r\\n\"'])*$")
+            try self.inputs.forEach {
+                try validate($0, name: "inputs[]", parent: name, pattern: "^[A-Za-z0-9_-]*$")
+            }
+            try self.validate(self.inputs, name: "inputs", parent: name, max: 1)
+            try self.validate(self.inputs, name: "inputs", parent: name, min: 1)
+            try self.validate(self.name, name: "name", parent: name, pattern: "^([\\u0020-\\uD7FF\\uE000-\\uFFFD\\uD800\\uDC00-\\uDBFF\\uDFFF]|[^\\r\\n])*$")
+            try self.validate(self.table, name: "table", parent: name, pattern: "^([\\u0020-\\uD7FF\\uE000-\\uFFFD\\uD800\\uDC00-\\uDBFF\\uDFFF]|[^\\S\\r\\n\"'])*$")
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case database = "Database"
+            case inputs = "Inputs"
+            case name = "Name"
+            case partitionKeys = "PartitionKeys"
+            case schemaChangePolicy = "SchemaChangePolicy"
+            case table = "Table"
         }
     }
 
@@ -8784,6 +10084,178 @@ extension Glue {
         }
     }
 
+    public struct JDBCConnectorOptions: AWSEncodableShape & AWSDecodableShape {
+        /// Custom data type mapping that builds a mapping from a JDBC data type to an Glue data type. For example, the option "dataTypeMapping":{"FLOAT":"STRING"} maps data fields of JDBC type FLOAT into the Java String type by calling the ResultSet.getString() method of the driver, and uses it to build the Glue record. The ResultSet object is implemented by each driver, so the behavior is specific to the driver you use. Refer to the documentation for your JDBC driver to understand how the driver performs the conversions.
+        public let dataTypeMapping: [JDBCDataType: GlueRecordType]?
+        /// Extra condition clause to filter data from source. For example:
+        ///
+        /// 	         BillingCity='Mountain View'
+        ///
+        /// 	        When using a query instead of a table name, you should validate that the query works with the specified filterPredicate.
+        public let filterPredicate: String?
+        /// The name of the job bookmark keys on which to sort.
+        public let jobBookmarkKeys: [String]?
+        /// Specifies an ascending or descending sort order.
+        public let jobBookmarkKeysSortOrder: String?
+        /// The minimum value of partitionColumn that is used to decide partition stride.
+        public let lowerBound: Int64?
+        /// The number of partitions. This value, along with lowerBound (inclusive) and upperBound (exclusive), form partition strides for generated WHERE clause expressions that are used to split the partitionColumn.
+        public let numPartitions: Int64?
+        /// The name of an integer column that is used for partitioning. This option works only when it's included with lowerBound, upperBound, and numPartitions. This option works the same way as in the Spark SQL JDBC reader.
+        public let partitionColumn: String?
+        /// The maximum value of partitionColumn that is used to decide partition stride.
+        public let upperBound: Int64?
+
+        public init(dataTypeMapping: [JDBCDataType: GlueRecordType]? = nil, filterPredicate: String? = nil, jobBookmarkKeys: [String]? = nil, jobBookmarkKeysSortOrder: String? = nil, lowerBound: Int64? = nil, numPartitions: Int64? = nil, partitionColumn: String? = nil, upperBound: Int64? = nil) {
+            self.dataTypeMapping = dataTypeMapping
+            self.filterPredicate = filterPredicate
+            self.jobBookmarkKeys = jobBookmarkKeys
+            self.jobBookmarkKeysSortOrder = jobBookmarkKeysSortOrder
+            self.lowerBound = lowerBound
+            self.numPartitions = numPartitions
+            self.partitionColumn = partitionColumn
+            self.upperBound = upperBound
+        }
+
+        public func validate(name: String) throws {
+            try self.validate(self.filterPredicate, name: "filterPredicate", parent: name, pattern: "^([\\u0020-\\uD7FF\\uE000-\\uFFFD\\uD800\\uDC00-\\uDBFF\\uDFFF]|[^\\S\\r\\n\"'])*$")
+            try self.jobBookmarkKeys?.forEach {
+                try validate($0, name: "jobBookmarkKeys[]", parent: name, pattern: "^([\\u0020-\\uD7FF\\uE000-\\uFFFD\\uD800\\uDC00-\\uDBFF\\uDFFF]|[^\\S\\r\\n\"'])*$")
+            }
+            try self.validate(self.jobBookmarkKeysSortOrder, name: "jobBookmarkKeysSortOrder", parent: name, pattern: "^([\\u0020-\\uD7FF\\uE000-\\uFFFD\\uD800\\uDC00-\\uDBFF\\uDFFF]|[^\\S\\r\\n\"'])*$")
+            try self.validate(self.lowerBound, name: "lowerBound", parent: name, min: 0)
+            try self.validate(self.numPartitions, name: "numPartitions", parent: name, min: 0)
+            try self.validate(self.partitionColumn, name: "partitionColumn", parent: name, pattern: "^([\\u0020-\\uD7FF\\uE000-\\uFFFD\\uD800\\uDC00-\\uDBFF\\uDFFF]|[^\\S\\r\\n\"'])*$")
+            try self.validate(self.upperBound, name: "upperBound", parent: name, min: 0)
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case dataTypeMapping = "DataTypeMapping"
+            case filterPredicate = "FilterPredicate"
+            case jobBookmarkKeys = "JobBookmarkKeys"
+            case jobBookmarkKeysSortOrder = "JobBookmarkKeysSortOrder"
+            case lowerBound = "LowerBound"
+            case numPartitions = "NumPartitions"
+            case partitionColumn = "PartitionColumn"
+            case upperBound = "UpperBound"
+        }
+    }
+
+    public struct JDBCConnectorSource: AWSEncodableShape & AWSDecodableShape {
+        /// Additional connection options for the connector.
+        public let additionalOptions: JDBCConnectorOptions?
+        /// The name of the connection that is associated with the connector.
+        public let connectionName: String
+        /// The name of the table in the data source.
+        public let connectionTable: String?
+        /// The type of connection, such as marketplace.jdbc or custom.jdbc, designating a connection to a JDBC data store.
+        public let connectionType: String
+        /// The name of a connector that assists with accessing the data store in Glue Studio.
+        public let connectorName: String
+        /// The name of the data source.
+        public let name: String
+        /// Specifies the data schema for the custom JDBC source.
+        public let outputSchemas: [GlueSchema]?
+        /// The table or SQL query to get the data from. You can specify either ConnectionTable or query, but not both.
+        public let query: String?
+
+        public init(additionalOptions: JDBCConnectorOptions? = nil, connectionName: String, connectionTable: String? = nil, connectionType: String, connectorName: String, name: String, outputSchemas: [GlueSchema]? = nil, query: String? = nil) {
+            self.additionalOptions = additionalOptions
+            self.connectionName = connectionName
+            self.connectionTable = connectionTable
+            self.connectionType = connectionType
+            self.connectorName = connectorName
+            self.name = name
+            self.outputSchemas = outputSchemas
+            self.query = query
+        }
+
+        public func validate(name: String) throws {
+            try self.additionalOptions?.validate(name: "\(name).additionalOptions")
+            try self.validate(self.connectionName, name: "connectionName", parent: name, pattern: "^([\\u0020-\\uD7FF\\uE000-\\uFFFD\\uD800\\uDC00-\\uDBFF\\uDFFF]|[^\\S\\r\\n\"'])*$")
+            try self.validate(self.connectionTable, name: "connectionTable", parent: name, pattern: "^([\\u0020-\\uD7FF\\uE000-\\uFFFD\\uD800\\uDC00-\\uDBFF\\uDFFF]|[^\\S\\r\\n])*$")
+            try self.validate(self.connectionType, name: "connectionType", parent: name, pattern: "^([\\u0020-\\uD7FF\\uE000-\\uFFFD\\uD800\\uDC00-\\uDBFF\\uDFFF]|[^\\S\\r\\n\"'])*$")
+            try self.validate(self.connectorName, name: "connectorName", parent: name, pattern: "^([\\u0020-\\uD7FF\\uE000-\\uFFFD\\uD800\\uDC00-\\uDBFF\\uDFFF]|[^\\S\\r\\n\"'])*$")
+            try self.validate(self.name, name: "name", parent: name, pattern: "^([\\u0020-\\uD7FF\\uE000-\\uFFFD\\uD800\\uDC00-\\uDBFF\\uDFFF]|[^\\r\\n])*$")
+            try self.outputSchemas?.forEach {
+                try $0.validate(name: "\(name).outputSchemas[]")
+            }
+            try self.validate(self.query, name: "query", parent: name, pattern: "^([\\u0020-\\uD7FF\\uE000-\\uFFFD\\uD800\\uDC00-\\uDBFF\\uDFFF\\s])*$")
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case additionalOptions = "AdditionalOptions"
+            case connectionName = "ConnectionName"
+            case connectionTable = "ConnectionTable"
+            case connectionType = "ConnectionType"
+            case connectorName = "ConnectorName"
+            case name = "Name"
+            case outputSchemas = "OutputSchemas"
+            case query = "Query"
+        }
+    }
+
+    public struct JDBCConnectorTarget: AWSEncodableShape & AWSDecodableShape {
+        /// Additional connection options for the connector.
+        public let additionalOptions: [String: String]?
+        /// The name of the connection that is associated with the connector.
+        public let connectionName: String
+        /// The name of the table in the data target.
+        public let connectionTable: String
+        /// The type of connection, such as marketplace.jdbc or custom.jdbc, designating a connection to a JDBC data target.
+        public let connectionType: String
+        /// The name of a connector that will be used.
+        public let connectorName: String
+        /// The nodes that are inputs to the data target.
+        public let inputs: [String]
+        /// The name of the data target.
+        public let name: String
+        /// Specifies the data schema for the JDBC target.
+        public let outputSchemas: [GlueSchema]?
+
+        public init(additionalOptions: [String: String]? = nil, connectionName: String, connectionTable: String, connectionType: String, connectorName: String, inputs: [String], name: String, outputSchemas: [GlueSchema]? = nil) {
+            self.additionalOptions = additionalOptions
+            self.connectionName = connectionName
+            self.connectionTable = connectionTable
+            self.connectionType = connectionType
+            self.connectorName = connectorName
+            self.inputs = inputs
+            self.name = name
+            self.outputSchemas = outputSchemas
+        }
+
+        public func validate(name: String) throws {
+            try self.additionalOptions?.forEach {
+                try validate($0.key, name: "additionalOptions.key", parent: name, pattern: "^([\\u0020-\\uD7FF\\uE000-\\uFFFD\\uD800\\uDC00-\\uDBFF\\uDFFF]|[^\\S\\r\\n\"'])*$")
+                try validate($0.value, name: "additionalOptions[\"\($0.key)\"]", parent: name, pattern: "^([\\u0020-\\uD7FF\\uE000-\\uFFFD\\uD800\\uDC00-\\uDBFF\\uDFFF]|[^\\S\\r\\n\"'])*$")
+            }
+            try self.validate(self.connectionName, name: "connectionName", parent: name, pattern: "^([\\u0020-\\uD7FF\\uE000-\\uFFFD\\uD800\\uDC00-\\uDBFF\\uDFFF]|[^\\S\\r\\n\"'])*$")
+            try self.validate(self.connectionTable, name: "connectionTable", parent: name, pattern: "^([\\u0020-\\uD7FF\\uE000-\\uFFFD\\uD800\\uDC00-\\uDBFF\\uDFFF]|[^\\S\\r\\n])*$")
+            try self.validate(self.connectionType, name: "connectionType", parent: name, pattern: "^([\\u0020-\\uD7FF\\uE000-\\uFFFD\\uD800\\uDC00-\\uDBFF\\uDFFF]|[^\\S\\r\\n\"'])*$")
+            try self.validate(self.connectorName, name: "connectorName", parent: name, pattern: "^([\\u0020-\\uD7FF\\uE000-\\uFFFD\\uD800\\uDC00-\\uDBFF\\uDFFF]|[^\\S\\r\\n\"'])*$")
+            try self.inputs.forEach {
+                try validate($0, name: "inputs[]", parent: name, pattern: "^[A-Za-z0-9_-]*$")
+            }
+            try self.validate(self.inputs, name: "inputs", parent: name, max: 1)
+            try self.validate(self.inputs, name: "inputs", parent: name, min: 1)
+            try self.validate(self.name, name: "name", parent: name, pattern: "^([\\u0020-\\uD7FF\\uE000-\\uFFFD\\uD800\\uDC00-\\uDBFF\\uDFFF]|[^\\r\\n])*$")
+            try self.outputSchemas?.forEach {
+                try $0.validate(name: "\(name).outputSchemas[]")
+            }
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case additionalOptions = "AdditionalOptions"
+            case connectionName = "ConnectionName"
+            case connectionTable = "ConnectionTable"
+            case connectionType = "ConnectionType"
+            case connectorName = "ConnectorName"
+            case inputs = "Inputs"
+            case name = "Name"
+            case outputSchemas = "OutputSchemas"
+        }
+    }
+
     public struct JdbcTarget: AWSEncodableShape & AWSDecodableShape {
         /// The name of the connection to use to connect to the JDBC target.
         public let connectionName: String?
@@ -8810,6 +10282,8 @@ extension Glue {
         /// 	   The number of Glue data processing units (DPUs) allocated to runs of this job. You can allocate from 2 to 100 DPUs; the default is 10. A DPU is a relative measure of processing power that consists of 4 vCPUs of compute capacity and 16 GB of memory. For more information, see the Glue pricing page.
         ///
         public let allocatedCapacity: Int?
+        /// The representation of a directed acyclic graph on which both the Glue Studio visual component and Glue Studio code generation is based.
+        public let codeGenConfigurationNodes: [String: CodeGenConfigurationNode]?
         /// The JobCommand that runs this job.
         public let command: JobCommand?
         /// The connections used for this job.
@@ -8858,8 +10332,9 @@ extension Glue {
         /// 	          For the Standard worker type, each worker provides 4 vCPU, 16 GB of memory and a 50GB disk, and 2 executors per worker.   For the G.1X worker type, each worker maps to 1 DPU (4 vCPU, 16 GB of memory, 64 GB disk), and provides 1 executor per worker. We recommend this worker type for memory-intensive jobs.   For the G.2X worker type, each worker maps to 2 DPU (8 vCPU, 32 GB of memory, 128 GB disk), and provides 1 executor per worker. We recommend this worker type for memory-intensive jobs.
         public let workerType: WorkerType?
 
-        public init(command: JobCommand? = nil, connections: ConnectionsList? = nil, createdOn: Date? = nil, defaultArguments: [String: String]? = nil, description: String? = nil, executionProperty: ExecutionProperty? = nil, glueVersion: String? = nil, lastModifiedOn: Date? = nil, logUri: String? = nil, maxCapacity: Double? = nil, maxRetries: Int? = nil, name: String? = nil, nonOverridableArguments: [String: String]? = nil, notificationProperty: NotificationProperty? = nil, numberOfWorkers: Int? = nil, role: String? = nil, securityConfiguration: String? = nil, timeout: Int? = nil, workerType: WorkerType? = nil) {
+        public init(codeGenConfigurationNodes: [String: CodeGenConfigurationNode]? = nil, command: JobCommand? = nil, connections: ConnectionsList? = nil, createdOn: Date? = nil, defaultArguments: [String: String]? = nil, description: String? = nil, executionProperty: ExecutionProperty? = nil, glueVersion: String? = nil, lastModifiedOn: Date? = nil, logUri: String? = nil, maxCapacity: Double? = nil, maxRetries: Int? = nil, name: String? = nil, nonOverridableArguments: [String: String]? = nil, notificationProperty: NotificationProperty? = nil, numberOfWorkers: Int? = nil, role: String? = nil, securityConfiguration: String? = nil, timeout: Int? = nil, workerType: WorkerType? = nil) {
             self.allocatedCapacity = nil
+            self.codeGenConfigurationNodes = codeGenConfigurationNodes
             self.command = command
             self.connections = connections
             self.createdOn = createdOn
@@ -8882,8 +10357,9 @@ extension Glue {
         }
 
         @available(*, deprecated, message: "Members allocatedCapacity have been deprecated")
-        public init(allocatedCapacity: Int? = nil, command: JobCommand? = nil, connections: ConnectionsList? = nil, createdOn: Date? = nil, defaultArguments: [String: String]? = nil, description: String? = nil, executionProperty: ExecutionProperty? = nil, glueVersion: String? = nil, lastModifiedOn: Date? = nil, logUri: String? = nil, maxCapacity: Double? = nil, maxRetries: Int? = nil, name: String? = nil, nonOverridableArguments: [String: String]? = nil, notificationProperty: NotificationProperty? = nil, numberOfWorkers: Int? = nil, role: String? = nil, securityConfiguration: String? = nil, timeout: Int? = nil, workerType: WorkerType? = nil) {
+        public init(allocatedCapacity: Int? = nil, codeGenConfigurationNodes: [String: CodeGenConfigurationNode]? = nil, command: JobCommand? = nil, connections: ConnectionsList? = nil, createdOn: Date? = nil, defaultArguments: [String: String]? = nil, description: String? = nil, executionProperty: ExecutionProperty? = nil, glueVersion: String? = nil, lastModifiedOn: Date? = nil, logUri: String? = nil, maxCapacity: Double? = nil, maxRetries: Int? = nil, name: String? = nil, nonOverridableArguments: [String: String]? = nil, notificationProperty: NotificationProperty? = nil, numberOfWorkers: Int? = nil, role: String? = nil, securityConfiguration: String? = nil, timeout: Int? = nil, workerType: WorkerType? = nil) {
             self.allocatedCapacity = allocatedCapacity
+            self.codeGenConfigurationNodes = codeGenConfigurationNodes
             self.command = command
             self.connections = connections
             self.createdOn = createdOn
@@ -8907,6 +10383,7 @@ extension Glue {
 
         private enum CodingKeys: String, CodingKey {
             case allocatedCapacity = "AllocatedCapacity"
+            case codeGenConfigurationNodes = "CodeGenConfigurationNodes"
             case command = "Command"
             case connections = "Connections"
             case createdOn = "CreatedOn"
@@ -9163,6 +10640,8 @@ extension Glue {
     public struct JobUpdate: AWSEncodableShape {
         /// This field is deprecated. Use MaxCapacity instead.  The number of Glue data processing units (DPUs) to allocate to this job. You can allocate from 2 to 100 DPUs; the default is 10. A DPU is a relative measure of processing power that consists of 4 vCPUs of compute capacity and 16 GB of memory. For more information, see the Glue pricing page.
         public let allocatedCapacity: Int?
+        /// The representation of a directed acyclic graph on which both the Glue Studio visual component and Glue Studio code generation is based.
+        public let codeGenConfigurationNodes: [String: CodeGenConfigurationNode]?
         /// The JobCommand that runs this job (required).
         public let command: JobCommand?
         /// The connections used for this job.
@@ -9202,8 +10681,9 @@ extension Glue {
         /// 	          For the Standard worker type, each worker provides 4 vCPU, 16 GB of memory and a 50GB disk, and 2 executors per worker.   For the G.1X worker type, each worker maps to 1 DPU (4 vCPU, 16 GB of memory, 64 GB disk), and provides 1 executor per worker. We recommend this worker type for memory-intensive jobs.   For the G.2X worker type, each worker maps to 2 DPU (8 vCPU, 32 GB of memory, 128 GB disk), and provides 1 executor per worker. We recommend this worker type for memory-intensive jobs.
         public let workerType: WorkerType?
 
-        public init(command: JobCommand? = nil, connections: ConnectionsList? = nil, defaultArguments: [String: String]? = nil, description: String? = nil, executionProperty: ExecutionProperty? = nil, glueVersion: String? = nil, logUri: String? = nil, maxCapacity: Double? = nil, maxRetries: Int? = nil, nonOverridableArguments: [String: String]? = nil, notificationProperty: NotificationProperty? = nil, numberOfWorkers: Int? = nil, role: String? = nil, securityConfiguration: String? = nil, timeout: Int? = nil, workerType: WorkerType? = nil) {
+        public init(codeGenConfigurationNodes: [String: CodeGenConfigurationNode]? = nil, command: JobCommand? = nil, connections: ConnectionsList? = nil, defaultArguments: [String: String]? = nil, description: String? = nil, executionProperty: ExecutionProperty? = nil, glueVersion: String? = nil, logUri: String? = nil, maxCapacity: Double? = nil, maxRetries: Int? = nil, nonOverridableArguments: [String: String]? = nil, notificationProperty: NotificationProperty? = nil, numberOfWorkers: Int? = nil, role: String? = nil, securityConfiguration: String? = nil, timeout: Int? = nil, workerType: WorkerType? = nil) {
             self.allocatedCapacity = nil
+            self.codeGenConfigurationNodes = codeGenConfigurationNodes
             self.command = command
             self.connections = connections
             self.defaultArguments = defaultArguments
@@ -9223,8 +10703,9 @@ extension Glue {
         }
 
         @available(*, deprecated, message: "Members allocatedCapacity have been deprecated")
-        public init(allocatedCapacity: Int? = nil, command: JobCommand? = nil, connections: ConnectionsList? = nil, defaultArguments: [String: String]? = nil, description: String? = nil, executionProperty: ExecutionProperty? = nil, glueVersion: String? = nil, logUri: String? = nil, maxCapacity: Double? = nil, maxRetries: Int? = nil, nonOverridableArguments: [String: String]? = nil, notificationProperty: NotificationProperty? = nil, numberOfWorkers: Int? = nil, role: String? = nil, securityConfiguration: String? = nil, timeout: Int? = nil, workerType: WorkerType? = nil) {
+        public init(allocatedCapacity: Int? = nil, codeGenConfigurationNodes: [String: CodeGenConfigurationNode]? = nil, command: JobCommand? = nil, connections: ConnectionsList? = nil, defaultArguments: [String: String]? = nil, description: String? = nil, executionProperty: ExecutionProperty? = nil, glueVersion: String? = nil, logUri: String? = nil, maxCapacity: Double? = nil, maxRetries: Int? = nil, nonOverridableArguments: [String: String]? = nil, notificationProperty: NotificationProperty? = nil, numberOfWorkers: Int? = nil, role: String? = nil, securityConfiguration: String? = nil, timeout: Int? = nil, workerType: WorkerType? = nil) {
             self.allocatedCapacity = allocatedCapacity
+            self.codeGenConfigurationNodes = codeGenConfigurationNodes
             self.command = command
             self.connections = connections
             self.defaultArguments = defaultArguments
@@ -9244,6 +10725,10 @@ extension Glue {
         }
 
         public func validate(name: String) throws {
+            try self.codeGenConfigurationNodes?.forEach {
+                try validate($0.key, name: "codeGenConfigurationNodes.key", parent: name, pattern: "^[A-Za-z0-9_-]*$")
+                try $0.value.validate(name: "\(name).codeGenConfigurationNodes[\"\($0.key)\"]")
+            }
             try self.command?.validate(name: "\(name).command")
             try self.validate(self.description, name: "description", parent: name, max: 2048)
             try self.validate(self.description, name: "description", parent: name, pattern: "^[\\u0020-\\uD7FF\\uE000-\\uFFFD\\uD800\\uDC00-\\uDBFF\\uDFFF\\r\\n\\t]*$")
@@ -9259,6 +10744,7 @@ extension Glue {
 
         private enum CodingKeys: String, CodingKey {
             case allocatedCapacity = "AllocatedCapacity"
+            case codeGenConfigurationNodes = "CodeGenConfigurationNodes"
             case command = "Command"
             case connections = "Connections"
             case defaultArguments = "DefaultArguments"
@@ -9275,6 +10761,66 @@ extension Glue {
             case securityConfiguration = "SecurityConfiguration"
             case timeout = "Timeout"
             case workerType = "WorkerType"
+        }
+    }
+
+    public struct Join: AWSEncodableShape & AWSDecodableShape {
+        /// A list of the two columns to be joined.
+        public let columns: [JoinColumn]
+        /// The data inputs identified by their node names.
+        public let inputs: [String]
+        /// Specifies the type of join to be performed on the datasets.
+        public let joinType: JoinType
+        /// The name of the transform node.
+        public let name: String
+
+        public init(columns: [JoinColumn], inputs: [String], joinType: JoinType, name: String) {
+            self.columns = columns
+            self.inputs = inputs
+            self.joinType = joinType
+            self.name = name
+        }
+
+        public func validate(name: String) throws {
+            try self.columns.forEach {
+                try $0.validate(name: "\(name).columns[]")
+            }
+            try self.validate(self.columns, name: "columns", parent: name, max: 2)
+            try self.validate(self.columns, name: "columns", parent: name, min: 2)
+            try self.inputs.forEach {
+                try validate($0, name: "inputs[]", parent: name, pattern: "^[A-Za-z0-9_-]*$")
+            }
+            try self.validate(self.inputs, name: "inputs", parent: name, max: 2)
+            try self.validate(self.inputs, name: "inputs", parent: name, min: 2)
+            try self.validate(self.name, name: "name", parent: name, pattern: "^([\\u0020-\\uD7FF\\uE000-\\uFFFD\\uD800\\uDC00-\\uDBFF\\uDFFF]|[^\\r\\n])*$")
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case columns = "Columns"
+            case inputs = "Inputs"
+            case joinType = "JoinType"
+            case name = "Name"
+        }
+    }
+
+    public struct JoinColumn: AWSEncodableShape & AWSDecodableShape {
+        /// The column to be joined.
+        public let from: String
+        /// The key of the column to be joined.
+        public let keys: [[String]]
+
+        public init(from: String, keys: [[String]]) {
+            self.from = from
+            self.keys = keys
+        }
+
+        public func validate(name: String) throws {
+            try self.validate(self.from, name: "from", parent: name, pattern: "^([\\u0020-\\uD7FF\\uE000-\\uFFFD\\uD800\\uDC00-\\uDBFF\\uDFFF]|[^\\S\\r\\n\"'])*$")
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case from = "From"
+            case keys = "Keys"
         }
     }
 
@@ -9307,6 +10853,93 @@ extension Glue {
         }
     }
 
+    public struct KafkaStreamingSourceOptions: AWSEncodableShape & AWSDecodableShape {
+        /// The specific TopicPartitions to consume. You must specify at least one of "topicName", "assign" or "subscribePattern".
+        public let assign: String?
+        /// A list of bootstrap server URLs, for example, as b-1.vpc-test-2.o4q88o.c6.kafka.us-east-1.amazonaws.com:9094. This option must be specified in the API call or defined in the table metadata in the Data Catalog.
+        public let bootstrapServers: String?
+        /// An optional classification.
+        public let classification: String?
+        /// The name of the connection.
+        public let connectionName: String?
+        /// Specifies the delimiter character.
+        public let delimiter: String?
+        /// The end point when a batch query is ended. Possible values are either "latest" or a JSON string that specifies an ending offset for each TopicPartition.
+        public let endingOffsets: String?
+        /// The rate limit on the maximum number of offsets that are processed per trigger interval. The specified total number of offsets is proportionally split across topicPartitions of different volumes. The default value is null, which means that the consumer reads all offsets until the known latest offset.
+        public let maxOffsetsPerTrigger: Int64?
+        /// The desired minimum number of partitions to read from Kafka. The default value is null, which means that the number of spark partitions is equal to the number of Kafka partitions.
+        public let minPartitions: Int?
+        /// The number of times to retry before failing to fetch Kafka offsets. The default value is 3.
+        public let numRetries: Int?
+        /// The timeout in milliseconds to poll data from Kafka in Spark job executors. The default value is 512.
+        public let pollTimeoutMs: Int64?
+        /// The time in milliseconds to wait before retrying to fetch Kafka offsets. The default value is 10.
+        public let retryIntervalMs: Int64?
+        /// The protocol used to communicate with brokers. The possible values are "SSL" or "PLAINTEXT".
+        public let securityProtocol: String?
+        /// The starting position in the Kafka topic to read data from. The possible values are "earliest" or "latest". The default value is "latest".
+        public let startingOffsets: String?
+        /// A Java regex string that identifies the topic list to subscribe to. You must specify at least one of "topicName", "assign" or "subscribePattern".
+        public let subscribePattern: String?
+        /// The topic name as specified in Apache Kafka. You must specify at least one of "topicName", "assign" or "subscribePattern".
+        public let topicName: String?
+
+        public init(assign: String? = nil, bootstrapServers: String? = nil, classification: String? = nil, connectionName: String? = nil, delimiter: String? = nil, endingOffsets: String? = nil, maxOffsetsPerTrigger: Int64? = nil, minPartitions: Int? = nil, numRetries: Int? = nil, pollTimeoutMs: Int64? = nil, retryIntervalMs: Int64? = nil, securityProtocol: String? = nil, startingOffsets: String? = nil, subscribePattern: String? = nil, topicName: String? = nil) {
+            self.assign = assign
+            self.bootstrapServers = bootstrapServers
+            self.classification = classification
+            self.connectionName = connectionName
+            self.delimiter = delimiter
+            self.endingOffsets = endingOffsets
+            self.maxOffsetsPerTrigger = maxOffsetsPerTrigger
+            self.minPartitions = minPartitions
+            self.numRetries = numRetries
+            self.pollTimeoutMs = pollTimeoutMs
+            self.retryIntervalMs = retryIntervalMs
+            self.securityProtocol = securityProtocol
+            self.startingOffsets = startingOffsets
+            self.subscribePattern = subscribePattern
+            self.topicName = topicName
+        }
+
+        public func validate(name: String) throws {
+            try self.validate(self.assign, name: "assign", parent: name, pattern: "^([\\u0020-\\uD7FF\\uE000-\\uFFFD\\uD800\\uDC00-\\uDBFF\\uDFFF]|[^\\S\\r\\n\"'])*$")
+            try self.validate(self.bootstrapServers, name: "bootstrapServers", parent: name, pattern: "^([\\u0020-\\uD7FF\\uE000-\\uFFFD\\uD800\\uDC00-\\uDBFF\\uDFFF]|[^\\S\\r\\n\"'])*$")
+            try self.validate(self.classification, name: "classification", parent: name, pattern: "^([\\u0020-\\uD7FF\\uE000-\\uFFFD\\uD800\\uDC00-\\uDBFF\\uDFFF]|[^\\S\\r\\n\"'])*$")
+            try self.validate(self.connectionName, name: "connectionName", parent: name, pattern: "^([\\u0020-\\uD7FF\\uE000-\\uFFFD\\uD800\\uDC00-\\uDBFF\\uDFFF]|[^\\S\\r\\n\"'])*$")
+            try self.validate(self.delimiter, name: "delimiter", parent: name, pattern: "^([\\u0020-\\uD7FF\\uE000-\\uFFFD\\uD800\\uDC00-\\uDBFF\\uDFFF]|[^\\S\\r\\n\"'])*$")
+            try self.validate(self.endingOffsets, name: "endingOffsets", parent: name, pattern: "^([\\u0020-\\uD7FF\\uE000-\\uFFFD\\uD800\\uDC00-\\uDBFF\\uDFFF]|[^\\S\\r\\n\"'])*$")
+            try self.validate(self.maxOffsetsPerTrigger, name: "maxOffsetsPerTrigger", parent: name, min: 0)
+            try self.validate(self.minPartitions, name: "minPartitions", parent: name, min: 0)
+            try self.validate(self.numRetries, name: "numRetries", parent: name, min: 0)
+            try self.validate(self.pollTimeoutMs, name: "pollTimeoutMs", parent: name, min: 0)
+            try self.validate(self.retryIntervalMs, name: "retryIntervalMs", parent: name, min: 0)
+            try self.validate(self.securityProtocol, name: "securityProtocol", parent: name, pattern: "^([\\u0020-\\uD7FF\\uE000-\\uFFFD\\uD800\\uDC00-\\uDBFF\\uDFFF]|[^\\S\\r\\n\"'])*$")
+            try self.validate(self.startingOffsets, name: "startingOffsets", parent: name, pattern: "^([\\u0020-\\uD7FF\\uE000-\\uFFFD\\uD800\\uDC00-\\uDBFF\\uDFFF]|[^\\S\\r\\n\"'])*$")
+            try self.validate(self.subscribePattern, name: "subscribePattern", parent: name, pattern: "^([\\u0020-\\uD7FF\\uE000-\\uFFFD\\uD800\\uDC00-\\uDBFF\\uDFFF]|[^\\S\\r\\n\"'])*$")
+            try self.validate(self.topicName, name: "topicName", parent: name, pattern: "^([\\u0020-\\uD7FF\\uE000-\\uFFFD\\uD800\\uDC00-\\uDBFF\\uDFFF]|[^\\S\\r\\n\"'])*$")
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case assign = "Assign"
+            case bootstrapServers = "BootstrapServers"
+            case classification = "Classification"
+            case connectionName = "ConnectionName"
+            case delimiter = "Delimiter"
+            case endingOffsets = "EndingOffsets"
+            case maxOffsetsPerTrigger = "MaxOffsetsPerTrigger"
+            case minPartitions = "MinPartitions"
+            case numRetries = "NumRetries"
+            case pollTimeoutMs = "PollTimeoutMs"
+            case retryIntervalMs = "RetryIntervalMs"
+            case securityProtocol = "SecurityProtocol"
+            case startingOffsets = "StartingOffsets"
+            case subscribePattern = "SubscribePattern"
+            case topicName = "TopicName"
+        }
+    }
+
     public struct KeySchemaElement: AWSDecodableShape {
         /// The name of a partition key.
         public let name: String
@@ -9321,6 +10954,105 @@ extension Glue {
         private enum CodingKeys: String, CodingKey {
             case name = "Name"
             case type = "Type"
+        }
+    }
+
+    public struct KinesisStreamingSourceOptions: AWSEncodableShape & AWSDecodableShape {
+        /// Adds a time delay between two consecutive getRecords operations. The default value is "False". This option is only configurable for Glue version 2.0 and above.
+        public let addIdleTimeBetweenReads: Bool?
+        /// Avoids creating an empty microbatch job by checking for unread data in the Kinesis data stream before the batch is started. The default value is "False".
+        public let avoidEmptyBatches: Bool?
+        /// An optional classification.
+        public let classification: String?
+        /// Specifies the delimiter character.
+        public let delimiter: String?
+        /// The minimum time interval between two ListShards API calls for your script to consider resharding. The default value is 1s.
+        public let describeShardInterval: Int64?
+        /// The URL of the Kinesis endpoint.
+        public let endpointUrl: String?
+        /// The minimum time delay between two consecutive getRecords operations, specified in ms. The default value is 1000. This option is only configurable for Glue version 2.0 and above.
+        public let idleTimeBetweenReadsInMs: Int64?
+        /// The maximum number of records to fetch per shard in the Kinesis data stream. The default value is 100000.
+        public let maxFetchRecordsPerShard: Int64?
+        /// The maximum time spent in the job executor to fetch a record from the Kinesis data stream per shard, specified in milliseconds (ms). The default value is 1000.
+        public let maxFetchTimeInMs: Int64?
+        /// The maximum number of records to fetch from the Kinesis data stream in each getRecords operation. The default value is 10000.
+        public let maxRecordPerRead: Int64?
+        /// The maximum cool-off time period (specified in ms) between two retries of a Kinesis Data Streams API call. The default value is 10000.
+        public let maxRetryIntervalMs: Int64?
+        /// The maximum number of retries for Kinesis Data Streams API requests. The default value is 3.
+        public let numRetries: Int?
+        /// The cool-off time period (specified in ms) before retrying the Kinesis Data Streams API call. The default value is 1000.
+        public let retryIntervalMs: Int64?
+        /// The Amazon Resource Name (ARN) of the role to assume using AWS Security Token Service (AWS STS). This role must have permissions for describe or read record operations for the Kinesis data stream. You must use this parameter when accessing a data stream in a different account. Used in conjunction with "awsSTSSessionName".
+        public let roleArn: String?
+        /// An identifier for the session assuming the role using AWS STS. You must use this parameter when accessing a data stream in a different account. Used in conjunction with "awsSTSRoleARN".
+        public let roleSessionName: String?
+        /// The starting position in the Kinesis data stream to read data from. The possible values are "latest", "trim_horizon", or "earliest". The default value is "latest".
+        public let startingPosition: StartingPosition?
+        /// The Amazon Resource Name (ARN) of the Kinesis data stream.
+        public let streamArn: String?
+        /// The name of the Kinesis data stream.
+        public let streamName: String?
+
+        public init(addIdleTimeBetweenReads: Bool? = nil, avoidEmptyBatches: Bool? = nil, classification: String? = nil, delimiter: String? = nil, describeShardInterval: Int64? = nil, endpointUrl: String? = nil, idleTimeBetweenReadsInMs: Int64? = nil, maxFetchRecordsPerShard: Int64? = nil, maxFetchTimeInMs: Int64? = nil, maxRecordPerRead: Int64? = nil, maxRetryIntervalMs: Int64? = nil, numRetries: Int? = nil, retryIntervalMs: Int64? = nil, roleArn: String? = nil, roleSessionName: String? = nil, startingPosition: StartingPosition? = nil, streamArn: String? = nil, streamName: String? = nil) {
+            self.addIdleTimeBetweenReads = addIdleTimeBetweenReads
+            self.avoidEmptyBatches = avoidEmptyBatches
+            self.classification = classification
+            self.delimiter = delimiter
+            self.describeShardInterval = describeShardInterval
+            self.endpointUrl = endpointUrl
+            self.idleTimeBetweenReadsInMs = idleTimeBetweenReadsInMs
+            self.maxFetchRecordsPerShard = maxFetchRecordsPerShard
+            self.maxFetchTimeInMs = maxFetchTimeInMs
+            self.maxRecordPerRead = maxRecordPerRead
+            self.maxRetryIntervalMs = maxRetryIntervalMs
+            self.numRetries = numRetries
+            self.retryIntervalMs = retryIntervalMs
+            self.roleArn = roleArn
+            self.roleSessionName = roleSessionName
+            self.startingPosition = startingPosition
+            self.streamArn = streamArn
+            self.streamName = streamName
+        }
+
+        public func validate(name: String) throws {
+            try self.validate(self.classification, name: "classification", parent: name, pattern: "^([\\u0020-\\uD7FF\\uE000-\\uFFFD\\uD800\\uDC00-\\uDBFF\\uDFFF]|[^\\S\\r\\n\"'])*$")
+            try self.validate(self.delimiter, name: "delimiter", parent: name, pattern: "^([\\u0020-\\uD7FF\\uE000-\\uFFFD\\uD800\\uDC00-\\uDBFF\\uDFFF]|[^\\S\\r\\n\"'])*$")
+            try self.validate(self.describeShardInterval, name: "describeShardInterval", parent: name, min: 0)
+            try self.validate(self.endpointUrl, name: "endpointUrl", parent: name, pattern: "^([\\u0020-\\uD7FF\\uE000-\\uFFFD\\uD800\\uDC00-\\uDBFF\\uDFFF]|[^\\S\\r\\n\"'])*$")
+            try self.validate(self.idleTimeBetweenReadsInMs, name: "idleTimeBetweenReadsInMs", parent: name, min: 0)
+            try self.validate(self.maxFetchRecordsPerShard, name: "maxFetchRecordsPerShard", parent: name, min: 0)
+            try self.validate(self.maxFetchTimeInMs, name: "maxFetchTimeInMs", parent: name, min: 0)
+            try self.validate(self.maxRecordPerRead, name: "maxRecordPerRead", parent: name, min: 0)
+            try self.validate(self.maxRetryIntervalMs, name: "maxRetryIntervalMs", parent: name, min: 0)
+            try self.validate(self.numRetries, name: "numRetries", parent: name, min: 0)
+            try self.validate(self.retryIntervalMs, name: "retryIntervalMs", parent: name, min: 0)
+            try self.validate(self.roleArn, name: "roleArn", parent: name, pattern: "^([\\u0020-\\uD7FF\\uE000-\\uFFFD\\uD800\\uDC00-\\uDBFF\\uDFFF]|[^\\S\\r\\n\"'])*$")
+            try self.validate(self.roleSessionName, name: "roleSessionName", parent: name, pattern: "^([\\u0020-\\uD7FF\\uE000-\\uFFFD\\uD800\\uDC00-\\uDBFF\\uDFFF]|[^\\S\\r\\n\"'])*$")
+            try self.validate(self.streamArn, name: "streamArn", parent: name, pattern: "^([\\u0020-\\uD7FF\\uE000-\\uFFFD\\uD800\\uDC00-\\uDBFF\\uDFFF]|[^\\S\\r\\n\"'])*$")
+            try self.validate(self.streamName, name: "streamName", parent: name, pattern: "^([\\u0020-\\uD7FF\\uE000-\\uFFFD\\uD800\\uDC00-\\uDBFF\\uDFFF]|[^\\S\\r\\n\"'])*$")
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case addIdleTimeBetweenReads = "AddIdleTimeBetweenReads"
+            case avoidEmptyBatches = "AvoidEmptyBatches"
+            case classification = "Classification"
+            case delimiter = "Delimiter"
+            case describeShardInterval = "DescribeShardInterval"
+            case endpointUrl = "EndpointUrl"
+            case idleTimeBetweenReadsInMs = "IdleTimeBetweenReadsInMs"
+            case maxFetchRecordsPerShard = "MaxFetchRecordsPerShard"
+            case maxFetchTimeInMs = "MaxFetchTimeInMs"
+            case maxRecordPerRead = "MaxRecordPerRead"
+            case maxRetryIntervalMs = "MaxRetryIntervalMs"
+            case numRetries = "NumRetries"
+            case retryIntervalMs = "RetryIntervalMs"
+            case roleArn = "RoleArn"
+            case roleSessionName = "RoleSessionName"
+            case startingPosition = "StartingPosition"
+            case streamArn = "StreamArn"
+            case streamName = "StreamName"
         }
     }
 
@@ -10235,6 +11967,58 @@ extension Glue {
         }
     }
 
+    public final class Mapping: AWSEncodableShape & AWSDecodableShape {
+        /// Only applicable to nested data structures. If you want to change the parent structure, but also one of its children, you can fill out this data strucutre. It is also Mapping, but its FromPath will be the parent's FromPath plus the FromPath from this structure.  For the children part, suppose you have the structure:
+        ///
+        /// 	         { "FromPath": "OuterStructure", "ToKey": "OuterStructure", "ToType": "Struct", "Dropped": false, "Chidlren": [{ "FromPath": "inner", "ToKey": "inner", "ToType": "Double", "Dropped": false, }]
+        /// }
+        ///  You can specify a Mapping that looks like:
+        ///
+        /// 	         { "FromPath": "OuterStructure", "ToKey": "OuterStructure", "ToType": "Struct", "Dropped": false, "Chidlren": [{ "FromPath": "inner", "ToKey": "inner", "ToType": "Double", "Dropped": false, }]
+        /// }
+        public let children: [Mapping]?
+        /// If true, then the column is removed.
+        public let dropped: Bool?
+        /// The table or column to be modified.
+        public let fromPath: [String]?
+        /// The type of the data to be modified.
+        public let fromType: String?
+        /// After the apply mapping, what the name of the column should be. Can be the same as FromPath.
+        public let toKey: String?
+        /// The data type that the data is to be modified to.
+        public let toType: String?
+
+        public init(children: [Mapping]? = nil, dropped: Bool? = nil, fromPath: [String]? = nil, fromType: String? = nil, toKey: String? = nil, toType: String? = nil) {
+            self.children = children
+            self.dropped = dropped
+            self.fromPath = fromPath
+            self.fromType = fromType
+            self.toKey = toKey
+            self.toType = toType
+        }
+
+        public func validate(name: String) throws {
+            try self.children?.forEach {
+                try $0.validate(name: "\(name).children[]")
+            }
+            try self.fromPath?.forEach {
+                try validate($0, name: "fromPath[]", parent: name, pattern: "^([\\u0020-\\uD7FF\\uE000-\\uFFFD\\uD800\\uDC00-\\uDBFF\\uDFFF]|[^\\S\\r\\n\"'])*$")
+            }
+            try self.validate(self.fromType, name: "fromType", parent: name, pattern: "^([\\u0020-\\uD7FF\\uE000-\\uFFFD\\uD800\\uDC00-\\uDBFF\\uDFFF]|[^\\S\\r\\n\"'])*$")
+            try self.validate(self.toKey, name: "toKey", parent: name, pattern: "^([\\u0020-\\uD7FF\\uE000-\\uFFFD\\uD800\\uDC00-\\uDBFF\\uDFFF]|[^\\S\\r\\n\"'])*$")
+            try self.validate(self.toType, name: "toType", parent: name, pattern: "^([\\u0020-\\uD7FF\\uE000-\\uFFFD\\uD800\\uDC00-\\uDBFF\\uDFFF]|[^\\S\\r\\n\"'])*$")
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case children = "Children"
+            case dropped = "Dropped"
+            case fromPath = "FromPath"
+            case fromType = "FromType"
+            case toKey = "ToKey"
+            case toType = "ToType"
+        }
+    }
+
     public struct MappingEntry: AWSEncodableShape & AWSDecodableShape {
         /// The source path.
         public let sourcePath: String?
@@ -10265,6 +12049,41 @@ extension Glue {
             case targetPath = "TargetPath"
             case targetTable = "TargetTable"
             case targetType = "TargetType"
+        }
+    }
+
+    public struct Merge: AWSEncodableShape & AWSDecodableShape {
+        /// The data inputs identified by their node names.
+        public let inputs: [String]
+        /// The name of the transform node.
+        public let name: String
+        /// The list of primary key fields to match records from the source and staging dynamic frames.
+        public let primaryKeys: [[String]]
+        /// The source DynamicFrame that will be merged with a staging DynamicFrame.
+        public let source: String
+
+        public init(inputs: [String], name: String, primaryKeys: [[String]], source: String) {
+            self.inputs = inputs
+            self.name = name
+            self.primaryKeys = primaryKeys
+            self.source = source
+        }
+
+        public func validate(name: String) throws {
+            try self.inputs.forEach {
+                try validate($0, name: "inputs[]", parent: name, pattern: "^[A-Za-z0-9_-]*$")
+            }
+            try self.validate(self.inputs, name: "inputs", parent: name, max: 2)
+            try self.validate(self.inputs, name: "inputs", parent: name, min: 2)
+            try self.validate(self.name, name: "name", parent: name, pattern: "^([\\u0020-\\uD7FF\\uE000-\\uFFFD\\uD800\\uDC00-\\uDBFF\\uDFFF]|[^\\r\\n])*$")
+            try self.validate(self.source, name: "source", parent: name, pattern: "^[A-Za-z0-9_-]*$")
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case inputs = "Inputs"
+            case name = "Name"
+            case primaryKeys = "PrimaryKeys"
+            case source = "Source"
         }
     }
 
@@ -10315,6 +12134,69 @@ extension Glue {
         }
     }
 
+    public struct MicrosoftSQLServerCatalogSource: AWSEncodableShape & AWSDecodableShape {
+        /// The name of the database to read from.
+        public let database: String
+        /// The name of the data source.
+        public let name: String
+        /// The name of the table in the database to read from.
+        public let table: String
+
+        public init(database: String, name: String, table: String) {
+            self.database = database
+            self.name = name
+            self.table = table
+        }
+
+        public func validate(name: String) throws {
+            try self.validate(self.database, name: "database", parent: name, pattern: "^([\\u0020-\\uD7FF\\uE000-\\uFFFD\\uD800\\uDC00-\\uDBFF\\uDFFF]|[^\\S\\r\\n\"'])*$")
+            try self.validate(self.name, name: "name", parent: name, pattern: "^([\\u0020-\\uD7FF\\uE000-\\uFFFD\\uD800\\uDC00-\\uDBFF\\uDFFF]|[^\\r\\n])*$")
+            try self.validate(self.table, name: "table", parent: name, pattern: "^([\\u0020-\\uD7FF\\uE000-\\uFFFD\\uD800\\uDC00-\\uDBFF\\uDFFF]|[^\\S\\r\\n\"'])*$")
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case database = "Database"
+            case name = "Name"
+            case table = "Table"
+        }
+    }
+
+    public struct MicrosoftSQLServerCatalogTarget: AWSEncodableShape & AWSDecodableShape {
+        /// The name of the database to write to.
+        public let database: String
+        /// The nodes that are inputs to the data target.
+        public let inputs: [String]
+        /// The name of the data target.
+        public let name: String
+        /// The name of the table in the database to write to.
+        public let table: String
+
+        public init(database: String, inputs: [String], name: String, table: String) {
+            self.database = database
+            self.inputs = inputs
+            self.name = name
+            self.table = table
+        }
+
+        public func validate(name: String) throws {
+            try self.validate(self.database, name: "database", parent: name, pattern: "^([\\u0020-\\uD7FF\\uE000-\\uFFFD\\uD800\\uDC00-\\uDBFF\\uDFFF]|[^\\S\\r\\n\"'])*$")
+            try self.inputs.forEach {
+                try validate($0, name: "inputs[]", parent: name, pattern: "^[A-Za-z0-9_-]*$")
+            }
+            try self.validate(self.inputs, name: "inputs", parent: name, max: 1)
+            try self.validate(self.inputs, name: "inputs", parent: name, min: 1)
+            try self.validate(self.name, name: "name", parent: name, pattern: "^([\\u0020-\\uD7FF\\uE000-\\uFFFD\\uD800\\uDC00-\\uDBFF\\uDFFF]|[^\\r\\n])*$")
+            try self.validate(self.table, name: "table", parent: name, pattern: "^([\\u0020-\\uD7FF\\uE000-\\uFFFD\\uD800\\uDC00-\\uDBFF\\uDFFF]|[^\\S\\r\\n\"'])*$")
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case database = "Database"
+            case inputs = "Inputs"
+            case name = "Name"
+            case table = "Table"
+        }
+    }
+
     public struct MongoDBTarget: AWSEncodableShape & AWSDecodableShape {
         /// The name of the connection to use to connect to the Amazon DocumentDB or MongoDB target.
         public let connectionName: String?
@@ -10335,6 +12217,69 @@ extension Glue {
             case connectionName = "ConnectionName"
             case path = "Path"
             case scanAll = "ScanAll"
+        }
+    }
+
+    public struct MySQLCatalogSource: AWSEncodableShape & AWSDecodableShape {
+        /// The name of the database to read from.
+        public let database: String
+        /// The name of the data source.
+        public let name: String
+        /// The name of the table in the database to read from.
+        public let table: String
+
+        public init(database: String, name: String, table: String) {
+            self.database = database
+            self.name = name
+            self.table = table
+        }
+
+        public func validate(name: String) throws {
+            try self.validate(self.database, name: "database", parent: name, pattern: "^([\\u0020-\\uD7FF\\uE000-\\uFFFD\\uD800\\uDC00-\\uDBFF\\uDFFF]|[^\\S\\r\\n\"'])*$")
+            try self.validate(self.name, name: "name", parent: name, pattern: "^([\\u0020-\\uD7FF\\uE000-\\uFFFD\\uD800\\uDC00-\\uDBFF\\uDFFF]|[^\\r\\n])*$")
+            try self.validate(self.table, name: "table", parent: name, pattern: "^([\\u0020-\\uD7FF\\uE000-\\uFFFD\\uD800\\uDC00-\\uDBFF\\uDFFF]|[^\\S\\r\\n\"'])*$")
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case database = "Database"
+            case name = "Name"
+            case table = "Table"
+        }
+    }
+
+    public struct MySQLCatalogTarget: AWSEncodableShape & AWSDecodableShape {
+        /// The name of the database to write to.
+        public let database: String
+        /// The nodes that are inputs to the data target.
+        public let inputs: [String]
+        /// The name of the data target.
+        public let name: String
+        /// The name of the table in the database to write to.
+        public let table: String
+
+        public init(database: String, inputs: [String], name: String, table: String) {
+            self.database = database
+            self.inputs = inputs
+            self.name = name
+            self.table = table
+        }
+
+        public func validate(name: String) throws {
+            try self.validate(self.database, name: "database", parent: name, pattern: "^([\\u0020-\\uD7FF\\uE000-\\uFFFD\\uD800\\uDC00-\\uDBFF\\uDFFF]|[^\\S\\r\\n\"'])*$")
+            try self.inputs.forEach {
+                try validate($0, name: "inputs[]", parent: name, pattern: "^[A-Za-z0-9_-]*$")
+            }
+            try self.validate(self.inputs, name: "inputs", parent: name, max: 1)
+            try self.validate(self.inputs, name: "inputs", parent: name, min: 1)
+            try self.validate(self.name, name: "name", parent: name, pattern: "^([\\u0020-\\uD7FF\\uE000-\\uFFFD\\uD800\\uDC00-\\uDBFF\\uDFFF]|[^\\r\\n])*$")
+            try self.validate(self.table, name: "table", parent: name, pattern: "^([\\u0020-\\uD7FF\\uE000-\\uFFFD\\uD800\\uDC00-\\uDBFF\\uDFFF]|[^\\S\\r\\n\"'])*$")
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case database = "Database"
+            case inputs = "Inputs"
+            case name = "Name"
+            case table = "Table"
         }
     }
 
@@ -10388,6 +12333,112 @@ extension Glue {
         }
     }
 
+    public struct NullCheckBoxList: AWSEncodableShape & AWSDecodableShape {
+        /// Specifies that an empty string is considered as a null value.
+        public let isEmpty: Bool?
+        /// Specifies that an integer value of -1 is considered as a null value.
+        public let isNegOne: Bool?
+        /// Specifies that a value spelling out the word 'null' is considered as a null value.
+        public let isNullString: Bool?
+
+        public init(isEmpty: Bool? = nil, isNegOne: Bool? = nil, isNullString: Bool? = nil) {
+            self.isEmpty = isEmpty
+            self.isNegOne = isNegOne
+            self.isNullString = isNullString
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case isEmpty = "IsEmpty"
+            case isNegOne = "IsNegOne"
+            case isNullString = "IsNullString"
+        }
+    }
+
+    public struct NullValueField: AWSEncodableShape & AWSDecodableShape {
+        /// The datatype of the value.
+        public let datatype: Datatype
+        /// The value of the null placeholder.
+        public let value: String
+
+        public init(datatype: Datatype, value: String) {
+            self.datatype = datatype
+            self.value = value
+        }
+
+        public func validate(name: String) throws {
+            try self.datatype.validate(name: "\(name).datatype")
+            try self.validate(self.value, name: "value", parent: name, pattern: "^([\\u0020-\\uD7FF\\uE000-\\uFFFD\\uD800\\uDC00-\\uDBFF\\uDFFF]|[^\\S\\r\\n\"'])*$")
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case datatype = "Datatype"
+            case value = "Value"
+        }
+    }
+
+    public struct OracleSQLCatalogSource: AWSEncodableShape & AWSDecodableShape {
+        /// The name of the database to read from.
+        public let database: String
+        /// The name of the data source.
+        public let name: String
+        /// The name of the table in the database to read from.
+        public let table: String
+
+        public init(database: String, name: String, table: String) {
+            self.database = database
+            self.name = name
+            self.table = table
+        }
+
+        public func validate(name: String) throws {
+            try self.validate(self.database, name: "database", parent: name, pattern: "^([\\u0020-\\uD7FF\\uE000-\\uFFFD\\uD800\\uDC00-\\uDBFF\\uDFFF]|[^\\S\\r\\n\"'])*$")
+            try self.validate(self.name, name: "name", parent: name, pattern: "^([\\u0020-\\uD7FF\\uE000-\\uFFFD\\uD800\\uDC00-\\uDBFF\\uDFFF]|[^\\r\\n])*$")
+            try self.validate(self.table, name: "table", parent: name, pattern: "^([\\u0020-\\uD7FF\\uE000-\\uFFFD\\uD800\\uDC00-\\uDBFF\\uDFFF]|[^\\S\\r\\n\"'])*$")
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case database = "Database"
+            case name = "Name"
+            case table = "Table"
+        }
+    }
+
+    public struct OracleSQLCatalogTarget: AWSEncodableShape & AWSDecodableShape {
+        /// The name of the database to write to.
+        public let database: String
+        /// The nodes that are inputs to the data target.
+        public let inputs: [String]
+        /// The name of the data target.
+        public let name: String
+        /// The name of the table in the database to write to.
+        public let table: String
+
+        public init(database: String, inputs: [String], name: String, table: String) {
+            self.database = database
+            self.inputs = inputs
+            self.name = name
+            self.table = table
+        }
+
+        public func validate(name: String) throws {
+            try self.validate(self.database, name: "database", parent: name, pattern: "^([\\u0020-\\uD7FF\\uE000-\\uFFFD\\uD800\\uDC00-\\uDBFF\\uDFFF]|[^\\S\\r\\n\"'])*$")
+            try self.inputs.forEach {
+                try validate($0, name: "inputs[]", parent: name, pattern: "^[A-Za-z0-9_-]*$")
+            }
+            try self.validate(self.inputs, name: "inputs", parent: name, max: 1)
+            try self.validate(self.inputs, name: "inputs", parent: name, min: 1)
+            try self.validate(self.name, name: "name", parent: name, pattern: "^([\\u0020-\\uD7FF\\uE000-\\uFFFD\\uD800\\uDC00-\\uDBFF\\uDFFF]|[^\\r\\n])*$")
+            try self.validate(self.table, name: "table", parent: name, pattern: "^([\\u0020-\\uD7FF\\uE000-\\uFFFD\\uD800\\uDC00-\\uDBFF\\uDFFF]|[^\\S\\r\\n\"'])*$")
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case database = "Database"
+            case inputs = "Inputs"
+            case name = "Name"
+            case table = "Table"
+        }
+    }
+
     public struct Order: AWSEncodableShape & AWSDecodableShape {
         /// The name of the column.
         public let column: String
@@ -10427,6 +12478,66 @@ extension Glue {
         private enum CodingKeys: String, CodingKey {
             case createdTime = "CreatedTime"
             case metadataValue = "MetadataValue"
+        }
+    }
+
+    public struct PIIDetection: AWSEncodableShape & AWSDecodableShape {
+        /// Indicates the types of entities the PIIDetection transform will identify as PII data.   PII type entities include: PERSON_NAME, DATE, USA_SNN, EMAIL, USA_ITIN, USA_PASSPORT_NUMBER, PHONE_NUMBER, BANK_ACCOUNT, IP_ADDRESS, MAC_ADDRESS, USA_CPT_CODE, USA_HCPCS_CODE, USA_NATIONAL_DRUG_CODE, USA_MEDICARE_BENEFICIARY_IDENTIFIER, USA_HEALTH_INSURANCE_CLAIM_NUMBER,CREDIT_CARD,USA_NATIONAL_PROVIDER_IDENTIFIER,USA_DEA_NUMBER,USA_DRIVING_LICENSE
+        public let entityTypesToDetect: [String]
+        /// The node ID inputs to the transform.
+        public let inputs: [String]
+        /// Indicates the value that will replace the detected entity.
+        public let maskValue: String?
+        /// The name of the transform node.
+        public let name: String
+        /// Indicates the output column name that will contain any entity type detected in that row.
+        public let outputColumnName: String?
+        /// Indicates the type of PIIDetection transform.
+        public let piiType: PiiType
+        /// Indicates the fraction of the data to sample when scanning for PII entities.
+        public let sampleFraction: Double?
+        /// Indicates the fraction of the data that must be met in order for a column to be identified as PII data.
+        public let thresholdFraction: Double?
+
+        public init(entityTypesToDetect: [String], inputs: [String], maskValue: String? = nil, name: String, outputColumnName: String? = nil, piiType: PiiType, sampleFraction: Double? = nil, thresholdFraction: Double? = nil) {
+            self.entityTypesToDetect = entityTypesToDetect
+            self.inputs = inputs
+            self.maskValue = maskValue
+            self.name = name
+            self.outputColumnName = outputColumnName
+            self.piiType = piiType
+            self.sampleFraction = sampleFraction
+            self.thresholdFraction = thresholdFraction
+        }
+
+        public func validate(name: String) throws {
+            try self.entityTypesToDetect.forEach {
+                try validate($0, name: "entityTypesToDetect[]", parent: name, pattern: "^([\\u0020-\\uD7FF\\uE000-\\uFFFD\\uD800\\uDC00-\\uDBFF\\uDFFF]|[^\\S\\r\\n\"'])*$")
+            }
+            try self.inputs.forEach {
+                try validate($0, name: "inputs[]", parent: name, pattern: "^[A-Za-z0-9_-]*$")
+            }
+            try self.validate(self.inputs, name: "inputs", parent: name, max: 1)
+            try self.validate(self.inputs, name: "inputs", parent: name, min: 1)
+            try self.validate(self.maskValue, name: "maskValue", parent: name, max: 256)
+            try self.validate(self.maskValue, name: "maskValue", parent: name, pattern: "^[*A-Za-z0-9_-]*$")
+            try self.validate(self.name, name: "name", parent: name, pattern: "^([\\u0020-\\uD7FF\\uE000-\\uFFFD\\uD800\\uDC00-\\uDBFF\\uDFFF]|[^\\r\\n])*$")
+            try self.validate(self.outputColumnName, name: "outputColumnName", parent: name, pattern: "^([\\u0020-\\uD7FF\\uE000-\\uFFFD\\uD800\\uDC00-\\uDBFF\\uDFFF]|[^\\S\\r\\n\"'])*$")
+            try self.validate(self.sampleFraction, name: "sampleFraction", parent: name, max: 1.0)
+            try self.validate(self.sampleFraction, name: "sampleFraction", parent: name, min: 0.0)
+            try self.validate(self.thresholdFraction, name: "thresholdFraction", parent: name, max: 1.0)
+            try self.validate(self.thresholdFraction, name: "thresholdFraction", parent: name, min: 0.0)
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case entityTypesToDetect = "EntityTypesToDetect"
+            case inputs = "Inputs"
+            case maskValue = "MaskValue"
+            case name = "Name"
+            case outputColumnName = "OutputColumnName"
+            case piiType = "PiiType"
+            case sampleFraction = "SampleFraction"
+            case thresholdFraction = "ThresholdFraction"
         }
     }
 
@@ -10645,6 +12756,69 @@ extension Glue {
             case availabilityZone = "AvailabilityZone"
             case securityGroupIdList = "SecurityGroupIdList"
             case subnetId = "SubnetId"
+        }
+    }
+
+    public struct PostgreSQLCatalogSource: AWSEncodableShape & AWSDecodableShape {
+        /// The name of the database to read from.
+        public let database: String
+        /// The name of the data source.
+        public let name: String
+        /// The name of the table in the database to read from.
+        public let table: String
+
+        public init(database: String, name: String, table: String) {
+            self.database = database
+            self.name = name
+            self.table = table
+        }
+
+        public func validate(name: String) throws {
+            try self.validate(self.database, name: "database", parent: name, pattern: "^([\\u0020-\\uD7FF\\uE000-\\uFFFD\\uD800\\uDC00-\\uDBFF\\uDFFF]|[^\\S\\r\\n\"'])*$")
+            try self.validate(self.name, name: "name", parent: name, pattern: "^([\\u0020-\\uD7FF\\uE000-\\uFFFD\\uD800\\uDC00-\\uDBFF\\uDFFF]|[^\\r\\n])*$")
+            try self.validate(self.table, name: "table", parent: name, pattern: "^([\\u0020-\\uD7FF\\uE000-\\uFFFD\\uD800\\uDC00-\\uDBFF\\uDFFF]|[^\\S\\r\\n\"'])*$")
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case database = "Database"
+            case name = "Name"
+            case table = "Table"
+        }
+    }
+
+    public struct PostgreSQLCatalogTarget: AWSEncodableShape & AWSDecodableShape {
+        /// The name of the database to write to.
+        public let database: String
+        /// The nodes that are inputs to the data target.
+        public let inputs: [String]
+        /// The name of the data target.
+        public let name: String
+        /// The name of the table in the database to write to.
+        public let table: String
+
+        public init(database: String, inputs: [String], name: String, table: String) {
+            self.database = database
+            self.inputs = inputs
+            self.name = name
+            self.table = table
+        }
+
+        public func validate(name: String) throws {
+            try self.validate(self.database, name: "database", parent: name, pattern: "^([\\u0020-\\uD7FF\\uE000-\\uFFFD\\uD800\\uDC00-\\uDBFF\\uDFFF]|[^\\S\\r\\n\"'])*$")
+            try self.inputs.forEach {
+                try validate($0, name: "inputs[]", parent: name, pattern: "^[A-Za-z0-9_-]*$")
+            }
+            try self.validate(self.inputs, name: "inputs", parent: name, max: 1)
+            try self.validate(self.inputs, name: "inputs", parent: name, min: 1)
+            try self.validate(self.name, name: "name", parent: name, pattern: "^([\\u0020-\\uD7FF\\uE000-\\uFFFD\\uD800\\uDC00-\\uDBFF\\uDFFF]|[^\\r\\n])*$")
+            try self.validate(self.table, name: "table", parent: name, pattern: "^([\\u0020-\\uD7FF\\uE000-\\uFFFD\\uD800\\uDC00-\\uDBFF\\uDFFF]|[^\\S\\r\\n\"'])*$")
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case database = "Database"
+            case inputs = "Inputs"
+            case name = "Name"
+            case table = "Table"
         }
     }
 
@@ -11013,6 +13187,94 @@ extension Glue {
         }
     }
 
+    public struct RedshiftSource: AWSEncodableShape & AWSDecodableShape {
+        /// The database to read from.
+        public let database: String
+        /// The name of the Amazon Redshift data store.
+        public let name: String
+        /// The Amazon S3 path where temporary data can be staged when copying out of the database.
+        public let redshiftTmpDir: String?
+        /// The database table to read from.
+        public let table: String
+        /// The IAM role with permissions.
+        public let tmpDirIAMRole: String?
+
+        public init(database: String, name: String, redshiftTmpDir: String? = nil, table: String, tmpDirIAMRole: String? = nil) {
+            self.database = database
+            self.name = name
+            self.redshiftTmpDir = redshiftTmpDir
+            self.table = table
+            self.tmpDirIAMRole = tmpDirIAMRole
+        }
+
+        public func validate(name: String) throws {
+            try self.validate(self.database, name: "database", parent: name, pattern: "^([\\u0020-\\uD7FF\\uE000-\\uFFFD\\uD800\\uDC00-\\uDBFF\\uDFFF]|[^\\S\\r\\n\"'])*$")
+            try self.validate(self.name, name: "name", parent: name, pattern: "^([\\u0020-\\uD7FF\\uE000-\\uFFFD\\uD800\\uDC00-\\uDBFF\\uDFFF]|[^\\r\\n])*$")
+            try self.validate(self.redshiftTmpDir, name: "redshiftTmpDir", parent: name, pattern: "^([\\u0020-\\uD7FF\\uE000-\\uFFFD\\uD800\\uDC00-\\uDBFF\\uDFFF]|[^\\S\\r\\n\"'])*$")
+            try self.validate(self.table, name: "table", parent: name, pattern: "^([\\u0020-\\uD7FF\\uE000-\\uFFFD\\uD800\\uDC00-\\uDBFF\\uDFFF]|[^\\S\\r\\n\"'])*$")
+            try self.validate(self.tmpDirIAMRole, name: "tmpDirIAMRole", parent: name, pattern: "^([\\u0020-\\uD7FF\\uE000-\\uFFFD\\uD800\\uDC00-\\uDBFF\\uDFFF]|[^\\S\\r\\n\"'])*$")
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case database = "Database"
+            case name = "Name"
+            case redshiftTmpDir = "RedshiftTmpDir"
+            case table = "Table"
+            case tmpDirIAMRole = "TmpDirIAMRole"
+        }
+    }
+
+    public struct RedshiftTarget: AWSEncodableShape & AWSDecodableShape {
+        /// The name of the database to write to.
+        public let database: String
+        /// The nodes that are inputs to the data target.
+        public let inputs: [String]
+        /// The name of the data target.
+        public let name: String
+        /// The Amazon S3 path where temporary data can be staged when copying out of the database.
+        public let redshiftTmpDir: String?
+        /// The name of the table in the database to write to.
+        public let table: String
+        /// The IAM role with permissions.
+        public let tmpDirIAMRole: String?
+        /// The set of options to configure an upsert operation when writing to a Redshift target.
+        public let upsertRedshiftOptions: UpsertRedshiftTargetOptions?
+
+        public init(database: String, inputs: [String], name: String, redshiftTmpDir: String? = nil, table: String, tmpDirIAMRole: String? = nil, upsertRedshiftOptions: UpsertRedshiftTargetOptions? = nil) {
+            self.database = database
+            self.inputs = inputs
+            self.name = name
+            self.redshiftTmpDir = redshiftTmpDir
+            self.table = table
+            self.tmpDirIAMRole = tmpDirIAMRole
+            self.upsertRedshiftOptions = upsertRedshiftOptions
+        }
+
+        public func validate(name: String) throws {
+            try self.validate(self.database, name: "database", parent: name, pattern: "^([\\u0020-\\uD7FF\\uE000-\\uFFFD\\uD800\\uDC00-\\uDBFF\\uDFFF]|[^\\S\\r\\n\"'])*$")
+            try self.inputs.forEach {
+                try validate($0, name: "inputs[]", parent: name, pattern: "^[A-Za-z0-9_-]*$")
+            }
+            try self.validate(self.inputs, name: "inputs", parent: name, max: 1)
+            try self.validate(self.inputs, name: "inputs", parent: name, min: 1)
+            try self.validate(self.name, name: "name", parent: name, pattern: "^([\\u0020-\\uD7FF\\uE000-\\uFFFD\\uD800\\uDC00-\\uDBFF\\uDFFF]|[^\\r\\n])*$")
+            try self.validate(self.redshiftTmpDir, name: "redshiftTmpDir", parent: name, pattern: "^([\\u0020-\\uD7FF\\uE000-\\uFFFD\\uD800\\uDC00-\\uDBFF\\uDFFF]|[^\\S\\r\\n\"'])*$")
+            try self.validate(self.table, name: "table", parent: name, pattern: "^([\\u0020-\\uD7FF\\uE000-\\uFFFD\\uD800\\uDC00-\\uDBFF\\uDFFF]|[^\\S\\r\\n\"'])*$")
+            try self.validate(self.tmpDirIAMRole, name: "tmpDirIAMRole", parent: name, pattern: "^([\\u0020-\\uD7FF\\uE000-\\uFFFD\\uD800\\uDC00-\\uDBFF\\uDFFF]|[^\\S\\r\\n\"'])*$")
+            try self.upsertRedshiftOptions?.validate(name: "\(name).upsertRedshiftOptions")
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case database = "Database"
+            case inputs = "Inputs"
+            case name = "Name"
+            case redshiftTmpDir = "RedshiftTmpDir"
+            case table = "Table"
+            case tmpDirIAMRole = "TmpDirIAMRole"
+            case upsertRedshiftOptions = "UpsertRedshiftOptions"
+        }
+    }
+
     public struct RegisterSchemaVersionInput: AWSEncodableShape {
         /// The schema definition using the DataFormat setting for the SchemaName.
         public let schemaDefinition: String
@@ -11118,6 +13380,33 @@ extension Glue {
         }
     }
 
+    public struct RelationalCatalogSource: AWSEncodableShape & AWSDecodableShape {
+        /// The name of the database to read from.
+        public let database: String
+        /// The name of the data source.
+        public let name: String
+        /// The name of the table in the database to read from.
+        public let table: String
+
+        public init(database: String, name: String, table: String) {
+            self.database = database
+            self.name = name
+            self.table = table
+        }
+
+        public func validate(name: String) throws {
+            try self.validate(self.database, name: "database", parent: name, pattern: "^([\\u0020-\\uD7FF\\uE000-\\uFFFD\\uD800\\uDC00-\\uDBFF\\uDFFF]|[^\\S\\r\\n\"'])*$")
+            try self.validate(self.name, name: "name", parent: name, pattern: "^([\\u0020-\\uD7FF\\uE000-\\uFFFD\\uD800\\uDC00-\\uDBFF\\uDFFF]|[^\\r\\n])*$")
+            try self.validate(self.table, name: "table", parent: name, pattern: "^([\\u0020-\\uD7FF\\uE000-\\uFFFD\\uD800\\uDC00-\\uDBFF\\uDFFF]|[^\\S\\r\\n\"'])*$")
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case database = "Database"
+            case name = "Name"
+            case table = "Table"
+        }
+    }
+
     public struct RemoveSchemaVersionMetadataInput: AWSEncodableShape {
         /// The value of the metadata key.
         public let metadataKeyValue: MetadataKeyValuePair
@@ -11190,6 +13479,46 @@ extension Glue {
             case schemaName = "SchemaName"
             case schemaVersionId = "SchemaVersionId"
             case versionNumber = "VersionNumber"
+        }
+    }
+
+    public struct RenameField: AWSEncodableShape & AWSDecodableShape {
+        /// The data inputs identified by their node names.
+        public let inputs: [String]
+        /// The name of the transform node.
+        public let name: String
+        /// A JSON path to a variable in the data structure for the source data.
+        public let sourcePath: [String]
+        /// A JSON path to a variable in the data structure for the target data.
+        public let targetPath: [String]
+
+        public init(inputs: [String], name: String, sourcePath: [String], targetPath: [String]) {
+            self.inputs = inputs
+            self.name = name
+            self.sourcePath = sourcePath
+            self.targetPath = targetPath
+        }
+
+        public func validate(name: String) throws {
+            try self.inputs.forEach {
+                try validate($0, name: "inputs[]", parent: name, pattern: "^[A-Za-z0-9_-]*$")
+            }
+            try self.validate(self.inputs, name: "inputs", parent: name, max: 1)
+            try self.validate(self.inputs, name: "inputs", parent: name, min: 1)
+            try self.validate(self.name, name: "name", parent: name, pattern: "^([\\u0020-\\uD7FF\\uE000-\\uFFFD\\uD800\\uDC00-\\uDBFF\\uDFFF]|[^\\r\\n])*$")
+            try self.sourcePath.forEach {
+                try validate($0, name: "sourcePath[]", parent: name, pattern: "^([\\u0020-\\uD7FF\\uE000-\\uFFFD\\uD800\\uDC00-\\uDBFF\\uDFFF]|[^\\S\\r\\n\"'])*$")
+            }
+            try self.targetPath.forEach {
+                try validate($0, name: "targetPath[]", parent: name, pattern: "^([\\u0020-\\uD7FF\\uE000-\\uFFFD\\uD800\\uDC00-\\uDBFF\\uDFFF]|[^\\S\\r\\n\"'])*$")
+            }
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case inputs = "Inputs"
+            case name = "Name"
+            case sourcePath = "SourcePath"
+            case targetPath = "TargetPath"
         }
     }
 
@@ -11342,6 +13671,268 @@ extension Glue {
         }
     }
 
+    public struct S3CatalogSource: AWSEncodableShape & AWSDecodableShape {
+        /// Specifies additional connection options.
+        public let additionalOptions: S3SourceAdditionalOptions?
+        /// The database to read from.
+        public let database: String
+        /// The name of the data store.
+        public let name: String
+        /// Partitions satisfying this predicate are deleted. Files within the retention period in these partitions are not deleted. Set to "" – empty by default.
+        public let partitionPredicate: String?
+        /// The database table to read from.
+        public let table: String
+
+        public init(additionalOptions: S3SourceAdditionalOptions? = nil, database: String, name: String, partitionPredicate: String? = nil, table: String) {
+            self.additionalOptions = additionalOptions
+            self.database = database
+            self.name = name
+            self.partitionPredicate = partitionPredicate
+            self.table = table
+        }
+
+        public func validate(name: String) throws {
+            try self.validate(self.database, name: "database", parent: name, pattern: "^([\\u0020-\\uD7FF\\uE000-\\uFFFD\\uD800\\uDC00-\\uDBFF\\uDFFF]|[^\\S\\r\\n\"'])*$")
+            try self.validate(self.name, name: "name", parent: name, pattern: "^([\\u0020-\\uD7FF\\uE000-\\uFFFD\\uD800\\uDC00-\\uDBFF\\uDFFF]|[^\\r\\n])*$")
+            try self.validate(self.partitionPredicate, name: "partitionPredicate", parent: name, pattern: "^([\\u0020-\\uD7FF\\uE000-\\uFFFD\\uD800\\uDC00-\\uDBFF\\uDFFF]|[^\\S\\r\\n\"'])*$")
+            try self.validate(self.table, name: "table", parent: name, pattern: "^([\\u0020-\\uD7FF\\uE000-\\uFFFD\\uD800\\uDC00-\\uDBFF\\uDFFF]|[^\\S\\r\\n\"'])*$")
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case additionalOptions = "AdditionalOptions"
+            case database = "Database"
+            case name = "Name"
+            case partitionPredicate = "PartitionPredicate"
+            case table = "Table"
+        }
+    }
+
+    public struct S3CatalogTarget: AWSEncodableShape & AWSDecodableShape {
+        /// The name of the database to write to.
+        public let database: String
+        /// The nodes that are inputs to the data target.
+        public let inputs: [String]
+        /// The name of the data target.
+        public let name: String
+        /// Specifies native partitioning using a sequence of keys.
+        public let partitionKeys: [[String]]?
+        /// A policy that specifies update behavior for the crawler.
+        public let schemaChangePolicy: CatalogSchemaChangePolicy?
+        /// The name of the table in the database to write to.
+        public let table: String
+
+        public init(database: String, inputs: [String], name: String, partitionKeys: [[String]]? = nil, schemaChangePolicy: CatalogSchemaChangePolicy? = nil, table: String) {
+            self.database = database
+            self.inputs = inputs
+            self.name = name
+            self.partitionKeys = partitionKeys
+            self.schemaChangePolicy = schemaChangePolicy
+            self.table = table
+        }
+
+        public func validate(name: String) throws {
+            try self.validate(self.database, name: "database", parent: name, pattern: "^([\\u0020-\\uD7FF\\uE000-\\uFFFD\\uD800\\uDC00-\\uDBFF\\uDFFF]|[^\\S\\r\\n\"'])*$")
+            try self.inputs.forEach {
+                try validate($0, name: "inputs[]", parent: name, pattern: "^[A-Za-z0-9_-]*$")
+            }
+            try self.validate(self.inputs, name: "inputs", parent: name, max: 1)
+            try self.validate(self.inputs, name: "inputs", parent: name, min: 1)
+            try self.validate(self.name, name: "name", parent: name, pattern: "^([\\u0020-\\uD7FF\\uE000-\\uFFFD\\uD800\\uDC00-\\uDBFF\\uDFFF]|[^\\r\\n])*$")
+            try self.validate(self.table, name: "table", parent: name, pattern: "^([\\u0020-\\uD7FF\\uE000-\\uFFFD\\uD800\\uDC00-\\uDBFF\\uDFFF]|[^\\S\\r\\n\"'])*$")
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case database = "Database"
+            case inputs = "Inputs"
+            case name = "Name"
+            case partitionKeys = "PartitionKeys"
+            case schemaChangePolicy = "SchemaChangePolicy"
+            case table = "Table"
+        }
+    }
+
+    public struct S3CsvSource: AWSEncodableShape & AWSDecodableShape {
+        /// Specifies additional connection options.
+        public let additionalOptions: S3DirectSourceAdditionalOptions?
+        /// Specifies how the data is compressed. This is generally not necessary if the data has a standard file extension. Possible values are "gzip" and "bzip").
+        public let compressionType: CompressionType?
+        /// Specifies a character to use for escaping. This option is used only when reading CSV files. The default value is none. If enabled, the character which immediately follows is used as-is, except for a small set of well-known escapes (\n, \r, \t, and \0).
+        public let escaper: String?
+        /// A string containing a JSON list of Unix-style glob patterns to exclude. For example, "[\"**.pdf\"]" excludes all PDF files.
+        public let exclusions: [String]?
+        /// Grouping files is turned on by default when the input contains more than 50,000 files. To turn on grouping with fewer than 50,000 files, set this parameter to "inPartition". To disable grouping when there are more than 50,000 files, set this parameter to "none".
+        public let groupFiles: String?
+        /// The target group size in bytes. The default is computed based on the input data size and the size of your cluster. When there are fewer than 50,000 input files, "groupFiles" must be set to "inPartition" for this to take effect.
+        public let groupSize: String?
+        /// This option controls the duration in milliseconds after which the s3 listing is likely to be consistent. Files with modification timestamps falling within the last maxBand milliseconds are tracked specially when using JobBookmarks to account for Amazon S3 eventual consistency. Most users don't need to set this option. The default is 900000 milliseconds, or 15 minutes.
+        public let maxBand: Int?
+        /// This option specifies the maximum number of files to save from the last maxBand seconds. If this number is exceeded, extra files are skipped and only processed in the next job run.
+        public let maxFilesInBand: Int?
+        /// A Boolean value that specifies whether a single record can span multiple lines. This can occur when a field contains a quoted new-line character. You must set this option to True if any record spans multiple lines. The default value is False, which allows for more aggressive file-splitting during parsing.
+        public let multiline: Bool?
+        /// The name of the data store.
+        public let name: String
+        /// A Boolean value that specifies whether to use the advanced SIMD CSV reader along with Apache Arrow based columnar memory formats. Only available in Glue version 3.0.
+        public let optimizePerformance: Bool?
+        /// Specifies the data schema for the S3 CSV source.
+        public let outputSchemas: [GlueSchema]?
+        /// A list of the Amazon S3 paths to read from.
+        public let paths: [String]
+        /// Specifies the character to use for quoting. The default is a double quote: '"'. Set this to -1 to turn off quoting entirely.
+        public let quoteChar: QuoteChar
+        /// If set to true, recursively reads files in all subdirectories under the specified paths.
+        public let recurse: Bool?
+        /// Specifies the delimiter character. The default is a comma: ",", but any other character can be specified.
+        public let separator: Separator
+        /// A Boolean value that specifies whether to skip the first data line. The default value is False.
+        public let skipFirst: Bool?
+        /// A Boolean value that specifies whether to treat the first line as a header. The default value is False.
+        public let withHeader: Bool?
+        /// A Boolean value that specifies whether to write the header to output. The default value is True.
+        public let writeHeader: Bool?
+
+        public init(additionalOptions: S3DirectSourceAdditionalOptions? = nil, compressionType: CompressionType? = nil, escaper: String? = nil, exclusions: [String]? = nil, groupFiles: String? = nil, groupSize: String? = nil, maxBand: Int? = nil, maxFilesInBand: Int? = nil, multiline: Bool? = nil, name: String, optimizePerformance: Bool? = nil, outputSchemas: [GlueSchema]? = nil, paths: [String], quoteChar: QuoteChar, recurse: Bool? = nil, separator: Separator, skipFirst: Bool? = nil, withHeader: Bool? = nil, writeHeader: Bool? = nil) {
+            self.additionalOptions = additionalOptions
+            self.compressionType = compressionType
+            self.escaper = escaper
+            self.exclusions = exclusions
+            self.groupFiles = groupFiles
+            self.groupSize = groupSize
+            self.maxBand = maxBand
+            self.maxFilesInBand = maxFilesInBand
+            self.multiline = multiline
+            self.name = name
+            self.optimizePerformance = optimizePerformance
+            self.outputSchemas = outputSchemas
+            self.paths = paths
+            self.quoteChar = quoteChar
+            self.recurse = recurse
+            self.separator = separator
+            self.skipFirst = skipFirst
+            self.withHeader = withHeader
+            self.writeHeader = writeHeader
+        }
+
+        public func validate(name: String) throws {
+            try self.additionalOptions?.validate(name: "\(name).additionalOptions")
+            try self.validate(self.escaper, name: "escaper", parent: name, pattern: "^([\\u0020-\\uD7FF\\uE000-\\uFFFD\\uD800\\uDC00-\\uDBFF\\uDFFF]|[^\\S\\r\\n])*$")
+            try self.exclusions?.forEach {
+                try validate($0, name: "exclusions[]", parent: name, pattern: "^([\\u0020-\\uD7FF\\uE000-\\uFFFD\\uD800\\uDC00-\\uDBFF\\uDFFF]|[^\\S\\r\\n\"'])*$")
+            }
+            try self.validate(self.groupFiles, name: "groupFiles", parent: name, pattern: "^([\\u0020-\\uD7FF\\uE000-\\uFFFD\\uD800\\uDC00-\\uDBFF\\uDFFF]|[^\\S\\r\\n\"'])*$")
+            try self.validate(self.groupSize, name: "groupSize", parent: name, pattern: "^([\\u0020-\\uD7FF\\uE000-\\uFFFD\\uD800\\uDC00-\\uDBFF\\uDFFF]|[^\\S\\r\\n\"'])*$")
+            try self.validate(self.maxBand, name: "maxBand", parent: name, min: 0)
+            try self.validate(self.maxFilesInBand, name: "maxFilesInBand", parent: name, min: 0)
+            try self.validate(self.name, name: "name", parent: name, pattern: "^([\\u0020-\\uD7FF\\uE000-\\uFFFD\\uD800\\uDC00-\\uDBFF\\uDFFF]|[^\\r\\n])*$")
+            try self.outputSchemas?.forEach {
+                try $0.validate(name: "\(name).outputSchemas[]")
+            }
+            try self.paths.forEach {
+                try validate($0, name: "paths[]", parent: name, pattern: "^([\\u0020-\\uD7FF\\uE000-\\uFFFD\\uD800\\uDC00-\\uDBFF\\uDFFF]|[^\\S\\r\\n\"'])*$")
+            }
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case additionalOptions = "AdditionalOptions"
+            case compressionType = "CompressionType"
+            case escaper = "Escaper"
+            case exclusions = "Exclusions"
+            case groupFiles = "GroupFiles"
+            case groupSize = "GroupSize"
+            case maxBand = "MaxBand"
+            case maxFilesInBand = "MaxFilesInBand"
+            case multiline = "Multiline"
+            case name = "Name"
+            case optimizePerformance = "OptimizePerformance"
+            case outputSchemas = "OutputSchemas"
+            case paths = "Paths"
+            case quoteChar = "QuoteChar"
+            case recurse = "Recurse"
+            case separator = "Separator"
+            case skipFirst = "SkipFirst"
+            case withHeader = "WithHeader"
+            case writeHeader = "WriteHeader"
+        }
+    }
+
+    public struct S3DirectSourceAdditionalOptions: AWSEncodableShape & AWSDecodableShape {
+        /// Sets the upper limit for the target number of files that will be processed.
+        public let boundedFiles: Int64?
+        /// Sets the upper limit for the target size of the dataset in bytes that will be processed.
+        public let boundedSize: Int64?
+        /// Sets option to enable a sample path.
+        public let enableSamplePath: Bool?
+        /// If enabled, specifies the sample path.
+        public let samplePath: String?
+
+        public init(boundedFiles: Int64? = nil, boundedSize: Int64? = nil, enableSamplePath: Bool? = nil, samplePath: String? = nil) {
+            self.boundedFiles = boundedFiles
+            self.boundedSize = boundedSize
+            self.enableSamplePath = enableSamplePath
+            self.samplePath = samplePath
+        }
+
+        public func validate(name: String) throws {
+            try self.validate(self.samplePath, name: "samplePath", parent: name, pattern: "^([\\u0020-\\uD7FF\\uE000-\\uFFFD\\uD800\\uDC00-\\uDBFF\\uDFFF]|[^\\S\\r\\n\"'])*$")
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case boundedFiles = "BoundedFiles"
+            case boundedSize = "BoundedSize"
+            case enableSamplePath = "EnableSamplePath"
+            case samplePath = "SamplePath"
+        }
+    }
+
+    public struct S3DirectTarget: AWSEncodableShape & AWSDecodableShape {
+        /// Specifies how the data is compressed. This is generally not necessary if the data has a standard file extension. Possible values are "gzip" and "bzip").
+        public let compression: String?
+        /// Specifies the data output format for the target.
+        public let format: TargetFormat
+        /// The nodes that are inputs to the data target.
+        public let inputs: [String]
+        /// The name of the data target.
+        public let name: String
+        /// Specifies native partitioning using a sequence of keys.
+        public let partitionKeys: [[String]]?
+        /// A single Amazon S3 path to write to.
+        public let path: String
+        /// A policy that specifies update behavior for the crawler.
+        public let schemaChangePolicy: DirectSchemaChangePolicy?
+
+        public init(compression: String? = nil, format: TargetFormat, inputs: [String], name: String, partitionKeys: [[String]]? = nil, path: String, schemaChangePolicy: DirectSchemaChangePolicy? = nil) {
+            self.compression = compression
+            self.format = format
+            self.inputs = inputs
+            self.name = name
+            self.partitionKeys = partitionKeys
+            self.path = path
+            self.schemaChangePolicy = schemaChangePolicy
+        }
+
+        public func validate(name: String) throws {
+            try self.validate(self.compression, name: "compression", parent: name, pattern: "^([\\u0020-\\uD7FF\\uE000-\\uFFFD\\uD800\\uDC00-\\uDBFF\\uDFFF]|[^\\S\\r\\n\"'])*$")
+            try self.inputs.forEach {
+                try validate($0, name: "inputs[]", parent: name, pattern: "^[A-Za-z0-9_-]*$")
+            }
+            try self.validate(self.inputs, name: "inputs", parent: name, max: 1)
+            try self.validate(self.inputs, name: "inputs", parent: name, min: 1)
+            try self.validate(self.name, name: "name", parent: name, pattern: "^([\\u0020-\\uD7FF\\uE000-\\uFFFD\\uD800\\uDC00-\\uDBFF\\uDFFF]|[^\\r\\n])*$")
+            try self.validate(self.path, name: "path", parent: name, pattern: "^([\\u0020-\\uD7FF\\uE000-\\uFFFD\\uD800\\uDC00-\\uDBFF\\uDFFF]|[^\\S\\r\\n\"'])*$")
+            try self.schemaChangePolicy?.validate(name: "\(name).schemaChangePolicy")
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case compression = "Compression"
+            case format = "Format"
+            case inputs = "Inputs"
+            case name = "Name"
+            case partitionKeys = "PartitionKeys"
+            case path = "Path"
+            case schemaChangePolicy = "SchemaChangePolicy"
+        }
+    }
+
     public struct S3Encryption: AWSEncodableShape & AWSDecodableShape {
         /// The Amazon Resource Name (ARN) of the KMS key to be used to encrypt the data.
         public let kmsKeyArn: String?
@@ -11360,6 +13951,218 @@ extension Glue {
         private enum CodingKeys: String, CodingKey {
             case kmsKeyArn = "KmsKeyArn"
             case s3EncryptionMode = "S3EncryptionMode"
+        }
+    }
+
+    public struct S3GlueParquetTarget: AWSEncodableShape & AWSDecodableShape {
+        /// Specifies how the data is compressed. This is generally not necessary if the data has a standard file extension. Possible values are "gzip" and "bzip").
+        public let compression: ParquetCompressionType?
+        /// The nodes that are inputs to the data target.
+        public let inputs: [String]
+        /// The name of the data target.
+        public let name: String
+        /// Specifies native partitioning using a sequence of keys.
+        public let partitionKeys: [[String]]?
+        /// A single Amazon S3 path to write to.
+        public let path: String
+        /// A policy that specifies update behavior for the crawler.
+        public let schemaChangePolicy: DirectSchemaChangePolicy?
+
+        public init(compression: ParquetCompressionType? = nil, inputs: [String], name: String, partitionKeys: [[String]]? = nil, path: String, schemaChangePolicy: DirectSchemaChangePolicy? = nil) {
+            self.compression = compression
+            self.inputs = inputs
+            self.name = name
+            self.partitionKeys = partitionKeys
+            self.path = path
+            self.schemaChangePolicy = schemaChangePolicy
+        }
+
+        public func validate(name: String) throws {
+            try self.inputs.forEach {
+                try validate($0, name: "inputs[]", parent: name, pattern: "^[A-Za-z0-9_-]*$")
+            }
+            try self.validate(self.inputs, name: "inputs", parent: name, max: 1)
+            try self.validate(self.inputs, name: "inputs", parent: name, min: 1)
+            try self.validate(self.name, name: "name", parent: name, pattern: "^([\\u0020-\\uD7FF\\uE000-\\uFFFD\\uD800\\uDC00-\\uDBFF\\uDFFF]|[^\\r\\n])*$")
+            try self.validate(self.path, name: "path", parent: name, pattern: "^([\\u0020-\\uD7FF\\uE000-\\uFFFD\\uD800\\uDC00-\\uDBFF\\uDFFF]|[^\\S\\r\\n\"'])*$")
+            try self.schemaChangePolicy?.validate(name: "\(name).schemaChangePolicy")
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case compression = "Compression"
+            case inputs = "Inputs"
+            case name = "Name"
+            case partitionKeys = "PartitionKeys"
+            case path = "Path"
+            case schemaChangePolicy = "SchemaChangePolicy"
+        }
+    }
+
+    public struct S3JsonSource: AWSEncodableShape & AWSDecodableShape {
+        /// Specifies additional connection options.
+        public let additionalOptions: S3DirectSourceAdditionalOptions?
+        /// Specifies how the data is compressed. This is generally not necessary if the data has a standard file extension. Possible values are "gzip" and "bzip").
+        public let compressionType: CompressionType?
+        /// A string containing a JSON list of Unix-style glob patterns to exclude. For example, "[\"**.pdf\"]" excludes all PDF files.
+        public let exclusions: [String]?
+        /// Grouping files is turned on by default when the input contains more than 50,000 files. To turn on grouping with fewer than 50,000 files, set this parameter to "inPartition". To disable grouping when there are more than 50,000 files, set this parameter to "none".
+        public let groupFiles: String?
+        /// The target group size in bytes. The default is computed based on the input data size and the size of your cluster. When there are fewer than 50,000 input files, "groupFiles" must be set to "inPartition" for this to take effect.
+        public let groupSize: String?
+        /// A JsonPath string defining the JSON data.
+        public let jsonPath: String?
+        /// This option controls the duration in milliseconds after which the s3 listing is likely to be consistent. Files with modification timestamps falling within the last maxBand milliseconds are tracked specially when using JobBookmarks to account for Amazon S3 eventual consistency. Most users don't need to set this option. The default is 900000 milliseconds, or 15 minutes.
+        public let maxBand: Int?
+        /// This option specifies the maximum number of files to save from the last maxBand seconds. If this number is exceeded, extra files are skipped and only processed in the next job run.
+        public let maxFilesInBand: Int?
+        /// A Boolean value that specifies whether a single record can span multiple lines. This can occur when a field contains a quoted new-line character. You must set this option to True if any record spans multiple lines. The default value is False, which allows for more aggressive file-splitting during parsing.
+        public let multiline: Bool?
+        /// The name of the data store.
+        public let name: String
+        /// Specifies the data schema for the S3 JSON source.
+        public let outputSchemas: [GlueSchema]?
+        /// A list of the Amazon S3 paths to read from.
+        public let paths: [String]
+        /// If set to true, recursively reads files in all subdirectories under the specified paths.
+        public let recurse: Bool?
+
+        public init(additionalOptions: S3DirectSourceAdditionalOptions? = nil, compressionType: CompressionType? = nil, exclusions: [String]? = nil, groupFiles: String? = nil, groupSize: String? = nil, jsonPath: String? = nil, maxBand: Int? = nil, maxFilesInBand: Int? = nil, multiline: Bool? = nil, name: String, outputSchemas: [GlueSchema]? = nil, paths: [String], recurse: Bool? = nil) {
+            self.additionalOptions = additionalOptions
+            self.compressionType = compressionType
+            self.exclusions = exclusions
+            self.groupFiles = groupFiles
+            self.groupSize = groupSize
+            self.jsonPath = jsonPath
+            self.maxBand = maxBand
+            self.maxFilesInBand = maxFilesInBand
+            self.multiline = multiline
+            self.name = name
+            self.outputSchemas = outputSchemas
+            self.paths = paths
+            self.recurse = recurse
+        }
+
+        public func validate(name: String) throws {
+            try self.additionalOptions?.validate(name: "\(name).additionalOptions")
+            try self.exclusions?.forEach {
+                try validate($0, name: "exclusions[]", parent: name, pattern: "^([\\u0020-\\uD7FF\\uE000-\\uFFFD\\uD800\\uDC00-\\uDBFF\\uDFFF]|[^\\S\\r\\n\"'])*$")
+            }
+            try self.validate(self.groupFiles, name: "groupFiles", parent: name, pattern: "^([\\u0020-\\uD7FF\\uE000-\\uFFFD\\uD800\\uDC00-\\uDBFF\\uDFFF]|[^\\S\\r\\n\"'])*$")
+            try self.validate(self.groupSize, name: "groupSize", parent: name, pattern: "^([\\u0020-\\uD7FF\\uE000-\\uFFFD\\uD800\\uDC00-\\uDBFF\\uDFFF]|[^\\S\\r\\n\"'])*$")
+            try self.validate(self.jsonPath, name: "jsonPath", parent: name, pattern: "^([\\u0020-\\uD7FF\\uE000-\\uFFFD\\uD800\\uDC00-\\uDBFF\\uDFFF]|[^\\S\\r\\n\"'])*$")
+            try self.validate(self.maxBand, name: "maxBand", parent: name, min: 0)
+            try self.validate(self.maxFilesInBand, name: "maxFilesInBand", parent: name, min: 0)
+            try self.validate(self.name, name: "name", parent: name, pattern: "^([\\u0020-\\uD7FF\\uE000-\\uFFFD\\uD800\\uDC00-\\uDBFF\\uDFFF]|[^\\r\\n])*$")
+            try self.outputSchemas?.forEach {
+                try $0.validate(name: "\(name).outputSchemas[]")
+            }
+            try self.paths.forEach {
+                try validate($0, name: "paths[]", parent: name, pattern: "^([\\u0020-\\uD7FF\\uE000-\\uFFFD\\uD800\\uDC00-\\uDBFF\\uDFFF]|[^\\S\\r\\n\"'])*$")
+            }
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case additionalOptions = "AdditionalOptions"
+            case compressionType = "CompressionType"
+            case exclusions = "Exclusions"
+            case groupFiles = "GroupFiles"
+            case groupSize = "GroupSize"
+            case jsonPath = "JsonPath"
+            case maxBand = "MaxBand"
+            case maxFilesInBand = "MaxFilesInBand"
+            case multiline = "Multiline"
+            case name = "Name"
+            case outputSchemas = "OutputSchemas"
+            case paths = "Paths"
+            case recurse = "Recurse"
+        }
+    }
+
+    public struct S3ParquetSource: AWSEncodableShape & AWSDecodableShape {
+        /// Specifies additional connection options.
+        public let additionalOptions: S3DirectSourceAdditionalOptions?
+        /// Specifies how the data is compressed. This is generally not necessary if the data has a standard file extension. Possible values are "gzip" and "bzip").
+        public let compressionType: ParquetCompressionType?
+        /// A string containing a JSON list of Unix-style glob patterns to exclude. For example, "[\"**.pdf\"]" excludes all PDF files.
+        public let exclusions: [String]?
+        /// Grouping files is turned on by default when the input contains more than 50,000 files. To turn on grouping with fewer than 50,000 files, set this parameter to "inPartition". To disable grouping when there are more than 50,000 files, set this parameter to "none".
+        public let groupFiles: String?
+        /// The target group size in bytes. The default is computed based on the input data size and the size of your cluster. When there are fewer than 50,000 input files, "groupFiles" must be set to "inPartition" for this to take effect.
+        public let groupSize: String?
+        /// This option controls the duration in milliseconds after which the s3 listing is likely to be consistent. Files with modification timestamps falling within the last maxBand milliseconds are tracked specially when using JobBookmarks to account for Amazon S3 eventual consistency. Most users don't need to set this option. The default is 900000 milliseconds, or 15 minutes.
+        public let maxBand: Int?
+        /// This option specifies the maximum number of files to save from the last maxBand seconds. If this number is exceeded, extra files are skipped and only processed in the next job run.
+        public let maxFilesInBand: Int?
+        /// The name of the data store.
+        public let name: String
+        /// Specifies the data schema for the S3 Parquet source.
+        public let outputSchemas: [GlueSchema]?
+        /// A list of the Amazon S3 paths to read from.
+        public let paths: [String]
+        /// If set to true, recursively reads files in all subdirectories under the specified paths.
+        public let recurse: Bool?
+
+        public init(additionalOptions: S3DirectSourceAdditionalOptions? = nil, compressionType: ParquetCompressionType? = nil, exclusions: [String]? = nil, groupFiles: String? = nil, groupSize: String? = nil, maxBand: Int? = nil, maxFilesInBand: Int? = nil, name: String, outputSchemas: [GlueSchema]? = nil, paths: [String], recurse: Bool? = nil) {
+            self.additionalOptions = additionalOptions
+            self.compressionType = compressionType
+            self.exclusions = exclusions
+            self.groupFiles = groupFiles
+            self.groupSize = groupSize
+            self.maxBand = maxBand
+            self.maxFilesInBand = maxFilesInBand
+            self.name = name
+            self.outputSchemas = outputSchemas
+            self.paths = paths
+            self.recurse = recurse
+        }
+
+        public func validate(name: String) throws {
+            try self.additionalOptions?.validate(name: "\(name).additionalOptions")
+            try self.exclusions?.forEach {
+                try validate($0, name: "exclusions[]", parent: name, pattern: "^([\\u0020-\\uD7FF\\uE000-\\uFFFD\\uD800\\uDC00-\\uDBFF\\uDFFF]|[^\\S\\r\\n\"'])*$")
+            }
+            try self.validate(self.groupFiles, name: "groupFiles", parent: name, pattern: "^([\\u0020-\\uD7FF\\uE000-\\uFFFD\\uD800\\uDC00-\\uDBFF\\uDFFF]|[^\\S\\r\\n\"'])*$")
+            try self.validate(self.groupSize, name: "groupSize", parent: name, pattern: "^([\\u0020-\\uD7FF\\uE000-\\uFFFD\\uD800\\uDC00-\\uDBFF\\uDFFF]|[^\\S\\r\\n\"'])*$")
+            try self.validate(self.maxBand, name: "maxBand", parent: name, min: 0)
+            try self.validate(self.maxFilesInBand, name: "maxFilesInBand", parent: name, min: 0)
+            try self.validate(self.name, name: "name", parent: name, pattern: "^([\\u0020-\\uD7FF\\uE000-\\uFFFD\\uD800\\uDC00-\\uDBFF\\uDFFF]|[^\\r\\n])*$")
+            try self.outputSchemas?.forEach {
+                try $0.validate(name: "\(name).outputSchemas[]")
+            }
+            try self.paths.forEach {
+                try validate($0, name: "paths[]", parent: name, pattern: "^([\\u0020-\\uD7FF\\uE000-\\uFFFD\\uD800\\uDC00-\\uDBFF\\uDFFF]|[^\\S\\r\\n\"'])*$")
+            }
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case additionalOptions = "AdditionalOptions"
+            case compressionType = "CompressionType"
+            case exclusions = "Exclusions"
+            case groupFiles = "GroupFiles"
+            case groupSize = "GroupSize"
+            case maxBand = "MaxBand"
+            case maxFilesInBand = "MaxFilesInBand"
+            case name = "Name"
+            case outputSchemas = "OutputSchemas"
+            case paths = "Paths"
+            case recurse = "Recurse"
+        }
+    }
+
+    public struct S3SourceAdditionalOptions: AWSEncodableShape & AWSDecodableShape {
+        /// Sets the upper limit for the target number of files that will be processed.
+        public let boundedFiles: Int64?
+        /// Sets the upper limit for the target size of the dataset in bytes that will be processed.
+        public let boundedSize: Int64?
+
+        public init(boundedFiles: Int64? = nil, boundedSize: Int64? = nil) {
+            self.boundedFiles = boundedFiles
+            self.boundedSize = boundedSize
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case boundedFiles = "BoundedFiles"
+            case boundedSize = "BoundedSize"
         }
     }
 
@@ -11742,6 +14545,67 @@ extension Glue {
         }
     }
 
+    public struct SelectFields: AWSEncodableShape & AWSDecodableShape {
+        /// The data inputs identified by their node names.
+        public let inputs: [String]
+        /// The name of the transform node.
+        public let name: String
+        /// A JSON path to a variable in the data structure.
+        public let paths: [[String]]
+
+        public init(inputs: [String], name: String, paths: [[String]]) {
+            self.inputs = inputs
+            self.name = name
+            self.paths = paths
+        }
+
+        public func validate(name: String) throws {
+            try self.inputs.forEach {
+                try validate($0, name: "inputs[]", parent: name, pattern: "^[A-Za-z0-9_-]*$")
+            }
+            try self.validate(self.inputs, name: "inputs", parent: name, max: 1)
+            try self.validate(self.inputs, name: "inputs", parent: name, min: 1)
+            try self.validate(self.name, name: "name", parent: name, pattern: "^([\\u0020-\\uD7FF\\uE000-\\uFFFD\\uD800\\uDC00-\\uDBFF\\uDFFF]|[^\\r\\n])*$")
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case inputs = "Inputs"
+            case name = "Name"
+            case paths = "Paths"
+        }
+    }
+
+    public struct SelectFromCollection: AWSEncodableShape & AWSDecodableShape {
+        /// The index for the DynamicFrame to be selected.
+        public let index: Int
+        /// The data inputs identified by their node names.
+        public let inputs: [String]
+        /// The name of the transform node.
+        public let name: String
+
+        public init(index: Int, inputs: [String], name: String) {
+            self.index = index
+            self.inputs = inputs
+            self.name = name
+        }
+
+        public func validate(name: String) throws {
+            try self.validate(self.index, name: "index", parent: name, min: 0)
+            try self.inputs.forEach {
+                try validate($0, name: "inputs[]", parent: name, pattern: "^[A-Za-z0-9_-]*$")
+            }
+            try self.validate(self.inputs, name: "inputs", parent: name, max: 1)
+            try self.validate(self.inputs, name: "inputs", parent: name, min: 1)
+            try self.validate(self.name, name: "name", parent: name, pattern: "^([\\u0020-\\uD7FF\\uE000-\\uFFFD\\uD800\\uDC00-\\uDBFF\\uDFFF]|[^\\r\\n])*$")
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case index = "Index"
+            case inputs = "Inputs"
+            case name = "Name"
+        }
+    }
+
     public struct SerDeInfo: AWSEncodableShape & AWSDecodableShape {
         /// Name of the SerDe.
         public let name: String?
@@ -11910,6 +14774,251 @@ extension Glue {
         private enum CodingKeys: String, CodingKey {
             case fieldName = "FieldName"
             case sort = "Sort"
+        }
+    }
+
+    public struct SparkConnectorSource: AWSEncodableShape & AWSDecodableShape {
+        /// Additional connection options for the connector.
+        public let additionalOptions: [String: String]?
+        /// The name of the connection that is associated with the connector.
+        public let connectionName: String
+        /// The type of connection, such as marketplace.spark or custom.spark, designating a connection to an Apache Spark data store.
+        public let connectionType: String
+        /// The name of a connector that assists with accessing the data store in Glue Studio.
+        public let connectorName: String
+        /// The name of the data source.
+        public let name: String
+        /// Specifies data schema for the custom spark source.
+        public let outputSchemas: [GlueSchema]?
+
+        public init(additionalOptions: [String: String]? = nil, connectionName: String, connectionType: String, connectorName: String, name: String, outputSchemas: [GlueSchema]? = nil) {
+            self.additionalOptions = additionalOptions
+            self.connectionName = connectionName
+            self.connectionType = connectionType
+            self.connectorName = connectorName
+            self.name = name
+            self.outputSchemas = outputSchemas
+        }
+
+        public func validate(name: String) throws {
+            try self.additionalOptions?.forEach {
+                try validate($0.key, name: "additionalOptions.key", parent: name, pattern: "^([\\u0020-\\uD7FF\\uE000-\\uFFFD\\uD800\\uDC00-\\uDBFF\\uDFFF]|[^\\S\\r\\n\"'])*$")
+                try validate($0.value, name: "additionalOptions[\"\($0.key)\"]", parent: name, pattern: "^([\\u0020-\\uD7FF\\uE000-\\uFFFD\\uD800\\uDC00-\\uDBFF\\uDFFF]|[^\\S\\r\\n\"'])*$")
+            }
+            try self.validate(self.connectionName, name: "connectionName", parent: name, pattern: "^([\\u0020-\\uD7FF\\uE000-\\uFFFD\\uD800\\uDC00-\\uDBFF\\uDFFF]|[^\\S\\r\\n\"'])*$")
+            try self.validate(self.connectionType, name: "connectionType", parent: name, pattern: "^([\\u0020-\\uD7FF\\uE000-\\uFFFD\\uD800\\uDC00-\\uDBFF\\uDFFF]|[^\\S\\r\\n\"'])*$")
+            try self.validate(self.connectorName, name: "connectorName", parent: name, pattern: "^([\\u0020-\\uD7FF\\uE000-\\uFFFD\\uD800\\uDC00-\\uDBFF\\uDFFF]|[^\\S\\r\\n\"'])*$")
+            try self.validate(self.name, name: "name", parent: name, pattern: "^([\\u0020-\\uD7FF\\uE000-\\uFFFD\\uD800\\uDC00-\\uDBFF\\uDFFF]|[^\\r\\n])*$")
+            try self.outputSchemas?.forEach {
+                try $0.validate(name: "\(name).outputSchemas[]")
+            }
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case additionalOptions = "AdditionalOptions"
+            case connectionName = "ConnectionName"
+            case connectionType = "ConnectionType"
+            case connectorName = "ConnectorName"
+            case name = "Name"
+            case outputSchemas = "OutputSchemas"
+        }
+    }
+
+    public struct SparkConnectorTarget: AWSEncodableShape & AWSDecodableShape {
+        /// Additional connection options for the connector.
+        public let additionalOptions: [String: String]?
+        /// The name of a connection for an Apache Spark connector.
+        public let connectionName: String
+        /// The type of connection, such as marketplace.spark or custom.spark, designating a connection to an Apache Spark data store.
+        public let connectionType: String
+        /// The name of an Apache Spark connector.
+        public let connectorName: String
+        /// The nodes that are inputs to the data target.
+        public let inputs: [String]
+        /// The name of the data target.
+        public let name: String
+        /// Specifies the data schema for the custom spark target.
+        public let outputSchemas: [GlueSchema]?
+
+        public init(additionalOptions: [String: String]? = nil, connectionName: String, connectionType: String, connectorName: String, inputs: [String], name: String, outputSchemas: [GlueSchema]? = nil) {
+            self.additionalOptions = additionalOptions
+            self.connectionName = connectionName
+            self.connectionType = connectionType
+            self.connectorName = connectorName
+            self.inputs = inputs
+            self.name = name
+            self.outputSchemas = outputSchemas
+        }
+
+        public func validate(name: String) throws {
+            try self.additionalOptions?.forEach {
+                try validate($0.key, name: "additionalOptions.key", parent: name, pattern: "^([\\u0020-\\uD7FF\\uE000-\\uFFFD\\uD800\\uDC00-\\uDBFF\\uDFFF]|[^\\S\\r\\n\"'])*$")
+                try validate($0.value, name: "additionalOptions[\"\($0.key)\"]", parent: name, pattern: "^([\\u0020-\\uD7FF\\uE000-\\uFFFD\\uD800\\uDC00-\\uDBFF\\uDFFF]|[^\\S\\r\\n\"'])*$")
+            }
+            try self.validate(self.connectionName, name: "connectionName", parent: name, pattern: "^([\\u0020-\\uD7FF\\uE000-\\uFFFD\\uD800\\uDC00-\\uDBFF\\uDFFF]|[^\\S\\r\\n\"'])*$")
+            try self.validate(self.connectionType, name: "connectionType", parent: name, pattern: "^([\\u0020-\\uD7FF\\uE000-\\uFFFD\\uD800\\uDC00-\\uDBFF\\uDFFF]|[^\\S\\r\\n\"'])*$")
+            try self.validate(self.connectorName, name: "connectorName", parent: name, pattern: "^([\\u0020-\\uD7FF\\uE000-\\uFFFD\\uD800\\uDC00-\\uDBFF\\uDFFF]|[^\\S\\r\\n\"'])*$")
+            try self.inputs.forEach {
+                try validate($0, name: "inputs[]", parent: name, pattern: "^[A-Za-z0-9_-]*$")
+            }
+            try self.validate(self.inputs, name: "inputs", parent: name, max: 1)
+            try self.validate(self.inputs, name: "inputs", parent: name, min: 1)
+            try self.validate(self.name, name: "name", parent: name, pattern: "^([\\u0020-\\uD7FF\\uE000-\\uFFFD\\uD800\\uDC00-\\uDBFF\\uDFFF]|[^\\r\\n])*$")
+            try self.outputSchemas?.forEach {
+                try $0.validate(name: "\(name).outputSchemas[]")
+            }
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case additionalOptions = "AdditionalOptions"
+            case connectionName = "ConnectionName"
+            case connectionType = "ConnectionType"
+            case connectorName = "ConnectorName"
+            case inputs = "Inputs"
+            case name = "Name"
+            case outputSchemas = "OutputSchemas"
+        }
+    }
+
+    public struct SparkSQL: AWSEncodableShape & AWSDecodableShape {
+        /// The data inputs identified by their node names. You can associate a table name with each input node to use in the SQL query. The name you choose must meet the Spark SQL naming restrictions.
+        public let inputs: [String]
+        /// The name of the transform node.
+        public let name: String
+        /// Specifies the data schema for the SparkSQL transform.
+        public let outputSchemas: [GlueSchema]?
+        /// A list of aliases. An alias allows you to specify what name to use in the SQL for a given input. For example, you have a datasource named "MyDataSource". If you specify From as MyDataSource, and Alias as SqlName, then in your SQL you can do:
+        ///   select *
+        /// from SqlName
+        ///  and that gets data from MyDataSource.
+        public let sqlAliases: [SqlAlias]
+        /// A SQL query that must use Spark SQL syntax and return a single data set.
+        public let sqlQuery: String
+
+        public init(inputs: [String], name: String, outputSchemas: [GlueSchema]? = nil, sqlAliases: [SqlAlias], sqlQuery: String) {
+            self.inputs = inputs
+            self.name = name
+            self.outputSchemas = outputSchemas
+            self.sqlAliases = sqlAliases
+            self.sqlQuery = sqlQuery
+        }
+
+        public func validate(name: String) throws {
+            try self.inputs.forEach {
+                try validate($0, name: "inputs[]", parent: name, pattern: "^[A-Za-z0-9_-]*$")
+            }
+            try self.validate(self.inputs, name: "inputs", parent: name, min: 1)
+            try self.validate(self.name, name: "name", parent: name, pattern: "^([\\u0020-\\uD7FF\\uE000-\\uFFFD\\uD800\\uDC00-\\uDBFF\\uDFFF]|[^\\r\\n])*$")
+            try self.outputSchemas?.forEach {
+                try $0.validate(name: "\(name).outputSchemas[]")
+            }
+            try self.sqlAliases.forEach {
+                try $0.validate(name: "\(name).sqlAliases[]")
+            }
+            try self.validate(self.sqlQuery, name: "sqlQuery", parent: name, pattern: "^([\\u0020-\\uD7FF\\uE000-\\uFFFD\\uD800\\uDC00-\\uDBFF\\uDFFF\\s])*$")
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case inputs = "Inputs"
+            case name = "Name"
+            case outputSchemas = "OutputSchemas"
+            case sqlAliases = "SqlAliases"
+            case sqlQuery = "SqlQuery"
+        }
+    }
+
+    public struct Spigot: AWSEncodableShape & AWSDecodableShape {
+        /// The data inputs identified by their node names.
+        public let inputs: [String]
+        /// The name of the transform node.
+        public let name: String
+        /// A path in Amazon S3 where the transform will write a subset of records from the dataset to a JSON file in an Amazon S3 bucket.
+        public let path: String
+        /// The probability (a decimal value with a maximum value of 1) of picking any given record. A value of 1 indicates that each row read from the dataset should be included in the sample output.
+        public let prob: Double?
+        /// Specifies a number of records to write starting from the beginning of the dataset.
+        public let topk: Int?
+
+        public init(inputs: [String], name: String, path: String, prob: Double? = nil, topk: Int? = nil) {
+            self.inputs = inputs
+            self.name = name
+            self.path = path
+            self.prob = prob
+            self.topk = topk
+        }
+
+        public func validate(name: String) throws {
+            try self.inputs.forEach {
+                try validate($0, name: "inputs[]", parent: name, pattern: "^[A-Za-z0-9_-]*$")
+            }
+            try self.validate(self.inputs, name: "inputs", parent: name, max: 1)
+            try self.validate(self.inputs, name: "inputs", parent: name, min: 1)
+            try self.validate(self.name, name: "name", parent: name, pattern: "^([\\u0020-\\uD7FF\\uE000-\\uFFFD\\uD800\\uDC00-\\uDBFF\\uDFFF]|[^\\r\\n])*$")
+            try self.validate(self.path, name: "path", parent: name, pattern: "^([\\u0020-\\uD7FF\\uE000-\\uFFFD\\uD800\\uDC00-\\uDBFF\\uDFFF]|[^\\S\\r\\n\"'])*$")
+            try self.validate(self.prob, name: "prob", parent: name, max: 1.0)
+            try self.validate(self.prob, name: "prob", parent: name, min: 0.0)
+            try self.validate(self.topk, name: "topk", parent: name, max: 100)
+            try self.validate(self.topk, name: "topk", parent: name, min: 0)
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case inputs = "Inputs"
+            case name = "Name"
+            case path = "Path"
+            case prob = "Prob"
+            case topk = "Topk"
+        }
+    }
+
+    public struct SplitFields: AWSEncodableShape & AWSDecodableShape {
+        /// The data inputs identified by their node names.
+        public let inputs: [String]
+        /// The name of the transform node.
+        public let name: String
+        /// A JSON path to a variable in the data structure.
+        public let paths: [[String]]
+
+        public init(inputs: [String], name: String, paths: [[String]]) {
+            self.inputs = inputs
+            self.name = name
+            self.paths = paths
+        }
+
+        public func validate(name: String) throws {
+            try self.inputs.forEach {
+                try validate($0, name: "inputs[]", parent: name, pattern: "^[A-Za-z0-9_-]*$")
+            }
+            try self.validate(self.inputs, name: "inputs", parent: name, max: 1)
+            try self.validate(self.inputs, name: "inputs", parent: name, min: 1)
+            try self.validate(self.name, name: "name", parent: name, pattern: "^([\\u0020-\\uD7FF\\uE000-\\uFFFD\\uD800\\uDC00-\\uDBFF\\uDFFF]|[^\\r\\n])*$")
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case inputs = "Inputs"
+            case name = "Name"
+            case paths = "Paths"
+        }
+    }
+
+    public struct SqlAlias: AWSEncodableShape & AWSDecodableShape {
+        /// A temporary name given to a table, or a column in a table.
+        public let alias: String
+        /// A table, or a column in a table.
+        public let from: String
+
+        public init(alias: String, from: String) {
+            self.alias = alias
+            self.from = from
+        }
+
+        public func validate(name: String) throws {
+            try self.validate(self.alias, name: "alias", parent: name, pattern: "^([\\u0020-\\uD7FF\\uE000-\\uFFFD\\uD800\\uDC00-\\uDBFF\\uDFFF]|[^\\S\\r\\n])*$")
+            try self.validate(self.from, name: "from", parent: name, pattern: "^[A-Za-z0-9_-]*$")
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case alias = "Alias"
+            case from = "From"
         }
     }
 
@@ -12661,6 +15770,28 @@ extension Glue {
         }
     }
 
+    public struct StreamingDataPreviewOptions: AWSEncodableShape & AWSDecodableShape {
+        /// The polling time in milliseconds.
+        public let pollingTime: Int64?
+        /// The limit to the number of records polled.
+        public let recordPollingLimit: Int64?
+
+        public init(pollingTime: Int64? = nil, recordPollingLimit: Int64? = nil) {
+            self.pollingTime = pollingTime
+            self.recordPollingLimit = recordPollingLimit
+        }
+
+        public func validate(name: String) throws {
+            try self.validate(self.pollingTime, name: "pollingTime", parent: name, min: 10)
+            try self.validate(self.recordPollingLimit, name: "recordPollingLimit", parent: name, min: 1)
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case pollingTime = "PollingTime"
+            case recordPollingLimit = "RecordPollingLimit"
+        }
+    }
+
     public struct StringColumnStatisticsData: AWSEncodableShape & AWSDecodableShape {
         /// The average string length in the column.
         public let averageLength: Double
@@ -13355,6 +16486,39 @@ extension Glue {
             case authorizedColumns = "AuthorizedColumns"
             case isRegisteredWithLakeFormation = "IsRegisteredWithLakeFormation"
             case partition = "Partition"
+        }
+    }
+
+    public struct Union: AWSEncodableShape & AWSDecodableShape {
+        /// The node ID inputs to the transform.
+        public let inputs: [String]
+        /// The name of the transform node.
+        public let name: String
+        /// Indicates the type of Union transform.
+        ///
+        /// 	        Specify ALL to join all rows from data sources to the resulting DynamicFrame. The resulting union does not remove duplicate rows.
+        ///  Specify DISTINCT to remove duplicate rows in the resulting DynamicFrame.
+        public let unionType: UnionType
+
+        public init(inputs: [String], name: String, unionType: UnionType) {
+            self.inputs = inputs
+            self.name = name
+            self.unionType = unionType
+        }
+
+        public func validate(name: String) throws {
+            try self.inputs.forEach {
+                try validate($0, name: "inputs[]", parent: name, pattern: "^[A-Za-z0-9_-]*$")
+            }
+            try self.validate(self.inputs, name: "inputs", parent: name, max: 2)
+            try self.validate(self.inputs, name: "inputs", parent: name, min: 2)
+            try self.validate(self.name, name: "name", parent: name, pattern: "^([\\u0020-\\uD7FF\\uE000-\\uFFFD\\uD800\\uDC00-\\uDBFF\\uDFFF]|[^\\r\\n])*$")
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case inputs = "Inputs"
+            case name = "Name"
+            case unionType = "UnionType"
         }
     }
 
@@ -14407,6 +17571,35 @@ extension Glue {
             case classification = "Classification"
             case name = "Name"
             case rowTag = "RowTag"
+        }
+    }
+
+    public struct UpsertRedshiftTargetOptions: AWSEncodableShape & AWSDecodableShape {
+        /// The name of the connection to use to write to Redshift.
+        public let connectionName: String?
+        /// The physical location of the Redshift table.
+        public let tableLocation: String?
+        /// The keys used to determine whether to perform an update or insert.
+        public let upsertKeys: [String]?
+
+        public init(connectionName: String? = nil, tableLocation: String? = nil, upsertKeys: [String]? = nil) {
+            self.connectionName = connectionName
+            self.tableLocation = tableLocation
+            self.upsertKeys = upsertKeys
+        }
+
+        public func validate(name: String) throws {
+            try self.validate(self.connectionName, name: "connectionName", parent: name, pattern: "^([\\u0020-\\uD7FF\\uE000-\\uFFFD\\uD800\\uDC00-\\uDBFF\\uDFFF]|[^\\S\\r\\n\"'])*$")
+            try self.validate(self.tableLocation, name: "tableLocation", parent: name, pattern: "^([\\u0020-\\uD7FF\\uE000-\\uFFFD\\uD800\\uDC00-\\uDBFF\\uDFFF]|[^\\S\\r\\n\"'])*$")
+            try self.upsertKeys?.forEach {
+                try validate($0, name: "upsertKeys[]", parent: name, pattern: "^([\\u0020-\\uD7FF\\uE000-\\uFFFD\\uD800\\uDC00-\\uDBFF\\uDFFF]|[^\\S\\r\\n\"'])*$")
+            }
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case connectionName = "ConnectionName"
+            case tableLocation = "TableLocation"
+            case upsertKeys = "UpsertKeys"
         }
     }
 

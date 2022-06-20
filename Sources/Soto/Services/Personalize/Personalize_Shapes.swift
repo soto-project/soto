@@ -2726,7 +2726,7 @@ extension Personalize {
     }
 
     public struct GetSolutionMetricsResponse: AWSDecodableShape {
-        /// The metrics for the solution version.
+        /// The metrics for the solution version. For more information, see  Evaluating a solution version with metrics .
         public let metrics: [String: Double]?
         /// The same solution version ARN as specified in the request.
         public let solutionVersionArn: String?
@@ -3657,6 +3657,8 @@ extension Personalize {
         public let lastUpdatedDateTime: Date?
         /// Provides a summary of the latest updates to the recommender.
         public let latestRecommenderUpdate: RecommenderUpdateSummary?
+        /// Provides evaluation metrics that help you determine the performance of a recommender. For more information, see  Evaluating a recommender.
+        public let modelMetrics: [String: Double]?
         /// The name of the recommender.
         public let name: String?
         /// The Amazon Resource Name (ARN) of the recipe (Domain dataset group use case) that the recommender was created for.
@@ -3665,15 +3667,16 @@ extension Personalize {
         public let recommenderArn: String?
         /// The configuration details of the recommender.
         public let recommenderConfig: RecommenderConfig?
-        /// The status of the recommender. A recommender can be in one of the following states:   CREATE PENDING > CREATE IN_PROGRESS > ACTIVE -or- CREATE FAILED   DELETE PENDING > DELETE IN_PROGRESS
+        /// The status of the recommender. A recommender can be in one of the following states:   CREATE PENDING > CREATE IN_PROGRESS > ACTIVE -or- CREATE FAILED   STOP PENDING > STOP IN_PROGRESS > INACTIVE > START PENDING > START IN_PROGRESS > ACTIVE   DELETE PENDING > DELETE IN_PROGRESS
         public let status: String?
 
-        public init(creationDateTime: Date? = nil, datasetGroupArn: String? = nil, failureReason: String? = nil, lastUpdatedDateTime: Date? = nil, latestRecommenderUpdate: RecommenderUpdateSummary? = nil, name: String? = nil, recipeArn: String? = nil, recommenderArn: String? = nil, recommenderConfig: RecommenderConfig? = nil, status: String? = nil) {
+        public init(creationDateTime: Date? = nil, datasetGroupArn: String? = nil, failureReason: String? = nil, lastUpdatedDateTime: Date? = nil, latestRecommenderUpdate: RecommenderUpdateSummary? = nil, modelMetrics: [String: Double]? = nil, name: String? = nil, recipeArn: String? = nil, recommenderArn: String? = nil, recommenderConfig: RecommenderConfig? = nil, status: String? = nil) {
             self.creationDateTime = creationDateTime
             self.datasetGroupArn = datasetGroupArn
             self.failureReason = failureReason
             self.lastUpdatedDateTime = lastUpdatedDateTime
             self.latestRecommenderUpdate = latestRecommenderUpdate
+            self.modelMetrics = modelMetrics
             self.name = name
             self.recipeArn = recipeArn
             self.recommenderArn = recommenderArn
@@ -3687,6 +3690,7 @@ extension Personalize {
             case failureReason
             case lastUpdatedDateTime
             case latestRecommenderUpdate
+            case modelMetrics
             case name
             case recipeArn
             case recommenderArn
@@ -3736,7 +3740,7 @@ extension Personalize {
         public let recommenderArn: String?
         /// The configuration details of the recommender.
         public let recommenderConfig: RecommenderConfig?
-        /// The status of the recommender. A recommender can be in one of the following states:   CREATE PENDING > CREATE IN_PROGRESS > ACTIVE -or- CREATE FAILED   DELETE PENDING > DELETE IN_PROGRESS
+        /// The status of the recommender. A recommender can be in one of the following states:   CREATE PENDING > CREATE IN_PROGRESS > ACTIVE -or- CREATE FAILED   STOP PENDING > STOP IN_PROGRESS > INACTIVE > START PENDING > START IN_PROGRESS > ACTIVE   DELETE PENDING > DELETE IN_PROGRESS
         public let status: String?
 
         public init(creationDateTime: Date? = nil, datasetGroupArn: String? = nil, lastUpdatedDateTime: Date? = nil, name: String? = nil, recipeArn: String? = nil, recommenderArn: String? = nil, recommenderConfig: RecommenderConfig? = nil, status: String? = nil) {
@@ -3771,7 +3775,7 @@ extension Personalize {
         public let lastUpdatedDateTime: Date?
         /// The configuration details of the recommender update.
         public let recommenderConfig: RecommenderConfig?
-        /// The status of the recommender update. A recommender can be in one of the following states:   CREATE PENDING > CREATE IN_PROGRESS > ACTIVE -or- CREATE FAILED   DELETE PENDING > DELETE IN_PROGRESS
+        /// The status of the recommender update. A recommender can be in one of the following states:   CREATE PENDING > CREATE IN_PROGRESS > ACTIVE -or- CREATE FAILED   STOP PENDING > STOP IN_PROGRESS > INACTIVE > START PENDING > START IN_PROGRESS > ACTIVE   DELETE PENDING > DELETE IN_PROGRESS
         public let status: String?
 
         public init(creationDateTime: Date? = nil, failureReason: String? = nil, lastUpdatedDateTime: Date? = nil, recommenderConfig: RecommenderConfig? = nil, status: String? = nil) {

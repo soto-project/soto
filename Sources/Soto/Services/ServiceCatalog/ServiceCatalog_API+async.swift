@@ -288,7 +288,7 @@ extension ServiceCatalog {
         return try await self.client.execute(operation: "ImportAsProvisionedProduct", path: "/", httpMethod: .POST, serviceConfig: self.config, input: input, logger: logger, on: eventLoop)
     }
 
-    /// Lists all portfolios for which sharing was accepted by this account.
+    /// Lists all imported portfolios for which account-to-account shares were accepted by this account. By specifying the PortfolioShareType, you can list portfolios for which organizational shares were accepted by this account.
     public func listAcceptedPortfolioShares(_ input: ListAcceptedPortfolioSharesInput, logger: Logger = AWSClient.loggingDisabled, on eventLoop: EventLoop? = nil) async throws -> ListAcceptedPortfolioSharesOutput {
         return try await self.client.execute(operation: "ListAcceptedPortfolioShares", path: "/", httpMethod: .POST, serviceConfig: self.config, input: input, logger: logger, on: eventLoop)
     }

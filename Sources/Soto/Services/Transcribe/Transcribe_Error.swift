@@ -45,15 +45,15 @@ public struct TranscribeErrorType: AWSErrorType {
     /// return error code string
     public var errorCode: String { self.error.rawValue }
 
-    /// Your request didn't pass one or more validation tests. For example, if the entity that  you're trying to delete doesn't exist or if it is in a non-terminal state (for example, it's  "in progress"). See the exception Message field for more information.
+    /// Your request didn't pass one or more validation tests. This can occur when the entity you're  trying to delete doesn't exist or if it's in a non-terminal state (such as  IN PROGRESS). See the exception message field for more information.
     public static var badRequestException: Self { .init(.badRequestException) }
-    /// There is already a resource with that name.
+    /// A resource already exists with this name. Resource names must be unique within an  Amazon Web Services account.
     public static var conflictException: Self { .init(.conflictException) }
-    /// There was an internal error. Check the error message and try your request again.
+    /// There was an internal error. Check the error message, correct the issue, and try your request again.
     public static var internalFailureException: Self { .init(.internalFailureException) }
-    /// Either you have sent too many requests or your input file is too long. Wait before you resend your request, or use a smaller file and resend the request.
+    /// You've either sent too many requests or your input file is too long. Wait before retrying  your request, or use a smaller file and try your request again.
     public static var limitExceededException: Self { .init(.limitExceededException) }
-    /// We can't find the requested resource. Check the name and try your request again.
+    /// We can't find the requested resource. Check that the specified name is correct and try your request again.
     public static var notFoundException: Self { .init(.notFoundException) }
 }
 

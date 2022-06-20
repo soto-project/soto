@@ -48,7 +48,7 @@ public struct DrsErrorType: AWSErrorType {
     /// return error code string
     public var errorCode: String { self.error.rawValue }
 
-    /// TYou do not have sufficient access to perform this action.
+    /// You do not have sufficient access to perform this action.
     public static var accessDeniedException: Self { .init(.accessDeniedException) }
     /// The request could not be completed due to a conflict with the current state of the target resource.
     public static var conflictException: Self { .init(.conflictException) }

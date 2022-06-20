@@ -33,6 +33,12 @@ extension DataSync {
         public var description: String { return self.rawValue }
     }
 
+    public enum EfsInTransitEncryption: String, CustomStringConvertible, Codable, _SotoSendable {
+        case none = "NONE"
+        case tls12 = "TLS1_2"
+        public var description: String { return self.rawValue }
+    }
+
     public enum EndpointType: String, CustomStringConvertible, Codable, _SotoSendable {
         case fips = "FIPS"
         case privateLink = "PRIVATE_LINK"
@@ -356,26 +362,39 @@ extension DataSync {
     }
 
     public struct CreateLocationEfsRequest: AWSEncodableShape {
-        /// The subnet and security group that the Amazon EFS file system uses. The security group that you provide needs to be able to communicate with the security group on the mount target in the subnet specified. The exact relationship between security group M (of the mount target) and security group S (which you provide for DataSync to use at this stage) is as follows:    Security group M (which you associate with the mount target) must allow inbound access for the Transmission Control Protocol (TCP) on the NFS port (2049) from security group S. You can enable inbound connections either by IP address (CIDR range) or security group.    Security group S (provided to DataSync to access EFS) should have a rule that enables outbound connections to the NFS port on one of the file system’s mount targets. You can enable outbound connections either by IP address (CIDR range) or security group.  For information about security groups and mount targets, see Security Groups for Amazon EC2 Instances and Mount Targets in the Amazon EFS User Guide.
+        /// Specifies the Amazon Resource Name (ARN) of the access point that DataSync uses to access the Amazon EFS file system.
+        public let accessPointArn: String?
+        /// Specifies the subnet and security groups DataSync uses to access your Amazon EFS file system.
         public let ec2Config: Ec2Config
-        /// The Amazon Resource Name (ARN) for the Amazon EFS file system.
+        /// Specifies the ARN for the Amazon EFS file system.
         public let efsFilesystemArn: String
-        /// A subdirectory in the location’s path. This subdirectory in the EFS file system is used to read data from the EFS source location or write data to the EFS destination. By default, DataSync uses the root directory.   Subdirectory must be specified with forward slashes. For example, /path/to/folder.
+        /// Specifies an Identity and Access Management (IAM) role that DataSync assumes when mounting the Amazon EFS file system.
+        public let fileSystemAccessRoleArn: String?
+        /// Specifies whether you want DataSync to use TLS encryption when transferring data to or from your Amazon EFS file system. If you specify an access point using AccessPointArn or an IAM role using FileSystemAccessRoleArn, you must set this parameter to TLS1_2.
+        public let inTransitEncryption: EfsInTransitEncryption?
+        /// Specifies a mount path for your Amazon EFS file system. This is where DataSync reads or writes data (depending on if this is a source or destination location). By default, DataSync uses the root directory, but you can also include subdirectories.  You must specify a value with forward slashes (for example, /path/to/folder).
         public let subdirectory: String?
-        /// The key-value pair that represents a tag that you want to add to the resource. The value can be an empty string. This value helps you manage, filter, and search for your resources. We recommend that you create a name tag for your location.
+        /// Specifies the key-value pair that represents a tag that you want to add to the resource. The value can be an empty string. This value helps you manage, filter, and search for your resources. We recommend that you create a name tag for your location.
         public let tags: [TagListEntry]?
 
-        public init(ec2Config: Ec2Config, efsFilesystemArn: String, subdirectory: String? = nil, tags: [TagListEntry]? = nil) {
+        public init(accessPointArn: String? = nil, ec2Config: Ec2Config, efsFilesystemArn: String, fileSystemAccessRoleArn: String? = nil, inTransitEncryption: EfsInTransitEncryption? = nil, subdirectory: String? = nil, tags: [TagListEntry]? = nil) {
+            self.accessPointArn = accessPointArn
             self.ec2Config = ec2Config
             self.efsFilesystemArn = efsFilesystemArn
+            self.fileSystemAccessRoleArn = fileSystemAccessRoleArn
+            self.inTransitEncryption = inTransitEncryption
             self.subdirectory = subdirectory
             self.tags = tags
         }
 
         public func validate(name: String) throws {
+            try self.validate(self.accessPointArn, name: "accessPointArn", parent: name, max: 128)
+            try self.validate(self.accessPointArn, name: "accessPointArn", parent: name, pattern: "^arn:(aws|aws-cn|aws-us-gov|aws-iso|aws-iso-b):elasticfilesystem:[a-z\\-0-9]+:[0-9]{12}:access-point/fsap-[0-9a-f]{8,40}$")
             try self.ec2Config.validate(name: "\(name).ec2Config")
             try self.validate(self.efsFilesystemArn, name: "efsFilesystemArn", parent: name, max: 128)
             try self.validate(self.efsFilesystemArn, name: "efsFilesystemArn", parent: name, pattern: "^arn:(aws|aws-cn|aws-us-gov|aws-iso|aws-iso-b):elasticfilesystem:[a-z\\-0-9]*:[0-9]{12}:file-system/fs-.*$")
+            try self.validate(self.fileSystemAccessRoleArn, name: "fileSystemAccessRoleArn", parent: name, max: 2048)
+            try self.validate(self.fileSystemAccessRoleArn, name: "fileSystemAccessRoleArn", parent: name, pattern: "^arn:(aws|aws-cn|aws-us-gov|aws-iso|aws-iso-b):iam::[0-9]{12}:role/.*$")
             try self.validate(self.subdirectory, name: "subdirectory", parent: name, max: 4096)
             try self.validate(self.subdirectory, name: "subdirectory", parent: name, pattern: "^[a-zA-Z0-9_\\-\\+\\./\\(\\)\\p{Zs}]*$")
             try self.tags?.forEach {
@@ -385,15 +404,18 @@ extension DataSync {
         }
 
         private enum CodingKeys: String, CodingKey {
+            case accessPointArn = "AccessPointArn"
             case ec2Config = "Ec2Config"
             case efsFilesystemArn = "EfsFilesystemArn"
+            case fileSystemAccessRoleArn = "FileSystemAccessRoleArn"
+            case inTransitEncryption = "InTransitEncryption"
             case subdirectory = "Subdirectory"
             case tags = "Tags"
         }
     }
 
     public struct CreateLocationEfsResponse: AWSDecodableShape {
-        /// The Amazon Resource Name (ARN) of the Amazon EFS file system location that is created.
+        /// The Amazon Resource Name (ARN) of the Amazon EFS file system location that you create.
         public let locationArn: String?
 
         public init(locationArn: String? = nil) {
@@ -1187,7 +1209,7 @@ extension DataSync {
     }
 
     public struct DescribeLocationEfsRequest: AWSEncodableShape {
-        /// The Amazon Resource Name (ARN) of the EFS location to describe.
+        /// The Amazon Resource Name (ARN) of the Amazon EFS file system location that you want information about.
         public let locationArn: String
 
         public init(locationArn: String) {
@@ -1205,24 +1227,36 @@ extension DataSync {
     }
 
     public struct DescribeLocationEfsResponse: AWSDecodableShape {
-        /// The time that the EFS location was created.
+        /// The ARN of the access point that DataSync uses to access the Amazon EFS file system.
+        public let accessPointArn: String?
+        /// The time that the location was created.
         public let creationTime: Date?
         public let ec2Config: Ec2Config?
-        /// The Amazon Resource Name (ARN) of the EFS location that was described.
+        /// The Identity and Access Management (IAM) role that DataSync assumes when mounting the Amazon EFS file system.
+        public let fileSystemAccessRoleArn: String?
+        /// Whether DataSync uses TLS encryption when transferring data to or from your Amazon EFS file system.
+        public let inTransitEncryption: EfsInTransitEncryption?
+        /// The ARN of the Amazon EFS file system location.
         public let locationArn: String?
-        /// The URL of the EFS location that was described.
+        /// The URL of the Amazon EFS file system location.
         public let locationUri: String?
 
-        public init(creationTime: Date? = nil, ec2Config: Ec2Config? = nil, locationArn: String? = nil, locationUri: String? = nil) {
+        public init(accessPointArn: String? = nil, creationTime: Date? = nil, ec2Config: Ec2Config? = nil, fileSystemAccessRoleArn: String? = nil, inTransitEncryption: EfsInTransitEncryption? = nil, locationArn: String? = nil, locationUri: String? = nil) {
+            self.accessPointArn = accessPointArn
             self.creationTime = creationTime
             self.ec2Config = ec2Config
+            self.fileSystemAccessRoleArn = fileSystemAccessRoleArn
+            self.inTransitEncryption = inTransitEncryption
             self.locationArn = locationArn
             self.locationUri = locationUri
         }
 
         private enum CodingKeys: String, CodingKey {
+            case accessPointArn = "AccessPointArn"
             case creationTime = "CreationTime"
             case ec2Config = "Ec2Config"
+            case fileSystemAccessRoleArn = "FileSystemAccessRoleArn"
+            case inTransitEncryption = "InTransitEncryption"
             case locationArn = "LocationArn"
             case locationUri = "LocationUri"
         }
@@ -1819,9 +1853,9 @@ extension DataSync {
     }
 
     public struct Ec2Config: AWSEncodableShape & AWSDecodableShape {
-        /// The Amazon Resource Names (ARNs) of the security groups that are configured for the Amazon EC2 resource.
+        /// Specifies the Amazon Resource Names (ARNs) of the security groups associated with an Amazon EFS file system's mount target.
         public let securityGroupArns: [String]
-        /// The ARN of the subnet that DataSync uses to access the target EFS file system.
+        /// Specifies the ARN of a subnet where DataSync creates the network interfaces for managing traffic during your transfer. The subnet must be located:   In the same virtual private cloud (VPC) as the Amazon EFS file system.   In the same Availability Zone as at least one mount target for the Amazon EFS file system.    You don't need to specify a subnet that includes a file system mount target.
         public let subnetArn: String
 
         public init(securityGroupArns: [String], subnetArn: String) {

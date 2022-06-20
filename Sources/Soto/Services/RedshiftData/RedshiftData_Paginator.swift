@@ -21,9 +21,9 @@ import SotoCore
 
 extension RedshiftData {
     ///  Describes the detailed information about a table from metadata in the cluster. The information includes its columns.  A token is returned to page through the column list. Depending on the authorization method, use one of the following combinations of request parameters:    Secrets Manager - when connecting to a cluster, specify the Amazon Resource Name (ARN) of the secret, the database name, and the cluster identifier that matches the cluster in the secret.
-    ///  When connecting to a serverless endpoint, specify the Amazon Resource Name (ARN) of the secret and the database name.    Temporary credentials - when connecting to a cluster, specify the cluster identifier, the database name, and the database user name.
+    ///  When connecting to a serverless workgroup, specify the Amazon Resource Name (ARN) of the secret and the database name.    Temporary credentials - when connecting to a cluster, specify the cluster identifier, the database name, and the database user name.
     ///  Also, permission to call the redshift:GetClusterCredentials operation is required.
-    ///  When connecting to a serverless endpoint, specify the database name.
+    ///  When connecting to a serverless workgroup, specify the workgroup name and database name. Also, permission to call the redshift-serverless:GetCredentials operation is required.
     ///
     /// Provide paginated results to closure `onPage` for it to combine them into one result.
     /// This works in a similar manner to `Array.reduce<Result>(_:_:) -> Result`.
@@ -130,9 +130,9 @@ extension RedshiftData {
     }
 
     ///  List the databases in a cluster.  A token is returned to page through the database list. Depending on the authorization method, use one of the following combinations of request parameters:    Secrets Manager - when connecting to a cluster, specify the Amazon Resource Name (ARN) of the secret, the database name, and the cluster identifier that matches the cluster in the secret.
-    ///  When connecting to a serverless endpoint, specify the Amazon Resource Name (ARN) of the secret and the database name.    Temporary credentials - when connecting to a cluster, specify the cluster identifier, the database name, and the database user name.
+    ///  When connecting to a serverless workgroup, specify the Amazon Resource Name (ARN) of the secret and the database name.    Temporary credentials - when connecting to a cluster, specify the cluster identifier, the database name, and the database user name.
     ///  Also, permission to call the redshift:GetClusterCredentials operation is required.
-    ///  When connecting to a serverless endpoint, specify the database name.
+    ///  When connecting to a serverless workgroup, specify the workgroup name and database name. Also, permission to call the redshift-serverless:GetCredentials operation is required.
     ///
     /// Provide paginated results to closure `onPage` for it to combine them into one result.
     /// This works in a similar manner to `Array.reduce<Result>(_:_:) -> Result`.
@@ -186,9 +186,9 @@ extension RedshiftData {
     }
 
     ///  Lists the schemas in a database.  A token is returned to page through the schema list.  Depending on the authorization method, use one of the following combinations of request parameters:    Secrets Manager - when connecting to a cluster, specify the Amazon Resource Name (ARN) of the secret, the database name, and the cluster identifier that matches the cluster in the secret.
-    ///  When connecting to a serverless endpoint, specify the Amazon Resource Name (ARN) of the secret and the database name.    Temporary credentials - when connecting to a cluster, specify the cluster identifier, the database name, and the database user name.
+    ///  When connecting to a serverless workgroup, specify the Amazon Resource Name (ARN) of the secret and the database name.    Temporary credentials - when connecting to a cluster, specify the cluster identifier, the database name, and the database user name.
     ///  Also, permission to call the redshift:GetClusterCredentials operation is required.
-    ///  When connecting to a serverless endpoint, specify the database name.
+    ///  When connecting to a serverless workgroup, specify the workgroup name and database name. Also, permission to call the redshift-serverless:GetCredentials operation is required.
     ///
     /// Provide paginated results to closure `onPage` for it to combine them into one result.
     /// This works in a similar manner to `Array.reduce<Result>(_:_:) -> Result`.
@@ -295,9 +295,9 @@ extension RedshiftData {
     }
 
     ///  List the tables in a database. If neither SchemaPattern nor TablePattern are specified, then  all tables in the database are returned. A token is returned to page through the table list.  Depending on the authorization method, use one of the following combinations of request parameters:    Secrets Manager - when connecting to a cluster, specify the Amazon Resource Name (ARN) of the secret, the database name, and the cluster identifier that matches the cluster in the secret.
-    ///  When connecting to a serverless endpoint, specify the Amazon Resource Name (ARN) of the secret and the database name.    Temporary credentials - when connecting to a cluster, specify the cluster identifier, the database name, and the database user name.
+    ///  When connecting to a serverless workgroup, specify the Amazon Resource Name (ARN) of the secret and the database name.    Temporary credentials - when connecting to a cluster, specify the cluster identifier, the database name, and the database user name.
     ///  Also, permission to call the redshift:GetClusterCredentials operation is required.
-    ///  When connecting to a serverless endpoint, specify the database name.
+    ///  When connecting to a serverless workgroup, specify the workgroup name and database name. Also, permission to call the redshift-serverless:GetCredentials operation is required.
     ///
     /// Provide paginated results to closure `onPage` for it to combine them into one result.
     /// This works in a similar manner to `Array.reduce<Result>(_:_:) -> Result`.
@@ -362,7 +362,8 @@ extension RedshiftData.DescribeTableRequest: AWSPaginateToken {
             nextToken: token,
             schema: self.schema,
             secretArn: self.secretArn,
-            table: self.table
+            table: self.table,
+            workgroupName: self.workgroupName
         )
     }
 }
@@ -384,7 +385,8 @@ extension RedshiftData.ListDatabasesRequest: AWSPaginateToken {
             dbUser: self.dbUser,
             maxResults: self.maxResults,
             nextToken: token,
-            secretArn: self.secretArn
+            secretArn: self.secretArn,
+            workgroupName: self.workgroupName
         )
     }
 }
@@ -399,7 +401,8 @@ extension RedshiftData.ListSchemasRequest: AWSPaginateToken {
             maxResults: self.maxResults,
             nextToken: token,
             schemaPattern: self.schemaPattern,
-            secretArn: self.secretArn
+            secretArn: self.secretArn,
+            workgroupName: self.workgroupName
         )
     }
 }
@@ -427,7 +430,8 @@ extension RedshiftData.ListTablesRequest: AWSPaginateToken {
             nextToken: token,
             schemaPattern: self.schemaPattern,
             secretArn: self.secretArn,
-            tablePattern: self.tablePattern
+            tablePattern: self.tablePattern,
+            workgroupName: self.workgroupName
         )
     }
 }

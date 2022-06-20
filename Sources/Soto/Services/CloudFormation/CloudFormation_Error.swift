@@ -78,7 +78,7 @@ public struct CloudFormationErrorType: AWSErrorType {
     public static var invalidOperationException: Self { .init(.invalidOperationException) }
     /// Error reserved for use by the CloudFormation CLI. CloudFormation doesn't return this error to users.
     public static var invalidStateTransitionException: Self { .init(.invalidStateTransitionException) }
-    /// The quota for the resource has already been reached. For information on resource and stack limitations, see CloudFormation quotas in the CloudFormation User Guide.
+    /// The quota for the resource has already been reached. For information about resource and stack limitations, see CloudFormation quotas in the CloudFormation User Guide.
     public static var limitExceededException: Self { .init(.limitExceededException) }
     /// The specified name is already in use.
     public static var nameAlreadyExistsException: Self { .init(.nameAlreadyExistsException) }

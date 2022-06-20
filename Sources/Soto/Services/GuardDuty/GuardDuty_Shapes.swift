@@ -143,6 +143,39 @@ extension GuardDuty {
 
     // MARK: Shapes
 
+    public struct AcceptAdministratorInvitationRequest: AWSEncodableShape {
+        public static var _encoding = [
+            AWSMemberEncoding(label: "detectorId", location: .uri("detectorId"))
+        ]
+
+        /// The account ID of the GuardDuty administrator account whose invitation you're accepting.
+        public let administratorId: String
+        /// The unique ID of the detector of the GuardDuty member account.
+        public let detectorId: String
+        /// The value that is used to validate the administrator account to the member account.
+        public let invitationId: String
+
+        public init(administratorId: String, detectorId: String, invitationId: String) {
+            self.administratorId = administratorId
+            self.detectorId = detectorId
+            self.invitationId = invitationId
+        }
+
+        public func validate(name: String) throws {
+            try self.validate(self.detectorId, name: "detectorId", parent: name, max: 300)
+            try self.validate(self.detectorId, name: "detectorId", parent: name, min: 1)
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case administratorId
+            case invitationId
+        }
+    }
+
+    public struct AcceptAdministratorInvitationResponse: AWSDecodableShape {
+        public init() {}
+    }
+
     public struct AcceptInvitationRequest: AWSEncodableShape {
         public static var _encoding = [
             AWSMemberEncoding(label: "detectorId", location: .uri("detectorId"))
@@ -242,6 +275,23 @@ extension GuardDuty {
         }
     }
 
+    public struct AccountFreeTrialInfo: AWSDecodableShape {
+        /// The account identifier of the GuardDuty member account.
+        public let accountId: String?
+        /// Describes the data source enabled for the GuardDuty member account.
+        public let dataSources: DataSourcesFreeTrial?
+
+        public init(accountId: String? = nil, dataSources: DataSourcesFreeTrial? = nil) {
+            self.accountId = accountId
+            self.dataSources = dataSources
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case accountId
+            case dataSources
+        }
+    }
+
     public struct AccountLevelPermissions: AWSDecodableShape {
         /// Describes the S3 Block Public Access settings of the bucket's parent account.
         public let blockPublicAccess: BlockPublicAccess?
@@ -305,6 +355,31 @@ extension GuardDuty {
         }
     }
 
+    public struct Administrator: AWSDecodableShape {
+        /// The ID of the account used as the administrator account.
+        public let accountId: String?
+        /// The value that is used to validate the administrator account to the member account.
+        public let invitationId: String?
+        /// The timestamp when the invitation was sent.
+        public let invitedAt: String?
+        /// The status of the relationship between the administrator and member accounts.
+        public let relationshipStatus: String?
+
+        public init(accountId: String? = nil, invitationId: String? = nil, invitedAt: String? = nil, relationshipStatus: String? = nil) {
+            self.accountId = accountId
+            self.invitationId = invitationId
+            self.invitedAt = invitedAt
+            self.relationshipStatus = relationshipStatus
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case accountId
+            case invitationId
+            case invitedAt
+            case relationshipStatus
+        }
+    }
+
     public struct ArchiveFindingsRequest: AWSEncodableShape {
         public static var _encoding = [
             AWSMemberEncoding(label: "detectorId", location: .uri("detectorId"))
@@ -340,6 +415,8 @@ extension GuardDuty {
     }
 
     public struct AwsApiCallAction: AWSDecodableShape {
+        /// The details of the Amazon Web Services account that made the API call. This field identifies the resources that were affected by this API call.
+        public let affectedResources: [String: String]?
         /// The Amazon Web Services API name.
         public let api: String?
         /// The Amazon Web Services API caller type.
@@ -357,7 +434,8 @@ extension GuardDuty {
         /// The agent through which the API request was made.
         public let userAgent: String?
 
-        public init(api: String? = nil, callerType: String? = nil, domainDetails: DomainDetails? = nil, errorCode: String? = nil, remoteAccountDetails: RemoteAccountDetails? = nil, remoteIpDetails: RemoteIpDetails? = nil, serviceName: String? = nil, userAgent: String? = nil) {
+        public init(affectedResources: [String: String]? = nil, api: String? = nil, callerType: String? = nil, domainDetails: DomainDetails? = nil, errorCode: String? = nil, remoteAccountDetails: RemoteAccountDetails? = nil, remoteIpDetails: RemoteIpDetails? = nil, serviceName: String? = nil, userAgent: String? = nil) {
+            self.affectedResources = affectedResources
             self.api = api
             self.callerType = callerType
             self.domainDetails = domainDetails
@@ -369,6 +447,7 @@ extension GuardDuty {
         }
 
         private enum CodingKeys: String, CodingKey {
+            case affectedResources
             case api
             case callerType
             case domainDetails
@@ -1051,6 +1130,48 @@ extension GuardDuty {
         }
     }
 
+    public struct DataSourceFreeTrial: AWSDecodableShape {
+        /// A value that specifies the number of days left to use each enabled data source.
+        public let freeTrialDaysRemaining: Int?
+
+        public init(freeTrialDaysRemaining: Int? = nil) {
+            self.freeTrialDaysRemaining = freeTrialDaysRemaining
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case freeTrialDaysRemaining
+        }
+    }
+
+    public struct DataSourcesFreeTrial: AWSDecodableShape {
+        /// Describes whether any AWS CloudTrail management event logs are enabled as data sources.
+        public let cloudTrail: DataSourceFreeTrial?
+        /// Describes whether any DNS logs are enabled as data sources.
+        public let dnsLogs: DataSourceFreeTrial?
+        /// Describes whether any VPC Flow logs are enabled as data sources.
+        public let flowLogs: DataSourceFreeTrial?
+        /// Describes whether any Kubernetes logs are enabled as data sources.
+        public let kubernetes: KubernetesDataSourceFreeTrial?
+        /// Describes whether any S3 data event logs are enabled as data sources.
+        public let s3Logs: DataSourceFreeTrial?
+
+        public init(cloudTrail: DataSourceFreeTrial? = nil, dnsLogs: DataSourceFreeTrial? = nil, flowLogs: DataSourceFreeTrial? = nil, kubernetes: KubernetesDataSourceFreeTrial? = nil, s3Logs: DataSourceFreeTrial? = nil) {
+            self.cloudTrail = cloudTrail
+            self.dnsLogs = dnsLogs
+            self.flowLogs = flowLogs
+            self.kubernetes = kubernetes
+            self.s3Logs = s3Logs
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case cloudTrail
+            case dnsLogs
+            case flowLogs
+            case kubernetes
+            case s3Logs
+        }
+    }
+
     public struct DeclineInvitationsRequest: AWSEncodableShape {
         /// A list of account IDs of the Amazon Web Services accounts that sent invitations to the current member account that you want to decline invitations from.
         public let accountIds: [String]
@@ -1467,6 +1588,30 @@ extension GuardDuty {
         public init() {}
     }
 
+    public struct DisassociateFromAdministratorAccountRequest: AWSEncodableShape {
+        public static var _encoding = [
+            AWSMemberEncoding(label: "detectorId", location: .uri("detectorId"))
+        ]
+
+        /// The unique ID of the detector of the GuardDuty member account.
+        public let detectorId: String
+
+        public init(detectorId: String) {
+            self.detectorId = detectorId
+        }
+
+        public func validate(name: String) throws {
+            try self.validate(self.detectorId, name: "detectorId", parent: name, max: 300)
+            try self.validate(self.detectorId, name: "detectorId", parent: name, min: 1)
+        }
+
+        private enum CodingKeys: CodingKey {}
+    }
+
+    public struct DisassociateFromAdministratorAccountResponse: AWSDecodableShape {
+        public init() {}
+    }
+
     public struct DisassociateFromMasterAccountRequest: AWSEncodableShape {
         public static var _encoding = [
             AWSMemberEncoding(label: "detectorId", location: .uri("detectorId"))
@@ -1536,15 +1681,23 @@ extension GuardDuty {
     }
 
     public struct DnsRequestAction: AWSDecodableShape {
+        /// Indicates whether the targeted port is blocked.
+        public let blocked: Bool?
         /// The domain information for the API request.
         public let domain: String?
+        /// The network connection protocol observed in the activity that prompted GuardDuty to generate the finding.
+        public let `protocol`: String?
 
-        public init(domain: String? = nil) {
+        public init(blocked: Bool? = nil, domain: String? = nil, protocol: String? = nil) {
+            self.blocked = blocked
             self.domain = domain
+            self.`protocol` = `protocol`
         }
 
         private enum CodingKeys: String, CodingKey {
+            case blocked
             case domain
+            case `protocol`
         }
     }
 
@@ -1744,6 +1897,39 @@ extension GuardDuty {
         private enum CodingKeys: String, CodingKey {
             case lat
             case lon
+        }
+    }
+
+    public struct GetAdministratorAccountRequest: AWSEncodableShape {
+        public static var _encoding = [
+            AWSMemberEncoding(label: "detectorId", location: .uri("detectorId"))
+        ]
+
+        /// The unique ID of the detector of the GuardDuty member account.
+        public let detectorId: String
+
+        public init(detectorId: String) {
+            self.detectorId = detectorId
+        }
+
+        public func validate(name: String) throws {
+            try self.validate(self.detectorId, name: "detectorId", parent: name, max: 300)
+            try self.validate(self.detectorId, name: "detectorId", parent: name, min: 1)
+        }
+
+        private enum CodingKeys: CodingKey {}
+    }
+
+    public struct GetAdministratorAccountResponse: AWSDecodableShape {
+        /// The administrator account details.
+        public let administrator: Administrator
+
+        public init(administrator: Administrator) {
+            self.administrator = administrator
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case administrator
         }
     }
 
@@ -2150,6 +2336,54 @@ extension GuardDuty {
         }
     }
 
+    public struct GetRemainingFreeTrialDaysRequest: AWSEncodableShape {
+        public static var _encoding = [
+            AWSMemberEncoding(label: "detectorId", location: .uri("detectorId"))
+        ]
+
+        /// A list of account identifiers of the GuardDuty member account.
+        public let accountIds: [String]?
+        /// The unique ID of the detector of the GuardDuty member account.
+        public let detectorId: String
+
+        public init(accountIds: [String]? = nil, detectorId: String) {
+            self.accountIds = accountIds
+            self.detectorId = detectorId
+        }
+
+        public func validate(name: String) throws {
+            try self.accountIds?.forEach {
+                try validate($0, name: "accountIds[]", parent: name, max: 12)
+                try validate($0, name: "accountIds[]", parent: name, min: 12)
+            }
+            try self.validate(self.accountIds, name: "accountIds", parent: name, max: 50)
+            try self.validate(self.accountIds, name: "accountIds", parent: name, min: 1)
+            try self.validate(self.detectorId, name: "detectorId", parent: name, max: 300)
+            try self.validate(self.detectorId, name: "detectorId", parent: name, min: 1)
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case accountIds
+        }
+    }
+
+    public struct GetRemainingFreeTrialDaysResponse: AWSDecodableShape {
+        /// The member accounts which were included in a request and were processed successfully.
+        public let accounts: [AccountFreeTrialInfo]?
+        /// The member account that was included in a request but for which the request could not be processed.
+        public let unprocessedAccounts: [UnprocessedAccount]?
+
+        public init(accounts: [AccountFreeTrialInfo]? = nil, unprocessedAccounts: [UnprocessedAccount]? = nil) {
+            self.accounts = accounts
+            self.unprocessedAccounts = unprocessedAccounts
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case accounts
+            case unprocessedAccounts
+        }
+    }
+
     public struct GetThreatIntelSetRequest: AWSEncodableShape {
         public static var _encoding = [
             AWSMemberEncoding(label: "detectorId", location: .uri("detectorId")),
@@ -2512,6 +2746,19 @@ extension GuardDuty {
         public let auditLogs: KubernetesAuditLogsConfigurationResult
 
         public init(auditLogs: KubernetesAuditLogsConfigurationResult) {
+            self.auditLogs = auditLogs
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case auditLogs
+        }
+    }
+
+    public struct KubernetesDataSourceFreeTrial: AWSDecodableShape {
+        /// Describes whether Kubernetes audit logs are enabled as a data source.
+        public let auditLogs: DataSourceFreeTrial?
+
+        public init(auditLogs: DataSourceFreeTrial? = nil) {
             self.auditLogs = auditLogs
         }
 
@@ -3103,6 +3350,8 @@ extension GuardDuty {
     public struct Member: AWSDecodableShape {
         /// The ID of the member account.
         public let accountId: String
+        /// The administrator account ID.
+        public let administratorId: String?
         /// The detector ID of the member account.
         public let detectorId: String?
         /// The email address of the member account.
@@ -3116,8 +3365,9 @@ extension GuardDuty {
         /// The last-updated timestamp of the member.
         public let updatedAt: String
 
-        public init(accountId: String, detectorId: String? = nil, email: String, invitedAt: String? = nil, masterId: String, relationshipStatus: String, updatedAt: String) {
+        public init(accountId: String, administratorId: String? = nil, detectorId: String? = nil, email: String, invitedAt: String? = nil, masterId: String, relationshipStatus: String, updatedAt: String) {
             self.accountId = accountId
+            self.administratorId = administratorId
             self.detectorId = detectorId
             self.email = email
             self.invitedAt = invitedAt
@@ -3128,6 +3378,7 @@ extension GuardDuty {
 
         private enum CodingKeys: String, CodingKey {
             case accountId
+            case administratorId
             case detectorId
             case email
             case invitedAt
@@ -3474,8 +3725,8 @@ extension GuardDuty {
         }
 
         private enum CodingKeys: String, CodingKey {
-            case code
-            case productType
+            case code = "productCodeId"
+            case productType = "productCodeType"
         }
     }
 
@@ -3499,7 +3750,7 @@ extension GuardDuty {
     public struct RemoteAccountDetails: AWSDecodableShape {
         /// The Amazon Web Services account ID of the remote API caller.
         public let accountId: String?
-        /// Details on whether the Amazon Web Services account of the remote API caller is related to your GuardDuty environment.  If this value is True the API caller is affiliated to your account in some way. If it is False the API caller is from outside your environment.
+        /// Details on whether the Amazon Web Services account of the remote API caller is related to your GuardDuty environment. If this value is True the API caller is affiliated to your account in some way. If it is False the API caller is from outside your environment.
         public let affiliated: Bool?
 
         public init(accountId: String? = nil, affiliated: Bool? = nil) {
@@ -3692,6 +3943,8 @@ extension GuardDuty {
     public struct Service: AWSDecodableShape {
         /// Information about the activity that is described in a finding.
         public let action: Action?
+        /// Contains additional information about the generated finding.
+        public let additionalInfo: ServiceAdditionalInfo?
         /// Indicates whether this finding is archived.
         public let archived: Bool?
         /// The total count of the occurrences of this finding type.
@@ -3711,8 +3964,9 @@ extension GuardDuty {
         /// Feedback that was submitted about the finding.
         public let userFeedback: String?
 
-        public init(action: Action? = nil, archived: Bool? = nil, count: Int? = nil, detectorId: String? = nil, eventFirstSeen: String? = nil, eventLastSeen: String? = nil, evidence: Evidence? = nil, resourceRole: String? = nil, serviceName: String? = nil, userFeedback: String? = nil) {
+        public init(action: Action? = nil, additionalInfo: ServiceAdditionalInfo? = nil, archived: Bool? = nil, count: Int? = nil, detectorId: String? = nil, eventFirstSeen: String? = nil, eventLastSeen: String? = nil, evidence: Evidence? = nil, resourceRole: String? = nil, serviceName: String? = nil, userFeedback: String? = nil) {
             self.action = action
+            self.additionalInfo = additionalInfo
             self.archived = archived
             self.count = count
             self.detectorId = detectorId
@@ -3726,6 +3980,7 @@ extension GuardDuty {
 
         private enum CodingKeys: String, CodingKey {
             case action
+            case additionalInfo
             case archived
             case count
             case detectorId
@@ -3735,6 +3990,23 @@ extension GuardDuty {
             case resourceRole
             case serviceName
             case userFeedback
+        }
+    }
+
+    public struct ServiceAdditionalInfo: AWSDecodableShape {
+        /// Describes the type of the additional information.
+        public let type: String?
+        /// This field specifies the value of the additional information.
+        public let value: String?
+
+        public init(type: String? = nil, value: String? = nil) {
+            self.type = type
+            self.value = value
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case type
+            case value
         }
     }
 

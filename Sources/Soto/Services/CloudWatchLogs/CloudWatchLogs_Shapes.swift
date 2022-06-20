@@ -142,7 +142,7 @@ extension CloudWatchLogs {
         public let logStreamNamePrefix: String?
         /// The name of the export task.
         public let taskName: String?
-        /// The end time of the range for the request, expreswatchlogsdocused as the number of milliseconds after Jan 1, 1970 00:00:00 UTC. Events with a timestamp later than this time are not exported.
+        /// The end time of the range for the request, expressed as the number of milliseconds after Jan 1, 1970 00:00:00 UTC. Events with a timestamp later than this time are not exported.
         public let to: Int64
 
         public init(destination: String, destinationPrefix: String? = nil, from: Int64, logGroupName: String, logStreamNamePrefix: String? = nil, taskName: String? = nil, to: Int64) {
@@ -561,7 +561,7 @@ extension CloudWatchLogs {
     }
 
     public struct DescribeLogGroupsResponse: AWSDecodableShape {
-        /// The log groups. If the retentionInDays value if not included for a log group, then that log group is set to have its events never expire.
+        /// The log groups. If the retentionInDays value is not included for a log group, then that log group is set to have its events never expire.
         public let logGroups: [LogGroup]?
         public let nextToken: String?
 

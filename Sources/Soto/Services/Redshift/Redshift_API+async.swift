@@ -513,6 +513,11 @@ extension Redshift {
         return try await self.client.execute(operation: "GetClusterCredentials", path: "/", httpMethod: .POST, serviceConfig: self.config, input: input, logger: logger, on: eventLoop)
     }
 
+    /// Returns a database user name and temporary password with temporary authorization to log in to an Amazon Redshift database. The database user is mapped 1:1 to the source Identity and Access Management (IAM) identity. For more information about IAM identities, see IAM Identities (users, user groups, and roles) in the Amazon Web Services Identity and Access Management User Guide. The Identity and Access Management (IAM) identity that runs this operation must have an IAM policy attached that allows access to all necessary actions and resources.  For more information about permissions, see Using identity-based policies (IAM policies) in the Amazon Redshift Cluster Management Guide.
+    public func getClusterCredentialsWithIAM(_ input: GetClusterCredentialsWithIAMMessage, logger: Logger = AWSClient.loggingDisabled, on eventLoop: EventLoop? = nil) async throws -> ClusterExtendedCredentials {
+        return try await self.client.execute(operation: "GetClusterCredentialsWithIAM", path: "/", httpMethod: .POST, serviceConfig: self.config, input: input, logger: logger, on: eventLoop)
+    }
+
     /// Gets the configuration options for the reserved-node exchange. These options include information about the source reserved node and target reserved node offering. Details include the node type, the price, the node count, and the offering type.
     public func getReservedNodeExchangeConfigurationOptions(_ input: GetReservedNodeExchangeConfigurationOptionsInputMessage, logger: Logger = AWSClient.loggingDisabled, on eventLoop: EventLoop? = nil) async throws -> GetReservedNodeExchangeConfigurationOptionsOutputMessage {
         return try await self.client.execute(operation: "GetReservedNodeExchangeConfigurationOptions", path: "/", httpMethod: .POST, serviceConfig: self.config, input: input, logger: logger, on: eventLoop)

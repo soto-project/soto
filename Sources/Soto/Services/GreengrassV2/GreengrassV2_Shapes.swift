@@ -141,6 +141,13 @@ extension GreengrassV2 {
         public var description: String { return self.rawValue }
     }
 
+    public enum VendorGuidance: String, CustomStringConvertible, Codable, _SotoSendable {
+        case active = "ACTIVE"
+        case deleted = "DELETED"
+        case discontinued = "DISCONTINUED"
+        public var description: String { return self.rawValue }
+    }
+
     // MARK: Shapes
 
     public struct AssociateClientDeviceWithCoreDeviceEntry: AWSEncodableShape {
@@ -344,23 +351,31 @@ extension GreengrassV2 {
     }
 
     public struct CloudComponentStatus: AWSDecodableShape {
-        /// The state of the component.
+        /// The state of the component version.
         public let componentState: CloudComponentState?
-        /// A dictionary of errors that communicate why the component is in an error state. For example, if IoT Greengrass can't access an artifact for the component, then errors contains the artifact's URI as a key, and the error message as the value for that key.
+        /// A dictionary of errors that communicate why the component version is in an error state. For example, if IoT Greengrass can't access an artifact for the component version, then errors contains the artifact's URI as a key, and the error message as the value for that key.
         public let errors: [String: String]?
-        /// A message that communicates details, such as errors, about the status of the component.
+        /// A message that communicates details, such as errors, about the status of the component version.
         public let message: String?
+        /// The vendor guidance state for the component version. This state indicates whether the component version has any issues that you should consider before you deploy it. The vendor guidance state can be:    ACTIVE – This component version is available and recommended for use.    DISCONTINUED – This component version has been discontinued by its publisher. You can deploy this component version, but we recommend that you use a different version of this component.    DELETED – This component version has been deleted by its publisher, so you can't deploy it. If you have any existing deployments that specify this component version, those deployments will fail.
+        public let vendorGuidance: VendorGuidance?
+        /// A message that communicates details about the vendor guidance state of the component version. This message communicates why a component version is discontinued or deleted.
+        public let vendorGuidanceMessage: String?
 
-        public init(componentState: CloudComponentState? = nil, errors: [String: String]? = nil, message: String? = nil) {
+        public init(componentState: CloudComponentState? = nil, errors: [String: String]? = nil, message: String? = nil, vendorGuidance: VendorGuidance? = nil, vendorGuidanceMessage: String? = nil) {
             self.componentState = componentState
             self.errors = errors
             self.message = message
+            self.vendorGuidance = vendorGuidance
+            self.vendorGuidanceMessage = vendorGuidanceMessage
         }
 
         private enum CodingKeys: String, CodingKey {
             case componentState
             case errors
             case message
+            case vendorGuidance
+            case vendorGuidanceMessage
         }
     }
 
@@ -402,10 +417,8 @@ extension GreengrassV2 {
         public func validate(name: String) throws {
             try self.validate(self.componentName, name: "componentName", parent: name, max: 128)
             try self.validate(self.componentName, name: "componentName", parent: name, min: 1)
-            try self.validate(self.componentName, name: "componentName", parent: name, pattern: "^[a-zA-Z0-9-_.]+$")
             try self.validate(self.componentVersion, name: "componentVersion", parent: name, max: 64)
             try self.validate(self.componentVersion, name: "componentVersion", parent: name, min: 1)
-            try self.validate(self.componentVersion, name: "componentVersion", parent: name, pattern: "^[0-9a-zA-Z-.+]+$")
             try self.versionRequirements?.forEach {
                 try validate($0.key, name: "versionRequirements.key", parent: name, min: 1)
                 try validate($0.value, name: "versionRequirements[\"\($0.key)\"]", parent: name, min: 1)
@@ -431,7 +444,7 @@ extension GreengrassV2 {
         }
 
         public func validate(name: String) throws {
-            try self.validate(self.merge, name: "merge", parent: name, max: 65536)
+            try self.validate(self.merge, name: "merge", parent: name, max: 10_485_760)
             try self.validate(self.merge, name: "merge", parent: name, min: 1)
             try self.reset?.forEach {
                 try validate($0, name: "reset[]", parent: name, max: 256)
@@ -482,7 +495,6 @@ extension GreengrassV2 {
         public func validate(name: String) throws {
             try self.validate(self.componentVersion, name: "componentVersion", parent: name, max: 64)
             try self.validate(self.componentVersion, name: "componentVersion", parent: name, min: 1)
-            try self.validate(self.componentVersion, name: "componentVersion", parent: name, pattern: "^[0-9a-zA-Z-.+]+$")
             try self.configurationUpdate?.validate(name: "\(name).configurationUpdate")
             try self.runWith?.validate(name: "\(name).runWith")
         }
@@ -676,10 +688,9 @@ extension GreengrassV2 {
             try self.tags?.forEach {
                 try validate($0.key, name: "tags.key", parent: name, max: 128)
                 try validate($0.key, name: "tags.key", parent: name, min: 1)
-                try validate($0.key, name: "tags.key", parent: name, pattern: "^(?!aws:)[a-zA-Z+-=._:/]+$")
                 try validate($0.value, name: "tags[\"\($0.key)\"]", parent: name, max: 256)
             }
-            try self.validate(self.tags, name: "tags", parent: name, max: 50)
+            try self.validate(self.tags, name: "tags", parent: name, max: 200)
             try self.validate(self.tags, name: "tags", parent: name, min: 1)
         }
 
@@ -759,12 +770,11 @@ extension GreengrassV2 {
             try self.tags?.forEach {
                 try validate($0.key, name: "tags.key", parent: name, max: 128)
                 try validate($0.key, name: "tags.key", parent: name, min: 1)
-                try validate($0.key, name: "tags.key", parent: name, pattern: "^(?!aws:)[a-zA-Z+-=._:/]+$")
                 try validate($0.value, name: "tags[\"\($0.key)\"]", parent: name, max: 256)
             }
-            try self.validate(self.tags, name: "tags", parent: name, max: 50)
+            try self.validate(self.tags, name: "tags", parent: name, max: 200)
             try self.validate(self.tags, name: "tags", parent: name, min: 1)
-            try self.validate(self.targetArn, name: "targetArn", parent: name, pattern: "^arn:aws(-cn|-us-gov)?:iot:[^:]+:[0-9]+:(thing|thinggroup)/.+$")
+            try self.validate(self.targetArn, name: "targetArn", parent: name, pattern: "^arn:[^:]*:iot:[^:]*:[0-9]+:(thing|thinggroup)/.+$")
         }
 
         private enum CodingKeys: String, CodingKey {
@@ -812,7 +822,7 @@ extension GreengrassV2 {
         }
 
         public func validate(name: String) throws {
-            try self.validate(self.arn, name: "arn", parent: name, pattern: "^arn:aws(-cn|-us-gov)?:greengrass:[^:]+:(aws|[0-9]+):components:[^:]+:versions:[^:]+$")
+            try self.validate(self.arn, name: "arn", parent: name, pattern: "^arn:[^:]*:greengrass:[^:]*:(aws|[0-9]+):components:[^:]+:versions:[^:]+$")
         }
 
         private enum CodingKeys: CodingKey {}
@@ -833,6 +843,25 @@ extension GreengrassV2 {
         public func validate(name: String) throws {
             try self.validate(self.coreDeviceThingName, name: "coreDeviceThingName", parent: name, max: 128)
             try self.validate(self.coreDeviceThingName, name: "coreDeviceThingName", parent: name, min: 1)
+        }
+
+        private enum CodingKeys: CodingKey {}
+    }
+
+    public struct DeleteDeploymentRequest: AWSEncodableShape {
+        public static var _encoding = [
+            AWSMemberEncoding(label: "deploymentId", location: .uri("deploymentId"))
+        ]
+
+        /// The ID of the deployment.
+        public let deploymentId: String
+
+        public init(deploymentId: String) {
+            self.deploymentId = deploymentId
+        }
+
+        public func validate(name: String) throws {
+            try self.validate(self.deploymentId, name: "deploymentId", parent: name, min: 1)
         }
 
         private enum CodingKeys: CodingKey {}
@@ -965,7 +994,7 @@ extension GreengrassV2 {
         }
 
         public func validate(name: String) throws {
-            try self.validate(self.arn, name: "arn", parent: name, pattern: "^arn:aws(-cn|-us-gov)?:greengrass:[^:]+:(aws|[0-9]+):components:[^:]+:versions:[^:]+$")
+            try self.validate(self.arn, name: "arn", parent: name, pattern: "^arn:[^:]*:greengrass:[^:]*:(aws|[0-9]+):components:[^:]+:versions:[^:]+$")
         }
 
         private enum CodingKeys: CodingKey {}
@@ -1138,7 +1167,7 @@ extension GreengrassV2 {
         }
 
         public func validate(name: String) throws {
-            try self.validate(self.arn, name: "arn", parent: name, pattern: "^arn:aws(-cn|-us-gov)?:greengrass:[^:]+:(aws|[0-9]+):components:[^:]+:versions:[^:]+$")
+            try self.validate(self.arn, name: "arn", parent: name, pattern: "^arn:[^:]*:greengrass:[^:]*:(aws|[0-9]+):components:[^:]+:versions:[^:]+$")
         }
 
         private enum CodingKeys: CodingKey {}
@@ -1171,7 +1200,7 @@ extension GreengrassV2 {
             AWSMemberEncoding(label: "artifactName", location: .uri("artifactName"))
         ]
 
-        /// The ARN of the component version. Specify the ARN of a public component version.
+        /// The ARN of the component version. Specify the ARN of a public or a Lambda component version.
         public let arn: String
         /// The name of the artifact. You can use the GetComponent operation to download the component recipe, which includes the URI of the artifact. The artifact name is the section of the URI after the scheme. For example, in the artifact URI greengrass:SomeArtifact.zip, the artifact name is SomeArtifact.zip.
         public let artifactName: String
@@ -1182,7 +1211,7 @@ extension GreengrassV2 {
         }
 
         public func validate(name: String) throws {
-            try self.validate(self.arn, name: "arn", parent: name, pattern: "^arn:aws(-cn|-us-gov)?:greengrass:[^:]+:(aws|[0-9]+):components:[^:]+:versions:[^:]+$")
+            try self.validate(self.arn, name: "arn", parent: name, pattern: "^arn:[^:]*:greengrass:[^:]*:(aws|[0-9]+):components:[^:]+:versions:[^:]+$")
             try self.validate(self.artifactName, name: "artifactName", parent: name, min: 1)
         }
 
@@ -1716,14 +1745,12 @@ extension GreengrassV2 {
             try self.componentLambdaParameters?.validate(name: "\(name).componentLambdaParameters")
             try self.validate(self.componentName, name: "componentName", parent: name, max: 128)
             try self.validate(self.componentName, name: "componentName", parent: name, min: 1)
-            try self.validate(self.componentName, name: "componentName", parent: name, pattern: "^[a-zA-Z0-9-_.]+$")
             try self.componentPlatforms?.forEach {
                 try $0.validate(name: "\(name).componentPlatforms[]")
             }
             try self.validate(self.componentVersion, name: "componentVersion", parent: name, max: 64)
             try self.validate(self.componentVersion, name: "componentVersion", parent: name, min: 1)
-            try self.validate(self.componentVersion, name: "componentVersion", parent: name, pattern: "^[0-9a-zA-Z-.+]+$")
-            try self.validate(self.lambdaArn, name: "lambdaArn", parent: name, pattern: "^arn:aws(-cn|-us-gov)?:lambda:[^:]+:[0-9]+:function:[a-zA-Z0-9-_]+:[0-9]+$")
+            try self.validate(self.lambdaArn, name: "lambdaArn", parent: name, pattern: "^arn:[^:]*:lambda:[^:]+:[0-9]+:function:[a-zA-Z0-9-_]+:[0-9]+$")
         }
 
         private enum CodingKeys: String, CodingKey {
@@ -1832,7 +1859,7 @@ extension GreengrassV2 {
             AWSMemberEncoding(label: "nextToken", location: .querystring("nextToken"))
         ]
 
-        /// The ARN of the component version.
+        /// The ARN of the component.
         public let arn: String
         /// The maximum number of results to be returned per paginated request.
         public let maxResults: Int?
@@ -1846,7 +1873,7 @@ extension GreengrassV2 {
         }
 
         public func validate(name: String) throws {
-            try self.validate(self.arn, name: "arn", parent: name, pattern: "^arn:aws(-cn|-us-gov)?:greengrass:[^:]+:(aws|[0-9]+):components:[^:]+$")
+            try self.validate(self.arn, name: "arn", parent: name, pattern: "^arn:[^:]*:greengrass:[^:]*:(aws|[0-9]+):components:[^:]+$")
             try self.validate(self.maxResults, name: "maxResults", parent: name, max: 100)
             try self.validate(self.maxResults, name: "maxResults", parent: name, min: 1)
         }
@@ -1930,7 +1957,7 @@ extension GreengrassV2 {
         public let nextToken: String?
         /// The core device status by which to filter. If you specify this parameter, the list includes only core devices that have this status. Choose one of the following options:    HEALTHY – The IoT Greengrass Core software and all components run on the core device without issue.    UNHEALTHY – The IoT Greengrass Core software or a component is in a failed state on the core device.
         public let status: CoreDeviceStatus?
-        /// The ARN of the IoT thing group by which to filter. If you specify this parameter, the list includes only core devices that are members of this thing group.
+        /// The ARN of the IoT thing group by which to filter. If you specify this parameter, the list includes only core devices that have successfully deployed a deployment that targets the thing group. When you remove a core device from a thing group, the list continues to include that core device.
         public let thingGroupArn: String?
 
         public init(maxResults: Int? = nil, nextToken: String? = nil, status: CoreDeviceStatus? = nil, thingGroupArn: String? = nil) {
@@ -1943,7 +1970,7 @@ extension GreengrassV2 {
         public func validate(name: String) throws {
             try self.validate(self.maxResults, name: "maxResults", parent: name, max: 100)
             try self.validate(self.maxResults, name: "maxResults", parent: name, min: 1)
-            try self.validate(self.thingGroupArn, name: "thingGroupArn", parent: name, pattern: "^arn:aws(-cn|-us-gov)?:iot:[^:]+:[0-9]+:thinggroup/.+$")
+            try self.validate(self.thingGroupArn, name: "thingGroupArn", parent: name, pattern: "^arn:[^:]*:iot:[^:]*:[0-9]+:thinggroup/.+$")
         }
 
         private enum CodingKeys: CodingKey {}
@@ -1993,7 +2020,7 @@ extension GreengrassV2 {
         public func validate(name: String) throws {
             try self.validate(self.maxResults, name: "maxResults", parent: name, max: 100)
             try self.validate(self.maxResults, name: "maxResults", parent: name, min: 1)
-            try self.validate(self.targetArn, name: "targetArn", parent: name, pattern: "^arn:aws(-cn|-us-gov)?:iot:[^:]+:[0-9]+:(thing|thinggroup)/.+$")
+            try self.validate(self.targetArn, name: "targetArn", parent: name, pattern: "^arn:[^:]*:iot:[^:]*:[0-9]+:(thing|thinggroup)/.+$")
         }
 
         private enum CodingKeys: CodingKey {}
@@ -2123,7 +2150,7 @@ extension GreengrassV2 {
         }
 
         public func validate(name: String) throws {
-            try self.validate(self.resourceArn, name: "resourceArn", parent: name, pattern: "^arn:aws(-cn|-us-gov)?:greengrass:[^:]+:(aws|[0-9]+):(components|deployments|coreDevices):.+$")
+            try self.validate(self.resourceArn, name: "resourceArn", parent: name, pattern: "^arn:[^:]*:greengrass:[^:]*:(aws|[0-9]+):(components|deployments|coreDevices):")
         }
 
         private enum CodingKeys: CodingKey {}
@@ -2144,20 +2171,20 @@ extension GreengrassV2 {
 
     public struct ResolveComponentCandidatesRequest: AWSEncodableShape {
         /// The list of components to resolve.
-        public let componentCandidates: [ComponentCandidate]
+        public let componentCandidates: [ComponentCandidate]?
         /// The platform to use to resolve compatible components.
-        public let platform: ComponentPlatform
+        public let platform: ComponentPlatform?
 
-        public init(componentCandidates: [ComponentCandidate], platform: ComponentPlatform) {
+        public init(componentCandidates: [ComponentCandidate]? = nil, platform: ComponentPlatform? = nil) {
             self.componentCandidates = componentCandidates
             self.platform = platform
         }
 
         public func validate(name: String) throws {
-            try self.componentCandidates.forEach {
+            try self.componentCandidates?.forEach {
                 try $0.validate(name: "\(name).componentCandidates[]")
             }
-            try self.platform.validate(name: "\(name).platform")
+            try self.platform?.validate(name: "\(name).platform")
         }
 
         private enum CodingKeys: String, CodingKey {
@@ -2186,21 +2213,29 @@ extension GreengrassV2 {
         public let componentName: String?
         /// The version of the component.
         public let componentVersion: String?
+        /// A message that communicates details about the vendor guidance state of the component version. This message communicates why a component version is discontinued or deleted.
+        public let message: String?
         /// The recipe of the component version.
         public let recipe: AWSBase64Data?
+        /// The vendor guidance state for the component version. This state indicates whether the component version has any issues that you should consider before you deploy it. The vendor guidance state can be:    ACTIVE – This component version is available and recommended for use.    DISCONTINUED – This component version has been discontinued by its publisher. You can deploy this component version, but we recommend that you use a different version of this component.    DELETED – This component version has been deleted by its publisher, so you can't deploy it. If you have any existing deployments that specify this component version, those deployments will fail.
+        public let vendorGuidance: VendorGuidance?
 
-        public init(arn: String? = nil, componentName: String? = nil, componentVersion: String? = nil, recipe: AWSBase64Data? = nil) {
+        public init(arn: String? = nil, componentName: String? = nil, componentVersion: String? = nil, message: String? = nil, recipe: AWSBase64Data? = nil, vendorGuidance: VendorGuidance? = nil) {
             self.arn = arn
             self.componentName = componentName
             self.componentVersion = componentVersion
+            self.message = message
             self.recipe = recipe
+            self.vendorGuidance = vendorGuidance
         }
 
         private enum CodingKeys: String, CodingKey {
             case arn
             case componentName
             case componentVersion
+            case message
             case recipe
+            case vendorGuidance
         }
     }
 
@@ -2243,14 +2278,13 @@ extension GreengrassV2 {
         }
 
         public func validate(name: String) throws {
-            try self.validate(self.resourceArn, name: "resourceArn", parent: name, pattern: "^arn:aws(-cn|-us-gov)?:greengrass:[^:]+:(aws|[0-9]+):(components|deployments|coreDevices):.+$")
+            try self.validate(self.resourceArn, name: "resourceArn", parent: name, pattern: "^arn:[^:]*:greengrass:[^:]*:(aws|[0-9]+):(components|deployments|coreDevices):")
             try self.tags.forEach {
                 try validate($0.key, name: "tags.key", parent: name, max: 128)
                 try validate($0.key, name: "tags.key", parent: name, min: 1)
-                try validate($0.key, name: "tags.key", parent: name, pattern: "^(?!aws:)[a-zA-Z+-=._:/]+$")
                 try validate($0.value, name: "tags[\"\($0.key)\"]", parent: name, max: 256)
             }
-            try self.validate(self.tags, name: "tags", parent: name, max: 50)
+            try self.validate(self.tags, name: "tags", parent: name, max: 200)
             try self.validate(self.tags, name: "tags", parent: name, min: 1)
         }
 
@@ -2280,13 +2314,12 @@ extension GreengrassV2 {
         }
 
         public func validate(name: String) throws {
-            try self.validate(self.resourceArn, name: "resourceArn", parent: name, pattern: "^arn:aws(-cn|-us-gov)?:greengrass:[^:]+:(aws|[0-9]+):(components|deployments|coreDevices):.+$")
+            try self.validate(self.resourceArn, name: "resourceArn", parent: name, pattern: "^arn:[^:]*:greengrass:[^:]*:(aws|[0-9]+):(components|deployments|coreDevices):")
             try self.tagKeys.forEach {
                 try validate($0, name: "tagKeys[]", parent: name, max: 128)
                 try validate($0, name: "tagKeys[]", parent: name, min: 1)
-                try validate($0, name: "tagKeys[]", parent: name, pattern: "^(?!aws:)[a-zA-Z+-=._:/]+$")
             }
-            try self.validate(self.tagKeys, name: "tagKeys", parent: name, max: 50)
+            try self.validate(self.tagKeys, name: "tagKeys", parent: name, max: 200)
             try self.validate(self.tagKeys, name: "tagKeys", parent: name, min: 1)
         }
 

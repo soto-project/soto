@@ -62,6 +62,11 @@ extension ApplicationInsights {
         public var description: String { return self.rawValue }
     }
 
+    public enum GroupingType: String, CustomStringConvertible, Codable, _SotoSendable {
+        case accountBased = "ACCOUNT_BASED"
+        public var description: String { return self.rawValue }
+    }
+
     public enum LogFilter: String, CustomStringConvertible, Codable, _SotoSendable {
         case error = "ERROR"
         case info = "INFO"
@@ -77,6 +82,7 @@ extension ApplicationInsights {
 
     public enum SeverityLevel: String, CustomStringConvertible, Codable, _SotoSendable {
         case high = "High"
+        case informative = "Informative"
         case low = "Low"
         case medium = "Medium"
         public var description: String { return self.rawValue }
@@ -152,9 +158,11 @@ extension ApplicationInsights {
     }
 
     public struct ApplicationInfo: AWSDecodableShape {
+        ///  Indicates whether auto-configuration is turned on for this application.
         public let autoConfigEnabled: Bool?
         ///  Indicates whether Application Insights can listen to CloudWatch events for the application resources, such as instance terminated, failed deployment, and others.
         public let cweMonitorEnabled: Bool?
+        ///  The method used by Application Insights to onboard your resources.
         public let discoveryType: DiscoveryType?
         /// The lifecycle of the application.
         public let lifeCycle: String?
@@ -224,10 +232,14 @@ extension ApplicationInsights {
     }
 
     public struct CreateApplicationRequest: AWSEncodableShape {
+        ///  Indicates whether Application Insights automatically configures unmonitored resources in the resource group.
         public let autoConfigEnabled: Bool?
+        ///  Configures all of the resources in the resource group by applying the recommended configurations.
         public let autoCreate: Bool?
         ///  Indicates whether Application Insights can listen to CloudWatch events for the application resources, such as instance terminated, failed deployment, and others.
         public let cweMonitorEnabled: Bool?
+        /// Application Insights can create applications based on a resource group or on an account. To create an account-based application using all of the resources in the account, set this parameter to ACCOUNT_BASED.
+        public let groupingType: GroupingType?
         ///  When set to true, creates opsItems for any problems detected on an application.
         public let opsCenterEnabled: Bool?
         ///  The SNS topic provided to Application Insights that is associated to the created opsItem. Allows you to receive notifications for updates to the opsItem.
@@ -237,10 +249,11 @@ extension ApplicationInsights {
         /// List of tags to add to the application. tag key (Key) and an associated tag value (Value). The maximum length of a tag key is 128 characters. The maximum length of a tag value is 256 characters.
         public let tags: [Tag]?
 
-        public init(autoConfigEnabled: Bool? = nil, autoCreate: Bool? = nil, cweMonitorEnabled: Bool? = nil, opsCenterEnabled: Bool? = nil, opsItemSNSTopicArn: String? = nil, resourceGroupName: String? = nil, tags: [Tag]? = nil) {
+        public init(autoConfigEnabled: Bool? = nil, autoCreate: Bool? = nil, cweMonitorEnabled: Bool? = nil, groupingType: GroupingType? = nil, opsCenterEnabled: Bool? = nil, opsItemSNSTopicArn: String? = nil, resourceGroupName: String? = nil, tags: [Tag]? = nil) {
             self.autoConfigEnabled = autoConfigEnabled
             self.autoCreate = autoCreate
             self.cweMonitorEnabled = cweMonitorEnabled
+            self.groupingType = groupingType
             self.opsCenterEnabled = opsCenterEnabled
             self.opsItemSNSTopicArn = opsItemSNSTopicArn
             self.resourceGroupName = resourceGroupName
@@ -264,6 +277,7 @@ extension ApplicationInsights {
             case autoConfigEnabled = "AutoConfigEnabled"
             case autoCreate = "AutoCreate"
             case cweMonitorEnabled = "CWEMonitorEnabled"
+            case groupingType = "GroupingType"
             case opsCenterEnabled = "OpsCenterEnabled"
             case opsItemSNSTopicArn = "OpsItemSNSTopicArn"
             case resourceGroupName = "ResourceGroupName"
@@ -511,7 +525,7 @@ extension ApplicationInsights {
         public let componentName: String
         /// The name of the resource group.
         public let resourceGroupName: String
-        /// The tier of the application component. Supported tiers include DOT_NET_CORE, DOT_NET_WORKER, DOT_NET_WEB, SQL_SERVER, and DEFAULT.
+        /// The tier of the application component.
         public let tier: Tier
 
         public init(componentName: String, resourceGroupName: String, tier: Tier) {
@@ -1050,6 +1064,7 @@ extension ApplicationInsights {
     }
 
     public struct ListProblemsRequest: AWSEncodableShape {
+        ///  The name of the component.
         public let componentName: String?
         /// The time when the problem ended, in epoch seconds. If not specified, problems within the past seven days are returned.
         public let endTime: Date?
@@ -1100,6 +1115,7 @@ extension ApplicationInsights {
         public let nextToken: String?
         /// The list of problems.
         public let problemList: [Problem]?
+        ///  The name of the resource group.
         public let resourceGroupName: String?
 
         public init(nextToken: String? = nil, problemList: [Problem]? = nil, resourceGroupName: String? = nil) {
@@ -1235,9 +1251,9 @@ extension ApplicationInsights {
         public let sourceARN: String?
         /// The source type of the observation.
         public let sourceType: String?
-        /// The time when the observation was  first detected, in epoch seconds.
+        /// The time when the observation was first detected, in epoch seconds.
         public let startTime: Date?
-        ///  The Amazon Resource Name (ARN)  of the step function-based observation.
+        ///  The Amazon Resource Name (ARN) of the step function-based observation.
         public let statesArn: String?
         ///  The Amazon Resource Name (ARN) of the step function execution-based observation.
         public let statesExecutionArn: String?
@@ -1255,7 +1271,7 @@ extension ApplicationInsights {
         public let xRayFaultPercent: Int?
         ///  The name of the X-Ray node.
         public let xRayNodeName: String?
-        ///  The type of the  X-Ray node.
+        ///  The type of the X-Ray node.
         public let xRayNodeType: String?
         ///  The X-Ray node request average latency for this node.
         public let xRayRequestAverageLatency: Int64?
@@ -1372,7 +1388,9 @@ extension ApplicationInsights {
         public let id: String?
         /// A detailed analysis of the problem using machine learning.
         public let insights: String?
+        ///  The last time that the problem reoccurred after its last resolution.
         public let lastRecurrenceTime: Date?
+        ///  The number of times that the same problem reoccurred after the first time it was resolved.
         public let recurringCount: Int64?
         /// The name of the resource group affected by the problem.
         public let resourceGroupName: String?
@@ -1519,6 +1537,7 @@ extension ApplicationInsights {
     }
 
     public struct UpdateApplicationRequest: AWSEncodableShape {
+        ///  Turns auto-configuration on or off.
         public let autoConfigEnabled: Bool?
         ///  Indicates whether Application Insights can listen to CloudWatch events for the application resources, such as instance terminated, failed deployment, and others.
         public let cweMonitorEnabled: Bool?
@@ -1573,6 +1592,7 @@ extension ApplicationInsights {
     }
 
     public struct UpdateComponentConfigurationRequest: AWSEncodableShape {
+        ///  Automatically configures the component by applying the recommended configurations.
         public let autoConfigEnabled: Bool?
         /// The configuration settings of the component. The value is the escaped JSON of the configuration. For more information about the JSON format, see Working with JSON. You can send a request to DescribeComponentConfigurationRecommendation to see the recommended configuration for a component. For the complete format of the component configuration file, see Component Configuration.
         public let componentConfiguration: String?
@@ -1582,7 +1602,7 @@ extension ApplicationInsights {
         public let monitor: Bool?
         /// The name of the resource group.
         public let resourceGroupName: String
-        /// The tier of the application component. Supported tiers include DOT_NET_WORKER, DOT_NET_WEB, DOT_NET_CORE, SQL_SERVER, and DEFAULT.
+        /// The tier of the application component.
         public let tier: Tier?
 
         public init(autoConfigEnabled: Bool? = nil, componentConfiguration: String? = nil, componentName: String, monitor: Bool? = nil, resourceGroupName: String, tier: Tier? = nil) {

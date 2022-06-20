@@ -104,6 +104,13 @@ extension LookoutMetrics {
         public var description: String { return self.rawValue }
     }
 
+    public enum SnsFormat: String, CustomStringConvertible, Codable, _SotoSendable {
+        case json = "JSON"
+        case longText = "LONG_TEXT"
+        case shortText = "SHORT_TEXT"
+        public var description: String { return self.rawValue }
+    }
+
     // MARK: Shapes
 
     public struct Action: AWSEncodableShape & AWSDecodableShape {
@@ -157,6 +164,8 @@ extension LookoutMetrics {
         public let alertArn: String?
         /// A description of the alert.
         public let alertDescription: String?
+        /// The configuration of the alert filters, containing MetricList and DimensionFilter.
+        public let alertFilters: AlertFilters?
         /// The name of the alert.
         public let alertName: String?
         /// The minimum severity for an anomaly to trigger the alert.
@@ -172,10 +181,11 @@ extension LookoutMetrics {
         /// The time at which the alert was last modified.
         public let lastModificationTime: Date?
 
-        public init(action: Action? = nil, alertArn: String? = nil, alertDescription: String? = nil, alertName: String? = nil, alertSensitivityThreshold: Int? = nil, alertStatus: AlertStatus? = nil, alertType: AlertType? = nil, anomalyDetectorArn: String? = nil, creationTime: Date? = nil, lastModificationTime: Date? = nil) {
+        public init(action: Action? = nil, alertArn: String? = nil, alertDescription: String? = nil, alertFilters: AlertFilters? = nil, alertName: String? = nil, alertSensitivityThreshold: Int? = nil, alertStatus: AlertStatus? = nil, alertType: AlertType? = nil, anomalyDetectorArn: String? = nil, creationTime: Date? = nil, lastModificationTime: Date? = nil) {
             self.action = action
             self.alertArn = alertArn
             self.alertDescription = alertDescription
+            self.alertFilters = alertFilters
             self.alertName = alertName
             self.alertSensitivityThreshold = alertSensitivityThreshold
             self.alertStatus = alertStatus
@@ -189,6 +199,7 @@ extension LookoutMetrics {
             case action = "Action"
             case alertArn = "AlertArn"
             case alertDescription = "AlertDescription"
+            case alertFilters = "AlertFilters"
             case alertName = "AlertName"
             case alertSensitivityThreshold = "AlertSensitivityThreshold"
             case alertStatus = "AlertStatus"
@@ -196,6 +207,37 @@ extension LookoutMetrics {
             case anomalyDetectorArn = "AnomalyDetectorArn"
             case creationTime = "CreationTime"
             case lastModificationTime = "LastModificationTime"
+        }
+    }
+
+    public struct AlertFilters: AWSEncodableShape & AWSDecodableShape {
+        /// The list of DimensionFilter objects that are used for dimension-based filtering.
+        public let dimensionFilterList: [DimensionFilter]?
+        /// The list of measures that you want to get alerts for.
+        public let metricList: [String]?
+
+        public init(dimensionFilterList: [DimensionFilter]? = nil, metricList: [String]? = nil) {
+            self.dimensionFilterList = dimensionFilterList
+            self.metricList = metricList
+        }
+
+        public func validate(name: String) throws {
+            try self.dimensionFilterList?.forEach {
+                try $0.validate(name: "\(name).dimensionFilterList[]")
+            }
+            try self.validate(self.dimensionFilterList, name: "dimensionFilterList", parent: name, max: 5)
+            try self.validate(self.dimensionFilterList, name: "dimensionFilterList", parent: name, min: 1)
+            try self.metricList?.forEach {
+                try validate($0, name: "metricList[]", parent: name, max: 256)
+                try validate($0, name: "metricList[]", parent: name, pattern: "^[a-zA-Z0-9][a-zA-Z0-9\\-_]*$")
+            }
+            try self.validate(self.metricList, name: "metricList", parent: name, max: 5)
+            try self.validate(self.metricList, name: "metricList", parent: name, min: 1)
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case dimensionFilterList = "DimensionFilterList"
+            case metricList = "MetricList"
         }
     }
 
@@ -466,6 +508,62 @@ extension LookoutMetrics {
         }
     }
 
+    public struct AthenaSourceConfig: AWSEncodableShape & AWSDecodableShape {
+        /// Settings for backtest mode.
+        public let backTestConfiguration: BackTestConfiguration?
+        /// The database's name.
+        public let databaseName: String?
+        /// The database's data catalog.
+        public let dataCatalog: String?
+        /// An IAM role that gives Amazon Lookout for Metrics permission to access the data.
+        public let roleArn: String?
+        /// The database's results path.
+        public let s3ResultsPath: String?
+        /// The database's table name.
+        public let tableName: String?
+        /// The database's work group name.
+        public let workGroupName: String?
+
+        public init(backTestConfiguration: BackTestConfiguration? = nil, databaseName: String? = nil, dataCatalog: String? = nil, roleArn: String? = nil, s3ResultsPath: String? = nil, tableName: String? = nil, workGroupName: String? = nil) {
+            self.backTestConfiguration = backTestConfiguration
+            self.databaseName = databaseName
+            self.dataCatalog = dataCatalog
+            self.roleArn = roleArn
+            self.s3ResultsPath = s3ResultsPath
+            self.tableName = tableName
+            self.workGroupName = workGroupName
+        }
+
+        public func validate(name: String) throws {
+            try self.validate(self.databaseName, name: "databaseName", parent: name, max: 255)
+            try self.validate(self.databaseName, name: "databaseName", parent: name, min: 1)
+            try self.validate(self.databaseName, name: "databaseName", parent: name, pattern: "^[a-zA-Z0-9_]+$")
+            try self.validate(self.dataCatalog, name: "dataCatalog", parent: name, max: 256)
+            try self.validate(self.dataCatalog, name: "dataCatalog", parent: name, min: 1)
+            try self.validate(self.dataCatalog, name: "dataCatalog", parent: name, pattern: "^[\\u0020-\\uD7FF\\uE000-\\uFFFD\\uD800\\uDC00-\\uDBFF\\uDFFF\\t]*$")
+            try self.validate(self.roleArn, name: "roleArn", parent: name, max: 256)
+            try self.validate(self.roleArn, name: "roleArn", parent: name, pattern: "^arn:([a-z\\d-]+):.*:.*:.*:.+$")
+            try self.validate(self.s3ResultsPath, name: "s3ResultsPath", parent: name, max: 1024)
+            try self.validate(self.s3ResultsPath, name: "s3ResultsPath", parent: name, pattern: "^s3://[a-z0-9].+$")
+            try self.validate(self.tableName, name: "tableName", parent: name, max: 128)
+            try self.validate(self.tableName, name: "tableName", parent: name, min: 1)
+            try self.validate(self.tableName, name: "tableName", parent: name, pattern: "^[a-zA-Z0-9_]+$")
+            try self.validate(self.workGroupName, name: "workGroupName", parent: name, max: 128)
+            try self.validate(self.workGroupName, name: "workGroupName", parent: name, min: 1)
+            try self.validate(self.workGroupName, name: "workGroupName", parent: name, pattern: "^[a-zA-Z0-9._-]{1,128}$")
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case backTestConfiguration = "BackTestConfiguration"
+            case databaseName = "DatabaseName"
+            case dataCatalog = "DataCatalog"
+            case roleArn = "RoleArn"
+            case s3ResultsPath = "S3ResultsPath"
+            case tableName = "TableName"
+            case workGroupName = "WorkGroupName"
+        }
+    }
+
     public struct AttributeValue: AWSDecodableShape {
         /// A binary value.
         public let b: String?
@@ -570,11 +668,27 @@ extension LookoutMetrics {
         public init() {}
     }
 
+    public struct BackTestConfiguration: AWSEncodableShape & AWSDecodableShape {
+        /// Run a backtest instead of monitoring new data.
+        public let runBackTestMode: Bool
+
+        public init(runBackTestMode: Bool) {
+            self.runBackTestMode = runBackTestMode
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case runBackTestMode = "RunBackTestMode"
+        }
+    }
+
     public struct CloudWatchConfig: AWSEncodableShape & AWSDecodableShape {
+        /// Settings for backtest mode.
+        public let backTestConfiguration: BackTestConfiguration?
         /// An IAM role that gives Amazon Lookout for Metrics permission to access data in Amazon CloudWatch.
         public let roleArn: String?
 
-        public init(roleArn: String? = nil) {
+        public init(backTestConfiguration: BackTestConfiguration? = nil, roleArn: String? = nil) {
+            self.backTestConfiguration = backTestConfiguration
             self.roleArn = roleArn
         }
 
@@ -584,6 +698,7 @@ extension LookoutMetrics {
         }
 
         private enum CodingKeys: String, CodingKey {
+            case backTestConfiguration = "BackTestConfiguration"
             case roleArn = "RoleArn"
         }
     }
@@ -606,18 +721,21 @@ extension LookoutMetrics {
         public let action: Action
         /// A description of the alert.
         public let alertDescription: String?
+        /// The configuration of the alert filters, containing MetricList and DimensionFilterList.
+        public let alertFilters: AlertFilters?
         /// The name of the alert.
         public let alertName: String
         /// An integer from 0 to 100 specifying the alert sensitivity threshold.
-        public let alertSensitivityThreshold: Int
+        public let alertSensitivityThreshold: Int?
         /// The ARN of the detector to which the alert is attached.
         public let anomalyDetectorArn: String
         /// A list of tags to apply to the alert.
         public let tags: [String: String]?
 
-        public init(action: Action, alertDescription: String? = nil, alertName: String, alertSensitivityThreshold: Int, anomalyDetectorArn: String, tags: [String: String]? = nil) {
+        public init(action: Action, alertDescription: String? = nil, alertFilters: AlertFilters? = nil, alertName: String, alertSensitivityThreshold: Int? = nil, anomalyDetectorArn: String, tags: [String: String]? = nil) {
             self.action = action
             self.alertDescription = alertDescription
+            self.alertFilters = alertFilters
             self.alertName = alertName
             self.alertSensitivityThreshold = alertSensitivityThreshold
             self.anomalyDetectorArn = anomalyDetectorArn
@@ -628,6 +746,7 @@ extension LookoutMetrics {
             try self.action.validate(name: "\(name).action")
             try self.validate(self.alertDescription, name: "alertDescription", parent: name, max: 256)
             try self.validate(self.alertDescription, name: "alertDescription", parent: name, pattern: "\\S")
+            try self.alertFilters?.validate(name: "\(name).alertFilters")
             try self.validate(self.alertName, name: "alertName", parent: name, max: 63)
             try self.validate(self.alertName, name: "alertName", parent: name, min: 1)
             try self.validate(self.alertName, name: "alertName", parent: name, pattern: "^[a-zA-Z0-9][a-zA-Z0-9\\-_]*$")
@@ -647,6 +766,7 @@ extension LookoutMetrics {
         private enum CodingKeys: String, CodingKey {
             case action = "Action"
             case alertDescription = "AlertDescription"
+            case alertFilters = "AlertFilters"
             case alertName = "AlertName"
             case alertSensitivityThreshold = "AlertSensitivityThreshold"
             case anomalyDetectorArn = "AnomalyDetectorArn"
@@ -1357,6 +1477,31 @@ extension LookoutMetrics {
         private enum CodingKeys: String, CodingKey {
             case dimensionName = "DimensionName"
             case dimensionValueContributionList = "DimensionValueContributionList"
+        }
+    }
+
+    public struct DimensionFilter: AWSEncodableShape & AWSDecodableShape {
+        /// The name of the dimension to filter on.
+        public let dimensionName: String?
+        /// The list of values for the dimension specified in DimensionName that you want to filter on.
+        public let dimensionValueList: [String]?
+
+        public init(dimensionName: String? = nil, dimensionValueList: [String]? = nil) {
+            self.dimensionName = dimensionName
+            self.dimensionValueList = dimensionValueList
+        }
+
+        public func validate(name: String) throws {
+            try self.validate(self.dimensionName, name: "dimensionName", parent: name, max: 63)
+            try self.validate(self.dimensionName, name: "dimensionName", parent: name, min: 1)
+            try self.validate(self.dimensionName, name: "dimensionName", parent: name, pattern: "^[a-zA-Z0-9][a-zA-Z0-9\\-_]*$")
+            try self.validate(self.dimensionValueList, name: "dimensionValueList", parent: name, max: 10)
+            try self.validate(self.dimensionValueList, name: "dimensionValueList", parent: name, min: 1)
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case dimensionName = "DimensionName"
+            case dimensionValueList = "DimensionValueList"
         }
     }
 
@@ -2097,18 +2242,21 @@ extension LookoutMetrics {
     }
 
     public struct MetricSource: AWSEncodableShape & AWSDecodableShape {
-        /// An object containing information about the AppFlow configuration.
+        /// Details about an AppFlow datasource.
         public let appFlowConfig: AppFlowConfig?
-        /// An object containing information about the Amazon CloudWatch monitoring configuration.
+        /// Details about an Amazon Athena datasource.
+        public let athenaSourceConfig: AthenaSourceConfig?
+        /// Details about an Amazon CloudWatch monitoring datasource.
         public let cloudWatchConfig: CloudWatchConfig?
-        /// An object containing information about the Amazon Relational Database Service (RDS) configuration.
+        /// Details about an Amazon Relational Database Service (RDS) datasource.
         public let rdsSourceConfig: RDSSourceConfig?
-        /// An object containing information about the Amazon Redshift database configuration.
+        /// Details about an Amazon Redshift database datasource.
         public let redshiftSourceConfig: RedshiftSourceConfig?
         public let s3SourceConfig: S3SourceConfig?
 
-        public init(appFlowConfig: AppFlowConfig? = nil, cloudWatchConfig: CloudWatchConfig? = nil, rdsSourceConfig: RDSSourceConfig? = nil, redshiftSourceConfig: RedshiftSourceConfig? = nil, s3SourceConfig: S3SourceConfig? = nil) {
+        public init(appFlowConfig: AppFlowConfig? = nil, athenaSourceConfig: AthenaSourceConfig? = nil, cloudWatchConfig: CloudWatchConfig? = nil, rdsSourceConfig: RDSSourceConfig? = nil, redshiftSourceConfig: RedshiftSourceConfig? = nil, s3SourceConfig: S3SourceConfig? = nil) {
             self.appFlowConfig = appFlowConfig
+            self.athenaSourceConfig = athenaSourceConfig
             self.cloudWatchConfig = cloudWatchConfig
             self.rdsSourceConfig = rdsSourceConfig
             self.redshiftSourceConfig = redshiftSourceConfig
@@ -2117,6 +2265,7 @@ extension LookoutMetrics {
 
         public func validate(name: String) throws {
             try self.appFlowConfig?.validate(name: "\(name).appFlowConfig")
+            try self.athenaSourceConfig?.validate(name: "\(name).athenaSourceConfig")
             try self.cloudWatchConfig?.validate(name: "\(name).cloudWatchConfig")
             try self.rdsSourceConfig?.validate(name: "\(name).rdsSourceConfig")
             try self.redshiftSourceConfig?.validate(name: "\(name).redshiftSourceConfig")
@@ -2125,6 +2274,7 @@ extension LookoutMetrics {
 
         private enum CodingKeys: String, CodingKey {
             case appFlowConfig = "AppFlowConfig"
+            case athenaSourceConfig = "AthenaSourceConfig"
             case cloudWatchConfig = "CloudWatchConfig"
             case rdsSourceConfig = "RDSSourceConfig"
             case redshiftSourceConfig = "RedshiftSourceConfig"
@@ -2331,11 +2481,14 @@ extension LookoutMetrics {
     public struct SNSConfiguration: AWSEncodableShape & AWSDecodableShape {
         /// The ARN of the IAM role that has access to the target SNS topic.
         public let roleArn: String
+        /// The format of the SNS topic.    JSON – Send JSON alerts with an anomaly ID and a link to the anomaly detail page. This is the default.    LONG_TEXT – Send human-readable alerts with information about the impacted timeseries and a link to the anomaly detail page. We recommend this for email.    SHORT_TEXT – Send human-readable alerts with a link to the anomaly detail page. We recommend this for SMS.
+        public let snsFormat: SnsFormat?
         /// The ARN of the target SNS topic.
         public let snsTopicArn: String
 
-        public init(roleArn: String, snsTopicArn: String) {
+        public init(roleArn: String, snsFormat: SnsFormat? = nil, snsTopicArn: String) {
             self.roleArn = roleArn
+            self.snsFormat = snsFormat
             self.snsTopicArn = snsTopicArn
         }
 
@@ -2348,6 +2501,7 @@ extension LookoutMetrics {
 
         private enum CodingKeys: String, CodingKey {
             case roleArn = "RoleArn"
+            case snsFormat = "SnsFormat"
             case snsTopicArn = "SnsTopicArn"
         }
     }
@@ -2525,6 +2679,59 @@ extension LookoutMetrics {
 
     public struct UntagResourceResponse: AWSDecodableShape {
         public init() {}
+    }
+
+    public struct UpdateAlertRequest: AWSEncodableShape {
+        /// Action that will be triggered when there is an alert.
+        public let action: Action?
+        /// The ARN of the alert to update.
+        public let alertArn: String
+        /// A description of the alert.
+        public let alertDescription: String?
+        /// The configuration of the alert filters, containing MetricList and DimensionFilterList.
+        public let alertFilters: AlertFilters?
+        /// An integer from 0 to 100 specifying the alert sensitivity threshold.
+        public let alertSensitivityThreshold: Int?
+
+        public init(action: Action? = nil, alertArn: String, alertDescription: String? = nil, alertFilters: AlertFilters? = nil, alertSensitivityThreshold: Int? = nil) {
+            self.action = action
+            self.alertArn = alertArn
+            self.alertDescription = alertDescription
+            self.alertFilters = alertFilters
+            self.alertSensitivityThreshold = alertSensitivityThreshold
+        }
+
+        public func validate(name: String) throws {
+            try self.action?.validate(name: "\(name).action")
+            try self.validate(self.alertArn, name: "alertArn", parent: name, max: 256)
+            try self.validate(self.alertArn, name: "alertArn", parent: name, pattern: "^arn:([a-z\\d-]+):.*:.*:.*:.+$")
+            try self.validate(self.alertDescription, name: "alertDescription", parent: name, max: 256)
+            try self.validate(self.alertDescription, name: "alertDescription", parent: name, pattern: "\\S")
+            try self.alertFilters?.validate(name: "\(name).alertFilters")
+            try self.validate(self.alertSensitivityThreshold, name: "alertSensitivityThreshold", parent: name, max: 100)
+            try self.validate(self.alertSensitivityThreshold, name: "alertSensitivityThreshold", parent: name, min: 0)
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case action = "Action"
+            case alertArn = "AlertArn"
+            case alertDescription = "AlertDescription"
+            case alertFilters = "AlertFilters"
+            case alertSensitivityThreshold = "AlertSensitivityThreshold"
+        }
+    }
+
+    public struct UpdateAlertResponse: AWSDecodableShape {
+        /// The ARN of the updated alert.
+        public let alertArn: String?
+
+        public init(alertArn: String? = nil) {
+            self.alertArn = alertArn
+        }
+
+        private enum CodingKeys: String, CodingKey {
+            case alertArn = "AlertArn"
+        }
     }
 
     public struct UpdateAnomalyDetectorRequest: AWSEncodableShape {

@@ -28,6 +28,11 @@ extension IoTEventsData {
         return try await self.client.execute(operation: "BatchAcknowledgeAlarm", path: "/alarms/acknowledge", httpMethod: .POST, serviceConfig: self.config, input: input, logger: logger, on: eventLoop)
     }
 
+    /// Deletes one or more detectors that were created. When a detector is deleted, its state will be cleared and the detector will be removed from the list of detectors. The deleted detector will no longer appear if referenced in the ListDetectors API call.
+    public func batchDeleteDetector(_ input: BatchDeleteDetectorRequest, logger: Logger = AWSClient.loggingDisabled, on eventLoop: EventLoop? = nil) async throws -> BatchDeleteDetectorResponse {
+        return try await self.client.execute(operation: "BatchDeleteDetector", path: "/detectors/delete", httpMethod: .POST, serviceConfig: self.config, input: input, logger: logger, on: eventLoop)
+    }
+
     /// Disables one or more alarms. The alarms change to the DISABLED state after you disable them.
     public func batchDisableAlarm(_ input: BatchDisableAlarmRequest, logger: Logger = AWSClient.loggingDisabled, on eventLoop: EventLoop? = nil) async throws -> BatchDisableAlarmResponse {
         return try await self.client.execute(operation: "BatchDisableAlarm", path: "/alarms/disable", httpMethod: .POST, serviceConfig: self.config, input: input, logger: logger, on: eventLoop)

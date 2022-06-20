@@ -154,6 +154,50 @@ extension Drs {
             on: eventLoop
         )
     }
+
+    ///  Returns a list of source servers on a staging account that are extensible, which means that: a. The source server is not already extended into this Account. b. The source server on the Account we’re reading from is not an extension of another source server.
+    /// Return PaginatorSequence for operation.
+    ///
+    /// - Parameters:
+    ///   - input: Input for request
+    ///   - logger: Logger used flot logging
+    ///   - eventLoop: EventLoop to run this process on
+    public func listExtensibleSourceServersPaginator(
+        _ input: ListExtensibleSourceServersRequest,
+        logger: Logger = AWSClient.loggingDisabled,
+        on eventLoop: EventLoop? = nil
+    ) -> AWSClient.PaginatorSequence<ListExtensibleSourceServersRequest, ListExtensibleSourceServersResponse> {
+        return .init(
+            input: input,
+            command: listExtensibleSourceServers,
+            inputKey: \ListExtensibleSourceServersRequest.nextToken,
+            outputKey: \ListExtensibleSourceServersResponse.nextToken,
+            logger: logger,
+            on: eventLoop
+        )
+    }
+
+    ///  Returns an array of staging accounts for existing extended source servers.
+    /// Return PaginatorSequence for operation.
+    ///
+    /// - Parameters:
+    ///   - input: Input for request
+    ///   - logger: Logger used flot logging
+    ///   - eventLoop: EventLoop to run this process on
+    public func listStagingAccountsPaginator(
+        _ input: ListStagingAccountsRequest,
+        logger: Logger = AWSClient.loggingDisabled,
+        on eventLoop: EventLoop? = nil
+    ) -> AWSClient.PaginatorSequence<ListStagingAccountsRequest, ListStagingAccountsResponse> {
+        return .init(
+            input: input,
+            command: listStagingAccounts,
+            inputKey: \ListStagingAccountsRequest.nextToken,
+            outputKey: \ListStagingAccountsResponse.nextToken,
+            logger: logger,
+            on: eventLoop
+        )
+    }
 }
 
 #endif // compiler(>=5.5.2) && canImport(_Concurrency)

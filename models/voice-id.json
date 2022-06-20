@@ -72,6 +72,10 @@
                     {
                         "value": "SPEAKER_ID_NOT_PROVIDED",
                         "name": "SPEAKER_ID_NOT_PROVIDED"
+                    },
+                    {
+                        "value": "SPEAKER_EXPIRED",
+                        "name": "SPEAKER_EXPIRED"
                     }
                 ]
             }
@@ -192,6 +196,10 @@
                     {
                         "value": "CONCURRENT_CHANGES",
                         "name": "CONCURRENT_CHANGES"
+                    },
+                    {
+                        "value": "DOMAIN_LOCKED_FROM_ENCRYPTION_UPDATES",
+                        "name": "DOMAIN_LOCKED_FROM_ENCRYPTION_UPDATES"
                     }
                 ]
             }
@@ -231,8 +239,7 @@
                 "smithy.api#documentation": "<p>Creates a domain that contains all Amazon Connect Voice ID data, such as speakers, fraudsters, customer \n            audio, and voiceprints.\n        </p>",
                 "smithy.api#http": {
                     "method": "POST",
-                    "uri": "/domains",
-                    "code": 200
+                    "uri": "/domains"
                 },
                 "smithy.api#idempotent": {}
             }
@@ -256,7 +263,7 @@
                 "ServerSideEncryptionConfiguration": {
                     "target": "com.amazonaws.voiceid#ServerSideEncryptionConfiguration",
                     "traits": {
-                        "smithy.api#documentation": "<p>The configuration, containing the KMS Key Identifier, to be used by Voice ID for \n            the server-side encryption of your data. Refer to <a href=\"https://docs.aws.amazon.com/connect/latest/adminguide/encryption-at-rest.html#encryption-at-rest-voiceid\">\n                Amazon Connect VoiceID encryption at rest</a> for more details on how the KMS Key is used.\n        </p>",
+                        "smithy.api#documentation": "<p>The configuration, containing the KMS key identifier, to be used by Voice ID for \n            the server-side encryption of your data. Refer to <a href=\"https://docs.aws.amazon.com/connect/latest/adminguide/encryption-at-rest.html#encryption-at-rest-voiceid\">\n                Amazon Connect Voice ID encryption at rest</a> for more details on how the KMS key is used.\n        </p>",
                         "smithy.api#required": {}
                     }
                 },
@@ -302,6 +309,9 @@
             "input": {
                 "target": "com.amazonaws.voiceid#DeleteDomainRequest"
             },
+            "output": {
+                "target": "smithy.api#Unit"
+            },
             "errors": [
                 {
                     "target": "com.amazonaws.voiceid#AccessDeniedException"
@@ -323,7 +333,7 @@
                 }
             ],
             "traits": {
-                "smithy.api#documentation": "<p>Deletes the specified domain from the Amazon Connect Voice ID system.</p>",
+                "smithy.api#documentation": "<p>Deletes the specified domain from Voice ID.</p>",
                 "smithy.api#http": {
                     "method": "DELETE",
                     "uri": "/domains/{DomainId}",
@@ -349,9 +359,15 @@
             "input": {
                 "target": "com.amazonaws.voiceid#DeleteFraudsterRequest"
             },
+            "output": {
+                "target": "smithy.api#Unit"
+            },
             "errors": [
                 {
                     "target": "com.amazonaws.voiceid#AccessDeniedException"
+                },
+                {
+                    "target": "com.amazonaws.voiceid#ConflictException"
                 },
                 {
                     "target": "com.amazonaws.voiceid#InternalServerException"
@@ -367,7 +383,7 @@
                 }
             ],
             "traits": {
-                "smithy.api#documentation": "<p>Deletes the specified fraudster from the Amazon Connect Voice ID system.</p>",
+                "smithy.api#documentation": "<p>Deletes the specified fraudster from Voice ID.</p>",
                 "smithy.api#http": {
                     "method": "DELETE",
                     "uri": "/domains/{DomainId}/fraudsters/{FraudsterId}",
@@ -401,6 +417,9 @@
             "input": {
                 "target": "com.amazonaws.voiceid#DeleteSpeakerRequest"
             },
+            "output": {
+                "target": "smithy.api#Unit"
+            },
             "errors": [
                 {
                     "target": "com.amazonaws.voiceid#AccessDeniedException"
@@ -422,7 +441,7 @@
                 }
             ],
             "traits": {
-                "smithy.api#documentation": "<p>Deletes the specified speaker from the Amazon Connect Voice ID system.</p>",
+                "smithy.api#documentation": "<p>Deletes the specified speaker from Voice ID.</p>",
                 "smithy.api#http": {
                     "method": "DELETE",
                     "uri": "/domains/{DomainId}/speakers/{SpeakerId}",
@@ -480,8 +499,7 @@
                 "smithy.api#documentation": "<p>Describes the specified domain.</p>",
                 "smithy.api#http": {
                     "method": "GET",
-                    "uri": "/domains/{DomainId}",
-                    "code": 200
+                    "uri": "/domains/{DomainId}"
                 }
             }
         },
@@ -538,8 +556,7 @@
                 "smithy.api#documentation": "<p>Describes the specified fraudster.</p>",
                 "smithy.api#http": {
                     "method": "GET",
-                    "uri": "/domains/{DomainId}/fraudsters/{FraudsterId}",
-                    "code": 200
+                    "uri": "/domains/{DomainId}/fraudsters/{FraudsterId}"
                 }
             }
         },
@@ -572,8 +589,7 @@
                 "smithy.api#documentation": "<p>Describes the specified fraudster registration job.</p>",
                 "smithy.api#http": {
                     "method": "GET",
-                    "uri": "/domains/{DomainId}/fraudster-registration-jobs/{JobId}",
-                    "code": 200
+                    "uri": "/domains/{DomainId}/fraudster-registration-jobs/{JobId}"
                 }
             }
         },
@@ -670,8 +686,7 @@
                 "smithy.api#documentation": "<p>Describes the specified speaker.</p>",
                 "smithy.api#http": {
                     "method": "GET",
-                    "uri": "/domains/{DomainId}/speakers/{SpeakerId}",
-                    "code": 200
+                    "uri": "/domains/{DomainId}/speakers/{SpeakerId}"
                 }
             }
         },
@@ -704,8 +719,7 @@
                 "smithy.api#documentation": "<p>Describes the specified speaker enrollment job.</p>",
                 "smithy.api#http": {
                     "method": "GET",
-                    "uri": "/domains/{DomainId}/speaker-enrollment-jobs/{JobId}",
-                    "code": 200
+                    "uri": "/domains/{DomainId}/speaker-enrollment-jobs/{JobId}"
                 }
             }
         },
@@ -820,7 +834,7 @@
                 "ServerSideEncryptionConfiguration": {
                     "target": "com.amazonaws.voiceid#ServerSideEncryptionConfiguration",
                     "traits": {
-                        "smithy.api#documentation": "<p>The server-side encryption configuration containing the KMS Key Identifier you want Voice ID to use\n            to encrypt your data.</p>"
+                        "smithy.api#documentation": "<p>The server-side encryption configuration containing the KMS key identifier you want Voice ID to use\n            to encrypt your data.</p>"
                     }
                 },
                 "CreatedAt": {
@@ -833,6 +847,12 @@
                     "target": "com.amazonaws.voiceid#Timestamp",
                     "traits": {
                         "smithy.api#documentation": "<p>The timestamp showing the domain's last update.</p>"
+                    }
+                },
+                "ServerSideEncryptionUpdateDetails": {
+                    "target": "com.amazonaws.voiceid#ServerSideEncryptionUpdateDetails",
+                    "traits": {
+                        "smithy.api#documentation": "<p>Details about the most recent server-side encryption configuration update. When the server-side\n            encryption configuration is changed, dependency on the old KMS key is removed through an\n            asynchronous process. When this update is complete, the domain's data can only be accessed using the\n            new KMS key.</p>"
                     }
                 }
             },
@@ -922,7 +942,7 @@
                 "ServerSideEncryptionConfiguration": {
                     "target": "com.amazonaws.voiceid#ServerSideEncryptionConfiguration",
                     "traits": {
-                        "smithy.api#documentation": "<p>The server-side encryption configuration containing the KMS Key Identifier you want Voice ID to use\n            to encrypt your data..</p>"
+                        "smithy.api#documentation": "<p>The server-side encryption configuration containing the KMS key identifier you want Voice ID to use\n            to encrypt your data.</p>"
                     }
                 },
                 "CreatedAt": {
@@ -935,6 +955,12 @@
                     "target": "com.amazonaws.voiceid#Timestamp",
                     "traits": {
                         "smithy.api#documentation": "<p>The timestamp showing the domain's last update.</p>"
+                    }
+                },
+                "ServerSideEncryptionUpdateDetails": {
+                    "target": "com.amazonaws.voiceid#ServerSideEncryptionUpdateDetails",
+                    "traits": {
+                        "smithy.api#documentation": "<p>Details about the most recent server-side encryption configuration update. When the server-side\n            encryption configuration is changed, dependency on the old KMS key is removed through an\n            asynchronous process. When this update is complete, the domain’s data can only be accessed using the\n            new KMS key.</p>"
                     }
                 }
             },
@@ -1010,6 +1036,9 @@
                     "target": "com.amazonaws.voiceid#AccessDeniedException"
                 },
                 {
+                    "target": "com.amazonaws.voiceid#ConflictException"
+                },
+                {
                     "target": "com.amazonaws.voiceid#InternalServerException"
                 },
                 {
@@ -1026,8 +1055,7 @@
                 "smithy.api#documentation": "<p>Evaluates a specified session based on audio data accumulated during a streaming Amazon Connect Voice \n            ID call.</p>",
                 "smithy.api#http": {
                     "method": "PUT",
-                    "uri": "/sessions/{SessionNameOrId}/evaluate",
-                    "code": 200
+                    "uri": "/sessions/{SessionNameOrId}/evaluate"
                 }
             }
         },
@@ -1076,7 +1104,7 @@
                 "StreamingStatus": {
                     "target": "com.amazonaws.voiceid#StreamingStatus",
                     "traits": {
-                        "smithy.api#documentation": "<p>The current status of audio streaming for this session. This field is useful to infer next steps when\n            the Authentication or Fraud Detection results are empty or the decision is <code>NOT_ENOUGH_SPEECH</code>.\n            In this situation, if the <code>StreamingStatus</code> is <code>ONGOING/PENDING_CONFIGURATION</code>, it can\n            mean that the client should call the API again later, once Voice ID has enough audio to produce a result.\n            If the decision remains <code>NOT_ENOUGH_SPEECH</code> even after <code>StreamingStatus</code> is <code>ENDED</code>,\n            it means that the previously streamed session did not have enough speech to perform evaluation, and a new\n            streaming session is needed to try again.</p>"
+                        "smithy.api#documentation": "<p>The current status of audio streaming for this session. This field is useful to infer next steps when\n            the Authentication or Fraud Detection results are empty or the decision is <code>NOT_ENOUGH_SPEECH</code>.\n            In this situation, if the <code>StreamingStatus</code> is <code>ONGOING/PENDING_CONFIGURATION</code>, it can\n            mean that the client should call the API again later, after Voice ID has enough audio to produce a result.\n            If the decision remains <code>NOT_ENOUGH_SPEECH</code> even after <code>StreamingStatus</code> is <code>ENDED</code>,\n            it means that the previously streamed session did not have enough speech to perform evaluation, and a new\n            streaming session is needed to try again.</p>"
                     }
                 },
                 "AuthenticationResult": {
@@ -1308,7 +1336,7 @@
                 "JobName": {
                     "target": "com.amazonaws.voiceid#JobName",
                     "traits": {
-                        "smithy.api#documentation": "<p>The client-provied name for the fraudster registration job.</p>"
+                        "smithy.api#documentation": "<p>The client-provided name for the fraudster registration job.</p>"
                     }
                 },
                 "JobId": {
@@ -1350,7 +1378,7 @@
                 "OutputDataConfig": {
                     "target": "com.amazonaws.voiceid#OutputDataConfig",
                     "traits": {
-                        "smithy.api#documentation": "<p>The output data config containing the S3 location where you want Voice ID to write your job output \n            file; you must also include a KMS Key ID in order to encrypt the file.</p>"
+                        "smithy.api#documentation": "<p>The output data config containing the S3 location where you want Voice ID to write your job output \n            file; you must also include a KMS key iD in order to encrypt the file.</p>"
                     }
                 },
                 "CreatedAt": {
@@ -1626,12 +1654,12 @@
                 "smithy.api#documentation": "<p>Lists all the domains in the Amazon Web Services account.\n        </p>",
                 "smithy.api#http": {
                     "method": "GET",
-                    "uri": "/domains",
-                    "code": 200
+                    "uri": "/domains"
                 },
                 "smithy.api#paginated": {
                     "inputToken": "NextToken",
                     "outputToken": "NextToken",
+                    "items": "DomainSummaries",
                     "pageSize": "MaxResults"
                 }
             }
@@ -1701,12 +1729,12 @@
                 "smithy.api#documentation": "<p>Lists all the fraudster registration jobs in the domain with the given <code>JobStatus</code>.\n            If <code>JobStatus</code> is not provided, this lists all fraudster registration jobs in the given\n            domain.\n        </p>",
                 "smithy.api#http": {
                     "method": "GET",
-                    "uri": "/domains/{DomainId}/fraudster-registration-jobs",
-                    "code": 200
+                    "uri": "/domains/{DomainId}/fraudster-registration-jobs"
                 },
                 "smithy.api#paginated": {
                     "inputToken": "NextToken",
                     "outputToken": "NextToken",
+                    "items": "JobSummaries",
                     "pageSize": "MaxResults"
                 }
             }
@@ -1791,12 +1819,12 @@
                 "smithy.api#documentation": "<p>Lists all the speaker enrollment jobs in the domain with the specified <code>JobStatus</code>. If\n            <code>JobStatus</code> is not provided, this lists all jobs with all possible speaker enrollment job\n            statuses.</p>",
                 "smithy.api#http": {
                     "method": "GET",
-                    "uri": "/domains/{DomainId}/speaker-enrollment-jobs",
-                    "code": 200
+                    "uri": "/domains/{DomainId}/speaker-enrollment-jobs"
                 },
                 "smithy.api#paginated": {
                     "inputToken": "NextToken",
                     "outputToken": "NextToken",
+                    "items": "JobSummaries",
                     "pageSize": "MaxResults"
                 }
             }
@@ -1881,12 +1909,12 @@
                 "smithy.api#documentation": "<p>Lists all speakers in a specified domain.</p>",
                 "smithy.api#http": {
                     "method": "GET",
-                    "uri": "/domains/{DomainId}/speakers",
-                    "code": 200
+                    "uri": "/domains/{DomainId}/speakers"
                 },
                 "smithy.api#paginated": {
                     "inputToken": "NextToken",
                     "outputToken": "NextToken",
+                    "items": "SpeakerSummaries",
                     "pageSize": "MaxResults"
                 }
             }
@@ -1963,9 +1991,8 @@
             "traits": {
                 "smithy.api#documentation": "<p>Lists all tags associated with a specified Voice ID resource.</p>",
                 "smithy.api#http": {
-                    "method": "GET",
                     "uri": "/tags/{ResourceArn}",
-                    "code": 200
+                    "method": "GET"
                 }
             }
         },
@@ -2052,11 +2079,10 @@
                 }
             ],
             "traits": {
-                "smithy.api#documentation": "<p>Opts out a speaker from Voice ID system. A speaker can be opted out regardless of whether or not they\n            already exist in the system. If they don't yet exist, a new speaker is created in an opted out state.\n            If they already exist, their existing status is overridden and they are opted out. Enrollment and\n            evaluation authentication requests are rejected for opted out speakers, and opted out speakers have\n            no voice embeddings stored in the system.</p>",
+                "smithy.api#documentation": "<p>Opts out a speaker from Voice ID. A speaker can be opted out regardless of whether or not they\n            already exist in Voice ID. If they don't yet exist, a new speaker is created in an opted out state.\n            If they already exist, their existing status is overridden and they are opted out. Enrollment and\n            evaluation authentication requests are rejected for opted out speakers, and opted out speakers have\n            no voice embeddings stored in Voice ID.</p>",
                 "smithy.api#http": {
                     "method": "PUT",
-                    "uri": "/domains/{DomainId}/speakers/{SpeakerId}/optout",
-                    "code": 200
+                    "uri": "/domains/{DomainId}/speakers/{SpeakerId}/optout"
                 }
             }
         },
@@ -2098,7 +2124,7 @@
                 "S3Uri": {
                     "target": "com.amazonaws.voiceid#S3Uri",
                     "traits": {
-                        "smithy.api#documentation": "<p>The S3 path of the folder to which Voice ID writes the job output file, which has a \n            <code>*.out</code> extension. For example, if the input file name is <code>input-file.json</code> and \n            the output folder path is <code>s3://output-bucket/output-folder</code>, the full output file path is \n            <code>s3://output-bucket/output-folder/job-Id/input-file.json.out</code>.</p>",
+                        "smithy.api#documentation": "<p>The S3 path of the folder where Voice ID writes the job output file. It has a \n            <code>*.out</code> extension. For example, if the input file name is <code>input-file.json</code> and \n            the output folder path is <code>s3://output-bucket/output-folder</code>, the full output file path is \n            <code>s3://output-bucket/output-folder/job-Id/input-file.json.out</code>.</p>",
                         "smithy.api#required": {}
                     }
                 },
@@ -2130,7 +2156,7 @@
                 }
             },
             "traits": {
-                "smithy.api#documentation": "<p>The configuration definining the action to take when a duplicate fraudster is detected, and the \n            similarity threshold to use for detecting a duplicate fraudster during a batch fraudster registration job.</p>"
+                "smithy.api#documentation": "<p>The configuration defining the action to take when a duplicate fraudster is detected, and the \n            similarity threshold to use for detecting a duplicate fraudster during a batch fraudster registration job.</p>"
             }
         },
         "com.amazonaws.voiceid#ResourceNotFoundException": {
@@ -2209,13 +2235,58 @@
                 "KmsKeyId": {
                     "target": "com.amazonaws.voiceid#KmsKeyId",
                     "traits": {
-                        "smithy.api#documentation": "<p>The identifier of the KMS Key you want Voice ID to use to encrypt your data.</p>",
+                        "smithy.api#documentation": "<p>The identifier of the KMS key you want Voice ID to use to encrypt your data.</p>",
                         "smithy.api#required": {}
                     }
                 }
             },
             "traits": {
-                "smithy.api#documentation": "<p>The configuration containing information about the customer-managed KMS Key used for encrypting\n            customer data.</p>"
+                "smithy.api#documentation": "<p>The configuration containing information about the customer managed key used for encrypting\n            customer data.</p>"
+            }
+        },
+        "com.amazonaws.voiceid#ServerSideEncryptionUpdateDetails": {
+            "type": "structure",
+            "members": {
+                "OldKmsKeyId": {
+                    "target": "com.amazonaws.voiceid#KmsKeyId",
+                    "traits": {
+                        "smithy.api#documentation": "<p>The previous KMS key ID the domain was encrypted with, before\n            ServerSideEncryptionConfiguration was updated to a new KMS key ID.</p>"
+                    }
+                },
+                "UpdateStatus": {
+                    "target": "com.amazonaws.voiceid#ServerSideEncryptionUpdateStatus",
+                    "traits": {
+                        "smithy.api#documentation": "<p>Status of the server-side encryption update. During an update, if there is an issue with the domain's\n            current or old KMS key ID, such as an inaccessible or disabled key, then the status\n            is FAILED. In order to resolve this, the key needs to be made accessible, and then an UpdateDomain call\n            with the existing server-side encryption configuration will re-attempt this update process.</p>"
+                    }
+                },
+                "Message": {
+                    "target": "com.amazonaws.voiceid#String",
+                    "traits": {
+                        "smithy.api#documentation": "<p>Message explaining the current UpdateStatus. When the UpdateStatus is FAILED, this message explains\n            the cause of the failure.</p>"
+                    }
+                }
+            },
+            "traits": {
+                "smithy.api#documentation": "<p>Details about the most recent server-side encryption configuration update. When the server-side\n            encryption configuration is changed, dependency on the old KMS key is removed through an\n            asynchronous process. When this update is complete, the domain’s data can only be accessed using the\n            new KMS key.</p>"
+            }
+        },
+        "com.amazonaws.voiceid#ServerSideEncryptionUpdateStatus": {
+            "type": "string",
+            "traits": {
+                "smithy.api#enum": [
+                    {
+                        "value": "IN_PROGRESS",
+                        "name": "IN_PROGRESS"
+                    },
+                    {
+                        "value": "COMPLETED",
+                        "name": "COMPLETED"
+                    },
+                    {
+                        "value": "FAILED",
+                        "name": "FAILED"
+                    }
+                ]
             }
         },
         "com.amazonaws.voiceid#ServiceQuotaExceededException": {
@@ -2299,6 +2370,12 @@
                     "traits": {
                         "smithy.api#documentation": "<p>A timestamp showing the speaker's last update.</p>"
                     }
+                },
+                "LastAccessedAt": {
+                    "target": "com.amazonaws.voiceid#Timestamp",
+                    "traits": {
+                        "smithy.api#documentation": "<p>The timestamp when the speaker was last accessed for enrollment, re-enrollment or a successful authentication. This timestamp is accurate to one hour.</p>"
+                    }
                 }
             },
             "traits": {
@@ -2353,7 +2430,7 @@
                 "OutputDataConfig": {
                     "target": "com.amazonaws.voiceid#OutputDataConfig",
                     "traits": {
-                        "smithy.api#documentation": "<p>The output data config containing the S3 location where Voice ID writes the job output file; you must \n            also include a KMS Key ID to encrypt the file.</p>"
+                        "smithy.api#documentation": "<p>The output data config containing the S3 location where Voice ID writes the job output file; you must \n            also include a KMS key ID to encrypt the file.</p>"
                     }
                 },
                 "CreatedAt": {
@@ -2552,6 +2629,12 @@
                     "traits": {
                         "smithy.api#documentation": "<p>A timestamp showing the speaker's last update.</p>"
                     }
+                },
+                "LastAccessedAt": {
+                    "target": "com.amazonaws.voiceid#Timestamp",
+                    "traits": {
+                        "smithy.api#documentation": "<p>The timestamp when the speaker was last accessed for enrollment, re-enrollment or a successful authentication. This timestamp is accurate to one hour.</p>"
+                    }
                 }
             },
             "traits": {
@@ -2593,8 +2676,7 @@
                 "smithy.api#documentation": "<p>Starts a new batch fraudster registration job using provided details.</p>",
                 "smithy.api#http": {
                     "method": "POST",
-                    "uri": "/domains/{DomainId}/fraudster-registration-jobs",
-                    "code": 200
+                    "uri": "/domains/{DomainId}/fraudster-registration-jobs"
                 },
                 "smithy.api#idempotent": {}
             }
@@ -2646,7 +2728,7 @@
                 "OutputDataConfig": {
                     "target": "com.amazonaws.voiceid#OutputDataConfig",
                     "traits": {
-                        "smithy.api#documentation": "<p>The output data config containing the S3 location where Voice ID writes the job output file; you must\n            also include a KMS Key ID to encrypt the file.</p>",
+                        "smithy.api#documentation": "<p>The output data config containing the S3 location where Voice ID writes the job output file; you must\n            also include a KMS key ID to encrypt the file.</p>",
                         "smithy.api#required": {}
                     }
                 }
@@ -2698,8 +2780,7 @@
                 "smithy.api#documentation": "<p>Starts a new batch speaker enrollment job using specified details.</p>",
                 "smithy.api#http": {
                     "method": "POST",
-                    "uri": "/domains/{DomainId}/speaker-enrollment-jobs",
-                    "code": 200
+                    "uri": "/domains/{DomainId}/speaker-enrollment-jobs"
                 },
                 "smithy.api#idempotent": {}
             }
@@ -2738,7 +2819,7 @@
                 "EnrollmentConfig": {
                     "target": "com.amazonaws.voiceid#EnrollmentConfig",
                     "traits": {
-                        "smithy.api#documentation": "<p>The enrollment config that contains details such as the action to take when a speaker is already\n            enrolled in the Voice ID system or when a speaker is identified as a fraudster.</p>"
+                        "smithy.api#documentation": "<p>The enrollment config that contains details such as the action to take when a speaker is already\n            enrolled in Voice ID or when a speaker is identified as a fraudster.</p>"
                     }
                 },
                 "InputDataConfig": {
@@ -2751,7 +2832,7 @@
                 "OutputDataConfig": {
                     "target": "com.amazonaws.voiceid#OutputDataConfig",
                     "traits": {
-                        "smithy.api#documentation": "<p>The output data config containing the S3 location where Voice ID writes the job output file; you must\n            also include a KMS Key ID to encrypt the file.</p>",
+                        "smithy.api#documentation": "<p>The output data config containing the S3 location where Voice ID writes the job output file; you must\n            also include a KMS key ID to encrypt the file.</p>",
                         "smithy.api#required": {}
                     }
                 }
@@ -2881,11 +2962,10 @@
                 }
             ],
             "traits": {
-                "smithy.api#documentation": "<p>Tags an Amazon Connect Voice ID resource with the provided list of tags.</p>",
+                "smithy.api#documentation": "<p>Tags a Voice ID resource with the provided list of tags.</p>",
                 "smithy.api#http": {
-                    "method": "POST",
                     "uri": "/tags/{ResourceArn}",
-                    "code": 200
+                    "method": "POST"
                 }
             }
         },
@@ -2981,8 +3061,8 @@
             "traits": {
                 "smithy.api#documentation": "<p>Removes specified tags from a specified Amazon Connect Voice ID resource.</p>",
                 "smithy.api#http": {
-                    "method": "DELETE",
                     "uri": "/tags/{ResourceArn}",
+                    "method": "DELETE",
                     "code": 204
                 }
             }
@@ -3044,8 +3124,7 @@
                 "smithy.api#documentation": "<p>Updates the specified domain. This API has clobber behavior, and clears and replaces all attributes.\n            If an optional field, such as 'Description' is not provided, it is removed from the domain.</p>",
                 "smithy.api#http": {
                     "method": "PUT",
-                    "uri": "/domains/{DomainId}",
-                    "code": 200
+                    "uri": "/domains/{DomainId}"
                 }
             }
         },
@@ -3076,7 +3155,7 @@
                 "ServerSideEncryptionConfiguration": {
                     "target": "com.amazonaws.voiceid#ServerSideEncryptionConfiguration",
                     "traits": {
-                        "smithy.api#documentation": "<p>The configuration, containing the KMS Key Identifier, to be used by Voice ID for the server-side\n            encryption of your data. Note that all the existing data in the domain are still encrypted using the\n            existing key, only the data added to domain after updating the key is encrypted using the new key. </p>",
+                        "smithy.api#documentation": "<p>The configuration, containing the KMS key identifier, to be used by Voice ID for the server-side\n            encryption of your data. Note that all the existing data in the domain are still encrypted using the\n            existing key, only the data added to domain after updating the key is encrypted using the new key. </p>",
                         "smithy.api#required": {}
                     }
                 }
@@ -3108,6 +3187,21 @@
         },
         "com.amazonaws.voiceid#VoiceID": {
             "type": "service",
+            "traits": {
+                "aws.api#service": {
+                    "sdkId": "Voice ID",
+                    "arnNamespace": "voiceid",
+                    "cloudFormationName": "VoiceID",
+                    "cloudTrailEventSource": "voiceid.amazonaws.com",
+                    "endpointPrefix": "voiceid"
+                },
+                "aws.auth#sigv4": {
+                    "name": "voiceid"
+                },
+                "aws.protocols#awsJson1_0": {},
+                "smithy.api#documentation": "<p>Amazon Connect Voice ID provides real-time caller authentication and fraud screening. This guide\n            describes the APIs used for this service.\n        </p>",
+                "smithy.api#title": "Amazon Voice ID"
+            },
             "version": "2021-09-27",
             "operations": [
                 {
@@ -3173,22 +3267,7 @@
                 {
                     "target": "com.amazonaws.voiceid#UpdateDomain"
                 }
-            ],
-            "traits": {
-                "aws.api#service": {
-                    "sdkId": "Voice ID",
-                    "arnNamespace": "voiceid",
-                    "cloudFormationName": "VoiceID",
-                    "cloudTrailEventSource": "voiceid.amazonaws.com",
-                    "endpointPrefix": "voiceid"
-                },
-                "aws.auth#sigv4": {
-                    "name": "voiceid"
-                },
-                "aws.protocols#awsJson1_0": {},
-                "smithy.api#documentation": "<p>Amazon Connect Voice ID provides real-time caller authentication and fraud screening. This guide\n            describes the APIs used for this service.\n        </p>",
-                "smithy.api#title": "Amazon Voice ID"
-            }
+            ]
         }
     }
 }

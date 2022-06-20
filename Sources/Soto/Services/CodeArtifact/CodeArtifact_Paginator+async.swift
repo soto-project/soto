@@ -23,7 +23,7 @@ import SotoCore
 
 @available(macOS 10.15, iOS 13.0, tvOS 13.0, watchOS 6.0, *)
 extension CodeArtifact {
-    ///   Returns a list of DomainSummary objects for all domains owned by the AWS account that makes this call. Each returned DomainSummary object contains information about a domain.
+    ///   Returns a list of DomainSummary objects for all domains owned by the Amazon Web Services account that makes this call. Each returned DomainSummary object contains information about a domain.
     /// Return PaginatorSequence for operation.
     ///
     /// - Parameters:
@@ -111,7 +111,7 @@ extension CodeArtifact {
         )
     }
 
-    ///   Returns a list of  RepositorySummary  objects. Each RepositorySummary contains information about a repository in the specified AWS account and that matches the input  parameters.
+    ///   Returns a list of  RepositorySummary  objects. Each RepositorySummary contains information about a repository in the specified Amazon Web Services account and that matches the input  parameters.
     /// Return PaginatorSequence for operation.
     ///
     /// - Parameters:
